@@ -2,50 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A130626A51
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 20:58:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49649 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B0226A8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:08:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49808 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTWR9-0001Wh-QY
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 14:58:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34793)
+	id 1hTWbH-00035H-6O
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:08:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35240)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWOY-00086d-Rt
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:24 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTWOl-0008P8-VL
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWHO-0002KH-MQ
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:48:00 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:48035 helo=mail.rt-rk.com)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hTWHO-0002J4-C4
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:47:58 -0400
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id B9A1A1A4547;
-	Wed, 22 May 2019 20:47:21 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
-	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id 9F0E51A2238;
-	Wed, 22 May 2019 20:47:21 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 20:46:25 +0200
-Message-Id: <1558550785-20098-6-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558550785-20098-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1558550785-20098-1-git-send-email-aleksandar.markovic@rt-rk.com>
+	(envelope-from <bounces@canonical.com>) id 1hTWOk-0006jn-I2
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40230)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hTWOk-0006ic-B4
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hTWOi-0004zs-Sn
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 18:55:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id D23A32E80C0
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 18:55:32 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH 5/5] linux-user: Add support for multiplexing
- signals in more syscalls
+Date: Wed, 22 May 2019 18:49:49 -0000
+From: Alex Williamson <alex.l.williamson@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+	assignee=alex.l.williamson@gmail.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson saveriomiroddi
+X-Launchpad-Bug-Reporter: Saverio Miroddi (saveriomiroddi)
+X-Launchpad-Bug-Modifier: Alex Williamson (alex-l-williamson)
+References: <155620554968.6380.13610580395862407350.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155855098990.21894.5982983625055574571.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 5ef78ed9afd8a84c5ee02f323d360f1017b9a17d
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1826422] Re: Regression: QEMU 4.0 hangs the host
+ (*bisect included*)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,259 +65,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com,
-	=?UTF-8?q?Milo=C5=A1=20Stojanovi=C4=87?= <Milos.Stojanovic@rt-rk.com>,
-	amarkovic@wavecomp.com
+Reply-To: Bug 1826422 <1826422@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Milo=C5=A1 Stojanovi=C4=87 <Milos.Stojanovic@rt-rk.com>
+Just to provide an update, patches are posted to revert this change in
+both the q35 4.1 machine type for the next release as well as introduce
+a q35 4.0.1 machine type making the same change for 4.0-stable.
+References:
 
-Add support for multiplexing in the host_signal_handler() function and in
-system calls rt_sigqueueinfo()/rt_tgsigqueueinfo(), tgkill(), kill() for
-the case when pid > 0.
+https://patchwork.ozlabs.org/patch/1099695/
+https://patchwork.ozlabs.org/patch/1099659/
 
-The rt_sigqueueinfo()/rt_tgsigqueueinfo() system calls multiplex target
-signals which are out of the host range by setting the si_errno value to
-the actual value of the signal and sending the signal to the MUX_SIG
-signal number. The host_signal_handler() will pull out the multiplexed
-signals and set their signal number to the correct value. That value
-should be in the si_errno field of the siginfo_t structure. The si_errno
-field is used here but this implementation can be replaced with any other
-unused field in the uinfo structure.
+** Changed in: qemu
+       Status: New =3D> In Progress
 
-The emulation of larger target signal range is done by spoofing the syste=
-m
-call info, adding the signal number to the si_errno field, and sending it
-to the host multiplex queue via rt_sigqueueinfo()/rt_tgsigqueueinfo().
-In order to send a signal using rt_sigqueueinfo()/rt_tgsigqueueinfo() wit=
-h
-si_code SI_USER or SI_TKILL to another thread or process, we need to
-disguise it as some other signal from the kernel range because the host
-kernel doesn't allow direct impersonations of those signals. This is done
-with SIG_SPOOF which moves the si_code to the nearest unused kernel si_co=
-de
-value. After the signal is successfully sent the host_signal_handler() of
-the receiving thread/process will turn it back into the proper kill/tgkil=
-l
-signal, before it gets processed.
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Alex Williamson (alex-l-williamson)
 
-The tkill() system call as well as kill() with the argument pid <=3D 0
-couldn't be implemented simply using this method because it requires
-acquiring information about, and sending simultaneous signals to multiple
-threads or processes. These functionalities are out of the scope of
-rt_sigqueueinfo()/rt_tgsigqueueinfo().
+-- =
 
-Signed-off-by: Milo=C5=A1 Stojanovi=C4=87 <Milos.Stojanovic@rt-rk.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/signal.c       | 22 +++++++++++++
- linux-user/syscall.c      | 81 +++++++++++++++++++++++++++++++++++++++++=
-++++++
- linux-user/syscall_defs.h |  8 +++++
- 3 files changed, 111 insertions(+)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1826422
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 601de3e..885ceab 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -807,6 +807,28 @@ static void host_signal_handler(int host_signum, sig=
-info_t *info,
-     sig =3D host_to_target_signal(host_signum);
-     if (sig < 1 || sig > TARGET_NSIG)
-         return;
-+
-+#ifdef MUX_SIG
-+    if (sig =3D=3D MUX_SIG) {
-+        /* return the spoofed kill/tgkill signals into standard form */
-+        if (info->si_code =3D=3D SIG_SPOOF(SI_USER)) {
-+            info->si_code =3D SI_USER;
-+        } else if (info->si_code =3D=3D SIG_SPOOF(SI_TKILL)) {
-+            info->si_code =3D SI_TKILL;
-+        }
-+
-+        /*
-+         * We assume that si_errno field will remain intact during signa=
-l
-+         * processing on the host. If it changes, the signal will be sen=
-t to
-+         * the wrong number (most likely to MUX_SIG).
-+         */
-+        /* get the actual target signal number */
-+        int target_sig =3D info->si_errno;
-+        if (target_sig >=3D _NSIG && target_sig < TARGET_NSIG) {
-+            sig =3D target_sig;
-+        }
-+    }
-+#endif
-     trace_user_host_signal(env, host_signum, sig);
-=20
-     rewind_if_in_safe_syscall(puc);
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index dede443..2e3c951 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6448,6 +6448,24 @@ static inline abi_long host_to_target_stat64(void =
-*cpu_env,
- }
- #endif
-=20
-+#ifdef MUX_SIG
-+static inline int multiplex(abi_long *arg, siginfo_t *uinfo)
-+{
-+    if (*arg >=3D _NSIG && *arg < TARGET_NSIG) {
-+        /*
-+         * Using si_errno to transfer the signal number assumes that the=
- field
-+         * doesn't change its value before it gets handled in the
-+         * host_signal_handler().
-+         */
-+        uinfo->si_errno =3D *arg;
-+        *arg =3D MUX_SIG;
-+        uinfo->si_signo =3D MUX_SIG;
-+    }
-+
-+    return 0;
-+}
-+#endif
-+
- /* ??? Using host futex calls even when target atomic operations
-    are not really atomic probably breaks things.  However implementing
-    futexes locally would make futexes shared between multiple processes
-@@ -7535,7 +7553,42 @@ static abi_long do_syscall1(void *cpu_env, int num=
-, abi_long arg1,
-         return get_errno(syncfs(arg1));
- #endif
-     case TARGET_NR_kill:
-+#ifdef MUX_SIG
-+        if (arg2 >=3D _NSIG && arg2 < TARGET_NSIG) {
-+            siginfo_t info;
-+
-+            info.si_errno =3D arg2;
-+            info.si_signo =3D MUX_SIG;
-+            info.si_code =3D SIG_SPOOF(SI_USER);
-+            info.si_pid =3D getpid();
-+            info.si_uid =3D getuid();
-+
-+            /* pid > 0 */
-+            if (arg1 > 0) {
-+                return get_errno(sys_rt_sigqueueinfo(arg1, MUX_SIG, &inf=
-o));
-+            } else {
-+                return -TARGET_EINVAL;
-+            }
-+            /*
-+             * TODO: In order to implement kill with rt_tgsigqueueinfo()=
- for
-+             * cases where pid <=3D 0 one needs to get a list of all the=
- relevant
-+             * processes and simultaniously send the signal to them.
-+             * Missing:
-+             * (pid =3D 0):
-+             *     send to every process in the process group of
-+             *     the calling process
-+             * (pid =3D -1):
-+             *     send to every process for which the calling process
-+             *     has permission to send signals, except for process 1 =
-(init)
-+             * (pid < -1):
-+             *     send to every process in the process group whose ID i=
-s -pid
-+             */
-+        } else {
-+            return get_errno(safe_kill(arg1, target_to_host_signal(arg2)=
-));
-+        }
-+#else
-         return get_errno(safe_kill(arg1, target_to_host_signal(arg2)));
-+#endif
- #ifdef TARGET_NR_rename
-     case TARGET_NR_rename:
-         {
-@@ -8208,6 +8261,9 @@ static abi_long do_syscall1(void *cpu_env, int num,=
- abi_long arg1,
-             }
-             target_to_host_siginfo(&uinfo, p);
-             unlock_user(p, arg3, 0);
-+#ifdef MUX_SIG
-+            multiplex(&arg2, &uinfo);
-+#endif
-             ret =3D get_errno(sys_rt_sigqueueinfo(arg1, arg2, &uinfo));
-         }
-         return ret;
-@@ -8221,6 +8277,9 @@ static abi_long do_syscall1(void *cpu_env, int num,=
- abi_long arg1,
-             }
-             target_to_host_siginfo(&uinfo, p);
-             unlock_user(p, arg4, 0);
-+#ifdef MUX_SIG
-+            multiplex(&arg3, &uinfo);
-+#endif
-             ret =3D get_errno(sys_rt_tgsigqueueinfo(arg1, arg2, arg3, &u=
-info));
-         }
-         return ret;
-@@ -11037,11 +11096,33 @@ static abi_long do_syscall1(void *cpu_env, int =
-num, abi_long arg1,
- #endif
-=20
-     case TARGET_NR_tkill:
-+        /*
-+         * TODO: In order to implement tkill with rt_sigqueueinfo() one =
-needs
-+         * to get a list of all the threads with the specifiend tid and
-+         * simultaniously send the signal to them.
-+         */
-         return get_errno(safe_tkill((int)arg1, target_to_host_signal(arg=
-2)));
-=20
-     case TARGET_NR_tgkill:
-+#ifdef MUX_SIG
-+        if (arg3 >=3D _NSIG && arg3 < TARGET_NSIG) {
-+            siginfo_t info;
-+
-+            info.si_errno =3D arg3;
-+            info.si_signo =3D MUX_SIG;
-+            info.si_code =3D SIG_SPOOF(SI_TKILL);
-+            info.si_pid =3D getpid();
-+            info.si_uid =3D getuid();
-+
-+            return get_errno(sys_rt_tgsigqueueinfo(arg1, arg2, MUX_SIG, =
-&info));
-+        } else {
-+            return get_errno(safe_tgkill((int)arg1, (int)arg2,
-+                             target_to_host_signal(arg3)));
-+        }
-+#else
-         return get_errno(safe_tgkill((int)arg1, (int)arg2,
-                          target_to_host_signal(arg3)));
-+#endif
-=20
- #ifdef TARGET_NR_set_robust_list
-     case TARGET_NR_set_robust_list:
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 0c72509..ca97f67 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -405,6 +405,14 @@ struct target_dirent64 {
-  * the host signal masks.
-  */
- #define TRACK_TARGET_SIGMASK
-+
-+/*
-+ * This macro is used to change a kill/tgkill signal so it can be sent t=
-hrough
-+ * rt_sigqueueinfo()/rt_tgsigqueueinfo(), since the host kernel doesn't =
-allow
-+ * direct impersonations of those signals. Subtracting 8 from the code m=
-oves
-+ * it to the nearest unused kernel si_code value.
-+ */
-+#define SIG_SPOOF(code)  ((code) - 8)
- #endif
-=20
- typedef struct {
---=20
-2.7.4
+Title:
+  Regression: QEMU 4.0 hangs the host (*bisect included*)
 
+Status in QEMU:
+  In Progress
+
+Bug description:
+  The commit b2fc91db84470a78f8e93f5b5f913c17188792c8 seemingly
+  introduced a regression on my system.
+
+  When I start QEMU, the guest and the host hang (I need a hard reset to
+  get back to a working system), before anything shows on the guest.
+
+  I use QEMU with GPU passthrough (which worked perfectly until the
+  commit above). This is the command I use:
+
+  ```
+  /path/to/qemu-system-x86_64
+    -drive if=3Dpflash,format=3Draw,readonly,file=3D/path/to/OVMF_CODE.fd
+    -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd.tmp
+    -enable-kvm
+    -machine q35,accel=3Dkvm,mem-merge=3Doff
+    -cpu host,kvm=3Doff,hv_vendor_id=3Dvgaptrocks,hv_relaxed,hv_spinlocks=
+=3D0x1fff,hv_vapic,hv_time
+    -smp 4,cores=3D4,sockets=3D1,threads=3D1
+    -m 10240
+    -vga none
+    -rtc base=3Dlocaltime
+    -serial none
+    -parallel none
+    -usb
+    -device usb-tablet
+    -device vfio-pci,host=3D01:00.0,multifunction=3Don
+    -device vfio-pci,host=3D01:00.1
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device virtio-scsi-pci,id=3Dscsi
+    -drive file=3D/path/to/guest.img,id=3Dhdd1,format=3Dqcow2,if=3Dnone,cac=
+he=3Dwriteback
+    -device scsi-hd,drive=3Dhdd1
+    -net nic,model=3Dvirtio
+    -net user,smb=3D/path/to/shared
+  ```
+
+  If I run QEMU without GPU passthrough, it runs fine.
+
+  Some details about my system:
+
+  - O/S: Mint 19.1 x86-64 (it's based on Ubuntu 18.04)
+  - Kernel: 4.15
+  - `configure` options: `--target-list=3Dx86_64-softmmu --enable-gtk --ena=
+ble-spice --audio-drv-list=3Dpa`
+  - EDK2 version: 1a734ed85fda71630c795832e6d24ea560caf739 (20/Apr/2019)
+  - CPU: i7-6700k
+  - Motherboard: ASRock Z170 Gaming-ITX/ac
+  - VGA: Gigabyte GTX 960 Mini-ITX
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1826422/+subscriptions
 
