@@ -2,49 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37A126640
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:48:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44586 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCF826644
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:50:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44642 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTSXE-0005dR-UJ
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:48:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57010)
+	id 1hTSZI-0007RI-8u
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:50:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58565)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTSQP-0000nk-IZ
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:41:02 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hTSTm-0003kA-1N
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:44:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTSQN-0006Gz-Jk
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:41:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40090)
+	(envelope-from <ehabkost@redhat.com>) id 1hTSTk-0005As-Is
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:44:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55820)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hTSQG-0005zo-6L; Wed, 22 May 2019 10:40:53 -0400
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hTSTk-0004jQ-Aj
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:44:28 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 806DC3004158;
-	Wed, 22 May 2019 14:40:51 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.176])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ABC8648B7;
-	Wed, 22 May 2019 14:40:48 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Wed, 22 May 2019 16:40:37 +0200
-Message-Id: <20190522144037.29454-3-mreitz@redhat.com>
-In-Reply-To: <20190522144037.29454-1-mreitz@redhat.com>
-References: <20190522144037.29454-1-mreitz@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id E281A5946F;
+	Wed, 22 May 2019 14:44:14 +0000 (UTC)
+Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 66010611A0;
+	Wed, 22 May 2019 14:44:14 +0000 (UTC)
+Date: Wed, 22 May 2019 11:44:12 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Jiri Denemark <jdenemar@redhat.com>
+Message-ID: <20190522144412.GR10764@habkost.net>
+References: <20190422234742.15780-1-ehabkost@redhat.com>
+	<20190509133537.GK7181@orkuz.int.mamuti.net>
+	<20190509135617.GH4189@habkost.net>
+	<20190509180603.424c8277@Igors-MacBook-Pro>
+	<20190509163618.GN7181@orkuz.int.mamuti.net>
+	<20190510203203.GW4189@habkost.net>
+	<20190522082741.GI2545064@orkuz.int.mamuti.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190522082741.GI2545064@orkuz.int.mamuti.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Wed, 22 May 2019 14:40:51 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.39]);
+	Wed, 22 May 2019 14:44:14 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 2/2] iotests: Test cancelling a job and
- closing the VM
+Subject: Re: [Qemu-devel] [PATCH 0/2] i386: "unavailable-features" QOM
+ property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,157 +64,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
-	Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
+	qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a test where we cancel a throttled mirror job and
-immediately close the VM before it can be cancelled.  Doing so will
-invoke bdrv_drain_all() while the mirror job tries to drain the
-throttled node.  When bdrv_drain_all_end() tries to lift its drain on
-the throttle node, the job will exit and replace the current root node
-of the BB drive0 (which is the job's filter node) by the throttle node.
-Before the previous patch, this replacement did not increase drive0's
-quiesce_counter by a sufficient amount, so when
-bdrv_parent_drained_end() (invoked by bdrv_do_drained_end(), invoked by
-bdrv_drain_all_end()) tried to end the drain on all of the throttle
-node's parents, it decreased drive0's quiesce_counter below 0 -- which
-fails an assertion.
+On Wed, May 22, 2019 at 10:27:41AM +0200, Jiri Denemark wrote:
+> On Fri, May 10, 2019 at 17:32:03 -0300, Eduardo Habkost wrote:
+> > On Thu, May 09, 2019 at 06:36:18PM +0200, Jiri Denemark wrote:
+> > > On Thu, May 09, 2019 at 18:06:03 +0200, Igor Mammedov wrote:
+> > > > On Thu, 9 May 2019 10:56:17 -0300
+> > > > Eduardo Habkost <ehabkost@redhat.com> wrote:
+> > > > 
+> > > > > On Thu, May 09, 2019 at 03:35:37PM +0200, Jiri Denemark wrote:
+> > > > > > Would this unavailable-features property contain only canonical names of
+> > > > > > the features or all possible aliases of all features? For example,
+> > > > > > "tsc-adjust" can also be spelled as "tsc_adjust". When calling
+> > > > > > query-cpu-model-expansion, we have a way to request all variants by
+> > > > > > running full expansion on the result of a previous static expansion. Can
+> > > > > > we get something like this for unavailable-features too?
+> > > > > 
+> > > > > I'd like to avoid that, and refer only to the canonical names.
+> > > > 
+> > > > Can we deprecate aliases to avoid confusion in future?
+> > > > (there aren't that many of them that used pre-QOM name format)
+> > > 
+> > > If you come up with a way libvirt could use to detect which name it
+> > > should use when talking to QEMU...
+> > 
+> > The property names are part of the API, and deprecation would
+> > just be documented in the QEMU documentation.  Why would you need
+> > to enumerate them dynamically at runtime?
+> 
+> The tricky part is to know which variant of a particular feature name we
+> should use when talking to a specific version of QEMU. But I guess we
+> can use the new "unavailable-features" property for this purpose. [...]
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/255     | 52 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/255.out | 24 ++++++++++++++++++
- 2 files changed, 76 insertions(+)
+You can run device-list-properties on the typenames returned by
+query-cpu-definitions, to check which CPU properties exist in a
+QEMU binary.
 
-diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
-index c0bb37a9b0..49433ec122 100755
---- a/tests/qemu-iotests/255
-+++ b/tests/qemu-iotests/255
-@@ -35,6 +35,10 @@ def blockdev_create(vm, options):
-         vm.run_job('job0')
-     iotests.log("")
-=20
-+iotests.log('Finishing a commit job with background reads')
-+iotests.log('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D'=
-)
-+iotests.log('')
-+
- with iotests.FilePath('t.qcow2') as disk_path, \
-      iotests.FilePath('t.qcow2.mid') as mid_path, \
-      iotests.FilePath('t.qcow2.base') as base_path, \
-@@ -81,3 +85,51 @@ with iotests.FilePath('t.qcow2') as disk_path, \
-                 auto_dismiss=3DTrue)
-=20
-     vm.shutdown()
-+
-+iotests.log('')
-+iotests.log('Closing the VM while a job is being cancelled')
-+iotests.log('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-')
-+iotests.log('')
-+
-+with iotests.FilePath('src.qcow2') as src_path, \
-+     iotests.FilePath('dst.qcow2') as dst_path, \
-+     iotests.VM() as vm:
-+
-+    iotests.log('=3D=3D=3D Create images and start VM =3D=3D=3D')
-+    iotests.log('')
-+
-+    size =3D 128 * 1024 * 1024
-+    size_str =3D str(size)
-+
-+    iotests.qemu_img_log('create', '-f', iotests.imgfmt, src_path, size_=
-str)
-+    iotests.qemu_img_log('create', '-f', iotests.imgfmt, dst_path, size_=
-str)
-+
-+    iotests.log(iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write 0 1M'=
-,
-+                                src_path),
-+                filters=3D[iotests.filter_test_dir, iotests.filter_qemu_=
-io])
-+
-+    vm.add_object('throttle-group,x-bps-read=3D4096,id=3Dthrottle0')
-+
-+    vm.add_blockdev('file,node-name=3Dsrc-file,filename=3D%s' % (src_pat=
-h))
-+    vm.add_blockdev('%s,node-name=3Dsrc,file=3Dsrc-file' % (iotests.imgf=
-mt))
-+
-+    vm.add_blockdev('file,node-name=3Ddst-file,filename=3D%s' % (dst_pat=
-h))
-+    vm.add_blockdev('%s,node-name=3Ddst,file=3Ddst-file' % (iotests.imgf=
-mt))
-+
-+    vm.add_blockdev('throttle,node-name=3Dsrc-throttled,' +
-+                    'throttle-group=3Dthrottle0,file=3Dsrc')
-+
-+    vm.add_device('virtio-blk,drive=3Dsrc-throttled')
-+
-+    vm.launch()
-+
-+    iotests.log('=3D=3D=3D Start a mirror job =3D=3D=3D')
-+    iotests.log('')
-+
-+    vm.qmp_log('blockdev-mirror', job_id=3D'job0', device=3D'src-throttl=
-ed',
-+                                  target=3D'dst', sync=3D'full')
-+
-+    vm.qmp_log('block-job-cancel', device=3D'job0')
-+    vm.qmp_log('quit')
-+
-+    vm.shutdown()
-diff --git a/tests/qemu-iotests/255.out b/tests/qemu-iotests/255.out
-index 9a2d7cbb77..348909fdef 100644
---- a/tests/qemu-iotests/255.out
-+++ b/tests/qemu-iotests/255.out
-@@ -1,3 +1,6 @@
-+Finishing a commit job with background reads
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
- =3D=3D=3D Create backing chain and start VM =3D=3D=3D
-=20
- Formatting 'TEST_DIR/PID-t.qcow2.mid', fmt=3Dqcow2 size=3D134217728 clus=
-ter_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
-@@ -14,3 +17,24 @@ Formatting 'TEST_DIR/PID-t.qcow2', fmt=3Dqcow2 size=3D=
-134217728 cluster_size=3D65536 l
- {"return": {}}
- {"data": {"id": "job0", "type": "commit"}, "event": "BLOCK_JOB_PENDING",=
- "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
- {"data": {"device": "job0", "len": 134217728, "offset": 134217728, "spee=
-d": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
-microseconds": "USECS", "seconds": "SECS"}}
-+
-+Closing the VM while a job is being cancelled
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+=3D=3D=3D Create images and start VM =3D=3D=3D
-+
-+Formatting 'TEST_DIR/PID-src.qcow2', fmt=3Dqcow2 size=3D134217728 cluste=
-r_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
-+
-+Formatting 'TEST_DIR/PID-dst.qcow2', fmt=3Dqcow2 size=3D134217728 cluste=
-r_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
-+
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=3D=3D=3D Start a mirror job =3D=3D=3D
-+
-+{"execute": "blockdev-mirror", "arguments": {"device": "src-throttled", =
-"job-id": "job0", "sync": "full", "target": "dst"}}
-+{"return": {}}
-+{"execute": "block-job-cancel", "arguments": {"device": "job0"}}
-+{"return": {}}
-+{"execute": "quit", "arguments": {}}
-+{"return": {}}
---=20
-2.21.0
+>                                                           [...]   When
+> the property is present, we can translate all feature names to their
+> canonical names (via a static translation table in libvirt). We'd be
+> using the old untranslated names when talking to any QEMU which does not
+> support the "unavailable-features" property.
 
+That would help us simplify the interface between QEMU and libvirt.
+
+> 
+> But I hope we won't get into a situation when some CPU feature needs to
+> be renamed again, that would make a big mess.
+
+I promise we'll try to avoid doing that.  :)
+
+-- 
+Eduardo
 
