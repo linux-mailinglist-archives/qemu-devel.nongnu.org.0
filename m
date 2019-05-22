@@ -2,60 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F396E26055
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:20:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39018 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 783EE26064
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:22:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39065 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTNQF-0006gJ-5n
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:20:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41935)
+	id 1hTNSU-0008CV-KC
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:22:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41994)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTNLq-0004GY-7r
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:16:00 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hTNMJ-0004by-V1
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:16:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTNLp-0000m8-37
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:15:58 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:37425)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTNLo-0000lH-QQ
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:15:57 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1MOzGc-1hHLCA0mRI-00PLGK; Wed, 22 May 2019 11:14:58 +0200
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1558282527-22183-1-git-send-email-aleksandar.markovic@rt-rk.com>
-	<1558282527-22183-6-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <6a227315-4437-7086-58ff-7754c04c2e01@vivier.eu>
-Date: Wed, 22 May 2019 11:14:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <kwolf@redhat.com>) id 1hTNMI-0001BN-PA
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:16:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42842)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hTNMF-000187-Uh; Wed, 22 May 2019 05:16:24 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3012A3058838;
+	Wed, 22 May 2019 09:16:18 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-92.ams2.redhat.com
+	[10.36.117.92])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 06448604D7;
+	Wed, 22 May 2019 09:16:12 +0000 (UTC)
+Date: Wed, 22 May 2019 11:16:11 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>
+Message-ID: <20190522091611.GA6087@localhost.localdomain>
+References: <20190521235215.31341-1-mehta.aaru20@gmail.com>
+	<20190521235215.31341-2-mehta.aaru20@gmail.com>
+	<d932237b-03bc-5dbb-17dd-bcca5ce121c8@redhat.com>
+	<1c277edc76e47fbbaae0ecdd6774e24ac9a94ee5.camel@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1558282527-22183-6-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+kQ6+cfxM/hWXHfn2J83nCo8qFRVkB1ny1HY6fCwF6pY1Ruesn1
-	14S9KTzhVrfknzRA626A/puwQDTf8zF4M2Ds/ZG9dnL3hpgPTpdBwquDUtqXce6suqjyTmp
-	sa/CqRK3MNFUJGk8SQW3MJIBJh9bmhiLN9ktvkTVkoIs/8iHoQDM2VHYBwEhIup9IZXfveZ
-	7hOGj1GPnpmTnrw4d6xYA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ncf4ONkxW1k=:6fnYYVTdd+7UbnQ3437gJc
-	wSAK1uMbrZCYflTu57ciRih21kQFvxVZ6BShmcGjhi/K0c0jaM246YYjEu1gR7xq/zLejLkAw
-	YzhmHubdStMEVXZ12375S/ccdMou0K8mW3sA423vWpgQesZejQz4Bd5LvSowGQENd4mGf4MGy
-	FT44wXppQ7tqhabO/apRUYE/E1XCnAmOyXumErqukYnOTF2oNsG8ONpvtYippIgrvFSxu10hg
-	pUxOuHxwMX2/KIeEGthmEWSd0AtTUmaGLznWGkBW3X2MHfgB5K0Yc6RRl7QisnxrAUyvvkVu/
-	HQuR5x1HYG3C+0i3bomaGQgnDryo9BBYgUargXzeHYPK9AN4lJne18AzmhWZNp9Pv+vcUMdaq
-	Wkrpj0EIvAUdV0q9xGdVTgCqs5X3WNeOK/1rsIyJjUhogyXRGQ2dpAVxIUZO8OUun6qTaf9Od
-	nYfEMSfvQMTlucT7OKjUsm3IWVKvwHs3G+wqubu7a2mnbt1zESICCjNhBjvret7+GBQUhfVOS
-	yxkFjgzxbb0LzcQ8L4wSY2rfgTz01pKKEbGtcMgN2t4g+wBpZyIWcKs73soeAt28pWLc/KaEM
-	zIHrvl6L77AJWU2C+eoXnyofc9yBhJYH2qdBajUV3c1KCJDpdzKP1y+N7eb3xNVUmzpvCUp/L
-	d4N9WozRggsLQ4Vg0pUsY2vvDev80pEbbwrQ+hwvN1LGR9aNCp2fOS51cdDZOKYzBtV1oftep
-	pCFUgg4ZAmdDO2dOJVQ4HxqdQlHZQmLCrfs7N3bsPoGJ+oMzPX//KQhuKhA=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1c277edc76e47fbbaae0ecdd6774e24ac9a94ee5.camel@gmail.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Wed, 22 May 2019 09:16:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: Re: [Qemu-devel] [PATCH v6 5/6] linux-user: Sanitize interp_info
- and, for mips only, init field fp_abi
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-block] [RFC PATCH 1/9] qapi/block-core: add
+ option for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,58 +62,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, daniel.santos@pobox.com,
-	arikalo@wavecomp.com, jcmvbkbc@gmail.com, amarkovic@wavecomp.com,
-	nchen@wavecomp.com, philmd@redhat.com, aurelien@aurel32.net
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, saket.sinha89@gmail.com,
+	Stefan Hajnoczi <stefanha@redhat.com>, Julia Suvorova <jusual@mail.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/2019 18:15, Aleksandar Markovic wrote:
-> From: Daniel Santos <daniel.santos@pobox.com>
+Am 22.05.2019 um 02:51 hat Aarushi Mehta geschrieben:
+> On Tue, 2019-05-21 at 19:39 -0500, Eric Blake wrote:
+> > On 5/21/19 6:52 PM, Aarushi Mehta wrote:
+> > > Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+> > 
+> > Sparse on the details. The subject line says what, but without a
+> > 'why'
+> > for how io_uring is different from existing aio options, it's hard to
+> > see why I'd want to use it. Do you have any benchmark numbers?
 > 
-> Sanitize interp_info structure in load_elf_binary() and, for MIPS only,
-> init its field fp_abi to MIPS_ABI_FP_UNKNOWN. This fixes appearances of
-> "Unexpected FPU mode" message in some MIPS use cases. Currently, this
-> bug is a complete stopper for some MIPS binaries.
+> For peak performance, io_uring helps us get to 1.7M 4k IOPS with
+> polling. aio reaches a performance cliff much lower than that, at 608K.
+> If we disable polling, io_uring is able to drive about 1.2M IOPS for
+> the (otherwise) same test case.
 > 
-> In load_elf_binary(), struct image_info interp_info is used without
-> being properly initialized. One result is that when the ELF's program
-> header doesn't contain an entry for the ABI flags, then the value of
-> the struct image_info's fp_abi field is set to whatever happened to
-> be in stack memory at the time.
+> More details, and the source for the above is at
+> http://kernel.dk/io_uring.pdf
 > 
-> Backporting to 4.0 and, if possible, to 3.1 is recommended.
-> 
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1825002
-> 
-> Signed-off-by: Daniel Santos <daniel.santos@pobox.com>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->   linux-user/elfload.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index c1a2602..7f09d57 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -2698,6 +2698,11 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
->       char *elf_interpreter = NULL;
->       char *scratch;
->   
-> +    memset(&interp_info, 0, sizeof(interp_info));
-> +#ifdef TARGET_MIPS
-> +    interp_info.fp_abi = MIPS_ABI_FP_UNKNOWN;
-> +#endif
-> +
->       info->start_mmap = (abi_ulong)ELF_START_MMAP;
->   
->       load_elf_image(bprm->filename, bprm->fd, info,
-> 
+> > > ---
+> > >  qapi/block-core.json | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> > > index 7ccbfff9d0..116995810a 100644
+> > > --- a/qapi/block-core.json
+> > > +++ b/qapi/block-core.json
+> > > @@ -2776,11 +2776,12 @@
+> > >  #
+> > >  # @threads:     Use qemu's thread pool
+> > >  # @native:      Use native AIO backend (only Linux and Windows)
+> > > +# @io_uring:    Use linux io_uring
+> > 
+> > Missing a '(since 4.1)' tag.
+> > 
+> > >  #
+> > >  # Since: 2.9
+> > >  ##
+> > >  { 'enum': 'BlockdevAioOptions',
+> > > -  'data': [ 'threads', 'native' ] }
+> > > +  'data': [ 'threads', 'native','io_uring' ] }
+> > 
+> > Missing space after ',' (not essential, but matching style is nice).
+> > Should the new element be defined conditionally, so that
+> > introspection
+> > only sees the new enum member when compiled for Linux?
+> > 
+> I'm not sure what would be the benefits of that? We already check for
+> Linux at configure, and this would reduce readability. We aren't doing
+> this for native.
 
-Applied to my linux-user branch.
+BlockdevAioOptions is used in BlockdevOptionsFile, which contains the
+options for two different drivers: file-posix and file-win32. Both of
+them support both 'threads' and 'native'. However, I don't think you'll
+add the new mode to the Windows driver. So I think making it conditional
+on CONFIG_POSIX at least is necessary.
 
-Thanks,
-Laurent
+Kevin
 
