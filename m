@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0C8264FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 15:49:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43652 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 709FC26527
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 15:52:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43719 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTRc3-00072a-5C
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 09:48:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43325)
+	id 1hTRey-0001jO-Kc
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 09:52:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43453)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <johannes@sipsolutions.net>) id 1hTRa4-0006cR-2j
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:46:57 -0400
+	(envelope-from <armbru@redhat.com>) id 1hTRac-0006sG-AO
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:47:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <johannes@sipsolutions.net>) id 1hTRa3-0002MW-7T
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:46:56 -0400
-Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:55204
-	helo=sipsolutions.net)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
-	id 1hTRa3-0002L6-0Y
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:46:55 -0400
-Received: by sipsolutions.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1hTRZw-0004Ak-Sb; Wed, 22 May 2019 15:46:48 +0200
-Message-ID: <8b30e5cea2692d62fd7f486fc98effdb589a1412.camel@sipsolutions.net>
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Anton Ivanov <anton.ivanov@kot-begemot.co.uk>, 
-	linux-um@lists.infradead.org, virtualization@lists.linux-foundation.org,
-	qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 15:46:47 +0200
-In-Reply-To: <ddeee710-d546-ff05-5c53-991a7d807067@kot-begemot.co.uk>
-References: <0952696452f5ff4e38d2417029243fc60efa33d6.camel@sipsolutions.net>
-	<ddeee710-d546-ff05-5c53-991a7d807067@kot-begemot.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-2.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a01:4f8:191:4433::2
-Subject: Re: [Qemu-devel] custom virt-io support (in user-mode-linux)
+	(envelope-from <armbru@redhat.com>) id 1hTRab-0002ac-6s
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:47:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38074)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hTRaa-0002aB-W6
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:47:29 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5825B306C9F2
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 13:47:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 27F982854E
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 13:47:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id CCBD01138648; Wed, 22 May 2019 15:47:26 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 22 May 2019 15:47:21 +0200
+Message-Id: <20190522134726.19225-1-armbru@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Wed, 22 May 2019 13:47:28 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/5] Miscellaneous patches for 2019-05-22
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,48 +60,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Anton,
+The following changes since commit a4f667b6714916683408b983cfe0a615a72577=
+5f:
 
-> > I'm thinking about adding virt-io support to UML, but the tricky part is
-> > that while I want to use the virt-io basics (because it's a nice
-> > interface from the 'inside'), I don't actually want the stock drivers
-> > that are part of the kernel now (like virtio-net etc.) but rather
-> > something that integrates with wifi (probably building on hwsim).
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' int=
+o staging (2019-05-21 16:30:13 +0100)
 
-> I have looked at using virtio semantics in UML in the past around the 
-> point when I wanted to make the recvmmsg/sendmmsg vector drivers common 
-> in UML and QEMU. It is certainly possible,
-> 
-> I went for the native approach at the end though.
+are available in the Git repository at:
 
-Hmm. I'm not sure what you mean by either :-)
+  git://repo.or.cz/qemu/armbru.git tags/pull-misc-2019-05-22
 
-Is there any commonality between the vector drivers? I can't see how
-that'd work without a bus abstraction (like virtio) in qemu? I mean, the
-kernel driver just calls uml_vector_sendmmsg(), which I'd say belongs
-more to the 'outside world', but that can't really be done in qemu?
+for you to fetch changes up to db3d11ee3f0cb851124830172f0a93c3d77a450a:
 
-Ok, I guess then I see what you mean by 'native' though.
+  cutils: Simplify how parse_uint() checks for whitespace (2019-05-22 15:=
+00:04 +0200)
 
-Similarly, of course, I can implement arbitrary virt-io devices - just
-the kernel side doesn't call a function like uml_vector_sendmmsg()
-directly, but instead the virt-io model, and the model calls the
-function, which essentially is the same just with a (convenient)
-abstraction layer.
+----------------------------------------------------------------
+Miscellaneous patches for 2019-05-22
 
-But this leaves the fundamental fact the model code ("vector_user.c" or
-a similar "virtio_user.c") is still part of the build.
+----------------------------------------------------------------
+Markus Armbruster (5):
+      qemu-bridge-helper: Fix misuse of isspace()
+      tests/vhost-user-bridge: Fix misuse of isdigit()
+      gdbstub: Reject invalid RLE repeat counts
+      gdbstub: Fix misuse of isxdigit()
+      cutils: Simplify how parse_uint() checks for whitespace
 
-I guess what I'm thinking is have something like "virtio_user_rpc.c"
-that uses some appropriate RPC to interact with the real model. IOW,
-rather than having all the model-specific logic actually be here (like
-vector_user.c actually knows how to send network packets over a real
-socket fd), try to call out to some RPC that contains the real model.
+ gdbstub.c                 | 20 ++++++++++++--------
+ qemu-bridge-helper.c      |  6 +++---
+ tests/vhost-user-bridge.c |  3 ++-
+ util/cutils.c             |  2 +-
+ 4 files changed, 18 insertions(+), 13 deletions(-)
 
-Now that I thought about it further, I guess my question boils down to
-"did anyone ever think about doing RPC for Virt-IO instead of putting
-the entire device model into the hypervisor/emulator/...".
-
-johannes
+--=20
+2.17.2
 
 
