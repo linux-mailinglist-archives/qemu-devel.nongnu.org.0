@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A350273EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 03:21:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55616 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 139602725F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 00:34:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52557 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTcQS-0006Ok-1I
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 21:21:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48542)
-	by lists.gnu.org with esmtp (Exim 4.71) (envelope-from
-	<3rsvlXAQKCsk6zx6v33v0t.r315t19-stAt0232v29.36v@flex--rkir.bounces.google.com>)
-	id 1hTZdD-0000uf-0G
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:22:43 -0400
+	id 1hTZoM-0006rj-5Y
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 18:34:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49700)
+	by lists.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <richard.henderson@linaro.org>) id 1hTZin-0002vn-Po
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:28:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from
-	<3rsvlXAQKCsk6zx6v33v0t.r315t19-stAt0232v29.36v@flex--rkir.bounces.google.com>)
-	id 1hTZdC-0004zP-2G
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:22:42 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:43370)
+	(envelope-from <richard.henderson@linaro.org>) id 1hTZil-0007IQ-Pi
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:28:29 -0400
+Received: from mail-yw1-xc2f.google.com ([2607:f8b0:4864:20::c2f]:33906)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from
-	<3rsvlXAQKCsk6zx6v33v0t.r315t19-stAt0232v29.36v@flex--rkir.bounces.google.com>)
-	id 1hTZdB-0004yc-Ro
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:22:42 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id r16so2114236ybl.10
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 15:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
-	h=date:message-id:mime-version:subject:from:to:cc;
-	bh=66UZ7u1EgKXC5CA47Jgl+SU5nc7Y/seRCoNZatAMsL0=;
-	b=idcv9mQlLfd54yTcAdqqCA6ZOrYuG5r16K5Y+sOLqTokEkW0cEG8dAHDIUFe2oSdQi
-	0Ml0jbswD7T8A/6lPZERvTkpWEZq+czLNJ+XzXg91shyOPWZLAv129V2xwi9Lzk+OjSh
-	r8T4TU/LMVipmXWycPcSZEvvYLoNjg4iRmg/A3GRruX4a9qAiClFbIsZgMqUulZ0k7eK
-	gYIsJbKAOL3mFMPAr3h8z4N60OkPOgKCIAosFgjdj5mpp0KCCRufWGVL9bh/L8jOjKwo
-	EX23GEEztgpwPvnhjOz782nD3zkI97PgodvXfKBK5vxLC+gK4fCr46HCWxrQqrlVTmNO
-	PnHg==
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hTZik-0007HD-CQ
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:28:27 -0400
+Received: by mail-yw1-xc2f.google.com with SMTP id n76so1497014ywd.1
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 15:28:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=sUJqt3JD+gd9m8xwvhsWFnhtBjPCY6u0efzkuW7MTho=;
+	b=Ph137EOm7l+Tz1gykJyhksvjNPq/DG0kTI4bmBEh4EBM2dTaLlM6jXx8z8KHpESNrF
+	wUm4ERB7MCFhugS/3mRaGBfbfOFCrfHfOsL0b1wmdNBU0BkWDGCWc+nh2KVr+yTOBH1k
+	5qOUiXU0GnbAa0Md19CUg9c9wKVErKrBYAufks2kukRk2nqElG/Wsix4sQmE3/LcbqQY
+	MaP4Ba6WwNYxZUmlw2vPvDWQrPfb3yDc58GVSuDRZNPWlBK5LqysIc1MMaabBKooIxz4
+	nzBxqChH0UJsfbFNE1rnhOgJGcrJy2C1cq+aKoth6xb9umv+uwgJRBNY4ISSAHxgpW7K
+	Mr9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-	bh=66UZ7u1EgKXC5CA47Jgl+SU5nc7Y/seRCoNZatAMsL0=;
-	b=NPNLcY4IY3/xsfwoiKWKJ3hlcxj0k/uAS4Z2sXb+KFJHc64CZyhHee4+ZbU6hTLz1f
-	OOOX0UZrHM1BZuSXffGwSWfkUw8bcWWxz9tpczJJPjaYSj5lZDxs6/7HJJspYNby1y3b
-	eeh24ylWn1o//XT9hbrkAu80P3rBBGGVZZQC4xyxc5ma0xUgJaFDMua5DC/8M/4AtjYe
-	kJXYUvha7sDbhTeHvg3TlRqNal/8djq+4b0aII8ir4VYLNWsYF05lztSiIEZKQ3vwHxU
-	as/759cDYWbL0fd+qY+xtb+K4MeYpl+A3LsdPVO0//iLEvomF+Kpy0UrIK0IH9NRrfNt
-	KJlQ==
-X-Gm-Message-State: APjAAAVRs9bHYpc277WAMQ+W4fc0Hr15BjB8jicb+skenD63ymWm3cuW
-	5h9oE23MBJNUZ+6htIvjY6NHMm+fodxyQgeRXX1roROYkxh5kBf+LLggUSvJlVZDThb5VGs3CQW
-	V91Zi8QdL10kD75dRSZFniqZZ/S/eHikzYxSTTJhFMizSOVzY1CG+grs=
-X-Google-Smtp-Source: APXvYqy3Eu3jP7DKSGU1ySREO9g6/hVGk3wXz/AMtZsvjgvHscnD/FhOTaSTiOPptq6qwStw/TkXKEwg
-X-Received: by 2002:a81:2bc6:: with SMTP id r189mr8844141ywr.337.1558563758603;
-	Wed, 22 May 2019 15:22:38 -0700 (PDT)
-Date: Wed, 22 May 2019 15:22:24 -0700
-Message-Id: <20190522222224.244714-1-rkir@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=sUJqt3JD+gd9m8xwvhsWFnhtBjPCY6u0efzkuW7MTho=;
+	b=JWdBl08NRCi46fhJ+3W0TXjqYH100B9QAG8Kwls/Qf5rptqiGTKmdFZ0cKT2+BDk/C
+	C1GBLQ85oPb3qARZVltO6uONZG4dwOnV79jL3lQYzOfMl+FW8jxODz9utD0pgU6s7/gU
+	eE9lN2c4cczarB21gkKtAMYL5ES3z5d8Qb12KDnzJCx4+nbKa+Xaaku8LbFdbkqDH/yX
+	MybW6InYfCzNn7yh52YtXMCVm6AxLEgX+XvwlcQFpsuBtQ+4JI8F6sgAJEReRni3vqoX
+	s9CsO619VxUkcv+D3l5TKOQOESjfyxW0m1jwfHLAtTWO/noyecC6MVY6cyulU5sLmaGc
+	0pCA==
+X-Gm-Message-State: APjAAAXeXCCRgmSSsd0Kf3pPKY5kRahlTvwcKMSyZNHyzKEdTfErrI1i
+	230mrrmbAYaSzY4VHJKksnY6KBJJUGc=
+X-Google-Smtp-Source: APXvYqxLRe2v2NbfUXDtZLLt4Hyppz/MfHoi+uzMiicmInZjMqJwDajOgltOAIWxVY1zn5Re8q5X/g==
+X-Received: by 2002:a81:b3c4:: with SMTP id
+	r187mr16140627ywh.217.1558564104281; 
+	Wed, 22 May 2019 15:28:24 -0700 (PDT)
+Received: from localhost.localdomain ([71.46.56.17])
+	by smtp.gmail.com with ESMTPSA id q11sm2276453ywg.7.2019.05.22.15.28.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 15:28:23 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Wed, 22 May 2019 18:28:05 -0400
+Message-Id: <20190522222821.23850-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::b4a
-X-Mailman-Approved-At: Wed, 22 May 2019 21:19:54 -0400
-Subject: [Qemu-devel] [PATCH] vmstate: Add VMSTATE_OPAQUE to save/load
- complex data structures
+X-Received-From: 2607:f8b0:4864:20::c2f
+Subject: [Qemu-devel] [PULL 00/16] tcg queued patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,48 +72,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: rkir--- via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: rkir@google.com
-Cc: Roman Kiryanov <rkir@google.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Roman Kiryanov <rkir@google.com>
+The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
 
-VMSTATE_OPAQUE allows passing user defined functions to save
-and load vmstate for cases when data structures do not fit
-into int/struct/array terms.
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
 
-Signed-off-by: Roman Kiryanov <rkir@google.com>
----
- include/migration/vmstate.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+are available in the Git repository at:
 
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index 9224370ed5..2736daef17 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -737,6 +737,19 @@ extern const VMStateInfo vmstate_info_qtailq;
-     .start        = offsetof(_type, _next),                              \
- }
- 
-+/* Provides a way to save/load complex data structures that do not
-+ * fit into int/struct/array terms.
-+ * _info: a user defined instance of VMStateInfo to handle saving and loading.
-+ */
-+#define VMSTATE_OPAQUE(_name, _version, _info) {                      \
-+    .name         = _name,                                            \
-+    .version_id   = (_version),                                       \
-+    .size         = 0,                                                \
-+    .info         = &(_info),                                         \
-+    .flags        = VMS_SINGLE,                                       \
-+    .offset       = 0,                                                \
-+}
-+
- /* _f : field name
-    _f_n : num of elements field_name
-    _n : num of elements
--- 
-2.21.0.1020.gf2820cf01a-goog
+  https://github.com/rth7680/qemu.git tags/pull-tcg-20190522
 
+for you to fetch changes up to 11e2bfef799024be4a08fcf6797fe0b22fb16b58:
+
+  tcg/i386: Use MOVDQA for TCG_TYPE_V128 load/store (2019-05-22 15:09:43 -0400)
+
+----------------------------------------------------------------
+Misc gvec improvements
+
+----------------------------------------------------------------
+Richard Henderson (16):
+      tcg/i386: Fix dupi/dupm for avx1 and 32-bit hosts
+      tcg: Fix missing checks and clears in tcg_gen_gvec_dup_mem
+      tcg: Add support for vector bitwise select
+      tcg: Add support for vector compare select
+      tcg: Introduce do_op3_nofail for vector expansion
+      tcg: Expand vector minmax using cmp+cmpsel
+      tcg: Add TCG_OPF_NOT_PRESENT if TCG_TARGET_HAS_foo is negative
+      tcg/i386: Support vector comparison select value
+      tcg/i386: Remove expansion for missing minmax
+      tcg/i386: Use umin/umax in expanding unsigned compare
+      tcg/aarch64: Support vector bitwise select value
+      tcg/aarch64: Split up is_fimm
+      tcg/aarch64: Use MVNI in tcg_out_dupi_vec
+      tcg/aarch64: Build vector immediates with two insns
+      tcg/aarch64: Allow immediates for vector ORR and BIC
+      tcg/i386: Use MOVDQA for TCG_TYPE_V128 load/store
+
+ accel/tcg/tcg-runtime.h      |   2 +
+ tcg/aarch64/tcg-target.h     |   2 +
+ tcg/i386/tcg-target.h        |   2 +
+ tcg/tcg-op-gvec.h            |   7 +
+ tcg/tcg-op.h                 |   5 +
+ tcg/tcg-opc.h                |   5 +-
+ tcg/tcg.h                    |   2 +
+ accel/tcg/tcg-runtime-gvec.c |  14 ++
+ tcg/aarch64/tcg-target.inc.c | 371 ++++++++++++++++++++++++++++++++-----------
+ tcg/i386/tcg-target.inc.c    | 169 +++++++++++++-------
+ tcg/tcg-op-gvec.c            |  71 ++++++---
+ tcg/tcg-op-vec.c             | 142 ++++++++++++++---
+ tcg/tcg.c                    |   5 +
+ tcg/README                   |  11 ++
+ 14 files changed, 620 insertions(+), 188 deletions(-)
 
