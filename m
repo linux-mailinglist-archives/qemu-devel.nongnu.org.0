@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8016265CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:33:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44324 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64A9265D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:35:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44350 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTSIv-0001pz-NM
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:33:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53399)
+	id 1hTSKy-0003jL-Rx
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:35:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53391)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSG2-00006E-DP
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSG2-00005v-0g
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSFz-0007SE-G1
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:18 -0400
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:35399)
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSFz-0007T7-Ju
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:17 -0400
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:44387)
 	by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSFz-000768-5P
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSFz-00072L-8w
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:15 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
 	[61.195.96.97]) (Authenticated sender: PQ4Y-STU)
-	by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 3C45D42C5A;
+	by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 41AE23E19C;
 	Wed, 22 May 2019 23:30:05 +0900 (JST)
 Received: from yo-satoh-debian.localdomain
 	(v045049.dynamic.ppp.asahi-net.or.jp [124.155.45.49])
-	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 706F3240085; 
-	Wed, 22 May 2019 23:30:03 +0900 (JST)
+	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 0F44A240086; 
+	Wed, 22 May 2019 23:30:04 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 23:29:44 +0900
-Message-Id: <20190522142956.41916-1-ysato@users.sourceforge.jp>
+Date: Wed, 22 May 2019 23:29:45 +0900
+Message-Id: <20190522142956.41916-2-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20190522142956.41916-1-ysato@users.sourceforge.jp>
+References: <20190522142956.41916-1-ysato@users.sourceforge.jp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 202.224.55.15
-Subject: [Qemu-devel] [PATCH v15 00/12] Add RX archtecture support
+X-Received-From: 202.224.55.14
+Subject: [Qemu-devel] [PATCH v15 01/12] qemu/bitops.h: Add extract8 and
+ extract16
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,123 +59,63 @@ Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello.
-This patch series is added Renesas RX target emulation.
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ include/qemu/bitops.h | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-Fix is bellow.
-- Reorder patches.
-- Rewrite renesas_cmt.
-  Convert to RCMTChannelStatus
-- Use CPUClass::tlb_fill
-- Use tcg_gen_abs_i32
-- Fix racw instructions.
-- Cleanup for review comment.
-  target/rx/helper.c - fix spelling.
-  hw/intc/rx_icu.h - cleanup constant definition.
-  hw/registerfields.h - fix macro definion order.
-
-My git repository is bellow.
-git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190522
-
-Testing binaries bellow.
-u-boot
-Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
-
-starting
-$ gzip -d u-boot.bin.gz
-$ qemu-system-rx -bios u-boot.bin
-
-linux and pico-root (only sash)
-Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
-           https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTre=
-e)
-
-starting
-$ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
-
-Yoshinori Sato (12):
-  qemu/bitops.h: Add extract8 and extract16
-  hw/registerfields.h: Add 8bit and 16bit register macros.
-  target/rx: TCG translation
-  target/rx: TCG helper
-  target/rx: CPU definition
-  target/rx: RX disassembler
-  hw/intc: RX62N interrupt controller (ICUa)
-  hw/timer: RX62N internal timer modules
-  hw/char: RX62N serial communication interface (SCI)
-  hw/rx: RX Target hardware definition
-  Add rx-softmmu
-  MAINTAINERS: Add RX
-
- configure                      |    8 +
- default-configs/rx-softmmu.mak |    3 +
- include/disas/dis-asm.h        |    5 +
- include/hw/char/renesas_sci.h  |   45 +
- include/hw/intc/rx_icu.h       |   55 +
- include/hw/registerfields.h    |   30 +-
- include/hw/rx/rx.h             |    7 +
- include/hw/rx/rx62n.h          |   94 ++
- include/hw/timer/renesas_cmt.h |   44 +
- include/hw/timer/renesas_tmr.h |   50 +
- include/qemu/bitops.h          |   38 +
- include/sysemu/arch_init.h     |    1 +
- target/rx/cpu.h                |  227 ++++
- target/rx/helper.h             |   31 +
- arch_init.c                    |    2 +
- hw/char/renesas_sci.c          |  340 ++++++
- hw/intc/rx_icu.c               |  376 +++++++
- hw/rx/rx-virt.c                |  105 ++
- hw/rx/rx62n.c                  |  238 ++++
- hw/timer/renesas_cmt.c         |  260 +++++
- hw/timer/renesas_tmr.c         |  455 ++++++++
- target/rx/cpu.c                |  239 ++++
- target/rx/disas.c              | 1480 ++++++++++++++++++++++++
- target/rx/gdbstub.c            |  112 ++
- target/rx/helper.c             |  148 +++
- target/rx/monitor.c            |   38 +
- target/rx/op_helper.c          |  470 ++++++++
- target/rx/translate.c          | 2420 ++++++++++++++++++++++++++++++++++=
-++++++
- MAINTAINERS                    |   21 +
- hw/Kconfig                     |    1 +
- hw/char/Kconfig                |    3 +
- hw/char/Makefile.objs          |    1 +
- hw/intc/Kconfig                |    3 +
- hw/intc/Makefile.objs          |    1 +
- hw/rx/Kconfig                  |   14 +
- hw/rx/Makefile.objs            |    2 +
- hw/timer/Kconfig               |    6 +
- hw/timer/Makefile.objs         |    3 +
- target/rx/Makefile.objs        |   12 +
- target/rx/insns.decode         |  621 +++++++++++
- 40 files changed, 8008 insertions(+), 1 deletion(-)
- create mode 100644 default-configs/rx-softmmu.mak
- create mode 100644 include/hw/char/renesas_sci.h
- create mode 100644 include/hw/intc/rx_icu.h
- create mode 100644 include/hw/rx/rx.h
- create mode 100644 include/hw/rx/rx62n.h
- create mode 100644 include/hw/timer/renesas_cmt.h
- create mode 100644 include/hw/timer/renesas_tmr.h
- create mode 100644 target/rx/cpu.h
- create mode 100644 target/rx/helper.h
- create mode 100644 hw/char/renesas_sci.c
- create mode 100644 hw/intc/rx_icu.c
- create mode 100644 hw/rx/rx-virt.c
- create mode 100644 hw/rx/rx62n.c
- create mode 100644 hw/timer/renesas_cmt.c
- create mode 100644 hw/timer/renesas_tmr.c
- create mode 100644 target/rx/cpu.c
- create mode 100644 target/rx/disas.c
- create mode 100644 target/rx/gdbstub.c
- create mode 100644 target/rx/helper.c
- create mode 100644 target/rx/monitor.c
- create mode 100644 target/rx/op_helper.c
- create mode 100644 target/rx/translate.c
- create mode 100644 hw/rx/Kconfig
- create mode 100644 hw/rx/Makefile.objs
- create mode 100644 target/rx/Makefile.objs
- create mode 100644 target/rx/insns.decode
-
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 3f0926cf40..764f9d1ea0 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -301,6 +301,44 @@ static inline uint32_t extract32(uint32_t value, int=
+ start, int length)
+ }
+=20
+ /**
++ * extract8:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 8 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 8 bit word. It is valid to request that
++ * all 8 bits are returned (ie @length 8 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint8_t extract8(uint8_t value, int start, int length)
++{
++    assert(start >=3D 0 && length > 0 && length <=3D 8 - start);
++    return extract32(value, start, length);
++}
++
++/**
++ * extract16:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 16 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 16 bit word. It is valid to request that
++ * all 16 bits are returned (ie @length 16 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint16_t extract16(uint16_t value, int start, int length)
++{
++    assert(start >=3D 0 && length > 0 && length <=3D 16 - start);
++    return extract32(value, start, length);
++}
++
++/**
+  * extract64:
+  * @value: the value to extract the bit field from
+  * @start: the lowest bit in the bit field (numbered from 0)
 --=20
 2.11.0
 
