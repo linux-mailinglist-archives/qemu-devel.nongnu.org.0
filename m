@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A784126685
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:03:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45570 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FBF266C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:18:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45884 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTSmU-00049L-Ij
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:03:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39293)
+	id 1hTT0r-0000dH-0Z
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:18:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43198)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <antonio.ospite@collabora.com>) id 1hTSkg-0003Qs-RX
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:02:04 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hTSzD-00007q-Vw
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:17:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <antonio.ospite@collabora.com>) id 1hTSkf-0003Gh-Jx
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:01:58 -0400
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:51980)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <antonio.ospite@collabora.com>)
-	id 1hTSkf-00039V-EH; Wed, 22 May 2019 11:01:57 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: ao2)
-	with ESMTPSA id 6944F28009A
-To: Laurent Vivier <laurent@vivier.eu>,
-	Peter Maydell <peter.maydell@linaro.org>, Eric Blake <eblake@redhat.com>
-References: <20190503082728.16485-1-ao2@ao2.it>
-	<20190503082728.16485-3-ao2@ao2.it>
-	<541bfc5c-0e45-58e6-f0b1-81e9b0c8881d@redhat.com>
-	<CAFEAcA8An-KWOc3gOz2=45eCHCmUJEJw_bTrrCW6bYO23H8TPw@mail.gmail.com>
-	<a5f95284-2883-e6c0-54ad-d0ff018f68d7@vivier.eu>
-From: Antonio Ospite <antonio.ospite@collabora.com>
-Message-ID: <9349da74-b4a1-932d-227a-a63df1bb63a5@collabora.com>
-Date: Wed, 22 May 2019 17:01:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <no-reply@patchew.org>) id 1hTSzC-0006lN-8g
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:16:59 -0400
+Resent-Date: Wed, 22 May 2019 11:16:59 -0400
+Resent-Message-Id: <E1hTSzC-0006lN-8g@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21594)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hTSzC-0006hl-0h
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:16:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1558538124; cv=none; d=zoho.com; s=zohoarc; 
+	b=ZgeLso0QsNUn9wxBs2sS2t2pe7MvHgOjthEra+/NXoh3W8QZJuYAce3eXzFQ5f2JeezuSXoa/gWHDxzQ4c5LV7qu1JPNK65NWJMMupPOHygkJIWQQPO90+n9tFG9QIMlQh+etg7KsvxoqmLD0nVY91q37uTTg4J09U9uhuYG7AE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1558538124;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=67fbgfEx+SZCH6KNDAbcCt2mxwqHNfMECRsqVxBb4mY=; 
+	b=O3m+AsakWSBz/AfQ0GECda6xLtRplpxWNOl1Vuc42h7rKqIOmjD81jZH/8OhuuDtKOXVPcNkxlUiObsXkuNutI3cMK9ymoA498KfD1IgiFZ4y0HncR9YYYqGChJXlqBzMZFTjBGVum08i2i5TBjJSo3t4P5WNBfv1DNGlNovj2E=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1558538118967599.9714932621494;
+	Wed, 22 May 2019 08:15:18 -0700 (PDT)
+In-Reply-To: <20190522142956.41916-1-ysato@users.sourceforge.jp>
+Message-ID: <155853811773.24.5714343860750951553@549697c9ad12>
 MIME-Version: 1.0
-In-Reply-To: <a5f95284-2883-e6c0-54ad-d0ff018f68d7@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1098:0:82:1000:25:2eeb:e3e3
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 2/2] configure: disallow
- spaces and colons in source path and build path
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ysato@users.sourceforge.jp
+Date: Wed, 22 May 2019 08:15:18 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v15 00/12] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,90 +61,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Antonio Ospite <ao2@ao2.it>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+	qemu-devel@nongnu.org, ysato@users.sourceforge.jp, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/05/19 15:57, Laurent Vivier wrote:
-> On 09/05/2019 16:42, Peter Maydell wrote:
->> On Mon, 6 May 2019 at 18:27, Eric Blake <eblake@redhat.com> wrote:
->>>
->>> On 5/3/19 3:27 AM, Antonio Ospite wrote:
->>>> From: Antonio Ospite <antonio.ospite@collabora.com>
->>>>
->>>> The configure script breaks when the qemu source directory is in a p=
-ath
->>>> containing white spaces, in particular the list of targets is not
->>>> correctly generated when calling "./configure --help" because of how=
-=20
->>>> the
->>>> default_target_list variable is built.
->>>>
->>>> In addition to that, *building* qemu from a directory with spaces=20
->>>> breaks
->>>> some assumptions in the Makefiles, even if the original source path=20
->>>> does
->>>> not contain spaces like in the case of an out-of-tree build, or when
->>>> symlinks are involved.
->>>>
->>>> To avoid these issues, refuse to run the configure script and the
->>>> Makefile if there are spaces or colons in the source path or the bui=
-ld
->>>> path, taking as inspiration what the kbuild system in linux does.
->>>>
->>>> Buglink: https://bugs.launchpad.net/qemu/+bug/1817345
->>>>
->>>> Signed-off-by: Antonio Ospite <antonio.ospite@collabora.com>
->>>> ---
->>>> =C2=A0 Makefile=C2=A0 | 4 ++++
->>>> =C2=A0 configure | 6 ++++++
->>>> =C2=A0 2 files changed, 10 insertions(+)
->>>>
->>>
->>>> +++ b/Makefile
->>>> @@ -1,5 +1,9 @@
->>>> =C2=A0 # Makefile for QEMU.
->>>>
->>>> +ifneq ($(words $(subst :, ,$(CURDIR))), 1)
->>>> +=C2=A0 $(error main directory cannot contain spaces nor colons)
->>>> +endif
->>>> +
->>>> =C2=A0 # Always point to the root of the build tree (needs GNU make)=
-.
->>>> =C2=A0 BUILD_DIR=3D$(CURDIR)
->>>>
->>>> diff --git a/configure b/configure
->>>> index 9832cbca5c..f7ad4381bd 100755
->>>> --- a/configure
->>>> +++ b/configure
->>>> @@ -279,6 +279,12 @@ ld_has() {
->>>> =C2=A0 # make source path absolute
->>>> =C2=A0 source_path=3D$(cd "$(dirname -- "$0")"; pwd)
->>>>
->>>> +if printf "%s\n" "$source_path" | grep -q "[[:space:]:]" ||
->>>> +=C2=A0 printf "%s\n" "$PWD" | grep -q "[[:space:]:]";
->>>
->>> For less typing and fewer processes, you could shorten this to:
->>>
->>> if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
->>>
->>> but that's trivial enough for a maintainer to fold in if desired.
->>>
->>> Reviewed-by: Eric Blake <eblake@redhat.com>
->>
->> What tree is this going to go in via? I suggest the
->> -trivial tree.
->=20
->=20
-> Applied (unchanged) to my trivial-patches branch.
->=20
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyMjE0Mjk1Ni40MTkx
+Ni0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1z
+IHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9y
+Cm1vcmUgaW5mb3JtYXRpb246CgpNZXNzYWdlLWlkOiAyMDE5MDUyMjE0Mjk1Ni40MTkxNi0xLXlz
+YXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwClR5cGU6IHNlcmllcwpTdWJqZWN0OiBbUWVtdS1kZXZl
+bF0gW1BBVENIIHYxNSAwMC8xMl0gQWRkIFJYIGFyY2h0ZWN0dXJlIHN1cHBvcnQKCj09PSBURVNU
+IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
+dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
+b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
+bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
+ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRj
+aGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAgICBwYXRjaGV3LzIwMTkw
+NTIyMTQyOTU2LjQxOTE2LTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAgLT4gcGF0Y2hldy8y
+MDE5MDUyMjE0Mjk1Ni40MTkxNi0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwClN3aXRjaGVk
+IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYWVhZmMwOTFhZSBNQUlOVEFJTkVSUzogQWRkIFJYCjgw
+NTYzMjVlZjIgQWRkIHJ4LXNvZnRtbXUKZDE2MjM5ODhjOSBody9yeDogUlggVGFyZ2V0IGhhcmR3
+YXJlIGRlZmluaXRpb24KMDY2NjcwNWEzZCBody9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNh
+dGlvbiBpbnRlcmZhY2UgKFNDSSkKNzE1YzZjODcwMiBody90aW1lcjogUlg2Mk4gaW50ZXJuYWwg
+dGltZXIgbW9kdWxlcwo1ODljODM2Y2ZjIGh3L2ludGM6IFJYNjJOIGludGVycnVwdCBjb250cm9s
+bGVyIChJQ1VhKQpiMmYyZjIxZTY5IHRhcmdldC9yeDogUlggZGlzYXNzZW1ibGVyCjEzNTY4OGRi
+YWQgdGFyZ2V0L3J4OiBDUFUgZGVmaW5pdGlvbgo1ZTRhMzU1ZTNmIHRhcmdldC9yeDogVENHIGhl
+bHBlcgowYTQ4ZDgzZjRjIHRhcmdldC9yeDogVENHIHRyYW5zbGF0aW9uCjQ0MDhkYmQwYzYgaHcv
+cmVnaXN0ZXJmaWVsZHMuaDogQWRkIDhiaXQgYW5kIDE2Yml0IHJlZ2lzdGVyIG1hY3Jvcy4KMjg3
+MzgyNWZjMSBxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNgoKPT09IE9V
+VFBVVCBCRUdJTiA9PT0KMS8xMiBDaGVja2luZyBjb21taXQgMjg3MzgyNWZjMTUxIChxZW11L2Jp
+dG9wcy5oOiBBZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNikKMi8xMiBDaGVja2luZyBjb21taXQg
+NDQwOGRiZDBjNmIwIChody9yZWdpc3RlcmZpZWxkcy5oOiBBZGQgOGJpdCBhbmQgMTZiaXQgcmVn
+aXN0ZXIgbWFjcm9zLikKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hv
+dWxkIGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiMyNzogRklMRTogaW5jbHVkZS9o
+dy9yZWdpc3RlcmZpZWxkcy5oOjIxOgorI2RlZmluZSBSRUc4KHJlZywgYWRkcikgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFf
+ICMjIHJlZyA9IChhZGRyKSB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIFwKKyAgICBlbnVtIHsgUl8gIyMgcmVnID0gKGFkZHIpIH07CgpFUlJPUjogTWFjcm9zIHdp
+dGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxl
+IGxvb3AKIzMwOiBGSUxFOiBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6MjQ6CisjZGVmaW5l
+IFJFRzE2KHJlZywgYWRkcikgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIFwKKyAgICBlbnVtIHsgQV8gIyMgcmVnID0gKGFkZHIpIH07ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVudW0geyBSXyAjIyByZWcgPSAo
+YWRkcikgLyAyIH07Cgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDUyIGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDIvMTIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
+IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
+YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvMTIgQ2hlY2tpbmcg
+Y29tbWl0IDBhNDhkODNmNGM1ZCAodGFyZ2V0L3J4OiBUQ0cgdHJhbnNsYXRpb24pCldBUk5JTkc6
+IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
+cGRhdGluZz8KIzE1OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3
+YXJuaW5ncywgMzA1MyBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzEyIGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCjQvMTIgQ2hlY2tpbmcgY29tbWl0IDVlNGEzNTVlM2ZjZiAodGFyZ2V0L3J4OiBU
+Q0cgaGVscGVyKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
+IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxMjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0
+b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDY2MCBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzEy
+IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
+cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
+CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjUvMTIgQ2hlY2tpbmcgY29tbWl0IDEzNTY4OGRi
+YWRlZSAodGFyZ2V0L3J4OiBDUFUgZGVmaW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9y
+IGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTE6IApu
+ZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vi
+c2VxdWVudCBsaW5lcwojMTc5OiBGSUxFOiB0YXJnZXQvcngvY3B1LmM6MTY0OgorICAgIC8qCisg
+ICAgICBSWCBoYXMgbm8tTU1VCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0
+YWJzCiMzOTc6IEZJTEU6IHRhcmdldC9yeC9jcHUuaDoxMzc6CisgICAgcWVtdV9pcnEgYWNrO15J
+XkkvKiBJbnRlcnJ1cHQgYWNrbm93bGVkZ2UgKi8kCgp0b3RhbDogMSBlcnJvcnMsIDIgd2Fybmlu
+Z3MsIDYxOSBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzEyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCgo2LzEyIENoZWNraW5nIGNvbW1pdCBiMmYyZjIxZTY5ODAgKHRhcmdldC9yeDogUlggZGlz
+YXNzZW1ibGVyKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
+IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzNjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0
+b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE0OTcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi8x
+MiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
+b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
+ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo3LzEyIENoZWNraW5nIGNvbW1pdCA1ODljODM2
+Y2ZjYzkgKGh3L2ludGM6IFJYNjJOIGludGVycnVwdCBjb250cm9sbGVyIChJQ1VhKSkKV0FSTklO
+RzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVk
+IHVwZGF0aW5nPwojMzU6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IGNvZGUgaW5kZW50
+IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDMwOiBGSUxFOiBpbmNsdWRlL2h3L2ludGMvcnhfaWN1
+Lmg6OToKKyAgICBUUkdfTkVER0UgPSAxLF5JLyogRmFsbGluZyAqLyQKCkVSUk9SOiBjb2RlIGlu
+ZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQzMTogRklMRTogaW5jbHVkZS9ody9pbnRjL3J4
+X2ljdS5oOjEwOgorICAgIFRSR19QRURHRSA9IDIsXkkvKiBSYWlzaW5nICovJAoKRVJST1I6IGNv
+ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDMyOiBGSUxFOiBpbmNsdWRlL2h3L2lu
+dGMvcnhfaWN1Lmg6MTE6CisgICAgVFJHX0JFREdFID0gMyxeSS8qIEJvdGggKi8kCgp0b3RhbDog
+MyBlcnJvcnMsIDEgd2FybmluZ3MsIDQ0MSBsaW5lcyBjaGVja2VkCgpQYXRjaCA3LzEyIGhhcyBz
+dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
+IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
+UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo4LzEyIENoZWNraW5nIGNvbW1pdCA3MTVjNmM4NzAyYjgg
+KGh3L3RpbWVyOiBSWDYyTiBpbnRlcm5hbCB0aW1lciBtb2R1bGVzKQpXQVJOSU5HOiBhZGRlZCwg
+bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
+CiM0NTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
+IDgyNyBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzEyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
+IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
+cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
+CjkvMTIgQ2hlY2tpbmcgY29tbWl0IDA2NjY3MDVhM2RhMyAoaHcvY2hhcjogUlg2Mk4gc2VyaWFs
+IGNvbW11bmljYXRpb24gaW50ZXJmYWNlIChTQ0kpKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3Ig
+ZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM0MDogCm5l
+dyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDM5OCBsaW5l
+cyBjaGVja2VkCgpQYXRjaCA5LzEyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjEwLzEyIENo
+ZWNraW5nIGNvbW1pdCBkMTYyMzk4OGM5NzQgKGh3L3J4OiBSWCBUYXJnZXQgaGFyZHdhcmUgZGVm
+aW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
+QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTQ6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90
+YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0NjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTAvMTIg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTEvMTIgQ2hlY2tpbmcgY29tbWl0IDgwNTYzMjVl
+ZjI1MiAoQWRkIHJ4LXNvZnRtbXUpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
+bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzUyOiAKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDUgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggMTEvMTIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
+IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
+dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTIvMTIgQ2hlY2tpbmcgY29t
+bWl0IGFlYWZjMDkxYWVlNyAoTUFJTlRBSU5FUlM6IEFkZCBSWCkKPT09IE9VVFBVVCBFTkQgPT09
+CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
+bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA1MjIxNDI5NTYuNDE5MTYtMS15
+c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2Fn
+ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
+cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
+QHJlZGhhdC5jb20=
 
-Thank you Laurent.
-
-I'll think about sending a followup patch with the changes proposed by=20
-Eric and I'll CC you if I do.
-
-Ciao,
-    Antonio
 
