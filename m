@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3102671B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:45:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46276 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0B726754
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:53:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46479 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTTQd-0002Mj-Hq
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:45:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48062)
+	id 1hTTYe-0000YZ-MV
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:53:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48094)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTTM9-0007Yy-V6
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:40:43 -0400
+	(envelope-from <programmingkidx@gmail.com>) id 1hTTMB-0007Zk-RV
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:40:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTT7o-0002qQ-CB
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:25:53 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:36681)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hTT7m-0001lp-3q; Wed, 22 May 2019 11:25:50 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1MmU1H-1glIXQ3zBR-00iXHu; Wed, 22 May 2019 17:24:58 +0200
-To: Li Qiang <liq3ea@163.com>, alex.williamson@redhat.com, lvivier@redhat.com
-References: <20190521151543.92274-1-liq3ea@163.com>
-	<20190521151543.92274-2-liq3ea@163.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <95569030-88c3-bc93-3ca2-0df3cacfa87c@vivier.eu>
-Date: Wed, 22 May 2019 17:24:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <programmingkidx@gmail.com>) id 1hTT7m-0002i2-AM
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:25:51 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55399)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <programmingkidx@gmail.com>)
+	id 1hTT7l-0000kG-UJ; Wed, 22 May 2019 11:25:50 -0400
+Received: by mail-wm1-x342.google.com with SMTP id x64so2656545wmb.5;
+	Wed, 22 May 2019 08:25:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=l7MNNmBynGEXpG/v5Du+4c7MG15VBOlXL7Lg2uQB1oo=;
+	b=mK18w8SltxJ5KM+nmoit0PoThifyuZkrX69wv1wrP/tf9Qe6MFnGoN0hYL61xPWAyH
+	4fgLM+hMR5nAddteMeq6Ohz+UUw/m/Voo5x4e7LPNIZQ6K6le79wKAeFrxaPyvH7A5At
+	hdY0pnc1xkWCJZRo6ft+V5Xl7eYfB0nXnOboJsDq7JBHk35dC2UD3zMElWU2Z5Gm9jhF
+	ueQq9PMBIQrXx6Ux45UCYqTpshWoTi6Lwh3JZS4/TfQhgbhw733dTaLWaixdCvw6Stlu
+	uiJpk1TyLnLiWaejjCC/o62Pav4V0HixL8/Z7TeZ+ysoHm8jQh1GYYik7+Rc92G/mhh4
+	ahxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=l7MNNmBynGEXpG/v5Du+4c7MG15VBOlXL7Lg2uQB1oo=;
+	b=WISsc4CKAuNeYiMe2Kaxqw7FFuLdDsv+fiyrrHHOej2eRtnyJ80CKPavCij4FGtPFw
+	PYd6HTDOBPIvOlwBTLWjlnpjEx379SOHs7DVJ3wjqk6GYY6OVzicRW75efWQRmCgbJKp
+	6GOJqEaE6UY2CDwJybVgk3L0uz3A1QQ6pR9aMG4EV6ZchBUReENmlpIe0vR+kWva18uC
+	e1Pdb8Py5eArjGJPg6TWMfZIO5pnPF4Xqry2pExT5ZKPBCptuN8fQXt+LuFQwAxLEeMv
+	19Z7x0L/M/WzjlA5cI7/GIPx0TLxMx4zl7Ey8RSLLXLv08DMPXBtwyrmpSrdKoNsbt3/
+	M9mw==
+X-Gm-Message-State: APjAAAXCRfuaU/hXoMxpgfrufRRIKwFK9DvVj6vdYVXZNcbBh8ACDu09
+	apXK/N2f9dRxmy5EZ12no4rXq5D8KMz4466dexg=
+X-Google-Smtp-Source: APXvYqwErQCSeDISd79446qPKaEwW5S7mGhscrEJhr7QeQCybU1HMSHQokz4VY7YdqBmKeaDastRaN1B07jSquw1LhA=
+X-Received: by 2002:a7b:c7d5:: with SMTP id z21mr8020829wmk.56.1558538713519; 
+	Wed, 22 May 2019 08:25:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190521151543.92274-2-liq3ea@163.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:YYxbT559wrmEiZSJXIiVTlz4XEHXiwJmOK1UTWuFTaGOwN+1KFO
-	wNgJvJ99l5T0GEnNhNmdJW8bEmz0/dxMjwQ/h7qeH9kZG+FZmz1K4KlFEq72bmNCQGfvkC8
-	hSBxou2f6cf8w/EupdmuzMP3USpf0tH7LuVxybJGcuJQVoWSfZLQNd0dbzz0jlq96OGUXsP
-	jBQ5TZj3o6J9mwRictxKw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QdWpZOooA34=:lbNjkF3IW9KFWZMyR9kbre
-	T9GuLeL69crLGUMqYDeGYRNNupR6jun7L4fmAohQhw4v/PhE1MudV1i17RM1k8j6LxC2VJI1A
-	Zv0qaGsx/wlDx9PPfze4v1v8TFZ2Xn1Z0UXEuOP/BOxclRQVMeyeUbQIEPtsIxziHoToEoVfu
-	mv8HwlO4z6+IqgAPioUxpSmPKoHmDCJdgTOOaEcvyVI7tQLDC2324QLYKOltHGqUhJM8wl6Uv
-	6ntE/juQXxzhz0kjqZkL+lFZhhegEo9vS1CFtrMeLZx86PBTCE7upKV3bZyrv8uKTUbhUNh5c
-	xmy1fCHEjHJ/HDM8uV+/dLTcjXcEgsJIp+Zc3S+EVouL2P5aGghea81PLTbd1sHcr/WQ61SDQ
-	jX3tq9EzzmTF6HX3QO2CYvBW7VsNi7d9WOQzjeKkKMDYE7l26Uc5JvwzRAQQqln4kGbxf88FB
-	2KR/ACmHS0MrYSIEF4JrUSaxkUZC3hjwAowv4Otuf1KOW60ApLkRQdP2aXJYcD93SFYyZ8RCb
-	U4S6rBjPTNYojMXv6lKCSLssFoBNZhQI0s7gjYHD8YSfJjXut8fSwA/ooN0FyeQbAHhXxwizH
-	bFderINdVIstOr73JHrZX/SgkVeQAgEp49PYE7EDqonKp6HBgnI8QpS1yXahilSKaI+/kd+T/
-	3YXVtn/j5nsYM1qPCQVgRp+tS3zK6frZoO+BosCsUxHZPbeL/jJxNH2s8Cbao7qAY36ddP/Zj
-	skQEF4cVCdBcaSpkHR84rf4agpm1X7pYzN02s2HDVSmjbxtIQNZEatEvmxc=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 1/4] vfio: pci: make
- "vfio-pci-nohotplug" as MACRO
+References: <20190522000617.21945-1-programmingkidx@gmail.com>
+	<b90278ec-ee66-76c6-32b5-d5aca1fb8d24@linaro.org>
+In-Reply-To: <b90278ec-ee66-76c6-32b5-d5aca1fb8d24@linaro.org>
+From: G 3 <programmingkidx@gmail.com>
+Date: Wed, 22 May 2019 11:25:02 -0400
+Message-ID: <CAKyx-3M_zMPBuS3BntUGMd21d7xX_d1KOq_Yc21MVjEp+fZbRQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH] Implement Fraction Rounded bit in FPSCR
+ for PowerPC
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,50 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, liq3ea@gmail.com, philmd@redhat.com,
-	qemu-devel@nongnu.org
+Cc: David Gibson <david@gibson.dropbear.id.au>,
+	"qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+	qemu-devel qemu-devel <qemu-devel@nongnu.org>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/05/2019 17:15, Li Qiang wrote:
-> The QOMConventions recommends we should use TYPE_FOO
-> for a TypeInfo's name. Though "vfio-pci-nohotplug" is not
-> used in other parts, for consistency we should make this change.
-> 
-> CC: qemu-trivial@nongnu.org
-> Signed-off-by: Li Qiang <liq3ea@163.com>
-> ---
->   hw/vfio/pci.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 8cecb53d5c..08729e5875 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -40,6 +40,8 @@
->   #define TYPE_VFIO_PCI "vfio-pci"
->   #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
->   
-> +#define TYPE_VIFO_PCI_NOHOTPLUG "vfio-pci-nohotplug"
-> +
->   static void vfio_disable_interrupts(VFIOPCIDevice *vdev);
->   static void vfio_mmap_set_enabled(VFIOPCIDevice *vdev, bool enabled);
->   
-> @@ -3304,8 +3306,8 @@ static void vfio_pci_nohotplug_dev_class_init(ObjectClass *klass, void *data)
->   }
->   
->   static const TypeInfo vfio_pci_nohotplug_dev_info = {
-> -    .name = "vfio-pci-nohotplug",
-> -    .parent = "vfio-pci",
-> +    .name = TYPE_VIFO_PCI_NOHOTPLUG,
-> +    .parent = TYPE_VFIO_PCI,
->       .instance_size = sizeof(VFIOPCIDevice),
->       .class_init = vfio_pci_nohotplug_dev_class_init,
->   };
-> 
+Thank you for the suggestion.
 
-Applied to my trivial-patches branch.
+For the added note, did you want specific places listed? If so please let
+me know these places.
 
-Thanks,
-Laurent
+Thank you.
 
+On Tue, May 21, 2019 at 11:30 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 5/21/19 8:06 PM, John Arbuckle wrote:
+> > Implement the PowerPC floating point status and control register flag
+> Fraction Rounded.
+> >
+> > Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
+> > ---
+> >  fpu/softfloat.c               | 15 ++++++++++++---
+> >  include/fpu/softfloat-types.h |  1 +
+> >  target/ppc/fpu_helper.c       |  4 ++++
+> >  3 files changed, 17 insertions(+), 3 deletions(-)
+>
+> Please split the target/ppc part away from the softfloat part.
+>
+> Also, we should note that there are more places within softfloat that need
+> to
+> be adjusted so that float_float_rounded is fully supported.
+>
+>
+> r~
+>
