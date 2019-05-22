@@ -2,49 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B08C25DE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 08:13:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36994 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB8625E17
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 08:36:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37221 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTKVb-0001ht-Bd
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 02:13:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38827)
+	id 1hTKrc-0007FJ-W7
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 02:36:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41703)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hTKU6-00013S-P3
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:12:20 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTKqa-0006uS-Od
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:35:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hTKU5-0000T4-Em
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:12:18 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:54654)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
-	id 1hTKU2-0000OK-GK; Wed, 22 May 2019 02:12:14 -0400
-Received: from apples.localdomain (soho-cph.cust-cnex.dsd101.net
-	[194.62.216.132])
-	by charlie.dont.surf (Postfix) with ESMTPSA id 46B8ABF513;
-	Wed, 22 May 2019 06:12:12 +0000 (UTC)
-Date: Wed, 22 May 2019 08:12:08 +0200
-From: Klaus Birkelund <klaus@birkelund.eu>
-To: qemu-block@nongnu.org
-Message-ID: <20190522061208.GA2180@apples.localdomain>
-Mail-Followup-To: qemu-block@nongnu.org,
-	Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
-References: <20190517084234.26923-1-klaus@birkelund.eu>
-	<20190517084234.26923-6-klaus@birkelund.eu>
+	(envelope-from <bounces@canonical.com>) id 1hTKqZ-0002UN-KW
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:35:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44480)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hTKqZ-0002Pd-Dy
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:35:31 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hTKqW-0002kj-R2
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 06:35:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id BC4AA2E8075
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 06:35:28 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190517084234.26923-6-klaus@birkelund.eu>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 22 May 2019 06:26:41 -0000
+From: Eunseok Choi <1829964@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Tags: android-x86 leak virt-gpu vram
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: riosnai th-huth
+X-Launchpad-Bug-Reporter: Eunseok Choi (riosnai)
+X-Launchpad-Bug-Modifier: Eunseok Choi (riosnai)
+References: <155849647074.15430.13880026935625975661.malonedeb@wampee.canonical.com>
+Message-Id: <155850640109.15974.11279339579142693905.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 57aed22174d098252ecac1ca88b2a5ea8c2cfc89
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 128.199.63.193
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 5/8] nvme: add support for
- metadata
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1829964] Re: HOST VRAM Leak when performs
+ android-x86 window rotation with Virt-GPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -53,168 +66,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1829964 <1829964@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 17, 2019 at 10:42:31AM +0200, Klaus Birkelund Jensen wrote:
-> The new `ms` parameter may be used to indicate the number of metadata
-> bytes provided per LBA.
-> 
-> Signed-off-by: Klaus Birkelund Jensen <klaus.jensen@cnexlabs.com>
-> ---
->  hw/block/nvme.c | 31 +++++++++++++++++++++++++++++--
->  hw/block/nvme.h | 11 ++++++++++-
->  2 files changed, 39 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index c514f93f3867..675967a596d1 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -33,6 +33,8 @@
->   *   num_ns=<int>          : Namespaces to make out of the backing storage,
->   *                           Default:1
->   *   num_queues=<int>      : Number of possible IO Queues, Default:64
-> + *   ms=<int>              : Number of metadata bytes provided per LBA,
-> + *                           Default:0
->   *   cmb_size_mb=<int>     : Size of CMB in MBs, Default:0
->   *
->   * Parameters will be verified against conflicting capabilities and attributes
-> @@ -386,6 +388,8 @@ static uint16_t nvme_blk_map(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->  
->      uint32_t unit_len = nvme_ns_lbads_bytes(ns);
->      uint32_t len = req->nlb * unit_len;
-> +    uint32_t meta_unit_len = nvme_ns_ms(ns);
-> +    uint32_t meta_len = req->nlb * meta_unit_len;
->      uint64_t prp1 = le64_to_cpu(cmd->prp1);
->      uint64_t prp2 = le64_to_cpu(cmd->prp2);
->  
-> @@ -399,6 +403,19 @@ static uint16_t nvme_blk_map(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->          return err;
->      }
->  
-> +    qsg.nsg = 0;
-> +    qsg.size = 0;
-> +
-> +    if (cmd->mptr && n->params.ms) {
-> +        qemu_sglist_add(&qsg, le64_to_cpu(cmd->mptr), meta_len);
-> +
-> +        err = nvme_blk_setup(n, ns, &qsg, ns->blk_offset_md, meta_unit_len,
-> +            req);
-> +        if (err) {
-> +            return err;
-> +        }
-> +    }
-> +
->      qemu_sglist_destroy(&qsg);
->  
->      return NVME_SUCCESS;
-> @@ -1902,6 +1919,11 @@ static int nvme_check_constraints(NvmeCtrl *n, Error **errp)
->          return 1;
->      }
->  
-> +    if (params->ms && !is_power_of_2(params->ms)) {
-> +        error_setg(errp, "nvme: invalid metadata configuration");
-> +        return 1;
-> +    }
-> +
->      return 0;
->  }
->  
-> @@ -2066,17 +2088,20 @@ static void nvme_init_ctrl(NvmeCtrl *n)
->  
->  static uint64_t nvme_ns_calc_blks(NvmeCtrl *n, NvmeNamespace *ns)
->  {
-> -    return n->ns_size / nvme_ns_lbads_bytes(ns);
-> +    return n->ns_size / (nvme_ns_lbads_bytes(ns) + nvme_ns_ms(ns));
->  }
->  
->  static void nvme_ns_init_identify(NvmeCtrl *n, NvmeIdNs *id_ns)
->  {
-> +    NvmeParams *params = &n->params;
-> +
->      id_ns->nlbaf = 0;
->      id_ns->flbas = 0;
-> -    id_ns->mc = 0;
-> +    id_ns->mc = params->ms ? 0x2 : 0;
->      id_ns->dpc = 0;
->      id_ns->dps = 0;
->      id_ns->lbaf[0].lbads = BDRV_SECTOR_BITS;
-> +    id_ns->lbaf[0].ms = params->ms;
->  }
->  
->  static int nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-> @@ -2086,6 +2111,8 @@ static int nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
->      nvme_ns_init_identify(n, id_ns);
->  
->      ns->ns_blks = nvme_ns_calc_blks(n, ns);
-> +    ns->blk_offset_md = ns->blk_offset + nvme_ns_lbads_bytes(ns) * ns->ns_blks;
-> +
->      id_ns->nuse = id_ns->ncap = id_ns->nsze = cpu_to_le64(ns->ns_blks);
->  
->      return 0;
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index 711ca249eac5..81ee0c5173d5 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -8,13 +8,15 @@
->      DEFINE_PROP_UINT32("cmb_size_mb", _state, _props.cmb_size_mb, 0), \
->      DEFINE_PROP_UINT32("num_queues", _state, _props.num_queues, 64), \
->      DEFINE_PROP_UINT32("num_ns", _state, _props.num_ns, 1), \
-> -    DEFINE_PROP_UINT8("mdts", _state, _props.mdts, 7)
-> +    DEFINE_PROP_UINT8("mdts", _state, _props.mdts, 7), \
-> +    DEFINE_PROP_UINT8("ms", _state, _props.ms, 0)
->  
->  typedef struct NvmeParams {
->      char     *serial;
->      uint32_t num_queues;
->      uint32_t num_ns;
->      uint8_t  mdts;
-> +    uint8_t  ms;
->      uint32_t cmb_size_mb;
->  } NvmeParams;
->  
-> @@ -91,6 +93,7 @@ typedef struct NvmeNamespace {
->      uint32_t        id;
->      uint64_t        ns_blks;
->      uint64_t        blk_offset;
-> +    uint64_t        blk_offset_md;
->  } NvmeNamespace;
->  
->  #define TYPE_NVME "nvme"
-> @@ -154,4 +157,10 @@ static inline size_t nvme_ns_lbads_bytes(NvmeNamespace *ns)
->      return 1 << nvme_ns_lbads(ns);
->  }
->  
-> +static inline uint16_t nvme_ns_ms(NvmeNamespace *ns)
-> +{
-> +    NvmeIdNs *id = &ns->id_ns;
-> +    return le16_to_cpu(id->lbaf[NVME_ID_NS_FLBAS_INDEX(id->flbas)].ms);
-> +}
-> +
->  #endif /* HW_NVME_H */
-> -- 
-> 2.21.0
-> 
+To Thomas Huth,
 
-Hi Kevin,
+This is not android problem, qemu or virt-gpu  problem,.
+-------------------- our test log --------------------------------------
+Running android-x86 on I7 bare metal desktop PCs with intel UHD GPU - No le=
+ak.
+Running android-x86 on QEMU(+virt-gpu, virgl-renderer) - Leak
+------------------------------------------------------------------------
 
-I feel this patch that has nothing to do with ocssd also touches upon
-the core issue we are discussing in the ocssd thread.
+Also in case of a guest linux, it also have leak after windows manager
+rotation.
 
-As I understand it, QEMU does not support metadata pr LBA in the block
-layer. Thus, the approach in this patch is also flawed because it breaks
-the assumptions of other devices?
+-- =
 
-The approach suggested in this patch is to split the image into a large
-data part and a trailing part for storing metadata bytes per data
-sector.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829964
 
-  [                      data                        ][ meta ]
+Title:
+  HOST VRAM Leak when performs android-x86 window rotation with Virt-GPU
 
-How about I drop this patch and the ocssd patch from this series and
-just move forward with the other changes to the nvme device (i.e. v1.3
-and sgls) for now and we can continue the discussion on how to get
-metadata and ocssd support merged in another thread?
+Status in QEMU:
+  Invalid
+
+Bug description:
+  I will report something strange thing about host VRAM leakage after
+  anroid-x86 window rotation when it runs with virt-gpu(+ virgl-
+  renderer)
+
+  Please watching below video link.
+
+  https://www.youtube.com/watch?v=3DmJIbGZLWF1s&feature=3Dyoutu.be
+
+  (orginal video file : https://drive.google.com/file/d
+  /1lkdTx_8yTbSVjKXlnxnnk96fWe-w6Mxb/view?usp=3Dsharing)
+
+  I don't sure what is the problem...
+
+  Here are my tested history
+  -------------------------------------------------------------------------=
+-------------------------
+  Install android-x86 on I7 desktop PCs with intel UHD GPU  - No leak.
+  Install android-x86 on I7 desktop PCs with NVIDIA GTX GPU series - No lea=
+k.
+  Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt=
+-gpu, virgl-renderer) - Leak
+  (HOST CPU - I5, INTEL UHD GPU)
+  Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt=
+-gpu, virgl-renderer) - Leak
+  (HOST CPU - I7, NVIDIA GTX GPU)
+
+  COMMON:
+  In case of NVIDIA GPU : check vram using nvidia-smi
+  In case of intel UHD GPU : check shared-vram using free cmd
+
+  We checked guest android-x86 system down when vram is full after performi=
+ng many rotation
+  -------------------------------------------------------------------------=
+------------------
+
+  Is it virt-gpu driver's problem?
+
+  I hope someone can help me...
+
+  Thanks in advance!!
+
+
+  PS
+
+
+  Here are qemu options I used...
+
+  -machine type=3Dq35,accel=3Dkvm -cpu host --enable-kvm \
+  -smp cpus=3D4,cores=3D4,threads=3D1 -m 4096 \
+  -drive file=3Dctb0319.qcow2,format=3Dqcow2,if=3Dvirtio,aio=3Dthreads \
+  -device virtio-vga,virgl=3Don \
+  -device qemu-xhci,id=3Dxhci -device usb-mouse,bus=3Dxhci.0 -device usb-kb=
+d,bus=3Dxhci.0 \
+  -soundhw hda -display sdl,gl=3Don -netdev user,id=3Dqemunet0,hostfwd=3Dtc=
+p::4000-:7000,hostfwd=3Dtcp::5555-:5555,hostfwd=3Dtcp::4012-:7012,hostfwd=
+=3Dtcp::4013-:7013 -device virtio-net,netdev=3Dqemunet0 -boot menu=3Don
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829964/+subscriptions
 
