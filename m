@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDDF2605A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:21:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39052 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80CE026066
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:23:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39067 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTNQz-00079D-U1
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:21:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42213)
+	id 1hTNSu-0008Vn-Nw
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:23:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42660)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTNNK-0005F4-VR
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:17:32 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTNOp-0006DR-RD
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:19:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTNNJ-0002Ab-PM
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:17:30 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:52307)
+	(envelope-from <laurent@vivier.eu>) id 1hTNOo-0003ab-Pe
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:19:03 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:36627)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTNNJ-000299-Eg
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:17:29 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTNOo-0003ZC-El
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:19:02 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
 	(mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1MFslN-1hQNTn1XRv-00HREN; Wed, 22 May 2019 11:16:28 +0200
+	1MCsDe-1hKbxR42wi-008vTB; Wed, 22 May 2019 11:18:02 +0200
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
 References: <1558282527-22183-1-git-send-email-aleksandar.markovic@rt-rk.com>
 	<1558282527-22183-5-git-send-email-aleksandar.markovic@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <7e42dbb4-0a86-e36c-136d-02835412d4cb@vivier.eu>
-Date: Wed, 22 May 2019 11:16:26 +0200
+Message-ID: <6358a49b-515d-92e6-d3dc-97f0adcaa23b@vivier.eu>
+Date: Wed, 22 May 2019 11:18:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
@@ -36,24 +36,24 @@ In-Reply-To: <1558282527-22183-5-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:iC0ai86fO6VwVkLysLP1pF2GZxzzlKYMCmeuHeBaP32P1Qsndkr
-	UukSpCB++FD3P0ALdlMR3LFUB3MJ5NzgS9zNJh1wyb9eN5cwFEwpnZ/QDyuaoLTyl9yTo8M
-	/4Owt2MR2tqTChZdQVbMTb5UkkZ9w9Mo5IgYMAAK5wEbgiro95sKlj3m19ZLEqn4dGMlP01
-	77T8eGMFHcGVxRG7LHU1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:y5yktlLnp+M=:tOx/lakXVoZTY+ZdQPjYes
-	RGrc3CwasURUJLyRFYUavjsQ9ZTzZq7KeKghjGoXKdGb+zmkd1bGHl9AoscR+l0FqXKGVJV9h
-	jxH6vl1IaDKIiWmDP7dxR6L2XoXiq3dVicmnNFYbVjxpifPGn1HgQOVmZWncXkFfJpbX3dqXB
-	0tXyrTDKrLb7R05cqOGKAJi085IPuz8ZD0NRo9l/Rsg6cWw9Jnq0e5mkw/7WoRyCFJiyJ+6o+
-	/B5eOG3+P3m3fU1YwxkqRkJ1uDiYrP26o0mTW57gSApy1mJkTbtlJJ2jC5w/qiMO+zfdxqAcH
-	Vc8xnNBMB2H1uup32ftkLVvhEl88948oNpUjj4IsTYkQt7YUlzRKFQcnYam496+ZO9BR6lxI5
-	i45BxBxW/FoA747TMqfTVKitkA2whuc8/IHDeBQLFacZnvA6qh6m4wfNOk1YLpq/CZr3BJlQN
-	BhOqHJibYdnjkUuDNcndMr88zYQOWUt/5YOjmTs6N4NU3Ul8ajkXJohahr6QNqzBTFkEBBy7h
-	cxPiPSbhPhAAxRAm8g/fBc4RgRQM6jKCeaweInf5s8V8qsw3xWf0gisbU157Pwln1hqnrpPWO
-	Ix+izNAAlcOT5I2WhaY1/xuR/kU3oNWOszTAszvJnwWpD3My4AtS1Xhpn9/uXRB0xpKMDUR3g
-	FiSTgkqlYvlEA7uKREed8EUfV9roveP8lcLwAUIopwWeIb9niUONsJ9Zo1g4vU07KTqlOXby8
-	hPcaKZxAXrlEaAB9l4dAZa4ZsUG3Q+JtqCry8+G0CldKyZ1dYf1HB4ZavM4=
+X-Provags-ID: V03:K1:FNDZBDna56lF+w11k2G+dB0iIHREX14A79uSG2Af8O4AlUnt290
+	ISy3r4HOU8GHd9BTKbEm4dmqXZg3EoiePz66uCzoN43QTf0cnjygXMNyPEwdnWbxMZKBNhb
+	Iw2nAvjGXLoftS7IndTGY3iMcQ2SF/IU3uR+J60Igyq0mk4PcpIp75TFRw/1mRob0PnBQsw
+	qeAeJxCL8BvZo1kxYpS+w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BEH/wzH51jk=:SKTskUd3ozE4SU9SSoWeh7
+	VdVcii7Qo2tZqKfHF9HgpTi7mBVDZ8nsv7Edyn9KFQlgPSAJx/YSkogmvnEdHK7zhZ+65wg/1
+	mglze1bIP6UEQedRYdo7eHCam5bHxtRlbCUSatvS73LDZfDWvXW1NcjLCUy5YPVhKDHo2R6gD
+	aen3Fbi/7/f74tgr0++UjLg6IM5xPCqQchJUVAmvN4ZB44/3Zc2fOFdBwW37dKYeL1msPWtVc
+	OzVXhigEfMaHMVd95KuFexOImPI3L0WWTk/wiZDtw9xVjYrUajQNubxuqepWYCMnuNF0v3IGK
+	FTPNtzKYo/XLl0s9NIb+8zbFDbXt3PvRCxa5CHbptrxuZeH76AZA9HUIOG31X4G3NNIGYmu6r
+	4PKV56nksAcCRDNvLcU74VJUhd7tFPTF2ZbFkPNZfdcwr7DKZJcEYqQ1IDMMNqYBSAEU8K/o8
+	z+hOFuA3DR5nFOl1S31bELtYhMr1c7elU0vAOJ9SRlgRx5aaY5HzVb71aToprnXmoYYxz8qyk
+	r+qqLijYk2G8XUwLl8J/C4kOhDe2+SkwXw03I3KsCoNrI3pIJcGrqV9jkiAeAZmyqFA4rTTZW
+	ZKWF1wYpgBpYmL3zmtGVSuft+voIMkIcYtIOaRv6vapXjkgHr8YSDQyNtkza63VKBCfGBAeiq
+	f5UhY5Lae7+6KoobMvkq2E7SZ57pnsOUp6TxVunlgTVRMbVrU+qQgcHbmXNA7tABjNfAHUCU/
+	na3r9j4K8udO9zpvghOX96ggDKch3D70oawftF6MLcZOcJUCrD6k5G8uaEc=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
+X-Received-From: 212.227.17.10
 Subject: Re: [Qemu-devel] [PATCH v6 4/6] linux-user: Add support for
  setsockopt() options IPV6_<ADD|DROP>_MEMBERSHIP
 X-BeenThere: qemu-devel@nongnu.org
@@ -153,6 +153,8 @@ On 19/05/2019 18:15, Aleksandar Markovic wrote:
 >           }
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user branch.
 
+Thanks,
+Laurent
 
