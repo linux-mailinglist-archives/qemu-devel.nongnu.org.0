@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9188827E15
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:26:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36201 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA2027DF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:21:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36101 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnja-00044y-LP
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:26:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54109)
+	id 1hTnfK-0008O2-Pv
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:21:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54645)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTnPp-0003HA-FY
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:05:54 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hTnRP-0005L6-6f
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:07:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTnPn-0000pG-FP
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:05:49 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:39166)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTnPl-0000Zx-IN
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:05:46 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id w21so2228093ywd.6
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:05:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=4hlWBSJm8/YnWP1+dZEH1htQbYquoD3x45ip40KalsY=;
-	b=kQb8qi2fe+l/dO5fcsxxkmXraxp7+AJkVvZbDAzdScAN3GdAmfXppbmKZDRQQ7LKfM
-	g7EM5bC6eLUs2MoOhw+ZQ8Xoz5/MoqcRa19mELj+ZwvNc7XPkJRW+rvtp4Z8hvM3XtP+
-	DqYiUu2kKjad42nWASp7l/3RC3ODxuTqBVnCVy5w0k1Sq5uDHDl2YSV587dg/9tdu9a1
-	P4paF4exR+HL8sGGEitw6DqX4S8jM6WAMNCQQhtcm1BxO1NCjR8MaaFHUeSCS8sYYOEI
-	PkorltBOwL17xL1iP+kPxrBYLUzhhdN0+1AFImgQtrMMTctPnKaFpsjAYG2PYeM41R72
-	xAZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=4hlWBSJm8/YnWP1+dZEH1htQbYquoD3x45ip40KalsY=;
-	b=luXN+PNpFZ+Uc1Cm9yJGITDtSOdA5O0YXvd8T6BGpUNhW79YyM0kgsvgtW8ETrRpc5
-	JBvKVSN2t4mQvBCzsVC1rnup8WIZdxIDD/r6WFCUdqu7UtdCaiuKMdU3doT33cWteKyz
-	avhxQFkUSk111abS/BhjDJpzJ7hud0HGz74Gk2ZEuo1rlRMBgIB0xlpWjF5DYi90W9PU
-	HUq4b6dyyj0hfgadzAGEGF8kA+jy8m1/gPXkjY3JSBxCcayu3uaMTps7eI1Ps5kNukru
-	Pj4b51n9oXiE+/BNCpfvnTGT8A1BLcKDfRTblCnqD0diCh1hBMrI4sRBDS4OFej2647b
-	W5Lg==
-X-Gm-Message-State: APjAAAW/ogVLRk74EoSf9XEUnfz7mb+s+M4s3eFFM/exSQs0RxBqNsXt
-	aTKe/DvjhQMwhJnw2pGF52fTIei42pw=
-X-Google-Smtp-Source: APXvYqw42EHK+VAEzJXgCLmDIxcVSxR6KFXq3Rl61P4xlcU51igIbKXCZsMyVpwHn5gZDLMMUD+Bmg==
-X-Received: by 2002:a81:1bcc:: with SMTP id
-	b195mr43461581ywb.492.1558616719922; 
-	Thu, 23 May 2019 06:05:19 -0700 (PDT)
-Received: from [10.240.8.143] ([71.46.56.63]) by smtp.gmail.com with ESMTPSA id
-	v128sm7012499ywd.24.2019.05.23.06.05.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 06:05:19 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20190523024229.1158-1-richard.henderson@linaro.org>
-	<20190523024229.1158-2-richard.henderson@linaro.org>
-	<20190523110736.GD20973@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
+	(envelope-from <mreitz@redhat.com>) id 1hTnRN-000228-6v
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:07:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49752)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hTnRH-0001yH-Ah; Thu, 23 May 2019 09:07:19 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7982764123;
+	Thu, 23 May 2019 13:07:18 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.176])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B258600C1;
+	Thu, 23 May 2019 13:07:16 +0000 (UTC)
+To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
+	qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
+	<20190502135828.42797-1-shmuel.eiderman@oracle.com>
+	<20190502135828.42797-2-shmuel.eiderman@oracle.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <8a9b53d9-0bcc-06c0-4eac-894b4d1208c3@linaro.org>
-Date: Thu, 23 May 2019 09:05:17 -0400
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <304c40b6-cf74-454d-648a-123ae6cae0a3@redhat.com>
+Date: Thu, 23 May 2019 15:07:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190523110736.GD20973@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
-Subject: Re: [Qemu-devel] [PATCH 1/3] capstone: Adjust include of capstone.h
+In-Reply-To: <20190502135828.42797-2-shmuel.eiderman@oracle.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="spJm7nTzuAYsoa65xhdixGmYjrdojYDSG"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.39]);
+	Thu, 23 May 2019 13:07:18 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v2 1/3] qemu-img: rebase: Reuse parent
+ BlockDriverState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,24 +89,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, david@redhat.com
+Cc: sagi.amit@oracle.com, arbel.moshe@oracle.com, liran.alon@oracle.com,
+	eyal.moscovici@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/19 7:07 AM, Daniel P. Berrangé wrote:
-> On Wed, May 22, 2019 at 10:42:27PM -0400, Richard Henderson wrote:
->> Since v4.0, capstone.h has moved to <capstone/capstone.h>.
-> 
-> NB this was a regression bug in capstone pkg-config file which has been
-> fixed upstream
-> 
->    https://github.com/aquynh/capstone/pull/1276
-> 
-> In Fedora we pulled in the fix to our v4.0 builds and I'd suggest
-> other distros should do the same
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--spJm7nTzuAYsoa65xhdixGmYjrdojYDSG
+From: Max Reitz <mreitz@redhat.com>
+To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: eyal.moscovici@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com,
+ liran.alon@oracle.com, arbel.moshe@oracle.com
+Message-ID: <304c40b6-cf74-454d-648a-123ae6cae0a3@redhat.com>
+Subject: Re: [PATCH v2 1/3] qemu-img: rebase: Reuse parent BlockDriverState
+References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
+ <20190502135828.42797-1-shmuel.eiderman@oracle.com>
+ <20190502135828.42797-2-shmuel.eiderman@oracle.com>
+In-Reply-To: <20190502135828.42797-2-shmuel.eiderman@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Heh.  And here's me thinking this was an intentional change.
+On 02.05.19 15:58, Sam Eiderman wrote:
+> In safe mode we open the entire chain, including the parent backing
+> file of the rebased file.
+> Do not open a new BlockBackend for the parent backing file, which
+> saves opening the rest of the chain twice, which for long chains
+> saves many "pricy" bdrv_open() calls.
+>=20
+> Permissions for blk_new() were copied from blk_new_open() when
+> flags =3D 0.
+>=20
+> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+> Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
+> Signed-off-by: Sagi Amit <sagi.amit@oracle.com>
+> Co-developed-by: Sagi Amit <sagi.amit@oracle.com>
+> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+> ---
+>  qemu-img.c | 29 ++++++++++++-----------------
+>  1 file changed, 12 insertions(+), 17 deletions(-)
+
+Looks good!
+But I=E2=80=99m afraid it will need a rebase on my =E2=80=9CAllow rebase =
+with no input
+base=E2=80=9D series (which is in master)...
+
+Max
 
 
-r~
+--spJm7nTzuAYsoa65xhdixGmYjrdojYDSG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzmmwIACgkQ9AfbAGHV
+z0DxZAgAk4vTkBI76crAG5mSp0zIY/NJ1i5EyOAJUlOKb23iOl6srnSgoOFvqStO
+WlrOQmiBJiCg13oczL4Kw4nvB3ywWMxH3Sp6w7i12XUjyGOWmZoAMXh9/fjIMUeM
+UckEOS9RjxfMzp9F2WighCLNELQmbp6iorhQILyNEvEXyrD2N+AmI0leGc7/eWMM
+rz562fwVH+M6m9LKpE+zYS0IRtfKp2IWW45tZO3R+Q4Z43GXN/O7LCkEU8hnJm75
+yAXTF5ISGC8Z0VRLbeU2ZhPTTLLwFhWFvpM3oa5yYws+lLDFExGfoaEdk6+DE9BY
+miow4fr0htarB03xXFvUjMbWXRiG1g==
+=lWDW
+-----END PGP SIGNATURE-----
+
+--spJm7nTzuAYsoa65xhdixGmYjrdojYDSG--
 
