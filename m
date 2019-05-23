@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A9327B08
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:48:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33427 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA7327B20
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:54:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33547 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTlGw-0007Kv-R8
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:48:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51899)
+	id 1hTlMz-0004XL-Ka
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:54:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52043)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTl2i-0004LU-SA
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:50 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hTl2o-0004QX-HL
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTl2g-0006ZW-NS
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:48 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34960)
+	(envelope-from <alex.bennee@linaro.org>) id 1hTl2k-0006dX-Pz
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:53 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41521)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTl2f-0006YD-MD
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:46 -0400
-Received: by mail-wr1-x444.google.com with SMTP id m3so5679297wrv.2
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:33:44 -0700 (PDT)
+	id 1hTl2j-0006ac-Jk
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:49 -0400
+Received: by mail-wr1-x443.google.com with SMTP id u16so1792046wrn.8
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:33:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=U7WirZ4xKeMbMxcY96b9jNQO3HlUTGEeG/vNICAL7pQ=;
-	b=PacjGqR/f2kmB3AZYCSTcJ0sUmAxsyG6kM9R5D74PRopjLSJHyDHTQwej8sguNFtS1
-	EoLgKSufHkNVOUG40IH1vY4NKxkiy4jt91JnvTGEiYiMT7tYFcYLinSl/YZAxLLdlNZy
-	rUYSwFQtai2N7nhGxiIui/o9IN0q0s/Hn+vqaYlMxE3jQgg0yps6Bl6aqpwQ0XMh15dR
-	zkFmwYbRB/Zax86HZDlpIWl2RDTgQmElK9+gyjzYCu3ofCAlfYPSEFis8ufrcqBuUBWe
-	r7SYU4MaQS2P8lmQC4It/5C1+Ku0PnSf5mZ5GMqQYMmLOow5tMRNFiJ4JKc40tx0D8ZA
-	Afnw==
+	bh=o3EFe5fyp8XJbHGSqeV6fhIY+jSWXjg9YliRj0HIozw=;
+	b=u2QaYt45ZLMSPbitDi9ss52YxxnHdqX08kubEnrKqnKGdqFVxrQ2TA/lTYDr7g2jCs
+	dBOBxjDMrcfNrFq2nhrvqQhDj9o1krRAcW0VPCpqJ7vFKbKb3SwpgaFv9a3XGAzS1wgx
+	kCSSgvPNoPPCoFCG/03dKKPcIcSzHrmuV2aQo16u0hi8pZ/puer3XcSUv3j4QXqsWTUk
+	YyUrzIsK3tLwfUoBKr0mEytVsER128hzvPFVtebv9L951dhuYzyqd0kKOPkTfOqsfWIS
+	jvL5fIehrEzeLV0k8dA+bTPhjhbiVEMFPtyRpnnQ9grXYHPYBVDfyL5rApG6/ZT5yA+6
+	t1qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=U7WirZ4xKeMbMxcY96b9jNQO3HlUTGEeG/vNICAL7pQ=;
-	b=EvDnQ0hom+Pb4Ty1ofTadxAWsa7AYXsQLH0r5X33iBTMPxcb5y99FabvuI46ruqypb
-	EpxypcQbTSWQmI3FtahxkFaNFrSU/lZHhe02VPGjKhOQC9yxKq3OaC1EjM9FAsmF0llj
-	w5sEi/jr/OAzr6mYLyMj+rWTyF+XPwiweH2aL3kXhtP+NewXkkHVY24ZQIGoWiWVmKdp
-	iQcrx3Hj6ARRN7VxwijlSHaCMOpeovBs8oWIiEUjlfk6yhWAOAfnjUTOA31Q9pmXpXuR
-	4mBrPrA3Jj/a1jePLtYZ4U6CN/wjt4AlMK/DZ/6MtCUfDXoqFQQHHlTQig9bJO5USCSu
-	nz3g==
-X-Gm-Message-State: APjAAAWjpLRov/Z8J6Ht2h8ML32jhfTB1SH4MQil7xKKH4Mhypf23R8g
-	TaOwkK/XN6C1D2u6kuZ3XBDOWw==
-X-Google-Smtp-Source: APXvYqxRT0oloiTvR8GZ6A6rY1TJ5l3wekvFagIWa6hJlUKWMp8sn1Nt7e3tB7cdqmmRJRu8GXqPtQ==
-X-Received: by 2002:adf:e44b:: with SMTP id t11mr9644661wrm.151.1558607623561; 
-	Thu, 23 May 2019 03:33:43 -0700 (PDT)
+	bh=o3EFe5fyp8XJbHGSqeV6fhIY+jSWXjg9YliRj0HIozw=;
+	b=fZ54kTXBF7HMdi5wQYd4Pouk3Hb+KRszdEPweM02fsDCNjae8XyVmSyNByvVncD9It
+	31QWXPsmD1JAmTs+OeF1lLI0KPk3pad8qvcf52QNo6GBreAaBPVn2g4gwvirvYy74m/g
+	RokCy/EprqhKzDL1KZzCS9xivDzZLzv2jHL3giv5bpTl7p2ShEIZxaOmW8uVA4ktysz6
+	kkg5U90Eg8SR0JKgk5L63li4+vI4jWJOkJzvrGOUNABLeFSRqhPrTA71gvOow6vRErX6
+	fCArA8pD9UInfF5zgLgMMHPeKkIr4/xnBwBZ/9/1ZTwi6YuyqGg5JiY0VcMUXs7ZWX77
+	zQtg==
+X-Gm-Message-State: APjAAAWr2y+fXvtOhgeQQPvQ3SvHS2ewsKqlLsbyUtvKZWvp7A4c56RS
+	y7XC0rT1UUxSKnDr1z3NS3i5hA==
+X-Google-Smtp-Source: APXvYqzp0YTBGKL3OUmvT6BjE4abWRkhkLGaV0MuWOP4h05pos+tYA6sItCom2UCfWA8PK0fR0/0Xg==
+X-Received: by 2002:adf:e301:: with SMTP id b1mr27663873wrj.304.1558607628195; 
+	Thu, 23 May 2019 03:33:48 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	s10sm23788922wrt.66.2019.05.23.03.33.42
+	s13sm9407861wmh.31.2019.05.23.03.33.43
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 May 2019 03:33:42 -0700 (PDT)
+	Thu, 23 May 2019 03:33:45 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 676161FFAA;
+	by zen.linaroharston (Postfix) with ESMTP id 7BC1D1FFAB;
 	Thu, 23 May 2019 11:25:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 11:25:26 +0100
-Message-Id: <20190523102532.10486-23-alex.bennee@linaro.org>
+Date: Thu, 23 May 2019 11:25:27 +0100
+Message-Id: <20190523102532.10486-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523102532.10486-1-alex.bennee@linaro.org>
 References: <20190523102532.10486-1-alex.bennee@linaro.org>
@@ -69,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v2 22/28] .travis.yml: enable aarch64-softmmu
- and alpha-softmmu tcg tests
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v2 23/28] Makefile: fix coverage-report
+ reference to BUILD_DIR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,30 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
-	Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+Commit 337f2311f actually claimed to do this in the commit log but
+didn't actually. Oops.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- .travis.yml | 2 +-
+ Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index 6fd89b3d915..b053a836a32 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -284,5 +284,5 @@ matrix:
+diff --git a/Makefile b/Makefile
+index 155f066a206..40561993c40 100644
+--- a/Makefile
++++ b/Makefile
+@@ -998,7 +998,7 @@ $(filter %.1 %.7 %.8,$(DOCS)): scripts/texi2pod.pl
+ %/coverage-report.html:
+ 	@mkdir -p $*
+ 	$(call quiet-command,\
+-		gcovr -r $(SRC_PATH) --object-directory $(BUILD_PATH) \
++		gcovr -r $(SRC_PATH) --object-directory $(BUILD_DIR) \
+ 		-p --html --html-details -o $@, \
+ 		"GEN", "coverage-report.html")
  
-     # Run check-tcg against softmmu targets
-     - env:
--        - CONFIG="--target-list=xtensa-softmmu,arm-softmmu"
-+        - CONFIG="--target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
-         - TEST_CMD="make -j3 check-tcg V=1"
 -- 
 2.20.1
 
