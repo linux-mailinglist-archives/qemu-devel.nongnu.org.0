@@ -2,53 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5B927E5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:42:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36576 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C341727EDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:54:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36805 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnzE-0000u0-6u
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:42:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40647)
+	id 1hToB8-0000v1-Sr
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:54:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42287)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hTnxO-0008Tk-1r
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:40:30 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hTo1a-0002oi-AR
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hTnxM-0001r2-5P
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:40:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51522)
+	(envelope-from <stefanha@redhat.com>) id 1hTo1Y-0005s9-Pw
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44420)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hTnxM-0001nq-0A
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:40:28 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hTo1Y-0005Ef-Fj
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:48 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AB1D9300DA2B;
-	Thu, 23 May 2019 13:40:24 +0000 (UTC)
-Received: from redhat.com (ovpn-112-64.ams2.redhat.com [10.36.112.64])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DE41600C1;
-	Thu, 23 May 2019 13:40:17 +0000 (UTC)
-Date: Thu, 23 May 2019 14:40:14 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <20190523134014.GF20973@redhat.com>
-References: <20190521141133.27380-1-lvivier@redhat.com>
-	<20190521141133.27380-3-lvivier@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id DA27444BC6;
+	Thu, 23 May 2019 13:44:25 +0000 (UTC)
+Received: from localhost (ovpn-116-196.ams2.redhat.com [10.36.116.196])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E69971001E81;
+	Thu, 23 May 2019 13:44:20 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: <qemu-devel@nongnu.org>
+Date: Thu, 23 May 2019 14:44:06 +0100
+Message-Id: <20190523134409.18673-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190521141133.27380-3-lvivier@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Thu, 23 May 2019 13:40:24 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.30]);
+	Thu, 23 May 2019 13:44:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 2/4] rng-builtin: add an RNG backend
- that uses qemu_guest_getrandom()
+Subject: [Qemu-devel] [RFC v2 0/3] scsi: restart dma after vm change state
+ handlers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,43 +54,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Amit Shah <amit@kernel.org>, qemu-devel@nongnu.org,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Markus Armbruster <armbru@redhat.com>,
-	"Richard W . M . Jones" <rjones@redhat.com>,
-	Kashyap Chamarthy <kchamart@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 21, 2019 at 04:11:31PM +0200, Laurent Vivier wrote:
-> Add a new RNG backend using QEMU builtin getrandom function.
->=20
-> It can be created and used with something like:
->=20
->     ... -object rng-builtin,id=3Drng0 -device virtio-rng,rng=3Drng0 ...
->=20
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->  backends/Makefile.objs |  2 +-
->  backends/rng-builtin.c | 54 ++++++++++++++++++++++++++++++++++++++++++
->  qemu-options.hx        |  7 ++++++
->  3 files changed, 62 insertions(+), 1 deletion(-)
->  create mode 100644 backends/rng-builtin.c
+v2:
+ * Do it properly with a clean API instead of deferring to a BH!
+   Thanks for encouraging me to do this, Kevin.
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+These patches solve a deadlock when the 'cont' command is used and there =
+are
+failed requests on a virtio-scsi device with iothreads.  The deadlock its=
+elf is
+actually not the thing we need to fix because we should never reach that =
+case
+anyway.  Instead we need to make sure DMA restart is only performed after=
+ the
+virtio-scsi iothread is re-initialized.
 
+Stefan Hajnoczi (3):
+  virtio: add vdc->vmchange_state() callback
+  scsi: add scsi_bus_dma_restart()
+  virtio-scsi: fix iothread deadlock on 'cont'
 
-Regards,
-Daniel
+ include/hw/scsi/scsi.h     |  5 +++++
+ include/hw/virtio/virtio.h |  7 +++++++
+ hw/scsi/scsi-bus.c         | 37 ++++++++++++++++++++++++++++++-------
+ hw/scsi/virtio-scsi.c      | 17 +++++++++++++++++
+ hw/virtio/virtio.c         |  9 +++++++++
+ 5 files changed, 68 insertions(+), 7 deletions(-)
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+2.21.0
+
 
