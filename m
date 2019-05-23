@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0290827EE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:57:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36877 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E6C27F07
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:03:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36963 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hToE6-0003UA-5F
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:57:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45211)
+	id 1hToJx-0007I4-S8
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:03:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46382)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hToCU-0002h5-An
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:56:07 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hToHM-000670-QF
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hToCT-0001QX-GL
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:56:06 -0400
-Received: from mail-ua1-x92d.google.com ([2607:f8b0:4864:20::92d]:44723)
+	(envelope-from <richard.henderson@linaro.org>) id 1hToHJ-0004KW-OC
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:07 -0400
+Received: from mail-ua1-x92f.google.com ([2607:f8b0:4864:20::92f]:33039)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hToCT-0001QA-AR
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:56:05 -0400
-Received: by mail-ua1-x92d.google.com with SMTP id i48so1522651uae.11
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:56:05 -0700 (PDT)
+	id 1hToHI-0004Iu-2d
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:05 -0400
+Received: by mail-ua1-x92f.google.com with SMTP id 49so2222026uas.0
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=ySPflMh+95t3Ap3ClRcCNrNH4njrfHgY+K3ptimjuXQ=;
-	b=a6KoRFq2j21iHnHxoXR9ugX8eY/Z1ZWDbDChGC9YFh2QHTYzBYCCwFgclwL6B3GrZP
-	Jm6015O8MtJK4oT70MzbsCt7a1flfxsStWk0L/pmE6kNZbQfqe99iMHgf4owfG494gco
-	l1mTgf+/sxBv6ZO/6S1PZv1rLIK4i+RS6z/HFdUIGJH1x063c8bPzgXwPRvew7YdSw58
-	1+WUs8uQ8uZDfpqOkimac6LbtMLsSAZTcaeGpmWxvNEWLp2C//c+hCsahPNeqSn2M7AS
-	Es9t5jMb/38gtCvrceM+vY5RFzRtlA4jhVpiZOugakXDufw6rMq0oJ0mhqhBHXXMHE4R
-	1Fhw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=qb/2f8PjB1t01PVAR8gw5To3IKGJv/4oVS1AthmA/gc=;
+	b=qAIf6BFv/tAWWEVHwTVAoNr6KZbRqWZ0wbe5EmDuhOTsVu5j4WM4EPjZx1ZySHWom7
+	Nqgk6rIMMmMaL66u3Okn8YSkzpwJP6nLxmZfFknkovz3SjgUTCzkRp/5b0bl4mX38nvP
+	gcR4OYyQoV/7VP2OoulRZvhjBrGjjsu31IP8fbfhntF7+gcTw1D0MhRW1mjNeZmf85TF
+	IsSP5oFSp18V87SKJv1ti0FaW/abecISlNHR0/vye5J5lPq+qTMXvwIppZX7LZffVNR7
+	DwkEhdddILKbWyJNQJ7A8WWdJnau5jujBCHpi3/jaxItTtDlbUk7Aynqj+HFxlOaRKs+
+	CnRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=ySPflMh+95t3Ap3ClRcCNrNH4njrfHgY+K3ptimjuXQ=;
-	b=Tvo5ded45DbVmqWL5M9BoSmDN612lm4hagqxoawgfsSJz9cZzbXE4aQ9CjJZ5Ztdg0
-	SRxnyQMkpRUjdno3TiQVqRzlZjM+0fOruswvQ5L1jJ9VuBG9EjPJQpi4C5QJr1AOiNns
-	ZvzAG0WRspN2VxG/851Eu2+te75rZbYF1KBL5R6PHfKqOPEYcQQ3gTVU/44ufXLIDZY2
-	GxL4g2PtBjjURMeI5dEVXo6aABQ+9zaK7og/s5NqAELuZQ+4r9qUTeC0vs6H3SCHMoB5
-	SWwlBDggLRcl171NaT2rayN4ZhyVsx/ztHx0RVcc8RCe3qDg2AMcbVRG4ryWjFGKszB2
-	iaew==
-X-Gm-Message-State: APjAAAVBMDpwHfg8e7LzBC/tNGMTYt6Fo2DQMioXD2Wk3m3qo2EVST4n
-	xhfrfcGoHjndH0BUwvvjDHWU7Q==
-X-Google-Smtp-Source: APXvYqwbzd0fuYU+SWK0lU7t0yEPXJekifcBJhzjB9lVH81R78JbcsueojcShIJfrY3jAWOd4/BY+Q==
-X-Received: by 2002:ab0:4a14:: with SMTP id q20mr23918872uae.67.1558619763383; 
-	Thu, 23 May 2019 06:56:03 -0700 (PDT)
-Received: from [192.168.43.94] (ip-173-130-215-183.orldfl.spcsdns.net.
-	[173.130.215.183])
-	by smtp.gmail.com with ESMTPSA id 102sm269395uar.11.2019.05.23.06.56.02
+	bh=qb/2f8PjB1t01PVAR8gw5To3IKGJv/4oVS1AthmA/gc=;
+	b=V1UkvB0LwfOf4qw2lRPLD2qmhPlOCdKb3F+8hBUQYiw3rP7s3MTjqgUjQI69aCgP+Y
+	XVfOYSp3Eef32kfJis80kO3ntj/SHgTB5EUhoAwUQuPcFDWxYFhQnFemSDTZy44SAa2U
+	CXDl0/Z0vSI/wOjMxAMIGCwsrcbja2AIUvJqFxUE+rR8AN2jh20/WuDxDPgBBAwxh6/Z
+	oxEd9qTk1Gs75IPqv61BP5jghrq4DMdKq2Of93vOFF/rDF+hr3l5Fun2PNDUMSsLBZtk
+	SPbSFhJl6wHUHd6cGnfSTV8mxtbCMzd2ytNKtzmXCx5eApR/vtC+X6Mp8F19OQquaITl
+	Q6cw==
+X-Gm-Message-State: APjAAAXmXdFNkCTcUQ0gc5hVnh+DhMA6jsqG8GB7wDnqKag+jPz+7fZt
+	5A5YZOuJArax0F6IWZeCD3ZR5eoSOjM=
+X-Google-Smtp-Source: APXvYqy9dSxCLYkQttrpvYHgXSp+DJXLjaho4OyWZL5d5EQBJKl4/SqNHQYJ8bOWNdBB+Y3PDsjcyg==
+X-Received: by 2002:ab0:20b3:: with SMTP id y19mr47468679ual.74.1558620062390; 
+	Thu, 23 May 2019 07:01:02 -0700 (PDT)
+Received: from localhost.localdomain (ip-173-130-215-183.orldfl.spcsdns.net.
+	[173.130.215.183]) by smtp.gmail.com with ESMTPSA id
+	v133sm1984166vkv.5.2019.05.23.07.01.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 06:56:02 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190523081538.2291-1-armbru@redhat.com>
-	<20190523081538.2291-3-armbru@redhat.com>
+	Thu, 23 May 2019 07:01:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <94df1196-2d99-7e6a-afbf-ee429fd5a778@linaro.org>
-Date: Thu, 23 May 2019 09:56:00 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+To: qemu-devel@nongnu.org
+Date: Thu, 23 May 2019 10:00:46 -0400
+Message-Id: <20190523140059.18548-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20190523081538.2291-3-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::92d
-Subject: Re: [Qemu-devel] [RFC v4 2/7] Makefile: Drop bogus cleaning of
- $(ALL_SUBDIRS)/qemu-options.def
+X-Received-From: 2607:f8b0:4864:20::92f
+Subject: [Qemu-devel] [PULL 00/13] Add RX architecture
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,24 +77,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pbonzini@redhat.com
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/19 4:15 AM, Markus Armbruster wrote:
-> When commit df2943ba3c7 moved "rm -f qemu-options.def" from distclean
-> to clean, it also added "rm -f $$d/qemu-options.def" to the for d in
-> $(ALL_SUBDIRS) loop.  That file doesn't exist.  Remove the mistaken
-> rm.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  Makefile | 1 -
->  1 file changed, 1 deletion(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Thanks to Sato-san for persevering through 14 iterations.
 
 
 r~
 
+
+The following changes since commit d418238dca7b4e0b124135827ead3076233052b1:
+
+  Merge remote-tracking branch 'remotes/rth/tags/pull-rng-20190522' into staging (2019-05-23 12:57:17 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/rth7680/qemu.git tags/pull-rx-20190523
+
+for you to fetch changes up to fe7ddbc2dade3daf767c9ac07b8569791b5376a8:
+
+  MAINTAINERS: Add RX (2019-05-23 09:38:27 -0400)
+
+----------------------------------------------------------------
+Initial commit for the RX cpu.
+
+----------------------------------------------------------------
+Richard Henderson (1):
+      target/rx: Convert to CPUClass::tlb_fill
+
+Yoshinori Sato (12):
+      target/rx: TCG translation
+      target/rx: TCG helper
+      target/rx: CPU definition
+      target/rx: RX disassembler
+      hw/intc: RX62N interrupt controller (ICUa)
+      hw/timer: RX62N internal timer modules
+      hw/char: RX62N serial communication interface (SCI)
+      hw/rx: RX Target hardware definition
+      qemu/bitops.h: Add extract8 and extract16
+      hw/registerfields.h: Add 8bit and 16bit register macros
+      Add rx-softmmu
+      MAINTAINERS: Add RX
+
+ include/disas/dis-asm.h        |    5 +
+ include/hw/char/renesas_sci.h  |   45 +
+ include/hw/intc/rx_icu.h       |   56 +
+ include/hw/registerfields.h    |   32 +-
+ include/hw/rx/rx.h             |    7 +
+ include/hw/rx/rx62n.h          |   94 ++
+ include/hw/timer/renesas_cmt.h |   38 +
+ include/hw/timer/renesas_tmr.h |   53 +
+ include/qemu/bitops.h          |   38 +
+ include/sysemu/arch_init.h     |    1 +
+ target/rx/cpu.h                |  227 ++++
+ target/rx/helper.h             |   31 +
+ arch_init.c                    |    2 +
+ hw/char/renesas_sci.c          |  340 ++++++
+ hw/intc/rx_icu.c               |  376 +++++++
+ hw/rx/rx-virt.c                |  105 ++
+ hw/rx/rx62n.c                  |  238 ++++
+ hw/timer/renesas_cmt.c         |  275 +++++
+ hw/timer/renesas_tmr.c         |  455 ++++++++
+ target/rx/cpu.c                |  236 ++++
+ target/rx/disas.c              | 1480 ++++++++++++++++++++++++
+ target/rx/gdbstub.c            |  112 ++
+ target/rx/helper.c             |  148 +++
+ target/rx/monitor.c            |   38 +
+ target/rx/op_helper.c          |  470 ++++++++
+ target/rx/translate.c          | 2432 ++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                    |   19 +
+ configure                      |    8 +
+ default-configs/rx-softmmu.mak |    3 +
+ hw/Kconfig                     |    1 +
+ hw/char/Kconfig                |    3 +
+ hw/char/Makefile.objs          |    1 +
+ hw/intc/Kconfig                |    3 +
+ hw/intc/Makefile.objs          |    1 +
+ hw/rx/Kconfig                  |   14 +
+ hw/rx/Makefile.objs            |    2 +
+ hw/timer/Kconfig               |    6 +
+ hw/timer/Makefile.objs         |    3 +
+ target/rx/Makefile.objs        |   12 +
+ target/rx/insns.decode         |  621 ++++++++++
+ 40 files changed, 8030 insertions(+), 1 deletion(-)
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/helper.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/monitor.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/insns.decode
 
