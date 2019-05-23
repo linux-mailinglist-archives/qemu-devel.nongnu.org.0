@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B78280C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 17:15:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38607 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995A4280D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 17:18:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38662 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTpRD-0004jQ-DA
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 11:15:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39705)
+	id 1hTpTr-0006XE-P2
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 11:18:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39732)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTpKJ-0007Sc-RR
+	(envelope-from <richard.henderson@linaro.org>) id 1hTpKL-0007TY-3t
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:08:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTpKI-0001st-MR
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:08:15 -0400
-Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:36937)
+	(envelope-from <richard.henderson@linaro.org>) id 1hTpKK-0001uF-5v
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:08:17 -0400
+Received: from mail-ua1-x943.google.com ([2607:f8b0:4864:20::943]:42749)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTpKI-0001si-HS
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:08:14 -0400
-Received: by mail-ua1-x942.google.com with SMTP id t18so2299970uar.4
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:08:14 -0700 (PDT)
+	id 1hTpKK-0001te-27
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:08:16 -0400
+Received: by mail-ua1-x943.google.com with SMTP id e9so2290451uar.9
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Ww2LSp6bczaair+HE3835uyxzaqJh3az+j6QKvIto98=;
-	b=zANyOXl868k1DZ2O2uw27Zc+Ij5525RFDlxmgzWpoaQyraKh2FMJKjBYjcd1AtCWhV
-	aEYdYaWntos3m5VseeFCeiatLTymiEoYaczJWghufdZrZvGihK1OGCQP2doidjLFJFmn
-	bCOrpZy349QfP+ep6P/n0AuJZez+sHHDby90Uh2kc7BP4Nv0c4l3ti1kl/PTfhDbi7Sp
-	udQJQXiWU/mEfa5W0VGVqHsKc8EKdz27zoteHp5xBtMTVd1ffejQ6QYWRo2SEj7QtXy4
-	3Oq5Ca5yTzsl5KrFp7q9iCAiaCXMYjCYzzgPsQ+4xPvr7duZd/Q9ej7bfx7o126jNvRO
-	tp6A==
+	bh=xcihCMTg6jd3N0tSpSeDkVUUj/HYgQaaJEhimiQbbQQ=;
+	b=Cdi80Ybw8+jb/EdnRp2dqA8qJI8x0fiYppUCb697NL0GCj84d6jCBwHrmgtoRpeD29
+	VExKmV3BAGRuusj19+Hb1cQ+8nyXpZwJuU6+P/ayhHBlhFGIthz2FhODYYB3jXxHCRaR
+	iMyeDvt6KZ8P34i+1YueaTvZWVhptTo/2FO6Cl+EPSlCTld57/TuhEbl4CceGYabS0nJ
+	IXANE/KKkmzDdXn5GD4Py6IxYaGWUwt2HqjUylbsq69IG/UiosOELD98CMkJBL/uQwVw
+	3ZpRKBEMXTuu6/4pkKS9pPVbTY/LMPbmDeNkN2UYRS32vFauhaes6CE6QiQ4zsvSlj/f
+	cLoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Ww2LSp6bczaair+HE3835uyxzaqJh3az+j6QKvIto98=;
-	b=Jx5gTrKIdfq+qTBTOrIXMsBvhAw/jEq+9uZifvBnO/48URiNYTSUWk5cMJ22fsYgvE
-	jsBdRq3vqP/ntia+x1Kijol0MePj04Yd878/Hc0Vz6o/vYPKS9ksLEMbf+SiihPYlxek
-	L6vzfhCFutsCiLSH2Ko8a1wRI+YU/9LhMMBk3+1DA6o6RPiqswuTLwsw8sdxcILKG/xa
-	q2n0sAR4Ij8KMHZ3xWM5jirK6veBbdXL+x685wXKJ5iblRv4fEtbl55cosSSeKx/Td86
-	G9cX3xZignD53e2k7b+n07ADORehwpiJbCuHqrjYpjlmsmwVatxz40sCXgpFfDs0138d
-	bt6g==
-X-Gm-Message-State: APjAAAVdSj4FSEUIMz6WXJeM0v2Rwry6FC/HOyyfBN51+sDY/+nXEHhw
-	a2rm/eNVpcQoY5h4nF8yb0yHulWkFTI=
-X-Google-Smtp-Source: APXvYqwkEQObKS7sJQO6zxIML2xyzIK5J0zAG6KzWH+yYwoTod0hZze4s/DtGdb683gloYP/639d2g==
-X-Received: by 2002:a9f:376e:: with SMTP id a43mr8798178uae.57.1558624093591; 
-	Thu, 23 May 2019 08:08:13 -0700 (PDT)
+	bh=xcihCMTg6jd3N0tSpSeDkVUUj/HYgQaaJEhimiQbbQQ=;
+	b=ccxLgb8T34BLBECF5AnNqt4mYA39nr5XQfMsADrfxI4kPA2uLpN+yHaujyWstUQe5J
+	o3oERcHPnXEQYDsc+N10xZrhP7NEiBqyrIrqXJOV7HeWMkjRx3L6dW6J4HdrdX7bk27R
+	Fb1qVzlXsaXVLbYfTbmAvr4hPre8RiB9EwunlpyRBofrNSvg1U4EHxFYsavVF9t8KNIU
+	/unHhJzZUsoQPVXxIEqPO3rtlQX2pHFuyN1J8k5v1xHAug/prLmrYJyAXW1KZ/8pme8z
+	I1iauwnKMZf6OERk0IIog95qJnAzRXXTzU7HYfBg0/CJtvKxU4bM/BPUVj6o5JLnbAxd
+	Ly9g==
+X-Gm-Message-State: APjAAAXQZfwDadIHeB1SBgR2fcqHZeUKnebMG8D1Dsv75BtHH4ENbF9d
+	uYSIYYHxcruGxtG8zFc4Emq/b795QyY=
+X-Google-Smtp-Source: APXvYqxrPmMj0lzKKA4NBIOaOHof6MCg8aKHPue/W9/FpE8wM3qqpChhNeh1vKeowR27MA36vsymog==
+X-Received: by 2002:ab0:29cc:: with SMTP id i12mr39566731uaq.12.1558624094878; 
+	Thu, 23 May 2019 08:08:14 -0700 (PDT)
 Received: from localhost.localdomain (ip-173-130-215-183.orldfl.spcsdns.net.
 	[173.130.215.183]) by smtp.gmail.com with ESMTPSA id
-	p70sm4227462vsd.25.2019.05.23.08.08.12
+	p70sm4227462vsd.25.2019.05.23.08.08.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 08:08:12 -0700 (PDT)
+	Thu, 23 May 2019 08:08:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 11:08:02 -0400
-Message-Id: <20190523150803.31504-6-richard.henderson@linaro.org>
+Date: Thu, 23 May 2019 11:08:03 -0400
+Message-Id: <20190523150803.31504-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190523150803.31504-1-richard.henderson@linaro.org>
 References: <20190523150803.31504-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::942
-Subject: [Qemu-devel] [PATCH 5/6] target/rx: Collect all bytes during
+X-Received-From: 2607:f8b0:4864:20::943
+Subject: [Qemu-devel] [PATCH 6/6] target/rx: Dump bytes for each insn during
  disassembly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -80,135 +80,42 @@ Cc: ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Collected, to be used in the next patch.
+There are so many different forms of each RX instruction
+that it will be very useful to be able to look at the bytes
+to see on which path a bug may lie.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/rx/disas.c | 62 ++++++++++++++++++++++++++++++++---------------
- 1 file changed, 42 insertions(+), 20 deletions(-)
+ target/rx/disas.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/target/rx/disas.c b/target/rx/disas.c
-index ebc1a44249..5a32a87534 100644
+index 5a32a87534..d73b53db44 100644
 --- a/target/rx/disas.c
 +++ b/target/rx/disas.c
-@@ -25,43 +25,59 @@ typedef struct DisasContext {
-     disassemble_info *dis;
-     uint32_t addr;
-     uint32_t pc;
-+    uint8_t len;
-+    uint8_t bytes[8];
- } DisasContext;
+@@ -102,7 +102,21 @@ static int bdsp_s(DisasContext *ctx, int d)
+ /* Include the auto-generated decoder.  */
+ #include "decode.inc.c"
  
- 
- static uint32_t decode_load_bytes(DisasContext *ctx, uint32_t insn,
--                           int i, int n)
-+                                  int i, int n)
- {
--    bfd_byte buf;
-+    uint32_t addr = ctx->addr;
+-#define prt(...) (ctx->dis->fprintf_func)((ctx->dis->stream), __VA_ARGS__)
++static void dump_bytes(DisasContext *ctx)
++{
++    int i, len = ctx->len;
 +
-+    g_assert(ctx->len == i);
-+    g_assert(n <= ARRAY_SIZE(ctx->bytes));
++    for (i = 0; i < len; ++i) {
++        ctx->dis->fprintf_func(ctx->dis->stream, "%02x ", ctx->bytes[i]);
++    }
++    ctx->dis->fprintf_func(ctx->dis->stream, "%*c", (8 - i) * 3, '\t');
++}
 +
-     while (++i <= n) {
--        ctx->dis->read_memory_func(ctx->addr++, &buf, 1, ctx->dis);
--        insn |= buf << (32 - i * 8);
-+        ctx->dis->read_memory_func(addr++, &ctx->bytes[i - 1], 1, ctx->dis);
-+        insn |= ctx->bytes[i - 1] << (32 - i * 8);
-     }
-+    ctx->addr = addr;
-+    ctx->len = n;
-+
-     return insn;
- }
++#define prt(...) \
++    do {                                                        \
++        dump_bytes(ctx);                                        \
++        ctx->dis->fprintf_func(ctx->dis->stream, __VA_ARGS__);  \
++    } while (0)
  
- static int32_t li(DisasContext *ctx, int sz)
- {
--    int32_t addr;
--    bfd_byte buf[4];
--    addr = ctx->addr;
-+    uint32_t addr = ctx->addr;
-+    uintptr_t len = ctx->len;
- 
-     switch (sz) {
-     case 1:
-+        g_assert(len + 1 <= ARRAY_SIZE(ctx->bytes));
-         ctx->addr += 1;
--        ctx->dis->read_memory_func(addr, buf, 1, ctx->dis);
--        return (int8_t)buf[0];
-+        ctx->len += 1;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 1, ctx->dis);
-+        return (int8_t)ctx->bytes[len];
-     case 2:
-+        g_assert(len + 2 <= ARRAY_SIZE(ctx->bytes));
-         ctx->addr += 2;
--        ctx->dis->read_memory_func(addr, buf, 2, ctx->dis);
--        return ldsw_le_p(buf);
-+        ctx->len += 2;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 2, ctx->dis);
-+        return ldsw_le_p(ctx->bytes + len);
-     case 3:
-+        g_assert(len + 3 <= ARRAY_SIZE(ctx->bytes));
-         ctx->addr += 3;
--        ctx->dis->read_memory_func(addr, buf, 3, ctx->dis);
--        return (int8_t)buf[2] << 16 | lduw_le_p(buf);
-+        ctx->len += 3;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 3, ctx->dis);
-+        return (int8_t)ctx->bytes[len + 2] << 16 | lduw_le_p(ctx->bytes + len);
-     case 0:
-+        g_assert(len + 4 <= ARRAY_SIZE(ctx->bytes));
-         ctx->addr += 4;
--        ctx->dis->read_memory_func(addr, buf, 4, ctx->dis);
--        return ldl_le_p(buf);
-+        ctx->len += 4;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 4, ctx->dis);
-+        return ldl_le_p(ctx->bytes + len);
-     default:
-         g_assert_not_reached();
-     }
-@@ -110,7 +126,7 @@ static const char psw[] = {
- static void rx_index_addr(DisasContext *ctx, char out[8], int ld, int mi)
- {
-     uint32_t addr = ctx->addr;
--    uint8_t buf[2];
-+    uintptr_t len = ctx->len;
-     uint16_t dsp;
- 
-     switch (ld) {
-@@ -119,14 +135,18 @@ static void rx_index_addr(DisasContext *ctx, char out[8], int ld, int mi)
-         out[0] = '\0';
-         return;
-     case 1:
-+        g_assert(len + 1 <= ARRAY_SIZE(ctx->bytes));
-         ctx->addr += 1;
--        ctx->dis->read_memory_func(addr, buf, 1, ctx->dis);
--        dsp = buf[0];
-+        ctx->len += 1;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 1, ctx->dis);
-+        dsp = ctx->bytes[len];
-         break;
-     case 2:
-+        g_assert(len + 2 <= ARRAY_SIZE(ctx->bytes));
-         ctx->addr += 2;
--        ctx->dis->read_memory_func(addr, buf, 2, ctx->dis);
--        dsp = lduw_le_p(buf);
-+        ctx->len += 2;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 2, ctx->dis);
-+        dsp = lduw_le_p(ctx->bytes + len);
-         break;
-     default:
-         g_assert_not_reached();
-@@ -1392,8 +1412,10 @@ int print_insn_rx(bfd_vma addr, disassemble_info *dis)
-     DisasContext ctx;
-     uint32_t insn;
-     int i;
-+
-     ctx.dis = dis;
-     ctx.pc = ctx.addr = addr;
-+    ctx.len = 0;
- 
-     insn = decode_load(&ctx);
-     if (!decode(&ctx, insn)) {
+ #define RX_MEMORY_BYTE 0
+ #define RX_MEMORY_WORD 1
 -- 
 2.17.1
 
