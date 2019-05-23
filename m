@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41314277EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:27:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59726 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542CC277F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:28:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59730 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTj4n-0003uc-1o
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:27:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47638)
+	id 1hTj5P-0004S0-EE
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:28:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47554)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTj2Q-0002Ef-Gs
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hTj2Q-0002Bo-Eu
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:25:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTivA-0001xA-TO
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:17:54 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:45816)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
-	id 1hTiv8-0001vD-7u
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:17:51 -0400
-Received: by mail-oi1-x236.google.com with SMTP id w144so3698820oie.12
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 01:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rzEZJyqDmf7xVg8qHLD+pmzPhaiKNsJQgejt++rNI+A=;
-	b=mpH3i2CUJFYobNK9q859cRWvSUc0guUbZyydhnP3x7a6i11IFaCKRu/SBiDaTENXB5
-	aWCgNMLeVdI5gtVg2wiAGifmGOvnvUYalv+A/QRocObDBcZCM6BoQyBFWbNMfMDt31po
-	Wp7SxdFLC9LwdzApCWrxH4YK7KarqfdC47XcrwgCNT3hAtE12bIGYQP8JIfLoIscwP1L
-	ku6mhXECzx+Mpl8oZijf9R7n5jC0ipOAxQ+0rJqlw6LjbOrcvZctKHzwE/q8WB8fKQND
-	NJ2xj2Cn4xTQmPxFFy7WrwC/MIG8e3XntsAVj8ON1rT/kmVzTIwI1jk13B9eoeHOHKfU
-	KDfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rzEZJyqDmf7xVg8qHLD+pmzPhaiKNsJQgejt++rNI+A=;
-	b=p1PWP4+Z6soOdczC9v497Btm/GahOnrZYpDT9Hgo33woJWxsv/CGFI0g9KouPiHLz8
-	x+RGnK7OQwNBIPBE72Xo5SihPjmVCm4By0GS3f1Qj0IBgXs6JgQNQzJHIANMTSmytMO5
-	dHuJjvyYGZuopFFWVPwYTb9Z26YSYLEcsQXyyDQpZ95WMrIjqicfvjfZXgSF6ot6ddXz
-	P8AtoGokkJqIZxtFOq6lETJcdA2dCBmu9dc2HlwbzFrF1/u0Hhje7eTXiKPOXpgOx0dr
-	rc1j0z1rboVxm+lXyHj4n6w6a0VeWMtpF9YehihngH1BRXQxCAFW4/MS9bgO8HskN2M1
-	DvYw==
-X-Gm-Message-State: APjAAAXOEDAFaNmdd42R0vIEv8dCGAet+sLmMUlWSStc6YrCtPg8Qwmb
-	TWzxaf2nr72LuHsS+TWbfBuj+kB76iF6AbC6o3g=
-X-Google-Smtp-Source: APXvYqwfv9NQWiFz8tsJUbzbvB1hHv6HVfKZBWMm0F8w/+elHmYYYOsPCio3Ci2jvRuesZ9HBxd8xkKdKsctRnDB5C0=
-X-Received: by 2002:aca:1916:: with SMTP id l22mr2009152oii.136.1558599468317; 
-	Thu, 23 May 2019 01:17:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Thu, 23 May 2019 01:17:47
-	-0700 (PDT)
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Thu, 23 May 2019 01:17:47
-	-0700 (PDT)
-In-Reply-To: <20190522222821.23850-1-richard.henderson@linaro.org>
-References: <20190522222821.23850-1-richard.henderson@linaro.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 23 May 2019 10:17:47 +0200
-Message-ID: <CAL1e-=jzbtrbu6OnoAJ2Z7QyTGXfek4wFN-pzhQn9GJpXxLaMw@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hTiwS-0002VZ-6x
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:19:13 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:36942)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hTiwR-0002TO-Vj
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:19:12 -0400
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+	[61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+	by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 2A792430DD;
+	Thu, 23 May 2019 17:19:08 +0900 (JST)
+Received: from yo-satoh-debian.ysato.ml (v045049.dynamic.ppp.asahi-net.or.jp
+	[124.155.45.49])
+	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 55315240085; 
+	Thu, 23 May 2019 17:19:07 +0900 (JST)
+Date: Thu, 23 May 2019 17:19:03 +0900
+Message-ID: <87woiheg7c.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+In-Reply-To: <dd7f9ae2-e7ae-790c-170b-81d127a6222c@redhat.com>
+References: <20190522142956.41916-1-ysato@users.sourceforge.jp>
+	<dd7f9ae2-e7ae-790c-170b-81d127a6222c@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+	FLIM/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL/10.8 EasyPG/1.0.0 Emacs/25.1
+	(x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::236
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PULL 00/16] tcg queued patches
+X-Received-From: 202.224.55.15
+Subject: Re: [Qemu-devel] [PATCH v15 00/12] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,72 +56,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On May 23, 2019 12:32 AM, "Richard Henderson" <richard.henderson@linaro.org=
->
-wrote:
->
-> The following changes since commit
-a4f667b6714916683408b983cfe0a615a725775f:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3'
-into staging (2019-05-21 16:30:13 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/rth7680/qemu.git tags/pull-tcg-20190522
->
-> for you to fetch changes up to 11e2bfef799024be4a08fcf6797fe0b22fb16b58:
->
->   tcg/i386: Use MOVDQA for TCG_TYPE_V128 load/store (2019-05-22 15:09:43
--0400)
->
-> ----------------------------------------------------------------
-> Misc gvec improvements
->
-> ----------------------------------------------------------------
+On Wed, 22 May 2019 23:50:41 +0900,
+Philippe Mathieu-Daud=E9 wrote:
+>=20
+> Hi Yoshinori,
+>=20
+> On 5/22/19 4:29 PM, Yoshinori Sato wrote:
+> > Hello.
+> > This patch series is added Renesas RX target emulation.
+> >=20
+> > Fix is bellow.
+> > - Reorder patches.
+> > - Rewrite renesas_cmt.
+> >   Convert to RCMTChannelStatus
+> > - Use CPUClass::tlb_fill
+> > - Use tcg_gen_abs_i32
+> > - Fix racw instructions.
+> > - Cleanup for review comment.
+> >   target/rx/helper.c - fix spelling.
+> >   hw/intc/rx_icu.h - cleanup constant definition.
+> >   hw/registerfields.h - fix macro definion order.
+>=20
+> $ git backport-diff -u rx14 -r origin/master..rx15
+> Key:
+> [----] : patches are identical
+> [####] : number of functional differences between upstream/downstream pat=
+ch
+> [down] : patch is downstream-only
+> The flags [FC] indicate (F)unctional and (C)ontextual differences,
+> respectively
+>=20
+> 001/12:[----] [--] 'qemu/bitops.h: Add extract8 and extract16'
+> 002/12:[0008] [FC] 'hw/registerfields.h: Add 8bit and 16bit register macr=
+os'
+> 003/12:[0018] [FC] 'target/rx: TCG translation'
+> 004/12:[0004] [FC] 'target/rx: TCG helper'
+> 005/12:[0030] [FC] 'target/rx: CPU definition'
+> 006/12:[----] [--] 'target/rx: RX disassembler'
+> 007/12:[0003] [FC] 'hw/intc: RX62N interrupt controller (ICUa)'
+> 008/12:[0178] [FC] 'hw/timer: RX62N internal timer modules'
+> 009/12:[----] [--] 'hw/char: RX62N serial communication interface (SCI)'
+> 010/12:[0004] [FC] 'hw/rx: RX Target hardware definition'
+> 011/12:[----] [--] 'Add rx-softmmu'
+> 012/12:[0004] [FC] 'MAINTAINERS: Add RX'
+>=20
+> - you removed rx_abs(),
+> - one change in trans_RACW()
+> - fixed typos (Richard fixe them)
+> - LOT of changes in the timer device, you added RCMTChannelState()
+>=20
+> Hmm you did reset some of the R-b T-b tags.
+>=20
+>=20
+> I guess Richard already prepared a pull request for your v14.
+>=20
+> At this point I'd prefer the v14 get merged, and the v15 changes amended
+> as new commits. This would ease review/testing.
+>=20
+> Maybe Richard can still amend the 'trans_RACW' one-line fix on his pullre=
+q.
+>=20
+> Richard what's your take on this?
+>=20
+> Regards,
+>=20
+> Phil.
 
-Why are =E2=80=9CReviewed-by:=E2=80=9D lines missing from all patches of th=
-is pull request?
+OK.
+v15 fixes will be issued after merging.
+Thanks.
 
-Regerds,
-Aleksandar
+> > My git repository is bellow.
+> > git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190522
+> >=20
+> > Testing binaries bellow.
+> > u-boot
+> > Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+> >=20
+> > starting
+> > $ gzip -d u-boot.bin.gz
+> > $ qemu-system-rx -bios u-boot.bin
+> >=20
+> > linux and pico-root (only sash)
+> > Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+> >            https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceT=
+ree)
+> >=20
+> > starting
+> > $ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
+> >=20
+> > Yoshinori Sato (12):
+> >   qemu/bitops.h: Add extract8 and extract16
+> >   hw/registerfields.h: Add 8bit and 16bit register macros.
+> >   target/rx: TCG translation
+> >   target/rx: TCG helper
+> >   target/rx: CPU definition
+> >   target/rx: RX disassembler
+> >   hw/intc: RX62N interrupt controller (ICUa)
+> >   hw/timer: RX62N internal timer modules
+> >   hw/char: RX62N serial communication interface (SCI)
+> >   hw/rx: RX Target hardware definition
+> >   Add rx-softmmu
+> >   MAINTAINERS: Add RX
+>=20
 
-> Richard Henderson (16):
->       tcg/i386: Fix dupi/dupm for avx1 and 32-bit hosts
->       tcg: Fix missing checks and clears in tcg_gen_gvec_dup_mem
->       tcg: Add support for vector bitwise select
->       tcg: Add support for vector compare select
->       tcg: Introduce do_op3_nofail for vector expansion
->       tcg: Expand vector minmax using cmp+cmpsel
->       tcg: Add TCG_OPF_NOT_PRESENT if TCG_TARGET_HAS_foo is negative
->       tcg/i386: Support vector comparison select value
->       tcg/i386: Remove expansion for missing minmax
->       tcg/i386: Use umin/umax in expanding unsigned compare
->       tcg/aarch64: Support vector bitwise select value
->       tcg/aarch64: Split up is_fimm
->       tcg/aarch64: Use MVNI in tcg_out_dupi_vec
->       tcg/aarch64: Build vector immediates with two insns
->       tcg/aarch64: Allow immediates for vector ORR and BIC
->       tcg/i386: Use MOVDQA for TCG_TYPE_V128 load/store
->
->  accel/tcg/tcg-runtime.h      |   2 +
->  tcg/aarch64/tcg-target.h     |   2 +
->  tcg/i386/tcg-target.h        |   2 +
->  tcg/tcg-op-gvec.h            |   7 +
->  tcg/tcg-op.h                 |   5 +
->  tcg/tcg-opc.h                |   5 +-
->  tcg/tcg.h                    |   2 +
->  accel/tcg/tcg-runtime-gvec.c |  14 ++
->  tcg/aarch64/tcg-target.inc.c | 371
-++++++++++++++++++++++++++++++++-----------
->  tcg/i386/tcg-target.inc.c    | 169 +++++++++++++-------
->  tcg/tcg-op-gvec.c            |  71 ++++++---
->  tcg/tcg-op-vec.c             | 142 ++++++++++++++---
->  tcg/tcg.c                    |   5 +
->  tcg/README                   |  11 ++
->  14 files changed, 620 insertions(+), 188 deletions(-)
->
+--=20
+Yosinori Sato
+
