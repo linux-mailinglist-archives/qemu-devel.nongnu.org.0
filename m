@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6245275A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 07:40:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58047 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D182A27594
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 07:36:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58004 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTgSy-0006LW-32
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 01:40:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43547)
+	id 1hTgPC-0004ns-28
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 01:36:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41284)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTgRz-00062h-4s
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:39:36 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hTgIM-00080J-Gj
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:29:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTgRx-0002ZT-VL
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:39:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40582)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hTgRx-0002Yv-QB
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:39:33 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hTgRw-0007oV-6C
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:39:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 2E06B2E80CC
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:39:32 +0000 (UTC)
+	(envelope-from <dgibson@ozlabs.org>) id 1hTgII-0005hN-NL
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:29:38 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:52941)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hTgIF-0005em-EA; Thu, 23 May 2019 01:29:33 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 458dNL3ZWLz9s6w; Thu, 23 May 2019 15:29:21 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1558589362;
+	bh=gs+yX4Rpc3mi9205nXqZ5YZPkPALH1nmnc7QtQ5Y84A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fxy8AIYOGyegWUqWWNpsPQ3AOOh1inQeTIlpQLQRXe0iAFYAfMhQOiFTgljOILKr/
+	IFp2619X0l04Gy9kIFREYk/ORU1TiJMz0xj3LIzfM0tNOnTr/cN2u3Jtdeb8EPQfza
+	4pVY32c/oEX4+us5pwW3IzZHLmcpuWXFVqpybwpU=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-ppc@nongnu.org
+Date: Thu, 23 May 2019 15:29:11 +1000
+Message-Id: <20190523052918.1129-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 May 2019 05:26:55 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1562653@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
-	status=Expired; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: changlimin janitor paelzer serge-hallyn th-huth
-X-Launchpad-Bug-Reporter: changlimin (changlimin)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
-	=?utf-8?q?=29?=
-References: <20160328013239.3708.98267.malonedeb@wampee.canonical.com>
-Message-Id: <155858921568.21818.2071267317226938464.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: b64ff67e75696d1d614c8b5028bb41f0b97145b7
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1562653] Re: Ubuntu 15.10: QEMU VM hang if memory
- >= 1T
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PATCH 1/8] spapr: Clean up device node name
+ generation for PCI devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,124 +52,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1562653 <1562653@bugs.launchpad.net>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, groug@kaod.org, clg@kaod.org,
+	mdroth@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I only saw this because it expired now :-/
+spapr_populate_pci_child_dt() adds a 'name' property to the device tree
+node for PCI devices.  This is never necessary for a flattened device tre=
+e,
+it is implicit in the name added when the node is constructed.  In fact
+anything we do add to a 'name' property will be overwritten with somethin=
+g
+derived from the structural name in the guest firmware (but in fact it is
+exactly the same bytes).
 
-Anyone affected by this might want to take a look at bug 1776189 where
-Ubuntu added a special machine type to more easily set "host-phys-bits"
-which is the qemu flag to have more (usually the host has more)
-available (at the cost of migratability). That allows <1TB as the
-default bits in qemu are chosen on the base of TCG (to be able to
-emulate what is virtualized) and that is limited to 1TB.
+So, remove that.  In addition, pci_get_node_name() is very simple, so fol=
+d
+it into its (also simple) sole caller spapr_create_pci_child_dt().
 
--- =
+While we're there rename pci_find_device_name() to the shorter and more
+accurate dt_name_from_class().
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1562653
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/spapr_pci.c | 43 +++++++++++++++++--------------------------
+ 1 file changed, 17 insertions(+), 26 deletions(-)
 
-Title:
-  Ubuntu 15.10: QEMU VM hang if memory >=3D 1T
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 97961b0128..b2db46ef1d 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1173,8 +1173,8 @@ static const PCIClass pci_classes[] =3D {
+     { "data-processing-controller", spc_subclass },
+ };
+=20
+-static const char *pci_find_device_name(uint8_t class, uint8_t subclass,
+-                                        uint8_t iface)
++static const char *dt_name_from_class(uint8_t class, uint8_t subclass,
++                                      uint8_t iface)
+ {
+     const PCIClass *pclass;
+     const PCISubClass *psubclass;
+@@ -1216,23 +1216,6 @@ static const char *pci_find_device_name(uint8_t cl=
+ass, uint8_t subclass,
+     return name;
+ }
+=20
+-static gchar *pci_get_node_name(PCIDevice *dev)
+-{
+-    int slot =3D PCI_SLOT(dev->devfn);
+-    int func =3D PCI_FUNC(dev->devfn);
+-    uint32_t ccode =3D pci_default_read_config(dev, PCI_CLASS_PROG, 3);
+-    const char *name;
+-
+-    name =3D pci_find_device_name((ccode >> 16) & 0xff, (ccode >> 8) & 0=
+xff,
+-                                ccode & 0xff);
+-
+-    if (func !=3D 0) {
+-        return g_strdup_printf("%s@%x,%x", name, slot, func);
+-    } else {
+-        return g_strdup_printf("%s@%x", name, slot);
+-    }
+-}
+-
+ static uint32_t spapr_phb_get_pci_drc_index(SpaprPhbState *phb,
+                                             PCIDevice *pdev);
+=20
+@@ -1300,11 +1283,6 @@ static void spapr_populate_pci_child_dt(PCIDevice =
+*dev, void *fdt, int offset,
+         _FDT(fdt_setprop(fdt, offset, "udf-supported", NULL, 0));
+     }
+=20
+-    _FDT(fdt_setprop_string(fdt, offset, "name",
+-                            pci_find_device_name((ccode >> 16) & 0xff,
+-                                                 (ccode >> 8) & 0xff,
+-                                                 ccode & 0xff)));
+-
+     buf =3D spapr_phb_get_loc_code(sphb, dev);
+     _FDT(fdt_setprop_string(fdt, offset, "ibm,loc-code", buf));
+     g_free(buf);
+@@ -1348,10 +1326,23 @@ static int spapr_create_pci_child_dt(SpaprPhbStat=
+e *phb, PCIDevice *dev,
+                                      void *fdt, int node_offset)
+ {
+     int offset;
+-    gchar *nodename;
++    const gchar *basename;
++    char *nodename;
++    int slot =3D PCI_SLOT(dev->devfn);
++    int func =3D PCI_FUNC(dev->devfn);
++    uint32_t ccode =3D pci_default_read_config(dev, PCI_CLASS_PROG, 3);
++
++    basename =3D dt_name_from_class((ccode >> 16) & 0xff, (ccode >> 8) &=
+ 0xff,
++                                  ccode & 0xff);
++
++    if (func !=3D 0) {
++        nodename =3D g_strdup_printf("%s@%x,%x", basename, slot, func);
++    } else {
++        nodename =3D g_strdup_printf("%s@%x", basename, slot);
++    }
+=20
+-    nodename =3D pci_get_node_name(dev);
+     _FDT(offset =3D fdt_add_subnode(fdt, node_offset, nodename));
++
+     g_free(nodename);
+=20
+     spapr_populate_pci_child_dt(dev, fdt, offset, phb);
+--=20
+2.21.0
 
-Status in QEMU:
-  Expired
-Status in qemu package in Ubuntu:
-  Expired
-
-Bug description:
-  1. Ubuntu 15.10 x86_64 installed on HP SuperDome X with 8CPUs and 4T
-  memory.
-
-  2. Create a VM, install Ubuntu 15.10, if memory >=3D 1T , VM hang when st=
-art. If memory < 1T, it is good.
-  <domain type=3D'kvm'>
-    <name>u1510-1</name>
-    <uuid>39eefe1e-4829-4843-b892-026d143f3ec7</uuid>
-    <memory unit=3D'KiB'>1073741824</memory>
-    <currentMemory unit=3D'KiB'>1073741824</currentMemory>
-    <vcpu placement=3D'static'>16</vcpu>
-    <os>
-      <type arch=3D'x86_64' machine=3D'pc-i440fx-2.3'>hvm</type>
-      <boot dev=3D'hd'/>
-      <boot dev=3D'cdrom'/>
-    </os>
-    <features>
-      <acpi/>
-      <apic/>
-      <pae/>
-    </features>
-    <clock offset=3D'utc'/>
-    <on_poweroff>destroy</on_poweroff>
-    <on_reboot>restart</on_reboot>
-    <on_crash>restart</on_crash>
-    <devices>
-      <emulator>/usr/bin/kvm</emulator>
-      <disk type=3D'file' device=3D'disk'>
-        <driver name=3D'qemu' type=3D'qcow2' cache=3D'directsync'/>
-        <source file=3D'/vms/images/u1510-1.img'/>
-        <target dev=3D'vda' bus=3D'virtio'/>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x08' =
-function=3D'0x0'/>
-      </disk>
-      <disk type=3D'file' device=3D'cdrom'>
-        <driver name=3D'qemu' type=3D'raw'/>
-        <target dev=3D'hdc' bus=3D'ide'/>
-        <readonly/>
-        <address type=3D'drive' controller=3D'0' bus=3D'1' target=3D'0' uni=
-t=3D'0'/>
-      </disk>
-      <controller type=3D'pci' index=3D'0' model=3D'pci-root'/>
-      <controller type=3D'ide' index=3D'0'>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x01' =
-function=3D'0x1'/>
-      </controller>
-      <controller type=3D'usb' index=3D'0'>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x01' =
-function=3D'0x2'/>
-      </controller>
-      <interface type=3D'bridge'>
-        <mac address=3D'0c:da:41:1d:ae:f1'/>
-        <source bridge=3D'vswitch0'/>
-        <model type=3D'virtio'/>
-        <driver name=3D'vhost'/>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x03' =
-function=3D'0x0'/>
-      </interface>
-      <input type=3D'mouse' bus=3D'ps2'/>
-      <input type=3D'keyboard' bus=3D'ps2'/>
-      <graphics type=3D'vnc' port=3D'-1' autoport=3D'yes' listen=3D'0.0.0.0=
-'>
-        <listen type=3D'address' address=3D'0.0.0.0'/>
-      </graphics>
-      <video>
-        <model type=3D'cirrus' vram=3D'16384' heads=3D'1'/>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x02' =
-function=3D'0x0'/>
-      </video>
-      <memballoon model=3D'virtio'>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x09' =
-function=3D'0x0'/>
-      </memballoon>
-    </devices>
-  </domain>
-
-  3. The panic stack is
-    ... cannot show
-    async_page_fault+0x28
-    ioread32_rep+0x38
-    ata_sff_data_xfer32+0x8a
-    ata_pio_sector+0x93
-    ata_pio_sectors+0x34
-    ata_sff_hsm_move+0x226
-    RIP: kthread_data+0x10
-    CR2: FFFFFFFF_FFFFFFD8
-
-  4. Change the host os to Redhat 7.2 , the vm is good even memory
-  >=3D3.8T.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1562653/+subscriptions
 
