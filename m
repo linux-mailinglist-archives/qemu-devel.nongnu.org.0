@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96EC27C03
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:43:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34183 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369BA27BFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:41:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34145 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTm7z-0000Ep-RK
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:43:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36699)
+	id 1hTm6T-00076P-9Q
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:41:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36450)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTm3d-0005Oq-4Z
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:38:50 -0400
+	(envelope-from <berrange@redhat.com>) id 1hTm3F-0004ug-N0
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:38:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTlo8-0004D7-7b
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:22:49 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46678)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hTlo7-0004CL-Uo
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:22:48 -0400
-Received: by mail-wr1-x442.google.com with SMTP id r7so5814176wrr.13
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Tq3odPWLK9RYc4u0GjIjKtTzgThCMFEJw2l4a77VbTI=;
-	b=PAn+u3pJjB8eBHgmdpz0SC48ip0fkH9nLrckRVgVWB9uDY/cbj4R4st7v3TmripFXq
-	lEAzPtUPHpbugBj4eIkXRmuF77/i7msQ4J9IET1N0QAOaSL42iar6gySU6b0cxQIcbor
-	ZsDTFwQpfStdEtiVdCqrCHIl1gdNOfmNJFd6ciZpX20iGsfJMwDrnl7l9F7IZpU5phED
-	tR+c0NKeQtsvGO83+cHLPeYK3umXomBqdwo4oPzgQ+TJ0kqv9pzWGldj58YCZKfQ6JwG
-	0maJ29dCv1X4rVdb68ssXk8LJuKXckcYBXPKs10qfiF7nagB9RqQuKosvjLkVluz8E0T
-	bBFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Tq3odPWLK9RYc4u0GjIjKtTzgThCMFEJw2l4a77VbTI=;
-	b=p6+yQKWmzChl5E5RSxRmQkrghjKmOTGqKfKU5RCOMPoM5BZN4ns1ynjYhxioPhvTUP
-	qUHFyPDvSZBYy6ZNhi/QIJOggy55IDhDYZTWKWWBkg36X0nQN4VnIHVmEB2MJz+slu/B
-	Geh5HoZ+5BbJ/v0mdAdZIWKQFoIY8dCcwXa0XlV2NvF6CxWMidIHFjQNEHNzAB7WvTqz
-	bezEqwSYXo/qcJ30d1YvKEeI3W1Qcc4eihXbXNYX2CwkavCo1+eaA8eXv4YDI/75LD8a
-	fxehebE4Ry/DqFcIlidCWML+2CWnrDQ4F4iYYC1t8oiqEBWN9OruJfJ9y3yXnFgrh/rY
-	4rNQ==
-X-Gm-Message-State: APjAAAVOaz217xWnCyqs8dECfg4sF4eo2HecVhZipU5h6cGKclHb6TSR
-	0nfXH1o+4zek4SltPLeLAlQ=
-X-Google-Smtp-Source: APXvYqw8R9kgXgL4AAHld3fM9OrT466PwzeTevo8snD/6rqEDccZNcVslbKsUAAR5u7Zfe7mGLV68A==
-X-Received: by 2002:adf:fc8f:: with SMTP id g15mr6094047wrr.122.1558610566600; 
-	Thu, 23 May 2019 04:22:46 -0700 (PDT)
-Received: from localhost ([51.15.41.238]) by smtp.gmail.com with ESMTPSA id
-	u15sm52825115wru.16.2019.05.23.04.22.45
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 May 2019 04:22:45 -0700 (PDT)
-Date: Thu, 23 May 2019 12:22:44 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Message-ID: <20190523112244.GG26632@stefanha-x1.localdomain>
-References: <20190307072253.9868-1-elena.ufimtseva@oracle.com>
-	<20190307142609.GF2843@stefanha-x1.localdomain>
-	<20190307145120.GF32268@redhat.com>
-	<20190307192727.GG2915@stefanha-x1.localdomain>
-	<BDEBF2EE-DE0F-46CF-B60E-536B3DA9BF77@oracle.com>
-	<20190311102006.GK12393@redhat.com>
-	<20190507210059.GA26233@heatpipe>
+	(envelope-from <berrange@redhat.com>) id 1hTlpK-0005G4-Dp
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:24:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53565)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hTlpK-0005F7-7B
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:24:02 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 45E7E3003A5A;
+	Thu, 23 May 2019 11:23:53 +0000 (UTC)
+Received: from redhat.com (ovpn-112-64.ams2.redhat.com [10.36.112.64])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 64D795D9D2;
+	Thu, 23 May 2019 11:23:45 +0000 (UTC)
+Date: Thu, 23 May 2019 12:23:43 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <20190523112343.GE20973@redhat.com>
+References: <20190523024229.1158-1-richard.henderson@linaro.org>
+	<20190523024229.1158-2-richard.henderson@linaro.org>
+	<20190523110736.GD20973@redhat.com>
+	<26e22686-0b89-0b94-88f6-68e11b939697@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="64j1qyTOoGvYcHb1"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190507210059.GA26233@heatpipe>
+In-Reply-To: <26e22686-0b89-0b94-88f6-68e11b939697@redhat.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [multiprocess RFC PATCH 36/37] multi-process: add
- the concept description to docs/devel/qemu-multiprocess
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Thu, 23 May 2019 11:23:53 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/3] capstone: Adjust include of capstone.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,108 +61,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, sstabellini@kernel.org,
-	Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
-	konrad.wilk@oracle.com, qemu-devel@nongnu.org,
-	ross.lagerwall@citrix.com, liran.alon@oracle.com,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Jag Raman <jag.raman@oracle.com>, kanth.ghatraju@oracle.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: alex.bennee@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+	qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---64j1qyTOoGvYcHb1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 07, 2019 at 02:00:59PM -0700, Elena Ufimtseva wrote:
-> On Mon, Mar 11, 2019 at 10:20:06AM +0000, Daniel P. Berrang=C3=A9 wrote:
-> > On Thu, Mar 07, 2019 at 03:29:41PM -0800, John G Johnson wrote:
-> > >=20
-> > >=20
->=20
-> Hi Daniel, Stefan
->=20
-> We have not replied in a while as we were trying to figure out
-> the best approach after multiple comments we have received on the
-> patch series.
->=20
-> Leaving other concerns that you, Stefan and others shared with us
-> out of this particular topic, we would like to get your opinion on
-> the following approach.
->=20
-> Please see below.
->=20
-> > > > On Mar 7, 2019, at 11:27 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
-> > > >=20
-> > > > On Thu, Mar 07, 2019 at 02:51:20PM +0000, Daniel P. Berrang=C3=A9 w=
-rote:
-> > > >> I guess one obvious answer is that the existing security mechanism=
-s like
-> > > >> SELinux/ApArmor/DAC can be made to work in a more fine grained man=
-ner if
-> > > >> there are distinct processes. This would allow for a more useful s=
-eccomp
-> > > >> filter to better protect against secondary kernel exploits should =
-QEMU
-> > > >> itself be exploited, if we can protect individual components.
-> > > >=20
-> > > > Fine-grained sandboxing is possible in theory but tedious in practi=
-ce.
-> > > > From what I can tell this patch series doesn't implement any sandbo=
-xing
-> > > > for child processes.
-> > > >=20
-> > >=20
-> > > 	The policies aren=E2=80=99t in QEMU, but in the selinux config files.
-> > > They would say, for example, that when the QEMU process exec()s the
-> > > disk emulation process, the process security context type transitions
-> > > to a new type.  This type would have permission to access the VM image
-> > > objects, whereas the QEMU process type (and any other device emulation
-> > > process types) cannot access them.
+On Thu, May 23, 2019 at 01:17:40PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> On 5/23/19 1:07 PM, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, May 22, 2019 at 10:42:27PM -0400, Richard Henderson wrote:
+> >> Since v4.0, capstone.h has moved to <capstone/capstone.h>.
 > >=20
-> > Note that currently all QEMU instances run by libvirt have seccomp
-> > policy applied that explicitly forbids any use of fork+exec as a way
-> > to reduce avenues of attack for an exploited QEMU.
+> > NB this was a regression bug in capstone pkg-config file which has be=
+en
+> > fixed upstream
 > >=20
-> > Even in a modularized QEMU I'd be loathe to allow QEMU to have the
-> > fork+exec privileged, unless "QEMU" in this case was just a stub
-> > process that does nothing more than fork+exec the other binaries,
-> > while having zero attack exposed to the untrusted guest OS.
+> >    https://github.com/aquynh/capstone/pull/1276
+> >=20
+> > In Fedora we pulled in the fix to our v4.0 builds and I'd suggest
+> > other distros should do the same
 >=20
-> We see libvirt uses QEMU=E2=80=99s -sandbox option to indicate that QEMU
-> should use seccomp() to prohibit future use of certain system calls,
-> including fork() and exec().  Our idea is to enumerate the remote
-> processes needed via QEMU command line options, and have QEMU exec()
-> those processes before -sandbox is processed.
-> And we also will init seccomp for emulated devices processes.
+> Are you suggesting to not include this patch? It is less invasive to
+> distributions that package QEMU but don't package libcapstone.
 
-Sounds good.
+If building against a bundled capstone, we ought to be able to get
+the right -I flag to not need this.  So its just a question of how
+how much we care about distros who've not fixed the regression.
 
-My experience with seccomp is that whitelisting syscalls is fragile
-because of library dependencies.  Even glibc might invoke syscalls you
-didn't expect, especially after a kernel/glibc upgrade, forcing you to
-modify the whitelist.
+>=20
+> >=20
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >> ---
+> >>  include/disas/capstone.h | 4 ++++
+> >>  configure                | 6 ++++++
+> >>  2 files changed, 10 insertions(+)
+> >>
+> >> diff --git a/include/disas/capstone.h b/include/disas/capstone.h
+> >> index e29068dd97..90631d84a9 100644
+> >> --- a/include/disas/capstone.h
+> >> +++ b/include/disas/capstone.h
+> >> @@ -3,7 +3,11 @@
+> >> =20
+> >>  #ifdef CONFIG_CAPSTONE
+> >> =20
+> >> +#ifdef CONFIG_CAPSTONE_CAPSTONE_H
+> >> +#include <capstone/capstone.h>
+> >> +#else
+> >>  #include <capstone.h>
+> >> +#endif
+> >> =20
+> >>  #else
+> >> =20
+> >> diff --git a/configure b/configure
+> >> index d2fc346302..eec7f061c3 100755
+> >> --- a/configure
+> >> +++ b/configure
+> >> @@ -5021,6 +5021,9 @@ case "$capstone" in
+> >>    system)
+> >>      QEMU_CFLAGS=3D"$QEMU_CFLAGS $($pkg_config --cflags capstone)"
+> >>      LIBS=3D"$($pkg_config --libs capstone) $LIBS"
+> >> +    if check_include capstone/capstone.h; then
+> >> +      capstone_capstone_h=3Dyes
+> >> +    fi
+> >>      ;;
+> >> =20
+> >>    no)
+> >> @@ -7197,6 +7200,9 @@ if test "$ivshmem" =3D "yes" ; then
+> >>  fi
+> >>  if test "$capstone" !=3D "no" ; then
+> >>    echo "CONFIG_CAPSTONE=3Dy" >> $config_host_mak
+> >> +  if test "$capstone_capstone_h" !=3D "no" ; then
+> >> +    echo "CONFIG_CAPSTONE_CAPSTONE_H=3Dy" >> $config_host_mak
+> >> +  fi
+> >>  fi
+> >>  if test "$debug_mutex" =3D "yes" ; then
+> >>    echo "CONFIG_DEBUG_MUTEX=3Dy" >> $config_host_mak
+> >=20
+> > Regards,
+> > Daniel
+> >=20
+>=20
 
-However, once a whitelist is successfully in place it's a simple way to
-reduce the syscall attack surface and I think it's worthwhile.
-
---64j1qyTOoGvYcHb1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzmgoQACgkQnKSrs4Gr
-c8gREQgAi6jR0M7TWcF5CL2aqJe8fH5k8s5I92fpS4z/QpXhPe1RUyaIIxQvEMYy
-3IaRBVxDHQ720WCzZdq0nkExQ/0rbsCe4hcWY0g1LUtp9TqwoV+GPK8eR1EvhCKc
-kSlhNoz9yEWW4BaCpUtAQsWM929X6kMhv+/hXBcAvfHfrqvwmsBpdU8EOtvdinZV
-+A9bXsgd04VV/7CZ77S3oCaupwgIhiAIEGhhhHG3twHFA374yTrV9X6liTR+vHZa
-4Wa1HLQx9MKm1s4xQK1qhQfGcz1xMg8rRvKGDMAV8P00s08lCcYwFEYWH5ewM6MN
-f4eWzjmEiM75NVlHTwtea/m9JOUJCw==
-=gb43
------END PGP SIGNATURE-----
-
---64j1qyTOoGvYcHb1--
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
