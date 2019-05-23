@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8601827C4A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:58:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34406 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043F527C52
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 14:01:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34626 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTmMu-0004vT-96
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:58:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40180)
+	id 1hTmPO-0006UV-7u
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 08:01:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40725)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTmLE-0004FB-Ek
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:57:01 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hTmO3-0005yj-J0
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:59:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTmLD-00024m-EU
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:57:00 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33364)
+	(envelope-from <stefanha@gmail.com>) id 1hTmO2-0004cX-EY
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:59:55 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38801)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTmLD-00023x-6x
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:56:59 -0400
-Received: by mail-oi1-x243.google.com with SMTP id q186so4155959oia.0
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:56:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=NZDEYEz5nD7XS3id+akGIIH+Yn6baWTOmRiQPpPliAM=;
-	b=B7IqlLLrYVFEDJEBzBf57E56eW+EnSDVdyLi0xapbXFWIyo+Ye0sEBfC2h21aO5qOz
-	mQW5gmxDHSmCCsNBsgwijKlwhvWC53+5Xd3xgm0C+gmwkFwqrIAnRH3NrGwdABScrCFX
-	kat2p1fzv6coZbfDxIE7gxAqRypFqP7i0yxIaitRVNORzyVy/+uBvLOY3PdkgCZ2XnAf
-	7VNRAfgMxg1oQBS/Bjvy9uBfvuFNLvhUteB/Qr3RHe/ePiGJTpyEXI9Dptya+xlVyU/s
-	DydKeg/dejbOHQ673ZbInhsW2ZW4h4crcarGPtFaUMGt3SpPnZQIa+mroxb9n/MVxNxT
-	TvJg==
+	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hTmO2-0004by-6H
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:59:54 -0400
+Received: by mail-wm1-x344.google.com with SMTP id t5so5492616wmh.3
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:59:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=L3mid2STVSIdD8eiNHxsdEidcq87IHDG6jiwp46vKQI=;
+	b=GUlsD8QtCK4y8xNjTRgvBmAzYJeh3AvsKd2mwTDPkzNtQQjYLrMYQodh4M/Y5O6sRQ
+	VJcoMQKG6pi97qUU1uC14TXPJjGVqHiMUBfq0ETaaUfBIMbD4x8nxmMKqGO/SBwCTBB3
+	LoclFZcSgjS8adJYWDiMHwIEMVAfg4LjeLU27HMv2/B7CdBPz5KvB+p10QL/qWRNQmj0
+	Z4W0MS4WLn8xoCvC+C+UniXGDmyhlf+hD4TPAXUDtnRVGj44b06Qofq5Q9gtbDaohJKS
+	vJus6H7buR7dgwT1cXtpGNdsP7TzZpKHyJUUBQsKN0KWrYJKz74FauWho3sdBOiG41pQ
+	+QzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=NZDEYEz5nD7XS3id+akGIIH+Yn6baWTOmRiQPpPliAM=;
-	b=UykxqGVif2CcE1PGJrLqQDdIwtpyBOqaNCZpSuLuQnkoXd2hi5TPl9OgBNrH8Os9Bs
-	9q0G85qaJiIz2UfEG97Ha6HBw4ebPmlqWum3A2ca1Oy8GY5rVjmPIytimZ1PLlOP+kGm
-	gR/t2DfpqHF5iApc4Ft0s/+7fN7939zMqdwI9SvLB1VPzotqOp69Yxqk2rnfjd84pO6a
-	s/woY26nQeUBz/2Cygub19N2EDdFh0n2DNZLA55mDwY/EbxmJVDB/LtW06i7p3xHl9CU
-	xV0jr1jMPmUKZHlg+oXmnP4qZxfB7m+HY8N8O4nHX8Z9z0upejOuvOfY8bF758+bCWjD
-	1OiQ==
-X-Gm-Message-State: APjAAAU0aAfiqGiUKATa99/DYPPfynSArb2tdoFHxrDJ0BBg6zGovoq6
-	/ChiKYt1HyshO9cqk1lhf6PUoO3/Ajrez396Egs19Q==
-X-Google-Smtp-Source: APXvYqx8TShlZQ7WnClyodAMyAeiO8vmzd5+CFcsE1NtRZEMP2/LmgAmb82s9aSLT0HAmBHdXOsMEFu4KIERXqvItVE=
-X-Received: by 2002:aca:5785:: with SMTP id l127mr2344269oib.48.1558612618333; 
-	Thu, 23 May 2019 04:56:58 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=L3mid2STVSIdD8eiNHxsdEidcq87IHDG6jiwp46vKQI=;
+	b=iN/9ljptf87bLBXKpI+Rr0rzp38YDI+PAImaBtGIPu68G5BFkXG921uCk7aXsiOVrH
+	ZjscSYOTuEdCEvi/9tKMzKPKyKsVy44WDfsaIrM7Zo4nRd8DWORchIcjUSF81aCZ0qp3
+	9YxXwNYBmyiUxqxR7i0w3RDBs+9XQsMHKAVT9KkbOnIdpUHyh1xfXB5r0/z1sUWBa0dw
+	XSyRWtgxclOaTf2lpxVDz8IlLMkXvVchuRmSGQzf46w0GR4nf7lTaIBZqKWc/M/fe6pB
+	1KD+1Bp4l1mY87B7VnprZRAdlfgqJ4aKVrvY5fWYBv54N9Rlpi84Dfn8kQgX4/lcHnwA
+	x3og==
+X-Gm-Message-State: APjAAAXWKJDzgO47EII4Y+WYGr5ynMXJgPT4BzpmWga0goH67oDuV5/E
+	w+hPoR47O39rrOcce6FEhxY=
+X-Google-Smtp-Source: APXvYqxR6Be+zenq7GFbSVZx3MBVQ+PtX/+Sdlr65Nnf4//E3fh2cAdrklzAyBYdROqEqIb3M1LGMA==
+X-Received: by 2002:a1c:cf4c:: with SMTP id f73mr10886050wmg.118.1558612792215;
+	Thu, 23 May 2019 04:59:52 -0700 (PDT)
+Received: from localhost ([51.15.41.238]) by smtp.gmail.com with ESMTPSA id
+	m10sm9530008wmf.40.2019.05.23.04.59.51
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 23 May 2019 04:59:51 -0700 (PDT)
+Date: Thu, 23 May 2019 12:59:50 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Johannes Berg <johannes@sipsolutions.net>
+Message-ID: <20190523115950.GH26632@stefanha-x1.localdomain>
+References: <0952696452f5ff4e38d2417029243fc60efa33d6.camel@sipsolutions.net>
 MIME-Version: 1.0
-References: <20190522160723.31484-1-laurent@vivier.eu>
-In-Reply-To: <20190522160723.31484-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 May 2019 12:56:47 +0100
-Message-ID: <CAFEAcA9LtfvZOgqSN=b19kprFL_6CEfBcXynqbfn1LniGHdPhQ@mail.gmail.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="82evfD9Ogz2JrdWZ"
+Content-Disposition: inline
+In-Reply-To: <0952696452f5ff4e38d2417029243fc60efa33d6.camel@sipsolutions.net>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PULL 0/9] Trivial branch patches
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] custom virt-io support (in user-mode-linux)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,43 +78,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
-	Cornelia Huck <cohuck@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
-	Juan Quintela <quintela@redhat.com>,
-	QEMU Trivial <qemu-trivial@nongnu.org>, Farhan Ali <alifm@linux.ibm.com>,
-	Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>
+Cc: linux-um@lists.infradead.org, qemu-devel@nongnu.org,
+	virtualization@lists.linux-foundation.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 May 2019 at 17:13, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
->
-> for you to fetch changes up to 2d9574bdbed69b374116c59259f6bd14f7dfad7f:
->
->   pci: msix: move 'MSIX_CAP_LENGTH' to header file (2019-05-22 17:35:27 +0200)
->
-> ----------------------------------------------------------------
-> typo fixes, TYPE_XXX usage cleanup, comments update,
-> virtio-mmio trace functions cleanup
->
 
+--82evfD9Ogz2JrdWZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.
+On Wed, May 22, 2019 at 03:02:38PM +0200, Johannes Berg wrote:
+> Hi,
+>=20
+> While my main interest is mostly in UML right now [1] I've CC'ed the
+> qemu and virtualization lists because something similar might actually
+> apply to other types of virtualization.
+>=20
+> I'm thinking about adding virt-io support to UML, but the tricky part is
+> that while I want to use the virt-io basics (because it's a nice
+> interface from the 'inside'), I don't actually want the stock drivers
+> that are part of the kernel now (like virtio-net etc.) but rather
+> something that integrates with wifi (probably building on hwsim).
+>=20
+> The 'inside' interfaces aren't really a problem - just have a specific
+> device ID for this, and then write a normal virtio kernel driver for it.
+>=20
+> The 'outside' interfaces are where my thinking breaks down right now.
+>=20
+> Looking at lkl, the outside is just all implemented in lkl as code that
+> gets linked to the library, so in UML terms it'd just be extra 'outside'
+> code like the timer handling or other netdev stuff we have today.
+> Looking at qemu, it's of course also implemented there, and then
+> interfaces with the real network, console abstraction, etc.
+>=20
+> However, like I said above, I really need something very custom and not
+> likely to make it upstream to any project (because what point is that if
+> you cannot connect to the rest of the environment I'm building), so I'm
+> thinking that perhaps it should be possible to write an abstract
+> 'outside' that lets you interact with it really from out-of-process?
+> Perhaps through some kind of shared memory segment? I think that gets
+> tricky with virt-io doing DMA (I think it does?) though, so that part
+> would have to be implemented directly and not out-of-process?
+>=20
+> But really that's why I'm asking - is there a better way than to just
+> link the device-side virt-io code into the same binary (be it lkl lib,
+> uml binary, qemu binary)?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+Hi Johannes,
+Check out vhost-user.  It's a protocol for running a subset of a VIRTIO
+device's emulation in a separate process (usually just the data plane
+with the PCI emulation and other configuration/setup still handled by
+QEMU).
 
--- PMM
+vhost-user uses a UNIX domain socket to pass file descriptors to shared
+memory regions.  This way the vhost-user device backend process has
+access to guest RAM.
+
+This would be quite different for UML since my understanding is you
+don't have guest RAM but actual host Linux processes, but vhost-user
+might still give you ideas:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dblob_plain;f=3Ddocs/interop/vhost-us=
+er.rst;hb=3DHEAD
+
+Stefan
+
+--82evfD9Ogz2JrdWZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzmizYACgkQnKSrs4Gr
+c8iyiQgAtcvNB/axTFWFW8B8Yja3ssAl/WQoNmZFkMVKrMmaRWNWwkZpLvFuijDm
+hKISZpLqpwJLktRbr57OEBdVBGqyORDULJABoB+Tk4le6zQhgXARKoEetmjUQgEM
+0CFEvYO5HrlTERLU0hFfudeH39yz8r3xMI+yZ3PWjCkqZC/KYu8Ny2s82Ltc4mnb
+6OjybksHD4G5MDYC0BJO/lXeARjOO6/eLgxMGDPTWENAJTXOCeXg1ZvYtdvPsdOs
+TFmzkvY63x8j8jKkgR1iJb1QjtGzpLjzhadfIPSl2MQN7hhBmOOsBzvBNJFAqOlo
+ue1U9AT0+ZRt1HMcfWx59MyXofnM+Q==
+=2T/5
+-----END PGP SIGNATURE-----
+
+--82evfD9Ogz2JrdWZ--
 
