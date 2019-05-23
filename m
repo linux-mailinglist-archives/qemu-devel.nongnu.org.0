@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F72528225
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:07:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39954 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207C728233
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:10:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40016 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqFs-0008R3-Eg
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:07:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60231)
+	id 1hTqIr-0003Je-2i
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:10:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60417)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hTqAG-0004Pw-7m
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:01:58 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hTqAK-0004Ti-Fz
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hTqAE-00022Q-RM
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:01:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60966)
+	(envelope-from <kwolf@redhat.com>) id 1hTqAJ-00027l-38
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39604)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hTqA8-0001qI-CM; Thu, 23 May 2019 12:01:49 -0400
+	id 1hTqAF-0001sZ-0x; Thu, 23 May 2019 12:01:55 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 859A830821BF;
-	Thu, 23 May 2019 16:01:35 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6B483308792E;
+	Thu, 23 May 2019 16:01:39 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-143.ams2.redhat.com
 	[10.36.116.143])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 8F9271001F5B;
-	Thu, 23 May 2019 16:01:32 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D06C110027C6;
+	Thu, 23 May 2019 16:01:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 23 May 2019 18:00:59 +0200
-Message-Id: <20190523160104.21258-11-kwolf@redhat.com>
+Date: Thu, 23 May 2019 18:01:00 +0200
+Message-Id: <20190523160104.21258-12-kwolf@redhat.com>
 In-Reply-To: <20190523160104.21258-1-kwolf@redhat.com>
 References: <20190523160104.21258-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Thu, 23 May 2019 16:01:35 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Thu, 23 May 2019 16:01:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 10/15] blockdev: Use bdrv_try_set_aio_context()
- for monitor commands
+Subject: [Qemu-devel] [PATCH 11/15] block: Remove wrong
+ bdrv_set_aio_context() calls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,164 +61,78 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Monitor commands can handle errors, so they can easily be converted to
-using the safer bdrv_try_set_aio_context() function.
+The mirror and commit block jobs use bdrv_set_aio_context() to move
+their filter node into the right AioContext before hooking it up in the
+graph. Similarly, bdrv_open_backing_file() explicitly moves the backing
+file node into the right AioContext first.
 
+This isn't necessary any more, they get automatically moved into the
+right context now when attaching them.
+
+However, in the case of bdrv_open_backing_file() with a node reference,
+it's actually not only unnecessary, but even wrong: The unchecked
+bdrv_set_aio_context() changes the AioContext of the child node even if
+other parents require it to retain the old context. So this is not only
+a simplification, but a bug fix, too.
+
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1684342
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- blockdev.c | 44 ++++++++++++++++++++++++++++----------------
- 1 file changed, 28 insertions(+), 16 deletions(-)
+ block.c        | 1 -
+ block/commit.c | 2 --
+ block/mirror.c | 1 -
+ 3 files changed, 4 deletions(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index 04abbc61c7..624534a05d 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1535,6 +1535,7 @@ static void external_snapshot_prepare(BlkActionStat=
-e *common,
-                              DO_UPCAST(ExternalSnapshotState, common, co=
-mmon);
-     TransactionAction *action =3D common->action;
-     AioContext *aio_context;
-+    int ret;
-=20
-     /* 'blockdev-snapshot' and 'blockdev-snapshot-sync' have similar
-      * purpose but a different set of parameters */
-@@ -1674,7 +1675,10 @@ static void external_snapshot_prepare(BlkActionSta=
-te *common,
-         goto out;
+diff --git a/block.c b/block.c
+index 19268f52f8..e9261c650d 100644
+--- a/block.c
++++ b/block.c
+@@ -2539,7 +2539,6 @@ int bdrv_open_backing_file(BlockDriverState *bs, QD=
+ict *parent_options,
+         ret =3D -EINVAL;
+         goto free_exit;
      }
+-    bdrv_set_aio_context(backing_hd, bdrv_get_aio_context(bs));
 =20
--    bdrv_set_aio_context(state->new_bs, aio_context);
-+    ret =3D bdrv_try_set_aio_context(state->new_bs, aio_context, errp);
-+    if (ret < 0) {
-+        goto out;
-+    }
-=20
-     /* This removes our old bs and adds the new bs. This is an operation=
- that
-      * can fail, so we need to do it in .prepare; undoing it for abort i=
-s
-@@ -3424,6 +3428,7 @@ static BlockJob *do_drive_backup(DriveBackup *backu=
-p, JobTxn *txn,
-     int flags, job_flags =3D JOB_DEFAULT;
-     int64_t size;
-     bool set_backing_hd =3D false;
-+    int ret;
-=20
-     if (!backup->has_speed) {
-         backup->speed =3D 0;
-@@ -3520,7 +3525,11 @@ static BlockJob *do_drive_backup(DriveBackup *back=
-up, JobTxn *txn,
-         goto out;
+     if (implicit_backing) {
+         bdrv_refresh_filename(backing_hd);
+diff --git a/block/commit.c b/block/commit.c
+index 4d519506d6..c815def89a 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -301,7 +301,6 @@ void commit_start(const char *job_id, BlockDriverStat=
+e *bs,
+         commit_top_bs->implicit =3D true;
      }
+     commit_top_bs->total_sectors =3D top->total_sectors;
+-    bdrv_set_aio_context(commit_top_bs, bdrv_get_aio_context(top));
 =20
--    bdrv_set_aio_context(target_bs, aio_context);
-+    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    if (ret < 0) {
-+        bdrv_unref(target_bs);
-+        goto out;
-+    }
-=20
-     if (set_backing_hd) {
-         bdrv_set_backing_hd(target_bs, source, &local_err);
-@@ -3592,6 +3601,7 @@ BlockJob *do_blockdev_backup(BlockdevBackup *backup=
-, JobTxn *txn,
-     AioContext *aio_context;
-     BlockJob *job =3D NULL;
-     int job_flags =3D JOB_DEFAULT;
-+    int ret;
-=20
-     if (!backup->has_speed) {
-         backup->speed =3D 0;
-@@ -3628,16 +3638,9 @@ BlockJob *do_blockdev_backup(BlockdevBackup *backu=
-p, JobTxn *txn,
-         goto out;
+     bdrv_append(commit_top_bs, top, &local_err);
+     if (local_err) {
+@@ -443,7 +442,6 @@ int bdrv_commit(BlockDriverState *bs)
+         error_report_err(local_err);
+         goto ro_cleanup;
      }
+-    bdrv_set_aio_context(commit_top_bs, bdrv_get_aio_context(backing_fil=
+e_bs));
 =20
--    if (bdrv_get_aio_context(target_bs) !=3D aio_context) {
--        if (!bdrv_has_blk(target_bs)) {
--            /* The target BDS is not attached, we can safely move it to =
-another
--             * AioContext. */
--            bdrv_set_aio_context(target_bs, aio_context);
--        } else {
--            error_setg(errp, "Target is attached to a different thread f=
-rom "
--                             "source.");
--            goto out;
--        }
-+    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    if (ret < 0) {
-+        goto out;
-     }
+     bdrv_set_backing_hd(commit_top_bs, backing_file_bs, &error_abort);
+     bdrv_set_backing_hd(bs, commit_top_bs, &error_abort);
+diff --git a/block/mirror.c b/block/mirror.c
+index eb96b52de9..f8bdb5b21b 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1543,7 +1543,6 @@ static void mirror_start_job(const char *job_id, Bl=
+ockDriverState *bs,
+                                           BDRV_REQ_NO_FALLBACK;
+     bs_opaque =3D g_new0(MirrorBDSOpaque, 1);
+     mirror_top_bs->opaque =3D bs_opaque;
+-    bdrv_set_aio_context(mirror_top_bs, bdrv_get_aio_context(bs));
 =20
-     if (backup->has_bitmap) {
-@@ -3810,6 +3813,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error **err=
-p)
-     int flags;
-     int64_t size;
-     const char *format =3D arg->format;
-+    int ret;
-=20
-     bs =3D qmp_get_root_bs(arg->device, errp);
-     if (!bs) {
-@@ -3910,7 +3914,11 @@ void qmp_drive_mirror(DriveMirror *arg, Error **er=
-rp)
-         goto out;
-     }
-=20
--    bdrv_set_aio_context(target_bs, aio_context);
-+    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    if (ret < 0) {
-+        bdrv_unref(target_bs);
-+        goto out;
-+    }
-=20
-     blockdev_mirror_common(arg->has_job_id ? arg->job_id : NULL, bs, tar=
-get_bs,
-                            arg->has_replaces, arg->replaces, arg->sync,
-@@ -3954,6 +3962,7 @@ void qmp_blockdev_mirror(bool has_job_id, const cha=
-r *job_id,
-     AioContext *aio_context;
-     BlockMirrorBackingMode backing_mode =3D MIRROR_LEAVE_BACKING_CHAIN;
-     Error *local_err =3D NULL;
-+    int ret;
-=20
-     bs =3D qmp_get_root_bs(device, errp);
-     if (!bs) {
-@@ -3968,7 +3977,10 @@ void qmp_blockdev_mirror(bool has_job_id, const ch=
-ar *job_id,
-     aio_context =3D bdrv_get_aio_context(bs);
-     aio_context_acquire(aio_context);
-=20
--    bdrv_set_aio_context(target_bs, aio_context);
-+    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    if (ret < 0) {
-+        goto out;
-+    }
-=20
-     blockdev_mirror_common(has_job_id ? job_id : NULL, bs, target_bs,
-                            has_replaces, replaces, sync, backing_mode,
-@@ -3984,7 +3996,7 @@ void qmp_blockdev_mirror(bool has_job_id, const cha=
-r *job_id,
-                            has_auto_dismiss, auto_dismiss,
-                            &local_err);
-     error_propagate(errp, local_err);
--
-+out:
-     aio_context_release(aio_context);
- }
-=20
-@@ -4474,7 +4486,7 @@ void qmp_x_blockdev_set_iothread(const char *node_n=
-ame, StrOrNull *iothread,
-     old_context =3D bdrv_get_aio_context(bs);
-     aio_context_acquire(old_context);
-=20
--    bdrv_set_aio_context(bs, new_context);
-+    bdrv_try_set_aio_context(bs, new_context, errp);
-=20
-     aio_context_release(old_context);
- }
+     /* bdrv_append takes ownership of the mirror_top_bs reference, need =
+to keep
+      * it alive until block_job_create() succeeds even if bs has no pare=
+nt. */
 --=20
 2.20.1
 
