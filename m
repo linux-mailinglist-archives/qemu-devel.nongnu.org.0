@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C341727EDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:54:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36805 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C597227EE4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:56:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36869 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hToB8-0000v1-Sr
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:54:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42287)
+	id 1hToCm-0002Ww-Vw
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:56:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42359)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hTo1a-0002oi-AR
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:52 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hTo1f-0002rq-56
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hTo1Y-0005s9-Pw
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44420)
+	(envelope-from <stefanha@redhat.com>) id 1hTo1c-00060X-Mb
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60442)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hTo1Y-0005Ef-Fj
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:48 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hTo1c-0005Pc-Br
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:52 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DA27444BC6;
-	Thu, 23 May 2019 13:44:25 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 408413001749;
+	Thu, 23 May 2019 13:44:32 +0000 (UTC)
 Received: from localhost (ovpn-116-196.ams2.redhat.com [10.36.116.196])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E69971001E81;
-	Thu, 23 May 2019 13:44:20 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0EF064385;
+	Thu, 23 May 2019 13:44:26 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: <qemu-devel@nongnu.org>
-Date: Thu, 23 May 2019 14:44:06 +0100
-Message-Id: <20190523134409.18673-1-stefanha@redhat.com>
+Date: Thu, 23 May 2019 14:44:07 +0100
+Message-Id: <20190523134409.18673-2-stefanha@redhat.com>
+In-Reply-To: <20190523134409.18673-1-stefanha@redhat.com>
+References: <20190523134409.18673-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Thu, 23 May 2019 13:44:25 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Thu, 23 May 2019 13:44:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v2 0/3] scsi: restart dma after vm change state
- handlers
+Subject: [Qemu-devel] [RFC v2 1/3] virtio: add vdc->vmchange_state() callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,32 +61,80 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
- * Do it properly with a clean API instead of deferring to a BH!
-   Thanks for encouraging me to do this, Kevin.
+The core virtio code invokes ->set_status() followed by
+->ioeventfd_start() when the guest resumes execution.  Both of these
+functions are also called in other cases unrelated to vm change state.
 
-These patches solve a deadlock when the 'cont' command is used and there =
-are
-failed requests on a virtio-scsi device with iothreads.  The deadlock its=
-elf is
-actually not the thing we need to fix because we should never reach that =
-case
-anyway.  Instead we need to make sure DMA restart is only performed after=
- the
-virtio-scsi iothread is re-initialized.
+This patch introduces ->vmstate_change() so that devices can act on
+guest pause/resume.  The existing qemu_add_vm_change_state_handler() API
+isn't usable by virtio devices since the ordering between vm change
+state handlers is undefined.  The new ->vmstate_change() callback is
+always invoked after ->set_status() and ->ioeventfd_start() when
+resuming a guest.
 
-Stefan Hajnoczi (3):
-  virtio: add vdc->vmchange_state() callback
-  scsi: add scsi_bus_dma_restart()
-  virtio-scsi: fix iothread deadlock on 'cont'
+A later patch makes use of this new callback.
 
- include/hw/scsi/scsi.h     |  5 +++++
- include/hw/virtio/virtio.h |  7 +++++++
- hw/scsi/scsi-bus.c         | 37 ++++++++++++++++++++++++++++++-------
- hw/scsi/virtio-scsi.c      | 17 +++++++++++++++++
- hw/virtio/virtio.c         |  9 +++++++++
- 5 files changed, 68 insertions(+), 7 deletions(-)
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ include/hw/virtio/virtio.h | 7 +++++++
+ hw/virtio/virtio.c         | 9 +++++++++
+ 2 files changed, 16 insertions(+)
 
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 7140381e3a..46e54362dc 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -156,6 +156,13 @@ typedef struct VirtioDeviceClass {
+     void (*save)(VirtIODevice *vdev, QEMUFile *f);
+     int (*load)(VirtIODevice *vdev, QEMUFile *f, int version_id);
+     const VMStateDescription *vmsd;
++
++    /* Called when the device should start/stop running because the gues=
+t was
++     * resumed/paused.  Note that this takes VIRTIO_CONFIG_S_DRIVER_OK i=
+nto
++     * account so running is true iff the guest is resumed and the guest=
+ driver
++     * has already indicated it is ready.
++     */
++    void (*vmstate_change)(VirtIODevice *vdev, bool running);
+ } VirtioDeviceClass;
+=20
+ void virtio_instance_init_common(Object *proxy_obj, void *data,
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 28056a7ef7..f9f31b5325 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2246,6 +2246,7 @@ static void virtio_vmstate_change(void *opaque, int=
+ running, RunState state)
+     VirtIODevice *vdev =3D opaque;
+     BusState *qbus =3D qdev_get_parent_bus(DEVICE(vdev));
+     VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(qbus);
++    VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+     bool backend_run =3D running && (vdev->status & VIRTIO_CONFIG_S_DRIV=
+ER_OK);
+     vdev->vm_running =3D running;
+=20
+@@ -2253,10 +2254,18 @@ static void virtio_vmstate_change(void *opaque, i=
+nt running, RunState state)
+         virtio_set_status(vdev, vdev->status);
+     }
+=20
++    if (!backend_run && k->vmstate_change) {
++        vdc->vmstate_change(vdev, backend_run);
++    }
++
+     if (k->vmstate_change) {
+         k->vmstate_change(qbus->parent, backend_run);
+     }
+=20
++    if (backend_run && k->vmstate_change) {
++        vdc->vmstate_change(vdev, backend_run);
++    }
++
+     if (!backend_run) {
+         virtio_set_status(vdev, vdev->status);
+     }
 --=20
 2.21.0
 
