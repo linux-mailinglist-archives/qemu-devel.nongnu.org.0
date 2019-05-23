@@ -2,49 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262D92825E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:15:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40118 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4943D2836C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:24:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40283 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqNT-00084l-8i
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:15:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60485)
+	id 1hTqWG-00067X-Ec
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:24:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35934)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hTqAP-0004bt-L2
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:06 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hTqLt-0007OT-3R
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:13:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hTqAK-00029f-MY
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41786)
+	(envelope-from <mreitz@redhat.com>) id 1hTqLs-0003iV-7S
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:13:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:14621)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hTqAF-0001vQ-0V; Thu, 23 May 2019 12:01:55 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hTqLq-0003gU-04; Thu, 23 May 2019 12:13:54 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id F34A0C0A4F7D;
-	Thu, 23 May 2019 16:01:44 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-116-143.ams2.redhat.com
-	[10.36.116.143])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E1D801001E6F;
-	Thu, 23 May 2019 16:01:43 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Date: Thu, 23 May 2019 18:01:04 +0200
-Message-Id: <20190523160104.21258-16-kwolf@redhat.com>
-In-Reply-To: <20190523160104.21258-1-kwolf@redhat.com>
-References: <20190523160104.21258-1-kwolf@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 14C3ED56F1;
+	Thu, 23 May 2019 16:13:35 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.176])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E77F6198B;
+	Thu, 23 May 2019 16:13:27 +0000 (UTC)
+To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
+	qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190523154444.28783-1-shmuel.eiderman@oracle.com>
+	<20190523154444.28783-2-shmuel.eiderman@oracle.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <72e53cec-c68f-5d47-9152-49551692880b@redhat.com>
+Date: Thu, 23 May 2019 18:13:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20190523154444.28783-2-shmuel.eiderman@oracle.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="JXyXOKYFiWFD7z0lJcSWaF1uWdDyWE80a"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Thu, 23 May 2019 16:01:45 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.38]);
+	Thu, 23 May 2019 16:13:48 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 15/15] block: Remove bdrv_set_aio_context()
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v4 1/3] qemu-img: rebase: Reuse parent
+ BlockDriverState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,146 +88,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: sagi.amit@oracle.com, arbel.moshe@oracle.com, liran.alon@oracle.com,
+	eyal.moscovici@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All callers of bdrv_set_aio_context() are eliminated now, they have
-moved to bdrv_try_set_aio_context() and related safe functions. Remove
-bdrv_set_aio_context().
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JXyXOKYFiWFD7z0lJcSWaF1uWdDyWE80a
+From: Max Reitz <mreitz@redhat.com>
+To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: eyal.moscovici@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com,
+ liran.alon@oracle.com, arbel.moshe@oracle.com
+Message-ID: <72e53cec-c68f-5d47-9152-49551692880b@redhat.com>
+Subject: Re: [PATCH v4 1/3] qemu-img: rebase: Reuse parent BlockDriverState
+References: <20190523154444.28783-1-shmuel.eiderman@oracle.com>
+ <20190523154444.28783-2-shmuel.eiderman@oracle.com>
+In-Reply-To: <20190523154444.28783-2-shmuel.eiderman@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-With this, we can now know that the .set_aio_ctx callback must be
-present in bdrv_set_aio_context_ignore() because
-bdrv_can_set_aio_context() would have returned false previously, so
-instead of checking the condition, we can assert it.
+On 23.05.19 17:44, Sam Eiderman wrote:
+> In safe mode we open the entire chain, including the parent backing
+> file of the rebased file.
+> Do not open a new BlockBackend for the parent backing file, which
+> saves opening the rest of the chain twice, which for long chains
+> saves many "pricy" bdrv_open() calls.
+>=20
+> Permissions for blk_new() were copied from blk_new_open() when
+> flags =3D 0.
+>=20
+> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+> Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
+> Signed-off-by: Sagi Amit <sagi.amit@oracle.com>
+> Co-developed-by: Sagi Amit <sagi.amit@oracle.com>
+> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+> ---
+>  qemu-img.c | 29 +++++++++--------------------
+>  1 file changed, 9 insertions(+), 20 deletions(-)
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- docs/devel/multiple-iothreads.txt |  4 ++--
- include/block/block.h             |  9 ---------
- block.c                           | 30 ++++++++++++++----------------
- 3 files changed, 16 insertions(+), 27 deletions(-)
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-diff --git a/docs/devel/multiple-iothreads.txt b/docs/devel/multiple-ioth=
-reads.txt
-index 4f9012d154..aeb997bed5 100644
---- a/docs/devel/multiple-iothreads.txt
-+++ b/docs/devel/multiple-iothreads.txt
-@@ -109,7 +109,7 @@ The AioContext originates from the QEMU block layer, =
-even though nowadays
- AioContext is a generic event loop that can be used by any QEMU subsyste=
-m.
-=20
- The block layer has support for AioContext integrated.  Each BlockDriver=
-State
--is associated with an AioContext using bdrv_set_aio_context() and
-+is associated with an AioContext using bdrv_try_set_aio_context() and
- bdrv_get_aio_context().  This allows block layer code to process I/O ins=
-ide the
- right AioContext.  Other subsystems may wish to follow a similar approac=
-h.
-=20
-@@ -134,5 +134,5 @@ Long-running jobs (usually in the form of coroutines)=
- are best scheduled in
- the BlockDriverState's AioContext to avoid the need to acquire/release a=
-round
- each bdrv_*() call.  The functions bdrv_add/remove_aio_context_notifier,
- or alternatively blk_add/remove_aio_context_notifier if you use BlockBac=
-kends,
--can be used to get a notification whenever bdrv_set_aio_context() moves =
-a
-+can be used to get a notification whenever bdrv_try_set_aio_context() mo=
-ves a
- BlockDriverState to a different AioContext.
-diff --git a/include/block/block.h b/include/block/block.h
-index 531cf595cf..13ea050a5b 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -583,15 +583,6 @@ AioContext *bdrv_get_aio_context(BlockDriverState *b=
-s);
-  */
- void bdrv_coroutine_enter(BlockDriverState *bs, Coroutine *co);
-=20
--/**
-- * bdrv_set_aio_context:
-- *
-- * Changes the #AioContext used for fd handlers, timers, and BHs by this
-- * BlockDriverState and all its children.
-- *
-- * This function must be called with iothread lock held.
-- */
--void bdrv_set_aio_context(BlockDriverState *bs, AioContext *new_context)=
-;
- void bdrv_set_aio_context_ignore(BlockDriverState *bs,
-                                  AioContext *new_context, GSList **ignor=
-e);
- int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
-diff --git a/block.c b/block.c
-index e9261c650d..628f65c41a 100644
---- a/block.c
-+++ b/block.c
-@@ -5791,8 +5791,17 @@ static void bdrv_attach_aio_context(BlockDriverSta=
-te *bs,
-     bs->walking_aio_notifiers =3D false;
- }
-=20
--/* @ignore will accumulate all visited BdrvChild object. The caller is
-- * responsible for freeing the list afterwards. */
-+/*
-+ * Changes the AioContext used for fd handlers, timers, and BHs by this
-+ * BlockDriverState and all its children and parents.
-+ *
-+ * The caller must own the AioContext lock for the old AioContext of bs,=
- but it
-+ * must not own the AioContext lock for new_context (unless new_context =
-is the
-+ * same as the current context of bs).
-+ *
-+ * @ignore will accumulate all visited BdrvChild object. The caller is
-+ * responsible for freeing the list afterwards.
-+ */
- void bdrv_set_aio_context_ignore(BlockDriverState *bs,
-                                  AioContext *new_context, GSList **ignor=
-e)
- {
-@@ -5815,10 +5824,9 @@ void bdrv_set_aio_context_ignore(BlockDriverState =
-*bs,
-         if (g_slist_find(*ignore, child)) {
-             continue;
-         }
--        if (child->role->set_aio_ctx) {
--            *ignore =3D g_slist_prepend(*ignore, child);
--            child->role->set_aio_ctx(child, new_context, ignore);
--        }
-+        assert(child->role->set_aio_ctx);
-+        *ignore =3D g_slist_prepend(*ignore, child);
-+        child->role->set_aio_ctx(child, new_context, ignore);
-     }
-=20
-     bdrv_detach_aio_context(bs);
-@@ -5832,16 +5840,6 @@ void bdrv_set_aio_context_ignore(BlockDriverState =
-*bs,
-     aio_context_release(new_context);
- }
-=20
--/* The caller must own the AioContext lock for the old AioContext of bs,=
- but it
-- * must not own the AioContext lock for new_context (unless new_context =
-is
-- * the same as the current context of bs). */
--void bdrv_set_aio_context(BlockDriverState *bs, AioContext *new_context)
--{
--    GSList *ignore_list =3D NULL;
--    bdrv_set_aio_context_ignore(bs, new_context, &ignore_list);
--    g_slist_free(ignore_list);
--}
--
- static bool bdrv_parent_can_set_aio_context(BdrvChild *c, AioContext *ct=
-x,
-                                             GSList **ignore, Error **err=
-p)
- {
---=20
-2.20.1
 
+--JXyXOKYFiWFD7z0lJcSWaF1uWdDyWE80a
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzmxqYACgkQ9AfbAGHV
+z0DI7wf/d398BybQa4Acv1m1acMpizpGPSrUEGznl6QNRTG6KdSd/rYzwENxpKbo
+LrrN4aqvOr/ZT+5YiHn6Dej3tpwswrArXyLWxalnlZaw5BTQe5ZYcEBEqtesOlnC
+wySq+YPquZmZHoI61IsqxK5wnES6dJ/kJOkRbLpkYhu0mgjzzYW22+ORACQMpkU1
+VpzCPnTk931e2ebPPqBZyHgEF7ivIXCiKVWBOoCc3Mtev4F/9n+9EFxLSf4USA7q
+tjpD2JAqGox52jFvCHAVWpDWm5XMZWReUJfQdJB+8ykNZg5PKrpJF8k7KJyPl+6p
+PCwWqxyDx4XizitpESdFs7HBdsWW0A==
+=hsEz
+-----END PGP SIGNATURE-----
+
+--JXyXOKYFiWFD7z0lJcSWaF1uWdDyWE80a--
 
