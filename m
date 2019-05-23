@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FBC27535
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 06:32:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57458 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6245275A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 07:40:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58047 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTfP7-0007MJ-HK
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 00:32:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33891)
+	id 1hTgSy-0006LW-32
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 01:40:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43547)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTfMf-0006K6-59
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 00:30:02 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTgRz-00062h-4s
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:39:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTfMd-0005tD-TA
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 00:30:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34672)
+	(envelope-from <bounces@canonical.com>) id 1hTgRx-0002ZT-VL
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:39:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40582)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hTfMd-0005sF-Ny
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 00:29:59 -0400
+	id 1hTgRx-0002Yv-QB
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:39:33 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hTfMc-0003AD-0P
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:29:58 +0000
+	id 1hTgRw-0007oV-6C
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:39:32 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id CF4D12E80E0
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:29:57 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 2E06B2E80CC
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:39:32 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 May 2019 04:17:25 -0000
-From: Launchpad Bug Tracker <1562653@bugs.launchpad.net>
+Date: Thu, 23 May 2019 05:26:55 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1562653@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -42,17 +42,18 @@ X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: changlimin janitor serge-hallyn th-huth
+X-Launchpad-Bug-Commenters: changlimin janitor paelzer serge-hallyn th-huth
 X-Launchpad-Bug-Reporter: changlimin (changlimin)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+	=?utf-8?q?=29?=
 References: <20160328013239.3708.98267.malonedeb@wampee.canonical.com>
-Message-Id: <155858504571.3863.6712716764004592394.malone@loganberry.canonical.com>
+Message-Id: <155858921568.21818.2071267317226938464.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18962";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: dd12e7ac5d7d1fd23313a3fc168c53e3de5e5721
+X-Launchpad-Hash: b64ff67e75696d1d614c8b5028bb41f0b97145b7
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1562653] Re: Ubuntu 15.10: QEMU VM hang if memory
@@ -71,11 +72,14 @@ Reply-To: Bug 1562653 <1562653@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for qemu (Ubuntu) because there has been no activity for 60
-days.]
+I only saw this because it expired now :-/
 
-** Changed in: qemu (Ubuntu)
-       Status: Incomplete =3D> Expired
+Anyone affected by this might want to take a look at bug 1776189 where
+Ubuntu added a special machine type to more easily set "host-phys-bits"
+which is the qemu flag to have more (usually the host has more)
+available (at the cost of migratability). That allows <1TB as the
+default bits in qemu are chosen on the base of TCG (to be able to
+emulate what is virtualized) and that is limited to 1TB.
 
 -- =
 
