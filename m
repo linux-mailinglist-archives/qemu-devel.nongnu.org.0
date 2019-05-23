@@ -2,82 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729D527F51
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:16:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37211 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FEE27F62
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:18:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37231 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hToVj-0002S2-IC
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:15:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47678)
+	id 1hToXr-0005JU-Mj
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:18:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48503)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hToL4-0000bO-8m
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:05:00 -0400
+	(envelope-from <crosa@redhat.com>) id 1hToNc-0002wp-4g
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:07:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hToL2-0006pz-51
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:04:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47562)
+	(envelope-from <crosa@redhat.com>) id 1hToNP-0000Ri-FW
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:07:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36218)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hToKw-0006ms-HL; Thu, 23 May 2019 10:04:52 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <crosa@redhat.com>)
+	id 1hToNJ-0000Iu-DR; Thu, 23 May 2019 10:07:17 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A2DB33082B4B;
-	Thu, 23 May 2019 14:04:25 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.176])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A9BF963B82;
-	Thu, 23 May 2019 14:04:19 +0000 (UTC)
-To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
-	qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
-	<20190502135828.42797-1-shmuel.eiderman@oracle.com>
-	<20190502135828.42797-4-shmuel.eiderman@oracle.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <20d47047-6781-6fc6-51f0-d7dd7fdb8145@redhat.com>
-Date: Thu, 23 May 2019 16:04:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	by mx1.redhat.com (Postfix) with ESMTPS id 62AB8C05B038;
+	Thu, 23 May 2019 14:07:10 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+	(colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5744C68409;
+	Thu, 23 May 2019 14:07:10 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+	(zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 421375B423;
+	Thu, 23 May 2019 14:07:10 +0000 (UTC)
+Date: Thu, 23 May 2019 10:07:07 -0400 (EDT)
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Message-ID: <1573198914.24360394.1558620427447.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20190520220635.10961-3-f4bug@amsat.org>
+References: <20190520220635.10961-1-f4bug@amsat.org>
+	<20190520220635.10961-3-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20190502135828.42797-4-shmuel.eiderman@oracle.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="LkX2rV05IE2iDOmMvz69WhZpziqwnjXk2"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.36.116.137, 10.4.195.26]
+Thread-Topic: BootLinuxConsoleTest: Test the SmartFusion2 board
+Thread-Index: yuk6Th97nzYGOlrw3F6Jx+DGToPwDw==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.45]);
-	Thu, 23 May 2019 14:04:44 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Thu, 23 May 2019 14:07:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v2 3/3] qemu-img: rebase: Reuse in-chain
- BlockDriverState
+Subject: Re: [Qemu-devel] [PATCH 2/2] BootLinuxConsoleTest: Test the
+ SmartFusion2 board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -89,63 +66,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sagi.amit@oracle.com, arbel.moshe@oracle.com, liran.alon@oracle.com,
-	eyal.moscovici@oracle.com, karl.heubaum@oracle.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+	Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
+	Caio Carrara <ccarrara@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---LkX2rV05IE2iDOmMvz69WhZpziqwnjXk2
-From: Max Reitz <mreitz@redhat.com>
-To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: eyal.moscovici@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com,
- liran.alon@oracle.com, arbel.moshe@oracle.com
-Message-ID: <20d47047-6781-6fc6-51f0-d7dd7fdb8145@redhat.com>
-Subject: Re: [PATCH v2 3/3] qemu-img: rebase: Reuse in-chain BlockDriverState
-References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
- <20190502135828.42797-1-shmuel.eiderman@oracle.com>
- <20190502135828.42797-4-shmuel.eiderman@oracle.com>
-In-Reply-To: <20190502135828.42797-4-shmuel.eiderman@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-On 02.05.19 15:58, Sam Eiderman wrote:
-> If a chain was detected, don't open a new BlockBackend from the target
-> backing file which will create a new BlockDriverState. Instead, create
-> an empty BlockBackend and attach the already open BlockDriverState.
+
+----- Original Message -----
+> From: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
+> To: qemu-devel@nongnu.org
+> Cc: "Eduardo Habkost" <ehabkost@redhat.com>, "Caio Carrara" <ccarrara@red=
+hat.com>, "Alistair Francis"
+> <alistair@alistair23.me>, "Subbaraya Sundeep" <sundeep.lkml@gmail.com>, q=
+emu-arm@nongnu.org, "Cleber Rosa"
+> <crosa@redhat.com>, "Peter Maydell" <peter.maydell@linaro.org>, "Philippe=
+ Mathieu-Daud=C3=A9" <f4bug@amsat.org>
+> Sent: Monday, May 20, 2019 6:06:35 PM
+> Subject: [PATCH 2/2] BootLinuxConsoleTest: Test the SmartFusion2 board
 >=20
-> Permissions for blk_new() were copied from blk_new_open() when
-> flags =3D 0.
+> Similar to the x86_64/pc test, it boots a Linux kernel on an
+> Emcraft board and verify the serial is working.
 >=20
-> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-> Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
-> Signed-off-by: Sagi Amit <sagi.amit@oracle.com>
-> Co-developed-by: Sagi Amit <sagi.amit@oracle.com>
-> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+> If ARM is a target being built, "make check-acceptance" will
+> automatically include this test by the use of the "arch:arm" tags.
+>=20
+> Alternatively, this test can be run using:
+>=20
+>   $ avocado run -t arch:arm tests/acceptance
+>   $ avocado run -t machine:emcraft-sf2 tests/acceptance
+>=20
+> Based on the recommended test setup from Subbaraya Sundeep:
+> https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg03810.html
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  qemu-img.c | 33 +++++++++++++++++++++++----------
->  1 file changed, 23 insertions(+), 10 deletions(-)
+>  tests/acceptance/boot_linux_console.py | 27 ++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+>=20
+> diff --git a/tests/acceptance/boot_linux_console.py
+> b/tests/acceptance/boot_linux_console.py
+> index f593f3858e..844cb80bb5 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -178,6 +178,33 @@ class BootLinuxConsole(Test):
+>          console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
+ine
+>          self.wait_for_console_pattern(console_pattern)
+> =20
+> +    def test_arm_emcraft_sf2(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Dmachine:emcraft-sf2
+> +        :avocado: tags=3Dendian:little
+> +        """
+> +        uboot_url =3D ('https://raw.githubusercontent.com/'
+> +                     'Subbaraya-Sundeep/qemu-test-binaries/'
+> +                     'fa030bd77a014a0b8e360d3b7011df89283a2f0b/u-boot')
+> +        uboot_hash =3D 'abba5d9c24cdd2d49cdc2a8aa92976cf20737eff'
+> +        uboot_path =3D self.fetch_asset(uboot_url, asset_hash=3Duboot_ha=
+sh)
+> +        spi_url =3D ('https://raw.githubusercontent.com/'
+> +                   'Subbaraya-Sundeep/qemu-test-binaries/'
+> +                   'fa030bd77a014a0b8e360d3b7011df89283a2f0b/spi.bin')
+> +        spi_hash =3D '85f698329d38de63aea6e884a86fbde70890a78a'
+> +        spi_path =3D self.fetch_asset(spi_url, asset_hash=3Dspi_hash)
+> +
+> +        self.vm.set_machine('emcraft-sf2')
+> +        self.vm.set_console()
+> +        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+The kernel_command_line variable is not needed...
 
+> +        self.vm.add_args('-kernel', uboot_path,
+> +                         '-append', kernel_command_line,
 
---LkX2rV05IE2iDOmMvz69WhZpziqwnjXk2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+... and you can just use self.KERNEL_COMMON_COMMAND_LINE here.
 
------BEGIN PGP SIGNATURE-----
+> +                         '-drive', 'file=3D' + spi_path +
+> ',if=3Dmtd,format=3Draw',
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzmqGIACgkQ9AfbAGHV
-z0DFYgf+Ms8GWXeq0L1m60hJUgB3QH3KuTb8ifsKyF43RkXM3HxY5T+tO7a9T1bm
-WRKikBgbd/zGwNXylgcP7V2SEHvCw88fQrxW95zK5uZi4VnuaYzXFgowTTLxX1Tc
-d05xw3KycFBYMxUoDIVNmrgCdash0X281yT6h3S5Hc4EsLUBJHCgImCYD5K7FXOe
-4WY758/JjCwWmVSaRuVQuhU4++nttgQx+7qROBTK4gJG9WguX3E15OkWkgy4BhY3
-oGyPS6hD5ls11mdALVjuTAau6jphKkgYkbwewlCE+/+SrSO0E019oRmkK895RrAP
-AJxYTZ7f+1D4w1kxUqpDw+eGSx87QQ==
-=rhFp
------END PGP SIGNATURE-----
+Nitpick: it's more Pythonic to format strings than to concatenate
+them.
 
---LkX2rV05IE2iDOmMvz69WhZpziqwnjXk2--
+> +                         '-no-reboot')
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern('init started: BusyBox')
+
+Another nitpick is, given that image is pinned down, maybe attempt to
+match against the entire line?
+
+  init started: BusyBox v1.24.1 (2017-05-15 09:57:00 IST)
+
+> +
+>      def test_s390x_s390_ccw_virtio(self):
+>          """
+>          :avocado: tags=3Darch:s390x
+> --
+> 2.19.1
+>=20
+>=20
+
+Because of the other discussions about tests and timeouts, this is
+what I get on a first run (having to download the images):
+
+ (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_emc=
+raft_sf2: PASS (27.49 s)
+
+And then, a pretty consistent < 8s mark using the resources from
+cache:
+
+ (01/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (7.55 s)
+ (02/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (7.35 s)
+ (03/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (7.40 s)
+ (04/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (7.60 s)
+ (05/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (7.62 s)
+ (06/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (7.33 s)
+ (07/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (7.35 s)
+ (08/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (6.38 s)
+ (09/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (7.39 s)
+ (10/10) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_e=
+mcraft_sf2: PASS (7.44 s)
+
+It'd be nice to know the average test execution time on real/typical
+hardware, and with that, starting to adjust expected timeouts.  Anyway:
+
+Tested-by: Cleber Rosa <crosa@redhat.com>
 
