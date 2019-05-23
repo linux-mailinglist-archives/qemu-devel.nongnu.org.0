@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A1728032
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:48:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38071 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2662804C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:54:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38192 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTp1Z-00081l-9R
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:48:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60994)
+	id 1hTp7G-0003la-KQ
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:54:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32898)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTowz-0004Ja-KM
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:10 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hToxI-0004Zb-Bv
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTowy-0006Lp-GQ
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:09 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:46945)
+	(envelope-from <laurent@vivier.eu>) id 1hToxH-0006qD-3t
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:34027)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTowy-0006L1-7i
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:08 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hToxG-0006my-R7
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:27 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1N3bnP-1gTqaZ16Jv-010gql; Thu, 23 May 2019 16:43:44 +0200
+	id 1M4K6z-1hU5vU2RAv-000Ikn; Thu, 23 May 2019 16:43:45 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 16:43:31 +0200
-Message-Id: <20190523144336.13960-6-laurent@vivier.eu>
+Date: Thu, 23 May 2019 16:43:32 +0200
+Message-Id: <20190523144336.13960-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523144336.13960-1-laurent@vivier.eu>
 References: <20190523144336.13960-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fIEHQdd0xLK6m76XJQ2KhMZcRti/qRyWCnr5W8HvJUbSHd5u++D
-	vjWkW1hlXmmXSjAP5XQcbX1ylBXrX8v9Fwy6bOTeoyIMwhz0jI7/kYSkpbTB8u8+rr/52go
-	/37KkzRC3qFCsEPhNoyDASRKt7Z+Xv4wQGzwmYTWwJlPzp1tZfs9dWZL+EHQ9+GJzvxCnem
-	udHo2gBPM1ijtz9sGtNcA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9HCEEhfrL18=:FofsW3m17SvLq8lJsk2umn
-	+upCSqr3L6oF3FdboCgTbqlYhVsScsYBP/uEiD4GMolt2GOhh+OV7Sok4azni3RW/Bu+nXkai
-	b+Ap6L2POSzo9PLiJqUTOPxjApESJ6GBYIMxpahtKUGrVJed+JmYpnllhbKgRWiKt2KbkwSRL
-	4nDHX/uQVUrSA7Uv+EeRZvW0w05zBM7a7zQFvNaLBp9YgX6PfqB34q+qJP1Eggfl6aKMrQXrp
-	DXANhMWk3yfWHqzPMsUmfpOwnH8rp2Bp4pn2+NgC3Wcy1roxkVpDLX479D89FIckRAK3NGvWf
-	SF9uw42FQvdQSruCKUc/A/+iKkdJ5/MgEJWWgnkIbe356M89FHS+O9IlP4SD4ZeKXjVTuByS4
-	A3xWH44sZF7KO5i4LniMl0OkZ8549COJSh5zRpP6Aemsk+cWg1jAyMmzcHITKaQj/YQe7vO0C
-	5XMZlMMaMjS/tIs6Z5A5Yf24MXCJPOX5W4ClCluEhUeekNaQwG4R4aZch0q6ZWoP+RFbmqDMU
-	mOxxwERHk2z4dsR5z7XGH+9SQB8V2TjtdhE0d64FIpGYCmS9/WTTu21QAg9Ok0IAbfDkC/lgz
-	LMutEdiTDQFGmDiKUoYRbroRLfG0Kzy6wZ/Yiyy0QKg1jVRVbF3/3fmuaZsF7XU1mEdvDaUfs
-	5cSKK6CCaPzyb93Q4vTkC6z7LF71AeWG9TEYD1reuiodb1ZLesIP/rMHQxCCIO6XN6cD0EClV
-	0EwK/8ZUM3iMYmeuiIHsw5+3kzFvB4wqf9Ql1g==
+X-Provags-ID: V03:K1:vOPW+lduhkMebW1fHRlZBTEPg6cT0dAhKXzKtqUnbIHrrP3DNkA
+	TBwRphh/4P7VQ60+fZwOOYgVVKjmjeRrBQYf+5qXV3Fxac2qlHIEvjOMukNaBFBA6FqBawe
+	KNTslxmPuSMSAtpl0Kci/dfFujvg7MizL5Ua8ulav55z1Yg90Jd4CVBhg6bZFG2IYcHybNm
+	mHRAx/EP3/QyiQ2JkW0Rg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FYtVsMceus0=:T/Y6hMlhLGucsEs2z96vGe
+	Hj5uJaElewe8F3qnW/dSliBKKGrImbeSH3D3sD+HOP7Cq1/Wq/Xbj8ow9vCBdWbEEieOpdmBJ
+	Cij/7gxXm/zQ6zIvcVPtzoAlAZFW03z3HzVCc0LkXVQaNiILCG0Al5sn5gom4veRoWj4MfSV8
+	XJ3zNlROj1qsW5mnFSp0kuaCR91RccIhW+Xzf48f+WG9YDRhQBCeHa9PdTAO6Z45S4+x8rq+w
+	DciynQBiQQa9AIiTYtX8p0bX1f99ktbDWG2gD2fBYYvD1LIQZuLETqOjgeXRo9kvBLukBTjLs
+	AlOUkavc7XQE3brmLP3mxlvcn6XRUz1ELokvj+8DxDYO6ibHpPx9IHTCpJJNBNLKQMUG/6Qjn
+	w/YRd7l3fx7oiKoeVBF9eVHYPf3iv7+7l9MXJt/XIWDv2HuKDgf21mRu1A/G/vbQb6wy0HdXR
+	KwO0eFm52HGUUsFNSpiNtPcu7t6Z8XuRHFdYDek7ONn0u1OOHlMX5xuiE8KpHZaAp3AE4Qgbh
+	HmosTN46/mqrRJRepdfLnE6f4C0zIbCIppUm/J+Zts2W9o2/oYkO96AdylcuU//tTyOW8koAx
+	fsdlOFh5QlKk2kKgEkZB1GCNCMn46Xj8fH0EaQcHUHGAY2cGQaQ88uFZWMq3KQ1sl8mLRJL29
+	OvCaW1UlauOTuNr1/7hMhl9DWNLn8TN2QyVIUPsTLpS5Axah17PlgWpKnipQFjA91FNfpis/a
+	OX7RtB8/yq0pWD113D81ICxe4yt3GDCONEOvBS/28ZZxIy11L5macLsHS34=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
-Subject: [Qemu-devel] [PULL 05/10] linux-user: Add support for
- SIOC<G|S>IFPFLAGS ioctls for all targets
+X-Received-From: 212.227.126.135
+Subject: [Qemu-devel] [PULL 06/10] linux-user: Sanitize interp_info and,
+ for mips only, init field fp_abi
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,64 +67,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
 	Laurent Vivier <laurent@vivier.eu>,
+	Daniel Santos <daniel.santos@pobox.com>,
 	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Neng Chen <nchen@wavecomp.com>, Aurelien Jarno <aurelien@aurel32.net>
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Neng Chen <nchen@wavecomp.com>
+From: Daniel Santos <daniel.santos@pobox.com>
 
-Add support for getting and setting extended private flags of a
-network device via SIOCSIFPFLAGS and SIOCGIFPFLAGS ioctls.
+Sanitize interp_info structure in load_elf_binary() and, for MIPS only,
+init its field fp_abi to MIPS_ABI_FP_UNKNOWN. This fixes appearances of
+"Unexpected FPU mode" message in some MIPS use cases. Currently, this
+bug is a complete stopper for some MIPS binaries.
 
-The ioctl numeric values are platform-independent and determined by
-the file include/uapi/linux/sockios.h in Linux kernel source code:
+In load_elf_binary(), struct image_info interp_info is used without
+being properly initialized. One result is that when the ELF's program
+header doesn't contain an entry for the ABI flags, then the value of
+the struct image_info's fp_abi field is set to whatever happened to
+be in stack memory at the time.
 
-  #define SIOCSIFPFLAGS 0x8934
-  #define SIOCGIFPFLAGS	0x8935
+Backporting to 4.0 and, if possible, to 3.1 is recommended.
 
-These ioctls get (or set) the field ifr_flags of type short in the
-structure ifreq. Such functionality is achieved in QEMU by using
-MK_STRUCT() and MK_PTR() macros with an appropriate argument, as
-it was done for existing similar cases.
+Fixes: https://bugs.launchpad.net/qemu/+bug/1825002
 
-Signed-off-by: Neng Chen <nchen@wavecomp.com>
+Signed-off-by: Daniel Santos <daniel.santos@pobox.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1554839486-3527-1-git-send-email-aleksandar.markovic@rt-rk.com>
-Message-Id: <1558282527-22183-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-Id: <1558282527-22183-6-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h       | 2 ++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 4 insertions(+)
+ linux-user/elfload.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 99ed9d982568..5e84dc7c3a77 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -206,6 +206,8 @@
-   IOCTL(SIOCADDMULTI, IOC_W, MK_PTR(MK_STRUCT(STRUCT_sockaddr_ifreq)))
-   IOCTL(SIOCDELMULTI, IOC_W, MK_PTR(MK_STRUCT(STRUCT_sockaddr_ifreq)))
-   IOCTL(SIOCGIFINDEX, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_int_ifreq)))
-+  IOCTL(SIOCSIFPFLAGS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
-+  IOCTL(SIOCGIFPFLAGS, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
-   IOCTL(SIOCSIFLINK, 0, TYPE_NULL)
-   IOCTL_SPECIAL(SIOCGIFCONF, IOC_W | IOC_R, do_ioctl_ifconf,
-                 MK_PTR(MK_STRUCT(STRUCT_ifconf)))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 9470a5ce965b..cb40620114f8 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -782,6 +782,8 @@ struct target_pollfd {
- #define TARGET_SIOCADDMULTI    0x8931          /* Multicast address lists      */
- #define TARGET_SIOCDELMULTI    0x8932
- #define TARGET_SIOCGIFINDEX    0x8933
-+#define TARGET_SIOCSIFPFLAGS   0x8934          /* set extended flags          */
-+#define TARGET_SIOCGIFPFLAGS   0x8935          /* get extended flags          */
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index ef42e02d8233..02832adfbc0c 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2706,6 +2706,11 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+     char *elf_interpreter = NULL;
+     char *scratch;
  
- /* Bridging control calls */
- #define TARGET_SIOCGIFBR       0x8940          /* Bridging support             */
++    memset(&interp_info, 0, sizeof(interp_info));
++#ifdef TARGET_MIPS
++    interp_info.fp_abi = MIPS_ABI_FP_UNKNOWN;
++#endif
++
+     info->start_mmap = (abi_ulong)ELF_START_MMAP;
+ 
+     load_elf_image(bprm->filename, bprm->fd, info,
 -- 
 2.20.1
 
