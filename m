@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CCE28475
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 19:02:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40768 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E182848B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 19:09:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40845 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTr6g-0001Jq-Nv
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 13:02:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47876)
+	id 1hTrDW-0004tx-LB
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 13:09:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49191)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <rkir@google.com>) id 1hTr5R-0000JX-Ao
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 13:01:02 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hTrBK-0003jl-7Y
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 13:07:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <rkir@google.com>) id 1hTr5Q-0005jt-DZ
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 13:01:01 -0400
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:35601)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <rkir@google.com>) id 1hTr5Q-0005fy-3N
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 13:01:00 -0400
-Received: by mail-lj1-x232.google.com with SMTP id h11so6183604ljb.2
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 10:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+QzEOeRDvlb9Co1cBrmR18CCDWktTnyVmr7UKcUzHzs=;
-	b=l6MLb9IuCACYAnCZ1tTDjZcmw8Je5zpLtJ1MUgQLijf2jVHJjUeK8iCQiyaOKN0vd3
-	108h1Ns21A7P47uux+4uW+mgI2oymN8Vc3Hzn6dyVlU2V6gvLCQvozMPIULjnbqSnJK9
-	DLsBGqurjaHCaAArDIrrfUaxMQymJveN2l3Bv18Rr6RBqjZzHffUIxzgXJyHn7iaphgj
-	9uW9lO61NYgkeEarjNPlW1dairMbgHCblrbH/newiE56ooBWoMjBZhzog55yuLqUA7IP
-	MHVJrqVJDoWvtFJXaTZ1oKM5oI5emMkF8oz9NhXiLsHWrwvIz/wPtaMBwhE2MXxKWkg8
-	tI1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=+QzEOeRDvlb9Co1cBrmR18CCDWktTnyVmr7UKcUzHzs=;
-	b=iIieJYUy/VoWN6NHSzz5shyKAWHYC2y96fg+mDgNXSYJjSlZjOd230lKWD3ku7++Pa
-	NSmm4G9N0cCx53UiSpWIW9O88oU77L+0FJYimfNDsFQHlZqZpDCxzUvN2dPomvwT7k0k
-	baEBppfPxlAebxLM8ADP4N8kvd4+cf4YkOeQiMr4MTbZ3OVNxNstoC6LV1K9MrEsCfoZ
-	B+3DWzB3DfTKLGu/R2bfmy/fImt0kdgXwYlZoe2Mut6e2jY1RcMZyANzU1xjyPpsNAxJ
-	CqtmDAmg4pxsRk4i2Z9kr4wxjx/PH/x1IRWaUPZ+Z/k9FwmCS8pyaiHwwIKSR+a8mMru
-	w1Vw==
-X-Gm-Message-State: APjAAAVzY2MnbMfP1cM5FWEq30VTcN4nfsWcwKoRMjWVw5TcufdD56PM
-	WkU+AE8MiveYw3Ds2Pkha8y1h7YQHNazkDMWRAvE9w==
-X-Google-Smtp-Source: APXvYqwMmoJJiDhrTlOiTiKeJx1UP7GndimVoH/iy3XesA7t15vyLZSRgdfrYxwfXb88AWg4sGutVczgRhFf9kmCKL8=
-X-Received: by 2002:a2e:8516:: with SMTP id j22mr19690701lji.119.1558630855798;
-	Thu, 23 May 2019 10:00:55 -0700 (PDT)
+	(envelope-from <jsnow@redhat.com>) id 1hTrBF-0001fw-4k
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 13:07:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33706)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
+	id 1hTrB7-0001Zq-Mb; Thu, 23 May 2019 13:06:53 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A0CE181F0D;
+	Thu, 23 May 2019 17:06:48 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3ACFF1001DEF;
+	Thu, 23 May 2019 17:06:44 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Thu, 23 May 2019 13:06:38 -0400
+Message-Id: <20190523170643.20794-1-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20190522222224.244714-1-rkir@google.com>
-	<20190523102225.GA2994@work-vm>
-In-Reply-To: <20190523102225.GA2994@work-vm>
-Date: Thu, 23 May 2019 10:00:44 -0700
-Message-ID: <CAOGAQerwpqaP=DKxC+WVdJcGpxnAayfMrwoPP=bBJBBG5Vn87g@mail.gmail.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::232
-Subject: Re: [Qemu-devel] [PATCH] vmstate: Add VMSTATE_OPAQUE to save/load
- complex data structures
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Thu, 23 May 2019 17:06:48 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3 0/5] blockdev-backup: don't check
+ aio_context too early
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,45 +55,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Roman Kiryanov via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Roman Kiryanov <rkir@google.com>
-Cc: Lingfeng Yang <lfy@google.com>, qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
+	Markus Armbruster <armbru@redhat.com>,
+	Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Dave, thank you for looking.
+See patch one's commit message for justification.
+Patches 2-5 are for testing, because that's always how these things go.
 
-> Can you give me an example of where you would use it?
+001/5:[----] [--] 'blockdev-backup: don't check aio_context too early'
+002/5:[0004] [FC] 'iotests.py: do not use infinite waits'
+003/5:[down]      'QEMUMachine: add events_wait method'
+004/5:[0022] [FC] 'iotests.py: rewrite run_job to be pickier'
+005/5:[0017] [FC] 'iotests: add iotest 250 for testing blockdev-backup
+                   across iothread contexts'
 
-We use it in our host memory sharing device. I used the existing
-macros for all fields I could, but unfortunately some state does not fit
-into them. We use this new macro to save/load memory
-allocators (for now we have malloc, but we are working on adding
-Vulkan calls). For now the state looks this way:
+v3: Rebased on Max's staging branch:
+    Rebase patch 2
+    added patch 3, to add events_wait.
+    Rework patch 4 to make run_job consume legacy events, too
+    Minorly edit patch 5 due to the two above.
+v2: added patch 4, with iotest framework adjustments in patches 2/3.
 
-class Allocator;
-unordered_map<int, Allocator *> state;
+John Snow (5):
+  blockdev-backup: don't check aio_context too early
+  iotests.py: do not use infinite waits
+  QEMUMachine: add events_wait method
+  iotests.py: rewrite run_job to be pickier
+  iotests: add iotest 250 for testing blockdev-backup across iothread
+    contexts
 
-class MallocAllocator: public Allocator {
-    unordered_map<int, vector<char>> state;
-};
+ blockdev.c                    |   4 --
+ python/qemu/__init__.py       |  69 +++++++++++++------
+ tests/qemu-iotests/250        | 122 ++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/250.out    | 119 +++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group      |   1 +
+ tests/qemu-iotests/iotests.py |  60 ++++++++++-------
+ 6 files changed, 326 insertions(+), 49 deletions(-)
+ create mode 100755 tests/qemu-iotests/250
+ create mode 100644 tests/qemu-iotests/250.out
 
-class VulkanAllocator: public Allocator {
-    // TBD
-};
+--=20
+2.20.1
 
->  I've been trying to get rid as many of the open-coded cases as possible
-
-I saw this in the migration document. I used VMSTATE_INT32,
-VMSTATE_STRUCT and VMSTATE_STRUCT_VARRAY_ALLOC
-where I could.
-
-> Having said that;  would it be easier to pass the get/put functions
-> rather than the info ?
-
-Sure, function pointer will be even better, but since VMStateField
-takes "const VMStateInfo *", I added this way.
-
-Regards,
-Roman.
 
