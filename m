@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1D027EEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:59:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36889 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E50127F26
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:09:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37041 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hToFZ-0004dT-Gl
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:59:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45510)
+	id 1hToPu-0004IU-51
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:09:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44863)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hToDv-0003ql-Iw
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:57:36 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hToBH-0001ig-1T
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:54:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hToDu-0002D0-LF
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:57:35 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:44966)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
-	id 1hTo92-0007Tu-8B; Thu, 23 May 2019 09:52:32 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NDhSf7155184; Thu, 23 May 2019 13:52:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
-	h=from : to : cc :
-	subject : date : message-id : in-reply-to : references;
-	s=corp-2018-07-02; 
-	bh=qe8PLR9/UiNEo6e1lHVkJVCotNDWuaHF+uQaPNfv3zg=;
-	b=wfPQvqVqGAYiRoWVnvG9bzkoCp+8hK4AXM2VMGk52k0bJtC25DZ0eeaDORFZspMdQRSb
-	cr2hi/+0VBhkB0POI3BloPhFCOE3jY3PFX/sc/HuMDnV9iBhK5ezf82dp9wUBfN3NE8N
-	svnhTqL5OmIBieVf7funlUneUuWWSDMUTztbhcqTjYO8HdNXimq7IRmqJbR5jP/vpnvw
-	61Le8K0OU+keaM1Vnjb40wVQjYBmf9tv+i8oI1YZPFna+R2MgEkPRons4v/QAja0aRMq
-	KVXV5Fl+uOm7x9VtMXo7yXB3or+3/I3PjdbapRCTf35REm37WiqpvVmwEhXRebVPoZzz
-	Xw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by userp2130.oracle.com with ESMTP id 2smsk5jfbb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 May 2019 13:52:31 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NDqCqj101169; Thu, 23 May 2019 13:52:30 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by aserp3020.oracle.com with ESMTP id 2smsh28rgq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 May 2019 13:52:30 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x4NDqTZb000431;
-	Thu, 23 May 2019 13:52:29 GMT
-Received: from nexus.ravello.local (/213.57.127.2)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 23 May 2019 13:52:29 +0000
-From: Sam Eiderman <shmuel.eiderman@oracle.com>
-To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
-	mreitz@redhat.com
-Date: Thu, 23 May 2019 16:51:39 +0300
-Message-Id: <20190523135139.2147-4-shmuel.eiderman@oracle.com>
-X-Mailer: git-send-email 2.13.3
-In-Reply-To: <20190523135139.2147-1-shmuel.eiderman@oracle.com>
-References: <20190523135139.2147-1-shmuel.eiderman@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9265
-	signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
-	malwarescore=0
-	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
-	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
-	engine=8.0.1-1810050000 definitions=main-1905230096
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9265
-	signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
-	adultscore=0
-	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
-	definitions=main-1905230096
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [PATCH v3 3/3] qemu-img: rebase: Reuse in-chain
- BlockDriverState
+	(envelope-from <richard.henderson@linaro.org>) id 1hToBG-0000gB-5H
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:54:51 -0400
+Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:42222)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hToBF-0000fu-W1
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:54:50 -0400
+Received: by mail-vs1-xe43.google.com with SMTP id z11so3620652vsq.9
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=eZSKhGCoeGB/6KycrCoWz8LKgSCyD97WerokGFlZCDY=;
+	b=q3YhZ47o2s2RGfD1RDc4zipMAjfpKhfYbbEkfg2IWvHB8vk3ATgmWTeJWjK0TIHQsC
+	x+tnKfHRVz632Bjei5XaYs0M4xHRx1sEAJDR/1g0SSw3rLsEZfDKc8TrnQIUMf4PQj1W
+	Iuwagj/CRglQ8OADufXU6ji3z0YJAFwQjaP7THK3liu5SYY8OhatsllqT4p5MD71mw31
+	VuHuM7uxgf5iKt24W3H+6VcgXEQ8iDx8S49B5gJF1bL5bzgWiQcYU4JNe8cum3mTGYXX
+	i+OQ/TfEIz88slpts0ihhn6jnhfK7upQM8mNNcBgcob6DF6UojNCsJkCMDsLOdO8P9zI
+	DY1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=eZSKhGCoeGB/6KycrCoWz8LKgSCyD97WerokGFlZCDY=;
+	b=HsuvCb/KHbG56gqkXBoLBSsITJb1Qt7tXkKvmp9866FNP/T5+oxWcGI6IC5PW4n2XZ
+	nJVRuvzqWyxQzzglh+43nQqkFCpWw3m0qvKVgX0K0gDEpcZYjndcD2/MfFYFuRG08bZR
+	tQtOjCHJi6JznWX5sTZBrYgAtzu0JQ0fi/xLm7JY77xwF+QeyhydrC1dcxRi7NNA2HuA
+	wpjyF71qPf8RJzqICS0vJedL3bROCuaZuzYa8c7dz80cQaE01qVQ5jKSQYc5uI/QYLWS
+	2axIl3OSvo5jHwQrAQQLqyVVRINyd+qHCYZL7Vyqef6Ub1C1pN8XGDubyy7LX1w9KgNg
+	55Yw==
+X-Gm-Message-State: APjAAAW+qtSkaTt38+VfC1hgh9FG7LCoruAncbBhr1LetCxK2UmsXmTf
+	8/flmpsCjh7EdTJJF4KD6yj2mw==
+X-Google-Smtp-Source: APXvYqyr/6jVTQAguKZzs3BzRpfBP/BmDT/i6/GAXc/HDywG5SMsPKhLwuFU/h4QBdlW84MtwWfqug==
+X-Received: by 2002:a67:2686:: with SMTP id m128mr9088346vsm.130.1558619689128;
+	Thu, 23 May 2019 06:54:49 -0700 (PDT)
+Received: from [192.168.43.94] (ip-173-130-215-183.orldfl.spcsdns.net.
+	[173.130.215.183]) by smtp.gmail.com with ESMTPSA id
+	n68sm36914720vkd.0.2019.05.23.06.54.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 06:54:48 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190523081538.2291-1-armbru@redhat.com>
+	<20190523081538.2291-2-armbru@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <f9fd05b2-364a-2f74-99fa-fdf1912ed1b7@linaro.org>
+Date: Thu, 23 May 2019 09:54:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190523081538.2291-2-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::e43
+Subject: Re: [Qemu-devel] [RFC v4 1/7] Makefile: Remove code to smooth
+ transition to config.status
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -90,72 +85,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eyal.moscovici@oracle.com, arbel.moshe@oracle.com, liran.alon@oracle.com,
-	shmuel.eiderman@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com
+Cc: peter.maydell@linaro.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a chain was detected, don't open a new BlockBackend from the target
-backing file which will create a new BlockDriverState. Instead, create
-an empty BlockBackend and attach the already open BlockDriverState.
+On 5/23/19 4:15 AM, Markus Armbruster wrote:
+> When commit bdf523e6923 made configure generate config.status, it
+> added a fallback to Makefile to smooth the transition, with a TODO
+> "code can be removed after QEMU 1.7."  It's been more than five years.
+> Remove it.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  Makefile | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
 
-Permissions for blk_new() were copied from blk_new_open() when
-flags = 0.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
-Signed-off-by: Sagi Amit <sagi.amit@oracle.com>
-Co-developed-by: Sagi Amit <sagi.amit@oracle.com>
-Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
----
- qemu-img.c | 33 +++++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index e6fd8e1a98..b3a1c76fb6 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3358,16 +3358,29 @@ static int img_rebase(int argc, char **argv)
-              * in its chain.
-              */
-             prefix_chain_bs = bdrv_find_backing_image(bs, out_real_path);
--
--            blk_new_backing = blk_new_open(out_real_path, NULL,
--                                           options, src_flags, &local_err);
--            g_free(out_real_path);
--            if (!blk_new_backing) {
--                error_reportf_err(local_err,
--                                  "Could not open new backing file '%s': ",
--                                  out_baseimg);
--                ret = -1;
--                goto out;
-+            if (prefix_chain_bs) {
-+                g_free(out_real_path);
-+                blk_new_backing = blk_new(BLK_PERM_CONSISTENT_READ,
-+                                          BLK_PERM_ALL);
-+                ret = blk_insert_bs(blk_new_backing, prefix_chain_bs,
-+                                    &local_err);
-+                if (ret < 0) {
-+                    error_reportf_err(local_err,
-+                                      "Could not reuse backing file '%s': ",
-+                                      out_baseimg);
-+                    goto out;
-+                }
-+            } else {
-+                blk_new_backing = blk_new_open(out_real_path, NULL,
-+                                               options, src_flags, &local_err);
-+                g_free(out_real_path);
-+                if (!blk_new_backing) {
-+                    error_reportf_err(local_err,
-+                                      "Could not open new backing file '%s': ",
-+                                      out_baseimg);
-+                    ret = -1;
-+                    goto out;
-+                }
-             }
-         }
-     }
--- 
-2.13.3
-
+r~
 
