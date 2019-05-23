@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5EC28034
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:50:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38077 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C4327FEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:38:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37769 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTp34-0000QU-2I
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:50:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57715)
+	id 1hTorJ-0006SC-3S
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:38:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57623)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hToos-0004x8-2h
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:36:12 -0400
+	(envelope-from <armbru@redhat.com>) id 1hToog-0004nh-Kq
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:35:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hTooP-0007ad-54
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:35:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60520)
+	(envelope-from <armbru@redhat.com>) id 1hTooO-0007aX-Vb
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:35:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60122)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hTooO-0007YE-C9
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:35:17 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hTooO-0007YJ-DQ
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:35:16 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A99B43060485
+	by mx1.redhat.com (Postfix) with ESMTPS id BD312307EA9B
 	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 14:35:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
 	[10.36.117.250])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C20C2E02C
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 722EC68369
 	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 14:35:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 1D14B1132BD3; Thu, 23 May 2019 16:35:08 +0200 (CEST)
+	id 2161A1132B6C; Thu, 23 May 2019 16:35:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 16:35:07 +0200
-Message-Id: <20190523143508.25387-4-armbru@redhat.com>
+Date: Thu, 23 May 2019 16:35:08 +0200
+Message-Id: <20190523143508.25387-5-armbru@redhat.com>
 In-Reply-To: <20190523143508.25387-1-armbru@redhat.com>
 References: <20190523143508.25387-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
+	(mx1.redhat.com [10.5.110.44]);
 	Thu, 23 May 2019 14:35:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/4] Include qemu/module.h where needed,
- drop it from qemu-common.h
+Subject: [Qemu-devel] [PATCH 4/4] Include qemu-common.h exactly where needed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,10805 +59,6250 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+No header includes qemu-common.h after this commit, as prescribed by
+qemu-common.h's file comment.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- audio/alsaaudio.c                          | 3 ++-
- audio/audio.c                              | 2 ++
- audio/coreaudio.c                          | 2 +-
- audio/dsoundaudio.c                        | 2 +-
- audio/noaudio.c                            | 3 ++-
- audio/ossaudio.c                           | 3 ++-
- audio/paaudio.c                            | 3 ++-
- audio/sdlaudio.c                           | 3 ++-
- audio/spiceaudio.c                         | 1 +
- audio/wavaudio.c                           | 2 ++
- authz/base.c                               | 1 +
- authz/list.c                               | 1 +
- authz/listfile.c                           | 1 +
- authz/pamacct.c                            | 1 +
- authz/simple.c                             | 1 +
- backends/hostmem-file.c                    | 3 ++-
- backends/hostmem-memfd.c                   | 3 ++-
- backends/hostmem-ram.c                     | 2 ++
- backends/rng-egd.c                         | 1 +
- backends/rng-random.c                      | 1 +
- backends/rng.c                             | 1 +
- backends/tpm.c                             | 1 +
- block/blklogwrites.c                       | 1 +
- block/blkreplay.c                          | 2 +-
- block/blkverify.c                          | 1 +
- block/copy-on-read.c                       | 1 +
- block/crypto.c                             | 1 +
- block/curl.c                               | 1 +
- block/gluster.c                            | 1 +
- block/iscsi-opts.c                         | 2 +-
- block/iscsi.c                              | 1 +
- block/nfs.c                                | 1 +
- block/null.c                               | 1 +
- block/nvme.c                               | 1 +
- block/qed.c                                | 1 +
- block/quorum.c                             | 1 +
- block/raw-format.c                         | 1 +
- block/rbd.c                                | 1 +
- block/replication.c                        | 1 +
- block/sheepdog.c                           | 1 +
- block/ssh.c                                | 1 +
- block/throttle.c                           | 1 +
- block/vhdx-log.c                           | 3 +--
- block/vxhs.c                               | 1 +
- block/win32-aio.c                          | 3 +--
- bsd-user/main.c                            | 1 +
- chardev/baum.c                             | 3 ++-
- chardev/char-console.c                     | 2 ++
- chardev/char-fd.c                          | 3 ++-
- chardev/char-file.c                        | 1 +
- chardev/char-mux.c                         | 1 +
- chardev/char-null.c                        | 2 ++
- chardev/char-parallel.c                    | 1 +
- chardev/char-pipe.c                        | 1 +
- chardev/char-pty.c                         | 3 ++-
- chardev/char-ringbuf.c                     | 1 +
- chardev/char-serial.c                      | 1 +
- chardev/char-socket.c                      | 1 +
- chardev/char-stdio.c                       | 1 +
- chardev/char-udp.c                         | 1 +
- chardev/char-win-stdio.c                   | 2 ++
- chardev/char-win.c                         | 3 ++-
- chardev/char.c                             | 1 +
- chardev/msmouse.c                          | 3 ++-
- chardev/spice.c                            | 1 +
- chardev/testdev.c                          | 3 ++-
- chardev/wctablet.c                         | 2 +-
- crypto/secret.c                            | 1 +
- crypto/tlscreds.c                          | 1 +
- crypto/tlscredsanon.c                      | 1 +
- crypto/tlscredspsk.c                       | 1 +
- crypto/tlscredsx509.c                      | 1 +
- fsdev/qemu-fsdev-dummy.c                   | 2 +-
- gdbstub.c                                  | 1 +
- hw/9pfs/virtio-9p-device.c                 | 1 +
- hw/acpi/core.c                             | 1 +
- hw/acpi/vmgenid.c                          | 1 +
- hw/adc/stm32f2xx_adc.c                     | 1 +
- hw/alpha/typhoon.c                         | 1 +
- hw/arm/allwinner-a10.c                     | 2 +-
- hw/arm/armsse.c                            | 1 +
- hw/arm/armv7m.c                            | 2 +-
- hw/arm/aspeed_soc.c                        | 2 +-
- hw/arm/bcm2835_peripherals.c               | 1 +
- hw/arm/bcm2836.c                           | 2 +-
- hw/arm/digic.c                             | 1 +
- hw/arm/fsl-imx6.c                          | 2 +-
- hw/arm/fsl-imx6ul.c                        | 2 +-
- hw/arm/fsl-imx7.c                          | 2 +-
- hw/arm/pxa2xx.c                            | 2 +-
- hw/arm/pxa2xx_gpio.c                       | 1 +
- hw/arm/pxa2xx_pic.c                        | 2 +-
- hw/arm/smmu-common.c                       | 1 +
- hw/arm/stm32f205_soc.c                     | 2 +-
- hw/arm/virt.c                              | 1 +
- hw/arm/xlnx-versal.c                       | 2 +-
- hw/arm/xlnx-zynqmp.c                       | 2 +-
- hw/audio/ac97.c                            | 1 +
- hw/audio/adlib.c                           | 1 +
- hw/audio/cs4231.c                          | 1 +
- hw/audio/cs4231a.c                         | 2 ++
- hw/audio/es1370.c                          | 1 +
- hw/audio/gus.c                             | 2 ++
- hw/audio/hda-codec.c                       | 1 +
- hw/audio/intel-hda.c                       | 1 +
- hw/audio/marvell_88w8618.c                 | 2 ++
- hw/audio/milkymist-ac97.c                  | 1 +
- hw/audio/pcspk.c                           | 1 +
- hw/audio/pl041.c                           | 1 +
- hw/audio/sb16.c                            | 2 ++
- hw/audio/wm8750.c                          | 1 +
- hw/block/fdc.c                             | 1 +
- hw/block/m25p80.c                          | 1 +
- hw/block/nand.c                            | 1 +
- hw/block/nvme.c                            | 1 +
- hw/block/onenand.c                         | 2 +-
- hw/block/pflash_cfi01.c                    | 1 +
- hw/block/pflash_cfi02.c                    | 1 +
- hw/block/virtio-blk.c                      | 2 +-
- hw/block/xen-block.c                       | 1 +
- hw/bt/hci-csr.c                            | 2 +-
- hw/char/bcm2835_aux.c                      | 1 +
- hw/char/cadence_uart.c                     | 1 +
- hw/char/cmsdk-apb-uart.c                   | 1 +
- hw/char/debugcon.c                         | 1 +
- hw/char/digic-uart.c                       | 1 +
- hw/char/escc.c                             | 1 +
- hw/char/etraxfs_ser.c                      | 1 +
- hw/char/exynos4210_uart.c                  | 1 +
- hw/char/grlib_apbuart.c                    | 1 +
- hw/char/imx_serial.c                       | 1 +
- hw/char/ipoctal232.c                       | 1 +
- hw/char/lm32_juart.c                       | 1 +
- hw/char/lm32_uart.c                        | 1 +
- hw/char/mcf_uart.c                         | 2 ++
- hw/char/milkymist-uart.c                   | 1 +
- hw/char/nrf51_uart.c                       | 1 +
- hw/char/parallel.c                         | 2 ++
- hw/char/pl011.c                            | 1 +
- hw/char/sclpconsole-lm.c                   | 1 +
- hw/char/sclpconsole.c                      | 1 +
- hw/char/serial-isa.c                       | 1 +
- hw/char/serial-pci.c                       | 1 +
- hw/char/spapr_vty.c                        | 2 +-
- hw/char/stm32f2xx_usart.c                  | 1 +
- hw/char/terminal3270.c                     | 1 +
- hw/char/virtio-console.c                   | 1 +
- hw/char/virtio-serial-bus.c                | 1 +
- hw/char/xilinx_uartlite.c                  | 1 +
- hw/core/bus.c                              | 1 +
- hw/core/empty_slot.c                       | 1 +
- hw/core/fw-path-provider.c                 | 1 +
- hw/core/generic-loader.c                   | 1 +
- hw/core/nmi.c                              | 1 +
- hw/core/or-irq.c                           | 1 +
- hw/core/platform-bus.c                     | 1 +
- hw/core/register.c                         | 1 +
- hw/core/split-irq.c                        | 1 +
- hw/core/stream.c                           | 1 +
- hw/core/sysbus.c                           | 1 +
- hw/cpu/a15mpcore.c                         | 1 +
- hw/cpu/a9mpcore.c                          | 1 +
- hw/cpu/arm11mpcore.c                       | 1 +
- hw/cpu/core.c                              | 2 ++
- hw/cpu/realview_mpcore.c                   | 1 +
- hw/display/ads7846.c                       | 1 +
- hw/display/ati.c                           | 1 +
- hw/display/bcm2835_fb.c                    | 1 +
- hw/display/bochs-display.c                 | 2 ++
- hw/display/cg3.c                           | 2 +-
- hw/display/cirrus_vga.c                    | 2 ++
- hw/display/cirrus_vga_isa.c                | 1 +
- hw/display/dpcd.c                          | 1 +
- hw/display/exynos4210_fimd.c               | 2 +-
- hw/display/g364fb.c                        | 1 +
- hw/display/i2c-ddc.c                       | 2 +-
- hw/display/jazz_led.c                      | 2 +-
- hw/display/milkymist-tmu2.c                | 1 +
- hw/display/milkymist-vgafb.c               | 1 +
- hw/display/pl110.c                         | 1 +
- hw/display/qxl.c                           | 2 +-
- hw/display/ramfb-standalone.c              | 1 +
- hw/display/sii9022.c                       | 2 +-
- hw/display/sm501.c                         | 2 +-
- hw/display/ssd0303.c                       | 2 ++
- hw/display/ssd0323.c                       | 2 ++
- hw/display/tcx.c                           | 2 +-
- hw/display/vga-isa.c                       | 2 ++
- hw/display/vga-pci.c                       | 2 ++
- hw/display/virtio-gpu-pci.c                | 1 +
- hw/display/virtio-gpu.c                    | 2 +-
- hw/display/virtio-vga.c                    | 1 +
- hw/display/vmware_vga.c                    | 2 ++
- hw/display/xlnx_dp.c                       | 1 +
- hw/dma/bcm2835_dma.c                       | 1 +
- hw/dma/i82374.c                            | 1 +
- hw/dma/i8257.c                             | 2 ++
- hw/dma/pl080.c                             | 1 +
- hw/dma/pl330.c                             | 1 +
- hw/dma/puv3_dma.c                          | 2 ++
- hw/dma/pxa2xx_dma.c                        | 1 +
- hw/dma/rc4030.c                            | 1 +
- hw/dma/sparc32_dma.c                       | 1 +
- hw/dma/xilinx_axidma.c                     | 1 +
- hw/dma/xlnx-zdma.c                         | 1 +
- hw/dma/xlnx-zynq-devcfg.c                  | 1 +
- hw/dma/xlnx_dpdma.c                        | 1 +
- hw/gpio/bcm2835_gpio.c                     | 1 +
- hw/gpio/gpio_key.c                         | 1 +
- hw/gpio/imx_gpio.c                         | 1 +
- hw/gpio/max7310.c                          | 1 +
- hw/gpio/mpc8xxx.c                          | 1 +
- hw/gpio/nrf51_gpio.c                       | 1 +
- hw/gpio/omap_gpio.c                        | 1 +
- hw/gpio/pl061.c                            | 1 +
- hw/gpio/puv3_gpio.c                        | 2 ++
- hw/gpio/zaurus.c                           | 2 ++
- hw/hppa/dino.c                             | 1 +
- hw/hyperv/hyperv.c                         | 1 +
- hw/hyperv/hyperv_testdev.c                 | 1 +
- hw/i2c/aspeed_i2c.c                        | 1 +
- hw/i2c/bitbang_i2c.c                       | 2 ++
- hw/i2c/core.c                              | 1 +
- hw/i2c/exynos4210_i2c.c                    | 1 +
- hw/i2c/imx_i2c.c                           | 1 +
- hw/i2c/microbit_i2c.c                      | 1 +
- hw/i2c/mpc_i2c.c                           | 1 +
- hw/i2c/omap_i2c.c                          | 2 ++
- hw/i2c/ppc4xx_i2c.c                        | 2 +-
- hw/i2c/smbus_ich9.c                        | 2 ++
- hw/i2c/smbus_slave.c                       | 1 +
- hw/i2c/versatile_i2c.c                     | 1 +
- hw/i386/kvm/apic.c                         | 3 ++-
- hw/i386/kvm/clock.c                        | 2 +-
- hw/i386/kvm/i8254.c                        | 1 +
- hw/i386/kvm/i8259.c                        | 2 ++
- hw/i386/kvmvapic.c                         | 3 ++-
- hw/i386/xen/xen_apic.c                     | 2 ++
- hw/i386/xen/xen_platform.c                 | 1 +
- hw/i386/xen/xen_pvdevice.c                 | 1 +
- hw/ide/ahci-allwinner.c                    | 1 +
- hw/ide/ahci.c                              | 1 +
- hw/ide/cmd646.c                            | 2 ++
- hw/ide/ich.c                               | 1 +
- hw/ide/isa.c                               | 2 ++
- hw/ide/macio.c                             | 2 ++
- hw/ide/microdrive.c                        | 2 ++
- hw/ide/mmio.c                              | 2 ++
- hw/ide/pci.c                               | 2 ++
- hw/ide/piix.c                              | 1 +
- hw/ide/qdev.c                              | 2 ++
- hw/ide/sii3112.c                           | 1 +
- hw/ide/via.c                               | 2 ++
- hw/input/adb-kbd.c                         | 2 ++
- hw/input/adb-mouse.c                       | 2 ++
- hw/input/adb.c                             | 2 ++
- hw/input/lm832x.c                          | 1 +
- hw/input/milkymist-softusb.c               | 1 +
- hw/input/pl050.c                           | 1 +
- hw/input/virtio-input-hid.c                | 1 +
- hw/input/virtio-input-host.c               | 2 +-
- hw/input/virtio-input.c                    | 1 +
- hw/intc/allwinner-a10-pic.c                | 1 +
- hw/intc/apic_common.c                      | 3 ++-
- hw/intc/arm_gic.c                          | 1 +
- hw/intc/arm_gic_common.c                   | 1 +
- hw/intc/arm_gic_kvm.c                      | 2 +-
- hw/intc/arm_gicv2m.c                       | 1 +
- hw/intc/arm_gicv3.c                        | 1 +
- hw/intc/arm_gicv3_common.c                 | 1 +
- hw/intc/arm_gicv3_its_common.c             | 1 +
- hw/intc/arm_gicv3_its_kvm.c                | 1 +
- hw/intc/arm_gicv3_kvm.c                    | 1 +
- hw/intc/armv7m_nvic.c                      | 2 +-
- hw/intc/aspeed_vic.c                       | 1 +
- hw/intc/bcm2835_ic.c                       | 1 +
- hw/intc/bcm2836_control.c                  | 1 +
- hw/intc/etraxfs_pic.c                      | 1 +
- hw/intc/exynos4210_combiner.c              | 1 +
- hw/intc/exynos4210_gic.c                   | 2 +-
- hw/intc/grlib_irqmp.c                      | 1 +
- hw/intc/heathrow_pic.c                     | 2 ++
- hw/intc/imx_avic.c                         | 1 +
- hw/intc/imx_gpcv2.c                        | 1 +
- hw/intc/ioapic_common.c                    | 1 +
- hw/intc/lm32_pic.c                         | 1 +
- hw/intc/mips_gic.c                         | 1 +
- hw/intc/nios2_iic.c                        | 2 +-
- hw/intc/omap_intc.c                        | 2 ++
- hw/intc/ompic.c                            | 1 +
- hw/intc/openpic.c                          | 2 ++
- hw/intc/openpic_kvm.c                      | 2 +-
- hw/intc/pl190.c                            | 1 +
- hw/intc/pnv_xive.c                         | 1 +
- hw/intc/puv3_intc.c                        | 2 ++
- hw/intc/realview_gic.c                     | 1 +
- hw/intc/s390_flic.c                        | 1 +
- hw/intc/s390_flic_kvm.c                    | 2 +-
- hw/intc/slavio_intctl.c                    | 1 +
- hw/intc/spapr_xive.c                       | 1 +
- hw/intc/xics.c                             | 2 +-
- hw/intc/xics_pnv.c                         | 1 +
- hw/intc/xilinx_intc.c                      | 1 +
- hw/intc/xive.c                             | 1 +
- hw/intc/xlnx-pmu-iomod-intc.c              | 1 +
- hw/intc/xlnx-zynqmp-ipi.c                  | 1 +
- hw/ipack/ipack.c                           | 1 +
- hw/ipack/tpci200.c                         | 1 +
- hw/ipmi/ipmi.c                             | 1 +
- hw/ipmi/ipmi_bmc_extern.c                  | 1 +
- hw/ipmi/ipmi_bmc_sim.c                     | 1 +
- hw/ipmi/isa_ipmi_bt.c                      | 2 ++
- hw/ipmi/isa_ipmi_kcs.c                     | 2 ++
- hw/isa/isa-bus.c                           | 2 ++
- hw/isa/isa-superio.c                       | 2 ++
- hw/isa/pc87312.c                           | 1 +
- hw/isa/smc37c669-superio.c                 | 1 +
- hw/isa/vt82c686.c                          | 1 +
- hw/m68k/mcf_intc.c                         | 3 ++-
- hw/mem/nvdimm.c                            | 1 +
- hw/mem/pc-dimm.c                           | 1 +
- hw/mips/cps.c                              | 1 +
- hw/misc/a9scu.c                            | 1 +
- hw/misc/applesmc.c                         | 1 +
- hw/misc/arm11scu.c                         | 1 +
- hw/misc/arm_integrator_debug.c             | 1 +
- hw/misc/arm_l2x0.c                         | 1 +
- hw/misc/arm_sysctl.c                       | 1 +
- hw/misc/armsse-cpuid.c                     | 1 +
- hw/misc/armsse-mhu.c                       | 1 +
- hw/misc/aspeed_scu.c                       | 1 +
- hw/misc/aspeed_sdmc.c                      | 1 +
- hw/misc/auxbus.c                           | 1 +
- hw/misc/bcm2835_mbox.c                     | 1 +
- hw/misc/bcm2835_property.c                 | 1 +
- hw/misc/bcm2835_rng.c                      | 1 +
- hw/misc/debugexit.c                        | 1 +
- hw/misc/eccmemctl.c                        | 1 +
- hw/misc/edu.c                              | 1 +
- hw/misc/exynos4210_clk.c                   | 1 +
- hw/misc/exynos4210_pmu.c                   | 1 +
- hw/misc/exynos4210_rng.c                   | 1 +
- hw/misc/imx25_ccm.c                        | 1 +
- hw/misc/imx2_wdt.c                         | 1 +
- hw/misc/imx31_ccm.c                        | 1 +
- hw/misc/imx6_ccm.c                         | 1 +
- hw/misc/imx6_src.c                         | 1 +
- hw/misc/imx6ul_ccm.c                       | 1 +
- hw/misc/imx7_ccm.c                         | 1 +
- hw/misc/imx7_gpr.c                         | 1 +
- hw/misc/imx7_snvs.c                        | 1 +
- hw/misc/imx_ccm.c                          | 1 +
- hw/misc/iotkit-secctl.c                    | 1 +
- hw/misc/iotkit-sysctl.c                    | 1 +
- hw/misc/iotkit-sysinfo.c                   | 1 +
- hw/misc/ivshmem.c                          | 2 ++
- hw/misc/macio/cuda.c                       | 2 ++
- hw/misc/macio/gpio.c                       | 1 +
- hw/misc/macio/mac_dbdma.c                  | 2 ++
- hw/misc/macio/macio.c                      | 2 ++
- hw/misc/macio/pmu.c                        | 1 +
- hw/misc/max111x.c                          | 1 +
- hw/misc/milkymist-hpdmc.c                  | 1 +
- hw/misc/milkymist-pfpu.c                   | 1 +
- hw/misc/mips_cmgcr.c                       | 1 +
- hw/misc/mips_cpc.c                         | 1 +
- hw/misc/mips_itu.c                         | 1 +
- hw/misc/mos6522.c                          | 2 ++
- hw/misc/mps2-fpgaio.c                      | 1 +
- hw/misc/mps2-scc.c                         | 1 +
- hw/misc/msf2-sysreg.c                      | 1 +
- hw/misc/mst_fpga.c                         | 2 ++
- hw/misc/nrf51_rng.c                        | 1 +
- hw/misc/pc-testdev.c                       | 1 +
- hw/misc/pca9552.c                          | 1 +
- hw/misc/pci-testdev.c                      | 2 ++
- hw/misc/puv3_pm.c                          | 2 ++
- hw/misc/pvpanic.c                          | 1 +
- hw/misc/sga.c                              | 2 ++
- hw/misc/slavio_misc.c                      | 1 +
- hw/misc/stm32f2xx_syscfg.c                 | 1 +
- hw/misc/tmp105.c                           | 1 +
- hw/misc/tmp421.c                           | 1 +
- hw/misc/tz-mpc.c                           | 1 +
- hw/misc/tz-msc.c                           | 1 +
- hw/misc/tz-ppc.c                           | 1 +
- hw/misc/unimp.c                            | 1 +
- hw/misc/vmcoreinfo.c                       | 2 ++
- hw/misc/zynq-xadc.c                        | 1 +
- hw/misc/zynq_slcr.c                        | 1 +
- hw/net/allwinner_emac.c                    | 2 ++
- hw/net/cadence_gem.c                       | 1 +
- hw/net/can/can_kvaser_pci.c                | 1 +
- hw/net/can/can_mioe3680_pci.c              | 1 +
- hw/net/can/can_pcm3680_pci.c               | 1 +
- hw/net/dp8393x.c                           | 1 +
- hw/net/e1000.c                             | 1 +
- hw/net/e1000e.c                            | 1 +
- hw/net/eepro100.c                          | 1 +
- hw/net/etraxfs_eth.c                       | 1 +
- hw/net/fsl_etsec/etsec.c                   | 1 +
- hw/net/ftgmac100.c                         | 1 +
- hw/net/imx_fec.c                           | 1 +
- hw/net/lan9118.c                           | 1 +
- hw/net/lance.c                             | 1 +
- hw/net/mcf_fec.c                           | 2 ++
- hw/net/milkymist-minimac2.c                | 2 +-
- hw/net/mipsnet.c                           | 1 +
- hw/net/ne2000-isa.c                        | 2 ++
- hw/net/ne2000.c                            | 2 ++
- hw/net/opencores_eth.c                     | 1 +
- hw/net/pcnet-pci.c                         | 1 +
- hw/net/rocker/rocker.c                     | 1 +
- hw/net/rtl8139.c                           | 2 ++
- hw/net/smc91c111.c                         | 1 +
- hw/net/spapr_llan.c                        | 3 ++-
- hw/net/stellaris_enet.c                    | 2 ++
- hw/net/sungem.c                            | 1 +
- hw/net/sunhme.c                            | 1 +
- hw/net/virtio-net.c                        | 1 +
- hw/net/vmxnet3.c                           | 2 +-
- hw/net/xgmac.c                             | 1 +
- hw/net/xilinx_axienet.c                    | 1 +
- hw/net/xilinx_ethlite.c                    | 2 +-
- hw/nvram/ds1225y.c                         | 1 +
- hw/nvram/eeprom_at24c.c                    | 1 +
- hw/nvram/mac_nvram.c                       | 2 ++
- hw/nvram/nrf51_nvm.c                       | 1 +
- hw/nvram/spapr_nvram.c                     | 2 +-
- hw/pci-bridge/dec.c                        | 1 +
- hw/pci-bridge/gen_pcie_root_port.c         | 1 +
- hw/pci-bridge/i82801b11.c                  | 1 +
- hw/pci-bridge/ioh3420.c                    | 1 +
- hw/pci-bridge/pci_bridge_dev.c             | 1 +
- hw/pci-bridge/pci_expander_bridge.c        | 1 +
- hw/pci-bridge/pcie_pci_bridge.c            | 1 +
- hw/pci-bridge/pcie_root_port.c             | 1 +
- hw/pci-bridge/simba.c                      | 1 +
- hw/pci-bridge/xio3130_downstream.c         | 1 +
- hw/pci-bridge/xio3130_upstream.c           | 1 +
- hw/pci-host/designware.c                   | 1 +
- hw/pci-host/gpex.c                         | 2 ++
- hw/pci-host/grackle.c                      | 1 +
- hw/pci-host/ppce500.c                      | 1 +
- hw/pci-host/q35.c                          | 2 ++
- hw/pci-host/sabre.c                        | 1 +
- hw/pci-host/uninorth.c                     | 2 ++
- hw/pci-host/versatile.c                    | 1 +
- hw/pci-host/xilinx-pcie.c                  | 1 +
- hw/pci/pci_bridge.c                        | 1 +
- hw/pci/pci_host.c                          | 1 +
- hw/pci/pcie_host.c                         | 1 +
- hw/pci/pcie_port.c                         | 1 +
- hw/pcmcia/pcmcia.c                         | 2 +-
- hw/pcmcia/pxa2xx.c                         | 1 +
- hw/ppc/mpc8544_guts.c                      | 2 +-
- hw/ppc/pnv_core.c                          | 2 ++
- hw/ppc/pnv_lpc.c                           | 1 +
- hw/ppc/pnv_occ.c                           | 1 +
- hw/ppc/pnv_psi.c                           | 1 +
- hw/ppc/pnv_xscom.c                         | 2 ++
- hw/ppc/ppc440_pcix.c                       | 1 +
- hw/ppc/ppc440_uc.c                         | 2 +-
- hw/ppc/ppc4xx_pci.c                        | 1 +
- hw/ppc/ppce500_spin.c                      | 1 +
- hw/ppc/prep_systemio.c                     | 1 +
- hw/ppc/spapr_hcall.c                       | 1 +
- hw/ppc/spapr_iommu.c                       | 2 ++
- hw/ppc/spapr_pci.c                         | 3 ++-
- hw/ppc/spapr_rng.c                         | 2 +-
- hw/ppc/spapr_rtas_ddw.c                    | 1 +
- hw/ppc/spapr_rtc.c                         | 1 +
- hw/rdma/vmw/pvrdma_main.c                  | 1 +
- hw/riscv/riscv_hart.c                      | 1 +
- hw/riscv/sifive_clint.c                    | 1 +
- hw/riscv/sifive_plic.c                     | 1 +
- hw/riscv/sifive_prci.c                     | 1 +
- hw/riscv/sifive_test.c                     | 1 +
- hw/s390x/ap-bridge.c                       | 2 ++
- hw/s390x/ccw-device.c                      | 2 ++
- hw/s390x/css-bridge.c                      | 2 ++
- hw/s390x/event-facility.c                  | 1 +
- hw/s390x/s390-ccw.c                        | 1 +
- hw/s390x/s390-pci-bus.c                    | 2 +-
- hw/s390x/s390-skeys-kvm.c                  | 1 +
- hw/s390x/sclpcpu.c                         | 2 ++
- hw/s390x/sclpquiesce.c                     | 2 ++
- hw/s390x/tod-kvm.c                         | 1 +
- hw/s390x/tod-qemu.c                        | 1 +
- hw/s390x/tod.c                             | 1 +
- hw/s390x/vhost-vsock-ccw.c                 | 1 +
- hw/s390x/virtio-ccw-9p.c                   | 1 +
- hw/s390x/virtio-ccw-balloon.c              | 1 +
- hw/s390x/virtio-ccw-blk.c                  | 1 +
- hw/s390x/virtio-ccw-crypto.c               | 1 +
- hw/s390x/virtio-ccw-gpu.c                  | 1 +
- hw/s390x/virtio-ccw-input.c                | 1 +
- hw/s390x/virtio-ccw-net.c                  | 1 +
- hw/s390x/virtio-ccw-rng.c                  | 1 +
- hw/s390x/virtio-ccw-scsi.c                 | 1 +
- hw/s390x/virtio-ccw-serial.c               | 1 +
- hw/s390x/virtio-ccw.c                      | 1 +
- hw/scsi/esp-pci.c                          | 1 +
- hw/scsi/esp.c                              | 1 +
- hw/scsi/lsi53c895a.c                       | 1 +
- hw/scsi/megasas.c                          | 1 +
- hw/scsi/mptsas.c                           | 1 +
- hw/scsi/scsi-bus.c                         | 1 +
- hw/scsi/scsi-disk.c                        | 1 +
- hw/scsi/scsi-generic.c                     | 1 +
- hw/scsi/spapr_vscsi.c                      | 3 ++-
- hw/scsi/vhost-scsi-common.c                | 1 +
- hw/scsi/vhost-scsi.c                       | 1 +
- hw/scsi/virtio-scsi.c                      | 1 +
- hw/scsi/vmw_pvscsi.c                       | 1 +
- hw/sd/bcm2835_sdhost.c                     | 1 +
- hw/sd/core.c                               | 1 +
- hw/sd/milkymist-memcard.c                  | 1 +
- hw/sd/pl181.c                              | 1 +
- hw/sd/pxa2xx_mmci.c                        | 1 +
- hw/sd/sd.c                                 | 1 +
- hw/sd/sdhci-pci.c                          | 1 +
- hw/sd/sdhci.c                              | 1 +
- hw/sd/ssi-sd.c                             | 1 +
- hw/sh4/sh_pci.c                            | 2 ++
- hw/smbios/smbios.c                         | 1 +
- hw/sparc/sun4m_iommu.c                     | 1 +
- hw/sparc64/sun4u_iommu.c                   | 1 +
- hw/ssi/aspeed_smc.c                        | 1 +
- hw/ssi/imx_spi.c                           | 1 +
- hw/ssi/mss-spi.c                           | 1 +
- hw/ssi/pl022.c                             | 1 +
- hw/ssi/ssi.c                               | 1 +
- hw/ssi/stm32f2xx_spi.c                     | 1 +
- hw/ssi/xilinx_spi.c                        | 1 +
- hw/ssi/xilinx_spips.c                      | 1 +
- hw/timer/a9gtimer.c                        | 1 +
- hw/timer/allwinner-a10-pit.c               | 1 +
- hw/timer/altera_timer.c                    | 2 +-
- hw/timer/arm_mptimer.c                     | 1 +
- hw/timer/arm_timer.c                       | 2 +-
- hw/timer/armv7m_systick.c                  | 2 +-
- hw/timer/aspeed_timer.c                    | 2 +-
- hw/timer/cadence_ttc.c                     | 1 +
- hw/timer/cmsdk-apb-dualtimer.c             | 1 +
- hw/timer/cmsdk-apb-timer.c                 | 1 +
- hw/timer/digic-timer.c                     | 1 +
- hw/timer/ds1338.c                          | 1 +
- hw/timer/etraxfs_timer.c                   | 2 ++
- hw/timer/exynos4210_mct.c                  | 2 +-
- hw/timer/exynos4210_pwm.c                  | 2 +-
- hw/timer/exynos4210_rtc.c                  | 2 +-
- hw/timer/grlib_gptimer.c                   | 1 +
- hw/timer/i8254.c                           | 2 ++
- hw/timer/i8254_common.c                    | 2 ++
- hw/timer/imx_epit.c                        | 1 +
- hw/timer/imx_gpt.c                         | 1 +
- hw/timer/lm32_timer.c                      | 1 +
- hw/timer/m41t80.c                          | 1 +
- hw/timer/m48t59-isa.c                      | 2 ++
- hw/timer/m48t59.c                          | 2 ++
- hw/timer/mc146818rtc.c                     | 1 +
- hw/timer/milkymist-sysctl.c                | 1 +
- hw/timer/mss-timer.c                       | 1 +
- hw/timer/nrf51_timer.c                     | 1 +
- hw/timer/pl031.c                           | 1 +
- hw/timer/puv3_ost.c                        | 2 ++
- hw/timer/pxa2xx_timer.c                    | 1 +
- hw/timer/slavio_timer.c                    | 1 +
- hw/timer/stm32f2xx_timer.c                 | 1 +
- hw/timer/sun4v-rtc.c                       | 1 +
- hw/timer/twl92230.c                        | 1 +
- hw/timer/xilinx_timer.c                    | 1 +
- hw/timer/xlnx-zynqmp-rtc.c                 | 1 +
- hw/tpm/tpm_crb.c                           | 2 +-
- hw/tpm/tpm_emulator.c                      | 1 +
- hw/tpm/tpm_passthrough.c                   | 2 +-
- hw/tpm/tpm_tis.c                           | 1 +
- hw/usb/bus.c                               | 1 +
- hw/usb/ccid-card-emulated.c                | 1 +
- hw/usb/ccid-card-passthru.c                | 1 +
- hw/usb/chipidea.c                          | 1 +
- hw/usb/dev-audio.c                         | 2 +-
- hw/usb/dev-bluetooth.c                     | 2 +-
- hw/usb/dev-hid.c                           | 2 ++
- hw/usb/dev-hub.c                           | 3 ++-
- hw/usb/dev-mtp.c                           | 2 +-
- hw/usb/dev-network.c                       | 2 +-
- hw/usb/dev-serial.c                        | 2 +-
- hw/usb/dev-smartcard-reader.c              | 1 +
- hw/usb/dev-storage.c                       | 2 +-
- hw/usb/dev-uas.c                           | 2 +-
- hw/usb/dev-wacom.c                         | 2 ++
- hw/usb/hcd-ehci-pci.c                      | 1 +
- hw/usb/hcd-ehci-sysbus.c                   | 1 +
- hw/usb/hcd-ohci.c                          | 1 +
- hw/usb/hcd-uhci.c                          | 2 ++
- hw/usb/hcd-xhci-nec.c                      | 1 +
- hw/usb/hcd-xhci.c                          | 2 ++
- hw/usb/host-libusb.c                       | 2 +-
- hw/usb/redirect.c                          | 2 +-
- hw/usb/tusb6010.c                          | 3 ++-
- hw/vfio/amd-xgbe.c                         | 1 +
- hw/vfio/ap.c                               | 1 +
- hw/vfio/calxeda-xgmac.c                    | 1 +
- hw/vfio/ccw.c                              | 1 +
- hw/vfio/pci-quirks.c                       | 1 +
- hw/vfio/pci.c                              | 1 +
- hw/vfio/platform.c                         | 1 +
- hw/virtio/vhost-scsi-pci.c                 | 1 +
- hw/virtio/vhost-user-blk-pci.c             | 1 +
- hw/virtio/vhost-user-scsi-pci.c            | 1 +
- hw/virtio/vhost-vsock-pci.c                | 1 +
- hw/virtio/vhost-vsock.c                    | 1 +
- hw/virtio/virtio-9p-pci.c                  | 1 +
- hw/virtio/virtio-balloon-pci.c             | 1 +
- hw/virtio/virtio-balloon.c                 | 2 +-
- hw/virtio/virtio-blk-pci.c                 | 1 +
- hw/virtio/virtio-bus.c                     | 1 +
- hw/virtio/virtio-crypto-pci.c              | 2 ++
- hw/virtio/virtio-crypto.c                  | 2 ++
- hw/virtio/virtio-input-host-pci.c          | 1 +
- hw/virtio/virtio-input-pci.c               | 1 +
- hw/virtio/virtio-mmio.c                    | 1 +
- hw/virtio/virtio-net-pci.c                 | 1 +
- hw/virtio/virtio-pci.c                     | 1 +
- hw/virtio/virtio-rng-pci.c                 | 1 +
- hw/virtio/virtio-rng.c                     | 1 +
- hw/virtio/virtio-scsi-pci.c                | 1 +
- hw/virtio/virtio-serial-pci.c              | 1 +
- hw/virtio/virtio.c                         | 2 +-
- hw/watchdog/cmsdk-apb-watchdog.c           | 1 +
- hw/watchdog/wdt_aspeed.c                   | 1 +
- hw/watchdog/wdt_diag288.c                  | 1 +
- hw/watchdog/wdt_i6300esb.c                 | 2 +-
- hw/watchdog/wdt_ib700.c                    | 2 +-
- hw/xen/xen-bus.c                           | 1 +
- hw/xen/xen-common.c                        | 1 +
- include/hw/boards.h                        | 1 +
- include/hw/hw.h                            | 1 -
- include/hw/i386/pc.h                       | 2 +-
- include/qemu-common.h                      | 2 --
- include/qom/object.h                       | 1 +
- io/channel-buffer.c                        | 1 +
- io/channel-command.c                       | 1 +
- io/channel-file.c                          | 1 +
- io/channel-socket.c                        | 1 +
- io/channel-tls.c                           | 1 +
- io/channel-websock.c                       | 1 +
- io/channel.c                               | 1 +
- io/dns-resolver.c                          | 1 +
- io/net-listener.c                          | 1 +
- linux-user/main.c                          | 1 +
- migration/rdma.c                           | 3 ++-
- net/can/can_core.c                         | 2 ++
- net/can/can_host.c                         | 2 ++
- net/can/can_socketcan.c                    | 2 ++
- net/dump.c                                 | 2 +-
- net/filter-replay.c                        | 2 +-
- net/filter.c                               | 2 +-
- qemu-img.c                                 | 1 +
- qemu-io.c                                  | 1 +
- qemu-nbd.c                                 | 2 +-
- qga/main.c                                 | 1 -
- qtest.c                                    | 2 +-
- replication.h                              | 1 +
- scripts/qapi/commands.py                   | 2 --
- scsi/pr-manager-helper.c                   | 1 +
- scsi/pr-manager.c                          | 1 +
- scsi/qemu-pr-helper.c                      | 2 +-
- target/arm/cpu.c                           | 1 +
- target/arm/cpu64.c                         | 2 +-
- target/hppa/cpu.c                          | 2 +-
- target/i386/cpu.c                          | 1 +
- target/i386/sev.c                          | 1 +
- target/microblaze/cpu.c                    | 2 +-
- target/mips/cpu.c                          | 2 +-
- target/nios2/cpu.c                         | 2 +-
- target/ppc/cpu-models.c                    | 1 +
- target/ppc/translate_init.inc.c            | 1 +
- target/s390x/cpu.c                         | 1 +
- target/s390x/cpu_models.c                  | 1 +
- target/sparc/cpu.c                         | 1 +
- target/tilegx/cpu.c                        | 2 +-
- target/xtensa/cpu.c                        | 2 +-
- tests/ac97-test.c                          | 1 +
- tests/e1000-test.c                         | 1 +
- tests/e1000e-test.c                        | 1 +
- tests/eepro100-test.c                      | 1 +
- tests/es1370-test.c                        | 1 +
- tests/ipoctal232-test.c                    | 1 +
- tests/libqos/aarch64-xlnx-zcu102-machine.c | 1 +
- tests/libqos/arm-raspi2-machine.c          | 1 +
- tests/libqos/arm-sabrelite-machine.c       | 1 +
- tests/libqos/arm-smdkc210-machine.c        | 1 +
- tests/libqos/arm-virt-machine.c            | 1 +
- tests/libqos/arm-xilinx-zynq-a9-machine.c  | 1 +
- tests/libqos/e1000e.c                      | 2 +-
- tests/libqos/pci-pc.c                      | 2 +-
- tests/libqos/pci-spapr.c                   | 2 +-
- tests/libqos/ppc64_pseries-machine.c       | 3 ++-
- tests/libqos/sdhci.c                       | 1 +
- tests/libqos/tpci200.c                     | 1 +
- tests/libqos/virtio-9p.c                   | 1 +
- tests/libqos/virtio-balloon.c              | 1 +
- tests/libqos/virtio-blk.c                  | 1 +
- tests/libqos/virtio-mmio.c                 | 1 +
- tests/libqos/virtio-net.c                  | 1 +
- tests/libqos/virtio-rng.c                  | 1 +
- tests/libqos/virtio-scsi.c                 | 1 +
- tests/libqos/virtio-serial.c               | 1 +
- tests/libqos/x86_64_pc-machine.c           | 1 +
- tests/megasas-test.c                       | 1 +
- tests/migration-test.c                     | 1 +
- tests/ne2000-test.c                        | 1 +
- tests/nvme-test.c                          | 1 +
- tests/pci-test.c                           | 1 +
- tests/pcnet-test.c                         | 1 +
- tests/qos-test.c                           | 1 +
- tests/sdhci-test.c                         | 2 ++
- tests/spapr-phb-test.c                     | 1 +
- tests/test-authz-list.c                    | 1 +
- tests/test-authz-listfile.c                | 1 +
- tests/test-authz-pam.c                     | 1 +
- tests/test-authz-simple.c                  | 1 +
- tests/test-char.c                          | 1 +
- tests/test-crypto-block.c                  | 1 +
- tests/test-crypto-tlscredsx509.c           | 1 +
- tests/test-crypto-tlssession.c             | 1 +
- tests/test-io-channel-buffer.c             | 1 +
- tests/test-io-channel-command.c            | 1 +
- tests/test-io-channel-file.c               | 1 +
- tests/test-io-channel-socket.c             | 1 +
- tests/test-io-channel-tls.c                | 1 +
- tests/test-io-task.c                       | 1 +
- tests/test-qmp-cmds.c                      | 2 --
- tests/test-throttle.c                      | 1 +
- tests/test-vmstate.c                       | 2 +-
- tests/tpm-crb-swtpm-test.c                 | 1 +
- tests/tpm-crb-test.c                       | 1 +
- tests/tpm-tis-swtpm-test.c                 | 1 +
- tests/tpm-tis-test.c                       | 1 +
- tests/usb-hcd-ohci-test.c                  | 1 +
- tests/vhost-user-test.c                    | 1 +
- tests/virtio-9p-test.c                     | 1 +
- tests/virtio-blk-test.c                    | 1 +
- tests/virtio-net-test.c                    | 1 +
- tests/virtio-rng-test.c                    | 1 +
- tests/virtio-scsi-test.c                   | 1 +
- tests/virtio-serial-test.c                 | 1 +
- tests/virtio-test.c                        | 1 +
- tests/vmxnet3-test.c                       | 1 +
- ui/cocoa.m                                 | 2 +-
- ui/console.c                               | 1 +
- ui/curses.c                                | 3 ++-
- ui/egl-headless.c                          | 2 +-
- ui/input-linux.c                           | 2 +-
- ui/sdl2.c                                  | 2 +-
- ui/spice-app.c                             | 3 ++-
- ui/spice-core.c                            | 1 +
- ui/vnc.c                                   | 1 +
- 761 files changed, 875 insertions(+), 132 deletions(-)
+ accel/kvm/kvm-all.c                      | 1 -
+ accel/stubs/hax-stub.c                   | 1 -
+ accel/stubs/hvf-stub.c                   | 1 -
+ accel/stubs/kvm-stub.c                   | 1 -
+ accel/stubs/whpx-stub.c                  | 1 -
+ accel/tcg/cpu-exec.c                     | 2 ++
+ accel/tcg/translate-all.c                | 1 +
+ accel/tcg/translator.c                   | 1 -
+ accel/tcg/user-exec-stub.c               | 1 -
+ arch_init.c                              | 1 -
+ audio/audio_legacy.c                     | 1 -
+ audio/audio_pt_int.c                     | 1 -
+ audio/mixeng.c                           | 1 -
+ balloon.c                                | 1 -
+ block/bochs.c                            | 1 -
+ block/cloop.c                            | 1 -
+ block/dirty-bitmap.c                     | 1 -
+ block/dmg-bz2.c                          | 1 -
+ block/dmg.c                              | 1 -
+ block/dmg.h                              | 1 -
+ block/file-posix.c                       | 1 +
+ block/iscsi.c                            | 1 +
+ block/linux-aio.c                        | 1 -
+ block/nbd-client.h                       | 1 -
+ block/qapi.c                             | 1 +
+ block/qcow2-cache.c                      | 1 -
+ block/qcow2-cluster.c                    | 1 -
+ block/qcow2-refcount.c                   | 1 -
+ block/sheepdog.c                         | 1 +
+ block/vhdx-endian.c                      | 1 -
+ blockjob.c                               | 1 -
+ bt-vhci.c                                | 1 -
+ chardev/char-fd.c                        | 1 +
+ chardev/char-pipe.c                      | 1 +
+ chardev/char-pty.c                       | 1 +
+ contrib/ivshmem-client/ivshmem-client.c  | 1 -
+ contrib/ivshmem-client/main.c            | 1 -
+ contrib/ivshmem-server/ivshmem-server.c  | 1 -
+ cpus.c                                   | 1 +
+ crypto/aes.c                             | 1 -
+ disas.c                                  | 1 -
+ disas/cris.c                             | 1 -
+ disas/i386.c                             | 1 -
+ disas/s390.c                             | 1 -
+ dump.c                                   | 1 +
+ exec.c                                   | 1 +
+ gdbstub.c                                | 1 +
+ hmp.h                                    | 1 -
+ hw/9pfs/9p-proxy.c                       | 1 +
+ hw/9pfs/coth.c                           | 1 -
+ hw/acpi/bios-linker-loader.c             | 1 -
+ hw/acpi/tco.c                            | 1 -
+ hw/alpha/pci.c                           | 1 -
+ hw/arm/aspeed.c                          | 1 -
+ hw/arm/boot.c                            | 1 +
+ hw/arm/cubieboard.c                      | 1 -
+ hw/arm/exynos4210.c                      | 1 -
+ hw/arm/exynos4_boards.c                  | 1 -
+ hw/arm/fsl-imx25.c                       | 1 -
+ hw/arm/fsl-imx31.c                       | 1 -
+ hw/arm/highbank.c                        | 1 +
+ hw/arm/imx25_pdk.c                       | 1 -
+ hw/arm/integratorcp.c                    | 1 -
+ hw/arm/kzm.c                             | 1 -
+ hw/arm/mcimx6ul-evk.c                    | 1 -
+ hw/arm/mcimx7d-sabre.c                   | 1 -
+ hw/arm/msf2-soc.c                        | 1 -
+ hw/arm/musicpal.c                        | 1 -
+ hw/arm/nrf51_soc.c                       | 1 -
+ hw/arm/omap2.c                           | 1 -
+ hw/arm/pxa2xx.c                          | 1 +
+ hw/arm/raspi.c                           | 1 -
+ hw/arm/realview.c                        | 1 -
+ hw/arm/sabrelite.c                       | 1 -
+ hw/arm/strongarm.c                       | 1 +
+ hw/arm/sysbus-fdt.c                      | 1 -
+ hw/arm/versatilepb.c                     | 1 -
+ hw/arm/virt-acpi-build.c                 | 1 -
+ hw/arm/virt.c                            | 1 +
+ hw/arm/xilinx_zynq.c                     | 1 -
+ hw/arm/xlnx-zcu102.c                     | 1 -
+ hw/audio/soundhw.c                       | 1 -
+ hw/block/cdrom.c                         | 1 -
+ hw/bt/core.c                             | 1 -
+ hw/bt/hci.c                              | 1 -
+ hw/bt/hid.c                              | 1 -
+ hw/bt/l2cap.c                            | 1 -
+ hw/bt/sdp.c                              | 1 -
+ hw/core/irq.c                            | 1 -
+ hw/core/loader.c                         | 1 +
+ hw/core/null-machine.c                   | 1 -
+ hw/cris/axis_dev88.c                     | 1 -
+ hw/cris/boot.c                           | 1 -
+ hw/display/blizzard.c                    | 1 -
+ hw/display/cg3.c                         | 1 +
+ hw/display/edid-generate.c               | 1 -
+ hw/display/edid-region.c                 | 1 -
+ hw/display/qxl.h                         | 1 -
+ hw/display/tcx.c                         | 1 +
+ hw/display/virtio-gpu-3d.c               | 1 -
+ hw/dma/etraxfs_dma.c                     | 1 -
+ hw/dma/omap_dma.c                        | 1 -
+ hw/dma/pl330.c                           | 1 +
+ hw/dma/soc_dma.c                         | 1 -
+ hw/dma/xlnx_dpdma.c                      | 1 +
+ hw/hppa/pci.c                            | 1 -
+ hw/i386/acpi-build.c                     | 1 -
+ hw/i386/pc_sysfw.c                       | 1 +
+ hw/intc/apic.c                           | 1 -
+ hw/intc/sh_intc.c                        | 1 -
+ hw/isa/lpc_ich9.c                        | 1 -
+ hw/lm32/lm32_boards.c                    | 1 -
+ hw/lm32/lm32_hwsetup.h                   | 1 -
+ hw/m68k/an5206.c                         | 1 -
+ hw/m68k/mcf5206.c                        | 1 -
+ hw/microblaze/petalogix_ml605_mmu.c      | 1 -
+ hw/microblaze/petalogix_s3adsp1800_mmu.c | 1 -
+ hw/microblaze/xlnx-zynqmp-pmu.c          | 1 -
+ hw/mips/boston.c                         | 1 -
+ hw/mips/mips_fulong2e.c                  | 1 +
+ hw/mips/mips_jazz.c                      | 1 +
+ hw/misc/macio/cuda.c                     | 1 +
+ hw/misc/macio/pmu.c                      | 1 +
+ hw/moxie/moxiesim.c                      | 1 -
+ hw/net/rocker/qmp-norocker.c             | 1 -
+ hw/nios2/10m50_devboard.c                | 1 -
+ hw/nios2/cpu_pic.c                       | 1 -
+ hw/nvram/fw_cfg.c                        | 1 +
+ hw/openrisc/openrisc_sim.c               | 1 -
+ hw/pci-bridge/dec.h                      | 1 -
+ hw/pci-host/prep.c                       | 1 +
+ hw/pci/pci.c                             | 1 +
+ hw/pci/pcie.c                            | 1 -
+ hw/pci/shpc.c                            | 1 -
+ hw/ppc/e500.c                            | 1 +
+ hw/ppc/e500plat.c                        | 1 -
+ hw/ppc/mac_newworld.c                    | 3 ++-
+ hw/ppc/mac_oldworld.c                    | 2 ++
+ hw/ppc/mpc8544ds.c                       | 1 -
+ hw/ppc/pnv.c                             | 1 +
+ hw/ppc/ppc.c                             | 1 -
+ hw/ppc/ppc405_uc.c                       | 1 -
+ hw/ppc/ppc_booke.c                       | 1 -
+ hw/ppc/spapr.c                           | 3 ++-
+ hw/ppc/spapr_pci_vfio.c                  | 1 -
+ hw/ppc/spapr_rtc.c                       | 1 +
+ hw/ppc/virtex_ml507.c                    | 1 +
+ hw/s390x/ipl.c                           | 1 +
+ hw/s390x/s390-pci-inst.c                 | 1 -
+ hw/s390x/tod-qemu.c                      | 1 +
+ hw/scsi/megasas.c                        | 1 +
+ hw/sh4/r2d.c                             | 1 -
+ hw/sh4/shix.c                            | 1 -
+ hw/sparc64/niagara.c                     | 1 -
+ hw/timer/exynos4210_rtc.c                | 1 +
+ hw/timer/m41t80.c                        | 1 +
+ hw/timer/m48t59.c                        | 1 +
+ hw/timer/mc146818rtc.c                   | 1 +
+ hw/timer/pl031.c                         | 1 +
+ hw/timer/twl92230.c                      | 1 +
+ hw/timer/xlnx-zynqmp-rtc.c               | 1 +
+ hw/tpm/tpm_passthrough.c                 | 1 +
+ hw/tricore/tricore_testboard.c           | 1 -
+ hw/usb/ccid-card-passthru.c              | 1 +
+ hw/usb/combined-packet.c                 | 1 -
+ hw/usb/core.c                            | 1 -
+ hw/usb/dev-mtp.c                         | 1 +
+ hw/usb/hcd-musb.c                        | 1 -
+ hw/usb/host-stub.c                       | 1 -
+ hw/usb/libhw.c                           | 1 -
+ hw/usb/redirect.c                        | 1 +
+ hw/vfio/pci.h                            | 1 -
+ hw/xen/xen-host-pci-device.c             | 1 -
+ hw/xen/xen_pt.h                          | 1 -
+ hw/xtensa/sim.c                          | 1 -
+ hw/xtensa/xtensa_memory.c                | 1 -
+ hw/xtensa/xtensa_memory.h                | 1 -
+ include/authz/base.h                     | 1 -
+ include/block/aio.h                      | 1 -
+ include/block/dirty-bitmap.h             | 1 -
+ include/block/write-threshold.h          | 1 -
+ include/chardev/char-io.h                | 1 -
+ include/crypto/random.h                  | 1 -
+ include/crypto/xts.h                     | 1 -
+ include/disas/disas.h                    | 1 -
+ include/exec/cpu-all.h                   | 1 -
+ include/exec/exec-all.h                  | 1 -
+ include/hw/acpi/tco.h                    | 1 -
+ include/hw/arm/allwinner-a10.h           | 1 -
+ include/hw/arm/bcm2835_peripherals.h     | 1 -
+ include/hw/arm/exynos4210.h              | 1 -
+ include/hw/arm/virt.h                    | 1 -
+ include/hw/arm/xlnx-zynqmp.h             | 1 -
+ include/hw/block/fdc.h                   | 1 -
+ include/hw/dma/bcm2835_dma.h             | 1 -
+ include/hw/fw-path-provider.h            | 1 -
+ include/hw/i2c/ppc4xx_i2c.h              | 1 -
+ include/hw/i386/apic.h                   | 1 -
+ include/hw/ipmi/ipmi.h                   | 1 -
+ include/hw/isa/apm.h                     | 1 -
+ include/hw/isa/superio.h                 | 1 -
+ include/hw/lm32/lm32_pic.h               | 1 -
+ include/hw/nmi.h                         | 1 -
+ include/hw/pci-host/pam.h                | 1 -
+ include/hw/pci/msi.h                     | 1 -
+ include/hw/pci/msix.h                    | 1 -
+ include/hw/pci/shpc.h                    | 1 -
+ include/hw/pci/slotid_cap.h              | 1 -
+ include/hw/ppc/openpic.h                 | 1 -
+ include/hw/ptimer.h                      | 1 -
+ include/hw/sd/sdhci.h                    | 1 -
+ include/hw/sh4/sh_intc.h                 | 1 -
+ include/hw/sparc/sun4m_iommu.h           | 1 -
+ include/hw/sparc/sun4u_iommu.h           | 1 -
+ include/hw/stream.h                      | 1 -
+ include/hw/timer/m48t59.h                | 1 -
+ include/hw/vfio/vfio-common.h            | 1 -
+ include/hw/virtio/vhost-scsi-common.h    | 1 -
+ include/hw/virtio/vhost-scsi.h           | 1 -
+ include/hw/virtio/vhost-user-blk.h       | 1 -
+ include/hw/virtio/vhost-user-scsi.h      | 1 -
+ include/hw/xen/xen.h                     | 1 -
+ include/io/channel.h                     | 1 -
+ include/io/dns-resolver.h                | 1 -
+ include/io/task.h                        | 1 -
+ include/migration/colo.h                 | 1 -
+ include/migration/failover.h             | 1 -
+ include/monitor/monitor.h                | 1 -
+ include/net/announce.h                   | 1 -
+ include/net/filter.h                     | 1 -
+ include/net/queue.h                      | 1 -
+ include/net/tap.h                        | 1 -
+ include/qemu-common.h                    | 4 +---
+ include/qemu-io.h                        | 1 -
+ include/qemu/base64.h                    | 1 -
+ include/qemu/buffer.h                    | 1 -
+ include/qemu/crc32c.h                    | 1 -
+ include/qemu/event_notifier.h            | 1 -
+ include/qemu/filemonitor.h               | 1 -
+ include/qemu/mmap-alloc.h                | 1 -
+ include/qemu/qdist.h                     | 1 -
+ include/qemu/throttle.h                  | 1 -
+ include/qemu/timer.h                     | 1 -
+ include/qemu/uuid.h                      | 1 -
+ include/sysemu/cryptodev-vhost.h         | 1 -
+ include/sysemu/cryptodev.h               | 1 -
+ include/sysemu/hax.h                     | 1 -
+ include/sysemu/hvf.h                     | 1 -
+ include/sysemu/qtest.h                   | 1 -
+ include/sysemu/rng.h                     | 1 -
+ include/sysemu/tpm_backend.h             | 1 -
+ include/sysemu/whpx.h                    | 1 -
+ io/channel-socket.c                      | 2 +-
+ ioport.c                                 | 1 -
+ job-qmp.c                                | 1 -
+ job.c                                    | 1 -
+ linux-user/aarch64/cpu_loop.c            | 1 +
+ linux-user/alpha/cpu_loop.c              | 1 +
+ linux-user/arm/cpu_loop.c                | 1 +
+ linux-user/cris/cpu_loop.c               | 1 +
+ linux-user/i386/cpu_loop.c               | 1 +
+ linux-user/m68k/cpu_loop.c               | 1 +
+ linux-user/main.c                        | 1 +
+ linux-user/microblaze/cpu_loop.c         | 1 +
+ linux-user/mips/cpu_loop.c               | 1 +
+ linux-user/mmap.c                        | 1 -
+ linux-user/openrisc/cpu_loop.c           | 1 +
+ linux-user/ppc/cpu_loop.c                | 1 +
+ linux-user/riscv/cpu_loop.c              | 1 +
+ linux-user/s390x/cpu_loop.c              | 1 +
+ linux-user/sh4/cpu_loop.c                | 1 +
+ linux-user/signal.c                      | 1 -
+ linux-user/sparc/cpu_loop.c              | 1 +
+ linux-user/syscall.c                     | 1 -
+ linux-user/tilegx/cpu_loop.c             | 1 +
+ memory_mapping.c                         | 1 -
+ migration/migration.h                    | 1 -
+ migration/page_cache.c                   | 1 -
+ migration/qemu-file.c                    | 1 -
+ migration/ram.h                          | 1 -
+ migration/socket.c                       | 1 -
+ migration/vmstate-types.c                | 1 -
+ migration/vmstate.c                      | 1 -
+ net/checksum.c                           | 1 -
+ net/colo-compare.c                       | 2 +-
+ net/dump.c                               | 1 +
+ net/eth.c                                | 1 -
+ net/filter-buffer.c                      | 1 -
+ net/filter-mirror.c                      | 1 -
+ net/filter-rewriter.c                    | 1 -
+ net/hub.h                                | 1 -
+ net/l2tpv3.c                             | 1 -
+ net/tap-linux.c                          | 1 +
+ net/tap_int.h                            | 1 -
+ os-posix.c                               | 1 +
+ os-win32.c                               | 2 ++
+ qapi/qapi-dealloc-visitor.c              | 1 -
+ qapi/qapi-visit-core.c                   | 1 -
+ qapi/qmp-event.c                         | 1 -
+ qapi/qobject-input-visitor.c             | 1 -
+ qapi/qobject-output-visitor.c            | 1 -
+ qapi/string-input-visitor.c              | 1 -
+ qemu-edid.c                              | 1 -
+ qemu-img.c                               | 1 +
+ qemu-io.c                                | 1 +
+ qemu-keymap.c                            | 1 -
+ qemu-nbd.c                               | 1 +
+ qga/commands-posix.c                     | 1 +
+ qga/guest-agent-core.h                   | 1 -
+ qga/main.c                               | 1 +
+ qmp.c                                    | 1 +
+ qom/qom-qobject.c                        | 1 -
+ replay/replay-events.c                   | 1 -
+ replay/replay-input.c                    | 1 -
+ replay/replay-internal.c                 | 1 -
+ replay/replay-snapshot.c                 | 1 -
+ replay/replay-time.c                     | 1 -
+ scripts/modules/module_block.py          | 2 --
+ scripts/qapi/events.py                   | 1 -
+ scripts/qapi/visit.py                    | 2 --
+ scripts/tracetool/format/h.py            | 1 -
+ scripts/tracetool/format/tcg_helper_c.py | 1 -
+ scripts/tracetool/format/ust_events_h.py | 1 -
+ scsi/qemu-pr-helper.c                    | 1 +
+ stubs/bdrv-next-monitor-owned.c          | 1 -
+ stubs/blk-commit-all.c                   | 1 -
+ stubs/change-state-handler.c             | 1 -
+ stubs/clock-warp.c                       | 1 -
+ stubs/cpu-get-clock.c                    | 1 -
+ stubs/cpu-get-icount.c                   | 1 -
+ stubs/dump.c                             | 1 -
+ stubs/error-printf.c                     | 1 -
+ stubs/fd-register.c                      | 1 -
+ stubs/fdset.c                            | 1 -
+ stubs/iothread-lock.c                    | 1 -
+ stubs/is-daemonized.c                    | 1 -
+ stubs/machine-init-done.c                | 1 -
+ stubs/migr-blocker.c                     | 1 -
+ stubs/monitor.c                          | 1 -
+ stubs/notify-event.c                     | 1 -
+ stubs/set-fd-handler.c                   | 1 -
+ stubs/uuid.c                             | 1 -
+ stubs/vm-stop.c                          | 1 -
+ stubs/vmstate.c                          | 1 -
+ stubs/xen-common.c                       | 1 -
+ stubs/xen-hvm.c                          | 1 -
+ target/alpha/cpu.c                       | 1 -
+ target/alpha/cpu.h                       | 1 -
+ target/alpha/gdbstub.c                   | 1 -
+ target/alpha/machine.c                   | 1 -
+ target/arm/arm-semi.c                    | 1 -
+ target/arm/cpu.c                         | 1 +
+ target/arm/cpu.h                         | 1 -
+ target/arm/gdbstub.c                     | 1 -
+ target/arm/gdbstub64.c                   | 1 -
+ target/arm/kvm-stub.c                    | 1 -
+ target/arm/machine.c                     | 1 -
+ target/cris/cpu.c                        | 1 -
+ target/cris/cpu.h                        | 1 -
+ target/cris/gdbstub.c                    | 1 -
+ target/cris/machine.c                    | 1 -
+ target/hppa/cpu.h                        | 1 -
+ target/hppa/gdbstub.c                    | 1 -
+ target/hppa/machine.c                    | 1 -
+ target/i386/gdbstub.c                    | 1 -
+ target/i386/kvm-stub.c                   | 1 -
+ target/i386/kvm.c                        | 1 -
+ target/i386/sev-stub.c                   | 1 -
+ target/i386/xsave_helper.c               | 1 -
+ target/lm32/cpu.c                        | 1 -
+ target/lm32/cpu.h                        | 1 -
+ target/lm32/gdbstub.c                    | 1 -
+ target/lm32/machine.c                    | 1 -
+ target/m68k/cpu.c                        | 1 -
+ target/m68k/cpu.h                        | 1 -
+ target/m68k/gdbstub.c                    | 1 -
+ target/m68k/m68k-semi.c                  | 1 -
+ target/microblaze/cpu.h                  | 1 -
+ target/microblaze/gdbstub.c              | 1 -
+ target/mips/cpu.h                        | 1 -
+ target/mips/gdbstub.c                    | 1 -
+ target/mips/machine.c                    | 1 -
+ target/moxie/cpu.c                       | 1 -
+ target/moxie/cpu.h                       | 1 -
+ target/moxie/machine.c                   | 1 -
+ target/nios2/cpu.h                       | 1 -
+ target/nios2/mmu.c                       | 1 -
+ target/openrisc/cpu.c                    | 1 -
+ target/openrisc/cpu.h                    | 1 -
+ target/openrisc/disas.c                  | 1 -
+ target/openrisc/exception.h              | 1 -
+ target/openrisc/gdbstub.c                | 1 -
+ target/openrisc/interrupt.c              | 1 -
+ target/openrisc/machine.c                | 1 -
+ target/openrisc/mmu.c                    | 1 -
+ target/openrisc/translate.c              | 1 -
+ target/ppc/cpu.h                         | 1 -
+ target/ppc/gdbstub.c                     | 1 -
+ target/ppc/kvm-stub.c                    | 1 -
+ target/ppc/machine.c                     | 1 -
+ target/riscv/cpu.h                       | 1 -
+ target/riscv/gdbstub.c                   | 1 -
+ target/riscv/pmp.c                       | 1 -
+ target/s390x/cpu.h                       | 1 -
+ target/s390x/kvm-stub.c                  | 1 -
+ target/s390x/vec_helper.c                | 1 -
+ target/sh4/cpu.c                         | 1 -
+ target/sh4/cpu.h                         | 1 -
+ target/sh4/gdbstub.c                     | 1 -
+ target/sparc/cpu.h                       | 1 -
+ target/sparc/gdbstub.c                   | 1 -
+ target/sparc/machine.c                   | 1 -
+ target/tilegx/cpu.h                      | 1 -
+ target/tilegx/helper.c                   | 1 -
+ target/tilegx/simd_helper.c              | 1 -
+ target/tricore/cpu.c                     | 1 -
+ target/tricore/cpu.h                     | 1 -
+ target/unicore32/cpu.c                   | 1 -
+ target/unicore32/cpu.h                   | 1 -
+ target/xtensa/core-dc233c.c              | 1 -
+ target/xtensa/core-de212.c               | 1 -
+ target/xtensa/core-fsf.c                 | 1 -
+ target/xtensa/core-sample_controller.c   | 1 -
+ target/xtensa/core-test_kc705_be.c       | 1 -
+ target/xtensa/cpu.h                      | 1 -
+ target/xtensa/gdbstub.c                  | 1 -
+ tcg/optimize.c                           | 1 -
+ tcg/tcg-common.c                         | 1 -
+ tcg/tcg-op-gvec.c                        | 1 -
+ tcg/tcg-op-vec.c                         | 1 -
+ tcg/tcg-op.c                             | 1 -
+ tcg/tcg.h                                | 1 -
+ tests/crypto-tls-psk-helpers.h           | 1 -
+ tests/crypto-tls-x509-helpers.h          | 1 -
+ tests/e1000e-test.c                      | 1 +
+ tests/test-filter-mirror.c               | 1 +
+ tests/test-filter-redirector.c           | 1 +
+ tests/virtio-net-test.c                  | 1 +
+ trace/control.h                          | 1 -
+ ui/console-gl.c                          | 1 -
+ ui/cursor.c                              | 1 -
+ ui/egl-context.c                         | 1 -
+ ui/gtk-egl.c                             | 1 -
+ ui/gtk-gl-area.c                         | 1 -
+ ui/gtk.c                                 | 1 -
+ ui/keymaps.c                             | 1 +
+ ui/keymaps.h                             | 1 -
+ ui/qemu-pixman.c                         | 1 -
+ ui/sdl2-2d.c                             | 1 -
+ ui/sdl2-gl.c                             | 1 -
+ ui/sdl2-input.c                          | 1 -
+ ui/shader.c                              | 1 -
+ ui/spice-input.c                         | 1 -
+ ui/vnc-enc-tight.c                       | 1 -
+ ui/vnc.h                                 | 1 -
+ util/aio-posix.c                         | 1 -
+ util/async.c                             | 1 -
+ util/bufferiszero.c                      | 1 -
+ util/compatfd.c                          | 1 -
+ util/coroutine-ucontext.c                | 1 -
+ util/crc32c.c                            | 1 -
+ util/cutils.c                            | 1 +
+ util/envlist.c                           | 1 -
+ util/error.c                             | 1 -
+ util/fifo8.c                             | 1 -
+ util/getauxval.c                         | 1 -
+ util/iohandler.c                         | 1 -
+ util/log.c                               | 1 -
+ util/module.c                            | 1 -
+ util/notify.c                            | 1 -
+ util/oslib-posix.c                       | 1 +
+ util/oslib-win32.c                       | 2 ++
+ util/qemu-config.c                       | 1 -
+ util/qemu-coroutine-lock.c               | 1 -
+ util/qemu-coroutine.c                    | 1 -
+ util/qemu-option.c                       | 1 -
+ util/qemu-sockets.c                      | 1 +
+ util/rcu.c                               | 1 -
+ util/thread-pool.c                       | 1 -
+ util/uuid.c                              | 1 -
+ vl.c                                     | 1 +
+ win_dump.c                               | 1 +
+ 482 files changed, 101 insertions(+), 396 deletions(-)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index 49e6884309..3745c823ad 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -21,10 +21,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include <alsa/asoundlib.h>
--#include "qemu-common.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "audio.h"
- #include "trace.h"
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 524c4ddfbd..b0c4bed6e3 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -18,7 +18,6 @@
  
-diff --git a/audio/audio.c b/audio/audio.c
-index 2040762fef..05adf7ffeb 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -21,6 +21,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "audio.h"
-@@ -31,6 +32,7 @@
- #include "qapi/qapi-visit-audio.h"
- #include "sysemu/sysemu.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- #include "sysemu/replay.h"
- #include "trace.h"
- 
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index 1ee43b7d5f..4bec6c8c5c 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -26,7 +26,7 @@
- #include <CoreAudio/CoreAudio.h>
- #include <pthread.h>            /* pthread_X */
- 
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "audio.h"
- 
- #define AUDIO_CAP "coreaudio"
-diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
-index a7d04b5033..5da4c864c3 100644
---- a/audio/dsoundaudio.c
-+++ b/audio/dsoundaudio.c
-@@ -27,12 +27,12 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "audio.h"
- 
- #define AUDIO_CAP "dsound"
- #include "audio_int.h"
- #include "qemu/host-utils.h"
-+#include "qemu/module.h"
- 
- #include <windows.h>
- #include <mmsystem.h>
-diff --git a/audio/noaudio.c b/audio/noaudio.c
-index ccc611fc84..9b195dc52c 100644
---- a/audio/noaudio.c
-+++ b/audio/noaudio.c
-@@ -21,9 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "qemu/host-utils.h"
-+#include "qemu/module.h"
- #include "audio.h"
- #include "qemu/timer.h"
- 
-diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-index fc28981a39..c0af065b6f 100644
---- a/audio/ossaudio.c
-+++ b/audio/ossaudio.c
-@@ -21,11 +21,12 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include <sys/ioctl.h>
- #include <sys/soundcard.h>
--#include "qemu-common.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/host-utils.h"
- #include "audio.h"
- #include "trace.h"
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index 45295b4e5e..fa9dd9efd4 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -1,6 +1,7 @@
- /* public domain */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "audio.h"
- #include "qapi/opts-visitor.h"
- 
-diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
-index ff9248ba68..e7179ff1d4 100644
---- a/audio/sdlaudio.c
-+++ b/audio/sdlaudio.c
-@@ -21,10 +21,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include <SDL.h>
- #include <SDL_thread.h>
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "audio.h"
- 
- #ifndef _WIN32
-diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-index 4f7873af5a..0ead5ae43a 100644
---- a/audio/spiceaudio.c
-+++ b/audio/spiceaudio.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "qemu/host-utils.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
- #include "ui/qemu-spice.h"
-diff --git a/audio/wavaudio.c b/audio/wavaudio.c
-index 8d30f57296..803b6cb1f3 100644
---- a/audio/wavaudio.c
-+++ b/audio/wavaudio.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/host-utils.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "qapi/opts-visitor.h"
- #include "audio.h"
-diff --git a/authz/base.c b/authz/base.c
-index baf39fff25..c75bce3fd1 100644
---- a/authz/base.c
-+++ b/authz/base.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "authz/base.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- bool qauthz_is_allowed(QAuthZ *authz,
-diff --git a/authz/list.c b/authz/list.c
-index 831da936fe..5a48074d0a 100644
---- a/authz/list.c
-+++ b/authz/list.c
-@@ -23,6 +23,7 @@
- #include "trace.h"
- #include "qom/object_interfaces.h"
- #include "qapi/qapi-visit-authz.h"
-+#include "qemu/module.h"
- 
- static bool qauthz_list_is_allowed(QAuthZ *authz,
-                                    const char *identity,
-diff --git a/authz/listfile.c b/authz/listfile.c
-index d74bbd1048..e7a8c19bcb 100644
---- a/authz/listfile.c
-+++ b/authz/listfile.c
-@@ -23,6 +23,7 @@
- #include "trace.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "qemu/filemonitor.h"
- #include "qom/object_interfaces.h"
-diff --git a/authz/pamacct.c b/authz/pamacct.c
-index 7539867923..a8ad25b6c7 100644
---- a/authz/pamacct.c
-+++ b/authz/pamacct.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "authz/pamacct.h"
- #include "trace.h"
-+#include "qemu/module.h"
- #include "qom/object_interfaces.h"
- 
- #include <security/pam_appl.h>
-diff --git a/authz/simple.c b/authz/simple.c
-index c409ce7efc..008912d247 100644
---- a/authz/simple.c
-+++ b/authz/simple.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "authz/simple.h"
- #include "trace.h"
-+#include "qemu/module.h"
- #include "qom/object_interfaces.h"
- 
- static bool qauthz_simple_is_allowed(QAuthZ *authz,
-diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-index 37ac6445d2..29e55c9195 100644
---- a/backends/hostmem-file.c
-+++ b/backends/hostmem-file.c
-@@ -9,10 +9,11 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/hostmem.h"
- #include "sysemu/sysemu.h"
- #include "qom/object_interfaces.h"
-diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-index 46b15b916a..26070b425e 100644
---- a/backends/hostmem-memfd.c
-+++ b/backends/hostmem-memfd.c
-@@ -9,12 +9,13 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "sysemu/hostmem.h"
- #include "sysemu/sysemu.h"
- #include "qom/object_interfaces.h"
- #include "qemu/memfd.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- #define TYPE_MEMORY_BACKEND_MEMFD "memory-backend-memfd"
-diff --git a/backends/hostmem-ram.c b/backends/hostmem-ram.c
-index 24b65d9ae3..6aab8d3a73 100644
---- a/backends/hostmem-ram.c
-+++ b/backends/hostmem-ram.c
-@@ -9,9 +9,11 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "sysemu/hostmem.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qom/object_interfaces.h"
- 
- #define TYPE_MEMORY_BACKEND_RAM "memory-backend-ram"
-diff --git a/backends/rng-egd.c b/backends/rng-egd.c
-index d2b9ce6cbf..e380519408 100644
---- a/backends/rng-egd.c
-+++ b/backends/rng-egd.c
-@@ -15,6 +15,7 @@
- #include "chardev/char-fe.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
-+#include "qemu/module.h"
- 
- #define TYPE_RNG_EGD "rng-egd"
- #define RNG_EGD(obj) OBJECT_CHECK(RngEgd, (obj), TYPE_RNG_EGD)
-diff --git a/backends/rng-random.c b/backends/rng-random.c
-index e2a49b0571..aa5b9285f0 100644
---- a/backends/rng-random.c
-+++ b/backends/rng-random.c
-@@ -16,6 +16,7 @@
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- 
- struct RngRandom
- {
-diff --git a/backends/rng.c b/backends/rng.c
-index 398ebe4a7d..391888b8b3 100644
---- a/backends/rng.c
-+++ b/backends/rng.c
-@@ -14,6 +14,7 @@
- #include "sysemu/rng.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
-+#include "qemu/module.h"
- #include "qom/object_interfaces.h"
- 
- void rng_backend_request_entropy(RngBackend *s, size_t size,
-diff --git a/backends/tpm.c b/backends/tpm.c
-index a00438b904..375587e743 100644
---- a/backends/tpm.c
-+++ b/backends/tpm.c
-@@ -18,6 +18,7 @@
- #include "sysemu/tpm.h"
- #include "qemu/thread.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "block/thread-pool.h"
- #include "qemu/error-report.h"
- 
-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
-index eb2b4901a5..04d8b33607 100644
---- a/block/blklogwrites.c
-+++ b/block/blklogwrites.c
-@@ -16,6 +16,7 @@
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qstring.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- 
- /* Disk format stuff - taken from Linux drivers/md/dm-log-writes.c */
-diff --git a/block/blkreplay.c b/block/blkreplay.c
-index b5d9efdeca..2b7931b940 100644
---- a/block/blkreplay.c
-+++ b/block/blkreplay.c
-@@ -10,7 +10,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "block/block_int.h"
- #include "sysemu/replay.h"
- #include "qapi/error.h"
-diff --git a/block/blkverify.c b/block/blkverify.c
-index 3ff77ff49a..304b0a1368 100644
---- a/block/blkverify.c
-+++ b/block/blkverify.c
-@@ -14,6 +14,7 @@
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qstring.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- 
- typedef struct {
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 53972b1da3..22f24fd0db 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -22,6 +22,7 @@
- 
- #include "qemu/osdep.h"
- #include "block/block_int.h"
-+#include "qemu/module.h"
- 
- 
- static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-diff --git a/block/crypto.c b/block/crypto.c
-index 3af46b805f..be12da2532 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -28,6 +28,7 @@
- #include "qapi/qapi-visit-crypto.h"
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "crypto.h"
- 
-diff --git a/block/curl.c b/block/curl.c
-index 606709fea4..d4c8e94f3e 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "block/block_int.h"
- #include "qapi/qmp/qdict.h"
-diff --git a/block/gluster.c b/block/gluster.c
-index e664ca4462..dc16f0c329 100644
---- a/block/gluster.c
-+++ b/block/gluster.c
-@@ -18,6 +18,7 @@
- #include "qapi/qmp/qerror.h"
- #include "qemu/uri.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/cutils.h"
- 
-diff --git a/block/iscsi-opts.c b/block/iscsi-opts.c
-index 9b19bd2f52..afaf8837d6 100644
---- a/block/iscsi-opts.c
-+++ b/block/iscsi-opts.c
-@@ -23,8 +23,8 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "qemu/config-file.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- 
- static QemuOptsList qemu_iscsi_opts = {
-diff --git a/block/iscsi.c b/block/iscsi.c
-index f31c612d53..cf9d66c07f 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -36,6 +36,7 @@
- #include "block/qdict.h"
- #include "scsi/constants.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/uuid.h"
- #include "qapi/error.h"
-diff --git a/block/nfs.c b/block/nfs.c
-index 531903610b..d93241b3bb 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -32,6 +32,7 @@
- #include "block/qdict.h"
- #include "trace.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/uri.h"
- #include "qemu/cutils.h"
-diff --git a/block/null.c b/block/null.c
-index a322929478..699aa295cb 100644
---- a/block/null.c
-+++ b/block/null.c
-@@ -14,6 +14,7 @@
- #include "qapi/error.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qstring.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "block/block_int.h"
- 
-diff --git a/block/nvme.c b/block/nvme.c
-index 0684bbd077..73ed5fa75f 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -17,6 +17,7 @@
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qstring.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/cutils.h"
- #include "qemu/option.h"
- #include "qemu/vfio-helpers.h"
-diff --git a/block/qed.c b/block/qed.c
-index dcdcd62b4a..e15796b730 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -17,6 +17,7 @@
- #include "qapi/error.h"
- #include "qemu/timer.h"
- #include "qemu/bswap.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "trace.h"
- #include "qed.h"
-diff --git a/block/quorum.c b/block/quorum.c
-index 352f729136..ef92d7f63b 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -15,6 +15,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "block/block_int.h"
- #include "block/qdict.h"
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 385cdc2490..bffd424dd0 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -29,6 +29,7 @@
- #include "qemu/osdep.h"
- #include "block/block_int.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- 
- typedef struct BDRVRawState {
-diff --git a/block/rbd.c b/block/rbd.c
-index 0c549c9935..f2ac2c06f4 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -16,6 +16,7 @@
- #include <rbd/librbd.h>
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "block/block_int.h"
- #include "block/qdict.h"
-diff --git a/block/replication.c b/block/replication.c
-index 3d4dedddfc..5cffb790b3 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -13,6 +13,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "block/nbd.h"
- #include "block/blockjob.h"
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index cbdfe9ab6e..961fe3499a 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -21,6 +21,7 @@
- #include "qapi/qobject-output-visitor.h"
- #include "qemu/uri.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/sockets.h"
- #include "block/block_int.h"
-diff --git a/block/ssh.c b/block/ssh.c
-index 584c302fe6..6da7b9cbfe 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -31,6 +31,7 @@
- #include "block/qdict.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
-diff --git a/block/throttle.c b/block/throttle.c
-index f64dcc27b9..0349f42257 100644
---- a/block/throttle.c
-+++ b/block/throttle.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "block/throttle-groups.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/throttle-options.h"
- #include "qapi/error.h"
-diff --git a/block/vhdx-log.c b/block/vhdx-log.c
-index 5e946846f1..fdd3a7adc3 100644
---- a/block/vhdx-log.c
-+++ b/block/vhdx-log.c
-@@ -17,12 +17,11 @@
-  * See the COPYING.LIB file in the top-level directory.
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "block/block_int.h"
- #include "qemu/error-report.h"
--#include "qemu/module.h"
- #include "qemu/bswap.h"
- #include "vhdx.h"
- 
-diff --git a/block/vxhs.c b/block/vxhs.c
-index 2e18229ba4..77fd5eb20d 100644
---- a/block/vxhs.c
-+++ b/block/vxhs.c
-@@ -17,6 +17,7 @@
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qstring.h"
- #include "trace.h"
-+#include "qemu/module.h"
- #include "qemu/uri.h"
- #include "qapi/error.h"
- #include "qemu/uuid.h"
-diff --git a/block/win32-aio.c b/block/win32-aio.c
-index 9cd355d42f..b7221a272f 100644
---- a/block/win32-aio.c
-+++ b/block/win32-aio.c
-@@ -21,11 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "qemu/timer.h"
- #include "block/block_int.h"
--#include "qemu/module.h"
- #include "block/aio.h"
- #include "block/raw-aio.h"
- #include "qemu/event_notifier.h"
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 5ec6f90af9..d48e2618c8 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -29,6 +29,7 @@
- #include "qemu/error-report.h"
- #include "qemu/path.h"
- #include "qemu/help_option.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "tcg.h"
-diff --git a/chardev/baum.c b/chardev/baum.c
-index 78b0c87625..3dc81d5c6c 100644
---- a/chardev/baum.c
-+++ b/chardev/baum.c
-@@ -21,10 +21,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "chardev/char.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/usb.h"
- #include "ui/console.h"
-diff --git a/chardev/char-console.c b/chardev/char-console.c
-index 535ed65136..6c4ce5dbce 100644
---- a/chardev/char-console.c
-+++ b/chardev/char-console.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "chardev/char-win.h"
-+#include "qemu/module.h"
- 
- static void qemu_chr_open_win_con(Chardev *chr,
-                                   ChardevBackend *backend,
-diff --git a/chardev/char-fd.c b/chardev/char-fd.c
-index 2c9b2ce567..32092369bf 100644
---- a/chardev/char-fd.c
-+++ b/chardev/char-fd.c
-@@ -21,10 +21,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "chardev/char.h"
- #include "io/channel-file.h"
- 
-diff --git a/chardev/char-file.c b/chardev/char-file.c
-index 87fb61088c..2fd80707e5 100644
---- a/chardev/char-file.c
-+++ b/chardev/char-file.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "chardev/char.h"
- 
-diff --git a/chardev/char-mux.c b/chardev/char-mux.c
-index 23aa82125d..200c62a0d0 100644
---- a/chardev/char-mux.c
-+++ b/chardev/char-mux.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "chardev/char.h"
- #include "sysemu/block-backend.h"
-diff --git a/chardev/char-null.c b/chardev/char-null.c
-index 90bafe76f4..1c6a2900f9 100644
---- a/chardev/char-null.c
-+++ b/chardev/char-null.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "chardev/char.h"
-+#include "qemu/module.h"
- 
- static void null_chr_open(Chardev *chr,
-                           ChardevBackend *backend,
-diff --git a/chardev/char-parallel.c b/chardev/char-parallel.c
-index ab82c72ac7..05e7efbd6c 100644
---- a/chardev/char-parallel.c
-+++ b/chardev/char-parallel.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "chardev/char.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include <sys/ioctl.h>
- 
-diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
-index 8a51872e5e..cdaddb1e61 100644
---- a/chardev/char-pipe.c
-+++ b/chardev/char-pipe.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "chardev/char.h"
- 
-diff --git a/chardev/char-pty.c b/chardev/char-pty.c
-index 04759b0ef9..8b34ce985a 100644
---- a/chardev/char-pty.c
-+++ b/chardev/char-pty.c
-@@ -21,13 +21,14 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "chardev/char.h"
- #include "io/channel-file.h"
- #include "qemu/sockets.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/qemu-print.h"
- 
- #include "chardev/char-io.h"
-diff --git a/chardev/char-ringbuf.c b/chardev/char-ringbuf.c
-index 87832e2792..67397a8ce9 100644
---- a/chardev/char-ringbuf.c
-+++ b/chardev/char-ringbuf.c
-@@ -27,6 +27,7 @@
- #include "qapi/error.h"
- #include "qapi/qapi-commands-char.h"
- #include "qemu/base64.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- 
- /* Ring buffer chardev */
-diff --git a/chardev/char-serial.c b/chardev/char-serial.c
-index a8bae31b8d..5b833ea077 100644
---- a/chardev/char-serial.c
-+++ b/chardev/char-serial.c
-@@ -23,6 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/sockets.h"
- #include "io/channel-file.h"
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index b2cf593107..7ca5d97af3 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -29,6 +29,7 @@
- #include "io/channel-websock.h"
- #include "io/net-listener.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qapi/error.h"
- #include "qapi/clone-visitor.h"
-diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
-index 9624220e6d..82eaebc1db 100644
---- a/chardev/char-stdio.c
-+++ b/chardev/char-stdio.c
-@@ -23,6 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/sockets.h"
- #include "qapi/error.h"
-diff --git a/chardev/char-udp.c b/chardev/char-udp.c
-index 097a2f0f42..bba4145f96 100644
---- a/chardev/char-udp.c
-+++ b/chardev/char-udp.c
-@@ -26,6 +26,7 @@
- #include "chardev/char.h"
- #include "io/channel-socket.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- 
- #include "chardev/char-io.h"
-diff --git a/chardev/char-win-stdio.c b/chardev/char-win-stdio.c
-index efcf7827eb..92d34e85aa 100644
---- a/chardev/char-win-stdio.c
-+++ b/chardev/char-win-stdio.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "chardev/char-win.h"
- #include "chardev/char-win-stdio.h"
- 
-diff --git a/chardev/char-win.c b/chardev/char-win.c
-index 05518e0958..0b8181339d 100644
---- a/chardev/char-win.c
-+++ b/chardev/char-win.c
-@@ -21,8 +21,9 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "chardev/char-win.h"
- 
-diff --git a/chardev/char.c b/chardev/char.c
-index 54724a56b1..e4887bcc82 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -35,6 +35,7 @@
- #include "qapi/qmp/qerror.h"
- #include "sysemu/replay.h"
- #include "qemu/help_option.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- 
- #include "chardev/char-mux.h"
-diff --git a/chardev/msmouse.c b/chardev/msmouse.c
-index 0ffd137ce8..6d8f06fed4 100644
---- a/chardev/msmouse.c
-+++ b/chardev/msmouse.c
-@@ -21,8 +21,9 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "chardev/char.h"
- #include "ui/console.h"
- #include "ui/input.h"
-diff --git a/chardev/spice.c b/chardev/spice.c
-index 22c30ae833..241e2b7770 100644
---- a/chardev/spice.c
-+++ b/chardev/spice.c
-@@ -5,6 +5,7 @@
- #include "chardev/spice.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include <spice/protocol.h>
- 
-diff --git a/chardev/testdev.c b/chardev/testdev.c
-index 031e9a23e8..368a8c041e 100644
---- a/chardev/testdev.c
-+++ b/chardev/testdev.c
-@@ -23,8 +23,9 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "chardev/char.h"
- 
- #define BUF_SIZE 32
-diff --git a/chardev/wctablet.c b/chardev/wctablet.c
-index 35dbd29a33..e9cb7ca710 100644
---- a/chardev/wctablet.c
-+++ b/chardev/wctablet.c
-@@ -27,7 +27,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "chardev/char-serial.h"
- #include "ui/console.h"
- #include "ui/input.h"
-diff --git a/crypto/secret.c b/crypto/secret.c
-index 388abd7df5..30294b3229 100644
---- a/crypto/secret.c
-+++ b/crypto/secret.c
-@@ -24,6 +24,7 @@
- #include "qapi/error.h"
- #include "qom/object_interfaces.h"
- #include "qemu/base64.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- 
-diff --git a/crypto/tlscreds.c b/crypto/tlscreds.c
-index 02255a6f3c..50ecb704ee 100644
---- a/crypto/tlscreds.c
-+++ b/crypto/tlscreds.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "tlscredspriv.h"
- #include "trace.h"
- 
-diff --git a/crypto/tlscredsanon.c b/crypto/tlscredsanon.c
-index 7ad66d1e7d..3024b17cfd 100644
---- a/crypto/tlscredsanon.c
-+++ b/crypto/tlscredsanon.c
-@@ -22,6 +22,7 @@
- #include "crypto/tlscredsanon.h"
- #include "tlscredspriv.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qom/object_interfaces.h"
- #include "trace.h"
- 
-diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
-index 7be7c8efdd..9c53c6c7b1 100644
---- a/crypto/tlscredspsk.c
-+++ b/crypto/tlscredspsk.c
-@@ -22,6 +22,7 @@
- #include "crypto/tlscredspsk.h"
- #include "tlscredspriv.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qom/object_interfaces.h"
- #include "trace.h"
- 
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index d6ab4a9862..5247dd3b18 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -23,6 +23,7 @@
- #include "tlscredspriv.h"
- #include "crypto/secret.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qom/object_interfaces.h"
- #include "trace.h"
- 
-diff --git a/fsdev/qemu-fsdev-dummy.c b/fsdev/qemu-fsdev-dummy.c
-index 489cd29081..8444a254be 100644
---- a/fsdev/qemu-fsdev-dummy.c
-+++ b/fsdev/qemu-fsdev-dummy.c
-@@ -10,10 +10,10 @@
-  * the COPYING file in the top-level directory.
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu-fsdev.h"
- #include "qemu/config-file.h"
--#include "qemu/module.h"
- 
- int qemu_fsdev_add(QemuOpts *opts, Error **errp)
- {
-diff --git a/gdbstub.c b/gdbstub.c
-index ae8f1f050a..912a790041 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -22,6 +22,7 @@
- #include "qemu/error-report.h"
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- #include "trace-root.h"
- #ifdef CONFIG_USER_ONLY
- #include "qemu.h"
-diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
-index 775e8ff766..a3288cbe56 100644
---- a/hw/9pfs/virtio-9p-device.c
-+++ b/hw/9pfs/virtio-9p-device.c
-@@ -19,6 +19,7 @@
- #include "coth.h"
- #include "hw/virtio/virtio-access.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- 
- static void virtio_9p_push_and_notify(V9fsPDU *pdu)
- {
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 9ed1629f36..228828a494 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -30,6 +30,7 @@
- #include "qapi/qapi-events-run-state.h"
- #include "qapi/qapi-visit-misc.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- 
- struct acpi_table_header {
-diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
-index 02717a8b0d..b891df375f 100644
---- a/hw/acpi/vmgenid.c
-+++ b/hw/acpi/vmgenid.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-misc.h"
-+#include "qemu/module.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/aml-build.h"
- #include "hw/acpi/vmgenid.h"
-diff --git a/hw/adc/stm32f2xx_adc.c b/hw/adc/stm32f2xx_adc.c
-index 329a8aa673..c93b60e22e 100644
---- a/hw/adc/stm32f2xx_adc.c
-+++ b/hw/adc/stm32f2xx_adc.c
-@@ -26,6 +26,7 @@
- #include "hw/sysbus.h"
- #include "hw/hw.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/adc/stm32f2xx_adc.h"
- 
- #ifndef STM_ADC_ERR_DEBUG
-diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
-index 9d57361c67..3f34a5153f 100644
---- a/hw/alpha/typhoon.c
-+++ b/hw/alpha/typhoon.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
- #include "cpu.h"
-diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index 06ec6f4dc8..35e906ca54 100644
---- a/hw/arm/allwinner-a10.c
-+++ b/hw/arm/allwinner-a10.c
-@@ -17,7 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
- #include "hw/arm/allwinner-a10.h"
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 76cc690579..dcc26ae2c1 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/bitops.h"
- #include "qapi/error.h"
- #include "trace.h"
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index c4b2a9a1f5..accb99cb34 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -10,7 +10,6 @@
- #include "qemu/osdep.h"
- #include "hw/arm/armv7m.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
- #include "hw/arm/arm.h"
-@@ -18,6 +17,7 @@
- #include "elf.h"
- #include "sysemu/qtest.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "exec/address-spaces.h"
- #include "target/arm/idau.h"
- 
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index a27233d487..67ff6e4904 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -12,13 +12,13 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "exec/address-spaces.h"
- #include "hw/misc/unimp.h"
- #include "hw/arm/aspeed_soc.h"
- #include "hw/char/serial.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/i2c/aspeed_i2c.h"
- #include "net/net.h"
- 
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 6be7660e8c..87778bc165 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -10,6 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/arm/bcm2835_peripherals.h"
- #include "hw/misc/bcm2835_mbox_defs.h"
- #include "hw/arm/raspi_platform.h"
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 6a09c339d3..493a913f89 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -10,7 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/arm/bcm2836.h"
- #include "hw/arm/raspi_platform.h"
-diff --git a/hw/arm/digic.c b/hw/arm/digic.c
-index 726abb9b48..020fe4b5c4 100644
---- a/hw/arm/digic.c
-+++ b/hw/arm/digic.c
-@@ -22,6 +22,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/arm/digic.h"
- #include "sysemu/sysemu.h"
- 
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index 7b7b97f74c..7129517378 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -21,11 +21,11 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "hw/arm/fsl-imx6.h"
- #include "sysemu/sysemu.h"
- #include "chardev/char.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #define IMX6_ESDHC_CAPABILITIES     0x057834b4
- 
-diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index 4b56bfa8d1..05505bac56 100644
---- a/hw/arm/fsl-imx6ul.c
-+++ b/hw/arm/fsl-imx6ul.c
-@@ -18,11 +18,11 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "hw/arm/fsl-imx6ul.h"
- #include "hw/misc/unimp.h"
- #include "sysemu/sysemu.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #define NAME_SIZE 20
- 
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index 7663ad6861..b7e3526b4f 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -20,11 +20,11 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "hw/arm/fsl-imx7.h"
- #include "hw/misc/unimp.h"
- #include "sysemu/sysemu.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #define NAME_SIZE 20
- 
-diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-index 3d7c88910e..432876958d 100644
---- a/hw/arm/pxa2xx.c
-+++ b/hw/arm/pxa2xx.c
-@@ -9,8 +9,8 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
- #include "hw/arm/pxa.h"
-diff --git a/hw/arm/pxa2xx_gpio.c b/hw/arm/pxa2xx_gpio.c
-index e15070188e..d1fc9cba67 100644
---- a/hw/arm/pxa2xx_gpio.c
-+++ b/hw/arm/pxa2xx_gpio.c
-@@ -13,6 +13,7 @@
- #include "hw/sysbus.h"
- #include "hw/arm/pxa.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define PXA2XX_GPIO_BANKS	4
- 
-diff --git a/hw/arm/pxa2xx_pic.c b/hw/arm/pxa2xx_pic.c
-index 61275fa040..2f4b461562 100644
---- a/hw/arm/pxa2xx_pic.c
-+++ b/hw/arm/pxa2xx_pic.c
-@@ -9,7 +9,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "hw/arm/pxa.h"
-diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-index e94be6db6c..717d22bcbe 100644
---- a/hw/arm/smmu-common.c
-+++ b/hw/arm/smmu-common.c
-@@ -25,6 +25,7 @@
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu/jhash.h"
-+#include "qemu/module.h"
- 
- #include "qemu/error-report.h"
- #include "hw/arm/smmu-common.h"
-diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
-index 980e5af13c..4699c2f617 100644
---- a/hw/arm/stm32f205_soc.c
-+++ b/hw/arm/stm32f205_soc.c
-@@ -24,7 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "hw/arm/arm.h"
- #include "exec/address-spaces.h"
- #include "hw/arm/stm32f205_soc.h"
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 5331ab71e2..851ceb04f6 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -49,6 +49,7 @@
- #include "exec/address-spaces.h"
- #include "qemu/bitops.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/pci-host/gpex.h"
- #include "hw/arm/sysbus-fdt.h"
- #include "hw/platform-bus.h"
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index 5ee58c09be..61ca39fb21 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -11,8 +11,8 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "net/net.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 4f8bc41d9d..641e11a284 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -17,7 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/arm/xlnx-zynqmp.h"
- #include "hw/intc/arm_gic_common.h"
-diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-index 2265622d44..e704d0e166 100644
---- a/hw/audio/ac97.c
-+++ b/hw/audio/ac97.c
-@@ -22,6 +22,7 @@
- #include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "hw/pci/pci.h"
-+#include "qemu/module.h"
- #include "sysemu/dma.h"
- 
- enum {
-diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
-index 0957780a3d..7dd9a89b89 100644
---- a/hw/audio/adlib.c
-+++ b/hw/audio/adlib.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/audio/soundhw.h"
- #include "audio/audio.h"
-diff --git a/hw/audio/cs4231.c b/hw/audio/cs4231.c
-index 30690f96ae..8372299ebb 100644
---- a/hw/audio/cs4231.c
-+++ b/hw/audio/cs4231.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /*
-diff --git a/hw/audio/cs4231a.c b/hw/audio/cs4231a.c
-index 62da75eefe..7216b41cc1 100644
---- a/hw/audio/cs4231a.c
-+++ b/hw/audio/cs4231a.c
-@@ -21,12 +21,14 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "hw/isa/isa.h"
- #include "hw/qdev.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "qapi/error.h"
- 
-diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
-index a5314d66fd..260c142b70 100644
---- a/hw/audio/es1370.c
-+++ b/hw/audio/es1370.c
-@@ -31,6 +31,7 @@
- #include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "hw/pci/pci.h"
-+#include "qemu/module.h"
- #include "sysemu/dma.h"
- 
- /* Missing stuff:
-diff --git a/hw/audio/gus.c b/hw/audio/gus.c
-index b3e2a7fdd5..9ab51631d9 100644
---- a/hw/audio/gus.c
-+++ b/hw/audio/gus.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/audio/soundhw.h"
- #include "audio/audio.h"
-diff --git a/hw/audio/hda-codec.c b/hw/audio/hda-codec.c
-index c25bfa38b1..84639b5424 100644
---- a/hw/audio/hda-codec.c
-+++ b/hw/audio/hda-codec.c
-@@ -21,6 +21,7 @@
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
- #include "intel-hda.h"
-+#include "qemu/module.h"
- #include "intel-hda-defs.h"
- #include "audio/audio.h"
- #include "trace.h"
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index 33e333cc26..b78baac295 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -24,6 +24,7 @@
- #include "qemu/timer.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/audio/soundhw.h"
- #include "intel-hda.h"
- #include "intel-hda-defs.h"
-diff --git a/hw/audio/marvell_88w8618.c b/hw/audio/marvell_88w8618.c
-index 035dd76cbf..ff1a0d0d8f 100644
---- a/hw/audio/marvell_88w8618.c
-+++ b/hw/audio/marvell_88w8618.c
-@@ -9,12 +9,14 @@
-  * Contributions after 2012-01-13 are licensed under the terms of the
-  * GNU GPL, version 2 or (at your option) any later version.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "hw/hw.h"
- #include "hw/audio/wm8750.h"
- #include "audio/audio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #define MP_AUDIO_SIZE           0x00001000
- 
-diff --git a/hw/audio/milkymist-ac97.c b/hw/audio/milkymist-ac97.c
-index 90cce1e6ed..bf6a5a6b96 100644
---- a/hw/audio/milkymist-ac97.c
-+++ b/hw/audio/milkymist-ac97.c
-@@ -27,6 +27,7 @@
- #include "trace.h"
- #include "audio/audio.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- enum {
-     R_AC97_CTRL = 0,
-diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
-index 9c7fd74aeb..a7b3ab0c2b 100644
---- a/hw/audio/pcspk.c
-+++ b/hw/audio/pcspk.c
-@@ -27,6 +27,7 @@
- #include "hw/isa/isa.h"
- #include "hw/audio/soundhw.h"
- #include "audio/audio.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/timer/i8254.h"
- #include "hw/audio/pcspk.h"
-diff --git a/hw/audio/pl041.c b/hw/audio/pl041.c
-index c8cc503236..59c6ce1f2e 100644
---- a/hw/audio/pl041.c
-+++ b/hw/audio/pl041.c
-@@ -23,6 +23,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #include "pl041.h"
- #include "lm4549.h"
-diff --git a/hw/audio/sb16.c b/hw/audio/sb16.c
-index 65ea0cd938..a2db06a2bb 100644
---- a/hw/audio/sb16.c
-+++ b/hw/audio/sb16.c
-@@ -21,6 +21,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/audio/soundhw.h"
-@@ -30,6 +31,7 @@
- #include "qemu/timer.h"
- #include "qemu/host-utils.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- #define dolog(...) AUD_log ("sb16", __VA_ARGS__)
-diff --git a/hw/audio/wm8750.c b/hw/audio/wm8750.c
-index ca0ad73caf..81f83eea88 100644
---- a/hw/audio/wm8750.c
-+++ b/hw/audio/wm8750.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/i2c/i2c.h"
-+#include "qemu/module.h"
- #include "hw/audio/wm8750.h"
- #include "audio/audio.h"
- 
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 6f19f127a5..14b7384dbe 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -40,6 +40,7 @@
- #include "sysemu/blockdev.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /********************************************************/
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index e8dfa14b33..dd87affcf5 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -28,6 +28,7 @@
- #include "hw/ssi/ssi.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
- 
-diff --git a/hw/block/nand.c b/hw/block/nand.c
-index 919cb9b803..0a2736b50e 100644
---- a/hw/block/nand.c
-+++ b/hw/block/nand.c
-@@ -25,6 +25,7 @@
- #include "hw/qdev.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- # define NAND_CMD_READ0		0x00
- # define NAND_CMD_READ1		0x01
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 63a5b58849..3571456cc1 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -37,6 +37,7 @@
- #include "sysemu/block-backend.h"
- 
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/cutils.h"
- #include "trace.h"
- #include "nvme.h"
-diff --git a/hw/block/onenand.c b/hw/block/onenand.c
-index f11118a687..b3644f7e89 100644
---- a/hw/block/onenand.c
-+++ b/hw/block/onenand.c
-@@ -20,7 +20,6 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "hw/hw.h"
- #include "hw/block/flash.h"
- #include "hw/irq.h"
-@@ -29,6 +28,7 @@
- #include "hw/sysbus.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- /* 11 for 2kB-page OneNAND ("2nd generation") and 10 for 1kB-page chips */
- #define PAGE_SHIFT	11
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 333b736277..35080d915f 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -47,6 +47,7 @@
- #include "qemu/error-report.h"
- #include "qemu/host-utils.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "hw/sysbus.h"
- #include "sysemu/blockdev.h"
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index f2c6201f81..eb106f4996 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -43,6 +43,7 @@
- #include "qemu/timer.h"
- #include "sysemu/block-backend.h"
- #include "qemu/host-utils.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "trace.h"
- 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 06e57a4d39..cbb3729158 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -13,8 +13,8 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "trace.h"
- #include "hw/block/block.h"
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index ef635be4c2..71fd2d1f77 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -7,6 +7,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-block-core.h"
-diff --git a/hw/bt/hci-csr.c b/hw/bt/hci-csr.c
-index fa6660a113..3d60654f44 100644
---- a/hw/bt/hci-csr.c
-+++ b/hw/bt/hci-csr.c
-@@ -20,7 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "chardev/char-serial.h"
- #include "qemu/timer.h"
- #include "qemu/bswap.h"
-diff --git a/hw/char/bcm2835_aux.c b/hw/char/bcm2835_aux.c
-index 0364596c55..94679d276c 100644
---- a/hw/char/bcm2835_aux.c
-+++ b/hw/char/bcm2835_aux.c
-@@ -23,6 +23,7 @@
- #include "qemu/osdep.h"
- #include "hw/char/bcm2835_aux.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define AUX_IRQ         0x0
- #define AUX_ENABLES     0x4
-diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index fbdbd463bb..fa25fe24da 100644
---- a/hw/char/cadence_uart.c
-+++ b/hw/char/cadence_uart.c
-@@ -27,6 +27,7 @@
- #include "chardev/char-serial.h"
- #include "qemu/timer.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/char/cadence_uart.h"
- 
- #ifdef CADENCE_UART_ERR_DEBUG
-diff --git a/hw/char/cmsdk-apb-uart.c b/hw/char/cmsdk-apb-uart.c
-index ddfbb25c24..606c9cc7d6 100644
---- a/hw/char/cmsdk-apb-uart.c
-+++ b/hw/char/cmsdk-apb-uart.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "trace.h"
- #include "hw/sysbus.h"
-diff --git a/hw/char/debugcon.c b/hw/char/debugcon.c
-index e2abc61b04..e1b6d1190f 100644
---- a/hw/char/debugcon.c
-+++ b/hw/char/debugcon.c
-@@ -26,6 +26,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "chardev/char-fe.h"
- #include "hw/isa/isa.h"
-diff --git a/hw/char/digic-uart.c b/hw/char/digic-uart.c
-index ccc75eaa4d..e4ac8435c8 100644
---- a/hw/char/digic-uart.c
-+++ b/hw/char/digic-uart.c
-@@ -31,6 +31,7 @@
- #include "hw/sysbus.h"
- #include "chardev/char-fe.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #include "hw/char/digic-uart.h"
- 
-diff --git a/hw/char/escc.c b/hw/char/escc.c
-index c5b05a63f1..8ddbb4be4f 100644
---- a/hw/char/escc.c
-+++ b/hw/char/escc.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "hw/char/escc.h"
- #include "ui/console.h"
- #include "trace.h"
-diff --git a/hw/char/etraxfs_ser.c b/hw/char/etraxfs_ser.c
-index a184026410..9745bca86c 100644
---- a/hw/char/etraxfs_ser.c
-+++ b/hw/char/etraxfs_ser.c
-@@ -26,6 +26,7 @@
- #include "hw/sysbus.h"
- #include "chardev/char-fe.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define D(x)
- 
-diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
-index a5a285655f..c5700eeaec 100644
---- a/hw/char/exynos4210_uart.c
-+++ b/hw/char/exynos4210_uart.c
-@@ -22,6 +22,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "chardev/char-fe.h"
- #include "chardev/char-serial.h"
-diff --git a/hw/char/grlib_apbuart.c b/hw/char/grlib_apbuart.c
-index 9623016d56..c2bb3ac153 100644
---- a/hw/char/grlib_apbuart.c
-+++ b/hw/char/grlib_apbuart.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "hw/sparc/grlib.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "chardev/char-fe.h"
- 
- #include "trace.h"
-diff --git a/hw/char/imx_serial.c b/hw/char/imx_serial.c
-index 1e363190e3..0655a9571b 100644
---- a/hw/char/imx_serial.c
-+++ b/hw/char/imx_serial.c
-@@ -22,6 +22,7 @@
- #include "hw/char/imx_serial.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef DEBUG_IMX_UART
- #define DEBUG_IMX_UART 0
-diff --git a/hw/char/ipoctal232.c b/hw/char/ipoctal232.c
-index 5e09caf851..5ab731e408 100644
---- a/hw/char/ipoctal232.c
-+++ b/hw/char/ipoctal232.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "hw/ipack/ipack.h"
- #include "qemu/bitops.h"
-+#include "qemu/module.h"
- #include "chardev/char-fe.h"
- 
- /* #define DEBUG_IPOCTAL */
-diff --git a/hw/char/lm32_juart.c b/hw/char/lm32_juart.c
-index d75c835ad2..41a3ec81e3 100644
---- a/hw/char/lm32_juart.c
-+++ b/hw/char/lm32_juart.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "chardev/char-fe.h"
- 
-diff --git a/hw/char/lm32_uart.c b/hw/char/lm32_uart.c
-index c4a3b9b275..d047a44e34 100644
---- a/hw/char/lm32_uart.c
-+++ b/hw/char/lm32_uart.c
-@@ -28,6 +28,7 @@
- #include "trace.h"
- #include "chardev/char-fe.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- enum {
-     R_RXTX = 0,
-diff --git a/hw/char/mcf_uart.c b/hw/char/mcf_uart.c
-index 787f985db6..7b06110c4d 100644
---- a/hw/char/mcf_uart.c
-+++ b/hw/char/mcf_uart.c
-@@ -5,9 +5,11 @@
-  *
-  * This code is licensed under the GPL
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "hw/m68k/mcf.h"
- #include "chardev/char-fe.h"
- 
-diff --git a/hw/char/milkymist-uart.c b/hw/char/milkymist-uart.c
-index 548ee27bca..8a78fcca8f 100644
---- a/hw/char/milkymist-uart.c
-+++ b/hw/char/milkymist-uart.c
-@@ -27,6 +27,7 @@
- #include "trace.h"
- #include "chardev/char-fe.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- enum {
-     R_RXTX = 0,
-diff --git a/hw/char/nrf51_uart.c b/hw/char/nrf51_uart.c
-index 2f5fae6167..c90b491477 100644
---- a/hw/char/nrf51_uart.c
-+++ b/hw/char/nrf51_uart.c
-@@ -14,6 +14,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/char/nrf51_uart.h"
- #include "trace.h"
- 
-diff --git a/hw/char/parallel.c b/hw/char/parallel.c
-index a80da47ecf..1cd4c54a02 100644
---- a/hw/char/parallel.c
-+++ b/hw/char/parallel.c
-@@ -22,8 +22,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "chardev/char-parallel.h"
- #include "chardev/char-fe.h"
-diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-index e5dd448f85..c1ae2f31f5 100644
---- a/hw/char/pl011.c
-+++ b/hw/char/pl011.c
-@@ -23,6 +23,7 @@
- #include "hw/sysbus.h"
- #include "chardev/char-fe.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #define PL011_INT_TX 0x20
-diff --git a/hw/char/sclpconsole-lm.c b/hw/char/sclpconsole-lm.c
-index dbc91a1e5b..691dc870ed 100644
---- a/hw/char/sclpconsole-lm.c
-+++ b/hw/char/sclpconsole-lm.c
-@@ -17,6 +17,7 @@
- #include "hw/qdev.h"
- #include "qemu/thread.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "chardev/char-fe.h"
- 
- #include "hw/s390x/sclp.h"
-diff --git a/hw/char/sclpconsole.c b/hw/char/sclpconsole.c
-index 1fa16e9055..09b1d45d7a 100644
---- a/hw/char/sclpconsole.c
-+++ b/hw/char/sclpconsole.c
-@@ -16,6 +16,7 @@
- #include "hw/qdev.h"
- #include "qemu/thread.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #include "hw/s390x/sclp.h"
- #include "hw/s390x/event-facility.h"
-diff --git a/hw/char/serial-isa.c b/hw/char/serial-isa.c
-index 116b7b2e69..610426111a 100644
---- a/hw/char/serial-isa.c
-+++ b/hw/char/serial-isa.c
-@@ -25,6 +25,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/char/serial.h"
- #include "hw/isa/isa.h"
- 
-diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
-index 2d5ffae5cf..9028efbda8 100644
---- a/hw/char/serial-pci.c
-+++ b/hw/char/serial-pci.c
-@@ -27,6 +27,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/char/serial.h"
- #include "hw/pci/pci.h"
- 
-diff --git a/hw/char/spapr_vty.c b/hw/char/spapr_vty.c
-index 617303dbaf..871d2666f3 100644
---- a/hw/char/spapr_vty.c
-+++ b/hw/char/spapr_vty.c
-@@ -1,7 +1,7 @@
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "hw/qdev.h"
- #include "chardev/char-fe.h"
-diff --git a/hw/char/stm32f2xx_usart.c b/hw/char/stm32f2xx_usart.c
-index 10392c70e2..40c365b908 100644
---- a/hw/char/stm32f2xx_usart.c
-+++ b/hw/char/stm32f2xx_usart.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "hw/char/stm32f2xx_usart.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef STM_USART_ERR_DEBUG
- #define STM_USART_ERR_DEBUG 0
-diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
-index 35b079d5c4..3785886c25 100644
---- a/hw/char/terminal3270.c
-+++ b/hw/char/terminal3270.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "chardev/char-fe.h"
- #include "hw/s390x/3270-ccw.h"
- 
-diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
-index 2cbe1d4ed5..1bbeb00fae 100644
---- a/hw/char/virtio-console.c
-+++ b/hw/char/virtio-console.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include "chardev/char-fe.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "hw/virtio/virtio-serial.h"
- #include "qapi/error.h"
-diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-index bdd917bbb8..f7a54f261b 100644
---- a/hw/char/virtio-serial-bus.c
-+++ b/hw/char/virtio-serial-bus.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "monitor/monitor.h"
- #include "qemu/error-report.h"
- #include "qemu/queue.h"
-diff --git a/hw/char/xilinx_uartlite.c b/hw/char/xilinx_uartlite.c
-index 2a8bc1e497..880962a756 100644
---- a/hw/char/xilinx_uartlite.c
-+++ b/hw/char/xilinx_uartlite.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "chardev/char-fe.h"
- 
- #define DUART(x)
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 60c4720379..e6baa04e52 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/ctype.h"
-+#include "qemu/module.h"
- #include "hw/qdev.h"
- #include "qapi/error.h"
- 
-diff --git a/hw/core/empty_slot.c b/hw/core/empty_slot.c
-index 239f78e2a7..c694532046 100644
---- a/hw/core/empty_slot.c
-+++ b/hw/core/empty_slot.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "hw/empty_slot.h"
- 
- //#define DEBUG_EMPTY_SLOT
-diff --git a/hw/core/fw-path-provider.c b/hw/core/fw-path-provider.c
-index 33b99830e7..4840faefd1 100644
---- a/hw/core/fw-path-provider.c
-+++ b/hw/core/fw-path-provider.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/fw-path-provider.h"
-+#include "qemu/module.h"
- 
- char *fw_path_provider_get_dev_path(FWPathProvider *p, BusState *bus,
-                                     DeviceState *dev)
-diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
-index 3695dd439c..79a493e577 100644
---- a/hw/core/generic-loader.c
-+++ b/hw/core/generic-loader.c
-@@ -36,6 +36,7 @@
- #include "sysemu/dma.h"
- #include "hw/loader.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/core/generic-loader.h"
- 
- #define CPU_NONE 0xFFFFFFFF
-diff --git a/hw/core/nmi.c b/hw/core/nmi.c
-index bfd0896daf..481c4b3c7e 100644
---- a/hw/core/nmi.c
-+++ b/hw/core/nmi.c
-@@ -23,6 +23,7 @@
- #include "hw/nmi.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
-+#include "qemu/module.h"
- #include "monitor/monitor.h"
- 
- struct do_nmi_s {
-diff --git a/hw/core/or-irq.c b/hw/core/or-irq.c
-index a86901b673..123a8c644a 100644
---- a/hw/core/or-irq.c
-+++ b/hw/core/or-irq.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/or-irq.h"
-+#include "qemu/module.h"
- 
- static void or_irq_handler(void *opaque, int n, int level)
- {
-diff --git a/hw/core/platform-bus.c b/hw/core/platform-bus.c
-index e473a44746..5fecb29239 100644
---- a/hw/core/platform-bus.c
-+++ b/hw/core/platform-bus.c
-@@ -22,6 +22,7 @@
- #include "qemu/osdep.h"
- #include "hw/platform-bus.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- 
- 
-diff --git a/hw/core/register.c b/hw/core/register.c
-index d2d1636250..bb5ab9d479 100644
---- a/hw/core/register.c
-+++ b/hw/core/register.c
-@@ -19,6 +19,7 @@
- #include "hw/register.h"
- #include "hw/qdev.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- static inline void register_write_val(RegisterInfo *reg, uint64_t val)
- {
-diff --git a/hw/core/split-irq.c b/hw/core/split-irq.c
-index 7e64cd4969..c606f4a802 100644
---- a/hw/core/split-irq.c
-+++ b/hw/core/split-irq.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
- #include "hw/core/split-irq.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- static void split_irq_handler(void *opaque, int n, int level)
- {
-diff --git a/hw/core/stream.c b/hw/core/stream.c
-index 4439ecdf0b..39b1e595cd 100644
---- a/hw/core/stream.c
-+++ b/hw/core/stream.c
-@@ -1,5 +1,6 @@
- #include "qemu/osdep.h"
- #include "hw/stream.h"
-+#include "qemu/module.h"
- 
- size_t
- stream_push(StreamSlave *sink, uint8_t *buf, size_t len)
-diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-index 307cf90a51..11bec6515f 100644
---- a/hw/core/sysbus.c
-+++ b/hw/core/sysbus.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "monitor/monitor.h"
- #include "exec/address-spaces.h"
-diff --git a/hw/cpu/a15mpcore.c b/hw/cpu/a15mpcore.c
-index 5649843cd8..980f230d75 100644
---- a/hw/cpu/a15mpcore.c
-+++ b/hw/cpu/a15mpcore.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/cpu/a15mpcore.h"
- #include "sysemu/kvm.h"
- #include "kvm_arm.h"
-diff --git a/hw/cpu/a9mpcore.c b/hw/cpu/a9mpcore.c
-index a5b867872c..187e4d939e 100644
---- a/hw/cpu/a9mpcore.c
-+++ b/hw/cpu/a9mpcore.c
-@@ -10,6 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/cpu/a9mpcore.h"
- #include "qom/cpu.h"
- 
-diff --git a/hw/cpu/arm11mpcore.c b/hw/cpu/arm11mpcore.c
-index 8aead3794e..2404f93a3e 100644
---- a/hw/cpu/arm11mpcore.c
-+++ b/hw/cpu/arm11mpcore.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/cpu/arm11mpcore.h"
- #include "hw/intc/realview_gic.h"
- 
-diff --git a/hw/cpu/core.c b/hw/cpu/core.c
-index 7e42e2c87a..e57c73f0ce 100644
---- a/hw/cpu/core.c
-+++ b/hw/cpu/core.c
-@@ -6,9 +6,11 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/cpu/core.h"
- #include "qapi/visitor.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "sysemu/cpus.h"
- 
-diff --git a/hw/cpu/realview_mpcore.c b/hw/cpu/realview_mpcore.c
-index 9d3f8378fb..f06294bb5e 100644
---- a/hw/cpu/realview_mpcore.c
-+++ b/hw/cpu/realview_mpcore.c
-@@ -10,6 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/cpu/arm11mpcore.h"
- #include "hw/intc/realview_gic.h"
- 
-diff --git a/hw/display/ads7846.c b/hw/display/ads7846.c
-index 166edade7d..1a97e97638 100644
---- a/hw/display/ads7846.c
-+++ b/hw/display/ads7846.c
-@@ -12,6 +12,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/ssi/ssi.h"
-+#include "qemu/module.h"
- #include "ui/console.h"
- 
- typedef struct {
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index 75716dd944..76595d9511 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -21,6 +21,7 @@
- #include "ati_regs.h"
- #include "vga_regs.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
- #include "hw/hw.h"
-diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
-index 599863e4e1..2311ec75b8 100644
---- a/hw/display/bcm2835_fb.c
-+++ b/hw/display/bcm2835_fb.c
-@@ -30,6 +30,7 @@
- #include "ui/pixel_ops.h"
- #include "hw/misc/bcm2835_mbox_defs.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define DEFAULT_VCRAM_SIZE 0x4000000
- #define BCM2835_FB_OFFSET  0x00100000
-diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
-index 3d439eb240..0a2a3e27c4 100644
---- a/hw/display/bochs-display.c
-+++ b/hw/display/bochs-display.c
-@@ -4,7 +4,9 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/units.h"
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
-diff --git a/hw/display/cg3.c b/hw/display/cg3.c
-index e50d97e48c..c6b7361be2 100644
---- a/hw/display/cg3.c
-+++ b/hw/display/cg3.c
-@@ -25,12 +25,12 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/error-report.h"
- #include "ui/console.h"
- #include "hw/sysbus.h"
- #include "hw/loader.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- /* Change to 1 to enable debugging */
- #define DEBUG_CG3 0
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index 76c052c702..2e4911a1e3 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -31,7 +31,9 @@
-  *
-  *  https://pdos.csail.mit.edu/6.828/2005/readings/hardware/vgadoc
-  */
-+
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
- #include "trace.h"
-diff --git a/hw/display/cirrus_vga_isa.c b/hw/display/cirrus_vga_isa.c
-index fa10b74230..69cdb9e066 100644
---- a/hw/display/cirrus_vga_isa.c
-+++ b/hw/display/cirrus_vga_isa.c
-@@ -25,6 +25,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/loader.h"
- #include "hw/isa/isa.h"
-diff --git a/hw/display/dpcd.c b/hw/display/dpcd.c
-index 943002bee5..88cde54821 100644
---- a/hw/display/dpcd.c
-+++ b/hw/display/dpcd.c
-@@ -28,6 +28,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/misc/auxbus.h"
- #include "hw/display/dpcd.h"
- 
-diff --git a/hw/display/exynos4210_fimd.c b/hw/display/exynos4210_fimd.c
-index 083b3172da..61f7408b1c 100644
---- a/hw/display/exynos4210_fimd.c
-+++ b/hw/display/exynos4210_fimd.c
-@@ -23,11 +23,11 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "hw/sysbus.h"
- #include "ui/console.h"
- #include "ui/pixel_ops.h"
- #include "qemu/bswap.h"
-+#include "qemu/module.h"
- 
- /* Debug messages configuration */
- #define EXYNOS4210_FIMD_DEBUG              0
-diff --git a/hw/display/g364fb.c b/hw/display/g364fb.c
-index 3407adf98d..1774b4452e 100644
---- a/hw/display/g364fb.c
-+++ b/hw/display/g364fb.c
-@@ -21,6 +21,7 @@
- #include "qemu/units.h"
- #include "hw/hw.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "ui/console.h"
- #include "ui/pixel_ops.h"
- #include "trace.h"
-diff --git a/hw/display/i2c-ddc.c b/hw/display/i2c-ddc.c
-index 9fe5403a92..041fc4f408 100644
---- a/hw/display/i2c-ddc.c
-+++ b/hw/display/i2c-ddc.c
-@@ -17,8 +17,8 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/i2c/i2c.h"
- #include "hw/display/i2c-ddc.h"
- 
-diff --git a/hw/display/jazz_led.c b/hw/display/jazz_led.c
-index eb7933d2a3..783189ebcd 100644
---- a/hw/display/jazz_led.c
-+++ b/hw/display/jazz_led.c
-@@ -23,7 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "ui/console.h"
- #include "ui/pixel_ops.h"
- #include "trace.h"
-diff --git a/hw/display/milkymist-tmu2.c b/hw/display/milkymist-tmu2.c
-index b33fc234e9..e1ed018b8f 100644
---- a/hw/display/milkymist-tmu2.c
-+++ b/hw/display/milkymist-tmu2.c
-@@ -30,6 +30,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "hw/display/milkymist_tmu2.h"
- 
-diff --git a/hw/display/milkymist-vgafb.c b/hw/display/milkymist-vgafb.c
-index 177fdac7d8..dce1dd7ad6 100644
---- a/hw/display/milkymist-vgafb.c
-+++ b/hw/display/milkymist-vgafb.c
-@@ -30,6 +30,7 @@
- #include "framebuffer.h"
- #include "ui/pixel_ops.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #define BITS 8
- #include "milkymist-vgafb_template.h"
-diff --git a/hw/display/pl110.c b/hw/display/pl110.c
-index cf68457fd1..2bdfc3cc49 100644
---- a/hw/display/pl110.c
-+++ b/hw/display/pl110.c
-@@ -14,6 +14,7 @@
- #include "ui/pixel_ops.h"
- #include "qemu/timer.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define PL110_CR_EN   0x001
- #define PL110_CR_BGR  0x100
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 3880a7410b..98c7410032 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -23,10 +23,10 @@
- #include <zlib.h>
- 
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/timer.h"
- #include "qemu/queue.h"
- #include "qemu/atomic.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "migration/blocker.h"
- #include "trace.h"
-diff --git a/hw/display/ramfb-standalone.c b/hw/display/ramfb-standalone.c
-index da3229a1f6..c7f9f9f879 100644
---- a/hw/display/ramfb-standalone.c
-+++ b/hw/display/ramfb-standalone.c
-@@ -1,5 +1,6 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/loader.h"
- #include "hw/display/ramfb.h"
- #include "ui/console.h"
-diff --git a/hw/display/sii9022.c b/hw/display/sii9022.c
-index 9c36e4c17e..0bebb85a58 100644
---- a/hw/display/sii9022.c
-+++ b/hw/display/sii9022.c
-@@ -14,7 +14,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "hw/i2c/i2c.h"
- #include "hw/display/i2c-ddc.h"
- #include "trace.h"
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 1e2709b2d0..5918f59b2b 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -27,7 +27,7 @@
- #include "qemu/units.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "hw/char/serial.h"
-diff --git a/hw/display/ssd0303.c b/hw/display/ssd0303.c
-index 8edf34986c..f2a60c44c9 100644
---- a/hw/display/ssd0303.c
-+++ b/hw/display/ssd0303.c
-@@ -10,8 +10,10 @@
- /* The controller can support a variety of different displays, but we only
-    implement one.  Most of the commends relating to brightness and geometry
-    setup are ignored. */
-+
- #include "qemu/osdep.h"
- #include "hw/i2c/i2c.h"
-+#include "qemu/module.h"
- #include "ui/console.h"
- 
- //#define DEBUG_SSD0303 1
-diff --git a/hw/display/ssd0323.c b/hw/display/ssd0323.c
-index e182893157..ac373f1e78 100644
---- a/hw/display/ssd0323.c
-+++ b/hw/display/ssd0323.c
-@@ -10,8 +10,10 @@
- /* The controller can support a variety of different displays, but we only
-    implement one.  Most of the commends relating to brightness and geometry
-    setup are ignored. */
-+
- #include "qemu/osdep.h"
- #include "hw/ssi/ssi.h"
-+#include "qemu/module.h"
- #include "ui/console.h"
- 
- //#define DEBUG_SSD0323 1
-diff --git a/hw/display/tcx.c b/hw/display/tcx.c
-index 66f2459226..bd5ac8f823 100644
---- a/hw/display/tcx.c
-+++ b/hw/display/tcx.c
-@@ -24,12 +24,12 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "ui/console.h"
- #include "ui/pixel_ops.h"
- #include "hw/loader.h"
- #include "hw/sysbus.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #define TCX_ROM_FILE "QEMU,tcx.bin"
- #define FCODE_MAX_ROM_SIZE 0x10000
-diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
-index fa44242e0d..945952a9b0 100644
---- a/hw/display/vga-isa.c
-+++ b/hw/display/vga-isa.c
-@@ -23,11 +23,13 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/isa/isa.h"
- #include "vga_int.h"
- #include "ui/pixel_ops.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/loader.h"
- 
-diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-index a17c96e703..c66d9ec7ee 100644
---- a/hw/display/vga-pci.c
-+++ b/hw/display/vga-pci.c
-@@ -23,11 +23,13 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
- #include "vga_int.h"
- #include "ui/pixel_ops.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/loader.h"
- #include "hw/display/edid.h"
-diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
-index 0bc4d9d424..9e1c20a3bb 100644
---- a/hw/display/virtio-gpu-pci.c
-+++ b/hw/display/virtio-gpu-pci.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/pci/pci.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-bus.h"
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 9e37e0ac96..5444a41aec 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -13,7 +13,6 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
--#include "qemu-common.h"
- #include "qemu/iov.h"
- #include "ui/console.h"
- #include "trace.h"
-@@ -24,6 +23,7 @@
- #include "hw/display/edid.h"
- #include "migration/blocker.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- #define VIRTIO_GPU_VM_VERSION 1
-diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-index 5d57bf5b0c..023542a0ec 100644
---- a/hw/display/virtio-vga.c
-+++ b/hw/display/virtio-vga.c
-@@ -5,6 +5,7 @@
- #include "hw/virtio/virtio-pci.h"
- #include "hw/virtio/virtio-gpu.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- /*
-  * virtio-vga: This extends VirtioPCIProxy.
-diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-index afbf1c5973..249a179bf6 100644
---- a/hw/display/vmware_vga.c
-+++ b/hw/display/vmware_vga.c
-@@ -21,7 +21,9 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
- #include "hw/hw.h"
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index 11b09bd18c..cfd4c700b7 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/display/xlnx_dp.h"
- 
- #ifndef DEBUG_DP
-diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
-index 5d144a2633..a39e8f4968 100644
---- a/hw/dma/bcm2835_dma.c
-+++ b/hw/dma/bcm2835_dma.c
-@@ -7,6 +7,7 @@
- #include "qapi/error.h"
- #include "hw/dma/bcm2835_dma.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- /* DMA CS Control and Status bits */
- #define BCM2708_DMA_ACTIVE      (1 << 0)
-diff --git a/hw/dma/i82374.c b/hw/dma/i82374.c
-index 892f655a7e..68fad2dd12 100644
---- a/hw/dma/i82374.c
-+++ b/hw/dma/i82374.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/isa/isa.h"
- #include "hw/dma/i8257.h"
- 
-diff --git a/hw/dma/i8257.c b/hw/dma/i8257.c
-index 3e1f13a4aa..30a3442437 100644
---- a/hw/dma/i8257.c
-+++ b/hw/dma/i8257.c
-@@ -21,11 +21,13 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/isa/isa.h"
- #include "hw/dma/i8257.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/log.h"
- #include "trace.h"
- 
-diff --git a/hw/dma/pl080.c b/hw/dma/pl080.c
-index ef15d3e628..7e5762457b 100644
---- a/hw/dma/pl080.c
-+++ b/hw/dma/pl080.c
-@@ -11,6 +11,7 @@
- #include "hw/sysbus.h"
- #include "exec/address-spaces.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/dma/pl080.h"
- #include "qapi/error.h"
- 
-diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
-index d071049233..62ad356156 100644
---- a/hw/dma/pl330.c
-+++ b/hw/dma/pl330.c
-@@ -20,6 +20,7 @@
- #include "qemu/timer.h"
- #include "sysemu/dma.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef PL330_ERR_DEBUG
- #define PL330_ERR_DEBUG 0
-diff --git a/hw/dma/puv3_dma.c b/hw/dma/puv3_dma.c
-index c89eade029..122f87aff1 100644
---- a/hw/dma/puv3_dma.c
-+++ b/hw/dma/puv3_dma.c
-@@ -8,12 +8,14 @@
-  * published by the Free Software Foundation, or any later version.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
- 
- #undef DEBUG_PUV3
- #include "hw/unicore32/puv3.h"
-+#include "qemu/module.h"
- 
- #define PUV3_DMA_CH_NR          (6)
- #define PUV3_DMA_CH_MASK        (0xff)
-diff --git a/hw/dma/pxa2xx_dma.c b/hw/dma/pxa2xx_dma.c
-index d498de8ffe..d6fb957417 100644
---- a/hw/dma/pxa2xx_dma.c
-+++ b/hw/dma/pxa2xx_dma.c
-@@ -13,6 +13,7 @@
- #include "hw/arm/pxa.h"
- #include "hw/sysbus.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #define PXA255_DMA_NUM_CHANNELS 16
- #define PXA27X_DMA_NUM_CHANNELS 32
-diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
-index ccd8612888..6ccafece18 100644
---- a/hw/dma/rc4030.c
-+++ b/hw/dma/rc4030.c
-@@ -28,6 +28,7 @@
- #include "hw/sysbus.h"
- #include "qemu/timer.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "exec/address-spaces.h"
- #include "trace.h"
- 
-diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
-index 7b00a27de6..88765d0c25 100644
---- a/hw/dma/sparc32_dma.c
-+++ b/hw/dma/sparc32_dma.c
-@@ -32,6 +32,7 @@
- #include "hw/sysbus.h"
- #include "sysemu/dma.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /*
-diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-index 401a328e27..921be178d9 100644
---- a/hw/dma/xilinx_axidma.c
-+++ b/hw/dma/xilinx_axidma.c
-@@ -29,6 +29,7 @@
- #include "hw/ptimer.h"
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- 
- #include "hw/stream.h"
- 
-diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-index b6745f5bcf..51e1ead4fa 100644
---- a/hw/dma/xlnx-zdma.c
-+++ b/hw/dma/xlnx-zdma.c
-@@ -30,6 +30,7 @@
- #include "hw/dma/xlnx-zdma.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- #ifndef XLNX_ZDMA_ERR_DEBUG
-diff --git a/hw/dma/xlnx-zynq-devcfg.c b/hw/dma/xlnx-zynq-devcfg.c
-index 12bb2e3716..7a03ce1b02 100644
---- a/hw/dma/xlnx-zynq-devcfg.c
-+++ b/hw/dma/xlnx-zynq-devcfg.c
-@@ -30,6 +30,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/dma.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define FREQ_HZ 900000000
- 
-diff --git a/hw/dma/xlnx_dpdma.c b/hw/dma/xlnx_dpdma.c
-index 077c7da9cc..040df70a93 100644
---- a/hw/dma/xlnx_dpdma.c
-+++ b/hw/dma/xlnx_dpdma.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/dma/xlnx_dpdma.h"
- 
- #ifndef DEBUG_DPDMA
-diff --git a/hw/gpio/bcm2835_gpio.c b/hw/gpio/bcm2835_gpio.c
-index acc2e3cf9e..ba8dd6c393 100644
---- a/hw/gpio/bcm2835_gpio.c
-+++ b/hw/gpio/bcm2835_gpio.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "qapi/error.h"
- #include "hw/sysbus.h"
-diff --git a/hw/gpio/gpio_key.c b/hw/gpio/gpio_key.c
-index b34aa49dfb..7d5510257e 100644
---- a/hw/gpio/gpio_key.c
-+++ b/hw/gpio/gpio_key.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- 
- #define TYPE_GPIOKEY "gpio-key"
-diff --git a/hw/gpio/imx_gpio.c b/hw/gpio/imx_gpio.c
-index c36c394fda..a51af72c1f 100644
---- a/hw/gpio/imx_gpio.c
-+++ b/hw/gpio/imx_gpio.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "hw/gpio/imx_gpio.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef DEBUG_IMX_GPIO
- #define DEBUG_IMX_GPIO 0
-diff --git a/hw/gpio/max7310.c b/hw/gpio/max7310.c
-index c6f686c3eb..273da622ca 100644
---- a/hw/gpio/max7310.c
-+++ b/hw/gpio/max7310.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/i2c/i2c.h"
-+#include "qemu/module.h"
- 
- #define TYPE_MAX7310 "max7310"
- #define MAX7310(obj) OBJECT_CHECK(MAX7310State, (obj), TYPE_MAX7310)
-diff --git a/hw/gpio/mpc8xxx.c b/hw/gpio/mpc8xxx.c
-index e12edb4933..6ff56dc3f2 100644
---- a/hw/gpio/mpc8xxx.c
-+++ b/hw/gpio/mpc8xxx.c
-@@ -21,6 +21,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- 
- #define TYPE_MPC8XXX_GPIO "mpc8xxx_gpio"
- #define MPC8XXX_GPIO(obj) OBJECT_CHECK(MPC8XXXGPIOState, (obj), TYPE_MPC8XXX_GPIO)
-diff --git a/hw/gpio/nrf51_gpio.c b/hw/gpio/nrf51_gpio.c
-index 87a2f2a0dc..dd6c16a841 100644
---- a/hw/gpio/nrf51_gpio.c
-+++ b/hw/gpio/nrf51_gpio.c
-@@ -12,6 +12,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/gpio/nrf51_gpio.h"
- #include "trace.h"
- 
-diff --git a/hw/gpio/omap_gpio.c b/hw/gpio/omap_gpio.c
-index 08472193b5..e2785c5dc7 100644
---- a/hw/gpio/omap_gpio.c
-+++ b/hw/gpio/omap_gpio.c
-@@ -23,6 +23,7 @@
- #include "hw/arm/omap.h"
- #include "hw/sysbus.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- struct omap_gpio_s {
-diff --git a/hw/gpio/pl061.c b/hw/gpio/pl061.c
-index 4ae2aa1566..02c01fd521 100644
---- a/hw/gpio/pl061.c
-+++ b/hw/gpio/pl061.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- //#define DEBUG_PL061 1
- 
-diff --git a/hw/gpio/puv3_gpio.c b/hw/gpio/puv3_gpio.c
-index 33241b8564..54d30cada2 100644
---- a/hw/gpio/puv3_gpio.c
-+++ b/hw/gpio/puv3_gpio.c
-@@ -8,12 +8,14 @@
-  * published by the Free Software Foundation, or any later version.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
- 
- #undef DEBUG_PUV3
- #include "hw/unicore32/puv3.h"
-+#include "qemu/module.h"
- 
- #define TYPE_PUV3_GPIO "puv3_gpio"
- #define PUV3_GPIO(obj) OBJECT_CHECK(PUV3GPIOState, (obj), TYPE_PUV3_GPIO)
-diff --git a/hw/gpio/zaurus.c b/hw/gpio/zaurus.c
-index 15865e1081..f2f1f67266 100644
---- a/hw/gpio/zaurus.c
-+++ b/hw/gpio/zaurus.c
-@@ -15,10 +15,12 @@
-  * You should have received a copy of the GNU General Public License along
-  * with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/arm/sharpsl.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- 
- #undef REG_FMT
- #define REG_FMT			"0x%02lx"
-diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
-index 4d1380c51f..e94614abbd 100644
---- a/hw/hppa/dino.c
-+++ b/hw/hppa/dino.c
-@@ -11,6 +11,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
- #include "cpu.h"
-diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
-index 8758635227..6ebf31c310 100644
---- a/hw/hyperv/hyperv.c
-+++ b/hw/hyperv/hyperv.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "exec/address-spaces.h"
- #include "sysemu/kvm.h"
-diff --git a/hw/hyperv/hyperv_testdev.c b/hw/hyperv/hyperv_testdev.c
-index 4880333cf5..0d343a8bc0 100644
---- a/hw/hyperv/hyperv_testdev.c
-+++ b/hw/hyperv/hyperv_testdev.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/queue.h"
- #include "hw/qdev.h"
- #include "hw/isa/isa.h"
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index a085510cfd..219ad3806f 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/i2c/aspeed_i2c.h"
- 
- /* I2C Global Register */
-diff --git a/hw/i2c/bitbang_i2c.c b/hw/i2c/bitbang_i2c.c
-index 8be88ee265..5dfc72d9d7 100644
---- a/hw/i2c/bitbang_i2c.c
-+++ b/hw/i2c/bitbang_i2c.c
-@@ -9,10 +9,12 @@
-  * Contributions after 2012-01-13 are licensed under the terms of the
-  * GNU GPL, version 2 or (at your option) any later version.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "bitbang_i2c.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- 
- //#define DEBUG_BITBANG_I2C
- 
-diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-index 15237ad073..20f36f1d55 100644
---- a/hw/i2c/core.c
-+++ b/hw/i2c/core.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/i2c/i2c.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #define I2C_BROADCAST 0x00
-diff --git a/hw/i2c/exynos4210_i2c.c b/hw/i2c/exynos4210_i2c.c
-index d154b05739..70a97a3e2d 100644
---- a/hw/i2c/exynos4210_i2c.c
-+++ b/hw/i2c/exynos4210_i2c.c
-@@ -21,6 +21,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/sysbus.h"
- #include "hw/i2c/i2c.h"
-diff --git a/hw/i2c/imx_i2c.c b/hw/i2c/imx_i2c.c
-index 6da5224e2e..ce7a94c282 100644
---- a/hw/i2c/imx_i2c.c
-+++ b/hw/i2c/imx_i2c.c
-@@ -22,6 +22,7 @@
- #include "hw/i2c/imx_i2c.h"
- #include "hw/i2c/i2c.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef DEBUG_IMX_I2C
- #define DEBUG_IMX_I2C 0
-diff --git a/hw/i2c/microbit_i2c.c b/hw/i2c/microbit_i2c.c
-index 793f1b0f8b..214be07c5a 100644
---- a/hw/i2c/microbit_i2c.c
-+++ b/hw/i2c/microbit_i2c.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/i2c/microbit_i2c.h"
- 
- static const uint32_t twi_read_sequence[] = {0x5A, 0x5A, 0x40};
-diff --git a/hw/i2c/mpc_i2c.c b/hw/i2c/mpc_i2c.c
-index 693ca7ef6b..e9a1127050 100644
---- a/hw/i2c/mpc_i2c.c
-+++ b/hw/i2c/mpc_i2c.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "hw/i2c/i2c.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- 
- /* #define DEBUG_I2C */
-diff --git a/hw/i2c/omap_i2c.c b/hw/i2c/omap_i2c.c
-index d02e734ea8..d7ebeae8e2 100644
---- a/hw/i2c/omap_i2c.c
-+++ b/hw/i2c/omap_i2c.c
-@@ -16,8 +16,10 @@
-  * You should have received a copy of the GNU General Public License along
-  * with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/i2c/i2c.h"
- #include "hw/arm/omap.h"
-diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
-index d6dfafab31..d606d3dbeb 100644
---- a/hw/i2c/ppc4xx_i2c.c
-+++ b/hw/i2c/ppc4xx_i2c.c
-@@ -25,8 +25,8 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "hw/i2c/ppc4xx_i2c.h"
-diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
-index 251d3d142f..51a03046a6 100644
---- a/hw/i2c/smbus_ich9.c
-+++ b/hw/i2c/smbus_ich9.c
-@@ -19,10 +19,12 @@
-  * You should have received a copy of the GNU General Public License
-  * along with this program; if not, see <http://www.gnu.org/licenses/>
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/i2c/pm_smbus.h"
- #include "hw/pci/pci.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- 
- #include "hw/i386/ich9.h"
-diff --git a/hw/i2c/smbus_slave.c b/hw/i2c/smbus_slave.c
-index 9a2d314d1a..a9908c1a9b 100644
---- a/hw/i2c/smbus_slave.c
-+++ b/hw/i2c/smbus_slave.c
-@@ -17,6 +17,7 @@
- #include "hw/hw.h"
- #include "hw/i2c/i2c.h"
- #include "hw/i2c/smbus_slave.h"
-+#include "qemu/module.h"
- 
- //#define DEBUG_SMBUS 1
- 
-diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
-index da9f298ee5..e07be9890c 100644
---- a/hw/i2c/versatile_i2c.c
-+++ b/hw/i2c/versatile_i2c.c
-@@ -25,6 +25,7 @@
- #include "hw/sysbus.h"
- #include "bitbang_i2c.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define TYPE_VERSATILE_I2C "versatile_i2c"
- #define VERSATILE_I2C(obj) \
-diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
-index 1df6d26816..91fb622d63 100644
---- a/hw/i386/kvm/apic.c
-+++ b/hw/i386/kvm/apic.c
-@@ -9,8 +9,9 @@
-  * This work is licensed under the terms of the GNU GPL version 2.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/i386/apic_internal.h"
- #include "hw/pci/msi.h"
-diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
-index 25ea783bec..a5cda15b85 100644
---- a/hw/i386/kvm/clock.c
-+++ b/hw/i386/kvm/clock.c
-@@ -14,9 +14,9 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "qemu/host-utils.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/kvm.h"
- #include "sysemu/hw_accel.h"
-diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
-index d4d4a859f0..c29956ab77 100644
---- a/hw/i386/kvm/i8254.c
-+++ b/hw/i386/kvm/i8254.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
  #include <linux/kvm.h>
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "sysemu/sysemu.h"
- #include "hw/timer/i8254.h"
-diff --git a/hw/i386/kvm/i8259.c b/hw/i386/kvm/i8259.c
-index 83b6bfec77..bfdeab29be 100644
---- a/hw/i386/kvm/i8259.c
-+++ b/hw/i386/kvm/i8259.c
-@@ -9,8 +9,10 @@
-  * This work is licensed under the terms of the GNU GPL version 2.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/isa/i8259_internal.h"
-+#include "qemu/module.h"
- #include "hw/i386/apic_internal.h"
- #include "sysemu/kvm.h"
  
-diff --git a/hw/i386/kvmvapic.c b/hw/i386/kvmvapic.c
-index 70f6f26a94..142cc52d19 100644
---- a/hw/i386/kvmvapic.c
-+++ b/hw/i386/kvmvapic.c
-@@ -8,8 +8,9 @@
-  * (at your option) any later version. See the COPYING file in the
-  * top-level directory.
+-#include "qemu-common.h"
+ #include "qemu/atomic.h"
+ #include "qemu/option.h"
+ #include "qemu/config-file.h"
+diff --git a/accel/stubs/hax-stub.c b/accel/stubs/hax-stub.c
+index c0e6f892e5..7ad190cae2 100644
+--- a/accel/stubs/hax-stub.c
++++ b/accel/stubs/hax-stub.c
+@@ -14,7 +14,6 @@
   */
-+
+ 
  #include "qemu/osdep.h"
 -#include "qemu-common.h"
-+#include "qemu/module.h"
  #include "cpu.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/cpus.h"
-diff --git a/hw/i386/xen/xen_apic.c b/hw/i386/xen/xen_apic.c
-index 55769eba7e..7c7a60b166 100644
---- a/hw/i386/xen/xen_apic.c
-+++ b/hw/i386/xen/xen_apic.c
-@@ -9,10 +9,12 @@
-  * This work is licensed under the terms of the GNU GPL version 2 or
-  * later. See the COPYING file in the top-level directory.
+ #include "sysemu/hax.h"
+ 
+diff --git a/accel/stubs/hvf-stub.c b/accel/stubs/hvf-stub.c
+index a79f9fc36f..e81dfe888c 100644
+--- a/accel/stubs/hvf-stub.c
++++ b/accel/stubs/hvf-stub.c
+@@ -12,7 +12,6 @@
   */
-+
- #include "qemu/osdep.h"
- #include "hw/i386/apic_internal.h"
- #include "hw/pci/msi.h"
- #include "hw/xen/xen.h"
-+#include "qemu/module.h"
- 
- static uint64_t xen_apic_mem_read(void *opaque, hwaddr addr,
-                                   unsigned size)
-diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
-index 16afb54fee..7a972e46cf 100644
---- a/hw/i386/xen/xen_platform.c
-+++ b/hw/i386/xen/xen_platform.c
-@@ -35,6 +35,7 @@
- #include "exec/address-spaces.h"
- #include "sysemu/block-backend.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #include <xenguest.h>
- 
-diff --git a/hw/i386/xen/xen_pvdevice.c b/hw/i386/xen/xen_pvdevice.c
-index a146f1883a..23748f36a2 100644
---- a/hw/i386/xen/xen_pvdevice.c
-+++ b/hw/i386/xen/xen_pvdevice.c
-@@ -31,6 +31,7 @@
  
  #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
- #include "trace.h"
-diff --git a/hw/ide/ahci-allwinner.c b/hw/ide/ahci-allwinner.c
-index f98e6cb3d4..de08d87790 100644
---- a/hw/ide/ahci-allwinner.c
-+++ b/hw/ide/ahci-allwinner.c
-@@ -18,6 +18,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/dma.h"
- #include "hw/ide/internal.h"
- #include "ahci_internal.h"
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index d700ca973b..00ba422a48 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -28,6 +28,7 @@
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "sysemu/hvf.h"
  
- #include "qemu/error-report.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "sysemu/block-backend.h"
- #include "sysemu/dma.h"
- #include "hw/ide/internal.h"
-diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-index 5a5679134a..ed23aabf21 100644
---- a/hw/ide/cmd646.c
-+++ b/hw/ide/cmd646.c
-@@ -22,9 +22,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
+diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+index 02d5170031..6feb66ed80 100644
+--- a/accel/stubs/kvm-stub.c
++++ b/accel/stubs/kvm-stub.c
+@@ -11,7 +11,6 @@
   */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
-+#include "qemu/module.h"
- #include "hw/isa/isa.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/dma.h"
-diff --git a/hw/ide/ich.c b/hw/ide/ich.c
-index 51c935a0da..c1ba927574 100644
---- a/hw/ide/ich.c
-+++ b/hw/ide/ich.c
-@@ -64,6 +64,7 @@
- #include "hw/hw.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/pci.h"
-+#include "qemu/module.h"
- #include "hw/isa/isa.h"
- #include "sysemu/dma.h"
- #include "hw/ide/pci.h"
-diff --git a/hw/ide/isa.c b/hw/ide/isa.c
-index 028bd61774..4b5784e3fd 100644
---- a/hw/ide/isa.c
-+++ b/hw/ide/isa.c
-@@ -22,9 +22,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/isa/isa.h"
-+#include "qemu/module.h"
- #include "sysemu/dma.h"
  
- #include "hw/ide/internal.h"
-diff --git a/hw/ide/macio.c b/hw/ide/macio.c
-index bab8c45a43..54571fed12 100644
---- a/hw/ide/macio.c
-+++ b/hw/ide/macio.c
-@@ -22,10 +22,12 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
  #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/ppc/mac.h"
- #include "hw/ppc/mac_dbdma.h"
-+#include "qemu/module.h"
- #include "hw/misc/macio/macio.h"
- #include "sysemu/block-backend.h"
- #include "sysemu/dma.h"
-diff --git a/hw/ide/microdrive.c b/hw/ide/microdrive.c
-index 34bb98dce8..92ee6e0af8 100644
---- a/hw/ide/microdrive.c
-+++ b/hw/ide/microdrive.c
-@@ -22,9 +22,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/pcmcia.h"
-+#include "qemu/module.h"
- #include "sysemu/dma.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "sysemu/kvm.h"
  
- #include "hw/ide/internal.h"
-diff --git a/hw/ide/mmio.c b/hw/ide/mmio.c
-index 42fcf139ee..70a58016d0 100644
---- a/hw/ide/mmio.c
-+++ b/hw/ide/mmio.c
-@@ -22,9 +22,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
+diff --git a/accel/stubs/whpx-stub.c b/accel/stubs/whpx-stub.c
+index 5fb049c281..1efb89f25e 100644
+--- a/accel/stubs/whpx-stub.c
++++ b/accel/stubs/whpx-stub.c
+@@ -9,7 +9,6 @@
   */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "sysemu/dma.h"
  
- #include "hw/ide/internal.h"
-diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-index 942613a9a9..4c6fb9a68e 100644
---- a/hw/ide/pci.c
-+++ b/hw/ide/pci.c
-@@ -22,11 +22,13 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
  #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
- #include "sysemu/dma.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/ide/pci.h"
- #include "trace.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "sysemu/whpx.h"
  
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index 885c16e938..b97e555072 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
-+#include "qemu/module.h"
- #include "sysemu/block-backend.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/blockdev.h"
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 573b022e1e..8b576ebb26 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -16,11 +16,13 @@
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 45ef41ebb2..159397fbd4 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -16,7 +16,9 @@
   * You should have received a copy of the GNU Lesser General Public
   * License along with this library; if not, see <http://www.gnu.org/licenses/>.
   */
 +
  #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "sysemu/dma.h"
++#include "qemu-common.h"
+ #include "cpu.h"
+ #include "trace.h"
+ #include "disas/disas.h"
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 5f832d788f..3be1bbf36d 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ 
+ #define NO_CPU_IO_DEFS
+ #include "cpu.h"
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 8d65ead708..9226a348a3 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -8,7 +8,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "cpu.h"
+ #include "tcg/tcg.h"
+diff --git a/accel/tcg/user-exec-stub.c b/accel/tcg/user-exec-stub.c
+index a32b4496af..4bf00b8496 100644
+--- a/accel/tcg/user-exec-stub.c
++++ b/accel/tcg/user-exec-stub.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qom/cpu.h"
+ #include "sysemu/replay.h"
+ #include "sysemu/sysemu.h"
+diff --git a/arch_init.c b/arch_init.c
+index f4f3f610c8..74b0708634 100644
+--- a/arch_init.c
++++ b/arch_init.c
+@@ -22,7 +22,6 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/arch_init.h"
+diff --git a/audio/audio_legacy.c b/audio/audio_legacy.c
+index 2fd58cb8ef..ebd7d9fa0d 100644
+--- a/audio/audio_legacy.c
++++ b/audio/audio_legacy.c
+@@ -24,7 +24,6 @@
+ #include "qemu/osdep.h"
+ #include "audio.h"
+ #include "audio_int.h"
+-#include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "qemu/timer.h"
+ #include "qapi/error.h"
+diff --git a/audio/audio_pt_int.c b/audio/audio_pt_int.c
+index 3fe56d8514..9f9d44ad4a 100644
+--- a/audio/audio_pt_int.c
++++ b/audio/audio_pt_int.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "audio.h"
+ 
+ #define AUDIO_CAP "audio-pt"
+diff --git a/audio/mixeng.c b/audio/mixeng.c
+index 2ab22df2aa..2f5ba71381 100644
+--- a/audio/mixeng.c
++++ b/audio/mixeng.c
+@@ -23,7 +23,6 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/bswap.h"
+ #include "qemu/error-report.h"
+ #include "audio.h"
+diff --git a/balloon.c b/balloon.c
+index 9319879838..914b3662db 100644
+--- a/balloon.c
++++ b/balloon.c
+@@ -25,7 +25,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/atomic.h"
+ #include "exec/cpu-common.h"
+ #include "sysemu/kvm.h"
+diff --git a/block/bochs.c b/block/bochs.c
+index 79f95d3b50..962f18592d 100644
+--- a/block/bochs.c
++++ b/block/bochs.c
+@@ -24,7 +24,6 @@
+  */
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "block/block_int.h"
+ #include "qemu/module.h"
+ #include "qemu/bswap.h"
+diff --git a/block/cloop.c b/block/cloop.c
+index df2b85f723..384c9735bb 100644
+--- a/block/cloop.c
++++ b/block/cloop.c
+@@ -24,7 +24,6 @@
+ #include "qemu/osdep.h"
  #include "qapi/error.h"
  #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/ide/internal.h"
- #include "sysemu/block-backend.h"
- #include "sysemu/blockdev.h"
-diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
-index 59db09cfe4..d7590d4ba4 100644
---- a/hw/ide/sii3112.c
-+++ b/hw/ide/sii3112.c
-@@ -14,6 +14,7 @@
- 
+-#include "qemu-common.h"
+ #include "block/block_int.h"
+ #include "qemu/module.h"
+ #include "qemu/bswap.h"
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 59e6ebb861..e1072dd894 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -23,7 +23,6 @@
+  */
  #include "qemu/osdep.h"
- #include "hw/ide/pci.h"
-+#include "qemu/module.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
  #include "trace.h"
- 
- #define TYPE_SII3112_PCI "sii3112"
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index ac9385228c..c3bda909f9 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -23,9 +23,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ #include "block/block_int.h"
+ #include "block/blockjob.h"
+diff --git a/block/dmg-bz2.c b/block/dmg-bz2.c
+index 9059492a9f..37f7ee04be 100644
+--- a/block/dmg-bz2.c
++++ b/block/dmg-bz2.c
+@@ -23,7 +23,6 @@
   * THE SOFTWARE.
   */
-+
  #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/dma.h"
+-#include "qemu-common.h"
+ #include "dmg.h"
+ #include <bzlib.h>
  
-diff --git a/hw/input/adb-kbd.c b/hw/input/adb-kbd.c
-index b026e9d49f..da361f56df 100644
---- a/hw/input/adb-kbd.c
-+++ b/hw/input/adb-kbd.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
+diff --git a/block/dmg.c b/block/dmg.c
+index 43497bf343..45f6b28f17 100644
+--- a/block/dmg.c
++++ b/block/dmg.c
+@@ -23,7 +23,6 @@
   */
-+
  #include "qemu/osdep.h"
- #include "hw/input/adb.h"
-+#include "qemu/module.h"
- #include "ui/input.h"
- #include "hw/input/adb-keys.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/input/adb-mouse.c b/hw/input/adb-mouse.c
-index 83833b0035..52526fddb7 100644
---- a/hw/input/adb-mouse.c
-+++ b/hw/input/adb-mouse.c
-@@ -21,9 +21,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "ui/console.h"
- #include "hw/input/adb.h"
-+#include "qemu/module.h"
- #include "adb-internal.h"
- #include "trace.h"
- 
-diff --git a/hw/input/adb.c b/hw/input/adb.c
-index bbb40aeef1..1446f32521 100644
---- a/hw/input/adb.c
-+++ b/hw/input/adb.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/input/adb.h"
-+#include "qemu/module.h"
- #include "adb-internal.h"
- 
- /* error codes */
-diff --git a/hw/input/lm832x.c b/hw/input/lm832x.c
-index 1fc7b86f19..5203da2bcf 100644
---- a/hw/input/lm832x.c
-+++ b/hw/input/lm832x.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/i2c/i2c.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "ui/console.h"
- 
-diff --git a/hw/input/milkymist-softusb.c b/hw/input/milkymist-softusb.c
-index 8766a17d9e..f779cd4370 100644
---- a/hw/input/milkymist-softusb.c
-+++ b/hw/input/milkymist-softusb.c
-@@ -29,6 +29,7 @@
- #include "ui/console.h"
- #include "hw/input/hid.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "block/block_int.h"
+ #include "qemu/bswap.h"
  #include "qemu/error-report.h"
-+#include "qemu/module.h"
+diff --git a/block/dmg.h b/block/dmg.h
+index f28929998f..e488601b62 100644
+--- a/block/dmg.h
++++ b/block/dmg.h
+@@ -26,7 +26,6 @@
+ #ifndef BLOCK_DMG_H
+ #define BLOCK_DMG_H
  
- enum {
-     R_CTRL = 0,
-diff --git a/hw/input/pl050.c b/hw/input/pl050.c
-index 15bffbfcad..b79bf1647d 100644
---- a/hw/input/pl050.c
-+++ b/hw/input/pl050.c
-@@ -11,6 +11,7 @@
- #include "hw/sysbus.h"
- #include "hw/input/ps2.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
+-#include "qemu-common.h"
+ #include "block/block_int.h"
+ #include <zlib.h>
  
- #define TYPE_PL050 "pl050"
- #define PL050(obj) OBJECT_CHECK(PL050State, (obj), TYPE_PL050)
-diff --git a/hw/input/virtio-input-hid.c b/hw/input/virtio-input-hid.c
-index bc5f9a2ed2..f15a063fac 100644
---- a/hw/input/virtio-input-hid.c
-+++ b/hw/input/virtio-input-hid.c
-@@ -6,6 +6,7 @@
+diff --git a/block/file-posix.c b/block/file-posix.c
+index d018429672..6e6bf3f4a5 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -23,6 +23,7 @@
+  */
  
  #include "qemu/osdep.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
+ #include "qemu/error-report.h"
+diff --git a/block/iscsi.c b/block/iscsi.c
+index cf9d66c07f..267f160bf6 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -28,6 +28,7 @@
+ #include <poll.h>
+ #include <math.h>
+ #include <arpa/inet.h>
++#include "qemu-common.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+ #include "qemu/bitops.h"
+diff --git a/block/linux-aio.c b/block/linux-aio.c
+index d4b61fb251..9abb7e61db 100644
+--- a/block/linux-aio.c
++++ b/block/linux-aio.c
+@@ -8,7 +8,6 @@
+  * See the COPYING file in the top-level directory.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "block/aio.h"
+ #include "qemu/queue.h"
+ #include "block/block.h"
+diff --git a/block/nbd-client.h b/block/nbd-client.h
+index 09e03013d2..4587053114 100644
+--- a/block/nbd-client.h
++++ b/block/nbd-client.h
+@@ -1,7 +1,6 @@
+ #ifndef NBD_CLIENT_H
+ #define NBD_CLIENT_H
  
- #include "hw/qdev.h"
- #include "hw/virtio/virtio.h"
-diff --git a/hw/input/virtio-input-host.c b/hw/input/virtio-input-host.c
-index cb79e80024..a54c31eb09 100644
---- a/hw/input/virtio-input-host.c
-+++ b/hw/input/virtio-input-host.c
-@@ -6,7 +6,7 @@
+-#include "qemu-common.h"
+ #include "block/nbd.h"
+ #include "block/block_int.h"
+ #include "io/channel-socket.h"
+diff --git a/block/qapi.c b/block/qapi.c
+index 0c13c86f4e..917435f022 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "block/qapi.h"
+ #include "block/block_int.h"
+ #include "block/throttle-groups.h"
+diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
+index df02e7b20a..ea913d0f12 100644
+--- a/block/qcow2-cache.c
++++ b/block/qcow2-cache.c
+@@ -24,7 +24,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "block/block_int.h"
+-#include "qemu-common.h"
+ #include "qcow2.h"
+ #include "trace.h"
+ 
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index b36f4aa84a..214c832d03 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -26,7 +26,6 @@
+ #include <zlib.h>
+ 
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "block/block_int.h"
+ #include "qcow2.h"
+ #include "qemu/bswap.h"
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index 0b09d6838b..295a48e143 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -24,7 +24,6 @@
  
  #include "qemu/osdep.h"
  #include "qapi/error.h"
 -#include "qemu-common.h"
-+#include "qemu/module.h"
+ #include "block/block_int.h"
+ #include "qcow2.h"
+ #include "qemu/range.h"
+diff --git a/block/sheepdog.c b/block/sheepdog.c
+index 961fe3499a..b740062d0a 100644
+--- a/block/sheepdog.c
++++ b/block/sheepdog.c
+@@ -13,6 +13,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-visit-sockets.h"
+ #include "qapi/qapi-visit-block-core.h"
+diff --git a/block/vhdx-endian.c b/block/vhdx-endian.c
+index ebfa33cb8a..52c8027d99 100644
+--- a/block/vhdx-endian.c
++++ b/block/vhdx-endian.c
+@@ -16,7 +16,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "block/block_int.h"
+ #include "qemu/bswap.h"
+ #include "vhdx.h"
+diff --git a/blockjob.c b/blockjob.c
+index 9ca942ba01..f2b811944d 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -24,7 +24,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "block/block.h"
+ #include "block/blockjob_int.h"
+ #include "block/block_int.h"
+diff --git a/bt-vhci.c b/bt-vhci.c
+index 9d277c32bf..886e146743 100644
+--- a/bt-vhci.c
++++ b/bt-vhci.c
+@@ -18,7 +18,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "sysemu/bt.h"
+ #include "hw/bt.h"
+ #include "qemu/main-loop.h"
+diff --git a/chardev/char-fd.c b/chardev/char-fd.c
+index 32092369bf..c2d8101106 100644
+--- a/chardev/char-fd.c
++++ b/chardev/char-fd.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/module.h"
+ #include "qemu/sockets.h"
+ #include "qapi/error.h"
+diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
+index cdaddb1e61..b200f9365c 100644
+--- a/chardev/char-pipe.c
++++ b/chardev/char-pipe.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+diff --git a/chardev/char-pty.c b/chardev/char-pty.c
+index 8b34ce985a..1cc501a481 100644
+--- a/chardev/char-pty.c
++++ b/chardev/char-pty.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "chardev/char.h"
+ #include "io/channel-file.h"
+diff --git a/contrib/ivshmem-client/ivshmem-client.c b/contrib/ivshmem-client/ivshmem-client.c
+index 44ae3646e1..b1274b236a 100644
+--- a/contrib/ivshmem-client/ivshmem-client.c
++++ b/contrib/ivshmem-client/ivshmem-client.c
+@@ -10,7 +10,6 @@
+ #include <sys/socket.h>
+ #include <sys/un.h>
+ 
+-#include "qemu-common.h"
+ #include "qemu/queue.h"
+ 
+ #include "ivshmem-client.h"
+diff --git a/contrib/ivshmem-client/main.c b/contrib/ivshmem-client/main.c
+index 33ae1daa15..21f38f3fec 100644
+--- a/contrib/ivshmem-client/main.c
++++ b/contrib/ivshmem-client/main.c
+@@ -7,7 +7,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ 
+ #include "ivshmem-client.h"
+ 
+diff --git a/contrib/ivshmem-server/ivshmem-server.c b/contrib/ivshmem-server/ivshmem-server.c
+index e2f295bd43..77f97b209c 100644
+--- a/contrib/ivshmem-server/ivshmem-server.c
++++ b/contrib/ivshmem-server/ivshmem-server.c
+@@ -6,7 +6,6 @@
+  * top-level directory.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/host-utils.h"
  #include "qemu/sockets.h"
  
- #include "hw/qdev.h"
-diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
-index 0e42f0d02c..9946394cf4 100644
---- a/hw/input/virtio-input.c
-+++ b/hw/input/virtio-input.c
-@@ -7,6 +7,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #include "hw/qdev.h"
-diff --git a/hw/intc/allwinner-a10-pic.c b/hw/intc/allwinner-a10-pic.c
-index 1aa628cbbb..080bdd791f 100644
---- a/hw/intc/allwinner-a10-pic.c
-+++ b/hw/intc/allwinner-a10-pic.c
-@@ -20,6 +20,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/intc/allwinner-a10-pic.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- static void aw_a10_pic_update(AwA10PICState *s)
- {
-diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-index 78903ea909..e764a2bb03 100644
---- a/hw/intc/apic_common.c
-+++ b/hw/intc/apic_common.c
-@@ -17,10 +17,11 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "qapi/visitor.h"
- #include "hw/i386/apic.h"
-diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-index b3ac2d11fc..77427a4188 100644
---- a/hw/intc/arm_gic.c
-+++ b/hw/intc/arm_gic.c
-@@ -24,6 +24,7 @@
- #include "qapi/error.h"
- #include "qom/cpu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "sysemu/kvm.h"
- 
-diff --git a/hw/intc/arm_gic_common.c b/hw/intc/arm_gic_common.c
-index 57569a4e59..ccc50d00b6 100644
---- a/hw/intc/arm_gic_common.c
-+++ b/hw/intc/arm_gic_common.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "gic_internal.h"
- #include "hw/arm/linux-boot-if.h"
- 
-diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
-index a611e8ee12..b56fda144f 100644
---- a/hw/intc/arm_gic_kvm.c
-+++ b/hw/intc/arm_gic_kvm.c
-@@ -21,7 +21,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
- #include "migration/blocker.h"
-diff --git a/hw/intc/arm_gicv2m.c b/hw/intc/arm_gicv2m.c
-index 3922fbc1c1..05f299fc7f 100644
---- a/hw/intc/arm_gicv2m.c
-+++ b/hw/intc/arm_gicv2m.c
-@@ -31,6 +31,7 @@
- #include "hw/pci/msi.h"
- #include "sysemu/kvm.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define TYPE_ARM_GICV2M "arm-gicv2m"
- #define ARM_GICV2M(obj) OBJECT_CHECK(ARMGICv2mState, (obj), TYPE_ARM_GICV2M)
-diff --git a/hw/intc/arm_gicv3.c b/hw/intc/arm_gicv3.c
-index 7044133e2d..66eaa97198 100644
---- a/hw/intc/arm_gicv3.c
-+++ b/hw/intc/arm_gicv3.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "hw/intc/arm_gicv3.h"
- #include "gicv3_internal.h"
-diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 52480c3b4c..5edabb928f 100644
---- a/hw/intc/arm_gicv3_common.c
-+++ b/hw/intc/arm_gicv3_common.c
+diff --git a/cpus.c b/cpus.c
+index e45be368c6..9dc1c7cf6f 100644
+--- a/cpus.c
++++ b/cpus.c
 @@ -23,6 +23,7 @@
+  */
  
  #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qom/cpu.h"
- #include "hw/intc/arm_gicv3_common.h"
- #include "gicv3_internal.h"
-diff --git a/hw/intc/arm_gicv3_its_common.c b/hw/intc/arm_gicv3_its_common.c
-index 284c0a7584..efb3d51fb5 100644
---- a/hw/intc/arm_gicv3_its_common.c
-+++ b/hw/intc/arm_gicv3_its_common.c
-@@ -22,6 +22,7 @@
- #include "hw/pci/msi.h"
- #include "hw/intc/arm_gicv3_its_common.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
++#include "qemu-common.h"
+ #include "qemu/config-file.h"
+ #include "cpu.h"
+ #include "monitor/monitor.h"
+diff --git a/crypto/aes.c b/crypto/aes.c
+index 86b3092324..0f6a195af8 100644
+--- a/crypto/aes.c
++++ b/crypto/aes.c
+@@ -28,7 +28,6 @@
+  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "crypto/aes.h"
  
- static int gicv3_its_pre_save(void *opaque)
- {
-diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
-index 01573abb48..52ac01aba3 100644
---- a/hw/intc/arm_gicv3_its_kvm.c
-+++ b/hw/intc/arm_gicv3_its_kvm.c
-@@ -20,6 +20,7 @@
+ typedef uint32_t u32;
+diff --git a/disas.c b/disas.c
+index 41ad0102e2..3e2bfa572b 100644
+--- a/disas.c
++++ b/disas.c
+@@ -1,6 +1,5 @@
+ /* General "disassemble this chunk" code.  Used for debugging. */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "disas/dis-asm.h"
+ #include "elf.h"
+ #include "qemu/qemu-print.h"
+diff --git a/disas/cris.c b/disas/cris.c
+index bf9eafc415..2f43c9b209 100644
+--- a/disas/cris.c
++++ b/disas/cris.c
+@@ -19,7 +19,6 @@
+    along with this program; if not, see <http://www.gnu.org/licenses/>. */
  
  #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "disas/dis-asm.h"
+ #include "target/cris/opcode-cris.h"
+ 
+diff --git a/disas/i386.c b/disas/i386.c
+index 4c1f0f877b..06c835236e 100644
+--- a/disas/i386.c
++++ b/disas/i386.c
+@@ -153,7 +153,6 @@
+ #define MAX_REG_NAME_SIZE 8
+ 
+ /* opcodes/i386-dis.c r1.126 */
+-#include "qemu-common.h"
+ 
+ static int fetch_data2(struct disassemble_info *, bfd_byte *);
+ static int fetch_data(struct disassemble_info *, bfd_byte *);
+diff --git a/disas/s390.c b/disas/s390.c
+index b1f4e2a0c1..a9ec8fa593 100644
+--- a/disas/s390.c
++++ b/disas/s390.c
+@@ -21,7 +21,6 @@
+    02110-1301, USA.  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "disas/dis-asm.h"
+ 
+ /* include/opcode/s390.h revision 1.9 */
+diff --git a/dump.c b/dump.c
+index 107a67165a..e99554628c 100644
+--- a/dump.c
++++ b/dump.c
+@@ -12,6 +12,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "elf.h"
+ #include "cpu.h"
+diff --git a/exec.c b/exec.c
+index 0bc59e9a30..e7622d1956 100644
+--- a/exec.c
++++ b/exec.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
  #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/intc/arm_gicv3_its_common.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/kvm.h"
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index 1e11200fe2..d9c72f85be 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -24,6 +24,7 @@
- #include "hw/intc/arm_gicv3_common.h"
- #include "hw/sysbus.h"
+ 
+ #include "qemu/cutils.h"
+diff --git a/gdbstub.c b/gdbstub.c
+index 912a790041..f0b194e268 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
  #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/kvm.h"
+ #include "qemu/ctype.h"
+diff --git a/hmp.h b/hmp.h
+index 43617f2646..1d095d5837 100644
+--- a/hmp.h
++++ b/hmp.h
+@@ -14,7 +14,6 @@
+ #ifndef HMP_H
+ #define HMP_H
+ 
+-#include "qemu-common.h"
+ #include "qemu/readline.h"
+ 
+ void hmp_info_name(Monitor *mon, const QDict *qdict);
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 47a94e088d..57a8c1c808 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -13,6 +13,7 @@
+ #include "qemu/osdep.h"
+ #include <sys/socket.h>
+ #include <sys/un.h>
++#include "qemu-common.h"
+ #include "9p.h"
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
+diff --git a/hw/9pfs/coth.c b/hw/9pfs/coth.c
+index 89018de6bf..c3b43368f8 100644
+--- a/hw/9pfs/coth.c
++++ b/hw/9pfs/coth.c
+@@ -13,7 +13,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "block/thread-pool.h"
+ #include "qemu/coroutine.h"
+ #include "coth.h"
+diff --git a/hw/acpi/bios-linker-loader.c b/hw/acpi/bios-linker-loader.c
+index 626c04a39f..108061828b 100644
+--- a/hw/acpi/bios-linker-loader.c
++++ b/hw/acpi/bios-linker-loader.c
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "hw/acpi/bios-linker-loader.h"
+ #include "hw/nvram/fw_cfg.h"
+ 
+diff --git a/hw/acpi/tco.c b/hw/acpi/tco.c
+index a9143963ab..acfb65e8f2 100644
+--- a/hw/acpi/tco.c
++++ b/hw/acpi/tco.c
+@@ -7,7 +7,6 @@
+  * See the COPYING file in the top-level directory.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "sysemu/watchdog.h"
+ #include "hw/i386/ich9.h"
+ 
+diff --git a/hw/alpha/pci.c b/hw/alpha/pci.c
+index 8dde637bfe..fb902bb92d 100644
+--- a/hw/alpha/pci.c
++++ b/hw/alpha/pci.c
+@@ -7,7 +7,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "alpha_sys.h"
+ #include "qemu/log.h"
  #include "sysemu/sysemu.h"
- #include "kvm_arm.h"
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 3a346a682a..d3eb41bc93 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -12,7 +12,6 @@
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 29d225ed14..7b54028461 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -11,7 +11,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/address-spaces.h"
+ #include "hw/arm/arm.h"
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index a830655e1a..edbbffb6b5 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include <libfdt.h>
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+index 84187d3916..f7c8a5985a 100644
+--- a/hw/arm/cubieboard.c
++++ b/hw/arm/cubieboard.c
+@@ -17,7 +17,6 @@
  
  #include "qemu/osdep.h"
  #include "qapi/error.h"
 -#include "qemu-common.h"
  #include "cpu.h"
  #include "hw/sysbus.h"
- #include "qemu/timer.h"
-@@ -21,6 +20,7 @@
- #include "target/arm/cpu.h"
- #include "exec/exec-all.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /* IRQ number counting:
-diff --git a/hw/intc/aspeed_vic.c b/hw/intc/aspeed_vic.c
-index 2370e7485f..927638d532 100644
---- a/hw/intc/aspeed_vic.c
-+++ b/hw/intc/aspeed_vic.c
-@@ -31,6 +31,7 @@
- #include "hw/intc/aspeed_vic.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #define AVIC_NEW_BASE_OFFSET 0x80
-diff --git a/hw/intc/bcm2835_ic.c b/hw/intc/bcm2835_ic.c
-index 00d25306fd..61d37643a1 100644
---- a/hw/intc/bcm2835_ic.c
-+++ b/hw/intc/bcm2835_ic.c
-@@ -15,6 +15,7 @@
- #include "qemu/osdep.h"
- #include "hw/intc/bcm2835_ic.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define GPU_IRQS 64
- #define ARM_IRQS 8
-diff --git a/hw/intc/bcm2836_control.c b/hw/intc/bcm2836_control.c
-index 421469f2ef..66417c85e4 100644
---- a/hw/intc/bcm2836_control.c
-+++ b/hw/intc/bcm2836_control.c
-@@ -18,6 +18,7 @@
- #include "qemu/osdep.h"
- #include "hw/intc/bcm2836_control.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define REG_GPU_ROUTE           0x0c
- #define REG_LOCALTIMERROUTING   0x24
-diff --git a/hw/intc/etraxfs_pic.c b/hw/intc/etraxfs_pic.c
-index 1bfde2f09e..20e1391d64 100644
---- a/hw/intc/etraxfs_pic.c
-+++ b/hw/intc/etraxfs_pic.c
-@@ -24,6 +24,7 @@
+ #include "hw/boards.h"
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index af82e95542..21c06432b8 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -23,7 +23,6 @@
  
  #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- //#include "pc.h"
- //#include "etraxfs.h"
-diff --git a/hw/intc/exynos4210_combiner.c b/hw/intc/exynos4210_combiner.c
-index f19a7062be..6fed0e8d16 100644
---- a/hw/intc/exynos4210_combiner.c
-+++ b/hw/intc/exynos4210_combiner.c
-@@ -29,6 +29,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- 
- #include "hw/arm/exynos4210.h"
- 
-diff --git a/hw/intc/exynos4210_gic.c b/hw/intc/exynos4210_gic.c
-index 69f9c18d73..e37d457fcf 100644
---- a/hw/intc/exynos4210_gic.c
-+++ b/hw/intc/exynos4210_gic.c
-@@ -22,7 +22,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
+ #include "qapi/error.h"
 -#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "hw/irq.h"
- #include "hw/arm/exynos4210.h"
- 
-diff --git a/hw/intc/grlib_irqmp.c b/hw/intc/grlib_irqmp.c
-index 20accb6c4d..21c77a5ec1 100644
---- a/hw/intc/grlib_irqmp.c
-+++ b/hw/intc/grlib_irqmp.c
-@@ -32,6 +32,7 @@
- 
- #include "trace.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #define IRQMP_MAX_CPU 16
- #define IRQMP_REG_SIZE 256      /* Size of memory mapped registers */
-diff --git a/hw/intc/heathrow_pic.c b/hw/intc/heathrow_pic.c
-index b8b997deca..c282ac4006 100644
---- a/hw/intc/heathrow_pic.c
-+++ b/hw/intc/heathrow_pic.c
-@@ -22,9 +22,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/ppc/mac.h"
-+#include "qemu/module.h"
- #include "hw/intc/heathrow_pic.h"
- #include "trace.h"
- 
-diff --git a/hw/intc/imx_avic.c b/hw/intc/imx_avic.c
-index 813e587a63..83a4101528 100644
---- a/hw/intc/imx_avic.c
-+++ b/hw/intc/imx_avic.c
-@@ -18,6 +18,7 @@
- #include "qemu/osdep.h"
- #include "hw/intc/imx_avic.h"
  #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef DEBUG_IMX_AVIC
- #define DEBUG_IMX_AVIC 0
-diff --git a/hw/intc/imx_gpcv2.c b/hw/intc/imx_gpcv2.c
-index 4eb9ce2668..a83333bdea 100644
---- a/hw/intc/imx_gpcv2.c
-+++ b/hw/intc/imx_gpcv2.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/intc/imx_gpcv2.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define GPC_PU_PGC_SW_PUP_REQ       0x0f8
- #define GPC_PU_PGC_SW_PDN_REQ       0x104
-diff --git a/hw/intc/ioapic_common.c b/hw/intc/ioapic_common.c
-index 692dc37bb6..fa50382d43 100644
---- a/hw/intc/ioapic_common.c
-+++ b/hw/intc/ioapic_common.c
-@@ -21,6 +21,7 @@
- 
+ #include "cpu.h"
+ #include "hw/cpu/a9mpcore.h"
+diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
+index ea8100f65a..0a09337d02 100644
+--- a/hw/arm/exynos4_boards.c
++++ b/hw/arm/exynos4_boards.c
+@@ -24,7 +24,6 @@
  #include "qemu/osdep.h"
  #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "monitor/monitor.h"
- #include "hw/i386/ioapic.h"
- #include "hw/i386/ioapic_internal.h"
-diff --git a/hw/intc/lm32_pic.c b/hw/intc/lm32_pic.c
-index db6c7afc2f..170fa7a1ac 100644
---- a/hw/intc/lm32_pic.c
-+++ b/hw/intc/lm32_pic.c
-@@ -21,6 +21,7 @@
- 
- #include "hw/hw.h"
- #include "monitor/monitor.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "trace.h"
- #include "hw/lm32/lm32_pic.h"
-diff --git a/hw/intc/mips_gic.c b/hw/intc/mips_gic.c
-index 15e6e40f9f..1c5ab8fe6d 100644
---- a/hw/intc/mips_gic.c
-+++ b/hw/intc/mips_gic.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-diff --git a/hw/intc/nios2_iic.c b/hw/intc/nios2_iic.c
-index 016426f964..7329434b91 100644
---- a/hw/intc/nios2_iic.c
-+++ b/hw/intc/nios2_iic.c
-@@ -19,7 +19,7 @@
-  */
- 
- #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
 -#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
+ #include "cpu.h"
+ #include "sysemu/sysemu.h"
  #include "hw/sysbus.h"
-diff --git a/hw/intc/omap_intc.c b/hw/intc/omap_intc.c
-index 6844c1aa83..053e67c66b 100644
---- a/hw/intc/omap_intc.c
-+++ b/hw/intc/omap_intc.c
-@@ -17,11 +17,13 @@
-  * You should have received a copy of the GNU General Public License along
-  * with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/arm/omap.h"
- #include "hw/sysbus.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- /* Interrupt Handlers */
-diff --git a/hw/intc/ompic.c b/hw/intc/ompic.c
-index c0e34d1268..9cb310a5dd 100644
---- a/hw/intc/ompic.c
-+++ b/hw/intc/ompic.c
-@@ -8,6 +8,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-diff --git a/hw/intc/openpic.c b/hw/intc/openpic.c
-index 811cee9b26..9b4fc6cf43 100644
---- a/hw/intc/openpic.c
-+++ b/hw/intc/openpic.c
-@@ -33,6 +33,7 @@
-  * Serial interrupts, as implemented in Raven chipset are not supported yet.
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/ppc/mac.h"
-@@ -45,6 +46,7 @@
- #include "qemu/bitops.h"
- #include "qapi/qmp/qerror.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
- 
-diff --git a/hw/intc/openpic_kvm.c b/hw/intc/openpic_kvm.c
-index 928bc04a4e..49fc6fa0cf 100644
---- a/hw/intc/openpic_kvm.c
-+++ b/hw/intc/openpic_kvm.c
+diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
+index bd07040a4a..869ee89b15 100644
+--- a/hw/arm/fsl-imx25.c
++++ b/hw/arm/fsl-imx25.c
 @@ -24,7 +24,6 @@
  
  #include "qemu/osdep.h"
  #include "qapi/error.h"
 -#include "qemu-common.h"
  #include "cpu.h"
- #include <sys/ioctl.h>
- #include "exec/address-spaces.h"
-@@ -35,6 +34,7 @@
- #include "hw/sysbus.h"
- #include "sysemu/kvm.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define GCR_RESET        0x80000000
- 
-diff --git a/hw/intc/pl190.c b/hw/intc/pl190.c
-index 55ea15de76..b4f31efc45 100644
---- a/hw/intc/pl190.c
-+++ b/hw/intc/pl190.c
-@@ -10,6 +10,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- /* The number of virtual priority levels.  16 user vectors plus the
-    unvectored IRQ.  Chained interrupts would require an additional level
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index bb0877cbdf..a55c2bbc88 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "target/ppc/cpu.h"
- #include "sysemu/cpus.h"
-diff --git a/hw/intc/puv3_intc.c b/hw/intc/puv3_intc.c
-index 69ddc8c19a..e2f6d9875a 100644
---- a/hw/intc/puv3_intc.c
-+++ b/hw/intc/puv3_intc.c
-@@ -8,11 +8,13 @@
-  * published by the Free Software Foundation, or any later version.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- 
- #undef DEBUG_PUV3
- #include "hw/unicore32/puv3.h"
-+#include "qemu/module.h"
- 
- #define TYPE_PUV3_INTC "puv3_intc"
- #define PUV3_INTC(obj) OBJECT_CHECK(PUV3INTCState, (obj), TYPE_PUV3_INTC)
-diff --git a/hw/intc/realview_gic.c b/hw/intc/realview_gic.c
-index 7f2ff85c83..99557544db 100644
---- a/hw/intc/realview_gic.c
-+++ b/hw/intc/realview_gic.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/intc/realview_gic.h"
- 
- static void realview_gic_set_irq(void *opaque, int irq, int level)
-diff --git a/hw/intc/s390_flic.c b/hw/intc/s390_flic.c
-index 5f8168f0f0..d0be755c82 100644
---- a/hw/intc/s390_flic.c
-+++ b/hw/intc/s390_flic.c
-@@ -12,6 +12,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "hw/s390x/ioinst.h"
- #include "hw/s390x/s390_flic.h"
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index a03df37560..ff45b4ab0b 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -11,11 +11,11 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "kvm_s390x.h"
- #include <sys/ioctl.h>
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "hw/sysbus.h"
- #include "sysemu/kvm.h"
-diff --git a/hw/intc/slavio_intctl.c b/hw/intc/slavio_intctl.c
-index 817e02617e..ca528753bf 100644
---- a/hw/intc/slavio_intctl.c
-+++ b/hw/intc/slavio_intctl.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "monitor/monitor.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "hw/intc/intc.h"
- #include "trace.h"
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 097f88d460..dc635f0e79 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "target/ppc/cpu.h"
-diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index af7dc709ab..a9af8704aa 100644
---- a/hw/intc/xics.c
-+++ b/hw/intc/xics.c
-@@ -27,13 +27,13 @@
+ #include "hw/arm/fsl-imx25.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/arm/fsl-imx31.c b/hw/arm/fsl-imx31.c
+index ec8239a967..662fe78f1b 100644
+--- a/hw/arm/fsl-imx31.c
++++ b/hw/arm/fsl-imx31.c
+@@ -21,7 +21,6 @@
  
  #include "qemu/osdep.h"
  #include "qapi/error.h"
 -#include "qemu-common.h"
  #include "cpu.h"
- #include "hw/hw.h"
- #include "trace.h"
- #include "qemu/timer.h"
- #include "hw/ppc/xics.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/visitor.h"
- #include "monitor/monitor.h"
- #include "hw/intc/intc.h"
-diff --git a/hw/intc/xics_pnv.c b/hw/intc/xics_pnv.c
-index fa48505f36..67f2702e52 100644
---- a/hw/intc/xics_pnv.c
-+++ b/hw/intc/xics_pnv.c
-@@ -21,6 +21,7 @@
- #include "qapi/error.h"
+ #include "hw/arm/fsl-imx31.h"
  #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/ppc/xics.h"
- 
- #define ICP_XIRR_POLL    0 /* 1 byte (CPRR) or 4 bytes */
-diff --git a/hw/intc/xilinx_intc.c b/hw/intc/xilinx_intc.c
-index 9d8139bc6d..d5363e977f 100644
---- a/hw/intc/xilinx_intc.c
-+++ b/hw/intc/xilinx_intc.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- 
- #define D(x)
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index a0b87001da..3ede5b33fd 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "target/ppc/cpu.h"
- #include "sysemu/cpus.h"
-diff --git a/hw/intc/xlnx-pmu-iomod-intc.c b/hw/intc/xlnx-pmu-iomod-intc.c
-index 59235351ba..0b8ff897dc 100644
---- a/hw/intc/xlnx-pmu-iomod-intc.c
-+++ b/hw/intc/xlnx-pmu-iomod-intc.c
-@@ -29,6 +29,7 @@
- #include "hw/register.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/intc/xlnx-pmu-iomod-intc.h"
- 
- #ifndef XLNX_PMU_IO_INTC_ERR_DEBUG
-diff --git a/hw/intc/xlnx-zynqmp-ipi.c b/hw/intc/xlnx-zynqmp-ipi.c
-index aa50a8ac08..0dad6c04f5 100644
---- a/hw/intc/xlnx-zynqmp-ipi.c
-+++ b/hw/intc/xlnx-zynqmp-ipi.c
-@@ -30,6 +30,7 @@
- #include "hw/register.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/intc/xlnx-zynqmp-ipi.h"
- 
- #ifndef XLNX_ZYNQMP_IPI_ERR_DEBUG
-diff --git a/hw/ipack/ipack.c b/hw/ipack/ipack.c
-index 6021e6d135..6b1b72f94d 100644
---- a/hw/ipack/ipack.c
-+++ b/hw/ipack/ipack.c
-@@ -10,6 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/ipack/ipack.h"
- 
- IPackDevice *ipack_device_find(IPackBus *bus, int32_t slot)
-diff --git a/hw/ipack/tpci200.c b/hw/ipack/tpci200.c
-index cd3e79139d..d4d85107d0 100644
---- a/hw/ipack/tpci200.c
-+++ b/hw/ipack/tpci200.c
-@@ -13,6 +13,7 @@
- #include "hw/ipack/ipack.h"
- #include "hw/pci/pci.h"
- #include "qemu/bitops.h"
-+#include "qemu/module.h"
- 
- /* #define DEBUG_TPCI */
- 
-diff --git a/hw/ipmi/ipmi.c b/hw/ipmi/ipmi.c
-index 63c031703d..a837f91782 100644
---- a/hw/ipmi/ipmi.c
-+++ b/hw/ipmi/ipmi.c
-@@ -30,6 +30,7 @@
- #include "qapi/error.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/visitor.h"
-+#include "qemu/module.h"
- 
- static uint32_t ipmi_current_uuid = 1;
- 
-diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
-index bf0b7ee0f5..c0a8dac346 100644
---- a/hw/ipmi/ipmi_bmc_extern.c
-+++ b/hw/ipmi/ipmi_bmc_extern.c
-@@ -29,6 +29,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "qemu/timer.h"
- #include "chardev/char-fe.h"
-diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
-index 9b509f829b..1980536517 100644
---- a/hw/ipmi/ipmi_bmc_sim.c
-+++ b/hw/ipmi/ipmi_bmc_sim.c
-@@ -27,6 +27,7 @@
- #include "qemu/timer.h"
- #include "hw/ipmi/ipmi.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/loader.h"
- 
- #define IPMI_NETFN_CHASSIS            0x00
-diff --git a/hw/ipmi/isa_ipmi_bt.c b/hw/ipmi/isa_ipmi_bt.c
-index 8bbb1fa785..1846d5b9a4 100644
---- a/hw/ipmi/isa_ipmi_bt.c
-+++ b/hw/ipmi/isa_ipmi_bt.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "hw/hw.h"
- #include "hw/ipmi/ipmi.h"
-diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
-index a79431554a..068f341256 100644
---- a/hw/ipmi/isa_ipmi_kcs.c
-+++ b/hw/ipmi/isa_ipmi_kcs.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "hw/hw.h"
- #include "hw/ipmi/ipmi.h"
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 63fa77effc..388800603b 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -16,8 +16,10 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "hw/hw.h"
- #include "monitor/monitor.h"
-diff --git a/hw/isa/isa-superio.c b/hw/isa/isa-superio.c
-index d54463bf03..4c73c2100f 100644
---- a/hw/isa/isa-superio.c
-+++ b/hw/isa/isa-superio.c
-@@ -9,8 +9,10 @@
-  * See the COPYING file in the top-level directory.
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/blockdev.h"
-diff --git a/hw/isa/pc87312.c b/hw/isa/pc87312.c
-index 5cf64505fe..85dbc94439 100644
---- a/hw/isa/pc87312.c
-+++ b/hw/isa/pc87312.c
-@@ -27,6 +27,7 @@
- #include "hw/isa/pc87312.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- 
-diff --git a/hw/isa/smc37c669-superio.c b/hw/isa/smc37c669-superio.c
-index 64466a9373..901a9f8e65 100644
---- a/hw/isa/smc37c669-superio.c
-+++ b/hw/isa/smc37c669-superio.c
-@@ -10,6 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/isa/superio.h"
-+#include "qemu/module.h"
- 
- /* UARTs (compatible with NS16450 or PC16550) */
- 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 85d0532dd5..7832e220f8 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -23,6 +23,7 @@
- #include "hw/acpi/acpi.h"
- #include "hw/i2c/pm_smbus.h"
- #include "sysemu/sysemu.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "exec/address-spaces.h"
- 
-diff --git a/hw/m68k/mcf_intc.c b/hw/m68k/mcf_intc.c
-index 393ce284a2..a613aed820 100644
---- a/hw/m68k/mcf_intc.c
-+++ b/hw/m68k/mcf_intc.c
-@@ -5,8 +5,9 @@
-  *
-  * This code is licensed under the GPL
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-index bf2adf5e16..f438abb387 100644
---- a/hw/mem/nvdimm.c
-+++ b/hw/mem/nvdimm.c
-@@ -23,6 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/pmem.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index 152400b1fc..b1239fd0d3 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -24,6 +24,7 @@
- #include "hw/mem/memory-device.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-+#include "qemu/module.h"
- #include "sysemu/numa.h"
- #include "trace.h"
- 
-diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-index fc97f59af4..65dd23ce96 100644
---- a/hw/mips/cps.c
-+++ b/hw/mips/cps.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/mips/cps.h"
- #include "hw/mips/mips.h"
- #include "hw/mips/cpudevs.h"
-diff --git a/hw/misc/a9scu.c b/hw/misc/a9scu.c
-index 3e8ad8cd73..4307f0082b 100644
---- a/hw/misc/a9scu.c
-+++ b/hw/misc/a9scu.c
-@@ -10,6 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/misc/a9scu.h"
-+#include "qemu/module.h"
- 
- static uint64_t a9_scu_read(void *opaque, hwaddr offset,
-                             unsigned size)
-diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
-index 7be8b5f13c..2d7eb3c7e2 100644
---- a/hw/misc/applesmc.c
-+++ b/hw/misc/applesmc.c
-@@ -34,6 +34,7 @@
- #include "hw/hw.h"
- #include "hw/isa/isa.h"
- #include "ui/console.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- 
- /* #define DEBUG_SMC */
-diff --git a/hw/misc/arm11scu.c b/hw/misc/arm11scu.c
-index 7042ce11e8..84275df885 100644
---- a/hw/misc/arm11scu.c
-+++ b/hw/misc/arm11scu.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "hw/misc/arm11scu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- static uint64_t mpcore_scu_read(void *opaque, hwaddr offset,
-                                 unsigned size)
-diff --git a/hw/misc/arm_integrator_debug.c b/hw/misc/arm_integrator_debug.c
-index 533e6e3208..2646107b97 100644
---- a/hw/misc/arm_integrator_debug.c
-+++ b/hw/misc/arm_integrator_debug.c
-@@ -19,6 +19,7 @@
- #include "hw/sysbus.h"
- #include "hw/misc/arm_integrator_debug.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define INTEGRATOR_DEBUG(obj) \
-     OBJECT_CHECK(IntegratorDebugState, (obj), TYPE_INTEGRATOR_DEBUG)
-diff --git a/hw/misc/arm_l2x0.c b/hw/misc/arm_l2x0.c
-index 66a0787c47..b88f40ae7e 100644
---- a/hw/misc/arm_l2x0.c
-+++ b/hw/misc/arm_l2x0.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- /* L2C-310 r3p2 */
- #define CACHE_ID 0x410000c8
-diff --git a/hw/misc/arm_sysctl.c b/hw/misc/arm_sysctl.c
-index b20b44ea20..457dfadfab 100644
---- a/hw/misc/arm_sysctl.c
-+++ b/hw/misc/arm_sysctl.c
-@@ -15,6 +15,7 @@
- #include "hw/arm/primecell.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define LOCK_VALUE 0xa05f
- 
-diff --git a/hw/misc/armsse-cpuid.c b/hw/misc/armsse-cpuid.c
-index 7788f6ced6..05c08f3db5 100644
---- a/hw/misc/armsse-cpuid.c
-+++ b/hw/misc/armsse-cpuid.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "qapi/error.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/misc/armsse-mhu.c b/hw/misc/armsse-mhu.c
-index 9ebca32e9a..514321a9ec 100644
---- a/hw/misc/armsse-mhu.c
-+++ b/hw/misc/armsse-mhu.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "qapi/error.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-index c8217740ef..924da189d7 100644
---- a/hw/misc/aspeed_scu.c
-+++ b/hw/misc/aspeed_scu.c
-@@ -16,6 +16,7 @@
- #include "qapi/visitor.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "crypto/random.h"
- #include "trace.h"
- 
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index eec77f2435..b84676d36d 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "hw/misc/aspeed_sdmc.h"
- #include "hw/misc/aspeed_scu.h"
-diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index 0e56d9a8a4..f8e7b97971 100644
---- a/hw/misc/auxbus.c
-+++ b/hw/misc/auxbus.c
-@@ -29,6 +29,7 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/misc/auxbus.h"
- #include "hw/i2c/i2c.h"
- #include "monitor/monitor.h"
-diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
-index e97cc814af..a87da5ee53 100644
---- a/hw/misc/bcm2835_mbox.c
-+++ b/hw/misc/bcm2835_mbox.c
-@@ -12,6 +12,7 @@
- #include "qapi/error.h"
- #include "hw/misc/bcm2835_mbox.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define MAIL0_PEEK   0x90
- #define MAIL0_SENDER 0x94
-diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
-index 145427ae0f..0bf789cf60 100644
---- a/hw/misc/bcm2835_property.c
-+++ b/hw/misc/bcm2835_property.c
-@@ -9,6 +9,7 @@
- #include "hw/misc/bcm2835_mbox_defs.h"
- #include "sysemu/dma.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- /* https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface */
- 
-diff --git a/hw/misc/bcm2835_rng.c b/hw/misc/bcm2835_rng.c
-index 4d62143b24..0873acbc2c 100644
---- a/hw/misc/bcm2835_rng.c
-+++ b/hw/misc/bcm2835_rng.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "crypto/random.h"
- #include "hw/misc/bcm2835_rng.h"
-diff --git a/hw/misc/debugexit.c b/hw/misc/debugexit.c
-index bed293247e..8e4a2fc701 100644
---- a/hw/misc/debugexit.c
-+++ b/hw/misc/debugexit.c
-@@ -10,6 +10,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/isa/isa.h"
-+#include "qemu/module.h"
- 
- #define TYPE_ISA_DEBUG_EXIT_DEVICE "isa-debug-exit"
- #define ISA_DEBUG_EXIT_DEVICE(obj) \
-diff --git a/hw/misc/eccmemctl.c b/hw/misc/eccmemctl.c
-index bb7cc52b5e..8386db07df 100644
---- a/hw/misc/eccmemctl.c
-+++ b/hw/misc/eccmemctl.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /* There are 3 versions of this chip used in SMP sun4m systems:
-diff --git a/hw/misc/edu.c b/hw/misc/edu.c
-index 91af452c9e..a305d4f883 100644
---- a/hw/misc/edu.c
-+++ b/hw/misc/edu.c
-@@ -28,6 +28,7 @@
- #include "hw/pci/msi.h"
- #include "qemu/timer.h"
- #include "qemu/main-loop.h" /* iothread mutex */
-+#include "qemu/module.h"
- #include "qapi/visitor.h"
- 
- #define TYPE_PCI_EDU_DEVICE "edu"
-diff --git a/hw/misc/exynos4210_clk.c b/hw/misc/exynos4210_clk.c
-index 81862c0ada..821d9eab3f 100644
---- a/hw/misc/exynos4210_clk.c
-+++ b/hw/misc/exynos4210_clk.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define TYPE_EXYNOS4210_CLK             "exynos4210.clk"
- #define EXYNOS4210_CLK(obj) \
-diff --git a/hw/misc/exynos4210_pmu.c b/hw/misc/exynos4210_pmu.c
-index 0d7b64c5b3..8712774768 100644
---- a/hw/misc/exynos4210_pmu.c
-+++ b/hw/misc/exynos4210_pmu.c
-@@ -26,6 +26,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- 
- #ifndef DEBUG_PMU
-diff --git a/hw/misc/exynos4210_rng.c b/hw/misc/exynos4210_rng.c
-index 4ecbebd2d7..7a3539ee95 100644
---- a/hw/misc/exynos4210_rng.c
-+++ b/hw/misc/exynos4210_rng.c
-@@ -22,6 +22,7 @@
- #include "hw/sysbus.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define DEBUG_EXYNOS_RNG 0
- 
-diff --git a/hw/misc/imx25_ccm.c b/hw/misc/imx25_ccm.c
-index 19e948a52d..693ea81040 100644
---- a/hw/misc/imx25_ccm.c
-+++ b/hw/misc/imx25_ccm.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include "hw/misc/imx25_ccm.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef DEBUG_IMX25_CCM
- #define DEBUG_IMX25_CCM 0
-diff --git a/hw/misc/imx2_wdt.c b/hw/misc/imx2_wdt.c
-index e47e442592..5576778a32 100644
---- a/hw/misc/imx2_wdt.c
-+++ b/hw/misc/imx2_wdt.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/bitops.h"
-+#include "qemu/module.h"
- #include "sysemu/watchdog.h"
- 
- #include "hw/misc/imx2_wdt.h"
-diff --git a/hw/misc/imx31_ccm.c b/hw/misc/imx31_ccm.c
-index b890c383be..38a19aa0d0 100644
---- a/hw/misc/imx31_ccm.c
-+++ b/hw/misc/imx31_ccm.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include "hw/misc/imx31_ccm.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define CKIH_FREQ 26000000 /* 26MHz crystal input */
- 
-diff --git a/hw/misc/imx6_ccm.c b/hw/misc/imx6_ccm.c
-index 4fa94835fe..9478007f41 100644
---- a/hw/misc/imx6_ccm.c
-+++ b/hw/misc/imx6_ccm.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include "hw/misc/imx6_ccm.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef DEBUG_IMX6_CCM
- #define DEBUG_IMX6_CCM 0
-diff --git a/hw/misc/imx6_src.c b/hw/misc/imx6_src.c
-index cfb08710fb..878ffcdc71 100644
---- a/hw/misc/imx6_src.c
-+++ b/hw/misc/imx6_src.c
-@@ -13,6 +13,7 @@
- #include "sysemu/sysemu.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "arm-powerctl.h"
- #include "qom/cpu.h"
- 
-diff --git a/hw/misc/imx6ul_ccm.c b/hw/misc/imx6ul_ccm.c
-index 90bc374271..37b472d125 100644
---- a/hw/misc/imx6ul_ccm.c
-+++ b/hw/misc/imx6ul_ccm.c
-@@ -14,6 +14,7 @@
- #include "hw/registerfields.h"
- #include "hw/misc/imx6ul_ccm.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #include "trace.h"
- 
-diff --git a/hw/misc/imx7_ccm.c b/hw/misc/imx7_ccm.c
-index d90c48bfec..d9bdcf1027 100644
---- a/hw/misc/imx7_ccm.c
-+++ b/hw/misc/imx7_ccm.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #include "hw/misc/imx7_ccm.h"
- 
-diff --git a/hw/misc/imx7_gpr.c b/hw/misc/imx7_gpr.c
-index c2a9df29c6..09d57d4710 100644
---- a/hw/misc/imx7_gpr.c
-+++ b/hw/misc/imx7_gpr.c
-@@ -15,6 +15,7 @@
- #include "qemu/osdep.h"
- #include "hw/misc/imx7_gpr.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- 
- #include "trace.h"
-diff --git a/hw/misc/imx7_snvs.c b/hw/misc/imx7_snvs.c
-index 4df482b282..55b962a453 100644
---- a/hw/misc/imx7_snvs.c
-+++ b/hw/misc/imx7_snvs.c
-@@ -15,6 +15,7 @@
- #include "qemu/osdep.h"
- #include "hw/misc/imx7_snvs.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- 
- static uint64_t imx7_snvs_read(void *opaque, hwaddr offset, unsigned size)
-diff --git a/hw/misc/imx_ccm.c b/hw/misc/imx_ccm.c
-index 7f239a41d8..2f81b0ad73 100644
---- a/hw/misc/imx_ccm.c
-+++ b/hw/misc/imx_ccm.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include "hw/misc/imx_ccm.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef DEBUG_IMX_CCM
- #define DEBUG_IMX_CCM 0
-diff --git a/hw/misc/iotkit-secctl.c b/hw/misc/iotkit-secctl.c
-index 537601cd53..58fd94b14f 100644
---- a/hw/misc/iotkit-secctl.c
-+++ b/hw/misc/iotkit-secctl.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "trace.h"
- #include "hw/sysbus.h"
-diff --git a/hw/misc/iotkit-sysctl.c b/hw/misc/iotkit-sysctl.c
-index 54064a31ef..00d4faa6db 100644
---- a/hw/misc/iotkit-sysctl.c
-+++ b/hw/misc/iotkit-sysctl.c
-@@ -19,6 +19,7 @@
- #include "qemu/osdep.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "qapi/error.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/misc/iotkit-sysinfo.c b/hw/misc/iotkit-sysinfo.c
-index 026ba94261..3e1cf0ec34 100644
---- a/hw/misc/iotkit-sysinfo.c
-+++ b/hw/misc/iotkit-sysinfo.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "qapi/error.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index c7b6bbc974..f9cc66aba8 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -16,6 +16,7 @@
-  * Contributions after 2012-01-13 are licensed under the terms of the
-  * GNU GPL, version 2 or (at your option) any later version.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
-@@ -28,6 +29,7 @@
- #include "migration/blocker.h"
- #include "qemu/error-report.h"
- #include "qemu/event_notifier.h"
-+#include "qemu/module.h"
- #include "qom/object_interfaces.h"
- #include "chardev/char-fe.h"
- #include "sysemu/hostmem.h"
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index 3febacdd1e..5fd904b79d 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -22,6 +22,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/ppc/mac.h"
-@@ -32,6 +33,7 @@
- #include "sysemu/sysemu.h"
- #include "qemu/cutils.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /* Bits in B data register: all active low */
-diff --git a/hw/misc/macio/gpio.c b/hw/misc/macio/gpio.c
-index 9317df759c..31811ab513 100644
---- a/hw/misc/macio/gpio.c
-+++ b/hw/misc/macio/gpio.c
-@@ -30,6 +30,7 @@
- #include "hw/misc/macio/gpio.h"
- #include "hw/nmi.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- 
-diff --git a/hw/misc/macio/mac_dbdma.c b/hw/misc/macio/mac_dbdma.c
-index e5917d8f2e..548625a5f0 100644
---- a/hw/misc/macio/mac_dbdma.c
-+++ b/hw/misc/macio/mac_dbdma.c
-@@ -36,10 +36,12 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/ppc/mac_dbdma.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/log.h"
- #include "sysemu/dma.h"
- 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 94da85c8d7..eab319f1cb 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -22,8 +22,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/ppc/mac.h"
- #include "hw/misc/macio/cuda.h"
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index 6e6d96c8c5..7201cf4f9a 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -39,6 +39,7 @@
- #include "sysemu/sysemu.h"
- #include "qemu/cutils.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- 
-diff --git a/hw/misc/max111x.c b/hw/misc/max111x.c
-index ac6d35a81d..d373ece0c9 100644
---- a/hw/misc/max111x.c
-+++ b/hw/misc/max111x.c
-@@ -12,6 +12,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/ssi/ssi.h"
-+#include "qemu/module.h"
- 
- typedef struct {
-     SSISlave parent_obj;
-diff --git a/hw/misc/milkymist-hpdmc.c b/hw/misc/milkymist-hpdmc.c
-index 44dc0698ec..701c79e81c 100644
---- a/hw/misc/milkymist-hpdmc.c
-+++ b/hw/misc/milkymist-hpdmc.c
-@@ -26,6 +26,7 @@
- #include "hw/sysbus.h"
- #include "trace.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- enum {
-     R_SYSTEM = 0,
-diff --git a/hw/misc/milkymist-pfpu.c b/hw/misc/milkymist-pfpu.c
-index 4a03c7ee63..1c27f1a4bc 100644
---- a/hw/misc/milkymist-pfpu.c
-+++ b/hw/misc/milkymist-pfpu.c
-@@ -27,6 +27,7 @@
- #include "hw/sysbus.h"
- #include "trace.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- #include <math.h>
- 
-diff --git a/hw/misc/mips_cmgcr.c b/hw/misc/mips_cmgcr.c
-index d019d41a3c..edec164605 100644
---- a/hw/misc/mips_cmgcr.c
-+++ b/hw/misc/mips_cmgcr.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/misc/mips_cpc.c b/hw/misc/mips_cpc.c
-index 712d8423a7..446b1ad397 100644
---- a/hw/misc/mips_cpc.c
-+++ b/hw/misc/mips_cpc.c
-@@ -21,6 +21,7 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- 
- #include "hw/misc/mips_cpc.h"
-diff --git a/hw/misc/mips_itu.c b/hw/misc/mips_itu.c
-index 3afdbe69c6..e8ba4a3cd0 100644
---- a/hw/misc/mips_itu.c
-+++ b/hw/misc/mips_itu.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
-diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index 14cff26c61..e72ed69d51 100644
---- a/hw/misc/mos6522.c
-+++ b/hw/misc/mos6522.c
-@@ -23,6 +23,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/input/adb.h"
-@@ -31,6 +32,7 @@
- #include "sysemu/sysemu.h"
- #include "qemu/cutils.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /* XXX: implement all timer modes */
-diff --git a/hw/misc/mps2-fpgaio.c b/hw/misc/mps2-fpgaio.c
-index 5cf10ebd66..b97ad42d75 100644
---- a/hw/misc/mps2-fpgaio.c
-+++ b/hw/misc/mps2-fpgaio.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "trace.h"
- #include "hw/sysbus.h"
-diff --git a/hw/misc/mps2-scc.c b/hw/misc/mps2-scc.c
-index 6a9d251f18..1fdf5d22bd 100644
---- a/hw/misc/mps2-scc.c
-+++ b/hw/misc/mps2-scc.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "hw/sysbus.h"
- #include "hw/registerfields.h"
-diff --git a/hw/misc/msf2-sysreg.c b/hw/misc/msf2-sysreg.c
-index 6eb501104b..21a2863821 100644
---- a/hw/misc/msf2-sysreg.c
-+++ b/hw/misc/msf2-sysreg.c
-@@ -15,6 +15,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/misc/msf2-sysreg.h"
- #include "qemu/error-report.h"
- #include "trace.h"
-diff --git a/hw/misc/mst_fpga.c b/hw/misc/mst_fpga.c
-index a10f0496fe..fd18303724 100644
---- a/hw/misc/mst_fpga.c
-+++ b/hw/misc/mst_fpga.c
-@@ -10,9 +10,11 @@
-  * Contributions after 2012-01-13 are licensed under the terms of the
-  * GNU GPL, version 2 or (at your option) any later version.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- 
- /* Mainstone FPGA for extern irqs */
- #define FPGA_GPIO_PIN	0
-diff --git a/hw/misc/nrf51_rng.c b/hw/misc/nrf51_rng.c
-index d188f044f4..a21d318d55 100644
---- a/hw/misc/nrf51_rng.c
-+++ b/hw/misc/nrf51_rng.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "hw/arm/nrf51.h"
- #include "hw/misc/nrf51_rng.h"
-diff --git a/hw/misc/pc-testdev.c b/hw/misc/pc-testdev.c
-index 0aee04f231..1f9abd52b8 100644
---- a/hw/misc/pc-testdev.c
-+++ b/hw/misc/pc-testdev.c
-@@ -38,6 +38,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/qdev.h"
-+#include "qemu/module.h"
- #include "hw/isa/isa.h"
- 
- #define IOMEM_LEN    0x10000
-diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index 7325d3f287..3422397f89 100644
---- a/hw/misc/pca9552.c
-+++ b/hw/misc/pca9552.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/misc/pca9552.h"
- #include "hw/misc/pca9552_regs.h"
-diff --git a/hw/misc/pci-testdev.c b/hw/misc/pci-testdev.c
-index 1282d151cb..d4d89df4cf 100644
---- a/hw/misc/pci-testdev.c
-+++ b/hw/misc/pci-testdev.c
-@@ -17,10 +17,12 @@
-  * You should have received a copy of the GNU General Public License along
-  * with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
- #include "qemu/event_notifier.h"
-+#include "qemu/module.h"
- #include "sysemu/kvm.h"
- 
- typedef struct PCITestDevHdr {
-diff --git a/hw/misc/puv3_pm.c b/hw/misc/puv3_pm.c
-index afe191fbe1..b538b4afbb 100644
---- a/hw/misc/puv3_pm.c
-+++ b/hw/misc/puv3_pm.c
-@@ -8,12 +8,14 @@
-  * published by the Free Software Foundation, or any later version.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
- 
- #undef DEBUG_PUV3
- #include "hw/unicore32/puv3.h"
-+#include "qemu/module.h"
- 
- #define TYPE_PUV3_PM "puv3_pm"
- #define PUV3_PM(obj) OBJECT_CHECK(PUV3PMState, (obj), TYPE_PUV3_PM)
-diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
-index 9d8961ba0c..1da24c621e 100644
---- a/hw/misc/pvpanic.c
-+++ b/hw/misc/pvpanic.c
-@@ -15,6 +15,7 @@
- #include "qemu/osdep.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #include "hw/nvram/fw_cfg.h"
- #include "hw/misc/pvpanic.h"
-diff --git a/hw/misc/sga.c b/hw/misc/sga.c
-index 4a22a52a60..da04924f5f 100644
---- a/hw/misc/sga.c
-+++ b/hw/misc/sga.c
-@@ -24,9 +24,11 @@
-  * sgabios code originally available at code.google.com/p/sgabios
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/isa/isa.h"
- #include "hw/loader.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- 
- #define SGABIOS_FILENAME "sgabios.bin"
-diff --git a/hw/misc/slavio_misc.c b/hw/misc/slavio_misc.c
-index 0b33cdcb61..9c2cf04646 100644
---- a/hw/misc/slavio_misc.c
-+++ b/hw/misc/slavio_misc.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "sysemu/sysemu.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /*
-diff --git a/hw/misc/stm32f2xx_syscfg.c b/hw/misc/stm32f2xx_syscfg.c
-index 7f10195862..aa59b43549 100644
---- a/hw/misc/stm32f2xx_syscfg.c
-+++ b/hw/misc/stm32f2xx_syscfg.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "hw/misc/stm32f2xx_syscfg.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef STM_SYSCFG_ERR_DEBUG
- #define STM_SYSCFG_ERR_DEBUG 0
-diff --git a/hw/misc/tmp105.c b/hw/misc/tmp105.c
-index 0c32f6f8b6..19def5c20f 100644
---- a/hw/misc/tmp105.c
-+++ b/hw/misc/tmp105.c
-@@ -24,6 +24,7 @@
- #include "tmp105.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-+#include "qemu/module.h"
- 
- static void tmp105_interrupt_update(TMP105State *s)
- {
-diff --git a/hw/misc/tmp421.c b/hw/misc/tmp421.c
-index ce6d40ac9c..69ee5db4b7 100644
---- a/hw/misc/tmp421.c
-+++ b/hw/misc/tmp421.c
-@@ -29,6 +29,7 @@
- #include "hw/i2c/i2c.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-+#include "qemu/module.h"
- 
- /* Manufacturer / Device ID's */
- #define TMP421_MANUFACTURER_ID          0x55
-diff --git a/hw/misc/tz-mpc.c b/hw/misc/tz-mpc.c
-index 9a84be75ed..45a3e31c3d 100644
---- a/hw/misc/tz-mpc.c
-+++ b/hw/misc/tz-mpc.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "trace.h"
- #include "hw/sysbus.h"
-diff --git a/hw/misc/tz-msc.c b/hw/misc/tz-msc.c
-index 9e352044ea..52b96ba70d 100644
---- a/hw/misc/tz-msc.c
-+++ b/hw/misc/tz-msc.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "trace.h"
- #include "hw/sysbus.h"
-diff --git a/hw/misc/tz-ppc.c b/hw/misc/tz-ppc.c
-index 2e04837bea..2a14a26f29 100644
---- a/hw/misc/tz-ppc.c
-+++ b/hw/misc/tz-ppc.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "trace.h"
- #include "hw/sysbus.h"
-diff --git a/hw/misc/unimp.c b/hw/misc/unimp.c
-index 1c0ba2f0a7..7f8e42cc2c 100644
---- a/hw/misc/unimp.c
-+++ b/hw/misc/unimp.c
-@@ -16,6 +16,7 @@
- #include "hw/sysbus.h"
- #include "hw/misc/unimp.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- static uint64_t unimp_read(void *opaque, hwaddr offset, unsigned size)
-diff --git a/hw/misc/vmcoreinfo.c b/hw/misc/vmcoreinfo.c
-index 304c6287c7..987d6f52af 100644
---- a/hw/misc/vmcoreinfo.c
-+++ b/hw/misc/vmcoreinfo.c
-@@ -9,8 +9,10 @@
-  * See the COPYING file in the top-level directory.
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/nvram/fw_cfg.h"
- #include "hw/misc/vmcoreinfo.h"
- 
-diff --git a/hw/misc/zynq-xadc.c b/hw/misc/zynq-xadc.c
-index 14906103c9..f1e48601dc 100644
---- a/hw/misc/zynq-xadc.c
-+++ b/hw/misc/zynq-xadc.c
-@@ -19,6 +19,7 @@
- #include "qemu/timer.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- enum {
-     CFG                = 0x000 / 4,
-diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
-index d6bdd027ef..6b51ae5ff1 100644
---- a/hw/misc/zynq_slcr.c
-+++ b/hw/misc/zynq_slcr.c
-@@ -20,6 +20,7 @@
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef ZYNQ_SLCR_ERR_DEBUG
- #define ZYNQ_SLCR_ERR_DEBUG 0
-diff --git a/hw/net/allwinner_emac.c b/hw/net/allwinner_emac.c
-index 50e8361e52..eecda52800 100644
---- a/hw/net/allwinner_emac.c
-+++ b/hw/net/allwinner_emac.c
-@@ -16,12 +16,14 @@
-  * GNU General Public License for more details.
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "net/net.h"
- #include "qemu/fifo8.h"
- #include "hw/net/allwinner_emac.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include <zlib.h>
- 
- static uint8_t padding[60];
-diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index 7f63411430..d412085884 100644
---- a/hw/net/cadence_gem.c
-+++ b/hw/net/cadence_gem.c
-@@ -28,6 +28,7 @@
- #include "hw/net/cadence_gem.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "sysemu/dma.h"
- #include "net/checksum.h"
- 
-diff --git a/hw/net/can/can_kvaser_pci.c b/hw/net/can/can_kvaser_pci.c
-index 5f82f4359a..df639f8fa0 100644
---- a/hw/net/can/can_kvaser_pci.c
-+++ b/hw/net/can/can_kvaser_pci.c
-@@ -31,6 +31,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/event_notifier.h"
-+#include "qemu/module.h"
- #include "qemu/thread.h"
- #include "qemu/sockets.h"
- #include "qapi/error.h"
-diff --git a/hw/net/can/can_mioe3680_pci.c b/hw/net/can/can_mioe3680_pci.c
-index fd20b88955..7af0993d7a 100644
---- a/hw/net/can/can_mioe3680_pci.c
-+++ b/hw/net/can/can_mioe3680_pci.c
-@@ -27,6 +27,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/event_notifier.h"
-+#include "qemu/module.h"
- #include "qemu/thread.h"
- #include "qemu/sockets.h"
- #include "qapi/error.h"
-diff --git a/hw/net/can/can_pcm3680_pci.c b/hw/net/can/can_pcm3680_pci.c
-index 23f7ff45a3..3f7312af07 100644
---- a/hw/net/can/can_pcm3680_pci.c
-+++ b/hw/net/can/can_pcm3680_pci.c
-@@ -27,6 +27,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/event_notifier.h"
-+#include "qemu/module.h"
- #include "qemu/thread.h"
- #include "qemu/sockets.h"
- #include "qapi/error.h"
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 98cb4e58c7..bdb0b3b2c2 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -21,6 +21,7 @@
- #include "hw/sysbus.h"
- #include "net/net.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include <zlib.h>
- 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index 121452d508..1dc1466332 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -33,6 +33,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/dma.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/range.h"
- 
- #include "e1000x_common.h"
-diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
-index 510ddb3897..581f7d03d5 100644
---- a/hw/net/e1000e.c
-+++ b/hw/net/e1000e.c
-@@ -37,6 +37,7 @@
- #include "qemu/units.h"
- #include "net/net.h"
- #include "net/tap.h"
-+#include "qemu/module.h"
- #include "qemu/range.h"
- #include "sysemu/sysemu.h"
- #include "hw/pci/msi.h"
-diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-index e761daf551..6607c9142d 100644
---- a/hw/net/eepro100.c
-+++ b/hw/net/eepro100.c
-@@ -50,6 +50,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/dma.h"
- #include "qemu/bitops.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- /* QEMU sends frames smaller than 60 bytes to ethernet nics.
-diff --git a/hw/net/etraxfs_eth.c b/hw/net/etraxfs_eth.c
-index 36855804db..4cfbf1135a 100644
---- a/hw/net/etraxfs_eth.c
-+++ b/hw/net/etraxfs_eth.c
-@@ -28,6 +28,7 @@
- #include "net/net.h"
- #include "hw/cris/etraxfs.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #define D(x)
-diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
-index 0b66274ce3..2a8b99a2e4 100644
---- a/hw/net/fsl_etsec/etsec.c
-+++ b/hw/net/fsl_etsec/etsec.c
-@@ -33,6 +33,7 @@
- #include "etsec.h"
- #include "registers.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- /* #define HEX_DUMP */
- /* #define DEBUG_REGISTER */
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 790430346b..eb760472e5 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -15,6 +15,7 @@
- #include "hw/net/ftgmac100.h"
- #include "sysemu/dma.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "net/checksum.h"
- #include "net/eth.h"
- #include "hw/net/mii.h"
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index 6e297c5480..404154ebbf 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -25,6 +25,7 @@
- #include "hw/net/imx_fec.h"
- #include "sysemu/dma.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "net/checksum.h"
- #include "net/eth.h"
- 
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index b29e3fee49..f6120be219 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -18,6 +18,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/ptimer.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- /* For crc32 */
- #include <zlib.h>
- 
-diff --git a/hw/net/lance.c b/hw/net/lance.c
-index f987b2fd18..2978c01d58 100644
---- a/hw/net/lance.c
-+++ b/hw/net/lance.c
-@@ -36,6 +36,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/sparc/sparc32_dma.h"
- #include "hw/net/lance.h"
-diff --git a/hw/net/mcf_fec.c b/hw/net/mcf_fec.c
-index 0091e4ecdd..78468fad6b 100644
---- a/hw/net/mcf_fec.c
-+++ b/hw/net/mcf_fec.c
-@@ -5,9 +5,11 @@
-  *
-  * This code is licensed under the GPL
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "net/net.h"
-+#include "qemu/module.h"
- #include "hw/m68k/mcf.h"
- #include "hw/m68k/mcf_fec.h"
- #include "hw/net/mii.h"
-diff --git a/hw/net/milkymist-minimac2.c b/hw/net/milkymist-minimac2.c
-index 85c9fc0b65..41ef7a4456 100644
---- a/hw/net/milkymist-minimac2.c
-+++ b/hw/net/milkymist-minimac2.c
-@@ -24,13 +24,13 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h" /* FIXME: why does this use TARGET_PAGE_ALIGN? */
- #include "hw/hw.h"
- #include "hw/sysbus.h"
- #include "trace.h"
- #include "net/net.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- 
- #include <zlib.h>
-diff --git a/hw/net/mipsnet.c b/hw/net/mipsnet.c
-index 5ec13105df..c5fbd8431f 100644
---- a/hw/net/mipsnet.c
-+++ b/hw/net/mipsnet.c
-@@ -1,6 +1,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "net/net.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "hw/sysbus.h"
- 
-diff --git a/hw/net/ne2000-isa.c b/hw/net/ne2000-isa.c
-index c7fdeb0f6c..3490e54c5a 100644
---- a/hw/net/ne2000-isa.c
-+++ b/hw/net/ne2000-isa.c
-@@ -21,6 +21,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/isa/isa.h"
- #include "hw/net/ne2000-isa.h"
-@@ -29,6 +30,7 @@
- #include "sysemu/sysemu.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-+#include "qemu/module.h"
- 
- #define ISA_NE2000(obj) OBJECT_CHECK(ISANE2000State, (obj), TYPE_ISA_NE2000)
- 
-diff --git a/hw/net/ne2000.c b/hw/net/ne2000.c
-index ca792d96f1..1cf4b57341 100644
---- a/hw/net/ne2000.c
-+++ b/hw/net/ne2000.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "net/eth.h"
-+#include "qemu/module.h"
- #include "ne2000.h"
- #include "sysemu/sysemu.h"
- #include "trace.h"
-diff --git a/hw/net/opencores_eth.c b/hw/net/opencores_eth.c
-index d6f54f8d82..a5abb8df46 100644
---- a/hw/net/opencores_eth.c
-+++ b/hw/net/opencores_eth.c
-@@ -36,6 +36,7 @@
- #include "hw/net/mii.h"
- #include "hw/sysbus.h"
- #include "net/net.h"
-+#include "qemu/module.h"
- #include "net/eth.h"
- #include "sysemu/sysemu.h"
- #include "trace.h"
-diff --git a/hw/net/pcnet-pci.c b/hw/net/pcnet-pci.c
-index 7c73855783..600d09ce92 100644
---- a/hw/net/pcnet-pci.c
-+++ b/hw/net/pcnet-pci.c
-@@ -30,6 +30,7 @@
- #include "qemu/osdep.h"
- #include "hw/pci/pci.h"
- #include "net/net.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "sysemu/dma.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
-index 5266f9b7dd..bd54612f2a 100644
---- a/hw/net/rocker/rocker.c
-+++ b/hw/net/rocker/rocker.c
-@@ -24,6 +24,7 @@
- #include "qapi/error.h"
- #include "qapi/qapi-commands-rocker.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/bitops.h"
- 
- #include "rocker.h"
-diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-index 2342a095e3..09273171e5 100644
---- a/hw/net/rtl8139.c
-+++ b/hw/net/rtl8139.c
-@@ -49,12 +49,14 @@
-  */
- 
- /* For crc32 */
-+
- #include "qemu/osdep.h"
- #include <zlib.h>
- 
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
- #include "sysemu/dma.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "net/net.h"
- #include "net/eth.h"
-diff --git a/hw/net/smc91c111.c b/hw/net/smc91c111.c
-index d19ea0750d..4a612eebe9 100644
---- a/hw/net/smc91c111.c
-+++ b/hw/net/smc91c111.c
-@@ -12,6 +12,7 @@
- #include "net/net.h"
- #include "hw/net/smc91c111.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- /* For crc32 */
- #include <zlib.h>
- 
-diff --git a/hw/net/spapr_llan.c b/hw/net/spapr_llan.c
-index 63ba3929e9..f162d49025 100644
---- a/hw/net/spapr_llan.c
-+++ b/hw/net/spapr_llan.c
-@@ -24,11 +24,12 @@
-  * THE SOFTWARE.
-  *
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "net/net.h"
- #include "hw/qdev.h"
- #include "hw/ppc/spapr.h"
-diff --git a/hw/net/stellaris_enet.c b/hw/net/stellaris_enet.c
-index b3375ebb45..2f645bfb71 100644
---- a/hw/net/stellaris_enet.c
-+++ b/hw/net/stellaris_enet.c
-@@ -6,10 +6,12 @@
-  *
-  * This code is licensed under the GPL.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "net/net.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include <zlib.h>
- 
- //#define DEBUG_STELLARIS_ENET 1
-diff --git a/hw/net/sungem.c b/hw/net/sungem.c
-index 60f1e479f3..89bcf749d1 100644
---- a/hw/net/sungem.c
-+++ b/hw/net/sungem.c
-@@ -10,6 +10,7 @@
- #include "qemu/osdep.h"
- #include "hw/pci/pci.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "net/net.h"
- #include "net/eth.h"
- #include "net/checksum.h"
-diff --git a/hw/net/sunhme.c b/hw/net/sunhme.c
-index 7558fca8f9..1ebaee3c82 100644
---- a/hw/net/sunhme.c
-+++ b/hw/net/sunhme.c
-@@ -27,6 +27,7 @@
- #include "hw/pci/pci.h"
- #include "hw/net/mii.h"
- #include "net/net.h"
-+#include "qemu/module.h"
- #include "net/checksum.h"
- #include "net/eth.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index ffe0872fff..c3f5fccfd1 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "hw/virtio/virtio.h"
- #include "net/net.h"
- #include "net/checksum.h"
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index 4665dc95ad..10d01d0058 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -21,8 +21,8 @@
- #include "net/tap.h"
- #include "net/checksum.h"
- #include "sysemu/sysemu.h"
--#include "qemu-common.h"
- #include "qemu/bswap.h"
-+#include "qemu/module.h"
- #include "hw/pci/msix.h"
- #include "hw/pci/msi.h"
- #include "migration/register.h"
-diff --git a/hw/net/xgmac.c b/hw/net/xgmac.c
-index 63f5a62ebf..f49df95b07 100644
---- a/hw/net/xgmac.c
-+++ b/hw/net/xgmac.c
-@@ -27,6 +27,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "net/net.h"
- 
- #ifdef DEBUG_XGMAC
-diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-index cc880a3d08..feeaca680e 100644
---- a/hw/net/xilinx_axienet.c
-+++ b/hw/net/xilinx_axienet.c
-@@ -26,6 +26,7 @@
- #include "hw/sysbus.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "net/net.h"
- #include "net/checksum.h"
- 
-diff --git a/hw/net/xilinx_ethlite.c b/hw/net/xilinx_ethlite.c
-index 35de353b7c..8f3a8f8597 100644
---- a/hw/net/xilinx_ethlite.c
-+++ b/hw/net/xilinx_ethlite.c
-@@ -23,7 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h" /* FIXME should not use tswap* */
- #include "hw/sysbus.h"
- #include "hw/hw.h"
-diff --git a/hw/nvram/ds1225y.c b/hw/nvram/ds1225y.c
-index b6ef463db0..fd49283f41 100644
---- a/hw/nvram/ds1225y.c
-+++ b/hw/nvram/ds1225y.c
-@@ -26,6 +26,7 @@
- #include "hw/sysbus.h"
- #include "trace.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- typedef struct {
-     MemoryRegion iomem;
-diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-index d1456dafbd..f75a485738 100644
---- a/hw/nvram/eeprom_at24c.c
-+++ b/hw/nvram/eeprom_at24c.c
-@@ -10,6 +10,7 @@
- #include "qemu/osdep.h"
- 
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/i2c/i2c.h"
- #include "sysemu/block-backend.h"
-diff --git a/hw/nvram/mac_nvram.c b/hw/nvram/mac_nvram.c
-index aef80e64df..a60426c469 100644
---- a/hw/nvram/mac_nvram.c
-+++ b/hw/nvram/mac_nvram.c
-@@ -22,11 +22,13 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/nvram/chrp_nvram.h"
- #include "hw/ppc/mac.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- #include <zlib.h>
- 
- /* debug NVR */
-diff --git a/hw/nvram/nrf51_nvm.c b/hw/nvram/nrf51_nvm.c
-index 7d94cef1db..eca0cb35b5 100644
---- a/hw/nvram/nrf51_nvm.c
-+++ b/hw/nvram/nrf51_nvm.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "exec/address-spaces.h"
- #include "hw/arm/nrf51.h"
- #include "hw/nvram/nrf51_nvm.h"
-diff --git a/hw/nvram/spapr_nvram.c b/hw/nvram/spapr_nvram.c
-index c98c7576e6..09efd886bf 100644
---- a/hw/nvram/spapr_nvram.c
-+++ b/hw/nvram/spapr_nvram.c
-@@ -23,9 +23,9 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include <libfdt.h>
- 
-diff --git a/hw/pci-bridge/dec.c b/hw/pci-bridge/dec.c
-index 8484bfd434..60ba4d5202 100644
---- a/hw/pci-bridge/dec.c
-+++ b/hw/pci-bridge/dec.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
- #include "dec.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
- #include "hw/pci/pci_bridge.h"
-diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge/gen_pcie_root_port.c
-index 26bda73eae..44acda7cb9 100644
---- a/hw/pci-bridge/gen_pcie_root_port.c
-+++ b/hw/pci-bridge/gen_pcie_root_port.c
-@@ -12,6 +12,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/pci/msix.h"
- #include "hw/pci/pcie_port.h"
- 
-diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
-index 10e590e5c6..f272b12a9c 100644
---- a/hw/pci-bridge/i82801b11.c
-+++ b/hw/pci-bridge/i82801b11.c
-@@ -43,6 +43,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/pci/pci.h"
-+#include "qemu/module.h"
- #include "hw/i386/ich9.h"
- 
- /*****************************************************************************/
-diff --git a/hw/pci-bridge/ioh3420.c b/hw/pci-bridge/ioh3420.c
-index 81f2de6f07..310af04af9 100644
---- a/hw/pci-bridge/ioh3420.c
-+++ b/hw/pci-bridge/ioh3420.c
-@@ -25,6 +25,7 @@
- #include "hw/pci/msi.h"
- #include "hw/pci/pcie.h"
- #include "hw/pci/pcie_port.h"
-+#include "qemu/module.h"
- 
- #define PCI_DEVICE_ID_IOH_EPORT         0x3420  /* D0:F0 express mode */
- #define PCI_DEVICE_ID_IOH_REV           0x2
-diff --git a/hw/pci-bridge/pci_bridge_dev.c b/hw/pci-bridge/pci_bridge_dev.c
-index ff6b8323da..89ac9bba86 100644
---- a/hw/pci-bridge/pci_bridge_dev.c
-+++ b/hw/pci-bridge/pci_bridge_dev.c
-@@ -21,6 +21,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_ids.h"
- #include "hw/pci/msi.h"
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index ca66bc721a..aecf3d7ddf 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -18,6 +18,7 @@
- #include "hw/pci/pci_bridge.h"
- #include "qemu/range.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/numa.h"
- 
- #define TYPE_PXB_BUS "pxb-bus"
-diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
-index d491b40d04..05a698d9ea 100644
---- a/hw/pci-bridge/pcie_pci_bridge.c
-+++ b/hw/pci-bridge/pcie_pci_bridge.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/pci/pci_bridge.h"
-diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
-index e94d918b6d..929a5ce160 100644
---- a/hw/pci-bridge/pcie_root_port.c
-+++ b/hw/pci-bridge/pcie_root_port.c
-@@ -14,6 +14,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/pci/pcie_port.h"
- 
- static void rp_aer_vector_update(PCIDevice *d)
-diff --git a/hw/pci-bridge/simba.c b/hw/pci-bridge/simba.c
-index dea4c8c5e7..0a4c30df66 100644
---- a/hw/pci-bridge/simba.c
-+++ b/hw/pci-bridge/simba.c
-@@ -28,6 +28,7 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_bus.h"
-+#include "qemu/module.h"
- #include "hw/pci-bridge/simba.h"
- 
- /*
-diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
-index 467bbabe4c..7cb8579618 100644
---- a/hw/pci-bridge/xio3130_downstream.c
-+++ b/hw/pci-bridge/xio3130_downstream.c
-@@ -25,6 +25,7 @@
- #include "hw/pci/pcie.h"
- #include "hw/pci/pcie_port.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #define PCI_DEVICE_ID_TI_XIO3130D       0x8233  /* downstream port */
- #define XIO3130_REVISION                0x1
-diff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/xio3130_upstream.c
-index b524908cf1..600a41064b 100644
---- a/hw/pci-bridge/xio3130_upstream.c
-+++ b/hw/pci-bridge/xio3130_upstream.c
-@@ -24,6 +24,7 @@
- #include "hw/pci/msi.h"
- #include "hw/pci/pcie.h"
- #include "hw/pci/pcie_port.h"
-+#include "qemu/module.h"
- 
- #define PCI_DEVICE_ID_TI_XIO3130U       0x8232  /* upstream port */
- #define XIO3130_REVISION                0x2
-diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-index 64ad21d295..0fdfff5784 100644
---- a/hw/pci-host/designware.c
-+++ b/hw/pci-host/designware.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_host.h"
-diff --git a/hw/pci-host/gpex.c b/hw/pci-host/gpex.c
-index 1bafffcc34..629d1a4624 100644
---- a/hw/pci-host/gpex.c
-+++ b/hw/pci-host/gpex.c
-@@ -28,10 +28,12 @@
-  * http://www.kernel.org/doc/Documentation/devicetree/bindings/pci/host-generic-pci.txt
-  * http://www.firmware.org/1275/practice/imap/imap0_9d.pdf
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/hw.h"
- #include "hw/pci-host/gpex.h"
-+#include "qemu/module.h"
- 
- /****************************************************************************
-  * GPEX host
-diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
-index 5a151e93e9..ed3b3c361f 100644
---- a/hw/pci-host/grackle.c
-+++ b/hw/pci-host/grackle.c
-@@ -29,6 +29,7 @@
- #include "hw/pci/pci.h"
- #include "hw/intc/heathrow_pic.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #define GRACKLE_PCI_HOST_BRIDGE(obj) \
-diff --git a/hw/pci-host/ppce500.c b/hw/pci-host/ppce500.c
-index b8f8c112e6..21eaa30a20 100644
---- a/hw/pci-host/ppce500.c
-+++ b/hw/pci-host/ppce500.c
-@@ -20,6 +20,7 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
- #include "qemu/bswap.h"
-+#include "qemu/module.h"
- #include "hw/pci-host/ppce500.h"
- 
- #ifdef DEBUG_PCI
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 960939f5ed..172b0bc435 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -27,11 +27,13 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/pci-host/q35.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-+#include "qemu/module.h"
- 
- /****************************************************************************
-  * Q35 host
-diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
-index e33bd46967..2cec1116af 100644
---- a/hw/pci-host/sabre.c
-+++ b/hw/pci-host/sabre.c
-@@ -35,6 +35,7 @@
- #include "sysemu/sysemu.h"
- #include "exec/address-spaces.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /*
-diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
-index 1378c5c7fb..680fefd066 100644
---- a/hw/pci-host/uninorth.c
-+++ b/hw/pci-host/uninorth.c
-@@ -21,9 +21,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/ppc/mac.h"
-+#include "qemu/module.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
- #include "hw/pci-host/uninorth.h"
-diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
-index 7b19078c80..791b321ea0 100644
---- a/hw/pci-host/versatile.c
-+++ b/hw/pci-host/versatile.c
-@@ -13,6 +13,7 @@
- #include "hw/pci/pci_bus.h"
- #include "hw/pci/pci_host.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- /* Old and buggy versions of QEMU used the wrong mapping from
-  * PCI IRQs to system interrupt lines. Unfortunately the Linux
-diff --git a/hw/pci-host/xilinx-pcie.c b/hw/pci-host/xilinx-pcie.c
-index ceb00e23e6..192b697453 100644
---- a/hw/pci-host/xilinx-pcie.c
-+++ b/hw/pci-host/xilinx-pcie.c
+diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
+index 96ccf18d86..81d7cb55a1 100644
+--- a/hw/arm/highbank.c
++++ b/hw/arm/highbank.c
 @@ -18,6 +18,7 @@
   */
  
  #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
- #include "hw/pci/pci_bridge.h"
-diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-index c6d9ded320..634d2fc25d 100644
---- a/hw/pci/pci_bridge.c
-+++ b/hw/pci/pci_bridge.c
-@@ -32,6 +32,7 @@
- #include "qemu/osdep.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_bus.h"
-+#include "qemu/module.h"
- #include "qemu/range.h"
- #include "qapi/error.h"
- 
-diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
-index 9d64b2e12f..9c72d1cbd9 100644
---- a/hw/pci/pci_host.c
-+++ b/hw/pci/pci_host.c
-@@ -22,6 +22,7 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_host.h"
-+#include "qemu/module.h"
- #include "hw/pci/pci_bus.h"
- #include "trace.h"
- 
-diff --git a/hw/pci/pcie_host.c b/hw/pci/pcie_host.c
-index 1ee4945a6d..d6768b8eb6 100644
---- a/hw/pci/pcie_host.c
-+++ b/hw/pci/pcie_host.c
-@@ -23,6 +23,7 @@
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pcie_host.h"
-+#include "qemu/module.h"
- #include "exec/address-spaces.h"
- 
- /* a helper function to get a PCIDevice for a given mmconfig address */
-diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
-index a30291ef54..c9c3ba540a 100644
---- a/hw/pci/pcie_port.c
-+++ b/hw/pci/pcie_port.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/pci/pcie_port.h"
-+#include "qemu/module.h"
- #include "hw/hotplug.h"
- 
- void pcie_port_init_reg(PCIDevice *d)
-diff --git a/hw/pcmcia/pcmcia.c b/hw/pcmcia/pcmcia.c
-index 195672186a..c16b12db01 100644
---- a/hw/pcmcia/pcmcia.c
-+++ b/hw/pcmcia/pcmcia.c
-@@ -5,7 +5,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/pcmcia.h"
- 
-diff --git a/hw/pcmcia/pxa2xx.c b/hw/pcmcia/pxa2xx.c
-index 20c9c753d2..8993b784bb 100644
---- a/hw/pcmcia/pxa2xx.c
-+++ b/hw/pcmcia/pxa2xx.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "hw/pcmcia.h"
- #include "hw/arm/pxa.h"
- 
-diff --git a/hw/ppc/mpc8544_guts.c b/hw/ppc/mpc8544_guts.c
-index ce1254b5d4..2b7cc14060 100644
---- a/hw/ppc/mpc8544_guts.c
-+++ b/hw/ppc/mpc8544_guts.c
-@@ -18,7 +18,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index 5feeed6bc4..c6411ecc1d 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -16,10 +16,12 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "sysemu/sysemu.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "target/ppc/cpu.h"
- #include "hw/ppc/ppc.h"
- #include "hw/ppc/pnv.h"
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index 641e2046db..a9f150c3ca 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
-@@ -22,6 +22,7 @@
- #include "target/ppc/cpu.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/isa/isa.h"
- 
- #include "hw/ppc/pnv.h"
-diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
-index fdd9296e1b..636f91f311 100644
---- a/hw/ppc/pnv_occ.c
-+++ b/hw/ppc/pnv_occ.c
-@@ -22,6 +22,7 @@
- #include "target/ppc/cpu.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #include "hw/ppc/pnv.h"
- #include "hw/ppc/pnv_xscom.h"
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index 5345c8389e..d7b6f5d75b 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
-@@ -21,6 +21,7 @@
- #include "hw/hw.h"
- #include "target/ppc/cpu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "monitor/monitor.h"
- 
-diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index c285ef514e..110f476dd7 100644
---- a/hw/ppc/pnv_xscom.c
-+++ b/hw/ppc/pnv_xscom.c
-@@ -16,9 +16,11 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "sysemu/hw_accel.h"
- #include "target/ppc/cpu.h"
- #include "hw/sysbus.h"
-diff --git a/hw/ppc/ppc440_pcix.c b/hw/ppc/ppc440_pcix.c
-index 42ef76b6f5..ca54631f9d 100644
---- a/hw/ppc/ppc440_pcix.c
-+++ b/hw/ppc/ppc440_pcix.c
-@@ -22,6 +22,7 @@
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/ppc/ppc.h"
- #include "hw/ppc/ppc4xx.h"
-diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index 9130eb314c..5c1a53d6e7 100644
---- a/hw/ppc/ppc440_uc.c
-+++ b/hw/ppc/ppc440_uc.c
-@@ -10,10 +10,10 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
--#include "qemu-common.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "exec/address-spaces.h"
-diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
-index 86981be710..e7cf8d50a5 100644
---- a/hw/ppc/ppc4xx_pci.c
-+++ b/hw/ppc/ppc4xx_pci.c
-@@ -23,6 +23,7 @@
- #include "hw/hw.h"
- #include "hw/ppc/ppc.h"
- #include "hw/ppc/ppc4xx.h"
-+#include "qemu/module.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
- #include "exec/address-spaces.h"
-diff --git a/hw/ppc/ppce500_spin.c b/hw/ppc/ppce500_spin.c
-index c45fc858de..0060fcb43f 100644
---- a/hw/ppc/ppce500_spin.c
-+++ b/hw/ppc/ppce500_spin.c
-@@ -28,6 +28,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/units.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-diff --git a/hw/ppc/prep_systemio.c b/hw/ppc/prep_systemio.c
-index 50893ec529..df7603b986 100644
---- a/hw/ppc/prep_systemio.c
-+++ b/hw/ppc/prep_systemio.c
-@@ -26,6 +26,7 @@
- #include "hw/isa/isa.h"
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h" /* for error_report() */
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h" /* for vm_stop() */
- #include "cpu.h"
- #include "trace.h"
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 6c16d2b120..5c52051ffc 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -3,6 +3,7 @@
- #include "sysemu/hw_accel.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
-diff --git a/hw/ppc/spapr_iommu.c b/hw/ppc/spapr_iommu.c
-index 5aff4d5a05..bd3d0256a6 100644
---- a/hw/ppc/spapr_iommu.c
-+++ b/hw/ppc/spapr_iommu.c
-@@ -16,10 +16,12 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
- #include "hw/hw.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "sysemu/kvm.h"
- #include "hw/qdev.h"
- #include "kvm_ppc.h"
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 97961b0128..8352276c2c 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -22,9 +22,9 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-@@ -39,6 +39,7 @@
- #include <libfdt.h>
- #include "trace.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/qmp/qerror.h"
- #include "hw/ppc/fdt.h"
- #include "hw/pci/pci_bridge.h"
-diff --git a/hw/ppc/spapr_rng.c b/hw/ppc/spapr_rng.c
-index 4060987590..0e1c7ebcf8 100644
---- a/hw/ppc/spapr_rng.c
-+++ b/hw/ppc/spapr_rng.c
-@@ -19,9 +19,9 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/device_tree.h"
- #include "sysemu/rng.h"
-diff --git a/hw/ppc/spapr_rtas_ddw.c b/hw/ppc/spapr_rtas_ddw.c
-index f6538189f4..3501b05819 100644
---- a/hw/ppc/spapr_rtas_ddw.c
-+++ b/hw/ppc/spapr_rtas_ddw.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/ppc/spapr.h"
- #include "hw/pci-host/spapr.h"
- #include "trace.h"
-diff --git a/hw/ppc/spapr_rtc.c b/hw/ppc/spapr_rtc.c
-index d732a3ea95..b178e05666 100644
---- a/hw/ppc/spapr_rtc.c
-+++ b/hw/ppc/spapr_rtc.c
-@@ -33,6 +33,7 @@
- #include "qapi/error.h"
- #include "qapi/qapi-events-target.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- 
- void spapr_rtc_read(SpaprRtcState *rtc, struct tm *tm, uint32_t *ns)
- {
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 769f7990f8..adcf79cd63 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -15,6 +15,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_ids.h"
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index e34a26a0ef..ca69a1bcd8 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "target/riscv/cpu.h"
- #include "hw/riscv/riscv_hart.h"
-diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
-index d4c159e937..591d70deb3 100644
---- a/hw/riscv/sifive_clint.c
-+++ b/hw/riscv/sifive_clint.c
-@@ -21,6 +21,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "target/riscv/cpu.h"
- #include "hw/riscv/sifive_clint.h"
-diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-index 07a032d93d..70a4413599 100644
---- a/hw/riscv/sifive_plic.c
-+++ b/hw/riscv/sifive_plic.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "hw/sysbus.h"
- #include "hw/pci/msi.h"
-diff --git a/hw/riscv/sifive_prci.c b/hw/riscv/sifive_prci.c
-index 0910ea32c1..fa136b5a9f 100644
---- a/hw/riscv/sifive_prci.c
-+++ b/hw/riscv/sifive_prci.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "target/riscv/cpu.h"
- #include "hw/riscv/sifive_prci.h"
- 
-diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
-index 8abd2cd525..24a04d7b36 100644
---- a/hw/riscv/sifive_test.c
-+++ b/hw/riscv/sifive_test.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "target/riscv/cpu.h"
- #include "hw/riscv/sifive_test.h"
- 
-diff --git a/hw/s390x/ap-bridge.c b/hw/s390x/ap-bridge.c
-index 75ad0a66b9..9284de4eec 100644
---- a/hw/s390x/ap-bridge.c
-+++ b/hw/s390x/ap-bridge.c
-@@ -7,10 +7,12 @@
-  * your option) any later version. See the COPYING file in the top-level
-  * directory.
-  */
-+
- #include "qemu/osdep.h"
++#include "qemu-common.h"
  #include "qapi/error.h"
  #include "hw/sysbus.h"
- #include "qemu/bitops.h"
-+#include "qemu/module.h"
- #include "hw/s390x/ap-bridge.h"
- #include "cpu.h"
- 
-diff --git a/hw/s390x/ccw-device.c b/hw/s390x/ccw-device.c
-index 7cd73df4aa..24f17bb6ca 100644
---- a/hw/s390x/ccw-device.c
-+++ b/hw/s390x/ccw-device.c
-@@ -8,8 +8,10 @@
-  * your option) any later version. See the COPYING file in the top-level
-  * directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "ccw-device.h"
-+#include "qemu/module.h"
- 
- static void ccw_device_refill_ids(CcwDevice *dev)
- {
-diff --git a/hw/s390x/css-bridge.c b/hw/s390x/css-bridge.c
-index e04d51b191..4e9ff481e8 100644
---- a/hw/s390x/css-bridge.c
-+++ b/hw/s390x/css-bridge.c
-@@ -9,11 +9,13 @@
-  * your option) any later version. See the COPYING file in the top-level
-  * directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/hotplug.h"
- #include "hw/sysbus.h"
- #include "qemu/bitops.h"
-+#include "qemu/module.h"
- #include "hw/s390x/css.h"
- #include "ccw-device.h"
- #include "hw/s390x/css-bridge.h"
-diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-index ee5b83448b..dbe36cfb1b 100644
---- a/hw/s390x/event-facility.c
-+++ b/hw/s390x/event-facility.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- 
- #include "hw/s390x/sclp.h"
-diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
-index f5f025d1b6..8403f0e3e9 100644
---- a/hw/s390x/s390-ccw.c
-+++ b/hw/s390x/s390-ccw.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include <libgen.h>
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "hw/s390x/css.h"
- #include "hw/s390x/css-bridge.h"
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 2d0a28d544..2c6e084e2c 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -14,7 +14,6 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "s390-pci-bus.h"
- #include "s390-pci-inst.h"
-@@ -22,6 +21,7 @@
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/msi.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #ifndef DEBUG_S390PCI_BUS
- #define DEBUG_S390PCI_BUS  0
-diff --git a/hw/s390x/s390-skeys-kvm.c b/hw/s390x/s390-skeys-kvm.c
-index dc54ed8b11..1c4d805ad8 100644
---- a/hw/s390x/s390-skeys-kvm.c
-+++ b/hw/s390x/s390-skeys-kvm.c
-@@ -13,6 +13,7 @@
- #include "hw/s390x/storage-keys.h"
- #include "sysemu/kvm.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- static int kvm_s390_skeys_enabled(S390SKeysState *ss)
- {
-diff --git a/hw/s390x/sclpcpu.c b/hw/s390x/sclpcpu.c
-index 50c021b9c2..a4aab7df51 100644
---- a/hw/s390x/sclpcpu.c
-+++ b/hw/s390x/sclpcpu.c
-@@ -12,9 +12,11 @@
-  * option) any later version.  See the COPYING file in the top-level directory.
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "sysemu/sysemu.h"
- #include "hw/s390x/sclp.h"
-+#include "qemu/module.h"
- #include "hw/s390x/event-facility.h"
- #include "cpu.h"
- #include "sysemu/cpus.h"
-diff --git a/hw/s390x/sclpquiesce.c b/hw/s390x/sclpquiesce.c
-index 1c8f5c9393..4f73471537 100644
---- a/hw/s390x/sclpquiesce.c
-+++ b/hw/s390x/sclpquiesce.c
-@@ -11,10 +11,12 @@
-  * option) any later version.  See the COPYING file in the top-level directory.
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/qdev.h"
- #include "sysemu/sysemu.h"
- #include "hw/s390x/sclp.h"
-+#include "qemu/module.h"
- #include "hw/s390x/event-facility.h"
- 
- typedef struct SignalQuiesce {
-diff --git a/hw/s390x/tod-kvm.c b/hw/s390x/tod-kvm.c
-index 2456bf7b24..bebe4744af 100644
---- a/hw/s390x/tod-kvm.c
-+++ b/hw/s390x/tod-kvm.c
-@@ -10,6 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "hw/s390x/tod.h"
- #include "kvm_s390x.h"
-diff --git a/hw/s390x/tod-qemu.c b/hw/s390x/tod-qemu.c
-index 59c015c69d..58b66d2d98 100644
---- a/hw/s390x/tod-qemu.c
-+++ b/hw/s390x/tod-qemu.c
-@@ -13,6 +13,7 @@
- #include "hw/s390x/tod.h"
- #include "qemu/timer.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "tcg_s390x.h"
- 
-diff --git a/hw/s390x/tod.c b/hw/s390x/tod.c
-index 1c63f411e6..a9fca8eb0b 100644
---- a/hw/s390x/tod.c
-+++ b/hw/s390x/tod.c
-@@ -12,6 +12,7 @@
- #include "hw/s390x/tod.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/kvm.h"
- #include "migration/register.h"
- 
-diff --git a/hw/s390x/vhost-vsock-ccw.c b/hw/s390x/vhost-vsock-ccw.c
-index cddc5cf652..076f733390 100644
---- a/hw/s390x/vhost-vsock-ccw.c
-+++ b/hw/s390x/vhost-vsock-ccw.c
-@@ -9,6 +9,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static Property vhost_vsock_ccw_properties[] = {
-diff --git a/hw/s390x/virtio-ccw-9p.c b/hw/s390x/virtio-ccw-9p.c
-index d6be172596..67b2c537cc 100644
---- a/hw/s390x/virtio-ccw-9p.c
-+++ b/hw/s390x/virtio-ccw-9p.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static void virtio_ccw_9p_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-diff --git a/hw/s390x/virtio-ccw-balloon.c b/hw/s390x/virtio-ccw-balloon.c
-index 28d171ac0c..35e43e89fb 100644
---- a/hw/s390x/virtio-ccw-balloon.c
-+++ b/hw/s390x/virtio-ccw-balloon.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static void virtio_ccw_balloon_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-diff --git a/hw/s390x/virtio-ccw-blk.c b/hw/s390x/virtio-ccw-blk.c
-index 1f3d09a75a..83636cb6d7 100644
---- a/hw/s390x/virtio-ccw-blk.c
-+++ b/hw/s390x/virtio-ccw-blk.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static void virtio_ccw_blk_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-diff --git a/hw/s390x/virtio-ccw-crypto.c b/hw/s390x/virtio-ccw-crypto.c
-index aab6a958f2..4569fe0649 100644
---- a/hw/s390x/virtio-ccw-crypto.c
-+++ b/hw/s390x/virtio-ccw-crypto.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static void virtio_ccw_crypto_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-diff --git a/hw/s390x/virtio-ccw-gpu.c b/hw/s390x/virtio-ccw-gpu.c
-index 71869b7fbd..10ee4b86eb 100644
---- a/hw/s390x/virtio-ccw-gpu.c
-+++ b/hw/s390x/virtio-ccw-gpu.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static void virtio_ccw_gpu_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-diff --git a/hw/s390x/virtio-ccw-input.c b/hw/s390x/virtio-ccw-input.c
-index 79c87cb3f2..075bb094ee 100644
---- a/hw/s390x/virtio-ccw-input.c
-+++ b/hw/s390x/virtio-ccw-input.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static void virtio_ccw_input_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-diff --git a/hw/s390x/virtio-ccw-net.c b/hw/s390x/virtio-ccw-net.c
-index 0c0410c643..8ff184265e 100644
---- a/hw/s390x/virtio-ccw-net.c
-+++ b/hw/s390x/virtio-ccw-net.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static void virtio_ccw_net_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-diff --git a/hw/s390x/virtio-ccw-rng.c b/hw/s390x/virtio-ccw-rng.c
-index 3f6abccef8..dc60f084a5 100644
---- a/hw/s390x/virtio-ccw-rng.c
-+++ b/hw/s390x/virtio-ccw-rng.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static void virtio_ccw_rng_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-diff --git a/hw/s390x/virtio-ccw-scsi.c b/hw/s390x/virtio-ccw-scsi.c
-index c9a804fa25..26fa086ef0 100644
---- a/hw/s390x/virtio-ccw-scsi.c
-+++ b/hw/s390x/virtio-ccw-scsi.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-ccw.h"
- 
- static void virtio_ccw_scsi_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-diff --git a/hw/s390x/virtio-ccw-serial.c b/hw/s390x/virtio-ccw-serial.c
-index 3851fc9c9b..8cf5a529a5 100644
---- a/hw/s390x/virtio-ccw-serial.c
-+++ b/hw/s390x/virtio-ccw-serial.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/virtio/virtio.h"
-+#include "qemu/module.h"
- #include "hw/virtio/virtio-serial.h"
- #include "virtio-ccw.h"
- 
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index c2b78c8e9b..43d3a1b029 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -21,6 +21,7 @@
- #include "hw/sysbus.h"
- #include "qemu/bitops.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/virtio/virtio-access.h"
- #include "hw/virtio/virtio-bus.h"
- #include "hw/s390x/adapter.h"
-diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
-index 6b0bbb9b7f..342f500f82 100644
---- a/hw/scsi/esp-pci.c
-+++ b/hw/scsi/esp-pci.c
-@@ -30,6 +30,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define TYPE_AM53C974_DEVICE "am53c974"
- 
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index ca8b36c0c5..7508d035ca 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -28,6 +28,7 @@
- #include "hw/scsi/esp.h"
- #include "trace.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- /*
-  * On Sparc32, this is the ESP (NCR53C90) part of chip STP2000 (Master I/O),
-diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-index da7239d94f..6673d1e9e9 100644
---- a/hw/scsi/lsi53c895a.c
-+++ b/hw/scsi/lsi53c895a.c
-@@ -20,6 +20,7 @@
- #include "hw/scsi/scsi.h"
- #include "sysemu/dma.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- static const char *names[] = {
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index 5ad762de23..06f618dbf7 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -26,6 +26,7 @@
- #include "hw/pci/msi.h"
- #include "hw/pci/msix.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "hw/scsi/scsi.h"
- #include "scsi/constants.h"
- #include "trace.h"
-diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-index 929404fb48..dacafb4098 100644
---- a/hw/scsi/mptsas.c
-+++ b/hw/scsi/mptsas.c
-@@ -28,6 +28,7 @@
- #include "sysemu/dma.h"
- #include "hw/pci/msi.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "hw/scsi/scsi.h"
- #include "scsi/constants.h"
- #include "trace.h"
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index c480553083..196136a307 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -2,6 +2,7 @@
- #include "hw/hw.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "hw/scsi/scsi.h"
- #include "scsi/constants.h"
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index e7e865ab3b..72902c6c15 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -23,6 +23,7 @@
- #include "qemu/units.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/scsi/scsi.h"
- #include "hw/scsi/emulation.h"
- #include "scsi/constants.h"
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index e8a8706a4f..f07891b3f6 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -15,6 +15,7 @@
- #include "qapi/error.h"
- #include "qemu/ctype.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/scsi/scsi.h"
- #include "hw/scsi/emulation.h"
- #include "sysemu/block-backend.h"
-diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
-index 26dfc0340f..0e491c911d 100644
---- a/hw/scsi/spapr_vscsi.c
-+++ b/hw/scsi/spapr_vscsi.c
-@@ -31,8 +31,9 @@
-  *  - Add indirect descriptors support
-  *  - Maybe do autosense (PAPR seems to mandate it, linux doesn't care)
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "hw/scsi/scsi.h"
-diff --git a/hw/scsi/vhost-scsi-common.c b/hw/scsi/vhost-scsi-common.c
-index b7fbab65dd..8ec49d7fef 100644
---- a/hw/scsi/vhost-scsi-common.c
-+++ b/hw/scsi/vhost-scsi-common.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/virtio/vhost.h"
- #include "hw/virtio/vhost-scsi-common.h"
- #include "hw/virtio/virtio-scsi.h"
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index 61e2e57da9..76504d7893 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -19,6 +19,7 @@
- #include <sys/ioctl.h>
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/queue.h"
- #include "monitor/monitor.h"
- #include "migration/blocker.h"
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 839f120256..2e85aa7094 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -19,6 +19,7 @@
- #include "hw/virtio/virtio-scsi.h"
- #include "qemu/error-report.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "sysemu/block-backend.h"
- #include "hw/scsi/scsi.h"
- #include "scsi/constants.h"
-diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
-index 584b4be07e..39e08161f2 100644
---- a/hw/scsi/vmw_pvscsi.c
-+++ b/hw/scsi/vmw_pvscsi.c
-@@ -27,6 +27,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/scsi/scsi.h"
- #include "scsi/constants.h"
- #include "hw/pci/msi.h"
-diff --git a/hw/sd/bcm2835_sdhost.c b/hw/sd/bcm2835_sdhost.c
-index 1b760b2a7c..2778fb0de4 100644
---- a/hw/sd/bcm2835_sdhost.c
-+++ b/hw/sd/bcm2835_sdhost.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "sysemu/blockdev.h"
- #include "hw/sd/bcm2835_sdhost.h"
- #include "trace.h"
-diff --git a/hw/sd/core.c b/hw/sd/core.c
-index 107e6d71dd..abec48bccb 100644
---- a/hw/sd/core.c
-+++ b/hw/sd/core.c
-@@ -22,6 +22,7 @@
- #include "qemu/osdep.h"
- #include "hw/qdev-core.h"
- #include "hw/sd/sd.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- static inline const char *sdbus_name(SDBus *sdbus)
-diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
-index df42aa1c54..ebfb997ce3 100644
---- a/hw/sd/milkymist-memcard.c
-+++ b/hw/sd/milkymist-memcard.c
-@@ -23,6 +23,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-index 3ad7e925c5..81b406dbf0 100644
---- a/hw/sd/pl181.c
-+++ b/hw/sd/pl181.c
-@@ -12,6 +12,7 @@
- #include "hw/sysbus.h"
- #include "hw/sd/sd.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- //#define DEBUG_PL181 1
-diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
-index 82f8ec0d50..81ff5cea86 100644
---- a/hw/sd/pxa2xx_mmci.c
-+++ b/hw/sd/pxa2xx_mmci.c
-@@ -20,6 +20,7 @@
- #include "hw/qdev-properties.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #define TYPE_PXA2XX_MMCI "pxa2xx-mmci"
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index aaab15f386..60500ec8fe 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -43,6 +43,7 @@
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "sdmmc-internal.h"
- #include "trace.h"
- 
-diff --git a/hw/sd/sdhci-pci.c b/hw/sd/sdhci-pci.c
-index f884661862..9370181993 100644
---- a/hw/sd/sdhci-pci.c
-+++ b/hw/sd/sdhci-pci.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "hw/hw.h"
- #include "hw/sd/sdhci.h"
- #include "sdhci-internal.h"
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 17ad5465a7..7b80b1d93f 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -33,6 +33,7 @@
- #include "hw/sd/sdhci.h"
- #include "sdhci-internal.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #define TYPE_SDHCI_BUS "sdhci-bus"
-diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-index 623d0333e8..a635fc6752 100644
---- a/hw/sd/ssi-sd.c
-+++ b/hw/sd/ssi-sd.c
-@@ -15,6 +15,7 @@
- #include "hw/ssi/ssi.h"
- #include "hw/sd/sd.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- //#define DEBUG_SSI_SD 1
- 
-diff --git a/hw/sh4/sh_pci.c b/hw/sh4/sh_pci.c
-index 379d0685ed..b15f264e99 100644
---- a/hw/sh4/sh_pci.c
-+++ b/hw/sh4/sh_pci.c
-@@ -21,12 +21,14 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "hw/sh4/sh.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
- #include "qemu/bswap.h"
-+#include "qemu/module.h"
- #include "exec/address-spaces.h"
- 
- #define TYPE_SH_PCI_HOST_BRIDGE "sh_pci"
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 47be9071fa..a36448fc8d 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -20,6 +20,7 @@
- #include "qapi/error.h"
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "sysemu/sysemu.h"
- #include "qemu/uuid.h"
-diff --git a/hw/sparc/sun4m_iommu.c b/hw/sparc/sun4m_iommu.c
-index 7ca1e3fce4..45a61ecf87 100644
---- a/hw/sparc/sun4m_iommu.c
-+++ b/hw/sparc/sun4m_iommu.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "hw/sparc/sun4m_iommu.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "exec/address-spaces.h"
- #include "trace.h"
- 
-diff --git a/hw/sparc64/sun4u_iommu.c b/hw/sparc64/sun4u_iommu.c
-index 1ef7645ba5..9178277f82 100644
---- a/hw/sparc64/sun4u_iommu.c
-+++ b/hw/sparc64/sun4u_iommu.c
-@@ -29,6 +29,7 @@
- #include "hw/sparc/sun4u_iommu.h"
- #include "exec/address-spaces.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- 
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index f1e66870d7..9eda0d720b 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -26,6 +26,7 @@
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- 
- #include "hw/ssi/aspeed_smc.h"
-diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index 02c38c9e47..5cec9b5d05 100644
---- a/hw/ssi/imx_spi.c
-+++ b/hw/ssi/imx_spi.c
-@@ -12,6 +12,7 @@
- #include "hw/ssi/imx_spi.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef DEBUG_IMX_SPI
- #define DEBUG_IMX_SPI 0
-diff --git a/hw/ssi/mss-spi.c b/hw/ssi/mss-spi.c
-index 185e1a3920..918b1f3e82 100644
---- a/hw/ssi/mss-spi.c
-+++ b/hw/ssi/mss-spi.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
- #include "hw/ssi/mss-spi.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef MSS_SPI_ERR_DEBUG
- #define MSS_SPI_ERR_DEBUG   0
-diff --git a/hw/ssi/pl022.c b/hw/ssi/pl022.c
-index e58247554c..fec73cae26 100644
---- a/hw/ssi/pl022.c
-+++ b/hw/ssi/pl022.c
-@@ -12,6 +12,7 @@
- #include "hw/ssi/pl022.h"
- #include "hw/ssi/ssi.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- //#define DEBUG_PL022 1
- 
-diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
-index 7eaaf565fd..cda7c96a64 100644
---- a/hw/ssi/ssi.c
-+++ b/hw/ssi/ssi.c
-@@ -14,6 +14,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/ssi/ssi.h"
-+#include "qemu/module.h"
- 
- struct SSIBus {
-     BusState parent_obj;
-diff --git a/hw/ssi/stm32f2xx_spi.c b/hw/ssi/stm32f2xx_spi.c
-index 930c616de3..4249101386 100644
---- a/hw/ssi/stm32f2xx_spi.c
-+++ b/hw/ssi/stm32f2xx_spi.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/ssi/stm32f2xx_spi.h"
- 
- #ifndef STM_SPI_ERR_DEBUG
-diff --git a/hw/ssi/xilinx_spi.c b/hw/ssi/xilinx_spi.c
-index 3dae303d5b..1379cb164b 100644
---- a/hw/ssi/xilinx_spi.c
-+++ b/hw/ssi/xilinx_spi.c
-@@ -28,6 +28,7 @@
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/fifo8.h"
- 
- #include "hw/ssi/ssi.h"
-diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-index c615058cc1..8115bb6d46 100644
---- a/hw/ssi/xilinx_spips.c
-+++ b/hw/ssi/xilinx_spips.c
-@@ -27,6 +27,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/ptimer.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/bitops.h"
- #include "hw/ssi/xilinx_spips.h"
- #include "qapi/error.h"
-diff --git a/hw/timer/a9gtimer.c b/hw/timer/a9gtimer.c
-index 96d534d8a8..09e2a7b7bf 100644
---- a/hw/timer/a9gtimer.c
-+++ b/hw/timer/a9gtimer.c
-@@ -26,6 +26,7 @@
- #include "qemu/timer.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qom/cpu.h"
- 
- #ifndef A9_GTIMER_ERR_DEBUG
-diff --git a/hw/timer/allwinner-a10-pit.c b/hw/timer/allwinner-a10-pit.c
-index 22ceabe1d4..763e1090ec 100644
---- a/hw/timer/allwinner-a10-pit.c
-+++ b/hw/timer/allwinner-a10-pit.c
-@@ -20,6 +20,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/timer/allwinner-a10-pit.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- static void a10_pit_update_irq(AwA10PITState *s)
- {
-diff --git a/hw/timer/altera_timer.c b/hw/timer/altera_timer.c
-index c9a0fc5dca..5c1d9e4074 100644
---- a/hw/timer/altera_timer.c
-+++ b/hw/timer/altera_timer.c
-@@ -19,7 +19,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- 
- #include "hw/sysbus.h"
-diff --git a/hw/timer/arm_mptimer.c b/hw/timer/arm_mptimer.c
-index daf6c48797..93044aacfd 100644
---- a/hw/timer/arm_mptimer.c
-+++ b/hw/timer/arm_mptimer.c
-@@ -24,6 +24,7 @@
- #include "hw/timer/arm_mptimer.h"
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qom/cpu.h"
- 
- #define PTIMER_POLICY                       \
-diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
-index 98fddd7ac1..f0a753404d 100644
---- a/hw/timer/arm_timer.c
-+++ b/hw/timer/arm_timer.c
-@@ -10,10 +10,10 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/timer.h"
--#include "qemu-common.h"
- #include "hw/qdev.h"
- #include "hw/ptimer.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/log.h"
- 
- /* Common timer implementation.  */
-diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
-index df8d2804b3..a17317ce2f 100644
---- a/hw/timer/armv7m_systick.c
-+++ b/hw/timer/armv7m_systick.c
-@@ -11,10 +11,10 @@
- 
- #include "qemu/osdep.h"
- #include "hw/timer/armv7m_systick.h"
--#include "qemu-common.h"
- #include "hw/sysbus.h"
- #include "qemu/timer.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- /* qemu timers run at 1GHz.   We want something closer to 1MHz.  */
-diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
-index 5c786e5128..2c3a4d0fe7 100644
---- a/hw/timer/aspeed_timer.c
-+++ b/hw/timer/aspeed_timer.c
-@@ -13,10 +13,10 @@
- #include "qapi/error.h"
- #include "hw/sysbus.h"
- #include "hw/timer/aspeed_timer.h"
--#include "qemu-common.h"
- #include "qemu/bitops.h"
- #include "qemu/timer.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #define TIMER_NR_REGS 4
-diff --git a/hw/timer/cadence_ttc.c b/hw/timer/cadence_ttc.c
-index 10056407ab..115d935f84 100644
---- a/hw/timer/cadence_ttc.c
-+++ b/hw/timer/cadence_ttc.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- 
- #ifdef CADENCE_TTC_ERR_DEBUG
-diff --git a/hw/timer/cmsdk-apb-dualtimer.c b/hw/timer/cmsdk-apb-dualtimer.c
-index 30245990f3..383f6e12b1 100644
---- a/hw/timer/cmsdk-apb-dualtimer.c
-+++ b/hw/timer/cmsdk-apb-dualtimer.c
-@@ -21,6 +21,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "hw/registerfields.h"
- #include "hw/timer/cmsdk-apb-dualtimer.h"
-diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
-index 801d1dba74..2e7318b81f 100644
---- a/hw/timer/cmsdk-apb-timer.c
-+++ b/hw/timer/cmsdk-apb-timer.c
-@@ -30,6 +30,7 @@
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "trace.h"
- #include "hw/sysbus.h"
-diff --git a/hw/timer/digic-timer.c b/hw/timer/digic-timer.c
-index 4d73077207..c818ed1d98 100644
---- a/hw/timer/digic-timer.c
-+++ b/hw/timer/digic-timer.c
-@@ -30,6 +30,7 @@
- #include "hw/sysbus.h"
- #include "hw/ptimer.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/log.h"
- 
- #include "hw/timer/digic-timer.h"
-diff --git a/hw/timer/ds1338.c b/hw/timer/ds1338.c
-index 03da75486b..30d2d21408 100644
---- a/hw/timer/ds1338.c
-+++ b/hw/timer/ds1338.c
-@@ -14,6 +14,7 @@
- #include "qemu-common.h"
- #include "hw/i2c/i2c.h"
- #include "qemu/bcd.h"
-+#include "qemu/module.h"
- 
- /* Size of NVRAM including both the user-accessible area and the
-  * secondary register area.
-diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
-index 2280914b1d..53834e197f 100644
---- a/hw/timer/etraxfs_timer.c
-+++ b/hw/timer/etraxfs_timer.c
-@@ -21,9 +21,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/ptimer.h"
- 
-diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
-index e4ef4cfd36..874c7b8522 100644
---- a/hw/timer/exynos4210_mct.c
-+++ b/hw/timer/exynos4210_mct.c
-@@ -57,7 +57,7 @@
- #include "hw/sysbus.h"
- #include "qemu/timer.h"
- #include "qemu/main-loop.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "hw/ptimer.h"
- 
- #include "hw/arm/exynos4210.h"
-diff --git a/hw/timer/exynos4210_pwm.c b/hw/timer/exynos4210_pwm.c
-index 87f63f057e..9bc0327785 100644
---- a/hw/timer/exynos4210_pwm.c
-+++ b/hw/timer/exynos4210_pwm.c
-@@ -24,8 +24,8 @@
- #include "qemu/log.h"
- #include "hw/sysbus.h"
- #include "qemu/timer.h"
--#include "qemu-common.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "hw/ptimer.h"
- 
- #include "hw/arm/exynos4210.h"
-diff --git a/hw/timer/exynos4210_rtc.c b/hw/timer/exynos4210_rtc.c
-index 4607833e3e..0d65f6f3e3 100644
---- a/hw/timer/exynos4210_rtc.c
-+++ b/hw/timer/exynos4210_rtc.c
-@@ -27,9 +27,9 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/sysbus.h"
- #include "qemu/timer.h"
--#include "qemu-common.h"
- #include "qemu/bcd.h"
- #include "hw/ptimer.h"
- 
-diff --git a/hw/timer/grlib_gptimer.c b/hw/timer/grlib_gptimer.c
-index 4b7088fc84..e45a49075b 100644
---- a/hw/timer/grlib_gptimer.c
-+++ b/hw/timer/grlib_gptimer.c
-@@ -28,6 +28,7 @@
- #include "qemu/timer.h"
- #include "hw/ptimer.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- 
- #include "trace.h"
- 
-diff --git a/hw/timer/i8254.c b/hw/timer/i8254.c
-index 20f834e7da..0972c4724e 100644
---- a/hw/timer/i8254.c
-+++ b/hw/timer/i8254.c
-@@ -21,8 +21,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/timer/i8254.h"
- #include "hw/timer/i8254_internal.h"
-diff --git a/hw/timer/i8254_common.c b/hw/timer/i8254_common.c
-index 6190b6fc5d..76ca6ec444 100644
---- a/hw/timer/i8254_common.c
-+++ b/hw/timer/i8254_common.c
-@@ -22,9 +22,11 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/isa/isa.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/timer/i8254.h"
- #include "hw/timer/i8254_internal.h"
-diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index 8677b753b1..7a883160f4 100644
---- a/hw/timer/imx_epit.c
-+++ b/hw/timer/imx_epit.c
-@@ -16,6 +16,7 @@
- #include "hw/timer/imx_epit.h"
- #include "hw/misc/imx_ccm.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/log.h"
- 
- #ifndef DEBUG_IMX_EPIT
-diff --git a/hw/timer/imx_gpt.c b/hw/timer/imx_gpt.c
-index 65e4ee6bcf..3086c03774 100644
---- a/hw/timer/imx_gpt.c
-+++ b/hw/timer/imx_gpt.c
-@@ -15,6 +15,7 @@
- #include "qemu/osdep.h"
- #include "hw/timer/imx_gpt.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/log.h"
- 
- #ifndef DEBUG_IMX_GPT
-diff --git a/hw/timer/lm32_timer.c b/hw/timer/lm32_timer.c
-index 2a07b59524..6ce876c6ae 100644
---- a/hw/timer/lm32_timer.c
-+++ b/hw/timer/lm32_timer.c
-@@ -29,6 +29,7 @@
- #include "hw/ptimer.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- 
- #define DEFAULT_FREQUENCY (50*1000000)
- 
-diff --git a/hw/timer/m41t80.c b/hw/timer/m41t80.c
-index c45b9297d8..5b9192c28d 100644
---- a/hw/timer/m41t80.c
-+++ b/hw/timer/m41t80.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "qemu/bcd.h"
- #include "hw/i2c/i2c.h"
-diff --git a/hw/timer/m48t59-isa.c b/hw/timer/m48t59-isa.c
-index ea1ba703d7..cbc5e61ddd 100644
---- a/hw/timer/m48t59-isa.c
-+++ b/hw/timer/m48t59-isa.c
-@@ -22,10 +22,12 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/isa/isa.h"
- #include "hw/timer/m48t59.h"
- #include "m48t59-internal.h"
-+#include "qemu/module.h"
- 
- #define TYPE_M48TXX_ISA "isa-m48txx"
- #define M48TXX_ISA_GET_CLASS(obj) \
-diff --git a/hw/timer/m48t59.c b/hw/timer/m48t59.c
-index ca3ed445de..5d26e9aef0 100644
---- a/hw/timer/m48t59.c
-+++ b/hw/timer/m48t59.c
-@@ -22,6 +22,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/timer/m48t59.h"
-@@ -30,6 +31,7 @@
- #include "hw/sysbus.h"
- #include "exec/address-spaces.h"
- #include "qemu/bcd.h"
-+#include "qemu/module.h"
- 
- #include "m48t59-internal.h"
- 
-diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
-index 513f105e62..b61b4ddeaf 100644
---- a/hw/timer/mc146818rtc.c
-+++ b/hw/timer/mc146818rtc.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- #include "qemu/bcd.h"
- #include "hw/hw.h"
- #include "qemu/timer.h"
-diff --git a/hw/timer/milkymist-sysctl.c b/hw/timer/milkymist-sysctl.c
-index 93bc6e1790..a9d250877c 100644
---- a/hw/timer/milkymist-sysctl.c
-+++ b/hw/timer/milkymist-sysctl.c
-@@ -29,6 +29,7 @@
- #include "qemu/timer.h"
- #include "hw/ptimer.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- enum {
-     CTRL_ENABLE      = (1<<0),
-diff --git a/hw/timer/mss-timer.c b/hw/timer/mss-timer.c
-index 4f814572e2..6add47af99 100644
---- a/hw/timer/mss-timer.c
-+++ b/hw/timer/mss-timer.c
-@@ -25,6 +25,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/log.h"
- #include "hw/timer/mss-timer.h"
- 
-diff --git a/hw/timer/nrf51_timer.c b/hw/timer/nrf51_timer.c
-index 0c90662896..29fb81a744 100644
---- a/hw/timer/nrf51_timer.c
-+++ b/hw/timer/nrf51_timer.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/arm/nrf51.h"
- #include "hw/timer/nrf51_timer.h"
- #include "trace.h"
-diff --git a/hw/timer/pl031.c b/hw/timer/pl031.c
-index 274ad47a33..abac73ab42 100644
---- a/hw/timer/pl031.c
-+++ b/hw/timer/pl031.c
-@@ -18,6 +18,7 @@
- #include "sysemu/sysemu.h"
- #include "qemu/cutils.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "trace.h"
- 
- #define RTC_DR      0x00    /* Data read register */
-diff --git a/hw/timer/puv3_ost.c b/hw/timer/puv3_ost.c
-index 3be58c7fdd..4a8ae37ffd 100644
---- a/hw/timer/puv3_ost.c
-+++ b/hw/timer/puv3_ost.c
-@@ -8,10 +8,12 @@
-  * published by the Free Software Foundation, or any later version.
-  * See the COPYING file in the top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "hw/ptimer.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- 
- #undef DEBUG_PUV3
- #include "hw/unicore32/puv3.h"
-diff --git a/hw/timer/pxa2xx_timer.c b/hw/timer/pxa2xx_timer.c
-index a489bf5159..8c1ef43cd5 100644
---- a/hw/timer/pxa2xx_timer.c
-+++ b/hw/timer/pxa2xx_timer.c
-@@ -14,6 +14,7 @@
- #include "hw/arm/pxa.h"
- #include "hw/sysbus.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #define OSMR0	0x00
- #define OSMR1	0x04
-diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
-index 4694b653a7..005fd599e8 100644
---- a/hw/timer/slavio_timer.c
-+++ b/hw/timer/slavio_timer.c
-@@ -28,6 +28,7 @@
- #include "hw/sysbus.h"
- #include "trace.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- 
- /*
-  * Registers of hardware timer in sun4m.
-diff --git a/hw/timer/stm32f2xx_timer.c b/hw/timer/stm32f2xx_timer.c
-index ae744d1642..4c49dc4995 100644
---- a/hw/timer/stm32f2xx_timer.c
-+++ b/hw/timer/stm32f2xx_timer.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "hw/timer/stm32f2xx_timer.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- #ifndef STM_TIMER_ERR_DEBUG
- #define STM_TIMER_ERR_DEBUG 0
-diff --git a/hw/timer/sun4v-rtc.c b/hw/timer/sun4v-rtc.c
-index b93cbd6a81..ba62adc826 100644
---- a/hw/timer/sun4v-rtc.c
-+++ b/hw/timer/sun4v-rtc.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/timer/sun4v-rtc.h"
- #include "trace.h"
-diff --git a/hw/timer/twl92230.c b/hw/timer/twl92230.c
-index c83d803dd8..7785b96c0b 100644
---- a/hw/timer/twl92230.c
-+++ b/hw/timer/twl92230.c
-@@ -26,6 +26,7 @@
- #include "sysemu/sysemu.h"
- #include "ui/console.h"
- #include "qemu/bcd.h"
-+#include "qemu/module.h"
- 
- #define VERBOSE 1
- 
-diff --git a/hw/timer/xilinx_timer.c b/hw/timer/xilinx_timer.c
-index 59439c05be..16bcd0393b 100644
---- a/hw/timer/xilinx_timer.c
-+++ b/hw/timer/xilinx_timer.c
-@@ -27,6 +27,7 @@
- #include "hw/ptimer.h"
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- 
- #define D(x)
- 
-diff --git a/hw/timer/xlnx-zynqmp-rtc.c b/hw/timer/xlnx-zynqmp-rtc.c
-index c98dc3d94e..be078ae72a 100644
---- a/hw/timer/xlnx-zynqmp-rtc.c
-+++ b/hw/timer/xlnx-zynqmp-rtc.c
-@@ -29,6 +29,7 @@
- #include "hw/register.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "hw/ptimer.h"
- #include "qemu/cutils.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-index 3087acc4ab..5e2db9e0c4 100644
---- a/hw/tpm/tpm_crb.c
-+++ b/hw/tpm/tpm_crb.c
-@@ -16,7 +16,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "exec/address-spaces.h"
- 
-diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
-index 70f4b10284..1288cbcb8d 100644
---- a/hw/tpm/tpm_emulator.c
-+++ b/hw/tpm/tpm_emulator.c
-@@ -28,6 +28,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "io/channel-socket.h"
- #include "sysemu/tpm_backend.h"
-diff --git a/hw/tpm/tpm_passthrough.c b/hw/tpm/tpm_passthrough.c
-index 479317ee50..e87bd126c6 100644
---- a/hw/tpm/tpm_passthrough.c
-+++ b/hw/tpm/tpm_passthrough.c
-@@ -23,8 +23,8 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "sysemu/tpm_backend.h"
- #include "tpm_int.h"
-diff --git a/hw/tpm/tpm_tis.c b/hw/tpm/tpm_tis.c
-index fd183e8deb..174618ac30 100644
---- a/hw/tpm/tpm_tis.c
-+++ b/hw/tpm/tpm_tis.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "hw/isa/isa.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #include "hw/acpi/tpm.h"
- #include "hw/pci/pci_ids.h"
-diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index 9a74dc9560..a28e9e3b33 100644
---- a/hw/usb/bus.c
-+++ b/hw/usb/bus.c
-@@ -4,6 +4,7 @@
- #include "hw/qdev.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "monitor/monitor.h"
- #include "trace.h"
-diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
-index 963373ba95..e20f8ed293 100644
---- a/hw/usb/ccid-card-emulated.c
-+++ b/hw/usb/ccid-card-emulated.c
-@@ -31,6 +31,7 @@
- 
- #include "qemu/thread.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "ccid.h"
- #include "qapi/error.h"
- 
-diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
-index 0a6c657228..081bcfd70a 100644
---- a/hw/usb/ccid-card-passthru.c
-+++ b/hw/usb/ccid-card-passthru.c
-@@ -13,6 +13,7 @@
- #include <libcacard.h>
- #include "chardev/char-fe.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "ccid.h"
- #include "qapi/error.h"
-diff --git a/hw/usb/chipidea.c b/hw/usb/chipidea.c
-index 60d67f88b8..3dcd22ccba 100644
---- a/hw/usb/chipidea.c
-+++ b/hw/usb/chipidea.c
-@@ -13,6 +13,7 @@
- #include "hw/usb/hcd-ehci.h"
- #include "hw/usb/chipidea.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- enum {
-     CHIPIDEA_USBx_DCIVERSION   = 0x000,
-diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
-index c46d5eeb79..718ab53cbb 100644
---- a/hw/usb/dev-audio.c
-+++ b/hw/usb/dev-audio.c
-@@ -30,7 +30,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "hw/usb.h"
- #include "desc.h"
- #include "hw/hw.h"
-diff --git a/hw/usb/dev-bluetooth.c b/hw/usb/dev-bluetooth.c
-index c539a1afc6..670ba32290 100644
---- a/hw/usb/dev-bluetooth.c
-+++ b/hw/usb/dev-bluetooth.c
-@@ -19,8 +19,8 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/usb.h"
- #include "desc.h"
- #include "sysemu/bt.h"
-diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
-index f9ea3033a1..62793eaf26 100644
---- a/hw/usb/dev-hid.c
-+++ b/hw/usb/dev-hid.c
-@@ -22,12 +22,14 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "ui/console.h"
- #include "hw/usb.h"
- #include "desc.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/input/hid.h"
- 
-diff --git a/hw/usb/dev-hub.c b/hw/usb/dev-hub.c
-index 7e9339b8a8..7e471a5f20 100644
---- a/hw/usb/dev-hub.c
-+++ b/hw/usb/dev-hub.c
-@@ -21,13 +21,14 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "trace.h"
- #include "hw/usb.h"
- #include "desc.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #define NUM_PORTS 8
- 
-diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index d90b336d53..38a8a33dc7 100644
---- a/hw/usb/dev-mtp.c
-+++ b/hw/usb/dev-mtp.c
-@@ -18,8 +18,8 @@
- #include <sys/statvfs.h>
- 
- 
--#include "qemu-common.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/filemonitor.h"
- #include "trace.h"
- #include "hw/usb.h"
-diff --git a/hw/usb/dev-network.c b/hw/usb/dev-network.c
-index ffab3fabee..889069dd5a 100644
---- a/hw/usb/dev-network.c
-+++ b/hw/usb/dev-network.c
+ #include "hw/arm/arm.h"
+diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
+index 9f3ee14739..2d58b478c6 100644
+--- a/hw/arm/imx25_pdk.c
++++ b/hw/arm/imx25_pdk.c
 @@ -25,7 +25,6 @@
  
  #include "qemu/osdep.h"
  #include "qapi/error.h"
 -#include "qemu-common.h"
- #include "hw/usb.h"
- #include "desc.h"
- #include "net/net.h"
-@@ -34,6 +33,7 @@
- #include "qemu/config-file.h"
- #include "sysemu/sysemu.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/cutils.h"
- 
- /*#define TRAFFIC_DEBUG*/
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 03c3bcd240..b82f854103 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -10,9 +10,9 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/cutils.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/usb.h"
- #include "desc.h"
- #include "chardev/char-serial.h"
-diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
-index 6b0137bb76..8d7e516fe7 100644
---- a/hw/usb/dev-smartcard-reader.c
-+++ b/hw/usb/dev-smartcard-reader.c
-@@ -39,6 +39,7 @@
- #include "qapi/error.h"
- #include "qemu-common.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/usb.h"
- #include "desc.h"
- 
-diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-index cd5551d94f..38030cb769 100644
---- a/hw/usb/dev-storage.c
-+++ b/hw/usb/dev-storage.c
-@@ -9,8 +9,8 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/config-file.h"
- #include "hw/usb.h"
-diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
-index be566cad02..abd8070d0c 100644
---- a/hw/usb/dev-uas.c
-+++ b/hw/usb/dev-uas.c
-@@ -10,11 +10,11 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "qemu/option.h"
- #include "qemu/config-file.h"
- #include "trace.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- #include "hw/usb.h"
- #include "desc.h"
-diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
-index ac0bc83b52..8c43db9335 100644
---- a/hw/usb/dev-wacom.c
-+++ b/hw/usb/dev-wacom.c
-@@ -25,10 +25,12 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "ui/console.h"
- #include "hw/usb.h"
-+#include "qemu/module.h"
- #include "desc.h"
- 
- /* Interface requests */
-diff --git a/hw/usb/hcd-ehci-pci.c b/hw/usb/hcd-ehci-pci.c
-index 38b24b160a..03d3a39067 100644
---- a/hw/usb/hcd-ehci-pci.c
-+++ b/hw/usb/hcd-ehci-pci.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/usb/hcd-ehci.h"
-+#include "qemu/module.h"
- #include "qemu/range.h"
- 
- typedef struct EHCIPCIInfo {
-diff --git a/hw/usb/hcd-ehci-sysbus.c b/hw/usb/hcd-ehci-sysbus.c
-index 9f7f128f19..cd1f3c70a4 100644
---- a/hw/usb/hcd-ehci-sysbus.c
-+++ b/hw/usb/hcd-ehci-sysbus.c
-@@ -17,6 +17,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/usb/hcd-ehci.h"
-+#include "qemu/module.h"
- 
- static const VMStateDescription vmstate_ehci_sysbus = {
-     .name        = "ehci-sysbus",
-diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index aaba090588..4f6fdbc0a7 100644
---- a/hw/usb/hcd-ohci.c
-+++ b/hw/usb/hcd-ohci.c
-@@ -28,6 +28,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/usb.h"
- #include "hw/sysbus.h"
-diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index 09df29ff9c..98bd5cf49d 100644
---- a/hw/usb/hcd-uhci.c
-+++ b/hw/usb/hcd-uhci.c
-@@ -25,6 +25,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/usb.h"
-@@ -36,6 +37,7 @@
- #include "sysemu/dma.h"
- #include "trace.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- 
- #define FRAME_TIMER_FREQ 1000
- 
-diff --git a/hw/usb/hcd-xhci-nec.c b/hw/usb/hcd-xhci-nec.c
-index 75715a048a..e099382b24 100644
---- a/hw/usb/hcd-xhci-nec.c
-+++ b/hw/usb/hcd-xhci-nec.c
-@@ -22,6 +22,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/usb.h"
-+#include "qemu/module.h"
- #include "hw/pci/pci.h"
- 
- #include "hcd-xhci.h"
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 2e9a839f2b..5894a18663 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -18,9 +18,11 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "qemu/timer.h"
-+#include "qemu/module.h"
- #include "qemu/queue.h"
- #include "hw/usb.h"
- #include "hw/pci/pci.h"
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index 67b7465915..c089350276 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -40,9 +40,9 @@
- #include <libusb.h>
- 
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "monitor/monitor.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "trace.h"
- 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 7cb6b120d4..084b8f2161 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -28,12 +28,12 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/timer.h"
- #include "sysemu/sysemu.h"
- #include "qapi/qmp/qerror.h"
- #include "qemu/error-report.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "chardev/char-fe.h"
- 
- #include <usbredirparser.h>
-diff --git a/hw/usb/tusb6010.c b/hw/usb/tusb6010.c
-index f76b59afe8..a61b0f6354 100644
---- a/hw/usb/tusb6010.c
-+++ b/hw/usb/tusb6010.c
-@@ -18,8 +18,9 @@
-  * You should have received a copy of the GNU General Public License along
-  * with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/usb.h"
- #include "hw/arm/omap.h"
-diff --git a/hw/vfio/amd-xgbe.c b/hw/vfio/amd-xgbe.c
-index ee64a3b4a2..d362329739 100644
---- a/hw/vfio/amd-xgbe.c
-+++ b/hw/vfio/amd-xgbe.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/vfio/vfio-amd-xgbe.h"
-+#include "qemu/module.h"
- 
- static void amd_xgbe_realize(DeviceState *dev, Error **errp)
- {
-diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
-index d8b79ebe53..c68e347858 100644
---- a/hw/vfio/ap.c
-+++ b/hw/vfio/ap.c
-@@ -19,6 +19,7 @@
- #include "hw/vfio/vfio-common.h"
- #include "hw/s390x/ap-device.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/queue.h"
- #include "qemu/option.h"
- #include "qemu/config-file.h"
-diff --git a/hw/vfio/calxeda-xgmac.c b/hw/vfio/calxeda-xgmac.c
-index e7767c4b02..6dd4cb94f5 100644
---- a/hw/vfio/calxeda-xgmac.c
-+++ b/hw/vfio/calxeda-xgmac.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/vfio/vfio-calxeda-xgmac.h"
-+#include "qemu/module.h"
- 
- static void calxeda_xgmac_realize(DeviceState *dev, Error **errp)
- {
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index 31dd3a2a87..cfc64202ac 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -25,6 +25,7 @@
- #include "hw/s390x/ccw-device.h"
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- 
- struct VFIOCCWDevice {
-     S390CCWDevice cdev;
-diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
-index 29b2697fe1..b35a640030 100644
---- a/hw/vfio/pci-quirks.c
-+++ b/hw/vfio/pci-quirks.c
-@@ -14,6 +14,7 @@
- #include "qemu/units.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/range.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 8cecb53d5c..92b57d47c2 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -26,6 +26,7 @@
- #include "hw/pci/msix.h"
- #include "hw/pci/pci_bridge.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/range.h"
- #include "qemu/units.h"
-diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
-index 398db38f14..1a41c1d2ce 100644
---- a/hw/vfio/platform.c
-+++ b/hw/vfio/platform.c
-@@ -21,6 +21,7 @@
- 
- #include "hw/vfio/vfio-platform.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/range.h"
- #include "sysemu/sysemu.h"
- #include "exec/memory.h"
-diff --git a/hw/virtio/vhost-scsi-pci.c b/hw/virtio/vhost-scsi-pci.c
-index 523f7cb3ce..95a1f32439 100644
---- a/hw/virtio/vhost-scsi-pci.c
-+++ b/hw/virtio/vhost-scsi-pci.c
-@@ -19,6 +19,7 @@
- #include "standard-headers/linux/virtio_pci.h"
- #include "hw/virtio/vhost-scsi.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "virtio-pci.h"
- 
- typedef struct VHostSCSIPCI VHostSCSIPCI;
-diff --git a/hw/virtio/vhost-user-blk-pci.c b/hw/virtio/vhost-user-blk-pci.c
-index ca66c217a7..ed81614d43 100644
---- a/hw/virtio/vhost-user-blk-pci.c
-+++ b/hw/virtio/vhost-user-blk-pci.c
-@@ -24,6 +24,7 @@
- #include "hw/pci/pci.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "virtio-pci.h"
- 
- typedef struct VHostUserBlkPCI VHostUserBlkPCI;
-diff --git a/hw/virtio/vhost-user-scsi-pci.c b/hw/virtio/vhost-user-scsi-pci.c
-index 46f7193cc7..daeea77ce1 100644
---- a/hw/virtio/vhost-user-scsi-pci.c
-+++ b/hw/virtio/vhost-user-scsi-pci.c
-@@ -24,6 +24,7 @@
- #include "hw/pci/pci.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/msix.h"
- #include "hw/loader.h"
-diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
-index 6f43ca35fb..c06c9a83b9 100644
---- a/hw/virtio/vhost-vsock-pci.c
-+++ b/hw/virtio/vhost-vsock-pci.c
-@@ -15,6 +15,7 @@
- 
- #include "virtio-pci.h"
- #include "hw/virtio/vhost-vsock.h"
-+#include "qemu/module.h"
- 
- typedef struct VHostVSockPCI VHostVSockPCI;
- 
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index aa5af927e1..0371493197 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -20,6 +20,7 @@
- #include "qemu/error-report.h"
- #include "hw/virtio/vhost-vsock.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "monitor/monitor.h"
- 
- enum {
-diff --git a/hw/virtio/virtio-9p-pci.c b/hw/virtio/virtio-9p-pci.c
-index 7bf1130966..29c3712feb 100644
---- a/hw/virtio/virtio-9p-pci.c
-+++ b/hw/virtio/virtio-9p-pci.c
-@@ -17,6 +17,7 @@
- 
- #include "virtio-pci.h"
- #include "hw/9pfs/virtio-9p.h"
-+#include "qemu/module.h"
- 
- /*
-  * virtio-9p-pci: This extends VirtioPCIProxy.
-diff --git a/hw/virtio/virtio-balloon-pci.c b/hw/virtio/virtio-balloon-pci.c
-index 2a213bbb38..7393435a98 100644
---- a/hw/virtio/virtio-balloon-pci.c
-+++ b/hw/virtio/virtio-balloon-pci.c
-@@ -17,6 +17,7 @@
- #include "virtio-pci.h"
- #include "hw/virtio/virtio-balloon.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- typedef struct VirtIOBalloonPCI VirtIOBalloonPCI;
- 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 2112874055..11fad86d64 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -15,8 +15,8 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
--#include "qemu-common.h"
- #include "hw/virtio/virtio.h"
- #include "hw/mem/pc-dimm.h"
- #include "sysemu/balloon.h"
-diff --git a/hw/virtio/virtio-blk-pci.c b/hw/virtio/virtio-blk-pci.c
-index 60c9185c39..d790b07a99 100644
---- a/hw/virtio/virtio-blk-pci.c
-+++ b/hw/virtio/virtio-blk-pci.c
-@@ -20,6 +20,7 @@
- #include "hw/virtio/virtio-blk.h"
- #include "virtio-pci.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- typedef struct VirtIOBlkPCI VirtIOBlkPCI;
- 
-diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-index f9bc9ea46d..1d29a631f3 100644
---- a/hw/virtio/virtio-bus.c
-+++ b/hw/virtio/virtio-bus.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "hw/qdev.h"
- #include "hw/virtio/virtio-bus.h"
-diff --git a/hw/virtio/virtio-crypto-pci.c b/hw/virtio/virtio-crypto-pci.c
-index 13807e538b..c8a2317a10 100644
---- a/hw/virtio/virtio-crypto-pci.c
-+++ b/hw/virtio/virtio-crypto-pci.c
-@@ -11,6 +11,7 @@
-  * top-level directory.
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/pci/pci.h"
- #include "hw/virtio/virtio.h"
-@@ -18,6 +19,7 @@
- #include "hw/virtio/virtio-pci.h"
- #include "hw/virtio/virtio-crypto.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- typedef struct VirtIOCryptoPCI VirtIOCryptoPCI;
- 
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index 9a9fa495d2..45187d3344 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -10,8 +10,10 @@
-  * (at your option) any later version.  See the COPYING file in the
-  * top-level directory.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "hw/qdev.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-diff --git a/hw/virtio/virtio-input-host-pci.c b/hw/virtio/virtio-input-host-pci.c
-index 124c4f3447..a82eb5d914 100644
---- a/hw/virtio/virtio-input-host-pci.c
-+++ b/hw/virtio/virtio-input-host-pci.c
-@@ -10,6 +10,7 @@
- 
- #include "virtio-pci.h"
- #include "hw/virtio/virtio-input.h"
-+#include "qemu/module.h"
- 
- typedef struct VirtIOInputHostPCI VirtIOInputHostPCI;
- 
-diff --git a/hw/virtio/virtio-input-pci.c b/hw/virtio/virtio-input-pci.c
-index 28477729a3..1c40292abc 100644
---- a/hw/virtio/virtio-input-pci.c
-+++ b/hw/virtio/virtio-input-pci.c
-@@ -10,6 +10,7 @@
- 
- #include "virtio-pci.h"
- #include "hw/virtio/virtio-input.h"
-+#include "qemu/module.h"
- 
- typedef struct VirtIOInputPCI VirtIOInputPCI;
- typedef struct VirtIOInputHIDPCI VirtIOInputHIDPCI;
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 5807aa87fe..d22071a8e4 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -24,6 +24,7 @@
- #include "hw/sysbus.h"
- #include "hw/virtio/virtio.h"
- #include "qemu/host-utils.h"
-+#include "qemu/module.h"
- #include "sysemu/kvm.h"
- #include "hw/virtio/virtio-bus.h"
- #include "qemu/error-report.h"
-diff --git a/hw/virtio/virtio-net-pci.c b/hw/virtio/virtio-net-pci.c
-index db07ab9e21..5df36f26bf 100644
---- a/hw/virtio/virtio-net-pci.c
-+++ b/hw/virtio/virtio-net-pci.c
-@@ -20,6 +20,7 @@
- #include "hw/virtio/virtio-net.h"
- #include "virtio-pci.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- typedef struct VirtIONetPCI VirtIONetPCI;
- 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 9056cdfa3c..e6d5467e54 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -23,6 +23,7 @@
- #include "hw/pci/pci_bus.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/msix.h"
- #include "hw/loader.h"
-diff --git a/hw/virtio/virtio-rng-pci.c b/hw/virtio/virtio-rng-pci.c
-index 6cc6374289..8aaf54b781 100644
---- a/hw/virtio/virtio-rng-pci.c
-+++ b/hw/virtio/virtio-rng-pci.c
-@@ -14,6 +14,7 @@
- #include "virtio-pci.h"
- #include "hw/virtio/virtio-rng.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- typedef struct VirtIORngPCI VirtIORngPCI;
- 
-diff --git a/hw/virtio/virtio-rng.c b/hw/virtio/virtio-rng.c
-index 30493a2586..db6d1d9454 100644
---- a/hw/virtio/virtio-rng.c
-+++ b/hw/virtio/virtio-rng.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "hw/qdev.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-rng.h"
-diff --git a/hw/virtio/virtio-scsi-pci.c b/hw/virtio/virtio-scsi-pci.c
-index 2830849729..f68f689aee 100644
---- a/hw/virtio/virtio-scsi-pci.c
-+++ b/hw/virtio/virtio-scsi-pci.c
-@@ -16,6 +16,7 @@
- #include "qemu/osdep.h"
- 
- #include "hw/virtio/virtio-scsi.h"
-+#include "qemu/module.h"
- #include "virtio-pci.h"
- 
- typedef struct VirtIOSCSIPCI VirtIOSCSIPCI;
-diff --git a/hw/virtio/virtio-serial-pci.c b/hw/virtio/virtio-serial-pci.c
-index 971b2eb8d8..ac74b44dae 100644
---- a/hw/virtio/virtio-serial-pci.c
-+++ b/hw/virtio/virtio-serial-pci.c
-@@ -18,6 +18,7 @@
- #include "qemu/osdep.h"
- 
- #include "hw/virtio/virtio-serial.h"
-+#include "qemu/module.h"
- #include "virtio-pci.h"
- 
- typedef struct VirtIOSerialPCI VirtIOSerialPCI;
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 4805727b53..f87cff4f8f 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -13,11 +13,11 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
  #include "cpu.h"
- #include "trace.h"
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/virtio/virtio.h"
- #include "qemu/atomic.h"
- #include "hw/virtio/virtio-bus.h"
-diff --git a/hw/watchdog/cmsdk-apb-watchdog.c b/hw/watchdog/cmsdk-apb-watchdog.c
-index 9c865bce67..54ac393020 100644
---- a/hw/watchdog/cmsdk-apb-watchdog.c
-+++ b/hw/watchdog/cmsdk-apb-watchdog.c
-@@ -25,6 +25,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "sysemu/watchdog.h"
- #include "hw/sysbus.h"
- #include "hw/registerfields.h"
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 95f6ad186d..4a8409f0da 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -11,6 +11,7 @@
- 
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "sysemu/watchdog.h"
- #include "hw/misc/aspeed_scu.h"
-diff --git a/hw/watchdog/wdt_diag288.c b/hw/watchdog/wdt_diag288.c
-index 1475743527..29e5b5dcf6 100644
---- a/hw/watchdog/wdt_diag288.c
-+++ b/hw/watchdog/wdt_diag288.c
-@@ -17,6 +17,7 @@
- #include "qemu/timer.h"
- #include "hw/watchdog/wdt_diag288.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- 
- static WatchdogTimerModel model = {
-     .wdt_name = TYPE_WDT_DIAG288,
-diff --git a/hw/watchdog/wdt_i6300esb.c b/hw/watchdog/wdt_i6300esb.c
-index 1c6eddf86a..441cd4a551 100644
---- a/hw/watchdog/wdt_i6300esb.c
-+++ b/hw/watchdog/wdt_i6300esb.c
-@@ -21,7 +21,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "sysemu/watchdog.h"
- #include "hw/hw.h"
-diff --git a/hw/watchdog/wdt_ib700.c b/hw/watchdog/wdt_ib700.c
-index d045032bf4..e0e5beb99d 100644
---- a/hw/watchdog/wdt_ib700.c
-+++ b/hw/watchdog/wdt_ib700.c
-@@ -20,7 +20,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "sysemu/watchdog.h"
- #include "hw/hw.h"
-diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index 49a725e8c7..a4416d0bcf 100644
---- a/hw/xen/xen-bus.c
-+++ b/hw/xen/xen-bus.c
-@@ -7,6 +7,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/uuid.h"
- #include "hw/hw.h"
- #include "hw/sysbus.h"
-diff --git a/hw/xen/xen-common.c b/hw/xen/xen-common.c
-index 0e9e58f04d..32503cfc1c 100644
---- a/hw/xen/xen-common.c
-+++ b/hw/xen/xen-common.c
-@@ -10,6 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "hw/xen/xen-legacy-backend.h"
- #include "chardev/char.h"
- #include "sysemu/accel.h"
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 6f7916f88f..eaa050a7ab 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -6,6 +6,7 @@
- #include "sysemu/blockdev.h"
- #include "sysemu/accel.h"
- #include "hw/qdev.h"
-+#include "qemu/module.h"
- #include "qom/object.h"
- #include "qom/cpu.h"
- 
-diff --git a/include/hw/hw.h b/include/hw/hw.h
-index ab4950c312..b1b79964b5 100644
---- a/include/hw/hw.h
-+++ b/include/hw/hw.h
-@@ -12,7 +12,6 @@
- #include "hw/irq.h"
- #include "migration/vmstate.h"
- #include "migration/qemu-file-types.h"
--#include "qemu/module.h"
- #include "sysemu/reset.h"
- 
- void QEMU_NORETURN hw_error(const char *fmt, ...) GCC_FMT_ATTR(1, 2);
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 43df7230a2..c54cc54a47 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -1,7 +1,6 @@
- #ifndef HW_PC_H
- #define HW_PC_H
- 
--#include "qemu-common.h"
- #include "exec/memory.h"
+ #include "hw/arm/fsl-imx25.h"
  #include "hw/boards.h"
- #include "hw/isa/isa.h"
-@@ -12,6 +11,7 @@
- 
- #include "qemu/range.h"
- #include "qemu/bitmap.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "hw/pci/pci.h"
- #include "hw/mem/pc-dimm.h"
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 9b01f6e7cb..e15adc20dc 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -113,8 +113,6 @@ void os_setup_early_signal_handling(void);
- char *os_find_datadir(void);
- int os_parse_cmd_args(int index, const char *optarg);
- 
--#include "qemu/module.h"
--
- /*
-  * Hexdump a buffer to a file. An optional string prefix is added to every line
-  */
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 288cdddf44..7bb82a7f56 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -16,6 +16,7 @@
- 
- #include "qapi/qapi-builtin-types.h"
- #include "qemu/queue.h"
-+#include "qemu/module.h"
- 
- struct TypeImpl;
- typedef struct TypeImpl *Type;
-diff --git a/io/channel-buffer.c b/io/channel-buffer.c
-index 43d795976d..5402e0cced 100644
---- a/io/channel-buffer.c
-+++ b/io/channel-buffer.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "io/channel-buffer.h"
- #include "io/channel-watch.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "trace.h"
- 
-diff --git a/io/channel-command.c b/io/channel-command.c
-index 3e7eb17eff..368dd62b7e 100644
---- a/io/channel-command.c
-+++ b/io/channel-command.c
-@@ -22,6 +22,7 @@
- #include "io/channel-command.h"
- #include "io/channel-watch.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "trace.h"
- 
-diff --git a/io/channel-file.c b/io/channel-file.c
-index db948abc3e..dac21f6012 100644
---- a/io/channel-file.c
-+++ b/io/channel-file.c
-@@ -22,6 +22,7 @@
- #include "io/channel-file.h"
- #include "io/channel-watch.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "trace.h"
- 
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index bc5f80e780..d898cfcd47 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qapi/qapi-visit-sockets.h"
-+#include "qemu/module.h"
- #include "io/channel-socket.h"
- #include "io/channel-watch.h"
- #include "trace.h"
-diff --git a/io/channel-tls.c b/io/channel-tls.c
-index c98ead21b0..7ec8ceff2f 100644
---- a/io/channel-tls.c
-+++ b/io/channel-tls.c
-@@ -20,6 +20,7 @@
+diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
+index 0b6f24465e..71d0f0d897 100644
+--- a/hw/arm/integratorcp.c
++++ b/hw/arm/integratorcp.c
+@@ -9,7 +9,6 @@
  
  #include "qemu/osdep.h"
  #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "io/channel-tls.h"
- #include "trace.h"
- 
-diff --git a/io/channel-websock.c b/io/channel-websock.c
-index 77d30f0e4a..fc36d44eba 100644
---- a/io/channel-websock.c
-+++ b/io/channel-websock.c
-@@ -25,6 +25,7 @@
- #include "crypto/hash.h"
- #include "trace.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- 
- /* Max amount to allow in rawinput/encoutput buffers */
- #define QIO_CHANNEL_WEBSOCK_MAX_BUFFER 8192
-diff --git a/io/channel.c b/io/channel.c
-index 2a26c2a2c0..e4376eb0bc 100644
---- a/io/channel.c
-+++ b/io/channel.c
-@@ -22,6 +22,7 @@
- #include "io/channel.h"
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/iov.h"
- 
- bool qio_channel_has_feature(QIOChannel *ioc,
-diff --git a/io/dns-resolver.c b/io/dns-resolver.c
-index 187f725665..6ebe2a5650 100644
---- a/io/dns-resolver.c
-+++ b/io/dns-resolver.c
-@@ -25,6 +25,7 @@
- #include "qemu/sockets.h"
- #include "qapi/error.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
- 
- #ifndef AI_NUMERICSERV
- # define AI_NUMERICSERV 0
-diff --git a/io/net-listener.c b/io/net-listener.c
-index 3317aa6e5f..d8cfe52673 100644
---- a/io/net-listener.c
-+++ b/io/net-listener.c
-@@ -22,6 +22,7 @@
- #include "io/net-listener.h"
- #include "io/dns-resolver.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- QIONetListener *qio_net_listener_new(void)
- {
-diff --git a/linux-user/main.c b/linux-user/main.c
-index dae193fa7e..de26b9b342 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -31,6 +31,7 @@
- #include "qemu/cutils.h"
- #include "qemu/error-report.h"
- #include "qemu/help_option.h"
-+#include "qemu/module.h"
+-#include "qemu-common.h"
  #include "cpu.h"
- #include "exec/exec-all.h"
- #include "tcg.h"
-diff --git a/migration/rdma.c b/migration/rdma.c
-index c1bcece53b..74cb2aa9f9 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -13,9 +13,9 @@
-  * later.  See the COPYING file in the top-level directory.
-  *
-  */
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/cutils.h"
- #include "rdma.h"
- #include "migration.h"
-@@ -24,6 +24,7 @@
- #include "qemu-file-channel.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "qemu/bitmap.h"
- #include "qemu/coroutine.h"
-diff --git a/net/can/can_core.c b/net/can/can_core.c
-index 2a83cadfc5..90f4d8576a 100644
---- a/net/can/can_core.c
-+++ b/net/can/can_core.c
-@@ -24,8 +24,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "chardev/char.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "qapi/error.h"
- #include "net/can_emu.h"
-diff --git a/net/can/can_host.c b/net/can/can_host.c
-index c79347abab..1dfaf0ced0 100644
---- a/net/can/can_host.c
-+++ b/net/can/can_host.c
-@@ -24,8 +24,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "chardev/char.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "qapi/error.h"
- #include "qom/object_interfaces.h"
-diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
-index 39865e28e0..3dec108684 100644
---- a/net/can/can_socketcan.c
-+++ b/net/can/can_socketcan.c
-@@ -24,8 +24,10 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "chardev/char.h"
- #include "qemu/sockets.h"
-diff --git a/net/dump.c b/net/dump.c
-index f16c3545e9..cd34f51759 100644
---- a/net/dump.c
-+++ b/net/dump.c
-@@ -25,10 +25,10 @@
- #include "qemu/osdep.h"
- #include "clients.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/error-report.h"
- #include "qemu/iov.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
- #include "qemu/timer.h"
- #include "qapi/visitor.h"
- #include "net/filter.h"
-diff --git a/net/filter-replay.c b/net/filter-replay.c
-index 09e68fd8f5..9dda193928 100644
---- a/net/filter-replay.c
-+++ b/net/filter-replay.c
-@@ -11,10 +11,10 @@
+ #include "hw/sysbus.h"
+ #include "hw/boards.h"
+diff --git a/hw/arm/kzm.c b/hw/arm/kzm.c
+index 139934c4ec..986cc974ec 100644
+--- a/hw/arm/kzm.c
++++ b/hw/arm/kzm.c
+@@ -15,7 +15,6 @@
  
  #include "qemu/osdep.h"
- #include "clients.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/arm/fsl-imx31.h"
+ #include "hw/boards.h"
+diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
+index fb2b015bf6..31511059e4 100644
+--- a/hw/arm/mcimx6ul-evk.c
++++ b/hw/arm/mcimx6ul-evk.c
+@@ -12,7 +12,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "hw/arm/fsl-imx6ul.h"
+ #include "hw/boards.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/arm/mcimx7d-sabre.c b/hw/arm/mcimx7d-sabre.c
+index 9c5f0e70c3..d6b190d85d 100644
+--- a/hw/arm/mcimx7d-sabre.c
++++ b/hw/arm/mcimx7d-sabre.c
+@@ -14,7 +14,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "hw/arm/fsl-imx7.h"
+ #include "hw/boards.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
+index 2702e90b45..09ace63ba6 100644
+--- a/hw/arm/msf2-soc.c
++++ b/hw/arm/msf2-soc.c
+@@ -25,7 +25,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "hw/arm/arm.h"
+ #include "exec/address-spaces.h"
+ #include "hw/char/serial.h"
+diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+index 93ec3c5698..bb8c9d0d19 100644
+--- a/hw/arm/musicpal.c
++++ b/hw/arm/musicpal.c
+@@ -11,7 +11,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/arm/arm.h"
+diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
+index 3e633d160e..9c285c74d7 100644
+--- a/hw/arm/nrf51_soc.c
++++ b/hw/arm/nrf51_soc.c
+@@ -10,7 +10,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "hw/arm/arm.h"
+ #include "hw/sysbus.h"
+ #include "hw/boards.h"
+diff --git a/hw/arm/omap2.c b/hw/arm/omap2.c
+index 446223906e..1ad9466b26 100644
+--- a/hw/arm/omap2.c
++++ b/hw/arm/omap2.c
+@@ -21,7 +21,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "sysemu/qtest.h"
+ #include "hw/boards.h"
+diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
+index 432876958d..e2e43ae6e8 100644
+--- a/hw/arm/pxa2xx.c
++++ b/hw/arm/pxa2xx.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "qapi/error.h"
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index fe2bb511b9..1c7b8491c8 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -14,7 +14,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/arm/bcm2836.h"
+ #include "qemu/error-report.h"
+diff --git a/hw/arm/realview.c b/hw/arm/realview.c
+index 05a244df25..83953647b9 100644
+--- a/hw/arm/realview.c
++++ b/hw/arm/realview.c
+@@ -9,7 +9,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/arm/arm.h"
+diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
+index ee140e5d9e..5fd489c9cd 100644
+--- a/hw/arm/sabrelite.c
++++ b/hw/arm/sabrelite.c
+@@ -12,7 +12,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "hw/arm/fsl-imx6.h"
+ #include "hw/boards.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
+index 644a9c45b4..9955a366c0 100644
+--- a/hw/arm/strongarm.c
++++ b/hw/arm/strongarm.c
+@@ -28,6 +28,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/boards.h"
+ #include "hw/sysbus.h"
+diff --git a/hw/arm/sysbus-fdt.c b/hw/arm/sysbus-fdt.c
+index ad698d4832..57f94e6581 100644
+--- a/hw/arm/sysbus-fdt.c
++++ b/hw/arm/sysbus-fdt.c
+@@ -24,7 +24,6 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include <libfdt.h>
+-#include "qemu-common.h"
+ #ifdef CONFIG_LINUX
+ #include <linux/vfio.h>
+ #endif
+diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
+index 25166e1517..c68287eda3 100644
+--- a/hw/arm/versatilepb.c
++++ b/hw/arm/versatilepb.c
+@@ -9,7 +9,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/arm/arm.h"
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index e7c96d658e..bc38c2b38e 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -28,7 +28,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qemu/bitmap.h"
+ #include "trace.h"
+ #include "qom/cpu.h"
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 851ceb04f6..04ccf7c8da 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -29,6 +29,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qemu/option.h"
+ #include "qapi/error.h"
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index b3b8215759..ae7a6d9a24 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -17,7 +17,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/arm/arm.h"
+diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+index b6bc6a93b8..23c4159062 100644
+--- a/hw/arm/xlnx-zcu102.c
++++ b/hw/arm/xlnx-zcu102.c
+@@ -17,7 +17,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/arm/xlnx-zynqmp.h"
+ #include "hw/boards.h"
+diff --git a/hw/audio/soundhw.c b/hw/audio/soundhw.c
+index e698909d34..c750473c8f 100644
+--- a/hw/audio/soundhw.c
++++ b/hw/audio/soundhw.c
+@@ -22,7 +22,6 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/help_option.h"
+ #include "qemu/error-report.h"
+ #include "qom/object.h"
+diff --git a/hw/block/cdrom.c b/hw/block/cdrom.c
+index da937fe33a..c6bfa50ad0 100644
+--- a/hw/block/cdrom.c
++++ b/hw/block/cdrom.c
+@@ -26,7 +26,6 @@
+    here.  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "hw/scsi/scsi.h"
+ 
+ static void lba_to_msf(uint8_t *buf, int lba)
+diff --git a/hw/bt/core.c b/hw/bt/core.c
+index 78370e64f5..dfb196e2a4 100644
+--- a/hw/bt/core.c
++++ b/hw/bt/core.c
+@@ -19,7 +19,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+-#include "qemu-common.h"
+ #include "sysemu/bt.h"
+ #include "hw/bt.h"
+ 
+diff --git a/hw/bt/hci.c b/hw/bt/hci.c
+index c6b2cc1d48..c7958f6c35 100644
+--- a/hw/bt/hci.c
++++ b/hw/bt/hci.c
+@@ -21,7 +21,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ #include "hw/usb.h"
+ #include "sysemu/bt.h"
+diff --git a/hw/bt/hid.c b/hw/bt/hid.c
+index 056291f9b5..066ca99ed2 100644
+--- a/hw/bt/hid.c
++++ b/hw/bt/hid.c
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ #include "ui/console.h"
+ #include "hw/input/hid.h"
+diff --git a/hw/bt/l2cap.c b/hw/bt/l2cap.c
+index 9cf27f0df6..d67098a719 100644
+--- a/hw/bt/l2cap.c
++++ b/hw/bt/l2cap.c
+@@ -19,7 +19,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ #include "qemu/bswap.h"
+ #include "hw/bt.h"
+diff --git a/hw/bt/sdp.c b/hw/bt/sdp.c
+index f4aba9d74f..2860d76c85 100644
+--- a/hw/bt/sdp.c
++++ b/hw/bt/sdp.c
+@@ -19,7 +19,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+-#include "qemu-common.h"
+ #include "qemu/host-utils.h"
+ #include "hw/bt.h"
+ 
+diff --git a/hw/core/irq.c b/hw/core/irq.c
+index b98d1d69f5..7cc0295d0e 100644
+--- a/hw/core/irq.c
++++ b/hw/core/irq.c
+@@ -23,7 +23,6 @@
+  */
+ #include "qemu/osdep.h"
+ #include "qemu/main-loop.h"
+-#include "qemu-common.h"
+ #include "hw/irq.h"
+ #include "qom/object.h"
+ 
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index a097bbe30a..425bf69a99 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -43,6 +43,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "hw/hw.h"
+ #include "disas/disas.h"
+diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
+index 76d3f8e39c..04a1e2b02a 100644
+--- a/hw/core/null-machine.c
++++ b/hw/core/null-machine.c
+@@ -12,7 +12,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
 -#include "qemu-common.h"
  #include "qemu/error-report.h"
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+diff --git a/hw/cris/axis_dev88.c b/hw/cris/axis_dev88.c
+index 191292eebf..940c7dd122 100644
+--- a/hw/cris/axis_dev88.c
++++ b/hw/cris/axis_dev88.c
+@@ -25,7 +25,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "net/net.h"
+diff --git a/hw/cris/boot.c b/hw/cris/boot.c
+index 95cba2151b..602f538ef6 100644
+--- a/hw/cris/boot.c
++++ b/hw/cris/boot.c
+@@ -23,7 +23,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/loader.h"
+diff --git a/hw/display/blizzard.c b/hw/display/blizzard.c
+index 471bd0ed99..359e399c2a 100644
+--- a/hw/display/blizzard.c
++++ b/hw/display/blizzard.c
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "ui/console.h"
+ #include "hw/display/blizzard.h"
+ #include "ui/pixel_ops.h"
+diff --git a/hw/display/cg3.c b/hw/display/cg3.c
+index c6b7361be2..a7340dc1c2 100644
+--- a/hw/display/cg3.c
++++ b/hw/display/cg3.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "ui/console.h"
+diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
+index 77d9127344..75c945a948 100644
+--- a/hw/display/edid-generate.c
++++ b/hw/display/edid-generate.c
+@@ -5,7 +5,6 @@
+  * See the COPYING file in the top-level directory.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/bswap.h"
+ #include "hw/display/edid.h"
+ 
+diff --git a/hw/display/edid-region.c b/hw/display/edid-region.c
+index 9a15734d3a..d0d31bad3d 100644
+--- a/hw/display/edid-region.c
++++ b/hw/display/edid-region.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "hw/display/edid.h"
+ 
+ static uint64_t edid_region_read(void *ptr, hwaddr addr, unsigned size)
+diff --git a/hw/display/qxl.h b/hw/display/qxl.h
+index 2044df2fa7..ba8ce38ea3 100644
+--- a/hw/display/qxl.h
++++ b/hw/display/qxl.h
+@@ -5,7 +5,6 @@
+ #ifndef HW_QXL_H
+ #define HW_QXL_H
+ 
+-#include "qemu-common.h"
+ 
+ #include "hw/hw.h"
+ #include "hw/pci/pci.h"
+diff --git a/hw/display/tcx.c b/hw/display/tcx.c
+index bd5ac8f823..cdabcbc746 100644
+--- a/hw/display/tcx.c
++++ b/hw/display/tcx.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "ui/console.h"
+ #include "ui/pixel_ops.h"
+diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
+index 2d302526ab..77551b294f 100644
+--- a/hw/display/virtio-gpu-3d.c
++++ b/hw/display/virtio-gpu-3d.c
+@@ -12,7 +12,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
  #include "qemu/iov.h"
+ #include "trace.h"
+ #include "hw/virtio/virtio.h"
+diff --git a/hw/dma/etraxfs_dma.c b/hw/dma/etraxfs_dma.c
+index d5650eb885..85783eb847 100644
+--- a/hw/dma/etraxfs_dma.c
++++ b/hw/dma/etraxfs_dma.c
+@@ -24,7 +24,6 @@
+ #include "qemu/osdep.h"
+ #include "hw/hw.h"
+ #include "exec/address-spaces.h"
+-#include "qemu-common.h"
+ #include "sysemu/sysemu.h"
+ 
+ #include "hw/cris/etraxfs_dma.h"
+diff --git a/hw/dma/omap_dma.c b/hw/dma/omap_dma.c
+index cbb920f31d..eab83c5c3a 100644
+--- a/hw/dma/omap_dma.c
++++ b/hw/dma/omap_dma.c
+@@ -19,7 +19,6 @@
+  */
+ #include "qemu/osdep.h"
  #include "qemu/log.h"
-+#include "qemu/module.h"
+-#include "qemu-common.h"
  #include "qemu/timer.h"
+ #include "hw/arm/omap.h"
+ #include "hw/irq.h"
+diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
+index 62ad356156..58df965a46 100644
+--- a/hw/dma/pl330.c
++++ b/hw/dma/pl330.c
+@@ -15,6 +15,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/sysbus.h"
+ #include "qapi/error.h"
+ #include "qemu/timer.h"
+diff --git a/hw/dma/soc_dma.c b/hw/dma/soc_dma.c
+index 58502721fa..c3e41581b6 100644
+--- a/hw/dma/soc_dma.c
++++ b/hw/dma/soc_dma.c
+@@ -19,7 +19,6 @@
+  */
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ #include "hw/arm/soc_dma.h"
+ 
+diff --git a/hw/dma/xlnx_dpdma.c b/hw/dma/xlnx_dpdma.c
+index 040df70a93..e834f81e17 100644
+--- a/hw/dma/xlnx_dpdma.c
++++ b/hw/dma/xlnx_dpdma.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "hw/dma/xlnx_dpdma.h"
+diff --git a/hw/hppa/pci.c b/hw/hppa/pci.c
+index 766420254e..b6606d9719 100644
+--- a/hw/hppa/pci.c
++++ b/hw/hppa/pci.c
+@@ -4,7 +4,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "hppa_sys.h"
+ #include "qemu/log.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 0d78d73894..6164258952 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -24,7 +24,6 @@
+ #include "qapi/error.h"
+ #include "qapi/qmp/qnum.h"
+ #include "acpi-build.h"
+-#include "qemu-common.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/error-report.h"
+ #include "hw/pci/pci.h"
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index 751fcafa12..de43943af8 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "sysemu/block-backend.h"
+ #include "qemu/error-report.h"
+diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+index 6ea619c360..bce89911dc 100644
+--- a/hw/intc/apic.c
++++ b/hw/intc/apic.c
+@@ -17,7 +17,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "qemu/thread.h"
+ #include "hw/i386/apic_internal.h"
+diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
+index 6ce2a8084f..bac7886f25 100644
+--- a/hw/intc/sh_intc.c
++++ b/hw/intc/sh_intc.c
+@@ -9,7 +9,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sh4/sh_intc.h"
+ #include "hw/hw.h"
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 031ee9cd93..4b501a70f7 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -28,7 +28,6 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
  #include "qapi/visitor.h"
- #include "net/filter.h"
-diff --git a/net/filter.c b/net/filter.c
-index 28d1930db7..4b932e79f9 100644
---- a/net/filter.c
-+++ b/net/filter.c
+diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
+index b820c9114b..fb9d52d54f 100644
+--- a/hw/lm32/lm32_boards.c
++++ b/hw/lm32/lm32_boards.c
+@@ -20,7 +20,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qemu/error-report.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/hw.h"
+diff --git a/hw/lm32/lm32_hwsetup.h b/hw/lm32/lm32_hwsetup.h
+index d1891f1795..a6dfff00e4 100644
+--- a/hw/lm32/lm32_hwsetup.h
++++ b/hw/lm32/lm32_hwsetup.h
+@@ -28,7 +28,6 @@
+ #ifndef QEMU_HW_LM32_HWSETUP_H
+ #define QEMU_HW_LM32_HWSETUP_H
+ 
+-#include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "hw/loader.h"
+ 
+diff --git a/hw/m68k/an5206.c b/hw/m68k/an5206.c
+index 06e3803258..68d15a6ebe 100644
+--- a/hw/m68k/an5206.c
++++ b/hw/m68k/an5206.c
 @@ -8,7 +8,6 @@
  
  #include "qemu/osdep.h"
  #include "qapi/error.h"
 -#include "qemu-common.h"
- #include "qapi/qmp/qerror.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/m68k/mcf.h"
+diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
+index d7f26d6810..1c17f83eed 100644
+--- a/hw/m68k/mcf5206.c
++++ b/hw/m68k/mcf5206.c
+@@ -7,7 +7,6 @@
+  */
+ #include "qemu/osdep.h"
  #include "qemu/error-report.h"
- 
-@@ -17,6 +16,7 @@
- #include "net/vhost_net.h"
- #include "qom/object_interfaces.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "net/colo.h"
- #include "migration/colo.h"
- 
-diff --git a/qemu-img.c b/qemu-img.c
-index 28fba1e7a7..e0269fd7fa 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -37,6 +37,7 @@
- #include "qemu/option.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
-+#include "qemu/module.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/m68k/mcf.h"
+diff --git a/hw/microblaze/petalogix_ml605_mmu.c b/hw/microblaze/petalogix_ml605_mmu.c
+index a907604116..a88bf16cc8 100644
+--- a/hw/microblaze/petalogix_ml605_mmu.c
++++ b/hw/microblaze/petalogix_ml605_mmu.c
+@@ -28,7 +28,6 @@
+ #include "qemu/osdep.h"
  #include "qemu/units.h"
- #include "qom/object_interfaces.h"
- #include "sysemu/sysemu.h"
-diff --git a/qemu-io.c b/qemu-io.c
-index 8d5d5911cb..968f0e3dbf 100644
---- a/qemu-io.c
-+++ b/qemu-io.c
-@@ -19,6 +19,7 @@
- #include "qemu-io.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/config-file.h"
- #include "qemu/readline.h"
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 25ce71e160..410373a321 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -21,13 +21,13 @@
- #include <libgen.h>
- #include <pthread.h>
- 
+ #include "qapi/error.h"
 -#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/hw.h"
+diff --git a/hw/microblaze/petalogix_s3adsp1800_mmu.c b/hw/microblaze/petalogix_s3adsp1800_mmu.c
+index 88ce570f9a..8d83474262 100644
+--- a/hw/microblaze/petalogix_s3adsp1800_mmu.c
++++ b/hw/microblaze/petalogix_s3adsp1800_mmu.c
+@@ -26,7 +26,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
  #include "qapi/error.h"
- #include "qemu/cutils.h"
- #include "sysemu/block-backend.h"
- #include "block/block_int.h"
- #include "block/nbd.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/error-report.h"
- #include "qemu/config-file.h"
-diff --git a/qga/main.c b/qga/main.c
-index c0d77c79c4..b54b55589d 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -23,7 +23,6 @@
- #include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qstring.h"
- #include "guest-agent-core.h"
--#include "qemu/module.h"
- #include "qga-qapi-commands.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/error.h"
-diff --git a/qtest.c b/qtest.c
-index f2e2f27778..15e27e911f 100644
---- a/qtest.c
-+++ b/qtest.c
-@@ -13,7 +13,6 @@
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/hw.h"
+diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-pmu.c
+index 57dc1ccd42..2371021a48 100644
+--- a/hw/microblaze/xlnx-zynqmp-pmu.c
++++ b/hw/microblaze/xlnx-zynqmp-pmu.c
+@@ -17,7 +17,6 @@
  
  #include "qemu/osdep.h"
  #include "qapi/error.h"
 -#include "qemu-common.h"
- #include "cpu.h"
- #include "sysemu/qtest.h"
- #include "hw/qdev.h"
-@@ -27,6 +26,7 @@
- #include "qemu/config-file.h"
- #include "qemu/option.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/cutils.h"
- #ifdef TARGET_PPC64
- #include "hw/ppc/spapr_rtas.h"
-diff --git a/replication.h b/replication.h
-index 0a8cc2be7c..eb6a47c50d 100644
---- a/replication.h
-+++ b/replication.h
-@@ -18,6 +18,7 @@
- #define REPLICATION_H
- 
- #include "qapi/qapi-types-block-core.h"
-+#include "qemu/module.h"
- #include "qemu/queue.h"
- 
- typedef struct ReplicationOps ReplicationOps;
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 6d66bf6aa3..b929e07be4 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -249,8 +249,6 @@ class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
-         visit = self._module_basename('qapi-visit', name)
-         self._genc.add(mcgen('''
- #include "qemu/osdep.h"
--#include "qemu-common.h"
--#include "qemu/module.h"
- #include "qapi/visitor.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qobject-output-visitor.h"
-diff --git a/scsi/pr-manager-helper.c b/scsi/pr-manager-helper.c
-index 438380fced..ca27c93283 100644
---- a/scsi/pr-manager-helper.c
-+++ b/scsi/pr-manager-helper.c
-@@ -18,6 +18,7 @@
- #include "io/channel-socket.h"
- #include "pr-helper.h"
- #include "qapi/qapi-events-block.h"
-+#include "qemu/module.h"
- 
- #include <scsi/sg.h>
- 
-diff --git a/scsi/pr-manager.c b/scsi/pr-manager.c
-index d9f4e8c3ad..ee43663576 100644
---- a/scsi/pr-manager.c
-+++ b/scsi/pr-manager.c
-@@ -18,6 +18,7 @@
- #include "scsi/pr-manager.h"
- #include "trace.h"
- #include "qapi/qapi-types-block.h"
-+#include "qemu/module.h"
- #include "qapi/qapi-commands-block.h"
- 
- #define PR_MANAGER_PATH     "/objects"
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index 2541fbbd1b..72acdc7527 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -37,9 +37,9 @@
- #endif
- 
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qemu/cutils.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "qemu/config-file.h"
- #include "qemu/bswap.h"
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 27c8a09da4..1a9bea9289 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "target/arm/idau.h"
-+#include "qemu/module.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
- #include "cpu.h"
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 228906f267..4d2e7ad75d 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -21,7 +21,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "cpu.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #if !defined(CONFIG_USER_ONLY)
- #include "hw/loader.h"
- #endif
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 9717ea1798..5ee3e697d1 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -22,7 +22,7 @@
- #include "qapi/error.h"
- #include "qemu/qemu-print.h"
- #include "cpu.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "exec/exec-all.h"
- #include "fpu/softfloat.h"
- 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 7548212f09..0dbb34acb4 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -32,6 +32,7 @@
- #include "sev_i386.h"
- 
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/config-file.h"
- #include "qapi/error.h"
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index cd77f6b5d4..6dbdc3cdf1 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -21,6 +21,7 @@
- #include "qapi/error.h"
- #include "qom/object_interfaces.h"
- #include "qemu/base64.h"
-+#include "qemu/module.h"
- #include "sysemu/kvm.h"
- #include "sev_i386.h"
- #include "sysemu/sysemu.h"
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 0ea549910b..09fcd989aa 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -24,7 +24,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "cpu.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
+ #include "exec/address-spaces.h"
+ #include "hw/boards.h"
  #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "exec/exec-all.h"
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index a33058609a..c7226bd7ae 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -23,7 +23,7 @@
- #include "cpu.h"
- #include "internal.h"
- #include "kvm_mips.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "sysemu/kvm.h"
- #include "exec/exec-all.h"
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index a8b29f62f5..47a3dea952 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -19,7 +19,6 @@
  
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 186af4913d..e25ce4e372 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -19,7 +19,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+-#include "qemu-common.h"
+ 
+ #include "exec/address-spaces.h"
+ #include "hw/boards.h"
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index 05a5a823a1..5dbaa3bfcc 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -19,6 +19,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+index 1afbe3ce6a..fa8775d428 100644
+--- a/hw/mips/mips_jazz.c
++++ b/hw/mips/mips_jazz.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/hw.h"
+ #include "hw/mips/mips.h"
+ #include "hw/mips/cpudevs.h"
+diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+index 5fd904b79d..4f532efe34 100644
+--- a/hw/misc/macio/cuda.c
++++ b/hw/misc/macio/cuda.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/hw.h"
+ #include "hw/ppc/mac.h"
+ #include "hw/input/adb.h"
+diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
+index 7201cf4f9a..753561d3f1 100644
+--- a/hw/misc/macio/pmu.c
++++ b/hw/misc/macio/pmu.c
+@@ -29,6 +29,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/hw.h"
+ #include "hw/ppc/mac.h"
+ #include "hw/input/adb.h"
+diff --git a/hw/moxie/moxiesim.c b/hw/moxie/moxiesim.c
+index eddeed915d..d771d393c2 100644
+--- a/hw/moxie/moxiesim.c
++++ b/hw/moxie/moxiesim.c
+@@ -27,7 +27,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/hw.h"
+diff --git a/hw/net/rocker/qmp-norocker.c b/hw/net/rocker/qmp-norocker.c
+index 0d60513c01..5ef4f9324c 100644
+--- a/hw/net/rocker/qmp-norocker.c
++++ b/hw/net/rocker/qmp-norocker.c
+@@ -16,7 +16,6 @@
   */
  
  #include "qemu/osdep.h"
 -#include "qemu-common.h"
-+#include "qemu/module.h"
  #include "qapi/error.h"
- #include "cpu.h"
- #include "exec/log.h"
-diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
-index 9d7050b5fa..086548e9b9 100644
---- a/target/ppc/cpu-models.c
-+++ b/target/ppc/cpu-models.c
-@@ -21,6 +21,7 @@
- 
- #include "qemu/osdep.h"
- #include "cpu.h"
-+#include "qemu/module.h"
- #include "cpu-models.h"
- 
- #if defined(CONFIG_USER_ONLY)
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index f44e966a61..6093edd767 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -29,6 +29,7 @@
- #include "mmu-hash32.h"
- #include "mmu-hash64.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/qemu-print.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qnull.h"
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 3ee24b8541..a9d58716f0 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -28,6 +28,7 @@
- #include "sysemu/kvm.h"
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "trace.h"
- #include "qapi/visitor.h"
- #include "qapi/qapi-visit-misc.h"
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 7478b04621..cdee8788a1 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -19,6 +19,7 @@
- #include "qapi/error.h"
- #include "qapi/visitor.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/qemu-print.h"
+ #include "qapi/qapi-commands-rocker.h"
  #include "qapi/qmp/qerror.h"
- #include "qapi/qobject-input-visitor.h"
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index f93ce72eb9..382565792c 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -20,6 +20,7 @@
+diff --git a/hw/nios2/10m50_devboard.c b/hw/nios2/10m50_devboard.c
+index 36b49a420c..2c3388f5cf 100644
+--- a/hw/nios2/10m50_devboard.c
++++ b/hw/nios2/10m50_devboard.c
+@@ -24,7 +24,6 @@
+ 
  #include "qemu/osdep.h"
  #include "qapi/error.h"
+-#include "qemu-common.h"
  #include "cpu.h"
-+#include "qemu/module.h"
- #include "qemu/qemu-print.h"
- #include "exec/exec-all.h"
- #include "hw/qdev-properties.h"
-diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
-index b209c55387..b573a07652 100644
---- a/target/tilegx/cpu.c
-+++ b/target/tilegx/cpu.c
-@@ -21,7 +21,7 @@
+ 
+ #include "hw/sysbus.h"
+diff --git a/hw/nios2/cpu_pic.c b/hw/nios2/cpu_pic.c
+index 6bccce2f32..2d896bf385 100644
+--- a/hw/nios2/cpu_pic.c
++++ b/hw/nios2/cpu_pic.c
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ 
+ #include "qemu/config-file.h"
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 5c3a46ce6f..f5373af2ac 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/hw.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/dma.h"
+diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+index 0a906d815e..87b9feaa96 100644
+--- a/hw/openrisc/openrisc_sim.c
++++ b/hw/openrisc/openrisc_sim.c
+@@ -21,7 +21,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+diff --git a/hw/pci-bridge/dec.h b/hw/pci-bridge/dec.h
+index ae17ca7362..869e90b136 100644
+--- a/hw/pci-bridge/dec.h
++++ b/hw/pci-bridge/dec.h
+@@ -1,7 +1,6 @@
+ #ifndef HW_PCI_BRIDGE_DEC_H
+ #define HW_PCI_BRIDGE_DEC_H
+ 
+-#include "qemu-common.h"
+ 
+ #define TYPE_DEC_21154 "dec-21154-sysbus"
+ 
+diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+index 8b9e1fd0d3..c564f234af 100644
+--- a/hw/pci-host/prep.c
++++ b/hw/pci-host/prep.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "hw/hw.h"
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index b386777045..0331e93d6f 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/hw.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bridge.h"
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index cf1ca30f93..88c30ff74c 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -20,7 +20,6 @@
+ 
  #include "qemu/osdep.h"
  #include "qapi/error.h"
- #include "cpu.h"
 -#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "hw/qdev-properties.h"
- #include "linux-user/syscall_defs.h"
- #include "qemu/qemu-print.h"
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index c79dc75bfe..adba19ed17 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -31,7 +31,7 @@
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pcie.h"
+ #include "hw/pci/msix.h"
+diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
+index 49bbb841bd..5a10c6e9a5 100644
+--- a/hw/pci/shpc.c
++++ b/hw/pci/shpc.c
+@@ -1,6 +1,5 @@
  #include "qemu/osdep.h"
  #include "qapi/error.h"
- #include "cpu.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "migration/vmstate.h"
- 
- 
-diff --git a/tests/ac97-test.c b/tests/ac97-test.c
-index 532fb1cc98..b084e31bff 100644
---- a/tests/ac97-test.c
-+++ b/tests/ac97-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/e1000-test.c b/tests/e1000-test.c
-index 9e67916169..c387984ef6 100644
---- a/tests/e1000-test.c
-+++ b/tests/e1000-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/e1000e-test.c b/tests/e1000e-test.c
-index 6a946c0484..781fcbfd89 100644
---- a/tests/e1000e-test.c
-+++ b/tests/e1000e-test.c
-@@ -30,6 +30,7 @@
- #include "libqos/pci-pc.h"
- #include "qemu/sockets.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/bitops.h"
- #include "libqos/malloc.h"
- #include "libqos/e1000e.h"
-diff --git a/tests/eepro100-test.c b/tests/eepro100-test.c
-index 90b5c1afd9..8dbffff0b8 100644
---- a/tests/eepro100-test.c
-+++ b/tests/eepro100-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/es1370-test.c b/tests/es1370-test.c
-index d845cd06f8..adccdac1be 100644
---- a/tests/es1370-test.c
-+++ b/tests/es1370-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/ipoctal232-test.c b/tests/ipoctal232-test.c
-index 42d53718b8..53a8c9b13c 100644
---- a/tests/ipoctal232-test.c
-+++ b/tests/ipoctal232-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- 
- typedef struct QIpoctal232 QIpoctal232;
-diff --git a/tests/libqos/aarch64-xlnx-zcu102-machine.c b/tests/libqos/aarch64-xlnx-zcu102-machine.c
-index 6fff040b37..1d5de5af00 100644
---- a/tests/libqos/aarch64-xlnx-zcu102-machine.c
-+++ b/tests/libqos/aarch64-xlnx-zcu102-machine.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/malloc.h"
- #include "libqos/qgraph.h"
- #include "sdhci.h"
-diff --git a/tests/libqos/arm-raspi2-machine.c b/tests/libqos/arm-raspi2-machine.c
-index 3aff670f76..12a7cb7e4b 100644
---- a/tests/libqos/arm-raspi2-machine.c
-+++ b/tests/libqos/arm-raspi2-machine.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/malloc.h"
- #include "libqos/qgraph.h"
- #include "sdhci.h"
-diff --git a/tests/libqos/arm-sabrelite-machine.c b/tests/libqos/arm-sabrelite-machine.c
-index c4128d8686..e6df43795a 100644
---- a/tests/libqos/arm-sabrelite-machine.c
-+++ b/tests/libqos/arm-sabrelite-machine.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/malloc.h"
- #include "libqos/qgraph.h"
- #include "sdhci.h"
-diff --git a/tests/libqos/arm-smdkc210-machine.c b/tests/libqos/arm-smdkc210-machine.c
-index 1fb9dfc0cb..215b628a7d 100644
---- a/tests/libqos/arm-smdkc210-machine.c
-+++ b/tests/libqos/arm-smdkc210-machine.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/malloc.h"
- #include "libqos/qgraph.h"
- #include "sdhci.h"
-diff --git a/tests/libqos/arm-virt-machine.c b/tests/libqos/arm-virt-machine.c
-index 2abc431ecf..96ffe3ee5c 100644
---- a/tests/libqos/arm-virt-machine.c
-+++ b/tests/libqos/arm-virt-machine.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/malloc.h"
- #include "libqos/qgraph.h"
- #include "libqos/virtio-mmio.h"
-diff --git a/tests/libqos/arm-xilinx-zynq-a9-machine.c b/tests/libqos/arm-xilinx-zynq-a9-machine.c
-index 4e199fcd48..5bc95f2e73 100644
---- a/tests/libqos/arm-xilinx-zynq-a9-machine.c
-+++ b/tests/libqos/arm-xilinx-zynq-a9-machine.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/malloc.h"
- #include "libqos/qgraph.h"
- #include "sdhci.h"
-diff --git a/tests/libqos/e1000e.c b/tests/libqos/e1000e.c
-index 54d3898899..1d0592974e 100644
---- a/tests/libqos/e1000e.c
-+++ b/tests/libqos/e1000e.c
-@@ -18,10 +18,10 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
--#include "qemu-common.h"
- #include "libqos/pci-pc.h"
- #include "qemu/sockets.h"
- #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qemu/bitops.h"
- #include "libqos/malloc.h"
- #include "libqos/qgraph.h"
-diff --git a/tests/libqos/pci-pc.c b/tests/libqos/pci-pc.c
-index 634fedd049..0bc591d1da 100644
---- a/tests/libqos/pci-pc.c
-+++ b/tests/libqos/pci-pc.c
-@@ -16,7 +16,7 @@
- #include "qapi/qmp/qdict.h"
- #include "hw/pci/pci_regs.h"
- 
--#include "qemu-common.h"
-+#include "qemu/module.h"
- 
- #define ACPI_PCIHP_ADDR         0xae00
- #define PCI_EJ_BASE             0x0008
-diff --git a/tests/libqos/pci-spapr.c b/tests/libqos/pci-spapr.c
-index 58ba27ae6d..d6f8c01cb7 100644
---- a/tests/libqos/pci-spapr.c
-+++ b/tests/libqos/pci-spapr.c
-@@ -13,8 +13,8 @@
- 
- #include "hw/pci/pci_regs.h"
- 
 -#include "qemu-common.h"
  #include "qemu/host-utils.h"
-+#include "qemu/module.h"
- 
- /*
-  * PCI devices are always little-endian
-diff --git a/tests/libqos/ppc64_pseries-machine.c b/tests/libqos/ppc64_pseries-machine.c
-index 2f3640010d..867f27a3c8 100644
---- a/tests/libqos/ppc64_pseries-machine.c
-+++ b/tests/libqos/ppc64_pseries-machine.c
-@@ -16,10 +16,11 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>
+ #include "qemu/range.h"
+ #include "qemu/error-report.h"
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index beb2efd694..bfda1266af 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -15,6 +15,7 @@
   */
  
-- #include "qemu/osdep.h"
-+#include "qemu/osdep.h"
- #include "libqtest.h"
- #include "libqos/qgraph.h"
- #include "pci-spapr.h"
-+#include "qemu/module.h"
- #include "libqos/malloc-spapr.h"
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "e500.h"
+diff --git a/hw/ppc/e500plat.c b/hw/ppc/e500plat.c
+index 963d429cc8..2b82a58592 100644
+--- a/hw/ppc/e500plat.c
++++ b/hw/ppc/e500plat.c
+@@ -11,7 +11,6 @@
  
- typedef struct QSPAPR_pci_host QSPAPR_pci_host;
-diff --git a/tests/libqos/sdhci.c b/tests/libqos/sdhci.c
-index 22c33de453..309794bc52 100644
---- a/tests/libqos/sdhci.c
-+++ b/tests/libqos/sdhci.c
-@@ -20,6 +20,7 @@
- #include "libqtest.h"
- #include "libqos/qgraph.h"
- #include "pci.h"
-+#include "qemu/module.h"
- #include "sdhci.h"
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+-#include "qemu-common.h"
+ #include "e500.h"
+ #include "hw/net/fsl_etsec/etsec.h"
+ #include "hw/boards.h"
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 02d8559621..4d835f32b5 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -44,9 +44,10 @@
+  * 0001:03:0e.0 FireWire (IEEE 1394) [0c00]: Apple Computer Inc. K2 FireWire [106b:0042]
+  * 0001:04:0f.0 Ethernet controller [0200]: Apple Computer Inc. K2 GMAC (Sun GEM) [106b:004c]
+  * 0001:05:0c.0 IDE interface [0101]: Broadcom K2 SATA [1166:0240]
+- *
+  */
++
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "hw/hw.h"
+ #include "hw/ppc/ppc.h"
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 460cbc7923..eddd005a7c 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -23,7 +23,9 @@
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  * THE SOFTWARE.
+  */
++
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "hw/hw.h"
+diff --git a/hw/ppc/mpc8544ds.c b/hw/ppc/mpc8544ds.c
+index ab30a2a99e..6a4657c3cd 100644
+--- a/hw/ppc/mpc8544ds.c
++++ b/hw/ppc/mpc8544ds.c
+@@ -10,7 +10,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "e500.h"
+ #include "hw/boards.h"
+ #include "sysemu/device_tree.h"
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index dfb4ea5742..f73f6f5ab9 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index ad20584f26..4fc86edd50 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -22,7 +22,6 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/ppc/ppc.h"
+diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+index 3ae7f6d4df..4059207103 100644
+--- a/hw/ppc/ppc405_uc.c
++++ b/hw/ppc/ppc405_uc.c
+@@ -24,7 +24,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/ppc/ppc.h"
+diff --git a/hw/ppc/ppc_booke.c b/hw/ppc/ppc_booke.c
+index 4f11e00a17..bc75f4210f 100644
+--- a/hw/ppc/ppc_booke.c
++++ b/hw/ppc/ppc_booke.c
+@@ -22,7 +22,6 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/ppc/ppc.h"
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 2ef3ce4362..373cb4de94 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -22,9 +22,10 @@
+  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  * THE SOFTWARE.
+- *
+  */
++
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/ppc/spapr_pci_vfio.c b/hw/ppc/spapr_pci_vfio.c
+index 5f5dde567d..ecb34aaade 100644
+--- a/hw/ppc/spapr_pci_vfio.c
++++ b/hw/ppc/spapr_pci_vfio.c
+@@ -19,7 +19,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include <linux/vfio.h>
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/ppc/spapr.h"
+ #include "hw/pci-host/spapr.h"
+diff --git a/hw/ppc/spapr_rtc.c b/hw/ppc/spapr_rtc.c
+index b178e05666..af1ef30a53 100644
+--- a/hw/ppc/spapr_rtc.c
++++ b/hw/ppc/spapr_rtc.c
+@@ -26,6 +26,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "cpu.h"
+ #include "qemu/timer.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index 0e4c7409e0..834053a7d2 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
+index 1f3aef051b..60bd081d3e 100644
+--- a/hw/s390x/ipl.c
++++ b/hw/s390x/ipl.c
+@@ -12,6 +12,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/tcg.h"
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index be2896232d..61f30b8e55 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -12,7 +12,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "s390-pci-inst.h"
+ #include "s390-pci-bus.h"
+diff --git a/hw/s390x/tod-qemu.c b/hw/s390x/tod-qemu.c
+index 58b66d2d98..e91b9590f5 100644
+--- a/hw/s390x/tod-qemu.c
++++ b/hw/s390x/tod-qemu.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "hw/s390x/tod.h"
+ #include "qemu/timer.h"
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index 06f618dbf7..0c4399930a 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -19,6 +19,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/hw.h"
  #include "hw/pci/pci.h"
- 
-diff --git a/tests/libqos/tpci200.c b/tests/libqos/tpci200.c
-index 98dc532933..ae590a456e 100644
---- a/tests/libqos/tpci200.c
-+++ b/tests/libqos/tpci200.c
-@@ -9,6 +9,7 @@
+ #include "sysemu/dma.h"
+diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+index 0bcb769c85..f22c79c867 100644
+--- a/hw/sh4/r2d.c
++++ b/hw/sh4/r2d.c
+@@ -26,7 +26,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/hw.h"
+diff --git a/hw/sh4/shix.c b/hw/sh4/shix.c
+index 4add2309eb..6a1c7238e9 100644
+--- a/hw/sh4/shix.c
++++ b/hw/sh4/shix.c
+@@ -29,7 +29,6 @@
+ */
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/sh4/sh.h"
+diff --git a/hw/sparc64/niagara.c b/hw/sparc64/niagara.c
+index f8a856f611..dc0ce7eda4 100644
+--- a/hw/sparc64/niagara.c
++++ b/hw/sparc64/niagara.c
+@@ -24,7 +24,6 @@
  
  #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/libqos/virtio-9p.c b/tests/libqos/virtio-9p.c
-index a378b56fa9..8c9efce3e1 100644
---- a/tests/libqos/virtio-9p.c
-+++ b/tests/libqos/virtio-9p.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "standard-headers/linux/virtio_ids.h"
- #include "libqos/virtio-9p.h"
- #include "libqos/qgraph.h"
-diff --git a/tests/libqos/virtio-balloon.c b/tests/libqos/virtio-balloon.c
-index 7e6e9e9de5..42a4c5831e 100644
---- a/tests/libqos/virtio-balloon.c
-+++ b/tests/libqos/virtio-balloon.c
-@@ -18,6 +18,7 @@
+ #include "qemu/units.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+diff --git a/hw/timer/exynos4210_rtc.c b/hw/timer/exynos4210_rtc.c
+index 0d65f6f3e3..0ecedf7394 100644
+--- a/hw/timer/exynos4210_rtc.c
++++ b/hw/timer/exynos4210_rtc.c
+@@ -26,6 +26,7 @@
+  */
  
  #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/virtio-balloon.h"
- 
-diff --git a/tests/libqos/virtio-blk.c b/tests/libqos/virtio-blk.c
-index c17bdf4217..726e93c5c1 100644
---- a/tests/libqos/virtio-blk.c
-+++ b/tests/libqos/virtio-blk.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "standard-headers/linux/virtio_blk.h"
- #include "libqos/qgraph.h"
- #include "libqos/virtio-blk.h"
-diff --git a/tests/libqos/virtio-mmio.c b/tests/libqos/virtio-mmio.c
-index 213a5f9de0..5f37b51129 100644
---- a/tests/libqos/virtio-mmio.c
-+++ b/tests/libqos/virtio-mmio.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/virtio.h"
- #include "libqos/virtio-mmio.h"
- #include "libqos/malloc.h"
-diff --git a/tests/libqos/virtio-net.c b/tests/libqos/virtio-net.c
-index 61c56170e9..66405b646e 100644
---- a/tests/libqos/virtio-net.c
-+++ b/tests/libqos/virtio-net.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/virtio-net.h"
- #include "hw/virtio/virtio-net.h"
-diff --git a/tests/libqos/virtio-rng.c b/tests/libqos/virtio-rng.c
-index a1d2c7671c..b86349e2fd 100644
---- a/tests/libqos/virtio-rng.c
-+++ b/tests/libqos/virtio-rng.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/virtio-rng.h"
- 
-diff --git a/tests/libqos/virtio-scsi.c b/tests/libqos/virtio-scsi.c
-index 482684d0bc..94842ec3fa 100644
---- a/tests/libqos/virtio-scsi.c
-+++ b/tests/libqos/virtio-scsi.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "standard-headers/linux/virtio_ids.h"
- #include "libqos/qgraph.h"
- #include "libqos/virtio-scsi.h"
-diff --git a/tests/libqos/virtio-serial.c b/tests/libqos/virtio-serial.c
-index 91cedefb8d..3e5b8b82c7 100644
---- a/tests/libqos/virtio-serial.c
-+++ b/tests/libqos/virtio-serial.c
-@@ -18,6 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/virtio-serial.h"
- 
-diff --git a/tests/libqos/x86_64_pc-machine.c b/tests/libqos/x86_64_pc-machine.c
-index 8bd0360ba9..6dfa705217 100644
---- a/tests/libqos/x86_64_pc-machine.c
-+++ b/tests/libqos/x86_64_pc-machine.c
-@@ -20,6 +20,7 @@
- #include "libqtest.h"
- #include "libqos/qgraph.h"
- #include "pci-pc.h"
-+#include "qemu/module.h"
- #include "malloc-pc.h"
- 
- typedef struct QX86PCMachine QX86PCMachine;
-diff --git a/tests/megasas-test.c b/tests/megasas-test.c
-index 1111d331d3..c3e4ab6595 100644
---- a/tests/megasas-test.c
-+++ b/tests/megasas-test.c
-@@ -10,6 +10,7 @@
- #include "qemu/osdep.h"
- #include "libqtest.h"
- #include "qemu/bswap.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index bd3f5c3125..9681af70da 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -15,6 +15,7 @@
- #include "libqtest.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qjson.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/range.h"
- #include "qemu/sockets.h"
-diff --git a/tests/ne2000-test.c b/tests/ne2000-test.c
-index 097c2eec6c..3fc0e555d5 100644
---- a/tests/ne2000-test.c
-+++ b/tests/ne2000-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/nvme-test.c b/tests/nvme-test.c
-index b48d3a24b9..505299324b 100644
---- a/tests/nvme-test.c
-+++ b/tests/nvme-test.c
++#include "qemu-common.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "hw/sysbus.h"
+diff --git a/hw/timer/m41t80.c b/hw/timer/m41t80.c
+index 5b9192c28d..914ecac8f4 100644
+--- a/hw/timer/m41t80.c
++++ b/hw/timer/m41t80.c
 @@ -8,6 +8,7 @@
   */
  
  #include "qemu/osdep.h"
-+#include "qemu/module.h"
- #include "qemu/units.h"
- #include "libqtest.h"
- #include "libqos/qgraph.h"
-diff --git a/tests/pci-test.c b/tests/pci-test.c
-index ff80985093..4b2092b949 100644
---- a/tests/pci-test.c
-+++ b/tests/pci-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/pcnet-test.c b/tests/pcnet-test.c
-index 484448cc64..900944fa7e 100644
---- a/tests/pcnet-test.c
-+++ b/tests/pcnet-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/qos-test.c b/tests/qos-test.c
-index ae2fb5de1c..07cc3538c6 100644
---- a/tests/qos-test.c
-+++ b/tests/qos-test.c
-@@ -22,6 +22,7 @@
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qbool.h"
- #include "qapi/qmp/qstring.h"
-+#include "qemu/module.h"
- #include "qapi/qmp/qlist.h"
- #include "libqos/malloc.h"
- #include "libqos/qgraph.h"
-diff --git a/tests/sdhci-test.c b/tests/sdhci-test.c
-index 2f177e569f..6275e7626c 100644
---- a/tests/sdhci-test.c
-+++ b/tests/sdhci-test.c
-@@ -7,9 +7,11 @@
-  * See the COPYING file in the top-level directory.
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
-+
- #include "qemu/osdep.h"
- #include "hw/registerfields.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/pci-pc.h"
- #include "hw/pci/pci.h"
- #include "libqos/qgraph.h"
-diff --git a/tests/spapr-phb-test.c b/tests/spapr-phb-test.c
-index 39b5766710..093dc22f2f 100644
---- a/tests/spapr-phb-test.c
-+++ b/tests/spapr-phb-test.c
-@@ -10,6 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- 
- /* Tests only initialization so far. TODO: Replace with functional tests,
-diff --git a/tests/test-authz-list.c b/tests/test-authz-list.c
-index 24347a6ac3..d80e6a6d4d 100644
---- a/tests/test-authz-list.c
-+++ b/tests/test-authz-list.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- 
- #include "authz/list.h"
-+#include "qemu/module.h"
- 
- static void test_authz_default_deny(void)
- {
-diff --git a/tests/test-authz-listfile.c b/tests/test-authz-listfile.c
-index 1e452fef6d..26166b691b 100644
---- a/tests/test-authz-listfile.c
-+++ b/tests/test-authz-listfile.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
-+#include "qemu/module.h"
- #include "authz/listfile.h"
- 
- static char *workdir;
-diff --git a/tests/test-authz-pam.c b/tests/test-authz-pam.c
-index 93d5ac8bbf..02bb1493e7 100644
---- a/tests/test-authz-pam.c
-+++ b/tests/test-authz-pam.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "authz/pamacct.h"
- 
- #include <security/pam_appl.h>
-diff --git a/tests/test-authz-simple.c b/tests/test-authz-simple.c
-index 2cf14fb87e..d21d43e2e9 100644
---- a/tests/test-authz-simple.c
-+++ b/tests/test-authz-simple.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #include "authz/simple.h"
- 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index 95ccfd3cdb..f9440cdcfd 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -2,6 +2,7 @@
- #include <glib/gstdio.h>
- 
- #include "qemu/config-file.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/sockets.h"
- #include "chardev/char-fe.h"
-diff --git a/tests/test-crypto-block.c b/tests/test-crypto-block.c
-index d309d044ef..7c1ab07855 100644
---- a/tests/test-crypto-block.c
-+++ b/tests/test-crypto-block.c
-@@ -23,6 +23,7 @@
- #include "crypto/init.h"
- #include "crypto/block.h"
- #include "qemu/buffer.h"
-+#include "qemu/module.h"
- #include "crypto/secret.h"
- #ifndef _WIN32
- #include <sys/resource.h>
-diff --git a/tests/test-crypto-tlscredsx509.c b/tests/test-crypto-tlscredsx509.c
-index 940a026c6e..a27efb7540 100644
---- a/tests/test-crypto-tlscredsx509.c
-+++ b/tests/test-crypto-tlscredsx509.c
-@@ -23,6 +23,7 @@
- #include "crypto-tls-x509-helpers.h"
- #include "crypto/tlscredsx509.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
- 
-diff --git a/tests/test-crypto-tlssession.c b/tests/test-crypto-tlssession.c
-index 15212ec276..6560d7134f 100644
---- a/tests/test-crypto-tlssession.c
-+++ b/tests/test-crypto-tlssession.c
-@@ -27,6 +27,7 @@
- #include "crypto/tlssession.h"
- #include "qom/object_interfaces.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
- #include "authz/list.h"
- 
-diff --git a/tests/test-io-channel-buffer.c b/tests/test-io-channel-buffer.c
-index 64722a214b..59d6c64b04 100644
---- a/tests/test-io-channel-buffer.c
-+++ b/tests/test-io-channel-buffer.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "io/channel-buffer.h"
-+#include "qemu/module.h"
- #include "io-channel-helpers.h"
- 
- 
-diff --git a/tests/test-io-channel-command.c b/tests/test-io-channel-command.c
-index 46ce1ff01c..3bc5266121 100644
---- a/tests/test-io-channel-command.c
-+++ b/tests/test-io-channel-command.c
-@@ -22,6 +22,7 @@
- #include "io/channel-command.h"
- #include "io-channel-helpers.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #ifndef WIN32
- static void test_io_channel_command_fifo(bool async)
-diff --git a/tests/test-io-channel-file.c b/tests/test-io-channel-file.c
-index 2e94f638f2..bac2b07562 100644
---- a/tests/test-io-channel-file.c
-+++ b/tests/test-io-channel-file.c
-@@ -23,6 +23,7 @@
- #include "io/channel-util.h"
- #include "io-channel-helpers.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #define TEST_FILE "tests/test-io-channel-file.txt"
- #define TEST_MASK 0600
-diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socket.c
-index c253ae30f5..d2053c464c 100644
---- a/tests/test-io-channel-socket.c
-+++ b/tests/test-io-channel-socket.c
++#include "qemu-common.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
+diff --git a/hw/timer/m48t59.c b/hw/timer/m48t59.c
+index 5d26e9aef0..030c8872a2 100644
+--- a/hw/timer/m48t59.c
++++ b/hw/timer/m48t59.c
 @@ -24,6 +24,7 @@
- #include "io-channel-helpers.h"
- #include "socket-helpers.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
+  */
  
- 
- static void test_io_channel_set_socket_bufs(QIOChannel *src,
-diff --git a/tests/test-io-channel-tls.c b/tests/test-io-channel-tls.c
-index 43b707eba7..3c9ef6f941 100644
---- a/tests/test-io-channel-tls.c
-+++ b/tests/test-io-channel-tls.c
-@@ -30,6 +30,7 @@
- #include "crypto/init.h"
- #include "crypto/tlscredsx509.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- #include "authz/list.h"
- #include "qom/object_interfaces.h"
- 
-diff --git a/tests/test-io-task.c b/tests/test-io-task.c
-index bac1bb4e7a..aa8b653bfa 100644
---- a/tests/test-io-task.c
-+++ b/tests/test-io-task.c
-@@ -22,6 +22,7 @@
- 
- #include "io/task.h"
- #include "qapi/error.h"
-+#include "qemu/module.h"
- 
- #define TYPE_DUMMY "qemu:dummy"
- 
-diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
-index 630b1b9bac..f0b95dcbc3 100644
---- a/tests/test-qmp-cmds.c
-+++ b/tests/test-qmp-cmds.c
-@@ -1,10 +1,8 @@
  #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qnum.h"
- #include "qapi/qmp/qstring.h"
- #include "qapi/error.h"
--#include "qemu/module.h"
- #include "qapi/qobject-input-visitor.h"
- #include "tests/test-qapi-types.h"
- #include "tests/test-qapi-visit.h"
-diff --git a/tests/test-throttle.c b/tests/test-throttle.c
-index 948a42c991..a7cf00069b 100644
---- a/tests/test-throttle.c
-+++ b/tests/test-throttle.c
-@@ -18,6 +18,7 @@
- #include "qapi/error.h"
- #include "qemu/throttle.h"
++#include "qemu-common.h"
+ #include "hw/hw.h"
+ #include "hw/timer/m48t59.h"
+ #include "qemu/timer.h"
+diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
+index b61b4ddeaf..0d79e000d2 100644
+--- a/hw/timer/mc146818rtc.c
++++ b/hw/timer/mc146818rtc.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "qemu/module.h"
+ #include "qemu/bcd.h"
+diff --git a/hw/timer/pl031.c b/hw/timer/pl031.c
+index abac73ab42..3378084f4a 100644
+--- a/hw/timer/pl031.c
++++ b/hw/timer/pl031.c
+@@ -12,6 +12,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/timer/pl031.h"
+ #include "hw/sysbus.h"
+ #include "qemu/timer.h"
+diff --git a/hw/timer/twl92230.c b/hw/timer/twl92230.c
+index 7785b96c0b..0ef4fc1fc1 100644
+--- a/hw/timer/twl92230.c
++++ b/hw/timer/twl92230.c
+@@ -20,6 +20,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/hw.h"
+ #include "qemu/timer.h"
+ #include "hw/i2c/i2c.h"
+diff --git a/hw/timer/xlnx-zynqmp-rtc.c b/hw/timer/xlnx-zynqmp-rtc.c
+index be078ae72a..36daf0c7e7 100644
+--- a/hw/timer/xlnx-zynqmp-rtc.c
++++ b/hw/timer/xlnx-zynqmp-rtc.c
+@@ -25,6 +25,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "hw/sysbus.h"
+ #include "hw/register.h"
+ #include "qemu/bitops.h"
+diff --git a/hw/tpm/tpm_passthrough.c b/hw/tpm/tpm_passthrough.c
+index e87bd126c6..897e3d5864 100644
+--- a/hw/tpm/tpm_passthrough.c
++++ b/hw/tpm/tpm_passthrough.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
  #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "block/throttle-groups.h"
- #include "sysemu/block-backend.h"
- 
-diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
-index fc8ce62471..e80c4c6143 100644
---- a/tests/test-vmstate.c
-+++ b/tests/test-vmstate.c
-@@ -24,7 +24,6 @@
- 
- #include "qemu/osdep.h"
- 
--#include "qemu-common.h"
- #include "../migration/migration.h"
- #include "migration/vmstate.h"
- #include "migration/qemu-file-types.h"
-@@ -32,6 +31,7 @@
- #include "../migration/qemu-file-channel.h"
- #include "../migration/savevm.h"
- #include "qemu/coroutine.h"
-+#include "qemu/module.h"
- #include "io/channel-file.h"
- 
- static char temp_file[] = "/tmp/vmst.test.XXXXXX";
-diff --git a/tests/tpm-crb-swtpm-test.c b/tests/tpm-crb-swtpm-test.c
-index 8c0a55f3ca..2c4fb8ae29 100644
---- a/tests/tpm-crb-swtpm-test.c
-+++ b/tests/tpm-crb-swtpm-test.c
-@@ -16,6 +16,7 @@
- #include <glib/gstdio.h>
- 
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "tpm-tests.h"
- 
- typedef struct TestState {
-diff --git a/tests/tpm-crb-test.c b/tests/tpm-crb-test.c
-index 6fde579bab..a139caa51d 100644
---- a/tests/tpm-crb-test.c
-+++ b/tests/tpm-crb-test.c
-@@ -16,6 +16,7 @@
- #include "hw/acpi/tpm.h"
- #include "io/channel-socket.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "tpm-emu.h"
- 
- #define TPM_CMD "\x80\x01\x00\x00\x00\x0c\x00\x00\x01\x44\x00\x00"
-diff --git a/tests/tpm-tis-swtpm-test.c b/tests/tpm-tis-swtpm-test.c
-index 7dcd1d3912..9f58a3a92b 100644
---- a/tests/tpm-tis-swtpm-test.c
-+++ b/tests/tpm-tis-swtpm-test.c
-@@ -16,6 +16,7 @@
- #include <glib/gstdio.h>
- 
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "tpm-tests.h"
- 
- typedef struct TestState {
-diff --git a/tests/tpm-tis-test.c b/tests/tpm-tis-test.c
-index c8ec14888f..92a7e95aad 100644
---- a/tests/tpm-tis-test.c
-+++ b/tests/tpm-tis-test.c
-@@ -18,6 +18,7 @@
- #include "hw/acpi/tpm.h"
- #include "io/channel-socket.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "tpm-emu.h"
- 
- #define TIS_REG(LOCTY, REG) \
-diff --git a/tests/usb-hcd-ohci-test.c b/tests/usb-hcd-ohci-test.c
-index 98af02e898..c12b892085 100644
---- a/tests/usb-hcd-ohci-test.c
-+++ b/tests/usb-hcd-ohci-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/usb.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
-diff --git a/tests/vhost-user-test.c b/tests/vhost-user-test.c
-index 3817966010..6ae8a23688 100644
---- a/tests/vhost-user-test.c
-+++ b/tests/vhost-user-test.c
-@@ -19,6 +19,7 @@
+ #include "qemu/module.h"
  #include "qemu/sockets.h"
+diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboard.c
+index b40cc997d0..be397ebf92 100644
+--- a/hw/tricore/tricore_testboard.c
++++ b/hw/tricore/tricore_testboard.c
+@@ -21,7 +21,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "net/net.h"
+diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
+index 081bcfd70a..d1dac6e012 100644
+--- a/hw/usb/ccid-card-passthru.c
++++ b/hw/usb/ccid-card-passthru.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include <libcacard.h>
  #include "chardev/char-fe.h"
- #include "qemu/memfd.h"
-+#include "qemu/module.h"
- #include "sysemu/sysemu.h"
- #include "libqos/libqos.h"
- #include "libqos/pci-pc.h"
-diff --git a/tests/virtio-9p-test.c b/tests/virtio-9p-test.c
-index 16107ad280..ac49bca991 100644
---- a/tests/virtio-9p-test.c
-+++ b/tests/virtio-9p-test.c
-@@ -9,6 +9,7 @@
- 
+diff --git a/hw/usb/combined-packet.c b/hw/usb/combined-packet.c
+index 37b23e20ef..5d57e883dc 100644
+--- a/hw/usb/combined-packet.c
++++ b/hw/usb/combined-packet.c
+@@ -21,7 +21,6 @@
+  */
  #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "hw/9pfs/9p.h"
- #include "hw/9pfs/9p-synth.h"
- #include "libqos/virtio-9p.h"
-diff --git a/tests/virtio-blk-test.c b/tests/virtio-blk-test.c
-index fe1168a90a..1b02714bc7 100644
---- a/tests/virtio-blk-test.c
-+++ b/tests/virtio-blk-test.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "libqtest.h"
- #include "qemu/bswap.h"
-+#include "qemu/module.h"
- #include "standard-headers/linux/virtio_blk.h"
- #include "standard-headers/linux/virtio_pci.h"
- #include "libqos/qgraph.h"
-diff --git a/tests/virtio-net-test.c b/tests/virtio-net-test.c
-index 163126cf07..6a008bb552 100644
---- a/tests/virtio-net-test.c
-+++ b/tests/virtio-net-test.c
-@@ -10,6 +10,7 @@
- #include "qemu/osdep.h"
- #include "libqtest.h"
+ #include "qemu/units.h"
+-#include "qemu-common.h"
+ #include "hw/usb.h"
  #include "qemu/iov.h"
-+#include "qemu/module.h"
- #include "qapi/qmp/qdict.h"
- #include "hw/virtio/virtio-net.h"
- #include "libqos/qgraph.h"
-diff --git a/tests/virtio-rng-test.c b/tests/virtio-rng-test.c
-index fcb22481bd..a38a0d175b 100644
---- a/tests/virtio-rng-test.c
-+++ b/tests/virtio-rng-test.c
-@@ -9,6 +9,7 @@
- 
+ #include "trace.h"
+diff --git a/hw/usb/core.c b/hw/usb/core.c
+index 8fbd9c7d57..d4d44a828c 100644
+--- a/hw/usb/core.c
++++ b/hw/usb/core.c
+@@ -24,7 +24,6 @@
+  * THE SOFTWARE.
+  */
  #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/virtio-rng.h"
- 
-diff --git a/tests/virtio-scsi-test.c b/tests/virtio-scsi-test.c
-index 162b31c88d..fca9f889be 100644
---- a/tests/virtio-scsi-test.c
-+++ b/tests/virtio-scsi-test.c
+-#include "qemu-common.h"
+ #include "hw/usb.h"
+ #include "qemu/iov.h"
+ #include "trace.h"
+diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
+index 38a8a33dc7..855853dc0d 100644
+--- a/hw/usb/dev-mtp.c
++++ b/hw/usb/dev-mtp.c
 @@ -10,6 +10,7 @@
+  */
  
  #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "scsi/constants.h"
- #include "libqos/libqos-pc.h"
- #include "libqos/libqos-spapr.h"
-diff --git a/tests/virtio-serial-test.c b/tests/virtio-serial-test.c
-index 85f35e09b7..066ca61280 100644
---- a/tests/virtio-serial-test.c
-+++ b/tests/virtio-serial-test.c
-@@ -9,6 +9,7 @@
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include <wchar.h>
+diff --git a/hw/usb/hcd-musb.c b/hw/usb/hcd-musb.c
+index 85d7796554..c29fbef6fc 100644
+--- a/hw/usb/hcd-musb.c
++++ b/hw/usb/hcd-musb.c
+@@ -21,7 +21,6 @@
+  * Only host-mode and non-DMA accesses are currently supported.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ #include "hw/usb.h"
+ #include "hw/irq.h"
+diff --git a/hw/usb/host-stub.c b/hw/usb/host-stub.c
+index 41d93ec8a0..538ed29684 100644
+--- a/hw/usb/host-stub.c
++++ b/hw/usb/host-stub.c
+@@ -31,7 +31,6 @@
+  */
  
  #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/virtio-serial.h"
- 
- /* Tests only initialization so far. TODO: Replace with functional tests */
-diff --git a/tests/virtio-test.c b/tests/virtio-test.c
-index 804e5371dc..f7c6afdcf1 100644
---- a/tests/virtio-test.c
-+++ b/tests/virtio-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/tests/vmxnet3-test.c b/tests/vmxnet3-test.c
-index 35cdea939b..a81025252c 100644
---- a/tests/vmxnet3-test.c
-+++ b/tests/vmxnet3-test.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "qemu/module.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
- 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 420b2411c1..d9624021d5 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -27,7 +27,6 @@
- #import <Cocoa/Cocoa.h>
- #include <crt_externs.h>
- 
 -#include "qemu-common.h"
  #include "ui/console.h"
- #include "ui/input.h"
- #include "sysemu/sysemu.h"
-@@ -36,6 +35,7 @@
- #include "qapi/qapi-commands-misc.h"
- #include "sysemu/blockdev.h"
- #include "qemu-version.h"
-+#include "qemu/module.h"
- #include <Carbon/Carbon.h>
- #include "qom/cpu.h"
+ #include "hw/usb.h"
+ #include "monitor/monitor.h"
+diff --git a/hw/usb/libhw.c b/hw/usb/libhw.c
+index 73cdf0c97d..adbee2f642 100644
+--- a/hw/usb/libhw.c
++++ b/hw/usb/libhw.c
+@@ -20,7 +20,6 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "hw/hw.h"
+ #include "hw/usb.h"
+ #include "sysemu/dma.h"
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 084b8f2161..998fc6e4b0 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -26,6 +26,7 @@
+  */
  
-diff --git a/ui/console.c b/ui/console.c
-index 6d2282d3e9..eb7e7e0c51 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -27,6 +27,7 @@
- #include "hw/qdev-core.h"
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
  #include "qapi/error.h"
- #include "qapi/qapi-commands-ui.h"
-+#include "qemu/module.h"
- #include "qemu/option.h"
  #include "qemu/timer.h"
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index bb1088c2e7..af31550b38 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -15,7 +15,6 @@
+ #ifndef HW_VFIO_VFIO_PCI_H
+ #define HW_VFIO_VFIO_PCI_H
+ 
+-#include "qemu-common.h"
+ #include "exec/memory.h"
+ #include "hw/pci/pci.h"
+ #include "hw/vfio/vfio-common.h"
+diff --git a/hw/xen/xen-host-pci-device.c b/hw/xen/xen-host-pci-device.c
+index eed8cc88e3..1b44dcafaf 100644
+--- a/hw/xen/xen-host-pci-device.c
++++ b/hw/xen/xen-host-pci-device.c
+@@ -8,7 +8,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "xen-host-pci-device.h"
+ 
+diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
+index a759ccfc52..d5489cc693 100644
+--- a/hw/xen/xen_pt.h
++++ b/hw/xen/xen_pt.h
+@@ -3,7 +3,6 @@
+ #ifndef XEN_PT_H
+ #define XEN_PT_H
+ 
+-#include "qemu-common.h"
+ #include "hw/xen/xen_common.h"
+ #include "hw/pci/pci.h"
+ #include "xen-host-pci-device.h"
+diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
+index 12c7437398..b6922c39d5 100644
+--- a/hw/xtensa/sim.c
++++ b/hw/xtensa/sim.c
+@@ -27,7 +27,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/boards.h"
+diff --git a/hw/xtensa/xtensa_memory.c b/hw/xtensa/xtensa_memory.c
+index 394967f842..394d0cf227 100644
+--- a/hw/xtensa/xtensa_memory.c
++++ b/hw/xtensa/xtensa_memory.c
+@@ -27,7 +27,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/boards.h"
+diff --git a/hw/xtensa/xtensa_memory.h b/hw/xtensa/xtensa_memory.h
+index e0d34de2fa..e646dbccbf 100644
+--- a/hw/xtensa/xtensa_memory.h
++++ b/hw/xtensa/xtensa_memory.h
+@@ -31,7 +31,6 @@
+ #ifndef XTENSA_MEMORY_H
+ #define XTENSA_MEMORY_H
+ 
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/memory.h"
+ 
+diff --git a/include/authz/base.h b/include/authz/base.h
+index 14a59a0425..0782981ad8 100644
+--- a/include/authz/base.h
++++ b/include/authz/base.h
+@@ -21,7 +21,6 @@
+ #ifndef QAUTHZ_BASE_H
+ #define QAUTHZ_BASE_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/block/aio.h b/include/block/aio.h
+index 0ca25dfec6..6b0d52f732 100644
+--- a/include/block/aio.h
++++ b/include/block/aio.h
+@@ -14,7 +14,6 @@
+ #ifndef QEMU_AIO_H
+ #define QEMU_AIO_H
+ 
+-#include "qemu-common.h"
+ #include "qemu/queue.h"
+ #include "qemu/event_notifier.h"
+ #include "qemu/thread.h"
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index 8044ace63e..62682eb865 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -1,7 +1,6 @@
+ #ifndef BLOCK_DIRTY_BITMAP_H
+ #define BLOCK_DIRTY_BITMAP_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-block-core.h"
+ #include "qemu/hbitmap.h"
+ 
+diff --git a/include/block/write-threshold.h b/include/block/write-threshold.h
+index b2cfd11219..7b5adb2e6e 100644
+--- a/include/block/write-threshold.h
++++ b/include/block/write-threshold.h
+@@ -15,7 +15,6 @@
+ #ifndef BLOCK_WRITE_THRESHOLD_H
+ #define BLOCK_WRITE_THRESHOLD_H
+ 
+-#include "qemu-common.h"
+ 
+ /*
+  * bdrv_write_threshold_set:
+diff --git a/include/chardev/char-io.h b/include/chardev/char-io.h
+index 9638da5100..1709b59c9f 100644
+--- a/include/chardev/char-io.h
++++ b/include/chardev/char-io.h
+@@ -24,7 +24,6 @@
+ #ifndef CHAR_IO_H
+ #define CHAR_IO_H
+ 
+-#include "qemu-common.h"
+ #include "io/channel.h"
+ #include "chardev/char.h"
+ 
+diff --git a/include/crypto/random.h b/include/crypto/random.h
+index 8764ca0562..bc51cd19d2 100644
+--- a/include/crypto/random.h
++++ b/include/crypto/random.h
+@@ -21,7 +21,6 @@
+ #ifndef QCRYPTO_RANDOM_H
+ #define QCRYPTO_RANDOM_H
+ 
+-#include "qemu-common.h"
+ 
+ /**
+  * qcrypto_random_bytes:
+diff --git a/include/crypto/xts.h b/include/crypto/xts.h
+index 3c8967ac6c..39ccaed822 100644
+--- a/include/crypto/xts.h
++++ b/include/crypto/xts.h
+@@ -26,7 +26,6 @@
+ #ifndef QCRYPTO_XTS_H
+ #define QCRYPTO_XTS_H
+ 
+-#include "qemu-common.h"
+ 
+ #define XTS_BLOCK_SIZE 16
+ 
+diff --git a/include/disas/disas.h b/include/disas/disas.h
+index b19e70b50c..f60bbc752c 100644
+--- a/include/disas/disas.h
++++ b/include/disas/disas.h
+@@ -3,7 +3,6 @@
+ #ifndef QEMU_DISAS_H
+ #define QEMU_DISAS_H
+ 
+-#include "qemu-common.h"
+ 
+ #ifdef NEED_CPU_H
+ #include "cpu.h"
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index c18094bc59..0eb7441917 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -23,7 +23,6 @@
+ #ifndef CPU_ALL_H
+ #define CPU_ALL_H
+ 
+-#include "qemu-common.h"
+ #include "exec/cpu-common.h"
+ #include "exec/memory.h"
+ #include "qemu/thread.h"
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 7fd70557f7..547f539acc 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -23,7 +23,6 @@
+ #ifndef EXEC_ALL_H
+ #define EXEC_ALL_H
+ 
+-#include "qemu-common.h"
+ #include "exec/tb-context.h"
+ #include "sysemu/cpus.h"
+ 
+diff --git a/include/hw/acpi/tco.h b/include/hw/acpi/tco.h
+index d7ff814451..1f3c2d17fb 100644
+--- a/include/hw/acpi/tco.h
++++ b/include/hw/acpi/tco.h
+@@ -12,7 +12,6 @@
+ #ifndef HW_ACPI_TCO_H
+ #define HW_ACPI_TCO_H
+ 
+-#include "qemu-common.h"
+ 
+ /* As per ICH9 spec, the internal timer has an error of ~0.6s on every tick */
+ #define TCO_TICK_NSEC 600000000LL
+diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
+index ea1385d76f..7885cf6f8a 100644
+--- a/include/hw/arm/allwinner-a10.h
++++ b/include/hw/arm/allwinner-a10.h
+@@ -2,7 +2,6 @@
+ 
+ #ifndef ALLWINNER_H_
+ 
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "hw/char/serial.h"
+ #include "hw/arm/arm.h"
+diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
+index aafa8adb06..7d65e3e408 100644
+--- a/include/hw/arm/bcm2835_peripherals.h
++++ b/include/hw/arm/bcm2835_peripherals.h
+@@ -13,7 +13,6 @@
+ #ifndef BCM2835_PERIPHERALS_H
+ #define BCM2835_PERIPHERALS_H
+ 
+-#include "qemu-common.h"
+ #include "hw/sysbus.h"
+ #include "hw/char/bcm2835_aux.h"
+ #include "hw/display/bcm2835_fb.h"
+diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
+index 098a69ec73..82ec981313 100644
+--- a/include/hw/arm/exynos4210.h
++++ b/include/hw/arm/exynos4210.h
+@@ -25,7 +25,6 @@
+ #ifndef EXYNOS4210_H
+ #define EXYNOS4210_H
+ 
+-#include "qemu-common.h"
+ #include "exec/memory.h"
+ #include "target/arm/cpu-qom.h"
+ 
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 424070924e..943871cdcc 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -30,7 +30,6 @@
+ #ifndef QEMU_ARM_VIRT_H
+ #define QEMU_ARM_VIRT_H
+ 
+-#include "qemu-common.h"
+ #include "exec/hwaddr.h"
+ #include "qemu/notify.h"
+ #include "hw/boards.h"
+diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+index bd7a5a0302..a6e01e7eb9 100644
+--- a/include/hw/arm/xlnx-zynqmp.h
++++ b/include/hw/arm/xlnx-zynqmp.h
+@@ -19,7 +19,6 @@
+ 
+ #ifndef XLNX_ZYNQMP_H
+ 
+-#include "qemu-common.h"
+ #include "hw/arm/arm.h"
+ #include "hw/intc/arm_gic.h"
+ #include "hw/net/cadence_gem.h"
+diff --git a/include/hw/block/fdc.h b/include/hw/block/fdc.h
+index cf87f48317..d43a2fbd66 100644
+--- a/include/hw/block/fdc.h
++++ b/include/hw/block/fdc.h
+@@ -3,7 +3,6 @@
+ #ifndef HW_FDC_H
+ #define HW_FDC_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-block.h"
+ 
+ /* fdc.c */
+diff --git a/include/hw/dma/bcm2835_dma.h b/include/hw/dma/bcm2835_dma.h
+index 60138f4d31..91ed8d05d1 100644
+--- a/include/hw/dma/bcm2835_dma.h
++++ b/include/hw/dma/bcm2835_dma.h
+@@ -6,7 +6,6 @@
+ #ifndef BCM2835_DMA_H
+ #define BCM2835_DMA_H
+ 
+-#include "qemu-common.h"
+ #include "hw/sysbus.h"
+ 
+ typedef struct {
+diff --git a/include/hw/fw-path-provider.h b/include/hw/fw-path-provider.h
+index 5df893a3d8..10d1bd4959 100644
+--- a/include/hw/fw-path-provider.h
++++ b/include/hw/fw-path-provider.h
+@@ -18,7 +18,6 @@
+ #ifndef FW_PATH_PROVIDER_H
+ #define FW_PATH_PROVIDER_H
+ 
+-#include "qemu-common.h"
+ #include "qom/object.h"
+ 
+ #define TYPE_FW_PATH_PROVIDER "fw-path-provider"
+diff --git a/include/hw/i2c/ppc4xx_i2c.h b/include/hw/i2c/ppc4xx_i2c.h
+index b3450bacf7..aa2a2bf9de 100644
+--- a/include/hw/i2c/ppc4xx_i2c.h
++++ b/include/hw/i2c/ppc4xx_i2c.h
+@@ -27,7 +27,6 @@
+ #ifndef PPC4XX_I2C_H
+ #define PPC4XX_I2C_H
+ 
+-#include "qemu-common.h"
+ #include "hw/sysbus.h"
+ #include "hw/i2c/i2c.h"
+ 
+diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
+index a9f6c0aa33..da1d2fe155 100644
+--- a/include/hw/i386/apic.h
++++ b/include/hw/i386/apic.h
+@@ -1,7 +1,6 @@
+ #ifndef APIC_H
+ #define APIC_H
+ 
+-#include "qemu-common.h"
+ 
+ /* apic.c */
+ void apic_deliver_irq(uint8_t dest, uint8_t dest_mode, uint8_t delivery_mode,
+diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
+index 99661d2bf0..011faf22e9 100644
+--- a/include/hw/ipmi/ipmi.h
++++ b/include/hw/ipmi/ipmi.h
+@@ -26,7 +26,6 @@
+ #define HW_IPMI_H
+ 
+ #include "exec/memory.h"
+-#include "qemu-common.h"
+ #include "hw/qdev.h"
+ 
+ #define MAX_IPMI_MSG_SIZE 300
+diff --git a/include/hw/isa/apm.h b/include/hw/isa/apm.h
+index b7098bf7ca..0f93602936 100644
+--- a/include/hw/isa/apm.h
++++ b/include/hw/isa/apm.h
+@@ -1,7 +1,6 @@
+ #ifndef APM_H
+ #define APM_H
+ 
+-#include "qemu-common.h"
+ #include "hw/hw.h"
+ #include "exec/memory.h"
+ 
+diff --git a/include/hw/isa/superio.h b/include/hw/isa/superio.h
+index 345f006081..b151dcd753 100644
+--- a/include/hw/isa/superio.h
++++ b/include/hw/isa/superio.h
+@@ -10,7 +10,6 @@
+ #ifndef HW_ISA_SUPERIO_H
+ #define HW_ISA_SUPERIO_H
+ 
+-#include "qemu-common.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/isa/isa.h"
+ 
+diff --git a/include/hw/lm32/lm32_pic.h b/include/hw/lm32/lm32_pic.h
+index e6479b8f63..9e5e038437 100644
+--- a/include/hw/lm32/lm32_pic.h
++++ b/include/hw/lm32/lm32_pic.h
+@@ -1,7 +1,6 @@
+ #ifndef QEMU_HW_LM32_PIC_H
+ #define QEMU_HW_LM32_PIC_H
+ 
+-#include "qemu-common.h"
+ 
+ uint32_t lm32_pic_get_ip(DeviceState *d);
+ uint32_t lm32_pic_get_im(DeviceState *d);
+diff --git a/include/hw/nmi.h b/include/hw/nmi.h
+index ad857f3832..a1e128724e 100644
+--- a/include/hw/nmi.h
++++ b/include/hw/nmi.h
+@@ -22,7 +22,6 @@
+ #ifndef NMI_H
+ #define NMI_H
+ 
+-#include "qemu-common.h"
+ #include "qom/object.h"
+ 
+ #define TYPE_NMI "nmi"
+diff --git a/include/hw/pci-host/pam.h b/include/hw/pci-host/pam.h
+index 6116c638f9..fec5cd35d6 100644
+--- a/include/hw/pci-host/pam.h
++++ b/include/hw/pci-host/pam.h
+@@ -50,7 +50,6 @@
+  * 0xf0000 - 0xfffff System BIOS Area Memory Segments
+  */
+ 
+-#include "qemu-common.h"
+ #include "exec/memory.h"
+ 
+ #define SMRAM_C_BASE    0xa0000
+diff --git a/include/hw/pci/msi.h b/include/hw/pci/msi.h
+index 8440eaee11..4087688486 100644
+--- a/include/hw/pci/msi.h
++++ b/include/hw/pci/msi.h
+@@ -21,7 +21,6 @@
+ #ifndef QEMU_MSI_H
+ #define QEMU_MSI_H
+ 
+-#include "qemu-common.h"
+ #include "hw/pci/pci.h"
+ 
+ struct MSIMessage {
+diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
+index 1f27658d35..3094eb0da1 100644
+--- a/include/hw/pci/msix.h
++++ b/include/hw/pci/msix.h
+@@ -1,7 +1,6 @@
+ #ifndef QEMU_MSIX_H
+ #define QEMU_MSIX_H
+ 
+-#include "qemu-common.h"
+ #include "hw/pci/pci.h"
+ 
+ void msix_set_message(PCIDevice *dev, int vector, MSIMessage msg);
+diff --git a/include/hw/pci/shpc.h b/include/hw/pci/shpc.h
+index 18f6ec1cd5..bd8204f64e 100644
+--- a/include/hw/pci/shpc.h
++++ b/include/hw/pci/shpc.h
+@@ -1,7 +1,6 @@
+ #ifndef SHPC_H
+ #define SHPC_H
+ 
+-#include "qemu-common.h"
+ #include "exec/memory.h"
+ #include "hw/hotplug.h"
+ #include "hw/pci/pci.h"
+diff --git a/include/hw/pci/slotid_cap.h b/include/hw/pci/slotid_cap.h
+index a777ea0e49..8b4dc0ce83 100644
+--- a/include/hw/pci/slotid_cap.h
++++ b/include/hw/pci/slotid_cap.h
+@@ -1,7 +1,6 @@
+ #ifndef PCI_SLOTID_CAP_H
+ #define PCI_SLOTID_CAP_H
+ 
+-#include "qemu-common.h"
+ 
+ int slotid_cap_init(PCIDevice *dev, int nslots,
+                     uint8_t chassis,
+diff --git a/include/hw/ppc/openpic.h b/include/hw/ppc/openpic.h
+index dad08fe9be..7642a8ea1d 100644
+--- a/include/hw/ppc/openpic.h
++++ b/include/hw/ppc/openpic.h
+@@ -1,7 +1,6 @@
+ #ifndef OPENPIC_H
+ #define OPENPIC_H
+ 
+-#include "qemu-common.h"
+ #include "hw/sysbus.h"
+ #include "hw/qdev-core.h"
+ #include "qom/cpu.h"
+diff --git a/include/hw/ptimer.h b/include/hw/ptimer.h
+index 0731d9aef1..2b866902aa 100644
+--- a/include/hw/ptimer.h
++++ b/include/hw/ptimer.h
+@@ -8,7 +8,6 @@
+ #ifndef PTIMER_H
+ #define PTIMER_H
+ 
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ #include "migration/vmstate.h"
+ 
+diff --git a/include/hw/sd/sdhci.h b/include/hw/sd/sdhci.h
+index f321767c56..cbf415e43a 100644
+--- a/include/hw/sd/sdhci.h
++++ b/include/hw/sd/sdhci.h
+@@ -25,7 +25,6 @@
+ #ifndef SDHCI_H
+ #define SDHCI_H
+ 
+-#include "qemu-common.h"
+ #include "hw/pci/pci.h"
+ #include "hw/sysbus.h"
+ #include "hw/sd/sd.h"
+diff --git a/include/hw/sh4/sh_intc.h b/include/hw/sh4/sh_intc.h
+index 3bffd67da1..ed56215736 100644
+--- a/include/hw/sh4/sh_intc.h
++++ b/include/hw/sh4/sh_intc.h
+@@ -3,7 +3,6 @@
+ #ifndef SH_INTC_H
+ #define SH_INTC_H
+ 
+-#include "qemu-common.h"
+ #include "hw/irq.h"
+ 
+ typedef unsigned char intc_enum;
+diff --git a/include/hw/sparc/sun4m_iommu.h b/include/hw/sparc/sun4m_iommu.h
+index 938937eb04..482266c6a7 100644
+--- a/include/hw/sparc/sun4m_iommu.h
++++ b/include/hw/sparc/sun4m_iommu.h
+@@ -25,7 +25,6 @@
+ #ifndef SUN4M_IOMMU_H
+ #define SUN4M_IOMMU_H
+ 
+-#include "qemu-common.h"
+ #include "hw/sysbus.h"
+ 
+ #define IOMMU_NREGS         (4 * 4096 / 4)
+diff --git a/include/hw/sparc/sun4u_iommu.h b/include/hw/sparc/sun4u_iommu.h
+index a760172e8e..5472d489cf 100644
+--- a/include/hw/sparc/sun4u_iommu.h
++++ b/include/hw/sparc/sun4u_iommu.h
+@@ -27,7 +27,6 @@
+ #ifndef SUN4U_IOMMU_H
+ #define SUN4U_IOMMU_H
+ 
+-#include "qemu-common.h"
+ #include "hw/sysbus.h"
+ 
+ #define IOMMU_NREGS             3
+diff --git a/include/hw/stream.h b/include/hw/stream.h
+index 15774f07ab..d02f62ca89 100644
+--- a/include/hw/stream.h
++++ b/include/hw/stream.h
+@@ -1,7 +1,6 @@
+ #ifndef STREAM_H
+ #define STREAM_H
+ 
+-#include "qemu-common.h"
+ #include "qom/object.h"
+ 
+ /* stream slave. Used until qdev provides a generic way.  */
+diff --git a/include/hw/timer/m48t59.h b/include/hw/timer/m48t59.h
+index bf71ecd137..97c2471f2c 100644
+--- a/include/hw/timer/m48t59.h
++++ b/include/hw/timer/m48t59.h
+@@ -3,7 +3,6 @@
+ #ifndef HW_M48T59_H
+ #define HW_M48T59_H
+ 
+-#include "qemu-common.h"
+ #include "qom/object.h"
+ 
+ #define TYPE_NVRAM "nvram"
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 5190ce02b5..2c5e6597a6 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -23,7 +23,6 @@
+ #ifndef HW_VFIO_VFIO_COMMON_H
+ #define HW_VFIO_VFIO_COMMON_H
+ 
+-#include "qemu-common.h"
+ #include "exec/memory.h"
+ #include "qemu/queue.h"
+ #include "qemu/notify.h"
+diff --git a/include/hw/virtio/vhost-scsi-common.h b/include/hw/virtio/vhost-scsi-common.h
+index 57fb1d87b5..ab97787fbf 100644
+--- a/include/hw/virtio/vhost-scsi-common.h
++++ b/include/hw/virtio/vhost-scsi-common.h
+@@ -14,7 +14,6 @@
+ #ifndef VHOST_SCSI_COMMON_H
+ #define VHOST_SCSI_COMMON_H
+ 
+-#include "qemu-common.h"
+ #include "hw/qdev.h"
+ #include "hw/virtio/virtio-scsi.h"
+ #include "hw/virtio/vhost.h"
+diff --git a/include/hw/virtio/vhost-scsi.h b/include/hw/virtio/vhost-scsi.h
+index 04658d14f5..df5bfdb188 100644
+--- a/include/hw/virtio/vhost-scsi.h
++++ b/include/hw/virtio/vhost-scsi.h
+@@ -14,7 +14,6 @@
+ #ifndef VHOST_SCSI_H
+ #define VHOST_SCSI_H
+ 
+-#include "qemu-common.h"
+ #include "hw/qdev.h"
+ #include "hw/virtio/virtio-scsi.h"
+ #include "hw/virtio/vhost.h"
+diff --git a/include/hw/virtio/vhost-user-blk.h b/include/hw/virtio/vhost-user-blk.h
+index 51457fb857..8dbf11c6f0 100644
+--- a/include/hw/virtio/vhost-user-blk.h
++++ b/include/hw/virtio/vhost-user-blk.h
+@@ -16,7 +16,6 @@
+ #define VHOST_USER_BLK_H
+ 
+ #include "standard-headers/linux/virtio_blk.h"
+-#include "qemu-common.h"
+ #include "hw/qdev.h"
+ #include "hw/block/block.h"
  #include "chardev/char-fe.h"
-diff --git a/ui/curses.c b/ui/curses.c
-index 1f3fcabb00..c95ece450b 100644
---- a/ui/curses.c
-+++ b/ui/curses.c
-@@ -21,6 +21,7 @@
+diff --git a/include/hw/virtio/vhost-user-scsi.h b/include/hw/virtio/vhost-user-scsi.h
+index 738f9288bd..1b332ea910 100644
+--- a/include/hw/virtio/vhost-user-scsi.h
++++ b/include/hw/virtio/vhost-user-scsi.h
+@@ -17,7 +17,6 @@
+ #ifndef VHOST_USER_SCSI_H
+ #define VHOST_USER_SCSI_H
+ 
+-#include "qemu-common.h"
+ #include "hw/qdev.h"
+ #include "hw/virtio/virtio-scsi.h"
+ #include "hw/virtio/vhost.h"
+diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
+index ba039c146d..9c7b5f78dc 100644
+--- a/include/hw/xen/xen.h
++++ b/include/hw/xen/xen.h
+@@ -8,7 +8,6 @@
+  *   /usr/include/xen, so it can be included unconditionally.
+  */
+ 
+-#include "qemu-common.h"
+ #include "exec/cpu-common.h"
+ #include "hw/irq.h"
+ 
+diff --git a/include/io/channel.h b/include/io/channel.h
+index 59460cb1ec..d4557f0930 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -21,7 +21,6 @@
+ #ifndef QIO_CHANNEL_H
+ #define QIO_CHANNEL_H
+ 
+-#include "qemu-common.h"
+ #include "qom/object.h"
+ #include "qemu/coroutine.h"
+ #include "block/aio.h"
+diff --git a/include/io/dns-resolver.h b/include/io/dns-resolver.h
+index 1a162185cc..a475e978c8 100644
+--- a/include/io/dns-resolver.h
++++ b/include/io/dns-resolver.h
+@@ -21,7 +21,6 @@
+ #ifndef QIO_DNS_RESOLVER_H
+ #define QIO_DNS_RESOLVER_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-sockets.h"
+ #include "qom/object.h"
+ #include "io/task.h"
+diff --git a/include/io/task.h b/include/io/task.h
+index 57d8ba835e..5cb9faf9f2 100644
+--- a/include/io/task.h
++++ b/include/io/task.h
+@@ -21,7 +21,6 @@
+ #ifndef QIO_TASK_H
+ #define QIO_TASK_H
+ 
+-#include "qemu-common.h"
+ #include "qom/object.h"
+ 
+ typedef struct QIOTask QIOTask;
+diff --git a/include/migration/colo.h b/include/migration/colo.h
+index f6fbe23ec9..1636e6f907 100644
+--- a/include/migration/colo.h
++++ b/include/migration/colo.h
+@@ -13,7 +13,6 @@
+ #ifndef QEMU_COLO_H
+ #define QEMU_COLO_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-migration.h"
+ 
+ enum colo_event {
+diff --git a/include/migration/failover.h b/include/migration/failover.h
+index 4c37218dcc..475f88f533 100644
+--- a/include/migration/failover.h
++++ b/include/migration/failover.h
+@@ -13,7 +13,6 @@
+ #ifndef QEMU_FAILOVER_H
+ #define QEMU_FAILOVER_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-migration.h"
+ 
+ void failover_init_state(void);
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index 86656297f1..06cfcd8f36 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -1,7 +1,6 @@
+ #ifndef MONITOR_H
+ #define MONITOR_H
+ 
+-#include "qemu-common.h"
+ #include "block/block.h"
+ #include "qapi/qapi-types-misc.h"
+ #include "qemu/readline.h"
+diff --git a/include/net/announce.h b/include/net/announce.h
+index 892d302b65..04a035f679 100644
+--- a/include/net/announce.h
++++ b/include/net/announce.h
+@@ -9,7 +9,6 @@
+ #ifndef QEMU_NET_ANNOUNCE_H
+ #define QEMU_NET_ANNOUNCE_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-net.h"
+ #include "qemu/timer.h"
+ 
+diff --git a/include/net/filter.h b/include/net/filter.h
+index 49da666ac0..9bc6fa3cc6 100644
+--- a/include/net/filter.h
++++ b/include/net/filter.h
+@@ -11,7 +11,6 @@
+ 
+ #include "qapi/qapi-types-net.h"
+ #include "qom/object.h"
+-#include "qemu-common.h"
+ #include "net/queue.h"
+ 
+ #define TYPE_NETFILTER "netfilter"
+diff --git a/include/net/queue.h b/include/net/queue.h
+index 5469fdbeaa..c0269bb1dc 100644
+--- a/include/net/queue.h
++++ b/include/net/queue.h
+@@ -24,7 +24,6 @@
+ #ifndef QEMU_NET_QUEUE_H
+ #define QEMU_NET_QUEUE_H
+ 
+-#include "qemu-common.h"
+ 
+ typedef struct NetPacket NetPacket;
+ typedef struct NetQueue NetQueue;
+diff --git a/include/net/tap.h b/include/net/tap.h
+index ce6f8418ac..5d585515f9 100644
+--- a/include/net/tap.h
++++ b/include/net/tap.h
+@@ -26,7 +26,6 @@
+ #ifndef QEMU_NET_TAP_H
+ #define QEMU_NET_TAP_H
+ 
+-#include "qemu-common.h"
+ #include "standard-headers/linux/virtio_net.h"
+ 
+ int tap_enable(NetClientState *nc);
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index e15adc20dc..0235cd3b91 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -1,6 +1,4 @@
+-
+-/* Common header file that is included by all of QEMU.
+- *
++/*
+  * This file is supposed to be included only by .c files. No header file should
+  * depend on qemu-common.h, as this would easily lead to circular header
+  * dependencies.
+diff --git a/include/qemu-io.h b/include/qemu-io.h
+index 7433239372..3af513004a 100644
+--- a/include/qemu-io.h
++++ b/include/qemu-io.h
+@@ -18,7 +18,6 @@
+ #ifndef QEMU_IO_H
+ #define QEMU_IO_H
+ 
+-#include "qemu-common.h"
+ 
+ #define CMD_FLAG_GLOBAL ((int)0x80000000) /* don't iterate "args" */
+ 
+diff --git a/include/qemu/base64.h b/include/qemu/base64.h
+index 815d85267d..0a3c5c9c53 100644
+--- a/include/qemu/base64.h
++++ b/include/qemu/base64.h
+@@ -21,7 +21,6 @@
+ #ifndef QEMU_BASE64_H
+ #define QEMU_BASE64_H
+ 
+-#include "qemu-common.h"
+ 
+ 
+ /**
+diff --git a/include/qemu/buffer.h b/include/qemu/buffer.h
+index b2ead1f051..3a909aeca4 100644
+--- a/include/qemu/buffer.h
++++ b/include/qemu/buffer.h
+@@ -21,7 +21,6 @@
+ #ifndef QEMU_BUFFER_H
+ #define QEMU_BUFFER_H
+ 
+-#include "qemu-common.h"
+ 
+ typedef struct Buffer Buffer;
+ 
+diff --git a/include/qemu/crc32c.h b/include/qemu/crc32c.h
+index dafb6a1ada..5b78884c38 100644
+--- a/include/qemu/crc32c.h
++++ b/include/qemu/crc32c.h
+@@ -28,7 +28,6 @@
+ #ifndef QEMU_CRC32C_H
+ #define QEMU_CRC32C_H
+ 
+-#include "qemu-common.h"
+ 
+ uint32_t crc32c(uint32_t crc, const uint8_t *data, unsigned int length);
+ 
+diff --git a/include/qemu/event_notifier.h b/include/qemu/event_notifier.h
+index 599c99f1a5..3380b662f3 100644
+--- a/include/qemu/event_notifier.h
++++ b/include/qemu/event_notifier.h
+@@ -13,7 +13,6 @@
+ #ifndef QEMU_EVENT_NOTIFIER_H
+ #define QEMU_EVENT_NOTIFIER_H
+ 
+-#include "qemu-common.h"
+ 
+ #ifdef _WIN32
+ #include <windows.h>
+diff --git a/include/qemu/filemonitor.h b/include/qemu/filemonitor.h
+index 70e613dfe3..a41ceb0244 100644
+--- a/include/qemu/filemonitor.h
++++ b/include/qemu/filemonitor.h
+@@ -21,7 +21,6 @@
+ #ifndef QEMU_FILEMONITOR_H
+ #define QEMU_FILEMONITOR_H
+ 
+-#include "qemu-common.h"
+ 
+ 
+ typedef struct QFileMonitor QFileMonitor;
+diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
+index eec98d82c1..e786266b92 100644
+--- a/include/qemu/mmap-alloc.h
++++ b/include/qemu/mmap-alloc.h
+@@ -1,7 +1,6 @@
+ #ifndef QEMU_MMAP_ALLOC_H
+ #define QEMU_MMAP_ALLOC_H
+ 
+-#include "qemu-common.h"
+ 
+ size_t qemu_fd_getpagesize(int fd);
+ 
+diff --git a/include/qemu/qdist.h b/include/qemu/qdist.h
+index 54ece760d6..bfb3211537 100644
+--- a/include/qemu/qdist.h
++++ b/include/qemu/qdist.h
+@@ -7,7 +7,6 @@
+ #ifndef QEMU_QDIST_H
+ #define QEMU_QDIST_H
+ 
+-#include "qemu-common.h"
+ #include "qemu/bitops.h"
+ 
+ /*
+diff --git a/include/qemu/throttle.h b/include/qemu/throttle.h
+index abeb886d93..05f6346137 100644
+--- a/include/qemu/throttle.h
++++ b/include/qemu/throttle.h
+@@ -25,7 +25,6 @@
+ #ifndef THROTTLE_H
+ #define THROTTLE_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-block-core.h"
+ #include "qemu/timer.h"
+ 
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index a86330c987..5d978e1634 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -1,7 +1,6 @@
+ #ifndef QEMU_TIMER_H
+ #define QEMU_TIMER_H
+ 
+-#include "qemu-common.h"
+ #include "qemu/bitops.h"
+ #include "qemu/notify.h"
+ #include "qemu/host-utils.h"
+diff --git a/include/qemu/uuid.h b/include/qemu/uuid.h
+index 037357d990..129c45f2c5 100644
+--- a/include/qemu/uuid.h
++++ b/include/qemu/uuid.h
+@@ -16,7 +16,6 @@
+ #ifndef QEMU_UUID_H
+ #define QEMU_UUID_H
+ 
+-#include "qemu-common.h"
+ 
+ /* Version 4 UUID (pseudo random numbers), RFC4122 4.4. */
+ 
+diff --git a/include/sysemu/cryptodev-vhost.h b/include/sysemu/cryptodev-vhost.h
+index fb26b86977..f42824fbde 100644
+--- a/include/sysemu/cryptodev-vhost.h
++++ b/include/sysemu/cryptodev-vhost.h
+@@ -24,7 +24,6 @@
+ #ifndef CRYPTODEV_VHOST_H
+ #define CRYPTODEV_VHOST_H
+ 
+-#include "qemu-common.h"
+ #include "hw/virtio/vhost.h"
+ #include "hw/virtio/vhost-backend.h"
+ #include "chardev/char.h"
+diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
+index faeb6f891a..92bbb79131 100644
+--- a/include/sysemu/cryptodev.h
++++ b/include/sysemu/cryptodev.h
+@@ -24,7 +24,6 @@
+ #define CRYPTODEV_H
+ 
+ #include "qom/object.h"
+-#include "qemu-common.h"
+ 
+ /**
+  * CryptoDevBackend:
+diff --git a/include/sysemu/hax.h b/include/sysemu/hax.h
+index 1f6c46186d..f005995c50 100644
+--- a/include/sysemu/hax.h
++++ b/include/sysemu/hax.h
+@@ -22,7 +22,6 @@
+ #ifndef QEMU_HAX_H
+ #define QEMU_HAX_H
+ 
+-#include "qemu-common.h"
+ 
+ int hax_sync_vcpus(void);
+ int hax_init_vcpu(CPUState *cpu);
+diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
+index f8d3e1802b..2df17c4ed3 100644
+--- a/include/sysemu/hvf.h
++++ b/include/sysemu/hvf.h
+@@ -16,7 +16,6 @@
+ #ifndef HVF_H
+ #define HVF_H
+ 
+-#include "qemu-common.h"
+ #include "qemu/bitops.h"
+ #include "exec/memory.h"
+ #include "sysemu/accel.h"
+diff --git a/include/sysemu/qtest.h b/include/sysemu/qtest.h
+index 096ddfc20c..cd114b8d80 100644
+--- a/include/sysemu/qtest.h
++++ b/include/sysemu/qtest.h
+@@ -14,7 +14,6 @@
+ #ifndef QTEST_H
+ #define QTEST_H
+ 
+-#include "qemu-common.h"
+ 
+ extern bool qtest_allowed;
+ 
+diff --git a/include/sysemu/rng.h b/include/sysemu/rng.h
+index 27b37da05d..2a02f47771 100644
+--- a/include/sysemu/rng.h
++++ b/include/sysemu/rng.h
+@@ -14,7 +14,6 @@
+ #define QEMU_RNG_H
+ 
+ #include "qom/object.h"
+-#include "qemu-common.h"
+ 
+ #define TYPE_RNG_BACKEND "rng-backend"
+ #define RNG_BACKEND(obj) \
+diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
+index 14488820f6..9e7451fb52 100644
+--- a/include/sysemu/tpm_backend.h
++++ b/include/sysemu/tpm_backend.h
+@@ -14,7 +14,6 @@
+ #define TPM_BACKEND_H
+ 
+ #include "qom/object.h"
+-#include "qemu-common.h"
+ #include "qemu/option.h"
+ #include "sysemu/tpm.h"
+ #include "qapi/error.h"
+diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
+index d200ee01d0..4794e8effe 100644
+--- a/include/sysemu/whpx.h
++++ b/include/sysemu/whpx.h
+@@ -13,7 +13,6 @@
+ #ifndef QEMU_WHPX_H
+ #define QEMU_WHPX_H
+ 
+-#include "qemu-common.h"
+ 
+ int whpx_init_vcpu(CPUState *cpu);
+ int whpx_vcpu_exec(CPUState *cpu);
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index d898cfcd47..bec3d931d1 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -15,10 +15,10 @@
+  *
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- *
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-visit-sockets.h"
+ #include "qemu/module.h"
+diff --git a/ioport.c b/ioport.c
+index 1a65addb66..04e360e79a 100644
+--- a/ioport.c
++++ b/ioport.c
+@@ -26,7 +26,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/ioport.h"
+ #include "trace-root.h"
+diff --git a/job-qmp.c b/job-qmp.c
+index a969b2bbf0..fbfed25a00 100644
+--- a/job-qmp.c
++++ b/job-qmp.c
+@@ -24,7 +24,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/job.h"
+ #include "qapi/qapi-commands-job.h"
+ #include "qapi/error.h"
+diff --git a/job.c b/job.c
+index 2167d53717..28dd48f8a5 100644
+--- a/job.c
++++ b/job.c
+@@ -24,7 +24,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qemu/job.h"
+ #include "qemu/id.h"
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index d75fd9d3e2..28af832a6e 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
+index 61992571e1..6b29672038 100644
+--- a/linux-user/alpha/cpu_loop.c
++++ b/linux-user/alpha/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index ee68aa60bf..7970185712 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "elf.h"
+ #include "cpu_loop-common.h"
+diff --git a/linux-user/cris/cpu_loop.c b/linux-user/cris/cpu_loop.c
+index af8c128bf8..f4e1dfb5e3 100644
+--- a/linux-user/cris/cpu_loop.c
++++ b/linux-user/cris/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index 51cfa006c9..ad11c64516 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
+index bfb41bbcc5..dd87e5cfb3 100644
+--- a/linux-user/m68k/cpu_loop.c
++++ b/linux-user/m68k/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/main.c b/linux-user/main.c
+index de26b9b342..a8bc0a6f6a 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "sysemu/tcg.h"
+ #include "qemu-version.h"
+diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
+index 076bdb9a61..d2c2e15e4a 100644
+--- a/linux-user/microblaze/cpu_loop.c
++++ b/linux-user/microblaze/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index 61dc90d51c..1134e44d60 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ #include "elf.h"
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index e0249efe4f..43615cd5b7 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -19,7 +19,6 @@
+ #include "qemu/osdep.h"
+ 
+ #include "qemu.h"
+-#include "qemu-common.h"
+ 
+ //#define DEBUG_MMAP
+ 
+diff --git a/linux-user/openrisc/cpu_loop.c b/linux-user/openrisc/cpu_loop.c
+index f496e4b48a..282864c6ba 100644
+--- a/linux-user/openrisc/cpu_loop.c
++++ b/linux-user/openrisc/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+index 801f5ace29..c14bb03b56 100644
+--- a/linux-user/ppc/cpu_loop.c
++++ b/linux-user/ppc/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+index a9bac4ca79..9154a6b6bd 100644
+--- a/linux-user/riscv/cpu_loop.c
++++ b/linux-user/riscv/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
+index b8bd1c956c..48fbdc42d6 100644
+--- a/linux-user/s390x/cpu_loop.c
++++ b/linux-user/s390x/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/sh4/cpu_loop.c b/linux-user/sh4/cpu_loop.c
+index 59cbbeda7e..d85a4e22fe 100644
+--- a/linux-user/sh4/cpu_loop.c
++++ b/linux-user/sh4/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 44b2d3b35a..762f077576 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -22,7 +22,6 @@
+ #include <sys/resource.h>
+ 
+ #include "qemu.h"
+-#include "qemu-common.h"
+ #include "trace.h"
+ #include "signal-common.h"
+ 
+diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
+index 9e357229c0..02c385a532 100644
+--- a/linux-user/sparc/cpu_loop.c
++++ b/linux-user/sparc/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index efa3ec2837..5088fac762 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -55,7 +55,6 @@
+ #include <linux/icmpv6.h>
+ #include <linux/errqueue.h>
+ #include <linux/random.h>
+-#include "qemu-common.h"
+ #ifdef CONFIG_TIMERFD
+ #include <sys/timerfd.h>
+ #endif
+diff --git a/linux-user/tilegx/cpu_loop.c b/linux-user/tilegx/cpu_loop.c
+index 4f39eb9ad3..a51c98de11 100644
+--- a/linux-user/tilegx/cpu_loop.c
++++ b/linux-user/tilegx/cpu_loop.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ 
+diff --git a/memory_mapping.c b/memory_mapping.c
+index e3ec70624f..18d0b8067c 100644
+--- a/memory_mapping.c
++++ b/memory_mapping.c
+@@ -14,7 +14,6 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ 
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "sysemu/memory_mapping.h"
+ #include "exec/memory.h"
+diff --git a/migration/migration.h b/migration/migration.h
+index 780a096857..5e8f09c6db 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -14,7 +14,6 @@
+ #ifndef QEMU_MIGRATION_H
+ #define QEMU_MIGRATION_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-migration.h"
+ #include "qemu/thread.h"
+ #include "exec/cpu-common.h"
+diff --git a/migration/page_cache.c b/migration/page_cache.c
+index acc252b100..775582f453 100644
+--- a/migration/page_cache.c
++++ b/migration/page_cache.c
+@@ -16,7 +16,6 @@
+ 
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qemu/host-utils.h"
+ #include "page_cache.h"
+ 
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 977b9ae07c..0431585502 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -23,7 +23,6 @@
+  */
+ #include "qemu/osdep.h"
+ #include <zlib.h>
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "qemu/iov.h"
+ #include "migration.h"
+diff --git a/migration/ram.h b/migration/ram.h
+index 936177b3e9..bd0eee79b6 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -29,7 +29,6 @@
+ #ifndef QEMU_MIGRATION_RAM_H
+ #define QEMU_MIGRATION_RAM_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-migration.h"
+ #include "exec/cpu-common.h"
+ #include "io/channel.h"
+diff --git a/migration/socket.c b/migration/socket.c
+index 49bacf78fd..98efdc0286 100644
+--- a/migration/socket.c
++++ b/migration/socket.c
+@@ -17,7 +17,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
+ 
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "channel.h"
+diff --git a/migration/vmstate-types.c b/migration/vmstate-types.c
+index 6f75f97a07..845f4649ee 100644
+--- a/migration/vmstate-types.c
++++ b/migration/vmstate-types.c
+@@ -11,7 +11,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "exec/cpu-common.h"
+ #include "qemu-file.h"
+ #include "migration.h"
+diff --git a/migration/vmstate.c b/migration/vmstate.c
+index 1305d1a528..7dd8ef66c6 100644
+--- a/migration/vmstate.c
++++ b/migration/vmstate.c
+@@ -11,7 +11,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "migration.h"
+ #include "migration/vmstate.h"
+ #include "savevm.h"
+diff --git a/net/checksum.c b/net/checksum.c
+index 273bc9c6bc..aaa4000238 100644
+--- a/net/checksum.c
++++ b/net/checksum.c
+@@ -16,7 +16,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "net/checksum.h"
+ #include "net/eth.h"
+ 
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index fcb491121b..103297b7f4 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -13,9 +13,9 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "trace.h"
+-#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "net/net.h"
+ #include "net/eth.h"
+diff --git a/net/dump.c b/net/dump.c
+index cd34f51759..23b3628dde 100644
+--- a/net/dump.c
++++ b/net/dump.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "clients.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+diff --git a/net/eth.c b/net/eth.c
+index ae5d881aae..0c1d413ee2 100644
+--- a/net/eth.c
++++ b/net/eth.c
+@@ -18,7 +18,6 @@
+ #include "qemu/osdep.h"
+ #include "net/eth.h"
+ #include "net/checksum.h"
+-#include "qemu-common.h"
+ #include "net/tap.h"
+ 
+ void eth_setup_vlan_headers_ex(struct eth_header *ehdr, uint16_t vlan_tag,
+diff --git a/net/filter-buffer.c b/net/filter-buffer.c
+index f7265c50a8..88da78f821 100644
+--- a/net/filter-buffer.c
++++ b/net/filter-buffer.c
+@@ -10,7 +10,6 @@
+ #include "net/filter.h"
+ #include "net/queue.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ #include "qemu/iov.h"
+ #include "qapi/qapi-builtin-visit.h"
+diff --git a/net/filter-mirror.c b/net/filter-mirror.c
+index 3a61cf21e8..8d36009c53 100644
+--- a/net/filter-mirror.c
++++ b/net/filter-mirror.c
+@@ -12,7 +12,6 @@
+ #include "qemu/osdep.h"
+ #include "net/filter.h"
+ #include "net/net.h"
+-#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qom/object.h"
+ #include "qemu/main-loop.h"
+diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
+index b464abe5e8..31da08a2f4 100644
+--- a/net/filter-rewriter.c
++++ b/net/filter-rewriter.c
+@@ -14,7 +14,6 @@
+ #include "colo.h"
+ #include "net/filter.h"
+ #include "net/net.h"
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "qom/object.h"
+ #include "qemu/main-loop.h"
+diff --git a/net/hub.h b/net/hub.h
+index 6a16f0487a..66d3322fac 100644
+--- a/net/hub.h
++++ b/net/hub.h
+@@ -15,7 +15,6 @@
+ #ifndef NET_HUB_H
+ #define NET_HUB_H
+ 
+-#include "qemu-common.h"
+ 
+ NetClientState *net_hub_add_port(int hub_id, const char *name,
+                                  NetClientState *hubpeer);
+diff --git a/net/l2tpv3.c b/net/l2tpv3.c
+index 81db24dc8c..55fea17c0f 100644
+--- a/net/l2tpv3.c
++++ b/net/l2tpv3.c
+@@ -29,7 +29,6 @@
+ #include "net/net.h"
+ #include "clients.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "qemu/option.h"
+ #include "qemu/sockets.h"
+diff --git a/net/tap-linux.c b/net/tap-linux.c
+index 535b1ddb61..941a45d7c3 100644
+--- a/net/tap-linux.c
++++ b/net/tap-linux.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "tap_int.h"
+ #include "tap-linux.h"
+ #include "net/tap.h"
+diff --git a/net/tap_int.h b/net/tap_int.h
+index 9f931d52d6..e3194b23f4 100644
+--- a/net/tap_int.h
++++ b/net/tap_int.h
+@@ -26,7 +26,6 @@
+ #ifndef NET_TAP_INT_H
+ #define NET_TAP_INT_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-net.h"
+ 
+ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
+diff --git a/os-posix.c b/os-posix.c
+index 4bd80e44e6..3ba7df8d75 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -29,6 +29,7 @@
+ #include <grp.h>
+ #include <libgen.h>
+ 
++#include "qemu-common.h"
+ /* Needed early for CONFIG_BSD etc. */
+ #include "sysemu/sysemu.h"
+ #include "net/slirp.h"
+diff --git a/os-win32.c b/os-win32.c
+index 0e0d7f50f3..6d92189810 100644
+--- a/os-win32.c
++++ b/os-win32.c
+@@ -22,9 +22,11 @@
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   * THE SOFTWARE.
   */
 +
  #include "qemu/osdep.h"
+ #include <windows.h>
+ #include <mmsystem.h>
++#include "qemu-common.h"
+ #include "sysemu/sysemu.h"
+ #include "qemu-options.h"
  
+diff --git a/qapi/qapi-dealloc-visitor.c b/qapi/qapi-dealloc-visitor.c
+index 6b24afd367..89ccd905ec 100644
+--- a/qapi/qapi-dealloc-visitor.c
++++ b/qapi/qapi-dealloc-visitor.c
+@@ -16,7 +16,6 @@
+ #include "qapi/dealloc-visitor.h"
+ #include "qapi/qmp/qnull.h"
+ #include "qemu/queue.h"
+-#include "qemu-common.h"
+ #include "qapi/visitor-impl.h"
+ 
+ struct QapiDeallocVisitor
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index d9a113726f..5365561b07 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -14,7 +14,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/visitor.h"
+ #include "qapi/visitor-impl.h"
+diff --git a/qapi/qmp-event.c b/qapi/qmp-event.c
+index 81ddd5331f..19d3cd0038 100644
+--- a/qapi/qmp-event.c
++++ b/qapi/qmp-event.c
+@@ -13,7 +13,6 @@
+ 
+ #include "qemu/osdep.h"
+ 
+-#include "qemu-common.h"
+ #include "qapi/qmp-event.h"
+ #include "qapi/qmp/qstring.h"
+ #include "qapi/qmp/qdict.h"
+diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
+index 07465f9947..32236cbcb1 100644
+--- a/qapi/qobject-input-visitor.c
++++ b/qapi/qobject-input-visitor.c
+@@ -18,7 +18,6 @@
+ #include "qapi/qobject-input-visitor.h"
+ #include "qapi/visitor-impl.h"
+ #include "qemu/queue.h"
+-#include "qemu-common.h"
+ #include "qapi/qmp/qjson.h"
+ #include "qapi/qmp/qbool.h"
+ #include "qapi/qmp/qdict.h"
+diff --git a/qapi/qobject-output-visitor.c b/qapi/qobject-output-visitor.c
+index 89ffd8a7bf..26d7be5ec9 100644
+--- a/qapi/qobject-output-visitor.c
++++ b/qapi/qobject-output-visitor.c
+@@ -16,7 +16,6 @@
+ #include "qapi/qobject-output-visitor.h"
+ #include "qapi/visitor-impl.h"
+ #include "qemu/queue.h"
+-#include "qemu-common.h"
+ #include "qapi/qmp/qbool.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qlist.h"
+diff --git a/qapi/string-input-visitor.c b/qapi/string-input-visitor.c
+index bd92080667..9be418b6d6 100644
+--- a/qapi/string-input-visitor.c
++++ b/qapi/string-input-visitor.c
+@@ -12,7 +12,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qapi/string-input-visitor.h"
+ #include "qapi/visitor-impl.h"
+ #include "qapi/qmp/qerror.h"
+diff --git a/qemu-edid.c b/qemu-edid.c
+index ae8b8a6d9b..46eef70498 100644
+--- a/qemu-edid.c
++++ b/qemu-edid.c
+@@ -5,7 +5,6 @@
+  * See the COPYING file in the top-level directory.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/bswap.h"
+ #include "qemu/cutils.h"
+ #include "hw/display/edid.h"
+diff --git a/qemu-img.c b/qemu-img.c
+index e0269fd7fa..649e9dacbc 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include <getopt.h>
+ 
++#include "qemu-common.h"
+ #include "qemu-version.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-visit-block-core.h"
+diff --git a/qemu-io.c b/qemu-io.c
+index 968f0e3dbf..f64eca6940 100644
+--- a/qemu-io.c
++++ b/qemu-io.c
+@@ -15,6 +15,7 @@
+ #include <termios.h>
+ #endif
+ 
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qemu-io.h"
+ #include "qemu/error-report.h"
+diff --git a/qemu-keymap.c b/qemu-keymap.c
+index 4d00468747..536e8f2385 100644
+--- a/qemu-keymap.c
++++ b/qemu-keymap.c
+@@ -10,7 +10,6 @@
+  * See the COPYING file in the top-level directory.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/notify.h"
+ #include "ui/input.h"
+ 
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index 410373a321..e24dd2f767 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -21,6 +21,7 @@
+ #include <libgen.h>
+ #include <pthread.h>
+ 
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
+ #include "sysemu/block-backend.h"
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 7ee6a33cce..dfc05f5b8a 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -16,6 +16,7 @@
+ #include <sys/utsname.h>
+ #include <sys/wait.h>
+ #include <dirent.h>
++#include "qemu-common.h"
+ #include "guest-agent-core.h"
+ #include "qga-qapi-commands.h"
+ #include "qapi/error.h"
+diff --git a/qga/guest-agent-core.h b/qga/guest-agent-core.h
+index 6cf8c288e8..2a90b5fd94 100644
+--- a/qga/guest-agent-core.h
++++ b/qga/guest-agent-core.h
+@@ -17,7 +17,6 @@
+ #define GUEST_AGENT_CORE_H
+ 
+ #include "qapi/qmp/dispatch.h"
+-#include "qemu-common.h"
+ #include "qga-qapi-types.h"
+ 
+ #define QGA_READ_COUNT_DEFAULT 4096
+diff --git a/qga/main.c b/qga/main.c
+index b54b55589d..c35c2a2120 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -18,6 +18,7 @@
+ #include <syslog.h>
+ #include <sys/wait.h>
+ #endif
++#include "qemu-common.h"
+ #include "qapi/qmp/json-parser.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qjson.h"
+diff --git a/qmp.c b/qmp.c
+index fa1b3c1577..6797568444 100644
+--- a/qmp.c
++++ b/qmp.c
+@@ -14,6 +14,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu-version.h"
+ #include "qemu/cutils.h"
+ #include "qemu/option.h"
+diff --git a/qom/qom-qobject.c b/qom/qom-qobject.c
+index 4aec20d73c..c3b95aa354 100644
+--- a/qom/qom-qobject.c
++++ b/qom/qom-qobject.c
+@@ -11,7 +11,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qom/object.h"
+ #include "qom/qom-qobject.h"
+ #include "qapi/visitor.h"
+diff --git a/replay/replay-events.c b/replay/replay-events.c
+index d9a2d495b9..60d17f6edb 100644
+--- a/replay/replay-events.c
++++ b/replay/replay-events.c
+@@ -10,7 +10,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/replay.h"
+ #include "replay-internal.h"
+diff --git a/replay/replay-input.c b/replay/replay-input.c
+index 6ee8b5f8db..1147e3d34e 100644
+--- a/replay/replay-input.c
++++ b/replay/replay-input.c
+@@ -10,7 +10,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "sysemu/replay.h"
+ #include "replay-internal.h"
+ #include "qemu/notify.h"
+diff --git a/replay/replay-internal.c b/replay/replay-internal.c
+index 8f87e9b957..9e41ed1dcf 100644
+--- a/replay/replay-internal.c
++++ b/replay/replay-internal.c
+@@ -10,7 +10,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "sysemu/replay.h"
+ #include "replay-internal.h"
+ #include "qemu/error-report.h"
+diff --git a/replay/replay-snapshot.c b/replay/replay-snapshot.c
+index 16bacc98bc..756f48bc02 100644
+--- a/replay/replay-snapshot.c
++++ b/replay/replay-snapshot.c
+@@ -11,7 +11,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "sysemu/replay.h"
+ #include "replay-internal.h"
+ #include "sysemu/sysemu.h"
+diff --git a/replay/replay-time.c b/replay/replay-time.c
+index 0df1693337..5154cb0ce9 100644
+--- a/replay/replay-time.c
++++ b/replay/replay-time.c
+@@ -10,7 +10,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "sysemu/replay.h"
+ #include "replay-internal.h"
+ #include "qemu/error-report.h"
+diff --git a/scripts/modules/module_block.py b/scripts/modules/module_block.py
+index 3f73007640..08646af92c 100644
+--- a/scripts/modules/module_block.py
++++ b/scripts/modules/module_block.py
+@@ -68,8 +68,6 @@ def print_top(fheader):
+     fheader.write('''#ifndef QEMU_MODULE_BLOCK_H
+ #define QEMU_MODULE_BLOCK_H
+ 
+-#include "qemu-common.h"
+-
+ static const struct {
+     const char *format_name;
+     const char *protocol_name;
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index 2067660be4..b732581046 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -148,7 +148,6 @@ class QAPISchemaGenEventVisitor(QAPISchemaModularCVisitor):
+         visit = self._module_basename('qapi-visit', name)
+         self._genc.add(mcgen('''
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "%(prefix)sqapi-emit-events.h"
+ #include "%(events)s.h"
+ #include "%(visit)s.h"
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 826b8066e1..fd356151d2 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -287,7 +287,6 @@ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
+         self._add_system_module(None, ' * Built-in QAPI visitors')
+         self._genc.preamble_add(mcgen('''
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-builtin-visit.h"
+ '''))
+@@ -303,7 +302,6 @@ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
+         visit = self._module_basename('qapi-visit', name)
+         self._genc.preamble_add(mcgen('''
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/qerror.h"
+ #include "%(visit)s.h"
+diff --git a/scripts/tracetool/format/h.py b/scripts/tracetool/format/h.py
+index e06f0f27c5..338a2365ee 100644
+--- a/scripts/tracetool/format/h.py
++++ b/scripts/tracetool/format/h.py
+@@ -22,7 +22,6 @@ def generate(events, backend, group):
+         '#ifndef TRACE_%s_GENERATED_TRACERS_H' % group.upper(),
+         '#define TRACE_%s_GENERATED_TRACERS_H' % group.upper(),
+         '',
+-        '#include "qemu-common.h"',
+         '#include "trace/control.h"',
+         '')
+ 
+diff --git a/scripts/tracetool/format/tcg_helper_c.py b/scripts/tracetool/format/tcg_helper_c.py
+index bbbd6ad0f4..03344ef825 100644
+--- a/scripts/tracetool/format/tcg_helper_c.py
++++ b/scripts/tracetool/format/tcg_helper_c.py
+@@ -52,7 +52,6 @@ def generate(events, backend, group):
+     out('/* This file is autogenerated by tracetool, do not edit. */',
+         '',
+         '#include "qemu/osdep.h"',
+-        '#include "qemu-common.h"',
+         '#include "cpu.h"',
+         '#include "exec/helper-proto.h"',
+         '#include "%s"' % header,
+diff --git a/scripts/tracetool/format/ust_events_h.py b/scripts/tracetool/format/ust_events_h.py
+index 4e95e9b3f9..b14054ac01 100644
+--- a/scripts/tracetool/format/ust_events_h.py
++++ b/scripts/tracetool/format/ust_events_h.py
+@@ -37,7 +37,6 @@ def generate(events, backend, group):
+         '     defined(TRACEPOINT_HEADER_MULTI_READ)',
+         '#define TRACE_%s_GENERATED_UST_H' % group.upper(),
+         '',
+-        '#include "qemu-common.h"',
+         '#include <lttng/tracepoint.h>',
+         '',
+         '/*',
+diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
+index 72acdc7527..a256ce490b 100644
+--- a/scsi/qemu-pr-helper.c
++++ b/scsi/qemu-pr-helper.c
+@@ -36,6 +36,7 @@
+ #include <mpath_persist.h>
+ #endif
+ 
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
+ #include "qemu/main-loop.h"
+diff --git a/stubs/bdrv-next-monitor-owned.c b/stubs/bdrv-next-monitor-owned.c
+index 2acf6c3ec0..e62c289862 100644
+--- a/stubs/bdrv-next-monitor-owned.c
++++ b/stubs/bdrv-next-monitor-owned.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "block/block.h"
+ 
+ BlockDriverState *bdrv_next_monitor_owned(BlockDriverState *bs)
+diff --git a/stubs/blk-commit-all.c b/stubs/blk-commit-all.c
+index c82fb7f5f8..e156c57f8d 100644
+--- a/stubs/blk-commit-all.c
++++ b/stubs/blk-commit-all.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "sysemu/block-backend.h"
+ 
+ int blk_commit_all(void)
+diff --git a/stubs/change-state-handler.c b/stubs/change-state-handler.c
+index 01b1c6986d..d14194b36b 100644
+--- a/stubs/change-state-handler.c
++++ b/stubs/change-state-handler.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "sysemu/sysemu.h"
+ 
+ VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandler *cb,
+diff --git a/stubs/clock-warp.c b/stubs/clock-warp.c
+index 8acb58a775..b53e5dd94c 100644
+--- a/stubs/clock-warp.c
++++ b/stubs/clock-warp.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ 
+ void qemu_start_warp_timer(void)
+diff --git a/stubs/cpu-get-clock.c b/stubs/cpu-get-clock.c
+index 1d07523b86..5a92810e87 100644
+--- a/stubs/cpu-get-clock.c
++++ b/stubs/cpu-get-clock.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ 
+ int64_t cpu_get_clock(void)
+diff --git a/stubs/cpu-get-icount.c b/stubs/cpu-get-icount.c
+index 35f0c1e24c..b35f844638 100644
+--- a/stubs/cpu-get-icount.c
++++ b/stubs/cpu-get-icount.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/timer.h"
+ #include "sysemu/cpus.h"
+ #include "qemu/main-loop.h"
+diff --git a/stubs/dump.c b/stubs/dump.c
+index 8e5032c3af..1f28ec2be3 100644
+--- a/stubs/dump.c
++++ b/stubs/dump.c
+@@ -12,7 +12,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "sysemu/dump-arch.h"
+ 
+ int cpu_get_dump_info(ArchDumpInfo *info,
+diff --git a/stubs/error-printf.c b/stubs/error-printf.c
+index 1f9d3b3714..a2f61521a1 100644
+--- a/stubs/error-printf.c
++++ b/stubs/error-printf.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ 
+ int error_vprintf(const char *fmt, va_list ap)
+diff --git a/stubs/fd-register.c b/stubs/fd-register.c
+index f91aa34185..63a4abdb20 100644
+--- a/stubs/fd-register.c
++++ b/stubs/fd-register.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/main-loop.h"
+ 
+ void qemu_fd_register(int fd)
+diff --git a/stubs/fdset.c b/stubs/fdset.c
+index 4f3edf2ea4..f3d9980b7e 100644
+--- a/stubs/fdset.c
++++ b/stubs/fdset.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "monitor/monitor.h"
+ 
+ int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd)
+diff --git a/stubs/iothread-lock.c b/stubs/iothread-lock.c
+index eb745d7d6a..2a6efad64a 100644
+--- a/stubs/iothread-lock.c
++++ b/stubs/iothread-lock.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/main-loop.h"
+ 
+ bool qemu_mutex_iothread_locked(void)
+diff --git a/stubs/is-daemonized.c b/stubs/is-daemonized.c
+index d5cd1dc371..8f63325bb2 100644
+--- a/stubs/is-daemonized.c
++++ b/stubs/is-daemonized.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ 
+ /* Win32 has its own inline stub */
  #ifndef _WIN32
-@@ -33,7 +34,7 @@
- #include <iconv.h>
- 
- #include "qapi/error.h"
--#include "qemu-common.h"
-+#include "qemu/module.h"
- #include "ui/console.h"
- #include "ui/input.h"
- #include "sysemu/sysemu.h"
-diff --git a/ui/egl-headless.c b/ui/egl-headless.c
-index e67b47aeff..05b2e7d7b1 100644
---- a/ui/egl-headless.c
-+++ b/ui/egl-headless.c
-@@ -1,5 +1,5 @@
+diff --git a/stubs/machine-init-done.c b/stubs/machine-init-done.c
+index 4121f1709b..cd8e81392d 100644
+--- a/stubs/machine-init-done.c
++++ b/stubs/machine-init-done.c
+@@ -1,5 +1,4 @@
  #include "qemu/osdep.h"
 -#include "qemu-common.h"
-+#include "qemu/module.h"
  #include "sysemu/sysemu.h"
- #include "ui/console.h"
- #include "ui/egl-helpers.h"
-diff --git a/ui/input-linux.c b/ui/input-linux.c
-index ba550dd274..c8d22f99d9 100644
---- a/ui/input-linux.c
-+++ b/ui/input-linux.c
-@@ -6,8 +6,8 @@
  
+ bool machine_init_done = true;
+diff --git a/stubs/migr-blocker.c b/stubs/migr-blocker.c
+index 2b64ac9560..5676a2f93c 100644
+--- a/stubs/migr-blocker.c
++++ b/stubs/migr-blocker.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "migration/blocker.h"
+ 
+ int migrate_add_blocker(Error *reason, Error **errp)
+diff --git a/stubs/monitor.c b/stubs/monitor.c
+index b2ea975e40..cdbf5c5f9a 100644
+--- a/stubs/monitor.c
++++ b/stubs/monitor.c
+@@ -1,7 +1,6 @@
  #include "qemu/osdep.h"
  #include "qapi/error.h"
+ #include "qapi/qapi-emit-events.h"
 -#include "qemu-common.h"
- #include "qemu/config-file.h"
-+#include "qemu/module.h"
- #include "qemu/sockets.h"
+ #include "monitor/monitor.h"
+ 
+ __thread Monitor *cur_mon;
+diff --git a/stubs/notify-event.c b/stubs/notify-event.c
+index 14e52268a8..827bb52d1a 100644
+--- a/stubs/notify-event.c
++++ b/stubs/notify-event.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/main-loop.h"
+ 
+ void qemu_notify_event(void)
+diff --git a/stubs/set-fd-handler.c b/stubs/set-fd-handler.c
+index 26965de4c3..bff7e0a45a 100644
+--- a/stubs/set-fd-handler.c
++++ b/stubs/set-fd-handler.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/main-loop.h"
+ 
+ void qemu_set_fd_handler(int fd,
+diff --git a/stubs/uuid.c b/stubs/uuid.c
+index a802e9836b..67f182fa3a 100644
+--- a/stubs/uuid.c
++++ b/stubs/uuid.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qapi/qapi-commands-misc.h"
+ #include "qemu/uuid.h"
+ 
+diff --git a/stubs/vm-stop.c b/stubs/vm-stop.c
+index 8271cad65d..68e5f20eaf 100644
+--- a/stubs/vm-stop.c
++++ b/stubs/vm-stop.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
  #include "sysemu/sysemu.h"
- #include "ui/input.h"
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 1277cf28fb..b8a31197e8 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -24,7 +24,7 @@
+ 
+ void qemu_system_vmstop_request_prepare(void)
+diff --git a/stubs/vmstate.c b/stubs/vmstate.c
+index 6399474e49..e1e89b87f0 100644
+--- a/stubs/vmstate.c
++++ b/stubs/vmstate.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "migration/vmstate.h"
+ 
+ const VMStateDescription vmstate_dummy = {};
+diff --git a/stubs/xen-common.c b/stubs/xen-common.c
+index 09fce2dd36..f5efcae362 100644
+--- a/stubs/xen-common.c
++++ b/stubs/xen-common.c
+@@ -6,7 +6,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "hw/xen/xen.h"
+ 
+ void xenstore_store_pv_console_info(int i, Chardev *chr)
+diff --git a/stubs/xen-hvm.c b/stubs/xen-hvm.c
+index 0067bcc6db..b7d53b5e2f 100644
+--- a/stubs/xen-hvm.c
++++ b/stubs/xen-hvm.c
+@@ -9,7 +9,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "hw/xen/xen.h"
+ #include "exec/memory.h"
+ #include "qapi/qapi-commands-misc.h"
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index 7c81be4111..5570bc88c7 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -23,7 +23,6 @@
+ #include "qapi/error.h"
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ #include "exec/exec-all.h"
+ 
+ 
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index 72f4dc2f07..bd833c4425 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -23,7 +23,6 @@
+ #ifndef ALPHA_CPU_H
+ #define ALPHA_CPU_H
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ 
+ #define TARGET_LONG_BITS 64
+diff --git a/target/alpha/gdbstub.c b/target/alpha/gdbstub.c
+index d64bcccfa0..7f9cc092a9 100644
+--- a/target/alpha/gdbstub.c
++++ b/target/alpha/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/alpha/machine.c b/target/alpha/machine.c
+index abc81cef7b..fdab596438 100644
+--- a/target/alpha/machine.c
++++ b/target/alpha/machine.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index 8b5fd7bc6e..8c06d578a6 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -27,7 +27,6 @@
+ 
+ #define ARM_ANGEL_HEAP_SIZE (128 * 1024 * 1024)
+ #else
+-#include "qemu-common.h"
+ #include "exec/gdbstub.h"
+ #include "hw/arm/arm.h"
+ #include "qemu/cutils.h"
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 1a9bea9289..beea2c5bef 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -19,6 +19,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "target/arm/idau.h"
+ #include "qemu/module.h"
+ #include "qapi/error.h"
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 07500d3d60..9531837c7c 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -38,7 +38,6 @@
+ 
+ #define CPUArchState struct CPUARMState
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+ 
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 0c64c0292e..1239abd984 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
+index 49bc3fc521..665ebb3ef6 100644
+--- a/target/arm/gdbstub64.c
++++ b/target/arm/gdbstub64.c
+@@ -17,7 +17,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/arm/kvm-stub.c b/target/arm/kvm-stub.c
+index b2c66df532..56a7099e6b 100644
+--- a/target/arm/kvm-stub.c
++++ b/target/arm/kvm-stub.c
+@@ -10,7 +10,6 @@
+  *
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "kvm_arm.h"
+ 
+diff --git a/target/arm/machine.c b/target/arm/machine.c
+index 96d032f2a7..3fd319a309 100644
+--- a/target/arm/machine.c
++++ b/target/arm/machine.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+diff --git a/target/cris/cpu.c b/target/cris/cpu.c
+index 4e5288ae80..c214bc2070 100644
+--- a/target/cris/cpu.c
++++ b/target/cris/cpu.c
+@@ -25,7 +25,6 @@
+ #include "qapi/error.h"
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ #include "mmu.h"
+ 
+ 
+diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+index 71c3052362..892cacac51 100644
+--- a/target/cris/cpu.h
++++ b/target/cris/cpu.h
+@@ -24,7 +24,6 @@
+ #ifndef CRIS_CPU_H
+ #define CRIS_CPU_H
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ 
+ #define TARGET_LONG_BITS 32
+diff --git a/target/cris/gdbstub.c b/target/cris/gdbstub.c
+index 3a72ee2a98..a3d76d2e8c 100644
+--- a/target/cris/gdbstub.c
++++ b/target/cris/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/cris/machine.c b/target/cris/machine.c
+index 6b797e8c1d..ecec41c2c8 100644
+--- a/target/cris/machine.c
++++ b/target/cris/machine.c
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "migration/cpu.h"
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index ca10301b72..afe3dc6049 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
+@@ -23,7 +23,6 @@
+ #ifndef HPPA_CPU_H
+ #define HPPA_CPU_H
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ 
+ #ifdef TARGET_HPPA64
+diff --git a/target/hppa/gdbstub.c b/target/hppa/gdbstub.c
+index 983bf92aaf..341888a9da 100644
+--- a/target/hppa/gdbstub.c
++++ b/target/hppa/gdbstub.c
+@@ -18,7 +18,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/hppa/machine.c b/target/hppa/machine.c
+index a1bee9796f..73e8121bde 100644
+--- a/target/hppa/machine.c
++++ b/target/hppa/machine.c
+@@ -18,7 +18,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index 1221433bc7..aef25b70f1 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/i386/kvm-stub.c b/target/i386/kvm-stub.c
+index e7a673e5db..872ef7df4c 100644
+--- a/target/i386/kvm-stub.c
++++ b/target/i386/kvm-stub.c
+@@ -10,7 +10,6 @@
+  *
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "kvm_i386.h"
+ 
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 3b29ce5c0d..6899061b4e 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -20,7 +20,6 @@
+ #include <linux/kvm.h>
+ #include "standard-headers/asm-x86/kvm_para.h"
+ 
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/hw_accel.h"
+diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+index 59a003a4eb..e5ee13309c 100644
+--- a/target/i386/sev-stub.c
++++ b/target/i386/sev-stub.c
+@@ -12,7 +12,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "sev_i386.h"
+ 
+ SevInfo *sev_get_info(void)
+diff --git a/target/i386/xsave_helper.c b/target/i386/xsave_helper.c
+index 52ea7e654b..818115e7d2 100644
+--- a/target/i386/xsave_helper.c
++++ b/target/i386/xsave_helper.c
+@@ -4,7 +4,6 @@
+  */
+ #include "qemu/osdep.h"
+ 
+-#include "qemu-common.h"
+ #include "cpu.h"
+ 
+ void x86_cpu_xsave_all_areas(X86CPU *cpu, X86XSaveArea *buf)
+diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
+index 57c50c1578..b0ead0d69a 100644
+--- a/target/lm32/cpu.c
++++ b/target/lm32/cpu.c
+@@ -22,7 +22,6 @@
+ #include "qapi/error.h"
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ 
+ 
+ static void lm32_cpu_set_pc(CPUState *cs, vaddr value)
+diff --git a/target/lm32/cpu.h b/target/lm32/cpu.h
+index 1cbbef3dc6..f270e341b3 100644
+--- a/target/lm32/cpu.h
++++ b/target/lm32/cpu.h
+@@ -27,7 +27,6 @@
+ 
+ #define CPUArchState struct CPULM32State
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+ struct CPULM32State;
+diff --git a/target/lm32/gdbstub.c b/target/lm32/gdbstub.c
+index cf929dd392..82ede436e1 100644
+--- a/target/lm32/gdbstub.c
++++ b/target/lm32/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ #include "hw/lm32/lm32_pic.h"
+diff --git a/target/lm32/machine.c b/target/lm32/machine.c
+index 3c258a4bcc..cc46f77324 100644
+--- a/target/lm32/machine.c
++++ b/target/lm32/machine.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index b16957934a..91bb30c17a 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -21,7 +21,6 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ #include "migration/vmstate.h"
+ #include "fpu/softfloat.h"
+ 
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 62702232fa..384a2c1b8d 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -28,7 +28,6 @@
+ 
+ #define CPUArchState struct CPUM68KState
+ 
+-#include "qemu-common.h"
+ #include "exec/cpu-defs.h"
+ #include "cpu-qom.h"
+ 
+diff --git a/target/m68k/gdbstub.c b/target/m68k/gdbstub.c
+index fd2bb46c42..e6baf0601e 100644
+--- a/target/m68k/gdbstub.c
++++ b/target/m68k/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index 1402145c8f..2b7c4f3c79 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -24,7 +24,6 @@
+ #include "qemu.h"
+ #define SEMIHOSTING_HEAP_SIZE (128 * 1024 * 1024)
+ #else
+-#include "qemu-common.h"
+ #include "exec/gdbstub.h"
+ #include "exec/softmmu-semi.h"
+ #endif
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index 903e489f89..fa4f8e95e8 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -23,7 +23,6 @@
+ #ifndef MICROBLAZE_CPU_H
+ #define MICROBLAZE_CPU_H
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ 
+ #define TARGET_LONG_BITS 64
+diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
+index 7fb076c2e9..30677b6d1f 100644
+--- a/target/microblaze/gdbstub.c
++++ b/target/microblaze/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 9ea41fd007..fe156ff665 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -8,7 +8,6 @@
+ 
+ #define CPUArchState struct CPUMIPSState
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ #include "mips-defs.h"
+ #include "exec/cpu-defs.h"
+diff --git a/target/mips/gdbstub.c b/target/mips/gdbstub.c
+index 18e0e6dce4..ebcc98bdde 100644
+--- a/target/mips/gdbstub.c
++++ b/target/mips/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "internal.h"
+ #include "exec/gdbstub.h"
+diff --git a/target/mips/machine.c b/target/mips/machine.c
+index 70d277db51..eb2d97001d 100644
+--- a/target/mips/machine.c
++++ b/target/mips/machine.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "internal.h"
+ #include "hw/hw.h"
+diff --git a/target/moxie/cpu.c b/target/moxie/cpu.c
+index 02b2b47574..a0fa23c549 100644
+--- a/target/moxie/cpu.c
++++ b/target/moxie/cpu.c
+@@ -20,7 +20,6 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ #include "migration/vmstate.h"
+ #include "machine.h"
+ 
+diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
+index 393726e395..4cb2008523 100644
+--- a/target/moxie/cpu.h
++++ b/target/moxie/cpu.h
+@@ -23,7 +23,6 @@
+ #ifndef MOXIE_CPU_H
+ #define MOXIE_CPU_H
+ 
+-#include "qemu-common.h"
+ 
+ #define TARGET_LONG_BITS 32
+ 
+diff --git a/target/moxie/machine.c b/target/moxie/machine.c
+index 282dcd869f..322a724e6f 100644
+--- a/target/moxie/machine.c
++++ b/target/moxie/machine.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index d17a66734d..62080fc134 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -24,7 +24,6 @@
+ #ifndef NIOS2_CPU_H
+ #define NIOS2_CPU_H
+ 
+-#include "qemu-common.h"
+ 
+ #define TARGET_LONG_BITS 32
+ 
+diff --git a/target/nios2/mmu.c b/target/nios2/mmu.c
+index 47fa474efb..72a47065b6 100644
+--- a/target/nios2/mmu.c
++++ b/target/nios2/mmu.c
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+index 3816baee70..8d43687e7c 100644
+--- a/target/openrisc/cpu.c
++++ b/target/openrisc/cpu.c
+@@ -21,7 +21,6 @@
+ #include "qapi/error.h"
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ 
+ static void openrisc_cpu_set_pc(CPUState *cs, vaddr value)
+ {
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index f7e506f406..59d713a23e 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -30,7 +30,6 @@
+ /* cpu_openrisc_map_address_* in CPUOpenRISCTLBContext need this decl.  */
+ struct OpenRISCCPU;
+ 
+-#include "qemu-common.h"
+ #include "exec/cpu-defs.h"
+ #include "qom/cpu.h"
+ 
+diff --git a/target/openrisc/disas.c b/target/openrisc/disas.c
+index 5923b2429e..7091832347 100644
+--- a/target/openrisc/disas.c
++++ b/target/openrisc/disas.c
+@@ -18,7 +18,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "disas/dis-asm.h"
+ #include "qemu/bitops.h"
+ #include "cpu.h"
+diff --git a/target/openrisc/exception.h b/target/openrisc/exception.h
+index 43267b5337..d750ad41a3 100644
+--- a/target/openrisc/exception.h
++++ b/target/openrisc/exception.h
+@@ -24,7 +24,6 @@
+ #define TARGET_OPENRISC_EXCEPTION_H
+ 
+ #include "cpu.h"
+-#include "qemu-common.h"
+ 
+ void QEMU_NORETURN raise_exception(OpenRISCCPU *cpu, uint32_t excp);
+ 
+diff --git a/target/openrisc/gdbstub.c b/target/openrisc/gdbstub.c
+index 43b1a18d4b..0fcdb79668 100644
+--- a/target/openrisc/gdbstub.c
++++ b/target/openrisc/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/openrisc/interrupt.c b/target/openrisc/interrupt.c
+index ee280df895..3eab771dcd 100644
+--- a/target/openrisc/interrupt.c
++++ b/target/openrisc/interrupt.c
+@@ -20,7 +20,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+-#include "qemu-common.h"
+ #include "exec/gdbstub.h"
+ #include "qemu/host-utils.h"
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/openrisc/machine.c b/target/openrisc/machine.c
+index c9e084814c..9fa285217d 100644
+--- a/target/openrisc/machine.c
++++ b/target/openrisc/machine.c
+@@ -18,7 +18,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+diff --git a/target/openrisc/mmu.c b/target/openrisc/mmu.c
+index a73b12af03..94df8c7bef 100644
+--- a/target/openrisc/mmu.c
++++ b/target/openrisc/mmu.c
+@@ -21,7 +21,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+-#include "qemu-common.h"
+ #include "exec/gdbstub.h"
+ #include "qemu/host-utils.h"
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index 36821948c0..4360ce4045 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -23,7 +23,6 @@
+ #include "exec/exec-all.h"
+ #include "disas/disas.h"
+ #include "tcg-op.h"
+-#include "qemu-common.h"
+ #include "qemu/log.h"
+ #include "qemu/bitops.h"
+ #include "qemu/qemu-print.h"
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 79c163eeb8..625db5c546 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -23,7 +23,6 @@
+ #ifndef PPC_CPU_H
+ #define PPC_CPU_H
+ 
+-#include "qemu-common.h"
+ #include "qemu/int128.h"
+ 
+ /* #define PPC_EMULATE_32BITS_HYPV */
+diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+index ce3625f44e..823759c92e 100644
+--- a/target/ppc/gdbstub.c
++++ b/target/ppc/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/ppc/kvm-stub.c b/target/ppc/kvm-stub.c
+index b8aa97f2d4..b98e1d404f 100644
+--- a/target/ppc/kvm-stub.c
++++ b/target/ppc/kvm-stub.c
+@@ -10,7 +10,6 @@
+  *
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/ppc/openpic_kvm.h"
+ 
+diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+index 25cdb9088b..5ad7b40f45 100644
+--- a/target/ppc/machine.c
++++ b/target/ppc/machine.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "hw/hw.h"
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 68a01848d6..9b2075b806 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -39,7 +39,6 @@
+ 
+ #define CPUArchState struct CPURISCVState
+ 
+-#include "qemu-common.h"
+ #include "qom/cpu.h"
+ #include "exec/cpu-defs.h"
+ #include "fpu/softfloat.h"
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index dfcdd834cf..27be93279b 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -17,7 +17,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "exec/gdbstub.h"
+ #include "cpu.h"
+ 
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index b11c4ae22f..fed1c3c030 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -27,7 +27,6 @@
+ #include "qemu/log.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ 
+ #ifndef CONFIG_USER_ONLY
+ 
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index ae2fa10a05..a909e2c633 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -23,7 +23,6 @@
+ #ifndef S390X_CPU_H
+ #define S390X_CPU_H
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ #include "cpu_models.h"
+ 
+diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
+index 22b4514ca6..5152e2bdf1 100644
+--- a/target/s390x/kvm-stub.c
++++ b/target/s390x/kvm-stub.c
+@@ -8,7 +8,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "kvm_s390x.h"
+ 
+diff --git a/target/s390x/vec_helper.c b/target/s390x/vec_helper.c
+index bb4c9304f0..986e7cc825 100644
+--- a/target/s390x/vec_helper.c
++++ b/target/s390x/vec_helper.c
+@@ -10,7 +10,6 @@
+  * See the COPYING file in the top-level directory.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "internal.h"
+ #include "vec.h"
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index c4736a0a73..13e48f7099 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -23,7 +23,6 @@
+ #include "qapi/error.h"
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ #include "migration/vmstate.h"
+ #include "exec/exec-all.h"
+ #include "fpu/softfloat.h"
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index 5e0a5de2fe..0e7da09aec 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -23,7 +23,6 @@
+ #ifndef SH4_CPU_H
+ #define SH4_CPU_H
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ 
+ #define TARGET_LONG_BITS 32
+diff --git a/target/sh4/gdbstub.c b/target/sh4/gdbstub.c
+index 54568e96f9..44c1679e9d 100644
+--- a/target/sh4/gdbstub.c
++++ b/target/sh4/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index 2aa36fceef..b19ac5319f 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -4,7 +4,6 @@
+ #ifndef SPARC_CPU_H
+ #define SPARC_CPU_H
+ 
+-#include "qemu-common.h"
+ #include "qemu/bswap.h"
+ #include "cpu-qom.h"
+ 
+diff --git a/target/sparc/gdbstub.c b/target/sparc/gdbstub.c
+index ffc2baa2e7..8be742b5a3 100644
+--- a/target/sparc/gdbstub.c
++++ b/target/sparc/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ 
+diff --git a/target/sparc/machine.c b/target/sparc/machine.c
+index 7791c84963..32d453c008 100644
+--- a/target/sparc/machine.c
++++ b/target/sparc/machine.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "hw/hw.h"
+diff --git a/target/tilegx/cpu.h b/target/tilegx/cpu.h
+index 6dafca1426..30c4c848bc 100644
+--- a/target/tilegx/cpu.h
++++ b/target/tilegx/cpu.h
+@@ -23,7 +23,6 @@
+ #ifndef TILEGX_CPU_H
+ #define TILEGX_CPU_H
+ 
+-#include "qemu-common.h"
+ 
+ #define TARGET_LONG_BITS 64
+ 
+diff --git a/target/tilegx/helper.c b/target/tilegx/helper.c
+index 4964bb9111..8de5acc037 100644
+--- a/target/tilegx/helper.c
++++ b/target/tilegx/helper.c
+@@ -21,7 +21,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+-#include "qemu-common.h"
+ #include "exec/helper-proto.h"
+ #include <zlib.h> /* For crc32 */
+ #include "syscall_defs.h"
+diff --git a/target/tilegx/simd_helper.c b/target/tilegx/simd_helper.c
+index 2d40ddb63e..0fdfad2fa9 100644
+--- a/target/tilegx/simd_helper.c
++++ b/target/tilegx/simd_helper.c
+@@ -20,7 +20,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ #include "exec/helper-proto.h"
+ 
+ 
+diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
+index ea1199d27e..c9502552cf 100644
+--- a/target/tricore/cpu.c
++++ b/target/tricore/cpu.c
+@@ -20,7 +20,6 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ #include "exec/exec-all.h"
+ #include "qemu/error-report.h"
+ 
+diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
+index 7c0da95bec..e31416e542 100644
+--- a/target/tricore/cpu.h
++++ b/target/tricore/cpu.h
+@@ -24,7 +24,6 @@
+ #define TRICORE_CPU_H
+ 
+ #include "tricore-defs.h"
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+ 
+diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
+index 3f57c508a0..2c16d57ce9 100644
+--- a/target/unicore32/cpu.c
++++ b/target/unicore32/cpu.c
+@@ -15,7 +15,6 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+-#include "qemu-common.h"
+ #include "migration/vmstate.h"
+ #include "exec/exec-all.h"
+ #include "fpu/softfloat.h"
+diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
+index ab33f17ad1..e0e942dc2d 100644
+--- a/target/unicore32/cpu.h
++++ b/target/unicore32/cpu.h
+@@ -23,7 +23,6 @@
+ 
+ #define CPUArchState                struct CPUUniCore32State
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+ 
+diff --git a/target/xtensa/core-dc233c.c b/target/xtensa/core-dc233c.c
+index 8853bfd4d0..f8204f7045 100644
+--- a/target/xtensa/core-dc233c.c
++++ b/target/xtensa/core-dc233c.c
+@@ -28,7 +28,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+-#include "qemu-common.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-dc233c/core-isa.h"
+diff --git a/target/xtensa/core-de212.c b/target/xtensa/core-de212.c
+index 7322179b56..a061158f6e 100644
+--- a/target/xtensa/core-de212.c
++++ b/target/xtensa/core-de212.c
+@@ -28,7 +28,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+-#include "qemu-common.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-de212/core-isa.h"
+diff --git a/target/xtensa/core-fsf.c b/target/xtensa/core-fsf.c
+index e100e212b9..1221a296fa 100644
+--- a/target/xtensa/core-fsf.c
++++ b/target/xtensa/core-fsf.c
+@@ -28,7 +28,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+-#include "qemu-common.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-fsf/core-isa.h"
+diff --git a/target/xtensa/core-sample_controller.c b/target/xtensa/core-sample_controller.c
+index f433ea8d66..a1d220bb9a 100644
+--- a/target/xtensa/core-sample_controller.c
++++ b/target/xtensa/core-sample_controller.c
+@@ -28,7 +28,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+-#include "qemu-common.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-sample_controller/core-isa.h"
+diff --git a/target/xtensa/core-test_kc705_be.c b/target/xtensa/core-test_kc705_be.c
+index 6fc20f3cdd..ab73c3885f 100644
+--- a/target/xtensa/core-test_kc705_be.c
++++ b/target/xtensa/core-test_kc705_be.c
+@@ -28,7 +28,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+-#include "qemu-common.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-test_kc705_be/core-isa.h"
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index 594c66b1a1..f7fc702050 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -39,7 +39,6 @@
+ 
+ #define CPUArchState struct CPUXtensaState
+ 
+-#include "qemu-common.h"
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+ #include "xtensa-isa.h"
+diff --git a/target/xtensa/gdbstub.c b/target/xtensa/gdbstub.c
+index d43bb190c6..54727881f3 100644
+--- a/target/xtensa/gdbstub.c
++++ b/target/xtensa/gdbstub.c
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
+ #include "qemu/log.h"
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 24faa06260..d7c71a6085 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -24,7 +24,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "exec/cpu-common.h"
+ #include "tcg-op.h"
+ 
+diff --git a/tcg/tcg-common.c b/tcg/tcg-common.c
+index 2f139de802..907d58d0f0 100644
+--- a/tcg/tcg-common.c
++++ b/tcg/tcg-common.c
+@@ -23,7 +23,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "exec/cpu-common.h"
+ #include "tcg/tcg.h"
+ 
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 338ddd9d9e..0827c80c1a 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -18,7 +18,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "tcg.h"
+ #include "tcg-op.h"
+ #include "tcg-op-gvec.h"
+diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
+index 543508d545..5bb36c089b 100644
+--- a/tcg/tcg-op-vec.c
++++ b/tcg/tcg-op-vec.c
+@@ -18,7 +18,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "tcg.h"
+ #include "tcg-op.h"
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 0ac291f1c4..587d092238 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -23,7 +23,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "tcg.h"
+diff --git a/tcg/tcg.h b/tcg/tcg.h
+index 39e27e6440..567e996e90 100644
+--- a/tcg/tcg.h
++++ b/tcg/tcg.h
+@@ -27,7 +27,6 @@
+ #ifndef TCG_H
+ #define TCG_H
+ 
+-#include "qemu-common.h"
+ #include "cpu.h"
+ #include "exec/tb-context.h"
+ #include "qemu/bitops.h"
+diff --git a/tests/crypto-tls-psk-helpers.h b/tests/crypto-tls-psk-helpers.h
+index 9aec29f1a0..7cc81dc1b7 100644
+--- a/tests/crypto-tls-psk-helpers.h
++++ b/tests/crypto-tls-psk-helpers.h
+@@ -21,7 +21,6 @@
+ #include <gnutls/gnutls.h>
+ 
+ #ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
+-# include "qemu-common.h"
+ 
+ void test_tls_psk_init(const char *keyfile);
+ void test_tls_psk_cleanup(const char *keyfile);
+diff --git a/tests/crypto-tls-x509-helpers.h b/tests/crypto-tls-x509-helpers.h
+index 2985347330..902b45781f 100644
+--- a/tests/crypto-tls-x509-helpers.h
++++ b/tests/crypto-tls-x509-helpers.h
+@@ -31,7 +31,6 @@
+ #ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
+ # include <libtasn1.h>
+ 
+-# include "qemu-common.h"
+ 
+ /*
+  * This contains parameter about how to generate
+diff --git a/tests/e1000e-test.c b/tests/e1000e-test.c
+index 781fcbfd89..445787a7e4 100644
+--- a/tests/e1000e-test.c
++++ b/tests/e1000e-test.c
+@@ -25,6 +25,7 @@
+ 
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "libqtest.h"
+ #include "qemu-common.h"
+ #include "libqos/pci-pc.h"
+diff --git a/tests/test-filter-mirror.c b/tests/test-filter-mirror.c
+index d942c74a3f..1e3ced84a9 100644
+--- a/tests/test-filter-mirror.c
++++ b/tests/test-filter-mirror.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "libqtest.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qemu/iov.h"
+diff --git a/tests/test-filter-redirector.c b/tests/test-filter-redirector.c
+index 6dc21dd4fb..e4d53220fd 100644
+--- a/tests/test-filter-redirector.c
++++ b/tests/test-filter-redirector.c
+@@ -51,6 +51,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "libqtest.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qemu/iov.h"
+diff --git a/tests/virtio-net-test.c b/tests/virtio-net-test.c
+index 6a008bb552..663cf7ea7e 100644
+--- a/tests/virtio-net-test.c
++++ b/tests/virtio-net-test.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "libqtest.h"
+ #include "qemu/iov.h"
+ #include "qemu/module.h"
+diff --git a/trace/control.h b/trace/control.h
+index 0716f90f45..570492d6e8 100644
+--- a/trace/control.h
++++ b/trace/control.h
+@@ -10,7 +10,6 @@
+ #ifndef TRACE__CONTROL_H
+ #define TRACE__CONTROL_H
+ 
+-#include "qemu-common.h"
+ #include "event-internal.h"
+ 
+ typedef struct TraceEventIter {
+diff --git a/ui/console-gl.c b/ui/console-gl.c
+index c1cb3bd673..0a6478161f 100644
+--- a/ui/console-gl.c
++++ b/ui/console-gl.c
+@@ -25,7 +25,6 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "ui/console.h"
+ #include "ui/shader.h"
+ 
+diff --git a/ui/cursor.c b/ui/cursor.c
+index 26ce69fe5e..1d62ddd4d0 100644
+--- a/ui/cursor.c
++++ b/ui/cursor.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "ui/console.h"
+ 
+ #include "cursor_hidden.xpm"
+diff --git a/ui/egl-context.c b/ui/egl-context.c
+index 78e6c7ab7c..4aa1cbb50c 100644
+--- a/ui/egl-context.c
++++ b/ui/egl-context.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "ui/egl-context.h"
+ 
+ QEMUGLContext qemu_egl_create_context(DisplayChangeListener *dcl,
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index 42801b688b..99231a3597 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -12,7 +12,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ 
+ #include "trace.h"
+ 
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index 147ad6f9b5..85f9d14c51 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -8,7 +8,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ 
+ #include "trace.h"
+ 
+diff --git a/ui/gtk.c b/ui/gtk.c
+index e96e15435a..ad6963d4f5 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -31,7 +31,6 @@
+ #define LOCALEDIR "po"
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-misc.h"
+ #include "qemu/cutils.h"
+diff --git a/ui/keymaps.c b/ui/keymaps.c
+index 38fd22ed2b..6e8a321971 100644
+--- a/ui/keymaps.c
++++ b/ui/keymaps.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "keymaps.h"
+ #include "sysemu/sysemu.h"
+ #include "trace.h"
+diff --git a/ui/keymaps.h b/ui/keymaps.h
+index b6d48aac40..6473405485 100644
+--- a/ui/keymaps.h
++++ b/ui/keymaps.h
+@@ -25,7 +25,6 @@
+ #ifndef QEMU_KEYMAPS_H
+ #define QEMU_KEYMAPS_H
+ 
+-#include "qemu-common.h"
+ #include "ui/kbd-state.h"
+ 
+ typedef struct {
+diff --git a/ui/qemu-pixman.c b/ui/qemu-pixman.c
+index 1429cf08d5..85f2945e88 100644
+--- a/ui/qemu-pixman.c
++++ b/ui/qemu-pixman.c
+@@ -4,7 +4,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "ui/console.h"
+ #include "standard-headers/drm/drm_fourcc.h"
+ 
+diff --git a/ui/sdl2-2d.c b/ui/sdl2-2d.c
+index 091ecfcc7f..db191aaa79 100644
+--- a/ui/sdl2-2d.c
++++ b/ui/sdl2-2d.c
+@@ -24,7 +24,6 @@
  /* Ported SDL 1.2 code to 2.0 by Dave Airlie. */
  
  #include "qemu/osdep.h"
 -#include "qemu-common.h"
-+#include "qemu/module.h"
  #include "ui/console.h"
  #include "ui/input.h"
  #include "ui/sdl2.h"
-diff --git a/ui/spice-app.c b/ui/spice-app.c
-index 925b27b708..d6cade5cf1 100644
---- a/ui/spice-app.c
-+++ b/ui/spice-app.c
-@@ -21,15 +21,16 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+diff --git a/ui/sdl2-gl.c b/ui/sdl2-gl.c
+index 1bf4542d8d..7a37e7c995 100644
+--- a/ui/sdl2-gl.c
++++ b/ui/sdl2-gl.c
+@@ -26,7 +26,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "ui/console.h"
+ #include "ui/input.h"
+ #include "ui/sdl2.h"
+diff --git a/ui/sdl2-input.c b/ui/sdl2-input.c
+index fb345f45fb..b1daae4111 100644
+--- a/ui/sdl2-input.c
++++ b/ui/sdl2-input.c
+@@ -24,7 +24,6 @@
+ /* Ported SDL 1.2 code to 2.0 by Dave Airlie. */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "ui/console.h"
+ #include "ui/input.h"
+ #include "ui/sdl2.h"
+diff --git a/ui/shader.c b/ui/shader.c
+index 008458bf94..d78829f43b 100644
+--- a/ui/shader.c
++++ b/ui/shader.c
+@@ -25,7 +25,6 @@
   * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "ui/shader.h"
+ 
+ #include "shader/texture-blit-vert.h"
+diff --git a/ui/spice-input.c b/ui/spice-input.c
+index a426c03b5e..cd4bb0043f 100644
+--- a/ui/spice-input.c
++++ b/ui/spice-input.c
+@@ -20,7 +20,6 @@
+ #include <spice.h>
+ #include <spice/enums.h>
+ 
+-#include "qemu-common.h"
+ #include "ui/qemu-spice.h"
+ #include "ui/console.h"
+ #include "keymaps.h"
+diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
+index d20cd1d86d..9084c2201b 100644
+--- a/ui/vnc-enc-tight.c
++++ b/ui/vnc-enc-tight.c
+@@ -31,7 +31,6 @@
+ /* This needs to be before jpeglib.h line because of conflict with
+    INT32 definitions between jmorecfg.h (included by jpeglib.h) and
+    Win32 basetsd.h (included by windows.h). */
+-#include "qemu-common.h"
+ 
+ #ifdef CONFIG_VNC_PNG
+ /* The following define is needed by pngconf.h. Otherwise it won't compile,
+diff --git a/ui/vnc.h b/ui/vnc.h
+index e79b313704..5d316bfe18 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -29,7 +29,6 @@
+ #ifndef QEMU_VNC_H
+ #define QEMU_VNC_H
+ 
+-#include "qemu-common.h"
+ #include "qapi/qapi-types-ui.h"
+ #include "qemu/queue.h"
+ #include "qemu/thread.h"
+diff --git a/util/aio-posix.c b/util/aio-posix.c
+index db11021287..a4977f538e 100644
+--- a/util/aio-posix.c
++++ b/util/aio-posix.c
+@@ -14,7 +14,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "block/block.h"
+ #include "qemu/rcu_queue.h"
+ #include "qemu/sockets.h"
+diff --git a/util/async.c b/util/async.c
+index c10642a385..8d2105729c 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -25,7 +25,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "block/aio.h"
+ #include "block/thread-pool.h"
+ #include "qemu/main-loop.h"
+diff --git a/util/bufferiszero.c b/util/bufferiszero.c
+index 2178d8ab9d..bfb2605466 100644
+--- a/util/bufferiszero.c
++++ b/util/bufferiszero.c
+@@ -22,7 +22,6 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "qemu/bswap.h"
+ 
+diff --git a/util/compatfd.c b/util/compatfd.c
+index 980bd33e52..c296f55d14 100644
+--- a/util/compatfd.c
++++ b/util/compatfd.c
+@@ -14,7 +14,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/thread.h"
+ 
+ #include <sys/syscall.h>
+diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
+index 090ba21a13..bd593e61bc 100644
+--- a/util/coroutine-ucontext.c
++++ b/util/coroutine-ucontext.c
+@@ -24,7 +24,6 @@
+ #endif
+ #include "qemu/osdep.h"
+ #include <ucontext.h>
+-#include "qemu-common.h"
+ #include "qemu/coroutine_int.h"
+ 
+ #ifdef CONFIG_VALGRIND_H
+diff --git a/util/crc32c.c b/util/crc32c.c
+index 7e99555c16..762657d853 100644
+--- a/util/crc32c.c
++++ b/util/crc32c.c
+@@ -26,7 +26,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/crc32c.h"
+ 
+ /*
+diff --git a/util/cutils.c b/util/cutils.c
+index 53e4af59f8..dfc605f1ef 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -26,6 +26,7 @@
+ #include "qemu/host-utils.h"
+ #include <math.h>
+ 
++#include "qemu-common.h"
+ #include "qemu/sockets.h"
+ #include "qemu/iov.h"
+ #include "net/net.h"
+diff --git a/util/envlist.c b/util/envlist.c
+index 1eeb7fca87..2bcc13f094 100644
+--- a/util/envlist.c
++++ b/util/envlist.c
+@@ -1,5 +1,4 @@
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/queue.h"
+ #include "qemu/envlist.h"
+ 
+diff --git a/util/error.c b/util/error.c
+index ea6d1a3d7e..d4532ce318 100644
+--- a/util/error.c
++++ b/util/error.c
+@@ -14,7 +14,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ 
+ struct Error
+diff --git a/util/fifo8.c b/util/fifo8.c
+index d38b3bdaa5..a9aa20a9f7 100644
+--- a/util/fifo8.c
++++ b/util/fifo8.c
+@@ -13,7 +13,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/fifo8.h"
+ 
+ void fifo8_create(Fifo8 *fifo, uint32_t capacity)
+diff --git a/util/getauxval.c b/util/getauxval.c
+index 0b3bae2dcb..36afdfb9e6 100644
+--- a/util/getauxval.c
++++ b/util/getauxval.c
+@@ -23,7 +23,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ 
+ #ifdef CONFIG_GETAUXVAL
+ /* Don't inline this in qemu/osdep.h, because pulling in <sys/auxv.h> for
+diff --git a/util/iohandler.c b/util/iohandler.c
+index 623b55b9ec..bece8825dc 100644
+--- a/util/iohandler.c
++++ b/util/iohandler.c
+@@ -24,7 +24,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qemu/queue.h"
+ #include "block/aio.h"
+ #include "qemu/main-loop.h"
+diff --git a/util/log.c b/util/log.c
+index c0dbbd4700..1d1b33f7d9 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -18,7 +18,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/log.h"
+ #include "qemu/range.h"
+ #include "qemu/error-report.h"
+diff --git a/util/module.c b/util/module.c
+index 1259dd3686..142db7e911 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -14,7 +14,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #ifdef CONFIG_MODULES
+ #include <gmodule.h>
+ #endif
+diff --git a/util/notify.c b/util/notify.c
+index 06de63a839..aee8d93cb0 100644
+--- a/util/notify.c
++++ b/util/notify.c
+@@ -14,7 +14,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/notify.h"
+ 
+ void notifier_list_init(NotifierList *list)
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index d97b1717d5..fe0309ce7a 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -31,6 +31,7 @@
+ 
+ #include <glib/gprintf.h>
+ 
++#include "qemu-common.h"
+ #include "sysemu/sysemu.h"
+ #include "trace.h"
+ #include "qapi/error.h"
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index bd633afab6..9583fb4ca4 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -29,8 +29,10 @@
+  * this file are based on code from GNOME glib-2 and use a different license,
+  * see the license comment there.
   */
 +
  #include "qemu/osdep.h"
- 
- #include <gio/gio.h>
- 
--#include "qemu-common.h"
- #include "ui/console.h"
- #include "qemu/config-file.h"
- #include "qemu/option.h"
- #include "qemu/cutils.h"
-+#include "qemu/module.h"
+ #include <windows.h>
++#include "qemu-common.h"
  #include "qapi/error.h"
- #include "io/channel-command.h"
- #include "chardev/spice.h"
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 0632c74e9f..2ffc3335f0 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -22,6 +22,7 @@
- 
- #include "ui/qemu-spice.h"
- #include "qemu/error-report.h"
-+#include "qemu/module.h"
- #include "qemu/thread.h"
- #include "qemu/timer.h"
- #include "qemu/queue.h"
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 1871422e1d..781844d32a 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -30,6 +30,7 @@
- #include "trace.h"
  #include "sysemu/sysemu.h"
+ #include "qemu/main-loop.h"
+diff --git a/util/qemu-config.c b/util/qemu-config.c
+index 9d2e278e29..772f5a219e 100644
+--- a/util/qemu-config.c
++++ b/util/qemu-config.c
+@@ -4,7 +4,6 @@
+ #include "qapi/qapi-commands-misc.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qlist.h"
+-#include "qemu-common.h"
  #include "qemu/error-report.h"
-+#include "qemu/module.h"
  #include "qemu/option.h"
- #include "qemu/sockets.h"
- #include "qemu/timer.h"
+ #include "qemu/config-file.h"
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 27438a1858..5da5234155 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -27,7 +27,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/coroutine.h"
+ #include "qemu/coroutine_int.h"
+ #include "qemu/processor.h"
+diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
+index 2295928d33..c3caa6c770 100644
+--- a/util/qemu-coroutine.c
++++ b/util/qemu-coroutine.c
+@@ -14,7 +14,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "trace.h"
+-#include "qemu-common.h"
+ #include "qemu/thread.h"
+ #include "qemu/atomic.h"
+ #include "qemu/coroutine.h"
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index ef60af70fc..97172b5eaa 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -26,7 +26,6 @@
+ #include "qemu/osdep.h"
+ 
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "qapi/qmp/qbool.h"
+ #include "qapi/qmp/qdict.h"
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 8850a280a8..a5092dbd12 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -21,6 +21,7 @@
+ #include <linux/vm_sockets.h>
+ #endif /* CONFIG_AF_VSOCK */
+ 
++#include "qemu-common.h"
+ #include "monitor/monitor.h"
+ #include "qapi/clone-visitor.h"
+ #include "qapi/error.h"
+diff --git a/util/rcu.c b/util/rcu.c
+index 5676c22bd1..177a675619 100644
+--- a/util/rcu.c
++++ b/util/rcu.c
+@@ -27,7 +27,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/rcu.h"
+ #include "qemu/atomic.h"
+ #include "qemu/thread.h"
+diff --git a/util/thread-pool.c b/util/thread-pool.c
+index 610646d131..4ed9b89ab2 100644
+--- a/util/thread-pool.c
++++ b/util/thread-pool.c
+@@ -15,7 +15,6 @@
+  * GNU GPL, version 2 or (at your option) any later version.
+  */
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/queue.h"
+ #include "qemu/thread.h"
+ #include "qemu/coroutine.h"
+diff --git a/util/uuid.c b/util/uuid.c
+index 5787f0978c..b1108dde78 100644
+--- a/util/uuid.c
++++ b/util/uuid.c
+@@ -14,7 +14,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/uuid.h"
+ #include "qemu/bswap.h"
+ 
+diff --git a/vl.c b/vl.c
+index 8ec5979137..269d49a50e 100644
+--- a/vl.c
++++ b/vl.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "qemu-version.h"
+diff --git a/win_dump.c b/win_dump.c
+index e10a7831c2..0142655d3d 100644
+--- a/win_dump.c
++++ b/win_dump.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "elf.h"
+ #include "cpu.h"
 -- 
 2.17.2
 
