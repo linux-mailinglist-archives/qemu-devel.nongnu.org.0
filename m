@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA7027B4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:04:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33773 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A6827B58
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:06:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33817 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTlWh-0004S5-Ed
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:04:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58112)
+	id 1hTlYO-0005cp-QE
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:06:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58605)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTlQb-00008B-Us
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:58:30 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTlSd-0001wa-H8
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:00:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTlQX-00073g-Jz
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:58:27 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35163)
+	(envelope-from <peter.maydell@linaro.org>) id 1hTlSb-0008UZ-6q
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:00:34 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:41250)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTlQV-00070h-M1
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:58:24 -0400
-Received: by mail-wr1-x442.google.com with SMTP id m3so5761062wrv.2
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:58:21 -0700 (PDT)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hTlSa-0008TL-Jn
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:00:33 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id l25so4986521otp.8
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:00:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=QGXEl1MRbGuUWR3YTp2HAaTeKzvO6AugOLeNiqUyoBM=;
-	b=Ax5/8cYjJf2fhIXomRpQoosWaf0mnIAM0l6c4QKC0TZc31i0vD0BKS+vFriqxbWLza
-	EIUfw3iJjw/TcJwpgK0as9m27GmngfBZ/zW3jLnwz3q85Fs2ddm+zaCGksajaBl107VP
-	LVPleycOcYZDYpwFmXeMTJAJwaSmukVz1XvDVbPKPx7GiCl4OAUp+P/ns8me9if36N1h
-	p/aB4DlCEIA6ct7hqSbJAqRPthe8m5vXTBGhNsqBV9T6xELLA1pIIA9ULnPjEoklm79u
-	PWuMiO7DDWes1JvHntJhlGuP00JR7k5fO8ku5ulHgoC8aEwSMm+91fflIHLupVo6i5hZ
-	N85Q==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Yhv+xi8WspiYJH56L/JUHWhHhG9zt3ZSFc9V098CUOg=;
+	b=nn3ujwZknruEWzcce8NLT2a1DWNBlCI+Is9u+QnTW8xL440e0djMaSZzDYCnC1ztQw
+	mmOxr4aT1RC86+6HgvQ58QboIy5k8FY98r89z52qwBbL3JrqQx2DuvFtLxkJtt4t5D1P
+	pbekmgGP62pAHMSH7VfpVaVdm2pCvXIgzSi2yYsamM6vOuV/yoevU9wUqDlBiWHexpBo
+	Cxfw7z5xb+rPJpdbLeZJYUlNJuD3ockC6guchiwzVnRQC43wWMIeDKScFT9lAEbVEvrW
+	vjoDNeNFwXId9RTsgH21ODTdrnSZuk1WoiIvP3gcWz4Ln6PYxG/lXaaW+1TILxMRTL4J
+	D/8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=QGXEl1MRbGuUWR3YTp2HAaTeKzvO6AugOLeNiqUyoBM=;
-	b=rrG9BOZExniLXCsoW6D0zVRfGLyqbAKK1Y2lnFWQp4tCCPSWjJ3rbgOOhRV00uBniJ
-	9D3qhQR3YuCUXgy8kLdd1+o1GHWw8rb0FS2qjRygBBnzlsGUZt83LyAb+i944TO/nQbN
-	o+wbk6RC5yuRQJDdgwaG8wzTwFM6D/yxsaj6lQlxaIzGlKc7/sAObT4yQ+E1AQandzPE
-	hC79Nis0Z5RJMMvILrYbMrcKr7wgj+XvuGYyoOyk2eWY+h+mLuhJNNcslRWr2QGVMpPz
-	sJ+Txg5rn5f4aBUd7EHvdS3TBLVnwnwOXrdilnXl6er1f5QkwZWpSFA3QigSo24Lo71h
-	nCyQ==
-X-Gm-Message-State: APjAAAXlcDB41nYmPY+9ZZIrbt6zQMbrpnLUjQaJCn+1TOyAE5KyHcFs
-	yfHsdOkW1N9UlvHN1xWVmJyujw==
-X-Google-Smtp-Source: APXvYqx7JPPNMD+fe97IrcDS+FQMGMra1oOw5xIJp583j+6CqO5d9lK62WRdo5VAA2Qy9QRm4UJzuw==
-X-Received: by 2002:adf:e4d2:: with SMTP id v18mr18807137wrm.189.1558609098908;
-	Thu, 23 May 2019 03:58:18 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	s13sm20873328wrw.17.2019.05.23.03.58.18
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 May 2019 03:58:18 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id C2B3E1FF87;
-	Thu, 23 May 2019 11:58:17 +0100 (BST)
-References: <20190515203112.506-1-david@redhat.com>
-	<20190515203112.506-2-david@redhat.com>
-	<b3611279-15c4-f9b7-2a91-051ac6431b2c@linaro.org>
-	<44d7ddb4-040f-6778-7439-043b94e354ec@redhat.com>
-	<0935643f-941f-5883-c481-8ac18d57c98d@linaro.org>
-	<1f6001a2-e1d3-2b6f-e84a-8b9963302a3c@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <1f6001a2-e1d3-2b6f-e84a-8b9963302a3c@redhat.com>
-Date: Thu, 23 May 2019 11:58:17 +0100
-Message-ID: <87k1eh1lpy.fsf@zen.linaroharston>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Yhv+xi8WspiYJH56L/JUHWhHhG9zt3ZSFc9V098CUOg=;
+	b=maLQ+j2nO4iPLqG3l4PAOBpn1qZCk8Sv+IWhwAQRahyovDxn+iu/zgbv6mzgG0M09Q
+	Tg1PIe2XT5RwKMbFtOtc1Rz5M/dSC/+fhNkqTu+fd1v0bwxpQ4kCgaT5el2jb5riIfeS
+	2kHlk3CskeG1z2EDxet9Merty7KSHbSbfVrdG+qC11UQ9vlWsVSoz2e70VnZ4gahWdI/
+	U5pjcoUl7cnrx8+7XZ0nvT3rtQTL8JlzdY8a2RWfQ6S1ZzTkd9ckbzJt9PmnZi4PqE2n
+	Szt62KCm/p4qrdpUPS98b7+PtnRG/7I8seyDWHZPWHvKJXvc8iUKSt1kS3udmwbVpyWO
+	R58Q==
+X-Gm-Message-State: APjAAAWAfqzlKG8faD7Kw9zGauaENwpw56hIMHpf0FWF+fl55N3OEPkC
+	9sOa1UzI/pFalrm3L9P6os9TTbCRNHHRnxfC0bzUSiKO9hQ=
+X-Google-Smtp-Source: APXvYqxvwRqpXICkKdXG0TMM+wx16Wqduz1whIU1NyNqZhPIzAGNCSmmP1s6SVMUOvRnE+/Ch7hYR1Bhl/OH0eodidc=
+X-Received: by 2002:a05:6830:149a:: with SMTP id
+	s26mr27394184otq.221.1558609231015; 
+	Thu, 23 May 2019 04:00:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20190522134726.19225-1-armbru@redhat.com>
+In-Reply-To: <20190522134726.19225-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 12:00:20 +0100
+Message-ID: <CAFEAcA9Q=q+eSQ=ppQU08kpj5ZoBxak1AdY8Rk=P25Jb0SAbdw@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH v1 1/5] s390x/tcg: Implement VECTOR FIND
- ANY ELEMENT EQUAL
+X-Received-From: 2607:f8b0:4864:20::32e
+Subject: Re: [Qemu-devel] [PULL 0/5] Miscellaneous patches for 2019-05-22
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,44 +72,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-David Hildenbrand <david@redhat.com> writes:
-
-> On 22.05.19 13:09, Richard Henderson wrote:
->> On 5/22/19 7:01 AM, David Hildenbrand wrote:
->>>
->>>> I also think that, if we create a bunch more of these wrappers:
->>>>
->>>>> +DEF_VFAE_HELPER(8)
->>>>> +DEF_VFAE_HELPER(16)
->>>>> +DEF_VFAE_HELPER(32)
->>>>
->>>> then RT and ZS can be passed in as constant parameters to the above, a=
-nd then
->>>> the compiler will fold away all of the stuff that's not needed for each
->>>> different case.  Which, I think, is significant.  These are practically
->>>> different instructions with the different modifiers.
->>>>
->>>
->>> So, we have 4 flags, resulting in 16 variants. Times 3 element sizes ...
->>> 48 helpers in total. Do we really want to go down that path?
->>
->> Maybe?
+On Wed, 22 May 2019 at 14:51, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> Hope my fingers won't bleed from all the copy-pasting ;)
+> The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
+>
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2019-05-22
+>
+> for you to fetch changes up to db3d11ee3f0cb851124830172f0a93c3d77a450a:
+>
+>   cutils: Simplify how parse_uint() checks for whitespace (2019-05-22 15:00:04 +0200)
+>
+> ----------------------------------------------------------------
+> Miscellaneous patches for 2019-05-22
+>
+> ----------------------------------------------------------------
+> Markus Armbruster (5):
+>       qemu-bridge-helper: Fix misuse of isspace()
+>       tests/vhost-user-bridge: Fix misuse of isdigit()
+>       gdbstub: Reject invalid RLE repeat counts
+>       gdbstub: Fix misuse of isxdigit()
+>       cutils: Simplify how parse_uint() checks for whitespace
+>
+>  gdbstub.c                 | 20 ++++++++++++--------
+>  qemu-bridge-helper.c      |  6 +++---
+>  tests/vhost-user-bridge.c |  3 ++-
+>  util/cutils.c             |  2 +-
+>  4 files changed, 18 insertions(+), 13 deletions(-)
 
-An alternative is to generalise the code into a helper and then just use
-macros to instantiate a series of calls to it (c.f. softfloat). The idea
-is you can use flatten/inline to keep it efficient but you don't have a
-bunch of logic obscured by macro stuff.
 
+Applied, thanks.
 
---
-Alex Benn=C3=A9e
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
