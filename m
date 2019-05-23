@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E5727B14
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:51:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33504 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7564627B26
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:56:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33567 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTlJj-0001Rg-4h
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:51:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51904)
+	id 1hTlOF-0005hk-Ky
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:56:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52034)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTl2i-0004LW-Sq
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:50 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hTl2o-0004QR-Fe
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTl2h-0006Zt-05
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:48 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52367)
+	(envelope-from <alex.bennee@linaro.org>) id 1hTl2j-0006cB-K6
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:52 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41519)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTl2g-0006YZ-Np
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:46 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id y3so5270645wmm.2
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:33:45 -0700 (PDT)
+	id 1hTl2i-0006Zb-Rn
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:48 -0400
+Received: by mail-wr1-x441.google.com with SMTP id u16so1791958wrn.8
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=51qhdwAV6xax9lXPuidlfodA4doIzJZloRA4iy8CUcw=;
-	b=xv9Q4JLkl3F+FEBn90oSI9NE0WaX9WV6XE025Kfxl2mX6T/+pcieNKO/yw65r2i+Gv
-	kNyd/ul3WmFUKvCOFyBPfybkhRMGOQ003KFCCq5rMqoj2kfm3OocydZ1C5cICwV3GxSk
-	YlLc4Ecq9VpaKX0/gtvf0e3retRGwWxQIUyolUVmybUBJb+xX0gR+g2n/Bok/1e6BDzq
-	Ch8xK8cMpXwON20lP92id1mgvNN4oVlX+3fc7w7+8/SlbqyxXllarbxttqL+9Mw2PW+M
-	Qku2Jj7myqra+z7Tzmsld0Mf6PMt4lWjEqWuuWm0Nt1ml5x0Bj31miuiPISbb7pHC8Qp
-	9yDQ==
+	bh=PPLFa9NHnZbGHQDGEn1CiaHDLKyObQdBVLbTqFMD65I=;
+	b=UrhfoS6yD/ssfJEXN98OQOJOqBmW6pWncL9HjqyZlaetSIkoxAH02lhYDAJXSBmy37
+	0EPmcL5BJTkshsNDztc+ddChg6Hph1hAVjPyzlLbvMu1FqrVYD3Fwu2fbB74dKSoZqQF
+	D6+ylCd7PlZTEpwLtGntTrCmGou81xClPvElcSMIjU82gW3eBeH1y0PCeLXtixw18tyW
+	kJ1n9fjjonaBOogkEM61gjo8TKTJrjJOQEjOHvUXP5bf6JAbLqGWd+TfsFgv7kIkp/yy
+	nQeLPvHW7FH9TGrfisP4OW46IOSDsBhQ5IVZVxsB82L09oRghVDTbRMfiwvI8kvj1fo1
+	ZWmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=51qhdwAV6xax9lXPuidlfodA4doIzJZloRA4iy8CUcw=;
-	b=TAq3Isi0KfimdJHBB/DCnxaElwYIVh5uYUcSHotjnsFc31AOkLKvHs/5e+1HaVBVda
-	3rkzJSHfgVsYSwEwEyk4Rlub5FqITchIrdY6Pst/hmuwPzPrPt5yQgfPV9D0mhY+b8ED
-	R6M0RYAxmtu+IVDjM5beMPmwqNvZC4J2uHbNoNqruAff5vpCoKMuTmF3gHXYW6dS7QWy
-	uXpDI7XwmR0YWyiQ2jVMTPd/U43rozlNDZ0WzcLQSy5YDBpmvBTALwzj8symtyvKdxOp
-	YFnzMpRJy5ToMSJekqX+FEmUgUKix1pNS+0g5sinS7P/zVgeYgAtamWqwK9GMpBd5syP
-	2YGA==
-X-Gm-Message-State: APjAAAXnmUFxX9sPCA+SzixmPLELnBM6Fh0+vZ1oRJldemvUWxRH3nG0
-	+79fxo/J6wHQbTVED/8dPwrGGw==
-X-Google-Smtp-Source: APXvYqxjcFj0cjiuvNcojhU8PRJofuiR45BO7Ig5DNWgibpulR0ta88i8bG5oKi86Ci+HnCSSXgqOw==
-X-Received: by 2002:a1c:f916:: with SMTP id x22mr10550301wmh.81.1558607624059; 
-	Thu, 23 May 2019 03:33:44 -0700 (PDT)
+	bh=PPLFa9NHnZbGHQDGEn1CiaHDLKyObQdBVLbTqFMD65I=;
+	b=o2aXxXNyGFULZFB5OyXV5RCRnsBWnK/AsR1CUTTFtX9NM83SCTL0YyiaPTo0OmYk3s
+	9cHEhVYQFcIJWA9HdM87XBwSmY+3wVaSA6nnzvBKboP97NW2QzC+OgkxWxCMUSOvu0Wl
+	cZWEMjP4YNaXrhS+FBjnU+BJEVVV7/GCKhv/+KDRGPWXAOzOlRM4GWBEJBeN4oYduVDK
+	jgxEE9AA0MUNTty8ZQ3tMiVWDanuxqveAy9jO8RnE2T09qymgBi8Eemx9/6RBtpWAgTK
+	wvVRcon9cydtpfRqJ64/c9d18F2J+/XP9537bL1zWOsGRfDFj4ShVz+UrBhn9zv8Smcl
+	Uxxw==
+X-Gm-Message-State: APjAAAWCkdxlUbbuASaoHP10VAPoXD9PfYabPA4/tyEFkGQ9lJpLvyGF
+	Qw7GLkSiikPRRVHb/TJJMDxqZQ==
+X-Google-Smtp-Source: APXvYqyQ6GCs4bibjyHdM+dLRcpZ85uhdXiRTk0jNa26sClqOCiGaqj/HRMWJxYR4he4t7tlC3K2yA==
+X-Received: by 2002:adf:978b:: with SMTP id s11mr1197189wrb.169.1558607626407; 
+	Thu, 23 May 2019 03:33:46 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	g127sm8495576wme.21.2019.05.23.03.33.42
+	c18sm25591581wrm.7.2019.05.23.03.33.43
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 May 2019 03:33:42 -0700 (PDT)
+	Thu, 23 May 2019 03:33:44 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id D23FD1FFAF;
+	by zen.linaroharston (Postfix) with ESMTP id E9B0C1FFB1;
 	Thu, 23 May 2019 11:25:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 11:25:31 +0100
-Message-Id: <20190523102532.10486-28-alex.bennee@linaro.org>
+Date: Thu, 23 May 2019 11:25:32 +0100
+Message-Id: <20190523102532.10486-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523102532.10486-1-alex.bennee@linaro.org>
 References: <20190523102532.10486-1-alex.bennee@linaro.org>
@@ -69,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32d
-Subject: [Qemu-devel] [PATCH v2 27/28] tests/qemu-iotests: re-format output
- to for make check-block
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH v2 28/28] tests: Run the iotests during "make
+ check" again
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,353 +83,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	"open list:Block layer core" <qemu-block@nongnu.org>,
-	Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This attempts to clean-up the output to better match the output of the
-rest of the QEMU check system when called with -makecheck. This includes:
+From: Thomas Huth <thuth@redhat.com>
 
-  - formatting as "  TEST    iotest-FMT: nnn"
-  - only dumping config on failure (when -makecheck enabled)
+People often forget to run the iotests before submitting patches or
+pull requests - this is likely due to the fact that we do not run the
+tests during our mandatory "make check" tests yet. Now that we've got
+a proper "auto" group of iotests that should be fine to run in every
+environment, we can enable the iotests during "make check" again by
+running the "auto" tests by default from the check-block.sh script.
 
-The non-make check output has been cleaned up as well:
+Some cases still need to be checked first, though: iotests need bash
+and GNU sed (otherwise they fail), and if gprof is enabled, it spoils
+the output of some test cases causing them to fail. So if we detect
+that one of the required programs is missing or that gprof is enabled,
+we still have to skip the iotests to avoid failures.
 
-  - line re-displayed (\r) at the end
-  - fancy colours for pass/fail/skip
-  - timestamps always printed (option removed)
+And finally, since we are using check-block.sh now again, this patch also
+removes the qemu-iotests-quick.sh script since we do not need that anymore
+(and having two shell wrapper scripts around the block tests seem
+rather confusing than helpful).
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20190502084506.8009-8-thuth@redhat.com>
+[AJB: -makecheck to check-block.sh, move check-block to start&gate it]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20190503143904.31211-1-alex.bennee@linaro.org>
-Tested-by: Thomas Huth <thuth@redhat.com>
-
 ---
-v3
-  - revert echo to printf
-  - add _report_test_start
-v4
-  - -pretty -> -makecheck
-  - keep all output together for makecheck
-v5
-  - merged in kwolf's pretty printing
-  - timestamps always printed in non-makecheck mode
----
- tests/qemu-iotests/check | 179 +++++++++++++++++++++++++--------------
- 1 file changed, 116 insertions(+), 63 deletions(-)
+ tests/Makefile.include      |  8 +++----
+ tests/check-block.sh        | 44 ++++++++++++++++++++++++++++---------
+ tests/qemu-iotests-quick.sh |  8 -------
+ 3 files changed, 38 insertions(+), 22 deletions(-)
+ delete mode 100755 tests/qemu-iotests-quick.sh
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 922c5d1d3d3..f46b90dbbf4 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -27,9 +27,7 @@ bad=""
- notrun=""
- casenotrun=""
- interrupt=true
--
--# by default don't output timestamps
--timestamp=${TIMESTAMP:=false}
-+makecheck=false
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 1865f6b3222..0c6d8c75941 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -140,7 +140,7 @@ check-unit-y += tests/test-uuid$(EXESUF)
+ check-unit-y += tests/ptimer-test$(EXESUF)
+ check-unit-y += tests/test-qapi-util$(EXESUF)
  
- _init_error()
- {
-@@ -88,6 +86,22 @@ _full_platform_details()
-     echo "$os/$platform $host $kernel"
- }
+-check-block-$(CONFIG_POSIX) += tests/qemu-iotests-quick.sh
++check-block-$(call land,$(CONFIG_POSIX),$(CONFIG_SOFTMMU)) += tests/check-block.sh
  
-+_full_env_details()
-+{
-+    cat <<EOF
-+QEMU          -- "$QEMU_PROG" $QEMU_OPTIONS
-+QEMU_IMG      -- "$QEMU_IMG_PROG" $QEMU_IMG_OPTIONS
-+QEMU_IO       -- "$QEMU_IO_PROG" $QEMU_IO_OPTIONS
-+QEMU_NBD      -- "$QEMU_NBD_PROG" $QEMU_NBD_OPTIONS
-+IMGFMT        -- $FULL_IMGFMT_DETAILS
-+IMGPROTO      -- $IMGPROTO
-+PLATFORM      -- $FULL_HOST_DETAILS
-+TEST_DIR      -- $TEST_DIR
-+SOCKET_SCM_HELPER -- $SOCKET_SCM_HELPER
+ # All QTests for now are POSIX-only, but the dependencies are
+ # really in libqtest, not in the testcases themselves.
+@@ -1077,8 +1077,8 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
+ 
+ QEMU_IOTESTS_HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
+ 
+-.PHONY: check-tests/qemu-iotests-quick.sh
+-check-tests/qemu-iotests-quick.sh: tests/qemu-iotests-quick.sh qemu-img$(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
++.PHONY: check-tests/check-block.sh
++check-tests/check-block.sh: tests/check-block.sh qemu-img$(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
+ 	$<
+ 
+ .PHONY: $(patsubst %, check-%, $(check-qapi-schema-y))
+@@ -1152,7 +1152,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
+ check-qapi-schema: $(patsubst %,check-%, $(check-qapi-schema-y)) check-tests/qapi-schema/doc-good.texi
+ check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
+ check-block: $(patsubst %,check-%, $(check-block-y))
+-check: check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
++check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
+ check-clean:
+ 	rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
+ 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y)) $(check-qtest-generic-y))
+diff --git a/tests/check-block.sh b/tests/check-block.sh
+index f3d12fd602d..c8b6cec3f68 100755
+--- a/tests/check-block.sh
++++ b/tests/check-block.sh
+@@ -1,24 +1,48 @@
+ #!/bin/sh
+ 
+-FORMAT_LIST="raw qcow2 qed vmdk vpc"
++# Honor the SPEED environment variable, just like we do it for the qtests.
++if [ "$SPEED" = "slow" ]; then
++    format_list="raw qcow2"
++    group=
++elif [ "$SPEED" = "thorough" ]; then
++    format_list="raw qcow2 qed vmdk vpc"
++    group=
++else
++    format_list=qcow2
++    group="-g auto"
++fi
 +
-+EOF
-+}
+ if [ "$#" -ne 0 ]; then
+-    FORMAT_LIST="$@"
++    format_list="$@"
++fi
 +
- # $1 = prog to look for
- set_prog_path()
- {
-@@ -254,8 +268,8 @@ other options
-     -misalign           misalign memory allocations
-     -n                  show me, do not run tests
-     -o options          -o options to pass to qemu-img create/convert
--    -T                  output timestamps
-     -c mode             cache mode
-+    -makecheck          pretty print output for make check
++if grep -q "TARGET_GPROF=y" *-softmmu/config-target.mak 2>/dev/null ; then
++    echo "GPROF is enabled ==> Not running the qemu-iotests."
++    exit 0
+ fi
  
- testlist options
-     -g group[,group...]        include tests from these groups
-@@ -403,7 +417,10 @@ testlist options
-                 command -v xxdiff >/dev/null 2>&1 && diff=xxdiff
-             fi
-             ;;
--
-+        -makecheck)   # makecheck friendly output
-+            makecheck=true
-+            xpand=false
-+            ;;
-         -n)        # show me, don't do it
-             showme=true
-             xpand=false
-@@ -416,11 +433,6 @@ testlist options
-             cachemode=true
-             xpand=false
-             ;;
--        -T)        # turn on timestamp output
--            timestamp=true
--            xpand=false
--            ;;
--
-         -v)
-             verbose=true
-             xpand=false
-@@ -633,12 +645,6 @@ _wallclock()
-     date "+%H %M %S" | awk '{ print $1*3600 + $2*60 + $3 }'
- }
- 
--_timestamp()
--{
--    now=$(date "+%T")
--    printf %s " [$now]"
--}
--
- _wrapup()
- {
-     if $showme
-@@ -704,23 +710,54 @@ END        { if (NR > 0) {
- 
- trap "_wrapup; exit \$status" 0 1 2 3 15
- 
-+# Report the test start and results. For makecheck we want to pretty
-+# print the whole report at the end of the execution.
-+# args: $seq, $starttime, $lasttime
-+_report_test_start()
-+{
-+    if ! $makecheck; then
-+        if [ -n "$3" ]; then
-+            local lasttime=" (last: $3s)"
-+        fi
-+        printf "%-8s %-10s [%s]            %4s%-14s\r" "$1" "..." "$2" "..." "$lasttime"
-+    fi
-+}
-+# args:$seq $status $starttime $lasttime $thistime $details
-+_report_test_result()
-+{
-+    local status lasttime thistime
-+    if $makecheck; then
-+        if [ -n "$2" ] && [ "$2" != "pass" ]; then
-+            status=" [$2]"
-+        fi
-+        printf "  TEST    iotest-$IMGFMT: %s%s\n" "$1" "$status"
-+        return
-+    fi
+-export QEMU_PROG="$PWD/x86_64-softmmu/qemu-system-x86_64"
+-export QEMU_IMG_PROG="$PWD/qemu-img"
+-export QEMU_IO_PROG="$PWD/qemu-io"
++if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
++    echo "No qemu-system binary available ==> Not running the qemu-iotests."
++    exit 0
++fi
 +
-+    if [ -n "$4" ]; then
-+        lasttime=" (last: $4s)"
-+    fi
-+    if [ -n "$5" ]; then
-+        thistime=" $5s"
-+    fi
-+    case "$2" in
-+        "pass")     status=$(printf "\e[32m%-10s\e[0m" "$2") ;;
-+        "fail")     status=$(printf "\e[1m\e[31m%-10s\e[0m" "$2") ;;
-+        "not run")  status=$(printf "\e[33m%-10s\e[0m" "$2") ;;
-+        *)          status=$(printf "%-10s" "$2") ;;
-+    esac
-+
-+    printf "%-8s %s [%s] [%s] %4s%-14s %s\n" "$1" "$status" "$3" "$(date '+%T')" "$thistime" "$lasttime" "$6"
-+}
-+
- [ -f $TIMESTAMP_FILE ] || touch $TIMESTAMP_FILE
- 
- FULL_IMGFMT_DETAILS=$(_full_imgfmt_details)
- FULL_HOST_DETAILS=$(_full_platform_details)
- 
--cat <<EOF
--QEMU          -- "$QEMU_PROG" $QEMU_OPTIONS
--QEMU_IMG      -- "$QEMU_IMG_PROG" $QEMU_IMG_OPTIONS
--QEMU_IO       -- "$QEMU_IO_PROG" $QEMU_IO_OPTIONS
--QEMU_NBD      -- "$QEMU_NBD_PROG" $QEMU_NBD_OPTIONS
--IMGFMT        -- $FULL_IMGFMT_DETAILS
--IMGPROTO      -- $IMGPROTO
--PLATFORM      -- $FULL_HOST_DETAILS
--TEST_DIR      -- $TEST_DIR
--SOCKET_SCM_HELPER -- $SOCKET_SCM_HELPER
--
--EOF
-+if ! $makecheck; then
-+    _full_env_details
++if ! command -v bash >/dev/null 2>&1 ; then
++    echo "bash not available ==> Not running the qemu-iotests."
++    exit 0
 +fi
  
- seq="check"
+-if [ ! -x $QEMU_PROG ]; then
+-    echo "'make check-block' requires qemu-system-x86_64"
+-    exit 1
++if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
++    if ! command -v gsed >/dev/null 2>&1; then
++        echo "GNU sed not available ==> Not running the qemu-iotests."
++        exit 0
++    fi
+ fi
  
-@@ -728,42 +765,43 @@ seq="check"
+ cd tests/qemu-iotests
  
- for seq in $list
- do
--    err=false
--    printf %s "$seq"
-+    err=false       # error flag
-+    printdiff=false # show diff to reference output?
-+    status=""       # test result summary
-+    results=""      # test result details
-+
-     if [ -n "$TESTS_REMAINING_LOG" ] ; then
-         sed -e "s/$seq//" -e 's/  / /' -e 's/^ *//' $TESTS_REMAINING_LOG > $TESTS_REMAINING_LOG.tmp
-         mv $TESTS_REMAINING_LOG.tmp $TESTS_REMAINING_LOG
-         sync
-     fi
- 
-+    lasttime=$(sed -n -e "/^$seq /s/.* //p" <$TIMESTAMP_FILE)
-+    starttime=$(date "+%T")
-+    _report_test_start $seq $starttime $lasttime
-+
-     if $showme
-     then
--        echo
--        continue
-+        status="not run"
-     elif [ -f expunged ] && $expunge && egrep "^$seq([         ]|\$)" expunged >/dev/null
-     then
--        echo " - expunged"
-+        status="not run"
-+        results="expunged"
-         rm -f $seq.out.bad
-         echo "/^$seq\$/d" >>$tmp.expunged
-     elif [ ! -f "$source_iotests/$seq" ]
-     then
--        echo " - no such test?"
-+        status="not run"
-+        results="no such test?"
-         echo "/^$seq\$/d" >>$tmp.expunged
-     else
-         # really going to try and run this one
-         #
-         rm -f $seq.out.bad
--        lasttime=$(sed -n -e "/^$seq /s/.* //p" <$TIMESTAMP_FILE)
--        if [ "X$lasttime" != X ]; then
--                printf %s " ${lasttime}s ..."
--        else
--                printf "        "        # prettier output with timestamps.
--        fi
-         rm -f core $seq.notrun
-         rm -f $seq.casenotrun
- 
-         start=$(_wallclock)
--        $timestamp && printf %s "        [$(date "+%T")]"
- 
-         if [ "$(head -n 1 "$source_iotests/$seq")" == "#!/usr/bin/env python" ]; then
-             run_command="$PYTHON $seq"
-@@ -781,26 +819,26 @@ do
-                     $run_command >$tmp.out 2>&1)
-         fi
-         sts=$?
--        $timestamp && _timestamp
-         stop=$(_wallclock)
- 
-         if [ -f core ]
-         then
--            printf " [dumped core]"
-             mv core $seq.core
-+            status="fail"
-+            results="[dumped core] $seq.core"
-             err=true
-         fi
- 
-         if [ -f $seq.notrun ]
-         then
--            $timestamp || printf " [not run] "
--            $timestamp && echo " [not run]" && printf %s "        $seq -- "
--            cat $seq.notrun
--            notrun="$notrun $seq"
-+            # overwrites timestamp output
-+            status="not run"
-+            results="$(cat $seq.notrun)"
-         else
-             if [ $sts -ne 0 ]
-             then
--                printf %s " [failed, exit status $sts]"
-+                status="fail"
-+                results=$(printf %s "[failed, exit status $sts]")
-                 err=true
-             fi
- 
-@@ -821,22 +859,23 @@ do
- 
-             if [ ! -f "$reference" ]
-             then
--                echo " - no qualified output"
-+                status="fail"
-+                reason="no qualified output"
-                 err=true
-             else
-                 if diff -w "$reference" $tmp.out >/dev/null 2>&1
-                 then
--                    echo ""
--                    if $err
--                    then
--                        :
--                    else
--                        echo "$seq $(expr $stop - $start)" >>$tmp.time
-+                    if ! $err; then
-+                        status="pass"
-+                        thistime=$(expr $stop - $start)
-+                        echo "$seq $thistime" >>$tmp.time
-                     fi
-                 else
--                    echo " - output mismatch (see $seq.out.bad)"
-                     mv $tmp.out $seq.out.bad
-                     $diff -w "$reference" "$PWD"/$seq.out.bad
-+                    status="fail"
-+                    results="output mismatch (see $seq.out.bad)"
-+                    printdiff=true
-                     err=true
-                 fi
-             fi
-@@ -850,13 +889,27 @@ do
- 
-     # come here for each test, except when $showme is true
-     #
--    if $err
--    then
--        bad="$bad $seq"
--        n_bad=$(expr $n_bad + 1)
--        quick=false
--    fi
--    [ -f $seq.notrun ] || try=$(expr $try + 1)
-+    _report_test_result $seq "$status" "$starttime" "$lasttime" "$thistime" "$results"
-+    case "$status" in
-+        "pass")
-+            try=$(expr $try + 1)
-+            ;;
-+        "fail")
-+            try=$(expr $try + 1)
-+            if $makecheck; then
-+                _full_env_details
-+            fi
-+            if $printdiff; then
-+                $diff -w "$reference" "$PWD"/$seq.out.bad
-+            fi
-+            bad="$bad $seq"
-+            n_bad=$(expr $n_bad + 1)
-+            quick=false
-+            ;;
-+        "not run")
-+            notrun="$notrun $seq"
-+            ;;
-+    esac
- 
-     seq="after_$seq"
+ ret=0
+-for FMT in $FORMAT_LIST ; do
+-    ./check -T -nocache -$FMT || ret=1
++for fmt in $format_list ; do
++    ./check -makecheck -$fmt $group || ret=1
  done
+ 
+ exit $ret
+diff --git a/tests/qemu-iotests-quick.sh b/tests/qemu-iotests-quick.sh
+deleted file mode 100755
+index 0e554bb9724..00000000000
+--- a/tests/qemu-iotests-quick.sh
++++ /dev/null
+@@ -1,8 +0,0 @@
+-#!/bin/sh
+-
+-cd tests/qemu-iotests
+-
+-ret=0
+-TEST_DIR=${TEST_DIR:-/tmp/qemu-iotests-quick-$$} ./check -T -qcow2 -g quick || ret=1
+-
+-exit $ret
 -- 
 2.20.1
 
