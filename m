@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E85827C02
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:43:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34179 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7503027BF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:40:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34109 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTm7f-0008Uh-H4
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:42:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36469)
+	id 1hTm5a-0006D8-1f
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:40:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36450)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hTm30-0004um-FT
+	(envelope-from <alex.bennee@linaro.org>) id 1hTm30-0004ug-4M
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:38:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hTlwE-00033u-Sl
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:31:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34906)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hTlwE-00033K-O5
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:31:10 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A9761F74B5;
-	Thu, 23 May 2019 11:31:06 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-6.rdu2.redhat.com
-	[10.10.120.6])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id AE892620D2;
-	Thu, 23 May 2019 11:30:58 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190520231008.20140-1-mst@redhat.com>
-	<CAFEAcA80Q8zWxM4TBVMZHLuOzo0HSpT=4C76uAwdMjLn2Xye=w@mail.gmail.com>
-	<20190521092553-mutt-send-email-mst@kernel.org>
-	<20190522150642.3da34e6b@redhat.com>
-	<4b230fb0-ae2c-5221-39cb-1bed7b6df8d0@redhat.com>
-	<CAFEAcA8rxpMEQcdeHk9s3Cs8f+LMzM2Y=RE_hW9Y7UKRkZhqpg@mail.gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <c867d061-f2f4-54f2-a80d-e14bec419e30@redhat.com>
-Date: Thu, 23 May 2019 13:30:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	(envelope-from <alex.bennee@linaro.org>) id 1hTlwN-0003Ac-8g
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:31:20 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36351)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hTlwN-00039j-2d
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:31:19 -0400
+Received: by mail-wm1-x344.google.com with SMTP id j187so5401534wmj.1
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:31:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=DfzvVWpoSYYigX0xFrut6HZ2x0qn8dYKHJAFHTqbIeI=;
+	b=yy5AbiKhemIZ6jIxVQyK1hyxbmfOlOc9Nk84iNVt2+DhOc5JCcF7DFnokS2E9YbGbD
+	fYT9zLswMumN+qTFTuKbqd6se67KUWEuhSdZ1xBYbWrDgScv4g2zkvqxgNrWm8oru1ON
+	waIrRfpPIkbLF87Yw2Qvw6pEebZmCgtTE/LpMP9ki0oLtUF13WAadCGjdlr414MCDF5f
+	jAf0JNpurENmhMFiwU8zy18JpKebsreZojh3Hhfxe1MSsVxEMEjUzTz7eewmCh8QQZs2
+	eAJOA/1/G59sjeg+kWd9GCUSR2hIILePlDQsgYFGorSl1OYLU7XVT7oHL7cWHoybohgY
+	xU0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=DfzvVWpoSYYigX0xFrut6HZ2x0qn8dYKHJAFHTqbIeI=;
+	b=s5NwEkVwpSX7CKxsyBMFMO9Pn8WWJdVzQneUxDeEQW7NxzGwbJxv2agU6GpTZzR1Kj
+	cz++FnVa4K4svKhbDnmUVr71tGiu95i3fk2dlHqfAwcq7WafTGW5W397sSniqyRzMlj/
+	2nj5Zuq6LNPQJGPrEulqGrqrs2t73FAIRnNABjLDZ1PUFYbgp4deHuQvykJ9vzj9YHIQ
+	6xmuzW2gkFm51CKN15Gdiw3wg6tYAXq1RcN3KnXf+tF8YUxeVFGENyw2voNPGi8CwadU
+	Qyl30P1z5QnrHZUuepeVyjxk6UrqgOmWBVbtxg6yhABUwb7P2y+E+aiHPbktNv5iuM08
+	uWew==
+X-Gm-Message-State: APjAAAVn7uWXS4FnukzSbXlRc4BjGsOHHbxfrCVfM7h+yjC5Y7wrd0iO
+	hTvxVifRd/P+wStHOlP1IzQkvA==
+X-Google-Smtp-Source: APXvYqxPVDXnQ4Wl2Sl/vtNkNtiHOJxWx4cXVqcWvVKyogatHORldMNOurCZzURjt4C8IZ2utWDH0w==
+X-Received: by 2002:a1c:5f02:: with SMTP id t2mr11996094wmb.19.1558611077446; 
+	Thu, 23 May 2019 04:31:17 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	m10sm9498477wmf.40.2019.05.23.04.31.16
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 23 May 2019 04:31:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 716F61FF87;
+	Thu, 23 May 2019 12:31:16 +0100 (BST)
+References: <20190523105440.27045-1-rkagan@virtuozzo.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+In-reply-to: <20190523105440.27045-1-rkagan@virtuozzo.com>
+Date: Thu, 23 May 2019 12:31:16 +0100
+Message-ID: <87imu11k6z.fsf@zen.linaroharston>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8rxpMEQcdeHk9s3Cs8f+LMzM2Y=RE_hW9Y7UKRkZhqpg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Thu, 23 May 2019 11:31:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL v2 00/36] pci, pc, virtio: features, fixes
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [RFC PATCH 0/2] establish nesting rule of BQL vs
+ cpu-exclusive
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,36 +83,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, cota@braap.org,
+	richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
 
-On 05/22/19 23:15, Peter Maydell wrote:
-> On Wed, 22 May 2019 at 15:22, Laszlo Ersek <lersek@redhat.com> wrote:
->> This is very interesting. I had obviously tested booting
->> "bios-tables-test.aarch64.iso.qcow2" against "edk2-aarch64-code.fd",
->> using TCG, on my x86_64 laptop. (And, I've run the above exact command
->> just now, at commit a4f667b67149 -- it works 100% fine.)
->>
->> However, I've never been *near* a 32-bit ARM host. Therefore my
->> suspicion is that the AARCH64 UEFI guest code tickles something in the
->> 32-bit ARM code generator. It could be a bug in 32-bit ARM TCG, or it
->> could be a bug in edk2 that is exposed by 32-bit ARM TCG.
-> 
-> Does it repro in a 32-bit-chroot in an aarch64 host ?
-> I don't know if that might be easier for you to set up than
-> getting access to real 32-bit hardware.
+Roman Kagan <rkagan@virtuozzo.com> writes:
 
-If this test is still necessary (e.g. for repeated testing), I might be
-able to run qemu-system-aarch64/TCG in a 32-bit QEMU/KVM guest on my
-Mustang. I was preparing to set up this kind of nesting, when Igor gave
-me access to a real aarch32 host.
+> I came across the following AB-BA deadlock:
+>
+>     vCPU thread                             main thread
+>     -----------                             -----------
+> async_safe_run_on_cpu(self,
+>                       async_synic_update)
+> ...                                         [cpu hot-add]
+> process_queued_cpu_work()
+>   qemu_mutex_unlock_iothread()
+>                                             [grab BQL]
+>   start_exclusive()                         cpu_list_add()
+>   async_synic_update()                        finish_safe_work()
+>     qemu_mutex_lock_iothread()                  cpu_exec_start()
+>
+> ATM async_synic_update seems to be the only async safe work item that
+> grabs BQL.  However it isn't quite obvious that it shouldn't; in the
+> past there were more examples of this (e.g.
+> memory_region_do_invalidate_mmio_ptr).
+>
+> It looks like the problem is generally in the lack of the nesting rule
+> for cpu-exclusive sections against BQL, so I thought I would try to
+> address that.  This patchset is my feeble attempt at this; I'm not sure
+> I fully comprehend all the consequences (rather, I'm sure I don't) hence
+> RFC.
 
-Thanks
-Laszlo
+Hmm I think this is an area touched by:
+
+  Subject: [PATCH v7 00/73] per-CPU locks
+  Date: Mon,  4 Mar 2019 13:17:00 -0500
+  Message-Id: <20190304181813.8075-1-cota@braap.org>
+
+which has stalled on it's path into the tree. Last time I checked it
+explicitly handled the concept of work that needed the BQL and work that
+didn't.
+
+How do you trigger your deadlock? Just hot-pluging CPUs?
+
+>
+> Roman Kagan (2):
+>   cpus-common: nuke finish_safe_work
+>   cpus-common: assert BQL nesting within cpu-exclusive sections
+>
+>  cpus-common.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+
+
+--
+Alex Benn=C3=A9e
 
