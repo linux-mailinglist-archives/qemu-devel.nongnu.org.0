@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8DE2837E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:27:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40353 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F7C28394
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:28:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40381 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqZC-0008QW-KA
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:27:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37499)
+	id 1hTqaN-0001Ka-QX
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:28:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37504)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hTqQP-0002Ny-Ra
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:18:38 -0400
+	id 1hTqQQ-0002OF-7W
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:18:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
 	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hTqQO-0006So-Oj
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:18:37 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38572)
+	id 1hTqQP-0006TD-AL
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:18:38 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37427)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hTqQO-0006S7-I4
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:18:36 -0400
-Received: by mail-wr1-x443.google.com with SMTP id d18so6947177wrs.5
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 09:18:35 -0700 (PDT)
+	id 1hTqQP-0006Sa-3L
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:18:37 -0400
+Received: by mail-wr1-x442.google.com with SMTP id e15so6963018wrs.4
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 09:18:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=PQoPoJzk2ivYqURW0C+PAzwPBu3uVIBbVKjfgdnrsJM=;
-	b=W2ZFtd/oviQG/N9pv0sfdId7LBBN7OvEX5bAdLq1Nc3Hzid2lPg/gdnjgjuO3GdbCO
-	CO9U9kVpTOtT/D8jCi0ZeryadBjOrZkAFbPyh9+ur2aW3rHODVV+IIve0obA2+6ASh6m
-	MT9ZnXHmWXDzuB42X9AZMnQ6sEqPdiJByWBWM7eGLP89EK5LStvu4Nhh8CmljMLG/QJy
-	fjmi/bziE0/dyn2FKFBHX3JJI6MxdO2EH1ybDgB6SfQz5S+MrshxDvoo2hXnHFgydkGx
-	HBtCAyBSNxkPdjLn5ySwEbAx6CVjT5lW38ynBd74xVYJ87yG1/92dnDqqAFmGwnZDTPD
-	xdcA==
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=t+fpOzpoYMTvZREMygefSwOqjQyndhbSY04K2Iq39pg=;
+	b=pKxEwwboJZUmeKt5OoQX2Rivx1lS7LvoJgAtURLdWDf3ldBnS/Z4dBxnxSx2CRH6sC
+	MEjefgUTYU+Mg5fw4pfrFPMW8z/KPWkXrxh5xaIkhtWeezf1mjRXTPez5MTJjo2XrSGq
+	rEAORtBeXUPaAQPXdQ6kPRS/kvU46QOtbQyyubDcioUrKFqTsUoFKJKk8+Wzcp+5mNqy
+	1haJc8QDxs1azQ7KccQ7PvHihPNP3l5E5KBhgBXqlWt/QVEZmL5c5OpiMAod7eqLkfGo
+	YC8osiiSSk/WD71rQsowiRWYl4KIQV+bQTZLfRatqiVvOEJlMQ4uHHzz3wFUYI9h5Tl9
+	/pBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=PQoPoJzk2ivYqURW0C+PAzwPBu3uVIBbVKjfgdnrsJM=;
-	b=cbUSTztOMF4xhiYRPLQ4ytA4Wg8eWNe5c3tIV/CUvPvFricyedxps1rAUTwxUA1iBG
-	hRAsRXfMeAljaFD6vb/6Uy4+FZJBqyChUrimPtC0eLeLYtVeTJV/SDGV0NgAX1lBJXtD
-	mDstQuJx+9ZA9NbUrbEe0zcm6jTkjqfHT1/8S9XP25Qd1KHo8d2bWrDBYc61CNDm3F2J
-	AWObr70QoFXzx3XF4AKStrW4SoBboFLPaAALQL4277tItvyCsFUH8w8GqxoVCvtKazqi
-	vxUPmU4n16lfmy50iT1kPxcN0SHDzrTcVO7YlCN/kPWM/iO9GmH8oJ7Z35bTQXcyzNZf
-	knuA==
-X-Gm-Message-State: APjAAAWCrIMwxn89pGjdyZ6kr0ZocpYypVunonpjK+T9dtIRflG9Gbdf
-	YYgJHvGVqFcBbOV5S34Ce2I=
-X-Google-Smtp-Source: APXvYqxRjLx74WG5lcMl2qRZOKBJ+7dRmW7aicEEZcCjwa9Y3ibtnbyniGv7ewS47qDkFV0T39wxZQ==
-X-Received: by 2002:a5d:6190:: with SMTP id j16mr17937048wru.12.1558628314888; 
-	Thu, 23 May 2019 09:18:34 -0700 (PDT)
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	bh=t+fpOzpoYMTvZREMygefSwOqjQyndhbSY04K2Iq39pg=;
+	b=fGv8PYox//J+bm6/ISy7+oE9i6VkaxizTrr5Wv4NXosPlBqTfDvabb+8hCwJY5eSHc
+	v8Sa/e2Z0Ro6TX75zl3IQEznimVwwnm6BsDDLXquR0bKfMrubCNuy1zc6wu03SG1wfj9
+	/2RVrc62rVsof/YX/hTL0li356kdYFwX7O7qYyl2DO7FY/DqBD6LY9+O+rwBjst3SbUx
+	hYAZ09SmmPcs3HPoFMHKdvqfcE8/lb7TiyzYq2dB1fL2+gE4euLDeMiJtPWPVVB+dW4x
+	a8pqSXsimY4dztBk2M7HuDsKN+QFnaSYBYR11qlOJpG82ama8wLg5a4D2vnZoyNCt/N+
+	TlgA==
+X-Gm-Message-State: APjAAAWfbPTaDlHRF0zetUSMYK9uWUcmOpzoC1R1t6ysslimJR0lZl5H
+	Vc3qPHNMl8uBOk4evxo/kZM=
+X-Google-Smtp-Source: APXvYqyZOHTmTWBYjU7/FHaxxOBDtQLgthd1J+dX2g8Z3I4Wpqsb+3MyMEeXXQC87Ijp5BQ+JW7fxw==
+X-Received: by 2002:adf:e2c8:: with SMTP id d8mr7265314wrj.14.1558628316001;
+	Thu, 23 May 2019 09:18:36 -0700 (PDT)
 Received: from x1.local (228.red-83-52-173.dynamicip.rima-tde.net.
 	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	q16sm10273222wmj.17.2019.05.23.09.18.33
+	q16sm10273222wmj.17.2019.05.23.09.18.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 09:18:33 -0700 (PDT)
+	Thu, 23 May 2019 09:18:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
 	Cleber Rosa <crosa@redhat.com>
-Date: Thu, 23 May 2019 18:18:28 +0200
-Message-Id: <20190523161832.22490-1-f4bug@amsat.org>
+Date: Thu, 23 May 2019 18:18:29 +0200
+Message-Id: <20190523161832.22490-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190523161832.22490-1-f4bug@amsat.org>
+References: <20190523161832.22490-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH v2 0/4] mips: Add more Avocado tests
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH v2 1/4] BootLinuxConsoleTest: Let
+ extract_from_deb handle various compressions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,73 +84,59 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
-	Aurelien Jarno <aurelien@aurel32.net>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 	Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Debian binary package format supports various compressions.
 
-It was a rainy week-end here, so I invested it to automatize some
-of my MIPS tests.
+Per man deb(5):
 
-The BootLinuxSshTest is not Global warming friendly, it is not
-meant to run on a CI system but rather on a workstation previous
-to post a pull request.
-It can surely be improved, but it is a good starting point.
+  NAME
+    deb - Debian binary package format
 
-v2: Decorate slow tests with skipIf(CONTINUOUS_INTEGRATION):
+  FORMAT
+    ...
+    The third, last required member is named data.tar.  It contains the
+    filesystem as a tar archive, either not compressed (supported since
+    dpkg 1.10.24), or compressed with gzip (with .gz extension),
+    xz (with .xz extension, supported since dpkg 1.15.6),
+    bzip2 (with .bz2 extension, supported since dpkg 1.10.24) or
+    lzma (with .lzma extension, supported since dpkg 1.13.25).
 
-  VENV    /home/travis/build/philmd/qemu/tests/venv
-  PIP     /home/travis/build/philmd/qemu/tests/requirements.txt
-  MKDIR   /home/travis/build/philmd/qemu/tests/results
-  AVOCADO tests/acceptance
-JOB ID     : 02a2b1c585c12aebfbd8db2f330ed9730a547ae0
-JOB LOG    : /home/travis/build/philmd/qemu/tests/results/job-2019-05-23T16.05-02a2b1c/job.log
- (01/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_x86_64_pc:  PASS (5.41 s)
- (02/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_mips_malta:  PASS (3.33 s)
- (03/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_mips64el_malta:  PASS (3.47 s)
- (04/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_mips_malta_cpio:  PASS (15.09 s)
- (05/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_aarch64_virt:  PASS (2.48 s)
- (06/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_virt:  PASS (7.25 s)
- (07/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_s390x_s390_ccw_virtio:  PASS (4.66 s)
- (08/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_alpha_clipper:  PASS (3.37 s)
- (09/22) acceptance/cpu_queries.py:QueryCPUModelExpansion.test:  PASS (0.16 s)
- (10/22) acceptance/empty_cpu_model.py:EmptyCPUModel.test:  PASS (0.02 s)
- (11/22) acceptance/linux_initrd.py:LinuxInitrd.test_with_2gib_file_should_exit_error_msg_with_linux_v3_6:  PASS (3.89 s)
- (12/22) acceptance/linux_initrd.py:LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16:  PASS (15.14 s)
- (13/22) acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta32eb_kernel3_2_0:  SKIP: Running on Travis-CI
- (14/22) acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta64el_kernel3_2_0:  SKIP: Running on Travis-CI
- (15/22) acceptance/migration.py:Migration.test_migration_with_tcp_localhost:  PASS (0.23 s)
- (16/22) acceptance/version.py:Version.test_qmp_human_info_version:  PASS (0.04 s)
- (17/22) acceptance/virtio_version.py:VirtioVersionCheck.test_conventional_devs:  PASS (1.20 s)
- (18/22) acceptance/virtio_version.py:VirtioVersionCheck.test_modern_only_devs:  PASS (0.41 s)
- (19/22) acceptance/vnc.py:Vnc.test_no_vnc:  PASS (0.03 s)
- (20/22) acceptance/vnc.py:Vnc.test_no_vnc_change_password:  PASS (0.04 s)
- (21/22) acceptance/vnc.py:Vnc.test_vnc_change_password_requires_a_password:  PASS (0.04 s)
- (22/22) acceptance/vnc.py:Vnc.test_vnc_change_password:  PASS (0.04 s)
-RESULTS    : PASS 20 | ERROR 0 | FAIL 0 | SKIP 2 | WARN 0 | INTERRUPT 0 | CANCEL 0
-JOB TIME   : 68.64 s
+List the archive files to have the 3rd name with the correct extension.
 
-Regards,
+The function avocado.utils.archive.extract() will handle the different
+compression format for us.
 
-Phil.
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+This patch is already in Eduardo's queue, but is required in
+this series.
+---
+ tests/acceptance/boot_linux_console.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Philippe Mathieu-Daudé (4):
-  BootLinuxConsoleTest: Let extract_from_deb handle various compressions
-  BootLinuxConsoleTest: Test nanoMIPS kernels on the I7200 CPU
-  BootLinuxConsoleTest: Run kerneltests BusyBox on Malta
-  BootLinuxSshTest: Test some userspace commands on Malta
-
- MAINTAINERS                              |   1 +
- tests/acceptance/boot_linux_console.py   | 113 ++++++++++-
- tests/acceptance/linux_ssh_mips_malta.py | 230 +++++++++++++++++++++++
- tests/requirements.txt                   |   1 +
- 4 files changed, 343 insertions(+), 2 deletions(-)
- create mode 100644 tests/acceptance/linux_ssh_mips_malta.py
-
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index d5c500ea30..6aa084e049 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -55,8 +55,9 @@ class BootLinuxConsole(Test):
+         """
+         cwd = os.getcwd()
+         os.chdir(self.workdir)
+-        process.run("ar x %s data.tar.gz" % deb)
+-        archive.extract("data.tar.gz", self.workdir)
++        file_path = process.run("ar t %s" % deb).stdout_text.split()[2]
++        process.run("ar x %s %s" % (deb, file_path))
++        archive.extract(file_path, self.workdir)
+         os.chdir(cwd)
+         return self.workdir + path
+ 
 -- 
 2.19.1
 
