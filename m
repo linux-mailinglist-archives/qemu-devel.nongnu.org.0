@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB38C27D83
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:03:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35713 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844F127DB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:09:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35806 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnNH-00005L-O6
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:03:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51064)
+	id 1hTnTp-0006it-K5
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:09:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51307)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTnH1-0003hW-Pw
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:56:44 -0400
+	(envelope-from <philmd@redhat.com>) id 1hTnH0-0003rP-Nu
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:56:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTn51-0001b0-FP
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:44:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37426)
+	(envelope-from <philmd@redhat.com>) id 1hTn54-0001jc-77
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:44:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35780)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hTn51-0001Yt-An; Thu, 23 May 2019 08:44:19 -0400
+	id 1hTn54-0001hI-2R; Thu, 23 May 2019 08:44:22 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
 	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 70175C05001F;
-	Thu, 23 May 2019 12:44:13 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4BF9A3024552;
+	Thu, 23 May 2019 12:44:16 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F7F85D9D2;
-	Thu, 23 May 2019 12:44:04 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DC70667C9D;
+	Thu, 23 May 2019 12:44:13 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 14:43:11 +0200
-Message-Id: <20190523124320.28726-7-philmd@redhat.com>
+Date: Thu, 23 May 2019 14:43:12 +0200
+Message-Id: <20190523124320.28726-8-philmd@redhat.com>
 In-Reply-To: <20190523124320.28726-1-philmd@redhat.com>
 References: <20190523124320.28726-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Thu, 23 May 2019 12:44:18 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Thu, 23 May 2019 12:44:21 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 06/15] hw/sparc: Implement fw_cfg_arch_key_name()
+Subject: [Qemu-devel] [PULL 07/15] hw/sparc64: Implement
+ fw_cfg_arch_key_name()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,22 +67,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Implement fw_cfg_arch_key_name(), which returns the name of a
-sparc32-specific key.
+sparc64-specific key.
 
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <20190422195020.1494-7-philmd@redhat.com>
+Message-Id: <20190422195020.1494-8-philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/sparc/sun4m.c | 19 +++++++++++++++++++
+ hw/sparc64/sun4u.c | 19 +++++++++++++++++++
  1 file changed, 19 insertions(+)
 
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 07d126aea8..5151a7202b 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -97,6 +97,25 @@ struct sun4m_hwdef {
-     uint8_t nvram_machine_id;
- };
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 399f2d73c8..4230b17b87 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -91,6 +91,25 @@ typedef struct EbusState {
+ #define TYPE_EBUS "ebus"
+ #define EBUS(obj) OBJECT_CHECK(EbusState, (obj), TYPE_EBUS)
 =20
 +const char *fw_cfg_arch_key_name(uint16_t key)
 +{
@@ -89,9 +90,9 @@ index 07d126aea8..5151a7202b 100644
 +        uint16_t key;
 +        const char *name;
 +    } fw_cfg_arch_wellknown_keys[] =3D {
-+        {FW_CFG_SUN4M_DEPTH, "depth"},
-+        {FW_CFG_SUN4M_WIDTH, "width"},
-+        {FW_CFG_SUN4M_HEIGHT, "height"},
++        {FW_CFG_SPARC64_WIDTH, "width"},
++        {FW_CFG_SPARC64_HEIGHT, "height"},
++        {FW_CFG_SPARC64_DEPTH, "depth"},
 +    };
 +
 +    for (size_t i =3D 0; i < ARRAY_SIZE(fw_cfg_arch_wellknown_keys); i++=
