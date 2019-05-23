@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FDC277FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:31:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59788 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41314277EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:27:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59726 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTj8I-0006k0-34
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:31:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48025)
+	id 1hTj4n-0003uc-1o
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:27:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47638)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hTj2W-0002Lm-Fk
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:25:29 -0400
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTj2Q-0002Ef-Gs
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:25:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hTit6-0000sd-HV
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:15:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45548)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hTit6-0000rm-Aq
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:15:44 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1D3E46439B;
-	Thu, 23 May 2019 08:15:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E05A45B683;
-	Thu, 23 May 2019 08:15:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 0404C11329D3; Thu, 23 May 2019 10:15:39 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 10:15:38 +0200
-Message-Id: <20190523081538.2291-8-armbru@redhat.com>
-In-Reply-To: <20190523081538.2291-1-armbru@redhat.com>
-References: <20190523081538.2291-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Thu, 23 May 2019 08:15:42 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v4 7/7] tests: Make check-source cover generated
- headers
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTivA-0001xA-TO
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:17:54 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:45816)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+	id 1hTiv8-0001vD-7u
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:17:51 -0400
+Received: by mail-oi1-x236.google.com with SMTP id w144so3698820oie.12
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 01:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rzEZJyqDmf7xVg8qHLD+pmzPhaiKNsJQgejt++rNI+A=;
+	b=mpH3i2CUJFYobNK9q859cRWvSUc0guUbZyydhnP3x7a6i11IFaCKRu/SBiDaTENXB5
+	aWCgNMLeVdI5gtVg2wiAGifmGOvnvUYalv+A/QRocObDBcZCM6BoQyBFWbNMfMDt31po
+	Wp7SxdFLC9LwdzApCWrxH4YK7KarqfdC47XcrwgCNT3hAtE12bIGYQP8JIfLoIscwP1L
+	ku6mhXECzx+Mpl8oZijf9R7n5jC0ipOAxQ+0rJqlw6LjbOrcvZctKHzwE/q8WB8fKQND
+	NJ2xj2Cn4xTQmPxFFy7WrwC/MIG8e3XntsAVj8ON1rT/kmVzTIwI1jk13B9eoeHOHKfU
+	KDfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rzEZJyqDmf7xVg8qHLD+pmzPhaiKNsJQgejt++rNI+A=;
+	b=p1PWP4+Z6soOdczC9v497Btm/GahOnrZYpDT9Hgo33woJWxsv/CGFI0g9KouPiHLz8
+	x+RGnK7OQwNBIPBE72Xo5SihPjmVCm4By0GS3f1Qj0IBgXs6JgQNQzJHIANMTSmytMO5
+	dHuJjvyYGZuopFFWVPwYTb9Z26YSYLEcsQXyyDQpZ95WMrIjqicfvjfZXgSF6ot6ddXz
+	P8AtoGokkJqIZxtFOq6lETJcdA2dCBmu9dc2HlwbzFrF1/u0Hhje7eTXiKPOXpgOx0dr
+	rc1j0z1rboVxm+lXyHj4n6w6a0VeWMtpF9YehihngH1BRXQxCAFW4/MS9bgO8HskN2M1
+	DvYw==
+X-Gm-Message-State: APjAAAXOEDAFaNmdd42R0vIEv8dCGAet+sLmMUlWSStc6YrCtPg8Qwmb
+	TWzxaf2nr72LuHsS+TWbfBuj+kB76iF6AbC6o3g=
+X-Google-Smtp-Source: APXvYqwfv9NQWiFz8tsJUbzbvB1hHv6HVfKZBWMm0F8w/+elHmYYYOsPCio3Ci2jvRuesZ9HBxd8xkKdKsctRnDB5C0=
+X-Received: by 2002:aca:1916:: with SMTP id l22mr2009152oii.136.1558599468317; 
+	Thu, 23 May 2019 01:17:48 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Thu, 23 May 2019 01:17:47
+	-0700 (PDT)
+Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Thu, 23 May 2019 01:17:47
+	-0700 (PDT)
+In-Reply-To: <20190522222821.23850-1-richard.henderson@linaro.org>
+References: <20190522222821.23850-1-richard.henderson@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 23 May 2019 10:17:47 +0200
+Message-ID: <CAL1e-=jzbtrbu6OnoAJ2Z7QyTGXfek4wFN-pzhQn9GJpXxLaMw@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::236
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PULL 00/16] tcg queued patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,63 +77,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FIXME Computation of generated target-dependent headers
+On May 23, 2019 12:32 AM, "Richard Henderson" <richard.henderson@linaro.org=
+>
+wrote:
+>
+> The following changes since commit
+a4f667b6714916683408b983cfe0a615a725775f:
+>
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3'
+into staging (2019-05-21 16:30:13 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/rth7680/qemu.git tags/pull-tcg-20190522
+>
+> for you to fetch changes up to 11e2bfef799024be4a08fcf6797fe0b22fb16b58:
+>
+>   tcg/i386: Use MOVDQA for TCG_TYPE_V128 load/store (2019-05-22 15:09:43
+-0400)
+>
+> ----------------------------------------------------------------
+> Misc gvec improvements
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- tests/check-headers.mak | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+Why are =E2=80=9CReviewed-by:=E2=80=9D lines missing from all patches of th=
+is pull request?
 
-diff --git a/tests/check-headers.mak b/tests/check-headers.mak
-index 589c62d66b..16a5f4e214 100644
---- a/tests/check-headers.mak
-+++ b/tests/check-headers.mak
-@@ -4,16 +4,26 @@ ifneq ($(wildcard $(SRC_PATH)/.git),)
- 
- # All headers:
- src-headers := $(filter %.h, $(shell cd $(SRC_PATH) && git ls-files))
-+gen-headers := $(filter %.h, $(generated-files-y))
-+ifeq ($(generated-files-y),) # FIXME empty when included from Makefile.target
-+$(warning warning: working around empty generated-files-y)
-+# Work-around: hard-code the generated headers that are actually
-+# target-dependent
-+gen-headers := qapi/qapi-types-target.h qapi/qapi-visit-target.h qapi/qapi-commands-target.h qapi/qapi-events-target.h qapi/qapi-types.h qapi/qapi-visit.h qapi/qapi-commands.h qapi/qapi-events.h
-+endif
- 
- # Third party headers we don't want to mess with:
- excluded-headers := $(filter disas/libvixl/vixl/% include/standard-headers/% linux-headers/% pc-bios/% slirp/%, $(src-headers))
-+excluded-headers += $(filter trace-dtrace-root.h %/trace-dtrace.h, $(gen-headers))
- # Funny stuff we don't want to mess with:
- excluded-headers += $(filter tests/multiboot/% tests/tcg/% tests/uefi-test-tools/%, $(src-headers))
- excluded-headers += scripts/cocci-macro-file.h
- 
- # Headers that require -DNEED_CPU_H etc.
- target-header-comment := NOTE: May only be included into target-dependent code
--target-headers := $(shell cd $(SRC_PATH) && egrep -l '$(target-header-comment)' $(src-headers))
-+target-headers := $(filter qapi/qapi-%-target.h, $(gen-headers))
-+target-headers += $(target-headers:-target.h=.h)
-+target-headers += $(shell cd $(SRC_PATH) && egrep -l '$(target-header-comment)' $(src-headers))
- 
- # Headers carrying a FIXME about this test:
- bad-header-without-linux$(CONFIG_LINUX) := | without CONFIG_LINUX
-@@ -28,10 +38,11 @@ bad-header-without-x11$(CONFIG_X11) := | without CONFIG_X11
- bad-header-without-xen$(CONFIG_XEN) := | without CONFIG_XEN
- bad-header-comment := FIXME Does not pass make check-headers($(bad-header-without-linux)$(bad-header-without-opengl)$(bad-header-without-posix)$(bad-header-without-rdma)$(bad-header-without-replication)$(bad-header-without-spice)$(bad-header-without-system-emu)$(bad-header-without-win32)$(bad-header-without-x11)$(bad-header-without-xen)), yet!
- bad-headers := $(shell cd $(SRC_PATH) && egrep -l '$(bad-header-comment)' $(src-headers))
-+bad-headers += trace/generated-tcg-tracers.h trace/generated-helpers-wrappers.h trace/generated-helpers.h
- bad-target-headers := $(filter $(target-headers), $(bad-headers))
- 
- # Checked headers (all less excluded and bad):
--checked-headers := $(filter-out $(excluded-headers) $(bad-headers) $(target-headers), $(src-headers))
-+checked-headers := $(filter-out $(excluded-headers) $(bad-headers) $(target-headers), $(src-headers) $(gen-headers))
- check-header-tests := $(patsubst %.h, tests/headers/%.c, $(checked-headers))
- checked-target-headers := $(filter-out $(excluded-headers) $(bad-headers), $(target-headers))
- check-target-header-tests := $(patsubst %.h, tests/headers/%.c, $(checked-target-headers))
--- 
-2.17.2
+Regerds,
+Aleksandar
 
-
+> Richard Henderson (16):
+>       tcg/i386: Fix dupi/dupm for avx1 and 32-bit hosts
+>       tcg: Fix missing checks and clears in tcg_gen_gvec_dup_mem
+>       tcg: Add support for vector bitwise select
+>       tcg: Add support for vector compare select
+>       tcg: Introduce do_op3_nofail for vector expansion
+>       tcg: Expand vector minmax using cmp+cmpsel
+>       tcg: Add TCG_OPF_NOT_PRESENT if TCG_TARGET_HAS_foo is negative
+>       tcg/i386: Support vector comparison select value
+>       tcg/i386: Remove expansion for missing minmax
+>       tcg/i386: Use umin/umax in expanding unsigned compare
+>       tcg/aarch64: Support vector bitwise select value
+>       tcg/aarch64: Split up is_fimm
+>       tcg/aarch64: Use MVNI in tcg_out_dupi_vec
+>       tcg/aarch64: Build vector immediates with two insns
+>       tcg/aarch64: Allow immediates for vector ORR and BIC
+>       tcg/i386: Use MOVDQA for TCG_TYPE_V128 load/store
+>
+>  accel/tcg/tcg-runtime.h      |   2 +
+>  tcg/aarch64/tcg-target.h     |   2 +
+>  tcg/i386/tcg-target.h        |   2 +
+>  tcg/tcg-op-gvec.h            |   7 +
+>  tcg/tcg-op.h                 |   5 +
+>  tcg/tcg-opc.h                |   5 +-
+>  tcg/tcg.h                    |   2 +
+>  accel/tcg/tcg-runtime-gvec.c |  14 ++
+>  tcg/aarch64/tcg-target.inc.c | 371
+++++++++++++++++++++++++++++++++-----------
+>  tcg/i386/tcg-target.inc.c    | 169 +++++++++++++-------
+>  tcg/tcg-op-gvec.c            |  71 ++++++---
+>  tcg/tcg-op-vec.c             | 142 ++++++++++++++---
+>  tcg/tcg.c                    |   5 +
+>  tcg/README                   |  11 ++
+>  14 files changed, 620 insertions(+), 188 deletions(-)
+>
