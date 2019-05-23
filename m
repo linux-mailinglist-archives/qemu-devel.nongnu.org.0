@@ -2,89 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445832843F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:52:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40639 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6A32844B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:54:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40661 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqxY-0003l1-En
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:52:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44751)
+	id 1hTqzZ-0005Vs-Jz
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:54:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44739)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hTqvE-0002R3-10
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:50:32 -0400
+	(envelope-from <armbru@redhat.com>) id 1hTqvU-0002R1-N4
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:50:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hTqke-0006al-9W
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:39:33 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:38826)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
-	id 1hTqkc-0006Xq-P9; Thu, 23 May 2019 12:39:31 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NGdKD0130625; Thu, 23 May 2019 16:39:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
-	h=from : message-id :
-	content-type : mime-version : subject : date : in-reply-to : cc : to :
-	references; s=corp-2018-07-02;
-	bh=cmtRzb3GnCeEy3Gk6rPnVVp6uPabZlx0w4bmD7EjewM=;
-	b=wobxsb4vRu35xX6j12oBxCloN2novJEaNOvqclC09jY0b+CBLP+9SMYAjMepXXQQ8qGs
-	pJm4jpgR8VW3+HJW2c6386HWpsS1UJj6pzd3EgQ6/N0Ca/+LzbgORJc5W+3EnDn/g30x
-	O1c7s6YifuXCsrOlXb4ku8HckGDdJTTpJpZAu6EPGfvtN+KU7TNycLHbGcssOn4WGe3C
-	pcicqwXqPKTv31ghDYzSjbwYLKmko+1JkO/zE42jh+g1L5yoYe61mevPGzHFC272dOEo
-	9oMRqmUVKI8qrU4uag6gG40Gr336TbuZbRcCrLs9bJ4yXK/VTCf4jaegXBRvfACPuZnD
-	Cg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by userp2130.oracle.com with ESMTP id 2smsk5kp30-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 May 2019 16:39:29 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NGbjht191249; Thu, 23 May 2019 16:39:28 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3020.oracle.com with ESMTP id 2smsgvkr3d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 May 2019 16:39:28 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4NGdRvK002113;
-	Thu, 23 May 2019 16:39:27 GMT
-Received: from [192.168.43.218] (/2.53.191.8)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 23 May 2019 16:39:26 +0000
-From: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-Id: <187CC767-4CB1-42AE-8C9C-6F0EF69F40AF@oracle.com>
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.8\))
-Date: Thu, 23 May 2019 19:35:20 +0300
-In-Reply-To: <fc179916-0fb5-bb50-da41-14789b020be9@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-References: <20190523154444.28783-1-shmuel.eiderman@oracle.com>
-	<20190523154444.28783-3-shmuel.eiderman@oracle.com>
-	<fc179916-0fb5-bb50-da41-14789b020be9@redhat.com>
-X-Mailer: Apple Mail (2.3445.104.8)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9265
-	signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
-	malwarescore=0
-	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
-	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
-	engine=8.0.1-1810050000 definitions=main-1905230113
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9265
-	signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
-	adultscore=0
-	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
-	definitions=main-1905230113
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v4 2/3] qemu-img: rebase: Reduce reads on
- in-chain rebase
+	(envelope-from <armbru@redhat.com>) id 1hTqhS-0003ZR-3a
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:36:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38738)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hTqhR-0003X0-0U; Thu, 23 May 2019 12:36:13 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4866581F35;
+	Thu, 23 May 2019 16:36:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
+	[10.36.117.250])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1276A5B683;
+	Thu, 23 May 2019 16:36:12 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id D8D291138648; Thu, 23 May 2019 18:36:10 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+References: <20190523152250.106717-1-sgarzare@redhat.com>
+	<20190523152250.106717-3-sgarzare@redhat.com>
+Date: Thu, 23 May 2019 18:36:10 +0200
+In-Reply-To: <20190523152250.106717-3-sgarzare@redhat.com> (Stefano
+	Garzarella's message of "Thu, 23 May 2019 17:22:49 +0200")
+Message-ID: <87tvdlgmbp.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.25]);
+	Thu, 23 May 2019 16:36:12 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 2/3] block/file-posix: update .help of
+ BLOCK_OPT_PREALLOC option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -96,85 +62,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, eyal.moscovici@oracle.com, qemu-block@nongnu.org,
-	arbel.moshe@oracle.com, QEMU <qemu-devel@nongnu.org>,
-	liran.alon@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com
+Cc: Kevin Wolf <kwolf@redhat.com>, integration@gluster.org,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes, my bad, resending as v5.
+Stefano Garzarella <sgarzare@redhat.com> writes:
 
-Sam
+> Show 'falloc' among the allowed values of 'preallocation'
+> option, only when it is supported (if defined CONFIG_POSIX_FALLOCATE)
+>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+>  block/file-posix.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index d018429672..9632e3a87b 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -2751,7 +2751,11 @@ static QemuOptsList raw_create_opts = {
+>          {
+>              .name = BLOCK_OPT_PREALLOC,
+>              .type = QEMU_OPT_STRING,
+> -            .help = "Preallocation mode (allowed values: off, falloc, full)"
+> +            .help = "Preallocation mode (allowed values: off"
+> +#ifdef CONFIG_POSIX_FALLOCATE
+> +                    ", falloc"
+> +#endif
+> +                    ", full)"
+>          },
+>          { /* end of list */ }
+>      }
 
-> On 23 May 2019, at 19:14, Max Reitz <mreitz@redhat.com> wrote:
->=20
-> On 23.05.19 17:44, Sam Eiderman wrote:
->> In the following case:
->>=20
->> (base) A <- B <- C (tip)
->>=20
->> when running:
->>=20
->>    qemu-img rebase -b A C
->>=20
->> QEMU would read all sectors not allocated in the file being rebased =
-(C)
->> and compare them to the new base image (A), regardless of whether =
-they
->> were changed or even allocated anywhere along the chain between the =
-new
->> base and the top image (B). This causes many unneeded reads when
->> rebasing an image which represents a small diff of a large disk, as =
-it
->> would read most of the disk's sectors.
->>=20
->> Instead, use bdrv_is_allocated_above() to reduce the number of
->> unnecessary reads.
->>=20
->> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
->> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
->> Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
->> ---
->> qemu-img.c | 25 ++++++++++++++++++++++++-
->> 1 file changed, 24 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/qemu-img.c b/qemu-img.c
->> index 9bd0bb1e47..e6fd8e1a98 100644
->> --- a/qemu-img.c
->> +++ b/qemu-img.c
->=20
-> [...]
->=20
->> @@ -3437,6 +3443,23 @@ static int img_rebase(int argc, char **argv)
->>                 continue;
->>             }
->>=20
->> +            if (prefix_chain_bs) {
->> +                /*
->> +                 * If cluster wasn't changed since prefix_chain, we =
-don't need
->> +                 * to take action
->> +                 */
->> +                ret =3D bdrv_is_allocated_above(bs, prefix_chain_bs,
->> +                                              offset, n, &n);
->=20
-> I think you forgot to update the patch...?
->=20
-> Max
->=20
->> +                if (ret < 0) {
->> +                    error_report("error while reading image =
-metadata: %s",
->> +                                 strerror(-ret));
->> +                    goto out;
->> +                }
->> +                if (!ret) {
->> +                    continue;
->> +                }
->> +            }
->> +
->>             /*
->>              * Read old and new backing file and take into =
-consideration that
->>              * backing files may be smaller than the COW image.
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
