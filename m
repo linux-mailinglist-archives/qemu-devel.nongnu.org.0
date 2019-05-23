@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE8227A80
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:28:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33074 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987EB27A87
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:29:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33078 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTkxL-0006nK-Uf
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:28:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49089)
+	id 1hTkyX-0007jk-N9
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:29:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49126)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkut-0005Qa-Dq
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:44 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkuy-0005SJ-4W
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkuo-0000uc-0a
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:41 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40274)
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkut-0000zC-Dx
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:47 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43452)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTkul-0000qf-Sd
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:36 -0400
-Received: by mail-wr1-x443.google.com with SMTP id f10so5657604wre.7
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:25:34 -0700 (PDT)
+	id 1hTkuo-0000r6-0t
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:41 -0400
+Received: by mail-wr1-x442.google.com with SMTP id t7so5339817wrr.10
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:25:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=o9QeVVaANSkRPVE/lzeP8GOR0UaOCl88SpmnTYfV1Iw=;
-	b=G5To9fk1/h4mMwOJ4mcXNjFUZl+rfqzXwViIX9MnMo5D//wXjFQUN1yc1BsRD78gEG
-	GYf1AeT4vMVnIJHeQRUKXAiUyY8MgFstMKxIuYp2biUY0XSvn6fwrQDvqKb0ZW7bjb7v
-	qwieNQujjeVsmyJVtbsV/JpR7bcHCbEu0SRWwCnyWx+Kb0IKIzWcBcGadoAUP8HY25qg
-	T0FGLpTJdwtf5YFwNzeqU+uTIt09sGH0fRGb/VLZTNOu63h7XKJzQCsr30RWh7TXsLo7
-	gywCUS+OBbSu60UnMuGGlirCUFiVI7d93VnDlRSg9za9bxP9T2p/7iuU1ffR0KxCGN+0
-	HIhQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=iuJju+zdPT7iceeAnurMB98v66ii11jMwZw4RWJ0mLs=;
+	b=zOBIaOPCAtci9VUXZuZmO52h461g4aeHlo5uME49gsa8cZzWgkeWajAxvkuVPrLD1J
+	H/UeAX9l0UoOhilm6Mc4AZAlpFf1rC7slgwOCaHw62OzT1tM6Dyn5pXKuXAHK7SoV0pD
+	p/szUnm1kPgJxUBFnfUnfrZVEcAj0VmGizMSwRjNoLrWw5y7zjhhM9JXCrAuSoB/8Vg8
+	bLRLm2ZzFYzER4LJR82VqVZ689T+4uUpQ1+sN4Pgj6Fg6/eZ/8b5mdGYcjRvuOYzPisi
+	v/xqYakEl3NlftvuH96E3Vv98B3Gz9JsbPg8S5RmK/NwYzGbLLpSSpI/44msa66ShBKj
+	LYJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=o9QeVVaANSkRPVE/lzeP8GOR0UaOCl88SpmnTYfV1Iw=;
-	b=PPtLoeQd5g1nTJuR3LLFwyEQ/FBi2otMQnIHeOu0HGqwrOB9rZQZLTh7B0+/SPVOg9
-	V0yfV8lAGDA4Zt3PA7UVSLpjyPFqnyQtWsuswJV9d22uDuDtQjzs/2eJVkX2/lC4rtZ9
-	/HEySEl/0OTNhj7CnJou9YqGZOMbtIwu7AWSCGYGy3KMSfrKm6pDl5Qjt4UikLWF6WBN
-	Kd/Y52X7ZhkY7WTYc/WLCaqAdig2K5DoMsKdJXpQa4/aaw2pmzKR0tWXKB17OnXYKUSW
-	ZzfdNnMwUZnWY1k5ZNxSnEzdcx6tTInMLw4q3dAgjNasvKrzL5Bxeskjygd3bzeq3T7g
-	vGaw==
-X-Gm-Message-State: APjAAAXBoTdZmcGiZtYWO9KBKZt0zxZLCs5CHp0PNtZW4huakY6l0Tko
-	GBwIoI/63SBzSM45ocYNJtjeI530mXw=
-X-Google-Smtp-Source: APXvYqyuvDwwgvCwg7F36MI6ajc981jD8RK7NrCGvxdrLPIleH66JxHK9aGJwqN85eb8dpe6LCyA1w==
-X-Received: by 2002:a5d:618b:: with SMTP id j11mr14908470wru.36.1558607133172; 
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=iuJju+zdPT7iceeAnurMB98v66ii11jMwZw4RWJ0mLs=;
+	b=fv2rmt5aFNKDFEu4xWZsDAScGHD/vpMM7s87+MuvbzEWRX3WHKRl5qotJACw5HWwvF
+	FsWBl4sBqGl62jBsPdCxP8zGrecvgztVLoTmxD+m8DGt1dRfMik4Kl49BGbpDgeejBAM
+	fICflbOYHgoh3JqCDo30fwFR5OxyQEnfJk3vniYXFJSG03puAMGjlBDv0jVUAafOUdIf
+	v0s99JqGQS9MWuodu4L4tOx3EaYXgD/gqIf7JRXOodkWq8S3z1aqCjkr+7i2kzrw63aI
+	U3rt6GsmWCYkxF16p1orWkTa6sH+jX8HCW9obzdIqvXF/X71C31627sURvk1vni4rE7n
+	DHVA==
+X-Gm-Message-State: APjAAAXLi8QIEfxUbcPQesabbqVE70kNWfsKwVDoO5Xojug2ZTtPWR4y
+	SfbEORI/JYwa5v+iM4+sC3zsjw==
+X-Google-Smtp-Source: APXvYqwBArJPpQasGae5ROy+ktYjk32aet5aRMWjzlxHv1KOTLd6VP7flPLBUjkUbkDC1N+ExSY2jQ==
+X-Received: by 2002:adf:eb02:: with SMTP id s2mr53026004wrn.29.1558607133794; 
 	Thu, 23 May 2019 03:25:33 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	t6sm16729133wmt.34.2019.05.23.03.25.32
+	q11sm11417258wmc.15.2019.05.23.03.25.32
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 May 2019 03:25:32 -0700 (PDT)
+	Thu, 23 May 2019 03:25:33 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 439631FF87;
+	by zen.linaroharston (Postfix) with ESMTP id 741F01FF8C;
 	Thu, 23 May 2019 11:25:32 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 11:25:04 +0100
-Message-Id: <20190523102532.10486-1-alex.bennee@linaro.org>
+Date: Thu, 23 May 2019 11:25:05 +0100
+Message-Id: <20190523102532.10486-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190523102532.10486-1-alex.bennee@linaro.org>
+References: <20190523102532.10486-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH  v2 00/28] current testing/next queue
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH v2 01/28] semihosting: move semihosting
+ configuration into its own directory
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,149 +83,604 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Walle <michael@walle.cc>, qemu-arm@nongnu.org,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In preparation for having some more common semihosting code let's
+excise the current config magic from vl.c into its own file. We shall
+later add more conditionals to the build configurations so we can
+avoid building this if we don't need it.
 
-Hi,
-
-This is the current status of my testing/next tree. I had to delay
-sending a PR as I refactored the semihosting changes (used by softmmu
-tests) to be more generic. I've also addressed comments and merged in
-Kevin's tweaks to the iotest check script.
-
-The following patches still need review
- patch 0003/semihosting implement a semihosting console.patch
- patch 0004/semihosting enable chardev backed output for cons.patch
- patch 0006/target arm use the common interface for WRITE0 WR.patch
- patch 0017/tests tcg aarch64 add system boot.S.patch
- patch 0027/tests qemu iotests re format output to for make c.patch
-
-Alex Bennée (23):
-  semihosting: move semihosting configuration into its own directory
-  semihosting: introduce CONFIG_SEMIHOSTING
-  semihosting: implement a semihosting console
-  semihosting: enable chardev backed output for console
-  target/arm: fixup some of the commentary for arm-semi
-  target/arm: use the common interface for WRITE0/WRITEC in arm-semi
-  target/arm: add LOG_UNIMP messages to arm-semi
-  target/arm: correct return values for WRITE/READ in arm-semi
-  target/mips: only build mips-semi for softmmu
-  target/mips: convert UHI_plog to use common semihosting code
-  MAINTAINERS: update for semihostings new home
-  tests/tcg/multiarch: add support for multiarch system tests
-  tests/tcg/multiarch: add hello world system test
-  editorconfig: add settings for .s/.S files
-  tests/tcg/aarch64: add system boot.S
-  tests/tcg/multiarch: move the system memory test
-  tests/tcg/minilib: support %c format char
-  tests/tcg/multiarch: expand system memory test to cover more
-  .travis.yml: enable aarch64-softmmu and alpha-softmmu tcg tests
-  Makefile: fix coverage-report reference to BUILD_DIR
-  Makefile: include per-target build directories in coverage report
-  Makefile.target: support per-target coverage reports
-  tests/qemu-iotests: re-format output to for make check-block
-
-Gerd Hoffmann (1):
-  tests/docker: add ubuntu 18.04
-
-Philippe Mathieu-Daudé (1):
-  tests/docker: Test more components on the Fedora default image
-
-Richard Henderson (1):
-  tests/tcg/alpha: add system boot.S
-
-Thomas Huth (2):
-  tests/qemu-iotests/group: Re-use the "auto" group for tests that can
-    always run
-  tests: Run the iotests during "make check" again
-
- .editorconfig                                 |   5 +
- .travis.yml                                   |   2 +-
- MAINTAINERS                                   |   8 +
- Makefile                                      |   4 +-
- Makefile.target                               |  16 +
- default-configs/arm-softmmu.mak               |   1 +
- default-configs/lm32-softmmu.mak              |   2 +
- default-configs/m68k-softmmu.mak              |   2 +
- default-configs/mips-softmmu-common.mak       |   1 +
- default-configs/nios2-softmmu.mak             |   2 +
- default-configs/xtensa-softmmu.mak            |   2 +
- gdbstub.c                                     |   7 +-
- hw/Kconfig                                    |   1 +
- hw/Makefile.objs                              |   1 +
- hw/mips/mips_malta.c                          |   2 +-
- hw/semihosting/Kconfig                        |   3 +
- hw/semihosting/Makefile.objs                  |   2 +
- hw/semihosting/config.c                       | 186 +++++++
- hw/semihosting/console.c                      |  77 +++
- include/exec/gdbstub.h                        |  11 +
- include/hw/semihosting/console.h              |  38 ++
- include/{exec => hw/semihosting}/semihost.h   |  17 +-
- include/sysemu/sysemu.h                       |   1 +
- linux-user/Makefile.objs                      |   2 +
- linux-user/arm/semihost.c                     |  24 +
- qemu-options.hx                               |   6 +-
- stubs/Makefile.objs                           |   1 +
- stubs/semihost.c                              |  70 +++
- target/arm/arm-semi.c                         |  98 ++--
- target/arm/helper.c                           |   2 +-
- target/arm/translate-a64.c                    |   2 +-
- target/arm/translate.c                        |   2 +-
- target/lm32/helper.c                          |   2 +-
- target/m68k/op_helper.c                       |   2 +-
- target/mips/Makefile.objs                     |   3 +-
- target/mips/helper.h                          |   2 +
- target/mips/mips-semi.c                       |  14 +-
- target/mips/translate.c                       |  10 +-
- target/nios2/helper.c                         |   2 +-
- target/xtensa/translate.c                     |   2 +-
- target/xtensa/xtensa-semi.c                   |   2 +-
- tests/Makefile.include                        |   8 +-
- tests/check-block.sh                          |  44 +-
- tests/docker/dockerfiles/fedora.docker        |   7 +
- tests/docker/dockerfiles/ubuntu1804.docker    |  57 ++
- tests/qemu-iotests-quick.sh                   |   8 -
- tests/qemu-iotests/check                      | 179 +++---
- tests/qemu-iotests/group                      | 177 +++---
- tests/tcg/Makefile                            |   1 +
- tests/tcg/aarch64/Makefile.softmmu-target     |  34 ++
- tests/tcg/aarch64/system/boot.S               | 239 ++++++++
- tests/tcg/aarch64/system/kernel.ld            |  24 +
- tests/tcg/alpha/Makefile.softmmu-target       |  34 ++
- tests/tcg/alpha/system/boot.S                 | 511 ++++++++++++++++++
- tests/tcg/alpha/system/kernel.ld              |  30 +
- tests/tcg/i386/Makefile.softmmu-target        |   4 +-
- tests/tcg/i386/system/memory.c                | 243 ---------
- tests/tcg/minilib/printf.c                    |   3 +
- .../multiarch/system/Makefile.softmmu-target  |  14 +
- tests/tcg/{i386 => multiarch}/system/hello.c  |   0
- tests/tcg/multiarch/system/memory.c           | 449 +++++++++++++++
- vl.c                                          | 128 +----
- 62 files changed, 2226 insertions(+), 605 deletions(-)
- create mode 100644 hw/semihosting/Kconfig
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ gdbstub.c                                   |   2 +-
+ hw/Makefile.objs                            |   1 +
+ hw/mips/mips_malta.c                        |   2 +-
+ hw/semihosting/Makefile.objs                |   1 +
+ hw/semihosting/config.c                     | 160 ++++++++++++++++++++
+ include/{exec => hw/semihosting}/semihost.h |  10 +-
+ include/sysemu/sysemu.h                     |   1 +
+ target/arm/arm-semi.c                       |   2 +-
+ target/arm/helper.c                         |   2 +-
+ target/arm/translate-a64.c                  |   2 +-
+ target/arm/translate.c                      |   2 +-
+ target/lm32/helper.c                        |   2 +-
+ target/m68k/op_helper.c                     |   2 +-
+ target/mips/mips-semi.c                     |   2 +-
+ target/mips/translate.c                     |   2 +-
+ target/nios2/helper.c                       |   2 +-
+ target/xtensa/translate.c                   |   2 +-
+ target/xtensa/xtensa-semi.c                 |   2 +-
+ vl.c                                        | 126 +--------------
+ 19 files changed, 186 insertions(+), 139 deletions(-)
  create mode 100644 hw/semihosting/Makefile.objs
  create mode 100644 hw/semihosting/config.c
- create mode 100644 hw/semihosting/console.c
- create mode 100644 include/hw/semihosting/console.h
- rename include/{exec => hw/semihosting}/semihost.h (78%)
- create mode 100644 linux-user/arm/semihost.c
- create mode 100644 stubs/semihost.c
- create mode 100644 tests/docker/dockerfiles/ubuntu1804.docker
- delete mode 100755 tests/qemu-iotests-quick.sh
- create mode 100644 tests/tcg/aarch64/Makefile.softmmu-target
- create mode 100644 tests/tcg/aarch64/system/boot.S
- create mode 100644 tests/tcg/aarch64/system/kernel.ld
- create mode 100644 tests/tcg/alpha/Makefile.softmmu-target
- create mode 100644 tests/tcg/alpha/system/boot.S
- create mode 100644 tests/tcg/alpha/system/kernel.ld
- delete mode 100644 tests/tcg/i386/system/memory.c
- create mode 100644 tests/tcg/multiarch/system/Makefile.softmmu-target
- rename tests/tcg/{i386 => multiarch}/system/hello.c (100%)
- create mode 100644 tests/tcg/multiarch/system/memory.c
+ rename include/{exec => hw/semihosting}/semihost.h (85%)
 
+diff --git a/gdbstub.c b/gdbstub.c
+index d54abd17cc2..793218bb43a 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -37,7 +37,7 @@
+ #include "qemu/sockets.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/kvm.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ #include "exec/exec-all.h"
+ 
+ #ifdef CONFIG_USER_ONLY
+diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+index 82aa7fab8e4..d770926ba96 100644
+--- a/hw/Makefile.objs
++++ b/hw/Makefile.objs
+@@ -36,6 +36,7 @@ devices-dirs-$(CONFIG_SOFTMMU) += watchdog/
+ devices-dirs-$(CONFIG_SOFTMMU) += xen/
+ devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
+ devices-dirs-$(CONFIG_SOFTMMU) += smbios/
++devices-dirs-y += semihosting/
+ devices-dirs-y += core/
+ common-obj-y += $(devices-dirs-y)
+ obj-y += $(devices-dirs-y)
+diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+index 439665ab45e..3b009fda25f 100644
+--- a/hw/mips/mips_malta.c
++++ b/hw/mips/mips_malta.c
+@@ -55,7 +55,7 @@
+ #include "qemu/error-report.h"
+ #include "hw/empty_slot.h"
+ #include "sysemu/kvm.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ #include "hw/mips/cps.h"
+ 
+ #define ENVP_ADDR		0x80002000l
+diff --git a/hw/semihosting/Makefile.objs b/hw/semihosting/Makefile.objs
+new file mode 100644
+index 00000000000..546954f4ff4
+--- /dev/null
++++ b/hw/semihosting/Makefile.objs
+@@ -0,0 +1 @@
++common-obj-$(CONFIG_SOFTMMU) += config.o
+diff --git a/hw/semihosting/config.c b/hw/semihosting/config.c
+new file mode 100644
+index 00000000000..f1d3fe1e4c6
+--- /dev/null
++++ b/hw/semihosting/config.c
+@@ -0,0 +1,160 @@
++/*
++ * Semihosting configuration
++ *
++ * Copyright (c) 2015 Imagination Technologies
++ * Copyright (c) 2019 Linaro Ltd
++ *
++ * This controls the configuration of semihosting for all guest
++ * targets that support it. Architecture specific handling is handled
++ * in target/HW/HW-semi.c
++ *
++ * Semihosting is sightly strange in that it is also supported by some
++ * linux-user targets. However in that use case no configuration of
++ * the outputs and command lines is supported.
++ *
++ * The config module is common to all softmmu targets however as vl.c
++ * needs to link against the helpers.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/option.h"
++#include "qemu/config-file.h"
++#include "qemu/error-report.h"
++#include "hw/semihosting/semihost.h"
++
++QemuOptsList qemu_semihosting_config_opts = {
++    .name = "semihosting-config",
++    .implied_opt_name = "enable",
++    .head = QTAILQ_HEAD_INITIALIZER(qemu_semihosting_config_opts.head),
++    .desc = {
++        {
++            .name = "enable",
++            .type = QEMU_OPT_BOOL,
++        }, {
++            .name = "target",
++            .type = QEMU_OPT_STRING,
++        }, {
++            .name = "arg",
++            .type = QEMU_OPT_STRING,
++        },
++        { /* end of list */ }
++    },
++};
++
++typedef struct SemihostingConfig {
++    bool enabled;
++    SemihostingTarget target;
++    const char **argv;
++    int argc;
++    const char *cmdline; /* concatenated argv */
++} SemihostingConfig;
++
++static SemihostingConfig semihosting;
++
++bool semihosting_enabled(void)
++{
++    return semihosting.enabled;
++}
++
++SemihostingTarget semihosting_get_target(void)
++{
++    return semihosting.target;
++}
++
++const char *semihosting_get_arg(int i)
++{
++    if (i >= semihosting.argc) {
++        return NULL;
++    }
++    return semihosting.argv[i];
++}
++
++int semihosting_get_argc(void)
++{
++    return semihosting.argc;
++}
++
++const char *semihosting_get_cmdline(void)
++{
++    if (semihosting.cmdline == NULL && semihosting.argc > 0) {
++        semihosting.cmdline = g_strjoinv(" ", (gchar **)semihosting.argv);
++    }
++    return semihosting.cmdline;
++}
++
++static int add_semihosting_arg(void *opaque,
++                               const char *name, const char *val,
++                               Error **errp)
++{
++    SemihostingConfig *s = opaque;
++    if (strcmp(name, "arg") == 0) {
++        s->argc++;
++        /* one extra element as g_strjoinv() expects NULL-terminated array */
++        s->argv = g_realloc(s->argv, (s->argc + 1) * sizeof(void *));
++        s->argv[s->argc - 1] = val;
++        s->argv[s->argc] = NULL;
++    }
++    return 0;
++}
++
++/* Use strings passed via -kernel/-append to initialize semihosting.argv[] */
++void semihosting_arg_fallback(const char *file, const char *cmd)
++{
++    char *cmd_token;
++
++    /* argv[0] */
++    add_semihosting_arg(&semihosting, "arg", file, NULL);
++
++    /* split -append and initialize argv[1..n] */
++    cmd_token = strtok(g_strdup(cmd), " ");
++    while (cmd_token) {
++        add_semihosting_arg(&semihosting, "arg", cmd_token, NULL);
++        cmd_token = strtok(NULL, " ");
++    }
++}
++
++void qemu_semihosting_enable(void)
++{
++    semihosting.enabled = true;
++    semihosting.target = SEMIHOSTING_TARGET_AUTO;
++}
++
++int qemu_semihosting_config_options(const char *optarg)
++{
++    QemuOptsList *opt_list = qemu_find_opts("semihosting-config");
++    QemuOpts *opts = qemu_opts_parse_noisily(opt_list, optarg, false);
++
++    semihosting.enabled = true;
++
++    if (opts != NULL) {
++        semihosting.enabled = qemu_opt_get_bool(opts, "enable",
++                                                true);
++        const char *target = qemu_opt_get(opts, "target");
++        if (target != NULL) {
++            if (strcmp("native", target) == 0) {
++                semihosting.target = SEMIHOSTING_TARGET_NATIVE;
++            } else if (strcmp("gdb", target) == 0) {
++                semihosting.target = SEMIHOSTING_TARGET_GDB;
++            } else  if (strcmp("auto", target) == 0) {
++                semihosting.target = SEMIHOSTING_TARGET_AUTO;
++            } else {
++                error_report("unsupported semihosting-config %s",
++                             optarg);
++                return 1;
++            }
++        } else {
++            semihosting.target = SEMIHOSTING_TARGET_AUTO;
++        }
++        /* Set semihosting argument count and vector */
++        qemu_opt_foreach(opts, add_semihosting_arg,
++                         &semihosting, NULL);
++    } else {
++        error_report("unsupported semihosting-config %s", optarg);
++        return 1;
++    }
++
++    return 0;
++}
++
+diff --git a/include/exec/semihost.h b/include/hw/semihosting/semihost.h
+similarity index 85%
+rename from include/exec/semihost.h
+rename to include/hw/semihosting/semihost.h
+index 5980939c7b8..07ea40a322f 100644
+--- a/include/exec/semihost.h
++++ b/include/hw/semihosting/semihost.h
+@@ -51,12 +51,16 @@ static inline const char *semihosting_get_cmdline(void)
+ {
+     return NULL;
+ }
+-#else
++#else /* !CONFIG_USER_ONLY */
+ bool semihosting_enabled(void);
+ SemihostingTarget semihosting_get_target(void);
+ const char *semihosting_get_arg(int i);
+ int semihosting_get_argc(void);
+ const char *semihosting_get_cmdline(void);
+-#endif
++void semihosting_arg_fallback(const char *file, const char *cmd);
++/* for vl.c hooks */
++void qemu_semihosting_enable(void);
++int qemu_semihosting_config_options(const char *opt);
++#endif /* CONFIG_USER_ONLY */
+ 
+-#endif
++#endif /* SEMIHOST_H */
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 5f133cae837..61579ae71ef 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -193,5 +193,6 @@ extern QemuOptsList qemu_nic_opts;
+ extern QemuOptsList qemu_net_opts;
+ extern QemuOptsList qemu_global_opts;
+ extern QemuOptsList qemu_mon_opts;
++extern QemuOptsList qemu_semihosting_config_opts;
+ 
+ #endif
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index 8b5fd7bc6e3..3273306c8ea 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -21,7 +21,7 @@
+ #include "qemu/osdep.h"
+ 
+ #include "cpu.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ #ifdef CONFIG_USER_ONLY
+ #include "qemu.h"
+ 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index e2d5c8e34fe..c1f0a07efd8 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -16,7 +16,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "arm_ldst.h"
+ #include <zlib.h> /* For crc32 */
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ #include "sysemu/cpus.h"
+ #include "sysemu/kvm.h"
+ #include "fpu/softfloat.h"
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index b7c5a928b4a..8844a75e53d 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -29,7 +29,7 @@
+ #include "qemu/host-utils.h"
+ #include "qemu/qemu-print.h"
+ 
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ #include "exec/gen-icount.h"
+ 
+ #include "exec/helper-proto.h"
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index dd053c80d62..f2a65c0b5b0 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -30,7 +30,7 @@
+ #include "qemu/bitops.h"
+ #include "qemu/qemu-print.h"
+ #include "arm_ldst.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ 
+ #include "exec/helper-proto.h"
+ #include "exec/helper-gen.h"
+diff --git a/target/lm32/helper.c b/target/lm32/helper.c
+index 20ea17ba23c..8cd48400521 100644
+--- a/target/lm32/helper.c
++++ b/target/lm32/helper.c
+@@ -22,7 +22,7 @@
+ #include "exec/exec-all.h"
+ #include "qemu/host-utils.h"
+ #include "sysemu/sysemu.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ #include "exec/log.h"
+ 
+ bool lm32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index 1ecc772b5cb..bde2d551ff6 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -21,7 +21,7 @@
+ #include "exec/helper-proto.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ 
+ #if defined(CONFIG_USER_ONLY)
+ 
+diff --git a/target/mips/mips-semi.c b/target/mips/mips-semi.c
+index a7aefbaefc8..eac8374fb34 100644
+--- a/target/mips/mips-semi.c
++++ b/target/mips/mips-semi.c
+@@ -22,7 +22,7 @@
+ #include "qemu/log.h"
+ #include "exec/helper-proto.h"
+ #include "exec/softmmu-semi.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ 
+ typedef enum UHIOp {
+     UHI_exit = 1,
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index f96c0d01ef1..3cd5b11b16b 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -32,7 +32,7 @@
+ 
+ #include "exec/helper-proto.h"
+ #include "exec/helper-gen.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ 
+ #include "target/mips/trace.h"
+ #include "trace-tcg.h"
+diff --git a/target/nios2/helper.c b/target/nios2/helper.c
+index ffb83fc1045..57c97bde3c6 100644
+--- a/target/nios2/helper.c
++++ b/target/nios2/helper.c
+@@ -26,7 +26,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/log.h"
+ #include "exec/helper-proto.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ 
+ #if defined(CONFIG_USER_ONLY)
+ 
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 53dce470c17..6f1da878752 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -38,7 +38,7 @@
+ #include "qemu/qemu-print.h"
+ #include "sysemu/sysemu.h"
+ #include "exec/cpu_ldst.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ #include "exec/translator.h"
+ 
+ #include "exec/helper-proto.h"
+diff --git a/target/xtensa/xtensa-semi.c b/target/xtensa/xtensa-semi.c
+index 5f5ce4f344c..38efa3485af 100644
+--- a/target/xtensa/xtensa-semi.c
++++ b/target/xtensa/xtensa-semi.c
+@@ -29,7 +29,7 @@
+ #include "cpu.h"
+ #include "chardev/char-fe.h"
+ #include "exec/helper-proto.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ #include "qapi/error.h"
+ #include "qemu/log.h"
+ #include "sysemu/sysemu.h"
+diff --git a/vl.c b/vl.c
+index 201144b1628..6b19ea42bfe 100644
+--- a/vl.c
++++ b/vl.c
+@@ -116,7 +116,7 @@ int main(int argc, char **argv)
+ #include "qapi/opts-visitor.h"
+ #include "qapi/clone-visitor.h"
+ #include "qom/object_interfaces.h"
+-#include "exec/semihost.h"
++#include "hw/semihosting/semihost.h"
+ #include "crypto/init.h"
+ #include "sysemu/replay.h"
+ #include "qapi/qapi-events-run-state.h"
+@@ -500,25 +500,6 @@ static QemuOptsList qemu_icount_opts = {
+     },
+ };
+ 
+-static QemuOptsList qemu_semihosting_config_opts = {
+-    .name = "semihosting-config",
+-    .implied_opt_name = "enable",
+-    .head = QTAILQ_HEAD_INITIALIZER(qemu_semihosting_config_opts.head),
+-    .desc = {
+-        {
+-            .name = "enable",
+-            .type = QEMU_OPT_BOOL,
+-        }, {
+-            .name = "target",
+-            .type = QEMU_OPT_STRING,
+-        }, {
+-            .name = "arg",
+-            .type = QEMU_OPT_STRING,
+-        },
+-        { /* end of list */ }
+-    },
+-};
+-
+ static QemuOptsList qemu_fw_cfg_opts = {
+     .name = "fw_cfg",
+     .implied_opt_name = "name",
+@@ -1350,80 +1331,6 @@ static void configure_msg(QemuOpts *opts)
+     enable_timestamp_msg = qemu_opt_get_bool(opts, "timestamp", true);
+ }
+ 
+-/***********************************************************/
+-/* Semihosting */
+-
+-typedef struct SemihostingConfig {
+-    bool enabled;
+-    SemihostingTarget target;
+-    const char **argv;
+-    int argc;
+-    const char *cmdline; /* concatenated argv */
+-} SemihostingConfig;
+-
+-static SemihostingConfig semihosting;
+-
+-bool semihosting_enabled(void)
+-{
+-    return semihosting.enabled;
+-}
+-
+-SemihostingTarget semihosting_get_target(void)
+-{
+-    return semihosting.target;
+-}
+-
+-const char *semihosting_get_arg(int i)
+-{
+-    if (i >= semihosting.argc) {
+-        return NULL;
+-    }
+-    return semihosting.argv[i];
+-}
+-
+-int semihosting_get_argc(void)
+-{
+-    return semihosting.argc;
+-}
+-
+-const char *semihosting_get_cmdline(void)
+-{
+-    if (semihosting.cmdline == NULL && semihosting.argc > 0) {
+-        semihosting.cmdline = g_strjoinv(" ", (gchar **)semihosting.argv);
+-    }
+-    return semihosting.cmdline;
+-}
+-
+-static int add_semihosting_arg(void *opaque,
+-                               const char *name, const char *val,
+-                               Error **errp)
+-{
+-    SemihostingConfig *s = opaque;
+-    if (strcmp(name, "arg") == 0) {
+-        s->argc++;
+-        /* one extra element as g_strjoinv() expects NULL-terminated array */
+-        s->argv = g_realloc(s->argv, (s->argc + 1) * sizeof(void *));
+-        s->argv[s->argc - 1] = val;
+-        s->argv[s->argc] = NULL;
+-    }
+-    return 0;
+-}
+-
+-/* Use strings passed via -kernel/-append to initialize semihosting.argv[] */
+-static inline void semihosting_arg_fallback(const char *file, const char *cmd)
+-{
+-    char *cmd_token;
+-
+-    /* argv[0] */
+-    add_semihosting_arg(&semihosting, "arg", file, NULL);
+-
+-    /* split -append and initialize argv[1..n] */
+-    cmd_token = strtok(g_strdup(cmd), " ");
+-    while (cmd_token) {
+-        add_semihosting_arg(&semihosting, "arg", cmd_token, NULL);
+-        cmd_token = strtok(NULL, " ");
+-    }
+-}
+ 
+ /* Now we still need this for compatibility with XEN. */
+ bool has_igd_gfx_passthru;
+@@ -3739,37 +3646,10 @@ int main(int argc, char **argv, char **envp)
+                 nb_option_roms++;
+                 break;
+             case QEMU_OPTION_semihosting:
+-                semihosting.enabled = true;
+-                semihosting.target = SEMIHOSTING_TARGET_AUTO;
++                qemu_semihosting_enable();
+                 break;
+             case QEMU_OPTION_semihosting_config:
+-                semihosting.enabled = true;
+-                opts = qemu_opts_parse_noisily(qemu_find_opts("semihosting-config"),
+-                                               optarg, false);
+-                if (opts != NULL) {
+-                    semihosting.enabled = qemu_opt_get_bool(opts, "enable",
+-                                                            true);
+-                    const char *target = qemu_opt_get(opts, "target");
+-                    if (target != NULL) {
+-                        if (strcmp("native", target) == 0) {
+-                            semihosting.target = SEMIHOSTING_TARGET_NATIVE;
+-                        } else if (strcmp("gdb", target) == 0) {
+-                            semihosting.target = SEMIHOSTING_TARGET_GDB;
+-                        } else  if (strcmp("auto", target) == 0) {
+-                            semihosting.target = SEMIHOSTING_TARGET_AUTO;
+-                        } else {
+-                            error_report("unsupported semihosting-config %s",
+-                                         optarg);
+-                            exit(1);
+-                        }
+-                    } else {
+-                        semihosting.target = SEMIHOSTING_TARGET_AUTO;
+-                    }
+-                    /* Set semihosting argument count and vector */
+-                    qemu_opt_foreach(opts, add_semihosting_arg,
+-                                     &semihosting, NULL);
+-                } else {
+-                    error_report("unsupported semihosting-config %s", optarg);
++                if (qemu_semihosting_config_options(optarg) != 0) {
+                     exit(1);
+                 }
+                 break;
 -- 
 2.20.1
 
