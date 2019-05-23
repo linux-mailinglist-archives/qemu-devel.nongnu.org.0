@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD91727CD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 14:27:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35235 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC57227CDB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 14:27:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35239 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTmot-0001TC-Rs
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 08:27:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45724)
+	id 1hTmp0-0001XG-Pr
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 08:27:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45773)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pmorel@linux.ibm.com>) id 1hTmmV-00087L-0c
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:25:12 -0400
+	(envelope-from <pmorel@linux.ibm.com>) id 1hTmmW-0008AL-HA
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:25:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pmorel@linux.ibm.com>) id 1hTmmT-0002Qa-T4
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:25:10 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59034
+	(envelope-from <pmorel@linux.ibm.com>) id 1hTmmU-0002RU-G3
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:25:12 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55916
 	helo=mx0a-001b2d01.pphosted.com)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <pmorel@linux.ibm.com>)
-	id 1hTmmT-0002Pt-P9
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:25:09 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+	id 1hTmmU-0002Qp-CC
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:25:10 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
 	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NC8vXm091383
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:25:08 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2sntaw3h0k-1
+	x4NC9Cox026673
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:25:09 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 2snsa0pg7t-1
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:25:07 -0400
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:25:09 -0400
 Received: from localhost
-	by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
 	Only! Violators will be prosecuted
 	for <qemu-devel@nongnu.org> from <pmorel@linux.ibm.com>;
-	Thu, 23 May 2019 13:25:05 +0100
+	Thu, 23 May 2019 13:25:07 +0100
 Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-	by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+	by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
 	Authorized Use Only! Violators will be prosecuted; 
 	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Thu, 23 May 2019 13:25:02 +0100
+	Thu, 23 May 2019 13:25:03 +0100
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
 	(b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
 	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4NCP1KI45875242
+	ESMTP id x4NCP1jg62652574
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
 	verify=OK); Thu, 23 May 2019 12:25:01 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 28757A405F;
+	by IMSVA (Postfix) with ESMTP id 975EBA4060;
 	Thu, 23 May 2019 12:25:01 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C0EBFA4054;
-	Thu, 23 May 2019 12:25:00 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 35EC9A405C;
+	Thu, 23 May 2019 12:25:01 +0000 (GMT)
 Received: from morel-ThinkPad-W530.boeblingen.de.ibm.com (unknown
 	[9.152.222.40])
 	by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Thu, 23 May 2019 12:25:00 +0000 (GMT)
+	Thu, 23 May 2019 12:25:01 +0000 (GMT)
 From: Pierre Morel <pmorel@linux.ibm.com>
 To: cohuck@redhat.com
-Date: Thu, 23 May 2019 14:24:56 +0200
+Date: Thu, 23 May 2019 14:24:57 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558614300-24574-1-git-send-email-pmorel@linux.ibm.com>
 References: <1558614300-24574-1-git-send-email-pmorel@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19052312-0016-0000-0000-0000027EB35A
+x-cbid: 19052312-0028-0000-0000-00000370B039
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19052312-0017-0000-0000-000032DBAA2D
-Message-Id: <1558614300-24574-2-git-send-email-pmorel@linux.ibm.com>
+x-cbparentid: 19052312-0029-0000-0000-000024306255
+Message-Id: <1558614300-24574-3-git-send-email-pmorel@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 	definitions=2019-05-23_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -77,8 +77,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 	scancount=1 engine=8.0.1-1810050000 definitions=main-1905230087
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH v2 1/5] vfio: vfio_iommu_type1: linux header
- place holder
+Subject: [Qemu-devel] [PATCH v2 2/5] s390: PCI: Creation a header dedicated
+ to PCI CLP
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -97,106 +97,455 @@ Cc: pasic@linux.vnet.ibm.com, mst@redhat.com, qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This should be copied from Linux kernel UAPI includes.
-The version used here is Linux 5.1.0
-
-We define a new device region in vfio.h to be able to
-get the ZPCI CLP information by reading this region from
-userland.
-
-We create a new file, vfio_zdev.h to define the structure
-of the new region we defined in vfio.h
+To have a clean separation between s390-pci-bus.h
+and s390-pci-inst.h headers we export the PCI CLP
+instructions in a dedicated header.
 
 Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+Reviewed-by: Collin Walling <walling@linux.ibm.com>
 ---
- linux-headers/linux/vfio.h      | 14 +++++++++++---
- linux-headers/linux/vfio_zdev.h | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+), 3 deletions(-)
- create mode 100644 linux-headers/linux/vfio_zdev.h
+ hw/s390x/s390-pci-bus.h  |   1 +
+ hw/s390x/s390-pci-clp.h  | 211 +++++++++++++++++++++++++++++++++++++++++++++++
+ hw/s390x/s390-pci-inst.h | 196 -------------------------------------------
+ 3 files changed, 212 insertions(+), 196 deletions(-)
+ create mode 100644 hw/s390x/s390-pci-clp.h
 
-diff --git a/linux-headers/linux/vfio.h b/linux-headers/linux/vfio.h
-index 12a7b1d..56595b8 100644
---- a/linux-headers/linux/vfio.h
-+++ b/linux-headers/linux/vfio.h
-@@ -9,8 +9,8 @@
-  * it under the terms of the GNU General Public License version 2 as
-  * published by the Free Software Foundation.
-  */
--#ifndef VFIO_H
--#define VFIO_H
-+#ifndef _UAPIVFIO_H
-+#define _UAPIVFIO_H
+diff --git a/hw/s390x/s390-pci-bus.h b/hw/s390x/s390-pci-bus.h
+index 550f3cc..a5d2049 100644
+--- a/hw/s390x/s390-pci-bus.h
++++ b/hw/s390x/s390-pci-bus.h
+@@ -19,6 +19,7 @@
+ #include "hw/s390x/sclp.h"
+ #include "hw/s390x/s390_flic.h"
+ #include "hw/s390x/css.h"
++#include "s390-pci-clp.h"
  
- #include <linux/types.h>
- #include <linux/ioctl.h>
-@@ -306,6 +306,10 @@ struct vfio_region_info_cap_type {
- #define VFIO_REGION_TYPE_GFX                    (1)
- #define VFIO_REGION_SUBTYPE_GFX_EDID            (1)
- 
-+/* IBM Subtypes */
-+#define VFIO_REGION_TYPE_IBM_ZDEV		(1)
-+#define VFIO_REGION_SUBTYPE_ZDEV_CLP		(1)
-+
- /**
-  * struct vfio_region_gfx_edid - EDID region layout.
-  *
-@@ -353,6 +357,10 @@ struct vfio_region_gfx_edid {
- #define VFIO_DEVICE_GFX_LINK_STATE_DOWN  2
- };
- 
-+#define VFIO_REGION_TYPE_CCW			(2)
-+/* ccw sub-types */
-+#define VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD	(1)
-+
- /*
-  * 10de vendor sub-type
-  *
-@@ -910,4 +918,4 @@ struct vfio_iommu_spapr_tce_remove {
- 
- /* ***************************************************************** */
- 
--#endif /* VFIO_H */
-+#endif /* _UAPIVFIO_H */
-diff --git a/linux-headers/linux/vfio_zdev.h b/linux-headers/linux/vfio_zdev.h
+ #define TYPE_S390_PCI_HOST_BRIDGE "s390-pcihost"
+ #define TYPE_S390_PCI_BUS "s390-pcibus"
+diff --git a/hw/s390x/s390-pci-clp.h b/hw/s390x/s390-pci-clp.h
 new file mode 100644
-index 0000000..84b1a82
+index 0000000..e442307
 --- /dev/null
-+++ b/linux-headers/linux/vfio_zdev.h
-@@ -0,0 +1,34 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++++ b/hw/s390x/s390-pci-clp.h
+@@ -0,0 +1,211 @@
 +/*
-+ * Region definition for ZPCI devices
++ * s390 CLPinstruction definitions
 + *
-+ * Copyright IBM Corp. 2019
++ * Copyright 2019 IBM Corp.
++ * Author(s): Pierre Morel <pmorel@de.ibm.com>
 + *
-+ * Author(s): Pierre Morel <pmorel@linux.ibm.com>
++ * This work is licensed under the terms of the GNU GPL, version 2 or (at
++ * your option) any later version. See the COPYING file in the top-level
++ * directory.
 + */
 +
-+#ifndef _VFIO_ZDEV_H_
-+#define _VFIO_ZDEV_H_
++#ifndef HW_S390_PCI_CLP
++#define HW_S390_PCI_CLP
 +
-+#include <linux/types.h>
++/* CLP common request & response block size */
++#define CLP_BLK_SIZE 4096
++#define PCI_BAR_COUNT 6
++#define PCI_MAX_FUNCTIONS 4096
 +
-+/**
-+ * struct vfio_region_zpci_info - ZPCI information.
-+ *
++typedef struct ClpReqHdr {
++    uint16_t len;
++    uint16_t cmd;
++} QEMU_PACKED ClpReqHdr;
++
++typedef struct ClpRspHdr {
++    uint16_t len;
++    uint16_t rsp;
++} QEMU_PACKED ClpRspHdr;
++
++/* CLP Response Codes */
++#define CLP_RC_OK         0x0010  /* Command request successfully */
++#define CLP_RC_CMD        0x0020  /* Command code not recognized */
++#define CLP_RC_PERM       0x0030  /* Command not authorized */
++#define CLP_RC_FMT        0x0040  /* Invalid command request format */
++#define CLP_RC_LEN        0x0050  /* Invalid command request length */
++#define CLP_RC_8K         0x0060  /* Command requires 8K LPCB */
++#define CLP_RC_RESNOT0    0x0070  /* Reserved field not zero */
++#define CLP_RC_NODATA     0x0080  /* No data available */
++#define CLP_RC_FC_UNKNOWN 0x0100  /* Function code not recognized */
++
++/*
++ * Call Logical Processor - Command Codes
 + */
-+struct vfio_region_zpci_info {
-+	__u64 dasm;
-+	__u64 start_dma;
-+	__u64 end_dma;
-+	__u64 msi_addr;
-+	__u64 flags;
-+	__u16 pchid;
-+	__u16 mui;
-+	__u16 noi;
-+	__u8 gid;
-+	__u8 version;
-+#define VFIO_PCI_ZDEV_FLAGS_REFRESH 1
-+	__u8 util_str[CLP_UTIL_STR_LEN];
-+} __packed;
++#define CLP_LIST_PCI            0x0002
++#define CLP_QUERY_PCI_FN        0x0003
++#define CLP_QUERY_PCI_FNGRP     0x0004
++#define CLP_SET_PCI_FN          0x0005
++
++/* PCI function handle list entry */
++typedef struct ClpFhListEntry {
++    uint16_t device_id;
++    uint16_t vendor_id;
++#define CLP_FHLIST_MASK_CONFIG 0x80000000
++    uint32_t config;
++    uint32_t fid;
++    uint32_t fh;
++} QEMU_PACKED ClpFhListEntry;
++
++#define CLP_RC_SETPCIFN_FH      0x0101 /* Invalid PCI fn handle */
++#define CLP_RC_SETPCIFN_FHOP    0x0102 /* Fn handle not valid for op */
++#define CLP_RC_SETPCIFN_DMAAS   0x0103 /* Invalid DMA addr space */
++#define CLP_RC_SETPCIFN_RES     0x0104 /* Insufficient resources */
++#define CLP_RC_SETPCIFN_ALRDY   0x0105 /* Fn already in requested state */
++#define CLP_RC_SETPCIFN_ERR     0x0106 /* Fn in permanent error state */
++#define CLP_RC_SETPCIFN_RECPND  0x0107 /* Error recovery pending */
++#define CLP_RC_SETPCIFN_BUSY    0x0108 /* Fn busy */
++#define CLP_RC_LISTPCI_BADRT    0x010a /* Resume token not recognized */
++#define CLP_RC_QUERYPCIFG_PFGID 0x010b /* Unrecognized PFGID */
++
++/* request or response block header length */
++#define LIST_PCI_HDR_LEN 32
++
++/* Number of function handles fitting in response block */
++#define CLP_FH_LIST_NR_ENTRIES \
++    ((CLP_BLK_SIZE - 2 * LIST_PCI_HDR_LEN) \
++        / sizeof(ClpFhListEntry))
++
++#define CLP_SET_ENABLE_PCI_FN  0 /* Yes, 0 enables it */
++#define CLP_SET_DISABLE_PCI_FN 1 /* Yes, 1 disables it */
++
++#define CLP_UTIL_STR_LEN 64
++
++#define CLP_MASK_FMT 0xf0000000
++
++/* List PCI functions request */
++typedef struct ClpReqListPci {
++    ClpReqHdr hdr;
++    uint32_t fmt;
++    uint64_t reserved1;
++    uint64_t resume_token;
++    uint64_t reserved2;
++} QEMU_PACKED ClpReqListPci;
++
++/* List PCI functions response */
++typedef struct ClpRspListPci {
++    ClpRspHdr hdr;
++    uint32_t fmt;
++    uint64_t reserved1;
++    uint64_t resume_token;
++    uint32_t mdd;
++    uint16_t max_fn;
++    uint8_t flags;
++    uint8_t entry_size;
++    ClpFhListEntry fh_list[CLP_FH_LIST_NR_ENTRIES];
++} QEMU_PACKED ClpRspListPci;
++
++/* Query PCI function request */
++typedef struct ClpReqQueryPci {
++    ClpReqHdr hdr;
++    uint32_t fmt;
++    uint64_t reserved1;
++    uint32_t fh; /* function handle */
++    uint32_t reserved2;
++    uint64_t reserved3;
++} QEMU_PACKED ClpReqQueryPci;
++
++/* Query PCI function response */
++typedef struct ClpRspQueryPci {
++    ClpRspHdr hdr;
++    uint32_t fmt;
++    uint64_t reserved1;
++    uint16_t vfn; /* virtual fn number */
++#define CLP_RSP_QPCI_MASK_UTIL  0x100
++#define CLP_RSP_QPCI_MASK_PFGID 0xff
++    uint16_t ug;
++    uint32_t fid; /* pci function id */
++    uint8_t bar_size[PCI_BAR_COUNT];
++    uint16_t pchid;
++    uint32_t bar[PCI_BAR_COUNT];
++    uint64_t reserved2;
++    uint64_t sdma; /* start dma as */
++    uint64_t edma; /* end dma as */
++    uint32_t reserved3[11];
++    uint32_t uid;
++    uint8_t util_str[CLP_UTIL_STR_LEN]; /* utility string */
++} QEMU_PACKED ClpRspQueryPci;
++
++/* Query PCI function group request */
++typedef struct ClpReqQueryPciGrp {
++    ClpReqHdr hdr;
++    uint32_t fmt;
++    uint64_t reserved1;
++#define CLP_REQ_QPCIG_MASK_PFGID 0xff
++    uint32_t g;
++    uint32_t reserved2;
++    uint64_t reserved3;
++} QEMU_PACKED ClpReqQueryPciGrp;
++
++/* Query PCI function group response */
++typedef struct ClpRspQueryPciGrp {
++    ClpRspHdr hdr;
++    uint32_t fmt;
++    uint64_t reserved1;
++#define CLP_RSP_QPCIG_MASK_NOI 0xfff
++    uint16_t i;
++    uint8_t version;
++#define CLP_RSP_QPCIG_MASK_FRAME   0x2
++#define CLP_RSP_QPCIG_MASK_REFRESH 0x1
++    uint8_t fr;
++    uint16_t maxstbl;
++    uint16_t mui;
++    uint64_t reserved3;
++    uint64_t dasm; /* dma address space mask */
++    uint64_t msia; /* MSI address */
++    uint64_t reserved4;
++    uint64_t reserved5;
++} QEMU_PACKED ClpRspQueryPciGrp;
++
++/* Set PCI function request */
++typedef struct ClpReqSetPci {
++    ClpReqHdr hdr;
++    uint32_t fmt;
++    uint64_t reserved1;
++    uint32_t fh; /* function handle */
++    uint16_t reserved2;
++    uint8_t oc; /* operation controls */
++    uint8_t ndas; /* number of dma spaces */
++    uint64_t reserved3;
++} QEMU_PACKED ClpReqSetPci;
++
++/* Set PCI function response */
++typedef struct ClpRspSetPci {
++    ClpRspHdr hdr;
++    uint32_t fmt;
++    uint64_t reserved1;
++    uint32_t fh; /* function handle */
++    uint32_t reserved3;
++    uint64_t reserved4;
++} QEMU_PACKED ClpRspSetPci;
++
++typedef struct ClpReqRspListPci {
++    ClpReqListPci request;
++    ClpRspListPci response;
++} QEMU_PACKED ClpReqRspListPci;
++
++typedef struct ClpReqRspSetPci {
++    ClpReqSetPci request;
++    ClpRspSetPci response;
++} QEMU_PACKED ClpReqRspSetPci;
++
++typedef struct ClpReqRspQueryPci {
++    ClpReqQueryPci request;
++    ClpRspQueryPci response;
++} QEMU_PACKED ClpReqRspQueryPci;
++
++typedef struct ClpReqRspQueryPciGrp {
++    ClpReqQueryPciGrp request;
++    ClpRspQueryPciGrp response;
++} QEMU_PACKED ClpReqRspQueryPciGrp;
 +
 +#endif
+diff --git a/hw/s390x/s390-pci-inst.h b/hw/s390x/s390-pci-inst.h
+index fa3bf8b..6c4273a 100644
+--- a/hw/s390x/s390-pci-inst.h
++++ b/hw/s390x/s390-pci-inst.h
+@@ -17,202 +17,6 @@
+ #include "s390-pci-bus.h"
+ #include "sysemu/dma.h"
+ 
+-/* CLP common request & response block size */
+-#define CLP_BLK_SIZE 4096
+-#define PCI_BAR_COUNT 6
+-#define PCI_MAX_FUNCTIONS 4096
+-
+-typedef struct ClpReqHdr {
+-    uint16_t len;
+-    uint16_t cmd;
+-} QEMU_PACKED ClpReqHdr;
+-
+-typedef struct ClpRspHdr {
+-    uint16_t len;
+-    uint16_t rsp;
+-} QEMU_PACKED ClpRspHdr;
+-
+-/* CLP Response Codes */
+-#define CLP_RC_OK         0x0010  /* Command request successfully */
+-#define CLP_RC_CMD        0x0020  /* Command code not recognized */
+-#define CLP_RC_PERM       0x0030  /* Command not authorized */
+-#define CLP_RC_FMT        0x0040  /* Invalid command request format */
+-#define CLP_RC_LEN        0x0050  /* Invalid command request length */
+-#define CLP_RC_8K         0x0060  /* Command requires 8K LPCB */
+-#define CLP_RC_RESNOT0    0x0070  /* Reserved field not zero */
+-#define CLP_RC_NODATA     0x0080  /* No data available */
+-#define CLP_RC_FC_UNKNOWN 0x0100  /* Function code not recognized */
+-
+-/*
+- * Call Logical Processor - Command Codes
+- */
+-#define CLP_LIST_PCI            0x0002
+-#define CLP_QUERY_PCI_FN        0x0003
+-#define CLP_QUERY_PCI_FNGRP     0x0004
+-#define CLP_SET_PCI_FN          0x0005
+-
+-/* PCI function handle list entry */
+-typedef struct ClpFhListEntry {
+-    uint16_t device_id;
+-    uint16_t vendor_id;
+-#define CLP_FHLIST_MASK_CONFIG 0x80000000
+-    uint32_t config;
+-    uint32_t fid;
+-    uint32_t fh;
+-} QEMU_PACKED ClpFhListEntry;
+-
+-#define CLP_RC_SETPCIFN_FH      0x0101 /* Invalid PCI fn handle */
+-#define CLP_RC_SETPCIFN_FHOP    0x0102 /* Fn handle not valid for op */
+-#define CLP_RC_SETPCIFN_DMAAS   0x0103 /* Invalid DMA addr space */
+-#define CLP_RC_SETPCIFN_RES     0x0104 /* Insufficient resources */
+-#define CLP_RC_SETPCIFN_ALRDY   0x0105 /* Fn already in requested state */
+-#define CLP_RC_SETPCIFN_ERR     0x0106 /* Fn in permanent error state */
+-#define CLP_RC_SETPCIFN_RECPND  0x0107 /* Error recovery pending */
+-#define CLP_RC_SETPCIFN_BUSY    0x0108 /* Fn busy */
+-#define CLP_RC_LISTPCI_BADRT    0x010a /* Resume token not recognized */
+-#define CLP_RC_QUERYPCIFG_PFGID 0x010b /* Unrecognized PFGID */
+-
+-/* request or response block header length */
+-#define LIST_PCI_HDR_LEN 32
+-
+-/* Number of function handles fitting in response block */
+-#define CLP_FH_LIST_NR_ENTRIES \
+-    ((CLP_BLK_SIZE - 2 * LIST_PCI_HDR_LEN) \
+-        / sizeof(ClpFhListEntry))
+-
+-#define CLP_SET_ENABLE_PCI_FN  0 /* Yes, 0 enables it */
+-#define CLP_SET_DISABLE_PCI_FN 1 /* Yes, 1 disables it */
+-
+-#define CLP_UTIL_STR_LEN 64
+-
+-#define CLP_MASK_FMT 0xf0000000
+-
+-/* List PCI functions request */
+-typedef struct ClpReqListPci {
+-    ClpReqHdr hdr;
+-    uint32_t fmt;
+-    uint64_t reserved1;
+-    uint64_t resume_token;
+-    uint64_t reserved2;
+-} QEMU_PACKED ClpReqListPci;
+-
+-/* List PCI functions response */
+-typedef struct ClpRspListPci {
+-    ClpRspHdr hdr;
+-    uint32_t fmt;
+-    uint64_t reserved1;
+-    uint64_t resume_token;
+-    uint32_t mdd;
+-    uint16_t max_fn;
+-    uint8_t flags;
+-    uint8_t entry_size;
+-    ClpFhListEntry fh_list[CLP_FH_LIST_NR_ENTRIES];
+-} QEMU_PACKED ClpRspListPci;
+-
+-/* Query PCI function request */
+-typedef struct ClpReqQueryPci {
+-    ClpReqHdr hdr;
+-    uint32_t fmt;
+-    uint64_t reserved1;
+-    uint32_t fh; /* function handle */
+-    uint32_t reserved2;
+-    uint64_t reserved3;
+-} QEMU_PACKED ClpReqQueryPci;
+-
+-/* Query PCI function response */
+-typedef struct ClpRspQueryPci {
+-    ClpRspHdr hdr;
+-    uint32_t fmt;
+-    uint64_t reserved1;
+-    uint16_t vfn; /* virtual fn number */
+-#define CLP_RSP_QPCI_MASK_UTIL  0x100
+-#define CLP_RSP_QPCI_MASK_PFGID 0xff
+-    uint16_t ug;
+-    uint32_t fid; /* pci function id */
+-    uint8_t bar_size[PCI_BAR_COUNT];
+-    uint16_t pchid;
+-    uint32_t bar[PCI_BAR_COUNT];
+-    uint64_t reserved2;
+-    uint64_t sdma; /* start dma as */
+-    uint64_t edma; /* end dma as */
+-    uint32_t reserved3[11];
+-    uint32_t uid;
+-    uint8_t util_str[CLP_UTIL_STR_LEN]; /* utility string */
+-} QEMU_PACKED ClpRspQueryPci;
+-
+-/* Query PCI function group request */
+-typedef struct ClpReqQueryPciGrp {
+-    ClpReqHdr hdr;
+-    uint32_t fmt;
+-    uint64_t reserved1;
+-#define CLP_REQ_QPCIG_MASK_PFGID 0xff
+-    uint32_t g;
+-    uint32_t reserved2;
+-    uint64_t reserved3;
+-} QEMU_PACKED ClpReqQueryPciGrp;
+-
+-/* Query PCI function group response */
+-typedef struct ClpRspQueryPciGrp {
+-    ClpRspHdr hdr;
+-    uint32_t fmt;
+-    uint64_t reserved1;
+-#define CLP_RSP_QPCIG_MASK_NOI 0xfff
+-    uint16_t i;
+-    uint8_t version;
+-#define CLP_RSP_QPCIG_MASK_FRAME   0x2
+-#define CLP_RSP_QPCIG_MASK_REFRESH 0x1
+-    uint8_t fr;
+-    uint16_t maxstbl;
+-    uint16_t mui;
+-    uint64_t reserved3;
+-    uint64_t dasm; /* dma address space mask */
+-    uint64_t msia; /* MSI address */
+-    uint64_t reserved4;
+-    uint64_t reserved5;
+-} QEMU_PACKED ClpRspQueryPciGrp;
+-
+-/* Set PCI function request */
+-typedef struct ClpReqSetPci {
+-    ClpReqHdr hdr;
+-    uint32_t fmt;
+-    uint64_t reserved1;
+-    uint32_t fh; /* function handle */
+-    uint16_t reserved2;
+-    uint8_t oc; /* operation controls */
+-    uint8_t ndas; /* number of dma spaces */
+-    uint64_t reserved3;
+-} QEMU_PACKED ClpReqSetPci;
+-
+-/* Set PCI function response */
+-typedef struct ClpRspSetPci {
+-    ClpRspHdr hdr;
+-    uint32_t fmt;
+-    uint64_t reserved1;
+-    uint32_t fh; /* function handle */
+-    uint32_t reserved3;
+-    uint64_t reserved4;
+-} QEMU_PACKED ClpRspSetPci;
+-
+-typedef struct ClpReqRspListPci {
+-    ClpReqListPci request;
+-    ClpRspListPci response;
+-} QEMU_PACKED ClpReqRspListPci;
+-
+-typedef struct ClpReqRspSetPci {
+-    ClpReqSetPci request;
+-    ClpRspSetPci response;
+-} QEMU_PACKED ClpReqRspSetPci;
+-
+-typedef struct ClpReqRspQueryPci {
+-    ClpReqQueryPci request;
+-    ClpRspQueryPci response;
+-} QEMU_PACKED ClpReqRspQueryPci;
+-
+-typedef struct ClpReqRspQueryPciGrp {
+-    ClpReqQueryPciGrp request;
+-    ClpRspQueryPciGrp response;
+-} QEMU_PACKED ClpReqRspQueryPciGrp;
+-
+ /* Load/Store status codes */
+ #define ZPCI_PCI_ST_FUNC_NOT_ENABLED        4
+ #define ZPCI_PCI_ST_FUNC_IN_ERR             8
 -- 
 2.7.4
 
