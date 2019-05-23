@@ -2,82 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA2027DF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:21:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36101 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E028A27E0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:24:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36153 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnfK-0008O2-Pv
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:21:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54645)
+	id 1hTniG-0002s1-V5
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:24:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54819)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTnRP-0005L6-6f
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:07:28 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hTnS4-0005z8-Hg
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:08:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTnRN-000228-6v
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:07:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49752)
+	(envelope-from <imammedo@redhat.com>) id 1hTnS0-0002TR-Ug
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:08:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40222)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hTnRH-0001yH-Ah; Thu, 23 May 2019 09:07:19 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hTnRy-0002IH-FC
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:08:03 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7982764123;
-	Thu, 23 May 2019 13:07:18 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.176])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B258600C1;
-	Thu, 23 May 2019 13:07:16 +0000 (UTC)
-To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
-	qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
-	<20190502135828.42797-1-shmuel.eiderman@oracle.com>
-	<20190502135828.42797-2-shmuel.eiderman@oracle.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <304c40b6-cf74-454d-648a-123ae6cae0a3@redhat.com>
-Date: Thu, 23 May 2019 15:07:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	by mx1.redhat.com (Postfix) with ESMTPS id EA3C075733;
+	Thu, 23 May 2019 13:07:46 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E80995D705;
+	Thu, 23 May 2019 13:07:42 +0000 (UTC)
+Date: Thu, 23 May 2019 15:07:42 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Message-ID: <20190523150742.159efed1@redhat.com>
+In-Reply-To: <20190508061726.27631-3-tao3.xu@intel.com>
+References: <20190508061726.27631-1-tao3.xu@intel.com>
+	<20190508061726.27631-3-tao3.xu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190502135828.42797-2-shmuel.eiderman@oracle.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="spJm7nTzuAYsoa65xhdixGmYjrdojYDSG"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Thu, 23 May 2019 13:07:18 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Thu, 23 May 2019 13:07:47 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v2 1/3] qemu-img: rebase: Reuse parent
- BlockDriverState
+Subject: Re: [Qemu-devel] [PATCH v4 02/11] numa: move numa global variable
+ have_numa_distance into MachineState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -89,70 +58,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sagi.amit@oracle.com, arbel.moshe@oracle.com, liran.alon@oracle.com,
-	eyal.moscovici@oracle.com, karl.heubaum@oracle.com
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
+	qemu-devel@nongnu.org, ehabkost@redhat.com, pbonzini@redhat.com,
+	rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---spJm7nTzuAYsoa65xhdixGmYjrdojYDSG
-From: Max Reitz <mreitz@redhat.com>
-To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: eyal.moscovici@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com,
- liran.alon@oracle.com, arbel.moshe@oracle.com
-Message-ID: <304c40b6-cf74-454d-648a-123ae6cae0a3@redhat.com>
-Subject: Re: [PATCH v2 1/3] qemu-img: rebase: Reuse parent BlockDriverState
-References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
- <20190502135828.42797-1-shmuel.eiderman@oracle.com>
- <20190502135828.42797-2-shmuel.eiderman@oracle.com>
-In-Reply-To: <20190502135828.42797-2-shmuel.eiderman@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Wed,  8 May 2019 14:17:17 +0800
+Tao Xu <tao3.xu@intel.com> wrote:
 
-On 02.05.19 15:58, Sam Eiderman wrote:
-> In safe mode we open the entire chain, including the parent backing
-> file of the rebased file.
-> Do not open a new BlockBackend for the parent backing file, which
-> saves opening the rest of the chain twice, which for long chains
-> saves many "pricy" bdrv_open() calls.
->=20
-> Permissions for blk_new() were copied from blk_new_open() when
-> flags =3D 0.
->=20
-> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-> Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
-> Signed-off-by: Sagi Amit <sagi.amit@oracle.com>
-> Co-developed-by: Sagi Amit <sagi.amit@oracle.com>
-> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+> The aim of this patch is to move existing numa global have_numa_distance
+> into NumaState.
+
+s/The aim of this patch is to//
+
+> Reviewed-by: Liu Jingqi <jingqi.liu@intel.com>
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
 > ---
->  qemu-img.c | 29 ++++++++++++-----------------
->  1 file changed, 12 insertions(+), 17 deletions(-)
 
-Looks good!
-But I=E2=80=99m afraid it will need a rebase on my =E2=80=9CAllow rebase =
-with no input
-base=E2=80=9D series (which is in master)...
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-Max
+> Changes in v4 -> v3:
+>     - send the patch together with HMAT patches
+> ---
+>  hw/arm/virt-acpi-build.c | 2 +-
+>  hw/arm/virt.c            | 2 +-
+>  hw/i386/acpi-build.c     | 2 +-
+>  include/hw/boards.h      | 2 ++
+>  include/sysemu/numa.h    | 2 --
+>  numa.c                   | 5 ++---
+>  6 files changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 6805b4de51..65f070843c 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -815,7 +815,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      if (nb_numa_nodes > 0) {
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_srat(tables_blob, tables->linker, vms);
+> -        if (have_numa_distance) {
+> +        if (ms->numa_state->have_numa_distance) {
+>              acpi_add_table(table_offsets, tables_blob);
+>              build_slit(tables_blob, tables->linker, ms);
+>          }
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 70954b658d..f0818ef597 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -228,7 +228,7 @@ static void create_fdt(VirtMachineState *vms)
+>                                  "clk24mhz");
+>      qemu_fdt_setprop_cell(fdt, "/apb-pclk", "phandle", vms->clock_phandle);
+>  
+> -    if (have_numa_distance) {
+> +    if (nb_numa_nodes > 0 && ms->numa_state->have_numa_distance) {
+>          int size = nb_numa_nodes * nb_numa_nodes * 3 * sizeof(uint32_t);
+>          uint32_t *matrix = g_malloc0(size);
+>          int idx, i, j;
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 7d9bc88ac9..43a807c483 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2685,7 +2685,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>      if (pcms->numa_nodes) {
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_srat(tables_blob, tables->linker, machine);
+> -        if (have_numa_distance) {
+> +        if (machine->numa_state->have_numa_distance) {
+>              acpi_add_table(table_offsets, tables_blob);
+>              build_slit(tables_blob, tables->linker, machine);
+>          }
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 5f102e3075..c3c678b7ff 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -237,6 +237,8 @@ typedef struct NumaState {
+>      /* Number of NUMA nodes */
+>      int num_nodes;
+>  
+> +    /* Allow setting NUMA distance for different NUMA nodes */
+> +    bool have_numa_distance;
+>  } NumaState;
+>  
+>  /**
+> diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
+> index a55e2be563..1a29408db9 100644
+> --- a/include/sysemu/numa.h
+> +++ b/include/sysemu/numa.h
+> @@ -6,8 +6,6 @@
+>  #include "sysemu/hostmem.h"
+>  #include "hw/boards.h"
+>  
+> -extern bool have_numa_distance;
+> -
+>  struct NodeInfo {
+>      uint64_t node_mem;
+>      struct HostMemoryBackend *node_memdev;
+> diff --git a/numa.c b/numa.c
+> index 343fcaf13f..d4f5ff5193 100644
+> --- a/numa.c
+> +++ b/numa.c
+> @@ -52,7 +52,6 @@ static int have_memdevs = -1;
+>  static int max_numa_nodeid; /* Highest specified NUMA node ID, plus one.
+>                               * For all nodes, nodeid < max_numa_nodeid
+>                               */
+> -bool have_numa_distance;
+>  NodeInfo numa_info[MAX_NODES];
+>  
+>  
+> @@ -171,7 +170,7 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
+>      }
+>  
+>      numa_info[src].distance[dst] = val;
+> -    have_numa_distance = true;
+> +    ms->numa_state->have_numa_distance = true;
+>  }
+>  
+>  static
+> @@ -442,7 +441,7 @@ void numa_complete_configuration(MachineState *ms)
+>           * asymmetric. In this case, the distances for both directions
+>           * of all node pairs are required.
+>           */
+> -        if (have_numa_distance) {
+> +        if (ms->numa_state->have_numa_distance) {
+>              /* Validate enough NUMA distance information was provided. */
+>              validate_numa_distance(ms);
+>  
 
-
---spJm7nTzuAYsoa65xhdixGmYjrdojYDSG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzmmwIACgkQ9AfbAGHV
-z0DxZAgAk4vTkBI76crAG5mSp0zIY/NJ1i5EyOAJUlOKb23iOl6srnSgoOFvqStO
-WlrOQmiBJiCg13oczL4Kw4nvB3ywWMxH3Sp6w7i12XUjyGOWmZoAMXh9/fjIMUeM
-UckEOS9RjxfMzp9F2WighCLNELQmbp6iorhQILyNEvEXyrD2N+AmI0leGc7/eWMM
-rz562fwVH+M6m9LKpE+zYS0IRtfKp2IWW45tZO3R+Q4Z43GXN/O7LCkEU8hnJm75
-yAXTF5ISGC8Z0VRLbeU2ZhPTTLLwFhWFvpM3oa5yYws+lLDFExGfoaEdk6+DE9BY
-miow4fr0htarB03xXFvUjMbWXRiG1g==
-=lWDW
------END PGP SIGNATURE-----
-
---spJm7nTzuAYsoa65xhdixGmYjrdojYDSG--
 
