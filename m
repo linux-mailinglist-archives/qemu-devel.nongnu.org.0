@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C5427A7F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:28:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33072 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405FA27AE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:40:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33267 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTkxL-0006mn-BP
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:28:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49098)
+	id 1hTl9F-0000VV-EA
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:40:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49322)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkuu-0005Qc-2i
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:45 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkvA-0005gP-Lq
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkuo-0000ui-1B
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:41 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38080)
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkv4-0001CR-CS
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:58 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54678)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTkul-0000rX-VQ
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:36 -0400
-Received: by mail-wm1-x344.google.com with SMTP id t5so5200855wmh.3
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:25:35 -0700 (PDT)
+	id 1hTkv2-0000ta-8Y
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:54 -0400
+Received: by mail-wm1-x344.google.com with SMTP id i3so5211842wml.4
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:25:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=VPYoDDTghYG2/LL0n9irfzSxJnK/tqgoLIbho5rYvV8=;
-	b=fpmUbgTP8m0B7hMdU7nymRbgU9OHxbXqRMb0US7extFNgplo5xSF8kLWC7+I6RVogM
-	NXnfdZbTG4+AbKlkkEJZczf2XoLeelI1EzpevITj5+wj/mpi0k0HdI9mZqtiIT4MFCAa
-	JX75HeTOu788/y19GGRtjSkbH/NNEL3XtYzbPOWvvgfpTOcj3t/8UtJp0jAEMiypClIn
-	4L2Z7+pM9g7g3I2eVAP2XZqxUMMTEErji6/Pbj9hPkC2n5h3QF3mIIpqTZHomWBe6SXJ
-	4V/xT6S6iMum3pXmGRvIAk0Dc2g/l0O7hNn8FqJkKfqbHZ1jKxQlE9MY3XL7+prrrgHf
-	fLNA==
+	bh=hbC6Uuy+rCphFJXRN5GPHrqZRqXnqfdaGhA8RUCMKxg=;
+	b=hEJh9QgOdMqmyLe0c0khC2QOt9zDuLNDpB6Gh9jOzlcCy2PZFa9iNLia9iFXwYxzlH
+	BlS4456PzJwanNJmq07CK6WOM/uGZRjM20RfAjTbGYtoYcpfsvw5pA0hl8ms9ypguAHd
+	DPopycyQjW7E142KDeXCoz4XGCJD2W9gBT4jujJb1/a7mQ7rVMHnZNm2vcd9BC53tutK
+	JQM9IiKxnZmJqSkt5mFP1S59i72fQPAWC8XfztryW3uaUcwDtSEAwWtJxhw6xyQIcFWI
+	Qdn5jxM+ZKcAM2q5UYXMhHsTloFsTmekHd9Pmhy3z5Fivm2rCB7GG8imVcP1E9863zuQ
+	v6RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=VPYoDDTghYG2/LL0n9irfzSxJnK/tqgoLIbho5rYvV8=;
-	b=tpWuw2k3AwVEjZNttitcdRRjChVl09pb1Nt1fHZbYqPGD3TGHivXB2iIPf+TF6qwo4
-	xAIhHK0ww2Xeb5P7piWNNY1enUpLFhR9t9sebDGrrn7Y3AKtRskoLRfyxy9hYAVTUMGD
-	I+8JBkyLKqPlCA1SVKobFTBsCIadDBrYFn9/n1vvBa+6z24b84rq4cHxBDWzbA0WYL7l
-	cC6w/lUbym6nciOAq64gVnlIdNWd4qBVxqxY3extABkYU/dyFmcm8sG9wwW8tsuhaPTY
-	HKU8MA6e2fObeaLVJpkG5eH6tD740KHUDAfwkuhwFvp8Rz4ok+jrFMsPtVo2vtpqwMfy
-	xeRw==
-X-Gm-Message-State: APjAAAXnjhEl2FlB2s4PRrmgEbR91sF6oPgvu4WBRX0Hp7zVkGQF9/th
-	IEQ55h2R6CoyJmg1V39WTwCPsw==
-X-Google-Smtp-Source: APXvYqxHYgEBP+46zycp7AdJI/PJuDFOIxYxieiUJC75bgKJ0Eg3maGMDRqct8TVK3Pz72PbHMHGfQ==
-X-Received: by 2002:a1c:1f95:: with SMTP id f143mr11864734wmf.16.1558607134510;
-	Thu, 23 May 2019 03:25:34 -0700 (PDT)
+	bh=hbC6Uuy+rCphFJXRN5GPHrqZRqXnqfdaGhA8RUCMKxg=;
+	b=c7UwldhGfEM/C4qjBN08YiKLRDC1/g0laiqhExi3W2TZ6/PmTdYIXmUO91Fp81+6EU
+	ZcvVmYwlm1XQlZ/PwEOxN+zd6IswBfedhH7vYi2vMCgA3iqmdREYK501ojj0WLAZEiEr
+	f4ICoPJrbSg4exMvdsQqjtF3I9tMTj9Kt7z+rNCZ7jIIWvw08WM4BoIIK7S1lGJ5Sgff
+	h3wnyIS72ZTPAP268wxMUHOy64wRkKD1+jXQw8d9ReDd6TVPqMTeLQ8lIJr93SWlIx6y
+	lGjKksY3ILD9JEbhcb07Zm4xRFPUwKh3d3PTla59GSDAF7xzUoryGIDQZeAwgGIU6bDu
+	hE3g==
+X-Gm-Message-State: APjAAAVsGMSWEhECQ2yL3pUks1eZScCSMYyttlukxpcRcBHBOck+S+XN
+	M2iLYzwnNnDjpl5SrfhR3TmQZ7aG1nQ=
+X-Google-Smtp-Source: APXvYqxitkzQC8NAz8+6BgaPWjudhYgHG9hHdmdVOz3KuxAqbQ2/anLlmr0ltpF5SbI4TKJrJWzMqw==
+X-Received: by 2002:a1c:3cc2:: with SMTP id j185mr10788632wma.26.1558607135796;
+	Thu, 23 May 2019 03:25:35 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	b18sm25054186wrx.75.2019.05.23.03.25.32
+	q68sm7037319wme.11.2019.05.23.03.25.33
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Thu, 23 May 2019 03:25:33 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 96F531FF8F;
+	by zen.linaroharston (Postfix) with ESMTP id B25F01FF90;
 	Thu, 23 May 2019 11:25:32 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 11:25:06 +0100
-Message-Id: <20190523102532.10486-3-alex.bennee@linaro.org>
+Date: Thu, 23 May 2019 11:25:07 +0100
+Message-Id: <20190523102532.10486-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523102532.10486-1-alex.bennee@linaro.org>
 References: <20190523102532.10486-1-alex.bennee@linaro.org>
@@ -70,8 +70,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v2 02/28] semihosting: introduce
- CONFIG_SEMIHOSTING
+Subject: [Qemu-devel] [PATCH v2 03/28] semihosting: implement a semihosting
+ console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,219 +83,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Aleksandar Rikalo <arikalo@wavecomp.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Chris Wulff <crwulff@gmail.com>,
-	Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-arm@nongnu.org,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There isn't much point building semihosting for platforms that don't
-support it. Introduce a new symbol and enable it only for the softmmu
-targets that need it.
+This provides two functions for handling console output that handle
+the common backend behaviour for semihosting.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- default-configs/arm-softmmu.mak         |  1 +
- default-configs/lm32-softmmu.mak        |  2 +
- default-configs/m68k-softmmu.mak        |  2 +
- default-configs/mips-softmmu-common.mak |  1 +
- default-configs/nios2-softmmu.mak       |  2 +
- default-configs/xtensa-softmmu.mak      |  2 +
- hw/Kconfig                              |  1 +
- hw/semihosting/Kconfig                  |  3 ++
- hw/semihosting/Makefile.objs            |  2 +-
- stubs/Makefile.objs                     |  1 +
- stubs/semihost.c                        | 66 +++++++++++++++++++++++++
- 11 files changed, 82 insertions(+), 1 deletion(-)
- create mode 100644 hw/semihosting/Kconfig
- create mode 100644 stubs/semihost.c
+ gdbstub.c                        |  5 +++
+ hw/semihosting/Makefile.objs     |  1 +
+ hw/semihosting/console.c         | 70 ++++++++++++++++++++++++++++++++
+ include/exec/gdbstub.h           | 11 +++++
+ include/hw/semihosting/console.h | 38 +++++++++++++++++
+ 5 files changed, 125 insertions(+)
+ create mode 100644 hw/semihosting/console.c
+ create mode 100644 include/hw/semihosting/console.h
 
-diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
-index f23ecfd5c58..1f2e0e7fdeb 100644
---- a/default-configs/arm-softmmu.mak
-+++ b/default-configs/arm-softmmu.mak
-@@ -39,3 +39,4 @@ CONFIG_MICROBIT=y
- CONFIG_FSL_IMX25=y
- CONFIG_FSL_IMX7=y
- CONFIG_FSL_IMX6UL=y
-+CONFIG_SEMIHOSTING=y
-diff --git a/default-configs/lm32-softmmu.mak b/default-configs/lm32-softmmu.mak
-index 6d259665d60..115b3e34c98 100644
---- a/default-configs/lm32-softmmu.mak
-+++ b/default-configs/lm32-softmmu.mak
-@@ -4,6 +4,8 @@
- #
- #CONFIG_MILKYMIST_TMU2=n        # disabling it actually causes compile-time failures
+diff --git a/gdbstub.c b/gdbstub.c
+index 793218bb43a..b4334014373 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -1987,6 +1987,11 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
+     va_end(va);
+ }
  
-+CONFIG_SEMIHOSTING=y
++void gdb_do_console_out(target_ulong s, int len)
++{
++    gdb_do_syscall(NULL, "write,2,%x,1", s, len);
++}
 +
- # Boards:
- #
- CONFIG_LM32=y
-diff --git a/default-configs/m68k-softmmu.mak b/default-configs/m68k-softmmu.mak
-index e17495e2a0b..4049a8f2ba9 100644
---- a/default-configs/m68k-softmmu.mak
-+++ b/default-configs/m68k-softmmu.mak
-@@ -1,5 +1,7 @@
- # Default configuration for m68k-softmmu
- 
-+CONFIG_SEMIHOSTING=y
-+
- # Boards:
- #
- CONFIG_AN5206=y
-diff --git a/default-configs/mips-softmmu-common.mak b/default-configs/mips-softmmu-common.mak
-index 8e54a74b7a5..e10ac4b20c0 100644
---- a/default-configs/mips-softmmu-common.mak
-+++ b/default-configs/mips-softmmu-common.mak
-@@ -35,6 +35,7 @@ CONFIG_MIPS_CPS=y
- CONFIG_MIPS_ITU=y
- CONFIG_R4K=y
- CONFIG_MALTA=y
-+CONFIG_SEMIHOSTING=y
- CONFIG_PCNET_PCI=y
- CONFIG_MIPSSIM=y
- CONFIG_ACPI_SMBUS=y
-diff --git a/default-configs/nios2-softmmu.mak b/default-configs/nios2-softmmu.mak
-index e130d024e62..1bc4082ea99 100644
---- a/default-configs/nios2-softmmu.mak
-+++ b/default-configs/nios2-softmmu.mak
-@@ -1,5 +1,7 @@
- # Default configuration for nios2-softmmu
- 
-+CONFIG_SEMIHOSTING=y
-+
- # Boards:
- #
- CONFIG_NIOS2_10M50=y
-diff --git a/default-configs/xtensa-softmmu.mak b/default-configs/xtensa-softmmu.mak
-index 7e4d1cc0979..3aa20a47a7f 100644
---- a/default-configs/xtensa-softmmu.mak
-+++ b/default-configs/xtensa-softmmu.mak
-@@ -1,5 +1,7 @@
- # Default configuration for Xtensa
- 
-+CONFIG_SEMIHOSTING=y
-+
- # Boards:
- #
- CONFIG_XTENSA_SIM=y
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 88b9f150070..195f541e50c 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -29,6 +29,7 @@ source pci/Kconfig
- source rdma/Kconfig
- source scsi/Kconfig
- source sd/Kconfig
-+source semihosting/Kconfig
- source smbios/Kconfig
- source ssi/Kconfig
- source timer/Kconfig
-diff --git a/hw/semihosting/Kconfig b/hw/semihosting/Kconfig
-new file mode 100644
-index 00000000000..efe0a30734c
---- /dev/null
-+++ b/hw/semihosting/Kconfig
-@@ -0,0 +1,3 @@
-+
-+config SEMIHOSTING
-+       bool
+ static void gdb_read_byte(GDBState *s, int ch)
+ {
+     uint8_t reply;
 diff --git a/hw/semihosting/Makefile.objs b/hw/semihosting/Makefile.objs
-index 546954f4ff4..09c19bf19ed 100644
+index 09c19bf19ed..4ad47c05c06 100644
 --- a/hw/semihosting/Makefile.objs
 +++ b/hw/semihosting/Makefile.objs
-@@ -1 +1 @@
--common-obj-$(CONFIG_SOFTMMU) += config.o
-+obj-$(CONFIG_SEMIHOSTING) += config.o
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 269dfa58326..e0d4f11b348 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -39,3 +39,4 @@ stub-obj-y += xen-hvm.o
- stub-obj-y += pci-host-piix.o
- stub-obj-y += ram-block.o
- stub-obj-y += ramfb.o
-+stub-obj-$(CONFIG_SOFTMMU) += semihost.o
-diff --git a/stubs/semihost.c b/stubs/semihost.c
+@@ -1 +1,2 @@
+ obj-$(CONFIG_SEMIHOSTING) += config.o
++obj-$(CONFIG_SEMIHOSTING) += console.o
+diff --git a/hw/semihosting/console.c b/hw/semihosting/console.c
 new file mode 100644
-index 00000000000..1a4e88e5326
+index 00000000000..ad6f67ecc71
 --- /dev/null
-+++ b/stubs/semihost.c
-@@ -0,0 +1,66 @@
++++ b/hw/semihosting/console.c
+@@ -0,0 +1,70 @@
 +/*
-+ * Semihosting Stubs for SoftMMU
++ * Semihosting Console Support
 + *
++ * Copyright (c) 2015 Imagination Technologies
 + * Copyright (c) 2019 Linaro Ltd
 + *
-+ * Stubs for SoftMMU targets that don't actually do semihosting.
++ * This provides support for outputting to a semihosting console.
++ *
++ * While most semihosting implementations support reading and writing
++ * to arbitrary file descriptors we treat the console as something
++ * specifically for debugging interaction. This means messages can be
++ * re-directed to gdb (if currently being used to debug) or even
++ * re-directed elsewhere.
 + *
 + * SPDX-License-Identifier: GPL-2.0-or-later
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/option.h"
-+#include "qemu/error-report.h"
-+#include "hw/semihosting/semihost.h"
++#include "cpu.h"
++#include "hw/semihosting/console.h"
++#include "exec/gdbstub.h"
++#include "qemu/log.h"
 +
-+/* Empty config */
-+QemuOptsList qemu_semihosting_config_opts = {
-+    .name = "",
-+    .head = QTAILQ_HEAD_INITIALIZER(qemu_semihosting_config_opts.head),
-+    .desc = {
-+        { /* end of list */ }
-+    },
-+};
-+
-+/* Queries to config status default to off */
-+bool semihosting_enabled(void)
++int qemu_semihosting_log_out(const char *s, int len)
 +{
-+    return false;
-+}
-+
-+SemihostingTarget semihosting_get_target(void)
-+{
-+    return SEMIHOSTING_TARGET_AUTO;
++    return write(STDERR_FILENO, s, len);
 +}
 +
 +/*
-+ * All the rest are empty subs. We could g_assert_not_reached() but
-+ * that adds extra weight to the final binary. Waste not want not.
++ * A re-implementation of lock_user_string that we can use locally
++ * instead of relying on softmmu-semi. Hopefully we can deprecate that
++ * in time. We either copy len bytes if specified or until we find a NULL.
 + */
-+void qemu_semihosting_enable(void)
++static GString *copy_user_string(CPUArchState *env, target_ulong addr, int len)
 +{
++    CPUState *cpu = ENV_GET_CPU(env);
++    GString *s = g_string_sized_new(len ? len : 128);
++    uint8_t c;
++    bool done;
++
++    do {
++        if (cpu_memory_rw_debug(cpu, addr++, &c, 1, 0) == 0) {
++            s = g_string_append_c(s, c);
++            done = len ? s->len == len : c == 0;
++        } else {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: passed inaccessible address " TARGET_FMT_lx,
++                          __func__, addr);
++            done = true;
++        }
++    } while (!done);
++
++    return s;
 +}
 +
-+int qemu_semihosting_config_options(const char *optarg)
-+{
-+    return 1;
-+}
 +
-+const char *semihosting_get_arg(int i)
++int qemu_semihosting_console_out(CPUArchState *env, target_ulong addr, int len)
 +{
-+    return NULL;
-+}
++    GString *s = copy_user_string(env, addr, len);
++    int out = s->len;
 +
-+int semihosting_get_argc(void)
-+{
-+    return 0;
-+}
++    if (use_gdb_syscalls()) {
++        gdb_do_console_out(addr, s->len);
++    } else {
++        out = qemu_semihosting_log_out(s->str, s->len);
++    }
 +
-+const char *semihosting_get_cmdline(void)
-+{
-+    return NULL;
++    g_string_free(s, true);
++    return out;
 +}
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index 08363969c14..b2963547c48 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -44,6 +44,17 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
+  * argument list.
+  */
+ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
++/**
++ * gdb_do_console_out:
++ * @gs: guest address of string to send
++ * @len: length of string
++ *
++ * Sends a string to gdb console. Unlike the system call interface
++ * there is no callback and we assume the system call always
++ * succeeds.
++ */
++void gdb_do_console_out(target_ulong s, int len);
 +
-+void semihosting_arg_fallback(const char *file, const char *cmd)
-+{
-+}
+ int use_gdb_syscalls(void);
+ void gdb_set_stop_cpu(CPUState *cpu);
+ void gdb_exit(CPUArchState *, int);
+diff --git a/include/hw/semihosting/console.h b/include/hw/semihosting/console.h
+new file mode 100644
+index 00000000000..30e66ae20aa
+--- /dev/null
++++ b/include/hw/semihosting/console.h
+@@ -0,0 +1,38 @@
++/*
++ * Semihosting Console
++ *
++ * Copyright (c) 2019 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef _SEMIHOST_CONSOLE_H_
++#define _SEMIHOST_CONSOLE_H_
++
++/**
++ * qemu_semihosting_console_out:
++ * @env: CPUArchState
++ * @s: host address of guest string
++ * @len: length of string or 0 (string is null terminated)
++ *
++ * Send a guest string to the debug console. This may be the remote
++ * gdb session if a softmmu guest is currently being debugged.
++ *
++ * Returns: number of bytes written.
++ */
++int qemu_semihosting_console_out(CPUArchState *env, target_ulong s, int len);
++
++/**
++ * qemu_semihosting_log_out:
++ * @s: pointer to string
++ * @len: length of string
++ *
++ * Send a string to the debug output. Unlike console_out these strings
++ * can't be sent to a remote gdb instance as they don't exist in guest
++ * memory.
++ *
++ * Returns: number of bytes written
++ */
++int qemu_semihosting_log_out(const char *s, int len);
++
++#endif /* _SEMIHOST_CONSOLE_H_ */
 -- 
 2.20.1
 
