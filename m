@@ -2,79 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2EBD28B58
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:12:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42748 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4179928B3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:05:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42617 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTu4a-0007XK-SO
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:12:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57302)
+	id 1hTtyQ-0001Nh-08
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:05:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57359)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTtwL-0000HL-MO
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:03:50 -0400
+	(envelope-from <armbru@redhat.com>) id 1hTtwE-0000JO-CL
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:03:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTto4-0004HM-Rm
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 15:55:18 -0400
-Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:34851)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTto4-0004FE-MY
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 15:55:16 -0400
-Received: by mail-vs1-xe42.google.com with SMTP id q13so4345052vso.2
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 12:55:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=qsIKb18q22GErxgGewiJ8YfUggOdSI4elyKnL4ns8qI=;
-	b=flzOO2aEgW8SRa9Ioan/8OlfMTq3Kg5JehRBdW2q0AfpWDzJ+plMVoxuz3hooqArwm
-	Fqlbe86fk2tdaws/OBTMacVToU2BS+v7LWkh35IIKTZyYO9yY7W+CY1HNTe8DySS/T7Z
-	Cq6jvMgrHJCJnvXUiR0fG3dajZt2SuKUYuWAVWkdzM2pbsJQhDJctPSo4jEUd2DFpP4s
-	zqimQYlJ7Cfv2m7d6RnaNQ7n/p5QlBdhAAbXvskmRL3Pa9VX8esnJl0OW9vm69kedlnQ
-	gQTjub80ULtO0NW0J347+2E2okW1r3pNS0AXzXdgjVvFgUdazt39k7ZWXHtBnbak92Lh
-	/JhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=qsIKb18q22GErxgGewiJ8YfUggOdSI4elyKnL4ns8qI=;
-	b=NWm2zxwUAExW2iOqgtDBsSozqVOtBhq5TC1uiyZsGq5B0YsaFxHYtjm6w5E5yXB26K
-	RknPE/24I8dNiKnot+GEK/AsoHkokxQQH9bIO6EKPgozt8V/Xg67TsS6NjM9E9plyHO9
-	HOkt773Yunt/fOu2aI3x3TwcwZMUaxjHEXvhIQP576+awVnRH+0WC3RGDUWMO5CqPBOM
-	sgFZshlHmqWULdbPQY7KlPXmKowurlozVhrsePp29V3sM7lFoHKc+4xJQPYf3Km8eGd4
-	vrhYCU7K/MmbveamXxn6+n2kgn3tw4H/gQKJbsphmOMCg/udDeYGf1+yjqWnxzcuAIMp
-	bLAA==
-X-Gm-Message-State: APjAAAXJkGc9+FRywiaRruPuiGFsrQNuU+NIVl/U1Zt/fRYZhCNYCwsy
-	ml2rjBKY1UmePh8G3siEbrSWZw==
-X-Google-Smtp-Source: APXvYqzRVZAT0oI1HDdfa48GiPy3r65nVHpEuTRGojO1WN9JSyi3w5MJTI4njT/BcmgDZiL46SBMgw==
-X-Received: by 2002:a67:f655:: with SMTP id u21mr14030773vso.192.1558641314318;
-	Thu, 23 May 2019 12:55:14 -0700 (PDT)
-Received: from [192.168.43.94] (ip-173-130-172-85.orldfl.spcsdns.net.
-	[173.130.172.85])
-	by smtp.gmail.com with ESMTPSA id n68sm470563vkd.0.2019.05.23.12.55.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 12:55:13 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	qemu-devel@nongnu.org
-References: <20190523102532.10486-1-alex.bennee@linaro.org>
-	<20190523102532.10486-12-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <d603d45d-4da9-bdc1-68ab-4f87c5b19a81@linaro.org>
-Date: Thu, 23 May 2019 15:55:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <armbru@redhat.com>) id 1hTtq2-0005CL-Ff
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 15:57:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54024)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hTtq2-0005Bq-9z
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 15:57:18 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id DC656300502A;
+	Thu, 23 May 2019 19:57:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
+	[10.36.117.250])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9680417197;
+	Thu, 23 May 2019 19:57:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 222201138648; Thu, 23 May 2019 21:57:14 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <20190523081538.2291-1-armbru@redhat.com>
+	<20190523081538.2291-6-armbru@redhat.com>
+	<db337f20-8b76-9214-533e-3e4b79c5c4d5@redhat.com>
+Date: Thu, 23 May 2019 21:57:14 +0200
+In-Reply-To: <db337f20-8b76-9214-533e-3e4b79c5c4d5@redhat.com> (Paolo
+	Bonzini's message of "Thu, 23 May 2019 18:51:12 +0200")
+Message-ID: <87ef4peyg5.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20190523102532.10486-12-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::e42
-Subject: Re: [Qemu-devel] [PATCH v2 11/28] MAINTAINERS: update for
- semihostings new home
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Thu, 23 May 2019 19:57:16 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC v4 5/7] tests: New make target check-source
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,22 +62,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/19 6:25 AM, Alex Bennée wrote:
-> Seeing as I touched it I should at least keep an eye on it.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  MAINTAINERS | 7 +++++++
->  1 file changed, 7 insertions(+)
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> On 23/05/19 10:15, Markus Armbruster wrote:
+>> A large number of headers don't pass this test, by design or by
+>> accident.  To keep things more manageable, exclude all headers outside
+>> include/ for now.
+>
+> A lot of these, either in include/ or outside, are _meant_ to be
+> included many times.  What about renaming those to .inc.h and
+> whitelisting them in the script?
 
-
-r~
+Yes, that would be nice.
 
