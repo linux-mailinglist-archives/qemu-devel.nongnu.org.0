@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2662804C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:54:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38192 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5442803B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:52:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38157 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTp7G-0003la-KQ
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:54:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32898)
+	id 1hTp5K-0002KG-2d
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:52:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60928)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hToxI-0004Zb-Bv
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:29 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTowu-0004CX-3L
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hToxH-0006qD-3t
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:28 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:34027)
+	(envelope-from <laurent@vivier.eu>) id 1hTows-0006Be-Tv
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:04 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:34261)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hToxG-0006my-R7
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:27 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTows-00069c-Kz
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:02 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1M4K6z-1hU5vU2RAv-000Ikn; Thu, 23 May 2019 16:43:45 +0200
+	id 1Mzydy-1gfh6S11Bm-00x4Cg; Thu, 23 May 2019 16:43:46 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 16:43:32 +0200
-Message-Id: <20190523144336.13960-7-laurent@vivier.eu>
+Date: Thu, 23 May 2019 16:43:33 +0200
+Message-Id: <20190523144336.13960-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523144336.13960-1-laurent@vivier.eu>
 References: <20190523144336.13960-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vOPW+lduhkMebW1fHRlZBTEPg6cT0dAhKXzKtqUnbIHrrP3DNkA
-	TBwRphh/4P7VQ60+fZwOOYgVVKjmjeRrBQYf+5qXV3Fxac2qlHIEvjOMukNaBFBA6FqBawe
-	KNTslxmPuSMSAtpl0Kci/dfFujvg7MizL5Ua8ulav55z1Yg90Jd4CVBhg6bZFG2IYcHybNm
-	mHRAx/EP3/QyiQ2JkW0Rg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FYtVsMceus0=:T/Y6hMlhLGucsEs2z96vGe
-	Hj5uJaElewe8F3qnW/dSliBKKGrImbeSH3D3sD+HOP7Cq1/Wq/Xbj8ow9vCBdWbEEieOpdmBJ
-	Cij/7gxXm/zQ6zIvcVPtzoAlAZFW03z3HzVCc0LkXVQaNiILCG0Al5sn5gom4veRoWj4MfSV8
-	XJ3zNlROj1qsW5mnFSp0kuaCR91RccIhW+Xzf48f+WG9YDRhQBCeHa9PdTAO6Z45S4+x8rq+w
-	DciynQBiQQa9AIiTYtX8p0bX1f99ktbDWG2gD2fBYYvD1LIQZuLETqOjgeXRo9kvBLukBTjLs
-	AlOUkavc7XQE3brmLP3mxlvcn6XRUz1ELokvj+8DxDYO6ibHpPx9IHTCpJJNBNLKQMUG/6Qjn
-	w/YRd7l3fx7oiKoeVBF9eVHYPf3iv7+7l9MXJt/XIWDv2HuKDgf21mRu1A/G/vbQb6wy0HdXR
-	KwO0eFm52HGUUsFNSpiNtPcu7t6Z8XuRHFdYDek7ONn0u1OOHlMX5xuiE8KpHZaAp3AE4Qgbh
-	HmosTN46/mqrRJRepdfLnE6f4C0zIbCIppUm/J+Zts2W9o2/oYkO96AdylcuU//tTyOW8koAx
-	fsdlOFh5QlKk2kKgEkZB1GCNCMn46Xj8fH0EaQcHUHGAY2cGQaQ88uFZWMq3KQ1sl8mLRJL29
-	OvCaW1UlauOTuNr1/7hMhl9DWNLn8TN2QyVIUPsTLpS5Axah17PlgWpKnipQFjA91FNfpis/a
-	OX7RtB8/yq0pWD113D81ICxe4yt3GDCONEOvBS/28ZZxIy11L5macLsHS34=
+X-Provags-ID: V03:K1:wqhZU6gk88fwROrf82j7nD5p1cGnks1SE+P6uFI2h9boVBYa1xx
+	j9dCF/nuRHLxPrQ6ONJFor1Dz92nwXFH7sKA7QSWl+3xBN5eWC1WsPuS79PaV2qqP46woZo
+	2TNddznXiC0wUznWi1fNKR7KKGlnz6aOlgwH8cOKkkEUN1EJtsRCDUW1XrfssjU8N1T7foL
+	QHeZeC24NLwd0P5NB7Pzw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:d+8fK3F9eAM=:UNZiI+IwYo77XXgZv6V4fp
+	tGpGZe0jTg0AgVyug8vmoX5XMzcUMBEToFDfjrOqmGOub7Ui4ktNmtbggjdbpIkzTcb0Hc2n8
+	PC5PXuecoi5q+HR1jUKSYymmIxcvFa3D30nKPpjjrdX/wB+7hx+m7LPA/lMSwQtFwehFGPKmc
+	rUdKTncqztVHifTTQN3Lm1vtCuaAR2/jtxJZon0zc3FV/ZGADRi6A2rKP4O0BXUM08SmRV2BB
+	szEV6NA0+2/KmAHSCenVj5tItlPE+Sx9n7koapoBnBoy2dgLRYrAJoH63cjZ9tm8qFtFwarRQ
+	V85eDITLImlqgZTGbRLl7xs7ivypI/dBRCST5tMmMut6lPFdoWWOeJTLy9EYsmpCQ6vf6jdmN
+	kLCJWk4ACiDk/XrSlAjOUl5hSGVmsW1I/VCeblYhu5wY7ZwLawqzKGAJNr6aKP26MI7cw2udx
+	orDBmC44oGGg604vT4jkq8aH+YFcHfDQfYOy3qTa34LhpcdvhOyyYHMJxtWz2Xl5b4RqCdWh8
+	UXgOY4WVQ754O64jraI/GUqrDzLkkcjRwroUMv/Py3ROfK6w5SAxcCE1A+C26/q7ltbrMxbQ3
+	s1eigAeXszK0GNHpNVlM5NoUm592OwSkj7lmDxld3CFVADuYrW292T43y5kTHubp6o+80Zx0g
+	B8pFuwkHEwiJHZT5iJOh2LU8vYYQnKUM4n6NGvAlCqy860YeKuTZ5s4ichzG/mGAEUbcrETMH
+	dakVKqKney1fGkYBtYTiRZ83Zz3dEHZp/hGQaw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
-Subject: [Qemu-devel] [PULL 06/10] linux-user: Sanitize interp_info and,
- for mips only, init field fp_abi
+X-Received-From: 212.227.126.134
+Subject: [Qemu-devel] [PULL 07/10] linux-user: Add support for setsockopt()
+ options IPV6_<ADD|DROP>_MEMBERSHIP
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,56 +66,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
 	Laurent Vivier <laurent@vivier.eu>,
-	Daniel Santos <daniel.santos@pobox.com>,
 	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
+	Neng Chen <nchen@wavecomp.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Santos <daniel.santos@pobox.com>
+From: Neng Chen <nchen@wavecomp.com>
 
-Sanitize interp_info structure in load_elf_binary() and, for MIPS only,
-init its field fp_abi to MIPS_ABI_FP_UNKNOWN. This fixes appearances of
-"Unexpected FPU mode" message in some MIPS use cases. Currently, this
-bug is a complete stopper for some MIPS binaries.
+Add support for options IPV6_ADD_MEMBERSHIP and IPV6_DROP_MEMPEMBERSHIP
+of the syscall setsockopt(). These options control membership in
+multicast groups. Their argument is a pointer to a struct ipv6_mreq,
+which is in turn defined in IP v6 header netinet/in.h as:
 
-In load_elf_binary(), struct image_info interp_info is used without
-being properly initialized. One result is that when the ELF's program
-header doesn't contain an entry for the ABI flags, then the value of
-the struct image_info's fp_abi field is set to whatever happened to
-be in stack memory at the time.
+ struct ipv6_mreq {
+     /* IPv6 multicast address of group */
+     struct  in6_addr  ipv6mr_multiaddr;
+     /* local IPv6 address of interface */
+     int     ipv6mr_interface;
+ };
 
-Backporting to 4.0 and, if possible, to 3.1 is recommended.
+...whereas its definition in kernel's include/uapi/linux/in6.h is:
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1825002
+ #if __UAPI_DEF_IPV6_MREQ
+ struct ipv6_mreq {
+     /* IPv6 multicast address of group */
+         struct  in6_addr ipv6mr_multiaddr;
+     /* local IPv6 address of interface */
+     int     ipv6mr_ifindex;
+ };
+ #endif
 
-Signed-off-by: Daniel Santos <daniel.santos@pobox.com>
+The first field of ipv6_mreq has the same name ("ipv6mr_multiaddr")
+and type ("in6_addr") in both cases. Moreover, the in6_addr structure
+consists of fields that are always big-endian (on host of any endian),
+therefore the ipv6_mreq's field ipv6mr_multiaddr doesn't need any
+endian conversion.
+
+The second field of ipv6_mreq may, however, depending on the build
+environment, have different names. This is the reason why the line
+"#if __UAPI_DEF_IPV6_MREQ" is used in this patch - to establish the
+right choice for the field name. Also, endian conversion is needed
+for this field, since it is of type "int".
+
+Signed-off-by: Neng Chen <nchen@wavecomp.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1558282527-22183-6-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-Id: <1558282527-22183-5-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ linux-user/syscall.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index ef42e02d8233..02832adfbc0c 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2706,6 +2706,11 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
-     char *elf_interpreter = NULL;
-     char *scratch;
- 
-+    memset(&interp_info, 0, sizeof(interp_info));
-+#ifdef TARGET_MIPS
-+    interp_info.fp_abi = MIPS_ABI_FP_UNKNOWN;
-+#endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index e5545cbafac7..a0c2bf7db43c 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -1911,6 +1911,29 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+                                        &pki, sizeof(pki)));
+             break;
+         }
++        case IPV6_ADD_MEMBERSHIP:
++        case IPV6_DROP_MEMBERSHIP:
++        {
++            struct ipv6_mreq ipv6mreq;
 +
-     info->start_mmap = (abi_ulong)ELF_START_MMAP;
- 
-     load_elf_image(bprm->filename, bprm->fd, info,
++            if (optlen < sizeof(ipv6mreq)) {
++                return -TARGET_EINVAL;
++            }
++
++            if (copy_from_user(&ipv6mreq, optval_addr, sizeof(ipv6mreq))) {
++                return -TARGET_EFAULT;
++            }
++
++#if __UAPI_DEF_IPV6_MREQ
++            ipv6mreq.ipv6mr_ifindex = tswap32(ipv6mreq.ipv6mr_ifindex);
++#else
++            ipv6mreq.ipv6mr_interface = tswap32(ipv6mreq.ipv6mr_interface);
++#endif /* __UAPI_DEF_IVP6_MREQ */
++
++            ret = get_errno(setsockopt(sockfd, level, optname,
++                                       &ipv6mreq, sizeof(ipv6mreq)));
++            break;
++        }
+         default:
+             goto unimplemented;
+         }
 -- 
 2.20.1
 
