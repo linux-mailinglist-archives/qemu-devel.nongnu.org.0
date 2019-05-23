@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB3927DB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:10:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35808 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB38C27D83
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:03:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35713 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnTz-0006qx-CV
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:10:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51003)
+	id 1hTnNH-00005L-O6
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:03:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51064)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTnH2-0003dW-QT
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:56:45 -0400
+	(envelope-from <philmd@redhat.com>) id 1hTnH1-0003hW-Pw
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:56:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTn4m-00014s-OL
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:44:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53692)
+	(envelope-from <philmd@redhat.com>) id 1hTn51-0001b0-FP
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:44:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37426)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hTn4m-00014b-K6; Thu, 23 May 2019 08:44:04 -0400
+	id 1hTn51-0001Yt-An; Thu, 23 May 2019 08:44:19 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
 	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E079D6EB82;
-	Thu, 23 May 2019 12:44:03 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 70175C05001F;
+	Thu, 23 May 2019 12:44:13 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 83A1668701;
-	Thu, 23 May 2019 12:44:00 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F7F85D9D2;
+	Thu, 23 May 2019 12:44:04 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 14:43:10 +0200
-Message-Id: <20190523124320.28726-6-philmd@redhat.com>
+Date: Thu, 23 May 2019 14:43:11 +0200
+Message-Id: <20190523124320.28726-7-philmd@redhat.com>
 In-Reply-To: <20190523124320.28726-1-philmd@redhat.com>
 References: <20190523124320.28726-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Thu, 23 May 2019 12:44:03 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Thu, 23 May 2019 12:44:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 05/15] hw/ppc: Implement fw_cfg_arch_key_name()
+Subject: [Qemu-devel] [PULL 06/15] hw/sparc: Implement fw_cfg_arch_key_name()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,77 +66,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Implement fw_cfg_arch_key_name(), which returns the name of a
-ppc-specific key.
-
-The fw_cfg device is used by the machine using OpenBIOS:
-- 40p
-- mac99 (oldworld)
-- g3beige (newworld)
+sparc32-specific key.
 
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <20190422195020.1494-6-philmd@redhat.com>
+Message-Id: <20190422195020.1494-7-philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ppc/Makefile.objs |  2 +-
- hw/ppc/fw_cfg.c      | 45 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+), 1 deletion(-)
- create mode 100644 hw/ppc/fw_cfg.c
+ hw/sparc/sun4m.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
-index 636e717f20..9da93af905 100644
---- a/hw/ppc/Makefile.objs
-+++ b/hw/ppc/Makefile.objs
-@@ -1,5 +1,5 @@
- # shared objects
--obj-y +=3D ppc.o ppc_booke.o fdt.o
-+obj-y +=3D ppc.o ppc_booke.o fdt.o fw_cfg.o
- # IBM pSeries (sPAPR)
- obj-$(CONFIG_PSERIES) +=3D spapr.o spapr_caps.o spapr_vio.o spapr_events=
-.o
- obj-$(CONFIG_PSERIES) +=3D spapr_hcall.o spapr_iommu.o spapr_rtas.o
-diff --git a/hw/ppc/fw_cfg.c b/hw/ppc/fw_cfg.c
-new file mode 100644
-index 0000000000..a88b5c4bde
---- /dev/null
-+++ b/hw/ppc/fw_cfg.c
-@@ -0,0 +1,45 @@
-+/*
-+ * fw_cfg helpers (PPC specific)
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ *
-+ * Author:
-+ *   Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/ppc/ppc.h"
-+#include "hw/nvram/fw_cfg.h"
-+
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 07d126aea8..5151a7202b 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -97,6 +97,25 @@ struct sun4m_hwdef {
+     uint8_t nvram_machine_id;
+ };
+=20
 +const char *fw_cfg_arch_key_name(uint16_t key)
 +{
 +    static const struct {
 +        uint16_t key;
 +        const char *name;
 +    } fw_cfg_arch_wellknown_keys[] =3D {
-+        {FW_CFG_PPC_WIDTH, "width"},
-+        {FW_CFG_PPC_HEIGHT, "height"},
-+        {FW_CFG_PPC_DEPTH, "depth"},
-+        {FW_CFG_PPC_TBFREQ, "tbfreq"},
-+        {FW_CFG_PPC_CLOCKFREQ, "clockfreq"},
-+        {FW_CFG_PPC_IS_KVM, "is_kvm"},
-+        {FW_CFG_PPC_KVM_HC, "kvm_hc"},
-+        {FW_CFG_PPC_KVM_PID, "pid"},
-+        {FW_CFG_PPC_NVRAM_ADDR, "nvram_addr"},
-+        {FW_CFG_PPC_BUSFREQ, "busfreq"},
-+        {FW_CFG_PPC_NVRAM_FLAT, "nvram_flat"},
-+        {FW_CFG_PPC_VIACONFIG, "viaconfig"},
++        {FW_CFG_SUN4M_DEPTH, "depth"},
++        {FW_CFG_SUN4M_WIDTH, "width"},
++        {FW_CFG_SUN4M_HEIGHT, "height"},
 +    };
 +
 +    for (size_t i =3D 0; i < ARRAY_SIZE(fw_cfg_arch_wellknown_keys); i++=
@@ -147,6 +102,10 @@ ter.
 +    }
 +    return NULL;
 +}
++
+ static void fw_cfg_boot_set(void *opaque, const char *boot_device,
+                             Error **errp)
+ {
 --=20
 2.20.1
 
