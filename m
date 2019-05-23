@@ -2,65 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC61C28008
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:43:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37975 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659EB28029
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:47:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38052 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTovy-0002mn-3V
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:43:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59900)
+	id 1hTp0F-00072x-EQ
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:47:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60913)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTouY-0001kH-6t
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:41:39 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTowt-0004Bw-99
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTouX-0004K0-6T
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:41:38 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34958)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hTouV-0004Fi-7M
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:41:37 -0400
-Received: by mail-ot1-x343.google.com with SMTP id n14so5671422otk.2
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:41:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QBmnu1LEmcuyOzLtmMtO+yAs7pP/eUMlcW70tRmCsiY=;
-	b=edZUaSYZg8WHocXE30PmdS9NHHHsnT8ZmKwF5+ZnzKEJ87s4KYIo6Ivbp8PrZQlVCH
-	MUE8/Sxg2IxqWMTTZ1kMzkv6HOILobHtqvBVNJVaQvCBcnOrMkPNu3AT0P+9w3ySZ0oj
-	kotydb+smt9ecozOgWowNKYODBkYi1kDOFUaUaMJI5CmQ0+jFwA3PqfRG3lTqK4+cPOK
-	sunO+bNiOqO6dG9cV1OK3UDjbmoIxSpRawUBpUpOGXF4GopdCbhv9IxOL/52IbEPESyb
-	0SehgGXNef3WWbSheUj70BeJayzWOiFSkMaIo89eEYulqD+J60wInc/Dcq7g5C/HRGeu
-	91QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QBmnu1LEmcuyOzLtmMtO+yAs7pP/eUMlcW70tRmCsiY=;
-	b=Kzj8IgG3gtqq+7KK5VltLk0usu0dHUV81hzZyGj95HXzJ2HGaY1IuJeqG6e7LBUQLb
-	buerihmSAnBsgblen6A5aYMZotkfKQKHyBj+c0ZdzMo4vkkT5QxFX3pRhyP5nX8aA6rj
-	TOaZkleEAuDObMRc0yp6HK1Q9f0EISa6Yhit6DPI1RQMfUQxxOFiLdYrtBO6nrPzEMLw
-	tYupGpyI+CPqO6Pxa5UO9jxf7397ia9nwpSuJFCJozfoof6uL98OZ4rBbR2OYFj5wuUi
-	CzSSfLoWMsLm8xx0wmiQPxkbd4D16pg/oLbVCVRV9NqkV0UcGXZ4l0l0xehz27vbU+E/
-	HVIQ==
-X-Gm-Message-State: APjAAAXuMzTE1zbA1ogvqZ/oh5qrW2Q5Gb5SQDH9UwaQHDT2WSnhqQDE
-	REDziuRdtZRTc2nd0sZImTEUJ65CVOHKn7jtAnc=
-X-Google-Smtp-Source: APXvYqygrOm5yXUSAqIlzuakeusNYiyGsqOCm5Z0qlbnOO3HNuGKS1EFt61JKl1e2yIg91Laj/1LHd3CzSqH6FL9jp0=
-X-Received: by 2002:a9d:7d9a:: with SMTP id j26mr6360770otn.102.1558622489921; 
-	Thu, 23 May 2019 07:41:29 -0700 (PDT)
+	(envelope-from <laurent@vivier.eu>) id 1hTows-0006A1-7m
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:03 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:46643)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTowq-00066W-K0
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:02 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+	mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA
+	(Nemesis)
+	id 1MLRI3-1hC16t3ou3-00IWOV; Thu, 23 May 2019 16:43:41 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Thu, 23 May 2019 16:43:26 +0200
+Message-Id: <20190523144336.13960-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <0952696452f5ff4e38d2417029243fc60efa33d6.camel@sipsolutions.net>
-	<20190523115950.GH26632@stefanha-x1.localdomain>
-	<41d64b8971a097d1568f947517b45d09c156ccc8.camel@sipsolutions.net>
-In-Reply-To: <41d64b8971a097d1568f947517b45d09c156ccc8.camel@sipsolutions.net>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 23 May 2019 15:41:18 +0100
-Message-ID: <CAJSP0QWSZXT3OJAc=abagD40xZ7DWWrcP_+AwVBuqQyQNgaOEg@mail.gmail.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] custom virt-io support (in user-mode-linux)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:HRooP9euUCJlkR+ci8KlUc0bMHht5F1NMkLaQyYItDitp1OSzZk
+	KsCOOInlqkw9ELToGuKqH9ON4tkUH3odW3moRJHJEvFlIQzDAxGtd6ZKB2LVOka1bUISM62
+	AAHJeeT24FyDGYeldCOSRdObSmlk4DIAf0frZN6dw8zdYH3twbbB/BAPbpXrXE3qBCHWVxI
+	YPyt/mrP4LSfz5v12SNEA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qbxw/nq8opw=:ukNkV8XSDnIog9YR6iD/+u
+	afJFp2y7kph5artMswpVUzC9VTDL2jcrUDlMjb/gX8uXRuJA/JwoIjvIN7y0ZPndWc1agWZYc
+	3vuwwo2QBRi3dG9JpicFy1jceW4tBecHFIiz2PyqJbZ4D/wPO42AdsSSGRR8tULqLoGWB4kci
+	oIf/5p3QOdaMcBqlG51P/HHZBfA2TifDz9+w5Sj/P4rmquykJrSnRE13AgCHMZtg+2vp48mBI
+	D7cx8GxJNdHP++vRaMl308xRLi1j934P42oM0Pggw5sBM4C0EDdkMa841p3gMZAxIUYUF/hSN
+	85hlAWPKapyToXLhRlMqKPKKZNOXc8jvjHM7evrA6HVzFOyEZKkJIRc832JEO7c7zdpCepFbR
+	jhUHerxIwJ/wxiIEg121PmCylPk1TC10gTpcrsHipk/yW/n5+N3XHFPmuIkzv6FhrF660Ip6B
+	XWJ2jkB9gmPxBF5bgMToEqIOTlxGJ1PHJNuZLID4Aet4XKi7wK60kWmu6Xh/g/e5MqKeyHYvC
+	yxWFMOkZuk18K6j10Tsx6SBpL29o8szi4Vg6r8B14YWVh3duqO7G3qI1dNPTX0TYQl1YeyAPT
+	c+ZebXEMaIB1wiANl7MaZ8LslV+DymZmwpIald3BY3CMJC2Ldq8vDZDRVu/ZE/DpjXp/5lC/i
+	xQp6EprIc1OZfj/L0HygqZHmzWmChZQ1OdQni+Nlq1G8JmL2fmRY0aI0moARG1HRwkCtMrgC5
+	JcMQGoBR7JoTWDKdLNhjb02Omckyp5iSwROUW0D2SnI6j2O9fJPtx7cNc/0=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.133
+Subject: [Qemu-devel] [PULL 00/10] Linux user for 4.1 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,64 +62,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ido@wizery.com, linux-um@lists.infradead.org,
-	qemu-devel <qemu-devel@nongnu.org>,
-	Linux Virtualization <virtualization@lists.linux-foundation.org>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
+	Aurelien Jarno <aurelien@aurel32.net>, Riku Voipio <riku.voipio@iki.fi>,
+	Laurent Vivier <laurent@vivier.eu>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 23, 2019 at 3:25 PM Johannes Berg <johannes@sipsolutions.net> wrote:
-> Not sure I understand why there's all this stuff about multiple FDs,
-> once you have access to the guest's memory, why do you still need a
-> second (or more) FDs?
+The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
 
-The memory regions could be different files (maybe additional RAM was
-hotplugged later).
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
 
-> Also, not sure I understand how the client is started?
+are available in the Git repository at:
 
-The vhost-user device backend can be launched before QEMU.  QEMU is
-started with the UNIX domain socket path so it can connect.
+  git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
 
-QEMU itself doesn't fork+exec the vhost-user device backend.  It's
-expected that the user or the management stack has already launched
-the vhost-user device backend.
+for you to fetch changes up to 069a1504ee1e2943964d0357d798e11b66afd351:
 
-> Once we have a connection, I guess as a client I'd at the very least
-> have to handle
->  * VHOST_USER_GET_FEATURES and reply with the features, obviously, which
->    is in this case just VHOST_USER_F_PROTOCOL_FEATURES?
->
->  * VHOST_USER_SET_FEATURES - not sure, what would that do? the master
->    sends VHOST_USER_GET_PROTOCOL_FEATURES which is with this feature
->    bit? Especially since it says: "Slave that reported
->    VHOST_USER_F_PROTOCOL_FEATURES must support this message even before
->    VHOST_USER_SET_FEATURES was called."
->
->  * VHOST_USER_GET_PROTOCOL_FEATURES - looking at the list, most I don't
->    really need here, but OK
->
->  * VHOST_USER_SET_OWNER - ??
->
->  * VHOST_USER_RESET_OWNER - ignore
->
->  * VHOST_USER_SET_MEM_TABLE - store the data/FDs for later use, I guess
->
->  * VHOST_USER_SET_VRING_NUM - store the data for later use
->  * VHOST_USER_SET_VRING_ADDR - dito
->  * VHOST_USER_SET_VRING_BASE - dito
->  * VHOST_USER_SET_VRING_KICK - start epoll on the FD (assuming there is
->                                one, give up if not?) - well, if ring is
->                                enabled?
->  * VHOST_USER_SET_VRING_CALL - ...
->
-> I guess there might be better documentation on the ioctl interfaces?
->
->
-> Do you know if there's a sample client/server somewhere?
+  linux-user: Pass through nanosecond timestamp components for stat syscalls (2019-05-22 20:50:55 +0200)
 
-See contrib/libvhost-user in the QEMU source tree as well as the
-vhost-user-blk and vhost-user-scsi examples in the contrib/ directory.
+----------------------------------------------------------------
+Add /proc/hardware and /proc/cpuinfo,
+update SIOCXXX ioctls,
+update IPV6 options,
+fix shmat emulation,
+add nanoseconds in stat,
+init field fp_abi on mips
 
-Stefan
+----------------------------------------------------------------
+
+Aleksandar Markovic (2):
+  linux-user: Fix support for SIOCATMARK and SIOCGPGRP ioctls for xtensa
+  linux-user: Add support for SIOCSPGRP ioctl for all targets
+
+Chen-Yu Tsai (1):
+  linux-user: Pass through nanosecond timestamp components for stat
+    syscalls
+
+Daniel Santos (1):
+  linux-user: Sanitize interp_info and, for mips only, init field fp_abi
+
+Laurent Vivier (2):
+  linux-user: add pseudo /proc/cpuinfo for sparc
+  linux-user: add pseudo /proc/hardware for m68k
+
+Neng Chen (2):
+  linux-user: Add support for SIOC<G|S>IFPFLAGS ioctls for all targets
+  linux-user: Add support for setsockopt() options
+    IPV6_<ADD|DROP>_MEMBERSHIP
+
+Richard Henderson (2):
+  linux-user: Fix shmat emulation by honoring host SHMLBA
+  linux-user: Align mmap_find_vma to host page size
+
+ linux-user/elfload.c      | 22 ++++++++----
+ linux-user/ioctls.h       |  3 ++
+ linux-user/mmap.c         | 72 +++++++++++++++++++++------------------
+ linux-user/qemu.h         |  2 +-
+ linux-user/syscall.c      | 72 +++++++++++++++++++++++++++++++++++++--
+ linux-user/syscall_defs.h | 57 ++++++++++++++++++++-----------
+ 6 files changed, 166 insertions(+), 62 deletions(-)
+
+-- 
+2.20.1
+
 
