@@ -2,50 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E90927C87
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 14:15:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35076 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D486827C89
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 14:15:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35081 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTmd0-0004Cn-Dr
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 08:15:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43362)
+	id 1hTmdG-0004Pu-UE
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 08:15:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43440)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hTmal-00036K-1I
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:13:04 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTmau-0003GC-8e
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:13:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hTmaj-0002Kw-NE
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:13:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53616)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
-	id 1hTmag-0002DO-Kn; Thu, 23 May 2019 08:12:58 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EC4ED307D989;
-	Thu, 23 May 2019 12:12:39 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 37B59795BA;
-	Thu, 23 May 2019 12:12:36 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Thu, 23 May 2019 08:12:30 -0400
-Message-Id: <20190523121230.17193-3-jsnow@redhat.com>
-In-Reply-To: <20190523121230.17193-1-jsnow@redhat.com>
-References: <20190523121230.17193-1-jsnow@redhat.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hTmas-0002QO-EM
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:13:12 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:40061)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hTmas-0002P5-5D
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:13:10 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id u11so5172287otq.7
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=gWy0oz1bt10UpMFG1UecC+ycclHYtB1K7ptyFBzriuA=;
+	b=qWUfLN3EULVCwW0YUI6QpOVkeloaGfyZXnEhs/1Ei3M+Dqxm+id5OddKLD87KVc/na
+	XOepA91c/1y9WJ6poZBcRZAlGFmssh9DHVowmEDkPjEGOI/rmeHvR7i1YU/9yDhLqhzw
+	jIRqWFuY+mUkIpA+KSyqBMQUxPu/U+HxRtT/WlZBfPuVJOw2j1RFoWJ2sMKqEGeADIcS
+	8d5bOmtjIAMnpHXud6vapjZVRVOSnzUesnjiuO1VNw+cxlHAYg4iLs/5vsD/beuYA6pi
+	PTGbEwCosPkvQzawEb+CNvN5jOJcLintAXOW14dIB5rznva/Pt5iyj7hLxw3Gt44apQj
+	b/Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=gWy0oz1bt10UpMFG1UecC+ycclHYtB1K7ptyFBzriuA=;
+	b=Xm3L5hmIi3koNQ7O9fZ8ZQ0WgUhpEdKsvN7cpphHVBF79bFce/E9Nv97iYxIuJ/cg3
+	9k6tluS8SsNJdI5igl2FW3sH7LXbKXXPa7bWx+BrniPAvmSwc5O/B5M0CNLoGiMJmgr7
+	hEi+gXndN0YcWOJNKrMi+zSmXEAM3ezjgmAyApBKmnGy8pCUG9dwqWU2ObNy0wlTL26A
+	X0lWzXFGC0N5iYsXzoZ2TQ7kQOvuf7au4pqK0/po5ejD6pQzJxNkLxy91N+G2aiPD1ej
+	OG764ML+12eMvKeGkCAAgJjrRN45PuY1QWbIfwWcX4zM+zugYkn8RxUWz5WCj09I6oTG
+	nZMA==
+X-Gm-Message-State: APjAAAUTj+OOcNsb+47Isw5llkwGXpWfReuF06E4Mp+ZQAEyas65j+pv
+	GZB5ayS++GvZH+QyhrXyGO/n19O/lmm3Xipn9/uUvg==
+X-Google-Smtp-Source: APXvYqxc8ksgy9PhzivNTMC/7VNMdNkl3HhdbTZqXMaHWyiq9mRwIXM6V8B3yHvYfGH5gepW80hSHZRyrGJc/wKL7C4=
+X-Received: by 2002:a9d:77d5:: with SMTP id w21mr61670otl.97.1558613589047;
+	Thu, 23 May 2019 05:13:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Thu, 23 May 2019 12:12:45 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 2/2] docs/bitmaps: use QMP lexer instead of
- json
+References: <20190514171545.24961-1-peter.maydell@linaro.org>
+	<878sv7yn6t.fsf@dusky.pond.sub.org>
+	<CAFEAcA9O4YUFa1X+TqJLGD2M3mPXwhv3WwL2thOk-aeezEaoaQ@mail.gmail.com>
+	<f972c27e-de17-2d96-04d9-bec421c78384@greensocs.com>
+	<87imu3swp2.fsf@dusky.pond.sub.org>
+	<CAFEAcA_LFdwYX0Lp8Z=ecgJKC18F7i51nUjOT7YY+CQBaH_tTg@mail.gmail.com>
+	<87ef4pisja.fsf@dusky.pond.sub.org>
+	<CAFEAcA-8CZT2-sNBDEJdKv7PB-b1usNgbqo0O9QofYApvR-=pQ@mail.gmail.com>
+	<874l5lnzjd.fsf@dusky.pond.sub.org>
+In-Reply-To: <874l5lnzjd.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 13:12:57 +0100
+Message-ID: <CAFEAcA98zZ60fAWgu4s9aCdKjafNtZsCt8ieEfTWYdZx5D2aGw@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::32b
+Subject: Re: [Qemu-devel] [RFC] hw/core/bus.c: Only the main system bus can
+ have no parent
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,299 +80,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
-	John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
-	Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The annotated style json we use in QMP documentation is not strict json
-and depending on the version of Sphinx (2.0+) or Pygments installed,
-might cause the build to fail.
+On Thu, 23 May 2019 at 13:09, Markus Armbruster <armbru@redhat.com> wrote:
+> Registering qbus_reset_all_fn() in main() is kind of ugly, but it works.
+> There's a comment pointing out it's ugly.  Right now it's a TODO
+> comment, which maybe expresses more hope for cleanup than there really
+> is.  I'd leave it alone anyway.
 
-Use the new QMP lexer.
+...so after this long thread, are we at a conclusion?
+I think my view is that the patch-as-sent needs to be
+revised to also fix bus_unparent() but is otherwise OK.
 
-Further, some versions of Sphinx can not apply custom lexers to "code"
-directives and require the use of "code-block" directives instead, so
-make that change at this time as well.
-
-Tested under:
-- Sphinx 1.3.6 and Pygments 2.4
-- Sphinx 1.7.6 and Pygments 2.2
-- Sphinx 2.0.1 and Pygments 2.4
-
-Reported-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
----
- docs/interop/bitmaps.rst | 54 ++++++++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 27 deletions(-)
-
-diff --git a/docs/interop/bitmaps.rst b/docs/interop/bitmaps.rst
-index 510e8809a9..cf308f197b 100644
---- a/docs/interop/bitmaps.rst
-+++ b/docs/interop/bitmaps.rst
-@@ -199,7 +199,7 @@ persistence, and recording state can be adjusted at c=
-reation time.
-=20
-  to create a new, actively recording persistent bitmap:
-=20
-- .. code:: json
-+ .. code-block:: QMP
-=20
-   -> { "execute": "block-dirty-bitmap-add",
-        "arguments": {
-@@ -220,7 +220,7 @@ persistence, and recording state can be adjusted at c=
-reation time.
-  To create a new, disabled (``-recording``), transient bitmap that track=
-s
-  changes in 32KiB segments:
-=20
-- .. code:: json
-+ .. code-block:: QMP
-=20
-   -> { "execute": "block-dirty-bitmap-add",
-        "arguments": {
-@@ -254,7 +254,7 @@ Deletes a bitmap. Bitmaps that are ``+busy`` cannot b=
-e removed.
-=20
-  Remove a bitmap named ``bitmap0`` from node ``drive0``:
-=20
-- .. code:: json
-+ .. code-block:: QMP
-=20
-   -> { "execute": "block-dirty-bitmap-remove",
-        "arguments": {
-@@ -280,7 +280,7 @@ Clears all dirty bits from a bitmap. ``+busy`` bitmap=
-s cannot be cleared.
-=20
-  Clear all dirty bits from bitmap ``bitmap0`` on node ``drive0``:
-=20
-- .. code:: json
-+ .. code-block:: QMP
-=20
-   -> { "execute": "block-dirty-bitmap-clear",
-        "arguments": {
-@@ -309,7 +309,7 @@ begin being recorded. ``+busy`` bitmaps cannot be ena=
-bled.
-=20
-  To set ``+recording`` on bitmap ``bitmap0`` on node ``drive0``:
-=20
-- .. code:: json
-+ .. code-block:: QMP
-=20
-   -> { "execute": "block-dirty-bitmap-enable",
-        "arguments": {
-@@ -347,7 +347,7 @@ writes to begin being ignored. ``+busy`` bitmaps cann=
-ot be disabled.
-=20
-  To set ``-recording`` on bitmap ``bitmap0`` on node ``drive0``:
-=20
-- .. code:: json
-+ .. code-block:: QMP
-=20
-   -> { "execute": "block-dirty-bitmap-disable",
-        "arguments": {
-@@ -393,7 +393,7 @@ in any one source bitmap, the target bitmap will mark=
- that segment dirty.
-  ``drive0``. If ``new_bitmap`` was empty prior to this command, this ach=
-ieves
-  a copy.
-=20
-- .. code:: json
-+ .. code-block:: QMP
-=20
-   -> { "execute": "block-dirty-bitmap-merge",
-        "arguments": {
-@@ -424,7 +424,7 @@ attached to nodes serving as the root for guest devic=
-es.
-  API. This result highlights a bitmap ``bitmap0`` attached to the root n=
-ode of
-  device ``drive0``.
-=20
-- .. code:: json
-+ .. code-block:: QMP
-=20
-   -> {
-        "execute": "query-block",
-@@ -562,7 +562,7 @@ new, empty bitmap that records writes from this point=
- in time forward.
-           destination. These writes will be recorded in the bitmap
-           accordingly.
-=20
--.. code:: json
-+.. code-block:: QMP
-=20
-   -> {
-        "execute": "transaction",
-@@ -650,7 +650,7 @@ Example: Resetting an Incremental Backup Anchor Point
- If we want to start a new backup chain with an existing bitmap, we can a=
-lso
- use a transaction to reset the bitmap while making a new full backup:
-=20
--.. code:: json
-+.. code-block:: QMP
-=20
-   -> {
-        "execute": "transaction",
-@@ -730,7 +730,7 @@ Example: First Incremental Backup
-=20
- #. Issue an incremental backup command:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     -> {
-          "execute": "drive-backup",
-@@ -788,7 +788,7 @@ Example: Second Incremental Backup
- #. Issue a new incremental backup command. The only difference here is t=
-hat we
-    have changed the target image below.
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     -> {
-          "execute": "drive-backup",
-@@ -869,7 +869,7 @@ image:
- #. Issue a new incremental backup command. Apart from the new destinatio=
-n
-    image, there is no difference from the last two examples.
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     -> {
-          "execute": "drive-backup",
-@@ -932,7 +932,7 @@ point in time.
-=20
- #. Create a full (anchor) backup for each drive, with accompanying bitma=
-ps:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     -> {
-          "execute": "transaction",
-@@ -1018,7 +1018,7 @@ point in time.
-=20
- #. Issue a multi-drive incremental push backup transaction:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     -> {
-          "execute": "transaction",
-@@ -1121,7 +1121,7 @@ described above. This example demonstrates the sing=
-le-job failure case:
-=20
- #. Attempt to create an incremental backup via QMP:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     -> {
-          "execute": "drive-backup",
-@@ -1139,7 +1139,7 @@ described above. This example demonstrates the sing=
-le-job failure case:
-=20
- #. Receive a pair of events indicating failure:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     <- {
-          "timestamp": {...},
-@@ -1175,7 +1175,7 @@ described above. This example demonstrates the sing=
-le-job failure case:
- #. Retry the command after fixing the underlying problem, such as
-    freeing up space on the backup volume:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     -> {
-          "execute": "drive-backup",
-@@ -1193,7 +1193,7 @@ described above. This example demonstrates the sing=
-le-job failure case:
-=20
- #. Receive confirmation that the job completed successfully:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     <- {
-          "timestamp": {...},
-@@ -1233,7 +1233,7 @@ and one succeeds:
-=20
- #. Issue the transaction to start a backup of both drives.
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     -> {
-          "execute": "transaction",
-@@ -1267,13 +1267,13 @@ and one succeeds:
- #. Receive notice that the Transaction was accepted, and jobs were
-    launched:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     <- { "return": {} }
-=20
- #. Receive notice that the first job has completed:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     <- {
-          "timestamp": {...},
-@@ -1289,7 +1289,7 @@ and one succeeds:
-=20
- #. Receive notice that the second job has failed:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     <- {
-          "timestamp": {...},
-@@ -1365,7 +1365,7 @@ applied:
-=20
- #. Issue the multi-drive incremental backup transaction:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     -> {
-          "execute": "transaction",
-@@ -1401,13 +1401,13 @@ applied:
-=20
- #. Receive notice that the Transaction was accepted, and jobs were launc=
-hed:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     <- { "return": {} }
-=20
- #. Receive notification that the backup job for ``drive1`` has failed:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     <- {
-          "timestamp": {...},
-@@ -1434,7 +1434,7 @@ applied:
-=20
- #. Receive notification that the job for ``drive0`` has been cancelled:
-=20
--   .. code:: json
-+   .. code-block:: QMP
-=20
-     <- {
-          "timestamp": {...}
---=20
-2.20.1
-
+thanks
+-- PMM
 
