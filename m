@@ -2,46 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55DE027F70
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:22:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37350 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7760B27FAB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:29:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37489 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTobp-0000Mh-GR
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:22:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51796)
+	id 1hToiR-0006Ij-Hn
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:29:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53664)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <gert.wollny@collabora.com>) id 1hToXX-0005cJ-DC
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:17:52 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodX-0002WR-8O
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <gert.wollny@collabora.com>) id 1hToXV-0002cD-FR
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:17:51 -0400
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:60888)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <gert.wollny@collabora.com>)
-	id 1hToXT-0002Yw-QW
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:17:49 -0400
-Received: from Isengard (unknown [IPv6:2a02:810a:940:4421:55f7:11f5:99cb:72c6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested) (Authenticated sender: gerddie)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 807B92639CC;
-	Thu, 23 May 2019 15:17:43 +0100 (BST)
-Message-ID: <721f520106a799afe003b3b8d3ce4de12daf04f5.camel@collabora.com>
-From: Gert Wollny <gert.wollny@collabora.com>
-To: =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Date: Thu, 23 May 2019 16:17:41 +0200
-In-Reply-To: <CAJ+F1C+=89nSeEyiBowdOsqr5HBtvvNnXp3ZWHBGV_WYYH9kgA@mail.gmail.com>
-References: <20190523110434.23830-1-gert.wollny@collabora.com>
-	<CAJ+F1C+=89nSeEyiBowdOsqr5HBtvvNnXp3ZWHBGV_WYYH9kgA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.1-2 
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodV-0006oW-Ey
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:03 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37628)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hTodV-0006n5-6Y
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:01 -0400
+Received: by mail-wr1-x443.google.com with SMTP id e15so6529735wrs.4
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=b12/iNlG/d9Vy90ENIOMpb6JzBZwigdlIPVxxnXJAUI=;
+	b=PFr3caxlrCC/uFVgqDXfJo2apmobepS4V9bx6XvdB/LHnzhfjr4FesnjAemdkitAlD
+	MqTT64zv5SXB7hwAqHRROY6HqFsVdKExqPk+ZmZi43zvGCbzaNB3v9bDkg0tQDYxZnsa
+	HmdLzf37MUmkTgpjMhSr+o7iXX/85WZhx9w8WQm/7TuE39wYpmluvt7h8Yiv32rzppn2
+	BVNgiyG2zZhrhhBMrJiapVwDfkGSeGOHLF2ehqd1YXua7B8hsA/CI87ha6AFIK+SZYrH
+	iv+GZT38VDXlHknHr3xHUYI7ng4KI7g+U4iln3JakrnBIH7HuUgPhDNQyqKw/hbbpZgx
+	P/aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=b12/iNlG/d9Vy90ENIOMpb6JzBZwigdlIPVxxnXJAUI=;
+	b=DS4N/u9sa3gFyRYj0KsUKxo3TJq5NAt0eNmCaQmcquTSNTG14X3GNKFZF4Cvwmj7lK
+	oya+aG0RZ3ejZfFOykqVfZo3ftkJ9hjffCEFwGLYQ5Afy41biUPSR6xqm52RclUnbYk7
+	AqSsZWimYLr64C1kNfbFk0SDN33gR2TOkpGp7wHZ7KOxVFcKy1BSgacPxAKBX57fQgzG
+	ZY4msu+fzPNLwMxeOLewexR7axGIEFa+/gdhEcu/XjhmLeNzE8ZI7f1LL7EbFFlg9pA5
+	bZK3Mt1L7/BGScWHIVDTcq126TstvGw3PyCU0mtKf0FJLXG3tkORYY7E/71j1gW0IH+u
+	icsQ==
+X-Gm-Message-State: APjAAAVHlOZaOpuxF5CBOJmgGelHpTHUsGFF5vdCKB2+baEcyfqks9b8
+	GG98P4f+kzvW4Vh3B/nl5fWgZ/4U8pY17A==
+X-Google-Smtp-Source: APXvYqzrIbmCEgr4GaHg66UM2GekvvaZJkPB/ryQlS55tPAwyuy7Va5A4gikHpH+ECifL/b2FOPxxg==
+X-Received: by 2002:adf:9023:: with SMTP id h32mr46918500wrh.95.1558621439521; 
+	Thu, 23 May 2019 07:23:59 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.23.58
+	for <qemu-devel@nongnu.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 07:23:58 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Thu, 23 May 2019 15:23:45 +0100
+Message-Id: <20190523142357.5175-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1098:0:82:1000:25:2eeb:e3e3
-Subject: Re: [Qemu-devel] [PATCH] virtio_gpu_3d: make it possible to
- configure the fence poll time
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PULL 00/12] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,128 +77,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am Donnerstag, den 23.05.2019, 16:01 +0200 schrieb Marc-Andr=C3=A9 Lureau=
-:
-> Hi
->=20
-> On Thu, May 23, 2019 at 3:27 PM Gert Wollny <
-> gert.wollny@collabora.com> wrote:
-> > The default fence poll time of 10ms (100 Hz) is sufficent for
-> > normal
-> > work loads, but if one wants to play games within the virtual
-> > machine
-> > this value might be too high, so make it possible to configure this
-> > value by using the environment variable QEMU_VIRGL_POLL_FREQ where
-> > the
-> > poll is given in Hz. To acommodate higher poll frequencies also
-> > change
-> > the timer to use micro seconds as base instead of milliseconds.
-> >=20
-> >=20
->=20
-> This is what VIRGL_RENDERER_THREAD_SYNC helps with. You don't need to
-> do regular polling, but I think it is currently limited to
-> Linux/eventfd only.
+Not very much here, but several people have fallen over
+the vector operation segfault bug, so let's get the fix
+into master.
 
-As far as I can see only vtest uses this, not qemu.=20
+thanks
+-- PMM
 
->=20
-> fwiw, vhost-user-gpu uses it.
+The following changes since commit d418238dca7b4e0b124135827ead3076233052b1:
 
-Yeah, I tested it on Intel, but AFAICS this hasn't landed yet, no? OTOH
-the drm calls were only implemented for Intel, and I have no idea how
-to implement this for other hardware, like e.g. radeonsi, or even the
-Nvidia blob ...
+  Merge remote-tracking branch 'remotes/rth/tags/pull-rng-20190522' into staging (2019-05-23 12:57:17 +0100)
 
-Best,=20
-Gert=20
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190523
 
->=20
->=20
-> > Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
-> > ---
-> >  hw/display/virtio-gpu-3d.c     | 18 ++++++++++++++++--
-> >  include/hw/virtio/virtio-gpu.h |  1 +
-> >  2 files changed, 17 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-
-> > 3d.c
-> > index 5ee3566ae0..120e593e76 100644
-> > --- a/hw/display/virtio-gpu-3d.c
-> > +++ b/hw/display/virtio-gpu-3d.c
-> > @@ -17,6 +17,7 @@
-> >  #include "trace.h"
-> >  #include "hw/virtio/virtio.h"
-> >  #include "hw/virtio/virtio-gpu.h"
-> > +#include "qemu/cutils.h"
-> >=20
-> >  #ifdef CONFIG_VIRGL
-> >=20
-> > @@ -580,7 +581,8 @@ static void virtio_gpu_fence_poll(void *opaque)
-> >      virgl_renderer_poll();
-> >      virtio_gpu_process_cmdq(g);
-> >      if (!QTAILQ_EMPTY(&g->cmdq) || !QTAILQ_EMPTY(&g->fenceq)) {
-> > -        timer_mod(g->fence_poll,
-> > qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 1);
-> > +        timer_mod(g->fence_poll,
-> > qemu_clock_get_us(QEMU_CLOCK_VIRTUAL) +
-> > +                                 g->fence_poll_timeout);
-> >      }
-> >  }
-> >=20
-> > @@ -605,13 +607,25 @@ void virtio_gpu_virgl_reset(VirtIOGPU *g)
-> >  int virtio_gpu_virgl_init(VirtIOGPU *g)
-> >  {
-> >      int ret;
-> > +    const char *val;
-> >=20
-> >      ret =3D virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
-> >      if (ret !=3D 0) {
-> >          return ret;
-> >      }
-> >=20
-> > -    g->fence_poll =3D timer_new_ms(QEMU_CLOCK_VIRTUAL,
-> > +    g->fence_poll_timeout =3D 10000; /* default 10 ms */
-> > +    val =3D getenv("QEMU_VIRGL_POLL_FREQ");
-> > +    if (val) {
-> > +        unsigned long long poll_freq;
-> > +        if (parse_uint_full(val, &poll_freq, 10) || poll_freq >
-> > UINT32_MAX) {
-> > +            fprintf(stderr, "VIRGL_POLL_FREQ: Invalid integer
-> > `%s'\n", val);
-> > +            exit(1);
-> > +        }
-> > +        g->fence_poll_timeout =3D 1000000 / (uint32_t)poll_freq;
-> > +    }
-> > +
-> > +    g->fence_poll =3D timer_new_us(QEMU_CLOCK_VIRTUAL,
-> >                                   virtio_gpu_fence_poll, g);
-> >=20
-> >      if (virtio_gpu_stats_enabled(g->conf)) {
-> > diff --git a/include/hw/virtio/virtio-gpu.h
-> > b/include/hw/virtio/virtio-gpu.h
-> > index 60425c5d58..a9e03b25aa 100644
-> > --- a/include/hw/virtio/virtio-gpu.h
-> > +++ b/include/hw/virtio/virtio-gpu.h
-> > @@ -116,6 +116,7 @@ typedef struct VirtIOGPU {
-> >      bool renderer_reset;
-> >      QEMUTimer *fence_poll;
-> >      QEMUTimer *print_stats;
-> > +    uint32_t fence_poll_timeout;
-> >=20
-> >      uint32_t inflight;
-> >      struct {
-> > --
-> > 2.20.1
-> >=20
-> >=20
->=20
->=20
+for you to fetch changes up to 98e4f4fdb8ea05d840f51f47125924c2bb9df2df:
 
+  hw/arm/exynos4210: QOM'ify the Exynos4210 SoC (2019-05-23 14:47:44 +0100)
 
+----------------------------------------------------------------
+target-arm queue:
+ * exynos4210: QOM'ify the Exynos4210 SoC
+ * exynos4210: Add DMA support for the Exynos4210
+ * arm_gicv3: Fix writes to ICC_CTLR_EL3
+ * arm_gicv3: Fix write of ICH_VMCR_EL2.{VBPR0, VBPR1}
+ * target/arm: Fix vector operation segfault
+ * target/arm: Minor improvements to BFXIL, EXTR
+
+----------------------------------------------------------------
+Alistair Francis (1):
+      target/arm: Fix vector operation segfault
+
+Guenter Roeck (1):
+      hw/arm/exynos4210: Add DMA support for the Exynos4210
+
+Peter Maydell (5):
+      arm: Move system_clock_scale to armv7m_systick.h
+      arm: Remove unnecessary includes of hw/arm/arm.h
+      arm: Rename hw/arm/arm.h to hw/arm/boot.h
+      hw/intc/arm_gicv3: Fix write of ICH_VMCR_EL2.{VBPR0, VBPR1}
+      hw/intc/arm_gicv3: Fix writes to ICC_CTLR_EL3
+
+Philippe Mathieu-Daudé (3):
+      hw/arm/exynos4: Remove unuseful debug code
+      hw/arm/exynos4: Use the IEC binary prefix definitions
+      hw/arm/exynos4210: QOM'ify the Exynos4210 SoC
+
+Richard Henderson (2):
+      target/arm: Use extract2 for EXTR
+      target/arm: Simplify BFXIL expansion
+
+ include/hw/arm/allwinner-a10.h    |  2 +-
+ include/hw/arm/aspeed_soc.h       |  1 -
+ include/hw/arm/bcm2836.h          |  1 -
+ include/hw/arm/{arm.h => boot.h}  | 12 +++------
+ include/hw/arm/exynos4210.h       |  9 +++++--
+ include/hw/arm/fsl-imx25.h        |  2 +-
+ include/hw/arm/fsl-imx31.h        |  2 +-
+ include/hw/arm/fsl-imx6.h         |  2 +-
+ include/hw/arm/fsl-imx6ul.h       |  2 +-
+ include/hw/arm/fsl-imx7.h         |  2 +-
+ include/hw/arm/virt.h             |  2 +-
+ include/hw/arm/xlnx-versal.h      |  2 +-
+ include/hw/arm/xlnx-zynqmp.h      |  2 +-
+ include/hw/timer/armv7m_systick.h | 22 ++++++++++++++++
+ hw/arm/armsse.c                   |  2 +-
+ hw/arm/armv7m.c                   |  2 +-
+ hw/arm/aspeed.c                   |  2 +-
+ hw/arm/boot.c                     |  2 +-
+ hw/arm/collie.c                   |  2 +-
+ hw/arm/exynos4210.c               | 54 ++++++++++++++++++++++++++++++++++++---
+ hw/arm/exynos4_boards.c           | 40 ++++++++---------------------
+ hw/arm/highbank.c                 |  2 +-
+ hw/arm/integratorcp.c             |  2 +-
+ hw/arm/mainstone.c                |  2 +-
+ hw/arm/microbit.c                 |  2 +-
+ hw/arm/mps2-tz.c                  |  2 +-
+ hw/arm/mps2.c                     |  2 +-
+ hw/arm/msf2-soc.c                 |  1 -
+ hw/arm/msf2-som.c                 |  2 +-
+ hw/arm/musca.c                    |  2 +-
+ hw/arm/musicpal.c                 |  2 +-
+ hw/arm/netduino2.c                |  2 +-
+ hw/arm/nrf51_soc.c                |  2 +-
+ hw/arm/nseries.c                  |  2 +-
+ hw/arm/omap1.c                    |  2 +-
+ hw/arm/omap2.c                    |  2 +-
+ hw/arm/omap_sx1.c                 |  2 +-
+ hw/arm/palm.c                     |  2 +-
+ hw/arm/raspi.c                    |  2 +-
+ hw/arm/realview.c                 |  2 +-
+ hw/arm/spitz.c                    |  2 +-
+ hw/arm/stellaris.c                |  2 +-
+ hw/arm/stm32f205_soc.c            |  2 +-
+ hw/arm/strongarm.c                |  2 +-
+ hw/arm/tosa.c                     |  2 +-
+ hw/arm/versatilepb.c              |  2 +-
+ hw/arm/vexpress.c                 |  2 +-
+ hw/arm/virt.c                     |  2 +-
+ hw/arm/xilinx_zynq.c              |  2 +-
+ hw/arm/xlnx-versal.c              |  2 +-
+ hw/arm/z2.c                       |  2 +-
+ hw/intc/arm_gicv3_cpuif.c         |  6 ++---
+ hw/intc/armv7m_nvic.c             |  1 -
+ target/arm/arm-semi.c             |  1 -
+ target/arm/cpu.c                  |  1 -
+ target/arm/cpu64.c                |  1 -
+ target/arm/kvm.c                  |  1 -
+ target/arm/kvm32.c                |  1 -
+ target/arm/kvm64.c                |  1 -
+ target/arm/translate-a64.c        | 44 ++++++++++++++++---------------
+ target/arm/translate.c            |  4 +--
+ 61 files changed, 164 insertions(+), 123 deletions(-)
+ rename include/hw/arm/{arm.h => boot.h} (96%)
 
