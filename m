@@ -2,44 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E57A27E22
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:29:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36258 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A6C27B60
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:08:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33851 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnmQ-0006pU-8X
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:29:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59645)
+	id 1hTlaj-0006k2-GR
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:08:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60337)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <gert.wollny@collabora.com>) id 1hTlWd-0004e9-4D
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:04:44 -0400
+	(envelope-from <berrange@redhat.com>) id 1hTlZn-0006RB-AD
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:08:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <gert.wollny@collabora.com>) id 1hTlWc-0002U4-0T
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:04:43 -0400
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:59570)
+	(envelope-from <berrange@redhat.com>) id 1hTlZm-0004bf-C8
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:07:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52444)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <gert.wollny@collabora.com>)
-	id 1hTlWb-0002Py-RX
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:04:41 -0400
-Received: from Isengard.homenet.telecomitalia.it (unknown
-	[IPv6:2a02:810a:940:4421:55f7:11f5:99cb:72c6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested) (Authenticated sender: gerddie)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D6A672808DF;
-	Thu, 23 May 2019 12:04:37 +0100 (BST)
-From: Gert Wollny <gert.wollny@collabora.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 13:04:34 +0200
-Message-Id: <20190523110434.23830-1-gert.wollny@collabora.com>
-X-Mailer: git-send-email 2.20.1
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hTlZm-0004Ye-7j
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:07:58 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 41705307E04E;
+	Thu, 23 May 2019 11:07:43 +0000 (UTC)
+Received: from redhat.com (ovpn-112-64.ams2.redhat.com [10.36.112.64])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F34865F65;
+	Thu, 23 May 2019 11:07:39 +0000 (UTC)
+Date: Thu, 23 May 2019 12:07:36 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190523110736.GD20973@redhat.com>
+References: <20190523024229.1158-1-richard.henderson@linaro.org>
+	<20190523024229.1158-2-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1098:0:82:1000:25:2eeb:e3e3
-X-Mailman-Approved-At: Thu, 23 May 2019 09:18:29 -0400
-Subject: [Qemu-devel] [PATCH] virtio_gpu_3d: make it possible to configure
- the fence poll time
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190523024229.1158-2-richard.henderson@linaro.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Thu, 23 May 2019 11:07:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/3] capstone: Adjust include of capstone.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,91 +58,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gert Wollny <gert.wollny@collabora.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The default fence poll time of 10ms (100 Hz) is sufficent for normal
-work loads, but if one wants to play games within the virtual machine
-this value might be too high, so make it possible to configure this
-value by using the environment variable QEMU_VIRGL_POLL_FREQ where the
-poll is given in Hz. To acommodate higher poll frequencies also change
-the timer to use micro seconds as base instead of milliseconds.
+On Wed, May 22, 2019 at 10:42:27PM -0400, Richard Henderson wrote:
+> Since v4.0, capstone.h has moved to <capstone/capstone.h>.
 
+NB this was a regression bug in capstone pkg-config file which has been
+fixed upstream
 
+   https://github.com/aquynh/capstone/pull/1276
 
-Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
----
- hw/display/virtio-gpu-3d.c     | 18 ++++++++++++++++--
- include/hw/virtio/virtio-gpu.h |  1 +
- 2 files changed, 17 insertions(+), 2 deletions(-)
+In Fedora we pulled in the fix to our v4.0 builds and I'd suggest
+other distros should do the same
 
-diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-index 5ee3566ae0..120e593e76 100644
---- a/hw/display/virtio-gpu-3d.c
-+++ b/hw/display/virtio-gpu-3d.c
-@@ -17,6 +17,7 @@
- #include "trace.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-gpu.h"
-+#include "qemu/cutils.h"
-=20
- #ifdef CONFIG_VIRGL
-=20
-@@ -580,7 +581,8 @@ static void virtio_gpu_fence_poll(void *opaque)
-     virgl_renderer_poll();
-     virtio_gpu_process_cmdq(g);
-     if (!QTAILQ_EMPTY(&g->cmdq) || !QTAILQ_EMPTY(&g->fenceq)) {
--        timer_mod(g->fence_poll, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +=
- 1);
-+        timer_mod(g->fence_poll, qemu_clock_get_us(QEMU_CLOCK_VIRTUAL) +
-+				  g->fence_poll_timeout);
-     }
- }
-=20
-@@ -605,13 +607,25 @@ void virtio_gpu_virgl_reset(VirtIOGPU *g)
- int virtio_gpu_virgl_init(VirtIOGPU *g)
- {
-     int ret;
-+    const char *val;
-=20
-     ret =3D virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
-     if (ret !=3D 0) {
-         return ret;
-     }
-=20
--    g->fence_poll =3D timer_new_ms(QEMU_CLOCK_VIRTUAL,
-+    g->fence_poll_timeout =3D 10000; /* default 10 ms */
-+    val =3D getenv("QEMU_VIRGL_POLL_FREQ");
-+    if (val) {
-+        unsigned long long poll_freq;
-+        if (parse_uint_full(val, &poll_freq, 10) || poll_freq > UINT32_M=
-AX) {
-+            fprintf(stderr, "VIRGL_POLL_FREQ: Invalid integer `%s'\n", v=
-al);
-+            exit(1);
-+        }
-+        g->fence_poll_timeout =3D 1000000 / (uint32_t)poll_freq;
-+    }
-+
-+    g->fence_poll =3D timer_new_us(QEMU_CLOCK_VIRTUAL,
-                                  virtio_gpu_fence_poll, g);
-=20
-     if (virtio_gpu_stats_enabled(g->conf)) {
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gp=
-u.h
-index 60425c5d58..a9e03b25aa 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -116,6 +116,7 @@ typedef struct VirtIOGPU {
-     bool renderer_reset;
-     QEMUTimer *fence_poll;
-     QEMUTimer *print_stats;
-+    uint32_t fence_poll_timeout;
-=20
-     uint32_t inflight;
-     struct {
---=20
-2.20.1
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/disas/capstone.h | 4 ++++
+>  configure                | 6 ++++++
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/include/disas/capstone.h b/include/disas/capstone.h
+> index e29068dd97..90631d84a9 100644
+> --- a/include/disas/capstone.h
+> +++ b/include/disas/capstone.h
+> @@ -3,7 +3,11 @@
+>  
+>  #ifdef CONFIG_CAPSTONE
+>  
+> +#ifdef CONFIG_CAPSTONE_CAPSTONE_H
+> +#include <capstone/capstone.h>
+> +#else
+>  #include <capstone.h>
+> +#endif
+>  
+>  #else
+>  
+> diff --git a/configure b/configure
+> index d2fc346302..eec7f061c3 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5021,6 +5021,9 @@ case "$capstone" in
+>    system)
+>      QEMU_CFLAGS="$QEMU_CFLAGS $($pkg_config --cflags capstone)"
+>      LIBS="$($pkg_config --libs capstone) $LIBS"
+> +    if check_include capstone/capstone.h; then
+> +      capstone_capstone_h=yes
+> +    fi
+>      ;;
+>  
+>    no)
+> @@ -7197,6 +7200,9 @@ if test "$ivshmem" = "yes" ; then
+>  fi
+>  if test "$capstone" != "no" ; then
+>    echo "CONFIG_CAPSTONE=y" >> $config_host_mak
+> +  if test "$capstone_capstone_h" != "no" ; then
+> +    echo "CONFIG_CAPSTONE_CAPSTONE_H=y" >> $config_host_mak
+> +  fi
+>  fi
+>  if test "$debug_mutex" = "yes" ; then
+>    echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
