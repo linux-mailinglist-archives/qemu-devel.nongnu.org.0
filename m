@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CEE27E3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:37:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36437 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5ACA27E95
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:46:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36665 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnuH-0005fz-EU
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:37:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34356)
+	id 1hTo3N-0003d6-4i
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:46:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35860)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hTnfF-0000nk-Gu
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:21:46 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTnjq-0005DE-1S
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:26:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hTnfE-0004oL-DF
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:21:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33518)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hTnfE-0004nx-6R
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:21:44 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 939B29FFC9;
-	Thu, 23 May 2019 13:21:42 +0000 (UTC)
-Received: from [10.3.116.169] (ovpn-116-169.phx2.redhat.com [10.3.116.169])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 72B621001E63;
-	Thu, 23 May 2019 13:21:30 +0000 (UTC)
-To: Pankaj Gupta <pagupta@redhat.com>, qemu-devel@nongnu.org
-References: <20190523102449.2642-1-pagupta@redhat.com>
-	<20190523102449.2642-2-pagupta@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
-	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
-	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
-	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
-	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
-	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
-	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
-	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
-	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
-	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
-	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
-	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
-	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
-	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
-	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
-	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
-	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
-	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
-	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
-	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
-	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
-	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
-	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <cf892fc7-37f8-5819-eba7-dd007ed4f2c5@redhat.com>
-Date: Thu, 23 May 2019 08:21:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <peter.maydell@linaro.org>) id 1hTnjo-0007HX-RW
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:26:30 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38926)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hTnjo-0007HB-Nn
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:26:28 -0400
+Received: by mail-ot1-x341.google.com with SMTP id r7so5387626otn.6
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=+msFrWg8pYsDoiAgT2Yt57n7J0ivFIp9RtalhZcUqvg=;
+	b=gk5/42pfe86K3GfnuSzlz2G5xyoGz0yDqNZouWBhUCsusL75HTvdQY5ZEt8J7ETarC
+	aq8AQ6qqIQP4dFmj5caRJeGsJawPiQIpKBG7R6MSlDPedz6VMguLluRBUabKkTEZkfsm
+	0U+t0fzIBGK5VshpbV3vkpZdqt4gIds3D8MGKp8EsOdAvs/AeHlIR8WgiNbJh56Q5uwh
+	QjUV88T9YM4eQl4FDLZ8IzItETeFVUkkXJ3un1XaxKQ5/v3RhPdKt9rDbOhfG2Y3R7hM
+	9dihCbisrmzWrkiuzQzz8RbBog8rb04mZ/ZVI8F3SG69kR4Gczg0Tq/Sbdh92hGsDVGE
+	WAQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=+msFrWg8pYsDoiAgT2Yt57n7J0ivFIp9RtalhZcUqvg=;
+	b=IY+bezfIF4j2bZ1zP5Iu8HTTC65/jtcAjz7YWuSTQtB3KvEheo4yhiJGFf7QTmiAFP
+	rz43sH6mI/dbF28sxZa0YD6/PMN2JgqliSj8ThZLUlpr4BgGtiGv/eEO1KlNFp9eq31v
+	fvgHGPIAFtG7+bcWGXRIdNH9HrbTgIe0GVy0UerBjpSzcItbB6o3whUIB2ILzw6Um8hV
+	bq1hicYiKfsiuMu9k6NPMIU4ePdeYn6Nj3egpyfnfzz8Z7fKSLFIn+WGJ8glVHrXmyPf
+	rP5T8Q/cEupxh3QnOQFxwSu2Aa32xorgnPg0EVhqo9Fj6Uldmk59w4ampxM/YOv2ur1u
+	Hwnw==
+X-Gm-Message-State: APjAAAXjkt65YnafWNHDyfmBfO4RtT9HDOrJTGveug+vpTNbXe5gCoHb
+	/bfUwZzvcw28i+ziTpDXAaUMmOkbWU8keLL4bkv3Ws6qcN0=
+X-Google-Smtp-Source: APXvYqx6l7gLCrhREjRNayyV9qwIWKpfAjUAQjjkOsWIAq6wrErlIWBydFL0RqcpGTZMZwBlJ1DnRvhdA39Nql44sbw=
+X-Received: by 2002:a9d:5608:: with SMTP id e8mr204221oti.135.1558617987191;
+	Thu, 23 May 2019 06:26:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190523102449.2642-2-pagupta@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="xwUJTxDGNncjdz9XJnty5Stunhs88gmLR"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Thu, 23 May 2019 13:21:43 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 1/7] virtio-pmem: add virtio device
+References: <1558550785-20098-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1558550785-20098-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 14:26:16 +0100
+Message-ID: <CAFEAcA_gW9PZFTB42LRXCPcD+aiWBdH3TQX7nHad_5=ioRm-ug@mail.gmail.com>
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH 0/5] linux-user: Support signal passing for
+ targets having more signals than host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,135 +72,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, aarcange@redhat.com, cohuck@redhat.com,
-	xiaoguangrong.eric@gmail.com, mst@redhat.com, riel@surriel.com,
-	david@redhat.com, armbru@redhat.com, ehabkost@redhat.com,
-	lcapitulino@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
-	imammedo@redhat.com, dan.j.williams@intel.com, nilal@redhat.com,
-	dgilbert@redhat.com, rth@twiddle.net
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	=?UTF-8?B?TWlsb8WhIFN0b2phbm92acSH?= <milos.stojanovic@rt-rk.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xwUJTxDGNncjdz9XJnty5Stunhs88gmLR
-From: Eric Blake <eblake@redhat.com>
-To: Pankaj Gupta <pagupta@redhat.com>, qemu-devel@nongnu.org
-Cc: mst@redhat.com, lcapitulino@redhat.com, dan.j.williams@intel.com,
- kwolf@redhat.com, imammedo@redhat.com, nilal@redhat.com, riel@surriel.com,
- stefanha@redhat.com, aarcange@redhat.com, david@redhat.com,
- cohuck@redhat.com, xiaoguangrong.eric@gmail.com, pbonzini@redhat.com,
- armbru@redhat.com, dgilbert@redhat.com, marcel.apfelbaum@gmail.com,
- rth@twiddle.net, ehabkost@redhat.com
-Message-ID: <cf892fc7-37f8-5819-eba7-dd007ed4f2c5@redhat.com>
-Subject: Re: [PATCH 1/7] virtio-pmem: add virtio device
-References: <20190523102449.2642-1-pagupta@redhat.com>
- <20190523102449.2642-2-pagupta@redhat.com>
-In-Reply-To: <20190523102449.2642-2-pagupta@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, 22 May 2019 at 19:57, Aleksandar Markovic
+<aleksandar.markovic@rt-rk.com> wrote:
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> Most of the targets (including Intel) define 64 signals. This
+> creates difficulties for targets that define, for example, 128
+> signals. This series adds support for signal passing even if
+> the host defines less signals than the target.
 
-On 5/23/19 5:24 AM, Pankaj Gupta wrote:
-> This is the implementation of virtio-pmem device. Support will require
-> machine changes for the architectures that will support it, so it will
-> not yet be compiled. It can be unlocked with VIRTIO_PMEM_SUPPORTED per
-> machine and disabled globally via VIRTIO_PMEM.
->=20
-> We cannot use the "addr" property as that is already used e.g. for
-> virtio-pci/pci devices. And we will have e.g. virtio-pmem-pci as a prox=
-y.
-> So we have to choose a different one (unfortunately). "memaddr" it is.
-> That name should ideally be used by all other virtio-* based memory
-> devices in the future.
->     -device virtio-pmem-pci,id=3Dp0,bus=3Dbux0,addr=3D0x01,memaddr=3D0x=
-1000000...
->=20
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> [ QAPI bits ]
-> Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-> [ MemoryDevice/MemoryRegion changes, cleanups, addr property "memaddr",=
+Could you elaborate a bit on how much functionality
+is provided for signal numbers which the target has
+but the host does not? For instance, it seems likely
+that attempts by the guest to kill(other_pid, sig) will
+fail if sig is not in the supported-by-the-target range.
+But is it possible for the guest process to deliver
+one of these signals to itself ?
 
->   split up patches, unplug handler ]
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
+This patchset is interesting because in fact pretty much
+every target supports more signals than our host code
+can provide, because the host libc steals several
+signals for its own purposes and QEMU can't use them.
+Being able to multiplex several guest signals onto
+one host signal might let us run some guest binaries
+we currently can't handle correctly.
 
-> +++ b/qapi/misc.json
-> @@ -2742,16 +2742,42 @@
->            }
->  }
-> =20
-> +##
-> +# @VirtioPMEMDeviceInfo:
-> +#
-> +# VirtioPMEM state information
-> +#
-> +# @id: device's ID
-> +#
-> +# @memaddr: physical address in memory, where device is mapped
-> +#
-> +# @size: size of memory that the device provides
-> +#
-> +# @memdev: memory backend linked with device
-> +#
-> +# Since: 4.0
-
-You've missed 4.0; this should be 4.1.
-
-> +##
-> +{ 'struct': 'VirtioPMEMDeviceInfo',
-> +  'data': { '*id': 'str',
-
-Why is id optional? Does it make sense to have a device without an id?
-
-> +            'memaddr': 'size',
-> +            'size': 'size',
-> +            'memdev': 'str'
-> +          }
-> +}
-> +
->  ##
->  # @MemoryDeviceInfo:
->  #
->  # Union containing information about a memory device
->  #
-> +# nvdimm is included since 2.12. virtio-pmem is included since 4.0.
-
-4.1
-
-> +#
->  # Since: 2.1
->  ##
->  { 'union': 'MemoryDeviceInfo',
->    'data': { 'dimm': 'PCDIMMDeviceInfo',
-> -            'nvdimm': 'PCDIMMDeviceInfo'
-> +            'nvdimm': 'PCDIMMDeviceInfo',
-> +            'virtio-pmem': 'VirtioPMEMDeviceInfo'
->            }
->  }
-> =20
->=20
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---xwUJTxDGNncjdz9XJnty5Stunhs88gmLR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzmnlkACgkQp6FrSiUn
-Q2q5SQgAq+8wsDxPivw9sd+Lf65lKx2LmgRhmgW2kNMmyaMxbUuoKJ1jOiesv5XR
-riP2zLwfHUD54/vnf02JV3x/fqVn1OeDN4Na5DQIG8fA1+SXBWxOqAusI/Q5e9E7
-S9rS2DfuwE6wOCnjTg21/M6nYQWoV5FttFkXtbNC0pqWw68Gu73vRNJOtvA9l+HL
-Q+in+NnMJyiuOYJFES+ic9nGlM/9zlyIK21wngdAgjzznBEtxuHq6+f8gjkawIpK
-/BbIZVeBt6mLkVzTm4MbQMKfxbeRyo719k1WSieCfZ/f1Xgdusgk3dl6MQtHpmLf
-0ogojh97Omgt7Q5g6uAfX6Hko+7Nbw==
-=GgyT
------END PGP SIGNATURE-----
-
---xwUJTxDGNncjdz9XJnty5Stunhs88gmLR--
+thanks
+-- PMM
 
