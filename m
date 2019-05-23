@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E176C28DF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 01:42:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44678 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D793D28E03
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 01:44:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44692 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTxMO-0008G4-3b
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 19:42:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39024)
+	id 1hTxOE-0001A6-3W
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 19:44:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39047)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hTxKO-0007Ja-6Q
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 19:40:52 -0400
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hTxKZ-0007TG-7a
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 19:41:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hTxKM-0003Qq-AE
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 19:40:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58826)
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hTxKY-0003e5-67
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 19:41:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33328)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
-	id 1hTxKM-0003Oj-5D
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 19:40:50 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	id 1hTxKY-0003dQ-16
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 19:41:02 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B67E85946F;
-	Thu, 23 May 2019 23:40:38 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 46184772DD;
+	Thu, 23 May 2019 23:40:48 +0000 (UTC)
 Received: from localhost (ovpn-112-51.ams2.redhat.com [10.36.112.51])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 28E3C5C239;
-	Thu, 23 May 2019 23:40:31 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 53A2E600C4;
+	Thu, 23 May 2019 23:40:40 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 01:40:10 +0200
-Message-Id: <20190523234011.583-4-marcandre.lureau@redhat.com>
+Date: Fri, 24 May 2019 01:40:11 +0200
+Message-Id: <20190523234011.583-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20190523234011.583-1-marcandre.lureau@redhat.com>
 References: <20190523234011.583-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Thu, 23 May 2019 23:40:38 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.26]);
+	Thu, 23 May 2019 23:40:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/4] docker: update fedora to f30
+Subject: [Qemu-devel] [PATCH 4/4] qemu-sockets: do not require configured
+ ipv4/ipv6 address
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,24 +67,53 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Released last month.
+podman containers without network don't have ipv4/ipv6 addresses other
+than loopback address. However, some of our tests require
+getaddrinfo("127.0.0.1") to succeed.
+
+Alternatively, we may want to treat 127.0.0.1 as a special case, to
+keep the AI_ADDRCONFIG convenience.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- tests/docker/dockerfiles/fedora.docker | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ util/qemu-sockets.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
-files/fedora.docker
-index 69d4a7f5d7..1496b68ba1 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,4 +1,4 @@
--FROM fedora:29
-+FROM fedora:30
- ENV PACKAGES \
-     bc \
-     bison \
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 8850a280a8..f9c1392a05 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -31,10 +31,6 @@
+ #include "qapi/qobject-output-visitor.h"
+ #include "qemu/cutils.h"
+=20
+-#ifndef AI_ADDRCONFIG
+-# define AI_ADDRCONFIG 0
+-#endif
+-
+ #ifndef AI_V4MAPPED
+ # define AI_V4MAPPED 0
+ #endif
+@@ -385,7 +381,7 @@ static struct addrinfo *inet_parse_connect_saddr(Inet=
+SocketAddress *saddr,
+=20
+     memset(&ai, 0, sizeof(ai));
+=20
+-    ai.ai_flags =3D AI_CANONNAME | AI_ADDRCONFIG;
++    ai.ai_flags =3D AI_CANONNAME;
+     if (atomic_read(&useV4Mapped)) {
+         ai.ai_flags |=3D AI_V4MAPPED;
+     }
+@@ -472,7 +468,7 @@ static int inet_dgram_saddr(InetSocketAddress *sraddr=
+,
+=20
+     /* lookup peer addr */
+     memset(&ai,0, sizeof(ai));
+-    ai.ai_flags =3D AI_CANONNAME | AI_V4MAPPED | AI_ADDRCONFIG;
++    ai.ai_flags =3D AI_CANONNAME | AI_V4MAPPED;
+     ai.ai_family =3D inet_ai_family_from_address(sraddr, &err);
+     ai.ai_socktype =3D SOCK_DGRAM;
+=20
 --=20
 2.22.0.rc1.1.g079e7d2849.dirty
 
