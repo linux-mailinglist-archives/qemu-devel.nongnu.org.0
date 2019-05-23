@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACF7280BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 17:15:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38605 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1AA280D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 17:18:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38660 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTpR8-0004ec-Eq
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 11:15:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41253)
+	id 1hTpTm-0006QB-QZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 11:18:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41397)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTpOV-0002sw-Tp
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:12:36 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hTpOm-00037y-1x
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:12:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTpOV-0005ho-1F
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:12:35 -0400
-Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:33678)
+	(envelope-from <richard.henderson@linaro.org>) id 1hTpOl-0005vj-3T
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:12:52 -0400
+Received: from mail-vk1-xa43.google.com ([2607:f8b0:4864:20::a43]:45848)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTpOU-0005h2-PL
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:12:34 -0400
-Received: by mail-vs1-xe42.google.com with SMTP id y6so3822488vsb.0
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:12:34 -0700 (PDT)
+	id 1hTpOk-0005vE-V5
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:12:51 -0400
+Received: by mail-vk1-xa43.google.com with SMTP id r23so1421980vkd.12
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=wC3UR6u8dZDnh7XynwOzXaqOC8XFwBxoBcdv7qIHYfE=;
-	b=HMLIUHgJih2oVMi2BlQb+ltJN/RC4l5uklDdKiGnrBr4vmtEeiQrMGfwOSmXJ18ONX
-	3/aSi6uZE38niukwdpXCqFi94JX4Gw6/oBYEklMSuNUEMeTVhX1OEKOUQvi+mXSChd35
-	4jn5Winh9cZTBSVWPTTFA5f9IlERokcFiVDUt7WlT/Gkepp6zqEijIYNj396Kh+vuJ7L
-	AGlxf+v4kHO2HW3ZkmcpRmNmRy1AtWi0qWi1/hU7aLfrbAlCBnhboWDe7TMPKQsJXSZ3
-	jmrEe9mHJknjhlnPHsgNnCVaBZ+EbIqvdPkgOUNvQm48jA9DfEkNHKkTnMx7jxF9pk48
-	8KyA==
+	bh=QNQKpv2CPlGI9NxgyqLnOGzLix5RD0rVAppORD+LUIE=;
+	b=CsvkUwydNuPhla8uuhy1+uX1TPpYxfzKB56xJv/2mHBFUJHjQd6zUBr8mDvVGPbARm
+	+NPWnS79w0KyDvp4/FYY4n9K3AEDU7LjWLCucIOqMZACEifuB3+vDEk4uz29gM2GgsL6
+	Hv1+R1X07byI3F6mSqcLp5p35uJDFXCiSIJmuoo/+r+jZl8DDoNks4pE4Ar96B2IfUHU
+	QY4fNcmx80a7KGs0o3ONyt88tW3ZTYflFutCKfGwdJzEp3Wvrj6b85ijq2R1Ec2uCjjp
+	UxpkRYWrd8ck4pwz8jdlcnolr7rBdGz1F78dDxP/ZDoeEGJMKra/0d6c1tp2+kjZ2VbJ
+	1l5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=wC3UR6u8dZDnh7XynwOzXaqOC8XFwBxoBcdv7qIHYfE=;
-	b=Y5yeqQJLwD9tSluGQ6jYeXwVCcQiEFL3WJ98pCQPhtaOBtluTF2dTTU0s2XUmwBKna
-	VqpZR7D6CIYXZuskwzOGlTVWB9WCa1bRXkA4WMr/RYVTb4szbtmltzWtCLcuHBU1OK9C
-	4eE3VEKw0X+ktFZJRlH+R6Oa0SD2hqXGKIyejOoIn8H8ixHWubyZJWhmObZuB3Qjb7Y+
-	CJnE5xGKg2WpywCRv90CYOZF1JL594PhhXmcyfVt9mQSNKzVvwnPh+uSgED8TDvVESXF
-	0RcCUh2dziErVkQuM1oc+uQjLTYdnVGm1UQFI+K8vHZ+ccrO5HVBBXcS28o0JSR9+fxu
-	z3vA==
-X-Gm-Message-State: APjAAAU/9OWwErmp8ZmN0m5UChFaGGMe52hfZE4CJYkNAzxBGWG3nndg
-	3uQ2/pbt5NDiH8Ts1/7YSBbkJg==
-X-Google-Smtp-Source: APXvYqw33ySFh92vOl0HjHAeIoMUhaFTBZCqbcBmpDxH4I+bv7tGDEiHjhX1LMrO79HwjfH4K/ysEg==
-X-Received: by 2002:a05:6102:1c7:: with SMTP id
-	s7mr31887879vsq.136.1558624353876; 
-	Thu, 23 May 2019 08:12:33 -0700 (PDT)
+	bh=QNQKpv2CPlGI9NxgyqLnOGzLix5RD0rVAppORD+LUIE=;
+	b=TXmm0s/3WPAZFH3QLb8u/nuAK//yae5GF6eonNkkLp8jrDmjZg/qz3sp2Yd12koyNH
+	a9oupNWh72K/y1ZoGtn8wILlv4/iHERffGukWn+zo0UpIIp6VtTwCahCIRxfEfncq4JW
+	AwSuB8iSdclulW7VaV/H3F9sT+aMIqmTbbfj9liTP85Wz+9v6V25QpacKaB1EDM9DZEP
+	aEsaa2ejWNGbFjq3mHOV3fjW3/PQQ04E0B+mogen+GNWUdLE7ue+LtCTmPHMHgu0u+Tx
+	/y6o0WW+Yfw4eisU/ficiuyRAeW5kNrJXNVrjZ/aK7V3broSvzqxL63BaNw3/1EnDxsx
+	nGCg==
+X-Gm-Message-State: APjAAAVGfWdeCl/jEpwZ4F81dS3X/IqMO29zlkfPDmhpCL6+fBVFLTTf
+	+rguPLRi5jirFClEibp9HTtj2Q==
+X-Google-Smtp-Source: APXvYqzWGkHUG0Grl78bAvYjrDbidLqxMD1YAiVKp3KJ5Db4/JGTEFV8e40Qs+PDU/sog4cDa+8P9Q==
+X-Received: by 2002:a1f:c2c1:: with SMTP id s184mr1944645vkf.65.1558624370062; 
+	Thu, 23 May 2019 08:12:50 -0700 (PDT)
 Received: from [192.168.43.94] (ip-173-130-215-183.orldfl.spcsdns.net.
 	[173.130.215.183]) by smtp.gmail.com with ESMTPSA id
-	143sm13796557vkj.44.2019.05.23.08.12.31
+	e19sm2927405vsc.24.2019.05.23.08.12.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 08:12:33 -0700 (PDT)
+	Thu, 23 May 2019 08:12:49 -0700 (PDT)
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
 	qemu-devel@nongnu.org
 References: <20190523102532.10486-1-alex.bennee@linaro.org>
-	<20190523102532.10486-2-alex.bennee@linaro.org>
+	<20190523102532.10486-3-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <e6c89c18-48df-c85d-39a4-2299f1026cf4@linaro.org>
-Date: Thu, 23 May 2019 11:12:30 -0400
+Message-ID: <14e1cffb-9912-6752-1dc1-566ff86197a5@linaro.org>
+Date: Thu, 23 May 2019 11:12:46 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190523102532.10486-2-alex.bennee@linaro.org>
+In-Reply-To: <20190523102532.10486-3-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::e42
-Subject: Re: [Qemu-devel] [PATCH v2 01/28] semihosting: move semihosting
- configuration into its own directory
+X-Received-From: 2607:f8b0:4864:20::a43
+Subject: Re: [Qemu-devel] [PATCH v2 02/28] semihosting: introduce
+ CONFIG_SEMIHOSTING
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,10 +86,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, Chris Wulff <crwulff@gmail.com>,
-	Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Walle <michael@walle.cc>, qemu-arm@nongnu.org,
+Cc: Marek Vasut <marex@denx.de>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+	Chris Wulff <crwulff@gmail.com>,
+	Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
 	Aleksandar Markovic <amarkovic@wavecomp.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
@@ -99,15 +97,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/23/19 6:25 AM, Alex Bennée wrote:
-> In preparation for having some more common semihosting code let's
-> excise the current config magic from vl.c into its own file. We shall
-> later add more conditionals to the build configurations so we can
-> avoid building this if we don't need it.
+> There isn't much point building semihosting for platforms that don't
+> support it. Introduce a new symbol and enable it only for the softmmu
+> targets that need it.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
+>  default-configs/arm-softmmu.mak         |  1 +
+>  default-configs/lm32-softmmu.mak        |  2 +
+>  default-configs/m68k-softmmu.mak        |  2 +
+>  default-configs/mips-softmmu-common.mak |  1 +
+>  default-configs/nios2-softmmu.mak       |  2 +
+>  default-configs/xtensa-softmmu.mak      |  2 +
+>  hw/Kconfig                              |  1 +
+>  hw/semihosting/Kconfig                  |  3 ++
+>  hw/semihosting/Makefile.objs            |  2 +-
+>  stubs/Makefile.objs                     |  1 +
+>  stubs/semihost.c                        | 66 +++++++++++++++++++++++++
+>  11 files changed, 82 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/semihosting/Kconfig
+>  create mode 100644 stubs/semihost.c
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
