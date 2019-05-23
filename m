@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F372728BCB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:47:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43095 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 503EB28BED
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:53:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43170 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTucU-0007Rl-4X
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:47:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37379)
+	id 1hTuiA-0004Bu-Ea
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:53:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37456)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hTuZr-00064V-Er
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:40 -0400
+	(envelope-from <jan.bobek@gmail.com>) id 1hTuZz-0006CM-4A
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hTuZp-00035s-It
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:39 -0400
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:35350)
+	(envelope-from <jan.bobek@gmail.com>) id 1hTuZt-0003CZ-Gv
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:45 -0400
+Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:39385)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hTuZn-000333-KJ
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:37 -0400
-Received: by mail-yb1-xb42.google.com with SMTP id s69so2620303ybi.2
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:44:34 -0700 (PDT)
+	(Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hTuZr-00038v-LC
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:41 -0400
+Received: by mail-yw1-xc43.google.com with SMTP id w21so2786526ywd.6
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:44:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=DWaxu9uiHa4VqUgpO4mPbqlseFRB8XqATreonAM1ocs=;
-	b=omd2HmvHUWB31GaHLP728PLGg48qZ7ELwgtPgcYJXYiFNo97N0QqsmQEubo0DpUtqw
-	WWa1jv1zeCpavvHRCHBbjK29hAf0fEqzCdJGb+wOoJyzkDBKj2FLrTLTMpRuYD/nelnf
-	VHsscQ5hnrc8d6o8F/Yzq24apajNtgmSlsQRcBVw8xxrWYshQXNJLOcgy+2gbTJzNBPl
-	BeKg95dtY3HS0yTU2a7XQL2r2CY0CzCygVBFHGBwCnQ43O0Jk2YP0m2Dyog+MklQ9q4n
-	azOyJk/bzMMk7N5NJzBU+GE/cN24CpYkZprFZgR0g2kUPCOuXj8PfND8eS+GVrb7clxH
-	myHw==
+	bh=Wv0YAF1rZ6KrPU3tosAjlI/qAdfuoWauzAhliLX3BEs=;
+	b=Sfs7P+1AxsKND4DQAlJwytdjXiqMzxGbiZcmdLnpm+Haqzc4uKX6sB5lerTw8VL0mR
+	QiGXg8k/X6zsWUQs+8fHu8ohQcKRZqWd0lFzWl2kmKjJVJUSW4+T1eAXiQOjxznXlpc5
+	QwQM1BcUmTvqyr3mJ4EtBbtBb+G+2KajREVH+WtbXBHKHTCm4frcFNsUjgrkqiq8h5zE
+	4kiTSEl1UvgZF05MUpEDLJ3vGfBQNOBopxqJWH/Ng51TXSQdOi3ZSW1MadZABH6puxCV
+	5dERXMooTC7QhcXdbXqj2WVncA5VkCNOT3d38Pv8NZYRPKl3xgM/l1ve8Nive41q2tVf
+	7REA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=DWaxu9uiHa4VqUgpO4mPbqlseFRB8XqATreonAM1ocs=;
-	b=eS7oGA2KmDmznwaFRcbHzz8I936xUaevsA8MpmroQfdjX3vu3Ko16b/61GVyhShKE7
-	tXM0Pj2eGaCWDQrN069XazAVytD07Tzuj7NuWsRppxATcqWmvD4VwoRg8TDUA4QbgH8y
-	doAI0gwQPoFwdqhP2mXrPD19F6yzSpjiyhNJHELHk2d6CZZrKNwQn3sczgclgcRv3Vwb
-	Cb2pwj5yOIWSEUrkID3R/+rkhlRdsE9t/GdVBHyGzpTTGrWFGKGe4ejcYF+O4cmyBOPG
-	aYUNzFvQWrFrFnjZvz7V8jMGpFZzDDkgS580CWC4hvFD7o+EoS1j2/fkvj/b+KqEBeAa
-	Cnzw==
-X-Gm-Message-State: APjAAAXE04dfz49CqwWCFZdXb8nf4aydXi/JLSbfghYxEFJX2hBMaLGe
-	siEp/Pe3EpytUOQHeOBidPFXWibl
-X-Google-Smtp-Source: APXvYqzntVuupXDMaMa1iu+UoYxRRIOmiHWXUfxIbYzIRk+GIObfiwnwuYPkXyT/G/XJwCldK1lLjw==
-X-Received: by 2002:a25:cb43:: with SMTP id b64mr24063415ybg.509.1558644273827;
-	Thu, 23 May 2019 13:44:33 -0700 (PDT)
+	bh=Wv0YAF1rZ6KrPU3tosAjlI/qAdfuoWauzAhliLX3BEs=;
+	b=AGMV6TarX10v3sUZBgsGj0zvKfPTavzr1aTZnKkDc8RKDLiYgZFEG6vkpNCmArsikt
+	l2RvEi2c7+KjsAPdNQeEuLvcdak2d3apjELKYX/6Qoj2h+76Nh0BN7hQYDv0J8feTFc8
+	vXIDXY4tHALrRRTIuuLKlNoeZTZDKpuJfxFU4HEHtsKVjZ1m2E09LWMOr+kvMX34Wqnt
+	5ESZsFJenTFEXjy1a9R+WR6aOQHkrmabuPXo37ZATJUXTL79MIUVplMfv+eXm5QqbYl9
+	wyrdF/ynf6qEdXxl+t9725DbAd8Jn3DKZGwJGLt5xz/LPwFHUUffj0X6UIKxNjxcXsEQ
+	QZcA==
+X-Gm-Message-State: APjAAAXYkgbsw4nBqrWjjV9Uc+BdAkE/MT/Qx8sdE1luxPv5kqehDImD
+	jJGPjhqN1I8N5Artrorm+JCCio16
+X-Google-Smtp-Source: APXvYqxVah+fMA7SaNhiHbvkHANBwiv0gcpjsAkLQsS6K/fWvYhk7U3wUwA0f+vQP+qr7lpPuVFK5Q==
+X-Received: by 2002:a81:b3c4:: with SMTP id
+	r187mr19261194ywh.217.1558644278092; 
+	Thu, 23 May 2019 13:44:38 -0700 (PDT)
 Received: from dionysus.attlocal.net
 	(69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
-	by smtp.gmail.com with ESMTPSA id p12sm87590ywg.72.2019.05.23.13.44.33
+	by smtp.gmail.com with ESMTPSA id p12sm87590ywg.72.2019.05.23.13.44.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 13:44:33 -0700 (PDT)
+	Thu, 23 May 2019 13:44:37 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 16:44:04 -0400
-Message-Id: <20190523204409.21068-7-jan.bobek@gmail.com>
+Date: Thu, 23 May 2019 16:44:05 -0400
+Message-Id: <20190523204409.21068-8-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523204409.21068-1-jan.bobek@gmail.com>
 References: <20190523204409.21068-1-jan.bobek@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::b42
-Subject: [Qemu-devel] [RISU v3 06/11] risu_i386: remove old unused code
+X-Received-From: 2607:f8b0:4864:20::c43
+Subject: [Qemu-devel] [RISU v3 07/11] test_i386: change syntax from nasm to
+ gas
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,90 +85,114 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code being removed is a remnant of the past implementation; it has
-since been replaced by its more powerful, architecture-independent
-counterpart in reginfo.c.
+This allows us to drop dependency on NASM and build the test image
+with GCC only. Adds support for x86_64, too.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- risu_i386.c | 58 -----------------------------------------------------
- 1 file changed, 58 deletions(-)
+ Makefile    |  3 +++
+ test_i386.S | 41 +++++++++++++++++++++++++++++++++++++++++
+ test_i386.s | 27 ---------------------------
+ 3 files changed, 44 insertions(+), 27 deletions(-)
+ create mode 100644 test_i386.S
+ delete mode 100644 test_i386.s
 
-diff --git a/risu_i386.c b/risu_i386.c
-index 06d95e5..9962b8f 100644
---- a/risu_i386.c
-+++ b/risu_i386.c
-@@ -16,13 +16,6 @@
- #include "risu.h"
- #include "risu_reginfo_i386.h"
+diff --git a/Makefile b/Makefile
+index b362dbe..6ab014a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -49,6 +49,9 @@ $(PROG): $(OBJS)
+ %_$(ARCH).elf: %_$(ARCH).s
+ 	$(AS) -o $@ $<
  
--struct reginfo master_ri, apprentice_ri;
++%_$(ARCH).elf: %_$(ARCH).S
++	$(CC) $(CPPFLAGS) -o $@ -c $<
++
+ clean:
+ 	rm -f $(PROG) $(OBJS) $(BINS)
+ 
+diff --git a/test_i386.S b/test_i386.S
+new file mode 100644
+index 0000000..456b99c
+--- /dev/null
++++ b/test_i386.S
+@@ -0,0 +1,41 @@
++/*#############################################################################
++ * Copyright (c) 2010 Linaro Limited
++ * All rights reserved. This program and the accompanying materials
++ * are made available under the terms of the Eclipse Public License v1.0
++ * which accompanies this distribution, and is available at
++ * http://www.eclipse.org/legal/epl-v10.html
++ *
++ * Contributors:
++ *     Peter Maydell (Linaro) - initial implementation
++ *###########################################################################*/
++
++/* A trivial test image for x86 */
++
++/* Initialise the registers to avoid spurious mismatches */
++	xor	%eax, %eax
++	sahf				/* init eflags */
++
++	mov	$0x12345678, %eax
++	mov	$0x9abcdef0, %ebx
++	mov	$0x97361234, %ecx
++	mov	$0x84310284, %edx
++	mov	$0x83624173, %edi
++	mov	$0xfaebfaeb, %esi
++	mov	$0x84610123, %ebp
++
++#ifdef __x86_64__
++	movq	$0x123456789abcdef0, %r8
++	movq	$0xaaaabbbbccccdddd, %r9
++	movq	$0x1010101010101010, %r10
++	movq	$0x1111111111111111, %r11
++	movq	$0x1212121212121212, %r12
++	movq	$0x1313131313131313, %r13
++	movq	$0x1414141414141414, %r14
++	movq	$0x1515151515151515, %r15
++#endif
++
++/* do compare */
++	ud1	%eax, %eax
++
++/* exit test */
++	ud1	%ecx, %eax
+diff --git a/test_i386.s b/test_i386.s
+deleted file mode 100644
+index a2140a0..0000000
+--- a/test_i386.s
++++ /dev/null
+@@ -1,27 +0,0 @@
+-;###############################################################################
+-;# Copyright (c) 2010 Linaro Limited
+-;# All rights reserved. This program and the accompanying materials
+-;# are made available under the terms of the Eclipse Public License v1.0
+-;# which accompanies this distribution, and is available at
+-;# http://www.eclipse.org/legal/epl-v10.html
+-;#
+-;# Contributors:
+-;#     Peter Maydell (Linaro) - initial implementation
+-;###############################################################################
 -
--static int insn_is_ud2(uint32_t insn)
--{
--    return ((insn & 0xffff) == 0x0b0f);
--}
+-; A trivial test image for x86
 -
- void advance_pc(void *vuc)
- {
-     ucontext_t *uc = (ucontext_t *) vuc;
-@@ -57,54 +50,3 @@ uintptr_t get_pc(struct reginfo *ri)
- {
-     return ri->gregs[REG_E(IP)];
- }
+-BITS 32
+-; Initialise the registers to avoid spurious mismatches
+-mov eax, 0x12345678
+-mov ebx, 0x9abcdef0
+-mov ecx, 0x97361234
+-mov edx, 0x84310284
+-mov edi, 0x83624173
+-mov esi, 0xfaebfaeb
+-mov ebp, 0x84610123
+-; UD1 : do compare
+-UD1
 -
--int send_register_info(int sock, void *uc)
--{
--    struct reginfo ri;
--    fill_reginfo(&ri, uc);
--    return send_data_pkt(sock, &ri, sizeof(ri));
--}
--
--/* Read register info from the socket and compare it with that from the
-- * ucontext. Return 0 for match, 1 for end-of-test, 2 for mismatch.
-- * NB: called from a signal handler.
-- */
--int recv_and_compare_register_info(int sock, void *uc)
--{
--    int resp;
--    fill_reginfo(&master_ri, uc);
--    recv_data_pkt(sock, &apprentice_ri, sizeof(apprentice_ri));
--    if (memcmp(&master_ri, &apprentice_ri, sizeof(master_ri)) != 0) {
--        /* mismatch */
--        resp = 2;
--    } else if (insn_is_ud2(master_ri.faulting_insn)) {
--        /* end of test */
--        resp = 1;
--    } else {
--        /* either successful match or expected undef */
--        resp = 0;
--    }
--    send_response_byte(sock, resp);
--    return resp;
--}
--
--/* Print a useful report on the status of the last comparison
-- * done in recv_and_compare_register_info(). This is called on
-- * exit, so need not restrict itself to signal-safe functions.
-- * Should return 0 if it was a good match (ie end of test)
-- * and 1 for a mismatch.
-- */
--int report_match_status(void)
--{
--    fprintf(stderr, "match status...\n");
--    fprintf(stderr, "master reginfo:\n");
--    dump_reginfo(&master_ri);
--    fprintf(stderr, "apprentice reginfo:\n");
--    dump_reginfo(&apprentice_ri);
--    if (memcmp(&master_ri, &apprentice_ri, sizeof(master_ri)) == 0) {
--        fprintf(stderr, "match!\n");
--        return 0;
--    }
--    fprintf(stderr, "mismatch!\n");
--    return 1;
--}
+-; UD2 : exit test
+-UD2
 -- 
 2.20.1
 
