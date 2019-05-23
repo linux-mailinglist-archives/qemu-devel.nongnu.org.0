@@ -2,60 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ECCF27EF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:00:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36897 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1644C27EC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:51:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36764 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hToGF-0005Dp-9P
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:59:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42586)
+	id 1hTo8F-0007Dy-7w
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:51:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43168)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <crosa@redhat.com>) id 1hTo1w-00037O-5k
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:45:13 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hTo4o-00052m-5u
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:48:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <crosa@redhat.com>) id 1hTo1u-0006TG-PK
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:45:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41076)
+	(envelope-from <imammedo@redhat.com>) id 1hTo4m-00027y-Ah
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:48:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51000)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hTo1u-0006SJ-I3
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:45:10 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
+	id 1hTo4m-00026Y-1c; Thu, 23 May 2019 09:48:08 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C37A17EBAE;
-	Thu, 23 May 2019 13:45:04 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
-	(colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B511D5C69A;
-	Thu, 23 May 2019 13:45:02 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
-	(zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 956EB1806B12;
-	Thu, 23 May 2019 13:45:01 +0000 (UTC)
-Date: Thu, 23 May 2019 09:45:01 -0400 (EDT)
-From: Cleber Rosa <crosa@redhat.com>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Message-ID: <1094559891.24356881.1558619101528.JavaMail.zimbra@redhat.com>
-In-Reply-To: <CAL1e-=iW2honEgNfrsFoA0tU1wMq0mw5LuoRbWVmRDBMA22ELA@mail.gmail.com>
-References: <20190520231910.12184-1-f4bug@amsat.org>
-	<20190522211230.GA10764@habkost.net>
-	<1711852617.24204010.1558561566547.JavaMail.zimbra@redhat.com>
-	<CAL1e-=iW2honEgNfrsFoA0tU1wMq0mw5LuoRbWVmRDBMA22ELA@mail.gmail.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 32D7CC065135;
+	Thu, 23 May 2019 13:47:55 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9BCAE68404;
+	Thu, 23 May 2019 13:47:48 +0000 (UTC)
+Date: Thu, 23 May 2019 15:47:43 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Message-ID: <20190523154743.5fdd4b81@redhat.com>
+In-Reply-To: <20190508061726.27631-4-tao3.xu@intel.com>
+References: <20190508061726.27631-1-tao3.xu@intel.com>
+	<20190508061726.27631-4-tao3.xu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.36.116.137, 10.4.195.29]
-Thread-Topic: mips: Add more Avocado tests
-Thread-Index: qL03d4Fa+xRGiw5N1qPYZ47/U0zyvA==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Thu, 23 May 2019 13:45:09 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Thu, 23 May 2019 13:48:02 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/4] mips: Add more Avocado tests
+Subject: Re: [Qemu-devel] [PATCH v4 03/11] numa: move numa global variable
+ numa_info into MachineState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,127 +58,353 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
-	Wainer dos Santos Moschetta <wainersm@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
+	qemu-devel@nongnu.org, ehabkost@redhat.com, qemu-ppc@nongnu.org,
+	pbonzini@redhat.com, david@gibson.dropbear.id.au, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed,  8 May 2019 14:17:18 +0800
+Tao Xu <tao3.xu@intel.com> wrote:
 
+> The aim of this patch is to move existing numa global numa_info
+> (renamed as "nodes") into NumaState.
 
------ Original Message -----
-> From: "Aleksandar Markovic" <aleksandar.m.mail@gmail.com>
-> To: "Cleber Rosa" <crosa@redhat.com>
-> Cc: "Wainer dos Santos Moschetta" <wainersm@redhat.com>, "Aleksandar Mark=
-ovic" <amarkovic@wavecomp.com>,
-> qemu-devel@nongnu.org, "Aleksandar Rikalo" <arikalo@wavecomp.com>, "Eduar=
-do Habkost" <ehabkost@redhat.com>,
-> "Aurelien Jarno" <aurelien@aurel32.net>, "Philippe Mathieu-Daud=C3=A9" <f=
-4bug@amsat.org>
-> Sent: Wednesday, May 22, 2019 6:43:54 PM
-> Subject: Re: [Qemu-devel] [PATCH 0/4] mips: Add more Avocado tests
->=20
-> On May 22, 2019 11:46 PM, "Cleber Rosa" <crosa@redhat.com> wrote:
-> >
-> >
-> >
-> > ----- Original Message -----
-> > > From: "Eduardo Habkost" <ehabkost@redhat.com>
-> > > To: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
-> > > Cc: qemu-devel@nongnu.org, "Aleksandar Rikalo" <arikalo@wavecomp.com>=
-,
-> "Aleksandar Markovic"
-> > > <aleksandar.m.mail@gmail.com>, "Aleksandar Markovic" <
-> amarkovic@wavecomp.com>, "Cleber Rosa" <crosa@redhat.com>,
-> > > "Aurelien Jarno" <aurelien@aurel32.net>, "Wainer dos Santos Moschetta=
-" <
-> wainersm@redhat.com>
-> > > Sent: Wednesday, May 22, 2019 5:12:30 PM
-> > > Subject: Re: [Qemu-devel] [PATCH 0/4] mips: Add more Avocado tests
-> > >
-> > > On Tue, May 21, 2019 at 01:19:06AM +0200, Philippe Mathieu-Daud=C3=A9=
- wrote:
-> > > > Hi,
-> > > >
-> > > > It was a rainy week-end here, so I invested it to automatize some
-> > > > of my MIPS tests.
-> > > >
-> > > > The BootLinuxSshTest is not Global warming friendly, it is not
-> > > > meant to run on a CI system but rather on a workstation previous
-> > > > to post a pull request.
-> > > > It can surely be improved, but it is a good starting point.
-> > >
-> > > Until we actually have a mechanism to exclude the test case on
-> > > travis-ci, I will remove patch 4/4 from the queue.  Aleksandar,
-> > > please don't merge patch 4/4 yet or it will break travis-ci.
-> > >
-> > > Cleber, Wainer, is it already possible to make "avocado run" skip
-> > > tests tagged with "slow"?
-> > >
-> >
-> > The mechanism exists, but we haven't tagged any test so far as slow.
-> >
->=20
-> Cleber,
->=20
-> For the test from patch 4/4, there is no dilemma - it should be in the
-> =E2=80=9Cslow=E2=80=9D group, as Philippe envisioned and said, so that it=
- is not humpered
-> with stricter requirements for =E2=80=9Cfast=E2=80=9D (default) group. Co=
-uld you explain us
-> how to do it, so that we can hopefully finally proceed?
->=20
+s/The aim of this patch is to //
 
-Hi Aleksandar,
+there is repeated pattern you use in patches
 
-The point is that there's no "group" definition at this point.  This is the
-core of the discussion.
+  ms->numa_state ? ms->numa_state->FOO : NULL
 
-I think we're close to converging to something simple and effective.  Pleas=
-e
-let us know what you think of the proposals given.
+which might be not justified and plain use of
 
-Thanks!
-- Cleber.
+  ms->numa_state->FOO
 
-> Gratefully,
-> Aleksandar
->=20
-> > Should we define/document a criteria for a test to be slow?  Given
-> > that this is highly subjective, we have to think of:
-> >
-> >  * Will we consider the average or maximum run time (the timeout
-> >    definition)?
-> >
-> >  * For a single test, what is "slow"? Some rough numbers from Travis
-> >    CI[1] to help us with guidelines:
-> >    - boot_linux_console.py:BootLinuxConsole.test_x86_64_pc:  PASS (6.04=
- s)
-> >    - boot_linux_console.py:BootLinuxConsole.test_arm_virt:  PASS (2.91 =
-s)
-> >    -
-> linux_initrd.py:LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4=
-_16:
-> PASS (18.14 s)
-> >    - boot_linux.py:BootLinuxAarch64.test_virt:  PASS (396.88 s)
-> >
-> >  * Do we want to set a maximum job timeout?  This way we can skip
-> >    tests after a given amount of time has passed.  Currently we interru=
-pt
-> >    the test running when the job timeout is reached, but it's possible
-> >    to add a option so that no new tests will be started, but currently
-> >    running ones will be waited on.
-> >
-> > Regards,
-> > - Cleber.
-> >
-> > [1] - https://travis-ci.org/clebergnu/qemu/jobs/535967210#L3518
-> >
-> > > --
-> > > Eduardo
-> > >
->=20
+would be sufficient.
+The places where NULL could be used probably are broken
+and should be fixed by not dereferencing
+ms->numa_state in the first place.
+   
+
+> 
+> Reviewed-by: Liu Jingqi <jingqi.liu@intel.com>
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> ---
+> 
+> Changes in v4 -> v3:
+>     - send the patch together with HMAT patches
+> 
+> Changes in v3 -> v2:
+>     - rename the "NumaState::numa_info" as "NumaState::nodes" (Eduardo)
+> ---
+>  exec.c                   |  2 +-
+>  hw/acpi/aml-build.c      |  6 ++++--
+>  hw/arm/boot.c            |  2 +-
+>  hw/arm/virt-acpi-build.c |  7 ++++---
+>  hw/arm/virt.c            |  1 +
+>  hw/i386/pc.c             |  4 ++--
+>  hw/ppc/spapr.c           |  8 +++++++-
+>  hw/ppc/spapr_pci.c       |  2 ++
+>  include/hw/boards.h      | 10 ++++++++++
+>  include/sysemu/numa.h    |  8 --------
+>  numa.c                   | 15 +++++++++------
+>  11 files changed, 41 insertions(+), 24 deletions(-)
+> 
+> diff --git a/exec.c b/exec.c
+> index c7eb4af42d..0e30926588 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -1763,7 +1763,7 @@ long qemu_minrampagesize(void)
+>      if (hpsize > mainrampagesize &&
+>          (ms->numa_state == NULL ||
+>           ms->numa_state->num_nodes == 0 ||
+> -         numa_info[0].node_memdev == NULL)) {
+> +         ms->numa_state->nodes[0].node_memdev == NULL)) {
+>          static bool warned;
+>          if (!warned) {
+>              error_report("Huge page support disabled (n/a for main memory).");
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index c67f4561a4..b53a55cb56 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -1737,8 +1737,10 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms)
+>      build_append_int_noprefix(table_data, nb_numa_nodes, 8);
+>      for (i = 0; i < nb_numa_nodes; i++) {
+>          for (j = 0; j < nb_numa_nodes; j++) {
+> -            assert(numa_info[i].distance[j]);
+> -            build_append_int_noprefix(table_data, numa_info[i].distance[j], 1);
+> +            assert(ms->numa_state->nodes[i].distance[j]);
+> +            build_append_int_noprefix(table_data,
+> +                                      ms->numa_state->nodes[i].distance[j],
+> +                                      1);
+>          }
+>      }
+>  
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index 8ff08814fd..845b737ab9 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -602,7 +602,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+>      if (nb_numa_nodes > 0) {
+>          mem_base = binfo->loader_start;
+>          for (i = 0; i < nb_numa_nodes; i++) {
+> -            mem_len = numa_info[i].node_mem;
+> +            mem_len = ms->numa_state->nodes[i].node_mem;
+in 1/11 I've suggested to add nb_numa_nodes, but it might be to add
+a pointer to MachineState there.
+It would also help to simplify arm_load_dtb later as there are other 
+bits that we copy to arm_boot_info from MachineState.
+
+>              rc = fdt_add_memory_node(fdt, acells, mem_base,
+>                                       scells, mem_len, i);
+>              if (rc < 0) {
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 65f070843c..b22c3d27ad 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -535,11 +535,12 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>  
+>      mem_base = vms->memmap[VIRT_MEM].base;
+>      for (i = 0; i < nb_numa_nodes; ++i) {
+> -        if (numa_info[i].node_mem > 0) {
+> +        if (ms->numa_state->nodes[i].node_mem > 0) {
+>              numamem = acpi_data_push(table_data, sizeof(*numamem));
+> -            build_srat_memory(numamem, mem_base, numa_info[i].node_mem, i,
+> +            build_srat_memory(numamem, mem_base,
+> +                              ms->numa_state->nodes[i].node_mem, i,
+>                                MEM_AFFINITY_ENABLED);
+> -            mem_base += numa_info[i].node_mem;
+> +            mem_base += ms->numa_state->nodes[i].node_mem;
+>          }
+>      }
+>  
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index f0818ef597..853caf606f 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -232,6 +232,7 @@ static void create_fdt(VirtMachineState *vms)
+>          int size = nb_numa_nodes * nb_numa_nodes * 3 * sizeof(uint32_t);
+>          uint32_t *matrix = g_malloc0(size);
+>          int idx, i, j;
+> +        NodeInfo *numa_info = ms->numa_state->nodes;
+>  
+>          for (i = 0; i < nb_numa_nodes; i++) {
+>              for (j = 0; j < nb_numa_nodes; j++) {
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 6404ae508e..1c7b2a97bc 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1043,7 +1043,7 @@ static FWCfgState *bochs_bios_init(AddressSpace *as, PCMachineState *pcms)
+>      }
+>      for (i = 0; i < nb_numa_nodes; i++) {
+>          numa_fw_cfg[pcms->apic_id_limit + 1 + i] =
+> -            cpu_to_le64(numa_info[i].node_mem);
+> +            cpu_to_le64(ms->numa_state->nodes[i].node_mem);
+>      }
+>      fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
+>                       (1 + pcms->apic_id_limit + nb_numa_nodes) *
+> @@ -1685,7 +1685,7 @@ void pc_guest_info_init(PCMachineState *pcms)
+>      pcms->node_mem = g_malloc0(pcms->numa_nodes *
+>                                      sizeof *pcms->node_mem);
+>      for (i = 0; i < nb_numa_nodes; i++) {
+> -        pcms->node_mem[i] = numa_info[i].node_mem;
+> +        pcms->node_mem[i] = ms->numa_state->nodes[i].node_mem;
+>      }
+>  
+>      pcms->machine_done.notify = pc_machine_done;
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 4f0a8d4e2e..d577c2025e 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -349,6 +349,7 @@ static hwaddr spapr_node0_size(MachineState *machine)
+>      int nb_numa_nodes = machine_num_numa_nodes(machine);
+>      if (nb_numa_nodes) {
+>          int i;
+> +        NodeInfo *numa_info = machine->numa_state->nodes;
+>          for (i = 0; i < nb_numa_nodes; ++i) {
+>              if (numa_info[i].node_mem) {
+>                  return MIN(pow2floor(numa_info[i].node_mem),
+> @@ -396,7 +397,9 @@ static int spapr_populate_memory(SpaprMachineState *spapr, void *fdt)
+>      int nb_numa_nodes = machine_num_numa_nodes(machine);
+>      hwaddr mem_start, node_size;
+>      int i, nb_nodes = nb_numa_nodes;
+> -    NodeInfo *nodes = numa_info;
+> +    NodeInfo *nodes = machine->numa_state ?
+
+can machine->numa_state actually be NULL?
+
+> +                      machine->numa_state->nodes :
+> +                      NULL;
+>      NodeInfo ramnode;
+>  
+>      /* No NUMA nodes, assume there is just one node with whole RAM */
+> @@ -2518,6 +2521,9 @@ static void spapr_validate_node_memory(MachineState *machine, Error **errp)
+>  {
+>      int i;
+>      int nb_numa_nodes = machine_num_numa_nodes(machine);
+> +    NodeInfo *numa_info = machine->numa_state ?
+ditto
+
+> +                          machine->numa_state->nodes :
+> +                          NULL;
+
+Also question to PPC folks,
+  spapr_validate_node_memory()
+seems to be 'broken' in 1 implicit node case since
+spapr_populate_memory() 'creates' implicit node info
+temporarily but then spapr_validate_node_memory() would use
+global nb_numa_nodes which is 0 and skip check.
+
+>  
+>      if (machine->ram_size % SPAPR_MEMORY_BLOCK_SIZE) {
+>          error_setg(errp, "Memory size 0x" RAM_ADDR_FMT
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 97961b0128..f4e5c0f5b2 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1660,6 +1660,8 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
+>      SysBusDevice *s = SYS_BUS_DEVICE(dev);
+>      SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(s);
+>      PCIHostState *phb = PCI_HOST_BRIDGE(s);
+> +    MachineState *ms = MACHINE(spapr);
+> +    NodeInfo *numa_info = ms->numa_state ? ms->numa_state->nodes : NULL;
+>      char *namebuf;
+>      int i;
+>      PCIBus *bus;
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index c3c678b7ff..777eed4dd9 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -233,12 +233,22 @@ typedef struct DeviceMemoryState {
+>      MemoryRegion mr;
+>  } DeviceMemoryState;
+>  
+> +struct NodeInfo {
+> +    uint64_t node_mem;
+> +    struct HostMemoryBackend *node_memdev;
+> +    bool present;
+> +    uint8_t distance[MAX_NODES];
+> +};
+> +
+>  typedef struct NumaState {
+>      /* Number of NUMA nodes */
+>      int num_nodes;
+>  
+>      /* Allow setting NUMA distance for different NUMA nodes */
+>      bool have_numa_distance;
+> +
+> +    /* NUMA nodes information */
+> +    NodeInfo nodes[MAX_NODES];
+>  } NumaState;
+>  
+>  /**
+> diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
+> index 1a29408db9..7b8011f9ea 100644
+> --- a/include/sysemu/numa.h
+> +++ b/include/sysemu/numa.h
+> @@ -6,19 +6,11 @@
+>  #include "sysemu/hostmem.h"
+>  #include "hw/boards.h"
+>  
+> -struct NodeInfo {
+> -    uint64_t node_mem;
+> -    struct HostMemoryBackend *node_memdev;
+> -    bool present;
+> -    uint8_t distance[MAX_NODES];
+> -};
+> -
+>  struct NumaNodeMem {
+>      uint64_t node_mem;
+>      uint64_t node_plugged_mem;
+>  };
+>  
+> -extern NodeInfo numa_info[MAX_NODES];
+>  void parse_numa_opts(MachineState *ms);
+>  void numa_complete_configuration(MachineState *ms);
+>  void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms);
+> diff --git a/numa.c b/numa.c
+> index d4f5ff5193..ddea376d72 100644
+> --- a/numa.c
+> +++ b/numa.c
+> @@ -52,8 +52,6 @@ static int have_memdevs = -1;
+>  static int max_numa_nodeid; /* Highest specified NUMA node ID, plus one.
+>                               * For all nodes, nodeid < max_numa_nodeid
+>                               */
+> -NodeInfo numa_info[MAX_NODES];
+> -
+>  
+>  static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+>                              Error **errp)
+> @@ -62,6 +60,7 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+>      uint16_t nodenr;
+>      uint16List *cpus = NULL;
+>      MachineClass *mc = MACHINE_GET_CLASS(ms);
+> +    NodeInfo *numa_info = ms->numa_state->nodes;
+>  
+>      if (node->has_nodeid) {
+>          nodenr = node->nodeid;
+> @@ -143,6 +142,7 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
+>      uint16_t src = dist->src;
+>      uint16_t dst = dist->dst;
+>      uint8_t val = dist->val;
+> +    NodeInfo *numa_info = ms->numa_state->nodes;
+>  
+>      if (src >= MAX_NODES || dst >= MAX_NODES) {
+>          error_setg(errp, "Parameter '%s' expects an integer between 0 and %d",
+> @@ -201,7 +201,7 @@ void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
+>              error_setg(&err, "Missing mandatory node-id property");
+>              goto end;
+>          }
+> -        if (!numa_info[object->u.cpu.node_id].present) {
+> +        if (!ms->numa_state->nodes[object->u.cpu.node_id].present) {
+>              error_setg(&err, "Invalid node-id=%" PRId64 ", NUMA node must be "
+>                  "defined with -numa node,nodeid=ID before it's used with "
+>                  "-numa cpu,node-id=ID", object->u.cpu.node_id);
+> @@ -261,6 +261,7 @@ static void validate_numa_distance(MachineState *ms)
+>      int src, dst;
+>      bool is_asymmetrical = false;
+>      int nb_numa_nodes = machine_num_numa_nodes(ms);
+> +    NodeInfo *numa_info = ms->numa_state->nodes;
+>  
+>      for (src = 0; src < nb_numa_nodes; src++) {
+>          for (dst = src; dst < nb_numa_nodes; dst++) {
+> @@ -302,6 +303,7 @@ static void complete_init_numa_distance(MachineState *ms)
+>  {
+>      int src, dst;
+>      int nb_numa_nodes = machine_num_numa_nodes(ms);
+> +    NodeInfo *numa_info = ms->numa_state->nodes;
+>  
+>      /* Fixup NUMA distance by symmetric policy because if it is an
+>       * asymmetric distance table, it should be a complete table and
+> @@ -361,6 +363,7 @@ void numa_complete_configuration(MachineState *ms)
+>  {
+>      int i;
+>      MachineClass *mc = MACHINE_GET_CLASS(ms);
+> +    NodeInfo *numa_info = ms->numa_state->nodes;
+>  
+>      /*
+>       * If memory hotplug is enabled (slots > 0) but without '-numa'
+> @@ -532,8 +535,8 @@ void memory_region_allocate_system_memory(MemoryRegion *mr, Object *owner,
+>  
+>      memory_region_init(mr, owner, name, ram_size);
+>      for (i = 0; i < nb_numa_nodes; i++) {
+> -        uint64_t size = numa_info[i].node_mem;
+> -        HostMemoryBackend *backend = numa_info[i].node_memdev;
+> +        uint64_t size = ms->numa_state->nodes[i].node_mem;
+> +        HostMemoryBackend *backend = ms->numa_state->nodes[i].node_memdev;
+>          if (!backend) {
+>              continue;
+>          }
+> @@ -599,7 +602,7 @@ void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms)
+>  
+>      numa_stat_memory_devices(node_mem);
+>      for (i = 0; i < ms->numa_state->num_nodes; i++) {
+> -        node_mem[i].node_mem += numa_info[i].node_mem;
+> +        node_mem[i].node_mem += ms->numa_state->nodes[i].node_mem;
+>      }
+>  }
+>  
+
 
