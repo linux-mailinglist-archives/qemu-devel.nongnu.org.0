@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7503027BF6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:40:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34109 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243E227BFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:41:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34113 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTm5a-0006D8-1f
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:40:50 -0400
+	id 1hTm5n-0006Ms-3w
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:41:03 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:36450)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTm30-0004ug-4M
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:38:11 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hTm2v-0004ug-FE
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:38:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTlwN-0003Ac-8g
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:31:20 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36351)
+	(envelope-from <alex.bennee@linaro.org>) id 1hTlxy-0005sy-7r
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:32:59 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39571)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTlwN-00039j-2d
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:31:19 -0400
-Received: by mail-wm1-x344.google.com with SMTP id j187so5401534wmj.1
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:31:18 -0700 (PDT)
+	id 1hTlxy-0005Hl-1X
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:32:58 -0400
+Received: by mail-wm1-x343.google.com with SMTP id z23so1338522wma.4
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:32:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=references:user-agent:from:to:cc:subject:in-reply-to:date
 	:message-id:mime-version:content-transfer-encoding;
-	bh=DfzvVWpoSYYigX0xFrut6HZ2x0qn8dYKHJAFHTqbIeI=;
-	b=yy5AbiKhemIZ6jIxVQyK1hyxbmfOlOc9Nk84iNVt2+DhOc5JCcF7DFnokS2E9YbGbD
-	fYT9zLswMumN+qTFTuKbqd6se67KUWEuhSdZ1xBYbWrDgScv4g2zkvqxgNrWm8oru1ON
-	waIrRfpPIkbLF87Yw2Qvw6pEebZmCgtTE/LpMP9ki0oLtUF13WAadCGjdlr414MCDF5f
-	jAf0JNpurENmhMFiwU8zy18JpKebsreZojh3Hhfxe1MSsVxEMEjUzTz7eewmCh8QQZs2
-	eAJOA/1/G59sjeg+kWd9GCUSR2hIILePlDQsgYFGorSl1OYLU7XVT7oHL7cWHoybohgY
-	xU0Q==
+	bh=dMsvrxWjunI334E1ZalZQsRXwFEfUx3RUTpOJsFj1jA=;
+	b=aOT60Sq5ax0iMCeV6rOAe6AwzlbOBUhsPrnbu6dQI8jCZveRkNMS3M8wjmgA+NoMdz
+	XZ6BUWJS8q72sLhKUZ8YxlPiSEfGzDzj7zb9SphWOMeNs2yHl68hKY5+99VoqLJ1G5Cb
+	9SCAGl0z9JBOSK+2MPnJomE84UACQfgcXMdCmsxeiZ4gLY3qw/B6Trdd5x+1rzLOK7kl
+	u1u7wJURhAJCQKpsSckhIDnod5iOuK5OEj5PTls0R9UnRik/eiiLj4sx70LWSsCvFJiG
+	4zauY+F7yHp10Wm0AZjUc0TTPLeUIOta3Vi53Spvv3QFv94shYPNDEjTc9QjZTs6TADR
+	6dbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:references:user-agent:from:to:cc:subject
 	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=DfzvVWpoSYYigX0xFrut6HZ2x0qn8dYKHJAFHTqbIeI=;
-	b=s5NwEkVwpSX7CKxsyBMFMO9Pn8WWJdVzQneUxDeEQW7NxzGwbJxv2agU6GpTZzR1Kj
-	cz++FnVa4K4svKhbDnmUVr71tGiu95i3fk2dlHqfAwcq7WafTGW5W397sSniqyRzMlj/
-	2nj5Zuq6LNPQJGPrEulqGrqrs2t73FAIRnNABjLDZ1PUFYbgp4deHuQvykJ9vzj9YHIQ
-	6xmuzW2gkFm51CKN15Gdiw3wg6tYAXq1RcN3KnXf+tF8YUxeVFGENyw2voNPGi8CwadU
-	Qyl30P1z5QnrHZUuepeVyjxk6UrqgOmWBVbtxg6yhABUwb7P2y+E+aiHPbktNv5iuM08
-	uWew==
-X-Gm-Message-State: APjAAAVn7uWXS4FnukzSbXlRc4BjGsOHHbxfrCVfM7h+yjC5Y7wrd0iO
-	hTvxVifRd/P+wStHOlP1IzQkvA==
-X-Google-Smtp-Source: APXvYqxPVDXnQ4Wl2Sl/vtNkNtiHOJxWx4cXVqcWvVKyogatHORldMNOurCZzURjt4C8IZ2utWDH0w==
-X-Received: by 2002:a1c:5f02:: with SMTP id t2mr11996094wmb.19.1558611077446; 
-	Thu, 23 May 2019 04:31:17 -0700 (PDT)
+	bh=dMsvrxWjunI334E1ZalZQsRXwFEfUx3RUTpOJsFj1jA=;
+	b=pd533csxEF6G+don1nmGUuQMLO/gyysO5lKuIgrKG7NqAUso9wK89zFNN20TlhZ1c+
+	OuGW/geyo+IPGSZjNcOuksuk2fuYPOpTUoKDKjO7IK8yrqnUkROcvGr+zbyyr4TZLJN0
+	/ym44ODWTh5wM+qupEcWwF7YCLpspQX44zROIvb+uiDd+OhMDkeeYV/tPLpdpKIpXUpk
+	ZgXif26v3dNEQlLKJ4H2Mo78IfSe8x679O3GDZ/VBmgoh5I/28BgqDXrQXJMCltcE3mX
+	IGeW93zjyj0Mi3WjaCuwANG2PudOzglvdD0kK7x8xKOZ6G85A1AXZccdXCqBbKpPdLIA
+	ZX+w==
+X-Gm-Message-State: APjAAAUAh3e4vZzI5V7BTzn3WVwhZJB6YGxvrufw3mb7+JGzCpcARM+o
+	ikDuoH/U+K7HMCDxl0hgoSAjZuYM03U=
+X-Google-Smtp-Source: APXvYqwkB60EVs02ZR189BlGBHDtUPtPJVAD4GfUySlj7D91mdtEhIdLW//3+l3XBW4cdpmzZ4Ns2Q==
+X-Received: by 2002:a1c:9a14:: with SMTP id c20mr11101852wme.104.1558611160028;
+	Thu, 23 May 2019 04:32:40 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	m10sm9498477wmf.40.2019.05.23.04.31.16
+	h15sm25954083wru.52.2019.05.23.04.32.39
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 May 2019 04:31:16 -0700 (PDT)
+	Thu, 23 May 2019 04:32:39 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 716F61FF87;
-	Thu, 23 May 2019 12:31:16 +0100 (BST)
-References: <20190523105440.27045-1-rkagan@virtuozzo.com>
+	by zen.linaroharston (Postfix) with ESMTP id 153C71FF87;
+	Thu, 23 May 2019 12:32:39 +0100 (BST)
+References: <20190523024229.1158-1-richard.henderson@linaro.org>
+	<20190523024229.1158-2-richard.henderson@linaro.org>
+	<20190523110736.GD20973@redhat.com>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190523105440.27045-1-rkagan@virtuozzo.com>
-Date: Thu, 23 May 2019 12:31:16 +0100
-Message-ID: <87imu11k6z.fsf@zen.linaroharston>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+In-reply-to: <20190523110736.GD20973@redhat.com>
+Date: Thu, 23 May 2019 12:32:39 +0100
+Message-ID: <87h89l1k4o.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [RFC PATCH 0/2] establish nesting rule of BQL vs
- cpu-exclusive
+X-Received-From: 2a00:1450:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 1/3] capstone: Adjust include of capstone.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,58 +84,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, cota@braap.org,
-	richard.henderson@linaro.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+	david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Roman Kagan <rkagan@virtuozzo.com> writes:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> I came across the following AB-BA deadlock:
+> On Wed, May 22, 2019 at 10:42:27PM -0400, Richard Henderson wrote:
+>> Since v4.0, capstone.h has moved to <capstone/capstone.h>.
 >
->     vCPU thread                             main thread
->     -----------                             -----------
-> async_safe_run_on_cpu(self,
->                       async_synic_update)
-> ...                                         [cpu hot-add]
-> process_queued_cpu_work()
->   qemu_mutex_unlock_iothread()
->                                             [grab BQL]
->   start_exclusive()                         cpu_list_add()
->   async_synic_update()                        finish_safe_work()
->     qemu_mutex_lock_iothread()                  cpu_exec_start()
+> NB this was a regression bug in capstone pkg-config file which has been
+> fixed upstream
 >
-> ATM async_synic_update seems to be the only async safe work item that
-> grabs BQL.  However it isn't quite obvious that it shouldn't; in the
-> past there were more examples of this (e.g.
-> memory_region_do_invalidate_mmio_ptr).
+>    https://github.com/aquynh/capstone/pull/1276
 >
-> It looks like the problem is generally in the lack of the nesting rule
-> for cpu-exclusive sections against BQL, so I thought I would try to
-> address that.  This patchset is my feeble attempt at this; I'm not sure
-> I fully comprehend all the consequences (rather, I'm sure I don't) hence
-> RFC.
+> In Fedora we pulled in the fix to our v4.0 builds and I'd suggest
+> other distros should do the same
 
-Hmm I think this is an area touched by:
-
-  Subject: [PATCH v7 00/73] per-CPU locks
-  Date: Mon,  4 Mar 2019 13:17:00 -0500
-  Message-Id: <20190304181813.8075-1-cota@braap.org>
-
-which has stalled on it's path into the tree. Last time I checked it
-explicitly handled the concept of work that needed the BQL and work that
-didn't.
-
-How do you trigger your deadlock? Just hot-pluging CPUs?
+But I think it's worth keeping the workaround in the likely event that
+it takes a while for that to filter through.
 
 >
-> Roman Kagan (2):
->   cpus-common: nuke finish_safe_work
->   cpus-common: assert BQL nesting within cpu-exclusive sections
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  include/disas/capstone.h | 4 ++++
+>>  configure                | 6 ++++++
+>>  2 files changed, 10 insertions(+)
+>>
+>> diff --git a/include/disas/capstone.h b/include/disas/capstone.h
+>> index e29068dd97..90631d84a9 100644
+>> --- a/include/disas/capstone.h
+>> +++ b/include/disas/capstone.h
+>> @@ -3,7 +3,11 @@
+>>
+>>  #ifdef CONFIG_CAPSTONE
+>>
+>> +#ifdef CONFIG_CAPSTONE_CAPSTONE_H
+>> +#include <capstone/capstone.h>
+>> +#else
+>>  #include <capstone.h>
+>> +#endif
+>>
+>>  #else
+>>
+>> diff --git a/configure b/configure
+>> index d2fc346302..eec7f061c3 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -5021,6 +5021,9 @@ case "$capstone" in
+>>    system)
+>>      QEMU_CFLAGS=3D"$QEMU_CFLAGS $($pkg_config --cflags capstone)"
+>>      LIBS=3D"$($pkg_config --libs capstone) $LIBS"
+>> +    if check_include capstone/capstone.h; then
+>> +      capstone_capstone_h=3Dyes
+>> +    fi
+>>      ;;
+>>
+>>    no)
+>> @@ -7197,6 +7200,9 @@ if test "$ivshmem" =3D "yes" ; then
+>>  fi
+>>  if test "$capstone" !=3D "no" ; then
+>>    echo "CONFIG_CAPSTONE=3Dy" >> $config_host_mak
+>> +  if test "$capstone_capstone_h" !=3D "no" ; then
+>> +    echo "CONFIG_CAPSTONE_CAPSTONE_H=3Dy" >> $config_host_mak
+>> +  fi
+>>  fi
+>>  if test "$debug_mutex" =3D "yes" ; then
+>>    echo "CONFIG_DEBUG_MUTEX=3Dy" >> $config_host_mak
 >
->  cpus-common.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
+> Regards,
+> Daniel
 
 
 --
