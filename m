@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E9428074
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 17:02:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38343 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAE62808A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 17:07:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38460 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTpFB-00022S-Pb
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 11:02:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37433)
+	id 1hTpJc-00058a-Ri
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 11:07:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38897)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hTpCw-0007y8-BI
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:00:39 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTpI0-0004Of-Et
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:05:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hTpCv-0004qs-2y
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:00:38 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34421)
+	(envelope-from <peter.maydell@linaro.org>) id 1hTpHz-0000P2-3C
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:05:52 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36695)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
-	id 1hTpCu-0004qB-SQ
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:00:37 -0400
-Received: by mail-wr1-x432.google.com with SMTP id f8so6677159wrt.1
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:00:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=CKyA6Bg44rX00vvSTAF0V3G+sPTFf5oonteW5tTFfrU=;
-	b=lmwiZJatdrRmM33G6QbGeEai1UEkm8mnJt1dE5JqOKzEpNCHwoZuxsMpmW6U2XhqrJ
-	c2iYK6kys8kbB8x5PMgfVctd37xHy0g0ZKzReqxbIEOzE8NT5n/3Fr56l/5qvlfo5n/E
-	cuR8Xe1ugkbJea+mxsAHpMT5+9XC+hOKci3P9fOSGyG+klBGhuMgwS9c4sFyqxCcgKcH
-	033JOXYFK7Og/1uJDfTQozVAavbbKANeFrIYkWZtSzb7cCpcS5FstsTy3NIuwp66v3VQ
-	x7QVdkM+/7mLk2d6wsSRRfnkP/EcyqdF8H3K8aniq/aDeFSF1wt65HpgozAOg10YwSxp
-	IIAg==
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hTpHy-0000MW-FH
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:05:50 -0400
+Received: by mail-wr1-x443.google.com with SMTP id s17so6696237wru.3
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ume50n8qkYBKGcbQ5wkyvsOh4prOkl3w7x4Kl5qGVnc=;
+	b=Fpfl0mDdESslAV3eqgH6v7fmBKDioLGiugegouZenqv4Pa+q6n9wLUuJa2xi+ZC74x
+	8l7Hb8ISfA0Ycvop0Eteio3pLNgGKGrmbWMljcjJQLDfNXgyJOhUJ57GDtbIQaqM51ED
+	Ij919ZZZ//o1tsmUXzT75avK9ZjM8MmRgkZZgSeATgxvCv+5Ig8vmKjZdAXX1KI50PbR
+	JECNaF3N5X8zJ0UWKzYkJ27Bnk8SNUWG3umFQEngYxoHTaKw8JzEyqjypBRybVq4Ul5J
+	WDnhYq/JlBHSrjCzluidfD/RV8TZbGGQkb+3Mlrp3nP11I3ev5Fv+Vkebn+XETj2mubF
+	/0PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=CKyA6Bg44rX00vvSTAF0V3G+sPTFf5oonteW5tTFfrU=;
-	b=nHPCFy8VJvYkv5OvB4S4h3qY453W3kruyg5TwyDr33zIb07b0w72GA9tRuxV7Gt58i
-	3B3LKhx3V/uHuGSrWGnmqD9RLXADMP9jRUBzvAWPGycNVQipahEhW6iWp5/gN9ORBgyK
-	xnW7kQ3yE02wHmYCKwo5jGokq7ievS05sZuLElf/rJeDD2VlwqG23XF05aqCWWz1EXGN
-	4PbLnEG3gXyPp0gRfOuNLkuRDsUMNuBmltDXvAtCzveDDwMCKHDYuhCSZdUhLSSvEL7m
-	FrWY1Rn+d9Pqs9LLXhFQzisIhR2L+AnVOYBokSSU05rQYQqXjiLmdXXbTB9SFg39uwsv
-	a69g==
-X-Gm-Message-State: APjAAAUibHoncrAPfeIWMS08bMYAy7KXd3ty2gUptLFSGbctdKyzdnq1
-	0YM90anp3V/3dtH2EtxSj+sFbuknGn0Syy1ztJ4=
-X-Google-Smtp-Source: APXvYqzgcdfd9o3BvrgBcIOHuSUTp5a2VvX2yH9ijHobLzkVE3MEVh4Pndb5XoxfQiiL/ieHbp+hD5Ilybcv1onlVwM=
-X-Received: by 2002:adf:ec8c:: with SMTP id z12mr1381930wrn.209.1558623635174; 
-	Thu, 23 May 2019 08:00:35 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ume50n8qkYBKGcbQ5wkyvsOh4prOkl3w7x4Kl5qGVnc=;
+	b=t8HCVjiE0iqAzvjeuV1ULN5fwB/fDr2KY0LZh2zrkkFSuOncCfonStpLBUWSg4jKS6
+	qu3xKAZQh4oyrPP2i/JM6vwOk+iX9GnwSWelXe9JbSaI2sfUG1//CazgvwUXf/Q/SA9X
+	k/FduqkLDfOWH89sx7rjGxKf0pQrANQuRfW8mxFSBeAq0jyFWroOFjMw2nXzLwEpjoyr
+	d3ZH7XmSdGXtvAeiP3h4owF0dT90qvfDWJJAXoq2d/AYIAjDIFy93njX8eoSQdzb/7ol
+	hwKGSDkz29yRhkz9noAPH1tJUNkHUJJL9Ef36KhzBhHEeloAnuBRzBLG3SBERkwrdcLv
+	xgbw==
+X-Gm-Message-State: APjAAAXLYwHMBj7p46StthhNDELaQDdYD4D3q+kf1/G7stz/tZ3/ROo2
+	uUMWYQBT5mdpqrm/QMxkKivUIGascolDgg==
+X-Google-Smtp-Source: APXvYqzgUqxEKtbLKVGbzZZCZqiMb1olqo6S5Ki6sYYlF8qar5NEzDcmXh8f0YhEMakVY4cTNscCNw==
+X-Received: by 2002:adf:f7c8:: with SMTP id a8mr2113431wrq.148.1558623946354; 
+	Thu, 23 May 2019 08:05:46 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+	by smtp.gmail.com with ESMTPSA id
+	h17sm13739322wrq.79.2019.05.23.08.05.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 08:05:45 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Thu, 23 May 2019 16:05:43 +0100
+Message-Id: <20190523150543.22676-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190523110434.23830-1-gert.wollny@collabora.com>
-	<CAJ+F1C+=89nSeEyiBowdOsqr5HBtvvNnXp3ZWHBGV_WYYH9kgA@mail.gmail.com>
-	<721f520106a799afe003b3b8d3ce4de12daf04f5.camel@collabora.com>
-	<CAJ+F1C+vjg47SyBdb7EtvM3JFPpddkko=gXGbsGNqbn0M1u1-Q@mail.gmail.com>
-	<40e8ac9325e9c0d4326cfef841b6be1ca65e6040.camel@collabora.com>
-In-Reply-To: <40e8ac9325e9c0d4326cfef841b6be1ca65e6040.camel@collabora.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 23 May 2019 17:00:23 +0200
-Message-ID: <CAJ+F1CLbmvjRX9Zj_P4G2U9Nzq8RdDxXHwqP_onnP1=b-KfndA@mail.gmail.com>
-To: Gert Wollny <gert.wollny@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::432
-Subject: Re: [Qemu-devel] [PATCH] virtio_gpu_3d: make it possible to
- configure the fence poll time
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v2] hw/core/bus.c: Only the main system bus can
+ have no parent
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,67 +77,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+	Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+In commit 80376c3fc2c38fdd453 in 2010 we added a workaround for
+some qbus buses not being connected to qdev devices -- if the
+bus has no parent object then we register a reset function which
+resets the bus on system reset (and unregister it when the
+bus is unparented).
 
-On Thu, May 23, 2019 at 4:54 PM Gert Wollny <gert.wollny@collabora.com> wro=
-te:
->
-> Am Donnerstag, den 23.05.2019, 16:37 +0200 schrieb Marc-Andr=C3=A9 Lureau=
-:
-> > Hi
-> >
-> > On Thu, May 23, 2019 at 4:17 PM Gert Wollny <
-> > gert.wollny@collabora.com> wrote:
-> > > Am Donnerstag, den 23.05.2019, 16:01 +0200 schrieb Marc-Andr=C3=A9
-> > > Lureau:
-> > > > Hi
-> > > >
-> > > > On Thu, May 23, 2019 at 3:27 PM Gert Wollny <
-> > > > gert.wollny@collabora.com> wrote:
-> > > > > The default fence poll time of 10ms (100 Hz) is sufficent for
-> > > > > normal
-> > > > > work loads, but if one wants to play games within the virtual
-> > > > > machine
-> > > > > this value might be too high, so make it possible to configure
-> > > > > this
-> > > > > value by using the environment variable QEMU_VIRGL_POLL_FREQ
-> > > > > where
-> > > > > the
-> > > > > poll is given in Hz. To acommodate higher poll frequencies also
-> > > > > change
-> > > > > the timer to use micro seconds as base instead of milliseconds.
-> > > > >
-> > > > >
-> > > >
-> > > > This is what VIRGL_RENDERER_THREAD_SYNC helps with. You don't
-> > > > need to
-> > > > do regular polling, but I think it is currently limited to
-> > > > Linux/eventfd only.
-> > >
-> > > As far as I can see only vtest uses this, not qemu.
-> >
-> > I don't think there is anything preventing qemu from using it, except
-> > the portability which should be taken care more carefully.
->
-> But to actually use it would need quite some work, wouldn't it? (I'm
-> thinking of your series:
-> http://qemu.11.n7.nabble.com/PATCH-00-18-virgl-use-a-seperate-rendering-t=
-hread-tt429557.html
-> )
->
+Nearly a decade later, we have now no buses in the tree which
+are created with non-NULL parents, so we can remove the
+workaround and instead just assert that if the bus has a NULL
+parent then it is the main system bus.
 
-I think you could use VIRGL_RENDERER_THREAD_SYNC, without using a
-seperate thread for virgl.
+(The absence of other parentless buses was confirmed by
+code inspection of all the callsites of qbus_create() and
+qbus_create_inplace() and cross-checked by 'make check'.)
 
-You need to register the pollfd virgl_renderer_get_poll_fd() with the
-main loop, but other than that it should, in theory, work.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+---
+v1->v2: clean up also the bus_unparent() code
+---
+ hw/core/bus.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
+diff --git a/hw/core/bus.c b/hw/core/bus.c
+index e09843f6abe..b8839c7268d 100644
+--- a/hw/core/bus.c
++++ b/hw/core/bus.c
+@@ -96,10 +96,9 @@ static void qbus_realize(BusState *bus, DeviceState *parent, const char *name)
+         bus->parent->num_child_bus++;
+         object_property_add_child(OBJECT(bus->parent), bus->name, OBJECT(bus), NULL);
+         object_unref(OBJECT(bus));
+-    } else if (bus != sysbus_get_default()) {
+-        /* TODO: once all bus devices are qdevified,
+-           only reset handler for main_system_bus should be registered here. */
+-        qemu_register_reset(qbus_reset_all_fn, bus);
++    } else {
++        /* The only bus without a parent is the main system bus */
++        assert(bus == sysbus_get_default());
+     }
+ }
+ 
+@@ -108,18 +107,16 @@ static void bus_unparent(Object *obj)
+     BusState *bus = BUS(obj);
+     BusChild *kid;
+ 
++    /* Only the main system bus has no parent, and that bus is never freed */
++    assert(bus->parent);
++
+     while ((kid = QTAILQ_FIRST(&bus->children)) != NULL) {
+         DeviceState *dev = kid->child;
+         object_unparent(OBJECT(dev));
+     }
+-    if (bus->parent) {
+-        QLIST_REMOVE(bus, sibling);
+-        bus->parent->num_child_bus--;
+-        bus->parent = NULL;
+-    } else {
+-        assert(bus != sysbus_get_default()); /* main_system_bus is never freed */
+-        qemu_unregister_reset(qbus_reset_all_fn, bus);
+-    }
++    QLIST_REMOVE(bus, sibling);
++    bus->parent->num_child_bus--;
++    bus->parent = NULL;
+ }
+ 
+ void qbus_create_inplace(void *bus, size_t size, const char *typename,
+-- 
+2.20.1
 
-
---=20
-Marc-Andr=C3=A9 Lureau
 
