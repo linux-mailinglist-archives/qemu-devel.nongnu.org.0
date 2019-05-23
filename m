@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D4A27FB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:31:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37587 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 479D627F8A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:26:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37453 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTol3-0000LE-Cz
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:31:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53711)
+	id 1hTofu-0003uY-Dq
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:26:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53743)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodY-0002XR-8c
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:05 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodZ-0002a8-Un
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodW-0006qU-T7
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:04 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38829)
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodY-0006sO-Ob
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:05 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37629)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTodW-0006pj-Mo
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:02 -0400
-Received: by mail-wm1-x344.google.com with SMTP id t5so6005503wmh.3
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:02 -0700 (PDT)
+	id 1hTodY-0006rg-EL
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:04 -0400
+Received: by mail-wr1-x443.google.com with SMTP id e15so6529966wrs.4
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=HbJqlpqkF0phR9V9E/untsO2SeobncFpU3t1rLBGqVo=;
-	b=xVi8Djz0A3TSWpGSGD1q4Wjj+TIKwElYL5HSWgNxLocEg37bESuF9hEn9oN/BONiQg
-	e0jDu3pjYuL1jOOJtE/56YeNDHBqEoBkFrj/nWZu9MsyqCLUVKaGdCi1MsPYuaEwKwAv
-	RksxX1ZaDQ+adVdKXbkXXtC+PntRqr8ma4n9Luvyi/Fz5Vauvq23rFLvClxjekkAgsxg
-	8iozFhp5h0ADezTcjC+g6lL+EyldBhXtw01/8DqHfGnG/mwuMVFNe9GZzMSTWTk5+tvG
-	wRenBryDoAmtddSIzbUqD9xCW757bmFmRJonIG5xGly3KXp/H9KUAQE2ezm6nCFaAmSW
-	sU7g==
+	bh=8woPEtG8YS4MOTdISE4mp0N5yE3FIOBq9YtwFKXxb9k=;
+	b=sqZ+Y5xJby1OAUrlrXJ1PDT+sgzej2FcbkZwKb9lp0s1hakGDxO2oUavGRni2aaFTj
+	pXmQcKsxAVw+V7eAOGKazo9RFRwM5nVIlfTR/+ZDbZCYxUNAv4A6WTMRKTK/WGUjTAkU
+	dLFxQRrk0kJvjB0JpDOKq1pEkOm8bAJWorEe7qTeqJ84tz8RY6uz+ByFBZ3DC1qp9NhS
+	B9HryrIDRH41WM9ivsyBxGZmELC1u+lyOimjRYs9Q1dWdg86z0v2Cy7A/PopWXhXLIuI
+	fO0FYibA4c5vDUWvx8r/xsaZpo0KSVhNzpLnAsthKqR9qNe5c4w5tvscQn6vPFw0FjVD
+	3Dsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=HbJqlpqkF0phR9V9E/untsO2SeobncFpU3t1rLBGqVo=;
-	b=Ut71cf1RZG69nNAseYK0IFYclJzY32HPk9JqwnKcBW2kvetleBMlvyufJ7b9Kr+I9U
-	TQ5IfJk3URQfJLXlQ917Ly1f9MPsuzVcm3x+LeeSLxJpZlWjYZG0vvyChHF93t8XtYkt
-	rEz9XYXDtPTYaQyWwns109msF+2iGvI4N+rAwgjeaSbDgFE/BHQciY7kp+QbM434u3mZ
-	ZBTHHm2P4qkYUB1sRxxosWNjPRGxjXTBRZ8n3aW1z6kNtrpeh03fmZ0Ls8IGtRceUYc6
-	nnXC6DtLN33JiiR33qDK6lCfLo+bG+RBZLX0bUKmEy7Qnb1Kj2Cwwp+IT3OSmSUrv6xv
-	6PMw==
-X-Gm-Message-State: APjAAAVebjahYCLhGeXdq7k7k60kMhOaYdnJbNHqkuegGi4isS/LzSb+
-	w4XII2LN6OxP0bSq1V8WUUCJwnbUMUcnaw==
-X-Google-Smtp-Source: APXvYqw9cMDlMXkefD5a6uBrSQ2FsypQq4/0/1gvghPtR4562IFhAoLtuCkRKQR1FPoLzZdkXmiicw==
-X-Received: by 2002:a1c:2245:: with SMTP id i66mr11871793wmi.19.1558621441501; 
-	Thu, 23 May 2019 07:24:01 -0700 (PDT)
+	bh=8woPEtG8YS4MOTdISE4mp0N5yE3FIOBq9YtwFKXxb9k=;
+	b=dBtNOc1+itQ54LhQrBJyNuYJ5q0S99itzqmio4K5ev0nkyACfscYeWlkvth8zlJiLD
+	FUJDkXogdWH99mu04qIVzaVlortiLtINMa658+a/goJVnnj7aOmAV8JaqG59r4U/Lw/w
+	qSj44IQaH40kvmV4k/ZSRC3f027fq9rtr3q3mmAz977wztIMc12pQP9TmvPVvFUriSyw
+	DsZleHoMhfgULFpILXu02cGeK7cd07Yd4hFBWnrKDqBcDSLlqrrt9+FxuMK5vsZC4Yuc
+	CWBc1CYIJmBdisOHCCn0cCDysdHZBxzE2l66HMU5W/te54kSSsrVU/bk/AVYdVZAzc8J
+	KBVg==
+X-Gm-Message-State: APjAAAX6c7vN6Gxqtj6eI+uMcAyVsaKr5GUF2ux87C8XimIfNiqAYB0b
+	1ITtv2qHSdtbcupRrIw7akFIDbfM29IZLA==
+X-Google-Smtp-Source: APXvYqyQ6iPdy52r4+evttVbovcAm0bMQt7lUXoXKJaBUecrIMPbxxlTYFUvMucRXxQkAvyfqONYPw==
+X-Received: by 2002:a5d:53c6:: with SMTP id a6mr35404971wrw.232.1558621442445; 
+	Thu, 23 May 2019 07:24:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.00
+	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.01
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 07:24:00 -0700 (PDT)
+	Thu, 23 May 2019 07:24:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 15:23:47 +0100
-Message-Id: <20190523142357.5175-3-peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 15:23:48 +0100
+Message-Id: <20190523142357.5175-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523142357.5175-1-peter.maydell@linaro.org>
 References: <20190523142357.5175-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PULL 02/12] target/arm: Simplify BFXIL expansion
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PULL 03/12] target/arm: Fix vector operation segfault
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,43 +82,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-The mask implied by the extract is redundant with the one
-implied by the deposit.  Also, fix spelling of BFXIL.
+Commit 89e68b575 "target/arm: Use vector operations for saturation"
+causes this abort() when booting QEMU ARM with a Cortex-A15:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190514011129.11330-3-richard.henderson@linaro.org
+0  0x00007ffff4c2382f in raise () at /usr/lib/libc.so.6
+1  0x00007ffff4c0e672 in abort () at /usr/lib/libc.so.6
+2  0x00005555559c1839 in disas_neon_data_insn (insn=<optimized out>, s=<optimized out>) at ./target/arm/translate.c:6673
+3  0x00005555559c1839 in disas_neon_data_insn (s=<optimized out>, insn=<optimized out>) at ./target/arm/translate.c:6386
+4  0x00005555559cd8a4 in disas_arm_insn (insn=4081107068, s=0x7fffe59a9510) at ./target/arm/translate.c:9289
+5  0x00005555559cd8a4 in arm_tr_translate_insn (dcbase=0x7fffe59a9510, cpu=<optimized out>) at ./target/arm/translate.c:13612
+6  0x00005555558d1d39 in translator_loop (ops=0x5555561cc580 <arm_translator_ops>, db=0x7fffe59a9510, cpu=0x55555686a2f0, tb=<optimized out>, max_insns=<optimized out>) at ./accel/tcg/translator.c:96
+7  0x00005555559d10d4 in gen_intermediate_code (cpu=cpu@entry=0x55555686a2f0, tb=tb@entry=0x7fffd7840080 <code_gen_buffer+126091347>, max_insns=max_insns@entry=512) at ./target/arm/translate.c:13901
+8  0x00005555558d06b9 in tb_gen_code (cpu=cpu@entry=0x55555686a2f0, pc=3067096216, cs_base=0, flags=192, cflags=-16252928, cflags@entry=524288) at ./accel/tcg/translate-all.c:1736
+9  0x00005555558ce467 in tb_find (cf_mask=524288, tb_exit=1, last_tb=0x7fffd783e640 <code_gen_buffer+126084627>, cpu=0x1) at ./accel/tcg/cpu-exec.c:407
+10 0x00005555558ce467 in cpu_exec (cpu=cpu@entry=0x55555686a2f0) at ./accel/tcg/cpu-exec.c:728
+11 0x000055555588b0cf in tcg_cpu_exec (cpu=0x55555686a2f0) at ./cpus.c:1431
+12 0x000055555588d223 in qemu_tcg_cpu_thread_fn (arg=0x55555686a2f0) at ./cpus.c:1735
+13 0x000055555588d223 in qemu_tcg_cpu_thread_fn (arg=arg@entry=0x55555686a2f0) at ./cpus.c:1709
+14 0x0000555555d2629a in qemu_thread_start (args=<optimized out>) at ./util/qemu-thread-posix.c:502
+15 0x00007ffff4db8a92 in start_thread () at /usr/lib/libpthread.
+
+This patch ensures that we don't hit the abort() in the second switch
+case in disas_neon_data_insn() as we will return from the first case.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Message-id: ad91b397f360b2fc7f4087e476f7df5b04d42ddb.1558021877.git.alistair.francis@wdc.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-a64.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/arm/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 2b135b938ce..42999c58011 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -4043,8 +4043,8 @@ static void disas_bitfield(DisasContext *s, uint32_t insn)
-             tcg_gen_extract_i64(tcg_rd, tcg_tmp, ri, len);
-             return;
-         }
--        /* opc == 1, BXFIL fall through to deposit */
--        tcg_gen_extract_i64(tcg_tmp, tcg_tmp, ri, len);
-+        /* opc == 1, BFXIL fall through to deposit */
-+        tcg_gen_shri_i64(tcg_tmp, tcg_tmp, ri);
-         pos = 0;
-     } else {
-         /* Handle the ri > si case with a deposit
-@@ -4062,7 +4062,7 @@ static void disas_bitfield(DisasContext *s, uint32_t insn)
-         len = ri;
-     }
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index dd053c80d62..298c262825d 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -6598,13 +6598,13 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+             tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
+                            rn_ofs, rm_ofs, vec_size, vec_size,
+                            (u ? uqadd_op : sqadd_op) + size);
+-            break;
++            return 0;
  
--    if (opc == 1) { /* BFM, BXFIL */
-+    if (opc == 1) { /* BFM, BFXIL */
-         tcg_gen_deposit_i64(tcg_rd, tcg_rd, tcg_tmp, pos, len);
-     } else {
-         /* SBFM or UBFM: We start with zero, and we haven't modified
+         case NEON_3R_VQSUB:
+             tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
+                            rn_ofs, rm_ofs, vec_size, vec_size,
+                            (u ? uqsub_op : sqsub_op) + size);
+-            break;
++            return 0;
+ 
+         case NEON_3R_VMUL: /* VMUL */
+             if (u) {
 -- 
 2.20.1
 
