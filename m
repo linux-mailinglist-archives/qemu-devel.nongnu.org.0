@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9122E27FF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:38:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37794 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 625F427FB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:31:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37591 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTorq-0006zl-OA
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:38:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54772)
+	id 1hTolC-0000VS-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:31:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54812)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTogx-0005lt-Gq
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:27:36 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hToh0-0005oy-B6
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:27:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTogw-0000lo-AT
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:27:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40317)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hTogt-0000jc-6d; Thu, 23 May 2019 10:27:31 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EB9CB3088DB5;
-	Thu, 23 May 2019 14:27:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.176])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D90C27D676;
-	Thu, 23 May 2019 14:26:56 +0000 (UTC)
-To: Sam Eiderman <shmuel.eiderman@oracle.com>
-References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
-	<20190502135828.42797-1-shmuel.eiderman@oracle.com>
-	<20190502135828.42797-3-shmuel.eiderman@oracle.com>
-	<c117d2e2-eef2-df4f-ef3d-37a33426dd51@redhat.com>
-	<B8380028-641C-4355-AF16-2F881E25CF8D@oracle.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <f8b7c7b3-fe64-59cc-6b11-1a87270caf00@redhat.com>
-Date: Thu, 23 May 2019 16:26:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <peter.maydell@linaro.org>) id 1hTogz-0000o8-Hc
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:27:38 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34042)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hTogz-0000nE-Cm
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:27:37 -0400
+Received: by mail-oi1-x241.google.com with SMTP id u64so4522817oib.1
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=n0Ijl4hy3Tw3rG6YEgtZk7MKBK/kH8g9qzdKz+PPWmg=;
+	b=kClbc+tbFVtfBqauINe1eE9GN40rWXJXr0s4OKcMdutCBsH3cnBBqMmRvuAeRfdz2E
+	Y9pyBePHTpvYPQef3FY4a6cCN4t1+Sc2Hz7sQ+EUK/YuanhtAw9fUJWvT87LKwjM8b0U
+	P76iTr5WOKLoSbDnh1Hyq9cSNn2trLm8/PrZbZ6wuR0oWAg2d4sK05bzazzwCP4DUduT
+	InvGaxEWfHvJVutgvy411lz5MBoEiq8OaGgmITlyhlX+W4weDBkcQFeM4Vv1fgd8qXSR
+	rtVz6Fiy6Livzr4y5sasAbyhS1K7l7UJtUCuxfejeCihM9mulr6MKNIMsZg5NuWOENQ2
+	g6zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=n0Ijl4hy3Tw3rG6YEgtZk7MKBK/kH8g9qzdKz+PPWmg=;
+	b=ajIFHS5DUnx91YG5aYcoBGDiZvFNFbO3dS7vkthCRCgiU0SL5HdtRvbEOHDTkwK4vl
+	qPJEz9rrmaJ5hWhmn4RNtatF/fukCjXsGQcitdngE8M9Krix+5jYmPFbWVQXU37bv5oG
+	3X9pYfQGFu1XltzaLfyzje/SFGrdhZIUzoJBvuDE5oxazGG0VvcH3eRp5THeMHMosrUy
+	7r2/i7rEDYMt9LuQAohkqfI4vjM1yc6+OSyNRo0Tz2jh7bgNKXBOGRpOsOk36JdUZ5IC
+	Ap4NgAqFDAxfFSZxDh6o6TaoWFYnNs6cdurwMZygUau4cj4+/m8olmw1QopNBPrwdQiX
+	FAXw==
+X-Gm-Message-State: APjAAAWkx4Aoypma68I8AeUQC/JOMn5YWSEG06hkfiteyWLS1xEYDtbb
+	UDru6gYLmuvf8S8WFCAoMTH35Pq4zuvAwKZg9kDgoQ==
+X-Google-Smtp-Source: APXvYqwZxguR7fxAdz/1y3C7dX7W3tmwmcfXFPUgS1VI0hypzxVNeXFemctkq7Dw8LWC5iw2F2NIxxbXenhj7CXxb50=
+X-Received: by 2002:aca:cd12:: with SMTP id d18mr2741321oig.146.1558621656272; 
+	Thu, 23 May 2019 07:27:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <B8380028-641C-4355-AF16-2F881E25CF8D@oracle.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="arstRX0SFu8Oi6JVaqbwy5rKPBEEFE2K4"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Thu, 23 May 2019 14:27:25 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v2 2/3] qemu-img: rebase: Reduce reads on
- in-chain rebase
+References: <20190520162809.2677-1-peter.maydell@linaro.org>
+In-Reply-To: <20190520162809.2677-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 15:27:25 +0100
+Message-ID: <CAFEAcA8tJfNtTB0PaAT+Wvi3qGsjyjPdh7djJhXn56mkF19f6w@mail.gmail.com>
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH 0/4] hw/intc/arm_gicv3: Four simple bugfixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -90,186 +71,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, eyal.moscovici@oracle.com, qemu-block@nongnu.org,
-	arbel.moshe@oracle.com, qemu-devel@nongnu.org,
-	liran.alon@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---arstRX0SFu8Oi6JVaqbwy5rKPBEEFE2K4
-From: Max Reitz <mreitz@redhat.com>
-To: Sam Eiderman <shmuel.eiderman@oracle.com>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- eyal.moscovici@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com,
- liran.alon@oracle.com, arbel.moshe@oracle.com
-Message-ID: <f8b7c7b3-fe64-59cc-6b11-1a87270caf00@redhat.com>
-Subject: Re: [PATCH v2 2/3] qemu-img: rebase: Reduce reads on in-chain rebase
-References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
- <20190502135828.42797-1-shmuel.eiderman@oracle.com>
- <20190502135828.42797-3-shmuel.eiderman@oracle.com>
- <c117d2e2-eef2-df4f-ef3d-37a33426dd51@redhat.com>
- <B8380028-641C-4355-AF16-2F881E25CF8D@oracle.com>
-In-Reply-To: <B8380028-641C-4355-AF16-2F881E25CF8D@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Mon, 20 May 2019 at 17:28, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> This patchset fixes four bugs in our implementation of the GICv3.
+> They're all fairly small fixes, largely typo/cut-n-paste errors...
+>
+> thanks
+> -- PMM
+>
+> Peter Maydell (4):
+>   hw/intc/arm_gicv3: Fix decoding of ID register range
+>   hw/intc/arm_gicv3: GICD_TYPER.SecurityExtn is RAZ if GICD_CTLR.DS == 1
+>   hw/intc/arm_gicv3: Fix write of ICH_VMCR_EL2.{VBPR0,VBPR1}
+>   hw/intc/arm_gicv3: Fix writes to ICC_CTLR_EL3
 
-On 23.05.19 16:09, Sam Eiderman wrote:
->=20
->=20
->> On 23 May 2019, at 17:01, Max Reitz <mreitz@redhat.com
->> <mailto:mreitz@redhat.com>> wrote:
->>
->> On 02.05.19 15:58, Sam Eiderman wrote:
->>> In the following case:
->>>
->>> (base) A <- B <- C (tip)
->>>
->>> when running:
->>>
->>> =C2=A0=C2=A0=C2=A0qemu-img rebase -b A C
->>>
->>> QEMU would read all sectors not allocated in the file being rebased (=
-C)
->>> and compare them to the new base image (A), regardless of whether the=
-y
->>> were changed or even allocated anywhere along the chain between the n=
-ew
->>> base and the top image (B). This causes many unneeded reads when
->>> rebasing an image which represents a small diff of a large disk, as i=
-t
->>> would read most of the disk's sectors.
->>>
->>> Instead, use bdrv_is_allocated_above() to reduce the number of
->>> unnecessary reads.
->>>
->>> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com
->>> <mailto:karl.heubaum@oracle.com>>
->>> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com
->>> <mailto:shmuel.eiderman@oracle.com>>
->>> Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com
->>> <mailto:eyal.moscovici@oracle.com>>
->>> ---
->>> qemu-img.c | 25 ++++++++++++++++++++++++-
->>> 1 file changed, 24 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/qemu-img.c b/qemu-img.c
->>> index d9b609b3f0..7f20858cb9 100644
->>> --- a/qemu-img.c
->>> +++ b/qemu-img.c
->>
->> [...]
->>
->>> @@ -3422,6 +3428,23 @@ static int img_rebase(int argc, char **argv)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0continue;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0}
->>>
->>> + =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0i=
-f (prefix_chain_bs) {
->>> + =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0/*
->>> + =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0* If cluster wasn't changed since prefix_chain=
-, we
->>> don't need
->>> + =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0* to take action
->>> + =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0*/
->>> + =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0ret =3D bdrv_is_allocated_above(bs, prefix_chain_bs,=
+I put patches 3 and 4 into the arm pullreq; will respin
+with a fixed patch 1 plus this patch 2.
 
->>> + =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0offset, n, &n);
->>
->> This will always return true because it definitely is allocated in @bs=
-,
->> or we wouldn=E2=80=99t be here. =C2=A0(We just checked that with
->> bdrv_is_allocated().) =C2=A0I think @top should be backing_bs(bs).
->>
->> Max
->=20
-> I don=E2=80=99t think that=E2=80=99s true:
->=20
-> Examine the case where we have the following chain:
->=20
-> A <- B <- C
->=20
-> When we rebase C directly over A: qemu-img rebase -b A C
->=20
-> We must check for every offset (sector): bdrv_is_allocated_above(C, A,
-> offset, n, &n);
->=20
-> If a sector from C is allocated above A - it may have been changed - so=
-
-> we need to do a read from A and a read from C and compare.
-> If the sector is not allocated above, it was not changed - we don=E2=80=
-=99t need
-> to read from A or C.
-
-First: Oops, somehow I inverted the bdrv_is_allocated() check in my
-head.  (For context: I mean this part above this hunk here:
-
-    /* If the cluster is allocated, we don't need to take action */
-    ret =3D bdrv_is_allocated(bs, offset, n, &n);
-    if (ret < 0) {
-        error_report("error while reading image metadata: %s",
-                     strerror(-ret));
-        goto out;
-    }
-
-
-
-    if (ret) {
-        continue;
-    }
-
-)  So at this point, the range definitely is *not* allocated in @bs.
-
-But second: That still means that we do not have to check @bs itself,
-because we already did.  We know the range isn=E2=80=99t allocated there,=
- so we
-can start at its backing file.
-
-On a more abstract level: No, we do not need to read all sectors from A
-and C and compare them if they are allocated anywhere above A.  If they
-are allocated in C, we=E2=80=99re good, because all we=E2=80=99d do is wr=
-ite them back
-to C (which is a no-op).  That=E2=80=99s exactly what the existing
-bdrv_is_allocated() check is for.
-
-So we only need to know whether the sectors are allocated above the base
-(A) and below the top (C), so in your example, whether they are
-allocated in B.  If they are, we need to compare and potentially copy,
-if they are not, we can skip them.
-
-So my claim that bdrv_is_allocated_above() would always return true is
-wrong, but it still should use backing_bs(bs) for the top because we
-have checked @bs already.
-
-Max
-
-
---arstRX0SFu8Oi6JVaqbwy5rKPBEEFE2K4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzmra8ACgkQ9AfbAGHV
-z0BQzwf/ZVdJIIJqqNj2bPye75yytP8HyAedpzJyVrspiHBx4+CSTArCTBynqSYH
-8s8IMcxTz4MRdjQIz+JpqSqogGi/ZnE1hMN83aG+fUH+dAOWf/i/Wbr7/RNlA0iw
-I1bN5yZNNDuehmuKPtOUZnYsff6AYXCfrsAWXwe4QOc3sO0KL8GFrzT5JBRzPgDY
-kFR89n/TsIhZI33oumodOZ/RbQGsdEfjKyK4caccbiThJJuztfF2EdNVK2nr+7jm
-nw6ph/TEXkoWFcCa9zS+3ylJ2CRnsaoATUxzklkD8GD19KsyTP1UZy/j06/y4QEX
-Hl87rNT6qhO+b1OkhVUR2tMZAUErLA==
-=+J5M
------END PGP SIGNATURE-----
-
---arstRX0SFu8Oi6JVaqbwy5rKPBEEFE2K4--
+thanks
+-- PMM
 
