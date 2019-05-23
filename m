@@ -2,55 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACAF2843E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:52:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40637 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BD828454
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:56:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40711 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqxI-0003Z8-Rg
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:52:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44739)
+	id 1hTr17-0006is-Md
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:56:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45685)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hTqv9-0002R1-Pf
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:50:24 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hTqwC-0003Ld-2k
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:51:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hTqmN-0007lF-5z
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:41:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58478)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hTqmN-0007kp-0G
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:41:19 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3BD64308794F
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 16:41:18 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
-	[10.36.117.250])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AF5E45B685;
-	Thu, 23 May 2019 16:41:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 441851138648; Thu, 23 May 2019 18:41:14 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>
-References: <20190523145840.11774-1-dgilbert@redhat.com>
-	<20190523145840.11774-2-dgilbert@redhat.com>
-Date: Thu, 23 May 2019 18:41:14 +0200
-In-Reply-To: <20190523145840.11774-2-dgilbert@redhat.com> (David Alan
-	Gilbert's message of "Thu, 23 May 2019 15:58:39 +0100")
-Message-ID: <87k1ehgm39.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(envelope-from <pbonzini@redhat.com>) id 1hTqwA-00069T-9G
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:51:28 -0400
+Received: from mail-wr1-f52.google.com ([209.85.221.52]:39684)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hTqwA-00061m-2N
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:51:26 -0400
+Received: by mail-wr1-f52.google.com with SMTP id w8so7057541wrl.6
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 09:51:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=+l1KFl548lVy+J7Yjdbh9qZFSu5ezbf7mS+mJ9x0YCs=;
+	b=CRUYbzSCZvgJi8nTw4dXVR2W6HPt7YpIG6wLuXZoFp+0lGiHojeOBk9jDdlNiOgaGA
+	iC2NUhkiz2YerGljABSW8olOGfRJI2zvgzSSu9IQt4iScZLYiMweyrkN2Mrpkigijli0
+	OZaTAHNrR31PvaIAls4or1AORFAenlQJKj641n+W9qG/v+xOG0Ex3XVuEkjlvlRxuhmS
+	Jzj6tHBfpNfo+ayjVwx0t6+2Ac3SrDg5h0Qs8G5CFm0PNo68nSYt2KvGF7/Re39m1yKQ
+	YwsS6e2vWnn/PJE8WYc0YryWkAYublYo6O5hMlkJvg5++RPbHryzQ3Fny/OtR3vbMpX5
+	md3A==
+X-Gm-Message-State: APjAAAXeE35jO7IU1j16RyjLlqjvEF0pwK1dxLMigA8ujE0tnNY0EoaE
+	JqSK/ztf4irrNTukyDw0Rje/mg==
+X-Google-Smtp-Source: APXvYqwYMsdJOYPlbnYES17C4Qgh69tHpd1bqR5122H7+aO5On9KMPipTQhL6ZxHnnP/tfeyzrV0Ng==
+X-Received: by 2002:adf:9023:: with SMTP id h32mr47461637wrh.95.1558630274312; 
+	Thu, 23 May 2019 09:51:14 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:803b:385d:ae51:dd22?
+	([2001:b07:6468:f312:803b:385d:ae51:dd22])
+	by smtp.gmail.com with ESMTPSA id f126sm26255wmf.30.2019.05.23.09.51.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 09:51:13 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190523081538.2291-1-armbru@redhat.com>
+	<20190523081538.2291-6-armbru@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <db337f20-8b76-9214-533e-3e4b79c5c4d5@redhat.com>
+Date: Thu, 23 May 2019 18:51:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.45]);
-	Thu, 23 May 2019 16:41:18 +0000 (UTC)
+In-Reply-To: <20190523081538.2291-6-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/2] net/announce: Allow optional list of
- interfaces
+	[fuzzy]
+X-Received-From: 209.85.221.52
+Subject: Re: [Qemu-devel] [RFC v4 5/7] tests: New make target check-source
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,56 +72,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org, laine@redhat.com
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> writes:
+On 23/05/19 10:15, Markus Armbruster wrote:
+> A large number of headers don't pass this test, by design or by
+> accident.  To keep things more manageable, exclude all headers outside
+> include/ for now.
 
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> Allow the caller to restrict the set of interfaces that announces are
-> sent on.  The default is still to send on all interfaces.
->
-> e.g.
->
->   { "execute": "announce-self", "arguments": { "initial": 50, "max": 550, "rounds": 5, "step": 50, "ifaces": ["vn2","vn1"] } }
->
-> Note: There's still only one timer for the qmp command, so that
-> performing an 'announce-self' on one list of interfaces followed
-> by another 'announce-self' on another list will stop the announces
-> on the existing set.
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-[...]
-> diff --git a/qapi/net.json b/qapi/net.json
-> index 5f7bff1637..871cfa7405 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -706,7 +706,8 @@
->    'data': { 'initial': 'int',
->              'max': 'int',
->              'rounds': 'int',
-> -            'step': 'int' } }
-> +            'step': 'int',
-> +            '*ifaces': ['str'] } }
+A lot of these, either in include/ or outside, are _meant_ to be
+included many times.  What about renaming those to .inc.h and
+whitelisting them in the script?
 
-QMP traditionally eschews abbreviations like "iface".
-
->  
->  ##
->  # @announce-self:
-> @@ -718,9 +719,10 @@
->  #
->  # Example:
->  #
-> -# -> { "execute": "announce-self"
-> +# -> { "execute": "announce-self",
->  #      "arguments": {
-> -#          "initial": 50, "max": 550, "rounds": 10, "step": 50 } }
-> +#          "initial": 50, "max": 550, "rounds": 10, "step": 50,
-> +#          "ifaces": ["vn2","vn3"] } }
->  # <- { "return": {} }
->  #
->  # Since: 4.0
+Paolo
 
