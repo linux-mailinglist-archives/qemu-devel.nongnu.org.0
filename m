@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3728A27AFD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:44:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33337 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F8A27AAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:36:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33197 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTlCk-000421-DJ
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:44:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49603)
+	id 1hTl50-0005Rs-3Y
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:36:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49422)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkvO-0005zp-E7
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:15 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkvK-0005uh-21
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkvM-0001WS-D4
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:13 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39058)
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkvA-0001JN-LW
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:06 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55725)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTkvM-0000yj-4X
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:12 -0400
-Received: by mail-wm1-x344.google.com with SMTP id z23so1126426wma.4
+	id 1hTkv4-0000zM-DN
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:58 -0400
+Received: by mail-wm1-x344.google.com with SMTP id x64so5213265wmb.5
 	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=fv7yjgipiPIa0iKuBxA7WsxKljcgZAsZBYR7nSKLcJ0=;
-	b=oYP46KqnsGKZxyofy6qTfPkl95SddVnioUefAwX/iBSZxtWeE599gY1vwK6vEbecmp
-	abFcOpYtLhjWrt+tI23Yh6V0p7z2GzE6ngxGpheOJFrlr8+ZaPrTxdgrs4Q8whv4hVvk
-	3TM+QbuJn+k28CqP96Ll9xEFKsn5TIfzu75/SP9C42GuzTDIKWzFcY1KjSk3NMgRbNrg
-	vnLknKtDCJEbd4vorkQhU9FLn51rtTqvCNTokPaRAcJqDFbW542Rv37iCjTCctBLr2Ps
-	onuWjwNXGkwLioSi0AQUEv9n+utxbIJvr4Oy7YfduhrWzAjy9MIlVaLyJXIXZ+6wDjg8
-	CxLA==
+	bh=HYpRsvHEmUYvBYy6wQQpwlcDtNoNBQtfcPxm0CQghqY=;
+	b=VOyjw/0T4oebmx77bf0SHWLiR23yNN2todyLRTnN3phauS6u4en+7PF2TB9IzPZ4GF
+	Ja8FU3oLAKB/5PPR3Q8GZJJWQ2Lmy2KYUh8X77guFGyL9KnqyWAf7rL08rH08kOoAp1b
+	E2rSUGwtoEoDh9fHjcczOoWHV4ZhCcDJzzhRSe9RrK2Rref0FW5ltXm4dqM90MiWA68J
+	KjXyzvxsSjMaaJNXbYHluD6NG6auM0bPK0K++9XdbnXtoThcKPupam++99sMExuQhpN0
+	xh0NksEQl9CbuGu354AzfTCk21ThkkLHOI05OLPjF4ojvsBF4376Ntop8CezPCgBQech
+	0NBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=fv7yjgipiPIa0iKuBxA7WsxKljcgZAsZBYR7nSKLcJ0=;
-	b=TJBLLlRvwY3/mOpw9BJOPTWO0AwrOWn1A7j0a8MAFBIEilg30az3RVHyVh18h6AuzJ
-	mDMKE8aKKgEmn8U1I84PFDu8Uc3Yz3pg0BhdKKThQVFaRCbQ0P+GEtmU3gxMCeCtg3uC
-	WI71/zjU2H3l08ygzfq4DBoilMpznWhKMo3Q4m1QpFFUPHlGJSo/Ua27VNTFx1w+ZMHr
-	eskMVeeM5BxFAdPzegKjNxffAgKCll1PoXu9A4U7E9mioTK1ohqWOt0m+wVrKwsT40EK
-	TfztvpmdsPn0SYxFOeN66KUD7qfnbyvUy2dQDfrCo93VE+luS/w8zedXx4vEBECOBi1v
-	wo5g==
-X-Gm-Message-State: APjAAAVu2BEFVcspXBT+Ar9KdSzUpQs6VSiSkXHn88nQnSShaW82NVkD
-	8A54GKmlwnRZ1qChgibztJwVXw==
-X-Google-Smtp-Source: APXvYqyjuWv+zcr8wmpex7JhqyOizPdYqdIlAwuXXFES5XA624FYONJl9BdwtRINmqtI+yrrdQPcpA==
-X-Received: by 2002:a1c:2dd2:: with SMTP id
-	t201mr11012074wmt.136.1558607142564; 
+	bh=HYpRsvHEmUYvBYy6wQQpwlcDtNoNBQtfcPxm0CQghqY=;
+	b=KCZrbkIQCa3/E+eVBmTKqMiFS2YKvdMvAmzHPYNa07qeSGbmqUJ3VieiewIPkl3DlG
+	9ymBzb0iHQKW5RIQQn1sAY0rgiJCSw65ogVIvk1EKTFYnFz8i6QFLJvE6joB+WSIjt2j
+	Wf1ziZwKCp0lCN7G+HWqVLOAebQuxGDriZUY7geWgAZTLwn9+tOC12a9+I4ob8PAgItF
+	eaGmoD7GKxs1Cg56KDeKeGq9wKcbeojMb7XJgesk2BWFvVEZUAj+7QIiDZCdNHh3Ey60
+	s+ldCslfeI2MrjaRo3e+Uff484TeS6tRngMx3IAypJEJFX5+NUfo7JehBq/KbKxJL5aU
+	ewSw==
+X-Gm-Message-State: APjAAAVoX8t1BxM0+MP0FYzwvm51kalPqJijeYIkyMA+5ha7/+X1hT7W
+	SuVuk6mMqhUzSt+j2A/geIkNYQ==
+X-Google-Smtp-Source: APXvYqzLEMOJf1y5zQ8SwgV11AxQYs2hq2mQLAP4mDzDesjywV22L8JxCxf7dO1dhxBFkJQXsN9aKA==
+X-Received: by 2002:a1c:be12:: with SMTP id o18mr10888052wmf.124.1558607142996;
 	Thu, 23 May 2019 03:25:42 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	a10sm31509345wrm.94.2019.05.23.03.25.35
+	x68sm8801239wmf.13.2019.05.23.03.25.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Thu, 23 May 2019 03:25:40 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id AFD191FF9D;
+	by zen.linaroharston (Postfix) with ESMTP id C21C71FF9E;
 	Thu, 23 May 2019 11:25:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 11:25:18 +0100
-Message-Id: <20190523102532.10486-15-alex.bennee@linaro.org>
+Date: Thu, 23 May 2019 11:25:19 +0100
+Message-Id: <20190523102532.10486-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523102532.10486-1-alex.bennee@linaro.org>
 References: <20190523102532.10486-1-alex.bennee@linaro.org>
@@ -71,8 +70,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v2 14/28] tests/tcg/multiarch: add support for
- multiarch system tests
+Subject: [Qemu-devel] [PATCH v2 15/28] tests/tcg/multiarch: add hello world
+ system test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,57 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can certainly support some common tests for system emulation that
-make use of our minimal defined boot.S support. It will still be up to
-individual architectures to ensure they build so we provide a
-MULTIARCH_TESTS variable that they can tack onto TESTS themselves.
+This is not really i386 only, we can have the same test for all
+architectures supporting system tests.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/Makefile                                 |  1 +
- tests/tcg/multiarch/system/Makefile.softmmu-target | 14 ++++++++++++++
- 2 files changed, 15 insertions(+)
- create mode 100644 tests/tcg/multiarch/system/Makefile.softmmu-target
+ tests/tcg/i386/Makefile.softmmu-target       | 2 +-
+ tests/tcg/{i386 => multiarch}/system/hello.c | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename tests/tcg/{i386 => multiarch}/system/hello.c (100%)
 
-diff --git a/tests/tcg/Makefile b/tests/tcg/Makefile
-index 1cdd628e96f..6fa63cc8d53 100644
---- a/tests/tcg/Makefile
-+++ b/tests/tcg/Makefile
-@@ -96,6 +96,7 @@ else
- # build options for bare programs are usually pretty different. They
- # are expected to provide their own build recipes.
- -include $(SRC_PATH)/tests/tcg/minilib/Makefile.target
-+-include $(SRC_PATH)/tests/tcg/multiarch/system/Makefile.softmmu-target
- -include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.softmmu-target
- ifneq ($(TARGET_BASE_ARCH),$(TARGET_NAME))
- -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.softmmu-target
-diff --git a/tests/tcg/multiarch/system/Makefile.softmmu-target b/tests/tcg/multiarch/system/Makefile.softmmu-target
-new file mode 100644
-index 00000000000..db4bbeda44c
---- /dev/null
-+++ b/tests/tcg/multiarch/system/Makefile.softmmu-target
-@@ -0,0 +1,14 @@
-+# -*- Mode: makefile -*-
-+#
-+# Multiarch system tests
-+#
-+# We just collect the tests together here and rely on the actual guest
-+# architecture to add to the test dependancies and deal with the
-+# complications of building.
-+#
-+
-+MULTIARCH_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/multiarch/system
-+VPATH+=$(MULTIARCH_SYSTEM_SRC)
-+
-+MULTIARCH_TEST_SRCS=$(wildcard $(MULTIARCH_SYSTEM_SRC)/*.c)
-+MULTIARCH_TESTS = $(patsubst $(MULTIARCH_SYSTEM_SRC)/%.c, %, $(MULTIARCH_TEST_SRCS))
+diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
+index 53c9c5ece06..c31bbbf39a7 100644
+--- a/tests/tcg/i386/Makefile.softmmu-target
++++ b/tests/tcg/i386/Makefile.softmmu-target
+@@ -27,7 +27,7 @@ CFLAGS+=-m32
+ LINK_SCRIPT=$(I386_SYSTEM_SRC)/kernel.ld
+ LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,-melf_i386
+ # FIXME: move to common once x86_64 is bootstrapped
+-TESTS+=$(X86_TESTS)
++TESTS+=$(X86_TESTS) $(MULTIARCH_TESTS)
+ endif
+ CFLAGS+=-nostdlib -ggdb -O0 $(MINILIB_INC)
+ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
+diff --git a/tests/tcg/i386/system/hello.c b/tests/tcg/multiarch/system/hello.c
+similarity index 100%
+rename from tests/tcg/i386/system/hello.c
+rename to tests/tcg/multiarch/system/hello.c
 -- 
 2.20.1
 
