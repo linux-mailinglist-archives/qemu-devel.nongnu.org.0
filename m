@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F08127F8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:26:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37456 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3511727FCF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:34:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37653 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTog9-00045d-6I
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:26:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53814)
+	id 1hTonS-0002s9-A5
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:34:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53866)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodr-0002rB-1O
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:23 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodu-0002tz-1E
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodp-00074D-9U
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:22 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:53419)
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodt-000766-08
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:25 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33478)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTodn-0006uR-6S
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:21 -0400
-Received: by mail-wm1-x334.google.com with SMTP id 198so6061130wme.3
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:08 -0700 (PDT)
+	id 1hTodr-0006uh-0H
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:24 -0400
+Received: by mail-wm1-x344.google.com with SMTP id c66so7251224wme.0
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=mSpvfYP0iVrT7e/S7QFK2UnkxPjj61LdvYVxaZGAQEM=;
-	b=C+QdGa0+FkUpBMlH/yrjt0Dfh40SrN66t4GZhH+9LAXnWVOt9S0veY6v2CdXpsLfm1
-	xY++Wu2955TorW0QwYkbkfiMA22QRSccs6l3ZksIA/hkzAiNsxb+5aBJjYPDhiGmXbH3
-	/DvqdzH2CyAGbBwXhYOMw3AzE2MdU/tI//a7CLtXJjPclwCrWP6BEFidrg8zs39Qy4GJ
-	siYKsy/CeElUHnmi1T2Wo8Oy/sltR5KLRqS2ogkDX6vNSYVHurVd9tL38Em/YpzR2v+d
-	TmZhjvGDLfgaW+gHgnKhMZOiyU40TeN/ZA2ckaGkeyIwD8QWEtYjlyd5v+ONd/mF2wIh
-	eTpw==
+	bh=0a+RF8S0YvjE+0k16KJTj/Qgw1ZTceu2oeIc7kE90J8=;
+	b=s36ruKotbViYmwprbIqvwx6JUZmsVUHq6HOWeloAGXrzSXJwOLmoMELRfOO3Z/3L4i
+	Hy4BmS1mVzyAF6UdVTB9jVPGlYBai4XYD/YWteNamg7E71jb3mJTfU4+z//REdvFUgxm
+	COLg+jS/3Rx3Dz6QRC52uYW/nPwxKW7ui+wdTjWu7k/j5V5DAvKXY7Acx+q4/TCFywJn
+	dX3mn0jfm6RWbL916JHpOlSxATv+lWc/S5qY7ZhxKTbk8Uqg+98Mp9foX0xQcBguKttq
+	5gC2br08PihZXYGr0tO4zIiBAJKvtwZyWTwy4jxJGxJ57qbjZmVlQo4pvvudaaIetxns
+	rFbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=mSpvfYP0iVrT7e/S7QFK2UnkxPjj61LdvYVxaZGAQEM=;
-	b=LzjuUl7ojYr7p1YY/sEkGoUSFG49b5YzRFi5BIRVeUOndUT/qicuJOFwQ6jwwEAzJ1
-	qwhHnYQmKPSaHNsmsd07p90HksNwvTEx4cTpNzylcKgnrZ10bKOmhoSaZf+pUwzeDUrA
-	BfLuL+87fyFHdSp8KOLvJFdc8dxUtKrv/XJK1aw5q/1e6PQgJZgc7qC1b0ICfADRPzZb
-	K/Q5xqW0NyYPW+boLr4kOqh88B/SuKEhF69KvdHHkK1xUmQvt3SvuPz3sKc+NAuHL/sj
-	47rLgRmINLwJ+Nni7aAPjl4FWIbxO5CE7bP5L60hT4xowSxh6lvLHUFBYnHNI8b5KuRC
-	giOA==
-X-Gm-Message-State: APjAAAWOm9PYhLb3ZeLI7250Sulo+lwpQsj0qWL/djxlN/Z0kqZhEwg1
-	onXu/SIDnIlrfxJ8zrsk9rnDKLxWguT3AA==
-X-Google-Smtp-Source: APXvYqwmbUC/SISXpSy70jIsOuyoZHz6MSNCdtBkFEbirutlANT5Ql9xco4HyFlD5mVcz50bEQaDKQ==
-X-Received: by 2002:a7b:c762:: with SMTP id x2mr2874806wmk.144.1558621447659; 
-	Thu, 23 May 2019 07:24:07 -0700 (PDT)
+	bh=0a+RF8S0YvjE+0k16KJTj/Qgw1ZTceu2oeIc7kE90J8=;
+	b=sWK21TLZxX46bT/xi2q5ezEyi3QvEqnc2RdKBUgjkC3aqUtWi3QCJYIVGjx/Usf+og
+	qCzWf14N3Cd72LPkSC3LtLk6DqEjJrl+skf4VE3hybTEW1/SgjQ3OyAo35S0+b9osfTE
+	oJyvUjqPJ8w8XGyHhrSg0N+6xwuh4dIhW2/EiHyJGpj4efJLn0jEVZCn35W/Zkkhs7Ll
+	5AZp6aD4Qt3jzxaOP/RZehB2RVdmmPCCH9ClQy8JhkpXdp//a2nuaOcidhKmH3qXq5Gn
+	6jbzTxeeS8mE+gWB2SuP1r/K8OpMMEL1VVt6/9oReGqQJChb0j8EPuS/AMEvZYgbTt+d
+	iMEg==
+X-Gm-Message-State: APjAAAVLLRCgZVH5zQMcA+Qqff4wDnwjLsk8d9WptKgBVSqt46Bil3r8
+	NnVmfC1odhZR9K3WuQtGZYeK1gY4EI5w+g==
+X-Google-Smtp-Source: APXvYqxkFoC1IHZ4kgp7ihcVOunAJD/p+XZvT93ETAUCp7dA97AmpbwkOqbyxAKETNKO96JiQMKDzw==
+X-Received: by 2002:a1c:a804:: with SMTP id r4mr11960271wme.21.1558621448518; 
+	Thu, 23 May 2019 07:24:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.06
+	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.07
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 07:24:07 -0700 (PDT)
+	Thu, 23 May 2019 07:24:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 15:23:52 +0100
-Message-Id: <20190523142357.5175-8-peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 15:23:53 +0100
+Message-Id: <20190523142357.5175-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523142357.5175-1-peter.maydell@linaro.org>
 References: <20190523142357.5175-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PULL 07/12] hw/intc/arm_gicv3: Fix write of
- ICH_VMCR_EL2.{VBPR0, VBPR1}
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PULL 08/12] hw/intc/arm_gicv3: Fix writes to
+ ICC_CTLR_EL3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,32 +83,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In ich_vmcr_write() we enforce "writes of BPR fields to less than
-their minimum sets them to the minimum" by doing a "read vbpr and
-write it back" operation.  A typo here meant that we weren't handling
-writes to these fields correctly, because we were reading from VBPR0
-but writing to VBPR1.
+The ICC_CTLR_EL3 register includes some bits which are aliases
+of bits in the ICC_CTLR_EL1(S) and (NS) registers. QEMU chooses
+to keep those bits in the cs->icc_ctlr_el1[] struct fields.
+Unfortunately a missing '~' in the code to update the bits
+in those fields meant that writing to ICC_CTLR_EL3 would corrupt
+the ICC_CLTR_EL1 register values.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190520162809.2677-4-peter.maydell@linaro.org
+Message-id: 20190520162809.2677-5-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_cpuif.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/intc/arm_gicv3_cpuif.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index cbad6037f19..000bdbd6247 100644
+index 000bdbd6247..3b212d91c8f 100644
 --- a/hw/intc/arm_gicv3_cpuif.c
 +++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -2366,7 +2366,7 @@ static void ich_vmcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     /* Enforce "writing BPRs to less than minimum sets them to the minimum"
-      * by reading and writing back the fields.
-      */
--    write_vbpr(cs, GICV3_G1, read_vbpr(cs, GICV3_G0));
-+    write_vbpr(cs, GICV3_G0, read_vbpr(cs, GICV3_G0));
-     write_vbpr(cs, GICV3_G1, read_vbpr(cs, GICV3_G1));
+@@ -1856,7 +1856,7 @@ static void icc_ctlr_el3_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     trace_gicv3_icc_ctlr_el3_write(gicv3_redist_affid(cs), value);
  
-     gicv3_cpuif_virt_update(cs);
+     /* *_EL1NS and *_EL1S bits are aliases into the ICC_CTLR_EL1 bits. */
+-    cs->icc_ctlr_el1[GICV3_NS] &= (ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
++    cs->icc_ctlr_el1[GICV3_NS] &= ~(ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
+     if (value & ICC_CTLR_EL3_EOIMODE_EL1NS) {
+         cs->icc_ctlr_el1[GICV3_NS] |= ICC_CTLR_EL1_EOIMODE;
+     }
+@@ -1864,7 +1864,7 @@ static void icc_ctlr_el3_write(CPUARMState *env, const ARMCPRegInfo *ri,
+         cs->icc_ctlr_el1[GICV3_NS] |= ICC_CTLR_EL1_CBPR;
+     }
+ 
+-    cs->icc_ctlr_el1[GICV3_S] &= (ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
++    cs->icc_ctlr_el1[GICV3_S] &= ~(ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
+     if (value & ICC_CTLR_EL3_EOIMODE_EL1S) {
+         cs->icc_ctlr_el1[GICV3_S] |= ICC_CTLR_EL1_EOIMODE;
+     }
 -- 
 2.20.1
 
