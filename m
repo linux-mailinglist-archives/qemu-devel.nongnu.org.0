@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3511727FCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:34:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37653 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48F627FD7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:36:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37728 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTonS-0002s9-A5
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:34:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53866)
+	id 1hTopb-0004t1-T6
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:36:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53867)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodu-0002tz-1E
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodu-0002u0-1E
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodt-000766-08
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodt-00076K-0a
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:25 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33478)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44535)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTodr-0006uh-0H
+	id 1hTodr-0006v8-3H
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:24 -0400
-Received: by mail-wm1-x344.google.com with SMTP id c66so7251224wme.0
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:09 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id w13so6485476wru.11
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=0a+RF8S0YvjE+0k16KJTj/Qgw1ZTceu2oeIc7kE90J8=;
-	b=s36ruKotbViYmwprbIqvwx6JUZmsVUHq6HOWeloAGXrzSXJwOLmoMELRfOO3Z/3L4i
-	Hy4BmS1mVzyAF6UdVTB9jVPGlYBai4XYD/YWteNamg7E71jb3mJTfU4+z//REdvFUgxm
-	COLg+jS/3Rx3Dz6QRC52uYW/nPwxKW7ui+wdTjWu7k/j5V5DAvKXY7Acx+q4/TCFywJn
-	dX3mn0jfm6RWbL916JHpOlSxATv+lWc/S5qY7ZhxKTbk8Uqg+98Mp9foX0xQcBguKttq
-	5gC2br08PihZXYGr0tO4zIiBAJKvtwZyWTwy4jxJGxJ57qbjZmVlQo4pvvudaaIetxns
-	rFbQ==
+	bh=r8KGu8IeOBjMN2NrTnfDSqKnNbY/WeWtTXuKw6y5tUs=;
+	b=VLvgCR18MT3KyToUwozLEw3mBdJo5Z93pj1+++uvL+E2ZEtNiXVTkDTCQDr/1bc+7r
+	zsfyb+zHHGEDK69CeidJ/+0F4TqTzNUYkaWGPClvOpGXnVUEd2y/Oom4ZJpVC21dZJv8
+	o2KL+6wX9BclBkwhm2Jg6bx1ImYvPGCeDuMxeClv9vMUmUdltOUEkCpqIfkf9pZwJKBc
+	xa85ulN3qCXlSb9lUb+4kEs+xKkz0DoIUfMRxs/YB6I0rs0tuKafVgPbvcABDFgT0ogU
+	CoOzd+suLCbyzbq8WCGVmiPtqN4d9p2rT9Vse38H9TlwKb/qQFPZwyKVwIQf/UMLB0iK
+	dwzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=0a+RF8S0YvjE+0k16KJTj/Qgw1ZTceu2oeIc7kE90J8=;
-	b=sWK21TLZxX46bT/xi2q5ezEyi3QvEqnc2RdKBUgjkC3aqUtWi3QCJYIVGjx/Usf+og
-	qCzWf14N3Cd72LPkSC3LtLk6DqEjJrl+skf4VE3hybTEW1/SgjQ3OyAo35S0+b9osfTE
-	oJyvUjqPJ8w8XGyHhrSg0N+6xwuh4dIhW2/EiHyJGpj4efJLn0jEVZCn35W/Zkkhs7Ll
-	5AZp6aD4Qt3jzxaOP/RZehB2RVdmmPCCH9ClQy8JhkpXdp//a2nuaOcidhKmH3qXq5Gn
-	6jbzTxeeS8mE+gWB2SuP1r/K8OpMMEL1VVt6/9oReGqQJChb0j8EPuS/AMEvZYgbTt+d
-	iMEg==
-X-Gm-Message-State: APjAAAVLLRCgZVH5zQMcA+Qqff4wDnwjLsk8d9WptKgBVSqt46Bil3r8
-	NnVmfC1odhZR9K3WuQtGZYeK1gY4EI5w+g==
-X-Google-Smtp-Source: APXvYqxkFoC1IHZ4kgp7ihcVOunAJD/p+XZvT93ETAUCp7dA97AmpbwkOqbyxAKETNKO96JiQMKDzw==
-X-Received: by 2002:a1c:a804:: with SMTP id r4mr11960271wme.21.1558621448518; 
-	Thu, 23 May 2019 07:24:08 -0700 (PDT)
+	bh=r8KGu8IeOBjMN2NrTnfDSqKnNbY/WeWtTXuKw6y5tUs=;
+	b=tKvKIvh8RU3D385+/+JgxJHXKBxMDdj8LvMrYOYt4U41/sDVlkpt9YWi2Q9Fl8x84u
+	0c355J6ScKzZeZO/tROA0YE2xwBt/w2WPpuDfoX7zSFYvMM/ZA6P05/QhGlDC9Xj/cfM
+	Ol+RkBqsJymC4cFKs1ys+v/0SS7zIvnZi68s39SvcEAjfpjdN/57SNDPtgtWAUeYhDUF
+	00gt1s8NbBm6rMqaTI1bUBeklxeR1XBy4AS7fHpvgn6VlMXRVtuWfiIbubUk71USWrN5
+	at2s/L3V4a59PJMyMI48vKLt/esDHnYwGCuXwMaYHRD+tTiyfv8nBWfiBel3hSUNfTfG
+	GCIA==
+X-Gm-Message-State: APjAAAWtg/XRjTq29irZAtF4Ul6Zj+UP0xUjo7mFXsvEjzqgyVQAVqmO
+	8o3n9NJeSQ9ArRrkl7XyOdR/yjeWUDhJHw==
+X-Google-Smtp-Source: APXvYqwb5cQiUYK4n2BWIrWvbDgWWWCxy3YKcwKtPSJ4R5lT0gf0Dba9N/zh3sxNC0JRYCMd3zhQpA==
+X-Received: by 2002:a5d:63d2:: with SMTP id c18mr8206666wrw.134.1558621449530; 
+	Thu, 23 May 2019 07:24:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.07
+	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.08
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Thu, 23 May 2019 07:24:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 15:23:53 +0100
-Message-Id: <20190523142357.5175-9-peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 15:23:54 +0100
+Message-Id: <20190523142357.5175-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523142357.5175-1-peter.maydell@linaro.org>
 References: <20190523142357.5175-1-peter.maydell@linaro.org>
@@ -66,9 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PULL 08/12] hw/intc/arm_gicv3: Fix writes to
- ICC_CTLR_EL3
+X-Received-From: 2a00:1450:4864:20::42d
+Subject: [Qemu-devel] [PULL 09/12] hw/arm/exynos4: Remove unuseful debug code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,42 +82,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ICC_CTLR_EL3 register includes some bits which are aliases
-of bits in the ICC_CTLR_EL1(S) and (NS) registers. QEMU chooses
-to keep those bits in the cs->icc_ctlr_el1[] struct fields.
-Unfortunately a missing '~' in the code to update the bits
-in those fields meant that writing to ICC_CTLR_EL3 would corrupt
-the ICC_CLTR_EL1 register values.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20190520214342.13709-2-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190520162809.2677-5-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_cpuif.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/arm/exynos4_boards.c | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 000bdbd6247..3b212d91c8f 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -1856,7 +1856,7 @@ static void icc_ctlr_el3_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     trace_gicv3_icc_ctlr_el3_write(gicv3_redist_affid(cs), value);
+diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
+index 71f0af3bdbb..1b82bce2f4d 100644
+--- a/hw/arm/exynos4_boards.c
++++ b/hw/arm/exynos4_boards.c
+@@ -35,20 +35,6 @@
+ #include "hw/net/lan9118.h"
+ #include "hw/boards.h"
  
-     /* *_EL1NS and *_EL1S bits are aliases into the ICC_CTLR_EL1 bits. */
--    cs->icc_ctlr_el1[GICV3_NS] &= (ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
-+    cs->icc_ctlr_el1[GICV3_NS] &= ~(ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
-     if (value & ICC_CTLR_EL3_EOIMODE_EL1NS) {
-         cs->icc_ctlr_el1[GICV3_NS] |= ICC_CTLR_EL1_EOIMODE;
-     }
-@@ -1864,7 +1864,7 @@ static void icc_ctlr_el3_write(CPUARMState *env, const ARMCPRegInfo *ri,
-         cs->icc_ctlr_el1[GICV3_NS] |= ICC_CTLR_EL1_CBPR;
-     }
+-#undef DEBUG
+-
+-//#define DEBUG
+-
+-#ifdef DEBUG
+-    #undef PRINT_DEBUG
+-    #define  PRINT_DEBUG(fmt, args...) \
+-        do { \
+-            fprintf(stderr, "  [%s:%d]   "fmt, __func__, __LINE__, ##args); \
+-        } while (0)
+-#else
+-    #define  PRINT_DEBUG(fmt, args...)  do {} while (0)
+-#endif
+-
+ #define SMDK_LAN9118_BASE_ADDR      0x05000000
  
--    cs->icc_ctlr_el1[GICV3_S] &= (ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
-+    cs->icc_ctlr_el1[GICV3_S] &= ~(ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
-     if (value & ICC_CTLR_EL3_EOIMODE_EL1S) {
-         cs->icc_ctlr_el1[GICV3_S] |= ICC_CTLR_EL1_EOIMODE;
-     }
+ typedef enum Exynos4BoardType {
+@@ -140,16 +126,6 @@ exynos4_boards_init_common(MachineState *machine,
+     exynos4_board_binfo.gic_cpu_if_addr =
+             EXYNOS4210_SMP_PRIVATE_BASE_ADDR + 0x100;
+ 
+-    PRINT_DEBUG("\n ram_size: %luMiB [0x%08lx]\n"
+-            " kernel_filename: %s\n"
+-            " kernel_cmdline: %s\n"
+-            " initrd_filename: %s\n",
+-            exynos4_board_ram_size[board_type] / 1048576,
+-            exynos4_board_ram_size[board_type],
+-            machine->kernel_filename,
+-            machine->kernel_cmdline,
+-            machine->initrd_filename);
+-
+     exynos4_boards_init_ram(s, get_system_memory(),
+                             exynos4_board_ram_size[board_type]);
+ 
 -- 
 2.20.1
 
