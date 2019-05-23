@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE5627FD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:36:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37726 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4B827FB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:31:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37589 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTopV-0004pL-T1
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:36:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53862)
+	id 1hTol9-0000Su-Oo
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:31:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53812)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodt-0002tw-Tc
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:26 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodr-0002rA-1M
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodt-00076Q-0g
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:25 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36085)
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodp-000743-3O
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:22 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54459)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTodr-0006vY-27
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:24 -0400
-Received: by mail-wr1-x430.google.com with SMTP id s17so6533378wru.3
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:11 -0700 (PDT)
+	id 1hTodm-0006xd-EC
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:19 -0400
+Received: by mail-wm1-x344.google.com with SMTP id i3so6051468wml.4
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=azbgycPFZ1DsGwmKdNJoyt5+e00qL8Rz3KbWhOofhPo=;
-	b=vycBGIs8tPQSI0PzwFYHb5JudhXVdr7ogYAYmV3ktOF9nZdmMNN8g1oX2o9s8u0uVT
-	xlF1UlPMSqInz0sPil66006fXgE7Q93VYz2TkXnuFQTLMriV3n4ST2J0ZPIl+NE5l+jO
-	Zmhx+lz3rNwNe8d4KOS0hhzF5AjIoQiHiEAVFojOUjWDgpKGy3iqFSDCGHDkFrrnQkN0
-	pHmTTuEEwQLd3E9UFV2LkBn6DrXAbkHuxrREaSW9p17+Ac3JhHblHvfdg9FoYsu+eYlE
-	Ea6/9qp3/UPst5v6OwYXYfgXLiptOqJF88jBdKngTWKEDmAQf5EEnu/JrnkMDchEpbRU
-	sw/w==
+	bh=joq0WIkgIgBccOnX/tw/4BR0pXLnjvJzCw5NVsq1dWQ=;
+	b=u/WfZjtMXauA8pbTUA6Kj0RHoq5/ckKXapm47YjUP12G2AmlSiz7kGj0nfKTG0cceY
+	us1SRhMME/tFdQe6EqpNSFTXKR6MfzKa2s6B9CY07M/ZXmubhBUqGIL2VbsPTe794z77
+	g/VH0VOPC+0SknaIFUmgjbTfc2sQiCVKczG2F2lUGRCOF2G+M/ISrfHkf61FP6dsHrCV
+	yv/qktah/KkNFfgREBRL/7CeOSYhZGZ6Mk0qI6CMfdRygw0TscjPuEzqPUD1lQCTq/9R
+	Hxadq75JU6xRYJxXbZ4QEw1LC5Yclcf0kMepgEHnW1OcQc1EpdyzYIFTfehBc6EZtCwJ
+	wd0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=azbgycPFZ1DsGwmKdNJoyt5+e00qL8Rz3KbWhOofhPo=;
-	b=qmB1nyZ+6c5fpOUW53t23srRUe2KBj6kOPgQmk6agKzDn/qNNwJGuyx8puZjZ15AP9
-	cJq4ySmZLMo9lMQxsgzJURZ0dbGscrXeK24oLIK0JDploahnkwRLoZm7U0ELQXR5ptGY
-	n8lq7JY+5JLSwlmVGw3AaBWolsoHAtxTHAg+PtcN2DSO3/h0vR/bmyyjXQN/671BKGGK
-	hjp0k/udIdBrJhDES3/9uUM+m6WE9Oob3sjo2TRCIP0I7mlR/8KPj/x9e9/D1yewb3HL
-	oUHyvdts6E7o3P/t/EKRxnb6JVvMS52gpkeGiyflUBAERrP2BJzIFk8G5TGTjPF+o68I
-	hGbw==
-X-Gm-Message-State: APjAAAUgLPSXHLhGBnhR/DNOHAavKfDnIs3rqZ2aXgWQymkTfe9Az2PF
-	91AFdTbhnd9HeUhhM0/9oP0Rw3MNIuOclw==
-X-Google-Smtp-Source: APXvYqwGrwhj/dt3PFDXnorW7VT0CffVjdiubWw9xOaWrquTYom+PeNeDY5Bw89qpLbZsXK1CuhqQw==
-X-Received: by 2002:a5d:6b12:: with SMTP id v18mr3808692wrw.306.1558621450423; 
-	Thu, 23 May 2019 07:24:10 -0700 (PDT)
+	bh=joq0WIkgIgBccOnX/tw/4BR0pXLnjvJzCw5NVsq1dWQ=;
+	b=DZhF1YG80wlkm6iPoHkIM3T1rvr2jW2PRsy80V9Q7UNG+RCpo297GDLyjXGeUjvdqL
+	BNY8b2+mfrqUAoC6RDaDLVVkOF7Dh4PTNhjEQlaLbNju/g9YgfxBPgyvaIGnyGTuZR7Q
+	U/cVxA7lGJ3ywJwCdpsKGhVmumTAbmKbS4c4vYjPut1dI9WujohSEuJ0mH+jSgZ0Skv6
+	zGNRFj7QSCPEnt4eXH3lsZqpIHT2G0IBg418DBSu7b4bx4KpUxdPuHqGJnDQjD5OLWA6
+	aoQooZrMxWVWe8I6deExq8bPyq++9tSKLmIiTagC5DQBhv7FFAMg5X9gmMJvDY04AyAK
+	9fgA==
+X-Gm-Message-State: APjAAAV9I0HQPn8Bd+LhX4HZUrQZO2YFaIIarqcr7u8QpPBDdS0c0av3
+	gCwoJKXkhBByAkRFYJxRNykoIiaX3cNWTg==
+X-Google-Smtp-Source: APXvYqwCm7O+zwngY4RLYhkKHmfmtstQ8aR57hsRy6DaxpU/lCR+CXDDb1oGAsebSGrHMsZ1RQZlkw==
+X-Received: by 2002:a1c:f10f:: with SMTP id p15mr12338204wmh.150.1558621451433;
+	Thu, 23 May 2019 07:24:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.09
+	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.10
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 07:24:09 -0700 (PDT)
+	Thu, 23 May 2019 07:24:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 15:23:55 +0100
-Message-Id: <20190523142357.5175-11-peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 15:23:56 +0100
+Message-Id: <20190523142357.5175-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523142357.5175-1-peter.maydell@linaro.org>
 References: <20190523142357.5175-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::430
-Subject: [Qemu-devel] [PULL 10/12] hw/arm/exynos4: Use the IEC binary prefix
- definitions
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PULL 11/12] hw/arm/exynos4210: Add DMA support for
+ the Exynos4210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,41 +83,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Guenter Roeck <linux@roeck-us.net>
 
-It eases code review, unit is explicit.
+QEMU already supports pl330. Instantiate it for Exynos4210.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Relevant part of Linux arch/arm/boot/dts/exynos4.dtsi:
+
+/ {
+    soc: soc {
+        amba {
+            pdma0: pdma@12680000 {
+                compatible = "arm,pl330", "arm,primecell";
+                reg = <0x12680000 0x1000>;
+                interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
+                clocks = <&clock CLK_PDMA0>;
+                clock-names = "apb_pclk";
+                #dma-cells = <1>;
+                #dma-channels = <8>;
+                #dma-requests = <32>;
+            };
+            pdma1: pdma@12690000 {
+                compatible = "arm,pl330", "arm,primecell";
+                reg = <0x12690000 0x1000>;
+                interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
+                clocks = <&clock CLK_PDMA1>;
+                clock-names = "apb_pclk";
+                #dma-cells = <1>;
+                #dma-channels = <8>;
+                #dma-requests = <32>;
+            };
+            mdma1: mdma@12850000 {
+                compatible = "arm,pl330", "arm,primecell";
+                reg = <0x12850000 0x1000>;
+                interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+                clocks = <&clock CLK_MDMA>;
+                clock-names = "apb_pclk";
+                #dma-cells = <1>;
+                #dma-channels = <8>;
+                #dma-requests = <1>;
+            };
+        };
+    };
+};
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20190520214342.13709-3-philmd@redhat.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190520214342.13709-4-philmd@redhat.com
+[PMD: Do not set default qdev properties, create the controllers in the SoC
+      rather than the board (Peter Maydell), add dtsi in commit message]
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/exynos4_boards.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/arm/exynos4210.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
-index 1b82bce2f4d..fa0d7016413 100644
---- a/hw/arm/exynos4_boards.c
-+++ b/hw/arm/exynos4_boards.c
-@@ -22,6 +22,7 @@
-  */
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 0bf61134550..f942ed2be96 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -96,6 +96,11 @@
+ /* EHCI */
+ #define EXYNOS4210_EHCI_BASE_ADDR           0x12580000
  
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu-common.h"
-@@ -60,8 +61,8 @@ static int exynos4_board_smp_bootreg_addr[EXYNOS4_NUM_OF_BOARDS] = {
- };
++/* DMA */
++#define EXYNOS4210_PL330_BASE0_ADDR         0x12680000
++#define EXYNOS4210_PL330_BASE1_ADDR         0x12690000
++#define EXYNOS4210_PL330_BASE2_ADDR         0x12850000
++
+ static uint8_t chipid_and_omr[] = { 0x11, 0x02, 0x21, 0x43,
+                                     0x09, 0x00, 0x00, 0x00 };
  
- static unsigned long exynos4_board_ram_size[EXYNOS4_NUM_OF_BOARDS] = {
--    [EXYNOS4_BOARD_NURI]     = 0x40000000,
--    [EXYNOS4_BOARD_SMDKC210] = 0x40000000,
-+    [EXYNOS4_BOARD_NURI]     = 1 * GiB,
-+    [EXYNOS4_BOARD_SMDKC210] = 1 * GiB,
- };
+@@ -160,6 +165,19 @@ static uint64_t exynos4210_calc_affinity(int cpu)
+     return (0x9 << ARM_AFF1_SHIFT) | cpu;
+ }
  
- static struct arm_boot_info exynos4_board_binfo = {
++static void pl330_create(uint32_t base, qemu_irq irq, int nreq)
++{
++    SysBusDevice *busdev;
++    DeviceState *dev;
++
++    dev = qdev_create(NULL, "pl330");
++    qdev_prop_set_uint8(dev, "num_periph_req",  nreq);
++    qdev_init_nofail(dev);
++    busdev = SYS_BUS_DEVICE(dev);
++    sysbus_mmio_map(busdev, 0, base);
++    sysbus_connect_irq(busdev, 0, irq);
++}
++
+ Exynos4210State *exynos4210_init(MemoryRegion *system_mem)
+ {
+     Exynos4210State *s = g_new0(Exynos4210State, 1);
+@@ -410,5 +428,13 @@ Exynos4210State *exynos4210_init(MemoryRegion *system_mem)
+     sysbus_create_simple(TYPE_EXYNOS4210_EHCI, EXYNOS4210_EHCI_BASE_ADDR,
+             s->irq_table[exynos4210_get_irq(28, 3)]);
+ 
++    /*** DMA controllers ***/
++    pl330_create(EXYNOS4210_PL330_BASE0_ADDR,
++                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(35, 1)]), 32);
++    pl330_create(EXYNOS4210_PL330_BASE1_ADDR,
++                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(36, 1)]), 32);
++    pl330_create(EXYNOS4210_PL330_BASE2_ADDR,
++                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(34, 1)]), 1);
++
+     return s;
+ }
 -- 
 2.20.1
 
