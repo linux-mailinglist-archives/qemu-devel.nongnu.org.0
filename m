@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50DC283F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:39:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40507 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC80283E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:38:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40495 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTql0-0007C1-T9
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:39:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41718)
+	id 1hTqjT-00064a-4b
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:38:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41781)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hTqfD-00033X-Co
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:33:56 -0400
+	(envelope-from <shmuel.eiderman@oracle.com>) id 1hTqfJ-00037P-TP
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:34:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hTqfC-0000fo-G5
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:33:55 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:60182)
+	(envelope-from <shmuel.eiderman@oracle.com>) id 1hTqfI-0000mQ-Pc
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:34:01 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:41870)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
-	id 1hTqfA-0000bg-ES; Thu, 23 May 2019 12:33:52 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NGTIrL120086; Thu, 23 May 2019 16:33:50 GMT
+	id 1hTqfD-0000hb-Ga; Thu, 23 May 2019 12:33:55 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4NGTLnk131811; Thu, 23 May 2019 16:33:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
 	h=from : to : cc :
-	subject : date : message-id; s=corp-2018-07-02;
-	bh=G0EiAhQNZE4wm/S9pofS6RQroRxjzEPqF3ilQt+790g=;
-	b=ophcA/fNwApQCj5ZRDfjv9hjL0QiaCv4+bUtQhAd1tDitcVrc1dAxDMVZLjD67ltpdqx
-	b/jDwl3SmzFGFuKTIHnoqf3pH4HM1c/7S0GgE6NvG20G5p4nzm/1/UM6M7/l1R3gllBp
-	QN5BC8eWieIdH3ghHEkpU0xGcxnaF405fjDJDeBatd9ZstOqFEYq++TWt7bGOc32zE/0
-	GA16sK6ntxmUMaBYmKdnIgdafWy1yNWkG6rtopMiJCfLvYDtlascwSndKCADFg8DjUXM
-	+8FMdIjssH2vcJgLMthyQ2HoPeBCli/PS68sJ/P2/EJJBpaFXoZ8qWvmrSd3mpo5wlL2
-	fQ== 
+	subject : date : message-id : in-reply-to : references;
+	s=corp-2018-07-02; 
+	bh=oYQNiLLInCaatn1i0R555HgKyXewzttIoWAlCHlEROk=;
+	b=LdOpi1frBI+L8AZKoF5GYP5VfXVkkfYaYma43L8v8/h+Yuh9BSCqYQ8jwz9O/p1aHKsk
+	W3RoJwD7cipuLF3uxC2S2Z3JQ7gnIjrQpzmF3DJ9JP4gF0HZIvklBLMPJKXUl7+Anmx+
+	om8trZV607W2ROaci2WL00KWglhDRv+gsZ5w1QYJQqpSkFdSD78nFNvhMlhNhOrR5An4
+	zU8xBnsHY5oqYWAUVnh2PgDyku+vc8egkdiuqvGBP6T1K0beQMcbG9RafXEofA5fFbQ3
+	NoqnN/YWtXqpxIWaiaLLmVP/WgQjattuw95pBJaeYhmjGjEvLv26O6ixr5y7XEcaAh+S
+	Jg== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by userp2130.oracle.com with ESMTP id 2smsk5kmhc-1
+	by userp2120.oracle.com with ESMTP id 2smsk5bmr5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 May 2019 16:33:50 +0000
+	Thu, 23 May 2019 16:33:53 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
 	by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NGW8uR182621; Thu, 23 May 2019 16:33:49 GMT
+	x4NGW82d182675; Thu, 23 May 2019 16:33:53 GMT
 Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3020.oracle.com with ESMTP id 2smsh2bvnm-1
+	by aserp3020.oracle.com with ESMTP id 2smsh2bvpe-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 May 2019 16:33:49 +0000
+	Thu, 23 May 2019 16:33:53 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4NGXmNf006040;
-	Thu, 23 May 2019 16:33:48 GMT
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4NGXqfx006064;
+	Thu, 23 May 2019 16:33:52 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 23 May 2019 16:33:47 +0000
+	with ESMTP ; Thu, 23 May 2019 16:33:52 +0000
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
 	mreitz@redhat.com
-Date: Thu, 23 May 2019 19:33:34 +0300
-Message-Id: <20190523163337.4497-1-shmuel.eiderman@oracle.com>
+Date: Thu, 23 May 2019 19:33:35 +0300
+Message-Id: <20190523163337.4497-2-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
+In-Reply-To: <20190523163337.4497-1-shmuel.eiderman@oracle.com>
+References: <20190523163337.4497-1-shmuel.eiderman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9265
 	signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
 	malwarescore=0
-	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=257
+	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=926
 	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
 	engine=8.0.1-1810050000 definitions=main-1905230112
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9265
 	signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
 	priorityscore=1501 malwarescore=0
-	suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=298
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=955
 	adultscore=0
 	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
 	definitions=main-1905230112
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [PATCH v5 0/3] qemu-img: rebase: Improve/optimize
- rebase operation
+X-Received-From: 156.151.31.85
+Subject: [Qemu-devel] [PATCH v5 1/3] qemu-img: rebase: Reuse parent
+ BlockDriverState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -92,35 +95,67 @@ Cc: eyal.moscovici@oracle.com, arbel.moshe@oracle.com, liran.alon@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series aims to improve the speed of qemu-img rebase.
+In safe mode we open the entire chain, including the parent backing
+file of the rebased file.
+Do not open a new BlockBackend for the parent backing file, which
+saves opening the rest of the chain twice, which for long chains
+saves many "pricy" bdrv_open() calls.
 
-  1. Mainly by removing unnecessary reads when rebasing on the same
-     chain.
-  2. But also by minimizing the number of bdrv_open calls rebase
-     requires.
+Permissions for blk_new() were copied from blk_new_open() when
+flags = 0.
 
-v2:
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
+Signed-off-by: Sagi Amit <sagi.amit@oracle.com>
+Co-developed-by: Sagi Amit <sagi.amit@oracle.com>
+Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+---
+ qemu-img.c | 29 +++++++++--------------------
+ 1 file changed, 9 insertions(+), 20 deletions(-)
 
-* Added missing g_free in
-  "qemu-img: rebase: Reuse in-chain BlockDriverState"
-
-v3:
-
-* Rebased on top of "Allow rebase with no input base" series
-
-v4 & v5:
-
-* Using backing_bs(bs) when a prefix was detected since bs was
-  already checked for allocation.
-
-Sam Eiderman (3):
-  qemu-img: rebase: Reuse parent BlockDriverState
-  qemu-img: rebase: Reduce reads on in-chain rebase
-  qemu-img: rebase: Reuse in-chain BlockDriverState
-
- qemu-img.c | 85 ++++++++++++++++++++++++++++++++++++++++----------------------
- 1 file changed, 55 insertions(+), 30 deletions(-)
-
+diff --git a/qemu-img.c b/qemu-img.c
+index 28fba1e7a7..9bd0bb1e47 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -3309,29 +3309,18 @@ static int img_rebase(int argc, char **argv)
+ 
+     /* For safe rebasing we need to compare old and new backing file */
+     if (!unsafe) {
+-        char backing_name[PATH_MAX];
+         QDict *options = NULL;
++        BlockDriverState *base_bs = backing_bs(bs);
+ 
+-        if (bs->backing) {
+-            if (bs->backing_format[0] != '\0') {
+-                options = qdict_new();
+-                qdict_put_str(options, "driver", bs->backing_format);
+-            }
+-
+-            if (force_share) {
+-                if (!options) {
+-                    options = qdict_new();
+-                }
+-                qdict_put_bool(options, BDRV_OPT_FORCE_SHARE, true);
+-            }
+-            bdrv_get_backing_filename(bs, backing_name, sizeof(backing_name));
+-            blk_old_backing = blk_new_open(backing_name, NULL,
+-                                           options, src_flags, &local_err);
+-            if (!blk_old_backing) {
++        if (base_bs) {
++            blk_old_backing = blk_new(BLK_PERM_CONSISTENT_READ,
++                                      BLK_PERM_ALL);
++            ret = blk_insert_bs(blk_old_backing, base_bs,
++                                &local_err);
++            if (ret < 0) {
+                 error_reportf_err(local_err,
+-                                  "Could not open old backing file '%s': ",
+-                                  backing_name);
+-                ret = -1;
++                                  "Could not reuse old backing file '%s': ",
++                                  base_bs->filename);
+                 goto out;
+             }
+         } else {
 -- 
 2.13.3
 
