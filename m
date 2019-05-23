@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE68B2823D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:12:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40067 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B862628244
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:13:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40084 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqK4-0004oG-1c
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:12:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60424)
+	id 1hTqLD-0006FG-UW
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:13:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60456)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hTqAK-0004Tj-HN
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:01 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hTqAL-0004V8-D5
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hTqAI-00027U-T8
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35998)
+	(envelope-from <kwolf@redhat.com>) id 1hTqAK-00028r-2B
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59156)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hTqAC-0001bP-D0; Thu, 23 May 2019 12:01:52 -0400
+	id 1hTqAF-0001eX-C6; Thu, 23 May 2019 12:01:55 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id F3603A4D29;
-	Thu, 23 May 2019 16:01:14 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id C59A7317915F;
+	Thu, 23 May 2019 16:01:18 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-143.ams2.redhat.com
 	[10.36.116.143])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DE9B710027C6;
-	Thu, 23 May 2019 16:01:13 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 49B9F1001E84;
+	Thu, 23 May 2019 16:01:15 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 23 May 2019 18:00:49 +0200
-Message-Id: <20190523160104.21258-1-kwolf@redhat.com>
+Date: Thu, 23 May 2019 18:00:50 +0200
+Message-Id: <20190523160104.21258-2-kwolf@redhat.com>
+In-Reply-To: <20190523160104.21258-1-kwolf@redhat.com>
+References: <20190523160104.21258-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Thu, 23 May 2019 16:01:15 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.41]);
+	Thu, 23 May 2019 16:01:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 00/15] block: AioContext management, part 2
+Subject: [Qemu-devel] [PATCH 01/15] test-block-iothread: Check filter node
+ in test_propagate_mirror
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,94 +61,64 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recently, a few bugs were reported that resulted from an inconsistent
-state regarding AioContexts. Block nodes can end up in different
-contexts than their users expect - the AioContext of a node can even
-change under the feet of a device with no way for the device to forbid
-this. We recently added a few basic checks to scsi-disk and virtio-blk,
-but they are by far not enough.
+Just make the test cover the AioContext of the filter node as well.
 
-Part 1 solved the first half of the problem and made sure that
-AioContext changes are propagated through the graph as necessary, so
-that a bdrv_set_aio_context() correctly pulls everything that uses the
-node into the right context.
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ tests/test-block-iothread.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-This is part 2 that fixes the second half: Attaching new child nodes
-where the parent and child are already in different AioContexts. This
-operation may only succeed if we can move one of the node into the
-context of the other node.
-
-After applying this series, unchecked bdrv_set_aio_context() doesn't
-exist any more and all users call functions that make sure that the
-AioContext assignments across the graph stays consistent.
-
-Kevin Wolf (15):
-  test-block-iothread: Check filter node in test_propagate_mirror
-  block: Add Error to blk_set_aio_context()
-  block: Add BlockBackend.ctx
-  block: Add qdev_prop_drive_iothread property type
-  scsi-disk: Use qdev_prop_drive_iothread
-  block: Adjust AioContexts when attaching nodes
-  test-block-iothread: Test adding parent to iothread node
-  test-block-iothread: BlockBackend AioContext across root node change
-  block: Move node without parents to main AioContext
-  blockdev: Use bdrv_try_set_aio_context() for monitor commands
-  block: Remove wrong bdrv_set_aio_context() calls
-  virtio-scsi-test: Test attaching new overlay with iothreads
-  iotests: Attach new devices to node in non-default iothread
-  test-bdrv-drain: Use bdrv_try_set_aio_context()
-  block: Remove bdrv_set_aio_context()
-
- docs/devel/multiple-iothreads.txt |   4 +-
- include/block/block.h             |   9 ---
- include/block/block_int.h         |   1 +
- include/hw/block/block.h          |   7 +-
- include/hw/qdev-properties.h      |   3 +
- include/hw/scsi/scsi.h            |   1 +
- include/sysemu/block-backend.h    |   5 +-
- tests/libqtest.h                  |  11 ++++
- block.c                           |  70 ++++++++++++++------
- block/backup.c                    |   3 +-
- block/block-backend.c             |  47 +++++++++-----
- block/commit.c                    |  13 ++--
- block/crypto.c                    |   3 +-
- block/mirror.c                    |   4 +-
- block/parallels.c                 |   3 +-
- block/qcow.c                      |   3 +-
- block/qcow2.c                     |   6 +-
- block/qed.c                       |   3 +-
- block/sheepdog.c                  |   3 +-
- block/vdi.c                       |   3 +-
- block/vhdx.c                      |   3 +-
- block/vmdk.c                      |   3 +-
- block/vpc.c                       |   3 +-
- blockdev.c                        |  48 ++++++++------
- blockjob.c                        |  12 +++-
- hmp.c                             |   3 +-
- hw/block/dataplane/virtio-blk.c   |  12 +++-
- hw/block/dataplane/xen-block.c    |   6 +-
- hw/block/fdc.c                    |   2 +-
- hw/block/xen-block.c              |   2 +-
- hw/core/qdev-properties-system.c  |  41 +++++++++++-
- hw/ide/qdev.c                     |   2 +-
- hw/scsi/scsi-disk.c               |  24 ++++---
- hw/scsi/virtio-scsi.c             |  25 ++++---
- migration/block.c                 |   3 +-
- nbd/server.c                      |   5 +-
- tests/libqtest.c                  |  19 ++++++
- tests/test-bdrv-drain.c           |  50 +++++++-------
- tests/test-bdrv-graph-mod.c       |   5 +-
- tests/test-block-backend.c        |   4 +-
- tests/test-block-iothread.c       | 104 +++++++++++++++++++++++++-----
- tests/test-blockjob.c             |   2 +-
- tests/test-throttle.c             |   6 +-
- tests/virtio-scsi-test.c          |  62 ++++++++++++++++++
- tests/qemu-iotests/051            |  24 +++++++
- tests/qemu-iotests/051.out        |   3 +
- tests/qemu-iotests/051.pc.out     |  27 ++++++++
- tests/qemu-iotests/240.out        |   2 +-
- 48 files changed, 531 insertions(+), 173 deletions(-)
-
+diff --git a/tests/test-block-iothread.c b/tests/test-block-iothread.c
+index 59f692892e..e424d360c8 100644
+--- a/tests/test-block-iothread.c
++++ b/tests/test-block-iothread.c
+@@ -593,7 +593,7 @@ static void test_propagate_mirror(void)
+     IOThread *iothread =3D iothread_new();
+     AioContext *ctx =3D iothread_get_aio_context(iothread);
+     AioContext *main_ctx =3D qemu_get_aio_context();
+-    BlockDriverState *src, *target;
++    BlockDriverState *src, *target, *filter;
+     BlockBackend *blk;
+     Job *job;
+     Error *local_err =3D NULL;
+@@ -610,11 +610,13 @@ static void test_propagate_mirror(void)
+                  false, "filter_node", MIRROR_COPY_MODE_BACKGROUND,
+                  &error_abort);
+     job =3D job_get("job0");
++    filter =3D bdrv_find_node("filter_node");
+=20
+     /* Change the AioContext of src */
+     bdrv_try_set_aio_context(src, ctx, &error_abort);
+     g_assert(bdrv_get_aio_context(src) =3D=3D ctx);
+     g_assert(bdrv_get_aio_context(target) =3D=3D ctx);
++    g_assert(bdrv_get_aio_context(filter) =3D=3D ctx);
+     g_assert(job->aio_context =3D=3D ctx);
+=20
+     /* Change the AioContext of target */
+@@ -623,6 +625,7 @@ static void test_propagate_mirror(void)
+     aio_context_release(ctx);
+     g_assert(bdrv_get_aio_context(src) =3D=3D main_ctx);
+     g_assert(bdrv_get_aio_context(target) =3D=3D main_ctx);
++    g_assert(bdrv_get_aio_context(filter) =3D=3D main_ctx);
+=20
+     /* With a BlockBackend on src, changing target must fail */
+     blk =3D blk_new(0, BLK_PERM_ALL);
+@@ -635,6 +638,7 @@ static void test_propagate_mirror(void)
+     g_assert(blk_get_aio_context(blk) =3D=3D main_ctx);
+     g_assert(bdrv_get_aio_context(src) =3D=3D main_ctx);
+     g_assert(bdrv_get_aio_context(target) =3D=3D main_ctx);
++    g_assert(bdrv_get_aio_context(filter) =3D=3D main_ctx);
+=20
+     /* ...unless we explicitly allow it */
+     aio_context_acquire(ctx);
+@@ -645,6 +649,7 @@ static void test_propagate_mirror(void)
+     g_assert(blk_get_aio_context(blk) =3D=3D ctx);
+     g_assert(bdrv_get_aio_context(src) =3D=3D ctx);
+     g_assert(bdrv_get_aio_context(target) =3D=3D ctx);
++    g_assert(bdrv_get_aio_context(filter) =3D=3D ctx);
+=20
+     job_cancel_sync_all();
+=20
 --=20
 2.20.1
 
