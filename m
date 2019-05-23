@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E028A27E0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:24:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36153 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5ACD27E1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:26:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36217 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTniG-0002s1-V5
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:24:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54819)
+	id 1hTnkE-0004fo-SN
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:26:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54926)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hTnS4-0005z8-Hg
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:08:13 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTnSS-0006SC-15
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:08:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hTnS0-0002TR-Ug
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:08:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40222)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hTnRy-0002IH-FC
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:08:03 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EA3C075733;
-	Thu, 23 May 2019 13:07:46 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E80995D705;
-	Thu, 23 May 2019 13:07:42 +0000 (UTC)
-Date: Thu, 23 May 2019 15:07:42 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Message-ID: <20190523150742.159efed1@redhat.com>
-In-Reply-To: <20190508061726.27631-3-tao3.xu@intel.com>
-References: <20190508061726.27631-1-tao3.xu@intel.com>
-	<20190508061726.27631-3-tao3.xu@intel.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hTnSQ-0002jw-Nw
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:08:32 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:45118)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hTnSQ-0002ii-C9
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:08:30 -0400
+Received: by mail-ot1-x342.google.com with SMTP id t24so5299225otl.12
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=iNi4D6yP+yLWr/A+HIxi2BRqJ+LMGJAMgF+vXMY9VHA=;
+	b=Vifgh2ZNQk4CXRkJydrqZCaMJ2lIKw8VAWPXQSP9SPi+Va9+bgHqonE66Bt9DqwAUj
+	g2AVU6jTIlQrnWkI5bmZiUfBS1WUYdxlSnWnpbeUXlBYUTv1zWd/HOHQ90uDHDeab/NX
+	J3UFeox467tpmWhvLfzi+HJ5OdSR1IV7rj/7Hbb181sgFNfDe6xcHKln0ZZbpFiLlbE7
+	IyZf3b2gbqr+22W15xQrthBZWSB/fYd64WrZqF2ReY3Y+yFGLyKUSn6+4gBU3a4V50tC
+	WmWEgaHvdfw83A5h3mlA/DgtxenSdeH3aDUFG9tvs3+hJAbGlsmK5b9FzdKKOQBqoVp5
+	ZmWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=iNi4D6yP+yLWr/A+HIxi2BRqJ+LMGJAMgF+vXMY9VHA=;
+	b=aHgkV1cQ/k52fKYx+mULXMR2RCarq4KWD3cyk4gDeO5nr2GfVYoxZo3PDeuIjQ0wrU
+	mDVVrpX93G/PDwY7inZ7n8N9KnfQ3xeECkm+Elg1v/FUgNIfUKztjLBJr42DDyeebJkp
+	bfRAMhueNDAYOSrcoxXfIjWksst3xLiPkMAW45AwRGnpXZaw2IPsAOFKbHJBVUMPL3oM
+	FpZY1FLojyJll3pe+6b90fvy3pmAR1Sii+S2ycnHKEGb2JpjUvoHFgTdr9Jl1q0CH+iB
+	gYDA+lX+E2pk5L3/J2zCWvDh+WpG7VUbNWOBD6JjVnkM0Mrp6H8xjm02QyVq+PPnDEz+
+	4x3w==
+X-Gm-Message-State: APjAAAXOdvpaJ+nr32pOXx/jltBbpShWnY8A1b1A4AFi3gWB2kB7a/QD
+	WjCYFeueIHUKHxkrHm38kF9xMOUKiQwKjnbs2SuAQg==
+X-Google-Smtp-Source: APXvYqz1fEMnjL0jID9teb73Gen7dXL+MfBFRMSECOtdw7R4tjQ0uijhCRtfWpawl02DGk3zt33nOtKrb1ice/VXZKk=
+X-Received: by 2002:a9d:6b0d:: with SMTP id g13mr21145703otp.91.1558616908221; 
+	Thu, 23 May 2019 06:08:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Thu, 23 May 2019 13:07:47 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 02/11] numa: move numa global variable
- have_numa_distance into MachineState
+References: <20190518191934.21887-1-richard.henderson@linaro.org>
+	<20190518191934.21887-3-richard.henderson@linaro.org>
+	<CAFEAcA88nA_2u1Yc-9ZPAy2w6LVk5f9Rrss0e53E11W4Xb4YpA@mail.gmail.com>
+	<e177b43a-2abc-3aee-461c-2cfd9a8a0a20@linaro.org>
+In-Reply-To: <e177b43a-2abc-3aee-461c-2cfd9a8a0a20@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 14:08:17 +0100
+Message-ID: <CAFEAcA_1XuWqVu9gonn5_Y9x1V=UcWNHEXtwop2s0qyUbwiZpg@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH 2/2] target/arm: Use tcg_gen_gvec_bitsel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,133 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
-	qemu-devel@nongnu.org, ehabkost@redhat.com, pbonzini@redhat.com,
-	rth@twiddle.net
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  8 May 2019 14:17:17 +0800
-Tao Xu <tao3.xu@intel.com> wrote:
+On Thu, 23 May 2019 at 14:02, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 5/23/19 8:46 AM, Peter Maydell wrote:
+> > On Sat, 18 May 2019 at 20:19, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> This replaces 3 target-specific implementations for BIT, BIF, and BSL.
+> >>
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >> @@ -10916,13 +10925,13 @@ static void disas_simd_3same_logic(DisasContext *s, uint32_t insn)
+> >>          return;
+> >>
+> >>      case 5: /* BSL bitwise select */
+> >> -        gen_gvec_op3(s, is_q, rd, rn, rm, &bsl_op);
+> >> +        gen_gvec_fn4(s, is_q, rd, rd, rn, rm, tcg_gen_gvec_bitsel, 0);
+> >>          return;
+> >>      case 6: /* BIT, bitwise insert if true */
+> >> -        gen_gvec_op3(s, is_q, rd, rn, rm, &bit_op);
+> >> +        gen_gvec_fn4(s, is_q, rd, rm, rn, rd, tcg_gen_gvec_bitsel, 0);
+> >>          return;
+> >>      case 7: /* BIF, bitwise insert if false */
+> >> -        gen_gvec_op3(s, is_q, rd, rn, rm, &bif_op);
+> >> +        gen_gvec_fn4(s, is_q, rd, rm, rd, rn, tcg_gen_gvec_bitsel, 0);
+> >>          return;
+> >
+> > We were previously doing different operations for these three
+> > different instructions. Now we seem to always be doing the same
+> > thing but with randomly reshuffled register arguments. How
+> > does this work ?
+>
+> Because the three different instructions perform the same operation with
+> reshuffled register arguments.
 
-> The aim of this patch is to move existing numa global have_numa_distance
-> into NumaState.
+Ah, so they do. Next question, how do I find out what the
+order of arguments in the above code means so I can compare
+it against the pseudocode expression we're implementing?
 
-s/The aim of this patch is to//
-
-> Reviewed-by: Liu Jingqi <jingqi.liu@intel.com>
-> Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Tao Xu <tao3.xu@intel.com>
-> ---
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> Changes in v4 -> v3:
->     - send the patch together with HMAT patches
-> ---
->  hw/arm/virt-acpi-build.c | 2 +-
->  hw/arm/virt.c            | 2 +-
->  hw/i386/acpi-build.c     | 2 +-
->  include/hw/boards.h      | 2 ++
->  include/sysemu/numa.h    | 2 --
->  numa.c                   | 5 ++---
->  6 files changed, 7 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 6805b4de51..65f070843c 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -815,7 +815,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->      if (nb_numa_nodes > 0) {
->          acpi_add_table(table_offsets, tables_blob);
->          build_srat(tables_blob, tables->linker, vms);
-> -        if (have_numa_distance) {
-> +        if (ms->numa_state->have_numa_distance) {
->              acpi_add_table(table_offsets, tables_blob);
->              build_slit(tables_blob, tables->linker, ms);
->          }
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 70954b658d..f0818ef597 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -228,7 +228,7 @@ static void create_fdt(VirtMachineState *vms)
->                                  "clk24mhz");
->      qemu_fdt_setprop_cell(fdt, "/apb-pclk", "phandle", vms->clock_phandle);
->  
-> -    if (have_numa_distance) {
-> +    if (nb_numa_nodes > 0 && ms->numa_state->have_numa_distance) {
->          int size = nb_numa_nodes * nb_numa_nodes * 3 * sizeof(uint32_t);
->          uint32_t *matrix = g_malloc0(size);
->          int idx, i, j;
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 7d9bc88ac9..43a807c483 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -2685,7 +2685,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->      if (pcms->numa_nodes) {
->          acpi_add_table(table_offsets, tables_blob);
->          build_srat(tables_blob, tables->linker, machine);
-> -        if (have_numa_distance) {
-> +        if (machine->numa_state->have_numa_distance) {
->              acpi_add_table(table_offsets, tables_blob);
->              build_slit(tables_blob, tables->linker, machine);
->          }
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 5f102e3075..c3c678b7ff 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -237,6 +237,8 @@ typedef struct NumaState {
->      /* Number of NUMA nodes */
->      int num_nodes;
->  
-> +    /* Allow setting NUMA distance for different NUMA nodes */
-> +    bool have_numa_distance;
->  } NumaState;
->  
->  /**
-> diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-> index a55e2be563..1a29408db9 100644
-> --- a/include/sysemu/numa.h
-> +++ b/include/sysemu/numa.h
-> @@ -6,8 +6,6 @@
->  #include "sysemu/hostmem.h"
->  #include "hw/boards.h"
->  
-> -extern bool have_numa_distance;
-> -
->  struct NodeInfo {
->      uint64_t node_mem;
->      struct HostMemoryBackend *node_memdev;
-> diff --git a/numa.c b/numa.c
-> index 343fcaf13f..d4f5ff5193 100644
-> --- a/numa.c
-> +++ b/numa.c
-> @@ -52,7 +52,6 @@ static int have_memdevs = -1;
->  static int max_numa_nodeid; /* Highest specified NUMA node ID, plus one.
->                               * For all nodes, nodeid < max_numa_nodeid
->                               */
-> -bool have_numa_distance;
->  NodeInfo numa_info[MAX_NODES];
->  
->  
-> @@ -171,7 +170,7 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
->      }
->  
->      numa_info[src].distance[dst] = val;
-> -    have_numa_distance = true;
-> +    ms->numa_state->have_numa_distance = true;
->  }
->  
->  static
-> @@ -442,7 +441,7 @@ void numa_complete_configuration(MachineState *ms)
->           * asymmetric. In this case, the distances for both directions
->           * of all node pairs are required.
->           */
-> -        if (have_numa_distance) {
-> +        if (ms->numa_state->have_numa_distance) {
->              /* Validate enough NUMA distance information was provided. */
->              validate_numa_distance(ms);
->  
-
+thanks
+-- PMM
 
