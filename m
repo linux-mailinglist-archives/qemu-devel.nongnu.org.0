@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9886827DD5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:15:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35931 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFCB227DCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:13:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35877 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnZG-0003Uh-Lz
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:15:34 -0400
+	id 1hTnXC-0001Yf-0q
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:13:26 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:51003)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTnH5-0003dW-85
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:56:48 -0400
+	(envelope-from <philmd@redhat.com>) id 1hTnH4-0003dW-3q
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:56:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTn4U-0000uc-JM
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:43:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55144)
+	(envelope-from <philmd@redhat.com>) id 1hTn4f-00010U-1Y
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:43:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39334)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hTn4U-0000uC-CR; Thu, 23 May 2019 08:43:46 -0400
+	id 1hTn4e-000108-TI; Thu, 23 May 2019 08:43:56 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
 	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AE5CB81121;
-	Thu, 23 May 2019 12:43:44 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 268E5308FBA9;
+	Thu, 23 May 2019 12:43:56 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B59A5D9D2;
-	Thu, 23 May 2019 12:43:39 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C21B5D9C3;
+	Thu, 23 May 2019 12:43:44 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 14:43:07 +0200
-Message-Id: <20190523124320.28726-3-philmd@redhat.com>
+Date: Thu, 23 May 2019 14:43:08 +0200
+Message-Id: <20190523124320.28726-4-philmd@redhat.com>
 In-Reply-To: <20190523124320.28726-1-philmd@redhat.com>
 References: <20190523124320.28726-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Thu, 23 May 2019 12:43:44 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Thu, 23 May 2019 12:43:56 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 02/15] hw/nvram/fw_cfg: Add
- fw_cfg_arch_key_name()
+Subject: [Qemu-devel] [PULL 03/15] hw/i386: Extract fw_cfg definitions to
+ local "fw_cfg.h"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,117 +57,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
 	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 	qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	Artyom Tarasenko <atar4qemu@gmail.com>,
 	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add fw_cfg_arch_key_name() which returns the name of
-an architecture-specific key.
+Extract the architecture-specific fw_cfg definitions to "fw_cfg.h".
 
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <20190422195020.1494-3-philmd@redhat.com>
+Message-Id: <20190422195020.1494-4-philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- MAINTAINERS               |  1 +
- hw/nvram/fw_cfg.c         |  2 +-
- include/hw/nvram/fw_cfg.h | 14 ++++++++++++++
- stubs/Makefile.objs       |  1 +
- stubs/fw_cfg.c            | 21 +++++++++++++++++++++
- 5 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 stubs/fw_cfg.c
+ hw/i386/fw_cfg.h | 20 ++++++++++++++++++++
+ hw/i386/pc.c     |  7 +------
+ 2 files changed, 21 insertions(+), 6 deletions(-)
+ create mode 100644 hw/i386/fw_cfg.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 73a0105082..3cacd751bf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1696,6 +1696,7 @@ R: Gerd Hoffmann <kraxel@redhat.com>
- S: Supported
- F: docs/specs/fw_cfg.txt
- F: hw/nvram/fw_cfg.c
-+F: stubs/fw_cfg.c
- F: include/hw/nvram/fw_cfg.h
- F: include/standard-headers/linux/qemu_fw_cfg.h
- F: tests/libqos/fw_cfg.c
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index d374a970fe..b2dc0a80cb 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -100,7 +100,7 @@ static const char *key_name(uint16_t key)
-     };
-=20
-     if (key & FW_CFG_ARCH_LOCAL) {
--        return NULL;
-+        return fw_cfg_arch_key_name(key);
-     }
-     if (key < FW_CFG_FILE_FIRST) {
-         return fw_cfg_wellknown_keys[key];
-diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
-index f5a6895a74..80e435d303 100644
---- a/include/hw/nvram/fw_cfg.h
-+++ b/include/hw/nvram/fw_cfg.h
-@@ -226,4 +226,18 @@ FWCfgState *fw_cfg_init_mem_wide(hwaddr ctl_addr,
- FWCfgState *fw_cfg_find(void);
- bool fw_cfg_dma_enabled(void *opaque);
-=20
-+/**
-+ * fw_cfg_arch_key_name:
-+ *
-+ * @key: The uint16 selector key.
-+ *
-+ * The key is architecture-specific (the FW_CFG_ARCH_LOCAL mask is expec=
-ted
-+ * to be set in the key).
-+ *
-+ * Returns: The stringified architecture-specific name if the selector
-+ *          refers to a well-known numerically defined item, or NULL on
-+ *          key lookup failure.
-+ */
-+const char *fw_cfg_arch_key_name(uint16_t key);
-+
- #endif
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 269dfa5832..73452ad265 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -39,3 +39,4 @@ stub-obj-y +=3D xen-hvm.o
- stub-obj-y +=3D pci-host-piix.o
- stub-obj-y +=3D ram-block.o
- stub-obj-y +=3D ramfb.o
-+stub-obj-y +=3D fw_cfg.o
-diff --git a/stubs/fw_cfg.c b/stubs/fw_cfg.c
+diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
 new file mode 100644
-index 0000000000..bb1e3c8aa9
+index 0000000000..17a4bc32f2
 --- /dev/null
-+++ b/stubs/fw_cfg.c
-@@ -0,0 +1,21 @@
++++ b/hw/i386/fw_cfg.h
+@@ -0,0 +1,20 @@
 +/*
-+ * fw_cfg stubs
++ * QEMU fw_cfg helpers (X86 specific)
 + *
-+ * Copyright (c) 2019 Red Hat, Inc.
++ * Copyright (c) 2003-2004 Fabrice Bellard
 + *
-+ * Author:
-+ *   Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
++ * SPDX-License-Identifier: MIT
 + */
 +
-+#include "qemu/osdep.h"
++#ifndef HW_I386_FW_CFG_H
++#define HW_I386_FW_CFG_H
++
 +#include "hw/nvram/fw_cfg.h"
 +
-+const char *fw_cfg_arch_key_name(uint16_t key)
-+{
-+    return NULL;
-+}
++#define FW_CFG_ACPI_TABLES      (FW_CFG_ARCH_LOCAL + 0)
++#define FW_CFG_SMBIOS_ENTRIES   (FW_CFG_ARCH_LOCAL + 1)
++#define FW_CFG_IRQ0_OVERRIDE    (FW_CFG_ARCH_LOCAL + 2)
++#define FW_CFG_E820_TABLE       (FW_CFG_ARCH_LOCAL + 3)
++#define FW_CFG_HPET             (FW_CFG_ARCH_LOCAL + 4)
++
++#endif
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index d98b737b8f..2632b73f80 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -30,6 +30,7 @@
+ #include "hw/char/parallel.h"
+ #include "hw/i386/apic.h"
+ #include "hw/i386/topology.h"
++#include "hw/i386/fw_cfg.h"
+ #include "sysemu/cpus.h"
+ #include "hw/block/fdc.h"
+ #include "hw/ide.h"
+@@ -88,12 +89,6 @@
+ #define DPRINTF(fmt, ...)
+ #endif
+=20
+-#define FW_CFG_ACPI_TABLES (FW_CFG_ARCH_LOCAL + 0)
+-#define FW_CFG_SMBIOS_ENTRIES (FW_CFG_ARCH_LOCAL + 1)
+-#define FW_CFG_IRQ0_OVERRIDE (FW_CFG_ARCH_LOCAL + 2)
+-#define FW_CFG_E820_TABLE (FW_CFG_ARCH_LOCAL + 3)
+-#define FW_CFG_HPET (FW_CFG_ARCH_LOCAL + 4)
+-
+ #define E820_NR_ENTRIES		16
+=20
+ struct e820_entry {
 --=20
 2.20.1
 
