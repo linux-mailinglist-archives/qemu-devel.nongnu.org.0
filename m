@@ -2,79 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD4E27DF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:19:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36049 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B1E27E21
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:29:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36254 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTndR-0006t3-CM
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:19:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52101)
+	id 1hTnmM-0006kF-VL
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:29:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54181)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTnIY-0005W1-UJ
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:58:22 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTnPu-0003I6-4y
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:05:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTnIX-0003gH-J5
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:58:18 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46652)
+	(envelope-from <bounces@canonical.com>) id 1hTnPp-0000tg-Pe
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:05:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49594)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hTnIW-0003Z7-UW
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:58:17 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r7so6145570wrr.13
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:58:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=+t49dihkvC440Fv1Lq8bQbYkGfawugJ4sF+NR2cF2n8=;
-	b=RXvQoqpP892BomK3C8b7wQjQIRCSyutpFKean3wYeBCteOveDyrRY6bvVoNV9yKhyI
-	+y8QvxEsgtwdzHT55/fVcP3SVUFnKSjtAfTj8BZK4/tZ6Dz0/O79aa4HW5DzDKliwduI
-	153DGwLQUD7+pL5NKos5FGphLUrUupGUZO7ZU9vAqPP88PkrfkTCfLeN5lGJ7zGlje4g
-	rFblf9H6R7Y8jgKCJbMKxn8yMvupWtd5m7qTzdFcnPfVANRXUirvoLRi6hEahvVX4hJ+
-	i9ZdcxcfN3mpFibCLxgsAILP58qBe1HCg4Qsg5dlHGEPlN5oTODrHzG/rc4eKSNjWNB1
-	fA2g==
-X-Gm-Message-State: APjAAAVgmOcO/KY/2r/VMfHJksdNJZKOBn5KEz5tiNkfcPipfmNTGkRY
-	po0kU0bQ1S0CVBwVu8vEfB/wXw==
-X-Google-Smtp-Source: APXvYqwBVqvW+8npuzBxYXAI8PMiuu6mjUOwdP/2znU+6+akRcwHCqFFqD2fqc0T4qggy/UkXr/6fg==
-X-Received: by 2002:adf:ce90:: with SMTP id r16mr8017068wrn.156.1558616289841; 
-	Thu, 23 May 2019 05:58:09 -0700 (PDT)
-Received: from [192.168.1.38] (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	x9sm12238668wmf.27.2019.05.23.05.58.08
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 05:58:09 -0700 (PDT)
-To: Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>,
-	Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20190521152810.21353-1-cohuck@redhat.com>
-	<20190521152810.21353-3-cohuck@redhat.com>
-	<6e216877-60be-ddcd-3f15-604e870ca8ba@redhat.com>
-	<20190522140729.25970e17.cohuck@redhat.com>
-	<6b101b85-4985-4736-acad-59389b00de55@vivier.eu>
-	<20190522142421.746f7495.cohuck@redhat.com>
-	<CAL1e-=j5joi3ssA-7Q2PVp841ywj41Ntz_MSKdB4w27Z9JvcEQ@mail.gmail.com>
-	<20190523135602.4c80c959.cohuck@redhat.com>
-	<e01100bc-50ee-5cc2-2802-a098acc720ac@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <e3ce17c4-c1d6-20b4-0e7c-6c23e6a08e48@redhat.com>
-Date: Thu, 23 May 2019 14:58:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hTnPp-0000lP-KN
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:05:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hTnPh-0003y0-CP
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:05:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 5B2B02E80C0
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:05:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <e01100bc-50ee-5cc2-2802-a098acc720ac@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 23 May 2019 12:58:19 -0000
+From: John Snow <1829498@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+	assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ffhguy jnsnow
+X-Launchpad-Bug-Reporter: arseniy (ffhguy)
+X-Launchpad-Bug-Modifier: John Snow (jnsnow)
+References: <155808951981.15307.7632909900341712173.malonedeb@gac.canonical.com>
+Message-Id: <155861630027.21554.647635168522680725.launchpad@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 995e4b1b0afe19b32bc6fe654ff5faa61974b72f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PULL v3 47/55] linux headers: update against
- Linux 5.2-rc1
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1829498] Re: window 8 stuck during boot on Qemu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,89 +64,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-s390x@nongnu.org,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	qemu-devel@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>
+Reply-To: Bug 1829498 <1829498@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/19 2:30 PM, Laurent Vivier wrote:
-> On 23/05/2019 13:56, Cornelia Huck wrote:
->> On Wed, 22 May 2019 15:22:23 +0200
->> Aleksandar Markovic <aleksandar.m.mail@gmail.com> wrote:
->>
->>> The alternative way of invoking via IPCV6 (else part of “ifdef
->>> __NR_MSGSND”) should work for MIPS in the present stage of headers and
->>> kernel.
->>
->> I tried to do that so that we have at least a workaround for now; but
->> this fails building on my x86 laptop (the safe_syscall6 for ipc
->> complains about missing __NR_ipc). Maybe I'm holding it wrong (should
->> that be conditional on the host?), but I think that really needs to be
->> done by the mips maintainers...
->>
-> 
-> Perhaps a simple workaround could be:
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index e311fcda0517..5b431736032c 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -761,14 +761,8 @@ safe_syscall2(int, nanosleep, const struct timespec *, req,
->  safe_syscall4(int, clock_nanosleep, const clockid_t, clock, int, flags,
->                const struct timespec *, req, struct timespec *, rem)
->  #endif
-> -#ifdef __NR_msgsnd
-> -safe_syscall4(int, msgsnd, int, msgid, const void *, msgp, size_t, sz,
-> -              int, flags)
-> -safe_syscall5(int, msgrcv, int, msgid, void *, msgp, size_t, sz,
-> -              long, msgtype, int, flags)
-> -safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
-> -              unsigned, nsops, const struct timespec *, timeout)
-> -#else
-> +
-> +#ifdef __NR_ipc
->  /* This host kernel architecture uses a single ipc syscall; fake up
->   * wrappers for the sub-operations to hide this implementation detail.
->   * Annoyingly we can't include linux/ipc.h to get the constant definitions
-> @@ -783,14 +777,30 @@ safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
->  
->  safe_syscall6(int, ipc, int, call, long, first, long, second, long, third,
->                void *, ptr, long, fifth)
-> +#endif
-> +
-> +#ifdef __NR_msgsnd
-> +safe_syscall4(int, msgsnd, int, msgid, const void *, msgp, size_t, sz,
-> +              int, flags)
-> +#else
->  static int safe_msgsnd(int msgid, const void *msgp, size_t sz, int flags)
->  {
->      return safe_ipc(Q_IPCCALL(0, Q_MSGSND), msgid, sz, flags, (void *)msgp, 0);
->  }
-> +#endif
-> +#ifdef __NR_msgrcv
-> +safe_syscall5(int, msgrcv, int, msgid, void *, msgp, size_t, sz,
-> +              long, msgtype, int, flags)
-> +#else
->  static int safe_msgrcv(int msgid, void *msgp, size_t sz, long type, int flags)
->  {
->      return safe_ipc(Q_IPCCALL(1, Q_MSGRCV), msgid, sz, flags, msgp, type);
->  }
-> +#endif
-> +#ifdef __NR_semtimedop
-> +safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
-> +              unsigned, nsops, const struct timespec *, timeout)
-> +#else
->  static int safe_semtimedop(int semid, struct sembuf *tsops, unsigned nsops,
->                             const struct timespec *timeout)
->  {
-> 
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-Works for me!
-I have no idea if this is the proper fix, but this fix my test setup.
-Can you send a proper patch?
+-- =
 
-Thanks :)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829498
 
-Phil.
+Title:
+  window 8 stuck during boot on Qemu
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Description of problem:
+  I've got windows 8 image(64 bit), installed on Qemu(x86-64_softmmu) and t=
+hen i'm trying to boot/shutdown it in the same Qemu configuration. Windows =
+8 has feature - when you click "Shutdown" in UI, windows 8 doesn't actually=
+ power off, it goes to "Suspend to disc" ACPI state. After shutdown, i'm tr=
+ying to boot it again, but it stucks during boot.
+
+  I've discovered, that it hangs when windows 8 writes to AHCI's command re=
+gister, AHCI triggers irq, but windows 8 sends EOI, don't accessing AHCI re=
+gister,so irq line stills in high state, and irq will be injected again and=
+ again, while windows will send EOI on each AHCI interrupt. Strange thing i=
+s that it happens only on TCG mode or =
+
+  with option "kernel-irqchip=3Doff/split", with "kernel-irqchip=3Don" ever=
+ything works ok(windows 8 accesses AHCI register and line goes to low state=
+).
+
+  Version-Release number of selected component (if applicable):
+  Qemu revision: d8276573da58e8ce78dab8c46dd660efd664bcb7
+
+  =
+
+  Steps to Reproduce:
+  1. Install Windows 8 on QEMU(qemu command line: "-enable-kvm -m 1G -hda <=
+image>  -serial stdio  -cpu core2duo -machine q35,kernel-irqchip=3Doff"
+  2. Click shutdown in UI.
+  3. Try to boot again(it will stuck)
+  4. Kill Qemu and boot again, it will boot, now go to 2) :)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829498/+subscriptions
 
