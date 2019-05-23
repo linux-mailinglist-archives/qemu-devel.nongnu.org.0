@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DCA27E9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:48:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36691 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A8127E57
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:41:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36573 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTo55-0004j0-Mz
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:48:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37452)
+	id 1hTnye-0000Py-Cs
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:41:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40320)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTno4-0001Do-5O
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:30:53 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hTnwN-0007j9-9o
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:39:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTno3-0002DI-Ce
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:30:52 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40713)
+	(envelope-from <sgarzare@redhat.com>) id 1hTnwM-00013p-6S
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:39:27 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:40524)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTno3-0002CS-6k
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:30:51 -0400
-Received: by mail-ot1-x344.google.com with SMTP id u11so5395286otq.7
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=R9zX5EHeDdKap0pvoAfYKP3tPzU8Pqu0/MLm1hSEHiw=;
-	b=MHCeACP+QvRq0Yld21LhYoctUVrxKP1l8fmOAWrk8ZG+5uKO/IqQ01uKuSHeMNlPvG
-	TzKUsDi0sB9v8r54w+Duc3XRpUNWeqYlH79Ie7ELUaGHjRjlmLnHZ4nM2STYdxAP560D
-	3WJY5UNsgtmN9fgQzHsNnFTNGgpBlPjomfGzHBl5FyQ2Gmf/dQuh7QkS+QokHR2ChCon
-	kV7LN5A8RCGj6C8Tat7V7W+U6pt0/uZ9kZxXiSctHMrbmqrj88gKGOZTZX6/Qp4IVNlf
-	i2hpYBCebgDWz62nRHF3iO4l49cspzZoM/kSsb0bmp23Kw04D9NZ0NdmT6JUkLHQ93Gg
-	32Uw==
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hTnwM-0000vN-0E
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:39:26 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 15so5822387wmg.5
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:39:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=R9zX5EHeDdKap0pvoAfYKP3tPzU8Pqu0/MLm1hSEHiw=;
-	b=AZr//jDzFW+ZHLi4GT1ILuVVKJnF5f7bwHtOiBEz+TE+Mix05Qi7x7gNE0L1RjO2CI
-	nDng8oH6wM5UaLSiYq57Ts4AuLDXEpHsHZfpWeB0y/tgeQVToCFvF+6XSEDgzO8SkqEy
-	/HCSRBHFg4mirPCORB2qXGsBpw4muj9IjksrpAEIxO/jL4MkX1j3MehEX00d9JDazqRw
-	hi6cNi+8+fdIzicoAlgI50KU7RBBLs5qBmGGyDg1FKiAGDbyGhbpZO+Jtn5pNG1Vs3kN
-	rFTgNrvXvTzHD9JeW3hp+15Ovbsq82tJhiPjbLTLIm3U7sILjNr9Uh5YontbyeE33lbP
-	kBQQ==
-X-Gm-Message-State: APjAAAWq3mCbGgvflttev6KseqZEjZ+Z3g3dINxF17DKXskVcvQRBPM1
-	gtjF2l2BTCgjyqKFWgskL6f6DjxcDMjIH73Od7CpWg==
-X-Google-Smtp-Source: APXvYqxzVHGCvpYAb+gaMhX+jhMAmhhaxuLv0x01RauMvmBREoMXdMDw7vL0jbJpjZsd/v8Cdw2Q00RIkp/MArXipag=
-X-Received: by 2002:a9d:6b0d:: with SMTP id g13mr21226630otp.91.1558618250247; 
-	Thu, 23 May 2019 06:30:50 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=/0G1uf9n3CmYHtuItIDb2r96upOg87e78uEEoYqlPjk=;
+	b=oQ0dsVk7DZYoIoUuwPM706hsxeVdOAzl9wRZ+rBfKL5HoAoGcl7oij14hEelVUDMt8
+	lkH15y3oJQupQlABcf/63DOdswFf/rdGLkzqhaWvmu+c/t/Rq/oNJ0p+Lyx0h/bbGcoT
+	Rp3Pqwn4Q5hJw3o/h7Yq6Uyf4ltSGDk3+/4pe1fEjtxJHVR9MXm3i5N3d+U1pg7gZaya
+	zQe8iKSDCP+taAmX5L131K76/YJ+EMvUQWlAjMfJ658Hb42rjRt/HywaJIbTDZbvkiC3
+	vq+6e2tZb2evNYTPXsm+wrcEK/8S8RgCZegQ4+AQxsGYSEI52BNhOvllVzZNweRN+4/o
+	bdlQ==
+X-Gm-Message-State: APjAAAVSUXPzBgQ4O06f0uY1MBf6Hxq25O+hdUMZDJ6TS1qvAesWWMRJ
+	W101j3skWHmUCpM2FmucBBd6CA==
+X-Google-Smtp-Source: APXvYqw6wu3Hn3KeqLEXHS/cEN2me6BpFjjb1J4lcI2acTZCXO4UYp1Ux8NQi4q85mVVdniWb3/Xug==
+X-Received: by 2002:a1c:f606:: with SMTP id w6mr12405523wmc.130.1558618759458; 
+	Thu, 23 May 2019 06:39:19 -0700 (PDT)
+Received: from steredhat (host253-229-dynamic.248-95-r.retail.telecomitalia.it.
+	[95.248.229.253]) by smtp.gmail.com with ESMTPSA id
+	88sm64479849wrc.33.2019.05.23.06.39.18
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 23 May 2019 06:39:19 -0700 (PDT)
+Date: Thu, 23 May 2019 15:39:11 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190523133911.ddd6475zkfox6mij@steredhat>
+References: <20190427113625.46594-1-sgarzare@redhat.com>
+	<877eb2hiwk.fsf@dusky.pond.sub.org>
+	<20190507083615.as7shlq7fwjgwz54@steredhat>
+	<8736lp5fxg.fsf@dusky.pond.sub.org>
+	<CAGxU2F6r0hKy_Egwf=xfMkFH-3bxL8Yjz3z6GTT0QTrkYoHCDQ@mail.gmail.com>
+	<87woiijw2a.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-References: <20190518191934.21887-1-richard.henderson@linaro.org>
-	<20190518191934.21887-3-richard.henderson@linaro.org>
-	<CAFEAcA88nA_2u1Yc-9ZPAy2w6LVk5f9Rrss0e53E11W4Xb4YpA@mail.gmail.com>
-	<e177b43a-2abc-3aee-461c-2cfd9a8a0a20@linaro.org>
-	<CAFEAcA_1XuWqVu9gonn5_Y9x1V=UcWNHEXtwop2s0qyUbwiZpg@mail.gmail.com>
-	<13d9e22b-4ac5-fb87-622c-a99b5494d06c@linaro.org>
-In-Reply-To: <13d9e22b-4ac5-fb87-622c-a99b5494d06c@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 May 2019 14:30:39 +0100
-Message-ID: <CAFEAcA--wutvPH5xSRm7yNCQ9+TpjJ84qbSLTUa7YFgKnLmi=Q@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH 2/2] target/arm: Use tcg_gen_gvec_bitsel
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87woiijw2a.fsf@dusky.pond.sub.org>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] Use of PreallocMode in block drivers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,33 +73,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu devel list <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 May 2019 at 14:16, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/23/19 9:08 AM, Peter Maydell wrote:
-> >> Because the three different instructions perform the same operation with
-> >> reshuffled register arguments.
+On Wed, May 22, 2019 at 06:25:17PM +0200, Markus Armbruster wrote:
+> Stefano Garzarella <sgarzare@redhat.com> writes:
+> 
+> > On Wed, May 8, 2019 at 1:44 PM Markus Armbruster <armbru@redhat.com> wrote:
+> >>
+> >> Stefano Garzarella <sgarzare@redhat.com> writes:
+> >>
+> >> > On Tue, May 07, 2019 at 08:34:51AM +0200, Markus Armbruster wrote:
+> [...]
+> >> >> Let me review support in drivers:
+> >> >>
+> >> >> * file (file-win32.c)
+> >> >> * iscsi
+> >> >> * nfs
+> >> >> * qed
+> >> >> * ssh
+> >> >>
+> >> >>   - Reject all but PREALLOC_MODE_OFF
+> >> >>
+> >> >> * copy-on-read
+> >> >> * luks (crypto.c)
+> >> >> * raw
+> >> >>
+> >> >>   - Pass through only
+> >> >>
+> >> >> * file host_cdrom host_device (file-posix.c)
+> >> >>
+> >> >>   - Reject all but PREALLOC_MODE_OFF when shrinking and for non-regular
+> >> >>     files
+> >> >>   - Reject PREALLOC_MODE_FALLOC unless CONFIG_POSIX_FALLOCATE
+> >> >>   - Reject PREALLOC_MODE_METADATA
+> >> >>
+> >> >> * gluster
+> >> >>
+> >> >>   - Reject all but PREALLOC_MODE_OFF when shrinking
+> >> >>   - Reject PREALLOC_MODE_FALLOC unless CONFIG_GLUSTERFS_FALLOCATE
+> >> >>   - Reject PREALLOC_MODE_FULL unless CONFIG_GLUSTERFS_ZEROFILL
+> >> >>   - Reject PREALLOC_MODE_METADATA
+> >> >>
+> >> >> * qcow2
+> >> >>
+> >> >>   - Reject all but PREALLOC_MODE_OFF when shrinking and with a backing
+> >> >>     file
+> >> >>
+> >> >> * rbd with this patch
+> >> >>
+> >> >>   - Reject all but PREALLOC_MODE_OFF when shrinking
+> >> >>   - Reject PREALLOC_MODE_METADATA and PREALLOC_MODE_FALLOC
+> >> >>
+> >> >> * sheepdog
+> >> >>
+> >> >>   - Reject PREALLOC_MODE_METADATA and PREALLOC_MODE_FALLOC
+> >> >>   - Doesn't support shrinking
+> >> >>
+> >> >> * vdi
+> >> >>
+> >> >>   - Reject PREALLOC_MODE_FALLOC and PREALLOC_MODE_FULL
+> >> >>   - Doesn't support shrinking
+> >> >>
+> >> >> * blkdebug
+> >> >> * blklogwrites
+> >> >> * blkverify
+> >> >> * bochs
+> >> >> * cloop
+> >> >> * dmg
+> >> >> * ftp
+> >> >> * ftps
+> >> >> * http
+> >> >> * https
+> >> >> * luks
+> >> >> * nbd
+> >> >> * null-aio
+> >> >> * null-co
+> >> >> * nvme
+> >> >> * parallels
+> >> >> * qcow
+> >> >> * quorum
+> >> >> * replication
+> >> >> * throttle
+> >> >> * vhdx
+> >> >> * vmdk
+> >> >> * vpc
+> >> >> * vvfat
+> >> >> * vxhs
+> >> >>
+> >> >>   - These appear not to use PreallocMode: they don't implement
+> >> >>     .bdrv_co_truncate(), and either don't implement .bdrv_co_create() or
+> >> >>     implement it without a prealloc parameter.
+> >> >>
+> >> >> Looks good to me.
+> >> >>
+> >> >
+> >> > Thanks for the analysis!
+> [...]
+> >> > If you agree, I can check and update the documentation of all drivers following
+> >> > your analysis.
+> >>
+> >> Yes, please!
 > >
-> > Ah, so they do. Next question, how do I find out what the
-> > order of arguments in the above code means so I can compare
-> > it against the pseudocode expression we're implementing?
->
-> >From tcg/README:
->
-> * bitsel_vec v0, v1, v2, v3
->
->   Bitwise select, v0 = (v2 & v1) | (v3 & ~v1), across the entire vector.
->
-> The "selector" is second, the first input operand.
+> >
+> > Hi Markus,
+> > I'm finally updating the documentation of preallocation modes
+> > supported by block drivers and protocols in qapi/block-core.json.
+> > As sheepdog and vdi I'm adding the supported values for each driver or
+> > protocol that supports 'preallocation' parameter during the creation,
+> > I'm also updating the '.help' in the QemuOptsList.
+> >
+> > My doubt is: where is better to put the documentation about
+> > preallocation modes supported during the resize? (e.g. some drivers
+> > support only PREALLOC_MODE_OFF when shrinking)
+> 
+> As far as I can tell, no driver supports anything but PREALLOC_MODE_OFF
+> when shrinking.  Suggest to ignore the shrinking case for now when
+> documenting.
+> 
 
-Oh, this series is based on another patchset.
+Okay, I'll ignore it for now.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> I'm not sure I fully answered your question.  Don't hesitate to ask for
+> more advice.
 
-thanks
--- PMM
+Yes, your answer is what I was looking for :)
+
+Thanks,
+Stefano
 
