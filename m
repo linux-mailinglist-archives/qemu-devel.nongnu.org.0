@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD1727A94
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:34:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33162 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9953227ACA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:37:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33221 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTl3S-00044V-NY
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:34:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49219)
+	id 1hTl6F-0006Zc-OZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:37:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49225)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkv4-0005YP-7L
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkv4-0005YS-8B
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkv0-00018Z-E5
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkv0-000185-9P
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:52 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38081)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34867)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTkv0-0000vi-54
+	id 1hTkv0-0000xP-1o
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:50 -0400
-Received: by mail-wm1-x344.google.com with SMTP id t5so5201080wmh.3
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:25:39 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id q15so5201896wmj.0
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=gOs6U+dajCIf3344cfmtEQwYTSo5fWlyTxBlW4SM4Qo=;
-	b=Ua91iBkfhzDSZQQT09/eD2aY088HPqcnVLS2CalLdrbg+I7Wm6cAzwk0yOoAZw/XTp
-	ji+ZVfSeo/LwsbeAM4XF1xGY8HEA/bBUXziozpCdlhdKmIiItoW+vNH9vc1Q7Yfq1rKJ
-	ok6Fk0m5LNwAwqlaXPb8xv8ahFi79rfgzXbsXE9DVUVgJkiGaimSPovZshbkata4oOUo
-	8QIPfbxrmUtU3YOe6WCbxw/4KwEeUe8w00m1oFHnnz4J7sOHypPielcFDgunnnCZsoaS
-	FqYxoUlgsRnk/8Av6mB0hb2xbTehlxpmWZS9ObRdS4s1XnGppBTnpSHZLrlLrQupqULu
-	GE/g==
+	bh=CBMu5m7eSFgVxsne/XtTOzzcwofGf1J0u9oREYxWAFw=;
+	b=tUUnghut34aXiftRyh3GqNtRNX+FS1aOhZG4Mo5g42SKs/CO4JYGGcgYJRoxkXIDLI
+	MJKshVJX7GJn8XhJ3DJhZuiqLICyuQHgHFnSoX2kjRKScGgnLoxanecFRfRmrftmUMf4
+	0AldmnfYeLmwrutxcwHPNSCkJkLe4QPq9cx8xdNDfsM8KxuzkEHg72LJVh6CGRU6EfbE
+	GwDbxuIbb3I7tnmal1fdvPCjUn82dhtoV75dcAaw3IHFBE8mOr24FHK0KuyqImO5xcco
+	uh9ZYCvDsknN3w1SzpPy9btYbt4LHd4x2qg+6NvZ1kdYOe5UIqvwRHpJs37rTQsUrBMz
+	2NuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=gOs6U+dajCIf3344cfmtEQwYTSo5fWlyTxBlW4SM4Qo=;
-	b=f7U80Ady3KLzVh8ARMAx0lOAcCp4TKqBe4uqevIaKS8Dl+fNv18J+/wMYWtPJXtcHJ
-	kGCjb1xpec+2EUgmXh6CMfRBzE6TT2zJbKWNbhefAdPR9Zf0XofAzqTP9mRqDLhvJjdw
-	H23rMD1nB8XS7xpOjaykHBXXf2EFBfTvy4L63rXfPq0xg69tf8e154GMOsh8UyS0J6Zx
-	gdTYV6i0YG8YfoKimDIV/HPDHE2ohQEQD/Q6BN59nvBeceCpeG9Ud7YgHA2GolFHi7Ly
-	AT8BqkE6jg8qoof2gbuu3GVqDJdkIq5XO/U/sC+XM43SSs6iufawVHtPeJ744QfRxG6a
-	k4zA==
-X-Gm-Message-State: APjAAAVZ2yX0P0pWxdRyhkm0fibA5E2iEMdZpzneRGcI2f7issOhRxoO
-	oMbFewS/C8WswQNwpSjTLoG02Q==
-X-Google-Smtp-Source: APXvYqxDXOk8OIbH1AftaZR7AH+fWPSUYu97i6t2jDIKByxY+eNPDlIsD835xCJOgpnOR7VpiwtD4A==
-X-Received: by 2002:a1c:c706:: with SMTP id x6mr5246214wmf.35.1558607138901;
-	Thu, 23 May 2019 03:25:38 -0700 (PDT)
+	bh=CBMu5m7eSFgVxsne/XtTOzzcwofGf1J0u9oREYxWAFw=;
+	b=QwZXUXpO6OGNjzhEZYGquxbgDnmCu64WvrIES6Ivd22qpsGULPeyYXnDtLLl+kWGf9
+	EteQYPlcJ9nByJl7S/7bPWNE3OYCbYOVC06QHeNk2mZf6hKmfa89wPYdYzFX8UqkSXdi
+	FXnIBK0N/Yym10ATLVTd2bw/ufWvD0PmZlSxwvaw3KRPMab1/5fPxt0Zu4UZXziW+lIW
+	6n7QqyUAOiSz813/1hfUrXGPNUbJilSY5jjd5Yf2eHim+Us8wBnJBj+BBvtLkG+CaQ+Y
+	jS7BoRyschaTZh79rmUVpgpdEFYAU5wIp2xbcMIgqY3772AMLtWL32Z4w2jfnq555HI8
+	bMiQ==
+X-Gm-Message-State: APjAAAU59net5/iJ5ZpkVEXI4whRXoU1QMYuwQKqOxAaDUWAj+uRrf3Y
+	Ytg8qBK/nsRz/uBEglQaUqM6hw==
+X-Google-Smtp-Source: APXvYqxdunaT1ZXFV+IxbwCCvnOFfs41efizffc64GJAFN3ykJH4ii6kKtHxGHLvkfiRB8ZbIIFdQQ==
+X-Received: by 2002:a1c:688a:: with SMTP id d132mr2610625wmc.131.1558607140945;
+	Thu, 23 May 2019 03:25:40 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id 24sm7218895wmo.3.2019.05.23.03.25.34
+	by smtp.gmail.com with ESMTPSA id
+	b136sm9875486wmg.1.2019.05.23.03.25.34
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Thu, 23 May 2019 03:25:35 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 340541FF87;
+	by zen.linaroharston (Postfix) with ESMTP id 4A35B1FF98;
 	Thu, 23 May 2019 11:25:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 11:25:12 +0100
-Message-Id: <20190523102532.10486-9-alex.bennee@linaro.org>
+Date: Thu, 23 May 2019 11:25:13 +0100
+Message-Id: <20190523102532.10486-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523102532.10486-1-alex.bennee@linaro.org>
 References: <20190523102532.10486-1-alex.bennee@linaro.org>
@@ -69,8 +70,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v2 08/28] target/arm: correct return values for
- WRITE/READ in arm-semi
+Subject: [Qemu-devel] [PATCH v2 09/28] target/mips: only build mips-semi for
+ softmmu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,71 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	qemu-arm@nongnu.org,
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Peter Maydell <peter.maydell@linaro.org>
+	qemu-arm@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The documentation says the write should return the number of bytes not
-written on an error (0 means everything was written). Read provides a
-buffer length and the return value should be the buffer length - bytes
-actually read. Remove the incorrect FIXME's and return the correct
-values.
+The is_uhi gates all semihosting calls and always returns false for
+CONFIG_USER_ONLY builds. There is no reason to build and link
+mips-semi for these builds so lets fix that.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/arm/arm-semi.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ target/mips/Makefile.objs | 3 ++-
+ target/mips/helper.h      | 2 ++
+ target/mips/translate.c   | 8 ++++++++
+ 3 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index a3bbef18ef7..3ae8f05d51b 100644
---- a/target/arm/arm-semi.c
-+++ b/target/arm/arm-semi.c
-@@ -334,13 +334,15 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-         } else {
-             s = lock_user(VERIFY_READ, arg1, len, 1);
-             if (!s) {
--                /* FIXME - should this error code be -TARGET_EFAULT ? */
--                return (uint32_t)-1;
-+                /* Return bytes not written on error */
-+                return len;
-             }
-             ret = set_swi_errno(ts, write(arg0, s, len));
-             unlock_user(s, arg1, 0);
--            if (ret == (uint32_t)-1)
--                return -1;
-+            if (ret == (uint32_t)-1) {
-+                ret = 0;
-+            }
-+            /* Return bytes not written */
-             return len - ret;
-         }
-     case TARGET_SYS_READ:
-@@ -355,15 +357,17 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-         } else {
-             s = lock_user(VERIFY_WRITE, arg1, len, 0);
-             if (!s) {
--                /* FIXME - should this error code be -TARGET_EFAULT ? */
--                return (uint32_t)-1;
-+                /* return bytes not read */
-+                return len;
-             }
-             do {
-                 ret = set_swi_errno(ts, read(arg0, s, len));
-             } while (ret == -1 && errno == EINTR);
-             unlock_user(s, arg1, len);
--            if (ret == (uint32_t)-1)
--                return -1;
-+            if (ret == (uint32_t)-1) {
-+                ret = 0;
-+            }
-+            /* Return bytes not read */
-             return len - ret;
-         }
-     case TARGET_SYS_READC:
+diff --git a/target/mips/Makefile.objs b/target/mips/Makefile.objs
+index 651f36f5176..3448ad5e193 100644
+--- a/target/mips/Makefile.objs
++++ b/target/mips/Makefile.objs
+@@ -1,4 +1,5 @@
+ obj-y += translate.o dsp_helper.o op_helper.o lmi_helper.o helper.o cpu.o
+-obj-y += gdbstub.o msa_helper.o mips-semi.o
++obj-y += gdbstub.o msa_helper.o
++obj-$(CONFIG_SOFTMMU) += mips-semi.o
+ obj-$(CONFIG_SOFTMMU) += machine.o cp0_timer.o
+ obj-$(CONFIG_KVM) += kvm.o
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index a6d687e3405..90ab03b76e3 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -2,7 +2,9 @@ DEF_HELPER_3(raise_exception_err, noreturn, env, i32, int)
+ DEF_HELPER_2(raise_exception, noreturn, env, i32)
+ DEF_HELPER_1(raise_exception_debug, noreturn, env)
+ 
++#ifndef CONFIG_USER_ONLY
+ DEF_HELPER_1(do_semihosting, void, env)
++#endif
+ 
+ #ifdef TARGET_MIPS64
+ DEF_HELPER_4(sdl, void, env, tl, tl, int)
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 3cd5b11b16b..fb905c88b57 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -13726,6 +13726,14 @@ static inline bool is_uhi(int sdbbp_code)
+ #endif
+ }
+ 
++#ifdef CONFIG_USER_ONLY
++/* The above should dead-code away any calls to this..*/
++static inline void gen_helper_do_semihosting(void *env)
++{
++    g_assert_not_reached();
++}
++#endif
++
+ static int decode_mips16_opc (CPUMIPSState *env, DisasContext *ctx)
+ {
+     int rx, ry;
 -- 
 2.20.1
 
