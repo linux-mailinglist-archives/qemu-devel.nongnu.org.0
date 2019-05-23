@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8D327E90
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:46:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36663 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16B027EEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:58:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36879 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTo3D-0003Xj-4S
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:46:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42291)
+	id 1hToEf-0003sd-3e
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:58:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42448)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hTo1a-0002op-Ie
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:52 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hTo1k-0002vl-KA
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:45:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hTo1Y-0005sN-RR
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60518)
+	(envelope-from <stefanha@redhat.com>) id 1hTo1i-00068g-Ft
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:45:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45492)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hTo1Y-0005ab-Fg
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:48 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hTo1i-0005eL-8h
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:44:58 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 14BF1300415C;
-	Thu, 23 May 2019 13:44:34 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6AB84C004BEB;
+	Thu, 23 May 2019 13:44:40 +0000 (UTC)
 Received: from localhost (ovpn-116-196.ams2.redhat.com [10.36.116.196])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9CFE41001E80;
-	Thu, 23 May 2019 13:44:33 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 76E185D707;
+	Thu, 23 May 2019 13:44:35 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: <qemu-devel@nongnu.org>
-Date: Thu, 23 May 2019 14:44:08 +0100
-Message-Id: <20190523134409.18673-3-stefanha@redhat.com>
+Date: Thu, 23 May 2019 14:44:09 +0100
+Message-Id: <20190523134409.18673-4-stefanha@redhat.com>
 In-Reply-To: <20190523134409.18673-1-stefanha@redhat.com>
 References: <20190523134409.18673-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Thu, 23 May 2019 13:44:34 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.32]);
+	Thu, 23 May 2019 13:44:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v2 2/3] scsi: add scsi_bus_dma_restart()
+Subject: [Qemu-devel] [RFC v2 3/3] virtio-scsi: fix iothread deadlock on
+ 'cont'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,115 +62,67 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default scsi-bus.c registers vm change state handlers for SCSIDevice
-instances and restarts DMA when guest execution is resumed.
+When the 'cont' command resumes guest execution the vm change state
+handlers are invoked.  Unfortunately there is no explicit ordering
+between vm change state handlers.  When two layers of code both use vm
+change state handlers, we don't control which handler runs first.
 
-Unfortunately virtio-scsi with iothreads has a special ordering
-requirement that the core virtio code's vm change state handler runs
-before scsi-bus.c's vm change state handler.
+virtio-scsi with iothreads hits a deadlock when a failed SCSI command is
+restarted and completes before the iothread is re-initialized.
 
-This patch allows SCSI busses to disable the default vm change state
-handler for DMA restart.  The new scsi_bus_dma_restart() API allows them
-to manually restart DMA at a time of their choice.
+This patch makes sure that DMA restart happens after the iothread has
+been started again.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/scsi/scsi.h |  5 +++++
- hw/scsi/scsi-bus.c     | 37 ++++++++++++++++++++++++++++++-------
- 2 files changed, 35 insertions(+), 7 deletions(-)
+ hw/scsi/virtio-scsi.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-index acef25faa4..e9cc563daa 100644
---- a/include/hw/scsi/scsi.h
-+++ b/include/hw/scsi/scsi.h
-@@ -120,6 +120,10 @@ struct SCSIReqOps {
- struct SCSIBusInfo {
-     int tcq;
-     int max_channel, max_target, max_lun;
-+
-+    /* Will the bus call scsi_bus_dma_restart() itself? */
-+    bool custom_dma_restart;
-+
-     int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-                      void *hba_private);
-     void (*transfer_data)(SCSIRequest *req, uint32_t arg);
-@@ -160,6 +164,7 @@ SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, B=
-lockBackend *blk,
-                                       const char *serial, Error **errp);
- void scsi_bus_legacy_handle_cmdline(SCSIBus *bus);
- void scsi_legacy_handle_cmdline(void);
-+void scsi_bus_dma_restart(SCSIBus *bus);
-=20
- SCSIRequest *scsi_req_alloc(const SCSIReqOps *reqops, SCSIDevice *d,
-                             uint32_t tag, uint32_t lun, void *hba_privat=
-e);
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index c480553083..d2c5a1652b 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -134,6 +134,27 @@ void scsi_req_retry(SCSIRequest *req)
-     req->retry =3D true;
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 839f120256..236a0ee873 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -846,12 +846,28 @@ static void virtio_scsi_hotunplug(HotplugHandler *h=
+otplug_dev, DeviceState *dev,
+     qdev_simple_device_unplug_cb(hotplug_dev, dev, errp);
  }
 =20
-+static void scsi_device_dma_restart(SCSIDevice *dev)
++static void virtio_scsi_vmstate_change(VirtIODevice *vdev, bool running)
 +{
-+    if (!dev->bh) {
-+        AioContext *ctx =3D blk_get_aio_context(dev->conf.blk);
-+        dev->bh =3D aio_bh_new(ctx, scsi_dma_restart_bh, dev);
-+        qemu_bh_schedule(dev->bh);
++    VirtIOSCSI *s =3D VIRTIO_SCSI(vdev);
++
++    if (running) {
++        scsi_bus_dma_restart(&s->bus);
 +    }
 +}
 +
-+void scsi_bus_dma_restart(SCSIBus *bus)
-+{
-+    BusChild *kid;
-+
-+    QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
-+        DeviceState *qdev =3D kid->child;
-+        SCSIDevice *dev =3D SCSI_DEVICE(qdev);
-+
-+        scsi_device_dma_restart(dev);
-+    }
-+}
-+
- static void scsi_dma_restart_cb(void *opaque, int running, RunState stat=
-e)
- {
-     SCSIDevice *s =3D opaque;
-@@ -141,11 +162,8 @@ static void scsi_dma_restart_cb(void *opaque, int ru=
-nning, RunState state)
-     if (!running) {
-         return;
-     }
--    if (!s->bh) {
--        AioContext *ctx =3D blk_get_aio_context(s->conf.blk);
--        s->bh =3D aio_bh_new(ctx, scsi_dma_restart_bh, s);
--        qemu_bh_schedule(s->bh);
--    }
-+
-+    scsi_device_dma_restart(s);
- }
+ static struct SCSIBusInfo virtio_scsi_scsi_info =3D {
+     .tcq =3D true,
+     .max_channel =3D VIRTIO_SCSI_MAX_CHANNEL,
+     .max_target =3D VIRTIO_SCSI_MAX_TARGET,
+     .max_lun =3D VIRTIO_SCSI_MAX_LUN,
 =20
- static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
-@@ -206,8 +224,13 @@ static void scsi_qdev_realize(DeviceState *qdev, Err=
-or **errp)
-         error_propagate(errp, local_err);
-         return;
-     }
--    dev->vmsentry =3D qemu_add_vm_change_state_handler(scsi_dma_restart_=
-cb,
--                                                     dev);
++    /* We call scsi_bus_dma_restart() ourselves to control the ordering =
+between
++     * ->start_ioeventfd() and DMA restart.  Do it in
++     * virtio_scsi_vmstate_change(), which is called by the core virtio =
+code
++     * after ->start_ioeventfd().
++     */
++    .custom_dma_restart =3D true,
 +
-+    if (bus->info->custom_dma_restart) {
-+        dev->vmsentry =3D NULL;
-+    } else {
-+        dev->vmsentry =3D qemu_add_vm_change_state_handler(scsi_dma_rest=
-art_cb,
-+                                                         dev);
-+    }
+     .complete =3D virtio_scsi_command_complete,
+     .cancel =3D virtio_scsi_request_cancelled,
+     .change =3D virtio_scsi_change,
+@@ -986,6 +1002,7 @@ static void virtio_scsi_class_init(ObjectClass *klas=
+s, void *data)
+     vdc->reset =3D virtio_scsi_reset;
+     vdc->start_ioeventfd =3D virtio_scsi_dataplane_start;
+     vdc->stop_ioeventfd =3D virtio_scsi_dataplane_stop;
++    vdc->vmstate_change =3D virtio_scsi_vmstate_change;
+     hc->plug =3D virtio_scsi_hotplug;
+     hc->unplug =3D virtio_scsi_hotunplug;
  }
-=20
- static void scsi_qdev_unrealize(DeviceState *qdev, Error **errp)
 --=20
 2.21.0
 
