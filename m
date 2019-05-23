@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B0027815
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:37:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59881 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C972A27802
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:31:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59795 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTjDs-0002qD-5y
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:37:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49204)
+	id 1hTj8m-0007AX-Vw
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:31:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49316)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hTj4w-0004rY-EM
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:27:59 -0400
+	(envelope-from <david@redhat.com>) id 1hTj5Q-0005Il-MV
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:28:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hTj4u-0000Ky-E9
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:27:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53504)
+	(envelope-from <david@redhat.com>) id 1hTj5P-0000m8-RN
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:28:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43350)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <david@redhat.com>) id 1hTj4u-0000K5-7Z
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:27:56 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <david@redhat.com>) id 1hTj5P-0000ly-L6
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:28:27 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 281C33179155;
-	Thu, 23 May 2019 08:27:55 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id E22A2307E04E;
+	Thu, 23 May 2019 08:28:21 +0000 (UTC)
 Received: from [10.36.116.197] (ovpn-116-197.ams2.redhat.com [10.36.116.197])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 49A3268D4F;
-	Thu, 23 May 2019 08:27:54 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 13F0D61373;
+	Thu, 23 May 2019 08:28:20 +0000 (UTC)
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190523024229.1158-1-richard.henderson@linaro.org>
-	<20190523024229.1158-4-richard.henderson@linaro.org>
+	<20190523024229.1158-3-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -78,22 +78,22 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
 	+8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
 	SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <aa0fbb17-ca7e-b9d7-fe3b-b6ae27edd35f@redhat.com>
-Date: Thu, 23 May 2019 10:27:53 +0200
+Message-ID: <c89849f5-9b03-280c-9649-7c2b2be2ac4b@redhat.com>
+Date: Thu, 23 May 2019 10:28:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190523024229.1158-4-richard.henderson@linaro.org>
+In-Reply-To: <20190523024229.1158-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Thu, 23 May 2019 08:27:55 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Thu, 23 May 2019 08:28:21 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/3] capstone: Enable disassembly for s390x
+Subject: Re: [Qemu-devel] [PATCH 2/3] capstone: Update to master
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -110,68 +110,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 23.05.19 04:42, Richard Henderson wrote:
-> Enable s390x, aka SYSZ, in the git submodule build.
-> Set the capstone parameters for both s390x host and guest.
-> Install a skipdata hook to keep capstone in sync with the
-> instruction stream for unknown opcodes.
+> Update to fbb20ea83c5a.  Choose this over the 4.0.1 tag because
+> master now includes the s390x z13 vector opcodes.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  Makefile           |  1 +
->  disas.c            | 40 ++++++++++++++++++++++++++++++++++++++++
->  target/s390x/cpu.c |  4 ++++
->  3 files changed, 45 insertions(+)
+>  capstone  | 2 +-
+>  configure | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Makefile b/Makefile
-> index 155f066a20..a37e872825 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -477,6 +477,7 @@ CAP_CFLAGS += -DCAPSTONE_USE_SYS_DYN_MEM
->  CAP_CFLAGS += -DCAPSTONE_HAS_ARM
->  CAP_CFLAGS += -DCAPSTONE_HAS_ARM64
->  CAP_CFLAGS += -DCAPSTONE_HAS_POWERPC
-> +CAP_CFLAGS += -DCAPSTONE_HAS_SYSZ
->  CAP_CFLAGS += -DCAPSTONE_HAS_X86
+> diff --git a/capstone b/capstone
+> index 22ead3e0bf..fbb20ea83c 160000
+> --- a/capstone
+> +++ b/capstone
+> @@ -1 +1 @@
+> -Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
+> +Subproject commit fbb20ea83c5af4f29b40c17fbadb1f71b0a08fae
+> diff --git a/configure b/configure
+> index eec7f061c3..a2e4636a34 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5016,6 +5016,7 @@ case "$capstone" in
+>        LIBCAPSTONE=libcapstone.a
+>      fi
+>      LIBS="-L\$(BUILD_DIR)/capstone -lcapstone $LIBS"
+> +    capstone_capstone_h=yes
+>      ;;
 >  
->  subdir-capstone: .git-submodule-status
-> diff --git a/disas.c b/disas.c
-> index 41ad0102e2..c1ecd2d769 100644
-> --- a/disas.c
-> +++ b/disas.c
-> @@ -179,6 +179,39 @@ static int print_insn_od_target(bfd_vma pc, disassemble_info *info)
->     to share this across calls and across host vs target disassembly.  */
->  static __thread cs_insn *cap_insn;
->  
-> +/*
-> + * The capstone library always skips 2 bytes for S390X.
-> + * This is less than ideal, since we can tell from the first two bits
-> + * the size of the insn and thus stay in sync with the insn stream.
-> + */
-> +static size_t CAPSTONE_API
-> +cap_skipdata_s390x_cb(const uint8_t *code, size_t code_size,
-> +                      size_t offset, void *user_data)
-> +{
-> +    size_t ilen;
-> +
-> +    /* See get_ilen() in target/s390x/internal.h.  */
-> +    switch (code[offset] >> 6) {
-> +    case 0:
-> +        ilen = 2;
-> +        break;
-> +    case 1:
-> +    case 2:
-> +        ilen = 4;
-> +        break;
-> +    default:
-> +        ilen = 6;
-> +        break;
-> +    }
-> +
-> +    return ilen;
+>    system)
+> 
 
-return (code[offset] >> 6) << 1; ?
-
-
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
 
