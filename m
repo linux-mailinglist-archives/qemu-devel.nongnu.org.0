@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652D327E3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:36:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36417 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077FC27E48
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:39:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36482 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTntf-00054E-IV
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:36:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36219)
+	id 1hTnw0-00071q-5O
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:39:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36554)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <damien.hedde@greensocs.com>) id 1hTnkw-0006Hq-Hy
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:27:39 -0400
+	(envelope-from <crosa@redhat.com>) id 1hTnlY-0006xw-Mk
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:28:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <damien.hedde@greensocs.com>) id 1hTnkv-000874-I0
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:27:38 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:41570)
+	(envelope-from <crosa@redhat.com>) id 1hTnlX-0000EF-Bc
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:28:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46414)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
-	id 1hTnkr-00081s-Kx
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:27:35 -0400
-Received: from [172.18.11.102] (antfield.tima.u-ga.fr [147.171.129.253])
-	by beetle.greensocs.com (Postfix) with ESMTPSA id E54B296F50;
-	Thu, 23 May 2019 13:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
-	s=mail; t=1558618049;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=wFG2hCvjSJgBnBlD54sWIUgjXteX0lpW0FTYPIy0VTw=;
-	b=UNYZEwbUiVSSXN3hSZuNzhNQhhOQbd9Av7laZbBq7gzXeASHzpmbouR8plF2gxWMr3RJJm
-	5owYWbWK/42QK5AL3oxqUZX3PjKkOB7VNQhmNCGefvyBgZWupLRPwuVnaZwglN/aZ/MVS0
-	gS+amThAKmSYos2ZXeq/yimYAC/lk2o=
-To: Peter Maydell <peter.maydell@linaro.org>,
-	Markus Armbruster <armbru@redhat.com>
-References: <20190514171545.24961-1-peter.maydell@linaro.org>
-	<878sv7yn6t.fsf@dusky.pond.sub.org>
-	<CAFEAcA9O4YUFa1X+TqJLGD2M3mPXwhv3WwL2thOk-aeezEaoaQ@mail.gmail.com>
-	<f972c27e-de17-2d96-04d9-bec421c78384@greensocs.com>
-	<87imu3swp2.fsf@dusky.pond.sub.org>
-	<CAFEAcA_LFdwYX0Lp8Z=ecgJKC18F7i51nUjOT7YY+CQBaH_tTg@mail.gmail.com>
-	<87ef4pisja.fsf@dusky.pond.sub.org>
-	<CAFEAcA-8CZT2-sNBDEJdKv7PB-b1usNgbqo0O9QofYApvR-=pQ@mail.gmail.com>
-	<874l5lnzjd.fsf@dusky.pond.sub.org>
-	<CAFEAcA98zZ60fAWgu4s9aCdKjafNtZsCt8ieEfTWYdZx5D2aGw@mail.gmail.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <26f742b1-a26b-6af6-41dc-384c8313572b@greensocs.com>
-Date: Thu, 23 May 2019 15:27:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hTnlX-0000D2-3l
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:28:15 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 41B15300194A;
+	Thu, 23 May 2019 13:28:09 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+	(colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 09C5B67607;
+	Thu, 23 May 2019 13:28:04 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+	(zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8DE4B5B423;
+	Thu, 23 May 2019 13:28:03 +0000 (UTC)
+Date: Thu, 23 May 2019 09:28:00 -0400 (EDT)
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <1319868675.24353089.1558618080629.JavaMail.zimbra@redhat.com>
+In-Reply-To: <7a046f76-c892-a796-e7d0-b0eda92075d9@redhat.com>
+References: <20190520231910.12184-1-f4bug@amsat.org>
+	<20190522211230.GA10764@habkost.net>
+	<1711852617.24204010.1558561566547.JavaMail.zimbra@redhat.com>
+	<20190522230705.GB10764@habkost.net>
+	<7a046f76-c892-a796-e7d0-b0eda92075d9@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA98zZ60fAWgu4s9aCdKjafNtZsCt8ieEfTWYdZx5D2aGw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: 7bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
-	s=mail; t=1558618049;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=wFG2hCvjSJgBnBlD54sWIUgjXteX0lpW0FTYPIy0VTw=;
-	b=w6Q6FkvPAvOi1Rneb927BOd3u6jZ3fIfZ85M06EPWaAoEuehqK28yzUrGu+WYXup3hDuhS
-	aLc29yvE9JICfWVB1EO2COBdWC9BfqrIOWQlZQ16yyGeG2w6WHt0Nd4t26HmGXQ9tHe17B
-	UFnNJrMMMhRCqEfdWl+MU5MXxcmfeKM=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1558618049; a=rsa-sha256; cv=none;
-	b=1BqOZp7j4Y+0uHRt7y4BxPYE2P7ZBXYb8jQw7N0ZG5xT2dGYau5JZu3SBiyCq7zHreIMH5
-	WOEF9PeAxNkyFd9Sw07LcWnudGtrTj7lKsKdoZqaunJFjyw/xcPm4wTidjJJ0AVF4kwESD
-	zVzufU2cAOYUm4fCW3dSKTmgwkmrUhg=
-ARC-Authentication-Results: i=1; ORIGINATING;
-	auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.36.116.137, 10.4.195.24]
+Thread-Topic: mips: Add more Avocado tests
+Thread-Index: mkxBB8IsPIcjcTrJ60vGqLCcYiO5ng==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Thu, 23 May 2019 13:28:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: Re: [Qemu-devel] [RFC] hw/core/bus.c: Only the main system bus can
- have no parent
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/4] mips: Add more Avocado tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,18 +68,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
+	Wainer dos Santos Moschetta <wainersm@redhat.com>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+	Aurelien Jarno <aurelien@aurel32.net>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 5/23/19 2:12 PM, Peter Maydell wrote:
-> ...so after this long thread, are we at a conclusion?
-> I think my view is that the patch-as-sent needs to be
-> revised to also fix bus_unparent() but is otherwise OK.
-> 
 
-I think so too.
+----- Original Message -----
+> From: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+> To: "Eduardo Habkost" <ehabkost@redhat.com>, "Cleber Rosa" <crosa@redhat.=
+com>
+> Cc: "Aleksandar Rikalo" <arikalo@wavecomp.com>, "Philippe Mathieu-Daud=C3=
+=A9" <f4bug@amsat.org>, "Wainer dos Santos
+> Moschetta" <wainersm@redhat.com>, qemu-devel@nongnu.org, "Aleksandar Mark=
+ovic" <aleksandar.m.mail@gmail.com>,
+> "Aleksandar Markovic" <amarkovic@wavecomp.com>, "Aurelien Jarno" <aurelie=
+n@aurel32.net>
+> Sent: Thursday, May 23, 2019 5:38:34 AM
+> Subject: Re: [Qemu-devel] [PATCH 0/4] mips: Add more Avocado tests
+>=20
+> On 5/23/19 1:07 AM, Eduardo Habkost wrote:
+> > On Wed, May 22, 2019 at 05:46:06PM -0400, Cleber Rosa wrote:
+> >> ----- Original Message -----
+> >>> From: "Eduardo Habkost" <ehabkost@redhat.com>
+> >>> On Tue, May 21, 2019 at 01:19:06AM +0200, Philippe Mathieu-Daud=C3=A9=
+ wrote:
+> >>>> Hi,
+> >>>>
+> >>>> It was a rainy week-end here, so I invested it to automatize some
+> >>>> of my MIPS tests.
+> >>>>
+> >>>> The BootLinuxSshTest is not Global warming friendly, it is not
+> >>>> meant to run on a CI system but rather on a workstation previous
+> >>>> to post a pull request.
+> >>>> It can surely be improved, but it is a good starting point.
+> >>>
+> >>> Until we actually have a mechanism to exclude the test case on
+> >>> travis-ci, I will remove patch 4/4 from the queue.  Aleksandar,
+> >>> please don't merge patch 4/4 yet or it will break travis-ci.
+> >>>
+> >>> Cleber, Wainer, is it already possible to make "avocado run" skip
+> >>> tests tagged with "slow"?
+> >>>
+> >>
+> >> The mechanism exists, but we haven't tagged any test so far as slow.
+> >>
+> >> Should we define/document a criteria for a test to be slow?  Given
+> >> that this is highly subjective, we have to think of:
+> >>
+> >>  * Will we consider the average or maximum run time (the timeout
+> >>    definition)?
+> >> =20
+> >>  * For a single test, what is "slow"? Some rough numbers from Travis
+> >>    CI[1] to help us with guidelines:
+> >>    - boot_linux_console.py:BootLinuxConsole.test_x86_64_pc:  PASS (6.0=
+4 s)
+> >>    - boot_linux_console.py:BootLinuxConsole.test_arm_virt:  PASS (2.91=
+ s)
+> >>    -
+> >>    linux_initrd.py:LinuxInitrd.test_with_2gib_file_should_work_with_li=
+nux_v4_16:
+> >>    PASS (18.14 s)
+> >>    - boot_linux.py:BootLinuxAarch64.test_virt:  PASS (396.88 s)
+> >=20
+> > I don't think we need to overthink this.  Whatever objective
+> > criteria we choose, I'm sure we'll have to adapt them later due
+> > to real world problems.
+> >=20
+> > e.g.: is 396 seconds too slow?  I don't know, it depends: does it
+> > break Travis and other CI systems often because of timeouts?  If
+> > yes, then we should probably tag it as slow.
+> >=20
+> > If having subjective criteria is really a problem (I don't think
+> > it is), then we can call the tag "skip_travis", and stop worrying
+> > about defining what exactly is "slow".
+>=20
+> I'd go with a simpler "tags:travis-ci" whitelisting any job expecting to
+> run smoothly there.
+>=20
 
-Damien
+My concern is what becomes of "make check-acceptance".  Should we introduce
+another target, say, "make check-acceptance-ci" or just change its meaning
+and reuse it?
+
+> Then we can add "slow" tests without having to worry about blacklisting
+> for Travis CI.
+> Also, Other CI can set different timeouts.
+>=20
+> I'd like maintainers to add as many tests as they want to upstream, so
+> these tests can eventually run by anyone, then each maintainer is free
+> to select which particular set he wants to run as default.
+>=20
+
+OK, so this matches the idea of carefully curating a set of tests for
+CI.  WRT white or blacklisting, I favor the approach that requires the
+least effort from the developer to have its test enabled, so I'd go
+with blacklisting.  I fear that simple tests will just sit on the repo
+without being properly exercised if we need to whitelist them.
+
+But, I'll certainly and gladly accept the majority's opinion here. =20
+
+Regards,
+- Cleber.
+
+> >>  * Do we want to set a maximum job timeout?  This way we can skip
+> >>    tests after a given amount of time has passed.  Currently we interr=
+upt
+> >>    the test running when the job timeout is reached, but it's possible
+> >>    to add a option so that no new tests will be started, but currently
+> >>    running ones will be waited on.
+> >=20
+> > I'm not sure I understand the suggestion to skip tests.  If we
+> > skip tests after a timeout, how would we differentiate a test
+> > being expectedly slow from a QEMU hang?
+> >=20
+>=20
+
 
