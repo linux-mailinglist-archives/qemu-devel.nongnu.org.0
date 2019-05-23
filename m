@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6256283F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:40:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40509 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548A4283D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:36:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40477 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqlF-0007M0-4O
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:40:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41825)
+	id 1hTqhV-0004RB-FC
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:36:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41811)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hTqfM-0003CR-I9
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:34:05 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hTqfL-0000p6-Eh
+	(envelope-from <eblake@redhat.com>) id 1hTqfL-0003AC-R3
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:34:04 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:41980)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
-	id 1hTqfI-0000ln-K4; Thu, 23 May 2019 12:34:00 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NGTQ4t131845; Thu, 23 May 2019 16:33:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
-	h=from : to : cc :
-	subject : date : message-id : in-reply-to : references;
-	s=corp-2018-07-02; 
-	bh=fCJW25pGZJldWdnaL5qJqcdTdxQGjj4LeEDDaJvRWwc=;
-	b=GC6MIp7MZxBbAuoFxZubcT7yrCF8WkiAooTqdr8YkmCYHyeSGguUDnnDK/cnwK6RWUh0
-	vWG9Vm+HuRSZGPX7wFFqgSDU6oeYg921/nprdTux5aE3oMZ3ugS8sYpskZ4mlRX3j9Wj
-	4kNBEiOs4XrXozHyKArh23FR5CeB43JY2q27Qgm9CO/FTup62luUuYcyxjRuqPwvlonM
-	eT4aXCrImlCxIzK182QfmrVPD169UJCDATQWdXrMXPv8LELAf0SZpWiGYV+bCC+m9Z/j
-	YLuqwau9MV/HO46O7kJuEsFSpp/V2rtNebFk/EQhkJT4KkrMc5XKMQvNId9bPMhBm6Bl
-	IA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by userp2120.oracle.com with ESMTP id 2smsk5bms0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 May 2019 16:33:59 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NGXaab167116; Thu, 23 May 2019 16:33:58 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 2smsgtbr26-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 May 2019 16:33:58 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4NGXvrl029859;
-	Thu, 23 May 2019 16:33:57 GMT
-Received: from nexus.ravello.local (/213.57.127.2)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 23 May 2019 16:33:57 +0000
-From: Sam Eiderman <shmuel.eiderman@oracle.com>
-To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
-	mreitz@redhat.com
-Date: Thu, 23 May 2019 19:33:37 +0300
-Message-Id: <20190523163337.4497-4-shmuel.eiderman@oracle.com>
-X-Mailer: git-send-email 2.13.3
-In-Reply-To: <20190523163337.4497-1-shmuel.eiderman@oracle.com>
-References: <20190523163337.4497-1-shmuel.eiderman@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9265
-	signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
-	malwarescore=0
-	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
-	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
-	engine=8.0.1-1810050000 definitions=main-1905230112
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9265
-	signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
-	adultscore=0
-	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
-	definitions=main-1905230112
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: [Qemu-devel] [PATCH v5 3/3] qemu-img: rebase: Reuse in-chain
- BlockDriverState
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <eblake@redhat.com>) id 1hTqfK-0000ob-SB
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:34:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37090)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hTqfK-0000nx-Hp
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:34:02 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 158E688311
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 16:33:58 +0000 (UTC)
+Received: from [10.3.116.169] (ovpn-116-169.phx2.redhat.com [10.3.116.169])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7167617F23;
+	Thu, 23 May 2019 16:33:55 +0000 (UTC)
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+	qemu-devel@nongnu.org, jasowang@redhat.com, armbru@redhat.com,
+	laine@redhat.com
+References: <20190523145840.11774-1-dgilbert@redhat.com>
+	<20190523145840.11774-2-dgilbert@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <3fe6b079-94ed-a379-78b8-396dee1665b9@redhat.com>
+Date: Thu, 23 May 2019 11:33:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190523145840.11774-2-dgilbert@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="dEOfPWZNwwJGvboywaHMtziOI20xninTW"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.28]);
+	Thu, 23 May 2019 16:34:01 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH 1/2] net/announce: Allow optional list of
+ interfaces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -90,72 +89,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eyal.moscovici@oracle.com, arbel.moshe@oracle.com, liran.alon@oracle.com,
-	shmuel.eiderman@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a chain was detected, don't open a new BlockBackend from the target
-backing file which will create a new BlockDriverState. Instead, create
-an empty BlockBackend and attach the already open BlockDriverState.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dEOfPWZNwwJGvboywaHMtziOI20xninTW
+From: Eric Blake <eblake@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, jasowang@redhat.com, armbru@redhat.com,
+ laine@redhat.com
+Message-ID: <3fe6b079-94ed-a379-78b8-396dee1665b9@redhat.com>
+Subject: Re: [PATCH 1/2] net/announce: Allow optional list of interfaces
+References: <20190523145840.11774-1-dgilbert@redhat.com>
+ <20190523145840.11774-2-dgilbert@redhat.com>
+In-Reply-To: <20190523145840.11774-2-dgilbert@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Permissions for blk_new() were copied from blk_new_open() when
-flags = 0.
+On 5/23/19 9:58 AM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> Allow the caller to restrict the set of interfaces that announces are
+> sent on.  The default is still to send on all interfaces.
+>=20
+> e.g.
+>=20
+>   { "execute": "announce-self", "arguments": { "initial": 50, "max": 55=
+0, "rounds": 5, "step": 50, "ifaces": ["vn2","vn1"] } }
+>=20
+> Note: There's still only one timer for the qmp command, so that
+> performing an 'announce-self' on one list of interfaces followed
+> by another 'announce-self' on another list will stop the announces
+> on the existing set.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
 
-Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
-Signed-off-by: Sagi Amit <sagi.amit@oracle.com>
-Co-developed-by: Sagi Amit <sagi.amit@oracle.com>
-Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
----
- qemu-img.c | 33 +++++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
+> +++ b/qapi/net.json
+> @@ -706,7 +706,8 @@
+>    'data': { 'initial': 'int',
+>              'max': 'int',
+>              'rounds': 'int',
+> -            'step': 'int' } }
+> +            'step': 'int',
+> +            '*ifaces': ['str'] } }
 
-diff --git a/qemu-img.c b/qemu-img.c
-index 2d96a491e2..b0535919b1 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3358,16 +3358,29 @@ static int img_rebase(int argc, char **argv)
-              * in its chain.
-              */
-             prefix_chain_bs = bdrv_find_backing_image(bs, out_real_path);
--
--            blk_new_backing = blk_new_open(out_real_path, NULL,
--                                           options, src_flags, &local_err);
--            g_free(out_real_path);
--            if (!blk_new_backing) {
--                error_reportf_err(local_err,
--                                  "Could not open new backing file '%s': ",
--                                  out_baseimg);
--                ret = -1;
--                goto out;
-+            if (prefix_chain_bs) {
-+                g_free(out_real_path);
-+                blk_new_backing = blk_new(BLK_PERM_CONSISTENT_READ,
-+                                          BLK_PERM_ALL);
-+                ret = blk_insert_bs(blk_new_backing, prefix_chain_bs,
-+                                    &local_err);
-+                if (ret < 0) {
-+                    error_reportf_err(local_err,
-+                                      "Could not reuse backing file '%s': ",
-+                                      out_baseimg);
-+                    goto out;
-+                }
-+            } else {
-+                blk_new_backing = blk_new_open(out_real_path, NULL,
-+                                               options, src_flags, &local_err);
-+                g_free(out_real_path);
-+                if (!blk_new_backing) {
-+                    error_reportf_err(local_err,
-+                                      "Could not open new backing file '%s': ",
-+                                      out_baseimg);
-+                    ret = -1;
-+                    goto out;
-+                }
-             }
-         }
-     }
--- 
-2.13.3
+Missing documentation for the addition, including a '(since 4.1)' tag.
 
+> =20
+>  ##
+>  # @announce-self:
+> @@ -718,9 +719,10 @@
+>  #
+>  # Example:
+>  #
+> -# -> { "execute": "announce-self"
+> +# -> { "execute": "announce-self",
+>  #      "arguments": {
+> -#          "initial": 50, "max": 550, "rounds": 10, "step": 50 } }
+> +#          "initial": 50, "max": 550, "rounds": 10, "step": 50,
+> +#          "ifaces": ["vn2","vn3"] } }
+>  # <- { "return": {} }
+>  #
+>  # Since: 4.0
+>=20
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--dEOfPWZNwwJGvboywaHMtziOI20xninTW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzmy3IACgkQp6FrSiUn
+Q2o+IAf9EgQcgAD9dnEHi14fP17Q8W2iQ+S6/ekD5v98JK5IGfBPxmc7C8/n14Mc
+HzSencm0lF19qGnCyLRta1EImKXZHhYfjAOEFE/spBEOa0k5LNHALKgVlJa7E3d7
+ZK6xRgte7TAIjjhdDL9INeA2pTQoGQgGdeGTMHP0F7IzXodBvrU52vsnflAqGVOw
++Nd4nVLsfWMPjtg6DGlXtTN3RdmyfbpDOXFyNadrxO9xfpU4geT0BKdTax+n06S6
+0mBb7p+aueitdssBj7h3IRyp7On3XFZ+1O2suGESM5rMAogttCfLMvOVkeBNGaX5
+sLgPENo/mQwgm6cqYWJrUmXiLlfxig==
+=XueO
+-----END PGP SIGNATURE-----
+
+--dEOfPWZNwwJGvboywaHMtziOI20xninTW--
 
