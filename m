@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C972A27802
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:31:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59795 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272AE2782C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:39:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59891 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTj8m-0007AX-Vw
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:31:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49316)
+	id 1hTjFl-0003nx-Bi
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:39:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49396)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hTj5Q-0005Il-MV
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:28:29 -0400
+	(envelope-from <david@redhat.com>) id 1hTj5u-0005c0-9T
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:28:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hTj5P-0000m8-RN
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:28:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43350)
+	(envelope-from <david@redhat.com>) id 1hTj5t-00011V-Ag
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:28:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43166)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <david@redhat.com>) id 1hTj5P-0000ly-L6
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:28:27 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <david@redhat.com>) id 1hTj5t-000112-42
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:28:57 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E22A2307E04E;
-	Thu, 23 May 2019 08:28:21 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 74F754E908;
+	Thu, 23 May 2019 08:28:56 +0000 (UTC)
 Received: from [10.36.116.197] (ovpn-116-197.ams2.redhat.com [10.36.116.197])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 13F0D61373;
-	Thu, 23 May 2019 08:28:20 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9A26019C4F;
+	Thu, 23 May 2019 08:28:55 +0000 (UTC)
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190523024229.1158-1-richard.henderson@linaro.org>
-	<20190523024229.1158-3-richard.henderson@linaro.org>
+	<20190523024229.1158-2-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -78,22 +78,22 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
 	+8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
 	SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <c89849f5-9b03-280c-9649-7c2b2be2ac4b@redhat.com>
-Date: Thu, 23 May 2019 10:28:19 +0200
+Message-ID: <cb30af11-f640-94cf-7881-de2d186c045c@redhat.com>
+Date: Thu, 23 May 2019 10:28:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190523024229.1158-3-richard.henderson@linaro.org>
+In-Reply-To: <20190523024229.1158-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Thu, 23 May 2019 08:28:21 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Thu, 23 May 2019 08:28:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/3] capstone: Update to master
+Subject: Re: [Qemu-devel] [PATCH 1/3] capstone: Adjust include of capstone.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -110,37 +110,57 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 23.05.19 04:42, Richard Henderson wrote:
-> Update to fbb20ea83c5a.  Choose this over the 4.0.1 tag because
-> master now includes the s390x z13 vector opcodes.
+> Since v4.0, capstone.h has moved to <capstone/capstone.h>.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  capstone  | 2 +-
->  configure | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
+>  include/disas/capstone.h | 4 ++++
+>  configure                | 6 ++++++
+>  2 files changed, 10 insertions(+)
 > 
-> diff --git a/capstone b/capstone
-> index 22ead3e0bf..fbb20ea83c 160000
-> --- a/capstone
-> +++ b/capstone
-> @@ -1 +1 @@
-> -Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
-> +Subproject commit fbb20ea83c5af4f29b40c17fbadb1f71b0a08fae
+> diff --git a/include/disas/capstone.h b/include/disas/capstone.h
+> index e29068dd97..90631d84a9 100644
+> --- a/include/disas/capstone.h
+> +++ b/include/disas/capstone.h
+> @@ -3,7 +3,11 @@
+>  
+>  #ifdef CONFIG_CAPSTONE
+>  
+> +#ifdef CONFIG_CAPSTONE_CAPSTONE_H
+> +#include <capstone/capstone.h>
+> +#else
+>  #include <capstone.h>
+> +#endif
+>  
+>  #else
+>  
 > diff --git a/configure b/configure
-> index eec7f061c3..a2e4636a34 100755
+> index d2fc346302..eec7f061c3 100755
 > --- a/configure
 > +++ b/configure
-> @@ -5016,6 +5016,7 @@ case "$capstone" in
->        LIBCAPSTONE=libcapstone.a
->      fi
->      LIBS="-L\$(BUILD_DIR)/capstone -lcapstone $LIBS"
-> +    capstone_capstone_h=yes
+> @@ -5021,6 +5021,9 @@ case "$capstone" in
+>    system)
+>      QEMU_CFLAGS="$QEMU_CFLAGS $($pkg_config --cflags capstone)"
+>      LIBS="$($pkg_config --libs capstone) $LIBS"
+> +    if check_include capstone/capstone.h; then
+> +      capstone_capstone_h=yes
+> +    fi
 >      ;;
 >  
->    system)
+>    no)
+> @@ -7197,6 +7200,9 @@ if test "$ivshmem" = "yes" ; then
+>  fi
+>  if test "$capstone" != "no" ; then
+>    echo "CONFIG_CAPSTONE=y" >> $config_host_mak
+> +  if test "$capstone_capstone_h" != "no" ; then
+> +    echo "CONFIG_CAPSTONE_CAPSTONE_H=y" >> $config_host_mak
+> +  fi
+>  fi
+>  if test "$debug_mutex" = "yes" ; then
+>    echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
 > 
 
-Acked-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
 
