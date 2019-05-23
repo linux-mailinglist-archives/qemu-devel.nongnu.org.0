@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696A327F65
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:19:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37260 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D041827F37
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:13:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37127 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hToZC-0006Nn-IM
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:19:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46494)
+	id 1hToTF-000050-0a
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:13:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46786)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hToHY-0006Er-Kx
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:25 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hToIP-0006wo-2u
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:02:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hToHX-0004To-Ed
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:20 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38621)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
-	id 1hToHX-0004SM-4L
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:19 -0400
-Received: by mail-wr1-x441.google.com with SMTP id d18so6419045wrs.5
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=JbQfnIca/4wOKmTHDjL9IGcKmYMym0Lae3dzCKiXErA=;
-	b=EkgAW6KkPXCvPru3fPUdrNPOOasAlVs4hqPY5qTSZJj+hCJcjdo+Le0Is9aik3+68I
-	HDniOz5dHqR1TtnTPHA9VMm2Ae6uR/mkbhf29GqHmNWgw4Vra8mpUvf3rRZ9bhEN1ie8
-	t6HaeQSwhDpGWiTE3Vg5H5vcyCbZWX13Tw9+jEg1HFmvhssZjQrt+jzQA8EQJvWhq5cW
-	2V2+SfMgs+JYBQ27kbO10fDHcFVONhkXm+tJLYIvDDitf819vFl14PcVcmv9vlGQS4lk
-	jWoRwxSXwMhLGEsYCSc27xwbGB5RUYQSWnJWLbu/kKK7Dsln5ykM07FQYHN3Gf3fqzro
-	5wFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=JbQfnIca/4wOKmTHDjL9IGcKmYMym0Lae3dzCKiXErA=;
-	b=k01G0b4E+NlJy5Ln3RARc/xJVtw0U1OX4HWJ9pVK6LnaAIvgLjlpW4nkhQ4DneyO0g
-	m90qzWTkHcqF2ZLZYKIVsX096cn2McIj1j3pzcyQgTMEYvvvSzO0udshAonG9ksF8Fq+
-	t3Vbvza4f5Kp42Cxl2sXkCY7jgoCaTcDYObZH4Yxwav1DIpWx/qIHgcFgJhIORT+yomc
-	W9FVsDSN54W43Yh2r1Z9AxyB84VQhb6UIvAOoY2qWlLH3neAaARWTXbiNMa7G16ioG89
-	+5GvsHfPWegTq1gYJyVFvYs75+SowSMNnEShUc9ynH6ym8sFfrrJMAqiSV0ihfOrrD1i
-	IprA==
-X-Gm-Message-State: APjAAAUe4LBSpvpKxfe5TLqH8rpGUyd21YQcmKlzonK7o0f9bULrjnBk
-	ApWFsjIDDy5+bK6apysZruBHx9fM+4Z4JZ6vVYKr30iaA6s=
-X-Google-Smtp-Source: APXvYqxESkBxbYsRlDvOYmDcL3A8wJ0r53R0T16/k/nJhQziMV+/u4WzD4lPfvbA60EJI2dHzAlXYyyWVW+fb0cbxk0=
-X-Received: by 2002:a5d:4d4d:: with SMTP id a13mr401143wru.18.1558620075476;
-	Thu, 23 May 2019 07:01:15 -0700 (PDT)
+	(envelope-from <mreitz@redhat.com>) id 1hToIK-0004vr-7F
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:02:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55220)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hToIA-0004oY-7G; Thu, 23 May 2019 10:01:58 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id ED17F30C1217;
+	Thu, 23 May 2019 14:01:51 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.176])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C006568367;
+	Thu, 23 May 2019 14:01:49 +0000 (UTC)
+To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
+	qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
+	<20190502135828.42797-1-shmuel.eiderman@oracle.com>
+	<20190502135828.42797-3-shmuel.eiderman@oracle.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <c117d2e2-eef2-df4f-ef3d-37a33426dd51@redhat.com>
+Date: Thu, 23 May 2019 16:01:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190523110434.23830-1-gert.wollny@collabora.com>
-In-Reply-To: <20190523110434.23830-1-gert.wollny@collabora.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 23 May 2019 16:01:03 +0200
-Message-ID: <CAJ+F1C+=89nSeEyiBowdOsqr5HBtvvNnXp3ZWHBGV_WYYH9kgA@mail.gmail.com>
-To: Gert Wollny <gert.wollny@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH] virtio_gpu_3d: make it possible to
- configure the fence poll time
+In-Reply-To: <20190502135828.42797-3-shmuel.eiderman@oracle.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="s6sKGehxa1AM7u7r2jKzqX62fI2qScy63"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Thu, 23 May 2019 14:01:52 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v2 2/3] qemu-img: rebase: Reduce reads on
+ in-chain rebase
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,108 +89,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: sagi.amit@oracle.com, arbel.moshe@oracle.com, liran.alon@oracle.com,
+	eyal.moscovici@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--s6sKGehxa1AM7u7r2jKzqX62fI2qScy63
+From: Max Reitz <mreitz@redhat.com>
+To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: eyal.moscovici@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com,
+ liran.alon@oracle.com, arbel.moshe@oracle.com
+Message-ID: <c117d2e2-eef2-df4f-ef3d-37a33426dd51@redhat.com>
+Subject: Re: [PATCH v2 2/3] qemu-img: rebase: Reduce reads on in-chain rebase
+References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
+ <20190502135828.42797-1-shmuel.eiderman@oracle.com>
+ <20190502135828.42797-3-shmuel.eiderman@oracle.com>
+In-Reply-To: <20190502135828.42797-3-shmuel.eiderman@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 23, 2019 at 3:27 PM Gert Wollny <gert.wollny@collabora.com> wro=
-te:
->
-> The default fence poll time of 10ms (100 Hz) is sufficent for normal
-> work loads, but if one wants to play games within the virtual machine
-> this value might be too high, so make it possible to configure this
-> value by using the environment variable QEMU_VIRGL_POLL_FREQ where the
-> poll is given in Hz. To acommodate higher poll frequencies also change
-> the timer to use micro seconds as base instead of milliseconds.
->
->
+On 02.05.19 15:58, Sam Eiderman wrote:
+> In the following case:
+>=20
+> (base) A <- B <- C (tip)
+>=20
+> when running:
+>=20
+>     qemu-img rebase -b A C
+>=20
+> QEMU would read all sectors not allocated in the file being rebased (C)=
 
-This is what VIRGL_RENDERER_THREAD_SYNC helps with. You don't need to
-do regular polling, but I think it is currently limited to
-Linux/eventfd only.
+> and compare them to the new base image (A), regardless of whether they
+> were changed or even allocated anywhere along the chain between the new=
 
-fwiw, vhost-user-gpu uses it.
-
-
-> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
+> base and the top image (B). This causes many unneeded reads when
+> rebasing an image which represents a small diff of a large disk, as it
+> would read most of the disk's sectors.
+>=20
+> Instead, use bdrv_is_allocated_above() to reduce the number of
+> unnecessary reads.
+>=20
+> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+> Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
 > ---
->  hw/display/virtio-gpu-3d.c     | 18 ++++++++++++++++--
->  include/hw/virtio/virtio-gpu.h |  1 +
->  2 files changed, 17 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-> index 5ee3566ae0..120e593e76 100644
-> --- a/hw/display/virtio-gpu-3d.c
-> +++ b/hw/display/virtio-gpu-3d.c
-> @@ -17,6 +17,7 @@
->  #include "trace.h"
->  #include "hw/virtio/virtio.h"
->  #include "hw/virtio/virtio-gpu.h"
-> +#include "qemu/cutils.h"
->
->  #ifdef CONFIG_VIRGL
->
-> @@ -580,7 +581,8 @@ static void virtio_gpu_fence_poll(void *opaque)
->      virgl_renderer_poll();
->      virtio_gpu_process_cmdq(g);
->      if (!QTAILQ_EMPTY(&g->cmdq) || !QTAILQ_EMPTY(&g->fenceq)) {
-> -        timer_mod(g->fence_poll, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +=
- 1);
-> +        timer_mod(g->fence_poll, qemu_clock_get_us(QEMU_CLOCK_VIRTUAL) +
-> +                                 g->fence_poll_timeout);
->      }
->  }
->
-> @@ -605,13 +607,25 @@ void virtio_gpu_virgl_reset(VirtIOGPU *g)
->  int virtio_gpu_virgl_init(VirtIOGPU *g)
->  {
->      int ret;
-> +    const char *val;
->
->      ret =3D virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
->      if (ret !=3D 0) {
->          return ret;
->      }
->
-> -    g->fence_poll =3D timer_new_ms(QEMU_CLOCK_VIRTUAL,
-> +    g->fence_poll_timeout =3D 10000; /* default 10 ms */
-> +    val =3D getenv("QEMU_VIRGL_POLL_FREQ");
-> +    if (val) {
-> +        unsigned long long poll_freq;
-> +        if (parse_uint_full(val, &poll_freq, 10) || poll_freq > UINT32_M=
-AX) {
-> +            fprintf(stderr, "VIRGL_POLL_FREQ: Invalid integer `%s'\n", v=
-al);
-> +            exit(1);
-> +        }
-> +        g->fence_poll_timeout =3D 1000000 / (uint32_t)poll_freq;
-> +    }
+>  qemu-img.c | 25 ++++++++++++++++++++++++-
+>  1 file changed, 24 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/qemu-img.c b/qemu-img.c
+> index d9b609b3f0..7f20858cb9 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+
+[...]
+
+> @@ -3422,6 +3428,23 @@ static int img_rebase(int argc, char **argv)
+>                  continue;
+>              }
+> =20
+> +            if (prefix_chain_bs) {
+> +                /*
+> +                 * If cluster wasn't changed since prefix_chain, we do=
+n't need
+> +                 * to take action
+> +                 */
+> +                ret =3D bdrv_is_allocated_above(bs, prefix_chain_bs,
+> +                                              offset, n, &n);
+
+This will always return true because it definitely is allocated in @bs,
+or we wouldn=E2=80=99t be here.  (We just checked that with
+bdrv_is_allocated().)  I think @top should be backing_bs(bs).
+
+Max
+
+> +                if (ret < 0) {
+> +                    error_report("error while reading image metadata: =
+%s",
+> +                                 strerror(-ret));
+> +                    goto out;
+> +                }
+> +                if (!ret) {
+> +                    continue;
+> +                }
+> +            }
 > +
-> +    g->fence_poll =3D timer_new_us(QEMU_CLOCK_VIRTUAL,
->                                   virtio_gpu_fence_poll, g);
->
->      if (virtio_gpu_stats_enabled(g->conf)) {
-> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gp=
-u.h
-> index 60425c5d58..a9e03b25aa 100644
-> --- a/include/hw/virtio/virtio-gpu.h
-> +++ b/include/hw/virtio/virtio-gpu.h
-> @@ -116,6 +116,7 @@ typedef struct VirtIOGPU {
->      bool renderer_reset;
->      QEMUTimer *fence_poll;
->      QEMUTimer *print_stats;
-> +    uint32_t fence_poll_timeout;
->
->      uint32_t inflight;
->      struct {
-> --
-> 2.20.1
->
->
+>              /*
+>               * Read old and new backing file and take into considerati=
+on that
+>               * backing files may be smaller than the COW image.
+>=20
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+
+--s6sKGehxa1AM7u7r2jKzqX62fI2qScy63
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzmp8wACgkQ9AfbAGHV
+z0DC4AgArkNz2w/pi46i1kT3xZfnoFRLrPpZZ91hG/6HEurEb1/XN12F0/PeNRpZ
+0hnL2n5hVnrudqZPxk0sJ58s0utVBOaR0JKdA+x9LIHKNnLDx2zsMLEhp+6DneiN
+mg+nU8w+yBW0WM1dwr7st1gTmyhDWibTHuVOYXhE+t2lD/WpX0ymNTTp8VJrQ+rc
+kmJrv/1IS7VwUkGLlGpA0W34MexTOXs8o4cyyKYGGQBAbz6RMRU5g+dCNdKvU1WG
+7orAqWUfMx4dZmUAYf6/66wiNAjCLq9+ufM61miG0GwzAGEzpvTbuLKjuuc8QNME
+LRlMyS7E1EmV7HKAKfLDuhEUqBXD2A==
+=E2Q0
+-----END PGP SIGNATURE-----
+
+--s6sKGehxa1AM7u7r2jKzqX62fI2qScy63--
 
