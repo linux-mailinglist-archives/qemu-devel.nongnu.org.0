@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4943D2836C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:24:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40283 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26070282AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:19:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40194 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqWG-00067X-Ec
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:24:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35934)
+	id 1hTqQr-0002B5-7Q
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:19:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36110)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTqLt-0007OT-3R
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:13:57 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hTqMP-0007pK-PM
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:14:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTqLs-0003iV-7S
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:13:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:14621)
+	(envelope-from <mreitz@redhat.com>) id 1hTqMO-00043C-QV
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:14:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55988)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hTqLq-0003gU-04; Thu, 23 May 2019 12:13:54 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	id 1hTqMM-00041F-35; Thu, 23 May 2019 12:14:26 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 14C3ED56F1;
-	Thu, 23 May 2019 16:13:35 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 83F379FFCA;
+	Thu, 23 May 2019 16:14:10 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.176])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E77F6198B;
-	Thu, 23 May 2019 16:13:27 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A2101001E6F;
+	Thu, 23 May 2019 16:14:07 +0000 (UTC)
 To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
 	qemu-block@nongnu.org, qemu-devel@nongnu.org
 References: <20190523154444.28783-1-shmuel.eiderman@oracle.com>
-	<20190523154444.28783-2-shmuel.eiderman@oracle.com>
+	<20190523154444.28783-3-shmuel.eiderman@oracle.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -59,24 +59,24 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
 	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
 	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
 	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <72e53cec-c68f-5d47-9152-49551692880b@redhat.com>
-Date: Thu, 23 May 2019 18:13:26 +0200
+Message-ID: <fc179916-0fb5-bb50-da41-14789b020be9@redhat.com>
+Date: Thu, 23 May 2019 18:14:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190523154444.28783-2-shmuel.eiderman@oracle.com>
+In-Reply-To: <20190523154444.28783-3-shmuel.eiderman@oracle.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="JXyXOKYFiWFD7z0lJcSWaF1uWdDyWE80a"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+	boundary="svCYFK1y7doim8dGxj4TE761EgjFVb2i1"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Thu, 23 May 2019 16:13:48 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.39]);
+	Thu, 23 May 2019 16:14:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v4 1/3] qemu-img: rebase: Reuse parent
- BlockDriverState
+Subject: Re: [Qemu-devel] [PATCH v4 2/3] qemu-img: rebase: Reduce reads on
+ in-chain rebase
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -94,58 +94,107 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JXyXOKYFiWFD7z0lJcSWaF1uWdDyWE80a
+--svCYFK1y7doim8dGxj4TE761EgjFVb2i1
 From: Max Reitz <mreitz@redhat.com>
 To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
  qemu-block@nongnu.org, qemu-devel@nongnu.org
 Cc: eyal.moscovici@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com,
  liran.alon@oracle.com, arbel.moshe@oracle.com
-Message-ID: <72e53cec-c68f-5d47-9152-49551692880b@redhat.com>
-Subject: Re: [PATCH v4 1/3] qemu-img: rebase: Reuse parent BlockDriverState
+Message-ID: <fc179916-0fb5-bb50-da41-14789b020be9@redhat.com>
+Subject: Re: [PATCH v4 2/3] qemu-img: rebase: Reduce reads on in-chain rebase
 References: <20190523154444.28783-1-shmuel.eiderman@oracle.com>
- <20190523154444.28783-2-shmuel.eiderman@oracle.com>
-In-Reply-To: <20190523154444.28783-2-shmuel.eiderman@oracle.com>
+ <20190523154444.28783-3-shmuel.eiderman@oracle.com>
+In-Reply-To: <20190523154444.28783-3-shmuel.eiderman@oracle.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 On 23.05.19 17:44, Sam Eiderman wrote:
-> In safe mode we open the entire chain, including the parent backing
-> file of the rebased file.
-> Do not open a new BlockBackend for the parent backing file, which
-> saves opening the rest of the chain twice, which for long chains
-> saves many "pricy" bdrv_open() calls.
+> In the following case:
 >=20
-> Permissions for blk_new() were copied from blk_new_open() when
-> flags =3D 0.
+> (base) A <- B <- C (tip)
+>=20
+> when running:
+>=20
+>     qemu-img rebase -b A C
+>=20
+> QEMU would read all sectors not allocated in the file being rebased (C)=
+
+> and compare them to the new base image (A), regardless of whether they
+> were changed or even allocated anywhere along the chain between the new=
+
+> base and the top image (B). This causes many unneeded reads when
+> rebasing an image which represents a small diff of a large disk, as it
+> would read most of the disk's sectors.
+>=20
+> Instead, use bdrv_is_allocated_above() to reduce the number of
+> unnecessary reads.
 >=20
 > Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-> Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
-> Signed-off-by: Sagi Amit <sagi.amit@oracle.com>
-> Co-developed-by: Sagi Amit <sagi.amit@oracle.com>
 > Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+> Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
 > ---
->  qemu-img.c | 29 +++++++++--------------------
->  1 file changed, 9 insertions(+), 20 deletions(-)
+>  qemu-img.c | 25 ++++++++++++++++++++++++-
+>  1 file changed, 24 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/qemu-img.c b/qemu-img.c
+> index 9bd0bb1e47..e6fd8e1a98 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+[...]
+
+> @@ -3437,6 +3443,23 @@ static int img_rebase(int argc, char **argv)
+>                  continue;
+>              }
+> =20
+> +            if (prefix_chain_bs) {
+> +                /*
+> +                 * If cluster wasn't changed since prefix_chain, we do=
+n't need
+> +                 * to take action
+> +                 */
+> +                ret =3D bdrv_is_allocated_above(bs, prefix_chain_bs,
+> +                                              offset, n, &n);
+
+I think you forgot to update the patch...?
+
+Max
+
+> +                if (ret < 0) {
+> +                    error_report("error while reading image metadata: =
+%s",
+> +                                 strerror(-ret));
+> +                    goto out;
+> +                }
+> +                if (!ret) {
+> +                    continue;
+> +                }
+> +            }
+> +
+>              /*
+>               * Read old and new backing file and take into considerati=
+on that
+>               * backing files may be smaller than the COW image.
+>=20
 
 
---JXyXOKYFiWFD7z0lJcSWaF1uWdDyWE80a
+
+--svCYFK1y7doim8dGxj4TE761EgjFVb2i1
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzmxqYACgkQ9AfbAGHV
-z0DI7wf/d398BybQa4Acv1m1acMpizpGPSrUEGznl6QNRTG6KdSd/rYzwENxpKbo
-LrrN4aqvOr/ZT+5YiHn6Dej3tpwswrArXyLWxalnlZaw5BTQe5ZYcEBEqtesOlnC
-wySq+YPquZmZHoI61IsqxK5wnES6dJ/kJOkRbLpkYhu0mgjzzYW22+ORACQMpkU1
-VpzCPnTk931e2ebPPqBZyHgEF7ivIXCiKVWBOoCc3Mtev4F/9n+9EFxLSf4USA7q
-tjpD2JAqGox52jFvCHAVWpDWm5XMZWReUJfQdJB+8ykNZg5PKrpJF8k7KJyPl+6p
-PCwWqxyDx4XizitpESdFs7HBdsWW0A==
-=hsEz
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzmxs0ACgkQ9AfbAGHV
+z0Bdlgf6A5iK+y0oVdXqMKrMqgmvB25Fh4CDFpMtxURv8uokNqSbKI/d910hIKQD
+ZvMdcXhOOQpPTnvmzLzrJaf06D0NVyArv/kj83sqnSjQiwGuNxGW4fDSjo2MfAM7
+sKGKdU147ncNeHxtqzEHKl71be5AeohppIwKMV/4Ua5Bgcaq+Bt3KbuOoDO8Rf75
+61R2L5ZSS2UWf9SA3dmzHy/JIrQzRCCA9lWW6CHyOtWfZHehCwLfYQqr5FLUYInp
+wg1JgOeprhJisI697hnCAay6tTlSD36cvv5tmhJclnreX8GKD2BbUiDcnOgmN7jv
+IvMuyDcHHJtHV6r0HUYiIND+8ZCzoA==
+=phUP
 -----END PGP SIGNATURE-----
 
---JXyXOKYFiWFD7z0lJcSWaF1uWdDyWE80a--
+--svCYFK1y7doim8dGxj4TE761EgjFVb2i1--
 
