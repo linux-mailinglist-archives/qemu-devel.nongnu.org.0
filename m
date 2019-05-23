@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C657927F27
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:10:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37045 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696A327F65
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:19:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37260 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hToQ2-0004UB-Uo
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:10:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46588)
+	id 1hToZC-0006Nn-IM
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:19:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46494)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hToHc-0006IE-Rc
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:27 -0400
+	(envelope-from <marcandre.lureau@gmail.com>) id 1hToHY-0006Er-Kx
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hToHb-0004YD-UF
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:24 -0400
-Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:39960)
+	(envelope-from <marcandre.lureau@gmail.com>) id 1hToHX-0004To-Ed
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:20 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38621)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hToHb-0004Xz-Pf
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:23 -0400
-Received: by mail-vs1-xe42.google.com with SMTP id c24so3638813vsp.7
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:01:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=W84fD2UDw9a9LmU00h2mTYcGOrNskf3otw0HP+RWaOg=;
-	b=WxiuXh9CygRREcnOMOKzYlC6/bqNX7dtYcyM1XfFm+Kg6b2VKcHyci3YwJglXLywZm
-	MdOMxRx6St4K4O84vOFhvgzjkNbWihngqXWSQi577AQuhi5I8QNr6ckLrCZOI+BAQcpC
-	QanG1YGiy/GifZQ+sbA+Lgv/uAYuH2xPHjzp1yHUBjXjn4qjV3e2VtbZToGHtiyFRiTd
-	HAjDfNuqMq0k+n8V1aGRiJ9kgyS2La0HN1gLN/ZOvLvmp7UNh9iXYoy9SY4d21YK+8By
-	eGKaPuEfyZHBBOCN/gQhNzfXzCT64px2NVDhmbiM1x7BKHkynEsPIP298T7QLxxBl7L7
-	0A4A==
+	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+	id 1hToHX-0004SM-4L
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:01:19 -0400
+Received: by mail-wr1-x441.google.com with SMTP id d18so6419045wrs.5
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=JbQfnIca/4wOKmTHDjL9IGcKmYMym0Lae3dzCKiXErA=;
+	b=EkgAW6KkPXCvPru3fPUdrNPOOasAlVs4hqPY5qTSZJj+hCJcjdo+Le0Is9aik3+68I
+	HDniOz5dHqR1TtnTPHA9VMm2Ae6uR/mkbhf29GqHmNWgw4Vra8mpUvf3rRZ9bhEN1ie8
+	t6HaeQSwhDpGWiTE3Vg5H5vcyCbZWX13Tw9+jEg1HFmvhssZjQrt+jzQA8EQJvWhq5cW
+	2V2+SfMgs+JYBQ27kbO10fDHcFVONhkXm+tJLYIvDDitf819vFl14PcVcmv9vlGQS4lk
+	jWoRwxSXwMhLGEsYCSc27xwbGB5RUYQSWnJWLbu/kKK7Dsln5ykM07FQYHN3Gf3fqzro
+	5wFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=W84fD2UDw9a9LmU00h2mTYcGOrNskf3otw0HP+RWaOg=;
-	b=YWG60uhYloH0VSx384XTRD8rUR7KnrxT9iYYoFqVtCz22KL8B8HxmBhuyO0nejQDXP
-	rnHUuBPjg6BXggmJSaeH30loYQYBZPbns0DIxYUFEZRTObQxkXLfqVNelroKcb8Ee88y
-	aLno3jass4cllsTwb6dHSYHp733dV4P4BgUgCQOhsRTtf2bK7gMptzCsKPg0lHV8ogeZ
-	1mis8YsRicfITCgcvE2ncNXs6StJpkLAhIrwhlthW9WYw6Q7iHhPcR0u/Q2jQ6SU/on5
-	4Ne5ZXK8U3RCNDAVqCjbADvgHeyaYRi24JD/Qmf+b5B8NmXkRi4EEHtUbD/KV75V17/O
-	lQgA==
-X-Gm-Message-State: APjAAAUV9wXTN2HT6yZuW3nQVSbP5pCvkI0wHzzYFfCEQ9M78fuV0Fkq
-	+tT48HRgU4Y1IQY3AaQSqhxIukBPthqgog==
-X-Google-Smtp-Source: APXvYqxlh6WnbqzM0zeW/4+JhZapnDdGHB4+ztuZA+FM0XY6eAvDIHX5cS2z+2Hs0uFlZ4AONykxGA==
-X-Received: by 2002:a67:c885:: with SMTP id v5mr48602285vsk.49.1558620082847; 
-	Thu, 23 May 2019 07:01:22 -0700 (PDT)
-Received: from localhost.localdomain (ip-173-130-215-183.orldfl.spcsdns.net.
-	[173.130.215.183]) by smtp.gmail.com with ESMTPSA id
-	v133sm1984166vkv.5.2019.05.23.07.01.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 07:01:22 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 10:00:59 -0400
-Message-Id: <20190523140059.18548-14-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190523140059.18548-1-richard.henderson@linaro.org>
-References: <20190523140059.18548-1-richard.henderson@linaro.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=JbQfnIca/4wOKmTHDjL9IGcKmYMym0Lae3dzCKiXErA=;
+	b=k01G0b4E+NlJy5Ln3RARc/xJVtw0U1OX4HWJ9pVK6LnaAIvgLjlpW4nkhQ4DneyO0g
+	m90qzWTkHcqF2ZLZYKIVsX096cn2McIj1j3pzcyQgTMEYvvvSzO0udshAonG9ksF8Fq+
+	t3Vbvza4f5Kp42Cxl2sXkCY7jgoCaTcDYObZH4Yxwav1DIpWx/qIHgcFgJhIORT+yomc
+	W9FVsDSN54W43Yh2r1Z9AxyB84VQhb6UIvAOoY2qWlLH3neAaARWTXbiNMa7G16ioG89
+	+5GvsHfPWegTq1gYJyVFvYs75+SowSMNnEShUc9ynH6ym8sFfrrJMAqiSV0ihfOrrD1i
+	IprA==
+X-Gm-Message-State: APjAAAUe4LBSpvpKxfe5TLqH8rpGUyd21YQcmKlzonK7o0f9bULrjnBk
+	ApWFsjIDDy5+bK6apysZruBHx9fM+4Z4JZ6vVYKr30iaA6s=
+X-Google-Smtp-Source: APXvYqxESkBxbYsRlDvOYmDcL3A8wJ0r53R0T16/k/nJhQziMV+/u4WzD4lPfvbA60EJI2dHzAlXYyyWVW+fb0cbxk0=
+X-Received: by 2002:a5d:4d4d:: with SMTP id a13mr401143wru.18.1558620075476;
+	Thu, 23 May 2019 07:01:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190523110434.23830-1-gert.wollny@collabora.com>
+In-Reply-To: <20190523110434.23830-1-gert.wollny@collabora.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 23 May 2019 16:01:03 +0200
+Message-ID: <CAJ+F1C+=89nSeEyiBowdOsqr5HBtvvNnXp3ZWHBGV_WYYH9kgA@mail.gmail.com>
+To: Gert Wollny <gert.wollny@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::e42
-Subject: [Qemu-devel] [PULL 13/13] MAINTAINERS: Add RX
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH] virtio_gpu_3d: make it possible to
+ configure the fence poll time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,59 +74,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
+Hi
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190516055244.95559-13-ysato@users.sourceforge.jp>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- MAINTAINERS | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+On Thu, May 23, 2019 at 3:27 PM Gert Wollny <gert.wollny@collabora.com> wro=
+te:
+>
+> The default fence poll time of 10ms (100 Hz) is sufficent for normal
+> work loads, but if one wants to play games within the virtual machine
+> this value might be too high, so make it possible to configure this
+> value by using the environment variable QEMU_VIRGL_POLL_FREQ where the
+> poll is given in Hz. To acommodate higher poll frequencies also change
+> the timer to use micro seconds as base instead of milliseconds.
+>
+>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 73a0105082..5286970936 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -272,6 +272,13 @@ F: include/hw/riscv/
- F: linux-user/host/riscv32/
- F: linux-user/host/riscv64/
- 
-+RENESAS RX
-+M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+S: Maintained
-+F: target/rx/
-+F: hw/rx/
-+F: include/hw/rx/
-+
- S390
- M: Richard Henderson <rth@twiddle.net>
- M: David Hildenbrand <david@redhat.com>
-@@ -1106,6 +1113,18 @@ F: pc-bios/canyonlands.dt[sb]
- F: pc-bios/u-boot-sam460ex-20100605.bin
- F: roms/u-boot-sam460ex
- 
-+RX Machines
-+-----------
-+RX-QEMU
-+M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+S: Maintained
-+F: hw/rx/rxqemu.c
-+F: hw/intc/rx_icu.c
-+F: hw/timer/renesas_*.c
-+F: hw/char/renesas_sci.c
-+F: include/hw/timer/renesas_*.h
-+F: include/hw/char/renesas_sci.h
-+
- SH4 Machines
- ------------
- R2D
--- 
-2.17.1
+This is what VIRGL_RENDERER_THREAD_SYNC helps with. You don't need to
+do regular polling, but I think it is currently limited to
+Linux/eventfd only.
 
+fwiw, vhost-user-gpu uses it.
+
+
+> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
+> ---
+>  hw/display/virtio-gpu-3d.c     | 18 ++++++++++++++++--
+>  include/hw/virtio/virtio-gpu.h |  1 +
+>  2 files changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
+> index 5ee3566ae0..120e593e76 100644
+> --- a/hw/display/virtio-gpu-3d.c
+> +++ b/hw/display/virtio-gpu-3d.c
+> @@ -17,6 +17,7 @@
+>  #include "trace.h"
+>  #include "hw/virtio/virtio.h"
+>  #include "hw/virtio/virtio-gpu.h"
+> +#include "qemu/cutils.h"
+>
+>  #ifdef CONFIG_VIRGL
+>
+> @@ -580,7 +581,8 @@ static void virtio_gpu_fence_poll(void *opaque)
+>      virgl_renderer_poll();
+>      virtio_gpu_process_cmdq(g);
+>      if (!QTAILQ_EMPTY(&g->cmdq) || !QTAILQ_EMPTY(&g->fenceq)) {
+> -        timer_mod(g->fence_poll, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +=
+ 1);
+> +        timer_mod(g->fence_poll, qemu_clock_get_us(QEMU_CLOCK_VIRTUAL) +
+> +                                 g->fence_poll_timeout);
+>      }
+>  }
+>
+> @@ -605,13 +607,25 @@ void virtio_gpu_virgl_reset(VirtIOGPU *g)
+>  int virtio_gpu_virgl_init(VirtIOGPU *g)
+>  {
+>      int ret;
+> +    const char *val;
+>
+>      ret =3D virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
+>      if (ret !=3D 0) {
+>          return ret;
+>      }
+>
+> -    g->fence_poll =3D timer_new_ms(QEMU_CLOCK_VIRTUAL,
+> +    g->fence_poll_timeout =3D 10000; /* default 10 ms */
+> +    val =3D getenv("QEMU_VIRGL_POLL_FREQ");
+> +    if (val) {
+> +        unsigned long long poll_freq;
+> +        if (parse_uint_full(val, &poll_freq, 10) || poll_freq > UINT32_M=
+AX) {
+> +            fprintf(stderr, "VIRGL_POLL_FREQ: Invalid integer `%s'\n", v=
+al);
+> +            exit(1);
+> +        }
+> +        g->fence_poll_timeout =3D 1000000 / (uint32_t)poll_freq;
+> +    }
+> +
+> +    g->fence_poll =3D timer_new_us(QEMU_CLOCK_VIRTUAL,
+>                                   virtio_gpu_fence_poll, g);
+>
+>      if (virtio_gpu_stats_enabled(g->conf)) {
+> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gp=
+u.h
+> index 60425c5d58..a9e03b25aa 100644
+> --- a/include/hw/virtio/virtio-gpu.h
+> +++ b/include/hw/virtio/virtio-gpu.h
+> @@ -116,6 +116,7 @@ typedef struct VirtIOGPU {
+>      bool renderer_reset;
+>      QEMUTimer *fence_poll;
+>      QEMUTimer *print_stats;
+> +    uint32_t fence_poll_timeout;
+>
+>      uint32_t inflight;
+>      struct {
+> --
+> 2.20.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
