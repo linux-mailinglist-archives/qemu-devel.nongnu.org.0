@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A1727DD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:15:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35935 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD4E27DF1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:19:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36049 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnZV-0003hO-LE
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:15:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51828)
+	id 1hTndR-0006t3-CM
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:19:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52101)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTnHl-0004s9-Tm
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:57:31 -0400
+	(envelope-from <philmd@redhat.com>) id 1hTnIY-0005W1-UJ
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:58:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTnHj-00030s-7X
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:57:29 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43980)
+	(envelope-from <philmd@redhat.com>) id 1hTnIX-0003gH-J5
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:58:18 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:46652)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTnHg-0002yu-E9
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:57:25 -0400
-Received: by mail-oi1-x243.google.com with SMTP id t187so4247140oie.10
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=6u1qTQvAYVuQuf5vqoJUT8LoE9LpKteA/VhDaNrEurY=;
-	b=upI4HSPAdUR+Wl8G+F/uZ9fVmVEIhdv0xv5rF8FLR4WApC1cqku6YvWaNMefoqnkkW
-	dYV12o8zBBaotd0OFyABwiCHbAnhOOHfVKjmnTgcN97slCErP0egH5Jc1Na9vjWxTSGd
-	H19wbDPDnhXXQ4f61vpdUpDkrttU+PY6GsyXLPpNT0CTn0H5zC5wjDGHQQbyOJ390jWk
-	/tBotF27LsbuEiKQwJ/S/hHf8fQHfUdwS6JrgV/k1xoXajVoH6Pf8zzyMfrYOo8ukJXa
-	P3Hgh/ZyReqaBAkfMIOFdhs2s98GkEHXu8QWiVUz7ZDTSoEJzkn89Sr/9drZaUQiqvJc
-	jDKQ==
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hTnIW-0003Z7-UW
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:58:17 -0400
+Received: by mail-wr1-f65.google.com with SMTP id r7so6145570wrr.13
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:58:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=6u1qTQvAYVuQuf5vqoJUT8LoE9LpKteA/VhDaNrEurY=;
-	b=DHGCYcj1W10Mt4PbKyu+qmDAKcsOjPkwCaL4JpyZRwF5/iHYH953skCyzfJYD5unS7
-	S6VNIeywX+f0pbAU9ePV0lpzrhay0bLWFBwjtwbG6x1KsHcLrA0rv9ZCfZyJMdYD9Kgr
-	XFgTyoLA6rCQUQxrYggvabVDP8o3wNDr0tu5C7SDYxhBeD9itpXroi8JpnL4r4wS1WIE
-	gdytOLSfNSsfoBkq+ReZa766bhPFOH8I1vg+w9toU0S+Zptb2vGWYa6y5vXidsgMKtPw
-	MBLvQNZam/vDrSvoJn0a6gvuonlauBXaAF5eg7Y8uuBhCFUjxXwBncxe4B192OMfkLUl
-	6QuQ==
-X-Gm-Message-State: APjAAAWc+1upgFIepRlIw/0soagYqmLnJzThCJNKQE40jFCMeHGvz8a+
-	ar00BwxeD3Umeeo4kD4aBzDN3nKI7EIMFDvGJCw7ng==
-X-Google-Smtp-Source: APXvYqzhEfkIBuSKvoXCvV7T7SVOQJPBbyFr+pc+nv56cJAbc8xLjrBvz55qZ2Y7gk370vbnLbo48E83OfoG6m8tLdc=
-X-Received: by 2002:aca:845:: with SMTP id 66mr2613152oii.163.1558616243665;
-	Thu, 23 May 2019 05:57:23 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=+t49dihkvC440Fv1Lq8bQbYkGfawugJ4sF+NR2cF2n8=;
+	b=RXvQoqpP892BomK3C8b7wQjQIRCSyutpFKean3wYeBCteOveDyrRY6bvVoNV9yKhyI
+	+y8QvxEsgtwdzHT55/fVcP3SVUFnKSjtAfTj8BZK4/tZ6Dz0/O79aa4HW5DzDKliwduI
+	153DGwLQUD7+pL5NKos5FGphLUrUupGUZO7ZU9vAqPP88PkrfkTCfLeN5lGJ7zGlje4g
+	rFblf9H6R7Y8jgKCJbMKxn8yMvupWtd5m7qTzdFcnPfVANRXUirvoLRi6hEahvVX4hJ+
+	i9ZdcxcfN3mpFibCLxgsAILP58qBe1HCg4Qsg5dlHGEPlN5oTODrHzG/rc4eKSNjWNB1
+	fA2g==
+X-Gm-Message-State: APjAAAVgmOcO/KY/2r/VMfHJksdNJZKOBn5KEz5tiNkfcPipfmNTGkRY
+	po0kU0bQ1S0CVBwVu8vEfB/wXw==
+X-Google-Smtp-Source: APXvYqwBVqvW+8npuzBxYXAI8PMiuu6mjUOwdP/2znU+6+akRcwHCqFFqD2fqc0T4qggy/UkXr/6fg==
+X-Received: by 2002:adf:ce90:: with SMTP id r16mr8017068wrn.156.1558616289841; 
+	Thu, 23 May 2019 05:58:09 -0700 (PDT)
+Received: from [192.168.1.38] (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	x9sm12238668wmf.27.2019.05.23.05.58.08
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 05:58:09 -0700 (PDT)
+To: Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>,
+	Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <20190521152810.21353-1-cohuck@redhat.com>
+	<20190521152810.21353-3-cohuck@redhat.com>
+	<6e216877-60be-ddcd-3f15-604e870ca8ba@redhat.com>
+	<20190522140729.25970e17.cohuck@redhat.com>
+	<6b101b85-4985-4736-acad-59389b00de55@vivier.eu>
+	<20190522142421.746f7495.cohuck@redhat.com>
+	<CAL1e-=j5joi3ssA-7Q2PVp841ywj41Ntz_MSKdB4w27Z9JvcEQ@mail.gmail.com>
+	<20190523135602.4c80c959.cohuck@redhat.com>
+	<e01100bc-50ee-5cc2-2802-a098acc720ac@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <e3ce17c4-c1d6-20b4-0e7c-6c23e6a08e48@redhat.com>
+Date: Thu, 23 May 2019 14:58:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190520214342.13709-1-philmd@redhat.com>
-In-Reply-To: <20190520214342.13709-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 May 2019 13:57:12 +0100
-Message-ID: <CAFEAcA8vcQw0fGy3eTpmkYb+=-wiy=7xS6bjb3aJJBmGBo4LYA@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH 0/4] arm: exynos4: Add dma support for
- smdkc210
+In-Reply-To: <e01100bc-50ee-5cc2-2802-a098acc720ac@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PULL v3 47/55] linux headers: update against
+ Linux 5.2-rc1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,44 +83,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
-	Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
-	QEMU Developers <qemu-devel@nongnu.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-s390x@nongnu.org,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	qemu-devel@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 May 2019 at 22:43, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Another intent to salvage previous work from Guenter Roeck:
-> https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06302.html
->
-> Since v3: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06674.=
-html
-> - rebased
-> - QOM'ify the SoC code
->
-> Since v2: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06459.=
-html
-> - rename init -> create
-> - create controllers in SoC rather than the board (Peter Maydell)
-> - add Linux dtsi in commit message
->
-> Since v1: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06335.=
-html
-> - Do not factor out pl330_init, which resulted in buggy v1, see:
->   https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06448.html
->
-> Guenter Roeck (1):
->   hw/arm/exynos4210: Add DMA support for the Exynos4210
->
-> Philippe Mathieu-Daud=C3=A9 (3):
->   hw/arm/exynos4: Remove unuseful debug code
->   hw/arm/exynos4: Use the IEC binary prefix definitions
->   hw/arm/exynos4210: QOM'ify the Exynos4210 SoC
+On 5/23/19 2:30 PM, Laurent Vivier wrote:
+> On 23/05/2019 13:56, Cornelia Huck wrote:
+>> On Wed, 22 May 2019 15:22:23 +0200
+>> Aleksandar Markovic <aleksandar.m.mail@gmail.com> wrote:
+>>
+>>> The alternative way of invoking via IPCV6 (else part of “ifdef
+>>> __NR_MSGSND”) should work for MIPS in the present stage of headers and
+>>> kernel.
+>>
+>> I tried to do that so that we have at least a workaround for now; but
+>> this fails building on my x86 laptop (the safe_syscall6 for ipc
+>> complains about missing __NR_ipc). Maybe I'm holding it wrong (should
+>> that be conditional on the host?), but I think that really needs to be
+>> done by the mips maintainers...
+>>
+> 
+> Perhaps a simple workaround could be:
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index e311fcda0517..5b431736032c 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -761,14 +761,8 @@ safe_syscall2(int, nanosleep, const struct timespec *, req,
+>  safe_syscall4(int, clock_nanosleep, const clockid_t, clock, int, flags,
+>                const struct timespec *, req, struct timespec *, rem)
+>  #endif
+> -#ifdef __NR_msgsnd
+> -safe_syscall4(int, msgsnd, int, msgid, const void *, msgp, size_t, sz,
+> -              int, flags)
+> -safe_syscall5(int, msgrcv, int, msgid, void *, msgp, size_t, sz,
+> -              long, msgtype, int, flags)
+> -safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
+> -              unsigned, nsops, const struct timespec *, timeout)
+> -#else
+> +
+> +#ifdef __NR_ipc
+>  /* This host kernel architecture uses a single ipc syscall; fake up
+>   * wrappers for the sub-operations to hide this implementation detail.
+>   * Annoyingly we can't include linux/ipc.h to get the constant definitions
+> @@ -783,14 +777,30 @@ safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
+>  
+>  safe_syscall6(int, ipc, int, call, long, first, long, second, long, third,
+>                void *, ptr, long, fifth)
+> +#endif
+> +
+> +#ifdef __NR_msgsnd
+> +safe_syscall4(int, msgsnd, int, msgid, const void *, msgp, size_t, sz,
+> +              int, flags)
+> +#else
+>  static int safe_msgsnd(int msgid, const void *msgp, size_t sz, int flags)
+>  {
+>      return safe_ipc(Q_IPCCALL(0, Q_MSGSND), msgid, sz, flags, (void *)msgp, 0);
+>  }
+> +#endif
+> +#ifdef __NR_msgrcv
+> +safe_syscall5(int, msgrcv, int, msgid, void *, msgp, size_t, sz,
+> +              long, msgtype, int, flags)
+> +#else
+>  static int safe_msgrcv(int msgid, void *msgp, size_t sz, long type, int flags)
+>  {
+>      return safe_ipc(Q_IPCCALL(1, Q_MSGRCV), msgid, sz, flags, msgp, type);
+>  }
+> +#endif
+> +#ifdef __NR_semtimedop
+> +safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
+> +              unsigned, nsops, const struct timespec *, timeout)
+> +#else
+>  static int safe_semtimedop(int semid, struct sembuf *tsops, unsigned nsops,
+>                             const struct timespec *timeout)
+>  {
+> 
 
+Works for me!
+I have no idea if this is the proper fix, but this fix my test setup.
+Can you send a proper patch?
 
-Applied to target-arm.next, thanks.
+Thanks :)
 
--- PMM
+Phil.
 
