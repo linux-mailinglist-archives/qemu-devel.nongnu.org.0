@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6849274A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 04:52:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56559 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 042A927534
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 06:31:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57452 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTdqX-0006jj-Th
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 22:52:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44613)
+	id 1hTfNf-0006i3-IS
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 00:31:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33879)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTdoW-0005Qx-Ru
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 22:50:41 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTfMd-0006Ju-RZ
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 00:30:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTdgh-0001t3-PM
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 22:42:36 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:34879)
+	(envelope-from <bounces@canonical.com>) id 1hTfMc-0005s9-Lr
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 00:29:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34500)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTdgh-0001sk-K9
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 22:42:35 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id k128so1694639ywf.2
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 19:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=L3cNq6YyAPNbUfiuj9aFVufaRYm1fCVGRTm5ygWeeXI=;
-	b=Q6HrrMrNJm0cOKjwpnwqAoomARUSCbZGpMi0xgXEFi7ApLzsyuwOUpM5iBvxQVZLjx
-	q05Nm4mxKwjOIYIVVOIHxSaIGhQ4Rh2Lw8yoLxt0Qg3mvBARtO/wr9pu8I0iqSpTP8Ar
-	9WIZxgf7N5p534yFFn/zq4h2cwr25/Oscq8HR/sHx/fofuiPiPrMmSmRPNR+MZ73hVJ2
-	+aOMghSmJihsscwxiU436jekxvCOZZJMEIBLYg/Gbd+hG7ZCqnWkBUXbUKIJepFZ7kXM
-	2cV5+EG/s1UUoRfg3PVawhn6SSHe2lzhcsOoj07qY1kdOo6aPtG+8Y4orAyFbCWGEkur
-	RLLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=L3cNq6YyAPNbUfiuj9aFVufaRYm1fCVGRTm5ygWeeXI=;
-	b=Y5KofZMQaAH3oOg1mQzT+CiyQvy+yfBK8j6DuBVWO59guvWGhvymB3/MScJ8Awozr7
-	ymnqY/6L1DtGpCXwOGSlqWAmGMI+S15dGLxjaE8yIeUPWjbZU6biuNB0hlFnT8yTqj4B
-	xqsab/II0wgvcVLOAmgMnTFWFxjPh796G5/y2y0MIE5JCkeKwa4zNJIbWwAaY/GtJb4C
-	+L0NJNRsUzAeCFiWtjBBCNcmCRguUlxFmHm6XRfUJ3KB3/d5J4HFYieHJivkVmM3pojC
-	Glx4RmZvpV7Z8vGmtiHLbLSPCfDscwE7a0d61R3lMt6EAMZyvF1aA2njZ/xu8SblubjO
-	kUkA==
-X-Gm-Message-State: APjAAAWPeWN1tVZ+MB+vlDdhf4WEsVCv7U0jdO/7rFN7+l21C9xm+bvl
-	PXrwvkAbK4wikTIFlqhlkibn6O2ZL2c=
-X-Google-Smtp-Source: APXvYqwl0PwXnd7vcfExm2eDE+gnaGej1fmWtWLEkxffbAM8F7YL0vxesciyJKIv6HEIraBT1YvXVA==
-X-Received: by 2002:a81:3c83:: with SMTP id
-	j125mr21399048ywa.226.1558579354836; 
-	Wed, 22 May 2019 19:42:34 -0700 (PDT)
-Received: from localhost.localdomain ([71.46.56.17])
-	by smtp.gmail.com with ESMTPSA id
-	n12sm7559320ywn.81.2019.05.22.19.42.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 May 2019 19:42:34 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hTfMc-0005rV-Ga
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 00:29:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hTfMa-0003AA-6L
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:29:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 2A0D72E80C0
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:29:56 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 23 May 2019 04:17:22 -0000
+From: Launchpad Bug Tracker <1562653@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 22:42:29 -0400
-Message-Id: <20190523024229.1158-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190523024229.1158-1-richard.henderson@linaro.org>
-References: <20190523024229.1158-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
-Subject: [Qemu-devel] [PATCH 3/3] capstone: Enable disassembly for s390x
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+	status=Expired; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: changlimin janitor serge-hallyn th-huth
+X-Launchpad-Bug-Reporter: changlimin (changlimin)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <20160328013239.3708.98267.malonedeb@wampee.canonical.com>
+Message-Id: <155858504364.3863.15620074960510996280.malone@loganberry.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: c8596b4c304d04353e740089c56053ddadf6a28a
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1562653] Re: Ubuntu 15.10: QEMU VM hang if memory
+ >= 1T
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,122 +67,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, david@redhat.com
+Reply-To: Bug 1562653 <1562653@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable s390x, aka SYSZ, in the git submodule build.
-Set the capstone parameters for both s390x host and guest.
-Install a skipdata hook to keep capstone in sync with the
-instruction stream for unknown opcodes.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- Makefile           |  1 +
- disas.c            | 40 ++++++++++++++++++++++++++++++++++++++++
- target/s390x/cpu.c |  4 ++++
- 3 files changed, 45 insertions(+)
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-diff --git a/Makefile b/Makefile
-index 155f066a20..a37e872825 100644
---- a/Makefile
-+++ b/Makefile
-@@ -477,6 +477,7 @@ CAP_CFLAGS += -DCAPSTONE_USE_SYS_DYN_MEM
- CAP_CFLAGS += -DCAPSTONE_HAS_ARM
- CAP_CFLAGS += -DCAPSTONE_HAS_ARM64
- CAP_CFLAGS += -DCAPSTONE_HAS_POWERPC
-+CAP_CFLAGS += -DCAPSTONE_HAS_SYSZ
- CAP_CFLAGS += -DCAPSTONE_HAS_X86
- 
- subdir-capstone: .git-submodule-status
-diff --git a/disas.c b/disas.c
-index 41ad0102e2..c1ecd2d769 100644
---- a/disas.c
-+++ b/disas.c
-@@ -179,6 +179,39 @@ static int print_insn_od_target(bfd_vma pc, disassemble_info *info)
-    to share this across calls and across host vs target disassembly.  */
- static __thread cs_insn *cap_insn;
- 
-+/*
-+ * The capstone library always skips 2 bytes for S390X.
-+ * This is less than ideal, since we can tell from the first two bits
-+ * the size of the insn and thus stay in sync with the insn stream.
-+ */
-+static size_t CAPSTONE_API
-+cap_skipdata_s390x_cb(const uint8_t *code, size_t code_size,
-+                      size_t offset, void *user_data)
-+{
-+    size_t ilen;
-+
-+    /* See get_ilen() in target/s390x/internal.h.  */
-+    switch (code[offset] >> 6) {
-+    case 0:
-+        ilen = 2;
-+        break;
-+    case 1:
-+    case 2:
-+        ilen = 4;
-+        break;
-+    default:
-+        ilen = 6;
-+        break;
-+    }
-+
-+    return ilen;
-+}
-+
-+static const cs_opt_skipdata cap_skipdata_s390x = {
-+    .mnemonic = ".byte",
-+    .callback = cap_skipdata_s390x_cb
-+};
-+
- /* Initialize the Capstone library.  */
- /* ??? It would be nice to cache this.  We would need one handle for the
-    host and one for the target.  For most targets we can reset specific
-@@ -209,6 +242,10 @@ static cs_err cap_disas_start(disassemble_info *info, csh *handle)
- 
-     /* "Disassemble" unknown insns as ".byte W,X,Y,Z".  */
-     cs_option(*handle, CS_OPT_SKIPDATA, CS_OPT_ON);
-+    if (info->cap_arch == CS_ARCH_SYSZ) {
-+        cs_option(*handle, CS_OPT_SKIPDATA_SETUP,
-+                  (uintptr_t)&cap_skipdata_s390x);
-+    }
- 
-     /* Allocate temp space for cs_disasm_iter.  */
-     if (cap_insn == NULL) {
-@@ -551,6 +588,9 @@ void disas(FILE *out, void *code, unsigned long size)
-     print_insn = print_insn_m68k;
- #elif defined(__s390__)
-     print_insn = print_insn_s390;
-+    s.info.cap_arch = CS_ARCH_SYSZ;
-+    s.info.cap_insn_unit = 2;
-+    s.info.cap_insn_split = 6;
- #elif defined(__hppa__)
-     print_insn = print_insn_hppa;
- #endif
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index b1df63d82c..553571d86b 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -41,6 +41,7 @@
- #include "sysemu/sysemu.h"
- #endif
- #include "fpu/softfloat.h"
-+#include "disas/capstone.h"
- 
- #define CR0_RESET       0xE0UL
- #define CR14_RESET      0xC2000000UL;
-@@ -175,6 +176,9 @@ static void s390_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
- {
-     info->mach = bfd_mach_s390_64;
-     info->print_insn = print_insn_s390;
-+    info->cap_arch = CS_ARCH_SYSZ;
-+    info->cap_insn_unit = 2;
-+    info->cap_insn_split = 6;
- }
- 
- static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
--- 
-2.17.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1562653
+
+Title:
+  Ubuntu 15.10: QEMU VM hang if memory >=3D 1T
+
+Status in QEMU:
+  Expired
+Status in qemu package in Ubuntu:
+  Expired
+
+Bug description:
+  1. Ubuntu 15.10 x86_64 installed on HP SuperDome X with 8CPUs and 4T
+  memory.
+
+  2. Create a VM, install Ubuntu 15.10, if memory >=3D 1T , VM hang when st=
+art. If memory < 1T, it is good.
+  <domain type=3D'kvm'>
+    <name>u1510-1</name>
+    <uuid>39eefe1e-4829-4843-b892-026d143f3ec7</uuid>
+    <memory unit=3D'KiB'>1073741824</memory>
+    <currentMemory unit=3D'KiB'>1073741824</currentMemory>
+    <vcpu placement=3D'static'>16</vcpu>
+    <os>
+      <type arch=3D'x86_64' machine=3D'pc-i440fx-2.3'>hvm</type>
+      <boot dev=3D'hd'/>
+      <boot dev=3D'cdrom'/>
+    </os>
+    <features>
+      <acpi/>
+      <apic/>
+      <pae/>
+    </features>
+    <clock offset=3D'utc'/>
+    <on_poweroff>destroy</on_poweroff>
+    <on_reboot>restart</on_reboot>
+    <on_crash>restart</on_crash>
+    <devices>
+      <emulator>/usr/bin/kvm</emulator>
+      <disk type=3D'file' device=3D'disk'>
+        <driver name=3D'qemu' type=3D'qcow2' cache=3D'directsync'/>
+        <source file=3D'/vms/images/u1510-1.img'/>
+        <target dev=3D'vda' bus=3D'virtio'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x08' =
+function=3D'0x0'/>
+      </disk>
+      <disk type=3D'file' device=3D'cdrom'>
+        <driver name=3D'qemu' type=3D'raw'/>
+        <target dev=3D'hdc' bus=3D'ide'/>
+        <readonly/>
+        <address type=3D'drive' controller=3D'0' bus=3D'1' target=3D'0' uni=
+t=3D'0'/>
+      </disk>
+      <controller type=3D'pci' index=3D'0' model=3D'pci-root'/>
+      <controller type=3D'ide' index=3D'0'>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x01' =
+function=3D'0x1'/>
+      </controller>
+      <controller type=3D'usb' index=3D'0'>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x01' =
+function=3D'0x2'/>
+      </controller>
+      <interface type=3D'bridge'>
+        <mac address=3D'0c:da:41:1d:ae:f1'/>
+        <source bridge=3D'vswitch0'/>
+        <model type=3D'virtio'/>
+        <driver name=3D'vhost'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x03' =
+function=3D'0x0'/>
+      </interface>
+      <input type=3D'mouse' bus=3D'ps2'/>
+      <input type=3D'keyboard' bus=3D'ps2'/>
+      <graphics type=3D'vnc' port=3D'-1' autoport=3D'yes' listen=3D'0.0.0.0=
+'>
+        <listen type=3D'address' address=3D'0.0.0.0'/>
+      </graphics>
+      <video>
+        <model type=3D'cirrus' vram=3D'16384' heads=3D'1'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x02' =
+function=3D'0x0'/>
+      </video>
+      <memballoon model=3D'virtio'>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x09' =
+function=3D'0x0'/>
+      </memballoon>
+    </devices>
+  </domain>
+
+  3. The panic stack is
+    ... cannot show
+    async_page_fault+0x28
+    ioread32_rep+0x38
+    ata_sff_data_xfer32+0x8a
+    ata_pio_sector+0x93
+    ata_pio_sectors+0x34
+    ata_sff_hsm_move+0x226
+    RIP: kthread_data+0x10
+    CR2: FFFFFFFF_FFFFFFD8
+
+  4. Change the host os to Redhat 7.2 , the vm is good even memory
+  >=3D3.8T.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1562653/+subscriptions
 
