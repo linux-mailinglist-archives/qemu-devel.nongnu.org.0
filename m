@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9A228BEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:53:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43174 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0AA28BE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:53:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43168 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTuiR-0004PQ-N1
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:53:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37454)
+	id 1hTuhz-0003wm-EC
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:53:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37455)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hTuZz-0006CI-43
+	(envelope-from <jan.bobek@gmail.com>) id 1hTuZz-0006CL-4A
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hTuZv-0003Fq-Ly
+	(envelope-from <jan.bobek@gmail.com>) id 1hTuZw-0003Ho-1c
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:45 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:33775)
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:42636)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hTuZv-0003Ef-FY
+	(Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hTuZv-0003Ff-SO
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:43 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id w127so923378yba.0
+Received: by mail-yb1-xb2b.google.com with SMTP id a21so2782555ybg.9
 	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=dgGhNtzAW4e5HQFtFo/WG0Nzt03w15qZgzxKHgtzV9k=;
-	b=afTeAsOng5t/U9KgXwNn8SNdgxrlcz32rmOoAY5Rw7sypF3FK6Vh837DkrxnxV9JES
-	g1TZBHxj1n3gSWL5XLtLyRzJclK865j8wnJhMvMn4K+udFufJ6haYeGbszLt6o0Qlpps
-	245sqEaw7kNJ3GOAegxGFekNmrGl2b31lxJzPmcpmR89sqxZwtQ8a4HWDcxFaZj/iWBa
-	CwTPJR5iWF9pXEz2wv+uZmqZ37WVvQj2KlMdAk2DjQx83Yf8HZejhtmCa2Gap1EBNY3y
-	kuM/nUJfhJXxWMVABKd+4DdRl31+P2gRK1Dp8ZLHLaG2ViLkOTf6kryYjtN/wnKYKjgs
-	Nfaw==
+	bh=06P+BrsS8Wgfkpmivdl7rtQvDnn06OvuBRIH+NIQTdk=;
+	b=iMn9KZ/dPRhsy0owQd++Y+KxKPwSakEro6GIGJ83BUKA+WiPhty6qjoA0qE29TsK3a
+	dSetkpaw6o1evI4SA1IEFIdjSGCJj4Xbdv6Q1yQTRGAjSL++RLWj/7YlQa1ERjJ1GYXW
+	2A6zMR5rwO07Xuxqt9QvhsbjKXl6zwjfoZHh0hJmOUMc2WlRqlhwRNuGAukyKMt4kXTp
+	IxV5eo+Uz91SmuDldM7IViYnjZ+H5q98ZnwCTMnBoKEsHF1KfaDKc6Sp2/OeHz88MxRo
+	gNASwAYoTg8pCPPBCKC1eyZq2zmc4MJROdKfpQeY/OSuEuwMdLLEgr4N4f1x8WQIcGzt
+	54fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=dgGhNtzAW4e5HQFtFo/WG0Nzt03w15qZgzxKHgtzV9k=;
-	b=LA3DfYDv7h2oNxaqk1TqY79l/QRqz0tDG4sJKbnXEB01FVlxXb8BTHQydqJHGG+KSs
-	p4H/nDn7i/x8MA/CreLHoEnrAAhKpOMORr1xrR/Va8hN0Hz8Ude+31B31S3hxBKyJ/rm
-	skT0uugqOsbwRxUunrJrl5NsM3AO4Inp/CsH5pLf73Vo7p7NZfIagF9Vfatioe0dUVJR
-	ctpkFWlI8MZzJ9T75ZWfdG6FQ4avCQggZfxWPb3WjN5YIJM2sul3iSu5zbaCZFqM6gpj
-	zz1HqeZLilhzAi+CnmQKVkbDr+fsPFyI8QeAFf2ARhR8wmeb/Ntl/kzJMmIiQc76zOmW
-	5YMQ==
-X-Gm-Message-State: APjAAAVriKZ7RbAot9zCRxyLf9K8GLvYDlgf4g06UhzvLf12fpzX/Xx/
-	Gea+QkIaPOUeIbtnseuQ/awn0WmK
-X-Google-Smtp-Source: APXvYqyzrtBYhwXaGqpxjszYpxIT3+HbFSJin6mxAfijYnYdTDY+cqsxthM0kTpjx2WLwPUm/5FP7w==
-X-Received: by 2002:a25:2487:: with SMTP id k129mr5834238ybk.91.1558644282316; 
+	bh=06P+BrsS8Wgfkpmivdl7rtQvDnn06OvuBRIH+NIQTdk=;
+	b=ds3QKt4e5Ho9jchN5YNy+2dPIQcB7T+X/SY+vT2SL0vll36kMN8ELvuQ21MQ8km55e
+	/15l/NLEVcCEZtb8UZIDYTR+Q4kENGdXKilu/OkC/4FXsm7DaV96PQKpTzjYePutJyP9
+	ah7lDJiQjIMoP0/gIsWd2aAUdqR6As28GVvUc7EHdK7TEiL6MDkJ8lPUv15CcNKnntBJ
+	jXz3txtJZmGin02FdAqXcA/qmjfuB4ChfbeoGLcqikEk++vBIFdAcuomKcB0oZWYnLpX
+	to7mcsTri37HwNJiz8ZP2Odb50S303jXsMRD4D2lUWTOZpCjjk+655adtfxeXzYdrdMY
+	+wQA==
+X-Gm-Message-State: APjAAAUTOhaf1qjC4h4oMtTfE9fU39crX3rFLZPYIk8CdUKsJL5XitWK
+	1XTWWpulYv5R6l5/lrVu/slOXCF3
+X-Google-Smtp-Source: APXvYqz1C2Id0Koqf+UbbDJjqnM3Pc0qym0TMk258BksGxRjlnNW80bBTo6VFuTTeDl1BR+KnMU8UA==
+X-Received: by 2002:a25:138a:: with SMTP id 132mr45212293ybt.127.1558644282987;
 	Thu, 23 May 2019 13:44:42 -0700 (PDT)
 Received: from dionysus.attlocal.net
 	(69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
-	by smtp.gmail.com with ESMTPSA id p12sm87590ywg.72.2019.05.23.13.44.41
+	by smtp.gmail.com with ESMTPSA id p12sm87590ywg.72.2019.05.23.13.44.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 13:44:41 -0700 (PDT)
+	Thu, 23 May 2019 13:44:42 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 16:44:07 -0400
-Message-Id: <20190523204409.21068-10-jan.bobek@gmail.com>
+Date: Thu, 23 May 2019 16:44:08 -0400
+Message-Id: <20190523204409.21068-11-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523204409.21068-1-jan.bobek@gmail.com>
 References: <20190523204409.21068-1-jan.bobek@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::b43
-Subject: [Qemu-devel] [RISU v3 09/11] i386: Add avx512 state to reginfo_t
+X-Received-From: 2607:f8b0:4864:20::b2b
+Subject: [Qemu-devel] [RISU v3 10/11] risu_reginfo_i386: replace xfeature
+ constants with symbolic names
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,413 +79,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: Jan Bobek <jan.bobek@gmail.com>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+The original code used "magic numbers", which made it unclear in
+some places. Include a reference to the Intel manual where the
+constants' meaning is discussed.
 
-The state expected for a given test must be specifically requested
-with the --xfeatures=mask command-line argument.  This is recorded
-with the saved state so that it is obvious if the apprentice is given
-a different argument.  Any features beyond what are present on the
-running cpu will read as zero.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- risu_reginfo_i386.h |  14 +++
- risu_reginfo_i386.c | 228 ++++++++++++++++++++++++++++++++++++++++++--
- test_i386.S         |  39 ++++++++
- 3 files changed, 273 insertions(+), 8 deletions(-)
+ risu_reginfo_i386.c | 48 +++++++++++++++++++++++++++++++--------------
+ 1 file changed, 33 insertions(+), 15 deletions(-)
 
-diff --git a/risu_reginfo_i386.h b/risu_reginfo_i386.h
-index e350f01..b468f79 100644
---- a/risu_reginfo_i386.h
-+++ b/risu_reginfo_i386.h
-@@ -12,6 +12,10 @@
- #ifndef RISU_REGINFO_I386_H
- #define RISU_REGINFO_I386_H
- 
-+struct avx512_reg {
-+    uint64_t q[8];
-+};
-+
- /*
-  * This is the data structure we pass over the socket.
-  * It is a simplified and reduced subset of what can
-@@ -19,7 +23,17 @@
-  */
- struct reginfo {
-     uint32_t faulting_insn;
-+    uint32_t mxcsr;
-+    uint64_t xfeatures;
-+
-     gregset_t gregs;
-+
-+#ifdef __x86_64__
-+    struct avx512_reg vregs[32];
-+#else
-+    struct avx512_reg vregs[8];
-+#endif
-+    uint64_t kregs[8];
- };
- 
- /*
 diff --git a/risu_reginfo_i386.c b/risu_reginfo_i386.c
-index c4dc14a..83f9541 100644
+index 83f9541..01ea179 100644
 --- a/risu_reginfo_i386.c
 +++ b/risu_reginfo_i386.c
-@@ -11,19 +11,32 @@
+@@ -22,7 +22,25 @@
  
- #include <stdio.h>
- #include <stdlib.h>
-+#include <stddef.h>
- #include <string.h>
- #include <ucontext.h>
- #include <assert.h>
-+#include <cpuid.h>
+ #include <asm/sigcontext.h>
  
- #include "risu.h"
- #include "risu_reginfo_i386.h"
- 
--const struct option * const arch_long_opts;
--const char * const arch_extra_help;
-+#include <asm/sigcontext.h>
-+
-+static uint64_t xfeatures = 3;  /* SSE */
-+
-+static const struct option extra_ops[] = {
-+    {"xfeatures", required_argument, NULL, FIRST_ARCH_OPT },
-+    {0, 0, 0, 0}
+-static uint64_t xfeatures = 3;  /* SSE */
++/*
++ * Refer to "Intel(R) 64 and IA-32 Architectures Software Developer's
++ * Manual", Volume 1, Section 13.1 "XSAVE-Supported Features and
++ * State-Component Bitmaps" for detailed discussion of these constants
++ * and their meaning.
++ */
++enum {
++    XFEAT_X87              = 1 << 0,
++    XFEAT_SSE              = 1 << 1,
++    XFEAT_AVX              = 1 << 2,
++    XFEAT_AVX512_OPMASK    = 1 << 5,
++    XFEAT_AVX512_ZMM_HI256 = 1 << 6,
++    XFEAT_AVX512_HI16_ZMM  = 1 << 7,
++    XFEAT_AVX512           = XFEAT_AVX512_OPMASK
++                           | XFEAT_AVX512_ZMM_HI256
++                           | XFEAT_AVX512_HI16_ZMM
 +};
 +
-+const struct option * const arch_long_opts = extra_ops;
-+const char * const arch_extra_help
-+    = "  --xfeatures=<mask>  Use features in mask for XSAVE\n";
++static uint64_t xfeatures = XFEAT_X87 | XFEAT_SSE;
  
- void process_arch_opt(int opt, const char *arg)
- {
--    abort();
-+    assert(opt == FIRST_ARCH_OPT);
-+    xfeatures = strtoull(arg, 0, 0);
- }
- 
- const int reginfo_size(void)
-@@ -31,13 +44,37 @@ const int reginfo_size(void)
-     return sizeof(struct reginfo);
- }
- 
-+static void *xsave_feature_buf(struct _xstate *xs, int feature)
-+{
-+    unsigned int eax, ebx, ecx, edx;
-+    int ok;
-+
-+    /*
-+     * Get the location of the XSAVE feature from the cpuid leaf.
-+     * Given that we know the xfeature bit is set, this must succeed.
-+     */
-+    ok = __get_cpuid_count(0xd, feature, &eax, &ebx, &ecx, &edx);
-+    assert(ok);
-+
-+    /* Sanity check that the frame stored by the kernel contains the data. */
-+    assert(xs->fpstate.sw_reserved.extended_size >= eax + ebx);
-+
-+    return (void *)xs + ebx;
-+}
-+
- /* reginfo_init: initialize with a ucontext */
- void reginfo_init(struct reginfo *ri, ucontext_t *uc)
- {
--    int i;
-+    int i, nvecregs;
-+    struct _fpstate *fp;
-+    struct _xstate *xs;
-+    uint64_t features;
- 
-     memset(ri, 0, sizeof(*ri));
- 
-+    /* Require master and apprentice to be given the same arguments.  */
-+    ri->xfeatures = xfeatures;
-+
-     for (i = 0; i < NGREG; i++) {
-         switch (i) {
-         case REG_E(IP):
-@@ -79,12 +116,89 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-      * distinguish 'do compare' from 'stop'.
+ static const struct option extra_ops[] = {
+     {"xfeatures", required_argument, NULL, FIRST_ARCH_OPT },
+@@ -160,34 +178,34 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
+      * Now we know that _fpstate contains XSAVE data.
       */
-     ri->faulting_insn = *(uint32_t *)uc->uc_mcontext.gregs[REG_E(IP)];
-+
-+    /*
-+     * FP state is omitted if unused (aka in init state).
-+     * Use the <asm/sigcontext.h> struct for access to AVX state.
-+     */
-+
-+    fp = (struct _fpstate *)uc->uc_mcontext.fpregs;
-+    if (fp == NULL) {
-+        return;
-+    }
-+
-+#ifdef __x86_64__
-+    nvecregs = 16;
-+#else
-+    /* We don't (currently) care about the 80387 state, only SSE+.  */
-+    if (fp->magic != X86_FXSR_MAGIC) {
-+        return;
-+    }
-+    nvecregs = 8;
-+#endif
-+
-+    /*
-+     * Now we know that _fpstate contains FXSAVE data.
-+     */
-+    ri->mxcsr = fp->mxcsr;
-+
-+    for (i = 0; i < nvecregs; ++i) {
-+#ifdef __x86_64__
-+        memcpy(&ri->vregs[i], &fp->xmm_space[i * 4], 16);
-+#else
-+        memcpy(&ri->vregs[i], &fp->_xmm[i], 16);
-+#endif
-+    }
-+
-+    if (fp->sw_reserved.magic1 != FP_XSTATE_MAGIC1) {
-+        return;
-+    }
-+    xs = (struct _xstate *)fp;
-+    features = xfeatures & xs->xstate_hdr.xfeatures;
-+
-+    /*
-+     * Now we know that _fpstate contains XSAVE data.
-+     */
-+
-+    if (features & (1 << 2)) {
-+        /* YMM_Hi128 state */
-+        void *buf = xsave_feature_buf(xs, 2);
-+        for (i = 0; i < nvecregs; ++i) {
-+            memcpy(&ri->vregs[i].q[2], buf + 16 * i, 16);
-+        }
-+    }
-+
-+    if (features & (1 << 5)) {
-+        /* Opmask state */
-+        uint64_t *buf = xsave_feature_buf(xs, 5);
-+        for (i = 0; i < 8; ++i) {
-+            ri->kregs[i] = buf[i];
-+        }
-+    }
-+
-+    if (features & (1 << 6)) {
-+        /* ZMM_Hi256 state */
-+        void *buf = xsave_feature_buf(xs, 6);
-+        for (i = 0; i < nvecregs; ++i) {
-+            memcpy(&ri->vregs[i].q[4], buf + 32 * i, 32);
-+        }
-+    }
-+
-+#ifdef __x86_64__
-+    if (features & (1 << 7)) {
-+        /* Hi16_ZMM state */
-+        void *buf = xsave_feature_buf(xs, 7);
-+        for (i = 0; i < 16; ++i) {
-+            memcpy(&ri->vregs[i + 16], buf + 64 * i, 64);
-+        }
-+    }
-+#endif
- }
  
- /* reginfo_is_eq: compare the reginfo structs, returns nonzero if equal */
- int reginfo_is_eq(struct reginfo *m, struct reginfo *a)
+-    if (features & (1 << 2)) {
++    if (features & XFEAT_AVX) {
+         /* YMM_Hi128 state */
+-        void *buf = xsave_feature_buf(xs, 2);
++        void *buf = xsave_feature_buf(xs, XFEAT_AVX);
+         for (i = 0; i < nvecregs; ++i) {
+             memcpy(&ri->vregs[i].q[2], buf + 16 * i, 16);
+         }
+     }
+ 
+-    if (features & (1 << 5)) {
++    if (features & XFEAT_AVX512_OPMASK) {
+         /* Opmask state */
+-        uint64_t *buf = xsave_feature_buf(xs, 5);
++        uint64_t *buf = xsave_feature_buf(xs, XFEAT_AVX512_OPMASK);
+         for (i = 0; i < 8; ++i) {
+             ri->kregs[i] = buf[i];
+         }
+     }
+ 
+-    if (features & (1 << 6)) {
++    if (features & XFEAT_AVX512_ZMM_HI256) {
+         /* ZMM_Hi256 state */
+-        void *buf = xsave_feature_buf(xs, 6);
++        void *buf = xsave_feature_buf(xs, XFEAT_AVX512_ZMM_HI256);
+         for (i = 0; i < nvecregs; ++i) {
+             memcpy(&ri->vregs[i].q[4], buf + 32 * i, 32);
+         }
+     }
+ 
+ #ifdef __x86_64__
+-    if (features & (1 << 7)) {
++    if (features & XFEAT_AVX512_HI16_ZMM) {
+         /* Hi16_ZMM state */
+-        void *buf = xsave_feature_buf(xs, 7);
++        void *buf = xsave_feature_buf(xs, XFEAT_AVX512_HI16_ZMM);
+         for (i = 0; i < 16; ++i) {
+             memcpy(&ri->vregs[i + 16], buf + 64 * i, 64);
+         }
+@@ -243,7 +261,7 @@ static const char *const regname[NGREG] = {
+ static int get_nvecregs(uint64_t features)
  {
--    return 0 == memcmp(m, a, sizeof(*m));
-+    return !memcmp(m, a, sizeof(*m));
- }
- 
- static const char *const regname[NGREG] = {
-@@ -126,28 +240,126 @@ static const char *const regname[NGREG] = {
- # define PRIxREG   "%08x"
+ #ifdef __x86_64__
+-    return features & (1 << 7) ? 32 : 16;
++    return features & XFEAT_AVX512_HI16_ZMM ? 32 : 16;
+ #else
+     return 8;
  #endif
+@@ -251,9 +269,9 @@ static int get_nvecregs(uint64_t features)
  
-+static int get_nvecregs(uint64_t features)
-+{
-+#ifdef __x86_64__
-+    return features & (1 << 7) ? 32 : 16;
-+#else
-+    return 8;
-+#endif
-+}
-+
-+static int get_nvecquads(uint64_t features)
-+{
-+    if (features & (1 << 6)) {
-+        return 8;
-+    } else if (features & (1 << 2)) {
-+        return 4;
-+    } else {
-+        return 2;
-+    }
-+}
-+
-+static char get_vecletter(uint64_t features)
-+{
-+    if (features & (1 << 6 | 1 << 7)) {
-+        return 'z';
-+    } else if (features & (1 << 2)) {
-+        return 'y';
-+    } else {
-+        return 'x';
-+    }
-+}
-+
- /* reginfo_dump: print state to a stream, returns nonzero on success */
- int reginfo_dump(struct reginfo *ri, FILE *f)
+ static int get_nvecquads(uint64_t features)
  {
--    int i;
-+    uint64_t features;
-+    int i, j, n, w;
-+    char r;
-+
-     fprintf(f, "  faulting insn %x\n", ri->faulting_insn);
-     for (i = 0; i < NGREG; i++) {
-         if (regname[i]) {
-             fprintf(f, "  %-6s: " PRIxREG "\n", regname[i], ri->gregs[i]);
+-    if (features & (1 << 6)) {
++    if (features & XFEAT_AVX512_ZMM_HI256) {
+         return 8;
+-    } else if (features & (1 << 2)) {
++    } else if (features & XFEAT_AVX) {
+         return 4;
+     } else {
+         return 2;
+@@ -262,9 +280,9 @@ static int get_nvecquads(uint64_t features)
+ 
+ static char get_vecletter(uint64_t features)
+ {
+-    if (features & (1 << 6 | 1 << 7)) {
++    if (features & (XFEAT_AVX512_ZMM_HI256 | XFEAT_AVX512_HI16_ZMM)) {
+         return 'z';
+-    } else if (features & (1 << 2)) {
++    } else if (features & XFEAT_AVX) {
+         return 'y';
+     } else {
+         return 'x';
+@@ -301,7 +319,7 @@ int reginfo_dump(struct reginfo *ri, FILE *f)
          }
      }
-+
-+    fprintf(f, "  mxcsr : %x\n", ri->mxcsr);
-+    fprintf(f, "  xfeat : %" PRIx64 "\n", ri->xfeatures);
-+
-+    features = ri->xfeatures;
-+    n = get_nvecregs(features);
-+    w = get_nvecquads(features);
-+    r = get_vecletter(features);
-+
-+    for (i = 0; i < n; i++) {
-+        fprintf(f, "  %cmm%-3d: ", r, i);
-+        for (j = w - 1; j >= 0; j--) {
-+            fprintf(f, "%016" PRIx64 "%c",
-+                    ri->vregs[i].q[j], j == 0 ? '\n' : ' ');
-+        }
-+    }
-+
-+    if (features & (1 << 5)) {
-+        for (i = 0; i < 8; i++) {
-+            fprintf(f, "  k%-5d: %016" PRIx64 "\n", i, ri->kregs[i]);
-+        }
-+    }
-+
-     return !ferror(f);
- }
  
- int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE *f)
- {
--    int i;
-+    int i, j, n, w;
-+    uint64_t features;
-+    char r;
-+
-+    fprintf(f, "Mismatch (master v apprentice):\n");
-+
-     for (i = 0; i < NGREG; i++) {
-         if (m->gregs[i] != a->gregs[i]) {
-             assert(regname[i]);
--            fprintf(f, "Mismatch: %s: " PRIxREG " v " PRIxREG "\n",
-+            fprintf(f, "  %-6s: " PRIxREG " v " PRIxREG "\n",
-                     regname[i], m->gregs[i], a->gregs[i]);
+-    if (features & (1 << 5)) {
++    if (features & XFEAT_AVX512_OPMASK) {
+         for (i = 0; i < 8; i++) {
+             fprintf(f, "  k%-5d: %016" PRIx64 "\n", i, ri->kregs[i]);
          }
-     }
-+
-+    if (m->mxcsr != a->mxcsr) {
-+        fprintf(f, "  mxcsr : %x v %x\n", m->mxcsr, a->mxcsr);
-+    }
-+    if (m->xfeatures != a->xfeatures) {
-+        fprintf(f, "  xfeat : %" PRIx64 " v %" PRIx64 "\n",
-+                m->xfeatures, a->xfeatures);
-+    }
-+
-+    features = m->xfeatures;
-+    n = get_nvecregs(features);
-+    w = get_nvecquads(features);
-+    r = get_vecletter(features);
-+
-+    for (i = 0; i < n; i++) {
-+        if (memcmp(&m->vregs[i], &a->vregs[i], w * 8)) {
-+            fprintf(f, "  %cmm%-3d: ", r, i);
-+            for (j = w - 1; j >= 0; j--) {
-+                fprintf(f, "%016" PRIx64 "%c",
-+                        m->vregs[i].q[j], j == 0 ? '\n' : ' ');
-+            }
-+            fprintf(f, "       v: ");
-+            for (j = w - 1; j >= 0; j--) {
-+                fprintf(f, "%016" PRIx64 "%c",
-+                        a->vregs[i].q[j], j == 0 ? '\n' : ' ');
-+            }
-+        }
-+    }
-+
-+    for (i = 0; i < 8; i++) {
-+        if (m->kregs[i] != a->kregs[i]) {
-+            fprintf(f, "  k%-5d: %016" PRIx64 " v %016" PRIx64 "\n",
-+                    i, m->kregs[i], a->kregs[i]);
-+        }
-+    }
-+
-     return !ferror(f);
- }
-diff --git a/test_i386.S b/test_i386.S
-index 456b99c..05344d7 100644
---- a/test_i386.S
-+++ b/test_i386.S
-@@ -12,6 +12,37 @@
- /* A trivial test image for x86 */
- 
- /* Initialise the registers to avoid spurious mismatches */
-+
-+#ifdef __x86_64__
-+#define BASE	%rax
-+	lea	2f(%rip), BASE
-+#else
-+#define BASE	%eax
-+	call	1f
-+1:	pop	BASE
-+	add	$2f-1b, BASE
-+#endif
-+
-+	movdqa	0(BASE), %xmm0
-+	movdqa	1*16(BASE), %xmm1
-+	movdqa	2*16(BASE), %xmm2
-+	movdqa	3*16(BASE), %xmm3
-+	movdqa	4*16(BASE), %xmm4
-+	movdqa	5*16(BASE), %xmm5
-+	movdqa	6*16(BASE), %xmm6
-+	movdqa	7*16(BASE), %xmm7
-+
-+#ifdef __x86_64__
-+	movdqa	8*16(BASE), %xmm8
-+	movdqa	9*16(BASE), %xmm9
-+	movdqa	10*16(BASE), %xmm10
-+	movdqa	11*16(BASE), %xmm11
-+	movdqa	12*16(BASE), %xmm12
-+	movdqa	13*16(BASE), %xmm13
-+	movdqa	14*16(BASE), %xmm14
-+	movdqa	15*16(BASE), %xmm15
-+#endif
-+
- 	xor	%eax, %eax
- 	sahf				/* init eflags */
- 
-@@ -39,3 +70,11 @@
- 
- /* exit test */
- 	ud1	%ecx, %eax
-+
-+	.p2align 16
-+2:
-+	.set	i, 0
-+	.rept	256
-+	.byte	i
-+	.set	i, i + 1
-+	.endr
 -- 
 2.20.1
 
