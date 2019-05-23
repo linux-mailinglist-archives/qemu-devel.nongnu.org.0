@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7564627B26
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:56:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33567 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2AA27B46
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:02:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33726 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTlOF-0005hk-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:56:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52034)
+	id 1hTlUw-00039m-Oi
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:02:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52695)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTl2o-0004QR-Fe
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:56 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hTl4y-0006Jd-1P
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:36:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTl2j-0006cB-K6
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:52 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41519)
+	(envelope-from <alex.bennee@linaro.org>) id 1hTl4w-000126-RV
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:36:07 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54756)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTl2i-0006Zb-Rn
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:33:48 -0400
-Received: by mail-wr1-x441.google.com with SMTP id u16so1791958wrn.8
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:33:47 -0700 (PDT)
+	id 1hTl4w-00011S-LU
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:36:06 -0400
+Received: by mail-wm1-x343.google.com with SMTP id i3so5245523wml.4
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:36:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=PPLFa9NHnZbGHQDGEn1CiaHDLKyObQdBVLbTqFMD65I=;
-	b=UrhfoS6yD/ssfJEXN98OQOJOqBmW6pWncL9HjqyZlaetSIkoxAH02lhYDAJXSBmy37
-	0EPmcL5BJTkshsNDztc+ddChg6Hph1hAVjPyzlLbvMu1FqrVYD3Fwu2fbB74dKSoZqQF
-	D6+ylCd7PlZTEpwLtGntTrCmGou81xClPvElcSMIjU82gW3eBeH1y0PCeLXtixw18tyW
-	kJ1n9fjjonaBOogkEM61gjo8TKTJrjJOQEjOHvUXP5bf6JAbLqGWd+TfsFgv7kIkp/yy
-	nQeLPvHW7FH9TGrfisP4OW46IOSDsBhQ5IVZVxsB82L09oRghVDTbRMfiwvI8kvj1fo1
-	ZWmw==
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=zL6w8kXp6CZK4DR5DaL+n84SbS1inv0bUdqMtGAXryE=;
+	b=HrGH2D2uLMOLB3KiZ7W+DllrHNJxw3Jwr/aqH40AMlCTTa0gcaM6BhVtPKpssD5W4X
+	y9NGpfVP+yqYLQuW2L64jDvRYadaUDLI4gZq8/zeSaYvjzlr1k0b1AqvVO2MnsBZKBMt
+	549eXazNmJPO48ofuZJy7TSJ+Qbj/mt0wnlkoAv2ph9RwjCV0FoLwxC+kg+j+OGT9VJW
+	w7hOASsN9udvxVn57OIjS52oMmsdYiwsSJIdfCSRq1CeuyMkggeOZvWVdqokcYP/XJZm
+	QDkzhOkvsnymIpFevpX9/ifAN6U3VZxq5zvn2Fk25+G9ixSxhgoGoFYLiouGos1oUEMq
+	eiYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=PPLFa9NHnZbGHQDGEn1CiaHDLKyObQdBVLbTqFMD65I=;
-	b=o2aXxXNyGFULZFB5OyXV5RCRnsBWnK/AsR1CUTTFtX9NM83SCTL0YyiaPTo0OmYk3s
-	9cHEhVYQFcIJWA9HdM87XBwSmY+3wVaSA6nnzvBKboP97NW2QzC+OgkxWxCMUSOvu0Wl
-	cZWEMjP4YNaXrhS+FBjnU+BJEVVV7/GCKhv/+KDRGPWXAOzOlRM4GWBEJBeN4oYduVDK
-	jgxEE9AA0MUNTty8ZQ3tMiVWDanuxqveAy9jO8RnE2T09qymgBi8Eemx9/6RBtpWAgTK
-	wvVRcon9cydtpfRqJ64/c9d18F2J+/XP9537bL1zWOsGRfDFj4ShVz+UrBhn9zv8Smcl
-	Uxxw==
-X-Gm-Message-State: APjAAAWCkdxlUbbuASaoHP10VAPoXD9PfYabPA4/tyEFkGQ9lJpLvyGF
-	Qw7GLkSiikPRRVHb/TJJMDxqZQ==
-X-Google-Smtp-Source: APXvYqyQ6GCs4bibjyHdM+dLRcpZ85uhdXiRTk0jNa26sClqOCiGaqj/HRMWJxYR4he4t7tlC3K2yA==
-X-Received: by 2002:adf:978b:: with SMTP id s11mr1197189wrb.169.1558607626407; 
-	Thu, 23 May 2019 03:33:46 -0700 (PDT)
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=zL6w8kXp6CZK4DR5DaL+n84SbS1inv0bUdqMtGAXryE=;
+	b=K9gwXyPPFDE1kDxs9Aea40nujPivVLSYre/Pw3GBJyRa+JjW66nMmzhtGq97EWFxrE
+	ADJGXKAlgNpKRFbE+5ZBWdJW0sgP1oFNgmsjT6dAUaDYeL6E3vKWHLIcC5q3DOevoQni
+	xKpiwcdVhbqLeVXg86QBOzwocVViuFWbaOgeMJ5RnyrnblZpoKnm4dreQ8TPaCgsRhch
+	1icYf9qn7M+0Q5D/XEM7GMfpH4INONqCCbkgZy3g8IB4DXCJWwjEmE4z0vz0bvFjq146
+	M2Vh1spZcqISGzvbvWwtk2uXnxgrSCkk8hvWjUY4f23zlCO0qN+4N6P5v4XP4gAAq0X8
+	LUSA==
+X-Gm-Message-State: APjAAAWWQ8A5wkWCkaEDIgio/2oFuopfdBmBLLaGLYAGFLoJOylRw+Mc
+	44yKASwz43lgFTtsKOLSlvKrWUnsC4E=
+X-Google-Smtp-Source: APXvYqxHfg0p2sBi7wEOZyduo/lagwmkcUlnEQA4AIBAOrppZEQ66i9Wz6Oc/vGFe1nrr3kGaTlzXQ==
+X-Received: by 2002:a05:600c:551:: with SMTP id
+	k17mr11018322wmc.35.1558607764492; 
+	Thu, 23 May 2019 03:36:04 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	c18sm25591581wrm.7.2019.05.23.03.33.43
+	j206sm13393955wma.47.2019.05.23.03.36.03
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 May 2019 03:33:44 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id E9B0C1FFB1;
-	Thu, 23 May 2019 11:25:34 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 11:25:32 +0100
-Message-Id: <20190523102532.10486-29-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190523102532.10486-1-alex.bennee@linaro.org>
-References: <20190523102532.10486-1-alex.bennee@linaro.org>
+	Thu, 23 May 2019 03:36:03 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 3FC841FF87;
+	Thu, 23 May 2019 11:36:03 +0100 (BST)
+References: <20190521095948.8204-1-arilou@gmail.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jon Doron <arilou@gmail.com>
+In-reply-to: <20190521095948.8204-1-arilou@gmail.com>
+Date: Thu, 23 May 2019 11:36:03 +0100
+Message-ID: <87lfyx1mr0.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v2 28/28] tests: Run the iotests during "make
- check" again
+X-Received-From: 2a00:1450:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v10 00/20] gdbstub: Refactor command
+ packets handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,153 +84,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
 
-People often forget to run the iotests before submitting patches or
-pull requests - this is likely due to the fact that we do not run the
-tests during our mandatory "make check" tests yet. Now that we've got
-a proper "auto" group of iotests that should be fine to run in every
-environment, we can enable the iotests during "make check" again by
-running the "auto" tests by default from the check-block.sh script.
+Jon Doron <arilou@gmail.com> writes:
 
-Some cases still need to be checked first, though: iotests need bash
-and GNU sed (otherwise they fail), and if gprof is enabled, it spoils
-the output of some test cases causing them to fail. So if we detect
-that one of the required programs is missing or that gprof is enabled,
-we still have to skip the iotests to avoid failures.
+> This patch series refactors the old gdbstub command packets handler
+> with a new infrastructure which should ease extending and adding new
+> and missing gdb command packets.
+>
+> version 10 changes:
+> - Remove kvm added API as this is not really required and can be
+>   accomplished by defining a coprocessor callback with a system
+>   specific xml (see: 200bf5b7ffea635079cc05fdfb363372b9544ce7)
+> - Remove the new QEMU extended commands to read KVM MSRs
+> - Various fixes from Code Review by Alex Bennee
+> - Change the QEMU specific command to read physical memory to non-User
+> QEMU
 
-And finally, since we are using check-block.sh now again, this patch also
-removes the qemu-iotests-quick.sh script since we do not need that anymore
-(and having two shell wrapper scripts around the block tests seem
-rather confusing than helpful).
+You don't seem to have applied an of my Reviewed-by: tags from previous
+iterations. It is mentioned in:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190502084506.8009-8-thuth@redhat.com>
-[AJB: -makecheck to check-block.sh, move check-block to start&gate it]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/Makefile.include      |  8 +++----
- tests/check-block.sh        | 44 ++++++++++++++++++++++++++++---------
- tests/qemu-iotests-quick.sh |  8 -------
- 3 files changed, 38 insertions(+), 22 deletions(-)
- delete mode 100755 tests/qemu-iotests-quick.sh
+  https://wiki.qemu.org/Contribute/SubmitAPatch#Proper_use_of_Reviewed-by:_=
+tags_can_aid_review
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 1865f6b3222..0c6d8c75941 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -140,7 +140,7 @@ check-unit-y += tests/test-uuid$(EXESUF)
- check-unit-y += tests/ptimer-test$(EXESUF)
- check-unit-y += tests/test-qapi-util$(EXESUF)
- 
--check-block-$(CONFIG_POSIX) += tests/qemu-iotests-quick.sh
-+check-block-$(call land,$(CONFIG_POSIX),$(CONFIG_SOFTMMU)) += tests/check-block.sh
- 
- # All QTests for now are POSIX-only, but the dependencies are
- # really in libqtest, not in the testcases themselves.
-@@ -1077,8 +1077,8 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
- 
- QEMU_IOTESTS_HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
- 
--.PHONY: check-tests/qemu-iotests-quick.sh
--check-tests/qemu-iotests-quick.sh: tests/qemu-iotests-quick.sh qemu-img$(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
-+.PHONY: check-tests/check-block.sh
-+check-tests/check-block.sh: tests/check-block.sh qemu-img$(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
- 	$<
- 
- .PHONY: $(patsubst %, check-%, $(check-qapi-schema-y))
-@@ -1152,7 +1152,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
- check-qapi-schema: $(patsubst %,check-%, $(check-qapi-schema-y)) check-tests/qapi-schema/doc-good.texi
- check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
- check-block: $(patsubst %,check-%, $(check-block-y))
--check: check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
-+check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
- check-clean:
- 	rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
- 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y)) $(check-qtest-generic-y))
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index f3d12fd602d..c8b6cec3f68 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -1,24 +1,48 @@
- #!/bin/sh
- 
--FORMAT_LIST="raw qcow2 qed vmdk vpc"
-+# Honor the SPEED environment variable, just like we do it for the qtests.
-+if [ "$SPEED" = "slow" ]; then
-+    format_list="raw qcow2"
-+    group=
-+elif [ "$SPEED" = "thorough" ]; then
-+    format_list="raw qcow2 qed vmdk vpc"
-+    group=
-+else
-+    format_list=qcow2
-+    group="-g auto"
-+fi
-+
- if [ "$#" -ne 0 ]; then
--    FORMAT_LIST="$@"
-+    format_list="$@"
-+fi
-+
-+if grep -q "TARGET_GPROF=y" *-softmmu/config-target.mak 2>/dev/null ; then
-+    echo "GPROF is enabled ==> Not running the qemu-iotests."
-+    exit 0
- fi
- 
--export QEMU_PROG="$PWD/x86_64-softmmu/qemu-system-x86_64"
--export QEMU_IMG_PROG="$PWD/qemu-img"
--export QEMU_IO_PROG="$PWD/qemu-io"
-+if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
-+    echo "No qemu-system binary available ==> Not running the qemu-iotests."
-+    exit 0
-+fi
-+
-+if ! command -v bash >/dev/null 2>&1 ; then
-+    echo "bash not available ==> Not running the qemu-iotests."
-+    exit 0
-+fi
- 
--if [ ! -x $QEMU_PROG ]; then
--    echo "'make check-block' requires qemu-system-x86_64"
--    exit 1
-+if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
-+    if ! command -v gsed >/dev/null 2>&1; then
-+        echo "GNU sed not available ==> Not running the qemu-iotests."
-+        exit 0
-+    fi
- fi
- 
- cd tests/qemu-iotests
- 
- ret=0
--for FMT in $FORMAT_LIST ; do
--    ./check -T -nocache -$FMT || ret=1
-+for fmt in $format_list ; do
-+    ./check -makecheck -$fmt $group || ret=1
- done
- 
- exit $ret
-diff --git a/tests/qemu-iotests-quick.sh b/tests/qemu-iotests-quick.sh
-deleted file mode 100755
-index 0e554bb9724..00000000000
---- a/tests/qemu-iotests-quick.sh
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#!/bin/sh
--
--cd tests/qemu-iotests
--
--ret=0
--TEST_DIR=${TEST_DIR:-/tmp/qemu-iotests-quick-$$} ./check -T -qcow2 -g quick || ret=1
--
--exit $ret
--- 
-2.20.1
+but admittedly it's a bit buried in a wall of text. Hopefully the
+process diagram makes it clearer:
 
+  https://wiki.qemu.org/Contribute/DevelopmentProcess
+
+It's also worth including a list of which patches remain un-reviewed in
+your summary cover text. This helps reviewers skip patches that don't
+need attention which is important as there are always too many patches
+and not enough time...
+
+Could you please re-spin v11 with tags applied to the relevant patches?
+
+>
+> version 9 changes:
+> - checkpatch fixes
+>
+> version 8 changes:
+> - Add new command to display the Supported qemu generic query/sets
+> - kvm: Add API to read/write a MSR
+> - Add new commands specific for qemu:
+>   * Command to swap the memory GDB sees to be the physical memory
+>   * Commands to read and write a MSR
+>
+> version 7 changes:
+> - Fixed few checkpatch complaints
+> - Feedback from Alex Bennee
+>
+> version 4-6 changes:
+> - mostly feedback from Richard Henderson
+>
+> version 3 changes
+> - Split the single patch to many individual patches for easier reviewing
+>
+> version 2 changes
+> - Code convention fixes
+>
+> Jon Doron (20):
+>   gdbstub: Add infrastructure to parse cmd packets
+>   gdbstub: Implement deatch (D pkt) with new infra
+>   gdbstub: Implement thread_alive (T pkt) with new infra
+>   gdbstub: Implement continue (c pkt) with new infra
+>   gdbstub: Implement continue with signal (C pkt) with new infra
+>   gdbstub: Implement set_thread (H pkt) with new infra
+>   gdbstub: Implement breakpoint commands (Z/z pkt) with new infra
+>   gdbstub: Implement set register (P pkt) with new infra
+>   gdbstub: Implement get register (p pkt) with new infra
+>   gdbstub: Implement write memory (M pkt) with new infra
+>   gdbstub: Implement read memory (m pkt) with new infra
+>   gdbstub: Implement write all registers (G pkt) with new infra
+>   gdbstub: Implement read all registers (g pkt) with new infra
+>   gdbstub: Implement file io (F pkt) with new infra
+>   gdbstub: Implement step (s pkt) with new infra
+>   gdbstub: Implement v commands with new infra
+>   gdbstub: Implement generic set/query (Q/q pkt) with new infra
+>   gdbstub: Implement target halted (? pkt) with new infra
+>   gdbstub: Clear unused variables in gdb_handle_packet
+>   gdbstub: Implement qemu physical memory mode
+>
+>  gdbstub.c | 1753 ++++++++++++++++++++++++++++++++++++++---------------
+>  1 file changed, 1262 insertions(+), 491 deletions(-)
+
+
+--
+Alex Benn=C3=A9e
 
