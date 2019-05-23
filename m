@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479D627F8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:26:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37453 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA5527FCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:34:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37651 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTofu-0003uY-Dq
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:26:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53743)
+	id 1hTonM-0002mE-Ta
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:34:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53756)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodZ-0002a8-Un
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:07 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodf-0002he-1F
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodY-0006sO-Ob
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:05 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37629)
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodZ-0006tA-VM
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:07 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51391)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTodY-0006rg-EL
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:04 -0400
-Received: by mail-wr1-x443.google.com with SMTP id e15so6529966wrs.4
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:04 -0700 (PDT)
+	id 1hTodZ-0006sW-Lb
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:05 -0400
+Received: by mail-wm1-x341.google.com with SMTP id c77so6072241wmd.1
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=8woPEtG8YS4MOTdISE4mp0N5yE3FIOBq9YtwFKXxb9k=;
-	b=sqZ+Y5xJby1OAUrlrXJ1PDT+sgzej2FcbkZwKb9lp0s1hakGDxO2oUavGRni2aaFTj
-	pXmQcKsxAVw+V7eAOGKazo9RFRwM5nVIlfTR/+ZDbZCYxUNAv4A6WTMRKTK/WGUjTAkU
-	dLFxQRrk0kJvjB0JpDOKq1pEkOm8bAJWorEe7qTeqJ84tz8RY6uz+ByFBZ3DC1qp9NhS
-	B9HryrIDRH41WM9ivsyBxGZmELC1u+lyOimjRYs9Q1dWdg86z0v2Cy7A/PopWXhXLIuI
-	fO0FYibA4c5vDUWvx8r/xsaZpo0KSVhNzpLnAsthKqR9qNe5c4w5tvscQn6vPFw0FjVD
-	3Dsw==
+	bh=k8+as5vxyhPXtpSjQtu+M6OtKD81u0dXi3n3hnTR2ug=;
+	b=q6JOjqqipRvatIlDJ2V6zuV2Cqr/+32RKHHIP8ipRgECo3lSw5J0jS2IiyGlS/YTgC
+	h2TfNp0WwH/tn5svnJ201ZJp6hhndJDfG40Cx63Uv1vi5p1AJ0q+KwB+9d9GyFy6lCt7
+	eTiccSajubPXH9ucCtQWv775rEbUP1l6mwNDkT1g9pj5Fkuw/UyGM2WmSraH/D2ZM0w6
+	sEsd3yP/FnFkv6poRaWCdCIX+Z59JfYrGqEFxgeuP2mdoJMRV/2o3Tt+ZBR6i14uf6iA
+	VessOcPo/rPdrhMGgBDf4IBh8lzKGZVd7r2Vc1kx/FU4ZTaG0K7vuiEzqgfIc0ou7EZR
+	vm+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=8woPEtG8YS4MOTdISE4mp0N5yE3FIOBq9YtwFKXxb9k=;
-	b=dBtNOc1+itQ54LhQrBJyNuYJ5q0S99itzqmio4K5ev0nkyACfscYeWlkvth8zlJiLD
-	FUJDkXogdWH99mu04qIVzaVlortiLtINMa658+a/goJVnnj7aOmAV8JaqG59r4U/Lw/w
-	qSj44IQaH40kvmV4k/ZSRC3f027fq9rtr3q3mmAz977wztIMc12pQP9TmvPVvFUriSyw
-	DsZleHoMhfgULFpILXu02cGeK7cd07Yd4hFBWnrKDqBcDSLlqrrt9+FxuMK5vsZC4Yuc
-	CWBc1CYIJmBdisOHCCn0cCDysdHZBxzE2l66HMU5W/te54kSSsrVU/bk/AVYdVZAzc8J
-	KBVg==
-X-Gm-Message-State: APjAAAX6c7vN6Gxqtj6eI+uMcAyVsaKr5GUF2ux87C8XimIfNiqAYB0b
-	1ITtv2qHSdtbcupRrIw7akFIDbfM29IZLA==
-X-Google-Smtp-Source: APXvYqyQ6iPdy52r4+evttVbovcAm0bMQt7lUXoXKJaBUecrIMPbxxlTYFUvMucRXxQkAvyfqONYPw==
-X-Received: by 2002:a5d:53c6:: with SMTP id a6mr35404971wrw.232.1558621442445; 
-	Thu, 23 May 2019 07:24:02 -0700 (PDT)
+	bh=k8+as5vxyhPXtpSjQtu+M6OtKD81u0dXi3n3hnTR2ug=;
+	b=lBtNOZnXwJMLRq7YQHDKCrNuRUBZGpYoBtJxIrEQiD/MqZ06r2glLp09K98fyM1QXG
+	GNc/FQH8mCfKwlK8zTwVKb5jwbKvEYFrrMgKwqYE8lMfzzYJwdx8OF9L3BXSfXhF5i33
+	OruuzhJEDO7qrLVbO8xgEkpWYu0qZZipAan8z4+jSBxkEAvMtIobA7vFtqOza/ousKUA
+	MJvi38GqZiKw7fU1EZXns4RTJ+ywoho8N/0n5OnuGXEkrgfTFjJIt/MRIST+tGbrjL7T
+	lhn05BohIiDZl/GvSo0VIj1bp5vFZ4FEXAPdkVZ3c3nhDzWlPT1t30tQgr+eveln50Nx
+	ZzrA==
+X-Gm-Message-State: APjAAAWq32n6DuAdSeFa3B+kmAWDq13nojCMsgU+dBsiDWKH5MaNtpl/
+	qCs+VabNTbZeaVn3T+42LlhvNnzcaXuhQQ==
+X-Google-Smtp-Source: APXvYqxZ6LLO/Fa46bkg3+34JwP82nM4y2dAXkHqnpK67syyYmhvfMPhKVjqEErxrvy5SHi2h/wWRw==
+X-Received: by 2002:a1c:a804:: with SMTP id r4mr11960008wme.21.1558621444249; 
+	Thu, 23 May 2019 07:24:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.01
+	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.24.02
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 07:24:01 -0700 (PDT)
+	Thu, 23 May 2019 07:24:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 15:23:48 +0100
-Message-Id: <20190523142357.5175-4-peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 15:23:49 +0100
+Message-Id: <20190523142357.5175-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523142357.5175-1-peter.maydell@linaro.org>
 References: <20190523142357.5175-1-peter.maydell@linaro.org>
@@ -66,8 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PULL 03/12] target/arm: Fix vector operation segfault
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 04/12] arm: Move system_clock_scale to
+ armv7m_systick.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,62 +83,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+The system_clock_scale global is used only by the armv7m systick
+device; move the extern declaration to the armv7m_systick.h header,
+and expand the comment to explain what it is and that it should
+ideally be replaced with a different approach.
 
-Commit 89e68b575 "target/arm: Use vector operations for saturation"
-causes this abort() when booting QEMU ARM with a Cortex-A15:
-
-0  0x00007ffff4c2382f in raise () at /usr/lib/libc.so.6
-1  0x00007ffff4c0e672 in abort () at /usr/lib/libc.so.6
-2  0x00005555559c1839 in disas_neon_data_insn (insn=<optimized out>, s=<optimized out>) at ./target/arm/translate.c:6673
-3  0x00005555559c1839 in disas_neon_data_insn (s=<optimized out>, insn=<optimized out>) at ./target/arm/translate.c:6386
-4  0x00005555559cd8a4 in disas_arm_insn (insn=4081107068, s=0x7fffe59a9510) at ./target/arm/translate.c:9289
-5  0x00005555559cd8a4 in arm_tr_translate_insn (dcbase=0x7fffe59a9510, cpu=<optimized out>) at ./target/arm/translate.c:13612
-6  0x00005555558d1d39 in translator_loop (ops=0x5555561cc580 <arm_translator_ops>, db=0x7fffe59a9510, cpu=0x55555686a2f0, tb=<optimized out>, max_insns=<optimized out>) at ./accel/tcg/translator.c:96
-7  0x00005555559d10d4 in gen_intermediate_code (cpu=cpu@entry=0x55555686a2f0, tb=tb@entry=0x7fffd7840080 <code_gen_buffer+126091347>, max_insns=max_insns@entry=512) at ./target/arm/translate.c:13901
-8  0x00005555558d06b9 in tb_gen_code (cpu=cpu@entry=0x55555686a2f0, pc=3067096216, cs_base=0, flags=192, cflags=-16252928, cflags@entry=524288) at ./accel/tcg/translate-all.c:1736
-9  0x00005555558ce467 in tb_find (cf_mask=524288, tb_exit=1, last_tb=0x7fffd783e640 <code_gen_buffer+126084627>, cpu=0x1) at ./accel/tcg/cpu-exec.c:407
-10 0x00005555558ce467 in cpu_exec (cpu=cpu@entry=0x55555686a2f0) at ./accel/tcg/cpu-exec.c:728
-11 0x000055555588b0cf in tcg_cpu_exec (cpu=0x55555686a2f0) at ./cpus.c:1431
-12 0x000055555588d223 in qemu_tcg_cpu_thread_fn (arg=0x55555686a2f0) at ./cpus.c:1735
-13 0x000055555588d223 in qemu_tcg_cpu_thread_fn (arg=arg@entry=0x55555686a2f0) at ./cpus.c:1709
-14 0x0000555555d2629a in qemu_thread_start (args=<optimized out>) at ./util/qemu-thread-posix.c:502
-15 0x00007ffff4db8a92 in start_thread () at /usr/lib/libpthread.
-
-This patch ensures that we don't hit the abort() in the second switch
-case in disas_neon_data_insn() as we will return from the first case.
-
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: ad91b397f360b2fc7f4087e476f7df5b04d42ddb.1558021877.git.alistair.francis@wdc.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190516163857.6430-2-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/hw/arm/arm.h              |  4 ----
+ include/hw/timer/armv7m_systick.h | 22 ++++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index dd053c80d62..298c262825d 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -6598,13 +6598,13 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-             tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
-                            rn_ofs, rm_ofs, vec_size, vec_size,
-                            (u ? uqadd_op : sqadd_op) + size);
--            break;
-+            return 0;
+diff --git a/include/hw/arm/arm.h b/include/hw/arm/arm.h
+index ffed39252d8..ba3a9b41422 100644
+--- a/include/hw/arm/arm.h
++++ b/include/hw/arm/arm.h
+@@ -167,8 +167,4 @@ void arm_write_secure_board_setup_dummy_smc(ARMCPU *cpu,
+                                             const struct arm_boot_info *info,
+                                             hwaddr mvbar_addr);
  
-         case NEON_3R_VQSUB:
-             tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
-                            rn_ofs, rm_ofs, vec_size, vec_size,
-                            (u ? uqsub_op : sqsub_op) + size);
--            break;
-+            return 0;
+-/* Multiplication factor to convert from system clock ticks to qemu timer
+-   ticks.  */
+-extern int system_clock_scale;
+-
+ #endif /* HW_ARM_H */
+diff --git a/include/hw/timer/armv7m_systick.h b/include/hw/timer/armv7m_systick.h
+index cca04defd8e..25e5ceacc85 100644
+--- a/include/hw/timer/armv7m_systick.h
++++ b/include/hw/timer/armv7m_systick.h
+@@ -31,4 +31,26 @@ typedef struct SysTickState {
+     qemu_irq irq;
+ } SysTickState;
  
-         case NEON_3R_VMUL: /* VMUL */
-             if (u) {
++/*
++ * Multiplication factor to convert from system clock ticks to qemu timer
++ * ticks. This should be set (by board code, usually) to a value
++ * equal to NANOSECONDS_PER_SECOND / frq, where frq is the clock frequency
++ * in Hz of the CPU.
++ *
++ * This value is used by the systick device when it is running in
++ * its "use the CPU clock" mode (ie when SYST_CSR.CLKSOURCE == 1) to
++ * set how fast the timer should tick.
++ *
++ * TODO: we should refactor this so that rather than using a global
++ * we use a device property or something similar. This is complicated
++ * because (a) the property would need to be plumbed through from the
++ * board code down through various layers to the systick device
++ * and (b) the property needs to be modifiable after realize, because
++ * the stellaris board uses this to implement the behaviour where the
++ * guest can reprogram the PLL registers to downclock the CPU, and the
++ * systick device needs to react accordingly. Possibly this should
++ * be deferred until we have a good API for modelling clock trees.
++ */
++extern int system_clock_scale;
++
+ #endif
 -- 
 2.20.1
 
