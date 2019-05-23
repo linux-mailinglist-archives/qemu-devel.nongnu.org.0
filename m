@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190E527D72
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 14:58:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35635 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A1727DD7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:15:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35935 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnIz-00053L-WE
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 08:58:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51018)
+	id 1hTnZV-0003hO-LE
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:15:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51828)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTnGV-0003dk-2k
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:56:11 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTnHl-0004s9-Tm
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:57:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTnCt-0007h2-D0
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:52:28 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:47044)
+	(envelope-from <peter.maydell@linaro.org>) id 1hTnHj-00030s-7X
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:57:29 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43980)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTnCt-0007fB-99
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:52:27 -0400
-Received: by mail-oi1-x242.google.com with SMTP id 203so4226827oid.13
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:52:27 -0700 (PDT)
+	id 1hTnHg-0002yu-E9
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:57:25 -0400
+Received: by mail-oi1-x243.google.com with SMTP id t187so4247140oie.10
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 05:57:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=rz/ZGOyuPlC+7X+pyDeztrw2+gNVeboRhW1U8wDne6Y=;
-	b=E+tyrXGJXWg1H5qlzp8r4QHzkqud7f4INnDFcKbrH3PegrSuE+0p6gamtP1d5xRSZD
-	NPYqQfNN9u2iJUUi3bBdIazP9WHuL4Rpe+IQbev0/pvy4p5CF37+e9fX6txqikdLKVo6
-	2zuqklXt8NwYfecmjGOZKxhJ8IRIajXX94sAy+sULti7yNpM8F71szzVjuMA+5cyYi5Q
-	n2a5DoWM1b4JMj4xf1LmcZseVin9laCzNRN6bgdWIcLF23TjBG2VBf3RPB35OSsKPdeq
-	dd+DK7R/a4Pdy6jDSNCoLbl4Gvzy+1hnpyfRLnaywmDmNMJ+zAZL4GHDcZlCNGQyrsnk
-	ZQJA==
+	bh=6u1qTQvAYVuQuf5vqoJUT8LoE9LpKteA/VhDaNrEurY=;
+	b=upI4HSPAdUR+Wl8G+F/uZ9fVmVEIhdv0xv5rF8FLR4WApC1cqku6YvWaNMefoqnkkW
+	dYV12o8zBBaotd0OFyABwiCHbAnhOOHfVKjmnTgcN97slCErP0egH5Jc1Na9vjWxTSGd
+	H19wbDPDnhXXQ4f61vpdUpDkrttU+PY6GsyXLPpNT0CTn0H5zC5wjDGHQQbyOJ390jWk
+	/tBotF27LsbuEiKQwJ/S/hHf8fQHfUdwS6JrgV/k1xoXajVoH6Pf8zzyMfrYOo8ukJXa
+	P3Hgh/ZyReqaBAkfMIOFdhs2s98GkEHXu8QWiVUz7ZDTSoEJzkn89Sr/9drZaUQiqvJc
+	jDKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=rz/ZGOyuPlC+7X+pyDeztrw2+gNVeboRhW1U8wDne6Y=;
-	b=RziLDo/TSyZ1I3rcWTV+DHqLE+h38qdKCphy1fL6K1KQxf/k5+vlZm+3hY16tK5NSO
-	cghZfFeYIhfa6/pVunQIq2j6uokmqyVfUkCMFMgd2xeqQrU2nVz1bSgRhJTl74dbhXRj
-	WTPtTXVMr6dktzuStTPwKzjtQ/rRjN8Ms1I+y7UUYKGT+v4ieOhxCBHT1QUgEFiif2qw
-	KGZrNejKwDnKoq7ezzfZTl1F9tO9YmDN3aoIE26PSbJKxH/NaOnRo9r7ATV2q3ln5+oa
-	sE2O5SzT7mld3+zHE96RNdJB/HP/F/DQB4UK2tih3OjEqDdJe3w4ehcWzVvaRPg+51x5
-	1NPw==
-X-Gm-Message-State: APjAAAXw4jyUQx/fU5K30kU9LRAaL0vHUjGMAIRwYQfqhdKTBfpihINQ
-	HyKsp8mkQHFD/OOB873JwgLYwRmPho3rUtMBpDAH7Q==
-X-Google-Smtp-Source: APXvYqzCSVCqf0sQHAPRvvN4TziKki28f4o59uxWUgQuMMQ4xf2JAAYpChKB1MBD5bAvSKGi31rn9s21Ue+FZhITWrM=
-X-Received: by 2002:aca:845:: with SMTP id 66mr2601464oii.163.1558615946302;
-	Thu, 23 May 2019 05:52:26 -0700 (PDT)
+	bh=6u1qTQvAYVuQuf5vqoJUT8LoE9LpKteA/VhDaNrEurY=;
+	b=DHGCYcj1W10Mt4PbKyu+qmDAKcsOjPkwCaL4JpyZRwF5/iHYH953skCyzfJYD5unS7
+	S6VNIeywX+f0pbAU9ePV0lpzrhay0bLWFBwjtwbG6x1KsHcLrA0rv9ZCfZyJMdYD9Kgr
+	XFgTyoLA6rCQUQxrYggvabVDP8o3wNDr0tu5C7SDYxhBeD9itpXroi8JpnL4r4wS1WIE
+	gdytOLSfNSsfoBkq+ReZa766bhPFOH8I1vg+w9toU0S+Zptb2vGWYa6y5vXidsgMKtPw
+	MBLvQNZam/vDrSvoJn0a6gvuonlauBXaAF5eg7Y8uuBhCFUjxXwBncxe4B192OMfkLUl
+	6QuQ==
+X-Gm-Message-State: APjAAAWc+1upgFIepRlIw/0soagYqmLnJzThCJNKQE40jFCMeHGvz8a+
+	ar00BwxeD3Umeeo4kD4aBzDN3nKI7EIMFDvGJCw7ng==
+X-Google-Smtp-Source: APXvYqzhEfkIBuSKvoXCvV7T7SVOQJPBbyFr+pc+nv56cJAbc8xLjrBvz55qZ2Y7gk370vbnLbo48E83OfoG6m8tLdc=
+X-Received: by 2002:aca:845:: with SMTP id 66mr2613152oii.163.1558616243665;
+	Thu, 23 May 2019 05:57:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190506142042.28096-1-clg@kaod.org>
-	<b12201c8-7d5f-2108-6666-75543c38f243@kaod.org>
-	<f1ca56fd-c83d-8ad6-29c9-a8fc6af4531c@redhat.com>
-	<270e510b-687a-6b43-8cd6-c1eb1aea41e6@kaod.org>
-	<6161d982-0d21-99d6-680a-37ae300fd7cd@kaod.org>
-	<98d1e57f-c033-fdb4-51bd-4a6fc2223d58@redhat.com>
-In-Reply-To: <98d1e57f-c033-fdb4-51bd-4a6fc2223d58@redhat.com>
+References: <20190520214342.13709-1-philmd@redhat.com>
+In-Reply-To: <20190520214342.13709-1-philmd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 May 2019 13:52:15 +0100
-Message-ID: <CAFEAcA-eVECkPpxnvDtX3v6BFMSVCF4SU87r51PdG=E=hCYLfA@mail.gmail.com>
+Date: Thu, 23 May 2019 13:57:12 +0100
+Message-ID: <CAFEAcA8vcQw0fGy3eTpmkYb+=-wiy=7xS6bjb3aJJBmGBo4LYA@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v2 0/3] aspeed: cleanups and extensions
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH 0/4] arm: exynos4: Add dma support for
+ smdkc210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,33 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
-	=?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
+	Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
+	QEMU Developers <qemu-devel@nongnu.org>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 May 2019 at 17:32, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+On Mon, 20 May 2019 at 22:43, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
 m> wrote:
 >
-> On 5/20/19 3:32 PM, C=C3=A9dric Le Goater wrote:
-> >> Peter,
-> >>
-> >> do you want me to resend with only the two first patches and include
-> >> Joel's in the same series ? I would leave out the part Philippe is
-> >> covering in his object_initialize_child() patchset.
-> >
-> > Nope, we can not do that, conflicts arise. I suppose the easier is wait
-> > for Philippe's patchset to be merged and then rebase.
+> Another intent to salvage previous work from Guenter Roeck:
+> https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06302.html
 >
-> Eduardo said he'll send a pull request during the week.
+> Since v3: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06674.=
+html
+> - rebased
+> - QOM'ify the SoC code
+>
+> Since v2: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06459.=
+html
+> - rename init -> create
+> - create controllers in SoC rather than the board (Peter Maydell)
+> - add Linux dtsi in commit message
+>
+> Since v1: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06335.=
+html
+> - Do not factor out pl330_init, which resulted in buggy v1, see:
+>   https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg06448.html
+>
+> Guenter Roeck (1):
+>   hw/arm/exynos4210: Add DMA support for the Exynos4210
+>
+> Philippe Mathieu-Daud=C3=A9 (3):
+>   hw/arm/exynos4: Remove unuseful debug code
+>   hw/arm/exynos4: Use the IEC binary prefix definitions
+>   hw/arm/exynos4210: QOM'ify the Exynos4210 SoC
 
-I am now completely lost about the status of these patches,
-so I'm just dropping this series from my to-review queue.
-Please send a fresh patchset once any dependencies have
-got into master.
 
-thanks
+Applied to target-arm.next, thanks.
+
 -- PMM
 
