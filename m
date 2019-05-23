@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0A1282AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:19:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40183 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00962821E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:05:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39887 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqQr-0002AX-Pr
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:19:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60556)
+	id 1hTqDq-0006bW-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:05:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60123)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hTqAU-0004hh-B6
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:11 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hTqAB-0004Ln-66
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:01:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hTqAT-0002F9-A6
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:02:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33362)
+	(envelope-from <kwolf@redhat.com>) id 1hTqA8-0001y5-Dk
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:01:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56327)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hTqAP-0001nJ-I4; Thu, 23 May 2019 12:02:05 -0400
+	id 1hTqA3-0001pd-6R; Thu, 23 May 2019 12:01:45 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D7138C070E3A;
-	Thu, 23 May 2019 16:01:30 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 429BE81111;
+	Thu, 23 May 2019 16:01:32 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-143.ams2.redhat.com
 	[10.36.116.143])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C549C1001F5B;
-	Thu, 23 May 2019 16:01:29 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2F1DB1001E6F;
+	Thu, 23 May 2019 16:01:31 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 23 May 2019 18:00:57 +0200
-Message-Id: <20190523160104.21258-9-kwolf@redhat.com>
+Date: Thu, 23 May 2019 18:00:58 +0200
+Message-Id: <20190523160104.21258-10-kwolf@redhat.com>
 In-Reply-To: <20190523160104.21258-1-kwolf@redhat.com>
 References: <20190523160104.21258-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Thu, 23 May 2019 16:01:30 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.28]);
+	Thu, 23 May 2019 16:01:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 08/15] test-block-iothread: BlockBackend
- AioContext across root node change
+Subject: [Qemu-devel] [PATCH 09/15] block: Move node without parents to main
+ AioContext
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,68 +61,67 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test that BlockBackends preserve their assigned AioContext even when the
-root node goes away. Inserting a new root node will move it to the right
-AioContext.
+A node should only be in a non-default AioContext if a user is attached
+to it that requires this. When the last parent of a node is gone, it can
+move back to the main AioContext.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/test-block-iothread.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ block.c                     | 4 ++++
+ tests/test-bdrv-drain.c     | 2 +-
+ tests/test-block-iothread.c | 3 +--
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/block.c b/block.c
+index 5219f61279..19268f52f8 100644
+--- a/block.c
++++ b/block.c
+@@ -2235,6 +2235,10 @@ static void bdrv_replace_child(BdrvChild *child, B=
+lockDriverState *new_bs)
+         bdrv_get_cumulative_perm(old_bs, &perm, &shared_perm);
+         bdrv_check_perm(old_bs, NULL, perm, shared_perm, NULL, &error_ab=
+ort);
+         bdrv_set_perm(old_bs, perm, shared_perm);
++
++        /* When the parent requiring a non-default AioContext is removed=
+, the
++         * node moves back to the main AioContext */
++        bdrv_try_set_aio_context(old_bs, qemu_get_aio_context(), NULL);
+     }
+=20
+     if (new_bs) {
+diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
+index 447f6d12eb..2ff04db07a 100644
+--- a/tests/test-bdrv-drain.c
++++ b/tests/test-bdrv-drain.c
+@@ -1003,7 +1003,7 @@ static void test_blockjob_common_drain_node(enum dr=
+ain_type drain_type,
+=20
+     if (use_iothread) {
+         blk_set_aio_context(blk_src, qemu_get_aio_context(), &error_abor=
+t);
+-        blk_set_aio_context(blk_target, qemu_get_aio_context(), &error_a=
+bort);
++        assert(blk_get_aio_context(blk_target) =3D=3D qemu_get_aio_conte=
+xt());
+     }
+     aio_context_release(ctx);
+=20
 diff --git a/tests/test-block-iothread.c b/tests/test-block-iothread.c
-index 38f59999ab..f41082e3bd 100644
+index f41082e3bd..79d9cf8a57 100644
 --- a/tests/test-block-iothread.c
 +++ b/tests/test-block-iothread.c
-@@ -695,6 +695,38 @@ static void test_attach_second_node(void)
-     blk_unref(blk);
- }
+@@ -713,9 +713,8 @@ static void test_attach_preserve_blk_ctx(void)
 =20
-+static void test_attach_preserve_blk_ctx(void)
-+{
-+    IOThread *iothread =3D iothread_new();
-+    AioContext *ctx =3D iothread_get_aio_context(iothread);
-+    BlockBackend *blk;
-+    BlockDriverState *bs;
-+
-+    blk =3D blk_new(ctx, BLK_PERM_ALL, BLK_PERM_ALL);
-+    bs =3D bdrv_new_open_driver(&bdrv_test, "base", BDRV_O_RDWR, &error_=
-abort);
-+    bs->total_sectors =3D 65536 / BDRV_SECTOR_SIZE;
-+
-+    /* Add node to BlockBackend that has an iothread context assigned */
-+    blk_insert_bs(blk, bs, &error_abort);
-+    g_assert(blk_get_aio_context(blk) =3D=3D ctx);
-+    g_assert(bdrv_get_aio_context(bs) =3D=3D ctx);
-+
-+    /* Remove the node again */
-+    blk_remove_bs(blk);
-+    /* TODO bs should move back to main context here */
-+    g_assert(blk_get_aio_context(blk) =3D=3D ctx);
-+    g_assert(bdrv_get_aio_context(bs) =3D=3D ctx);
-+
-+    /* Re-attach the node */
-+    blk_insert_bs(blk, bs, &error_abort);
-+    g_assert(blk_get_aio_context(blk) =3D=3D ctx);
-+    g_assert(bdrv_get_aio_context(bs) =3D=3D ctx);
-+
-+    blk_set_aio_context(blk, qemu_get_aio_context(), &error_abort);
-+    bdrv_unref(bs);
-+    blk_unref(blk);
-+}
-+
- int main(int argc, char **argv)
- {
-     int i;
-@@ -711,6 +743,7 @@ int main(int argc, char **argv)
+     /* Remove the node again */
+     blk_remove_bs(blk);
+-    /* TODO bs should move back to main context here */
+     g_assert(blk_get_aio_context(blk) =3D=3D ctx);
+-    g_assert(bdrv_get_aio_context(bs) =3D=3D ctx);
++    g_assert(bdrv_get_aio_context(bs) =3D=3D qemu_get_aio_context());
 =20
-     g_test_add_func("/attach/blockjob", test_attach_blockjob);
-     g_test_add_func("/attach/second_node", test_attach_second_node);
-+    g_test_add_func("/attach/preserve_blk_ctx", test_attach_preserve_blk=
-_ctx);
-     g_test_add_func("/propagate/basic", test_propagate_basic);
-     g_test_add_func("/propagate/diamond", test_propagate_diamond);
-     g_test_add_func("/propagate/mirror", test_propagate_mirror);
+     /* Re-attach the node */
+     blk_insert_bs(blk, bs, &error_abort);
 --=20
 2.20.1
 
