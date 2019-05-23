@@ -2,62 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDD527ECB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:52:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36766 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5B927E5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:42:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36576 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTo8l-0007m5-AP
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:52:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40612)
+	id 1hTnzE-0000u0-6u
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:42:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40647)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <crosa@redhat.com>) id 1hTnx8-0008FI-Sd
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:40:16 -0400
+	(envelope-from <berrange@redhat.com>) id 1hTnxO-0008Tk-1r
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:40:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <crosa@redhat.com>) id 1hTnx6-0001cr-Tc
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:40:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44444)
+	(envelope-from <berrange@redhat.com>) id 1hTnxM-0001r2-5P
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:40:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51522)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <crosa@redhat.com>)
-	id 1hTnx4-0001ag-1t; Thu, 23 May 2019 09:40:10 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hTnxM-0001nq-0A
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:40:28 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5775C309B165;
-	Thu, 23 May 2019 13:40:09 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
-	(colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BC7B5C69A;
-	Thu, 23 May 2019 13:40:09 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
-	(zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 386CF1806B13;
-	Thu, 23 May 2019 13:40:09 +0000 (UTC)
-Date: Thu, 23 May 2019 09:40:06 -0400 (EDT)
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Message-ID: <1894627419.24355320.1558618806274.JavaMail.zimbra@redhat.com>
-In-Reply-To: <1088d160-20c1-00ed-b494-fede1a3a8410@redhat.com>
-References: <20190312234541.2887-1-philmd@redhat.com>
-	<20190312234541.2887-3-philmd@redhat.com>
-	<20190522205234.GY10764@habkost.net>
-	<1204725743.24201394.1558559144548.JavaMail.zimbra@redhat.com>
-	<1088d160-20c1-00ed-b494-fede1a3a8410@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id AB1D9300DA2B;
+	Thu, 23 May 2019 13:40:24 +0000 (UTC)
+Received: from redhat.com (ovpn-112-64.ams2.redhat.com [10.36.112.64])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DE41600C1;
+	Thu, 23 May 2019 13:40:17 +0000 (UTC)
+Date: Thu, 23 May 2019 14:40:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <20190523134014.GF20973@redhat.com>
+References: <20190521141133.27380-1-lvivier@redhat.com>
+	<20190521141133.27380-3-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.36.116.137, 10.4.195.29]
-Thread-Topic: Boot Linux Console Test: add a test for the Raspberry Pi 2
-Thread-Index: cTKA5go+WjGllWYQUczyegVNXSeSlQ==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Disposition: inline
+In-Reply-To: <20190521141133.27380-3-lvivier@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Thu, 23 May 2019 13:40:09 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Thu, 23 May 2019 13:40:24 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 2/2] Boot Linux Console Test: add a test
- for the Raspberry Pi 2
+Subject: Re: [Qemu-devel] [PATCH v6 2/4] rng-builtin: add an RNG backend
+ that uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,125 +60,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
-	Andrew Baumann <Andrew.Baumann@microsoft.com>,
-	qemu-devel@nongnu.org, qemu-arm@nongnu.org,
-	Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Amit Shah <amit@kernel.org>, qemu-devel@nongnu.org,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Markus Armbruster <armbru@redhat.com>,
+	"Richard W . M . Jones" <rjones@redhat.com>,
+	Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
------ Original Message -----
-> From: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
-> To: "Cleber Rosa" <crosa@redhat.com>, "Eduardo Habkost" <ehabkost@redhat.=
-com>
-> Cc: qemu-devel@nongnu.org, "Peter Maydell" <peter.maydell@linaro.org>, qe=
-mu-arm@nongnu.org, "Philippe Mathieu-Daud=C3=A9"
-> <f4bug@amsat.org>, "Andrew Baumann" <Andrew.Baumann@microsoft.com>, "Gerd=
- Hoffmann" <kraxel@redhat.com>
-> Sent: Thursday, May 23, 2019 5:29:22 AM
-> Subject: Re: [Qemu-devel] [PATCH v2 2/2] Boot Linux Console Test: add a t=
-est for the Raspberry Pi 2
+On Tue, May 21, 2019 at 04:11:31PM +0200, Laurent Vivier wrote:
+> Add a new RNG backend using QEMU builtin getrandom function.
 >=20
-> On 5/22/19 11:05 PM, Cleber Rosa wrote:
-> > ----- Original Message -----
-> >> From: "Eduardo Habkost" <ehabkost@redhat.com>
-> >> On Wed, Mar 13, 2019 at 12:45:41AM +0100, Philippe Mathieu-Daud=C3=A9 =
-wrote:
-> >>> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >>>
-> >>> Similar to the x86_64/pc test, it boots a Linux kernel on a raspi2
-> >>> board and verify the serial is working.
-> >>>
-> >>> If ARM is a target being built, "make check-acceptance" will
-> >>> automatically include this test by the use of the "arch:arm" tags.
-> >>>
-> >>> Alternatively, this test can be run using:
-> >>>
-> >>>     $ avocado run -t arch:arm tests/acceptance
-> >>>     $ avocado run -t machine:raspi2 tests/acceptance
-> >>>
-> >>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >>
-> >> We're getting timeouts on travis-ci:
-> >> https://travis-ci.org/ehabkost/qemu/jobs/535468057#L3289
-> >>
-> >> I don't know yet if the guest is hanging, or if we just need to
-> >> increase the timeout.  I could reproduce the timeout locally,
-> >> too.
+> It can be created and used with something like:
 >=20
-> That's odd, I can't reproduce (this test is quicker than the following
-> test_arm_emcraft_sf2 which start u-boot then timeouts and start the kerne=
-l).
+>     ... -object rng-builtin,id=3Drng0 -device virtio-rng,rng=3Drng0 ...
 >=20
-> My guess is network issues, since this test use a different mirror:
-> archive.raspberrypi.org
->=20
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  backends/Makefile.objs |  2 +-
+>  backends/rng-builtin.c | 54 ++++++++++++++++++++++++++++++++++++++++++
+>  qemu-options.hx        |  7 ++++++
+>  3 files changed, 62 insertions(+), 1 deletion(-)
+>  create mode 100644 backends/rng-builtin.c
 
-It could be a network issue, it could be something else.  I think the very
-first step, and I'd urge us to get that on master ASAP, is to show the
-entire logs in CI, I mean:
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
----
 
-diff --git a/.travis.yml b/.travis.yml
-index 6fd89b3d91..fd8f6ca2d2 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -225,7 +225,7 @@ matrix:
-     # Acceptance (Functional) tests
-     - env:
-         - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-sof=
-tmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmm=
-u,alpha-softmmu"
--        - TEST_CMD=3D"make check-acceptance"
-+        - TEST_CMD=3D"make AVOCADO_SHOW=3Dtest check-acceptance"
-       addons:
-         apt:
-           packages:
-
----
-
-That way we can know for sure what's going on.=20
-
-> Gerd already raised this problem (timeout reached while fetching
-> artifacts) to Cleber.
-> Cleber, can we add test_setup() methods that use different timeouts?
->=20
-
-Not in a released Avocado version.  Interestingly enough, I wrote a PoC
-that adds different timeouts to tearDown()[1], that can be used the same
-way for setUp(), and it looks like Intel DAOS is already using those
-patches[2].
-
-So, I guess I can work on a non-PoC version for that.
-
-- Cleber.
-
-[1] - https://github.com/avocado-framework/avocado/pull/3076
-[2] - https://github.com/daos-stack/daos/commit/084ec23461e7bd9b997d4b6f5e8=
-095a4eaffc685
-
-> Regards,
->=20
-> Phil.
->=20
-> > It may be related to:
-> >=20
-> >  https://bugs.launchpad.net/qemu/+bug/1829779
-> >=20
-> > And this is a proof that we urgently need to have a better
-> > way of presenting/storing test artifacts.  The brief output
-> > is nice when everything goes well, but makes the test results
-> > close to useless once a failure happens.
-> >=20
-> > Philippe showed us how GitLab allows CI jobs to preserve
-> > artifacts, so maybe the solution is to move the loads there.
-> >=20
-> > - Cleber.
-> >=20
->=20
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
