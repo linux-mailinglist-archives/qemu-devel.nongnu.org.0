@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844F127DB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:09:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35806 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2170627DB3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:08:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35790 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnTp-0006it-K5
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:09:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51307)
+	id 1hTnSD-000595-4Q
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:08:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51064)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTnH0-0003rP-Nu
+	(envelope-from <philmd@redhat.com>) id 1hTnH0-0003hW-KO
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:56:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTn54-0001jc-77
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:44:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35780)
+	(envelope-from <philmd@redhat.com>) id 1hTn56-0001qC-8w
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:44:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:16943)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hTn54-0001hI-2R; Thu, 23 May 2019 08:44:22 -0400
+	id 1hTn56-0001oB-4j; Thu, 23 May 2019 08:44:24 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
 	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4BF9A3024552;
-	Thu, 23 May 2019 12:44:16 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6E7DE3001749;
+	Thu, 23 May 2019 12:44:22 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id DC70667C9D;
-	Thu, 23 May 2019 12:44:13 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C13305D9C3;
+	Thu, 23 May 2019 12:44:16 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 14:43:12 +0200
-Message-Id: <20190523124320.28726-8-philmd@redhat.com>
+Date: Thu, 23 May 2019 14:43:13 +0200
+Message-Id: <20190523124320.28726-9-philmd@redhat.com>
 In-Reply-To: <20190523124320.28726-1-philmd@redhat.com>
 References: <20190523124320.28726-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Thu, 23 May 2019 12:44:21 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Thu, 23 May 2019 12:44:23 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/15] hw/sparc64: Implement
- fw_cfg_arch_key_name()
+Subject: [Qemu-devel] [PULL 08/15] tests/libqos: Add io_fw_cfg_uninit() and
+ mm_fw_cfg_uninit()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,55 +57,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
 	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 	qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+	Li Qiang <liq3ea@163.com>, Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	Artyom Tarasenko <atar4qemu@gmail.com>,
 	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement fw_cfg_arch_key_name(), which returns the name of a
-sparc64-specific key.
+The mm_fw_cfg_init() allocates a QFWCFG object,
+add mm_fw_cfg_uninit() to deallocate it.
+Similarly with io_fw_cfg_init(), add io_fw_cfg_uninit().
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <20190422195020.1494-8-philmd@redhat.com>
+Signed-off-by: Li Qiang <liq3ea@163.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190424140643.62457-2-liq3ea@163.com>
+[PMD: Split patch, filled commit description]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 ---
- hw/sparc64/sun4u.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ tests/libqos/fw_cfg.c | 10 ++++++++++
+ tests/libqos/fw_cfg.h |  2 ++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index 399f2d73c8..4230b17b87 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -91,6 +91,25 @@ typedef struct EbusState {
- #define TYPE_EBUS "ebus"
- #define EBUS(obj) OBJECT_CHECK(EbusState, (obj), TYPE_EBUS)
+diff --git a/tests/libqos/fw_cfg.c b/tests/libqos/fw_cfg.c
+index d0889d1e22..c6839c53c8 100644
+--- a/tests/libqos/fw_cfg.c
++++ b/tests/libqos/fw_cfg.c
+@@ -81,6 +81,11 @@ QFWCFG *mm_fw_cfg_init(QTestState *qts, uint64_t base)
+     return fw_cfg;
+ }
 =20
-+const char *fw_cfg_arch_key_name(uint16_t key)
++void mm_fw_cfg_uninit(QFWCFG *fw_cfg)
 +{
-+    static const struct {
-+        uint16_t key;
-+        const char *name;
-+    } fw_cfg_arch_wellknown_keys[] =3D {
-+        {FW_CFG_SPARC64_WIDTH, "width"},
-+        {FW_CFG_SPARC64_HEIGHT, "height"},
-+        {FW_CFG_SPARC64_DEPTH, "depth"},
-+    };
-+
-+    for (size_t i =3D 0; i < ARRAY_SIZE(fw_cfg_arch_wellknown_keys); i++=
-) {
-+        if (fw_cfg_arch_wellknown_keys[i].key =3D=3D key) {
-+            return fw_cfg_arch_wellknown_keys[i].name;
-+        }
-+    }
-+    return NULL;
++    g_free(fw_cfg);
 +}
 +
- static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-                             Error **errp)
+ static void io_fw_cfg_select(QFWCFG *fw_cfg, uint16_t key)
+ {
+     qtest_outw(fw_cfg->qts, fw_cfg->base, key);
+@@ -107,3 +112,8 @@ QFWCFG *io_fw_cfg_init(QTestState *qts, uint16_t base=
+)
+=20
+     return fw_cfg;
+ }
++
++void io_fw_cfg_uninit(QFWCFG *fw_cfg)
++{
++    g_free(fw_cfg);
++}
+diff --git a/tests/libqos/fw_cfg.h b/tests/libqos/fw_cfg.h
+index 0353416af0..391669031a 100644
+--- a/tests/libqos/fw_cfg.h
++++ b/tests/libqos/fw_cfg.h
+@@ -33,7 +33,9 @@ uint32_t qfw_cfg_get_u32(QFWCFG *fw_cfg, uint16_t key);
+ uint64_t qfw_cfg_get_u64(QFWCFG *fw_cfg, uint16_t key);
+=20
+ QFWCFG *mm_fw_cfg_init(QTestState *qts, uint64_t base);
++void mm_fw_cfg_uninit(QFWCFG *fw_cfg);
+ QFWCFG *io_fw_cfg_init(QTestState *qts, uint16_t base);
++void io_fw_cfg_uninit(QFWCFG *fw_cfg);
+=20
+ static inline QFWCFG *pc_fw_cfg_init(QTestState *qts)
  {
 --=20
 2.20.1
