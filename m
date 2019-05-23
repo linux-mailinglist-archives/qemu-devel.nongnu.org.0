@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D041827F37
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:13:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37127 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250ED27F7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:25:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37418 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hToTF-000050-0a
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:13:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46786)
+	id 1hToew-000329-3V
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:25:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47405)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hToIP-0006wo-2u
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:02:14 -0400
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hToK1-0008FY-NL
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:03:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hToIK-0004vr-7F
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:02:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55220)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hToIA-0004oY-7G; Thu, 23 May 2019 10:01:58 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id ED17F30C1217;
-	Thu, 23 May 2019 14:01:51 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.176])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C006568367;
-	Thu, 23 May 2019 14:01:49 +0000 (UTC)
-To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
-	qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
-	<20190502135828.42797-1-shmuel.eiderman@oracle.com>
-	<20190502135828.42797-3-shmuel.eiderman@oracle.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c117d2e2-eef2-df4f-ef3d-37a33426dd51@redhat.com>
-Date: Thu, 23 May 2019 16:01:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hToJz-0006Bc-Ux
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:03:53 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45495)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+	id 1hToJz-00068x-OT
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:03:51 -0400
+Received: by mail-ot1-x344.google.com with SMTP id t24so5477275otl.12
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/w5Igov04Qn3sR5EoOnVl+vg+to4ToAxYgQaSAYOiAE=;
+	b=CtSEzKKF7NVlow8zd8mnHnqu1MnInAHkLKnAxM+RszljNj1PDLktElRyFTIG5fGuCX
+	M2paMQjoUHN+0jiKSlODtxHszshxCBgfwe5a1hft95o5rpenRVGOmCpW3LXRdaAQRwhy
+	zODKQ4TQlqoJ+/BmFw2JMV7+/irOzT3JAxuosh/ChrQqqUljPb16AgXUBLowp328ei2W
+	11PPsVaR55J0rfr6TYevQyYJaaMC4m6gkchME+6W1BEAedzlmR0kGGazaeGIAEu+5SDU
+	0gTKs+ZafOvqmETwN9B+cNCoy92A/52S4mA1FidCq1zpbZx0hmhNIs6/tZ2GLuwg/Lev
+	9Tqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/w5Igov04Qn3sR5EoOnVl+vg+to4ToAxYgQaSAYOiAE=;
+	b=kewm5x2UM/us5kw5WOhPaNWguKWY6HArPgGlmm3oMeX4l9yW6lddl63v8IHkF2u6vX
+	AZbcZQKNyydyeiUR9qsGcMh//zwBk+aAsVLCko9fuFQ6eGYc+7xo7uErhVvN/+Z2P1Yx
+	0S7B8P42J0l4Qu+KgJ543bIy4kccbfpDq56njb7NISBf9+Wtuwr2tXIfWIeqwpzBLEs8
+	bAyO4Wmv6zJH7pcXoBu8CZ99Sw9J1Fb+gBezo+xIKyi0hlS/HKFZWQeX4nzRysb8Qrsd
+	1lHKGi/ndwDKhTgt8b6A/xTxrKvQvZ04bv/r0vzTqtRqRgy0asDr+bG/ThEbF3oPv0hi
+	SXnA==
+X-Gm-Message-State: APjAAAUnQ8DzJS1RM77RRqlquPS6nNcM1fVwAF/y6lTbhHRnvEpNrRlX
+	1skqqi2saTcoH/Oi/Tgi6RT6e6ZvR69U2KrYHig=
+X-Google-Smtp-Source: APXvYqxf1hJRc4WgV3Au7inRrrf0xv/1PDtMVZJJpleLTV0PTEVFgZoMDRUVeGJiXYNemDG0d97uzNctjgzKI/HoZpU=
+X-Received: by 2002:a9d:7858:: with SMTP id c24mr330034otm.64.1558620227672;
+	Thu, 23 May 2019 07:03:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190502135828.42797-3-shmuel.eiderman@oracle.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="s6sKGehxa1AM7u7r2jKzqX62fI2qScy63"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Thu, 23 May 2019 14:01:52 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Thu, 23 May 2019 07:03:47
+	-0700 (PDT)
+Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Thu, 23 May 2019 07:03:47
+	-0700 (PDT)
+In-Reply-To: <CAFEAcA_gW9PZFTB42LRXCPcD+aiWBdH3TQX7nHad_5=ioRm-ug@mail.gmail.com>
+References: <1558550785-20098-1-git-send-email-aleksandar.markovic@rt-rk.com>
+	<CAFEAcA_gW9PZFTB42LRXCPcD+aiWBdH3TQX7nHad_5=ioRm-ug@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 23 May 2019 16:03:47 +0200
+Message-ID: <CAL1e-=gaTv8rAFyN89OOoob8G1LpwtNGrvtaCnrMVT8G_2vbOQ@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v2 2/3] qemu-img: rebase: Reduce reads on
- in-chain rebase
+Subject: Re: [Qemu-devel] [PATCH 0/5] linux-user: Support signal passing for
+ targets having more signals than host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -89,116 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sagi.amit@oracle.com, arbel.moshe@oracle.com, liran.alon@oracle.com,
-	eyal.moscovici@oracle.com, karl.heubaum@oracle.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+	=?UTF-8?B?TWlsb8WhIFN0b2phbm92acSH?= <milos.stojanovic@rt-rk.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---s6sKGehxa1AM7u7r2jKzqX62fI2qScy63
-From: Max Reitz <mreitz@redhat.com>
-To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: eyal.moscovici@oracle.com, sagi.amit@oracle.com, karl.heubaum@oracle.com,
- liran.alon@oracle.com, arbel.moshe@oracle.com
-Message-ID: <c117d2e2-eef2-df4f-ef3d-37a33426dd51@redhat.com>
-Subject: Re: [PATCH v2 2/3] qemu-img: rebase: Reduce reads on in-chain rebase
-References: <20190502085029.30776-1-shmuel.eiderman@oracle.com>
- <20190502135828.42797-1-shmuel.eiderman@oracle.com>
- <20190502135828.42797-3-shmuel.eiderman@oracle.com>
-In-Reply-To: <20190502135828.42797-3-shmuel.eiderman@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On May 23, 2019 3:46 PM, "Peter Maydell" <peter.maydell@linaro.org> wrote:
+>
+> On Wed, 22 May 2019 at 19:57, Aleksandar Markovic
+> <aleksandar.markovic@rt-rk.com> wrote:
+> >
+> > From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> >
+> > Most of the targets (including Intel) define 64 signals. This
+> > creates difficulties for targets that define, for example, 128
+> > signals. This series adds support for signal passing even if
+> > the host defines less signals than the target.
+>
+> Could you elaborate a bit on how much functionality
+> is provided for signal numbers which the target has
+> but the host does not? For instance, it seems likely
+> that attempts by the guest to kill(other_pid, sig) will
+> fail if sig is not in the supported-by-the-target range.
+> But is it possible for the guest process to deliver
+> one of these signals to itself ?
+>
+> This patchset is interesting because in fact pretty much
+> every target supports more signals than our host code
+> can provide, because the host libc steals several
+> signals for its own purposes and QEMU can't use them.
+> Being able to multiplex several guest signals onto
+> one host signal might let us run some guest binaries
+> we currently can't handle correctly.
+>
 
-On 02.05.19 15:58, Sam Eiderman wrote:
-> In the following case:
->=20
-> (base) A <- B <- C (tip)
->=20
-> when running:
->=20
->     qemu-img rebase -b A C
->=20
-> QEMU would read all sectors not allocated in the file being rebased (C)=
+Hello, Peter.
 
-> and compare them to the new base image (A), regardless of whether they
-> were changed or even allocated anywhere along the chain between the new=
+I would ask the author, Milos Stojanovic, to provide us with details you
+asked for.
 
-> base and the top image (B). This causes many unneeded reads when
-> rebasing an image which represents a small diff of a large disk, as it
-> would read most of the disk's sectors.
->=20
-> Instead, use bdrv_is_allocated_above() to reduce the number of
-> unnecessary reads.
->=20
-> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
-> Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
-> ---
->  qemu-img.c | 25 ++++++++++++++++++++++++-
->  1 file changed, 24 insertions(+), 1 deletion(-)
->=20
-> diff --git a/qemu-img.c b/qemu-img.c
-> index d9b609b3f0..7f20858cb9 100644
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
+I am here just the integrator and the submitter, and even though I could
+perhaps answer your questions accurately, I would prefer Milos as the main
+person to talk to.
 
-[...]
+I would like to add that this series is already in exploation here in Wave,
+for some internal projects involving QEMU. People are happy with it, it
+solved some long-standing problems, and there is no known open issue
+related to this code.
 
-> @@ -3422,6 +3428,23 @@ static int img_rebase(int argc, char **argv)
->                  continue;
->              }
-> =20
-> +            if (prefix_chain_bs) {
-> +                /*
-> +                 * If cluster wasn't changed since prefix_chain, we do=
-n't need
-> +                 * to take action
-> +                 */
-> +                ret =3D bdrv_is_allocated_above(bs, prefix_chain_bs,
-> +                                              offset, n, &n);
+The solution has its own limitations, as is spelled out in commit messages,
+just to keep your expectations realistic, but overall I find it incredibly
+useful, and very good, given the complex problem it tackles.
 
-This will always return true because it definitely is allocated in @bs,
-or we wouldn=E2=80=99t be here.  (We just checked that with
-bdrv_is_allocated().)  I think @top should be backing_bs(bs).
+I would like now to pass the =E2=80=9Cfloor=E2=80=9D to Milos.
 
-Max
+Yours,
+Aleksandar
 
-> +                if (ret < 0) {
-> +                    error_report("error while reading image metadata: =
-%s",
-> +                                 strerror(-ret));
-> +                    goto out;
-> +                }
-> +                if (!ret) {
-> +                    continue;
-> +                }
-> +            }
-> +
->              /*
->               * Read old and new backing file and take into considerati=
-on that
->               * backing files may be smaller than the COW image.
->=20
-
-
-
---s6sKGehxa1AM7u7r2jKzqX62fI2qScy63
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzmp8wACgkQ9AfbAGHV
-z0DC4AgArkNz2w/pi46i1kT3xZfnoFRLrPpZZ91hG/6HEurEb1/XN12F0/PeNRpZ
-0hnL2n5hVnrudqZPxk0sJ58s0utVBOaR0JKdA+x9LIHKNnLDx2zsMLEhp+6DneiN
-mg+nU8w+yBW0WM1dwr7st1gTmyhDWibTHuVOYXhE+t2lD/WpX0ymNTTp8VJrQ+rc
-kmJrv/1IS7VwUkGLlGpA0W34MexTOXs8o4cyyKYGGQBAbz6RMRU5g+dCNdKvU1WG
-7orAqWUfMx4dZmUAYf6/66wiNAjCLq9+ufM61miG0GwzAGEzpvTbuLKjuuc8QNME
-LRlMyS7E1EmV7HKAKfLDuhEUqBXD2A==
-=E2Q0
------END PGP SIGNATURE-----
-
---s6sKGehxa1AM7u7r2jKzqX62fI2qScy63--
-
+> thanks
+> -- PMM
+>
