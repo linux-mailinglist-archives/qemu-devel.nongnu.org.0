@@ -2,67 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A03127B57
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:06:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33799 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E57A27E22
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:29:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36258 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTlY2-0005FK-Dr
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:06:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59587)
+	id 1hTnmQ-0006pU-8X
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:29:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59645)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTlWT-0004ZJ-AP
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:04:34 -0400
+	(envelope-from <gert.wollny@collabora.com>) id 1hTlWd-0004e9-4D
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:04:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTlWS-0002L5-7y
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:04:33 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:39163)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hTlWR-0002JQ-VX
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:04:32 -0400
-Received: by mail-wr1-f66.google.com with SMTP id w8so5787447wrl.6
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 04:04:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=OwN+pwQUriCQg8TUCykP3vzy3AyHFTI8ShPIUrbCp3s=;
-	b=tvwBiukCV395TEebLdcoiNlI8Ze9jCceKH5FCHIKjFHJIXiwJzIG+5hMvZFUI3GsdK
-	OLMuzWDD41t/BkE8uvDER6yeGA9Rrl3o6U5+GLESuwDFrmbYb2mD8PXg9eV4+zHoCEKl
-	hPf5X15y3xZWhRkm6ojaFWjBqWyp0VVh8z0SdQ4DFosYnr3ERW6z3tu+H+5jeT692T0g
-	MQ5+P/oA4aCnbVuxuPs+S/rMtuASMZR56wi6Aw6fKb6wRgRCBALDK5NVutDK/W8RvEYx
-	+gErbEDEyaYcCfRDOEiaIz1onqc4GkbbKZE4KOfeN+iEgfJqmeRYsVcTg2VIHaXxC/DX
-	NhQA==
-X-Gm-Message-State: APjAAAUHTwROeVhjFoZEHW3oQ33wpgm67Rw3AalaXYMMSsPl+DpvxeuG
-	EyQxHSCcnpEFdo412VPe4G6iWA==
-X-Google-Smtp-Source: APXvYqwFJEdcLaMajC5/Ckj5dAtdtmA4IAYW8SyTx6tojYM71VUL+bOfCh5vZB7DIO+ncEOsBfLjkw==
-X-Received: by 2002:adf:cd0d:: with SMTP id w13mr57355907wrm.38.1558609470944; 
-	Thu, 23 May 2019 04:04:30 -0700 (PDT)
-Received: from [192.168.1.38] (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	d17sm23309752wrw.18.2019.05.23.04.04.29
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 04:04:30 -0700 (PDT)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190523024229.1158-1-richard.henderson@linaro.org>
-	<20190523024229.1158-2-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <576eff59-1691-cd13-b3a6-ce1cd378980f@redhat.com>
-Date: Thu, 23 May 2019 13:04:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <gert.wollny@collabora.com>) id 1hTlWc-0002U4-0T
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:04:43 -0400
+Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:59570)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <gert.wollny@collabora.com>)
+	id 1hTlWb-0002Py-RX
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 07:04:41 -0400
+Received: from Isengard.homenet.telecomitalia.it (unknown
+	[IPv6:2a02:810a:940:4421:55f7:11f5:99cb:72c6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested) (Authenticated sender: gerddie)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D6A672808DF;
+	Thu, 23 May 2019 12:04:37 +0100 (BST)
+From: Gert Wollny <gert.wollny@collabora.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 23 May 2019 13:04:34 +0200
+Message-Id: <20190523110434.23830-1-gert.wollny@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190523024229.1158-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH 1/3] capstone: Adjust include of capstone.h
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1098:0:82:1000:25:2eeb:e3e3
+X-Mailman-Approved-At: Thu, 23 May 2019 09:18:29 -0400
+Subject: [Qemu-devel] [PATCH] virtio_gpu_3d: make it possible to configure
+ the fence poll time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,61 +51,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, david@redhat.com
+Cc: Gert Wollny <gert.wollny@collabora.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/19 4:42 AM, Richard Henderson wrote:
-> Since v4.0, capstone.h has moved to <capstone/capstone.h>.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/disas/capstone.h | 4 ++++
->  configure                | 6 ++++++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/include/disas/capstone.h b/include/disas/capstone.h
-> index e29068dd97..90631d84a9 100644
-> --- a/include/disas/capstone.h
-> +++ b/include/disas/capstone.h
-> @@ -3,7 +3,11 @@
->  
->  #ifdef CONFIG_CAPSTONE
->  
-> +#ifdef CONFIG_CAPSTONE_CAPSTONE_H
-> +#include <capstone/capstone.h>
-> +#else
->  #include <capstone.h>
-> +#endif
->  
->  #else
->  
-> diff --git a/configure b/configure
-> index d2fc346302..eec7f061c3 100755
-> --- a/configure
-> +++ b/configure
-> @@ -5021,6 +5021,9 @@ case "$capstone" in
->    system)
->      QEMU_CFLAGS="$QEMU_CFLAGS $($pkg_config --cflags capstone)"
->      LIBS="$($pkg_config --libs capstone) $LIBS"
-> +    if check_include capstone/capstone.h; then
-> +      capstone_capstone_h=yes
-> +    fi
->      ;;
->  
->    no)
-> @@ -7197,6 +7200,9 @@ if test "$ivshmem" = "yes" ; then
->  fi
->  if test "$capstone" != "no" ; then
->    echo "CONFIG_CAPSTONE=y" >> $config_host_mak
-> +  if test "$capstone_capstone_h" != "no" ; then
-> +    echo "CONFIG_CAPSTONE_CAPSTONE_H=y" >> $config_host_mak
-> +  fi
->  fi
->  if test "$debug_mutex" = "yes" ; then
->    echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
-> 
+The default fence poll time of 10ms (100 Hz) is sufficent for normal
+work loads, but if one wants to play games within the virtual machine
+this value might be too high, so make it possible to configure this
+value by using the environment variable QEMU_VIRGL_POLL_FREQ where the
+poll is given in Hz. To acommodate higher poll frequencies also change
+the timer to use micro seconds as base instead of milliseconds.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+
+Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
+---
+ hw/display/virtio-gpu-3d.c     | 18 ++++++++++++++++--
+ include/hw/virtio/virtio-gpu.h |  1 +
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
+index 5ee3566ae0..120e593e76 100644
+--- a/hw/display/virtio-gpu-3d.c
++++ b/hw/display/virtio-gpu-3d.c
+@@ -17,6 +17,7 @@
+ #include "trace.h"
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-gpu.h"
++#include "qemu/cutils.h"
+=20
+ #ifdef CONFIG_VIRGL
+=20
+@@ -580,7 +581,8 @@ static void virtio_gpu_fence_poll(void *opaque)
+     virgl_renderer_poll();
+     virtio_gpu_process_cmdq(g);
+     if (!QTAILQ_EMPTY(&g->cmdq) || !QTAILQ_EMPTY(&g->fenceq)) {
+-        timer_mod(g->fence_poll, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +=
+ 1);
++        timer_mod(g->fence_poll, qemu_clock_get_us(QEMU_CLOCK_VIRTUAL) +
++				  g->fence_poll_timeout);
+     }
+ }
+=20
+@@ -605,13 +607,25 @@ void virtio_gpu_virgl_reset(VirtIOGPU *g)
+ int virtio_gpu_virgl_init(VirtIOGPU *g)
+ {
+     int ret;
++    const char *val;
+=20
+     ret =3D virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
+     if (ret !=3D 0) {
+         return ret;
+     }
+=20
+-    g->fence_poll =3D timer_new_ms(QEMU_CLOCK_VIRTUAL,
++    g->fence_poll_timeout =3D 10000; /* default 10 ms */
++    val =3D getenv("QEMU_VIRGL_POLL_FREQ");
++    if (val) {
++        unsigned long long poll_freq;
++        if (parse_uint_full(val, &poll_freq, 10) || poll_freq > UINT32_M=
+AX) {
++            fprintf(stderr, "VIRGL_POLL_FREQ: Invalid integer `%s'\n", v=
+al);
++            exit(1);
++        }
++        g->fence_poll_timeout =3D 1000000 / (uint32_t)poll_freq;
++    }
++
++    g->fence_poll =3D timer_new_us(QEMU_CLOCK_VIRTUAL,
+                                  virtio_gpu_fence_poll, g);
+=20
+     if (virtio_gpu_stats_enabled(g->conf)) {
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gp=
+u.h
+index 60425c5d58..a9e03b25aa 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -116,6 +116,7 @@ typedef struct VirtIOGPU {
+     bool renderer_reset;
+     QEMUTimer *fence_poll;
+     QEMUTimer *print_stats;
++    uint32_t fence_poll_timeout;
+=20
+     uint32_t inflight;
+     struct {
+--=20
+2.20.1
+
 
