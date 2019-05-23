@@ -2,82 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206F727CDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 14:27:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35237 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C696E27CE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 14:32:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35349 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTmox-0001W7-5d
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 08:27:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45811)
+	id 1hTmtq-0005Il-Vx
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 08:32:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46565)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pmorel@linux.ibm.com>) id 1hTmmY-0008GY-Fk
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:25:15 -0400
+	(envelope-from <rth7680@gmail.com>) id 1hTmop-0002FJ-Pz
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:27:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pmorel@linux.ibm.com>) id 1hTmmW-0002Tr-Qe
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:25:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57420)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pmorel@linux.ibm.com>)
-	id 1hTmmW-0002SP-Ga
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:25:12 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4NCARJK140885
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:25:09 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2snsjhwe20-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:25:09 -0400
-Received: from localhost
-	by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <pmorel@linux.ibm.com>;
-	Thu, 23 May 2019 13:25:06 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-	by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Thu, 23 May 2019 13:25:04 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
-	(b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4NCP2Uq44040372
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Thu, 23 May 2019 12:25:03 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DD0DEA4065;
-	Thu, 23 May 2019 12:25:02 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 821F9A4060;
-	Thu, 23 May 2019 12:25:02 +0000 (GMT)
-Received: from morel-ThinkPad-W530.boeblingen.de.ibm.com (unknown
-	[9.152.222.40])
-	by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Thu, 23 May 2019 12:25:02 +0000 (GMT)
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: cohuck@redhat.com
-Date: Thu, 23 May 2019 14:25:00 +0200
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558614300-24574-1-git-send-email-pmorel@linux.ibm.com>
-References: <1558614300-24574-1-git-send-email-pmorel@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 19052312-0028-0000-0000-00000370B03A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19052312-0029-0000-0000-000024306257
-Message-Id: <1558614300-24574-6-git-send-email-pmorel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-05-23_10:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=4 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=925 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1905230087
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH v2 5/5] s390: vfio_pci: Get zPCI function info
- from host
+	(envelope-from <rth7680@gmail.com>) id 1hTmoo-000431-Ow
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:27:35 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:34540)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <rth7680@gmail.com>)
+	id 1hTmom-00040Q-7t; Thu, 23 May 2019 08:27:32 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id v78so2201605ybv.1;
+	Thu, 23 May 2019 05:27:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:subject:to:cc:references:from:openpgp:autocrypt:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=FANiTY/up6yJLM+G8m+j8Ux206U8nBBLK6uiTs1CeVM=;
+	b=DRwgO4VVXAQOSggM8A+qWysOYTPa7rR7GNFyuy7JJA5JT29bYVHDiRw+J89/Wztq2k
+	zcCBpqXBZ7okRYaig/dPXgFbNmT4c2GQmSmUi3NAlYvr2tr4NsToDojo9QB4ABwlUg+Y
+	vHxqw7qCxBa16f/VuM4986jgXt+cEIfgjnJS8vuvvmOtPnTHv6edkgSahDEEu5OEPXST
+	DV5wOABcWDQv1Lx0p/rKXnKVqTuJlEhkXwI4Yt5b9HgbPgOKVJ9QaNTo5cHeVR2BjrR+
+	IwptFICrWx9Gj5E/dVFt/hKD0evgErLwSsohKz53dfiHEh33GfpyT3phBnf/DvQ6snsX
+	/s1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
+	:autocrypt:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=FANiTY/up6yJLM+G8m+j8Ux206U8nBBLK6uiTs1CeVM=;
+	b=WoOypVPbYVm9aeHiqRwTVXEz8AiYs/ob9TEmB99kugBd3VCnV1clau06cWwaGU1F2M
+	8OKJgwA7T1UHLQwZaGkgCW5qJLw2YdmU8n2evacKAagLaONjrfHbQglpwNy3gph27tvw
+	ds1iRcLbXuz9ZF0O3hGxnFBEc6E8q3tsX6EwZ0WEQnAvcMlUat8vQQZ9EHtdTxDPbX2c
+	8k/r5mPegltGpBwglKJZtpPkiWEMxRdXd+O/T2VD/vk8wSkgoCLcOLU9qUVllRTbQofW
+	dfBA3lpniyxC4AsH+p9sBXwkx0tfQcxGnoHWLHs33oefg0qXQVxvrKX6OiLKDzHXMFCm
+	EKzg==
+X-Gm-Message-State: APjAAAVJGjfHVD4Vho76VKIEWjlma0tRa+h8Dnuehyegg4mMbZSMR1OP
+	mMHoxuOJutQo3fRyuYMH9T8=
+X-Google-Smtp-Source: APXvYqyksVfDLtvincRrNSMwkxTywzUcpvP20VMLlY2iHB34ZyyseD7Y4IhwNXmlDvpEUwMpPbrdlQ==
+X-Received: by 2002:a25:850d:: with SMTP id w13mr18193785ybk.515.1558614451225;
+	Thu, 23 May 2019 05:27:31 -0700 (PDT)
+Received: from [10.240.8.143] ([71.46.56.63])
+	by smtp.googlemail.com with ESMTPSA id
+	m185sm6853738ywf.38.2019.05.23.05.27.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 05:27:30 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>
+References: <20190515203112.506-1-david@redhat.com>
+	<20190515203112.506-2-david@redhat.com>
+	<b3611279-15c4-f9b7-2a91-051ac6431b2c@linaro.org>
+	<44d7ddb4-040f-6778-7439-043b94e354ec@redhat.com>
+	<0935643f-941f-5883-c481-8ac18d57c98d@linaro.org>
+	<1f6001a2-e1d3-2b6f-e84a-8b9963302a3c@redhat.com>
+	<CAFXwXr=YzSuVa9wMKAczhojU+sK5zzPqpWOaJXDLovLNcmkYqg@mail.gmail.com>
+	<db392f3c-2bb2-6e16-ebe8-3175ef7859f4@redhat.com>
+	<9b00d53e-d676-7d19-cab6-7fb7a6715d1e@twiddle.net>
+	<273c1e4f-3216-78aa-508e-b063c0612854@redhat.com>
+From: Richard Henderson <rth@twiddle.net>
+Openpgp: preference=signencrypt
+Autocrypt: addr=rth@twiddle.net; prefer-encrypt=mutual; keydata=
+	mQENBFGuLC8BCADcAoWcnW9lTsDMzbO3MBU+KbiGaj5JPatEUscRDkQYM2fyNjJp2tIWDK5a
+	n4yngeXB3eX61WbYR3QraRK8mlYLGxyAdHMEQfPipbqf3TmN043fssT2bc82ApJcs1zvLYgI
+	rhMht7Dck7A0wNC1jo+ZjVVFig5gDTN7gOzaAdBtV8tVNUddwkLzzaGpfihhSD6U46NdqKOG
+	Wlnn6TrkMy0QGdQ5NaXHkRlUjnnUTSW/nKfoxD+EI+A9V4sYOd8mc/TL4aJh/i/AiU57eLbo
+	n17uQI6/VTWDUWl8USiz4x9c8vmqlywLx00tAFxxoRWqk4KVJlj+Sh0up/D/sJ+vPpgBABEB
+	AAG0I1JpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5uZXQ+iQFBBBMBAgArAhsDBgsJ
+	CAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUJC7UHogUCWaDNVgIZAQAKCRCtEnDMTdAnm9N5CADO
+	cB8F/SudJ72IupxQf40hbJdBK176+gb3sHMsixyLtrU59lee+lIM1OZmlNjsnCYmiSnbA5ks
+	Q7p0HfO7DgdmfLzcK6xsHZukqSZy5LByw348Y913ZyjOrJZFdPP7kDg1MnqRqH4+3ZdzxV4y
+	eYBWFU9GYMIF06JbUubossOOO4ArNVZbnIPu8Vn2tDZVVqsCBqkoCSBMj519xrvyOu5z4mHS
+	LkCglXmVDOXMbqLuNAC3rfNXSnyM4hYkLUyfALJlAAy1Ro+jUqYhu7XUFV/MiwRuFMh5GbtY
+	Urkx7tqsWQXLT3GeDk/LqvpWJQwk4cHHckYjRih+70CHIenm81PVuQENBFGuLC8BCACyEx3x
+	94HIkTX0CHu2sA0w75+h9wuoA8ggJ7+S4ri0y2YsijWad5TTt6z6MMiqxk9kSA5bppaj4HXh
+	86hBF/dWCtMpNr3Rb8FNOKyeA/qkYHVD6HiAiw9c6D8Dr9hWmOk3/HSmGrNURxeUFOckDXsv
+	I+yGGKBNshj59j7QZr7ZiuIi2rWlBL8dFN/OWa/o3x7HKsE4k6K8ngwvCKP/QbDLwLLBOWH+
+	VEUtpyeyxTr3OJ47ECTxdYvXoAV2iJaKr+6doVQiiR5eVFiMYrUPUECJeolOCwqc/JlWE18L
+	+PCAFaW1H+/mpPVfSpN4wnkJ5cQiQVB41IaCM4p20iRzx7ZJABEBAAGJASUEGAECAA8CGwwF
+	AlmgzYEFCQu1CEoACgkQrRJwzE3QJ5s7rggAwABzDAGrZ6uWsMxg5PeiiAYPy6LBnCBJSpB5
+	Tfy5jH8QTmLfXW+u4Ib4sWXG7PYNR7sIrtqUHjRqXLVXrSnBX9ASGcYw/Xil45khW6LsRpO1
+	prHv9gkwQfa6fTiWXVfSfm2Nant6u02q+MaYtQpCVTiz/9ki4FfftUwUHFLU0MhIQogjd11y
+	/E08RJsqBwaHQdt14PwU1HphDOzSkhOXRXQLSd3ysyeGUXvL+gqQoXl5XYdvk8IId4PoJRo4
+	jcyJ4VbnldvXh5gdGhFA/f9JgkLk9tPW+C3wNtNWyRUq8azR9hF2fg2HJUf4IXQlIu8OOgh1
+	VcROBqvtH3ecaIL9iw==
+Message-ID: <1c3a49f8-56bd-1577-60a4-7c29ca1c0d83@twiddle.net>
+Date: Thu, 23 May 2019 08:27:28 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <273c1e4f-3216-78aa-508e-b063c0612854@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::b41
+Subject: Re: [Qemu-devel] [PATCH v1 1/5] s390x/tcg: Implement VECTOR FIND
+ ANY ELEMENT EQUAL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -89,173 +118,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pasic@linux.vnet.ibm.com, mst@redhat.com, qemu-s390x@nongnu.org,
-	david@redhat.com, walling@linux.ibm.com, qemu-devel@nongnu.org,
-	borntraeger@de.ibm.com, alex.williamson@redhat.com,
-	pbonzini@redhat.com, rth@twiddle.net
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use the VFIO_REGION_SUBTYPE_ZDEV_CLP subregion of
-PCI_VENDOR_ID_IBM to retrieve the CLP information the
-kernel exports.
+On 5/23/19 3:50 AM, David Hildenbrand wrote:
+> /*
+>  * Returns the number of bits composing one element.
+>  */
+> static uint8_t get_element_bits(uint8_t es)
+> {
+>     return (1 << es) * BITS_PER_BYTE;
+> }
+> 
+> /*
+>  * Returns the bitmask for a single element.
+>  */
+> static uint64_t get_single_element_mask(uint8_t es)
+> {
+>     return -1ull >> (64 - get_element_bits(es));
+> }
+> 
+> /*
+>  * Returns the bitmask for a single element (excluding the MSB).
+>  */
+> static uint64_t get_single_element_lsbs_mask(uint8_t es)
+> {
+>     return -1ull >> (65 - get_element_bits(es));
+> }
+> 
+> /*
+>  * Returns the bitmasks for multiple elements (excluding the MSBs).
+>  */
+> static uint64_t get_element_lsbs_mask(uint8_t es)
+> {
+>     return dup_const(es, get_single_element_lsbs_mask(es));
+> }
+> 
+> static int vfae(void *v1, const void *v2, const void *v3, bool in,
+>                 bool rt, bool zs, uint8_t es)
+> {
+>     const uint64_t mask = get_element_lsbs_mask(es);
+>     const int bits = get_element_bits(es);
+>     uint64_t a0, a1, b0, b1, e0, e1, t0, t1, z0, z1;
+>     uint64_t first_zero = 16;
+>     uint64_t first_equal;
+>     int i;
+> 
+>     a0 = s390_vec_read_element64(v2, 0);
+>     a1 = s390_vec_read_element64(v2, 1);
+>     b0 = s390_vec_read_element64(v3, 0);
+>     b1 = s390_vec_read_element64(v3, 1);
+>     e0 = 0;
+>     e1 = 0;
+>     /* compare against equality with every other element */
+>     for (i = 0; i < 64; i += bits) {
+>         t0 = i ? rol64(b0, i) : b0;
+>         t1 = i ? rol64(b1, i) : b1;
+>         e0 |= zero_search(a0 ^ t0, mask);
+>         e0 |= zero_search(a0 ^ t1, mask);
+>         e1 |= zero_search(a1 ^ t0, mask);
+>         e1 |= zero_search(a1 ^ t1, mask);
+>     }
 
-To be compatible with previous kernel versions we fall back
-on previous predefined values, same as the emulation values,
-when the region is not found or when any problem happens
-during the search for the information.
+I don't see that this is doing what you want.  You're shifting one element of B
+down, but not broadcasting it so that it is compared against every element of A.
 
-Once we retrieved the host device information, we take care to
-- use the virtual UID and FID
-- Disable all the IOMMU flags we do not support yet.
-  Just keeping the refresh bit.
+I'd expect something like
 
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
----
- hw/s390x/s390-pci-bus.c | 82 +++++++++++++++++++++++++++++++++++++++++++++++--
- hw/s390x/s390-pci-bus.h |  2 ++
- 2 files changed, 82 insertions(+), 2 deletions(-)
+	t0 = dup_const(es, b0 >> i);
+	t1 = dup_const(es, b1 >> i);
 
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 6df80aa..c4f4b2a 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -16,6 +16,8 @@
- #include "qapi/visitor.h"
- #include "qemu-common.h"
- #include "cpu.h"
-+#include "s390-pci-clp.h"
-+#include <linux/vfio_zdev.h>
- #include "s390-pci-bus.h"
- #include "s390-pci-inst.h"
- #include "hw/pci/pci_bus.h"
-@@ -23,6 +25,9 @@
- #include "hw/pci/msi.h"
- #include "qemu/error-report.h"
- 
-+#include "hw/vfio/pci.h"
-+#include <sys/ioctl.h>
-+
- #ifndef DEBUG_S390PCI_BUS
- #define DEBUG_S390PCI_BUS  0
- #endif
-@@ -780,6 +785,75 @@ static void set_pbdev_info(S390PCIBusDevice *pbdev)
-     pbdev->pci_grp = s390_grp_find(ZPCI_DEFAULT_FN_GRP);
- }
- 
-+static int get_pbdev_info(S390PCIBusDevice *pbdev)
-+{
-+    VFIOPCIDevice *vfio_pci;
-+    VFIODevice *vdev;
-+    struct vfio_region_info *info;
-+    CLPRegion *clp_region;
-+    int size;
-+    int ret;
-+
-+    vfio_pci = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
-+    vdev = &vfio_pci->vbasedev;
-+
-+    if (vdev->num_regions < VFIO_PCI_NUM_REGIONS + 1) {
-+        /* Fall back to old handling */
-+        return -ENODEV;
-+    }
-+
-+    ret = vfio_get_dev_region_info(vdev,
-+                                   PCI_VENDOR_ID_IBM |
-+                                   VFIO_REGION_TYPE_PCI_VENDOR_TYPE,
-+                                   VFIO_REGION_SUBTYPE_ZDEV_CLP, &info);
-+    if (ret) {
-+        /* Fall back to old handling */
-+        return -EIO;
-+    }
-+
-+    if (info->size != sizeof(CLPRegion)) {
-+        /* Fall back to old handling */
-+        g_free(info);
-+        return -ENOMEM;
-+    }
-+    clp_region = g_malloc0(sizeof(*clp_region));
-+    size = pread(vdev->fd, clp_region, sizeof(*clp_region), info->offset);
-+    if (size != sizeof(*clp_region)) {
-+        goto end;
-+    }
-+
-+    pbdev->zpci_fn.fid = pbdev->fid;
-+    pbdev->zpci_fn.uid = pbdev->uid;
-+    pbdev->zpci_fn.sdma = clp_region->start_dma;
-+    pbdev->zpci_fn.edma = clp_region->end_dma;
-+    pbdev->zpci_fn.pchid = clp_region->pchid;
-+    pbdev->zpci_fn.ug = clp_region->gid;
-+    pbdev->pci_grp = s390_grp_find(clp_region->gid);
-+
-+    if (!pbdev->pci_grp) {
-+        ClpRspQueryPciGrp *resgrp;
-+
-+        pbdev->pci_grp = s390_grp_create(clp_region->gid);
-+
-+        resgrp = &pbdev->pci_grp->zpci_grp;
-+        if (clp_region->flags & VFIO_PCI_ZDEV_FLAGS_REFRESH) {
-+            resgrp->fr = 1;
-+        }
-+        stq_p(&resgrp->dasm, clp_region->dasm);
-+        stq_p(&resgrp->msia, clp_region->msi_addr);
-+        stw_p(&resgrp->mui, clp_region->mui);
-+        stw_p(&resgrp->i, clp_region->noi);
-+        /* These two must be queried in a next iteration */
-+        stw_p(&resgrp->maxstbl, 128);
-+        resgrp->version = 0;
-+    }
-+
-+end:
-+    g_free(info);
-+    g_free(clp_region);
-+    return ret;
-+}
-+
- static void s390_pcihost_realize(DeviceState *dev, Error **errp)
- {
-     PCIBus *b;
-@@ -852,7 +926,8 @@ static int s390_pci_msix_init(S390PCIBusDevice *pbdev)
-     name = g_strdup_printf("msix-s390-%04x", pbdev->uid);
-     memory_region_init_io(&pbdev->msix_notify_mr, OBJECT(pbdev),
-                           &s390_msi_ctrl_ops, pbdev, name, PAGE_SIZE);
--    memory_region_add_subregion(&pbdev->iommu->mr, ZPCI_MSI_ADDR,
-+    memory_region_add_subregion(&pbdev->iommu->mr,
-+                                pbdev->pci_grp->zpci_grp.msia,
-                                 &pbdev->msix_notify_mr);
-     g_free(name);
- 
-@@ -1002,12 +1077,15 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         pbdev->iommu = s390_pci_get_iommu(s, pci_get_bus(pdev), pdev->devfn);
-         pbdev->iommu->pbdev = pbdev;
-         pbdev->state = ZPCI_FS_DISABLED;
--        set_pbdev_info(pbdev);
- 
-         if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
-             pbdev->fh |= FH_SHM_VFIO;
-+            if (get_pbdev_info(pbdev) != 0) {
-+                set_pbdev_info(pbdev);
-+            }
-         } else {
-             pbdev->fh |= FH_SHM_EMUL;
-+            set_pbdev_info(pbdev);
-         }
- 
-         if (s390_pci_msix_init(pbdev)) {
-diff --git a/hw/s390x/s390-pci-bus.h b/hw/s390x/s390-pci-bus.h
-index 8c969d1..151e2d0 100644
---- a/hw/s390x/s390-pci-bus.h
-+++ b/hw/s390x/s390-pci-bus.h
-@@ -320,6 +320,8 @@ typedef struct S390PCIGroup {
- } S390PCIGroup;
- S390PCIGroup *s390_grp_find(int ug);
- 
-+typedef struct vfio_region_zpci_info CLPRegion;
-+
- struct S390PCIBusDevice {
-     DeviceState qdev;
-     PCIDevice *pdev;
--- 
-2.7.4
+(I also don't see what rol is getting you that shift doesn't.)
 
+
+>     /* invert the result if requested - invert only the MSBs */
+>     if (in) {
+>         e0 = ~e0 & ~mask;
+>         e1 = ~e1 & ~mask;
+>     }
+>     first_equal = match_index(e0, e1);
+> 
+>     if (zs) {
+>         z0 = zero_search(a0, mask);
+>         z1 = zero_search(a1, mask);
+>         first_zero = match_index(z0, z1);
+>     }
+> 
+>     if (rt) {
+>         e0 = (e0 >> (bits - 1)) * get_single_element_mask(es);
+>         e1 = (e1 >> (bits - 1)) * get_single_element_mask(es);
+>         s390_vec_write_element64(v1, 0, e0);
+>         s390_vec_write_element64(v1, 1, e1);
+>     } else {
+>         s390_vec_write_element64(v1, 0, MIN(first_equal, first_zero));
+>         s390_vec_write_element64(v1, 1, 0);
+>     }
+> 
+>     if (first_zero == 16 && first_equal == 16) {
+>         return 3; /* no match */
+>     } else if (first_zero == 16) {
+>         return 1; /* matching elements, no match for zero */
+>     } else if (first_equal < first_zero) {
+>         return 2; /* matching elements before match for zero */
+>     }
+>     return 0; /* match for zero */
+> }
+
+The rest of this looks good.
+
+
+r~
 
