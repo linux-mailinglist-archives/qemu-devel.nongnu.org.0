@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A7028618
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 20:41:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41795 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6399228627
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 20:49:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41874 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTseR-0003LZ-Cs
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 14:41:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41063)
+	id 1hTslv-0005yu-CD
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 14:48:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42552)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTsdO-0002t6-HO
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 14:40:11 -0400
+	(envelope-from <mst@redhat.com>) id 1hTsjh-00059M-Pn
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 14:46:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTsdK-0001Yd-Ge
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 14:40:07 -0400
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:38662)
+	(envelope-from <mst@redhat.com>) id 1hTsjd-0006tM-UL
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 14:46:39 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:37333)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTsdK-0001We-CG
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 14:40:06 -0400
-Received: by mail-yb1-xb41.google.com with SMTP id x7so2654513ybg.5
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 11:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=i+JfqXbcsE7edk3YPIVrEZru5XOSY8KimP5PNBlWRks=;
-	b=wfGVKnAZjPrgn/85Ak4SYLKWm0P5uXtWoNgX10ZWbS5og3v86YZb3qLXd4I99fY/DK
-	1Xp65rPNq85cvMyr8LwEf8YHpGuNfVclUhvI0NxBYhHoKlHs8mIrlcsvEMbfjZueTHX9
-	bii1xuh5/nyqcGVXxEYGjIHyZmpCk3rTEQZAJPiP+lOTWbvH4ZMWHqFviNlj9R0GxGBd
-	9N36hbYasBWfvaUnbMwW1fS3TyG0ZiQ3upmk2CyIXxq9Y56z/VAKHpPzC4eG6zAsmQK6
-	d42Nfkx+rJglVzsvzZJCU3nGyiSh/szKGgz6BDVeY4RpOxT/bSAcZ7lWFcI/jAUmbOvG
-	w40g==
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hTsjZ-0006By-SQ
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 14:46:34 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 7so6811949wmo.2
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 11:46:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=i+JfqXbcsE7edk3YPIVrEZru5XOSY8KimP5PNBlWRks=;
-	b=hI4+y6/6p7T7YSdlDk8oNY1FJsepcqNvie74+YYNNO8ocBXt/sDcl8r1A9CgVNgIH6
-	oxkcZ35pM+kQGHrLQynxBcZbzu6Va9juWmzf7hkRF7IYee4n5M7WFjkpH8Lbqmxqi5dB
-	hi8LGan5fh/dE+RiMDgqUbidLpELr/i75Knb+DY66VR6o6lkzgbrTBinXFw0LrxOJBu7
-	XkEbsm0gsERitwdaduELdEX6nOBt/WACgTDImjjTx77OJJJ8zSvx7nqu87DX+IbDNqpR
-	jqRKAY0Wh8Gmd3cTykhI2pLGLRjASkRtsNlNuwdIWZ2bYhuteM+/sZ6WZSra0bZ0C32n
-	lkKQ==
-X-Gm-Message-State: APjAAAUXemED4wC03RWcDHIgCo9ppuSsUUNy6UY4qwVfafx/k91C5nOx
-	L19E5uyc7E0PfKFLgM6nHtvayYklAaw=
-X-Google-Smtp-Source: APXvYqxfiI0pldfsBKt3C9AW5nCJVXbbWrfkDViO8e3lgWgr9Jr06gysZ1kHeaZjgsd1irJsFX8Lzw==
-X-Received: by 2002:a25:2744:: with SMTP id n65mr189652ybn.331.1558636802540; 
-	Thu, 23 May 2019 11:40:02 -0700 (PDT)
-Received: from [10.241.6.101] ([71.46.56.12])
-	by smtp.gmail.com with ESMTPSA id a202sm13067ywe.44.2019.05.23.11.40.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 11:40:01 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190523143508.25387-1-armbru@redhat.com>
-	<20190523143508.25387-3-armbru@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <9f7b8d8d-5da5-f47a-643e-14c32deb7c94@linaro.org>
-Date: Thu, 23 May 2019 14:39:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+	:content-disposition;
+	bh=LVpYFJCmqbEW9mkYRBtOf1v/vQGkmLzaOzh5Rp6Ums4=;
+	b=Eg4kUhwtkGnv7t+NElEU+6PReLwxJXWNcbsVQxrwzQyHnjv6h9LLwUp/IvCYcPl9gc
+	eXwkCNR+gek9NxA7ubgsRFq5d03zZr1g90T7oGJr9QEHMXlpgmr9rJKMkivl8fBx6OyJ
+	VySqP0ghQPpUUEXEvXIf5dFZShCshi3tiugpHGuXY4O/a7IfaAaTcqs0nxbAUKckTexh
+	x9/0c8Pi8ed01UcqHn40b7mZfn3jDowEoGHL5WJQdAJD6OByVwWMAouGq4HkyiV+XPL8
+	jbmKbsj8respPpAnGTtctG1tJylgMId1Bmnm62elbCOvxKoCTqsUnXAf5MOn195ZFAr3
+	VFEA==
+X-Gm-Message-State: APjAAAUzJFtZEmvsfP3IhYu6ZkWemYqmG+W+dSmFMzJ80h51bPAlfsef
+	MrHoo6JDB4tR+JiRCKyreS/vTEx06IQ=
+X-Google-Smtp-Source: APXvYqwDbep5MkgkK3Ht0OCN7SeJn3ToURVeZlSqbSGLUZVxgr4jGsH68k/WsHz5BLzd/+Btk6OAiQ==
+X-Received: by 2002:a1c:f20c:: with SMTP id s12mr3080018wmc.151.1558637178491; 
+	Thu, 23 May 2019 11:46:18 -0700 (PDT)
+Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
+	[173.76.105.71])
+	by smtp.gmail.com with ESMTPSA id 8sm498070wmf.18.2019.05.23.11.46.16
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 23 May 2019 11:46:17 -0700 (PDT)
+Date: Thu, 23 May 2019 14:46:14 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Message-ID: <20190523184518.22419-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190523143508.25387-3-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::b41
-Subject: Re: [Qemu-devel] [PATCH 2/4] qemu-common: Move qemu_isalnum() etc.
- to qemu/ctype.h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
+X-Mutt-Fcc: =sent
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.128.67
+Subject: [Qemu-devel] [PATCH] bios-tables-test: add diff allowed list
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,40 +67,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/19 10:35 AM, Markus Armbruster wrote:
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  block/ssh.c                |  1 +
->  block/vvfat.c              |  1 +
->  gdbstub.c                  |  2 ++
->  hw/core/bus.c              |  2 +-
->  hw/core/qdev-properties.c  |  1 +
->  hw/s390x/s390-virtio-ccw.c |  1 +
->  hw/scsi/scsi-generic.c     |  2 +-
->  include/qemu-common.h      | 16 ----------------
->  include/qemu/ctype.h       | 27 +++++++++++++++++++++++++++
->  monitor.c                  |  1 +
->  net/net.c                  |  1 +
->  net/tap-solaris.c          |  1 +
->  qapi/qapi-util.c           |  2 +-
->  qobject/json-parser.c      |  2 +-
->  target/ppc/monitor.c       |  2 ++
->  target/riscv/cpu.c         |  1 +
->  tests/libqtest.c           |  1 +
->  tests/vhost-user-bridge.c  |  2 +-
->  ui/keymaps.c               |  1 +
->  util/cutils.c              |  3 ++-
->  util/id.c                  |  2 +-
->  util/readline.c            |  2 +-
->  22 files changed, 50 insertions(+), 24 deletions(-)
->  create mode 100644 include/qemu/ctype.h
+Expected table change is then handled like this:
+1. add table to diff allowed list
+2. change generating code (can be combined with 1)
+3. maintainer runs a script to update expected +
+   blows away allowed diff list
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
 
+So I got tired of manual "remember to update AML files"
+reminders. With this an AML diff asserts unless it's
+explicitly allowed.
 
-r~
+Comments?
 
+ tests/bios-tables-test-allowed-diff.h |  1 +
+ tests/bios-tables-test.c              | 20 +++++++++++++++++++-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+ create mode 100644 tests/bios-tables-test-allowed-diff.h
+
+diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
+new file mode 100644
+index 0000000000..dfb8523c8b
+--- /dev/null
++++ b/tests/bios-tables-test-allowed-diff.h
+@@ -0,0 +1 @@
++/* List of comma-separated changed AML files to ignore */
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index 11e07be093..93db1a7265 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -342,6 +342,23 @@ try_again:
+     return exp_tables;
+ }
+ 
++static bool test_acpi_find_diff_allowed(AcpiSdtTable *sdt)
++{
++    const gchar *allowed_diff_file[] = {
++#include "bios-tables-test-allowed-diff.h"
++        NULL
++    };
++    int offset = strlen(data_dir) + 1;
++    const gchar **f;
++
++    for (f = allowed_diff_file; *f; ++f) {
++        if (!g_strcmp0(sdt->aml_file + offset, *f)) {
++            return true;
++        }
++    }
++    return false;
++}
++
+ /* test the list of tables in @data->tables against reference tables */
+ static void test_acpi_asl(test_data *data)
+ {
+@@ -396,7 +413,8 @@ static void test_acpi_asl(test_data *data)
+                             "see ASL difference.");
+                     }
+                 }
+-          }
++            }
++            g_assert(test_acpi_find_diff_allowed(sdt));
+         }
+         g_string_free(asl, true);
+         g_string_free(exp_asl, true);
+-- 
+MST
 
