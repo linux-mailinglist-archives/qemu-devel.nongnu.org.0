@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E7227E18
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:26:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36210 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C8527E33
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:33:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36351 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnjy-0004TD-9A
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:26:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60501)
+	id 1hTnr3-00032g-05
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:33:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60984)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTnYV-0003cF-7n
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:14:48 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hTnaB-0005Ey-Ny
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:16:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTnYT-0000rM-JR
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:14:47 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33759)
+	(envelope-from <richard.henderson@linaro.org>) id 1hTna9-0001xO-R5
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:16:31 -0400
+Received: from mail-ua1-x943.google.com ([2607:f8b0:4864:20::943]:37632)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTnYT-0000q5-BO
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:14:45 -0400
-Received: by mail-oi1-x243.google.com with SMTP id q186so4336963oia.0
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:14:44 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hTna7-0001vJ-QT
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:16:29 -0400
+Received: by mail-ua1-x943.google.com with SMTP id t18so2158101uar.4
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=tJceJ2kwm4Gqq5cLya6XILrl4b3l3MMW0QBOUx4D7wI=;
-	b=O8plRAFuvilI6zMjoHJTXkqLk5E2pqcMu03UyZoupVSDqz50LCBh11cKT3778JzHRo
-	3HsP99TalWmY08B/FAw31i7oUi26/fDoqu7iJ+FTIPhbOjoPTL5sSEMV2P7zN96SDeW4
-	Grr7T0i9QOntY3aJ2MZfO/rqKsnrZ9eEv0ysdc3yRmtoibDnC5ksFcH8p0+Q8NDBWN3f
-	TUSPcerVGB0RAdBZDc1Osur4LG6GHSQ0Ffm1PA5yW2Ci7URRd7HySIqhiGm0yzySx8EG
-	jGjGFNciyjjxjw7/pwwyznqmn/4X/1tJ9RmdSB7yI1U5MXoqK6Unr5KCKKnEBKq7FZHU
-	ULRA==
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=6KS9d5eT0YUL9nz8APaV1sldA/n7utywrrWd4/ev3xY=;
+	b=yydjUWk7RE6UHu0YchjMy59fZJv9VG1WnbKXFq6LnFu/6FZzfa+PrkFgX1G9AH0NRp
+	jNueNYOoDqY7KYqeHD9k3J13K2F3n7IDE5OJQMvwqS1yW0FMjhUlnj6saIGA01T4T5F5
+	ZMt+aEyE8dI2f3DqlyaUbCmnW/FEHTbPRC32eMkjHwdi+ccHOtQXfQk2JZdgIep1QX6K
+	oxbka8/f6EuX6T1waXXDRT8Qbn3z2zDFlHSAzOTjookm/D/VZuhlXCNltllmG5i/VASn
+	qHfOZPUhcgfN2QOuftgMHIIuoIrs6plkCwFqcypwkd3w7x0bd4YVBZ4YyzhFaX4fXTel
+	VfEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=tJceJ2kwm4Gqq5cLya6XILrl4b3l3MMW0QBOUx4D7wI=;
-	b=K2zyUmTzFFYOTQTat5u+6K2QSB17Zq/SjY8pO3MpR7/G0GrZ0ygnPdqelUxglaL6Cu
-	XItBg7aNTMhGZSmDF1eV0hB7LrgFMT3qyc/Pto0MGMRaX68fdMVMbCbmsj+lCdKSouBI
-	mZ+y2nR67OIZXHcAyP7Qt5/yd6kPAa9rIst1UcZScjtOB3xdyNSGpiwY48I8A0MeKvMB
-	horA5OpTmdlXkHd/RwNy7CwwkU0MbPHR67ynKxpLXQ5CXhF5QkJkgrO24LMF/5NEwd0g
-	w4X9691GbNazCGPjjmAOkHRh5SGGxxryNJwVNTBQRT1EjiMeN5SUf0qdEJcn+yUsrhXs
-	dTPA==
-X-Gm-Message-State: APjAAAXv59x6yBwrWClwj531Fbw/NVxuYi/sYNXSO1aqGmNjiZj+tvmG
-	OJ5QTRt0674/LT32rli4Co+7pBuc2LqbCedB/rPCJg==
-X-Google-Smtp-Source: APXvYqyjDYhIyaO7KiygW9L6se8HlUGbso9Lv2Z/FEtGofNzXQzG97nmS8UdOTnbdzdseu7jI5izsK4cujforrPAjks=
-X-Received: by 2002:aca:b1c1:: with SMTP id a184mr2724472oif.98.1558617283652; 
-	Thu, 23 May 2019 06:14:43 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=6KS9d5eT0YUL9nz8APaV1sldA/n7utywrrWd4/ev3xY=;
+	b=mnPHsOvUm7QZ/RmopzbKxnnaPgADDRzRPsr7ExAOvrv36IZasK5mhR0d9VkriPamGI
+	A0a1u0/kqSixbHWd3xZKxJ0M6BULRSJUXbH2J/V6fOzicxkvDVzGITVtrRnySb2tgghV
+	vgOqeIEzKaRYnRyPM+ov6Y5aVrBE6dH35X642JqOgYnLBqQmXAfuefDqyx07s7QT1vzH
+	6DF7yjHdLxAZ5pmtB59y++Q5Rl9yKyUXolMe3OsCRa1PiJofCVHbbusuLWXFU1NcK3cp
+	nS1yeCpJBIlQY+n5hoDGJFlGJE+40xOlkzyIfI0ysW8LadB4Noe20itGaCL8j8dcr+KK
+	pgLw==
+X-Gm-Message-State: APjAAAXYxZy1tQsL5RqZJOHVaYb3rKfxDu9U4By8AKvpreZTzi2/Xq/a
+	xoyP0ek1KBUJ+2Kdmoc2Cm+OqA==
+X-Google-Smtp-Source: APXvYqwR1B6t3pXGUj3KDctNsoVS0MHWpAm0485s/+Co/XKbz3JPE94an4CmqfFuNIkJW8Se54I2XA==
+X-Received: by 2002:ab0:1849:: with SMTP id j9mr191283uag.75.1558617386118;
+	Thu, 23 May 2019 06:16:26 -0700 (PDT)
+Received: from [192.168.43.94] (ip-173-130-215-183.orldfl.spcsdns.net.
+	[173.130.215.183]) by smtp.gmail.com with ESMTPSA id
+	o11sm13113027vkf.13.2019.05.23.06.16.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 06:16:25 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190518191934.21887-1-richard.henderson@linaro.org>
+	<20190518191934.21887-3-richard.henderson@linaro.org>
+	<CAFEAcA88nA_2u1Yc-9ZPAy2w6LVk5f9Rrss0e53E11W4Xb4YpA@mail.gmail.com>
+	<e177b43a-2abc-3aee-461c-2cfd9a8a0a20@linaro.org>
+	<CAFEAcA_1XuWqVu9gonn5_Y9x1V=UcWNHEXtwop2s0qyUbwiZpg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <13d9e22b-4ac5-fb87-622c-a99b5494d06c@linaro.org>
+Date: Thu, 23 May 2019 09:16:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190522184226.17871-1-richard.henderson@linaro.org>
-In-Reply-To: <20190522184226.17871-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 May 2019 14:14:31 +0100
-Message-ID: <CAFEAcA-wBShyR9aP4OAdvN7zwXE8teMgKOwfj5ROkjLdxjP9TQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAFEAcA_1XuWqVu9gonn5_Y9x1V=UcWNHEXtwop2s0qyUbwiZpg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PULL 00/25] Add qemu_getrandom and ARMv8.5-RNG etc
+X-Received-From: 2607:f8b0:4864:20::943
+Subject: Re: [Qemu-devel] [PATCH 2/2] target/arm: Use tcg_gen_gvec_bitsel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,56 +87,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 May 2019 at 19:42, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This is v8, rebased to avoid a conflict with 8d5d515a0fb
-> ("build: chardev is only needed for softmmu targets"),
-> which affected patch 2.
->
-> Daniel and Laurent gave me acks for issuing a pull request
-> touching their subsystems.  The reasonable thing seemed to
-> be to put those into the log for the signed tag itself.
->
->
-> r~
->
->
-> The following changes since commit a4f667b6714916683408b983cfe0a615a72577=
-5f:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' int=
-o staging (2019-05-21 16:30:13 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/rth7680/qemu.git tags/pull-rng-20190522
->
-> for you to fetch changes up to 369fd5ca66810b2ddb16e23a497eabe59385eceb:
->
->   target/i386: Implement CPUID_EXT_RDRAND (2019-05-22 12:38:54 -0400)
->
-> ----------------------------------------------------------------
-> Introduce qemu_guest_getrandom.
-> Use qemu_guest_getrandom in aspeed, nrf51, bcm2835, exynos4210 rng device=
-s.
-> Use qemu_guest_getrandom in target/ppc darn instruction.
-> Support ARMv8.5-RNG extension.
-> Support x86 RDRAND extension.
->
-> Acked-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Acked-by: Laurent Vivier <laurent@vivier.eu>
->
+On 5/23/19 9:08 AM, Peter Maydell wrote:
+>> Because the three different instructions perform the same operation with
+>> reshuffled register arguments.
+> 
+> Ah, so they do. Next question, how do I find out what the
+> order of arguments in the above code means so I can compare
+> it against the pseudocode expression we're implementing?
+
+>From tcg/README:
+
+* bitsel_vec v0, v1, v2, v3
+
+  Bitwise select, v0 = (v2 & v1) | (v3 & ~v1), across the entire vector.
+
+The "selector" is second, the first input operand.
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
+r~
 
