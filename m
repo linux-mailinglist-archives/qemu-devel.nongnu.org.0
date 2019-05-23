@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E3F27E32
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:33:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36340 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5401627E24
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:29:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36262 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnqc-0002Yg-8I
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:33:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34133)
+	id 1hTnmn-0007IF-Ft
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:29:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34161)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hTneb-0000FG-Pv
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:21:07 -0400
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hTnek-0000OI-35
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:21:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hTnea-0004U2-Jl
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:21:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:20597)
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hTnej-0004XU-3s
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:21:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35402)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
-	id 1hTnea-0004TX-DQ
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:21:04 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	id 1hTnei-0004XB-Tk
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:21:13 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id BECC0C130719
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:21:03 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 483BA307D96D
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:21:12 +0000 (UTC)
 Received: from localhost (ovpn-112-51.ams2.redhat.com [10.36.112.51])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5A7EF17A75;
-	Thu, 23 May 2019 13:20:56 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 47E8A67C9B;
+	Thu, 23 May 2019 13:21:05 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 15:20:29 +0200
-Message-Id: <20190523132035.20559-3-marcandre.lureau@redhat.com>
+Date: Thu, 23 May 2019 15:20:30 +0200
+Message-Id: <20190523132035.20559-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20190523132035.20559-1-marcandre.lureau@redhat.com>
 References: <20190523132035.20559-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Thu, 23 May 2019 13:21:03 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Thu, 23 May 2019 13:21:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v8 2/8] virtio-gpu: add bswap helpers header
+Subject: [Qemu-devel] [PATCH v8 3/8] virtio-gpu: add a pixman helper header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,22 +63,23 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The helper functions are useful to build the vhost-user-gpu backend.
+This will allow to share the format conversion function with
+vhost-user-gpu.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- include/hw/virtio/virtio-gpu-bswap.h | 61 ++++++++++++++++++++++++++++
- hw/display/virtio-gpu.c              | 43 +-------------------
- 2 files changed, 62 insertions(+), 42 deletions(-)
- create mode 100644 include/hw/virtio/virtio-gpu-bswap.h
+ include/hw/virtio/virtio-gpu-pixman.h | 45 +++++++++++++++++++++++++++
+ hw/display/virtio-gpu.c               | 29 ++---------------
+ 2 files changed, 48 insertions(+), 26 deletions(-)
+ create mode 100644 include/hw/virtio/virtio-gpu-pixman.h
 
-diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/vir=
-tio-gpu-bswap.h
+diff --git a/include/hw/virtio/virtio-gpu-pixman.h b/include/hw/virtio/vi=
+rtio-gpu-pixman.h
 new file mode 100644
-index 0000000000..38d12160f6
+index 0000000000..4dba782758
 --- /dev/null
-+++ b/include/hw/virtio/virtio-gpu-bswap.h
-@@ -0,0 +1,61 @@
++++ b/include/hw/virtio/virtio-gpu-pixman.h
+@@ -0,0 +1,45 @@
 +/*
 + * Virtio GPU Device
 + *
@@ -93,119 +94,102 @@ ter.
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#ifndef HW_VIRTIO_GPU_BSWAP_H
-+#define HW_VIRTIO_GPU_BSWAP_H
++#ifndef HW_VIRTIO_GPU_PIXMAN_H
++#define HW_VIRTIO_GPU_PIXMAN_H
 +
-+#include "qemu/bswap.h"
++#include "ui/qemu-pixman.h"
++#include "standard-headers/linux/virtio_gpu.h"
 +
-+static inline void
-+virtio_gpu_ctrl_hdr_bswap(struct virtio_gpu_ctrl_hdr *hdr)
++static inline pixman_format_code_t
++virtio_gpu_get_pixman_format(uint32_t virtio_gpu_format)
 +{
-+    le32_to_cpus(&hdr->type);
-+    le32_to_cpus(&hdr->flags);
-+    le64_to_cpus(&hdr->fence_id);
-+    le32_to_cpus(&hdr->ctx_id);
-+    le32_to_cpus(&hdr->padding);
-+}
-+
-+static inline void
-+virtio_gpu_bswap_32(void *ptr, size_t size)
-+{
-+#ifdef HOST_WORDS_BIGENDIAN
-+
-+    size_t i;
-+    struct virtio_gpu_ctrl_hdr *hdr =3D (struct virtio_gpu_ctrl_hdr *) p=
-tr;
-+
-+    virtio_gpu_ctrl_hdr_bswap(hdr);
-+
-+    i =3D sizeof(struct virtio_gpu_ctrl_hdr);
-+    while (i < size) {
-+        le32_to_cpus((uint32_t *)(ptr + i));
-+        i =3D i + sizeof(uint32_t);
++    switch (virtio_gpu_format) {
++    case VIRTIO_GPU_FORMAT_B8G8R8X8_UNORM:
++        return PIXMAN_BE_b8g8r8x8;
++    case VIRTIO_GPU_FORMAT_B8G8R8A8_UNORM:
++        return PIXMAN_BE_b8g8r8a8;
++    case VIRTIO_GPU_FORMAT_X8R8G8B8_UNORM:
++        return PIXMAN_BE_x8r8g8b8;
++    case VIRTIO_GPU_FORMAT_A8R8G8B8_UNORM:
++        return PIXMAN_BE_a8r8g8b8;
++    case VIRTIO_GPU_FORMAT_R8G8B8X8_UNORM:
++        return PIXMAN_BE_r8g8b8x8;
++    case VIRTIO_GPU_FORMAT_R8G8B8A8_UNORM:
++        return PIXMAN_BE_r8g8b8a8;
++    case VIRTIO_GPU_FORMAT_X8B8G8R8_UNORM:
++        return PIXMAN_BE_x8b8g8r8;
++    case VIRTIO_GPU_FORMAT_A8B8G8R8_UNORM:
++        return PIXMAN_BE_a8b8g8r8;
++    default:
++        return 0;
 +    }
-+
-+#endif
-+}
-+
-+static inline void
-+virtio_gpu_t2d_bswap(struct virtio_gpu_transfer_to_host_2d *t2d)
-+{
-+    virtio_gpu_ctrl_hdr_bswap(&t2d->hdr);
-+    le32_to_cpus(&t2d->r.x);
-+    le32_to_cpus(&t2d->r.y);
-+    le32_to_cpus(&t2d->r.width);
-+    le32_to_cpus(&t2d->r.height);
-+    le64_to_cpus(&t2d->offset);
-+    le32_to_cpus(&t2d->resource_id);
-+    le32_to_cpus(&t2d->padding);
 +}
 +
 +#endif
 diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 9e37e0ac96..c35025b6fb 100644
+index c35025b6fb..3262f7f1f1 100644
 --- a/hw/display/virtio-gpu.c
 +++ b/hw/display/virtio-gpu.c
-@@ -20,6 +20,7 @@
- #include "sysemu/dma.h"
+@@ -21,6 +21,7 @@
  #include "hw/virtio/virtio.h"
  #include "hw/virtio/virtio-gpu.h"
-+#include "hw/virtio/virtio-gpu-bswap.h"
+ #include "hw/virtio/virtio-gpu-bswap.h"
++#include "hw/virtio/virtio-gpu-pixman.h"
  #include "hw/virtio/virtio-bus.h"
  #include "hw/display/edid.h"
  #include "migration/blocker.h"
-@@ -34,48 +35,6 @@ virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resour=
-ce_id);
- static void virtio_gpu_cleanup_mapping(VirtIOGPU *g,
-                                        struct virtio_gpu_simple_resource=
- *res);
+@@ -298,30 +299,6 @@ void virtio_gpu_get_edid(VirtIOGPU *g,
+     virtio_gpu_ctrl_response(g, cmd, &edid.hdr, sizeof(edid));
+ }
 =20
--static void
--virtio_gpu_ctrl_hdr_bswap(struct virtio_gpu_ctrl_hdr *hdr)
+-static pixman_format_code_t get_pixman_format(uint32_t virtio_gpu_format=
+)
 -{
--    le32_to_cpus(&hdr->type);
--    le32_to_cpus(&hdr->flags);
--    le64_to_cpus(&hdr->fence_id);
--    le32_to_cpus(&hdr->ctx_id);
--    le32_to_cpus(&hdr->padding);
--}
--
--static void virtio_gpu_bswap_32(void *ptr,
--                                size_t size)
--{
--#ifdef HOST_WORDS_BIGENDIAN
--
--    size_t i;
--    struct virtio_gpu_ctrl_hdr *hdr =3D (struct virtio_gpu_ctrl_hdr *) p=
-tr;
--
--    virtio_gpu_ctrl_hdr_bswap(hdr);
--
--    i =3D sizeof(struct virtio_gpu_ctrl_hdr);
--    while (i < size) {
--        le32_to_cpus((uint32_t *)(ptr + i));
--        i =3D i + sizeof(uint32_t);
+-    switch (virtio_gpu_format) {
+-    case VIRTIO_GPU_FORMAT_B8G8R8X8_UNORM:
+-        return PIXMAN_BE_b8g8r8x8;
+-    case VIRTIO_GPU_FORMAT_B8G8R8A8_UNORM:
+-        return PIXMAN_BE_b8g8r8a8;
+-    case VIRTIO_GPU_FORMAT_X8R8G8B8_UNORM:
+-        return PIXMAN_BE_x8r8g8b8;
+-    case VIRTIO_GPU_FORMAT_A8R8G8B8_UNORM:
+-        return PIXMAN_BE_a8r8g8b8;
+-    case VIRTIO_GPU_FORMAT_R8G8B8X8_UNORM:
+-        return PIXMAN_BE_r8g8b8x8;
+-    case VIRTIO_GPU_FORMAT_R8G8B8A8_UNORM:
+-        return PIXMAN_BE_r8g8b8a8;
+-    case VIRTIO_GPU_FORMAT_X8B8G8R8_UNORM:
+-        return PIXMAN_BE_x8b8g8r8;
+-    case VIRTIO_GPU_FORMAT_A8B8G8R8_UNORM:
+-        return PIXMAN_BE_a8b8g8r8;
+-    default:
+-        return 0;
 -    }
--
--#endif
 -}
 -
--static void
--virtio_gpu_t2d_bswap(struct virtio_gpu_transfer_to_host_2d *t2d)
--{
--    virtio_gpu_ctrl_hdr_bswap(&t2d->hdr);
--    le32_to_cpus(&t2d->r.x);
--    le32_to_cpus(&t2d->r.y);
--    le32_to_cpus(&t2d->r.width);
--    le32_to_cpus(&t2d->r.height);
--    le64_to_cpus(&t2d->offset);
--    le32_to_cpus(&t2d->resource_id);
--    le32_to_cpus(&t2d->padding);
--}
--
- #ifdef CONFIG_VIRGL
- #include <virglrenderer.h>
- #define VIRGL(_g, _virgl, _simple, ...)                     \
+ static uint32_t calc_image_hostmem(pixman_format_code_t pformat,
+                                    uint32_t width, uint32_t height)
+ {
+@@ -368,7 +345,7 @@ static void virtio_gpu_resource_create_2d(VirtIOGPU *=
+g,
+     res->format =3D c2d.format;
+     res->resource_id =3D c2d.resource_id;
+=20
+-    pformat =3D get_pixman_format(c2d.format);
++    pformat =3D virtio_gpu_get_pixman_format(c2d.format);
+     if (!pformat) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: host couldn't handle guest format %d\n",
+@@ -1142,7 +1119,7 @@ static int virtio_gpu_load(QEMUFile *f, void *opaqu=
+e, size_t size,
+         res->iov_cnt =3D qemu_get_be32(f);
+=20
+         /* allocate */
+-        pformat =3D get_pixman_format(res->format);
++        pformat =3D virtio_gpu_get_pixman_format(res->format);
+         if (!pformat) {
+             g_free(res);
+             return -EINVAL;
 --=20
 2.22.0.rc1.1.g079e7d2849.dirty
 
