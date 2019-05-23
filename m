@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2AA27B46
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 13:02:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33726 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B8A27B3F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:59:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33645 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTlUw-00039m-Oi
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 07:02:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52695)
+	id 1hTlRM-000074-GT
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:59:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53745)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTl4y-0006Jd-1P
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:36:09 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hTl97-0001R9-AA
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:40:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTl4w-000126-RV
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:36:07 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54756)
+	(envelope-from <stefanha@gmail.com>) id 1hTl95-00051W-EG
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:40:25 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53091)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTl4w-00011S-LU
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:36:06 -0400
-Received: by mail-wm1-x343.google.com with SMTP id i3so5245523wml.4
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=zL6w8kXp6CZK4DR5DaL+n84SbS1inv0bUdqMtGAXryE=;
-	b=HrGH2D2uLMOLB3KiZ7W+DllrHNJxw3Jwr/aqH40AMlCTTa0gcaM6BhVtPKpssD5W4X
-	y9NGpfVP+yqYLQuW2L64jDvRYadaUDLI4gZq8/zeSaYvjzlr1k0b1AqvVO2MnsBZKBMt
-	549eXazNmJPO48ofuZJy7TSJ+Qbj/mt0wnlkoAv2ph9RwjCV0FoLwxC+kg+j+OGT9VJW
-	w7hOASsN9udvxVn57OIjS52oMmsdYiwsSJIdfCSRq1CeuyMkggeOZvWVdqokcYP/XJZm
-	QDkzhOkvsnymIpFevpX9/ifAN6U3VZxq5zvn2Fk25+G9ixSxhgoGoFYLiouGos1oUEMq
-	eiYA==
+	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hTl94-0004zf-I6
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:40:23 -0400
+Received: by mail-wm1-x343.google.com with SMTP id y3so5291284wmm.2
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=4NgpGr+K1WSXDeX/ZhMAwDwmp4J2cR4y6usBMWAJEps=;
+	b=XgDGhGZUYaSQQ/fqDUP/ffY55UJCXaZloYByrXSPRIVGO6o17Nvd1ktCbQQWnMO7mh
+	DXA/K+afR9Aiqomy34wnOY7p4u7h39ktam03aDwg4KF3H30memQ4RNdXWgQVNJuJI5ck
+	61gEv9mpcEuZsfIkI16KsHIbznyd4XIplqT7lmV5QKt6/TQ+UzwKcqFakiCOZuxHQjaL
+	+LIrmxCk1c0RjKFXOD8OnbOziq13IZezUZo758SI/5hmHJYr0WYlPWMbb94MbtvOJ6je
+	LHFWFFYXhLb3s4qJl5LlDJYHtBXjDTQwO2lZ6+BKCgQPd+twhpltlQCAJCPUQcOS3rPy
+	Kz/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=zL6w8kXp6CZK4DR5DaL+n84SbS1inv0bUdqMtGAXryE=;
-	b=K9gwXyPPFDE1kDxs9Aea40nujPivVLSYre/Pw3GBJyRa+JjW66nMmzhtGq97EWFxrE
-	ADJGXKAlgNpKRFbE+5ZBWdJW0sgP1oFNgmsjT6dAUaDYeL6E3vKWHLIcC5q3DOevoQni
-	xKpiwcdVhbqLeVXg86QBOzwocVViuFWbaOgeMJ5RnyrnblZpoKnm4dreQ8TPaCgsRhch
-	1icYf9qn7M+0Q5D/XEM7GMfpH4INONqCCbkgZy3g8IB4DXCJWwjEmE4z0vz0bvFjq146
-	M2Vh1spZcqISGzvbvWwtk2uXnxgrSCkk8hvWjUY4f23zlCO0qN+4N6P5v4XP4gAAq0X8
-	LUSA==
-X-Gm-Message-State: APjAAAWWQ8A5wkWCkaEDIgio/2oFuopfdBmBLLaGLYAGFLoJOylRw+Mc
-	44yKASwz43lgFTtsKOLSlvKrWUnsC4E=
-X-Google-Smtp-Source: APXvYqxHfg0p2sBi7wEOZyduo/lagwmkcUlnEQA4AIBAOrppZEQ66i9Wz6Oc/vGFe1nrr3kGaTlzXQ==
-X-Received: by 2002:a05:600c:551:: with SMTP id
-	k17mr11018322wmc.35.1558607764492; 
-	Thu, 23 May 2019 03:36:04 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	j206sm13393955wma.47.2019.05.23.03.36.03
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=4NgpGr+K1WSXDeX/ZhMAwDwmp4J2cR4y6usBMWAJEps=;
+	b=pZERDaE2jeIGL3BgTXF4nI5TXY9/K4POTbEspR4JnKIHIvxgBVXV3RZB870qBkIziW
+	IHCjXHOvmSDDd8jyCZbwM8DXbWuV30PvqxLiumWvw47w+2ZR3IluDRqk6e0gQqZoFpTU
+	cw5XmoeGWqlH0pRbbnu26apA7Ur4RVvEh3xl/Dkg3vQaiF446P1dgYAsgo1iDwXodk0c
+	aDmdk59NU7lf1xvSPKT5Lhz1Y/2sySLQ5B2MKrrQuyTFSigt08DyeR1ThqHhxoS57D8o
+	2CTBHsXQskkdInWU54HHeubxlNuZK1RUB9qcjG22PsfW7wzz7twjbP8ErHUvF5E4Fv5h
+	qxwQ==
+X-Gm-Message-State: APjAAAWN6dxaKKa7adiUCB88dDBk+3g7NjVik61hqIye7ZW3Z2FFTgEF
+	fvhf7fu9045PnuX+wd6XW4Y=
+X-Google-Smtp-Source: APXvYqwhY81bwe1pg5cwsncpLthFXqD/D04xhUNyUOZoQK2OhskSP2SKnJyRobxaq+MUykJSZujPAg==
+X-Received: by 2002:a1c:ba87:: with SMTP id
+	k129mr11355624wmf.132.1558608020123; 
+	Thu, 23 May 2019 03:40:20 -0700 (PDT)
+Received: from localhost ([51.15.41.238]) by smtp.gmail.com with ESMTPSA id
+	j28sm54215461wrd.64.2019.05.23.03.40.18
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 May 2019 03:36:03 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 3FC841FF87;
-	Thu, 23 May 2019 11:36:03 +0100 (BST)
-References: <20190521095948.8204-1-arilou@gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jon Doron <arilou@gmail.com>
-In-reply-to: <20190521095948.8204-1-arilou@gmail.com>
-Date: Thu, 23 May 2019 11:36:03 +0100
-Message-ID: <87lfyx1mr0.fsf@zen.linaroharston>
+	Thu, 23 May 2019 03:40:19 -0700 (PDT)
+Date: Thu, 23 May 2019 11:40:18 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Jag Raman <jag.raman@oracle.com>
+Message-ID: <20190523104018.GE26632@stefanha-x1.localdomain>
+References: <20190307145120.GF32268@redhat.com>
+	<20190307192727.GG2915@stefanha-x1.localdomain>
+	<BDEBF2EE-DE0F-46CF-B60E-536B3DA9BF77@oracle.com>
+	<20190308095036.GC12318@stefanha-x1.localdomain>
+	<20190326080822.GC21018@stefanha-x1.localdomain>
+	<e5395abf-6b41-46c8-f5af-3210077dfdd5@oracle.com>
+	<CAAdtpL4ztcpf-CTx0fc5T_+VQ+8upHa2pEMoiZPcmBXOO6L3Og@mail.gmail.com>
+	<c945c950-f6f1-7e2a-a6c4-399c9b728288@oracle.com>
+	<20190425154421.GG17806@stefanha-x1.localdomain>
+	<fe4b0b42-523d-5877-173c-3e878abd4e32@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3XA6nns4nE4KvaS/"
+Content-Disposition: inline
+In-Reply-To: <fe4b0b42-523d-5877-173c-3e878abd4e32@oracle.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v10 00/20] gdbstub: Refactor command
- packets handler
+Subject: Re: [Qemu-devel] [multiprocess RFC PATCH 36/37] multi-process: add
+ the concept description to docs/devel/qemu-multiprocess
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,94 +89,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+	John G Johnson <john.g.johnson@oracle.com>,
+	sstabellini@kernel.org, konrad.wilk@oracle.com,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+	qemu-devel@nongnu.org, ross.lagerwall@citrix.com,
+	liran.alon@oracle.com, Stefan Hajnoczi <stefanha@redhat.com>,
+	kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Jon Doron <arilou@gmail.com> writes:
+--3XA6nns4nE4KvaS/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This patch series refactors the old gdbstub command packets handler
-> with a new infrastructure which should ease extending and adding new
-> and missing gdb command packets.
->
-> version 10 changes:
-> - Remove kvm added API as this is not really required and can be
->   accomplished by defining a coprocessor callback with a system
->   specific xml (see: 200bf5b7ffea635079cc05fdfb363372b9544ce7)
-> - Remove the new QEMU extended commands to read KVM MSRs
-> - Various fixes from Code Review by Alex Bennee
-> - Change the QEMU specific command to read physical memory to non-User
-> QEMU
+On Tue, May 07, 2019 at 03:00:52PM -0400, Jag Raman wrote:
+> Hi Stefan,
+>=20
+> Thank you very much for your feedback. Following is a summary of the
+> discussions our team had regarding your feedback.
+>=20
+> On 4/25/2019 11:44 AM, Stefan Hajnoczi wrote:
+> >=20
+> > Can multiple LSI SCSI controllers be launched such that each process
+> > only has access to a subset of disk images?  Or is the disk image label
+> > per-VM so that there is no isolation between LSI SCSI controller
+> > processes for that VM?
+>=20
+> Yes, it is possible to provide each process with access to a subset of
+> disk images. The Orchestrator (libvirt, etc.) assigns a set of MCS
+> Categories to each VM, then device instances can be isolated by being
+> assigned a subset of the VM=E2=80=99s Categories.
+>=20
+> >=20
+> > My concern with this overall approach is the practicality vs its
+> > benefits.  Regarding practicality, each emulated device needs to be
+> > proxied separately.  The QEMU subsystem used by the device also needs to
+> > be proxied.  Global state, monitor commands, and live migration all
+> > require code changes to support proxied operation.  This is very
+> > invasive.
+> >=20
+> > Then each emulated device needs an SELinux policy to achieve the
+> > benefits of confinement.  I have no idea how to correctly write a policy
+> > like this and it's likely that developers who contribute a single new
+> > device will not be proficient in it either.  Writing these policies is a
+> > rare thing and few people will be good at this.  It also makes me worry
+> > about how we test and review them.
+>=20
+> We also think that having an SELinux policy per device would become
+> complicated. Our proposal, therefore, is to define SELinux policies for
+> each device class - viz. disk, network, console, graphics, etc.
+> "fedora-selinux" upstream repo. [1] will contain these policies, so the
+> device developer doesn't have to worry about defining new policies for
+> each device. This proposal would diminish the complexity of SELinux
+> policies.
 
-You don't seem to have applied an of my Reviewed-by: tags from previous
-iterations. It is mentioned in:
+Have you considered using Linux namespaces?  I'm beginning to think that
+SELinux becomes less relevant with pid and mount namespaces to isolate
+processes.  The advantage of namespaces is that they are easy to
+understand and can be expressed in code instead of a policy file in a
+separate package.  This is the approach we're taking with virtiofsd
+(vhost-user device backend for virtio-fs).
 
-  https://wiki.qemu.org/Contribute/SubmitAPatch#Proper_use_of_Reviewed-by:_=
-tags_can_aid_review
+> >=20
+> > Despite the efforts required in making this work, all processes still
+> > effectively have full access to the guest since they can access guest
+> > RAM.  What I mean is that the device is actually not confined to its
+> > host process (e.g. LSI SCSI controller process) because it can write
+> > code to executable guest RAM pages.  The guest will then execute that
+> > code and therefore all guest I/O (networking, disk, etc) is still
+> > available indirectly to the "confined" processes.  They are not really
+> > sandboxed from the outside world, regardless of how strict the SELinux
+> > policy is :(.
+> >=20
+> > There are performance issues due to proxying as well, but let's ignore
+> > them for now and focus on security.
+>=20
+> We are also focusing on performance. Please take a look at the following
+> blog for an initial report on performance. The results are for an iSCSI
+> backend in Oracle Cloud. We are working on collecting data on a much
+> heavier IOPS workload like an NVMe backend.
+>=20
+> https://blogs.oracle.com/linux/towards-a-more-secure-qemu-hypervisor%2c-p=
+art-3-of-3-v2
 
-but admittedly it's a bit buried in a wall of text. Hopefully the
-process diagram makes it clearer:
+Hard to reach a conclusion without also looking at CPU utilization.
+IOPS alone don't tell the story.
 
-  https://wiki.qemu.org/Contribute/DevelopmentProcess
+If the system had spare CPU cycles then the performance results between
+built-in LSI and separate LSI will be similar but the efficiency
+(IOPS/CPU%) has actually decreased due to the extra CPU cycles required
+to forward the hardware register access to the device emulation process.
 
-It's also worth including a list of which patches remain un-reviewed in
-your summary cover text. This helps reviewers skip patches that don't
-need attention which is important as there are always too many patches
-and not enough time...
+If you rerun on a system without spare CPU cycles then IOPS degradation
+would become apparent.  I'm not saying this is necessarily the case,
+maybe the overhead is really doesn't have a significant effect, but the
+graph shown in the blog post isn't enough to draw a conclusion either
+way.
 
-Could you please re-spin v11 with tags applied to the relevant patches?
+Regarding the proposed QEMU bypass, these already exist in some form via
+kvm.ko's ioeventfd and coalesced MMIO features.
 
->
-> version 9 changes:
-> - checkpatch fixes
->
-> version 8 changes:
-> - Add new command to display the Supported qemu generic query/sets
-> - kvm: Add API to read/write a MSR
-> - Add new commands specific for qemu:
->   * Command to swap the memory GDB sees to be the physical memory
->   * Commands to read and write a MSR
->
-> version 7 changes:
-> - Fixed few checkpatch complaints
-> - Feedback from Alex Bennee
->
-> version 4-6 changes:
-> - mostly feedback from Richard Henderson
->
-> version 3 changes
-> - Split the single patch to many individual patches for easier reviewing
->
-> version 2 changes
-> - Code convention fixes
->
-> Jon Doron (20):
->   gdbstub: Add infrastructure to parse cmd packets
->   gdbstub: Implement deatch (D pkt) with new infra
->   gdbstub: Implement thread_alive (T pkt) with new infra
->   gdbstub: Implement continue (c pkt) with new infra
->   gdbstub: Implement continue with signal (C pkt) with new infra
->   gdbstub: Implement set_thread (H pkt) with new infra
->   gdbstub: Implement breakpoint commands (Z/z pkt) with new infra
->   gdbstub: Implement set register (P pkt) with new infra
->   gdbstub: Implement get register (p pkt) with new infra
->   gdbstub: Implement write memory (M pkt) with new infra
->   gdbstub: Implement read memory (m pkt) with new infra
->   gdbstub: Implement write all registers (G pkt) with new infra
->   gdbstub: Implement read all registers (g pkt) with new infra
->   gdbstub: Implement file io (F pkt) with new infra
->   gdbstub: Implement step (s pkt) with new infra
->   gdbstub: Implement v commands with new infra
->   gdbstub: Implement generic set/query (Q/q pkt) with new infra
->   gdbstub: Implement target halted (? pkt) with new infra
->   gdbstub: Clear unused variables in gdb_handle_packet
->   gdbstub: Implement qemu physical memory mode
->
->  gdbstub.c | 1753 ++++++++++++++++++++++++++++++++++++++---------------
->  1 file changed, 1262 insertions(+), 491 deletions(-)
+Today ioeventfd is only used for performance-critical hardware
+registers, so kvm.ko doesn't use a sophisticated dispatch mechanism.  If
+you want to use it for all hardware register accesses handled by a
+separate process then ioeventfd probably needs to be tweaked somewhat to
+make it more scalable for that case.
 
+Coalesced MMIO is also cool.  kvm.ko can accumulate guest MMIO writes in
+a buffer that is only collected at a later point in time.  This improves
+performance for devices that require multiple hardware register writes
+to kick off an I/O operation (only the last one really needs to be
+trapped by the device emulation code!).  This sounds similar to an MMIO
+access shared ring buffer.
 
---
-Alex Benn=C3=A9e
+> >=20
+> > How do the benefits compare against today's monolithic approach?  If the
+> > guest exploits monolithic QEMU it has full access to all host files and
+> > APIs available to QEMU.  However, these are largely just the resources
+> > that belong to the guest anyway - not resources we are trying to keep
+> > away from the guest.  With multi-process QEMU each process still has
+> > access to all guest interfaces via the code injection I mentioned above,
+> > but the SELinux policy could restrict access to some resources.  But
+> > this benefit is really small in my opinion, given that the resources
+> > belong to the guest anyway and the guest can already access them.
+>=20
+> The primary focus of our project is to defend the host from malicious
+> guest. The code injection problem you outlined above involves part of
+> the guest attacking itself, but not the host. Therefore, this wouldn't
+> compromise our objective.
+>=20
+> Like you know, there are some parts of QEMU which are not directly
+> accessible from the guest (via drivers, etc.), which we prefer to call
+> the control plane. It executes ioctls to the host kernel and has access
+> to a broader set of syscalls, which the device emulation code doesn=E2=80=
+=99t
+> need. We want to protect the control plane from emulated devices. In the
+> case where a device injects code into the RAM to attack another device
+> on the same VM, the control plane would still be protected.
+
+Are you aware of any cases where the syscall attack surface led to an
+exploitable bug in QEMU?  Any proof-of-concept exploit code or a CVE?
+
+> Another benefit with the project would be regarding detecting and
+> reporting failures in the emulated devices. For instance, in cases like
+> CVE-2018-18849, where an emulated device hangs/crashes, it wouldn't
+> directly crash the QEMU process as well. QEMU could detect the failure,
+> log the problem and exit, instead of generating coredump/hang.
+
+Debugging is a lot easier with a coredump though :).  I would rather
+have a coredump than a nice message that says "LSI died".
+
+> >=20
+> > I think you can implement this for a handful of devices as a one-time
+> > thing, but the invasiveness and the impracticality of getting wide cover
+> > of QEMU make this approach questionable.
+> >=20
+> > Am I mistaken about the invasiveness or impracticality?
+>=20
+> We are not planning to implement this for all devices since it would be
+> impractical. But the project adds a framework for implementing more
+> devices in the future.
+>=20
+> One other thing we would like to bring your attention to is that the
+> project doesn't affect the current usage. The same devices could still
+> be used as part of monolithic QEMU if the user chooses to do so.
+
+I don't follow, to me this proposal seems extremely invasive and
+requires awareness from all developers.
+
+QEMU contains global state (like net/net.c:net_clients or
+block.c:all_bdrv_states) and QMP commands that access global state.  All
+of this needs to be carefully proxied to avoid losing functionality as
+fundamental as the QMP monitor.
+
+This is what worries me about this project.  There are amazing niche
+features like record/replay that have been integrated into QEMU without
+requiring all developers to be aware of how they work.  If you can
+achieve this then I would have no reservations.
+
+Right now I don't see that this will be possible and that's why I'm
+challenging you to justify that the reduction in system call attack
+surface is actually worth the invasive changes required.
+
+Do you see a way to solve the issues I've mentioned?
+
+Stefan
+
+--3XA6nns4nE4KvaS/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzmeJEACgkQnKSrs4Gr
+c8huLQf/RjAUDtG6hIRSiORcI/dG3f19zkZi0xxWBIz4vy/PG4qQj6pEAsE1KzNV
+ucmErb8Uh5WnCzMH0hq/PV8/nQacPYmTzSvFdMi+PpqrdfDV0ACjoL/VRX5o6Hj4
+2Dorz8iwTJj4nQAGi9uvdQFdlHN6gcjbBrO8Bs3yostKb2lXICf6cfN5wdQQsNGC
+iJ9pyQrfYUpwi+r9+2zYVfTIf40h/iqUaw6ve6OahuNHqBOqPIcmY8DXGHT1WyvH
+xT7GGj9xuSl7phciAIwNgOfvrCUJ8Oc/GJDyCrb3TIrxubr2CqyNRDCqahLitHDz
+eDTzKDfMWracZDMocnTjgZwD0/i94w==
+=JvpG
+-----END PGP SIGNATURE-----
+
+--3XA6nns4nE4KvaS/--
 
