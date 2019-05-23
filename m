@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7760B27FAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:29:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37489 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258C427F87
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:26:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37450 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hToiR-0006Ij-Hn
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:29:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53664)
+	id 1hTofm-0003mk-8a
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:26:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53675)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodX-0002WR-8O
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodX-0002Wa-FT
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hTodV-0006oW-Ey
+	(envelope-from <peter.maydell@linaro.org>) id 1hTodW-0006pa-06
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:03 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37628)
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39954)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hTodV-0006n5-6Y
+	id 1hTodV-0006nx-Nv
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:24:01 -0400
-Received: by mail-wr1-x443.google.com with SMTP id e15so6529735wrs.4
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:00 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id 15so5995176wmg.5
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 07:24:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=b12/iNlG/d9Vy90ENIOMpb6JzBZwigdlIPVxxnXJAUI=;
-	b=PFr3caxlrCC/uFVgqDXfJo2apmobepS4V9bx6XvdB/LHnzhfjr4FesnjAemdkitAlD
-	MqTT64zv5SXB7hwAqHRROY6HqFsVdKExqPk+ZmZi43zvGCbzaNB3v9bDkg0tQDYxZnsa
-	HmdLzf37MUmkTgpjMhSr+o7iXX/85WZhx9w8WQm/7TuE39wYpmluvt7h8Yiv32rzppn2
-	BVNgiyG2zZhrhhBMrJiapVwDfkGSeGOHLF2ehqd1YXua7B8hsA/CI87ha6AFIK+SZYrH
-	iv+GZT38VDXlHknHr3xHUYI7ng4KI7g+U4iln3JakrnBIH7HuUgPhDNQyqKw/hbbpZgx
-	P/aQ==
+	bh=GWOxRv/DyhNDr3+OGIc40iczzclis5p5MGykNCNdjFE=;
+	b=qx+qNk6RGzpErVHtUr7Vd0Dfz4OXlfxBnhsB9e8rjKMNJ6FDbdxmsi7yN6PUKrI/hG
+	WwUFZBO1QvxO017dSA/L4D88EW1sYBtfedsKuJa53kwIJiK4szRVVrwC9eSTEwJUf8rz
+	nTA1skNHpZSAKWRcKTkVg5CTuZwb5RlvY1v4oDiDzz78pNGhV1ARPc7qPgxKKudPfbUd
+	/f6cw6cr/i7pqn15RpJOwks+tN3C60DVllz3PqBaTwQxsiI/VzpjZ+x1cXAW7/W2b+zc
+	KXWrR7fhGgdvqxg9SuhvA8AJoH/CWTTOIPOtpoMg7r3J1U2x3dG7JQFne4ugHdgSUzGH
+	9X0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=b12/iNlG/d9Vy90ENIOMpb6JzBZwigdlIPVxxnXJAUI=;
-	b=DS4N/u9sa3gFyRYj0KsUKxo3TJq5NAt0eNmCaQmcquTSNTG14X3GNKFZF4Cvwmj7lK
-	oya+aG0RZ3ejZfFOykqVfZo3ftkJ9hjffCEFwGLYQ5Afy41biUPSR6xqm52RclUnbYk7
-	AqSsZWimYLr64C1kNfbFk0SDN33gR2TOkpGp7wHZ7KOxVFcKy1BSgacPxAKBX57fQgzG
-	ZY4msu+fzPNLwMxeOLewexR7axGIEFa+/gdhEcu/XjhmLeNzE8ZI7f1LL7EbFFlg9pA5
-	bZK3Mt1L7/BGScWHIVDTcq126TstvGw3PyCU0mtKf0FJLXG3tkORYY7E/71j1gW0IH+u
-	icsQ==
-X-Gm-Message-State: APjAAAVHlOZaOpuxF5CBOJmgGelHpTHUsGFF5vdCKB2+baEcyfqks9b8
-	GG98P4f+kzvW4Vh3B/nl5fWgZ/4U8pY17A==
-X-Google-Smtp-Source: APXvYqzrIbmCEgr4GaHg66UM2GekvvaZJkPB/ryQlS55tPAwyuy7Va5A4gikHpH+ECifL/b2FOPxxg==
-X-Received: by 2002:adf:9023:: with SMTP id h32mr46918500wrh.95.1558621439521; 
-	Thu, 23 May 2019 07:23:59 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=GWOxRv/DyhNDr3+OGIc40iczzclis5p5MGykNCNdjFE=;
+	b=DkD8HzYgL2szmdE1D74MP5XRC2wbmpbo1pGfZqkNf4/JUcj9NV9E+GkE9K8SC7Q99s
+	DFAiRXtC5wqYh+0ARf/TpsxQ2ZNOW1ojEsVwQ+u3nto8NG0+TblQZRMPTy/OvMU7nS07
+	PVcHQeA8bO8gmmnkO8RO9tHUk43lDcmJqjyD6/WwhwsRReBBvGYHvCzyfJPKG2/GnPqN
+	vOBhD5ztiikWh2Nw2tnEV3sLj6tGTXH0zTf43iMXF+i53LisKf9JuQR+fnhn5ISUb++n
+	9imA6r539Bj74Rwz4EKu00F/FlMDsdJU+VeEtpKfCd2qSsmzdQ83qkKQF/xnlpK5u0si
+	dTAw==
+X-Gm-Message-State: APjAAAX8wrJ90QxgMRxguh3ygH+JP+M+Hfhs2DjTX+24ow35fQbLQrW4
+	ZBKR3h8qfcLaXGkOMVMoJzwPQYGnOh+YYA==
+X-Google-Smtp-Source: APXvYqz/qnKaXRuT1on7Lusm+rHPYibtltF1L9ACIHdBh7JBpXsvZUCB7ylQC+LScyd8k68QAJs5zg==
+X-Received: by 2002:a1c:c7c8:: with SMTP id
+	x191mr11056686wmf.126.1558621440436; 
+	Thu, 23 May 2019 07:24:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.23.58
+	by smtp.gmail.com with ESMTPSA id z5sm9700617wmi.34.2019.05.23.07.23.59
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 07:23:58 -0700 (PDT)
+	Thu, 23 May 2019 07:23:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 15:23:45 +0100
-Message-Id: <20190523142357.5175-1-peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 15:23:46 +0100
+Message-Id: <20190523142357.5175-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190523142357.5175-1-peter.maydell@linaro.org>
+References: <20190523142357.5175-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PULL 00/12] target-arm queue
+X-Received-From: 2a00:1450:4864:20::330
+Subject: [Qemu-devel] [PULL 01/12] target/arm: Use extract2 for EXTR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,118 +82,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not very much here, but several people have fallen over
-the vector operation segfault bug, so let's get the fix
-into master.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+This is, after all, how we implement extract2 in tcg/aarch64.
 
-The following changes since commit d418238dca7b4e0b124135827ead3076233052b1:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20190514011129.11330-2-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/translate-a64.c | 38 ++++++++++++++++++++------------------
+ 1 file changed, 20 insertions(+), 18 deletions(-)
 
-  Merge remote-tracking branch 'remotes/rth/tags/pull-rng-20190522' into staging (2019-05-23 12:57:17 +0100)
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index b7c5a928b4a..2b135b938ce 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -4114,25 +4114,27 @@ static void disas_extract(DisasContext *s, uint32_t insn)
+             } else {
+                 tcg_gen_ext32u_i64(tcg_rd, cpu_reg(s, rm));
+             }
+-        } else if (rm == rn) { /* ROR */
+-            tcg_rm = cpu_reg(s, rm);
+-            if (sf) {
+-                tcg_gen_rotri_i64(tcg_rd, tcg_rm, imm);
+-            } else {
+-                TCGv_i32 tmp = tcg_temp_new_i32();
+-                tcg_gen_extrl_i64_i32(tmp, tcg_rm);
+-                tcg_gen_rotri_i32(tmp, tmp, imm);
+-                tcg_gen_extu_i32_i64(tcg_rd, tmp);
+-                tcg_temp_free_i32(tmp);
+-            }
+         } else {
+-            tcg_rm = read_cpu_reg(s, rm, sf);
+-            tcg_rn = read_cpu_reg(s, rn, sf);
+-            tcg_gen_shri_i64(tcg_rm, tcg_rm, imm);
+-            tcg_gen_shli_i64(tcg_rn, tcg_rn, bitsize - imm);
+-            tcg_gen_or_i64(tcg_rd, tcg_rm, tcg_rn);
+-            if (!sf) {
+-                tcg_gen_ext32u_i64(tcg_rd, tcg_rd);
++            tcg_rm = cpu_reg(s, rm);
++            tcg_rn = cpu_reg(s, rn);
++
++            if (sf) {
++                /* Specialization to ROR happens in EXTRACT2.  */
++                tcg_gen_extract2_i64(tcg_rd, tcg_rm, tcg_rn, imm);
++            } else {
++                TCGv_i32 t0 = tcg_temp_new_i32();
++
++                tcg_gen_extrl_i64_i32(t0, tcg_rm);
++                if (rm == rn) {
++                    tcg_gen_rotri_i32(t0, t0, imm);
++                } else {
++                    TCGv_i32 t1 = tcg_temp_new_i32();
++                    tcg_gen_extrl_i64_i32(t1, tcg_rn);
++                    tcg_gen_extract2_i32(t0, t0, t1, imm);
++                    tcg_temp_free_i32(t1);
++                }
++                tcg_gen_extu_i32_i64(tcg_rd, t0);
++                tcg_temp_free_i32(t0);
+             }
+         }
+     }
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190523
-
-for you to fetch changes up to 98e4f4fdb8ea05d840f51f47125924c2bb9df2df:
-
-  hw/arm/exynos4210: QOM'ify the Exynos4210 SoC (2019-05-23 14:47:44 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * exynos4210: QOM'ify the Exynos4210 SoC
- * exynos4210: Add DMA support for the Exynos4210
- * arm_gicv3: Fix writes to ICC_CTLR_EL3
- * arm_gicv3: Fix write of ICH_VMCR_EL2.{VBPR0, VBPR1}
- * target/arm: Fix vector operation segfault
- * target/arm: Minor improvements to BFXIL, EXTR
-
-----------------------------------------------------------------
-Alistair Francis (1):
-      target/arm: Fix vector operation segfault
-
-Guenter Roeck (1):
-      hw/arm/exynos4210: Add DMA support for the Exynos4210
-
-Peter Maydell (5):
-      arm: Move system_clock_scale to armv7m_systick.h
-      arm: Remove unnecessary includes of hw/arm/arm.h
-      arm: Rename hw/arm/arm.h to hw/arm/boot.h
-      hw/intc/arm_gicv3: Fix write of ICH_VMCR_EL2.{VBPR0, VBPR1}
-      hw/intc/arm_gicv3: Fix writes to ICC_CTLR_EL3
-
-Philippe Mathieu-Daudé (3):
-      hw/arm/exynos4: Remove unuseful debug code
-      hw/arm/exynos4: Use the IEC binary prefix definitions
-      hw/arm/exynos4210: QOM'ify the Exynos4210 SoC
-
-Richard Henderson (2):
-      target/arm: Use extract2 for EXTR
-      target/arm: Simplify BFXIL expansion
-
- include/hw/arm/allwinner-a10.h    |  2 +-
- include/hw/arm/aspeed_soc.h       |  1 -
- include/hw/arm/bcm2836.h          |  1 -
- include/hw/arm/{arm.h => boot.h}  | 12 +++------
- include/hw/arm/exynos4210.h       |  9 +++++--
- include/hw/arm/fsl-imx25.h        |  2 +-
- include/hw/arm/fsl-imx31.h        |  2 +-
- include/hw/arm/fsl-imx6.h         |  2 +-
- include/hw/arm/fsl-imx6ul.h       |  2 +-
- include/hw/arm/fsl-imx7.h         |  2 +-
- include/hw/arm/virt.h             |  2 +-
- include/hw/arm/xlnx-versal.h      |  2 +-
- include/hw/arm/xlnx-zynqmp.h      |  2 +-
- include/hw/timer/armv7m_systick.h | 22 ++++++++++++++++
- hw/arm/armsse.c                   |  2 +-
- hw/arm/armv7m.c                   |  2 +-
- hw/arm/aspeed.c                   |  2 +-
- hw/arm/boot.c                     |  2 +-
- hw/arm/collie.c                   |  2 +-
- hw/arm/exynos4210.c               | 54 ++++++++++++++++++++++++++++++++++++---
- hw/arm/exynos4_boards.c           | 40 ++++++++---------------------
- hw/arm/highbank.c                 |  2 +-
- hw/arm/integratorcp.c             |  2 +-
- hw/arm/mainstone.c                |  2 +-
- hw/arm/microbit.c                 |  2 +-
- hw/arm/mps2-tz.c                  |  2 +-
- hw/arm/mps2.c                     |  2 +-
- hw/arm/msf2-soc.c                 |  1 -
- hw/arm/msf2-som.c                 |  2 +-
- hw/arm/musca.c                    |  2 +-
- hw/arm/musicpal.c                 |  2 +-
- hw/arm/netduino2.c                |  2 +-
- hw/arm/nrf51_soc.c                |  2 +-
- hw/arm/nseries.c                  |  2 +-
- hw/arm/omap1.c                    |  2 +-
- hw/arm/omap2.c                    |  2 +-
- hw/arm/omap_sx1.c                 |  2 +-
- hw/arm/palm.c                     |  2 +-
- hw/arm/raspi.c                    |  2 +-
- hw/arm/realview.c                 |  2 +-
- hw/arm/spitz.c                    |  2 +-
- hw/arm/stellaris.c                |  2 +-
- hw/arm/stm32f205_soc.c            |  2 +-
- hw/arm/strongarm.c                |  2 +-
- hw/arm/tosa.c                     |  2 +-
- hw/arm/versatilepb.c              |  2 +-
- hw/arm/vexpress.c                 |  2 +-
- hw/arm/virt.c                     |  2 +-
- hw/arm/xilinx_zynq.c              |  2 +-
- hw/arm/xlnx-versal.c              |  2 +-
- hw/arm/z2.c                       |  2 +-
- hw/intc/arm_gicv3_cpuif.c         |  6 ++---
- hw/intc/armv7m_nvic.c             |  1 -
- target/arm/arm-semi.c             |  1 -
- target/arm/cpu.c                  |  1 -
- target/arm/cpu64.c                |  1 -
- target/arm/kvm.c                  |  1 -
- target/arm/kvm32.c                |  1 -
- target/arm/kvm64.c                |  1 -
- target/arm/translate-a64.c        | 44 ++++++++++++++++---------------
- target/arm/translate.c            |  4 +--
- 61 files changed, 164 insertions(+), 123 deletions(-)
- rename include/hw/arm/{arm.h => boot.h} (96%)
 
