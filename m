@@ -2,60 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6112838F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:28:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40355 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACBF283E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 18:37:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40493 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTqZb-0000Ti-KK
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:28:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39515)
+	id 1hTqj3-0005le-TQ
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 12:37:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41606)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hTqXN-0007gp-Vs
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:25:51 -0400
+	(envelope-from <armbru@redhat.com>) id 1hTqet-0002p5-50
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:33:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hTqXM-0002TO-LE
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:25:49 -0400
-Received: from mail-yb1-f195.google.com ([209.85.219.195]:34347)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hTqXM-0002Ss-29
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:25:48 -0400
-Received: by mail-yb1-f195.google.com with SMTP id v78so2504323ybv.1
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 09:25:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=8jc8gC1FsjETx+Zw1+/DIZ7IwnaG09oHp+wbeAXPGvc=;
-	b=e9rq3pRSNODZzOHaxF54PfDJwIgyrEzTY0RjYlFRXzjVtJcMCXIdCMT2pnuFUUVCqo
-	mw6wn+pILvHMNdQSnU5eN/M9LKQKN0HwEJVDTdg8BfCq4foUqg1P7O/mfLKbH/BW22OI
-	W4K4lMx3CfCjQBVrJz860udFbyQ8yRIl6aMaQoh3wKyeCnQ6SHxZRmWp8s7wumV6Sz7u
-	ObjPJyVWzruCNuZwePvmedxpCoYk4iDGE86kcLWwE+oWAFfkJCZnhkTfry7PllGOai91
-	0DmsJn9PCVgm3/Jq/UD4UVscaxlV55BJMOLNoGhjZCU3OSic2blP5WTNoHdYBsvasjld
-	nfrg==
-X-Gm-Message-State: APjAAAVJLOOv/Ly4Gm2bgFZvL95a1oN3qRmTxPH2jyObEBr3MFceAjw8
-	ftRWDVoMIqyxP/HSOyMufneq+1s74Twl9QyZN/M=
-X-Google-Smtp-Source: APXvYqwDK/oeqlcsTuiYG++JpUYVCI0MG6kiQuHd4wVK+e77rRVSoo0/BfsvH6YZKSGr7w+e/7uBsWdQXmHjF4DrkeU=
-X-Received: by 2002:a25:9704:: with SMTP id d4mr8626064ybo.312.1558628747397; 
-	Thu, 23 May 2019 09:25:47 -0700 (PDT)
+	(envelope-from <armbru@redhat.com>) id 1hTqes-00008H-1T
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 12:33:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42810)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hTqep-0008Jm-8U; Thu, 23 May 2019 12:33:31 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3217589C42;
+	Thu, 23 May 2019 16:33:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
+	[10.36.117.250])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CDDEC1001E6F;
+	Thu, 23 May 2019 16:33:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 524351138648; Thu, 23 May 2019 18:33:06 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+References: <20190523152250.106717-1-sgarzare@redhat.com>
+	<20190523152250.106717-2-sgarzare@redhat.com>
+Date: Thu, 23 May 2019 18:33:06 +0200
+In-Reply-To: <20190523152250.106717-2-sgarzare@redhat.com> (Stefano
+	Garzarella's message of "Thu, 23 May 2019 17:22:48 +0200")
+Message-ID: <8736l5i119.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20190523161832.22490-1-f4bug@amsat.org>
-In-Reply-To: <20190523161832.22490-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Thu, 23 May 2019 18:25:35 +0200
-Message-ID: <CAAdtpL6N+C8paG408Sh5bfFhDq0NGwXB_aZn8agDSwAkw_MiNQ@mail.gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>, 
-	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
-	Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Thu, 23 May 2019 16:33:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.219.195
-Subject: Re: [Qemu-devel] [PATCH v2 0/4] mips: Add more Avocado tests
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/3] qapi/block-core: update documentation
+ of preallocation parameter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,82 +62,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
-	Aurelien Jarno <aurelien@aurel32.net>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, integration@gluster.org,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 23, 2019 at 6:18 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Hi,
->
-> It was a rainy week-end here, so I invested it to automatize some
-> of my MIPS tests.
->
-> The BootLinuxSshTest is not Global warming friendly, it is not
-> meant to run on a CI system but rather on a workstation previous
-> to post a pull request.
-> It can surely be improved, but it is a good starting point.
->
-> v2: Decorate slow tests with skipIf(CONTINUOUS_INTEGRATION):
->
->   VENV    /home/travis/build/philmd/qemu/tests/venv
->   PIP     /home/travis/build/philmd/qemu/tests/requirements.txt
->   MKDIR   /home/travis/build/philmd/qemu/tests/results
->   AVOCADO tests/acceptance
-> JOB ID     : 02a2b1c585c12aebfbd8db2f330ed9730a547ae0
-> JOB LOG    : /home/travis/build/philmd/qemu/tests/results/job-2019-05-23T=
-16.05-02a2b1c/job.log
->  (01/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_x86_64_pc=
-:  PASS (5.41 s)
->  (02/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_mips_malt=
-a:  PASS (3.33 s)
->  (03/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_mips64el_=
-malta:  PASS (3.47 s)
->  (04/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_mips_malt=
-a_cpio:  PASS (15.09 s)
->  (05/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_aarch64_v=
-irt:  PASS (2.48 s)
->  (06/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_virt:=
-  PASS (7.25 s)
->  (07/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_s390x_s39=
-0_ccw_virtio:  PASS (4.66 s)
->  (08/22) acceptance/boot_linux_console.py:BootLinuxConsole.test_alpha_cli=
-pper:  PASS (3.37 s)
->  (09/22) acceptance/cpu_queries.py:QueryCPUModelExpansion.test:  PASS (0.=
-16 s)
->  (10/22) acceptance/empty_cpu_model.py:EmptyCPUModel.test:  PASS (0.02 s)
->  (11/22) acceptance/linux_initrd.py:LinuxInitrd.test_with_2gib_file_shoul=
-d_exit_error_msg_with_linux_v3_6:  PASS (3.89 s)
->  (12/22) acceptance/linux_initrd.py:LinuxInitrd.test_with_2gib_file_shoul=
-d_work_with_linux_v4_16:  PASS (15.14 s)
->  (13/22) acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta32eb_=
-kernel3_2_0:  SKIP: Running on Travis-CI
->  (14/22) acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta64el_=
-kernel3_2_0:  SKIP: Running on Travis-CI
+Stefano Garzarella <sgarzare@redhat.com> writes:
 
-Job output here:
-https://travis-ci.org/philmd/qemu/jobs/536369687
-"Ran for 16 min 26 sec"
+> Add default and available values in the documentation block of
+> each block device or protocol that supports the 'preallocation'
+> parameter during the image creation.
+>
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+>  qapi/block-core.json | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+>
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 7ccbfff9d0..6aab0ebfe3 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -4103,7 +4103,10 @@
+>  #
+>  # @filename         Filename for the new image file
+>  # @size             Size of the virtual disk in bytes
+> -# @preallocation    Preallocation mode for the new image (default: off)
+> +# @preallocation    Preallocation mode for the new image (default: off;
+> +#                   allowed values for file-posix: off,
+> +#                   falloc (if defined CONFIG_POSIX_FALLOCATE), full;
+> +#                   allowed values for file-win32: off)
 
->  (15/22) acceptance/migration.py:Migration.test_migration_with_tcp_localh=
-ost:  PASS (0.23 s)
->  (16/22) acceptance/version.py:Version.test_qmp_human_info_version:  PASS=
- (0.04 s)
->  (17/22) acceptance/virtio_version.py:VirtioVersionCheck.test_conventiona=
-l_devs:  PASS (1.20 s)
->  (18/22) acceptance/virtio_version.py:VirtioVersionCheck.test_modern_only=
-_devs:  PASS (0.41 s)
->  (19/22) acceptance/vnc.py:Vnc.test_no_vnc:  PASS (0.03 s)
->  (20/22) acceptance/vnc.py:Vnc.test_no_vnc_change_password:  PASS (0.04 s=
-)
->  (21/22) acceptance/vnc.py:Vnc.test_vnc_change_password_requires_a_passwo=
-rd:  PASS (0.04 s)
->  (22/22) acceptance/vnc.py:Vnc.test_vnc_change_password:  PASS (0.04 s)
-> RESULTS    : PASS 20 | ERROR 0 | FAIL 0 | SKIP 2 | WARN 0 | INTERRUPT 0 |=
- CANCEL 0
-> JOB TIME   : 68.64 s
+"file-win32" isn't a QAPI thing, it's the stem of the source file where
+the driver consuming this is defined.  Not ideal
+
+Perhaps: off, falloc (if defined CONFIG_POSIX_FALLOCATE), full (if
+defined CONFIG_POSIX).
+
+>  # @nocow            Turn off copy-on-write (valid only on btrfs; default: off)
+>  #
+>  # Since: 2.12
+> @@ -4121,7 +4124,10 @@
+>  #
+>  # @location         Where to store the new image file
+>  # @size             Size of the virtual disk in bytes
+> -# @preallocation    Preallocation mode for the new image (default: off)
+> +# @preallocation    Preallocation mode for the new image (default: off;
+> +#                   allowed values: off,
+> +#                   falloc (if defined CONFIG_GLUSTERFS_FALLOCATE),
+> +#                   full (if defined CONFIG_GLUSTERFS_ZEROFILL))
+>  #
+>  # Since: 2.12
+>  ##
+> @@ -4225,7 +4231,8 @@
+>  # @backing-fmt      Name of the block driver to use for the backing file
+>  # @encrypt          Encryption options if the image should be encrypted
+>  # @cluster-size     qcow2 cluster size in bytes (default: 65536)
+> -# @preallocation    Preallocation mode for the new image (default: off)
+> +# @preallocation    Preallocation mode for the new image (default: off;
+> +#                   allowed values: off, falloc, full, metadata)
+>  # @lazy-refcounts   True if refcounts may be updated lazily (default: off)
+>  # @refcount-bits    Width of reference counts in bits (default: 16)
+>  #
+> @@ -4408,7 +4415,8 @@
+>  # @location         Where to store the new image file
+>  # @size             Size of the virtual disk in bytes
+>  # @backing-file     File name of a base image
+> -# @preallocation    Preallocation mode (allowed values: off, full)
+> +# @preallocation    Preallocation mode for the new image (default: off;
+> +#                   allowed values: off, full)
+>  # @redundancy       Redundancy of the image
+>  # @object-size      Object size of the image
+>  #
+> @@ -4443,8 +4451,8 @@
+>  #
+>  # @file             Node to create the image format on
+>  # @size             Size of the virtual disk in bytes
+> -# @preallocation    Preallocation mode for the new image (allowed values: off,
+> -#                   metadata; default: off)
+> +# @preallocation    Preallocation mode for the new image (default: off;
+> +#                   allowed values: off, metadata)
+>  #
+>  # Since: 2.12
+>  ##
+
+Preferably with file-win32 rephrased:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
