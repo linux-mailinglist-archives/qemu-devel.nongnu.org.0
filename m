@@ -2,59 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE4027EC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:51:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36757 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF2527ED6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:54:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36803 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTo7m-0006lP-Gc
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:51:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43321)
+	id 1hToAV-0000Ss-GZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:54:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43709)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <crosa@redhat.com>) id 1hTo5Z-0005fP-0U
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:48:59 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hTo7C-00073r-Cd
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:50:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <crosa@redhat.com>) id 1hTo5Y-0002zl-30
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:48:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51626)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <crosa@redhat.com>)
-	id 1hTo5V-0002wj-UK; Thu, 23 May 2019 09:48:54 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3C704307C719;
-	Thu, 23 May 2019 13:48:53 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
-	(colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D67A36F9;
-	Thu, 23 May 2019 13:48:53 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
-	(zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id EDA365B423;
-	Thu, 23 May 2019 13:48:52 +0000 (UTC)
-Date: Thu, 23 May 2019 09:48:52 -0400 (EDT)
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Message-ID: <843987408.24357253.1558619332877.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20190520220635.10961-2-f4bug@amsat.org>
-References: <20190520220635.10961-1-f4bug@amsat.org>
-	<20190520220635.10961-2-f4bug@amsat.org>
+	(envelope-from <richard.henderson@linaro.org>) id 1hTo7B-0005rL-Gy
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:50:38 -0400
+Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:46498)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hTo7B-0005qb-7f
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 09:50:37 -0400
+Received: by mail-ua1-x942.google.com with SMTP id a95so2176042uaa.13
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 06:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=Jxeo/cLgGRrMmbDdAomuFQZIeaqkSU2ZLgDPVczQCio=;
+	b=JUmrbJFBLAPMbUeLTiHhKD/0rpT/QpFxK8gcMwDAW7bvjDhW5C5iaK+SE6B3PAm7NW
+	MeBlTKKOgLbZ8puVTICHJVlYfRD7QzmTKjnhhrOdUX+czlo7pG2mV4Zr6yuau7/R8WUw
+	HpdyaWvl7Vvkq1rC02x6pazismdVrZqnIWdZGUU4P94I+CWL9F/J24nlgBHqN2fLioMe
+	oeE1kbsCYI93xByMqt2c5c96tfq87GGyCVhDQxv6p8fvFEOq5HJOU8GPRsrhgNWQWJE3
+	KadcqxyROcvkmy/MRTdV8FAqdOjrU4Qso/foQLZ+UY/WtsWe4/ix80OPZxKEkK/sgbAU
+	PK6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=Jxeo/cLgGRrMmbDdAomuFQZIeaqkSU2ZLgDPVczQCio=;
+	b=Bg+GGMOSWorDs5mxNwLy2PVVF+cGAn9dbiMl2Pa1NGUIhakL9Ob+j3Gh3Y+BIGYOBe
+	YaJOEhcIHuq/Hc9H4kAo776UQoJuIwI/EGmrcZk7arjlXUBZ0ot4kh2B33PR0P5+z1S+
+	W+9R6VD3HIsiKXr56lhXU46+zug2qdLv5IAY/g6N3jUACJDMsErDddwZk+uTu6/8pz0l
+	W0fIfOrGKQ2XrcBr+ZvrEhACiGRNv/ctzF/PyNR2FxFVk38m7JfzYlsZM4xHMS2OgzvN
+	vtoQ8VJXHByG87rE7oj7d81vX5GFOLY5SopGtPp8yUp9hi+WyVBI9/F1hwiqM5FUOKal
+	3dkg==
+X-Gm-Message-State: APjAAAVOJf3Em/YmyhrM1ju6OP7GtJ32mprwms5rxWpNytpRVmgbsq45
+	b6eyJlSSIVm9zdeU4+TNTTzPaw==
+X-Google-Smtp-Source: APXvYqxLjUPrK8VVDoLvcx9B2w9M7mmZ4rxNwFo8AVOkwSSYTb/4wQxaLhUMgY4azIcewZPQ+W3eKg==
+X-Received: by 2002:ab0:7591:: with SMTP id q17mr29049177uap.135.1558619436118;
+	Thu, 23 May 2019 06:50:36 -0700 (PDT)
+Received: from [192.168.43.94] (ip-173-130-215-183.orldfl.spcsdns.net.
+	[173.130.215.183]) by smtp.gmail.com with ESMTPSA id
+	s69sm7567367vsc.10.2019.05.23.06.50.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 06:50:35 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, Richard Henderson <rth@twiddle.net>
+References: <20190515203112.506-1-david@redhat.com>
+	<20190515203112.506-2-david@redhat.com>
+	<b3611279-15c4-f9b7-2a91-051ac6431b2c@linaro.org>
+	<44d7ddb4-040f-6778-7439-043b94e354ec@redhat.com>
+	<0935643f-941f-5883-c481-8ac18d57c98d@linaro.org>
+	<1f6001a2-e1d3-2b6f-e84a-8b9963302a3c@redhat.com>
+	<CAFXwXr=YzSuVa9wMKAczhojU+sK5zzPqpWOaJXDLovLNcmkYqg@mail.gmail.com>
+	<db392f3c-2bb2-6e16-ebe8-3175ef7859f4@redhat.com>
+	<9b00d53e-d676-7d19-cab6-7fb7a6715d1e@twiddle.net>
+	<273c1e4f-3216-78aa-508e-b063c0612854@redhat.com>
+	<1c3a49f8-56bd-1577-60a4-7c29ca1c0d83@twiddle.net>
+	<8ea05b5e-9d8d-f514-7336-8d7637188009@redhat.com>
+	<968a70bb-c025-235f-2914-ecb4142ae79b@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <d3e4e0d1-c0e9-7969-8434-e8953fa2225a@linaro.org>
+Date: Thu, 23 May 2019 09:50:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <968a70bb-c025-235f-2914-ecb4142ae79b@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.36.116.137, 10.4.195.29]
-Thread-Topic: BootLinuxConsoleTest: Do not log empty lines
-Thread-Index: mbTXbDfy49K2N5a/8d08Adqu9TptFA==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Thu, 23 May 2019 13:48:53 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/2] BootLinuxConsoleTest: Do not log empty
- lines
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::942
+Subject: Re: [Qemu-devel] [PATCH v1 1/5] s390x/tcg: Implement VECTOR FIND
+ ANY ELEMENT EQUAL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,57 +96,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
-	Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
-	Caio Carrara <ccarrara@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/23/19 8:59 AM, David Hildenbrand wrote:
+> I guess I can simplify to
+> 
+> t0 = rol64(b0, i);
+> t1 = rol64(b1, i);
+
+Yes.
+
+> My approach: Compare all elements of B at a time
+> Your approach: Compare a single element of B at a time
+
+Ah, I get it now.  This makes total sense, and does make the broadcast unnecessary.
 
 
------ Original Message -----
-> From: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
-> To: qemu-devel@nongnu.org
-> Cc: "Eduardo Habkost" <ehabkost@redhat.com>, "Caio Carrara" <ccarrara@red=
-hat.com>, "Alistair Francis"
-> <alistair@alistair23.me>, "Subbaraya Sundeep" <sundeep.lkml@gmail.com>, q=
-emu-arm@nongnu.org, "Cleber Rosa"
-> <crosa@redhat.com>, "Peter Maydell" <peter.maydell@linaro.org>, "Philippe=
- Mathieu-Daud=C3=A9" <f4bug@amsat.org>
-> Sent: Monday, May 20, 2019 6:06:34 PM
-> Subject: [PATCH 1/2] BootLinuxConsoleTest: Do not log empty lines
->=20
-> Avoid to log empty lines in console debug logs.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  tests/acceptance/boot_linux_console.py | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/tests/acceptance/boot_linux_console.py
-> b/tests/acceptance/boot_linux_console.py
-> index d5c500ea30..f593f3858e 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -37,8 +37,10 @@ class BootLinuxConsole(Test):
->          console =3D self.vm.console_socket.makefile()
->          console_logger =3D logging.getLogger('console')
->          while True:
-> -            msg =3D console.readline()
-> -            console_logger.debug(msg.strip())
-> +            msg =3D console.readline().strip()
-> +            if not msg:
-> +                continue
-> +            console_logger.debug(msg)
->              if success_message in msg:
->                  break
->              if failure_message in msg:
-> --
-> 2.19.1
->=20
->=20
-
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+r~
 
