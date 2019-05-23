@@ -2,55 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4179928B3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:05:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42617 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258F228B57
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:11:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42742 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTtyQ-0001Nh-08
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:05:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57359)
+	id 1hTu3x-0006h5-2P
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:11:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59650)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hTtwE-0000JO-CL
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:03:43 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hTu2V-0005vB-Cy
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:10:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hTtq2-0005CL-Ff
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 15:57:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54024)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hTtq2-0005Bq-9z
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 15:57:18 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DC656300502A;
-	Thu, 23 May 2019 19:57:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
-	[10.36.117.250])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9680417197;
-	Thu, 23 May 2019 19:57:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 222201138648; Thu, 23 May 2019 21:57:14 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <20190523081538.2291-1-armbru@redhat.com>
-	<20190523081538.2291-6-armbru@redhat.com>
-	<db337f20-8b76-9214-533e-3e4b79c5c4d5@redhat.com>
-Date: Thu, 23 May 2019 21:57:14 +0200
-In-Reply-To: <db337f20-8b76-9214-533e-3e4b79c5c4d5@redhat.com> (Paolo
-	Bonzini's message of "Thu, 23 May 2019 18:51:12 +0200")
-Message-ID: <87ef4peyg5.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(envelope-from <richard.henderson@linaro.org>) id 1hTu2U-0004a5-Ha
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:10:11 -0400
+Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:40575)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hTu2U-0004ZX-BY
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:10:10 -0400
+Received: by mail-yw1-xc44.google.com with SMTP id 18so2750551ywe.7
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:10:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=tj+njzIlptF/VIznWoGknE1ID/zZ+Y0eBYhXAyyclxw=;
+	b=TsPsEkDBbtgoeku2Ycm5czHVxfrQheE8tauVS4IuzUZAfinp1hOO6Bekhpc09wPKre
+	WbR49uHA0Zpy653RQWP3M8QMm8dyP/Rfhvonkd5Jh87Ak9XL8EiVvGsP/PLG8folVlEB
+	VLt9dcWAk07aoXm1Su/jhoiyqECnSXoNT9Xhw0+6ytSRFHyCP39H7wfkF8fYsf7onCOf
+	QmKt8LDkaX7W3IgeLLjS9Myrb7lvrSLt5MHqtHUOeczMxGEUlqKH7CfsTJQzgwUVTOL8
+	fz6J0Wc0Xv/eWxlrYdpznIdKPr6ur1eXAz1X2/M+meurAxbcRCmQp1wC7u+BU5B7smlT
+	kseQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=tj+njzIlptF/VIznWoGknE1ID/zZ+Y0eBYhXAyyclxw=;
+	b=cnc5z4I9lfzmRnEkYrFqn59ianayv/2a0mdIJ0jtoY6gZrnfi6k7uCWwzJ1ZMprJbO
+	nDfDdAMdDgDV5MZuI7GDKn9JMNT6BT98aRv4r/dbKRlgNJEeNHPKUnnyUHG1ittfQR7a
+	Z9sC6BOBYEbiX7wniYYDbprxmLkl4ZVykeMkkJfqnOAqErOgag+nGxilKViQZZuorTZf
+	P6rsu2QDdyf7fqDspcCc14Cf4ZwXDFhlc098dhsKOtpwPoBTUhiX4hf+z0i1LbNJRyXp
+	jG7N8UDIHdfC+XXRux4+6xCZoIEnR6FMh+u3WnLTIUPH0yikQyUdv7xI1+3XlErWbofR
+	ML6w==
+X-Gm-Message-State: APjAAAVtldxAnBu1p7SI3Hj3IOJeq3Rc2uaSaAuSB7eHwUKvO+grVU73
+	Frnm2StstKaOwCiNgNPRSrl8yg==
+X-Google-Smtp-Source: APXvYqwF6y04CP5s+p4f0rep7vdQvj+NL8P6zsMzuVP8AK+Mub30qXl/gy35tH6ABgBpb0tS98q2Cg==
+X-Received: by 2002:a81:980b:: with SMTP id p11mr13795041ywg.48.1558642208760; 
+	Thu, 23 May 2019 13:10:08 -0700 (PDT)
+Received: from [10.240.229.182] ([71.46.56.19])
+	by smtp.gmail.com with ESMTPSA id 193sm80624ywf.28.2019.05.23.13.10.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 13:10:08 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	qemu-devel@nongnu.org
+References: <20190523102532.10486-1-alex.bennee@linaro.org>
+	<20190523102532.10486-18-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <52b8de1d-3900-2368-eead-5e98261f509f@linaro.org>
+Date: Thu, 23 May 2019 16:10:00 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Thu, 23 May 2019 19:57:16 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC v4 5/7] tests: New make target check-source
+In-Reply-To: <20190523102532.10486-18-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::c44
+Subject: Re: [Qemu-devel] [PATCH v2 17/28] tests/tcg/aarch64: add system
+ boot.S
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,20 +85,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On 5/23/19 6:25 AM, Alex Bennée wrote:
+> This provides the bootstrap and low level helper functions for an
+> aarch64 kernel. We use semihosting to handle test output and exiting
+> the emulation. semihosting's parameter passing is a little funky so we
+> end up using the stack and pointing to that as the parameter block.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> ---
+> v2
+>   - fix tabs
+>   - 2 stage table lookup with ro and nx sections
+>   - set stack to back
+>   - moar comments
+> ---
+>  tests/tcg/aarch64/Makefile.softmmu-target |  32 +++
+>  tests/tcg/aarch64/system/boot.S           | 239 ++++++++++++++++++++++
+>  tests/tcg/aarch64/system/kernel.ld        |  24 +++
+>  3 files changed, 295 insertions(+)
+>  create mode 100644 tests/tcg/aarch64/Makefile.softmmu-target
+>  create mode 100644 tests/tcg/aarch64/system/boot.S
+>  create mode 100644 tests/tcg/aarch64/system/kernel.ld
 
-> On 23/05/19 10:15, Markus Armbruster wrote:
->> A large number of headers don't pass this test, by design or by
->> accident.  To keep things more manageable, exclude all headers outside
->> include/ for now.
->
-> A lot of these, either in include/ or outside, are _meant_ to be
-> included many times.  What about renaming those to .inc.h and
-> whitelisting them in the script?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Yes, that would be nice.
+
+r~
 
