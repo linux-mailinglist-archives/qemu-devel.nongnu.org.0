@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8136A27D7A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:02:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35709 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3368C27D85
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 15:03:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35715 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTnMP-0007nV-KH
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:02:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51018)
+	id 1hTnNV-0000Hq-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 09:03:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51307)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTnGl-0003dk-6V
+	(envelope-from <philmd@redhat.com>) id 1hTnGl-0003rP-5M
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:56:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hTn6K-0003zQ-5F
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:45:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47770)
+	(envelope-from <philmd@redhat.com>) id 1hTn6N-00041K-Hv
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 08:45:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57402)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hTn6K-0003yz-0x; Thu, 23 May 2019 08:45:40 -0400
+	id 1hTn6N-00040w-Di; Thu, 23 May 2019 08:45:43 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
 	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5F532301E12F;
-	Thu, 23 May 2019 12:45:38 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B1C12859FF;
+	Thu, 23 May 2019 12:45:42 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BCA456836A;
-	Thu, 23 May 2019 12:44:57 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D05F268378;
+	Thu, 23 May 2019 12:45:38 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 14:43:18 +0200
-Message-Id: <20190523124320.28726-14-philmd@redhat.com>
+Date: Thu, 23 May 2019 14:43:19 +0200
+Message-Id: <20190523124320.28726-15-philmd@redhat.com>
 In-Reply-To: <20190523124320.28726-1-philmd@redhat.com>
 References: <20190523124320.28726-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Thu, 23 May 2019 12:45:39 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.26]);
+	Thu, 23 May 2019 12:45:42 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 13/15] hw/nvram/fw_cfg: Store 'reboot-timeout'
- as little endian
+Subject: [Qemu-devel] [PULL 14/15] tests: fw_cfg: add 'reboot-timeout' test
+ case
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,11 +57,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
-	Laszlo Ersek <lersek@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
 	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 	qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
-	Li Qiang <liq3ea@163.com>,
+	Li Qiang <liq3ea@163.com>, Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	Artyom Tarasenko <atar4qemu@gmail.com>,
 	David Gibson <david@gibson.dropbear.id.au>
@@ -70,60 +70,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Li Qiang <liq3ea@163.com>
 
-The current codebase is not specific about the endianess of the
-fw_cfg 'file' entry 'reboot-timeout'.
-
-Per docs/specs/fw_cfg.txt:
-
-  =3D=3D=3D All Other Data Items =3D=3D=3D
-
-  Please consult the QEMU source for the most up-to-date
-  and authoritative list of selector keys and their respective
-  items' purpose, format and writeability.
-
-Checking the git history, this code was introduced in commit
-ac05f3492421, very similar to commit 3d3b8303c6f8 for the
-'boot-menu-wait' entry, which explicitely use little-endian.
-
-OVMF consumes 'boot-menu-wait' as little-endian, however it does
-not consume 'reboot-timeout'.
-
-Regarding the git history and OVMF use, we choose to explicit
-'reboot-timeout' endianess as little-endian.
-
 Signed-off-by: Li Qiang <liq3ea@163.com>
 Tested-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190424140643.62457-4-liq3ea@163.com>
-[PMD: Reword commit description based on review comments]
+Message-Id: <20190424140643.62457-5-liq3ea@163.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/nvram/fw_cfg.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/fw_cfg-test.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index b2dc0a80cb..9f7b7789bc 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -234,6 +234,7 @@ static void fw_cfg_reboot(FWCfgState *s)
- {
-     const char *reboot_timeout =3D NULL;
-     int64_t rt_val =3D -1;
-+    uint32_t rt_le32;
+diff --git a/tests/fw_cfg-test.c b/tests/fw_cfg-test.c
+index 4597626dd7..20b1eb75f4 100644
+--- a/tests/fw_cfg-test.c
++++ b/tests/fw_cfg-test.c
+@@ -15,6 +15,7 @@
+ #include "libqtest.h"
+ #include "standard-headers/linux/qemu_fw_cfg.h"
+ #include "libqos/fw_cfg.h"
++#include "qemu/bswap.h"
 =20
-     /* get user configuration */
-     QemuOptsList *plist =3D qemu_find_opts("boot-opts");
-@@ -250,7 +251,8 @@ static void fw_cfg_reboot(FWCfgState *s)
-         }
-     }
-=20
--    fw_cfg_add_file(s, "etc/boot-fail-wait", g_memdup(&rt_val, 4), 4);
-+    rt_le32 =3D cpu_to_le32(rt_val);
-+    fw_cfg_add_file(s, "etc/boot-fail-wait", g_memdup(&rt_le32, 4), 4);
+ static uint64_t ram_size =3D 128 << 20;
+ static uint16_t nb_cpus =3D 1;
+@@ -174,6 +175,25 @@ static void test_fw_cfg_boot_menu(void)
+     qtest_quit(s);
  }
 =20
- static void fw_cfg_write(FWCfgState *s, uint8_t value)
++static void test_fw_cfg_reboot_timeout(void)
++{
++    QFWCFG *fw_cfg;
++    QTestState *s;
++    uint32_t reboot_timeout =3D 0;
++    size_t filesize;
++
++    s =3D qtest_init("-boot reboot-timeout=3D15");
++    fw_cfg =3D pc_fw_cfg_init(s);
++
++    filesize =3D qfw_cfg_get_file(fw_cfg, "etc/boot-fail-wait",
++                                &reboot_timeout, sizeof(reboot_timeout))=
+;
++    g_assert_cmpint(filesize, =3D=3D, sizeof(reboot_timeout));
++    reboot_timeout =3D le32_to_cpu(reboot_timeout);
++    g_assert_cmpint(reboot_timeout, =3D=3D, 15);
++    pc_fw_cfg_uninit(fw_cfg);
++    qtest_quit(s);
++}
++
+ int main(int argc, char **argv)
+ {
+     g_test_init(&argc, &argv, NULL);
+@@ -193,6 +213,7 @@ int main(int argc, char **argv)
+     qtest_add_func("fw_cfg/max_cpus", test_fw_cfg_max_cpus);
+     qtest_add_func("fw_cfg/numa", test_fw_cfg_numa);
+     qtest_add_func("fw_cfg/boot_menu", test_fw_cfg_boot_menu);
++    qtest_add_func("fw_cfg/reboot_timeout", test_fw_cfg_reboot_timeout);
+=20
+     return g_test_run();
+ }
 --=20
 2.20.1
 
