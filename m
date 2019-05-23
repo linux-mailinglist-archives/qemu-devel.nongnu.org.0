@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503EB28BED
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:53:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43170 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3F228BD8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 22:50:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43115 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTuiA-0004Bu-Ea
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:53:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37456)
+	id 1hTufE-00019j-7r
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 16:50:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37421)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hTuZz-0006CM-4A
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:48 -0400
+	(envelope-from <jan.bobek@gmail.com>) id 1hTuZv-00068T-GW
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hTuZt-0003CZ-Gv
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:45 -0400
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:39385)
+	(envelope-from <jan.bobek@gmail.com>) id 1hTuZt-0003Bx-Dd
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:43 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:33080)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hTuZr-00038v-LC
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:41 -0400
-Received: by mail-yw1-xc43.google.com with SMTP id w21so2786526ywd.6
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:44:38 -0700 (PDT)
+	(Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hTuZr-00039B-FI
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 16:44:39 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id w127so923288yba.0
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 13:44:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=Wv0YAF1rZ6KrPU3tosAjlI/qAdfuoWauzAhliLX3BEs=;
-	b=Sfs7P+1AxsKND4DQAlJwytdjXiqMzxGbiZcmdLnpm+Haqzc4uKX6sB5lerTw8VL0mR
-	QiGXg8k/X6zsWUQs+8fHu8ohQcKRZqWd0lFzWl2kmKjJVJUSW4+T1eAXiQOjxznXlpc5
-	QwQM1BcUmTvqyr3mJ4EtBbtBb+G+2KajREVH+WtbXBHKHTCm4frcFNsUjgrkqiq8h5zE
-	4kiTSEl1UvgZF05MUpEDLJ3vGfBQNOBopxqJWH/Ng51TXSQdOi3ZSW1MadZABH6puxCV
-	5dERXMooTC7QhcXdbXqj2WVncA5VkCNOT3d38Pv8NZYRPKl3xgM/l1ve8Nive41q2tVf
-	7REA==
+	bh=0ilxUhOWtdPal8guoafu7uVUdV65rxKS1rgM4/OQmO8=;
+	b=LzP7DIAH6TxVJw/RAarL1dKOcYuOiX+hKY3O1MbhUb4ASnwz6WNEtCGXyNEN3tfyHt
+	0MVr/wbodOMkUHADYui3do0igVL/R1b2kcSbl1vRPQxqv1HanXPZC3j+cqbC6LnSrIsM
+	P+uQyhmcqpGsuefqY8VVpEhwKpZTkAXyWF4IEOl+cBAXL2ZK8pFkj9arCQQnW48pRWH0
+	vCulNdn7yeViSICbH181aG80/WL1FAVqnIyKjCVWWudYJkYZ+s5aY9OI3MRgtDoDiY6y
+	7l+qZQsndh+nHMAz9kLTQaXVAlxX655tgNejOxNLZzPj6Zcaw07JVfD4V5xKtOfEsPyT
+	j8wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Wv0YAF1rZ6KrPU3tosAjlI/qAdfuoWauzAhliLX3BEs=;
-	b=AGMV6TarX10v3sUZBgsGj0zvKfPTavzr1aTZnKkDc8RKDLiYgZFEG6vkpNCmArsikt
-	l2RvEi2c7+KjsAPdNQeEuLvcdak2d3apjELKYX/6Qoj2h+76Nh0BN7hQYDv0J8feTFc8
-	vXIDXY4tHALrRRTIuuLKlNoeZTZDKpuJfxFU4HEHtsKVjZ1m2E09LWMOr+kvMX34Wqnt
-	5ESZsFJenTFEXjy1a9R+WR6aOQHkrmabuPXo37ZATJUXTL79MIUVplMfv+eXm5QqbYl9
-	wyrdF/ynf6qEdXxl+t9725DbAd8Jn3DKZGwJGLt5xz/LPwFHUUffj0X6UIKxNjxcXsEQ
-	QZcA==
-X-Gm-Message-State: APjAAAXYkgbsw4nBqrWjjV9Uc+BdAkE/MT/Qx8sdE1luxPv5kqehDImD
-	jJGPjhqN1I8N5Artrorm+JCCio16
-X-Google-Smtp-Source: APXvYqxVah+fMA7SaNhiHbvkHANBwiv0gcpjsAkLQsS6K/fWvYhk7U3wUwA0f+vQP+qr7lpPuVFK5Q==
-X-Received: by 2002:a81:b3c4:: with SMTP id
-	r187mr19261194ywh.217.1558644278092; 
+	bh=0ilxUhOWtdPal8guoafu7uVUdV65rxKS1rgM4/OQmO8=;
+	b=p3i//iMUbNOTlXeDnzx6kbKosZbBosgzD9AruOG7H+NbiIGDzpN4tjpBgmK/cN+/y4
+	V+v8oRiQvTs+scxigNyVK8zQQF8B+ng1gXhKGNuImYeaxR5XRrvkavWADRqcM+J6CZMh
+	0UfWOnnThU/heYYtskcVH03i1C97EviXDBRokRhMQbrVzlH1V5eGzGChTn/UVd2n7FRu
+	DM12n4AJzFAbuBvfJBix37MCZRwXg6xPQ+CuiMc5w1223Be5uqE+iRrNFnLRMWEg3NoF
+	5z29AlMVfAAu4+1r5HBrpt9E4q6hDzR22p2sMn1yYaTeo5RQXv3Ymaf+OGQ1ggIfTR3X
+	eY9Q==
+X-Gm-Message-State: APjAAAWSbhmgx6oGb5DteBqf93q0+8QVmE4VElPvlpk5gO2/IAlDxuW4
+	zV67wzz5cyY5a5DpML0XD5NfYeQS
+X-Google-Smtp-Source: APXvYqxPBDcpajJyswcRAX4EdZ2FVVxWMb1TAzYN9CCyvlVVj+GeEOLc26DxNNRVWd7xTi7Wg6uLYA==
+X-Received: by 2002:a25:b70c:: with SMTP id t12mr6654762ybj.67.1558644278596; 
 	Thu, 23 May 2019 13:44:38 -0700 (PDT)
 Received: from dionysus.attlocal.net
 	(69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
-	by smtp.gmail.com with ESMTPSA id p12sm87590ywg.72.2019.05.23.13.44.37
+	by smtp.gmail.com with ESMTPSA id p12sm87590ywg.72.2019.05.23.13.44.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 13:44:37 -0700 (PDT)
+	Thu, 23 May 2019 13:44:38 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 16:44:05 -0400
-Message-Id: <20190523204409.21068-8-jan.bobek@gmail.com>
+Date: Thu, 23 May 2019 16:44:06 -0400
+Message-Id: <20190523204409.21068-9-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523204409.21068-1-jan.bobek@gmail.com>
 References: <20190523204409.21068-1-jan.bobek@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
-Subject: [Qemu-devel] [RISU v3 07/11] test_i386: change syntax from nasm to
- gas
+X-Received-From: 2607:f8b0:4864:20::b35
+Subject: [Qemu-devel] [RISU v3 08/11] configure: add i386/x86_64
+ architectures
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,114 +85,40 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows us to drop dependency on NASM and build the test image
-with GCC only. Adds support for x86_64, too.
+Now that i386 and x86_64 architectures are supported by RISU, we want
+to detect them and build RISU for them automatically.
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- Makefile    |  3 +++
- test_i386.S | 41 +++++++++++++++++++++++++++++++++++++++++
- test_i386.s | 27 ---------------------------
- 3 files changed, 44 insertions(+), 27 deletions(-)
- create mode 100644 test_i386.S
- delete mode 100644 test_i386.s
+ configure | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index b362dbe..6ab014a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -49,6 +49,9 @@ $(PROG): $(OBJS)
- %_$(ARCH).elf: %_$(ARCH).s
- 	$(AS) -o $@ $<
+diff --git a/configure b/configure
+index 65e1819..ca2d7db 100755
+--- a/configure
++++ b/configure
+@@ -48,12 +48,14 @@ EOF
+ }
  
-+%_$(ARCH).elf: %_$(ARCH).S
-+	$(CC) $(CPPFLAGS) -o $@ -c $<
-+
- clean:
- 	rm -f $(PROG) $(OBJS) $(BINS)
- 
-diff --git a/test_i386.S b/test_i386.S
-new file mode 100644
-index 0000000..456b99c
---- /dev/null
-+++ b/test_i386.S
-@@ -0,0 +1,41 @@
-+/*#############################################################################
-+ * Copyright (c) 2010 Linaro Limited
-+ * All rights reserved. This program and the accompanying materials
-+ * are made available under the terms of the Eclipse Public License v1.0
-+ * which accompanies this distribution, and is available at
-+ * http://www.eclipse.org/legal/epl-v10.html
-+ *
-+ * Contributors:
-+ *     Peter Maydell (Linaro) - initial implementation
-+ *###########################################################################*/
-+
-+/* A trivial test image for x86 */
-+
-+/* Initialise the registers to avoid spurious mismatches */
-+	xor	%eax, %eax
-+	sahf				/* init eflags */
-+
-+	mov	$0x12345678, %eax
-+	mov	$0x9abcdef0, %ebx
-+	mov	$0x97361234, %ecx
-+	mov	$0x84310284, %edx
-+	mov	$0x83624173, %edi
-+	mov	$0xfaebfaeb, %esi
-+	mov	$0x84610123, %ebp
-+
-+#ifdef __x86_64__
-+	movq	$0x123456789abcdef0, %r8
-+	movq	$0xaaaabbbbccccdddd, %r9
-+	movq	$0x1010101010101010, %r10
-+	movq	$0x1111111111111111, %r11
-+	movq	$0x1212121212121212, %r12
-+	movq	$0x1313131313131313, %r13
-+	movq	$0x1414141414141414, %r14
-+	movq	$0x1515151515151515, %r15
-+#endif
-+
-+/* do compare */
-+	ud1	%eax, %eax
-+
-+/* exit test */
-+	ud1	%ecx, %eax
-diff --git a/test_i386.s b/test_i386.s
-deleted file mode 100644
-index a2140a0..0000000
---- a/test_i386.s
-+++ /dev/null
-@@ -1,27 +0,0 @@
--;###############################################################################
--;# Copyright (c) 2010 Linaro Limited
--;# All rights reserved. This program and the accompanying materials
--;# are made available under the terms of the Eclipse Public License v1.0
--;# which accompanies this distribution, and is available at
--;# http://www.eclipse.org/legal/epl-v10.html
--;#
--;# Contributors:
--;#     Peter Maydell (Linaro) - initial implementation
--;###############################################################################
--
--; A trivial test image for x86
--
--BITS 32
--; Initialise the registers to avoid spurious mismatches
--mov eax, 0x12345678
--mov ebx, 0x9abcdef0
--mov ecx, 0x97361234
--mov edx, 0x84310284
--mov edi, 0x83624173
--mov esi, 0xfaebfaeb
--mov ebp, 0x84610123
--; UD1 : do compare
--UD1
--
--; UD2 : exit test
--UD2
+ guess_arch() {
+-    if check_define __m68k__ ; then
+-        ARCH="m68k"
++    if check_define __aarch64__ ; then
++        ARCH="aarch64"
+     elif check_define __arm__ ; then
+         ARCH="arm"
+-    elif check_define __aarch64__ ; then
+-        ARCH="aarch64"
++    elif check_define __i386__ || check_define __x86_64__ ; then
++        ARCH="i386"
++    elif check_define __m68k__ ; then
++        ARCH="m68k"
+     elif check_define __powerpc64__ ; then
+         ARCH="ppc64"
+     else
 -- 
 2.20.1
 
