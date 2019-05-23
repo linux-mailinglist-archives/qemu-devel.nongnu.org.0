@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4532804D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:55:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38194 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BB628050
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 16:57:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38254 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTp7f-0003zT-Eu
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:55:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60980)
+	id 1hTp9s-0005Vv-RE
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 10:57:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32793)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTowy-0004IG-LD
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:09 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTox1-0004Lt-TZ
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTowx-0006L9-J6
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:38177)
+	(envelope-from <laurent@vivier.eu>) id 1hTox0-0006Nl-K0
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:11 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:38043)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTowx-0006I2-A0
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:07 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTox0-0006Mw-AU
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 10:44:10 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1MBUZr-1hLpGT18L1-00Cz0V; Thu, 23 May 2019 16:43:42 +0200
+	id 1MNtCi-1hIsj83vdQ-00OGcG; Thu, 23 May 2019 16:43:43 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 16:43:28 +0200
-Message-Id: <20190523144336.13960-3-laurent@vivier.eu>
+Date: Thu, 23 May 2019 16:43:29 +0200
+Message-Id: <20190523144336.13960-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523144336.13960-1-laurent@vivier.eu>
 References: <20190523144336.13960-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sFzFbFoTTJSxzKzFxiZe8nYkdCweOxthZPnT7LndP08mK1zExTN
-	B4EMM41/Kzw+ea1Ld4wmXebE6O6PkljKXcm0dryf3bzfmZi74YnsaBLdgDxaXOolg+TkL/C
-	jet4Dhmkg5EjO/wl0ssC8wSxOdRzzRiMVhnwrhcj6K/7ZupU4UUpPvPcSnFuaUG11BLriV7
-	ARsCXmDpHK5mHd7iK4S9A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PQAGtdmxa/c=:8Yf0CI+3PSlK+BKRuqol1I
-	HbSeR2KWYRWNENp7thVErmnQQ6aIw+W9Sn8loBC7V30Ya3/paIoxVqnPhoPcCjqx3BoNXUiEH
-	09r7g18vohLVjLwtS1UfPzRNF1x+72qJHVMZtS1DoBsbM48m1BhKgIf+rCik9qYOBHlVFqkh3
-	ugWedr8lVZ/WVUgNYPMho1I47JvBiHW9nk5l7JjbZAh50wKAVRGSX9I0nDjK1+yUwVrNTN0cH
-	CJrB23GWfbKr/tWHkQ3gLziSmjIqK0SwL/C3uTZdAtUlYg0aqskjc40VpIGly8WMmRh4/I0Z3
-	b/k2Z2LdAgz1ZKekhe0jD9cdwgBQhcE4+pqALDmstfH2XY0z6tbThGL0z6p5JsqyyrcKuApmk
-	Ewaso/NUqOLOr2YoWSxwMjIZu9xSrIXZhspdt1PWeQfP/+XDm8UoMuxgyNiV1VNOF17i7BcOi
-	M1UbrsF69r0ORxR/XLn4mFhkVQYgz6U5D2N5EHZc9Ya+HwA7UgXhjTSka9LXHM+m0Kg9g6jqN
-	q+E2/QQ9vL3yRSUy4jjB9HP46ubLQDL5iKh5f4Rpdf7kxhTdWd4AunKaPD8B2bHWWh9KpdmwY
-	5+7ijiW3HGN02lqkpACJrSQHLEY5URY73UiiQOH5EhoEotiyNrTJ+Xt86hUqBJAjuaEDYFe5A
-	JMEZms7ooaprh2siSwBHGL6mQknlJBGO8kI5fx3+hiqrizP3drdtGczykA5oy8ne7l3+Trc3q
-	SmcSEkO43YlkW6G43QVbve3Xlk5L8h1ZUtyfiw==
+X-Provags-ID: V03:K1:0MGJHVzNT2jKtASdGvmoFoDKkK64vgdE9rdE23Cw6YtvBUF6D5u
+	W17UMI5/3ao0th2bQ3urJcuoanIc3kPtIdOs2eKC79zbO/bCUTvz9M8kz3nBNxYcfV6+6Sc
+	gbjJlpesV9Il0DnH1Lb7H53dDw+sXJXjJhihMkgGr/KTpfo3Zw8kBQ8nePPnYJzZB9iJ1KG
+	tk0lb072mijQOEBmtCqOA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XzmyCqWuS/E=:Fy0LPrCu8bS4W8Q058SXBR
+	rc1GJdhN2D4UdH0SNRb1Yf+GiW5tqMYu03m0YYk4LL4MEH2/yzTwIwN4CyxZhwSVzg8fb2yCs
+	FpMQky4VKBPpxDu9Y/W2P5cGV7NHjlx1rXuVN4Kg8YVbWyE+tDV9u34spHUQ/q48jl64lWMjr
+	BgCVTtGphpm1lrTozPz7puWtbuGjsmkH1e1vJ9NZFx1CItaEeLfx7ueN1WaVyS2LRD8WAILyj
+	gnpMOaW0uhYacW6uHr8UOTNya4k0aUxYg8lFHlMmJx1e+FcsLtfrBh6f/gfi4JzubVOc3KZMG
+	uWBa97UL8OKbV0ujubefMEZ27PuNIRyZvGEQInIKKWqHoh0HJvqvQx05SO56yuAJQoFpbzP09
+	FrFjQMZal3zBqqjOTXfNfele83QOneHayuLWBOeHCU/JuOM6H4E8/uPg67CdrjhrPHYdroisG
+	NVG9IrX3OMtiiDAOJf/aPhl1Ql6XW6mTHt/KGiy1xupYQM1n9YVEcrlCYnXYTbZrUAiumVWct
+	zxVibCDwT8XKvOqhmw488aECZ5lSrR3OGDu6f/um9vQL5lSek5f03geY2cJN6aslaJ23L6Kzz
+	U2VmuGRnsG/eRiUoRe4u0/+XMlsuefdAcYuhzSNxbVkrchUtVVu4cNOguGMdcYODvquwlXZKl
+	Mf7KILbHUiOG/6aNObvTHwfVqoMnBKQW1Vg1Haq5tDOUb1dpRgmK+1dtj53TY6Tw1GR1+dNHr
+	DYBpNGWjDWNWokjnS8vFh6MzS9J4NiRBO1qL/w==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
-Subject: [Qemu-devel] [PULL 02/10] linux-user: add pseudo /proc/hardware for
- m68k
+X-Received-From: 212.227.126.187
+Subject: [Qemu-devel] [PULL 03/10] linux-user: Fix support for SIOCATMARK
+ and SIOCGPGRP ioctls for xtensa
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,68 +65,66 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Laurent Vivier <laurent@vivier.eu>,
+	Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
 	Aleksandar Markovic <amarkovic@wavecomp.com>,
 	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Debian console-setup uses /proc/hardware to guess the keyboard layout.
-If the file /proc/hardware cannot be opened, the installation fails.
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-This patch adds a pseudo /proc/hardware file to report the model of
-the machine. Instead of reporting a known and fake model, it
-reports "qemu-m68k", which is true, and avoids to set the configuration
-for an Amiga/Apple/Atari and let the user to chose the good one.
+Fix support for the SIOCATMARK and SIOCGPGRP ioctls for xtensa by
+correcting corresponding macro definition.
 
-Bug: https://github.com/vivier/qemu-m68k/issues/34
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190517133149.19593-3-laurent@vivier.eu>
+Values for TARGET_SIOCATMARK and TARGET_SIOCGPGRP are determined by
+Linux kernel. Following relevant lines (obtained by grep) are from
+the kernel source tree:
+
+arch/ia64/include/uapi/asm/sockios.h:#define SIOCATMARK    0x8905
+arch/mips/include/uapi/asm/sockios.h:#define SIOCATMARK    _IOR('s', 7, int)
+arch/parisc/include/uapi/asm/sockios.h:#define SIOCATMARK  0x8905
+arch/sh/include/uapi/asm/sockios.h:#define SIOCATMARK      _IOR('s', 7, int)
+arch/xtensa/include/uapi/asm/sockios.h:#define SIOCATMARK  _IOR('s', 7, int)
+arch/alpha/include/uapi/asm/sockios.h:#define SIOCATMARK   _IOR('s', 7, int)
+arch/sparc/include/uapi/asm/sockios.h:#define SIOCATMARK   0x8905
+include/uapi/asm-generic/sockios.h:#define SIOCATMARK	   0x8905
+
+arch/ia64/include/uapi/asm/sockios.h:#define SIOCGPGRP     0x8904
+arch/mips/include/uapi/asm/sockios.h:#define SIOCGPGRP     _IOR('s', 9, pid_t)
+arch/parisc/include/uapi/asm/sockios.h:#define SIOCGPGRP   0x8904
+arch/sh/include/uapi/asm/sockios.h:#define SIOCGPGRP       _IOR('s', 9, pid_t)
+arch/xtensa/include/uapi/asm/sockios.h:#define SIOCGPGRP   _IOR('s', 9, pid_t)
+arch/alpha/include/uapi/asm/sockios.h:#define SIOCGPGRP    _IOR('s', 9, pid_t)
+arch/sparc/include/uapi/asm/sockios.h:#define SIOCGPGRP    0x8904
+include/uapi/asm-generic/sockios.h:#define SIOCGPGRP       0x8904
+
+It is visible from above that xtensa should have the same definitions
+as alpha, mips and sh4 already do. This patch brings QEMU to the accurate
+state wrt these two ioctls.
+
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <1558282527-22183-2-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ linux-user/syscall_defs.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 68484a83e69e..e5545cbafac7 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6787,7 +6787,7 @@ static int is_proc_myself(const char *filename, const char *entry)
- }
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 1f5b2d18dbea..5b530e04b8fd 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -737,7 +737,8 @@ struct target_pollfd {
+ #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flags] */
+ #define TARGET_KDSIGACCEPT     0x4B4E
  
- #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN) || \
--    defined(TARGET_SPARC)
-+    defined(TARGET_SPARC) || defined(TARGET_M68K)
- static int is_proc(const char *filename, const char *entry)
- {
-     return strcmp(filename, entry) == 0;
-@@ -6847,6 +6847,14 @@ static int open_cpuinfo(void *cpu_env, int fd)
- }
- #endif
- 
-+#if defined(TARGET_M68K)
-+static int open_hardware(void *cpu_env, int fd)
-+{
-+    dprintf(fd, "Model:\t\tqemu-m68k\n");
-+    return 0;
-+}
-+#endif
-+
- static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags, mode_t mode)
- {
-     struct fake_open {
-@@ -6865,6 +6873,9 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
- #endif
- #if defined(TARGET_SPARC)
-         { "/proc/cpuinfo", open_cpuinfo, is_proc },
-+#endif
-+#if defined(TARGET_M68K)
-+        { "/proc/hardware", open_hardware, is_proc },
- #endif
-         { NULL, NULL, NULL }
-     };
+-#if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4)
++#if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
++       defined(TARGET_XTENSA)
+ #define TARGET_SIOCATMARK      TARGET_IOR('s', 7, int)
+ #define TARGET_SIOCGPGRP       TARGET_IOR('s', 9, pid_t)
+ #else
 -- 
 2.20.1
 
