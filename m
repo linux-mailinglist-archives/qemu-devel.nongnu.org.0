@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285AF2757C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 07:32:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57930 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988162758C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 07:35:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57958 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTgLW-0001Ub-6s
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 01:32:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41345)
+	id 1hTgNn-0003Qd-Q0
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 01:35:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41313)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTgIQ-00080l-GW
+	(envelope-from <dgibson@ozlabs.org>) id 1hTgIO-00080i-F2
 	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:29:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTgIN-0005kK-Ea
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:29:42 -0400
-Received: from ozlabs.org ([203.11.71.1]:55457)
+	(envelope-from <dgibson@ozlabs.org>) id 1hTgIM-0005jc-Hq
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 01:29:40 -0400
+Received: from ozlabs.org ([203.11.71.1]:52855)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hTgIK-0005hr-QO; Thu, 23 May 2019 01:29:38 -0400
+	id 1hTgIK-0005hs-RR; Thu, 23 May 2019 01:29:38 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 458dNM2dFzz9sBK; Thu, 23 May 2019 15:29:23 +1000 (AEST)
+	id 458dNM3kl4z9sDX; Thu, 23 May 2019 15:29:23 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1558589363;
-	bh=ClDTaKnH+f6JP4SlotEDr0uf2Ec7eFg7MaLVeZqMCSw=;
+	bh=AW77xSAKbMiDidstLqWSYFs3Idt3X/vhTJyEOA0oYfY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ThgBYcANrgD5S92UOI4LzaKOWnrq7xfAhmIFmQgbocJG7c3FNZgCZuAVzZCNtSnSt
-	sq1y8FpEm4nPpkDF+UmQ/6dcBW1LRcAsDN1m2e4+qw9mePZoY64THUT2UElu4XDLD/
-	XE3+3E9y9b0S+94IdWYMD9dh3lQva7HEvBawk8Xk=
+	b=OEqKriCPGaUmkaQdMd+OcUFPS4Yz1XSzrOKpSnjjL5h1LrexgWM/wjghHiIok1OxS
+	BuSZIZBY/IbZn3jN5zMjFGVuJHo2WXwguq68cOkZfzXCIJ/yVtyelqzPqgfufRbCH+
+	Y52UkPLHlr9rz3XlHZbysa4BJnLaIay6Qv+yIwZ0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org
-Date: Thu, 23 May 2019 15:29:16 +1000
-Message-Id: <20190523052918.1129-6-david@gibson.dropbear.id.au>
+Date: Thu, 23 May 2019 15:29:17 +1000
+Message-Id: <20190523052918.1129-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190523052918.1129-1-david@gibson.dropbear.id.au>
 References: <20190523052918.1129-1-david@gibson.dropbear.id.au>
@@ -40,8 +40,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PATCH 6/8] spapr: Don't use bus number for building
- DRC ids
+Subject: [Qemu-devel] [PATCH 7/8] spapr: Direct all PCI hotplug to host
+ bridge, rather than P2P bridge
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,151 +58,41 @@ Cc: mst@redhat.com, qemu-devel@nongnu.org, groug@kaod.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DRC ids are more or less arbitrary, as long as they're consistent.  For
-PCI, we notionally build them from the phb's index along with PCI bus
-number, slot and function number.
-
-Using bus number is broken, however, because it can change if the guest
-re-enumerates the PCI topology for whatever reason (e.g. due to hotplug
-of a bridge, which we don't support yet but want to).
-
-Fortunately, there's an alternative.  Bridges are required to have a uniq=
-ue
-non-zero "chassis number" that we can use instead.  Adjust the code to
-use that instead.
-
-This looks like it would introduce a guest visible breaking change, but
-in fact it does not because we don't yet ever use non-zero bus numbers.
-Both chassis and bus number are always 0 for the root bus, so there's no
-change for the existing cases.
+A P2P bridge will attempt to handle the hotplug with SHPC, which doesn't
+work in the PAPR environment.  Instead we want to direct all PCI hotplug
+actions to the PAPR specific host bridge which will use the PAPR hotplug
+mechanism.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_pci.c | 54 ++++++++++++++++++++++++++++++++++------------
- 1 file changed, 40 insertions(+), 14 deletions(-)
+ hw/ppc/spapr.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index f799f8b423..94691fcfc2 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1221,23 +1221,40 @@ static const char *dt_name_from_class(uint8_t cla=
-ss, uint8_t subclass,
-  */
-=20
- static uint32_t drc_id_from_devfn(SpaprPhbState *phb,
--                                  uint32_t busnr,
--                                  int32_t devfn)
-+                                  uint8_t chassis, int32_t devfn)
- {
--    return (phb->index << 16) | (busnr << 8) | devfn;
-+    return (phb->index << 16) | (chassis << 8) | devfn;
- }
-=20
- static SpaprDrc *drc_from_devfn(SpaprPhbState *phb,
--                                uint32_t busnr, int32_t devfn)
-+                                uint8_t chassis, int32_t devfn)
- {
-     return spapr_drc_by_id(TYPE_SPAPR_DRC_PCI,
--                           drc_id_from_devfn(phb, busnr, devfn));
-+                           drc_id_from_devfn(phb, chassis, devfn));
-+}
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 507fd50dd5..6dd8aaac33 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4094,6 +4094,17 @@ static HotplugHandler *spapr_get_hotplug_handler(M=
+achineState *machine,
+         object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
+         return HOTPLUG_HANDLER(machine);
+     }
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
++        PCIDevice *pcidev =3D PCI_DEVICE(dev);
++        PCIBus *root =3D pci_device_root_bus(pcidev);
++        SpaprPhbState *phb =3D
++            (SpaprPhbState *)object_dynamic_cast(OBJECT(BUS(root)->paren=
+t),
++                                                 TYPE_SPAPR_PCI_HOST_BRI=
+DGE);
 +
-+static uint8_t chassis_from_bus(PCIBus *bus, Error **errp)
-+{
-+    if (pci_bus_is_root(bus)) {
-+        return 0;
-+    } else {
-+        PCIDevice *bridge =3D pci_bridge_get_device(bus);
-+
-+        return object_property_get_uint(OBJECT(bridge), "chassis_nr", er=
-rp);
-+    }
- }
-=20
- static SpaprDrc *drc_from_dev(SpaprPhbState *phb, PCIDevice *dev)
- {
--    uint32_t busnr =3D pci_bus_num(PCI_BUS(qdev_get_parent_bus(DEVICE(de=
-v))));
--    return drc_from_devfn(phb, busnr, dev->devfn);
-+    Error *local_err =3D NULL;
-+    uint8_t chassis =3D chassis_from_bus(pci_get_bus(dev), &local_err);
-+
-+    if (local_err) {
-+        error_report_err(local_err);
-+        return NULL;
-+    }
-+
-+    return drc_from_devfn(phb, chassis, dev->devfn);
- }
-=20
- static void add_drcs(SpaprPhbState *phb)
-@@ -1516,14 +1533,19 @@ static void spapr_pci_plug(HotplugHandler *plug_h=
-andler,
-         spapr_drc_reset(drc);
-     } else if (PCI_FUNC(pdev->devfn) =3D=3D 0) {
-         int i;
-+        uint8_t chassis =3D chassis_from_bus(pci_get_bus(pdev), &local_e=
-rr);
-+
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            return;
++        if (phb) {
++            return HOTPLUG_HANDLER(phb);
 +        }
++    }
+     return NULL;
+ }
 =20
-         for (i =3D 0; i < 8; i++) {
-             SpaprDrc *func_drc;
-             SpaprDrcClass *func_drck;
-             SpaprDREntitySense state;
-=20
--            func_drc =3D drc_from_devfn(phb, pci_bus_num(bus),
--                                      PCI_DEVFN(slotnr, i));
-+            func_drc =3D drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, =
-i));
-             func_drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
-             state =3D func_drck->dr_entity_sense(func_drc);
-=20
-@@ -1571,18 +1593,23 @@ static void spapr_pci_unplug_request(HotplugHandl=
-er *plug_handler,
-     g_assert(drc->dev =3D=3D plugged_dev);
-=20
-     if (!spapr_drc_unplug_requested(drc)) {
--        PCIBus *bus =3D PCI_BUS(qdev_get_parent_bus(DEVICE(pdev)));
-         uint32_t slotnr =3D PCI_SLOT(pdev->devfn);
-         SpaprDrc *func_drc;
-         SpaprDrcClass *func_drck;
-         SpaprDREntitySense state;
-         int i;
-+        Error *local_err =3D NULL;
-+        uint8_t chassis =3D chassis_from_bus(pci_get_bus(pdev), &local_e=
-rr);
-+
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-=20
-         /* ensure any other present functions are pending unplug */
-         if (PCI_FUNC(pdev->devfn) =3D=3D 0) {
-             for (i =3D 1; i < 8; i++) {
--                func_drc =3D drc_from_devfn(phb, pci_bus_num(bus),
--                                          PCI_DEVFN(slotnr, i));
-+                func_drc =3D drc_from_devfn(phb, chassis, PCI_DEVFN(slot=
-nr, i));
-                 func_drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
-                 state =3D func_drck->dr_entity_sense(func_drc);
-                 if (state =3D=3D SPAPR_DR_ENTITY_SENSE_PRESENT
-@@ -1603,8 +1630,7 @@ static void spapr_pci_unplug_request(HotplugHandler=
- *plug_handler,
-          */
-         if (PCI_FUNC(pdev->devfn) =3D=3D 0) {
-             for (i =3D 7; i >=3D 0; i--) {
--                func_drc =3D drc_from_devfn(phb, pci_bus_num(bus),
--                                          PCI_DEVFN(slotnr, i));
-+                func_drc =3D drc_from_devfn(phb, chassis, PCI_DEVFN(slot=
-nr, i));
-                 func_drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
-                 state =3D func_drck->dr_entity_sense(func_drc);
-                 if (state =3D=3D SPAPR_DR_ENTITY_SENSE_PRESENT) {
 --=20
 2.21.0
 
