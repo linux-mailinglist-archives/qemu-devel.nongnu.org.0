@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F8A27AAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:36:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33197 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8DF27AE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:39:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33249 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTl50-0005Rs-3Y
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:36:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49422)
+	id 1hTl7s-0007uz-Ug
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:39:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49619)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkvK-0005uh-21
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:11 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkvO-0005zz-Jw
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hTkvA-0001JN-LW
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:06 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55725)
+	(envelope-from <alex.bennee@linaro.org>) id 1hTkvM-0001Wm-Hy
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:14 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42309)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hTkv4-0000zM-DN
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:25:58 -0400
-Received: by mail-wm1-x344.google.com with SMTP id x64so5213265wmb.5
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:25:43 -0700 (PDT)
+	id 1hTkvM-0000zw-93
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:26:12 -0400
+Received: by mail-wr1-x444.google.com with SMTP id l2so5641125wrb.9
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 03:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=HYpRsvHEmUYvBYy6wQQpwlcDtNoNBQtfcPxm0CQghqY=;
-	b=VOyjw/0T4oebmx77bf0SHWLiR23yNN2todyLRTnN3phauS6u4en+7PF2TB9IzPZ4GF
-	Ja8FU3oLAKB/5PPR3Q8GZJJWQ2Lmy2KYUh8X77guFGyL9KnqyWAf7rL08rH08kOoAp1b
-	E2rSUGwtoEoDh9fHjcczOoWHV4ZhCcDJzzhRSe9RrK2Rref0FW5ltXm4dqM90MiWA68J
-	KjXyzvxsSjMaaJNXbYHluD6NG6auM0bPK0K++9XdbnXtoThcKPupam++99sMExuQhpN0
-	xh0NksEQl9CbuGu354AzfTCk21ThkkLHOI05OLPjF4ojvsBF4376Ntop8CezPCgBQech
-	0NBQ==
+	bh=mI6pN9UnLPqpwK2uAx0syvUxElq3Ud6lBiwzd8Of+TY=;
+	b=a30k3ixbS4lqsT0IEw3rOb/FUhkSaA32MzBVHIV0lRLFCXMAiDkw3kDhgYkfJVwZ0c
+	LF1ixYC8bXhEpfPAhX3BZ6hK6kRATnLWtcjcelnXSU+ZCZ8iJcYJ9KHDJk6ZOLBdJh9o
+	OL+/e3uL5Yq6fEo1u02n7EhlFSh4L34kclhm5HP8SrpXjiLEElnStGpJQp47P2Oc1S3I
+	lohMeQa91dgb+eUz1YBGRtR3cVryTaDaov7ErUiMX3QOpo3I7J1sOxhTu0R5escYXcdj
+	y2f2lZxZ9vxCsUBJ8rEwzZ77bNLL21RWLKoeFNjV0fWhgQprPLMWzeW0yXoRnZqioevU
+	wy7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=HYpRsvHEmUYvBYy6wQQpwlcDtNoNBQtfcPxm0CQghqY=;
-	b=KCZrbkIQCa3/E+eVBmTKqMiFS2YKvdMvAmzHPYNa07qeSGbmqUJ3VieiewIPkl3DlG
-	9ymBzb0iHQKW5RIQQn1sAY0rgiJCSw65ogVIvk1EKTFYnFz8i6QFLJvE6joB+WSIjt2j
-	Wf1ziZwKCp0lCN7G+HWqVLOAebQuxGDriZUY7geWgAZTLwn9+tOC12a9+I4ob8PAgItF
-	eaGmoD7GKxs1Cg56KDeKeGq9wKcbeojMb7XJgesk2BWFvVEZUAj+7QIiDZCdNHh3Ey60
-	s+ldCslfeI2MrjaRo3e+Uff484TeS6tRngMx3IAypJEJFX5+NUfo7JehBq/KbKxJL5aU
-	ewSw==
-X-Gm-Message-State: APjAAAVoX8t1BxM0+MP0FYzwvm51kalPqJijeYIkyMA+5ha7/+X1hT7W
-	SuVuk6mMqhUzSt+j2A/geIkNYQ==
-X-Google-Smtp-Source: APXvYqzLEMOJf1y5zQ8SwgV11AxQYs2hq2mQLAP4mDzDesjywV22L8JxCxf7dO1dhxBFkJQXsN9aKA==
-X-Received: by 2002:a1c:be12:: with SMTP id o18mr10888052wmf.124.1558607142996;
-	Thu, 23 May 2019 03:25:42 -0700 (PDT)
+	bh=mI6pN9UnLPqpwK2uAx0syvUxElq3Ud6lBiwzd8Of+TY=;
+	b=hQXWX0hW/K1Yp1gmhQfqn5GPp3scXlHySOlmhhnlAtgKcgJ7MKWfAgGYto6CpNqI0k
+	Ox2aIut5h1Ll6CjmTDoB/01fNHeHw5gnF90ksAObAiF0+rI2874qEx7Ge2D3kAdmcpKq
+	sBiScZ3O8ozAW+dspbujAkDOdNB/u7gJzXH/+AeUhlgv3162IWmdjHwdN+heGJbibsxV
+	tyCQp+yff7bTqy7UwmK/h4MiaZeBIzSW1ukSvaL6khqbrYqY4RNMjRHRCQ3e6t3CwlqD
+	ZvHSTcT8xowwbtDPhTyuwjqluxfbRBzytXINU2uFegdFFowp9+qEsd9R2VuoV32Cvebb
+	TQnQ==
+X-Gm-Message-State: APjAAAWK6s5QTNS+q+j7zaYt432CuToMhtkHOfUZSrbVhsCnWlrjIgxJ
+	dfQwwjZZyXorIsqOWRpqLxbRbA==
+X-Google-Smtp-Source: APXvYqw52ADrBUBKtUmkq7k1y5/IgOAwpdFqXlycpN5KDFlh8Q7jhzBVlC5D8ogVYStWY/ryoFBtcw==
+X-Received: by 2002:a5d:5743:: with SMTP id q3mr18253898wrw.92.1558607143785; 
+	Thu, 23 May 2019 03:25:43 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	x68sm8801239wmf.13.2019.05.23.03.25.36
+	g6sm36900389wro.29.2019.05.23.03.25.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Thu, 23 May 2019 03:25:40 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id C21C71FF9E;
+	by zen.linaroharston (Postfix) with ESMTP id D53841FF8C;
 	Thu, 23 May 2019 11:25:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 11:25:19 +0100
-Message-Id: <20190523102532.10486-16-alex.bennee@linaro.org>
+Date: Thu, 23 May 2019 11:25:20 +0100
+Message-Id: <20190523102532.10486-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523102532.10486-1-alex.bennee@linaro.org>
 References: <20190523102532.10486-1-alex.bennee@linaro.org>
@@ -69,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v2 15/28] tests/tcg/multiarch: add hello world
- system test
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v2 16/28] editorconfig: add settings for .s/.S
+ files
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,42 +83,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is not really i386 only, we can have the same test for all
-architectures supporting system tests.
+We are starting to add assembler foe tests/tcg so lets make sure we
+get the mode right.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/i386/Makefile.softmmu-target       | 2 +-
- tests/tcg/{i386 => multiarch}/system/hello.c | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename tests/tcg/{i386 => multiarch}/system/hello.c (100%)
+ .editorconfig | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
-index 53c9c5ece06..c31bbbf39a7 100644
---- a/tests/tcg/i386/Makefile.softmmu-target
-+++ b/tests/tcg/i386/Makefile.softmmu-target
-@@ -27,7 +27,7 @@ CFLAGS+=-m32
- LINK_SCRIPT=$(I386_SYSTEM_SRC)/kernel.ld
- LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,-melf_i386
- # FIXME: move to common once x86_64 is bootstrapped
--TESTS+=$(X86_TESTS)
-+TESTS+=$(X86_TESTS) $(MULTIARCH_TESTS)
- endif
- CFLAGS+=-nostdlib -ggdb -O0 $(MINILIB_INC)
- LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
-diff --git a/tests/tcg/i386/system/hello.c b/tests/tcg/multiarch/system/hello.c
-similarity index 100%
-rename from tests/tcg/i386/system/hello.c
-rename to tests/tcg/multiarch/system/hello.c
+diff --git a/.editorconfig b/.editorconfig
+index 15828833938..df6db65531d 100644
+--- a/.editorconfig
++++ b/.editorconfig
+@@ -26,6 +26,11 @@ file_type_emacs = makefile
+ indent_style = space
+ indent_size = 4
+ 
++[*.{s,S}]
++indent_style = tab
++indent_size = 8
++file_type_emacs = asm
++
+ [*.{vert,frag}]
+ file_type_emacs = glsl
+ 
 -- 
 2.20.1
 
