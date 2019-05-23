@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7600A27AFE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:45:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33343 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA07C27AEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 12:42:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33311 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTlDg-0004qS-LB
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:45:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50180)
+	id 1hTlAi-0002Bz-56
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 06:42:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50280)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hTkx0-0007IO-Rx
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:27:55 -0400
+	(envelope-from <pagupta@redhat.com>) id 1hTkxP-0007eC-NG
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:28:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hTkwz-0002hJ-Vs
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:27:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46590)
+	(envelope-from <pagupta@redhat.com>) id 1hTkxO-0002rA-Ed
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:28:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60546)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hTkwz-0002gl-RO
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:27:53 -0400
+	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hTkxO-0002qm-6K
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 06:28:18 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 189133060485;
-	Thu, 23 May 2019 10:27:51 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5C25FC05E76E;
+	Thu, 23 May 2019 10:28:12 +0000 (UTC)
 Received: from dhcp201-121.englab.pnq.redhat.com (ovpn-116-162.sin2.redhat.com
 	[10.67.116.162])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B2F4969181;
-	Thu, 23 May 2019 10:27:29 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2BD0469182;
+	Thu, 23 May 2019 10:27:51 +0000 (UTC)
 From: Pankaj Gupta <pagupta@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 23 May 2019 15:54:48 +0530
-Message-Id: <20190523102449.2642-7-pagupta@redhat.com>
+Date: Thu, 23 May 2019 15:54:49 +0530
+Message-Id: <20190523102449.2642-8-pagupta@redhat.com>
 In-Reply-To: <20190523102449.2642-1-pagupta@redhat.com>
 References: <20190523102449.2642-1-pagupta@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Thu, 23 May 2019 10:27:53 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Thu, 23 May 2019 10:28:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 6/7] numa: Handle virtio-pmem in NUMA stats
+Subject: [Qemu-devel] [PATCH 7/7] pc: Support for virtio-pmem-pci
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,60 +66,162 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Account the memory to node 0 for now. Once (if ever) virtio-pmem
-supports NUMA, we can account it to the right node.
+Override the device hotplug handler to properly handle the memory device
+part via virtio-pmem-pci callbacks from the machine hotplug handler and
+forward to the actual PCI bus hotplug handler.
+
+As PCI hotplug has not been properly factored out into hotplug handlers,
+most magic is performed in the (un)realize functions. Also some PCI host
+buses don't have a PCI hotplug handler at all yet, just to be sure that
+we alway have a hotplug handler on x86, add a simple error check.
+
+Unlocking virtio-pmem will unlock virtio-pmem-pci.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
+[ Disable virtio-pmem hotunplug ]
+Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
 ---
- numa.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ hw/i386/Kconfig |  1 +
+ hw/i386/pc.c    | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 72 insertions(+), 1 deletion(-)
 
-diff --git a/numa.c b/numa.c
-index 3875e1efda..42cca616e7 100644
---- a/numa.c
-+++ b/numa.c
-@@ -549,6 +549,7 @@ static void numa_stat_memory_devices(NumaNodeMem node_mem[])
-     MemoryDeviceInfoList *info_list = qmp_memory_device_list();
-     MemoryDeviceInfoList *info;
-     PCDIMMDeviceInfo     *pcdimm_info;
-+    VirtioPMEMDeviceInfo *vpi;
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index 9817888216..4ddf2a9c55 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -30,6 +30,7 @@ config PC
+     # For ACPI builder:
+     select SERIAL_ISA
+     select ACPI_VMGENID
++    select VIRTIO_PMEM_SUPPORTED
  
-     for (info = info_list; info; info = info->next) {
-         MemoryDeviceInfo *value = info->value;
-@@ -556,22 +557,21 @@ static void numa_stat_memory_devices(NumaNodeMem node_mem[])
-         if (value) {
-             switch (value->type) {
-             case MEMORY_DEVICE_INFO_KIND_DIMM:
--                pcdimm_info = value->u.dimm.data;
--                break;
--
-             case MEMORY_DEVICE_INFO_KIND_NVDIMM:
--                pcdimm_info = value->u.nvdimm.data;
--                break;
--
--            default:
--                pcdimm_info = NULL;
--                break;
--            }
--
--            if (pcdimm_info) {
-+                pcdimm_info = value->type == MEMORY_DEVICE_INFO_KIND_DIMM ?
-+                              value->u.dimm.data : value->u.nvdimm.data;
-                 node_mem[pcdimm_info->node].node_mem += pcdimm_info->size;
-                 node_mem[pcdimm_info->node].node_plugged_mem +=
-                     pcdimm_info->size;
-+                break;
-+            case MEMORY_DEVICE_INFO_KIND_VIRTIO_PMEM:
-+                vpi = value->u.virtio_pmem.data;
-+                /* TODO: once we support numa, assign to right node */
-+                node_mem[0].node_mem += vpi->size;
-+                node_mem[0].node_plugged_mem += vpi->size;
-+                break;
-+            default:
-+                g_assert_not_reached();
-             }
-         }
+ config PC_PCI
+     bool
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index d98b737b8f..3b2ad42699 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -77,6 +77,8 @@
+ #include "hw/i386/intel_iommu.h"
+ #include "hw/net/ne2000-isa.h"
+ #include "standard-headers/asm-x86/bootparam.h"
++#include "hw/virtio/virtio-pmem-pci.h"
++#include "hw/mem/memory-device.h"
+ 
+ /* debug PC/ISA interrupts */
+ //#define DEBUG_IRQ
+@@ -2398,6 +2400,65 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+     numa_cpu_pre_plug(cpu_slot, dev, errp);
+ }
+ 
++static void pc_virtio_pmem_pci_pre_plug(HotplugHandler *hotplug_dev,
++                                        DeviceState *dev, Error **errp)
++{
++    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
++    Error *local_err = NULL;
++
++    if (!hotplug_dev2) {
++        /*
++         * Without a bus hotplug handler, we cannot control the plug/unplug
++         * order. This should never be the case on x86, however better add
++         * a safety net.
++         */
++        error_setg(errp, "virtio-pmem-pci not supported on this bus.");
++        return;
++    }
++    /*
++     * First, see if we can plug this memory device at all. If that
++     * succeeds, branch of to the actual hotplug handler.
++     */
++    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
++                           &local_err);
++    if (!local_err) {
++        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
++    }
++    error_propagate(errp, local_err);
++}
++
++static void pc_virtio_pmem_pci_plug(HotplugHandler *hotplug_dev,
++                                    DeviceState *dev, Error **errp)
++{
++    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
++    Error *local_err = NULL;
++
++    /*
++     * Plug the memory device first and then branch off to the actual
++     * hotplug handler. If that one fails, we can easily undo the memory
++     * device bits.
++     */
++    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
++    hotplug_handler_plug(hotplug_dev2, dev, &local_err);
++    if (local_err) {
++        memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
++    }
++    error_propagate(errp, local_err);
++}
++
++static void pc_virtio_pmem_pci_unplug_request(HotplugHandler *hotplug_dev,
++                                              DeviceState *dev, Error **errp)
++{
++    /* We don't support virtio pmem hot unplug */
++    error_setg(errp, "virtio pmem device unplug not supported.");
++}
++
++static void pc_virtio_pmem_pci_unplug(HotplugHandler *hotplug_dev,
++                                      DeviceState *dev, Error **errp)
++{
++    /* We don't support virtio pmem hot unplug */
++}
++
+ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                           DeviceState *dev, Error **errp)
+ {
+@@ -2405,6 +2466,8 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+         pc_memory_pre_plug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
+         pc_cpu_pre_plug(hotplug_dev, dev, errp);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
++        pc_virtio_pmem_pci_pre_plug(hotplug_dev, dev, errp);
      }
+ }
+ 
+@@ -2415,6 +2478,8 @@ static void pc_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+         pc_memory_plug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
+         pc_cpu_plug(hotplug_dev, dev, errp);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
++        pc_virtio_pmem_pci_plug(hotplug_dev, dev, errp);
+     }
+ }
+ 
+@@ -2425,6 +2490,8 @@ static void pc_machine_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+         pc_memory_unplug_request(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
+         pc_cpu_unplug_request_cb(hotplug_dev, dev, errp);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
++        pc_virtio_pmem_pci_unplug_request(hotplug_dev, dev, errp);
+     } else {
+         error_setg(errp, "acpi: device unplug request for not supported device"
+                    " type: %s", object_get_typename(OBJECT(dev)));
+@@ -2438,6 +2505,8 @@ static void pc_machine_device_unplug_cb(HotplugHandler *hotplug_dev,
+         pc_memory_unplug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
+         pc_cpu_unplug_cb(hotplug_dev, dev, errp);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
++        pc_virtio_pmem_pci_unplug(hotplug_dev, dev, errp);
+     } else {
+         error_setg(errp, "acpi: device unplug for not supported device"
+                    " type: %s", object_get_typename(OBJECT(dev)));
+@@ -2448,7 +2517,8 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
+                                              DeviceState *dev)
+ {
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
+-        object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
++        object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
++        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
+         return HOTPLUG_HANDLER(machine);
+     }
+ 
 -- 
 2.14.5
 
