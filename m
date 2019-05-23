@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4612783F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:41:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59944 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18B12782B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 10:39:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59893 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTjHr-0005Sq-Dp
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:41:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50769)
+	id 1hTjFl-0003oT-0E
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 04:39:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51138)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <abologna@redhat.com>) id 1hTjCH-00021c-7d
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:35:36 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTjE3-00039o-7G
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:37:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <abologna@redhat.com>) id 1hTjCG-0005yv-4g
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:35:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56756)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <abologna@redhat.com>) id 1hTjCF-0005CQ-Vl
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:35:32 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9C53888302;
-	Thu, 23 May 2019 08:35:27 +0000 (UTC)
-Received: from kinshicho (unknown [10.43.2.73])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 98C4E1001DDA;
-	Thu, 23 May 2019 08:35:25 +0000 (UTC)
-Message-ID: <2186eb85f8541b0c9cc69cacae9321ace8addaa6.camel@redhat.com>
-From: Andrea Bolognani <abologna@redhat.com>
-To: Andrew Jones <drjones@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Date: Thu, 23 May 2019 10:35:24 +0200
-In-Reply-To: <20190515115413.cqvzjkky7xubnsuo@kamzik.brq.redhat.com>
-References: <20190418092841.fzrcegkbal7dpfcy@kamzik.brq.redhat.com>
-	<20190418112610.GO13773@redhat.com> <877ebrmch2.fsf@dusky.pond.sub.org>
-	<20190513184237.i2ha3ixvhjqzkn5q@kamzik.brq.redhat.com>
-	<87bm05ab6c.fsf@dusky.pond.sub.org>
-	<20190514090225.vel4xm4x743o4rge@kamzik.brq.redhat.com>
-	<20190514164838.48fc7603@Igors-MacBook-Pro>
-	<20190515081854.kcpjm4zd2bzc7f6o@kamzik.brq.redhat.com>
-	<20190515125229.1784f586@redhat.com>
-	<20190515115413.cqvzjkky7xubnsuo@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+	(envelope-from <peter.maydell@linaro.org>) id 1hTjE2-0006AB-6C
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:37:23 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:46716)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hTjE0-0005hQ-ET
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 04:37:22 -0400
+Received: by mail-oi1-x229.google.com with SMTP id 203so3733130oid.13
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 01:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=BAHaU6CcqADINlGZlZag7tEHtIJm/qYWaLrdUqMUMjg=;
+	b=ipGy0iiZZsItmRt5ADLruOeJKuOX0vXb/EltDUxoinsVBC+0a5sChnV7HgmsovpPkd
+	QKfBVYUlSbL2XvujWoac+/c0rlm+AKso7+21KvwE3vJqIu7hUnzlI0+2OPyEjKOM3cHe
+	eyrSfoZKWKWlBXI/YbIZsAN9CR7SWgVS5YvSCV12S5OfMie57Q/Dt4mm4+CDuIedt2dj
+	KQw/OnLoFEMHmftItlAaUIW2CDhJn0cF7hTXZjLqzRXQd+HDFLPEU1mGqXi2wn/mCZtz
+	vqouZHvUJlSfiFLjoCZrCqFLPD5mUWcbp8ZIeaBRvwDvZKl6MGlXHbnUBTj+ow9gNK6X
+	3+hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=BAHaU6CcqADINlGZlZag7tEHtIJm/qYWaLrdUqMUMjg=;
+	b=ClM40HWgoUH15xOiXD+4XXo0FiVDUGtWH3QhJK/a2imiRLOWnoywTSr2UFAif4E7ph
+	CrGj3kBaER2hdVND05Vg6b1iCfX8hAAVgAz9hjbzKFKY559+mkJpKM0p0KxIHy8zQxOC
+	sDx6LxlgMQbdENL0M7CecIaBNTiBj+Ht+82sLFPe8UU/RED7IOpDqf54U8ZuV9R/1q4y
+	KLg8QgHTOLJICZ9zX2Pjqm2tgAIkSjIsfWh0Zl0VbT9ZQjRLJlk1ZIHcnrAOhc7+c20k
+	iIk3cOsqWk0hmHUgVJGnrBX0yMR4LGHzZgu4K4u0lfMew7DYuKFgELmsJjd9i77kIzXB
+	lIKQ==
+X-Gm-Message-State: APjAAAWmFf53f6GTSNdPXUB9k6nhEXDTQ6RA6f3apwKf+WSjPdkZNQpi
+	P1hNnbMAx88xObNku0B6eMuN2tiU/dgUhM0wwTHrKA==
+X-Google-Smtp-Source: APXvYqyffb0qAUmF5ulbJPlMhn/+wwHaSm7Vx4FC/9KRMUNZahpIFWqj1Knebw39b51NLX9Fkwx6Y9HuhGg8W04IVqY=
+X-Received: by 2002:aca:845:: with SMTP id 66mr1984908oii.163.1558600633795;
+	Thu, 23 May 2019 01:37:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Thu, 23 May 2019 08:35:27 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] How do we do user input bitmap properties?
+References: <20190520231008.20140-1-mst@redhat.com>
+	<CAFEAcA80Q8zWxM4TBVMZHLuOzo0HSpT=4C76uAwdMjLn2Xye=w@mail.gmail.com>
+	<20190521092553-mutt-send-email-mst@kernel.org>
+	<20190522150642.3da34e6b@redhat.com>
+	<4b230fb0-ae2c-5221-39cb-1bed7b6df8d0@redhat.com>
+	<9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat.com>
+In-Reply-To: <9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 May 2019 09:37:02 +0100
+Message-ID: <CAFEAcA8wMUrdH_-b38eWPRn-Qx1-6L_jZ2BRXH08MPUZbu9w-A@mail.gmail.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::229
+Subject: Re: [Qemu-devel] [PULL v2 00/36] pci, pc, virtio: features, fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,52 +76,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
-	"Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
-	ehabkost@redhat.com, Markus Armbruster <armbru@redhat.com>,
-	qemu-devel@nongnu.org, dgilbert@redhat.com, Dave.Martin@arm.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Igor Mammedov <imammedo@redhat.com>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2019-05-15 at 13:54 +0200, Andrew Jones wrote:
-> On Wed, May 15, 2019 at 12:52:29PM +0200, Igor Mammedov wrote:
-> > since using magic numbers is not very descriptive
-> > (but if there is some spec where they come from that we could point users to
-> > it might be acceptable too, but I'd reserve number approach for values only).
-> 
-> The numbers aren't magic, they're part of the name. '1' in the above
-> 'sve1' means one quadword. It would probably have been better to use bits
-> instead in the example, i.e.
-> 
->   -cpu host,sve128=on,sve256=on,sve384=off,sve512=on
-> 
-> where it's now clear that "sve512" has an analogy with x86's "avx512".
-> 
-[...]
-> 
-> So I set off to convince Igor of the wide word idea (he sits next to me,
-> so I didn't have go far), but he has convinced me of the above property
-> idea. He used the magic phrase: "less code would be needed". If we use
-> the properties like above then we get introspection for free (cpu property
-> listing which libvirt already knows how to do) - so no QMP query needed.
-> The cost is adding several properties (16 to handle the current 2048-bit
-> limit), but I guess that's cheap enough. The command line is verbose, but
-> also much easier for a human to construct and read. I'm pretty sold on
-> this path, but adding Andrea and Eduardo for their input as well.
+On Thu, 23 May 2019 at 01:51, Laszlo Ersek <lersek@redhat.com> wrote:
+> I have narrowed down the issue sufficiently that I think I can hand it
+> over to Peter and Ard now -- because they know AARCH32 and AARCH64
+> assembly, and "target/arm/translate-a64.c" and "tcg/arm/*" too.
+>
+> The summarize the issue for Ard, the symptom is that AARCH64 ArmVirtQemu
+> runs perfectly fine with TCG on an x86-64 system, but it crashes on an
+> AARCH32 host system.
 
-Sorry for taking a while to respond. Anyway, the above looks good to
-me as a general direction, but note that you'll have to implement at
-the very least the query-cpu-model-expansion QMP command for the
-introspection to work.
+Thanks for the investigation; this is probably more one for
+Richard than me.
 
-query-cpu-model-baseline and query-cpu-model-comparison are two more
-QMP command which, while perhaps not immediately applicabile, we will
-want to implement at some point; more in general, what s390x is doing
-with respect to CPU models is a good blueprint, according to the
-libvirt developer who's the most involved with that specific area of
-the project.
-
--- 
-Andrea Bolognani / Red Hat / Virtualization
-
+-- PMM
 
