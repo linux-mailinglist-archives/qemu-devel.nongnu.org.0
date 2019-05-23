@@ -2,52 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418E2280CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 17:17:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38658 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9954D2810A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 17:21:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38722 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTpTZ-0006Fw-Cd
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 11:17:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42036)
+	id 1hTpWh-0000Jz-P3
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 11:21:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42470)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laine@redhat.com>) id 1hTpRF-0005Ge-3r
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:15:26 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hTpSM-000640-IL
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:16:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laine@redhat.com>) id 1hTpR5-0007er-V4
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:15:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45762)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <laine@redhat.com>) id 1hTpR2-0007HI-GC
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:15:14 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D9DFD5946F
-	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 15:14:38 +0000 (UTC)
-Received: from vhost2.laine.org (ovpn-116-191.phx2.redhat.com [10.3.116.191])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 422996840B;
-	Thu, 23 May 2019 15:14:32 +0000 (UTC)
-To: qemu-devel@nongnu.org
-References: <20190523145840.11774-1-dgilbert@redhat.com>
-From: Laine Stump <laine@redhat.com>
-Message-ID: <b2b2e120-e350-da29-929c-8695095a5ab1@redhat.com>
-Date: Thu, 23 May 2019 11:14:31 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hTpSL-0000U5-NP
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:16:34 -0400
+Received: from mail-ua1-x943.google.com ([2607:f8b0:4864:20::943]:33017)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hTpSL-0000T3-HO
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 11:16:33 -0400
+Received: by mail-ua1-x943.google.com with SMTP id 49so2321052uas.0
+	for <qemu-devel@nongnu.org>; Thu, 23 May 2019 08:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=q6BkwYnA3LMZb/vPh5D5GjjEYEOUkiYkYmHrGxhJUXA=;
+	b=FhmoTjMD2CnFaeEx9TKlKnLLavxclyxPPEbvJ+DH3iJrUGTXrQikT3OVBOAVYA/cjH
+	Q6EG3mp7VsbS30IKt8SfhVvuM7FcMkZIpXS8+ngBXPM+RX4fzHHtT4XlrXW5d6gy4hYc
+	Qs9Y1PAL1X8UD21JcTvQHmV9OFai21y+JbXDTJ6qkSEiAhnPTrNb1MtvZZbSaO6ta5Kq
+	akv6Z7Xu2F7ibUVXSy0SCesUYuBHKw0KDtp3CQMkHkC62o4yS+sctARYS/j8XeF6mVIG
+	VlkQW5dEAtgUiAHSKscndI9Qi0w71IOuVobEMO53kHMEE2XjmEnsd/ArrgRvnhx+OVdi
+	Xuzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=q6BkwYnA3LMZb/vPh5D5GjjEYEOUkiYkYmHrGxhJUXA=;
+	b=crw+BKZMybLCyu3ZQ2jcBKX18TrDm4lXeohQbao1SHIQEncr1OqjhUtKt8u/+vjasy
+	QTpU7dP+HmO9oqqYdo1mx/q1h4k5Xk7JAqyexQLmKVAeoUqVZdKxmkOJDpYEP0kdmqIy
+	A/phjr27LPuCtUmweHcM4AfYzTF8nEFHVGk3t22ckEOnMCdQB3KRGJQxiwc0YPQAGQwX
+	VNMh6AsDovNJhrG0e6JLZ2/02/2iROoYPRXRoQAm5anrpVfFUaxCGdhhZH2qYC8Uyulr
+	ZAPny4zK+Khjn6jUXgP/H3RBG9yYy28WK51GN+FbVI3+jcenWd1P7MgOkUVrpgVBDQnU
+	wkYg==
+X-Gm-Message-State: APjAAAUrBE9gjV50bs7mp+Uab4WF9f12m0YTEeufPIadz1VE29rIXpYo
+	mJ1pIL25oqA8yrcA3WVAn5Qmaw==
+X-Google-Smtp-Source: APXvYqzLLSEp8TL4I02ItwwJAllEBsL7Jc3agltwOs5gI4gwyVh3dT6f9lDMxt39FGWPkUKk1V/Jkg==
+X-Received: by 2002:ab0:1849:: with SMTP id j9mr599743uag.75.1558624592004;
+	Thu, 23 May 2019 08:16:32 -0700 (PDT)
+Received: from [192.168.43.94] (ip-173-130-215-183.orldfl.spcsdns.net.
+	[173.130.215.183])
+	by smtp.gmail.com with ESMTPSA id s65sm222053vkd.36.2019.05.23.08.16.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 08:16:31 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	qemu-devel@nongnu.org
+References: <20190523102532.10486-1-alex.bennee@linaro.org>
+	<20190523102532.10486-5-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <0426116b-6141-34ef-a6aa-a269c6d624d3@linaro.org>
+Date: Thu, 23 May 2019 11:16:28 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190523145840.11774-1-dgilbert@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20190523102532.10486-5-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Thu, 23 May 2019 15:14:38 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] network announce; interface selection
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::943
+Subject: Re: [Qemu-devel] [PATCH v2 04/28] semihosting: enable chardev
+ backed output for console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,44 +86,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>,
-	armbru@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/19 10:58 AM, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Laine asked for some extra features on the network announce support;
-> this is the first one of them.
-> It allows you to send an announce on a subset of the interfaces.
-> 
-> Note since we've still only got one timer, if you start one announce
-> on an interface and then you start a second announce on another
-> interface, the first one gets cancelled even if it's part way through.
-> [That's the other feature Laine would like, but I need to think about
-> that a bit more.
+On 5/23/19 6:25 AM, Alex Bennée wrote:
+>  int qemu_semihosting_log_out(const char *s, int len)
+>  {
+> -    return write(STDERR_FILENO, s, len);
+> +    Chardev *chardev = semihosting_get_chardev();
+> +    if (chardev) {
+> +        return qemu_chr_write_all(chardev, (uint8_t *) s, len);
+> +    } else {
+> +        return write(STDERR_FILENO, s, len);
+> +    }
+>  }
 
-I have a question without trying to read/understand the code: Does the 
-restricted interface list persist to future self-announces? (e.g. one 
-that is internally initiated by qemu) Or does it only apply to the 
-current new self-announce? (Hopefully the latter)
+Can we not create a default chardev that outputs to stderr, so that the
+conditional is not required?  Or does that somehow interfere with how this
+connects up for linux-user/?
 
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> 
-> Dr. David Alan Gilbert (2):
->    net/announce: Allow optional list of interfaces
->    net/announce: Add HMP optional interface list
-> 
->   hmp-commands.hx        |  6 ++++--
->   hmp.c                  | 38 +++++++++++++++++++++++++++++++++++++-
->   include/net/announce.h |  2 +-
->   net/announce.c         | 39 ++++++++++++++++++++++++++++++++-------
->   net/trace-events       |  2 +-
->   qapi/net.json          |  8 +++++---
->   6 files changed, 80 insertions(+), 15 deletions(-)
-> 
 
+r~
 
