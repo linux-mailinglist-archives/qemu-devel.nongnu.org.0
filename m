@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94823292FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 10:23:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50912 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F952941D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 11:02:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51254 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU5U1-0004MT-O7
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 04:23:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37300)
+	id 1hU65Y-0004zH-SV
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 05:02:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43146)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hU5Rx-0003Oj-GU
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 04:21:14 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hU630-0003f6-F7
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 04:59:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hU5Rw-000163-DM
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 04:21:13 -0400
-Received: from mga02.intel.com ([134.134.136.20]:29956)
+	(envelope-from <kwolf@redhat.com>) id 1hU60z-00007z-2a
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 04:57:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54542)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hU5Rw-0000nK-3A
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 04:21:12 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 May 2019 01:21:06 -0700
-X-ExtLoop1: 1
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.104])
-	by fmsmga007.fm.intel.com with ESMTP; 24 May 2019 01:21:04 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: pbonzini@redhat.com,
-	rth@twiddle.net,
-	ehabkost@redhat.com
-Date: Fri, 24 May 2019 16:18:39 +0800
-Message-Id: <20190524081839.6228-3-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190524081839.6228-1-tao3.xu@intel.com>
-References: <20190524081839.6228-1-tao3.xu@intel.com>
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hU60x-000079-Le; Fri, 24 May 2019 04:57:23 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1368E3082132;
+	Fri, 24 May 2019 08:57:22 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-117-157.ams2.redhat.com
+	[10.36.117.157])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 014A15D9D3;
+	Fri, 24 May 2019 08:57:19 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Date: Fri, 24 May 2019 10:57:11 +0200
+Message-Id: <20190524085711.17834-1-kwolf@redhat.com>
+In-Reply-To: <20190523160104.21258-1-kwolf@redhat.com>
+References: <20190523160104.21258-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 134.134.136.20
-Subject: [Qemu-devel] [PATCH v2 2/2] target/i386: Add support for save/load
- IA32_UMWAIT_CONTROL MSR
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Fri, 24 May 2019 08:57:23 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 1.5/15] nbd-server: Call
+ blk_set_allow_aio_context_change()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,148 +57,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, kvm@vger.kernel.org, mst@redhat.com,
-	jingqi.liu@intel.com, tao3.xu@intel.com, mtosatti@redhat.com,
-	qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UMWAIT and TPAUSE instructions use IA32_UMWAIT_CONTROL at MSR index
-E1H to determines the maximum time in TSC-quanta that the processor
-can reside in either C0.1 or C0.2.
+The NBD server uses an AioContext notifier, so it can tolerate that its
+BlockBackend is switched to a different AioContext. Before we start
+actually calling bdrv_try_set_aio_context(), which checks for
+consistency, outside of test cases, we need to make sure that the NBD
+server actually allows this.
 
-This patch is to Add support for save/load IA32_UMWAIT_CONTROL MSR in
-guest.
-
-Co-developed-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- target/i386/cpu.h     |  2 ++
- target/i386/kvm.c     | 15 +++++++++++++++
- target/i386/machine.c | 20 ++++++++++++++++++++
- 3 files changed, 37 insertions(+)
+ nbd/server.c               |  1 +
+ tests/qemu-iotests/240     | 21 +++++++++++++++++++++
+ tests/qemu-iotests/240.out | 13 +++++++++++++
+ 3 files changed, 35 insertions(+)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 66fa61f02b..9d1c8edc1f 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -459,6 +459,7 @@ typedef enum X86Seg {
- 
- #define MSR_IA32_BNDCFGS                0x00000d90
- #define MSR_IA32_XSS                    0x00000da0
-+#define MSR_IA32_UMWAIT_CONTROL         0xe1
- 
- #define XSTATE_FP_BIT                   0
- #define XSTATE_SSE_BIT                  1
-@@ -1360,6 +1361,7 @@ typedef struct CPUX86State {
-     uint16_t fpregs_format_vmstate;
- 
-     uint64_t xss;
-+    uint64_t umwait;
- 
-     TPRAccess tpr_access_type;
- } CPUX86State;
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index b58fc7ab3a..7845f684fc 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -92,6 +92,7 @@ static bool has_msr_hv_stimer;
- static bool has_msr_hv_frequencies;
- static bool has_msr_hv_reenlightenment;
- static bool has_msr_xss;
-+static bool has_msr_umwait;
- static bool has_msr_spec_ctrl;
- static bool has_msr_virt_ssbd;
- static bool has_msr_smi_count;
-@@ -1487,6 +1488,9 @@ static int kvm_get_supported_msrs(KVMState *s)
-                 case MSR_IA32_XSS:
-                     has_msr_xss = true;
-                     break;
-+                case MSR_IA32_UMWAIT_CONTROL:
-+                    has_msr_umwait = true;
-+                    break;
-                 case HV_X64_MSR_CRASH_CTL:
-                     has_msr_hv_crash = true;
-                     break;
-@@ -1667,6 +1671,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-                              strerror(-ret));
-             }
-         }
-+    } else {
-+        has_msr_umwait = false;
+diff --git a/nbd/server.c b/nbd/server.c
+index e21bd501dc..d1375350bc 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1491,6 +1491,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uin=
+t64_t dev_offset,
+         goto fail;
      }
- 
-     return 0;
-@@ -2033,6 +2039,9 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, env->xss);
-     }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, env->umwait);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, env->spec_ctrl);
-     }
-@@ -2426,6 +2435,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, 0);
-     }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, 0);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, 0);
-     }
-@@ -2675,6 +2687,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-         case MSR_IA32_XSS:
-             env->xss = msrs[i].data;
-             break;
-+        case MSR_IA32_UMWAIT_CONTROL:
-+            env->umwait = msrs[i].data;
-+            break;
-         default:
-             if (msrs[i].index >= MSR_MC0_CTL &&
-                 msrs[i].index < MSR_MC0_CTL + (env->mcg_cap & 0xff) * 4) {
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 225b5d433b..e51285a583 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -810,6 +810,25 @@ static const VMStateDescription vmstate_xss = {
-     }
- };
- 
-+static bool umwait_needed(void *opaque)
+     blk_set_enable_write_cache(blk, !writethrough);
++    blk_set_allow_aio_context_change(blk, true);
+=20
+     exp->refcount =3D 1;
+     QTAILQ_INIT(&exp->clients);
+diff --git a/tests/qemu-iotests/240 b/tests/qemu-iotests/240
+index b4cf95096d..5be6b9c0f7 100755
+--- a/tests/qemu-iotests/240
++++ b/tests/qemu-iotests/240
+@@ -27,6 +27,12 @@ echo "QA output created by $seq"
+=20
+ status=3D1	# failure is the default!
+=20
++_cleanup()
 +{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->umwait != 0;
++    rm -f "$TEST_DIR/nbd"
 +}
++trap "_cleanup; exit \$status" 0 1 2 3 15
 +
-+static const VMStateDescription vmstate_umwait = {
-+    .name = "cpu/umwait",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = umwait_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.umwait, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
+ # get standard environment, filters and checks
+ . ./common.rc
+ . ./common.filter
+@@ -122,6 +128,21 @@ run_qemu <<EOF
+ { "execute": "quit"}
+ EOF
+=20
++echo
++echo =3D=3D=3D Attach a SCSI disks using the same block device as a NBD =
+server =3D=3D=3D
++echo
 +
- #ifdef TARGET_X86_64
- static bool pkru_needed(void *opaque)
- {
-@@ -1079,6 +1098,7 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_hyperv_reenlightenment,
-         &vmstate_avx512,
-         &vmstate_xss,
-+        &vmstate_umwait,
-         &vmstate_tsc_khz,
-         &vmstate_msr_smi_count,
- #ifdef TARGET_X86_64
--- 
++run_qemu <<EOF
++{ "execute": "qmp_capabilities" }
++{ "execute": "blockdev-add", "arguments": {"driver": "null-co", "node-na=
+me": "hd0", "read-only": true}}
++{ "execute": "nbd-server-start", "arguments": {"addr":{"type":"unix","da=
+ta":{"path":"$TEST_DIR/nbd"}}}}
++{ "execute": "nbd-server-add", "arguments": {"device":"hd0"}}
++{ "execute": "object-add", "arguments": {"qom-type": "iothread", "id": "=
+iothread0"}}
++{ "execute": "device_add", "arguments": {"id": "scsi0", "driver": "${vir=
+tio_scsi}", "iothread": "iothread0"}}
++{ "execute": "device_add", "arguments": {"id": "scsi-hd0", "driver": "sc=
+si-hd", "drive": "hd0", "bus": "scsi0.0"}}
++{ "execute": "quit"}
++EOF
++
+ # success, all done
+ echo "*** done"
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/240.out b/tests/qemu-iotests/240.out
+index d76392966c..84e0a43ce5 100644
+--- a/tests/qemu-iotests/240.out
++++ b/tests/qemu-iotests/240.out
+@@ -51,4 +51,17 @@ QMP_VERSION
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
++
++=3D=3D=3D Attach a SCSI disks using the same block device as a NBD serve=
+r =3D=3D=3D
++
++Testing:
++QMP_VERSION
++{"return": {}}
++{"return": {}}
++{"return": {}}
++{"return": {}}
++{"return": {}}
++{"return": {}}
++{"return": {}}
++{"return": {}}
+ *** done
+--=20
 2.20.1
 
 
