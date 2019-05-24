@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EBE29716
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 13:23:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52627 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3F129727
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 13:27:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52710 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU8IS-0002lf-S1
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 07:23:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37771)
+	id 1hU8MZ-0006W8-NE
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 07:27:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38792)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mlureau@redhat.com>) id 1hU8GV-0001iI-NE
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:21:36 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hU8KH-00051N-6B
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:25:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mlureau@redhat.com>) id 1hU8Cl-0002xC-4V
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:17:44 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42760)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1hU8Cl-0002g0-0A
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:17:43 -0400
-Received: by mail-oi1-f196.google.com with SMTP id w9so6726381oic.9
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 04:17:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=ZfrKi+gh4KhAaxlTA/u6KGhePydrU5EGwwCIlpf4nlk=;
-	b=ksJBkzNux6HX02W45+apb07xHWYJ5RORvNiuUab6FAHzfXAoGaLrNmisQPnT5DYWpm
-	cziymMXBxGU+HJny/yolMq4kNtub8FMT7gpw0Oafxeic7cdrWbA+ISD992jmKjjLzfAQ
-	RPoVfTIU8VUzg5HUi6sIs075a+xlLnL+8rpZXfDxHP/vGJTYWA50KZsSP4IoWzHBxCxh
-	OopKskfZxV74Omp1+3owPYc9n5CHPQGRJ7OcioIyisgl9x7cGf157yEujYGbMfKFnwt5
-	Ya5P4nmQO6RwkLf4+OVcxUF8nzJlhvUlWvwRovEYqY/AsqYwcl5J+3tFUEmlEf/ZbCmv
-	YACQ==
-X-Gm-Message-State: APjAAAXFlThVOLJUyuIxH7pyRD2cscZb0aQiMnrABtvjQZir52eRXhRZ
-	T3oYrtyd5MVnlGiHIrt53wDrvMtAWz5NtngqiXonLQ==
-X-Google-Smtp-Source: APXvYqxXepPxwPVw4EqgBIqoFz/ne6LrZBlbv0V61oRfF9+gQ15E4h0aM4J2mw61r0IgrAhrjxCnF9a8J2X8nYrGi4k=
-X-Received: by 2002:aca:ed57:: with SMTP id l84mr395934oih.13.1558696649188;
-	Fri, 24 May 2019 04:17:29 -0700 (PDT)
+	(envelope-from <laurent@vivier.eu>) id 1hU8KG-0000tA-AJ
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:25:29 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:36377)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hU8KG-0000hs-0b
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:25:28 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1MBmI6-1hMTnz3Yui-00CEa4; Fri, 24 May 2019 13:19:32 +0200
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190523144336.13960-1-laurent@vivier.eu>
+	<CAFEAcA8x2bNdqkBiu4sTh9T8P=U2JYwdCZYK1dHDK7Q8MbyQ0A@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <abbb2f98-add7-6065-7619-ae616206bd56@vivier.eu>
+Date: Fri, 24 May 2019 13:19:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-References: <20190523234011.583-1-marcandre.lureau@redhat.com>
-	<20190523234011.583-4-marcandre.lureau@redhat.com>
-	<e0cf3112-62f6-aaff-0821-f472297dbb93@redhat.com>
-In-Reply-To: <e0cf3112-62f6-aaff-0821-f472297dbb93@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 24 May 2019 13:17:17 +0200
-Message-ID: <CAMxuvay+ZrdjhJg-juU0aTOtcy=cLshC+WGyPBQ6VysXZksa5w@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
-	=?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAFEAcA8x2bNdqkBiu4sTh9T8P=U2JYwdCZYK1dHDK7Q8MbyQ0A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:lQp4VIGuv9x8vdMpZMdFQ4CuM3KEBMLXIkK/W3uM0GyjnDX/5yv
+	ElsYMM/Z/NeWyHhEwj47B0yqGZdfg/m0UwXCYPHPu2tFYF5Jiq2DCfCZDfrwiSxDRj4Svkw
+	RpVofs8dBu0bZbG9qsUmGMdreY6POc+5FddtNORBWUidQp1IWRIiAvpV1B+b+FjoCCCL/X+
+	fMB9EeE7R7MtCO/Daeo3g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:AtafB0Mqkm8=:YRFSxBl+gwV0HWifrYZs5o
+	cg1Euy2tlZsmpMtK2OLFf7PWRQyTZUHlGeu0kY04TaWC/jO63SsB5NU59cDWjiBFJp5kIvxD4
+	1/gHB3QhP49vVShnpfU0JFDh/n+PT9/uDZF5EjnxHpnrYZpwcgC3MF55SFiIti1O1dOv4zFMD
+	s4R6D2TFIuh3uUSF3qqWe0eRM4bv6QHPw09R96yewuxB7ENKTFRSx3SQSopv/iAc5YqOrrVqO
+	MAXeGM0/b3DgWwDIIWaKY9kzhX21usJV10eUK27zJ0WouqlIANpUy1JS+Tp/+eNFfgQ7p3Nb1
+	8nR0WhQwRpdyikLlJ/dA86eA1WIxZYMtfNAt4sRqB3vBeo6dUmrr0LXmnaw4rkmaCLYZyvSCU
+	oU8kAJATz5LpcEBxCAeENew6e/fUGB/sOa53cSJEeWXbsrKoU5v7qZ/E0m+9ECMr0owzI54BK
+	6FcDP0jAYlpwRBFnpLSNxpBjdBxtaDtq9wKJgiRfiDH7WCdu0nAvPVA0hFI5D4Bkwvg0k1Zo9
+	Nwytl6Y0HqWFLGrE2irFilv/sLxzXnMDmqdJz797bF0eACsmMdAENVH84+aWhVVq03OXvZ4tL
+	iFF+Rdws6ZdnlPV7i+b8v0QOE4ggieJGSChx3A0T+7M1hRXObPmNPBcSRnwAUxDv5UhX/teoZ
+	KlQuXG0h39yswajcm/SN/zHurfq5Uf+nJTpwpVr/ktBwOiSSq/mViPn5XunZjgZeeyVPqTh5D
+	oa/kNIug0XDbmyP+o2W9MAQwBcU6pa7Qj+9ozJ1qPuKcCHNeqGVgO1tuIKg=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.167.196
-Subject: Re: [Qemu-devel] [PATCH 3/4] docker: update fedora to f30
+X-Received-From: 217.72.192.73
+Subject: Re: [Qemu-devel] [PULL 00/10] Linux user for 4.1 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,62 +66,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
-	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
-	qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 24/05/2019 13:07, Peter Maydell wrote:
+> On Thu, 23 May 2019 at 15:47, Laurent Vivier <laurent@vivier.eu> wrote:
+>>
+>> The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
+>>
+>>    Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>    git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
+>>
+>> for you to fetch changes up to 069a1504ee1e2943964d0357d798e11b66afd351:
+>>
+>>    linux-user: Pass through nanosecond timestamp components for stat syscalls (2019-05-22 20:50:55 +0200)
+>>
+>> ----------------------------------------------------------------
+>> Add /proc/hardware and /proc/cpuinfo,
+>> update SIOCXXX ioctls,
+>> update IPV6 options,
+>> fix shmat emulation,
+>> add nanoseconds in stat,
+>> init field fp_abi on mips
+>>
+>> ----------------------------------------------------------------
+> 
+> Hi; I'm afraid this fails to build on a couple of the hosts
+> I test on:
+> 
+> /home/pm215/qemu/linux-user/syscall.c: In function ‘do_setsockopt’:
+> /home/pm215/qemu/linux-user/syscall.c:1929:5: error:
+> "__UAPI_DEF_IPV6_MREQ" is not defined [-Werror=undef]
+>   #if __UAPI_DEF_IPV6_MREQ
+>       ^
+> 
+> (these were the ppc64 and aarch64 machines in the gcc compile farm, but
+> I suspect this is just "older kernel headers" rather than arch-specific.)
+> 
 
-On Fri, May 24, 2019 at 9:41 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 5/24/19 1:40 AM, Marc-Andr=C3=A9 Lureau wrote:
-> > Released last month.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  tests/docker/dockerfiles/fedora.docker | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dock=
-erfiles/fedora.docker
-> > index 69d4a7f5d7..1496b68ba1 100644
-> > --- a/tests/docker/dockerfiles/fedora.docker
-> > +++ b/tests/docker/dockerfiles/fedora.docker
-> > @@ -1,4 +1,4 @@
-> > -FROM fedora:29
-> > +FROM fedora:30
->
-> Hmm this patch is pending for review:
-> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg00819.html
+Thank you,
 
-Oh I missed that. Maybe we should use "latest" to avoid bumping the
-version every 6 months.
+I'm going to remove the patch from the PR and we will rework it later.
 
-fwiw we have different versions:
+Thanks,
+Laurent
 
-tests/docker/dockerfiles/fedora-cris-cross.docker:FROM fedora:latest
-tests/docker/dockerfiles/fedora-i386-cross.docker:FROM fedora:29
-tests/docker/dockerfiles/fedora.docker:FROM fedora:29
-
-In 62559b916 "tests: update Fedora i386 cross image to Fedora 29", Daniel s=
-aid:
-
-    Using the "latest" tag is not a good idea because this changes what
-    release it points to every 6 months. Together with caching of docker
-    builds this can cause confusion where CI has cached & built with Fedora
-    N, while a developer tries to reproduce a CI problem with Fedora N + 1,
-    or vica-verca.
-
-But at the same time, Daniel bumped f28 to f29 in commit 19a9978db1.
-
-It's confusing, do we need some stability or follow the latest?
-
->
-> >  ENV PACKAGES \
-> >      bc \
-> >      bison \
-> >
 
