@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48216299FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:23:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55481 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7405829A4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:48:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55788 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUB69-000092-Ex
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:23:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44312)
+	id 1hUBUK-00011c-MD
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:48:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48087)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hUB0A-0005Yt-Nc
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:16:56 -0400
+	(envelope-from <gengdongjiu@huawei.com>) id 1hUBNC-0003oM-2N
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:40:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hUB08-0005Lc-Cw
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:16:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54270)
+	(envelope-from <gengdongjiu@huawei.com>) id 1hUBDH-0008IG-C4
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:30:32 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2049 helo=huawei.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hUB06-0005J8-T4
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:16:52 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B882C88E57;
-	Fri, 24 May 2019 14:16:48 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9A43A7E5D4;
-	Fri, 24 May 2019 14:16:46 +0000 (UTC)
-Date: Fri, 24 May 2019 16:16:42 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Message-ID: <20190524161642.3d82bcd5@redhat.com>
-In-Reply-To: <20190508061726.27631-6-tao3.xu@intel.com>
-References: <20190508061726.27631-1-tao3.xu@intel.com>
-	<20190508061726.27631-6-tao3.xu@intel.com>
+	(Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+	id 1hUB8F-0004gJ-GM; Fri, 24 May 2019 10:25:17 -0400
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.53])
+	by Forcepoint Email with ESMTP id C7EDA5DBB68CA054932C;
+	Fri, 24 May 2019 22:25:02 +0800 (CST)
+Received: from dggeme707-chm.china.huawei.com (10.1.199.103) by
+	DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Fri, 24 May 2019 22:25:02 +0800
+Received: from dggeme755-chm.china.huawei.com (10.3.19.101) by
+	dggeme707-chm.china.huawei.com (10.1.199.103) with Microsoft SMTP
+	Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.1.1713.5; Fri, 24 May 2019 22:25:02 +0800
+Received: from dggeme755-chm.china.huawei.com ([10.7.64.71]) by
+	dggeme755-chm.china.huawei.com ([10.7.64.71]) with mapi id
+	15.01.1591.008; Fri, 24 May 2019 22:25:02 +0800
+From: gengdongjiu <gengdongjiu@huawei.com>
+To: "pbonzini@redhat.com" <pbonzini@redhat.com>, "mst@redhat.com"
+	<mst@redhat.com>, "imammedo@redhat.com" <imammedo@redhat.com>,
+	"shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+	"peter.maydell@linaro.org" <peter.maydell@linaro.org>, "lersek@redhat.com"
+	<lersek@redhat.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"mtosatti@redhat.com" <mtosatti@redhat.com>, "rth@twiddle.net"
+	<rth@twiddle.net>, "ehabkost@redhat.com" <ehabkost@redhat.com>, "zhengxiang
+	(A)" <zhengxiang9@huawei.com>, Jonathan Cameron
+	<jonathan.cameron@huawei.com>, "xuwei (O)" <xuwei5@huawei.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "qemu-devel@nongnu.org"
+	<qemu-devel@nongnu.org>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+	Linuxarm <linuxarm@huawei.com>
+Thread-Topic: [PATCH v17 00/10] Add ARMv8 RAS virtualization support in QEMU
+Thread-Index: AQHVCkc878tMnIhSkUatq/uiJvLEEqZraaqAgA76uhs=
+Date: Fri, 24 May 2019 14:25:01 +0000
+Message-ID: 055971E0-E2F5-485F-86E7-B271020A056A
+References: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>,
+	<468f900f-ce80-8d5b-a64d-67c0b3bee1ed@huawei.com>
+In-Reply-To: <468f900f-ce80-8d5b-a64d-67c0b3bee1ed@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Fri, 24 May 2019 14:16:48 +0000 (UTC)
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 05/11] hmat acpi: Build Memory Subsystem
- Address Range Structure(s) in ACPI HMAT
+X-Received-From: 45.249.212.189
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v17 00/10] Add ARMv8 RAS virtualization
+ support in QEMU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,416 +78,308 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
-	qemu-devel@nongnu.org, ehabkost@redhat.com, pbonzini@redhat.com,
-	rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  8 May 2019 14:17:20 +0800
-Tao Xu <tao3.xu@intel.com> wrote:
-
-> From: Liu Jingqi <jingqi.liu@intel.com>
-> 
-> HMAT is defined in ACPI 6.2: 5.2.27 Heterogeneous Memory Attribute Table (HMAT).
-> The specification references below link:
-> http://www.uefi.org/sites/default/files/resources/ACPI_6_2.pdf
-> 
-> It describes the memory attributes, such as memory side cache
-> attributes and bandwidth and latency details, related to the
-> System Physical Address (SPA) Memory Ranges. The software is
-> expected to use this information as hint for optimization.
-> 
-> This structure describes the System Physical Address(SPA) range
-> occupied by memory subsystem and its associativity with processor
-> proximity domain as well as hint for memory usage.
-> 
-> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
-> Signed-off-by: Tao Xu <tao3.xu@intel.com>
-> ---
-> 
-> Changes in v4 -> v3:
->     - spilt the 1/8 of v3 patch into two patches, 4/13 introduces
->     build_mem_ranges() and adding it to ACPI interface, 5/13 builds
->     HMAT (Igor)
->     - use MachineState instead of PCMachineState to build HMAT more
->     generalic (Igor)
->     - move hmat_build_spa() inside of hmat_build_hma() (Igor)
-> ---
->  hw/acpi/Kconfig       |   5 ++
->  hw/acpi/Makefile.objs |   1 +
->  hw/acpi/hmat.c        | 135 ++++++++++++++++++++++++++++++++++++++++++
->  hw/acpi/hmat.h        |  43 ++++++++++++++
->  hw/i386/acpi-build.c  |  11 ++--
->  include/hw/boards.h   |   2 +
->  numa.c                |   6 ++
->  7 files changed, 199 insertions(+), 4 deletions(-)
->  create mode 100644 hw/acpi/hmat.c
->  create mode 100644 hw/acpi/hmat.h
-> 
-> diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-> index eca3beed75..074dbd5a42 100644
-> --- a/hw/acpi/Kconfig
-> +++ b/hw/acpi/Kconfig
-> @@ -7,6 +7,7 @@ config ACPI_X86
->      select ACPI_NVDIMM
->      select ACPI_CPU_HOTPLUG
->      select ACPI_MEMORY_HOTPLUG
-> +    select ACPI_HMAT
->  
->  config ACPI_X86_ICH
->      bool
-> @@ -27,3 +28,7 @@ config ACPI_VMGENID
->      bool
->      default y
->      depends on PC
-> +
-> +config ACPI_HMAT
-> +    bool
-> +    depends on ACPI
-> diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
-> index 2d46e3789a..932ba42d13 100644
-> --- a/hw/acpi/Makefile.objs
-> +++ b/hw/acpi/Makefile.objs
-> @@ -6,6 +6,7 @@ common-obj-$(CONFIG_ACPI_MEMORY_HOTPLUG) += memory_hotplug.o
->  common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu.o
->  common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
->  common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
-> +common-obj-$(CONFIG_ACPI_HMAT) += hmat.o
->  common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
->  
->  common-obj-y += acpi_interface.o
-> diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-> new file mode 100644
-> index 0000000000..bffe453280
-> --- /dev/null
-> +++ b/hw/acpi/hmat.c
-> @@ -0,0 +1,135 @@
-> +/*
-> + * HMAT ACPI Implementation
-> + *
-> + * Copyright(C) 2019 Intel Corporation.
-> + *
-> + * Author:
-> + *  Liu jingqi <jingqi.liu@linux.intel.com>
-> + *  Tao Xu <tao3.xu@intel.com>
-> + *
-> + * HMAT is defined in ACPI 6.2.
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "sysemu/numa.h"
-> +#include "hw/i386/pc.h"
-table is generic, pls make code generic too so it could be reused elsewhere
-
-> +#include "hw/acpi/hmat.h"
-> +#include "hw/nvram/fw_cfg.h"
-why do you need this heared?
-
-> +
-> +/* Build Memory Subsystem Address Range Structure */
-when creating APIs that build ACPI spec primitives, pls add
-earliest version of the spec it is supported in and reference
-chapter/table in that spec version where it's described.
-
-see hw/acpi/aml-build.c for examples:
-
-typical comment should look like:
- /* ACPI 1.0b: x.x.x.x chapter foo: Table y-y */
-
-point is that it should be trivial for reader to find the spec
-and grep referenced chapter/table in that spec by just copy-pasting
-description form the code.
-
-> +static void build_hmat_spa(GArray *table_data, MachineState *ms,
-> +                           uint64_t base, uint64_t length, int node)
-> +{
-> +    uint16_t flags = 0;
-> +
-> +    if (ms->numa_state->nodes[node].is_initiator) {
-you use only ms->numa_state->nodes from machine state here,
-I'd suggest to pass is_initiator/is_target as arguments
-so API won't depend on machine state
-
-> +        flags |= HMAT_SPA_PROC_VALID;
-> +    }
-> +    if (ms->numa_state->nodes[node].is_target) {
-> +        flags |= HMAT_SPA_MEM_VALID;
-> +    }
-> +
-> +    /* Memory Subsystem Address Range Structure */
-> +    /* Type */
-> +    build_append_int_noprefix(table_data, 0, 2);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 2);
-> +    /* Length */
-> +    build_append_int_noprefix(table_data, 40, 4);
-> +    /* Flags */
-> +    build_append_int_noprefix(table_data, flags, 2);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 2);
-> +    /* Process Proximity Domain */
-> +    build_append_int_noprefix(table_data, node, 4);
-> +    /* Memory Proximity Domain */
-> +    build_append_int_noprefix(table_data, node, 4);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 4);
-> +    /* System Physical Address Range Base */
-> +    build_append_int_noprefix(table_data, base, 8);
-> +    /* System Physical Address Range Length */
-> +    build_append_int_noprefix(table_data, length, 8);
-> +}
-> +
-> +static int pc_dimm_device_list(Object *obj, void *opaque)
-> +{
-> +    GSList **list = opaque;
-> +
-> +    if (object_dynamic_cast(obj, TYPE_PC_DIMM)) {
-> +        *list = g_slist_append(*list, DEVICE(obj));
-> +    }
-
-missing 'if (dev->realized)' check, see memory_device_build_list()
-
-> +
-> +    object_child_foreach(obj, pc_dimm_device_list, opaque);
-> +    return 0;
-> +}
-> +
-> +/*
-> + * The Proximity Domain of System Physical Address ranges defined
-> + * in the HMAT, NFIT and SRAT tables shall match each other.
-> + */
-
-where does this comment comes from? (pointer to spec pls)
-
-> +static void hmat_build_hma(GArray *table_data, MachineState *ms)
-where does _hma comes from?
-What you are building here is "Memory Subsystem Address Range Structure"
-so I'd rather use acronym: msar
-
-> +{
-> +    GSList *device_list = NULL;
-> +    uint64_t mem_base, mem_len;
-> +    int i;
-> +    uint32_t mem_ranges_num = ms->numa_state->mem_ranges_num;
-> +    NumaMemRange *mem_ranges = ms->numa_state->mem_ranges;
-> +
-> +    PCMachineState *pcms = PC_MACHINE(ms);
-> +    AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(pcms->acpi_dev);
-> +    AcpiDeviceIf *adev = ACPI_DEVICE_IF(pcms->acpi_dev);
-> +
-> +    /* Build HMAT Memory Subsystem Address Range. */
-> +    if (pcms->numa_nodes && !mem_ranges_num) {
-well, you've just moved a bunch of numa globals into MachineState,
-why do you still use PCMachineState here making code depend on PCMachine.
-I'd suggest to make it specific machine agnostic if possible
-using MachineState instead.
-
-With your refactoring duplicated PCMachineState numa fields probably
-shouldn't be necessary and should be removed.
-
-> +        adevc->build_mem_ranges(adev, ms);
-> +    }
-> +
-> +    for (i = 0; i < mem_ranges_num; i++) {
-> +        build_hmat_spa(table_data, ms, mem_ranges[i].base,
-> +                       mem_ranges[i].length,
-> +                       mem_ranges[i].node);
-> +    }
-> +
-> +    /* Build HMAT SPA structures for PC-DIMM devices. */
-> +    object_child_foreach(qdev_get_machine(),
-> +                         pc_dimm_device_list, &device_list);
-> +
-> +    for (; device_list; device_list = device_list->next) {
-> +        PCDIMMDevice *dimm = device_list->data;
-> +        mem_base = object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PROP,
-> +                                            NULL);
-> +        mem_len = object_property_get_uint(OBJECT(dimm), PC_DIMM_SIZE_PROP,
-> +                                           NULL);
-> +        i = object_property_get_uint(OBJECT(dimm), PC_DIMM_NODE_PROP, NULL);
-> +        build_hmat_spa(table_data, ms, mem_base, mem_len, i);
-> +    }
-> +}
-> +
-> +void hmat_build_acpi(GArray *table_data, BIOSLinker *linker, MachineState *ms)
-> +{
-> +    uint64_t hmat_start, hmat_len;
-> +
-> +    hmat_start = table_data->len;
-
-    +  /* reserve space for HMAT header  */
-
-> +    acpi_data_push(table_data, 40);
-> +
-> +    hmat_build_hma(table_data, ms);
-> +    hmat_len = table_data->len - hmat_start;
-> +
-> +    build_header(linker, table_data,
-> +                 (void *)(table_data->data + hmat_start),
-> +                 "HMAT", hmat_len, 1, NULL, NULL);
-
-s/hmat_len/table_data->len - hmat_start/
-
-
-> +}
-> diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
-> new file mode 100644
-> index 0000000000..4f480c1e43
-> --- /dev/null
-> +++ b/hw/acpi/hmat.h
-> @@ -0,0 +1,43 @@
-> +/*
-> + * HMAT ACPI Implementation Header
-> + *
-> + * Copyright(C) 2019 Intel Corporation.
-> + *
-> + * Author:
-> + *  Liu jingqi <jingqi.liu@linux.intel.com>
-> + *  Tao Xu <tao3.xu@intel.com>
-> + *
-> + * HMAT is defined in ACPI 6.2.
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>
-> + */
-> +
-> +#ifndef HMAT_H
-> +#define HMAT_H
-> +
-> +#include "hw/acpi/acpi-defs.h"
-> +#include "hw/acpi/acpi.h"
-> +#include "hw/acpi/bios-linker-loader.h"
-> +#include "hw/acpi/aml-build.h"
-> +
-> +/* the values of AcpiHmatSpaRange flag */
-> +enum {
-> +    HMAT_SPA_PROC_VALID       = 0x1,
-> +    HMAT_SPA_MEM_VALID        = 0x2,
-> +    HMAT_SPA_RESERVATION_HINT = 0x4,
-> +};
-> +
-> +void hmat_build_acpi(GArray *table_data, BIOSLinker *linker, MachineState *ms);
-
-s/hmat_build_acpi/build_hmat/
-
-> +
-> +#endif
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 5598e7f780..d3d8c93631 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -64,6 +64,7 @@
->  #include "hw/i386/intel_iommu.h"
->  
->  #include "hw/acpi/ipmi.h"
-> +#include "hw/acpi/hmat.h"
->  
->  /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
->   * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
-> @@ -2389,13 +2390,13 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->  
->      for (i = 0; i < mem_ranges_num; i++) {
->          if (mem_ranges[i].length > 0) {
-> -                numamem = acpi_data_push(table_data, sizeof *numamem);
-> +            numamem = acpi_data_push(table_data, sizeof *numamem);
->              build_srat_memory(numamem, mem_ranges[i].base,
->                                mem_ranges[i].length,
->                                mem_ranges[i].node,
-> -                                  MEM_AFFINITY_ENABLED);
-> -            }
-> -            }
-> +                              MEM_AFFINITY_ENABLED);
-> +        }
-> +    }
-
-unrelated hunk move it to the patch that introduced wrongly
-aligned lines in the first place
-
->      slots = (table_data->len - numa_start) / sizeof *numamem;
->      for (; slots < pcms->numa_nodes + 2; slots++) {
->          numamem = acpi_data_push(table_data, sizeof *numamem);
-> @@ -2715,6 +2716,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->              acpi_add_table(table_offsets, tables_blob);
->              build_slit(tables_blob, tables->linker, machine);
->          }
-> +        acpi_add_table(table_offsets, tables_blob);
-> +        hmat_build_acpi(tables_blob, tables->linker, machine);
->      }
->      if (acpi_get_mcfg(&mcfg)) {
->          acpi_add_table(table_offsets, tables_blob);
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 9fbf921ecf..d392634e08 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -237,6 +237,8 @@ struct NodeInfo {
->      uint64_t node_mem;
->      struct HostMemoryBackend *node_memdev;
->      bool present;
-> +    bool is_initiator;
-> +    bool is_target;
->      uint8_t distance[MAX_NODES];
->  };
->  
-> diff --git a/numa.c b/numa.c
-> index ddea376d72..71b0aee02a 100644
-> --- a/numa.c
-> +++ b/numa.c
-> @@ -102,6 +102,10 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
->          }
->      }
->  
-> +    if (node->cpus) {
-> +        numa_info[nodenr].is_initiator = true;
-> +    }
-this only takes care of legacy '-numa node,cpus=range' option
-you also need to add handling for '-numa cpu' option
-
-probably the better place to take care of all cpu options at once
-is machine_numa_finish_cpu_init().
-
-
->      if (node->has_mem && node->has_memdev) {
->          error_setg(errp, "cannot specify both mem= and memdev=");
->          return;
-> @@ -118,6 +122,7 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
->  
->      if (node->has_mem) {
->          numa_info[nodenr].node_mem = node->mem;
-> +        numa_info[nodenr].is_target = true;
->      }
->      if (node->has_memdev) {
->          Object *o;
-> @@ -130,6 +135,7 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
->          object_ref(o);
->          numa_info[nodenr].node_mem = object_property_get_uint(o, "size", NULL);
->          numa_info[nodenr].node_memdev = MEMORY_BACKEND(o);
-> +        numa_info[nodenr].is_target = true;
->      }
->      numa_info[nodenr].present = true;
->      max_numa_nodeid = MAX(max_numa_nodeid, nodenr + 1);
-
-
+cGluZy4uLg0KDQrlj5Hku7bkurrvvJpnZW5nZG9uZ2ppdSA8Z2VuZ2RvbmdqaXVAaHVhd2VpLmNv
+bT4NCuaUtuS7tuS6uu+8mnBib256aW5pQHJlZGhhdC5jb20gPHBib256aW5pQHJlZGhhdC5jb20+
+O21zdEByZWRoYXQuY29tIDxtc3RAcmVkaGF0LmNvbT47aW1hbW1lZG9AcmVkaGF0LmNvbSA8aW1h
+bW1lZG9AcmVkaGF0LmNvbT47c2hhbm5vbi56aGFvc2xAZ21haWwuY29tIDxzaGFubm9uLnpoYW9z
+bEBnbWFpbC5jb20+O3BldGVyLm1heWRlbGxAbGluYXJvLm9yZyA8cGV0ZXIubWF5ZGVsbEBsaW5h
+cm8ub3JnPjtsZXJzZWtAcmVkaGF0LmNvbSA8bGVyc2VrQHJlZGhhdC5jb20+O2phbWVzLm1vcnNl
+QGFybS5jb20gPGphbWVzLm1vcnNlQGFybS5jb20+O210b3NhdHRpQHJlZGhhdC5jb20gPG10b3Nh
+dHRpQHJlZGhhdC5jb20+O3J0aEB0d2lkZGxlLm5ldCA8cnRoQHR3aWRkbGUubmV0PjtlaGFia29z
+dEByZWRoYXQuY29tIDxlaGFia29zdEByZWRoYXQuY29tPjt6aGVuZ3hpYW5nIChBKSA8emhlbmd4
+aWFuZzlAaHVhd2VpLmNvbT47Sm9uYXRoYW4gQ2FtZXJvbiA8am9uYXRoYW4uY2FtZXJvbkBodWF3
+ZWkuY29tPjt4dXdlaSAoTykgPHh1d2VpNUBodWF3ZWkuY29tPjtrdm1Admdlci5rZXJuZWwub3Jn
+IDxrdm1Admdlci5rZXJuZWwub3JnPjtxZW11LWRldmVsQG5vbmdudS5vcmcgPHFlbXUtZGV2ZWxA
+bm9uZ251Lm9yZz47cWVtdS1hcm1Abm9uZ251Lm9yZyA8cWVtdS1hcm1Abm9uZ251Lm9yZz47TGlu
+dXhhcm0gPGxpbnV4YXJtQGh1YXdlaS5jb20+DQrml7bpl7TvvJoyMDE5LTA1LTE1IDE3OjQwOjQ5
+DQrkuLvigIPpopjvvJpSZTogW1BBVENIIHYxNyAwMC8xMF0gQWRkIEFSTXY4IFJBUyB2aXJ0dWFs
+aXphdGlvbiBzdXBwb3J0IGluIFFFTVUNCg0KSGkgQWxsLA0KIGZvciB0aGlzIHNlcmllcyBwYXRj
+aCwgd2UgY2FuIHVzZSBiZWxvdyBzaW1wbGUgbWV0aG9kIHRvIHRlc3Q6DQoNCjEpLiBBcHBseSBi
+ZWxvdyBoYXJkIGNvZGUgY2hhbmdlIGFmdGVyIGFwcGx5aW5nIHRoaXMgc2VyaWVzIHBhdGNoOg0K
+ZGlmZiAtLWdpdCBhL2NwdXMuYyBiL2NwdXMuYw0KaW5kZXggZTU4ZTdhYi4uNzE0OWY1NCAxMDA2
+NDQNCi0tLSBhL2NwdXMuYw0KKysrIGIvY3B1cy5jDQpAQCAtMTEzMSw2ICsxMTMxLDggQEAgc3Rh
+dGljIHZvaWQgc2lnYnVzX3JlcmFpc2Uodm9pZCkNCg0KIHN0YXRpYyB2b2lkIHNpZ2J1c19oYW5k
+bGVyKGludCBuLCBzaWdpbmZvX3QgKnNpZ2luZm8sIHZvaWQgKmN0eCkNCiB7DQorICAgIHNpZ2lu
+Zm8tPnNpX2NvZGUgPSBCVVNfTUNFRVJSX0FPOw0KKw0KICAgICBpZiAoc2lnaW5mby0+c2lfY29k
+ZSAhPSBCVVNfTUNFRVJSX0FPICYmIHNpZ2luZm8tPnNpX2NvZGUgIT0gQlVTX01DRUVSUl9BUikg
+ew0KICAgICAgICAgc2lnYnVzX3JlcmFpc2UoKTsNCiAgICAgfQ0KZGlmZiAtLWdpdCBhL3Rhcmdl
+dC9hcm0va3ZtNjQuYyBiL3RhcmdldC9hcm0va3ZtNjQuYw0KaW5kZXggZDJlYWMyOC4uNmM5OTU2
+ZSAxMDA2NDQNCi0tLSBhL3RhcmdldC9hcm0va3ZtNjQuYw0KKysrIGIvdGFyZ2V0L2FybS9rdm02
+NC5jDQpAQCAtMTAzNSwyMCArMTAzNSwyMyBAQCBpbnQga3ZtX2FyY2hfZ2V0X3JlZ2lzdGVycyhD
+UFVTdGF0ZSAqY3MpDQoNCiB2b2lkIGt2bV9hcmNoX29uX3NpZ2J1c192Y3B1KENQVVN0YXRlICpj
+LCBpbnQgY29kZSwgdm9pZCAqYWRkcikNCiB7DQorI2lmIDANCiAgICAgcmFtX2FkZHJfdCByYW1f
+YWRkcjsNCi0gICAgaHdhZGRyIHBhZGRyOw0KLQ0KKyNlbmRpZg0KKyAgICBod2FkZHIgcGFkZHIg
+PSAweDQwMGExMDAwOw0KICAgICBhc3NlcnQoY29kZSA9PSBCVVNfTUNFRVJSX0FSIHx8IGNvZGUg
+PT0gQlVTX01DRUVSUl9BTyk7DQoNCisjaWYgMA0KICAgICBpZiAoYWNwaV9lbmFibGVkICYmIGFk
+ZHIpIHsNCiAgICAgICAgIHJhbV9hZGRyID0gcWVtdV9yYW1fYWRkcl9mcm9tX2hvc3QoYWRkcik7
+DQogICAgICAgICBpZiAocmFtX2FkZHIgIT0gUkFNX0FERFJfSU5WQUxJRCAmJg0KICAgICAgICAg
+ICAgIGt2bV9waHlzaWNhbF9tZW1vcnlfYWRkcl9mcm9tX2hvc3QoYy0+a3ZtX3N0YXRlLCBhZGRy
+LCAmcGFkZHIpKSB7DQogICAgICAgICAgICAga3ZtX2h3cG9pc29uX3BhZ2VfYWRkKHJhbV9hZGRy
+KTsNCisjZW5kaWYNCiAgICAgICAgICAgICAvKiBBc3luY2hyb25vdXMgc2lnbmFsIHdpbGwgYmUg
+bWFza2VkIGJ5IG1haW4gdGhyZWFkLCBzbw0KICAgICAgICAgICAgICAqIG9ubHkgaGFuZGxlIHN5
+bmNocm9ub3VzIHNpZ25hbC4NCiAgICAgICAgICAgICAgKi8NCi0gICAgICAgICAgICBpZiAoY29k
+ZSA9PSBCVVNfTUNFRVJSX0FSKSB7DQorICAgICAgICAgICAgaWYgKGNvZGUgPT0gQlVTX01DRUVS
+Ul9BUiB8fCBCVVNfTUNFRVJSX0FPID09IGNvZGUpIHsNCiAgICAgICAgICAgICAgICAga3ZtX2Nw
+dV9zeW5jaHJvbml6ZV9zdGF0ZShjKTsNCiAgICAgICAgICAgICAgICAgaWYgKEdIRVNfQ1BFUl9G
+QUlMICE9IGdoZXNfcmVjb3JkX2Vycm9ycyhBQ1BJX0hFU1RfTk9USUZZX1NFQSwgcGFkZHIpKSB7
+DQogICAgICAgICAgICAgICAgICAgICBrdm1faW5qZWN0X2FybV9zZWEoYyk7DQpAQCAtMTA1Nywx
+MSArMTA2MCwxMyBAQCB2b2lkIGt2bV9hcmNoX29uX3NpZ2J1c192Y3B1KENQVVN0YXRlICpjLCBp
+bnQgY29kZSwgdm9pZCAqYWRkcikNCiAgICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgIH0N
+CiAgICAgICAgICAgICByZXR1cm47DQorI2lmIDANCiAgICAgICAgIH0NCiAgICAgICAgIGZwcmlu
+dGYoc3RkZXJyLCAiSGFyZHdhcmUgbWVtb3J5IGVycm9yIGZvciBtZW1vcnkgdXNlZCBieSAiDQog
+ICAgICAgICAgICAgICAgICJRRU1VIGl0c2VsZiBpbnN0ZWFkIG9mIGd1ZXN0IHN5c3RlbSFcbiIp
+Ow0KICAgICB9DQoNCisjZW5kaWYNCiAgICAgaWYgKGNvZGUgPT0gQlVTX01DRUVSUl9BUikgew0K
+ICAgICAgICAgZnByaW50ZihzdGRlcnIsICJIYXJkd2FyZSBtZW1vcnkgZXJyb3IhXG4iKTsNCiAg
+ICAgICAgIGV4aXQoMSk7DQoNCjIpIEluIEFybTY0IG1hY2hpbmUgcnVuIGJlbG93IGNvbW1hbmQg
+dG8gcnVuIGEgdmlydHVhbCBtYWNoaW5lIHdpdGgga3ZtIGRpc2FibGVkLCBhbmQgZW5hYmxlIGJp
+b3M6DQouL3FlbXUtc3lzdGVtLWFhcmNoNjQgLWNwdSBjb3J0ZXgtYTU3IC1tYWNoaW5lIHZpcnQs
+Z2ljLXZlcnNpb249MyAgLXNtcCA0IC1ub2dyYXBoaWMgLWtlcm5lbCBJbWFnZSAtYmlvcyBRRU1V
+X0VGSS5mZCAtYXBwZW5kICJyZGluaXQ9L2luaXQgY29uc29sZT10dHlBTUEwIG1lbT01MTJNIHJv
+b3Q9L2Rldi9yYW0wIGVhcmx5Y29uPXBsMDExLDB4OTAwMDAwMCBydyIgLWluaXRyZCBndWVzdGZz
+X25ldy5jcGlvLmd6DQoNCjMpIERlbGl2ZXIgU0dJQlVTIHNpZ25hbCB0byBRRU1VOg0KICAga2ls
+bCAtcyBTSUdCVVMgMTE1MjINCg0KNCkgdGhlbiB5b3UgY2FuIHNlZSBRRU1VIHJlY29yZCB0aGUg
+ZXJyb3IgbWVtb3J5IGFkZHJlc3MgdG8gQVBFSSB0YWJsZSwgYW5kIGluamVjdCBhIFNFQSB0byBn
+dWVzdCwgZm9yIGV4YW1wbGU6DQoNClsgICA3NS41MTQyNzBdIHsxfVtIYXJkd2FyZSBFcnJvcl06
+IEhhcmR3YXJlIGVycm9yIGZyb20gQVBFSSBHZW5lcmljIEhhcmR3YXJlIEVycm9yIFNvdXJjZTog
+MQ0KWyAgIDc1LjUzMTg1OF0gezF9W0hhcmR3YXJlIEVycm9yXTogZXZlbnQgc2V2ZXJpdHk6IHJl
+Y292ZXJhYmxlDQpbICAgNzUuNTM1MDk1XSB7MX1bSGFyZHdhcmUgRXJyb3JdOiAgRXJyb3IgMCwg
+dHlwZTogcmVjb3ZlcmFibGUNClsgICA3NS41MzkyMjNdIHsxfVtIYXJkd2FyZSBFcnJvcl06ICAg
+c2VjdGlvbl90eXBlOiBtZW1vcnkgZXJyb3INClsgICA3NS41NDM4NzhdIHsxfVtIYXJkd2FyZSBF
+cnJvcl06ICAgcGh5c2ljYWxfYWRkcmVzczogMHgwMDAwMDAwMDQwMGExMDAwDQpbICAgNzUuNTQ4
+Njk2XSB7MX1bSGFyZHdhcmUgRXJyb3JdOiAgIGVycm9yX3R5cGU6IDAsIHVua25vd24NClsgICA3
+NS41NzcxNTZdIEludGVybmFsIGVycm9yOiBzeW5jaHJvbm91cyBleHRlcm5hbCBhYm9ydDogOTYw
+MDA0MTAgWyMxXSBQUkVFTVBUIFNNUA0KDQpPbiAyMDE5LzUvMTQgMTk6MTgsIERvbmdqaXUgR2Vu
+ZyB3cm90ZToNCj4gSW4gdGhlIEFSTXY4IHBsYXRmb3JtLCB0aGUgQ1BVIGVycm9yIHR5cGUgYXJl
+IHN5bmNocm9ub3VzIGV4dGVybmFsDQo+IGFib3J0KFNFQSkgYW5kIFNFcnJvciBJbnRlcnJ1cHQg
+KFNFSSkuIElmIGV4Y2VwdGlvbiBoYXBwZW5zIHRvIGd1ZXN0LA0KPiBzb21ldGltZXMgZ3Vlc3Qg
+aXRzZWxmIGRvIHRoZSByZWNvdmVyeSBpcyBiZXR0ZXIsIGJlY2F1c2UgaG9zdA0KPiBkb2VzIG5v
+dCBrbm93IGd1ZXN0J3MgZGV0YWlsZWQgaW5mb3JtYXRpb24uIEZvciBleGFtcGxlLCBpZiBhIGd1
+ZXN0DQo+IHVzZXItc3BhY2UgYXBwbGljYXRpb24gaGFwcGVuIGV4Y2VwdGlvbiwgaG9zdCBkb2Vz
+IG5vdCB3aGljaCBhcHBsaWNhdGlvbg0KPiBlbmNvdW50ZXIgZXJyb3JzLg0KPg0KPiBGb3IgdGhl
+IEFSTXY4IFNFQS9TRUksIEtWTSBvciBob3N0IGtlcm5lbCBkZWxpdmVycyBTSUdCVVMgdG8gbm90
+aWZ5IHVzZXINCj4gc3BhY2UuIEFmdGVyIHVzZXIgc3BhY2UgZ2V0cyAgdGhlIG5vdGlmaWNhdGlv
+biwgaXQgd2lsbCByZWNvcmQgdGhlIENQRVINCj4gdG8gZ3Vlc3QgR0hFUyBidWZmZXIgZm9yIGd1
+ZXN0IGFuZCBpbmplY3QgYSBleGNlcHRpb24gb3IgSVJRIHRvIGd1ZXN0Lg0KPg0KPiBJbiB0aGUg
+Y3VycmVudCBpbXBsZW1lbnQsIGlmIHRoZSBTSUdCVVMgaXMgQlVTX01DRUVSUl9BUiwgd2Ugd2ls
+bA0KPiB0cmVhdCBpdCBhcyBzeW5jaHJvbm91cyBleGNlcHRpb24sIGFuZCB1c2UgQVJNdjggU0VB
+IG5vdGlmaWNhdGlvbiB0eXBlDQo+IHRvIG5vdGlmeSBndWVzdCBhZnRlciByZWNvcmRpbmcgQ1BF
+UiBmb3IgZ3Vlc3Q7DQo+DQo+IFRoaXMgc2VyaWVzIHBhdGNoZXMgYXJlIGJhc2VkIG9uIFFlbXUg
+NC4wLCB3aGljaCBoYXZlIHR3byBwYXJ0czoNCj4gMS4gR2VuZXJhdGUgQVBFSS9HSEVTIHRhYmxl
+Lg0KPiAyLiBIYW5kbGUgdGhlIFNJR0JVUyBzaWduYWwsIHJlY29yZCB0aGUgQ1BFUiBpbiBydW50
+aW1lIGFuZCBmaWxsIGludG8gZ3Vlc3QgbWVtb3J5LA0KPiAgICB0aGVuIGFjY29yZGluZyB0byBT
+SUdCVVMgdHlwZSB0byBub3RpZnkgZ3Vlc3QuDQo+DQo+IFdob2xlIHNvbHV0aW9uIHdhcyBzdWdn
+ZXN0ZWQgYnkgSmFtZXMoamFtZXMubW9yc2VAYXJtLmNvbSk7IEFQRUkgcGFydCBzb2x1dGlvbiBp
+cyBzdWdnZXN0ZWQgYnkNCj4gTGFzemxvKGxlcnNla0ByZWRoYXQuY29tKS4gU2hvd24gc29tZSBk
+aXNjdXNzaW9uIGluIFsxXS4NCj4NCj4NCj4gVGhpcyBzZXJpZXMgcGF0Y2hlcyBoYXZlIGFscmVh
+ZHkgdGVzdGVkIG9uIEFSTTY0IHBsYXRmb3JtIHdpdGggUkFTIGZlYXR1cmUgZW5hYmxlZDoNCj4g
+U2hvdyB0aGUgQVBFSSBwYXJ0IHZlcmlmaWNhdGlvbiByZXN1bHQgaW4gWzJdDQo+IFNob3cgdGhl
+IEJVU19NQ0VFUlJfQVIgU0lHQlVTIGhhbmRsaW5nIHZlcmlmaWNhdGlvbiByZXN1bHQgaW4gWzNd
+DQo+DQo+IC0tLQ0KPiBjaGFuZ2Ugc2luY2UgdjE2Og0KPiAxLiBjaGVjayB3aGV0aGVyIEFDUEkg
+dGFibGUgaXMgZW5hYmxlZCB3aGVuIGhhbmRsaW5nIHRoZSBtZW1vcnkgZXJyb3IgaW4gdGhlIFNJ
+R0JVUyBoYW5kbGVyLg0KPg0KPiBDaGFuZ2Ugc2luY2UgdjE1Og0KPiAxLiBBZGQgYSBkb2MtY29t
+bWVudCBpbiB0aGUgcHJvcGVyIGZvcm1hdCBmb3IgJ2luY2x1ZGUvZXhlYy9yYW1fYWRkci5oJw0K
+PiAyLiBSZW1vdmUgd3JpdGVfcGFydF9jcHVzdGF0ZV90b19saXN0KCkgYmVjYXVzZSB0aGVyZSBp
+cyBhbm90aGVyIGJ1ZyBmaXggcGF0Y2gNCj4gICAgaGFzIGJlZW4gbWVyZ2VkICJhcm06IEFsbG93
+IHN5c3RlbSByZWdpc3RlcnMgZm9yIEtWTSBndWVzdHMgdG8gYmUgY2hhbmdlZCBieSBRRU1VIGNv
+ZGUiDQo+IDMuIEFkZCBzb21lIGNvbW1lbnRzIGZvciBrdm1faW5qZWN0X2FybV9zZWEoKSBpbiAn
+dGFyZ2V0L2FybS9rdm02NC5jJw0KPiA0LiBDb21wYXJlIHRoZSBhcm1fY3VycmVudF9lbCgpIHJl
+dHVybiB2YWx1ZSB0byAwLDEsMiwzLCBub3QgdG8gUFNUQVRFX01PREVfKiBjb25zdGFudHMuDQo+
+IDUuIENoYW5nZSB0aGUgUkFTIHN1cHBvcnQgd2Fzbid0IGludHJvZHVjZWQgYmVmb3JlIDQuMSBR
+RU1VIHZlcnNpb24uDQo+IDYuIE1vdmUgdGhlIG5vX3JhcyBmbGFnICBwYXRjaCB0byBiZWdpbiBp
+biB0aGlzIHNlcmllcw0KPg0KPiBDaGFuZ2Ugc2luY2UgdjE0Og0KPiAxLiBSZW1vdmUgdGhlIEJV
+U19NQ0VFUlJfQU8gaGFuZGxpbmcgbG9naWMgYmVjYXVzZSB0aGlzIGFzeW5jaHJvbm91cyBzaWdu
+YWwgd2FzIG1hc2tlZCBieSBtYWluIHRocmVhZA0KPiAyLiBBZGRyZXNzIHNvbWUgSWdvciBNYW1t
+ZWRvdidzIGNvbW1lbnRzKEFDUEkgcGFydCkNCj4gICAgMSkgY2hhbmdlIHRoZSBjb21tZW50cyBm
+b3IgdGhlIGVudW0gQWNwaUhlc3ROb3RpZnlUeXBlIGRlZmluaXRpb24gYW5kIHJlbW92ZSBkaXR0
+byBpbiBwYXRjaCAxDQo+ICAgIDIpIGNoYW5nZSBzb21lIHBhdGNoIGNvbW1pdCBtZXNzYWdlcyBh
+bmQgc2VwYXJhdGUgIkFQRUkgR0hFUyB0YWJsZSBnZW5lcmF0aW9uIiBwYXRjaCB0byBtb3JlIHBh
+dGNoZXMuDQo+IDMuIEFkZHJlc3Mgc29tZSBwZXRlcidzIGNvbW1lbnRzKGFybTY0IFN5bmNocm9u
+b3VzIEV4dGVybmFsIEFib3J0IGluamVjdGlvbikNCj4gICAgMSkgY2hhbmdlIHNvbWUgY29kZSBu
+b3Rlcw0KPiAgICAyKSB1c2luZyBhcm1fY3VycmVudF9lbCgpIGZvciBjdXJyZW50IEVMDQo+ICAg
+IDIpIHVzZSB0aGUgaGVscGVyIGZ1bmN0aW9ucyBmb3IgdGhvc2UgKHN5bl9kYXRhX2Fib3J0Xyop
+Lg0KPg0KPiBDaGFuZ2Ugc2luY2UgdjEzOg0KPiAxLiBNb3ZlIHRoZSBwYXRjaGVzIHRoYXQgc2V0
+IGd1ZXN0IEVTUiBhbmQgaW5qZWN0IHZpcnR1YWwgU0Vycm9yIG91dCBvZiB0aGlzIHNlcmllcw0K
+PiAyLiBDbGVhbiBhbmQgb3B0aW1pemUgdGhlIEFQRUkgcGFydCBwYXRjaGVzDQo+IDMuIFVwZGF0
+ZSB0aGUgY29tbWl0IG1lc3NhZ2VzIGFuZCBhZGQgc29tZSBjb21tZW50cyBmb3IgdGhlIGNvZGUN
+Cj4NCj4gQ2hhbmdlIHNpbmNlIHYxMjoNCj4gMS4gQWRkcmVzcyBQYW9sbydzIGNvbW1lbnRzIHRv
+IG1vdmUgSFdQb2lzb25QYWdlIGRlZmluaXRpb24gdG8gYWNjZWwva3ZtL2t2bS1hbGwuYw0KPiAy
+LiBPbmx5IGNhbGwga3ZtX2NwdV9zeW5jaHJvbml6ZV9zdGF0ZSgpIHdoZW4gZ2V0IHRoZSBCVVNf
+TUNFRVJSX0FSIHNpZ25hbA0KPiAzLiBPbmx5IGFkZCBhbmQgZW5hYmxlIEdQSU8tU2lnbmFsIGFu
+ZCBBUk12OCBTRUEgdHdvIGhhcmR3YXJlIGVycm9yIHNvdXJjZXMNCj4gNC4gQWRkcmVzcyBNaWNo
+YWVsJ3MgY29tbWVudHMgdG8gbm90IHN5bmMgU1BEWCBmcm9tIExpbnV4IGtlcm5lbCBoZWFkZXIg
+ZmlsZQ0KPg0KPiBDaGFuZ2Ugc2luY2UgdjExOg0KPiBBZGRyZXNzIEphbWVzJ3MgY29tbWVudHMo
+amFtZXMubW9yc2VAYXJtLmNvbSkNCj4gMS4gQ2hlY2sgd2hldGhlciBLVk0gaGFzIHRoZSBjYXBh
+YmlsaXR5IHRvIHRvIHNldCBFU1IgaW5zdGVhZCBvZiBkZXRlY3RpbmcgaG9zdCBDUFUgUkFTIGNh
+cGFiaWxpdHkNCj4gMi4gRm9yIFNJR0JVU19NQ0VFUlJfQVIgU0lHQlVTLCB1c2UgU3luY2hyb25v
+dXMtRXh0ZXJuYWwtQWJvcnQoU0VBKSBub3RpZmljYXRpb24gdHlwZQ0KPiAgICBmb3IgU0lHQlVT
+X01DRUVSUl9BTyBTSUdCVVMsIHVzZSBHUElPLVNpZ25hbCBub3RpZmljYXRpb24NCj4NCj4NCj4g
+QWRkcmVzcyBTaGFubm9uJ3MgY29tbWVudHMoZm9yIEFDUEkgcGFydCk6DQo+IDEuIFVuaWZ5IGhl
+c3RfZ2hlcy5jIGFuZCBoZXN0X2doZXMuaCBsaWNlbnNlIGRlY2xhcmF0aW9uDQo+IDIuIFJlbW92
+ZSB1bm5lY2Vzc2FyeSBpbmNsdWRpbmcgInFtcC1jb21tYW5kcy5oIiBpbiBoZXN0X2doZXMuYw0K
+PiAzLiBVbmNvbmRpdGlvbmFsbHkgYWRkIGd1ZXN0IEFQRUkgdGFibGUgYmFzZWQgb24gSmFtZXMn
+cyBjb21tZW50cyhqYW1lcy5tb3JzZUBhcm0uY29tKQ0KPiA0LiBBZGQgYSBvcHRpb24gdG8gdmly
+dCBtYWNoaW5lIGZvciBtaWdyYXRpb24gY29tcGF0aWJpbGl0eS4gT24gbmV3IHZpcnQgbWFjaGlu
+ZSBpdCdzIG9uDQo+ICAgIGJ5IGRlZmF1bHQgd2hpbGUgb2ZmIGZvciBvbGQgb25lcywgd2UgZW5h
+YmxlZCBpdCBzaW5jZSAyLjEyDQo+IDUuIFJlZmVyIHRvIHRoZSBBQ1BJIHNwZWMgdmVyc2lvbiB3
+aGljaCBpbnRyb2R1Y2VzIEhhcmR3YXJlIEVycm9yIE5vdGlmaWNhdGlvbiBmaXJzdCB0aW1lDQo+
+IDYuIEFkZCBBQ1BJX0hFU1RfTk9USUZZX1JFU0VSVkVEIG5vdGlmaWNhdGlvbiB0eXBlDQo+DQo+
+IEFkZHJlc3MgSWdvcidzIGNvbW1lbnRzKGZvciBBQ1BJIHBhcnQpOg0KPiAxLiBBZGQgZG9jIHBh
+dGNoIGZpcnN0IHdoaWNoIHdpbGwgZGVzY3JpYmUgaG93IGl0J3Mgc3VwcG9zZWQgdG8gd29yayBi
+ZXR3ZWVuIFFFTVUvZmlybXdhcmUvZ3Vlc3QNCj4gICAgT1Mgd2l0aCBleHBlY3RlZCBmbG93cy4N
+Cj4gMi4gTW92ZSBBUEVJIGRpYWdyYW1zIGludG8gZG9jL3NwZWMgcGF0Y2gNCj4gMy4gUmVtb3Zl
+IHJlZHVuZGFudCBnX21hbGxvYyBpbiBnaGVzX3JlY29yZF9jcGVyKCkNCj4gNC4gVXNlIGJ1aWxk
+X2FwcGVuZF9pbnRfbm9wcmVmaXgoKSBBUEkgdG8gY29tcG9zZSB3aG9sZSBlcnJvciBzdGF0dXMg
+YmxvY2sgYW5kIHdob2xlIEFQRUkgdGFibGUsDQo+ICAgIGFuZCB0cnkgdG8gZ2V0IHJpZCBvZiBt
+b3N0IHN0cnVjdHVyZXMgaW4gcGF0Y2ggMSwgYXMgdGhleSB3aWxsIGJlIGxlZnQgdW51c2VkIGFm
+dGVyIHRoYXQNCj4gNS4gUmV1c2Ugc29tZXRoaW5nIGxpa2UgaHR0cHM6Ly9naXRodWIuY29tL2lt
+YW1tZWRvL3FlbXUvY29tbWl0LzNkMmZkNmQxM2EzZWEyOThkMmVlODE0ODM1NDk1Y2U2MjQxZDA4
+NWMNCj4gICAgdG8gYnVpbGQgR0FTDQo+IDYuIFJlbW92ZSBtdWNoIG9mZnNldG9mKCkgaW4gdGhl
+IGZ1bmN0aW9uDQo+IDcuIEJ1aWxkIGluZGVwZW5kZW50IHRhYmxlcyBmaXJzdCBhbmQgb25seSB0
+aGVuIGJ1aWxkIGRlcGVuZGVudCB0YWJsZXMgcGFzc2luZyB0byBpdCBwb2ludGVycw0KPiAgICB0
+byBwcmV2aW91c2x5IGJ1aWxkIHRhYmxlIGlmIG5lY2Vzc2FyeS4NCj4gOC4gUmVkZWZpbmUgbWFj
+cm8gR0hFU19BQ1BJX0hFU1RfTk9USUZZX1JFU0VSVkVEIHRvIEFDUElfSEVTVF9FUlJPUl9TT1VS
+Q0VfQ09VTlQgdG8gYXZvaWQgY29uZnVzaW9uDQo+DQo+DQo+IEFkZHJlc3MgUGV0ZXIgTWF5ZGVs
+bCdzIGNvbW1lbnRzDQo+IDEuIGxpbnV4LWhlYWRlcnMgaXMgZG9uZSBhcyBhIHBhdGNoIG9mIHRo
+ZWlyIG93biBjcmVhdGVkIHVzaW5nIHNjcmlwdHMvdXBkYXRlLWxpbnV4LWhlYWRlcnMuc2ggcnVu
+IGFnYWluc3QgYQ0KPiAgICBtYWlubGluZSBrZXJuZWwgdHJlZQ0KPiAyLiBUZXN0ZWQgd2hldGhl
+ciB0aGlzIHBhdGNoc2V0IGJ1aWxkcyBPSyBvbiBhYXJjaDMyDQo+IDMuIEFic3RyYWN0IEh3cG9p
+c29uIHBhZ2UgYWRkaW5nIGNvZGUgIG91dCBwcm9wZXJseSBpbnRvIGEgY3B1LWluZGVwZW5kZW50
+IHNvdXJjZSBmaWxlIGZyb20gdGFyZ2V0L2kzODYva3ZtLmMsDQo+ICAgIHN1Y2ggYXMga3ZtLWFs
+bC5jDQo+IDQuIEFkZCBkb2MtY29tbWVudCBmb3JtYXR0ZWQgZG9jdW1lbnRhdGlvbiBjb21tZW50
+IGZvciBuZXcgZ2xvYmFsbHktdmlzaWJsZSBmdW5jdGlvbiBwcm90b3R5cGUgaW4gYSBoZWFkZXIN
+Cj4NCj4gLS0tDQo+IFsxXToNCj4gaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMTcvMi8yNy8yNDYN
+Cj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC85NjMzMTA1Lw0KPiBodHRwczov
+L3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzk5MjUyMjcvDQo+DQo+IFsyXToNCj4gTm90ZTog
+dGhlIFVFRkkoUUVNVV9FRkkuZmQpIGlzIG5lZWRlZCBpZiBndWVzdCB3YW50IHRvIHVzZSBBQ1BJ
+IHRhYmxlLg0KPg0KPiBBZnRlciBndWVzdCBib290IHVwLCBkdW1wIHRoZSBBUEVJIHRhYmxlLCB0
+aGVuIGNhbiBzZWUgdGhlIGluaXRpYWxpemVkIHRhYmxlDQo+ICgxKSAjIGlhc2wgLXAgLi9IRVNU
+IC1kIC9zeXMvZmlybXdhcmUvYWNwaS90YWJsZXMvSEVTVA0KPiAoMikgIyBjYXQgSEVTVC5kc2wN
+Cj4gICAgIC8qDQo+ICAgICAgKiBJbnRlbCBBQ1BJIENvbXBvbmVudCBBcmNoaXRlY3R1cmUNCj4g
+ICAgICAqIEFNTC9BU0wrIERpc2Fzc2VtYmxlciB2ZXJzaW9uIDIwMTcwNzI4ICg2NC1iaXQgdmVy
+c2lvbikNCj4gICAgICAqIENvcHlyaWdodCAoYykgMjAwMCAtIDIwMTcgSW50ZWwgQ29ycG9yYXRp
+b24NCj4gICAgICAqDQo+ICAgICAgKiBEaXNhc3NlbWJseSBvZiAvc3lzL2Zpcm13YXJlL2FjcGkv
+dGFibGVzL0hFU1QsIE1vbiBTZXAgIDUgMDc6NTk6MTcgMjAxNg0KPiAgICAgICoNCj4gICAgICAq
+IEFDUEkgRGF0YSBUYWJsZSBbSEVTVF0NCj4gICAgICAqDQo+ICAgICAgKiBGb3JtYXQ6IFtIZXhP
+ZmZzZXQgRGVjaW1hbE9mZnNldCBCeXRlTGVuZ3RoXSAgRmllbGROYW1lIDogRmllbGRWYWx1ZQ0K
+PiAgICAgICovDQo+DQo+ICAgICAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uDQo+ICAgICBbMzA4
+aCAwNzc2ICAgMl0gICAgICAgICAgICAgICAgU3VidGFibGUgVHlwZSA6IDAwMEEgW0dlbmVyaWMg
+SGFyZHdhcmUgRXJyb3IgU291cmNlIFYyXQ0KPiAgICAgWzMwQWggMDc3OCAgIDJdICAgICAgICAg
+ICAgICAgICAgICBTb3VyY2UgSWQgOiAwMDAxDQo+ICAgICBbMzBDaCAwNzgwICAgMl0gICAgICAg
+ICAgICBSZWxhdGVkIFNvdXJjZSBJZCA6IEZGRkYNCj4gICAgIFszMEVoIDA3ODIgICAxXSAgICAg
+ICAgICAgICAgICAgICAgIFJlc2VydmVkIDogMDANCj4gICAgIFszMEZoIDA3ODMgICAxXSAgICAg
+ICAgICAgICAgICAgICAgICBFbmFibGVkIDogMDENCj4gICAgIFszMTBoIDA3ODQgICA0XSAgICAg
+ICBSZWNvcmRzIFRvIFByZWFsbG9jYXRlIDogMDAwMDAwMDENCj4gICAgIFszMTRoIDA3ODggICA0
+XSAgICAgIE1heCBTZWN0aW9ucyBQZXIgUmVjb3JkIDogMDAwMDAwMDENCj4gICAgIFszMThoIDA3
+OTIgICA0XSAgICAgICAgICBNYXggUmF3IERhdGEgTGVuZ3RoIDogMDAwMDEwMDANCj4NCj4gICAg
+IFszMUNoIDA3OTYgIDEyXSAgICAgICAgIEVycm9yIFN0YXR1cyBBZGRyZXNzIDogW0dlbmVyaWMg
+QWRkcmVzcyBTdHJ1Y3R1cmVdDQo+ICAgICBbMzFDaCAwNzk2ICAgMV0gICAgICAgICAgICAgICAg
+ICAgICBTcGFjZSBJRCA6IDAwIFtTeXN0ZW1NZW1vcnldDQo+ICAgICBbMzFEaCAwNzk3ICAgMV0g
+ICAgICAgICAgICAgICAgICAgIEJpdCBXaWR0aCA6IDQwDQo+ICAgICBbMzFFaCAwNzk4ICAgMV0g
+ICAgICAgICAgICAgICAgICAgQml0IE9mZnNldCA6IDAwDQo+ICAgICBbMzFGaCAwNzk5ICAgMV0g
+ICAgICAgICBFbmNvZGVkIEFjY2VzcyBXaWR0aCA6IDA0IFtRV29yZCBBY2Nlc3M6NjRdDQo+ICAg
+ICBbMzIwaCAwODAwICAgOF0gICAgICAgICAgICAgICAgICAgICAgQWRkcmVzcyA6IDAwMDAwMDAw
+Nzg1RDAwNDANCj4NCj4gICAgIFszMjhoIDA4MDggIDI4XSAgICAgICAgICAgICAgICAgICAgICAg
+Tm90aWZ5IDogW0hhcmR3YXJlIEVycm9yIE5vdGlmaWNhdGlvbiBTdHJ1Y3R1cmVdDQo+ICAgICBb
+MzI4aCAwODA4ICAgMV0gICAgICAgICAgICAgICAgICBOb3RpZnkgVHlwZSA6IDA4IFtTRUFdDQo+
+ICAgICBbMzI5aCAwODA5ICAgMV0gICAgICAgICAgICAgICAgTm90aWZ5IExlbmd0aCA6IDFDDQo+
+ICAgICBbMzJBaCAwODEwICAgMl0gICBDb25maWd1cmF0aW9uIFdyaXRlIEVuYWJsZSA6IDAwMDAN
+Cj4gICAgIFszMkNoIDA4MTIgICA0XSAgICAgICAgICAgICAgICAgUG9sbEludGVydmFsIDogMDAw
+MDAwMDANCj4gICAgIFszMzBoIDA4MTYgICA0XSAgICAgICAgICAgICAgICAgICAgICAgVmVjdG9y
+IDogMDAwMDAwMDANCj4gICAgIFszMzRoIDA4MjAgICA0XSAgICAgIFBvbGxpbmcgVGhyZXNob2xk
+IFZhbHVlIDogMDAwMDAwMDANCj4gICAgIFszMzhoIDA4MjQgICA0XSAgICAgUG9sbGluZyBUaHJl
+c2hvbGQgV2luZG93IDogMDAwMDAwMDANCj4gICAgIFszM0NoIDA4MjggICA0XSAgICAgICAgRXJy
+b3IgVGhyZXNob2xkIFZhbHVlIDogMDAwMDAwMDANCj4gICAgIFszNDBoIDA4MzIgICA0XSAgICAg
+ICBFcnJvciBUaHJlc2hvbGQgV2luZG93IDogMDAwMDAwMDANCj4NCj4gICAgIFszNDRoIDA4MzYg
+ICA0XSAgICBFcnJvciBTdGF0dXMgQmxvY2sgTGVuZ3RoIDogMDAwMDEwMDANCj4gICAgIFszNDho
+IDA4NDAgIDEyXSAgICAgICAgICAgIFJlYWQgQWNrIFJlZ2lzdGVyIDogW0dlbmVyaWMgQWRkcmVz
+cyBTdHJ1Y3R1cmVdDQo+ICAgICBbMzQ4aCAwODQwICAgMV0gICAgICAgICAgICAgICAgICAgICBT
+cGFjZSBJRCA6IDAwIFtTeXN0ZW1NZW1vcnldDQo+ICAgICBbMzQ5aCAwODQxICAgMV0gICAgICAg
+ICAgICAgICAgICAgIEJpdCBXaWR0aCA6IDQwDQo+ICAgICBbMzRBaCAwODQyICAgMV0gICAgICAg
+ICAgICAgICAgICAgQml0IE9mZnNldCA6IDAwDQo+ICAgICBbMzRCaCAwODQzICAgMV0gICAgICAg
+ICBFbmNvZGVkIEFjY2VzcyBXaWR0aCA6IDA0IFtRV29yZCBBY2Nlc3M6NjRdDQo+ICAgICBbMzRD
+aCAwODQ0ICAgOF0gICAgICAgICAgICAgICAgICAgICAgQWRkcmVzcyA6IDAwMDAwMDAwNzg1RDAw
+OTgNCj4NCj4gICAgIFszNTRoIDA4NTIgICA4XSAgICAgICAgICAgIFJlYWQgQWNrIFByZXNlcnZl
+IDogMDAwMDAwMDBGRkZGRkZGRQ0KPiAgICAgWzM1Q2ggMDg2MCAgIDhdICAgICAgICAgICAgICAg
+UmVhZCBBY2sgV3JpdGUgOiAwMDAwMDAwMDAwMDAwMDAxDQo+DQo+ICAgICAuLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uDQo+DQo+ICgzKSBBZnRlciBhIHN5bmNocm9ub3VzIGV4dGVybmFsIGFi
+b3J0KFNFQSkgaGFwcGVuLCBRZW11IHJlY2VpdmUgYSBTSUdCVVMgYW5kDQo+ICAgICBmaWxsZWQg
+dGhlIENQRVIgaW50byBndWVzdCBHSEVTIG1lbW9yeS4gIEZvciBleGFtcGxlLCBhY2NvcmRpbmcg
+dG8gYWJvdmUgdGFibGUsDQo+ICAgICB0aGUgYWRkcmVzcyB0aGF0IGNvbnRhaW5zIHRoZSBwaHlz
+aWNhbCBhZGRyZXNzIG9mIGEgYmxvY2sgb2YgbWVtb3J5IHRoYXQgaG9sZHMNCj4gICAgIHRoZSBl
+cnJvciBzdGF0dXMgZGF0YSBmb3IgdGhpcyBhYm9ydCBpcyAweDAwMDAwMDAwNzg1RDAwNDANCj4g
+KDQpIHRoZSBhZGRyZXNzIGZvciBTRUEgbm90aWZpY2F0aW9uIGVycm9yIHNvdXJjZSBpcyAweDc4
+NWQ4MGIwDQo+ICAgICAocWVtdSkgeHAgLzEgMHgwMDAwMDAwMDc4NUQwMDQwDQo+ICAgICAwMDAw
+MDAwMDc4NWQwMDQwOiAweDc4NWQ4MGIwDQo+DQo+ICg1KSBjaGVjayB0aGUgY29udGVudCBvZiBn
+ZW5lcmljIGVycm9yIHN0YXR1cyBibG9jayBhbmQgZ2VuZXJpYyBlcnJvciBkYXRhIGVudHJ5DQo+
+ICAgICAocWVtdSkgeHAgLzEwMHggMHg3ODVkODBiMA0KPiAgICAgMDAwMDAwMDA3ODVkODBiMDog
+MHgwMDAwMDAwMSAweDAwMDAwMDAwIDB4MDAwMDAwMDAgMHgwMDAwMDA5OA0KPiAgICAgMDAwMDAw
+MDA3ODVkODBjMDogMHgwMDAwMDAwMCAweGE1YmMxMTE0IDB4NGVkZTZmNjQgMHg4MzNlNjNiOA0K
+PiAgICAgMDAwMDAwMDA3ODVkODBkMDogMHhiMTgzN2NlZCAweDAwMDAwMDAwIDB4MDAwMDAzMDAg
+MHgwMDAwMDA1MA0KPiAgICAgMDAwMDAwMDA3ODVkODBlMDogMHgwMDAwMDAwMCAweDAwMDAwMDAw
+IDB4MDAwMDAwMDAgMHgwMDAwMDAwMA0KPiAgICAgMDAwMDAwMDA3ODVkODBmMDogMHgwMDAwMDAw
+MCAweDAwMDAwMDAwIDB4MDAwMDAwMDAgMHgwMDAwMDAwMA0KPiAgICAgMDAwMDAwMDA3ODVkODEw
+MDogMHgwMDAwMDAwMCAweDAwMDAwMDAwIDB4MDAwMDAwMDAgMHgwMDAwNDAwMg0KPiAoNikgY2hl
+Y2sgdGhlIE9TUE0ncyBBQ0sgdmFsdWUoZm9yIGV4YW1wbGUgU0VBKQ0KPiAgICAgLyogQmVmb3Jl
+IE9TUE0gYWNrbm93bGVkZ2VzIHRoZSBlcnJvciwgY2hlY2sgdGhlIEFDSyB2YWx1ZSAqLw0KPiAg
+ICAgKHFlbXUpIHhwIC8xIDB4MDAwMDAwMDA3ODVEMDA5OA0KPiAgICAgMDAwMDAwMDA3ODVkMDBm
+MDogMHgwMDAwMDAwMA0KPg0KPiAgICAgLyogQWZ0ZXIgT1NQTSBhY2tub3dsZWRnZXMgdGhlIGVy
+cm9yLCBjaGVjayB0aGUgQUNLIHZhbHVlLCBpdCBjaGFuZ2UgdG8gMSBmcm9tIDAgKi8NCj4gICAg
+IChxZW11KSB4cCAvMSAweDAwMDAwMDAwNzg1RDAwOTgNCj4gICAgIDAwMDAwMDAwNzg1ZDAwZjA6
+IDB4MDAwMDAwMDENCj4NCj4gWzNdOiBLVk0gZGVsaXZlciAiQlVTX01DRUVSUl9BUiIgdG8gUWVt
+dSwgUWVtdSByZWNvcmQgdGhlIGd1ZXN0IENQRVIgYW5kIGluamVjdA0KPiAgICAgc3luY2hyb25v
+dXMgZXh0ZXJuYWwgYWJvcnQgdG8gbm90aWZ5IGd1ZXN0LCB0aGVuIGd1ZXN0IGRvIHRoZSByZWNv
+dmVyeS4NCj4NCj4gWyAxNTUyLjUxNjE3MF0gU3luY2hyb25vdXMgRXh0ZXJuYWwgQWJvcnQ6IHN5
+bmNocm9ub3VzIGV4dGVybmFsIGFib3J0ICgweDkyMDAwNDEwKSBhdCAweDAwMDAwMDAwMzc1MWM2
+YjQNCj4gWyAxNTUzLjA3NDA3M10gezF9W0hhcmR3YXJlIEVycm9yXTogSGFyZHdhcmUgZXJyb3Ig
+ZnJvbSBBUEVJIEdlbmVyaWMgSGFyZHdhcmUgRXJyb3IgU291cmNlOiA4DQo+IFsgMTU1My4wODE2
+NTRdIHsxfVtIYXJkd2FyZSBFcnJvcl06IGV2ZW50IHNldmVyaXR5OiByZWNvdmVyYWJsZQ0KPiBb
+IDE1NTQuMDM0MTkxXSB7MX1bSGFyZHdhcmUgRXJyb3JdOiAgRXJyb3IgMCwgdHlwZTogcmVjb3Zl
+cmFibGUNCj4gWyAxNTU0LjAzNzkzNF0gezF9W0hhcmR3YXJlIEVycm9yXTogICBzZWN0aW9uX3R5
+cGU6IG1lbW9yeSBlcnJvcg0KPiBbIDE1NTQuNTEzMjYxXSB7MX1bSGFyZHdhcmUgRXJyb3JdOiAg
+IHBoeXNpY2FsX2FkZHJlc3M6IDB4MDAwMDAwMDA0MGZhNjAwMA0KPiBbIDE1NTQuNTEzOTQ0XSB7
+MX1bSGFyZHdhcmUgRXJyb3JdOiAgIGVycm9yX3R5cGU6IDAsIHVua25vd24NCj4gWyAxNTU1LjA0
+MTQ1MV0gTWVtb3J5IGZhaWx1cmU6IDB4NDBmYTY6IEtpbGxpbmcgbWNhLXJlY292ZXI6MTI5NiBk
+dWUgdG8gaGFyZHdhcmUgbWVtb3J5IGNvcnJ1cHRpb24NCj4gWyAxNTU1LjM3MzExNl0gTWVtb3J5
+IGZhaWx1cmU6IDB4NDBmYTY6IHJlY292ZXJ5IGFjdGlvbiBmb3IgZGlydHkgTFJVIHBhZ2U6IFJl
+Y292ZXJlZA0KPg0KPg0KPg0KPiBEb25naml1IEdlbmcgKDEwKToNCj4gICBody9hcm0vdmlydDog
+QWRkIFJBUyBwbGF0Zm9ybSB2ZXJzaW9uIGZvciBtaWdyYXRpb24NCj4gICBBQ1BJOiBhZGQgc29t
+ZSBHSEVTIHN0cnVjdHVyZXMgYW5kIG1hY3JvcyBkZWZpbml0aW9uDQo+ICAgYWNwaTogYWRkIGJ1
+aWxkX2FwcGVuZF9naGVzX25vdGlmeSgpIGhlbHBlciBmb3IgSGFyZHdhcmUgRXJyb3INCj4gICAg
+IE5vdGlmaWNhdGlvbg0KPiAgIGFjcGk6IGFkZCBidWlsZF9hcHBlbmRfZ2hlc19nZW5lcmljX2Rh
+dGEoKSBoZWxwZXIgZm9yIEdlbmVyaWMgRXJyb3INCj4gICAgIERhdGEgRW50cnkNCj4gICBhY3Bp
+OiBhZGQgYnVpbGRfYXBwZW5kX2doZXNfZ2VuZXJpY19zdGF0dXMoKSBoZWxwZXIgZm9yIEdlbmVy
+aWMgRXJyb3INCj4gICAgIFN0YXR1cyBCbG9jaw0KPiAgIGRvY3M6IEFQRUkgR0hFUyBnZW5lcmF0
+aW9uIGFuZCBDUEVSIHJlY29yZCBkZXNjcmlwdGlvbg0KPiAgIEFDUEk6IEFkZCBBUEVJIEdIRVMg
+dGFibGUgZ2VuZXJhdGlvbiBzdXBwb3J0DQo+ICAgS1ZNOiBNb3ZlIHJlbGF0ZWQgaHdwb2lzb24g
+cGFnZSBmdW5jdGlvbnMgdG8gYWNjZWwva3ZtLyBmb2xkZXINCj4gICB0YXJnZXQtYXJtOiBrdm02
+NDogaW5qZWN0IHN5bmNocm9ub3VzIEV4dGVybmFsIEFib3J0DQo+ICAgdGFyZ2V0LWFybToga3Zt
+NjQ6IGhhbmRsZSBTSUdCVVMgc2lnbmFsIGZyb20ga2VybmVsIG9yIEtWTQ0KPg0KPiAgYWNjZWwv
+a3ZtL2t2bS1hbGwuYyAgICAgICAgICAgICB8ICAzMyArKysrDQo+ICBkZWZhdWx0LWNvbmZpZ3Mv
+YXJtLXNvZnRtbXUubWFrIHwgICAxICsNCj4gIGRvY3Mvc3BlY3MvYWNwaV9oZXN0X2doZXMudHh0
+ICAgfCAgOTcgKysrKysrKysrKysNCj4gIGh3L2FjcGkvS2NvbmZpZyAgICAgICAgICAgICAgICAg
+fCAgIDQgKw0KPiAgaHcvYWNwaS9NYWtlZmlsZS5vYmpzICAgICAgICAgICB8ICAgMSArDQo+ICBo
+dy9hY3BpL2FjcGlfZ2hlcy5jICAgICAgICAgICAgIHwgMzQ4ICsrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysNCj4gIGh3L2FjcGkvYW1sLWJ1aWxkLmMgICAgICAgICAgICAg
+fCAgNzAgKysrKysrKysNCj4gIGh3L2FybS92aXJ0LWFjcGktYnVpbGQuYyAgICAgICAgfCAgMTIg
+KysNCj4gIGh3L2FybS92aXJ0LmMgICAgICAgICAgICAgICAgICAgfCAgIDYgKw0KPiAgaW5jbHVk
+ZS9leGVjL3JhbV9hZGRyLmggICAgICAgICB8ICAyNCArKysNCj4gIGluY2x1ZGUvaHcvYWNwaS9h
+Y3BpLWRlZnMuaCAgICAgfCAgNTIgKysrKysrDQo+ICBpbmNsdWRlL2h3L2FjcGkvYWNwaV9naGVz
+LmggICAgIHwgIDgzICsrKysrKysrKysNCj4gIGluY2x1ZGUvaHcvYWNwaS9hbWwtYnVpbGQuaCAg
+ICAgfCAgMjEgKysrDQo+ICBpbmNsdWRlL2h3L2FybS92aXJ0LmggICAgICAgICAgIHwgICAxICsN
+Cj4gIGluY2x1ZGUvc3lzZW11L2t2bS5oICAgICAgICAgICAgfCAgIDIgKy0NCj4gIHRhcmdldC9h
+cm0vaW50ZXJuYWxzLmggICAgICAgICAgfCAgIDUgKy0NCj4gIHRhcmdldC9hcm0va3ZtLmMgICAg
+ICAgICAgICAgICAgfCAgIDMgKw0KPiAgdGFyZ2V0L2FybS9rdm02NC5jICAgICAgICAgICAgICB8
+ICA3MyArKysrKysrKysNCj4gIHRhcmdldC9hcm0vb3BfaGVscGVyLmMgICAgICAgICAgfCAgIDIg
+Ky0NCj4gIHRhcmdldC9pMzg2L2t2bS5jICAgICAgICAgICAgICAgfCAgMzQgKy0tLQ0KPiAgMjAg
+ZmlsZXMgY2hhbmdlZCwgODM1IGluc2VydGlvbnMoKyksIDM3IGRlbGV0aW9ucygtKQ0KPiAgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IGRvY3Mvc3BlY3MvYWNwaV9oZXN0X2doZXMudHh0DQo+ICBjcmVhdGUg
+bW9kZSAxMDA2NDQgaHcvYWNwaS9hY3BpX2doZXMuYw0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGlu
+Y2x1ZGUvaHcvYWNwaS9hY3BpX2doZXMuaA0KPg0KDQpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXw0KTGludXhhcm0gbWFpbGluZyBsaXN0DQpMaW51eGFybUBo
+dWF3ZWkuY29tDQpodHRwOi8vaHVsay5odWF3ZWkuY29tL21haWxtYW4vbGlzdGluZm8vbGludXhh
+cm0NCg==
