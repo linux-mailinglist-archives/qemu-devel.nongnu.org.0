@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AD929E69
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:49:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58814 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB0C29E6E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:50:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58823 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFGE-0001dj-Pb
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:49:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40333)
+	id 1hUFGZ-0001uo-7Y
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:50:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40359)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFBk-0006cv-EV
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:09 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUFBr-0006ko-OA
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFBi-0005z5-9t
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:13432)
+	(envelope-from <ehabkost@redhat.com>) id 1hUFBq-00066v-6u
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58652)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFBh-0005w8-Up
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:06 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFBm-000622-Dd
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:12 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 374105F793;
-	Fri, 24 May 2019 18:45:03 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 97BCD30833A8;
+	Fri, 24 May 2019 18:45:09 +0000 (UTC)
 Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1C2A919C6F;
-	Fri, 24 May 2019 18:44:59 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DDA5718A5F;
+	Fri, 24 May 2019 18:45:04 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 	Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Fri, 24 May 2019 15:44:33 -0300
-Message-Id: <20190524184447.16678-4-ehabkost@redhat.com>
+Date: Fri, 24 May 2019 15:44:34 -0300
+Message-Id: <20190524184447.16678-5-ehabkost@redhat.com>
 In-Reply-To: <20190524184447.16678-1-ehabkost@redhat.com>
 References: <20190524184447.16678-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Fri, 24 May 2019 18:45:03 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.44]);
+	Fri, 24 May 2019 18:45:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 03/17] hw/misc/macio: Use
- object_initialize_child for correct ref. counting
+Subject: [Qemu-devel] [PULL 04/17] hw/virtio: Use object_initialize_child
+ for correct reference counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,8 +74,7 @@ As explained in commit aff39be0ed97:
   Thus let's use now object_initialize_child() instead to get the
   reference counting here right.
 
-This patch was generated using the following Coccinelle script
-(with a bit of manual fix-up for overly long lines):
+This patch was generated using the following Coccinelle script:
 
  @use_object_initialize_child@
  expression parent_obj;
@@ -116,53 +115,30 @@ argument instead of ignoring errors if an object creation failed.
 Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 Inspired-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190507163416.24647-3-philmd@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20190507163416.24647-4-philmd@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/misc/macio/macio.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/virtio/virtio.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 94da85c8d7..b726c73022 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -346,12 +346,12 @@ static void macio_newworld_realize(PCIDevice *d, Er=
-ror **errp)
-         object_property_set_bool(OBJECT(&ns->gpio), true, "realized", &e=
-rr);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 4805727b53..07f4a64b48 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2312,9 +2312,8 @@ void virtio_instance_init_common(Object *proxy_obj,=
+ void *data,
+ {
+     DeviceState *vdev =3D data;
 =20
-         /* PMU */
--        object_initialize(&s->pmu, sizeof(s->pmu), TYPE_VIA_PMU);
-+        object_initialize_child(OBJECT(s), "pmu", &s->pmu, sizeof(s->pmu=
-),
-+                                TYPE_VIA_PMU, &error_abort, NULL);
-         object_property_set_link(OBJECT(&s->pmu), OBJECT(sysbus_dev), "g=
-pio",
-                                  &error_abort);
-         qdev_prop_set_bit(DEVICE(&s->pmu), "has-adb", ns->has_adb);
-         qdev_set_parent_bus(DEVICE(&s->pmu), BUS(&s->macio_bus));
--        object_property_add_child(OBJECT(s), "pmu", OBJECT(&s->pmu), NUL=
-L);
-=20
-         object_property_set_bool(OBJECT(&s->pmu), true, "realized", &err=
-);
-         if (err) {
-@@ -365,9 +365,9 @@ static void macio_newworld_realize(PCIDevice *d, Erro=
-r **errp)
-                                     sysbus_mmio_get_region(sysbus_dev, 0=
-));
-     } else {
-         /* CUDA */
--        object_initialize(&s->cuda, sizeof(s->cuda), TYPE_CUDA);
-+        object_initialize_child(OBJECT(s), "cuda", &s->cuda, sizeof(s->c=
-uda),
-+                                TYPE_CUDA, &error_abort, NULL);
-         qdev_set_parent_bus(DEVICE(&s->cuda), BUS(&s->macio_bus));
--        object_property_add_child(OBJECT(s), "cuda", OBJECT(&s->cuda), N=
-ULL);
-         qdev_prop_set_uint64(DEVICE(&s->cuda), "timebase-frequency",
-                              s->frequency);
+-    object_initialize(vdev, vdev_size, vdev_name);
+-    object_property_add_child(proxy_obj, "virtio-backend", OBJECT(vdev),=
+ NULL);
+-    object_unref(OBJECT(vdev));
++    object_initialize_child(proxy_obj, "virtio-backend", vdev, vdev_size=
+,
++                            vdev_name, &error_abort, NULL);
+     qdev_alias_all_properties(vdev, proxy_obj);
+ }
 =20
 --=20
 2.18.0.rc1.1.g3f1ff2140
