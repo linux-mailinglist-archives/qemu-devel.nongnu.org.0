@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A25429D42
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 19:37:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57981 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEAA29D05
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 19:33:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57885 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUE8g-0005Ag-Hx
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 13:37:54 -0400
+	id 1hUE4Z-0000mJ-9e
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 13:33:39 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:53399)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hUE26-0007DD-SQ
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:31:12 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hUE25-0007DD-Lv
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:31:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hUDzX-0004O6-Mo
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:28:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40590)
+	(envelope-from <mreitz@redhat.com>) id 1hUDzb-0004Q5-Gn
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:28:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56422)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hUDzV-0004M5-1Y; Fri, 24 May 2019 13:28:25 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	id 1hUDza-0004P8-6B; Fri, 24 May 2019 13:28:30 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B238481F07;
-	Fri, 24 May 2019 17:28:17 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1DF463004413;
+	Fri, 24 May 2019 17:28:21 +0000 (UTC)
 Received: from localhost (ovpn-204-150.brq.redhat.com [10.40.204.150])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 789551001DED;
-	Fri, 24 May 2019 17:28:14 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AB2F760C62;
+	Fri, 24 May 2019 17:28:19 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 24 May 2019 19:28:09 +0200
-Message-Id: <20190524172812.27308-1-mreitz@redhat.com>
+Date: Fri, 24 May 2019 19:28:10 +0200
+Message-Id: <20190524172812.27308-2-mreitz@redhat.com>
+In-Reply-To: <20190524172812.27308-1-mreitz@redhat.com>
+References: <20190524172812.27308-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Fri, 24 May 2019 17:28:23 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.44]);
+	Fri, 24 May 2019 17:28:24 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] =?utf-8?q?=5BRFC_0/3=5D_block=3A_Inquire_images?=
- =?utf-8?q?=E2=80=99_rotational_info?=
+Subject: [Qemu-devel] [RFC 1/3] block: Add ImageRotationalInfo
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,46 +62,144 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This enum indicates whether a file is stored on a rotating disk or a
+solid-state drive.  Drivers report it via the .bdrv_get_info() callback,
+and if they do not, the global bdrv_get_info() implementation
+automatically takes it from bs->file or bs->backing, if available.
 
-http://lists.nongnu.org/archive/html/qemu-block/2019-05/msg00569.html
-shows that optimizations affect HDDs and SSDs differently.  It would be
-nice if we could differentiate between the two and then choose to adjust
-our behavior depending on whether a given image is stored on an HDD or
-not.
+On the QAPI side, we report the value as part of the ImageInfo
+structure.
 
-Or maybe it isn=E2=80=99t so nice.  That=E2=80=99s one reason this is an =
-RFC.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ qapi/block-core.json  | 19 ++++++++++++++++++-
+ include/block/block.h |  7 +++++++
+ block.c               | 20 +++++++++++++++++++-
+ block/qapi.c          |  3 +++
+ 4 files changed, 47 insertions(+), 2 deletions(-)
 
-The other is that I implemented recognition of the rotational status by
-querying sysfs.  That looks stupid, but I didn=E2=80=99t find a better wa=
-y
-(there is a BLKROTATIONAL ioctl, but that only works on device files).
-
-But, hey, if you look through block/file-posix.c, you=E2=80=99ll find tha=
-t I=E2=80=99m
-not the first to query sysfs.  hdev_get_max_segments() does so, too.  So
-maybe it isn=E2=80=99t that bad of an idea.
-
-
-What do you think?  Is the whole idea stupid?  Just the implementation?
-Or does it make sense?
-
-
-Max Reitz (3):
-  block: Add ImageRotationalInfo
-  file-posix: Inquire rotational status
-  qcow2: Evaluate rotational info
-
- qapi/block-core.json  | 19 ++++++++++-
- block/qcow2.h         |  3 ++
- include/block/block.h |  7 +++++
- block.c               | 20 +++++++++++-
- block/file-posix.c    | 73 +++++++++++++++++++++++++++++++++++++++++++
- block/qapi.c          |  3 ++
- block/qcow2.c         | 34 +++++++++++++++++---
- 7 files changed, 153 insertions(+), 6 deletions(-)
-
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 3e4042be7f..80b9f2a69c 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -130,6 +130,20 @@
+       'luks': 'QCryptoBlockInfoLUKS'
+   } }
+=20
++##
++# @ImageRotationalInfo:
++#
++# Indicates whether an image is stored on a rotating disk or not.
++#
++# @solid-state: Image is stored on a solid-state drive
++#
++# @rotating:    Image is stored on a rotating disk
++#
++# Since: 4.1
++##
++{ 'enum': 'ImageRotationalInfo',
++  'data': [ 'solid-state', 'rotating' ] }
++
+ ##
+ # @ImageInfo:
+ #
+@@ -161,6 +175,9 @@
+ #
+ # @backing-image: info of the backing image (since 1.6)
+ #
++# @rotational: indicates whether the image is stored on a rotating
++#              disk or not (since 4.1)
++#
+ # @format-specific: structure supplying additional format-specific
+ # information (since 1.7)
+ #
+@@ -173,7 +190,7 @@
+            '*cluster-size': 'int', '*encrypted': 'bool', '*compressed': =
+'bool',
+            '*backing-filename': 'str', '*full-backing-filename': 'str',
+            '*backing-filename-format': 'str', '*snapshots': ['SnapshotIn=
+fo'],
+-           '*backing-image': 'ImageInfo',
++           '*backing-image': 'ImageInfo', '*rotational': 'ImageRotationa=
+lInfo',
+            '*format-specific': 'ImageInfoSpecific' } }
+=20
+ ##
+diff --git a/include/block/block.h b/include/block/block.h
+index 531cf595cf..dc0f8a4671 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -31,6 +31,13 @@ typedef struct BlockDriverInfo {
+      * True if this block driver only supports compressed writes
+      */
+     bool needs_compressed_writes;
++
++    /*
++     * Indicates whether this image file is stored on a rotating disk
++     * or a solid-state drive.
++     */
++    bool has_rotational_info;
++    ImageRotationalInfo rotational_info;
+ } BlockDriverInfo;
+=20
+ typedef struct BlockFragInfo {
+diff --git a/block.c b/block.c
+index 4c3902508d..e6b2d6d23b 100644
+--- a/block.c
++++ b/block.c
+@@ -4950,6 +4950,8 @@ void bdrv_get_backing_filename(BlockDriverState *bs=
+,
+ int bdrv_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+ {
+     BlockDriver *drv =3D bs->drv;
++    int ret;
++
+     /* if bs->drv =3D=3D NULL, bs is closed, so there's nothing to do he=
+re */
+     if (!drv) {
+         return -ENOMEDIUM;
+@@ -4960,8 +4962,24 @@ int bdrv_get_info(BlockDriverState *bs, BlockDrive=
+rInfo *bdi)
+         }
+         return -ENOTSUP;
+     }
++
+     memset(bdi, 0, sizeof(*bdi));
+-    return drv->bdrv_get_info(bs, bdi);
++    ret =3D drv->bdrv_get_info(bs, bdi);
++    if (ret < 0) {
++        return ret;
++    }
++
++    if (!bdi->has_rotational_info && (bs->file || bs->backing)) {
++        BlockDriverState *child =3D bs->file ? bs->file->bs : bs->backin=
+g->bs;
++        BlockDriverInfo child_bdi;
++
++        if (bdrv_get_info(child, &child_bdi) >=3D 0) {
++            bdi->rotational_info =3D child_bdi.rotational_info;
++            bdi->has_rotational_info =3D child_bdi.has_rotational_info;
++        }
++    }
++
++    return 0;
+ }
+=20
+ ImageInfoSpecific *bdrv_get_specific_info(BlockDriverState *bs,
+diff --git a/block/qapi.c b/block/qapi.c
+index 0c13c86f4e..48ebfbdcc1 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -286,6 +286,9 @@ void bdrv_query_image_info(BlockDriverState *bs,
+         }
+         info->dirty_flag =3D bdi.is_dirty;
+         info->has_dirty_flag =3D true;
++
++        info->rotational =3D bdi.rotational_info;
++        info->has_rotational =3D bdi.has_rotational_info;
+     }
+     info->format_specific =3D bdrv_get_specific_info(bs, &err);
+     if (err) {
 --=20
 2.21.0
 
