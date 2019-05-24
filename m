@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D1B29E7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:52:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58869 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A53529E84
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:55:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58891 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFIz-0003pL-Db
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:52:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40435)
+	id 1hUFLN-0005ub-NT
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:55:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40452)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFC5-000714-HU
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:30 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUFCC-00077U-LL
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFC2-0006Kt-Ui
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58602)
+	(envelope-from <ehabkost@redhat.com>) id 1hUFC8-0006Q0-RM
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52224)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFC1-0006G6-GN
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:25 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFC6-0006M9-9a
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:31 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 46A8759465;
-	Fri, 24 May 2019 18:45:24 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0152A81F18;
+	Fri, 24 May 2019 18:45:29 +0000 (UTC)
 Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1E3EA173DB;
-	Fri, 24 May 2019 18:45:18 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 48AB619C6A;
+	Fri, 24 May 2019 18:45:26 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 	Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Fri, 24 May 2019 15:44:37 -0300
-Message-Id: <20190524184447.16678-8-ehabkost@redhat.com>
+Date: Fri, 24 May 2019 15:44:38 -0300
+Message-Id: <20190524184447.16678-9-ehabkost@redhat.com>
 In-Reply-To: <20190524184447.16678-1-ehabkost@redhat.com>
 References: <20190524184447.16678-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Fri, 24 May 2019 18:45:24 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Fri, 24 May 2019 18:45:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/17] hw/arm/bcm2835: Use
+Subject: [Qemu-devel] [PULL 08/17] hw/arm/aspeed: Use
  object_initialize_child for correct ref. counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -155,127 +155,134 @@ since its code is:
 Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 Inspired-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190507163416.24647-7-philmd@redhat.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Message-Id: <20190507163416.24647-8-philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/arm/bcm2835_peripherals.c | 53 ++++++++++++++----------------------
- 1 file changed, 20 insertions(+), 33 deletions(-)
+ hw/arm/aspeed.c     |  6 +++---
+ hw/arm/aspeed_soc.c | 50 ++++++++++++++++++---------------------------
+ 2 files changed, 23 insertions(+), 33 deletions(-)
 
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 2931a82a25..0fb54c7964 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -41,44 +41,36 @@ static void bcm2835_peripherals_init(Object *obj)
-                        MBOX_CHAN_COUNT << MBOX_AS_CHAN_SHIFT);
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 415cff7a01..33070a6df8 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -160,9 +160,9 @@ static void aspeed_board_init(MachineState *machine,
+     ram_addr_t max_ram_size;
 =20
-     /* Interrupt Controller */
--    object_initialize(&s->ic, sizeof(s->ic), TYPE_BCM2835_IC);
--    object_property_add_child(obj, "ic", OBJECT(&s->ic), NULL);
--    qdev_set_parent_bus(DEVICE(&s->ic), sysbus_get_default());
-+    sysbus_init_child_obj(obj, "ic", &s->ic, sizeof(s->ic), TYPE_BCM2835=
-_IC);
+     bmc =3D g_new0(AspeedBoardState, 1);
+-    object_initialize(&bmc->soc, (sizeof(bmc->soc)), cfg->soc_name);
+-    object_property_add_child(OBJECT(machine), "soc", OBJECT(&bmc->soc),
+-                              &error_abort);
++    object_initialize_child(OBJECT(machine), "soc", &bmc->soc,
++                            (sizeof(bmc->soc)), cfg->soc_name, &error_ab=
+ort,
++                            NULL);
 =20
-     /* UART0 */
--    object_initialize(&s->uart0, sizeof(s->uart0), TYPE_PL011);
--    object_property_add_child(obj, "uart0", OBJECT(&s->uart0), NULL);
--    qdev_set_parent_bus(DEVICE(&s->uart0), sysbus_get_default());
-+    sysbus_init_child_obj(obj, "uart0", &s->uart0, sizeof(s->uart0),
-+                          TYPE_PL011);
+     sc =3D ASPEED_SOC_GET_CLASS(&bmc->soc);
 =20
-     /* AUX / UART1 */
--    object_initialize(&s->aux, sizeof(s->aux), TYPE_BCM2835_AUX);
--    object_property_add_child(obj, "aux", OBJECT(&s->aux), NULL);
--    qdev_set_parent_bus(DEVICE(&s->aux), sysbus_get_default());
-+    sysbus_init_child_obj(obj, "aux", &s->aux, sizeof(s->aux),
-+                          TYPE_BCM2835_AUX);
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index a27233d487..faff42b84a 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -106,12 +106,11 @@ static void aspeed_soc_init(Object *obj)
+     AspeedSoCClass *sc =3D ASPEED_SOC_GET_CLASS(s);
+     int i;
 =20
-     /* Mailboxes */
--    object_initialize(&s->mboxes, sizeof(s->mboxes), TYPE_BCM2835_MBOX);
--    object_property_add_child(obj, "mbox", OBJECT(&s->mboxes), NULL);
--    qdev_set_parent_bus(DEVICE(&s->mboxes), sysbus_get_default());
-+    sysbus_init_child_obj(obj, "mbox", &s->mboxes, sizeof(s->mboxes),
-+                          TYPE_BCM2835_MBOX);
+-    object_initialize(&s->cpu, sizeof(s->cpu), sc->info->cpu_type);
+-    object_property_add_child(obj, "cpu", OBJECT(&s->cpu), NULL);
++    object_initialize_child(obj, "cpu", OBJECT(&s->cpu), sizeof(s->cpu),
++                            sc->info->cpu_type, &error_abort, NULL);
 =20
-     object_property_add_const_link(OBJECT(&s->mboxes), "mbox-mr",
-                                    OBJECT(&s->mbox_mr), &error_abort);
+-    object_initialize(&s->scu, sizeof(s->scu), TYPE_ASPEED_SCU);
+-    object_property_add_child(obj, "scu", OBJECT(&s->scu), NULL);
+-    qdev_set_parent_bus(DEVICE(&s->scu), sysbus_get_default());
++    sysbus_init_child_obj(obj, "scu", OBJECT(&s->scu), sizeof(s->scu),
++                          TYPE_ASPEED_SCU);
+     qdev_prop_set_uint32(DEVICE(&s->scu), "silicon-rev",
+                          sc->info->silicon_rev);
+     object_property_add_alias(obj, "hw-strap1", OBJECT(&s->scu),
+@@ -121,36 +120,29 @@ static void aspeed_soc_init(Object *obj)
+     object_property_add_alias(obj, "hw-prot-key", OBJECT(&s->scu),
+                               "hw-prot-key", &error_abort);
 =20
-     /* Framebuffer */
--    object_initialize(&s->fb, sizeof(s->fb), TYPE_BCM2835_FB);
--    object_property_add_child(obj, "fb", OBJECT(&s->fb), NULL);
-+    sysbus_init_child_obj(obj, "fb", &s->fb, sizeof(s->fb), TYPE_BCM2835=
-_FB);
-     object_property_add_alias(obj, "vcram-size", OBJECT(&s->fb), "vcram-=
-size",
+-    object_initialize(&s->vic, sizeof(s->vic), TYPE_ASPEED_VIC);
+-    object_property_add_child(obj, "vic", OBJECT(&s->vic), NULL);
+-    qdev_set_parent_bus(DEVICE(&s->vic), sysbus_get_default());
++    sysbus_init_child_obj(obj, "vic", OBJECT(&s->vic), sizeof(s->vic),
++                          TYPE_ASPEED_VIC);
+=20
+-    object_initialize(&s->timerctrl, sizeof(s->timerctrl), TYPE_ASPEED_T=
+IMER);
+-    object_property_add_child(obj, "timerctrl", OBJECT(&s->timerctrl), N=
+ULL);
++    sysbus_init_child_obj(obj, "timerctrl", OBJECT(&s->timerctrl),
++                          sizeof(s->timerctrl), TYPE_ASPEED_TIMER);
+     object_property_add_const_link(OBJECT(&s->timerctrl), "scu",
+                                    OBJECT(&s->scu), &error_abort);
+-    qdev_set_parent_bus(DEVICE(&s->timerctrl), sysbus_get_default());
+=20
+-    object_initialize(&s->i2c, sizeof(s->i2c), TYPE_ASPEED_I2C);
+-    object_property_add_child(obj, "i2c", OBJECT(&s->i2c), NULL);
+-    qdev_set_parent_bus(DEVICE(&s->i2c), sysbus_get_default());
++    sysbus_init_child_obj(obj, "i2c", OBJECT(&s->i2c), sizeof(s->i2c),
++                          TYPE_ASPEED_I2C);
+=20
+-    object_initialize(&s->fmc, sizeof(s->fmc), sc->info->fmc_typename);
+-    object_property_add_child(obj, "fmc", OBJECT(&s->fmc), NULL);
+-    qdev_set_parent_bus(DEVICE(&s->fmc), sysbus_get_default());
++    sysbus_init_child_obj(obj, "fmc", OBJECT(&s->fmc), sizeof(s->fmc),
++                          sc->info->fmc_typename);
+     object_property_add_alias(obj, "num-cs", OBJECT(&s->fmc), "num-cs",
                                &error_abort);
--    qdev_set_parent_bus(DEVICE(&s->fb), sysbus_get_default());
 =20
-     object_property_add_const_link(OBJECT(&s->fb), "dma-mr",
-                                    OBJECT(&s->gpu_bus_mr), &error_abort)=
-;
-=20
-     /* Property channel */
--    object_initialize(&s->property, sizeof(s->property), TYPE_BCM2835_PR=
-OPERTY);
--    object_property_add_child(obj, "property", OBJECT(&s->property), NUL=
+     for (i =3D 0; i < sc->info->spis_num; i++) {
+-        object_initialize(&s->spi[i], sizeof(s->spi[i]),
+-                          sc->info->spi_typename[i]);
+-        object_property_add_child(obj, "spi[*]", OBJECT(&s->spi[i]), NUL=
 L);
-+    sysbus_init_child_obj(obj, "property", &s->property, sizeof(s->prope=
-rty),
-+                          TYPE_BCM2835_PROPERTY);
-     object_property_add_alias(obj, "board-rev", OBJECT(&s->property),
-                               "board-rev", &error_abort);
--    qdev_set_parent_bus(DEVICE(&s->property), sysbus_get_default());
+-        qdev_set_parent_bus(DEVICE(&s->spi[i]), sysbus_get_default());
++        sysbus_init_child_obj(obj, "spi[*]", OBJECT(&s->spi[i]),
++                              sizeof(s->spi[i]), sc->info->spi_typename[=
+i]);
+     }
 =20
-     object_property_add_const_link(OBJECT(&s->property), "fb",
-                                    OBJECT(&s->fb), &error_abort);
-@@ -86,32 +78,27 @@ static void bcm2835_peripherals_init(Object *obj)
-                                    OBJECT(&s->gpu_bus_mr), &error_abort)=
-;
+-    object_initialize(&s->sdmc, sizeof(s->sdmc), TYPE_ASPEED_SDMC);
+-    object_property_add_child(obj, "sdmc", OBJECT(&s->sdmc), NULL);
+-    qdev_set_parent_bus(DEVICE(&s->sdmc), sysbus_get_default());
++    sysbus_init_child_obj(obj, "sdmc", OBJECT(&s->sdmc), sizeof(s->sdmc)=
+,
++                          TYPE_ASPEED_SDMC);
+     qdev_prop_set_uint32(DEVICE(&s->sdmc), "silicon-rev",
+                          sc->info->silicon_rev);
+     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
+@@ -159,16 +151,14 @@ static void aspeed_soc_init(Object *obj)
+                               "max-ram-size", &error_abort);
 =20
-     /* Random Number Generator */
--    object_initialize(&s->rng, sizeof(s->rng), TYPE_BCM2835_RNG);
--    object_property_add_child(obj, "rng", OBJECT(&s->rng), NULL);
--    qdev_set_parent_bus(DEVICE(&s->rng), sysbus_get_default());
-+    sysbus_init_child_obj(obj, "rng", &s->rng, sizeof(s->rng),
-+                          TYPE_BCM2835_RNG);
-=20
-     /* Extended Mass Media Controller */
--    object_initialize(&s->sdhci, sizeof(s->sdhci), TYPE_SYSBUS_SDHCI);
--    object_property_add_child(obj, "sdhci", OBJECT(&s->sdhci), NULL);
--    qdev_set_parent_bus(DEVICE(&s->sdhci), sysbus_get_default());
-+    sysbus_init_child_obj(obj, "sdhci", &s->sdhci, sizeof(s->sdhci),
-+                          TYPE_SYSBUS_SDHCI);
-=20
-     /* SDHOST */
--    object_initialize(&s->sdhost, sizeof(s->sdhost), TYPE_BCM2835_SDHOST=
+     for (i =3D 0; i < sc->info->wdts_num; i++) {
+-        object_initialize(&s->wdt[i], sizeof(s->wdt[i]), TYPE_ASPEED_WDT=
 );
--    object_property_add_child(obj, "sdhost", OBJECT(&s->sdhost), NULL);
--    qdev_set_parent_bus(DEVICE(&s->sdhost), sysbus_get_default());
-+    sysbus_init_child_obj(obj, "sdhost", &s->sdhost, sizeof(s->sdhost),
-+                          TYPE_BCM2835_SDHOST);
+-        object_property_add_child(obj, "wdt[*]", OBJECT(&s->wdt[i]), NUL=
+L);
+-        qdev_set_parent_bus(DEVICE(&s->wdt[i]), sysbus_get_default());
++        sysbus_init_child_obj(obj, "wdt[*]", OBJECT(&s->wdt[i]),
++                              sizeof(s->wdt[i]), TYPE_ASPEED_WDT);
+         qdev_prop_set_uint32(DEVICE(&s->wdt[i]), "silicon-rev",
+                                     sc->info->silicon_rev);
+     }
 =20
-     /* DMA Channels */
--    object_initialize(&s->dma, sizeof(s->dma), TYPE_BCM2835_DMA);
--    object_property_add_child(obj, "dma", OBJECT(&s->dma), NULL);
--    qdev_set_parent_bus(DEVICE(&s->dma), sysbus_get_default());
-+    sysbus_init_child_obj(obj, "dma", &s->dma, sizeof(s->dma),
-+                          TYPE_BCM2835_DMA);
+-    object_initialize(&s->ftgmac100, sizeof(s->ftgmac100), TYPE_FTGMAC10=
+0);
+-    object_property_add_child(obj, "ftgmac100", OBJECT(&s->ftgmac100), N=
+ULL);
+-    qdev_set_parent_bus(DEVICE(&s->ftgmac100), sysbus_get_default());
++    sysbus_init_child_obj(obj, "ftgmac100", OBJECT(&s->ftgmac100),
++                          sizeof(s->ftgmac100), TYPE_FTGMAC100);
+ }
 =20
-     object_property_add_const_link(OBJECT(&s->dma), "dma-mr",
-                                    OBJECT(&s->gpu_bus_mr), &error_abort)=
-;
-=20
-     /* GPIO */
--    object_initialize(&s->gpio, sizeof(s->gpio), TYPE_BCM2835_GPIO);
--    object_property_add_child(obj, "gpio", OBJECT(&s->gpio), NULL);
--    qdev_set_parent_bus(DEVICE(&s->gpio), sysbus_get_default());
-+    sysbus_init_child_obj(obj, "gpio", &s->gpio, sizeof(s->gpio),
-+                          TYPE_BCM2835_GPIO);
-=20
-     object_property_add_const_link(OBJECT(&s->gpio), "sdbus-sdhci",
-                                    OBJECT(&s->sdhci.sdbus), &error_abort=
-);
+ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
 --=20
 2.18.0.rc1.1.g3f1ff2140
 
