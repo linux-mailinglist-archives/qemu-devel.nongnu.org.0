@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4313298FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:35:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54698 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E387329924
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:39:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54795 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUALi-0002x2-HN
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:35:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33887)
+	id 1hUAPl-0006gU-4t
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:39:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35670)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hUAJk-0001gR-EO
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:33:05 -0400
+	(envelope-from <philmd@redhat.com>) id 1hUAOH-00062u-30
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:37:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hUAJH-0007oq-1E
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:32:36 -0400
-Received: from 8.mo4.mail-out.ovh.net ([188.165.33.112]:59243)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hUAJG-0007nj-Qd
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:32:34 -0400
-Received: from player788.ha.ovh.net (unknown [10.109.159.68])
-	by mo4.mail-out.ovh.net (Postfix) with ESMTP id 7D6B11EE57F
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 15:32:31 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player788.ha.ovh.net (Postfix) with ESMTPSA id C3B5861CEB7B;
-	Fri, 24 May 2019 13:32:23 +0000 (UTC)
-Date: Fri, 24 May 2019 15:32:19 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <20190524153219.15b21c74@bahia.lan>
-In-Reply-To: <20190523052918.1129-1-david@gibson.dropbear.id.au>
-References: <20190523052918.1129-1-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(envelope-from <philmd@redhat.com>) id 1hUAOF-0004XW-Rd
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:37:45 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50466)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hUAOF-0004Wy-Lv
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:37:43 -0400
+Received: by mail-wm1-f66.google.com with SMTP id f204so9446174wme.0
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 06:37:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=cZOF5/nRtQUljlIvZZ1uTeg4deO4yTOhy9UP60Uqb5w=;
+	b=GJ0rI/6MqPYx0gMRHDpISUMkM0y4aBaXhgX6BfQ8m1jPrEo6fcgoDVTCLjjNtcXj6x
+	ez1hAc6dxIQ//HSgwUiRpuwNOBmASFoBOOZopN/CrKJ9AxIzKzaskzYfTwQr6ZK9r6T1
+	fmjIb+BDervAp84tZjJz05kuXhqk8/BxRJJhiZoMEhH06yS+Ku30kylXl4EDam3jU17O
+	f1IgBB51qVgGio9JSLvws2uvk+ewnniZ4SOKOBn8YNRDP1crdEtIFQFwJ66Wz+xRPWVy
+	W9tqtwiOIR43cUdlHCMOhccM+O1zGYTkJdEnlNt+RDxVd/qrevjE9xvHWbgu1szbYUby
+	XFgw==
+X-Gm-Message-State: APjAAAX/ZX0p7tfZs6SebqhXF1cazzEQITLUnLxUoE28pzb4JSzwmfqv
+	SgbsxPqrFUrFO+aeExYH4Y3eKA==
+X-Google-Smtp-Source: APXvYqxz10tD2JetETJD3Ry0VFFBsP/1d6WKslo4MYjMu6wZOMX8W36BfBgiqNdg0LB3817+QjH/XA==
+X-Received: by 2002:a1c:f102:: with SMTP id p2mr15405391wmh.126.1558705062522; 
+	Fri, 24 May 2019 06:37:42 -0700 (PDT)
+Received: from [192.168.1.38] (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	q68sm3043507wme.11.2019.05.24.06.37.41
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 May 2019 06:37:42 -0700 (PDT)
+To: qemu-devel@nongnu.org
+References: <155870450828.24.7185600599110160688@549697c9ad12>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <6d97fa23-6ff0-998e-b698-388f2313d535@redhat.com>
+Date: Fri, 24 May 2019 15:37:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 17468900008271649254
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudduiedgieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+In-Reply-To: <155870450828.24.7185600599110160688@549697c9ad12>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.33.112
-Subject: Re: [Qemu-devel] [PATCH 1/8] spapr: Clean up device node name
- generation for PCI devices
+	[fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH] tests/docker: Update the Fedora image to
+ Fedora 30
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,115 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.ibm.com, mst@redhat.com, qemu-ppc@nongnu.org, clg@kaod.org,
-	qemu-devel@nongnu.org
+Cc: fam@euphon.net, pbonzini@redhat.com, thuth@redhat.com,
+	alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 May 2019 15:29:11 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+Hi Patchew,
 
-> spapr_populate_pci_child_dt() adds a 'name' property to the device tree
-> node for PCI devices.  This is never necessary for a flattened device tree,
-> it is implicit in the name added when the node is constructed.  In fact
-> anything we do add to a 'name' property will be overwritten with something
-> derived from the structural name in the guest firmware (but in fact it is
-> exactly the same bytes).
+On 5/24/19 3:28 PM, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20190504060336.21060-1-philmd@redhat.com/
 > 
-> So, remove that.  In addition, pci_get_node_name() is very simple, so fold
-> it into its (also simple) sole caller spapr_create_pci_child_dt().
 > 
-> While we're there rename pci_find_device_name() to the shorter and more
-> accurate dt_name_from_class().
 > 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Hi,
+> 
+> This series failed build test on s390x host. Please find the details below.
+
+"20 days later", not yet a movie title.
+
+>     inlined from ‘fill_psinfo’ at /var/tmp/patchew-tester-tmp-3g8u4fv2/src/linux-user/elfload.c:3208:12,
+>     inlined from ‘fill_note_info’ at /var/tmp/patchew-tester-tmp-3g8u4fv2/src/linux-user/elfload.c:3390:5,
+>     inlined from ‘elf_core_dump’ at /var/tmp/patchew-tester-tmp-3g8u4fv2/src/linux-user/elfload.c:3539:9:
+> /usr/include/bits/string_fortified.h:106:10: error: ‘__builtin_strncpy’ specified bound 16 equals destination size [-Werror=stringop-truncation]
+>   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
+>       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> cc1: all warnings being treated as errors
+
+This has been fixed by the following commit, merged earlier today:
+
+commit d7eb2b928a855a2e8038e8e75f7edf1a12226bd3
+Author: Alistair Francis <Alistair.Francis@wdc.com>
+Date:   Tue Apr 30 23:29:01 2019 +0000
+
+    linux-user/elfload: Fix GCC 9 build warnings
+
+    Fix this warning when building with GCC9 on Fedora 30:
+    In function ‘strncpy’,
+        inlined from ‘fill_psinfo’ at
+/home/alistair/qemu/linux-user/elfload.c:3208:12,
+        inlined from ‘fill_note_info’ at
+/home/alistair/qemu/linux-user/elfload.c:3390:5,
+        inlined from ‘elf_core_dump’ at
+/home/alistair/qemu/linux-user/elfload.c:3539:9:
+    /usr/include/bits/string_fortified.h:106:10: error:
+‘__builtin_strncpy’ specified bound 16 equals destination size
+[-Werror=stringop-truncation]
+      106 |   return __builtin___strncpy_chk (__dest, __src, __len,
+__bos (__dest));
+          |
+^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 > ---
->  hw/ppc/spapr_pci.c | 43 +++++++++++++++++--------------------------
->  1 file changed, 17 insertions(+), 26 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 97961b0128..b2db46ef1d 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1173,8 +1173,8 @@ static const PCIClass pci_classes[] = {
->      { "data-processing-controller", spc_subclass },
->  };
->  
-> -static const char *pci_find_device_name(uint8_t class, uint8_t subclass,
-> -                                        uint8_t iface)
-> +static const char *dt_name_from_class(uint8_t class, uint8_t subclass,
-> +                                      uint8_t iface)
->  {
->      const PCIClass *pclass;
->      const PCISubClass *psubclass;
-> @@ -1216,23 +1216,6 @@ static const char *pci_find_device_name(uint8_t class, uint8_t subclass,
->      return name;
->  }
->  
-> -static gchar *pci_get_node_name(PCIDevice *dev)
-> -{
-> -    int slot = PCI_SLOT(dev->devfn);
-> -    int func = PCI_FUNC(dev->devfn);
-> -    uint32_t ccode = pci_default_read_config(dev, PCI_CLASS_PROG, 3);
-> -    const char *name;
-> -
-> -    name = pci_find_device_name((ccode >> 16) & 0xff, (ccode >> 8) & 0xff,
-> -                                ccode & 0xff);
-> -
-> -    if (func != 0) {
-> -        return g_strdup_printf("%s@%x,%x", name, slot, func);
-> -    } else {
-> -        return g_strdup_printf("%s@%x", name, slot);
-> -    }
-> -}
-> -
->  static uint32_t spapr_phb_get_pci_drc_index(SpaprPhbState *phb,
->                                              PCIDevice *pdev);
->  
-> @@ -1300,11 +1283,6 @@ static void spapr_populate_pci_child_dt(PCIDevice *dev, void *fdt, int offset,
->          _FDT(fdt_setprop(fdt, offset, "udf-supported", NULL, 0));
->      }
->  
-> -    _FDT(fdt_setprop_string(fdt, offset, "name",
-> -                            pci_find_device_name((ccode >> 16) & 0xff,
-> -                                                 (ccode >> 8) & 0xff,
-> -                                                 ccode & 0xff)));
-> -
->      buf = spapr_phb_get_loc_code(sphb, dev);
->      _FDT(fdt_setprop_string(fdt, offset, "ibm,loc-code", buf));
->      g_free(buf);
-> @@ -1348,10 +1326,23 @@ static int spapr_create_pci_child_dt(SpaprPhbState *phb, PCIDevice *dev,
->                                       void *fdt, int node_offset)
->  {
->      int offset;
-> -    gchar *nodename;
-> +    const gchar *basename;
-> +    char *nodename;
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 
-Not sure why you're changing nodename to be a char * instead of a gchar * ...
-
-Apart from that, LGTM.
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-> +    int slot = PCI_SLOT(dev->devfn);
-> +    int func = PCI_FUNC(dev->devfn);
-> +    uint32_t ccode = pci_default_read_config(dev, PCI_CLASS_PROG, 3);
-> +
-> +    basename = dt_name_from_class((ccode >> 16) & 0xff, (ccode >> 8) & 0xff,
-> +                                  ccode & 0xff);
-> +
-> +    if (func != 0) {
-> +        nodename = g_strdup_printf("%s@%x,%x", basename, slot, func);
-> +    } else {
-> +        nodename = g_strdup_printf("%s@%x", basename, slot);
-> +    }
->  
-> -    nodename = pci_get_node_name(dev);
->      _FDT(offset = fdt_add_subnode(fdt, node_offset, nodename));
-> +
->      g_free(nodename);
->  
->      spapr_populate_pci_child_dt(dev, fdt, offset, phb);
-
+Done!
 
