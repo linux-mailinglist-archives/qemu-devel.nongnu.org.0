@@ -2,59 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B9629E0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:33:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58521 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68ECB29E25
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:34:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58553 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUF0A-0005Oy-Hh
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:33:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36029)
+	id 1hUF1h-0006X8-HD
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:34:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35883)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUExa-0004M3-IQ
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:30:31 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hUExN-000485-8n
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:30:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUErv-0008TP-7s
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:24:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34466)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUErv-0008Ss-0V
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:24:39 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EF95A308421A;
-	Fri, 24 May 2019 18:24:37 +0000 (UTC)
-Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 347BC68738;
-	Fri, 24 May 2019 18:24:36 +0000 (UTC)
-Date: Fri, 24 May 2019 15:24:34 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Message-ID: <20190524182434.GH10764@habkost.net>
-References: <20190418112610.GO13773@redhat.com>
-	<877ebrmch2.fsf@dusky.pond.sub.org>
-	<20190513184237.i2ha3ixvhjqzkn5q@kamzik.brq.redhat.com>
-	<87bm05ab6c.fsf@dusky.pond.sub.org>
-	<20190514090225.vel4xm4x743o4rge@kamzik.brq.redhat.com>
-	<20190514164838.48fc7603@Igors-MacBook-Pro>
-	<20190515081854.kcpjm4zd2bzc7f6o@kamzik.brq.redhat.com>
-	<20190515125229.1784f586@redhat.com>
-	<20190515115413.cqvzjkky7xubnsuo@kamzik.brq.redhat.com>
-	<2186eb85f8541b0c9cc69cacae9321ace8addaa6.camel@redhat.com>
+	(envelope-from <stefanha@gmail.com>) id 1hUEtu-00021l-Dg
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:26:43 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35490)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hUEtt-0001zg-6F
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:26:41 -0400
+Received: by mail-wr1-x431.google.com with SMTP id m3so10937455wrv.2
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 11:26:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hvXDmrw3GEQly7aZZR69fJtYhJFiM0yXn8JwBkn1fUo=;
+	b=oKp4zpF0OFbie4FIGQOgAXqch76+wF5wwTD1vGmd0oTvedjWQgmaCarkspNImEA7cg
+	njp8nCaRdhCAokKCrSwasra1RUDAbUAbBJFbOzDwHJ6HpMpyMXVDMy6FMTHGHCbnWS3v
+	eKGCrfXoIXzPhw/4QiH+0Uc8sFajw89hEpdnRw7AlzamILAXBINSwWnEBWPri6u6KBbY
+	M6LH5DW4YqV3M1vqD/azrA204h8QJ+KkxMV+GXr6fsjJuWthAHyAGuzVkSxMkH6V3Fnk
+	IEFh3ZjgK+kObAU2GUyLuK19M0tA11ImedOpYVnWLL+2opdeScHMr3QXlZ5AZVEMjW4p
+	lZcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hvXDmrw3GEQly7aZZR69fJtYhJFiM0yXn8JwBkn1fUo=;
+	b=itFOp3fexhl+1Y9dvRsVLST2aZfBxm71hZvqS87IFhHO6T5vCveBpgdNWxUPCY/RxF
+	vsHU34ljofIHsg9R+8gxUxxOTWV0goWcaBcmT7MBN45Vh2wAaN72KHXhiCXrxZQlZshw
+	ysG5aq67COuQJpu9RYZODt3OA2qymsNF553aeV1gkl8k02kCddC65fXP9hQl5MlRFUgm
+	o96/kiqWdJ8GebbDy1vr7SBMscwCJf2/jJy/bxoA3+R82yKGO2/B38rjCU8bh/+Um1e8
+	jqduz1QIRFUe0MW4Oq+/HtRXv2gp5wApnscULDt4L7QTAJ3JnEzLqLoPHQG/hnlFaEL0
+	le0Q==
+X-Gm-Message-State: APjAAAU883ylhgGmASj/md8mvg4DEqE4Qc0nJX7CM2mP8+rJaae4rBYI
+	sV4UONEpJM6xGriIRzzLA+lF3Pz67w4U3r/hDZ8=
+X-Google-Smtp-Source: APXvYqyu6u/Wz14PBii2wxMrLThWaoFsA/FqgX9p/UVWL5TLq/SJA3gy7TzQ7Ww4c7GS2Q1o6ZdFgOQvX13qrbI881g=
+X-Received: by 2002:adf:f988:: with SMTP id f8mr3688396wrr.254.1558722398220; 
+	Fri, 24 May 2019 11:26:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2186eb85f8541b0c9cc69cacae9321ace8addaa6.camel@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Fri, 24 May 2019 18:24:38 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] How do we do user input bitmap properties?
+References: <20190523134409.18673-1-stefanha@redhat.com>
+	<20190523134409.18673-2-stefanha@redhat.com>
+In-Reply-To: <20190523134409.18673-2-stefanha@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Fri, 24 May 2019 19:26:26 +0100
+Message-ID: <CAJSP0QU8nLHhvWUAPjDrUR8BvqGnDBvAPdi49sAH39ytp-H_-g@mail.gmail.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::431
+Subject: Re: [Qemu-devel] [RFC v2 1/3] virtio: add vdc->vmchange_state()
+ callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,60 +72,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Andrew Jones <drjones@redhat.com>,
-	Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
-	qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
-	Igor Mammedov <imammedo@redhat.com>, Dave.Martin@arm.com,
-	dgilbert@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Fam Zheng <fam@euphon.net>, qemu-devel <qemu-devel@nongnu.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 23, 2019 at 10:35:24AM +0200, Andrea Bolognani wrote:
-> On Wed, 2019-05-15 at 13:54 +0200, Andrew Jones wrote:
-> > On Wed, May 15, 2019 at 12:52:29PM +0200, Igor Mammedov wrote:
-> > > since using magic numbers is not very descriptive
-> > > (but if there is some spec where they come from that we could point users to
-> > > it might be acceptable too, but I'd reserve number approach for values only).
-> > 
-> > The numbers aren't magic, they're part of the name. '1' in the above
-> > 'sve1' means one quadword. It would probably have been better to use bits
-> > instead in the example, i.e.
-> > 
-> >   -cpu host,sve128=on,sve256=on,sve384=off,sve512=on
-> > 
-> > where it's now clear that "sve512" has an analogy with x86's "avx512".
-> > 
-> [...]
-> > 
-> > So I set off to convince Igor of the wide word idea (he sits next to me,
-> > so I didn't have go far), but he has convinced me of the above property
-> > idea. He used the magic phrase: "less code would be needed". If we use
-> > the properties like above then we get introspection for free (cpu property
-> > listing which libvirt already knows how to do) - so no QMP query needed.
-> > The cost is adding several properties (16 to handle the current 2048-bit
-> > limit), but I guess that's cheap enough. The command line is verbose, but
-> > also much easier for a human to construct and read. I'm pretty sold on
-> > this path, but adding Andrea and Eduardo for their input as well.
-> 
-> Sorry for taking a while to respond. Anyway, the above looks good to
-> me as a general direction, but note that you'll have to implement at
-> the very least the query-cpu-model-expansion QMP command for the
-> introspection to work.
+On Thu, May 23, 2019 at 2:55 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> @@ -2253,10 +2254,18 @@ static void virtio_vmstate_change(void *opaque, int running, RunState state)
+>          virtio_set_status(vdev, vdev->status);
+>      }
+>
+> +    if (!backend_run && k->vmstate_change) {
+> +        vdc->vmstate_change(vdev, backend_run);
+> +    }
+> +
+>      if (k->vmstate_change) {
+>          k->vmstate_change(qbus->parent, backend_run);
+>      }
+>
+> +    if (backend_run && k->vmstate_change) {
+> +        vdc->vmstate_change(vdev, backend_run);
+> +    }
 
-Why is query-cpu-model-expansion needed?  Isn't
-device-list-properties enough?
+Oops, k->vmstate_change should be vdc->vmstate_change.  I'll send a
+new revision.
 
-> 
-> query-cpu-model-baseline and query-cpu-model-comparison are two more
-> QMP command which, while perhaps not immediately applicabile, we will
-> want to implement at some point; more in general, what s390x is doing
-> with respect to CPU models is a good blueprint, according to the
-> libvirt developer who's the most involved with that specific area of
-> the project.
-
-Agreed.  Even if not necessary right now, query-cpu-model-* will
-probably be needed eventually.
-
--- 
-Eduardo
+Stefan
 
