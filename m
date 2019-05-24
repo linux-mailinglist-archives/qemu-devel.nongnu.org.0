@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300BD29AA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:12:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56036 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669C129AB7
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:14:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56086 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUBrU-0007jO-BH
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:12:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54536)
+	id 1hUBtl-0001U0-Ie
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:14:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54566)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hUBoz-0006RH-Oh
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:09:26 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hUBp3-0006U1-2a
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:09:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hUBoh-0000ge-Kx
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:09:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50616)
+	(envelope-from <mreitz@redhat.com>) id 1hUBot-0000qg-Re
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:09:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50488)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hUBnN-00089f-VG; Fri, 24 May 2019 11:07:49 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hUBoV-0000TN-Ik; Fri, 24 May 2019 11:08:55 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2DC063088A63;
-	Fri, 24 May 2019 15:07:31 +0000 (UTC)
-Received: from [10.3.116.169] (ovpn-116-169.phx2.redhat.com [10.3.116.169])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 738C11001E77;
-	Fri, 24 May 2019 15:07:28 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+	by mx1.redhat.com (Postfix) with ESMTPS id BC75C3006370;
+	Fri, 24 May 2019 15:08:40 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-150.brq.redhat.com
+	[10.40.204.150])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AF0415F7C2;
+	Fri, 24 May 2019 15:08:36 +0000 (UTC)
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
 References: <20190508211820.17851-1-mreitz@redhat.com>
 	<20190508211820.17851-2-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
+	<1ed0b731-cbbd-0cdd-32f6-913d2b57edfa@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
-	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
-	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
-	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
-	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
-	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
-	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
-	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
-	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
-	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
-	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
-	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
-	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
-	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
-	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
-	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
-	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
-	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
-	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
-	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
-	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
-	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
-	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <1ed0b731-cbbd-0cdd-32f6-913d2b57edfa@redhat.com>
-Date: Fri, 24 May 2019 10:07:27 -0500
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <5f4cea24-87e1-0fb7-d47a-017bbe036bfe@redhat.com>
+Date: Fri, 24 May 2019 17:08:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190508211820.17851-2-mreitz@redhat.com>
+In-Reply-To: <1ed0b731-cbbd-0cdd-32f6-913d2b57edfa@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="Ilx6g9IlvnOjb9pFZDXHUYmqhiYVHep6w"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+	boundary="q383EWNzgURbU3ozrzRXJ5PxB5aJmEvfT"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Fri, 24 May 2019 15:07:36 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Fri, 24 May 2019 15:08:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
@@ -93,130 +95,132 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Ilx6g9IlvnOjb9pFZDXHUYmqhiYVHep6w
-From: Eric Blake <eblake@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+--q383EWNzgURbU3ozrzRXJ5PxB5aJmEvfT
+From: Max Reitz <mreitz@redhat.com>
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
  <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <1ed0b731-cbbd-0cdd-32f6-913d2b57edfa@redhat.com>
+Message-ID: <5f4cea24-87e1-0fb7-d47a-017bbe036bfe@redhat.com>
 Subject: Re: [PATCH v3 1/5] qemu-nbd: Add --pid-file option
 References: <20190508211820.17851-1-mreitz@redhat.com>
  <20190508211820.17851-2-mreitz@redhat.com>
-In-Reply-To: <20190508211820.17851-2-mreitz@redhat.com>
+ <1ed0b731-cbbd-0cdd-32f6-913d2b57edfa@redhat.com>
+In-Reply-To: <1ed0b731-cbbd-0cdd-32f6-913d2b57edfa@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 5/8/19 4:18 PM, Max Reitz wrote:
-> --fork is a bit boring if there is no way to get the child's PID.  This=
-
-> option helps.
+On 24.05.19 17:07, Eric Blake wrote:
+> On 5/8/19 4:18 PM, Max Reitz wrote:
+>> --fork is a bit boring if there is no way to get the child's PID.  Thi=
+s
+>> option helps.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>  qemu-nbd.c    | 11 +++++++++++
+>>  qemu-nbd.texi |  2 ++
+>>  2 files changed, 13 insertions(+)
+>>
+>> diff --git a/qemu-nbd.c b/qemu-nbd.c
+>> index dca9e72cee..edb5195208 100644
+>> --- a/qemu-nbd.c
+>> +++ b/qemu-nbd.c
+>> @@ -59,6 +59,7 @@
+>>  #define QEMU_NBD_OPT_IMAGE_OPTS    262
+>>  #define QEMU_NBD_OPT_FORK          263
+>>  #define QEMU_NBD_OPT_TLSAUTHZ      264
+>> +#define QEMU_NBD_OPT_PID_FILE      265
+>> =20
+>>  #define MBR_SIZE 512
+>> =20
+>> @@ -111,6 +112,7 @@ static void usage(const char *name)
+>>  "                            specify tracing options\n"
+>>  "  --fork                    fork off the server process and exit the=
+ parent\n"
+>>  "                            once the server is running\n"
+>> +"  --pid-file=3DPATH           store the server's process ID in the g=
+iven file\n"
 >=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  qemu-nbd.c    | 11 +++++++++++
->  qemu-nbd.texi |  2 ++
->  2 files changed, 13 insertions(+)
+> Are we guaranteed that the pid file does not appear until after the
+> socket has been created?
 >=20
-> diff --git a/qemu-nbd.c b/qemu-nbd.c
-> index dca9e72cee..edb5195208 100644
-> --- a/qemu-nbd.c
-> +++ b/qemu-nbd.c
-> @@ -59,6 +59,7 @@
->  #define QEMU_NBD_OPT_IMAGE_OPTS    262
->  #define QEMU_NBD_OPT_FORK          263
->  #define QEMU_NBD_OPT_TLSAUTHZ      264
-> +#define QEMU_NBD_OPT_PID_FILE      265
-> =20
->  #define MBR_SIZE 512
-> =20
-> @@ -111,6 +112,7 @@ static void usage(const char *name)
->  "                            specify tracing options\n"
->  "  --fork                    fork off the server process and exit the =
-parent\n"
->  "                            once the server is running\n"
-> +"  --pid-file=3DPATH           store the server's process ID in the gi=
-ven file\n"
+> /me rereads full file...
+>=20
+>> @@ -876,6 +880,9 @@ int main(int argc, char **argv)
+>>          case 'L':
+>>              list =3D true;
+>>              break;
+>> +        case QEMU_NBD_OPT_PID_FILE:
+>> +            pid_file_name =3D optarg;
+>> +            break;
+>>          }
+>>      }
+>> =20
+> ...
+>     socket_activation =3D check_socket_activation();
+>     if (socket_activation =3D=3D 0) {
+>         setup_address_and_port(&bindto, &port);
+>     } else {
+>         /* Using socket activation - check user didn't use -p etc. */
+> ...
+>=20
+>> @@ -1196,6 +1203,10 @@ int main(int argc, char **argv)
+>> =20
+>>      nbd_update_server_watch();
+>> =20
+>> +    if (pid_file_name) {
+>> +        qemu_write_pidfile(pid_file_name, &error_fatal);
+>> +    }
+>=20
+> Yes, we are.  So,
+>=20
+>> +
+>>      /* now when the initialization is (almost) complete, chdir("/")
+>>       * to free any busy filesystems */
+>>      if (chdir("/") < 0) {
+>> diff --git a/qemu-nbd.texi b/qemu-nbd.texi
+>> index de342c76b8..7f55657722 100644
+>> --- a/qemu-nbd.texi
+>> +++ b/qemu-nbd.texi
+>> @@ -117,6 +117,8 @@ option; or provide the credentials needed for conn=
+ecting as a client
+>>  in list mode.
+>>  @item --fork
+>>  Fork off the server process and exit the parent once the server is ru=
+nning.
+>> +@item --pid-file=3DPATH
+>> +Store the server's process ID in the given file.
+>=20
+> since that is a useful trick to know (the pid file intentionally does
+> NOT appear until after the socket is ready to go), we should mention it=
 
-Are we guaranteed that the pid file does not appear until after the
-socket has been created?
+> in the documentation.
+>=20
+> I can make that tweak while queueing, if you'd like.
 
-/me rereads full file...
+I don=E2=80=99t mind, but I personally find it more useful to just use --=
+fork
+and wait for the main process to exit.
 
-> @@ -876,6 +880,9 @@ int main(int argc, char **argv)
->          case 'L':
->              list =3D true;
->              break;
-> +        case QEMU_NBD_OPT_PID_FILE:
-> +            pid_file_name =3D optarg;
-> +            break;
->          }
->      }
-> =20
-=2E..
-    socket_activation =3D check_socket_activation();
-    if (socket_activation =3D=3D 0) {
-        setup_address_and_port(&bindto, &port);
-    } else {
-        /* Using socket activation - check user didn't use -p etc. */
-=2E..
-
-> @@ -1196,6 +1203,10 @@ int main(int argc, char **argv)
-> =20
->      nbd_update_server_watch();
-> =20
-> +    if (pid_file_name) {
-> +        qemu_write_pidfile(pid_file_name, &error_fatal);
-> +    }
-
-Yes, we are.  So,
-
-> +
->      /* now when the initialization is (almost) complete, chdir("/")
->       * to free any busy filesystems */
->      if (chdir("/") < 0) {
-> diff --git a/qemu-nbd.texi b/qemu-nbd.texi
-> index de342c76b8..7f55657722 100644
-> --- a/qemu-nbd.texi
-> +++ b/qemu-nbd.texi
-> @@ -117,6 +117,8 @@ option; or provide the credentials needed for conne=
-cting as a client
->  in list mode.
->  @item --fork
->  Fork off the server process and exit the parent once the server is run=
-ning.
-> +@item --pid-file=3DPATH
-> +Store the server's process ID in the given file.
-
-since that is a useful trick to know (the pid file intentionally does
-NOT appear until after the socket is ready to go), we should mention it
-in the documentation.
-
-I can make that tweak while queueing, if you'd like.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Max
 
 
---Ilx6g9IlvnOjb9pFZDXHUYmqhiYVHep6w
+--q383EWNzgURbU3ozrzRXJ5PxB5aJmEvfT
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzoCK8ACgkQp6FrSiUn
-Q2rhQwgArK0cG3M1LWcIxJ4n9F00xZY3rZpRetoCxa26Cbn7lgmXqhn64mV/bm0j
-CkjAUbytyt8H02xboh6ogOlWpGsEhqgdnItRZ9CFOEoowxBPf1dUS0uN3lxh1GCu
-67HyXMk2S46S1xbfsiqZehbnSwvLDRjfywoWvk7cpV539fX/G0ET350JLEqgkf0/
-UZGuQFJikqLEr7X5LmPe06P+vg0GC/tRTRAS+1FcYZvyFmop1BKLghtKXOvmSbwr
-ZlhbLT1M4WLtuwggLmicxoMPwCxAtIEZFSm3Vi/jDePwUIw4A/GD43O93uaZzIuv
-RKkbTqHeEJNbS85IiofMcolxovOVTw==
-=2BxJ
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzoCPMACgkQ9AfbAGHV
+z0DVeAf/X4mDMceJcjHJQ9LxnT1ubfk+0Szqs+eOVUq0nHoJddwKe8GSAN5QX8xQ
+qmeR6bP5bwKcKvd2z31JJ7kNDCG2a5yBC/VIM2OcSsPYnPsKN2sqe35ZaAUnOxgr
+3Ipszb2eDGkY7b9KMKdZh/pPnwNZM37GZh3GqFKLp+xwsVG7XI+5IOT7MiFJfVxj
+zRoIx+Ru31FpAyg7+zjopicHZPnEr9aOd7SOAed6dSK38ge4v/i16WzPgn4qN1Pw
+JnrCBlAZ+9WHwFPuMqldBFqechOdVLg6ugQKcPcNVo7wRxR8ZFwwnGFEV2GhjjHS
+wgaabShdhkTrdjVV6iYXGEzsnpPN7Q==
+=Z4TV
 -----END PGP SIGNATURE-----
 
---Ilx6g9IlvnOjb9pFZDXHUYmqhiYVHep6w--
+--q383EWNzgURbU3ozrzRXJ5PxB5aJmEvfT--
 
