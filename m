@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8918829B90
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:56:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56631 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CAC29BCE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 18:08:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56954 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUCYv-0001sH-8s
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:56:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36152)
+	id 1hUCjz-0008Tb-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 12:08:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37126)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <damien.hedde@greensocs.com>) id 1hUCXr-0001MO-I3
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:55:48 -0400
+	(envelope-from <arilou@gmail.com>) id 1hUCdZ-00040u-H2
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:01:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <damien.hedde@greensocs.com>) id 1hUCXq-0003iH-Ei
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:55:47 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:56846)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
-	id 1hUCXp-0003fX-US
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:55:46 -0400
-Received: from [172.18.11.102] (antfield.tima.u-ga.fr [147.171.129.253])
-	by beetle.greensocs.com (Postfix) with ESMTPSA id BCC3596F50;
-	Fri, 24 May 2019 15:55:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
-	s=mail; t=1558713340;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=BLNPLWaOX6pDSRWfujRG/zNgmkAwKMMVkxpwJ8oIgoo=;
-	b=FfuBcIFE04Nex3QjaonMvYlyLD7WGtmolkQD8cP1aI5IyDAYyuYDHeYQ/gTCS7uns49uhO
-	4LH5uloI7b/NyQmu6JZzQ/KdejR841wd0TJKgCTw2+ok72MXLN3ebgY02l/rgyjmZD/Ec3
-	Lv4Z534sEPxmaJC/V1CWi+U2+KPaHxo=
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20190523150543.22676-1-peter.maydell@linaro.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <cb02187c-c7a1-4d7c-6a1f-061950c4eb14@greensocs.com>
-Date: Fri, 24 May 2019 17:55:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <arilou@gmail.com>) id 1hUCdX-0001yQ-Fk
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:01:41 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33493)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hUCdT-0001ro-3E
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:01:37 -0400
+Received: by mail-wm1-x331.google.com with SMTP id v19so1524834wmh.0
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 09:01:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=w/5AzzgSm31hkbsLF/f98Nh4j5Hl7pf560kiGv1+cKk=;
+	b=aPHn8Y8XUF1T5v4fuzbYn81vsLz6X/O2xaheVSUrjvzCXKu0NJUJSf+z17X/MZdjBo
+	sv+Jb12Oj7qE/+pzhiHodJZJFGghF0g5zqfDsjyqJ4agnj92X6oiqytnOkyFpejly3DF
+	cylbOfCsZ2AEdDdPZmjSwiv1VqO5nrSEnLpO2fdCX3I3o7fgOBhsDITRWZAL5UOzsCer
+	RrzTxmJnRLBfoRdD1UkH+K57LkltBvKmbjdAKpdRXrxJCEWzj7RJfUlV/7CXPOzWMNbG
+	5AbrtTRcT296iOEiq/xNieCXbkGVTR7FeC4YbozqtXLCNEVd8Lvz3vC4FB3hzwtWhVSE
+	ZDow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=w/5AzzgSm31hkbsLF/f98Nh4j5Hl7pf560kiGv1+cKk=;
+	b=ryjCPKE7jbWyWSA/13p/EaQXAjnTdYYEOTMjxQab2DSp7Mry/E+mA4beg4JTvPcThr
+	50uZNHE0EonCpwkYKqWp4A0OddHpoUb8uKe/A0+2sPYROZ86U2MKGEZ49blCsnP1hb5t
+	ZCMfy2QYLAVES30iiHrQnjPBRvLE5W5SYLWI9HIQ4nfLgbf85SaWpIHG6fmZoMFLAwHz
+	lWYpAoh7ZW+QpbMQZIxhZrSqHTXBEdnolOcv8W5Bd1/4M1e1CsQ/zlO1Prz2XuJaxTQF
+	QLYtLQjbFt13tgWfEOvCjmcnQOk4cFAh7hIs30p1/lfxKdcsQNqKLWLedsxKzRLAhS9+
+	mv+A==
+X-Gm-Message-State: APjAAAXlSNbQShPacQv33QlahShoYsfObGchtp9HKq6/ingxKweXWjxr
+	nSiwY51b+l9K3DzJRmKx8ONXahvI
+X-Google-Smtp-Source: APXvYqwrMmBVr2468uI5WbNgWjZbTg7wGs2KT1Q7KwyM8Hw7T06eO7PEJZI63HTHOOV3H/xo29RcAA==
+X-Received: by 2002:a1c:7a0d:: with SMTP id v13mr446137wmc.44.1558713688944;
+	Fri, 24 May 2019 09:01:28 -0700 (PDT)
+Received: from jondnuc.lan ([176.230.64.37])
+	by smtp.gmail.com with ESMTPSA id s11sm370863wro.17.2019.05.24.09.01.27
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 24 May 2019 09:01:28 -0700 (PDT)
+From: Jon Doron <arilou@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 24 May 2019 19:00:58 +0300
+Message-Id: <20190524160118.31134-1-arilou@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190523150543.22676-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: 7bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
-	s=mail; t=1558713340;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=BLNPLWaOX6pDSRWfujRG/zNgmkAwKMMVkxpwJ8oIgoo=;
-	b=kVWhmkxrGwkXqWt5eAO5KCI01lrV1f2USZgUBtkCVcwJMmHcgfdq9Xa12hQdzeZLQ6LAX3
-	ny1Xv5tIJJo1qJUdFdr2pct5oTTloVyHb2aqyHa6KEIj8rFQHcJteUKvQfHmbM/3wpd3vP
-	r2FSLOGasbGA/KbTDmNfn6L9uAmRC8Q=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1558713340; a=rsa-sha256; cv=none;
-	b=rUJi5PXUB7iXKScVNeqaFk6iTjCeYn35ttu3JSku9PpRtaXE+4EoKTuyn9nXmdNr8tanzo
-	nMtc00FjKmSIgBYNZD+uo56mLcu/WdMDCqU9v8Xf13SHJwOsRzpFNDdMH0LqaX0OYhtjnb
-	kHw+5T4zYq2ReprXFv+1r7qU32vNuqo=
-ARC-Authentication-Results: i=1; ORIGINATING;
-	auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: Re: [Qemu-devel] [PATCH v2] hw/core/bus.c: Only the main system bus
- can have no parent
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::331
+Subject: [Qemu-devel] [PATCH v11 00/20] gdbstub: Refactor command packets
+ handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,80 +76,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: alex.bennee@linaro.org, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch series refactors the old gdbstub command packets handler
+with a new infrastructure which should ease extending and adding new
+and missing gdb command packets.
 
+version 11 changes:
+- Add reviewed by tag
+- Requires review:
+  gdbstub: Implement deatch (D pkt) with new infra
+  gdbstub: Implement breakpoint commands (Z/z pkt) with new infra
+  gdbstub: Implement set register (P pkt) with new infra
+  gdbstub: Implement get register (p pkt) with new infra
+  gdbstub: Implement file io (F pkt) with new infra
+  gdbstub: Implement v commands with new infra
+  gdbstub: Implement generic set/query (Q/q pkt) with new infra
+  gdbstub: Implement target halted (? pkt) with new infra
+  gdbstub: Implement qemu physical memory mode
+- Already reviewed:
+  gdbstub: Add infrastructure to parse cmd packets
+  gdbstub: Implement thread_alive (T pkt) with new infra
+  gdbstub: Implement continue (c pkt) with new infra
+  gdbstub: Implement continue with signal (C pkt) with new infra
+  gdbstub: Implement set_thread (H pkt) with new infra
+  gdbstub: Implement write memory (M pkt) with new infra
+  gdbstub: Implement read memory (m pkt) with new infra
+  gdbstub: Implement write all registers (G pkt) with new infra
+  gdbstub: Implement read all registers (g pkt) with new infra
+  gdbstub: Implement step (s pkt) with new infra
+  gdbstub: Clear unused variables in gdb_handle_packet
 
-On 5/23/19 5:05 PM, Peter Maydell wrote:
-> In commit 80376c3fc2c38fdd453 in 2010 we added a workaround for
-> some qbus buses not being connected to qdev devices -- if the
-> bus has no parent object then we register a reset function which
-> resets the bus on system reset (and unregister it when the
-> bus is unparented).
-> 
-> Nearly a decade later, we have now no buses in the tree which
-> are created with non-NULL parents, so we can remove the
-> workaround and instead just assert that if the bus has a NULL
-> parent then it is the main system bus.
-> 
-> (The absence of other parentless buses was confirmed by
-> code inspection of all the callsites of qbus_create() and
-> qbus_create_inplace() and cross-checked by 'make check'.)
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> ---
-> v1->v2: clean up also the bus_unparent() code
-> ---
->  hw/core/bus.c | 21 +++++++++------------
->  1 file changed, 9 insertions(+), 12 deletions(-)
-> 
-> diff --git a/hw/core/bus.c b/hw/core/bus.c
-> index e09843f6abe..b8839c7268d 100644
-> --- a/hw/core/bus.c
-> +++ b/hw/core/bus.c
-> @@ -96,10 +96,9 @@ static void qbus_realize(BusState *bus, DeviceState *parent, const char *name)
->          bus->parent->num_child_bus++;
->          object_property_add_child(OBJECT(bus->parent), bus->name, OBJECT(bus), NULL);
->          object_unref(OBJECT(bus));
-> -    } else if (bus != sysbus_get_default()) {
-> -        /* TODO: once all bus devices are qdevified,
-> -           only reset handler for main_system_bus should be registered here. */
-> -        qemu_register_reset(qbus_reset_all_fn, bus);
-> +    } else {
-> +        /* The only bus without a parent is the main system bus */
-> +        assert(bus == sysbus_get_default());
->      }
->  }
->  
-> @@ -108,18 +107,16 @@ static void bus_unparent(Object *obj)
->      BusState *bus = BUS(obj);
->      BusChild *kid;
->  
-> +    /* Only the main system bus has no parent, and that bus is never freed */
-> +    assert(bus->parent);
-> +
->      while ((kid = QTAILQ_FIRST(&bus->children)) != NULL) {
->          DeviceState *dev = kid->child;
->          object_unparent(OBJECT(dev));
->      }
-> -    if (bus->parent) {
-> -        QLIST_REMOVE(bus, sibling);
-> -        bus->parent->num_child_bus--;
-> -        bus->parent = NULL;
-> -    } else {
-> -        assert(bus != sysbus_get_default()); /* main_system_bus is never freed */
-> -        qemu_unregister_reset(qbus_reset_all_fn, bus);
-> -    }
-> +    QLIST_REMOVE(bus, sibling);
-> +    bus->parent->num_child_bus--;
-> +    bus->parent = NULL;
->  }
->  
->  void qbus_create_inplace(void *bus, size_t size, const char *typename,
-> 
+version 10 changes:
+- Remove kvm added API as this is not really required and can be
+  accomplished by defining a coprocessor callback with a system
+  specific xml (see: 200bf5b7ffea635079cc05fdfb363372b9544ce7)
+- Remove the new QEMU extended commands to read KVM MSRs
+- Various fixes from Code Review by Alex Bennee
+- Change the QEMU specific command to read physical memory to non-User QEMU 
+- Per patch changes:
+  gdbstub: Add infrastructure to parse cmd packets
+    * remove the union for the flags in GdbCmdParseEntry
+  gdbstub: Implement deatch (D pkt) with new infra
+    * Changed default handling for error flow / command not found
+  gdbstub: Implement continue with signal (C pkt) with new infra
+    * Added comment we dont support C sig;[addr] commands
+  gdbstub: Implement set_thread (H pkt) with new infra
+    * Change num_params check to be equal and not less than
+  gdbstub: Implement breakpoint commands (Z/z pkt) with new infra
+    * Merged z/Z commands into a single patch
+  gdbstub: Implement read memory (m pkt) with new infra
+    * Change num_params check to be equal and not less than
+  gdbstub: Implement file io (F pkt) with new infra
+    * Changed to have a single command parser
+  gdbstub: Implement generic set/query (Q/q pkt) with new infra
+    * Merged q/Q and qemu.Supported patches into a single patch
+  gdbstub: Implement target halted (? pkt) with new infra
+    * Removed TODO comment and added a note about it in the commit msg
+  gdbstub: Implement qemu physical memory mode
+    * Added CONFIG_USER_ONLY where required
 
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+version 9 changes:
+- checkpatch fixes
+
+version 8 changes:
+- Add new command to display the Supported qemu generic query/sets
+- kvm: Add API to read/write a MSR
+- Add new commands specific for qemu:
+  * Command to swap the memory GDB sees to be the physical memory
+  * Commands to read and write a MSR
+
+version 7 changes:
+- Fixed few checkpatch complaints
+- Feedback from Alex Bennee
+
+version 4-6 changes:
+- mostly feedback from Richard Henderson
+
+version 3 changes
+- Split the single patch to many individual patches for easier reviewing
+
+version 2 changes
+- Code convention fixes
+
+Jon Doron (20):
+  gdbstub: Add infrastructure to parse cmd packets
+  gdbstub: Implement deatch (D pkt) with new infra
+  gdbstub: Implement thread_alive (T pkt) with new infra
+  gdbstub: Implement continue (c pkt) with new infra
+  gdbstub: Implement continue with signal (C pkt) with new infra
+  gdbstub: Implement set_thread (H pkt) with new infra
+  gdbstub: Implement breakpoint commands (Z/z pkt) with new infra
+  gdbstub: Implement set register (P pkt) with new infra
+  gdbstub: Implement get register (p pkt) with new infra
+  gdbstub: Implement write memory (M pkt) with new infra
+  gdbstub: Implement read memory (m pkt) with new infra
+  gdbstub: Implement write all registers (G pkt) with new infra
+  gdbstub: Implement read all registers (g pkt) with new infra
+  gdbstub: Implement file io (F pkt) with new infra
+  gdbstub: Implement step (s pkt) with new infra
+  gdbstub: Implement v commands with new infra
+  gdbstub: Implement generic set/query (Q/q pkt) with new infra
+  gdbstub: Implement target halted (? pkt) with new infra
+  gdbstub: Clear unused variables in gdb_handle_packet
+  gdbstub: Implement qemu physical memory mode
+
+ gdbstub.c | 1753 ++++++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 1262 insertions(+), 491 deletions(-)
+
+-- 
+2.21.0
+
 
