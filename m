@@ -2,62 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B5129ABF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:15:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56101 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D16A29AA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:10:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55993 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUBuy-0002IY-Uo
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:15:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54828)
+	id 1hUBps-0006LR-WF
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:10:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53918)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hUBrC-00007D-FM
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:11:43 -0400
+	(envelope-from <aaro.koskinen@iki.fi>) id 1hUBna-00057i-1n
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:08:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hUBr5-0002H5-25
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:11:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47344)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hUBr0-000191-4P
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:11:31 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hUBpK-00022L-D1
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 15:09:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 4B3122E807C
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 15:09:46 +0000 (UTC)
+	(envelope-from <aaro.koskinen@iki.fi>) id 1hUBgJ-0003fJ-0t
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:00:31 -0400
+Received: from emh01.mail.saunalahti.fi ([62.142.5.107]:54786)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <aaro.koskinen@iki.fi>)
+	id 1hUBgI-0003dZ-3p
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:00:26 -0400
+Received: from t60.musicnaut.iki.fi (85-76-86-221-nat.elisa-mobile.fi
+	[85.76.86.221])
+	by emh01.mail.saunalahti.fi (Postfix) with ESMTP id 443BD20035;
+	Fri, 24 May 2019 18:00:20 +0300 (EEST)
+Date: Fri, 24 May 2019 18:00:18 +0300
+From: Aaro Koskinen <aaro.koskinen@iki.fi>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	Thomas Huth <thuth@redhat.com>
+Message-ID: <20190524150018.GA3156@t60.musicnaut.iki.fi>
+References: <20190520190533.GA28160@Red>
+	<20190521232323.GD3621@darkstar.musicnaut.iki.fi>
+	<20190522093341.GA32154@Red>
+	<20190522181904.GE3621@darkstar.musicnaut.iki.fi>
+	<8977e2bb-8d9e-f4fd-4c44-b4f67e0e7314@redhat.com>
+	<c2972889-fe60-7614-fb6e-e57ddf780a54@redhat.com>
+	<20190523183623.GB5234@darkstar.musicnaut.iki.fi>
+	<CAFEAcA8C0WN5FwaW2kfWiRm1T8wML_fWXDKqRXP-Lv_P7ysy8A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 24 May 2019 14:58:45 -0000
-From: Lucas Meneghel Rodrigues <lookkas@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
-	assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 8-roothorick-gmail-com andcycle-launchpad-net
-	anthony-codemonkey lmr th-huth
-X-Launchpad-Bug-Reporter: Lucas Meneghel Rodrigues (lmr)
-X-Launchpad-Bug-Modifier: Lucas Meneghel Rodrigues (lmr)
-References: <20100629211802.16137.10587.malonedeb@soybean.canonical.com>
-Message-Id: <155870992518.24947.13019860117533050337.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18968";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 9e2a74986d95d68200d81dd2bd294426e62ccc1e
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 599958] Re: Timedrift problems with Win7: hpet
- missing time drift fixups
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8C0WN5FwaW2kfWiRm1T8wML_fWXDKqRXP-Lv_P7ysy8A@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 62.142.5.107
+Subject: Re: [Qemu-devel] Running linux on qemu omap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,71 +57,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 599958 <599958@bugs.launchpad.net>
+Cc: Tony Lindgren <tony@atomide.com>, QEMU Developers <qemu-devel@nongnu.org>,
+	lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Absolutely, please close it.
+Hi,
 
--- =
+On Fri, May 24, 2019 at 10:08:09AM +0100, Peter Maydell wrote:
+> On Thu, 23 May 2019 at 19:36, Aaro Koskinen <aaro.koskinen@iki.fi> wrote:
+> > Cheetah works with serial console. I tried with console on display,
+> > and it seems to boot up, and the frame buffer window gets correctly
+> > sized but for some reason it just stays blank.
+> 
+> As a general question, when you're doing these tests are you
+> using a kernel image that is known to work on real hardware?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/599958
+With Cheetah (I wonder where that name comes from?), yes, same for
+N8x0. SX1 I don't have, but the SoC is the same as on Palm TE.
 
-Title:
-  Timedrift problems with Win7: hpet missing time drift fixups
+> One problem we have with some of these older QEMU platforms
+> is that it turns out that QEMU is only tested with the kernel,
+> and the kernel support for the platform is only tested with
+> QEMU, and so you get equal and opposite bugs in QEMU and the
+> kernel that cancel each other out and don't get noticed...
+>
+> (On the QEMU side these platforms are all basically orphaned:
+> if somebody submits patches to fix bugs we'll review them,
+> but they're unlikely to get a great deal of attention otherwise.
+> They're also quite near the top of the "maybe we'll just
+> deprecate and then delete these" list, since we have not
+> historically had any working guest images to test against.
+> If there's a real userbase that wants them to continue to
+> exist that's a different matter, of course.)
 
-Status in QEMU:
-  Incomplete
+Please don't delete OMAP boards quite yet :) In the mainline kernel
+they are not orphaned, they frequently get tested using actual hardware,
+and QEMU would help in additional testing. I'll try to get N8x0 boot to
+work with the minimal kernel I use on real HW.
 
-Bug description:
-  We've been finding timedrift issues witth Win7 under qemu-kvm on our
-  daily testing
+Regarding N8x0 and bluetooth (mentioned in one of the linked threads), I
+guess the removal of the bluetooth subsystem can be done without removing
+the whole machine: just don't pass the OMAP BT TAG to the kernel anymore,
+and it should ignore the BT hardware (just an idea based on quick read
+of vendor kernel sources, the mainline kernel does not support BT on
+this board).
 
-  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_load	FAIL	1	Time drift too l=
-arge after rest period: 38.63%
-  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_reboot	FAIL	1	Time drift too=
- large at iteration 1: 17.77 seconds
-  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_migration	FAIL	1	Time drift =
-too large at iteration 2: 3.08 seconds
-
-  Steps to reproduce:
-
-  timedrift.with_load
-
-  1) Log into a guest.
-  2) Take a time reading from the guest and host.
-  3) Run load on the guest and host.
-  4) Take a second time reading.
-  5) Stop the load and rest for a while.
-  6) Take a third time reading.
-  7) If the drift immediately after load is higher than a user-
-      specified value (in %), fail.
-      If the drift after the rest period is higher than a user-specified va=
-lue,
-      fail.
-
-  timedrift.with_migration
-
-  1) Log into a guest.
-  2) Take a time reading from the guest and host.
-  3) Migrate the guest.
-  4) Take a second time reading.
-  5) If the drift (in seconds) is higher than a user specified value, fail.
-
-  timedrift.with_reboot
-
-  1) Log into a guest.
-  2) Take a time reading from the guest and host.
-  3) Reboot the guest.
-  4) Take a second time reading.
-  5) If the drift (in seconds) is higher than a user specified value, fail.
-
-  This bug is to register those issues and keep an eye on them.
-
-  Attached, some logs from the autotest tests executed on the guest
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/599958/+subscriptions
+A.
 
