@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A98C29919
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:37:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54757 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58162B13A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 11:21:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42493 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUANm-0004ys-Bp
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:37:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34055)
+	id 1hVBoS-0001R4-PP
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 05:21:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38135)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hUAKK-0002Fb-Mb
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:33:41 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hVBms-0000p2-KL
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 05:19:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hUADz-0003fj-Kt
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:27:08 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40411)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hUADz-0003eu-BX
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:27:07 -0400
-Received: by mail-ot1-x344.google.com with SMTP id u11so8657795otq.7
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 06:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=mYlpT/2x3P3Q4pnWfTYeEJ6adGNeXy3CSb3fcqPEqIg=;
-	b=fYa/D6H0yZNoYwXbt6kkGjPbT2Nd4tMlKGQTd5UPfn3hDTTye+xy/Ums/C8qJyAVBi
-	Nk/AyuIzOcxCFynrM3uKdnaoMAZNKlwi2KPZJqPsr44wcpZ2cTqG56WvX/4cGHEN1vve
-	o8Nf9fSrKkMQdDHhEHT+52OD+MYUHgsrLR9iIB0zjEOV238eXwdcacDLnlq+4IFHM4G2
-	aWcY/Hi8XIDLJ9eW+NdE4Vq4N+JRKax6nrx8jOEa1n4/GSceLQBq9jAZh21oYWjR2wwZ
-	TCpHgK5cvnzcN22mAjXV3x4HVGNDo3rBa2tcY7DXgDERT73eEfmBjiwc3zraBeYyrcjz
-	aPVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=mYlpT/2x3P3Q4pnWfTYeEJ6adGNeXy3CSb3fcqPEqIg=;
-	b=MaQmBSTdm/x7WvL6ALLlVgObhf7tOxdQpFOwCwgBgmz3Y/V9W72OhXDevoaTasAAW5
-	55pnpf7WMMRyAcKnybaNfNEp4bNpJD2BkAl1W3/37MMoVqSr+Ur4vUAvpNg9LAC/L4NG
-	NaqndUptzHLymx6kmN85t7cYF103vSv9LlQlUBMsW5SdTCtIw65MkCkVykTIaMK3OzW3
-	JCFeA1uILELdraB49XrsC3imSD9Rz2RRZHgsOgsYbXXAYfGweI1kmFaKbAL52R/LaOnX
-	Hl6rKaFzihxSJKGbSNwenH7d6xLjxsNGDw0/DjMQJ9EcRdG6XAY1rfN3TcpcwLV6pQRv
-	sCDg==
-X-Gm-Message-State: APjAAAUpCqfE2xm9xpccIsKgcNQ8kUwNYvpZIWHRU16Zx1+l+33agxb6
-	62z+NcVDNNaKBQruDg8jNf4IrN38UtMXESS368Y=
-X-Google-Smtp-Source: APXvYqxkaHIV0ZBUwFLeoIcnjfCJt4g5Ar/U5KNNZ5ymvRwryCiGbfug5jPCeW8ez1Pj0gY2UKJg1fJ69WKErJ9BPow=
-X-Received: by 2002:a9d:3f37:: with SMTP id m52mr27487874otc.181.1558704426434;
-	Fri, 24 May 2019 06:27:06 -0700 (PDT)
+	(envelope-from <no-reply@patchew.org>) id 1hVBmn-0001J8-T3
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 05:19:19 -0400
+Resent-Date: Mon, 27 May 2019 05:19:18 -0400
+Resent-Message-Id: <E1hVBmn-0001J8-T3@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21501)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hVBmn-0001Av-M7
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 05:19:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1558704513; cv=none; d=zoho.com; s=zohoarc; 
+	b=OEhCGqzY6UFQEYnK+uDQupxg7ELVsrR+LDr4pwMT0m2qbF2SMv7bBPaFHPIKnkJ04jmVgbHqzyT2rGapAl4B2reyJt7kkG9ACe/0GCY2BQLHFWG/FXdF3pFjrMdQD3mnJ6mNJD0NHtNCbWEHuLm1j7Tr8KFhnHg6pAZkUPtHjf4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1558704513;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=Z71N7XXQh+XzxxGbiMutgvU+LsImbYYp3Y7ie1PjA5I=; 
+	b=ENP14ao4HGixLntwXTH8V0zqWOY3axrs6pIwP5AI2zJPioRbmGCnrEOC/0f4O+2qFNwTdktDJ+9PjMmwktA0Qib4yQEi9JjmsYKaF8VydHOQjDhujEY3r1868o5unDDqQk2ZQqEaiVlbqSfcMLCXnZb4OPv5BYnRFzlkD+MD2sQ=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1558704509579209.90382800522855;
+	Fri, 24 May 2019 06:28:29 -0700 (PDT)
+In-Reply-To: <20190504060336.21060-1-philmd@redhat.com>
+Message-ID: <155870450828.24.7185600599110160688@549697c9ad12>
 MIME-Version: 1.0
-References: <20190524063553.5339-1-philmd@redhat.com>
-	<20190524063553.5339-10-philmd@redhat.com>
-In-Reply-To: <20190524063553.5339-10-philmd@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 24 May 2019 21:26:30 +0800
-Message-ID: <CAKXe6SJs+_cduvdpVExS64FvPsb_p-j4yVX1umc065jnSCu07Q@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 09/20] hw/i386/pc: Rename bochs_bios_init()
- more generic as x86_create_fw_cfg()
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: philmd@redhat.com
+Date: Fri, 24 May 2019 06:28:29 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH] tests/docker: Update the Fedora image to
+ Fedora 30
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,71 +62,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
-	Rob Bradford <robert.bradford@intel.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Qemu Developers <qemu-devel@nongnu.org>,
-	Samuel Ortiz <sameo@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Richard Henderson <rth@twiddle.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, thuth@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
+	pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2019=E5=B9=B45=E6=
-=9C=8824=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=882:46=E5=86=99=E9=81=
-=93=EF=BC=9A
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUwNDA2MDMzNi4yMTA2
+MC0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCBidWlsZCB0
+ZXN0IG9uIHMzOTB4IGhvc3QuIFBsZWFzZSBmaW5kIHRoZSBkZXRhaWxzIGJlbG93LgoKPT09IFRF
+U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAojIFRlc3Rpbmcgc2NyaXB0IHdpbGwgYmUg
+aW52b2tlZCB1bmRlciB0aGUgZ2l0IGNoZWNrb3V0IHdpdGgKIyBIRUFEIHBvaW50aW5nIHRvIGEg
+Y29tbWl0IHRoYXQgaGFzIHRoZSBwYXRjaGVzIGFwcGxpZWQgb24gdG9wIG9mICJiYXNlIgojIGJy
+YW5jaApzZXQgLWUKQ0M9JEhPTUUvYmluL2NjCklOU1RBTEw9JFBXRC9pbnN0YWxsCkJVSUxEPSRQ
+V0QvYnVpbGQKbWtkaXIgLXAgJEJVSUxEICRJTlNUQUxMClNSQz0kUFdECmNkICRCVUlMRAokU1JD
+L2NvbmZpZ3VyZSAtLWNjPSRDQyAtLXByZWZpeD0kSU5TVEFMTAptYWtlIC1qNAojIFhYWDogd2Ug
+bmVlZCByZWxpYWJsZSBjbGVhbiB1cAojIG1ha2UgY2hlY2sgLWo0IFY9MQptYWtlIGluc3RhbGwK
+CmVjaG8KZWNobyAiPT09IEVOViA9PT0iCmVudgoKZWNobwplY2hvICI9PT0gUEFDS0FHRVMgPT09
+IgpycG0gLXFhCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogICAgaW5saW5lZCBmcm9tIOKAmGZp
+bGxfcHNpbmZv4oCZIGF0IC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC0zZzh1NGZ2Mi9zcmMv
+bGludXgtdXNlci9lbGZsb2FkLmM6MzIwODoxMiwKICAgIGlubGluZWQgZnJvbSDigJhmaWxsX25v
+dGVfaW5mb+KAmSBhdCAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtM2c4dTRmdjIvc3JjL2xp
+bnV4LXVzZXIvZWxmbG9hZC5jOjMzOTA6NSwKICAgIGlubGluZWQgZnJvbSDigJhlbGZfY29yZV9k
+dW1w4oCZIGF0IC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC0zZzh1NGZ2Mi9zcmMvbGludXgt
+dXNlci9lbGZsb2FkLmM6MzUzOTo5OgovdXNyL2luY2x1ZGUvYml0cy9zdHJpbmdfZm9ydGlmaWVk
+Lmg6MTA2OjEwOiBlcnJvcjog4oCYX19idWlsdGluX3N0cm5jcHnigJkgc3BlY2lmaWVkIGJvdW5k
+IDE2IGVxdWFscyBkZXN0aW5hdGlvbiBzaXplIFstV2Vycm9yPXN0cmluZ29wLXRydW5jYXRpb25d
+CiAgMTA2IHwgICByZXR1cm4gX19idWlsdGluX19fc3RybmNweV9jaGsgKF9fZGVzdCwgX19zcmMs
+IF9fbGVuLCBfX2JvcyAoX19kZXN0KSk7CiAgICAgIHwgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KY2MxOiBhbGwg
+d2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
+YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNTA0MDYwMzM2LjIxMDYwLTEtcGhp
+bG1kQHJlZGhhdC5jb20vdGVzdGluZy5zMzkweC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
+ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
+bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
-> The bochs_bios_init() is not restricted to the Bochs BIOS and is
-> useful to other BIOS. Rename it to be more generic.
->
-> Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-
-
-
-> ---
->  hw/i386/pc.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index a3936bb29d..264074489b 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -928,7 +928,7 @@ static void pc_build_smbios(PCMachineState *pcms)
->      }
->  }
->
-> -static FWCfgState *bochs_bios_init(PCMachineState *pcms)
-> +static FWCfgState *x86_create_fw_cfg(PCMachineState *pcms)
->  {
->      FWCfgState *fw_cfg;
->      uint64_t *numa_fw_cfg;
-> @@ -1508,7 +1508,7 @@ void pc_cpus_init(PCMachineState *pcms)
->       * Limit for the APIC ID value, so that all
->       * CPU APIC IDs are < pcms->apic_id_limit.
->       *
-> -     * This is used for FW_CFG_MAX_CPUS. See comments on
-> bochs_bios_init().
-> +     * This is used for FW_CFG_MAX_CPUS. See comments on
-> x86_create_fw_cfg().
->       */
->      pcms->apic_id_limit =3D x86_cpu_apic_id_from_index(max_cpus - 1) + 1=
-;
->      possible_cpus =3D mc->possible_cpu_arch_ids(ms);
-> @@ -1762,7 +1762,7 @@ void pc_memory_init(PCMachineState *pcms,
->                                          option_rom_mr,
->                                          1);
->
-> -    fw_cfg =3D bochs_bios_init(pcms);
-> +    fw_cfg =3D x86_create_fw_cfg(pcms);
->
->      rom_set_fw(fw_cfg);
->
-> --
-> 2.20.1
->
->
->
