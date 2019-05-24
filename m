@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E62129116
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 08:38:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49705 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A182911E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 08:41:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49761 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU3qV-0003Fy-O7
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 02:38:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40505)
+	id 1hU3tG-0005dX-F9
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 02:41:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40557)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hU3oW-0002f7-OV
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:25 -0400
+	(envelope-from <philmd@redhat.com>) id 1hU3oc-0002gj-28
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hU3oT-0002fy-0S
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51960)
+	(envelope-from <philmd@redhat.com>) id 1hU3oa-0002kL-Vb
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36658)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hU3oM-0002aD-6F
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:15 -0400
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hU3oa-0002iI-Qh
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:28 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4D06D36883;
-	Fri, 24 May 2019 06:36:06 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 390F3C0578FA;
+	Fri, 24 May 2019 06:36:15 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-235.brq.redhat.com [10.40.204.235])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7220B5B689;
-	Fri, 24 May 2019 06:35:57 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D51165B68B;
+	Fri, 24 May 2019 06:36:06 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 08:35:33 +0200
-Message-Id: <20190524063553.5339-1-philmd@redhat.com>
+Date: Fri, 24 May 2019 08:35:34 +0200
+Message-Id: <20190524063553.5339-2-philmd@redhat.com>
+In-Reply-To: <20190524063553.5339-1-philmd@redhat.com>
+References: <20190524063553.5339-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Fri, 24 May 2019 06:36:09 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Fri, 24 May 2019 06:36:20 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 00/20] hw/i386/pc: Do not restrict the fw_cfg
- functions to the PC machine
+Subject: [Qemu-devel] [PATCH 01/20] hw/i386/pc: Use unsigned type to index
+ arrays
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,65 +61,57 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
 	Rob Bradford <robert.bradford@intel.com>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
 	Marcelo Tosatti <mtosatti@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Richard Henderson <rth@twiddle.net>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	Samuel Ortiz <sameo@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/i386/pc.c         | 5 +++--
+ include/hw/i386/pc.h | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-This is my take at salvaging some NEMU good work.
-Samuel worked in adding the fw_cfg device to the x86-virt NEMU machine.
-This series is inspired by NEMU's commit 3cb92d080835 [*] and adapted
-to upstream style. The result makes the upstream codebase more
-modularizable.
-There are very little logical changes, this is mostly a cleanup
-refactor.
-
-Regards,
-
-Phil.
-
-[*] https://github.com/intel/nemu/commit/3cb92d080835ac8d47c8b713156338af=
-a33cff5c
-
-Philippe Mathieu-Daud=C3=A9 (20):
-  hw/i386/pc: Use unsigned type to index arrays
-  hw/i386/pc: Use size_t type to hold/return a size of array
-  hw/i386/pc: Let e820_add_entry() return a ssize_t type
-  hw/i386/pc: Add the E820Type enum type
-  hw/i386/pc: Add documentation to the e820_*() functions
-  hw/i386/pc: Use e820_get_num_entries() to access e820_entries
-  hw/i386/pc: Extract e820 memory layout code
-  hw/i386/pc: Use address_space_memory in place
-  hw/i386/pc: Rename bochs_bios_init() more generic as
-    x86_create_fw_cfg()
-  hw/i386/pc: Pass the boot_cpus value by argument
-  hw/i386/pc: Pass the apic_id_limit value by argument
-  hw/i386/pc: Pass the CPUArchIdList array by argument
-  hw/i386/pc: Let fw_cfg_init() use the generic MachineState
-  hw/i386/pc: Let pc_build_smbios() take a FWCfgState argument
-  hw/i386/pc: Let pc_build_smbios() take a generic MachineState argument
-  hw/i386/pc: Rename pc_build_smbios() as generic fw_cfg_build_smbios()
-  hw/i386/pc: Let pc_build_feature_control() take a FWCfgState argument
-  hw/i386/pc: Let pc_build_feature_control() take a MachineState
-    argument
-  hw/i386/pc: Rename pc_build_feature_control() as generic
-    fw_cfg_build_*
-  hw/i386/pc: Extract the x86 generic fw_cfg code
-
- hw/i386/Makefile.objs        |   2 +-
- hw/i386/e820_memory_layout.c |  62 +++++++++++
- hw/i386/e820_memory_layout.h |  76 +++++++++++++
- hw/i386/fw_cfg.c             | 135 +++++++++++++++++++++++
- hw/i386/fw_cfg.h             |   6 ++
- hw/i386/pc.c                 | 201 ++---------------------------------
- include/hw/i386/pc.h         |  11 --
- target/i386/kvm.c            |   1 +
- 8 files changed, 289 insertions(+), 205 deletions(-)
- create mode 100644 hw/i386/e820_memory_layout.c
- create mode 100644 hw/i386/e820_memory_layout.h
-
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 2632b73f80..fc38b59d2d 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -870,7 +870,7 @@ static void handle_a20_line_change(void *opaque, int =
+irq, int level)
+=20
+ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
+ {
+-    int index =3D le32_to_cpu(e820_reserve.count);
++    unsigned int index =3D le32_to_cpu(e820_reserve.count);
+     struct e820_entry *entry;
+=20
+     if (type !=3D E820_RAM) {
+@@ -902,7 +902,8 @@ int e820_get_num_entries(void)
+     return e820_entries;
+ }
+=20
+-bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
+*length)
++bool e820_get_entry(unsigned int idx, uint32_t type,
++                    uint64_t *address, uint64_t *length)
+ {
+     if (idx < e820_entries && e820_table[idx].type =3D=3D cpu_to_le32(ty=
+pe)) {
+         *address =3D le64_to_cpu(e820_table[idx].address);
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 43df7230a2..ad3a75d8fa 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -291,7 +291,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+=20
+ int e820_add_entry(uint64_t, uint64_t, uint32_t);
+ int e820_get_num_entries(void);
+-bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
++bool e820_get_entry(unsigned int, uint32_t, uint64_t *, uint64_t *);
+=20
+ extern GlobalProperty pc_compat_4_0[];
+ extern const size_t pc_compat_4_0_len;
 --=20
 2.20.1
 
