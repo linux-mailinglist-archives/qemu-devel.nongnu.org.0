@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B198829E92
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:57:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58935 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3655729EC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 21:04:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59031 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFNK-0007VW-SN
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:57:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41463)
+	id 1hUFUv-00058q-Ed
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 15:04:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42640)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hUFFK-0001fB-L8
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:48:51 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUFKK-0005iI-2E
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:54:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hUFFJ-0008IR-O1
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:48:50 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40127)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hUFFJ-0008Hd-HZ
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:48:49 -0400
-Received: by mail-wr1-f65.google.com with SMTP id t4so2702528wrx.7
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 11:48:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=+gqJe3j0xGeqGTYD6iGLPjrIIcY9EDv0g/JCrJlQacM=;
-	b=l5FftV6yM720+dTL7tGE0XGd6ERklZE0waKx2SR0bEfuuelaHoAMY+hcDwsNSkZX3a
-	k+tQbW+Qu6pH/hIJoTq5xsctKzqb3w6wDT2grgGW8XjXQldFAjGdrgWwjiXesA50XVyt
-	FNlf7/hspVCOkpwGPHkzHLA4WYVzFTQmKkIDy7KdMRNAq9g4NJqq53+iD//rAXbFv3Fb
-	svFXnibsU3H2qyhnbAaM1Porog6JHhVYD9qCNy+1ebs+/EA3nRG1Y4SyRWXPYzN5VkSz
-	V72rEYcAqOdCNGdoWmG0GgGdyo3WSfYt8xbELMmqTRBTPFBqfhJef8Yg3IlPftA+vUUk
-	lU8g==
-X-Gm-Message-State: APjAAAXsl6aluXtcNoVM34psNfTxFEGYYwyZ8/hpiRpHLnYl93c+091K
-	orDwxbr04goRvlRolCZtIlIQwTPU+XQ=
-X-Google-Smtp-Source: APXvYqzy7H2mbQ0W1buNcUTM+zOWMzMgpG/KJvKSYYq/CzyzoF6Itv6W4tsFPw361J/v1DXOBjcRrA==
-X-Received: by 2002:adf:e742:: with SMTP id c2mr11616443wrn.249.1558723728218; 
-	Fri, 24 May 2019 11:48:48 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:4d53:18d:3ffd:370?
-	([2001:b07:6468:f312:4d53:18d:3ffd:370])
-	by smtp.gmail.com with ESMTPSA id
-	o23sm2475616wro.13.2019.05.24.11.48.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 May 2019 11:48:47 -0700 (PDT)
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
-	qemu-devel@nongnu.org
-References: <20190524181411.8599-1-marcandre.lureau@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1539f5bb-bb62-6328-c79d-46dfe0f924b2@redhat.com>
-Date: Fri, 24 May 2019 20:48:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <ehabkost@redhat.com>) id 1hUFKI-0002w7-MD
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:53:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56788)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFKG-0002th-Pl
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:53:56 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 866F437EEA;
+	Fri, 24 May 2019 18:53:50 +0000 (UTC)
+Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id BF00B6092D;
+	Fri, 24 May 2019 18:53:46 +0000 (UTC)
+Date: Fri, 24 May 2019 15:53:44 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190524185344.GJ10764@habkost.net>
+References: <87woihi1wl.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20190524181411.8599-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <87woihi1wl.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.29]);
+	Fri, 24 May 2019 18:53:50 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH] configure: remove tpm_passthrough &
- tpm_emulator
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] qapi/misc.json is too big,
+ let's bite off a few chunks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,49 +59,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+	Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/19 20:14, Marc-André Lureau wrote:
-> This is a left-over from commit 7aaa6a16373 "tpm: express dependencies
-> with Kconfig".
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  configure | 10 ----------
->  1 file changed, 10 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 528b9ff705..4da99ee750 100755
-> --- a/configure
-> +++ b/configure
-> @@ -6434,8 +6434,6 @@ echo "gcov              $gcov_tool"
->  echo "gcov enabled      $gcov"
->  echo "TPM support       $tpm"
->  echo "libssh2 support   $libssh2"
-> -echo "TPM passthrough   $tpm_passthrough"
-> -echo "TPM emulator      $tpm_emulator"
->  echo "QOM debugging     $qom_cast_debug"
->  echo "Live block migration $live_block_migration"
->  echo "lzo support       $lzo"
-> @@ -7133,14 +7131,6 @@ fi
->  
->  if test "$tpm" = "yes"; then
->    echo 'CONFIG_TPM=$(CONFIG_SOFTMMU)' >> $config_host_mak
-> -  # TPM passthrough support?
-> -  if test "$tpm_passthrough" = "yes"; then
-> -    echo "CONFIG_TPM_PASSTHROUGH=y" >> $config_host_mak
-> -  fi
-> -  # TPM emulator support?
-> -  if test "$tpm_emulator" = "yes"; then
-> -    echo "CONFIG_TPM_EMULATOR=y" >> $config_host_mak
-> -  fi
->  fi
->  
->  echo "TRACE_BACKENDS=$trace_backends" >> $config_host_mak
-> 
+On Thu, May 23, 2019 at 06:14:18PM +0200, Markus Armbruster wrote:
+> It's nice when QAPI schema modules clearly belong to a single subsystem
+> in addition to "QAPI Schema".  misc.json doesn't, and it's grown fat:
+> 3000+ lines.  Let's move out some stuff.  Here are a few candidates:
+>=20
+> * Dump (Marc-Andr=E9)
+>=20
+>   dump-guest-memory, query-dump, DUMP_COMPLETED,
+>   query-dump-guest-memory-capability
+>=20
+>   ~200 lines.
+>=20
+> * Machine core (Eduardo, Marcel)
+>=20
+>   query-machines, query-current-machine,=20
+>=20
+>   ~60 lines.  Hardly worthwhile from a "let's shrink misc.json" point o=
+f
+>   view.  Might be worthwhile from a "let's make get_maintainers.pl
+>   work".
+>=20
+> * CPUs (Paolo, Richard)
+>=20
+>   query-cpus, query-cpus-fast
+>=20
+>   ~300 lines.  The commands are implemented in cpus.c, which MAINTAINER=
+S
+>   covers both under "Main loop" and under "Guest CPU cores (TCG) /
+>   Overall".  Neither feels right to me for these QMP commands.
 
-Queued, thanks.
+Should it include query-cpu-* (currently on target.json),
+and query-hotpluggable-cpus?
 
-Paolo
+>=20
+> * NUMA (Eduardo)
+>=20
+>   query-memdev, set-numa-node
+>=20
+>   ~200 lines.
+>=20
+> Opinions?
+>=20
+> Additional candidates?
+
+QOM: qom-list, qom-get, qom-set, qom-list-properties, object-add
+object-del.
+
+--=20
+Eduardo
 
