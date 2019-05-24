@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A182911E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 08:41:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49761 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AAE729117
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 08:38:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49709 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU3tG-0005dX-F9
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 02:41:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40557)
+	id 1hU3qi-0003QB-HH
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 02:38:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40560)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hU3oc-0002gj-28
+	(envelope-from <philmd@redhat.com>) id 1hU3oc-0002gt-BA
 	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hU3oa-0002kL-Vb
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36658)
+	(envelope-from <philmd@redhat.com>) id 1hU3ob-0002kY-7F
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38166)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hU3oa-0002iI-Qh
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:28 -0400
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hU3ob-0002jr-2A
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 02:36:29 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 390F3C0578FA;
-	Fri, 24 May 2019 06:36:15 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4E8283082132;
+	Fri, 24 May 2019 06:36:23 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-235.brq.redhat.com [10.40.204.235])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D51165B68B;
-	Fri, 24 May 2019 06:36:06 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DB5E05B695;
+	Fri, 24 May 2019 06:36:15 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 08:35:34 +0200
-Message-Id: <20190524063553.5339-2-philmd@redhat.com>
+Date: Fri, 24 May 2019 08:35:35 +0200
+Message-Id: <20190524063553.5339-3-philmd@redhat.com>
 In-Reply-To: <20190524063553.5339-1-philmd@redhat.com>
 References: <20190524063553.5339-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Fri, 24 May 2019 06:36:20 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Fri, 24 May 2019 06:36:28 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 01/20] hw/i386/pc: Use unsigned type to index
- arrays
+Subject: [Qemu-devel] [PATCH 02/20] hw/i386/pc: Use size_t type to
+ hold/return a size of array
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,49 +69,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/i386/pc.c         | 5 +++--
+ hw/i386/pc.c         | 4 ++--
  include/hw/i386/pc.h | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 2632b73f80..fc38b59d2d 100644
+index fc38b59d2d..df8600ac24 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -870,7 +870,7 @@ static void handle_a20_line_change(void *opaque, int =
-irq, int level)
+@@ -104,7 +104,7 @@ struct e820_table {
 =20
- int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
- {
--    int index =3D le32_to_cpu(e820_reserve.count);
-+    unsigned int index =3D le32_to_cpu(e820_reserve.count);
-     struct e820_entry *entry;
+ static struct e820_table e820_reserve;
+ static struct e820_entry *e820_table;
+-static unsigned e820_entries;
++static size_t e820_entries;
+ struct hpet_fw_config hpet_cfg =3D {.count =3D UINT8_MAX};
 =20
-     if (type !=3D E820_RAM) {
-@@ -902,7 +902,8 @@ int e820_get_num_entries(void)
+ /* Physical Address of PVH entry point read from kernel ELF NOTE */
+@@ -897,7 +897,7 @@ int e820_add_entry(uint64_t address, uint64_t length,=
+ uint32_t type)
      return e820_entries;
  }
 =20
--bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
-*length)
-+bool e820_get_entry(unsigned int idx, uint32_t type,
-+                    uint64_t *address, uint64_t *length)
+-int e820_get_num_entries(void)
++size_t e820_get_num_entries(void)
  {
-     if (idx < e820_entries && e820_table[idx].type =3D=3D cpu_to_le32(ty=
-pe)) {
-         *address =3D le64_to_cpu(e820_table[idx].address);
+     return e820_entries;
+ }
 diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 43df7230a2..ad3a75d8fa 100644
+index ad3a75d8fa..28b19173b0 100644
 --- a/include/hw/i386/pc.h
 +++ b/include/hw/i386/pc.h
-@@ -291,7 +291,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+@@ -290,7 +290,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+ #define E820_UNUSABLE   5
 =20
  int e820_add_entry(uint64_t, uint64_t, uint32_t);
- int e820_get_num_entries(void);
--bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
-+bool e820_get_entry(unsigned int, uint32_t, uint64_t *, uint64_t *);
+-int e820_get_num_entries(void);
++size_t e820_get_num_entries(void);
+ bool e820_get_entry(unsigned int, uint32_t, uint64_t *, uint64_t *);
 =20
  extern GlobalProperty pc_compat_4_0[];
- extern const size_t pc_compat_4_0_len;
 --=20
 2.20.1
 
