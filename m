@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F9829D06
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 19:34:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57887 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA2629D04
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 19:33:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57883 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUE4u-00015C-TX
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 13:34:00 -0400
+	id 1hUE4Q-0000jv-Ue
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 13:33:31 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:53416)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hUE27-0007Ea-DV
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:31:12 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hUE23-0007Ea-VF
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:31:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hUDzW-0004NN-PV
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:28:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50212)
+	(envelope-from <mreitz@redhat.com>) id 1hUDzg-0004SL-7v
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:28:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40850)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hUDzV-0004MN-Hp; Fri, 24 May 2019 13:28:25 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	id 1hUDze-0004RO-VN; Fri, 24 May 2019 13:28:35 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CD7E330001EB;
-	Fri, 24 May 2019 17:28:24 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4610030C1AE6;
+	Fri, 24 May 2019 17:28:29 +0000 (UTC)
 Received: from localhost (ovpn-204-150.brq.redhat.com [10.40.204.150])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 170545C1B4;
-	Fri, 24 May 2019 17:28:22 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CEBA510027B6;
+	Fri, 24 May 2019 17:28:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 24 May 2019 19:28:11 +0200
-Message-Id: <20190524172812.27308-3-mreitz@redhat.com>
+Date: Fri, 24 May 2019 19:28:12 +0200
+Message-Id: <20190524172812.27308-4-mreitz@redhat.com>
 In-Reply-To: <20190524172812.27308-1-mreitz@redhat.com>
 References: <20190524172812.27308-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Fri, 24 May 2019 17:28:24 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.40]);
+	Fri, 24 May 2019 17:28:34 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC 2/3] file-posix: Inquire rotational status
+Subject: [Qemu-devel] [RFC 3/3] qcow2: Evaluate rotational info
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,135 +62,102 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Linux, we can inquire whether the file is stored on a rotating disk
-or on a solid-state drive through the sysfs.  (The BLKROTATIONAL ioctl
-only works on device files themselves.)
+The new handle_alloc_space() function only speeds up the allocation of
+new ranges on solid-state drives.  We should skip it if we know that the
+file is stored on a rotating disk.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/file-posix.c | 73 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
+ block/qcow2.h |  3 +++
+ block/qcow2.c | 34 ++++++++++++++++++++++++++++++----
+ 2 files changed, 33 insertions(+), 4 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index d018429672..f84179c0dc 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -161,6 +161,9 @@ typedef struct BDRVRawState {
-     bool check_cache_dropped;
+diff --git a/block/qcow2.h b/block/qcow2.h
+index fc1b0d3c1e..5052ab187f 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -359,6 +359,9 @@ typedef struct BDRVQcow2State {
 =20
-     PRManager *pr_mgr;
+     bool metadata_preallocation_checked;
+     bool metadata_preallocation;
 +
-+    bool has_rotational_info;
-+    ImageRotationalInfo rotational_info;
- } BDRVRawState;
++    /* True if the image is stored on a rotating disk */
++    bool optimize_for_rotating;
+ } BDRVQcow2State;
 =20
- typedef struct BDRVRawReopenState {
-@@ -378,6 +381,68 @@ static void raw_probe_alignment(BlockDriverState *bs=
-, int fd, Error **errp)
-     }
+ typedef struct Qcow2COWRegion {
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 14f914117f..b4df6d5085 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1197,6 +1197,22 @@ static int qcow2_update_options(BlockDriverState *=
+bs, QDict *options,
+     return ret;
  }
 =20
-+/**
-+ * Tries to inquire whether the file is stored on a rotating disk or a
-+ * solid-state drive.
-+ */
-+static void raw_update_rotational_info(BDRVRawState *s)
++static void qcow2_update_rotational_info(BlockDriverState *bs)
 +{
-+#ifdef CONFIG_LINUX
-+    struct stat st;
-+    char *part_fname, *rot_fname;
-+    char rot_info[3];
-+    dev_t dev;
-+    int rot_fd;
-+    int ret;
++    BDRVQcow2State *s =3D bs->opaque;
++    BlockDriverInfo file_bdi;
 +
-+    s->has_rotational_info =3D false;
++    s->optimize_for_rotating =3D false;
 +
-+    if (fstat(s->fd, &st) < 0) {
++    if (bdrv_get_info(bs->file->bs, &file_bdi) < 0) {
 +        return;
 +    }
 +
-+    if (st.st_rdev) {
-+        dev =3D st.st_rdev;
-+    } else {
-+        dev =3D st.st_dev;
-+    }
-+
-+    part_fname =3D g_strdup_printf("/sys/dev/block/%u:%u/partition",
-+                                 major(dev), minor(dev));
-+    if (access(part_fname, F_OK) =3D=3D 0) {
-+        rot_fname =3D g_strdup_printf("/sys/dev/block/%u:%u/../queue/rot=
-ational",
-+                                    major(dev), minor(dev));
-+    } else {
-+        rot_fname =3D g_strdup_printf("/sys/dev/block/%u:%u/queue/rotati=
-onal",
-+                                    major(dev), minor(dev));
-+    }
-+    g_free(part_fname);
-+
-+    rot_fd =3D open(rot_fname, O_RDONLY);
-+    g_free(rot_fname);
-+    if (rot_fd < 0) {
-+        return;
-+    }
-+
-+    ret =3D read(rot_fd, rot_info, 2);
-+    close(rot_fd);
-+    if (ret < 2) {
-+        return;
-+    }
-+
-+    rot_info[2] =3D '\0';
-+    if (!strcmp(rot_info, "0\n")) {
-+        s->rotational_info =3D IMAGE_ROTATIONAL_INFO_SOLID_STATE;
-+        s->has_rotational_info =3D true;
-+    } else if (!strcmp(rot_info, "1\n")) {
-+        s->rotational_info =3D IMAGE_ROTATIONAL_INFO_ROTATING;
-+        s->has_rotational_info =3D true;
-+    }
-+#else /* CONFIG_LINUX */
-+    s->has_rotational_info =3D false;
-+#endif
++    s->optimize_for_rotating =3D
++        file_bdi.has_rotational_info &&
++        file_bdi.rotational_info =3D=3D IMAGE_ROTATIONAL_INFO_ROTATING;
 +}
 +
- static void raw_parse_flags(int bdrv_flags, int *open_flags, bool has_wr=
-iters)
- {
-     bool read_write =3D false;
-@@ -652,6 +717,8 @@ static int raw_open_common(BlockDriverState *bs, QDic=
-t *options,
+ /* Called with s->lock held.  */
+ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *optio=
+ns,
+                                       int flags, Error **errp)
+@@ -1461,6 +1477,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverSt=
+ate *bs, QDict *options,
+         }
      }
- #endif
 =20
-+    raw_update_rotational_info(s);
++    qcow2_update_rotational_info(bs);
 +
-     bs->supported_zero_flags =3D BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBA=
-CK;
-     ret =3D 0;
- fail:
-@@ -1007,6 +1074,8 @@ static void raw_reopen_commit(BDRVReopenState *stat=
-e)
-     qemu_close(s->fd);
-     s->fd =3D rs->fd;
-=20
-+    raw_update_rotational_info(s);
-+
+     /* Parse driver-specific options */
+     ret =3D qcow2_update_options(bs, options, flags, errp);
+     if (ret < 0) {
+@@ -1829,6 +1847,8 @@ static void qcow2_reopen_commit(BDRVReopenState *st=
+ate)
+ {
+     qcow2_update_options_commit(state->bs, state->opaque);
      g_free(state->opaque);
-     state->opaque =3D NULL;
-=20
-@@ -2731,6 +2800,10 @@ static int raw_get_info(BlockDriverState *bs, Bloc=
-kDriverInfo *bdi)
-     BDRVRawState *s =3D bs->opaque;
-=20
-     bdi->unallocated_blocks_are_zero =3D s->discard_zeroes;
 +
-+    bdi->rotational_info =3D s->rotational_info;
-+    bdi->has_rotational_info =3D s->has_rotational_info;
-+
-     return 0;
++    qcow2_update_rotational_info(state->bs);
  }
 =20
+ static void qcow2_reopen_abort(BDRVReopenState *state)
+@@ -2297,10 +2317,16 @@ static coroutine_fn int qcow2_co_pwritev(BlockDri=
+verState *bs, uint64_t offset,
+             qemu_iovec_add(&hd_qiov, cluster_data, cur_bytes);
+         }
+=20
+-        /* Try to efficiently initialize the physical space with zeroes =
+*/
+-        ret =3D handle_alloc_space(bs, l2meta);
+-        if (ret < 0) {
+-            goto out_unlocked;
++        /*
++         * Try to efficiently initialize the physical space with zeroes.
++         * This incurs a performance penalty on rotating disks, so
++         * avoid doing it there.
++         */
++        if (!s->optimize_for_rotating) {
++            ret =3D handle_alloc_space(bs, l2meta);
++            if (ret < 0) {
++                goto out_unlocked;
++            }
+         }
+=20
+         /* If we need to do COW, check if it's possible to merge the
 --=20
 2.21.0
 
