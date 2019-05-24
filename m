@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484E729BFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 18:19:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57117 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FBE729BEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 18:13:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57035 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUCvE-00021I-C4
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 12:19:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37345)
+	id 1hUCpO-0005dD-Gy
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 12:13:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37302)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hUCdt-0004JJ-Vc
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:02:03 -0400
+	(envelope-from <arilou@gmail.com>) id 1hUCds-0004I4-2Q
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:02:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hUCdr-0002Kb-VW
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:02:01 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37576)
+	(envelope-from <arilou@gmail.com>) id 1hUCdp-0002Hf-Ux
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:01:59 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38540)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hUCdp-00027f-Ry
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:01:58 -0400
-Received: by mail-wr1-x442.google.com with SMTP id e15so10568925wrs.4
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 09:01:47 -0700 (PDT)
+	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hUCdp-00029k-NJ
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:01:57 -0400
+Received: by mail-wr1-x443.google.com with SMTP id d18so10555316wrs.5
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 09:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=ni+e0LhW6YWUs24EBh3Q0RNwpZ46aTDH74CutNl7AtE=;
-	b=pE5rdpaKqOR5Acs7ZSgEkGFaq2pAHBT/ugrZ47t+/7ac0dBOTEL8mNRbL4mr1qYOj9
-	TRbKAW8Sp1nyBCOvvnxnfPswK1Y/u1je+dL0KYzADbPGJBW7zpBJMA7K45FpeUQ//q1m
-	Vs3E6faxdfIt37F7vEcK3l+Hkg6nZCHZ+8KVXSYu2QKq1SUGqSA+/klN2sm0lhqMMh6c
-	dBhWVpwj+ZhD2wttecgmOIPOiUG5klrGnyXz9GmnIezMKpfnaEbZ46Rnl8pLG9OV3fOg
-	+nWeKzX2OE+i/W623TED8JfauRLPQxK7Htmthbmj09tymkPuGFtnJtetjKIIXXI1uQzg
-	5hEg==
+	bh=9CqEJZQFyLkk/ZYymWcSznPDKfDfQZ0RNP4fPMiLpuM=;
+	b=DZtJYQU+kmsznDu3TgCCrliCLzd9rjW6uZ7fGnIQtJbAlh0snzOfq5jvyRK7qVXRgc
+	yvvhzc/KGBFn3007KmydcB62ZqFLBWCoywaiOpc/H/9IOMXhKVldCdsyhWc6lt56mTBw
+	XCpUh99kc5+HN8f9kc31Nmz2dSv36Ept3QWHSZGKD+uuA6Ya2ClJO6fKv9O0R+BP5kns
+	uFAhvVHrEXm+tLUVh8HNlheKWQnyvunP8dZW6eevrzHCttmJTwsp9DnDMWSRvtC64DVi
+	UV+sNwOD159M/Opgz5ra74VMxFP2XcaqSLaXifJPJtfw7N6f1IhBUqSt7gWDEkIa15Hz
+	t+PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=ni+e0LhW6YWUs24EBh3Q0RNwpZ46aTDH74CutNl7AtE=;
-	b=Nd5Gwh2oCOOxfZ1F653hlILC/30KOMI5+uChe6r6OJoPseBC3ijaGoU7UVgmSY1J5k
-	H2SrvaSBGlywsf0yTUxzmKDDrENbkZkhggIKEZxPzOfkJ1gXfHCNs7VrtpaGlVX5+NBq
-	yDKpUa/PyAD/tSKrdnjlUrsIgs895sSwEL68GX5yV+AzbxHIyKZ2hCDpupYER7P3v/tG
-	/s1L/Zm/lRUxsMCTy9qC49uF3LTVBJpzmdOcpXZDbQ9yf7NDFs7bC5v2+NCrK8QAMRDB
-	Fdopj8RjNNA0poDPbU6yIkVsqlRxGIUGbExMvAIUTseMLUM6TieP8axxAEGD2tsP8Oc6
-	Fu5g==
-X-Gm-Message-State: APjAAAUKJXeMJ+UArDvqTbFObsy8rCD717axa/+v5SIsbSBM8Wb2d4Wa
-	c4g76VG+Lz8Hn41od7eIzMrqcnbf
-X-Google-Smtp-Source: APXvYqzwlJ84LqaWNbnbyVmNlDeL/dIWksNtBTE/XYR1LRDP4x3loR5Yr2FJ6gtmtIvaXKZgNn6mBA==
-X-Received: by 2002:adf:edce:: with SMTP id v14mr59554670wro.94.1558713706693; 
-	Fri, 24 May 2019 09:01:46 -0700 (PDT)
+	bh=9CqEJZQFyLkk/ZYymWcSznPDKfDfQZ0RNP4fPMiLpuM=;
+	b=B7KikNsSf35fSD0Bp+o8d51kDFn3P+Atprdyj+oeoR5NQyIIkmYAFaSZdEGZcXs1a5
+	ZSczj8nybYR5ylD1S87yS0u+tuBcOak0qwaM5jpIIqE6B9rgXiT3VJRSmwyFN0pNTEVe
+	6geaoB2aBZPQf6J7VdogUKgQFkDVtdQCB18BiXh4+uidjvd3kEwele0ZkOtQPDcffO1R
+	I/izgSihbPhTLhN/Fmr4i15OumPqdDscXpuPItevg0mBNRsWQMdY2X6+7F6tphVrQh4m
+	97GfPBowKDzdpC3U5US4mcW54zrrp+f0/fWh13mCdtf7LDexwxFQvkuMrB3AZoAqS4Gt
+	ntzQ==
+X-Gm-Message-State: APjAAAV0lvqgkLgWcV09n0rZARjwzcCqrUbItbIdt+v9JmIiBT8ILmHz
+	m9DE2zyXeZM0ZbVev5HeNPfMxoJv
+X-Google-Smtp-Source: APXvYqyVfepDKIc1aZ0jlVMa1O95805/Cz4zxfjHEebZEKTRRPkq8K3GxRgQ+PHsIbPFhWbjVsw97w==
+X-Received: by 2002:adf:dd43:: with SMTP id u3mr4007wrm.313.1558713708144;
+	Fri, 24 May 2019 09:01:48 -0700 (PDT)
 Received: from jondnuc.lan ([176.230.64.37])
-	by smtp.gmail.com with ESMTPSA id s11sm370863wro.17.2019.05.24.09.01.45
+	by smtp.gmail.com with ESMTPSA id s11sm370863wro.17.2019.05.24.09.01.47
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 24 May 2019 09:01:46 -0700 (PDT)
+	Fri, 24 May 2019 09:01:47 -0700 (PDT)
 From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 19:01:12 +0300
-Message-Id: <20190524160118.31134-15-arilou@gmail.com>
+Date: Fri, 24 May 2019 19:01:13 +0300
+Message-Id: <20190524160118.31134-16-arilou@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190524160118.31134-1-arilou@gmail.com>
 References: <20190524160118.31134-1-arilou@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH v11 14/20] gdbstub: Implement file io (F pkt)
- with new infra
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v11 15/20] gdbstub: Implement step (s pkt) with
+ new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,76 +83,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Jon Doron <arilou@gmail.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- gdbstub.c | 48 ++++++++++++++++++++++++++----------------------
- 1 file changed, 26 insertions(+), 22 deletions(-)
+ gdbstub.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
 diff --git a/gdbstub.c b/gdbstub.c
-index 781f5882ac..b35acc679c 100644
+index b35acc679c..a8b81121c5 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -1775,6 +1775,25 @@ static void handle_read_all_regs(GdbCmdContext *gdb_ctx, void *user_ctx)
-     put_packet(gdb_ctx->s, gdb_ctx->str_buf);
+@@ -1794,6 +1794,16 @@ static void handle_file_io(GdbCmdContext *gdb_ctx, void *user_ctx)
+     gdb_continue(gdb_ctx->s);
  }
  
-+static void handle_file_io(GdbCmdContext *gdb_ctx, void *user_ctx)
++static void handle_step(GdbCmdContext *gdb_ctx, void *user_ctx)
 +{
-+    if (gdb_ctx->num_params >= 2 && gdb_ctx->s->current_syscall_cb) {
-+        target_ulong ret, err;
-+
-+        ret = (target_ulong)gdb_ctx->params[0].val_ull;
-+        err = (target_ulong)gdb_ctx->params[1].val_ull;
-+        gdb_ctx->s->current_syscall_cb(gdb_ctx->s->c_cpu, ret, err);
-+        gdb_ctx->s->current_syscall_cb = NULL;
++    if (gdb_ctx->num_params) {
++        gdb_set_cpu_pc(gdb_ctx->s, (target_ulong)gdb_ctx->params[0].val_ull);
 +    }
 +
-+    if (gdb_ctx->num_params >= 3 && gdb_ctx->params[2].opcode == (uint8_t)'C') {
-+        put_packet(gdb_ctx->s, "T02");
-+        return;
-+    }
-+
++    cpu_single_step(gdb_ctx->s->c_cpu, sstep_flags);
 +    gdb_continue(gdb_ctx->s);
 +}
 +
  static int gdb_handle_packet(GDBState *s, const char *line_buf)
  {
      CPUState *cpu;
-@@ -1916,28 +1935,13 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
-         return RS_IDLE;
-     case 'F':
-         {
--            target_ulong ret;
--            target_ulong err;
--
--            ret = strtoull(p, (char **)&p, 16);
--            if (*p == ',') {
--                p++;
--                err = strtoull(p, (char **)&p, 16);
--            } else {
--                err = 0;
--            }
--            if (*p == ',')
--                p++;
--            type = *p;
--            if (s->current_syscall_cb) {
--                s->current_syscall_cb(s->c_cpu, ret, err);
--                s->current_syscall_cb = NULL;
--            }
--            if (type == 'C') {
--                put_packet(s, "T02");
--            } else {
--                gdb_continue(s);
--            }
-+            static const GdbCmdParseEntry file_io_cmd_desc = {
-+                .handler = handle_file_io,
-+                .cmd = "F",
-+                .cmd_startswith = 1,
-+                .schema = "L,L,o0"
-+            };
-+            cmd_parser = &file_io_cmd_desc;
+@@ -1926,13 +1936,16 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
          }
          break;
-     case 'g':
+     case 's':
+-        if (*p != '\0') {
+-            addr = strtoull(p, (char **)&p, 16);
+-            gdb_set_cpu_pc(s, addr);
++        {
++            static const GdbCmdParseEntry step_cmd_desc = {
++                .handler = handle_step,
++                .cmd = "s",
++                .cmd_startswith = 1,
++                .schema = "L0"
++            };
++            cmd_parser = &step_cmd_desc;
+         }
+-        cpu_single_step(s->c_cpu, sstep_flags);
+-        gdb_continue(s);
+-        return RS_IDLE;
++        break;
+     case 'F':
+         {
+             static const GdbCmdParseEntry file_io_cmd_desc = {
 -- 
 2.21.0
 
