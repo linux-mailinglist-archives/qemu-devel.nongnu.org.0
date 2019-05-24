@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5B12981C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 14:35:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53952 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2379629814
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 14:31:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53897 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU9QP-0002HJ-TP
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 08:35:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49401)
+	id 1hU9Lf-0006uu-Uz
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 08:30:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49597)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU9Ix-0005FM-Lu
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:28:12 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hU9K0-00061y-M2
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:29:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU9Iw-0004Z3-Hq
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:28:11 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42823)
+	(envelope-from <peter.maydell@linaro.org>) id 1hU9Jz-00055f-On
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:29:16 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:47090)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hU9Iw-0004Y4-8f
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:28:10 -0400
-Received: by mail-ot1-x342.google.com with SMTP id i2so8491730otr.9
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 05:28:09 -0700 (PDT)
+	id 1hU9Jz-00054w-JU
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:29:15 -0400
+Received: by mail-ot1-x343.google.com with SMTP id j49so8471107otc.13
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 05:29:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oYG3G3zKJhKZGnq1Fd96u5Jz7fS1RV6tteo5KMiE2yM=;
-	b=ZY+sCij4jrUhaDyV6j286EIF3EThxgzOZkf8pAb6iQrdhKkf0/Uwj55medZqqBwu8f
-	QMCivrDUgJggTzt3TqJ6Upmb9v4O50xn4yXBW0I3PvQruqH4JlQ7+DGP/e6bbzT0+mIp
-	gstD42R72tGUrbkA+dIrV2ec1GCY340LcrPvBlXAGuSwjYPnBSNinzBkwtoHjfST8lTe
-	g2XLC+DofRUYHHtwJWP/I113972RtbTQ+GZJLtK7BjReEfmJAo3Dl5JVXrUkWox2YdE2
-	q9O8vIXlanh+WFBRNngtBPf21qoyS3nhKn41KKIojZwChkCiW2ZzkiuKqTgrh6KzjtRL
-	Kupg==
+	:cc; bh=3kRYKD9opdbo5kmKXTBP7Gc0tSW5Tzsf57LsKn0CRzQ=;
+	b=kuh3QZAgFMC3qP0xEd3yro822uRQUHmWU4RSbA79bDr14W8xehbz5Xgcta32kW6J1+
+	qxdAAn1fw/VVo/gGGPocDUOaFOipVlXPSGPP3f4R5KM1ODZnrwK0gio2Rn5iUqDWCikX
+	PUI6NkWwohoFh84uj5ZCPrpUNadBNGhrWVeKfTicczWrJm+euhNGtwko5XGi543ygiKM
+	x1uBUZDsiZRS4wddGu1MtKqeKalM/C7tQgnJIbLleRteEE57x1pmzzLzmFpjYHoqgD0n
+	6MzpnEi6gv1gRk9gz3aOPI82h52wAy6+iN6YaUERJGBFMcTG9WEcJoamuqhOHS90a9u5
+	sXzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=oYG3G3zKJhKZGnq1Fd96u5Jz7fS1RV6tteo5KMiE2yM=;
-	b=bAla6xGKuhcA9JQGTzMgUiVjCBl5t/FoKrNRJrTcRq7RqezVjijlPyZiXYk6Py2vr2
-	nR1oHd3XxdvUg1FYXuCWpVufpol0qRGwZM+J0fngg4r9ssPSTdOAIPt/MUCA3PfLA5Zf
-	R9qPXTcnTXmdtzfoTMmxlYE0T1V0fjF1h6j9AgwpYbaXETCETsAqcDcq+6iDaB0N1I++
-	wmoo0GJTmqKPlwqdf9HEh4ib4Hrj3AzGswHKw6fLU6cNfkPN6ORERcntgPbEjWxN1ggq
-	v0iiogIZfi8u4v1pjOOotdK91umwUgNwhpACihOg+4FyhhC+JUA/Zhg5rRd1HdxZey9h
-	9lDw==
-X-Gm-Message-State: APjAAAWkr7k9PIaDhVpoRqcMxO1akxA/1cKMZKKldvc0Ke/pXs5RT5uo
-	/ZLyH0FPgV6Sv8SBfOPDvEHWB5HSxKNjOPNzzcWVkg==
-X-Google-Smtp-Source: APXvYqwvdrdxHqUUbSIGLw3X3YK6garVPWrcajiaVrvc9AO4TW2tECVBGteREONFWZyQEvj2Bqm7WJw3Knntgx8ZGLo=
-X-Received: by 2002:a9d:77d5:: with SMTP id w21mr141571otl.97.1558700888540;
-	Fri, 24 May 2019 05:28:08 -0700 (PDT)
+	bh=3kRYKD9opdbo5kmKXTBP7Gc0tSW5Tzsf57LsKn0CRzQ=;
+	b=Isk/sSuH8lj3zRi5EZZgMLOJ5uQCLgasgvRRh1/JyYLl/8HujOw5dMDMOgIWR8qCU4
+	TtR9f05kc2H1Qgr1z9tWq+0mBqWEfNmMSbK4NbgQKzjyAC59rfvYsNsPeM3PgZgh+nu4
+	grh1xTkynltfqM+vrakWB+XeXZ00vxebKYbW72HbuqwpvPbhFm4nKm4ZEgmFRnv0Bm3s
+	7UjJTFohS2zoHHkICbi3+fqJUM6sDB5Sk5ViU2bWC84dukyS1jyaMmPknm7C2pvXtQOE
+	ZUk1EN3feSA3/4jVhi5iBvDnsu+XlsymM7zHwmEsHqut5TjlPJx9P+FTlbN5yu2p0du5
+	ZBuA==
+X-Gm-Message-State: APjAAAVlODfnlY00PApkuijSpFGa7aJI3FjHt8pRMhc0CmEMUusGlyrY
+	ioHrfwN6cNeFdexHPtSMUjos64Rirc7EsObT7SQGxw==
+X-Google-Smtp-Source: APXvYqxHexywmjQxm4U0dCVfUSFKBenWYo2z0GXHUiycaP8qq9hozlDEGHjNKNkfC5khIdrwyWVg5VI9CqNP9IJKurM=
+X-Received: by 2002:a05:6830:209a:: with SMTP id
+	y26mr31961050otq.232.1558700954729; 
+	Fri, 24 May 2019 05:29:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190524112520.17684-1-laurent@vivier.eu>
-In-Reply-To: <20190524112520.17684-1-laurent@vivier.eu>
+References: <20190523081538.2291-1-armbru@redhat.com>
+	<20190523081538.2291-7-armbru@redhat.com>
+	<CAFEAcA_b-rPUuDF_A2Q112-aJEqfSA17kJjD3W0aKaOOP7-hjA@mail.gmail.com>
+	<87ftp49gz9.fsf@dusky.pond.sub.org>
+In-Reply-To: <87ftp49gz9.fsf@dusky.pond.sub.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 May 2019 13:27:57 +0100
-Message-ID: <CAFEAcA-jcSyqCWLvXo7du7D+NNrRc8Hga33mi3O3cwFCOS812w@mail.gmail.com>
-To: Laurent Vivier <laurent@vivier.eu>
+Date: Fri, 24 May 2019 13:29:03 +0100
+Message-ID: <CAFEAcA8QUyORuMfCBoWhtYArreMxK5OUzO_76imU--ER5KJjJw@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PULL v2 0/9] Linux user for 4.1 patches
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [RFC v4 6/7] tests: Don't limit check-headers to
+ include/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,40 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
-	Aurelien Jarno <aurelien@aurel32.net>, Riku Voipio <riku.voipio@iki.fi>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 May 2019 at 12:36, Laurent Vivier <laurent@vivier.eu> wrote:
+On Fri, 24 May 2019 at 13:25, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
+> > On Thu, 23 May 2019 at 09:15, Markus Armbruster <armbru@redhat.com> wrote:
+> >>
+> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> >> ---
+> >
+> >>  432 files changed, 1035 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
+> >> index 685602b076..352da0c745 100644
+> >> --- a/accel/tcg/atomic_template.h
+> >> +++ b/accel/tcg/atomic_template.h
+> >> @@ -18,6 +18,9 @@
+> >>   * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> >>   */
+> >>
+> >> +/* NOTE: May only be included into target-dependent code */
+> >> +/* FIXME Does not pass make check-headers, yet! */
+> >> +
+> >
+> > I'm not sure I see much point in touching several hundred
+> > header files just to add a FIXME note. We can fix them,
+> > or we can just leave things as they are...
 >
-> are available in the Git repository at:
+> Adding FIXMEs without an intent to actually fix them would be stupid.
 >
->   git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
->
-> for you to fetch changes up to 5f992db605e2c9ed0c8816c2b0f68b9bc8698f1b:
->
->   linux-user: Pass through nanosecond timestamp components for stat syscalls (2019-05-24 13:16:21 +0200)
->
-> ----------------------------------------------------------------
-> Add /proc/hardware and /proc/cpuinfo,
-> update SIOCXXX ioctls,
-> fix shmat emulation,
-> add nanoseconds in stat,
-> init field fp_abi on mips
->
-> ----------------------------------------------------------------
+> The FIXMEs direct "make check-headers" to skip the headers so marked.
 
-Applied, thanks.
+Ah, right. It wasn't clear that this is a directive to the script:
+it looks like the usual free-text aimed-at-human-readers kind of
+FIXME/TODO comment.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
