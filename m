@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890A929D6C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 19:45:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58084 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA6F29DA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:00:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58211 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUEGL-0008N7-PI
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 13:45:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56675)
+	id 1hUEUH-0005mO-Kg
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:00:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59383)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hUEFO-0007y6-Dc
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:44:51 -0400
+	(envelope-from <eblake@redhat.com>) id 1hUES7-0004hR-1s
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:58:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hUEFN-0008Tv-7N
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:44:50 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:36061)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hUEFN-0008TI-1h
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:44:49 -0400
-Received: by mail-wr1-f66.google.com with SMTP id s17so10855014wru.3
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 10:44:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=+oPttmyQhfhhpHMfE0Nfwvs2f+u3sK9tDWbLls/gdpE=;
-	b=ARA91Gt5hGRQoCpo23h7UPNCDnmP/hUh8gyKhIKATNJtJeggB+yr9CdTT7l32XkefL
-	Z54LWaDrZzCqttmBRirrAh1LmjbSN0Wh5gFfEsi9CykNPHH8MXMkibS76BWfme7fn6m3
-	6lrwMLoR9uDJq0yNOKj0nRqpnEP4X0oEwPLKnQ3Luy7XKAEkwEjher40AufW0HtCADv9
-	DgN64aBrXzFUPknKJD+KxRTTlHZbPnOpssxnuXYx6ys5cxKMNtrmGFJsXA4P4C0qYK+K
-	SlX/7o55eV3oZ85gnZlKpY7e33QLQz/yFZafxaOj0kZF6xnxSut0LMqxZUuCfze9y/8Q
-	TMMQ==
-X-Gm-Message-State: APjAAAUaGZEb+sK2GozoVTHCf7Uo0nMI+3RHNxX6tRyn2mhI2K904EUh
-	vBsyI0omjrU7+COXAwxkI6gYpA==
-X-Google-Smtp-Source: APXvYqy6wr2iQmow0OCaspEN/mh2Op+hHP1YWtB9aw/P+aTT6KB7yn/iQSEv6fsWledkfo5h6o/o8g==
-X-Received: by 2002:adf:df08:: with SMTP id y8mr5402024wrl.258.1558719887786; 
-	Fri, 24 May 2019 10:44:47 -0700 (PDT)
-Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228])
-	by smtp.gmail.com with ESMTPSA id v5sm5686875wra.83.2019.05.24.10.44.47
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 May 2019 10:44:47 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20190523150543.22676-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <1e3f682b-ea42-a653-1002-4202c9c5a40f@redhat.com>
-Date: Fri, 24 May 2019 19:44:46 +0200
+	(envelope-from <eblake@redhat.com>) id 1hUES5-0007xL-Uk
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:57:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39564)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hUENB-0004or-Dw; Fri, 24 May 2019 13:52:55 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id C3AB7C057E9F;
+	Fri, 24 May 2019 17:52:46 +0000 (UTC)
+Received: from [10.3.116.169] (ovpn-116-169.phx2.redhat.com [10.3.116.169])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 04FFA52F3;
+	Fri, 24 May 2019 17:52:45 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190524172812.27308-1-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <8a76f460-8a16-4621-bbe2-c71bacbbe988@redhat.com>
+Date: Fri, 24 May 2019 12:52:45 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190523150543.22676-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190524172812.27308-1-mreitz@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="cvCKyS0XALytROSXz3VKlkL1kdD8yFlTU"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Fri, 24 May 2019 17:52:46 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v2] hw/core/bus.c: Only the main system bus
- can have no parent
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] =?utf-8?q?=5BRFC_0/3=5D_block=3A_Inquire_images?=
+ =?utf-8?q?=E2=80=99_rotational_info?=
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,80 +86,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
-	Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	Anton Nefedov <anton.nefedov@virtuozzo.com>,
+	Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/19 5:05 PM, Peter Maydell wrote:
-> In commit 80376c3fc2c38fdd453 in 2010 we added a workaround for
-> some qbus buses not being connected to qdev devices -- if the
-> bus has no parent object then we register a reset function which
-> resets the bus on system reset (and unregister it when the
-> bus is unparented).
-> 
-> Nearly a decade later, we have now no buses in the tree which
-> are created with non-NULL parents, so we can remove the
-> workaround and instead just assert that if the bus has a NULL
-> parent then it is the main system bus.
-> 
-> (The absence of other parentless buses was confirmed by
-> code inspection of all the callsites of qbus_create() and
-> qbus_create_inplace() and cross-checked by 'make check'.)
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> ---
-> v1->v2: clean up also the bus_unparent() code
-> ---
->  hw/core/bus.c | 21 +++++++++------------
->  1 file changed, 9 insertions(+), 12 deletions(-)
-> 
-> diff --git a/hw/core/bus.c b/hw/core/bus.c
-> index e09843f6abe..b8839c7268d 100644
-> --- a/hw/core/bus.c
-> +++ b/hw/core/bus.c
-> @@ -96,10 +96,9 @@ static void qbus_realize(BusState *bus, DeviceState *parent, const char *name)
->          bus->parent->num_child_bus++;
->          object_property_add_child(OBJECT(bus->parent), bus->name, OBJECT(bus), NULL);
->          object_unref(OBJECT(bus));
-> -    } else if (bus != sysbus_get_default()) {
-> -        /* TODO: once all bus devices are qdevified,
-> -           only reset handler for main_system_bus should be registered here. */
-> -        qemu_register_reset(qbus_reset_all_fn, bus);
-> +    } else {
-> +        /* The only bus without a parent is the main system bus */
-> +        assert(bus == sysbus_get_default());
->      }
->  }
->  
-> @@ -108,18 +107,16 @@ static void bus_unparent(Object *obj)
->      BusState *bus = BUS(obj);
->      BusChild *kid;
->  
-> +    /* Only the main system bus has no parent, and that bus is never freed */
-> +    assert(bus->parent);
-> +
->      while ((kid = QTAILQ_FIRST(&bus->children)) != NULL) {
->          DeviceState *dev = kid->child;
->          object_unparent(OBJECT(dev));
->      }
-> -    if (bus->parent) {
-> -        QLIST_REMOVE(bus, sibling);
-> -        bus->parent->num_child_bus--;
-> -        bus->parent = NULL;
-> -    } else {
-> -        assert(bus != sysbus_get_default()); /* main_system_bus is never freed */
-> -        qemu_unregister_reset(qbus_reset_all_fn, bus);
-> -    }
-> +    QLIST_REMOVE(bus, sibling);
-> +    bus->parent->num_child_bus--;
-> +    bus->parent = NULL;
->  }
->  
->  void qbus_create_inplace(void *bus, size_t size, const char *typename,
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--cvCKyS0XALytROSXz3VKlkL1kdD8yFlTU
+From: Eric Blake <eblake@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov
+ <anton.nefedov@virtuozzo.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <8a76f460-8a16-4621-bbe2-c71bacbbe988@redhat.com>
+Subject: =?UTF-8?Q?Re=3a_=5bQemu-devel=5d_=5bRFC_0/3=5d_block=3a_Inquire_ima?=
+ =?UTF-8?Q?ges=e2=80=99_rotational_info?=
+References: <20190524172812.27308-1-mreitz@redhat.com>
+In-Reply-To: <20190524172812.27308-1-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 5/24/19 12:28 PM, Max Reitz wrote:
+> Hi,
+>=20
+> http://lists.nongnu.org/archive/html/qemu-block/2019-05/msg00569.html
+> shows that optimizations affect HDDs and SSDs differently.  It would be=
+
+> nice if we could differentiate between the two and then choose to adjus=
+t
+> our behavior depending on whether a given image is stored on an HDD or
+> not.
+>=20
+> Or maybe it isn=E2=80=99t so nice.  That=E2=80=99s one reason this is a=
+n RFC.
+
+Not an entirely bad idea. The NBD spec advertises whether an image is
+rotational, precisely because it CAN make a difference for optimizing
+access patterns. Likewise, commit 3b19f450 added support for ide
+emulation to report rotation or non-rotational through to the guest.  So
+plumbing it up in more places makes sense.
+
+>=20
+> The other is that I implemented recognition of the rotational status by=
+
+> querying sysfs.  That looks stupid, but I didn=E2=80=99t find a better =
+way
+> (there is a BLKROTATIONAL ioctl, but that only works on device files).
+>=20
+> But, hey, if you look through block/file-posix.c, you=E2=80=99ll find t=
+hat I=E2=80=99m
+> not the first to query sysfs.  hdev_get_max_segments() does so, too.  S=
+o
+> maybe it isn=E2=80=99t that bad of an idea.
+>=20
+>=20
+> What do you think?  Is the whole idea stupid?  Just the implementation?=
+
+> Or does it make sense?
+>=20
+
+I'm in favor of the idea, whether or not review of the patches points
+out tweaks to make before dropping RFC.
+
+>=20
+> Max Reitz (3):
+>   block: Add ImageRotationalInfo
+>   file-posix: Inquire rotational status
+>   qcow2: Evaluate rotational info
+>=20
+>  qapi/block-core.json  | 19 ++++++++++-
+>  block/qcow2.h         |  3 ++
+>  include/block/block.h |  7 +++++
+>  block.c               | 20 +++++++++++-
+>  block/file-posix.c    | 73 +++++++++++++++++++++++++++++++++++++++++++=
+
+>  block/qapi.c          |  3 ++
+>  block/qcow2.c         | 34 +++++++++++++++++---
+>  7 files changed, 153 insertions(+), 6 deletions(-)
+
+Given my comments about NBD, I'd expect a patch to block/nbd{,-client}.c
+to expose this as well.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--cvCKyS0XALytROSXz3VKlkL1kdD8yFlTU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzoL20ACgkQp6FrSiUn
+Q2rmVAf/bt/Hfl3HPQqDp3wUAl8ayp7mtv921ZQd83+pBCCHZQAyYlgg5DVohAgu
+LGziQkvbaay/BGrfORm4WUtw8Nz0D8q2X+rB/+NyyiiA8/Z7bZ3rLa7fWj64K+JJ
+6IG8F+jmq5vPkmfgsI70VzkXqBg2T+Q9q66ZlJ1rBCPiMmwElMNaYOC6AxIFpMMc
+k7Vvj7g4OWm8YON9z9SJwvI/UV2TfdSDIBmaDdHPgvXqb4OXm/LkeGhl97cc6IJE
+NgTJrSvRSQOIRP7JcR0pJlr/k0G1gug8Dux4bi8D73boxcVVKsV3Q0NYTsB1r5fu
+oDvljwN5nOnNrdZc3ew5TORe8Z54Ug==
+=2ZrF
+-----END PGP SIGNATURE-----
+
+--cvCKyS0XALytROSXz3VKlkL1kdD8yFlTU--
 
