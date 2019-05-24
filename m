@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D58E29920
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:39:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54793 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A98C29919
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:37:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54757 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUAPU-0006Wx-LV
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:39:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33983)
+	id 1hUANm-0004ys-Bp
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:37:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34055)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hUAKU-0001sD-VC
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:33:51 -0400
+	(envelope-from <liq3ea@gmail.com>) id 1hUAKK-0002Fb-Mb
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:33:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hUAAP-0001Gr-Jh
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:23:26 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35166)
+	(envelope-from <liq3ea@gmail.com>) id 1hUADz-0003fj-Kt
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:27:08 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40411)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hUAAP-0001DK-D7
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:23:25 -0400
-Received: by mail-oi1-x244.google.com with SMTP id a132so7020439oib.2
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 06:23:25 -0700 (PDT)
+	(Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hUADz-0003eu-BX
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:27:07 -0400
+Received: by mail-ot1-x344.google.com with SMTP id u11so8657795otq.7
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 06:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/dDRLaJf/TCxDzkzWnMYTqXNTD0B4I7tllRWkgA5mOE=;
-	b=IZ7vxDC9DIf11I+b2Vy3uPhhCyruolcgh44WemanHrsx5hLkiI3/JNs0hpEzoVdPCc
-	kG/085YcDNnBgL2S+EFtMoZQFDVHOh0t3iv2HlFLfPJ22CHXFot5pMU/e9nRv28uENK/
-	pU13XAZe4GalrHBhLI80h1Xz6BjO1HhhpnMOiKXuyRsfXID/xFWj9aVYkZOjmAFOrH5Q
-	+fn2B85s09/djbe9PgBfB9BC1azsotBDWlDNoUPaZIDlVPsix4fGpczNFy99leVPLkMi
-	CPuHcxcwi62BijVvvNBgeF0IMcoAXu8DRqqNHQtamtZiYoBxDr1j/M+lzgV6u0u0LXQ/
-	t4sQ==
+	:cc; bh=mYlpT/2x3P3Q4pnWfTYeEJ6adGNeXy3CSb3fcqPEqIg=;
+	b=fYa/D6H0yZNoYwXbt6kkGjPbT2Nd4tMlKGQTd5UPfn3hDTTye+xy/Ums/C8qJyAVBi
+	Nk/AyuIzOcxCFynrM3uKdnaoMAZNKlwi2KPZJqPsr44wcpZ2cTqG56WvX/4cGHEN1vve
+	o8Nf9fSrKkMQdDHhEHT+52OD+MYUHgsrLR9iIB0zjEOV238eXwdcacDLnlq+4IFHM4G2
+	aWcY/Hi8XIDLJ9eW+NdE4Vq4N+JRKax6nrx8jOEa1n4/GSceLQBq9jAZh21oYWjR2wwZ
+	TCpHgK5cvnzcN22mAjXV3x4HVGNDo3rBa2tcY7DXgDERT73eEfmBjiwc3zraBeYyrcjz
+	aPVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=/dDRLaJf/TCxDzkzWnMYTqXNTD0B4I7tllRWkgA5mOE=;
-	b=BjQFm3u4LafiBqXPyhCaaz8bC5TkbjzT04deI8oojHopTQfb4ah/fCXuZUEmcZ0C8G
-	DLqE8xlGRgO0lMvs3iuUwX5OoorPjDZHHldwRebYCA8HZuqN2trd0QSr16BmoCO/cCrD
-	Hc70X1c01Y0aDLwxsLDVhhaVt8S7FIwHjug1T/K765fZwWbWe93EW+Y3If5ZUMnDqGv+
-	2M3qjwfLcMB8scfN86GDyeSKXS/NoeyKdALPnAaq7K0nJl3BprgVh6ZRb5ScUdqQduzi
-	5JkYKfyCEHGWzR/iW3w5Uvt1uZpw9w78QwDNFRy85PjUdvxj94CbkbmFzMyoUtxvg1NM
-	CfOA==
-X-Gm-Message-State: APjAAAXytt6E/YkYK0llvoaTcjLdm8DYsNCVLP77i4p3c9OEQ6KT3+IF
-	qebD7Dx8jq+L18wqIH5jjfrQjdiW53dVinrJ3KQ=
-X-Google-Smtp-Source: APXvYqz6bXaAbWFxUDVbHaaQLwDZK/G0zYeoGtgguv95XT3MVyJ5E/Z9YvXRKC7tV1ERpKOqaxjWrAek8ggtOUHXv2E=
-X-Received: by 2002:aca:b3d7:: with SMTP id c206mr6371367oif.97.1558704204475; 
-	Fri, 24 May 2019 06:23:24 -0700 (PDT)
+	bh=mYlpT/2x3P3Q4pnWfTYeEJ6adGNeXy3CSb3fcqPEqIg=;
+	b=MaQmBSTdm/x7WvL6ALLlVgObhf7tOxdQpFOwCwgBgmz3Y/V9W72OhXDevoaTasAAW5
+	55pnpf7WMMRyAcKnybaNfNEp4bNpJD2BkAl1W3/37MMoVqSr+Ur4vUAvpNg9LAC/L4NG
+	NaqndUptzHLymx6kmN85t7cYF103vSv9LlQlUBMsW5SdTCtIw65MkCkVykTIaMK3OzW3
+	JCFeA1uILELdraB49XrsC3imSD9Rz2RRZHgsOgsYbXXAYfGweI1kmFaKbAL52R/LaOnX
+	Hl6rKaFzihxSJKGbSNwenH7d6xLjxsNGDw0/DjMQJ9EcRdG6XAY1rfN3TcpcwLV6pQRv
+	sCDg==
+X-Gm-Message-State: APjAAAUpCqfE2xm9xpccIsKgcNQ8kUwNYvpZIWHRU16Zx1+l+33agxb6
+	62z+NcVDNNaKBQruDg8jNf4IrN38UtMXESS368Y=
+X-Google-Smtp-Source: APXvYqxkaHIV0ZBUwFLeoIcnjfCJt4g5Ar/U5KNNZ5ymvRwryCiGbfug5jPCeW8ez1Pj0gY2UKJg1fJ69WKErJ9BPow=
+X-Received: by 2002:a9d:3f37:: with SMTP id m52mr27487874otc.181.1558704426434;
+	Fri, 24 May 2019 06:27:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190524063553.5339-1-philmd@redhat.com>
-	<20190524063553.5339-9-philmd@redhat.com>
-In-Reply-To: <20190524063553.5339-9-philmd@redhat.com>
+	<20190524063553.5339-10-philmd@redhat.com>
+In-Reply-To: <20190524063553.5339-10-philmd@redhat.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 24 May 2019 21:22:48 +0800
-Message-ID: <CAKXe6SKwCg=+K8iLBrznqD4ZgDbX97=Oan4J8VAUjvZc14sUtg@mail.gmail.com>
+Date: Fri, 24 May 2019 21:26:30 +0800
+Message-ID: <CAKXe6SJs+_cduvdpVExS64FvPsb_p-j4yVX1umc065jnSCu07Q@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2607:f8b0:4864:20::344
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 08/20] hw/i386/pc: Use address_space_memory
- in place
+Subject: Re: [Qemu-devel] [PATCH 09/20] hw/i386/pc: Rename bochs_bios_init()
+ more generic as x86_create_fw_cfg()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,11 +85,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2019=E5=B9=B45=E6=
-=9C=8824=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=882:38=E5=86=99=E9=81=
+=9C=8824=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=882:46=E5=86=99=E9=81=
 =93=EF=BC=9A
 
-> The address_space_memory variable is used once.
-> Use it in place and remove the argument.
+> The bochs_bios_init() is not restricted to the Bochs BIOS and is
+> useful to other BIOS. Rename it to be more generic.
 >
 > Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
@@ -98,42 +98,42 @@ Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2019=E5=B9=B45=E6=
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 
+
 > ---
->  hw/i386/pc.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  hw/i386/pc.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
 > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index fc22779ac1..a3936bb29d 100644
+> index a3936bb29d..264074489b 100644
 > --- a/hw/i386/pc.c
 > +++ b/hw/i386/pc.c
 > @@ -928,7 +928,7 @@ static void pc_build_smbios(PCMachineState *pcms)
 >      }
 >  }
 >
-> -static FWCfgState *bochs_bios_init(AddressSpace *as, PCMachineState *pcm=
-s)
-> +static FWCfgState *bochs_bios_init(PCMachineState *pcms)
+> -static FWCfgState *bochs_bios_init(PCMachineState *pcms)
+> +static FWCfgState *x86_create_fw_cfg(PCMachineState *pcms)
 >  {
 >      FWCfgState *fw_cfg;
 >      uint64_t *numa_fw_cfg;
-> @@ -936,7 +936,8 @@ static FWCfgState *bochs_bios_init(AddressSpace *as,
-> PCMachineState *pcms)
->      const CPUArchIdList *cpus;
->      MachineClass *mc =3D MACHINE_GET_CLASS(pcms);
->
-> -    fw_cfg =3D fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4, as=
-);
-> +    fw_cfg =3D fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
-> +                                &address_space_memory);
->      fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, pcms->boot_cpus);
->
->      /* FW_CFG_MAX_CPUS is a bit confusing/problematic on x86:
-> @@ -1761,7 +1762,7 @@ void pc_memory_init(PCMachineState *pcms,
+> @@ -1508,7 +1508,7 @@ void pc_cpus_init(PCMachineState *pcms)
+>       * Limit for the APIC ID value, so that all
+>       * CPU APIC IDs are < pcms->apic_id_limit.
+>       *
+> -     * This is used for FW_CFG_MAX_CPUS. See comments on
+> bochs_bios_init().
+> +     * This is used for FW_CFG_MAX_CPUS. See comments on
+> x86_create_fw_cfg().
+>       */
+>      pcms->apic_id_limit =3D x86_cpu_apic_id_from_index(max_cpus - 1) + 1=
+;
+>      possible_cpus =3D mc->possible_cpu_arch_ids(ms);
+> @@ -1762,7 +1762,7 @@ void pc_memory_init(PCMachineState *pcms,
 >                                          option_rom_mr,
 >                                          1);
 >
-> -    fw_cfg =3D bochs_bios_init(&address_space_memory, pcms);
-> +    fw_cfg =3D bochs_bios_init(pcms);
+> -    fw_cfg =3D bochs_bios_init(pcms);
+> +    fw_cfg =3D x86_create_fw_cfg(pcms);
 >
 >      rom_set_fw(fw_cfg);
 >
