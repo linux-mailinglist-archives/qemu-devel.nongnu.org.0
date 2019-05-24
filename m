@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D793D28E03
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 01:44:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44692 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6DC28E7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 03:02:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45585 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTxOE-0001A6-3W
-	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 19:44:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39047)
+	id 1hTybk-0007Ff-TY
+	for lists+qemu-devel@lfdr.de; Thu, 23 May 2019 21:02:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50326)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hTxKZ-0007TG-7a
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 19:41:04 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hTyZy-0006F6-Oy
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 21:01:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hTxKY-0003e5-67
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 19:41:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33328)
+	(envelope-from <dgibson@ozlabs.org>) id 1hTyZx-0000dB-Ci
+	for qemu-devel@nongnu.org; Thu, 23 May 2019 21:01:02 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:36747 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
-	id 1hTxKY-0003dQ-16
-	for qemu-devel@nongnu.org; Thu, 23 May 2019 19:41:02 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 46184772DD;
-	Thu, 23 May 2019 23:40:48 +0000 (UTC)
-Received: from localhost (ovpn-112-51.ams2.redhat.com [10.36.112.51])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 53A2E600C4;
-	Thu, 23 May 2019 23:40:40 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 01:40:11 +0200
-Message-Id: <20190523234011.583-5-marcandre.lureau@redhat.com>
-In-Reply-To: <20190523234011.583-1-marcandre.lureau@redhat.com>
-References: <20190523234011.583-1-marcandre.lureau@redhat.com>
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hTyZn-0000EC-Qp; Thu, 23 May 2019 21:00:56 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 4597Mc5xNPz9sMM; Fri, 24 May 2019 11:00:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1558659628;
+	bh=MGKo8nRnCCiM4Jy+1IykQcQPHHpXy3uOGSDISVggz9M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aij2Nu4Pq0qtXbpvFg5u4ufdyTBbK4JJ29ZsplTFONBLO9SuJ5o9Zp0Gp2DdUaY7X
+	9cmCJvPMF6icUjOCN0WPpKQ6VIWw6qB1ePG5phy0ghgy4wdE9gBhkY2d1u2x8csDrW
+	ndpZJWb2b1I2PADWLzv7RNBbtYrFv0BHjM0RiaFI=
+Date: Fri, 24 May 2019 10:44:28 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190524004428.GA1967@umbus.fritz.box>
+References: <20190523124320.28726-1-philmd@redhat.com>
+	<20190523124320.28726-6-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Thu, 23 May 2019 23:40:48 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="UugvWAfsgieZRqgk"
+Content-Disposition: inline
+In-Reply-To: <20190523124320.28726-6-philmd@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/4] qemu-sockets: do not require configured
- ipv4/ipv6 address
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PULL 05/15] hw/ppc: Implement
+ fw_cfg_arch_key_name()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,63 +56,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
-	=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+	Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+	Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-podman containers without network don't have ipv4/ipv6 addresses other
-than loopback address. However, some of our tests require
-getaddrinfo("127.0.0.1") to succeed.
 
-Alternatively, we may want to treat 127.0.0.1 as a special case, to
-keep the AI_ADDRCONFIG convenience.
+--UugvWAfsgieZRqgk
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- util/qemu-sockets.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+On Thu, May 23, 2019 at 02:43:10PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Implement fw_cfg_arch_key_name(), which returns the name of a
+> ppc-specific key.
+>=20
+> The fw_cfg device is used by the machine using OpenBIOS:
+> - 40p
+> - mac99 (oldworld)
+> - g3beige (newworld)
+>=20
+> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+> Message-Id: <20190422195020.1494-6-philmd@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 8850a280a8..f9c1392a05 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -31,10 +31,6 @@
- #include "qapi/qobject-output-visitor.h"
- #include "qemu/cutils.h"
-=20
--#ifndef AI_ADDRCONFIG
--# define AI_ADDRCONFIG 0
--#endif
--
- #ifndef AI_V4MAPPED
- # define AI_V4MAPPED 0
- #endif
-@@ -385,7 +381,7 @@ static struct addrinfo *inet_parse_connect_saddr(Inet=
-SocketAddress *saddr,
-=20
-     memset(&ai, 0, sizeof(ai));
-=20
--    ai.ai_flags =3D AI_CANONNAME | AI_ADDRCONFIG;
-+    ai.ai_flags =3D AI_CANONNAME;
-     if (atomic_read(&useV4Mapped)) {
-         ai.ai_flags |=3D AI_V4MAPPED;
-     }
-@@ -472,7 +468,7 @@ static int inet_dgram_saddr(InetSocketAddress *sraddr=
-,
-=20
-     /* lookup peer addr */
-     memset(&ai,0, sizeof(ai));
--    ai.ai_flags =3D AI_CANONNAME | AI_V4MAPPED | AI_ADDRCONFIG;
-+    ai.ai_flags =3D AI_CANONNAME | AI_V4MAPPED;
-     ai.ai_family =3D inet_ai_family_from_address(sraddr, &err);
-     ai.ai_socktype =3D SOCK_DGRAM;
-=20
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  hw/ppc/Makefile.objs |  2 +-
+>  hw/ppc/fw_cfg.c      | 45 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 46 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/ppc/fw_cfg.c
+>=20
+> diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
+> index 636e717f20..9da93af905 100644
+> --- a/hw/ppc/Makefile.objs
+> +++ b/hw/ppc/Makefile.objs
+> @@ -1,5 +1,5 @@
+>  # shared objects
+> -obj-y +=3D ppc.o ppc_booke.o fdt.o
+> +obj-y +=3D ppc.o ppc_booke.o fdt.o fw_cfg.o
+>  # IBM pSeries (sPAPR)
+>  obj-$(CONFIG_PSERIES) +=3D spapr.o spapr_caps.o spapr_vio.o spapr_events=
+=2Eo
+>  obj-$(CONFIG_PSERIES) +=3D spapr_hcall.o spapr_iommu.o spapr_rtas.o
+> diff --git a/hw/ppc/fw_cfg.c b/hw/ppc/fw_cfg.c
+> new file mode 100644
+> index 0000000000..a88b5c4bde
+> --- /dev/null
+> +++ b/hw/ppc/fw_cfg.c
+> @@ -0,0 +1,45 @@
+> +/*
+> + * fw_cfg helpers (PPC specific)
+> + *
+> + * Copyright (c) 2019 Red Hat, Inc.
+> + *
+> + * Author:
+> + *   Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/ppc/ppc.h"
+> +#include "hw/nvram/fw_cfg.h"
+> +
+> +const char *fw_cfg_arch_key_name(uint16_t key)
+> +{
+> +    static const struct {
+> +        uint16_t key;
+> +        const char *name;
+> +    } fw_cfg_arch_wellknown_keys[] =3D {
+> +        {FW_CFG_PPC_WIDTH, "width"},
+> +        {FW_CFG_PPC_HEIGHT, "height"},
+> +        {FW_CFG_PPC_DEPTH, "depth"},
+> +        {FW_CFG_PPC_TBFREQ, "tbfreq"},
+> +        {FW_CFG_PPC_CLOCKFREQ, "clockfreq"},
+> +        {FW_CFG_PPC_IS_KVM, "is_kvm"},
+> +        {FW_CFG_PPC_KVM_HC, "kvm_hc"},
+> +        {FW_CFG_PPC_KVM_PID, "pid"},
+> +        {FW_CFG_PPC_NVRAM_ADDR, "nvram_addr"},
+> +        {FW_CFG_PPC_BUSFREQ, "busfreq"},
+> +        {FW_CFG_PPC_NVRAM_FLAT, "nvram_flat"},
+> +        {FW_CFG_PPC_VIACONFIG, "viaconfig"},
+> +    };
+> +
+> +    for (size_t i =3D 0; i < ARRAY_SIZE(fw_cfg_arch_wellknown_keys); i++=
+) {
+> +        if (fw_cfg_arch_wellknown_keys[i].key =3D=3D key) {
+> +            return fw_cfg_arch_wellknown_keys[i].name;
+> +        }
+> +    }
+> +    return NULL;
+> +}
+
 --=20
-2.22.0.rc1.1.g079e7d2849.dirty
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--UugvWAfsgieZRqgk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlznPmoACgkQbDjKyiDZ
+s5IR3w/+MwwVLLaSuUmDIefC2jgM/uvfL8XGZWGQ7qh5pRl6c7CaAmd5f58hFpt/
+A+gCh0D3j8qTk6iAZdX37lTqsLjAvOlu9nDBykIVcJ4OLvxrzwS8s0MphvZdu2mn
+HXPvcFAJofq9WdgE4FmybuWSCDpT4vgdjETWBq4zZZPTGqgBE089lsMIxRV6sQk7
+TW8WLOpm+Y6MRNwPlDXDGub6GNIbKLoQ7SqFkOv+NJP6tctnp1/cyim4s3WfBn7v
+ehwHmzOWpPbY2NG30hBsUjdogEueqmWJrD0qpUqhoRPvAePyBM+Kki0RKG9KinLY
+BHFx5XcVQZpkeMqQYKRzvxndozlzYDFiUEn7valoIAF3QL4LBaIzEHy4jO3S5iE/
+2y4M8oTj6jGG2yosq1+f7us3f9t4/jj7Tuiyl5EwGhfabMa7EXxnWtk9hhLnzD5X
+YnO4LxPXpedjAZZ+5038lCg2WeXxyyQG04k+g2CDfGfOezgOtnpPQ5ksH2/UJ7T6
+qJ0G1+EW1hRjctcLOvi4pUabrmA/eFnTOSdPw58TKHfEpQ4oZHACKB6m90KB5y+n
+gMRC+nfmpUr27eGLamub4Ge+5XddeEbD0BF8oG/agRVr9hf8TSspxf7g0ive27yl
+Vihe8uAWo8/61JNFKwvOq7TT14k/9KPg+xDk5/qkGiiXRQNR6UM=
+=xo/V
+-----END PGP SIGNATURE-----
+
+--UugvWAfsgieZRqgk--
 
