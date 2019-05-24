@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3655729EC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 21:04:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59031 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8E629EBF
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 21:01:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59002 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFUv-00058q-Ed
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 15:04:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42640)
+	id 1hUFRc-0002Ys-JO
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 15:01:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43814)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFKK-0005iI-2E
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:54:01 -0400
+	(envelope-from <aaro.koskinen@iki.fi>) id 1hUFPi-0001h2-W2
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:59:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFKI-0002w7-MD
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:53:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56788)
+	(envelope-from <aaro.koskinen@iki.fi>) id 1hUFPh-0006wm-Hs
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:59:34 -0400
+Received: from emh01.mail.saunalahti.fi ([62.142.5.107]:39100)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFKG-0002th-Pl
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:53:56 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 866F437EEA;
-	Fri, 24 May 2019 18:53:50 +0000 (UTC)
-Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BF00B6092D;
-	Fri, 24 May 2019 18:53:46 +0000 (UTC)
-Date: Fri, 24 May 2019 15:53:44 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190524185344.GJ10764@habkost.net>
-References: <87woihi1wl.fsf@dusky.pond.sub.org>
+	(Exim 4.71) (envelope-from <aaro.koskinen@iki.fi>)
+	id 1hUFPh-0006rj-As
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:59:33 -0400
+Received: from t60.musicnaut.iki.fi (85-76-86-221-nat.elisa-mobile.fi
+	[85.76.86.221])
+	by emh01.mail.saunalahti.fi (Postfix) with ESMTP id C12E020014;
+	Fri, 24 May 2019 21:59:22 +0300 (EEST)
+Date: Fri, 24 May 2019 21:59:22 +0300
+From: Aaro Koskinen <aaro.koskinen@iki.fi>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	Thomas Huth <thuth@redhat.com>
+Message-ID: <20190524185922.GA4597@t60.musicnaut.iki.fi>
+References: <20190520190533.GA28160@Red>
+	<20190521232323.GD3621@darkstar.musicnaut.iki.fi>
+	<20190522093341.GA32154@Red>
+	<20190522181904.GE3621@darkstar.musicnaut.iki.fi>
+	<8977e2bb-8d9e-f4fd-4c44-b4f67e0e7314@redhat.com>
+	<c2972889-fe60-7614-fb6e-e57ddf780a54@redhat.com>
+	<20190523183623.GB5234@darkstar.musicnaut.iki.fi>
+	<CAFEAcA8C0WN5FwaW2kfWiRm1T8wML_fWXDKqRXP-Lv_P7ysy8A@mail.gmail.com>
+	<20190524150018.GA3156@t60.musicnaut.iki.fi>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87woihi1wl.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.29]);
-	Fri, 24 May 2019 18:53:50 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] qapi/misc.json is too big,
- let's bite off a few chunks
+In-Reply-To: <20190524150018.GA3156@t60.musicnaut.iki.fi>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 62.142.5.107
+Subject: Re: [Qemu-devel] Running linux on qemu omap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,59 +58,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
-	Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
+Cc: Tony Lindgren <tony@atomide.com>, QEMU Developers <qemu-devel@nongnu.org>,
+	lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 23, 2019 at 06:14:18PM +0200, Markus Armbruster wrote:
-> It's nice when QAPI schema modules clearly belong to a single subsystem
-> in addition to "QAPI Schema".  misc.json doesn't, and it's grown fat:
-> 3000+ lines.  Let's move out some stuff.  Here are a few candidates:
->=20
-> * Dump (Marc-Andr=E9)
->=20
->   dump-guest-memory, query-dump, DUMP_COMPLETED,
->   query-dump-guest-memory-capability
->=20
->   ~200 lines.
->=20
-> * Machine core (Eduardo, Marcel)
->=20
->   query-machines, query-current-machine,=20
->=20
->   ~60 lines.  Hardly worthwhile from a "let's shrink misc.json" point o=
-f
->   view.  Might be worthwhile from a "let's make get_maintainers.pl
->   work".
->=20
-> * CPUs (Paolo, Richard)
->=20
->   query-cpus, query-cpus-fast
->=20
->   ~300 lines.  The commands are implemented in cpus.c, which MAINTAINER=
-S
->   covers both under "Main loop" and under "Guest CPU cores (TCG) /
->   Overall".  Neither feels right to me for these QMP commands.
+Hi,
 
-Should it include query-cpu-* (currently on target.json),
-and query-hotpluggable-cpus?
+On Fri, May 24, 2019 at 06:00:18PM +0300, Aaro Koskinen wrote:
+> Please don't delete OMAP boards quite yet :) In the mainline kernel
+> they are not orphaned, they frequently get tested using actual hardware,
+> and QEMU would help in additional testing. I'll try to get N8x0 boot to
+> work with the minimal kernel I use on real HW.
 
->=20
-> * NUMA (Eduardo)
->=20
->   query-memdev, set-numa-node
->=20
->   ~200 lines.
->=20
-> Opinions?
->=20
-> Additional candidates?
+So it was only a matter of attaching the serial console at the QEMU side
+(a hackish patch at the end of the mail).
 
-QOM: qom-list, qom-get, qom-set, qom-list-properties, object-add
-object-del.
+$ qemu-system-arm --version
+QEMU emulator version 4.0.0 (v4.0.0-dirty)
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+$ qemu-system-arm -M n810 -kernel zImage -nographic
+Uncompressing Linux... done, booting the kernel.
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Linux version 5.1.0-n8x0_tiny-los_b1ac4+-00007-g7435e73d8ac4 (aaro@amd-fx-6350) (gcc version 8.3.0 (GCC)) #1 Fri May 24 20:43:02 EEST 2019
+[    0.000000] CPU: ARMv6-compatible processor [4107b362] revision 2 (ARMv6TEJ), cr=00c5387d
+[    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
+[    0.000000] OF: fdt: Machine model: Nokia N810
+[    0.000000] printk: bootconsole [earlycon0] enabled
+[    0.000000] Memory policy: Data cache writeback
+[    0.000000] OMAP2420
+[...]
 
---=20
-Eduardo
+However there are plenty of WARNs that are not present on real hardware.
+Anyway, it's a start.
+
+A.
+
+...
+
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 906b7ca22d43..52ff83ec5147 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -792,6 +792,7 @@ static void n8x0_uart_setup(struct n800_s *s)
+     qdev_connect_gpio_out(s->mpu->gpio, N8X0_BT_WKUP_GPIO,
+                     csrhci_pins_get(radio)[csrhci_pin_wakeup]);
+ 
++    omap_uart_attach(s->mpu->uart[2], serial_hd(0));
+     omap_uart_attach(s->mpu->uart[BT_UART], radio);
+ }
+ 
 
