@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E922967C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 12:58:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52427 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FCC2971C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 13:25:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52655 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU7uS-0006IX-CU
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 06:58:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34491)
+	id 1hU8Jq-0004bg-29
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 07:25:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37876)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hU7sy-0005iZ-JA
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 06:57:17 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hU8Gz-00025K-5n
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:22:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hU7sx-0002Zb-6S
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 06:57:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40992)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hU7sw-0002PT-Up
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 06:57:15 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2C8CDF74A0;
-	Fri, 24 May 2019 10:57:03 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-245.rdu2.redhat.com
-	[10.10.120.245])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 300D1646A0;
-	Fri, 24 May 2019 10:56:56 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190520231008.20140-1-mst@redhat.com>
-	<CAFEAcA80Q8zWxM4TBVMZHLuOzo0HSpT=4C76uAwdMjLn2Xye=w@mail.gmail.com>
-	<20190521092553-mutt-send-email-mst@kernel.org>
-	<20190522150642.3da34e6b@redhat.com>
-	<4b230fb0-ae2c-5221-39cb-1bed7b6df8d0@redhat.com>
-	<9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat.com>
-	<CAFEAcA8wMUrdH_-b38eWPRn-Qx1-6L_jZ2BRXH08MPUZbu9w-A@mail.gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <f1cec8c0-1a9b-f5bb-f951-ea0ba9d276ee@redhat.com>
-Date: Fri, 24 May 2019 12:56:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	(envelope-from <peter.maydell@linaro.org>) id 1hU83B-0003Ot-Gl
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:07:50 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43866)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hU83B-0003OJ-9u
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:07:49 -0400
+Received: by mail-ot1-x344.google.com with SMTP id i8so8301691oth.10
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 04:07:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=ucZ3fyDqxiuUKMEbw+ijIzt1Bg35A3bV2wK2S7oQpaY=;
+	b=ngN7VdPsV0YO0c8eXNwRQtd8NbFaZf0wJe0qBKFuCQkHT8S+xgTtA9NfBJ0j+cdO++
+	wHE+a0eXCRwYeclGIOVRSqeBJg4lhl4y4EXgKPPdl/k7L0p/vy9D4we/e44SMe3pi7Eg
+	chSI8yzrUne6yNwVJgpNzKItr1Vo09FfU1y/1J0l4bd3KwuHyOkQEXuUj/toLRlqo/kU
+	F7p+q/hyoGxWprpKE9ThiY8F3pGXCF6f2lfiyjRrvMi6gA0T3RrgfStu177c+JaP+1ru
+	e8mFt94QjaLJWyWYIBwtp5Re+hQKCs7qR8KZHhUgz5KHPU/59Z68GxiL9CSPs3chsVh2
+	Ja8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=ucZ3fyDqxiuUKMEbw+ijIzt1Bg35A3bV2wK2S7oQpaY=;
+	b=MB57E8o45iflEuyrLFMdJO6vZ7oGAJL+A71xIvvbqDum6clMX3BpzSMi+k6o9AOcZR
+	xKaVvKzPowDtHe6YC2rnAnr2EvbrihAryjuuuoaMgasjxrx8yHbmq/DNLaHRFSoopgMZ
+	kS8s30MnP9sUK1J2lsQoI+5sg5UsgSXd60Mh5xojLldjqEFi0zOQHdAVVkoo46ucjZOa
+	QzCVOOa1W6QHQ0wa4+0muXaNC8uW8tcxQ0N4wIBR72jKa5kJp+ZonX1c+byKzPDh5cdb
+	TtoroGoqbWFRYNKQmtg+SIBt/nNXTvOSFBCl8AU890js3138GwVWoO4XOZ/a4VlWy4Ab
+	nLqg==
+X-Gm-Message-State: APjAAAWtuDBsfYoWvXQ2JvfYT3dsUTV4os5GCaLfkisiJWsi9TvAFdpS
+	Dhaff5E1F1uIr898mYQPFx6Od+DenrWD9J+4N90yTQ==
+X-Google-Smtp-Source: APXvYqwanTaFilsJjmucmiGK9zHQ2p26vL+Qrs8/VkDTaIoSxu0a2BowsahBmQbTKOf+S+QaYkSc52PMnzKcyVMZXhg=
+X-Received: by 2002:a05:6830:149a:: with SMTP id
+	s26mr31275279otq.221.1558696068263; 
+	Fri, 24 May 2019 04:07:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8wMUrdH_-b38eWPRn-Qx1-6L_jZ2BRXH08MPUZbu9w-A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Fri, 24 May 2019 10:57:03 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL v2 00/36] pci, pc, virtio: features, fixes
+References: <20190523144336.13960-1-laurent@vivier.eu>
+In-Reply-To: <20190523144336.13960-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 24 May 2019 12:07:37 +0100
+Message-ID: <CAFEAcA8x2bNdqkBiu4sTh9T8P=U2JYwdCZYK1dHDK7Q8MbyQ0A@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PULL 00/10] Linux user for 4.1 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,66 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Igor Mammedov <imammedo@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/23/19 10:37, Peter Maydell wrote:
-> On Thu, 23 May 2019 at 01:51, Laszlo Ersek <lersek@redhat.com> wrote:
->> I have narrowed down the issue sufficiently that I think I can hand
->> it over to Peter and Ard now -- because they know AARCH32 and AARCH64
->> assembly, and "target/arm/translate-a64.c" and "tcg/arm/*" too.
->>
->> The summarize the issue for Ard, the symptom is that AARCH64
->> ArmVirtQemu runs perfectly fine with TCG on an x86-64 system, but it
->> crashes on an AARCH32 host system.
+On Thu, 23 May 2019 at 15:47, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> Thanks for the investigation; this is probably more one for Richard
-> than me.
+> The following changes since commit a4f667b6714916683408b983cfe0a615a72577=
+5f:
+>
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' int=
+o staging (2019-05-21 16:30:13 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
+>
+> for you to fetch changes up to 069a1504ee1e2943964d0357d798e11b66afd351:
+>
+>   linux-user: Pass through nanosecond timestamp components for stat sysca=
+lls (2019-05-22 20:50:55 +0200)
+>
+> ----------------------------------------------------------------
+> Add /proc/hardware and /proc/cpuinfo,
+> update SIOCXXX ioctls,
+> update IPV6 options,
+> fix shmat emulation,
+> add nanoseconds in stat,
+> init field fp_abi on mips
+>
+> ----------------------------------------------------------------
 
-I figured I'd provide some logs.
+Hi; I'm afraid this fails to build on a couple of the hosts
+I test on:
 
-(1) To recap, the aarch64 assembly source code file that seems to be
-mis-translated (from the aarch64 binary) lives at
+/home/pm215/qemu/linux-user/syscall.c: In function =E2=80=98do_setsockopt=
+=E2=80=99:
+/home/pm215/qemu/linux-user/syscall.c:1929:5: error:
+"__UAPI_DEF_IPV6_MREQ" is not defined [-Werror=3Dundef]
+ #if __UAPI_DEF_IPV6_MREQ
+     ^
 
-  https://github.com/tianocore/edk2/blob/3604174718e2afc950c3cc64c64ba5165c8692bd/MdePkg/Library/BaseMemoryLibOptDxe/AArch64/CopyMem.S
-
-The relevant functions are InternalMemCopyMem() and __memcpy().
-
-
-(2) I disassembled the aarch64 binary with "objdump", and uploaded the
-listing to:
-
-  http://people.redhat.com/lersek/aarch64-to-arm-mistranslation/DxeCore.objdump.xz
-
-The InternalMemCopyMem() function starts at hex offset 2b2ec. The
-__memcpy() function starts at hex offset 2b180.
+(these were the ppc64 and aarch64 machines in the gcc compile farm, but
+I suspect this is just "older kernel headers" rather than arch-specific.)
 
 
-(3) I ran the guest with "-d in_asm,op,op_opt,op_ind,out_asm" and
-uploaded the log file to:
-
-  http://people.redhat.com/lersek/aarch64-to-arm-mistranslation/tcg.in_asm.op.op_opt.op_ind.out_asm.log.xz
-
-The TBs that correspond to (parts of) the InternalMemCopyMem() and
-__memcpy() functions are scattered over the file, but the offset between
-the "nice" disassembly from (2), and the in-RAM TBs in (3), can be
-determined from the fact that there is a single prfm instruction in the
-entire binary. The instruction's offset is 0x2b180 in (2) -- at the
-beginning of the __memcpy() function --, and its RAM address is
-0x472d2180 in (3). Thus the difference (= the load address of
-DxeCore.efi) is 0x472a7000.
-
-(This is logged by the guest as well:
-
-> Loading DXE CORE at 0x000472A7000 EntryPoint=0x000472A8000
-)
-
-Thanks
-Laszlo
+thanks
+-- PMM
 
