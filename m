@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904812924D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 10:01:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50687 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4238029255
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 10:04:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50722 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU596-0004zj-Fp
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 04:01:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33295)
+	id 1hU5BL-0007LZ-Fp
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 04:04:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33433)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hU56S-0003s8-AL
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:59:01 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hU56n-00046u-Q4
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:59:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hU56R-0003TG-E9
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:59:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50716)
+	(envelope-from <sgarzare@redhat.com>) id 1hU56m-000472-Mg
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:59:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40618)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <sgarzare@redhat.com>)
-	id 1hU56P-0003NT-B2; Fri, 24 May 2019 03:58:57 -0400
+	id 1hU56j-0003u8-Tf; Fri, 24 May 2019 03:59:18 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2D0383E2AF;
-	Fri, 24 May 2019 07:58:56 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9F8563086275;
+	Fri, 24 May 2019 07:58:59 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-117-118.ams2.redhat.com
 	[10.36.117.118])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D50B81001DC0;
-	Fri, 24 May 2019 07:58:49 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B85191001E79;
+	Fri, 24 May 2019 07:58:56 +0000 (UTC)
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 09:58:45 +0200
-Message-Id: <20190524075848.23781-1-sgarzare@redhat.com>
+Date: Fri, 24 May 2019 09:58:46 +0200
+Message-Id: <20190524075848.23781-2-sgarzare@redhat.com>
+In-Reply-To: <20190524075848.23781-1-sgarzare@redhat.com>
+References: <20190524075848.23781-1-sgarzare@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Fri, 24 May 2019 07:58:56 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Fri, 24 May 2019 07:59:11 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/3] Update documentation and help related
- to the preallocation parameter
+Subject: [Qemu-devel] [PATCH v2 1/3] qapi/block-core: update documentation
+ of preallocation parameter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,28 +63,79 @@ Cc: Kevin Wolf <kwolf@redhat.com>, integration@gluster.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following Markus' advice, I updated the documentation of preallocation
-parameter in qapi/block-core.json adding default and allowed values (patc=
-h 1).
-I also updated the help related to BLOCK_OPT_PREALLOC in the QemuOptsList=
- of
-file-posix (patch 2) and gluster (patch 3).
+Add default and available values in the documentation block of
+each block device or protocol that supports the 'preallocation'
+parameter during the image creation.
 
-v2:
- - Patch 1: removed references to "file-win32" and "file-posix" in the
-            block comment [Markus]
- - Patch 3: reworded commit message [Markus]
-
-Stefano Garzarella (3):
-  qapi/block-core: update documentation of preallocation parameter
-  block/file-posix: update .help of BLOCK_OPT_PREALLOC option
-  block/gluster: update .help of BLOCK_OPT_PREALLOC option
-
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+---
  qapi/block-core.json | 20 ++++++++++++++------
- block/file-posix.c   |  6 +++++-
- block/gluster.c      |  9 ++++++++-
- 3 files changed, 27 insertions(+), 8 deletions(-)
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 7ccbfff9d0..e2f7e2b89f 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4103,7 +4103,10 @@
+ #
+ # @filename         Filename for the new image file
+ # @size             Size of the virtual disk in bytes
+-# @preallocation    Preallocation mode for the new image (default: off)
++# @preallocation    Preallocation mode for the new image (default: off;
++#                   allowed values: off,
++#                   falloc (if defined CONFIG_POSIX_FALLOCATE),
++#                   full (if defined CONFIG_POSIX))
+ # @nocow            Turn off copy-on-write (valid only on btrfs; default=
+: off)
+ #
+ # Since: 2.12
+@@ -4121,7 +4124,10 @@
+ #
+ # @location         Where to store the new image file
+ # @size             Size of the virtual disk in bytes
+-# @preallocation    Preallocation mode for the new image (default: off)
++# @preallocation    Preallocation mode for the new image (default: off;
++#                   allowed values: off,
++#                   falloc (if defined CONFIG_GLUSTERFS_FALLOCATE),
++#                   full (if defined CONFIG_GLUSTERFS_ZEROFILL))
+ #
+ # Since: 2.12
+ ##
+@@ -4225,7 +4231,8 @@
+ # @backing-fmt      Name of the block driver to use for the backing file
+ # @encrypt          Encryption options if the image should be encrypted
+ # @cluster-size     qcow2 cluster size in bytes (default: 65536)
+-# @preallocation    Preallocation mode for the new image (default: off)
++# @preallocation    Preallocation mode for the new image (default: off;
++#                   allowed values: off, falloc, full, metadata)
+ # @lazy-refcounts   True if refcounts may be updated lazily (default: of=
+f)
+ # @refcount-bits    Width of reference counts in bits (default: 16)
+ #
+@@ -4408,7 +4415,8 @@
+ # @location         Where to store the new image file
+ # @size             Size of the virtual disk in bytes
+ # @backing-file     File name of a base image
+-# @preallocation    Preallocation mode (allowed values: off, full)
++# @preallocation    Preallocation mode for the new image (default: off;
++#                   allowed values: off, full)
+ # @redundancy       Redundancy of the image
+ # @object-size      Object size of the image
+ #
+@@ -4443,8 +4451,8 @@
+ #
+ # @file             Node to create the image format on
+ # @size             Size of the virtual disk in bytes
+-# @preallocation    Preallocation mode for the new image (allowed values=
+: off,
+-#                   metadata; default: off)
++# @preallocation    Preallocation mode for the new image (default: off;
++#                   allowed values: off, metadata)
+ #
+ # Since: 2.12
+ ##
 --=20
 2.20.1
 
