@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE43129EC2
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 21:03:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59023 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B198829E92
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:57:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58935 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFTb-0004LG-1R
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 15:03:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41070)
+	id 1hUFNK-0007VW-SN
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:57:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41463)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hUFDt-0000J5-Lb
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:47:22 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hUFFK-0001fB-L8
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:48:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hUFDs-0007Rm-Mj
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:47:21 -0400
-Received: from mail-wm1-f46.google.com ([209.85.128.46]:36271)
+	(envelope-from <pbonzini@redhat.com>) id 1hUFFJ-0008IR-O1
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:48:50 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40127)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hUFDs-0007RN-G9
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:47:20 -0400
-Received: by mail-wm1-f46.google.com with SMTP id v22so2925944wml.1
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 11:47:20 -0700 (PDT)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hUFFJ-0008Hd-HZ
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:48:49 -0400
+Received: by mail-wr1-f65.google.com with SMTP id t4so2702528wrx.7
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 11:48:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=ppoMF4oTxBx2jS9wycnCKEgo15pl05Sn2PrdMglnwlI=;
-	b=p57ZS29gwOOcJo7eXbz4z11OXX/b0n2Hp25boAnTqQjQo3VLSa5QwLnKdersv9F3uy
-	wy6GfadW8rCGYOErjJKP53YGflwz0CdUmu4fQpwQEkXp2+LVEH/dULhb3cKHg/oqvVxF
-	++VN4nxhriy+LiXFYPwyg6cerR66OGBM+LXui0Als9eTiX+Ne3DLnTRGWoZusuxMztZe
-	zIaIKXzRIO3iIpgxNyCkZdJ7cgIV6/70sSBR3XGTD+LebJXInpa4tH3LPaq87m+c8qNr
-	kjVNmZuleG+qCx2J1SANKti7/1LuvyHY0+vyNK+eq1FxmXZVXMBF6hQXKKFJxwB2TSZ6
-	4rlA==
-X-Gm-Message-State: APjAAAVe6lUK0eVFX/+YEE67Nmf1fCJHs8oa0NenBsCWy6gO7tpUr7tx
-	h8eyDiP4Ff+OKdIilIJhvG80fQ==
-X-Google-Smtp-Source: APXvYqz5Xb3qJq59nSTjB7crFXEEyZjF1xMbL65NcTgJtt874VemqJsrHGvwFqhJeRUMIT3ujMJiZw==
-X-Received: by 2002:a7b:c8d1:: with SMTP id f17mr8778658wml.45.1558723639313; 
-	Fri, 24 May 2019 11:47:19 -0700 (PDT)
+	bh=+gqJe3j0xGeqGTYD6iGLPjrIIcY9EDv0g/JCrJlQacM=;
+	b=l5FftV6yM720+dTL7tGE0XGd6ERklZE0waKx2SR0bEfuuelaHoAMY+hcDwsNSkZX3a
+	k+tQbW+Qu6pH/hIJoTq5xsctKzqb3w6wDT2grgGW8XjXQldFAjGdrgWwjiXesA50XVyt
+	FNlf7/hspVCOkpwGPHkzHLA4WYVzFTQmKkIDy7KdMRNAq9g4NJqq53+iD//rAXbFv3Fb
+	svFXnibsU3H2qyhnbAaM1Porog6JHhVYD9qCNy+1ebs+/EA3nRG1Y4SyRWXPYzN5VkSz
+	V72rEYcAqOdCNGdoWmG0GgGdyo3WSfYt8xbELMmqTRBTPFBqfhJef8Yg3IlPftA+vUUk
+	lU8g==
+X-Gm-Message-State: APjAAAXsl6aluXtcNoVM34psNfTxFEGYYwyZ8/hpiRpHLnYl93c+091K
+	orDwxbr04goRvlRolCZtIlIQwTPU+XQ=
+X-Google-Smtp-Source: APXvYqzy7H2mbQ0W1buNcUTM+zOWMzMgpG/KJvKSYYq/CzyzoF6Itv6W4tsFPw361J/v1DXOBjcRrA==
+X-Received: by 2002:adf:e742:: with SMTP id c2mr11616443wrn.249.1558723728218; 
+	Fri, 24 May 2019 11:48:48 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:4d53:18d:3ffd:370?
 	([2001:b07:6468:f312:4d53:18d:3ffd:370])
 	by smtp.gmail.com with ESMTPSA id
-	b194sm2292692wmb.23.2019.05.24.11.47.18
+	o23sm2475616wro.13.2019.05.24.11.48.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 May 2019 11:47:18 -0700 (PDT)
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20190524183638.20745-1-stefanha@redhat.com>
+	Fri, 24 May 2019 11:48:47 -0700 (PDT)
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+	qemu-devel@nongnu.org
+References: <20190524181411.8599-1-marcandre.lureau@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <24b93cc5-edb1-a197-14be-e63ac356325d@redhat.com>
-Date: Fri, 24 May 2019 20:47:18 +0200
+Message-ID: <1539f5bb-bb62-6328-c79d-46dfe0f924b2@redhat.com>
+Date: Fri, 24 May 2019 20:48:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190524183638.20745-1-stefanha@redhat.com>
+In-Reply-To: <20190524181411.8599-1-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.128.46
-Subject: Re: [Qemu-devel] [RFC v3 0/3] scsi: restart dma after vm change
- state handlers
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH] configure: remove tpm_passthrough &
+ tpm_emulator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,36 +74,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/19 20:36, Stefan Hajnoczi wrote:
-> v3:
->  * Fix s/k->vmstate_change/vdc->vmstate_change/
->  * Still RFC, waiting for customer to confirm this fixes the issue
-> v2:
->  * Do it properly with a clean API instead of deferring to a BH!
->    Thanks for encouraging me to do this, Kevin.
+On 24/05/19 20:14, Marc-André Lureau wrote:
+> This is a left-over from commit 7aaa6a16373 "tpm: express dependencies
+> with Kconfig".
 > 
-> These patches solve a deadlock when the 'cont' command is used and there are
-> failed requests on a virtio-scsi device with iothreads.  The deadlock itself is
-> actually not the thing we need to fix because we should never reach that case
-> anyway.  Instead we need to make sure DMA restart is only performed after the
-> virtio-scsi iothread is re-initialized.
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  configure | 10 ----------
+>  1 file changed, 10 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 528b9ff705..4da99ee750 100755
+> --- a/configure
+> +++ b/configure
+> @@ -6434,8 +6434,6 @@ echo "gcov              $gcov_tool"
+>  echo "gcov enabled      $gcov"
+>  echo "TPM support       $tpm"
+>  echo "libssh2 support   $libssh2"
+> -echo "TPM passthrough   $tpm_passthrough"
+> -echo "TPM emulator      $tpm_emulator"
+>  echo "QOM debugging     $qom_cast_debug"
+>  echo "Live block migration $live_block_migration"
+>  echo "lzo support       $lzo"
+> @@ -7133,14 +7131,6 @@ fi
+>  
+>  if test "$tpm" = "yes"; then
+>    echo 'CONFIG_TPM=$(CONFIG_SOFTMMU)' >> $config_host_mak
+> -  # TPM passthrough support?
+> -  if test "$tpm_passthrough" = "yes"; then
+> -    echo "CONFIG_TPM_PASSTHROUGH=y" >> $config_host_mak
+> -  fi
+> -  # TPM emulator support?
+> -  if test "$tpm_emulator" = "yes"; then
+> -    echo "CONFIG_TPM_EMULATOR=y" >> $config_host_mak
+> -  fi
+>  fi
+>  
+>  echo "TRACE_BACKENDS=$trace_backends" >> $config_host_mak
+> 
 
-custom_dma_restart is a bit ugly...  Do you think it would make sense to
-order the VMStateChange handlers using some kind of enum (with the order
-unspecified within the category)?
-
-We could start with
-
-	VMSTATECHANGE_PRIO_UNKNOWN  = 0  (if needed?)
-	VMSTATECHANGE_PRIO_IOTHREAD = 100
-        VMSTATECHANGE_PRIO_DEVICE   = 200
-
-where higher priorities run first on stop and last on resume.
+Queued, thanks.
 
 Paolo
 
