@@ -2,55 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482AD2991A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:37:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54760 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4313298FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:35:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54698 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUANq-00051U-E5
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:37:18 -0400
+	id 1hUALi-0002x2-HN
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:35:06 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:33887)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hUAK9-0001gR-Bp
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:33:30 -0400
+	(envelope-from <groug@kaod.org>) id 1hUAJk-0001gR-EO
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:33:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hUAG5-0005uB-HM
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:29:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44836)
+	(envelope-from <groug@kaod.org>) id 1hUAJH-0007oq-1E
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:32:36 -0400
+Received: from 8.mo4.mail-out.ovh.net ([188.165.33.112]:59243)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hUAG3-0005rp-HI; Fri, 24 May 2019 09:29:15 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B83C7C0AD283;
-	Fri, 24 May 2019 13:29:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
-	[10.36.117.250])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 82DF66870F;
-	Fri, 24 May 2019 13:29:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 1749F1138648; Fri, 24 May 2019 15:29:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190517144232.18965-1-kwolf@redhat.com>
-	<20190517144232.18965-3-kwolf@redhat.com>
-Date: Fri, 24 May 2019 15:29:07 +0200
-In-Reply-To: <20190517144232.18965-3-kwolf@redhat.com> (Kevin Wolf's message
-	of "Fri, 17 May 2019 16:42:28 +0200")
-Message-ID: <87y32w6kws.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hUAJG-0007nj-Qd
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:32:34 -0400
+Received: from player788.ha.ovh.net (unknown [10.109.159.68])
+	by mo4.mail-out.ovh.net (Postfix) with ESMTP id 7D6B11EE57F
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 15:32:31 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player788.ha.ovh.net (Postfix) with ESMTPSA id C3B5861CEB7B;
+	Fri, 24 May 2019 13:32:23 +0000 (UTC)
+Date: Fri, 24 May 2019 15:32:19 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Message-ID: <20190524153219.15b21c74@bahia.lan>
+In-Reply-To: <20190523052918.1129-1-david@gibson.dropbear.id.au>
+References: <20190523052918.1129-1-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Fri, 24 May 2019 13:29:08 +0000 (UTC)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 17468900008271649254
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudduiedgieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 2/6] tests/qapi-schema: Test for good
- feature lists in structs
+X-Received-From: 188.165.33.112
+Subject: Re: [Qemu-devel] [PATCH 1/8] spapr: Clean up device node name
+ generation for PCI devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,71 +56,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: mdroth@linux.ibm.com, mst@redhat.com, qemu-ppc@nongnu.org, clg@kaod.org,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+On Thu, 23 May 2019 15:29:11 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> spapr_populate_pci_child_dt() adds a 'name' property to the device tree
+> node for PCI devices.  This is never necessary for a flattened device tree,
+> it is implicit in the name added when the node is constructed.  In fact
+> anything we do add to a 'name' property will be overwritten with something
+> derived from the structural name in the guest firmware (but in fact it is
+> exactly the same bytes).
+> 
+> So, remove that.  In addition, pci_get_node_name() is very simple, so fold
+> it into its (also simple) sole caller spapr_create_pci_child_dt().
+> 
+> While we're there rename pci_find_device_name() to the shorter and more
+> accurate dt_name_from_class().
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 > ---
->  tests/qapi-schema/qapi-schema-test.json | 30 +++++++++++++++++++++++
->  tests/qapi-schema/qapi-schema-test.out  | 32 +++++++++++++++++++++++++
->  tests/qapi-schema/test-qapi.py          |  4 ++++
->  3 files changed, 66 insertions(+)
->
-> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
-> index 0952c68734..35a50fbe54 100644
-> --- a/tests/qapi-schema/qapi-schema-test.json
-> +++ b/tests/qapi-schema/qapi-schema-test.json
-> @@ -242,3 +242,33 @@
->    { 'foo': 'TestIfStruct',
->      'bar': { 'type': ['TestIfEnum'], 'if': 'defined(TEST_IF_EVT_BAR)' } },
->    'if': 'defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)' }
+>  hw/ppc/spapr_pci.c | 43 +++++++++++++++++--------------------------
+>  1 file changed, 17 insertions(+), 26 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 97961b0128..b2db46ef1d 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1173,8 +1173,8 @@ static const PCIClass pci_classes[] = {
+>      { "data-processing-controller", spc_subclass },
+>  };
+>  
+> -static const char *pci_find_device_name(uint8_t class, uint8_t subclass,
+> -                                        uint8_t iface)
+> +static const char *dt_name_from_class(uint8_t class, uint8_t subclass,
+> +                                      uint8_t iface)
+>  {
+>      const PCIClass *pclass;
+>      const PCISubClass *psubclass;
+> @@ -1216,23 +1216,6 @@ static const char *pci_find_device_name(uint8_t class, uint8_t subclass,
+>      return name;
+>  }
+>  
+> -static gchar *pci_get_node_name(PCIDevice *dev)
+> -{
+> -    int slot = PCI_SLOT(dev->devfn);
+> -    int func = PCI_FUNC(dev->devfn);
+> -    uint32_t ccode = pci_default_read_config(dev, PCI_CLASS_PROG, 3);
+> -    const char *name;
+> -
+> -    name = pci_find_device_name((ccode >> 16) & 0xff, (ccode >> 8) & 0xff,
+> -                                ccode & 0xff);
+> -
+> -    if (func != 0) {
+> -        return g_strdup_printf("%s@%x,%x", name, slot, func);
+> -    } else {
+> -        return g_strdup_printf("%s@%x", name, slot);
+> -    }
+> -}
+> -
+>  static uint32_t spapr_phb_get_pci_drc_index(SpaprPhbState *phb,
+>                                              PCIDevice *pdev);
+>  
+> @@ -1300,11 +1283,6 @@ static void spapr_populate_pci_child_dt(PCIDevice *dev, void *fdt, int offset,
+>          _FDT(fdt_setprop(fdt, offset, "udf-supported", NULL, 0));
+>      }
+>  
+> -    _FDT(fdt_setprop_string(fdt, offset, "name",
+> -                            pci_find_device_name((ccode >> 16) & 0xff,
+> -                                                 (ccode >> 8) & 0xff,
+> -                                                 ccode & 0xff)));
+> -
+>      buf = spapr_phb_get_loc_code(sphb, dev);
+>      _FDT(fdt_setprop_string(fdt, offset, "ibm,loc-code", buf));
+>      g_free(buf);
+> @@ -1348,10 +1326,23 @@ static int spapr_create_pci_child_dt(SpaprPhbState *phb, PCIDevice *dev,
+>                                       void *fdt, int node_offset)
+>  {
+>      int offset;
+> -    gchar *nodename;
+> +    const gchar *basename;
+> +    char *nodename;
+
+Not sure why you're changing nodename to be a char * instead of a gchar * ...
+
+Apart from that, LGTM.
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> +    int slot = PCI_SLOT(dev->devfn);
+> +    int func = PCI_FUNC(dev->devfn);
+> +    uint32_t ccode = pci_default_read_config(dev, PCI_CLASS_PROG, 3);
 > +
-> +# test 'features' for structs
+> +    basename = dt_name_from_class((ccode >> 16) & 0xff, (ccode >> 8) & 0xff,
+> +                                  ccode & 0xff);
 > +
-> +{ 'struct': 'FeatureStruct0',
-> +  'data': { 'foo': 'int' },
-> +  'features': [] }
-> +{ 'struct': 'FeatureStruct1',
-> +  'data': { 'foo': 'int' },
-> +  'features': [ 'feature1' ] }
-> +{ 'struct': 'FeatureStruct2',
-> +  'data': { 'foo': 'int' },
-> +  'features': [ { 'name': 'feature1' } ] }
-> +{ 'struct': 'FeatureStruct3',
-> +  'data': { 'foo': 'int' },
-> +  'features': [ 'feature1', 'feature2' ] }
-> +{ 'struct': 'FeatureStruct4',
-> +  'data': { 'namespace-test': 'int' },
-> +  'features': [ 'namespace-test', 'int', 'name', 'if' ] }
+> +    if (func != 0) {
+> +        nodename = g_strdup_printf("%s@%x,%x", basename, slot, func);
+> +    } else {
+> +        nodename = g_strdup_printf("%s@%x", basename, slot);
+> +    }
+>  
+> -    nodename = pci_get_node_name(dev);
+>      _FDT(offset = fdt_add_subnode(fdt, node_offset, nodename));
 > +
-> +{ 'struct': 'CondFeatureStruct1',
-> +  'data': { 'foo': 'int' },
-> +  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'} ] }
-> +{ 'struct': 'CondFeatureStruct2',
-> +  'data': { 'foo': 'int' },
-> +  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'},
-> +                { 'name': 'feature2', 'if': 'defined(TEST_IF_FEATURE_2)'} ] }
-> +{ 'struct': 'CondFeatureStruct3',
-> +  'data': { 'foo': 'int' },
-> +  'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)',
-> +                                              'defined(TEST_IF_COND_2)'] } ] }
+>      g_free(nodename);
+>  
+>      spapr_populate_pci_child_dt(dev, fdt, offset, phb);
 
-Let's add
-
-   { 'command': 'test-features',
-     'data': { 'fs0': 'FeatureStruct0',
-               'fs1': 'FeatureStruct1',
-               'fs2': 'FeatureStruct2',
-               'fs3': 'FeatureStruct3',
-               'cfs1': 'CondFeatureStruct1',
-               'cfs2': 'CondFeatureStruct2',
-               'cfs3': 'CondFeatureStruct3' } }
-
-because without it, the feature test cases won't generate introspection
-code.
-
-[...]
 
