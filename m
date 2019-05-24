@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A8329809
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 14:28:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53834 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED2029819
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 14:33:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53928 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU9JF-0004wv-85
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 08:28:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48837)
+	id 1hU9OF-00013a-54
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 08:33:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49251)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hU9HV-00043V-NN
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:26:42 -0400
+	(envelope-from <eblake@redhat.com>) id 1hU9Ik-000553-Mk
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:27:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hU9HU-0003ry-KQ
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:26:41 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37908)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hU9HU-0003rb-EY
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:26:40 -0400
-Received: by mail-wm1-f67.google.com with SMTP id t5so9030507wmh.3
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 05:26:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=Ld842iSwFWPccn0EvoO0WaoljnGc65U/plTJEseq2Oo=;
-	b=VqvOkn29/8fjuxv//0uSddW7S1I+zDUKJH2luXY9y/SeOAVvf1wmy+0a2/KHxNpzCO
-	myFa5J9ytdo4WfcLzgGRF0wadI9IqCP+rhqo8djoawNELZ0Abd9jr8Dc1yUawQgeDGse
-	9QW7/tQHT+haGqGZELTNHBLdCqx3ZyTQNvBTpeliKsMxExBxdxr8AO122HSCmgi/SqgH
-	ZUwn59kp3FUS6tn3LQaOVWs+pLF5yfxjR2O+kPTAjNTJUbzx0QrtdbScZRu1/Ivd3Zdj
-	nwIZ25fAjWARvA8wsysxNxZPH/7Ad7ikHo1XB0kXXBzpz+hOZasuuQXwjxB0h8tWJufh
-	yrmQ==
-X-Gm-Message-State: APjAAAUaSnYytkePEjKnKNF5EQHRUlrn2jv0dw4MOSUc6Vt16WEicTqq
-	wgKudoxcyypYG0qNWjQ2IxT65A==
-X-Google-Smtp-Source: APXvYqwzjiM8szByWWCWO5KboyDJPUdnR7YgkOn5Z+sjcZRC4iOUyUexQxx6K5fA+aoIM1yHYbUnIw==
-X-Received: by 2002:a1c:2dcd:: with SMTP id
-	t196mr16098468wmt.141.1558700799414; 
-	Fri, 24 May 2019 05:26:39 -0700 (PDT)
-Received: from steredhat (host253-229-dynamic.248-95-r.retail.telecomitalia.it.
-	[95.248.229.253]) by smtp.gmail.com with ESMTPSA id
-	q15sm2307056wrr.19.2019.05.24.05.26.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 24 May 2019 05:26:38 -0700 (PDT)
-Date: Fri, 24 May 2019 14:26:36 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Message-ID: <20190524122636.ksxng6mcwimm3mr4@steredhat>
-References: <20190504060336.21060-1-philmd@redhat.com>
-	<79f09ce1-076c-6f20-562b-1b0a1eec4fb9@redhat.com>
+	(envelope-from <eblake@redhat.com>) id 1hU9Ii-0004PW-Ox
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:27:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39226)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hU9Ic-0004LL-QE; Fri, 24 May 2019 08:27:52 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id B3A133007407;
+	Fri, 24 May 2019 12:27:44 +0000 (UTC)
+Received: from [10.3.116.169] (ovpn-116-169.phx2.redhat.com [10.3.116.169])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4560D61354;
+	Fri, 24 May 2019 12:27:44 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20190523160104.21258-1-kwolf@redhat.com>
+	<20190524085711.17834-1-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <44d19c49-e203-722a-4057-bb5a8d9e4df5@redhat.com>
+Date: Fri, 24 May 2019 07:27:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <79f09ce1-076c-6f20-562b-1b0a1eec4fb9@redhat.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190524085711.17834-1-kwolf@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="b0saSfjbOXMqDAEd2jJkDkVodzsUMsBq4"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Fri, 24 May 2019 12:27:44 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH] tests/docker: Update the Fedora image to
- Fedora 30
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH 1.5/15] nbd-server: Call
+ blk_set_allow_aio_context_change()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,35 +87,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
-	Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
-	qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-	Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 24, 2019 at 09:44:41AM +0200, Philippe Mathieu-Daudé wrote:
-> On 5/4/19 8:03 AM, Philippe Mathieu-Daudé wrote:
-> > Fedora 30 got released:
-> > 
-> >   https://fedoramagazine.org/announcing-fedora-30/
-> > 
-> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > ---
-> > Based-on: <20190408201203.28924-1-marcandre.lureau@redhat.com>
-> >           qxl: fix -Waddress-of-packed-member
-> > 
-> > Based-on: <20190503112654.4393-1-laurent@vivier.eu>
-> >           Pull request trivial branch 2019-05-03
-> 
-> 'based-on' series got merged, ping?
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--b0saSfjbOXMqDAEd2jJkDkVodzsUMsBq4
+From: Eric Blake <eblake@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com
+Message-ID: <44d19c49-e203-722a-4057-bb5a8d9e4df5@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH 1.5/15] nbd-server: Call
+ blk_set_allow_aio_context_change()
+References: <20190523160104.21258-1-kwolf@redhat.com>
+ <20190524085711.17834-1-kwolf@redhat.com>
+In-Reply-To: <20190524085711.17834-1-kwolf@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Tested running 'make docker-test-build@fedora'
+On 5/24/19 3:57 AM, Kevin Wolf wrote:
+> The NBD server uses an AioContext notifier, so it can tolerate that its=
 
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> BlockBackend is switched to a different AioContext. Before we start
+> actually calling bdrv_try_set_aio_context(), which checks for
+> consistency, outside of test cases, we need to make sure that the NBD
+> server actually allows this.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  nbd/server.c               |  1 +
+>  tests/qemu-iotests/240     | 21 +++++++++++++++++++++
+>  tests/qemu-iotests/240.out | 13 +++++++++++++
+>  3 files changed, 35 insertions(+)
+>=20
 
-Thanks,
-Stefano
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--b0saSfjbOXMqDAEd2jJkDkVodzsUMsBq4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzn4zoACgkQp6FrSiUn
+Q2qbfQf+IfA1VRR2br7uK0uGnAHLs2D1EW3f6hHj16wIsl3w+4odo5hSuyL4Hc6P
+znlzDK9tmgaeD9l3azTHLXyEFrjJ5n5ZvyQzoUc6ipyqnRefgpV5N7EjtFACleUQ
+0Q07mj4/QYrjv2CbGRdmTKthEYUPryE4NvHizD1iWfj5a6s9rUPHgDOOpj4U1Nw+
+1u4s1twsBXGVJR9NSl37EEi6zmXuUKK/czhA8pcNYxn9MSStPVXuukC5K7C/VXV+
+4QjcegpLVUHzdQwEjLKQZ6jkCSkdO7awptgxidCZZuuLX8+LCArfbOsUmNXPlH25
+is8Are2ml3fHZciHFjwJ13BvpYqApw==
+=Kz03
+-----END PGP SIGNATURE-----
+
+--b0saSfjbOXMqDAEd2jJkDkVodzsUMsBq4--
 
