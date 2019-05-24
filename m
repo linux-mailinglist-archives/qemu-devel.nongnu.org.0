@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E97299C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:08:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55151 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC500299D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:13:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55259 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUArg-0005I9-DQ
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:08:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40530)
+	id 1hUAwm-00024T-Tx
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:13:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42583)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hUAoR-0003TT-IV
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:04:48 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hUAuS-000072-Lv
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:11:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hUAoP-0002sY-1w
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:04:47 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:33486)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
-	id 1hUAoN-0002nD-4M; Fri, 24 May 2019 10:04:44 -0400
-Received: by mail-pl1-x641.google.com with SMTP id g21so4248170plq.0;
-	Fri, 24 May 2019 07:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mXSPb6nljQ3a7CRCQcFUnmtz50HC0QCQI3eoM4YTe0A=;
-	b=P0nP2DogfxS5wY12rUxQWWz3RGjT4JdvKAbWC1/SknUminwjmvB6o5KbqV/6SCZibu
-	WgzOVrk2tgw+NX0KvOCUwqY416wLuJWTwRJ3tqP12UoEH+dOqk3AX+J1nGREP02C95CR
-	x5uT6iIjlo0t3ge3vgtc2g8/SoPWzB77dx1ifTMUt0Yti+9WtRs4pDl1tALvfsSk23wc
-	mZ4mQ7bFxJb4YzZZyFUo+amZEGJklxwx2NQpFkLAKwjqJC/mIVPrK1g/UC3CV/rNBhT+
-	tyWpFlKSoisRZcsePk8iZPVVJjRIjkaZH3WouCQDHfekDjsT99PyBdse3Gd4zl0sJb+2
-	xLmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=mXSPb6nljQ3a7CRCQcFUnmtz50HC0QCQI3eoM4YTe0A=;
-	b=scWgOB1xFlXXFxeQRVKbKl8LzFt6uxW/UntBTsB/a7ZWuSFMxkSA5IaqXkMADO9FJH
-	xT7odSUzSiL+Pxax7Z49SpHhSeZmkIY0d2vy5r7/iwHZ8XLxp+3slq0PtKXukIwY47if
-	WkUTflDUtDC2Uf89qBGrOuUXJCw21aaBMU1hQ8oGIm6PHo/btUBnrxlLJIayy5QT7lKz
-	oq6sPptNBOoHMJRy8prUE3Wrh1/8jGz3y9Ge0ccasfJ5pae2Gyu5nL+cLnbYxm+phjPH
-	DCbrvdP6om7eJ8Byb4ocNS/HJF/O4xFV5PE73q/OazKb1pbu0ADKklhthtFDMlxp4qda
-	lGSg==
-X-Gm-Message-State: APjAAAX9lpsJb46U1LHmB6Bv7M+cmO58ooW9Fs5ugv2wS2IF2zI0NvyR
-	IAy2vPpqaqMX+am1GvkOJBngAE3MrEw+wA==
-X-Google-Smtp-Source: APXvYqz+uEgCOuj5OWmzqFp83Bm3XQTh9XCt8zY2DbjkXp8WE5g41uS68yMCdvVAlQihd83rGSnSWg==
-X-Received: by 2002:a17:902:ac90:: with SMTP id
-	h16mr42558597plr.162.1558706675701; 
-	Fri, 24 May 2019 07:04:35 -0700 (PDT)
-Received: from localhost.localdomain ([120.57.120.132])
-	by smtp.gmail.com with ESMTPSA id
-	u11sm2556766pfh.130.2019.05.24.07.04.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 May 2019 07:04:35 -0700 (PDT)
-From: Aarushi Mehta <mehta.aaru20@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 19:33:37 +0530
-Message-Id: <20190524140337.13415-10-mehta.aaru20@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190524140337.13415-1-mehta.aaru20@gmail.com>
-References: <20190524140337.13415-1-mehta.aaru20@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [RFC PATCH v2 9/9] configure: permit use of io_uring
+	(envelope-from <imammedo@redhat.com>) id 1hUAuR-0008V6-Jh
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:11:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33066)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
+	id 1hUAuO-0008Qb-Lg; Fri, 24 May 2019 10:10:56 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id D7A3330C0DC5;
+	Fri, 24 May 2019 14:10:50 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3FDE12CFD6;
+	Fri, 24 May 2019 14:10:49 +0000 (UTC)
+Date: Fri, 24 May 2019 16:10:45 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <20190524161045.314fa2de@redhat.com>
+In-Reply-To: <20190524103521.13847-1-lvivier@redhat.com>
+References: <20190524103521.13847-1-lvivier@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Fri, 24 May 2019 14:10:50 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] numa: improve cpu hotplug error message
+ with a wrong node-id
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,90 +57,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
-	saket.sinha89@gmail.com, Stefan Hajnoczi <stefanha@redhat.com>,
-	Julia Suvorova <jusual@mail.ru>, Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
----
- configure | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+On Fri, 24 May 2019 12:35:21 +0200
+Laurent Vivier <lvivier@redhat.com> wrote:
 
-diff --git a/configure b/configure
-index 528b9ff705..86383dc0b3 100755
---- a/configure
-+++ b/configure
-@@ -365,6 +365,7 @@ xen=""
- xen_ctrl_version=""
- xen_pci_passthrough=""
- linux_aio=""
-+linux_io_uring=""
- cap_ng=""
- attr=""
- libattr=""
-@@ -1255,6 +1256,10 @@ for opt do
-   ;;
-   --enable-linux-aio) linux_aio="yes"
-   ;;
-+  --disable-linux-io-uring) linux_io_uring="no"
-+  ;;
-+  --enable-linux-io-uring) linux_io_uring="yes"
-+  ;;
-   --disable-attr) attr="no"
-   ;;
-   --enable-attr) attr="yes"
-@@ -1773,6 +1778,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   vde             support for vde network
-   netmap          support for netmap network
-   linux-aio       Linux AIO support
-+  linux-io-uring  Linux io_uring support
-   cap-ng          libcap-ng support
-   attr            attr and xattr support
-   vhost-net       vhost-net kernel acceleration support
-@@ -3962,6 +3968,23 @@ EOF
-     linux_aio=no
-   fi
- fi
-+##########################################
-+# linux-io-uring probe
-+
-+if test "$linux_io_uring" != "no" ; then
-+  cat > $TMPC <<EOF
-+#include <liburing.h>
-+int main(void) { io_uring_queue_init(0, NULL, 0); io_uring_submit(NULL); return 0; }
-+EOF
-+  if compile_prog "" "-luring" ; then
-+    linux_io_uring=yes
-+  else
-+    if test "$linux_io_uring" = "yes" ; then
-+      feature_not_found "linux io_uring" "Install liburing"
-+    fi
-+    linux_io_uring=no
-+  fi
-+fi
+> On pseries, core-ids are strongly binded to a node-id by the command
+> line option. If an user tries to add a CPU to the wrong node, he has
+> an error but it is not really helpful:
+> 
+>   qemu-system-ppc64 ... -smp 1,maxcpus=64,cores=1,threads=1,sockets=1 \
+>                         -numa node,nodeid=0 -numa node,nodeid=1 ...
+> 
+>   (qemu) device_add power9_v2.0-spapr-cpu-core,core-id=30,node-id=1
+>   Error: node-id=1 must match numa node specified with -numa option
+> 
+> This patch improves this error message by giving to the user the good
+> topology information (node-id, socket-id and thread-id if they are
+> available) to use with the core-id he's providing:
+> 
+>   Error: node-id=1 must match numa node specified with -numa option 'node-id 0'
+> 
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+> 
+> Notes:
+>     v3: only add the topology to the existing message
+>         As suggested by Igor replace
+>           Error: core-id 30 can only be plugged into node-id 0
+>         by
+>           Error: node-id=1 must match numa node specified with -numa option 'node-id 0'
+>     
+>     v2: display full topology in the error message
+> 
+>  numa.c | 25 ++++++++++++++++++++++++-
+>  1 file changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/numa.c b/numa.c
+> index 3875e1efda3a..7882ec294be4 100644
+> --- a/numa.c
+> +++ b/numa.c
+> @@ -458,6 +458,27 @@ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
+>      set_numa_options(MACHINE(qdev_get_machine()), cmd, errp);
+>  }
+>  
+> +static char *cpu_topology_to_string(const CPUArchId *cpu)
+> +{
+> +    GString *s = g_string_new(NULL);
+> +    if (cpu->props.has_socket_id) {
+> +        g_string_append_printf(s, "socket-id %"PRId64, cpu->props.socket_id);
+> +    }
+> +    if (cpu->props.has_node_id) {
+> +        if (s->len) {
+> +            g_string_append_printf(s, ", ");
+> +        }
+> +        g_string_append_printf(s, "node-id %"PRId64, cpu->props.node_id);
+> +    }
+> +    if (cpu->props.has_thread_id) {
+> +        if (s->len) {
+> +            g_string_append_printf(s, ", ");
+> +        }
+> +        g_string_append_printf(s, "thread-id %"PRId64, cpu->props.thread_id);
+> +    }
+> +    return g_string_free(s, false);
+> +}
 
- ##########################################
- # TPM emulation is only on POSIX
-@@ -6378,6 +6401,7 @@ echo "PIE               $pie"
- echo "vde support       $vde"
- echo "netmap support    $netmap"
- echo "Linux AIO support $linux_aio"
-+echo "Linux io_uring support $linux_io_uring"
- echo "ATTR/XATTR support $attr"
- echo "Install blobs     $blobs"
- echo "KVM support       $kvm"
-@@ -6858,6 +6882,9 @@ fi
- if test "$linux_aio" = "yes" ; then
-   echo "CONFIG_LINUX_AIO=y" >> $config_host_mak
- fi
-+if test "$linux_io_uring" = "yes" ; then
-+  echo "CONFIG_LINUX_IO_URING=y" >> $config_host_mak
-+fi
- if test "$attr" = "yes" ; then
-   echo "CONFIG_ATTR=y" >> $config_host_mak
- fi
---
-2.17.1
+turns out we already have such helper: cpu_slot_to_string()
+
+> +
+>  void numa_cpu_pre_plug(const CPUArchId *slot, DeviceState *dev, Error **errp)
+>  {
+>      int node_id = object_property_get_int(OBJECT(dev), "node-id", &error_abort);
+> @@ -470,8 +491,10 @@ void numa_cpu_pre_plug(const CPUArchId *slot, DeviceState *dev, Error **errp)
+>                                      "node-id", errp);
+>          }
+>      } else if (node_id != slot->props.node_id) {
+> +        char *topology = cpu_topology_to_string(slot);
+>          error_setg(errp, "node-id=%d must match numa node specified "
+> -                   "with -numa option", node_id);
+> +                   "with -numa option '%s'", node_id, topology);
+> +        g_free(topology);
+>      }
+>  }
+>  
+
 
