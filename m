@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92ECA29172
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 09:04:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50070 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AA02917C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 09:06:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50123 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU4FV-0005HN-N6
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 03:04:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45502)
+	id 1hU4Hf-0007RZ-Ic
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 03:06:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45464)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hU4D8-0004Fd-4x
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:01:50 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hU4Cp-00044g-0b
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:01:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hU4D2-0005Ni-DV
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:01:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58574)
+	(envelope-from <kraxel@redhat.com>) id 1hU4Cn-0005Gb-9c
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:01:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52918)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hU4D0-0005Je-12
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:01:43 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hU4Cm-0005Fp-AG
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:01:29 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C1778307D851
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 07:01:26 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 02429D7809
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 07:01:27 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-101.ams2.redhat.com
 	[10.36.116.101])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C38A45D9D3;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D571919C4F;
 	Fri, 24 May 2019 07:01:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 8ACD111AB5; Fri, 24 May 2019 09:01:18 +0200 (CEST)
+	id 92AF317536; Fri, 24 May 2019 09:01:18 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 09:01:14 +0200
-Message-Id: <20190524070118.30157-1-kraxel@redhat.com>
+Date: Fri, 24 May 2019 09:01:15 +0200
+Message-Id: <20190524070118.30157-2-kraxel@redhat.com>
+In-Reply-To: <20190524070118.30157-1-kraxel@redhat.com>
+References: <20190524070118.30157-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Fri, 24 May 2019 07:01:26 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Fri, 24 May 2019 07:01:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/4] add drm modifier support for dmabufs.
+Subject: [Qemu-devel] [PATCH v2 1/4] console: add dmabuf modifier field.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,21 +64,28 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+dmabufs can have a format modifier (DRM_FORMAT_MOD_*) which is used for
+tiled layouts for example.  Add a field to QemuDmaBuf so we can carry
+around that information.
 
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ include/ui/console.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Gerd Hoffmann (4):
-  console: add dmabuf modifier field.
-  vfio/display: set dmabuf modifier field
-  egl-helpers: add modifier support to egl_get_fd_for_texture().
-  egl-helpers: add modifier support to egl_dmabuf_import_texture()
-
- include/ui/console.h     |  1 +
- include/ui/egl-helpers.h |  3 ++-
- hw/vfio/display.c        |  1 +
- ui/egl-helpers.c         | 37 ++++++++++++++++++++++++++-----------
- ui/spice-display.c       |  7 ++++---
- 5 files changed, 34 insertions(+), 15 deletions(-)
-
+diff --git a/include/ui/console.h b/include/ui/console.h
+index fef900db76a5..f9816968487c 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -175,6 +175,7 @@ typedef struct QemuDmaBuf {
+     uint32_t  height;
+     uint32_t  stride;
+     uint32_t  fourcc;
++    uint64_t  modifier;
+     uint32_t  texture;
+     bool      y0_top;
+ } QemuDmaBuf;
 --=20
 2.18.1
 
