@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C590829E81
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:54:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58887 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0808629EBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 21:01:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58998 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFL1-0005e6-3w
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:54:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40707)
+	id 1hUFRV-0002UO-7K
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 15:01:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40731)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFCa-0007Sr-05
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:46:01 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUFCf-0007XW-3X
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:46:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFCY-0006oB-P6
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59536)
+	(envelope-from <ehabkost@redhat.com>) id 1hUFCd-0006qJ-U1
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:46:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:7478)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFCY-0006mI-Gg
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:58 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFCd-0006pq-M5
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:46:03 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CCDC3307D840;
-	Fri, 24 May 2019 18:45:57 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 09E7F3082E55;
+	Fri, 24 May 2019 18:46:03 +0000 (UTC)
 Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 29C8B1001E65;
-	Fri, 24 May 2019 18:45:56 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4FAFB5D9D3;
+	Fri, 24 May 2019 18:46:00 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 	Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Fri, 24 May 2019 15:44:46 -0300
-Message-Id: <20190524184447.16678-17-ehabkost@redhat.com>
+Date: Fri, 24 May 2019 15:44:47 -0300
+Message-Id: <20190524184447.16678-18-ehabkost@redhat.com>
 In-Reply-To: <20190524184447.16678-1-ehabkost@redhat.com>
 References: <20190524184447.16678-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Fri, 24 May 2019 18:45:57 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Fri, 24 May 2019 18:46:03 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 16/17] hw/arm/mps2: Use object_initialize_child
+Subject: [Qemu-devel] [PULL 17/17] hw/intc/nvic: Use object_initialize_child
  for correct reference counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -89,7 +89,7 @@ This patch was generated using the following Coccinelle script:
  +   sysbus_init_child_obj(OBJECT(PARENT_OBJ), "CHILD_NAME", child_ptr,
  +                         child_size, child_type);
 
-We let the MPS2 boards adopt the cpu core, the FPGA and the SCC children.
+We let NVIC adopt the SysTick timer.
 
 While the object_initialize() function doesn't take an
 'Error *errp' argument, the object_initialize_child() does.
@@ -112,72 +112,36 @@ since its code is:
 Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 Inspired-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190507163416.24647-16-philmd@redhat.com>
+Message-Id: <20190507163416.24647-17-philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/arm/mps2-tz.c | 8 ++++----
- hw/arm/mps2.c    | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ hw/intc/armv7m_nvic.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index c167a5fa59..d85dc2c4bd 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -214,9 +214,9 @@ static MemoryRegion *make_scc(MPS2TZMachineState *mms=
-, void *opaque,
-     DeviceState *sccdev;
-     MPS2TZMachineClass *mmc =3D MPS2TZ_MACHINE_GET_CLASS(mms);
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index 815e720cfa..dc2c206d9a 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -2595,9 +2595,9 @@ static void armv7m_nvic_realize(DeviceState *dev, E=
+rror **errp)
+          * as we didn't know then if the CPU had the security extensions=
+;
+          * so we have to do it here.
+          */
+-        object_initialize(&s->systick[M_REG_S], sizeof(s->systick[M_REG_=
+S]),
+-                          TYPE_SYSTICK);
+-        qdev_set_parent_bus(DEVICE(&s->systick[M_REG_S]), sysbus_get_def=
+ault());
++        sysbus_init_child_obj(OBJECT(dev), "systick-reg-s",
++                              &s->systick[M_REG_S],
++                              sizeof(s->systick[M_REG_S]), TYPE_SYSTICK)=
+;
 =20
--    object_initialize(scc, sizeof(mms->scc), TYPE_MPS2_SCC);
-+    sysbus_init_child_obj(OBJECT(mms), "scc", scc,
-+                          sizeof(mms->scc), TYPE_MPS2_SCC);
-     sccdev =3D DEVICE(scc);
--    qdev_set_parent_bus(sccdev, sysbus_get_default());
-     qdev_prop_set_uint32(sccdev, "scc-cfg4", 0x2);
-     qdev_prop_set_uint32(sccdev, "scc-aid", 0x00200008);
-     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
-@@ -229,8 +229,8 @@ static MemoryRegion *make_fpgaio(MPS2TZMachineState *=
-mms, void *opaque,
- {
-     MPS2FPGAIO *fpgaio =3D opaque;
-=20
--    object_initialize(fpgaio, sizeof(mms->fpgaio), TYPE_MPS2_FPGAIO);
--    qdev_set_parent_bus(DEVICE(fpgaio), sysbus_get_default());
-+    sysbus_init_child_obj(OBJECT(mms), "fpgaio", fpgaio,
-+                          sizeof(mms->fpgaio), TYPE_MPS2_FPGAIO);
-     object_property_set_bool(OBJECT(fpgaio), true, "realized", &error_fa=
-tal);
-     return sysbus_mmio_get_region(SYS_BUS_DEVICE(fpgaio), 0);
- }
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index b74f1378c9..10efff36b2 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -174,9 +174,9 @@ static void mps2_common_init(MachineState *machine)
-         g_assert_not_reached();
-     }
-=20
--    object_initialize(&mms->armv7m, sizeof(mms->armv7m), TYPE_ARMV7M);
-+    sysbus_init_child_obj(OBJECT(mms), "armv7m", &mms->armv7m,
-+                          sizeof(mms->armv7m), TYPE_ARMV7M);
-     armv7m =3D DEVICE(&mms->armv7m);
--    qdev_set_parent_bus(armv7m, sysbus_get_default());
-     switch (mmc->fpga_type) {
-     case FPGA_AN385:
-         qdev_prop_set_uint32(armv7m, "num-irq", 32);
-@@ -308,9 +308,9 @@ static void mps2_common_init(MachineState *machine)
-                        qdev_get_gpio_in(armv7m, 10));
-     sysbus_mmio_map(SYS_BUS_DEVICE(&mms->dualtimer), 0, 0x40002000);
-=20
--    object_initialize(&mms->scc, sizeof(mms->scc), TYPE_MPS2_SCC);
-+    sysbus_init_child_obj(OBJECT(mms), "scc", &mms->scc,
-+                          sizeof(mms->scc), TYPE_MPS2_SCC);
-     sccdev =3D DEVICE(&mms->scc);
--    qdev_set_parent_bus(sccdev, sysbus_get_default());
-     qdev_prop_set_uint32(sccdev, "scc-cfg4", 0x2);
-     qdev_prop_set_uint32(sccdev, "scc-aid", 0x00200008);
-     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
+         object_property_set_bool(OBJECT(&s->systick[M_REG_S]), true,
+                                  "realized", &err);
 --=20
 2.18.0.rc1.1.g3f1ff2140
 
