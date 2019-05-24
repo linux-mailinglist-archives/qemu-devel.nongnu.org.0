@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B2029A32
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:45:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55724 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0832C29A2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:43:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55695 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUBRl-0007B5-7a
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:45:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48062)
+	id 1hUBPO-0005G6-RP
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:42:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48072)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <carpeddiem@gmail.com>) id 1hUBN4-0003mt-DI
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:40:35 -0400
+	(envelope-from <carpeddiem@gmail.com>) id 1hUBMy-0003mu-UC
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:40:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <carpeddiem@gmail.com>) id 1hUBKh-0005Ea-Ed
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:38:08 -0400
-Received: from mail-it1-f193.google.com ([209.85.166.193]:55935)
+	(envelope-from <carpeddiem@gmail.com>) id 1hUBMy-0007mY-3y
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:40:28 -0400
+Received: from mail-it1-f182.google.com ([209.85.166.182]:54830)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <carpeddiem@gmail.com>)
-	id 1hUBKh-0005CL-9D
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:38:07 -0400
-Received: by mail-it1-f193.google.com with SMTP id g24so9185920iti.5
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 07:38:06 -0700 (PDT)
+	id 1hUBMw-0007jO-5n
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:40:26 -0400
+Received: by mail-it1-f182.google.com with SMTP id h20so16117904itk.4
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 07:40:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=FdJYPDFiEFFLHEHBWUkMb0ILUUgjduaY+xZlCH9Vv7c=;
-	b=JYLTOjoa2I441u4AndR8/zsgusda8WSrkoBabFMiIIY1TxsthmlJvm8pvVDlig5q3u
-	s6WGfApbCe3DGhMvicIwc4caQhw0DSZUDpYXbIt8vimrK5kKRROAqTq46xwMAE7DEZ8T
-	j7gwqqAA+IKSwtYZoMjYZLD9wvUd48e6g2w6y+jVM7lHJj1GdbVaFc14HZNNgTY+SksF
-	3jYUkLao7smp/ggJNBfvouIKZDd6m7sTVMh9O+d0Q2jTCTtMp29ikvevbztTToRQO2PZ
-	sF0xE5BuBKJyNWEQDvMtzdUQFi9OAMqE8kQ+1jTDqAUjU5gIyKNlnYF6B9BXcIw9AnLl
-	f5yw==
-X-Gm-Message-State: APjAAAVBnnqB41qUA9HvqNsYOX4tAg9o8+TYdLGpVx8hSvToLUHL5r6Y
-	bM9vnJNHyejqEfVvcJft8Dhzm2md6rNbXG9krtU=
-X-Google-Smtp-Source: APXvYqzX5IUdqpGVQPobzlKLb+XEQ/aYdeAxTdr2iqwUsRH/1IwDv3xFOFkR863kOaGwJLitIpFPM6+ZMr9d36i+9N8=
-X-Received: by 2002:a24:ac52:: with SMTP id m18mr16899304iti.146.1558708685903;
-	Fri, 24 May 2019 07:38:05 -0700 (PDT)
+	bh=QM2LU1LqM/8ZV6jtfzfZ/A7bCnsajI1B2rGsqQYdPOc=;
+	b=L7lYs6PRy2jCSVPh9c8zjqZsNc92xNEco7q3LrtQu1CNJS9udSYITRSJfqevF1bjsa
+	dhpj1/trOoFrk01sFA15MkO9h5pB4NWX2z7pPf4bKZCCcNpyJmUBHkYzoHZiQb07ktxG
+	/6WOLWWLWxHUHDrohUZ1pUua0Drpkgn6hJZl1zivQ1zmSOcPervdgVlZRKAMl2AY32pJ
+	A3KtUTqBLdDKLpj383dJTfZyz2j9v2NnXnd5Jk98op6hP0xS2zoT7KrKKJvmD5p7Ddoy
+	FvbISZUwh+0BZ6GTL5/099dga0kf7RjHZ90snVkL7G0CL/2wt5+mSu818sVSAAihLJaS
+	ofiw==
+X-Gm-Message-State: APjAAAW0WEILke+R71Y32QCKj6hKjj2rMdYA2iPs+K9crUPZXQR52b1x
+	we3HYgH67oHBGAp9dlla+DYoUIt4g6VrCjIfuHw=
+X-Google-Smtp-Source: APXvYqzLH55o3l7aJbGBI1cn167AtGpmn5tQI0QkHMfizGqQ5OrUHFT42yJY4l2HNRhGaJ4YiGICpwdiBHndnZfgYoM=
+X-Received: by 2002:a24:ac52:: with SMTP id m18mr16910799iti.146.1558708824816;
+	Fri, 24 May 2019 07:40:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190521141133.27380-1-lvivier@redhat.com>
-	<20190521141133.27380-2-lvivier@redhat.com>
-In-Reply-To: <20190521141133.27380-2-lvivier@redhat.com>
+References: <20190521105344.11637-1-thuth@redhat.com>
+	<20190521105344.11637-14-thuth@redhat.com>
+In-Reply-To: <20190521105344.11637-14-thuth@redhat.com>
 From: Ed Maste <emaste@freebsd.org>
-Date: Fri, 24 May 2019 04:08:54 -0400
-Message-ID: <CAPyFy2CfuHJnmGGfrHNvG+enNrdbR9ecUiOdqmfv5McKkK1GeA@mail.gmail.com>
-To: Laurent Vivier <lvivier@redhat.com>
+Date: Fri, 24 May 2019 04:11:11 -0400
+Message-ID: <CAPyFy2Bgs6gf1p11rf5z9=h=4o0hhHGMXCSXK4RzmTMNc6VFww@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.166.193
-Subject: Re: [Qemu-devel] [PATCH v6 1/4] VirtIO-RNG: Update default entropy
- source to `/dev/urandom`
+X-Received-From: 209.85.166.182
+Subject: Re: [Qemu-devel] [PULL 13/13] tests/qemu-iotests: Remove the
+ "_supported_os Linux" line from many tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,40 +65,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
-	"Richard W . M . Jones" <rjones@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Kashyap Chamarthy <kchamart@redhat.com>
+Cc: kwolf@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel <qemu-devel@nongnu.org>,
+	Laurent Vivier <lvivier@redhat.com>, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 May 2019 at 10:15, Laurent Vivier <lvivier@redhat.com> wrote:
+On Tue, 21 May 2019 at 07:06, Thomas Huth <thuth@redhat.com> wrote:
 >
-> From: Kashyap Chamarthy <kchamart@redhat.com>
+> A lot of tests run fine on FreeBSD and macOS, too - the limitation
+> to Linux here was likely just copied-and-pasted from other tests.
+> Thus remove the "_supported_os Linux" line from tests that run
+> successful in our CI pipelines on FreeBSD and macOS.
 >
-> [...]
->
-> Given the above, change the entropy source for VirtIO-RNG device to
-> `/dev/urandom`.
->
-> Related discussion in these[1][2] past threads.
->
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2018-06/msg08335.htm=
-l
->     -- "RNG: Any reason QEMU doesn't default to `/dev/urandom`?"
-> [2] https://lists.nongnu.org/archive/html/qemu-devel/2018-09/msg02724.htm=
-l
->     -- "[RFC] Virtio RNG: Consider changing the default entropy source to
->        /dev/urandom"
->
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> Message-Id: <20190502084506.8009-6-thuth@redhat.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
 Acked-by: Ed Maste <emaste@freebsd.org>
 
