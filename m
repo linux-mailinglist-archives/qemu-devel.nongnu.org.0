@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25ACA29E57
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:48:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58804 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A357B29E79
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:52:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58867 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFEw-0000ML-8O
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:48:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40558)
+	id 1hUFId-0003XB-PA
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:52:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40572)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFCR-0007It-8W
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:52 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUFCR-0007JL-Ow
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFCQ-0006cu-4Z
+	(envelope-from <ehabkost@redhat.com>) id 1hUFCQ-0006d8-DT
 	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58752)
+Received: from mx1.redhat.com ([209.132.183.28]:53840)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFCP-0006Ug-V7
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFCQ-0006ai-4M
 	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:50 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id ED34C58E5C;
-	Fri, 24 May 2019 18:45:41 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1F736A705;
+	Fri, 24 May 2019 18:45:46 +0000 (UTC)
 Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7D75C19C6A;
-	Fri, 24 May 2019 18:45:41 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7AF211001DED;
+	Fri, 24 May 2019 18:45:43 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 	Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Fri, 24 May 2019 15:44:42 -0300
-Message-Id: <20190524184447.16678-13-ehabkost@redhat.com>
+Date: Fri, 24 May 2019 15:44:43 -0300
+Message-Id: <20190524184447.16678-14-ehabkost@redhat.com>
 In-Reply-To: <20190524184447.16678-1-ehabkost@redhat.com>
 References: <20190524184447.16678-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Fri, 24 May 2019 18:45:42 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.29]);
+	Fri, 24 May 2019 18:45:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 12/17] hw/microblaze/zynqmp: Move the IPI state
- into the PMUSoC state
+Subject: [Qemu-devel] [PULL 13/17] hw/microblaze/zynqmp: Let the SoC manage
+ the IPI devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,70 +65,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 The Inter Processor Interrupt is a block part of the SoC, not the
-"machine" (talking about machine is borderline with the PMU, since
-it is embedded into the ZynqMP SoC, but currentl QEMU doesn't
-support multi-arch cores).
+"machine" (See Zynq UltraScale+ Device TRM UG1085, "Platform
+Management Unit", Power Domains and Islands).
 
-Move the IPI state to the SoC state, this will simplify the review
-of the next patch.
+Move the IPI management from the machine to the SoC.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190507163416.24647-12-philmd@redhat.com>
+Message-Id: <20190507163416.24647-13-philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/microblaze/xlnx-zynqmp-pmu.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ hw/microblaze/xlnx-zynqmp-pmu.c | 36 +++++++++++++++------------------
+ 1 file changed, 16 insertions(+), 20 deletions(-)
 
 diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-=
 pmu.c
-index 57dc1ccd42..eba9945c19 100644
+index eba9945c19..20e973edf5 100644
 --- a/hw/microblaze/xlnx-zynqmp-pmu.c
 +++ b/hw/microblaze/xlnx-zynqmp-pmu.c
-@@ -55,6 +55,7 @@ typedef struct XlnxZynqMPPMUSoCState {
-     /*< public >*/
-     MicroBlazeCPU cpu;
-     XlnxPMUIOIntc intc;
-+    XlnxZynqMPIPI ipi[XLNX_ZYNQMP_PMU_NUM_IPIS];
- }  XlnxZynqMPPMUSoCState;
+@@ -68,6 +68,13 @@ static void xlnx_zynqmp_pmu_soc_init(Object *obj)
 =20
+     sysbus_init_child_obj(obj, "intc", &s->intc, sizeof(s->intc),
+                           TYPE_XLNX_PMU_IO_INTC);
++
++    /* Create the IPI device */
++    for (int i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
++        object_initialize(&s->ipi[i], sizeof(XlnxZynqMPIPI),
++                          TYPE_XLNX_ZYNQMP_IPI);
++        qdev_set_parent_bus(DEVICE(&s->ipi[i]), sysbus_get_default());
++    }
+ }
 =20
-@@ -144,7 +145,6 @@ static void xlnx_zynqmp_pmu_init(MachineState *machin=
+ static void xlnx_zynqmp_pmu_soc_realize(DeviceState *dev, Error **errp)
+@@ -113,6 +120,15 @@ static void xlnx_zynqmp_pmu_soc_realize(DeviceState =
+*dev, Error **errp)
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->intc), 0, XLNX_ZYNQMP_PMU_INTC_AD=
+DR);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->intc), 0,
+                        qdev_get_gpio_in(DEVICE(&s->cpu), MB_CPU_IRQ));
++
++    /* Connect the IPI device */
++    for (int i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
++        object_property_set_bool(OBJECT(&s->ipi[i]), true, "realized",
++                                 &error_abort);
++        sysbus_mmio_map(SYS_BUS_DEVICE(&s->ipi[i]), 0, ipi_addr[i]);
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->ipi[i]), 0,
++                           qdev_get_gpio_in(DEVICE(&s->intc), ipi_irq[i]=
+));
++    }
+ }
+=20
+ static void xlnx_zynqmp_pmu_soc_class_init(ObjectClass *oc, void *data)
+@@ -145,8 +161,6 @@ static void xlnx_zynqmp_pmu_init(MachineState *machin=
 e)
      MemoryRegion *address_space_mem =3D get_system_memory();
      MemoryRegion *pmu_rom =3D g_new(MemoryRegion, 1);
      MemoryRegion *pmu_ram =3D g_new(MemoryRegion, 1);
--    XlnxZynqMPIPI *ipi[XLNX_ZYNQMP_PMU_NUM_IPIS];
-     qemu_irq irq[32];
-     int i;
+-    qemu_irq irq[32];
+-    int i;
 =20
-@@ -172,16 +172,16 @@ static void xlnx_zynqmp_pmu_init(MachineState *mach=
-ine)
+     /* Create the ROM */
+     memory_region_init_rom(pmu_rom, NULL, "xlnx-zynqmp-pmu.rom",
+@@ -166,24 +180,6 @@ static void xlnx_zynqmp_pmu_init(MachineState *machi=
+ne)
+                               &error_abort);
+     object_property_set_bool(OBJECT(pmu), true, "realized", &error_fatal=
+);
 =20
-     /* Create and connect the IPI device */
-     for (i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
--        ipi[i] =3D g_new0(XlnxZynqMPIPI, 1);
--        object_initialize(ipi[i], sizeof(XlnxZynqMPIPI), TYPE_XLNX_ZYNQM=
-P_IPI);
--        qdev_set_parent_bus(DEVICE(ipi[i]), sysbus_get_default());
-+        object_initialize(&pmu->ipi[i], sizeof(XlnxZynqMPIPI),
-+                          TYPE_XLNX_ZYNQMP_IPI);
-+        qdev_set_parent_bus(DEVICE(&pmu->ipi[i]), sysbus_get_default());
-     }
-=20
-     for (i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
--        object_property_set_bool(OBJECT(ipi[i]), true, "realized",
-+        object_property_set_bool(OBJECT(&pmu->ipi[i]), true, "realized",
-                                  &error_abort);
--        sysbus_mmio_map(SYS_BUS_DEVICE(ipi[i]), 0, ipi_addr[i]);
--        sysbus_connect_irq(SYS_BUS_DEVICE(ipi[i]), 0, irq[ipi_irq[i]]);
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, ipi_addr[i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, irq[ipi_irq[=
+-    for (i =3D 0; i < 32; i++) {
+-        irq[i] =3D qdev_get_gpio_in(DEVICE(&pmu->intc), i);
+-    }
+-
+-    /* Create and connect the IPI device */
+-    for (i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
+-        object_initialize(&pmu->ipi[i], sizeof(XlnxZynqMPIPI),
+-                          TYPE_XLNX_ZYNQMP_IPI);
+-        qdev_set_parent_bus(DEVICE(&pmu->ipi[i]), sysbus_get_default());
+-    }
+-
+-    for (i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
+-        object_property_set_bool(OBJECT(&pmu->ipi[i]), true, "realized",
+-                                 &error_abort);
+-        sysbus_mmio_map(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, ipi_addr[i]);
+-        sysbus_connect_irq(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, irq[ipi_irq[=
 i]]);
-     }
-=20
+-    }
+-
      /* Load the kernel */
+     microblaze_load_kernel(&pmu->cpu, XLNX_ZYNQMP_PMU_RAM_ADDR,
+                            machine->ram_size,
 --=20
 2.18.0.rc1.1.g3f1ff2140
 
