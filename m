@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21EF29E27
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:35:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58567 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7856C29E13
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:33:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58523 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUF2Z-0007Ky-TR
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:35:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36227)
+	id 1hUF0H-0005Sp-Kk
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:33:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36135)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hUExx-0004Y1-U9
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:30:54 -0400
+	(envelope-from <philmd@redhat.com>) id 1hUExg-0004VS-MT
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:30:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hUEi8-00041s-KS
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:14:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39888)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
-	id 1hUEi8-0003GG-FN
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:14:32 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B42B0308620F
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 18:14:15 +0000 (UTC)
-Received: from localhost (ovpn-112-23.ams2.redhat.com [10.36.112.23])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2B0915F7C5;
-	Fri, 24 May 2019 18:14:12 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 20:14:11 +0200
-Message-Id: <20190524181411.8599-1-marcandre.lureau@redhat.com>
+	(envelope-from <philmd@redhat.com>) id 1hUEni-0006dj-CS
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:20:22 -0400
+Received: from mail-wr1-f48.google.com ([209.85.221.48]:38747)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hUEnb-0006bU-Uk
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:20:12 -0400
+Received: by mail-wr1-f48.google.com with SMTP id d18so10917945wrs.5
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 11:20:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=Dn3/qwSfxbWLAs6qAs2Cw68jIcfGOwRniAfC44iCdYc=;
+	b=A7PAtfbZlEND7rW+bMjGzYc7hEF60WB69Txf1DAEKFjmS9P5jihusC+9qreRuyEuej
+	lLiRJFYJaFg4u07tVQ1X3TMP1mf8KAff1g0zlPLPuPAQ+8rSXQg0vcVOwf17TBjsCuRv
+	khQswI6bQkcwLqtTEYZHzW9rXhYCTemt+bh2L2cbkQZvXoYe01MnmZ4SkEoLFBdqy4Lv
+	8F91FHi3jSy0CRyWv/Vy9uaYJ2y49cChwTZK7CmCAVpTA66O1Dn58yCxI/9B9qKNmNuE
+	2dpvYDWZ0RHHVYZyOIQqAmzh2wsUxlxvqNMCYuD6oPYFWqM+9/Kp3I2AFrrLDIsqX+tj
+	jyrA==
+X-Gm-Message-State: APjAAAXGtBQDzhnmvZoeiGklYKp1sfLfAsUroSShjHX64qSVFLjE+hBh
+	lxOT/d1KIoDEWxohGliL+a1cKg==
+X-Google-Smtp-Source: APXvYqx1R0TDumj61uJeJAr7NdXbQdv51i5iAQqbISxIVa7BsO8r2H/ZJEN65tQAbWRTl87Pz4A+bA==
+X-Received: by 2002:adf:9022:: with SMTP id h31mr9048367wrh.46.1558722009868; 
+	Fri, 24 May 2019 11:20:09 -0700 (PDT)
+Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228])
+	by smtp.gmail.com with ESMTPSA id x2sm3736787wrs.39.2019.05.24.11.20.08
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 May 2019 11:20:09 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Markus Armbruster <armbru@redhat.com>
+References: <51df31ee-54a1-d7be-bef4-71ae003b8811@redhat.com>
+	<3fab9e76-53ad-2de7-45df-eb69c8604709@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <863feca5-192e-ae14-7a57-8d839b54e603@redhat.com>
+Date: Fri, 24 May 2019 20:20:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Fri, 24 May 2019 18:14:15 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <3fab9e76-53ad-2de7-45df-eb69c8604709@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] configure: remove tpm_passthrough &
- tpm_emulator
+	[fuzzy]
+X-Received-From: 209.85.221.48
+Subject: Re: [Qemu-devel] hw/s390x/ipl: Dubious use of qdev_reset_all_fn
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,48 +76,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com,
-	=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+	Cornelia Huck <cohuck@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a left-over from commit 7aaa6a16373 "tpm: express dependencies
-with Kconfig".
+On 5/24/19 8:04 PM, David Hildenbrand wrote:
+> On 24.05.19 19:54, Philippe Mathieu-Daudé wrote:
+>> Hi Christian,
+>>
+>> I'm having hard time to understand why the S390_IPL object calls
+>> qemu_register_reset(qdev_reset_all_fn) in its realize() method, while
+>> being QOM'ified (it has a reset method).
+>>
+>> It doesn't seem to have a qdev children added explicitly to it.
+>> I see it is used as a singleton, what else am I missing?
+>>
+>> Thanks,
+>>
+>> Phil.
+>>
+> 
+> Looks like I added it back then (~4 years ago) when converting it into a
+> TYPE_DEVICE.
+> 
+> I could imagine that - back then - this was needed because only
+> TYPE_SYS_BUS_DEVICE would recursively get reset.
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- configure | 10 ----------
- 1 file changed, 10 deletions(-)
+Thanks for the quick response :)
 
-diff --git a/configure b/configure
-index 528b9ff705..4da99ee750 100755
---- a/configure
-+++ b/configure
-@@ -6434,8 +6434,6 @@ echo "gcov              $gcov_tool"
- echo "gcov enabled      $gcov"
- echo "TPM support       $tpm"
- echo "libssh2 support   $libssh2"
--echo "TPM passthrough   $tpm_passthrough"
--echo "TPM emulator      $tpm_emulator"
- echo "QOM debugging     $qom_cast_debug"
- echo "Live block migration $live_block_migration"
- echo "lzo support       $lzo"
-@@ -7133,14 +7131,6 @@ fi
-=20
- if test "$tpm" =3D "yes"; then
-   echo 'CONFIG_TPM=3D$(CONFIG_SOFTMMU)' >> $config_host_mak
--  # TPM passthrough support?
--  if test "$tpm_passthrough" =3D "yes"; then
--    echo "CONFIG_TPM_PASSTHROUGH=3Dy" >> $config_host_mak
--  fi
--  # TPM emulator support?
--  if test "$tpm_emulator" =3D "yes"; then
--    echo "CONFIG_TPM_EMULATOR=3Dy" >> $config_host_mak
--  fi
- fi
-=20
- echo "TRACE_BACKENDS=3D$trace_backends" >> $config_host_mak
---=20
-2.22.0.rc1.1.g079e7d2849.dirty
+> Did you try removing it, to see if anything breaks?
 
+From build POV it is OK, but I have now idea of the effects with KVM.
+
+I don't know how to test on s390x systems, but luckily Patchew/s390x is
+back up so I'll try my luck with a RFC patch, but I'm not sure the
+default tests cover this specific device uses.
+
+Regards,
+
+Phil.
 
