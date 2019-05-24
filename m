@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1887429E6D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:50:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58821 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1140F29E7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:52:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58871 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFGW-0001ra-9H
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:50:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40374)
+	id 1hUFJ2-0003s2-5m
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:52:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40399)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFBt-0006pV-U9
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:18 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUFBx-0006uP-Sw
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFBr-000682-Oj
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:3823)
+	(envelope-from <ehabkost@redhat.com>) id 1hUFBw-0006DA-4O
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43540)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFBq-00065a-6C
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:15 -0400
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFBv-00068n-Q1
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:20 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EDFE3C057F88;
-	Fri, 24 May 2019 18:45:11 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5D7208667B;
+	Fri, 24 May 2019 18:45:17 +0000 (UTC)
 Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 60E651001E65;
-	Fri, 24 May 2019 18:45:11 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B56531001E6F;
+	Fri, 24 May 2019 18:45:14 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 	Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Fri, 24 May 2019 15:44:35 -0300
-Message-Id: <20190524184447.16678-6-ehabkost@redhat.com>
+Date: Fri, 24 May 2019 15:44:36 -0300
+Message-Id: <20190524184447.16678-7-ehabkost@redhat.com>
 In-Reply-To: <20190524184447.16678-1-ehabkost@redhat.com>
 References: <20190524184447.16678-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Fri, 24 May 2019 18:45:12 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.26]);
+	Fri, 24 May 2019 18:45:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 05/17] hw/arm/bcm2835: Use TYPE_PL011 instead of
- hardcoded string
+Subject: [Qemu-devel] [PULL 06/17] hw/arm/bcm2835: Use object_initialize()
+ on PL011State
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,42 +64,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+To be coherent with the other peripherals contained in the
+BCM2835PeripheralState structure, directly allocate the PL011State
+(instead of using the pl011 uart as a pointer to a SysBusDevice).
+
+Initialize the PL011State with object_initialize() instead of
+object_new().
+
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190507163416.24647-5-philmd@redhat.com>
+Message-Id: <20190507163416.24647-6-philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/arm/bcm2835_peripherals.h | 1 +
- hw/arm/bcm2835_peripherals.c         | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ include/hw/arm/bcm2835_peripherals.h |  2 +-
+ hw/arm/bcm2835_peripherals.c         | 14 +++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm283=
 5_peripherals.h
-index f5b193f670..959508d57d 100644
+index 959508d57d..e79c21771f 100644
 --- a/include/hw/arm/bcm2835_peripherals.h
 +++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -13,6 +13,7 @@
+@@ -38,7 +38,7 @@ typedef struct BCM2835PeripheralState {
+     MemoryRegion ram_alias[4];
+     qemu_irq irq, fiq;
 =20
- #include "qemu-common.h"
- #include "hw/sysbus.h"
-+#include "hw/char/pl011.h"
- #include "hw/char/bcm2835_aux.h"
- #include "hw/display/bcm2835_fb.h"
- #include "hw/dma/bcm2835_dma.h"
+-    SysBusDevice *uart0;
++    PL011State uart0;
+     BCM2835AuxState aux;
+     BCM2835FBState fb;
+     BCM2835DMAState dma;
 diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 6be7660e8c..7ffb51b692 100644
+index 7ffb51b692..2931a82a25 100644
 --- a/hw/arm/bcm2835_peripherals.c
 +++ b/hw/arm/bcm2835_peripherals.c
-@@ -46,7 +46,7 @@ static void bcm2835_peripherals_init(Object *obj)
+@@ -46,9 +46,9 @@ static void bcm2835_peripherals_init(Object *obj)
      qdev_set_parent_bus(DEVICE(&s->ic), sysbus_get_default());
 =20
      /* UART0 */
--    s->uart0 =3D SYS_BUS_DEVICE(object_new("pl011"));
-+    s->uart0 =3D SYS_BUS_DEVICE(object_new(TYPE_PL011));
-     object_property_add_child(obj, "uart0", OBJECT(s->uart0), NULL);
-     qdev_set_parent_bus(DEVICE(s->uart0), sysbus_get_default());
+-    s->uart0 =3D SYS_BUS_DEVICE(object_new(TYPE_PL011));
+-    object_property_add_child(obj, "uart0", OBJECT(s->uart0), NULL);
+-    qdev_set_parent_bus(DEVICE(s->uart0), sysbus_get_default());
++    object_initialize(&s->uart0, sizeof(s->uart0), TYPE_PL011);
++    object_property_add_child(obj, "uart0", OBJECT(&s->uart0), NULL);
++    qdev_set_parent_bus(DEVICE(&s->uart0), sysbus_get_default());
 =20
+     /* AUX / UART1 */
+     object_initialize(&s->aux, sizeof(s->aux), TYPE_BCM2835_AUX);
+@@ -166,16 +166,16 @@ static void bcm2835_peripherals_realize(DeviceState=
+ *dev, Error **errp)
+     sysbus_pass_irq(SYS_BUS_DEVICE(s), SYS_BUS_DEVICE(&s->ic));
+=20
+     /* UART0 */
+-    qdev_prop_set_chr(DEVICE(s->uart0), "chardev", serial_hd(0));
+-    object_property_set_bool(OBJECT(s->uart0), true, "realized", &err);
++    qdev_prop_set_chr(DEVICE(&s->uart0), "chardev", serial_hd(0));
++    object_property_set_bool(OBJECT(&s->uart0), true, "realized", &err);
+     if (err) {
+         error_propagate(errp, err);
+         return;
+     }
+=20
+     memory_region_add_subregion(&s->peri_mr, UART0_OFFSET,
+-                                sysbus_mmio_get_region(s->uart0, 0));
+-    sysbus_connect_irq(s->uart0, 0,
++                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->uart0), 0));
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart0), 0,
+         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
+                                INTERRUPT_UART));
+     /* AUX / UART1 */
 --=20
 2.18.0.rc1.1.g3f1ff2140
 
