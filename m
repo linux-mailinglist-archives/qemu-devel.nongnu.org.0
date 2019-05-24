@@ -2,70 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB07929BFF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 18:20:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57119 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BAA129C1B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 18:24:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57203 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUCvJ-00025e-MG
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 12:20:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37347)
+	id 1hUCzM-0005gm-F7
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 12:24:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39851)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hUCdt-0004JK-Vq
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:02:03 -0400
+	(envelope-from <armbru@redhat.com>) id 1hUCnJ-0004bs-38
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:11:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hUCds-0002L1-3m
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:02:01 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39722)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hUCdp-0002GS-Th
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:01:59 -0400
-Received: by mail-wm1-x344.google.com with SMTP id z23so5685960wma.4
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 09:01:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=3B88NpQFOs8DC+2595MWdyNpg+oQZ5roeXs0f+YNp/4=;
-	b=uR9XXGNSGYbTn8mGMFrR36oD8IXNHZBi5KHBd79lAyhR3D2MXLz1iR5TQ9AWBlUdl+
-	jsYZdS6AYujJFVtpHlYlK2/Y3aCyMUCaC0Ms25IWPe6WAIPsge4DDHnay0a9y3gSIbrE
-	51ubfCk9hPkZwUZUdZndGYDnbUOI9s3ka4JHw7jChshDFQPPjzEzQZqF+kcPnXzH+DkS
-	iUAnb6QAcoFNSa7K3UWmJmaN0c0+DTzW1r+1Dc6vPKQpou2sPOLNdhqIERKVoGe23xCz
-	mn0KkhNqV2m45w+pWkJpMmc6PxRg93e0sUyb3SaHfoEnPLM8tIDtaj5rxbNa/kFCTZPX
-	7OOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=3B88NpQFOs8DC+2595MWdyNpg+oQZ5roeXs0f+YNp/4=;
-	b=S38qqpuCGMn07G4InngpdvvSZO3sQ5HO2XF69gcz8iG2vu7pEHULamIB6CRdT3rID4
-	XP0MrEt4YJZ1LKz0tasHjBkmqedEJWrNMHO01KjkVdBgb/N6nBJf1VuFHxwP5D6PcSSy
-	SIjt5avyO8ji4FZoelF32MCwsXkmiCZqc4M0DdkMYjI58U6s8R0Q2NqkPilWEuw74XlK
-	2qavaXugOS99Uqo/rFAoDcXfT1iVGKynxPWQqpHKOrRq9f+QPcAL/C7ZYlX4shRiuCq3
-	8K749exb4Lusx8KDfY3D9BzCjZF5FEYCVUCLew5xzJ0TioDAWcDahcHoUwXRwEMfuo9G
-	gAIw==
-X-Gm-Message-State: APjAAAUny03P0Ze7k/LVdWp9Um/1xSoZ5H1s2mKweHs++qjEVec6Zl1P
-	x/qBAIIr9CRxLs2x36H5ShH53AYk
-X-Google-Smtp-Source: APXvYqxz05oUm048sRpz5T+IkYj/IzMtKQle1hXiTssqPE31qa0TRKXLKSShIdqxCqrQt0cGONByfQ==
-X-Received: by 2002:a1c:ca19:: with SMTP id a25mr413533wmg.105.1558713715795; 
-	Fri, 24 May 2019 09:01:55 -0700 (PDT)
-Received: from jondnuc.lan ([176.230.64.37])
-	by smtp.gmail.com with ESMTPSA id s11sm370863wro.17.2019.05.24.09.01.54
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 24 May 2019 09:01:55 -0700 (PDT)
-From: Jon Doron <arilou@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 19:01:18 +0300
-Message-Id: <20190524160118.31134-21-arilou@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190524160118.31134-1-arilou@gmail.com>
-References: <20190524160118.31134-1-arilou@gmail.com>
+	(envelope-from <armbru@redhat.com>) id 1hUCnH-0001hR-6O
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:11:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55058)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hUCnC-0001dC-E8; Fri, 24 May 2019 12:11:39 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id F32F43078AC9;
+	Fri, 24 May 2019 16:11:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
+	[10.36.117.250])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C7BD10027BF;
+	Fri, 24 May 2019 16:11:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 2F0291138648; Fri, 24 May 2019 18:11:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190517144232.18965-1-kwolf@redhat.com>
+	<20190517144232.18965-5-kwolf@redhat.com>
+Date: Fri, 24 May 2019 18:11:30 +0200
+In-Reply-To: <20190517144232.18965-5-kwolf@redhat.com> (Kevin Wolf's message
+	of "Fri, 17 May 2019 16:42:30 +0200")
+Message-ID: <877eaf7ryl.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v11 20/20] gdbstub: Implement qemu physical
- memory mode
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.48]);
+	Fri, 24 May 2019 16:11:32 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 4/6] qapi: Disentangle QAPIDoc code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,123 +61,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, Jon Doron <arilou@gmail.com>
+Cc: pkrempa@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new query/set which changes the memory GDB sees to physical memory
-only.
+Kevin Wolf <kwolf@redhat.com> writes:
 
-gdb> maint packet qqemu.PhyMemMode
-will reply the current phy_mem_mode state (1 for enabled, 0 for disabled)
-gdb> maint packet Qqemu.PhyMemMode:1
-Will make GDB read/write only to physical memory, set to 0 to disable
+> Documentation comment follow a certain structure: First, we have a text
+> with a general description (called QAPIDoc.body). After this,
+> descriptions of the arguments follow. Finally, we have part that
+> contains various named sections.
+>
+> The code doesn't show this structure but just checks the right side
+> conditions so it happens to do the right set of things in the right
 
-Signed-off-by: Jon Doron <arilou@gmail.com>
----
- gdbstub.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 60 insertions(+), 2 deletions(-)
+What are "side conditions"?
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 9dd934a079..c9269319d8 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -46,11 +46,27 @@
- #define GDB_ATTACHED "1"
- #endif
- 
-+#ifndef CONFIG_USER_ONLY
-+static int phy_memory_mode;
-+#endif
-+
- static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
-                                          uint8_t *buf, int len, bool is_write)
- {
--    CPUClass *cc = CPU_GET_CLASS(cpu);
-+    CPUClass *cc;
- 
-+#ifndef CONFIG_USER_ONLY
-+    if (phy_memory_mode) {
-+        if (is_write) {
-+            cpu_physical_memory_write(addr, buf, len);
-+        } else {
-+            cpu_physical_memory_read(addr, buf, len);
-+        }
-+        return 0;
-+    }
-+#endif
-+
-+    cc = CPU_GET_CLASS(cpu);
-     if (cc->memory_rw_debug) {
-         return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
-     }
-@@ -2118,8 +2134,36 @@ static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ctx)
- 
- static void handle_query_qemu_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
- {
--    put_packet(gdb_ctx->s, "sstepbits;sstep");
-+    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "sstepbits;sstep");
-+#ifndef CONFIG_USER_ONLY
-+    pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), ";PhyMemMode");
-+#endif
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+static void handle_query_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx,
-+                                           void *user_ctx)
-+{
-+    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "%d", phy_memory_mode);
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-+}
-+
-+static void handle_set_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx, void *user_ctx)
-+{
-+    if (!gdb_ctx->num_params) {
-+        put_packet(gdb_ctx->s, "E22");
-+        return;
-+    }
-+
-+    if (!gdb_ctx->params[0].val_ul) {
-+        phy_memory_mode = 0;
-+    } else {
-+        phy_memory_mode = 1;
-+    }
-+    put_packet(gdb_ctx->s, "OK");
- }
-+#endif
- 
- static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
-     /* Order is important if has same prefix */
-@@ -2201,6 +2245,12 @@ static GdbCmdParseEntry gdb_gen_query_table[] = {
-         .handler = handle_query_qemu_supported,
-         .cmd = "qemu.Supported",
-     },
-+#ifndef CONFIG_USER_ONLY
-+    {
-+        .handler = handle_query_qemu_phy_mem_mode,
-+        .cmd = "qemu.PhyMemMode",
-+    },
-+#endif
- };
- 
- static GdbCmdParseEntry gdb_gen_set_table[] = {
-@@ -2211,6 +2261,14 @@ static GdbCmdParseEntry gdb_gen_set_table[] = {
-         .cmd_startswith = 1,
-         .schema = "l0"
-     },
-+#ifndef CONFIG_USER_ONLY
-+    {
-+        .handler = handle_set_qemu_phy_mem_mode,
-+        .cmd = "qemu.PhyMemMode:",
-+        .cmd_startswith = 1,
-+        .schema = "l0"
-+    },
-+#endif
- };
- 
- static void handle_gen_query(GdbCmdContext *gdb_ctx, void *user_ctx)
--- 
-2.21.0
+> phase. This is hard to follow, and adding support for documentation of
+> features would be even harder.
+>
+> This restructures the code so that the three parts are clearly
+> separated. The code becomes a bit longer, but easier to follow.
 
+Recommend to mention that output remains unchanged.
+
+>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  scripts/qapi/common.py | 107 ++++++++++++++++++++++++++++++++---------
+>  1 file changed, 83 insertions(+), 24 deletions(-)
+>
+> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> index 71944e2e30..1d0f4847db 100644
+> --- a/scripts/qapi/common.py
+> +++ b/scripts/qapi/common.py
+> @@ -120,6 +120,27 @@ class QAPIDoc(object):
+>          def connect(self, member):
+>              self.member = member
+>  
+> +    class SymbolPart:
+> +        """
+> +        Describes which part of the documentation we're parsing right now.
+
+So SymbolPart is a part of the documentation.  Shouldn't it be named
+DocPart then?
+
+> +
+> +        BODY means that we're ready to process freeform text into self.body. A
+
+s/freeform/free-form/
+
+> +        symbol name is only allowed if no other text was parsed yet. It is
+
+Start your sentences with a capital letter.
+
+> +        interpreted as the symbol name that describes the currently documented
+> +        object. On getting the second symbol name, we proceed to ARGS.
+> +
+> +        ARGS means that we're parsing the arguments section. Any symbol name is
+> +        interpreted as an argument and an ArgSection is created for it.
+> +
+> +        VARIOUS is the final part where freeform sections may appear. This
+> +        includes named sections such as "Return:" as well as unnamed
+> +        paragraphs. No symbols are allowed any more in this part.
+
+s/any more/anymore/
+
+Suggest "Symbols are not allowed anymore".
+
+Only expression documentation blocks have these parts.  Free-form
+documentation blocks don't.  Peeking ahead at the parent class's code:
+we make the complete free-form doc block a BODY part, which is okay.
+
+> +        """
+
+Considering the dearth of doc strings in this code, criticizing yours
+makes me feel bad, but here goes anyway.  This class is not about
+parsing.  Pretty much all of the doc string really belongs to the parent
+class, or maybe to its .append().  It may well also belong to
+qapi-code-gen.txt section "Expression documentation".
+
+Speaking of that section: it could use some love, to put it charitably.
+Mind, I'm not asking you to give it your love ;)
+
+Let me try to write a doc string that actually belongs here:
+
+        """
+        A documentation part.
+
+        Expression documentation blocks consist of
+        * a BODY part: first line naming the expression, plus an
+          optional overview
+        * an ARGS part: description of each argument (for commands and
+          events) or member (for structs, unions and alternates),
+        * a VARIOUS part: optional tagged sections.
+
+        Free-form documentation blocks consist only of a BODY part.
+        """
+
+Could throw in a pointer to qapi-code-gen.txt.
+
+This loses (useful!) documentation on how we interpret "symbol names".
+Should move to the code that actually deals with them.
+
+> +        # Can't make it a subclass of Enum because of Python 2
+
+Thanks for documenting Python 2 contortions!  Let's phrase it as a TODO
+comment.
+
+> +        BODY = 0
+
+Any particular reason for 0?
+
+As far as I can tell, Python enum values commonly start with 1, to make
+them all true.
+
+> +        ARGS = 1
+> +        VARIOUS = 2
+> +
+>      def __init__(self, parser, info):
+>          # self._parser is used to report errors with QAPIParseError.  The
+>          # resulting error position depends on the state of the parser.
+> @@ -135,6 +156,7 @@ class QAPIDoc(object):
+>          self.sections = []
+>          # the current section
+>          self._section = self.body
+> +        self._part = QAPIDoc.SymbolPart.BODY
+
+The right hand side is tiresome, but I don't have better ideas.
+
+>  
+>      def has_section(self, name):
+>          """Return True if we have a section with this name."""
+> @@ -154,37 +176,84 @@ class QAPIDoc(object):
+       def append(self, line):
+           """Parse a comment line and add it to the documentation."""
+           line = line[1:]
+           if not line:
+               self._append_freeform(line)
+               return
+
+           if line[0] != ' ':
+>              raise QAPIParseError(self._parser, "Missing space after #")
+>          line = line[1:]
+>  
+> +        if self._part == QAPIDoc.SymbolPart.BODY:
+> +            self._append_body_line(line)
+> +        elif self._part == QAPIDoc.SymbolPart.ARGS:
+> +            self._append_args_line(line)
+> +        elif self._part == QAPIDoc.SymbolPart.VARIOUS:
+> +            self._append_various_line(line)
+> +        else:
+> +            assert False
+
+Hmm.  As far as I can tell, this what we use ._part for.  All other
+occurences assign to it.
+
+If you replace
+
+    self._part = QAPIDoc.SymbolPart.BODY
+
+by
+
+    self._append_line = self._append_body_line
+
+and so forth, then the whole conditional shrinks to
+
+    self._append_line(line)
+
+and we don't have to muck around with enums.
+
+> +
+> +
+
+pycodestyle-3 gripes:
+
+    scripts/qapi/common.py:196:5: E303 too many blank lines (2)
+
+> +    def end_comment(self):
+> +        self._end_section()
+> +
+> +    def _check_named_section(self, line, name):
+> +        if name in ('Returns:', 'Since:',
+> +                    # those are often singular or plural
+> +                    'Note:', 'Notes:',
+> +                    'Example:', 'Examples:',
+> +                    'TODO:'):
+> +            self._part = QAPIDoc.SymbolPart.VARIOUS
+
+Hiding such a side effect in a _check_FOO() function isn't so nice, but
+considering the code you're cleaning up, you got a fairly generous "not
+so nice" allowance to spend.  No need to do anything.
+
+> +            return True
+> +        return False
+
+@line is unused.
+
+> +
+> +    def _append_body_line(self, line):
+> +        name = line.split(' ', 1)[0]
+>          # FIXME not nice: things like '#  @foo:' and '# @foo: ' aren't
+>          # recognized, and get silently treated as ordinary text
+> -        if self.symbol:
+> -            self._append_symbol_line(line)
+> -        elif not self.body.text and line.startswith('@'):
+> +        if not self.symbol and not self.body.text and line.startswith('@'):
+>              if not line.endswith(':'):
+>                  raise QAPIParseError(self._parser, "Line should end with :")
+>              self.symbol = line[1:-1]
+>              # FIXME invalid names other than the empty string aren't flagged
+>              if not self.symbol:
+>                  raise QAPIParseError(self._parser, "Invalid name")
+> +        elif self.symbol:
+> +            # We already know that we document some symbol
+> +            if name.startswith('@') and name.endswith(':'):
+> +                self._part = QAPIDoc.SymbolPart.ARGS
+> +                self._append_args_line(line)
+> +            elif self.symbol and self._check_named_section(line, name):
+> +                self._append_various_line(line)
+> +            else:
+> +                self._append_freeform(line.strip())
+>          else:
+> -            self._append_freeform(line)
+> -
+> -    def end_comment(self):
+> -        self._end_section()
+> +            # This is free-form documentation without a symbol
+> +            self._append_freeform(line.strip())
+>  
+> -    def _append_symbol_line(self, line):
+> +    def _append_args_line(self, line):
+>          name = line.split(' ', 1)[0]
+>  
+>          if name.startswith('@') and name.endswith(':'):
+>              line = line[len(name)+1:]
+>              self._start_args_section(name[1:-1])
+> -        elif name in ('Returns:', 'Since:',
+> -                      # those are often singular or plural
+> -                      'Note:', 'Notes:',
+> -                      'Example:', 'Examples:',
+> -                      'TODO:'):
+> +        elif self._check_named_section(line, name):
+> +            return self._append_various_line(line)
+
+Here you return something, and...
+
+> +        elif (self._section.text.endswith('\n\n')
+> +              and line and not line[0].isspace()):
+> +            self._start_section()
+> +            self._part = QAPIDoc.SymbolPart.VARIOUS
+> +            return self._append_various_line(line)
+
+... also here, but ...
+
+> +
+> +        self._append_freeform(line.strip())
+
+... not here.
+
+> +
+> +    def _append_various_line(self, line):
+> +        name = line.split(' ', 1)[0]
+> +
+> +        if name.startswith('@') and name.endswith(':'):
+> +            raise QAPIParseError(self._parser,
+> +                                 "'%s' can't follow '%s' section"
+> +                                 % (name, self.sections[0].name))
+> +        elif self._check_named_section(line, name):
+>              line = line[len(name)+1:]
+>              self._start_section(name[:-1])
+>  
+> +        if (not self._section.name or
+> +            not self._section.name.startswith('Example')):
+
+pycodestyle-3 gripes:
+
+    scripts/qapi/common.py:283:13: E129 visually indented line with same indent as next logical line
+
+Fix like this:
+
+           if (not self._section.name
+                   or not self._section.name.startswith('Example')):
+
+> +            line = line.strip()
+> +
+>          self._append_freeform(line)
+>  
+>      def _start_args_section(self, name):
+> @@ -194,10 +263,7 @@ class QAPIDoc(object):
+>          if name in self.args:
+>              raise QAPIParseError(self._parser,
+>                                   "'%s' parameter name duplicated" % name)
+> -        if self.sections:
+> -            raise QAPIParseError(self._parser,
+> -                                 "'@%s:' can't follow '%s' section"
+> -                                 % (name, self.sections[0].name))
+> +        assert not self.sections
+>          self._end_section()
+>          self._section = QAPIDoc.ArgSection(name)
+>          self.args[name] = self._section
+> @@ -219,13 +285,6 @@ class QAPIDoc(object):
+>              self._section = None
+>  
+>      def _append_freeform(self, line):
+> -        in_arg = isinstance(self._section, QAPIDoc.ArgSection)
+> -        if (in_arg and self._section.text.endswith('\n\n')
+> -                and line and not line[0].isspace()):
+> -            self._start_section()
+> -        if (in_arg or not self._section.name
+> -                or not self._section.name.startswith('Example')):
+> -            line = line.strip()
+>          match = re.match(r'(@\S+:)', line)
+>          if match:
+>              raise QAPIParseError(self._parser,
+
+The patch is hard to read (not your fault).  I mostly reviewed the
+result instead.
 
