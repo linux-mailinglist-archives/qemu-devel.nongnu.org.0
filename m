@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B430299C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:07:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55149 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C08299C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:10:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55174 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUAr3-0004rD-M0
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:07:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40481)
+	id 1hUAtx-00078T-Kl
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:10:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40414)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hUAoP-0003SB-2Z
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:04:47 -0400
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hUAoO-0003KZ-4h
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:04:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hUAnj-0002OP-5q
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:04:03 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:42637)
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hUAnn-0002RN-Br
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:04:08 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:37440)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
-	id 1hUAnj-0002Nf-0X; Fri, 24 May 2019 10:04:03 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id 33so2162792pgv.9;
-	Fri, 24 May 2019 07:04:02 -0700 (PDT)
+	id 1hUAnn-0002Ql-5F; Fri, 24 May 2019 10:04:07 -0400
+Received: by mail-pf1-x443.google.com with SMTP id a23so5409603pff.4;
+	Fri, 24 May 2019 07:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MOLjMhKSGechndhxC45XWXBaUt38Hb0jpsQqlDASuQI=;
-	b=fGvlprkOGqYCx4shyGCXwfblzCKE0Jui6v0XhIbUPpbOAlKZ3i92xPf2Brz9hun9RG
-	HrhZw5Rly2nxpT7Wl5fNvIj1bkNcHOkYN3VHLoyph3fV8C1BaQSl5OSOBZGYEXs3e5rf
-	kjuQ78sFSR5L092ejLITDJ7t72QPg2A0T2uX8DAEtIWcdXzY7FAtAQQhf15fecaQiYlY
-	OnY/Qd/OGXofsKrK43C0ZitTERn62AksTaBSNFWrfgrQABt9ptClsVXd4NpVsXZLcIUo
-	BK/1R8kJJLjlMFdbrC5r4OdjkmE8g4ecq+t2A+Efb3jjc/JiNgc6EbIX0bWaGc/xlIa4
-	nVsw==
+	bh=3FKBJA17va/jv2u1TvUxLDB1xiagIFwWCBsEV/clovc=;
+	b=a4855LGhNEYcj8uL4x3QndWURkakTYZkaqqP4d4oYiu192b2tsudRdYqWJjtJis+CR
+	aSGOvI1YVvX6dqwTqTGW29AuQf40xqhZzMW8uBfIQpfChhAJ/in/L3PdYlto6au16/G3
+	5ax5wdRu9u30VKEXCfdle3XWpyNPfA8vcnGnA/+MbmGNzlxhE5zkL2j8U5tm/FVnsquz
+	g5QOxGHjg0Y9Jgj5ogUH3+oETzqsGLFsaX2i6EsUFxEmqAzBGWm4dqbxNUg6KBJ2TuFT
+	NU9Bdvp+D2+MKrUfzrC7D7k+SPYLQkPBZdu10Eku1h+VhIO7pbyIi9R7R+Cfhamp3ae3
+	Nasg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=MOLjMhKSGechndhxC45XWXBaUt38Hb0jpsQqlDASuQI=;
-	b=qQRv8o462FApOmSdwABrnOb6ka/ZzOnZMmLb+uqVchF/JLnoAa2cYk3+Efr11aX2Wf
-	1ACP9kTbXD4mPAqR6xdC4UoMbNwAFzyNM4NR3jPu/oKHNlvWUah7S8fkrKsZj/dF3xHB
-	NV0S6U9hj9r8zl4+rRGlVrCQtDzpZ22VHO32q4bguL818JYHnZZ7UTVV+q2qGU2K1MAM
-	dE5MgAVWFRTgAx/lNLYDbKPDm1czVYXtrafodicW5NzvI5ieeoPkgcMstGZKjbN3fhsF
-	kztJmOeSUv5YcXCI+s9xf9trOIS3LAAFaE8mgLYwebKDLWMpMevftDGH0g4f/z/rZB0O
-	Jv2A==
-X-Gm-Message-State: APjAAAXmqEnkGQ2p/l9fgwRbVId0Cy+4GMfGOaLYhHHSnBOBKRkzaSw3
-	8xZqvjvXVmtaWCnEiHsxAeiWKfUXujZxmQ==
-X-Google-Smtp-Source: APXvYqxI41XB2iojAX6k1A6EenTsYGvVYmRkHnYZX6Hi+pyNFL0uIouqGFdvoL94qtml9EdtvhXglQ==
-X-Received: by 2002:a62:2e46:: with SMTP id
-	u67mr114236791pfu.206.1558706641550; 
-	Fri, 24 May 2019 07:04:01 -0700 (PDT)
+	bh=3FKBJA17va/jv2u1TvUxLDB1xiagIFwWCBsEV/clovc=;
+	b=tqOFfloyBsYgf0IboauHwc/PnO4DF6Po/YQxmgL8ft27JZuZsmjmst9e/KqDhYeYY6
+	ohQ/CEZiOLKcCc89vQ7y9TA4E0TMEs4v2YrBwvUCR6MMUqG1Zt48il4W7piuavzTJRxN
+	KCWc8wm4o3Y6sGLoSkFNH0NcpJqPbs1/b0UBS59dLw9roAYBUtGzUJBBylEj1j+y1pdZ
+	sSDkeOiwMbJjoCStopIyUt5Dxo2oZEsve/qLpvFHXThqeRPu9+qTmsq7p0MekKyfJdgM
+	9TDiDL7VstKW8Mea4sbTfxWFdj3KwFzuFDE2cAJJjW/qZcM7XQTQQLdsXGMtE69AseNQ
+	Sn/g==
+X-Gm-Message-State: APjAAAUuF//OpYlFcMovV8twNy3grYlKavmdR3mlP3PxTkbKvDRNHk+w
+	QeXrlMqmIjfZxh4vQmdFFzl66Eu2Vxk+Hw==
+X-Google-Smtp-Source: APXvYqy4l/3ibeoF9lugxLRcZk2nFEzQ/rSSZqVuB3NnKQayxkGKq4FFbqh7sQgtkZ/6z2qw5pyqqw==
+X-Received: by 2002:a63:d00d:: with SMTP id z13mr9056359pgf.368.1558706645836; 
+	Fri, 24 May 2019 07:04:05 -0700 (PDT)
 Received: from localhost.localdomain ([120.57.120.132])
 	by smtp.gmail.com with ESMTPSA id
-	u11sm2556766pfh.130.2019.05.24.07.03.57
+	u11sm2556766pfh.130.2019.05.24.07.04.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 May 2019 07:04:00 -0700 (PDT)
+	Fri, 24 May 2019 07:04:05 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 19:33:29 +0530
-Message-Id: <20190524140337.13415-2-mehta.aaru20@gmail.com>
+Date: Fri, 24 May 2019 19:33:30 +0530
+Message-Id: <20190524140337.13415-3-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190524140337.13415-1-mehta.aaru20@gmail.com>
 References: <20190524140337.13415-1-mehta.aaru20@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::52f
-Subject: [Qemu-devel] [RFC PATCH v2 1/9] qapi/block-core: add option for
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [RFC PATCH v2 2/9] block/block: add BDRV flag for
  io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -84,29 +83,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 ---
- qapi/block-core.json | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ include/block/block.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 7ccbfff9d0..0e927b247d 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2776,11 +2776,13 @@
- #
- # @threads:     Use qemu's thread pool
- # @native:      Use native AIO backend (only Linux and Windows)
-+# @io_uring:    Use linux io_uring (only Linux)
- #
--# Since: 2.9
-+# Since: 4.1
- ##
- { 'enum': 'BlockdevAioOptions',
--  'data': [ 'threads', 'native' ] }
-+  'data': [ 'threads', 'native',
-+            { 'name': 'io_uring', 'if': 'defined(CONFIG_LINUX)' } ] }
+diff --git a/include/block/block.h b/include/block/block.h
+index 9b083e2bca..60f7c6c01c 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -121,6 +121,7 @@ typedef struct HDGeometry {
+                                       ignoring the format layer */
+ #define BDRV_O_NO_IO       0x10000 /* don't initialize for I/O */
+ #define BDRV_O_AUTO_RDONLY 0x20000 /* degrade to read-only if opening read-write fails */
++#define BDRV_O_IO_URING    0x40000 /* use io_uring instead of the thread pool */
 
- ##
- # @BlockdevCacheOptions:
+ #define BDRV_O_CACHE_MASK  (BDRV_O_NOCACHE | BDRV_O_NO_FLUSH)
+
 --
 2.17.1
 
