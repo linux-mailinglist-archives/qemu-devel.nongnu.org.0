@@ -2,54 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58452299F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:20:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55390 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2187D299C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 16:10:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55172 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUB3K-0006zf-0s
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:20:10 -0400
+	id 1hUAtw-00076A-4O
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 10:10:28 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:40481)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eric.auger@redhat.com>) id 1hUAoY-0003SB-4R
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:04:55 -0400
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hUAoS-0003SB-5d
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:04:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eric.auger@redhat.com>) id 1hUAje-0007HB-AP
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:59:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:26279)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eric.auger@redhat.com>)
-	id 1hUAjd-0006re-6t; Fri, 24 May 2019 09:59:49 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CF90430820E6;
-	Fri, 24 May 2019 13:59:21 +0000 (UTC)
-Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CE9910027C6;
-	Fri, 24 May 2019 13:59:19 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-References: <20190524124829.2589-1-peter.maydell@linaro.org>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <79be2f7d-d9b6-4742-e116-078ce937a051@redhat.com>
-Date: Fri, 24 May 2019 15:59:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <20190524124829.2589-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Fri, 24 May 2019 13:59:21 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] hw/arm/smmuv3: Fix decoding of ID register
- range
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hUAnf-0002Lp-Hg
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 10:04:00 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40251)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
+	id 1hUAnf-0002Kx-9K; Fri, 24 May 2019 10:03:59 -0400
+Received: by mail-pf1-x441.google.com with SMTP id u17so5396845pfn.7;
+	Fri, 24 May 2019 07:03:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=NAlK3IXTaFLznSZf1TdQM7YTbALj0xbQ+SmrBQupY3I=;
+	b=UngfwpklISqNSRXh5/oBvHueGyyADAgtI/HdjMgqkUFbs0/Bid71PXstOa3esjm3Cr
+	0kGegym+22I6H54SrGMNPmzaynxkJZfTJJKg70QkPxnkT4AExmEv4YcdHhpQY42dEAXy
+	nNfGB7cPB8LmuK475rJdLTvmrwkzznsM4XMb0bJuw+ymbzl5QqYCF4hqkYq42YKzR5+W
+	tWl62IsqRNMtmywpo1ae+hfYxBDejSiyd5Z+2NTJVpUsIBWlha3avVKrHycH/1znaYHn
+	2ElpYtPX32q6CiVAKq0Relf+xCE6qv7eJ1++cllOeRci3ZRH6rvdogAQzPVWLG2baf7A
+	7nPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=NAlK3IXTaFLznSZf1TdQM7YTbALj0xbQ+SmrBQupY3I=;
+	b=TbPj37K6iufeKbPxMkvG5PUC2fFkocLb/LZw8k2ZjEnRbuqV+dh0c0zj6CtEc0bu3S
+	FFYIhgfy5W6xZ3BNyy2SpXeXzKiJ6UjIWz6l9d0uLDp7zK9P925/NAIht6nwPBa8GQHp
+	jKZJNhUZ651yBHIy+MmC99C9ACvCWy6do3h3UuXirqz2MT6/8e9h0rkB1uuLskmzoTl4
+	50WrCmj53w6467mQin0/8hli2wrdis35pvqgvlvCFFf4gko7si1VSNMgOao+5eYIuFLH
+	kj6bQdNg39bTSZtunvyvlQEFqlrr9nHcORV5Nhhvts6Qrsy5yNskM6zL8Ot4CxTyZWqX
+	Z23Q==
+X-Gm-Message-State: APjAAAXIo8J391CaSWgLoXq11UYKYqSygGipIaVLeIaZOBRrQFqMnTeT
+	yk9Q+/NBFmN0DstyXvKGw9yOGYYoDWpi9Q==
+X-Google-Smtp-Source: APXvYqwKuiJ1k6+Ezs21ya6ATKU0heEr5lL7ltsOP7DzBFLgfC7Aq5PG9c8cP7xCPuVXSEgXK+eAEw==
+X-Received: by 2002:a65:60c7:: with SMTP id r7mr103317820pgv.22.1558706637087; 
+	Fri, 24 May 2019 07:03:57 -0700 (PDT)
+Received: from localhost.localdomain ([120.57.120.132])
+	by smtp.gmail.com with ESMTPSA id
+	u11sm2556766pfh.130.2019.05.24.07.03.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 May 2019 07:03:56 -0700 (PDT)
+From: Aarushi Mehta <mehta.aaru20@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 24 May 2019 19:33:28 +0530
+Message-Id: <20190524140337.13415-1-mehta.aaru20@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [RFC PATCH v2 0/9] Add support for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,38 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+	saket.sinha89@gmail.com, Stefan Hajnoczi <stefanha@redhat.com>,
+	Julia Suvorova <jusual@mail.ru>, Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-On 5/24/19 2:48 PM, Peter Maydell wrote:
-> The SMMUv3 ID registers cover an area 0x30 bytes in size
-> (12 registers, 4 bytes each). We were incorrectly decoding
-> only the first 0x20 bytes.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+This patch series adds support for the newly developed io_uring Linux AIO interface. Linux io_uring is faster than Linux's AIO asynchronous I/O code, offers efficient buffered asynchronous I/O support, the ability to do I/O without performing a system call via polled I/O, and other efficiency enhancements. It is expected that it will replace the old AIO interface
 
-Thank you for the fix.
+Testing it requires a host kernel 5.1 or newer and the liburing library. Use the option -drive aio=io_uring to enable it.
 
-Eric
+v2:
+- Fix Patchew errors
+- Option now enumerates only for CONFIG_LINUX in qapi
+- Removed redudant and broken code in io_uring
+- io_uring now aborts on sqe leak
 
-> ---
->  hw/arm/smmuv3.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> index fd8ec7860ee..e96d5beb9a8 100644
-> --- a/hw/arm/smmuv3.c
-> +++ b/hw/arm/smmuv3.c
-> @@ -1232,7 +1232,7 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
->                                uint64_t *data, MemTxAttrs attrs)
->  {
->      switch (offset) {
-> -    case A_IDREGS ... A_IDREGS + 0x1f:
-> +    case A_IDREGS ... A_IDREGS + 0x2f:
->          *data = smmuv3_idreg(offset - A_IDREGS);
->          return MEMTX_OK;
->      case A_IDR0 ... A_IDR5:
-> 
+Aarushi Mehta (9):
+  qapi/block-core: add option for io_uring
+  block/block: add BDRV flag for io_uring
+  include/block: declare interfaces for io_uring
+  stubs: add aio interface stubs for io_uring
+  util/async: add aio interfaces for io_uring
+  block/io_uring: implements interfaces for io_uring
+  blockdev: accept io_uring as option
+  block/file-posix: extends to use with io_uring
+  configure: permit use of io_uring
+
+ MAINTAINERS             |  11 ++
+ block/Makefile.objs     |   2 +
+ block/file-posix.c      |  63 ++++++++-
+ block/io_uring.c        | 306 ++++++++++++++++++++++++++++++++++++++++
+ blockdev.c              |   4 +-
+ configure               |  27 ++++
+ include/block/aio.h     |  16 ++-
+ include/block/block.h   |   1 +
+ include/block/raw-aio.h |  15 ++
+ qapi/block-core.json    |   6 +-
+ stubs/Makefile.objs     |   1 +
+ stubs/io_uring.c        |  32 +++++
+ util/async.c            |  36 +++++
+ 13 files changed, 511 insertions(+), 9 deletions(-)
+ create mode 100644 block/io_uring.c
+ create mode 100644 stubs/io_uring.c
+
+--
+2.17.1
 
