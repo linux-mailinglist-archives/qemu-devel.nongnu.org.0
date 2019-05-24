@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C735729ACA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:16:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56139 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174CB29AE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:20:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56186 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUBvc-0002lS-0K
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:16:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55504)
+	id 1hUBzw-0005Zh-9s
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:20:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56393)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hUBsx-0001LO-8s
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:13:32 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hUBvj-0003Ni-2c
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:16:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hUBsw-0003SU-AT
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:13:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42492)
+	(envelope-from <stefanha@redhat.com>) id 1hUBvi-0005Uc-BF
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:16:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56690)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <stefanha@redhat.com>)
-	id 1hUBsu-00039E-1q; Fri, 24 May 2019 11:13:28 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	id 1hUBvg-0005Sl-7K; Fri, 24 May 2019 11:16:20 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CA71D7FDFF;
-	Fri, 24 May 2019 15:12:57 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7D34630832C9;
+	Fri, 24 May 2019 15:16:17 +0000 (UTC)
 Received: from localhost (ovpn-117-142.ams2.redhat.com [10.36.117.142])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id ED2EA7BE8F;
-	Fri, 24 May 2019 15:12:56 +0000 (UTC)
-Date: Fri, 24 May 2019 16:12:55 +0100
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 100976871E;
+	Fri, 24 May 2019 15:16:16 +0000 (UTC)
+Date: Fri, 24 May 2019 16:16:15 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190524151255.GB31070@stefanha-x1.localdomain>
+Message-ID: <20190524151615.GC31070@stefanha-x1.localdomain>
 References: <20190524140337.13415-1-mehta.aaru20@gmail.com>
-	<20190524140337.13415-3-mehta.aaru20@gmail.com>
+	<20190524140337.13415-4-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="s/l3CgOIzMHHjg/5"
+	protocol="application/pgp-signature"; boundary="E/DnYTRukya0zdZ1"
 Content-Disposition: inline
-In-Reply-To: <20190524140337.13415-3-mehta.aaru20@gmail.com>
+In-Reply-To: <20190524140337.13415-4-mehta.aaru20@gmail.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Fri, 24 May 2019 15:13:02 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.44]);
+	Fri, 24 May 2019 15:16:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH v2 2/9] block/block: add BDRV flag for
- io_uring
+Subject: Re: [Qemu-devel] [RFC PATCH v2 3/9] include/block: declare
+ interfaces for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,32 +66,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---s/l3CgOIzMHHjg/5
+--E/DnYTRukya0zdZ1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, May 24, 2019 at 07:33:30PM +0530, Aarushi Mehta wrote:
+On Fri, May 24, 2019 at 07:33:31PM +0530, Aarushi Mehta wrote:
 > Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 > ---
->  include/block/block.h | 1 +
->  1 file changed, 1 insertion(+)
+>  include/block/aio.h     | 16 +++++++++++++++-
+>  include/block/raw-aio.h | 15 +++++++++++++++
+>  2 files changed, 30 insertions(+), 1 deletion(-)
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+There's not much a code reviewer can do with this patch in isolation
+since they don't know the behavior of the functions declared here.
+Please squash this patch with the patch containing the function
+definitions.  That way a full review can be done to decide "is this the
+correct function prototype?", "can the interface be simplified?", etc.
 
---s/l3CgOIzMHHjg/5
+--E/DnYTRukya0zdZ1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzoCfcACgkQnKSrs4Gr
-c8jfpAgAumNqEERlV2GXHmJPibH3F8F7L/WRO/TzHh0EhM0zLMCngm+H3mh593Ss
-H3X5uVJ02t0QhkJI/K1nAFi0FJLCGl2P4lrBLfOIJ0XPipbuiQOg9/j0Mfu62s5t
-PdB8M1i66yv3DCMKYIvZDn5Bjn14tEaOerK852sEJ8oyLxXsIJYC9VyoXVQeDHWe
-2GDGsQJ5wrC3HEqiyNpB+u0nRxduD00agWsUqO/WNAj6zsKuPKnEaHwha94Kxs8+
-FQ6Di8yEqMT3IRdYFDWcxRJ9XuzFziveHm2F7zGIB+Z6GzJLqk2qnbbhjC9GtMLR
-TTOi5Q8HgabnK/YQ/TOhmcIH+9dZpw==
-=Q5Sd
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzoCr8ACgkQnKSrs4Gr
+c8j7egf/aIkYvegwyK3D2p/Le8GhDu1e8PXfquF0Q9WFTPKH+trmxKss/FM7QfxV
+JwyQuQ9RdCVgqqKZBxF8/ZJnhijUXhrz8e6quuc+pn9pn81B9Y0nsbxAKDJoP9s1
+DsDJwXFGNcU0qeDiljKUbh+aLxGD5cuZXq/bnManakSzvh+wIgNsbAagYX/Dth1T
+xhKtYjpF7dZ2OKo3tj9NYp2aVDRoibKPWP6qnk3lBI8Dm/EbaDGppqM/S8NI2FPo
+HkRC0EUfHJOorA3zTZlwRSv/nhWg/a9rSvIqvbN1gUZgWVr2pWnYXAK3rBZ0DdMN
+XYMb6ihwuquaBoF0/WwLqK8xWgxVZw==
+=obdT
 -----END PGP SIGNATURE-----
 
---s/l3CgOIzMHHjg/5--
+--E/DnYTRukya0zdZ1--
 
