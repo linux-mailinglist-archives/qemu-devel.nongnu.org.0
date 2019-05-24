@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB0C29E6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:50:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58823 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1887429E6D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 20:50:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58821 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFGZ-0001uo-7Y
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:50:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40359)
+	id 1hUFGW-0001ra-9H
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 14:50:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40374)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFBr-0006ko-OA
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:16 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUFBt-0006pV-U9
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hUFBq-00066v-6u
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58652)
+	(envelope-from <ehabkost@redhat.com>) id 1hUFBr-000682-Oj
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:3823)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFBm-000622-Dd
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:12 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFBq-00065a-6C
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:45:15 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 97BCD30833A8;
-	Fri, 24 May 2019 18:45:09 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id EDFE3C057F88;
+	Fri, 24 May 2019 18:45:11 +0000 (UTC)
 Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DDA5718A5F;
-	Fri, 24 May 2019 18:45:04 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 60E651001E65;
+	Fri, 24 May 2019 18:45:11 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 	Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Fri, 24 May 2019 15:44:34 -0300
-Message-Id: <20190524184447.16678-5-ehabkost@redhat.com>
+Date: Fri, 24 May 2019 15:44:35 -0300
+Message-Id: <20190524184447.16678-6-ehabkost@redhat.com>
 In-Reply-To: <20190524184447.16678-1-ehabkost@redhat.com>
 References: <20190524184447.16678-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Fri, 24 May 2019 18:45:09 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.32]);
+	Fri, 24 May 2019 18:45:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 04/17] hw/virtio: Use object_initialize_child
- for correct reference counting
+Subject: [Qemu-devel] [PULL 05/17] hw/arm/bcm2835: Use TYPE_PL011 instead of
+ hardcoded string
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,81 +64,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-As explained in commit aff39be0ed97:
-
-  Both functions, object_initialize() and object_property_add_child()
-  increase the reference counter of the new object, so one of the
-  references has to be dropped afterwards to get the reference
-  counting right. Otherwise the child object will not be properly
-  cleaned up when the parent gets destroyed.
-  Thus let's use now object_initialize_child() instead to get the
-  reference counting here right.
-
-This patch was generated using the following Coccinelle script:
-
- @use_object_initialize_child@
- expression parent_obj;
- expression child_ptr;
- expression child_name;
- expression child_type;
- expression child_size;
- expression errp;
- @@
- (
- -   object_initialize(child_ptr, child_size, child_type);
- +   object_initialize_child(parent_obj, child_name,  child_ptr, child_si=
-ze,
- +                           child_type, &error_abort, NULL);
-     ... when !=3D parent_obj
- -   object_property_add_child(parent_obj, child_name, OBJECT(child_ptr),=
- NULL);
-     ...
- ?-  object_unref(OBJECT(child_ptr));
- |
- -   object_initialize(child_ptr, child_size, child_type);
- +   object_initialize_child(parent_obj, child_name,  child_ptr, child_si=
-ze,
- +                            child_type, errp, NULL);
-     ... when !=3D parent_obj
- -   object_property_add_child(parent_obj, child_name, OBJECT(child_ptr),=
- errp);
-     ...
- ?-  object_unref(OBJECT(child_ptr));
- )
-
-While the object_initialize() function doesn't take an
-'Error *errp' argument, the object_initialize_child() does.
-Since this code is used when a machine is created (and is not
-yet running), we deliberately choose to use the &error_abort
-argument instead of ignoring errors if an object creation failed.
-
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Inspired-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190507163416.24647-4-philmd@redhat.com>
+Message-Id: <20190507163416.24647-5-philmd@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/virtio/virtio.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ include/hw/arm/bcm2835_peripherals.h | 1 +
+ hw/arm/bcm2835_peripherals.c         | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 4805727b53..07f4a64b48 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2312,9 +2312,8 @@ void virtio_instance_init_common(Object *proxy_obj,=
- void *data,
- {
-     DeviceState *vdev =3D data;
+diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm283=
+5_peripherals.h
+index f5b193f670..959508d57d 100644
+--- a/include/hw/arm/bcm2835_peripherals.h
++++ b/include/hw/arm/bcm2835_peripherals.h
+@@ -13,6 +13,7 @@
 =20
--    object_initialize(vdev, vdev_size, vdev_name);
--    object_property_add_child(proxy_obj, "virtio-backend", OBJECT(vdev),=
- NULL);
--    object_unref(OBJECT(vdev));
-+    object_initialize_child(proxy_obj, "virtio-backend", vdev, vdev_size=
-,
-+                            vdev_name, &error_abort, NULL);
-     qdev_alias_all_properties(vdev, proxy_obj);
- }
+ #include "qemu-common.h"
+ #include "hw/sysbus.h"
++#include "hw/char/pl011.h"
+ #include "hw/char/bcm2835_aux.h"
+ #include "hw/display/bcm2835_fb.h"
+ #include "hw/dma/bcm2835_dma.h"
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index 6be7660e8c..7ffb51b692 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -46,7 +46,7 @@ static void bcm2835_peripherals_init(Object *obj)
+     qdev_set_parent_bus(DEVICE(&s->ic), sysbus_get_default());
+=20
+     /* UART0 */
+-    s->uart0 =3D SYS_BUS_DEVICE(object_new("pl011"));
++    s->uart0 =3D SYS_BUS_DEVICE(object_new(TYPE_PL011));
+     object_property_add_child(obj, "uart0", OBJECT(s->uart0), NULL);
+     qdev_set_parent_bus(DEVICE(s->uart0), sysbus_get_default());
 =20
 --=20
 2.18.0.rc1.1.g3f1ff2140
