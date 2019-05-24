@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8E629EBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 21:01:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59002 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B41629ECC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 21:06:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59070 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFRc-0002Ys-JO
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 15:01:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43814)
+	id 1hUFWJ-0005qH-Le
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 15:06:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44373)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aaro.koskinen@iki.fi>) id 1hUFPi-0001h2-W2
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:59:35 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hUFSC-0003vG-UH
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 15:02:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aaro.koskinen@iki.fi>) id 1hUFPh-0006wm-Hs
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:59:34 -0400
-Received: from emh01.mail.saunalahti.fi ([62.142.5.107]:39100)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aaro.koskinen@iki.fi>)
-	id 1hUFPh-0006rj-As
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 14:59:33 -0400
-Received: from t60.musicnaut.iki.fi (85-76-86-221-nat.elisa-mobile.fi
-	[85.76.86.221])
-	by emh01.mail.saunalahti.fi (Postfix) with ESMTP id C12E020014;
-	Fri, 24 May 2019 21:59:22 +0300 (EEST)
-Date: Fri, 24 May 2019 21:59:22 +0300
-From: Aaro Koskinen <aaro.koskinen@iki.fi>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	Thomas Huth <thuth@redhat.com>
-Message-ID: <20190524185922.GA4597@t60.musicnaut.iki.fi>
-References: <20190520190533.GA28160@Red>
-	<20190521232323.GD3621@darkstar.musicnaut.iki.fi>
-	<20190522093341.GA32154@Red>
-	<20190522181904.GE3621@darkstar.musicnaut.iki.fi>
-	<8977e2bb-8d9e-f4fd-4c44-b4f67e0e7314@redhat.com>
-	<c2972889-fe60-7614-fb6e-e57ddf780a54@redhat.com>
-	<20190523183623.GB5234@darkstar.musicnaut.iki.fi>
-	<CAFEAcA8C0WN5FwaW2kfWiRm1T8wML_fWXDKqRXP-Lv_P7ysy8A@mail.gmail.com>
-	<20190524150018.GA3156@t60.musicnaut.iki.fi>
+	(envelope-from <laurent@vivier.eu>) id 1hUFSA-0008Ku-Cz
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 15:02:08 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:40163)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
+	id 1hUFS6-0008Gs-Ax; Fri, 24 May 2019 15:02:02 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1M9W78-1hZj4c3iQm-005bVI; Fri, 24 May 2019 21:00:47 +0200
+To: Thomas Huth <huth@tuxfamily.org>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+	kwolf@redhat.com, famz@redhat.com, qemu-block@nongnu.org,
+	jasowang@redhat.com, dgilbert@redhat.com, mreitz@redhat.com,
+	hpoussin@reactos.org, kraxel@redhat.com, pbonzini@redhat.com,
+	aurelien@aurel32.net
+References: <20181102152257.20637-1-mark.cave-ayland@ilande.co.uk>
+	<20181102152257.20637-6-mark.cave-ayland@ilande.co.uk>
+	<839269a0-4b07-a084-8e9a-fcffa76bc658@tuxfamily.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <e1c4101c-81a9-396e-af5a-995349e50a49@vivier.eu>
+Date: Fri, 24 May 2019 21:00:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190524150018.GA3156@t60.musicnaut.iki.fi>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 62.142.5.107
-Subject: Re: [Qemu-devel] Running linux on qemu omap
+In-Reply-To: <839269a0-4b07-a084-8e9a-fcffa76bc658@tuxfamily.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:eSm/2qJWAyFAEw+o8CezUCYN1zfD2YJ3QKia3Z/ZrFUuVGOksJt
+	kPkTBVxZyeMm3U5OrnR9G37AALiV75b/jmYtSTYDIU7PG9/H8diZP+imX19UPaITY43mKOn
+	nSTlxYBfh9JPVT3JEXX4tvNm7qvkq/PktiuBdv1W0WZvws82Xb9KHT5Qyjq7tvEW5+B1GPI
+	vZmqX+1PbbG4phBSh97PA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Wj2Z1dZ+k4E=:3dF6pYBocIH9QkQe0ifVYp
+	v0pzN+oAnww4nA/K0iFr1pJqZ5+LQPYGOj7qKwNGYNYnAxDI31luSHoGYi5n3Ifd/olSDBsG1
+	xhap4D9T6wogYrmOc3cHoB1z3m9794FPJopbeOJTTXytxPs8PrtgI286nGHyA8tMkzPQt3mmB
+	N63vW3qJ9OTHadXOxEHEYqtMRSwLquHLJdVvQBhOJEhkzjS4kqymzIXADxWzqoaLAtpY+Fvfr
+	7g5jrf10jOJOCqZp+jOjg2F5wRiW1SKXIAAwrakvxotPdPSMhEuxUK2iR38QRrXXrtsEFF1Xt
+	PO1xI1NsioU0kGrgcBwgx9mVaXACFVpHRE5ablAo3UnkSc6eun3tyd6W9F2efdiTrNNJIg9+J
+	KkiSWp0uPN9SUqjFJix65680HFI7V9/U1xjMookbjenp6ONQyOV2lz7qGeth/zGung982NfdD
+	zGpgBM52IJq4mRnRTGYnuqDxsblFyaWTPwaHVWiGytZbJF9drEXPRcwRvLhInOnycW+okdkbl
+	0IE7gWgqVrHutM3GO5wOJtNet/jmL+xe5cV0/SomEquU0UWfl5+ayqrgidQWUxTJsbC2JlGVE
+	z9yH3vF8xj2du/vuIEizX+q6GrXcyg3AiqQfWDiHf3i+jhffiGkaHsU6qcjJWaUilLRAZosMJ
+	ZTNJXUtXP2jO4Ul7XEJCjstLMgJ3GwN5O71uXzhpUE1q9Qfk70WhiTemM4MHpvmYp6FSGf40n
+	sZSFY7aibyowUVXQTExJwP5zgM4TaVPJXZEOkXw2Y3ltpm3llNyfm3CJtz4=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.72.192.73
+Subject: Re: [Qemu-devel] [PATCH v6 05/10] esp: add pseudo-DMA as used by
+ Macintosh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,57 +73,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, QEMU Developers <qemu-devel@nongnu.org>,
-	lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
-	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 25/01/2019 06:48, Thomas Huth wrote:
+> On 2018-11-02 16:22, Mark Cave-Ayland wrote:
+>> From: Laurent Vivier <laurent@vivier.eu>
+> 
+> I'd suggest to add a patch description that contains the text that
+> Laurent provided as a reply to this patch in v5:
+> 
+> ---------------------------- 8< --------------------------------------
+> There is no DMA in Quadra 800, so the CPU reads/writes the data from the
+> PDMA register (offset 0x100, ESP_PDMA in hw/m68k/q800.c) and copies them
+> to/from the memory.
+> 
+> There is a nice assembly loop in the kernel to do that, see
+> linux/drivers/scsi/mac_esp.c:MAC_ESP_PDMA_LOOP().
+> 
+> The start of the transfer is triggered by the DREQ interrupt (see linux
+> mac_esp_send_pdma_cmd()), the CPU polls on the IRQ flag to start the
+> transfer after a SCSI command has been sent (in Quadra 800 it goes
+> through the VIA2, the via2-irq line and the vIFR register)
+> 
+> The Macintosh hardware includes hardware handshaking to prevent the CPU
+> from reading invalid data or writing data faster than the peripheral
+> device can accept it.
+> 
+> This is the "blind mode", and from the doc:
+> "Approximate maximum SCSI transfer rates within a blocks are 1.4 MB per
+> second for blind transfers in the Macintosh II"
+> 
+> Some references can be found in:
+>    Apple Macintosh Family Hardware Reference, ISBN 0-201-19255-1
+>    Guide to the Macintosh Family Hardware, ISBN-0-201-52405-8
+> ---------------------------- >8 --------------------------------------
+> 
+> ?
+> 
+>> Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>> ---
+>>   hw/scsi/esp.c         | 291 +++++++++++++++++++++++++++++++++++++++++++++-----
+>>   include/hw/scsi/esp.h |   7 ++
+>>   2 files changed, 269 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+>> index 630d923623..8e9e27e479 100644
+>> --- a/hw/scsi/esp.c
+>> +++ b/hw/scsi/esp.c
+> [...]
+>> @@ -356,8 +511,7 @@ static void handle_ti(ESPState *s)
+>>           s->dma_left = minlen;
+>>           s->rregs[ESP_RSTAT] &= ~STAT_TC;
+>>           esp_do_dma(s);
+>> -    }
+>> -    if (s->do_cmd) {
+>> +    } else if (s->do_cmd) {
+> 
+> I'm not sure about this change... is it required? It could also change
+> the behavior of the other users of this device...?
+> 
 
-On Fri, May 24, 2019 at 06:00:18PM +0300, Aaro Koskinen wrote:
-> Please don't delete OMAP boards quite yet :) In the mainline kernel
-> they are not orphaned, they frequently get tested using actual hardware,
-> and QEMU would help in additional testing. I'll try to get N8x0 boot to
-> work with the minimal kernel I use on real HW.
+The "else" is needed because this code has been duplicated inside 
+esp_do_dma() to be executed only in the case of "real" dma and not for 
+pseudo-dma.
 
-So it was only a matter of attaching the serial console at the QEMU side
-(a hackish patch at the end of the mail).
+Thanks,
+Laurent
 
-$ qemu-system-arm --version
-QEMU emulator version 4.0.0 (v4.0.0-dirty)
-Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-$ qemu-system-arm -M n810 -kernel zImage -nographic
-Uncompressing Linux... done, booting the kernel.
-[    0.000000] Booting Linux on physical CPU 0x0
-[    0.000000] Linux version 5.1.0-n8x0_tiny-los_b1ac4+-00007-g7435e73d8ac4 (aaro@amd-fx-6350) (gcc version 8.3.0 (GCC)) #1 Fri May 24 20:43:02 EEST 2019
-[    0.000000] CPU: ARMv6-compatible processor [4107b362] revision 2 (ARMv6TEJ), cr=00c5387d
-[    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
-[    0.000000] OF: fdt: Machine model: Nokia N810
-[    0.000000] printk: bootconsole [earlycon0] enabled
-[    0.000000] Memory policy: Data cache writeback
-[    0.000000] OMAP2420
-[...]
-
-However there are plenty of WARNs that are not present on real hardware.
-Anyway, it's a start.
-
-A.
-
-...
-
-diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-index 906b7ca22d43..52ff83ec5147 100644
---- a/hw/arm/nseries.c
-+++ b/hw/arm/nseries.c
-@@ -792,6 +792,7 @@ static void n8x0_uart_setup(struct n800_s *s)
-     qdev_connect_gpio_out(s->mpu->gpio, N8X0_BT_WKUP_GPIO,
-                     csrhci_pins_get(radio)[csrhci_pin_wakeup]);
- 
-+    omap_uart_attach(s->mpu->uart[2], serial_hd(0));
-     omap_uart_attach(s->mpu->uart[BT_UART], radio);
- }
- 
 
