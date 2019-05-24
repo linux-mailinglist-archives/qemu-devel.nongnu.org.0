@@ -2,64 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD62297A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 13:55:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53008 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E692729799
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 13:52:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52992 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU8mz-00021H-85
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 07:55:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42813)
+	id 1hU8k8-0000nh-6R
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 07:52:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42572)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU8lm-0001Vs-7L
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:53:55 -0400
+	(envelope-from <armbru@redhat.com>) id 1hU8im-00007R-Vo
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:50:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU8ll-0007x5-0v
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:53:54 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45954)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hU8lk-0007wZ-Qc
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:53:52 -0400
-Received: by mail-oi1-x244.google.com with SMTP id w144so6792848oie.12
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 04:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3XPqUzk3HozC1D4y/i0GfNhdxZwVPvEy3RYFyk7zP0Y=;
-	b=BlNpRruZBAftIIw1G6e69rGS7rA8tbDhBwMA3+znWr5lHY6spJZfLn9PyKg4ODa/6r
-	G/7dGMwY2eihRO1sIivyn1+XluTl7wHeUHHClV6boCIAVNasyoyB3kS5HWYQDSTGES3C
-	+qRaemjjS4M2RUn87VZQGwhPuOoQgW3mgcIbj7l8LKCp5inxUvPxTiJSgH/KtEereGbR
-	pLqZxfKg5N6Wd/3eQWk2bldE8LfvCE3zyz3mc+RUGA46Mhw9kJ50sXWjetRuKvVDy6/k
-	UVOi1lj6QfTvvO9CpFCMAje9QnV0fbliCQp9BiIaUA4uXXmPoeR5Yo1P4iv5o3Mfm+2Y
-	X6aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3XPqUzk3HozC1D4y/i0GfNhdxZwVPvEy3RYFyk7zP0Y=;
-	b=sNWQ61YBvGlBQOSE6nMs7qRAdzV/NB3IsLEbe4vxB/JHR75BoPxZJqXUMlpZTRseXM
-	9ND//2g6kjGXUgJi07An8sAJwj03nCRVUrihuGGSbVoDYf8LDyun2UUkXh7uKkukp+f+
-	5p497xRFYfAVPOqTvo2rWK+wJTb4PS241WFqsr4VVNfSXfTAeCkH1D8Dodn+elMkWxRF
-	OFxEtsXxOyN1zjrUuHVPXS1Vp1M4b8pMILlvakhVw5Bb9dVuM2y/ps8ud/NoL7vTNSvw
-	A8817ipS2+rwm/Xui+hQ8amU99YqAYSsA8qM1QvG1c8qvdgSgIaGJMet3qxQXbpk3Jql
-	a5fg==
-X-Gm-Message-State: APjAAAUap6+I0UCxfWzAwft1ZMKhrm1eKA3okWrq1WauOuLZjO/simaY
-	F3lntsAoB3EUZKjl7OuD1haKf8biFJDX2uVwl3/O5n0M46s=
-X-Google-Smtp-Source: APXvYqwYdLOwtTwtfFQ8J7uJttaVxkSiERhw/WX+o3zIQUlS4U+mlyMv2pjSgRPaYIoH5p2ZkUp04cA8XxOk/Jr8+oc=
-X-Received: by 2002:aca:4e42:: with SMTP id c63mr6125970oib.170.1558698466859; 
-	Fri, 24 May 2019 04:47:46 -0700 (PDT)
+	(envelope-from <armbru@redhat.com>) id 1hU8ih-0007B8-75
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:50:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55890)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hU8ih-0007Av-1w
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:50:43 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id C8B7230917AA;
+	Fri, 24 May 2019 11:50:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
+	[10.36.117.250])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 694BF5C239;
+	Fri, 24 May 2019 11:50:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 39F101138648; Fri, 24 May 2019 13:50:38 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+References: <20190523081538.2291-1-armbru@redhat.com>
+	<20190523081538.2291-2-armbru@redhat.com>
+	<f109f025-420a-536a-bb50-804d9ca2c69a@redhat.com>
+Date: Fri, 24 May 2019 13:50:38 +0200
+In-Reply-To: <f109f025-420a-536a-bb50-804d9ca2c69a@redhat.com> ("Philippe
+	=?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri,
+	24 May 2019 07:15:42 +0200")
+Message-ID: <875zq0ax69.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20190524085717.3493-1-kraxel@redhat.com>
-In-Reply-To: <20190524085717.3493-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 May 2019 12:47:35 +0100
-Message-ID: <CAFEAcA_FSWXBsSue6JSq5vQ7AtTAuPwcrBd_PB5qQj5t8FdAVg@mail.gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: Re: [Qemu-devel] [PULL 0/3] Vga 20190524 patches
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Fri, 24 May 2019 11:50:41 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC v4 1/7] Makefile: Remove code to smooth
+ transition to config.status
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,38 +65,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 May 2019 at 10:01, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 8dc7fd56dd4f56ab8ff1df3765ae6b5d3ac11c5e:
->
->   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-20190523-pull-request' into staging (2019-05-23 14:15:34 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/vga-20190524-pull-request
->
-> for you to fetch changes up to f79081b4b71b72640bedd40a7cd76f864c8287f1:
->
->   hw/display/ramfb: initialize fw-config space with xres/ yres (2019-05-24 09:10:29 +0200)
->
-> ----------------------------------------------------------------
-> ramfb: misc improvements.
->
-> ----------------------------------------------------------------
->
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
+> Hi Markus,
+>
+> On 5/23/19 10:15 AM, Markus Armbruster wrote:
+>> When commit bdf523e6923 made configure generate config.status, it
+>> added a fallback to Makefile to smooth the transition, with a TODO
+>> "code can be removed after QEMU 1.7."  It's been more than five years.
+>> Remove it.
+>>=20
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  Makefile | 9 +--------
+>>  1 file changed, 1 insertion(+), 8 deletions(-)
+>>=20
+>> diff --git a/Makefile b/Makefile
+>> index 155f066a20..8ec833a5fb 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -69,14 +69,7 @@ CONFIG_ALL=3Dy
+>>=20=20
+>>  config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios $(SRC_PATH)/=
+VERSION
+>>  	@echo $@ is out-of-date, running configure
+>> -	@# TODO: The next lines include code which supports a smooth
+>> -	@# transition from old configurations without config.status.
+>> -	@# This code can be removed after QEMU 1.7.
+>> -	@if test -x config.status; then \
+>> -	    ./config.status; \
+>> -        else \
+>> -	    sed -n "/.*Configured with/s/[^:]*: //p" $@ | sh; \
+>> -	fi
+>> +	./config.status
+>
+> We could prepend a '@' since we already describe what this rule does
+> ("config-host.mak is out-of-date, running configure").
 
+You're right, my patch loses the @.
 
-Applied, thanks.
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+Thanks!
 
--- PMM
+[...]
 
