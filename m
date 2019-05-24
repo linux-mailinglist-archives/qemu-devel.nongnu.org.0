@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F3B29ED3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 21:09:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59076 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F4329ED7
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 21:10:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59082 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUFZJ-0006wT-HC
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 15:09:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45426)
+	id 1hUFaA-0007X1-00
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 15:10:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45513)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hUFYD-0006fJ-Lv
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 15:08:22 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUFYs-00070Q-QQ
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 15:09:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hUFYC-0003TJ-SW
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 15:08:21 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:39625)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hUFYC-0003KI-Om
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 15:08:20 -0400
-Received: by mail-vs1-f66.google.com with SMTP id m1so6556993vsr.6
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 12:08:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=NUhb2EkK+XCkSl0raA19LtUXR6jPN5Z4Yd110KHR+NE=;
-	b=Wc4ve2H2TclT7/1KDSPIwJigMGvyBJ3PS8YSVO4i6/BRq2bqc7Jvaet8ggPVusUf37
-	xDxsPDU6VDszbAOdn9sR33WLn+AkZRKZvR1SP4vrkPxalYAOg2FcVoWQJm0Y0mb/au84
-	obVWAUFPMqRyEUR7gLPqyRi8Bx+ocvo5J2bHSjkbfgLtm1HBwTqworLlrQwROslw9vct
-	iJCyrn9ex8QvG44IgeYhb4xzAnzJ73WtAlTwaVfLa8oq/DZOqJEPSU0/FiVVeIXEc1gR
-	MbOD4G3FGjioObuYsUhb5Gvrj/OFILzAeZNYChMyJYE4oCZ1gzEoWy9pqoSxR3tnZ71v
-	3wRw==
-X-Gm-Message-State: APjAAAUDsS3pP2Sc3wjT+uPMKoIa33UdBrsZZdOG2FsK0/HAKK9GU0Yx
-	o37nRE6+6gP2VAQ8JdvP9bFmbQ==
-X-Google-Smtp-Source: APXvYqy4CB4gt70gFqOFdlOf7ERIcUVK+dYpsCtg23upj9kb4Uhdn3lyRpxgibRVJRgAhoUIdpSj4g==
-X-Received: by 2002:a67:ec15:: with SMTP id d21mr47532553vso.186.1558724883058;
-	Fri, 24 May 2019 12:08:03 -0700 (PDT)
-Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71])
-	by smtp.gmail.com with ESMTPSA id o5sm1611455vki.37.2019.05.24.12.08.01
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 24 May 2019 12:08:02 -0700 (PDT)
-Date: Fri, 24 May 2019 15:08:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+	(envelope-from <ehabkost@redhat.com>) id 1hUFYq-0003qj-PM
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 15:09:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51084)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUFYq-0003p4-Jg
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 15:09:00 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id B5A04308427C;
+	Fri, 24 May 2019 19:08:58 +0000 (UTC)
+Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3A6477D913;
+	Fri, 24 May 2019 19:08:52 +0000 (UTC)
+Date: Fri, 24 May 2019 16:08:50 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190524150731-mutt-send-email-mst@kernel.org>
-References: <20190524183638.20745-1-stefanha@redhat.com>
-	<24b93cc5-edb1-a197-14be-e63ac356325d@redhat.com>
+Message-ID: <20190524190850.GK10764@habkost.net>
+References: <20190520184108.GA10764@habkost.net>
+	<20190521085350.GF25835@redhat.com>
+	<e2395213-efaf-6d6c-6cfd-d949d071b4f6@redhat.com>
+	<87pnobrg37.fsf@dusky.pond.sub.org>
+	<CAFEAcA8db=UsyU_kRBoatFT2ULQBqL318xRhg+CV4D_7hV76Og@mail.gmail.com>
+	<7e468375-ca5f-0048-789e-c41d09065eeb@redhat.com>
+	<20190521203712.GO10764@habkost.net>
+	<dff30917-557a-cf41-e82e-03465d0209aa@redhat.com>
+	<8a936e5b-9e27-b1a2-dc3c-fa0190d54923@redhat.com>
+	<1351764e-ee0f-c863-de38-010314ca7003@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <24b93cc5-edb1-a197-14be-e63ac356325d@redhat.com>
+In-Reply-To: <1351764e-ee0f-c863-de38-010314ca7003@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Fri, 24 May 2019 19:08:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.217.66
-Subject: Re: [Qemu-devel] [RFC v3 0/3] scsi: restart dma after vm change
- state handlers
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Introducing GSoC project: API Documentation
+ Generation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,41 +67,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
-	qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+	Gabriel Barreto <sbarreto.gabriel@gmail.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Markus Armbruster <armbru@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 24, 2019 at 08:47:18PM +0200, Paolo Bonzini wrote:
-> On 24/05/19 20:36, Stefan Hajnoczi wrote:
-> > v3:
-> >  * Fix s/k->vmstate_change/vdc->vmstate_change/
-> >  * Still RFC, waiting for customer to confirm this fixes the issue
-> > v2:
-> >  * Do it properly with a clean API instead of deferring to a BH!
-> >    Thanks for encouraging me to do this, Kevin.
-> > 
-> > These patches solve a deadlock when the 'cont' command is used and there are
-> > failed requests on a virtio-scsi device with iothreads.  The deadlock itself is
-> > actually not the thing we need to fix because we should never reach that case
-> > anyway.  Instead we need to make sure DMA restart is only performed after the
-> > virtio-scsi iothread is re-initialized.
+On Fri, May 24, 2019 at 08:34:23PM +0200, Paolo Bonzini wrote:
+> On 23/05/19 14:20, John Snow wrote:
+> > OK, if that's where we're at! I just saw the RFC from Peter Maydell and
+> > assumed we were a little further along the decision making process, but
+> > maybe not. I'll stay tuned.
 > 
-> custom_dma_restart is a bit ugly...  Do you think it would make sense to
-> order the VMStateChange handlers using some kind of enum (with the order
-> unspecified within the category)?
+> For the decision making, yes; I think there's consensus to use
+> kerneldoc.  For the "debugging and seeing if anything has changed in 2.5
+> years", no.
 > 
-> We could start with
-> 
-> 	VMSTATECHANGE_PRIO_UNKNOWN  = 0  (if needed?)
+> Testing the patch that Eduardo posted will help Gabriel, Eduardo and
+> everyone else decide whether to patch kerneldoc or rather change the API
+> doc comments style.  (Personally I am in favor of patching; the
+> different coding conventions make using vanilla kerneldoc awkward, and
+> there are several thousands of lines of existing doc comments which
+> would require a transition.)
 
-Yes I think it's a good idea to explicitly say I don't care
-about the order like this.
+I'd prefer to fix our doc comments instead of patching kerneldoc,
+whenever possible.  We don't even have a consistent doc comment
+style in QEMU.
 
-> 	VMSTATECHANGE_PRIO_IOTHREAD = 100
->         VMSTATECHANGE_PRIO_DEVICE   = 200
-> 
-> where higher priorities run first on stop and last on resume.
-> 
-> Paolo
+-- 
+Eduardo
 
