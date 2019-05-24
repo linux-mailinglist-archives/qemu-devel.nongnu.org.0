@@ -2,58 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B6529FF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 22:34:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59843 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C323D2A055
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 23:21:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60288 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUGtX-00022e-0e
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 16:34:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57539)
+	id 1hUHcj-0002mP-DF
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 17:21:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35350)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hUGrp-0001Ih-Cr
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 16:32:43 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUHbM-000264-8W
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 17:19:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hUGrn-00050R-HC
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 16:32:41 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:38071)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
-	id 1hUGrn-0004zP-6T
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 16:32:39 -0400
-Received: by mail-ot1-x343.google.com with SMTP id s19so9851414otq.5
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 13:32:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=M2De66r36ffarReiDsq9zsHIwTVFhFn8Uv/cUuOYmc0=;
-	b=ZbPThJk+tSu+hrR4Enra+IdNk4txwg5qyvGNS3j0KriuqwZXoMDOGPA4ZAJSA/Z3dT
-	ESzC3qmpOK0Mil9Blf0Qu7+RAIJytwZqKC4SAb+yFWIl6zLFgpRMUxpQ1BOZqf3Ps0y+
-	hiMMd+mZ+X85Yw3+S0Jjv47uJHKq9kIYmr35FFjfa/n7of3zBDA64AhYKQDId3LjDCAX
-	ofgN9RVqfKnsgAXG60GwSvPre88gdR4bKObBcW9PdXWil4qWD7uWmJlyjEkac2WmbO68
-	z+wndXWPgLgNDQxq/31jd6AnakAQ6sqJTxJvirdwF4P9Xopn3YZ26Cr17sFqkxqANTA0
-	Swig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=M2De66r36ffarReiDsq9zsHIwTVFhFn8Uv/cUuOYmc0=;
-	b=fA9SvfglZ9VlxFVpYU5XxqFKkbXUJsp/Orwp6JYqSzuJ/565VimFD9WU+w9dc93oKL
-	21DzH4ZWrigw3FEBuGjjr52d2cAXxcmz3K+W5UfwAkW9oVr/N6zyI+4S6n6vTGUQQuus
-	LrvT0Dp9LbxP6roUY6CWArQWL52LyDP6hYFRk9XAAmcFhH3e/h6WOouUbQ7ODDczyrMa
-	06psBLTWlnYW8XhIewXSkRb8x2nDN+EaQU4oB0SKWmlQaiB1OR0KnJ4lwLf6/JUWsaNC
-	x7AOcYL4Mq7S1vfWRR7yjF7FvrgGsTZtaPT0sPDxpy/VhbSgYE97bpki7WontTZjASnR
-	N9oA==
-X-Gm-Message-State: APjAAAXEfko/FcBDWMab6CxJSC7z7wu4ZILAW5Dd6+XxTsLxZ/8Nnbsd
-	rDOC8mm2TwRkspJgaLaDWogxFe2SU1nRArf2/lk=
-X-Google-Smtp-Source: APXvYqzjNWjWUkBr9wVpGTICCJgypoS8qtCIqu4ZqlCVhZCvC25RWicyqjJXp5Y7BCfG2xZrjOv59EL1JT8RMY+jh1s=
-X-Received: by 2002:a9d:7858:: with SMTP id c24mr230106otm.64.1558729957497;
-	Fri, 24 May 2019 13:32:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Fri, 24 May 2019 13:32:36
-	-0700 (PDT)
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Fri, 24 May 2019 13:32:36
-	-0700 (PDT)
-In-Reply-To: <20190524193955.GN10764@habkost.net>
+	(envelope-from <ehabkost@redhat.com>) id 1hUHbK-0000ti-Cs
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 17:19:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44381)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hUHbK-0000r1-3T
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 17:19:42 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4A506308624C;
+	Fri, 24 May 2019 21:19:40 +0000 (UTC)
+Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 23C285C1B4;
+	Fri, 24 May 2019 21:19:36 +0000 (UTC)
+Date: Fri, 24 May 2019 18:19:35 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Message-ID: <20190524211935.GX10764@habkost.net>
 References: <20190520231910.12184-1-f4bug@amsat.org>
 	<20190522211230.GA10764@habkost.net>
 	<1711852617.24204010.1558561566547.JavaMail.zimbra@redhat.com>
@@ -62,16 +41,19 @@ References: <20190520231910.12184-1-f4bug@amsat.org>
 	<CAL1e-=ikyNrfwBR_UW8wwCNHQjLWxhcfrTdde54OP4phkdvqHA@mail.gmail.com>
 	<b4252e21-a82c-2e1b-7a3f-ed13cb3fba36@amsat.org>
 	<20190524193955.GN10764@habkost.net>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 24 May 2019 22:32:36 +0200
-Message-ID: <CAL1e-=h-4RNGYtBPL9PEHux6qYUXAmi_2BqpgPM+j4MiWfn3iA@mail.gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Content-Type: text/plain; charset="UTF-8"
+	<CAL1e-=h-4RNGYtBPL9PEHux6qYUXAmi_2BqpgPM+j4MiWfn3iA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAL1e-=h-4RNGYtBPL9PEHux6qYUXAmi_2BqpgPM+j4MiWfn3iA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.49]);
+	Fri, 24 May 2019 21:19:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH 0/4] mips: Add more Avocado tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -86,179 +68,236 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
 	Wainer dos Santos Moschetta <wainersm@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
 	Aleksandar Markovic <amarkovic@wavecomp.com>,
 	Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On May 24, 2019 9:40 PM, "Eduardo Habkost" <ehabkost@redhat.com> wrote:
->
-> On Thu, May 23, 2019 at 07:27:35PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > On 5/23/19 7:11 PM, Aleksandar Markovic wrote:
-> > > On May 23, 2019 3:45 PM, "Cleber Rosa" <crosa@redhat.com> wrote:
-> > >>> From: "Aleksandar Markovic" <aleksandar.m.mail@gmail.com>
-> > >>> On May 22, 2019 11:46 PM, "Cleber Rosa" <crosa@redhat.com> wrote:
-> > >>>>> From: "Eduardo Habkost" <ehabkost@redhat.com>
-> > >>>>>
-> > >>>>> Until we actually have a mechanism to exclude the test case on
-> > >>>>> travis-ci, I will remove patch 4/4 from the queue.  Aleksandar,
-> > >>>>> please don't merge patch 4/4 yet or it will break travis-ci.
-> > >>>>>
-> > >>>>> Cleber, Wainer, is it already possible to make "avocado run" skip
-> > >>>>> tests tagged with "slow"?
-> > >>>>>
-> > >>>>
-> > >>>> The mechanism exists, but we haven't tagged any test so far as
-slow.
-> > >>>>
-> > >>>
-> > >>> Cleber,
-> > >>>
-> > >>> For the test from patch 4/4, there is no dilemma - it should be in
-the
-> > >>> =E2=80=9Cslow=E2=80=9D group, as Philippe envisioned and said, so t=
-hat it is not
-> > > humpered
-> > >>> with stricter requirements for =E2=80=9Cfast=E2=80=9D (default) gro=
-up. Could you
-> > > explain us
-> > >>> how to do it, so that we can hopefully finally proceed?
-> > >>>
-> > >>
-> > >> Hi Aleksandar,
-> > >>
-> > >> The point is that there's no "group" definition at this point.  This
-is
-> > > the
-> > >> core of the discussion.
-> > >>
-> > >> I think we're close to converging to something simple and effective.
-> > > Please
-> > >> let us know what you think of the proposals given.
-> > >>
-> > >> Thanks!
-> > >> - Cleber.
-> > >>
-> > >
-> > > Cleber, hi.
-> > >
-> > > Thanks for responding.
-> > >
-> > > My views are very similar to Philippe's, but I will provide you with
-more
-> > > details of our (mips) perspective.
-> > >
-> > > As far as black/whitelist issues that is a moot point for us - we
-only want
-> > > to be able to have a way to tag a test within the test itself (so,
-without
-> > > updating some common files, external lists,etc.)
-> > >
-> > > In general, we would like to have a test environment where we would
-be able
-> > > to test what WE deem suitable for us, without feeling that we bother
-you or
-> > > anybody else, or that we are bothered by others.
-> > >
-> > > Let me give you a little extreme example: Let's say we want a complex
-test
-> > > that downloads components from let's say fifty internet location,
-executes
-> > > zillion test cases, and last two days. I wouldn't like anybody to ask
-me
-> > > =E2=80=9CWhy would you that?=E2=80=9D or tell me =E2=80=9CYou can't d=
-o this.=E2=80=9D or say =E2=80=9CNo, we
-did
-> > > not anticipate such tests, patch rejected.=E2=80=9D I (we, people fro=
-m mips)
-should
-> > > be able to define what I (we) need.
+On Fri, May 24, 2019 at 10:32:36PM +0200, Aleksandar Markovic wrote:
+> On May 24, 2019 9:40 PM, "Eduardo Habkost" <ehabkost@redhat.com> wrote:
 > >
-> > Maybe we can use subdirectory like we do for the TCG tests (Aleksandar
-> > maintains tests/tcg/mips/). We should try to keep contribution upstream=
+> > On Thu, May 23, 2019 at 07:27:35PM +0200, Philippe Mathieu-Daud=C3=A9=
+ wrote:
+> > > On 5/23/19 7:11 PM, Aleksandar Markovic wrote:
+> > > > On May 23, 2019 3:45 PM, "Cleber Rosa" <crosa@redhat.com> wrote:
+> > > >>> From: "Aleksandar Markovic" <aleksandar.m.mail@gmail.com>
+> > > >>> On May 22, 2019 11:46 PM, "Cleber Rosa" <crosa@redhat.com> wrot=
+e:
+> > > >>>>> From: "Eduardo Habkost" <ehabkost@redhat.com>
+> > > >>>>>
+> > > >>>>> Until we actually have a mechanism to exclude the test case o=
+n
+> > > >>>>> travis-ci, I will remove patch 4/4 from the queue.  Aleksanda=
+r,
+> > > >>>>> please don't merge patch 4/4 yet or it will break travis-ci.
+> > > >>>>>
+> > > >>>>> Cleber, Wainer, is it already possible to make "avocado run" =
+skip
+> > > >>>>> tests tagged with "slow"?
+> > > >>>>>
+> > > >>>>
+> > > >>>> The mechanism exists, but we haven't tagged any test so far as
+> slow.
+> > > >>>>
+> > > >>>
+> > > >>> Cleber,
+> > > >>>
+> > > >>> For the test from patch 4/4, there is no dilemma - it should be=
+ in
+> the
+> > > >>> =E2=80=9Cslow=E2=80=9D group, as Philippe envisioned and said, =
+so that it is not
+> > > > humpered
+> > > >>> with stricter requirements for =E2=80=9Cfast=E2=80=9D (default)=
+ group. Could you
+> > > > explain us
+> > > >>> how to do it, so that we can hopefully finally proceed?
+> > > >>>
+> > > >>
+> > > >> Hi Aleksandar,
+> > > >>
+> > > >> The point is that there's no "group" definition at this point.  =
+This
+> is
+> > > > the
+> > > >> core of the discussion.
+> > > >>
+> > > >> I think we're close to converging to something simple and effect=
+ive.
+> > > > Please
+> > > >> let us know what you think of the proposals given.
+> > > >>
+> > > >> Thanks!
+> > > >> - Cleber.
+> > > >>
+> > > >
+> > > > Cleber, hi.
+> > > >
+> > > > Thanks for responding.
+> > > >
+> > > > My views are very similar to Philippe's, but I will provide you w=
+ith
+> more
+> > > > details of our (mips) perspective.
+> > > >
+> > > > As far as black/whitelist issues that is a moot point for us - we
+> only want
+> > > > to be able to have a way to tag a test within the test itself (so=
 ,
-> > so good idea/pattern can be reused by others.
-> >
-> > What I'd like to have with those tests is, at least:
-> >
-> > 1/ we don't need to run all the tests (but there is a set of 'quick'
-> > tests we can run on daily basis)
-> >
-> > 2/ maintainers can run their default tests easily (using a combination
-> > of Avocado tags)
-> >
-> > 3/ if a developer working on the PCI subsystem has to modify the MIPS
-> > subsystem (for example), he should be able to run the MIPS tests before
-> > sending his series.
->
-> Keeping the test cases organized in subdirectories are a good
-> idea, but don't think this is going to help us when we need to
-> quickly enable/disable specific test cases on some CI systems.
->
-
-Well, Eduardo, nobody said that directory locations should be used for
-enabling/disabling or tagging/untagging tests in the first place. I think
-it was clear for everybody from the outset that these features should have
-their own mechanisms, which Cleber says already exist, but can't be used
-because the test group still can't figure out (in some hamletesque way)
-whether to blacklist or to whitelist, or how to name the tag for travis,
-and tag for not travis, and if such tags should even exist, etc. - that is
-my layman impression from recent discussions. And now when Philippe
-suggested (in my opinion logical and reasonable) subdirectory, an endless
-discussion begins: =E2=80=9CTo subdirectory or not to subdirectory? That is=
- the
-question.=E2=80=9D Meanwhile, 4.1 is inexorably getting closer and closer, =
-and with
-each day, the value of any potential tests is decreasing.
-
-Directory structure should be used in its usual and basic way: for
-clustering files of similar nature, purpose, or origin, and I do certainly
-support any reasonable subdirectory organization for your directory - and
-you should think about it, and probably while doing that consult a little
-bit other people from all walks of QEMU. We are ready to comply with your
-final decision.
-
-The good thing is that nothing is set in stone, everything can be changed
-and improved, moving files is easy in git.
-
-All that said, many thanks for reviewing patch 4/4.
-
-Aleksandar
-
-
-
-> Disabling a test case (or an entire category of test cases) known
-> to be failing on some CI systems should require a one line patch,
-> not moving files to a separate directory.
->
-> >
-> > > Having such test would be a big deal for me, not only that I could
-run it
-> > > manually or automatically every weekend, but I could ask submitters o=
-f
-> > > critical changes: =E2=80=9CDid you run this test that we have in Avoc=
-ado
-dir?=E2=80=9D,
-> > > without specifying test details, procedures, etc. All this is a BIG
-deal
-> > > for me.
+> without
+> > > > updating some common files, external lists,etc.)
+> > > >
+> > > > In general, we would like to have a test environment where we wou=
+ld
+> be able
+> > > > to test what WE deem suitable for us, without feeling that we bot=
+her
+> you or
+> > > > anybody else, or that we are bothered by others.
+> > > >
+> > > > Let me give you a little extreme example: Let's say we want a com=
+plex
+> test
+> > > > that downloads components from let's say fifty internet location,
+> executes
+> > > > zillion test cases, and last two days. I wouldn't like anybody to=
+ ask
+> me
+> > > > =E2=80=9CWhy would you that?=E2=80=9D or tell me =E2=80=9CYou can=
+'t do this.=E2=80=9D or say =E2=80=9CNo, we
+> did
+> > > > not anticipate such tests, patch rejected.=E2=80=9D I (we, people=
+ from mips)
+> should
+> > > > be able to define what I (we) need.
 > > >
-> > > On the other hand, I agree that certain group of tests (envisioned fo=
-r
-> > > daily or so Travis CI) should have some stricter limitations and
-structure.
-> > > But right now I feel humpered by it, and this is counterproductive.
+> > > Maybe we can use subdirectory like we do for the TCG tests (Aleksan=
+dar
+> > > maintains tests/tcg/mips/). We should try to keep contribution upst=
+ream,
+> > > so good idea/pattern can be reused by others.
 > > >
-> > > So, we want freedom, responsibility and ownersheep of our tests.
-Please
-> > > give us the opportunity to get down on business and start writing
-tests and
-> > > start testing.
+> > > What I'd like to have with those tests is, at least:
 > > >
-> > > Yours,
-> > > Aleksandar
->
-> --
-> Eduardo
+> > > 1/ we don't need to run all the tests (but there is a set of 'quick=
+'
+> > > tests we can run on daily basis)
+> > >
+> > > 2/ maintainers can run their default tests easily (using a combinat=
+ion
+> > > of Avocado tags)
+> > >
+> > > 3/ if a developer working on the PCI subsystem has to modify the MI=
+PS
+> > > subsystem (for example), he should be able to run the MIPS tests be=
+fore
+> > > sending his series.
+> >
+> > Keeping the test cases organized in subdirectories are a good
+> > idea, but don't think this is going to help us when we need to
+> > quickly enable/disable specific test cases on some CI systems.
+> >
+>=20
+> Well, Eduardo, nobody said that directory locations should be used for
+> enabling/disabling or tagging/untagging tests in the first place. I thi=
+nk
+> it was clear for everybody from the outset that these features should h=
+ave
+> their own mechanisms, which Cleber says already exist, but can't be use=
+d
+> because the test group still can't figure out (in some hamletesque way)
+> whether to blacklist or to whitelist, or how to name the tag for travis=
+,
+> and tag for not travis, and if such tags should even exist, etc. - that=
+ is
+> my layman impression from recent discussions. And now when Philippe
+> suggested (in my opinion logical and reasonable) subdirectory, an endle=
+ss
+> discussion begins: =E2=80=9CTo subdirectory or not to subdirectory? Tha=
+t is the
+> question.=E2=80=9D Meanwhile, 4.1 is inexorably getting closer and clos=
+er, and with
+> each day, the value of any potential tests is decreasing.
+
+I understand that seeing the discussions going on and the patches
+taking too long to be included might be frustrating.
+
+These discussions shouldn't get into the way of addressing other
+problems.  We don't need to wait until all discussions have
+finished before proposing new patches or before merging patches
+that are considered good.
+
+
+>=20
+> Directory structure should be used in its usual and basic way: for
+> clustering files of similar nature, purpose, or origin, and I do certai=
+nly
+> support any reasonable subdirectory organization for your directory - a=
+nd
+> you should think about it, and probably while doing that consult a litt=
+le
+> bit other people from all walks of QEMU. We are ready to comply with yo=
+ur
+> final decision.
+
+About subdirectories, specifically, note that I explicitly said
+it was a good idea.  If somebody wants to send patches, they are
+welcome.
+
+If I'm doing something else that could be blocking people from
+getting work done, I'd like to fix that.  I'm aware that
+sometimes I take too long to review patches, but I hope other
+developers can help us on the review work.
+
+>=20
+> The good thing is that nothing is set in stone, everything can be chang=
+ed
+> and improved, moving files is easy in git.
+>=20
+> All that said, many thanks for reviewing patch 4/4.
+>=20
+> Aleksandar
+>=20
+>=20
+>=20
+> > Disabling a test case (or an entire category of test cases) known
+> > to be failing on some CI systems should require a one line patch,
+> > not moving files to a separate directory.
+> >
+> > >
+> > > > Having such test would be a big deal for me, not only that I coul=
+d
+> run it
+> > > > manually or automatically every weekend, but I could ask submitte=
+rs of
+> > > > critical changes: =E2=80=9CDid you run this test that we have in =
+Avocado
+> dir?=E2=80=9D,
+> > > > without specifying test details, procedures, etc. All this is a B=
+IG
+> deal
+> > > > for me.
+> > > >
+> > > > On the other hand, I agree that certain group of tests (envisione=
+d for
+> > > > daily or so Travis CI) should have some stricter limitations and
+> structure.
+> > > > But right now I feel humpered by it, and this is counterproductiv=
+e.
+> > > >
+> > > > So, we want freedom, responsibility and ownersheep of our tests.
+> Please
+> > > > give us the opportunity to get down on business and start writing
+> tests and
+> > > > start testing.
+> > > >
+> > > > Yours,
+> > > > Aleksandar
+> >
+> > --
+> > Eduardo
+
+--=20
+Eduardo
+
