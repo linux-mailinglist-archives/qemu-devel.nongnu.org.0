@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B76C2917B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 09:06:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50125 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F952917A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 09:05:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50091 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU4Hf-0007S0-DR
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 03:06:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45849)
+	id 1hU4H0-0006qs-VC
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 03:05:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45880)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hU4Ea-0005PU-SM
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:03:21 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hU4Ec-0005Qt-4e
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:03:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hU4EY-0006LS-TX
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:03:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33556)
+	(envelope-from <kraxel@redhat.com>) id 1hU4Eb-0006NH-5e
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:03:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59058)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hU4EW-0006GG-UX
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:03:18 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hU4Ea-0006La-QH
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 03:03:20 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2E89C7FDF8
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 07:03:14 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id CFBCE307D867
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 07:03:13 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-101.ams2.redhat.com
 	[10.36.116.101])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7ADF55B683;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7F60B6090E;
 	Fri, 24 May 2019 07:03:11 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id BB71511AB5; Fri, 24 May 2019 09:03:10 +0200 (CEST)
+	id C2B0017536; Fri, 24 May 2019 09:03:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 09:03:05 +0200
-Message-Id: <20190524070310.4952-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Date: Fri, 24 May 2019 09:03:06 +0200
+Message-Id: <20190524070310.4952-2-kraxel@redhat.com>
+In-Reply-To: <20190524070310.4952-1-kraxel@redhat.com>
+References: <20190524070310.4952-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Fri, 24 May 2019 07:03:14 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Fri, 24 May 2019 07:03:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/5] usb-hub: cleanups,
- configurable port count, per-port power switching emulation.
+Subject: [Qemu-devel] [PATCH v2 1/5] usb-hub: tweak feature names
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,18 +60,34 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2: codestyle fixes.
+Add dashes, so they don't look like two separate things when printed.
 
-Gerd Hoffmann (5):
-  usb-hub: tweak feature names
-  usb-hub: make number of ports runtime-configurable
-  usb-hub: add helpers to update port state
-  usb-hub: add usb_hub_port_update()
-  usb-hub: emulate per port power switching
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/dev-hub.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
- hw/usb/dev-hub.c | 221 +++++++++++++++++++++++++++++++++--------------
- 1 file changed, 154 insertions(+), 67 deletions(-)
-
+diff --git a/hw/usb/dev-hub.c b/hw/usb/dev-hub.c
+index 7e9339b8a83d..9b04b6a6ec2d 100644
+--- a/hw/usb/dev-hub.c
++++ b/hw/usb/dev-hub.c
+@@ -287,11 +287,11 @@ static const char *feature_name(int feature)
+         [PORT_POWER]         = "power",
+         [PORT_LOWSPEED]      = "lowspeed",
+         [PORT_HIGHSPEED]     = "highspeed",
+-        [PORT_C_CONNECTION]  = "change connection",
+-        [PORT_C_ENABLE]      = "change enable",
+-        [PORT_C_SUSPEND]     = "change suspend",
+-        [PORT_C_OVERCURRENT] = "change overcurrent",
+-        [PORT_C_RESET]       = "change reset",
++        [PORT_C_CONNECTION]  = "change-connection",
++        [PORT_C_ENABLE]      = "change-enable",
++        [PORT_C_SUSPEND]     = "change-suspend",
++        [PORT_C_OVERCURRENT] = "change-overcurrent",
++        [PORT_C_RESET]       = "change-reset",
+         [PORT_TEST]          = "test",
+         [PORT_INDICATOR]     = "indicator",
+     };
 -- 
 2.18.1
 
