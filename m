@@ -2,76 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500B729F8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 22:03:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59534 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF17329FF1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 22:34:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59847 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUGQ1-0003AU-IH
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 16:03:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53061)
+	id 1hUGtz-0002My-Tp
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 16:34:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56945)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hUGOr-0002rP-5y
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 16:02:46 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hUGpK-0007tJ-5m
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 16:30:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hUGOq-0003j6-8B
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 16:02:45 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:34067)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hUGOq-0003id-1z
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 16:02:44 -0400
-Received: by mail-wm1-f65.google.com with SMTP id e19so2651640wme.1
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 13:02:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=NRlY775EICpwaY8JpTjiQ7Cg4KD2pMQe5qV2pmGqXNQ=;
-	b=XS1P72q0WWsqriZodLj1HGUuzmJ7ILMN+5/1VfNlDLQEELn5fHDxaqbMHSqwkUp3Y+
-	RhsnEp6H9N9mBfQloleVrbjpmfyZWZPSzLHX6xEgDjOv2yG1wjcy+3IBOrDCPSu47gb/
-	Zf24ol9suWGhkDkDKwakyAe7Iajdx59Q89nUYm6TjtFSORLVcrvrwzpQYQep6M/M6LI2
-	o2v5L1Zhc90obw+ngtMjATq7Tm698ZMrTBP/4ajb/mo+zQlOyhhtYrARTubXOelFuBIj
-	Btax937k8Ywd/xytPVCN602rtX6DPErbUrobnnh9Ip0634gYSgyCQ+NqO1xs0YL9Yzx/
-	L2kg==
-X-Gm-Message-State: APjAAAWNMscPp4mh5aATVaGYyi4ICaZ2+Hlrsd9NHKPxRzlOc/ZMZPLA
-	LOBJKNAwLVHu0eHwy3cGpRflew==
-X-Google-Smtp-Source: APXvYqybq0Gu2+Vq/FYDmu1tAzRHwdBPv7O+U5H/8fvnPV7NhaAtTgUoh0wL73Nb7JNtZoEH3N3ifA==
-X-Received: by 2002:a7b:cbcc:: with SMTP id n12mr1138923wmi.167.1558728162563; 
-	Fri, 24 May 2019 13:02:42 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:4d53:18d:3ffd:370?
-	([2001:b07:6468:f312:4d53:18d:3ffd:370])
-	by smtp.gmail.com with ESMTPSA id
-	y17sm2931344wrp.70.2019.05.24.13.02.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 May 2019 13:02:41 -0700 (PDT)
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20190520184108.GA10764@habkost.net>
-	<20190521085350.GF25835@redhat.com>
-	<e2395213-efaf-6d6c-6cfd-d949d071b4f6@redhat.com>
-	<87pnobrg37.fsf@dusky.pond.sub.org>
-	<CAFEAcA8db=UsyU_kRBoatFT2ULQBqL318xRhg+CV4D_7hV76Og@mail.gmail.com>
-	<7e468375-ca5f-0048-789e-c41d09065eeb@redhat.com>
-	<20190521203712.GO10764@habkost.net>
-	<dff30917-557a-cf41-e82e-03465d0209aa@redhat.com>
-	<8a936e5b-9e27-b1a2-dc3c-fa0190d54923@redhat.com>
-	<1351764e-ee0f-c863-de38-010314ca7003@redhat.com>
-	<20190524190850.GK10764@habkost.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a905e7bb-ab8f-247f-f213-d814e09a5182@redhat.com>
-Date: Fri, 24 May 2019 22:02:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <ehabkost@redhat.com>) id 1hUGaM-0004Bc-Ed
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 16:14:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42296)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>)
+	id 1hUGaK-00049g-LK; Fri, 24 May 2019 16:14:36 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A2160368E0;
+	Fri, 24 May 2019 20:14:35 +0000 (UTC)
+Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A0F321001F5D;
+	Fri, 24 May 2019 20:14:34 +0000 (UTC)
+Date: Fri, 24 May 2019 17:14:32 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <20190524201432.GP10764@habkost.net>
+References: <20190524103521.13847-1-lvivier@redhat.com>
+	<20190524161045.314fa2de@redhat.com>
+	<c1c017f2-84ed-bddf-abb9-7154d9edb372@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190524190850.GK10764@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c1c017f2-84ed-bddf-abb9-7154d9edb372@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Fri, 24 May 2019 20:14:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] Introducing GSoC project: API Documentation
- Generation
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] numa: improve cpu hotplug error message
+ with a wrong node-id
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,46 +60,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	=?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
-	Gabriel Barreto <sbarreto.gabriel@gmail.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+	Igor Mammedov <imammedo@redhat.com>,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/19 21:08, Eduardo Habkost wrote:
-> On Fri, May 24, 2019 at 08:34:23PM +0200, Paolo Bonzini wrote:
->> On 23/05/19 14:20, John Snow wrote:
->>> OK, if that's where we're at! I just saw the RFC from Peter Maydell and
->>> assumed we were a little further along the decision making process, but
->>> maybe not. I'll stay tuned.
->>
->> For the decision making, yes; I think there's consensus to use
->> kerneldoc.  For the "debugging and seeing if anything has changed in 2.5
->> years", no.
->>
->> Testing the patch that Eduardo posted will help Gabriel, Eduardo and
->> everyone else decide whether to patch kerneldoc or rather change the API
->> doc comments style.  (Personally I am in favor of patching; the
->> different coding conventions make using vanilla kerneldoc awkward, and
->> there are several thousands of lines of existing doc comments which
->> would require a transition.)
+On Fri, May 24, 2019 at 04:39:12PM +0200, Laurent Vivier wrote:
+> On 24/05/2019 16:10, Igor Mammedov wrote:
+> > On Fri, 24 May 2019 12:35:21 +0200
+> > Laurent Vivier <lvivier@redhat.com> wrote:
+> > 
+> > > On pseries, core-ids are strongly binded to a node-id by the command
+> > > line option. If an user tries to add a CPU to the wrong node, he has
+> > > an error but it is not really helpful:
+> > > 
+> > >    qemu-system-ppc64 ... -smp 1,maxcpus=64,cores=1,threads=1,sockets=1 \
+> > >                          -numa node,nodeid=0 -numa node,nodeid=1 ...
+> > > 
+> > >    (qemu) device_add power9_v2.0-spapr-cpu-core,core-id=30,node-id=1
+> > >    Error: node-id=1 must match numa node specified with -numa option
+> > > 
+> > > This patch improves this error message by giving to the user the good
+> > > topology information (node-id, socket-id and thread-id if they are
+> > > available) to use with the core-id he's providing:
+> > > 
+> > >    Error: node-id=1 must match numa node specified with -numa option 'node-id 0'
+> > > 
+> > > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> > > ---
+> > > 
+> > > Notes:
+> > >      v3: only add the topology to the existing message
+> > >          As suggested by Igor replace
+> > >            Error: core-id 30 can only be plugged into node-id 0
+> > >          by
+> > >            Error: node-id=1 must match numa node specified with -numa option 'node-id 0'
+> > >      v2: display full topology in the error message
+> > > > > >   numa.c | 25 ++++++++++++++++++++++++-
+> > >   1 file changed, 24 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/numa.c b/numa.c
+> > > index 3875e1efda3a..7882ec294be4 100644
+> > > --- a/numa.c
+> > > +++ b/numa.c
+> > > @@ -458,6 +458,27 @@ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
+> > >       set_numa_options(MACHINE(qdev_get_machine()), cmd, errp);
+> > >   }
+> > > +static char *cpu_topology_to_string(const CPUArchId *cpu)
+> > > +{
+> > > +    GString *s = g_string_new(NULL);
+> > > +    if (cpu->props.has_socket_id) {
+> > > +        g_string_append_printf(s, "socket-id %"PRId64, cpu->props.socket_id);
+> > > +    }
+> > > +    if (cpu->props.has_node_id) {
+> > > +        if (s->len) {
+> > > +            g_string_append_printf(s, ", ");
+> > > +        }
+> > > +        g_string_append_printf(s, "node-id %"PRId64, cpu->props.node_id);
+> > > +    }
+> > > +    if (cpu->props.has_thread_id) {
+> > > +        if (s->len) {
+> > > +            g_string_append_printf(s, ", ");
+> > > +        }
+> > > +        g_string_append_printf(s, "thread-id %"PRId64, cpu->props.thread_id);
+> > > +    }
+> > > +    return g_string_free(s, false);
+> > > +}
+> > 
+> > turns out we already have such helper: cpu_slot_to_string()
 > 
-> I'd prefer to fix our doc comments instead of patching kerneldoc,
-> whenever possible.  We don't even have a consistent doc comment
-> style in QEMU.
+> It doesn't display the node-id but the core-id. And node-id is what we need
+> to know.
 
-I think we *mostly* do, at least as far as the @/#/% sigils are
-concerned.  In particular, only "#" separates the QEMU doc comment style
-from the kernel and it has 200+ instances vs. 6 for the kernel's
-'&struct foo' (all in accel/tcg/translate-all.c), so it's clear that our
-standard is different from the kernel in this respect.
+I'm confused about what you are trying to do here.
 
-The rest of the patch is to handle typedefed structs, which again is
-more or less a necessity.
+On v1, the message looked like:
+  Error: core-id 30 can only be plugged into node-id 0
 
-Paolo
+which is probably good for spapr.
+
+
+Then I suggested you added the other cpu->props fields.  e.g. on
+PC the message would look like:
+  Error: socket-id 20, core-id 30, thread-id 40 can only be plugged into node-id 0
+
+
+But you sent a v2 patch that would print this on PC:
+  Error: core-id 30 can only be plugged into socket-id 20, node-id 0, thread-id 40
+
+which doesn't make sense to me.
+
+
+Then in a reply to v2, Igor suggested:
+
+ error_setg(errp, "node-id=%d must match numa node specified "
+                   "with -numa option '%s'", node_id, topology);
+
+
+Igor suggest would address the problem above.  I expected it to become:
+  node-id=0 must match numa node specified with -numa option core-id=30
+and on PC:
+  node-id=0 must match numa node specified with -numa option socket-id=20,core-id=30,thread-id=40
+
+Or maybe it could include the input node-id too:
+  node-id=0 must match numa node specified with -numa option node-id=1,core-id=30
+and on PC:
+  node-id=0 must match numa node specified with -numa option node-id=1,socket-id=20,core-id=30,thread-id=40
+
+Both options would work.
+
+
+But you implemented code that would print:
+  Error: node-id=0 must match numa node specified with -numa option 'node-id 1'
+and on PC it would print:
+  Error: node-id=0 must match numa node specified with -numa option 'socket-id 20 node-id 1 thread-id=40'
+
+which doesn't make sense to me.
+
+
+I was expecting something like:
+  Error: CPU slot core-id=30 is bound to node-id 0, but node-id 1 was specified
+and on PC:
+  Error: CPU slot socket-id=20,core-id=30,thread-id=40 is bound to node-id 0, but node-id 1 was specified
+
+
+-- 
+Eduardo
 
