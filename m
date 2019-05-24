@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A45E29C07
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 18:20:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57132 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BF729C1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 18:26:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57278 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUCvo-0002Ta-Aq
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 12:20:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41655)
+	id 1hUD1k-0008G1-4M
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 12:26:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42170)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hUCtC-0001IS-LM
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:17:51 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hUCun-0002Yi-Nj
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:19:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hUCtB-0007z1-RH
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:17:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50490)
+	(envelope-from <stefanha@redhat.com>) id 1hUCum-0001Oy-Ph
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 12:19:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52419)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <stefanha@redhat.com>)
-	id 1hUCt9-0007wK-SU; Fri, 24 May 2019 12:17:48 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	id 1hUCui-0001IF-Ts; Fri, 24 May 2019 12:19:25 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 316F689C37;
-	Fri, 24 May 2019 16:17:37 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id C6E843003E44;
+	Fri, 24 May 2019 16:19:18 +0000 (UTC)
 Received: from localhost (ovpn-117-142.ams2.redhat.com [10.36.117.142])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B358E19748;
-	Fri, 24 May 2019 16:17:35 +0000 (UTC)
-Date: Fri, 24 May 2019 17:17:34 +0100
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4D0A95F7DB;
+	Fri, 24 May 2019 16:19:17 +0000 (UTC)
+Date: Fri, 24 May 2019 17:19:16 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190524161734.GG31070@stefanha-x1.localdomain>
+Message-ID: <20190524161916.GH31070@stefanha-x1.localdomain>
 References: <20190524140337.13415-1-mehta.aaru20@gmail.com>
-	<20190524140337.13415-8-mehta.aaru20@gmail.com>
+	<20190524140337.13415-9-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Wtrm9ATX0sn6fFKv"
+	protocol="application/pgp-signature"; boundary="4LFBTxd4L5NLO6ly"
 Content-Disposition: inline
-In-Reply-To: <20190524140337.13415-8-mehta.aaru20@gmail.com>
+In-Reply-To: <20190524140337.13415-9-mehta.aaru20@gmail.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Fri, 24 May 2019 16:17:42 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Fri, 24 May 2019 16:19:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH v2 7/9] blockdev: accept io_uring as
- option
+Subject: Re: [Qemu-devel] [RFC PATCH v2 8/9] block/file-posix: extends to
+ use with io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,32 +66,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Wtrm9ATX0sn6fFKv
+--4LFBTxd4L5NLO6ly
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 24, 2019 at 07:33:35PM +0530, Aarushi Mehta wrote:
-> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> ---
->  blockdev.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+On Fri, May 24, 2019 at 07:33:36PM +0530, Aarushi Mehta wrote:
+> @@ -557,7 +559,9 @@ static int raw_open_common(BlockDriverState *bs, QDic=
+t *options,
+>      s->shared_perm =3D BLK_PERM_ALL;
+>=20
+>  #ifdef CONFIG_LINUX_AIO
+> -     /* Currently Linux does AIO only for files opened with O_DIRECT */
+> +     /*
+> +      * Currently Linux does AIO only for files opened with O_DIRECT
+> +      */
+>      if (s->use_linux_aio) {
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+The comment's indentation looks off.  Is it 4 spaces?
 
---Wtrm9ATX0sn6fFKv
+--4LFBTxd4L5NLO6ly
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzoGR4ACgkQnKSrs4Gr
-c8i8PwgAmKjFcrTKmo5CzO4WBrwlQXix9icKfB5EsxcxF7IravEnw21u2hVU3rH0
-JRSx8Ig9HwAlV6cyjbz8nEh/b6fayk/kXIp+UvlsY+eyTzGV8xdHh0e6rCmB2itJ
-AshhvZAQc8ymHINwAFstd77itVVA1tAmiNqYsM4KpkSQ+YvVtEnF72+9SYwhUwEP
-W1Oajk88SqF04GFNrgCJ8jA+mXeOjBBu8GpbOGvnF1/KX6pmkKCtQWgqYN61BHpY
-qSWSe76QuVbfsBYGHMMcsu3QORydI1YWvOYROnpv9P3er+SEBp2AV0ViDiCUp9JR
-bQEpMOv5jayEeiwzpTS10Uvs0qrsVQ==
-=IiDW
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzoGYQACgkQnKSrs4Gr
+c8j8uwgAiRL1JM24Ef+UOkXC7GxOHo6XJzEDILwJ1oKOSyWEmpenY2rAp9OQ/yIs
+wpohUq+vTGWnPhQsOtUkTBUlO5HEMhbrxNGuS33jfwt8LB9ot29lrLInIi5XjVfM
+QC7njJxSwgeSFfKoVZktj2c7Bj9o1wtFIvkXPVoapdMeSZkoD+ejrWjUzKD6fq/H
+EQct25BSMt6hF8zTeiiqAAsmoahtZ7gPAEgKcMlsuXcpbNNVKieeL9oT+16QtPj5
+YmpGf5ND2TobJedfkhbFgdRg8t8SmB9OKffvdFJtUPZeXFPpBqNJOOKWWUPeofLX
+7q+ZacAeKTINBR6HIhNCyRZ8SRRYCg==
+=xc9e
 -----END PGP SIGNATURE-----
 
---Wtrm9ATX0sn6fFKv--
+--4LFBTxd4L5NLO6ly--
 
