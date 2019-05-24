@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58162B13A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 11:21:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42493 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482AD2991A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:37:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54760 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVBoS-0001R4-PP
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 05:21:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38135)
+	id 1hUANq-00051U-E5
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:37:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33887)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hVBms-0000p2-KL
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 05:19:23 -0400
+	(envelope-from <armbru@redhat.com>) id 1hUAK9-0001gR-Bp
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:33:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hVBmn-0001J8-T3
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 05:19:19 -0400
-Resent-Date: Mon, 27 May 2019 05:19:18 -0400
-Resent-Message-Id: <E1hVBmn-0001J8-T3@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21501)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hVBmn-0001Av-M7
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 05:19:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1558704513; cv=none; d=zoho.com; s=zohoarc; 
-	b=OEhCGqzY6UFQEYnK+uDQupxg7ELVsrR+LDr4pwMT0m2qbF2SMv7bBPaFHPIKnkJ04jmVgbHqzyT2rGapAl4B2reyJt7kkG9ACe/0GCY2BQLHFWG/FXdF3pFjrMdQD3mnJ6mNJD0NHtNCbWEHuLm1j7Tr8KFhnHg6pAZkUPtHjf4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1558704513;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=Z71N7XXQh+XzxxGbiMutgvU+LsImbYYp3Y7ie1PjA5I=; 
-	b=ENP14ao4HGixLntwXTH8V0zqWOY3axrs6pIwP5AI2zJPioRbmGCnrEOC/0f4O+2qFNwTdktDJ+9PjMmwktA0Qib4yQEi9JjmsYKaF8VydHOQjDhujEY3r1868o5unDDqQk2ZQqEaiVlbqSfcMLCXnZb4OPv5BYnRFzlkD+MD2sQ=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1558704509579209.90382800522855;
-	Fri, 24 May 2019 06:28:29 -0700 (PDT)
-In-Reply-To: <20190504060336.21060-1-philmd@redhat.com>
-Message-ID: <155870450828.24.7185600599110160688@549697c9ad12>
+	(envelope-from <armbru@redhat.com>) id 1hUAG5-0005uB-HM
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:29:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44836)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hUAG3-0005rp-HI; Fri, 24 May 2019 09:29:15 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id B83C7C0AD283;
+	Fri, 24 May 2019 13:29:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
+	[10.36.117.250])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 82DF66870F;
+	Fri, 24 May 2019 13:29:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 1749F1138648; Fri, 24 May 2019 15:29:07 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190517144232.18965-1-kwolf@redhat.com>
+	<20190517144232.18965-3-kwolf@redhat.com>
+Date: Fri, 24 May 2019 15:29:07 +0200
+In-Reply-To: <20190517144232.18965-3-kwolf@redhat.com> (Kevin Wolf's message
+	of "Fri, 17 May 2019 16:42:28 +0200")
+Message-ID: <87y32w6kws.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Fri, 24 May 2019 06:28:29 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Fri, 24 May 2019 13:29:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH] tests/docker: Update the Fedora image to
- Fedora 30
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 2/6] tests/qapi-schema: Test for good
+ feature lists in structs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,39 +62,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, thuth@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
-	pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: pkrempa@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUwNDA2MDMzNi4yMTA2
-MC0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCBidWlsZCB0
-ZXN0IG9uIHMzOTB4IGhvc3QuIFBsZWFzZSBmaW5kIHRoZSBkZXRhaWxzIGJlbG93LgoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAojIFRlc3Rpbmcgc2NyaXB0IHdpbGwgYmUg
-aW52b2tlZCB1bmRlciB0aGUgZ2l0IGNoZWNrb3V0IHdpdGgKIyBIRUFEIHBvaW50aW5nIHRvIGEg
-Y29tbWl0IHRoYXQgaGFzIHRoZSBwYXRjaGVzIGFwcGxpZWQgb24gdG9wIG9mICJiYXNlIgojIGJy
-YW5jaApzZXQgLWUKQ0M9JEhPTUUvYmluL2NjCklOU1RBTEw9JFBXRC9pbnN0YWxsCkJVSUxEPSRQ
-V0QvYnVpbGQKbWtkaXIgLXAgJEJVSUxEICRJTlNUQUxMClNSQz0kUFdECmNkICRCVUlMRAokU1JD
-L2NvbmZpZ3VyZSAtLWNjPSRDQyAtLXByZWZpeD0kSU5TVEFMTAptYWtlIC1qNAojIFhYWDogd2Ug
-bmVlZCByZWxpYWJsZSBjbGVhbiB1cAojIG1ha2UgY2hlY2sgLWo0IFY9MQptYWtlIGluc3RhbGwK
-CmVjaG8KZWNobyAiPT09IEVOViA9PT0iCmVudgoKZWNobwplY2hvICI9PT0gUEFDS0FHRVMgPT09
-IgpycG0gLXFhCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogICAgaW5saW5lZCBmcm9tIOKAmGZp
-bGxfcHNpbmZv4oCZIGF0IC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC0zZzh1NGZ2Mi9zcmMv
-bGludXgtdXNlci9lbGZsb2FkLmM6MzIwODoxMiwKICAgIGlubGluZWQgZnJvbSDigJhmaWxsX25v
-dGVfaW5mb+KAmSBhdCAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtM2c4dTRmdjIvc3JjL2xp
-bnV4LXVzZXIvZWxmbG9hZC5jOjMzOTA6NSwKICAgIGlubGluZWQgZnJvbSDigJhlbGZfY29yZV9k
-dW1w4oCZIGF0IC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC0zZzh1NGZ2Mi9zcmMvbGludXgt
-dXNlci9lbGZsb2FkLmM6MzUzOTo5OgovdXNyL2luY2x1ZGUvYml0cy9zdHJpbmdfZm9ydGlmaWVk
-Lmg6MTA2OjEwOiBlcnJvcjog4oCYX19idWlsdGluX3N0cm5jcHnigJkgc3BlY2lmaWVkIGJvdW5k
-IDE2IGVxdWFscyBkZXN0aW5hdGlvbiBzaXplIFstV2Vycm9yPXN0cmluZ29wLXRydW5jYXRpb25d
-CiAgMTA2IHwgICByZXR1cm4gX19idWlsdGluX19fc3RybmNweV9jaGsgKF9fZGVzdCwgX19zcmMs
-IF9fbGVuLCBfX2JvcyAoX19kZXN0KSk7CiAgICAgIHwgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KY2MxOiBhbGwg
-d2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
-YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNTA0MDYwMzM2LjIxMDYwLTEtcGhp
-bG1kQHJlZGhhdC5jb20vdGVzdGluZy5zMzkweC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
-ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
-bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Kevin Wolf <kwolf@redhat.com> writes:
 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  tests/qapi-schema/qapi-schema-test.json | 30 +++++++++++++++++++++++
+>  tests/qapi-schema/qapi-schema-test.out  | 32 +++++++++++++++++++++++++
+>  tests/qapi-schema/test-qapi.py          |  4 ++++
+>  3 files changed, 66 insertions(+)
+>
+> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+> index 0952c68734..35a50fbe54 100644
+> --- a/tests/qapi-schema/qapi-schema-test.json
+> +++ b/tests/qapi-schema/qapi-schema-test.json
+> @@ -242,3 +242,33 @@
+>    { 'foo': 'TestIfStruct',
+>      'bar': { 'type': ['TestIfEnum'], 'if': 'defined(TEST_IF_EVT_BAR)' } },
+>    'if': 'defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)' }
+> +
+> +# test 'features' for structs
+> +
+> +{ 'struct': 'FeatureStruct0',
+> +  'data': { 'foo': 'int' },
+> +  'features': [] }
+> +{ 'struct': 'FeatureStruct1',
+> +  'data': { 'foo': 'int' },
+> +  'features': [ 'feature1' ] }
+> +{ 'struct': 'FeatureStruct2',
+> +  'data': { 'foo': 'int' },
+> +  'features': [ { 'name': 'feature1' } ] }
+> +{ 'struct': 'FeatureStruct3',
+> +  'data': { 'foo': 'int' },
+> +  'features': [ 'feature1', 'feature2' ] }
+> +{ 'struct': 'FeatureStruct4',
+> +  'data': { 'namespace-test': 'int' },
+> +  'features': [ 'namespace-test', 'int', 'name', 'if' ] }
+> +
+> +{ 'struct': 'CondFeatureStruct1',
+> +  'data': { 'foo': 'int' },
+> +  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'} ] }
+> +{ 'struct': 'CondFeatureStruct2',
+> +  'data': { 'foo': 'int' },
+> +  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'},
+> +                { 'name': 'feature2', 'if': 'defined(TEST_IF_FEATURE_2)'} ] }
+> +{ 'struct': 'CondFeatureStruct3',
+> +  'data': { 'foo': 'int' },
+> +  'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)',
+> +                                              'defined(TEST_IF_COND_2)'] } ] }
+
+Let's add
+
+   { 'command': 'test-features',
+     'data': { 'fs0': 'FeatureStruct0',
+               'fs1': 'FeatureStruct1',
+               'fs2': 'FeatureStruct2',
+               'fs3': 'FeatureStruct3',
+               'cfs1': 'CondFeatureStruct1',
+               'cfs2': 'CondFeatureStruct2',
+               'cfs3': 'CondFeatureStruct3' } }
+
+because without it, the feature test cases won't generate introspection
+code.
+
+[...]
 
