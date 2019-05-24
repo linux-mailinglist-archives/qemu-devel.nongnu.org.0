@@ -2,130 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202BF2A1AA
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 01:38:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33200 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF1D2A203
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 02:09:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33536 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUJm6-0002ii-0U
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 19:38:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57618)
+	id 1hUKFZ-0006fl-JT
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 20:09:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60425)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hUJkz-0002Na-8a
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 19:37:50 -0400
+	(envelope-from <prvs=040baf4f1=alistair.francis@wdc.com>)
+	id 1hUK4C-0005eB-AN
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 19:57:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hUJkw-0001s1-4n
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 19:37:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46242)
+	(envelope-from <prvs=040baf4f1=alistair.francis@wdc.com>)
+	id 1hUJuU-00048Z-7Z
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 19:47:39 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:51624)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
-	id 1hUJkq-0001nD-V6; Fri, 24 May 2019 19:37:41 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E3209368E3;
-	Fri, 24 May 2019 23:37:39 +0000 (UTC)
-Received: from [10.10.123.140] (ovpn-123-140.rdu2.redhat.com [10.10.123.140])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DD4D219069;
-	Fri, 24 May 2019 23:37:37 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190523154733.54944-1-vsementsov@virtuozzo.com>
-	<20190523154733.54944-3-vsementsov@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
-	mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
-	IYzhgrPEe7ZmPxbCSe4iMykjhwMh5byIHDoPGDU+FsQty2KXuoxto+ZdrP9gymAgmyqdk3aV
-	vzzmCa3cOppcqKvA0Kqr10UeX/z4OMVV390V+DVWUvzXpda45/Sxup57pk+hyY52wxxjIqef
-	rj8u5BN93s5uCVTus0oiVA6W+iXYzTvVDStMFVqnTxSxlpZoH5RGKvmoWV3uutByQyBPHW2U
-	1Y6n6iEZ9MlP3hcDqlo0S8jeP03HaD4gOqCuqLceWF5+2WyHzNfylpNMFVi+Hp0H/nSDtCvQ
-	ua7j+6Pt7q5rvqgHvRipkDDVsjqwasuNc3wyoHexrBeLU/iJBuDld5iLy+dHXoYMB3HmjMxj
-	3K5/8XhGrDx6BDFeO3HIpi3u2z1jniB7RtyVEtdupED6lqsDj0oSz9NxaOFZrS3Jf6z/kHIf
-	h42mM9Sx7+s4c07N2LieUxcfqhFTaa/voRibF4cmkBVUhOD1AKXNfhEsTvmcz9NbUchCkcvA
-	T9119CrsxfVsE7bXiGvdXnzyGLXdsoosjzwacKdOrVaDmN3Uy+SHiQXo6TlkSdV0XH2PUxTM
-	LsBFIO9qXO43Ai6J6iPAP/01l8fuZfpJE0/L/c25yyaND7xA3wARAQABtCpKb2huIFNub3cg
-	KEpvaG4gSHVzdG9uKSA8anNub3dAcmVkaGF0LmNvbT6JAlQEEwECAD4CGwMCHgECF4AFCwkI
-	BwMFFQoJCAsFFgIDAQAWIQT665cRoSz0dYEvGPKIqQZNGDVh6wUCXF392gUJC1Xq3gAKCRCI
-	qQZNGDVh6558D/9pM4pu4njX5aT6uUW3vAmbWLF1jfPxiTQgSHAnm9EBMZED/fsvkzj97clo
-	LN7JKmbYZNgJmR01A7flG45V4iOR/249qAfaVuD+ZzZi1R4jFzr13WS+IEdn0hYp9ITndb7R
-	ezW+HGu6/rP2PnfmDnNowgJu6Dp6IUEabq8SXXwGHXZPuMIrsXJxUdKJdGnh1o2u7271yNO7
-	J9PEMuMDsgjsdnaGtv7aQ9CECtXvBleAc06pLW2HU10r5wQyBMZGITemJdBhhdzGmbHAL0M6
-	vKi/bafHRWqfMqOAdDkv3Jg4arl2NCG/uNateR1z5e529+UlB4XVAQT+f5T/YyI65DFTY940
-	il3aZhA8u788jZEPMXmt94u7uPZbEYp7V0jt68SrTaOgO7NaXsboXFjwEa42Ug5lB5d5/Qdp
-	1AITUv0NJ51kKwhHL1dEagGeloIsGVQILmpS0MLdtitBHqZLsnJkRvtMaxo47giyBlv2ewmq
-	tIGTlVLxHx9xkc9aVepOuiGlZaZB72c9AvZs9rKaAjgU2UfJHlB/Hr4uSk/1EY0IgMv4vnsG
-	1sA5gvS7A4T4euu0PqHtn2sZEWDrk5RDbw0yIb53JYdXboLFmFXKzVASfKh2ZVeXRBlQQSJi
-	3PBR1GzzqORlfryby7mkY857xzCI2NkIkD2eq+HhzFTfFOTdGrkCDQRUynn8ARAAwbhP45BE
-	d/zAMBPV2dk2WwIwKRSKULElP3kXpcuiDWYQob3UODUUqClO+3aXVRndaNmZX9WbzGYexVo3
-	5j+CVBCGr3DlU8AL9pp3KQ3SJihWcDed1LSmUf8tS+10d6mdGxDqgnd/OWU214isvhgWZtZG
-	MM/Xj7cx5pERIiP+jqu7PT1cibcfcEKhPjYdyV1QnLtKNGrTg/UMKaL+qkWBUI/8uBoa0HLs
-	NH63bXsRtNAG8w6qG7iiueYZUIXKc4IHINUguqYQJVdSe+u8b2N5XNhDSEUhdlqFYraJvX6d
-	TjxMTW5lzVG2KjztfErRNSUmu2gezbw1/CV0ztniOKDA7mkQi6UIUDRh4LxRm5mflfKiCyDQ
-	L6P/jxHBxFv+sIgjuLrfNhIC1p3z9rvCh+idAVJgtHtYl8p6GAVrF+4xQV2zZH45tgmHo2+S
-	JsLPjXZtWVsWANpepXnesyabWtNAV4qQB7/SfC77zZwsVX0OOY2Qc+iohmXo8U7DgXVDgl/R
-	/5Qgfnlv0/3rOdMt6ZPy5LJr8D9LJmcP0RvX98jyoBOf06Q9QtEwJsNLCOCo2LKNL71DNjZr
-	nXEwjUH66CXiRXDbDKprt71BiSTitkFhGGU88XCtrp8R9yArXPf4MN+wNYBjfT7K29gWTzxt
-	9DYQIvEf69oZD5Z5qHYGp031E90AEQEAAYkCPAQYAQIAJgIbDBYhBPrrlxGhLPR1gS8Y8oip
-	Bk0YNWHrBQJcXf3JBQkLVerNAAoJEIipBk0YNWHrU1AP/1FOK2SBGbyhHa5vDHuf47fgLipC
-	e0/h1E0vdSonzlhPxuZoQ47FjzG9uOhqqQG6/PqtWs/FJIyz8aGG4aV+pSA/9Ko3/2ND8MSY
-	ZflWs7Y8Peg08Ro01GTHFITjEUgHpTpHiT6TNcZB5aZNJ8jqCtW5UlqvXXbVeSTmO70ZiVtc
-	vUJbpvSxYmzhFfZWaXIPcNcKWL1rnmnzs67lDhMLdkYVf91aml/XtyMUlfB8Iaejzud9Ht3r
-	C0pA9MG57pLblX7okEshxAC0+tUdY2vANWFeX0mgqRt1GSuG9XM9H/cKP1czfUV/FgaWo/Ya
-	fM4eMhUAlL/y+/AJxxumPhBXftM4yuiktp2JMezoIMJI9fmhjfWDw7+2jVrx9ze1joLakFD1
-	rVAoHxVJ7ORfQ4Ni/qWbQm3T6qQkSMt4N/scNsMczibdTPxU7qtwQwIeFOOc3wEwmJ9Qe3ox
-	TODQ0agXiWVj0OXYCHJ6MxTDswtyTGQW+nUHpKBgHGwUaR6d1kr/LK9+5LpOfRlK9VRfEu7D
-	PGNiRkr8Abp8jHsrBqQWfUS1bAf62bq6XUel0kUCtb7qCq024aOczXYWPFpJFX+nhp4d7NeH
-	Edq+wlC13sBSiSHC7T5yssJ+7JPa2ATLlSKhEvBsLe2TsSTTtFlA0nBclqhfJXzimiuge9qU
-	E40lvMWBuQINBFTKimUBEADDbJ+pQ5M4QBMWkaWImRj7c598xIZ37oKM6rGaSnuB1SVb7YCr
-	Ci2MTwQcrQscA2jm80O8VFqWk+/XsEp62dty47GVwSfdGje/3zv3VTH2KhOCKOq3oPP5ZXWY
-	rz2d2WnTvx++o6lU7HLHDEC3NGLYNLkL1lyVxLhnhvcMxkf1EGA1DboEcMgnJrNB1pGP27ww
-	cSfvdyPGseV+qZZa8kuViDga1oxmnYDxFKMGLxrClqHrRt8geQL1Wj5KFM5hFtGTK4da5lPn
-	wGNd6/CINMeCT2AWZY5ySz7/tSZe5F22vPvVZGoPgQicYWdNc3ap7+7IKP86JNjmec/9RJcz
-	jvrYjJdiqBVldXou72CtDydKVLVSKv8c2wBDJghYZitfYIaL8cTvQfUHRYTfo0n5KKSec8Vo
-	vjDuxmdbOUBA+SkRxqmneP5OxGoZ92VusrwWCjry8HRsNdR+2T+ClDCO6Wpihu4V3CPkQwTy
-	eCuMHPAT0ka5paTwLrnZIxsdfnjUa96T10vzmQgAxpbbiaLvgKJ8+76OPdDnhddyxd2ldYfw
-	RkF5PEGg3mqZnYKNNBtwjvX49SAvgETQvLzQ8IKVgZS0m4z9qHHvtc1BsQnFfe+LJOFjzZr7
-	CrDNJMqk1JTHYsSi2JcN3vY32WMezXSQ0TzeMK4kdnclSQyp/h23GWod5QARAQABiQRbBBgB
-	AgAmAhsCFiEE+uuXEaEs9HWBLxjyiKkGTRg1YesFAlxd/coFCQtV2mQCKcFdIAQZAQIABgUC
-	VMqKZQAKCRB974EGqvw5DiJoEACLmuiRq9ifvOh5DyBFwRS7gvA14DsGQngmC57EzV0EFcfM
-	XVi1jX5OtwUyUe0Az5r6lHyyHDsDsIpLKBlWrYCeLpUhRR3oy181T7UNxvujGFeTkzvLAOo6
-	Hs3b8Wv9ARg+7acRYkQRNY7k0GIJ6YZz149tRyRKAy/vSjsaB9Lt0NOd1wf2EQMKwRVELwJD
-	y0AazGn+0PRP7Bua2YbtxaBmhBBDb2tPpwn8U9xdckB4Vlft9lcWNsC/18Gi9bpjd9FSbdH/
-	sOUI+3ToWYENeoT4IP09wn6EkgWaJS3nAUN/MOycNej2i4Yhy2wDDSKyTAnVkSSSoXk+tK91
-	HfqtokbDanB8daP+K5LgoiWHzjfWzsxA2jKisI4YCGjrYQzTyGOT6P6u6SEeoEx10865B/zc
-	8/vN50kncdjYz2naacIDEKQNZlnGLsGkpCbfmfdi3Zg4vuWKNdWr0wGUzDUcpqW0y/lUXna+
-	6uyQShX5e4JD2UPuf9WAQ9HtgSAkaDd4O1I2J41sleePzZOVB3DmYgy+ECRJJ5nw3ihdxpgc
-	y/v3lfcJaqiyCv0PF+K/gSOvwhH7CbVqARmptT7yhhxqFdaYWo2Z2ksuKyoKSRMFCXQY5oac
-	uTmyPIT4STFyUQFeqSCWDum/NFNoSKhmItw2Td+4VSJHShRVbg39KNFPZ7mXYAkQiKkGTRg1
-	YesWJA/+PV3qDUtPNEGwjVvjQqHSbrBy94tu6gJvPHgGPtRDYvxnCaJsmgiC0pGB2KFRsnfl
-	2zBNBEWF/XwsI081jQE5UO60GKmHTputChLXpVobyuc+lroG2YhknXRBAV969SLnZR4BS/1s
-	Gi046gOXfaKYatve8BiZr5it5Foq3FMPDNgZMit1H9Dk8rkKFfDMRf8EGS/Z+TmyEsIf99H7
-	TH3n7lco8qO81fSFwkh4pvo2kWRFYTC5vsIVQ+GqVUp+W1DZJHxX8LwWuF1AzUt4MUTtNAvy
-	TXl5EgsmoY9mpNNL7ZnW65oG63nEP5KNiybvuQJzXVxR8eqzOh2Mod4nHg3PE7UCd3DvLNsn
-	GXFRo44WyT/G2lArBtjpkut7bDm0i1nENABy2UgS+1QvdmgNu6aEZxdNthwRjUhuuvCCDMA4
-	rCDQYyakH2tJNQgkXkeLodBKF4bHiBbuwj0E39S9wmGgg+q4OTnAO/yhQGknle7a7G5xHBwE
-	i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
-	RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
-	glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <2a5e3401-34fe-c0ba-7f73-5a05add965e9@redhat.com>
-Date: Fri, 24 May 2019 19:37:36 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <prvs=040baf4f1=alistair.francis@wdc.com>)
+	id 1hUJuT-00043c-Eg; Fri, 24 May 2019 19:47:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1558741658; x=1590277658;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=Qw+UPGqQAxHksIeRq7lNcj/3djy60ogFXseFGb5WIvg=;
+	b=bE3R+35RG5FDGwd3wimNpy6EJpYEY52m1NlvGyVnSG6UZh3hpQxm8Aho
+	EcPgXALb48T5Ez3xm+8SaDKWwiAYomsAiyXtzVpUSZR2oXBjWtC/l2r7k
+	v8iDRVgpdsFhAy1p/XV7k/2KE0sXap7NKxVHIq+jstBSgNBrhJXNbt7xE
+	AU5fdZJfTiM5Ji/0tTYwJxDc3uFbuDOZn/113+CuIIH8J2MXNQ6W3F0AA
+	rlNQ2tVGpaWMLlefv8Qq8ZXWowhAbnA9gzMKnuJmD9F/Drs2AQ4mmtkCk
+	7RGqHmSHkTTl2XiLjKthyibZ+yQEAs7szrx1ujfcx5j1yODljXK0MHeby g==;
+X-IronPort-AV: E=Sophos;i="5.60,508,1549900800"; d="scan'208";a="110307752"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 25 May 2019 07:47:30 +0800
+IronPort-SDR: z2mfUIA8SQ+HY6M3EqS2vlXFu+fPaMZKrvolXzoVL46UWGqYbXaclXnHEB92DpzyB9pqI0qDsk
+	tDYDfpwSBfMO6Gt4QKaJlJqFLgCEQqLEYPpZ/ZIzi+MRBRoshuzFTzcOWMCgPEoW0WUqYLO3TS
+	hS0Vyme6xljlVG6IX0kvYun8LEZrVVk93vvfMv/yyra2nKXnFe6vVMX8TgM6BHdMI2Ja9aZLnH
+	gJz4SGdwBryRuVOVwZtHXZY45yYJN509zwrNh7Odj9p5z0485Ezj64eHRI94jZDcgk11FzOjwU
+	zAcWiodeVfVxW/5BGelhD/6K
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+	by uls-op-cesaep01.wdc.com with ESMTP; 24 May 2019 16:22:48 -0700
+IronPort-SDR: q8DGwvUUCG6InrB04CKBRNbjpmvhdrzBI4sIpsd2KbVsLWm72A0FIoZkfA/xXabAFNqwKzqpWx
+	PleCp2tR2uhW93ZBqzG54t7HwIxdGvN9iE9YGELSsw4Bc43axLuyQIl099TiTRnSqRv1cIRTBL
+	QI3BWg238zhk/yeFZan+LgStDg/3yA0dil/xo7h/oJ2THnQ4D5cp1AQQm9xMKNGJxQq7tA5Ka2
+	pqQQktAiY/sjxEQZGxPpHBgKhwI91V9lm3Kpz+ffuIfEYFxqQQXLnDM/I1wVENkoarELjmfZ0Q
+	E7E=
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.140])
+	by uls-op-cesaip02.wdc.com with ESMTP; 24 May 2019 16:47:29 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Date: Fri, 24 May 2019 16:45:35 -0700
+Message-Id: <cover.1558741334.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190523154733.54944-3-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Fri, 24 May 2019 23:37:39 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/3] block/qcow2-bitmap: get rid of
- bdrv_has_changed_persistent_bitmaps
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 216.71.153.144
+Subject: [Qemu-devel] [RFC v1 00/23]  Add RISC-V Hypervisor Extension
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -137,141 +76,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, den@openvz.org, mreitz@redhat.com
+Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch series adds the RISC-V Hypervisor extension 0.3. This is the
+latest draft spec of the Hypervisor extension.
 
+This series applies ontop of the RISC-V tree as it requires the previous
+Hypervisor extension patches as well as the CPU parsing patches, both of
+which have been accepted to the RISC-V tree. The full Hypervisor support
+is avaliable at my GitHub (see below) which includes all required patches.
+This series won't apply ontop of master.
 
-On 5/23/19 11:47 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Firstly, no reason to optimize failure path. Then, function name is
-> ambiguous: it checks for readonly and similar things, but someone may
-> think that it will ignore normal bitmaps which was just unchanged, and
-> this is in bad relation with the fact that we should drop IN_USE flag
-> for unchanged bitmaps in the image.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/block/dirty-bitmap.h |  1 -
->  block/dirty-bitmap.c         | 12 ------------
->  block/qcow2-bitmap.c         | 23 +++++++++++++----------
->  3 files changed, 13 insertions(+), 23 deletions(-)
-> 
-> diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-> index 8044ace63e..816022972b 100644
-> --- a/include/block/dirty-bitmap.h
-> +++ b/include/block/dirty-bitmap.h
-> @@ -105,7 +105,6 @@ bool bdrv_has_readonly_bitmaps(BlockDriverState *bs);
->  bool bdrv_dirty_bitmap_get_autoload(const BdrvDirtyBitmap *bitmap);
->  bool bdrv_dirty_bitmap_get_persistence(BdrvDirtyBitmap *bitmap);
->  bool bdrv_dirty_bitmap_inconsistent(const BdrvDirtyBitmap *bitmap);
-> -bool bdrv_has_changed_persistent_bitmaps(BlockDriverState *bs);
->  BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BlockDriverState *bs,
->                                          BdrvDirtyBitmap *bitmap);
->  char *bdrv_dirty_bitmap_sha256(const BdrvDirtyBitmap *bitmap, Error **errp);
-> diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-> index 59e6ebb861..eca2eed0bf 100644
-> --- a/block/dirty-bitmap.c
-> +++ b/block/dirty-bitmap.c
-> @@ -775,18 +775,6 @@ bool bdrv_dirty_bitmap_inconsistent(const BdrvDirtyBitmap *bitmap)
->      return bitmap->inconsistent;
->  }
->  
-> -bool bdrv_has_changed_persistent_bitmaps(BlockDriverState *bs)
-> -{
-> -    BdrvDirtyBitmap *bm;
-> -    QLIST_FOREACH(bm, &bs->dirty_bitmaps, list) {
-> -        if (bm->persistent && !bm->readonly && !bm->migration) {
+The Hypervisor extension is disabled by default, so this series should
+result in no changes to anyone using QEMU unless they enable the
+extension. The extention can be enabled with the -cpu property (see
+below).
 
-The loop down below has these conditionals for skipping bitmaps:
+At the moment the spec does not include information about the mstatush
+register. As it is not in the spec I haven't added it to QEMU. This
+means the extension won't work correctly for 32-bit guests. This should
+be a small fix to add the CSR once the spec is updated.
 
-        if (!bdrv_dirty_bitmap_get_persistence(bitmap) ||
-            bdrv_dirty_bitmap_readonly(bitmap) ||
-            bdrv_dirty_bitmap_inconsistent(bitmap)) {
-            continue;
-        }
+All testing of this implementation has been done by using the baremetal
+Xvisor Hypervisor. We are able to run two Linux guests (that's all I
+have tried) as guests.
 
-It looks like a semantic change, but hiding inside of get_persistence is
-this:
+At the moment this spec is in a draft state and is subject to change. As
+QEMU is extreamly useful in early bring up I think it makes sense for
+QEMU to support non-frozen extensions. I would like to decide with this
+series how QEMU will handle all future non-frozen extensions. That is a
+standard way that QEMU users can test future RISC-V extensions while
+still understanding things will change. One idea is just to disable it by
+default, another option is to maybe use the Kconfig to make it a compile
+time option which developers can use. Should we also display a warning
+when running non-frozen extensions?
 
-bitmap->persistent && !bitmap->migration;
+Thanks to Anup for doing the initial port of Xvisor. The port is avaliable here:
+https://github.com/avpatel/xvisor-next and will run on QEMU.
 
-So this is equivalent, actually. It's not readily apparent at a glance.
+Also thanks to Atish for implementing the SBI call support in Xvisor and
+for lots of help debugging.
 
-> -            return true;
-> -        }
-> -    }
-> -
-> -    return false;
-> -}
-> -
->  BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BlockDriverState *bs,
->                                          BdrvDirtyBitmap *bitmap)
->  {
-> diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-> index 8a75366c92..2b84bfa007 100644
-> --- a/block/qcow2-bitmap.c
-> +++ b/block/qcow2-bitmap.c
-> @@ -1457,16 +1457,7 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
->      Qcow2Bitmap *bm;
->      QSIMPLEQ_HEAD(, Qcow2BitmapTable) drop_tables;
->      Qcow2BitmapTable *tb, *tb_next;
-> -
-> -    if (!bdrv_has_changed_persistent_bitmaps(bs)) {
-> -        /* nothing to do */
-> -        return;
-> -    }
-> -
-> -    if (!can_write(bs)) {
-> -        error_setg(errp, "No write access");
-> -        return;
-> -    }
-> +    bool need_write = false;
->  
->      QSIMPLEQ_INIT(&drop_tables);
->  
-> @@ -1494,6 +1485,8 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
->              continue;
->          }
->  
-> +        need_write = true;
-> +
->          if (check_constraints_on_bitmap(bs, name, granularity, errp) < 0) {
->              error_prepend(errp, "Bitmap '%s' doesn't satisfy the constraints: ",
->                            name);
-> @@ -1532,6 +1525,15 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
->          bm->dirty_bitmap = bitmap;
->      }
->  
-> +    if (!need_write) {
-> +        goto success;
-> +    }
-> +
-> +    if (!can_write(bs)) {
-> +        error_setg(errp, "No write access");
-> +        goto fail;
-> +    }
-> +
->      /* allocate clusters and store bitmaps */
->      QSIMPLEQ_FOREACH(bm, bm_list, entry) {
->          if (bm->dirty_bitmap == NULL) {
-> @@ -1573,6 +1575,7 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
->          bdrv_release_dirty_bitmap(bs, bm->dirty_bitmap);
->      }
->  
-> +success:
->      bitmap_list_free(bm_list);
->      return;
->  
-> 
+To run this yourself:
+ 1. Apply this patch series to QEMU. The latest branch can be found here:
+      https://github.com/alistair23/qemu/tree/mainline/alistair/riscv-hyp-work.next
+ 2. Get the version of OpenSBI that supports the H extenstion. This can
+    be found here:
+      https://github.com/riscv/opensbi/tree/hyp_ext_changes_v1
+ 3. Build the next release of Xvisor. It is avaliable here:
+      https://github.com/avpatel/xvisor-next
+ 4. Make sure you build the Xvisor tests, see here for details:
+      https://github.com/avpatel/xvisor-next/tree/master/tests/riscv/virt64/linux
+ 5. Run QEMU:
+     ./riscv64-softmmu/qemu-system-riscv64 -nographic \
+       -machine virt -cpu rv64,h=true\
+       -serial mon:stdio -serial null -m 4G \
+       -device loader,file=vmm.bin,addr=0x80200000 \
+       -kernel fw_jump.elf \
+       -initrd vmm-disk-linux.img \
+       -append "vmm.console=uart@10000000 vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs cat /system/banner.txt\""
 
-Alright, interesting. You're right that the function you're removing is
-pretty badly named for what it actually does. I got confused by that not
-too long ago.
+   Once you get to the prompt you can start the geust by running:
+     guest kick guest0
+   You can then bind to the serial port using:
+     vserial bind guest0/uart0
+   Then you can start Linux using:
+     autoexec
 
-The rationale against optimizing the error path works for me, too.
+ This was all tested with the mainline 5.1 kernel. I don't know if it
+ will work on older kernels.
 
-Seems like it's equivalent before and after, so:
+So far all of the QEMU work has been tested on Xvisor.
 
-Reviewed-by: John Snow <jsnow@redhat.com>
+Known Issues/TODO:
+ - Add mstatush to support 32-bit Hypervisors
+ - Add support for bsstatus.FS and sstatus.FS from the Hypervisor spec
+ - Fix the random hang that sometimes appears when running a Hypervisor guest
+
+There is also on going work from Anup to port KVM.
+We have code complete implementation of RISC-V KVM kernel module and
+RISC-V KVMTOOL. Currently, we are debugging KVM on QEMU and we will
+send-out RFC PATCHES for KVM in June/July 2019.
+The KVM RISC-V kernel module is available in riscv_kvm_v1
+branch at: https://github.com/avpatel/linux.git
+The KVMTOOL RISC-V port is available in riscv_v1 branch of
+https://github.com/avpatel/kvmtool.git
+
+There is very early work on a Xen port as well which is avaliable here:
+https://github.com/alistair23/xen/tree/alistair/riscv-port
+
+Alistair Francis (23):
+  target/riscv: Don't set write permissions on dirty PTEs
+  target/riscv: Add the Hypervisor extension
+  target/riscv: Add the virtulisation mode
+  target/riscv: Add the force HS exception mode
+  target/riscv: Add the Hypervisor CSRs to CPUState
+  target/riscv: Dump Hypervisor registers if enabled
+  target/riscv: Remove strict perm checking for CSR R/W
+  target/riscv: Add support for background interrupt setting
+  target/riscv: Add Hypervisor CSR access functions
+  target/riscv: Add background CSRs accesses
+  target/riscv: Add background register swapping function
+  target/ricsv: Flush the TLB on virtulisation mode changes
+  target/riscv: Generate illegal instruction on WFI when V=1
+  riscv: plic: Remove unused interrupt functions
+  riscv: plic: Always set sip.SEIP bit for HS
+  target/riscv: Add hypvervisor trap support
+  target/riscv: Add Hypervisor trap return support
+  target/riscv: Add hfence instructions
+  target/riscv: Allow specifying MMU stage
+  target/riscv: Allow specifying number of MMU stages
+  target/riscv: Implement second stage MMU
+  target/riscv: Call the second stage MMU in virtualisation mode
+  target/riscv: Allow enabling the Hypervisor extension
+
+ hw/riscv/sifive_plic.c                        |  24 +-
+ include/hw/riscv/sifive_plic.h                |   3 -
+ target/riscv/cpu.c                            |  31 ++
+ target/riscv/cpu.h                            |  26 ++
+ target/riscv/cpu_bits.h                       |  32 +-
+ target/riscv/cpu_helper.c                     | 430 ++++++++++++++++--
+ target/riscv/csr.c                            | 194 +++++++-
+ target/riscv/insn32.decode                    |  23 +-
+ .../riscv/insn_trans/trans_privileged.inc.c   |  40 ++
+ target/riscv/op_helper.c                      |  71 ++-
+ 10 files changed, 782 insertions(+), 92 deletions(-)
+
+-- 
+2.21.0
+
 
