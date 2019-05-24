@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3435E29B3B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:37:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56354 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC99329B75
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:48:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56521 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUCFg-0001VM-U7
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:37:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59270)
+	id 1hUCQm-0006ol-P2
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:48:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34036)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hUCDJ-0000GF-SK
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:34:35 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hUCPS-0006Sv-KD
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:47:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hUCDH-00033s-Ti
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:34:33 -0400
-Received: from 9.mo4.mail-out.ovh.net ([46.105.40.176]:42472)
+	(envelope-from <lvivier@redhat.com>) id 1hUCPR-0003fD-09
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:47:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52006)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hUCD9-0002wU-BI
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:34:28 -0400
-Received: from player787.ha.ovh.net (unknown [10.109.159.222])
-	by mo4.mail-out.ovh.net (Postfix) with ESMTP id 8E9B01F315C
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 17:34:18 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player787.ha.ovh.net (Postfix) with ESMTPSA id B5C4363EB954;
-	Fri, 24 May 2019 15:34:11 +0000 (UTC)
-Date: Fri, 24 May 2019 17:34:10 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <20190524173410.2d362c9a@bahia.lan>
-In-Reply-To: <20190523052918.1129-2-david@gibson.dropbear.id.au>
-References: <20190523052918.1129-1-david@gibson.dropbear.id.au>
-	<20190523052918.1129-2-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hUCPQ-0003ew-R4
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:47:04 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 48E44D77F2;
+	Fri, 24 May 2019 15:46:48 +0000 (UTC)
+Received: from [10.40.205.56] (unknown [10.40.205.56])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A06BD100200A;
+	Fri, 24 May 2019 15:46:39 +0000 (UTC)
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20190521141133.27380-1-lvivier@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <74a70577-f63d-3137-c957-af914ae81090@redhat.com>
+Date: Fri, 24 May 2019 17:46:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190521141133.27380-1-lvivier@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 1079175062239156710
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudduiedgleduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.38]);
+	Fri, 24 May 2019 15:46:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.40.176
-Subject: Re: [Qemu-devel] [PATCH 2/8] spapr: Clean up device tree
- construction for PCI devices
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6 0/4] rng-builtin: add an RNG backend
+ that uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,228 +60,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.ibm.com, mst@redhat.com, qemu-ppc@nongnu.org, clg@kaod.org,
-	qemu-devel@nongnu.org
+Cc: "=?UTF-8?Q?Daniel_P_._Berrang=c3=a9?=" <berrange@redhat.com>,
+	Amit Shah <amit@kernel.org>, Markus Armbruster <armbru@redhat.com>,
+	Kashyap Chamarthy <kchamart@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	"Richard W . M . Jones" <rjones@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 May 2019 15:29:12 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+Michael,
 
-> spapr_create_pci_child_dt() is a trivial wrapper around
-> spapr_populate_pci_child_dt(), but is the latter's only caller.  So fold
-> them together into spapr_dt_pci_device(), which closer matches our modern
-> naming convention.
+the series seems ready to be merged, and the one from Richard is now 
+part of master. Could you add it to one of your future virtio pull requests?
+
+Thanks,
+Laurent
+
+On 21/05/2019 16:11, Laurent Vivier wrote:
+> Add a new RNG backend using QEMU builtin getrandom function.
 > 
-> While there, make a number of cleanups to the function itself.  This is
-> mostly using more temporary locals to avoid awkwardly long lines, and in
-> some cases avoiding double reads of PCI config space variables.
+> This patch applies on top of
+>      "[PATCH v8 00/24] Add qemu_getrandom and ARMv8.5-RNG etc"
+> Based-on: 20190517023924.1686-1-richard.henderson@linaro.org
 > 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  hw/ppc/spapr_pci.c | 119 +++++++++++++++++++++------------------------
->  1 file changed, 55 insertions(+), 64 deletions(-)
+> v6: remove "sysemu/rng-random.h" from virtio-rng.c
+>      rebase on qemu_getrandom v8
 > 
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index b2db46ef1d..4075b433fd 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1219,57 +1219,75 @@ static const char *dt_name_from_class(uint8_t class, uint8_t subclass,
->  static uint32_t spapr_phb_get_pci_drc_index(SpaprPhbState *phb,
->                                              PCIDevice *pdev);
->  
-> -static void spapr_populate_pci_child_dt(PCIDevice *dev, void *fdt, int offset,
-> -                                       SpaprPhbState *sphb)
-> +/* create OF node for pci device and required OF DT properties */
-> +static int spapr_dt_pci_device(SpaprPhbState *sphb, PCIDevice *dev,
-> +                               void *fdt, int parent_offset)
->  {
-> +    int offset;
-> +    const gchar *basename;
-> +    char *nodename;
-
-Being curious... what's the rationale for using gchar or char, if any ?
-
-> +    int slot = PCI_SLOT(dev->devfn);
-> +    int func = PCI_FUNC(dev->devfn);
->      ResourceProps rp;
-> -    bool is_bridge = false;
-> -    int pci_status;
-> -    char *buf = NULL;
->      uint32_t drc_index = spapr_phb_get_pci_drc_index(sphb, dev);
-> +    uint32_t header_type = pci_default_read_config(dev, PCI_HEADER_TYPE, 1);
-> +    bool is_bridge = (header_type == PCI_HEADER_TYPE_BRIDGE);
-> +    uint32_t vendor_id = pci_default_read_config(dev, PCI_VENDOR_ID, 2);
-> +    uint32_t device_id = pci_default_read_config(dev, PCI_DEVICE_ID, 2);
-> +    uint32_t revision_id = pci_default_read_config(dev, PCI_REVISION_ID, 1);
->      uint32_t ccode = pci_default_read_config(dev, PCI_CLASS_PROG, 3);
-> -    uint32_t max_msi, max_msix;
-> +    uint32_t irq_pin = pci_default_read_config(dev, PCI_INTERRUPT_PIN, 1);
-> +    uint32_t subsystem_id = pci_default_read_config(dev, PCI_SUBSYSTEM_ID, 2);
-> +    uint32_t subsystem_vendor_id =
-> +        pci_default_read_config(dev, PCI_SUBSYSTEM_VENDOR_ID, 2);
-> +    uint32_t cache_line_size =
-> +        pci_default_read_config(dev, PCI_CACHE_LINE_SIZE, 1);
-> +    uint32_t pci_status = pci_default_read_config(dev, PCI_STATUS, 2);
-> +    gchar *loc_code;
-> +    
-
-trailing space ^^
-
-Apart from that, LGTM.
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-> +    basename = dt_name_from_class((ccode >> 16) & 0xff, (ccode >> 8) & 0xff,
-> +                                  ccode & 0xff);
->  
-> -    if (pci_default_read_config(dev, PCI_HEADER_TYPE, 1) ==
-> -        PCI_HEADER_TYPE_BRIDGE) {
-> -        is_bridge = true;
-> +    if (func != 0) {
-> +        nodename = g_strdup_printf("%s@%x,%x", basename, slot, func);
-> +    } else {
-> +        nodename = g_strdup_printf("%s@%x", basename, slot);
->      }
->  
-> +    _FDT(offset = fdt_add_subnode(fdt, parent_offset, nodename));
-> +
-> +    g_free(nodename);
-> +
->      /* in accordance with PAPR+ v2.7 13.6.3, Table 181 */
-> -    _FDT(fdt_setprop_cell(fdt, offset, "vendor-id",
-> -                          pci_default_read_config(dev, PCI_VENDOR_ID, 2)));
-> -    _FDT(fdt_setprop_cell(fdt, offset, "device-id",
-> -                          pci_default_read_config(dev, PCI_DEVICE_ID, 2)));
-> -    _FDT(fdt_setprop_cell(fdt, offset, "revision-id",
-> -                          pci_default_read_config(dev, PCI_REVISION_ID, 1)));
-> +    _FDT(fdt_setprop_cell(fdt, offset, "vendor-id", vendor_id));
-> +    _FDT(fdt_setprop_cell(fdt, offset, "device-id", device_id));
-> +    _FDT(fdt_setprop_cell(fdt, offset, "revision-id", revision_id));
-> +
->      _FDT(fdt_setprop_cell(fdt, offset, "class-code", ccode));
-> -    if (pci_default_read_config(dev, PCI_INTERRUPT_PIN, 1)) {
-> -        _FDT(fdt_setprop_cell(fdt, offset, "interrupts",
-> -                 pci_default_read_config(dev, PCI_INTERRUPT_PIN, 1)));
-> +    if (irq_pin) {
-> +        _FDT(fdt_setprop_cell(fdt, offset, "interrupts", irq_pin));
->      }
->  
->      if (!is_bridge) {
-> -        _FDT(fdt_setprop_cell(fdt, offset, "min-grant",
-> -            pci_default_read_config(dev, PCI_MIN_GNT, 1)));
-> -        _FDT(fdt_setprop_cell(fdt, offset, "max-latency",
-> -            pci_default_read_config(dev, PCI_MAX_LAT, 1)));
-> +        uint32_t min_grant = pci_default_read_config(dev, PCI_MIN_GNT, 1);
-> +        uint32_t max_latency = pci_default_read_config(dev, PCI_MAX_LAT, 1);
-> +        _FDT(fdt_setprop_cell(fdt, offset, "min-grant", min_grant));
-> +        _FDT(fdt_setprop_cell(fdt, offset, "max-latency", max_latency));
->      }
->  
-> -    if (pci_default_read_config(dev, PCI_SUBSYSTEM_ID, 2)) {
-> -        _FDT(fdt_setprop_cell(fdt, offset, "subsystem-id",
-> -                 pci_default_read_config(dev, PCI_SUBSYSTEM_ID, 2)));
-> +    if (subsystem_id) {
-> +        _FDT(fdt_setprop_cell(fdt, offset, "subsystem-id", subsystem_id));
->      }
->  
-> -    if (pci_default_read_config(dev, PCI_SUBSYSTEM_VENDOR_ID, 2)) {
-> +    if (subsystem_vendor_id) {
->          _FDT(fdt_setprop_cell(fdt, offset, "subsystem-vendor-id",
-> -                 pci_default_read_config(dev, PCI_SUBSYSTEM_VENDOR_ID, 2)));
-> +                              subsystem_vendor_id));
->      }
->  
-> -    _FDT(fdt_setprop_cell(fdt, offset, "cache-line-size",
-> -        pci_default_read_config(dev, PCI_CACHE_LINE_SIZE, 1)));
-> +    _FDT(fdt_setprop_cell(fdt, offset, "cache-line-size", cache_line_size));
-> +
->  
->      /* the following fdt cells are masked off the pci status register */
-> -    pci_status = pci_default_read_config(dev, PCI_STATUS, 2);
->      _FDT(fdt_setprop_cell(fdt, offset, "devsel-speed",
->                            PCI_STATUS_DEVSEL_MASK & pci_status));
->  
-> @@ -1283,9 +1301,9 @@ static void spapr_populate_pci_child_dt(PCIDevice *dev, void *fdt, int offset,
->          _FDT(fdt_setprop(fdt, offset, "udf-supported", NULL, 0));
->      }
->  
-> -    buf = spapr_phb_get_loc_code(sphb, dev);
-> -    _FDT(fdt_setprop_string(fdt, offset, "ibm,loc-code", buf));
-> -    g_free(buf);
-> +    loc_code = spapr_phb_get_loc_code(sphb, dev);
-> +    _FDT(fdt_setprop_string(fdt, offset, "ibm,loc-code", loc_code));
-> +    g_free(loc_code);
->  
->      if (drc_index) {
->          _FDT(fdt_setprop_cell(fdt, offset, "ibm,my-drc-index", drc_index));
-> @@ -1297,13 +1315,13 @@ static void spapr_populate_pci_child_dt(PCIDevice *dev, void *fdt, int offset,
->                            RESOURCE_CELLS_SIZE));
->  
->      if (msi_present(dev)) {
-> -        max_msi = msi_nr_vectors_allocated(dev);
-> +        uint32_t max_msi = msi_nr_vectors_allocated(dev);
->          if (max_msi) {
->              _FDT(fdt_setprop_cell(fdt, offset, "ibm,req#msi", max_msi));
->          }
->      }
->      if (msix_present(dev)) {
-> -        max_msix = dev->msix_entries_nr;
-> +        uint32_t max_msix = dev->msix_entries_nr;
->          if (max_msix) {
->              _FDT(fdt_setprop_cell(fdt, offset, "ibm,req#msi-x", max_msix));
->          }
-> @@ -1319,33 +1337,6 @@ static void spapr_populate_pci_child_dt(PCIDevice *dev, void *fdt, int offset,
->      }
->  
->      spapr_phb_nvgpu_populate_pcidev_dt(dev, fdt, offset, sphb);
-> -}
-> -
-> -/* create OF node for pci device and required OF DT properties */
-> -static int spapr_create_pci_child_dt(SpaprPhbState *phb, PCIDevice *dev,
-> -                                     void *fdt, int node_offset)
-> -{
-> -    int offset;
-> -    const gchar *basename;
-> -    char *nodename;
-> -    int slot = PCI_SLOT(dev->devfn);
-> -    int func = PCI_FUNC(dev->devfn);
-> -    uint32_t ccode = pci_default_read_config(dev, PCI_CLASS_PROG, 3);
-> -
-> -    basename = dt_name_from_class((ccode >> 16) & 0xff, (ccode >> 8) & 0xff,
-> -                                  ccode & 0xff);
-> -
-> -    if (func != 0) {
-> -        nodename = g_strdup_printf("%s@%x,%x", basename, slot, func);
-> -    } else {
-> -        nodename = g_strdup_printf("%s@%x", basename, slot);
-> -    }
-> -
-> -    _FDT(offset = fdt_add_subnode(fdt, node_offset, nodename));
-> -
-> -    g_free(nodename);
-> -
-> -    spapr_populate_pci_child_dt(dev, fdt, offset, phb);
->  
->      return offset;
->  }
-> @@ -1393,7 +1384,7 @@ int spapr_pci_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
->      SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(plug_handler);
->      PCIDevice *pdev = PCI_DEVICE(drc->dev);
->  
-> -    *fdt_start_offset = spapr_create_pci_child_dt(sphb, pdev, fdt, 0);
-> +    *fdt_start_offset = spapr_dt_pci_device(sphb, pdev, fdt, 0);
->      return 0;
->  }
->  
-> @@ -2086,7 +2077,7 @@ static void spapr_populate_pci_devices_dt(PCIBus *bus, PCIDevice *pdev,
->      int offset;
->      SpaprFdt s_fdt;
->  
-> -    offset = spapr_create_pci_child_dt(p->sphb, pdev, p->fdt, p->node_off);
-> +    offset = spapr_dt_pci_device(p->sphb, pdev, p->fdt, p->node_off);
->      if (!offset) {
->          error_report("Failed to create pci child device tree node");
->          return;
+> v5: PATCH 1 s/linux/Linux/
+>      remove superfluous includes from rng-builtin.c
+>      don't update rng-random documentation
+>      add a patch from Markus to keep the default backend out of VirtIORNGConf
+>      move TYPE_RNG_BUILTIN to sysemu/rng.h and remove sysemu/rng-builtin.h
+> 
+> v4: update PATCH 1 commit message
+> 
+> v3: Include Kashyap's patch in the series
+>      Add a patch to change virtio-rng default backend to rng-builtin
+> 
+> v2: Update qemu-options.hx
+>      describe the new backend and specify virtio-rng uses the
+>      rng-random by default
+> 
+> Kashyap Chamarthy (1):
+>    VirtIO-RNG: Update default entropy source to `/dev/urandom`
+> 
+> Laurent Vivier (2):
+>    rng-builtin: add an RNG backend that uses qemu_guest_getrandom()
+>    virtio-rng: change default backend to rng-builtin
+> 
+> Markus Armbruster (1):
+>    virtio-rng: Keep the default backend out of VirtIORNGConf
+> 
+>   backends/Makefile.objs         |  2 +-
+>   backends/rng-builtin.c         | 53 ++++++++++++++++++++++++++++++++++
+>   backends/rng-random.c          |  2 +-
+>   hw/virtio/virtio-rng.c         | 19 +++++-------
+>   include/hw/virtio/virtio-rng.h |  2 --
+>   include/sysemu/rng.h           |  2 ++
+>   qemu-options.hx                |  9 +++++-
+>   7 files changed, 73 insertions(+), 16 deletions(-)
+>   create mode 100644 backends/rng-builtin.c
+> 
 
 
