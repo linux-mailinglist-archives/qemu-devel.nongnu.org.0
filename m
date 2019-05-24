@@ -2,50 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D16A29AA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:10:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55993 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300BD29AA8
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 17:12:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56036 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUBps-0006LR-WF
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:10:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53918)
+	id 1hUBrU-0007jO-BH
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 11:12:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54536)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aaro.koskinen@iki.fi>) id 1hUBna-00057i-1n
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:08:00 -0400
+	(envelope-from <eblake@redhat.com>) id 1hUBoz-0006RH-Oh
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:09:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aaro.koskinen@iki.fi>) id 1hUBgJ-0003fJ-0t
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:00:31 -0400
-Received: from emh01.mail.saunalahti.fi ([62.142.5.107]:54786)
+	(envelope-from <eblake@redhat.com>) id 1hUBoh-0000ge-Kx
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:09:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50616)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aaro.koskinen@iki.fi>)
-	id 1hUBgI-0003dZ-3p
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 11:00:26 -0400
-Received: from t60.musicnaut.iki.fi (85-76-86-221-nat.elisa-mobile.fi
-	[85.76.86.221])
-	by emh01.mail.saunalahti.fi (Postfix) with ESMTP id 443BD20035;
-	Fri, 24 May 2019 18:00:20 +0300 (EEST)
-Date: Fri, 24 May 2019 18:00:18 +0300
-From: Aaro Koskinen <aaro.koskinen@iki.fi>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	Thomas Huth <thuth@redhat.com>
-Message-ID: <20190524150018.GA3156@t60.musicnaut.iki.fi>
-References: <20190520190533.GA28160@Red>
-	<20190521232323.GD3621@darkstar.musicnaut.iki.fi>
-	<20190522093341.GA32154@Red>
-	<20190522181904.GE3621@darkstar.musicnaut.iki.fi>
-	<8977e2bb-8d9e-f4fd-4c44-b4f67e0e7314@redhat.com>
-	<c2972889-fe60-7614-fb6e-e57ddf780a54@redhat.com>
-	<20190523183623.GB5234@darkstar.musicnaut.iki.fi>
-	<CAFEAcA8C0WN5FwaW2kfWiRm1T8wML_fWXDKqRXP-Lv_P7ysy8A@mail.gmail.com>
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hUBnN-00089f-VG; Fri, 24 May 2019 11:07:49 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 2DC063088A63;
+	Fri, 24 May 2019 15:07:31 +0000 (UTC)
+Received: from [10.3.116.169] (ovpn-116-169.phx2.redhat.com [10.3.116.169])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 738C11001E77;
+	Fri, 24 May 2019 15:07:28 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190508211820.17851-1-mreitz@redhat.com>
+	<20190508211820.17851-2-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <1ed0b731-cbbd-0cdd-32f6-913d2b57edfa@redhat.com>
+Date: Fri, 24 May 2019 10:07:27 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8C0WN5FwaW2kfWiRm1T8wML_fWXDKqRXP-Lv_P7ysy8A@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 62.142.5.107
-Subject: Re: [Qemu-devel] Running linux on qemu omap
+In-Reply-To: <20190508211820.17851-2-mreitz@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="Ilx6g9IlvnOjb9pFZDXHUYmqhiYVHep6w"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Fri, 24 May 2019 15:07:36 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v3 1/5] qemu-nbd: Add --pid-file option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,54 +86,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, QEMU Developers <qemu-devel@nongnu.org>,
-	lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
-	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+	=?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Ilx6g9IlvnOjb9pFZDXHUYmqhiYVHep6w
+From: Eric Blake <eblake@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Message-ID: <1ed0b731-cbbd-0cdd-32f6-913d2b57edfa@redhat.com>
+Subject: Re: [PATCH v3 1/5] qemu-nbd: Add --pid-file option
+References: <20190508211820.17851-1-mreitz@redhat.com>
+ <20190508211820.17851-2-mreitz@redhat.com>
+In-Reply-To: <20190508211820.17851-2-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 24, 2019 at 10:08:09AM +0100, Peter Maydell wrote:
-> On Thu, 23 May 2019 at 19:36, Aaro Koskinen <aaro.koskinen@iki.fi> wrote:
-> > Cheetah works with serial console. I tried with console on display,
-> > and it seems to boot up, and the frame buffer window gets correctly
-> > sized but for some reason it just stays blank.
-> 
-> As a general question, when you're doing these tests are you
-> using a kernel image that is known to work on real hardware?
+On 5/8/19 4:18 PM, Max Reitz wrote:
+> --fork is a bit boring if there is no way to get the child's PID.  This=
 
-With Cheetah (I wonder where that name comes from?), yes, same for
-N8x0. SX1 I don't have, but the SoC is the same as on Palm TE.
+> option helps.
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  qemu-nbd.c    | 11 +++++++++++
+>  qemu-nbd.texi |  2 ++
+>  2 files changed, 13 insertions(+)
+>=20
+> diff --git a/qemu-nbd.c b/qemu-nbd.c
+> index dca9e72cee..edb5195208 100644
+> --- a/qemu-nbd.c
+> +++ b/qemu-nbd.c
+> @@ -59,6 +59,7 @@
+>  #define QEMU_NBD_OPT_IMAGE_OPTS    262
+>  #define QEMU_NBD_OPT_FORK          263
+>  #define QEMU_NBD_OPT_TLSAUTHZ      264
+> +#define QEMU_NBD_OPT_PID_FILE      265
+> =20
+>  #define MBR_SIZE 512
+> =20
+> @@ -111,6 +112,7 @@ static void usage(const char *name)
+>  "                            specify tracing options\n"
+>  "  --fork                    fork off the server process and exit the =
+parent\n"
+>  "                            once the server is running\n"
+> +"  --pid-file=3DPATH           store the server's process ID in the gi=
+ven file\n"
 
-> One problem we have with some of these older QEMU platforms
-> is that it turns out that QEMU is only tested with the kernel,
-> and the kernel support for the platform is only tested with
-> QEMU, and so you get equal and opposite bugs in QEMU and the
-> kernel that cancel each other out and don't get noticed...
->
-> (On the QEMU side these platforms are all basically orphaned:
-> if somebody submits patches to fix bugs we'll review them,
-> but they're unlikely to get a great deal of attention otherwise.
-> They're also quite near the top of the "maybe we'll just
-> deprecate and then delete these" list, since we have not
-> historically had any working guest images to test against.
-> If there's a real userbase that wants them to continue to
-> exist that's a different matter, of course.)
+Are we guaranteed that the pid file does not appear until after the
+socket has been created?
 
-Please don't delete OMAP boards quite yet :) In the mainline kernel
-they are not orphaned, they frequently get tested using actual hardware,
-and QEMU would help in additional testing. I'll try to get N8x0 boot to
-work with the minimal kernel I use on real HW.
+/me rereads full file...
 
-Regarding N8x0 and bluetooth (mentioned in one of the linked threads), I
-guess the removal of the bluetooth subsystem can be done without removing
-the whole machine: just don't pass the OMAP BT TAG to the kernel anymore,
-and it should ignore the BT hardware (just an idea based on quick read
-of vendor kernel sources, the mainline kernel does not support BT on
-this board).
+> @@ -876,6 +880,9 @@ int main(int argc, char **argv)
+>          case 'L':
+>              list =3D true;
+>              break;
+> +        case QEMU_NBD_OPT_PID_FILE:
+> +            pid_file_name =3D optarg;
+> +            break;
+>          }
+>      }
+> =20
+=2E..
+    socket_activation =3D check_socket_activation();
+    if (socket_activation =3D=3D 0) {
+        setup_address_and_port(&bindto, &port);
+    } else {
+        /* Using socket activation - check user didn't use -p etc. */
+=2E..
 
-A.
+> @@ -1196,6 +1203,10 @@ int main(int argc, char **argv)
+> =20
+>      nbd_update_server_watch();
+> =20
+> +    if (pid_file_name) {
+> +        qemu_write_pidfile(pid_file_name, &error_fatal);
+> +    }
+
+Yes, we are.  So,
+
+> +
+>      /* now when the initialization is (almost) complete, chdir("/")
+>       * to free any busy filesystems */
+>      if (chdir("/") < 0) {
+> diff --git a/qemu-nbd.texi b/qemu-nbd.texi
+> index de342c76b8..7f55657722 100644
+> --- a/qemu-nbd.texi
+> +++ b/qemu-nbd.texi
+> @@ -117,6 +117,8 @@ option; or provide the credentials needed for conne=
+cting as a client
+>  in list mode.
+>  @item --fork
+>  Fork off the server process and exit the parent once the server is run=
+ning.
+> +@item --pid-file=3DPATH
+> +Store the server's process ID in the given file.
+
+since that is a useful trick to know (the pid file intentionally does
+NOT appear until after the socket is ready to go), we should mention it
+in the documentation.
+
+I can make that tweak while queueing, if you'd like.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--Ilx6g9IlvnOjb9pFZDXHUYmqhiYVHep6w
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzoCK8ACgkQp6FrSiUn
+Q2rhQwgArK0cG3M1LWcIxJ4n9F00xZY3rZpRetoCxa26Cbn7lgmXqhn64mV/bm0j
+CkjAUbytyt8H02xboh6ogOlWpGsEhqgdnItRZ9CFOEoowxBPf1dUS0uN3lxh1GCu
+67HyXMk2S46S1xbfsiqZehbnSwvLDRjfywoWvk7cpV539fX/G0ET350JLEqgkf0/
+UZGuQFJikqLEr7X5LmPe06P+vg0GC/tRTRAS+1FcYZvyFmop1BKLghtKXOvmSbwr
+ZlhbLT1M4WLtuwggLmicxoMPwCxAtIEZFSm3Vi/jDePwUIw4A/GD43O93uaZzIuv
+RKkbTqHeEJNbS85IiofMcolxovOVTw==
+=2BxJ
+-----END PGP SIGNATURE-----
+
+--Ilx6g9IlvnOjb9pFZDXHUYmqhiYVHep6w--
 
