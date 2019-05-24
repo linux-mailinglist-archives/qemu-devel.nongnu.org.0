@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4997129D03
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 19:33:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57881 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A2229D81
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 19:51:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58134 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUE4N-0000gB-50
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 13:33:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53399)
+	id 1hUEM1-0001VC-IJ
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 13:51:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57621)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hUE21-0007DD-Ni
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:31:02 -0400
+	(envelope-from <bounces@canonical.com>) id 1hUEL0-0001C8-9s
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:50:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hUE17-0005K5-Vl
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:30:06 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40196)
+	(envelope-from <bounces@canonical.com>) id 1hUEKz-0003dS-7i
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:50:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34640)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hUE17-0005Je-QY
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:30:05 -0400
-Received: by mail-ot1-x344.google.com with SMTP id u11so9388289otq.7
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 10:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Vx4tTQWgEEDhUneh+utjYv491sxLZwNCyRJRcN+3dsg=;
-	b=VvTdzWt85WnsRfWdSAQykoNIASGZOc+nd8ylL/E5X6EeyC1ILTeAtUhqCha8iB6c3o
-	gzd0YJnFnUmrfxbxngnvX3TDG+qjHebRvFP92VDPKku0Yu3OT/asQVIv3AGvQ76JQA4w
-	gov/337bxrbfJ6RxDmonwO+mqDicy0TKI9AtHTl6eCR7KgLYLNpPjj0xqPgDXcypQl/b
-	AK8D6Cq+M3fNsedjFDjLKGaakTSFdvLoTQeJjLRP2YNCpVdjGcPCSfMG6fH+7110hicP
-	Zj/pcQeFe7pxTfF1mBaaTXVyt7oRQHxvjI4sAnrakimpmGqb5gfTE4+noGPH/Fz2Hn1M
-	raBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Vx4tTQWgEEDhUneh+utjYv491sxLZwNCyRJRcN+3dsg=;
-	b=F7JgFe1H4kgeUv4VhZNS1AOOB70qBwG3WZTJANmZSQk3KnFB9iuoubNCnHUOVTlCHe
-	QERLulLP1VlnKhNyvFdx1w87ltUZAQD3Z0c+cTcZGhqdZEN66mGzy7A5m7mdtuqU+FzY
-	ZbugCRPKggXLVRUcl9NOwfpIOcnVdDsu9ETKtyl8bKGFuN4Xg83EP8rmrcJQRR1gZ2ah
-	iY0+9h5J6w3+NkuZwDDjS3cihtO8jdzAt6TUCG/iqG60yH8e/UKqeqbUV6pRuXMvuEWr
-	5eNc5IiYnhCvcHwBRXW3WBwAlyso+nZzHerSz6CFqdDEQbFGURuEIKf+mK9SZ83NLnoS
-	x2xw==
-X-Gm-Message-State: APjAAAXl97DniAW4kU1GA5vwMQTCv0IqyvfI6gFzpfyte//6N3WAcVzW
-	zr4xiHyuciDLUVL9NVS6sYGekObc9kbkMaEyr8R0JQ==
-X-Google-Smtp-Source: APXvYqy00vTtoLjjjPTrIyedE1QJFn6oMnbtZf8B2s989K+Yf6vK9m/WYD51jbrjftHSH2XzEvKO23qwltGUXPsqh90=
-X-Received: by 2002:a9d:6b0d:: with SMTP id g13mr26214875otp.91.1558719004843; 
-	Fri, 24 May 2019 10:30:04 -0700 (PDT)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hUEKz-0003cz-2e
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 13:50:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hUEKx-0006nt-6r
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 17:50:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 293272E8076
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 17:50:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190522222224.244714-1-rkir@google.com>
-	<20190523102225.GA2994@work-vm>
-	<CAOGAQerwpqaP=DKxC+WVdJcGpxnAayfMrwoPP=bBJBBG5Vn87g@mail.gmail.com>
-	<CAFEAcA9bKQukg7_HcGKWAFmoaX+DG0NhSctzwg7mpVJ_AOO09g@mail.gmail.com>
-	<CAOGAQeqEuc9T-gDWoGPmgZgOoNLA9V_h6Rwz5+PBinZe1XwfmQ@mail.gmail.com>
-In-Reply-To: <CAOGAQeqEuc9T-gDWoGPmgZgOoNLA9V_h6Rwz5+PBinZe1XwfmQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 May 2019 18:29:53 +0100
-Message-ID: <CAFEAcA8HDEXBHUkOVatfHBc4+8+EK3+yVj5Eigj3p8RJqQp6Sg@mail.gmail.com>
-To: Roman Kiryanov <rkir@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH] vmstate: Add VMSTATE_OPAQUE to save/load
- complex data structures
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 24 May 2019 17:41:40 -0000
+From: antonio barbalace <1830415@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: abarbala
+X-Launchpad-Bug-Reporter: antonio barbalace (abarbala)
+X-Launchpad-Bug-Modifier: antonio barbalace (abarbala)
+Message-Id: <155871970026.24947.15130007838572135437.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 67d601cd337e03c8bd837d2b6906391005037533
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1830415] [NEW] linux-user elf loader issue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,60 +62,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
-	Juan Quintela <quintela@redhat.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	Lingfeng Yang <lfy@google.com>
+Reply-To: Bug 1830415 <1830415@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 May 2019 at 18:00, Roman Kiryanov <rkir@google.com> wrote:
->
-> Hi Peter,
->
-> > In any case, migration state on the wire needs to be
-> > architecture/endianness/
->
-> Could you please point how the proposed change is
-> architecture/endianness/ dependent?
+Public bug reported:
 
-That's really hard to say, because this patch doesn't
-come with any example of its use. So I'm basically
-guessing that when you say "load/save complex data
-structures" and call your macro OPAQUE that you mean
-"I am going to just feed the raw in-memory representation
-of this data structure into the migration stream in an
-opaque way". Perhaps my assumptions here are wrong ?
+all versions up to 4.0 (I didn't test others)
+file affected linux-user/elfload.c
+function load_elf_image
 
-> > implementation-independent,
->
-> Could you please elaborate, what "implementation"
-> you mean here?
+if (phdr[i].p_type =3D=3D PT_LOAD) {
+           =
 
-I had in mind the C++ implementation of unordered_map<>.
+-            abi_ulong a =3D phdr[i].p_vaddr - phdr[i].p_offset; =
 
-> > so you can't just send raw complex data structures
->
-> Do we need to serialize (in pre_save and then release in
-> post_save) our state into a buffer and to write it as one
-> piece using the existing macro? This looks ok, but how
-> is this different from what we are doing?
++            abi_ulong a =3D phdr[i].p_vaddr ; // - phdr[i].p_offset; =
 
-I guess essentially what I'm asking for here is that
-this patch comes as part of a series which makes
-use of it. It's really hard to evaluate the design
-of a utility feature without a concrete example of
-how it's being used. That then makes it easier to understand
-the abstract feature and also allows us to sometimes
-suggest better ways to achieve the underlying aim
-(and to avoid making suggestions which don't make sense!)
+            if (a < loaddr) {
+                loaddr =3D a;
 
-A corollary of this is that in general we don't like to
-take patches upstream that implement facilities that don't
-have a use upstream. Is there some existing vmstate
-handling in upstream QEMU that we could refactor to
-be more cleanly implemented using this?
+To the best of my understanding of the elf format p_offset is not a
+virtual offset. In fact, when I load statically compiled applications,
+the load fails because the libc before main is trying to access phdr in
+the executable image but that memory is not mapped -- this is caused by
+the wrong loaddr above.
 
-thanks
--- PMM
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830415
+
+Title:
+  linux-user elf loader issue
+
+Status in QEMU:
+  New
+
+Bug description:
+  all versions up to 4.0 (I didn't test others)
+  file affected linux-user/elfload.c
+  function load_elf_image
+
+  if (phdr[i].p_type =3D=3D PT_LOAD) {
+             =
+
+  -            abi_ulong a =3D phdr[i].p_vaddr - phdr[i].p_offset; =
+
+  +            abi_ulong a =3D phdr[i].p_vaddr ; // - phdr[i].p_offset; =
+
+              if (a < loaddr) {
+                  loaddr =3D a;
+
+  To the best of my understanding of the elf format p_offset is not a
+  virtual offset. In fact, when I load statically compiled applications,
+  the load fails because the libc before main is trying to access phdr
+  in the executable image but that memory is not mapped -- this is
+  caused by the wrong loaddr above.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1830415/+subscriptions
 
