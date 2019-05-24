@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35F329646
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 12:46:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52282 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85E02964E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 12:48:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52308 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU7iY-0000Vu-EI
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 06:46:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60557)
+	id 1hU7kp-0002H5-10
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 06:48:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33130)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU7gm-0008Az-89
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 06:44:41 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hU7iq-00019l-LM
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 06:46:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU7fm-0001Db-Cf
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 06:43:39 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:32991)
+	(envelope-from <alex.bennee@linaro.org>) id 1hU7ip-0003Ca-L0
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 06:46:48 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33095)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hU7fm-0001DD-59
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 06:43:38 -0400
-Received: by mail-ot1-x335.google.com with SMTP id 66so8300153otq.0
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 03:43:37 -0700 (PDT)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hU7io-0003B3-HE
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 06:46:47 -0400
+Received: by mail-wm1-x343.google.com with SMTP id v19so912757wmh.0
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 03:46:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7pZqGcghdB6VpENHd3JD/3fA8PmqyDbewDKcTydtRkA=;
-	b=h49vI0FQ4OdHJCr6OPdJEaGzLE55KWAhXXJZs87MEqVjpKy5OufKx5MumEpgLnrwW1
-	/8b1a4i+/QM2ZoRCCkEkxmJeRRxSvnvbwYKOAeeodRA97jUdhl9IMgYNy6J6dIK9cX1q
-	hUca26mKp6TRQF+81d4/UklNMqlPvktpjRKPTJL3tPZ45mUyPdn1CaE/k9l0n1sl8eRW
-	U4UQIVT0YWF7cs4EvXXVAc2H9UX0UkfMxD4S1JDTzYeDKW6aPVxzD59hsF4ekHHLkpoF
-	B+NVgF9QEsOfsbOXOTWAg1/mh2KQKdnoe6ro96zMg1zeguuzytpSaOGu+pDAyiuxV0SF
-	Q3Jg==
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=xOwRLH+tn7mL79FwtNrSYoboYLgchp+WyGGgYXxNA/A=;
+	b=nlt6DPNV1EU422b/182j+fWzNaYdvs5Dod8hPspfbpU6+cEbJh2XIHlz0LgLRcDmQE
+	w8b95SgKo5CUatXsm3863AFWuOEQQ1if3PU3Yar45HOwraXt64xxZK/0nr37PuMmlLB6
+	1f+DAKttgreCh/WQgj5gTeAxq89x3YyeMer/TAZpIqKIduCO0NB0mATpHwsYJbH6G+ly
+	DcnQImi2r+xPLddodXUnxThcjAUZTIfYle4zOib3uxYpFtlLsUh1r1YobWzKEaQuGwX+
+	vLDuEpuZHgF0suS2w2QCC6j2m3oXTsoLEDBt/ECqTM75HyhnQcY6m7Q+GKp5O/rAU+39
+	F+Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7pZqGcghdB6VpENHd3JD/3fA8PmqyDbewDKcTydtRkA=;
-	b=cz4gT8EsqzTuF7w8IC6djDefolTuGsG62TZFhH+l2UQMkL6q/70eT1e4t9XulP4GS1
-	zkOW5MWUsNF0Caf7zuCsIrzg4P8677q5LX488vkGSkl2vvhuawY4IvkzIKR3CW6G4kNp
-	NoO//SRCDNHQ0+jSiAJr7h1nseMDj4Knw4nm6re7doNunS73Z/VzpSI7zz87kfaEqNiW
-	zobjhUxMPo48BDF5UKio+XOL4gQIJxg46sBMFMZZjdfmZrPF6qeN8TJteMjDOullkeqg
-	Wy0vfwpij/uOVO42dd11wYay/TOFrB1m+iIn0DHNzWJ7fFWBVbTinSx5g9fbxDe9uykz
-	Hg4Q==
-X-Gm-Message-State: APjAAAXIvQ7VnxvOCiLPOgvUmt5oZ3ZsCWntT5HFS1BcKiYM7D5K8C+X
-	D3jkgPvvnpXgpTJWF5rX6vYQiqBZMj9170sFCRwMtw==
-X-Google-Smtp-Source: APXvYqyoVzxdudCCqVsXKhx0XN/7auvEBTImccTiGxHV0wxANYM5z119UHB1NgXIgbxkbIekuGuEfZ4+NRKpARuMyqo=
-X-Received: by 2002:a05:6830:149a:: with SMTP id
-	s26mr31213680otq.221.1558694617162; 
-	Fri, 24 May 2019 03:43:37 -0700 (PDT)
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=xOwRLH+tn7mL79FwtNrSYoboYLgchp+WyGGgYXxNA/A=;
+	b=qvHwYkfGB1jHlIhKvc6BUtpahSxOUS/xnF58cTvUXkRXk6Y8LyRZK8y/sHjTCM0hG6
+	9MNU3gilmNMmlmPNCk9btmZqnM18EenECtYL8GpPdIcuwKhjj00WWpSTeq0gxAEKqJBF
+	TNtboacZgEdOocxkl2dtVG18EQGNc+1KfbJV20QKWL2doJAl+vk1bzBxeYPW8REEAvnY
+	MKUE51T/SSsIW34WWquSzdbIAEvnTgI4jEiHaDG8Pfzjl2v/usJR5u1Q9xFdAWPTe1SQ
+	PE2/TJhzU0DzaRNEr3+9Rhy4Nch9yIxt60zm5MJjDPHmrE/J68coIvevhJt+j/fz2cnm
+	n7dQ==
+X-Gm-Message-State: APjAAAW3nxdIN95rFFyUgLdY3AhKYSbS0zDxkcYW6DY6UZfBEiMiPPFe
+	PpKsdTWvLsVBSu4R00FlBp9dFQ==
+X-Google-Smtp-Source: APXvYqzVyS9ySGdNpcP92a0AKOrUBYHB7jZGcVWJVJ8+r3Yje5z7JNMnk142fn6qEDKPLqKkEbkRpw==
+X-Received: by 2002:a1c:bb84:: with SMTP id l126mr15283178wmf.92.1558694804639;
+	Fri, 24 May 2019 03:46:44 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id d3sm860552wrs.8.2019.05.24.03.46.43
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 24 May 2019 03:46:43 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 7DAF51FF87;
+	Fri, 24 May 2019 11:46:43 +0100 (BST)
+References: <20190523102532.10486-1-alex.bennee@linaro.org>
+	<20190523102532.10486-4-alex.bennee@linaro.org>
+	<CAFEAcA_+=7VfvZRc__q9L3vuHO6YgetrjTPAYJx4eo0mAdcPXg@mail.gmail.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+In-reply-to: <CAFEAcA_+=7VfvZRc__q9L3vuHO6YgetrjTPAYJx4eo0mAdcPXg@mail.gmail.com>
+Date: Fri, 24 May 2019 11:46:43 +0100
+Message-ID: <877eag165o.fsf@zen.linaroharston>
 MIME-Version: 1.0
-References: <20190522222821.23850-1-richard.henderson@linaro.org>
-In-Reply-To: <20190522222821.23850-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 May 2019 11:43:25 +0100
-Message-ID: <CAFEAcA-hiXiWObwrNLB37boeijr2vh212V9kg1xcqgDfXEZhqA@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::335
-Subject: Re: [Qemu-devel] [PULL 00/16] tcg queued patches
+X-Received-From: 2a00:1450:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v2 03/28] semihosting: implement a
+ semihosting console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,34 +84,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 May 2019 at 23:28, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/rth7680/qemu.git tags/pull-tcg-20190522
->
-> for you to fetch changes up to 11e2bfef799024be4a08fcf6797fe0b22fb16b58:
->
->   tcg/i386: Use MOVDQA for TCG_TYPE_V128 load/store (2019-05-22 15:09:43 -0400)
->
-> ----------------------------------------------------------------
-> Misc gvec improvements
->
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Applied, thanks.
+> On Thu, 23 May 2019 at 11:39, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> This provides two functions for handling console output that handle
+>> the common backend behaviour for semihosting.
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+>> diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+>> index 08363969c14..b2963547c48 100644
+>> --- a/include/exec/gdbstub.h
+>> +++ b/include/exec/gdbstub.h
+>> @@ -44,6 +44,17 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const=
+ char *fmt, ...);
+>>   * argument list.
+>>   */
+>>  void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_li=
+st va);
+>> +/**
+>> + * gdb_do_console_out:
+>> + * @gs: guest address of string to send
+>> + * @len: length of string
+>> + *
+>> + * Sends a string to gdb console. Unlike the system call interface
+>> + * there is no callback and we assume the system call always
+>> + * succeeds.
+>> + */
+>> +void gdb_do_console_out(target_ulong s, int len);
+>
+> I'm not sure about the "no callback" part of this API. The operation
+> here is genuinely asynchronous and providing no mechanism for the
+> caller to be able to say "ok, now wait til it completes" doesn't
+> seem like a good plan.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+Well the caller doesn't really get a choice. At least in system mode
+gdbstub does a vm_stop(RUN_STATE_DEBUG) and brings everything to a halt
+anyway. All we've removed is the ability to tack on a callback (which
+can get run in all sorts of contexts) when we restart.
 
--- PMM
+I could just drop the API here and allow the semihosting API to call
+gdb_do_syscallv directly?
+
+--
+Alex Benn=C3=A9e
 
