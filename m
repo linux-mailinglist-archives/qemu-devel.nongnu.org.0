@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2379629814
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 14:31:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53897 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066D72981D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 14:36:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53985 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU9Lf-0006uu-Uz
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 08:30:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49597)
+	id 1hU9QY-0002QQ-4h
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 08:36:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50467)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU9K0-00061y-M2
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:29:17 -0400
+	(envelope-from <lersek@redhat.com>) id 1hU9Ob-0001fN-Au
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:34:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU9Jz-00055f-On
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:29:16 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:47090)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hU9Jz-00054w-JU
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:29:15 -0400
-Received: by mail-ot1-x343.google.com with SMTP id j49so8471107otc.13
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 05:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3kRYKD9opdbo5kmKXTBP7Gc0tSW5Tzsf57LsKn0CRzQ=;
-	b=kuh3QZAgFMC3qP0xEd3yro822uRQUHmWU4RSbA79bDr14W8xehbz5Xgcta32kW6J1+
-	qxdAAn1fw/VVo/gGGPocDUOaFOipVlXPSGPP3f4R5KM1ODZnrwK0gio2Rn5iUqDWCikX
-	PUI6NkWwohoFh84uj5ZCPrpUNadBNGhrWVeKfTicczWrJm+euhNGtwko5XGi543ygiKM
-	x1uBUZDsiZRS4wddGu1MtKqeKalM/C7tQgnJIbLleRteEE57x1pmzzLzmFpjYHoqgD0n
-	6MzpnEi6gv1gRk9gz3aOPI82h52wAy6+iN6YaUERJGBFMcTG9WEcJoamuqhOHS90a9u5
-	sXzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3kRYKD9opdbo5kmKXTBP7Gc0tSW5Tzsf57LsKn0CRzQ=;
-	b=Isk/sSuH8lj3zRi5EZZgMLOJ5uQCLgasgvRRh1/JyYLl/8HujOw5dMDMOgIWR8qCU4
-	TtR9f05kc2H1Qgr1z9tWq+0mBqWEfNmMSbK4NbgQKzjyAC59rfvYsNsPeM3PgZgh+nu4
-	grh1xTkynltfqM+vrakWB+XeXZ00vxebKYbW72HbuqwpvPbhFm4nKm4ZEgmFRnv0Bm3s
-	7UjJTFohS2zoHHkICbi3+fqJUM6sDB5Sk5ViU2bWC84dukyS1jyaMmPknm7C2pvXtQOE
-	ZUk1EN3feSA3/4jVhi5iBvDnsu+XlsymM7zHwmEsHqut5TjlPJx9P+FTlbN5yu2p0du5
-	ZBuA==
-X-Gm-Message-State: APjAAAVlODfnlY00PApkuijSpFGa7aJI3FjHt8pRMhc0CmEMUusGlyrY
-	ioHrfwN6cNeFdexHPtSMUjos64Rirc7EsObT7SQGxw==
-X-Google-Smtp-Source: APXvYqxHexywmjQxm4U0dCVfUSFKBenWYo2z0GXHUiycaP8qq9hozlDEGHjNKNkfC5khIdrwyWVg5VI9CqNP9IJKurM=
-X-Received: by 2002:a05:6830:209a:: with SMTP id
-	y26mr31961050otq.232.1558700954729; 
-	Fri, 24 May 2019 05:29:14 -0700 (PDT)
+	(envelope-from <lersek@redhat.com>) id 1hU9Oa-0007o0-1B
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:34:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42304)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hU9OZ-0007nB-Q5
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:33:59 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 031603086236;
+	Fri, 24 May 2019 12:33:53 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-245.rdu2.redhat.com
+	[10.10.120.245])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 806C817D1D;
+	Fri, 24 May 2019 12:33:49 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20181102171638.24069-1-peter.maydell@linaro.org>
+	<20181102171638.24069-9-peter.maydell@linaro.org>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <3e3d2018-3993-f651-8e94-5bea612bd776@redhat.com>
+Date: Fri, 24 May 2019 14:33:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20190523081538.2291-1-armbru@redhat.com>
-	<20190523081538.2291-7-armbru@redhat.com>
-	<CAFEAcA_b-rPUuDF_A2Q112-aJEqfSA17kJjD3W0aKaOOP7-hjA@mail.gmail.com>
-	<87ftp49gz9.fsf@dusky.pond.sub.org>
-In-Reply-To: <87ftp49gz9.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 May 2019 13:29:03 +0100
-Message-ID: <CAFEAcA8QUyORuMfCBoWhtYArreMxK5OUzO_76imU--ER5KJjJw@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [RFC v4 6/7] tests: Don't limit check-headers to
- include/
+In-Reply-To: <20181102171638.24069-9-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Fri, 24 May 2019 12:33:53 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 08/10] target/arm: Conditionalize some
+ asserts on aarch32 support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,46 +65,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 May 2019 at 13:25, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Thu, 23 May 2019 at 09:15, Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >> ---
-> >
-> >>  432 files changed, 1035 insertions(+), 8 deletions(-)
-> >>
-> >> diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
-> >> index 685602b076..352da0c745 100644
-> >> --- a/accel/tcg/atomic_template.h
-> >> +++ b/accel/tcg/atomic_template.h
-> >> @@ -18,6 +18,9 @@
-> >>   * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> >>   */
-> >>
-> >> +/* NOTE: May only be included into target-dependent code */
-> >> +/* FIXME Does not pass make check-headers, yet! */
-> >> +
-> >
-> > I'm not sure I see much point in touching several hundred
-> > header files just to add a FIXME note. We can fix them,
-> > or we can just leave things as they are...
->
-> Adding FIXMEs without an intent to actually fix them would be stupid.
->
-> The FIXMEs direct "make check-headers" to skip the headers so marked.
+Hi,
 
-Ah, right. It wasn't clear that this is a directive to the script:
-it looks like the usual free-text aimed-at-human-readers kind of
-FIXME/TODO comment.
+On 11/02/18 18:16, Peter Maydell wrote:
+> From: Richard Henderson <richard.henderson@linaro.org>
+>=20
+> When populating id registers from kvm, on a host that doesn't support
+> aarch32 mode at all, neither arm_div nor jazelle will be supported eith=
+er.
+>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-id: 20181102102025.3546-1-richard.henderson@linaro.org
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/cpu.h |  5 +++++
+>  target/arm/cpu.c | 15 +++++++++++++--
+>  2 files changed, 18 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 8e6779936eb..b5eff79f73b 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -3296,6 +3296,11 @@ static inline bool isar_feature_aa64_fp16(const =
+ARMISARegisters *id)
+>      return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, FP) =3D=3D 1;
+>  }
+> =20
+> +static inline bool isar_feature_aa64_aa32(const ARMISARegisters *id)
+> +{
+> +    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, EL0) >=3D 2;
+> +}
+> +
+>  static inline bool isar_feature_aa64_sve(const ARMISARegisters *id)
+>  {
+>      return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SVE) !=3D 0;
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 8f16e96b6c8..784a4c2dfcc 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -774,6 +774,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Err=
+or **errp)
+>      CPUARMState *env =3D &cpu->env;
+>      int pagebits;
+>      Error *local_err =3D NULL;
+> +    bool no_aa32 =3D false;
+> =20
+>      /* If we needed to query the host kernel for the CPU features
+>       * then it's possible that might have failed in the initfn, but
+> @@ -820,6 +821,16 @@ static void arm_cpu_realizefn(DeviceState *dev, Er=
+ror **errp)
+>              set_feature(env, ARM_FEATURE_V7VE);
+>          }
+>      }
+> +
+> +    /*
+> +     * There exist AArch64 cpus without AArch32 support.  When KVM
+> +     * queries ID_ISAR0_EL1 on such a host, the value is UNKNOWN.
+> +     * Similarly, we cannot check ID_AA64PFR0 without AArch64 support.
+> +     */
+> +    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+> +        no_aa32 =3D !cpu_isar_feature(aa64_aa32, cpu);
+> +    }
+> +
+>      if (arm_feature(env, ARM_FEATURE_V7VE)) {
+>          /* v7 Virtualization Extensions. In real hardware this implies
+>           * EL2 and also the presence of the Security Extensions.
+> @@ -829,7 +840,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Err=
+or **errp)
+>           * Presence of EL2 itself is ARM_FEATURE_EL2, and of the
+>           * Security Extensions is ARM_FEATURE_EL3.
+>           */
+> -        assert(cpu_isar_feature(arm_div, cpu));
+> +        assert(no_aa32 || cpu_isar_feature(arm_div, cpu));
 
-thanks
--- PMM
+The assertion above fails on my AArch64 host (APM Mustang A3). Meaning
+that my host CPU supports AArch32, but lacks "arm_div".
+
+(My understanding is that this commit, i.e., 0f8d06f16c9d, relaxed the
+assert originally added in commit 7e0cf8b47f0e ("target/arm: Convert
+division from feature bits to isar0 tests", 2018-10-24). Can we relax it
+even further?
+
+Better yet: can we rework the code to emit a warning, rather than
+aborting QEMU? Assertions are not the best tool IMHO for catching
+unusual (or slightly non-conformant / early) hardware.)
+
+Thanks,
+Laszlo
+
+>          set_feature(env, ARM_FEATURE_LPAE);
+>          set_feature(env, ARM_FEATURE_V7);
+>      }
+> @@ -855,7 +866,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Err=
+or **errp)
+>      if (arm_feature(env, ARM_FEATURE_V6)) {
+>          set_feature(env, ARM_FEATURE_V5);
+>          if (!arm_feature(env, ARM_FEATURE_M)) {
+> -            assert(cpu_isar_feature(jazelle, cpu));
+> +            assert(no_aa32 || cpu_isar_feature(jazelle, cpu));
+>              set_feature(env, ARM_FEATURE_AUXCR);
+>          }
+>      }
+>=20
+
 
