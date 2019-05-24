@@ -2,70 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2D429848
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 14:50:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54217 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD05298BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:18:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54500 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU9ea-00031H-1s
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 08:50:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54818)
+	id 1hUA63-0002tL-TW
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:18:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58711)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU9ci-0002Qt-20
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:48:36 -0400
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hUA1B-0007nv-DZ
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:13:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU9cg-0001i3-Gp
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:48:36 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51370)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hU9cf-0001gv-Iz
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 08:48:34 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f10so1835674wmb.1
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 05:48:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4bPrPkcdlNMENU+gORaJCbbqtxXSHOYr8ie8Cov/r1c=;
-	b=vuHQMANadARa4pXL6PgQoXBIIqufxvi2z9M/QVI7mk0C2sz+K/WVAwriaz2P3TTdW+
-	zSCBxKRxtH8GaDV2lUzXZ6FSx3PnzNYFdMfeBOX0W9lQobZlSBTYB0RHtMuhpc9tIuvw
-	YMaTxjaCqaWqvav7UjrpUSrxR8KFqDxCFptIBSNk+EQKL+/KndF5+blnjsGdwPgaehM7
-	w+BYWNAW9eafZv8IRCikS4dqG/A7ur+YmcdfsIlKOpPvWFxr69OS16iP4A6XPpdrah/h
-	W7ylRL12h0Hmu91hvMQIW0mHYe8WX8qvxWJzceIrCax+BWcj0EjVht9JYKimRQNKS21u
-	JMsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4bPrPkcdlNMENU+gORaJCbbqtxXSHOYr8ie8Cov/r1c=;
-	b=Qw2w1BHaJnyizbHE8J8Kf2Lcj59Mn5wvPNRNJecoqHqVEylAJc8WK0PzMz6vYm0xum
-	GFqegFiov1LwE4x6Oy7aaTQ8LHbRjrhBC7XCy20+qo3woGJJtBnmkpWiamqxQhhRhRke
-	jT8+OrpwGhE2DlUM39+HDeMqbUsImFKrZzV6Cp9FOUoPwbyccxiusWw8Ob10g6VsccCc
-	46vU3hLGSBgK4R30dLGGxqfUFO4ZGZkKy4Sa1C11Iani6kObVMsRHMTeDah9W6SWM/P5
-	BnM16Rrw8/e+2Of70IplZBVNDpiLwIwobglhba1ycfUpzJ+EXXegP2slv527wO35zupX
-	zJjA==
-X-Gm-Message-State: APjAAAWz6AmS7rZBmDGaZ2rIFOjd/+6aHrC7m/xu57POsVxoKJiL2i2n
-	tdnKWSpiU7kHAWgR9z6UOHi/NA==
-X-Google-Smtp-Source: APXvYqwXvgc3HrTEZVVj/r/xggv/U1pDofYjgx8nVMINiy09u26S15hb8ODfjTjzpvUQT32xBqUrvQ==
-X-Received: by 2002:a1c:d14b:: with SMTP id i72mr16015899wmg.4.1558702111920; 
-	Fri, 24 May 2019 05:48:31 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id o4sm3053445wmo.20.2019.05.24.05.48.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 May 2019 05:48:31 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 13:48:29 +0100
-Message-Id: <20190524124829.2589-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hU9xd-0001BF-Ul
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:10:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32798)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+	id 1hU9xc-0001A7-DD
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:10:13 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3C233C0A4F71
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 13:09:56 +0000 (UTC)
+Received: from localhost (ovpn-112-23.ams2.redhat.com [10.36.112.23])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 784E261354;
+	Fri, 24 May 2019 13:09:48 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 24 May 2019 15:09:37 +0200
+Message-Id: <20190524130946.31736-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH] hw/arm/smmuv3: Fix decoding of ID register
- range
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Fri, 24 May 2019 13:10:01 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v9 0/9] Add vhost-user-gpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,33 +55,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SMMUv3 ID registers cover an area 0x30 bytes in size
-(12 registers, 4 bytes each). We were incorrectly decoding
-only the first 0x20 bytes.
+Hi,
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/smmuv3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+vhost-user allows to drive a virtio device in a seperate
+process. After vhost-user-net, we have seen
+vhost-user-{scsi,blk,crypto,input} added more recently.
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index fd8ec7860ee..e96d5beb9a8 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -1232,7 +1232,7 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
-                               uint64_t *data, MemTxAttrs attrs)
- {
-     switch (offset) {
--    case A_IDREGS ... A_IDREGS + 0x1f:
-+    case A_IDREGS ... A_IDREGS + 0x2f:
-         *data = smmuv3_idreg(offset - A_IDREGS);
-         return MEMTX_OK;
-     case A_IDR0 ... A_IDR5:
--- 
-2.20.1
+This series, initially proposed ~3 years ago, time flies
+(https://lists.gnu.org/archive/html/qemu-devel/2016-06/msg01905.html)
+contributes with vhost-user-gpu.
+
+You may start a vhost-user-gpu with virgl rendering in a separate
+process like this:
+
+$ ./vhost-user-gpu --virgl -s vgpu.sock &
+$ qemu...
+  -chardev socket,id=3Dchr,path=3Dvgpu.sock
+  -device vhost-user-vga,chardev=3Dchr
+
+v9:
+ - fix compilation with --disable-opengl
+ - add "spice-app: fix running when !CONFIG_OPENGL"
+ - fix kernel warning when virgl is disabled
+
+v8:
+ - document protocol bitmaps format, with pixman format
+ - rebased, fixing a few conflicts
+
+v7:
+ - add "framed" replies to the vhost-user-gpu protocol
+ - use GBM library instead of drm-vendor APIs
+ - added "virtio-gpu: add a pixman helper header"
+
+v6:
+ - do not install vhost-user-input
+ - install vhost-user-gpu and json file following the spec
+ - fix the build when drm-intel-devel missing
+ - rebase (& resend without already applied patches)
+
+v5:
+ - remove user-creatable version of vhost-user-backend
+ - remove optinal management of sub-process in vhost-user-backend
+ - removed daemonize/pid code
+ - drop introduction of new input & gpu messages for PCI config space
+   handling, instead use VHOST_USER_PROTOCOL_F_CONFIG
+ - plain mem & udmabuf fallback for 2d rendering
+ - rebased, kconfig-ify, rst-ify
+
+Marc-Andr=C3=A9 Lureau (9):
+  vhost-user: add vhost_user_gpu_set_socket()
+  virtio-gpu: add bswap helpers header
+  virtio-gpu: add a pixman helper header
+  util: compile drm.o on Linux
+  contrib: add vhost-user-gpu
+  spice-app: fix running when !CONFIG_OPENGL
+  virtio-gpu: split virtio-gpu, introduce virtio-gpu-base
+  virtio-gpu: split virtio-gpu-pci & virtio-vga
+  hw/display: add vhost-user-vga & gpu-pci
+
+ configure                                  |   17 +
+ contrib/libvhost-user/libvhost-user.h      |    1 +
+ contrib/vhost-user-gpu/virgl.h             |   25 +
+ contrib/vhost-user-gpu/vugbm.h             |   67 ++
+ contrib/vhost-user-gpu/vugpu.h             |  177 +++
+ hw/display/virtio-vga.h                    |   32 +
+ include/hw/virtio/vhost-backend.h          |    2 +
+ include/hw/virtio/virtio-gpu-bswap.h       |   61 +
+ include/hw/virtio/virtio-gpu-pci.h         |   40 +
+ include/hw/virtio/virtio-gpu-pixman.h      |   45 +
+ include/hw/virtio/virtio-gpu.h             |   92 +-
+ contrib/libvhost-user/libvhost-user.c      |    1 +
+ contrib/vhost-user-gpu/main.c              | 1185 ++++++++++++++++++++
+ contrib/vhost-user-gpu/virgl.c             |  579 ++++++++++
+ contrib/vhost-user-gpu/vugbm.c             |  328 ++++++
+ hw/display/vhost-user-gpu-pci.c            |   51 +
+ hw/display/vhost-user-gpu.c                |  607 ++++++++++
+ hw/display/vhost-user-vga.c                |   52 +
+ hw/display/virtio-gpu-3d.c                 |   49 +-
+ hw/display/virtio-gpu-base.c               |  268 +++++
+ hw/display/virtio-gpu-pci.c                |   55 +-
+ hw/display/virtio-gpu.c                    |  448 ++------
+ hw/display/virtio-vga.c                    |  138 +--
+ hw/virtio/vhost-user.c                     |   11 +
+ ui/spice-app.c                             |    3 +-
+ vl.c                                       |    1 +
+ MAINTAINERS                                |   10 +-
+ Makefile                                   |   24 +-
+ Makefile.objs                              |    1 +
+ contrib/vhost-user-gpu/50-qemu-gpu.json.in |    5 +
+ contrib/vhost-user-gpu/Makefile.objs       |   10 +
+ docs/interop/index.rst                     |    1 +
+ docs/interop/vhost-user-gpu.rst            |  242 ++++
+ docs/interop/vhost-user.rst                |    9 +
+ hw/display/Kconfig                         |   10 +
+ hw/display/Makefile.objs                   |    5 +-
+ rules.mak                                  |    9 +-
+ util/Makefile.objs                         |    2 +-
+ 38 files changed, 4176 insertions(+), 487 deletions(-)
+ create mode 100644 contrib/vhost-user-gpu/virgl.h
+ create mode 100644 contrib/vhost-user-gpu/vugbm.h
+ create mode 100644 contrib/vhost-user-gpu/vugpu.h
+ create mode 100644 hw/display/virtio-vga.h
+ create mode 100644 include/hw/virtio/virtio-gpu-bswap.h
+ create mode 100644 include/hw/virtio/virtio-gpu-pci.h
+ create mode 100644 include/hw/virtio/virtio-gpu-pixman.h
+ create mode 100644 contrib/vhost-user-gpu/main.c
+ create mode 100644 contrib/vhost-user-gpu/virgl.c
+ create mode 100644 contrib/vhost-user-gpu/vugbm.c
+ create mode 100644 hw/display/vhost-user-gpu-pci.c
+ create mode 100644 hw/display/vhost-user-gpu.c
+ create mode 100644 hw/display/vhost-user-vga.c
+ create mode 100644 hw/display/virtio-gpu-base.c
+ create mode 100644 contrib/vhost-user-gpu/50-qemu-gpu.json.in
+ create mode 100644 contrib/vhost-user-gpu/Makefile.objs
+ create mode 100644 docs/interop/vhost-user-gpu.rst
+
+--=20
+2.22.0.rc1.1.g079e7d2849.dirty
 
 
