@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B9229760
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 13:36:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52859 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0E22972E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 13:30:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52734 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU8Uu-000513-GU
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 07:36:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40020)
+	id 1hU8Oi-00005j-7L
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 07:30:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38832)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hU8Px-0001vv-Ir
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:31:22 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hU8Ke-0005GI-VF
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:25:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hU8Pw-0003Rs-Id
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:31:21 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:39695)
+	(envelope-from <laurent@vivier.eu>) id 1hU8Kd-000120-Ts
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:25:52 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:38207)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hU8Pw-0003R9-9a
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:31:20 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hU8Kd-00011U-Ke
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 07:25:51 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1MMoXC-1hBMUE1Xz2-00Ii3v; Fri, 24 May 2019 13:25:26 +0200
+	id 1N1Oft-1gVkfU03n1-012nSm; Fri, 24 May 2019 13:25:27 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri, 24 May 2019 13:25:11 +0200
-Message-Id: <20190524112520.17684-1-laurent@vivier.eu>
+Date: Fri, 24 May 2019 13:25:12 +0200
+Message-Id: <20190524112520.17684-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190524112520.17684-1-laurent@vivier.eu>
+References: <20190524112520.17684-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EWFXffn87Sj/ccFFTBy1cmwbNR4kSBEn+xKNG6eYTwnxNfg3Is/
-	+p6fF8rKPwfv964D3dfa5CxvcGXV77RRE5sFDReE+CGYMGptWHl0scgn6SF5j04ZXyJc1GK
-	+5dwFdS/HCnoissDbcwRaASDu2Gl1HsyHpcF68LUvIbHSxhiu7tXynaHUbKR/NV/dLmPfsY
-	pNvMA/B+JeAolmbgIe2MA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:N8g5UsJ7N4o=:R92f/fp4uuinxVVuWeXQ5z
-	KhSkrPJ8xME/dlE1+LiZq3UM1/aTzsD6wSGVCet/Pl/k61UZ6iTAA1dO6Hc0axQsFOekv7hfK
-	elQ/MBsvuN/7osmcpAPPskAo5bpxNV2EFZB3xBEIbyiVbNH8t2vwzlebHEceNNylIxrrdus7X
-	po3bLPhpjmaUZjorp9XRQtG8HyyvDWT0Y24ynvWFMQkMhZ8slJioRv/+AEgaBR4S5uj5i08U7
-	nLll22eBkMggGdKeDdYLz8StgtVpX86q9iA1RmTUBi8RpqtIlPLDRMHTh7KS2yStSHpbjHiiG
-	TtnVpqQrW5J0ulQtI9DvufOb8Zl31AR4C1T11lRqpl/yXAVUeOGzHUAoSBXuXwuyhVaf4Ez4b
-	92A0wGH87CKcyA2W6WJr/k5fIumK8W7Yi2pPSHAzc13JkL6ffZlmwAKX9uq3Nc+joxtEnjDth
-	tyk/JZQ4lC9Co3CrVuiWrg0zpcWqwws/QTV9+ZouVaQwAkogMs8pxnlkHHEadHURnHmlZsTxh
-	nVzREE0irnd0lJbgN1xd2lfTDQe+Qtr8/yg4e4aXcIsRCgmzXUXcBQtbNN0tFnZ8tEo8Crufk
-	8GdSgZ8/FZI0lrgzsdWVnmAJwSBjj5lUEqmT9pqQoOpiPtkSEM1rEeJaBH4aGkwnvI+ALnFYk
-	Sv8K8d/Lpnr/UaBbQ2Q/1IQ8AP6VjEx4p4xdGthAnpT2OlWRF0nhIw5T7Lxoe3r+C+ju1uHEB
-	qH7sj0JVassZSQ+ei4qpE9TVmz1l0gTX3BOhQHy1t7kkSHPdaPzGFimiEds=
+X-Provags-ID: V03:K1:ZVJYp+Pllff+VmZhbOP76AzxDzdoZoTwwGTC5KpDvz8SNllhHJ+
+	dvaiBIkjt5RqKtjHVsBf1qZIzcfbJ/dYDiumlEJ8t2A/zG3E0X2+Dsewg5nRWfbmbGkNiO4
+	XNXzGfJkhWDlXR7i5rFCwpjLFKPYI5KzHpzWN83EV67EQGWbS2w+E54nrUvqEifrHxnuKzP
+	VIIYq2FVw/zBRMfyUULBA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UJA3Ia/IE0E=:adhDTI+EvNq2snAh8G9tye
+	SoBvaT0zh94DeLvNExBmHG0W7KGEdsh1uNjUgbx5LPSAkFvqLXMT9Gf42SOfkRI7UZORWNivz
+	5f/A7h/82NTVQbsfCDJP2UPf6242GNuFDlVM7HXNXIbJcbkLf+cuz2tlRXg6s+ZLEaORH/rfe
+	X0Zo1Ld+AgwYXdir12fMaj3qe+EgrDeYR3Em6kec/CZNF1LfSVk4SBExBaFLe0sqzCCcjOu+N
+	wffU804vhKb/nUr7NxMvt7NUBRXDP9KwrXV4sOSF+OMCbvKanFR/udVlif7Ar4RH5jxeOsGLW
+	d3hMoMOjSXVqpi0lZrCpBVLQj7dONzsTd6S9gd6Lsb37WeUHcsBEIw9gWA237jtTx8Uhns0zX
+	5mu8ym27lXZ156pwD99UrzZRZNconjdiJczfbsD1h3jDymXYHoXmObCpitgXAiGEOhJ5QUm+r
+	5pS2MnZ5eE094hl2t41z/7ZDhdebPBXpsqyEFGDbytuoifHHYeihmRRIb5LMAWJBFkHgj/2vz
+	2Eae5I179F6aL/vt2sRvldODPdYcasYYCasvcHY4cm2dLF2ngbdPD6J2zuZX0uFNXccsfX0q2
+	iLqilur46Am6U/BrbT0FhsTPdx/Hh4fe6rQveVdqHf9VvClJ/vi5CzgjbcmSG/Wu3w8q3KhiX
+	gGCVTUR4vtZnoVLq7AZj2Jgr5PkkHgZ4nv2yBOJRtq2jHUxfb/XOQKSfJhb0i0Yo8Lc1WYYCX
+	7ZPSwqB3SFBApn27s1svouAu4/5rrM0crJwsWg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: [Qemu-devel] [PULL v2 0/9] Linux user for 4.1 patches
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PULL v2 1/9] linux-user: add pseudo /proc/cpuinfo for
+ sparc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,64 +64,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Laurent Vivier <laurent@vivier.eu>,
 	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
 	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
+SPARC libc6 debian package wants to check the cpu level to be
+installed or not:
 
-  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
+  WARNING: This machine has a SPARC V8 or earlier class processor.
+  Debian lenny and later does not support such old hardware
+  any longer.
 
-are available in the Git repository at:
+To avoid this, it only needs to know if the machine type is sun4u or sun4v,
+for that it reads the information from /proc/cpuinfo.
 
-  git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
+Fixes: 9a93c152fcdb4ab2cd85094487b33578fd693915
+       ("linux-user: fix UNAME_MACHINE for sparc/sparc64")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20190517133149.19593-2-laurent@vivier.eu>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/syscall.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to 5f992db605e2c9ed0c8816c2b0f68b9bc8698f1b:
-
-  linux-user: Pass through nanosecond timestamp components for stat syscalls (2019-05-24 13:16:21 +0200)
-
-----------------------------------------------------------------
-Add /proc/hardware and /proc/cpuinfo,
-update SIOCXXX ioctls,
-fix shmat emulation,
-add nanoseconds in stat,
-init field fp_abi on mips
-
-----------------------------------------------------------------
-
-Aleksandar Markovic (2):
-  linux-user: Fix support for SIOCATMARK and SIOCGPGRP ioctls for xtensa
-  linux-user: Add support for SIOCSPGRP ioctl for all targets
-
-Chen-Yu Tsai (1):
-  linux-user: Pass through nanosecond timestamp components for stat
-    syscalls
-
-Daniel Santos (1):
-  linux-user: Sanitize interp_info and, for mips only, init field fp_abi
-
-Laurent Vivier (2):
-  linux-user: add pseudo /proc/cpuinfo for sparc
-  linux-user: add pseudo /proc/hardware for m68k
-
-Neng Chen (1):
-  linux-user: Add support for SIOC<G|S>IFPFLAGS ioctls for all targets
-
-Richard Henderson (2):
-  linux-user: Fix shmat emulation by honoring host SHMLBA
-  linux-user: Align mmap_find_vma to host page size
-
- linux-user/elfload.c      | 22 ++++++++----
- linux-user/ioctls.h       |  3 ++
- linux-user/mmap.c         | 72 +++++++++++++++++++++------------------
- linux-user/qemu.h         |  2 +-
- linux-user/syscall.c      | 49 ++++++++++++++++++++++++--
- linux-user/syscall_defs.h | 57 ++++++++++++++++++++-----------
- 6 files changed, 143 insertions(+), 62 deletions(-)
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index efa3ec283706..68484a83e69e 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6786,12 +6786,15 @@ static int is_proc_myself(const char *filename, const char *entry)
+     return 0;
+ }
+ 
+-#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
++#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN) || \
++    defined(TARGET_SPARC)
+ static int is_proc(const char *filename, const char *entry)
+ {
+     return strcmp(filename, entry) == 0;
+ }
++#endif
+ 
++#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
+ static int open_net_route(void *cpu_env, int fd)
+ {
+     FILE *fp;
+@@ -6836,6 +6839,14 @@ static int open_net_route(void *cpu_env, int fd)
+ }
+ #endif
+ 
++#if defined(TARGET_SPARC)
++static int open_cpuinfo(void *cpu_env, int fd)
++{
++    dprintf(fd, "type\t\t: sun4u\n");
++    return 0;
++}
++#endif
++
+ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags, mode_t mode)
+ {
+     struct fake_open {
+@@ -6851,6 +6862,9 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
+         { "cmdline", open_self_cmdline, is_proc_myself },
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
+         { "/proc/net/route", open_net_route, is_proc },
++#endif
++#if defined(TARGET_SPARC)
++        { "/proc/cpuinfo", open_cpuinfo, is_proc },
+ #endif
+         { NULL, NULL, NULL }
+     };
 -- 
 2.20.1
 
