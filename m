@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8555829429
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 11:05:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51294 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781142943B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 11:09:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51348 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hU68x-0007lJ-Ns
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 05:05:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44598)
+	id 1hU6Cb-0000Td-Mg
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 05:09:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45766)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU67R-0007AJ-0i
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 05:04:05 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hU6BZ-0000Bp-UF
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 05:08:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hU67Q-0004kd-29
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 05:04:04 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:32782)
+	(envelope-from <peter.maydell@linaro.org>) id 1hU6BZ-0007xK-00
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 05:08:21 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38423)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hU67P-0004jY-Tb
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 05:04:04 -0400
-Received: by mail-ot1-x344.google.com with SMTP id 66so8074437otq.0
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 02:04:03 -0700 (PDT)
+	id 1hU6BY-0007wn-Pb
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 05:08:20 -0400
+Received: by mail-oi1-x242.google.com with SMTP id u199so6499555oie.5
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 02:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=LcSWfYLa7C58X8AEg/i69Suhxk5Dy5K6Pdaqceycwi8=;
-	b=hI7TmRGyxc+7j2p0lHSQuJXmIL6j+ZDyrCHxWKOt6tTlbVL+n1w7eryLWAW9Q/xEUO
-	XPSlAcpRUBqAWN+D02y6imOuaA/NyibXtqgyvy9vrTqhqoUXTg8PHXsShvCtBI3YJRtU
-	xB8voe0nPBU3lvPDY4zKGdrOwfCCE1scf8jdOjQlvLLAOvYHC9nLwmzUyGGnCrPNYLS6
-	i3qsRAzwiVl37ZjBOeSPAkS022VTck66UETO0DoQrALZN2LMSgMAxQKqK1bzaEJqJa0X
-	rIqAkXlTEgfFGeFTw+hci3b55QZfSyXcMtM7tPqWDWte7srgdnA3Rxdw6y23lPRskEV3
-	e5Ww==
+	:cc; bh=fB4Mx1+ciujWx737rFsuAYwMzrj1DN17Thp/F78Hnjc=;
+	b=d+squ87/oI0uVVahDHP6UGzMXCXMhgPZZcDo3lVXzeXUKSHBkQhc7gqWzihqo9vOQy
+	CdgX6zR6DifJEB+vf61aGhD4gh3pjN/pnahyKTvjQWfAdRzfOTpjHqbQQG/bkMktFaVp
+	oWdn/FYmS4jPv8RbWG9Betj4zgRTJFRn2F9hb8Wbn0tjO5TauhiOmLa/pn7sCcvh8+Tq
+	TctxiuJGuhmN+OnrJMgEv+EMTx6LdVEBzpYwedKNLMLLhNtznxp7PAlxH/NTLuN4Hwep
+	sBLq4Ew6yYq1c0EyYNmvCukIEtsgg+E/rtyVPuSFE2csK8qrl20iJk7W3VyNwXv7P5ca
+	hzAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=LcSWfYLa7C58X8AEg/i69Suhxk5Dy5K6Pdaqceycwi8=;
-	b=kRu0hBxldE8vj02eOFThEKSkZ3E+9ZPioiedcWzz8iP7mAjMKllSnoBTqjObKQSJ42
-	yJ40qWir44SoK3xUkUFI3a7Rxw5s0Db2wJsrk4atwOooV3QnodMvs3uLlXsd/umN+caA
-	WGPhzqpJw96QP62KF831GY1PA4eyaysdWfggI2bmT8zPVVuCHozIF3RCMVjVKmAxJD0Z
-	58Itz7qxliV8mCOWwrcT8wp+21fekxyp1DRnP+m7MFGNfECuRhZ1MI+sGJWzfs5ikl4+
-	tWMuN9HUDS7fcsGYaEPVPM4vUf/7L6wryroSScRJEclq0wUCI+h8LkHXHqQ3wNyYvvcN
-	NlGw==
-X-Gm-Message-State: APjAAAXELgkvumPtrvytUjrQoD/HYSzCTPu9RedSH6x4W9xk3TG5ndi2
-	6h5V0/TklvtpF4E1EZMZl3+68h30ZOMcDgaUVYg3AA==
-X-Google-Smtp-Source: APXvYqztXkskc8Jc81v/jqx7tNVzPdkwwrj9P/WaD+bH2i9qF4rbfYycDuo5ZQL6FH0E3oyT5062LoWvWdz30o7AOoM=
-X-Received: by 2002:a05:6830:149a:: with SMTP id
-	s26mr30968003otq.221.1558688642248; 
-	Fri, 24 May 2019 02:04:02 -0700 (PDT)
+	bh=fB4Mx1+ciujWx737rFsuAYwMzrj1DN17Thp/F78Hnjc=;
+	b=CV3e4cu2fnSD4OEDA3mLkAfNu+AgTFvVC3OD84QpFGFRFxiDKEhf98Z8TK9SNg4XMh
+	Q2aA5KCZWi7D3S07sa0b3tw4CgjH65/4R09agFvUAgzfaZm1cXP8tmA5qwc+DeCUoKRj
+	sxOYn6sXmK53opz9ovLDfyd8RBETOVCckeaRZoUJwkqRYjIomdsMHyfDE6B5CKmBtGEm
+	HXEussySRvuxf250+i6ZZ8J3S/XmbNpW3d9qJyUmjQ6lvWhnlphE+TJAVLk8WQzZa1P4
+	UKWawffteUxVuD689cooPM+TdWp6Ho5vh+LkBHsdhRaF+jriEg11C74BaQ+aClHNv7a7
+	66vw==
+X-Gm-Message-State: APjAAAU3Bt3SrOXBFkVJio2MBZw2PaAmtYg3FcA0IxnzUtWQlzlBln3q
+	a5GGMNLti9uTS/ucq7aRKuu/lm47lo1uiAkwuJznlQ==
+X-Google-Smtp-Source: APXvYqxHbexWzTRLmkrsg+gXqQ60yiLxWfsxk2OkwvXCv6kRjRelFNf+AkPIWYQAJhahxwNOdWMgxZbeYGVl2JUIWH8=
+X-Received: by 2002:aca:5785:: with SMTP id l127mr5290268oib.48.1558688899862; 
+	Fri, 24 May 2019 02:08:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190522222224.244714-1-rkir@google.com>
-	<20190523102225.GA2994@work-vm>
-	<CAOGAQerwpqaP=DKxC+WVdJcGpxnAayfMrwoPP=bBJBBG5Vn87g@mail.gmail.com>
-In-Reply-To: <CAOGAQerwpqaP=DKxC+WVdJcGpxnAayfMrwoPP=bBJBBG5Vn87g@mail.gmail.com>
+References: <20190520190533.GA28160@Red>
+	<20190521232323.GD3621@darkstar.musicnaut.iki.fi>
+	<20190522093341.GA32154@Red>
+	<20190522181904.GE3621@darkstar.musicnaut.iki.fi>
+	<8977e2bb-8d9e-f4fd-4c44-b4f67e0e7314@redhat.com>
+	<c2972889-fe60-7614-fb6e-e57ddf780a54@redhat.com>
+	<20190523183623.GB5234@darkstar.musicnaut.iki.fi>
+In-Reply-To: <20190523183623.GB5234@darkstar.musicnaut.iki.fi>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 May 2019 10:03:51 +0100
-Message-ID: <CAFEAcA9bKQukg7_HcGKWAFmoaX+DG0NhSctzwg7mpVJ_AOO09g@mail.gmail.com>
-To: Roman Kiryanov <rkir@google.com>
+Date: Fri, 24 May 2019 10:08:09 +0100
+Message-ID: <CAFEAcA8C0WN5FwaW2kfWiRm1T8wML_fWXDKqRXP-Lv_P7ysy8A@mail.gmail.com>
+To: Aaro Koskinen <aaro.koskinen@iki.fi>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH] vmstate: Add VMSTATE_OPAQUE to save/load
- complex data structures
+X-Received-From: 2607:f8b0:4864:20::242
+Subject: Re: [Qemu-devel] Running linux on qemu omap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,49 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
-	Juan Quintela <quintela@redhat.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	Lingfeng Yang <lfy@google.com>
+Cc: Thomas Huth <thuth@redhat.com>, Tony Lindgren <tony@atomide.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 May 2019 at 18:02, Roman Kiryanov via Qemu-devel
-<qemu-devel@nongnu.org> wrote:
->
-> Hi Dave, thank you for looking.
->
-> > Can you give me an example of where you would use it?
->
-> We use it in our host memory sharing device. I used the existing
-> macros for all fields I could, but unfortunately some state does not fit
-> into them. We use this new macro to save/load memory
-> allocators (for now we have malloc, but we are working on adding
-> Vulkan calls). For now the state looks this way:
->
-> class Allocator;
-> unordered_map<int, Allocator *> state;
->
-> class MallocAllocator: public Allocator {
->     unordered_map<int, vector<char>> state;
-> };
->
-> class VulkanAllocator: public Allocator {
->     // TBD
-> };
+On Thu, 23 May 2019 at 19:36, Aaro Koskinen <aaro.koskinen@iki.fi> wrote:
+> Cheetah works with serial console. I tried with console on display,
+> and it seems to boot up, and the frame buffer window gets correctly
+> sized but for some reason it just stays blank.
 
-This is all C++, so it's not relevant for upstream QEMU...
+As a general question, when you're doing these tests are you
+using a kernel image that is known to work on real hardware?
+One problem we have with some of these older QEMU platforms
+is that it turns out that QEMU is only tested with the kernel,
+and the kernel support for the platform is only tested with
+QEMU, and so you get equal and opposite bugs in QEMU and the
+kernel that cancel each other out and don't get noticed...
 
-In any case, migration state on the wire needs to be
-architecture/endianness/implementation-independent,
-so you can't just send raw complex data structures -- you
-need to marshal these into something else (by having
-pre-load/post-save functions in whatever device is using
-these to marshal between the complex data structures and a
-plain-old-array-of-whatevers, or by having the migration
-code specifically support migration of the complex data
-structures.)
+(On the QEMU side these platforms are all basically orphaned:
+if somebody submits patches to fix bugs we'll review them,
+but they're unlikely to get a great deal of attention otherwise.
+They're also quite near the top of the "maybe we'll just
+deprecate and then delete these" list, since we have not
+historically had any working guest images to test against.
+If there's a real userbase that wants them to continue to
+exist that's a different matter, of course.)
 
 thanks
--- PMM
+- PMM
 
