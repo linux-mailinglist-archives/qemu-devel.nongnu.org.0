@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352DE298AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:15:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54442 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD53298B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:16:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54480 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUA2h-0008To-W6
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:15:28 -0400
+	id 1hUA3n-00013B-IN
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:16:35 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:58529)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hUA0g-0007aO-4B
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:13:23 -0400
+	(envelope-from <philmd@redhat.com>) id 1hUA0u-0007aO-Ki
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:13:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hU9zX-0002Zd-KI
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:12:12 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41454)
+	(envelope-from <philmd@redhat.com>) id 1hU9z6-0002Cx-Cv
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:11:46 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:47047)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hU9zW-0002Vw-OH
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:12:11 -0400
-Received: by mail-oi1-x241.google.com with SMTP id y10so6975006oia.8
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 06:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=cm6/LN3d3ZQ2+SycKgkiEPWzS+SUf9/nU1vzxFor2i4=;
-	b=BlIZ/axHDIzNjSSV63Tx3iNy+2eb7xbkJ1NSjWYQB53mF2ygAjTxDNqP06dwinS5Jc
-	mR5SfpFC0NsGv6c46FJzsORStSRiI4PbnrejG/Qc4RYpIC1lSTo4z+vco3kP1z6z2DWV
-	sp4BPbG+6PhltZQluoUYi5RvOf+02Blt7URKUAznGh9tq87aygTwp6uuBKsCbnoMBxDR
-	hdoIt+A0wPGAup4+QIedanv0O1PBRTTX02xaJQMwN3MmMi8V1PBaTfmS+bu336ETZBUh
-	KtIhF+GS/jVkziafq/YgOqnvVAj0v7i6/LtXwYGRsBxi0J+0CSHmkTseOU7ljxzMPSEl
-	c5pQ==
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hU9z4-00029I-AY
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:11:44 -0400
+Received: by mail-wr1-f68.google.com with SMTP id r7so9957164wrr.13
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 06:11:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=cm6/LN3d3ZQ2+SycKgkiEPWzS+SUf9/nU1vzxFor2i4=;
-	b=Rl9KooA5+sfTMknvMsRILSb4zbpL4+1PxkHwH8UA3Sf6duGEByRbG+49zkbpOz3wFX
-	1A54odgEUindJA2ejYNtFnb2nwYdruj/n74GjJUZkGHNw0Ku/kdodcONoBc1DAI7ZM0p
-	sRpgG7sBmYy65ETavfNirJFcf6ORPw3dQ+Ihymoxvofk3C+UhL+ZuIUSDT4uATfK13UD
-	nzWmIUBT3L2Bee2ovvrqVdE2VWaJdlXY6HSW3hxTuoG72wQkQm5TlPsozSfBBvY+evKz
-	JfyzrltZyXFsmeztK4SZbHdC4ItNq77K0vsLLX7QBIrBGxeiSJD8L8hwbmZs6hVu9jdD
-	jIEA==
-X-Gm-Message-State: APjAAAXXn3RH7htG95PJ1asuaurgtPuMfICRnCjGJo1KRn2EfC99rQ+q
-	OEu7PY45JW0ma6BfxaDJ+lC0A2UxP5ijFQa0HGA=
-X-Google-Smtp-Source: APXvYqy1RMEBkmc0kJjgf812nrcu3dKF6oCAHz41DsfF7xFnf4IlNZITjGqTSFwc0GJx685NoIxZ+EkeUHuIYXIVhhU=
-X-Received: by 2002:aca:fc43:: with SMTP id a64mr931699oii.129.1558703527235; 
-	Fri, 24 May 2019 06:12:07 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=UnpSL6wMxAxKNBlKTNYXQ4v0wpRW0lqEf4uxxLaEmeo=;
+	b=RneWhqhzDFF9AI/WHpgFCDjJS/vEXg13T3oaOdZRbaNhdxPFmI+BoJ+1MH7taPXwJt
+	7hIdS68ImjvXsRFT0pWkwR7BRK2xWTfeUNhJV34jDGU3Qm/JifrfnnvP7BNOhcHRrhqr
+	2JRLKv2FYwzGpm7wrB3t3RKN3LuUYDTe9EaTb0kS3w1Sn1EgM3UhiTrIKcDobn01jMks
+	7S9AFXqyzTuT9FJXH+G0CKZ53AiQstSCSwsB7I3iHjNtt7dXqvMtp57UE8JgobYCXcsN
+	5GRiwuqkb7SOalK+1Wu2qcIzhMzePFK5vl3O6gHa6FXxWwkMVelqL46uglAUjUwHGetC
+	Gn+w==
+X-Gm-Message-State: APjAAAUnLO60vogp4Hp21bUL1DNXx07E9ze9V/ftHn9D6ntwm3dBkmWt
+	2pGCdN38e83QrOOoH0EXeIiO8A==
+X-Google-Smtp-Source: APXvYqwpqMQqUzsPtV0SGEv9yTcm5cIw9e6WEnB8E98CFlxJBOELrRuU16dVI/v/XLqSpX/i6ynmhg==
+X-Received: by 2002:adf:c7d3:: with SMTP id y19mr545722wrg.298.1558703497533; 
+	Fri, 24 May 2019 06:11:37 -0700 (PDT)
+Received: from [192.168.1.38] (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	j28sm4839397wrd.64.2019.05.24.06.11.36
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 May 2019 06:11:36 -0700 (PDT)
+To: Laszlo Ersek <lersek@redhat.com>, Peter Maydell
+	<peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Richard Henderson <richard.henderson@linaro.org>
+References: <20181102171638.24069-1-peter.maydell@linaro.org>
+	<20181102171638.24069-9-peter.maydell@linaro.org>
+	<3e3d2018-3993-f651-8e94-5bea612bd776@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <0d1c8338-a8b4-23b5-7297-e80428fbabff@redhat.com>
+Date: Fri, 24 May 2019 15:11:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190524063553.5339-1-philmd@redhat.com>
-	<20190524063553.5339-7-philmd@redhat.com>
-In-Reply-To: <20190524063553.5339-7-philmd@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 24 May 2019 21:11:30 +0800
-Message-ID: <CAKXe6S+PeYbOCcDzqpHxgvrqqfgH7GVnYtpJrcLYFJbxzN5aew@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 06/20] hw/i386/pc: Use
- e820_get_num_entries() to access e820_entries
+In-Reply-To: <3e3d2018-3993-f651-8e94-5bea612bd776@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PULL 08/10] target/arm: Conditionalize some
+ asserts on aarch32 support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,53 +79,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
-	Rob Bradford <robert.bradford@intel.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Qemu Developers <qemu-devel@nongnu.org>,
-	Samuel Ortiz <sameo@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2019=E5=B9=B45=E6=
-=9C=8824=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=882:48=E5=86=99=E9=81=
-=93=EF=BC=9A
+On 5/24/19 2:33 PM, Laszlo Ersek wrote:
+> Hi,
+> 
+> On 11/02/18 18:16, Peter Maydell wrote:
+>> From: Richard Henderson <richard.henderson@linaro.org>
+>>
+>> When populating id registers from kvm, on a host that doesn't support
+>> aarch32 mode at all, neither arm_div nor jazelle will be supported either.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>> Tested-by: Alex Bennée <alex.bennee@linaro.org>
+>> Message-id: 20181102102025.3546-1-richard.henderson@linaro.org
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>>  target/arm/cpu.h |  5 +++++
+>>  target/arm/cpu.c | 15 +++++++++++++--
+>>  2 files changed, 18 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+>> index 8e6779936eb..b5eff79f73b 100644
+>> --- a/target/arm/cpu.h
+>> +++ b/target/arm/cpu.h
+>> @@ -3296,6 +3296,11 @@ static inline bool isar_feature_aa64_fp16(const ARMISARegisters *id)
+>>      return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, FP) == 1;
+>>  }
+>>  
+>> +static inline bool isar_feature_aa64_aa32(const ARMISARegisters *id)
+>> +{
+>> +    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, EL0) >= 2;
 
-> To be able to extract the e820* code out of this file (in the next
-> patch), access e820_entries with its correct helper.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
+FWIW here we check EL0, ...
 
+>> +}
+>> +
+>>  static inline bool isar_feature_aa64_sve(const ARMISARegisters *id)
+>>  {
+>>      return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SVE) != 0;
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index 8f16e96b6c8..784a4c2dfcc 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -774,6 +774,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>      CPUARMState *env = &cpu->env;
+>>      int pagebits;
+>>      Error *local_err = NULL;
+>> +    bool no_aa32 = false;
+>>  
+>>      /* If we needed to query the host kernel for the CPU features
+>>       * then it's possible that might have failed in the initfn, but
+>> @@ -820,6 +821,16 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>              set_feature(env, ARM_FEATURE_V7VE);
+>>          }
+>>      }
+>> +
+>> +    /*
+>> +     * There exist AArch64 cpus without AArch32 support.  When KVM
+>> +     * queries ID_ISAR0_EL1 on such a host, the value is UNKNOWN.
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+... then here the comment is about EL1.
 
+>> +     * Similarly, we cannot check ID_AA64PFR0 without AArch64 support.
+>> +     */
+>> +    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+>> +        no_aa32 = !cpu_isar_feature(aa64_aa32, cpu);
+>> +    }
+>> +
+>>      if (arm_feature(env, ARM_FEATURE_V7VE)) {
+>>          /* v7 Virtualization Extensions. In real hardware this implies
+>>           * EL2 and also the presence of the Security Extensions.
+>> @@ -829,7 +840,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>           * Presence of EL2 itself is ARM_FEATURE_EL2, and of the
+>>           * Security Extensions is ARM_FEATURE_EL3.
+>>           */
+>> -        assert(cpu_isar_feature(arm_div, cpu));
+>> +        assert(no_aa32 || cpu_isar_feature(arm_div, cpu));
+> 
+> The assertion above fails on my AArch64 host (APM Mustang A3). Meaning
+> that my host CPU supports AArch32, but lacks "arm_div".
+> 
+> (My understanding is that this commit, i.e., 0f8d06f16c9d, relaxed the
+> assert originally added in commit 7e0cf8b47f0e ("target/arm: Convert
+> division from feature bits to isar0 tests", 2018-10-24). Can we relax it
+> even further?
+> 
+> Better yet: can we rework the code to emit a warning, rather than
+> aborting QEMU? Assertions are not the best tool IMHO for catching
+> unusual (or slightly non-conformant / early) hardware.)
+> 
+> Thanks,
+> Laszlo
+> 
+>>          set_feature(env, ARM_FEATURE_LPAE);
+>>          set_feature(env, ARM_FEATURE_V7);
+>>      }
+>> @@ -855,7 +866,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>      if (arm_feature(env, ARM_FEATURE_V6)) {
+>>          set_feature(env, ARM_FEATURE_V5);
+>>          if (!arm_feature(env, ARM_FEATURE_M)) {
+>> -            assert(cpu_isar_feature(jazelle, cpu));
+>> +            assert(no_aa32 || cpu_isar_feature(jazelle, cpu));
+>>              set_feature(env, ARM_FEATURE_AUXCR);
+>>          }
+>>      }
+>>
+> 
 
-
-> ---
->  hw/i386/pc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index ac8343c728..2e195049a5 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1022,7 +1022,7 @@ static FWCfgState *bochs_bios_init(AddressSpace *as=
-,
-> PCMachineState *pcms)
->      fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
->                       &e820_reserve, sizeof(e820_reserve));
->      fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
-> -                    sizeof(struct e820_entry) * e820_entries);
-> +                    sizeof(struct e820_entry) * e820_get_num_entries());
->
->      fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
->      /* allocate memory for the NUMA channel: one (64bit) word for the
-> number
-> --
-> 2.20.1
->
->
->
