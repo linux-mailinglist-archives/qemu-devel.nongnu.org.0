@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2732A262
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 04:25:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34856 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B122A260
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 04:23:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34822 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUMNE-0002Ya-Ev
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 22:25:28 -0400
+	id 1hUMLZ-0001Mq-Fw
+	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 22:23:45 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:50975)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <programmingkidx@gmail.com>) id 1hUMJs-0000UP-9N
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 22:22:01 -0400
+	(envelope-from <programmingkidx@gmail.com>) id 1hUMJm-0000UP-H9
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 22:21:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <programmingkidx@gmail.com>) id 1hUMIR-0003Yd-IK
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 22:20:32 -0400
-Received: from mail-it1-x143.google.com ([2607:f8b0:4864:20::143]:56125)
+	(envelope-from <programmingkidx@gmail.com>) id 1hUMIW-0003aY-7G
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 22:20:37 -0400
+Received: from mail-it1-x144.google.com ([2607:f8b0:4864:20::144]:56126)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <programmingkidx@gmail.com>)
-	id 1hUMIR-0003YP-EN
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 22:20:31 -0400
-Received: by mail-it1-x143.google.com with SMTP id g24so11930159iti.5
-	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 19:20:31 -0700 (PDT)
+	id 1hUMIW-0003aQ-32
+	for qemu-devel@nongnu.org; Fri, 24 May 2019 22:20:36 -0400
+Received: by mail-it1-x144.google.com with SMTP id g24so11930317iti.5
+	for <qemu-devel@nongnu.org>; Fri, 24 May 2019 19:20:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dazARfTasjbAG7BJaYUNqf7X7nG/lCTZKuXZBg0tjNk=;
-	b=Sh0384orbtEMajWgYUF/rIzC88j/9d/7yE36n5YQV2Dxlb8EOtPvlppMmA4e+AyqEG
-	+NSRRIx6k6saDNNct4RAcXX/uFjVwEtUN24cTafIPNvX6aC1QYcqSRmD/XUhJdF1E6Dy
-	6cHhJaRTZybJRWsYOu+aUAcEgfnsWTOQVLwbKT+HLtOVQaJszSYLD5z/PAOntAB+E4LE
-	+rKsJeweJxpH6ik3nrvlZhC8IHIPyUrGxz5yrtAv3rFF0Tgwo9CcYxUgeCn3VjdU+OWh
-	K7rabvFnAwoEb2fJZf5DauoCQp8R4HuxNx/qxK+POiIje3XJAAe1NdWDaiai+27R69Rq
-	PtPg==
+	bh=FaLRym9qoHWfpYrSmaKpwioVaNz4Jc0X02F6oDD3AfA=;
+	b=psw/YEIUWAcY3Qy/UhpzoNBfHrB3Ni6RHbFalO5pUpIVGHEwwv5D0wj1x2ssIUZLCJ
+	wR4LoiOz3FA0S94XDgBEsByICzQUAhFEXhtIM2QZ5EArnpCo/VDZ3oZOUi61BvTp68qz
+	cKkmsyPl54BbSMDa+63PLMvJsZ1dhYZUHAwM1GnkoVciVp74Yhs+9zEmYVq40ODhYekc
+	MsO4IIyLfc/Z658wlY7O+NtEEhIHjzFd8TV33njUCmBXnc3DYGASYcOQVL7j6D1cjnQm
+	lWjWPy/mL0shVGVS647KwR+4SagS3EBltR0sc0HbIu5fVuEi6NdKgGEX6GMb41ujwsyM
+	KT5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=dazARfTasjbAG7BJaYUNqf7X7nG/lCTZKuXZBg0tjNk=;
-	b=Tin2ydObNcvHZ3K/Yi3KAfSdEEjvAkbTa2qwuGBZH8GlX3LSkO13smdIiBC1GLccAw
-	1UBDLrL2/odlOqSlVDLuZ4V+R0yoqawgyryL28BEep9tzVdfAK/rwUz6u5tI1Wp9T8Z7
-	f909In0TLiXIA8z/W4gftgK7drHvhK2JvmLHfP4Ahl8ggmq4uFQsvcchHiUKYmVQMWcn
-	zBbG4jXzu9pBHZKLchyXgXnApf8LGFXvKtVgyYM79OBERlu7N7nnUpqlI5eOVBEZTaXx
-	cizcblP1EyemRxMtSIpWQpdll9EKtNUpbxeIx+CUkQNFHdlmJuclUVIH4rwRIiGGNNac
-	BHZQ==
-X-Gm-Message-State: APjAAAUS1P7utQE0iPPsbXCr3yO1PH+v97T3NDpgcT2nySt1OCUveUbB
-	4k+XjqRsZ9842cGqLgJwWRdHqSz5
-X-Google-Smtp-Source: APXvYqzEtP96vOP+zyv041NmFTdFxRoXJkulWVPSBAtNyhY/3suG6Oo0UlNHHqJmWl4nSn+aS1E6mw==
-X-Received: by 2002:a05:660c:105:: with SMTP id
-	w5mr11688342itj.37.1558750831006; 
-	Fri, 24 May 2019 19:20:31 -0700 (PDT)
+	bh=FaLRym9qoHWfpYrSmaKpwioVaNz4Jc0X02F6oDD3AfA=;
+	b=Zr46ASW0qIz1EWrEwEsiZeJUbAIB7aGGNpOhuKGtO0jKqZH7+XVWoEc/CybuvYoY7x
+	8Ywj9P+d5jsMkWyQf9dk1FR77Bkr5YXpU4pzCAOuEiCadWTRFpJ2wClFlYafXfwZ9u5o
+	jrCk31OiLV1W2M1554F9yTAOEJDBMtsVz5fr8fNcLJ4ohipNGLb1ctg+5M8XfTiW951O
+	gPm1Fzc3KugIooQniejcsRJ4TKs+1fZMvdk7DtxOpB0S1fEzGhMhB5UJf4Onxw+t65cc
+	WgnDsYiYIcTV70AKGE/g5NT3dQChiOcQ/D8e57x1NUqWVCelmzpwhX63Rz5EV415rX52
+	qC2w==
+X-Gm-Message-State: APjAAAUae/RIS/ELknfNPqK9jutI/7k+vwQujETjYz7ms6AuOTt49sKu
+	9bZb3aFVMULtaOfxNNCZEzE=
+X-Google-Smtp-Source: APXvYqzGVJH+lgHKnKSaOTInd/lNVS06orm9e4S0R25m05B1TFrYyU6zEgb5P8cb0W7xTzahc6+/qw==
+X-Received: by 2002:a24:81d4:: with SMTP id q203mr20127283itd.55.1558750835562;
+	Fri, 24 May 2019 19:20:35 -0700 (PDT)
 Received: from localhost.localdomain (d14-69-20-184.try.wideopenwest.com.
 	[69.14.184.20]) by smtp.gmail.com with ESMTPSA id
-	p20sm1575524ioj.63.2019.05.24.19.20.29
+	p20sm1575524ioj.63.2019.05.24.19.20.34
 	(version=TLS1 cipher=AES128-SHA bits=128/128);
-	Fri, 24 May 2019 19:20:30 -0700 (PDT)
+	Fri, 24 May 2019 19:20:34 -0700 (PDT)
 From: John Arbuckle <programmingkidx@gmail.com>
 To: richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-ppc@nongnu.orgd,
 	david@gibson.dropbear.id.au, mark.cave-ayland@ilande.co.uk
-Date: Fri, 24 May 2019 22:20:07 -0400
-Message-Id: <20190525022008.24788-2-programmingkidx@gmail.com>
+Date: Fri, 24 May 2019 22:20:08 -0400
+Message-Id: <20190525022008.24788-3-programmingkidx@gmail.com>
 X-Mailer: git-send-email 2.14.3 (Apple Git-98)
 In-Reply-To: <20190525022008.24788-1-programmingkidx@gmail.com>
 References: <20190525022008.24788-1-programmingkidx@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::143
-Subject: [Qemu-devel] [PATCH 1/2] Implement Floating Point flag Fraction
- Rounded
+X-Received-From: 2607:f8b0:4864:20::144
+Subject: [Qemu-devel] [PATCH 2/2] Implement the PowerPC Floating Point
+ Status and Control Register Fraction Rounded bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,62 +83,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
 ---
- fpu/softfloat.c               | 15 ++++++++++++---
- include/fpu/softfloat-types.h |  1 +
- 2 files changed, 13 insertions(+), 3 deletions(-)
+ target/ppc/fpu_helper.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 2ba36ec370..ac34f6a2de 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -702,7 +702,7 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
-     const uint64_t roundeven_mask = parm->roundeven_mask;
-     const int exp_max = parm->exp_max;
-     const int frac_shift = parm->frac_shift;
--    uint64_t frac, inc;
-+    uint64_t frac, inc, rounded;
-     int exp, flags = 0;
-     bool overflow_norm;
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 0b7308f539..0baf1ce8e4 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -630,6 +630,10 @@ static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
+         env->fpscr &= ~(1 << FPSCR_FI); /* clear the FPSCR[FI] bit */
+     }
  
-@@ -744,7 +744,12 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
-         if (likely(exp > 0)) {
-             if (frac & round_mask) {
-                 flags |= float_flag_inexact;
--                frac += inc;
-+                rounded = frac + inc;
-+                if ((rounded ^ frac) & frac_lsb) {
-+                    flags |= float_flag_rounded;
-+                }
-+                frac = rounded;
++    /* Set or clear the Fraction Rounded bit */
++    env->fpscr = deposit32(env->fpscr, FPSCR_FR, 1,
++                           (status & float_flag_rounded) != 0);
 +
-                 if (frac & DECOMPOSED_OVERFLOW_BIT) {
-                     frac >>= 1;
-                     exp++;
-@@ -793,7 +798,11 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
-                     break;
-                 }
-                 flags |= float_flag_inexact;
--                frac += inc;
-+                rounded = frac + inc;
-+                if ((rounded ^ frac) & frac_lsb) {
-+                    flags |= float_flag_rounded;
-+                }
-+                frac = rounded;
-             }
- 
-             exp = (frac & DECOMPOSED_IMPLICIT_BIT ? 1 : 0);
-diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
-index 2aae6a89b1..bee576e0fd 100644
---- a/include/fpu/softfloat-types.h
-+++ b/include/fpu/softfloat-types.h
-@@ -147,6 +147,7 @@ enum {
- 
- enum {
-     float_flag_invalid   =  1,
-+    float_flag_rounded   =  2,
-     float_flag_divbyzero =  4,
-     float_flag_overflow  =  8,
-     float_flag_underflow = 16,
+     if (cs->exception_index == POWERPC_EXCP_PROGRAM &&
+         (env->error_code & POWERPC_EXCP_FP)) {
+         /* Differred floating-point exception after target FPR update */
 -- 
 2.14.3 (Apple Git-98)
 
