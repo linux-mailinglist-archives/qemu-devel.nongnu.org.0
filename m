@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2642A45B
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 14:15:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40122 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0522A506
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 17:07:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43098 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUVaO-0002Js-2q
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 08:15:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34011)
+	id 1hUYH1-00046L-HU
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 11:07:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59752)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hUVYP-0001XJ-0o
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 08:13:38 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hUYDR-0001xK-B5
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 11:04:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hUVXG-0002me-CW
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 08:12:27 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37974)
+	(envelope-from <peter.maydell@linaro.org>) id 1hUYDQ-00027Y-Am
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 11:04:09 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:43104)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
-	id 1hUVXG-0002lM-67
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 08:12:26 -0400
-Received: by mail-wr1-x444.google.com with SMTP id d18so12442561wrs.5
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 05:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hUYDQ-00026N-4k
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 11:04:08 -0400
+Received: by mail-oi1-x242.google.com with SMTP id t187so9097514oie.10
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 08:04:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=eYfocmhPDINnTz5r4utBlTegy9zwuqUqzrk//YNp/hk=;
-	b=IFpT3MrfuK/Zeb5UglWd4o706+HGLuMoji5t16W0xgXn3/pX5Xu3U10LkhRDencwbk
-	AA3D7CTjfH5LvXlJp1pu6tCdJLAaVAjNjuPrX1al8dijxVx19RlKUCuXGCZzPQ8eAcmp
-	lo1h2r/HSV/bS8EaAPjbdfPz7i9Ij+q+NEjXHGDCyYx6ZBZNG9HQ1HrioGvaysmx7yz5
-	sYvQ3rw8vTGdRotyTk6HnBjZM5wjPb2APG+wT2mzKiFmuWE+VVTWUUBClIEaFvxwUd+/
-	rc9Ng+YGLuJpx2krwEp5dnh0jHs+XrXmM9alLBMKx4smcXKOuJgCgoG9axdMrhgd46xG
-	hp5g==
+	:cc; bh=WYsKR72pd1AS/3fpwnIpedRqbJ2R8rcYh0JxXVlQQCk=;
+	b=vbdLhPQCgmL5lBkLVO2+3P6nPbawYzpaW2SU1rh2UKbRQHd9gCWpJeyhSe88bUbktX
+	gholQ3NfCCZ6I0+zVD97EZPSlFRL3/gVqT1i6AfT6KM1BbumV62Nyvh2tKsXJIJ7GH8H
+	hOQDuGslQCXUDAykf3mIxUcq9B3DxDj4aunPsJ6tYozdiImBJQVK12N3Z7IfxHQZdoRc
+	POQfLHreSCYh/iHNtdsJYreY5YrsN7Xpb63BL4oFwVnj/Le+YLfuxZJEnGNInQcSR5Kz
+	AGTvWAh/rKI+V3peksaWqsOi0bOH6gphf4413AXVQ7EOC+69QNDdtSE/Fn3ao6xNQr0c
+	3rzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=eYfocmhPDINnTz5r4utBlTegy9zwuqUqzrk//YNp/hk=;
-	b=NgYMJwviCZLN9iccmkKrGYCrdC9NV9Uosel5mn2NoNdSCY3WE9TOHVQBBbNixkdqf8
-	Q/RLBK+/9/RQiuhduwDjT0o/k21HItCFqHFIxR8/oSak644ppTsSDkgq83/+VJKP9iCb
-	htNX198XToIii6Y6aHSF07ZcAvgtcfnnSzx5u+7E6LMMifXe012dugEuZ5XACtC31pQL
-	RhCtG9AblqDfN5+GOcbwbs0Zq157mdqtz4MsVHnqvlFpXOKTIHC5+mwAwjysaRARULPl
-	WIJkYHKGFXC6myfgCSW9nvQygUtIOBnZl91lT1oDAbld8fln0EOZtwOIPELxCfYyo4kj
-	zDLg==
-X-Gm-Message-State: APjAAAX+Rn9nCCmzuqKLXmVpzwpUqI1iUNQ9hPTQu73XEFM6eqbZvYx7
-	WnicEWnqv2ml2d7ArkdkSSTggB0ShmHsF2zgqRQ=
-X-Google-Smtp-Source: APXvYqwH7vUr36wVeoPOC5nwzo5EqjfYIufUEzDe1uterpl+htXG7rS0pQssAm9kHK4eK66hEE3zdipW7VefD2eRNpo=
-X-Received: by 2002:adf:dfc4:: with SMTP id q4mr11330597wrn.201.1558786344430; 
-	Sat, 25 May 2019 05:12:24 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=WYsKR72pd1AS/3fpwnIpedRqbJ2R8rcYh0JxXVlQQCk=;
+	b=CogvAsoruTW+Vk/tke1kCOUcze7zvxBtNNDJM0+r++LrKFMi1kcr0nflc0+3N7yIl/
+	CzMuLwvdX/ePKB+Jg+hEeDFL0vYqhlutQ5tz/LtChQH43pBI1q/7f4LZSF3eP0Q6p5Wu
+	ejPKaBiixYp/0wcmzWsLoYrpQdDBp3cULPsEVFU3qQBbzh9Fbwa+EwpK8QZK0Ll0coHn
+	Fm6j1L5RbSDXtkjQVlPvjahR/7fJNDGyRhYh9cIWjeymCX4OeI2+Ma3XYE2JuaKA/fBm
+	05pJrwhjHsS3O44FvTMPmYJ3J/ZsjVmnYhQj8yr7sfgjBJkkEzztWMM+ez+BCz86mYqR
+	9ZaQ==
+X-Gm-Message-State: APjAAAXo5xMDarZdZA2zyAkTKuocRbvJn9sqtqb1ljyHZN1wHPoDKU9W
+	bevo7p7fmNCwrLgmub4y8gmRBNlJc7AMWfkJGEZJfA==
+X-Google-Smtp-Source: APXvYqy+w7wO5xzCyqdVNHNUGr+yHa9zu4C/xNTdg1dF6BxwSPzYmllvn7+GNGJrH9AiGGcvenf0VngNsh9KWYx6uQE=
+X-Received: by 2002:aca:4e42:: with SMTP id c63mr9944421oib.170.1558796646940; 
+	Sat, 25 May 2019 08:04:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190409161009.6322-1-marcandre.lureau@redhat.com>
-	<87sgt7sxhy.fsf@dusky.pond.sub.org>
-	<CAJ+F1CJ6hpQZf6199_-rAW98HwEssNT_kXBJF9he9NZFvWaGPA@mail.gmail.com>
-	<87tvdlhakq.fsf@dusky.pond.sub.org>
-In-Reply-To: <87tvdlhakq.fsf@dusky.pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sat, 25 May 2019 14:12:12 +0200
-Message-ID: <CAJ+F1CJLuNVu_aWPjQtFwP_tLMqn=vd_gCtW7SWZWdhYMF6H7w@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
+References: <51df31ee-54a1-d7be-bef4-71ae003b8811@redhat.com>
+	<3fab9e76-53ad-2de7-45df-eb69c8604709@redhat.com>
+	<016edc53-278e-cc58-0061-d2c5de80afd2@de.ibm.com>
+	<1ddf0d83-ce0c-f1c9-065d-ff88ddb9293b@redhat.com>
+	<60d1bf3d-659c-d199-6592-d3659702d754@redhat.com>
+	<d38b05af-effc-97a1-0b4a-a0d44a13f769@de.ibm.com>
+In-Reply-To: <d38b05af-effc-97a1-0b4a-a0d44a13f769@de.ibm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 25 May 2019 16:03:55 +0100
+Message-ID: <CAFEAcA9K+d+LM5SfDrX0Ljwq8zWQdmJAM4R4cdHhF+tM1F13LQ@mail.gmail.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v4 00/20] monitor: add asynchronous command
- type
+X-Received-From: 2607:f8b0:4864:20::242
+Subject: Re: [Qemu-devel] hw/s390x/ipl: Dubious use of qdev_reset_all_fn
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,154 +76,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU <qemu-devel@nongnu.org>,
-	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+	qemu-s390x <qemu-s390x@nongnu.org>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Fri, 24 May 2019 at 20:47, Christian Borntraeger
+<borntraeger@de.ibm.com> wrote:
+> While this patch is certainly ok, I find it disturbing that qdev devices are being resetted,
+> but qom devices not.
 
-On Thu, May 23, 2019 at 9:52 AM Markus Armbruster <armbru@redhat.com> wrote=
-:
-> I'm not sure how asynchronous commands could support reconnect and
-> resume.
+It's not a qdev-vs-QOM thing. Anything which is a DeviceState
+has a reset method, but only devices which are somewhere
+rooted in the bus-tree that starts with the "main system
+bus" (aka sysbus) get reset by the vl.c-registered "reset
+everything on the system bus". Devices which are SysBusDevice
+get auto-parented onto the sysbus, and so get reset. Devices
+like PCI devices or SCSI devices get put onto the PCI
+bus or the SCSI bus, and those buses are in turn children
+of some host-controller device which is on the sysbus, so
+they all get reset. The things that don't get reset are
+"orphan" devices which are neither (a) of a type that gets
+automatically parented onto a bus like SysBusDevice nor
+(b) put specifically onto some other bus.
 
-The same way as current commands, including job commands.
+CPU objects are the other common thing that doesn't get
+reset 'automatically'.
 
->
-> >> I'm ignoring "etc" unless you expand it into something specific.
-> >>
-> >> I'm also not taking the "weird" bait :)
-> >> > The following series implements an async command solution instead. B=
-y
-> >> > introducing a session context and a command return handler, it can:
-> >> > - defer the return, allowing the mainloop to reenter
-> >> > - return only to the caller (instead of broadcast events for reply)
-> >> > - optionnally allow cancellation when the client is gone
-> >> > - track on-going qapi command(s) per client/session
-> >> >
-> >> > and without introduction of new QMP APIs or client visible change.
-> >>
-> >> What do async commands provide that jobs lack?
-> >>
-> >> Why do we want both?
-> >
-> > They are different things, last we discussed it: jobs are geared
-> > toward block device operations,
->
-> Historical accident.  We've discussed using them for non-blocky stuff,
-> such as migration.  Of course, discussions are cheap, code is what
-> counts.
-
-Using job API means providing new (& more complex) APIs to client.
-
-The screendump fix here doesn't need new API, it needs new internal
-dispatch of QMP commands: the purpose of this series.
-
-Whenever we can solve things on qemu side, I would rather not
-deprecate current API.
-
-> >                                 and do not provide simple qmp-level
-> > facilities that I listed above. What I introduce is a way for an
-> > *existing* QMP command to be splitted, so it can re-enter the main
-> > loop sanely (and not by introducing new commands or signals or making
-> > things unnecessarily more complicated).
-> >
-> > My proposal is fairly small:
-> >   27 files changed, 877 insertions(+), 260 deletions(-)
-> >
-> > Including test, and the qxl screendump fix, which account for about
-> > 1/3 of the series.
-> >
-> >> I started to write a feature-by-feature comparison, but realized I don=
-'t
-> >> have the time to figure out either jobs or async from their (rather
-> >> sparse) documentation, let alone from code.
-> >>
-> >> > Existing qemu commands can be gradually replaced by async:true
-> >> > variants when needed, while carefully reviewing the concurrency
-> >> > aspects. The async:true commands marshaller helpers are splitted in
-> >> > half, the calling and return functions. The command is called with a
-> >> > QmpReturn context, that can return immediately or later, using the
-> >> > generated return helper, which allows for a step-by-step conversion.
-> >> >
-> >> > The screendump command is converted to an async:true version to solv=
-e
-> >> > rhbz#1230527. The command shows basic cancellation (this could be
-> >> > extended if needed). It could be further improved to do asynchronous
-> >> > IO writes as well.
-> >>
-> >> What is "basic cancellation"?
-> >> What extension(s) do you have in mind?
-> >
-> > It checks for cancellation in a few places, between IO. Full
-> > cancellation would allow to cancel at any time.
-> >
-> >>
-> >> What's the impact of screendump writing synchronously?
-> >
-> > It can be pretty bad, think about 4k screens. It is 33177600 bytes,
-> > written in PPM format, blocking the main loop..
->
-> My question was specifically about "could be further improved to do
-> asynchronous IO writes as well".  What's the impact of not having this
-> improvement?  I *guess* it means that even with the asynchronous
-> command, the synchronous writes still block "something", but I'm not
-> sure what "something" may be, and how it could impact behavior.  Hence
-> my question.
-
-It blocks many things since the BQL is taken.
-
-The goal is not to improve responsiveness at this point, but to fix
-the QXL screendump bug, by introducing a split dispatch in QMP
-commands: callback for starting, and a separate return function. This
-is not rocket science. See below.
-
->
-> > QMP operation doing large IO (dumps), or blocking on events, could be
-> > switched to this async form without introducing user-visible change,
->
-> Letting the next QMP command start before the current one is done is a
-> user-visible change.  We can discuss whether the change is harmless.
-
-Agree, from cover letter:
-Existing qemu commands can be gradually replaced by async:true
-variants when needed, while carefully reviewing the concurrency
-aspects.
-
->
-> > and with minimal effort compared to jobs.
->
-> To gauge the difference in effort, we'd need actual code to compare.
-
-It's a no-go to me, you don't want to teach all users out there with
-new job API for existing commands when you can improve or fix things
-in QEMU.
-
-The QEMU change for the command can't really be simpler than what I
-propose. You go from:
-
-qmp_foo() {
-  // do foo synchronously and
-  return something
-}
-
-to:
-
-qmp_foo_async(QmpReturn *r) {
-  // do foo asynchronously (or return synchronously)
-}
-
-foo_done() {
-  qmp_foo_async_return(r, something)
-}
-
-See "scripts: learn 'async' qapi commands" for the details.
+Suggestions for how to restructure reset so this doesn't
+happen are welcome... "reset follows the bus hierarchy"
+works well in some places but is a bit weird in others
+(for SoC containers and the like "follow the QOM
+hierarchy" would make more sense, but I have no idea
+how to usefully transition to a model where you could
+say "for these devices, follow QOM tree for reset" or
+what an API for that would look like).
 
 thanks
-
---=20
-Marc-Andr=C3=A9 Lureau
+-- PMM
 
