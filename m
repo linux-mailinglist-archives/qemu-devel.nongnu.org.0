@@ -2,56 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6C02A29E
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 05:37:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35553 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629B42A2E4
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 06:31:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36111 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUNUl-00054J-98
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 23:37:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59510)
+	id 1hUOLQ-0007CW-Ie
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 00:31:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39496)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liujunjie23@huawei.com>) id 1hUNTE-00044V-LK
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 23:35:49 -0400
+	(envelope-from <bounces@canonical.com>) id 1hUOJr-0006T1-5F
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liujunjie23@huawei.com>) id 1hUNT9-00080u-70
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 23:35:44 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2420 helo=huawei.com)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <liujunjie23@huawei.com>)
-	id 1hUNT8-0007sk-B6
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 23:35:39 -0400
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.56])
-	by Forcepoint Email with ESMTP id EF95496ACCEF5DF31E96;
-	Sat, 25 May 2019 11:35:27 +0800 (CST)
-Received: from DGGEMM521-MBX.china.huawei.com ([169.254.4.56]) by
-	DGGEMM401-HUB.china.huawei.com ([10.3.20.209]) with mapi id
-	14.03.0439.000; Sat, 25 May 2019 11:35:21 +0800
-From: "liujunjie (A)" <liujunjie23@huawei.com>
-To: "pbonzini@redhat.com" <pbonzini@redhat.com>, "afaerber@suse.de"
-	<afaerber@suse.de>, "ehabkost@redhat.com" <ehabkost@redhat.com>,
-	"imammedo@redhat.com" <imammedo@redhat.com>, "qemu-devel@nongnu.org"
-	<qemu-devel@nongnu.org>
-Thread-Topic: Question about wrong ram-node0 reference
-Thread-Index: AdUSqrvZOubDxvGnQFyIol9vimbQhw==
-Date: Sat, 25 May 2019 03:35:20 +0000
-Message-ID: <B526101FCAB4654DB0892B650DEFC55527EECB46@dggemm521-mbx.china.huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.177.68.90]
+	(envelope-from <bounces@canonical.com>) id 1hUOJp-0000Zt-TL
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:07 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55984)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hUOJp-0000ZE-Nz
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:05 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hUOJo-0003tH-Q8
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:30:04 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id C48D72E8024
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:30:04 +0000 (UTC)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.187
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: [Qemu-devel] Question about wrong ram-node0 reference
+Date: Sat, 25 May 2019 04:17:19 -0000
+From: Launchpad Bug Tracker <504368@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Wishlist;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu-kvm; component=main; 
+	status=Expired; importance=Low; assignee=None; 
+X-Launchpad-Bug-Tags: amd64 apport-bug
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anthony-codemonkey hramrach janitor jcollins
+	kirkland lekensteyn prateek.karandikar serge-hallyn th-huth
+X-Launchpad-Bug-Reporter: Jamin W. Collins (jcollins)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <20100107173707.12658.18712.malonedeb@palladium.canonical.com>
+Message-Id: <155875784213.26936.1911282434180818629.malone@loganberry.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 145282884ea74e32be4310bcfb1416d7a0bf9981
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 504368] Re: sdl window intermittently scales
+ instead of resizing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,126 +69,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fangying <fangying1@huawei.com>,
-	"wangxin \(U\)" <wangxinxin.wang@huawei.com>,
-	"Huangweidong \(C\)" <weidong.huang@huawei.com>,
-	"Zhoujian \(jay\)" <jianjay.zhou@huawei.com>
+Reply-To: Bug 504368 <504368@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, I have met a problem:
+[Expired for qemu-kvm (Ubuntu) because there has been no activity for 60
+days.]
 
-The QEMU version is 2.8.1, the virtual machine is configured with 1G huge p=
-ages, two NUMA nodes and four pass-through NVME SSDs.
+** Changed in: qemu-kvm (Ubuntu)
+       Status: Incomplete =3D> Expired
 
-After we started the VM, in addition to some QMP queries nothing more has b=
-een done, the QEMU aborted after some months later.
-After that, the VM is restarted, and the problem does not reproduce yet.
-And The backtrace of the RCU thread is as follows:
-(gdb) bt
-#0  0x00007fd2695f0197 in raise () from /usr/lib64/libc.so.6
-#1  0x00007fd2695f1888 in abort () from /usr/lib64/libc.so.6
-#2  0x00007fd2695e9206 in __assert_fail_base () from /usr/lib64/libc.so.6
-#3  0x00007fd2695e92b2 in __assert_fail () from /usr/lib64/libc.so.6
-#4  0x0000000000476a84 in memory_region_finalize (obj=3D<optimized out>)
-    at /home/abuild/rpmbuild/BUILD/qemu-kvm-2.8.1/memory.c:1512
-#5  0x0000000000763105 in object_deinit (obj=3Dobj@entry=3D0x1dc1fd0,
-    type=3Dtype@entry=3D0x1d065b0) at qom/object.c:448
-#6  0x0000000000763153 in object_finalize (data=3D0x1dc1fd0) at qom/object.=
-c:462
-#7  0x00000000007627cc in object_property_del_all (obj=3Dobj@entry=3D0x1dc1=
-f70)
-    at qom/object.c:399
-#8  0x0000000000763148 in object_finalize (data=3D0x1dc1f70) at qom/object.=
-c:461
-#9  0x0000000000764426 in object_unref (obj=3D<optimized out>) at qom/objec=
-t.c:897
-#10 0x0000000000473b6b in memory_region_unref (mr=3D<optimized out>)
-    at /home/abuild/rpmbuild/BUILD/qemu-kvm-2.8.1/memory.c:1560
-#11 0x0000000000473bc7 in flatview_destroy (view=3D0x7fc188b9cb90)
-    at /home/abuild/rpmbuild/BUILD/qemu-kvm-2.8.1/memory.c:289
-#12 0x0000000000843be0 in call_rcu_thread (opaque=3D<optimized out>)
-    at util/rcu.c:279
-#13 0x00000000008325c2 in qemu_thread_start (args=3Dargs@entry=3D0x1d00810)
-    at util/qemu_thread_posix.c:496
-#14 0x00007fd269983dc5 in start_thread () from /usr/lib64/libpthread.so.0
-#15 0x00007fd2696b27bd in clone () from /usr/lib64/libc.so.6
+-- =
 
-In this core, I found that the reference of "/objects/ram-node0"( the type =
-of ram-node0 is struct "HostMemoryBackendFile") equals to 0 , while the ref=
-erence of "/objects/ram-node1" equals to 129, more details can be seen at t=
-he end of this email.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/504368
 
-I searched through the community, and found a case that had the same error =
-report: https://mail.coreboot.org/pipermail/seabios/2017-September/011799.h=
-tml
-However, I did not configure pcie_pci_bridge. Besides, qemu aborted in devi=
-ce initialization phase in this case.
+Title:
+  sdl window intermittently scales instead of resizing
 
-Also, I try to find out which can reference "/objects/ram-node0" so as to l=
-ook for the one that may un reference improperly, most of them lie in the f=
-unction of "render_memory_region" or "phys_section_add" when memory topolog=
-y changes.
-Later, the temporary flatviews are destroyed by RCU thread, so un reference=
- happened and the backtrace is similar to the one shown above.
-But I am not familiar with the detail of these process, it is hard to keep =
-trace of these memory topology changes.
+Status in QEMU:
+  Expired
+Status in qemu-kvm package in Ubuntu:
+  Expired
 
-My question is:
-How can ram-node0's reference comes down to 0 when the virtual machine is s=
-till running?
+Bug description:
+  Binary package hint: qemu-kvm
 
-Maybe someone who is familiar with memory_region_ref or memory-backend-file=
- can help me figure out.
-Any idea is appreciated.
+  Normally, the SDL output window for a VM resizes to match the VM's
+  resolution.  However, intermittently the output is instead scaled
+  within the window.  I can't seem to find any pattern to when the
+  output is scaled versus when the window is resized.  I would prefer
+  that the window be resized as needed to display the VM in a 1:1
+  manner.
 
----
-(gdb) p *((HostMemoryBackendFile *) 0x1dc1f70)
-$24 =3D {parent_obj =3D {parent =3D {class =3D 0x1d70880, free =3D 0x7fd26a=
-812580 <g_free>, properties =3D 0x1db7920, ref =3D 0, parent =3D 0x1da9710}=
-, size =3D 68719476736, merge =3D true, dump =3D false, prealloc =3D true, =
-force_prealloc =3D false, is_mapped =3D true, host_nodes =3D {1, 0, 0}, pol=
-icy =3D HOST_MEM_POLICY_BIND, mr =3D {parent_obj =3D {class =3D 0x1d6d790, =
-free =3D 0x0, properties =3D 0x1db79e0, ref =3D 0, parent =3D 0x0}, romd_mo=
-de =3D true, ram =3D true, subpage =3D false, readonly =3D false, rom_devic=
-e =3D false, flush_coalesced_mmio =3D false, global_locking =3D true, dirty=
-_log_mask =3D 0 '\000', ram_block =3D 0x1dc2960, owner =3D 0x1dc1f70, iommu=
-_ops =3D 0x0, ops =3D 0xcb0fe0 <unassigned_mem_ops>, opaque =3D 0x0, contai=
-ner =3D 0x200d4c0, size =3D 0x00000000000000000000001000000000, addr =3D 0,=
- destructor =3D 0x470800 <memory_region_destructor_ram>, align =3D 10737418=
-24, terminates =3D true, ram_device =3D false, enabled =3D true, warning_pr=
-inted =3D false, vga_logging_count =3D 0 '\000', alias =3D 0x0, alias_offse=
-t =3D 0, priority =3D 0, subregions =3D {tqh_first =3D 0x0, tqh_last =3D 0x=
-1dc2078}, subregions_link =3D {tqe_next =3D 0x0, tqe_prev =3D 0x1dc2c68}, c=
-oalesced =3D {tqh_first =3D 0x0, tqh_last =3D 0x1dc2098}, name =3D 0x1dc27a=
-0 "/objects/ram-node0", ioeventfd_nb =3D 0, ioeventfds =3D 0x0, iommu_notif=
-y =3D {lh_first =3D 0x0}, iommu_notify_flags =3D IOMMU_NOTIFIER_NONE}}, sha=
-re =3D true, mem_path =3D 0x1dc2350 "/dev/hugepages/libvirt/qemu/118-instan=
-ce-00025bf8"}
+  ProblemType: Bug
+  Architecture: amd64
+  Date: Thu Jan  7 10:30:10 2010
+  DistroRelease: Ubuntu 9.10
+  InstallationMedia: Ubuntu 9.10 "Karmic Koala" - Release amd64 (20091027)
+  KvmCmdLine:
+   UID        PID  PPID  C    SZ   RSS PSR STIME TTY          TIME CMD
+   root     27618     1 38 241752 804668 1 10:05 ?        00:09:39 /usr/bin=
+/kvm -S -M pc-0.11 -cpu qemu32 -m 768 -smp 1 -name win2k3 -uuid da414aa0-f1=
+8a-7a02-3d1b-1dbf13137bc9 -monitor unix:/var/run/libvirt/qemu/win2k3.monito=
+r,server,nowait -localtime -boot c -drive file=3D/media/qpc-devel/testing/w=
+in2k3/testing.ovl,if=3Dide,index=3D0,boot=3Don -drive file=3D/media/qpc-dev=
+el/testing/win2k3/../../isos/en_win_srv_2003_r2_standard_cd1.iso,if=3Dide,m=
+edia=3Dcdrom,index=3D2 -net nic,macaddr=3D00:16:3e:d6:f5:60,vlan=3D0,model=
+=3Dne2k_pci,name=3Dne2k_pci.0 -net tap,fd=3D18,vlan=3D0,name=3Dtap.0 -seria=
+l pty -parallel none -usb -usbdevice tablet -vga cirrus
+   root     28306     1 54 177732 545520 1 10:28 ?        00:00:49 /usr/bin=
+/kvm -S -M pc-0.11 -cpu qemu32 -m 512 -smp 1 -name win2k -uuid 153d6125-acb=
+5-70bc-c7d2-bcbf87c5be86 -monitor unix:/var/run/libvirt/qemu/win2k.monitor,=
+server,nowait -localtime -boot c -drive file=3D/media/qpc-devel/testing/win=
+2k/testing.ovl,if=3Dide,index=3D0,boot=3Don -drive file=3D/media/qpc-devel/=
+testing/win2k/../../isos/windows_2000.iso,if=3Dide,media=3Dcdrom,index=3D2 =
+-net nic,macaddr=3D68:29:6b:13:50:c6,vlan=3D0,model=3Dne2k_pci,name=3Dne2k_=
+pci.0 -net tap,fd=3D19,vlan=3D0,name=3Dtap.0 -serial pty -parallel none -us=
+b -usbdevice tablet -vga cirrus
+  NonfreeKernelModules: nvidia
+  Package: kvm 1:84+dfsg-0ubuntu16+0.11.0+0ubuntu6.3
+  PccardctlIdent:
+   Socket 0:
+     no product info available
+  PccardctlStatus:
+   Socket 0:
+     no card
+  ProcCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-2.6.31-16-generic root=3DUUID=3D3=
+0218f9a-6f90-4eab-9ba5-f54897e842cb ro quiet splash
+  ProcEnviron:
+   PATH=3D(custom, user)
+   LANG=3Den_US.UTF-8
+   SHELL=3D/bin/bash
+  ProcVersionSignature: Ubuntu 2.6.31-16.53-generic
+  SourcePackage: qemu-kvm
+  Uname: Linux 2.6.31-16-generic x86_64
+  dmi.bios.date: 02/20/2008
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: 7LETB2WW (2.12 )
+  dmi.board.vendor: LENOVO
+  dmi.board.version: Not Available
+  dmi.chassis.asset.tag: No Asset Information
+  dmi.chassis.type: 10
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: Not Available
+  dmi.modalias: dmi:bvnLENOVO:bvr7LETB2WW(2.12):bd02/20/2008:svnLENOVO:pn:p=
+vrThinkPadT61p:rvnLENOVO:rn:rvrNotAvailable:cvnLENOVO:ct10:cvrNotAvailable:
+  dmi.product.version: ThinkPad T61p
+  dmi.sys.vendor: LENOVO
 
-(gdb) p *((HostMemoryBackendFile *) 0x1dc2b50)
-$205 =3D {parent_obj =3D {parent =3D {class =3D 0x1d70880, free =3D 0x7fd26=
-a812580 <g_free>, properties =3D 0x1db7a40, ref =3D 129, parent =3D 0x1da97=
-10}, size =3D 68719476736, merge =3D true, dump =3D false, prealloc =3D tru=
-e, force_prealloc =3D false, is_mapped =3D true, host_nodes =3D {2, 0, 0}, =
-policy =3D HOST_MEM_POLICY_BIND, mr =3D {parent_obj =3D {class =3D 0x1d6d79=
-0, free =3D 0x0, properties =3D 0x1db7aa0, ref =3D 1, parent =3D 0x1dc2b50}=
-, romd_mode =3D true, ram =3D true, subpage =3D false, readonly =3D false, =
-rom_device =3D false, flush_coalesced_mmio =3D false, global_locking =3D tr=
-ue, dirty_log_mask =3D 0 '\000', ram_block =3D 0x1dc3470, owner =3D 0x1dc2b=
-50, iommu_ops =3D 0x0, ops =3D 0xcb0fe0 <unassigned_mem_ops>, opaque =3D 0x=
-0, container =3D 0x200d4c0, size =3D 0x00000000000000000000001000000000, ad=
-dr =3D 68719476736, destructor =3D 0x470800 <memory_region_destructor_ram>,=
- align =3D 1073741824, terminates =3D true, ram_device =3D false, enabled =
-=3D true, warning_printed =3D false, vga_logging_count =3D 0 '\000', alias =
-=3D 0x0, alias_offset =3D 0, priority =3D 0, subregions =3D {tqh_first =3D =
-0x0, tqh_last =3D 0x1dc2c58}, subregions_link =3D {tqe_next =3D 0x1dc1fd0, =
-tqe_prev =3D 0x200d568}, coalesced =3D {tqh_first =3D 0x0, tqh_last =3D 0x1=
-dc2c78}, name =3D 0x1dc32b0 "/objects/ram-node1", ioeventfd_nb =3D 0, ioeve=
-ntfds =3D 0x0, iommu_notify =3D {lh_first =3D 0x0}, iommu_notify_flags =3D =
-IOMMU_NOTIFIER_NONE}}, share =3D true, mem_path =3D 0x1da8c40 "/dev/hugepag=
-es/libvirt/qemu/118-instance-00025bf8"}
-
-Thanks,
-Junjie Liu
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/504368/+subscriptions
 
