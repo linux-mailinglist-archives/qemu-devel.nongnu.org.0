@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAC92A2E5
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 06:33:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36119 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECAF2A2E3
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 06:31:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36109 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUOMp-0008NC-HV
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 00:33:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39485)
+	id 1hUOLF-00071p-OB
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 00:31:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39473)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hUOJn-0006Qk-CR
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:04 -0400
+	(envelope-from <bounces@canonical.com>) id 1hUOJl-0006QG-5c
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hUOJl-0000Wg-N6
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55846)
+	(envelope-from <bounces@canonical.com>) id 1hUOJj-0000Vp-W5
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55682)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hUOJl-0000WC-Hk
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:01 -0400
+	id 1hUOJj-0000VU-Qh
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:29:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hUOJk-0003kC-Az
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:30:00 +0000
+	id 1hUOJi-0003j1-QS
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:29:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 5203F2E8083
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:30:00 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id C3B542E8083
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:29:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 25 May 2019 04:17:25 -0000
-From: Launchpad Bug Tracker <1313816@bugs.launchpad.net>
+Date: Sat, 25 May 2019 04:17:26 -0000
+From: Launchpad Bug Tracker <1617114@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -40,21 +40,21 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor masm-e mjt+launchpad-tls th-huth
-X-Launchpad-Bug-Reporter: Yuuki Harano (masm-e)
+X-Launchpad-Bug-Commenters: janitor je-vv jnsnow th-huth
+X-Launchpad-Bug-Reporter: je-vv (je-vv)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20140428163716.4368.51327.malonedeb@soybean.canonical.com>
-Message-Id: <155875784563.26936.7412141756909063029.malone@loganberry.canonical.com>
+References: <20160826013950.26404.19900.malonedeb@gac.canonical.com>
+Message-Id: <155875784655.26936.9888219887751007173.malone@loganberry.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18968";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: e484a4c94dc320e66e4c213567e54e3a5d68d28c
+X-Launchpad-Hash: 8506db1a1727f7587f6554e36b333e5c37e5c015
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1313816] Re: qemu should close sound device when
- no more needs.
+Subject: [Qemu-devel] [Bug 1617114] Re: Qemu 2.6.0 freezes with windows
+ guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 List-Id: <qemu-devel.nongnu.org>
@@ -65,7 +65,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1313816 <1313816@bugs.launchpad.net>
+Reply-To: Bug 1617114 <1617114@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -78,38 +78,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1313816
+https://bugs.launchpad.net/bugs/1617114
 
 Title:
-  qemu should close sound device when no more needs.
+  Qemu 2.6.0 freezes with windows guests
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I use alsa directly or via pulseaudio on qemu.
-  And I use xmms2 as well as qemu.
+  When launching qemu with the same command line as before 2.6.0, with
+  SDL display, with virtio, for a win-10 guest:
 
-  When I use alsa, one of xmms2 or qemu can play sound.
-  When I use pulseaudio with qemu and pulseaudio -k, and pulseaudio --start,
-  qemu can't play sound.
+  qemu-system-x86_64 -enable-kvm -name win-10 -machine type=3Dpc,accel=3Dkvm
+  -cpu host -smp cores=3D1,threads=3D2,sockets=3D1 -m 2.7G -balloon virtio
+  -drive
+  file=3D/home/<username>/.qemu/imgs/win10-coe.qcow2,index=3D0,media=3Ddisk=
+,if=3Dvirtio
+  -drive file=3D/usr/share/virtio/virtio-win.iso,index=3D1,media=3Dcdrom
+  -drive file=3D/usr/share/spice-guest-tools/spice-guest-
+  tools.iso,index=3D2,media=3Dcdrom -net nic,model=3Dvirtio -net
+  tap,ifname=3Dtap0,script=3Dno,downscript=3Dno,vhost=3Don -usbdevice tablet
+  -usb -display sdl -vga qxl -soundhw ac97 -rtc base=3Dlocaltime
+  -usbdevice host:0b0e:0032 -usbdevice host:0b0e:0348 -usbdevice
+  host:0b0e:0410
 
-  I think that:
-  - qemu should open sound device when needs.
-  - qemu should close sound device when no more needs.
+  Qemu at some point just freezes with no error message at all with
+  newer version 2.6.0-1.
 
-  One of xmms2 or qemu can play sound, but both of them rarely play sound
-  at the same time.
-  qemu occurs error on pulseaudio -k, but once close and open the device,
-  the error will be recovered, I hope.
+  Reverting to prior version 2.5.1-1, things go back to normal.
 
-  Host: slackware64 14.1, linux kernel 3.14.2
-  Qemu: 2.0.0
-  QEMU_AUDIO_DRV=3Dpa /usr/local/bin/qemu-system-x86_64 -enable-kvm -hda /d=
-osc/win8_x64.img -soundhw hda -boot c -m 2G -cpu host -usb -usbdevice table=
-t -display sdl -rtc base=3Dlocaltime
-  Guest: Windows 8.1 x64
+  A simple way to accelerate the freeze is to have qemu launch in a
+  workspace/desktop, and then move to a different workspace/desktop, and
+  then move back to the qemu workspace/desktop, and you'll find out it's
+  frozen.
+
+  BTW, there's no way to get into qemu monitor mode terminal at all once
+  frozen. The monitor terminal shows up, but does nothing...
+
+  Perhaps it's useful to notice that I have up to date win-10 virtio
+  drivers for ethernet, scsi/storage, qxl-dod, balloon, and serial
+  interface drivers. The ISO version used is 0.1.118.1 (virtio-win AUR
+  package).
+
+  Using the standard (std) qemu video driver, rather than the qxl-dod
+  one makes no difference BTW.
+
+  Just in case, running on up to date x86-64 Arch, plain qemu command
+  line.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1313816/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1617114/+subscriptions
 
