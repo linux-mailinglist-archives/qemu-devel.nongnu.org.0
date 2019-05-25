@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5842A74F
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 01:09:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47385 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88C52A768
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 01:39:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47890 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUfn6-0007ad-Ga
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 19:09:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34106)
+	id 1hUgFl-00033J-I9
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 19:39:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38203)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hUfkl-0006Ih-Tp
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 19:07:06 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hUgCQ-00009S-Jm
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 19:35:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hUfVM-0002pd-JL
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 18:51:11 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:47359)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hUfVD-0002TG-H8; Sat, 25 May 2019 18:51:00 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
-	mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA
-	(Nemesis)
-	id 1MZCOl-1h8NXW0JPN-00V58Q; Sun, 26 May 2019 00:50:35 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Date: Sun, 26 May 2019 00:50:13 +0200
-Message-Id: <20190525225013.13916-11-laurent@vivier.eu>
-X-Mailer: git-send-email 2.20.1
+	(envelope-from <no-reply@patchew.org>) id 1hUfzZ-0007LQ-47
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 19:22:22 -0400
+Resent-Date: Sat, 25 May 2019 19:22:22 -0400
+Resent-Message-Id: <E1hUfzZ-0007LQ-47@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21581)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hUfzY-0007Kg-S3
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 19:22:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1558826480; cv=none; d=zoho.com; s=zohoarc; 
+	b=eE8ospPe/G8DCzKv2efd2SYqQxuYsTWacnN07gGbw9WFoJbQ+zaMVXabP01JAXEyipdFs6L39uTEzEuPEfmI2BqPcwOXk+i3RqVRK+oh864YhBRZO31jtTgyXJclTTsq8Qp37gLadWivTTyxep8EThujAUjAKAriDWkbI+1k1gc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1558826480;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=+6rtrmc2wQVdYW2a/ncPcjh6sw4uhRalqURmrr1SOpI=; 
+	b=Tws6c2QTptOSNjHqUNelcv5uy6k4dJIwv51V8OkmmyXovCbf48Jq70TfznsNoGe69hRewWYaDNNsvTIGhGfszEMgTjL23C8iPtFcUlIQ9UNwTQOQn76G1il6vWVv5SGnwWBFMn09LWV1hl1tLF8eGLV/7VyHeWjzyQy5mKejjYE=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1558826477940197.67192406901984;
+	Sat, 25 May 2019 16:21:17 -0700 (PDT)
 In-Reply-To: <20190525225013.13916-1-laurent@vivier.eu>
-References: <20190525225013.13916-1-laurent@vivier.eu>
+Message-ID: <155882647607.24.1046181135547472268@549697c9ad12>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7P52Cqh2cyPuXMUzf4QqyvKjPKSRtUcVpGjzQtX4Ebej00u8npr
-	2Xy2dPm50Izxe72lJhPxs1xrRjxkMjgaLgGxrlaPkZIrjBA85MPL5U2Em6G7dkFnUXFoQ7k
-	w8TDvzVaPZxF/ZPad7ePQd2HsZe8JENdefsvXDpi0PYukezYybUOXIb1yLDYUzStOnNArgX
-	osBlOIGMxz2fRNzb8+ZWw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5LEpZWDbQ2U=:kR79BGu21CGIHotmRAndzY
-	5ljXwno40mCHBVcH7wExLOIJZVqd2vkTINQ5ts3EQ0mCBF25lZktHT6qK4PN8Qh2g/PU4jgJx
-	YwOmNmbnVK/zGq0dqZvyUjZ/zuTDKV+Xcy3Zdm0/9QpMVgqU1C8MPQxCEGyOSOVzIpc99DIEy
-	ieThJS/x02FFXQpbfwLyGsV8Wj6tAfYxqz5P98t8UNfIFCsxTnxCu06pXPAoy7tLzIHb+tDzi
-	LJXxy+f8gsiHAItT+6dQjVmeouIpdTsSYnaT/uIE9gjQbYJvjxVnSmY6qXYVzXPYA6Bj3PPiD
-	wxNt4mC8af6RwB6oZLLbMbksDG5KxwoPtH/p5FDjvMxGHdQYZE5wp1s62FJ+fDXFSwGzm0NDt
-	8UKU8eD1UuXTggTn38g9150QQEqwT/NUu8VdgYRdpXR5uPVVX384YUCgHfr7PHfGCQxtN4dbI
-	jqQmKURmbseGkuikywsXnve3Fluuz6o05m9ScDSk37ohTpTWrRM+sitjhGi41WW6zB19M8ytf
-	znGQG3k9QhvWVFkHLGU4tnVKfSgEesQhadZZo5OuzkL/+EUHqcBYY7e/DPslma+WEYu5EfC6L
-	vd3yCylEt20dVBIO4xl59+bpXDtLIxnWS0lCM6c42HsHv3m1pJ3mqVUzy3RFtfxBi1pK56eed
-	jTwnkasyy1cJvUutee2o9GNIDZ4WAH6ETpN1FcBW+Jj1g7rub4qgm5LkPW0n1ymnAbXTYLPXo
-	YkGPrhMQ9CufznJiwHdyG/cTIwKJJZ8/XwdWyg==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: laurent@vivier.eu
+Date: Sat, 25 May 2019 16:21:17 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: [Qemu-devel] [PATCH v7 10/10] hw/m68k: define Macintosh Quadra 800
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v7 00/10] hw/m68k: add Apple Machintosh
+ Quadra 800 machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,597 +62,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
-	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-	qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
-	Jason Wang <jasowang@redhat.com>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
-	=?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
-	Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org, huth@tuxfamily.org,
+	jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
+	qemu-devel@nongnu.org, dgilbert@redhat.com, hpoussin@reactos.org,
+	kraxel@redhat.com, marcandre.lureau@redhat.com,
+	pbonzini@redhat.com, mreitz@redhat.com, aurelien@aurel32.net,
+	laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you want to test the machine, it doesn't yet boot a MacROM, but you can
-boot a linux kernel from the command line.
-
-You can install your own disk using debian-installer with:
-
-    ./qemu-system-m68k \
-    -M q800 \
-    -serial none -serial mon:stdio \
-    -m 1000M -drive file=m68k.qcow2,format=qcow2 \
-    -net nic,model=dp83932,addr=09:00:07:12:34:57 \
-    -append "console=ttyS0 vga=off" \
-    -kernel vmlinux-4.15.0-2-m68k \
-    -initrd initrd.gz \
-    -drive file=debian-9.0-m68k-NETINST-1.iso \
-    -drive file=m68k.qcow2,format=qcow2 \
-    -nographic
-
-If you use a graphic adapter instead of "-nographic", you can use "-g" to set the
-size of the display (I use "-g 1600x800x24").
-
-Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- MAINTAINERS                      |  14 ++
- default-configs/m68k-softmmu.mak |   1 +
- hw/m68k/Kconfig                  |  12 +
- hw/m68k/Makefile.objs            |   1 +
- hw/m68k/bootinfo.h               | 100 +++++++++
- hw/m68k/q800.c                   | 369 +++++++++++++++++++++++++++++++
- 6 files changed, 497 insertions(+)
- create mode 100644 hw/m68k/bootinfo.h
- create mode 100644 hw/m68k/q800.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3cacd751bf..274dfd6e19 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -906,6 +906,20 @@ F: hw/char/mcf_uart.c
- F: hw/net/mcf_fec.c
- F: include/hw/m68k/mcf*.h
- 
-+q800
-+M: Laurent Vivier <laurent@vivier.eu>
-+S: Maintained
-+F: hw/block/swim.c
-+F: hw/m68k/bootinfo.h
-+F: hw/display/macfb.c
-+F: hw/m68k/q800.c
-+F: hw/misc/mac_via.c
-+F: hw/nubus/*
-+F: include/hw/block/swim.h
-+F: include/hw/display/macfb.h
-+F: include/hw/misc/mac_via.h
-+F: include/hw/nubus/*
-+
- MicroBlaze Machines
- -------------------
- petalogix_s3adsp1800
-diff --git a/default-configs/m68k-softmmu.mak b/default-configs/m68k-softmmu.mak
-index e17495e2a0..7e3649c1b8 100644
---- a/default-configs/m68k-softmmu.mak
-+++ b/default-configs/m68k-softmmu.mak
-@@ -4,3 +4,4 @@
- #
- CONFIG_AN5206=y
- CONFIG_MCF5208=y
-+CONFIG_Q800=y
-diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
-index 49ef0b3f6d..ffa8e48fd8 100644
---- a/hw/m68k/Kconfig
-+++ b/hw/m68k/Kconfig
-@@ -7,3 +7,15 @@ config MCF5208
-     bool
-     select COLDFIRE
-     select PTIMER
-+
-+config Q800
-+    bool
-+    select FRAMEBUFFER
-+    select ADB
-+    select MAC_VIA
-+    select ESCC
-+    select ESP
-+    select MACFB
-+    select NUBUS
-+    select DP8393X
-+    select SWIM
-diff --git a/hw/m68k/Makefile.objs b/hw/m68k/Makefile.objs
-index 482f8477b4..cfd13fae53 100644
---- a/hw/m68k/Makefile.objs
-+++ b/hw/m68k/Makefile.objs
-@@ -1,2 +1,3 @@
- obj-$(CONFIG_AN5206) += an5206.o mcf5206.o
- obj-$(CONFIG_MCF5208) += mcf5208.o mcf_intc.o
-+obj-$(CONFIG_Q800) += q800.o
-diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-new file mode 100644
-index 0000000000..6584775f6d
---- /dev/null
-+++ b/hw/m68k/bootinfo.h
-@@ -0,0 +1,100 @@
-+struct bi_record {
-+    uint16_t tag;        /* tag ID */
-+    uint16_t size;       /* size of record */
-+    uint32_t data[0];    /* data */
-+};
-+
-+/* machine independent tags */
-+
-+#define BI_LAST         0x0000 /* last record */
-+#define BI_MACHTYPE     0x0001 /* machine type (u_long) */
-+#define BI_CPUTYPE      0x0002 /* cpu type (u_long) */
-+#define BI_FPUTYPE      0x0003 /* fpu type (u_long) */
-+#define BI_MMUTYPE      0x0004 /* mmu type (u_long) */
-+#define BI_MEMCHUNK     0x0005 /* memory chunk address and size */
-+                               /* (struct mem_info) */
-+#define BI_RAMDISK      0x0006 /* ramdisk address and size */
-+                               /* (struct mem_info) */
-+#define BI_COMMAND_LINE 0x0007 /* kernel command line parameters */
-+                               /* (string) */
-+
-+/*  Macintosh-specific tags (all u_long) */
-+
-+#define BI_MAC_MODEL    0x8000  /* Mac Gestalt ID (model type) */
-+#define BI_MAC_VADDR    0x8001  /* Mac video base address */
-+#define BI_MAC_VDEPTH   0x8002  /* Mac video depth */
-+#define BI_MAC_VROW     0x8003  /* Mac video rowbytes */
-+#define BI_MAC_VDIM     0x8004  /* Mac video dimensions */
-+#define BI_MAC_VLOGICAL 0x8005  /* Mac video logical base */
-+#define BI_MAC_SCCBASE  0x8006  /* Mac SCC base address */
-+#define BI_MAC_BTIME    0x8007  /* Mac boot time */
-+#define BI_MAC_GMTBIAS  0x8008  /* Mac GMT timezone offset */
-+#define BI_MAC_MEMSIZE  0x8009  /* Mac RAM size (sanity check) */
-+#define BI_MAC_CPUID    0x800a  /* Mac CPU type (sanity check) */
-+#define BI_MAC_ROMBASE  0x800b  /* Mac system ROM base address */
-+
-+/*  Macintosh hardware profile data */
-+
-+#define BI_MAC_VIA1BASE 0x8010  /* Mac VIA1 base address (always present) */
-+#define BI_MAC_VIA2BASE 0x8011  /* Mac VIA2 base address (type varies) */
-+#define BI_MAC_VIA2TYPE 0x8012  /* Mac VIA2 type (VIA, RBV, OSS) */
-+#define BI_MAC_ADBTYPE  0x8013  /* Mac ADB interface type */
-+#define BI_MAC_ASCBASE  0x8014  /* Mac Apple Sound Chip base address */
-+#define BI_MAC_SCSI5380 0x8015  /* Mac NCR 5380 SCSI (base address, multi) */
-+#define BI_MAC_SCSIDMA  0x8016  /* Mac SCSI DMA (base address) */
-+#define BI_MAC_SCSI5396 0x8017  /* Mac NCR 53C96 SCSI (base address, multi) */
-+#define BI_MAC_IDETYPE  0x8018  /* Mac IDE interface type */
-+#define BI_MAC_IDEBASE  0x8019  /* Mac IDE interface base address */
-+#define BI_MAC_NUBUS    0x801a  /* Mac Nubus type (none, regular, pseudo) */
-+#define BI_MAC_SLOTMASK 0x801b  /* Mac Nubus slots present */
-+#define BI_MAC_SCCTYPE  0x801c  /* Mac SCC serial type (normal, IOP) */
-+#define BI_MAC_ETHTYPE  0x801d  /* Mac builtin ethernet type (Sonic, MACE */
-+#define BI_MAC_ETHBASE  0x801e  /* Mac builtin ethernet base address */
-+#define BI_MAC_PMU      0x801f  /* Mac power management / poweroff hardware */
-+#define BI_MAC_IOP_SWIM 0x8020  /* Mac SWIM floppy IOP */
-+#define BI_MAC_IOP_ADB  0x8021  /* Mac ADB IOP */
-+
-+#define BOOTINFO0(as, base, id) \
-+    do { \
-+        stw_phys(as, base, id); \
-+        base += 2; \
-+        stw_phys(as, base, sizeof(struct bi_record)); \
-+        base += 2; \
-+    } while (0)
-+
-+#define BOOTINFO1(as, base, id, value) \
-+    do { \
-+        stw_phys(as, base, id); \
-+        base += 2; \
-+        stw_phys(as, base, sizeof(struct bi_record) + 4); \
-+        base += 2; \
-+        stl_phys(as, base, value); \
-+        base += 4; \
-+    } while (0)
-+
-+#define BOOTINFO2(as, base, id, value1, value2) \
-+    do { \
-+        stw_phys(as, base, id); \
-+        base += 2; \
-+        stw_phys(as, base, sizeof(struct bi_record) + 8); \
-+        base += 2; \
-+        stl_phys(as, base, value1); \
-+        base += 4; \
-+        stl_phys(as, base, value2); \
-+        base += 4; \
-+    } while (0)
-+
-+#define BOOTINFOSTR(as, base, id, string) \
-+    do { \
-+        int i; \
-+        stw_phys(as, base, id); \
-+        base += 2; \
-+        stw_phys(as, base, \
-+                 (sizeof(struct bi_record) + strlen(string) + 2) & ~1); \
-+        base += 2; \
-+        for (i = 0; string[i]; i++) { \
-+            stb_phys(as, base++, string[i]); \
-+        } \
-+        stb_phys(as, base++, 0); \
-+        base = (parameters_base + 1) & ~1; \
-+    } while (0)
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-new file mode 100644
-index 0000000000..66f4fc827d
---- /dev/null
-+++ b/hw/m68k/q800.c
-@@ -0,0 +1,369 @@
-+/*
-+ * QEMU Motorla 680x0 Macintosh hardware System Emulator
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "sysemu/sysemu.h"
-+#include "cpu.h"
-+#include "hw/hw.h"
-+#include "hw/boards.h"
-+#include "elf.h"
-+#include "hw/loader.h"
-+#include "ui/console.h"
-+#include "exec/address-spaces.h"
-+#include "hw/char/escc.h"
-+#include "hw/sysbus.h"
-+#include "hw/scsi/esp.h"
-+#include "bootinfo.h"
-+#include "hw/misc/mac_via.h"
-+#include "hw/input/adb.h"
-+#include "hw/nubus/mac-nubus-bridge.h"
-+#include "hw/display/macfb.h"
-+#include "hw/block/swim.h"
-+#include "net/net.h"
-+#include "qapi/error.h"
-+#include "sysemu/qtest.h"
-+
-+#define MACROM_ADDR     0x40000000
-+#define MACROM_SIZE     0x00100000
-+
-+#define MACROM_FILENAME "MacROM.bin"
-+
-+#define Q800_MACHINE_ID 35
-+#define Q800_CPU_ID (1 << 2)
-+#define Q800_FPU_ID (1 << 2)
-+#define Q800_MMU_ID (1 << 2)
-+
-+#define MACH_MAC        3
-+#define Q800_MAC_CPU_ID 2
-+
-+#define VIA_BASE              0x50f00000
-+#define SONIC_PROM_BASE       0x50f08000
-+#define SONIC_BASE            0x50f0a000
-+#define SCC_BASE              0x50f0c020
-+#define ESP_BASE              0x50f10000
-+#define ESP_PDMA              0x50f10100
-+#define ASC_BASE              0x50F14000
-+#define SWIM_BASE             0x50F1E000
-+#define NUBUS_SUPER_SLOT_BASE 0x60000000
-+#define NUBUS_SLOT_BASE       0xf0000000
-+
-+/* the video base, whereas it a Nubus address,
-+ * is needed by the kernel to have early display and
-+ * thus provided by the bootloader
-+ */
-+#define VIDEO_BASE            0xf9001000
-+
-+#define MAC_CLOCK  3686418
-+
-+typedef struct {
-+    M68kCPU *cpu;
-+    uint8_t ipr;
-+} Q800IRQState;
-+
-+static void q800_set_irq(void *opaque, int irq, int level)
-+{
-+    Q800IRQState *s = opaque;
-+    int i;
-+
-+    if (level) {
-+        s->ipr |= 1 << irq;
-+    } else {
-+        s->ipr &= ~(1 << irq);
-+    }
-+
-+    for (i = 7; i >= 0; i--) {
-+        if ((s->ipr >> i) & 1) {
-+            m68k_set_irq_level(s->cpu, i + 1, i + 25);
-+            return;
-+        }
-+    }
-+    m68k_set_irq_level(s->cpu, 0, 0);
-+}
-+
-+
-+static void main_cpu_reset(void *opaque)
-+{
-+    M68kCPU *cpu = opaque;
-+    CPUState *cs = CPU(cpu);
-+
-+    cpu_reset(cs);
-+    cpu->env.aregs[7] = ldl_phys(cs->as, 0);
-+    cpu->env.pc = ldl_phys(cs->as, 4);
-+}
-+
-+static void q800_init(MachineState *machine)
-+{
-+    M68kCPU *cpu = NULL;
-+    int linux_boot;
-+    int32_t kernel_size;
-+    uint64_t elf_entry;
-+    char *filename;
-+    int bios_size;
-+    ram_addr_t initrd_base;
-+    int32_t initrd_size;
-+    MemoryRegion *rom;
-+    MemoryRegion *ram;
-+    ram_addr_t ram_size = machine->ram_size;
-+    const char *kernel_filename = machine->kernel_filename;
-+    const char *initrd_filename = machine->initrd_filename;
-+    const char *kernel_cmdline = machine->kernel_cmdline;
-+    hwaddr parameters_base;
-+    CPUState *cs;
-+    DeviceState *dev;
-+    DeviceState *via_dev;
-+    SysBusESPState *sysbus_esp;
-+    ESPState *esp;
-+    SysBusDevice *sysbus;
-+    BusState *adb_bus;
-+    NubusBus *nubus;
-+    Q800IRQState *irq;
-+    qemu_irq *pic;
-+
-+    linux_boot = (kernel_filename != NULL);
-+
-+    /* init CPUs */
-+    cpu = M68K_CPU(cpu_create(machine->cpu_type));
-+    qemu_register_reset(main_cpu_reset, cpu);
-+
-+    ram = g_malloc(sizeof(*ram));
-+    memory_region_init_ram(ram, NULL, "m68k_mac.ram", ram_size, &error_abort);
-+    memory_region_add_subregion(get_system_memory(), 0, ram);
-+
-+    /* IRQ Glue */
-+
-+    irq = g_new0(Q800IRQState, 1);
-+    irq->cpu = cpu;
-+    pic = qemu_allocate_irqs(q800_set_irq, irq, 8);
-+
-+    /* VIA */
-+
-+    via_dev = qdev_create(NULL, TYPE_MAC_VIA);
-+    qdev_init_nofail(via_dev);
-+    sysbus = SYS_BUS_DEVICE(via_dev);
-+    sysbus_mmio_map(sysbus, 0, VIA_BASE);
-+    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0, pic[0]);
-+    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1, pic[1]);
-+
-+
-+    adb_bus = qdev_get_child_bus(via_dev, "adb.0");
-+    dev = qdev_create(adb_bus, TYPE_ADB_KEYBOARD);
-+    qdev_init_nofail(dev);
-+    dev = qdev_create(adb_bus, TYPE_ADB_MOUSE);
-+    qdev_init_nofail(dev);
-+
-+    /* MACSONIC */
-+
-+    if (nb_nics > 1) {
-+        error_report("q800 can only have one ethernet interface");
-+        exit(1);
-+    }
-+
-+    qemu_check_nic_model(&nd_table[0], "dp83932");
-+
-+    /* MacSonic driver needs an Apple MAC address
-+     * Valid prefix are:
-+     * 00:05:02 Apple
-+     * 00:80:19 Dayna Communications, Inc.
-+     * 00:A0:40 Apple
-+     * 08:00:07 Apple
-+     * (Q800 use the last one)
-+     */
-+    nd_table[0].macaddr.a[0] = 0x08;
-+    nd_table[0].macaddr.a[1] = 0x00;
-+    nd_table[0].macaddr.a[2] = 0x07;
-+
-+    dev = qdev_create(NULL, "dp8393x");
-+    qdev_set_nic_properties(dev, &nd_table[0]);
-+    qdev_prop_set_uint8(dev, "it_shift", 2);
-+    qdev_prop_set_bit(dev, "big_endian", true);
-+    qdev_prop_set_ptr(dev, "dma_mr", get_system_memory());
-+    qdev_init_nofail(dev);
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    sysbus_mmio_map(sysbus, 0, SONIC_BASE);
-+    sysbus_mmio_map(sysbus, 1, SONIC_PROM_BASE);
-+    sysbus_connect_irq(sysbus, 0, pic[2]);
-+
-+    /* SCC */
-+
-+    dev = qdev_create(NULL, TYPE_ESCC);
-+    qdev_prop_set_uint32(dev, "disabled", 0);
-+    qdev_prop_set_uint32(dev, "frequency", MAC_CLOCK);
-+    qdev_prop_set_uint32(dev, "it_shift", 1);
-+    qdev_prop_set_bit(dev, "bit_swap", true);
-+    qdev_prop_set_chr(dev, "chrA", serial_hd(0));
-+    qdev_prop_set_chr(dev, "chrB", serial_hd(1));
-+    qdev_prop_set_uint32(dev, "chnBtype", 0);
-+    qdev_prop_set_uint32(dev, "chnAtype", 0);
-+    qdev_init_nofail(dev);
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    sysbus_connect_irq(sysbus, 0, pic[3]);
-+    sysbus_connect_irq(sysbus, 1, pic[3]);
-+    sysbus_mmio_map(sysbus, 0, SCC_BASE);
-+
-+    /* SCSI */
-+
-+    dev = qdev_create(NULL, TYPE_ESP);
-+    sysbus_esp = ESP_STATE(dev);
-+    esp = &sysbus_esp->esp;
-+    esp->dma_memory_read = NULL;
-+    esp->dma_memory_write = NULL;
-+    esp->dma_opaque = NULL;
-+    sysbus_esp->it_shift = 4;
-+    esp->dma_enabled = 1;
-+    qdev_init_nofail(dev);
-+
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in_named(via_dev,
-+                                                         "via2-irq",
-+                                                         VIA2_IRQ_SCSI_BIT));
-+    sysbus_connect_irq(sysbus, 1,
-+                       qdev_get_gpio_in_named(via_dev, "via2-irq",
-+                                              VIA2_IRQ_SCSI_DATA_BIT));
-+    sysbus_mmio_map(sysbus, 0, ESP_BASE);
-+    sysbus_mmio_map(sysbus, 1, ESP_PDMA);
-+
-+    scsi_bus_legacy_handle_cmdline(&esp->bus);
-+
-+    /* SWIM floppy controller */
-+
-+    dev = qdev_create(NULL, TYPE_SWIM);
-+    qdev_init_nofail(dev);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, SWIM_BASE);
-+
-+    /* NuBus */
-+
-+    dev = qdev_create(NULL, TYPE_MAC_NUBUS_BRIDGE);
-+    qdev_init_nofail(dev);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, NUBUS_SUPER_SLOT_BASE);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE);
-+
-+    nubus = MAC_NUBUS_BRIDGE(dev)->bus;
-+
-+    /* framebuffer in nubus slot #9 */
-+
-+    dev = qdev_create(BUS(nubus), TYPE_NUBUS_MACFB);
-+    qdev_prop_set_uint32(dev, "width", graphic_width);
-+    qdev_prop_set_uint32(dev, "height", graphic_height);
-+    qdev_prop_set_uint8(dev, "depth", graphic_depth);
-+    qdev_init_nofail(dev);
-+
-+    cs = CPU(cpu);
-+    if (linux_boot) {
-+        uint64_t high;
-+        kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
-+                               &elf_entry, NULL, &high, 1,
-+                               EM_68K, 0, 0);
-+        if (kernel_size < 0) {
-+            error_report("could not load kernel '%s'", kernel_filename);
-+            exit(1);
-+        }
-+        stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
-+        parameters_base = (high + 1) & ~1;
-+
-+        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_MAC);
-+        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, Q800_FPU_ID);
-+        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, Q800_MMU_ID);
-+        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, Q800_CPU_ID);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_CPUID, Q800_MAC_CPU_ID);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_MODEL, Q800_MACHINE_ID);
-+        BOOTINFO1(cs->as, parameters_base,
-+                  BI_MAC_MEMSIZE, ram_size >> 20); /* in MB */
-+        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_VADDR, VIDEO_BASE);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDEPTH, graphic_depth);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDIM,
-+                  (graphic_height << 16) | graphic_width);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_VROW,
-+                  (graphic_width * graphic_depth + 7) / 8);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
-+
-+        if (kernel_cmdline) {
-+            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
-+                        kernel_cmdline);
-+        }
-+
-+        /* load initrd */
-+        if (initrd_filename) {
-+            initrd_size = get_image_size(initrd_filename);
-+            if (initrd_size < 0) {
-+                error_report("could not load initial ram disk '%s'",
-+                             initrd_filename);
-+                exit(1);
-+            }
-+
-+            initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
-+            load_image_targphys(initrd_filename, initrd_base,
-+                                ram_size - initrd_base);
-+            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
-+                      initrd_size);
-+        } else {
-+            initrd_base = 0;
-+            initrd_size = 0;
-+        }
-+        BOOTINFO0(cs->as, parameters_base, BI_LAST);
-+    } else {
-+        uint8_t *ptr;
-+        /* allocate and load BIOS */
-+        rom = g_malloc(sizeof(*rom));
-+        memory_region_init_ram(rom, NULL, "m68k_mac.rom", MACROM_SIZE,
-+                               &error_abort);
-+        if (bios_name == NULL) {
-+            bios_name = MACROM_FILENAME;
-+        }
-+        filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-+        memory_region_set_readonly(rom, true);
-+        memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
-+
-+        /* Load MacROM binary */
-+        if (filename) {
-+            bios_size = load_image_targphys(filename, MACROM_ADDR, MACROM_SIZE);
-+            g_free(filename);
-+        } else {
-+            bios_size = -1;
-+        }
-+
-+        /* Remove qtest_enabled() check once firmware files are in the tree */
-+        if (!qtest_enabled()) {
-+            if (bios_size < 0 || bios_size > MACROM_SIZE) {
-+                error_report("could not load MacROM '%s'", bios_name);
-+                exit(1);
-+            }
-+
-+            ptr = rom_ptr(MACROM_ADDR, MACROM_SIZE);
-+            stl_phys(cs->as, 0, ldl_p(ptr));    /* reset initial SP */
-+            stl_phys(cs->as, 4,
-+                     MACROM_ADDR + ldl_p(ptr + 4)); /* reset initial PC */
-+        }
-+    }
-+}
-+
-+static void q800_machine_init(MachineClass *mc)
-+{
-+    mc->desc = "Macintosh Quadra 800";
-+    mc->init = q800_init;
-+    mc->default_cpu_type = M68K_CPU_TYPE_NAME("m68040");
-+    mc->max_cpus = 1;
-+    mc->is_default = 0;
-+    mc->block_default_type = IF_SCSI;
-+}
-+
-+DEFINE_MACHINE("q800", q800_machine_init)
--- 
-2.20.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyNTIyNTAxMy4xMzkx
+Ni0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpNZXNzYWdlLWlkOiAyMDE5MDUyNTIyNTAxMy4xMzkxNi0xLWxhdXJlbnRAdml2
+aWVyLmV1ClR5cGU6IHNlcmllcwpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIHY3IDAwLzEw
+XSBody9tNjhrOiBhZGQgQXBwbGUgTWFjaGludG9zaCBRdWFkcmEgODAwIG1hY2hpbmUKCj09PSBU
+RVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rl
+di9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sg
+YmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9w
+YXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAgICBwYXRjaGV3LzIw
+MTkwNTI1MjI1MDEzLjEzOTE2LTEtbGF1cmVudEB2aXZpZXIuZXUgLT4gcGF0Y2hldy8yMDE5MDUy
+NTIyNTAxMy4xMzkxNi0xLWxhdXJlbnRAdml2aWVyLmV1ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5j
+aCAndGVzdCcKZjU1NmJkZGEwYiBody9tNjhrOiBkZWZpbmUgTWFjaW50b3NoIFF1YWRyYSA4MDAK
+OTM3ZGU0N2IxNyBody9tNjhrOiBhZGQgYSBkdW1teSBTV0lNIGZsb3BweSBjb250cm9sbGVyCjZj
+Njk3OGYwODMgaHcvbTY4azogYWRkIE51YnVzIHN1cHBvcnQgZm9yIG1hY2ZiIHZpZGVvIGNhcmQK
+ZTIwZDQwMzMxNiBody9tNjhrOiBhZGQgTnVidXMgc3VwcG9ydAozZTlmMjI5NmYxIGh3L202OGs6
+IGFkZCBtYWNmYiB2aWRlbyBjYXJkCmQxMjQ3NDc3YzAgaHcvbTY4azogaW1wbGVtZW50IEFEQiBi
+dXMgc3VwcG9ydCBmb3IgdmlhCmJlZWUwNTFlMGYgaHcvbTY4azogYWRkIHZpYSBzdXBwb3J0CjQ4
+YzZmM2ExNTQgZHA4MzkzeDogbWFuYWdlIGJpZyBlbmRpYW4gYnVzCjcwMGZlMWMzMjAgZXNwOiBh
+ZGQgcHNldWRvLURNQSBhcyB1c2VkIGJ5IE1hY2ludG9zaAo0NmZlN2I0YzJhIGVzY2M6IGludHJv
+ZHVjZSBhIHNlbGVjdG9yIGZvciB0aGUgcmVnaXN0ZXIgYml0Cgo9PT0gT1VUUFVUIEJFR0lOID09
+PQoxLzEwIENoZWNraW5nIGNvbW1pdCA0NmZlN2I0YzJhOTkgKGVzY2M6IGludHJvZHVjZSBhIHNl
+bGVjdG9yIGZvciB0aGUgcmVnaXN0ZXIgYml0KQoyLzEwIENoZWNraW5nIGNvbW1pdCA3MDBmZTFj
+MzIwNjkgKGVzcDogYWRkIHBzZXVkby1ETUEgYXMgdXNlZCBieSBNYWNpbnRvc2gpCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyODQ6
+IEZJTEU6IGh3L3Njc2kvZXNwLmM6MzUxOgorICAgICAgICAvKiBJZiB0aGVyZSBpcyBzdGlsbCBk
+YXRhIHRvIGJlIHJlYWQgZnJvbSB0aGUgZGV2aWNlIHRoZW4KCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzI4NTogRklMRTogaHcvc2NzaS9lc3AuYzoz
+NTI6CisgICAgICAgIC8qIElmIHRoZXJlIGlzIHN0aWxsIGRhdGEgdG8gYmUgcmVhZCBmcm9tIHRo
+ZSBkZXZpY2UgdGhlbgorICAgICAgICAgICBjb21wbGV0ZSB0aGUgRE1BIG9wZXJhdGlvbiBpbW1l
+ZGlhdGVseS4gIE90aGVyd2lzZSBkZWZlcgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEg
+dHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyODY6IEZJTEU6IGh3L3Njc2kvZXNwLmM6
+MzUzOgorICAgICAgICAgICB1bnRpbCB0aGUgc2NzaSBsYXllciBoYXMgY29tcGxldGVkLiAgKi8K
+CnRvdGFsOiAwIGVycm9ycywgMyB3YXJuaW5ncywgNDUyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIv
+MTAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
+cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
+ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy8xMCBDaGVja2luZyBjb21taXQgNDhjNmYz
+YTE1NDFkIChkcDgzOTN4OiBtYW5hZ2UgYmlnIGVuZGlhbiBidXMpCjQvMTAgQ2hlY2tpbmcgY29t
+bWl0IGJlZWUwNTFlMGY1NCAoaHcvbTY4azogYWRkIHZpYSBzdXBwb3J0KQpXQVJOSU5HOiBhZGRl
+ZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRp
+bmc/CiMzOTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojOTE6IEZJTEU6IGh3L21pc2MvbWFj
+X3ZpYS5jOjQ4OgorI2RlZmluZSBWSUExQV92U2NjV3JSZXEgMHg4MCAgIC8qIFNDQyB3cml0ZS4g
+KGlucHV0KQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNl
+cGFyYXRlIGxpbmUKIzk4OiBGSUxFOiBody9taXNjL21hY192aWEuYzo1NToKKyNkZWZpbmUgVklB
+MUFfdlJldjggICAgIDB4NDAgICAvKiBSZXZpc2lvbiA4IGJvYXJkID8/PwoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzEwODogRklM
+RTogaHcvbWlzYy9tYWNfdmlhLmM6NjU6CisjZGVmaW5lIFZJQTFBX3ZIZWFkU2VsICAweDIwICAg
+LyogSGVhZCBzZWxlY3QgZm9yIElXTS4KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxl
+YWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxMTM6IEZJTEU6IGh3L21pc2MvbWFjX3ZpYS5j
+OjcwOgorI2RlZmluZSBWSUExQV92T3ZlcmxheSAgMHgxMCAgIC8qIFtNYWNpbnRvc2ggRmFtaWx5
+XSBPbiBTRS8zMCxJSSxJSXgsSUljeAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVh
+ZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzEyNzogRklMRTogaHcvbWlzYy9tYWNfdmlhLmM6
+ODQ6CisjZGVmaW5lIFZJQTFBX3ZTeW5jICAgICAweDA4ICAgLyogW0NIUlBdIFN5bmMgTW9kZW06
+IG1vZGVtIGNsb2NrIHNlbGVjdDoKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRp
+bmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxMzU6IEZJTEU6IGh3L21pc2MvbWFjX3ZpYS5jOjky
+OgorLyogTWFjaW50b3NoIEZhbWlseSBIYXJkd2FyZSBzZXo6IGJpdHMgMC0yIG9mIFZJQTFBIGFy
+ZSB2b2x1bWUgY29udHJvbAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAv
+KiBvbiBhIHNlcGFyYXRlIGxpbmUKIzE1MDogRklMRTogaHcvbWlzYy9tYWNfdmlhLmM6MTA3Ogor
+LyogSW5mbyBvbiBWSUExQiBpcyBmcm9tIE1hY2ludG9zaCBGYW1pbHkgSGFyZHdhcmUgJiBNa0xp
+bnV4LgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBh
+cmF0ZSBsaW5lCiMxNTE6IEZJTEU6IGh3L21pc2MvbWFjX3ZpYS5jOjEwODoKKyAqIENIUlAgb2Zm
+ZXJzIG5vIGluZm8uICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8q
+IG9uIGEgc2VwYXJhdGUgbGluZQojMTUyOiBGSUxFOiBody9taXNjL21hY192aWEuYzoxMDk6Cisj
+ZGVmaW5lIFZJQTFCX3ZTb3VuZCAgIDB4ODAgICAgLyogU291bmQgZW5hYmxlIChmb3IgY29tcGF0
+aWJpbGl0eSB3aXRoCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBv
+biBhIHNlcGFyYXRlIGxpbmUKIzE1NTogRklMRTogaHcvbWlzYy9tYWNfdmlhLmM6MTEyOgorICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAqIDA9ZXJyb3IsIDE9T0suICovCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTU2
+OiBGSUxFOiBody9taXNjL21hY192aWEuYzoxMTM6CisjZGVmaW5lIFZJQTFCX3ZNeXN0ZXJ5IDB4
+NDAgICAgLyogT24gSUljaSwgcGFyaXR5IGVuYWJsZS4gMD1lbmFibGVkLDE9ZGlzYWJsZWQKCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGlu
+ZQojMTU5OiBGSUxFOiBody9taXNjL21hY192aWEuYzoxMTY6CisgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICogYXMgYSBzbG90ICRFIGludGVycnVwdC4gKi8KCldBUk5JTkc6IEJsb2Nr
+IGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxODY6IEZJTEU6
+IGh3L21pc2MvbWFjX3ZpYS5jOjE0MzoKKy8qIFJBTSBzaXplIGJpdHMgZGVjb2RlZCBhcyBmb2xs
+b3dzOgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFy
+YXRlIGxpbmUKIzE5ODogRklMRTogaHcvbWlzYy9tYWNfdmlhLmM6MTU1OgorI2RlZmluZSBWSUEy
+Ql92VkJMICAgIDB4ODAgICAgLyogVkJMIG91dHB1dCB0byBWSUExICg2MC4xNUh6KSBkcml2ZW4g
+YnkKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJh
+dGUgbGluZQojMjAxOiBGSUxFOiBody9taXNjL21hY192aWEuYzoxNTg6CisgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgKiBbTWtMaW51eF0gUkJWX1BBUk9ERDogMT1vZGQsMD1ldmVuLiAq
+LwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRl
+IGxpbmUKIzIwMjogRklMRTogaHcvbWlzYy9tYWNfdmlhLmM6MTU5OgorI2RlZmluZSBWSUEyQl92
+U25kSmNrIDB4NDAgICAgLyogRXh0ZXJuYWwgc291bmQgamFjayBzdGF0dXMuCgpXQVJOSU5HOiBC
+bG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzIwMzog
+RklMRTogaHcvbWlzYy9tYWNfdmlhLmM6MTYwOgorICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICogMD1wbHVnIGlzIGluc2VydGVkLiAgT24gU0UvMzAsIGFsd2F5cyAwICovCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjA2
+OiBGSUxFOiBody9taXNjL21hY192aWEuYzoxNjM6CisjZGVmaW5lIFZJQTJCX3ZNb2RlMzIgMHgw
+OCAgICAvKiAyNC8zMmJpdCBzd2l0Y2ggLSBkb3VibGVzIGFzIGNhY2hlIGZsdXNoCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjE0
+OiBGSUxFOiBody9taXNjL21hY192aWEuYzoxNzE6CisjZGVmaW5lIFZJQTJCX3ZQb3dlciAgMHgw
+NCAgIC8qIFBvd2VyIG9mZiwgMD1zaHV0IG9mZiBwb3dlci4KCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMTc6IEZJTEU6IGh3L21p
+c2MvbWFjX3ZpYS5jOjE3NDoKKyNkZWZpbmUgVklBMkJfdkJ1c0xrICAweDAyICAgLyogTG9jayBO
+dUJ1cyB0cmFuc2FjdGlvbnMsIDA9bG9ja2VkLgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNl
+IGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzIyMDogRklMRTogaHcvbWlzYy9tYWNf
+dmlhLmM6MTc3OgorI2RlZmluZSBWSUEyQl92Q0RpcyAgIDB4MDEgICAvKiBDYWNoZSBjb250cm9s
+LiBPbiBJSWNpLCAxPWRpc2FibGUgY2FjaGUgY2FyZAoKV0FSTklORzogQmxvY2sgY29tbWVudHMg
+dXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzIzNDogRklMRTogaHcvbWlzYy9t
+YWNfdmlhLmM6MTkxOgorLyogQXBwbGUgc2V6OiBodHRwOi8vZGV2ZWxvcGVyLmFwcGxlLmNvbS90
+ZWNobm90ZXMvb3Yvb3ZfMDQuaHRtbAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVh
+ZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzI2MzogRklMRTogaHcvbWlzYy9tYWNfdmlhLmM6
+MjIwOgorICAgICAgICAgICAgICAgICAgICAgICAgIC8qICAgICAgICAgICAgQ0hSUCBzZXogbmV2
+ZXIgZXZlciB0byAqd3JpdGUqIHRoaXMuCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBs
+ZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjc5OiBGSUxFOiBody9taXNjL21hY192aWEu
+YzoyMzY6CisvKiBBcHBsZSBNYWNpbnRvc2ggRmFtaWx5IEhhcmR3YXJlIFJlZmVuZWNlCgpFUlJP
+Ujogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0aGF0ICcmJicgKGN0eDpXeFcpCiMzNjE6IEZJTEU6
+IGh3L21pc2MvbWFjX3ZpYS5jOjMxODoKKyAgICAgICAgaWYgKCEodjFzLT5sYXN0X2IgJiBWSUEx
+Ql92UlRDQ2xrKSAmJiAocy0+YiAmIFZJQTFCX3ZSVENDbGspKSB7CiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAyNSB3YXJuaW5n
+cywgNzg4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvMTAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KCjUvMTAgQ2hlY2tpbmcgY29tbWl0IGQxMjQ3NDc3YzA0NSAoaHcvbTY4azogaW1wbGVtZW50
+IEFEQiBidXMgc3VwcG9ydCBmb3IgdmlhKQo2LzEwIENoZWNraW5nIGNvbW1pdCAzZTlmMjI5NmYx
+NmUgKGh3L202OGs6IGFkZCBtYWNmYiB2aWRlbyBjYXJkKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQg
+b3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1Mzog
+Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDUwMiBs
+aW5lcyBjaGVja2VkCgpQYXRjaCA2LzEwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
+dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
+bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvMTAg
+Q2hlY2tpbmcgY29tbWl0IGUyMGQ0MDMzMTYxMiAoaHcvbTY4azogYWRkIE51YnVzIHN1cHBvcnQp
+CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
+UlMgbmVlZCB1cGRhdGluZz8KIzM4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVy
+cm9ycywgMSB3YXJuaW5ncywgNTE4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvMTAgaGFzIHN0eWxl
+IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
+c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
+SCBpbiBNQUlOVEFJTkVSUy4KOC8xMCBDaGVja2luZyBjb21taXQgNmM2OTc4ZjA4M2FmIChody9t
+NjhrOiBhZGQgTnVidXMgc3VwcG9ydCBmb3IgbWFjZmIgdmlkZW8gY2FyZCkKOS8xMCBDaGVja2lu
+ZyBjb21taXQgOTM3ZGU0N2IxN2IxIChody9tNjhrOiBhZGQgYSBkdW1teSBTV0lNIGZsb3BweSBj
+b250cm9sbGVyKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
+IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpX
+QVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGlu
+ZQojMjMzOiBGSUxFOiBody9ibG9jay9zd2ltLmM6MTkyOgorICAgIC8qIHJlcnJvci93ZXJyb3Ig
+YXJlbid0IHN1cHBvcnRlZCBieSBmZGMgYW5kIHRoZXJlZm9yZSBub3QgZXZlbiByZWdpc3RlcmVk
+CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRl
+IGxpbmUKIzIzNTogRklMRTogaHcvYmxvY2svc3dpbS5jOjE5NDoKKyAgICAgKiBibGtjb25mX2Fw
+cGx5X2JhY2tlbmRfb3B0aW9ucygpLiAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEg
+bGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzI0NTogRklMRTogaHcvYmxvY2svc3dpbS5j
+OjIwNDoKKyAgICAvKiAnZW5vc3BjJyBpcyB0aGUgZGVmYXVsdCBmb3IgLWRyaXZlLCAncmVwb3J0
+JyBpcyB3aGF0IGJsa19uZXcoKSBnaXZlcyB1cwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNl
+IGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyNDY6IEZJTEU6IGh3L2Jsb2NrL3N3
+aW0uYzoyMDU6CisgICAgICogZm9yIGVtcHR5IGRyaXZlcy4gKi8KCnRvdGFsOiAwIGVycm9ycywg
+NSB3YXJuaW5ncywgNTA0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDkvMTAgaGFzIHN0eWxlIHByb2Js
+ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
+aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
+QUlOVEFJTkVSUy4KMTAvMTAgQ2hlY2tpbmcgY29tbWl0IGY1NTZiZGRhMGI4NyAoaHcvbTY4azog
+ZGVmaW5lIE1hY2ludG9zaCBRdWFkcmEgODAwKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
+ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM5NTogCm5ldyBm
+aWxlIG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8q
+IG9uIGEgc2VwYXJhdGUgbGluZQojMjc0OiBGSUxFOiBody9tNjhrL3E4MDAuYzo2OToKKy8qIHRo
+ZSB2aWRlbyBiYXNlLCB3aGVyZWFzIGl0IGEgTnVidXMgYWRkcmVzcywKCldBUk5JTkc6IEJsb2Nr
+IGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzODc6IEZJTEU6
+IGh3L202OGsvcTgwMC5jOjE4MjoKKyAgICAvKiBNYWNTb25pYyBkcml2ZXIgbmVlZHMgYW4gQXBw
+bGUgTUFDIGFkZHJlc3MKCnRvdGFsOiAwIGVycm9ycywgMyB3YXJuaW5ncywgNTExIGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDEwLzEwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQg
+RU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cg
+aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNTI1MjI1MDEzLjEz
+OTE2LTEtbGF1cmVudEB2aXZpZXIuZXUvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2Uu
+Ci0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3Bh
+dGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEBy
+ZWRoYXQuY29t
 
 
