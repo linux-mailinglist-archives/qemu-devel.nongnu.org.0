@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629B42A2E4
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 06:31:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36111 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943F52A2E6
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 May 2019 06:34:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36125 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUOLQ-0007CW-Ie
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 00:31:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39496)
+	id 1hUOO9-0000XW-Qw
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 00:34:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39519)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hUOJr-0006T1-5F
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:08 -0400
+	(envelope-from <bounces@canonical.com>) id 1hUOJy-0006cC-CT
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hUOJp-0000Zt-TL
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:07 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55984)
+	(envelope-from <bounces@canonical.com>) id 1hUOJx-0000jA-2Y
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:14 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56152)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hUOJp-0000ZE-Nz
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:05 -0400
+	id 1hUOJw-0000hQ-RI
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 00:30:12 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hUOJo-0003tH-Q8
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:30:04 +0000
+	id 1hUOJv-000452-Tp
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:30:11 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id C48D72E8024
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:30:04 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id DFB712E8024
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 04:30:11 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 25 May 2019 04:17:19 -0000
+Date: Sat, 25 May 2019 04:17:24 -0000
 From: Launchpad Bug Tracker <504368@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -48,13 +48,13 @@ X-Launchpad-Bug-Commenters: anthony-codemonkey hramrach janitor jcollins
 X-Launchpad-Bug-Reporter: Jamin W. Collins (jcollins)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
 References: <20100107173707.12658.18712.malonedeb@palladium.canonical.com>
-Message-Id: <155875784213.26936.1911282434180818629.malone@loganberry.canonical.com>
+Message-Id: <155875784447.26936.10155490463738702176.malone@loganberry.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18968";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 145282884ea74e32be4310bcfb1416d7a0bf9981
+X-Launchpad-Hash: 5c4e9c4b07663811a4a8ec67fd27f8c3c579b10b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 504368] Re: sdl window intermittently scales
@@ -73,10 +73,9 @@ Reply-To: Bug 504368 <504368@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for qemu-kvm (Ubuntu) because there has been no activity for 60
-days.]
+[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu-kvm (Ubuntu)
+** Changed in: qemu
        Status: Incomplete =3D> Expired
 
 -- =
