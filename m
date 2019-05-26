@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDFA2A7A8
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:42:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49332 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0F02A7AD
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:47:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49407 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUiBK-0007IC-1l
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:42:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53938)
+	id 1hUiFc-0002YI-8c
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:47:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53756)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhxM-0003Hg-9L
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:13 -0400
+	(envelope-from <palmer@dabbelt.com>) id 1hUhxL-0003GC-FE
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhg9-0006At-Hq
+	(envelope-from <palmer@dabbelt.com>) id 1hUhg9-0006Bj-PI
 	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:26 -0400
-Received: from mail-pg1-f176.google.com ([209.85.215.176]:34826)
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:40144)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhg5-0005vr-Uo
+	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhg6-0005x2-I0
 	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:23 -0400
-Received: by mail-pg1-f176.google.com with SMTP id t1so7095639pgc.2
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:19 -0700 (PDT)
+Received: by mail-pg1-f194.google.com with SMTP id d30so7080933pgm.7
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:cc:from:to;
-	bh=rQikxxt+UmlrWVINybj5QUluVzDygdebQ0Xpvz/1e7k=;
-	b=qaBmX9UZF2UaUxDQGlQ2roxxzhY/NjxVzr9wG+SO8WaLlwmzIJgtoSjJLf8bDKrLGv
-	KUcsiuLfkU7bz0lTv4UYPpZkoqUcwHd16JYoKsXZzCAeQ6hs+m0uVSL5fHXWR64njYqF
-	Zy7ikiVR0X9pfGdijaXQ4WWUJUtLwXzbV6Lfeh8L5Bjg8KkK8ibenP45x25kUlYw5ybL
-	2QZ7yCAKoanTxvO19yl61lz0W8pxlTfdMuulZvrnEED/0yICTQVPExk2O2iyyIDqM1Wh
-	wSCY/XwnykqZIJfGJLJlVZzZXif5wp438g9SWSIohdqj6/VVPjx7NwUkAVdqPbIKEqSl
-	hHxA==
-X-Gm-Message-State: APjAAAX8XQXrLSmPKr1JdKZ5qCkbHYSOLlI81wkAVbMG4vws/Z0fIra7
-	OFfikDkZC4aKY/jMbPiozkR0pQ==
-X-Google-Smtp-Source: APXvYqzeNkNqpZeOsUJoHcsQ8ErWv3RvsPgDMQm9i9j+yVlV8Ql51YaqiPnTVnhaG1KPLQqc4OKsFA==
-X-Received: by 2002:a62:b517:: with SMTP id y23mr40368751pfe.182.1558833018332;
-	Sat, 25 May 2019 18:10:18 -0700 (PDT)
-Received: from localhost ([12.206.222.5]) by smtp.gmail.com with ESMTPSA id
-	p13sm9322808pfq.69.2019.05.25.18.10.17
+	bh=4bBhQ9kganCVq1dJ403sszl/Wog9yBvWM1+fvLLlsdk=;
+	b=VVmDpKiVKKwfuy09tLbOI5laTytraoii3HV+LA0rUikKPJSDhM5kWRooPBmV0OvTeb
+	IET4JFpVE9tA7v3JV35Z1VtfG35XhxQb6Wb6aHan9pTYuI2W5cvWkdqwbl/U4ONQ5JNb
+	zFlMlJ24jxsALLKysoo0AANhl9sMqrcOUAtbtC63Yri1+6imFr+RBZ7//n3qIORW6sZC
+	DSi0+RFzlt7x30Pm998nPe4XoEAI+OLW8cWfNBGzacXVThdzoBkGztUaT6ZCILsxslsQ
+	zuifgP8BnRfByA9/oYATwnceNlsxFk1boGsFJgSpd12IGiynvIQg+YJ/1dbJK2vxozzR
+	2V0w==
+X-Gm-Message-State: APjAAAUwk8Snymr0wV340hd0hmI0do+YUWN5+VNI/1kkVZNz1y7bIVQ6
+	cuVt0z4kO22ZzwH6SwypRKP8mhDiy0Q=
+X-Google-Smtp-Source: APXvYqw3hrIqaAxl/xFRvZtZK5blDbpQajvTtKP42Ce8xxtOnknCcqzuOZ2CPvAg04Nt7X0cH836mw==
+X-Received: by 2002:a65:6255:: with SMTP id
+	q21mr105163733pgv.211.1558833019583; 
+	Sat, 25 May 2019 18:10:19 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+	by smtp.gmail.com with ESMTPSA id t10sm7999147pfe.2.2019.05.25.18.10.18
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 25 May 2019 18:10:17 -0700 (PDT)
-Date: Sat, 25 May 2019 18:09:31 -0700
-Message-Id: <20190526010948.3923-13-palmer@sifive.com>
+	Sat, 25 May 2019 18:10:18 -0700 (PDT)
+Date: Sat, 25 May 2019 18:09:32 -0700
+Message-Id: <20190526010948.3923-14-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190526010948.3923-1-palmer@sifive.com>
 References: <20190526010948.3923-1-palmer@sifive.com>
@@ -53,9 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.215.176
-Subject: [Qemu-devel] [PULL 12/29] target/riscv: Remove unused include of
- riscv_htif.h for virt board riscv
+X-Received-From: 209.85.215.194
+Subject: [Qemu-devel] [PULL 13/29] linux-user/riscv: Add the CPU type as a
+ comment
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,32 +70,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Alistair Francis <alistair.francis@wdc.com>,
 	Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org, Jonathan Behrens <fintelia@gmail.com>
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Behrens <fintelia@gmail.com>
+From: Alistair Francis <Alistair.Francis@wdc.com>
 
-Signed-off-by: Jonathan Behrens <fintelia@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/virt.c | 1 -
- 1 file changed, 1 deletion(-)
+ linux-user/riscv/target_elf.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index fc4c6b306e13..352646303420 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -29,7 +29,6 @@
- #include "hw/sysbus.h"
- #include "hw/char/serial.h"
- #include "target/riscv/cpu.h"
--#include "hw/riscv/riscv_htif.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/sifive_plic.h"
- #include "hw/riscv/sifive_clint.h"
+diff --git a/linux-user/riscv/target_elf.h b/linux-user/riscv/target_elf.h
+index a6716a6aac23..9dd65652ee45 100644
+--- a/linux-user/riscv/target_elf.h
++++ b/linux-user/riscv/target_elf.h
+@@ -9,6 +9,7 @@
+ #define RISCV_TARGET_ELF_H
+ static inline const char *cpu_get_model(uint32_t eflags)
+ {
++    /* TYPE_RISCV_CPU_ANY */
+     return "any";
+ }
+ #endif
 -- 
 2.21.0
 
