@@ -2,49 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5602A912
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 10:35:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52450 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF5C2A911
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 10:32:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52426 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUoco-0000WO-Gu
-	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 04:35:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38668)
+	id 1hUoaG-0007gB-L6
+	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 04:32:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38347)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lucienmp_antispam@yahoo.com>) id 1hUoXd-0005rM-JQ
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 04:30:06 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hUoWp-0005Dh-UY
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 04:29:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lucienmp_antispam@yahoo.com>) id 1hUoFV-0007F5-4t
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 04:11:22 -0400
-Received: from sonic301-7.consmr.mail.ne1.yahoo.com ([66.163.184.240]:41240)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <lucienmp_antispam@yahoo.com>)
-	id 1hUoFV-0007E0-00
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 04:11:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1558858278; bh=89bqK/nrXqlXT91TGY8K1TqCgq/4E3lxYVw48A3Ze70=;
-	h=Date:From:To:Subject:References:From:Subject;
-	b=Ml/BVMiMD4gxEccKB2ylFJe9i1s1pALPUTTnEwI8m/WjTBKL+7VuPm0s4pz47Mz/kIJAZjm38r1YjqMxcKc748koon0kxrFzW2sTxGVR9y3oI1GROk8Jo6yFIOPnukzLiYWf4qiU2uBCE2jBu0gtL/NVUxPDnhDauAwQex8IzJEphq+SY5t8s0LZPpJBsKdzYifOTHXUVWfShEoCvRDO96pGvXIUpU0vEUBhieAxCiz3uNNEiXzPfhAAqc+IpzHu/xob6wc1C5tgOW6ePkwuKFgN2KLHSGefY7C/nGuDtWlGGLDh/yy41ehT43ND8o4I4E67BNst8A7HbA9XL21pwQ==
-X-YMail-OSG: N_6BpMEVRDvd.miR6A7lED5GPdAEx7ojsA--
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic301.consmr.mail.ne1.yahoo.com with HTTP;
-	Sun, 26 May 2019 08:11:18 +0000
-Date: Sun, 26 May 2019 08:09:18 +0000 (UTC)
-To: qemu-devel@nongnu.org, 
-	"patchew-devel@redhat.com" <patchew-devel@redhat.com>
-Message-ID: <1573827788.7732060.1558858158263@mail.yahoo.com>
+	(envelope-from <no-reply@patchew.org>) id 1hUoVt-0002Ed-4c
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 04:28:18 -0400
+Resent-Date: Sun, 26 May 2019 04:28:18 -0400
+Resent-Message-Id: <E1hUoVt-0002Ed-4c@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21461)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hUoVs-0002Bd-Mz
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 04:28:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1558859256; cv=none; d=zoho.com; s=zohoarc; 
+	b=niD1I0n+5OwxHz8tdRpPF3gAmT+fuAI/aF3z3LDqPItXLeyhENmPUFq2yMd3pIMBWbSS2eY88pX39cXwoYAcjFlzTU72DSs0q3sV82bNPxAVPmhYSz18moTCj2o+GqJgcbONf4Z+DvxCZaAkOCiUYMVcSJYpgyqzrwrFnX+lkVY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1558859256;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=q8fjy6tcNeIF8zF1MO5B0xaH/MHuz6m0M6dL0HjYrRc=; 
+	b=ZTyPuGyN4baVKN2a9W+vu6s4wT9cCGhYTawG4OePj/afs9Z9gJMHCBM21GEjoQbyVVh3Dazq6+GuRefiFWqPQIa/5dzcqlsp17YUZ2xbRHBLH33RrLQE2klXntEDHRRybD4l75dMJ51LIrTSIxyOGh9NJ1PGQpXtZtz0yQh1uDw=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 155885925487379.15440415423643;
+	Sun, 26 May 2019 01:27:34 -0700 (PDT)
+In-Reply-To: <20190526075056.33865-1-lucienmp_antispam@yahoo.com>
+Message-ID: <155885925348.24.11226943700623912061@549697c9ad12>
 MIME-Version: 1.0
-References: <1573827788.7732060.1558858158263.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.13634 YMailNorrin Mozilla/5.0 (Windows NT 10.0; Win64;
-	x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169
-	Safari/537.36
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 66.163.184.240
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: [Qemu-devel] Failure to submit patches,
- two questions - what should I do?
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Sun, 26 May 2019 01:27:34 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH] Regression for m68k causing Single-Step
+ via GDB/RSP to not single step
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,42 +62,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Lucien Anti-Spam via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Lucien Anti-Spam <lucienmp_antispam@yahoo.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: huth@tuxfamily.org, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+	laurent@vivier.eu, cota@braap.org, lucienmp_antispam@yahoo.com,
+	alex.bennee@linaro.org, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=20
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyNjA3NTA1Ni4zMzg2
+NS0xLWx1Y2llbm1wX2FudGlzcGFtQHlhaG9vLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAxOTA1MjYwNzUwNTYuMzM4NjUtMS1s
+dWNpZW5tcF9hbnRpc3BhbUB5YWhvby5jb20KVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRl
+dmVsXSBbUEFUQ0hdIFJlZ3Jlc3Npb24gZm9yIG02OGsgY2F1c2luZyBTaW5nbGUtU3RlcCB2aWEg
+R0RCL1JTUCB0byBub3Qgc2luZ2xlIHN0ZXAKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
+YmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29u
+ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
+bmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4v
+c2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBF
+TkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBb
+bmV3IHRhZ10gICAgICAgICAgICAgICBwYXRjaGV3LzIwMTkwNTI2MDc1MDU2LjMzODY1LTEtbHVj
+aWVubXBfYW50aXNwYW1AeWFob28uY29tIC0+IHBhdGNoZXcvMjAxOTA1MjYwNzUwNTYuMzM4NjUt
+MS1sdWNpZW5tcF9hbnRpc3BhbUB5YWhvby5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0
+ZXN0JwplYWI4MTgwNWNjIFJlZ3Jlc3Npb24gZm9yIG02OGsgY2F1c2luZyBTaW5nbGUtU3RlcCB2
+aWEgR0RCL1JTUCB0byBub3Qgc2luZ2xlIHN0ZXAKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9S
+OiBBdXRob3IgZW1haWwgYWRkcmVzcyBpcyBtYW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6
+IApBdXRob3I6IEx1Y2llbiBNdXJyYXktUGl0dHMgdmlhIFFlbXUtZGV2ZWwgPHFlbXUtZGV2ZWxA
+bm9uZ251Lm9yZz4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgOCBsaW5lcyBjaGVja2Vk
+CgpDb21taXQgZWFiODE4MDVjY2MxIChSZWdyZXNzaW9uIGZvciBtNjhrIGNhdXNpbmcgU2luZ2xl
+LVN0ZXAgdmlhIEdEQi9SU1AgdG8gbm90IHNpbmdsZSBzdGVwKSBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2Rl
+OiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9n
+cy8yMDE5MDUyNjA3NTA1Ni4zMzg2NS0xLWx1Y2llbm1wX2FudGlzcGFtQHlhaG9vLmNvbS90ZXN0
+aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
+aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91
+ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-   > On Sunday, May 26, 2019, 4:45:26 PM GMT+9, <no-reply@patchew.org> wrot=
-e: > Subject;=C2=A0[Qemu-devel] [PATCH] Incorrect Stack Pointer shadow regi=
-ster support on some m68k CPUs > .....> snip> .....>=C2=A0=3D=3D=3D OUTPUT =
-BEGIN =3D=3D=3D
->=C2=A0ERROR: Author email address is mangled by the mailing list
->=C2=A0#2:=20
->=C2=A0Author: Lucien Murray-Pitts via Qemu-devel <qemu-devel@nongnu.org>
->=C2=A0
->=C2=A0WARNING: Block comments use a leading /* on a separate line
->=C2=A0#46: FILE: target/m68k/cpu.h:465:
->=C2=A0+/* The ColdFire core ISA is a RISC-style reduction of the 68000 ser=
-ies
->=C2=A0
->=C2=A0WARNING: Block comments use * on subsequent lines
->=C2=A0#47: FILE: target/m68k/cpu.h:466:>=C2=A0
->=C2=A0+/* The ColdFire core ISA is a RISC-style reduction of the 68000 ser=
-ies
-> +=C2=A0 Whilst the 68000 flourished by adding extended stack/instructions=
- in>.........> snip
-Q1:=C2=A0 Name mangling seems to be a bug, whats going on - how should I be=
- submiting now?=C2=A0 =C2=A0 =C2=A0 =C2=A0 ( perl script didnt catch it AND=
- there seems to already be a patch from half year or more ago ..=C2=A0https=
-://patchwork.kernel.org/patch/10662525/=C2=A0)=C2=A0 whats the correct acti=
-on here?
-Q2:=C2=A0 I am getting a WARNING but I believe it is an exception in this c=
-ase.=C2=A0 =C2=A0 =C2=A0 =C2=A0 yes I know it breaks the coding style BUT t=
-his coding style was already there for these comments.=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 Should I submit this patch with a move to the RIGHT coding style? or=
- will this patch be accepted as the code is older style?
 
-
- =20
