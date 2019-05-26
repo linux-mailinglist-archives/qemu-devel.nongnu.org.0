@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B722A79C
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:33:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49163 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2992A797
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:30:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49096 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUi2a-0007Lu-BD
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:33:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53756)
+	id 1hUhzg-0004wn-0R
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:30:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53938)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhxD-0003GC-Dy
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:04 -0400
+	(envelope-from <palmer@dabbelt.com>) id 1hUhxC-0003Hg-Hv
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhgM-0006To-Fi
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:39 -0400
-Received: from mail-pg1-f179.google.com ([209.85.215.179]:46128)
+	(envelope-from <palmer@dabbelt.com>) id 1hUhgN-0006UX-Un
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:40 -0400
+Received: from mail-pf1-f173.google.com ([209.85.210.173]:44180)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhgM-0006TB-9U
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:38 -0400
-Received: by mail-pg1-f179.google.com with SMTP id v9so690314pgr.13
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:38 -0700 (PDT)
+	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhgN-0006U6-OK
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:39 -0400
+Received: by mail-pf1-f173.google.com with SMTP id g9so7487399pfo.11
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:cc:from:to;
-	bh=KIAg2gQWYBFXGhiwY1FH7h14Y3/EHJ7QY6t2x+0oGds=;
-	b=IeA3cQyx0fUDB9fS3EhnKrRdGiexBKUVoUMqSoIbeLBizX/lumIUF7/T5svqjzWMzS
-	ITjAWDaA1Ox3DvNw9mASMcZ5cfgI6MpUD8fcoVUaABdiDkpCzDMx4rj2NLWOXnGGcKLL
-	eXINcgA5I1Q9QInKxvCx40OKt60Kd4TKEVx4SoU93qTPARqcmyvkeEu+AWxKZ1bhnMun
-	Q/oJfFckejpwqNi6FBuX7A1SC+pfBYckKdWGVmByxux//kAdb7KOygI4sdiBqJF3JNue
-	/sO5IzTTLOQNd4XcAnz1jBruxRFcg5eshTLfl6KDH+Zl4Sybal05CxakndFUpqIpccXq
-	hIaA==
-X-Gm-Message-State: APjAAAWWakVY2hAJScpGv/8J+6nxNIJwOBxu/87VeGMzcBhiAjTlrjVj
-	n+Yn18eRtsZGdDeHSeecYWj/862blig=
-X-Google-Smtp-Source: APXvYqwF6JP8Us09I64WIsfIvejVotMlJIqNBDgc+/vs2uoDLpkvnii0p/A4OuwgwBNPJEm6mN728g==
-X-Received: by 2002:a17:90a:17c7:: with SMTP id
-	q65mr19925459pja.92.1558833037044; 
-	Sat, 25 May 2019 18:10:37 -0700 (PDT)
-Received: from localhost ([12.206.222.5])
-	by smtp.gmail.com with ESMTPSA id l43sm5675264pjb.7.2019.05.25.18.10.36
+	bh=niN4BQwRj/iTWl309DyTteKW5yqNgmgqemJXUQlVM6Q=;
+	b=tfB02dBStjAMSB1j+6UK3wyLDCfe9xWewMIHl5uElucL5MQk5d3LyP2/em1ehjIHCz
+	SKxkHgD9Q8956fpKmiUgg/AbngXsu0zo0+YabFg9VzCEWQSmKpAVKh9mZpJebsKzZAPG
+	DOG8n4M+KVtp+ydPhPQZURngDCcKnb6aRM5btjLKDOkAjze8HIUgb2tD9okgJGAQQioA
+	8PgjtOXVL4Azgv0arRS1KxTwgoO5feFfnlqZ2uQR8xVTNiG8pExqNyXaVLnquHRqL8kG
+	x1Ijmp+kJue/Lh/0DD8Rwe7LMxeGgwadkq5bBBGoIIp6CuRvoDdTnqeVJDF0HcU8ZBQZ
+	gL7Q==
+X-Gm-Message-State: APjAAAWMT0i09lT5vonYnUhS97j21YgfialrumGMcRQpWlZK7phqpOss
+	wNEM7ecCTe0uIY5odjU19S3BIA==
+X-Google-Smtp-Source: APXvYqxFrBxvVTpxjJFShiK4u0T6spM17yF8HNMDiZvO6E4GU6DAqlnoeguQd7cKu7fk3NdQCW8QjA==
+X-Received: by 2002:a63:1224:: with SMTP id h36mr24384550pgl.9.1558833038226; 
+	Sat, 25 May 2019 18:10:38 -0700 (PDT)
+Received: from localhost ([12.206.222.5]) by smtp.gmail.com with ESMTPSA id
+	a11sm6828548pff.128.2019.05.25.18.10.37
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 25 May 2019 18:10:36 -0700 (PDT)
-Date: Sat, 25 May 2019 18:09:45 -0700
-Message-Id: <20190526010948.3923-27-palmer@sifive.com>
+	Sat, 25 May 2019 18:10:37 -0700 (PDT)
+Date: Sat, 25 May 2019 18:09:46 -0700
+Message-Id: <20190526010948.3923-28-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190526010948.3923-1-palmer@sifive.com>
 References: <20190526010948.3923-1-palmer@sifive.com>
@@ -54,8 +53,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.215.179
-Subject: [Qemu-devel] [PULL 26/29] target/riscv: Add the HGATP register masks
+X-Received-From: 209.85.210.173
+Subject: [Qemu-devel] [PULL 27/29] target/riscv: Add checks for several RVC
+ reserved operands
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,43 +67,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
 	Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <Alistair.Francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+C.ADDI16SP, C.LWSP, C.JR, C.ADDIW, C.LDSP all have reserved
+operands that were not diagnosed.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu_bits.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ target/riscv/insn16-64.decode | 10 ++++++++--
+ target/riscv/insn16.decode    |  7 ++++++-
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index a179137bc1f2..dc9d53d4becf 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -208,6 +208,17 @@
- #define CSR_HIDELEG         0xa03
- #define CSR_HGATP           0xa80
+diff --git a/target/riscv/insn16-64.decode b/target/riscv/insn16-64.decode
+index 055859d29f61..672e1e916f6b 100644
+--- a/target/riscv/insn16-64.decode
++++ b/target/riscv/insn16-64.decode
+@@ -21,10 +21,16 @@ ld                011  ... ... .. ... 00 @cl_d
+ sd                111  ... ... .. ... 00 @cs_d
  
-+#if defined(TARGET_RISCV32)
-+#define HGATP_MODE           SATP32_MODE
-+#define HGATP_ASID           SATP32_ASID
-+#define HGATP_PPN            SATP32_PPN
-+#endif
-+#if defined(TARGET_RISCV64)
-+#define HGATP_MODE           SATP64_MODE
-+#define HGATP_ASID           SATP64_ASID
-+#define HGATP_PPN            SATP64_PPN
-+#endif
-+
- /* Performance Counters */
- #define CSR_MHPMCOUNTER3    0xb03
- #define CSR_MHPMCOUNTER4    0xb04
+ # *** RV64C Standard Extension (Quadrant 1) ***
+-addiw             001 .  .....  ..... 01 @ci
++{
++  illegal         001 -  00000  ----- 01 # c.addiw, RES rd=0
++  addiw           001 .  .....  ..... 01 @ci
++}
+ subw              100 1 11 ... 00 ... 01 @cs_2
+ addw              100 1 11 ... 01 ... 01 @cs_2
+ 
+ # *** RV64C Standard Extension (Quadrant 2) ***
+-ld                011 .  .....  ..... 10 @c_ldsp
++{
++  illegal         011 -  00000  ----- 10 # c.ldsp, RES rd=0
++  ld              011 .  .....  ..... 10 @c_ldsp
++}
+ sd                111 .  .....  ..... 10 @c_sdsp
+diff --git a/target/riscv/insn16.decode b/target/riscv/insn16.decode
+index 433c0e8c6861..1cb93876fe0f 100644
+--- a/target/riscv/insn16.decode
++++ b/target/riscv/insn16.decode
+@@ -96,6 +96,7 @@ sw                110  ... ... .. ... 00 @cs_w
+ addi              000 .  .....  ..... 01 @ci
+ addi              010 .  .....  ..... 01 @c_li
+ {
++  illegal         011 0  -----  00000 01 # c.addi16sp and c.lui, RES nzimm=0
+   addi            011 .  00010  ..... 01 @c_addi16sp
+   lui             011 .  .....  ..... 01 @c_lui
+ }
+@@ -113,8 +114,12 @@ bne               111  ... ...  ..... 01 @cb_z
+ # *** RV32/64C Standard Extension (Quadrant 2) ***
+ slli              000 .  .....  ..... 10 @c_shift2
+ fld               001 .  .....  ..... 10 @c_ldsp
+-lw                010 .  .....  ..... 10 @c_lwsp
+ {
++  illegal         010 -  00000  ----- 10 # c.lwsp, RES rd=0
++  lw              010 .  .....  ..... 10 @c_lwsp
++}
++{
++  illegal         100 0  00000  00000 10 # c.jr, RES rs1=0
+   jalr            100 0  .....  00000 10 @c_jalr rd=0  # C.JR
+   addi            100 0  .....  ..... 10 @c_mv
+ }
 -- 
 2.21.0
 
