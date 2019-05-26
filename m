@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C9B2AB32
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 18:30:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57221 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A767E2AB28
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 18:27:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57199 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUw2B-0006co-9N
-	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 12:30:07 -0400
+	id 1hUvzK-0004Cn-P3
+	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 12:27:10 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:40909)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hUvwr-0002p3-Iz
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 12:24:38 -0400
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hUvwm-0002p3-DI
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 12:24:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hUvsk-0007Pg-Gp
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 12:20:23 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:36572 helo=mail.rt-rk.com)
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hUvsk-0007PK-FA
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 12:20:24 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:36577 helo=mail.rt-rk.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hUvsk-0007O9-5y
+	id 1hUvsk-0007OF-3O
 	for qemu-devel@nongnu.org; Sun, 26 May 2019 12:20:22 -0400
 Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id BECFC1A4BB3;
+	by mail.rt-rk.com (Postfix) with ESMTP id D02751A4B54;
 	Sun, 26 May 2019 18:19:16 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
 	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id 9ED011A4BA1;
+	by mail.rt-rk.com (Postfix) with ESMTPSA id A87CC1A4BBB;
 	Sun, 26 May 2019 18:19:16 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Sun, 26 May 2019 18:19:10 +0200
-Message-Id: <1558887551-32137-12-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Sun, 26 May 2019 18:19:11 +0200
+Message-Id: <1558887551-32137-13-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558887551-32137-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1558887551-32137-1-git-send-email-aleksandar.markovic@rt-rk.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 11/12] target/mips: realign comments to fix
- checkpatch warnings
+Subject: [Qemu-devel] [PULL 12/12] BootLinuxSshTest: Test some userspace
+ commands on Malta
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,101 +58,341 @@ Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jules Irenge <jbi.octave@gmail.com>
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Realign comments to fix warnings issued by checkpatc.pl tool
- "WARNING: Block comments use a leading /* on a separate line"
-within "target/mips/cpu.h" file.
+This tests boot a full VM and check the serial console until
+the SSH daemon is running, then start a SSH session and run
+some commands.
 
-Signed-off-by: Jules Irenge <jbi.octave@gmail.com>
+This test can be run using:
+
+  $ avocado --show=3Dssh run -t arch:mips tests/acceptance/linux_ssh_mips=
+_malta.py
+  ssh: Entering interactive session.
+  ssh: # uname -a
+  ssh: Linux debian-mips 3.2.0-4-4kc-malta #1 Debian 3.2.51-1 mips GNU/Li=
+nux
+  ssh: # lspci -d 11ab:4620
+  ssh: 00:00.0 Host bridge: Marvell Technology Group Ltd. GT-64120/64120A=
+/64121A System Controller (rev 10)
+  ssh: # cat /sys/bus/i2c/devices/i2c-0/name
+  ssh: SMBus PIIX4 adapter at 1100
+  ssh: # cat /proc/mtd
+  ssh: dev:    size   erasesize  name
+  ssh: mtd0: 00100000 00010000 "YAMON"
+  ssh: mtd1: 002e0000 00010000 "User FS"
+  ssh: mtd2: 00020000 00010000 "Board Config"
+  ssh: # md5sum /dev/mtd2ro
+  ssh: 0dfbe8aa4c20b52e1b8bf3cb6cbdf193  /dev/mtd2ro
+  ssh: # poweroff
+
+Acked-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20190413202818.13622-3-jbi.octave@gmail.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20190523161832.22490-5-f4bug@amsat.org>
 ---
- target/mips/cpu.h | 34 ++++++++++++++++++++++------------
- 1 file changed, 22 insertions(+), 12 deletions(-)
+ MAINTAINERS                              |   1 +
+ tests/acceptance/linux_ssh_mips_malta.py | 230 +++++++++++++++++++++++++=
+++++++
+ tests/requirements.txt                   |   1 +
+ 3 files changed, 232 insertions(+)
+ create mode 100644 tests/acceptance/linux_ssh_mips_malta.py
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 71dd403..06a8ed4 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -37,7 +37,8 @@ union fpr_t {
- /* FPU/MSA register mapping is not tested on big-endian hosts. */
-     wr_t     wr;   /* vector data */
- };
--/* define FP_ENDIAN_IDX to access the same location
-+/*
-+ *define FP_ENDIAN_IDX to access the same location
-  * in the fpr_t union regardless of the host endianness
-  */
- #if defined(HOST_WORDS_BIGENDIAN)
-@@ -976,9 +977,11 @@ struct CPUMIPSState {
-     /* TMASK defines different execution modes */
- #define MIPS_HFLAG_TMASK  0x1F5807FF
- #define MIPS_HFLAG_MODE   0x00007 /* execution modes                    */
--    /* The KSU flags must be the lowest bits in hflags. The flag order
--       must be the same as defined for CP0 Status. This allows to use
--       the bits as the value of mmu_idx. */
-+    /*
-+     * The KSU flags must be the lowest bits in hflags. The flag order
-+     * must be the same as defined for CP0 Status. This allows to use
-+     * the bits as the value of mmu_idx.
-+     */
- #define MIPS_HFLAG_KSU    0x00003 /* kernel/supervisor/user mode mask   */
- #define MIPS_HFLAG_UM     0x00002 /* user mode flag                     */
- #define MIPS_HFLAG_SM     0x00001 /* supervisor mode flag               */
-@@ -988,18 +991,22 @@ struct CPUMIPSState {
- #define MIPS_HFLAG_CP0    0x00010 /* CP0 enabled                        */
- #define MIPS_HFLAG_FPU    0x00020 /* FPU enabled                        */
- #define MIPS_HFLAG_F64    0x00040 /* 64-bit FPU enabled                 */
--    /* True if the MIPS IV COP1X instructions can be used.  This also
--       controls the non-COP1X instructions RECIP.S, RECIP.D, RSQRT.S
--       and RSQRT.D.  */
-+    /*
-+     * True if the MIPS IV COP1X instructions can be used.  This also
-+     * controls the non-COP1X instructions RECIP.S, RECIP.D, RSQRT.S
-+     * and RSQRT.D.
-+     */
- #define MIPS_HFLAG_COP1X  0x00080 /* COP1X instructions enabled         */
- #define MIPS_HFLAG_RE     0x00100 /* Reversed endianness                */
- #define MIPS_HFLAG_AWRAP  0x00200 /* 32-bit compatibility address wrapping */
- #define MIPS_HFLAG_M16    0x00400 /* MIPS16 mode flag                   */
- #define MIPS_HFLAG_M16_SHIFT 10
--    /* If translation is interrupted between the branch instruction and
-+    /*
-+     * If translation is interrupted between the branch instruction and
-      * the delay slot, record what type of branch it is so that we can
-      * resume translation properly.  It might be possible to reduce
--     * this from three bits to two.  */
-+     * this from three bits to two.
-+     */
- #define MIPS_HFLAG_BMASK_BASE  0x803800
- #define MIPS_HFLAG_B      0x00800 /* Unconditional branch               */
- #define MIPS_HFLAG_BC     0x01000 /* Conditional branch                 */
-@@ -1086,8 +1093,10 @@ void mips_cpu_list(void);
- extern void cpu_wrdsp(uint32_t rs, uint32_t mask_num, CPUMIPSState *env);
- extern uint32_t cpu_rddsp(uint32_t mask_num, CPUMIPSState *env);
- 
--/* MMU modes definitions. We carefully match the indices with our
--   hflags layout. */
-+/*
-+ * MMU modes definitions. We carefully match the indices with our
-+ * hflags layout.
-+ */
- #define MMU_MODE0_SUFFIX _kernel
- #define MMU_MODE1_SUFFIX _super
- #define MMU_MODE2_SUFFIX _user
-@@ -1110,7 +1119,8 @@ static inline int cpu_mmu_index(CPUMIPSState *env, bool ifetch)
- 
- #include "exec/cpu-all.h"
- 
--/* Memory access type :
-+/*
-+ * Memory access type :
-  * may be needed for precise access rights control and precise exceptions.
-  */
- enum {
--- 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3cacd75..8c34d5c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -934,6 +934,7 @@ M: Aurelien Jarno <aurelien@aurel32.net>
+ R: Aleksandar Rikalo <arikalo@wavecomp.com>
+ S: Maintained
+ F: hw/mips/mips_malta.c
++F: tests/acceptance/linux_ssh_mips_malta.py
+=20
+ Mipssim
+ M: Aleksandar Markovic <amarkovic@wavecomp.com>
+diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/=
+linux_ssh_mips_malta.py
+new file mode 100644
+index 0000000..aafb0c3
+--- /dev/null
++++ b/tests/acceptance/linux_ssh_mips_malta.py
+@@ -0,0 +1,230 @@
++# Functional test that boots a VM and run commands via a SSH session
++#
++# Copyright (c) Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++import os
++import re
++import base64
++import logging
++import paramiko
++import time
++
++from avocado import skipIf
++from avocado_qemu import Test
++from avocado.utils import process
++from avocado.utils import archive
++
++
++class LinuxSSH(Test):
++
++    timeout =3D 150 # Not for 'configure --enable-debug --enable-debug-t=
+cg'
++
++    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
++    VM_IP =3D '127.0.0.1'
++
++    IMAGE_INFO =3D {
++        'be': {
++            'image_url': 'https://people.debian.org/~aurel32/qemu/mips/'
++                         'debian_wheezy_mips_standard.qcow2',
++            'image_hash': '8987a63270df67345b2135a6b7a4885a35e392d5',
++            'rsa_hostkey': b'AAAAB3NzaC1yc2EAAAADAQABAAABAQCca1VitiyLAdQ=
+Old'
++                           b'zT43IOEVJZ0wHD78GJi8wDAjMiYWUzNSSn0rXGQsINH=
+uH5'
++                           b'IlF+kBZsHinb/FtKCAyS9a8uCHhQI4SuB4QhAb0+39M=
+lUw'
++                           b'Mm0CLkctgM2eUUZ6MQMQvDlqnue6CCkxN62EZYbaxmb=
+y7j'
++                           b'CQa1125o1HRKBvdGm2zrJWxXAfA+f1v6jHLyE8Jnu83=
+eQ+'
++                           b'BFY25G+Vzx1PVc3zQBwJ8r0NGTRqy2//oWQP0h+bMsg=
+eFe'
++                           b'KH/J3RJM22vg6+I4JAdBFcxnK+l781h1FuRxOn4O/Xs=
+lbg'
++                           b'go6WtB4V4TOsw2E/KfxI5IZ/icxF+swVcnvF46Hf3uQ=
+c/0'
++                           b'BBqb',
++        },
++        'le': {
++            'image_url': 'https://people.debian.org/~aurel32/qemu/mipsel=
+/'
++                         'debian_wheezy_mipsel_standard.qcow2',
++            'image_hash': '7866764d9de3ef536ffca24c9fb9f04ffdb45802',
++            'rsa_hostkey': b'AAAAB3NzaC1yc2EAAAADAQABAAABAQClXJlBT71HL5y=
+Kvv'
++                           b'gfC7jmxSWx5zSBCzET6CLZczwAafSIs7YKfNOy/dQTx=
+huk'
++                           b'yIGFUugZFoF3E9PzdhunuyvyTd56MPoNIqFbb5rGokw=
+U5I'
++                           b'TOx3dBHZR0mClypL6MVrwe0bsiIb8GhF1zioNwcsaAZ=
+nAi'
++                           b'KfXStVDtXvn/kLLq+xLABYt48CC5KYWoFaCoICskLAY=
++qo'
++                           b'L+LWyAnQisj4jAH8VSaSKIImFpfkHWEXPhHcC4ZBlDK=
+tnH'
++                           b'po9vhfCHgnfW3Pzrqmk8BI4HysqPFVmJWkJGlGUL+sG=
+eg3'
++                           b'ZZolAYuDXGuBrw8ooPJq2v2dOH+z6dyD2q/ypmAbyPq=
+j5C'
++                           b'rc8H',
++        },
++    }
++
++    def wait_for_console_pattern(self, success_message,
++                                 failure_message=3D'Oops'):
++        console =3D self.vm.console_socket.makefile()
++        console_logger =3D logging.getLogger('console')
++        while True:
++            msg =3D console.readline()
++            console_logger.debug(msg.strip())
++            if success_message in msg:
++                break
++            if failure_message in msg:
++                fail =3D 'Failure message found in console: %s' % failur=
+e_message
++                self.fail(fail)
++
++    def get_portfwd(self):
++        res =3D self.vm.command('human-monitor-command',
++                              command_line=3D'info usernet')
++        line =3D res.split('\r\n')[2]
++        port =3D re.split(r'.*TCP.HOST_FORWARD.*127\.0\.0\.1 (\d+)\s+10\=
+..*',
++                        line)[1]
++        self.log.debug("sshd listening on port:" + port)
++        return port
++
++    def ssh_connect(self, username, password, rsa_hostkey_b64=3DNone):
++        self.ssh_logger =3D logging.getLogger('ssh')
++        self.ssh_username =3D username
++        self.ssh_ps1 =3D '# ' if username is 'root' else '$ '
++        self.ssh_client =3D paramiko.SSHClient()
++        port =3D self.get_portfwd()
++        if rsa_hostkey_b64:
++            rsa_hostkey_bin =3D base64.b64decode(rsa_hostkey_b64)
++            rsa_hostkey =3D paramiko.RSAKey(data =3D rsa_hostkey_bin)
++            ipport =3D '[%s]:%s' % (self.VM_IP, port)
++            self.ssh_logger.debug('ipport ' + ipport)
++            self.ssh_client.get_host_keys().add(ipport, 'ssh-rsa', rsa_h=
+ostkey)
++        for i in range(10):
++            try:
++                self.ssh_client.connect(self.VM_IP, int(port),
++                                        username, password, banner_timeo=
+ut=3D90)
++                self.ssh_logger.info("Entering interactive session.")
++                return
++            except:
++                time.sleep(4)
++                pass
++        self.fail("sshd timeout")
++
++    def ssh_disconnect_vm(self):
++        self.ssh_client.close()
++
++    def ssh_command(self, command, is_root=3DTrue):
++        self.ssh_logger.info(self.ssh_ps1 + command)
++        stdin, stdout, stderr =3D self.ssh_client.exec_command(command)
++        stdout_lines =3D [line.strip('\n') for line in stdout]
++        for line in stdout_lines:
++            self.ssh_logger.info(line)
++        stderr_lines =3D [line.strip('\n') for line in stderr]
++        for line in stderr_lines:
++            self.ssh_logger.warning(line)
++        return stdout_lines, stderr_lines
++
++    def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_p=
+ath):
++        image_url =3D self.IMAGE_INFO[endianess]['image_url']
++        image_hash =3D self.IMAGE_INFO[endianess]['image_hash']
++        image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_ha=
+sh)
++        rsa_hostkey_b64 =3D self.IMAGE_INFO[endianess]['rsa_hostkey']
++
++        self.vm.set_machine('malta')
++        self.vm.set_console()
++        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE
++                               + 'console=3DttyS0 root=3D/dev/sda1')
++        self.vm.add_args('-no-reboot',
++                         '-kernel', kernel_path,
++                         '-append', kernel_command_line,
++                         '-hda', image_path,
++                         '-netdev', 'user,id=3Dvnet,hostfwd=3D:127.0.0.1=
+:0-:22',
++                         '-device', 'pcnet,netdev=3Dvnet')
++        self.vm.launch()
++
++        self.log.info('VM launched, waiting for sshd')
++        console_pattern =3D 'Starting OpenBSD Secure Shell server: sshd'
++        self.wait_for_console_pattern(console_pattern)
++        self.log.info('sshd ready')
++
++        self.ssh_connect('root', 'root', rsa_hostkey_b64=3Drsa_hostkey_b=
+64)
++
++    def shutdown_via_ssh(self):
++        self.ssh_command('poweroff')
++        self.ssh_disconnect_vm()
++        self.wait_for_console_pattern('Power down')
++
++    def run_common_commands(self):
++        stdout, stderr =3D self.ssh_command('lspci -d 11ab:4620')
++        self.assertIn(True, ["GT-64120" in line for line in stdout])
++
++        stdout, stderr =3D self.ssh_command('cat /sys/bus/i2c/devices/i2=
+c-0/name')
++        self.assertIn(True, ["SMBus PIIX4 adapter" in line
++                             for line in stdout])
++
++        stdout, stderr =3D self.ssh_command('cat /proc/mtd')
++        self.assertIn(True, ["YAMON" in line
++                             for line in stdout])
++
++        # Empty 'Board Config'
++        stdout, stderr =3D self.ssh_command('md5sum /dev/mtd2ro')
++        self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in line
++                             for line in stdout])
++
++    def do_test_mips_malta(self, endianess, kernel_path, uname_m):
++        self.boot_debian_wheezy_image_and_ssh_login(endianess, kernel_pa=
+th)
++
++        stdout, stderr =3D self.ssh_command('uname -a')
++        self.assertIn(True, [uname_m + " GNU/Linux" in line for line in =
+stdout])
++
++        self.run_common_commands()
++        self.shutdown_via_ssh()
++
++    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
++    def test_mips_malta32eb_kernel3_2_0(self):
++        """
++        :avocado: tags=3Darch:mips
++        :avocado: tags=3Dmachine:malta
++        :avocado: tags=3Dendian:big
++        :avocado: tags=3Ddevice:pcnet32
++        """
++        kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mips/'
++                      'vmlinux-3.2.0-4-4kc-malta')
++        kernel_hash =3D '592e384a4edc16dade52a6cd5c785c637bcbc9ad'
++        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
++
++        self.do_test_mips_malta('be', kernel_path, 'mips')
++
++    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
++    def test_mips_malta32el_kernel3_2_0(self):
++        """
++        :avocado: tags=3Darch:mipsel
++        :avocado: tags=3Dmachine:malta
++        :avocado: tags=3Dendian:little
++        :avocado: tags=3Ddevice:pcnet32
++        """
++        kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mipsel/=
+'
++                      'vmlinux-3.2.0-4-4kc-malta')
++        kernel_hash =3D 'a66bea5a8adaa2cb3d36a1d4e0ccdb01be8f6c2a'
++        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
++
++        self.do_test_mips_malta('le', kernel_path, 'mips')
++
++    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
++    def test_mips_malta64eb_kernel3_2_0(self):
++        """
++        :avocado: tags=3Darch:mips64
++        :avocado: tags=3Dmachine:malta
++        :avocado: tags=3Dendian:big
++        :avocado: tags=3Ddevice:pcnet32
++        """
++        kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mips/'
++                      'vmlinux-3.2.0-4-5kc-malta')
++        kernel_hash =3D 'db6eea7de35d36c77d8c165b6bcb222e16eb91db'
++        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
++        self.do_test_mips_malta('be', kernel_path, 'mips64')
++
++    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
++    def test_mips_malta64el_kernel3_2_0(self):
++        """
++        :avocado: tags=3Darch:mips64el
++        :avocado: tags=3Dmachine:malta
++        :avocado: tags=3Dendian:little
++        :avocado: tags=3Ddevice:pcnet32
++        """
++        kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mipsel/=
+'
++                      'vmlinux-3.2.0-4-5kc-malta')
++        kernel_hash =3D '6a7f77245acf231415a0e8b725d91ed2f3487794'
++        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
++        self.do_test_mips_malta('le', kernel_path, 'mips64')
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index 002ded6..3ae0e29 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -2,3 +2,4 @@
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+ avocado-framework=3D=3D68.0
++paramiko
+--=20
 2.7.4
 
 
