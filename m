@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DCB2AB3C
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 18:35:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57299 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FB62AB2E
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 18:29:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57219 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUw7b-0002j5-9M
-	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 12:35:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40904)
+	id 1hUw1p-0006M2-6Z
+	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 12:29:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40909)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hUvx0-0002p2-I1
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hUvx0-0002p3-KO
 	for qemu-devel@nongnu.org; Sun, 26 May 2019 12:24:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hUvsj-0007Np-2F
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hUvsj-0007Nu-2h
 	for qemu-devel@nongnu.org; Sun, 26 May 2019 12:20:22 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:35918 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:35919 helo=mail.rt-rk.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hUvsi-0006sk-ND
+	id 1hUvsi-0006sl-Nc
 	for qemu-devel@nongnu.org; Sun, 26 May 2019 12:20:20 -0400
 Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id 6DF731A4BAA;
+	by mail.rt-rk.com (Postfix) with ESMTP id 7CC3C1A4B7C;
 	Sun, 26 May 2019 18:19:16 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
 	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id 4956B1A4B7C;
+	by mail.rt-rk.com (Postfix) with ESMTPSA id 553581A4B7F;
 	Sun, 26 May 2019 18:19:16 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Sun, 26 May 2019 18:19:02 +0200
-Message-Id: <1558887551-32137-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Sun, 26 May 2019 18:19:03 +0200
+Message-Id: <1558887551-32137-5-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558887551-32137-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1558887551-32137-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 03/12] target/mips: Fix MSA instructions
- LD.<B|H|W|D> on big endian host
+Subject: [Qemu-devel] [PULL 04/12] target/mips: Fix MSA instructions
+ ST.<B|H|W|D> on big endian host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,220 +58,232 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
 
 Fix the case when the host is a big endian machine, and change
-the approach toward LD.<B|H|W|D> instruction helpers.
+the approach toward ST.<B|H|W|D> instruction helpers.
 
 Signed-off-by: Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1554212605-16457-2-git-send-email-mateja.marjanovic@rt-rk.com>
+Message-Id: <1554212605-16457-3-git-send-email-mateja.marjanovic@rt-rk.com>
 ---
- target/mips/op_helper.c | 188 ++++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 168 insertions(+), 20 deletions(-)
+ target/mips/op_helper.c | 200 +++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 180 insertions(+), 20 deletions(-)
 
 diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 6d86912..a8ae438 100644
+index a8ae438..3918027 100644
 --- a/target/mips/op_helper.c
 +++ b/target/mips/op_helper.c
-@@ -4356,31 +4356,179 @@ FOP_CONDN_S(sne,  (float32_lt(fst1, fst0, &env->active_fpu.fp_status)
- #define MEMOP_IDX(DF)
+@@ -4550,31 +4550,191 @@ static inline void ensure_writable_pages(CPUMIPSState *env,
  #endif
+ }
  
--#define MSA_LD_DF(DF, TYPE, LD_INSN, ...)                               \
--void helper_msa_ld_ ## TYPE(CPUMIPSState *env, uint32_t wd,             \
+-#define MSA_ST_DF(DF, TYPE, ST_INSN, ...)                               \
+-void helper_msa_st_ ## TYPE(CPUMIPSState *env, uint32_t wd,             \
 -                            target_ulong addr)                          \
 -{                                                                       \
 -    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);                          \
--    wr_t wx;                                                            \
+-    int mmu_idx = cpu_mmu_index(env, false);				\
 -    int i;                                                              \
 -    MEMOP_IDX(DF)                                                       \
+-    ensure_writable_pages(env, addr, mmu_idx, GETPC());                 \
 -    for (i = 0; i < DF_ELEMENTS(DF); i++) {                             \
--        wx.TYPE[i] = LD_INSN(env, addr + (i << DF), ##__VA_ARGS__);     \
+-        ST_INSN(env, addr + (i << DF), pwd->TYPE[i], ##__VA_ARGS__);    \
 -    }                                                                   \
--    memcpy(pwd, &wx, sizeof(wr_t));                                     \
-+void helper_msa_ld_b(CPUMIPSState *env, uint32_t wd,
++void helper_msa_st_b(CPUMIPSState *env, uint32_t wd,
 +                     target_ulong addr)
 +{
 +    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    int mmu_idx = cpu_mmu_index(env, false);
++
 +    MEMOP_IDX(DF_BYTE)
++    ensure_writable_pages(env, addr, mmu_idx, GETPC());
 +#if !defined(CONFIG_USER_ONLY)
 +#if !defined(HOST_WORDS_BIGENDIAN)
-+    pwd->b[0]  = helper_ret_ldub_mmu(env, addr + (0  << DF_BYTE), oi, GETPC());
-+    pwd->b[1]  = helper_ret_ldub_mmu(env, addr + (1  << DF_BYTE), oi, GETPC());
-+    pwd->b[2]  = helper_ret_ldub_mmu(env, addr + (2  << DF_BYTE), oi, GETPC());
-+    pwd->b[3]  = helper_ret_ldub_mmu(env, addr + (3  << DF_BYTE), oi, GETPC());
-+    pwd->b[4]  = helper_ret_ldub_mmu(env, addr + (4  << DF_BYTE), oi, GETPC());
-+    pwd->b[5]  = helper_ret_ldub_mmu(env, addr + (5  << DF_BYTE), oi, GETPC());
-+    pwd->b[6]  = helper_ret_ldub_mmu(env, addr + (6  << DF_BYTE), oi, GETPC());
-+    pwd->b[7]  = helper_ret_ldub_mmu(env, addr + (7  << DF_BYTE), oi, GETPC());
-+    pwd->b[8]  = helper_ret_ldub_mmu(env, addr + (8  << DF_BYTE), oi, GETPC());
-+    pwd->b[9]  = helper_ret_ldub_mmu(env, addr + (9  << DF_BYTE), oi, GETPC());
-+    pwd->b[10] = helper_ret_ldub_mmu(env, addr + (10 << DF_BYTE), oi, GETPC());
-+    pwd->b[11] = helper_ret_ldub_mmu(env, addr + (11 << DF_BYTE), oi, GETPC());
-+    pwd->b[12] = helper_ret_ldub_mmu(env, addr + (12 << DF_BYTE), oi, GETPC());
-+    pwd->b[13] = helper_ret_ldub_mmu(env, addr + (13 << DF_BYTE), oi, GETPC());
-+    pwd->b[14] = helper_ret_ldub_mmu(env, addr + (14 << DF_BYTE), oi, GETPC());
-+    pwd->b[15] = helper_ret_ldub_mmu(env, addr + (15 << DF_BYTE), oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (0  << DF_BYTE), pwd->b[0],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (1  << DF_BYTE), pwd->b[1],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (2  << DF_BYTE), pwd->b[2],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (3  << DF_BYTE), pwd->b[3],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (4  << DF_BYTE), pwd->b[4],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (5  << DF_BYTE), pwd->b[5],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (6  << DF_BYTE), pwd->b[6],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (7  << DF_BYTE), pwd->b[7],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (8  << DF_BYTE), pwd->b[8],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (9  << DF_BYTE), pwd->b[9],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (10 << DF_BYTE), pwd->b[10], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (11 << DF_BYTE), pwd->b[11], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (12 << DF_BYTE), pwd->b[12], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (13 << DF_BYTE), pwd->b[13], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (14 << DF_BYTE), pwd->b[14], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (15 << DF_BYTE), pwd->b[15], oi, GETPC());
 +#else
-+    pwd->b[0]  = helper_ret_ldub_mmu(env, addr + (7  << DF_BYTE), oi, GETPC());
-+    pwd->b[1]  = helper_ret_ldub_mmu(env, addr + (6  << DF_BYTE), oi, GETPC());
-+    pwd->b[2]  = helper_ret_ldub_mmu(env, addr + (5  << DF_BYTE), oi, GETPC());
-+    pwd->b[3]  = helper_ret_ldub_mmu(env, addr + (4  << DF_BYTE), oi, GETPC());
-+    pwd->b[4]  = helper_ret_ldub_mmu(env, addr + (3  << DF_BYTE), oi, GETPC());
-+    pwd->b[5]  = helper_ret_ldub_mmu(env, addr + (2  << DF_BYTE), oi, GETPC());
-+    pwd->b[6]  = helper_ret_ldub_mmu(env, addr + (1  << DF_BYTE), oi, GETPC());
-+    pwd->b[7]  = helper_ret_ldub_mmu(env, addr + (0  << DF_BYTE), oi, GETPC());
-+    pwd->b[8]  = helper_ret_ldub_mmu(env, addr + (15 << DF_BYTE), oi, GETPC());
-+    pwd->b[9]  = helper_ret_ldub_mmu(env, addr + (14 << DF_BYTE), oi, GETPC());
-+    pwd->b[10] = helper_ret_ldub_mmu(env, addr + (13 << DF_BYTE), oi, GETPC());
-+    pwd->b[11] = helper_ret_ldub_mmu(env, addr + (12 << DF_BYTE), oi, GETPC());
-+    pwd->b[12] = helper_ret_ldub_mmu(env, addr + (11 << DF_BYTE), oi, GETPC());
-+    pwd->b[13] = helper_ret_ldub_mmu(env, addr + (10 << DF_BYTE), oi, GETPC());
-+    pwd->b[14] = helper_ret_ldub_mmu(env, addr + (9  << DF_BYTE), oi, GETPC());
-+    pwd->b[15] = helper_ret_ldub_mmu(env, addr + (8  << DF_BYTE), oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (7  << DF_BYTE), pwd->b[0],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (6  << DF_BYTE), pwd->b[1],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (5  << DF_BYTE), pwd->b[2],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (4  << DF_BYTE), pwd->b[3],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (3  << DF_BYTE), pwd->b[4],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (2  << DF_BYTE), pwd->b[5],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (1  << DF_BYTE), pwd->b[6],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (0  << DF_BYTE), pwd->b[7],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (15 << DF_BYTE), pwd->b[8],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (14 << DF_BYTE), pwd->b[9],  oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (13 << DF_BYTE), pwd->b[10], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (12 << DF_BYTE), pwd->b[11], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (11 << DF_BYTE), pwd->b[12], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (10 << DF_BYTE), pwd->b[13], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (9  << DF_BYTE), pwd->b[14], oi, GETPC());
++    helper_ret_stb_mmu(env, addr + (8  << DF_BYTE), pwd->b[15], oi, GETPC());
 +#endif
 +#else
 +#if !defined(HOST_WORDS_BIGENDIAN)
-+    pwd->b[0]  = cpu_ldub_data(env, addr + (0  << DF_BYTE));
-+    pwd->b[1]  = cpu_ldub_data(env, addr + (1  << DF_BYTE));
-+    pwd->b[2]  = cpu_ldub_data(env, addr + (2  << DF_BYTE));
-+    pwd->b[3]  = cpu_ldub_data(env, addr + (3  << DF_BYTE));
-+    pwd->b[4]  = cpu_ldub_data(env, addr + (4  << DF_BYTE));
-+    pwd->b[5]  = cpu_ldub_data(env, addr + (5  << DF_BYTE));
-+    pwd->b[6]  = cpu_ldub_data(env, addr + (6  << DF_BYTE));
-+    pwd->b[7]  = cpu_ldub_data(env, addr + (7  << DF_BYTE));
-+    pwd->b[8]  = cpu_ldub_data(env, addr + (8  << DF_BYTE));
-+    pwd->b[9]  = cpu_ldub_data(env, addr + (9  << DF_BYTE));
-+    pwd->b[10] = cpu_ldub_data(env, addr + (10 << DF_BYTE));
-+    pwd->b[11] = cpu_ldub_data(env, addr + (11 << DF_BYTE));
-+    pwd->b[12] = cpu_ldub_data(env, addr + (12 << DF_BYTE));
-+    pwd->b[13] = cpu_ldub_data(env, addr + (13 << DF_BYTE));
-+    pwd->b[14] = cpu_ldub_data(env, addr + (14 << DF_BYTE));
-+    pwd->b[15] = cpu_ldub_data(env, addr + (15 << DF_BYTE));
++    cpu_stb_data(env, addr + (0  << DF_BYTE), pwd->b[0]);
++    cpu_stb_data(env, addr + (1  << DF_BYTE), pwd->b[1]);
++    cpu_stb_data(env, addr + (2  << DF_BYTE), pwd->b[2]);
++    cpu_stb_data(env, addr + (3  << DF_BYTE), pwd->b[3]);
++    cpu_stb_data(env, addr + (4  << DF_BYTE), pwd->b[4]);
++    cpu_stb_data(env, addr + (5  << DF_BYTE), pwd->b[5]);
++    cpu_stb_data(env, addr + (6  << DF_BYTE), pwd->b[6]);
++    cpu_stb_data(env, addr + (7  << DF_BYTE), pwd->b[7]);
++    cpu_stb_data(env, addr + (8  << DF_BYTE), pwd->b[8]);
++    cpu_stb_data(env, addr + (9  << DF_BYTE), pwd->b[9]);
++    cpu_stb_data(env, addr + (10 << DF_BYTE), pwd->b[10]);
++    cpu_stb_data(env, addr + (11 << DF_BYTE), pwd->b[11]);
++    cpu_stb_data(env, addr + (12 << DF_BYTE), pwd->b[12]);
++    cpu_stb_data(env, addr + (13 << DF_BYTE), pwd->b[13]);
++    cpu_stb_data(env, addr + (14 << DF_BYTE), pwd->b[14]);
++    cpu_stb_data(env, addr + (15 << DF_BYTE), pwd->b[15]);
 +#else
-+    pwd->b[0]  = cpu_ldub_data(env, addr + (7  << DF_BYTE));
-+    pwd->b[1]  = cpu_ldub_data(env, addr + (6  << DF_BYTE));
-+    pwd->b[2]  = cpu_ldub_data(env, addr + (5  << DF_BYTE));
-+    pwd->b[3]  = cpu_ldub_data(env, addr + (4  << DF_BYTE));
-+    pwd->b[4]  = cpu_ldub_data(env, addr + (3  << DF_BYTE));
-+    pwd->b[5]  = cpu_ldub_data(env, addr + (2  << DF_BYTE));
-+    pwd->b[6]  = cpu_ldub_data(env, addr + (1  << DF_BYTE));
-+    pwd->b[7]  = cpu_ldub_data(env, addr + (0  << DF_BYTE));
-+    pwd->b[8]  = cpu_ldub_data(env, addr + (15 << DF_BYTE));
-+    pwd->b[9]  = cpu_ldub_data(env, addr + (14 << DF_BYTE));
-+    pwd->b[10] = cpu_ldub_data(env, addr + (13 << DF_BYTE));
-+    pwd->b[11] = cpu_ldub_data(env, addr + (12 << DF_BYTE));
-+    pwd->b[12] = cpu_ldub_data(env, addr + (11 << DF_BYTE));
-+    pwd->b[13] = cpu_ldub_data(env, addr + (10 << DF_BYTE));
-+    pwd->b[14] = cpu_ldub_data(env, addr + (9 << DF_BYTE));
-+    pwd->b[15] = cpu_ldub_data(env, addr + (8 << DF_BYTE));
++    cpu_stb_data(env, addr + (7  << DF_BYTE), pwd->b[0]);
++    cpu_stb_data(env, addr + (6  << DF_BYTE), pwd->b[1]);
++    cpu_stb_data(env, addr + (5  << DF_BYTE), pwd->b[2]);
++    cpu_stb_data(env, addr + (4  << DF_BYTE), pwd->b[3]);
++    cpu_stb_data(env, addr + (3  << DF_BYTE), pwd->b[4]);
++    cpu_stb_data(env, addr + (2  << DF_BYTE), pwd->b[5]);
++    cpu_stb_data(env, addr + (1  << DF_BYTE), pwd->b[6]);
++    cpu_stb_data(env, addr + (0  << DF_BYTE), pwd->b[7]);
++    cpu_stb_data(env, addr + (15 << DF_BYTE), pwd->b[8]);
++    cpu_stb_data(env, addr + (14 << DF_BYTE), pwd->b[9]);
++    cpu_stb_data(env, addr + (13 << DF_BYTE), pwd->b[10]);
++    cpu_stb_data(env, addr + (12 << DF_BYTE), pwd->b[11]);
++    cpu_stb_data(env, addr + (11 << DF_BYTE), pwd->b[12]);
++    cpu_stb_data(env, addr + (10 << DF_BYTE), pwd->b[13]);
++    cpu_stb_data(env, addr + (9  << DF_BYTE), pwd->b[14]);
++    cpu_stb_data(env, addr + (8  << DF_BYTE), pwd->b[15]);
++#endif
++#endif
++}
++
++void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
++                     target_ulong addr)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    int mmu_idx = cpu_mmu_index(env, false);
++
++    MEMOP_IDX(DF_HALF)
++    ensure_writable_pages(env, addr, mmu_idx, GETPC());
++#if !defined(CONFIG_USER_ONLY)
++#if !defined(HOST_WORDS_BIGENDIAN)
++    helper_ret_stw_mmu(env, addr + (0 << DF_HALF), pwd->h[0], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (1 << DF_HALF), pwd->h[1], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (2 << DF_HALF), pwd->h[2], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (3 << DF_HALF), pwd->h[3], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (4 << DF_HALF), pwd->h[4], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (5 << DF_HALF), pwd->h[5], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (6 << DF_HALF), pwd->h[6], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (7 << DF_HALF), pwd->h[7], oi, GETPC());
++#else
++    helper_ret_stw_mmu(env, addr + (3 << DF_HALF), pwd->h[0], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (2 << DF_HALF), pwd->h[1], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (1 << DF_HALF), pwd->h[2], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (0 << DF_HALF), pwd->h[3], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (7 << DF_HALF), pwd->h[4], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (6 << DF_HALF), pwd->h[5], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (5 << DF_HALF), pwd->h[6], oi, GETPC());
++    helper_ret_stw_mmu(env, addr + (4 << DF_HALF), pwd->h[7], oi, GETPC());
++#endif
++#else
++#if !defined(HOST_WORDS_BIGENDIAN)
++    cpu_stw_data(env, addr + (0 << DF_HALF), pwd->h[0]);
++    cpu_stw_data(env, addr + (1 << DF_HALF), pwd->h[1]);
++    cpu_stw_data(env, addr + (2 << DF_HALF), pwd->h[2]);
++    cpu_stw_data(env, addr + (3 << DF_HALF), pwd->h[3]);
++    cpu_stw_data(env, addr + (4 << DF_HALF), pwd->h[4]);
++    cpu_stw_data(env, addr + (5 << DF_HALF), pwd->h[5]);
++    cpu_stw_data(env, addr + (6 << DF_HALF), pwd->h[6]);
++    cpu_stw_data(env, addr + (7 << DF_HALF), pwd->h[7]);
++#else
++    cpu_stw_data(env, addr + (3 << DF_HALF), pwd->h[0]);
++    cpu_stw_data(env, addr + (2 << DF_HALF), pwd->h[1]);
++    cpu_stw_data(env, addr + (1 << DF_HALF), pwd->h[2]);
++    cpu_stw_data(env, addr + (0 << DF_HALF), pwd->h[3]);
++    cpu_stw_data(env, addr + (7 << DF_HALF), pwd->h[4]);
++    cpu_stw_data(env, addr + (6 << DF_HALF), pwd->h[5]);
++    cpu_stw_data(env, addr + (5 << DF_HALF), pwd->h[6]);
++    cpu_stw_data(env, addr + (4 << DF_HALF), pwd->h[7]);
 +#endif
 +#endif
  }
  
-+void helper_msa_ld_h(CPUMIPSState *env, uint32_t wd,
++void helper_msa_st_w(CPUMIPSState *env, uint32_t wd,
 +                     target_ulong addr)
 +{
 +    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    MEMOP_IDX(DF_HALF)
- #if !defined(CONFIG_USER_ONLY)
--MSA_LD_DF(DF_BYTE,   b, helper_ret_ldub_mmu, oi, GETPC())
--MSA_LD_DF(DF_HALF,   h, helper_ret_lduw_mmu, oi, GETPC())
--MSA_LD_DF(DF_WORD,   w, helper_ret_ldul_mmu, oi, GETPC())
--MSA_LD_DF(DF_DOUBLE, d, helper_ret_ldq_mmu,  oi, GETPC())
-+#if !defined(HOST_WORDS_BIGENDIAN)
-+    pwd->h[0] = helper_ret_lduw_mmu(env, addr + (0 << DF_HALF), oi, GETPC());
-+    pwd->h[1] = helper_ret_lduw_mmu(env, addr + (1 << DF_HALF), oi, GETPC());
-+    pwd->h[2] = helper_ret_lduw_mmu(env, addr + (2 << DF_HALF), oi, GETPC());
-+    pwd->h[3] = helper_ret_lduw_mmu(env, addr + (3 << DF_HALF), oi, GETPC());
-+    pwd->h[4] = helper_ret_lduw_mmu(env, addr + (4 << DF_HALF), oi, GETPC());
-+    pwd->h[5] = helper_ret_lduw_mmu(env, addr + (5 << DF_HALF), oi, GETPC());
-+    pwd->h[6] = helper_ret_lduw_mmu(env, addr + (6 << DF_HALF), oi, GETPC());
-+    pwd->h[7] = helper_ret_lduw_mmu(env, addr + (7 << DF_HALF), oi, GETPC());
-+#else
-+    pwd->h[0] = helper_ret_lduw_mmu(env, addr + (3 << DF_HALF), oi, GETPC());
-+    pwd->h[1] = helper_ret_lduw_mmu(env, addr + (2 << DF_HALF), oi, GETPC());
-+    pwd->h[2] = helper_ret_lduw_mmu(env, addr + (1 << DF_HALF), oi, GETPC());
-+    pwd->h[3] = helper_ret_lduw_mmu(env, addr + (0 << DF_HALF), oi, GETPC());
-+    pwd->h[4] = helper_ret_lduw_mmu(env, addr + (7 << DF_HALF), oi, GETPC());
-+    pwd->h[5] = helper_ret_lduw_mmu(env, addr + (6 << DF_HALF), oi, GETPC());
-+    pwd->h[6] = helper_ret_lduw_mmu(env, addr + (5 << DF_HALF), oi, GETPC());
-+    pwd->h[7] = helper_ret_lduw_mmu(env, addr + (4 << DF_HALF), oi, GETPC());
-+#endif
-+#else
-+#if !defined(HOST_WORDS_BIGENDIAN)
-+    pwd->h[0] = cpu_lduw_data(env, addr + (0 << DF_HALF));
-+    pwd->h[1] = cpu_lduw_data(env, addr + (1 << DF_HALF));
-+    pwd->h[2] = cpu_lduw_data(env, addr + (2 << DF_HALF));
-+    pwd->h[3] = cpu_lduw_data(env, addr + (3 << DF_HALF));
-+    pwd->h[4] = cpu_lduw_data(env, addr + (4 << DF_HALF));
-+    pwd->h[5] = cpu_lduw_data(env, addr + (5 << DF_HALF));
-+    pwd->h[6] = cpu_lduw_data(env, addr + (6 << DF_HALF));
-+    pwd->h[7] = cpu_lduw_data(env, addr + (7 << DF_HALF));
- #else
--MSA_LD_DF(DF_BYTE,   b, cpu_ldub_data)
--MSA_LD_DF(DF_HALF,   h, cpu_lduw_data)
--MSA_LD_DF(DF_WORD,   w, cpu_ldl_data)
--MSA_LD_DF(DF_DOUBLE, d, cpu_ldq_data)
-+    pwd->h[0] = cpu_lduw_data(env, addr + (3 << DF_HALF));
-+    pwd->h[1] = cpu_lduw_data(env, addr + (2 << DF_HALF));
-+    pwd->h[2] = cpu_lduw_data(env, addr + (1 << DF_HALF));
-+    pwd->h[3] = cpu_lduw_data(env, addr + (0 << DF_HALF));
-+    pwd->h[4] = cpu_lduw_data(env, addr + (7 << DF_HALF));
-+    pwd->h[5] = cpu_lduw_data(env, addr + (6 << DF_HALF));
-+    pwd->h[6] = cpu_lduw_data(env, addr + (5 << DF_HALF));
-+    pwd->h[7] = cpu_lduw_data(env, addr + (4 << DF_HALF));
- #endif
-+#endif
-+}
++    int mmu_idx = cpu_mmu_index(env, false);
 +
-+void helper_msa_ld_w(CPUMIPSState *env, uint32_t wd,
-+                     target_ulong addr)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
 +    MEMOP_IDX(DF_WORD)
-+#if !defined(CONFIG_USER_ONLY)
++    ensure_writable_pages(env, addr, mmu_idx, GETPC());
+ #if !defined(CONFIG_USER_ONLY)
+-MSA_ST_DF(DF_BYTE,   b, helper_ret_stb_mmu, oi, GETPC())
+-MSA_ST_DF(DF_HALF,   h, helper_ret_stw_mmu, oi, GETPC())
+-MSA_ST_DF(DF_WORD,   w, helper_ret_stl_mmu, oi, GETPC())
+-MSA_ST_DF(DF_DOUBLE, d, helper_ret_stq_mmu, oi, GETPC())
 +#if !defined(HOST_WORDS_BIGENDIAN)
-+    pwd->w[0] = helper_ret_ldul_mmu(env, addr + (0 << DF_WORD), oi, GETPC());
-+    pwd->w[1] = helper_ret_ldul_mmu(env, addr + (1 << DF_WORD), oi, GETPC());
-+    pwd->w[2] = helper_ret_ldul_mmu(env, addr + (2 << DF_WORD), oi, GETPC());
-+    pwd->w[3] = helper_ret_ldul_mmu(env, addr + (3 << DF_WORD), oi, GETPC());
-+#else
-+    pwd->w[0] = helper_ret_ldul_mmu(env, addr + (1 << DF_WORD), oi, GETPC());
-+    pwd->w[1] = helper_ret_ldul_mmu(env, addr + (0 << DF_WORD), oi, GETPC());
-+    pwd->w[2] = helper_ret_ldul_mmu(env, addr + (3 << DF_WORD), oi, GETPC());
-+    pwd->w[3] = helper_ret_ldul_mmu(env, addr + (2 << DF_WORD), oi, GETPC());
-+#endif
++    helper_ret_stl_mmu(env, addr + (0 << DF_WORD), oi, GETPC(), pwd->w[0]);
++    helper_ret_stl_mmu(env, addr + (1 << DF_WORD), oi, GETPC(), pwd->w[1]);
++    helper_ret_stl_mmu(env, addr + (2 << DF_WORD), oi, GETPC(), pwd->w[2]);
++    helper_ret_stl_mmu(env, addr + (3 << DF_WORD), oi, GETPC(), pwd->w[3]);
+ #else
+-MSA_ST_DF(DF_BYTE,   b, cpu_stb_data)
+-MSA_ST_DF(DF_HALF,   h, cpu_stw_data)
+-MSA_ST_DF(DF_WORD,   w, cpu_stl_data)
+-MSA_ST_DF(DF_DOUBLE, d, cpu_stq_data)
++    helper_ret_stl_mmu(env, addr + (1 << DF_WORD), oi, GETPC(), pwd->w[0]);
++    helper_ret_stl_mmu(env, addr + (0 << DF_WORD), oi, GETPC(), pwd->w[1]);
++    helper_ret_stl_mmu(env, addr + (3 << DF_WORD), oi, GETPC(), pwd->w[2]);
++    helper_ret_stl_mmu(env, addr + (2 << DF_WORD), oi, GETPC(), pwd->w[3]);
+ #endif
 +#else
 +#if !defined(HOST_WORDS_BIGENDIAN)
-+    pwd->w[0] = cpu_ldl_data(env, addr + (0 << DF_WORD));
-+    pwd->w[1] = cpu_ldl_data(env, addr + (1 << DF_WORD));
-+    pwd->w[2] = cpu_ldl_data(env, addr + (2 << DF_WORD));
-+    pwd->w[3] = cpu_ldl_data(env, addr + (3 << DF_WORD));
++    cpu_stl_data(env, addr + (0 << DF_WORD), pwd->w[0]);
++    cpu_stl_data(env, addr + (1 << DF_WORD), pwd->w[1]);
++    cpu_stl_data(env, addr + (2 << DF_WORD), pwd->w[2]);
++    cpu_stl_data(env, addr + (3 << DF_WORD), pwd->w[3]);
 +#else
-+    pwd->w[0] = cpu_ldl_data(env, addr + (1 << DF_WORD));
-+    pwd->w[1] = cpu_ldl_data(env, addr + (0 << DF_WORD));
-+    pwd->w[2] = cpu_ldl_data(env, addr + (3 << DF_WORD));
-+    pwd->w[3] = cpu_ldl_data(env, addr + (2 << DF_WORD));
++    cpu_stl_data(env, addr + (1 << DF_WORD), pwd->w[0]);
++    cpu_stl_data(env, addr + (0 << DF_WORD), pwd->w[1]);
++    cpu_stl_data(env, addr + (3 << DF_WORD), pwd->w[2]);
++    cpu_stl_data(env, addr + (2 << DF_WORD), pwd->w[3]);
 +#endif
 +#endif
 +}
 +
-+void helper_msa_ld_d(CPUMIPSState *env, uint32_t wd,
++void helper_msa_st_d(CPUMIPSState *env, uint32_t wd,
 +                     target_ulong addr)
 +{
 +    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    int mmu_idx = cpu_mmu_index(env, false);
++
 +    MEMOP_IDX(DF_DOUBLE)
++    ensure_writable_pages(env, addr, mmu_idx, GETPC());
 +#if !defined(CONFIG_USER_ONLY)
-+    pwd->d[0] = helper_ret_ldq_mmu(env, addr + (0 << DF_DOUBLE), oi, GETPC());
-+    pwd->d[1] = helper_ret_ldq_mmu(env, addr + (1 << DF_DOUBLE), oi, GETPC());
++    helper_ret_stq_mmu(env, addr + (0 << DF_DOUBLE), pwd->d[0], oi, GETPC());
++    helper_ret_stq_mmu(env, addr + (1 << DF_DOUBLE), pwd->d[1], oi, GETPC());
 +#else
-+    pwd->d[0] = cpu_ldq_data(env, addr + (0 << DF_DOUBLE));
-+    pwd->d[1] = cpu_ldq_data(env, addr + (1 << DF_DOUBLE));
++    cpu_stq_data(env, addr + (0 << DF_DOUBLE), pwd->d[0]);
++    cpu_stq_data(env, addr + (1 << DF_DOUBLE), pwd->d[1]);
 +#endif
 +}
  
- #define MSA_PAGESPAN(x) \
-         ((((x) & ~TARGET_PAGE_MASK) + MSA_WRLEN/8 - 1) >= TARGET_PAGE_SIZE)
+ void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_t op)
+ {
 -- 
 2.7.4
 
