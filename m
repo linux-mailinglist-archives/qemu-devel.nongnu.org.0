@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED672A7A0
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:36:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49220 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B722A79C
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:33:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49163 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUi5T-0001dr-TC
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:36:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53897)
+	id 1hUi2a-0007Lu-BD
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:33:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53756)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhxD-0003HK-Uu
+	(envelope-from <palmer@dabbelt.com>) id 1hUhxD-0003GC-Dy
 	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhgL-0006So-Cj
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:38 -0400
-Received: from mail-pl1-f177.google.com ([209.85.214.177]:33626)
+	(envelope-from <palmer@dabbelt.com>) id 1hUhgM-0006To-Fi
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:39 -0400
+Received: from mail-pg1-f179.google.com ([209.85.215.179]:46128)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhgL-0006SK-7R
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:37 -0400
-Received: by mail-pl1-f177.google.com with SMTP id g21so5660535plq.0
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:37 -0700 (PDT)
+	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhgM-0006TB-9U
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:38 -0400
+Received: by mail-pg1-f179.google.com with SMTP id v9so690314pgr.13
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:cc:from:to;
-	bh=J7lhhgtf0sOTXH1yJE/Uqjkv+hDa7WrYfOdgGU5K6D4=;
-	b=Tac60sdLGy+l3lYMhA9dbXMcWT+prMolc/h2Pw3RZ8QPR49VJK9moTHO+w5DclVNdQ
-	qGvyyRbfMYxmcYacfNHzB81WygZ2U3wbg0arGNhIzJbuXBfD0Y1b5g+FslKutEgLl6ux
-	6+ZQqAXdcz1m+5HVPsnnczK1fpIVyZ1N5rKUNLHwXO5oMAXSU0gz4RpTZbWHZThyKcZq
-	aTWgc0mYedYJO3CzH60Slg6bfFq4SQ0okamrV7CIYhTHklW7d7e3j7UBb26GV0cu43re
-	PM00YLOrBa6GCzzQTvTHiVHP7rvS6ASUh2z2foTVSSekVXCoGufV2TBovjISFSfjKZzP
-	aGRA==
-X-Gm-Message-State: APjAAAUdgRsLu4Svx7/SEGYRrMwCGsATcaazl+YSGMbN9uD6YdxE8C0K
-	jnEp0d90zs4x3OGPAzpgcudK6Q==
-X-Google-Smtp-Source: APXvYqx3aSfewtpSAEOx4sclNnBttL3hHIQSuLNFe9dadntDNBnK9LAGKDhPeKWUHYLb5vtuO1WPaQ==
-X-Received: by 2002:a17:902:2d:: with SMTP id
-	42mr118552335pla.34.1558833035950; 
-	Sat, 25 May 2019 18:10:35 -0700 (PDT)
-Received: from localhost ([12.206.222.5]) by smtp.gmail.com with ESMTPSA id
-	g22sm6826305pfo.28.2019.05.25.18.10.35
+	bh=KIAg2gQWYBFXGhiwY1FH7h14Y3/EHJ7QY6t2x+0oGds=;
+	b=IeA3cQyx0fUDB9fS3EhnKrRdGiexBKUVoUMqSoIbeLBizX/lumIUF7/T5svqjzWMzS
+	ITjAWDaA1Ox3DvNw9mASMcZ5cfgI6MpUD8fcoVUaABdiDkpCzDMx4rj2NLWOXnGGcKLL
+	eXINcgA5I1Q9QInKxvCx40OKt60Kd4TKEVx4SoU93qTPARqcmyvkeEu+AWxKZ1bhnMun
+	Q/oJfFckejpwqNi6FBuX7A1SC+pfBYckKdWGVmByxux//kAdb7KOygI4sdiBqJF3JNue
+	/sO5IzTTLOQNd4XcAnz1jBruxRFcg5eshTLfl6KDH+Zl4Sybal05CxakndFUpqIpccXq
+	hIaA==
+X-Gm-Message-State: APjAAAWWakVY2hAJScpGv/8J+6nxNIJwOBxu/87VeGMzcBhiAjTlrjVj
+	n+Yn18eRtsZGdDeHSeecYWj/862blig=
+X-Google-Smtp-Source: APXvYqwF6JP8Us09I64WIsfIvejVotMlJIqNBDgc+/vs2uoDLpkvnii0p/A4OuwgwBNPJEm6mN728g==
+X-Received: by 2002:a17:90a:17c7:: with SMTP id
+	q65mr19925459pja.92.1558833037044; 
+	Sat, 25 May 2019 18:10:37 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+	by smtp.gmail.com with ESMTPSA id l43sm5675264pjb.7.2019.05.25.18.10.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 25 May 2019 18:10:35 -0700 (PDT)
-Date: Sat, 25 May 2019 18:09:44 -0700
-Message-Id: <20190526010948.3923-26-palmer@sifive.com>
+	Sat, 25 May 2019 18:10:36 -0700 (PDT)
+Date: Sat, 25 May 2019 18:09:45 -0700
+Message-Id: <20190526010948.3923-27-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190526010948.3923-1-palmer@sifive.com>
 References: <20190526010948.3923-1-palmer@sifive.com>
@@ -54,9 +54,8 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.214.177
-Subject: [Qemu-devel] [PULL 25/29] target/riscv: Add the HSTATUS register
- masks
+X-Received-From: 209.85.215.179
+Subject: [Qemu-devel] [PULL 26/29] target/riscv: Add the HGATP register masks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,41 +76,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Alistair Francis <Alistair.Francis@wdc.com>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviwed-by: Palmer Dabbelt <palmer@sifive.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu_bits.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ target/riscv/cpu_bits.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 52c21699774f..a179137bc1f2 100644
+index a179137bc1f2..dc9d53d4becf 100644
 --- a/target/riscv/cpu_bits.h
 +++ b/target/riscv/cpu_bits.h
-@@ -382,6 +382,24 @@
- #define SSTATUS_SD SSTATUS64_SD
- #endif
+@@ -208,6 +208,17 @@
+ #define CSR_HIDELEG         0xa03
+ #define CSR_HGATP           0xa80
  
-+/* hstatus CSR bits */
-+#define HSTATUS_SPRV         0x00000001
-+#define HSTATUS_STL          0x00000040
-+#define HSTATUS_SPV          0x00000080
-+#define HSTATUS_SP2P         0x00000100
-+#define HSTATUS_SP2V         0x00000200
-+#define HSTATUS_VTVM         0x00100000
-+#define HSTATUS_VTSR         0x00400000
-+
-+#define HSTATUS32_WPRI       0xFF8FF87E
-+#define HSTATUS64_WPRI       0xFFFFFFFFFF8FF87EULL
-+
 +#if defined(TARGET_RISCV32)
-+#define HSTATUS_WPRI HSTATUS32_WPRI
-+#elif defined(TARGET_RISCV64)
-+#define HSTATUS_WPRI HSTATUS64_WPRI
++#define HGATP_MODE           SATP32_MODE
++#define HGATP_ASID           SATP32_ASID
++#define HGATP_PPN            SATP32_PPN
++#endif
++#if defined(TARGET_RISCV64)
++#define HGATP_MODE           SATP64_MODE
++#define HGATP_ASID           SATP64_ASID
++#define HGATP_PPN            SATP64_PPN
 +#endif
 +
- /* Privilege modes */
- #define PRV_U 0
- #define PRV_S 1
+ /* Performance Counters */
+ #define CSR_MHPMCOUNTER3    0xb03
+ #define CSR_MHPMCOUNTER4    0xb04
 -- 
 2.21.0
 
