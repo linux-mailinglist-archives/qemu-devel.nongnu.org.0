@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331D02A7A6
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:41:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49281 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1519C2A7A9
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:43:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49344 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUi9j-0005bZ-9E
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:40:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53897)
+	id 1hUiCW-0008Nw-78
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:43:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54116)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhxK-0003HK-2e
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:11 -0400
+	(envelope-from <palmer@dabbelt.com>) id 1hUhxL-0003S6-4q
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhgA-0006Cp-5r
+	(envelope-from <palmer@dabbelt.com>) id 1hUhgA-0006CX-1e
 	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:27 -0400
-Received: from mail-pl1-f176.google.com ([209.85.214.176]:37456)
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35145)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhg9-0005yv-W1
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:26 -0400
-Received: by mail-pl1-f176.google.com with SMTP id p15so5645680pll.4
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:22 -0700 (PDT)
+	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhg9-00061N-R5
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:25 -0400
+Received: by mail-pg1-f194.google.com with SMTP id t1so7095685pgc.2
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:cc:from:to;
-	bh=bWnhtt8L+gQXw/3z9MmLUNiXj8flc6h/W79W61MZMHg=;
-	b=mTUkdoKD75bVKE4peFYSHLrk6eNZE7H9H/80BmTi14tI+pc915O7EIkhcIHGXKdDQi
-	iqfEeYPqye6UiBr6d7KoSP5fSea1nDiRNhXiJh6QASClC4+0Jm28J1yIz3MAq2Cn88sW
-	0/837q1sncxo9pYNLYOrtXWvt2O5zUq3tXBAk7yLR/mZp+trolr/EMZgdcR5tm2o/JR5
-	eHLTv2PBDf1jcLuqZu/w4cBydLBialJc9SAuuV3kQhd1/mBrncTKWUU1QueLklH+5pQn
-	jR4fMuRA7Jsll+ofFgPCYfEryl4gA4ux6c6T3hzAkYIJGiGliaSYjbbC2itAby+d2yHq
-	MT9g==
-X-Gm-Message-State: APjAAAWj9OareDS3eqI/ccrXWei1dY6OsepcayWu/SBPT5OT3ovk+HED
-	kXa8h0r0SRTlsK7xQACNLAJEKA==
-X-Google-Smtp-Source: APXvYqzPY4KMGwUG4O/4o0INh18c6RX7UotZarvjlgyOQqrSOqH/Vitk/FeTeONJ3jc6Bn5cScvGzA==
-X-Received: by 2002:a17:902:521:: with SMTP id
-	30mr78464887plf.62.1558833020841; 
-	Sat, 25 May 2019 18:10:20 -0700 (PDT)
+	bh=CVbWDlas40F0rKvam5wngvhSb1j1fei2kGX8ZQssRDQ=;
+	b=Pxc1hXQyzFuroWMfx9xN36cLDo8hQxW1As74E9JEx4IXh9yN8NqHTemJQxkntz6bZK
+	7amyqpXfkDUwmc9O3BD4WACgUlZaQcoYvxwQPLflZhawHGLLvfRPIgZIwdR5U1bQW5Nl
+	9g3dt4OEV+PJf+QHp9exJlafXdqKsbbrNTw8MPTxfiNsVAE0+iHm/hpPq8edN+xAkc7C
+	mklIKhV66bpnUshmqyUg+ccdElMk/d8a2EaKF0vD7QGqHA0KaTijanN85d515YcDAqWh
+	Kd5ZFwz7Z7NonCZ/b7NKhRW/b3CVrMn7aGqxJ3QS/4RXvYuerizxOxXKJX6w2MMQD6Ia
+	hzOA==
+X-Gm-Message-State: APjAAAWIyqlDUpnBRd64ZGgURjWAyaIDukn1ntiae1UxYXKzTz1nSlWt
+	tV+PdzNcGIztrPdzrO44LNkHlQ==
+X-Google-Smtp-Source: APXvYqyeMlO1o00rR1A2XrQVLivfcC38ZZJEIIXUB1pDCkwVOV1iDIuPiRQgn2/dBCseaowywF3KZg==
+X-Received: by 2002:a63:5c5f:: with SMTP id
+	n31mr117659621pgm.325.1558833022111; 
+	Sat, 25 May 2019 18:10:22 -0700 (PDT)
 Received: from localhost ([12.206.222.5]) by smtp.gmail.com with ESMTPSA id
-	a18sm7424737pfr.22.2019.05.25.18.10.20
+	q98sm12604903pjc.1.2019.05.25.18.10.21
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 25 May 2019 18:10:20 -0700 (PDT)
-Date: Sat, 25 May 2019 18:09:33 -0700
-Message-Id: <20190526010948.3923-15-palmer@sifive.com>
+	Sat, 25 May 2019 18:10:21 -0700 (PDT)
+Date: Sat, 25 May 2019 18:09:34 -0700
+Message-Id: <20190526010948.3923-16-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190526010948.3923-1-palmer@sifive.com>
 References: <20190526010948.3923-1-palmer@sifive.com>
@@ -54,9 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.214.176
-Subject: [Qemu-devel] [PULL 14/29] riscv: virt: Allow specifying a CPU via
- commandline
+X-Received-From: 209.85.215.194
+Subject: [Qemu-devel] [PULL 15/29] target/riscv: Create settable CPU
+ properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,40 +70,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Alistair Francis <alistair.francis@wdc.com>,
 	Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <Alistair.Francis@wdc.com>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/virt.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu.c | 49 ++++++++++++++++++++++++++++++++++++++++++++++
+ target/riscv/cpu.h |  8 ++++++++
+ 2 files changed, 57 insertions(+)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 352646303420..84d94d0c42d8 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -399,7 +399,7 @@ static void riscv_virt_board_init(MachineState *machine)
-     /* Initialize SOC */
-     object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
-                             TYPE_RISCV_HART_ARRAY, &error_abort, NULL);
--    object_property_set_str(OBJECT(&s->soc), VIRT_CPU, "cpu-type",
-+    object_property_set_str(OBJECT(&s->soc), machine->cpu_type, "cpu-type",
-                             &error_abort);
-     object_property_set_int(OBJECT(&s->soc), smp_cpus, "num-harts",
-                             &error_abort);
-@@ -525,6 +525,7 @@ static void riscv_virt_board_machine_init(MachineClass *mc)
-     mc->desc = "RISC-V VirtIO Board (Privileged ISA v1.10)";
-     mc->init = riscv_virt_board_init;
-     mc->max_cpus = 8; /* hardcoded limit in BBL */
-+    mc->default_cpu_type = VIRT_CPU;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 6a58bc9e9d90..0399e03e89c5 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -23,6 +23,7 @@
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "qapi/error.h"
++#include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ 
+ /* RISC-V CPU definitions */
+@@ -296,7 +297,11 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+ {
+     CPUState *cs = CPU(dev);
++    RISCVCPU *cpu = RISCV_CPU(dev);
++    CPURISCVState *env = &cpu->env;
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
++    int priv_version = PRIV_VERSION_1_10_0;
++    int user_version = USER_VERSION_2_02_0;
+     Error *local_err = NULL;
+ 
+     cpu_exec_realizefn(cs, &local_err);
+@@ -305,6 +310,41 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    if (cpu->cfg.priv_spec) {
++        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.10.0")) {
++            priv_version = PRIV_VERSION_1_10_0;
++        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.9.1")) {
++            priv_version = PRIV_VERSION_1_09_1;
++        } else {
++            error_setg(errp,
++                       "Unsupported privilege spec version '%s'",
++                       cpu->cfg.priv_spec);
++            return;
++        }
++    }
++
++    if (cpu->cfg.user_spec) {
++        if (!g_strcmp0(cpu->cfg.user_spec, "v2.02.0")) {
++            user_version = USER_VERSION_2_02_0;
++        } else {
++            error_setg(errp,
++                       "Unsupported user spec version '%s'",
++                       cpu->cfg.user_spec);
++            return;
++        }
++    }
++
++    set_versions(env, user_version, priv_version);
++    set_resetvec(env, DEFAULT_RSTVEC);
++
++    if (cpu->cfg.mmu) {
++        set_feature(env, RISCV_FEATURE_MMU);
++    }
++
++    if (cpu->cfg.pmp) {
++        set_feature(env, RISCV_FEATURE_PMP);
++    }
++
+     riscv_cpu_register_gdb_regs_for_features(cs);
+ 
+     qemu_init_vcpu(cs);
+@@ -326,6 +366,14 @@ static const VMStateDescription vmstate_riscv_cpu = {
+     .unmigratable = 1,
+ };
+ 
++static Property riscv_cpu_properties[] = {
++    DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
++    DEFINE_PROP_STRING("user_spec", RISCVCPU, cfg.user_spec),
++    DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
++    DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+ {
+     RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
+@@ -365,6 +413,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+ #endif
+     /* For now, mark unmigratable: */
+     cc->vmsd = &vmstate_riscv_cpu;
++    dc->props = riscv_cpu_properties;
  }
  
- DEFINE_MACHINE("virt", riscv_virt_board_machine_init)
+ char *riscv_isa_string(RISCVCPU *cpu)
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index c17184f4e477..3902138639e7 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -224,6 +224,14 @@ typedef struct RISCVCPU {
+     CPUState parent_obj;
+     /*< public >*/
+     CPURISCVState env;
++
++    /* Configuration Settings */
++    struct {
++        char *priv_spec;
++        char *user_spec;
++        bool mmu;
++        bool pmp;
++    } cfg;
+ } RISCVCPU;
+ 
+ static inline RISCVCPU *riscv_env_get_cpu(CPURISCVState *env)
 -- 
 2.21.0
 
