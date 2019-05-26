@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8EE2A9F8
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 15:53:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55655 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B877C2AA5A
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 17:02:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56232 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUtaI-00018N-Lj
-	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 09:53:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50417)
-	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <like.xu@linux.intel.com>) id 1hUtYj-0000YF-BV
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 09:51:38 -0400
+	id 1hUufL-0002OY-VE
+	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 11:02:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58201)
+	by lists.gnu.org with esmtp (Exim 4.71) (envelope-from <ao2@ao2.it>)
+	id 1hUudM-00017c-H0
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 11:00:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <like.xu@linux.intel.com>) id 1hUtYf-0001hV-0T
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 09:51:31 -0400
-Received: from mga02.intel.com ([134.134.136.20]:2242)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
-	id 1hUtYe-0001BL-3J; Sun, 26 May 2019 09:51:28 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 May 2019 06:51:15 -0700
-Received: from likexu-mobl1.ccr.corp.intel.com (HELO [10.255.31.212])
-	([10.255.31.212])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/AES256-SHA;
-	26 May 2019 06:51:13 -0700
-From: Like Xu <like.xu@linux.intel.com>
-To: qemu-trivial@nongnu.org
-References: <20190518205428.90532-1-like.xu@linux.intel.com>
-Organization: Intel OTC
-Message-ID: <a4acdca8-a060-1db5-a155-1b9ae7512f75@linux.intel.com>
-Date: Sun, 26 May 2019 21:51:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	(envelope-from <ao2@ao2.it>) id 1hUuSA-0003Ew-SW
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 10:48:52 -0400
+Received: from mail.ao2.it ([2001:4b98:dc0:41:216:3eff:fe7c:639b]:59061
+	helo=ao2.it)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <ao2@ao2.it>) id 1hUuSA-00039o-Gu
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 10:48:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ao2.it;
+	s=20180927; 
+	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+	bh=1BraqkuXzLVIFB9aSOjSgu0j8u2G42mjcUldh5w7FS8=; 
+	b=UTpCkRUp2EGG6rpVlxuDlipz1A1UnRnxj/0+03o7hDcvxuHpwYZ1o2cPlsUkA4m0yRVoqG+jjRHhMxZJBaP33l1bKfO4KMTonQCnpXMaeQT9KLui/evXOr9T9OXwLkXcSEsyRphqI1/9UXGI1wj+WEMRUj0iUa0h/2PvKwErdU6e449gIpyPB210s2qjZISSjy7BIy/FHyb7SH5dkorIk3stb30kULoDKujQsfIBcRoqQBUNpzbJAWf8mQLZ/vk6TqLYC8uJuP1B//daGuEqTJoGUjISp1bOfInaeaplhIvYGNaTqWtD1G6WVw2GpVwqnOBzEL7hsJBVZ0iddC2fig==;
+Received: from localhost ([::1] helo=jcn)
+	by ao2.it with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.84_2) (envelope-from <ao2@ao2.it>)
+	id 1hUuRf-0001fF-Mr; Sun, 26 May 2019 16:48:19 +0200
+Received: from ao2 by jcn with local (Exim 4.92) (envelope-from <ao2@ao2.it>)
+	id 1hUuS0-0007ow-RY; Sun, 26 May 2019 16:48:40 +0200
+From: Antonio Ospite <ao2@ao2.it>
+To: qemu-devel@nongnu.org
+Date: Sun, 26 May 2019 16:47:45 +0200
+Message-Id: <20190526144747.30019-1-ao2@ao2.it>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190518205428.90532-1-like.xu@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 134.134.136.20
-Subject: Re: [Qemu-devel] [PATCH v3 00/10] Refactor cpu topo into machine
- properties
+X-Face: z*RaLf`X<@C75u6Ig9}{oW$H; 1_\2t5)({*|jhM<pyWR#k60!#=#>/Vb;
+	]yA5<GWI5`6u&+ ; 6b'@y|8w"wB;
+	4/e!7wYYrcqdJFY,~%Gk_4]cq$Ei/7<j&N3ah(m`ku?pX.&+~:_/wC~dwn^)MizBG
+	!pE^+iDQQ1yC6^,)YDKkxDd!T>\I~93>J<_`<4)A{':UrE
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 2001:4b98:dc0:41:216:3eff:fe7c:639b
+Subject: [Qemu-devel] [PATCH v3 0/2] configure: disallow spaces and colons
+ in source path and build path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,42 +58,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-	qemu-devel@nongnu.org, Alistair Francis <alistair23@gmail.com>,
-	Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Antonio Ospite <ao2@ao2.it>,
+	Antonio Ospite <antonio.ospite@collabora.com>,
+	Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019/5/19 4:54, Like Xu wrote:
-> This patch series make existing cores/threads/sockets into machine
-> properties and get rid of global smp_* variables they use currently.
-> 
-> The purpose of getting rid of globals is disentangle layer violations and
-> let's do it one step at a time by replacing the smp_foo with qdev_get_machine()
-> as few calls as possible and delay other related refactoring efforts.
-> 
+Hi,
 
-Hi Eduardo & Igor,
-Do you have any comments on this new version of CpuTopology refactoring?
+Here is a v3 set to address
+https://bugs.launchpad.net/qemu/+bug/1817345
 
-With this series of patch, we may move forward to review [Qemu-devel] 
-[PATCH v2 0/5] Introduce cpu die topology and enable CPUID.1F for i386.
+CCing Laurent Vivier as the patch is going through the trivial-patches
+branch.
 
-Thanks,
-Like Xu
+The series follows up to:
+https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg00562.html
 
-> ==changelog==
-> 
-> v3:
-> 
-> - rephrase commit messages
-> - s/of/of present/ for CpuTopology comment
-> - drop reduanct arguments such as cpu_type
-> - use ms instead of macs in migration context
-> - rebase to commit 1b46b4daa6
-> 
+Changes since v2:
+  - Shorten 'if' check as suggested by Eric Blake in
+    https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01190.html
 
-<snip>
+  - Added Reviewed-by tags by Eric Blake.
+
+
+Changes since v1:
+  - Add a preparatory patch to set source_path only once and in a more
+    robust way.
+
+  - Move the checks in configure after the source_path definition to
+    avoid using realpath which is not available everywhere.
+
+  - Cover also the build path in Makefile. An extensive explanation of
+    why I think this is needed is here:
+    https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg05398.html
+
+Thank you,
+   Antonio
+
+
+Antonio Ospite (2):
+  configure: set source_path only once and make its definition more
+    robust
+  configure: disallow spaces and colons in source path and build path
+
+ Makefile  |  4 ++++
+ configure | 11 ++++++++---
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+-- 
+Antonio Ospite
+https://ao2.it
+https://twitter.com/ao2it
+
+A: Because it messes up the order in which people normally read text.
+   See http://en.wikipedia.org/wiki/Posting_style
+Q: Why is top-posting such a bad thing?
 
