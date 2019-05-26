@@ -2,64 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644502A8FC
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 09:40:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52002 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E642A905
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 10:02:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52170 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUnlw-0005Ma-B9
-	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 03:40:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33370)
+	id 1hUo6q-0001nq-4P
+	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 04:02:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35442)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lucienmp_antispam@yahoo.com>) id 1hUnka-0004cc-DK
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 03:39:25 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hUo4F-0008LP-MX
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 03:59:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lucienmp_antispam@yahoo.com>) id 1hUncU-0004ku-CI
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 03:31:04 -0400
-Received: from sonic314-48.consmr.mail.sg3.yahoo.com ([106.10.240.172]:38116)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <lucienmp_antispam@yahoo.com>)
-	id 1hUncS-0004im-Vg
-	for qemu-devel@nongnu.org; Sun, 26 May 2019 03:31:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1558855855; bh=nJDhTYoF5BMQpZWgNBuvAWMTxFzwnMZo864YYhno/dU=;
-	h=From:To:Cc:Subject:Date:From:Subject;
-	b=hMmzi2GJAk02g0OIMGHUVmqrLJz7aEwopOJsrNNtrbxNFN09BK6kqmaGcS8lkm/v9qm8T5TTnfEZQJilziHBA8mMtHFYaBt9Xh5r+6z2WG9/zkgIGIuEN0xr2TXvSozC78MEIDvTTfiZ5vSrpz6HUbl4N3o2as/bVmTO5XOB9Zikg7/xwspyhmjfmyVqQK98Av0msoPa0mGrsr8tlsGqGmhdjuL6XBO/rNHmUNAxxwBgvuz4r98uHWdML8zPXUcDR8McbrvfaEyKb4OKqRh00K5oduAaA20sbU/uRz5ZUSbzeaIEpZnTxLazqr+GANuiBvAZlbTF0CuERQqlrqiiFw==
-X-YMail-OSG: KQuUfvEVM1le0q9SxPoQcCKzbzN3Q4AkKyzQ3eAx1yXKpae3QjXjEQB21pThW5S
-	5mNvm1eTWaaEbCD99gIFQPh83iiv_R.baLaN8sdq.AJLu1TbwXSK3IJLNI.WHn7ofEb0c5dF6VrM
-	_4Xc1Tp2EU3RucyqdeRK83sVpzYGxMwYpRCiYa4vxlMoifnUdVkbamownF6mcAxPV12gZ12MH6.r
-	ylpoPISRfYtYUXwaRL3cJuPhklDqZT6E3rp2UVo2wdBSLIi4a6t6N5mHzSke0MONA8VKSqZ8EZcu
-	IngjJIsbg.rFsVvuNHj7TNYMoOSo9xKf5Gc2_2iPDo3JGrQzhAynbP1GD7dMTiaLPtEtms0SR8XH
-	MoYC5rlNbDiXlw8vR2W1d9c2.DhfNaR0EUx8GfqGmulpb44z2_Z08xXseJEUrBMfwCZV8emWODBl
-	XalBTuAWUV25Qg6Sm9i6Xr54RSKK4G9dNLICXiZTcTR4hmqDgNid976_m0JK4qdhImrZB1JOhexg
-	ESBFr5N8uf0QorEq_Jp3uFFA.dujFnr5f7bTGkv0Y7uaX8e6lVfYOfkKIllRMXeurmDnZB2_9mtr
-	NZnuI3Nwar4o7Xj31gRBJGTgRRozbhHxhc3k3ACSNiKjPV6FsJMHpi.kq2c1pWQ.AIJisKjaDymT
-	mW5Dg.ebgoB2Q8fImENahVFG9qNBK1cQXSyKQVic3_CHuV4TI8PiUfsGy3VG32ORGjetin.qr8zO
-	g5CZ5sjPtXVRcNDNRsJizcNIVZwxcvVPDl_0NaqUaB7Y10ht6GLW9kHHFz00dTLRqrucDuaJ2sbt
-	ftW98EbHJBiCroHf5qk9Eo2DHsNMCXetkyKT788wsJ4PrN7y4HQ_kRGuX.HnKZH3FKfVpPtHl.7R
-	RdXfUhIrrIFtrb.E7sW0z9iJBKknvTTB29m3OL1nxPzPZpqa3bGfldxq1_Yg_rv2TKmIK0SET0J7
-	ofT6LH5vm6hLnBDHvsfJixtnYF5PcGR9hHVmm.d9cYc_SXPSSGEIxYam1IERIBS7oeJbkxVVV5lC
-	ehNYzLdX0Xk9hr0D7yVLHUlTR250SL5OQDr2EpmqIqTLrhkRGKVoRZ3FxMpTVWW3_I6ngv7wHkTX
-	B8WV2CkhFu4wPW5RivHIJ2_d6ErHf2R2M3bPbc79JenCpEDDyGimnRmnyY6_2MKu4FHAX8_VKKbH
-	x8FUaoP8zfX5OV4ffZesZ76Hvj.PPsdiSDeQVOS313v8IIdBKPX2bu5Aa8c5weaT8A4v5V1w3gAh
-	6uVWjyFoX31nRRAYJk4ayTDuZqGeGgBz70y_JbmGP
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic314.consmr.mail.sg3.yahoo.com with HTTP;
-	Sun, 26 May 2019 07:30:55 +0000
-Received: from pl35138.ag1212.nttpc.ne.jp (EHLO localhost.localdomain)
-	([133.232.247.66])
-	by smtp404.mail.sg3.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID
-	e0037fd4d9353a4bdc1ee07ef99d6af6; 
-	Sun, 26 May 2019 07:28:54 +0000 (UTC)
-To: qemu-devel@nongnu.org
-Date: Sun, 26 May 2019 16:28:26 +0900
-Message-Id: <20190526072826.32956-1-lucienmp_antispam@yahoo.com>
-X-Mailer: git-send-email 2.21.0
+	(envelope-from <no-reply@patchew.org>) id 1hUnqn-0004ha-LX
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 03:45:50 -0400
+Resent-Date: Sun, 26 May 2019 03:45:50 -0400
+Resent-Message-Id: <E1hUnqn-0004ha-LX@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21440)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hUnqn-0004gm-Dv
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 03:45:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1558856720; cv=none; d=zoho.com; s=zohoarc; 
+	b=iac+MbY5wuctsxE5Bgt0WjuV2l9ytsQFYA+lpQyrMmOOlrhkmw0yFhyT6L05f6oLu7MuYhxQ87N5grYrQLyPPrp7QHPU7+ssQXNvcGxmThY2Jp/rB0BaaL95pjzWAnAJH8bUQPDRcLhlkBFVlh5lG9l9vQ8SaQWZScO5JnQlm9E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1558856720;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=10utG9oR1ywfBK/KLppiqq/OAcDjap8Qx6DlhPrNnsE=; 
+	b=iagNpQV0hDpoBFKJbGn7nttmo9Tdc01dqZ4xJEWB+sTkd+6yqxzR3Z+WXEfhegZxjqgcrT4r94fV+DwDg7bmQ/3DYlzAaT21I26d0Pw0uDMH+n4rSLifcUZg3hECB+wB7gRpIOxjw3neOqjKIQf9u+GDBRm0qdq1NRWsT7YQJpM=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1558856719943475.2737024503376;
+	Sun, 26 May 2019 00:45:19 -0700 (PDT)
+In-Reply-To: <20190526072826.32956-1-lucienmp_antispam@yahoo.com>
+Message-ID: <155885671862.24.87494911956197849@549697c9ad12>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 106.10.240.172
-Subject: [Qemu-devel] [PATCH] Incorrect Stack Pointer shadow register
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Sun, 26 May 2019 00:45:19 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH] Incorrect Stack Pointer shadow register
  support on some m68k CPUs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -72,100 +62,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Lucien Murray-Pitts via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Lucien Murray-Pitts <lucienmp_antispam@yahoo.com>
-Cc: Thomas Huth <huth@tuxfamily.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Laurent Vivier <laurent@vivier.eu>,
-	"Emilio G . Cota" <cota@braap.org>, lucienmp_antispam@yahoo.com,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Luc Michel <luc.michel@greensocs.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: huth@tuxfamily.org, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+	laurent@vivier.eu, cota@braap.org, lucienmp_antispam@yahoo.com,
+	alex.bennee@linaro.org, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On CPU32 and the early 68000 and 68010 the ISP doesnt exist.
-These CPUs only have SSP/USP.
-
-The availability of this feature is determined by the
-implementation of Master mode bit in the SR register.
-
-Those with the master-mode bit have ISP.
-
-Additional comments added to the features set to claify
-exactly what differentiates each class.  (m68k_features)
-
-The movec instruction when accessing these shadow registers
-in some configurations should issue a TRAP.  This patch does not
-add this funcitonality to the helpers.
-
-Signed-off-by: Lucien Murray-Pitts <lucienmp_antispam@yahoo.com>
----
- target/m68k/cpu.c    |  1 +
- target/m68k/cpu.h    | 12 ++++++++++--
- target/m68k/helper.c |  3 ++-
- 3 files changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index b16957934a..61368d1a9a 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -121,6 +121,7 @@ static void m68020_cpu_initfn(Object *obj)
-     CPUM68KState *env = &cpu->env;
- 
-     m68k_set_feature(env, M68K_FEATURE_M68000);
-+    m68k_set_feature(env, M68K_FEATURE_MSP);
-     m68k_set_feature(env, M68K_FEATURE_USP);
-     m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
-     m68k_set_feature(env, M68K_FEATURE_QUAD_MULDIV);
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 9deff9e234..8be68e5e4f 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -462,12 +462,19 @@ void m68k_switch_sp(CPUM68KState *env);
- 
- void do_m68k_semihosting(CPUM68KState *env, int nr);
- 
--/* There are 4 ColdFire core ISA revisions: A, A+, B and C.
-+/* The ColdFire core ISA is a RISC-style reduction of the 68000 series
-+   Whilst the 68000 flourished by adding extended stack/instructions in
-+   five main flavors original 68000, 680010/20/30/40, and a CPU32/CPU32+
-+
-+   CPU32/32+ are basically 68000/10 compatible, with and 68020.  Mostly
-+   Supervisor state differences.
-+
-+   There are 4 ColdFire core ISA revisions: A, A+, B and C.
-    Each feature covers the subset of instructions common to the
-    ISA revisions mentioned.  */
- 
- enum m68k_features {
--    M68K_FEATURE_M68000,
-+    M68K_FEATURE_M68000,   /* Base m68k set, as opposed to ColdFire */
-     M68K_FEATURE_CF_ISA_A,
-     M68K_FEATURE_CF_ISA_B, /* (ISA B or C).  */
-     M68K_FEATURE_CF_ISA_APLUSC, /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C).  */
-@@ -477,6 +484,7 @@ enum m68k_features {
-     M68K_FEATURE_CF_EMAC,
-     M68K_FEATURE_CF_EMAC_B, /* Revision B EMAC (dual accumulate).  */
-     M68K_FEATURE_USP, /* User Stack Pointer.  (ISA A+, B or C).  */
-+    M68K_FEATURE_MSP, /* Master Stack Pointer. Not 68000/10,Coldfire,CPU32 */
-     M68K_FEATURE_EXT_FULL, /* 68020+ full extension word.  */
-     M68K_FEATURE_WORD_INDEX, /* word sized address index registers.  */
-     M68K_FEATURE_SCALED_INDEX, /* scaled address index registers.  */
-diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-index 6db93bdd81..64c8a82a92 100644
---- a/target/m68k/helper.c
-+++ b/target/m68k/helper.c
-@@ -337,7 +337,8 @@ void m68k_switch_sp(CPUM68KState *env)
-     env->sp[env->current_sp] = env->aregs[7];
-     if (m68k_feature(env, M68K_FEATURE_M68000)) {
-         if (env->sr & SR_S) {
--            if (env->sr & SR_M) {
-+            /* SR:Master-Mode bit unimplemented then ISP is not available */
-+            if (!m68k_feature(env, M68K_FEATURE_MSP) || env->sr & SR_M) {
-                 new_sp = M68K_SSP;
-             } else {
-                 new_sp = M68K_ISP;
--- 
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyNjA3MjgyNi4zMjk1
+Ni0xLWx1Y2llbm1wX2FudGlzcGFtQHlhaG9vLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAxOTA1MjYwNzI4MjYuMzI5NTYtMS1s
+dWNpZW5tcF9hbnRpc3BhbUB5YWhvby5jb20KVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRl
+dmVsXSBbUEFUQ0hdIEluY29ycmVjdCBTdGFjayBQb2ludGVyIHNoYWRvdyByZWdpc3RlciBzdXBw
+b3J0IG9uIHNvbWUgbTY4ayBDUFVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
+YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
+LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
+IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
+dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
+PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0
+YWddICAgICAgICAgICAgICAgcGF0Y2hldy8yMDE5MDUyNjA3MjgyNi4zMjk1Ni0xLWx1Y2llbm1w
+X2FudGlzcGFtQHlhaG9vLmNvbSAtPiBwYXRjaGV3LzIwMTkwNTI2MDcyODI2LjMyOTU2LTEtbHVj
+aWVubXBfYW50aXNwYW1AeWFob28uY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcK
+MmZhOTJlOGQ4NiBJbmNvcnJlY3QgU3RhY2sgUG9pbnRlciBzaGFkb3cgcmVnaXN0ZXIgc3VwcG9y
+dCBvbiBzb21lIG02OGsgQ1BVcwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IEF1dGhvciBl
+bWFpbCBhZGRyZXNzIGlzIG1hbmdsZWQgYnkgdGhlIG1haWxpbmcgbGlzdAojMjogCkF1dGhvcjog
+THVjaWVuIE11cnJheS1QaXR0cyB2aWEgUWVtdS1kZXZlbCA8cWVtdS1kZXZlbEBub25nbnUub3Jn
+PgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRl
+IGxpbmUKIzQ2OiBGSUxFOiB0YXJnZXQvbTY4ay9jcHUuaDo0NjU6CisvKiBUaGUgQ29sZEZpcmUg
+Y29yZSBJU0EgaXMgYSBSSVNDLXN0eWxlIHJlZHVjdGlvbiBvZiB0aGUgNjgwMDAgc2VyaWVzCgpX
+QVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiM0NzogRklM
+RTogdGFyZ2V0L202OGsvY3B1Lmg6NDY2OgorLyogVGhlIENvbGRGaXJlIGNvcmUgSVNBIGlzIGEg
+UklTQy1zdHlsZSByZWR1Y3Rpb24gb2YgdGhlIDY4MDAwIHNlcmllcworICAgV2hpbHN0IHRoZSA2
+ODAwMCBmbG91cmlzaGVkIGJ5IGFkZGluZyBleHRlbmRlZCBzdGFjay9pbnN0cnVjdGlvbnMgaW4K
+CnRvdGFsOiAxIGVycm9ycywgMiB3YXJuaW5ncywgNDQgbGluZXMgY2hlY2tlZAoKQ29tbWl0IDJm
+YTkyZThkODYyMCAoSW5jb3JyZWN0IFN0YWNrIFBvaW50ZXIgc2hhZG93IHJlZ2lzdGVyIHN1cHBv
+cnQgb24gc29tZSBtNjhrIENQVXMpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQ
+VVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBs
+b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNTI2MDcyODI2
+LjMyOTU2LTEtbHVjaWVubXBfYW50aXNwYW1AeWFob28uY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
+dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
+dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
+dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
