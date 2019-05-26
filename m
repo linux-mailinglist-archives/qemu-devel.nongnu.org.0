@@ -2,55 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A362BB99
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 23:00:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50655 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA032A93F
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 12:17:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53376 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVMjE-0000bc-Km
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 17:00:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60509)
+	id 1hUqDc-0007ro-QD
+	for lists+qemu-devel@lfdr.de; Sun, 26 May 2019 06:17:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50013)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hVMi8-0000CA-V8
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 16:59:14 -0400
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hUqBd-0006Wq-Ed
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 06:15:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hVMi5-0000RS-BZ
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 16:59:10 -0400
-Resent-Date: Mon, 27 May 2019 16:59:10 -0400
-Resent-Message-Id: <E1hVMi5-0000RS-BZ@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21576)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hVMi5-0000Qx-4m
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 16:59:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1558861845; cv=none; d=zoho.com; s=zohoarc; 
-	b=VvAhqijS7eivf6mlotWSmuS46IvU4H9yoVyTeET25nX1pQN2+BjD5pLbd+12B2EHGu0snRUPLja1ba/4Y9pU7rJLLRg+tGkWPEMC+1/cB8ncqAnSxWtjoxugoQsYSwF1r+mxvtpXowIjjUkMjqm7yOc4DBLUWUvVsn1PyfC8kUw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1558861845;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=JHxjaUI13Ux7CnaQlG9saQJw59k1apaprKrfc6ZOq/s=; 
-	b=ECC91hk+zKiF25Qymj6F2h0A1Jc+36JnaBPXRMMXvwoEJtepGDE4F345c3C502a2GwZQfA5+d1aQg62RZ3tayzrozhl9XAkVQjt9hd0r+51VILQcLq3221aZTn8fkKdw6sktpca0zRMBAneiRv6F7IHPWl9aPGGfTaB+Qo7PHKw=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1558861844085304.1883723062268;
-	Sun, 26 May 2019 02:10:44 -0700 (PDT)
-In-Reply-To: <20190526074527.33632-1-lucienmp_antispam@yahoo.com>
-Message-ID: <155886184272.24.4090970039813556278@549697c9ad12>
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hUq69-0007m7-TK
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 06:09:51 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37327)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
+	id 1hUq69-0007ib-Hh
+	for qemu-devel@nongnu.org; Sun, 26 May 2019 06:09:49 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 7so12992567wmo.2
+	for <qemu-devel@nongnu.org>; Sun, 26 May 2019 03:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=MUZePPfi969144EdR4LZrvcjSz+9o+bwsf8Fb+ChMLg=;
+	b=XteFMWYvFFNnFWW7sjktuj1/A9tDor3OofjFYq79Cg4Jbgx0Ou6TFjFoOsrtXyf2La
+	bHxKzWHuzJ4ZjJzbSDzhQl9b9Z86uJzLEbpZ5GTyIgeKhbPRYNWeW08vmXyt9r1gL1qt
+	sPylKVx4GyHFOnDTdyBO0llkCLz0QKk/rqAzskZL6Gc7aNQ7lLB/6aRRLhqxKhfvfTB7
+	FXRCgXKmecPn2dxQXcaGLxKQjNaH4oXzQGWu8MmaR4l81lsO+HIj8p8pWgG49WiIaaDn
+	YEg6rseekpZB3G6qgQXwHZZxwWuB+nLZN1djZtvQ0ahup7AXUCoS8uG1xeq6PdBcGwpn
+	QzLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=MUZePPfi969144EdR4LZrvcjSz+9o+bwsf8Fb+ChMLg=;
+	b=G95nUccL+sBzqEbyrFmGPuoC2cgZZFGiNq6cQHWOIBbTzlfKycO9NSZ4gRRkwm2reN
+	jrapiZ1XWXQAzddyuqme9OrD0L9nNoliT9+tCsVhjo1B90kpJoltang6cWur3acg5ZYp
+	1urbokbBD5HtOapA08FGHDIZA2uICbQ2gA6ZC0zju4WT95InjK1M80nBCErg7iUJb2F/
+	PuWctlq06KXfAvpODbJMS3w3EslinuivZBjlDzrLgmypZbJkLOQUX3CYEYNuE0g0XOok
+	YDCkT+FUrtDoe/rH4ayjo5Q5u129zMqPEM/8abJMbfs805wbtLhz8zlr/15C47b17/Zc
+	1TOw==
+X-Gm-Message-State: APjAAAUYNgc9Q6SIWlOTbctk6qaNJn7IZ2VAwpPZ5TK9Q1PfaJwPcZ9C
+	fG7zq7isOP75mnbIeufvOcg=
+X-Google-Smtp-Source: APXvYqwxyYD44Fx7jr28Uybq+iJ+GQNdLG0lkWKvVM29k1rUzMBSozJKGaYBtVk6TTzaASKqwJbNMQ==
+X-Received: by 2002:a05:600c:204c:: with SMTP id
+	p12mr8393228wmg.53.1558865387933; 
+	Sun, 26 May 2019 03:09:47 -0700 (PDT)
+Received: from localhost.localdomain ([141.226.29.227])
+	by smtp.gmail.com with ESMTPSA id
+	a139sm8547441wmd.18.2019.05.26.03.09.46
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Sun, 26 May 2019 03:09:47 -0700 (PDT)
+To: Yuval Shaia <yuval.shaia@oracle.com>
+References: <20190505105518.22793-1-yuval.shaia@oracle.com>
+	<87a35658-a636-4598-c860-cc73288922e2@gmail.com>
+	<20190526064144.GA4309@lap1>
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-ID: <f67ea9d6-bbdc-737f-7f1a-470bde06e3f5@gmail.com>
+Date: Sun, 26 May 2019 13:09:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qemu-devel@nongnu.org
-Date: Sun, 26 May 2019 02:10:44 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH] The m68k gdbstub SR reg request doesnt
- include Condition-Codes
+In-Reply-To: <20190526064144.GA4309@lap1>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH] hw/rdma: Add support for GID state changes
+ for non-qmp frameworks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,39 +86,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: huth@tuxfamily.org, richard.henderson@linaro.org, qemu-devel@nongnu.org,
-	laurent@vivier.eu, cota@braap.org, lucienmp_antispam@yahoo.com,
-	alex.bennee@linaro.org, luc.michel@greensocs.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+	Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyNjA3NDUyNy4zMzYz
-Mi0xLWx1Y2llbm1wX2FudGlzcGFtQHlhaG9vLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSF0gVGhlIG02
-OGsgZ2Ric3R1YiBTUiByZWcgcmVxdWVzdCBkb2VzbnQgaW5jbHVkZSBDb25kaXRpb24tQ29kZXMK
-TWVzc2FnZS1pZDogMjAxOTA1MjYwNzQ1MjcuMzM2MzItMS1sdWNpZW5tcF9hbnRpc3BhbUB5YWhv
-by5jb20KVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
-CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
-dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
-Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
-VXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hl
-ZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmQxMmNiNTIgVGhlIG02OGsgZ2Ric3R1YiBTUiByZWcg
-cmVxdWVzdCBkb2VzbnQgaW5jbHVkZSBDb25kaXRpb24tQ29kZXMKCj09PSBPVVRQVVQgQkVHSU4g
-PT09CkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVzcyBpcyBtYW5nbGVkIGJ5IHRoZSBtYWlsaW5n
-IGxpc3QKIzI6IApBdXRob3I6IEx1Y2llbiBNdXJyYXktUGl0dHMgdmlhIFFlbXUtZGV2ZWwgPHFl
-bXUtZGV2ZWxAbm9uZ251Lm9yZz4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTIgbGlu
-ZXMgY2hlY2tlZAoKQ29tbWl0IGQxMmNiNTJkNmM3ZiAoVGhlIG02OGsgZ2Ric3R1YiBTUiByZWcg
-cmVxdWVzdCBkb2VzbnQgaW5jbHVkZSBDb25kaXRpb24tQ29kZXMpIGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNv
-ZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9s
-b2dzLzIwMTkwNTI2MDc0NTI3LjMzNjMyLTEtbHVjaWVubXBfYW50aXNwYW1AeWFob28uY29tL3Rl
-c3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9t
-YXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5
-b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+
+
+On 5/26/19 9:41 AM, Yuval Shaia wrote:
+> On Fri, May 24, 2019 at 08:24:30AM +0300, Marcel Apfelbaum wrote:
+>> Hi Yuval,
+>>
+>> On 5/5/19 1:55 PM, Yuval Shaia wrote:
+>>> Any GID change in guest must be propogate to host. This is already done
+>>> by firing QMP event to managment system such as libvirt which in turn
+>>> will update the host with the relevant change.
+>> Agreed, *any* management software can do that.
+>>
+>>> When qemu is executed on non-qmp framework (ex from command-line) we
+>>> need to update the host instead.
+>>> Fix it by adding support to update the RoCE device's Ethernet function
+>>> IP list from qemu via netlink.
+>> I am not sure this is the right approach. I don't think QEMU should actively
+>> change
+>> the host network configuration.
+>> As you pointed out yourself, the management software should make such
+>> changes.
+> I know about few deployments that are not using any management software,
+> they fires their VMs right from command-line.
+>
+> Currently those deployments cannot use pvrdma.
+>
+>> I agree you cannot always assume the QEMU instance is managed by libvirt,
+>> what about adding this functionality to rdma-multiplexer? The multiplexer
+>> may
+>> register to the same QMP event.
+> Two reasons prevent us from doing this:
+> - rdmacm-mux is a specific MAD multiplexer for CM packets, lets do not add
+>    management function to it.
+> - rdmacm-mux might be redundant when MAD multiplexer will be implemented in
+>    kernel. So what then?
+>
+>> Even if you think the multiplexer is not the right way to do it, even a
+>> simple bash script
+>> disguised  as a systemd service can subscribe to the QMP event and make the
+>> change on the host.
+>>
+>> What do you think?
+> Another contrib app? A lightweight management software??
+
+I would not call a simple bash script "management software".
+You can even add a how-to in the pvrdma.txt doc
+or add a script to scripts/qmp (I saw a fuse script there, maybe is ok 
+to add another for pvrdma)
+If I understand correctly we just need to listen to a qmp event
+and issue a bash command, right?
+
+>
+> See, i do not have an argument if qemu policy is not allowing qemu process
+> to do external configuration (ex network). I'm just looking from a narrow
+> perspective of easy deployment - people sometimes runs qemu without libvirt
+> (or any other management software for that matter), if they want to use
+> pvrdma they are forced to install libvirt just for that.
+
+
+Adding Markus ad Paolo for their take on this. Would be OK if QEMU
+would change the networking configuration of the host?
+
+
+Thanks,
+Marcel
+
+>> Thanks,
+>> Marcel
+>>
+>>> Signed-off-by: Yuval Shaia <yuval.shaia@oracle.com>
+>>> ---
+>>>    configure              |  6 ++++
+>>>    hw/rdma/rdma_backend.c | 74 +++++++++++++++++++++++++++++++++++++++++-
+>>>    2 files changed, 79 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/configure b/configure
+>>> index 5b183c2e39..1f707b1a62 100755
+>>> --- a/configure
+>>> +++ b/configure
+>>> @@ -3132,6 +3132,8 @@ fi
+>>>    cat > $TMPC <<EOF &&
+>>>    #include <sys/mman.h>
+>>> +#include <libmnl/libmnl.h>
+>>> +#include <linux/rtnetlink.h>
+>>>    int
+>>>    main(void)
+>>> @@ -3144,10 +3146,13 @@ main(void)
+>>>    }
+>>>    EOF
+>>> +pvrdma_libs="-lmnl"
+>>> +
+>>>    if test "$rdma" = "yes" ; then
+>>>        case "$pvrdma" in
+>>>        "")
+>>>            if compile_prog "" ""; then
+>>> +            libs_softmmu="$libs_softmmu $pvrdma_libs"
+>>>                pvrdma="yes"
+>>>            else
+>>>                pvrdma="no"
+>>> @@ -3156,6 +3161,7 @@ if test "$rdma" = "yes" ; then
+>>>        "yes")
+>>>            if ! compile_prog "" ""; then
+>>>                error_exit "PVRDMA is not supported since mremap is not implemented"
+>>> +                        " or libmnl-devel is not installed"
+>>>            fi
+>>>            pvrdma="yes"
+>>>            ;;
+>>> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
+>>> index 05f6b03221..bc57b1a624 100644
+>>> --- a/hw/rdma/rdma_backend.c
+>>> +++ b/hw/rdma/rdma_backend.c
+>>> @@ -16,6 +16,11 @@
+>>>    #include "qemu/osdep.h"
+>>>    #include "qapi/qapi-events-rdma.h"
+>>> +#include "linux/if_addr.h"
+>>> +#include "libmnl/libmnl.h"
+>>> +#include "linux/rtnetlink.h"
+>>> +#include "net/if.h"
+>>> +
+>>>    #include <infiniband/verbs.h>
+>>>    #include "contrib/rdmacm-mux/rdmacm-mux.h"
+>>> @@ -47,6 +52,61 @@ static void dummy_comp_handler(void *ctx, struct ibv_wc *wc)
+>>>        rdma_error_report("No completion handler is registered");
+>>>    }
+>>> +static int netlink_route_update(const char *ifname, union ibv_gid *gid,
+>>> +                                __u16 type)
+>>> +{
+>>> +    char buf[MNL_SOCKET_BUFFER_SIZE];
+>>> +    struct nlmsghdr *nlh;
+>>> +    struct ifaddrmsg *ifm;
+>>> +    struct mnl_socket *nl;
+>>> +    int ret;
+>>> +    uint32_t ipv4;
+>>> +
+>>> +    nl = mnl_socket_open(NETLINK_ROUTE);
+>>> +    if (!nl) {
+>>> +        rdma_error_report("Fail to connect to netlink\n");
+>>> +        return -EIO;
+>>> +    }
+>>> +
+>>> +    ret = mnl_socket_bind(nl, 0, MNL_SOCKET_AUTOPID);
+>>> +    if (ret < 0) {
+>>> +        rdma_error_report("Fail to bind to netlink\n");
+>>> +        goto out;
+>>> +    }
+>>> +
+>>> +    nlh = mnl_nlmsg_put_header(buf);
+>>> +    nlh->nlmsg_type = type;
+>>> +    nlh->nlmsg_flags = NLM_F_REQUEST | NLM_F_CREATE | NLM_F_EXCL;
+>>> +    nlh->nlmsg_seq = 1;
+>>> +
+>>> +    ifm = mnl_nlmsg_put_extra_header(nlh, sizeof(*ifm));
+>>> +    ifm->ifa_index = if_nametoindex(ifname);
+>>> +    if (gid->global.subnet_prefix) {
+>>> +        ifm->ifa_family = AF_INET6;
+>>> +        ifm->ifa_prefixlen = 64;
+>>> +        ifm->ifa_flags = IFA_F_PERMANENT;
+>>> +        ifm->ifa_scope = RT_SCOPE_UNIVERSE;
+>>> +        mnl_attr_put(nlh, IFA_ADDRESS, sizeof(*gid), gid);
+>>> +    } else {
+>>> +        ifm->ifa_family = AF_INET;
+>>> +        ifm->ifa_prefixlen = 24;
+>>> +        memcpy(&ipv4, (char *)&gid->global.interface_id + 4, sizeof(ipv4));
+>>> +        mnl_attr_put(nlh, IFA_LOCAL, 4, &ipv4);
+>>> +    }
+>>> +
+>>> +    ret = mnl_socket_sendto(nl, nlh, nlh->nlmsg_len);
+>>> +    if (ret < 0) {
+>>> +        rdma_error_report("Fail to send msg to to netlink\n");
+>>> +        goto out;
+>>> +    }
+>>> +
+>>> +    ret = 0;
+>>> +
+>>> +out:
+>>> +    mnl_socket_close(nl);
+>>> +    return ret;
+>>> +}
+>>> +
+>>>    static inline void complete_work(enum ibv_wc_status status, uint32_t vendor_err,
+>>>                                     void *ctx)
+>>>    {
+>>> @@ -1123,7 +1183,13 @@ int rdma_backend_add_gid(RdmaBackendDev *backend_dev, const char *ifname,
+>>>                                                gid->global.subnet_prefix,
+>>>                                                gid->global.interface_id);
+>>> -    return ret;
+>>> +    /*
+>>> +     * We ignore return value since operation might completed sucessfully
+>>> +     * by the QMP consumer
+>>> +     */
+>>> +    netlink_route_update(ifname, gid, RTM_NEWADDR);
+>>> +
+>>> +    return 0;
+>>>    }
+>>>    int rdma_backend_del_gid(RdmaBackendDev *backend_dev, const char *ifname,
+>>> @@ -1149,6 +1215,12 @@ int rdma_backend_del_gid(RdmaBackendDev *backend_dev, const char *ifname,
+>>>                                                gid->global.subnet_prefix,
+>>>                                                gid->global.interface_id);
+>>> +    /*
+>>> +     * We ignore return value since operation might completed sucessfully
+>>> +     * by the QMP consumer
+>>> +     */
+>>> +    netlink_route_update(ifname, gid, RTM_DELADDR);
+>>> +
+>>>        return 0;
+>>>    }
 
 
