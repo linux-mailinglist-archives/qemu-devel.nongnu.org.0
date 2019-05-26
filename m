@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845E92A798
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:30:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49098 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DCA2A796
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:30:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49094 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUhzy-0005Ae-In
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:30:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53897)
+	id 1hUhzT-0004lZ-A5
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:30:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53938)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhxB-0003HK-LH
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:02 -0400
+	(envelope-from <palmer@dabbelt.com>) id 1hUhxA-0003Hg-9D
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhgQ-0006Vy-Li
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:44 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:39657)
+	(envelope-from <palmer@dabbelt.com>) id 1hUhgS-0006Wj-JD
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:46 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:37165)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhgP-0006Uw-Jd
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:42 -0400
-Received: by mail-pl1-f193.google.com with SMTP id g9so5626143plm.6
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:41 -0700 (PDT)
+	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhgQ-0006Vi-MZ
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:44 -0400
+Received: by mail-pf1-f194.google.com with SMTP id a23so7511777pff.4
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:cc:from:to;
-	bh=A46qd+Lun1Jqp2LnJV4/8L0u1a2QnjICpRUQ7yaJbfA=;
-	b=tqd3iChUPr1PWszWMyZ1ddLN9OI9xXfVeW9rAT4Wi45hoimNweb35LC0cS+dJ1213l
-	GiO2SmfKO2986oCPWKkePlJ75C/zpREcWl9tvUs68A+kRGI59R0l+af4CeEAKSyegvnu
-	ESYZQuNjx/vLBr2Lw+GPBEywKRfLHHRke+KrI8qEaSOaCw0IAhQvUHb/q/MbV38zBAS1
-	3ujtN7Pky7ZzrzWWtf1o0ove45/HMXsH+e6B1xZY3iTDG8+E0vIxD84yhYgalCL19ZQe
-	2aG40y6Xw6nDGFkSCkLsjbx4VdEGao5c6pt/Go8eun4g9+qdV33csUSQLtIgTSkIvXm7
-	0J3Q==
-X-Gm-Message-State: APjAAAWLfosC5ZWzLJJ0ML6LgJmBSqa7wfvkIaNtnDdxJYYK9ZQMoEb6
-	i2+dHb0BzuDK6N9/SABM+Yb6dA==
-X-Google-Smtp-Source: APXvYqzaNy5hjqks01TxmcWVh9IxZfM7eBnQf8DhxI0B6Ypgf3FLewhzsozAtYWXl2GyT+ahZVq7qQ==
-X-Received: by 2002:a17:902:8ec4:: with SMTP id
-	x4mr16380382plo.249.1558833039887; 
-	Sat, 25 May 2019 18:10:39 -0700 (PDT)
-Received: from localhost ([12.206.222.5]) by smtp.gmail.com with ESMTPSA id
-	p16sm6813182pff.35.2019.05.25.18.10.38
+	bh=Agfb1SlQX+MWgq+cbXEGuNIXzEdqOpc8hLIv6mAYUKI=;
+	b=i9I5LZgFfz9DU7MG/KoZmyGkCqxS+NhFAVuH8HxtIyMH41oVpAoEbcdBinIdFAtnfd
+	2UuYg4MrzAlDWLnTEgk+NLsU3EAaYwVhAbbxAlx7rFlgh8bTYcYDe/uPhYFok750QUiO
+	bHDrSGcUIrfNvBzvjU855xmgbnnCUkryH50p+WO2I/LsfaaEGxvZZ4TlkxW0EuW58guE
+	gvPuLxDeZAbvv9IyfLdMaFGrO4JPxNWjf6F63IFw+DZf8oHuIe06eYXmqmrtgtV4kfy5
+	+CshRWf5mSjwe8kN9SvLqoaw7qqNxgpper98SLnE+dtEpvhYskll0HAbIVTBAWzlihaN
+	QiqQ==
+X-Gm-Message-State: APjAAAX04iXlra0F8bG06dN5mr2jBvOO4VxKy/qmMJxixto39ppwYmpr
+	hcK7dNrokTYYWIwdLn8eHwawjw==
+X-Google-Smtp-Source: APXvYqxYoHRXva8OWtznNd2GUVtwg9iQihnLoAeecut6/jgWLYhdlybpZx0Z8NV8xKIgzDl9YUUAHg==
+X-Received: by 2002:a63:c5b:: with SMTP id 27mr65314208pgm.70.1558833041202;
+	Sat, 25 May 2019 18:10:41 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+	by smtp.gmail.com with ESMTPSA id z7sm7916145pfr.23.2019.05.25.18.10.40
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 25 May 2019 18:10:38 -0700 (PDT)
-Date: Sat, 25 May 2019 18:09:47 -0700
-Message-Id: <20190526010948.3923-29-palmer@sifive.com>
+	Sat, 25 May 2019 18:10:40 -0700 (PDT)
+Date: Sat, 25 May 2019 18:09:48 -0700
+Message-Id: <20190526010948.3923-30-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190526010948.3923-1-palmer@sifive.com>
 References: <20190526010948.3923-1-palmer@sifive.com>
@@ -54,9 +53,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.214.193
-Subject: [Qemu-devel] [PULL 28/29] target/riscv: More accurate handling of
- `sip` CSR
+X-Received-From: 209.85.210.194
+Subject: [Qemu-devel] [PULL 29/29] target/riscv: Only flush TLB if SATP.ASID
+ changes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,50 +67,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jonathan Behrens <jonathan@fintelia.io>, Palmer Dabbelt <palmer@sifive.com>,
-	qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: Jonathan Behrens <jonathan@fintelia.io>,
+	Alistair Francis <alistair.francis@wdc.com>,
+	Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jonathan Behrens <jonathan@fintelia.io>
 
-According to the spec, "All bits besides SSIP, USIP, and UEIP in the sip
-register are read-only." Further, if an interrupt is not delegated to mode x,
-then "the corresponding bits in xip [...] should appear to be hardwired to
-zero. This patch implements both of those requirements.
+There is an analogous change for ARM here:
+https://patchwork.kernel.org/patch/10649857
 
 Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/csr.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ target/riscv/csr.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index e6d68a99560d..0f51c7eae241 100644
+index 0f51c7eae241..f9e2910643f8 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -237,6 +237,7 @@ static const target_ulong sstatus_v1_9_mask = SSTATUS_SIE | SSTATUS_SPIE |
- static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
-     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
-     SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
-+static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
- 
- #if defined(TARGET_RISCV32)
- static const char valid_vm_1_09[16] = {
-@@ -682,8 +683,10 @@ static int write_sbadaddr(CPURISCVState *env, int csrno, target_ulong val)
- static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-                    target_ulong new_value, target_ulong write_mask)
- {
--    return rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
--                   write_mask & env->mideleg);
-+    int ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
-+                      write_mask & env->mideleg & sip_writable_mask);
-+    *ret_value &= env->mideleg;
-+    return ret;
- }
- 
- /* Supervisor Protection and Translation */
+@@ -723,7 +723,9 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
+         if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+             return -1;
+         } else {
+-            tlb_flush(CPU(riscv_env_get_cpu(env)));
++            if((val ^ env->satp) & SATP_ASID) {
++                tlb_flush(CPU(riscv_env_get_cpu(env)));
++            }
+             env->satp = val;
+         }
+     }
 -- 
 2.21.0
 
