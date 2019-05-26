@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23892A79B
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:33:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49161 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED672A7A0
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 May 2019 03:36:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49220 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUi2V-0007HI-PE
-	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:33:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53938)
+	id 1hUi5T-0001dr-TC
+	for lists+qemu-devel@lfdr.de; Sat, 25 May 2019 21:36:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53897)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhxE-0003Hg-Qu
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:05 -0400
+	(envelope-from <palmer@dabbelt.com>) id 1hUhxD-0003HK-Uu
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:28:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <palmer@dabbelt.com>) id 1hUhgK-0006Rt-4a
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:36 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39951)
+	(envelope-from <palmer@dabbelt.com>) id 1hUhgL-0006So-Cj
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:38 -0400
+Received: from mail-pl1-f177.google.com ([209.85.214.177]:33626)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhgJ-0006Ra-VY
-	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:36 -0400
-Received: by mail-pf1-f194.google.com with SMTP id u17so7496855pfn.7
-	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:35 -0700 (PDT)
+	(Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hUhgL-0006SK-7R
+	for qemu-devel@nongnu.org; Sat, 25 May 2019 21:10:37 -0400
+Received: by mail-pl1-f177.google.com with SMTP id g21so5660535plq.0
+	for <qemu-devel@nongnu.org>; Sat, 25 May 2019 18:10:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:cc:from:to;
-	bh=VQ8fcwwFdIxm5HTObYVrKZCT6rKtwie9e2FUMwfKUS4=;
-	b=amcd11AFOfx5nM4SIeRL18RN3piQfxMQheqcnSqfnacFE5VW+yhb3N59WPQHX6Jnhc
-	WXbPFDckgfUpPg6ZfvMEBYRSKJp0VQO1ajZZRGn7xSLWnnrDfs6teTnoMK971+MlabvI
-	SWl0fxYv8OhG59OwcfwI40C3xrjrh5XgJ4scBQ1uH7dVywMFWiRyhZJGAb08fEvPTR4w
-	n7zX4Fn7CX1oYSdqkiXtNq+SgtBSW4Dck9SIHstSBkvbtdpXKhEmzGNFhTki6VKAbuoA
-	LBCggnoMx59ctwxyhloU6YW5b3UTfp+/x9HKn5bK7Pi8iDnMrU3NK3ncdRSNRwnSmCKO
-	NweA==
-X-Gm-Message-State: APjAAAUqt5HM7NVEoXZeOcRS6y4HIWLic2YMByLnBrd+mlE56lGIS8R1
-	AkouppzKziKHsa0W5HOmHVCzrQ==
-X-Google-Smtp-Source: APXvYqys2KYuKN4U7KzKmfBzhu9d270erB562S7aRzp/Nrwa0C63vk4UDPQTvdwksXis2on/X3cJTw==
-X-Received: by 2002:a63:1150:: with SMTP id 16mr116821920pgr.40.1558833034802; 
-	Sat, 25 May 2019 18:10:34 -0700 (PDT)
+	bh=J7lhhgtf0sOTXH1yJE/Uqjkv+hDa7WrYfOdgGU5K6D4=;
+	b=Tac60sdLGy+l3lYMhA9dbXMcWT+prMolc/h2Pw3RZ8QPR49VJK9moTHO+w5DclVNdQ
+	qGvyyRbfMYxmcYacfNHzB81WygZ2U3wbg0arGNhIzJbuXBfD0Y1b5g+FslKutEgLl6ux
+	6+ZQqAXdcz1m+5HVPsnnczK1fpIVyZ1N5rKUNLHwXO5oMAXSU0gz4RpTZbWHZThyKcZq
+	aTWgc0mYedYJO3CzH60Slg6bfFq4SQ0okamrV7CIYhTHklW7d7e3j7UBb26GV0cu43re
+	PM00YLOrBa6GCzzQTvTHiVHP7rvS6ASUh2z2foTVSSekVXCoGufV2TBovjISFSfjKZzP
+	aGRA==
+X-Gm-Message-State: APjAAAUdgRsLu4Svx7/SEGYRrMwCGsATcaazl+YSGMbN9uD6YdxE8C0K
+	jnEp0d90zs4x3OGPAzpgcudK6Q==
+X-Google-Smtp-Source: APXvYqx3aSfewtpSAEOx4sclNnBttL3hHIQSuLNFe9dadntDNBnK9LAGKDhPeKWUHYLb5vtuO1WPaQ==
+X-Received: by 2002:a17:902:2d:: with SMTP id
+	42mr118552335pla.34.1558833035950; 
+	Sat, 25 May 2019 18:10:35 -0700 (PDT)
 Received: from localhost ([12.206.222.5]) by smtp.gmail.com with ESMTPSA id
-	b4sm6805720pfd.120.2019.05.25.18.10.34
+	g22sm6826305pfo.28.2019.05.25.18.10.35
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 25 May 2019 18:10:34 -0700 (PDT)
-Date: Sat, 25 May 2019 18:09:43 -0700
-Message-Id: <20190526010948.3923-25-palmer@sifive.com>
+	Sat, 25 May 2019 18:10:35 -0700 (PDT)
+Date: Sat, 25 May 2019 18:09:44 -0700
+Message-Id: <20190526010948.3923-26-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190526010948.3923-1-palmer@sifive.com>
 References: <20190526010948.3923-1-palmer@sifive.com>
@@ -53,8 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.210.194
-Subject: [Qemu-devel] [PULL 24/29] target/riscv: Add Hypervisor CSR macros
+X-Received-From: 209.85.214.177
+Subject: [Qemu-devel] [PULL 25/29] target/riscv: Add the HSTATUS register
+ masks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,42 +76,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <Alistair.Francis@wdc.com>
 
-Add the 1.10.1 Hypervisor CSRs and remove the 1.9.1 spec versions.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+Reviwed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu_bits.h | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/riscv/cpu_bits.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index fe7164754b19..52c21699774f 100644
+index 52c21699774f..a179137bc1f2 100644
 --- a/target/riscv/cpu_bits.h
 +++ b/target/riscv/cpu_bits.h
-@@ -202,6 +202,12 @@
- #define CSR_DPC             0x7b1
- #define CSR_DSCRATCH        0x7b2
+@@ -382,6 +382,24 @@
+ #define SSTATUS_SD SSTATUS64_SD
+ #endif
  
-+/* Hpervisor CSRs */
-+#define CSR_HSTATUS         0xa00
-+#define CSR_HEDELEG         0xa02
-+#define CSR_HIDELEG         0xa03
-+#define CSR_HGATP           0xa80
++/* hstatus CSR bits */
++#define HSTATUS_SPRV         0x00000001
++#define HSTATUS_STL          0x00000040
++#define HSTATUS_SPV          0x00000080
++#define HSTATUS_SP2P         0x00000100
++#define HSTATUS_SP2V         0x00000200
++#define HSTATUS_VTVM         0x00100000
++#define HSTATUS_VTSR         0x00400000
 +
- /* Performance Counters */
- #define CSR_MHPMCOUNTER3    0xb03
- #define CSR_MHPMCOUNTER4    0xb04
-@@ -292,9 +298,6 @@
- #define CSR_MHPMCOUNTER31H  0xb9f
- 
- /* Legacy Hypervisor Trap Setup (priv v1.9.1) */
--#define CSR_HSTATUS         0x200
--#define CSR_HEDELEG         0x202
--#define CSR_HIDELEG         0x203
- #define CSR_HIE             0x204
- #define CSR_HTVEC           0x205
- 
++#define HSTATUS32_WPRI       0xFF8FF87E
++#define HSTATUS64_WPRI       0xFFFFFFFFFF8FF87EULL
++
++#if defined(TARGET_RISCV32)
++#define HSTATUS_WPRI HSTATUS32_WPRI
++#elif defined(TARGET_RISCV64)
++#define HSTATUS_WPRI HSTATUS64_WPRI
++#endif
++
+ /* Privilege modes */
+ #define PRV_U 0
+ #define PRV_S 1
 -- 
 2.21.0
 
