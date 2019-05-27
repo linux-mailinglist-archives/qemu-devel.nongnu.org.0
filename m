@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382AE2B889
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 17:44:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47355 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 238382B893
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 17:45:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47392 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVHnD-0003lY-Dr
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 11:44:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56086)
+	id 1hVHod-0004oJ-BV
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 11:45:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56074)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hVHin-0000ZB-1d
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 11:39:34 -0400
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hVHim-0000ZA-Np
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 11:39:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hVHil-0007Nj-LE
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hVHil-0007NU-Kj
 	for qemu-devel@nongnu.org; Mon, 27 May 2019 11:39:32 -0400
-Received: from mail02.asahi-net.or.jp ([202.224.55.14]:58411)
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:58413)
 	by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hVHil-0007Do-9G
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hVHil-0007EG-7s
 	for qemu-devel@nongnu.org; Mon, 27 May 2019 11:39:31 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
 	[61.195.96.97]) (Authenticated sender: PQ4Y-STU)
-	by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 3CFE23E7B8;
+	by mail02.asahi-net.or.jp (Postfix) with ESMTPA id CB5E53E813;
 	Tue, 28 May 2019 00:39:28 +0900 (JST)
 Received: from yo-satoh-debian.ysato.ml (ZM005235.ppp.dion.ne.jp [222.8.5.235])
-	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 1141F240085; 
+	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 92823240085; 
 	Tue, 28 May 2019 00:39:28 +0900 (JST)
-Date: Tue, 28 May 2019 00:31:52 +0900
-Message-ID: <87y32r6hhz.wl-ysato@users.sourceforge.jp>
+Date: Tue, 28 May 2019 00:39:04 +0900
+Message-ID: <87woib6h5z.wl-ysato@users.sourceforge.jp>
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20190523150803.31504-6-richard.henderson@linaro.org>
+In-Reply-To: <20190523150803.31504-1-richard.henderson@linaro.org>
 References: <20190523150803.31504-1-richard.henderson@linaro.org>
-	<20190523150803.31504-6-richard.henderson@linaro.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
 	FLIM/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL/10.8 EasyPG/1.0.0 Emacs/25.1
 	(x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -42,8 +41,7 @@ Content-Type: text/plain; charset=US-ASCII
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 202.224.55.14
-Subject: Re: [Qemu-devel] [PATCH 5/6] target/rx: Collect all bytes during
- disassembly
+Subject: Re: [Qemu-devel] [PATCH 0/6] target/rx: Improvements to disassembly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,141 +57,55 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 May 2019 00:08:02 +0900,
+On Fri, 24 May 2019 00:07:57 +0900,
 Richard Henderson wrote:
 > 
-> Collected, to be used in the next patch.
+> Here's a sample of the new output, taken from u-boot.bin:
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> IN:
+> 0xfff8000a:  fb 12 00 01 00 00          mov.l   #0x00000100, r1
+> 0xfff80010:  fb 32 f0 13 00 00          mov.l   #0x000013f0, r3
+> 0xfff80016:  43 13                      sub     r1, r3
+> 0xfff80018:  fb 22 00 ea f9 ff          mov.l   #-398848, r2
+> 0xfff8001e:  7f 8f                      smovf
+> 0xfff80020:  ef 01                      mov.l   r0, r1
+> 0xfff80022:  05 1e 32 00                bsr.a   fff83240
+> 
+> IN:
+> 0xfff83240:  72 11 5c fb                add     #-1188, r1
+> 0xfff83244:  75 21 f0                   and     #-16, r1
+> 0xfff83247:  02                         rts
+> 
+> Obviously there are still a few inconsistencies in the
+> format strings used for the immediates, but the format
+> is readable and it is easy to look at the opcode to see
+> how our decode compares to the manual.
+>
 
-> ---
->  target/rx/disas.c | 62 ++++++++++++++++++++++++++++++++---------------
->  1 file changed, 42 insertions(+), 20 deletions(-)
+Hmm.
+The output of the immediate value should be the same as the output of objdump.
+I do not think that it is the proper format, but I did that because
+it was useful for comparing the results.
+
 > 
-> diff --git a/target/rx/disas.c b/target/rx/disas.c
-> index ebc1a44249..5a32a87534 100644
-> --- a/target/rx/disas.c
-> +++ b/target/rx/disas.c
-> @@ -25,43 +25,59 @@ typedef struct DisasContext {
->      disassemble_info *dis;
->      uint32_t addr;
->      uint32_t pc;
-> +    uint8_t len;
-> +    uint8_t bytes[8];
->  } DisasContext;
->  
->  
->  static uint32_t decode_load_bytes(DisasContext *ctx, uint32_t insn,
-> -                           int i, int n)
-> +                                  int i, int n)
->  {
-> -    bfd_byte buf;
-> +    uint32_t addr = ctx->addr;
-> +
-> +    g_assert(ctx->len == i);
-> +    g_assert(n <= ARRAY_SIZE(ctx->bytes));
-> +
->      while (++i <= n) {
-> -        ctx->dis->read_memory_func(ctx->addr++, &buf, 1, ctx->dis);
-> -        insn |= buf << (32 - i * 8);
-> +        ctx->dis->read_memory_func(addr++, &ctx->bytes[i - 1], 1, ctx->dis);
-> +        insn |= ctx->bytes[i - 1] << (32 - i * 8);
->      }
-> +    ctx->addr = addr;
-> +    ctx->len = n;
-> +
->      return insn;
->  }
->  
->  static int32_t li(DisasContext *ctx, int sz)
->  {
-> -    int32_t addr;
-> -    bfd_byte buf[4];
-> -    addr = ctx->addr;
-> +    uint32_t addr = ctx->addr;
-> +    uintptr_t len = ctx->len;
->  
->      switch (sz) {
->      case 1:
-> +        g_assert(len + 1 <= ARRAY_SIZE(ctx->bytes));
->          ctx->addr += 1;
-> -        ctx->dis->read_memory_func(addr, buf, 1, ctx->dis);
-> -        return (int8_t)buf[0];
-> +        ctx->len += 1;
-> +        ctx->dis->read_memory_func(addr, ctx->bytes + len, 1, ctx->dis);
-> +        return (int8_t)ctx->bytes[len];
->      case 2:
-> +        g_assert(len + 2 <= ARRAY_SIZE(ctx->bytes));
->          ctx->addr += 2;
-> -        ctx->dis->read_memory_func(addr, buf, 2, ctx->dis);
-> -        return ldsw_le_p(buf);
-> +        ctx->len += 2;
-> +        ctx->dis->read_memory_func(addr, ctx->bytes + len, 2, ctx->dis);
-> +        return ldsw_le_p(ctx->bytes + len);
->      case 3:
-> +        g_assert(len + 3 <= ARRAY_SIZE(ctx->bytes));
->          ctx->addr += 3;
-> -        ctx->dis->read_memory_func(addr, buf, 3, ctx->dis);
-> -        return (int8_t)buf[2] << 16 | lduw_le_p(buf);
-> +        ctx->len += 3;
-> +        ctx->dis->read_memory_func(addr, ctx->bytes + len, 3, ctx->dis);
-> +        return (int8_t)ctx->bytes[len + 2] << 16 | lduw_le_p(ctx->bytes + len);
->      case 0:
-> +        g_assert(len + 4 <= ARRAY_SIZE(ctx->bytes));
->          ctx->addr += 4;
-> -        ctx->dis->read_memory_func(addr, buf, 4, ctx->dis);
-> -        return ldl_le_p(buf);
-> +        ctx->len += 4;
-> +        ctx->dis->read_memory_func(addr, ctx->bytes + len, 4, ctx->dis);
-> +        return ldl_le_p(ctx->bytes + len);
->      default:
->          g_assert_not_reached();
->      }
-> @@ -110,7 +126,7 @@ static const char psw[] = {
->  static void rx_index_addr(DisasContext *ctx, char out[8], int ld, int mi)
->  {
->      uint32_t addr = ctx->addr;
-> -    uint8_t buf[2];
-> +    uintptr_t len = ctx->len;
->      uint16_t dsp;
->  
->      switch (ld) {
-> @@ -119,14 +135,18 @@ static void rx_index_addr(DisasContext *ctx, char out[8], int ld, int mi)
->          out[0] = '\0';
->          return;
->      case 1:
-> +        g_assert(len + 1 <= ARRAY_SIZE(ctx->bytes));
->          ctx->addr += 1;
-> -        ctx->dis->read_memory_func(addr, buf, 1, ctx->dis);
-> -        dsp = buf[0];
-> +        ctx->len += 1;
-> +        ctx->dis->read_memory_func(addr, ctx->bytes + len, 1, ctx->dis);
-> +        dsp = ctx->bytes[len];
->          break;
->      case 2:
-> +        g_assert(len + 2 <= ARRAY_SIZE(ctx->bytes));
->          ctx->addr += 2;
-> -        ctx->dis->read_memory_func(addr, buf, 2, ctx->dis);
-> -        dsp = lduw_le_p(buf);
-> +        ctx->len += 2;
-> +        ctx->dis->read_memory_func(addr, ctx->bytes + len, 2, ctx->dis);
-> +        dsp = lduw_le_p(ctx->bytes + len);
->          break;
->      default:
->          g_assert_not_reached();
-> @@ -1392,8 +1412,10 @@ int print_insn_rx(bfd_vma addr, disassemble_info *dis)
->      DisasContext ctx;
->      uint32_t insn;
->      int i;
-> +
->      ctx.dis = dis;
->      ctx.pc = ctx.addr = addr;
-> +    ctx.len = 0;
->  
->      insn = decode_load(&ctx);
->      if (!decode(&ctx, insn)) {
+> r~
+> 
+> 
+> Richard Henderson (6):
+>   target/rx: Disassemble rx_index_addr into a string
+>   target/rx: Replace operand with prt_ldmi in disassembler
+>   target/rx: Use prt_ldmi for XCHG_mr disassembly
+>   target/rx: Emit all disassembly in one prt()
+>   target/rx: Collect all bytes during disassembly
+>   target/rx: Dump bytes for each insn during disassembly
+> 
+>  target/rx/disas.c | 366 +++++++++++++++++++++-------------------------
+>  1 file changed, 166 insertions(+), 200 deletions(-)
+> 
 > -- 
 > 2.17.1
 > 
+
+-- 
+Yosinori Sato
 
