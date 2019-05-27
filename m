@@ -2,70 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB9B2B983
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 19:48:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48935 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023552B9F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 20:16:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49149 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVJjv-0003f7-Ac
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 13:48:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56345)
+	id 1hVKAj-0007kh-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 14:16:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33001)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hVJip-0003M6-C6
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 13:47:44 -0400
+	(envelope-from <armbru@redhat.com>) id 1hVK9i-0007Rw-E1
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 14:15:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hVJio-0001dS-5A
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 13:47:43 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38284)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
-	id 1hVJio-0001cn-1E
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 13:47:42 -0400
-Received: by mail-ot1-x341.google.com with SMTP id s19so15463732otq.5
-	for <qemu-devel@nongnu.org>; Mon, 27 May 2019 10:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FnJfpuDK++zY2c4ERgQ3/1CVPaiA1NG6dplfrezKayc=;
-	b=kbvJsjMr/rL+6K+imhNvrs2WJCi2YRrfcKyZJaS1DzcKjopibsZA1IfiLwyCRGCcPT
-	nEM49Wad9JP989Q5t07qMjWhF5lYAN7A1mZv6Y2PHiFuSLV0plCuTF70+pvRs8kK3D8z
-	uuj0oqmsbQ7onGxH4w6Rr4aHWPFegffLbfHizihNCLbFqpCcNAwa72HT6iY8Yf89Vd4I
-	+t4z2Y2M08F4g0wkDJGXRB1PpkUR82+OnILZc9nOSASkAHIt+3VcqPGNg5va+dhEDDLB
-	dCBU8BfikXNJinAk1IoFSimN2w/wGNt8azeXFpNuDzHzJJNntBnR2TMN0lhvZqC87Jj5
-	auyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FnJfpuDK++zY2c4ERgQ3/1CVPaiA1NG6dplfrezKayc=;
-	b=c72FIVIW8EHcSaIU9qVitbX1MsQ2igxdFFXfJmEmYjjh4M0o/yufqtmACZHEJF5deO
-	gJuybaytR0kwjbLOqMvxT0+1aQ4ovSL0bDYN+eC/oURAGYZR/qeKEHy6Qa57E11F66Nf
-	CWBRLzt93smiw+TlPsbX2cNZojKcOwUhhI6k4ebJSBJB/6AqFVE/iX3l+RG7NEUv7V99
-	rxJBo+SeVpk/8EN9NasMpUpZFWnJ0aR8qersLnRJOvi6oh8w3ZCeu2t+GsL55q76/W1j
-	olGJzud02pb31iwlevMK1m6p4ClpOt8mSy64vf1ieHyHs8XTgSOHnzxZEY9JcGsSGgz0
-	cRKg==
-X-Gm-Message-State: APjAAAXFfYDSvfLPa4k8y5LHLF+KbYhMUkxQi0T4mA5KjRxHlRhItP2L
-	EjbSr58zP0tQj/KJHs+2V8WFTN+RnKrgkw/51oo=
-X-Google-Smtp-Source: APXvYqyVhqXmumqbpA7TfbKNQTLo+Q7yFIHV0z8glO7rwKp+TsF0QjTijyLb7fEir3mWw/H522ZmBSPLGmfaUEu8E60=
-X-Received: by 2002:a9d:588b:: with SMTP id x11mr126993otg.295.1558979261054; 
-	Mon, 27 May 2019 10:47:41 -0700 (PDT)
+	(envelope-from <armbru@redhat.com>) id 1hVK9h-0007yf-F0
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 14:15:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45330)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hVK9h-0007yI-8M
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 14:15:29 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 09E3C30842CE
+	for <qemu-devel@nongnu.org>; Mon, 27 May 2019 18:15:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
+	[10.36.117.250])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 84221608A6;
+	Mon, 27 May 2019 18:15:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id EB6AC1138648; Mon, 27 May 2019 20:15:16 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1558079119-320634-1-git-send-email-imammedo@redhat.com>
+	<1558079119-320634-3-git-send-email-imammedo@redhat.com>
+Date: Mon, 27 May 2019 20:15:16 +0200
+In-Reply-To: <1558079119-320634-3-git-send-email-imammedo@redhat.com> (Igor
+	Mammedov's message of "Fri, 17 May 2019 09:45:15 +0200")
+Message-ID: <8736kzix1n.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Mon, 27 May 2019 10:47:40
-	-0700 (PDT)
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Mon, 27 May 2019 10:47:40
-	-0700 (PDT)
-In-Reply-To: <87woib6h5z.wl-ysato@users.sourceforge.jp>
-References: <20190523150803.31504-1-richard.henderson@linaro.org>
-	<87woib6h5z.wl-ysato@users.sourceforge.jp>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 27 May 2019 19:47:40 +0200
-Message-ID: <CAL1e-=htcqmvHF_sHbW+-xgfqT6FCeVE0eCr8TOfapov5VVQWA@mail.gmail.com>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 0/6] target/rx: Improvements to disassembly
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Mon, 27 May 2019 18:15:28 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 2/6] qmp: make "qom-list-properties"
+ show initial property values
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,73 +62,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: libvir-list@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
+	qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On May 27, 2019 5:44 PM, "Yoshinori Sato" <ysato@users.sourceforge.jp>
-wrote:
->
-> On Fri, 24 May 2019 00:07:57 +0900,
-> Richard Henderson wrote:
-> >
-> > Here's a sample of the new output, taken from u-boot.bin:
-> >
-> > IN:
-> > 0xfff8000a:  fb 12 00 01 00 00          mov.l   #0x00000100, r1
-> > 0xfff80010:  fb 32 f0 13 00 00          mov.l   #0x000013f0, r3
-> > 0xfff80016:  43 13                      sub     r1, r3
-> > 0xfff80018:  fb 22 00 ea f9 ff          mov.l   #-398848, r2
-> > 0xfff8001e:  7f 8f                      smovf
-> > 0xfff80020:  ef 01                      mov.l   r0, r1
-> > 0xfff80022:  05 1e 32 00                bsr.a   fff83240
-> >
-> > IN:
-> > 0xfff83240:  72 11 5c fb                add     #-1188, r1
-> > 0xfff83244:  75 21 f0                   and     #-16, r1
-> > 0xfff83247:  02                         rts
-> >
-> > Obviously there are still a few inconsistencies in the
-> > format strings used for the immediates, but the format
-> > is readable and it is easy to look at the opcode to see
-> > how our decode compares to the manual.
-> >
->
-> Hmm.
-> The output of the immediate value should be the same as the output of
-objdump.
-> I do not think that it is the proper format, but I did that because
-> it was useful for comparing the results.
->
+Igor Mammedov <imammedo@redhat.com> writes:
 
-We in MIPS also use objdump output as the reference and desired output for
-QEMU disassembler (not that we are always succeeding in doing that)
-
-Inventing propriatery QEMU output for some instructions is in my view
-counterproductive and confusing.
-
-Sincerely,
-Aleksandar
-
-> >
-> > r~
-> >
-> >
-> > Richard Henderson (6):
-> >   target/rx: Disassemble rx_index_addr into a string
-> >   target/rx: Replace operand with prt_ldmi in disassembler
-> >   target/rx: Use prt_ldmi for XCHG_mr disassembly
-> >   target/rx: Emit all disassembly in one prt()
-> >   target/rx: Collect all bytes during disassembly
-> >   target/rx: Dump bytes for each insn during disassembly
-> >
-> >  target/rx/disas.c | 366 +++++++++++++++++++++-------------------------
-> >  1 file changed, 166 insertions(+), 200 deletions(-)
-> >
-> > --
-> > 2.17.1
-> >
+> Add in the command output object's property values right after creation
+> (i.e. state of the object returned by object_new() or equivalent).
 >
-> --
-> Yosinori Sato
+> Follow up patch will add machine property 'numa-mem-supported', which
+> would allow mgmt to introspect which machine types (versions) still
+> support legacy "-numa mem=FOO" CLI option and which don't and require
+> alternative '-numa memdev' option being used.
+
+I'll have to study that patch to figure out what exactly the use case
+is.
+
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+>  qapi/misc.json | 5 ++++-
+>  qmp.c          | 5 +++++
+>  2 files changed, 9 insertions(+), 1 deletion(-)
 >
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index 8b3ca4f..e333285 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -1365,10 +1365,13 @@
+>  #
+>  # @description: if specified, the description of the property.
+>  #
+> +# @default: initial property value.
+> +#
+>  # Since: 1.2
+>  ##
+>  { 'struct': 'ObjectPropertyInfo',
+> -  'data': { 'name': 'str', 'type': 'str', '*description': 'str' } }
+> +  'data': { 'name': 'str', 'type': 'str', '*description': 'str',
+> +            '*default': 'any' } }
+
+ObjectPropertyInfo has three users: qom-list, device-list-properties,
+qom-list-properties.
+
+>  
+>  ##
+>  # @qom-list:
+> diff --git a/qmp.c b/qmp.c
+> index b92d62c..8415541 100644
+> --- a/qmp.c
+> +++ b/qmp.c
+> @@ -593,6 +593,11 @@ ObjectPropertyInfoList *qmp_qom_list_properties(const char *typename,
+>          info->type = g_strdup(prop->type);
+>          info->has_description = !!prop->description;
+>          info->description = g_strdup(prop->description);
+> +        if (obj) {
+> +            info->q_default =
+> +                object_property_get_qobject(obj, info->name, NULL);
+> +            info->has_q_default = !!info->q_default;
+> +        }
+>  
+>          entry = g_malloc0(sizeof(*entry));
+>          entry->value = info;
+
+You update only qom-list-properties.
+
+The other two therefore never return objects with a @default member.
+But query-qmp-schema can't tell.  Awkward.  The doc comments don't tell.
+Doc bug.
+
+You could have qom-list-properties return a new type
+
+    { 'struct': 'ObjectPropertyInfoWithDefault',
+      'base': 'ObjectPropertyInfo',
+      'data': { '*default': any } }
+
+The default value shown by qom-list-properties is the value found in a
+fresh object created with object_new().  object_new() runs
+->instance_init(), which can do anything.  When you call object_new()
+again, you might find a different value.  In other words, the @default
+returned by qom-list-properties is unreliable.
+
+Related to this qom-list-properties caveat:
+
+   # Note: objects can create properties at runtime, for example to describe
+   # links between different devices and/or objects. These properties
+   # are not included in the output of this command.
+
+Please add a similar one for @default.
+
+This command fights QOM's basic design premises, and it shows.
+
