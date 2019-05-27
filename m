@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFDF2B57F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 14:38:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45326 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B852B5C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 14:53:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45497 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVEu0-00078K-F1
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 08:38:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52734)
+	id 1hVF7s-0003ko-8i
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 08:53:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56261)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hVEss-0006jB-0W
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 08:37:46 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hVF5l-0002hc-JS
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 08:51:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hVEsr-00086L-5e
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 08:37:45 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:54826)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hVEso-0007yi-No; Mon, 27 May 2019 08:37:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
-	bh=X7tYel9SZX6HYBkoyptPhN99hiMM5H2sPtkaSb9Y8pU=; 
-	b=cGRYh0OaDy/WOBn8EgqdZVm3STy3qdvc0nNgq0MAiAk6DCHlspWQarc/1xXc8opgVKnIaYs8OStikHDlmfHQ6QqljAsfU7Awzj7FqkGhaX/3Pop+VcD4Ov0QeGmO8zNcGFz84sJcYbcpmJKWj7BeZGL8P803esfogXw+FOjxu1bGnhlRuKuOUTdd6hTGcvsCtkNm5YXySUTkxuFMyCk2iecMDSpcEc9DKf+SqsRm3xDkUSSH9N5rO4/HAnKTAEuzpiEQz/Ry+JtKmEBUVSk3GbMoG1lvW9PRORNwQu0vVdpjscdNdP1KdXmM4UiZJE8C/1XpLv0oDQevOhMRUklnFQ==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
-	by fanzine.igalia.com with esmtps 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1hVEsl-0002fU-LC; Mon, 27 May 2019 14:37:39 +0200
-Received: from berto by mail.igalia.com with local (Exim)
-	id 1hVEsl-00007D-IO; Mon, 27 May 2019 14:37:39 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-In-Reply-To: <66e86c16-c30c-5363-ef94-f01da8979872@redhat.com>
-References: <20190524172812.27308-1-mreitz@redhat.com>
-	<20190524172812.27308-2-mreitz@redhat.com>
-	<w51ef4ljlt7.fsf@maestria.local.igalia.com>
-	<66e86c16-c30c-5363-ef94-f01da8979872@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
-	(i586-pc-linux-gnu)
-Date: Mon, 27 May 2019 14:37:39 +0200
-Message-ID: <w515zpwrs30.fsf@maestria.local.igalia.com>
+	(envelope-from <imammedo@redhat.com>) id 1hVF5k-00021C-Ap
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 08:51:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53406)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
+	id 1hVF5g-0001yW-Ba; Mon, 27 May 2019 08:51:00 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id DF2137FDFB;
+	Mon, 27 May 2019 12:50:58 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E1C5E10027CA;
+	Mon, 27 May 2019 12:50:56 +0000 (UTC)
+Date: Mon, 27 May 2019 14:50:52 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <20190527145052.258825fb@redhat.com>
+In-Reply-To: <a3f324cc-8226-57e9-2bf3-347d84cf189a@redhat.com>
+References: <20190524103521.13847-1-lvivier@redhat.com>
+	<20190524161045.314fa2de@redhat.com>
+	<c1c017f2-84ed-bddf-abb9-7154d9edb372@redhat.com>
+	<20190524201432.GP10764@habkost.net>
+	<a3f324cc-8226-57e9-2bf3-347d84cf189a@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
-	timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [RFC 1/3] block: Add ImageRotationalInfo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Mon, 27 May 2019 12:50:59 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] numa: improve cpu hotplug error message
+ with a wrong node-id
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,42 +61,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
-	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon 27 May 2019 02:16:53 PM CEST, Max Reitz wrote:
-> On 26.05.19 17:08, Alberto Garcia wrote:
->> On Fri 24 May 2019 07:28:10 PM CEST, Max Reitz <mreitz@redhat.com> wrote:
->>> +##
->>> +# @ImageRotationalInfo:
->>> +#
->>> +# Indicates whether an image is stored on a rotating disk or not.
->>> +#
->>> +# @solid-state: Image is stored on a solid-state drive
->>> +#
->>> +# @rotating:    Image is stored on a rotating disk
->>=20
->> What happens when you cannot tell? You assume it's solid-state?
->
-> When *I* cannot tell?  This field is generally optional, so in that case
-> it just will not be present.
->
-> (When Linux cannot tell?  I don=E2=80=99t know :-))
->
-> Do you think there should be an explicit value for that?
+On Mon, 27 May 2019 08:55:49 +0200
+Laurent Vivier <lvivier@redhat.com> wrote:
 
-I'll try to rephrase:
+> On 24/05/2019 22:14, Eduardo Habkost wrote:
+> > On Fri, May 24, 2019 at 04:39:12PM +0200, Laurent Vivier wrote:  
+> >> On 24/05/2019 16:10, Igor Mammedov wrote:  
+> >>> On Fri, 24 May 2019 12:35:21 +0200
+> >>> Laurent Vivier <lvivier@redhat.com> wrote:
+> >>>  
+> >>>> On pseries, core-ids are strongly binded to a node-id by the command
+> >>>> line option. If an user tries to add a CPU to the wrong node, he has
+> >>>> an error but it is not really helpful:
+> >>>>
+> >>>>     qemu-system-ppc64 ... -smp 1,maxcpus=64,cores=1,threads=1,sockets=1 \
+> >>>>                           -numa node,nodeid=0 -numa node,nodeid=1 ...
+> >>>>
+> >>>>     (qemu) device_add power9_v2.0-spapr-cpu-core,core-id=30,node-id=1
+> >>>>     Error: node-id=1 must match numa node specified with -numa option
+> >>>>
+> >>>> This patch improves this error message by giving to the user the good
+> >>>> topology information (node-id, socket-id and thread-id if they are
+> >>>> available) to use with the core-id he's providing:
+> >>>>
+> >>>>     Error: node-id=1 must match numa node specified with -numa option 'node-id 0'
+> >>>>
+> >>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> >>>> ---
+> >>>>
+> >>>> Notes:
+> >>>>       v3: only add the topology to the existing message
+> >>>>           As suggested by Igor replace
+> >>>>             Error: core-id 30 can only be plugged into node-id 0
+> >>>>           by
+> >>>>             Error: node-id=1 must match numa node specified with -numa option 'node-id 0'
+> >>>>       v2: display full topology in the error message  
+> >>>>>>>    numa.c | 25 ++++++++++++++++++++++++-  
+> >>>>    1 file changed, 24 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/numa.c b/numa.c
+> >>>> index 3875e1efda3a..7882ec294be4 100644
+> >>>> --- a/numa.c
+> >>>> +++ b/numa.c
+> >>>> @@ -458,6 +458,27 @@ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
+> >>>>        set_numa_options(MACHINE(qdev_get_machine()), cmd, errp);
+> >>>>    }
+> >>>> +static char *cpu_topology_to_string(const CPUArchId *cpu)
+> >>>> +{
+> >>>> +    GString *s = g_string_new(NULL);
+> >>>> +    if (cpu->props.has_socket_id) {
+> >>>> +        g_string_append_printf(s, "socket-id %"PRId64, cpu->props.socket_id);
+> >>>> +    }
+> >>>> +    if (cpu->props.has_node_id) {
+> >>>> +        if (s->len) {
+> >>>> +            g_string_append_printf(s, ", ");
+> >>>> +        }
+> >>>> +        g_string_append_printf(s, "node-id %"PRId64, cpu->props.node_id);
+> >>>> +    }
+> >>>> +    if (cpu->props.has_thread_id) {
+> >>>> +        if (s->len) {
+> >>>> +            g_string_append_printf(s, ", ");
+> >>>> +        }
+> >>>> +        g_string_append_printf(s, "thread-id %"PRId64, cpu->props.thread_id);
+> >>>> +    }
+> >>>> +    return g_string_free(s, false);
+> >>>> +}  
+> >>>
+> >>> turns out we already have such helper: cpu_slot_to_string()  
+> >>
+> >> It doesn't display the node-id but the core-id. And node-id is what we need
+> >> to know.  
+> > 
+> > I'm confused about what you are trying to do here.
+> > 
+> > On v1, the message looked like:
+> >    Error: core-id 30 can only be plugged into node-id 0
+> > 
+> > which is probably good for spapr.
+> > 
+> > 
+> > Then I suggested you added the other cpu->props fields.  e.g. on
+> > PC the message would look like:
+> >    Error: socket-id 20, core-id 30, thread-id 40 can only be plugged into node-id 0
+> > 
+> > 
+> > But you sent a v2 patch that would print this on PC:
+> >    Error: core-id 30 can only be plugged into socket-id 20, node-id 0, thread-id 40
+> > 
+> > which doesn't make sense to me.
+> > 
+> > 
+> > Then in a reply to v2, Igor suggested:
+> > 
+> >   error_setg(errp, "node-id=%d must match numa node specified "
+> >                     "with -numa option '%s'", node_id, topology);
+> > 
+> > 
+> > Igor suggest would address the problem above.  I expected it to become:
+> >    node-id=0 must match numa node specified with -numa option core-id=30
+> > and on PC:
+> >    node-id=0 must match numa node specified with -numa option socket-id=20,core-id=30,thread-id=40
+> > 
+> > Or maybe it could include the input node-id too:
+> >    node-id=0 must match numa node specified with -numa option node-id=1,core-id=30
+> > and on PC:
+> >    node-id=0 must match numa node specified with -numa option node-id=1,socket-id=20,core-id=30,thread-id=40
+> > 
+> > Both options would work.
+> > 
+> > 
+> > But you implemented code that would print:
+> >    Error: node-id=0 must match numa node specified with -numa option 'node-id 1'
+> > and on PC it would print:
+> >    Error: node-id=0 must match numa node specified with -numa option 'socket-id 20 node-id 1 thread-id=40'
+> > 
+> > which doesn't make sense to me.
+> > 
+> > 
+> > I was expecting something like:
+> >    Error: CPU slot core-id=30 is bound to node-id 0, but node-id 1 was specified
+> > and on PC:
+> >    Error: CPU slot socket-id=20,core-id=30,thread-id=40 is bound to node-id 0, but node-id 1 was specified
+> > 
+> >   
+> 
+> The idea is to provide the information to the user to help him to know 
+> where the cpu can be plugged when it cannot on the node-id he originally 
+> provided.
+> 
+> So all the solutions you propose sounds good to me.
+> 
+> I only need you and Igor agree on the same one.
 
-we have a new optimization that improves performance on SSDs but reduces
-performance on HDDs, so this series would detect where an image is
-stored in order to enable the faster code path for each case.
+We with Eduardo basically agree on contents/set of properties to print,
+it is only different phrasing (Eduardo's suggestion is better than what we have now).
+But lets get to what problem you are going to fix/improve. SO I've went ahead and tried
+with following CLI:
 
-What happens if QEMU cannot detect if we have a solid drive or a
-rotational drive? (e.g. a remote storage backend). Will it default to
-enabling preallocation using write_zeroes()?
+   qemu-system-x86_64 -smp 1,maxcpus=4 -numa node,cpus=0-1 -numa node,cpus=2-3 -monitor stdio -device qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id=0,node-id=1
 
-Berto
+end it errored out with:
+
+  qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id=0,node-id=1: node-id=1 must match numa node specified with -numa option
+
+As you see we already have all user provide properties for cpu (including invalid ones) reported,
+what we are missing is suggestion for valid node-id. How about following error message:
+
+qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id=0,node-id=1: invalid node-id, must be 0
+
+> 
+> Thanks,
+> Laurent
+
 
