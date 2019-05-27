@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F262B3BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 13:58:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44237 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1892B3F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 14:02:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44357 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVEGQ-00067B-GD
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 07:58:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38360)
+	id 1hVEL7-0001ch-NZ
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 08:02:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38403)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eric.auger@redhat.com>) id 1hVE3I-0004M8-IF
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 07:44:31 -0400
+	(envelope-from <eric.auger@redhat.com>) id 1hVE3M-0004Nw-La
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 07:44:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eric.auger@redhat.com>) id 1hVE3H-0004Py-HQ
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 07:44:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54026)
+	(envelope-from <eric.auger@redhat.com>) id 1hVE3L-0004X7-Ig
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 07:44:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57114)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <eric.auger@redhat.com>)
-	id 1hVE3F-0004Jg-73; Mon, 27 May 2019 07:44:25 -0400
+	id 1hVE3I-0004RC-I1; Mon, 27 May 2019 07:44:28 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
 	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 76E90308339A;
-	Mon, 27 May 2019 11:44:24 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id BEE8B81DE8;
+	Mon, 27 May 2019 11:44:27 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-67.ams2.redhat.com [10.36.116.67])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 386895D962;
-	Mon, 27 May 2019 11:44:15 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id CDCF05D962;
+	Mon, 27 May 2019 11:44:24 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org, peter.maydell@linaro.org
-Date: Mon, 27 May 2019 13:41:53 +0200
-Message-Id: <20190527114203.2762-18-eric.auger@redhat.com>
+Date: Mon, 27 May 2019 13:41:54 +0200
+Message-Id: <20190527114203.2762-19-eric.auger@redhat.com>
 In-Reply-To: <20190527114203.2762-1-eric.auger@redhat.com>
 References: <20190527114203.2762-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Mon, 27 May 2019 11:44:24 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Mon, 27 May 2019 11:44:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v4 17/27] hw/vfio/common: Introduce
- vfio_alloc_guest_iommu helper
+Subject: [Qemu-devel] [RFC v4 18/27] hw/vfio/common: Introduce
+ hostwin_from_range helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,75 +63,94 @@ Cc: drjones@redhat.com, yi.l.liu@intel.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Soon this code will be called several times. So let's introduce
-an helper.
+Let's introduce a hostwin_from_range() helper that returns the
+hostwin encapsulating an IOVA range or NULL if non is found.
+
+This improves the readibility of callers and removes the usage
+of hostwin_found.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- hw/vfio/common.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+ hw/vfio/common.c | 37 ++++++++++++++++++-------------------
+ 1 file changed, 18 insertions(+), 19 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 75fb568f95..7df8b92563 100644
+index 7df8b92563..5c4b444f24 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -24,6 +24,7 @@
- #include <linux/kvm.h>
- #endif
- #include <linux/vfio.h>
-+#include <linux/iommu.h>
-=20
- #include "hw/vfio/vfio-common.h"
- #include "hw/vfio/vfio.h"
-@@ -497,6 +498,19 @@ out:
-     rcu_read_unlock();
+@@ -511,6 +511,19 @@ static VFIOGuestIOMMU *vfio_alloc_guest_iommu(VFIOCo=
+ntainer *container,
+     return giommu;
  }
 =20
-+static VFIOGuestIOMMU *vfio_alloc_guest_iommu(VFIOContainer *container,
-+                                              IOMMUMemoryRegion *iommu,
-+                                              hwaddr offset)
++static VFIOHostDMAWindow *
++hostwin_from_range(VFIOContainer *container, hwaddr iova, hwaddr end)
 +{
-+    VFIOGuestIOMMU *giommu =3D g_new0(VFIOGuestIOMMU, 1);
++    VFIOHostDMAWindow *hostwin;
 +
-+    giommu->container =3D container;
-+    giommu->iommu =3D iommu;
-+    giommu->iommu_offset =3D offset;
-+    /* notifier will be registered separately */
-+    return giommu;
++    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
++        if (hostwin->min_iova <=3D iova && end <=3D hostwin->max_iova) {
++            return hostwin;
++        }
++    }
++    return NULL;
 +}
 +
  static void vfio_listener_region_add(MemoryListener *listener,
                                       MemoryRegionSection *section)
  {
-@@ -604,6 +618,7 @@ static void vfio_listener_region_add(MemoryListener *=
+@@ -520,7 +533,6 @@ static void vfio_listener_region_add(MemoryListener *=
 listener,
-     if (memory_region_is_iommu(section->mr)) {
-         VFIOGuestIOMMU *giommu;
-         IOMMUMemoryRegion *iommu_mr =3D IOMMU_MEMORY_REGION(section->mr)=
-;
-+        hwaddr offset;
-         int iommu_idx;
+     void *vaddr;
+     int ret;
+     VFIOHostDMAWindow *hostwin;
+-    bool hostwin_found;
 =20
-         trace_vfio_listener_region_add_iommu(iova, end);
-@@ -613,11 +628,11 @@ static void vfio_listener_region_add(MemoryListener=
+     if (vfio_listener_skipped_section(section)) {
+         trace_vfio_listener_region_add_skip(
+@@ -597,15 +609,8 @@ static void vfio_listener_region_add(MemoryListener =
+*listener,
+ #endif
+     }
+=20
+-    hostwin_found =3D false;
+-    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
+-        if (hostwin->min_iova <=3D iova && end <=3D hostwin->max_iova) {
+-            hostwin_found =3D true;
+-            break;
+-        }
+-    }
+-
+-    if (!hostwin_found) {
++    hostwin =3D hostwin_from_range(container, iova, end);
++    if (!hostwin) {
+         error_report("vfio: IOMMU container %p can't map guest IOVA regi=
+on"
+                      " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx,
+                      container, iova, end);
+@@ -776,16 +781,10 @@ static void vfio_listener_region_del(MemoryListener=
  *listener,
-          * would be the right place to wire that up (tell the KVM
-          * device emulation the VFIO iommu handles to use).
-          */
--        giommu =3D g_malloc0(sizeof(*giommu));
--        giommu->iommu =3D iommu_mr;
--        giommu->iommu_offset =3D section->offset_within_address_space -
--                               section->offset_within_region;
--        giommu->container =3D container;
-+
-+        offset =3D section->offset_within_address_space -
-+                    section->offset_within_region;
-+        giommu =3D vfio_alloc_guest_iommu(container, iommu_mr, offset);
-+
-         llend =3D int128_add(int128_make64(section->offset_within_region=
-),
-                            section->size);
-         llend =3D int128_sub(llend, int128_one());
+=20
+     if (memory_region_is_ram_device(section->mr)) {
+         hwaddr pgmask;
+-        VFIOHostDMAWindow *hostwin;
+-        bool hostwin_found =3D false;
++        VFIOHostDMAWindow *hostwin =3D
++            hostwin_from_range(container, iova, end);
+=20
+-        QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
+-            if (hostwin->min_iova <=3D iova && end <=3D hostwin->max_iov=
+a) {
+-                hostwin_found =3D true;
+-                break;
+-            }
+-        }
+-        assert(hostwin_found); /* or region_add() would have failed */
++        assert(hostwin); /* or region_add() would have failed */
+=20
+         pgmask =3D (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+         try_unmap =3D !((iova & pgmask) || (int128_get64(llsize) & pgmas=
+k));
 --=20
 2.20.1
 
