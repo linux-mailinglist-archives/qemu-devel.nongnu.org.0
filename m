@@ -2,54 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0AE42BB6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 22:31:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50395 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BC32B0C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 10:56:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42217 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVMGt-0002P2-B3
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 16:31:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55358)
+	id 1hVBQc-0001n5-KK
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 04:56:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33883)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hVMFf-0001yP-DE
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 16:29:48 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hVBPB-0001PW-1G
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 04:54:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hVMFe-0000dw-5B
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 16:29:47 -0400
-Resent-Date: Mon, 27 May 2019 16:29:47 -0400
-Resent-Message-Id: <E1hVMFe-0000dw-5B@eggs.gnu.org>
-Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21998)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hVMFd-0000aq-UT
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 16:29:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1558946593; cv=none; d=zoho.com; s=zohoarc; 
-	b=ehhIBuP3FKSiyYGJg7ZYsCBX3CBbuH728J6BTlFsJSrM0+NaoKFwt/TLehiVOD1jS5wUyEE7dlqVPfCBwFsHWaNZYn0SDQ6FT4cEIseyff/c3PhZYtRNJN3qUmmM97YopKFqudQSweWTIldumjwzO2alhhyTdL8HQsoSrkN+wDk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1558946593;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=GPdXmYTh0VexcDsXAY8F9yMDmkZZ/DNByNCUqYWz9Ts=; 
-	b=AlM0uIfK4piys75FXCLDxz+X7rG4+sdUph7KUYSz1u9QRYnt3S5xXxQhfPDt0c3QI/hsj3+cvERkEgBLAvF+mtUtr/hzlua0PpIrZBlTsydlItJ+YR/bw5qWcNx1pNxdrg4KIQ8RoaJSXMdRwLwy2yamYkPgUaGafZwgrUurHqA=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1558946591653988.6810850674003;
-	Mon, 27 May 2019 01:43:11 -0700 (PDT)
-Message-ID: <155894659023.3183.17516300990819449117@d1b27de2824c>
-In-Reply-To: <20190527080327.10780-1-mehta.aaru20@gmail.com>
+	(envelope-from <alex.bennee@linaro.org>) id 1hVBP9-0007wj-Fh
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 04:54:52 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54471)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hVBP9-0007w0-5z
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 04:54:51 -0400
+Received: by mail-wm1-x341.google.com with SMTP id i3so15294384wml.4
+	for <qemu-devel@nongnu.org>; Mon, 27 May 2019 01:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=EqXOuljTFrl/++ZjN5wuqjIx2JVRK+03iauIDzc9gvU=;
+	b=wVPz4ynHHiKTjWvLcNf35nBm5VXh3j4ykC5xJ1Gw0SWCkmE2pgXjmyaQHtkg08DiXE
+	CPlG2GcVoiwrzoEQXMulvFargy96oUYXdyPjfnYAmqg5bAT39G8HjTpaBZ06POEVe/s4
+	JXhYsSaUaES4oUL9lL3HHg5d6G1yYHqzPr1u4odaQkw/VXKzNAVJCWrkonOvWfZVWFA6
+	LL3X7lPeHHzGmqQCQCt7PGUE8ZAwBzVbiOpl8K4DgmQuFuG9FespaHXMpyi5BnArNOBB
+	yDgoztvWhGwDfcmr85bwTo9q2nNjophmcks8sRDG6vyEeeYYkz/XczhxMg3bylEkAA1w
+	q3QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=EqXOuljTFrl/++ZjN5wuqjIx2JVRK+03iauIDzc9gvU=;
+	b=E3/oAukYQj1iR2cG4lW1o8gANfZ5V2XfaqtelSGTMM8YKGomge0KmFQKHiT3ITo4k2
+	VAqeX+kzYsWsmCDT+273I45HsLmc4M495n3snFMAXuyAu1dbohrKdxkkOoI+eGed+ugS
+	uI1rYzG9aUkUd3VrEoYDmvAhKRHfG52i3Od0XLp+RjM3yzwEJa73nnR4wGnJjZjTOY4T
+	dduBH/fYaJnSi4kp02PQei2yCmWTwRCbjL0lKn7HD9xV4gfBjOYwyBu5WwfGUDLQ/6Uh
+	MpL3j4DEh6TV9VfYza4xolDzQtGNpphnlTTn8jXc/91C13bnppw1ff+7KuyzIlobZXl+
+	Va6A==
+X-Gm-Message-State: APjAAAXoPWWwDNa4v+lES1bWsJTqqWwJgo+upg65FGHx0s8inFqwF09B
+	2FF6lp9OeB5zZ+CHJMrFNipOpw==
+X-Google-Smtp-Source: APXvYqyLujlh7/xUhwC+mBaDejP0zvmgRPyRIe3Tj5lheBy32yDyhkZNS/pKU0MDOGxsHkFrb61qNg==
+X-Received: by 2002:a7b:c844:: with SMTP id c4mr8833555wml.108.1558947289765; 
+	Mon, 27 May 2019 01:54:49 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id o8sm25215493wra.4.2019.05.27.01.54.49
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 27 May 2019 01:54:49 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id C12521FF87;
+	Mon, 27 May 2019 09:54:48 +0100 (BST)
+References: <20190524160118.31134-1-arilou@gmail.com>
+	<20190524160118.31134-3-arilou@gmail.com>
+	<87o93oqonk.fsf@zen.linaroharston>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jon Doron <arilou@gmail.com>
+In-reply-to: <87o93oqonk.fsf@zen.linaroharston>
+Date: Mon, 27 May 2019 09:54:48 +0100
+Message-ID: <87muj8qntz.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mehta.aaru20@gmail.com
-Date: Mon, 27 May 2019 01:43:11 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.59
-Subject: Re: [Qemu-devel] [PATCH v3 0/8] Add support for io_uring
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v11 02/20] gdbstub: Implement deatch (D
+ pkt) with new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,61 +84,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
-	mreitz@redhat.com, saket.sinha89@gmail.com, stefanha@redhat.com,
-	jusual@mail.ru, mehta.aaru20@gmail.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyNzA4MDMyNy4xMDc4
-MC0xLW1laHRhLmFhcnUyMEBnbWFpbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNTI3MDgwMzI3LjEwNzgwLTEtbWVodGEu
-YWFydTIwQGdtYWlsLmNvbQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRD
-SCB2MyAwLzhdIEFkZCBzdXBwb3J0IGZvciBpb191cmluZwoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNjI1Njk3ZSBi
-bG9jay9maWxlcG9zaXg6IGV4dGVuZCB0byB1c2UgaW9fdXJpbmcKMzNjZjhhOCBibG9ja2Rldjog
-YWNjZXB0IGlvX3VyaW5nIGFzIG9wdGlvbgoxYjdlOGMwIHV0aWwvYXN5bmM6IGFkZCBhaW8gaW50
-ZXJmYWNlcyBmb3IgaW9fdXJpbmcKNTY1NjAzOCBzdHViczogYWRkIHN0dWJzIGZvciBpb191cmlu
-ZyBpbnRlcmZhY2UKNzQyNTJkNCBibG9jay9pb191cmluZzogaW1wbGVtZW50cyBpbnRlcmZhY2Vz
-IGZvciBpb191cmluZwoyMDljY2MxIGJsb2NrL2Jsb2NrOiBhZGQgQkRSViBmbGFnIGZvciBpb191
-cmluZwpjNTc3MjE3IHFhcGkvYmxvY2stY29yZTogYWRkIG9wdGlvbiBmb3IgaW9fdXJpbmcKZjRk
-MDUwMSBjb25maWd1cmU6IHBlcm1pdCB1c2Ugb2YgaW9fdXJpbmcKCj09PSBPVVRQVVQgQkVHSU4g
-PT09CjEvOCBDaGVja2luZyBjb21taXQgZjRkMDUwMWYwMTY1IChjb25maWd1cmU6IHBlcm1pdCB1
-c2Ugb2YgaW9fdXJpbmcpCjIvOCBDaGVja2luZyBjb21taXQgYzU3NzIxNzFkZGFkIChxYXBpL2Js
-b2NrLWNvcmU6IGFkZCBvcHRpb24gZm9yIGlvX3VyaW5nKQozLzggQ2hlY2tpbmcgY29tbWl0IDIw
-OWNjYzFhY2E1NCAoYmxvY2svYmxvY2s6IGFkZCBCRFJWIGZsYWcgZm9yIGlvX3VyaW5nKQo0Lzgg
-Q2hlY2tpbmcgY29tbWl0IDc0MjUyZDRmNDg0OSAoYmxvY2svaW9fdXJpbmc6IGltcGxlbWVudHMg
-aW50ZXJmYWNlcyBmb3IgaW9fdXJpbmcpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
-IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQ5OiAKbmV3IGZpbGUg
-bW9kZSAxMDA2NDQKCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFyZW50
-aGVzaXMgJygnCiMxOTY6IEZJTEU6IGJsb2NrL2lvX3VyaW5nLmM6MTQzOgorICAgIHdoaWxlKCFz
-LT5pb19xLmluX3F1ZXVlKSB7CgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojMjA5OiBGSUxF
-OiBibG9jay9pb191cmluZy5jOjE1NjoKKyAgICAgICAgaWYgKHJldCA8PSAwKSB7ICQKCnRvdGFs
-OiAyIGVycm9ycywgMSB3YXJuaW5ncywgMzg3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvOCBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgoKNS84IENoZWNraW5nIGNvbW1pdCA1NjU2MDM4NDAzNjIg
-KHN0dWJzOiBhZGQgc3R1YnMgZm9yIGlvX3VyaW5nIGludGVyZmFjZSkKV0FSTklORzogYWRkZWQs
-IG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5n
-PwojMzU6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdz
-LCA0NiBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-Ni84IENoZWNraW5nIGNvbW1pdCAxYjdlOGMwYjk4MjYgKHV0aWwvYXN5bmM6IGFkZCBhaW8gaW50
-ZXJmYWNlcyBmb3IgaW9fdXJpbmcpCjcvOCBDaGVja2luZyBjb21taXQgMzNjZjhhOGQ0YTBkIChi
-bG9ja2RldjogYWNjZXB0IGlvX3VyaW5nIGFzIG9wdGlvbikKOC84IENoZWNraW5nIGNvbW1pdCA2
-MjU2OTdlZDI4OTEgKGJsb2NrL2ZpbGVwb3NpeDogZXh0ZW5kIHRvIHVzZSBpb191cmluZykKPT09
-IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
-dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA1Mjcw
-ODAzMjcuMTA3ODAtMS1tZWh0YS5hYXJ1MjBAZ21haWwuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
-dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
-dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
-dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+
+> Jon Doron <arilou@gmail.com> writes:
+>
+>> Signed-off-by: Jon Doron <arilou@gmail.com>
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+Hmm although I bisected to this patch which fails on:
+
+09:49 alex@zen/x86_64  [linux.git/master@origin] >gdb ./builds/arm64/vmlinu=
+x -x ~/lsrc/qemu.git/tests/guest-debug/test-gdbstub.py
+GNU gdb (GDB) 8.3.50.20190424-git
+Copyright (C) 2019 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.htm=
+l>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-pc-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Executed .gdbinit
+Reading symbols from ./builds/arm64/vmlinux...
+Traceback (most recent call last):
+  File "/home/alex/lsrc/linux.git/builds/arm64/vmlinux-gdb.py", line 30, in=
+ <module>
+    import linux.config
+ImportError: No module named config
+Connecting to remote
+0x0000000040000000 in ?? ()
+Checking we can step the first few instructions
+warning: Invalid remote reply:
+
+Thread 1 received signal SIGINT, Interrupt.
+0x0000000040000000 in ?? ()
+warning: Invalid remote reply:
+
+Thread 1 received signal SIGINT, Interrupt.
+0x0000000040000000 in ?? ()
+warning: Invalid remote reply:
+
+Thread 1 received signal SIGINT, Interrupt.
+0x0000000040000000 in ?? ()
+FAIL: single step in boot code
+Checking HW breakpoint works
+Hardware assisted breakpoint 1 at 0xffffff8010778f0c: file /home/alex/lsrc/=
+linux.git/init/main.c, line 1068.
+warning: Invalid remote reply:
+
+Thread 1 received signal SIGINT, Interrupt.
+0x0000000040000000 in ?? ()
+0x40000000 =3D=3D {int (void *)} 0xffffff8010778f0c <kernel_init>
+FAIL: hbreak @ kernel_init
+Setup catch-all for run_init_process
+Breakpoint 2 at 0xffffff8010083dc4: file /home/alex/lsrc/linux.git/init/mai=
+n.c, line 1009.
+Breakpoint 3 at 0xffffff8010083e10: file /home/alex/lsrc/linux.git/init/mai=
+n.c, line 1020.
+Checking Normal breakpoint works
+Breakpoint 4 at 0xffffff801077b300: file /home/alex/lsrc/linux.git/kernel/s=
+ched/completion.c, line 136.
+warning: Invalid remote reply:
+
+Thread 1 received signal SIGINT, Interrupt.
+0x0000000040000000 in ?? ()
+0x40000000 =3D=3D {void (struct completion *)} 0xffffff801077b300 <wait_for=
+_completion> 0
+FAIL: break @ wait_for_completion
+Checking watchpoint works
+Hardware access (read/write) watchpoint 5: *(enum system_states *)(&system_=
+state)
+warning: Invalid remote reply:
+
+Thread 1 received signal SIGINT, Interrupt.
+0x0000000040000000 in ?? ()
+FAIL: awatch for system_state (SYSTEM_BOOTING)
+Hardware read watchpoint 6: *(enum system_states *)(&system_state)
+warning: Invalid remote reply:
+
+Thread 1 received signal SIGINT, Interrupt.
+0x0000000040000000 in ?? ()
+FAIL: rwatch for system_state (SYSTEM_BOOTING)
+Hardware watchpoint 7: *(enum system_states *)(&system_state)
+warning: Invalid remote reply:
+
+Thread 1 received signal SIGINT, Interrupt.
+0x0000000040000000 in ?? ()
+FAIL: watch for system_state (SYSTEM_BOOTING)
+[Inferior 1 (process 1) killed]
+
+
+>
+>> ---
+>>  gdbstub.c | 93 +++++++++++++++++++++++++++++++------------------------
+>>  1 file changed, 53 insertions(+), 40 deletions(-)
+>>
+>> diff --git a/gdbstub.c b/gdbstub.c
+>> index e6d895177b..307366b250 100644
+>> --- a/gdbstub.c
+>> +++ b/gdbstub.c
+>> @@ -1413,11 +1413,6 @@ static inline int startswith(const char *string, =
+const char *pattern)
+>>    return !strncmp(string, pattern, strlen(pattern));
+>>  }
+>>
+>> -static int process_string_cmd(
+>> -        GDBState *s, void *user_ctx, const char *data,
+>> -        const GdbCmdParseEntry *cmds, int num_cmds)
+>> -        __attribute__((unused));
+>> -
+>>  static int process_string_cmd(GDBState *s, void *user_ctx, const char *=
+data,
+>>                                const GdbCmdParseEntry *cmds, int num_cmd=
+s)
+>>  {
+>> @@ -1463,6 +1458,41 @@ static int process_string_cmd(GDBState *s, void *=
+user_ctx, const char *data,
+>>      return -1;
+>>  }
+>>
+>> +static void handle_detach(GdbCmdContext *gdb_ctx, void *user_ctx)
+>> +{
+>> +    GDBProcess *process;
+>> +    GDBState *s =3D gdb_ctx->s;
+>> +    uint32_t pid =3D 1;
+>> +
+>> +    if (s->multiprocess) {
+>> +        if (!gdb_ctx->num_params) {
+>> +            put_packet(s, "E22");
+>> +            return;
+>> +        }
+>> +
+>> +        pid =3D gdb_ctx->params[0].val_ul;
+>> +    }
+>> +
+>> +    process =3D gdb_get_process(s, pid);
+>> +    gdb_process_breakpoint_remove_all(s, process);
+>> +    process->attached =3D false;
+>> +
+>> +    if (pid =3D=3D gdb_get_cpu_pid(s, s->c_cpu)) {
+>> +        s->c_cpu =3D gdb_first_attached_cpu(s);
+>> +    }
+>> +
+>> +    if (pid =3D=3D gdb_get_cpu_pid(s, s->g_cpu)) {
+>> +        s->g_cpu =3D gdb_first_attached_cpu(s);
+>> +    }
+>> +
+>> +    if (!s->c_cpu) {
+>> +        /* No more process attached */
+>> +        gdb_syscall_mode =3D GDB_SYS_DISABLED;
+>> +        gdb_continue(s);
+>> +    }
+>> +    put_packet(s, "OK");
+>> +}
+>> +
+>>  static int gdb_handle_packet(GDBState *s, const char *line_buf)
+>>  {
+>>      CPUState *cpu;
+>> @@ -1477,6 +1507,7 @@ static int gdb_handle_packet(GDBState *s, const ch=
+ar *line_buf)
+>>      uint8_t *registers;
+>>      target_ulong addr, len;
+>>      GDBThreadIdKind thread_kind;
+>> +    const GdbCmdParseEntry *cmd_parser =3D NULL;
+>>
+>>      trace_gdbstub_io_command(line_buf);
+>>
+>> @@ -1577,42 +1608,15 @@ static int gdb_handle_packet(GDBState *s, const =
+char *line_buf)
+>>          error_report("QEMU: Terminated via GDBstub");
+>>          exit(0);
+>>      case 'D':
+>> -        /* Detach packet */
+>> -        pid =3D 1;
+>> -
+>> -        if (s->multiprocess) {
+>> -            unsigned long lpid;
+>> -            if (*p !=3D ';') {
+>> -                put_packet(s, "E22");
+>> -                break;
+>> -            }
+>> -
+>> -            if (qemu_strtoul(p + 1, &p, 16, &lpid)) {
+>> -                put_packet(s, "E22");
+>> -                break;
+>> -            }
+>> -
+>> -            pid =3D lpid;
+>> -        }
+>> -
+>> -        process =3D gdb_get_process(s, pid);
+>> -        gdb_process_breakpoint_remove_all(s, process);
+>> -        process->attached =3D false;
+>> -
+>> -        if (pid =3D=3D gdb_get_cpu_pid(s, s->c_cpu)) {
+>> -            s->c_cpu =3D gdb_first_attached_cpu(s);
+>> -        }
+>> -
+>> -        if (pid =3D=3D gdb_get_cpu_pid(s, s->g_cpu)) {
+>> -            s->g_cpu =3D gdb_first_attached_cpu(s);
+>> -        }
+>> -
+>> -        if (s->c_cpu =3D=3D NULL) {
+>> -            /* No more process attached */
+>> -            gdb_syscall_mode =3D GDB_SYS_DISABLED;
+>> -            gdb_continue(s);
+>> +        {
+>> +            static const GdbCmdParseEntry detach_cmd_desc =3D {
+>> +                .handler =3D handle_detach,
+>> +                .cmd =3D "D",
+>> +                .cmd_startswith =3D 1,
+>> +                .schema =3D "?.l0"
+>> +            };
+>> +            cmd_parser =3D &detach_cmd_desc;
+>>          }
+>> -        put_packet(s, "OK");
+>>          break;
+>>      case 's':
+>>          if (*p !=3D '\0') {
+>> @@ -1985,6 +1989,15 @@ static int gdb_handle_packet(GDBState *s, const c=
+har *line_buf)
+>>          put_packet(s, buf);
+>>          break;
+>>      }
+>> +
+>> +    if (cmd_parser) {
+>> +        /* helper will respond */
+>> +        process_string_cmd(s, NULL, line_buf, cmd_parser, 1);
+>> +    } else {
+>> +        /* unknown command, empty respone */
+>> +        put_packet(s, "");
+>> +    }
+>> +
+>>      return RS_IDLE;
+>>  }
+
+
+--
+Alex Benn=C3=A9e
 
