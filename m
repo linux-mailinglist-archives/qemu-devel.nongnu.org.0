@@ -2,60 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A7C2B469
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 14:07:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44574 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCD62B4BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 14:16:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45074 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVEPh-000536-K3
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 08:07:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43637)
+	id 1hVEXv-0001SO-KJ
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 08:16:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46012)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVENj-00041U-VC
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 08:05:37 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hVEWr-0000xi-KI
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 08:15:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVENi-0005eK-6C
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 08:05:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40326)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hVENi-0005dm-1M
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 08:05:34 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hVENg-0000br-Dt
-	for <qemu-devel@nongnu.org>; Mon, 27 May 2019 12:05:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 626712E80C8
-	for <qemu-devel@nongnu.org>; Mon, 27 May 2019 12:05:32 +0000 (UTC)
+	(envelope-from <mreitz@redhat.com>) id 1hVEWq-0005eF-Qu
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 08:15:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58206)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hVEWo-0005SH-IZ; Mon, 27 May 2019 08:14:58 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id BDA103082B4D;
+	Mon, 27 May 2019 12:14:56 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.13])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E735C6F440;
+	Mon, 27 May 2019 12:14:52 +0000 (UTC)
+To: Alberto Garcia <berto@igalia.com>,
+	Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org
+References: <20190516142749.81019-1-anton.nefedov@virtuozzo.com>
+	<f2d129f6-b03f-aaa8-3e7d-fff48ea52233@redhat.com>
+	<w51h89hjm3c.fsf@maestria.local.igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <d8cb4e5b-9ba8-53d0-e269-b3cbf30e06a1@redhat.com>
+Date: Mon, 27 May 2019 14:14:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 27 May 2019 11:55:56 -0000
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc64
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ivmn
-X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
-X-Launchpad-Bug-Modifier: Ivan Warren (ivmn)
-References: <155831074982.26912.13291059176555697592.malonedeb@soybean.canonical.com>
-Message-Id: <155895815704.8537.1146052821141973108.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18968";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 5305f0d1d458392ebfb2a7e6ff0d71cf889d0615
+In-Reply-To: <w51h89hjm3c.fsf@maestria.local.igalia.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="U9X08WqziKpEOAA0bCJdkGhWDsExXak2V"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Mon, 27 May 2019 12:14:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1829682] Re: QEMU PPC SYSTEM regression - 3.1.0
- and GIT - Fail to boot AIX
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v14 0/1] qcow2: cluster space preallocation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,228 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Ivan Warren via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Bug 1829682 <1829682@bugs.launchpad.net>
-Cc: Ivan Warren <ivan@vmfacility.fr>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+	den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to git bisect :
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--U9X08WqziKpEOAA0bCJdkGhWDsExXak2V
+From: Max Reitz <mreitz@redhat.com>
+To: Alberto Garcia <berto@igalia.com>,
+ Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, eblake@redhat.com,
+ den@virtuozzo.com, vsementsov@virtuozzo.com
+Message-ID: <d8cb4e5b-9ba8-53d0-e269-b3cbf30e06a1@redhat.com>
+Subject: Re: [PATCH v14 0/1] qcow2: cluster space preallocation
+References: <20190516142749.81019-1-anton.nefedov@virtuozzo.com>
+ <f2d129f6-b03f-aaa8-3e7d-fff48ea52233@redhat.com>
+ <w51h89hjm3c.fsf@maestria.local.igalia.com>
+In-Reply-To: <w51h89hjm3c.fsf@maestria.local.igalia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
- git bisect bad
-c24ba3d0a34f68ad2c6bf1a15bc43770005f6cc0 is the first bad commit
-commit c24ba3d0a34f68ad2c6bf1a15bc43770005f6cc0
-Author: Laurent Vivier <lvivier@redhat.com>
-Date:   Wed Dec 19 17:35:41 2018 +0100
+On 26.05.19 17:01, Alberto Garcia wrote:
+> On Fri 24 May 2019 03:56:21 PM CEST, Max Reitz <mreitz@redhat.com> wrot=
+e:
+>>>     +-----------+-------+------+-------+------+------+
+>>>     |   file    |    before    |     after    | gain |
+>>>     +-----------+-------+------+-------+------+------+
+>>>     |    ssd    |      61.153  |      36.313  |  41% |
+>>>     |    hdd    |     112.676  |     122.056  |  -8% |
+>>>     +-----------+--------------+--------------+------+
+>>
+>> I=E2=80=99ve done a few more tests, and I=E2=80=99ve seen more slowdow=
+n on an HDD.
+>> (Like 30 % when doing 64 kB requests that are not aligned to
+>> clusters.)  On the other hand, the SSD gain is generally in the same
+>> ballpark (38 % when issuing the same kind of requests.)
+>   [...]
+>> [1] Hm.  We can probably investigate whether the file is stored on a
+>> rotational medium or not.  Is there a fundamental reason why this
+>> patch seems to degrade performance on an HDD but improves it on an
+>> SSD?  If so, we can probably make a choice based on that.
+>=20
+> This is when writing to an unallocated cluster with no existing data on=
 
-    spapr: Add H-Call H_HOME_NODE_ASSOCIATIVITY
+> the backing image, right? Then it's probably because you need 2
+> operations (write zeros + write data) instead of just one.
 
-    H_HOME_NODE_ASSOCIATIVITY H-Call returns the associativity domain
-    designation associated with the identifier input parameter
+Hm, yes.  I didn=E2=80=99t test writing tail and head separately, which s=
+hould
+be even worse.
 
-    This fixes a crash when we try to hotplug a CPU in memory-less and
-    CPU-less numa node. In this case, the kernel tries to online the
-    node, but without the information provided by this h-call, the node id,
-    it cannot and the CPU is started while the node is not onlined.
+Max
 
-    It also removes the warning message from the kernel:
-      VPHN is not supported. Disabling polling..
 
-    Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-    Reviewed-by: Greg Kurz <groug@kaod.org>
-    Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+--U9X08WqziKpEOAA0bCJdkGhWDsExXak2V
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-:040000 040000 97fe7c5db103c5426f25f2741db918e8cbc03b75 ed55cf6abd483aa0197=
-4c18d613461cc9e80e2c3 M      hw
-:040000 040000 4d51166be64bc71a72bd60eaa412aadc2117fc4c 614be9f9c87d20f7a2c=
-23921a37d771a8956ee7c M      include
+-----BEGIN PGP SIGNATURE-----
 
--- =
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzr1LoACgkQ9AfbAGHV
+z0AhAAf/S4l8hXoK5oh7x+/5sW568HKmdM3TD4OGw0XNQTsF6ZGGtWOZudSjbRg2
+6YgocB8f4uq7b/8upjTWD60xyEgYRFV81hfGaQiVOdMniIF4tqjGSK0kR0G93cQq
+4i80n2ck83qPZkOokwQCPoLsst/VJcWIU64tPpUXaxcglGn+/NCqhLXG6iyY1gxu
+MVj8rmF7vRv1euVlCqByhWFvKTjC93oQAexe2YLpP7aJA+Km43XouOi04knalNEL
+2eS9/idsYbND2/Mo+vQHAF0yJI3kZJU2xWkMBJczIvU11oYfR4eoA8g09exUFn1G
+sY2BBS5B6Utj7DBFKLhBtyHVkocQKA==
+=Re0c
+-----END PGP SIGNATURE-----
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829682
-
-Title:
-  QEMU PPC SYSTEM regression - 3.1.0 and GIT - Fail to boot AIX
-
-Status in QEMU:
-  New
-
-Bug description:
-  Built from source on a debian system
-
-  Linux db08 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/=
-Linux
-  gcc version 6.3.0 20170516 (Debian 6.3.0-18+deb9u1)
-
-  Last git commit (from queued gdibson repository)
-
-  starting AIX 7.2 TL 2 SP 2 with the following : (the install was done
-  under qemu 3.1.0)
-
-  qemu-system-ppc64 -M pseries \
-      -cpu power7 \
-      -cdrom AIX_v7.2_Install_7200-02-02-1806_DVD_1_of_2_32018.iso \
-      -net nic \
-      -net tap,ifname=3Dtap2,script=3Dno \
-      -drive file=3DDISK1.IMG,if=3Dnone,id=3Ddrive-virtio-disk0 \
-      -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virti=
-o-disk0 \
-      -m 4G \
-      -serial stdio \
-      -monitor unix:ms,server,nowait \
-      -accel tcg \
-      -k fr \
-      -nographic \
-      -prom-env input-device=3D/vdevice/vty@71000000 \
-      -prom-env output-device=3D/vdevice/vty@71000000 \
-      -prom-env diag-switch?=3Dfalse \
-      -prom-env boot-command=3D"boot /pci@800000020000000/scsi@2/disk@10000=
-0000000000 -s verbose"
-
-  Yields this :
-
-  =
-
-  ^M
-  SLOF^[[0m^[[?25l ********************************************************=
-**************^M
-  ^[[1mQEMU Starting^M
-  ^[[0m Build Date =3D Jan 14 2019 18:00:39^M
-   FW Version =3D git-a5b428e1c1eae703^M
-   Press "s" to enter Open Firmware.^M^M
-  ^M^M
-  ^[[0m^[[?25hC0000^MC0100^MC0120^MC0140^MC0200^MC0240^MC0260^MC02E0^MC0300=
-^MC0320^MC0340^MC0360^MC0370^MC0380^MC0371^MC0372^MC0373^MC0374^MC03F0^MC04=
-00^MC0480^MC04C0^MC04D0^MC0500^MPopulating /vdevice methods^M
-  Populating /vdevice/vty@71000000^M
-  Populating /vdevice/nvram@71000001^M
-  Populating /vdevice/l-lan@71000002^M
-  Populating /vdevice/v-scsi@71000003^M
-         SCSI: Looking for devices^M
-            8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"^M
-  C05A0^MPopulating /pci@800000020000000^M
-                       00 0000 (D) : 1234 1111    qemu vga^M
-                       00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]^M
-                       00 1000 (D) : 1af4 1004    virtio [ scsi ]^M
-  Populating /pci@800000020000000/scsi@2^M
-         SCSI: Looking for devices^M
-            100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"^M
-  C0600^MC06C0^MC0700^MC0800^MC0880^MC0890^MC08A0^MC08A8^MInstalling QEMU f=
-b^M
-  ^M
-  ^M
-  ^M
-  C08B0^MScanning USB ^M
-    XHCI: Initializing^M
-      USB Keyboard ^M
-      USB mouse ^M
-  C08C0^MC08D0^MNo console specified using screen & keyboard^M
-  User selected input-device console: /vdevice/vty@71000000^M
-  User selected output-device console: /vdevice/vty@71000000^M
-  C08E0^MC08E8^MC08FF^M     ^M
-    Welcome to Open Firmware^M
-  ^M
-    Copyright (c) 2004, 2017 IBM Corporation All rights reserved.^M
-    This program and the accompanying materials are made available^M
-    under the terms of the BSD License available at^M
-    http://www.opensource.org/licenses/bsd-license.php^M
-  ^M
-  ^M
-  Trying to load: -s verbose from: /pci@800000020000000/scsi@2/disk@1000000=
-00000000 ...   Successfully loaded^M
-  ^M
-                          ---> qemu,pseries detected <---^M
-  ^M
-  ^M
-  ^M
-  ^M
-  ^M
-  ^M
-  ^M
-  -------------------------------------------------------------------------=
-------^M
-                                  Welcome to AIX.^M
-                     boot image timestamp: 05:56:13 04/20/2019^M
-          processor count: 1;  memory size: 4096MB;  kernel size: 38426884^M
-           boot device: /pci@800000020000000/scsi@2/disk@100000000000000^M
-  ^M
-  8000FFEC bytes of free memory remain at address 7FFF0014^M
-  load address: 0x00004000   aixmon size: 0x000D2C00   boot image size: 0x0=
-1A6B430^M
-  ^LAIX vm,uuid property contains invalid data^Mload address: 0x00004000   =
-aixmon size: 0x000D2C00   boot image size: 0x01A6B430^M
-  ^LAIX vm,uuid property contains invalid data^M
-  get_ppp return code: 0xFFFFFFFE^M
-  ^M
-  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
-rgument^M
-  The temporary memory region list is at 1 percent capacity.^M
-  The temporary IPLCB is at 1 percent capacity.^M
-  The IPLCB address is 0x0FFF9000^M
-  name                 offset           size^M
-  ipl_cb_and_bit_map 00000000 ......00005958^M
-  bit_map........... 00000790 ......00000006^M
-  ipl_info.......... 000001C8 ......00000024^M
-  splpar_info....... 000001EC ......00000048^M
-  system_info....... 00000234 ......000000C4^M
-  processor_info.... 000002F8 ......00000148^M
-  lpar_id_info...... 00000440 ......00000088^M
-  dr_proc_info...... 000004C8 ......00000008^M
-  dr_mem_info....... 000004D0 ......00000028^M
-  lpar_info......... 000004F8 ......00000014^M
-  segment page...... 00000518 ......00000028^M
-  processor page.... 00000540 ......00000010^M
-  res_asso_id....... 00000550 ......00000050^M
-  res_asso_group.... 000005A0 ......00000048^M
-  asso_ref_pnt...... 000005E8 ......00000010^M
-  residual.......... 00000820 ......00005138^M
-  fwad_info......... 000005F8 ......00000040^M
-  contig mem rsv.... 00000738 ......00000058^M
-      region address      region length       attr  label^M
-  0   0x0000000000000000  0x000000000FFF7000  0x01  0x01^M
-  1   0x000000000FFF7000  0x0000000000002000  0x01  0x03^M
-  2   0x000000000FFF9000  0x0000000000006000  0x01  0x02^M
-  3   0x000000000FFFF000  0x0000000000000014  0x00  0x05^M
-  4   0x000000000FFFF014  0x00000000F0000FEC  0x01  0x01^M
-  5   0x0000000100000000  0xFFFFFFFF00000000  0x00  0x07^M
-  ----------------------------^M
-  ^M
-  0000012C bytes of free memory remain at address 00004000^M
-  compressed kernel addr: D6C00;  sz: 98CE33;  uncompressed kernel addr:  1=
-DB59600^M
-           name     source       dest       size   flags^M
-   0      .data   1e6f9840    2000000    12bdd20     1^M
-   1    basecfg    1b04000    fff5000       15d9     1^M
-   2      ramfs     a63a30    efe9000    100b82a     1^M
-   3      .text   1db59840      d6c00     ba0000     1^M
-   4       .ldr   1f9b7560     c77000      a9523     1^M
-   5     symtab   1fe0aaf4     d21000     1f4410     1^M
-   6  kern. hdr   1db59600          0        240     1^M
-   7       .bss          0    32bdd20    27222e0     2^M
-  free space between BSS and RAM filesystem: 09609000^M
-  ^M
-  entry_point: 0x000D6C28^M
-                         kernel debugger setting: enabled^M
-  -------------------------------------------------------------------------=
-------^M
-  ^LStarLED{A20}^M
-  Data Storage Interrupt - PROC^M
-  .dispatch+000098              lwz    r0,1830(r6)         r0=3D0,1830(r6)=
-=3DF00000002FF48E30^M
-  KDB(0)>
-
-  (apologies for all the ^M - they are emitted by qemu or AIX - not
-  sure)
-
-  Using the same command to boot AIX from 3.1.0 works (no DSI
-  Interrupt). - Other problems occur later, but no Kernel interrupt,
-  only user space problems - and that's another problem - but one at a
-  time !
-
-  --Ivan
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829682/+subscriptions
+--U9X08WqziKpEOAA0bCJdkGhWDsExXak2V--
 
