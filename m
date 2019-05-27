@@ -2,63 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D223D2B024
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 10:25:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41899 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E842B1E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 May 2019 12:13:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43135 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVAwd-00025M-1e
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 04:25:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57301)
+	id 1hVCdV-0003Kz-0p
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 06:13:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49782)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hVAvc-0001og-Ah
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 04:24:21 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hVCcP-00031m-HW
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 06:12:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hVAvZ-0000gj-VX
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 04:24:20 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:57101)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hVAvZ-0000eG-Ni
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 04:24:17 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1MGz5h-1hPy060ZZj-00E84n; Mon, 27 May 2019 10:23:41 +0200
-To: Thomas Huth <thuth@redhat.com>,
-	Lucien Anti-Spam <lucienmp_antispam@yahoo.com>, qemu-devel@nongnu.org, 
-	"patchew-devel@redhat.com" <patchew-devel@redhat.com>
-References: <1573827788.7732060.1558858158263.ref@mail.yahoo.com>
-	<1573827788.7732060.1558858158263@mail.yahoo.com>
-	<664d5119-d172-e601-c503-6e53ee13efe1@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <e25de074-cf23-fcf5-821f-38ab1779919d@vivier.eu>
-Date: Mon, 27 May 2019 10:23:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <no-reply@patchew.org>) id 1hVCcN-00048g-LT
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 06:12:37 -0400
+Resent-Date: Mon, 27 May 2019 06:12:37 -0400
+Resent-Message-Id: <E1hVCcN-00048g-LT@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21809)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hVCcM-00046j-6Z
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 06:12:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1558945558; cv=none; d=zoho.com; s=zohoarc; 
+	b=J+4BazHW6C9A36lGuEhorRLJ4Yw2Bn/3rGgkZviWEQZyznQRW5/F4OnBBbtYkpKoQDPsmBLZ3s9JtwsERh/YFBp6Xo/IFjPit96U9XzEmcuZxajpKqz1hzvgk5+hvUbryMmUB7jvENRWJDyKKEPKdqNFLa66wyrsNnqlYThk35g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1558945558;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=AcVOnz5i1XhSUTWzaydLEREbAJbbKvvTzabnmmgSE1E=; 
+	b=i7TJ+MRhyLUsfAzJlhxc1w9MnOYzSqITZsxMaZHQuQaKFbtBqmz0tosI4GG46iv14V9jg+Ctic8dticUTKiDdAo2x39xRlWBQ1nu/o+4elLF3sRCMuyMmzHLGsgSFz7mE99AIDFhEdOmoc4i6f5P3IXkZ0udDL8bVmRbHiBrFwA=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1558945556868746.2980381314221;
+	Mon, 27 May 2019 01:25:56 -0700 (PDT)
+Message-ID: <155894555550.3183.17796312000148467282@d1b27de2824c>
+In-Reply-To: <20190527080327.10780-1-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <664d5119-d172-e601-c503-6e53ee13efe1@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:iZPMDxc1BP5osC3GFnIXrsB56V6vlTpvHbJT8l9DQ3Hlbf+tWbw
-	FMd0xG67QmFboVQ5rEC1Ow9PE+ji35+TexLwJak1NnfMtvmo9OZmxdxasifW94N8dAajJCa
-	Jo/P2NAef1VB8LXFzkQcdHCjUs+aoil/usDUHwVdvWgGrztHdeK/55YY33oa/AnabgnDG53
-	x2D5mFd7uxaOq2H97GL0A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pm8CiQwJ2nQ=:5/8EafP4NfxUGLXk0rZKJp
-	+XeVBREdYJCdbklqxV9RYXE0nP/xLS4ltKVLaZLMAnrf/lMCkxZFPTY3ZhEcaI2VG/MsWxi3C
-	JBzBW67XkqVpqyHuJxWN9XYlhFDTburJY1ftucNT6YhSV7zIElzYYWwenJgdTiMxKLdJGU7Gd
-	T1ZkukaV576XISLFy8Tnwv+lvwxCZ0me5HKLzD2AhOtDlsYjay7Xnns3I+f1tn0JUd+nagmcK
-	vfp4U2hA9C8a7/gtQZAy0a9SfLpiNNCo8JcVbv41iqrL7WmJrRS2sxCowlJgvFoNLaw6Tbd8Z
-	kdSGvHkgMvUMX0DGNYW4X7UB7O6yZh881huakKy5YlJUlfQQVy0JfaCRuH0yFzbTyO0dKU2k6
-	9T+/7IKEcg7IhzzfKIxJIHfZZVXivHpVTFrFvMrXnJN7euhROW3hqNEeSIwmh4yN973p8Odfe
-	0KZdUggPVu5YeTa3Pmxnc9qzJMS/24ghczewOoqmE6fyVHQGOOsv28JO5eQZOPZQ6bJ57Icfn
-	Gme6T0YKQGebGk8VVVAE/K8O5aA/UMxIr3LN59o3V1LAIc3CVN0/JGumoZAfdQYf3itAdLNxE
-	Lynuy9TTYHhP36Lk7f+e7iZDmieSTSTU8K9wZXilBc9TPz/ORDzbwFcX9f+937axyFKmuMWUf
-	D0bhSHXlRdAhJBxMnW0oCQOL06djK9qHcgda+6CN6J8WiIcknet1XA1c6SFI39zi+d6jI9M4K
-	cAWpJ0FrDBrcfcNB3g+5SXZ551JFpE2shCxADXnbo0ajbaB9aO1q32T4G4A=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mehta.aaru20@gmail.com
+Date: Mon, 27 May 2019 01:25:56 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: Re: [Qemu-devel] Failure to submit patches,
- two questions - what should I do?
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PATCH v3 0/8] Add support for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,50 +61,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+	mreitz@redhat.com, saket.sinha89@gmail.com, stefanha@redhat.com,
+	jusual@mail.ru, mehta.aaru20@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/05/2019 10:13, Thomas Huth wrote:
-> On 26/05/2019 10.09, Lucien Anti-Spam via Qemu-devel wrote:
->>   
->>
->>     > On Sunday, May 26, 2019, 4:45:26 PM GMT+9, <no-reply@patchew.org> wrote: > Subject; [Qemu-devel] [PATCH] Incorrect Stack Pointer shadow register support on some m68k CPUs > .....> snip> .....> === OUTPUT BEGIN ===
->>>   ERROR: Author email address is mangled by the mailing list
->>>   #2:
->>>   Author: Lucien Murray-Pitts via Qemu-devel <qemu-devel@nongnu.org>
->>>   
->>>   WARNING: Block comments use a leading /* on a separate line
->>>   #46: FILE: target/m68k/cpu.h:465:
->>>   +/* The ColdFire core ISA is a RISC-style reduction of the 68000 series
->>>   
->>>   WARNING: Block comments use * on subsequent lines
->>>   #47: FILE: target/m68k/cpu.h:466:>
->>>   +/* The ColdFire core ISA is a RISC-style reduction of the 68000 series
->>> +  Whilst the 68000 flourished by adding extended stack/instructions in>.........> snip
->> Q1:  Name mangling seems to be a bug, whats going on - how should I be submiting now?        ( perl script didnt catch it AND there seems to already be a patch from half year or more ago .. https://patchwork.kernel.org/patch/10662525/ )  whats the correct action here?
-> 
-> It's a problem with your mail provider (yahoo.com), you personally can't
-> do anything about this (except complaining to your provider or to switch
-> to another one). See this URL for some details:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2017-03/msg05625.html
-> 
-> Unless you are bothered and want to switch your provider, you can ignore
-> the warning here, it's rather a note to the maintainer that they've got
-> to adjust the "author" of the patch manually when they pick up the patch.
-> 
->> Q2:  I am getting a WARNING but I believe it is an exception in this case.        yes I know it breaks the coding style BUT this coding style was already there for these comments.        Should I submit this patch with a move to the RIGHT coding style? or will this patch be accepted as the code is older style?
-> 
-> It's up to the maintainer of the subsystem (Laurent?) - IMHO it's ok to
-> ask for an exception in this case, but a separate clean-up patch is
-> certainly also welcome.
-
-In this case I thought it was just a missing carriage-return on the 
-first line, but in fact we have a missing '*' on every line, so, yes, I 
-agree it can stay as-is and a separate clean-up patch can be sent later.
-
-Thanks,
-Laurent
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyNzA4MDMyNy4xMDc4
+MC0xLW1laHRhLmFhcnUyMEBnbWFpbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0ggdjMgMC84XSBBZGQg
+c3VwcG9ydCBmb3IgaW9fdXJpbmcKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwNTI3MDgw
+MzI3LjEwNzgwLTEtbWVodGEuYWFydTIwQGdtYWlsLmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
+ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
+CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
+b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
+U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
+ODg3MTMzODQKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo3NWZjN2YxIGJsb2NrL2Zp
+bGVwb3NpeDogZXh0ZW5kIHRvIHVzZSBpb191cmluZwpkMDNhZTM5IGJsb2NrZGV2OiBhY2NlcHQg
+aW9fdXJpbmcgYXMgb3B0aW9uCmNhZTMwZWUgdXRpbC9hc3luYzogYWRkIGFpbyBpbnRlcmZhY2Vz
+IGZvciBpb191cmluZwpmM2JlODA3IHN0dWJzOiBhZGQgc3R1YnMgZm9yIGlvX3VyaW5nIGludGVy
+ZmFjZQo4NWMwM2RlIGJsb2NrL2lvX3VyaW5nOiBpbXBsZW1lbnRzIGludGVyZmFjZXMgZm9yIGlv
+X3VyaW5nCjVjNGExNGEgYmxvY2svYmxvY2s6IGFkZCBCRFJWIGZsYWcgZm9yIGlvX3VyaW5nCjlh
+NjU5NGQgcWFwaS9ibG9jay1jb3JlOiBhZGQgb3B0aW9uIGZvciBpb191cmluZwo0NjBjNzJkIGNv
+bmZpZ3VyZTogcGVybWl0IHVzZSBvZiBpb191cmluZwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS84
+IENoZWNraW5nIGNvbW1pdCA0NjBjNzJkMWE4ZGYgKGNvbmZpZ3VyZTogcGVybWl0IHVzZSBvZiBp
+b191cmluZykKMi84IENoZWNraW5nIGNvbW1pdCA5YTY1OTRkYWE3NmMgKHFhcGkvYmxvY2stY29y
+ZTogYWRkIG9wdGlvbiBmb3IgaW9fdXJpbmcpCjMvOCBDaGVja2luZyBjb21taXQgNWM0YTE0YTMw
+MWY1IChibG9jay9ibG9jazogYWRkIEJEUlYgZmxhZyBmb3IgaW9fdXJpbmcpCjQvOCBDaGVja2lu
+ZyBjb21taXQgODVjMDNkZTE2MTg2IChibG9jay9pb191cmluZzogaW1wbGVtZW50cyBpbnRlcmZh
+Y2VzIGZvciBpb191cmluZykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShz
+KSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNDk6IApuZXcgZmlsZSBtb2RlIDEw
+MDY0NAoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0aGUgb3BlbiBwYXJlbnRoZXNpcyAn
+KCcKIzE5NjogRklMRTogYmxvY2svaW9fdXJpbmcuYzoxNDM6CisgICAgd2hpbGUoIXMtPmlvX3Eu
+aW5fcXVldWUpIHsKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMyMDk6IEZJTEU6IGJsb2Nr
+L2lvX3VyaW5nLmM6MTU2OgorICAgICAgICBpZiAocmV0IDw9IDApIHsgJAoKdG90YWw6IDIgZXJy
+b3JzLCAxIHdhcm5pbmdzLCAzODcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC84IGhhcyBzdHlsZSBw
+cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
+IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
+aW4gTUFJTlRBSU5FUlMuCgo1LzggQ2hlY2tpbmcgY29tbWl0IGYzYmU4MDcwOGFkMSAoc3R1YnM6
+IGFkZCBzdHVicyBmb3IgaW9fdXJpbmcgaW50ZXJmYWNlKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQg
+b3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzNTog
+Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDQ2IGxp
+bmVzIGNoZWNrZWQKClBhdGNoIDUvOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
+ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
+dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2LzggQ2hl
+Y2tpbmcgY29tbWl0IGNhZTMwZWUxMzg4ZiAodXRpbC9hc3luYzogYWRkIGFpbyBpbnRlcmZhY2Vz
+IGZvciBpb191cmluZykKNy84IENoZWNraW5nIGNvbW1pdCBkMDNhZTM5YzMzMWMgKGJsb2NrZGV2
+OiBhY2NlcHQgaW9fdXJpbmcgYXMgb3B0aW9uKQo4LzggQ2hlY2tpbmcgY29tbWl0IDc1ZmM3ZjFk
+OGEzZSAoYmxvY2svZmlsZXBvc2l4OiBleHRlbmQgdG8gdXNlIGlvX3VyaW5nKQo9PT0gT1VUUFVU
+IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
+IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDUyNzA4MDMyNy4x
+MDc4MC0xLW1laHRhLmFhcnUyMEBnbWFpbC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1l
+c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
+czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
+ZXZlbEByZWRoYXQuY29t
 
 
