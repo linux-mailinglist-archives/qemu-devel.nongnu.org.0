@@ -2,60 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD032C6E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 14:46:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34225 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260712C6C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 14:40:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34093 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVbV5-0003jI-8d
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 08:46:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54860)
+	id 1hVbOn-0001Mh-3Z
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 08:40:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53473)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVbTx-0003OO-4T
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:45:34 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hVbNk-00013m-9w
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:39:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVbTv-0003dc-3U
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:45:33 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59454)
+	(envelope-from <peter.maydell@linaro.org>) id 1hVbNj-0006sH-3g
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:39:08 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33923)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hVbTr-0003VA-8e
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:45:29 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hVbTn-0004dh-IM
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 12:45:23 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 874D32E80CB
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 12:45:23 +0000 (UTC)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hVbNi-0006rj-Q4
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:39:07 -0400
+Received: by mail-ot1-x341.google.com with SMTP id l17so17605811otq.1
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 05:39:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=UN4nmfB6xzSqB3xy1WTIHPoOYrayTbg2dhx+E6kLkgg=;
+	b=uIxzMIX9iWZacCu7WeRdBIonx80MCgg+4+qGmNIWw72O1wuStCV2QDFAN6AvCHWSc4
+	mlEIs4KCw/JjxBqzmhx3W3vEViPsSvmjzgN0+32oljblOcs2oKLPgArKfO6jEXIlQfxo
+	fSNJZ3nSAHzW4VeWWPK1+T4ygm2u/OpqiJt5jI3GdTn7yYVLeI0SO6abbHn5H/sQFzyJ
+	9lidARZIeZ3W8V5dFsg4xC9nIYV1RnHfxKS4TxKiMefZNj2uaZbKxwfLQRBKJoNLbZcG
+	dHRM0OcGbZnublDZDps9SJ1VH5thYGToq4S9IO8pR35B1OcVQYo9Duu/7IsgnkOycY+i
+	Y4Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=UN4nmfB6xzSqB3xy1WTIHPoOYrayTbg2dhx+E6kLkgg=;
+	b=FaBWqs/Iul05sYhSsuJ3QBSaV2tAHAX7pcy9Gf+hObOl/bTns8djaqRenIb4Xbe3//
+	fMAfAwB7AQAWTaHUEJ22CJS/L5h3/LE4TtXQ8BCtWZroJEsFBizSmWxhvTf3D+JR2WUT
+	1p1Rx6h4l/MGuDUwL98H4EioHKvdOc+cpec00M81yoncLVZEYvYDOdv02B0fo5f9Wt+6
+	mdGGrigkKio9qJCv+QVZhqlPhmPFPHJYR2j1lFSzla94gF1CK9oLbXN+2kyYqwy0clUQ
+	itmMtvVQdHiB1RgjOahkzj38emvKBPchVZPylo7gPVXVFQA0quFtsDKEut+VQUQSvqBl
+	JIdA==
+X-Gm-Message-State: APjAAAXYJm48EJ3hukdUGL4OmWumlHN0yNaHLwiEIm8e/Cw9F17yCXpG
+	6pgbPhB/snNhRxwhhhNjgjk3JzAYqYJN7/5AprHmUg==
+X-Google-Smtp-Source: APXvYqwTi/ZpyC42gB3zspsniJN0vj561sg+XvfRIAG9kn6hHwE6zYNs1g2N9gdc3RMkX5oDx1M2JVku9gr3RSircz8=
+X-Received: by 2002:a05:6830:209a:: with SMTP id
+	y26mr46491354otq.232.1559047145700; 
+	Tue, 28 May 2019 05:39:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 May 2019 12:33:08 -0000
-From: Roland Christmann <1101210@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bkerler roc007 sven-koehler th-huth untio
-X-Launchpad-Bug-Reporter: Sven (sven-koehler)
-X-Launchpad-Bug-Modifier: Roland Christmann (roc007)
-References: <20130118141238.13697.51258.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155904678864.24629.12168949763336969201.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18968";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: f03e8d88bbab8176a7d51245e246abb76f3538b0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1101210] Re: qemu 1.4.2: usb keyboard not fully
- working
+References: <1558887551-32137-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1558887551-32137-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 May 2019 13:38:54 +0100
+Message-ID: <CAFEAcA9JkjrcNBx=NSbtkktCPQzxf6JLddix-cHQKe3ud==Svg@mail.gmail.com>
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PULL 00/12] MIPS queue for May 19th, 2019 - v3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,62 +72,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1101210 <1101210@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With a freshly compiled version of qemu 4.0.50
-on Widows 10 (host)
+On Sun, 26 May 2019 at 17:19, Aleksandar Markovic
+<aleksandar.markovic@rt-rk.com> wrote:
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> The following changes since commit a7b21f6762a2d6ec08106d8a7ccb11829914523f:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-4.1-pull-request' into staging (2019-05-24 12:47:49 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/AMarkovic/qemu tags/mips-queue-may-19-2019-v3
+>
+> for you to fetch changes up to c47c336e870585307f1e2371ea85a6256a05022e:
+>
+>   BootLinuxSshTest: Test some userspace commands on Malta (2019-05-26 17:45:02 +0200)
+>
+> ----------------------------------------------------------------
+>
+> MIPS queue for May 19th, 2019 - v3
+>
+>
+> v2->v3:
+>    - removed two patches on object_initialize_child(), since they
+>      became part of another pull 1-pull-request
+>    - added two cleanup patches
+>    - added a patch on fixing handling of semtimedop()
+>    - amended patch on acceptance test
+> v1->v2:
+>    - fixed missing invocations in patch on ST.<B|H|W|D> that caused
+>      clang build error
+>    - added a patch on acceptance test for Malta
+>
+> highlights:
+>
+>    * Fix semtimedop() issue that appeared after kernel headers update
+>    * Added an acceptance test for Malta board
+>    * Better handling of memory pages (flag PAGE_EXEC)
+>    * A set of fixes for emulation of MSA ASE on big endian hosts
+>    * Better handling of 'div by zero' cases of MSA ASE instructions
+>    * Clean up MIPS' cpu.h
+>
 
-I am using 3 different Belgian keyboards and I have the same behaviour
-- 2 USB keyboards (Logitech and HP) and
-- the keyboard of my laptop (HP)
 
-3 characters on the same key cannot be used (the key seams to be dead):
-< (less than),
-> (greater than) used with the combination of LShift or RShift
-\ (backslash) used with the combination of AltGr
+Applied, thanks.
 
-Using grub command mode from an archlinux installation (5.1.4)
-The keyboard seams to be a mix of azerty and qwerty keyboard
-all letters are correctly mapped but all numbers and special
-characters are not
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-Using sendkey in monitor
-"sendkey <" results in : \
-"sendkey shift-<" results in : |
-"sendkey ctrl-alt-<" results in : nothing
-
-REM: VirtualBox can handle this key and with the showkey command
-     from the archlinux kbd package, it shows :
-     keycode  86 press
-     keycode  86 release
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1101210
-
-Title:
-  qemu 1.4.2: usb keyboard not fully working
-
-Status in QEMU:
-  New
-
-Bug description:
-  When using the usb keyboard, I can't type the | character. I'm using
-  german keyboard layout (de) on the host and inside the guest. As a
-  guest OS, I use Linux (e.g. a recent KNOPPIX cd). To obtain the |
-  character on a german keyboard, I need to press AltGr + the < or >
-  key, i.e. the key right to the left shift.
-
-  The qemu command line is something like this:
-  ./qemu-system-i386 -device pci-ohci -device usb-kbd
-  I also tried
-  ./qemu-system-i386 -usb -usbdevice keyboard
-  with the same effect.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1101210/+subscriptions
+-- PMM
 
