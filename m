@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9D32CF90
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:35:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41547 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E322CF86
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:33:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41522 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVhsp-0004Pj-PP
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:35:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36678)
+	id 1hVhqG-0002OB-5V
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:33:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36694)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhn2-0000mm-BS
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:29:41 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hVhnA-0000rt-KJ
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:29:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhms-0000nY-UO
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:29:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51430)
+	(envelope-from <mreitz@redhat.com>) id 1hVhmy-0000uD-JR
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:29:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38014)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hVhmR-0000Bd-9x; Tue, 28 May 2019 15:29:03 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	id 1hVhmT-0000EQ-3L; Tue, 28 May 2019 15:29:06 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 68F9981114;
-	Tue, 28 May 2019 19:28:59 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id C325F307D986;
+	Tue, 28 May 2019 19:29:01 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.223])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 012F2611B4;
-	Tue, 28 May 2019 19:28:58 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5937F1972B;
+	Tue, 28 May 2019 19:29:01 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 28 May 2019 21:28:30 +0200
-Message-Id: <20190528192847.2730-5-mreitz@redhat.com>
+Date: Tue, 28 May 2019 21:28:31 +0200
+Message-Id: <20190528192847.2730-6-mreitz@redhat.com>
 In-Reply-To: <20190528192847.2730-1-mreitz@redhat.com>
 References: <20190528192847.2730-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Tue, 28 May 2019 19:28:59 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Tue, 28 May 2019 19:29:01 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 04/21] qcow2-threads: qcow2_co_do_compress:
- protect queuing by mutex
+Subject: [Qemu-devel] [PULL 05/21] qcow2-threads: split out generic path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,46 +62,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Drop dependence on AioContext lock.
+Move generic part out of qcow2_co_do_compress, to reuse it for
+encryption and rename things that would be shared with encryption path.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190506142741.41731-5-vsementsov@virtuozzo.com
+Message-id: 20190506142741.41731-6-vsementsov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-threads.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ block/qcow2.h         |  4 ++--
+ block/qcow2-threads.c | 47 ++++++++++++++++++++++++++++---------------
+ block/qcow2.c         |  2 +-
+ 3 files changed, 34 insertions(+), 19 deletions(-)
 
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 8207ed374e..637552e137 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -350,8 +350,8 @@ typedef struct BDRVQcow2State {
+     char *image_backing_format;
+     char *image_data_file;
+=20
+-    CoQueue compress_wait_queue;
+-    int nb_compress_threads;
++    CoQueue thread_task_queue;
++    int nb_threads;
+=20
+     BdrvChild *data_file;
+ } BDRVQcow2State;
 diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-index 5a39fdac69..50a9fdeec5 100644
+index 50a9fdeec5..650aa2ed19 100644
 --- a/block/qcow2-threads.c
 +++ b/block/qcow2-threads.c
-@@ -158,15 +158,19 @@ qcow2_co_do_compress(BlockDriverState *bs, void *de=
-st, size_t dest_size,
+@@ -31,7 +31,36 @@
+ #include "qcow2.h"
+ #include "block/thread-pool.h"
+=20
+-#define MAX_COMPRESS_THREADS 4
++#define QCOW2_MAX_THREADS 4
++
++static int coroutine_fn
++qcow2_co_process(BlockDriverState *bs, ThreadPoolFunc *func, void *arg)
++{
++    int ret;
++    BDRVQcow2State *s =3D bs->opaque;
++    ThreadPool *pool =3D aio_get_thread_pool(bdrv_get_aio_context(bs));
++
++    qemu_co_mutex_lock(&s->lock);
++    while (s->nb_threads >=3D QCOW2_MAX_THREADS) {
++        qemu_co_queue_wait(&s->thread_task_queue, &s->lock);
++    }
++    s->nb_threads++;
++    qemu_co_mutex_unlock(&s->lock);
++
++    ret =3D thread_pool_submit_co(pool, func, arg);
++
++    qemu_co_mutex_lock(&s->lock);
++    s->nb_threads--;
++    qemu_co_queue_next(&s->thread_task_queue);
++    qemu_co_mutex_unlock(&s->lock);
++
++    return ret;
++}
++
++
++/*
++ * Compression
++ */
+=20
+ typedef ssize_t (*Qcow2CompressFunc)(void *dest, size_t dest_size,
+                                      const void *src, size_t src_size);
+@@ -148,8 +177,6 @@ static ssize_t coroutine_fn
+ qcow2_co_do_compress(BlockDriverState *bs, void *dest, size_t dest_size,
+                      const void *src, size_t src_size, Qcow2CompressFunc=
+ func)
+ {
+-    BDRVQcow2State *s =3D bs->opaque;
+-    ThreadPool *pool =3D aio_get_thread_pool(bdrv_get_aio_context(bs));
+     Qcow2CompressData arg =3D {
+         .dest =3D dest,
+         .dest_size =3D dest_size,
+@@ -158,19 +185,7 @@ qcow2_co_do_compress(BlockDriverState *bs, void *des=
+t, size_t dest_size,
          .func =3D func,
      };
 =20
-+    qemu_co_mutex_lock(&s->lock);
-     while (s->nb_compress_threads >=3D MAX_COMPRESS_THREADS) {
--        qemu_co_queue_wait(&s->compress_wait_queue, NULL);
-+        qemu_co_queue_wait(&s->compress_wait_queue, &s->lock);
-     }
+-    qemu_co_mutex_lock(&s->lock);
+-    while (s->nb_compress_threads >=3D MAX_COMPRESS_THREADS) {
+-        qemu_co_queue_wait(&s->compress_wait_queue, &s->lock);
+-    }
+-    s->nb_compress_threads++;
+-    qemu_co_mutex_unlock(&s->lock);
 -
-     s->nb_compress_threads++;
-+    qemu_co_mutex_unlock(&s->lock);
-+
-     thread_pool_submit_co(pool, qcow2_compress_pool_func, &arg);
+-    thread_pool_submit_co(pool, qcow2_compress_pool_func, &arg);
+-
+-    qemu_co_mutex_lock(&s->lock);
 -    s->nb_compress_threads--;
-=20
-+    qemu_co_mutex_lock(&s->lock);
-+    s->nb_compress_threads--;
-     qemu_co_queue_next(&s->compress_wait_queue);
-+    qemu_co_mutex_unlock(&s->lock);
+-    qemu_co_queue_next(&s->compress_wait_queue);
+-    qemu_co_mutex_unlock(&s->lock);
++    qcow2_co_process(bs, qcow2_compress_pool_func, &arg);
 =20
      return arg.ret;
  }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index a8c4b11539..1413df1389 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1693,7 +1693,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverSt=
+ate *bs, QDict *options,
+     }
+ #endif
+=20
+-    qemu_co_queue_init(&s->compress_wait_queue);
++    qemu_co_queue_init(&s->thread_task_queue);
+=20
+     return ret;
+=20
 --=20
 2.21.0
 
