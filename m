@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2074D2BE58
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB182BE57
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 06:27:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56966 helo=lists.gnu.org)
+Received: from localhost ([127.0.0.1]:56964 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVThq-0005Gd-1V
+	id 1hVThp-0005Gb-WD
 	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 00:27:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43835)
+Received: from eggs.gnu.org ([209.51.188.92]:43837)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVTgH-0004XB-G6
+	(envelope-from <bounces@canonical.com>) id 1hVTgH-0004XD-MG
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 00:25:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVTgG-0004zk-HB
+	(envelope-from <bounces@canonical.com>) id 1hVTgG-0004zp-HT
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 00:25:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35972)
+Received: from indium.canonical.com ([91.189.90.7]:35964)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hVTgG-0004yQ-Bv
+	id 1hVTgG-0004yP-By
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 00:25:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hVTgD-0005VF-MX
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 04:25:41 +0000
+	id 1hVTgC-0005UD-P4
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 04:25:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 871DC2E80D3
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 04:25:41 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id A191D2E80D3
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 04:25:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 May 2019 04:17:45 -0000
-From: Launchpad Bug Tracker <1777777@bugs.launchpad.net>
+Date: Tue, 28 May 2019 04:17:53 -0000
+From: Launchpad Bug Tracker <1817846@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -43,17 +43,17 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: janitor pmaydell rtos.pharos
 X-Launchpad-Bug-Reporter: RTOS Pharos (rtos.pharos)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <152947435461.1911.16896504402050089205.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155901706606.30715.12390303006422633160.malone@loganberry.canonical.com>
+References: <155125434202.29829.12830631606462823569.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155901707363.30715.3868810881729444482.malone@loganberry.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18968";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 78f3609b468b070ac2daa6fce498cd67d8d7adf6
+X-Launchpad-Hash: 0a2df3bb1a79754d06da7935318a77ac059084c0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1777777] Re: arm9 clock pending (SP804)
+Subject: [Qemu-devel] [Bug 1817846] Re: Qemu 3.1 Aarch64 TLBI VAE1, x0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 List-Id: <qemu-devel.nongnu.org>
@@ -64,7 +64,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1777777 <1777777@bugs.launchpad.net>
+Reply-To: Bug 1817846 <1817846@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -77,33 +77,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1777777
+https://bugs.launchpad.net/bugs/1817846
 
 Title:
-  arm9 clock pending (SP804)
+  Qemu 3.1 Aarch64 TLBI VAE1, x0
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hello all,
+  Hello,
 
-  I'm using the versatilepb board and the timer Interrupt Mask Status
-  register (offset 0x14 of the SP804) does not seem to be working
-  properly on the latest qemu-2.12. I tried on the 2.5 (i believe this
-  is the mainstream version that comes with Linux) and it works
-  perfectly.
+  In my code I'm trying to remove some permissions to a 4KiB MMU
+  descriptor. After that I invalidate the MMU with
 
-  What happens is that the pending bit does not seem to be set in some
-  scenarios. In my case, I see the timer value decreasing to 0 and then
-  being reset to the reload value and neither does the interrupt is
-  triggered nor the pending bit is set.
+  TLBI VAE1, x0
 
-  I believe this is a matter of timing since in the "long" run the
-  system eventually catches up (after a few microseconds).
+  where x0 is the start of the address of the 4 KiB page.
 
-  Thank you
+  In Qemu 2.12 this did not work, but I worked around it with:
+
+  =
+
+      /* invalidate the address */
+      TLBI VAE1, x0
+
+  =
+
+      /*****************************************************************/
+      /*****************************************************************/
+      /* NOTE: THIS IS A TRICK FOR QEMU!!!!!!!!!!!!                        =
+                                       */
+      /* Apparently we have to change the TTBR0_EL1 when we change a descri=
+ptor (especially to remove permissions) */
+      /* Otherwise qemu (2.12) will continue with the same descriptor with =
+permissions!                          **/
+     /*****************************************************************/
+     /*****************************************************************/
+       =
+
+      /* do a trick (in qemu) */
+      mrs     x1 , TTBR0_EL1
+
+      ldr     x2 , =3DkernelTable0Table
+
+      msr     TTBR0_EL1 , x2
+
+      isb
+
+      msr     TTBR0_EL1 , x1
+
+      /* return from function */
+      ret
+
+  =
+
+  That is, I just replaced the TTBR0_EL1 with a temporary value, and then r=
+estored it. (guess qemu 2.12 just needed to reload the values again).
+
+  However, even this procedure is not working with qemu 3.1. (I just
+  tested again with qemu 2.12 and the code works fine, with qemu 3.1 it
+  does not).
+
+  Thanks,
+  Pharos team
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1777777/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1817846/+subscriptions
 
