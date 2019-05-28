@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347BF2C12A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 10:25:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59002 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93AC32C140
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 10:28:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59056 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVXQ0-0007DJ-Bj
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 04:25:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53626)
+	id 1hVXTU-0001Te-RV
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 04:28:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54371)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hVXO7-0006Kx-87
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 04:23:16 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hVXQs-0000HL-Ob
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 04:26:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hVXO5-0002q5-SU
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 04:23:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42042)
+	(envelope-from <lvivier@redhat.com>) id 1hVXQn-0005ik-HX
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 04:26:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47622)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hVXO5-0002pA-K4
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 04:23:13 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hVXQn-0005Zm-B5
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 04:26:01 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EDDA081E06;
-	Tue, 28 May 2019 08:23:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
-	[10.36.117.250])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 63BD27D583;
-	Tue, 28 May 2019 08:23:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id ECD641132B6C; Tue, 28 May 2019 10:23:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 2394164394;
+	Tue, 28 May 2019 08:25:49 +0000 (UTC)
+Received: from [10.40.204.169] (ovpn-204-169.brq.redhat.com [10.40.204.169])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 917B010021B6;
+	Tue, 28 May 2019 08:25:42 +0000 (UTC)
 To: qemu-devel@nongnu.org
-Date: Tue, 28 May 2019 10:23:08 +0200
-Message-Id: <20190528082308.22032-5-armbru@redhat.com>
-In-Reply-To: <20190528082308.22032-1-armbru@redhat.com>
-References: <20190528082308.22032-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20190514162744.30398-1-lvivier@redhat.com>
+	<20190514162744.30398-3-lvivier@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <c9b025e7-0825-03e3-79ab-2224d6198a35@redhat.com>
+Date: Tue, 28 May 2019 10:25:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190514162744.30398-3-lvivier@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Tue, 28 May 2019 08:23:12 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.39]);
+	Tue, 28 May 2019 08:25:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/4] Makefile: Reuse all's recursion machinery
- for clean and install
+Subject: Re: [Qemu-devel] [PATCH v5 2/4] rng-builtin: add an RNG backend
+ that uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,129 +61,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, philmd@redhat.com
+Cc: "=?UTF-8?Q?Daniel_P_._Berrang=c3=a9?=" <berrange@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Kashyap Chamarthy <kchamart@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	"Richard W . M . Jones" <rjones@redhat.com>, Amit Shah <amit@kernel.org>,
+	Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Targets "clean" and "install" run make recursively in a for loop.
-This ignores -j and -k.  Target "all" depends on SUBDIR/all to recurse
-into each SUBDIR.  Behaves nicely with -j and -k.  Put that to use for
-"clean" and "install": depend on SUBDIR/clean or SUBDIR/install,
-respectively, and delete the loop.
+On 14/05/2019 18:27, Laurent Vivier wrote:
+> Add a new RNG backend using QEMU builtin getrandom function.
+> 
+> It can be created and used with something like:
+> 
+>      ... -object rng-builtin,id=rng0 -device virtio-rng,rng=rng0 ...
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>   backends/Makefile.objs |  2 +-
+>   backends/rng-builtin.c | 54 ++++++++++++++++++++++++++++++++++++++++++
+>   qemu-options.hx        |  7 ++++++
+>   3 files changed, 62 insertions(+), 1 deletion(-)
+>   create mode 100644 backends/rng-builtin.c
+> 
+> diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+> index 981e8e122f2c..f0691116e86e 100644
+> --- a/backends/Makefile.objs
+> +++ b/backends/Makefile.objs
+> @@ -1,4 +1,4 @@
+> -common-obj-y += rng.o rng-egd.o
+> +common-obj-y += rng.o rng-egd.o rng-builtin.o
+>   common-obj-$(CONFIG_POSIX) += rng-random.o
+>   
+>   common-obj-$(CONFIG_TPM) += tpm.o
+> diff --git a/backends/rng-builtin.c b/backends/rng-builtin.c
+> new file mode 100644
+> index 000000000000..6b9543a7de87
+> --- /dev/null
+> +++ b/backends/rng-builtin.c
+> @@ -0,0 +1,54 @@
+> +/*
+> + * QEMU Builtin Random Number Generator Backend
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "sysemu/rng.h"
+> +#include "qemu/main-loop.h"
+> +#include "qemu/guest-random.h"
+> +
+> +#define TYPE_RNG_BUILTIN "rng-builtin"
+> +#define RNG_BUILTIN(obj) OBJECT_CHECK(RngBuiltin, (obj), TYPE_RNG_BUILTIN)
+> +
+> +typedef struct RngBuiltin {
+> +    RngBackend parent;
+> +} RngBuiltin;
+> +
+> +static void rng_builtin_request_entropy(RngBackend *b, RngRequest *req)
+> +{
+> +    RngBuiltin *s = RNG_BUILTIN(b);
+> +
+> +    while (!QSIMPLEQ_EMPTY(&s->parent.requests)) {
+> +        RngRequest *req = QSIMPLEQ_FIRST(&s->parent.requests);
+> +
+> +        qemu_guest_getrandom_nofail(req->data, req->size);
+> +
+> +        req->receive_entropy(req->opaque, req->data, req->size);
+> +
+> +        rng_backend_finalize_request(&s->parent, req);
+>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- Makefile | 53 +++++++++++++++++++++++++----------------------------
- 1 file changed, 25 insertions(+), 28 deletions(-)
+There is a problem here:
 
-diff --git a/Makefile b/Makefile
-index 42930b7749..f194c61122 100644
---- a/Makefile
-+++ b/Makefile
-@@ -437,20 +437,22 @@ config-host.h-timestamp: config-host.mak
- qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
- 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
- 
--SUBDIR_RULES=$(addsuffix /all, $(TARGET_DIRS))
--SOFTMMU_SUBDIR_RULES=$(filter %-softmmu/all,$(SUBDIR_RULES))
-+TARGET_DIRS_RULES := $(foreach t, all clean install, $(addsuffix /$(t), $(TARGET_DIRS)))
- 
--$(SOFTMMU_SUBDIR_RULES): $(authz-obj-y)
--$(SOFTMMU_SUBDIR_RULES): $(block-obj-y)
--$(SOFTMMU_SUBDIR_RULES): $(chardev-obj-y)
--$(SOFTMMU_SUBDIR_RULES): $(crypto-obj-y)
--$(SOFTMMU_SUBDIR_RULES): $(io-obj-y)
--$(SOFTMMU_SUBDIR_RULES): config-all-devices.mak
--$(SOFTMMU_SUBDIR_RULES): $(edk2-decompressed)
-+SOFTMMU_ALL_RULES=$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
-+$(SOFTMMU_ALL_RULES): $(authz-obj-y)
-+$(SOFTMMU_ALL_RULES): $(block-obj-y)
-+$(SOFTMMU_ALL_RULES): $(chardev-obj-y)
-+$(SOFTMMU_ALL_RULES): $(crypto-obj-y)
-+$(SOFTMMU_ALL_RULES): $(io-obj-y)
-+$(SOFTMMU_ALL_RULES): config-all-devices.mak
-+$(SOFTMMU_ALL_RULES): $(edk2-decompressed)
- 
--.PHONY: $(SUBDIR_RULES)
--$(SUBDIR_RULES):
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" all,)
-+.PHONY: $(TARGET_DIRS_RULES)
-+# The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
-+# $(dir $@) yields the sub-directory, and $(notdir $@) yields the sub-goal
-+$(TARGET_DIRS_RULES):
-+	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
- 
- DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
- DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
-@@ -483,19 +485,19 @@ capstone/all: .git-submodule-status
- slirp/all: .git-submodule-status
- 	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp BUILD_DIR="$(BUILD_DIR)/slirp" CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)" CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(LDFLAGS)")
- 
--$(SUBDIR_RULES): libqemuutil.a $(common-obj-y) \
-+$(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
- 	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
- 
- ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
--ROMSUBDIR_RULES=$(addsuffix /all, $(ROM_DIRS))
-+ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
- # Only keep -O and -g cflags
--.PHONY: $(ROMSUBDIR_RULES)
--$(ROMSUBDIR_RULES):
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" CFLAGS="$(filter -O% -g%,$(CFLAGS))",)
-+.PHONY: $(ROM_DIRS_RULES)
-+$(ROM_DIRS_RULES):
-+	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" CFLAGS="$(filter -O% -g%,$(CFLAGS))" $(notdir $@),)
- 
--ALL_SUBDIRS=$(TARGET_DIRS) $(ROM_DIRS)
--
--recurse-all: $(SUBDIR_RULES) $(ROMSUBDIR_RULES)
-+recurse-all: $(addsuffix /all, $(TARGET_DIRS) $(ROM_DIRS))
-+recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
-+recurse-install: $(addsuffix /install, $(TARGET_DIRS))
- 
- $(BUILD_DIR)/version.o: $(SRC_PATH)/version.rc config-host.h
- 	$(call quiet-command,$(WINDRES) -I$(BUILD_DIR) -o $@ $<,"RC","version.o")
-@@ -641,7 +643,7 @@ clean-coverage:
- 		"CLEAN", "coverage files")
- endif
- 
--clean:
-+clean: recurse-clean
- # avoid old build problems by removing potentially incorrect old files
- 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
- 	rm -f qemu-options.def
-@@ -662,9 +664,6 @@ clean:
- 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
- 	rm -f qapi-gen-timestamp
- 	rm -rf qga/qapi-generated
--	for d in $(ALL_SUBDIRS); do \
--	if test -d $$d; then $(MAKE) -C $$d $@ || exit 1; fi; \
--        done
- 	rm -f config-all-devices.mak
- 
- VERSION ?= $(shell cat VERSION)
-@@ -810,7 +809,8 @@ endif
- ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
- 
- install: all $(if $(BUILD_DOCS),install-doc) install-datadir install-localstatedir \
--	$(if $(INSTALL_BLOBS),$(edk2-decompressed))
-+	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
-+	recurse-install
- ifneq ($(TOOLS),)
- 	$(call install-prog,$(subst qemu-ga,qemu-ga$(EXESUF),$(TOOLS)),$(DESTDIR)$(bindir))
- endif
-@@ -870,9 +870,6 @@ endif
- 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_datadir)/keymaps"; \
- 	done
- 	$(INSTALL_DATA) $(BUILD_DIR)/trace-events-all "$(DESTDIR)$(qemu_datadir)/trace-events-all"
--	for d in $(TARGET_DIRS); do \
--	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=$$d/ -C $$d $@ || exit 1 ; \
--        done
- 
- .PHONY: ctags
- ctags:
--- 
-2.17.2
+rng_backend_request_entropy() calls rng_builtin_request_entropy() and 
+then add the request to the queue parent.requests, so receive_entropy() 
+is called only on the next call of rng_backend_request_entropy() (and 
+parameter req is unused).
+
+Thanks,
+Laurent
 
 
