@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260712C6C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 14:40:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34093 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BAE32C703
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 14:51:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34318 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVbOn-0001Mh-3Z
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 08:40:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53473)
+	id 1hVbZz-0005Hn-J6
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 08:51:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55984)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hVbNk-00013m-9w
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:39:09 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hVbYg-0004gd-BF
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:50:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hVbNj-0006sH-3g
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:39:08 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33923)
+	(envelope-from <richard.henderson@linaro.org>) id 1hVbYf-0006NN-Ch
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:50:26 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44449)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hVbNi-0006rj-Q4
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:39:07 -0400
-Received: by mail-ot1-x341.google.com with SMTP id l17so17605811otq.1
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 05:39:06 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hVbYf-0006Mi-74
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:50:25 -0400
+Received: by mail-ot1-x343.google.com with SMTP id g18so17572239otj.11
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 05:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=UN4nmfB6xzSqB3xy1WTIHPoOYrayTbg2dhx+E6kLkgg=;
-	b=uIxzMIX9iWZacCu7WeRdBIonx80MCgg+4+qGmNIWw72O1wuStCV2QDFAN6AvCHWSc4
-	mlEIs4KCw/JjxBqzmhx3W3vEViPsSvmjzgN0+32oljblOcs2oKLPgArKfO6jEXIlQfxo
-	fSNJZ3nSAHzW4VeWWPK1+T4ygm2u/OpqiJt5jI3GdTn7yYVLeI0SO6abbHn5H/sQFzyJ
-	9lidARZIeZ3W8V5dFsg4xC9nIYV1RnHfxKS4TxKiMefZNj2uaZbKxwfLQRBKJoNLbZcG
-	dHRM0OcGbZnublDZDps9SJ1VH5thYGToq4S9IO8pR35B1OcVQYo9Duu/7IsgnkOycY+i
-	Y4Ag==
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=DafdoCQJbeiO0S+GkViDFrkKrg4zzRUbLRvGY8A3tDQ=;
+	b=g/JTo2yMOjGv4BfpqguOmsPpKx0IdVF4iJYpV2gl2G2xmKqFecJjiKLkzrEkLhPelA
+	x8Y7k4BCnIc+7R5BOqHttxCC0HeQvRbA8SJyLONmFMqHS5BgfJQh5JBLUqnjCS9w0E0O
+	Rv5n/qay2HzjuCpzC2cYR5Vq6djnq23u7jTarmQLjhUlFemSpeibN3DOeHEMCcn3okAZ
+	xhcoI1XsXPmrLJbMV9W0UKMupoWADd1FHdnUtIytTjgZo/lEhiNP4mHtb3lGaEHoLLbb
+	Lmsm/ckU6gz+9I+EQYhHPUynJ8BdRecNXhPNHtewOrwmKwzGgDCROjuUWKTSObI8+jdP
+	8Hvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=UN4nmfB6xzSqB3xy1WTIHPoOYrayTbg2dhx+E6kLkgg=;
-	b=FaBWqs/Iul05sYhSsuJ3QBSaV2tAHAX7pcy9Gf+hObOl/bTns8djaqRenIb4Xbe3//
-	fMAfAwB7AQAWTaHUEJ22CJS/L5h3/LE4TtXQ8BCtWZroJEsFBizSmWxhvTf3D+JR2WUT
-	1p1Rx6h4l/MGuDUwL98H4EioHKvdOc+cpec00M81yoncLVZEYvYDOdv02B0fo5f9Wt+6
-	mdGGrigkKio9qJCv+QVZhqlPhmPFPHJYR2j1lFSzla94gF1CK9oLbXN+2kyYqwy0clUQ
-	itmMtvVQdHiB1RgjOahkzj38emvKBPchVZPylo7gPVXVFQA0quFtsDKEut+VQUQSvqBl
-	JIdA==
-X-Gm-Message-State: APjAAAXYJm48EJ3hukdUGL4OmWumlHN0yNaHLwiEIm8e/Cw9F17yCXpG
-	6pgbPhB/snNhRxwhhhNjgjk3JzAYqYJN7/5AprHmUg==
-X-Google-Smtp-Source: APXvYqwTi/ZpyC42gB3zspsniJN0vj561sg+XvfRIAG9kn6hHwE6zYNs1g2N9gdc3RMkX5oDx1M2JVku9gr3RSircz8=
-X-Received: by 2002:a05:6830:209a:: with SMTP id
-	y26mr46491354otq.232.1559047145700; 
-	Tue, 28 May 2019 05:39:05 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=DafdoCQJbeiO0S+GkViDFrkKrg4zzRUbLRvGY8A3tDQ=;
+	b=lieGZhp+1Eq6gBO6zVMgN6Nych7AXnHTPcdWgczqr0AfHcYFp4kurku8D2l5SIgNYS
+	x1xHeNfFFa0Cnbvw0mccf874RNq4KDibrhCz0sX1HuyfECgUlxTNmpEjOeL1bN6uSzWY
+	rqOmp/+9vYYkJ4f6DZbGQ2duAAKDd4VOeKQWKxGGRcx4UYo45iMQZQHEfhDjNvOPpvT9
+	+Rm1MpoLuQkl1XLNEDk/M0J7htbRFwEFW/GYeojg3fAvJQEkpOGW4r3WyYP8T+ta6Mm/
+	Ttk0fKhS1Sz/MzUYxec10qXnsicKygUUd1T3PnT1u6uKyQNVxsANCdsXYAnrKFIWR3od
+	6MtQ==
+X-Gm-Message-State: APjAAAVIFgGtR18NZNAZOJ3QWgKbk4D6R3NWmmQzv0PRudR9nqTjSyvR
+	ioINHYua3CE8Z7PRfiqupej5ow==
+X-Google-Smtp-Source: APXvYqxX4+2gJrlGbVH4qG0e5CfD2jcMmFogucl8Ult+33YGBPcnP2rkjIBwnlBguiK7sphbZdbYew==
+X-Received: by 2002:a9d:3d5:: with SMTP id f79mr40593256otf.164.1559047823980; 
+	Tue, 28 May 2019 05:50:23 -0700 (PDT)
+Received: from [172.24.12.210] (168.189-204-159.bestelclientes.com.mx.
+	[189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+	k23sm4890072otj.39.2019.05.28.05.50.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 May 2019 05:50:23 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190524093335.22241-1-david@redhat.com>
+	<20190524093335.22241-2-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <83d7121f-a41f-ef9c-813a-bfd71f311e9b@linaro.org>
+Date: Tue, 28 May 2019 07:50:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <1558887551-32137-1-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1558887551-32137-1-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 May 2019 13:38:54 +0100
-Message-ID: <CAFEAcA9JkjrcNBx=NSbtkktCPQzxf6JLddix-cHQKe3ud==Svg@mail.gmail.com>
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190524093335.22241-2-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PULL 00/12] MIPS queue for May 19th, 2019 - v3
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v2 1/5] s390x/tcg: Implement VECTOR FIND
+ ANY ELEMENT EQUAL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,59 +85,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 26 May 2019 at 17:19, Aleksandar Markovic
-<aleksandar.markovic@rt-rk.com> wrote:
->
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->
-> The following changes since commit a7b21f6762a2d6ec08106d8a7ccb11829914523f:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-4.1-pull-request' into staging (2019-05-24 12:47:49 +0100)
->
-> are available in the git repository at:
->
->   https://github.com/AMarkovic/qemu tags/mips-queue-may-19-2019-v3
->
-> for you to fetch changes up to c47c336e870585307f1e2371ea85a6256a05022e:
->
->   BootLinuxSshTest: Test some userspace commands on Malta (2019-05-26 17:45:02 +0200)
->
-> ----------------------------------------------------------------
->
-> MIPS queue for May 19th, 2019 - v3
->
->
-> v2->v3:
->    - removed two patches on object_initialize_child(), since they
->      became part of another pull 1-pull-request
->    - added two cleanup patches
->    - added a patch on fixing handling of semtimedop()
->    - amended patch on acceptance test
-> v1->v2:
->    - fixed missing invocations in patch on ST.<B|H|W|D> that caused
->      clang build error
->    - added a patch on acceptance test for Malta
->
-> highlights:
->
->    * Fix semtimedop() issue that appeared after kernel headers update
->    * Added an acceptance test for Malta board
->    * Better handling of memory pages (flag PAGE_EXEC)
->    * A set of fixes for emulation of MSA ASE on big endian hosts
->    * Better handling of 'div by zero' cases of MSA ASE instructions
->    * Clean up MIPS' cpu.h
->
+On 5/24/19 4:33 AM, David Hildenbrand wrote:
+> Complicated stuff. Provide two different helpers for CC an !CC handling.
+> We might want to add more helpers later.
+> 
+> zero_search() and match_index() are courtesy of Richard H.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/Makefile.objs       |   2 +-
+>  target/s390x/helper.h            |   8 ++
+>  target/s390x/insn-data.def       |   5 +
+>  target/s390x/translate_vx.inc.c  |  30 ++++++
+>  target/s390x/vec_string_helper.c | 154 +++++++++++++++++++++++++++++++
+>  5 files changed, 198 insertions(+), 1 deletion(-)
+>  create mode 100644 target/s390x/vec_string_helper.c
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
+r~
 
