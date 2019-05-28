@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9712CC89
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 18:48:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39471 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752BA2CC9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 18:50:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39499 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVfHT-00060V-C9
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 12:48:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57024)
+	id 1hVfJ6-0007GS-GN
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 12:50:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57384)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVfCE-0002RX-NN
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:43:31 -0400
+	(envelope-from <philmd@redhat.com>) id 1hVfCu-000378-Tz
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:44:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVfC4-0001W9-Ca
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:43:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35124)
+	(envelope-from <philmd@redhat.com>) id 1hVfCt-0002gd-PJ
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:44:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42932)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hVfC4-00013B-4e; Tue, 28 May 2019 12:43:20 -0400
+	id 1hVfCt-0001AQ-JM; Tue, 28 May 2019 12:44:11 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
 	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DF82F300BEA9;
-	Tue, 28 May 2019 16:42:30 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 572CE3092661;
+	Tue, 28 May 2019 16:42:49 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.206.32])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7732160BDF;
-	Tue, 28 May 2019 16:42:22 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DD63060BDF;
+	Tue, 28 May 2019 16:42:31 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-trivial@nongnu.org
-Date: Tue, 28 May 2019 18:40:18 +0200
-Message-Id: <20190528164020.32250-9-philmd@redhat.com>
+Date: Tue, 28 May 2019 18:40:19 +0200
+Message-Id: <20190528164020.32250-10-philmd@redhat.com>
 In-Reply-To: <20190528164020.32250-1-philmd@redhat.com>
 References: <20190528164020.32250-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Tue, 28 May 2019 16:42:31 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Tue, 28 May 2019 16:42:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 08/10] hw/usb-storage: Use the QOM DEVICE()
+Subject: [Qemu-devel] [PATCH v2 09/10] hw/vfio/pci: Use the QOM DEVICE()
  macro to access DeviceState.qdev
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -91,23 +91,33 @@ This patch was generated using the following Coccinelle script:
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/usb/dev-storage.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/vfio/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-index cd5551d94f..0e4e93ef16 100644
---- a/hw/usb/dev-storage.c
-+++ b/hw/usb/dev-storage.c
-@@ -616,7 +616,7 @@ static void usb_msd_storage_realize(USBDevice *dev, E=
-rror **errp)
-      * The hack is probably a bad idea.
-      */
-     blk_ref(blk);
--    blk_detach_dev(blk, &s->dev.qdev);
-+    blk_detach_dev(blk, DEVICE(s));
-     s->conf.blk =3D NULL;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 8e555db12e..2a4091d216 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2717,7 +2717,7 @@ static void vfio_req_notifier_handler(void *opaque)
+         return;
+     }
 =20
-     usb_desc_create_serial(dev);
+-    qdev_unplug(&vdev->pdev.qdev, &err);
++    qdev_unplug(DEVICE(vdev), &err);
+     if (err) {
+         warn_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+     }
+@@ -2839,7 +2839,7 @@ static void vfio_realize(PCIDevice *pdev, Error **e=
+rrp)
+     vdev->vbasedev.name =3D g_path_get_basename(vdev->vbasedev.sysfsdev)=
+;
+     vdev->vbasedev.ops =3D &vfio_pci_ops;
+     vdev->vbasedev.type =3D VFIO_DEVICE_TYPE_PCI;
+-    vdev->vbasedev.dev =3D &vdev->pdev.qdev;
++    vdev->vbasedev.dev =3D DEVICE(vdev);
+=20
+     tmp =3D g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
+     len =3D readlink(tmp, group_path, sizeof(group_path));
 --=20
 2.20.1
 
