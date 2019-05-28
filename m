@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F6D2CF97
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:36:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41585 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F742CFB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:45:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41716 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVhu2-0005Ps-KA
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:36:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36945)
+	id 1hVi29-0004bo-EE
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:45:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37047)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhnz-0001Wm-3m
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:44 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hVhoB-0001dl-7D
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhnw-0001v7-02
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40378)
+	(envelope-from <mreitz@redhat.com>) id 1hVho6-000244-E4
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36580)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hVhnY-000126-2G; Tue, 28 May 2019 15:30:19 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	id 1hVhns-0000vy-0z; Tue, 28 May 2019 15:30:33 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1FD4A2E97DA;
-	Tue, 28 May 2019 19:29:28 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7BC267E424;
+	Tue, 28 May 2019 19:29:31 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.223])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id ACAB51972A;
-	Tue, 28 May 2019 19:29:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1363D10027C2;
+	Tue, 28 May 2019 19:29:29 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 28 May 2019 21:28:40 +0200
-Message-Id: <20190528192847.2730-15-mreitz@redhat.com>
+Date: Tue, 28 May 2019 21:28:41 +0200
+Message-Id: <20190528192847.2730-16-mreitz@redhat.com>
 In-Reply-To: <20190528192847.2730-1-mreitz@redhat.com>
 References: <20190528192847.2730-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.29]);
-	Tue, 28 May 2019 19:29:38 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Tue, 28 May 2019 19:29:37 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 14/21] block: Use bdrv_unref_child() for all
- children in bdrv_close()
+Subject: [Qemu-devel] [PULL 15/21] block: Make bdrv_root_attach_child()
+ unref child_bs on failure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,103 +63,184 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-bdrv_unref_child() does the following things:
+A consequence of the previous patch is that bdrv_attach_child()
+transfers the reference to child_bs from the caller to parent_bs,
+which will drop it on bdrv_close() or when someone calls
+bdrv_unref_child().
 
-  - Updates the child->bs->inherits_from pointer.
-  - Calls bdrv_detach_child() to remove the BdrvChild from bs->children.
-  - Calls bdrv_unref() to unref the child BlockDriverState.
+But this only happens when bdrv_attach_child() succeeds. If it fails
+then the caller is responsible for dropping the reference to child_bs.
 
-When bdrv_unref_child() was introduced in commit 33a604075c it was not
-used in bdrv_close() because the drivers that had additional children
-(like quorum or blkverify) had already called bdrv_unref() on their
-children during their own close functions.
+This patch makes bdrv_attach_child() take the reference also when
+there is an error, freeing the caller for having to do it.
 
-This was changed later (in 0bd6e91a7e for quorum, in 3e586be0b2 for
-blkverify) so there's no reason not to use bdrv_unref_child() in
-bdrv_close() anymore.
-
-After this there's also no need to remove bs->backing and bs->file
-separately from the rest of the children, so bdrv_close() can be
-simplified.
-
-Now bdrv_close() unrefs all children (before this patch it was only
-bs->file and bs->backing). As a result, none of the callers of
-brvd_attach_child() should remove their reference to child_bs (because
-this function effectively steals that reference). This patch updates a
-couple of tests that were doing their own bdrv_unref().
+A similar situation happens with bdrv_root_attach_child(), so the
+changes on this patch affect both functions.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-id: 6d1d5feaa53aa1ab127adb73d605dc4503e3abd5.1557754872.git.berto=
+Message-id: 20dfb3d9ccec559cdd1a9690146abad5d204a186.1557754872.git.berto=
 @igalia.com
-[mreitz: s/where/were/]
+[mreitz: Removed now superfluous BdrvChild * variable in
+         bdrv_open_child()]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c                     | 16 +++-------------
- tests/test-bdrv-drain.c     |  6 ------
- tests/test-bdrv-graph-mod.c |  1 -
- 3 files changed, 3 insertions(+), 20 deletions(-)
+ block.c               | 30 ++++++++++++++++++------------
+ block/block-backend.c |  3 +--
+ block/quorum.c        |  1 -
+ blockjob.c            |  2 +-
+ 4 files changed, 20 insertions(+), 16 deletions(-)
 
 diff --git a/block.c b/block.c
-index cb11537029..be37280dc7 100644
+index be37280dc7..1a73e310c1 100644
 --- a/block.c
 +++ b/block.c
-@@ -3877,22 +3877,12 @@ static void bdrv_close(BlockDriverState *bs)
-         bs->drv =3D NULL;
+@@ -2243,6 +2243,13 @@ static void bdrv_replace_child(BdrvChild *child, B=
+lockDriverState *new_bs)
      }
-=20
--    bdrv_set_backing_hd(bs, NULL, &error_abort);
--
--    if (bs->file !=3D NULL) {
--        bdrv_unref_child(bs, bs->file);
--        bs->file =3D NULL;
--    }
--
-     QLIST_FOREACH_SAFE(child, &bs->children, next, next) {
--        /* TODO Remove bdrv_unref() from drivers' close function and use
--         * bdrv_unref_child() here */
--        if (child->bs->inherits_from =3D=3D bs) {
--            child->bs->inherits_from =3D NULL;
--        }
--        bdrv_detach_child(child);
-+        bdrv_unref_child(bs, child);
-     }
-=20
-+    bs->backing =3D NULL;
-+    bs->file =3D NULL;
-     g_free(bs->opaque);
-     bs->opaque =3D NULL;
-     atomic_set(&bs->copy_on_read, 0);
-diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
-index eda90750eb..5534c2adf9 100644
---- a/tests/test-bdrv-drain.c
-+++ b/tests/test-bdrv-drain.c
-@@ -1436,12 +1436,6 @@ static void test_detach_indirect(bool by_parent_cb=
-)
-     bdrv_unref(parent_b);
-     blk_unref(blk);
-=20
--    /* XXX Once bdrv_close() unref's children instead of just detaching =
-them,
--     * this won't be necessary any more. */
--    bdrv_unref(a);
--    bdrv_unref(a);
--    bdrv_unref(c);
--
-     g_assert_cmpint(a->refcnt, =3D=3D, 1);
-     g_assert_cmpint(b->refcnt, =3D=3D, 1);
-     g_assert_cmpint(c->refcnt, =3D=3D, 1);
-diff --git a/tests/test-bdrv-graph-mod.c b/tests/test-bdrv-graph-mod.c
-index 283dc84869..747c0bf8fc 100644
---- a/tests/test-bdrv-graph-mod.c
-+++ b/tests/test-bdrv-graph-mod.c
-@@ -116,7 +116,6 @@ static void test_update_perm_tree(void)
-     g_assert_nonnull(local_err);
-     error_free(local_err);
-=20
--    bdrv_unref(bs);
-     blk_unref(root);
  }
 =20
++/*
++ * This function steals the reference to child_bs from the caller.
++ * That reference is later dropped by bdrv_root_unref_child().
++ *
++ * On failure NULL is returned, errp is set and the reference to
++ * child_bs is also dropped.
++ */
+ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+                                   const char *child_name,
+                                   const BdrvChildRole *child_role,
+@@ -2255,6 +2262,7 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState =
+*child_bs,
+     ret =3D bdrv_check_update_perm(child_bs, NULL, perm, shared_perm, NU=
+LL, errp);
+     if (ret < 0) {
+         bdrv_abort_perm_update(child_bs);
++        bdrv_unref(child_bs);
+         return NULL;
+     }
+=20
+@@ -2274,6 +2282,14 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState=
+ *child_bs,
+     return child;
+ }
+=20
++/*
++ * This function transfers the reference to child_bs from the caller
++ * to parent_bs. That reference is later dropped by parent_bs on
++ * bdrv_close() or if someone calls bdrv_unref_child().
++ *
++ * On failure NULL is returned, errp is set and the reference to
++ * child_bs is also dropped.
++ */
+ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+                              BlockDriverState *child_bs,
+                              const char *child_name,
+@@ -2401,12 +2417,9 @@ void bdrv_set_backing_hd(BlockDriverState *bs, Blo=
+ckDriverState *backing_hd,
+     /* If backing_hd was already part of bs's backing chain, and
+      * inherits_from pointed recursively to bs then let's update it to
+      * point directly to bs (else it will become NULL). */
+-    if (update_inherits_from) {
++    if (bs->backing && update_inherits_from) {
+         backing_hd->inherits_from =3D bs;
+     }
+-    if (!bs->backing) {
+-        bdrv_unref(backing_hd);
+-    }
+=20
+ out:
+     bdrv_refresh_limits(bs, NULL);
+@@ -2594,7 +2607,6 @@ BdrvChild *bdrv_open_child(const char *filename,
+                            const BdrvChildRole *child_role,
+                            bool allow_none, Error **errp)
+ {
+-    BdrvChild *c;
+     BlockDriverState *bs;
+=20
+     bs =3D bdrv_open_child_bs(filename, options, bdref_key, parent, chil=
+d_role,
+@@ -2603,13 +2615,7 @@ BdrvChild *bdrv_open_child(const char *filename,
+         return NULL;
+     }
+=20
+-    c =3D bdrv_attach_child(parent, bs, bdref_key, child_role, errp);
+-    if (!c) {
+-        bdrv_unref(bs);
+-        return NULL;
+-    }
+-
+-    return c;
++    return bdrv_attach_child(parent, bs, bdref_key, child_role, errp);
+ }
+=20
+ /* TODO Future callers may need to specify parent/child_role in order fo=
+r
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 4c0a8ef88d..ad3e1c882d 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -392,7 +392,6 @@ BlockBackend *blk_new_open(const char *filename, cons=
+t char *reference,
+     blk->root =3D bdrv_root_attach_child(bs, "root", &child_root,
+                                        perm, BLK_PERM_ALL, blk, errp);
+     if (!blk->root) {
+-        bdrv_unref(bs);
+         blk_unref(blk);
+         return NULL;
+     }
+@@ -800,12 +799,12 @@ void blk_remove_bs(BlockBackend *blk)
+ int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
+ {
+     ThrottleGroupMember *tgm =3D &blk->public.throttle_group_member;
++    bdrv_ref(bs);
+     blk->root =3D bdrv_root_attach_child(bs, "root", &child_root,
+                                        blk->perm, blk->shared_perm, blk,=
+ errp);
+     if (blk->root =3D=3D NULL) {
+         return -EPERM;
+     }
+-    bdrv_ref(bs);
+=20
+     notifier_list_notify(&blk->insert_bs_notifiers, blk);
+     if (tgm->throttle_state) {
+diff --git a/block/quorum.c b/block/quorum.c
+index 352f729136..133ee18204 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -1019,7 +1019,6 @@ static void quorum_add_child(BlockDriverState *bs, =
+BlockDriverState *child_bs,
+     child =3D bdrv_attach_child(bs, child_bs, indexstr, &child_format, e=
+rrp);
+     if (child =3D=3D NULL) {
+         s->next_child_index--;
+-        bdrv_unref(child_bs);
+         goto out;
+     }
+     s->children =3D g_renew(BdrvChild *, s->children, s->num_children + =
+1);
+diff --git a/blockjob.c b/blockjob.c
+index 9ca942ba01..cc5f18e7cd 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -204,6 +204,7 @@ int block_job_add_bdrv(BlockJob *job, const char *nam=
+e, BlockDriverState *bs,
+ {
+     BdrvChild *c;
+=20
++    bdrv_ref(bs);
+     c =3D bdrv_root_attach_child(bs, name, &child_job, perm, shared_perm=
+,
+                                job, errp);
+     if (c =3D=3D NULL) {
+@@ -211,7 +212,6 @@ int block_job_add_bdrv(BlockJob *job, const char *nam=
+e, BlockDriverState *bs,
+     }
+=20
+     job->nodes =3D g_slist_prepend(job->nodes, c);
+-    bdrv_ref(bs);
+     bdrv_op_block_all(bs, job->blocker);
+=20
+     return 0;
 --=20
 2.21.0
 
