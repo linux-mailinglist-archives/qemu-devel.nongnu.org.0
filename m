@@ -2,55 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A452C678
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 14:28:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33939 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD032C6E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 14:46:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34225 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVbDD-0005M1-Dy
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 08:28:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51282)
+	id 1hVbV5-0003jI-8d
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 08:46:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54860)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hVbC0-0004ml-Jt
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:27:01 -0400
+	(envelope-from <bounces@canonical.com>) id 1hVbTx-0003OO-4T
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:45:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hVbBz-0007YE-BP
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:27:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56904)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hVbBz-0007U0-6m
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:26:59 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D85B930C0DCE;
-	Tue, 28 May 2019 12:26:33 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 77D795D71A;
-	Tue, 28 May 2019 12:26:32 +0000 (UTC)
-Date: Tue, 28 May 2019 14:26:27 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190528142627.6841e91a@redhat.com>
-In-Reply-To: <20190528013548.GA8813@richard>
-References: <20190411071739.22889-1-richardw.yang@linux.intel.com>
-	<20190527142114.521ab953@redhat.com>
-	<20190528013548.GA8813@richard>
+	(envelope-from <bounces@canonical.com>) id 1hVbTv-0003dc-3U
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:45:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59454)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hVbTr-0003VA-8e
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:45:29 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hVbTn-0004dh-IM
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 12:45:23 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 874D32E80CB
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 12:45:23 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.45]);
-	Tue, 28 May 2019 12:26:40 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 28 May 2019 12:33:08 -0000
+From: Roland Christmann <1101210@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bkerler roc007 sven-koehler th-huth untio
+X-Launchpad-Bug-Reporter: Sven (sven-koehler)
+X-Launchpad-Bug-Modifier: Roland Christmann (roc007)
+References: <20130118141238.13697.51258.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155904678864.24629.12168949763336969201.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: f03e8d88bbab8176a7d51245e246abb76f3538b0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] hw/i386/pc: check apci hotplug capability
- before nvdimm's
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1101210] Re: qemu 1.4.2: usb keyboard not fully
+ working
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,68 +64,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thuth@redhat.com, rth@twiddle.net,
-	qemu-devel@nongnu.org, ehabkost@redhat.com
+Reply-To: Bug 1101210 <1101210@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 May 2019 09:35:48 +0800
-Wei Yang <richardw.yang@linux.intel.com> wrote:
+With a freshly compiled version of qemu 4.0.50
+on Widows 10 (host)
 
-> On Mon, May 27, 2019 at 02:21:14PM +0200, Igor Mammedov wrote:
-> >On Thu, 11 Apr 2019 15:17:39 +0800
-> >Wei Yang <richardw.yang@linux.intel.com> wrote:
-> >  
-> >> pc_memory_pre_plug() is called during hotplug for both pc-dimm and
-> >> nvdimm. This is more proper to check apci hotplug capability before
-> >> check nvdimm specific capability.  
-> >not sure what this about.
-> >Currently we are checking if ACPI is enabled
-> >  if (!pcms->acpi_dev || !acpi_enabled) { ...
-> >before nvdimm check and it looks better to me that we cancel
-> >nvdimm hotplug earlier than passing it to
-> >    hotplug_handler_pre_plug(pcms->acpi_dev, dev, &local_err)
-> >with this patch ACPI device handler will be called before
-> >nvdimm check happens, so it's +1 unnecessary call chain in
-> >the case of nvdimm, which I'd rather not have.
-> >
-> >Are there any issues with current call flow?
-> >(commit message doesn't really explaining why we need this patch)
-> >  
-> 
-> My idea is to check more generic requirement and then specific one.
-> 
-> For example, the call flow looks like this:
-> 
-> pc_memory_pre_plug
-> 
->     piix4_device_pre_plug_cb | ich9_pm_device_pre_plug_cb
->         if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) &&
->             !lpc->pm.acpi_memory_hotplug.is_enabled)
-> 
->     if (is_nvdimm && !ms->nvdimms_state->is_enabled)
->     
-> 
-> In hotplug_handler_pre_plug(), it checks the acpi hotplug capability. And then
-> if it has memory hotplug capability and is nvdimm, we check whether nvdimm is
-> enabled.
+I am using 3 different Belgian keyboards and I have the same behaviour
+- 2 USB keyboards (Logitech and HP) and
+- the keyboard of my laptop (HP)
 
-I don't think pc_memory_pre_plug() should rely on what hotplug_handler_pre_plug()
-checks or does. Similarly the later is taking care of whatever piix4 needs to care
-and shouldn't care about what machine code does.
+3 characters on the same key cannot be used (the key seams to be dead):
+< (less than),
+> (greater than) used with the combination of LShift or RShift
+\ (backslash) used with the combination of AltGr
 
-Moreover when hotplug_handler_pre_plug() starts to reserve resources, then
-if you move check as suggested you'd need to rollback all that
-hotplug_handler_pre_plug() done to gracefully abort hotplug.
+Using grub command mode from an archlinux installation (5.1.4)
+The keyboard seams to be a mix of azerty and qwerty keyboard
+all letters are correctly mapped but all numbers and special
+characters are not
 
-So I'd leave the code as it is now, since it doesn't depend on concrete
-hotplug_handler_pre_plug() implementation and won't break if
-hotplug_handler_pre_plug() will start consuming resources (which could
-happen and you won't even notice it since changed code is in piix4/q35
-files when reviewing patches).
+Using sendkey in monitor
+"sendkey <" results in : \
+"sendkey shift-<" results in : |
+"sendkey ctrl-alt-<" results in : nothing
 
-> This is why I suggest to change the order here. No functional issue for
-> current code.
-> 
+REM: VirtualBox can handle this key and with the showkey command
+     from the archlinux kbd package, it shows :
+     keycode  86 press
+     keycode  86 release
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1101210
+
+Title:
+  qemu 1.4.2: usb keyboard not fully working
+
+Status in QEMU:
+  New
+
+Bug description:
+  When using the usb keyboard, I can't type the | character. I'm using
+  german keyboard layout (de) on the host and inside the guest. As a
+  guest OS, I use Linux (e.g. a recent KNOPPIX cd). To obtain the |
+  character on a german keyboard, I need to press AltGr + the < or >
+  key, i.e. the key right to the left shift.
+
+  The qemu command line is something like this:
+  ./qemu-system-i386 -device pci-ohci -device usb-kbd
+  I also tried
+  ./qemu-system-i386 -usb -usbdevice keyboard
+  with the same effect.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1101210/+subscriptions
 
