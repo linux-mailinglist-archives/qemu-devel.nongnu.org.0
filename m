@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54B72C96C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:03:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36428 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CBA2C9E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:13:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36544 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVdd6-0007Rm-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:03:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56119)
+	id 1hVdmi-0003G3-7J
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:13:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58885)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVdbs-00076N-6M
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:01:57 -0400
+	(envelope-from <bounces@canonical.com>) id 1hVdlB-0002Vf-KR
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:11:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVdbV-0001Wl-7N
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:01:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59380)
+	(envelope-from <bounces@canonical.com>) id 1hVdl8-0000AY-0I
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:11:29 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35084)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hVdbT-0001Og-22
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:01:27 -0400
+	id 1hVdl2-0008UU-BV
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:11:22 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hVdbH-0003L7-1b
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 15:01:15 +0000
+	id 1hVdkj-0005vP-DJ
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 15:11:01 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 8C4792E80D5
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 15:01:12 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 621F12E80C7
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 15:11:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 May 2019 14:50:36 -0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Date: Tue, 28 May 2019 14:58:07 -0000
+From: Alex <1829242@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,15 +41,15 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: dgilbert-h nevilad
 X-Launchpad-Bug-Reporter: Alex (nevilad)
-X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+X-Launchpad-Bug-Modifier: Alex (nevilad)
 References: <155792850856.14868.18260779757728395853.malonedeb@gac.canonical.com>
-Message-Id: <155905503622.17083.14120450024765241821.malone@chaenomeles.canonical.com>
+Message-Id: <155905548765.24947.1963288155704131133.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18968";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: fe1ca30be3988485b5f501c23ac1fdbc52dd72ec
+X-Launchpad-Hash: f315de43997dd420df060ddc080812041d25d860
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1829242] Re: qemu on windows host exits after
@@ -68,9 +68,11 @@ Reply-To: Bug 1829242 <1829242@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think you'll have to break out a debugger on it to see why it's
-exiting; if you can break on any exit paths and get a backtrace we can
-have some more guesswork.
+To do this I must crosscompile qemu on a linux host and debug on a
+windows host. Is there a gdb for 64-bit windows, since windows debuggers
+don't understand DWARF debugging info, and is it possible to give him
+paths to source files, since paths on the build machine and the
+debugging machine will be different?
 
 -- =
 
