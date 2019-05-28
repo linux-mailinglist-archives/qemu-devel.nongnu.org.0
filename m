@@ -2,57 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE162BF8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 08:50:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58214 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 931442BFE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 09:06:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58350 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVVwP-0004uY-Gt
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 02:50:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36526)
+	id 1hVWCA-00082O-O0
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 03:06:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39428)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pmathieu@redhat.com>) id 1hVVvP-0004db-Kx
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 02:49:32 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hVWB5-0007dr-2b
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 03:05:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pmathieu@redhat.com>) id 1hVVvO-0000X4-IP
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 02:49:31 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53719)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1hVVvO-0000Wa-DG
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 02:49:30 -0400
-Received: by mail-wm1-f67.google.com with SMTP id d17so1487494wmb.3
-	for <qemu-devel@nongnu.org>; Mon, 27 May 2019 23:49:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=qnZUS7LoIw1wtUXSX4K16ySslDwu8VfwolSPr88xTFg=;
-	b=NFOKBQ3pkIL7K9u6rgXZVf4oRdJHFFMqZJxniz5pdISP5SJLc7b/wH0wVHd+Akuw+d
-	QLAqaA+DINSq2wDJlhVzCbPd6/6so+wTr9ic7dZMDTm6qsIODpU5wiMTPXsG8+sPIeoe
-	v78XIqq4z+yDSdwsMFbyUeoFN7YKjzuuMpQsw1st7pFuUJFqZm3LwEibbaT3abKA1HAo
-	3Nu+1pg5C9a3mB+99ZJW3NFK50wxtYC9+VfDtQ7FSEuXleIaZjy02SrSE5AVBq5Ai5zt
-	6PPD0y+tQSd1HW3nKKP/FZeXsKnWYE5x+fl/S4O95VNkbBCWQ0hcKge41l/YQYioXPeg
-	216g==
-X-Gm-Message-State: APjAAAXX1uPtQbnng6agIHtHzNmljHxKR663FE9LckSk8HFn/yTt6ULI
-	agWxIIkoJoZ0Gcj6Oa4dQtYC+PdpmmxCShi2DF6I7w==
-X-Google-Smtp-Source: APXvYqzOBMzSWpBx3UbrKpeLa7h4/71rMox7snAb0zcsaM/Gdy3S2Kp1zPz50PpyCK0G+U/adTTH8XQIpXEp2K757XM=
-X-Received: by 2002:a1c:407:: with SMTP id 7mr1248369wme.113.1559026169151;
-	Mon, 27 May 2019 23:49:29 -0700 (PDT)
+	(envelope-from <laurent@vivier.eu>) id 1hVWB4-0003Gq-6R
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 03:05:43 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:53967)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hVWB3-0003GU-UY
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 03:05:42 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1M26j1-1hTaHa2usb-002ZLY; Tue, 28 May 2019 09:00:03 +0200
+To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+	Markus Armbruster <armbru@redhat.com>, Yuval Shaia <yuval.shaia@oracle.com>
+References: <20190505105112.22691-1-yuval.shaia@oracle.com>
+	<871s0pjisd.fsf@dusky.pond.sub.org>
+	<89805e43-4bbe-1a4b-1fd4-2c042aa979bf@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <4508df6d-cb54-26e9-1603-09ef9ff87a0b@vivier.eu>
+Date: Tue, 28 May 2019 09:00:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-References: <20190311005618.19007-1-philmd@redhat.com>
-	<CAL1e-=hJVsaMDFyB5O-7JWtNEZ8JE7hbe8-n35yDxKD=znT=XA@mail.gmail.com>
-	<6781ecbf-27b8-8925-11f9-6b746f14ef9d@redhat.com>
-In-Reply-To: <6781ecbf-27b8-8925-11f9-6b746f14ef9d@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Tue, 28 May 2019 08:49:18 +0200
-Message-ID: <CAP+75-W5TEV1i+qAkQCg2pwgeGLN18vbaHpsin+cGFNJywTAcQ@mail.gmail.com>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <89805e43-4bbe-1a4b-1fd4-2c042aa979bf@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:vuuUMc/2cWgLfw03eeHBxTXVx/Y41ECip2Z5iVVZYXnQrN94UHt
+	1X3n+lstJovlyJf2jbHd9XGf/RcXgck0kw87c+ASarzHc8MAFomXXsQoUiFspE0VvfXUQYO
+	W69igIzKiCkhdVtGFqkkFVfmETR8UxNSkGW9XMha+R/+nAFM6tlhHx85AJn35Oqj13qZ/J3
+	CCC1X69/AqYQIKTjo0xAw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fmqABoXC+Qs=:SWc46e3cUSoVBgFxVmM5yK
+	ze5YNsQna7gRk+jCLOLydlpUI00wIUSgb/FWSyrkvQ1iNqS2/Tb1Y9BLuhabNwg5E93j/qKws
+	ziQymUhLYshb9GwAGMDWM7E8oS9OFG8IU3OGyGI+nq4ZQ3q+AI6tyUs4BG1zwQbmSS94QNdHS
+	l+a0nAk/O5JEawhzfP+OLLQmXBqEdoGBQOUFRVO2g8eou41UJe8p5LhI7YDItzxdtbnHgtcsH
+	f/tBS2GCVS3iL+r+Vqkl+KpiQjfor4E0QSFCnK6xJz6/uvdWVLUTDKngjBB5Cb+KqUhfyhaq2
+	DvWilfvHCzeFub2KZcQIYzXYkfWWshiWxDHGhrZZzMq6m9qsmyZqYNS0d7rh3YKyrTA9j8y/s
+	XyZ8FZkjLdw9gmSbEHy56SuOkvFV/4g7eBHyXHcFpXbTAtt2eCmqkNkk8lsJFb5UbXOJS8QOW
+	XU0HTgCGLt6bUSlX786DJJt3Fcc+nsocNXx9m8fNosHx+1RzcLyb6VpbzTlkopZcmrQwIRo/+
+	wus7aFcPjRTo41Kf9zMQTLxdmUoEh4hQbbIiY4eiDMvbQIbUQuMcD/JqyZJ6+VoJHHeNPjkpU
+	//BQIQ25cs3AgbsUkcWf5h7+XngMAtx5C7sHSvmAdIk3/gjUtdUhh2PK2z8zmTijjTOOE0d3g
+	mmh1nAj/lGuqtkyIruo/X9eIE2O82beCqCMiU6VibFN7Co8AIXW51KtlyBLtQLZNCX31t9HNB
+	7pPCcIeJxVqCZelsJRx7UWA3HvgaLJq4RnbQU90a38ISm5M7zlplk8+qIU8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH v3 0/7] Kconfig dependencies for MIPS
- machines (but Malta)
+X-Received-From: 217.72.192.74
+Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] hw/rdma: Delete unused
+ headers inclusion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,56 +69,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Paul Burton <pburton@wavecomp.com>,
-	Thomas Huth <thuth@redhat.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
-	James Hogan <jhogan@kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
-	=?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> On 5/27/19 8:31 PM, Aleksandar Markovic wrote:
-> > What would be the status of this series? I am willing to integrate all
-> > this, including all followups, but have hard time sorting out what
-> > happend after this submission, what is the most complete version etc.
-> > Can you enlighten me please?
->
-> Thanks for your interest in this series :)
->
-> I was chatting with Thomas about this series earlier today!
-> I addressed your comment about the ITU/CPS devices, then wanted to join
-> all the Malta patches in the same series, but there are too many for a
-> single series so I'll keep them separate.
+On 24/05/2019 07:29, Marcel Apfelbaum wrote:
+> Hi Markus,
+> 
+> On 5/23/19 6:24 PM, Markus Armbruster wrote:
+>> Looks stuck.  Let's try qemu-trivial.
+> 
+> Thanks, that is a great idea.
+> 
+> I didn't want to send a single-patch pull request,
+> especially while another is waiting for reviews.
+> Anyway, trivial queue can be used indeed.
 
-After some sleep I could remember why I postponed this series:
+Applied to my trivial-patches branch.
 
-1/ making the ITU selectable gives:
+Thanks,
+Laurent
 
-  /usr/bin/ld: target/mips/op_helper.o: in function `helper_mtc0_saar':
-  ./target/mips/op_helper.c:1614: undefined reference to `itc_reconfigure'
-  /usr/bin/ld: target/mips/op_helper.o: in function `helper_mthc0_saar':
-  ./target/mips/op_helper.c:1631: undefined reference to `itc_reconfigure'
-  collect2: error: ld returned 1 exit status
+> Thanks,
+> Marcel
+> 
+>>
+>> Yuval Shaia <yuval.shaia@oracle.com> writes:
+>>
+>>> This is a trivial cleanup patch.
+>>>
+>>> Signed-off-by: Yuval Shaia <yuval.shaia@oracle.com>
+>>> ---
+>>>   hw/rdma/rdma_backend.c | 7 -------
+>>>   1 file changed, 7 deletions(-)
+>>>
+>>> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
+>>> index d1660b6474..05f6b03221 100644
+>>> --- a/hw/rdma/rdma_backend.c
+>>> +++ b/hw/rdma/rdma_backend.c
+>>> @@ -14,16 +14,9 @@
+>>>    */
+>>>   #include "qemu/osdep.h"
+>>> -#include "sysemu/sysemu.h"
+>>> -#include "qapi/error.h"
+>>> -#include "qapi/qmp/qlist.h"
+>>> -#include "qapi/qmp/qnum.h"
+>>>   #include "qapi/qapi-events-rdma.h"
+>>>   #include <infiniband/verbs.h>
+>>> -#include <infiniband/umad_types.h>
+>>> -#include <infiniband/umad.h>
+>>> -#include <rdma/rdma_user_cm.h>
+>>>   #include "contrib/rdmacm-mux/rdmacm-mux.h"
+>>>   #include "trace.h"
+> 
+> 
 
-Anyway it is now selectable but has to be always selected.
-
-2/ I thought only the Malta board was deeply mixed with the X86 ACPI
-code, but I later noticed the Fulong is too.
-
-  /usr/bin/ld: ../hw/isa/vt82c686.o: in function `vt82c686b_pm_realize':
-  ./hw/isa/vt82c686.c:381: undefined reference to `acpi_pm_tmr_init'
-  /usr/bin/ld: ./hw/isa/vt82c686.c:382: undefined reference to
-`acpi_pm1_evt_init'
-  /usr/bin/ld: ../hw/isa/vt82c686.o: in function `pm_update_sci':
-  ./hw/isa/vt82c686.c:195: undefined reference to `acpi_pm1_evt_get_sts'
-  collect2: error: ld returned 1 exit status
-
-Both VT82C686B/PIIX4 southbridges require considerable cleanup.
-I think I now have something workable, but I have to sell my patches
-correctly to the different subsystem maintainers ;)
-
-Regards,
-
-Phil.
 
