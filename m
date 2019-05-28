@@ -2,50 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E3E2D0B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 22:50:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42583 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4992D2DC07
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 13:39:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52187 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVj3I-0002PG-Nm
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 16:50:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56962)
+	id 1hVwv6-0003Bd-Gt
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 07:39:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48062)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hVj1d-0001i5-0H
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 16:48:50 -0400
+	(envelope-from <fiuczy@linux.ibm.com>) id 1hVwts-0002hK-Rj
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:37:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hVj1b-0008ER-UF
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 16:48:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34106)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hVj1b-0008CQ-MB
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 16:48:47 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A14513E2B9;
-	Tue, 28 May 2019 20:48:46 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-59.ams2.redhat.com
-	[10.36.116.59])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 65EF560C47;
-	Tue, 28 May 2019 20:48:42 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 3E5AF16E1A; Tue, 28 May 2019 22:48:41 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 28 May 2019 22:48:38 +0200
-Message-Id: <20190528204838.21568-1-kraxel@redhat.com>
+	(envelope-from <fiuczy@linux.ibm.com>) id 1hVwtr-0008Nf-LT
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:37:44 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32818)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <fiuczy@linux.ibm.com>)
+	id 1hVwtr-0008Jq-Be
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:37:43 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4TBWfvv063864
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 07:37:40 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2ssq2vwpgh-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 07:37:39 -0400
+Received: from localhost
+	by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	Only! Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <fiuczy@linux.ibm.com>;
+	Wed, 29 May 2019 12:37:36 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+	by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Wed, 29 May 2019 12:37:27 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+	[9.149.105.59])
+	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x4TBbPjW36307154
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Wed, 29 May 2019 11:37:25 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8D45AA4040;
+	Wed, 29 May 2019 11:37:25 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 840C1A4055;
+	Wed, 29 May 2019 11:37:24 +0000 (GMT)
+Received: from [10.0.2.15] (unknown [9.152.222.40])
+	by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Wed, 29 May 2019 11:37:24 +0000 (GMT)
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20190506014514.3555-1-yan.y.zhao@intel.com>
+	<20190506014904.3621-1-yan.y.zhao@intel.com>
+	<20190507151826.502be009@x1.home>
+	<20190508112740.GA24397@joy-OptiPlex-7040>
+	<20190508152242.4b54a5e7@x1.home>
+	<5eac912c-e753-b5f6-83a4-b646f991d858@linux.ibm.com>
+	<20190514093140.68cc6f7a@x1.home>
+From: Boris Fiuczynski <fiuczy@linux.ibm.com>
+Date: Tue, 28 May 2019 22:57:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Tue, 28 May 2019 20:48:46 +0000 (UTC)
+In-Reply-To: <20190514093140.68cc6f7a@x1.home>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 19052911-0016-0000-0000-000002809C8F
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19052911-0017-0000-0000-000032DDACFC
+Message-Id: <0c1f5f03-1895-b9a2-999f-f611dd295732@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-29_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1905290078
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] q35: split memory at 2G
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+	mx0a-001b2d01.pphosted.com id x4TBWfvv063864
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: Re: [Qemu-devel] [libvirt] [PATCH v2 1/2] vfio/mdev: add version
+ attribute for mdev device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,97 +101,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?L=C3=A1szl=C3=B3=20=C3=89rsek?= <lersek@redhat.com>,
-	Richard Henderson <rth@twiddle.net>
+Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"aik@ozlabs.ru" <aik@ozlabs.ru>,
+	"Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+	"shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+	"eauger@redhat.com" <eauger@redhat.com>, Tony@pps.reinject, "Liu,
+	Yi L" <yi.l.liu@intel.com>,
+	"eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+	Ziye" <ziye.yang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	"libvir-list@redhat.com" <libvir-list@redhat.com>,
+	"arei.gonglei@huawei.com" <arei.gonglei@huawei.com>,
+	"felipe@nutanix.com" <felipe@nutanix.com>,
+	"Ken.Xue@amd.com" <Ken.Xue@amd.com>, "Tian,
+	Kevin" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
+	"dgilbert@redhat.com" <dgilbert@redhat.com>,
+	"zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+	"dinechin@redhat.com" <dinechin@redhat.com>,
+	"intel-gvt-dev@lists.freedesktop.org"
+	<intel-gvt-dev@lists.freedesktop.org>, "Liu,
+	Changpeng" <changpeng.liu@intel.com>, Krowiak <akrowiak@linux.ibm.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	"cohuck@redhat.com" <cohuck@redhat.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"Wang, Zhi A" <zhi.a.wang@intel.com>,
+	"jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "He,
+	Shaopeng" <shaopeng.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Original q35 behavior was to split memory 2.75 GB, leaving space for the
-mmconfig bar at 0xb000000 and pci I/O window starting at 0xc0000000.
+On 5/14/19 5:31 PM, Alex Williamson wrote:
+> On Wed, 8 May 2019 17:27:47 +0200
+> Boris Fiuczynski <fiuczy@linux.ibm.com> wrote:
+>=20
+>> On 5/8/19 11:22 PM, Alex Williamson wrote:
+>>>>> I thought there was a request to make this more specific to migrati=
+on
+>>>>> by renaming it to something like migration_version.  Also, as an
+>>>>>     =20
+>>>> so this attribute may not only include a mdev device's parent device=
+ info and
+>>>> mdev type, but also include numeric software version of vendor speci=
+fic
+>>>> migration code, right?
+>>> It's a vendor defined string, it should be considered opaque to the
+>>> user, the vendor can include whatever they feel is relevant.
+>>>   =20
+>> Would a vendor also be allowed to provide a string expressing required
+>> features as well as containing backend resource requirements which nee=
+d
+>> to be compatible for a successful migration? Somehow a bit like a cpu
+>> model... maybe even as json or xml...
+>> I am asking this with vfio-ap in mind. In that context checking
+>> compatibility of two vfio-ap mdev devices is not as simple as checking
+>> if version A is smaller or equal to version B.
+>=20
+> Two pieces to this, the first is that the string is opaque exactly so
+> that the vendor driver can express whatever they need in it.  The user
+> should never infer that two devices are compatible.  The second is that
+I agree.
 
-Note: Those machine types have been removed from the qemu codebase
-meanwhile because they could not be live-migrated so there was little
-value in keeping them around.
+> this is not a resource availability or reservation interface.  The fact
+I also agree. The migration_version (version in this case is not really=20
+a good fit) is a summary of requirements the source mdev has which a=20
+target mdev needs to be able to fulfill in order to allow migration.
+The target mdev already exists and was already configured by other means=20
+not involved in the migration check process.
+Using the migrations_version as some kind of configuration transport=20
+and/or reservation mechanism wasn't my intention and IMHO would both be=20
+wrong.
 
-With the effort to allow for gigabyte-alignment of guest memory that
-behavior was changed:  The split was moved to 2G, but only in case the
-memory didn't fit below 2.75 GB.
+> that a target device would be compatible for migration should not take
+> into account whether the target has the resources to actually create
+> such a device.  Doing so would imply some sort of resource reservation
+> support that does not exist.  Matrix devices are clearly a bit
+> complicated here since maybe the source is expressing a component of
+> the device that doesn't exist on the target.  In such a "resource not
+> available at all" case, it might be fair to nak the compatibility test,
+> but a "ok, but resource not currently available" case should pass,
+> imo.  Thanks,
+>=20
+> Alex
+>=20
+> --
+> libvir-list mailing list
+> libvir-list@redhat.com
+> https://www.redhat.com/mailman/listinfo/libvir-list
+>=20
 
-So today the address space between 2G and 2,75G is not used for guest
-memory in typical use cases, where the guest memory sized at a power of
-two or a gigabyte number.  But if you configure your guest with some odd
-amout of memory (such as 2.5G) the address space is used.
 
-This patch removes that oddity for 4.1+ machine types.  The memory is
-splitted at 2G no matter what.
-
-Cc: L=C3=A1szl=C3=B3 =C3=89rsek <lersek@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/hw/i386/pc.h | 1 +
- hw/i386/pc.c         | 1 +
- hw/i386/pc_q35.c     | 7 ++++++-
- 3 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 43df7230a22b..d88179a3b21e 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -120,6 +120,7 @@ typedef struct PCMachineClass {
-=20
-     /* RAM / address space compat: */
-     bool gigabyte_align;
-+    bool gigabyte_split;
-     bool has_reserved_memory;
-     bool enforce_aligned_dimm;
-     bool broken_reserved_end;
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 2632b73f800b..828eeb36e398 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -2719,6 +2719,7 @@ static void pc_machine_class_init(ObjectClass *oc, =
-void *data)
-     pcmc->smbios_defaults =3D true;
-     pcmc->smbios_uuid_encoded =3D true;
-     pcmc->gigabyte_align =3D true;
-+    pcmc->gigabyte_split =3D true;
-     pcmc->has_reserved_memory =3D true;
-     pcmc->kvmclock_enabled =3D true;
-     pcmc->enforce_aligned_dimm =3D true;
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 37dd350511a9..266671a9d544 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -143,8 +143,10 @@ static void pc_q35_init(MachineState *machine)
-      * If it doesn't, we need to split it in chunks below and above 4G.
-      * In any case, try to make sure that guest addresses aligned at
-      * 1G boundaries get mapped to host addresses aligned at 1G boundari=
-es.
-+     *
-+     * qemu 4.1+ machines: split at 2G unconditionally (gigabyte_split =3D=
- true)
-      */
--    if (machine->ram_size >=3D 0xb0000000) {
-+    if (machine->ram_size >=3D 0xb0000000 || pcmc->gigabyte_split) {
-         lowmem =3D 0x80000000;
-     } else {
-         lowmem =3D 0xb0000000;
-@@ -376,8 +378,11 @@ DEFINE_Q35_MACHINE(v4_1, "pc-q35-4.1", NULL,
-=20
- static void pc_q35_4_0_machine_options(MachineClass *m)
- {
-+    PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
-+
-     pc_q35_4_1_machine_options(m);
-     m->alias =3D NULL;
-+    pcmc->gigabyte_split =3D false;
-     compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
-     compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
- }
 --=20
-2.18.1
+Mit freundlichen Gr=C3=BC=C3=9Fen/Kind regards
+    Boris Fiuczynski
+
+IBM Deutschland Research & Development GmbH
+Vorsitzender des Aufsichtsrats: Matthias Hartmann
+Gesch=C3=A4ftsf=C3=BChrung: Dirk Wittkopp
+Sitz der Gesellschaft: B=C3=B6blingen
+Registergericht: Amtsgericht Stuttgart, HRB 243294
 
 
