@@ -2,66 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B11F2CEC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 20:35:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40879 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 661692CEC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 20:36:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40912 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVgx3-0003il-8t
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 14:35:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54049)
+	id 1hVgxC-0003rM-IR
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 14:36:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54198)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hVguX-0002KB-U6
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 14:33:23 -0400
+	(envelope-from <david@redhat.com>) id 1hVgum-0002UV-3w
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 14:33:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hVguS-0007KN-B6
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 14:33:18 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:32838)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hVguO-0007B6-Nb
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 14:33:14 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id q186so15102174oia.0
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 11:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=hflmveIUT9776d/4hJf9/0kiwLAc22FOLJGzIuxs74I=;
-	b=u44uJ5m+xsmEkQAtFUp2+zT7BDF7ym0b9660XLb3qaP2812VvZUUG02y8QXxqpIUx/
-	7AZpy2/faEWmXaEiFXA6K2q8kCE3vLZ7VQV/0DiadFOMEvevN9p0Qi3lyMLFB8pN1wv/
-	Sbnnvw7+IiS8hpyr3VurmzH+r127/0azHwoz0fwLEAHY9qSc1hdblHbtI5KndAQcC1no
-	bwpfmfkA5kDRYc6k49Fnol0v6RNrtIKXCrMJFf6RLg7TsCs1hasuCkyXqcygprNV63H0
-	EdyKWMYF4yo4s48ACIyprzykFVBcVUac/i2LmfsSQByeJ2Masf3fA/MhLKlymLrgOcSu
-	8NtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=hflmveIUT9776d/4hJf9/0kiwLAc22FOLJGzIuxs74I=;
-	b=LxE0XMaC2fWJluxt83JPJjMlh9xRNL8pIV3pexW98rUoMqQcpb5C4qpvMUEhufAo10
-	gjQIQXHXsvO5QeLvbEIu3qbNpjyj/Vp5u24HATmQFWbOfviHpcmCFDSM2Ovk4Rl8mG5p
-	s36bcILfANAkRs2lqYBuvCwe5YE48s3b02oKUHBid9GLg1ITuRJmM2PGT5oMR6vr0yFH
-	aO5lyxCXs455GdK+9OHeTzQzFmbb7x84CwZ6AA4X+z0HmrxyPF9QJ/4D+Xw0nCiPvR6o
-	q5/n8nAsOVV014mPseTUTlXXsgfKlhjnDjrhykVWb0Zh0ULYRBhxv+oFnQaflLFea5Kf
-	N9bw==
-X-Gm-Message-State: APjAAAWuw7+eVuBrr4AfMVJJsIfvjoxY3EB83rzPFjNNVARiwmorhyM6
-	79YPqwrL+kkrQvETMkJTRhu53H0CZ6VHT+A9rQdhNw==
-X-Google-Smtp-Source: APXvYqy5k/2a92r+bhbTL4lJxiqLsbW6v6K0zcj55PYGm/0OVqi3U1BFW0JTnlC4pruDf39SwtUlbd1y60h/O2HIf7c=
-X-Received: by 2002:aca:cd12:: with SMTP id d18mr3399573oig.146.1559068382420; 
-	Tue, 28 May 2019 11:33:02 -0700 (PDT)
+	(envelope-from <david@redhat.com>) id 1hVgui-0007XG-DK
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 14:33:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54073)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <david@redhat.com>) id 1hVgui-0007JE-3I
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 14:33:32 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 738D930BDE59;
+	Tue, 28 May 2019 18:33:14 +0000 (UTC)
+Received: from [10.36.116.47] (ovpn-116-47.ams2.redhat.com [10.36.116.47])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 96F3B60C4C;
+	Tue, 28 May 2019 18:33:13 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190522222821.23850-1-richard.henderson@linaro.org>
+	<20190522222821.23850-17-richard.henderson@linaro.org>
+	<a8a1fd49-c368-ed38-4d56-8743db5dd5b5@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+	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
+	SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <7d00bc45-fbc5-9096-af44-253779063319@redhat.com>
+Date: Tue, 28 May 2019 20:33:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <87lfyqla7r.fsf@dusky.pond.sub.org>
-In-Reply-To: <87lfyqla7r.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 May 2019 19:32:51 +0100
-Message-ID: <CAFEAcA_DdosM2mSo0FWMLjv2eBHscQGXw-_J6AefiwURZGCCrg@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <a8a1fd49-c368-ed38-4d56-8743db5dd5b5@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Tue, 28 May 2019 18:33:14 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::22d
-Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 16/16] tcg/i386: Use MOVDQA for
+ TCG_TYPE_V128 load/store
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,156 +107,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chris Wulff <crwulff@gmail.com>,
-	Sagar Karandikar <sagark@eecs.berkeley.edu>,
-	David Hildenbrand <david@redhat.com>, James Hogan <jhogan@kernel.org>,
-	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
-	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Anthony Perard <anthony.perard@citrix.com>,
-	Richard Henderson <rth@twiddle.net>, Jason Wang <jasowang@redhat.com>,
-	Artyom Tarasenko <atar4qemu@gmail.com>,
-	Laurent Vivier <lvivier@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Beniamino Galvani <b.galvani@gmail.com>,
-	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
-	Stafford Horne <shorne@gmail.com>,
-	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	"Daniel P. Berrange" <berrange@redhat.com>,
-	Claudio Fontana <claudio.fontana@gmail.com>,
-	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Claudio Fontana <claudio.fontana@huawei.com>,
-	Laurent Vivier <laurent@vivier.eu>,
-	Andrew Baumann <Andrew.Baumann@microsoft.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
-	Michael Walle <michael@walle.cc>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 May 2019 at 19:12, Markus Armbruster <armbru@redhat.com> wrote:
-> I append the alphabetical list of headers without multiple inclusion
-> guards (as reported by scripts/clean-header-guards -nv), followed by the
-> same list sorted into maintainer buckets.  If you're cc'ed, please find
-> your bucket(s), and tell me which headers intentionally lack guards.
+On 28.05.19 19:28, David Hildenbrand wrote:
+> On 23.05.19 00:28, Richard Henderson wrote:
+>> This instruction raises #GP, aka SIGSEGV, if the effective address
+>> is not aligned to 16-bytes.
+>>
+>> We have assertions in tcg-op-gvec.c that the offset from ENV is
+>> aligned, for vector types <=3D V128.  But the offset itself does not
+>> validate that the final pointer is aligned -- one must also remember
+>> to use the QEMU_ALIGNED() attribute on the vector member within ENV.
+>>
+>> PowerPC Altivec has vector load/store instructions that silently
+>> discard the low 4 bits of the address, making alignment mistakes
+>> difficult to discover.  Aid that by making the most popular host
+>> visibly signal the error.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  tcg/i386/tcg-target.inc.c | 24 ++++++++++++++++++++++--
+>>  1 file changed, 22 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
+>> index 6ec5e60448..c0443da4af 100644
+>> --- a/tcg/i386/tcg-target.inc.c
+>> +++ b/tcg/i386/tcg-target.inc.c
+>> @@ -1082,14 +1082,24 @@ static void tcg_out_ld(TCGContext *s, TCGType =
+type, TCGReg ret,
+>>          }
+>>          /* FALLTHRU */
+>>      case TCG_TYPE_V64:
+>> +        /* There is no instruction that can validate 8-byte alignment=
+.  */
+>>          tcg_debug_assert(ret >=3D 16);
+>>          tcg_out_vex_modrm_offset(s, OPC_MOVQ_VqWq, ret, 0, arg1, arg2=
+);
+>>          break;
+>>      case TCG_TYPE_V128:
+>> +        /*
+>> +         * The gvec infrastructure is asserts that v128 vector loads
+>> +         * and stores use a 16-byte aligned offset.  Validate that th=
+e
+>> +         * final pointer is aligned by using an insn that will SIGSEG=
+V.
+>> +         */
+>>          tcg_debug_assert(ret >=3D 16);
+>> -        tcg_out_vex_modrm_offset(s, OPC_MOVDQU_VxWx, ret, 0, arg1, ar=
+g2);
+>> +        tcg_out_vex_modrm_offset(s, OPC_MOVDQA_VxWx, ret, 0, arg1, ar=
+g2);
+>>          break;
+>>      case TCG_TYPE_V256:
+>> +        /*
+>> +         * The gvec infrastructure only requires 16-byte alignment,
+>> +         * so here we must use an unaligned load.
+>> +         */
+>>          tcg_debug_assert(ret >=3D 16);
+>>          tcg_out_vex_modrm_offset(s, OPC_MOVDQU_VxWx | P_VEXL,
+>>                                   ret, 0, arg1, arg2);
+>> @@ -1117,14 +1127,24 @@ static void tcg_out_st(TCGContext *s, TCGType =
+type, TCGReg arg,
+>>          }
+>>          /* FALLTHRU */
+>>      case TCG_TYPE_V64:
+>> +        /* There is no instruction that can validate 8-byte alignment=
+.  */
+>>          tcg_debug_assert(arg >=3D 16);
+>>          tcg_out_vex_modrm_offset(s, OPC_MOVQ_WqVq, arg, 0, arg1, arg2=
+);
+>>          break;
+>>      case TCG_TYPE_V128:
+>> +        /*
+>> +         * The gvec infrastructure is asserts that v128 vector loads
+>> +         * and stores use a 16-byte aligned offset.  Validate that th=
+e
+>> +         * final pointer is aligned by using an insn that will SIGSEG=
+V.
+>> +         */
+>>          tcg_debug_assert(arg >=3D 16);
+>> -        tcg_out_vex_modrm_offset(s, OPC_MOVDQU_WxVx, arg, 0, arg1, ar=
+g2);
+>> +        tcg_out_vex_modrm_offset(s, OPC_MOVDQA_WxVx, arg, 0, arg1, ar=
+g2);
+>>          break;
+>>      case TCG_TYPE_V256:
+>> +        /*
+>> +         * The gvec infrastructure only requires 16-byte alignment,
+>> +         * so here we must use an unaligned store.
+>> +         */
+>>          tcg_debug_assert(arg >=3D 16);
+>>          tcg_out_vex_modrm_offset(s, OPC_MOVDQU_WxVx | P_VEXL,
+>>                                   arg, 0, arg1, arg2);
+>>
+>=20
+> This is the problematic patch. Haven't looked into the details yet, so =
+I
+> can't tell what's wrong. Maybe really an alignemnt issue?
+>=20
 
-> FPU emulation
-> M: Aurelien Jarno <aurelien@aurel32.net>
-> M: Peter Maydell <peter.maydell@linaro.org>
-> M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> fpu/softfloat-specialize.h
-> include/fpu/softfloat-macros.h
+Okay, looks like "vregs" in "struct CPUS390XState" is always aligned to
+8, but not to 16 bytes.
 
-I think that include/fpu/softfloat-macros.h should ideally
-have header guards.
+And that in return is the case, because "CPUS390XState env" is not
+aligned to 16 bytes in "struct S390CPU"
 
-fpu/softfloat-specialize.h is a bit odd as it's intended to be included
-exactly once, by fpu/softfloat.c. Guards wouldn't hurt, I think, but it
-might be cleanest to rename it to fpu/softfloat-specialize.inc.c
-to match our convention for "lump of C which is textually
-included but isn't a header".
 
-> ARM
-> M: Peter Maydell <peter.maydell@linaro.org>
-> target/arm/helper-a64.h
-> target/arm/helper-sve.h
-> target/arm/helper.h
-> target/arm/op_addsub.h
+!!!!!!!! CPU: 0x55a5e3046ef0
+!!!!!!!! ENV: 0x55a5e304f1a8
+!!!!!!!! VREGS: 0x55a5e304f228
+!!!!!!!! CPU: 0x55a5e3070bb0
+!!!!!!!! ENV: 0x55a5e3078e68
+!!!!!!!! VREGS: 0x55a5e3078ee8
+!!!!!!!! CPU: 0x55a5e3098310
+!!!!!!!! ENV: 0x55a5e30a05c8
+!!!!!!!! VREGS: 0x55a5e30a0648
+!!!!!!!! CPU: 0x55a5e30c0730
+!!!!!!!! ENV: 0x55a5e30c89e8
+!!!!!!!! VREGS: 0x55a5e30c8a68
+!!!!!!!! CPU: 0x55a5e30e7c90
+!!!!!!!! ENV: 0x55a5e30eff48
+!!!!!!!! VREGS: 0x55a5e30effc8
+!!!!!!!! CPU: 0x55a5e310eea0
+!!!!!!!! ENV: 0x55a5e3117158
+!!!!!!!! VREGS: 0x55a5e31171d8
+!!!!!!!! CPU: 0x55a5e31361e0
+!!!!!!!! ENV: 0x55a5e313e498
+!!!!!!!! VREGS: 0x55a5e313e518
+!!!!!!!! CPU: 0x55a5e315d520
+!!!!!!!! ENV: 0x55a5e31657d8
+!!!!!!!! VREGS: 0x55a5e3165858
 
-All intentional -- target/*/helper.h and anything it includes
-is intended to be included multiple times for different
-purposes (the includer #defines various macros appropriately
-to produce different effects).
+vregs is defined as:
 
-> Allwinner-a10
-> M: Beniamino Galvani <b.galvani@gmail.com>
-> M: Peter Maydell <peter.maydell@linaro.org>
-> include/hw/arm/allwinner-a10.h
+CPU_DoubleU vregs[32][2];
 
-This appears to me to have an include guard:
-perhaps your check doesn't recognize the variant
-where the #define appears just before the #endif rather
-than just after the #ifndef ?
+We either have to switch to a type that has a natural alignment of 16
+bytes, or enforce alignment of "CPUS390XState env" to 16 bytes.
 
-> ARM PrimeCell and CMSDK devices
-> M: Peter Maydell <peter.maydell@linaro.org>
-> hw/display/pl110_template.h
+What do you suggest?
 
-Intentional, like all the hw/display/*_template.h headers:
-they're included multiple times with various definitions
-of BITS to generate different functions. (Note that there's
-an item on the BiteSizedTasks page which suggests that
-we could clean up all of these because only the 32-bit
-case is used now that our display surfaces are always
-32-bits-per-pixel.)
+--=20
 
-> Raspberry Pi
-> M: Peter Maydell <peter.maydell@linaro.org>
-> R: Andrew Baumann <Andrew.Baumann@microsoft.com>
-> R: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> include/hw/arm/raspi_platform.h
+Thanks,
 
-Mistake, should have a guard.
-
-> PXA2XX
-> M: Andrzej Zaborowski <balrogg@gmail.com>
-> M: Peter Maydell <peter.maydell@linaro.org>
-> hw/display/pxa2xx_template.h
-
-Intentional, see above.
-
-> Xilinx ZynqMP
-> M: Alistair Francis <alistair@alistair23.me>
-> M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> M: Peter Maydell <peter.maydell@linaro.org>
-> include/hw/arm/xlnx-zynqmp.h
-> include/hw/display/xlnx_dp.h
-> include/hw/dma/xlnx-zynq-devcfg.h
-
-These all have guards in non-standard formats.
-
-> include/hw/timer/xlnx-zynqmp-rtc.h
-
-Mistake, should have a guard.
-
-> OMAP
-> M: Peter Maydell <peter.maydell@linaro.org>
-> hw/display/omap_lcd_template.h
-
-Intentional, see above.
-
-> include/hw/arm/omap.h
-
-Has a guard in a non-standard form.
-
-> UNMAINTAINED
-> ------------
-> hw/display/tc6393xb_template.h
-
-Intentional (see above)
-
-> include/hw/char/cadence_uart.h
-
-Another with a guard which isn't of a style your check
-detects.
-
-thanks
--- PMM
+David / dhildenb
 
