@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 793E82C412
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 12:14:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60304 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00682C407
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 12:11:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60263 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVZ7S-0000ZH-MH
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 06:14:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43501)
+	id 1hVZ4x-0006SV-Px
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 06:11:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43490)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVYtf-0006Ls-Ke
+	(envelope-from <alex.bennee@linaro.org>) id 1hVYtf-0006La-Cf
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 05:59:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVYtd-0005VU-6t
+	(envelope-from <alex.bennee@linaro.org>) id 1hVYtd-0005VG-6v
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 05:59:55 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37423)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36862)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hVYtb-0005PW-Ke
+	id 1hVYtc-0005Ro-NA
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 05:59:53 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 7so2130332wmo.2
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 02:59:49 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id s17so19513109wru.3
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 02:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=UBA4fyuukawa6NyY3EMbRa0S9sWgh2MoFLyBGNNyQyA=;
-	b=xtrf85r4OW79vw7dOJQKrjKoSeq+jGnAlgTcUXIJJQ1P2Yre7PhnctD0DniKwJLLCu
-	gbF4PsWOhvw0dhDZf8Bf1NQveNrTpYofoiGEmbRU8xqMCxoCb9DQOX/Sq/Fd/R0Y8meN
-	19m46I++of9x4u0xBop2/i6EHanIUyHPsm9ll2ijReA/I26gHPAiGTVbX3z0/cq8uePl
-	yrjonziw7Dwqgv1Vi34n98JOL+Lh15JfLcXpuA1PQWWF7HqR+YZQd4fKTD7njAs9rHsy
-	H+YSpVjBU1IHojAiFA47j8LSM5SiDY3hZuoZVnFBILI3zDp3BGeuF5xp+ROtLAx3+mQl
-	ki2g==
+	bh=MjTvC0r2KoMB7KYuxEeHeBHyLDrxtEdnIoGRAS++vz4=;
+	b=I8cKbxKSQ4+Ro34juVFQLToobn8yKzCR9vcnwe8ucOoUx+G+JnIkt7dUDdkb+HJYdB
+	n0/Y+4Htpn3gEVr8AkZ9dDl3dTYIUZ3sCqRVG4n/k+qL2IPw8GqxR0Y1pDk0HC0MqhbC
+	LNmzYnOmOtDfvhBV1DRs8OubhWSJsSMe89nyDGTtfUQ6S1Nmbj9vbhXdEY9NkYxeyow4
+	XrfLgsi9T1Hr6qijh8w4HiokmLZOzWO/eAFXQntVzFPB+FEZgsf4VuhhZLk6/wL9pvCB
+	3O9N3PwZqekI54w0W0L0MtL7LhGJWY/ERV+Q2LPkxfuya1ilH+smkezRyi7i/KdpCeuZ
+	AChA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=UBA4fyuukawa6NyY3EMbRa0S9sWgh2MoFLyBGNNyQyA=;
-	b=LwUR8neXNRVqHF/bTwPX4UFKZJQYSmsRoCojSvZgrpUXX1NMa+Of5r3trBoAlwmX0o
-	ZZPe96xBuIgWDBw0/nn1T2uW+IPbFTysLaWYQe4+0nu6Q3pSE42AaCQsYsCKJ7UrLB/B
-	XR4Sz6zpE9p8GE+MksB2AoSUFysNvz5qEKy/nC6JJz90KvHMMXoK6er+vuL0fa3Ooezz
-	nILebScbKK53qRDM27sDUWnowBKFj9nf5cgW4RD6W+FNHw/VZFsxPFBDQaq6mDW+4/gK
-	NZitaXAXw+esbivywJ9+JXTjB1wptzjP7gSIITvhCl7HuTdVZzzeZTZu5SSszpYvS2FS
-	X4FQ==
-X-Gm-Message-State: APjAAAXWGIv6nR0lZLTScxCcWB3H5MQX++2BWnbMnfN7Q0MFX9qxFUut
-	DjO15RnFo4bmxgR4gfZdpVmXceckNOM=
-X-Google-Smtp-Source: APXvYqzZ1ENzfYEEYIXpOd8TbK0XqEUSTxhXq1+Nj7sTkRqzVBJ1da3F0IQwwlqziI81TqwsKsGr9g==
-X-Received: by 2002:a1c:e90c:: with SMTP id q12mr2544688wmc.128.1559037588435; 
-	Tue, 28 May 2019 02:59:48 -0700 (PDT)
+	bh=MjTvC0r2KoMB7KYuxEeHeBHyLDrxtEdnIoGRAS++vz4=;
+	b=fZ0Dph7I4nlTG/aECLCLWGY9SJ6sUHjgxrikXfuR2TyVNlpukHlzzLfELolu5ciogj
+	mk59uU+m+qIl9BSbKTPW6Q+AF7rWALwMOg9F2UDQhEd2XkbwU1LsGSSNgusAnRxgfoqu
+	JNObbJjrv5WdeyRNgt4V2cOvf7f74RqEi7tPu//wu3/9DWDK2a4XgVhfV+hjawTRf5ZX
+	tKj6MNHF1vEnSlBfabdtvbEVhlJz4C2eZ4LX0EVdC29yFfDuWmRFpJ4oQbw8aiMluAcm
+	aGA/4xrSo9nj1tHOwCPk5Y3yp4vtqqePZpkysBWRfTgi5r+dNCYGxcJHWtLHuG6lBLau
+	0gEw==
+X-Gm-Message-State: APjAAAVDVcebRlA3U0jCkpGG6rOUvN9VAs90dBmNUXhYsIA0C+DzuyTn
+	5xtrxeF633lqnPEH5kE/7tHIMQ==
+X-Google-Smtp-Source: APXvYqzCz3pewNo2A88VnOuKxKGXhKuYmX1TIfTJtiY1CJmxdJAuRIMTyjnORPUvmqPVCG8W9AEVOA==
+X-Received: by 2002:adf:e301:: with SMTP id b1mr14338034wrj.304.1559037590343; 
+	Tue, 28 May 2019 02:59:50 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id a2sm7778741wrg.69.2019.05.28.02.59.47
+	by smtp.gmail.com with ESMTPSA id
+	t194sm3752055wmt.3.2019.05.28.02.59.47
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Tue, 28 May 2019 02:59:47 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 3BD1E1FFA6;
+	by zen.linaroharston (Postfix) with ESMTP id 57DF91FFA9;
 	Tue, 28 May 2019 10:49:55 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 28 May 2019 10:49:45 +0100
-Message-Id: <20190528094953.14898-21-alex.bennee@linaro.org>
+Date: Tue, 28 May 2019 10:49:46 +0100
+Message-Id: <20190528094953.14898-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190528094953.14898-1-alex.bennee@linaro.org>
 References: <20190528094953.14898-1-alex.bennee@linaro.org>
@@ -68,9 +69,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 20/28] tests/tcg/multiarch: expand system memory
- test to cover more
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PULL 21/28] tests/tcg/alpha: add system boot.S
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,529 +82,627 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Richard Henderson <richard.henderson@linaro.org>,
-	qemu-devel@nongnu.org, "open list:ARM" <qemu-arm@nongnu.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Richard Henderson <rth@twiddle.net>
+	qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expand the memory test to cover move of the softmmu code. Specifically
-we:
+From: Richard Henderson <richard.henderson@linaro.org>
 
-  - improve commentary
-  - add some helpers (for later BE support)
-  - reduce boiler plate into helpers
-  - add signed reads at various sizes/offsets
-  - required -DCHECK_UNALIGNED
+This provides the bootstrap and low level helper functions for an
+alpha kernel.  We use direct access to the DP264 serial port for
+test output, and hard machine halt to exit the emulation.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20190501184306.15208-1-richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index cdb836f7e1e..2e560e4d08e 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -28,5 +28,7 @@ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
- %: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
- 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc1178fe692..cf1158a434f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -470,6 +470,7 @@ M: Richard Henderson <rth@twiddle.net>
+ S: Maintained
+ F: hw/alpha/
+ F: hw/isa/smc37c669-superio.c
++F: tests/tcg/alpha/system/
  
-+memory: CFLAGS+=-DCHECK_UNALIGNED=1
+ ARM Machines
+ ------------
+diff --git a/tests/tcg/alpha/Makefile.softmmu-target b/tests/tcg/alpha/Makefile.softmmu-target
+new file mode 100644
+index 00000000000..3c0f34cc692
+--- /dev/null
++++ b/tests/tcg/alpha/Makefile.softmmu-target
+@@ -0,0 +1,34 @@
++#
++# Alpha system tests
++#
 +
- # Running
- QEMU_OPTS+=-M virt -cpu max -display none -semihosting-config enable=on,target=native,chardev=output -kernel
-diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
-index c31bbbf39a7..e1f98177aa5 100644
---- a/tests/tcg/i386/Makefile.softmmu-target
-+++ b/tests/tcg/i386/Makefile.softmmu-target
-@@ -42,5 +42,7 @@ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
- %: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
- 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
- 
-+memory: CFLAGS+=-DCHECK_UNALIGNED=1
++ALPHA_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/alpha/system
++VPATH+=$(ALPHA_SYSTEM_SRC)
 +
- # Running
- QEMU_OPTS+=-device isa-debugcon,chardev=output -device isa-debug-exit,iobase=0xf4,iosize=0x4 -kernel
-diff --git a/tests/tcg/multiarch/system/memory.c b/tests/tcg/multiarch/system/memory.c
-index a7a0a8e9784..dc1d8a98ff2 100644
---- a/tests/tcg/multiarch/system/memory.c
-+++ b/tests/tcg/multiarch/system/memory.c
-@@ -5,18 +5,33 @@
-  * behave across normal and unaligned accesses across several pages.
-  * We are not replicating memory tests for stuck bits and other
-  * hardware level failures but looking for issues with different size
-- * accesses when:
--
-+ * accesses when access is:
-  *
-+ *   - unaligned at various sizes (if -DCHECK_UNALIGNED set)
-+ *   - spanning a (softmmu) page
-+ *   - sign extension when loading
-  */
- 
- #include <inttypes.h>
-+#include <stdbool.h>
- #include <minilib.h>
- 
--#define TEST_SIZE (4096 * 4)  /* 4 pages */
-+#ifndef CHECK_UNALIGNED
-+# error "Target does not specify CHECK_UNALIGNED"
-+#endif
++# These objects provide the basic boot code and helper functions for all tests
++CRT_OBJS=boot.o
 +
-+#define PAGE_SIZE 4096             /* nominal 4k "pages" */
-+#define TEST_SIZE (PAGE_SIZE * 4)  /* 4 pages */
- 
-+#define ARRAY_SIZE(x) ((sizeof(x) / sizeof((x)[0])))
++ALPHA_TEST_SRCS=$(wildcard $(ALPHA_SYSTEM_SRC)/*.c)
++ALPHA_TESTS = $(patsubst $(ALPHA_SYSTEM_SRC)/%.c, %, $(ALPHA_TEST_SRCS))
 +
-+__attribute__((aligned(PAGE_SIZE)))
- static uint8_t test_data[TEST_SIZE];
- 
-+typedef void (*init_ufn) (int offset);
-+typedef bool (*read_ufn) (int offset);
-+typedef bool (*read_sfn) (int offset, bool nf);
++CRT_PATH=$(ALPHA_SYSTEM_SRC)
++LINK_SCRIPT=$(ALPHA_SYSTEM_SRC)/kernel.ld
++LDFLAGS=-Wl,-T$(LINK_SCRIPT)
++TESTS+=$(ALPHA_TESTS) $(MULTIARCH_TESTS)
++CFLAGS+=-nostdlib -g -O1 -mcpu=ev6 $(MINILIB_INC)
++LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
 +
- static void pdot(int count)
- {
-     if (count % 128 == 0) {
-@@ -24,17 +39,26 @@ static void pdot(int count)
-     }
- }
- 
++# building head blobs
++.PRECIOUS: $(CRT_OBJS)
++
++%.o: $(CRT_PATH)/%.S
++	$(CC) $(CFLAGS) -x assembler-with-cpp -c $< -o $@
++
++# Build and link the tests
++%: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
++	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
++
++memory: CFLAGS+=-DCHECK_UNALIGNED=0
++
++# Running
++QEMU_OPTS+=-serial chardev:output -kernel
+diff --git a/tests/tcg/alpha/system/boot.S b/tests/tcg/alpha/system/boot.S
+new file mode 100644
+index 00000000000..9791b1ef7c8
+--- /dev/null
++++ b/tests/tcg/alpha/system/boot.S
+@@ -0,0 +1,511 @@
 +/*
-+ * Helper macros for shift/extract so we can keep our endian handling
-+ * in one place.
-+ */
-+#define BYTE_SHIFT(b, pos) ((uint64_t)b << (pos * 8))
-+#define BYTE_EXTRACT(b, pos) ((b >> (pos * 8)) & 0xff)
- 
- /*
-- * Fill the data with ascending value bytes. As x86 is a LE machine we
-- * write in ascending order and then read and high byte should either
-- * be zero or higher than the lower bytes.
-+ * Fill the data with ascending value bytes.
++ * Minimal Alpha system boot code.
 + *
-+ * Currently we only support Little Endian machines so write in
-+ * ascending address order. When we read higher address bytes should
-+ * either be zero or higher than the lower bytes.
-  */
- 
--static void init_test_data_u8(void)
-+static void init_test_data_u8(int unused_offset)
- {
-     uint8_t count = 0, *ptr = &test_data[0];
-     int i;
-+    (void)(unused_offset);
- 
-     ml_printf("Filling test area with u8:");
-     for (i = 0; i < TEST_SIZE; i++) {
-@@ -44,62 +68,112 @@ static void init_test_data_u8(void)
-     ml_printf("done\n");
- }
- 
-+/*
-+ * Full the data with alternating positive and negative bytes. This
-+ * should mean for reads larger than a byte all subsequent reads will
-+ * stay either negative or positive. We never write 0.
++ * Copyright Linaro Ltd 2019
 + */
 +
-+static inline uint8_t get_byte(int index, bool neg)
-+{
-+    return neg ? (0xff << (index % 7)) : (0xff >> ((index % 6) + 1));
-+}
++	.set	noat
++	.set	nomacro
++	.arch	ev6
++	.text
 +
-+static void init_test_data_s8(bool neg_first)
-+{
-+    uint8_t top, bottom, *ptr = &test_data[0];
-+    int i;
++.macro load_pci_io reg
++	/* For typhoon, this is
++	 *   0xfffffc0000000000  -- kseg identity map
++	 * +      0x10000000000  -- typhoon pio base
++	 * +        0x1fc000000  -- typhoon pchip0 pci base
++	 * = 0xfffffd01fc000000
++	 */
++	ldah	\reg, -3		/* ff..fd0000 */
++	lda	\reg, 0x1fc(\reg)	/* ff..fd01fc */
++	sll	\reg, 24, \reg
++.endm
 +
-+    ml_printf("Filling test area with s8 pairs (%s):",
-+              neg_first ? "neg first" : "pos first");
-+    for (i = 0; i < TEST_SIZE / 2; i++) {
-+        *ptr++ = get_byte(i, neg_first);
-+        *ptr++ = get_byte(i, !neg_first);
-+        pdot(i);
-+    }
-+    ml_printf("done\n");
-+}
++#define com1Rbr 0x3f8
++#define com1Thr 0x3f8
++#define com1Ier 0x3f9
++#define com1Iir 0x3fa
++#define com1Lcr 0x3fb
++#define com1Mcr 0x3fc
++#define com1Lsr 0x3fd
++#define com1Msr 0x3fe
++#define com1Scr 0x3ff
++#define com1Dll 0x3f8
++#define com1Dlm 0x3f9
++
++#define PAL_halt    0
++#define PAL_wrent  52
++#define PAL_wrkgp  55
++
++	.text
++	.p2align 4
++	.globl	_start
++	.ent	_start
++_start:
++	br	$gp, .+4
++	ldah	$gp, 0($gp)		!gpdisp!1
++	lda	$gp, 0($gp)		!gpdisp!1
++
++	ldah	$sp, $stack_end($gp)	!gprelhigh
++	lda	$sp, $stack_end($sp)	!gprellow
++
++	/* Install kernel gp for exception handlers.  */
++	mov	$gp, $16
++	call_pal PAL_wrkgp
++
++	/* Install exception handlers.  */
++	ldah	$16, entInt($gp)	!gprelhigh
++	lda	$16, entInt($16)	!gprellow
++	lda	$17, 0
++	call_pal PAL_wrent
++
++	ldah	$16, entArith($gp)	!gprelhigh
++	lda	$16, entArith($16)	!gprellow
++	lda	$17, 1
++	call_pal PAL_wrent
++
++	ldah	$16, entMM($gp)		!gprelhigh
++	lda	$16, entMM($16)		!gprellow
++	lda	$17, 2
++	call_pal PAL_wrent
++
++	ldah	$16, entIF($gp)		!gprelhigh
++	lda	$16, entIF($16)		!gprellow
++	lda	$17, 3
++	call_pal PAL_wrent
++
++	ldah	$16, entUna($gp)	!gprelhigh
++	lda	$16, entUna($16)	!gprellow
++	lda	$17, 4
++	call_pal PAL_wrent
++
++	ldah	$16, entSys($gp)	!gprelhigh
++	lda	$16, entSys($16)	!gprellow
++	lda	$17, 5
++	call_pal PAL_wrent
++
++	/*
++	 * Initialize COM1.
++	 */
++	load_pci_io $1
++	lda	$2, 0x87		/* outb(0x87, com1Lcr); */
++	stb	$2, com1Lcr($1)
++	stb	$31, com1Dlm($1)	/* outb(0, com1Dlm); */
++	lda	$2, 3			/* baudconst 3 => 56000 */
++	stb	$2, com1Dll($1)		/* outb(baudconst, com1Dll); */
++	lda	$2, 0x07
++	stb	$2, com1Lcr($1)		/* outb(0x07, com1Lcr) */
++	lda	$2, 0x0f
++	stb	$2, com1Mcr($1)		/* outb(0x0f, com1Mcr) */
++
++	bsr	$26, main		!samegp
++
++	/* fall through to _exit */
++	.end	_start
++
++	.globl	_exit
++	.ent	_exit
++_exit:
++	.frame	$sp, 0, $26, 0
++	.prologue 0
++
++	/* We cannot return an error code.  */
++	call_pal PAL_halt
++	.end	_exit
 +
 +/*
-+ * Zero the first few bytes of the test data in preparation for
-+ * new offset values.
++ * We have received an exception that we don't handle.  Log and exit.
 + */
-+static void reset_start_data(int offset)
-+{
-+    uint32_t *ptr = (uint32_t *) &test_data[0];
-+    int i;
-+    for (i = 0; i < offset; i++) {
-+        *ptr++ = 0;
-+    }
-+}
++	.ent	log_exit
++log_exit:
++entInt:
++entArith:
++entMM:
++entIF:
++entUna:
++entSys:
++	ldah	$16, $errormsg($gp)	!gprelhigh
++	lda	$16, $errormsg($16)	!gprellow
++	bsr	$26, __sys_outs		!samegp
++	bsr	$26, _exit		!samegp
++	.end	log_exit
 +
- static void init_test_data_u16(int offset)
- {
-     uint8_t count = 0;
--    uint16_t word, *ptr = (uint16_t *) &test_data[0];
-+    uint16_t word, *ptr = (uint16_t *) &test_data[offset];
-     const int max = (TEST_SIZE - offset) / sizeof(word);
-     int i;
- 
--    ml_printf("Filling test area with u16 (offset %d):", offset);
-+    ml_printf("Filling test area with u16 (offset %d, %p):", offset, ptr);
- 
--    /* Leading zeros */
--    for (i = 0; i < offset; i++) {
--        *ptr = 0;
--    }
-+    reset_start_data(offset);
- 
--    ptr = (uint16_t *) &test_data[offset];
-     for (i = 0; i < max; i++) {
--        uint8_t high, low;
--        low = count++;
--        high = count++;
--        word = (high << 8) | low;
-+        uint8_t low = count++, high = count++;
-+        word = BYTE_SHIFT(high, 1) | BYTE_SHIFT(low, 0);
-         *ptr++ = word;
-         pdot(i);
-     }
--    ml_printf("done\n");
-+    ml_printf("done @ %p\n", ptr);
- }
- 
- static void init_test_data_u32(int offset)
- {
-     uint8_t count = 0;
--    uint32_t word, *ptr = (uint32_t *) &test_data[0];
-+    uint32_t word, *ptr = (uint32_t *) &test_data[offset];
-     const int max = (TEST_SIZE - offset) / sizeof(word);
-     int i;
- 
--    ml_printf("Filling test area with u32 (offset %d):", offset);
-+    ml_printf("Filling test area with u32 (offset %d, %p):", offset, ptr);
- 
--    /* Leading zeros */
--    for (i = 0; i < offset; i++) {
--        *ptr = 0;
--    }
-+    reset_start_data(offset);
- 
--    ptr = (uint32_t *) &test_data[offset];
-     for (i = 0; i < max; i++) {
--        uint8_t b1, b2, b3, b4;
--        b4 = count++;
--        b3 = count++;
--        b2 = count++;
--        b1 = count++;
--        word = (b1 << 24) | (b2 << 16) | (b3 << 8) | b4;
-+        uint8_t b4 = count++, b3 = count++;
-+        uint8_t b2 = count++, b1 = count++;
-+        word = BYTE_SHIFT(b1, 3) | BYTE_SHIFT(b2, 2) | BYTE_SHIFT(b3, 1) | b4;
-         *ptr++ = word;
-         pdot(i);
-     }
--    ml_printf("done\n");
-+    ml_printf("done @ %p\n", ptr);
- }
- 
-+static void init_test_data_u64(int offset)
-+{
-+    uint8_t count = 0;
-+    uint64_t word, *ptr = (uint64_t *) &test_data[offset];
-+    const int max = (TEST_SIZE - offset) / sizeof(word);
-+    int i;
++	.section .rodata
++$errormsg:
++	.string "Terminated by exception.\n"
++	.previous
 +
-+    ml_printf("Filling test area with u64 (offset %d, %p):", offset, ptr);
- 
--static int read_test_data_u16(int offset)
-+    reset_start_data(offset);
++	/*
++	 * Helper Functions
++	 */
 +
-+    for (i = 0; i < max; i++) {
-+        uint8_t b8 = count++, b7 = count++;
-+        uint8_t b6 = count++, b5 = count++;
-+        uint8_t b4 = count++, b3 = count++;
-+        uint8_t b2 = count++, b1 = count++;
-+        word = BYTE_SHIFT(b1, 7) | BYTE_SHIFT(b2, 6) | BYTE_SHIFT(b3, 5) |
-+               BYTE_SHIFT(b4, 4) | BYTE_SHIFT(b5, 3) | BYTE_SHIFT(b6, 2) |
-+               BYTE_SHIFT(b7, 1) | b8;
-+        *ptr++ = word;
-+        pdot(i);
-+    }
-+    ml_printf("done @ %p\n", ptr);
-+}
++	/* Output a single character to serial port */
++	.global __sys_outc
++	.ent	__sys_outc
++__sys_outc:
++	.frame	$sp, 0, $26, 0
++	.prologue 0
 +
-+static bool read_test_data_u16(int offset)
- {
-     uint16_t word, *ptr = (uint16_t *)&test_data[offset];
-     int i;
-@@ -114,17 +188,17 @@ static int read_test_data_u16(int offset)
-         low = word & 0xff;
-         if (high < low && high != 0) {
-             ml_printf("Error %d < %d\n", high, low);
--            return 1;
-+            return false;
-         } else {
-             pdot(i);
-         }
- 
-     }
--    ml_printf("done\n");
--    return 0;
-+    ml_printf("done @ %p\n", ptr);
-+    return true;
- }
- 
--static int read_test_data_u32(int offset)
-+static bool read_test_data_u32(int offset)
- {
-     uint32_t word, *ptr = (uint32_t *)&test_data[offset];
-     int i;
-@@ -145,16 +219,16 @@ static int read_test_data_u32(int offset)
-             (b2 < b3 && b2 != 0) ||
-             (b3 < b4 && b3 != 0)) {
-             ml_printf("Error %d, %d, %d, %d", b1, b2, b3, b4);
--            return 2;
-+            return false;
-         } else {
-             pdot(i);
-         }
-     }
--    ml_printf("done\n");
--    return 0;
-+    ml_printf("done @ %p\n", ptr);
-+    return true;
- }
- 
--static int read_test_data_u64(int offset)
-+static bool read_test_data_u64(int offset)
- {
-     uint64_t word, *ptr = (uint64_t *)&test_data[offset];
-     int i;
-@@ -184,60 +258,192 @@ static int read_test_data_u64(int offset)
-             (b7 < b8 && b7 != 0)) {
-             ml_printf("Error %d, %d, %d, %d, %d, %d, %d, %d",
-                       b1, b2, b3, b4, b5, b6, b7, b8);
--            return 2;
-+            return false;
-         } else {
-             pdot(i);
-         }
-     }
--    ml_printf("done\n");
--    return 0;
-+    ml_printf("done @ %p\n", ptr);
-+    return true;
- }
- 
- /* Read the test data and verify at various offsets */
--int do_reads(void)
-+read_ufn read_ufns[] = { read_test_data_u16,
-+                         read_test_data_u32,
-+                         read_test_data_u64 };
++	load_pci_io $1
 +
-+bool do_unsigned_reads(void)
- {
--    int r = 0;
--    int off = 0;
-+    int i;
-+    bool ok = true;
- 
--    while (r == 0 && off < 8) {
--        r = read_test_data_u16(off);
--        r |= read_test_data_u32(off);
--        r |= read_test_data_u64(off);
--        off++;
-+    for (i = 0; i < ARRAY_SIZE(read_ufns) && ok; i++) {
-+#if CHECK_UNALIGNED
-+        int off;
-+        for (off = 0; off < 8 && ok; off++) {
-+            ok = read_ufns[i](off);
-+        }
-+#else
-+        ok = read_ufns[i](0);
-+#endif
-     }
- 
--    return r;
-+    return ok;
- }
- 
--int main(void)
-+static bool do_unsigned_test(init_ufn fn)
- {
--    int i, r = 0;
-+#if CHECK_UNALIGNED
-+    bool ok = true;
-+    int i;
-+    for (i = 0; i < 8 && ok; i++) {
-+        fn(i);
-+        ok = do_unsigned_reads();
-+    }
-+#else
-+    fn(0);
-+    return do_unsigned_reads();
-+#endif
-+}
++	/* 
++	 * while ((inb(com1Lsr) & 0x20) == 0)
++	 *       continue;
++	 */
++1:	ldbu	$0, com1Lsr($1)
++	and	$0, 0x20, $0
++	beq	$0, 1b
++
++	/* outb(c, com1Thr); */
++	stb	$16, com1Thr($1)
++	ret
++	.end	__sys_outc
++
++	/* Output a nul-terminated string to serial port */
++	.global	__sys_outs
++	.ent	__sys_outs
++__sys_outs:
++	.frame	$sp, 0, $26, 0
++	.prologue 0
++
++	load_pci_io $1
++
++	ldbu	$2, 0($16)
++	beq	$2, 9f
++
++	/* 
++	 * while ((inb(com1Lsr) & 0x20) == 0)
++	 *       continue;
++	 */
++1:	ldbu	$0, com1Lsr($1)
++	and	$0, 0x20, $0
++	beq	$0, 1b
++
++	/* outb(c, com1Thr); */
++	stb	$2, com1Thr($1)
++
++	addq	$16, 1, $16
++	ldbu	$2, 0($16)
++	bne	$2, 1b
++
++9:	ret
++	.end	__sys_outs
 +
 +/*
-+ * We need to ensure signed data is read into a larger data type to
-+ * ensure that sign extension is working properly.
-+ */
-+
-+static bool read_test_data_s8(int offset, bool neg_first)
-+{
-+    int8_t *ptr = (int8_t *)&test_data[offset];
-+    int i;
-+    const int max = (TEST_SIZE - offset) / 2;
-+
-+    ml_printf("Reading s8 pairs from %#lx (offset %d):", ptr, offset);
-+
-+    for (i = 0; i < max; i++) {
-+        int16_t first, second;
-+        bool ok;
-+        first = *ptr++;
-+        second = *ptr++;
-+
-+        if (neg_first && first < 0 && second > 0) {
-+            pdot(i);
-+        } else if (!neg_first && first > 0 && second < 0) {
-+            pdot(i);
-+        } else {
-+            ml_printf("Error %d %c %d\n", first, neg_first ? '<' : '>', second);
-+            return false;
-+        }
-+    }
-+    ml_printf("done @ %p\n", ptr);
-+    return true;
-+}
-+
-+static bool read_test_data_s16(int offset, bool neg_first)
-+{
-+    int16_t *ptr = (int16_t *)&test_data[offset];
-+    int i;
-+    const int max = (TEST_SIZE - offset) / (sizeof(*ptr));
-+
-+    ml_printf("Reading s16 from %#lx (offset %d, %s):", ptr,
-+              offset, neg_first ? "neg" : "pos");
- 
-+    for (i = 0; i < max; i++) {
-+        int32_t data = *ptr++;
- 
--    init_test_data_u8();
--    r = do_reads();
--    if (r) {
--        return r;
-+        if (neg_first && data < 0) {
-+            pdot(i);
-+        } else if (data > 0) {
-+            pdot(i);
-+        } else {
-+            ml_printf("Error %d %c 0\n", data, neg_first ? '<' : '>');
-+            return false;
-+        }
-     }
-+    ml_printf("done @ %p\n", ptr);
-+    return true;
-+}
-+
-+static bool read_test_data_s32(int offset, bool neg_first)
-+{
-+    int32_t *ptr = (int32_t *)&test_data[offset];
-+    int i;
-+    const int max = (TEST_SIZE - offset) / (sizeof(int32_t));
- 
--    for (i = 0; i < 8; i++) {
--        init_test_data_u16(i);
-+    ml_printf("Reading s32 from %#lx (offset %d, %s):",
-+              ptr, offset, neg_first ? "neg" : "pos");
- 
--        r = do_reads();
--        if (r) {
--            return r;
-+    for (i = 0; i < max; i++) {
-+        int64_t data = *ptr++;
-+
-+        if (neg_first && data < 0) {
-+            pdot(i);
-+        } else if (data > 0) {
-+            pdot(i);
-+        } else {
-+            ml_printf("Error %d %c 0\n", data, neg_first ? '<' : '>');
-+            return false;
-         }
-     }
-+    ml_printf("done @ %p\n", ptr);
-+    return true;
-+}
- 
--    for (i = 0; i < 8; i++) {
--        init_test_data_u32(i);
-+/*
-+ * Read the test data and verify at various offsets
++ * Division routines that are normally in libc.
 + *
-+ * For everything except bytes all our reads should be either positive
-+ * or negative depending on what offset we are reading from. Currently
-+ * we only handle LE systems.
++ * These do not follow the C calling convention.  Arguments are in $24+$25,
++ * the result is in $27.  Register $28 may be clobbered; everything else
++ * must be saved.
++ *
++ * We store the remainder in $28, so that we can share code.
++ *
++ * We do not signal divide by zero.
 + */
-+read_sfn read_sfns[] = { read_test_data_s8,
-+                         read_test_data_s16,
-+                         read_test_data_s32 };
- 
--        r = do_reads();
--        if (r) {
--            return r;
-+bool do_signed_reads(bool neg_first)
++
++/*
++ * Unsigned 64-bit division.
++ */
++
++	.globl	__divqu
++	.ent	__divqu
++__divqu:
++	.frame	$sp, 48, $23
++	subq	$sp, 48, $sp
++	stq	$0, 0($sp)
++	stq	$1, 8($sp)
++	stq	$2, 16($sp)
++	stq	$3, 24($sp)
++	stq	$4, 32($sp)
++	.prologue 0
++
++#define mask     $0
++#define divisor  $1
++#define compare  $2
++#define tmp1     $3
++#define tmp2     $4
++#define quotient $27
++#define modulus  $28
++
++	mov	$24, modulus
++	mov	$25, divisor
++	mov	$31, quotient
++	mov	1, mask
++	beq	$25, 9f
++
++	/* Shift left until divisor >= modulus.  */
++1:	cmpult	divisor, modulus, compare
++	blt	divisor, 2f
++	addq	divisor, divisor, divisor
++	addq	mask, mask, mask
++	bne	compare, 1b
++
++2:	addq	quotient, mask, tmp2
++	srl	mask, 1, mask
++	cmpule	divisor, modulus, compare
++	subq	modulus, divisor, tmp1
++	cmovne	compare, tmp2, quotient
++	srl	divisor, 1, divisor
++	cmovne	compare, tmp1, modulus
++	bne	mask, 2b
++
++9:	ldq	$0, 0($sp)
++	ldq	$1, 8($sp)
++	ldq	$2, 16($sp)
++	ldq	$3, 24($sp)
++	ldq	$4, 32($sp)
++	addq	$sp, 48, $sp
++	ret	$31, ($23), 1
++
++#undef mask
++#undef divisor
++#undef compare
++#undef tmp1
++#undef tmp2
++#undef quotient
++#undef modulus
++
++	.end	__divqu
++
++/*
++ * Unsigned 64-bit remainder.
++ * Note that __divqu above leaves the result in $28.
++ */
++
++	.globl	__remqu
++	.ent	__remqu
++__remqu:
++	.frame	$sp, 16, $23
++	subq	$sp, 16, $sp
++	stq	$23, 0($sp)
++	.prologue 0
++
++	bsr	$23, __divqu
++
++	ldq	$23, 0($sp)
++	mov	$28, $27
++	addq	$sp, 16, $sp
++	ret	$31, ($23), 1
++	.end	__remqu
++
++/*
++ * Signed 64-bit division.
++ */
++
++	.globl	__divqs
++	.ent	__divqs
++__divqs:
++	.prologue 0
++
++	/* Common case: both arguments are positive.  */
++	bis	$24, $25, $28
++	bge	$28, __divqu
++
++	/* At least one argument is negative.  */
++	subq	$sp, 32, $sp
++	stq	$23, 0($sp)
++	stq	$24, 8($sp)
++	stq	$25, 16($sp)
++
++	/* Compute absolute values.  */
++	subq	$31, $24, $28
++	cmovlt	$24, $28, $24
++	subq	$31, $25, $28
++	cmovlt	$25, $28, $25
++
++	bsr	$23, __divqu
++
++	ldq	$24, 8($sp)
++	ldq	$25, 16($sp)
++
++	/* -a / b = a / -b = -(a / b) */
++	subq	$31, $27, $23
++	xor	$24, $25, $28
++	cmovlt	$28, $23, $27
++
++	ldq	$23, 0($sp)
++	addq	$sp, 32, $sp
++	ret	$31, ($23), 1
++	.end	__divqs
++
++/*
++ * Signed 64-bit remainder.
++ */
++
++	.globl	__remqs
++	.ent	__remqs
++__remqs:
++	.prologue 0
++
++	/* Common case: both arguments are positive.  */
++	bis	$24, $25, $28
++	bge	$28, __remqu
++
++	/* At least one argument is negative.  */
++	subq	$sp, 32, $sp
++	stq	$23, 0($sp)
++	stq	$24, 8($sp)
++	stq	$25, 16($sp)
++
++	/* Compute absolute values.  */
++	subq	$31, $24, $28
++	cmovlt	$24, $28, $24
++	subq	$31, $25, $28
++	cmovlt	$25, $28, $25
++
++	bsr	$23, __divqu
++
++	ldq	$23, 0($sp)
++	ldq	$24, 8($sp)
++	ldq	$25, 16($sp)
++
++	/* -a % b = -(a % b); a % -b = a % b.  */
++	subq	$31, $28, $27
++	cmovge	$24, $28, $27
++
++	addq	$sp, 32, $sp
++	ret	$31, ($23), 1
++	.end	__remqs
++
++/*
++ * Unsigned 32-bit division.
++ */
++
++	.globl	__divlu
++	.ent	__divlu
++__divlu:
++	.frame	$sp, 32, $23
++	subq	$sp, 32, $sp
++	stq	$23, 0($sp)
++	stq	$24, 8($sp)
++	stq	$25, 16($sp)
++	.prologue 0
++
++	/* Zero extend and use the 64-bit routine.  */
++	zap	$24, 0xf0, $24
++	zap	$25, 0xf0, $25
++	bsr	$23, __divqu
++
++	addl	$27, 0, $27
++	ldq	$23, 0($sp)
++	ldq	$24, 8($sp)
++	ldq	$25, 16($sp)
++	addq	$sp, 32, $sp
++	ret	$31, ($23), 1
++	.end	__divlu
++
++/*
++ * Unsigned 32-bit remainder.
++ */
++
++	.globl	__remlu
++	.ent	__remlu
++__remlu:
++	.frame	$sp, 32, $23
++	subq	$sp, 32, $sp
++	stq	$23, 0($sp)
++	stq	$24, 8($sp)
++	stq	$25, 16($sp)
++	.prologue 0
++
++	/* Zero extend and use the 64-bit routine.  */
++	zap	$24, 0xf0, $24
++	zap	$25, 0xf0, $25
++	bsr	$23, __divqu
++
++	/* Recall that the remainder is returned in $28.  */
++	addl	$28, 0, $27
++	ldq	$23, 0($sp)
++	ldq	$24, 8($sp)
++	ldq	$25, 16($sp)
++	addq	$sp, 32, $sp
++	ret	$31, ($23), 1
++	.end	__remlu
++
++/*
++ * Signed 32-bit division.
++ */
++
++	.globl	__divls
++	.ent	__divls
++__divls:
++	.frame	$sp, 32, $23
++	subq	$sp, 32, $sp
++	stq	$23, 0($sp)
++	stq	$24, 8($sp)
++	stq	$25, 16($sp)
++	.prologue 0
++
++	/* Sign extend.  */
++	addl	$24, 0, $24
++	addl	$25, 0, $25
++
++	/* Compute absolute values.  */
++	subq	$31, $24, $28
++	cmovlt	$24, $28, $24
++	subq	$31, $25, $28
++	cmovlt	$25, $28, $25
++
++	bsr	$23, __divqu
++
++	ldq	$24, 8($sp)
++	ldq	$25, 16($sp)
++
++	/* Negate the unsigned result, if necessary.  */
++	xor	$24, $25, $28
++	subl	$31, $27, $23
++	addl	$27, 0, $27
++	addl	$28, 0, $28
++	cmovlt	$28, $23, $27
++
++	ldq	$23, 0($sp)
++	addq	$sp, 32, $sp
++	ret	$31, ($23), 1
++	.end	__divls
++
++/*
++ * Signed 32-bit remainder.
++ */
++
++	.globl	__remls
++	.ent	__remls
++__remls:
++	.frame	$sp, 32, $23
++	subq	$sp, 32, $sp
++	stq	$23, 0($sp)
++	stq	$24, 8($sp)
++	stq	$25, 16($sp)
++	.prologue 0
++
++	/* Sign extend.  */
++	addl	$24, 0, $24
++	addl	$25, 0, $25
++
++	/* Compute absolute values.  */
++	subq	$31, $24, $28
++	cmovlt	$24, $28, $24
++	subq	$31, $25, $28
++	cmovlt	$25, $28, $25
++
++	bsr	$23, __divqu
++
++	ldq	$23, 0($sp)
++	ldq	$24, 8($sp)
++	ldq	$25, 16($sp)
++
++	/* Negate the unsigned result, if necessary.  */
++	subl	$31, $28, $27
++	addl	$28, 0, $28
++	cmovge	$24, $28, $27
++
++	addq	$sp, 32, $sp
++	ret	$31, ($23), 1
++	.end	__remls
++
++	.data
++	.p2align 4
++stack:
++	.skip	65536
++$stack_end:
++	.type	stack,@object
++	.size	stack, . - stack
+diff --git a/tests/tcg/alpha/system/kernel.ld b/tests/tcg/alpha/system/kernel.ld
+new file mode 100644
+index 00000000000..d2ac6ecfeb8
+--- /dev/null
++++ b/tests/tcg/alpha/system/kernel.ld
+@@ -0,0 +1,30 @@
++ENTRY(_start)
++
++SECTIONS
 +{
-+    int i;
-+    bool ok = true;
-+
-+    for (i = 0; i < ARRAY_SIZE(read_sfns) && ok; i++) {
-+#if CHECK_UNALIGNED
-+        int off;
-+        for (off = 0; off < 8 && ok; off++) {
-+            bool nf = i == 0 ? neg_first ^ (off & 1) : !(neg_first ^ (off & 1));
-+            ok = read_sfns[i](off, nf);
-         }
-+#else
-+        ok = read_sfns[i](0, i == 0 ? neg_first : !neg_first);
-+#endif
++    /* Linux kernel legacy start address.  */
++    . = 0xfffffc0000310000;
++    _text = .;
++    .text : {
++        *(.text)
 +    }
++    .rodata : {
++        *(.rodata)
++    }
++    _etext = .;
 +
-+    return ok;
++    . = ALIGN(8192);
++    _data = .;
++    .got : {
++        *(.got)
++    }
++    .data : {
++	*(.sdata)
++        *(.data)
++    }
++    _edata = .;
++    .bss : {
++        *(.bss)
++    }
++    _end = .;
 +}
-+
-+init_ufn init_ufns[] = { init_test_data_u8,
-+                         init_test_data_u16,
-+                         init_test_data_u32,
-+                         init_test_data_u64 };
-+
-+int main(void)
-+{
-+    int i;
-+    bool ok = true;
-+
-+    /* Run through the unsigned tests first */
-+    for (i = 0; i < ARRAY_SIZE(init_ufns) && ok; i++) {
-+        ok = do_unsigned_test(init_ufns[i]);
-+    }
-+
-+    if (ok) {
-+        init_test_data_s8(false);
-+        ok = do_signed_reads(false);
-+    }
-+
-+    if (ok) {
-+        init_test_data_s8(true);
-+        ok = do_signed_reads(true);
-     }
- 
--    ml_printf("Test complete: %s\n", r == 0 ? "PASSED" : "FAILED");
--    return r;
-+    ml_printf("Test complete: %s\n", ok ? "PASSED" : "FAILED");
-+    return ok ? 0 : -1;
- }
 -- 
 2.20.1
 
