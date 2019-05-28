@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8582C60C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 14:03:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33677 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104CD2C60E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 14:04:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33681 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVaor-0006Wa-PI
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 08:03:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46521)
+	id 1hVapn-0007KA-8s
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 08:04:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46512)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVan0-0005lQ-RW
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:01:15 -0400
+	(envelope-from <bounces@canonical.com>) id 1hVamy-0005kJ-S0
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:01:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVamv-0000R3-1z
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:01:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52630)
+	(envelope-from <bounces@canonical.com>) id 1hVamw-0000Xc-Uo
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:01:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52632)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hVamu-0000N8-Te
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:01:05 -0400
+	id 1hVamu-0000NI-W1
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 08:01:06 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hVamr-0000MA-Mc
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 12:01:01 +0000
+	id 1hVams-0000M7-0e
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 12:01:02 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id A23E62E80CC
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 12:01:01 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 03EF02E804B
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 12:01:02 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 May 2019 11:50:29 -0000
+Date: Tue, 28 May 2019 11:51:52 -0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,13 +43,13 @@ X-Launchpad-Bug-Commenters: dgilbert-h nevilad
 X-Launchpad-Bug-Reporter: Alex (nevilad)
 X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
 References: <155792850856.14868.18260779757728395853.malonedeb@gac.canonical.com>
-Message-Id: <155904422925.16310.18215095693128819115.malone@chaenomeles.canonical.com>
+Message-Id: <155904431271.25407.18410042062164795094.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18968";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 34972816d2a4c52601a2bb14ea3be6fb03489f7d
+X-Launchpad-Hash: 69a2428c0fda1e5bc33bf15ebdc2da2383ebfc3d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1829242] Re: qemu on windows host exits after
