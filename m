@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4583E2CFC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:48:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41778 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F862CFB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:44:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41700 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVi5H-0006zS-E3
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:48:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37046)
+	id 1hVi0v-0003bj-QG
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:44:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37041)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhoB-0001dk-6r
+	(envelope-from <mreitz@redhat.com>) id 1hVhoA-0001dT-W1
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVho6-00023n-D0
+	(envelope-from <mreitz@redhat.com>) id 1hVho6-00023u-E4
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:4098)
+Received: from mx1.redhat.com ([209.132.183.28]:50982)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hVhnX-0000N9-IR; Tue, 28 May 2019 15:30:12 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	id 1hVhns-0000Po-Ml; Tue, 28 May 2019 15:30:34 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2AFDAC05D419;
-	Tue, 28 May 2019 19:29:09 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8B8F59FDE7;
+	Tue, 28 May 2019 19:29:11 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.223])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CD215D6A9;
-	Tue, 28 May 2019 19:29:08 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 248B560C47;
+	Tue, 28 May 2019 19:29:10 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 28 May 2019 21:28:34 +0200
-Message-Id: <20190528192847.2730-9-mreitz@redhat.com>
+Date: Tue, 28 May 2019 21:28:35 +0200
+Message-Id: <20190528192847.2730-10-mreitz@redhat.com>
 In-Reply-To: <20190528192847.2730-1-mreitz@redhat.com>
 References: <20190528192847.2730-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Tue, 28 May 2019 19:29:09 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.39]);
+	Tue, 28 May 2019 19:29:11 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 08/21] qcow2: do encryption in threads
+Subject: [Qemu-devel] [PULL 09/21] block/backup: simplify
+ backup_incremental_init_copy_bitmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,215 +63,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Do encryption/decryption in threads, like it is already done for
-compression. This improves asynchronous encrypted io.
+Simplify backup_incremental_init_copy_bitmap using the function
+bdrv_dirty_bitmap_next_dirty_area.
+
+Note: move to job->len instead of bitmap size: it should not matter but
+less code.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190506142741.41731-9-vsementsov@virtuozzo.com
+Message-id: 20190429090842.57910-2-vsementsov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.h         |  8 ++++++
- block/qcow2-cluster.c |  7 ++---
- block/qcow2-threads.c | 65 +++++++++++++++++++++++++++++++++++++++++--
- block/qcow2.c         | 22 +++++----------
- 4 files changed, 81 insertions(+), 21 deletions(-)
+ block/backup.c | 40 ++++++++++++----------------------------
+ 1 file changed, 12 insertions(+), 28 deletions(-)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 637552e137..e873ae5d12 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -268,6 +268,8 @@ typedef struct Qcow2BitmapHeaderExt {
-     uint64_t bitmap_directory_offset;
- } QEMU_PACKED Qcow2BitmapHeaderExt;
-=20
-+#define QCOW2_MAX_THREADS 4
-+
- typedef struct BDRVQcow2State {
-     int cluster_bits;
-     int cluster_size;
-@@ -744,5 +746,11 @@ qcow2_co_compress(BlockDriverState *bs, void *dest, =
-size_t dest_size,
- ssize_t coroutine_fn
- qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
-                     const void *src, size_t src_size);
-+int coroutine_fn
-+qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                 uint64_t offset, void *buf, size_t len);
-+int coroutine_fn
-+qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                 uint64_t offset, void *buf, size_t len);
-=20
- #endif
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index a4c878398e..4a929900cf 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -471,13 +471,12 @@ static bool coroutine_fn do_perform_cow_encrypt(Blo=
-ckDriverState *bs,
+diff --git a/block/backup.c b/block/backup.c
+index 916817d8b1..db83b09a0b 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -394,43 +394,27 @@ static int coroutine_fn backup_run_incremental(Back=
+upBlockJob *job)
+ /* init copy_bitmap from sync_bitmap */
+ static void backup_incremental_init_copy_bitmap(BackupBlockJob *job)
  {
-     if (bytes && bs->encrypted) {
-         BDRVQcow2State *s =3D bs->opaque;
--        int64_t offset =3D (s->crypt_physical_offset ?
--                          (cluster_offset + offset_in_cluster) :
--                          (src_cluster_offset + offset_in_cluster));
-         assert((offset_in_cluster & ~BDRV_SECTOR_MASK) =3D=3D 0);
-         assert((bytes & ~BDRV_SECTOR_MASK) =3D=3D 0);
-         assert(s->crypto);
--        if (qcrypto_block_encrypt(s->crypto, offset, buffer, bytes, NULL=
-) < 0) {
-+        if (qcow2_co_encrypt(bs, cluster_offset,
-+                             src_cluster_offset + offset_in_cluster,
-+                             buffer, bytes) < 0) {
-             return false;
-         }
-     }
-diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-index 650aa2ed19..3b1e63fe41 100644
---- a/block/qcow2-threads.c
-+++ b/block/qcow2-threads.c
-@@ -30,8 +30,7 @@
-=20
- #include "qcow2.h"
- #include "block/thread-pool.h"
+-    BdrvDirtyBitmapIter *dbi;
+-    int64_t offset;
+-    int64_t end =3D DIV_ROUND_UP(bdrv_dirty_bitmap_size(job->sync_bitmap=
+),
+-                               job->cluster_size);
 -
--#define QCOW2_MAX_THREADS 4
-+#include "crypto.h"
+-    dbi =3D bdrv_dirty_iter_new(job->sync_bitmap);
+-    while ((offset =3D bdrv_dirty_iter_next(dbi)) !=3D -1) {
+-        int64_t cluster =3D offset / job->cluster_size;
+-        int64_t next_cluster;
+-
+-        offset +=3D bdrv_dirty_bitmap_granularity(job->sync_bitmap);
+-        if (offset >=3D bdrv_dirty_bitmap_size(job->sync_bitmap)) {
+-            hbitmap_set(job->copy_bitmap, cluster, end - cluster);
+-            break;
+-        }
++    uint64_t offset =3D 0;
++    uint64_t bytes =3D job->len;
 =20
- static int coroutine_fn
- qcow2_co_process(BlockDriverState *bs, ThreadPoolFunc *func, void *arg)
-@@ -205,3 +204,65 @@ qcow2_co_decompress(BlockDriverState *bs, void *dest=
-, size_t dest_size,
-     return qcow2_co_do_compress(bs, dest, dest_size, src, src_size,
-                                 qcow2_decompress);
+-        offset =3D bdrv_dirty_bitmap_next_zero(job->sync_bitmap, offset,
+-                                             UINT64_MAX);
+-        if (offset =3D=3D -1) {
+-            hbitmap_set(job->copy_bitmap, cluster, end - cluster);
+-            break;
+-        }
++    while (bdrv_dirty_bitmap_next_dirty_area(job->sync_bitmap,
++                                             &offset, &bytes))
++    {
++        uint64_t cluster =3D offset / job->cluster_size;
++        uint64_t end_cluster =3D DIV_ROUND_UP(offset + bytes, job->clust=
+er_size);
+=20
+-        next_cluster =3D DIV_ROUND_UP(offset, job->cluster_size);
+-        hbitmap_set(job->copy_bitmap, cluster, next_cluster - cluster);
+-        if (next_cluster >=3D end) {
++        hbitmap_set(job->copy_bitmap, cluster, end_cluster - cluster);
++
++        offset =3D end_cluster * job->cluster_size;
++        if (offset >=3D job->len) {
+             break;
+         }
+-
+-        bdrv_set_dirty_iter(dbi, next_cluster * job->cluster_size);
++        bytes =3D job->len - offset;
+     }
+=20
+     /* TODO job_progress_set_remaining() would make more sense */
+     job_progress_update(&job->common.job,
+         job->len - hbitmap_count(job->copy_bitmap) * job->cluster_size);
+-
+-    bdrv_dirty_iter_free(dbi);
  }
-+
-+
-+/*
-+ * Cryptography
-+ */
-+
-+/*
-+ * Qcow2EncDecFunc: common prototype of qcrypto_block_encrypt() and
-+ * qcrypto_block_decrypt() functions.
-+ */
-+typedef int (*Qcow2EncDecFunc)(QCryptoBlock *block, uint64_t offset,
-+                               uint8_t *buf, size_t len, Error **errp);
-+
-+typedef struct Qcow2EncDecData {
-+    QCryptoBlock *block;
-+    uint64_t offset;
-+    uint8_t *buf;
-+    size_t len;
-+
-+    Qcow2EncDecFunc func;
-+} Qcow2EncDecData;
-+
-+static int qcow2_encdec_pool_func(void *opaque)
-+{
-+    Qcow2EncDecData *data =3D opaque;
-+
-+    return data->func(data->block, data->offset, data->buf, data->len, N=
-ULL);
-+}
-+
-+static int coroutine_fn
-+qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                  uint64_t offset, void *buf, size_t len, Qcow2EncDecFun=
-c func)
-+{
-+    BDRVQcow2State *s =3D bs->opaque;
-+    Qcow2EncDecData arg =3D {
-+        .block =3D s->crypto,
-+        .offset =3D s->crypt_physical_offset ?
-+                      file_cluster_offset + offset_into_cluster(s, offse=
-t) :
-+                      offset,
-+        .buf =3D buf,
-+        .len =3D len,
-+        .func =3D func,
-+    };
-+
-+    return qcow2_co_process(bs, qcow2_encdec_pool_func, &arg);
-+}
-+
-+int coroutine_fn
-+qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                 uint64_t offset, void *buf, size_t len)
-+{
-+    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
-+                             qcrypto_block_encrypt);
-+}
-+
-+int coroutine_fn
-+qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                 uint64_t offset, void *buf, size_t len)
-+{
-+    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
-+                             qcrypto_block_decrypt);
-+}
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 4b4a0ce6e0..dea765b2f4 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -297,7 +297,7 @@ static int qcow2_read_extensions(BlockDriverState *bs=
-, uint64_t start_offset,
-             }
-             s->crypto =3D qcrypto_block_open(s->crypto_opts, "encrypt.",
-                                            qcow2_crypto_hdr_read_func,
--                                           bs, cflags, 1, errp);
-+                                           bs, cflags, QCOW2_MAX_THREADS=
-, errp);
-             if (!s->crypto) {
-                 return -EINVAL;
-             }
-@@ -1538,7 +1538,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverSt=
-ate *bs, QDict *options,
-                 cflags |=3D QCRYPTO_BLOCK_OPEN_NO_IO;
-             }
-             s->crypto =3D qcrypto_block_open(s->crypto_opts, "encrypt.",
--                                           NULL, NULL, cflags, 1, errp);
-+                                           NULL, NULL, cflags,
-+                                           QCOW2_MAX_THREADS, errp);
-             if (!s->crypto) {
-                 ret =3D -EINVAL;
-                 goto fail;
-@@ -2061,13 +2062,8 @@ static coroutine_fn int qcow2_co_preadv(BlockDrive=
-rState *bs, uint64_t offset,
-                 assert(s->crypto);
-                 assert((offset & (BDRV_SECTOR_SIZE - 1)) =3D=3D 0);
-                 assert((cur_bytes & (BDRV_SECTOR_SIZE - 1)) =3D=3D 0);
--                if (qcrypto_block_decrypt(s->crypto,
--                                          (s->crypt_physical_offset ?
--                                           cluster_offset + offset_in_cl=
-uster :
--                                           offset),
--                                          cluster_data,
--                                          cur_bytes,
--                                          NULL) < 0) {
-+                if (qcow2_co_decrypt(bs, cluster_offset, offset,
-+                                     cluster_data, cur_bytes) < 0) {
-                     ret =3D -EIO;
-                     goto fail;
-                 }
-@@ -2201,12 +2197,8 @@ static coroutine_fn int qcow2_co_pwritev(BlockDriv=
-erState *bs, uint64_t offset,
-                    QCOW_MAX_CRYPT_CLUSTERS * s->cluster_size);
-             qemu_iovec_to_buf(&hd_qiov, 0, cluster_data, hd_qiov.size);
 =20
--            if (qcrypto_block_encrypt(s->crypto,
--                                      (s->crypt_physical_offset ?
--                                       cluster_offset + offset_in_cluste=
-r :
--                                       offset),
--                                      cluster_data,
--                                      cur_bytes, NULL) < 0) {
-+            if (qcow2_co_encrypt(bs, cluster_offset, offset,
-+                                 cluster_data, cur_bytes) < 0) {
-                 ret =3D -EIO;
-                 goto out_unlocked;
-             }
+ static int coroutine_fn backup_run(Job *job, Error **errp)
 --=20
 2.21.0
 
