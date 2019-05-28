@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290C22CFCB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:52:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41842 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4FD2CFA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:40:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41622 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVi8k-0001Rf-Cu
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:52:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37587)
+	id 1hVhxT-0008L8-M2
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:40:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36876)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhpN-0002bS-AO
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:32:06 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hVhnj-0001LL-9L
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhpM-0002sp-2Z
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:32:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42154)
+	(envelope-from <mreitz@redhat.com>) id 1hVhnY-0001Vm-2c
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53586)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hVhpH-0000ic-1X; Tue, 28 May 2019 15:31:59 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	id 1hVhnR-0000vM-Uj; Tue, 28 May 2019 15:30:06 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4D8FE307E040;
-	Tue, 28 May 2019 19:29:22 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B1F5981E1D;
+	Tue, 28 May 2019 19:29:24 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.223])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D825C1001DD7;
-	Tue, 28 May 2019 19:29:19 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4670D5C8A3;
+	Tue, 28 May 2019 19:29:24 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 28 May 2019 21:28:38 +0200
-Message-Id: <20190528192847.2730-13-mreitz@redhat.com>
+Date: Tue, 28 May 2019 21:28:39 +0200
+Message-Id: <20190528192847.2730-14-mreitz@redhat.com>
 In-Reply-To: <20190528192847.2730-1-mreitz@redhat.com>
 References: <20190528192847.2730-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
+	(mx1.redhat.com [10.5.110.25]);
 	Tue, 28 May 2019 19:29:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 12/21] block/backup: unify different modes code
- path
+Subject: [Qemu-devel] [PULL 13/21] block/backup: refactor: split out
+ backup_calculate_cluster_size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,98 +63,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Do full, top and incremental mode copying all in one place. This
-unifies the code path and helps further improvements.
+Split out cluster_size calculation. Move copy-bitmap creation above
+block-job creation, as we are going to share it with upcoming
+backup-top filter, which also should be created before actual block job
+creation.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190429090842.57910-5-vsementsov@virtuozzo.com
+Message-id: 20190429090842.57910-6-vsementsov@virtuozzo.com
+[mreitz: Dropped a paragraph from the commit message that was left over
+         from a previous version]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/backup.c | 43 ++++++++++---------------------------------
- 1 file changed, 10 insertions(+), 33 deletions(-)
+ block/backup.c | 82 ++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 52 insertions(+), 30 deletions(-)
 
 diff --git a/block/backup.c b/block/backup.c
-index 78f1b79354..5b3fc9d123 100644
+index 5b3fc9d123..00f4f8af53 100644
 --- a/block/backup.c
 +++ b/block/backup.c
-@@ -384,15 +384,23 @@ static bool bdrv_is_unallocated_range(BlockDriverSt=
-ate *bs,
-     return offset >=3D end;
- }
+@@ -497,6 +497,42 @@ static const BlockJobDriver backup_job_driver =3D {
+     .drain                  =3D backup_drain,
+ };
 =20
--static int coroutine_fn backup_run_incremental(BackupBlockJob *job)
-+static int coroutine_fn backup_loop(BackupBlockJob *job)
- {
-     int ret;
-     bool error_is_read;
-     int64_t offset;
-     HBitmapIter hbi;
-+    BlockDriverState *bs =3D blk_bs(job->common.blk);
-=20
-     hbitmap_iter_init(&hbi, job->copy_bitmap, 0);
-     while ((offset =3D hbitmap_iter_next(&hbi)) !=3D -1) {
-+        if (job->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP &&
-+            bdrv_is_unallocated_range(bs, offset, job->cluster_size))
-+        {
-+            hbitmap_reset(job->copy_bitmap, offset, job->cluster_size);
-+            continue;
-+        }
++static int64_t backup_calculate_cluster_size(BlockDriverState *target,
++                                             Error **errp)
++{
++    int ret;
++    BlockDriverInfo bdi;
 +
-         do {
-             if (yield_and_check(job)) {
-                 return 0;
-@@ -437,7 +445,6 @@ static int coroutine_fn backup_run(Job *job, Error **=
-errp)
++    /*
++     * If there is no backing file on the target, we cannot rely on COW =
+if our
++     * backup cluster size is smaller than the target cluster size. Even=
+ for
++     * targets with a backing file, try to avoid COW if possible.
++     */
++    ret =3D bdrv_get_info(target, &bdi);
++    if (ret =3D=3D -ENOTSUP && !target->backing) {
++        /* Cluster size is not defined */
++        warn_report("The target block device doesn't provide "
++                    "information about the block size and it doesn't hav=
+e a "
++                    "backing file. The default block size of %u bytes is=
+ "
++                    "used. If the actual block size of the target exceed=
+s "
++                    "this default, the backup may be unusable",
++                    BACKUP_CLUSTER_SIZE_DEFAULT);
++        return BACKUP_CLUSTER_SIZE_DEFAULT;
++    } else if (ret < 0 && !target->backing) {
++        error_setg_errno(errp, -ret,
++            "Couldn't determine the cluster size of the target image, "
++            "which has no backing file");
++        error_append_hint(errp,
++            "Aborting, since this may create an unusable destination ima=
+ge\n");
++        return ret;
++    } else if (ret < 0 && target->backing) {
++        /* Not fatal; just trudge on ahead. */
++        return BACKUP_CLUSTER_SIZE_DEFAULT;
++    }
++
++    return MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.cluster_size);
++}
++
+ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+                   BlockDriverState *target, int64_t speed,
+                   MirrorSyncMode sync_mode, BdrvDirtyBitmap *sync_bitmap=
+,
+@@ -508,9 +544,10 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
+kDriverState *bs,
+                   JobTxn *txn, Error **errp)
  {
-     BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.job);
-     BlockDriverState *bs =3D blk_bs(s->common.blk);
--    int64_t offset;
-     int ret =3D 0;
+     int64_t len;
+-    BlockDriverInfo bdi;
+     BackupBlockJob *job =3D NULL;
+     int ret;
++    int64_t cluster_size;
++    HBitmap *copy_bitmap =3D NULL;
 =20
-     QLIST_INIT(&s->inflight_reqs);
-@@ -462,38 +469,8 @@ static int coroutine_fn backup_run(Job *job, Error *=
-*errp)
-              * notify callback service CoW requests. */
-             job_yield(job);
-         }
--    } else if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_INCREMENTAL) {
--        ret =3D backup_run_incremental(s);
-     } else {
--        /* Both FULL and TOP SYNC_MODE's require copying.. */
--        for (offset =3D 0; offset < s->len;
--             offset +=3D s->cluster_size) {
--            bool error_is_read;
--
--            if (yield_and_check(s)) {
--                break;
--            }
--
--            if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP &&
--                bdrv_is_unallocated_range(bs, offset, s->cluster_size))
--            {
--                continue;
--            }
--
--            ret =3D backup_do_cow(s, offset, s->cluster_size,
--                                &error_is_read, false);
--            if (ret < 0) {
--                /* Depending on error action, fail now or retry cluster =
-*/
--                BlockErrorAction action =3D
--                    backup_error_action(s, error_is_read, -ret);
--                if (action =3D=3D BLOCK_ERROR_ACTION_REPORT) {
--                    break;
--                } else {
--                    offset -=3D s->cluster_size;
--                    continue;
--                }
--            }
--        }
-+        ret =3D backup_loop(s);
+     assert(bs);
+     assert(target);
+@@ -572,6 +609,13 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
+kDriverState *bs,
+         goto error;
      }
 =20
-     notifier_with_return_remove(&s->before_write);
++    cluster_size =3D backup_calculate_cluster_size(target, errp);
++    if (cluster_size < 0) {
++        goto error;
++    }
++
++    copy_bitmap =3D hbitmap_alloc(len, ctz32(cluster_size));
++
+     /* job->len is fixed, so we can't allow resize */
+     job =3D block_job_create(job_id, &backup_job_driver, txn, bs,
+                            BLK_PERM_CONSISTENT_READ,
+@@ -600,35 +644,9 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
+kDriverState *bs,
+=20
+     /* Detect image-fleecing (and similar) schemes */
+     job->serialize_target_writes =3D bdrv_chain_contains(target, bs);
+-
+-    /* If there is no backing file on the target, we cannot rely on COW =
+if our
+-     * backup cluster size is smaller than the target cluster size. Even=
+ for
+-     * targets with a backing file, try to avoid COW if possible. */
+-    ret =3D bdrv_get_info(target, &bdi);
+-    if (ret =3D=3D -ENOTSUP && !target->backing) {
+-        /* Cluster size is not defined */
+-        warn_report("The target block device doesn't provide "
+-                    "information about the block size and it doesn't hav=
+e a "
+-                    "backing file. The default block size of %u bytes is=
+ "
+-                    "used. If the actual block size of the target exceed=
+s "
+-                    "this default, the backup may be unusable",
+-                    BACKUP_CLUSTER_SIZE_DEFAULT);
+-        job->cluster_size =3D BACKUP_CLUSTER_SIZE_DEFAULT;
+-    } else if (ret < 0 && !target->backing) {
+-        error_setg_errno(errp, -ret,
+-            "Couldn't determine the cluster size of the target image, "
+-            "which has no backing file");
+-        error_append_hint(errp,
+-            "Aborting, since this may create an unusable destination ima=
+ge\n");
+-        goto error;
+-    } else if (ret < 0 && target->backing) {
+-        /* Not fatal; just trudge on ahead. */
+-        job->cluster_size =3D BACKUP_CLUSTER_SIZE_DEFAULT;
+-    } else {
+-        job->cluster_size =3D MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.clust=
+er_size);
+-    }
+-
+-    job->copy_bitmap =3D hbitmap_alloc(len, ctz32(job->cluster_size));
++    job->cluster_size =3D cluster_size;
++    job->copy_bitmap =3D copy_bitmap;
++    copy_bitmap =3D NULL;
+     job->use_copy_range =3D true;
+     job->copy_range_size =3D MIN_NON_ZERO(blk_get_max_transfer(job->comm=
+on.blk),
+                                         blk_get_max_transfer(job->target=
+));
+@@ -644,6 +662,10 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
+kDriverState *bs,
+     return &job->common;
+=20
+  error:
++    if (copy_bitmap) {
++        assert(!job || !job->copy_bitmap);
++        hbitmap_free(copy_bitmap);
++    }
+     if (sync_bitmap) {
+         bdrv_reclaim_dirty_bitmap(bs, sync_bitmap, NULL);
+     }
 --=20
 2.21.0
 
