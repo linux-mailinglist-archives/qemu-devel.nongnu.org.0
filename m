@@ -2,77 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22D72C81F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 15:49:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35313 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE0C2C826
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 15:53:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35408 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVcUI-0001KI-Ql
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 09:49:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39395)
+	id 1hVcXm-0003J6-7P
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 09:53:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40652)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVcSF-0000S1-Bv
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 09:47:53 -0400
+	(envelope-from <philmd@redhat.com>) id 1hVcWl-00031A-A6
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 09:52:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVcSD-0005o2-TF
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 09:47:51 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41614)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hVcSD-0005mI-Bk
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 09:47:49 -0400
-Received: by mail-wr1-x436.google.com with SMTP id c2so5118558wrm.8
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 06:47:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=VLCldtEGKqTS4y5qeXekmu9jpR1ycQVuh7obOtg44nM=;
-	b=yqil+TFkXAea8o6dDNeeFh1PB48FXWVx2G6wucm2gQdpWCIKRc6QT6U3BOh8bjnEMW
-	bFrWlf72fAQDQ9kC2yHoYfs9fEwBT22JPYxwVXbImPZy+y5PVolx70SQn1LwcYMxJXvm
-	/DiZbXR90feMyX9Zcglpo1/CrvfkUFnu1V1Upp8eCmwYPFaDTfV99A2xSoyj4DXJtqRj
-	Z8BGVTesnseumJYgheiQLjvMJ6D9DP8cCwF2xxob5+LTYJz4nOsJvKlMDz/DfdsW7dUw
-	sMndG2cY2M48y2eKa3w6xQf3PL7+WsK4BfBTvcaUzbbAFeAk5d/SmxF16pN7oD46hwIT
-	NSNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=VLCldtEGKqTS4y5qeXekmu9jpR1ycQVuh7obOtg44nM=;
-	b=Fz3UoCdVChgajha3K0EfeZS3srVRvBBW0BHFlDKJpiA2ikLCfQX6shWwJfTG6dYLsX
-	w4rGGxynJwosEaJi+UMRUSn9ld+C9Z3Itni9fNfe3vxD/7YuczDVU+yLdYjN6+Ne+M0w
-	igTEwczzdRSma7sm7ylxduaWFAOSF2kD7o5ZAwiQDA9yVjkaMizQHo4QNnXP3oUKCtj2
-	kG/h/YjAPj+mF7aYi1VfHLtlDtTjVTEyN2LtKeSXgt8mxnyrsIngm40KoHgQeVWSMsxm
-	zmxJsdN5DTllfvu8V72RTfdA9YQpG+mYopGGyA7Xdtfs45VOoi9+1lhK5SrVlBLc/+JH
-	TeiQ==
-X-Gm-Message-State: APjAAAV3tcONTVhO6j+2o5p38POqLUfCdyVbR7ClmJIQBtfM5goTsx/u
-	bb8/4InaGa7KQEJgLdBdqEN9WQ==
-X-Google-Smtp-Source: APXvYqzNPbbHhcsjHNQK7uH/nC88smcZNMHHlggQzPDsE8lkO01vcJ5sO/tIsq9MTmJ18LqfwQXCXQ==
-X-Received: by 2002:a5d:6849:: with SMTP id o9mr25618714wrw.196.1559051267678; 
-	Tue, 28 May 2019 06:47:47 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	h14sm11805170wro.3.2019.05.28.06.47.46
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 28 May 2019 06:47:47 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id A101D1FF87;
-	Tue, 28 May 2019 14:47:46 +0100 (BST)
-References: <20190528094953.14898-1-alex.bennee@linaro.org>
-	<CAFEAcA-Cbot1POVcbAzXhaLqNJpi6M_0z18=YoB7vyqY3PekUg@mail.gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <CAFEAcA-Cbot1POVcbAzXhaLqNJpi6M_0z18=YoB7vyqY3PekUg@mail.gmail.com>
-Date: Tue, 28 May 2019 14:47:46 +0100
-Message-ID: <878suqsnb1.fsf@zen.linaroharston>
+	(envelope-from <philmd@redhat.com>) id 1hVcWi-0000Zz-Vf
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 09:52:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:28307)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hVcWh-0000EM-DW
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 09:52:27 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 31DB088302;
+	Tue, 28 May 2019 13:51:54 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.206.32])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AEBE1001943;
+	Tue, 28 May 2019 13:51:47 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 28 May 2019 15:51:44 +0200
+Message-Id: <20190528135144.24028-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.28]);
+	Tue, 28 May 2019 13:51:54 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::436
-Subject: Re: [Qemu-devel] [PULL 00/28] testing/next (system tests, docker,
- iotests)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] tests/migration: Disable
+ /migration/postcopy/unix qtest on Travis-CI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,147 +55,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This started to fail 6 months ago [1] and lately occurs too
+often on the main Travis CI.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Travis CI set the CONTINUOUS_INTEGRATION variable in the process
+environment [2]. Let's use it to disable it when running this test
+there.
 
-> On Tue, 28 May 2019 at 10:49, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The following changes since commit a7b21f6762a2d6ec08106d8a7ccb118299145=
-23f:
->>
->>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-4.1-=
-pull-request' into staging (2019-05-24 12:47:49 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/stsquad/qemu.git tags/pull-testing-next-280519-1
->>
->> for you to fetch changes up to 4a344d91083e351c1c5ac877c0ab215335a1e23d:
->>
->>   tests: Run the iotests during "make check" again (2019-05-28 10:28:51 =
-+0100)
->>
->> ----------------------------------------------------------------
->> Various testing updates
->>
->>   - semihosting re-factor (used in system tests)
->>   - aarch64 and alpha system tests
->>   - editorconfig tweak for .S
->>   - some docker image updates
->>   - iotests clean-up and make check inclusion
->>
->
-> Hi; this fails 'make check' on the clang sanitiser build for Linux x86-64.
-> It looks like the code in qemu-imo-cmds.c is incorrectly doing
-> a division-by-zero if the operation it is reporting on took
-> less than a second...
+[1] https://travis-ci.org/philmd/qemu/jobs/466594203#L4430
+[2] https://docs.travis-ci.com/user/environment-variables/#default-enviro=
+nment-variables
 
-Sounds like we should include the sanitizer build in our normal setup.
-We currently only do:
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/migration-test.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-  ./configure ${CONFIG} --extra-cflags=3D"-g3 -O0 -fsanitize=3Dthread
-  -fuse-ld=3Dgold"
+diff --git a/tests/migration-test.c b/tests/migration-test.c
+index bd3f5c3125..c5091e1fb1 100644
+--- a/tests/migration-test.c
++++ b/tests/migration-test.c
+@@ -764,6 +764,11 @@ static void test_postcopy(void)
+ {
+     QTestState *from, *to;
+=20
++    if (getenv("CONTINUOUS_INTEGRATION")) {
++        /* Test failing on Travis-CI */
++        g_test_skip("Running on Travis-CI");
++    }
++
+     if (migrate_postcopy_prepare(&from, &to, false)) {
+         return;
+     }
+--=20
+2.20.1
 
-with gcc-7. What are the clang configure runes you are using?
-
->
-> make: Entering directory '/home/petmay01/linaro/qemu-for-merges/build/cla=
-ng'
-> /home/petmay01/linaro/qemu-for-merges/tests/check-block.sh
->   TEST    iotest-qcow2: 001
->   TEST    iotest-qcow2: 002
->   TEST    iotest-qcow2: 003
->   TEST    iotest-qcow2: 004
->   TEST    iotest-qcow2: 005
->   TEST    iotest-qcow2: 007
->   TEST    iotest-qcow2: 008
->   TEST    iotest-qcow2: 009
->   TEST    iotest-qcow2: 010
->   TEST    iotest-qcow2: 011
->   TEST    iotest-qcow2: 012
-> --- /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/013.out
->  2014-12-15 11:11:04.234972929 +0000
-> +++ /home/petmay01/linaro/qemu-for-merges/build/clang/tests/qemu-iotests/=
-013.out.bad
->    2019-05-28 14:06:57.827692927 +010
-> 0
-> @@ -17596,6 +17596,7 @@
->
->  With offset 0:
->  =3D=3D=3D IO: pattern 0
-> +/home/petmay01/linaro/qemu-for-merges/qemu-io-cmds.c:264:18: runtime
-> error: division by zero
->  read 4096/4096 bytes at offset 0
->  4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->  read 4096/4096 bytes at offset 4096
-> @@ -21994,6 +21995,7 @@
->  No errors were found on the image.
->  With offset 4294967296:
->  =3D=3D=3D IO: pattern 0
-> +/home/petmay01/linaro/qemu-for-merges/qemu-io-cmds.c:264:18: runtime
-> error: division by zero
->  read 4096/4096 bytes at offset 4294967296
->  4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->  read 4096/4096 bytes at offset 4294971392
->   TEST    iotest-qcow2: 013 [fail]
-> QEMU          --
-> "/home/petmay01/linaro/qemu-for-merges/build/clang/tests/qemu-iotests/../=
-../x86_64-softmmu/qemu-system-x8
-> 6_64" -nodefaults -machine accel=3Dqtest
-> QEMU_IMG      --
-> "/home/petmay01/linaro/qemu-for-merges/build/clang/tests/qemu-iotests/../=
-../qemu-img"
-> QEMU_IO       --
-> "/home/petmay01/linaro/qemu-for-merges/build/clang/tests/qemu-iotests/../=
-../qemu-io"
->  --cache writeback -
-> f qcow2
-> QEMU_NBD      --
-> "/home/petmay01/linaro/qemu-for-merges/build/clang/tests/qemu-iotests/../=
-../qemu-nbd"
-> IMGFMT        -- qcow2 (compat=3D1.1)
-> IMGPROTO      -- file
-> PLATFORM      -- Linux/x86_64 e104462 4.15.0-48-generic
-> TEST_DIR      --
-> /home/petmay01/linaro/qemu-for-merges/build/clang/tests/qemu-iotests/scra=
-tch
-> SOCKET_SCM_HELPER --
-> /home/petmay01/linaro/qemu-for-merges/build/clang/tests/qemu-iotests/sock=
-et_scm_helper
->
-> --- /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/013.out
->  2014-12-15 11:11:04.234972929 +0000
-> +++ /home/petmay01/linaro/qemu-for-merges/build/clang/tests/qemu-iotests/=
-013.out.bad
->    2019-05-28 14:06:57.827692927 +0100
-> @@ -17596,6 +17596,7 @@
->
->  With offset 0:
->  =3D=3D=3D IO: pattern 0
-> +/home/petmay01/linaro/qemu-for-merges/qemu-io-cmds.c:264:18: runtime
-> error: division by zero
->  read 4096/4096 bytes at offset 0
->  4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->  read 4096/4096 bytes at offset 4096
-> @@ -21994,6 +21995,7 @@
->  No errors were found on the image.
->  With offset 4294967296:
->  =3D=3D=3D IO: pattern 0
-> +/home/petmay01/linaro/qemu-for-merges/qemu-io-cmds.c:264:18: runtime
-> error: division by zero
->  read 4096/4096 bytes at offset 4294967296
->  4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->  read 4096/4096 bytes at offset 4294971392
->
-> thanks
-> -- PMM
-
-
---
-Alex Benn=C3=A9e
 
