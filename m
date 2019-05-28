@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983FF2C3B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 11:58:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60037 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B19562C3E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 12:05:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60134 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVYs2-00044B-No
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 05:58:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40912)
+	id 1hVYye-0001Eh-R9
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 06:05:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40909)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVYkC-0006KI-8d
+	(envelope-from <alex.bennee@linaro.org>) id 1hVYkC-0006KE-7G
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 05:50:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVYkB-0000D1-8C
+	(envelope-from <alex.bennee@linaro.org>) id 1hVYkB-0000Ct-7j
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 05:50:08 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45509)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38132)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hVYkB-0000Ah-23
+	id 1hVYkB-0000B5-29
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 05:50:07 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id b18so19436593wrq.12
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 02:50:05 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id d18so19473519wrs.5
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 02:50:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=YDNzQhJzHpYWtPYJ/WfzD9Kmonh+P1NhdBxQx7bYzps=;
-	b=qpePDlx73KMab03AZXzKxDpXvxURte1hnolFvszFU3PC+7C+35vW1YYt8Vq3j/8ru0
-	l5NDBx0ZIWznm69lLQhj1y6HnuewWOY2oyBOoogdFz23uW7Cg6AeHbOEXo4z1DXVE0nW
-	AYO42/KikUzVBJcjdVPwotwF/IgyARoAAEmD3vWiZASkolE8XMHFCClPo5i1/YG4PJMf
-	hrT4Ir5DRbvssDLmBAqOBwjR2P99WarhBim7EBrE7dsxghn1NO1fuqNQaV2qiwD0oqQV
-	JIhcdRQ+G/ZV8tECK6BDvjZLvnqR3pMTOMWPH5kIfPtl5Fxgb3bazWkzG6l1+qeNuChn
-	MULw==
+	bh=c6ckUXNY8YtrdJt2PGJuuiNEz2jhFg33XnClUpP+3OA=;
+	b=BrtZMIu9sFhJAYg545BYs5wwNpO7LfqWqewPdAQNceOYrQY4SpIusyiNi9JPsxxlIR
+	CaYvHOZc7Egmk2HXqnM+WT5G3kSEPF65tIuVPDodgg5llVCxDFS43xu6uCUWMmNVR7Ef
+	kP0NnEQygsejb14fGnAaQTWvw0QFdByxwXPgM4Ewf2eBnF6SKzVg1GgpTO9z+7LZNe4m
+	R/AbIe3fiYoFYsGu+48+mtNgeKZNl4UXvtjPj+IF3dJ94A0hCUyND2T6/ZWx1n6dpFfd
+	aflgwa8ywIdo5wHv5BPDd7Jn1FTt+SnEGewhEeZ16oNntPxAgl1TGijWM0inSloKJS84
+	7J5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=YDNzQhJzHpYWtPYJ/WfzD9Kmonh+P1NhdBxQx7bYzps=;
-	b=Kg9uE5y0l81NpKhtlMrBb7QJc1XQSAjc5sRWJaOV7C2J4esNaio0bWwCcHGVbIgJ5R
-	smXlyGJBDk94MdXX28PbwkUrrpGd/PMJIpEUCgLlsQyVdUXFSJAfB80HVDEAOG0KEoyA
-	svSuGja7hTKd9H/JQZ+IXS8KNWIw7cJiTVqlON9WGDCLV2MqXyU5N3K0v/cgq42QOHwh
-	P3gSbIY0p4P76uySbblK1rSEO7OUPMhmmL2hivxaKmNtUekpVG0mdlVX8M79BQypqE9W
-	oPewk6wrVAqNJSV5eDwetjsXv80oDzeNbFl2pJelpdKP9K9bylTCc5kA8RzfCy74adIx
-	BSQw==
-X-Gm-Message-State: APjAAAXiBd2Giz55C/FvbQaSX2G04IUn3L+jvzWwZXDa/YIstWw5nzmm
-	BnTEyXSU/AG/s2cr/M4SjZEMqA==
-X-Google-Smtp-Source: APXvYqxuMHVG433BX001IrLMFPvmW/Pw94/kFHZoUInJMVLZBiHZvlJ8LEswAOejwvs7mZqqYBEC9w==
-X-Received: by 2002:a5d:624c:: with SMTP id m12mr12625819wrv.354.1559037004886;
-	Tue, 28 May 2019 02:50:04 -0700 (PDT)
+	bh=c6ckUXNY8YtrdJt2PGJuuiNEz2jhFg33XnClUpP+3OA=;
+	b=t/itnYYWwvZqtktZNIU81YRab3LqEE9SP07u7GAEho4NjHpD4fd2fxvjMl/Bk8Plck
+	jg0+ZM7Xf2MSgzZBH6nWudS3JkD3X8vrZU9/v/YD0VfNuYngVJuy4HJ+cPzgmCeU7o0z
+	qXStSXiWpRGOpLqyXyvDATF9qIELE+b5ZMPN4zM7B+NUvzsFTRS34xG94dkHrXOSZ5nU
+	crCR+5HPBb0yWnBdKiEwG25XL55E60lR+6yx8mP9qyhYx0K3N8mSzjWaQ8IpSHOxx7Wk
+	VVPm908khnbKQ2Ul87zIIRBHz4gjSz9EvFWclRYmUIvFNLPt665wNou+pF9MIFxRWGaA
+	pwVg==
+X-Gm-Message-State: APjAAAVqxnnGXx5Z061P1ckax6ykWDgIPOfO7x0bSRF4BLXNTYFlJn0S
+	nii5QXSYpVdaSq2dCSp4qrqywA==
+X-Google-Smtp-Source: APXvYqzpr+4zvpxTeM/cWq4A6UZU8YWJToqgcY/I6FvjtH+VryCz2F8l5Q7vZnHhkhR3d/66HL0UFg==
+X-Received: by 2002:adf:e80a:: with SMTP id o10mr17022177wrm.79.1559037005360; 
+	Tue, 28 May 2019 02:50:05 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id f2sm4479998wrq.48.2019.05.28.02.49.57
+	by smtp.gmail.com with ESMTPSA id a2sm7731931wrg.69.2019.05.28.02.49.57
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Tue, 28 May 2019 02:50:02 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 94E6C1FF9C;
+	by zen.linaroharston (Postfix) with ESMTP id AA09F1FF9D;
 	Tue, 28 May 2019 10:49:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 28 May 2019 10:49:38 +0100
-Message-Id: <20190528094953.14898-14-alex.bennee@linaro.org>
+Date: Tue, 28 May 2019 10:49:39 +0100
+Message-Id: <20190528094953.14898-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190528094953.14898-1-alex.bennee@linaro.org>
 References: <20190528094953.14898-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: [Qemu-devel] [PULL 13/28] tests/docker: Test more components on the
- Fedora default image
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 14/28] tests/tcg/multiarch: add support for
+ multiarch system tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,81 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	qemu-devel@nongnu.org,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+We can certainly support some common tests for system emulation that
+make use of our minimal defined boot.S support. It will still be up to
+individual architectures to ensure they build so we provide a
+MULTIARCH_TESTS variable that they can tack onto TESTS themselves.
 
-Install optional dependencies of QEMU to get better coverage.
-
-The following components are now enabled:
-
-  $ ./configure
-  ...
-  Multipath support yes
-  VNC SASL support  yes
-  RDMA support      yes
-  PVRDMA support    yes
-  libiscsi support  yes
-  seccomp support   yes
-  libpmem support   yes
-  libudev           yes
-
-Note: The udev-devel package is provided by systemd-devel.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190504055440.20406-1-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 69d4a7f5d75..afbba29adaa 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -8,6 +8,7 @@ ENV PACKAGES \
-     bzip2-devel \
-     ccache \
-     clang \
-+    cyrus-sasl-devel \
-     device-mapper-multipath-devel \
-     findutils \
-     flex \
-@@ -23,13 +24,17 @@ ENV PACKAGES \
-     libaio-devel \
-     libasan \
-     libattr-devel \
-+    libblockdev-mpath-devel \
-     libcap-devel \
-     libcap-ng-devel \
-     libcurl-devel \
-     libfdt-devel \
-+    libiscsi-devel \
-     libjpeg-devel \
-+    libpmem-devel \
-     libpng-devel \
-     librbd-devel \
-+    libseccomp-devel \
-     libssh2-devel \
-     libubsan \
-     libusbx-devel \
-@@ -74,10 +79,12 @@ ENV PACKAGES \
-     pixman-devel \
-     python3 \
-     PyYAML \
-+    rdma-core-devel \
-     SDL2-devel \
-     snappy-devel \
-     sparse \
-     spice-server-devel \
-+    systemd-devel \
-     systemtap-sdt-devel \
-     tar \
-     usbredir-devel \
+diff --git a/tests/tcg/Makefile b/tests/tcg/Makefile
+index 1cdd628e96f..6fa63cc8d53 100644
+--- a/tests/tcg/Makefile
++++ b/tests/tcg/Makefile
+@@ -96,6 +96,7 @@ else
+ # build options for bare programs are usually pretty different. They
+ # are expected to provide their own build recipes.
+ -include $(SRC_PATH)/tests/tcg/minilib/Makefile.target
++-include $(SRC_PATH)/tests/tcg/multiarch/system/Makefile.softmmu-target
+ -include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.softmmu-target
+ ifneq ($(TARGET_BASE_ARCH),$(TARGET_NAME))
+ -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.softmmu-target
+diff --git a/tests/tcg/multiarch/system/Makefile.softmmu-target b/tests/tcg/multiarch/system/Makefile.softmmu-target
+new file mode 100644
+index 00000000000..db4bbeda44c
+--- /dev/null
++++ b/tests/tcg/multiarch/system/Makefile.softmmu-target
+@@ -0,0 +1,14 @@
++# -*- Mode: makefile -*-
++#
++# Multiarch system tests
++#
++# We just collect the tests together here and rely on the actual guest
++# architecture to add to the test dependancies and deal with the
++# complications of building.
++#
++
++MULTIARCH_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/multiarch/system
++VPATH+=$(MULTIARCH_SYSTEM_SRC)
++
++MULTIARCH_TEST_SRCS=$(wildcard $(MULTIARCH_SYSTEM_SRC)/*.c)
++MULTIARCH_TESTS = $(patsubst $(MULTIARCH_SYSTEM_SRC)/%.c, %, $(MULTIARCH_TEST_SRCS))
 -- 
 2.20.1
 
