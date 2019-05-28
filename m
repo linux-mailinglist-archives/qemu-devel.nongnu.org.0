@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F522CA67
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:36:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36852 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57FD2CA5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:33:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36791 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVe9j-0004ng-TV
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:36:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35697)
+	id 1hVe6M-00032Q-Dl
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:33:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34907)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVe8a-0004Ry-Gf
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:35:41 -0400
+	(envelope-from <philmd@redhat.com>) id 1hVe4z-0002jE-Ms
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:31:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVe8Z-0006Ey-5m
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:35:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41576)
+	(envelope-from <philmd@redhat.com>) id 1hVe4y-0007T9-HH
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:31:57 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:37469)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hVe8X-00068S-G7
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:35:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hVe8V-0001EV-6w
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 15:35:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 327842E80C9
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 15:35:35 +0000 (UTC)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hVe4y-0007RM-AW
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:31:56 -0400
+Received: by mail-wr1-f68.google.com with SMTP id h1so6591146wro.4
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 08:31:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=5fK69IQ3n21KzCsanDIlwzCWkeml1LRvlCq8wtL3tg0=;
+	b=hVE18L6ai9Ew4afAhZm/p/3Dg5XoLV/6AKWCjO0NcV0bLRyqsS7B2gpguANCzsexoU
+	uN8ksyiL7a8o7TBd7qB6Q+wDUlOrmPKZM267qJM4oohdLLTQ3q/td8mnyauxRMvt3Gdm
+	6wZAGYpxYe5+RoEyo57KgHsSYToA9YvG5GEJj6elJZ9jWYFQbaVAPbo9PvxxDq2k9usC
+	638aG02QNEBpaTvhplB3J7cB+nJYLPMoQLl1Tv+T/uPpWxgRQiSl7clFpvaHwzJ03lAB
+	s2BXz8xUNt/J5yQ0/nHRmnbzILPHFISakjmm8omxD2XDVZBJu+XXQR30GttmXFa6WxcZ
+	B2cg==
+X-Gm-Message-State: APjAAAVGVLgyRVeju08lMtxwUF6k6XdH6aizaZ9WMyK/hk0qsL2Vboby
+	zDOStMKVYvGmB6tWvubCyWxALg==
+X-Google-Smtp-Source: APXvYqyrfsPBU81K31ZDyRKRhiTOCWrVHqbgU00n+kpKUYBKHYo5AQolwaXC5jgCfcTaoHcbm9TFUw==
+X-Received: by 2002:adf:ec04:: with SMTP id x4mr684523wrn.342.1559057515077;
+	Tue, 28 May 2019 08:31:55 -0700 (PDT)
+Received: from [192.168.1.38] (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	k63sm3290114wmf.35.2019.05.28.08.31.54
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 May 2019 08:31:54 -0700 (PDT)
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+	=?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20190523234011.583-1-marcandre.lureau@redhat.com>
+	<20190523234011.583-4-marcandre.lureau@redhat.com>
+	<e0cf3112-62f6-aaff-0821-f472297dbb93@redhat.com>
+	<CAMxuvay+ZrdjhJg-juU0aTOtcy=cLshC+WGyPBQ6VysXZksa5w@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <d37d58ef-ef3a-5294-779d-6cef0153f0e4@redhat.com>
+Date: Tue, 28 May 2019 17:31:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 May 2019 15:29:18 -0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h nevilad
-X-Launchpad-Bug-Reporter: Alex (nevilad)
-X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
-References: <155792850856.14868.18260779757728395853.malonedeb@gac.canonical.com>
-Message-Id: <155905735840.12810.15250208449037132232.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18968";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 07670038c11e827569478e9c3d670c97661bedd5
+In-Reply-To: <CAMxuvay+ZrdjhJg-juU0aTOtcy=cLshC+WGyPBQ6VysXZksa5w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1829242] Re: qemu on windows host exits after
- savevm command
+	[fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH 3/4] docker: update fedora to f30
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,42 +77,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829242 <1829242@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry, no idea - I don't know windows build/debug.
-(I know the migration code that savevm uses, which is why I looked at this =
-bug)
+On 5/24/19 1:17 PM, Marc-André Lureau wrote:
+> Hi
+> 
+> On Fri, May 24, 2019 at 9:41 AM Philippe Mathieu-Daudé
+> <philmd@redhat.com> wrote:
+>>
+>> On 5/24/19 1:40 AM, Marc-André Lureau wrote:
+>>> Released last month.
+>>>
+>>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>> ---
+>>>  tests/docker/dockerfiles/fedora.docker | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+>>> index 69d4a7f5d7..1496b68ba1 100644
+>>> --- a/tests/docker/dockerfiles/fedora.docker
+>>> +++ b/tests/docker/dockerfiles/fedora.docker
+>>> @@ -1,4 +1,4 @@
+>>> -FROM fedora:29
+>>> +FROM fedora:30
+>>
+>> Hmm this patch is pending for review:
+>> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg00819.html
+> 
+> Oh I missed that. Maybe we should use "latest" to avoid bumping the
+> version every 6 months.
+> 
+> fwiw we have different versions:
+> 
+> tests/docker/dockerfiles/fedora-cris-cross.docker:FROM fedora:latest
+> tests/docker/dockerfiles/fedora-i386-cross.docker:FROM fedora:29
+> tests/docker/dockerfiles/fedora.docker:FROM fedora:29
+> 
+> In 62559b916 "tests: update Fedora i386 cross image to Fedora 29", Daniel said:
+> 
+>     Using the "latest" tag is not a good idea because this changes what
+>     release it points to every 6 months. Together with caching of docker
+>     builds this can cause confusion where CI has cached & built with Fedora
+>     N, while a developer tries to reproduce a CI problem with Fedora N + 1,
+>     or vica-verca.
+> 
+> But at the same time, Daniel bumped f28 to f29 in commit 19a9978db1.
+> 
+> It's confusing, do we need some stability or follow the latest?
 
--- =
+Tracking a stable release helps to handle new compiler warnings when
+bisecting.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829242
+See also:
 
-Title:
-  qemu on windows host exits after savevm command
+commit 5b9b49d7bd3e0da13e8f6d58578443a11817f56e
+Author: Paolo Bonzini <pbonzini@redhat.com>
+Date:   Fri Jan 12 12:11:43 2018 +0100
 
-Status in QEMU:
-  New
+    docker: change Fedora base image to fedora:27
 
-Bug description:
-  I'm running qemu-system-i386.exe 3.1.0 with this command line:
-  "C:\Program Files\qemu\qemu-system-i386.exe"  -L C:\user\qemu\pc-bios\ -n=
-ame win7 -m 4G -uuid 564db62e-e031-b5cf-5f34-a75f8cefa98e -rtc base=3Dlocal=
-time -accel hax -hdd C:\VirtualMachines\Dev\Win10x64_VS17\swap.qcow "C:\Vir=
-tualMachines\qemu\qemu_win7.qcow"
-  Host OS Windows 10 x64, guest OS Wondows 7 x86.
+    Using "fedora:latest" makes behavior different depending on when you
+    actually pulled the image from the docker repository.  In my case,
+    the supposedly "latest" image was a Fedora 25 download from 8 months
+    ago, and the new "test-debug" test was failing.
 
-  Wait till the OS loads, go to compat_monitor0 tab and enter command:
-  savevm loaded_win
-  After a few seconds qemu exits, running it another time and entering comm=
-and:
-  info snapshots
-  says "There is no snapshot available". I've tried rinning it with -accel =
-tcg, with same results. I've tried less memory (1G), same results.
+    Use "27" to improve reproducibility and make it clear when the image
+    is obsolete.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829242/+subscriptions
+Why we don't add a new file when a new version get released?
+See: https://lists.gnu.org/archive/html/qemu-devel/2018-01/msg03868.html
 
