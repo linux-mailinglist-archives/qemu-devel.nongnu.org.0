@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B052BCB3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 03:15:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55296 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915A62BCE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 03:37:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55522 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVQiS-0003cr-SV
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 21:15:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46363)
+	id 1hVR3O-0007qG-1e
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 21:37:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50973)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVQgJ-0002iy-Ot
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:13:36 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hVR2N-0007Y4-98
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:36:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVQgE-0006vA-9a
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:13:35 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45541 helo=ozlabs.org)
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hVR2L-0001Hu-Mr
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:36:23 -0400
+Received: from mga07.intel.com ([134.134.136.100]:5782)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hVQgA-0006ko-Sw; Mon, 27 May 2019 21:13:30 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45CbST4DwVz9s5c; Tue, 28 May 2019 11:13:13 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1559005993;
-	bh=/p/e5G8trdFMDY3OGCyszpvCOMkoML5I50AXZwtJaBs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oHfI+4ewxanWUQhPOrfuWWti/AV+dOmSs5V7nyYtt/OFVajSQiWoacEXAdKqNoiwE
-	D8X45mq9jdEX+IGqBK6KXHrGjFtDmp/MY3G7spmxigG9rEhTjXjVJCei8USzzGBRu9
-	VsVvUfM4xVBxYDygELoAGCBXUEvqYD9MHHn/POYs=
-Date: Tue, 28 May 2019 11:09:37 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <20190528010937.GD11618@umbus.fritz.box>
-References: <20190524065345.25591-1-mark.cave-ayland@ilande.co.uk>
+	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+	id 1hVR2L-0001G3-Fx
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:36:21 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 May 2019 18:36:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,520,1549958400"; d="scan'208";a="179049679"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+	by fmsmga002.fm.intel.com with ESMTP; 27 May 2019 18:36:17 -0700
+Date: Tue, 28 May 2019 09:35:48 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Message-ID: <20190528013548.GA8813@richard>
+References: <20190411071739.22889-1-richardw.yang@linux.intel.com>
+	<20190527142114.521ab953@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="veXX9dWIonWZEC6h"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190524065345.25591-1-mark.cave-ayland@ilande.co.uk>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190527142114.521ab953@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v2] target/ppc: Fix lxvw4x,
- lxvh8x and lxvb16x
+X-Received-From: 134.134.136.100
+Subject: Re: [Qemu-devel] [PATCH] hw/i386/pc: check apci hotplug capability
+ before nvdimm's
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,120 +57,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: thuth@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+	Wei Yang <richardw.yang@linux.intel.com>, pbonzini@redhat.com,
+	rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, May 27, 2019 at 02:21:14PM +0200, Igor Mammedov wrote:
+>On Thu, 11 Apr 2019 15:17:39 +0800
+>Wei Yang <richardw.yang@linux.intel.com> wrote:
+>
+>> pc_memory_pre_plug() is called during hotplug for both pc-dimm and
+>> nvdimm. This is more proper to check apci hotplug capability before
+>> check nvdimm specific capability.
+>not sure what this about.
+>Currently we are checking if ACPI is enabled
+>  if (!pcms->acpi_dev || !acpi_enabled) { ...
+>before nvdimm check and it looks better to me that we cancel
+>nvdimm hotplug earlier than passing it to
+>    hotplug_handler_pre_plug(pcms->acpi_dev, dev, &local_err)
+>with this patch ACPI device handler will be called before
+>nvdimm check happens, so it's +1 unnecessary call chain in
+>the case of nvdimm, which I'd rather not have.
+>
+>Are there any issues with current call flow?
+>(commit message doesn't really explaining why we need this patch)
+>
 
---veXX9dWIonWZEC6h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My idea is to check more generic requirement and then specific one.
 
-On Fri, May 24, 2019 at 07:53:45AM +0100, Mark Cave-Ayland wrote:
-> From: Anton Blanchard <anton@ozlabs.org>
->=20
-> During the conversion these instructions were incorrectly treated as
-> stores. We need to use set_cpu_vsr* and not get_cpu_vsr*.
->=20
-> Fixes: 8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}()=
- helpers for VSR register access")
-> Signed-off-by: Anton Blanchard <anton@ozlabs.org>
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Tested-by: Greg Kurz <groug@kaod.org>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+For example, the call flow looks like this:
 
-Applied, thanks.
+pc_memory_pre_plug
 
-> ---
->  target/ppc/translate/vsx-impl.inc.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
->=20
-> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
-sx-impl.inc.c
-> index 199d22da97..cdb44b8b70 100644
-> --- a/target/ppc/translate/vsx-impl.inc.c
-> +++ b/target/ppc/translate/vsx-impl.inc.c
-> @@ -102,8 +102,7 @@ static void gen_lxvw4x(DisasContext *ctx)
->      }
->      xth =3D tcg_temp_new_i64();
->      xtl =3D tcg_temp_new_i64();
-> -    get_cpu_vsrh(xth, xT(ctx->opcode));
-> -    get_cpu_vsrl(xtl, xT(ctx->opcode));
-> +
->      gen_set_access_type(ctx, ACCESS_INT);
->      EA =3D tcg_temp_new();
-> =20
-> @@ -126,6 +125,8 @@ static void gen_lxvw4x(DisasContext *ctx)
->          tcg_gen_addi_tl(EA, EA, 8);
->          tcg_gen_qemu_ld_i64(xtl, EA, ctx->mem_idx, MO_BEQ);
->      }
-> +    set_cpu_vsrh(xT(ctx->opcode), xth);
-> +    set_cpu_vsrl(xT(ctx->opcode), xtl);
->      tcg_temp_free(EA);
->      tcg_temp_free_i64(xth);
->      tcg_temp_free_i64(xtl);
-> @@ -185,8 +186,6 @@ static void gen_lxvh8x(DisasContext *ctx)
->      }
->      xth =3D tcg_temp_new_i64();
->      xtl =3D tcg_temp_new_i64();
-> -    get_cpu_vsrh(xth, xT(ctx->opcode));
-> -    get_cpu_vsrl(xtl, xT(ctx->opcode));
->      gen_set_access_type(ctx, ACCESS_INT);
-> =20
->      EA =3D tcg_temp_new();
-> @@ -197,6 +196,8 @@ static void gen_lxvh8x(DisasContext *ctx)
->      if (ctx->le_mode) {
->          gen_bswap16x8(xth, xtl, xth, xtl);
->      }
-> +    set_cpu_vsrh(xT(ctx->opcode), xth);
-> +    set_cpu_vsrl(xT(ctx->opcode), xtl);
->      tcg_temp_free(EA);
->      tcg_temp_free_i64(xth);
->      tcg_temp_free_i64(xtl);
-> @@ -214,14 +215,14 @@ static void gen_lxvb16x(DisasContext *ctx)
->      }
->      xth =3D tcg_temp_new_i64();
->      xtl =3D tcg_temp_new_i64();
-> -    get_cpu_vsrh(xth, xT(ctx->opcode));
-> -    get_cpu_vsrl(xtl, xT(ctx->opcode));
->      gen_set_access_type(ctx, ACCESS_INT);
->      EA =3D tcg_temp_new();
->      gen_addr_reg_index(ctx, EA);
->      tcg_gen_qemu_ld_i64(xth, EA, ctx->mem_idx, MO_BEQ);
->      tcg_gen_addi_tl(EA, EA, 8);
->      tcg_gen_qemu_ld_i64(xtl, EA, ctx->mem_idx, MO_BEQ);
-> +    set_cpu_vsrh(xT(ctx->opcode), xth);
-> +    set_cpu_vsrl(xT(ctx->opcode), xtl);
->      tcg_temp_free(EA);
->      tcg_temp_free_i64(xth);
->      tcg_temp_free_i64(xtl);
+    piix4_device_pre_plug_cb | ich9_pm_device_pre_plug_cb
+        if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) &&
+            !lpc->pm.acpi_memory_hotplug.is_enabled)
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+    if (is_nvdimm && !ms->nvdimms_state->is_enabled)
+    
 
---veXX9dWIonWZEC6h
-Content-Type: application/pgp-signature; name="signature.asc"
+In hotplug_handler_pre_plug(), it checks the acpi hotplug capability. And then
+if it has memory hotplug capability and is nvdimm, we check whether nvdimm is
+enabled.
 
------BEGIN PGP SIGNATURE-----
+This is why I suggest to change the order here. No functional issue for
+current code.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzsilEACgkQbDjKyiDZ
-s5KM9BAAjKyZ+ZOTPXLjR7b9OpgbrXIIcIfLtAoTkNNhoWtvwxtrQMHIXMoPS1SG
-Lwt16PaZKGO7fGY4lylqC4uFdNzYvDGj5ga71q1+46ugHnknSPqsA9T8hJaJ8SLF
-HtLd8oR+WrgU7YbTNHz8QQ7KTusnS8bOopGpSjW4LHYawFrpVqw/0tATmAtl2cAv
-EG04WGWBGVrPXtGgxMJIC/qG9ibb8+F+J4AM5Phqm2OWK6gYnSeidx2VcQ4NLruw
-cFlqis/T/qRJ2bYor/XMQgxOYjrNIPHk7vmgSD9DqEVnSv+6DLVaPeYh5kia21Jm
-SYFAsy155LDR94UhDBYp0rkwKJfHaVy4sJqaANVMnqL1dh9KT7vbqEWnDQ9r7luE
-+zjuddPHpjVdCYTEn0lIj6rHY/1e67h2oz+iTsLdpcaERhTlTVcAP7DSKtl7Dvri
-o7N2oM6r3lmgXeZy0MGIN63baj7T+v2txKZene3rh0KIyJWsMDOthlrsOFLV/QkG
-8Atj+J2CfraZnfFWsBY9fN2VndJK5UzFc/s4QPkL5iOAqx0WJNFxX828EtJPRZg6
-m9GOA6vwakXOLwcsduziycsguzoP+lQ/F8Ssh1Wt62K4NB1d9FPthHlqAoiQhsi/
-RycG3WuKUNF/iwqVrxLSiIKlolMy/tHojLZC4Br2YqKqIBD/T8o=
-=bL4F
------END PGP SIGNATURE-----
-
---veXX9dWIonWZEC6h--
+-- 
+Wei Yang
+Help you, Help me
 
