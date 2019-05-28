@@ -2,49 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BE62CFA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:39:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41613 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0078B2CFCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:51:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41840 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVhwS-0007WD-F5
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:39:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37078)
+	id 1hVi80-0000gw-7L
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:51:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38675)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhoH-0001kx-Tr
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:59 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hVhtB-0005b5-EX
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:36:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhoA-000272-J6
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36698)
+	(envelope-from <mreitz@redhat.com>) id 1hVhtA-0005ZK-Ho
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:36:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45534)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hVhny-0001Lf-OI; Tue, 28 May 2019 15:30:39 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	id 1hVht8-0005XS-0N; Tue, 28 May 2019 15:35:58 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0BBA67E426;
-	Tue, 28 May 2019 19:29:51 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.223])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 94560189A2;
-	Tue, 28 May 2019 19:29:50 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 71FEC30C2516;
+	Tue, 28 May 2019 19:35:55 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.223])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 502705C8A3;
+	Tue, 28 May 2019 19:35:52 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190528183857.26167-1-jsnow@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Tue, 28 May 2019 21:28:47 +0200
-Message-Id: <20190528192847.2730-22-mreitz@redhat.com>
-In-Reply-To: <20190528192847.2730-1-mreitz@redhat.com>
-References: <20190528192847.2730-1-mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <4ab05a7b-0c15-23fe-d382-c213bf3fd44f@redhat.com>
+Date: Tue, 28 May 2019 21:35:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20190528183857.26167-1-jsnow@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="WXStge6p6WvZpbQ9CctkBJNMKxbu31Ytu"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Tue, 28 May 2019 19:29:57 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.40]);
+	Tue, 28 May 2019 19:35:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 21/21] blockdev: loosen restrictions on
- drive-backup source node
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v2] event_match: always match on None value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,79 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--WXStge6p6WvZpbQ9CctkBJNMKxbu31Ytu
+From: Max Reitz <mreitz@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Message-ID: <4ab05a7b-0c15-23fe-d382-c213bf3fd44f@redhat.com>
+Subject: Re: [PATCH v2] event_match: always match on None value
+References: <20190528183857.26167-1-jsnow@redhat.com>
+In-Reply-To: <20190528183857.26167-1-jsnow@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-We mandate that the source node must be a root node; but there's no reaso=
-n
-I am aware of that it needs to be restricted to such. In some cases, we n=
-eed
-to make sure that there's a medium present, but in the general case we ca=
-n
-allow the backup job itself to do the graph checking.
+On 28.05.19 20:38, John Snow wrote:
+> Before, event_match didn't always recurse if the event value was not a
+> dictionary, and would instead check for equality immediately.
+>=20
+> By delaying equality checking to post-recursion, we can allow leaf
+> values like "5" to match "None" and take advantage of the generic
+> None-returns-True clause.
+>=20
+> This makes the matching a little more obviously consistent at the
+> expense of being able to check for explicit None values, which is
+> probably not that important given what this function is used for.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+> v2: actually let the for loop finish ... Thanks Max
+> ---
+>  python/qemu/__init__.py | 24 ++++++++++++++----------
+>  1 file changed, 14 insertions(+), 10 deletions(-)
 
-This patch helps improve the error message when you try to backup from
-the same node more than once, which is reflected in the change to test
-056.
+Thanks, applied to my block-on-kevin branch:
 
-For backups with bitmaps, it will also show a better error message that
-the bitmap is in use instead of giving you something cryptic like "need
-a root node."
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block-on-kevin
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1707303
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20190521210053.8864-1-jsnow@redhat.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- blockdev.c             | 7 ++++++-
- tests/qemu-iotests/056 | 2 +-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+=2E..which is also the place where your backup/aio_context series
+currently resides.  I couldn=E2=80=99t put it in the pull request I just =
+sent
+because it depends on patches from Kevin=E2=80=99s branch.
 
-diff --git a/blockdev.c b/blockdev.c
-index 79fbac8450..bc339d7818 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3450,11 +3450,16 @@ static BlockJob *do_drive_backup(DriveBackup *bac=
-kup, JobTxn *txn,
-         backup->compress =3D false;
-     }
-=20
--    bs =3D qmp_get_root_bs(backup->device, errp);
-+    bs =3D bdrv_lookup_bs(backup->device, backup->device, errp);
-     if (!bs) {
-         return NULL;
-     }
-=20
-+    if (!bs->drv) {
-+        error_setg(errp, "Device has no medium");
-+        return NULL;
-+    }
-+
-     aio_context =3D bdrv_get_aio_context(bs);
-     aio_context_acquire(aio_context);
-=20
-diff --git a/tests/qemu-iotests/056 b/tests/qemu-iotests/056
-index 3df323984d..f40fc11a09 100755
---- a/tests/qemu-iotests/056
-+++ b/tests/qemu-iotests/056
-@@ -214,7 +214,7 @@ class BackupTest(iotests.QMPTestCase):
-         res =3D self.vm.qmp('query-block-jobs')
-         self.assert_qmp(res, 'return[0]/status', 'concluded')
-         # Leave zombie job un-dismissed, observe a failure:
--        res =3D self.qmp_backup_and_wait(serror=3D'Need a root block nod=
-e',
-+        res =3D self.qmp_backup_and_wait(serror=3D"Node 'drive0' is busy=
-: block device is in use by block job: backup",
-                                        device=3D'drive0', format=3Diotes=
-ts.imgfmt,
-                                        sync=3D'full', target=3Dself.dest=
-_img,
-                                        auto_dismiss=3DFalse)
---=20
-2.21.0
+But know that your patches aren=E2=80=99t forgotten!
 
+Max
+
+
+--WXStge6p6WvZpbQ9CctkBJNMKxbu31Ytu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlztjZYACgkQ9AfbAGHV
+z0C/6Qf/UvudPlWevsGgQI1UefQrzIVsPCTbBHiT9H1tyUiTq8KKdw9UbM21hrd4
+xOoNLlNwLX/VMOCCa5RETnhcp/RnycNnSutOg4g3Ep+L95BXIIzaOsr9WiReWbCB
+P72f2fKVNnmFHlMOgrXd3y5sCZUVjr75caJLjwFMtdiDaE29b6fnrtf8SlhPz2Zn
+2vOFNtLEuJjiujYdgailrmabVhbxhywg9O5vSBNWDCWb0R7vk/3teObSZwrvBCsC
+eyhaIQW8y9LvS2BHcIdhfogFnbrU+H5C8pWD3LNZElT7hPqRFrDD4U1bbq66C87F
+HFEO51FVaydgbtUXt4UMz7+u9vLZkg==
+=4f+w
+-----END PGP SIGNATURE-----
+
+--WXStge6p6WvZpbQ9CctkBJNMKxbu31Ytu--
 
