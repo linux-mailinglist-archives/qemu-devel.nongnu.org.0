@@ -2,98 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24722CA42
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:21:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36671 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F522CA67
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:36:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36852 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVduw-0007y0-Rp
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:21:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60732)
+	id 1hVe9j-0004ng-TV
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:36:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35697)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <elena.ufimtseva@oracle.com>) id 1hVdtG-0007HF-N1
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:19:51 -0400
+	(envelope-from <bounces@canonical.com>) id 1hVe8a-0004Ry-Gf
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:35:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <elena.ufimtseva@oracle.com>) id 1hVdtA-0006XJ-Vb
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:19:47 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:56752)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
-	id 1hVdt2-0005FB-7j
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:19:38 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4SF4JCA092445; Tue, 28 May 2019 15:18:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
-	h=date : from : to : cc
-	: subject : message-id : references : mime-version : content-type :
-	in-reply-to; s=corp-2018-07-02;
-	bh=y6HWLt4sfz37hugXMkrK67Iw68u3/CDtU8F3ZKZ3+30=;
-	b=jjbyGEjGKb/VX9xnrjf1oRGLTX44bAlBcvGHAgIh8pOJJSk+bHoHJeV/g41EslKQn7B7
-	ZPaUadw3nu+jRy8RNnZS/rxoPss6YJt2jFMW4BomtE7XUbsnOUE5bCSCZ+hfYNt9H8Zb
-	6LlGtoNdYQGrplXV06aBASnZVmt7AZMLv4+Tpzg71btV0rNX+znr3Fm8kOGI+dTsT0mF
-	iHVMSAajR9izO4xm7PYwgCWVhJ/OZNbSfPTdPmnhxgD6QHfIA0qt3ZtuYNGbHRiqfSfz
-	UgKmqL/gFHqdQAUtDevHJ4jCzzfIfteEZvZl7jNKDu5Fu+QlXr7OHxY0Vq2QPM27lE0A
-	uQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by userp2120.oracle.com with ESMTP id 2spxbq3tr8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 May 2019 15:18:26 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4SFI2x0137927; Tue, 28 May 2019 15:18:26 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3020.oracle.com with ESMTP id 2sr31uqhdk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 May 2019 15:18:25 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4SFIO3V021987;
-	Tue, 28 May 2019 15:18:24 GMT
-Received: from heatpipe (/73.170.27.202)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 28 May 2019 08:18:23 -0700
-Date: Tue, 28 May 2019 08:18:21 -0700
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Message-ID: <20190528151820.GA4545@heatpipe>
-References: <20190307192727.GG2915@stefanha-x1.localdomain>
-	<BDEBF2EE-DE0F-46CF-B60E-536B3DA9BF77@oracle.com>
-	<20190308095036.GC12318@stefanha-x1.localdomain>
-	<20190326080822.GC21018@stefanha-x1.localdomain>
-	<e5395abf-6b41-46c8-f5af-3210077dfdd5@oracle.com>
-	<CAAdtpL4ztcpf-CTx0fc5T_+VQ+8upHa2pEMoiZPcmBXOO6L3Og@mail.gmail.com>
-	<c945c950-f6f1-7e2a-a6c4-399c9b728288@oracle.com>
-	<20190425154421.GG17806@stefanha-x1.localdomain>
-	<fe4b0b42-523d-5877-173c-3e878abd4e32@oracle.com>
-	<20190523111130.GF26632@stefanha-x1.localdomain>
+	(envelope-from <bounces@canonical.com>) id 1hVe8Z-0006Ey-5m
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:35:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41576)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hVe8X-00068S-G7
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:35:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hVe8V-0001EV-6w
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 15:35:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 327842E80C9
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 15:35:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190523111130.GF26632@stefanha-x1.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9270
-	signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
-	malwarescore=0
-	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
-	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
-	engine=8.0.1-1810050000 definitions=main-1905280099
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9270
-	signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
-	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
-	adultscore=0
-	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
-	definitions=main-1905280098
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: Re: [Qemu-devel] [multiprocess RFC PATCH 36/37] multi-process: add
- the concept description to docs/devel/qemu-multiprocess
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 28 May 2019 15:29:18 -0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h nevilad
+X-Launchpad-Bug-Reporter: Alex (nevilad)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <155792850856.14868.18260779757728395853.malonedeb@gac.canonical.com>
+Message-Id: <155905735840.12810.15250208449037132232.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 07670038c11e827569478e9c3d670c97661bedd5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1829242] Re: qemu on windows host exits after
+ savevm command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,39 +64,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, sstabellini@kernel.org,
-	Jag Raman <jag.raman@oracle.com>, konrad.wilk@oracle.com,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
-	qemu-devel@nongnu.org, ross.lagerwall@citrix.com,
-	liran.alon@oracle.com, Stefan Hajnoczi <stefanha@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, kanth.ghatraju@oracle.com,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1829242 <1829242@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 23, 2019 at 12:11:30PM +0100, Stefan Hajnoczi wrote:
-> Hi Jag and Elena,
-> Do you think a call would help to move discussion along more quickly?
->
+Sorry, no idea - I don't know windows build/debug.
+(I know the migration code that savevm uses, which is why I looked at this =
+bug)
 
-Hi Stefan,
+-- =
 
-We would like to join this call.
-And thank you inviting us!
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829242
 
-Elena
-> We could use the next KVM Community Call on June 4th to discuss
-> remaining concerns and the next steps:
-> https://calendar.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
->
-> I also hope to include other core QEMU developers.  As you know, I'm
-> skeptical, but it could be just me and I don't want to block you
-> unnecessarily if others are more enthusiastic about this approach.
->
+Title:
+  qemu on windows host exits after savevm command
 
+Status in QEMU:
+  New
 
-> Stefan
+Bug description:
+  I'm running qemu-system-i386.exe 3.1.0 with this command line:
+  "C:\Program Files\qemu\qemu-system-i386.exe"  -L C:\user\qemu\pc-bios\ -n=
+ame win7 -m 4G -uuid 564db62e-e031-b5cf-5f34-a75f8cefa98e -rtc base=3Dlocal=
+time -accel hax -hdd C:\VirtualMachines\Dev\Win10x64_VS17\swap.qcow "C:\Vir=
+tualMachines\qemu\qemu_win7.qcow"
+  Host OS Windows 10 x64, guest OS Wondows 7 x86.
 
+  Wait till the OS loads, go to compat_monitor0 tab and enter command:
+  savevm loaded_win
+  After a few seconds qemu exits, running it another time and entering comm=
+and:
+  info snapshots
+  says "There is no snapshot available". I've tried rinning it with -accel =
+tcg, with same results. I've tried less memory (1G), same results.
 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829242/+subscriptions
 
