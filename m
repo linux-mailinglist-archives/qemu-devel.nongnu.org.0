@@ -2,39 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17642C8F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 16:40:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36003 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABF22C924
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 16:45:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36177 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVdH6-00032g-WB
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 10:40:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50809)
+	id 1hVdMJ-0006j8-HL
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 10:45:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51910)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVdFg-0002QG-Kz
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 10:38:58 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hVdLJ-0006IF-O5
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 10:44:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVdFV-0007t2-Ek
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 10:38:47 -0400
-Received: from relay.sw.ru ([185.231.240.75]:46356)
+	(envelope-from <dgilbert@redhat.com>) id 1hVdLH-0003jP-OP
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 10:44:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40580)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
-	id 1hVdFO-0006u9-LX; Tue, 28 May 2019 10:38:40 -0400
-Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <dplotnikov@virtuozzo.com>)
-	id 1hVdEM-0004ye-Cx; Tue, 28 May 2019 17:37:34 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: kwolf@redhat.com, mreitz@redhat.com, eblake@redhat.com, armbru@redhat.com,
-	qemu-block@nongnu.org
-Date: Tue, 28 May 2019 17:37:27 +0300
-Message-Id: <20190528143727.10529-4-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
-References: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v0 3/3] qcow2: add zstd cluster compression
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hVdL6-00021L-DS
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 10:44:39 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id D202CA3B48;
+	Tue, 28 May 2019 14:42:11 +0000 (UTC)
+Received: from work-vm (ovpn-117-218.ams2.redhat.com [10.36.117.218])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 03A727DF58;
+	Tue, 28 May 2019 14:42:06 +0000 (UTC)
+Date: Tue, 28 May 2019 15:42:04 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190528144204.GF2724@work-vm>
+References: <20190528135144.24028-1-philmd@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190528135144.24028-1-philmd@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Tue, 28 May 2019 14:42:11 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] tests/migration: Disable
+ /migration/postcopy/unix qtest on Travis-CI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -46,228 +59,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, den@virtuozzo.com
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-zstd significantly reduces cluster compression time.
-It provides better compression performance maintaining
-the same level of compression ratio in comparison with
-zlib, which, by the moment, has been the only compression
-method available.
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> This started to fail 6 months ago [1] and lately occurs too
+> often on the main Travis CI.
+>=20
+> Travis CI set the CONTINUOUS_INTEGRATION variable in the process
+> environment [2]. Let's use it to disable it when running this test
+> there.
+>=20
+> [1] https://travis-ci.org/philmd/qemu/jobs/466594203#L4430
+> [2] https://docs.travis-ci.com/user/environment-variables/#default-envi=
+ronment-variables
 
-The performance test results:
-Test compresses and decompresses qemu qcow2 image with just
-installed rhel-7.6 guest.
-Image cluster size: 64K. Image on disk size: 2.2G
+I think the right solution here is to disable it under TCG.
 
-The test was conducted with brd disk to reduce the influence
-of disk subsystem to the test results.
-The results is given in seconds.
+Dave
 
-compress cmd:
-  time ./qemu-img convert -O qcow2 -c -o compression_type=[zlib|zstd]
-                  src.img [zlib|zstd]_compressed.img
-decompress cmd
-  time ./qemu-img convert -O qcow2
-                  [zlib|zstd]_compressed.img uncompressed.img
-
-           compression               decompression
-         zlib       zstd           zlib         zstd
-------------------------------------------------------------
-real     65.5       16.3 (-75 %)    1.9          1.6 (-16 %)
-user     65.0       15.8            5.3          2.5
-sys       3.3        0.2            2.0          2.0
-
-Both ZLIB and ZSTD gave the same compression ratio: 1.57
-compressed image size in both cases: 1.4G
-
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- block/qcow2.c | 82 +++++++++++++++++++++++++++++++++++++++++++++++++++
- configure     | 26 ++++++++++++++++
- 2 files changed, 108 insertions(+)
-
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 90f15cc3c9..58901f9f79 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -26,6 +26,7 @@
- 
- #define ZLIB_CONST
- #include <zlib.h>
-+#include <zstd.h>
- 
- #include "block/block_int.h"
- #include "block/qdict.h"
-@@ -1553,6 +1554,9 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-     case QCOW2_COMPRESSION_TYPE_ZLIB:
-         break;
- 
-+    case QCOW2_COMPRESSION_TYPE_ZSTD:
-+        break;
-+
-     default:
-         error_setg(errp, "Unknown compression type");
-         ret = -EINVAL;
-@@ -3286,6 +3290,9 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-          *  ZLIB shouldn't be here since it's the default
-          */
-         switch (qcow2_opts->compression_type) {
-+        case QCOW2_COMPRESSION_TYPE_ZSTD:
-+            break;
-+
-         default:
-             error_setg_errno(errp, -EINVAL, "Unknown compression type");
-             goto out;
-@@ -4113,6 +4120,73 @@ static ssize_t zlib_decompress(void *dest, size_t dest_size,
-     return ret;
- }
- 
-+/*
-+ * zstd_compress()
-+ *
-+ * @dest - destination buffer, @dest_size bytes
-+ * @src - source buffer, @src_size bytes
-+ *
-+ * Returns: compressed size on success
-+ *          -1 on any error
-+ */
-+
-+static ssize_t zstd_compress(void *dest, size_t dest_size,
-+                             const void *src, size_t src_size)
-+{
-+    /* steal some bytes to store compressed chunk size */
-+    size_t ret;
-+    size_t *c_size = dest;
-+    char *d_buf = dest;
-+    d_buf += sizeof(ret);
-+    dest_size -= sizeof(ret);
-+
-+    ret = ZSTD_compress(d_buf, dest_size, src, src_size, 5);
-+
-+    if (ZSTD_isError(ret)) {
-+        return -1;
-+    }
-+
-+    /* store the compressed chunk size in the very beginning of the buffer */
-+    *c_size = ret;
-+
-+    return ret + sizeof(ret);
-+}
-+
-+/*
-+ * zstd_decompress()
-+ *
-+ * Decompress some data (not more than @src_size bytes) to produce exactly
-+ * @dest_size bytes.
-+ *
-+ * @dest - destination buffer, @dest_size bytes
-+ * @src - source buffer, @src_size bytes
-+ *
-+ * Returns: 0 on success
-+ *          -1 on fail
-+ */
-+
-+static ssize_t zstd_decompress(void *dest, size_t dest_size,
-+                             const void *src, size_t src_size)
-+{
-+    size_t ret;
-+    /*
-+     * zstd decompress wants to know the exact lenght of the data
-+     * for that purpose, zstd_compress stores the length in the
-+     * very beginning of the compressed buffer
-+     */
-+    const size_t *s_size = src;
-+    const char *s_buf = src;
-+    s_buf += sizeof(size_t);
-+
-+    ret = ZSTD_decompress(dest, dest_size, s_buf, *s_size);
-+
-+    if (ZSTD_isError(ret)) {
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
- #define MAX_COMPRESS_THREADS 4
- 
- typedef ssize_t (*Qcow2CompressFunc)(void *dest, size_t dest_size,
-@@ -4189,6 +4263,10 @@ qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
-         fn = zlib_compress;
-         break;
- 
-+    case QCOW2_COMPRESSION_TYPE_ZSTD:
-+        fn = zstd_compress;
-+        break;
-+
-     default:
-         return -ENOTSUP;
-     }
-@@ -4208,6 +4286,10 @@ qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
-         fn = zlib_decompress;
-         break;
- 
-+    case QCOW2_COMPRESSION_TYPE_ZSTD:
-+        fn = zstd_decompress;
-+        break;
-+
-     default:
-         return -ENOTSUP;
-     }
-diff --git a/configure b/configure
-index 1c563a7027..c90716189c 100755
---- a/configure
-+++ b/configure
-@@ -433,6 +433,7 @@ opengl_dmabuf="no"
- cpuid_h="no"
- avx2_opt=""
- zlib="yes"
-+zstd="yes"
- capstone=""
- lzo=""
- snappy=""
-@@ -1317,6 +1318,8 @@ for opt do
-   ;;
-   --disable-zlib-test) zlib="no"
-   ;;
-+  --disable-zstd-test) zstd="no"
-+  ;;
-   --disable-lzo) lzo="no"
-   ;;
-   --enable-lzo) lzo="yes"
-@@ -3702,6 +3705,29 @@ EOF
-     fi
- fi
- 
-+#########################################
-+# zstd check
-+
-+if test "$zstd" != "no" ; then
-+    if $pkg_config --exists libzstd; then
-+        zstd_cflags=$($pkg_config --cflags libzstd)
-+        zstd_libs=$($pkg_config --libs libzstd)
-+        QEMU_CFLAGS="$zstd_cflags $QEMU_CFLAGS"
-+        LIBS="$zstd_libs $LIBS"
-+    else
-+        cat > $TMPC << EOF
-+#include <zstd.h>
-+int main(void) { ZSTD_versionNumber(); return 0; }
-+EOF
-+        if compile_prog "" "-lzstd" ; then
-+            LIBS="$LIBS -lzstd"
-+        else
-+            error_exit "zstd check failed" \
-+                "Make sure to have the zstd libs and headers installed."
-+        fi
-+    fi
-+fi
-+
- ##########################################
- # SHA command probe for modules
- if test "$modules" = yes; then
--- 
-2.17.0
-
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+>  tests/migration-test.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/tests/migration-test.c b/tests/migration-test.c
+> index bd3f5c3125..c5091e1fb1 100644
+> --- a/tests/migration-test.c
+> +++ b/tests/migration-test.c
+> @@ -764,6 +764,11 @@ static void test_postcopy(void)
+>  {
+>      QTestState *from, *to;
+> =20
+> +    if (getenv("CONTINUOUS_INTEGRATION")) {
+> +        /* Test failing on Travis-CI */
+> +        g_test_skip("Running on Travis-CI");
+> +    }
+> +
+>      if (migrate_postcopy_prepare(&from, &to, false)) {
+>          return;
+>      }
+> --=20
+> 2.20.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
