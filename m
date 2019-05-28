@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0752CF84
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:32:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41517 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECB22CF85
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:32:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41520 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVhpU-0001qb-34
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:32:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36595)
+	id 1hVhph-0001yu-L4
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:32:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36655)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhml-0000W1-Ix
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:29:24 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hVhmy-0000jR-J2
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:29:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhmW-0000M7-DS
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:29:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53398)
+	(envelope-from <mreitz@redhat.com>) id 1hVhmn-0000gB-Vg
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:29:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41830)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hVhmJ-0008SS-70; Tue, 28 May 2019 15:28:56 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	id 1hVhmP-0008Ul-M6; Tue, 28 May 2019 15:29:03 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6308AC0578F8;
-	Tue, 28 May 2019 19:28:49 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id C7ACC3082134;
+	Tue, 28 May 2019 19:28:51 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.223])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E9B0C611B4;
-	Tue, 28 May 2019 19:28:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B5DD1972B;
+	Tue, 28 May 2019 19:28:51 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 28 May 2019 21:28:26 +0200
-Message-Id: <20190528192847.2730-1-mreitz@redhat.com>
+Date: Tue, 28 May 2019 21:28:27 +0200
+Message-Id: <20190528192847.2730-2-mreitz@redhat.com>
+In-Reply-To: <20190528192847.2730-1-mreitz@redhat.com>
+References: <20190528192847.2730-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Tue, 28 May 2019 19:28:49 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Tue, 28 May 2019 19:28:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 00/21] Block patches
+Subject: [Qemu-devel] [PULL 01/21] qcow2.h: add missing include
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,88 +60,111 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8c1ecb590497b0349c550607db923972b37f69=
-63:
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-next-28=
-0519-2' into staging (2019-05-28 17:38:32 +0100)
+qcow2.h depends on block_int.h. Compilation isn't broken currently only
+due to block_int.h always included before qcow2.h. Though, it seems
+better to directly include block_int.h in qcow2.h.
 
-are available in the Git repository at:
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20190506142741.41731-2-vsementsov@virtuozzo.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/qcow2.h          | 1 +
+ block/qcow2-bitmap.c   | 1 -
+ block/qcow2-cache.c    | 1 -
+ block/qcow2-cluster.c  | 1 -
+ block/qcow2-refcount.c | 1 -
+ block/qcow2-snapshot.c | 1 -
+ block/qcow2.c          | 1 -
+ 7 files changed, 1 insertion(+), 6 deletions(-)
 
-  https://github.com/XanClic/qemu.git tags/pull-block-2019-05-28
-
-for you to fetch changes up to a2d665c1bc3624a8375e2f9a7d569f7565cc1358:
-
-  blockdev: loosen restrictions on drive-backup source node (2019-05-28 2=
-0:30:55 +0200)
-
-----------------------------------------------------------------
-Block patches:
-- qcow2: Use threads for encrypted I/O
-- qemu-img rebase: Optimizations
-- backup job: Allow any source node, and some refactoring
-- Some general simplifications in the block layer
-
-----------------------------------------------------------------
-Alberto Garcia (2):
-  block: Use bdrv_unref_child() for all children in bdrv_close()
-  block: Make bdrv_root_attach_child() unref child_bs on failure
-
-Andrey Shinkevich (1):
-  qcow2-bitmap: initialize bitmap directory alignment
-
-Anton Nefedov (1):
-  qcow2: skip writing zero buffers to empty COW areas
-
-John Snow (1):
-  blockdev: loosen restrictions on drive-backup source node
-
-Sam Eiderman (3):
-  qemu-img: rebase: Reuse parent BlockDriverState
-  qemu-img: rebase: Reduce reads on in-chain rebase
-  qemu-img: rebase: Reuse in-chain BlockDriverState
-
-Vladimir Sementsov-Ogievskiy (13):
-  qcow2.h: add missing include
-  qcow2: add separate file for threaded data processing functions
-  qcow2-threads: use thread_pool_submit_co
-  qcow2-threads: qcow2_co_do_compress: protect queuing by mutex
-  qcow2-threads: split out generic path
-  qcow2: qcow2_co_preadv: improve locking
-  qcow2: bdrv_co_pwritev: move encryption code out of the lock
-  qcow2: do encryption in threads
-  block/backup: simplify backup_incremental_init_copy_bitmap
-  block/backup: move to copy_bitmap with granularity
-  block/backup: refactor and tolerate unallocated cluster skipping
-  block/backup: unify different modes code path
-  block/backup: refactor: split out backup_calculate_cluster_size
-
- block/Makefile.objs         |   2 +-
- qapi/block-core.json        |   4 +-
- block/qcow2.h               |  26 ++-
- block.c                     |  46 +++---
- block/backup.c              | 243 ++++++++++++---------------
- block/block-backend.c       |   3 +-
- block/qcow2-bitmap.c        |   3 +-
- block/qcow2-cache.c         |   1 -
- block/qcow2-cluster.c       |  10 +-
- block/qcow2-refcount.c      |   1 -
- block/qcow2-snapshot.c      |   1 -
- block/qcow2-threads.c       | 268 ++++++++++++++++++++++++++++++
- block/qcow2.c               | 320 +++++++++++++-----------------------
- block/quorum.c              |   1 -
- blockdev.c                  |   7 +-
- blockjob.c                  |   2 +-
- qemu-img.c                  |  85 ++++++----
- tests/test-bdrv-drain.c     |   6 -
- tests/test-bdrv-graph-mod.c |   1 -
- block/trace-events          |   1 +
- tests/qemu-iotests/056      |   2 +-
- tests/qemu-iotests/060      |   7 +-
- tests/qemu-iotests/060.out  |   5 +-
- 23 files changed, 615 insertions(+), 430 deletions(-)
- create mode 100644 block/qcow2-threads.c
-
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 8d92ef1fee..c2b0e955eb 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -28,6 +28,7 @@
+ #include "crypto/block.h"
+ #include "qemu/coroutine.h"
+ #include "qemu/units.h"
++#include "block/block_int.h"
+=20
+ //#define DEBUG_ALLOC
+ //#define DEBUG_ALLOC2
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index 8a75366c92..640da68ce1 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -29,7 +29,6 @@
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
+=20
+-#include "block/block_int.h"
+ #include "qcow2.h"
+=20
+ /* NOTICE: BME here means Bitmaps Extension and used as a namespace for
+diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
+index df02e7b20a..b33bcbc984 100644
+--- a/block/qcow2-cache.c
++++ b/block/qcow2-cache.c
+@@ -23,7 +23,6 @@
+  */
+=20
+ #include "qemu/osdep.h"
+-#include "block/block_int.h"
+ #include "qemu-common.h"
+ #include "qcow2.h"
+ #include "trace.h"
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index b36f4aa84a..a4c878398e 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -27,7 +27,6 @@
+=20
+ #include "qapi/error.h"
+ #include "qemu-common.h"
+-#include "block/block_int.h"
+ #include "qcow2.h"
+ #include "qemu/bswap.h"
+ #include "trace.h"
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index 0b09d6838b..4c1794f9af 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -25,7 +25,6 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "qemu-common.h"
+-#include "block/block_int.h"
+ #include "qcow2.h"
+ #include "qemu/range.h"
+ #include "qemu/bswap.h"
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index a6ffae89a6..d0e7fa9311 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -24,7 +24,6 @@
+=20
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "block/block_int.h"
+ #include "qcow2.h"
+ #include "qemu/bswap.h"
+ #include "qemu/error-report.h"
+diff --git a/block/qcow2.c b/block/qcow2.c
+index d39882785d..38bf729a1e 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -27,7 +27,6 @@
+ #define ZLIB_CONST
+ #include <zlib.h>
+=20
+-#include "block/block_int.h"
+ #include "block/qdict.h"
+ #include "sysemu/block-backend.h"
+ #include "qemu/module.h"
 --=20
 2.21.0
 
