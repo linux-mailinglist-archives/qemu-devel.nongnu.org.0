@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044452C3F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 12:08:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60211 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6ABA2C4D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 12:53:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60733 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVZ1q-00042V-45
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 06:08:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43614)
+	id 1hVZjS-0008Eu-Fv
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 06:53:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33119)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVYtj-0006Q8-0L
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 06:00:00 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hVZiE-0007vI-E5
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 06:52:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVYth-0005bm-E7
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 05:59:58 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52276)
+	(envelope-from <peter.maydell@linaro.org>) id 1hVZiC-0000Cd-Fb
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 06:52:10 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:37549)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hVYth-0005aZ-8C
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 05:59:57 -0400
-Received: by mail-wm1-x341.google.com with SMTP id y3so2175723wmm.2
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 02:59:57 -0700 (PDT)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hVZiA-0008WF-Fi
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 06:52:08 -0400
+Received: by mail-ot1-x336.google.com with SMTP id r10so17310683otd.4
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 03:52:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=JwuWb01uGinb5zd5Xhv8VSI/Lid9VvCyBHhhMXoCHSE=;
-	b=Oz/NMYnVy0VTC1Lo/BrVoHKWAILtjUPZJi2RBxCSWtaS8kNmA/TEeKfobWTw6kFYYo
-	yqbG2AAgnK622jmnfhiUwgNNROaczaVRln/JWq66mh/mqWiw7RymhPXxz7DN9hFAB/m7
-	PQD+CsUe0rHeQRKRp/nb/gc4FpZjb2VDch75EO4w4FHGT58VUPlA8vZ/Hv4jYUajPueU
-	YhIrtdaZnUtdrYf+5mtUF1fwZxB4wn/TjhS/G/WE1/FrgyLrwpB14YISIxgDCjVEiUNK
-	PkarGQIx4gJe5ZshReIoLNkZrr0K/zHQ7W5L/6p/u3raIz5SeDkA1mo6N9QgYugdjW+J
-	V/Vg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=5pomw+VuqsdZp+2VIIKCswCyJjJ0S5l/pl6VYl5VuJc=;
+	b=pT3RAgh9lXlaLjp5ssjVtVaJHfDRkCGef29iIzkpx+AXpifadkCPmELUJN+ShUV+9D
+	Qdb0Lwvv/3jFyOMerxSElEOm5G2NrgI+ruB74U5awBmfZ26KxcU3cCNpgrXX1PmA2pAy
+	tzPNVGky2yl23+TQhNApx3IeH9fBwmkcw7qQhZmxGQTytY5wPdfx7FOc/Tw739QePliI
+	feN9dp5alw+C2jRA24de8bnPtqbC8FiU9z+fT1Scwtvn533VzsLsnPMtFipYvKbqYFhf
+	hw5rRFfjPjp3vT0/JuZPsZ7Shu/87d+cHrUdmJMb4OjFEtjqtuRLsT14TWnuyvoANe97
+	JA+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=JwuWb01uGinb5zd5Xhv8VSI/Lid9VvCyBHhhMXoCHSE=;
-	b=t+bDyAkLODJwXwUsMsEJ00mBTaxHIcWhXhYzs8I8aRoIGmz4f5xwFMV4f9J90/jjvi
-	jwagK0hkAns9K1dLIEubLQA4AkDQ8sPdHMngQUA7HozwidXpEd5XdeXOy0IB6LBR7K3a
-	tpLxZfHGrEPEsb94OaGw9ekej5QaQtM4/GjkQk6yTY2x6KgAOJTwQ9q23G3LVSaCuH3M
-	9BX4Qhl/UaW7+25pb6FXd2qcKlMqKSUAmWVMR+gpxZyJv9++rILGI6U8Ufu44P2LSllm
-	k+0UzV7HGWjYH5/l7MlbpeQyTz67Meo4e42HMhUuauv3MA4FlTxUs3WmLJqXuhyJKfDM
-	h7Rw==
-X-Gm-Message-State: APjAAAWvNb/9EX2d8pahlW/dvfDcAm5BPlUiHRMdFwX03NU4I3qzH8bv
-	gJFBo99+Yz3x5nzHE6g3iaLUew==
-X-Google-Smtp-Source: APXvYqwJbvG9PncDPtDS8NW2279oKKaofF2qAsmkCjk4eOIqsFglQPsPWBVBPKh1EqdP0+Kqy1I8zA==
-X-Received: by 2002:a1c:c909:: with SMTP id f9mr2496045wmb.115.1559037596166; 
-	Tue, 28 May 2019 02:59:56 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	g11sm11395367wrx.62.2019.05.28.02.59.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 28 May 2019 02:59:51 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id E4A661FFB1;
-	Tue, 28 May 2019 10:49:55 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Tue, 28 May 2019 10:49:53 +0100
-Message-Id: <20190528094953.14898-29-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190528094953.14898-1-alex.bennee@linaro.org>
-References: <20190528094953.14898-1-alex.bennee@linaro.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=5pomw+VuqsdZp+2VIIKCswCyJjJ0S5l/pl6VYl5VuJc=;
+	b=Wspx3fPqwDQ9yxtF0yIMuAZC75phvtgIA+txSxvURcYa/EALz8Gy5Ees7BYgB7iVFG
+	Z/lNjH98O1vEykpcKgV3GljnDg3E2WIwvjkIq0LaI/CaxnutYpsB9ukbbp01RAG0fmii
+	MAA5gGy3Uc6z1qeCQx3Miyolf/fsNonBrfUlTv1D//wR7v9MaTLiIKgxNk+sNx008Jb0
+	mn/dOl3BJcGBtynGeQ0FFaug94XSy1BZ6PGIy8V+2bfyORZdPSzEXSo+y1AqBGYBPIgj
+	tucWF5lX1FxjlwF+qN5iSm04jqnUNZIDwDUeb1bDUPoseeEeX2JIpxMSzSh8GZYrLk9o
+	r7Kg==
+X-Gm-Message-State: APjAAAUFX4AqDvENxJaFFNM+5M9Rk94xtq+RkGwo7563dhEBfGUcGku4
+	giPbrpbRa/Uig+kbo80U5gGPr4Oo0mOJPaZvCbw4lw==
+X-Google-Smtp-Source: APXvYqzjbnrXPxTgeuPvUBoJujbpThr+8F+B+crCQQf3PA3hwyq1y88Nxsq5klX5ovGahM4fh+tlrD998J2nb7/ku2Y=
+X-Received: by 2002:a9d:5608:: with SMTP id e8mr18299776oti.135.1559040720458; 
+	Tue, 28 May 2019 03:52:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190524184447.16678-1-ehabkost@redhat.com>
+In-Reply-To: <20190524184447.16678-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 May 2019 11:51:49 +0100
+Message-ID: <CAFEAcA9KtJmikbKHxsazr+COOmto+Ox=z+Pt2Ho25xc5+DDwrw@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 28/28] tests: Run the iotests during "make
- check" again
+X-Received-From: 2607:f8b0:4864:20::336
+Subject: Re: [Qemu-devel] [PULL 00/17] Machine Core queue, 2019-05-24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,148 +73,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On Fri, 24 May 2019 at 19:44, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit a7b21f6762a2d6ec08106d8a7ccb1182991452=
+3f:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-4.1-p=
+ull-request' into staging (2019-05-24 12:47:49 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+>
+> for you to fetch changes up to 23d1f360f3de1d968d98ba605bd3b718f5309e6f:
+>
+>   hw/intc/nvic: Use object_initialize_child for correct reference countin=
+g (2019-05-24 15:29:02 -0300)
+>
+> ----------------------------------------------------------------
+> Machine Core queue, 2019-05-24
+>
+> * Display more helpful message when an object type is missing
+>   (Philippe Mathieu-Daud=C3=A9)
+> * Use object_initialize_child for correct reference counting
+>   (Philippe Mathieu-Daud=C3=A9)
+>
+> ----------------------------------------------------------------
 
-People often forget to run the iotests before submitting patches or
-pull requests - this is likely due to the fact that we do not run the
-tests during our mandatory "make check" tests yet. Now that we've got
-a proper "auto" group of iotests that should be fine to run in every
-environment, we can enable the iotests during "make check" again by
-running the "auto" tests by default from the check-block.sh script.
 
-Some cases still need to be checked first, though: iotests need bash
-and GNU sed (otherwise they fail), and if gprof is enabled, it spoils
-the output of some test cases causing them to fail. So if we detect
-that one of the required programs is missing or that gprof is enabled,
-we still have to skip the iotests to avoid failures.
+Applied, thanks.
 
-And finally, since we are using check-block.sh now again, this patch also
-removes the qemu-iotests-quick.sh script since we do not need that anymore
-(and having two shell wrapper scripts around the block tests seem
-rather confusing than helpful).
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190502084506.8009-8-thuth@redhat.com>
-[AJB: -makecheck to check-block.sh, move check-block to start&gate it]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 1865f6b3222..0c6d8c75941 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -140,7 +140,7 @@ check-unit-y += tests/test-uuid$(EXESUF)
- check-unit-y += tests/ptimer-test$(EXESUF)
- check-unit-y += tests/test-qapi-util$(EXESUF)
- 
--check-block-$(CONFIG_POSIX) += tests/qemu-iotests-quick.sh
-+check-block-$(call land,$(CONFIG_POSIX),$(CONFIG_SOFTMMU)) += tests/check-block.sh
- 
- # All QTests for now are POSIX-only, but the dependencies are
- # really in libqtest, not in the testcases themselves.
-@@ -1077,8 +1077,8 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
- 
- QEMU_IOTESTS_HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
- 
--.PHONY: check-tests/qemu-iotests-quick.sh
--check-tests/qemu-iotests-quick.sh: tests/qemu-iotests-quick.sh qemu-img$(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
-+.PHONY: check-tests/check-block.sh
-+check-tests/check-block.sh: tests/check-block.sh qemu-img$(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
- 	$<
- 
- .PHONY: $(patsubst %, check-%, $(check-qapi-schema-y))
-@@ -1152,7 +1152,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
- check-qapi-schema: $(patsubst %,check-%, $(check-qapi-schema-y)) check-tests/qapi-schema/doc-good.texi
- check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
- check-block: $(patsubst %,check-%, $(check-block-y))
--check: check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
-+check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
- check-clean:
- 	rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
- 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y)) $(check-qtest-generic-y))
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index f3d12fd602d..c8b6cec3f68 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -1,24 +1,48 @@
- #!/bin/sh
- 
--FORMAT_LIST="raw qcow2 qed vmdk vpc"
-+# Honor the SPEED environment variable, just like we do it for the qtests.
-+if [ "$SPEED" = "slow" ]; then
-+    format_list="raw qcow2"
-+    group=
-+elif [ "$SPEED" = "thorough" ]; then
-+    format_list="raw qcow2 qed vmdk vpc"
-+    group=
-+else
-+    format_list=qcow2
-+    group="-g auto"
-+fi
-+
- if [ "$#" -ne 0 ]; then
--    FORMAT_LIST="$@"
-+    format_list="$@"
-+fi
-+
-+if grep -q "TARGET_GPROF=y" *-softmmu/config-target.mak 2>/dev/null ; then
-+    echo "GPROF is enabled ==> Not running the qemu-iotests."
-+    exit 0
- fi
- 
--export QEMU_PROG="$PWD/x86_64-softmmu/qemu-system-x86_64"
--export QEMU_IMG_PROG="$PWD/qemu-img"
--export QEMU_IO_PROG="$PWD/qemu-io"
-+if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
-+    echo "No qemu-system binary available ==> Not running the qemu-iotests."
-+    exit 0
-+fi
-+
-+if ! command -v bash >/dev/null 2>&1 ; then
-+    echo "bash not available ==> Not running the qemu-iotests."
-+    exit 0
-+fi
- 
--if [ ! -x $QEMU_PROG ]; then
--    echo "'make check-block' requires qemu-system-x86_64"
--    exit 1
-+if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
-+    if ! command -v gsed >/dev/null 2>&1; then
-+        echo "GNU sed not available ==> Not running the qemu-iotests."
-+        exit 0
-+    fi
- fi
- 
- cd tests/qemu-iotests
- 
- ret=0
--for FMT in $FORMAT_LIST ; do
--    ./check -T -nocache -$FMT || ret=1
-+for fmt in $format_list ; do
-+    ./check -makecheck -$fmt $group || ret=1
- done
- 
- exit $ret
-diff --git a/tests/qemu-iotests-quick.sh b/tests/qemu-iotests-quick.sh
-deleted file mode 100755
-index 0e554bb9724..00000000000
---- a/tests/qemu-iotests-quick.sh
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#!/bin/sh
--
--cd tests/qemu-iotests
--
--ret=0
--TEST_DIR=${TEST_DIR:-/tmp/qemu-iotests-quick-$$} ./check -T -qcow2 -g quick || ret=1
--
--exit $ret
--- 
-2.20.1
-
+-- PMM
 
