@@ -2,78 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43482C9BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:11:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36526 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24722CA42
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:21:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36671 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVdkk-00024R-Kv
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:11:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58473)
+	id 1hVduw-0007y0-Rp
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:21:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60732)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVdjW-0001UY-F0
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:09:47 -0400
+	(envelope-from <elena.ufimtseva@oracle.com>) id 1hVdtG-0007HF-N1
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:19:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVdjV-0007jj-Ce
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:09:46 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36220)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hVdjV-0007hw-3s
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:09:45 -0400
-Received: by mail-wr1-x444.google.com with SMTP id s17so20650861wru.3
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 08:09:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=BH1aUf6f8Vm/zs1e83XiWhxjvmeSFUCGkzxGvL8jRJI=;
-	b=enxNQ/E/OsZ64WAYb2gbDIzzb/upvi4IYZrksNWodU/2v5TgPwZqsNf0U521rf6sFJ
-	RSzFSZk9mp1ni/jWxx01qYMz2RuDlsjIeVp6vcBWp6kY3MkHqwXmQvHeMz5O+F6ra4Ed
-	cPh5eSOtOs26EuQ+hS1N+NNNEYab/6wBEOs/Fc+dyAXFVyoy0ijgmnC2VgOhKVnDxgyd
-	xl4LTWNsh19Bnp2/VAHjh46dxKTgzSYkeOqigqaPy9GDy+OP1OYV+lBnwcw6q8GKbpHR
-	iB6h3IamjgEtZ5thV191XpP5Jw+4bBkB/aYu76jjO8PXaufFTPn6TEwGhWMzfxPclhNJ
-	SSTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=BH1aUf6f8Vm/zs1e83XiWhxjvmeSFUCGkzxGvL8jRJI=;
-	b=kxWXBATb8u4h0/ffmwpXWPt7+FMHZbkxuCC//fA4XHrRDwmrKlN4C5n1vVqey2tK8p
-	HqOHRlpsjdbRtZEcXlV3cpXrZh0l3iVProS39PpBzbhmXdCxTPk/T1ZWJoN/1KfvKnek
-	+c3UOzNAb5yTO13qLW0ttQjKoA+NGArwwJunnzO48lRa3oW/l77rvOCfcGZ39+5ppHJc
-	rVyGZUIxuEDMHQVyIL8bHksIHrgVgNvpD6VTgx3ccdbNeMyW0Fc9JzYtA+xO73BAJvN7
-	tBMf0aMyPLTfF0FesU4V25jyLKgYcWbB8SY/GinkrXC5FO3vx3PzYGyX4MMScMTNrAlH
-	Kjjg==
-X-Gm-Message-State: APjAAAWl0wd+eSvDxlrJIbwKQdmdH/2dbsqmRBI+tdWpIy1g3HfLfUBE
-	yJtSemA3ukOkZHQkj0ZOxnqUFQ==
-X-Google-Smtp-Source: APXvYqwmNkR/DKQjn8CGsmfaltb4P1kloE/D4bvs9+j+dS/u3DR4Q3RM60atmHWzYi+jepsf8629nw==
-X-Received: by 2002:adf:e850:: with SMTP id d16mr66998437wrn.269.1559056183431;
-	Tue, 28 May 2019 08:09:43 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id n1sm4147386wrx.39.2019.05.28.08.09.42
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 28 May 2019 08:09:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 1276C1FF87;
-	Tue, 28 May 2019 16:09:42 +0100 (BST)
-References: <20190528094953.14898-1-alex.bennee@linaro.org>
-	<CAFEAcA-Cbot1POVcbAzXhaLqNJpi6M_0z18=YoB7vyqY3PekUg@mail.gmail.com>
-	<878suqsnb1.fsf@zen.linaroharston>
-	<CAFEAcA-6Wh00+TG7r3Oeh_+Mn4Vcj0RdTjRL3sAQHtEeUm0mEw@mail.gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <CAFEAcA-6Wh00+TG7r3Oeh_+Mn4Vcj0RdTjRL3sAQHtEeUm0mEw@mail.gmail.com>
-Date: Tue, 28 May 2019 16:09:42 +0100
-Message-ID: <877eaasjih.fsf@zen.linaroharston>
+	(envelope-from <elena.ufimtseva@oracle.com>) id 1hVdtA-0006XJ-Vb
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:19:47 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:56752)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
+	id 1hVdt2-0005FB-7j
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:19:38 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4SF4JCA092445; Tue, 28 May 2019 15:18:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+	h=date : from : to : cc
+	: subject : message-id : references : mime-version : content-type :
+	in-reply-to; s=corp-2018-07-02;
+	bh=y6HWLt4sfz37hugXMkrK67Iw68u3/CDtU8F3ZKZ3+30=;
+	b=jjbyGEjGKb/VX9xnrjf1oRGLTX44bAlBcvGHAgIh8pOJJSk+bHoHJeV/g41EslKQn7B7
+	ZPaUadw3nu+jRy8RNnZS/rxoPss6YJt2jFMW4BomtE7XUbsnOUE5bCSCZ+hfYNt9H8Zb
+	6LlGtoNdYQGrplXV06aBASnZVmt7AZMLv4+Tpzg71btV0rNX+znr3Fm8kOGI+dTsT0mF
+	iHVMSAajR9izO4xm7PYwgCWVhJ/OZNbSfPTdPmnhxgD6QHfIA0qt3ZtuYNGbHRiqfSfz
+	UgKmqL/gFHqdQAUtDevHJ4jCzzfIfteEZvZl7jNKDu5Fu+QlXr7OHxY0Vq2QPM27lE0A
+	uQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by userp2120.oracle.com with ESMTP id 2spxbq3tr8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 28 May 2019 15:18:26 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4SFI2x0137927; Tue, 28 May 2019 15:18:26 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 2sr31uqhdk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 28 May 2019 15:18:25 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4SFIO3V021987;
+	Tue, 28 May 2019 15:18:24 GMT
+Received: from heatpipe (/73.170.27.202)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 28 May 2019 08:18:23 -0700
+Date: Tue, 28 May 2019 08:18:21 -0700
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Message-ID: <20190528151820.GA4545@heatpipe>
+References: <20190307192727.GG2915@stefanha-x1.localdomain>
+	<BDEBF2EE-DE0F-46CF-B60E-536B3DA9BF77@oracle.com>
+	<20190308095036.GC12318@stefanha-x1.localdomain>
+	<20190326080822.GC21018@stefanha-x1.localdomain>
+	<e5395abf-6b41-46c8-f5af-3210077dfdd5@oracle.com>
+	<CAAdtpL4ztcpf-CTx0fc5T_+VQ+8upHa2pEMoiZPcmBXOO6L3Og@mail.gmail.com>
+	<c945c950-f6f1-7e2a-a6c4-399c9b728288@oracle.com>
+	<20190425154421.GG17806@stefanha-x1.localdomain>
+	<fe4b0b42-523d-5877-173c-3e878abd4e32@oracle.com>
+	<20190523111130.GF26632@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PULL 00/28] testing/next (system tests, docker,
- iotests)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190523111130.GF26632@stefanha-x1.localdomain>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9270
+	signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+	malwarescore=0
+	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+	engine=8.0.1-1810050000 definitions=main-1905280099
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9270
+	signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
+	adultscore=0
+	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+	definitions=main-1905280098
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: Re: [Qemu-devel] [multiprocess RFC PATCH 36/37] multi-process: add
+ the concept description to docs/devel/qemu-multiprocess
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,38 +102,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: John G Johnson <john.g.johnson@oracle.com>, sstabellini@kernel.org,
+	Jag Raman <jag.raman@oracle.com>, konrad.wilk@oracle.com,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+	qemu-devel@nongnu.org, ross.lagerwall@citrix.com,
+	liran.alon@oracle.com, Stefan Hajnoczi <stefanha@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, kanth.ghatraju@oracle.com,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Tue, 28 May 2019 at 14:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->> Sounds like we should include the sanitizer build in our normal setup.
->> We currently only do:
->>
->>   ./configure ${CONFIG} --extra-cflags=3D"-g3 -O0 -fsanitize=3Dthread
->>   -fuse-ld=3Dgold"
->>
->> with gcc-7. What are the clang configure runes you are using?
+On Thu, May 23, 2019 at 12:11:30PM +0100, Stefan Hajnoczi wrote:
+> Hi Jag and Elena,
+> Do you think a call would help to move discussion along more quickly?
 >
-> I use
-> '../../configure' '--cc=3Dclang' '--cxx=3Dclang++' '--enable-gtk'
-> '--extra-cflags=3D-fsanitize=3Dundefined  -fno-sanitize=3Dshift-base
-> -Werror'
 
-OK - I'll drop the final patch for now and respin and include it the next t=
-esting/next
+Hi Stefan,
 
+We would like to join this call.
+And thank you inviting us!
+
+Elena
+> We could use the next KVM Community Call on June 4th to discuss
+> remaining concerns and the next steps:
+> https://calendar.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
 >
-> (which we document at https://wiki.qemu.org/Testing#clang_UBSan)
+> I also hope to include other core QEMU developers.  As you know, I'm
+> skeptical, but it could be just me and I don't want to block you
+> unnecessarily if others are more enthusiastic about this approach.
 >
-> thanks
-> -- PMM
 
 
---
-Alex Benn=C3=A9e
+> Stefan
+
+
 
