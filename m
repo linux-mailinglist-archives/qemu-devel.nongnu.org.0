@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2662CDF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 19:48:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40387 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00782CDF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 19:48:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40389 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVgD2-00075t-6N
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 13:48:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45544)
+	id 1hVgDa-0007MX-2d
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 13:48:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45545)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hVgB3-0006JO-PI
+	(envelope-from <pbonzini@redhat.com>) id 1hVgB3-0006JP-R8
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 13:46:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hVgB2-0001tF-Na
+	(envelope-from <pbonzini@redhat.com>) id 1hVgB2-0001tR-S9
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 13:46:21 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:37919)
+Received: from mail-wr1-f46.google.com ([209.85.221.46]:41980)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hVgB2-0001sY-Gl
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hVgB2-0001sl-Li
 	for qemu-devel@nongnu.org; Tue, 28 May 2019 13:46:20 -0400
-Received: by mail-oi1-x234.google.com with SMTP id u199so14950054oie.5
+Received: by mail-wr1-f46.google.com with SMTP id c2so6005105wrm.8
 	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 10:46:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=liYhb8tsIs/g7JYn6SYJ2VKz2MYnn+w4/Bk6A+wKyvo=;
-	b=YsUTG0vcKWZ6EJ4Gj3uu/FnW1XX5eJz4lH7xWdHWE9RsDA18ETLh4mRm4b4efCPRwX
-	/LBPWu07pcYA4VuMPCqVzmieBxLshF/aQoFDzA5VZE6BSDMErRra1Vpytgk3T59eMeIB
-	xotBIIYZlAfScM130bZ0TG0jSOJpkiDVoeZMrymrdWX8ItKetjZbWxluoRTNT4J/I4Yd
-	phnwoOZMqmThp6SnOihp8bM8asNaViHwYwVF4ketPutiNw8GRc3SouogP6/A8QWj4sFl
-	o4rU4jB2I3WNZhNv0XqmGdR8v39C4cwg0boGfXFHoWtfDT9wMFiVEI3P6mWjDgMAiyt6
-	ZIew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=liYhb8tsIs/g7JYn6SYJ2VKz2MYnn+w4/Bk6A+wKyvo=;
-	b=bvybmzGnei8tCITIGxzKcOknOXHcD6ovhns7gfey/FK6BybqO/Nb0td0H9zbUulUTU
-	t6WsK3XPXx0zgW51D86BGheS+CyiJVseoR2LXkJ7zYF0x4Wp2AGlE6PyAAPKLqg128n9
-	ZhpyTReHJVXuxokyEfAnkVP1QM2wiE8NYOpBv0fpboi1bj9GxyD+XPrmSlcFRTzMiqVg
-	ygaWAdHwMbKY1pN6asSkP9Iy9F0MP3ymYoIV2uJVbeQRh1YUxXbjzyPn0KJYXie+vo6U
-	1uBLRH68famK+9iI6XAgC8MjcNunUNBXuv+y8HYLHV5HhjtFh3tkUH5T954DHkBYP9QS
-	UGrA==
-X-Gm-Message-State: APjAAAVzZRDB2P5/rN7CxetsiYEvoWX6L5OLTOTGde6kWs8yrt6IyLOy
-	bblddOH+55P0PA1G9EbZpyNwA4obxlp8KFDr9pEfrw==
-X-Google-Smtp-Source: APXvYqwRha6FfCsKfp2Y3vK+CfrZphz8uem1icEBcX6ww4NsTWE15jYNKKJ+dZkvE5Qj2a1N7Hlr8jP5CQFkX6OIZgs=
-X-Received: by 2002:aca:b1c1:: with SMTP id a184mr3521666oif.98.1559065579343; 
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=NEk8wX2NIwEkLXYl6ms8IcjzfT4ja7S30uKg2RPzbr8=;
+	b=mMQUXxypGuD7+t+VCKjw22XrcdBxGRS3uL+Msrr3QSQA5nSo67MnPBFbzAyDiZ2uSz
+	QMGEjomwzsW8Dc6sTVegEX9onzXFlAJbHgt00FM+7/68wBUwNAYH0ZqoiYHu2cJnS1yI
+	lw80oScQXNMoa52RKDVeQTvT/KbaU1r4WRUUmWyCol/48++gz7nSzAhC8aHIQgC1vsW3
+	h4dAm4KNwVUy8Gh3uxzmKX+YHxsKg4n5sedb7PXazkA5SJSfnx22Lb5Q6c+x/a7tQ3Va
+	QEU6DbOnqZBDq9PklwFn3NOAYK4h3eiQ3BGL4rMln67AUgEahE0vKz6HgZ4sCVsODUNw
+	tWRw==
+X-Gm-Message-State: APjAAAXFP0wo8VbBgF8gy0yHp2wa9td9xi0Y4j9+zbChmLBNVMT2gAc2
+	VrJEYbEeUmU9bdPkaAUy3AZlKDfbaQQ=
+X-Google-Smtp-Source: APXvYqyFNF09KHaB6gibisoPkaImPv+jCwXK06EpD63miKNfO5Tq+SAU+ffmR9YEMmoy/Rw51HRwGg==
+X-Received: by 2002:adf:efcb:: with SMTP id i11mr10172567wrp.188.1559065579470;
 	Tue, 28 May 2019 10:46:19 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c92d:f9e8:f150:3553?
+	([2001:b07:6468:f312:c92d:f9e8:f150:3553])
+	by smtp.gmail.com with ESMTPSA id
+	v13sm3201326wmj.46.2019.05.28.10.46.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 May 2019 10:46:19 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>
+References: <87a7f7ov6q.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <18bac6f1-3bd8-f4c1-3f19-34084cc9553b@redhat.com>
+Date: Tue, 28 May 2019 19:46:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190528162810.30244-1-alex.bennee@linaro.org>
-In-Reply-To: <20190528162810.30244-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 May 2019 18:46:08 +0100
-Message-ID: <CAFEAcA-fCVPEdbdumUM4-iia6jszcepC=MeLq5jirA-Wp4vByQ@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::234
-Subject: Re: [Qemu-devel] [PULL v2 00/27] testing/next (system tests, docker,
- some iotests)
+In-Reply-To: <87a7f7ov6q.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.46
+Subject: Re: [Qemu-devel] Make target check-report.tap is broken
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,43 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 May 2019 at 17:28, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit a7b21f6762a2d6ec08106d8a7ccb1182991452=
-3f:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-4.1-p=
-ull-request' into staging (2019-05-24 12:47:49 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-next-280519-2
->
-> for you to fetch changes up to 70ff5b07fcdd378180ad2d5cc0b0d5e67e7ef325:
->
->   tests/qemu-iotests: re-format output to for make check-block (2019-05-2=
-8 10:28:51 +0100)
->
-> ----------------------------------------------------------------
-> Various testing updates
->
->   - semihosting re-factor (used in system tests)
->   - aarch64 and alpha system tests
->   - editorconfig tweak for .S
->   - some docker image updates
->   - iotests clean-up (without make check inclusion)
->
+On 28/05/19 10:11, Markus Armbruster wrote:
+> Commit 9df43317b82 "test: replace gtester with a TAP driver" replaced
+> targets check-report.xml and check-report.html by
+> 
+> check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check-report-unit.tap
+> 	$(call quiet-command,./scripts/tap-merge.py $^ > $@,"GEN","$@")
+> 
+> This never worked: scripts/tap-merge.py does not exist.
+> 
+> Perhaps it accidentally wasn't committed.
+> 
+> Perhaps it's just a typoed tap-merge.pl.  But that one reads its intput
+> from stdin.  Possible fix appended.
 
+Indeed that's the right one.
 
-Applied, thanks.
+Paolo
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+> Paolo, please advise.
+> 
+> 
+> 
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 1a3f17faa9..54d888fc5c 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -905,7 +905,7 @@ check-report-unit.tap: $(check-unit-y)
+>  # Reports and overall runs
+>  
+>  check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check-report-unit.tap
+> -	$(call quiet-command,./scripts/tap-merge.py $^ > $@,"GEN","$@")
+> +	$(call quiet-command, cat $^ | scripts/tap-merge.pl >$@,"GEN","$@")
+>  
+>  # FPU Emulation tests (aka softfloat)
+>  #
+> 
 
--- PMM
 
