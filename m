@@ -2,50 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915A62BCE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 03:37:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55522 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF5E2BCF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 03:49:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55600 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVR3O-0007qG-1e
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 21:37:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50973)
+	id 1hVRFJ-0001oe-3j
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 21:49:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52448)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hVR2N-0007Y4-98
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:36:24 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hVRDO-0000zN-OE
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:47:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hVR2L-0001Hu-Mr
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:36:23 -0400
-Received: from mga07.intel.com ([134.134.136.100]:5782)
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hVRDN-0003Zt-Vb
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:47:46 -0400
+Received: from mga11.intel.com ([192.55.52.93]:31236)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hVR2L-0001G3-Fx
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:36:21 -0400
-X-Amp-Result: UNSCANNABLE
+	id 1hVRDN-0003YP-Ny
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:47:45 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 May 2019 18:36:18 -0700
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 May 2019 18:47:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,520,1549958400"; d="scan'208";a="179049679"
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by fmsmga002.fm.intel.com with ESMTP; 27 May 2019 18:36:17 -0700
-Date: Tue, 28 May 2019 09:35:48 +0800
+	by orsmga006.jf.intel.com with ESMTP; 27 May 2019 18:47:42 -0700
 From: Wei Yang <richardw.yang@linux.intel.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190528013548.GA8813@richard>
-References: <20190411071739.22889-1-richardw.yang@linux.intel.com>
-	<20190527142114.521ab953@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 28 May 2019 09:46:59 +0800
+Message-Id: <20190528014703.21030-1-richardw.yang@linux.intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190527142114.521ab953@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 134.134.136.100
-Subject: Re: [Qemu-devel] [PATCH] hw/i386/pc: check apci hotplug capability
- before nvdimm's
+X-Received-From: 192.55.52.93
+Subject: [Qemu-devel] [PATCH 0/4] Multifd Cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,55 +51,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: thuth@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
-	Wei Yang <richardw.yang@linux.intel.com>, pbonzini@redhat.com,
-	rth@twiddle.net
+Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
+	quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 27, 2019 at 02:21:14PM +0200, Igor Mammedov wrote:
->On Thu, 11 Apr 2019 15:17:39 +0800
->Wei Yang <richardw.yang@linux.intel.com> wrote:
->
->> pc_memory_pre_plug() is called during hotplug for both pc-dimm and
->> nvdimm. This is more proper to check apci hotplug capability before
->> check nvdimm specific capability.
->not sure what this about.
->Currently we are checking if ACPI is enabled
->  if (!pcms->acpi_dev || !acpi_enabled) { ...
->before nvdimm check and it looks better to me that we cancel
->nvdimm hotplug earlier than passing it to
->    hotplug_handler_pre_plug(pcms->acpi_dev, dev, &local_err)
->with this patch ACPI device handler will be called before
->nvdimm check happens, so it's +1 unnecessary call chain in
->the case of nvdimm, which I'd rather not have.
->
->Are there any issues with current call flow?
->(commit message doesn't really explaining why we need this patch)
->
+Just found several small places for unused variables.
 
-My idea is to check more generic requirement and then specific one.
+Wei Yang (4):
+  migration: multifd_save_setup always return 0
+  migration/ram.c: use same type in MultiFDPages_t to define offsest
+  migration/ram.c: MultiFDSendParams.sem_sync is not really used
+  migration/ram.c: multifd_send_state->count is not really used
 
-For example, the call flow looks like this:
-
-pc_memory_pre_plug
-
-    piix4_device_pre_plug_cb | ich9_pm_device_pre_plug_cb
-        if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) &&
-            !lpc->pm.acpi_memory_hotplug.is_enabled)
-
-    if (is_nvdimm && !ms->nvdimms_state->is_enabled)
-    
-
-In hotplug_handler_pre_plug(), it checks the acpi hotplug capability. And then
-if it has memory hotplug capability and is nvdimm, we check whether nvdimm is
-enabled.
-
-This is why I suggest to change the order here. No functional issue for
-current code.
+ migration/migration.c |  7 +------
+ migration/ram.c       | 11 +----------
+ 2 files changed, 2 insertions(+), 16 deletions(-)
 
 -- 
-Wei Yang
-Help you, Help me
+2.19.1
+
 
