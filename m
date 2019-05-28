@@ -2,48 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E397F2CA63
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:35:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36803 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677D32CA68
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 17:38:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36860 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVe8C-0003pt-K7
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:35:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35192)
+	id 1hVeAy-0005dE-Jq
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 11:38:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36185)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVe6T-0003JJ-TK
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:33:30 -0400
+	(envelope-from <philmd@redhat.com>) id 1hVe9r-0005Aa-BH
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:37:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVe6Q-0001Ir-52
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:33:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55600)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hVe6P-0001Dc-7C
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:33:25 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2C0BE309708C;
-	Tue, 28 May 2019 15:33:19 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.206.32])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 179FE9E956;
-	Tue, 28 May 2019 15:33:07 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+	(envelope-from <philmd@redhat.com>) id 1hVe9q-0000ys-96
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:36:59 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:40189)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hVe9p-0000uW-T5
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 11:36:58 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 15so3374414wmg.5
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 08:36:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=jmrJ3+pWJQ4Cnycl/vsrl5puQfhaEuR6ULhpMdeB+Pg=;
+	b=NztpJG89CvbEkwnYmhzKmJUWd70mO3zxkjSX1qYBZyBNhsl4HhXXWS2p4RWyJIucu7
+	c2ZNYRTI4tkII6E0PeUeR/IyDdhvANNksdB15A/LinDO+ykYBh4OX7EF0N/4Bt5s5Wcy
+	feiPQuaowTwnpgvSyKMRWHMgxIhSo6on50nYOCt2tbVqk5TOZtw9ZD/sPN4N7oxOMblM
+	aJKFGoyh50tEHekqLFhUjfG1KbYR2BhsYEhnhZzPw9iPSHwzseu7sJ/oRadeJAb78Qcc
+	P2oc9zXEuergh7LM/c7Pq1qPNmBVsIMrwP4y6B63U023lCmqrk+PPmVYqAD51XTjO1V+
+	Hf7g==
+X-Gm-Message-State: APjAAAWr2G5o7GF5nLV9BpAQoi3kh0NvN0xnurS+Qp7e80izQb0ehn5P
+	K4AUR7gpI+5eWT9hucR18a+yJg==
+X-Google-Smtp-Source: APXvYqyi7NrKuuxT2YoTBlwXsjlZcVU41AoDH3PMqSvxN+gh8wJL8eW9Lh4Le7EuSh4I7Vi85eJWZQ==
+X-Received: by 2002:a1c:67c2:: with SMTP id b185mr3496333wmc.98.1559057816292; 
+	Tue, 28 May 2019 08:36:56 -0700 (PDT)
+Received: from [192.168.1.38] (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	x6sm20212085wru.36.2019.05.28.08.36.55
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 May 2019 08:36:55 -0700 (PDT)
 To: qemu-devel@nongnu.org
-Date: Tue, 28 May 2019 17:33:04 +0200
-Message-Id: <20190528153304.27157-1-philmd@redhat.com>
+References: <20190528153304.27157-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <eb44b164-aabe-d072-b2a8-392bdb37dc7e@redhat.com>
+Date: Tue, 28 May 2019 17:36:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Tue, 28 May 2019 15:33:24 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190528153304.27157-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2] tests/docker: Update the Fedora image to
- Fedora 30
+	[fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH v2] tests/docker: Update the Fedora image
+ to Fedora 30
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,40 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+	=?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fedora 30 got released:
+Cc'ing Michael/Igor/Stefan about git comment format.
 
-  https://fedoramagazine.org/announcing-fedora-30/
+On 5/28/19 5:33 PM, Philippe Mathieu-Daudé wrote:
+> Fedora 30 got released:
+> 
+>   https://fedoramagazine.org/announcing-fedora-30/
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Tested-by: Stefano Garzarella <sgarzare@redhat.com>
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+> v2: Added Marc-André and Stefano tags
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
----
-v2: Added Marc-Andr=C3=A9 and Stefano tags
----
- tests/docker/dockerfiles/fedora.docker | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+^ This is my local commit
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
-files/fedora.docker
-index 69d4a7f5d7..1496b68ba1 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,4 +1,4 @@
--FROM fedora:29
-+FROM fedora:30
- ENV PACKAGES \
-     bc \
-     bison \
---=20
-2.20.1
+> ---
 
+^ This line was added by git publish via format-patch
+
+Michael is that what break your patch workflow?
+
+>  tests/docker/dockerfiles/fedora.docker | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+> index 69d4a7f5d7..1496b68ba1 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -1,4 +1,4 @@
+> -FROM fedora:29
+> +FROM fedora:30
+>  ENV PACKAGES \
+>      bc \
+>      bison \
+> 
 
