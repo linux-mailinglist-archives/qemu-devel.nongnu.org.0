@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924BF2CCC3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 18:57:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39659 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489BB2CCAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 18:51:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39537 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVfQA-0005DK-Pe
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 12:57:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58191)
+	id 1hVfKE-0008Eu-Cq
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 12:51:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58479)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hVfFU-0005Mp-Sj
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:46:54 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hVfGq-0006Mp-Fs
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:48:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hVfFQ-0005tE-Kn
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:46:50 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46570)
+	(envelope-from <peter.maydell@linaro.org>) id 1hVfGo-0006eD-EJ
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:48:16 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38031)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hVfFN-00054n-81
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:46:47 -0400
-Received: by mail-ot1-x344.google.com with SMTP id j49so18350311otc.13
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 09:46:19 -0700 (PDT)
+	id 1hVfGn-0006EY-VY
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 12:48:14 -0400
+Received: by mail-oi1-x244.google.com with SMTP id u199so14796393oie.5
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 09:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=f6uPhcbzc3DGZEUHWi2LR+ruO0xWV4ctUDghO+B7y18=;
-	b=dwG1SZBxq0Tiqd632YAxcmV4FIs939mIbEzcBiu/bFssMKeGlFdMlXoZeuOHNRtS+K
-	+kxpg37Rq5P/2i7A2jh6D8A6qiTrXvTUNxyNmlagH8Lv4QW8KXObOfA3hkHHNWa5ikZF
-	fI4Hrrc4PTo4TEnseNnyrB72b//zzErJ8TDX004RzRPIcvez4/3MDu+4X0z59RkrNgrj
-	oO9nYq8DUsVx42dGU5BAVk1OAZ440XthR+zeOd0lGMZ9QRsmzmHCq/vdp1OkYIw/AbYJ
-	UjpzE7Da1C+VOnsQwhW/Q5j7omAVolY1AdLxTvUkMmrlN5PnxTHj1Q0KH639IqXpgoef
-	6srQ==
+	bh=KJW3RwpOP6LW47PF2ENP0DSUzzMyv5RPjCuGE4kQ/gU=;
+	b=U1XKA3g0RZK1Tbi8JHbcQb0jW2gd5Le289/Fahq+G2FbdKf1VZCEFVnTWIVHtDXjea
+	56OgmCommXH6ZS+IHM45g55F9/309L5ZXOMhP960N4gbO+i/8/gewyh/6uVhrsw6gnit
+	J/0DDQB6+jJ+ZBQmoiqs1Ovii7EeBBm6uSuqwP2M5nkbZxAFeGsVmXAHAM1SKAFj1xkR
+	Knw+jbTDfujK5T6IIuCYZ71Ld3SMukXmSKCUBdRI6mmaTUiglkIav+OGphXC2OFT1jbP
+	b5mpGgUiGkmbb8bTnP4lYxHPVPTQAQJm9H1s707VqY2ixCgeq1aCHjC07ludteX82kww
+	Nu2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=f6uPhcbzc3DGZEUHWi2LR+ruO0xWV4ctUDghO+B7y18=;
-	b=iwHMG4C8mCgB51a5aYz3hiSzNsBaiVPkU0a+vZBZNT3NtubEpgI++fAMRcWWG/KDTR
-	2D8+5vX6VLCbixnW6E7jD3Io/CPfHPln37r7ko8RY2LvkKPI170RJsssEATNu2JCwFL2
-	HPrYkHQShGFMV4cfhMbKByVFLmMvOfTvfsuX7KbQZG92vHgieBgcaObmW1Av4EOBq2ov
-	Y7KpqLBlZS/ZPAXjDPk0KRzjkJ6PwJ/hs0vV7TMMPURvlg5ucGnzC/7uOYGcdbPfAr9E
-	ZAUvMUV02Tn7+fZSF8IsDuamXYq+Zv1yPdiGXzme6hxWDHCbtPnfyU79t/dh1cIGJQLv
-	c3NQ==
-X-Gm-Message-State: APjAAAWREHloxOOQ3wkUZIhQSt9VnB08gTomJh/K3z1lF5y+sU04Xyhc
-	vaCtj5MQnVREm1mOgTB+bWblkUkcWRocqVb0AK2LAA==
-X-Google-Smtp-Source: APXvYqwg4QBMnd0xwsxxrLWAMF5gZIyx4nL5uKGxdpOPiQBWJ+dtfH7tacG0hCW/vkYh9Sq2SS9WXXVmDQEYB3NBk6k=
-X-Received: by 2002:a05:6830:209a:: with SMTP id
-	y26mr47405395otq.232.1559061977945; 
-	Tue, 28 May 2019 09:46:17 -0700 (PDT)
+	bh=KJW3RwpOP6LW47PF2ENP0DSUzzMyv5RPjCuGE4kQ/gU=;
+	b=b5qQVFncAmYqZh8m+o2FBn4dUR8dKJ89XkrgAoEIlY0oNZ85y2Ua9/udpH9dAiJTGI
+	jYd7FDAD3nH1ghnX55MbLj+PGIY72Pq74EEyMZqkn/k6ElCLanegBZf1gPGXO4Py/Qqj
+	081S/0jqoq7rmDnU8z8oX2RTy4huQGhn8eLdudwddyqSmvrwBSNioVHY6b7M2AIMxXNa
+	m3nYxPK7VYOb3wQt+u30crPhVgKxLD2BfXbkjVZyAb1wdE088wR18fLwKn4XYy2AYVwx
+	NPpS0Ikvy7evZt70d6ZYKtoIa9Jl2//rfjGpRzXn8O2SGdqPY4piMDzME+BDCmvQVYSv
+	zwIw==
+X-Gm-Message-State: APjAAAWQn+QThFclDnqSQROg67IAx5oYlwzeteXjRnXWf2fFiobT8XwG
+	cRVxm8nDnSh87qgLuBxxkxW4blt32urBo7S/njhV3Q==
+X-Google-Smtp-Source: APXvYqyQ3GWdeshPJkCM/RshxdKrTLMQ+AorFWNBkk7HUYhqLHt0UPCbayqhHYIuG7TAU5REouOseI0oXvc43kXrgBo=
+X-Received: by 2002:aca:845:: with SMTP id 66mr3270959oii.163.1559062042880;
+	Tue, 28 May 2019 09:47:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190528164020.32250-1-philmd@redhat.com>
-	<20190528164020.32250-7-philmd@redhat.com>
-In-Reply-To: <20190528164020.32250-7-philmd@redhat.com>
+	<20190528164020.32250-6-philmd@redhat.com>
+In-Reply-To: <20190528164020.32250-6-philmd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 May 2019 17:46:06 +0100
-Message-ID: <CAFEAcA-eGUW096e2Y6vinPHvF74ogwXBaP+orxYEoRhB-mhGFw@mail.gmail.com>
+Date: Tue, 28 May 2019 17:47:11 +0100
+Message-ID: <CAFEAcA9GhZwCb6WLa75i1ep5VX7S_kP3YEo-VOxXbnogXZ=W1A@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v2 06/10] hw/audio/ac97: Use the QOM
- DEVICE() macro to access DeviceState.qdev
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH v2 05/10] hw/sd: Use the QOM BUS() macro to
+ access BusState.qbus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -96,49 +95,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 28 May 2019 at 17:42, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
 m> wrote:
 >
-> Rather than looking inside the definition of a DeviceState with
-> "s->qdev", use the QOM prefered style: "DEVICE(s)".
+> Rather than looking inside the definition of a BusState with "s->bus.qbus=
+",
+> use the QOM prefered style: "BUS(&s->bus)".
 >
-> This patch was generated using the following Coccinelle script
-> (with a bit of manual fix-up, removing an extra space to please
-> checkpatch.pl):
+> This patch was generated using the following Coccinelle script:
 >
->     // Use DEVICE() macros to access DeviceState.qdev
->     @use_device_macro_to_access_qdev@
+>     // Use BUS() macros to access BusState.qbus
+>     @use_bus_macro_to_access_qbus@
 >     expression obj;
->     identifier dev;
+>     identifier bus;
 >     @@
->     -&obj->dev.qdev
->     +DEVICE(obj)
+>     -&obj->bus.qbus
+>     +BUS(&obj->bus)
 >
 > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/audio/ac97.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-> index 2265622d44..a4e8d99e77 100644
-> --- a/hw/audio/ac97.c
-> +++ b/hw/audio/ac97.c
-> @@ -1388,7 +1388,7 @@ static void ac97_realize(PCIDevice *dev, Error **er=
-rp)
->      pci_register_bar (&s->dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->io_nam)=
-;
->      pci_register_bar (&s->dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &s->io_nabm=
-);
->      AUD_register_card ("ac97", &s->card);
-> -    ac97_on_reset (&s->dev.qdev);
-> +    ac97_on_reset(DEVICE(s));
->  }
+>  hw/sd/milkymist-memcard.c | 2 +-
+>  hw/sd/ssi-sd.c            | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>.
-
-As an aside, this function has a lot of uses of "&s->dev" to
-get the PCIDevice* given an AC97LinkState*. This isn't
-necessary as the function has been passed the PCIDevice*
-as its argument, so all the uses of "&s->dev" here could
-just be written as "dev".
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
