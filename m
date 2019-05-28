@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B1D2BCB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 03:15:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55301 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B052BCB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 03:15:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55296 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVQiV-0003fs-IL
-	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 21:15:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46406)
+	id 1hVQiS-0003cr-SV
+	for lists+qemu-devel@lfdr.de; Mon, 27 May 2019 21:15:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46363)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVQgK-0002j5-WB
-	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:13:38 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVQgJ-0006zk-Qs
+	(envelope-from <dgibson@ozlabs.org>) id 1hVQgJ-0002iy-Ot
 	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:13:36 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43017 helo=ozlabs.org)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <dgibson@ozlabs.org>) id 1hVQgE-0006vA-9a
+	for qemu-devel@nongnu.org; Mon, 27 May 2019 21:13:35 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45541 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hVQgI-0006kY-2R; Mon, 27 May 2019 21:13:35 -0400
+	id 1hVQgA-0006ko-Sw; Mon, 27 May 2019 21:13:30 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45CbST4k6hz9s9y; Tue, 28 May 2019 11:13:13 +1000 (AEST)
+	id 45CbST4DwVz9s5c; Tue, 28 May 2019 11:13:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1559005993;
-	bh=AB2PI7Ip5npPxf7/mhaGao15oH8SX/OG7x1dT3Ap68g=;
+	bh=/p/e5G8trdFMDY3OGCyszpvCOMkoML5I50AXZwtJaBs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LpXMZ+ClyM1E8IViqoZxbStCtBMGBUfXOeFXcSLupN4GR+4D7KJcMFPYiXDuzADac
-	BtSfYB26SsfL+pH4ZnTUct4hiV+p0aTsVtEU9qEBEzwtoa6RYLeFHssD/gknTij1aA
-	WdnVe2ig6cnOsZF0//n1ZXy45N4Izr98yVl8WZNg=
-Date: Tue, 28 May 2019 11:07:25 +1000
+	b=oHfI+4ewxanWUQhPOrfuWWti/AV+dOmSs5V7nyYtt/OFVajSQiWoacEXAdKqNoiwE
+	D8X45mq9jdEX+IGqBK6KXHrGjFtDmp/MY3G7spmxigG9rEhTjXjVJCei8USzzGBRu9
+	VsVvUfM4xVBxYDygELoAGCBXUEvqYD9MHHn/POYs=
+Date: Tue, 28 May 2019 11:09:37 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190528010725.GC11618@umbus.fritz.box>
-References: <20190527071722.31424-1-clg@kaod.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <20190528010937.GD11618@umbus.fritz.box>
+References: <20190524065345.25591-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="w7PDEPdKQumQfZlR"
+	protocol="application/pgp-signature"; boundary="veXX9dWIonWZEC6h"
 Content-Disposition: inline
-In-Reply-To: <20190527071722.31424-1-clg@kaod.org>
+In-Reply-To: <20190524065345.25591-1-mark.cave-ayland@ilande.co.uk>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH] ppc/pnv: add dummy XSCOM registers for PRD
- initialization
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v2] target/ppc: Fix lxvw4x,
+ lxvh8x and lxvb16x
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,70 +61,89 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---w7PDEPdKQumQfZlR
-Content-Type: text/plain; charset=iso-8859-1
+--veXX9dWIonWZEC6h
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 27, 2019 at 09:17:22AM +0200, C=E9dric Le Goater wrote:
-> PRD (Processor recovery diagnostics) is a service available on
-> OpenPower systems. The opal-prd daemon initializes the PowerPC
-> Processor through the XSCOM bus and then waits for hardware diagnostic
-> events.
+On Fri, May 24, 2019 at 07:53:45AM +0100, Mark Cave-Ayland wrote:
+> From: Anton Blanchard <anton@ozlabs.org>
 >=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> During the conversion these instructions were incorrectly treated as
+> stores. We need to use set_cpu_vsr* and not get_cpu_vsr*.
+>=20
+> Fixes: 8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}()=
+ helpers for VSR register access")
+> Signed-off-by: Anton Blanchard <anton@ozlabs.org>
+> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Tested-by: Greg Kurz <groug@kaod.org>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
 Applied, thanks.
 
 > ---
->  hw/ppc/pnv_xscom.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  target/ppc/translate/vsx-impl.inc.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-> index c285ef514e88..f53a6d7a9457 100644
-> --- a/hw/ppc/pnv_xscom.c
-> +++ b/hw/ppc/pnv_xscom.c
-> @@ -29,6 +29,12 @@
-> =20
->  #include <libfdt.h>
-> =20
-> +/* PRD registers */
-> +#define PRD_P8_IPOLL_REG_MASK           0x01020013
-> +#define PRD_P8_IPOLL_REG_STATUS         0x01020014
-> +#define PRD_P9_IPOLL_REG_MASK           0x000F0033
-> +#define PRD_P9_IPOLL_REG_STATUS         0x000F0034
+> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
+sx-impl.inc.c
+> index 199d22da97..cdb44b8b70 100644
+> --- a/target/ppc/translate/vsx-impl.inc.c
+> +++ b/target/ppc/translate/vsx-impl.inc.c
+> @@ -102,8 +102,7 @@ static void gen_lxvw4x(DisasContext *ctx)
+>      }
+>      xth =3D tcg_temp_new_i64();
+>      xtl =3D tcg_temp_new_i64();
+> -    get_cpu_vsrh(xth, xT(ctx->opcode));
+> -    get_cpu_vsrl(xtl, xT(ctx->opcode));
 > +
->  static void xscom_complete(CPUState *cs, uint64_t hmer_bits)
->  {
->      /*
-> @@ -70,6 +76,12 @@ static uint64_t xscom_read_default(PnvChip *chip, uint=
-32_t pcba)
->      case 0x1010c00:     /* PIBAM FIR */
->      case 0x1010c03:     /* PIBAM FIR MASK */
+>      gen_set_access_type(ctx, ACCESS_INT);
+>      EA =3D tcg_temp_new();
 > =20
-> +        /* PRD registers */
-> +    case PRD_P8_IPOLL_REG_MASK:
-> +    case PRD_P8_IPOLL_REG_STATUS:
-> +    case PRD_P9_IPOLL_REG_MASK:
-> +    case PRD_P9_IPOLL_REG_STATUS:
-> +
->          /* P9 xscom reset */
->      case 0x0090018:     /* Receive status reg */
->      case 0x0090012:     /* log register */
-> @@ -124,6 +136,12 @@ static bool xscom_write_default(PnvChip *chip, uint3=
-2_t pcba, uint64_t val)
->      case 0x201302a:     /* CAPP stuff */
->      case 0x2013801:     /* CAPP stuff */
->      case 0x2013802:     /* CAPP stuff */
-> +
-> +        /* P8 PRD registers */
-> +    case PRD_P8_IPOLL_REG_MASK:
-> +    case PRD_P8_IPOLL_REG_STATUS:
-> +    case PRD_P9_IPOLL_REG_MASK:
-> +    case PRD_P9_IPOLL_REG_STATUS:
->          return true;
->      default:
->          return false;
+> @@ -126,6 +125,8 @@ static void gen_lxvw4x(DisasContext *ctx)
+>          tcg_gen_addi_tl(EA, EA, 8);
+>          tcg_gen_qemu_ld_i64(xtl, EA, ctx->mem_idx, MO_BEQ);
+>      }
+> +    set_cpu_vsrh(xT(ctx->opcode), xth);
+> +    set_cpu_vsrl(xT(ctx->opcode), xtl);
+>      tcg_temp_free(EA);
+>      tcg_temp_free_i64(xth);
+>      tcg_temp_free_i64(xtl);
+> @@ -185,8 +186,6 @@ static void gen_lxvh8x(DisasContext *ctx)
+>      }
+>      xth =3D tcg_temp_new_i64();
+>      xtl =3D tcg_temp_new_i64();
+> -    get_cpu_vsrh(xth, xT(ctx->opcode));
+> -    get_cpu_vsrl(xtl, xT(ctx->opcode));
+>      gen_set_access_type(ctx, ACCESS_INT);
+> =20
+>      EA =3D tcg_temp_new();
+> @@ -197,6 +196,8 @@ static void gen_lxvh8x(DisasContext *ctx)
+>      if (ctx->le_mode) {
+>          gen_bswap16x8(xth, xtl, xth, xtl);
+>      }
+> +    set_cpu_vsrh(xT(ctx->opcode), xth);
+> +    set_cpu_vsrl(xT(ctx->opcode), xtl);
+>      tcg_temp_free(EA);
+>      tcg_temp_free_i64(xth);
+>      tcg_temp_free_i64(xtl);
+> @@ -214,14 +215,14 @@ static void gen_lxvb16x(DisasContext *ctx)
+>      }
+>      xth =3D tcg_temp_new_i64();
+>      xtl =3D tcg_temp_new_i64();
+> -    get_cpu_vsrh(xth, xT(ctx->opcode));
+> -    get_cpu_vsrl(xtl, xT(ctx->opcode));
+>      gen_set_access_type(ctx, ACCESS_INT);
+>      EA =3D tcg_temp_new();
+>      gen_addr_reg_index(ctx, EA);
+>      tcg_gen_qemu_ld_i64(xth, EA, ctx->mem_idx, MO_BEQ);
+>      tcg_gen_addi_tl(EA, EA, 8);
+>      tcg_gen_qemu_ld_i64(xtl, EA, ctx->mem_idx, MO_BEQ);
+> +    set_cpu_vsrh(xT(ctx->opcode), xth);
+> +    set_cpu_vsrl(xT(ctx->opcode), xtl);
+>      tcg_temp_free(EA);
+>      tcg_temp_free_i64(xth);
+>      tcg_temp_free_i64(xtl);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -131,25 +151,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---w7PDEPdKQumQfZlR
+--veXX9dWIonWZEC6h
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzsic0ACgkQbDjKyiDZ
-s5J3WQ/9Gu3tII+T0U98FjZzaKxmHYIpb1kqDezXLEWhK6hvvPXZNmXll/mgA/n8
-bT4UXn1Vid2N1Dn1fn2m7lpcuZcMdF3+UAscE3fnAKrxykSarJ8VVwJNnCIYWGFq
-E+uFkMCrd1tUUmqI7he8khWvvU8hM/7hALUkd6jMu04kqA5g4UNw61Y/+rkd9fFo
-KNDKDH2XKFzSAugn4TNTIs7vm9CmZC8rtZkD2aETiKYGC6AfuHI5LgdX6tZ0dhue
-iYAOcUlZrDmdcn5pvZe3G4FjuzfQi+vusby1JrtISgtUpCoy3PaltkMaFjdPU5xV
-Kb2dMluYCLizKJojwZwUm7VxMVxkfyoEnpN+8n2YLFRL4axQ+bNrQ6HBBaGL2zaJ
-cCbRiWKcOpoBZDxxx/SQ8Zn7jKo3HDf4pNHdz3W3RKh3j2NMp25C54hbvwADw7nc
-kRaZT4AqVv7XSSqCotFRrVFKW4sjkMsbIpee2Wxtc6f/ZmuRkDSvm161f6zDsNl5
-SBNWp55nYjw4dX4FRcumhtwCuphaZ1SNaNhqcLMsuhBGtIlFD1FY6/x3SfbOi88n
-oE3yUqZB1Kcgz5s0qhpx1EDR5h6yTP2kpHfKEfdeJnSPbYs0tasE9sUwf55HvB8K
-cCL/lIvHSzVKgDcJi9b+a1EMZetAm/z7535qwTt8IARCHwoBULA=
-=gh5b
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzsilEACgkQbDjKyiDZ
+s5KM9BAAjKyZ+ZOTPXLjR7b9OpgbrXIIcIfLtAoTkNNhoWtvwxtrQMHIXMoPS1SG
+Lwt16PaZKGO7fGY4lylqC4uFdNzYvDGj5ga71q1+46ugHnknSPqsA9T8hJaJ8SLF
+HtLd8oR+WrgU7YbTNHz8QQ7KTusnS8bOopGpSjW4LHYawFrpVqw/0tATmAtl2cAv
+EG04WGWBGVrPXtGgxMJIC/qG9ibb8+F+J4AM5Phqm2OWK6gYnSeidx2VcQ4NLruw
+cFlqis/T/qRJ2bYor/XMQgxOYjrNIPHk7vmgSD9DqEVnSv+6DLVaPeYh5kia21Jm
+SYFAsy155LDR94UhDBYp0rkwKJfHaVy4sJqaANVMnqL1dh9KT7vbqEWnDQ9r7luE
++zjuddPHpjVdCYTEn0lIj6rHY/1e67h2oz+iTsLdpcaERhTlTVcAP7DSKtl7Dvri
+o7N2oM6r3lmgXeZy0MGIN63baj7T+v2txKZene3rh0KIyJWsMDOthlrsOFLV/QkG
+8Atj+J2CfraZnfFWsBY9fN2VndJK5UzFc/s4QPkL5iOAqx0WJNFxX828EtJPRZg6
+m9GOA6vwakXOLwcsduziycsguzoP+lQ/F8Ssh1Wt62K4NB1d9FPthHlqAoiQhsi/
+RycG3WuKUNF/iwqVrxLSiIKlolMy/tHojLZC4Br2YqKqIBD/T8o=
+=bL4F
 -----END PGP SIGNATURE-----
 
---w7PDEPdKQumQfZlR--
+--veXX9dWIonWZEC6h--
 
