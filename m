@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4FD2CFA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:40:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41622 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F6D2CF97
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:36:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41585 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVhxT-0008L8-M2
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:40:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36876)
+	id 1hVhu2-0005Ps-KA
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:36:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36945)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhnj-0001LL-9L
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:25 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hVhnz-0001Wm-3m
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhnY-0001Vm-2c
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53586)
+	(envelope-from <mreitz@redhat.com>) id 1hVhnw-0001v7-02
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:30:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40378)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hVhnR-0000vM-Uj; Tue, 28 May 2019 15:30:06 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	id 1hVhnY-000126-2G; Tue, 28 May 2019 15:30:19 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B1F5981E1D;
-	Tue, 28 May 2019 19:29:24 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1FD4A2E97DA;
+	Tue, 28 May 2019 19:29:28 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.223])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4670D5C8A3;
-	Tue, 28 May 2019 19:29:24 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id ACAB51972A;
+	Tue, 28 May 2019 19:29:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 28 May 2019 21:28:39 +0200
-Message-Id: <20190528192847.2730-14-mreitz@redhat.com>
+Date: Tue, 28 May 2019 21:28:40 +0200
+Message-Id: <20190528192847.2730-15-mreitz@redhat.com>
 In-Reply-To: <20190528192847.2730-1-mreitz@redhat.com>
 References: <20190528192847.2730-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Tue, 28 May 2019 19:29:27 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.29]);
+	Tue, 28 May 2019 19:29:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 13/21] block/backup: refactor: split out
- backup_calculate_cluster_size
+Subject: [Qemu-devel] [PULL 14/21] block: Use bdrv_unref_child() for all
+ children in bdrv_close()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,165 +61,105 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Alberto Garcia <berto@igalia.com>
 
-Split out cluster_size calculation. Move copy-bitmap creation above
-block-job creation, as we are going to share it with upcoming
-backup-top filter, which also should be created before actual block job
-creation.
+bdrv_unref_child() does the following things:
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190429090842.57910-6-vsementsov@virtuozzo.com
-[mreitz: Dropped a paragraph from the commit message that was left over
-         from a previous version]
+  - Updates the child->bs->inherits_from pointer.
+  - Calls bdrv_detach_child() to remove the BdrvChild from bs->children.
+  - Calls bdrv_unref() to unref the child BlockDriverState.
+
+When bdrv_unref_child() was introduced in commit 33a604075c it was not
+used in bdrv_close() because the drivers that had additional children
+(like quorum or blkverify) had already called bdrv_unref() on their
+children during their own close functions.
+
+This was changed later (in 0bd6e91a7e for quorum, in 3e586be0b2 for
+blkverify) so there's no reason not to use bdrv_unref_child() in
+bdrv_close() anymore.
+
+After this there's also no need to remove bs->backing and bs->file
+separately from the rest of the children, so bdrv_close() can be
+simplified.
+
+Now bdrv_close() unrefs all children (before this patch it was only
+bs->file and bs->backing). As a result, none of the callers of
+brvd_attach_child() should remove their reference to child_bs (because
+this function effectively steals that reference). This patch updates a
+couple of tests that were doing their own bdrv_unref().
+
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Message-id: 6d1d5feaa53aa1ab127adb73d605dc4503e3abd5.1557754872.git.berto=
+@igalia.com
+[mreitz: s/where/were/]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/backup.c | 82 ++++++++++++++++++++++++++++++++------------------
- 1 file changed, 52 insertions(+), 30 deletions(-)
+ block.c                     | 16 +++-------------
+ tests/test-bdrv-drain.c     |  6 ------
+ tests/test-bdrv-graph-mod.c |  1 -
+ 3 files changed, 3 insertions(+), 20 deletions(-)
 
-diff --git a/block/backup.c b/block/backup.c
-index 5b3fc9d123..00f4f8af53 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -497,6 +497,42 @@ static const BlockJobDriver backup_job_driver =3D {
-     .drain                  =3D backup_drain,
- };
-=20
-+static int64_t backup_calculate_cluster_size(BlockDriverState *target,
-+                                             Error **errp)
-+{
-+    int ret;
-+    BlockDriverInfo bdi;
-+
-+    /*
-+     * If there is no backing file on the target, we cannot rely on COW =
-if our
-+     * backup cluster size is smaller than the target cluster size. Even=
- for
-+     * targets with a backing file, try to avoid COW if possible.
-+     */
-+    ret =3D bdrv_get_info(target, &bdi);
-+    if (ret =3D=3D -ENOTSUP && !target->backing) {
-+        /* Cluster size is not defined */
-+        warn_report("The target block device doesn't provide "
-+                    "information about the block size and it doesn't hav=
-e a "
-+                    "backing file. The default block size of %u bytes is=
- "
-+                    "used. If the actual block size of the target exceed=
-s "
-+                    "this default, the backup may be unusable",
-+                    BACKUP_CLUSTER_SIZE_DEFAULT);
-+        return BACKUP_CLUSTER_SIZE_DEFAULT;
-+    } else if (ret < 0 && !target->backing) {
-+        error_setg_errno(errp, -ret,
-+            "Couldn't determine the cluster size of the target image, "
-+            "which has no backing file");
-+        error_append_hint(errp,
-+            "Aborting, since this may create an unusable destination ima=
-ge\n");
-+        return ret;
-+    } else if (ret < 0 && target->backing) {
-+        /* Not fatal; just trudge on ahead. */
-+        return BACKUP_CLUSTER_SIZE_DEFAULT;
-+    }
-+
-+    return MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.cluster_size);
-+}
-+
- BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-                   BlockDriverState *target, int64_t speed,
-                   MirrorSyncMode sync_mode, BdrvDirtyBitmap *sync_bitmap=
-,
-@@ -508,9 +544,10 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
-kDriverState *bs,
-                   JobTxn *txn, Error **errp)
- {
-     int64_t len;
--    BlockDriverInfo bdi;
-     BackupBlockJob *job =3D NULL;
-     int ret;
-+    int64_t cluster_size;
-+    HBitmap *copy_bitmap =3D NULL;
-=20
-     assert(bs);
-     assert(target);
-@@ -572,6 +609,13 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
-kDriverState *bs,
-         goto error;
+diff --git a/block.c b/block.c
+index cb11537029..be37280dc7 100644
+--- a/block.c
++++ b/block.c
+@@ -3877,22 +3877,12 @@ static void bdrv_close(BlockDriverState *bs)
+         bs->drv =3D NULL;
      }
 =20
-+    cluster_size =3D backup_calculate_cluster_size(target, errp);
-+    if (cluster_size < 0) {
-+        goto error;
-+    }
-+
-+    copy_bitmap =3D hbitmap_alloc(len, ctz32(cluster_size));
-+
-     /* job->len is fixed, so we can't allow resize */
-     job =3D block_job_create(job_id, &backup_job_driver, txn, bs,
-                            BLK_PERM_CONSISTENT_READ,
-@@ -600,35 +644,9 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
-kDriverState *bs,
-=20
-     /* Detect image-fleecing (and similar) schemes */
-     job->serialize_target_writes =3D bdrv_chain_contains(target, bs);
+-    bdrv_set_backing_hd(bs, NULL, &error_abort);
 -
--    /* If there is no backing file on the target, we cannot rely on COW =
-if our
--     * backup cluster size is smaller than the target cluster size. Even=
- for
--     * targets with a backing file, try to avoid COW if possible. */
--    ret =3D bdrv_get_info(target, &bdi);
--    if (ret =3D=3D -ENOTSUP && !target->backing) {
--        /* Cluster size is not defined */
--        warn_report("The target block device doesn't provide "
--                    "information about the block size and it doesn't hav=
-e a "
--                    "backing file. The default block size of %u bytes is=
- "
--                    "used. If the actual block size of the target exceed=
-s "
--                    "this default, the backup may be unusable",
--                    BACKUP_CLUSTER_SIZE_DEFAULT);
--        job->cluster_size =3D BACKUP_CLUSTER_SIZE_DEFAULT;
--    } else if (ret < 0 && !target->backing) {
--        error_setg_errno(errp, -ret,
--            "Couldn't determine the cluster size of the target image, "
--            "which has no backing file");
--        error_append_hint(errp,
--            "Aborting, since this may create an unusable destination ima=
-ge\n");
--        goto error;
--    } else if (ret < 0 && target->backing) {
--        /* Not fatal; just trudge on ahead. */
--        job->cluster_size =3D BACKUP_CLUSTER_SIZE_DEFAULT;
--    } else {
--        job->cluster_size =3D MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.clust=
-er_size);
+-    if (bs->file !=3D NULL) {
+-        bdrv_unref_child(bs, bs->file);
+-        bs->file =3D NULL;
 -    }
 -
--    job->copy_bitmap =3D hbitmap_alloc(len, ctz32(job->cluster_size));
-+    job->cluster_size =3D cluster_size;
-+    job->copy_bitmap =3D copy_bitmap;
-+    copy_bitmap =3D NULL;
-     job->use_copy_range =3D true;
-     job->copy_range_size =3D MIN_NON_ZERO(blk_get_max_transfer(job->comm=
-on.blk),
-                                         blk_get_max_transfer(job->target=
-));
-@@ -644,6 +662,10 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
-kDriverState *bs,
-     return &job->common;
-=20
-  error:
-+    if (copy_bitmap) {
-+        assert(!job || !job->copy_bitmap);
-+        hbitmap_free(copy_bitmap);
-+    }
-     if (sync_bitmap) {
-         bdrv_reclaim_dirty_bitmap(bs, sync_bitmap, NULL);
+     QLIST_FOREACH_SAFE(child, &bs->children, next, next) {
+-        /* TODO Remove bdrv_unref() from drivers' close function and use
+-         * bdrv_unref_child() here */
+-        if (child->bs->inherits_from =3D=3D bs) {
+-            child->bs->inherits_from =3D NULL;
+-        }
+-        bdrv_detach_child(child);
++        bdrv_unref_child(bs, child);
      }
+=20
++    bs->backing =3D NULL;
++    bs->file =3D NULL;
+     g_free(bs->opaque);
+     bs->opaque =3D NULL;
+     atomic_set(&bs->copy_on_read, 0);
+diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
+index eda90750eb..5534c2adf9 100644
+--- a/tests/test-bdrv-drain.c
++++ b/tests/test-bdrv-drain.c
+@@ -1436,12 +1436,6 @@ static void test_detach_indirect(bool by_parent_cb=
+)
+     bdrv_unref(parent_b);
+     blk_unref(blk);
+=20
+-    /* XXX Once bdrv_close() unref's children instead of just detaching =
+them,
+-     * this won't be necessary any more. */
+-    bdrv_unref(a);
+-    bdrv_unref(a);
+-    bdrv_unref(c);
+-
+     g_assert_cmpint(a->refcnt, =3D=3D, 1);
+     g_assert_cmpint(b->refcnt, =3D=3D, 1);
+     g_assert_cmpint(c->refcnt, =3D=3D, 1);
+diff --git a/tests/test-bdrv-graph-mod.c b/tests/test-bdrv-graph-mod.c
+index 283dc84869..747c0bf8fc 100644
+--- a/tests/test-bdrv-graph-mod.c
++++ b/tests/test-bdrv-graph-mod.c
+@@ -116,7 +116,6 @@ static void test_update_perm_tree(void)
+     g_assert_nonnull(local_err);
+     error_free(local_err);
+=20
+-    bdrv_unref(bs);
+     blk_unref(root);
+ }
+=20
 --=20
 2.21.0
 
