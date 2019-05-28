@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F405F2CFAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:43:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41681 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290C22CFCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 May 2019 21:52:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41842 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVi03-0002pm-11
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:43:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37269)
+	id 1hVi8k-0001Rf-Cu
+	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 15:52:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37587)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhow-0002JH-OI
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:31:41 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hVhpN-0002bS-AO
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:32:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hVhou-0002Yb-PY
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:31:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42214)
+	(envelope-from <mreitz@redhat.com>) id 1hVhpM-0002sp-2Z
+	for qemu-devel@nongnu.org; Tue, 28 May 2019 15:32:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42154)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hVhof-0000py-Tt; Tue, 28 May 2019 15:31:24 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	id 1hVhpH-0000ic-1X; Tue, 28 May 2019 15:31:59 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id BC7F5307E04E;
-	Tue, 28 May 2019 19:29:17 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4D8FE307E040;
+	Tue, 28 May 2019 19:29:22 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.223])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 52B855F9A6;
-	Tue, 28 May 2019 19:29:17 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D825C1001DD7;
+	Tue, 28 May 2019 19:29:19 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 28 May 2019 21:28:37 +0200
-Message-Id: <20190528192847.2730-12-mreitz@redhat.com>
+Date: Tue, 28 May 2019 21:28:38 +0200
+Message-Id: <20190528192847.2730-13-mreitz@redhat.com>
 In-Reply-To: <20190528192847.2730-1-mreitz@redhat.com>
 References: <20190528192847.2730-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
 	(mx1.redhat.com [10.5.110.42]);
-	Tue, 28 May 2019 19:29:22 +0000 (UTC)
+	Tue, 28 May 2019 19:29:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 11/21] block/backup: refactor and tolerate
- unallocated cluster skipping
+Subject: [Qemu-devel] [PULL 12/21] block/backup: unify different modes code
+ path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,110 +63,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Split allocation checking to separate function and reduce nesting.
-Consider bdrv_is_allocated() fail as allocated area, as copying more
-than needed is not wrong (and we do it anyway) and seems better than
-fail the whole job. And, most probably we will fail on the next read,
-if there are real problem with source.
+Do full, top and incremental mode copying all in one place. This
+unifies the code path and helps further improvements.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190429090842.57910-4-vsementsov@virtuozzo.com
+Message-id: 20190429090842.57910-5-vsementsov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/backup.c | 60 +++++++++++++++++++-------------------------------
- 1 file changed, 23 insertions(+), 37 deletions(-)
+ block/backup.c | 43 ++++++++++---------------------------------
+ 1 file changed, 10 insertions(+), 33 deletions(-)
 
 diff --git a/block/backup.c b/block/backup.c
-index 98a2d2b070..78f1b79354 100644
+index 78f1b79354..5b3fc9d123 100644
 --- a/block/backup.c
 +++ b/block/backup.c
-@@ -368,6 +368,22 @@ static bool coroutine_fn yield_and_check(BackupBlock=
-Job *job)
-     return false;
+@@ -384,15 +384,23 @@ static bool bdrv_is_unallocated_range(BlockDriverSt=
+ate *bs,
+     return offset >=3D end;
  }
 =20
-+static bool bdrv_is_unallocated_range(BlockDriverState *bs,
-+                                      int64_t offset, int64_t bytes)
-+{
-+    int64_t end =3D offset + bytes;
-+
-+    while (offset < end && !bdrv_is_allocated(bs, offset, bytes, &bytes)=
-) {
-+        if (bytes =3D=3D 0) {
-+            return true;
-+        }
-+        offset +=3D bytes;
-+        bytes =3D end - offset;
-+    }
-+
-+    return offset >=3D end;
-+}
-+
- static int coroutine_fn backup_run_incremental(BackupBlockJob *job)
+-static int coroutine_fn backup_run_incremental(BackupBlockJob *job)
++static int coroutine_fn backup_loop(BackupBlockJob *job)
  {
      int ret;
-@@ -453,49 +469,19 @@ static int coroutine_fn backup_run(Job *job, Error =
-**errp)
-         for (offset =3D 0; offset < s->len;
-              offset +=3D s->cluster_size) {
-             bool error_is_read;
--            int alloced =3D 0;
+     bool error_is_read;
+     int64_t offset;
+     HBitmapIter hbi;
++    BlockDriverState *bs =3D blk_bs(job->common.blk);
 =20
-             if (yield_and_check(s)) {
-                 break;
-             }
+     hbitmap_iter_init(&hbi, job->copy_bitmap, 0);
+     while ((offset =3D hbitmap_iter_next(&hbi)) !=3D -1) {
++        if (job->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP &&
++            bdrv_is_unallocated_range(bs, offset, job->cluster_size))
++        {
++            hbitmap_reset(job->copy_bitmap, offset, job->cluster_size);
++            continue;
++        }
++
+         do {
+             if (yield_and_check(job)) {
+                 return 0;
+@@ -437,7 +445,6 @@ static int coroutine_fn backup_run(Job *job, Error **=
+errp)
+ {
+     BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.job);
+     BlockDriverState *bs =3D blk_bs(s->common.blk);
+-    int64_t offset;
+     int ret =3D 0;
 =20
--            if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP) {
--                int i;
--                int64_t n;
+     QLIST_INIT(&s->inflight_reqs);
+@@ -462,38 +469,8 @@ static int coroutine_fn backup_run(Job *job, Error *=
+*errp)
+              * notify callback service CoW requests. */
+             job_yield(job);
+         }
+-    } else if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_INCREMENTAL) {
+-        ret =3D backup_run_incremental(s);
+     } else {
+-        /* Both FULL and TOP SYNC_MODE's require copying.. */
+-        for (offset =3D 0; offset < s->len;
+-             offset +=3D s->cluster_size) {
+-            bool error_is_read;
 -
--                /* Check to see if these blocks are already in the
--                 * backing file. */
+-            if (yield_and_check(s)) {
+-                break;
+-            }
 -
--                for (i =3D 0; i < s->cluster_size;) {
--                    /* bdrv_is_allocated() only returns true/false based
--                     * on the first set of sectors it comes across that
--                     * are are all in the same state.
--                     * For that reason we must verify each sector in the
--                     * backup cluster length.  We end up copying more th=
-an
--                     * needed but at some point that is always the case.=
- */
--                    alloced =3D
--                        bdrv_is_allocated(bs, offset + i,
--                                          s->cluster_size - i, &n);
--                    i +=3D n;
+-            if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP &&
+-                bdrv_is_unallocated_range(bs, offset, s->cluster_size))
+-            {
+-                continue;
+-            }
 -
--                    if (alloced || n =3D=3D 0) {
--                        break;
--                    }
--                }
--
--                /* If the above loop never found any sectors that are in
--                 * the topmost image, skip this backup. */
--                if (alloced =3D=3D 0) {
+-            ret =3D backup_do_cow(s, offset, s->cluster_size,
+-                                &error_is_read, false);
+-            if (ret < 0) {
+-                /* Depending on error action, fail now or retry cluster =
+*/
+-                BlockErrorAction action =3D
+-                    backup_error_action(s, error_is_read, -ret);
+-                if (action =3D=3D BLOCK_ERROR_ACTION_REPORT) {
+-                    break;
+-                } else {
+-                    offset -=3D s->cluster_size;
 -                    continue;
 -                }
 -            }
--            /* FULL sync mode we copy the whole drive. */
--            if (alloced < 0) {
--                ret =3D alloced;
--            } else {
--                ret =3D backup_do_cow(s, offset, s->cluster_size,
--                                    &error_is_read, false);
-+            if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP &&
-+                bdrv_is_unallocated_range(bs, offset, s->cluster_size))
-+            {
-+                continue;
-             }
-+
-+            ret =3D backup_do_cow(s, offset, s->cluster_size,
-+                                &error_is_read, false);
-             if (ret < 0) {
-                 /* Depending on error action, fail now or retry cluster =
-*/
-                 BlockErrorAction action =3D
+-        }
++        ret =3D backup_loop(s);
+     }
+=20
+     notifier_with_return_remove(&s->before_write);
 --=20
 2.21.0
 
