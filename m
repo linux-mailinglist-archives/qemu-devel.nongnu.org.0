@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FB92D5C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:56:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48400 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67692D5C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:56:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48425 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVsVE-0003uD-HT
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:56:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47494)
+	id 1hVsVO-00043f-VK
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:56:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47479)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsPy-0008Cz-Dg
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsPx-0008Cw-VL
 	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:50:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsPw-0002Vd-Up
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:50:34 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:35061 helo=ozlabs.org)
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsPw-0002Vk-V0
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:50:33 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43353 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hVsPw-0002Qu-Bd; Wed, 29 May 2019 02:50:32 -0400
+	id 1hVsPw-0002R7-BC; Wed, 29 May 2019 02:50:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45DLv13hhrz9sB8; Wed, 29 May 2019 16:50:21 +1000 (AEST)
+	id 45DLv15rXYz9sCJ; Wed, 29 May 2019 16:50:21 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1559112621;
-	bh=EZJqcEEPSulnpuBPVm9M3MWDQjvDKJoRrB0O9wjWsLw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=dSLYFlayOhbc32RxN3lXGLdvtzM4SuKxto9pbvGHTUe2sCgB4484RIyLq0kcqVsv2
-	mVnrbcavt5v11/+DdMlhWLvFHuAfEXYOtszs0whLJg6MN9z7MNCpDdNzNXup+mRO5D
-	f+DGtHyjIuVBD6kk837DdQnQHZSIEutaZOLwjbSU=
+	bh=BkQijpXj/KCURZ/rN6s0iYa5Zt/xqM674NRmoCOpbX8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=MMLvW8FRZqE5WD3IwaJE6Xb56IxHPKswr34PqNWau7FtY1SyoQ02kEKXwXY7t3jUC
+	a4ssuzw/ExVvcoZ9iznQDjFe4UMihI++/QnP6mfb4D6z7/u4LxNf23TmcocGgdF44o
+	BwldK2gSXCvw8ZCMGF8tkwbXa1wNpOyE6YzABT/k=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 29 May 2019 16:49:33 +1000
-Message-Id: <20190529065017.15149-1-david@gibson.dropbear.id.au>
+Date: Wed, 29 May 2019 16:49:34 +1000
+Message-Id: <20190529065017.15149-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190529065017.15149-1-david@gibson.dropbear.id.au>
+References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 00/44] ppc-for-4.1 queue 20190529
+Subject: [Qemu-devel] [PULL 01/44] tests: Fix up docker cross builds for
+ ppc64 (BE) targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,155 +59,67 @@ Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8c1ecb590497b0349c550607db923972b37f69=
-63:
+We currently have docker cross building targets for powerpc (32-bit, BE)
+and ppc64el (64-bit, LE), but not for pcp64 (64-bit, BE).  This is an
+irritating gap in make check-tcg coverage so correct it.
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-next-28=
-0519-2' into staging (2019-05-28 17:38:32 +0100)
-
-are available in the Git repository at:
-
-  git://github.com/dgibson/qemu.git tags/ppc-for-4.1-20190529
-
-for you to fetch changes up to ce4b1b56852ea741170ae85d3b8c0771c1ca7c9e:
-
-  ppc/pnv: add dummy XSCOM registers for PRD initialization (2019-05-29 1=
-1:39:47 +1000)
-
-----------------------------------------------------------------
-ppc patch queue 2019-05-29
-
-Next pull request against qemu-4.1.  Highlights:
-  * KVM accelerated support for the XIVE interrupt controller in PAPR
-    guests
-  * A number of TCG vector fixes
-  * Fixes for the PReP / 40p machine
-  * Improvements to make check-tcg test coverage
-
-Other than that it's just a bunch of assorted fixes, cleanups and
-minor improvements.
-
-This supersedes both the pull request dated 2019-05-21 and the one
-dated 2019-05-22.  I've dropped one hunk which I think may have caused
-the check-tcg failure that Peter saw (by enabling the ppc64abi32
-build, which I think has been broken for ages).  I'm not entirely
-certain, since I haven't reproduced exactly the same failure.
-
-----------------------------------------------------------------
-Anton Blanchard (7):
-      target/ppc: Fix xvxsigdp
-      target/ppc: Fix xxbrq, xxbrw
-      target/ppc: Fix vslv and vsrv
-      target/ppc: Fix vsum2sws
-      target/ppc: Fix xxspltib
-      target/ppc: Optimise VSX_LOAD_SCALAR_DS and VSX_VECTOR_LOAD_STORE
-      target/ppc: Fix xvabs[sd]p, xvnabs[sd]p, xvneg[sd]p, xvcpsgn[sd]p
-
-Artyom Tarasenko (1):
-      hw/ppc/40p: use 1900 as a base year
-
-Boxuan Li (1):
-      target/ppc/kvm: Fix trace typo
-
-C=C3=A9dric Le Goater (21):
-      spapr/xive: EQ page should be naturally aligned
-      spapr/xive: fix EQ page addresses above 64GB
-      spapr/xive: print out the EQ page address in the monitor
-      spapr/xive: add KVM support
-      spapr/xive: add hcall support when under KVM
-      spapr/xive: add state synchronization with KVM
-      spapr/xive: introduce a VM state change handler
-      spapr/xive: add migration support for KVM
-      spapr/xive: activate KVM support
-      sysbus: add a sysbus_mmio_unmap() helper
-      spapr: introduce routines to delete the KVM IRQ device
-      spapr: check for the activation of the KVM IRQ device
-      spapr/irq: introduce a spapr_irq_init_device() helper
-      spapr/irq: initialize the IRQ device only once
-      ppc/xics: fix irq priority in ics_set_irq_type()
-      spapr/irq: add KVM support to the 'dual' machine
-      docs: provide documentation on the POWER9 XIVE interrupt controller
-      spapr/xive: fix multiple resets when using the 'dual' interrupt mod=
-e
-      spapr: change default interrupt mode to 'dual'
-      ppc/pnv: introduce new skiboot platform properties
-      ppc/pnv: add dummy XSCOM registers for PRD initialization
-
-David Gibson (3):
-      tests: Fix up docker cross builds for ppc64 (BE) targets
-      spapr: Add forgotten capability to migration stream
-      spapr: Fix phb_placement backwards compatibility
-
-Greg Kurz (3):
-      spapr/xive: Sanity checks of OV5 during CAS
-      spapr: Print out extra hints when CAS negotiation of interrupt mode=
- fails
-      spapr: Don't migrate the hpt_maxpagesize cap to older machine types
-
-Philippe Mathieu-Daud=C3=A9 (2):
-      hw/ppc/prep: use TYPE_MC146818_RTC instead of a hardcoded string
-      hw/ppc/40p: Move the MC146818 RTC to the board where it belongs
-
-Richard Henderson (3):
-      configure: Distinguish ppc64 and ppc64le hosts
-      configure: Use quotes around uses of $CPU_CFLAGS
-      target/ppc: Use vector variable shifts for VSL, VSR, VSRA
-
-Satheesh Rajendran (1):
-      Fix typo on "info pic" monitor cmd output for xive
-
-Suraj Jitindar Singh (2):
-      target/ppc: Add ibm,purr and ibm,spurr device-tree properties
-      target/ppc: Set PSSCR_EC on cpu halt to prevent spurious wakeup
-
- MAINTAINERS                                        |   1 +
- configure                                          |  49 +-
- docs/index.rst                                     |   1 +
- docs/specs/index.rst                               |  13 +
- docs/specs/ppc-spapr-xive.rst                      | 174 +++++
- docs/specs/ppc-xive.rst                            | 199 +++++
- hw/core/sysbus.c                                   |  10 +
- hw/intc/Makefile.objs                              |   1 +
- hw/intc/spapr_xive.c                               | 193 ++++-
- hw/intc/spapr_xive_kvm.c                           | 823 +++++++++++++++=
-++++++
- hw/intc/xics.c                                     |  10 +-
- hw/intc/xics_kvm.c                                 | 113 ++-
- hw/intc/xics_spapr.c                               |   7 +
- hw/intc/xive.c                                     |  53 +-
- hw/isa/i82378.c                                    |   4 -
- hw/ppc/Kconfig                                     |   5 +
- hw/ppc/pnv.c                                       |  13 +-
- hw/ppc/pnv_xscom.c                                 |  18 +
- hw/ppc/prep.c                                      |   7 +-
- hw/ppc/spapr.c                                     |  38 +-
- hw/ppc/spapr_caps.c                                |  13 +-
- hw/ppc/spapr_cpu_core.c                            |   2 +
- hw/ppc/spapr_hcall.c                               |  26 +
- hw/ppc/spapr_irq.c                                 | 140 +++-
- hw/ppc/spapr_rtas.c                                |   6 +-
- include/hw/ppc/spapr.h                             |   2 +
- include/hw/ppc/spapr_irq.h                         |   2 +
- include/hw/ppc/spapr_xive.h                        |  39 +
- include/hw/ppc/xics.h                              |   1 +
- include/hw/ppc/xics_spapr.h                        |   1 +
- include/hw/ppc/xive.h                              |  14 +
- include/hw/ppc/xive_regs.h                         |   6 +
- include/hw/sysbus.h                                |   1 +
- target/ppc/helper.h                                |  12 -
- target/ppc/int_helper.c                            |  53 +-
- target/ppc/kvm.c                                   |   9 +-
- target/ppc/kvm_ppc.h                               |   6 +
- target/ppc/trace-events                            |   2 +-
- target/ppc/translate/vmx-impl.inc.c                |  24 +-
- target/ppc/translate/vsx-impl.inc.c                |  86 ++-
- tests/docker/Makefile.include                      |   1 +
- tests/docker/dockerfiles/debian-ppc64-cross.docker |  11 +
- tests/tcg/ppc/Makefile.include                     |   3 +
- 43 files changed, 1980 insertions(+), 212 deletions(-)
- create mode 100644 docs/specs/index.rst
- create mode 100644 docs/specs/ppc-spapr-xive.rst
- create mode 100644 docs/specs/ppc-xive.rst
- create mode 100644 hw/intc/spapr_xive_kvm.c
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ tests/docker/Makefile.include                      |  1 +
+ tests/docker/dockerfiles/debian-ppc64-cross.docker | 11 +++++++++++
+ tests/tcg/ppc/Makefile.include                     |  3 +++
+ 3 files changed, 15 insertions(+)
  create mode 100644 tests/docker/dockerfiles/debian-ppc64-cross.docker
+
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.includ=
+e
+index c0e1bf57a3..aaf5396b85 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -107,6 +107,7 @@ docker-image-debian-sparc64-cross: docker-image-debia=
+n-sid
+ docker-image-debian-mips64-cross: docker-image-debian-sid
+ docker-image-debian-riscv64-cross: docker-image-debian-sid
+ docker-image-debian-powerpc-cross: docker-image-debian-sid
++docker-image-debian-ppc64-cross: docker-image-debian-sid
+ docker-image-travis: NOUSER=3D1
+=20
+ # Specialist build images, sometimes very limited tools
+diff --git a/tests/docker/dockerfiles/debian-ppc64-cross.docker b/tests/d=
+ocker/dockerfiles/debian-ppc64-cross.docker
+new file mode 100644
+index 0000000000..7f239c322d
+--- /dev/null
++++ b/tests/docker/dockerfiles/debian-ppc64-cross.docker
+@@ -0,0 +1,11 @@
++#
++# Docker ppc64 cross-compiler target
++#
++# This docker target builds on the debian sid base image which
++# contains cross compilers for Debian "ports" targets.
++FROM qemu:debian-sid
++
++RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
++    apt-get install -y --no-install-recommends \
++       gcc-powerpc64-linux-gnu \
++       libc6-dev-ppc64-cross || { echo "Failed to build - see debian-sid=
+.docker notes"; exit 1; }
+diff --git a/tests/tcg/ppc/Makefile.include b/tests/tcg/ppc/Makefile.incl=
+ude
+index b062c30dd3..ae01fb8fad 100644
+--- a/tests/tcg/ppc/Makefile.include
++++ b/tests/tcg/ppc/Makefile.include
+@@ -1,6 +1,9 @@
+ ifeq ($(TARGET_NAME),ppc)
+ DOCKER_IMAGE=3Ddebian-powerpc-cross
+ DOCKER_CROSS_COMPILER=3Dpowerpc-linux-gnu-gcc
++else ifeq ($(TARGET_NAME),ppc64)
++DOCKER_IMAGE=3Ddebian-ppc64-cross
++DOCKER_CROSS_COMPILER=3Dpowerpc64-linux-gnu-gcc
+ else ifeq ($(TARGET_NAME),ppc64le)
+ DOCKER_IMAGE=3Ddebian-ppc64el-cross
+ DOCKER_CROSS_COMPILER=3Dpowerpc64le-linux-gnu-gcc
+--=20
+2.21.0
+
 
