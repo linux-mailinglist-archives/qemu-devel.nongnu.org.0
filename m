@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F522D936
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 11:39:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50667 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8C42D948
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 11:42:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50715 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVv3h-0002wr-Is
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 05:39:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54391)
+	id 1hVv6I-0004rT-1j
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 05:42:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54499)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVv2D-0002Rv-Qq
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:38:14 -0400
+	(envelope-from <ppandit@redhat.com>) id 1hVv2p-0002mH-8B
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:38:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hVv2C-0002Wp-UA
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:38:13 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36204)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hVv2C-0002W9-Hi
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:38:12 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id v22so1092593wml.1
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 02:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=9lxoeb2H3rwDCfwf1JWyx5x6/iO+krrE04V0zB31At0=;
-	b=D41kOPlohT9pGsGy27+0mIPpXRfpwXP5EkbW0tWG+M+i6Nvc0184FLBJU4DHboA/FL
-	TAqzyB+v/xkqi3h3u6AEBkbVMuilJF/ISjJzH59iSGY4MtR+j1/kLwHaiww3ecqBlK0H
-	URVpidVlMkxinSiP5w4aDx9YJUYQAfkXbmHx0m96UaOspllaHA0gc8ilQqCn/N9HQv/2
-	6RL7L7vTCjEebao6DsZB7dvrts3Jhth1O7E35AA+YpyCisr7IiZGeALig8+CF5Gu/+8U
-	12eeaYA4Sc/WRjOYiqRe1YRChVaVZPf8nHXnekEc7ILcdjHyt/phkT0bDbGGAeSHiYKk
-	mR+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=9lxoeb2H3rwDCfwf1JWyx5x6/iO+krrE04V0zB31At0=;
-	b=NZjbaTVOCGfYqBqSgBk5sZGAjIc5P8RMNssaQ9q++wP1WHa08JY18qv9Nx1RsCxq/7
-	zLyZ+jdCUMr2X9wlT6iK29sAbfwx3/yeDApAMY6KCQ5AX6lxMlLvJmiyWBuZeZeGhj8S
-	2+go4iqUI1ehaTuBYjiMfKO6gt62tOzoIAxf2AappwkAtvWuAtsCyUXJdlAHFA2c8OSl
-	El7htbUjqVm0dnf6en9OWzd5qB7JB6StmzqfhOJgjg/PvfG1uIfIiSUkkiZpALwUfzrx
-	1kHecftNQSIs6bPmgeojxIuxq5rby0dCvWQb25MogorFcVAqZICzMH8tEbIQctwHiB0i
-	PbxA==
-X-Gm-Message-State: APjAAAXuxsxK6ng2ZZaIF2EHRfHibpZhMNv5urzQoM4MYxJBwATu5vfe
-	quD/Xi6wUCvMgJcEFFlvXP0wgQ==
-X-Google-Smtp-Source: APXvYqxomwlg/EZQxGddaBYVf7TtPgsSk3cZk/DH4vt8qkbGSHXtiR9E5ZcJfbR9jRRh8OrqsUQGQw==
-X-Received: by 2002:a1c:f50a:: with SMTP id t10mr6393774wmh.86.1559122689762; 
-	Wed, 29 May 2019 02:38:09 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id e15sm3633813wme.0.2019.05.29.02.38.08
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 29 May 2019 02:38:08 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 1F22A1FF87;
-	Wed, 29 May 2019 10:38:08 +0100 (BST)
-References: <87lfyqla7r.fsf@dusky.pond.sub.org>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Markus Armbruster <armbru@redhat.com>
-In-reply-to: <87lfyqla7r.fsf@dusky.pond.sub.org>
-Date: Wed, 29 May 2019 10:38:08 +0100
-Message-ID: <874l5dsirj.fsf@zen.linaroharston>
+	(envelope-from <ppandit@redhat.com>) id 1hVv2o-0002od-Ec
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:38:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38236)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hVv2o-0002js-91
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:38:50 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 28ADAA3B60;
+	Wed, 29 May 2019 09:38:34 +0000 (UTC)
+Received: from kaapi (unknown [10.35.206.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 899FA600C4;
+	Wed, 29 May 2019 09:38:22 +0000 (UTC)
+Date: Wed, 29 May 2019 15:08:16 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@gmail.com>
+In-Reply-To: <CAJ+F1CLH1qN-jVVaMacMB41PWfZ5Xd9A8ycowaNxwgvQhPEvMQ@mail.gmail.com>
+Message-ID: <nycvar.YSQ.7.76.1905291448250.16122@xnncv>
+References: <20190519084815.7410-1-ppandit@redhat.com>
+	<CAJ+F1CLXdw4gE45vVEpStKrKsu-OYy1+5caC9wUduEtQRhjrpA@mail.gmail.com>
+	<nycvar.YSQ.7.76.1905231257400.23354@xnncv>
+	<CAJ+F1CLH1qN-jVVaMacMB41PWfZ5Xd9A8ycowaNxwgvQhPEvMQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Wed, 29 May 2019 09:38:34 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::32a
-Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v2] qga: check length of command-line &
+ environment variables
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,89 +62,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
-	Sagar Karandikar <sagark@eecs.berkeley.edu>,
-	David Hildenbrand <david@redhat.com>, James Hogan <jhogan@kernel.org>,
-	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	qemu-devel@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
-	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Anthony Perard <anthony.perard@citrix.com>,
-	Richard Henderson <rth@twiddle.net>, Jason Wang <jasowang@redhat.com>,
-	Artyom Tarasenko <atar4qemu@gmail.com>,
-	Laurent Vivier <lvivier@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Beniamino Galvani <b.galvani@gmail.com>,
-	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
-	Stafford Horne <shorne@gmail.com>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	"Daniel P. Berrange" <berrange@redhat.com>,
-	Claudio Fontana <claudio.fontana@gmail.com>,
-	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
-	Chris Wulff <crwulff@gmail.com>,
-	Claudio Fontana <claudio.fontana@huawei.com>,
-	Laurent Vivier <laurent@vivier.eu>,
-	Andrew Baumann <Andrew.Baumann@microsoft.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Michael Walle <michael@walle.cc>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?ISO-8859-15?Q?Ferm=EDn_J=2E_Serna?= <fjserna@gmail.com>,
+	"Daniel P . Berrange" <berrange@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  Hello Marc,
 
-Markus Armbruster <armbru@redhat.com> writes:
++-- On Thu, 23 May 2019, Marc-Andr=C3=A9 Lureau wrote --+
+| I don't see how you could exploit this today.
+|=20
+| QMP parser has MAX_TOKEN_COUNT (2ULL << 20).
 
-> We have a bunch of headers without multiple inclusion guards.  Some are
-> clearly intentional, some look accidental.  Too many for me to find out
-> by examining each of them, so I'm asking their maintainers.
->
-> Why do I ask?  I'd like to mark the intentional ones and fix the
-> accidental ones, so they don't flunk "make check-headers" from "[RFC v4
-> 0/7] Baby steps towards saner headers" just because they lack multiple
-> inclusion guards.
->
-> Just in case: what's a multiple inclusion guard?  It's
->
->     #ifndef UNIQUE_GUARD_SYMBOL_H
->     #define UNIQUE_GUARD_SYMBOL_H
->     ...
->     #endif
->
-> with nothing but comments outside the conditional, so that the header
-> can safely be included more than once.
->
-> I append the alphabetical list of headers without multiple inclusion
-> guards (as reported by scripts/clean-header-guards -nv), followed by the
-> same list sorted into maintainer buckets.  If you're cc'ed, please find
-> your bucket(s), and tell me which headers intentionally lack guards.
->
->
-> =3D Headers without inclusion guards =3D
-<snip>
-> include/exec/cpu_ldst_template.h
-> include/exec/cpu_ldst_useronly_template.h
-> include/exec/memory_ldst.inc.h
-> include/exec/memory_ldst_cached.inc.h
-> include/exec/memory_ldst_phys.inc.h
+I see, didn't realise that. I tried to reproduce it and
 
-These are all included multiple times with different #define's to expand
-out our various helpers. Eventually I hope to make them go away but for
-now they are fine.
+   {"error": {"class": "GenericError", "desc": "JSON token count limit ex=
+ceeded"}}
 
+got above error around ~1048570 tokens; Much earlier than 0x200000(=3D209=
+7152) =20
+as defined by MAX_TOKEN_COUNT. I guess multiple packets are being merged =
+to=20
+form the incoming command and there is a glitch in there.
+
+| We could have "assert(count < MAX_TOKEN_COUNT)" in the loop, if it help=
+s.
+
+No, assert() doesn't seem good.
+
+I think same limit will apply to commands coming via QAPIs as well?
+
+
+Thank you.
 --
-Alex Benn=C3=A9e
-
+Prasad J Pandit / Red Hat Product Security Team
+47AF CE69 3A90 54AA 9045 1053 DD13 3D32 FE5B 041F
