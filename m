@@ -2,38 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB3B2D844
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:55:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50088 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA732D85F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:59:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50172 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVuMd-0004WR-Hz
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:55:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45354)
+	id 1hVuQN-0006ty-Ls
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:59:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46566)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVuKU-0003SJ-AU
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:53:03 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hVuPN-0006Z5-N8
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:58:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVuKT-0002aL-4w
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:53:02 -0400
-Received: from relay.sw.ru ([185.231.240.75]:55156)
+	(envelope-from <imammedo@redhat.com>) id 1hVuPM-0005AJ-Hl
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:58:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49298)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
-	id 1hVuKQ-0002YV-9B; Wed, 29 May 2019 04:52:58 -0400
-Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <dplotnikov@virtuozzo.com>)
-	id 1hVuKM-00027p-4G; Wed, 29 May 2019 11:52:54 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: kwolf@redhat.com,
-	mreitz@redhat.com,
-	qemu-block@nongnu.org
-Date: Wed, 29 May 2019 11:52:48 +0300
-Message-Id: <20190529085248.7857-1-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v1] qemu-io: add pattern file for write command
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hVuPM-0005A0-9P
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:58:04 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3078B308795E;
+	Wed, 29 May 2019 08:58:03 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6CEC01A4D9;
+	Wed, 29 May 2019 08:57:54 +0000 (UTC)
+Date: Wed, 29 May 2019 10:57:50 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190529105750.696fe6d2@redhat.com>
+In-Reply-To: <20190529003214.GA24428@richard>
+References: <20190411071739.22889-1-richardw.yang@linux.intel.com>
+	<20190527142114.521ab953@redhat.com>
+	<20190528013548.GA8813@richard>
+	<20190528142627.6841e91a@redhat.com>
+	<20190529003214.GA24428@richard>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Wed, 29 May 2019 08:58:03 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] hw/i386/pc: check apci hotplug capability
+ before nvdimm's
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -45,138 +61,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, den@virtuozzo.com
+Cc: pbonzini@redhat.com, thuth@redhat.com, rth@twiddle.net,
+	qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch allows to provide a pattern file for write
-command. There was no similar ability before.
+On Wed, 29 May 2019 08:32:14 +0800
+Wei Yang <richardw.yang@linux.intel.com> wrote:
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- qemu-io-cmds.c | 58 ++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 54 insertions(+), 4 deletions(-)
+> On Tue, May 28, 2019 at 02:26:27PM +0200, Igor Mammedov wrote:
+> >On Tue, 28 May 2019 09:35:48 +0800
+> >Wei Yang <richardw.yang@linux.intel.com> wrote:
+> >  
+> >> On Mon, May 27, 2019 at 02:21:14PM +0200, Igor Mammedov wrote:  
+> >> >On Thu, 11 Apr 2019 15:17:39 +0800
+> >> >Wei Yang <richardw.yang@linux.intel.com> wrote:
+> >> >    
+> >> >> pc_memory_pre_plug() is called during hotplug for both pc-dimm and
+> >> >> nvdimm. This is more proper to check apci hotplug capability before
+> >> >> check nvdimm specific capability.    
+> >> >not sure what this about.
+> >> >Currently we are checking if ACPI is enabled
+> >> >  if (!pcms->acpi_dev || !acpi_enabled) { ...
+> >> >before nvdimm check and it looks better to me that we cancel
+> >> >nvdimm hotplug earlier than passing it to
+> >> >    hotplug_handler_pre_plug(pcms->acpi_dev, dev, &local_err)
+> >> >with this patch ACPI device handler will be called before
+> >> >nvdimm check happens, so it's +1 unnecessary call chain in
+> >> >the case of nvdimm, which I'd rather not have.
+> >> >
+> >> >Are there any issues with current call flow?
+> >> >(commit message doesn't really explaining why we need this patch)
+> >> >    
+> >> 
+> >> My idea is to check more generic requirement and then specific one.
+> >> 
+> >> For example, the call flow looks like this:
+> >> 
+> >> pc_memory_pre_plug
+> >> 
+> >>     piix4_device_pre_plug_cb | ich9_pm_device_pre_plug_cb
+> >>         if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) &&
+> >>             !lpc->pm.acpi_memory_hotplug.is_enabled)
+> >> 
+> >>     if (is_nvdimm && !ms->nvdimms_state->is_enabled)
+> >>     
+> >> 
+> >> In hotplug_handler_pre_plug(), it checks the acpi hotplug capability. And then
+> >> if it has memory hotplug capability and is nvdimm, we check whether nvdimm is
+> >> enabled.  
+> >
+> >I don't think pc_memory_pre_plug() should rely on what hotplug_handler_pre_plug()
+> >checks or does. Similarly the later is taking care of whatever piix4 needs to care
+> >and shouldn't care about what machine code does.
+> >  
+> 
+> Agree. It is not proper to let hotplug_handler_pre_plug() take care about
+> machine code.
+> 
+> >Moreover when hotplug_handler_pre_plug() starts to reserve resources, then
+> >if you move check as suggested you'd need to rollback all that
+> >hotplug_handler_pre_plug() done to gracefully abort hotplug.
+> >  
+> 
+> Confused.
+> 
+> hotplug_handler_pre_plug() doesn't reserve resources.
 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 09750a23ce..6786536be7 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -21,6 +21,7 @@
- #include "qemu/option.h"
- #include "qemu/timer.h"
- #include "qemu/cutils.h"
-+#include "string.h"
- 
- #define CMD_NOFILE_OK   0x01
- 
-@@ -343,6 +344,35 @@ static void *qemu_io_alloc(BlockBackend *blk, size_t len, int pattern)
-     return buf;
- }
- 
-+static void *qemu_io_alloc_from_file(BlockBackend *blk, size_t len,
-+                                     char *file_name)
-+{
-+    void *buf;
-+    FILE *f = fopen(file_name, "r");
-+
-+    if (!f) {
-+        printf("cannot open file '%s'\n", file_name);
-+        return NULL;
-+    }
-+
-+    if (qemuio_misalign) {
-+        len += MISALIGN_OFFSET;
-+    }
-+    buf = blk_blockalign(blk, len);
-+    memset(buf, 0, len);
-+
-+    if (!fread(buf, sizeof(char), len, f)) {
-+        printf("file '%s' is empty\n", file_name);
-+        g_free(buf);
-+        return NULL;
-+    }
-+
-+    if (qemuio_misalign) {
-+        buf += MISALIGN_OFFSET;
-+    }
-+    return buf;
-+}
-+
- static void qemu_io_free(void *p)
- {
-     if (qemuio_misalign) {
-@@ -965,7 +995,7 @@ static const cmdinfo_t write_cmd = {
-     .perm       = BLK_PERM_WRITE,
-     .argmin     = 2,
-     .argmax     = -1,
--    .args       = "[-bcCfnquz] [-P pattern] off len",
-+    .args       = "[-bcCfnquz] [-P pattern | -s source_file] off len",
-     .oneline    = "writes a number of bytes at a specified offset",
-     .help       = write_help,
- };
-@@ -974,7 +1004,7 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
- {
-     struct timeval t1, t2;
-     bool Cflag = false, qflag = false, bflag = false;
--    bool Pflag = false, zflag = false, cflag = false;
-+    bool Pflag = false, zflag = false, cflag = false, sflag = false;
-     int flags = 0;
-     int c, cnt, ret;
-     char *buf = NULL;
-@@ -983,8 +1013,9 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     /* Some compilers get confused and warn if this is not initialized.  */
-     int64_t total = 0;
-     int pattern = 0xcd;
-+    char *file_name;
- 
--    while ((c = getopt(argc, argv, "bcCfnpP:quz")) != -1) {
-+    while ((c = getopt(argc, argv, "bcCfnpP:quzs:")) != -1) {
-         switch (c) {
-         case 'b':
-             bflag = true;
-@@ -1020,6 +1051,10 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-         case 'z':
-             zflag = true;
-             break;
-+        case 's':
-+            sflag = true;
-+            file_name = g_strdup(optarg);
-+            break;
-         default:
-             qemuio_command_usage(&write_cmd);
-             return -EINVAL;
-@@ -1056,6 +1091,14 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-         return -EINVAL;
-     }
- 
-+    if (sflag && Pflag) {
-+        printf("-s and -P cannot be specified at the same time\n");
-+    }
-+
-+    if (sflag && zflag) {
-+        printf("-s and -z cannot be specified at the same time\n");
-+    }
-+
-     offset = cvtnum(argv[optind]);
-     if (offset < 0) {
-         print_cvtnum_err(offset, argv[optind]);
-@@ -1088,7 +1131,14 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     }
- 
-     if (!zflag) {
--        buf = qemu_io_alloc(blk, count, pattern);
-+        if (sflag) {
-+            buf = qemu_io_alloc_from_file(blk, count, file_name);
-+            if (!buf) {
-+                return -EINVAL;
-+            }
-+        } else {
-+            buf = qemu_io_alloc(blk, count, pattern);
-+        }
-     }
- 
-     gettimeofday(&t1, NULL);
--- 
-2.17.0
+
+it's not currently, but if it would it would not work with your patch properly
+or break unexpectedly since whoever would change hotplug_handler_pre_plug()
+might not notice that machine code need to be taken care of.
+
+Try to consider devices and machine as separate libraries. Which should
+in reasonable limits be independent and work through documented interfaces.
+In that case likehood of breaking something would be less than relying on
+current code impl./call order with implicit inter-dependencies. 
+
+> pc_dimm_pre_plug() does.
+> 
+> I didn't plan to move the code after pc_dimm_pre_plug().
+> 
+> >So I'd leave the code as it is now, since it doesn't depend on concrete
+> >hotplug_handler_pre_plug() implementation and won't break if
+> >hotplug_handler_pre_plug() will start consuming resources (which could
+> >happen and you won't even notice it since changed code is in piix4/q35
+> >files when reviewing patches).  
+> >> This is why I suggest to change the order here. No functional issue for
+> >> current code.
+> >>   
+> 
 
 
