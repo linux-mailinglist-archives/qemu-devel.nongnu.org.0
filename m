@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F132E195
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 17:50:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56878 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D52D2E197
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 17:50:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56880 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hW0q2-0005lZ-0Z
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 11:50:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54880)
+	id 1hW0q3-0005n9-89
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 11:50:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54878)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hW0n8-0004V6-W0
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:47:04 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hW0n8-0004V5-Vo
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:47:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hW0n7-000537-Qt
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hW0n7-00053R-Rh
 	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:47:02 -0400
-Received: from relay.sw.ru ([185.231.240.75]:43136)
+Received: from relay.sw.ru ([185.231.240.75]:43146)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hW0n7-00051s-I0; Wed, 29 May 2019 11:47:01 -0400
+	id 1hW0n7-00051w-IO; Wed, 29 May 2019 11:47:01 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hW0n2-0004iP-2z; Wed, 29 May 2019 18:46:56 +0300
+	id 1hW0n2-0004iP-7J; Wed, 29 May 2019 18:46:56 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Wed, 29 May 2019 18:46:49 +0300
-Message-Id: <20190529154654.95870-3-vsementsov@virtuozzo.com>
+Date: Wed, 29 May 2019 18:46:50 +0300
+Message-Id: <20190529154654.95870-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190529154654.95870-1-vsementsov@virtuozzo.com>
 References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v8 2/7] block: swap operation order in
- bdrv_append
+Subject: [Qemu-devel] [PATCH v8 3/7] block: allow not one child for implicit
+ node
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,69 +52,46 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bs_top parents may conflict with bs_new backing child permissions, so
-let's do bdrv_replace_node first, it covers more possible cases.
+Upcoming backup-top filter wants to operate like usual implicit filter
+node with fall-through to backing child. But also needs additional
+target child, let's support that.
 
-It is needed for further implementation of backup-top filter, which
-don't want to share write permission on its backing child.
-
-Side effect is that we may set backing hd when device name is already
-available, so 085 iotest output is changed.
+On the other hand, after backup completion (before job dismiss) filter
+is still attached to job blk, but don't have any children. Support this
+too.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block.c                    | 11 ++++++++---
- tests/qemu-iotests/085.out |  2 +-
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ block.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/block.c b/block.c
-index e6e9770704..57216f4115 100644
+index 57216f4115..3f4de3ae32 100644
 --- a/block.c
 +++ b/block.c
-@@ -4088,22 +4088,27 @@ void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
- {
-     Error *local_err = NULL;
- 
--    bdrv_set_backing_hd(bs_new, bs_top, &local_err);
-+    bdrv_ref(bs_top);
-+
-+    bdrv_replace_node(bs_top, bs_new, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-+        error_prepend(errp, "Failed to replace node: ");
-         goto out;
+@@ -6200,9 +6200,20 @@ void bdrv_refresh_filename(BlockDriverState *bs)
      }
  
--    bdrv_replace_node(bs_top, bs_new, &local_err);
-+    bdrv_set_backing_hd(bs_new, bs_top, &local_err);
-     if (local_err) {
-+        bdrv_replace_node(bs_new, bs_top, &error_abort);
-         error_propagate(errp, local_err);
--        bdrv_set_backing_hd(bs_new, NULL, &error_abort);
-+        error_prepend(errp, "Failed to set backing: ");
-         goto out;
-     }
+     if (bs->implicit) {
+-        /* For implicit nodes, just copy everything from the single child */
++        /*
++         * For implicit nodes, just copy everything from the single child or
++         * from backing, if there are several children.
++         * If there are no children for some reason (filter is still attached
++         * to block-job blk, but already removed from backing chain of device)
++         * do nothing.
++         */
+         child = QLIST_FIRST(&bs->children);
+-        assert(QLIST_NEXT(child, next) == NULL);
++        if (!child) {
++            return;
++        } else if (QLIST_NEXT(child, next)) {
++            assert(bs->backing);
++            child = bs->backing;
++        }
  
-     /* bs_new is now referenced by its new parents, we don't need the
-      * additional reference any more. */
- out:
-+    bdrv_unref(bs_top);
-     bdrv_unref(bs_new);
- }
- 
-diff --git a/tests/qemu-iotests/085.out b/tests/qemu-iotests/085.out
-index 6edf107f55..e5a2645bf5 100644
---- a/tests/qemu-iotests/085.out
-+++ b/tests/qemu-iotests/085.out
-@@ -74,7 +74,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/
- 
- === Invalid command - snapshot node used as backing hd ===
- 
--{"error": {"class": "GenericError", "desc": "Node 'snap_11' is busy: node is used as backing hd of 'snap_12'"}}
-+{"error": {"class": "GenericError", "desc": "Node 'snap_11' is busy: node is used as backing hd of 'virtio0'"}}
- 
- === Invalid command - snapshot node has a backing image ===
- 
+         pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
+                 child->bs->exact_filename);
 -- 
 2.18.0
 
