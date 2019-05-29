@@ -2,38 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234C12D5BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:53:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48371 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FB92D5C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:56:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48400 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVsSV-0001bD-81
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:53:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46958)
+	id 1hVsVE-0003uD-HT
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:56:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47494)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVsO7-0006gt-GK
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:48:40 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsPy-0008Cz-Dg
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:50:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVsO6-00011j-Dt
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:48:39 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50718)
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsPw-0002Vd-Up
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:50:34 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:35061 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
-	id 1hVsO3-0000zj-Nl; Wed, 29 May 2019 02:48:36 -0400
-Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <dplotnikov@virtuozzo.com>)
-	id 1hVsNy-0001Ta-Ve; Wed, 29 May 2019 09:48:31 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: kwolf@redhat.com,
-	mreitz@redhat.com,
-	qemu-block@nongnu.org
-Date: Wed, 29 May 2019 09:48:24 +0300
-Message-Id: <20190529064824.32064-1-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v0] qemu-io: add pattern file for write command
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hVsPw-0002Qu-Bd; Wed, 29 May 2019 02:50:32 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 45DLv13hhrz9sB8; Wed, 29 May 2019 16:50:21 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1559112621;
+	bh=EZJqcEEPSulnpuBPVm9M3MWDQjvDKJoRrB0O9wjWsLw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dSLYFlayOhbc32RxN3lXGLdvtzM4SuKxto9pbvGHTUe2sCgB4484RIyLq0kcqVsv2
+	mVnrbcavt5v11/+DdMlhWLvFHuAfEXYOtszs0whLJg6MN9z7MNCpDdNzNXup+mRO5D
+	f+DGtHyjIuVBD6kk837DdQnQHZSIEutaZOLwjbSU=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Date: Wed, 29 May 2019 16:49:33 +1000
+Message-Id: <20190529065017.15149-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PULL 00/44] ppc-for-4.1 queue 20190529
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -45,138 +51,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, den@virtuozzo.com
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+	qemu-ppc@nongnu.org, clg@kaod.org,
+	David Gibson <david@gibson.dropbear.id.au>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch allows to provide a pattern file for write
-command. There was no similar ability before.
+The following changes since commit 8c1ecb590497b0349c550607db923972b37f69=
+63:
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- qemu-io-cmds.c | 58 ++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 54 insertions(+), 4 deletions(-)
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-next-28=
+0519-2' into staging (2019-05-28 17:38:32 +0100)
 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 09750a23ce..b93955116f 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -21,6 +21,7 @@
- #include "qemu/option.h"
- #include "qemu/timer.h"
- #include "qemu/cutils.h"
-+#include "string.h"
- 
- #define CMD_NOFILE_OK   0x01
- 
-@@ -343,6 +344,35 @@ static void *qemu_io_alloc(BlockBackend *blk, size_t len, int pattern)
-     return buf;
- }
- 
-+static void *qemu_io_alloc_from_file(BlockBackend *blk, size_t len,
-+                                     char *file_name)
-+{
-+    void *buf;
-+    FILE *f = fopen(file_name, "r");
-+
-+    if (!f) {
-+        printf("cannot open file '%s'\n", file_name);
-+        return NULL;
-+    }
-+
-+    if (qemuio_misalign) {
-+        len += MISALIGN_OFFSET;
-+    }
-+    buf = blk_blockalign(blk, len);
-+    memset(buf, 0, len);
-+
-+    if (!fread(buf, sizeof(char), len, f)) {
-+        printf("file '%s' is empty\n", file_name);
-+        free(buf);
-+        return NULL;
-+    }
-+
-+    if (qemuio_misalign) {
-+        buf += MISALIGN_OFFSET;
-+    }
-+    return buf;
-+}
-+
- static void qemu_io_free(void *p)
- {
-     if (qemuio_misalign) {
-@@ -965,7 +995,7 @@ static const cmdinfo_t write_cmd = {
-     .perm       = BLK_PERM_WRITE,
-     .argmin     = 2,
-     .argmax     = -1,
--    .args       = "[-bcCfnquz] [-P pattern] off len",
-+    .args       = "[-bcCfnquz] [-P pattern | -s source_file] off len",
-     .oneline    = "writes a number of bytes at a specified offset",
-     .help       = write_help,
- };
-@@ -974,7 +1004,7 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
- {
-     struct timeval t1, t2;
-     bool Cflag = false, qflag = false, bflag = false;
--    bool Pflag = false, zflag = false, cflag = false;
-+    bool Pflag = false, zflag = false, cflag = false, sflag = false;
-     int flags = 0;
-     int c, cnt, ret;
-     char *buf = NULL;
-@@ -983,8 +1013,9 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     /* Some compilers get confused and warn if this is not initialized.  */
-     int64_t total = 0;
-     int pattern = 0xcd;
-+    char file_name[255] = { 0 };
- 
--    while ((c = getopt(argc, argv, "bcCfnpP:quz")) != -1) {
-+    while ((c = getopt(argc, argv, "bcCfnpP:quzs:")) != -1) {
-         switch (c) {
-         case 'b':
-             bflag = true;
-@@ -1020,6 +1051,10 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-         case 'z':
-             zflag = true;
-             break;
-+        case 's':
-+            sflag = true;
-+            strncpy(file_name, optarg, sizeof(file_name) - 1);
-+            break;
-         default:
-             qemuio_command_usage(&write_cmd);
-             return -EINVAL;
-@@ -1056,6 +1091,14 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-         return -EINVAL;
-     }
- 
-+    if (sflag && Pflag) {
-+        printf("-s and -P cannot be specified at the same time\n");
-+    }
-+
-+    if (zflag && Pflag) {
-+        printf("-z and -P cannot be specified at the same time\n");
-+    }
-+
-     offset = cvtnum(argv[optind]);
-     if (offset < 0) {
-         print_cvtnum_err(offset, argv[optind]);
-@@ -1088,7 +1131,14 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     }
- 
-     if (!zflag) {
--        buf = qemu_io_alloc(blk, count, pattern);
-+        if (sflag) {
-+            buf = qemu_io_alloc_from_file(blk, count, file_name);
-+            if (!buf) {
-+                return -EINVAL;
-+            }
-+        } else {
-+            buf = qemu_io_alloc(blk, count, pattern);
-+        }
-     }
- 
-     gettimeofday(&t1, NULL);
--- 
-2.17.0
+are available in the Git repository at:
 
+  git://github.com/dgibson/qemu.git tags/ppc-for-4.1-20190529
+
+for you to fetch changes up to ce4b1b56852ea741170ae85d3b8c0771c1ca7c9e:
+
+  ppc/pnv: add dummy XSCOM registers for PRD initialization (2019-05-29 1=
+1:39:47 +1000)
+
+----------------------------------------------------------------
+ppc patch queue 2019-05-29
+
+Next pull request against qemu-4.1.  Highlights:
+  * KVM accelerated support for the XIVE interrupt controller in PAPR
+    guests
+  * A number of TCG vector fixes
+  * Fixes for the PReP / 40p machine
+  * Improvements to make check-tcg test coverage
+
+Other than that it's just a bunch of assorted fixes, cleanups and
+minor improvements.
+
+This supersedes both the pull request dated 2019-05-21 and the one
+dated 2019-05-22.  I've dropped one hunk which I think may have caused
+the check-tcg failure that Peter saw (by enabling the ppc64abi32
+build, which I think has been broken for ages).  I'm not entirely
+certain, since I haven't reproduced exactly the same failure.
+
+----------------------------------------------------------------
+Anton Blanchard (7):
+      target/ppc: Fix xvxsigdp
+      target/ppc: Fix xxbrq, xxbrw
+      target/ppc: Fix vslv and vsrv
+      target/ppc: Fix vsum2sws
+      target/ppc: Fix xxspltib
+      target/ppc: Optimise VSX_LOAD_SCALAR_DS and VSX_VECTOR_LOAD_STORE
+      target/ppc: Fix xvabs[sd]p, xvnabs[sd]p, xvneg[sd]p, xvcpsgn[sd]p
+
+Artyom Tarasenko (1):
+      hw/ppc/40p: use 1900 as a base year
+
+Boxuan Li (1):
+      target/ppc/kvm: Fix trace typo
+
+C=C3=A9dric Le Goater (21):
+      spapr/xive: EQ page should be naturally aligned
+      spapr/xive: fix EQ page addresses above 64GB
+      spapr/xive: print out the EQ page address in the monitor
+      spapr/xive: add KVM support
+      spapr/xive: add hcall support when under KVM
+      spapr/xive: add state synchronization with KVM
+      spapr/xive: introduce a VM state change handler
+      spapr/xive: add migration support for KVM
+      spapr/xive: activate KVM support
+      sysbus: add a sysbus_mmio_unmap() helper
+      spapr: introduce routines to delete the KVM IRQ device
+      spapr: check for the activation of the KVM IRQ device
+      spapr/irq: introduce a spapr_irq_init_device() helper
+      spapr/irq: initialize the IRQ device only once
+      ppc/xics: fix irq priority in ics_set_irq_type()
+      spapr/irq: add KVM support to the 'dual' machine
+      docs: provide documentation on the POWER9 XIVE interrupt controller
+      spapr/xive: fix multiple resets when using the 'dual' interrupt mod=
+e
+      spapr: change default interrupt mode to 'dual'
+      ppc/pnv: introduce new skiboot platform properties
+      ppc/pnv: add dummy XSCOM registers for PRD initialization
+
+David Gibson (3):
+      tests: Fix up docker cross builds for ppc64 (BE) targets
+      spapr: Add forgotten capability to migration stream
+      spapr: Fix phb_placement backwards compatibility
+
+Greg Kurz (3):
+      spapr/xive: Sanity checks of OV5 during CAS
+      spapr: Print out extra hints when CAS negotiation of interrupt mode=
+ fails
+      spapr: Don't migrate the hpt_maxpagesize cap to older machine types
+
+Philippe Mathieu-Daud=C3=A9 (2):
+      hw/ppc/prep: use TYPE_MC146818_RTC instead of a hardcoded string
+      hw/ppc/40p: Move the MC146818 RTC to the board where it belongs
+
+Richard Henderson (3):
+      configure: Distinguish ppc64 and ppc64le hosts
+      configure: Use quotes around uses of $CPU_CFLAGS
+      target/ppc: Use vector variable shifts for VSL, VSR, VSRA
+
+Satheesh Rajendran (1):
+      Fix typo on "info pic" monitor cmd output for xive
+
+Suraj Jitindar Singh (2):
+      target/ppc: Add ibm,purr and ibm,spurr device-tree properties
+      target/ppc: Set PSSCR_EC on cpu halt to prevent spurious wakeup
+
+ MAINTAINERS                                        |   1 +
+ configure                                          |  49 +-
+ docs/index.rst                                     |   1 +
+ docs/specs/index.rst                               |  13 +
+ docs/specs/ppc-spapr-xive.rst                      | 174 +++++
+ docs/specs/ppc-xive.rst                            | 199 +++++
+ hw/core/sysbus.c                                   |  10 +
+ hw/intc/Makefile.objs                              |   1 +
+ hw/intc/spapr_xive.c                               | 193 ++++-
+ hw/intc/spapr_xive_kvm.c                           | 823 +++++++++++++++=
+++++++
+ hw/intc/xics.c                                     |  10 +-
+ hw/intc/xics_kvm.c                                 | 113 ++-
+ hw/intc/xics_spapr.c                               |   7 +
+ hw/intc/xive.c                                     |  53 +-
+ hw/isa/i82378.c                                    |   4 -
+ hw/ppc/Kconfig                                     |   5 +
+ hw/ppc/pnv.c                                       |  13 +-
+ hw/ppc/pnv_xscom.c                                 |  18 +
+ hw/ppc/prep.c                                      |   7 +-
+ hw/ppc/spapr.c                                     |  38 +-
+ hw/ppc/spapr_caps.c                                |  13 +-
+ hw/ppc/spapr_cpu_core.c                            |   2 +
+ hw/ppc/spapr_hcall.c                               |  26 +
+ hw/ppc/spapr_irq.c                                 | 140 +++-
+ hw/ppc/spapr_rtas.c                                |   6 +-
+ include/hw/ppc/spapr.h                             |   2 +
+ include/hw/ppc/spapr_irq.h                         |   2 +
+ include/hw/ppc/spapr_xive.h                        |  39 +
+ include/hw/ppc/xics.h                              |   1 +
+ include/hw/ppc/xics_spapr.h                        |   1 +
+ include/hw/ppc/xive.h                              |  14 +
+ include/hw/ppc/xive_regs.h                         |   6 +
+ include/hw/sysbus.h                                |   1 +
+ target/ppc/helper.h                                |  12 -
+ target/ppc/int_helper.c                            |  53 +-
+ target/ppc/kvm.c                                   |   9 +-
+ target/ppc/kvm_ppc.h                               |   6 +
+ target/ppc/trace-events                            |   2 +-
+ target/ppc/translate/vmx-impl.inc.c                |  24 +-
+ target/ppc/translate/vsx-impl.inc.c                |  86 ++-
+ tests/docker/Makefile.include                      |   1 +
+ tests/docker/dockerfiles/debian-ppc64-cross.docker |  11 +
+ tests/tcg/ppc/Makefile.include                     |   3 +
+ 43 files changed, 1980 insertions(+), 212 deletions(-)
+ create mode 100644 docs/specs/index.rst
+ create mode 100644 docs/specs/ppc-spapr-xive.rst
+ create mode 100644 docs/specs/ppc-xive.rst
+ create mode 100644 hw/intc/spapr_xive_kvm.c
+ create mode 100644 tests/docker/dockerfiles/debian-ppc64-cross.docker
 
