@@ -2,38 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081C42DF23
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 16:05:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55010 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997362DF33
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 16:06:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55077 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVzCP-0001A5-8i
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 10:05:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52028)
+	id 1hVzEH-0002TP-QZ
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 10:06:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52174)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVzA3-00008Y-S1
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:02:40 -0400
+	(envelope-from <dovgaluk@ispras.ru>) id 1hVzAb-0000YM-9f
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:03:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVzA2-0003Bv-Mm
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:02:35 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38946)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
-	id 1hVzA0-00038J-5M; Wed, 29 May 2019 10:02:32 -0400
-Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <dplotnikov@virtuozzo.com>)
-	id 1hVz9w-00041Y-L7; Wed, 29 May 2019 17:02:28 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: eblake@redhat.com,
-	kwolf@redhat.com,
-	mreitz@redhat.com
-Date: Wed, 29 May 2019 17:02:17 +0300
-Message-Id: <20190529140217.12841-1-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
+	(envelope-from <dovgaluk@ispras.ru>) id 1hVzAZ-0003jA-Du
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:03:09 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:39420)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <dovgaluk@ispras.ru>) id 1hVzAX-0003cz-TM
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:03:07 -0400
+Received: from PASHAISP (unknown [85.142.117.226])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 01CD3540081;
+	Wed, 29 May 2019 17:03:02 +0300 (MSK)
+From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
+To: "'Dr. David Alan Gilbert'" <dgilbert@redhat.com>
+References: <003a01d51611$6251a2b0$26f4e810$@ru>
+	<20190529113045.GE2882@work-vm>
+	<5c55c39b-694b-5d4e-d420-5df0feabc1e8@redhat.com>
+	<003f01d51615$16270d40$427527c0$@ru>
+	<20190529123643.GF2882@work-vm>
+In-Reply-To: <20190529123643.GF2882@work-vm>
+Date: Wed, 29 May 2019 17:03:06 +0300
+Message-ID: <004601d51627$3dd284c0$b9778e40$@ru>
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdUWGzNsNFva9FqMTcyMmsU9OSpzCAAC/V+g
+Content-Language: ru
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v3] qemu-io: add pattern file for write command
+X-Received-From: 83.149.199.45
+Subject: Re: [Qemu-devel] i386: EFER vs 32-bit CPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -45,158 +54,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, den@virtuozzo.com
+Cc: 'Paolo Bonzini' <pbonzini@redhat.com>, quintela@redhat.com,
+	qemu-devel@nongnu.org, ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch allows to provide a pattern file for write
-command. There was no similar ability before.
----
- qemu-io-cmds.c | 80 ++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 74 insertions(+), 6 deletions(-)
+> From: Dr. David Alan Gilbert [mailto:dgilbert@redhat.com]
+> * Pavel Dovgalyuk (dovgaluk@ispras.ru) wrote:
+> > > From: Paolo Bonzini [mailto:pbonzini@redhat.com]
+> > > On 29/05/19 13:30, Dr. David Alan Gilbert wrote:
+> > > >> Should we add a section for i386, which duplicates efer, or just version_id of the main
+> > > VMSD should
+> > > >> be updated?
+> > > >
+> > > > You could do:
+> > > >
+> > > > #ifdef TARGET_X86_64
+> > > >         VMSTATE_UINT64(env.efer, X86CPU),
+> > > >         VMSTATE_UINT64(env.star, X86CPU),
+> > > > ...
+> > > >
+> > > > to become:
+> > > >
+> > > >         VMSTATE_UINT64_TEST(env.efer, X86CPU, efer_needed)
+> > > > #ifdef TARGET_X86_64
+> > > >         VMSTATE_UINT64(env.star, X86CPU),
+> > > >
+> > > >
+> > > > and then make efer_needed a function that returns true if
+> > > > TARGET_X86_64 or it's a new machine type that knows about whatever
+> > > > you're going to do with it.
+> > >
+> > > I prefer adding a subsection for 32-bit, so that EFER is saved/restored
+> > > if nonzero.
+> >
+> > The question is: should we remove EFER from the original VMSD?
+> 
+> No, because that would break 64bit compat.
 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 09750a23ce..b75ffaa739 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -21,6 +21,7 @@
- #include "qemu/option.h"
- #include "qemu/timer.h"
- #include "qemu/cutils.h"
-+#include "string.h"
- 
- #define CMD_NOFILE_OK   0x01
- 
-@@ -343,6 +344,61 @@ static void *qemu_io_alloc(BlockBackend *blk, size_t len, int pattern)
-     return buf;
- }
- 
-+static void *qemu_io_alloc_from_file(BlockBackend *blk, size_t len,
-+                                     char *file_name)
-+{
-+    char *buf, *buf_pos;
-+    FILE *f = fopen(file_name, "r");
-+    int l;
-+
-+    if (!f) {
-+        printf("'%s': %s\n", file_name, strerror(errno));
-+        return NULL;
-+    }
-+
-+    if (qemuio_misalign) {
-+        len += MISALIGN_OFFSET;
-+    }
-+    buf = blk_blockalign(blk, len);
-+    memset(buf, 0, len);
-+
-+    buf_pos = buf;
-+
-+    while (len > 0) {
-+        l = fread(buf_pos, sizeof(char), len, f);
-+
-+        if (feof(f)) {
-+           rewind(f);
-+        }
-+
-+        if (ferror(f)) {
-+            printf("'%s': %s\n", file_name, strerror(errno));
-+            goto error;
-+        }
-+
-+        if (l == 0) {
-+            printf("'%s' is empty\n", file_name);
-+            goto error;
-+        }
-+
-+        len -= l;
-+        buf_pos += l;
-+    }
-+
-+    if (qemuio_misalign) {
-+        buf += MISALIGN_OFFSET;
-+    }
-+
-+    goto out;
-+
-+error:
-+    qemu_vfree(buf);
-+    buf = NULL;
-+out:
-+    fclose(f);
-+    return buf;
-+}
-+
- static void qemu_io_free(void *p)
- {
-     if (qemuio_misalign) {
-@@ -965,7 +1021,7 @@ static const cmdinfo_t write_cmd = {
-     .perm       = BLK_PERM_WRITE,
-     .argmin     = 2,
-     .argmax     = -1,
--    .args       = "[-bcCfnquz] [-P pattern] off len",
-+    .args       = "[-bcCfnquz] [-P pattern | -s source_file] off len",
-     .oneline    = "writes a number of bytes at a specified offset",
-     .help       = write_help,
- };
-@@ -974,7 +1030,7 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
- {
-     struct timeval t1, t2;
-     bool Cflag = false, qflag = false, bflag = false;
--    bool Pflag = false, zflag = false, cflag = false;
-+    bool Pflag = false, zflag = false, cflag = false, sflag = false;
-     int flags = 0;
-     int c, cnt, ret;
-     char *buf = NULL;
-@@ -983,8 +1039,9 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     /* Some compilers get confused and warn if this is not initialized.  */
-     int64_t total = 0;
-     int pattern = 0xcd;
-+    char *file_name;
- 
--    while ((c = getopt(argc, argv, "bcCfnpP:quz")) != -1) {
-+    while ((c = getopt(argc, argv, "bcCfnpP:quzs:")) != -1) {
-         switch (c) {
-         case 'b':
-             bflag = true;
-@@ -1020,6 +1077,10 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-         case 'z':
-             zflag = true;
-             break;
-+        case 's':
-+            sflag = true;
-+            file_name = g_strdup(optarg);
-+            break;
-         default:
-             qemuio_command_usage(&write_cmd);
-             return -EINVAL;
-@@ -1051,8 +1112,8 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-         return -EINVAL;
-     }
- 
--    if (zflag && Pflag) {
--        printf("-z and -P cannot be specified at the same time\n");
-+    if ((int)zflag + (int)Pflag + (int)sflag > 1) {
-+        printf("Only one of -z, -P, and -s can be specified at the same time\n");
-         return -EINVAL;
-     }
- 
-@@ -1088,7 +1149,14 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     }
- 
-     if (!zflag) {
--        buf = qemu_io_alloc(blk, count, pattern);
-+        if (sflag) {
-+            buf = qemu_io_alloc_from_file(blk, count, file_name);
-+            if (!buf) {
-+                return -EINVAL;
-+            }
-+        } else {
-+            buf = qemu_io_alloc(blk, count, pattern);
-+        }
-     }
- 
-     gettimeofday(&t1, NULL);
--- 
-2.17.0
+Thanks. Already posted a patch here:
+https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg06796.html
+
+Pavel Dovgalyuk
 
 
