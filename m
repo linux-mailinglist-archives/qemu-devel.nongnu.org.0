@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E92B2E263
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:39:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57761 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583A42E26B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:42:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57853 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hW1bz-000195-5H
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:39:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39513)
+	id 1hW1ea-0003kY-Fe
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:42:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39528)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1Zl-0008MO-MB
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:18 -0400
+	(envelope-from <mst@redhat.com>) id 1hW1Zn-0008MT-1g
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1Zk-0002cC-OG
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:17 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:38966)
+	(envelope-from <mst@redhat.com>) id 1hW1Zm-0002dN-3H
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:19 -0400
+Received: from mail-qk1-f174.google.com ([209.85.222.174]:39135)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hW1Zk-0002Xm-Jd
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:16 -0400
-Received: by mail-qk1-f194.google.com with SMTP id i125so1887297qkd.6
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:37:10 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hW1Zl-0002Z5-Ux
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:18 -0400
+Received: by mail-qk1-f174.google.com with SMTP id i125so1887380qkd.6
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:37:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-	:content-disposition;
-	bh=73IHS6EG1JE03d9TT7MRxxNozRnT25VTHelKRcSvdqU=;
-	b=iYbS44fSZwxEMkdbOmI44fCNs3sRw+5gQ0zX+f0bFBT50WjtKyAX7rPx/WqytbWGLm
-	tLjHNpv05zFCSmZfZOEZncRudtuVjUF7osKpiQUzxiUvjRkF8LsrzisNoS9tviVw4h2H
-	DmokGyDK6LQPBsY1ozC/TNV2Iw43dMtuTlMyHOJeNPrykXKSEa3cGQHoZ6SCk3aUSnE7
-	pMEDHK6zQUUk91jjZwbYsTwLvZREKGtadKSzyveUT45xQ98+NXiQoaz6H8GeBdrmmn6x
-	v7oxb2k5+2LwRityHY8iMbu+X8+uFJIYlT7r7AnMOkIbnmNwEPIB7oMN1/YBosYEEfEw
-	4cDw==
-X-Gm-Message-State: APjAAAU01tJN6yzMV6T9Pa0BRHX1xq/95RV9RjU6mIU+YHMg4/GnSCFI
-	hCRp2alaXtuCtR6gku72PVYKE6yyPY0=
-X-Google-Smtp-Source: APXvYqxc71LYIMvgPYkXG8AUgKMZO1SvFkqfpe7U/tdP0broUhTM6AIhO3SVi/qNBVjF0S+5K4y8tw==
-X-Received: by 2002:a37:dcc1:: with SMTP id
-	v184mr88344885qki.338.1559147829628; 
-	Wed, 29 May 2019 09:37:09 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=2N2pAhqKNOpMLotRyAnbXdQzQBiSsjdCIL7uekUQ9aM=;
+	b=U6Eah2Bd98dCSijMaYBOvuPFlG19KPJeDfX6zZtyngxCpiweHagclJkAGUYRZ3RjLb
+	HHLpjknKR4kPPQk260lGVXHzcnejUZCUaaWhgaygC/7GdDIrFe5dI3B00/hwq/0bYO6o
+	2ad4oovm/gP/zYLt1ZUUBgVV0fCICuOvxkiPTRGVXLi7/9BPTjl9bQn0cGrDhRcBUsic
+	5L3LphcEGEBFNf0XJKFYfHBomN+owNtxJJut9ELEeIjwVC9eZTAdoDaimy2kO4xNTBid
+	cf0xnTtZ4RJ3CBYiWL6Rw9YULTONCalRXQsz/Or5jGN2zRG3ZHeZDRg1LTxbXo55XOoT
+	ZGuw==
+X-Gm-Message-State: APjAAAWEra0YiTjdFxo/IYQgcHNHNd56yQA0f5tPki0gpT3hm0LcMuQC
+	LbGYJ22Qe7BvFc694IWyukeCS/ezNMs=
+X-Google-Smtp-Source: APXvYqyjJ8uSqcy5nwlNB10ptl+jDaYFa80IbyHoDxfQedhbXTRveUxrYMXX4/j7MDQWI0IdvSYNTA==
+X-Received: by 2002:a37:4d41:: with SMTP id a62mr44765790qkb.99.1559147831683; 
+	Wed, 29 May 2019 09:37:11 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
 	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
-	100sm3309348qtb.53.2019.05.29.09.37.07
+	c16sm6879495qkb.15.2019.05.29.09.37.10
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 29 May 2019 09:37:08 -0700 (PDT)
-Date: Wed, 29 May 2019 12:37:07 -0400
+	Wed, 29 May 2019 09:37:10 -0700 (PDT)
+Date: Wed, 29 May 2019 12:37:09 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190529163604.18560-1-mst@redhat.com>
+Message-ID: <20190529163604.18560-2-mst@redhat.com>
+References: <20190529163604.18560-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20190529163604.18560-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.194
-Subject: [Qemu-devel] [PULL 00/10] virtio, pci, pc: cleanups
+X-Received-From: 209.85.222.174
+Subject: [Qemu-devel] [PULL 01/10] bios-tables-test: add diff allowed list
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,79 +69,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8c1ecb590497b0349c550607db923972b37f6963:
-
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-next-280519-2' into staging (2019-05-28 17:38:32 +0100)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 8828a019eec52858140c7368494fb1523971cd5f:
-
-  vhost: fix memory leak in vhost_user_scsi_realize (2019-05-29 12:34:45 -0400)
-
-----------------------------------------------------------------
-virtio, pci, pc: cleanups
-
-not a lot going on, just some cleanups all over the place
+Expected table change is then handled like this:
+1. add table to diff allowed list
+2. change generating code (can be combined with 1)
+3. maintainer runs a script to update expected +
+   blows away allowed diff list
 
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-
-----------------------------------------------------------------
-David Gibson (3):
-      pcie: Simplify pci_adjust_config_limit()
-      pci: Make is_bridge a bool
-      pci: Fold pci_get_bus_devfn() into its sole caller
-
-Igor Mammedov (1):
-      docs: smbios: remove family=x from type2 entry description
-
-Jie Wang (3):
-      vhost: remove the dead code
-      vhost: fix incorrect print type
-      vhost: fix memory leak in vhost_user_scsi_realize
-
-Michael S. Tsirkin (1):
-      bios-tables-test: add diff allowed list
-
-Wei Yang (2):
-      hw/acpi: Consolidate build_mcfg to pci.c
-      acpi: pci: use build_append_foo() API to construct MCFG
-
- default-configs/i386-softmmu.mak      |   1 +
- include/hw/acpi/acpi-defs.h           |  18 ------
- include/hw/acpi/pci.h                 |   1 +
- include/hw/pci/pci.h                  |   3 +-
- include/hw/pci/pci_bus.h              |   8 ++-
- tests/bios-tables-test-allowed-diff.h |   1 +
- hw/acpi/pci.c                         |  61 ++++++++++++++++++++
- hw/arm/virt-acpi-build.c              |  17 ------
- hw/i386/acpi-build.c                  |  18 +-----
- hw/pci-bridge/dec.c                   |   4 +-
- hw/pci-bridge/i82801b11.c             |   2 +-
- hw/pci-bridge/pci_bridge_dev.c        |   2 +-
- hw/pci-bridge/pcie_pci_bridge.c       |   2 +-
- hw/pci-bridge/pcie_root_port.c        |   2 +-
- hw/pci-bridge/simba.c                 |   2 +-
- hw/pci-bridge/xio3130_downstream.c    |   2 +-
- hw/pci-bridge/xio3130_upstream.c      |   2 +-
- hw/pci/pci.c                          | 101 +++++++++++++++++-----------------
- hw/pci/pci_host.c                     |  13 +----
- hw/ppc/spapr_pci.c                    |  34 ++++--------
- hw/scsi/vhost-user-scsi.c             |   3 +
- hw/virtio/vhost.c                     |   3 +-
- tests/bios-tables-test.c              |  20 ++++++-
- hw/acpi/Kconfig                       |   4 ++
- hw/acpi/Makefile.objs                 |   1 +
- hw/arm/Kconfig                        |   1 +
- qemu-options.hx                       |   2 +-
- 27 files changed, 176 insertions(+), 152 deletions(-)
+---
+ tests/bios-tables-test-allowed-diff.h |  1 +
+ tests/bios-tables-test.c              | 20 +++++++++++++++++++-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
  create mode 100644 tests/bios-tables-test-allowed-diff.h
- create mode 100644 hw/acpi/pci.c
+
+diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
+new file mode 100644
+index 0000000000..dfb8523c8b
+--- /dev/null
++++ b/tests/bios-tables-test-allowed-diff.h
+@@ -0,0 +1 @@
++/* List of comma-separated changed AML files to ignore */
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index 11e07be093..93db1a7265 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -342,6 +342,23 @@ try_again:
+     return exp_tables;
+ }
+ 
++static bool test_acpi_find_diff_allowed(AcpiSdtTable *sdt)
++{
++    const gchar *allowed_diff_file[] = {
++#include "bios-tables-test-allowed-diff.h"
++        NULL
++    };
++    int offset = strlen(data_dir) + 1;
++    const gchar **f;
++
++    for (f = allowed_diff_file; *f; ++f) {
++        if (!g_strcmp0(sdt->aml_file + offset, *f)) {
++            return true;
++        }
++    }
++    return false;
++}
++
+ /* test the list of tables in @data->tables against reference tables */
+ static void test_acpi_asl(test_data *data)
+ {
+@@ -396,7 +413,8 @@ static void test_acpi_asl(test_data *data)
+                             "see ASL difference.");
+                     }
+                 }
+-          }
++            }
++            g_assert(test_acpi_find_diff_allowed(sdt));
+         }
+         g_string_free(asl, true);
+         g_string_free(exp_asl, true);
+-- 
+MST
 
 
