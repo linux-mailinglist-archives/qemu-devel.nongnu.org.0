@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8562D8FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 11:21:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50501 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B252D91E
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 11:33:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50597 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVumN-0005wE-LF
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 05:21:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51258)
+	id 1hVuxD-0008VE-0O
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 05:33:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53151)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hVulA-0005em-27
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:20:36 -0400
+	(envelope-from <cohuck@redhat.com>) id 1hVuvt-0008BB-Ne
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:31:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hVul9-0001We-5p
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:20:36 -0400
-Received: from 4.mo178.mail-out.ovh.net ([46.105.49.171]:36596)
+	(envelope-from <cohuck@redhat.com>) id 1hVuvs-0007nV-R9
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:31:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:62385)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hVul9-0001Sg-0w
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:20:35 -0400
-Received: from player158.ha.ovh.net (unknown [10.109.146.76])
-	by mo178.mail-out.ovh.net (Postfix) with ESMTP id B279D69BA5
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 11:20:24 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player158.ha.ovh.net (Postfix) with ESMTPSA id 12E8062F561F;
-	Wed, 29 May 2019 09:19:22 +0000 (UTC)
-Date: Wed, 29 May 2019 11:19:20 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190529111920.66dd27cd@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <87lfyqla7r.fsf@dusky.pond.sub.org>
-References: <87lfyqla7r.fsf@dusky.pond.sub.org>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hVuvs-0007nD-MU
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 05:31:40 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id D1B5FC06647C;
+	Wed, 29 May 2019 09:31:25 +0000 (UTC)
+Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 524CD271A4;
+	Wed, 29 May 2019 09:31:22 +0000 (UTC)
+Date: Wed, 29 May 2019 11:31:19 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <20190529113119.58212175.cohuck@redhat.com>
+In-Reply-To: <20190529084804.25950-1-laurent@vivier.eu>
+References: <20190529084804.25950-1-laurent@vivier.eu>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 5681009456230275470
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddvjedgudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.31]);
+	Wed, 29 May 2019 09:31:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.49.171
-Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2] linux-user: emulate msgsnd(),
+ msgrcv() and semtimedop()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,91 +58,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
-	Sagar Karandikar <sagark@eecs.berkeley.edu>,
-	David Hildenbrand <david@redhat.com>, James Hogan <jhogan@kernel.org>,
-	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	qemu-devel@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
-	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Anthony Perard <anthony.perard@citrix.com>,
-	Richard Henderson <rth@twiddle.net>, Jason Wang <jasowang@redhat.com>,
-	Artyom Tarasenko <atar4qemu@gmail.com>,
-	Laurent Vivier <lvivier@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Beniamino Galvani <b.galvani@gmail.com>,
-	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
-	Stafford Horne <shorne@gmail.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+	Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
 	Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	"Daniel P. Berrange" <berrange@redhat.com>,
-	Claudio Fontana <claudio.fontana@gmail.com>,
-	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Claudio Fontana <claudio.fontana@huawei.com>,
-	Laurent Vivier <laurent@vivier.eu>,
-	Andrew Baumann <Andrew.Baumann@microsoft.com>,
-	Philippe =?UTF-8?B?TWF0aGlldS1E?= =?UTF-8?B?YXVkw6k=?=
-	<philmd@redhat.com>, Michael Walle <michael@walle.cc>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
-	Philippe =?UTF-8?B?TWF0aGlldS1E?= =?UTF-8?B?YXVkw6k=?= <f4bug@amsat.org>
+	Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 May 2019 20:12:24 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
+On Wed, 29 May 2019 10:48:04 +0200
+Laurent Vivier <laurent@vivier.eu> wrote:
 
-> We have a bunch of headers without multiple inclusion guards.  Some are
-> clearly intentional, some look accidental.  Too many for me to find out
-> by examining each of them, so I'm asking their maintainers.
+> When we have updated kernel headers to 5.2-rc1 we have introduced
+> new syscall numbers that can be not supported by older kernels
+> and fail with ENOSYS while the guest emulation succeeded before
+> because the syscalls were emulated with ipc().
 > 
-> Why do I ask?  I'd like to mark the intentional ones and fix the
-> accidental ones, so they don't flunk "make check-headers" from "[RFC v4
-> 0/7] Baby steps towards saner headers" just because they lack multiple
-> inclusion guards.
+> This patch fixes the problem by using ipc() if the new syscall
+> returns ENOSYS.
 > 
-> Just in case: what's a multiple inclusion guard?  It's
+> Fixes: 86e636951ddc ("linux-user: fix __NR_semtimedop undeclared error")
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
 > 
->     #ifndef UNIQUE_GUARD_SYMBOL_H
->     #define UNIQUE_GUARD_SYMBOL_H
->     ...
->     #endif
+> Notes:
+>     v2: replace ENOSYS by TARGET_ENOSYS
 > 
-> with nothing but comments outside the conditional, so that the header
-> can safely be included more than once.
-> 
-> I append the alphabetical list of headers without multiple inclusion
-> guards (as reported by scripts/clean-header-guards -nv), followed by the
-> same list sorted into maintainer buckets.  If you're cc'ed, please find
-> your bucket(s), and tell me which headers intentionally lack guards.
-> 
-[...]
-> virtio-9p
-> M: Greg Kurz <groug@kaod.org>
-> hw/9pfs/xen-9pfs.h
-> 
+>  linux-user/syscall.c      | 61 +++++++++++++++++++--------------------
+>  linux-user/syscall_defs.h |  1 +
+>  2 files changed, 31 insertions(+), 31 deletions(-)
 
-It doesn't seem to be intentional, but probably better to
-ask Stefano Stabellini, Paul Durrant or Anthony Perard
-since this is a xen-9p header, not virtio-9p.
+I hope this headers update is now done with bringing joy :)
 
-In the meantime, I'll send a fix for MAINTAINERS.
+Not a linux-user expert, but it does look reasonable.
 
-Cheers,
-
---
-Greg
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
