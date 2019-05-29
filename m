@@ -2,63 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8A12E272
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:43:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57865 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B462E287
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:49:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58034 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hW1fM-0004Ot-P5
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:43:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39697)
+	id 1hW1ll-0007w9-Cr
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:49:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43095)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1a6-0000Bz-Jt
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:39 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hW1ka-0007cR-3G
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:48:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1a5-0002uJ-MY
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:38 -0400
-Received: from mail-qt1-f182.google.com ([209.85.160.182]:44298)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hW1a5-0002tz-IX
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:37 -0400
-Received: by mail-qt1-f182.google.com with SMTP id m2so3358247qtp.11
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:37:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=oWUawf31eMQD6ACHrKCfMWf9y12ShHT6G47Hktpyv9Q=;
-	b=FO7ngOtVL8ZztA43D88g9kpqTmOMPZIzmD0wDy6w1jJdQJQgeVmr6lbAVi2//VXoks
-	JqPFBzWmc6su20kLZFN1cOi8NwASEI9s633Ro+Rtz8aHfltcYV8RtGgvpQ5MpLwGQCtW
-	936Pvy5r59NoPEYIw7H1zFC+mxHYUr1jQ6/CyrRN0MfqGpEC+sR+fgLTp5CsFkgvd1JS
-	8lfjQMCwKaxNDuW919lE9FXK7Z3TNfWgT8bnE6mT59D3jDZMcKVF0nwYFddKJ7Jb9OGb
-	/YVWsF5rlV8uyy/4IOMdDDCDEz/Y+/DqOIfRaFMClfVVTUK70YDmurU5OKrnPZuUgeMU
-	GtsA==
-X-Gm-Message-State: APjAAAUr0P9GXZoBcOpzKzaP7bOlQpwJqLB2zpdeCGCSEMd4bqgTLF4S
-	7+LY48cuwRsiMrL3WLdTGRUbK1M4TnU=
-X-Google-Smtp-Source: APXvYqwKGiEmCOovN367gIQaWKlj38MpHm6b6G8uYqL8ztgDatB/JGNARa/JMW35eljR2eBkAW4ebQ==
-X-Received: by 2002:a0c:af51:: with SMTP id j17mr77292207qvc.34.1559147856882; 
-	Wed, 29 May 2019 09:37:36 -0700 (PDT)
-Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
-	[100.0.197.103])
-	by smtp.gmail.com with ESMTPSA id q9sm4810735qtr.83.2019.05.29.09.37.35
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 29 May 2019 09:37:36 -0700 (PDT)
-Date: Wed, 29 May 2019 12:37:34 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <1556608500-12183-1-git-send-email-wangjie88@huawei.com>
-References: <20190529163604.18560-1-mst@redhat.com>
+	(envelope-from <dgilbert@redhat.com>) id 1hW1kX-0005Dp-MZ
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:48:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56808)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hW1kX-0005Cv-DL
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:48:25 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8EEFB3179172
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 16:48:24 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E0BFA1825D;
+	Wed, 29 May 2019 16:48:22 +0000 (UTC)
+Date: Wed, 29 May 2019 17:48:20 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Message-ID: <20190529164819.GL2882@work-vm>
+References: <20190515121544.4597-1-quintela@redhat.com>
+	<20190515121544.4597-8-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190529163604.18560-1-mst@redhat.com>
-X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
-X-Mutt-Fcc: =sent
+In-Reply-To: <20190515121544.4597-8-quintela@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Wed, 29 May 2019 16:48:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.160.182
-Subject: [Qemu-devel] [PULL 10/10] vhost: fix memory leak in
- vhost_user_scsi_realize
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 7/8] multifd: Add zlib compression
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,54 +59,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
-	Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
-	Jie Wang <wangjie88@huawei.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jie Wang <wangjie88@huawei.com>
+* Juan Quintela (quintela@redhat.com) wrote:
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  hw/core/qdev-properties.c |  2 +-
+>  migration/migration.c     |  9 ++++++++
+>  migration/migration.h     |  1 +
+>  migration/ram.c           | 47 +++++++++++++++++++++++++++++++++++++++
+>  qapi/migration.json       |  2 +-
+>  tests/migration-test.c    |  6 +++++
+>  6 files changed, 65 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+> index ebeeb5c88d..e40aa806e2 100644
+> --- a/hw/core/qdev-properties.c
+> +++ b/hw/core/qdev-properties.c
+> @@ -651,7 +651,7 @@ const PropertyInfo qdev_prop_fdc_drive_type = {
+>  const PropertyInfo qdev_prop_multifd_compress = {
+>      .name = "MultifdCompress",
+>      .description = "multifd_compress values, "
+> -                   "none",
+> +                   "none/zlib",
+>      .enum_table = &MultifdCompress_lookup,
+>      .get = get_enum,
+>      .set = set_enum,
+> diff --git a/migration/migration.c b/migration/migration.c
+> index d6f8ef342a..69d85cbe5e 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2141,6 +2141,15 @@ bool migrate_use_multifd(void)
+>      return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
+>  }
+>  
+> +bool migrate_use_multifd_zlib(void)
+> +{
+> +    MigrationState *s;
+> +
+> +    s = migrate_get_current();
+> +
+> +    return s->parameters.multifd_compress == MULTIFD_COMPRESS_ZLIB;
+> +}
+> +
+>  bool migrate_pause_before_switchover(void)
+>  {
+>      MigrationState *s;
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 438f17edad..fc4fb841d4 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -269,6 +269,7 @@ bool migrate_ignore_shared(void);
+>  
+>  bool migrate_auto_converge(void);
+>  bool migrate_use_multifd(void);
+> +bool migrate_use_multifd_zlib(void);
+>  bool migrate_pause_before_switchover(void);
+>  int migrate_multifd_channels(void);
+>  
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 6679e4f213..fdb5bf07a5 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -582,6 +582,7 @@ exit:
+>  #define MULTIFD_VERSION 1
+>  
+>  #define MULTIFD_FLAG_SYNC (1 << 0)
+> +#define MULTIFD_FLAG_ZLIB (1 << 1)
+>  
+>  /* This value needs to be a multiple of qemu_target_page_size() */
+>  #define MULTIFD_PACKET_SIZE (512 * 1024)
+> @@ -663,6 +664,12 @@ typedef struct {
+>      uint64_t num_pages;
+>      /* syncs main thread and channels */
+>      QemuSemaphore sem_sync;
+> +    /* stream for compression */
+> +    z_stream zs;
+> +    /* compressed buffer */
+> +    uint8_t *zbuff;
+> +    /* size of compressed buffer */
+> +    uint32_t zbuff_len;
 
-fix memory leak in vhost_user_scsi_realize
+Does this set need to be in a union or something so that you select
+them for different compression types?
 
-Signed-off-by: Jie Wang <wangjie88@huawei.com>
-Message-Id: <1556608500-12183-1-git-send-email-wangjie88@huawei.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/scsi/vhost-user-scsi.c | 3 +++
- 1 file changed, 3 insertions(+)
+>  }  MultiFDSendParams;
+>  
+>  typedef struct {
+> @@ -698,6 +705,12 @@ typedef struct {
+>      uint64_t num_pages;
+>      /* syncs main thread and channels */
+>      QemuSemaphore sem_sync;
+> +    /* stream for compression */
 
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index 8b1e6876db..a9fd8ea305 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -69,6 +69,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
-     VHostUserSCSI *s = VHOST_USER_SCSI(dev);
-     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(s);
-+    struct vhost_virtqueue *vqs = NULL;
-     Error *err = NULL;
-     int ret;
- 
-@@ -93,6 +94,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     vsc->dev.vqs = g_new(struct vhost_virtqueue, vsc->dev.nvqs);
-     vsc->dev.vq_index = 0;
-     vsc->dev.backend_features = 0;
-+    vqs = vsc->dev.vqs;
- 
-     ret = vhost_dev_init(&vsc->dev, &s->vhost_user,
-                          VHOST_BACKEND_TYPE_USER, 0);
-@@ -100,6 +102,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-         error_setg(errp, "vhost-user-scsi: vhost initialization failed: %s",
-                    strerror(-ret));
-         vhost_user_cleanup(&s->vhost_user);
-+        g_free(vqs);
-         return;
-     }
- 
--- 
-MST
+de-compression?
 
+> +    z_stream zs;
+> +    /* compressed buffer */
+> +    uint8_t *zbuff;
+> +    /* size of compressed buffer */
+> +    uint32_t zbuff_len;
+>  } MultiFDRecvParams;
+>  
+>  typedef struct {
+> @@ -1071,6 +1084,9 @@ void multifd_save_cleanup(void)
+>          p->packet_len = 0;
+>          g_free(p->packet);
+>          p->packet = NULL;
+> +        deflateEnd(&p->zs);
+> +        g_free(p->zbuff);
+> +        p->zbuff = NULL;
+>      }
+>      qemu_sem_destroy(&multifd_send_state->channels_ready);
+>      qemu_sem_destroy(&multifd_send_state->sem_sync);
+> @@ -1240,6 +1256,7 @@ int multifd_save_setup(void)
+>  
+>      for (i = 0; i < thread_count; i++) {
+>          MultiFDSendParams *p = &multifd_send_state->params[i];
+> +        z_stream *zs = &p->zs;
+>  
+>          qemu_mutex_init(&p->mutex);
+>          qemu_sem_init(&p->sem, 0);
+> @@ -1253,6 +1270,17 @@ int multifd_save_setup(void)
+>          p->packet = g_malloc0(p->packet_len);
+>          p->name = g_strdup_printf("multifdsend_%d", i);
+>          socket_send_channel_create(multifd_new_send_channel_async, p);
+> +        zs->zalloc = Z_NULL;
+> +        zs->zfree = Z_NULL;
+> +        zs->opaque = Z_NULL;
+> +        if (deflateInit(zs, migrate_compress_level()) != Z_OK) {
+> +            printf("deflate init failed\n");
+> +            return -1;
+> +        }
+> +        /* We will never have more than page_count pages */
+> +        p->zbuff_len = page_count * qemu_target_page_size();
+> +        p->zbuff_len *= 2;
+
+Should the ops gain a 'save_init' and 'load_init' so that you can
+only do this lot if the compression is enabled?
+
+> +        p->zbuff = g_malloc0(p->zbuff_len);
+
+I'd prefer g_try_malloc and do failure given it's not a tiny buffer.
+
+>      }
+>      return 0;
+>  }
+> @@ -1322,6 +1350,9 @@ int multifd_load_cleanup(Error **errp)
+>          p->packet_len = 0;
+>          g_free(p->packet);
+>          p->packet = NULL;
+> +        inflateEnd(&p->zs);
+> +        g_free(p->zbuff);
+> +        p->zbuff = NULL;
+>      }
+>      qemu_sem_destroy(&multifd_recv_state->sem_sync);
+>      g_free(multifd_recv_state->params);
+> @@ -1440,6 +1471,7 @@ int multifd_load_setup(void)
+>  
+>      for (i = 0; i < thread_count; i++) {
+>          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+> +        z_stream *zs = &p->zs;
+>  
+>          qemu_mutex_init(&p->mutex);
+>          qemu_sem_init(&p->sem_sync, 0);
+> @@ -1449,6 +1481,21 @@ int multifd_load_setup(void)
+>                        + sizeof(ram_addr_t) * page_count;
+>          p->packet = g_malloc0(p->packet_len);
+>          p->name = g_strdup_printf("multifdrecv_%d", i);
+> +
+> +        zs->zalloc = Z_NULL;
+> +        zs->zfree = Z_NULL;
+> +        zs->opaque = Z_NULL;
+> +        zs->avail_in = 0;
+> +        zs->next_in = Z_NULL;
+> +        if (inflateInit(zs) != Z_OK) {
+> +            printf("inflate init failed\n");
+> +            return -1;
+> +        }
+> +        /* We will never have more than page_count pages */
+> +        p->zbuff_len = page_count * qemu_target_page_size();
+> +        /* We know compression "could" use more space */
+> +        p->zbuff_len *= 2;
+> +        p->zbuff = g_malloc0(p->zbuff_len);
+>      }
+>      return 0;
+>  }
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 8ec1944b7a..e6c27fae06 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -493,7 +493,7 @@
+>  #
+>  ##
+>  { 'enum': 'MultifdCompress',
+> -  'data': [ 'none' ] }
+> +  'data': [ 'none', 'zlib' ] }
+>  
+>  ##
+>  # @MigrationParameter:
+> diff --git a/tests/migration-test.c b/tests/migration-test.c
+> index 8a1ccc2516..2dd4d4c5b4 100644
+> --- a/tests/migration-test.c
+> +++ b/tests/migration-test.c
+> @@ -1119,6 +1119,11 @@ static void test_multifd_tcp_none(void)
+>      test_multifd_tcp("none");
+>  }
+>  
+> +static void test_multifd_tcp_zlib(void)
+> +{
+> +    test_multifd_tcp("zlib");
+> +}
+> +
+>  int main(int argc, char **argv)
+>  {
+>      char template[] = "/tmp/migration-test-XXXXXX";
+> @@ -1174,6 +1179,7 @@ int main(int argc, char **argv)
+>      /* qtest_add_func("/migration/ignore_shared", test_ignore_shared); */
+>      qtest_add_func("/migration/xbzrle/unix", test_xbzrle_unix);
+>      qtest_add_func("/migration/multifd/tcp/none", test_multifd_tcp_none);
+> +    qtest_add_func("/migration/multifd/tcp/zlib", test_multifd_tcp_zlib);
+>  
+>      ret = g_test_run();
+>  
+> -- 
+> 2.21.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
