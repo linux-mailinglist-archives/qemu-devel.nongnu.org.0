@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FA02DE06
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 15:23:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54277 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDED2DEAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 15:40:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54486 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVyYc-0001N8-Fn
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 09:23:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42621)
+	id 1hVyp0-0006O5-EN
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 09:40:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45869)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVyXZ-00013m-TY
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:22:50 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hVyns-00060N-38
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:39:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVyXZ-0000Ra-1T
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:22:49 -0400
-Received: from mail-wm1-f47.google.com ([209.85.128.47]:52942)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hVyXY-0000R1-SO
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:22:48 -0400
-Received: by mail-wm1-f47.google.com with SMTP id y3so1681883wmm.2
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 06:22:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=fXQ+ER05TJhTeqwUfeZGhkBIl+tGXghgRnqJpNAYrsY=;
-	b=O7AJRP4jjcarlTPBvYq4ySpDjj1wa/0Hdv/dAlcOw6oKvVZrQbn3qpa0mOruDokJiM
-	ZK5fM6b/MLuL/uQnVzp8QJQG30p+WzNciqDdxLnx1RCeRKR6bqD0p4n2RVI4SV1W7ZU6
-	Cxf55he956eNtM2JPtFbS3cj2tsUgp1t9wWY2dw+VS7P/nQypZV+RFVWRRGDAhxpodoe
-	QzSFpfUrkEi3EeC1rdx2cHizDqFqY6o7wElmXl+/JhmdV4+BFGt4uTA9AZ66I0FTk7eq
-	OwA9WD3rDvyqcuUTM6+bM4xt3xqnaMRuk2841ruQC0UyajYsvlvsRS+DrRCZ4+UBvz6x
-	04cQ==
-X-Gm-Message-State: APjAAAWLgzfnKVAf/kinZFWK4zFULFqAgylH3B5smMmK/0kpjTA4t/ad
-	r4iPPbLso5CcCwW/JFyzbHo2Ow==
-X-Google-Smtp-Source: APXvYqxQ5UV5J4MSYpUyVOo94Cida0Ce6EiAWFcPFdlR8vX50mtn44oyFwv3z8fTO04gGd0mJwawBQ==
-X-Received: by 2002:a1c:ef10:: with SMTP id n16mr6319264wmh.134.1559136167772; 
-	Wed, 29 May 2019 06:22:47 -0700 (PDT)
-Received: from [10.32.224.40] (red-hat-inc.vlan560.asr1.mad1.gblx.net.
-	[159.63.51.90]) by smtp.gmail.com with ESMTPSA id
-	w2sm11282040wru.16.2019.05.29.06.22.43
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 May 2019 06:22:46 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <87lfyqla7r.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <c172d2b3-9c1c-6194-290e-f546c07f8eff@redhat.com>
-Date: Wed, 29 May 2019 15:22:42 +0200
+	(envelope-from <mreitz@redhat.com>) id 1hVynq-0001QD-S4
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:39:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35780)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hVyno-0001Gg-J1; Wed, 29 May 2019 09:39:36 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id C7D2C300740E;
+	Wed, 29 May 2019 13:39:30 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.150])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E35678571;
+	Wed, 29 May 2019 13:39:28 +0000 (UTC)
+To: qemu-block@nongnu.org
+References: <20190516144319.12570-1-mreitz@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <b6992c89-a1bd-ad90-e6a9-c6669b7e91cf@redhat.com>
+Date: Wed, 29 May 2019 15:39:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <87lfyqla7r.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190516144319.12570-1-mreitz@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="0oU6lqqSTcKz4Omx8i4GxIQkmxzwpnHMb"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Wed, 29 May 2019 13:39:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.47
-Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v3] iotests: Filter 175's allocation
+ information
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,84 +86,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
-	Sagar Karandikar <sagark@eecs.berkeley.edu>,
-	David Hildenbrand <david@redhat.com>, James Hogan <jhogan@kernel.org>,
-	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Anthony Perard <anthony.perard@citrix.com>,
-	Richard Henderson <rth@twiddle.net>, Jason Wang <jasowang@redhat.com>,
-	Artyom Tarasenko <atar4qemu@gmail.com>,
-	Laurent Vivier <lvivier@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Beniamino Galvani <b.galvani@gmail.com>,
-	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
-	Stafford Horne <shorne@gmail.com>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	"Daniel P. Berrange" <berrange@redhat.com>,
-	Claudio Fontana <claudio.fontana@gmail.com>,
-	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Claudio Fontana <claudio.fontana@huawei.com>,
-	Laurent Vivier <laurent@vivier.eu>,
-	Andrew Baumann <Andrew.Baumann@microsoft.com>,
-	Michael Walle <michael@walle.cc>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Nir Soffer <nsoffer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/19 8:12 PM, Markus Armbruster wrote:
-> We have a bunch of headers without multiple inclusion guards.  Some are
-> clearly intentional, some look accidental.  Too many for me to find out
-> by examining each of them, so I'm asking their maintainers.
-> 
-> Why do I ask?  I'd like to mark the intentional ones and fix the
-> accidental ones, so they don't flunk "make check-headers" from "[RFC v4
-> 0/7] Baby steps towards saner headers" just because they lack multiple
-> inclusion guards.
-> 
-> Just in case: what's a multiple inclusion guard?  It's
-> 
->     #ifndef UNIQUE_GUARD_SYMBOL_H
->     #define UNIQUE_GUARD_SYMBOL_H
->     ...
->     #endif
-> 
-> with nothing but comments outside the conditional, so that the header
-> can safely be included more than once.
-> 
-> I append the alphabetical list of headers without multiple inclusion
-> guards (as reported by scripts/clean-header-guards -nv), followed by the
-> same list sorted into maintainer buckets.  If you're cc'ed, please find
-> your bucket(s), and tell me which headers intentionally lack guards.
-> 
-[...]
-> 
-> EDK2 Firmware
-> M: Laszlo Ersek <lersek@redhat.com>
-> M: Philippe Mathieu-Daudé <philmd@redhat.com>
-> tests/uefi-test-tools/UefiTestToolsPkg/Include/Guid/BiosTablesTest.h
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--0oU6lqqSTcKz4Omx8i4GxIQkmxzwpnHMb
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Nir Soffer <nsoffer@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <b6992c89-a1bd-ad90-e6a9-c6669b7e91cf@redhat.com>
+Subject: Re: [PATCH v3] iotests: Filter 175's allocation information
+References: <20190516144319.12570-1-mreitz@redhat.com>
+In-Reply-To: <20190516144319.12570-1-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-This file has a guard in non-standard formats:
+On 16.05.19 16:43, Max Reitz wrote:
+> It is possible for an empty file to take up blocks on a filesystem, for=
 
-#ifndef __BIOS_TABLES_TEST_H__
-#define __BIOS_TABLES_TEST_H__
-...
+> example:
+>=20
+> $ qemu-img create -f raw test.img 1G
+> Formatting 'test.img', fmt=3Draw size=3D1073741824
+> $ mkfs.ext4 -I 128 -q test.img
+> $ mkdir test-mount
+> $ sudo mount -o loop test.img test-mount
+> $ sudo touch test-mount/test-file
+> $ stat -c 'blocks=3D%b' test-mount/test-file
+> blocks=3D8
+>=20
+> These extra blocks (one cluster) are apparently used for metadata,
+> because they are always there, on top of blocks used for data:
+>=20
+> $ sudo dd if=3D/dev/zero of=3Dtest-mount/test-file bs=3D1M count=3D1
+> 1+0 records in
+> 1+0 records out
+> 1048576 bytes (1.0 MB, 1.0 MiB) copied, 0.00135339 s, 775 MB/s
+> $ stat -c 'blocks=3D%b' test-mount/test-file
+> blocks=3D2056
+>=20
+> Make iotest 175 take this into account.
+>=20
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Nir Soffer <nsoffer@redhat.com>
+> ---
+> v3:
+> - Actually tested this on an FS with the behavior in question and
+>   noticed the patterns were lacking a $.  Since I'm now sending a v3
+>   anyway, I might as well fix it with the heavy hammer and make it a
+>   ($|[^0-9]).
+> - Added example configuration to the commit message [Nir]
+> - Kept the R-bs because I didn't feel too bad about doing so.
+> ---
+>  tests/qemu-iotests/175     | 26 ++++++++++++++++++++++----
+>  tests/qemu-iotests/175.out |  8 ++++----
+>  2 files changed, 26 insertions(+), 8 deletions(-)
+
+Applied to my block branch.
+
+Max
+
+
+--0oU6lqqSTcKz4Omx8i4GxIQkmxzwpnHMb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzui48ACgkQ9AfbAGHV
+z0CvbQf+MpPqbEhW8S1upxdKIm0Ao1pgd2xrEBHlFcL+sCUQFPjAXUO6qmxXKejk
+kKOXAWN7khOrbmrU3IF7Ec3NRewTs4+L/k9Ah20n85IuuK4zknbnKLcvCYxwKRuv
+FIb0+dmnN+8rUvvUqXo1HdjGKlsMrTuRAPSDDUtfPTGyd/W4ZEtKUvgRXUHxuvQl
+tuFHJapR0iHQ1ytk773TdbmvhML2cJjNH0QsvtR7Iup7F8NNQKnN69o3JZdu15pD
+Vfvk/t7jZ6nSB4dCb+i+k32USensB+PuUTvDXEC1uTmV/w88eNJjw2iPD1fNb0Yd
+QFV5NLv/i2ZjHWe3u2q5hGxkjoRoeg==
+=axWW
+-----END PGP SIGNATURE-----
+
+--0oU6lqqSTcKz4Omx8i4GxIQkmxzwpnHMb--
 
