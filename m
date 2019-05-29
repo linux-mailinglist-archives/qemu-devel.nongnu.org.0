@@ -2,55 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12ABB3033D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 22:23:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58706 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7D02E25B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:36:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57735 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWRaB-0001VX-TS
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 16:23:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43945)
+	id 1hW1Yp-0007xB-4i
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:36:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39063)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hWRYt-00014b-Ow
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 16:22:09 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hW1XZ-0007YX-60
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:35:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hWRYs-0002kJ-Au
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 16:22:07 -0400
-Resent-Date: Thu, 30 May 2019 16:22:07 -0400
-Resent-Message-Id: <E1hWRYs-0002kJ-Au@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21465)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hWRYs-0002bz-4g
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 16:22:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1559147604; cv=none; d=zoho.com; s=zohoarc; 
-	b=EImsrOzoZx/FS3BmiUtsZuAfdEYMByYTaup3fizox4MUiX40QbWUv15bKF82Bi2XhHaREvcaLT5jtIG5RdGmjsEBmr+iqYO2oclCPk3cI3KLjLv3rXOfA03/ESsJNPja8RYYfOOFMFoTqDAIkcBL4/G/yiOvO2upo6u22WUh9iE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1559147604;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=PQ6s3wx3gzzgJv7usj1cGrHztx6G3cMxQ+ml5DjAur4=; 
-	b=nfvL8bbOOO9u4zsEMcUjvTjjSLlFNjKn6FQWW3Xe9vOioEbFbOGFfspk50APB4zyvQ1QVWmdGhVXqgz5IceQv4vz9HcHki+S5oXOPQqPqcKj2i28Jfj8SV7DxJ4pTgbXF+jq+fI7sminc1mQt6CERiyUVoj/Jamk8+9o1V3y+xk=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1559147601580865.4050150616389;
-	Wed, 29 May 2019 09:33:21 -0700 (PDT)
-In-Reply-To: <20190529162438.22653-1-alex.bennee@linaro.org>
-Message-ID: <155914760052.9187.16991391604746750968@ce79690b2cb9>
+	(envelope-from <dgilbert@redhat.com>) id 1hW1XX-000194-Eo
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:35:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:62846)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hW1XX-00016t-5p
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:34:59 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 57E786CFBE
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 16:34:55 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DF5161781;
+	Wed, 29 May 2019 16:34:50 +0000 (UTC)
+Date: Wed, 29 May 2019 17:34:48 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Message-ID: <20190529163447.GK2882@work-vm>
+References: <20190515121544.4597-1-quintela@redhat.com>
+	<20190515121544.4597-7-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Wed, 29 May 2019 09:33:21 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190515121544.4597-7-quintela@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.25]);
+	Wed, 29 May 2019 16:34:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [RFC PATCH] qemu-io-cmds: use clock_gettime for
- benchmarking
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 6/8] migration: Make none operations
+ into its own structure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,105 +59,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
-	qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyOTE2MjQzOC4yMjY1
-My0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUkZDIFBBVENIXSBxZW11LWlv
-LWNtZHM6IHVzZSBjbG9ja19nZXR0aW1lIGZvciBiZW5jaG1hcmtpbmcKVHlwZTogc2VyaWVzCk1l
-c3NhZ2UtaWQ6IDIwMTkwNTI5MTYyNDM4LjIyNjUzLTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZwoK
-PT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2Ug
-PiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0
-IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2Nh
-bCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWls
-YmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIu
-Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgICAgICAgIHBhdGNo
-ZXcvMjAxOTA1MjkxNjI0MzguMjI2NTMtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnIC0+IHBhdGNo
-ZXcvMjAxOTA1MjkxNjI0MzguMjI2NTMtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnClN3aXRjaGVk
-IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZDZlYmNiNjM1YSBxZW11LWlvLWNtZHM6IHVzZSBjbG9j
-a19nZXR0aW1lIGZvciBiZW5jaG1hcmtpbmcKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBz
-cGFjZSByZXF1aXJlZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4TykKIzEzMjogRklMRTogcWVtdS1p
-by1jbWRzLmM6ODk1OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0MSk7CiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQg
-YmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMTMyOiBGSUxFOiBxZW11LWlvLWNtZHMuYzo4OTU6
-CisgICAgY2xvY2tfZ2V0dGltZShDTE9DS19NT05PVE9OSUMsJnQxKTsKICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAn
-LCcgKGN0eDpWeE8pCiMxMzU6IEZJTEU6IHFlbXUtaW8tY21kcy5jOjg5NzoKKyAgICBjbG9ja19n
-ZXR0aW1lKENMT0NLX01PTk9UT05JQywmdDIpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0aGF0ICcmJyAoY3R4Ok94VikK
-IzEzNTogRklMRTogcWVtdS1pby1jbWRzLmM6ODk3OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tf
-TU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJS
-T1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMTUzOiBGSUxFOiBx
-ZW11LWlvLWNtZHMuYzoxMDk1OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0
-MSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVx
-dWlyZWQgYmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMTUzOiBGSUxFOiBxZW11LWlvLWNtZHMu
-YzoxMDk1OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0MSk7CiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVy
-IHRoYXQgJywnIChjdHg6VnhPKQojMTYyOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMTA1OgorICAg
-IGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoYXQgJyYnIChj
-dHg6T3hWKQojMTYyOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMTA1OgorICAgIGNsb2NrX2dldHRp
-bWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMTgw
-OiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMjE3OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9O
-T1RPTklDLCZ0MSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjog
-c3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMTgwOiBGSUxFOiBxZW11
-LWlvLWNtZHMuYzoxMjE3OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0MSk7
-CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVp
-cmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMTgzOiBGSUxFOiBxZW11LWlvLWNtZHMuYzox
-MjE5OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRo
-YXQgJyYnIChjdHg6T3hWKQojMTgzOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMjE5OgorICAgIGNs
-b2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6
-VnhPKQojMjAyOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMjYyOgorICAgIGNsb2NrX2dldHRpbWUo
-Q0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
-CgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMjAyOiBG
-SUxFOiBxZW11LWlvLWNtZHMuYzoxMjYyOgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RP
-TklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNw
-YWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMjE0OiBGSUxFOiBxZW11LWlv
-LWNtZHMuYzoxMjk0OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQg
-YmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMjE0OiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMjk0
-OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQg
-JywnIChjdHg6VnhPKQojMjIzOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxNDI5OgorICAgIGNsb2Nr
-X2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZjdHgtPnQxKTsKICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhhdCAnJicgKGN0
-eDpPeFYpCiMyMjM6IEZJTEU6IHFlbXUtaW8tY21kcy5jOjE0Mjk6CisgICAgY2xvY2tfZ2V0dGlt
-ZShDTE9DS19NT05PVE9OSUMsJmN0eC0+dDEpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4TykK
-IzIzMjogRklMRTogcWVtdS1pby1jbWRzLmM6MTU3NDoKKyAgICAgICAgY2xvY2tfZ2V0dGltZShD
-TE9DS19NT05PVE9OSUMsJmN0eC0+dDEpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhhdCAnJicgKGN0eDpPeFYp
-CiMyMzI6IEZJTEU6IHFlbXUtaW8tY21kcy5jOjE1NzQ6CisgICAgICAgIGNsb2NrX2dldHRpbWUo
-Q0xPQ0tfTU9OT1RPTklDLCZjdHgtPnQxKTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhP
-KQojMjUwOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxNzkxOgorICAgIGNsb2NrX2dldHRpbWUoQ0xP
-Q0tfTU9OT1RPTklDLCZ0MSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpF
-UlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMjUwOiBGSUxF
-OiBxZW11LWlvLWNtZHMuYzoxNzkxOgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklD
-LCZ0MSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNl
-IHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMjUzOiBGSUxFOiBxZW11LWlvLWNt
-ZHMuYzoxNzkzOgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVm
-b3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMjUzOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxNzkzOgor
-ICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDI0IGVycm9ycywgMCB3YXJuaW5ncywgMjE0IGxp
-bmVzIGNoZWNrZWQKCkNvbW1pdCBkNmViY2I2MzVhYzYgKHFlbXUtaW8tY21kczogdXNlIGNsb2Nr
-X2dldHRpbWUgZm9yIGJlbmNobWFya2luZykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09
-IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
-dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA1Mjkx
-NjI0MzguMjI2NTMtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/
-dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
-dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
-dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+* Juan Quintela (quintela@redhat.com) wrote:
+> It will be used later.
 
+'none' is confusing - I think this is no-compression specifically -
+right?
+I'd be happy with something abbreviated like 'nocomp'
+
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  migration/ram.c | 54 ++++++++++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 49 insertions(+), 5 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 1ca9ba77b6..6679e4f213 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -700,6 +700,40 @@ typedef struct {
+>      QemuSemaphore sem_sync;
+>  } MultiFDRecvParams;
+>  
+> +typedef struct {
+> +    /* Prepare the send packet */
+> +    int (*send_prepare)(MultiFDSendParams *p, uint32_t used);
+> +    /* Write the send packet */
+> +    int (*send_write)(MultiFDSendParams *p, uint32_t used, Error **perr);
+> +    /* Read all pages */
+> +    int (*recv_pages)(MultiFDRecvParams *p, uint32_t used, Error **perr);
+> +} MultifdMethods;
+> +
+> +/* Multifd without compression */
+> +
+> +static int none_send_prepare(MultiFDSendParams *p, uint32_t used)
+> +{
+> +    p->next_packet_size = used * qemu_target_page_size();
+> +    return 0;
+> +}
+> +
+> +static int none_send_write(MultiFDSendParams *p, uint32_t used, Error **perr)
+> +{
+> +    return qio_channel_writev_all(p->c, p->pages->iov, used, perr);
+> +}
+> +
+> +static int none_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **perr)
+> +{
+> +    return qio_channel_readv_all(p->c, p->pages->iov, used, perr);
+> +
+> +}
+> +
+> +MultifdMethods multifd_none_ops = {
+> +    .send_prepare = none_send_prepare,
+> +    .send_write = none_send_write,
+> +    .recv_pages = none_recv_pages
+> +};
+> +
+>  static int multifd_send_initial_packet(MultiFDSendParams *p, Error **errp)
+>  {
+>      MultiFDInit_t msg;
+> @@ -904,6 +938,8 @@ struct {
+>      uint64_t packet_num;
+>      /* send channels ready */
+>      QemuSemaphore channels_ready;
+> +    /* multifd ops */
+> +    MultifdMethods *ops;
+>  } *multifd_send_state;
+>  
+>  /*
+> @@ -1093,6 +1129,8 @@ static void *multifd_send_thread(void *opaque)
+>      /* initial packet */
+>      p->num_packets = 1;
+>  
+> +    multifd_send_state->ops = &multifd_none_ops;
+> +
+
+I agree with Wei Yang that is a bad idea; that should be done once
+before the first thread is started.
+
+Dave
+
+>      while (true) {
+>          qemu_sem_wait(&p->sem);
+>          qemu_mutex_lock(&p->mutex);
+> @@ -1102,7 +1140,12 @@ static void *multifd_send_thread(void *opaque)
+>              uint64_t packet_num = p->packet_num;
+>              uint32_t flags = p->flags;
+>  
+> -            p->next_packet_size = used * qemu_target_page_size();
+> +            if (used) {
+> +                ret = multifd_send_state->ops->send_prepare(p, used);
+> +                if (ret != 0) {
+> +                    break;
+> +                }
+> +            }
+>              multifd_send_fill_packet(p);
+>              p->flags = 0;
+>              p->num_packets++;
+> @@ -1120,8 +1163,7 @@ static void *multifd_send_thread(void *opaque)
+>              }
+>  
+>              if (used) {
+> -                ret = qio_channel_writev_all(p->c, p->pages->iov,
+> -                                             used, &local_err);
+> +                ret = multifd_send_state->ops->send_write(p, used, &local_err);
+>                  if (ret != 0) {
+>                      break;
+>                  }
+> @@ -1223,6 +1265,8 @@ struct {
+>      QemuSemaphore sem_sync;
+>      /* global number of generated multifd packets */
+>      uint64_t packet_num;
+> +    /* multifd ops */
+> +    MultifdMethods *ops;
+>  } *multifd_recv_state;
+>  
+>  static void multifd_recv_terminate_threads(Error *err)
+> @@ -1324,6 +1368,7 @@ static void *multifd_recv_thread(void *opaque)
+>      trace_multifd_recv_thread_start(p->id);
+>      rcu_register_thread();
+>  
+> +    multifd_recv_state->ops = &multifd_none_ops;
+>      while (true) {
+>          uint32_t used;
+>          uint32_t flags;
+> @@ -1353,8 +1398,7 @@ static void *multifd_recv_thread(void *opaque)
+>          qemu_mutex_unlock(&p->mutex);
+>  
+>          if (used) {
+> -            ret = qio_channel_readv_all(p->c, p->pages->iov,
+> -                                        used, &local_err);
+> +            ret = multifd_recv_state->ops->recv_pages(p, used, &local_err);
+>              if (ret != 0) {
+>                  break;
+>              }
+> -- 
+> 2.21.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
