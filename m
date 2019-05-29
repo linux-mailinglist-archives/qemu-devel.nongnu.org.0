@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3839D2E268
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:40:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57767 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8089C2E26D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:42:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57859 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hW1ci-0001hi-Lp
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:40:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39591)
+	id 1hW1f4-00049r-Ls
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:42:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39613)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1Zy-0008T0-J3
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:31 -0400
+	(envelope-from <mst@redhat.com>) id 1hW1a0-00005I-NH
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1Zx-0002kx-JC
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:30 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:44364)
+	(envelope-from <mst@redhat.com>) id 1hW1Zz-0002nS-Qn
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:32 -0400
+Received: from mail-qk1-f178.google.com ([209.85.222.178]:41813)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hW1Zx-0002ki-FB
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:29 -0400
-Received: by mail-qk1-f194.google.com with SMTP id w187so1854879qkb.11
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:37:29 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hW1Zz-0002n9-N2
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:31 -0400
+Received: by mail-qk1-f178.google.com with SMTP id m18so1883817qki.8
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:37:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=s3n2L882ltXjPfEswBbEwB7+zfGhmxcdhpoO8/YoZaM=;
-	b=QysrrwAv6wchF6Jsfk+enu6Pl/L4Nlhy7TZdwfMHNJEgFlJoDX8SEl+DfRPpZnrdsi
-	rvG9y/iJ7wiykmXTQjt9y+GfC8qXaFAyvar9/k3NiaWvmNP/9nc5//8hCGH89ioEz4Z1
-	TVwdB5a0V0Xnt2fjxd98BKNKcIdNSptBvS56AC5h+FlbF9qkCgo2RW9D/k58rW/q5b8n
-	1Y2ZdptUEJ3GTaR3wSHD687pRZ1AGRHqlJe5f0VM6KA0JbFOCAdhcIztS/KgMI7yxReI
-	4kPtEGbmYwh/OkzeSRaAbhjxn/Yb2oQp8ele0qIcV5iDFN3yZKuidG9pJD96EtsI8UxN
-	fXTA==
-X-Gm-Message-State: APjAAAUozqb5Cf8ssNNgi4Y12xu8Q3nwmDQO43hV1HwYRaj9gzpq3B4V
-	ajfesOJ/Xj3/qa3DTEDWY8it51m0+hQ=
-X-Google-Smtp-Source: APXvYqwmBWYTMUc/eTrIFmXAF67xTo/ufCCBgFlbsmuxl7it/WpU6E3mrskx9aLD5GWQsBIVe3CcnA==
-X-Received: by 2002:a37:4c11:: with SMTP id z17mr70031685qka.316.1559147848712;
-	Wed, 29 May 2019 09:37:28 -0700 (PDT)
+	bh=L0AgkiXhLjFVQRi+vsOb3iccAaKRvAtIDXeiJDWz4Hs=;
+	b=oPvVtgSiJBaRAWLiiXs0o6yIle7M7yh3nOmBWJzR8/7J2mHYMCPyj1pH0I1qEbKPjL
+	t+u9s4XepjCRJX5vC6VL+KXr9dHAHxUf4vKfWs+TTDv0NcY8iH8rIKjSf6FSL4CQVfQq
+	AY4G7fOGKRdWukqj5iPw4eUEdIM+QWl2FcaZlY3N5VyDgRpup4wbPDJxuvbkLFRyEm/C
+	eXPAwmxHM95EYX9m5aI3ohn5dc+KiRtTe/+VeUWnHTrpFxsQ0aViO5JfP1OKcPOawKBy
+	Bl8uhjq8yRVNezxIKg+vePPM4zNxZBt5CaQYOTZ27KWKid+GUTTD2tfyPfZjCrP8tzbI
+	TOQQ==
+X-Gm-Message-State: APjAAAU8ONLo7UxEFKRVfEBNo42wHfRFCdeXCkciv63MQi+e/aKIZNtj
+	E1x3MTDqA7/+DHI7ZZ2psV+VLyVTDJY=
+X-Google-Smtp-Source: APXvYqyEM2r4OvoVxryGCcC8ILFyJ2myC0/aqVmRup5Hkl1KabKOGuJOLMwiNwzkTr7Nb831w6pvFg==
+X-Received: by 2002:a05:620a:1598:: with SMTP id
+	d24mr6861179qkk.348.1559147850889; 
+	Wed, 29 May 2019 09:37:30 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
-	[100.0.197.103])
-	by smtp.gmail.com with ESMTPSA id j10sm6163198qth.8.2019.05.29.09.37.27
+	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
+	n188sm3314813qkc.74.2019.05.29.09.37.29
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 29 May 2019 09:37:28 -0700 (PDT)
-Date: Wed, 29 May 2019 12:37:26 -0400
+	Wed, 29 May 2019 09:37:30 -0700 (PDT)
+Date: Wed, 29 May 2019 12:37:28 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190513061939.3464-6-david@gibson.dropbear.id.au>
+Message-ID: <1558448611-315074-1-git-send-email-imammedo@redhat.com>
 References: <20190529163604.18560-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,9 +57,9 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.194
-Subject: [Qemu-devel] [PULL 06/10] pci: Fold pci_get_bus_devfn() into its
- sole caller
+X-Received-From: 209.85.222.178
+Subject: [Qemu-devel] [PULL 07/10] docs: smbios: remove family=x from type2
+ entry description
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,113 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+	Thomas Huth <thuth@redhat.com>,
+	Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Gibson <david@gibson.dropbear.id.au>
+From: Igor Mammedov <imammedo@redhat.com>
 
-The only remaining caller of pci_get_bus_devfn() is pci_nic_init_nofail(),
-itself an old compatibility function.  Fold the two together to avoid
-re-using the stale interface.
+'family' option is not part of type 2 table and if user tries to use it
+as such QEMU will error out with an unknow option error.
+Drop it from docs lest it confuse users.
 
-While we're there replace the explicit fprintf()s with error_report().
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20190513061939.3464-6-david@gibson.dropbear.id.au>
+Fixes: b155eb1d04 ("smbios: document cmdline options for smbios type 2-4, 17 structures")
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <1558448611-315074-1-git-send-email-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/pci/pci.c | 60 ++++++++++++++++++++++++----------------------------
- 1 file changed, 28 insertions(+), 32 deletions(-)
+ qemu-options.hx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 7e5f8d001b..d3893bdfe1 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -723,37 +723,6 @@ static int pci_parse_devaddr(const char *addr, int *domp, int *busp,
-     return 0;
- }
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 39dc170429..0d8beb4afd 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2080,7 +2080,7 @@ Specify SMBIOS type 0 fields
+ @item -smbios type=1[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,uuid=@var{uuid}][,sku=@var{str}][,family=@var{str}]
+ Specify SMBIOS type 1 fields
  
--static PCIBus *pci_get_bus_devfn(int *devfnp, PCIBus *root,
--                                 const char *devaddr)
--{
--    int dom, bus;
--    unsigned slot;
--
--    if (!root) {
--        fprintf(stderr, "No primary PCI bus\n");
--        return NULL;
--    }
--
--    assert(!root->parent_dev);
--
--    if (!devaddr) {
--        *devfnp = -1;
--        return pci_find_bus_nr(root, 0);
--    }
--
--    if (pci_parse_devaddr(devaddr, &dom, &bus, &slot, NULL) < 0) {
--        return NULL;
--    }
--
--    if (dom != 0) {
--        fprintf(stderr, "No support for non-zero PCI domains\n");
--        return NULL;
--    }
--
--    *devfnp = PCI_DEVFN(slot, 0);
--    return pci_find_bus_nr(root, bus);
--}
--
- static void pci_init_cmask(PCIDevice *dev)
- {
-     pci_set_word(dev->cmask + PCI_VENDOR_ID, 0xffff);
-@@ -1895,6 +1864,8 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
-     DeviceState *dev;
-     int devfn;
-     int i;
-+    int dom, busnr;
-+    unsigned slot;
+-@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}][,family=@var{str}]
++@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}]
+ Specify SMBIOS type 2 fields
  
-     if (nd->model && !strcmp(nd->model, "virtio")) {
-         g_free(nd->model);
-@@ -1928,7 +1899,32 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
-         exit(1);
-     }
- 
--    bus = pci_get_bus_devfn(&devfn, rootbus, devaddr);
-+    if (!rootbus) {
-+        error_report("No primary PCI bus");
-+        exit(1);
-+    }
-+
-+    assert(!rootbus->parent_dev);
-+
-+    if (!devaddr) {
-+        devfn = -1;
-+        busnr = 0;
-+    } else {
-+        if (pci_parse_devaddr(devaddr, &dom, &busnr, &slot, NULL) < 0) {
-+            error_report("Invalid PCI device address %s for device %s",
-+                         devaddr, nd->model);
-+            exit(1);
-+        }
-+
-+        if (dom != 0) {
-+            error_report("No support for non-zero PCI domains");
-+            exit(1);
-+        }
-+
-+        devfn = PCI_DEVFN(slot, 0);
-+    }
-+
-+    bus = pci_find_bus_nr(rootbus, busnr);
-     if (!bus) {
-         error_report("Invalid PCI device address %s for device %s",
-                      devaddr, nd->model);
+ @item -smbios type=3[,manufacturer=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,sku=@var{str}]
 -- 
 MST
 
