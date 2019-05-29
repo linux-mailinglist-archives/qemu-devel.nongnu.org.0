@@ -2,56 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2D72DD4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 14:40:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53593 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5C32DD62
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 14:44:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53659 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVxs7-0007mw-LU
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 08:39:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60647)
+	id 1hVxwF-0002MB-Di
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 08:44:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33157)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hVxqk-0007G4-9r
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 08:38:35 -0400
+	(envelope-from <pavel.dovgaluk@gmail.com>) id 1hVxu4-0001EC-4Q
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 08:42:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hVxqf-0002Hs-Qx
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 08:38:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60684)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hVxqd-0002FQ-Kc
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 08:38:28 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id BE7DC9FFC8;
-	Wed, 29 May 2019 12:38:25 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C7C180BB;
-	Wed, 29 May 2019 12:38:21 +0000 (UTC)
-Date: Wed, 29 May 2019 13:38:19 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190529123818.GG2882@work-vm>
-References: <20190520231008.20140-1-mst@redhat.com>
-	<20190320112646.3712-2-xieyongji@baidu.com>
-	<20190524121909.277ae31e@bahia.lan>
-	<20190528000854.GA11618@umbus.fritz.box>
-	<20190528083909.65ba8be4@bahia.lan> <20190529111849.GD2882@work-vm>
-	<20190529135434.34c46b39@bahia.lab.toulouse-stg.fr.ibm.com>
+	(envelope-from <pavel.dovgaluk@gmail.com>) id 1hVxu3-0004ba-8a
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 08:42:00 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:56908)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <pavel.dovgaluk@gmail.com>) id 1hVxu3-0004aN-2R
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 08:41:59 -0400
+Received: from [127.0.1.1] (unknown [85.142.117.226])
+	by mail.ispras.ru (Postfix) with ESMTPSA id C71DF540081;
+	Wed, 29 May 2019 15:41:56 +0300 (MSK)
+From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 29 May 2019 15:41:56 +0300
+Message-ID: <155913371654.8429.1659082639780315242.stgit@pasha-Precision-3630-Tower>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190529135434.34c46b39@bahia.lab.toulouse-stg.fr.ibm.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 29 May 2019 12:38:25 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL v2 04/36] virtio: Introduce started flag to
- VirtioDevice
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 83.149.199.45
+Subject: [Qemu-devel] [PATCH] target/i386: save EFER for 32-bit targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,205 +45,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Zhang Yu <zhangyu31@baidu.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
-	Xie Yongji <xieyongji@baidu.com>,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: pbonzini@redhat.com, dovgaluk@ispras.ru, ehabkost@redhat.com,
+	pavel.dovgaluk@ispras.ru, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> On Wed, 29 May 2019 12:18:50 +0100
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> 
-> > * Greg Kurz (groug@kaod.org) wrote:
-> > > On Tue, 28 May 2019 10:08:54 +1000
-> > > David Gibson <david@gibson.dropbear.id.au> wrote:
-> > >   
-> > > > On Fri, May 24, 2019 at 12:19:09PM +0200, Greg Kurz wrote:  
-> > > > > On Mon, 20 May 2019 19:10:35 -0400
-> > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > >     
-> > > > > > From: Xie Yongji <xieyongji@baidu.com>
-> > > > > > 
-> > > > > > The virtio 1.0 transitional devices support driver uses the device
-> > > > > > before setting the DRIVER_OK status bit. So we introduce a started
-> > > > > > flag to indicate whether driver has started the device or not.
-> > > > > > 
-> > > > > > Signed-off-by: Xie Yongji <xieyongji@baidu.com>
-> > > > > > Signed-off-by: Zhang Yu <zhangyu31@baidu.com>
-> > > > > > Message-Id: <20190320112646.3712-2-xieyongji@baidu.com>
-> > > > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > ---
-> > > > > >  include/hw/virtio/virtio.h |  2 ++
-> > > > > >  hw/virtio/virtio.c         | 52 ++++++++++++++++++++++++++++++++++++--
-> > > > > >  2 files changed, 52 insertions(+), 2 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > > > > > index 7140381e3a..27c0efc3d0 100644
-> > > > > > --- a/include/hw/virtio/virtio.h
-> > > > > > +++ b/include/hw/virtio/virtio.h
-> > > > > > @@ -105,6 +105,8 @@ struct VirtIODevice
-> > > > > >      uint16_t device_id;
-> > > > > >      bool vm_running;
-> > > > > >      bool broken; /* device in invalid state, needs reset */
-> > > > > > +    bool started;
-> > > > > > +    bool start_on_kick; /* virtio 1.0 transitional devices support that */
-> > > > > >      VMChangeStateEntry *vmstate;
-> > > > > >      char *bus_name;
-> > > > > >      uint8_t device_endian;
-> > > > > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > > > > > index 28056a7ef7..5d533ac74e 100644
-> > > > > > --- a/hw/virtio/virtio.c
-> > > > > > +++ b/hw/virtio/virtio.c
-> > > > > > @@ -1162,10 +1162,16 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val)
-> > > > > >              }
-> > > > > >          }
-> > > > > >      }
-> > > > > > +    vdev->started = val & VIRTIO_CONFIG_S_DRIVER_OK;
-> > > > > > +    if (unlikely(vdev->start_on_kick && vdev->started)) {
-> > > > > > +        vdev->start_on_kick = false;
-> > > > > > +    }
-> > > > > > +
-> > > > > >      if (k->set_status) {
-> > > > > >          k->set_status(vdev, val);
-> > > > > >      }
-> > > > > >      vdev->status = val;
-> > > > > > +
-> > > > > >      return 0;
-> > > > > >  }
-> > > > > >  
-> > > > > > @@ -1208,6 +1214,9 @@ void virtio_reset(void *opaque)
-> > > > > >          k->reset(vdev);
-> > > > > >      }
-> > > > > >  
-> > > > > > +    vdev->start_on_kick = (virtio_host_has_feature(vdev, VIRTIO_F_VERSION_1) &&
-> > > > > > +                          !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1));
-> > > > > > +    vdev->started = false;
-> > > > > >      vdev->broken = false;
-> > > > > >      vdev->guest_features = 0;
-> > > > > >      vdev->queue_sel = 0;
-> > > > > > @@ -1518,14 +1527,21 @@ void virtio_queue_set_align(VirtIODevice *vdev, int n, int align)
-> > > > > >  
-> > > > > >  static bool virtio_queue_notify_aio_vq(VirtQueue *vq)
-> > > > > >  {
-> > > > > > +    bool ret = false;
-> > > > > > +
-> > > > > >      if (vq->vring.desc && vq->handle_aio_output) {
-> > > > > >          VirtIODevice *vdev = vq->vdev;
-> > > > > >  
-> > > > > >          trace_virtio_queue_notify(vdev, vq - vdev->vq, vq);
-> > > > > > -        return vq->handle_aio_output(vdev, vq);
-> > > > > > +        ret = vq->handle_aio_output(vdev, vq);
-> > > > > > +
-> > > > > > +        if (unlikely(vdev->start_on_kick)) {
-> > > > > > +            vdev->started = true;
-> > > > > > +            vdev->start_on_kick = false;
-> > > > > > +        }
-> > > > > >      }
-> > > > > >  
-> > > > > > -    return false;
-> > > > > > +    return ret;
-> > > > > >  }
-> > > > > >  
-> > > > > >  static void virtio_queue_notify_vq(VirtQueue *vq)
-> > > > > > @@ -1539,6 +1555,11 @@ static void virtio_queue_notify_vq(VirtQueue *vq)
-> > > > > >  
-> > > > > >          trace_virtio_queue_notify(vdev, vq - vdev->vq, vq);
-> > > > > >          vq->handle_output(vdev, vq);
-> > > > > > +
-> > > > > > +        if (unlikely(vdev->start_on_kick)) {
-> > > > > > +            vdev->started = true;
-> > > > > > +            vdev->start_on_kick = false;
-> > > > > > +        }
-> > > > > >      }
-> > > > > >  }
-> > > > > >  
-> > > > > > @@ -1556,6 +1577,11 @@ void virtio_queue_notify(VirtIODevice *vdev, int n)
-> > > > > >      } else if (vq->handle_output) {
-> > > > > >          vq->handle_output(vdev, vq);
-> > > > > >      }
-> > > > > > +
-> > > > > > +    if (unlikely(vdev->start_on_kick)) {
-> > > > > > +        vdev->started = true;
-> > > > > > +        vdev->start_on_kick = false;
-> > > > > > +    }
-> > > > > >  }
-> > > > > >  
-> > > > > >  uint16_t virtio_queue_vector(VirtIODevice *vdev, int n)
-> > > > > > @@ -1770,6 +1796,13 @@ static bool virtio_broken_needed(void *opaque)
-> > > > > >      return vdev->broken;
-> > > > > >  }
-> > > > > >  
-> > > > > > +static bool virtio_started_needed(void *opaque)
-> > > > > > +{
-> > > > > > +    VirtIODevice *vdev = opaque;
-> > > > > > +
-> > > > > > +    return vdev->started;    
-> > > > > 
-> > > > > Existing machine types don't know about the "virtio/started" subsection. This
-> > > > > breaks migration to older QEMUs if the driver has started the device, ie. most
-> > > > > probably always when it comes to live migration.
-> > > > > 
-> > > > > My understanding is that we do try to support backward migration though. It
-> > > > > is a regular practice in datacenters to migrate workloads without having to
-> > > > > take care of the QEMU version. FWIW I had to fix similar issues downstream
-> > > > > many times in the past because customers had filed bugs.
-> > > > > 
-> > > > > Cc'ing David for his opinion.    
-> > > > 
-> > > > Uh.. did you mean to CC me, or Dave Gilbert?
-> > > >   
-> > > 
-> > > Oops... Dave Gilbert indeed, but you're thoughts on that matter are valuable
-> > > as well. I remember being involved in backward migration fixes for spapr
-> > > several times.
-> > >   
-> > > > I mean, I think you're right that we should try to maintain backwards
-> > > > migration, but this isn't really my area of authority.
-> > > >   
-> > > 
-> > > Cc'ing Dave Gilbert :)  
-> > 
-> > Right, I need to maintain backwards migration compatibility; tie the
-> > feature to a machine type so it's only used on newer machine types and
-> > then we'll be safe.
-> > 
-> > Having said that, what's the symptom when this goes wrong?
-> > 
-> 
-> Since the started flag is set as soon as the guest driver begins to use
-> the device and remains so until next reset, the associated subsection is
-> basically always emitted when migrating a booted guest. This causes
-> migration to always fail on the target in this case:
+i386 (32 bit) emulation uses EFER in wrmsr and in MMU fault
+processing.
+But it does not included in VMState, because "efer" field is disabled with
+#ifdef TARGET_X86_64
 
-I meant what's the symptom without this patch series at all?
+This patch adds a section for 32-bit targets which saves EFER when
+it's value is non-zero.
 
-Dave
+Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+---
+ target/i386/machine.c |   24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-> qemu-system-ppc64: Failed to load virtio-net:virtio
-> qemu-system-ppc64: error while loading state for instance 0x0 of device 'pci@800000020000000:00.0/virtio-net'
-> qemu-system-ppc64: load of migration failed: No such file or directory
-> 
-> Xie Yongji has just sent a series to fix that, with you in Cc:
-> 
-> Cheers,
-> 
-> --
-> Greg
-> 
-> > Dave
-> > 
-> > > Cheers,
-> > > 
-> > > --
-> > > Greg  
-> > 
-> > 
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 225b5d433b..b5bfc5803e 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -964,6 +964,27 @@ static const VMStateDescription vmstate_svm_npt = {
+     }
+ };
+ 
++#ifndef TARGET_X86_64
++static bool intel_efer32_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->efer != 0;
++}
++
++static const VMStateDescription vmstate_efer32 = {
++    .name = "cpu/efer32",
++    .version_id = 1,
++    .minimum_version_id = 1,
++   .needed = intel_efer32_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.efer, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++#endif
++
+ VMStateDescription vmstate_x86_cpu = {
+     .name = "cpu",
+     .version_id = 12,
+@@ -1089,6 +1110,9 @@ VMStateDescription vmstate_x86_cpu = {
+         &vmstate_msr_intel_pt,
+         &vmstate_msr_virt_ssbd,
+         &vmstate_svm_npt,
++#ifndef TARGET_X86_64
++        &vmstate_efer32,
++#endif
+         NULL
+     }
+ };
+
 
