@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F882D626
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:21:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48848 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF08F2D612
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:18:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48781 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVsty-0008Hc-IS
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:21:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48189)
+	id 1hVsr1-0005vC-OI
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:18:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48096)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsQU-0000O8-6L
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:07 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsQR-0000Ld-FX
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsQS-0002tk-UM
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:06 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52135 helo=ozlabs.org)
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsQQ-0002qo-9z
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:03 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60617 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hVsQS-0002gf-Ht; Wed, 29 May 2019 02:51:04 -0400
+	id 1hVsQP-0002cV-Lq; Wed, 29 May 2019 02:51:02 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45DLv643gLz9sPT; Wed, 29 May 2019 16:50:22 +1000 (AEST)
+	id 45DLv55CHMz9sPG; Wed, 29 May 2019 16:50:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1559112626;
-	bh=KAhfRGXxmk0mvhBDeynaZTAXX7FnxsaPZJh4L/X8UYs=;
+	d=gibson.dropbear.id.au; s=201602; t=1559112625;
+	bh=uN6drKYKwxES9bskyqe9lxIMQqaWXGheRiRszvbh5qo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MEsQJSAZqJP+HMI+kXGh6g3F9ncPVlEYSpnHOLusRDKX+4prpOFOdCU/6WOsXJX5F
-	I6EbTuNUmt+KqNp2PXGg9ZbISsLzT3XE9fs6hWQDISj0J6kpF6zPpYE7WxHaBT12pU
-	BoBWgxPYQJzPrOX4x/Kwe0uKdMjCAfzbjCDnEseQ=
+	b=Jgas2urfJuwkjhYdBPVxJtm+upb7wfvE42t+BJyOqmdFTLxBDkYI/dwuMoYuSYnFP
+	ZXQ+XCWXZqwtjIlyRJpAPa+EDV92DtyTK8w/G6tKQym09jAhfWhc5RuvzWZ6uXNKzA
+	KnjVFXBW1YKeq33FdZIcwkKHRGeEEJ1sSQ4w/Xkg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 29 May 2019 16:49:55 +1000
-Message-Id: <20190529065017.15149-23-david@gibson.dropbear.id.au>
+Date: Wed, 29 May 2019 16:49:56 +1000
+Message-Id: <20190529065017.15149-24-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190529065017.15149-1-david@gibson.dropbear.id.au>
 References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 22/44] spapr: Add forgotten capability to
- migration stream
+Subject: [Qemu-devel] [PULL 23/44] target/ppc: Use vector variable shifts
+ for VSL, VSR, VSRA
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,69 +54,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
-	qemu-ppc@nongnu.org, clg@kaod.org,
-	David Gibson <david@gibson.dropbear.id.au>, rth@twiddle.net
+Cc: lvivier@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+	qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+	clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-spapr machine capabilities are supposed to be sent in the migration strea=
-m
-so that we can sanity check the source and destination have compatible
-configuration.  Unfortunately, when we added the hpt-max-page-size
-capability, we forgot to add it to the migration state.  This means that =
-we
-can generate spurious warnings when both ends are configured for large
-pages, or potentially fail to warn if the source is configured for huge
-pages, but the destination is not.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Fixes: 2309832afda "spapr: Maximum (HPT) pagesize property"
+The gvec expanders take care of masking the shift amount
+against the element width.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20190518191430.21686-2-richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr.c         | 1 +
- hw/ppc/spapr_caps.c    | 1 +
- include/hw/ppc/spapr.h | 1 +
- 3 files changed, 3 insertions(+)
+ target/ppc/helper.h                 | 12 ----------
+ target/ppc/int_helper.c             | 37 -----------------------------
+ target/ppc/translate/vmx-impl.inc.c | 24 +++++++++----------
+ 3 files changed, 12 insertions(+), 61 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 8580a8dc67..bcae30ad26 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2125,6 +2125,7 @@ static const VMStateDescription vmstate_spapr =3D {
-         &vmstate_spapr_cap_cfpc,
-         &vmstate_spapr_cap_sbbc,
-         &vmstate_spapr_cap_ibs,
-+        &vmstate_spapr_cap_hpt_maxpagesize,
-         &vmstate_spapr_irq_map,
-         &vmstate_spapr_cap_nested_kvm_hv,
-         &vmstate_spapr_dtb,
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 9b1c10baa6..658eb15a14 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -703,6 +703,7 @@ SPAPR_CAP_MIG_STATE(dfp, SPAPR_CAP_DFP);
- SPAPR_CAP_MIG_STATE(cfpc, SPAPR_CAP_CFPC);
- SPAPR_CAP_MIG_STATE(sbbc, SPAPR_CAP_SBBC);
- SPAPR_CAP_MIG_STATE(ibs, SPAPR_CAP_IBS);
-+SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
- SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
- SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
- SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 7e32f309c2..9fc91c8f5e 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -849,6 +849,7 @@ extern const VMStateDescription vmstate_spapr_cap_dfp=
-;
- extern const VMStateDescription vmstate_spapr_cap_cfpc;
- extern const VMStateDescription vmstate_spapr_cap_sbbc;
- extern const VMStateDescription vmstate_spapr_cap_ibs;
-+extern const VMStateDescription vmstate_spapr_cap_hpt_maxpagesize;
- extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
- extern const VMStateDescription vmstate_spapr_cap_large_decr;
- extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 638a6e99c4..02b67a333e 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -180,18 +180,6 @@ DEF_HELPER_3(vmuloub, void, avr, avr, avr)
+ DEF_HELPER_3(vmulouh, void, avr, avr, avr)
+ DEF_HELPER_3(vmulouw, void, avr, avr, avr)
+ DEF_HELPER_3(vmuluwm, void, avr, avr, avr)
+-DEF_HELPER_3(vsrab, void, avr, avr, avr)
+-DEF_HELPER_3(vsrah, void, avr, avr, avr)
+-DEF_HELPER_3(vsraw, void, avr, avr, avr)
+-DEF_HELPER_3(vsrad, void, avr, avr, avr)
+-DEF_HELPER_3(vsrb, void, avr, avr, avr)
+-DEF_HELPER_3(vsrh, void, avr, avr, avr)
+-DEF_HELPER_3(vsrw, void, avr, avr, avr)
+-DEF_HELPER_3(vsrd, void, avr, avr, avr)
+-DEF_HELPER_3(vslb, void, avr, avr, avr)
+-DEF_HELPER_3(vslh, void, avr, avr, avr)
+-DEF_HELPER_3(vslw, void, avr, avr, avr)
+-DEF_HELPER_3(vsld, void, avr, avr, avr)
+ DEF_HELPER_3(vslo, void, avr, avr, avr)
+ DEF_HELPER_3(vsro, void, avr, avr, avr)
+ DEF_HELPER_3(vsrv, void, avr, avr, avr)
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 093ef74b59..8ce89f2ad9 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1791,23 +1791,6 @@ VSHIFT(l, 1)
+ VSHIFT(r, 0)
+ #undef VSHIFT
+=20
+-#define VSL(suffix, element, mask)                                      =
+\
+-    void helper_vsl##suffix(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)   =
+\
+-    {                                                                   =
+\
+-        int i;                                                          =
+\
+-                                                                        =
+\
+-        for (i =3D 0; i < ARRAY_SIZE(r->element); i++) {                =
+  \
+-            unsigned int shift =3D b->element[i] & mask;                =
+  \
+-                                                                        =
+\
+-            r->element[i] =3D a->element[i] << shift;                   =
+  \
+-        }                                                               =
+\
+-    }
+-VSL(b, u8, 0x7)
+-VSL(h, u16, 0x0F)
+-VSL(w, u32, 0x1F)
+-VSL(d, u64, 0x3F)
+-#undef VSL
+-
+ void helper_vslv(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+ {
+     int i;
+@@ -1980,26 +1963,6 @@ VNEG(vnegw, s32)
+ VNEG(vnegd, s64)
+ #undef VNEG
+=20
+-#define VSR(suffix, element, mask)                                      =
+\
+-    void helper_vsr##suffix(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)   =
+\
+-    {                                                                   =
+\
+-        int i;                                                          =
+\
+-                                                                        =
+\
+-        for (i =3D 0; i < ARRAY_SIZE(r->element); i++) {                =
+  \
+-            unsigned int shift =3D b->element[i] & mask;                =
+  \
+-            r->element[i] =3D a->element[i] >> shift;                   =
+  \
+-        }                                                               =
+\
+-    }
+-VSR(ab, s8, 0x7)
+-VSR(ah, s16, 0xF)
+-VSR(aw, s32, 0x1F)
+-VSR(ad, s64, 0x3F)
+-VSR(b, u8, 0x7)
+-VSR(h, u16, 0xF)
+-VSR(w, u32, 0x1F)
+-VSR(d, u64, 0x3F)
+-#undef VSR
+-
+ void helper_vsro(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+ {
+     int sh =3D (b->VsrB(0xf) >> 3) & 0xf;
+diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/v=
+mx-impl.inc.c
+index 6861f4c5b9..663275b729 100644
+--- a/target/ppc/translate/vmx-impl.inc.c
++++ b/target/ppc/translate/vmx-impl.inc.c
+@@ -530,21 +530,21 @@ GEN_VXFORM(vmuleuw, 4, 10);
+ GEN_VXFORM(vmulesb, 4, 12);
+ GEN_VXFORM(vmulesh, 4, 13);
+ GEN_VXFORM(vmulesw, 4, 14);
+-GEN_VXFORM(vslb, 2, 4);
+-GEN_VXFORM(vslh, 2, 5);
+-GEN_VXFORM(vslw, 2, 6);
++GEN_VXFORM_V(vslb, MO_8, tcg_gen_gvec_shlv, 2, 4);
++GEN_VXFORM_V(vslh, MO_16, tcg_gen_gvec_shlv, 2, 5);
++GEN_VXFORM_V(vslw, MO_32, tcg_gen_gvec_shlv, 2, 6);
+ GEN_VXFORM(vrlwnm, 2, 6);
+ GEN_VXFORM_DUAL(vslw, PPC_ALTIVEC, PPC_NONE, \
+                 vrlwnm, PPC_NONE, PPC2_ISA300)
+-GEN_VXFORM(vsld, 2, 23);
+-GEN_VXFORM(vsrb, 2, 8);
+-GEN_VXFORM(vsrh, 2, 9);
+-GEN_VXFORM(vsrw, 2, 10);
+-GEN_VXFORM(vsrd, 2, 27);
+-GEN_VXFORM(vsrab, 2, 12);
+-GEN_VXFORM(vsrah, 2, 13);
+-GEN_VXFORM(vsraw, 2, 14);
+-GEN_VXFORM(vsrad, 2, 15);
++GEN_VXFORM_V(vsld, MO_64, tcg_gen_gvec_shlv, 2, 23);
++GEN_VXFORM_V(vsrb, MO_8, tcg_gen_gvec_shrv, 2, 8);
++GEN_VXFORM_V(vsrh, MO_16, tcg_gen_gvec_shrv, 2, 9);
++GEN_VXFORM_V(vsrw, MO_32, tcg_gen_gvec_shrv, 2, 10);
++GEN_VXFORM_V(vsrd, MO_64, tcg_gen_gvec_shrv, 2, 27);
++GEN_VXFORM_V(vsrab, MO_8, tcg_gen_gvec_sarv, 2, 12);
++GEN_VXFORM_V(vsrah, MO_16, tcg_gen_gvec_sarv, 2, 13);
++GEN_VXFORM_V(vsraw, MO_32, tcg_gen_gvec_sarv, 2, 14);
++GEN_VXFORM_V(vsrad, MO_64, tcg_gen_gvec_sarv, 2, 15);
+ GEN_VXFORM(vsrv, 2, 28);
+ GEN_VXFORM(vslv, 2, 29);
+ GEN_VXFORM(vslo, 6, 16);
 --=20
 2.21.0
 
