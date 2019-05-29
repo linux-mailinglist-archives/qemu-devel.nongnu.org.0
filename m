@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4167D2DBFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 13:35:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52123 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984DE2DC0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 13:40:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52223 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVwrt-0000hs-DA
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 07:35:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47190)
+	id 1hVwwl-000407-QM
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 07:40:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48426)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVwph-0008CJ-G7
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:33:26 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hVwvp-0003ee-GL
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:39:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVwpd-0004U6-NZ
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:33:24 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:39120)
+	(envelope-from <pbonzini@redhat.com>) id 1hVwvn-0001oO-Ra
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:39:44 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37076)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hVwpd-0004SY-F5
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:33:21 -0400
-Received: by mail-wr1-f68.google.com with SMTP id x4so1510555wrt.6
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 04:33:19 -0700 (PDT)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hVwvn-0001nL-Jq
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:39:43 -0400
+Received: by mail-wr1-f67.google.com with SMTP id h1so1535327wro.4
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 04:39:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=mGIuQOqfzcGfov1TxNeYB2SdMwWS4JQoUuv/DQAtIDw=;
-	b=seld44WoQGh/Log4TrS8qQt2lUxe1GFleMc9sLwWFpnrSby6REqkC63RcGOxRpWAFt
-	C5XyKk+kV6mjzH0AMDVsjgQeV2OjiuLr7wuFc+gLRzyrGQluc60vUTcVXt/uqj+/wLNQ
-	tSQxq0vYsbv+zPvNTi2FZ/iXR1WK/V76oyABnu07pidvx00EE8qDjtAxPXaQ0g2RUgNb
-	kaithxz1jFmYaq5BVpDFWtbBMNRdNtV0z9jSL6cCOMPmlWiUAZlD0ua2cpm9V7Fz9A49
-	3WFED+Hbo4mSvQzBPByW5dccwJobxyXZ3QVgjrQKvoUAnAs43SWEqzlWEjFnzTovtSjt
-	tltg==
-X-Gm-Message-State: APjAAAVFwSCwLIVgbVPuzs0iUiIyvATqctpA+IJNXa0QRjSqKl1UTAFa
-	JEsnlWyza3dLNZYekDiOMUp7awCsZOE=
-X-Google-Smtp-Source: APXvYqycg2JuSVnoGIgMOokVIKVE2PGc3sSgNTvnvrePvu7IpcsJmvIf+O6AjFFfhWS62dldQRrWBA==
-X-Received: by 2002:adf:feca:: with SMTP id q10mr5476369wrs.308.1559129599148; 
-	Wed, 29 May 2019 04:33:19 -0700 (PDT)
-Received: from [10.32.224.40] (red-hat-inc.vlan560.asr1.mad1.gblx.net.
-	[159.63.51.90]) by smtp.gmail.com with ESMTPSA id
-	f18sm2287501wrt.21.2019.05.29.04.33.17
+	bh=Gtb9CfRXShL781i5in3DEnSgXEJrI4je5O6XZFU9J+Q=;
+	b=bbfGyxAu8S9/QlnYS0XSZ99awf1RpHju4lWmoOe5YQvfICiIhZx7tRAWHWG+spR2yd
+	4aWmSwZ/w7ZTmsWzAWu7gz2Xdp9DPGcJNNgIJDiMEooZKsLZ9vFRH7tZhIVC1a1UycQa
+	e1lpYKnPY+2mj/ylZAuiNePt2svRUtPZxpSn9PswMabgS18BV1HHn39amDld79579pm2
+	cptMoxHN1c5g2nypO4uNTLPXAsMmRQ8NY+zxp84u9i6rQUBIwDG97SqW4vOJT+QP3Zf0
+	HaYNozNsOXRIiZdHrHeGUu9CpunUldOMCE6agOobNuVgK/K0neHIM8zKrYRK10TX8HgL
+	t6aQ==
+X-Gm-Message-State: APjAAAVyTHBFmsDost2uAxpXMeB0Z6tmJKIuUqS/3buJQstzfVItnF+o
+	6u5V6HV3Ie3Vps2VRnXDho7B5Q==
+X-Google-Smtp-Source: APXvYqzv24nRYhzuXzCoshN3Vrwrte4kdheYYF6KzEZbduZnz7uO2CitUMRJuLRbsGXBJKooruynVA==
+X-Received: by 2002:adf:ea51:: with SMTP id j17mr3081811wrn.159.1559129977165; 
+	Wed, 29 May 2019 04:39:37 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c92d:f9e8:f150:3553?
+	([2001:b07:6468:f312:c92d:f9e8:f150:3553])
+	by smtp.gmail.com with ESMTPSA id
+	r16sm13436101wrj.13.2019.05.29.04.39.36
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 May 2019 04:33:18 -0700 (PDT)
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20190520124716.30472-1-kraxel@redhat.com>
-	<20190520124716.30472-3-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <a77c28f4-ac7a-6363-0099-413414b37068@redhat.com>
-Date: Wed, 29 May 2019 13:33:17 +0200
+	Wed, 29 May 2019 04:39:36 -0700 (PDT)
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	Pavel Dovgalyuk <dovgaluk@ispras.ru>
+References: <003a01d51611$6251a2b0$26f4e810$@ru>
+	<20190529113045.GE2882@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5c55c39b-694b-5d4e-d420-5df0feabc1e8@redhat.com>
+Date: Wed, 29 May 2019 13:39:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190520124716.30472-3-kraxel@redhat.com>
+In-Reply-To: <20190529113045.GE2882@work-vm>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v3 02/14] tests/vm: python3 fixes
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] i386: EFER vs 32-bit CPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,70 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
-	Kamil Rytarowski <kamil@netbsd.org>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
+	rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/19 2:47 PM, Gerd Hoffmann wrote:
-> Add proper unicode handling when processing strings.
-> Also need to explicitly say we want int not float.
+On 29/05/19 13:30, Dr. David Alan Gilbert wrote:
+>> Should we add a section for i386, which duplicates efer, or just version_id of the main VMSD should
+>> be updated?
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  tests/vm/basevm.py | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> You could do:
 > 
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 0556bdcf9e9f..3126fb10a819 100755
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -73,7 +73,7 @@ class BaseVM(object):
->              "-vnc", "127.0.0.1:0,to=20",
->              "-serial", "file:%s" % os.path.join(self._tmpdir, "serial.out")]
->          if vcpus and vcpus > 1:
-> -            self._args += ["-smp", str(vcpus)]
-> +            self._args += ["-smp", "%d" % vcpus]
->          if kvm_available(self.arch):
->              self._args += ["-enable-kvm"]
->          else:
-> @@ -85,12 +85,12 @@ class BaseVM(object):
->              if not sha256sum:
->                  return True
->              checksum = subprocess.check_output(["sha256sum", fname]).split()[0]
-> -            return sha256sum == checksum
-> +            return sha256sum == checksum.decode("utf-8")
->  
->          cache_dir = os.path.expanduser("~/.cache/qemu-vm/download")
->          if not os.path.exists(cache_dir):
->              os.makedirs(cache_dir)
-> -        fname = os.path.join(cache_dir, hashlib.sha1(url).hexdigest())
-> +        fname = os.path.join(cache_dir, hashlib.sha1(url.encode("utf-8")).hexdigest())
->          if os.path.exists(fname) and check_sha256sum(fname):
->              return fname
->          logging.debug("Downloading %s to %s...", url, fname)
-> @@ -134,7 +134,7 @@ class BaseVM(object):
->          raise NotImplementedError
->  
->      def add_source_dir(self, src_dir):
-> -        name = "data-" + hashlib.sha1(src_dir).hexdigest()[:5]
-> +        name = "data-" + hashlib.sha1(src_dir.encode("utf-8")).hexdigest()[:5]
->          tarfile = os.path.join(self._tmpdir, name + ".tar")
->          logging.debug("Creating archive %s for src_dir dir: %s", tarfile, src_dir)
->          subprocess.check_call(["./scripts/archive-source.sh", tarfile],
-> @@ -256,7 +256,7 @@ def main(vmcls):
->              vm.add_source_dir(args.build_qemu)
->              cmd = [vm.BUILD_SCRIPT.format(
->                     configure_opts = " ".join(argv),
-> -                   jobs=args.jobs,
-> +                   jobs=int(args.jobs),
->                     target=args.build_target,
->                     verbose = "V=1" if args.verbose else "")]
->          else:
+> #ifdef TARGET_X86_64
+>         VMSTATE_UINT64(env.efer, X86CPU),
+>         VMSTATE_UINT64(env.star, X86CPU),
+> ...
 > 
+> to become:
+> 
+>         VMSTATE_UINT64_TEST(env.efer, X86CPU, efer_needed)
+> #ifdef TARGET_X86_64
+>         VMSTATE_UINT64(env.star, X86CPU),
+> 
+> 
+> and then make efer_needed a function that returns true if
+> TARGET_X86_64 or it's a new machine type that knows about whatever
+> you're going to do with it.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I prefer adding a subsection for 32-bit, so that EFER is saved/restored
+if nonzero.
+
+Paolo
+
 
