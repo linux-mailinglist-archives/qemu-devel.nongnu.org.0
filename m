@@ -2,61 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9574E2D4CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 06:37:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46954 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8460E2D4D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 06:42:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47000 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVqKp-0004Dr-Qx
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 00:37:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46710)
+	id 1hVqQO-0006T0-M7
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 00:42:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47703)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVqJB-0003Wy-Ra
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 00:35:27 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hVqOA-0005DE-Q4
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 00:40:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hVqJA-0003fT-KR
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 00:35:25 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58374)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hVqJA-0003eA-Db
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 00:35:24 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hVqJ8-0004a1-OV
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 04:35:22 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 958BA2E80C7
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 04:35:22 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 29 May 2019 04:17:17 -0000
-From: Launchpad Bug Tracker <1569053@bugs.launchpad.net>
+	(envelope-from <kraxel@redhat.com>) id 1hVqO9-00068Q-Jm
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 00:40:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51522)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hVqO9-00064w-Ax
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 00:40:33 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id B3EF83087926
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 04:40:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-59.ams2.redhat.com
+	[10.36.116.59])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4D798798A9;
+	Wed, 29 May 2019 04:40:21 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id 8F0EF16E36; Wed, 29 May 2019 06:40:20 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bijutalukdar janitor th-huth ztehypervisor
-X-Launchpad-Bug-Reporter: biju Talukdar (bijutalukdar)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160411213335.1727.82105.malonedeb@wampee.canonical.com>
-Message-Id: <155910343778.31442.15182980371567772106.malone@loganberry.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18968";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 1436f6413862463c3eb390757f0c9a829a4d07be
+Date: Wed, 29 May 2019 06:40:11 +0200
+Message-Id: <20190529044020.27003-1-kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Wed, 29 May 2019 04:40:27 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1569053] Re: Qemu crashes when I start a second
- VM from command line
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/9] Vga 20190529 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,91 +57,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1569053 <1569053@bugs.launchpad.net>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+The following changes since commit da35f7f1eeff9f249a9597400fc514c83fd3a0=
+f8:
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+  virtio-gpu: add sanity check (2019-05-28 08:14:44 +0200)
 
--- =
+are available in the Git repository at:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1569053
+  git://git.kraxel.org/qemu tags/vga-20190529-pull-request
 
-Title:
-  Qemu crashes when I start a second VM from command line
+for you to fetch changes up to 267f664658fee4138f80013fa25354191e8091cb:
 
-Status in QEMU:
-  Expired
+  hw/display: add vhost-user-vga & gpu-pci (2019-05-29 06:30:45 +0200)
 
-Bug description:
-  I am using Qemu on 64 bit  x86 platform, operating system ubuntu
-  14.04. I cloned the latest version of qemu from github and installed
-  on my system.
+----------------------------------------------------------------
+vga: add vhost-user-gpu.
 
-  I booted the 1st VM with the instruction:
+----------------------------------------------------------------
 
-  sudo qemu-system-x86_64 -m 1024 -smp 4 -cpu host -hda
-  /var/lib/libvirt/images/vm1p4.img -boot c -enable-kvm -no-reboot -net
-  none -chardev socket,id=3Dchar1,path=3D/usr/local/var/run/openvswitch
-  /vhost-user1 -netdev type=3Dvhost-
-  user,id=3Dmynet1,chardev=3Dchar1,vhostforce -device virtio-net-
-  pci,mac=3D00:00:00:00:00:01,netdev=3Dmynet1 -object memory-backend-
-  file,id=3Dmem,size=3D1024M,mem-path=3D/dev/hugepages,share=3Don -numa
-  node,memdev=3Dmem -mem-prealloc
+Marc-Andr=C3=A9 Lureau (9):
+  vhost-user: add vhost_user_gpu_set_socket()
+  virtio-gpu: add bswap helpers header
+  virtio-gpu: add a pixman helper header
+  util: compile drm.o on posix
+  contrib: add vhost-user-gpu
+  spice-app: fix running when !CONFIG_OPENGL
+  virtio-gpu: split virtio-gpu, introduce virtio-gpu-base
+  virtio-gpu: split virtio-gpu-pci & virtio-vga
+  hw/display: add vhost-user-vga & gpu-pci
 
-  It is was launched successfully.
-  Then I lanched the second VM with the instruction:
+ configure                                  |   17 +
+ Makefile                                   |   24 +-
+ Makefile.objs                              |    1 +
+ contrib/libvhost-user/libvhost-user.h      |    1 +
+ contrib/vhost-user-gpu/virgl.h             |   25 +
+ contrib/vhost-user-gpu/vugbm.h             |   67 ++
+ contrib/vhost-user-gpu/vugpu.h             |  177 +++
+ hw/display/virtio-vga.h                    |   32 +
+ include/hw/virtio/vhost-backend.h          |    2 +
+ include/hw/virtio/virtio-gpu-bswap.h       |   61 +
+ include/hw/virtio/virtio-gpu-pci.h         |   40 +
+ include/hw/virtio/virtio-gpu-pixman.h      |   45 +
+ include/hw/virtio/virtio-gpu.h             |   92 +-
+ contrib/libvhost-user/libvhost-user.c      |    1 +
+ contrib/vhost-user-gpu/main.c              | 1185 ++++++++++++++++++++
+ contrib/vhost-user-gpu/virgl.c             |  579 ++++++++++
+ contrib/vhost-user-gpu/vugbm.c             |  328 ++++++
+ hw/display/vhost-user-gpu-pci.c            |   51 +
+ hw/display/vhost-user-gpu.c                |  607 ++++++++++
+ hw/display/vhost-user-vga.c                |   52 +
+ hw/display/virtio-gpu-3d.c                 |   49 +-
+ hw/display/virtio-gpu-base.c               |  268 +++++
+ hw/display/virtio-gpu-pci.c                |   55 +-
+ hw/display/virtio-gpu.c                    |  448 ++------
+ hw/display/virtio-vga.c                    |  138 +--
+ hw/virtio/vhost-user.c                     |   11 +
+ ui/spice-app.c                             |    3 +-
+ vl.c                                       |    1 +
+ MAINTAINERS                                |   10 +-
+ contrib/vhost-user-gpu/50-qemu-gpu.json.in |    5 +
+ contrib/vhost-user-gpu/Makefile.objs       |   10 +
+ docs/interop/index.rst                     |    1 +
+ docs/interop/vhost-user-gpu.rst            |  242 ++++
+ docs/interop/vhost-user.rst                |    9 +
+ hw/display/Kconfig                         |   10 +
+ hw/display/Makefile.objs                   |    5 +-
+ rules.mak                                  |    9 +-
+ util/Makefile.objs                         |    2 +-
+ 38 files changed, 4176 insertions(+), 487 deletions(-)
+ create mode 100644 contrib/vhost-user-gpu/virgl.h
+ create mode 100644 contrib/vhost-user-gpu/vugbm.h
+ create mode 100644 contrib/vhost-user-gpu/vugpu.h
+ create mode 100644 hw/display/virtio-vga.h
+ create mode 100644 include/hw/virtio/virtio-gpu-bswap.h
+ create mode 100644 include/hw/virtio/virtio-gpu-pci.h
+ create mode 100644 include/hw/virtio/virtio-gpu-pixman.h
+ create mode 100644 contrib/vhost-user-gpu/main.c
+ create mode 100644 contrib/vhost-user-gpu/virgl.c
+ create mode 100644 contrib/vhost-user-gpu/vugbm.c
+ create mode 100644 hw/display/vhost-user-gpu-pci.c
+ create mode 100644 hw/display/vhost-user-gpu.c
+ create mode 100644 hw/display/vhost-user-vga.c
+ create mode 100644 hw/display/virtio-gpu-base.c
+ create mode 100644 contrib/vhost-user-gpu/50-qemu-gpu.json.in
+ create mode 100644 contrib/vhost-user-gpu/Makefile.objs
+ create mode 100644 docs/interop/vhost-user-gpu.rst
 
-  sudo qemu-system-x86_64 -m 1024 -smp 4 -cpu host -hda
-  /var/lib/libvirt/images/vm1p4-2.img -boot c -enable-kvm -no-reboot
-  -net none -chardev socket,id=3Dchar2,path=3D/usr/local/var/run/openvswitch
-  /vhost-user2 -netdev type=3Dvhost-
-  user,id=3Dmynet2,chardev=3Dchar2,vhostforce -device virtio-net-
-  pci,mac=3D00:00:00:00:00:02,netdev=3Dmynet2 -object memory-backend-
-  file,id=3Dmem,size=3D1024M,mem-path=3D/dev/hugepages,share=3Don -numa
-  node,memdev=3Dmem -mem-prealloc
+--=20
+2.18.1
 
-  Qemu crashed right away. Plea see the log below.
-
-
-  sudo qemu-system-x86_64 -m 1024 -smp 4 -cpu host -hda /var/lib/libvirt/im=
-ages/vm1p4-2.img -boot c -enable-kvm -no-reboot -net none -chardev socket,i=
-d=3Dchar2,path=3D/usr/local/var/run/openvswitch/vhost-user2 -netdev type=3D=
-vhost-user,id=3Dmynet2,chardev=3Dchar2,vhostforce -device virtio-net-pci,ma=
-c=3D00:00:00:00:00:02,netdev=3Dmynet2 -object memory-backend-file,id=3Dmem,=
-size=3D1024M,mem-path=3D/dev/hugepages,share=3Don -numa node,memdev=3Dmem -=
-mem-prealloc
-  KVM internal error. Suberror: 1
-  emulation failure
-  EAX=3D000cc765 EBX=3D00000007 ECX=3D000cc6ac EDX=3D0000df00
-  ESI=3D1ff00000 EDI=3D0000d5d7 EBP=3Dffffffff ESP=3D0000f9ce
-  EIP=3Dd5d70000 EFL=3D00010012 [----A--] CPL=3D0 II=3D0 A20=3D1 SMM=3D0 HL=
-T=3D0
-  ES =3Ddf00 000df000 ffffffff 00809300
-  CS =3Df000 000f0000 ffffffff 00809b00
-  SS =3Ddf00 000df000 ffffffff 00809300
-  DS =3Ddf00 000df000 ffffffff 00809300
-  FS =3D0000 00000000 ffffffff 00809300
-  GS =3D0000 00000000 ffffffff 00809300
-  LDT=3D0000 00000000 0000ffff 00008200
-  TR =3D0000 00000000 0000ffff 00008b00
-  GDT=3D     00000000 00000000
-  IDT=3D     00000000 000003ff
-  CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
-  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
-=3D0000000000000000 =
-
-  DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
-  EFER=3D0000000000000000
-  Code=3D00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 <00> 0=
-0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0=
-0 00 00 00
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1569053/+subscriptions
 
