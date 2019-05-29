@@ -2,70 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6122D60D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:16:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48763 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234C12D5BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:53:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48371 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVspR-0004iM-OF
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:16:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45320)
+	id 1hVsSV-0001bD-81
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:53:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46958)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hVsI2-0001EL-J3
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:42:23 -0400
+	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVsO7-0006gt-GK
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:48:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hVsI1-00037l-GJ
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:42:22 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39793)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hVsI1-0002zc-9H
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:42:21 -0400
-Received: by mail-wm1-x342.google.com with SMTP id z23so682539wma.4
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 23:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=KoGMDinYQHodOIbKXwJ/At0fSWyzS9xNAHk1qWOol/Y=;
-	b=Xm04gVdb6d47qroLNMeVkNI3fzQAhUYv3GAleOVr//GuhCF7RwVNwpfHzJtLo7+9op
-	iNbqp+bdOLyinH/twZOq1A8Alv951lX0B2ROv0tWwKQ7I8Lsg5uK4e+X+1eZJC879Hi6
-	SWrSvEmuZN31YAlA4PiLKT4M3AGZWxsxeg5PsYxjMhpZ05HMQDbUNl35RBCAwUPihmad
-	MGpGsdwds1EwXVMECwIs8v9rG0wXbFxDA9AXvX8dHT6zIHQTP4c/c7WdXCewlV3ASqnq
-	IEN097XZK3usrdDgBCLFWMzx7HXPfJJpS+PJh2WjKuiwh0Byclk6EZ7b2YIEFewJCyhi
-	rO0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=KoGMDinYQHodOIbKXwJ/At0fSWyzS9xNAHk1qWOol/Y=;
-	b=cIdeL68JLbGoAt3VTgALe+nXlzPcbuObAlPfBdX2CODGwovlR1nqNDsCUF00KjRy0u
-	bsMxW9YQb+NNlwlm0Nwcf2kOnfqf307ojwZwZ34yziAmIaQDafT7Fx1DbJQh1Pp1XxiZ
-	xSLJ2Xhx189WN0R7/OECz8fZl64sdhIShCy2aDQdsk5BctuHVq3QVeDoy3hyQgx3Ogom
-	w5wrt74Ele32KTfe+0TrQqOOjIctbU6QcVNjBLmLOAWCo4IY3qKHOM96at+UmdwVp7qW
-	fo8tbkg6QCuOBeCjNPkXHSESF8aDRxsv581pbf64C6PfsDXlBUGOqeRV/irLkzeCDk5o
-	xvJw==
-X-Gm-Message-State: APjAAAXupC4DvyeGuYOst3k5tPf7b7BTD/gOybsB88xKdG/zPQmY/awb
-	PFHT7ySGQoiBaJU+gFrM87+CJG5P
-X-Google-Smtp-Source: APXvYqwZvV0+sTiIKaaghXnlHiQ4iINiV5otlgQKdKCj6+lrmCvyeiJps+nRnEPSifXSBVCgmYJPPw==
-X-Received: by 2002:a1c:4484:: with SMTP id r126mr5794829wma.27.1559112140264; 
-	Tue, 28 May 2019 23:42:20 -0700 (PDT)
-Received: from linux.local ([31.154.166.148])
-	by smtp.gmail.com with ESMTPSA id f2sm6831168wme.12.2019.05.28.23.42.19
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 28 May 2019 23:42:19 -0700 (PDT)
-From: Jon Doron <arilou@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 29 May 2019 09:41:48 +0300
-Message-Id: <20190529064148.19856-21-arilou@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190529064148.19856-1-arilou@gmail.com>
-References: <20190529064148.19856-1-arilou@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH v12 20/20] gdbstub: Implement qemu physical
- memory mode
+	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVsO6-00011j-Dt
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:48:39 -0400
+Received: from relay.sw.ru ([185.231.240.75]:50718)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+	id 1hVsO3-0000zj-Nl; Wed, 29 May 2019 02:48:36 -0400
+Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
+	by relay.sw.ru with esmtp (Exim 4.91)
+	(envelope-from <dplotnikov@virtuozzo.com>)
+	id 1hVsNy-0001Ta-Ve; Wed, 29 May 2019 09:48:31 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: kwolf@redhat.com,
+	mreitz@redhat.com,
+	qemu-block@nongnu.org
+Date: Wed, 29 May 2019 09:48:24 +0300
+Message-Id: <20190529064824.32064-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v0] qemu-io: add pattern file for write command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,123 +45,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, Jon Doron <arilou@gmail.com>
+Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new query/set which changes the memory GDB sees to physical memory
-only.
+The patch allows to provide a pattern file for write
+command. There was no similar ability before.
 
-gdb> maint packet qqemu.PhyMemMode
-will reply the current phy_mem_mode state (1 for enabled, 0 for disabled)
-gdb> maint packet Qqemu.PhyMemMode:1
-Will make GDB read/write only to physical memory, set to 0 to disable
-
-Signed-off-by: Jon Doron <arilou@gmail.com>
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- gdbstub.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 60 insertions(+), 2 deletions(-)
+ qemu-io-cmds.c | 58 ++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 54 insertions(+), 4 deletions(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index a0ff0017f6..d46e21bf70 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -46,11 +46,27 @@
- #define GDB_ATTACHED "1"
- #endif
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index 09750a23ce..b93955116f 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -21,6 +21,7 @@
+ #include "qemu/option.h"
+ #include "qemu/timer.h"
+ #include "qemu/cutils.h"
++#include "string.h"
  
-+#ifndef CONFIG_USER_ONLY
-+static int phy_memory_mode;
-+#endif
-+
- static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
-                                          uint8_t *buf, int len, bool is_write)
- {
--    CPUClass *cc = CPU_GET_CLASS(cpu);
-+    CPUClass *cc;
+ #define CMD_NOFILE_OK   0x01
  
-+#ifndef CONFIG_USER_ONLY
-+    if (phy_memory_mode) {
-+        if (is_write) {
-+            cpu_physical_memory_write(addr, buf, len);
-+        } else {
-+            cpu_physical_memory_read(addr, buf, len);
-+        }
-+        return 0;
-+    }
-+#endif
-+
-+    cc = CPU_GET_CLASS(cpu);
-     if (cc->memory_rw_debug) {
-         return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
-     }
-@@ -2132,8 +2148,36 @@ static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ctx)
- 
- static void handle_query_qemu_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
- {
--    put_packet(gdb_ctx->s, "sstepbits;sstep");
-+    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "sstepbits;sstep");
-+#ifndef CONFIG_USER_ONLY
-+    pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), ";PhyMemMode");
-+#endif
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+static void handle_query_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx,
-+                                           void *user_ctx)
-+{
-+    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "%d", phy_memory_mode);
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-+}
-+
-+static void handle_set_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx, void *user_ctx)
-+{
-+    if (!gdb_ctx->num_params) {
-+        put_packet(gdb_ctx->s, "E22");
-+        return;
-+    }
-+
-+    if (!gdb_ctx->params[0].val_ul) {
-+        phy_memory_mode = 0;
-+    } else {
-+        phy_memory_mode = 1;
-+    }
-+    put_packet(gdb_ctx->s, "OK");
+@@ -343,6 +344,35 @@ static void *qemu_io_alloc(BlockBackend *blk, size_t len, int pattern)
+     return buf;
  }
-+#endif
  
- static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
-     /* Order is important if has same prefix */
-@@ -2215,6 +2259,12 @@ static GdbCmdParseEntry gdb_gen_query_table[] = {
-         .handler = handle_query_qemu_supported,
-         .cmd = "qemu.Supported",
-     },
-+#ifndef CONFIG_USER_ONLY
-+    {
-+        .handler = handle_query_qemu_phy_mem_mode,
-+        .cmd = "qemu.PhyMemMode",
-+    },
-+#endif
++static void *qemu_io_alloc_from_file(BlockBackend *blk, size_t len,
++                                     char *file_name)
++{
++    void *buf;
++    FILE *f = fopen(file_name, "r");
++
++    if (!f) {
++        printf("cannot open file '%s'\n", file_name);
++        return NULL;
++    }
++
++    if (qemuio_misalign) {
++        len += MISALIGN_OFFSET;
++    }
++    buf = blk_blockalign(blk, len);
++    memset(buf, 0, len);
++
++    if (!fread(buf, sizeof(char), len, f)) {
++        printf("file '%s' is empty\n", file_name);
++        free(buf);
++        return NULL;
++    }
++
++    if (qemuio_misalign) {
++        buf += MISALIGN_OFFSET;
++    }
++    return buf;
++}
++
+ static void qemu_io_free(void *p)
+ {
+     if (qemuio_misalign) {
+@@ -965,7 +995,7 @@ static const cmdinfo_t write_cmd = {
+     .perm       = BLK_PERM_WRITE,
+     .argmin     = 2,
+     .argmax     = -1,
+-    .args       = "[-bcCfnquz] [-P pattern] off len",
++    .args       = "[-bcCfnquz] [-P pattern | -s source_file] off len",
+     .oneline    = "writes a number of bytes at a specified offset",
+     .help       = write_help,
  };
+@@ -974,7 +1004,7 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
+ {
+     struct timeval t1, t2;
+     bool Cflag = false, qflag = false, bflag = false;
+-    bool Pflag = false, zflag = false, cflag = false;
++    bool Pflag = false, zflag = false, cflag = false, sflag = false;
+     int flags = 0;
+     int c, cnt, ret;
+     char *buf = NULL;
+@@ -983,8 +1013,9 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
+     /* Some compilers get confused and warn if this is not initialized.  */
+     int64_t total = 0;
+     int pattern = 0xcd;
++    char file_name[255] = { 0 };
  
- static GdbCmdParseEntry gdb_gen_set_table[] = {
-@@ -2225,6 +2275,14 @@ static GdbCmdParseEntry gdb_gen_set_table[] = {
-         .cmd_startswith = 1,
-         .schema = "l0"
-     },
-+#ifndef CONFIG_USER_ONLY
-+    {
-+        .handler = handle_set_qemu_phy_mem_mode,
-+        .cmd = "qemu.PhyMemMode:",
-+        .cmd_startswith = 1,
-+        .schema = "l0"
-+    },
-+#endif
- };
+-    while ((c = getopt(argc, argv, "bcCfnpP:quz")) != -1) {
++    while ((c = getopt(argc, argv, "bcCfnpP:quzs:")) != -1) {
+         switch (c) {
+         case 'b':
+             bflag = true;
+@@ -1020,6 +1051,10 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
+         case 'z':
+             zflag = true;
+             break;
++        case 's':
++            sflag = true;
++            strncpy(file_name, optarg, sizeof(file_name) - 1);
++            break;
+         default:
+             qemuio_command_usage(&write_cmd);
+             return -EINVAL;
+@@ -1056,6 +1091,14 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
+         return -EINVAL;
+     }
  
- static void handle_gen_query(GdbCmdContext *gdb_ctx, void *user_ctx)
++    if (sflag && Pflag) {
++        printf("-s and -P cannot be specified at the same time\n");
++    }
++
++    if (zflag && Pflag) {
++        printf("-z and -P cannot be specified at the same time\n");
++    }
++
+     offset = cvtnum(argv[optind]);
+     if (offset < 0) {
+         print_cvtnum_err(offset, argv[optind]);
+@@ -1088,7 +1131,14 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
+     }
+ 
+     if (!zflag) {
+-        buf = qemu_io_alloc(blk, count, pattern);
++        if (sflag) {
++            buf = qemu_io_alloc_from_file(blk, count, file_name);
++            if (!buf) {
++                return -EINVAL;
++            }
++        } else {
++            buf = qemu_io_alloc(blk, count, pattern);
++        }
+     }
+ 
+     gettimeofday(&t1, NULL);
 -- 
-2.21.0
+2.17.0
 
 
