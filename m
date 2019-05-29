@@ -2,97 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C5F2D7F8
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:42:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49968 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34B32D849
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:55:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50101 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVuA7-0008RF-Gh
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:42:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43103)
+	id 1hVuNF-00057Q-56
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:55:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45469)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVu93-00086K-OJ
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:41:14 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hVuKy-0003tQ-Nb
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:53:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dplotnikov@virtuozzo.com>) id 1hVu92-0005Y5-C6
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:41:13 -0400
-Received: from mail-vi1eur04on0716.outbound.protection.outlook.com
-	([2a01:111:f400:fe0e::716]:27909
-	helo=EUR04-VI1-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
-	id 1hVu91-0005WO-J2; Wed, 29 May 2019 04:41:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=hQb5VHJGhuiDk6F7Fl2FpiHPGspa/QcUj/M0eUTp3oM=;
-	b=UqyeOcfvYjKsi/nOPAfaCLZvC7RTBIMS637vuI7C7ws9bnXKDRpYylhc+NhI0AeOqUJq25mq5eM3aGOEAngByW/xqMOj3ZCgbqc7KZ/JBHHEEdigt7lQ6tvPvlaGuxVZzeqR3xRln0XZrPeDKW0IuJTZvnz0GiDIkfc3/GJgXOg=
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (20.178.22.27) by
-	AM0PR08MB3634.eurprd08.prod.outlook.com (20.177.43.214) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1922.20; Wed, 29 May 2019 08:41:07 +0000
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
-	([fe80::1deb:8cf1:f7d2:16cf]) by
-	AM0PR08MB3745.eurprd08.prod.outlook.com
-	([fe80::1deb:8cf1:f7d2:16cf%6]) with mapi id 15.20.1922.021;
-	Wed, 29 May 2019 08:41:07 +0000
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	"kwolf@redhat.com" <kwolf@redhat.com>, "mreitz@redhat.com"
-	<mreitz@redhat.com>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v0] qemu-io: add pattern file for write command
-Thread-Index: AQHVFfYTAIKvmXEIvU2axMarUNUm4qaByJWA
-Date: Wed, 29 May 2019 08:41:07 +0000
-Message-ID: <cdb8e961-f974-0d77-c792-f9df1b4fa166@virtuozzo.com>
-References: <20190529064824.32064-1-dplotnikov@virtuozzo.com>
-	<4442baee-ac68-bf06-60a2-257fd52f4592@virtuozzo.com>
-In-Reply-To: <4442baee-ac68-bf06-60a2-257fd52f4592@virtuozzo.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0193.eurprd05.prod.outlook.com
-	(2603:10a6:3:f9::17) To AM0PR08MB3745.eurprd08.prod.outlook.com
-	(2603:10a6:208:ff::27)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=dplotnikov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c7279cff-289f-4609-9ae1-08d6e4116441
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:AM0PR08MB3634; 
-x-ms-traffictypediagnostic: AM0PR08MB3634:
-x-microsoft-antispam-prvs: <AM0PR08MB36340B9C6EC84A397120272CCF1F0@AM0PR08MB3634.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-forefront-prvs: 0052308DC6
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(396003)(366004)(136003)(346002)(39850400004)(376002)(199004)(189003)(256004)(66066001)(52116002)(386003)(6506007)(8936002)(476003)(7736002)(2906002)(31696002)(66946007)(73956011)(66446008)(64756008)(66476007)(76176011)(66556008)(71200400001)(316002)(53546011)(2616005)(11346002)(486006)(446003)(110136005)(54906003)(186003)(68736007)(71190400001)(3846002)(2501003)(8676002)(99286004)(305945005)(81156014)(26005)(53936002)(102836004)(6436002)(6486002)(14454004)(6246003)(25786009)(229853002)(31686004)(5660300002)(86362001)(478600001)(4326008)(6512007)(81166006)(107886003)(2201001)(6116002)(36756003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3634;
-	H:AM0PR08MB3745.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: qn26QUwcG0Yga4VWBu8V/4EoGWXIskEt0bmvLtYTNxvADQtGC8YMhloJWT1cEWcvLDEuvzpQ010R++lFIyOfrJ4jUjAnT+vzdiaQxtJyNaL7keVnl7XlgM+d7M+bDLw2XLTG+u4Wnec/fJZdPmU5nROldCvoPFc+ZS3Ctun7D75LNrQP/fZ7SFzrHtBOcLBI+zUZ+80eBORBZ/5b8y1vxLBuD/+QEIMprS81s1VDYsoUFIXsgbJPDbDGG3Z5A63USLYiDJ/p+woFc350wTzdXa5fN5blZjH1nLWx9Nijy4IdjiWdocp9zgiHgrAiLyFn6MFBuw4f9OOqErPX7FgcNw/hGWm37AYd1P+MsAHOEO2IMpMbgWQGTA3gvqqe3NeYsTVIn4lo2oNQc9BZgCRIkWugRq8fhPsLeaKIgSnuVmA=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FE9FA4CB6300ED46AAA4437C8E74144C@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <laurent@vivier.eu>) id 1hVuKx-0002m4-Fe
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:53:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:49327)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hVuKx-0002lD-7M
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:53:31 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
+	(Nemesis)
+	id 1MiMIY-1gzbiB2sWE-00fVo0; Wed, 29 May 2019 10:48:09 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Wed, 29 May 2019 10:48:04 +0200
+Message-Id: <20190529084804.25950-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7279cff-289f-4609-9ae1-08d6e4116441
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2019 08:41:07.1209 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dplotnikov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3634
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe0e::716
-Subject: Re: [Qemu-devel] [PATCH v0] qemu-io: add pattern file for write
- command
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:qNNE4MHroailQjdAGeAkz+vvhAr7BxeOWnGs00bVrILyPvufVFW
+	mlTzwcWDdYZlj9sVwNBMdRXN+9YuczBVHFZRPi4Y3vIVFqi3ZUx0Ne/IEsuSpgk09DaGpXn
+	pGfmZ4+ZVklIklvyIReBv+hg3TuC5u5HAz00QPkrvNBr51IiayFRLvgqvQ3Ad+BoZbsakVQ
+	xDM2d6Jon047WnLW725lw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cGUg4oRVVM4=:iN6xlREUjcKqb7aqNjYv7h
+	axhiq50sz9NnEKzY8VgUnxbNRjAnhPbcs6qTAfrE5VWnaRqA9HNdEbGEjv8kVHP5GB/waFfuO
+	+2zJoN/5MZ/m/YOu3kQQPx4xYS7VJKaSTQ4Bxd2Bpkp6Y4RJiDNjlQQg5qo0vxvlpOTTueAGD
+	uhGwI8rv+cTG3QpEWHsqp3Wc75xWBH8JVaw3hom6LrXwTh8HywuDSRwYa9HLQvfEbSSP/aTgr
+	96LgEkFqWTFhMJqPhf1GAKs8TFSmO1Rb8UCkra1Sj0uT2z+vI3xvQmEghxs5wk4ag7d/Sntgs
+	eOMZRiWn1VxSZ/8/0c75K5S5y3gL5740OnXT6U7VXsDEG4w8lyZ+ymlfcQe/k0y2eDrBVOf7k
+	imPFTDAc3g8TpolauNhP4LeaCOtalQPNgHIZ0vo8bvm6HTR8yp0TlMWbLPhnwt6blXzM/ZwEy
+	JPECOeFJD8mr1DHm7TcAjzEGceSHyE6YG5sXtg8MvpPXrjLNynsiQA6NunHeEdyJDWJn7K6Sx
+	YFYRA2+yZgCpGbHZ/7YJefq6+mhIGpSAIYczNJz49jUN99v/LWWRpXmhwa97Ys/gD31DH+BZG
+	iQhrTx6ORyMrqf70KMLAWpbosjJmeHqH2QEMG7TtSz8ZMRYDzXY+2FT/ykMo/monkzMmN+ykX
+	T0hGYNB1Eu8e364WaY0d+HTneVV3sPRogTErfyicDrvkbn0AHjS/XNxT5T68Jj5UKs5Bj3blR
+	RINIc+fQOe5HakEsJSzj3IW2P5GfeVJ/hblQUA==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.131
+Subject: [Qemu-devel] [PATCH v2] linux-user: emulate msgsnd(),
+ msgrcv() and semtimedop()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,102 +62,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	Denis Lunev <den@virtuozzo.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDI5LjA1LjIwMTkgMTE6MTEsIFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgd3Jv
-dGU6DQo+IDI5LjA1LjIwMTkgOTo0OCwgRGVuaXMgUGxvdG5pa292IHdyb3RlOg0KPj4gVGhlIHBh
-dGNoIGFsbG93cyB0byBwcm92aWRlIGEgcGF0dGVybiBmaWxlIGZvciB3cml0ZQ0KPj4gY29tbWFu
-ZC4gVGhlcmUgd2FzIG5vIHNpbWlsYXIgYWJpbGl0eSBiZWZvcmUuDQo+Pg0KPj4gU2lnbmVkLW9m
-Zi1ieTogRGVuaXMgUGxvdG5pa292IDxkcGxvdG5pa292QHZpcnR1b3p6by5jb20+DQo+PiAtLS0N
-Cj4+ICAgIHFlbXUtaW8tY21kcy5jIHwgNTggKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKy0tLS0NCj4+ICAgIDEgZmlsZSBjaGFuZ2VkLCA1NCBpbnNlcnRpb25z
-KCspLCA0IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9xZW11LWlvLWNtZHMuYyBi
-L3FlbXUtaW8tY21kcy5jDQo+PiBpbmRleCAwOTc1MGEyM2NlLi5iOTM5NTUxMTZmIDEwMDY0NA0K
-Pj4gLS0tIGEvcWVtdS1pby1jbWRzLmMNCj4+ICsrKyBiL3FlbXUtaW8tY21kcy5jDQo+PiBAQCAt
-MjEsNiArMjEsNyBAQA0KPj4gICAgI2luY2x1ZGUgInFlbXUvb3B0aW9uLmgiDQo+PiAgICAjaW5j
-bHVkZSAicWVtdS90aW1lci5oIg0KPj4gICAgI2luY2x1ZGUgInFlbXUvY3V0aWxzLmgiDQo+PiAr
-I2luY2x1ZGUgInN0cmluZy5oIg0KPj4gICAgDQo+PiAgICAjZGVmaW5lIENNRF9OT0ZJTEVfT0sg
-ICAweDAxDQo+PiAgICANCj4+IEBAIC0zNDMsNiArMzQ0LDM1IEBAIHN0YXRpYyB2b2lkICpxZW11
-X2lvX2FsbG9jKEJsb2NrQmFja2VuZCAqYmxrLCBzaXplX3QgbGVuLCBpbnQgcGF0dGVybikNCj4+
-ICAgICAgICByZXR1cm4gYnVmOw0KPj4gICAgfQ0KPj4gICAgDQo+PiArc3RhdGljIHZvaWQgKnFl
-bXVfaW9fYWxsb2NfZnJvbV9maWxlKEJsb2NrQmFja2VuZCAqYmxrLCBzaXplX3QgbGVuLA0KPj4g
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjaGFyICpmaWxlX25hbWUpDQo+
-PiArew0KPj4gKyAgICB2b2lkICpidWY7DQo+PiArICAgIEZJTEUgKmYgPSBmb3BlbihmaWxlX25h
-bWUsICJyIik7DQo+PiArDQo+PiArICAgIGlmICghZikgew0KPj4gKyAgICAgICAgcHJpbnRmKCJj
-YW5ub3Qgb3BlbiBmaWxlICclcydcbiIsIGZpbGVfbmFtZSk7DQo+IA0KPiBJIHNlZSwgcHJpbnRm
-IGZybyBlcnJvcnMgaXMgcHJlZXhpc3RpbmcgaW4gcWVtdS1pby1jbWRzLmMsIGJ1dCBlcnJvcl9y
-ZXBvcnQgaXMgdXNlZCBoZXJlIHRvbywNCj4gSSB0aGluayBpdCdzIGJldHRlciB0byB1c2UgZXJy
-b3JfcmVwb3J0Lg0Kd3JpdGVfZiBkb24ndCB1c2UgZXJyb3JfcmVwb3J0LiBJIHRoaW5rIGl0J3Mg
-d29ydGggdG8gZ28gd2l0aCBwcmludGYgaW4gDQp0aGlzIGNhc2UgLSBub3QgdG8gbWl4IHVwIHBy
-aW50Zi1zIHdpdGggZXJyb3JfcmVwb3J0DQo+IA0KPj4gKyAgICAgICAgcmV0dXJuIE5VTEw7DQo+
-PiArICAgIH0NCj4+ICsNCj4+ICsgICAgaWYgKHFlbXVpb19taXNhbGlnbikgew0KPj4gKyAgICAg
-ICAgbGVuICs9IE1JU0FMSUdOX09GRlNFVDsNCj4+ICsgICAgfQ0KPj4gKyAgICBidWYgPSBibGtf
-YmxvY2thbGlnbihibGssIGxlbik7DQo+PiArICAgIG1lbXNldChidWYsIDAsIGxlbik7DQo+PiAr
-DQo+PiArICAgIGlmICghZnJlYWQoYnVmLCBzaXplb2YoY2hhciksIGxlbiwgZikpIHsNCj4+ICsg
-ICAgICAgIHByaW50ZigiZmlsZSAnJXMnIGlzIGVtcHR5XG4iLCBmaWxlX25hbWUpOw0KPj4gKyAg
-ICAgICAgZnJlZShidWYpOw0KPj4gKyAgICAgICAgcmV0dXJuIE5VTEw7DQo+PiArICAgIH0NCj4+
-ICsNCj4+ICsgICAgaWYgKHFlbXVpb19taXNhbGlnbikgew0KPj4gKyAgICAgICAgYnVmICs9IE1J
-U0FMSUdOX09GRlNFVDsNCj4gDQo+IGhtbSwgcHJlZXhpc3RpbmcgaW4gcWVtdV9pb19hbGxvYyBh
-bmQgcWVtdV9pb19mcmVlLCBidXQgSWYgSSByZW1lbWJlciBjb3JyZWN0bHksIHBvaW50ZXIgYXJp
-dGhtZXRpYw0KPiBvbiB2b2lkKiBpcyBub3QgZ3VhcmFudGVlZCB0byB3b3JrIGFzIGV4cGVjdGVk
-IGhlcmUuLg0Kd2lsbCBjaGFuZ2UgdG8gZ19tYWxsb2MvZ19mcmVlDQo+IA0KPj4gKyAgICB9DQo+
-PiArICAgIHJldHVybiBidWY7DQo+PiArfQ0KPj4gKw0KPj4gICAgc3RhdGljIHZvaWQgcWVtdV9p
-b19mcmVlKHZvaWQgKnApDQo+PiAgICB7DQo+PiAgICAgICAgaWYgKHFlbXVpb19taXNhbGlnbikg
-ew0KPj4gQEAgLTk2NSw3ICs5OTUsNyBAQCBzdGF0aWMgY29uc3QgY21kaW5mb190IHdyaXRlX2Nt
-ZCA9IHsNCj4+ICAgICAgICAucGVybSAgICAgICA9IEJMS19QRVJNX1dSSVRFLA0KPj4gICAgICAg
-IC5hcmdtaW4gICAgID0gMiwNCj4+ICAgICAgICAuYXJnbWF4ICAgICA9IC0xLA0KPj4gLSAgICAu
-YXJncyAgICAgICA9ICJbLWJjQ2ZucXV6XSBbLVAgcGF0dGVybl0gb2ZmIGxlbiIsDQo+PiArICAg
-IC5hcmdzICAgICAgID0gIlstYmNDZm5xdXpdIFstUCBwYXR0ZXJuIHwgLXMgc291cmNlX2ZpbGVd
-IG9mZiBsZW4iLA0KPj4gICAgICAgIC5vbmVsaW5lICAgID0gIndyaXRlcyBhIG51bWJlciBvZiBi
-eXRlcyBhdCBhIHNwZWNpZmllZCBvZmZzZXQiLA0KPj4gICAgICAgIC5oZWxwICAgICAgID0gd3Jp
-dGVfaGVscCwNCj4+ICAgIH07DQo+PiBAQCAtOTc0LDcgKzEwMDQsNyBAQCBzdGF0aWMgaW50IHdy
-aXRlX2YoQmxvY2tCYWNrZW5kICpibGssIGludCBhcmdjLCBjaGFyICoqYXJndikNCj4+ICAgIHsN
-Cj4+ICAgICAgICBzdHJ1Y3QgdGltZXZhbCB0MSwgdDI7DQo+PiAgICAgICAgYm9vbCBDZmxhZyA9
-IGZhbHNlLCBxZmxhZyA9IGZhbHNlLCBiZmxhZyA9IGZhbHNlOw0KPj4gLSAgICBib29sIFBmbGFn
-ID0gZmFsc2UsIHpmbGFnID0gZmFsc2UsIGNmbGFnID0gZmFsc2U7DQo+PiArICAgIGJvb2wgUGZs
-YWcgPSBmYWxzZSwgemZsYWcgPSBmYWxzZSwgY2ZsYWcgPSBmYWxzZSwgc2ZsYWcgPSBmYWxzZTsN
-Cj4+ICAgICAgICBpbnQgZmxhZ3MgPSAwOw0KPj4gICAgICAgIGludCBjLCBjbnQsIHJldDsNCj4+
-ICAgICAgICBjaGFyICpidWYgPSBOVUxMOw0KPj4gQEAgLTk4Myw4ICsxMDEzLDkgQEAgc3RhdGlj
-IGludCB3cml0ZV9mKEJsb2NrQmFja2VuZCAqYmxrLCBpbnQgYXJnYywgY2hhciAqKmFyZ3YpDQo+
-PiAgICAgICAgLyogU29tZSBjb21waWxlcnMgZ2V0IGNvbmZ1c2VkIGFuZCB3YXJuIGlmIHRoaXMg
-aXMgbm90IGluaXRpYWxpemVkLiAgKi8NCj4+ICAgICAgICBpbnQ2NF90IHRvdGFsID0gMDsNCj4+
-ICAgICAgICBpbnQgcGF0dGVybiA9IDB4Y2Q7DQo+PiArICAgIGNoYXIgZmlsZV9uYW1lWzI1NV0g
-PSB7IDAgfTsNCj4+ICAgIA0KPj4gLSAgICB3aGlsZSAoKGMgPSBnZXRvcHQoYXJnYywgYXJndiwg
-ImJjQ2ZucFA6cXV6IikpICE9IC0xKSB7DQo+PiArICAgIHdoaWxlICgoYyA9IGdldG9wdChhcmdj
-LCBhcmd2LCAiYmNDZm5wUDpxdXpzOiIpKSAhPSAtMSkgew0KPj4gICAgICAgICAgICBzd2l0Y2gg
-KGMpIHsNCj4+ICAgICAgICAgICAgY2FzZSAnYic6DQo+PiAgICAgICAgICAgICAgICBiZmxhZyA9
-IHRydWU7DQo+PiBAQCAtMTAyMCw2ICsxMDUxLDEwIEBAIHN0YXRpYyBpbnQgd3JpdGVfZihCbG9j
-a0JhY2tlbmQgKmJsaywgaW50IGFyZ2MsIGNoYXIgKiphcmd2KQ0KPj4gICAgICAgICAgICBjYXNl
-ICd6JzoNCj4+ICAgICAgICAgICAgICAgIHpmbGFnID0gdHJ1ZTsNCj4+ICAgICAgICAgICAgICAg
-IGJyZWFrOw0KPj4gKyAgICAgICAgY2FzZSAncyc6DQo+PiArICAgICAgICAgICAgc2ZsYWcgPSB0
-cnVlOw0KPj4gKyAgICAgICAgICAgIHN0cm5jcHkoZmlsZV9uYW1lLCBvcHRhcmcsIHNpemVvZihm
-aWxlX25hbWUpIC0gMSk7DQo+IA0KPiBNYXliZSwgZ19zdHJkdXAgYW5kIGRvbid0IGNhcmUgYWJv
-dXQgZmlsZV9uYW1lIGxlbmd0aD8NCnllYWgsIHRoYXQgd291bGQgYmUgYmV0dGVyDQo+IA0KPj4g
-KyAgICAgICAgICAgIGJyZWFrOw0KPj4gICAgICAgICAgICBkZWZhdWx0Og0KPj4gICAgICAgICAg
-ICAgICAgcWVtdWlvX2NvbW1hbmRfdXNhZ2UoJndyaXRlX2NtZCk7DQo+PiAgICAgICAgICAgICAg
-ICByZXR1cm4gLUVJTlZBTDsNCj4+IEBAIC0xMDU2LDYgKzEwOTEsMTQgQEAgc3RhdGljIGludCB3
-cml0ZV9mKEJsb2NrQmFja2VuZCAqYmxrLCBpbnQgYXJnYywgY2hhciAqKmFyZ3YpDQo+PiAgICAg
-ICAgICAgIHJldHVybiAtRUlOVkFMOw0KPj4gICAgICAgIH0NCj4+ICAgIA0KPj4gKyAgICBpZiAo
-c2ZsYWcgJiYgUGZsYWcpIHsNCj4+ICsgICAgICAgIHByaW50ZigiLXMgYW5kIC1QIGNhbm5vdCBi
-ZSBzcGVjaWZpZWQgYXQgdGhlIHNhbWUgdGltZVxuIik7DQo+PiArICAgIH0NCj4+ICsNCj4+ICsg
-ICAgaWYgKHpmbGFnICYmIFBmbGFnKSB7DQo+PiArICAgICAgICBwcmludGYoIi16IGFuZCAtUCBj
-YW5ub3QgYmUgc3BlY2lmaWVkIGF0IHRoZSBzYW1lIHRpbWVcbiIpOw0KPj4gKyAgICB9DQp5ZXMs
-IHRoaXMgaXMgYW4gZXJyb3IuIEhlcmUgc2hvdWxkIGJlIHpmbGFnICYmIHNmbGFnDQo+IA0KPiBz
-dHJhbmdlLCB0aGF0IHlvdSBhZGQgdGhpcyBsYXN0IGNoZWNrLi4gSSBzZWUgaXQgaW4gbWFzdGVy
-IGJyYW5jaCBhbHJlYWR5Lg0KPiANCj4+ICsNCj4+ICAgICAgICBvZmZzZXQgPSBjdnRudW0oYXJn
-dltvcHRpbmRdKTsNCj4+ICAgICAgICBpZiAob2Zmc2V0IDwgMCkgew0KPj4gICAgICAgICAgICBw
-cmludF9jdnRudW1fZXJyKG9mZnNldCwgYXJndltvcHRpbmRdKTsNCj4+IEBAIC0xMDg4LDcgKzEx
-MzEsMTQgQEAgc3RhdGljIGludCB3cml0ZV9mKEJsb2NrQmFja2VuZCAqYmxrLCBpbnQgYXJnYywg
-Y2hhciAqKmFyZ3YpDQo+PiAgICAgICAgfQ0KPj4gICAgDQo+PiAgICAgICAgaWYgKCF6ZmxhZykg
-ew0KPj4gLSAgICAgICAgYnVmID0gcWVtdV9pb19hbGxvYyhibGssIGNvdW50LCBwYXR0ZXJuKTsN
-Cj4+ICsgICAgICAgIGlmIChzZmxhZykgew0KPj4gKyAgICAgICAgICAgIGJ1ZiA9IHFlbXVfaW9f
-YWxsb2NfZnJvbV9maWxlKGJsaywgY291bnQsIGZpbGVfbmFtZSk7DQo+PiArICAgICAgICAgICAg
-aWYgKCFidWYpIHsNCj4+ICsgICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQo+PiArICAg
-ICAgICAgICAgfQ0KPj4gKyAgICAgICAgfSBlbHNlIHsNCj4+ICsgICAgICAgICAgICBidWYgPSBx
-ZW11X2lvX2FsbG9jKGJsaywgY291bnQsIHBhdHRlcm4pOw0KPj4gKyAgICAgICAgfQ0KPj4gICAg
-ICAgIH0NCj4+ICAgIA0KPj4gICAgICAgIGdldHRpbWVvZmRheSgmdDEsIE5VTEwpOw0KPj4NCj4g
-DQo+IA0KDQotLSANCkJlc3QsDQpEZW5pcw0K
+When we have updated kernel headers to 5.2-rc1 we have introduced
+new syscall numbers that can be not supported by older kernels
+and fail with ENOSYS while the guest emulation succeeded before
+because the syscalls were emulated with ipc().
+
+This patch fixes the problem by using ipc() if the new syscall
+returns ENOSYS.
+
+Fixes: 86e636951ddc ("linux-user: fix __NR_semtimedop undeclared error")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+
+Notes:
+    v2: replace ENOSYS by TARGET_ENOSYS
+
+ linux-user/syscall.c      | 61 +++++++++++++++++++--------------------
+ linux-user/syscall_defs.h |  1 +
+ 2 files changed, 31 insertions(+), 31 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 5e29e675e9cf..9ecbac463385 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -763,50 +763,21 @@ safe_syscall2(int, nanosleep, const struct timespec *, req,
+ safe_syscall4(int, clock_nanosleep, const clockid_t, clock, int, flags,
+               const struct timespec *, req, struct timespec *, rem)
+ #endif
+-#if !defined(__NR_msgsnd) || !defined(__NR_msgrcv) || !defined(__NR_semtimedop)
+-/* This host kernel architecture uses a single ipc syscall; fake up
+- * wrappers for the sub-operations to hide this implementation detail.
+- * Annoyingly we can't include linux/ipc.h to get the constant definitions
+- * for the call parameter because some structs in there conflict with the
+- * sys/ipc.h ones. So we just define them here, and rely on them being
+- * the same for all host architectures.
+- */
+-#define Q_SEMTIMEDOP 4
+-#define Q_MSGSND 11
+-#define Q_MSGRCV 12
+-#define Q_IPCCALL(VERSION, OP) ((VERSION) << 16 | (OP))
+-
++#ifdef __NR_ipc
+ safe_syscall6(int, ipc, int, call, long, first, long, second, long, third,
+               void *, ptr, long, fifth)
+ #endif
+ #ifdef __NR_msgsnd
+ safe_syscall4(int, msgsnd, int, msgid, const void *, msgp, size_t, sz,
+               int, flags)
+-#else
+-static int safe_msgsnd(int msgid, const void *msgp, size_t sz, int flags)
+-{
+-    return safe_ipc(Q_IPCCALL(0, Q_MSGSND), msgid, sz, flags, (void *)msgp, 0);
+-}
+ #endif
+ #ifdef __NR_msgrcv
+ safe_syscall5(int, msgrcv, int, msgid, void *, msgp, size_t, sz,
+               long, msgtype, int, flags)
+-#else
+-static int safe_msgrcv(int msgid, void *msgp, size_t sz, long type, int flags)
+-{
+-    return safe_ipc(Q_IPCCALL(1, Q_MSGRCV), msgid, sz, flags, msgp, type);
+-}
+ #endif
+ #ifdef __NR_semtimedop
+ safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
+               unsigned, nsops, const struct timespec *, timeout)
+-#else
+-static int safe_semtimedop(int semid, struct sembuf *tsops, unsigned nsops,
+-                           const struct timespec *timeout)
+-{
+-    return safe_ipc(Q_IPCCALL(0, Q_SEMTIMEDOP), semid, nsops, 0, tsops,
+-                    (long)timeout);
+-}
+ #endif
+ #if defined(TARGET_NR_mq_open) && defined(__NR_mq_open)
+ safe_syscall5(int, mq_timedsend, int, mqdes, const char *, msg_ptr,
+@@ -3530,11 +3501,21 @@ static inline abi_long target_to_host_sembuf(struct sembuf *host_sembuf,
+ static inline abi_long do_semop(int semid, abi_long ptr, unsigned nsops)
+ {
+     struct sembuf sops[nsops];
++    abi_long ret;
+ 
+     if (target_to_host_sembuf(sops, ptr, nsops))
+         return -TARGET_EFAULT;
+ 
+-    return get_errno(safe_semtimedop(semid, sops, nsops, NULL));
++    ret = -TARGET_ENOSYS;
++#ifdef __NR_semtimedop
++    ret = get_errno(safe_semtimedop(semid, sops, nsops, NULL));
++#endif
++#ifdef __NR_ipc
++    if (ret == -TARGET_ENOSYS) {
++        ret = get_errno(safe_ipc(IPCOP_semtimedop, semid, nsops, 0, sops, 0));
++    }
++#endif
++    return ret;
+ }
+ 
+ struct target_msqid_ds
+@@ -3689,7 +3670,16 @@ static inline abi_long do_msgsnd(int msqid, abi_long msgp,
+     }
+     host_mb->mtype = (abi_long) tswapal(target_mb->mtype);
+     memcpy(host_mb->mtext, target_mb->mtext, msgsz);
++    ret = -TARGET_ENOSYS;
++#ifdef __NR_msgsnd
+     ret = get_errno(safe_msgsnd(msqid, host_mb, msgsz, msgflg));
++#endif
++#ifdef __NR_ipc
++    if (ret == -TARGET_ENOSYS) {
++        ret = get_errno(safe_ipc(IPCOP_msgsnd, msqid, msgsz, msgflg,
++                                 host_mb, 0));
++    }
++#endif
+     g_free(host_mb);
+     unlock_user_struct(target_mb, msgp, 0);
+ 
+@@ -3717,7 +3707,16 @@ static inline abi_long do_msgrcv(int msqid, abi_long msgp,
+         ret = -TARGET_ENOMEM;
+         goto end;
+     }
++    ret = -TARGET_ENOSYS;
++#ifdef __NR_msgrcv
+     ret = get_errno(safe_msgrcv(msqid, host_mb, msgsz, msgtyp, msgflg));
++#endif
++#ifdef __NR_ipc
++    if (ret == -TARGET_ENOSYS) {
++        ret = get_errno(safe_ipc(IPCOP_CALL(1, IPCOP_msgrcv), msqid, msgsz,
++                        msgflg, host_mb, msgtyp));
++    }
++#endif
+ 
+     if (ret > 0) {
+         abi_ulong target_mtext_addr = msgp + sizeof(abi_ulong);
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 7f141f699c1a..3175440e9dd9 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -32,6 +32,7 @@
+ #define TARGET_SYS_RECVMMSG     19        /* recvmmsg()            */
+ #define TARGET_SYS_SENDMMSG     20        /* sendmmsg()            */
+ 
++#define IPCOP_CALL(VERSION, OP) ((VERSION) << 16 | (OP))
+ #define IPCOP_semop		1
+ #define IPCOP_semget		2
+ #define IPCOP_semctl		3
+-- 
+2.20.1
+
 
