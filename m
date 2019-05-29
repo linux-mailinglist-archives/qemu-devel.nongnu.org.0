@@ -2,97 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC842D678
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:37:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49129 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFB22D6F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:50:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49315 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVt9q-0005hF-6s
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:37:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59410)
+	id 1hVtLc-0006TF-19
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:50:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34572)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hVt78-0004Ki-6w
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:35:11 -0400
+	(envelope-from <jfreimann@redhat.com>) id 1hVtJq-0005nR-Iz
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:48:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hVt76-00033m-Gz
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:35:10 -0400
-Received: from mail-eopbgr00105.outbound.protection.outlook.com
-	([40.107.0.105]:35237
-	helo=EUR02-AM5-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hVt71-0002z5-5e; Wed, 29 May 2019 03:35:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=bn/3nidQ0S5Mm8LhPY+KvJYiExIPa26epZtO9oUzALs=;
-	b=JzQxdMPR3HCnb9Q1Mt4EyUJKSAkXrMgs1rer65PgDDbPB6AfSwVzexUeROCPGFo+ey+1AAxQP/K19zctwmO8+QumQJLraW8AxBITH/lAN5hAPX7sYYQodU35dK6TV9wV0esKW1SrVeY6neYW6P+41VQ5R+7GfPmAGFoyHypVTPI=
-Received: from AM0PR08MB2961.eurprd08.prod.outlook.com (52.134.126.11) by
-	AM0PR08MB5252.eurprd08.prod.outlook.com (20.179.39.153) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1922.16; Wed, 29 May 2019 07:34:59 +0000
-Received: from AM0PR08MB2961.eurprd08.prod.outlook.com
-	([fe80::9499:ef6a:95e:a3c6]) by AM0PR08MB2961.eurprd08.prod.outlook.com
-	([fe80::9499:ef6a:95e:a3c6%4]) with mapi id 15.20.1922.021;
-	Wed, 29 May 2019 07:34:59 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-devel@nongnu.org"
-	<qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v6 3/3] block/stream: introduce a bottom node
-Thread-Index: AQHVBCE9xsQwL5Xm6Ui8YJ6AfY9Z7qaA7sSAgADq/wA=
-Date: Wed, 29 May 2019 07:34:59 +0000
-Message-ID: <5a18f815-ed81-fd58-5f48-9ffe944f0ea4@virtuozzo.com>
-References: <20190506153429.52737-1-vsementsov@virtuozzo.com>
-	<20190506153429.52737-4-vsementsov@virtuozzo.com>
-	<ee950bac-f0d8-3bc9-f5ed-deaf4d36777b@redhat.com>
-In-Reply-To: <ee950bac-f0d8-3bc9-f5ed-deaf4d36777b@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0102CA0001.eurprd01.prod.exchangelabs.com
-	(2603:10a6:7:14::14) To AM0PR08MB2961.eurprd08.prod.outlook.com
-	(2603:10a6:208:66::11)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190529103456590
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9c8e28ab-253d-4608-f32b-08d6e4082749
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
-	SRVR:AM0PR08MB5252; 
-x-ms-traffictypediagnostic: AM0PR08MB5252:
-x-microsoft-antispam-prvs: <AM0PR08MB52529B2F712A156716C6E851C11F0@AM0PR08MB5252.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:175;
-x-forefront-prvs: 0052308DC6
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(376002)(39850400004)(396003)(346002)(366004)(136003)(199004)(189003)(25786009)(31686004)(99286004)(2501003)(6512007)(386003)(486006)(66476007)(186003)(86362001)(2906002)(110136005)(71190400001)(71200400001)(26005)(53936002)(54906003)(446003)(66556008)(2616005)(11346002)(66946007)(6246003)(53546011)(73956011)(4326008)(76176011)(66446008)(64756008)(52116002)(6506007)(476003)(5660300002)(7736002)(2201001)(305945005)(316002)(31696002)(256004)(66066001)(8936002)(229853002)(68736007)(6486002)(3846002)(7416002)(102836004)(6436002)(36756003)(478600001)(14454004)(8676002)(81156014)(81166006)(6116002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB5252;
-	H:AM0PR08MB2961.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: t7Cez0vi39o3Ua8mtAKwH8Tj7qhTi9fpF3SlwNvSg4KYZtzSB9a9TVtzbhgFCMIEBxxE23B+a+1THEr836EQT1u9I0oE0BiOUvV/mN7cvi4sq1SpisFHNLFUAXU7dZ7VWA4468mGCICqAz9/+sgmUVva+/iDcCjDnbfZ3Gs8oj6bAKKWQraM3/7sXiujWe4yenNPwXbqiKYdNbVTxHCHOwNv0vmsC9v4McMz45q1f+d+EHIPdrOrCEj3KNAQe6CR7Zmn1+myZQw5dRzIF6d+2/Z23bRvGik5YKpX5BeM/gU3O4GX1XsTvhBdqt9ZqOc8UaN3RDw9whmkMbabycDAAx7qz/Eqjm4dRRO6bk3xa9ZvQYjRSF4HYO6PNgijBvxOnUBIV6kc3RYoQIV7GMDeqYWN57X1l0hX/qUGthqwFZ4=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <462818B46960C24C8F44BC5DD3BB563A@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <jfreimann@redhat.com>) id 1hVtJp-0003uZ-6l
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:48:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33368)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+	id 1hVtJp-0003r2-2A
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:48:17 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 705B89FFC5
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 07:48:10 +0000 (UTC)
+Received: from localhost (dhcp-192-193.str.redhat.com [10.33.192.193])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AC481A7CA;
+	Wed, 29 May 2019 07:48:04 +0000 (UTC)
+Date: Wed, 29 May 2019 09:48:02 +0200
+From: Jens Freimann <jfreimann@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <20190529074802.2cofzjkudfuilbej@jenstp.localdomain>
+References: <20190517125820.2885-1-jfreimann@redhat.com>
+	<20190520165657.2293c5d7@x1.home>
+	<20190521072157.wpb77wlc5mhfcdes@jenstp.localdomain>
+	<20190521073511-mutt-send-email-mst@kernel.org>
+	<20190521184918.n4nnk6ack3ssp6jv@jenstp.localdomain>
+	<20190528223900-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c8e28ab-253d-4608-f32b-08d6e4082749
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2019 07:34:59.4050 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5252
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.0.105
-Subject: Re: [Qemu-devel] [PATCH v6 3/3] block/stream: introduce a bottom
- node
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20190528223900-mutt-send-email-mst@kernel.org>
+User-Agent: NeoMutt/20180716-1376-5d6ed1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.39]);
+	Wed, 29 May 2019 07:48:10 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
+ network devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,83 +64,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
-	"berto@igalia.com" <berto@igalia.com>, Denis Lunev <den@virtuozzo.com>,
-	"wencongyang2@huawei.com" <wencongyang2@huawei.com>,
-	"xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
-	"stefanha@redhat.com" <stefanha@redhat.com>,
-	Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
-	"jsnow@redhat.com" <jsnow@redhat.com>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+	aadam@redhat.com, qemu-devel@nongnu.org,
+	Alex Williamson <alex.williamson@redhat.com>, laine@redhat.com,
+	ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjguMDUuMjAxOSAyMDozMywgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAwNi4wNS4xOSAxNzozNCwg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IEZyb206IEFuZHJleSBTaGlu
-a2V2aWNoIDxhbmRyZXkuc2hpbmtldmljaEB2aXJ0dW96em8uY29tPg0KPj4NCj4+IFRoZSBib3R0
-b20gbm9kZSBpcyB0aGUgaW50ZXJtZWRpYXRlIGJsb2NrIGRldmljZSB0aGF0IGhhcyB0aGUgYmFz
-ZSBhcyBpdHMNCj4+IGJhY2tpbmcgaW1hZ2UuIEl0IGlzIHVzZWQgaW5zdGVhZCBvZiB0aGUgYmFz
-ZSBub2RlIHdoaWxlIGEgYmxvY2sgc3RyZWFtDQo+PiBqb2IgaXMgcnVubmluZyB0byBhdm9pZCBk
-ZXBlbmRlbmN5IG9uIHRoZSBiYXNlIHRoYXQgbWF5IGNoYW5nZSBkdWUgdG8gdGhlDQo+PiBwYXJh
-bGxlbCBqb2JzLiBUaGUgY2hhbmdlIG1heSB0YWtlIHBsYWNlIGR1ZSB0byBhIGZpbHRlciBub2Rl
-IGFzIHdlbGwgdGhhdA0KPj4gaXMgaW5zZXJ0ZWQgYmV0d2VlbiB0aGUgYmFzZSBhbmQgdGhlIGlu
-dGVybWVkaWF0ZSBib3R0b20gbm9kZS4gSXQgb2NjdXJzDQo+PiB3aGVuIHRoZSBiYXNlIG5vZGUg
-aXMgdGhlIHRvcCBvbmUgZm9yIGFub3RoZXIgY29tbWl0IG9yIHN0cmVhbSBqb2IuDQo+PiBBZnRl
-ciB0aGUgaW50cm9kdWN0aW9uIG9mIHRoZSBib3R0b20gbm9kZSwgZG9uJ3QgZnJlZXplIGl0cyBi
-YWNraW5nIGNoaWxkLA0KPj4gdGhhdCdzIHRoZSBiYXNlLCBhbnltb3JlLg0KPj4NCj4+IFN1Z2dl
-c3RlZC1ieTogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96
-em8uY29tPg0KPj4gU2lnbmVkLW9mZi1ieTogQW5kcmV5IFNoaW5rZXZpY2ggPGFuZHJleS5zaGlu
-a2V2aWNoQHZpcnR1b3p6by5jb20+DQo+PiBSZXZpZXdlZC1ieTogVmxhZGltaXIgU2VtZW50c292
-LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0KPj4gUmV2aWV3ZWQtYnk6IEFs
-YmVydG8gR2FyY2lhIDxiZXJ0b0BpZ2FsaWEuY29tPg0KPj4gLS0tDQo+PiAgIGJsb2NrL3N0cmVh
-bS5jICAgICAgICAgfCA0OSArKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0t
-LS0NCj4+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzI0NSB8ICA0ICsrLS0NCj4+ICAgMiBmaWxlcyBj
-aGFuZ2VkLCAyNyBpbnNlcnRpb25zKCspLCAyNiBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0t
-Z2l0IGEvYmxvY2svc3RyZWFtLmMgYi9ibG9jay9zdHJlYW0uYw0KPj4gaW5kZXggNjViMTNiMjdl
-MC4uZmM5N2M4OWY4MSAxMDA2NDQNCj4+IC0tLSBhL2Jsb2NrL3N0cmVhbS5jDQo+PiArKysgYi9i
-bG9jay9zdHJlYW0uYw0KPiANCj4gWy4uLl0NCj4gDQo+PiBAQCAtMjQ4LDI2ICsyNTAsMjUgQEAg
-dm9pZCBzdHJlYW1fc3RhcnQoY29uc3QgY2hhciAqam9iX2lkLCBCbG9ja0RyaXZlclN0YXRlICpi
-cywNCj4+ICAgICAgICAqIGFscmVhZHkgaGF2ZSBvdXIgb3duIHBsYW5zLiBBbHNvIGRvbid0IGFs
-bG93IHJlc2l6ZSBhcyB0aGUgaW1hZ2Ugc2l6ZSBpcw0KPj4gICAgICAgICogcXVlcmllZCBvbmx5
-IGF0IHRoZSBqb2Igc3RhcnQgYW5kIHRoZW4gY2FjaGVkLiAqLw0KPj4gICAgICAgcyA9IGJsb2Nr
-X2pvYl9jcmVhdGUoam9iX2lkLCAmc3RyZWFtX2pvYl9kcml2ZXIsIE5VTEwsIGJzLA0KPj4gLSAg
-ICAgICAgICAgICAgICAgICAgICAgICBCTEtfUEVSTV9DT05TSVNURU5UX1JFQUQgfCBCTEtfUEVS
-TV9XUklURV9VTkNIQU5HRUQgfA0KPj4gLSAgICAgICAgICAgICAgICAgICAgICAgICBCTEtfUEVS
-TV9HUkFQSF9NT0QsDQo+PiAtICAgICAgICAgICAgICAgICAgICAgICAgIEJMS19QRVJNX0NPTlNJ
-U1RFTlRfUkVBRCB8IEJMS19QRVJNX1dSSVRFX1VOQ0hBTkdFRCB8DQo+PiAtICAgICAgICAgICAg
-ICAgICAgICAgICAgIEJMS19QRVJNX1dSSVRFLA0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICBiYXNpY19mbGFncyB8IEJMS19QRVJNX0dSQVBIX01PRCwNCj4+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgYmFzaWNfZmxhZ3MgfCBCTEtfUEVSTV9XUklURSwNCj4+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHNwZWVkLCBjcmVhdGlvbl9mbGFncywgTlVMTCwgTlVMTCwgZXJycCk7DQo+
-PiAgICAgICBpZiAoIXMpIHsNCj4+ICAgICAgICAgICBnb3RvIGZhaWw7DQo+PiAgICAgICB9DQo+
-PiAgIA0KPj4gLSAgICAvKiBCbG9jayBhbGwgaW50ZXJtZWRpYXRlIG5vZGVzIGJldHdlZW4gYnMg
-YW5kIGJhc2UsIGJlY2F1c2UgdGhleSB3aWxsDQo+PiAtICAgICAqIGRpc2FwcGVhciBmcm9tIHRo
-ZSBjaGFpbiBhZnRlciB0aGlzIG9wZXJhdGlvbi4gVGhlIHN0cmVhbWluZyBqb2IgcmVhZHMNCj4+
-IC0gICAgICogZXZlcnkgYmxvY2sgb25seSBvbmNlLCBhc3N1bWluZyB0aGF0IGl0IGRvZXNuJ3Qg
-Y2hhbmdlLCBzbyBibG9jayB3cml0ZXMNCj4+IC0gICAgICogYW5kIHJlc2l6ZXMuICovDQo+PiAt
-ICAgIGZvciAoaXRlciA9IGJhY2tpbmdfYnMoYnMpOyBpdGVyICYmIGl0ZXIgIT0gYmFzZTsgaXRl
-ciA9IGJhY2tpbmdfYnMoaXRlcikpIHsNCj4+IC0gICAgICAgIGJsb2NrX2pvYl9hZGRfYmRydigm
-cy0+Y29tbW9uLCAiaW50ZXJtZWRpYXRlIG5vZGUiLCBpdGVyLCAwLA0KPj4gLSAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIEJMS19QRVJNX0NPTlNJU1RFTlRfUkVBRCB8IEJMS19QRVJNX1dSSVRF
-X1VOQ0hBTkdFRCwNCj4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAmZXJyb3JfYWJvcnQp
-Ow0KPj4gKyAgICAvKg0KPj4gKyAgICAgKiBCbG9jayBhbGwgaW50ZXJtZWRpYXRlIG5vZGVzIGJl
-dHdlZW4gYnMgYW5kIGJvdHRvbSAoaW5jbHVzaXZlKSwgYmVjYXVzZQ0KPj4gKyAgICAgKiB0aGV5
-IHdpbGwgZGlzYXBwZWFyIGZyb20gdGhlIGNoYWluIGFmdGVyIHRoaXMgb3BlcmF0aW9uLiBUaGUg
-c3RyZWFtaW5nDQo+PiArICAgICAqIGpvYiByZWFkcyBldmVyeSBibG9jayBvbmx5IG9uY2UsIGFz
-c3VtaW5nIHRoYXQgaXQgZG9lc24ndCBjaGFuZ2UsIHNvDQo+PiArICAgICAqIGZvcmJpZCB3cml0
-ZXMgYW5kIHJlc2l6ZXMuDQo+PiArICAgICAqLw0KPj4gKyAgICBmb3IgKGl0ZXIgPSBiczsgaXRl
-ciAhPSBib3R0b207IGl0ZXIgPSBiYWNraW5nX2JzKGl0ZXIpKSB7DQo+PiArICAgICAgICBibG9j
-a19qb2JfYWRkX2JkcnYoJnMtPmNvbW1vbiwgImludGVybWVkaWF0ZSBub2RlIiwgYmFja2luZ19i
-cyhpdGVyKSwNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAwLCBiYXNpY19mbGFncywg
-JmVycm9yX2Fib3J0KTsNCj4gDQo+IEkgZG9u4oCZdCB1bmRlcnN0YW5kIHRoaXMgY2hhbmdlLiAg
-SXNu4oCZdCBpdCBkb2luZyBleGFjdGx5IHRoZSBzYW1lIGFzIGJlZm9yZT8NCj4gDQo+IChJZiBz
-bywgSSBqdXN0IGZpbmQgaXQgaGFyZGVyIHRvIHJlYWQgYmVjYXVzZSBldmVyeSBpdGVyYXRpb24g
-aXNu4oCZdA0KPiBhYm91dCBAaXRlciBidXQgYmFja2luZ19icyhpdGVyKS4pDQoNCkhtLCBpdCdz
-IHRoZSBzYW1lLCBidXQgbm90IHVzaW5nIGJhc2UuIFdlIG1heSBzYXZlIG9sZCBsb29wIGlmIGNh
-bGN1bGF0ZSBiYXNlIGV4YWN0bHkgYmVmb3JlDQp0aGUgbG9vcCAob3IgYXQgbGVhc3Qgbm90IHNl
-cGFyYXRlZCBmcm9tIGl0IGJ5IGFueSB5aWVsZC1wb2ludCkNCg0KPiANCj4gVGhlIHJlc3QgbG9v
-a3MgZ29vZCB0byBtZS4NCj4gDQo+IE1heA0KPiANCj4+ICAgICAgIH0NCj4+ICAgDQo+PiAtICAg
-IHMtPmJhc2UgPSBiYXNlOw0KPj4gKyAgICBzLT5ib3R0b20gPSBib3R0b207DQo+PiAgICAgICBz
-LT5iYWNraW5nX2ZpbGVfc3RyID0gZ19zdHJkdXAoYmFja2luZ19maWxlX3N0cik7DQo+PiAgICAg
-ICBzLT5ic19yZWFkX29ubHkgPSBic19yZWFkX29ubHk7DQo+PiAgICAgICBzLT5jaGFpbl9mcm96
-ZW4gPSB0cnVlOw0KPiANCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+On Tue, May 28, 2019 at 10:40:42PM -0400, Michael S. Tsirkin wrote:
+>On Tue, May 21, 2019 at 08:49:18PM +0200, Jens Freimann wrote:
+>> On Tue, May 21, 2019 at 07:37:19AM -0400, Michael S. Tsirkin wrote:
+>> > On Tue, May 21, 2019 at 09:21:57AM +0200, Jens Freimann wrote:
+>> > Actually is there a list of devices for which this has been tested
+>> > besides mlx5? I think someone said some old intel cards
+>> > don't support this well, we might need to blacklist these ...
+>>
+>> So far I've tested mlx5 and XL710 which both worked, but I'm
+>> working on testing with more devices. But of course help with testing
+>> is greatly appreciated.
+>
+>A testing tool that people can run to get a pass/fail
+>result would be needed for that.
+>Do you have something like this?
+
+I have two simple tools. One that sends packets and another one that
+sniffs for packets to see which device the packet goes to. Find it at
+https://github.com/jensfr/netfailover_driver_detect
+
+Feedback and/or patches welcome.
+
+regards,
+Jens 
 
