@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05C32D7C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:27:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49825 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629562D829
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:46:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50019 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVtw3-00055U-3L
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:27:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41077)
+	id 1hVuER-0001V6-KJ
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:46:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43912)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kbastian@mail.uni-paderborn.de>) id 1hVtuc-0004Mn-JO
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:26:19 -0400
+	(envelope-from <bounces@canonical.com>) id 1hVuDN-0001Bd-Bn
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:45:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kbastian@mail.uni-paderborn.de>) id 1hVtub-0004Hc-Mm
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:26:18 -0400
-Received: from zuban.uni-paderborn.de ([131.234.189.17]:55362)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
-	id 1hVtua-0004Em-RX
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:26:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mail.uni-paderborn.de; s=20170601;
-	h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
-	Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=pnYBzeN3MZ4q3Ivw3OERXwXUhO5uVyGz1CXmPsElfPg=;
-	b=qaEIBIMwh61mG1adzfUD6K2Y8L
-	E0AbznCE73jawsYf17OKTiiLL8cR4P4Uy5N0glA68AxTzgt9o3e2d+LeMZk6l967BDYRnn+U9zxsb
-	3U/ZBDOjOUqoyQJ8ItWsPkSpU2mLE5nrTGS4nfxMH1CaD2tOxXNyF0Z8lgyIVjd7M2Oo=; 
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <87lfyqla7r.fsf@dusky.pond.sub.org>
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-ID: <cba64bd3-f6f0-f3cd-897c-10838cbebaf4@mail.uni-paderborn.de>
-Date: Wed, 29 May 2019 10:25:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	(envelope-from <bounces@canonical.com>) id 1hVuDL-0007m9-LQ
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:45:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38906)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hVuDL-0007lJ-Gm
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:45:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hVuDK-0002s9-3i
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 08:45:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 194B12E802D
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 08:45:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87lfyqla7r.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US-large
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.6.2792898, Antispam-Engine: 2.7.2.2107409,
-	Antispam-Data: 2019.5.29.81516, AntiVirus-Engine: 5.63.0,
-	AntiVirus-Data: 2019.5.29.5630000
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 29 May 2019 08:34:30 -0000
+From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+Message-Id: <155911887030.13016.15611981837118124440.malonedeb@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 6413e4a5d5a6ce6a9ccc66b84034198fa7611813
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 131.234.189.17
-Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1830864] [NEW] Assertion `no_aa32 || ({ ARMCPU
+ *cpu_ = (cpu); isar_feature_arm_div(&cpu_->isar); })' failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,58 +63,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
-	Sagar Karandikar <sagark@eecs.berkeley.edu>,
-	"Michael S. Tsirkin" <mst@redhat.com>, James Hogan <jhogan@kernel.org>,
-	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
-	David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Anthony Perard <anthony.perard@citrix.com>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	Laszlo Ersek <lersek@redhat.com>, Jason Wang <jasowang@redhat.com>,
-	Artyom Tarasenko <atar4qemu@gmail.com>,
-	Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Riku Voipio <riku.voipio@iki.fi>, Greg Kurz <groug@kaod.org>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Beniamino Galvani <b.galvani@gmail.com>,
-	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
-	Stafford Horne <shorne@gmail.com>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	Richard Henderson <rth@twiddle.net>,
-	"Daniel P. Berrange" <berrange@redhat.com>,
-	Claudio Fontana <claudio.fontana@gmail.com>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	Chris Wulff <crwulff@gmail.com>,
-	Claudio Fontana <claudio.fontana@huawei.com>,
-	Laurent Vivier <laurent@vivier.eu>,
-	Andrew Baumann <Andrew.Baumann@microsoft.com>,
-	Michael Walle <michael@walle.cc>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1830864 <1830864@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
-On 5/28/19 8:12 PM, Markus Armbruster wrote:
-> target/tricore/tricore-opcodes.h
-unintentional.
+The following assertion:
 
+    assert(no_aa32 || cpu_isar_feature(arm_div, cpu));
 
-Cheers,
+introduced in commit 0f8d06f16c9d ("target/arm: Conditionalize some
+asserts on aarch32 support", 2018-11-02), fails for me. I intended to
+launch a 32-bit ARM guest (with KVM acceleration) on my AArch64 host
+(APM Mustang A3).
 
-Bastian
+Libvirt generated the following QEMU command line:
 
+> LC_ALL=3DC \
+> PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin \
+> QEMU_AUDIO_DRV=3Dnone \
+> /opt/qemu-installed-optimized/bin/qemu-system-aarch64 \
+>   -name guest=3Df28.32bit,debug-threads=3Don \
+>   -S \
+>   -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qem=
+u/domain-2-f28.32bit/master-key.aes \
+>   -machine virt-4.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,gic-versi=
+on=3D2 \
+>   -cpu host,aarch64=3Doff \
+>   -drive file=3D/root/QEMU_EFI.fd.padded,if=3Dpflash,format=3Draw,unit=3D=
+0,readonly=3Don \
+>   -drive file=3D/var/lib/libvirt/qemu/nvram/f28.32bit_VARS.fd,if=3Dpflash=
+,format=3Draw,unit=3D1 \
+>   -m 8192 \
+>   -realtime mlock=3Doff \
+>   -smp 8,sockets=3D8,cores=3D1,threads=3D1 \
+>   -uuid d525042e-1b37-4058-86ca-c6a2086e8485 \
+>   -no-user-config \
+>   -nodefaults \
+>   -chardev socket,id=3Dcharmonitor,fd=3D27,server,nowait \
+>   -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+>   -rtc base=3Dutc \
+>   -no-shutdown \
+>   -boot strict=3Don \
+>   -device pcie-root-port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,m=
+ultifunction=3Don,addr=3D0x1 \
+>   -device pcie-root-port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,a=
+ddr=3D0x1.0x1 \
+>   -device pcie-root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,a=
+ddr=3D0x1.0x2 \
+>   -device pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,a=
+ddr=3D0x1.0x3 \
+>   -device pcie-root-port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,a=
+ddr=3D0x1.0x4 \
+>   -device pcie-root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,a=
+ddr=3D0x1.0x5 \
+>   -device qemu-xhci,id=3Dusb,bus=3Dpci.1,addr=3D0x0 \
+>   -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.2,addr=3D0x0 \
+>   -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 \
+>   -drive file=3D/var/lib/libvirt/images/f28.32bit.root.qcow2,format=3Dqco=
+w2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,werror=3Denospc,cache=3Dwriteback,disca=
+rd=3Dunmap \
+>   -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=3Dd=
+rive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1,write-cache=3Don \
+>   -drive file=3D/var/lib/libvirt/images/f28.32bit.home.qcow2,format=3Dqco=
+w2,if=3Dnone,id=3Ddrive-scsi0-0-0-1,werror=3Denospc,cache=3Dwriteback,disca=
+rd=3Dunmap \
+>   -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,drive=3Dd=
+rive-scsi0-0-0-1,id=3Dscsi0-0-0-1,write-cache=3Don \
+>   -netdev tap,fd=3D29,id=3Dhostnet0,vhost=3Don,vhostfd=3D30 \
+>   -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:6f:d1=
+:c8,bus=3Dpci.4,addr=3D0x0,romfile=3D \
+>   -chardev pty,id=3Dcharserial0 \
+>   -serial chardev:charserial0 \
+>   -chardev socket,id=3Dcharchannel0,fd=3D31,server,nowait \
+>   -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchan=
+nel0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+>   -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 \
+>   -device usb-kbd,id=3Dinput1,bus=3Dusb.0,port=3D2 \
+>   -vnc 127.0.0.1:0 \
+>   -device virtio-gpu-pci,id=3Dvideo0,max_outputs=3D1,bus=3Dpci.5,addr=3D0=
+x0 \
+>   -object rng-random,id=3Dobjrng0,filename=3D/dev/urandom \
+>   -device virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,max-bytes=3D1048576,peri=
+od=3D1000,bus=3Dpci.6,addr=3D0x0 \
+>   -msg timestamp=3Don
+
+and then I got:
+
+> qemu-system-aarch64: /root/src/upstream/qemu/target/arm/cpu.c:986:
+> arm_cpu_realizefn: Assertion `no_aa32 || ({ ARMCPU *cpu_ =3D (cpu);
+> isar_feature_arm_div(&cpu_->isar); })' failed.
+
+QEMU was built at commit 8dc7fd56dd4f ("Merge remote-tracking branch
+'remotes/philmd-gitlab/tags/fw_cfg-20190523-pull-request' into staging",
+2019-05-23).
+
+(Originally reported on the mailing list in the following thread:
+<http://mid.mail-archive.com/3e3d2018-3993-f651-8e94-5bea612bd776@redhat.co=
+m>.)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830864
+
+Title:
+  Assertion `no_aa32 || ({ ARMCPU *cpu_ =3D (cpu);
+  isar_feature_arm_div(&cpu_->isar); })' failed
+
+Status in QEMU:
+  New
+
+Bug description:
+  The following assertion:
+
+      assert(no_aa32 || cpu_isar_feature(arm_div, cpu));
+
+  introduced in commit 0f8d06f16c9d ("target/arm: Conditionalize some
+  asserts on aarch32 support", 2018-11-02), fails for me. I intended to
+  launch a 32-bit ARM guest (with KVM acceleration) on my AArch64 host
+  (APM Mustang A3).
+
+  Libvirt generated the following QEMU command line:
+
+  > LC_ALL=3DC \
+  > PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin \
+  > QEMU_AUDIO_DRV=3Dnone \
+  > /opt/qemu-installed-optimized/bin/qemu-system-aarch64 \
+  >   -name guest=3Df28.32bit,debug-threads=3Don \
+  >   -S \
+  >   -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/q=
+emu/domain-2-f28.32bit/master-key.aes \
+  >   -machine virt-4.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,gic-ver=
+sion=3D2 \
+  >   -cpu host,aarch64=3Doff \
+  >   -drive file=3D/root/QEMU_EFI.fd.padded,if=3Dpflash,format=3Draw,unit=
+=3D0,readonly=3Don \
+  >   -drive file=3D/var/lib/libvirt/qemu/nvram/f28.32bit_VARS.fd,if=3Dpfla=
+sh,format=3Draw,unit=3D1 \
+  >   -m 8192 \
+  >   -realtime mlock=3Doff \
+  >   -smp 8,sockets=3D8,cores=3D1,threads=3D1 \
+  >   -uuid d525042e-1b37-4058-86ca-c6a2086e8485 \
+  >   -no-user-config \
+  >   -nodefaults \
+  >   -chardev socket,id=3Dcharmonitor,fd=3D27,server,nowait \
+  >   -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  >   -rtc base=3Dutc \
+  >   -no-shutdown \
+  >   -boot strict=3Don \
+  >   -device pcie-root-port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0=
+,multifunction=3Don,addr=3D0x1 \
+  >   -device pcie-root-port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0=
+,addr=3D0x1.0x1 \
+  >   -device pcie-root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0=
+,addr=3D0x1.0x2 \
+  >   -device pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0=
+,addr=3D0x1.0x3 \
+  >   -device pcie-root-port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0=
+,addr=3D0x1.0x4 \
+  >   -device pcie-root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0=
+,addr=3D0x1.0x5 \
+  >   -device qemu-xhci,id=3Dusb,bus=3Dpci.1,addr=3D0x0 \
+  >   -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.2,addr=3D0x0 \
+  >   -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 \
+  >   -drive file=3D/var/lib/libvirt/images/f28.32bit.root.qcow2,format=3Dq=
+cow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,werror=3Denospc,cache=3Dwriteback,dis=
+card=3Dunmap \
+  >   -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=
+=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1,write-cache=3Don \
+  >   -drive file=3D/var/lib/libvirt/images/f28.32bit.home.qcow2,format=3Dq=
+cow2,if=3Dnone,id=3Ddrive-scsi0-0-0-1,werror=3Denospc,cache=3Dwriteback,dis=
+card=3Dunmap \
+  >   -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,drive=
+=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1,write-cache=3Don \
+  >   -netdev tap,fd=3D29,id=3Dhostnet0,vhost=3Don,vhostfd=3D30 \
+  >   -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:6f:=
+d1:c8,bus=3Dpci.4,addr=3D0x0,romfile=3D \
+  >   -chardev pty,id=3Dcharserial0 \
+  >   -serial chardev:charserial0 \
+  >   -chardev socket,id=3Dcharchannel0,fd=3D31,server,nowait \
+  >   -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharch=
+annel0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+  >   -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 \
+  >   -device usb-kbd,id=3Dinput1,bus=3Dusb.0,port=3D2 \
+  >   -vnc 127.0.0.1:0 \
+  >   -device virtio-gpu-pci,id=3Dvideo0,max_outputs=3D1,bus=3Dpci.5,addr=
+=3D0x0 \
+  >   -object rng-random,id=3Dobjrng0,filename=3D/dev/urandom \
+  >   -device virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,max-bytes=3D1048576,pe=
+riod=3D1000,bus=3Dpci.6,addr=3D0x0 \
+  >   -msg timestamp=3Don
+
+  and then I got:
+
+  > qemu-system-aarch64: /root/src/upstream/qemu/target/arm/cpu.c:986:
+  > arm_cpu_realizefn: Assertion `no_aa32 || ({ ARMCPU *cpu_ =3D (cpu);
+  > isar_feature_arm_div(&cpu_->isar); })' failed.
+
+  QEMU was built at commit 8dc7fd56dd4f ("Merge remote-tracking branch
+  'remotes/philmd-gitlab/tags/fw_cfg-20190523-pull-request' into staging",
+  2019-05-23).
+
+  (Originally reported on the mailing list in the following thread:
+  <http://mid.mail-archive.com/3e3d2018-3993-f651-8e94-5bea612bd776@redhat.=
+com>.)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1830864/+subscriptions
 
