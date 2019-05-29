@@ -2,63 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF3C2D338
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 03:22:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45251 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4CE12D466
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 06:05:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46657 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVnIS-0001Ob-Ds
-	for lists+qemu-devel@lfdr.de; Tue, 28 May 2019 21:22:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47686)
+	id 1hVppl-0004vJ-OM
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 00:05:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42579)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hVnHY-00016p-Rk
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 21:21:33 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hVpom-0004cT-27
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 00:04:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hVnHX-0001Xe-1H
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 21:21:32 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40167)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hVnHS-0001S1-5J
-	for qemu-devel@nongnu.org; Tue, 28 May 2019 21:21:28 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 15so359312wmg.5
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 18:21:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=ycYOtGiWthinXl/Acj8a7yeW0iGtvdSx5stpHQ0pLsk=;
-	b=g2urJD0uiBBLxtfj97r3VOZTkvy5yHdF8hByvnQQe996F0DXJBg3fsJI68Er+pIkIM
-	dEIEQpp+UfnUWhEF4BjsREjmluEVboCiMtMD89Oh9u77GDwOld32F6+3oHXvK6R/bGJE
-	DWVGyvy5cBlMaxeSAvtjZE7lUFXkaoZ3DT3GHiqTcze+Gy3E/V45lyENnEDc8CUsGXfg
-	rsxh+s4jr9N90g9vAtx6tbknK9IthjlY9WVknDWo/GMLslMJnZBIj8EZnhrIb+oHl/OL
-	Gu8Z63t5g/HKRlyE8vlwtdYptnKGSX+4F7VdCvXoIcSheNv+ToVDmsFRW+ULLm/FwUGG
-	pFKw==
-X-Gm-Message-State: APjAAAWmgW7MXOZY7EAIo+EA65h4a3hMwOTXLZdbFu3OdqwMJV61CImc
-	ChFR5fJYRmNPXdErsFHlQ/QRYw==
-X-Google-Smtp-Source: APXvYqwzL8tm/m5Os0a/FasPn2DjbMILphwdxDuTsMvVG3iX5GScFGcVa/5u90NmQuX0n2aicBUsPg==
-X-Received: by 2002:a1c:7c07:: with SMTP id x7mr4595427wmc.60.1559092878354;
-	Tue, 28 May 2019 18:21:18 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.166.5])
-	by smtp.gmail.com with ESMTPSA id z5sm4216771wma.36.2019.05.28.18.21.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 May 2019 18:21:17 -0700 (PDT)
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20190528204838.21568-1-kraxel@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bf45adf2-1594-89b4-6a4d-9af6d9e8ac6e@redhat.com>
-Date: Wed, 29 May 2019 03:21:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <dgibson@ozlabs.org>) id 1hVpok-0006xh-EV
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 00:03:59 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50847 helo=ozlabs.org)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hVpoi-0006lo-R1
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 00:03:58 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 45DHBg1vMSz9sB8; Wed, 29 May 2019 14:03:39 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1559102619;
+	bh=/luALfeC8x0Y7FPALvUo4G9a2dSAY/XJEm5Z3sU6+iI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eGksVjaic0ycB2ECzUGKIxoLvvWTfXlmi4ycotOhMslOnCqATIF8g61G9WXaVoQBx
+	9OdEt2zxcgRguV8Qad/lmNPWlxqA1romo7BUpLqHyst9hvRmvpcJyoxo2YynbekeD2
+	etK/MHxIIiFTknXeI7Yf1FwBKAjiVK8axwhQK5hU=
+Date: Wed, 29 May 2019 11:47:34 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190529014733.GA32028@umbus.fritz.box>
+References: <87lfyqla7r.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20190528204838.21568-1-kraxel@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH] q35: split memory at 2G
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="DocE+STaALJfprDB"
+Content-Disposition: inline
+In-Reply-To: <87lfyqla7r.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,33 +55,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>,
-	=?UTF-8?B?TMOhc3psw7Mgw4lyc2Vr?= <lersek@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	David Hildenbrand <david@redhat.com>, James Hogan <jhogan@kernel.org>,
+	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	qemu-devel@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
+	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Anthony Perard <anthony.perard@citrix.com>,
+	Jason Wang <jasowang@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+	Laurent Vivier <lvivier@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 	Eduardo Habkost <ehabkost@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
+	Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Beniamino Galvani <b.galvani@gmail.com>,
+	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
+	Stafford Horne <shorne@gmail.com>,
+	Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+	Richard Henderson <rth@twiddle.net>,
+	"Daniel P. Berrange" <berrange@redhat.com>,
+	Claudio Fontana <claudio.fontana@gmail.com>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Claudio Fontana <claudio.fontana@huawei.com>,
+	Laurent Vivier <laurent@vivier.eu>,
+	Andrew Baumann <Andrew.Baumann@microsoft.com>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+	Michael Walle <michael@walle.cc>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/05/19 22:48, Gerd Hoffmann wrote:
-> Original q35 behavior was to split memory 2.75 GB, leaving space for the
-> mmconfig bar at 0xb000000 and pci I/O window starting at 0xc0000000.
-> 
-> Note: Those machine types have been removed from the qemu codebase
-> meanwhile because they could not be live-migrated so there was little
-> value in keeping them around.
-> 
-> With the effort to allow for gigabyte-alignment of guest memory that
-> behavior was changed:  The split was moved to 2G, but only in case the
-> memory didn't fit below 2.75 GB.
-> 
-> So today the address space between 2G and 2,75G is not used for guest
-> memory in typical use cases, where the guest memory sized at a power of
-> two or a gigabyte number.  But if you configure your guest with some odd
-> amout of memory (such as 2.5G) the address space is used.
 
-Wasn't it done to ensure pre-PAE OSes could use as much memory as
-possible?  (If you run pre-PAE OSes with more RAM than can fit below 4G,
-you can just reduce the amount of memory and get all the 2.75G).
+--DocE+STaALJfprDB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On Tue, May 28, 2019 at 08:12:24PM +0200, Markus Armbruster wrote:
+> We have a bunch of headers without multiple inclusion guards.  Some are
+> clearly intentional, some look accidental.  Too many for me to find out
+> by examining each of them, so I'm asking their maintainers.
+>=20
+> Why do I ask?  I'd like to mark the intentional ones and fix the
+> accidental ones, so they don't flunk "make check-headers" from "[RFC v4
+> 0/7] Baby steps towards saner headers" just because they lack multiple
+> inclusion guards.
+>=20
+> Just in case: what's a multiple inclusion guard?  It's
+>=20
+>     #ifndef UNIQUE_GUARD_SYMBOL_H
+>     #define UNIQUE_GUARD_SYMBOL_H
+>     ...
+>     #endif
+>=20
+> with nothing but comments outside the conditional, so that the header
+> can safely be included more than once.
+>=20
+> I append the alphabetical list of headers without multiple inclusion
+> guards (as reported by scripts/clean-header-guards -nv), followed by the
+> same list sorted into maintainer buckets.  If you're cc'ed, please find
+> your bucket(s), and tell me which headers intentionally lack guards.
+
+[snip]
+> PowerPC
+> M: David Gibson <david@gibson.dropbear.id.au>
+> target/ppc/helper.h
+
+Like the equivalent ARM variants, intentional.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--DocE+STaALJfprDB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzt5LUACgkQbDjKyiDZ
+s5KRHg/9EXoNGPwr+4nyw+b7H62dguDoiHNRG5msf4WewG/wlPrCft6eqcO8+/Kd
+PJtlqi6CNprLRoTrPLagGOC8R/GpZ7aWEFhshtqVheIlKS+80VCqAFdIejB/vr9a
+/f47qeNmKqMhEfEnJA332nqCOYY1niS+CnOV0+bd7psOQ6TlCnNvdPYYYdX3PXnS
+9NTyacoPsWaR1/epuUBXck9WW1JeiNNLHuYN30arvjrcWifmVy5uWUeh2KRJwo5q
+8eHzG00B5zQoJswbylAUYacesh+aGgFWVw6LU9Z1qu+gnXphXFfsRzguPcl4WUS9
+F/oSKAweNcdAyAr7SzNFyYjsXJPC1SThspD6xN8qMgYyIFBpWmrciBJuD2EjsNzM
+OTgFGBnCmGazJ93j8J4mI5OwaZ1eqDkARhUmkT9H+wI1D8ac1lP6l+U7vFsC1xwc
+hLRdjR/JfCGfFcqD9e3k1J2bIgOJvaAWaISomBSx7cPeBYG+FJDOsWP+EurMhaaK
+7La6D+8WH2GkX0w4HAgXIjgbXRbNK4jUCCd+3+BpUYQWdUrfODoTOixcuv3RaRo+
+FiNuPbVSbA6rHw0jMo/oh0glvVjESUnfPNeoAj7e/Sqi0w7MOlop8lLrcl2JGdeO
+UoRC9vfijWBLkQw4jkhkwmo8jtGCjqJ3B4LTujjcZuBj3Th7Wx4=
+=u5pr
+-----END PGP SIGNATURE-----
+
+--DocE+STaALJfprDB--
 
