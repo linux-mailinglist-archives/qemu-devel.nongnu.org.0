@@ -2,67 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6162D840
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:54:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50080 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F722D847
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:55:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50094 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVuLY-0003at-0C
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:54:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45208)
+	id 1hVuN6-00050x-Md
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:55:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45400)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bmeng.cn@gmail.com>) id 1hVuJe-0002t0-US
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:52:12 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hVuKs-0003ll-MX
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:53:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bmeng.cn@gmail.com>) id 1hVuJe-0002Gk-2p
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:52:10 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:32768)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
-	id 1hVuJc-0002Fp-0x; Wed, 29 May 2019 04:52:08 -0400
-Received: by mail-pg1-x543.google.com with SMTP id h17so982916pgv.0;
-	Wed, 29 May 2019 01:52:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=kS9RwfTWm7yJJiKansvU2AvQ0hnlJBsSRKgE5jXjYTI=;
-	b=LEhTsuy7OuQN3yJeX8u96tFxbMduV5X4UGXTxM6OGEcfjS9OJK24Ec+0FORgchb8wu
-	rSIj/WjoCCE1V2BfM/uwpKpr+i+3z5uhRhvEG2+ko1y7gHWSyoEOpsAYxI3e7KOTkUnY
-	5W6Bm1iTVanPQ9hiUV4F+JQ0TIDMI3vt0q7p98S1iAgA+lpwDMsqJG5uap8jEviokCQ2
-	D3b+3EVXMS/jmbBJb6ka9Q9+mBvbmrUvJVeiHDdWhn5fZYZs2b7PF2DCbzQv2jfFetEQ
-	KhBPE8H7/yreuEk59HqKR0nJv9jokOp8W/Wg3DfXzMy911rj4A+x8pC6P9Wya95BMlZy
-	nJ0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=kS9RwfTWm7yJJiKansvU2AvQ0hnlJBsSRKgE5jXjYTI=;
-	b=nQfqDu5e1Hk/Mlm4z2XOOrgynLpGtUDDqi3oQXe+KjeucGYQXbJYNoT0En0gtjbler
-	Ww3jo5peLvMqxb+6eHM08ckax0emMSHCZttKl789PFynsnvrK3jHNg1cQfkR8d07zJ3k
-	lGArq0d5kmpB5hNKQVerLqldIrSvaUR4cpxKaMKge2fZXy+g2nMoIus6kRuji1v1zo5C
-	xrmoctIwoHlK66KuA+Qk/DNfLvjiEVFko9MWixUPJ6zCVIXyp8Eh7Bd3nwcNPq/DcvL6
-	HOw3OnkiOX3xy6RSZDtdd8oNzd9zQMzkP8NMnvJEbXqKFYHnfI4DJgO+NQ3eNPrnXRQv
-	6pgQ==
-X-Gm-Message-State: APjAAAWdrqcKKhAWqzloTEvpuHV2+fMKODwZxT5Fe1JYvPMhEGx8uCz0
-	GieSqtuyJdtGiVwcjVr1CyIZe3mJ
-X-Google-Smtp-Source: APXvYqz8bmnpoQpg410Xq1RIALZdOTrKcVxM63F9hjaug5EBQk5GGssoXPEldQZ7A5WSDPRctlbjpw==
-X-Received: by 2002:a17:90a:240c:: with SMTP id
-	h12mr10916017pje.12.1559119926436; 
-	Wed, 29 May 2019 01:52:06 -0700 (PDT)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
-	[147.11.224.80]) by smtp.gmail.com with ESMTPSA id
-	k3sm16310838pgo.81.2019.05.29.01.52.05
-	(version=TLS1 cipher=AES128-SHA bits=128/128);
-	Wed, 29 May 2019 01:52:05 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Palmer Dabbelt <palmer@sifive.com>
-Date: Wed, 29 May 2019 01:52:01 -0700
-Message-Id: <1559119921-6098-1-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hVuKq-0002hD-Kx
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:53:26 -0400
+Received: from mga12.intel.com ([192.55.52.136]:26053)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+	id 1hVuKZ-0002bt-0d; Wed, 29 May 2019 04:53:10 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 May 2019 01:53:04 -0700
+X-ExtLoop1: 1
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+	by fmsmga006.fm.intel.com with ESMTP; 29 May 2019 01:53:03 -0700
+Date: Wed, 29 May 2019 16:52:34 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <20190529085234.GA13368@richard>
+References: <20190326024320.27895-1-richardw.yang@linux.intel.com>
+	<20190528230111-mutt-send-email-mst@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190528230111-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] [PATCH] riscv: virt: Correct pci "bus-range" encoding
+X-Received-From: 192.55.52.136
+Subject: Re: [Qemu-devel] [PATCH v6] hw/acpi: extract acpi_add_rom_blob()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,32 +55,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+	shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+	Wei Yang <richardw.yang@linux.intel.com>, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The largest pci bus number should be calculated from ECAM size,
-instead of its base address.
+On Tue, May 28, 2019 at 11:01:32PM -0400, Michael S. Tsirkin wrote:
+>On Tue, Mar 26, 2019 at 10:43:20AM +0800, Wei Yang wrote:
+>> arm and i386 has almost the same function acpi_add_rom_blob(), except
+>> giving different FWCfgCallback function.
+>> 
+>> This patch moves acpi_add_rom_blob() to utils.c by passing
+>> FWCfgCallback to it.
+>> 
+>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+>
+>Conflicts with your other patches. Pls rebase on top.
+>
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
+Ah, would you mind letting me know which tree I need to rebase on?
 
- hw/riscv/virt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index fc4c6b3..d6132d9 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -299,7 +299,7 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
-     qemu_fdt_setprop_string(fdt, nodename, "device_type", "pci");
-     qemu_fdt_setprop_cell(fdt, nodename, "linux,pci-domain", 0);
-     qemu_fdt_setprop_cells(fdt, nodename, "bus-range", 0,
--                           memmap[VIRT_PCIE_ECAM].base /
-+                           memmap[VIRT_PCIE_ECAM].size /
-                                PCIE_MMCFG_SIZE_MIN - 1);
-     qemu_fdt_setprop(fdt, nodename, "dma-coherent", NULL, 0);
-     qemu_fdt_setprop_cells(fdt, nodename, "reg", 0, memmap[VIRT_PCIE_ECAM].base,
 -- 
-2.7.4
-
+Wei Yang
+Help you, Help me
 
