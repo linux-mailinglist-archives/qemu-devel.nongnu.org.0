@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096332D5A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:44:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48226 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606D72D5AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:47:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48282 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVsJz-0002DQ-4R
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:44:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45170)
+	id 1hVsMo-0004dg-Hi
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:47:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45184)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hVsHr-00012V-Nl
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:42:12 -0400
+	(envelope-from <arilou@gmail.com>) id 1hVsHs-00013J-Oe
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:42:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hVsHq-0001JF-PS
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:42:11 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34543)
+	(envelope-from <arilou@gmail.com>) id 1hVsHr-0001Td-OC
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:42:12 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34481)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hVsHq-000190-Jv
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:42:10 -0400
-Received: by mail-wm1-x343.google.com with SMTP id e19so3627106wme.1
-	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 23:42:10 -0700 (PDT)
+	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hVsHr-0001KJ-Hi
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:42:11 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f8so820916wrt.1
+	for <qemu-devel@nongnu.org>; Tue, 28 May 2019 23:42:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=e2K4Chkj3TNfvRg6bH2FBwRgCjBJSljoXPJlT5yCRqs=;
-	b=gFbCnDCGgE/+VIQf5Saw5AM5qnVCzEIUd1yKQQ49dZe643HqfdBAWpkDfZtamJyGNB
-	z6irEoF21j4w0vuqvnPA2CaeKvDFD1GLet7X9YbMW1HkPH7Kpkhy1cKNYW8sjVKpLr4F
-	SMCJik6g8K97wbMC/Mx5EYh2gv4LMFHtwN0yZnCPl8zDyEL02onKxuVH8HXwKYo/OxSy
-	w++S7M1DBGLqj81aT0iZrxFZC/XAs6VYFd2Wkc8X9mjSws68U05dHv8QEkj84FmgY+Vd
-	LEoGTLBN8lPzHVBpX0b4+5VyHUZiStZ/og//gC/5o34Ls7NE5Yx/PvoHqkA03VK5bHyp
-	QlEA==
+	bh=zYpwIgeZFIPxtX2pfuZMsiFOK3Cy3BKlk2l3IGPOWQs=;
+	b=oU1d6x5qNPlRW/5uyByXp+jFygpKPXrdw4cIhTd6YzQou9ZHhgPXmPMUgksaQjsCZN
+	SSzytTsNjez3Nk1XqgsxFFzl9kqUwinoYIvuwbY1Vo+oqBvjCbDgxmoeqFrvLJ+zehf9
+	pP8xDgdjFvYEGRlTC92mEPdv3RLeUoeOuzAXAW6HSZ8uq4AUMbgXwwuyhBnbVLspE5P9
+	0xkCy/i+nxnOkJ30IcIKglBakFF9XnJa0EjgdKniYrdIu2ycTkIjTcWAQ+1Hg3bq0az9
+	ILzNw5SGyReBRpLs9O3+mvlmEy+sLfUmY9Zg4zyvebMHwJi1fJv24Mcre/b18kTZPtjQ
+	WRgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=e2K4Chkj3TNfvRg6bH2FBwRgCjBJSljoXPJlT5yCRqs=;
-	b=NRK5h62ZJRB3BwlodnMIwL3Df5XWxhxlKvUZLkvG4VpaUE5PkOyFvAa+fmisa9jrzS
-	+tHXmU+0Wpv219ViletRHxpHoXeJP2pBP8CFdP8FW1AGwOopmEorxUt8uljPu535mKRt
-	CODHL5AvA5VN7aswgD7S5nqY3WtRnkEjcKe16XI1SkpSYJk4a0d1Sp1U6z0NAbHx0DOd
-	/JO+9iN7Q9tRHp0itNbDg0iNo30zIjDUS0tVqG0gsQMalUwfQK63F1K9yA3/gXikSlBE
-	xLsXpXskY+hhf20pNA/npHDIdm/RyolP36JVjxX6wdQz8X0ZZji26EnjOOMH7XGCRto6
-	0E8A==
-X-Gm-Message-State: APjAAAVop3+XvpD61x5ytBmL1tweYPfAfrpLJAZQqPRqRwIswzIEdHhP
-	uhVvWQ/ll7ZOgBh3ly319N7eYa+n
-X-Google-Smtp-Source: APXvYqy0SJUqRoVgTkHZUYOdZjdGos+nyVyWClU4q7m38iUgdLzp9b3sd74gPOghQizOFczep20H6Q==
-X-Received: by 2002:a1c:7001:: with SMTP id l1mr5904440wmc.40.1559112129585;
-	Tue, 28 May 2019 23:42:09 -0700 (PDT)
+	bh=zYpwIgeZFIPxtX2pfuZMsiFOK3Cy3BKlk2l3IGPOWQs=;
+	b=iUOmOXPsoe0PrZE7FpEhDYGp0/R/N85hQ2GHSvXDQjw8kE/qolp1Md8eCrXIbPGm6c
+	Zgz6+lnDgkopwbLrWjprkj96fS8zCGHbcVmRMV9rE4ei91w1fXAQvGhK4E/H/k8wTYo2
+	GgWKP/QjlyhNRPz4wC86N1DS4yEbm4l+ozADPBf4g2tIB8D7DiZmRztjnMr/gD17xbAl
+	eeEVdmWznPEcWdcrY7Sk7gHXj7GXYcitwYV7qSdLDDKczkdrwU2rTeTdonTg8GklG01Y
+	NNNB8odgzQ4V45oySItiKpRenPRdj8A6DM+aMRTgQynhCELyAORStXhvL9lnGKD5xAzm
+	aGcw==
+X-Gm-Message-State: APjAAAXsBhwzBaTjnijG68+k1bvMdUqqjeNG8/U9DlVzSTqA33E/PHJJ
+	HCryVlu9+eOlldastADVzG8U8EM7
+X-Google-Smtp-Source: APXvYqzQ5HTbTOjWP9jWEJJKJubxInmKqfZHqz0NPYSSA0ns/oEe1jTz2BDDrNRkPXD/M/LHjR+nHQ==
+X-Received: by 2002:a5d:5342:: with SMTP id t2mr17123074wrv.71.1559112130464; 
+	Tue, 28 May 2019 23:42:10 -0700 (PDT)
 Received: from linux.local ([31.154.166.148])
-	by smtp.gmail.com with ESMTPSA id f2sm6831168wme.12.2019.05.28.23.42.08
+	by smtp.gmail.com with ESMTPSA id f2sm6831168wme.12.2019.05.28.23.42.09
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 28 May 2019 23:42:09 -0700 (PDT)
+	Tue, 28 May 2019 23:42:10 -0700 (PDT)
 From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 29 May 2019 09:41:37 +0300
-Message-Id: <20190529064148.19856-10-arilou@gmail.com>
+Date: Wed, 29 May 2019 09:41:38 +0300
+Message-Id: <20190529064148.19856-11-arilou@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190529064148.19856-1-arilou@gmail.com>
 References: <20190529064148.19856-1-arilou@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH v12 09/20] gdbstub: Implement get register (p
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v12 10/20] gdbstub: Implement write memory (M
  pkt) with new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -82,78 +83,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Jon Doron <arilou@gmail.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- gdbstub.c | 50 ++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 38 insertions(+), 12 deletions(-)
+ gdbstub.c | 51 +++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 33 insertions(+), 18 deletions(-)
 
 diff --git a/gdbstub.c b/gdbstub.c
-index fc9526b3f5..07740ec0af 100644
+index 07740ec0af..f2ea5bdd5c 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -1672,6 +1672,36 @@ static void handle_set_reg(GdbCmdContext *gdb_ctx, void *user_ctx)
-     put_packet(gdb_ctx->s, "OK");
+@@ -1702,6 +1702,31 @@ static void handle_get_reg(GdbCmdContext *gdb_ctx, void *user_ctx)
+     put_packet(gdb_ctx->s, gdb_ctx->str_buf);
  }
  
-+static void handle_get_reg(GdbCmdContext *gdb_ctx, void *user_ctx)
++static void handle_write_mem(GdbCmdContext *gdb_ctx, void *user_ctx)
 +{
-+    int reg_size;
-+
-+    /*
-+     * Older gdb are really dumb, and don't use 'g' if 'p' is avaialable.
-+     * This works, but can be very slow.  Anything new enough to
-+     * understand XML also knows how to use this properly.
-+     */
-+    if (!gdb_has_xml) {
-+        put_packet(gdb_ctx->s, "");
++    if (gdb_ctx->num_params != 3) {
++        put_packet(gdb_ctx->s, "E22");
 +        return;
 +    }
 +
-+    if (!gdb_ctx->num_params) {
++    /* hextomem() reads 2*len bytes */
++    if (gdb_ctx->params[1].val_ull > strlen(gdb_ctx->params[2].data) / 2) {
++        put_packet(gdb_ctx->s, "E22");
++        return;
++    }
++
++    hextomem(gdb_ctx->mem_buf, gdb_ctx->params[2].data,
++             gdb_ctx->params[1].val_ull);
++    if (target_memory_rw_debug(gdb_ctx->s->g_cpu, gdb_ctx->params[0].val_ull,
++                               gdb_ctx->mem_buf,
++                               gdb_ctx->params[1].val_ull, true)) {
 +        put_packet(gdb_ctx->s, "E14");
 +        return;
 +    }
 +
-+    reg_size = gdb_read_register(gdb_ctx->s->g_cpu, gdb_ctx->mem_buf,
-+                                 gdb_ctx->params[0].val_ull);
-+    if (!reg_size) {
-+        put_packet(gdb_ctx->s, "E14");
-+        return;
-+    }
-+
-+    memtohex(gdb_ctx->str_buf, gdb_ctx->mem_buf, reg_size);
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
++    put_packet(gdb_ctx->s, "OK");
 +}
 +
  static int gdb_handle_packet(GDBState *s, const char *line_buf)
  {
      CPUState *cpu;
-@@ -1901,18 +1931,14 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
+@@ -1910,24 +1935,14 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
+         }
+         break;
+     case 'M':
+-        addr = strtoull(p, (char **)&p, 16);
+-        if (*p == ',')
+-            p++;
+-        len = strtoull(p, (char **)&p, 16);
+-        if (*p == ':')
+-            p++;
+-
+-        /* hextomem() reads 2*len bytes */
+-        if (len > strlen(p) / 2) {
+-            put_packet (s, "E22");
+-            break;
+-        }
+-        hextomem(mem_buf, p, len);
+-        if (target_memory_rw_debug(s->g_cpu, addr, mem_buf, len,
+-                                   true) != 0) {
+-            put_packet(s, "E14");
+-        } else {
+-            put_packet(s, "OK");
++        {
++            static const GdbCmdParseEntry write_mem_cmd_desc = {
++                .handler = handle_write_mem,
++                .cmd = "M",
++                .cmd_startswith = 1,
++                .schema = "L,L:s0"
++            };
++            cmd_parser = &write_mem_cmd_desc;
          }
          break;
      case 'p':
--        /* Older gdb are really dumb, and don't use 'g' if 'p' is avaialable.
--           This works, but can be very slow.  Anything new enough to
--           understand XML also knows how to use this properly.  */
--        if (!gdb_has_xml)
--            goto unknown_command;
--        addr = strtoull(p, (char **)&p, 16);
--        reg_size = gdb_read_register(s->g_cpu, mem_buf, addr);
--        if (reg_size) {
--            memtohex(buf, mem_buf, reg_size);
--            put_packet(s, buf);
--        } else {
--            put_packet(s, "E14");
-+        {
-+            static const GdbCmdParseEntry get_reg_cmd_desc = {
-+                .handler = handle_get_reg,
-+                .cmd = "p",
-+                .cmd_startswith = 1,
-+                .schema = "L0"
-+            };
-+            cmd_parser = &get_reg_cmd_desc;
-         }
-         break;
-     case 'P':
 -- 
 2.21.0
 
