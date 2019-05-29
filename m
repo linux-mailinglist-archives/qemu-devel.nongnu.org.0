@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7095A2E27A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:44:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57903 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3839D2E268
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:40:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57767 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hW1h3-0005ir-JK
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:44:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39634)
+	id 1hW1ci-0001hi-Lp
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:40:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39591)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1a1-00006Q-RB
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:35 -0400
+	(envelope-from <mst@redhat.com>) id 1hW1Zy-0008T0-J3
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1a0-0002pa-Hy
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:33 -0400
-Received: from mail-qt1-f170.google.com ([209.85.160.170]:40577)
+	(envelope-from <mst@redhat.com>) id 1hW1Zx-0002kx-JC
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:30 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:44364)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hW1a0-0002ol-DP
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:32 -0400
-Received: by mail-qt1-f170.google.com with SMTP id a15so1278547qtn.7
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:37:32 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hW1Zx-0002ki-FB
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:29 -0400
+Received: by mail-qk1-f194.google.com with SMTP id w187so1854879qkb.11
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:37:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=10gtUgNWokHnuKVb5ifGU0dmysJTncLIbTvLdgrqOEs=;
-	b=mUnlKIrelKBKZ0y1jy0Zh7roWSlbCTrCmVTyNFwVRvdhN/cxvBvQrIBjc8pcoNrbOv
-	pSNmGeY9yHmNbCbw6L0JYkDIxI93V3ezsvSi5IesfYOzqmkU4/LmCbvVubpYqG64LPMo
-	lp3Y74aYjHj0cmnHjpdLe2xzu29FeRqvA3sgvx8DFPQqKyJjrqJd/j2r3TK1owyF+c8s
-	wWn5L5iHxJ3YQYoCKFJRZOFR0pjU8IN3LPRvq2feUtDrl46d/tk0RkV2SRLgP2EygiXj
-	DJ3uh5EpQvB6Alr+frGnWi4Rrg03GAEjbAWkh3X1aWYNs13hZgAI+IsaK58fH6L9tK4b
-	Op6g==
-X-Gm-Message-State: APjAAAUt6I7YNSjw2EzAd/s5eAgbC+yeHcOlf9JF9T8worSCYAg2LrXl
-	QoMWfdK0uAA5p74gWs2RyU61jJmt+Cg=
-X-Google-Smtp-Source: APXvYqwP+tliDdhuSQfIxwc1f8g7nzSSPDJ4YQhSdbFQp/7qgz+gnwcHoGHVPZwkZll+LkCuqB1xvg==
-X-Received: by 2002:a0c:98c7:: with SMTP id g7mr4160017qvd.13.1559147846696;
-	Wed, 29 May 2019 09:37:26 -0700 (PDT)
+	bh=s3n2L882ltXjPfEswBbEwB7+zfGhmxcdhpoO8/YoZaM=;
+	b=QysrrwAv6wchF6Jsfk+enu6Pl/L4Nlhy7TZdwfMHNJEgFlJoDX8SEl+DfRPpZnrdsi
+	rvG9y/iJ7wiykmXTQjt9y+GfC8qXaFAyvar9/k3NiaWvmNP/9nc5//8hCGH89ioEz4Z1
+	TVwdB5a0V0Xnt2fjxd98BKNKcIdNSptBvS56AC5h+FlbF9qkCgo2RW9D/k58rW/q5b8n
+	1Y2ZdptUEJ3GTaR3wSHD687pRZ1AGRHqlJe5f0VM6KA0JbFOCAdhcIztS/KgMI7yxReI
+	4kPtEGbmYwh/OkzeSRaAbhjxn/Yb2oQp8ele0qIcV5iDFN3yZKuidG9pJD96EtsI8UxN
+	fXTA==
+X-Gm-Message-State: APjAAAUozqb5Cf8ssNNgi4Y12xu8Q3nwmDQO43hV1HwYRaj9gzpq3B4V
+	ajfesOJ/Xj3/qa3DTEDWY8it51m0+hQ=
+X-Google-Smtp-Source: APXvYqwmBWYTMUc/eTrIFmXAF67xTo/ufCCBgFlbsmuxl7it/WpU6E3mrskx9aLD5GWQsBIVe3CcnA==
+X-Received: by 2002:a37:4c11:: with SMTP id z17mr70031685qka.316.1559147848712;
+	Wed, 29 May 2019 09:37:28 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
-	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
-	k54sm8392355qtk.54.2019.05.29.09.37.25
+	[100.0.197.103])
+	by smtp.gmail.com with ESMTPSA id j10sm6163198qth.8.2019.05.29.09.37.27
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 29 May 2019 09:37:25 -0700 (PDT)
-Date: Wed, 29 May 2019 12:37:24 -0400
+	Wed, 29 May 2019 09:37:28 -0700 (PDT)
+Date: Wed, 29 May 2019 12:37:26 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190513061939.3464-5-david@gibson.dropbear.id.au>
+Message-ID: <20190513061939.3464-6-david@gibson.dropbear.id.au>
 References: <20190529163604.18560-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,8 +56,9 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.170
-Subject: [Qemu-devel] [PULL 05/10] pci: Make is_bridge a bool
+X-Received-From: 209.85.222.194
+Subject: [Qemu-devel] [PULL 06/10] pci: Fold pci_get_bus_devfn() into its
+ sole caller
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,162 +70,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>,
 	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Gibson <david@gibson.dropbear.id.au>
 
-The is_bridge field in PCIDevice acts as a bool, but is declared as an int.
-Declare it as a bool for clarity, and change everything that writes it to
-use true/false instead of 0/1 to match.
+The only remaining caller of pci_get_bus_devfn() is pci_nic_init_nofail(),
+itself an old compatibility function.  Fold the two together to avoid
+re-using the stale interface.
+
+While we're there replace the explicit fprintf()s with error_report().
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20190513061939.3464-5-david@gibson.dropbear.id.au>
+Message-Id: <20190513061939.3464-6-david@gibson.dropbear.id.au>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- include/hw/pci/pci.h               | 2 +-
- hw/pci-bridge/dec.c                | 4 ++--
- hw/pci-bridge/i82801b11.c          | 2 +-
- hw/pci-bridge/pci_bridge_dev.c     | 2 +-
- hw/pci-bridge/pcie_pci_bridge.c    | 2 +-
- hw/pci-bridge/pcie_root_port.c     | 2 +-
- hw/pci-bridge/simba.c              | 2 +-
- hw/pci-bridge/xio3130_downstream.c | 2 +-
- hw/pci-bridge/xio3130_upstream.c   | 2 +-
- 9 files changed, 10 insertions(+), 10 deletions(-)
+ hw/pci/pci.c | 60 ++++++++++++++++++++++++----------------------------
+ 1 file changed, 28 insertions(+), 32 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index da20c915ef..d082707dfa 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -234,7 +234,7 @@ typedef struct PCIDeviceClass {
-      * This doesn't mean pci host switch.
-      * When card bus bridge is supported, this would be enhanced.
-      */
--    int is_bridge;
-+    bool is_bridge;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 7e5f8d001b..d3893bdfe1 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -723,37 +723,6 @@ static int pci_parse_devaddr(const char *addr, int *domp, int *busp,
+     return 0;
+ }
  
-     /* rom bar */
-     const char *romfile;
-diff --git a/hw/pci-bridge/dec.c b/hw/pci-bridge/dec.c
-index 8484bfd434..ca40253730 100644
---- a/hw/pci-bridge/dec.c
-+++ b/hw/pci-bridge/dec.c
-@@ -68,7 +68,7 @@ static void dec_21154_pci_bridge_class_init(ObjectClass *klass, void *data)
-     k->vendor_id = PCI_VENDOR_ID_DEC;
-     k->device_id = PCI_DEVICE_ID_DEC_21154;
-     k->config_write = pci_bridge_write_config;
--    k->is_bridge = 1;
-+    k->is_bridge = true;
-     dc->desc = "DEC 21154 PCI-PCI bridge";
-     dc->reset = pci_bridge_reset;
-     dc->vmsd = &vmstate_pci_device;
-@@ -129,7 +129,7 @@ static void dec_21154_pci_host_class_init(ObjectClass *klass, void *data)
-     k->device_id = PCI_DEVICE_ID_DEC_21154;
-     k->revision = 0x02;
-     k->class_id = PCI_CLASS_BRIDGE_PCI;
--    k->is_bridge = 1;
-+    k->is_bridge = true;
-     /*
-      * PCI-facing part of the host bridge, not usable without the
-      * host-facing part, which can't be device_add'ed, yet.
-diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
-index 10e590e5c6..6d8b0f54a7 100644
---- a/hw/pci-bridge/i82801b11.c
-+++ b/hw/pci-bridge/i82801b11.c
-@@ -90,7 +90,7 @@ static void i82801b11_bridge_class_init(ObjectClass *klass, void *data)
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-     DeviceClass *dc = DEVICE_CLASS(klass);
+-static PCIBus *pci_get_bus_devfn(int *devfnp, PCIBus *root,
+-                                 const char *devaddr)
+-{
+-    int dom, bus;
+-    unsigned slot;
+-
+-    if (!root) {
+-        fprintf(stderr, "No primary PCI bus\n");
+-        return NULL;
+-    }
+-
+-    assert(!root->parent_dev);
+-
+-    if (!devaddr) {
+-        *devfnp = -1;
+-        return pci_find_bus_nr(root, 0);
+-    }
+-
+-    if (pci_parse_devaddr(devaddr, &dom, &bus, &slot, NULL) < 0) {
+-        return NULL;
+-    }
+-
+-    if (dom != 0) {
+-        fprintf(stderr, "No support for non-zero PCI domains\n");
+-        return NULL;
+-    }
+-
+-    *devfnp = PCI_DEVFN(slot, 0);
+-    return pci_find_bus_nr(root, bus);
+-}
+-
+ static void pci_init_cmask(PCIDevice *dev)
+ {
+     pci_set_word(dev->cmask + PCI_VENDOR_ID, 0xffff);
+@@ -1895,6 +1864,8 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
+     DeviceState *dev;
+     int devfn;
+     int i;
++    int dom, busnr;
++    unsigned slot;
  
--    k->is_bridge = 1;
-+    k->is_bridge = true;
-     k->vendor_id = PCI_VENDOR_ID_INTEL;
-     k->device_id = PCI_DEVICE_ID_INTEL_82801BA_11;
-     k->revision = ICH9_D2P_A2_REVISION;
-diff --git a/hw/pci-bridge/pci_bridge_dev.c b/hw/pci-bridge/pci_bridge_dev.c
-index ff6b8323da..c56ed1f52f 100644
---- a/hw/pci-bridge/pci_bridge_dev.c
-+++ b/hw/pci-bridge/pci_bridge_dev.c
-@@ -253,7 +253,7 @@ static void pci_bridge_dev_class_init(ObjectClass *klass, void *data)
-     k->vendor_id = PCI_VENDOR_ID_REDHAT;
-     k->device_id = PCI_DEVICE_ID_REDHAT_BRIDGE;
-     k->class_id = PCI_CLASS_BRIDGE_PCI;
--    k->is_bridge = 1,
-+    k->is_bridge = true;
-     dc->desc = "Standard PCI Bridge";
-     dc->reset = qdev_pci_bridge_dev_reset;
-     dc->props = pci_bridge_dev_properties;
-diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
-index d491b40d04..9a4fba413a 100644
---- a/hw/pci-bridge/pcie_pci_bridge.c
-+++ b/hw/pci-bridge/pcie_pci_bridge.c
-@@ -143,7 +143,7 @@ static void pcie_pci_bridge_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(klass);
+     if (nd->model && !strcmp(nd->model, "virtio")) {
+         g_free(nd->model);
+@@ -1928,7 +1899,32 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
+         exit(1);
+     }
  
--    k->is_bridge = 1;
-+    k->is_bridge = true;
-     k->vendor_id = PCI_VENDOR_ID_REDHAT;
-     k->device_id = PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE;
-     k->realize = pcie_pci_bridge_realize;
-diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
-index e94d918b6d..be3f4d5e03 100644
---- a/hw/pci-bridge/pcie_root_port.c
-+++ b/hw/pci-bridge/pcie_root_port.c
-@@ -162,7 +162,7 @@ static void rp_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
- 
--    k->is_bridge = 1;
-+    k->is_bridge = true;
-     k->config_write = rp_write_config;
-     k->realize = rp_realize;
-     k->exit = rp_exit;
-diff --git a/hw/pci-bridge/simba.c b/hw/pci-bridge/simba.c
-index dea4c8c5e7..7cf0d6e047 100644
---- a/hw/pci-bridge/simba.c
-+++ b/hw/pci-bridge/simba.c
-@@ -76,7 +76,7 @@ static void simba_pci_bridge_class_init(ObjectClass *klass, void *data)
-     k->device_id = PCI_DEVICE_ID_SUN_SIMBA;
-     k->revision = 0x11;
-     k->config_write = pci_bridge_write_config;
--    k->is_bridge = 1;
-+    k->is_bridge = true;
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-     dc->reset = pci_bridge_reset;
-     dc->vmsd = &vmstate_pci_device;
-diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
-index 467bbabe4c..ab2a51e15d 100644
---- a/hw/pci-bridge/xio3130_downstream.c
-+++ b/hw/pci-bridge/xio3130_downstream.c
-@@ -152,7 +152,7 @@ static void xio3130_downstream_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
- 
--    k->is_bridge = 1;
-+    k->is_bridge = true;
-     k->config_write = xio3130_downstream_write_config;
-     k->realize = xio3130_downstream_realize;
-     k->exit = xio3130_downstream_exitfn;
-diff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/xio3130_upstream.c
-index b524908cf1..1d41a49ab0 100644
---- a/hw/pci-bridge/xio3130_upstream.c
-+++ b/hw/pci-bridge/xio3130_upstream.c
-@@ -126,7 +126,7 @@ static void xio3130_upstream_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
- 
--    k->is_bridge = 1;
-+    k->is_bridge = true;
-     k->config_write = xio3130_upstream_write_config;
-     k->realize = xio3130_upstream_realize;
-     k->exit = xio3130_upstream_exitfn;
+-    bus = pci_get_bus_devfn(&devfn, rootbus, devaddr);
++    if (!rootbus) {
++        error_report("No primary PCI bus");
++        exit(1);
++    }
++
++    assert(!rootbus->parent_dev);
++
++    if (!devaddr) {
++        devfn = -1;
++        busnr = 0;
++    } else {
++        if (pci_parse_devaddr(devaddr, &dom, &busnr, &slot, NULL) < 0) {
++            error_report("Invalid PCI device address %s for device %s",
++                         devaddr, nd->model);
++            exit(1);
++        }
++
++        if (dom != 0) {
++            error_report("No support for non-zero PCI domains");
++            exit(1);
++        }
++
++        devfn = PCI_DEVFN(slot, 0);
++    }
++
++    bus = pci_find_bus_nr(rootbus, busnr);
+     if (!bus) {
+         error_report("Invalid PCI device address %s for device %s",
+                      devaddr, nd->model);
 -- 
 MST
 
