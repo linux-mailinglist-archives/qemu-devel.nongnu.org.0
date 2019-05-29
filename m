@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A912DFE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 16:36:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55498 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C052DFEC
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 16:38:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55512 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVzge-00056s-3x
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 10:36:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32839)
+	id 1hVziq-0006vd-7h
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 10:38:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32875)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hVzcK-0002e0-FC
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:31:49 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hVzcP-0002ud-Pv
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:31:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hVzcJ-0004ed-Bt
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:31:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34332)
+	(envelope-from <lvivier@redhat.com>) id 1hVzcO-0004ja-Ap
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:31:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40510)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hVzcI-0004J5-Uy
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:31:47 -0400
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hVzcN-0004Qn-Qs
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:31:52 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 95E023179B5E;
-	Wed, 29 May 2019 14:31:25 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6B37C81123;
+	Wed, 29 May 2019 14:31:29 +0000 (UTC)
 Received: from thinkpad.redhat.com (ovpn-204-181.brq.redhat.com
 	[10.40.204.181])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2797B611AD;
-	Wed, 29 May 2019 14:31:22 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0369217CDF;
+	Wed, 29 May 2019 14:31:25 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 29 May 2019 16:31:04 +0200
-Message-Id: <20190529143106.11789-3-lvivier@redhat.com>
+Date: Wed, 29 May 2019 16:31:05 +0200
+Message-Id: <20190529143106.11789-4-lvivier@redhat.com>
 In-Reply-To: <20190529143106.11789-1-lvivier@redhat.com>
 References: <20190529143106.11789-1-lvivier@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Wed, 29 May 2019 14:31:25 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.28]);
+	Wed, 29 May 2019 14:31:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v7 2/4] rng-builtin: add an RNG backend that
- uses qemu_guest_getrandom()
+Subject: [Qemu-devel] [PATCH v7 3/4] virtio-rng: Keep the default backend
+ out of VirtIORNGConf
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,135 +67,95 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new RNG backend using QEMU builtin getrandom function.
+From: Markus Armbruster <armbru@redhat.com>
 
-It can be created and used with something like:
+The default backend is only used within virtio_rng_device_realize().
+Replace VirtIORNGConf member default_backend by a local variable.
+Adjust its type to reduce conversions.
 
-    ... -object rng-builtin,id=3Drng0 -device virtio-rng,rng=3Drng0 ...
+While there, pass &error_abort instead of NULL when failure would be a
+programming error.
 
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- backends/Makefile.objs |  2 +-
- backends/rng-builtin.c | 78 ++++++++++++++++++++++++++++++++++++++++++
- qemu-options.hx        |  7 ++++
- 3 files changed, 86 insertions(+), 1 deletion(-)
- create mode 100644 backends/rng-builtin.c
+ hw/virtio/virtio-rng.c         | 20 +++++++++-----------
+ include/hw/virtio/virtio-rng.h |  2 --
+ 2 files changed, 9 insertions(+), 13 deletions(-)
 
-diff --git a/backends/Makefile.objs b/backends/Makefile.objs
-index 981e8e122f2c..f0691116e86e 100644
---- a/backends/Makefile.objs
-+++ b/backends/Makefile.objs
-@@ -1,4 +1,4 @@
--common-obj-y +=3D rng.o rng-egd.o
-+common-obj-y +=3D rng.o rng-egd.o rng-builtin.o
- common-obj-$(CONFIG_POSIX) +=3D rng-random.o
+diff --git a/hw/virtio/virtio-rng.c b/hw/virtio/virtio-rng.c
+index 30493a258622..73ffb476e030 100644
+--- a/hw/virtio/virtio-rng.c
++++ b/hw/virtio/virtio-rng.c
+@@ -16,6 +16,7 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-rng.h"
+ #include "sysemu/rng.h"
++#include "sysemu/rng-random.h"
+ #include "qom/object_interfaces.h"
+ #include "trace.h"
 =20
- common-obj-$(CONFIG_TPM) +=3D tpm.o
-diff --git a/backends/rng-builtin.c b/backends/rng-builtin.c
-new file mode 100644
-index 000000000000..3381d47174df
---- /dev/null
-+++ b/backends/rng-builtin.c
-@@ -0,0 +1,78 @@
-+/*
-+ * QEMU Builtin Random Number Generator Backend
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "sysemu/rng.h"
-+#include "qemu/main-loop.h"
-+#include "qemu/guest-random.h"
-+
-+#define TYPE_RNG_BUILTIN "rng-builtin"
-+#define RNG_BUILTIN(obj) OBJECT_CHECK(RngBuiltin, (obj), TYPE_RNG_BUILTI=
-N)
-+
-+typedef struct RngBuiltin {
-+    RngBackend parent;
-+    QEMUBH *bh;
-+} RngBuiltin;
-+
-+static void rng_builtin_receive_entropy_bh(void *opaque)
-+{
-+    RngBuiltin *s =3D opaque;
-+
-+    while (!QSIMPLEQ_EMPTY(&s->parent.requests)) {
-+        RngRequest *req =3D QSIMPLEQ_FIRST(&s->parent.requests);
-+
-+        qemu_guest_getrandom_nofail(req->data, req->size);
-+
-+        req->receive_entropy(req->opaque, req->data, req->size);
-+
-+        rng_backend_finalize_request(&s->parent, req);
-+    }
-+}
-+
-+static void rng_builtin_request_entropy(RngBackend *b, RngRequest *req)
-+{
-+    RngBuiltin *s =3D RNG_BUILTIN(b);
-+
-+    qemu_bh_schedule(s->bh);
-+}
-+
-+static void rng_builtin_init(Object *obj)
-+{
-+    RngBuiltin *s =3D RNG_BUILTIN(obj);
-+
-+    s->bh =3D qemu_bh_new(rng_builtin_receive_entropy_bh, s);
-+}
-+
-+static void rng_builtin_finalize(Object *obj)
-+{
-+    RngBuiltin *s =3D RNG_BUILTIN(obj);
-+
-+    qemu_bh_delete(s->bh);
-+}
-+
-+static void rng_builtin_class_init(ObjectClass *klass, void *data)
-+{
-+    RngBackendClass *rbc =3D RNG_BACKEND_CLASS(klass);
-+
-+    rbc->request_entropy =3D rng_builtin_request_entropy;
-+}
-+
-+static const TypeInfo rng_builtin_info =3D {
-+    .name =3D TYPE_RNG_BUILTIN,
-+    .parent =3D TYPE_RNG_BACKEND,
-+    .instance_size =3D sizeof(RngBuiltin),
-+    .instance_init =3D rng_builtin_init,
-+    .instance_finalize =3D rng_builtin_finalize,
-+    .class_init =3D rng_builtin_class_init,
-+};
-+
-+static void register_types(void)
-+{
-+    type_register_static(&rng_builtin_info);
-+}
-+
-+type_init(register_types);
-diff --git a/qemu-options.hx b/qemu-options.hx
-index f6e9bd1d9c42..4e6a6828d7ce 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4322,6 +4322,13 @@ other options.
+@@ -189,27 +190,24 @@ static void virtio_rng_device_realize(DeviceState *=
+dev, Error **errp)
+     }
 =20
- The @option{share} boolean option is @var{on} by default with memfd.
+     if (vrng->conf.rng =3D=3D NULL) {
+-        vrng->conf.default_backend =3D RNG_RANDOM(object_new(TYPE_RNG_RA=
+NDOM));
++        Object *default_backend =3D object_new(TYPE_RNG_RANDOM);
 =20
-+@item -object rng-builtin,id=3D@var{id}
-+
-+Creates a random number generator backend which obtains entropy from
-+QEMU builtin functions. The @option{id} parameter is a unique ID that
-+will be used to reference this entropy backend from the @option{virtio-r=
-ng}
-+device.
-+
- @item -object rng-random,id=3D@var{id},filename=3D@var{/dev/random}
+-        user_creatable_complete(USER_CREATABLE(vrng->conf.default_backen=
+d),
++        user_creatable_complete(USER_CREATABLE(default_backend),
+                                 &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+-            object_unref(OBJECT(vrng->conf.default_backend));
++            object_unref(default_backend);
+             return;
+         }
 =20
- Creates a random number generator backend which obtains entropy from
+-        object_property_add_child(OBJECT(dev),
+-                                  "default-backend",
+-                                  OBJECT(vrng->conf.default_backend),
+-                                  NULL);
++        object_property_add_child(OBJECT(dev), "default-backend",
++                                  default_backend, &error_abort);
+=20
+         /* The child property took a reference, we can safely drop ours =
+now */
+-        object_unref(OBJECT(vrng->conf.default_backend));
++        object_unref(default_backend);
+=20
+-        object_property_set_link(OBJECT(dev),
+-                                 OBJECT(vrng->conf.default_backend),
+-                                 "rng", NULL);
++        object_property_set_link(OBJECT(dev), default_backend,
++                                 "rng", &error_abort);
+     }
+=20
+     vrng->rng =3D vrng->conf.rng;
+diff --git a/include/hw/virtio/virtio-rng.h b/include/hw/virtio/virtio-rn=
+g.h
+index 922dce7caccf..28ff752c4096 100644
+--- a/include/hw/virtio/virtio-rng.h
++++ b/include/hw/virtio/virtio-rng.h
+@@ -13,7 +13,6 @@
+ #define QEMU_VIRTIO_RNG_H
+=20
+ #include "sysemu/rng.h"
+-#include "sysemu/rng-random.h"
+ #include "standard-headers/linux/virtio_rng.h"
+=20
+ #define TYPE_VIRTIO_RNG "virtio-rng-device"
+@@ -26,7 +25,6 @@ struct VirtIORNGConf {
+     RngBackend *rng;
+     uint64_t max_bytes;
+     uint32_t period_ms;
+-    RngRandom *default_backend;
+ };
+=20
+ typedef struct VirtIORNG {
 --=20
 2.20.1
 
