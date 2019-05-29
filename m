@@ -2,87 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631062D7AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:23:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49765 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8802D7B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 10:25:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49811 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVts9-0001tV-Ts
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:23:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40183)
+	id 1hVtty-0003jf-AC
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 04:25:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40276)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Paul.Durrant@citrix.com>) id 1hVtqM-000154-Si
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:21:55 -0400
+	(envelope-from <quintela@redhat.com>) id 1hVtqx-0001Wj-KW
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:22:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <Paul.Durrant@citrix.com>) id 1hVtqL-0000Ks-Oy
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:21:54 -0400
-Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:10524)
+	(envelope-from <quintela@redhat.com>) id 1hVtqw-0000rN-OS
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:22:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46486)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <Paul.Durrant@citrix.com>)
-	id 1hVtqL-0000Ic-ES
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:21:53 -0400
-Authentication-Results: esa3.hc3370-68.iphmx.com;
-	dkim=none (message not signed) header.i=none;
-	spf=None smtp.pra=Paul.Durrant@citrix.com;
-	spf=Pass smtp.mailfrom=Paul.Durrant@citrix.com;
-	spf=None smtp.helo=postmaster@MIAPEX02MSOL01.citrite.net
-Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
-	authenticity information available from domain of
-	Paul.Durrant@citrix.com) identity=pra;
-	client-ip=23.29.105.83; receiver=esa3.hc3370-68.iphmx.com;
-	envelope-from="Paul.Durrant@citrix.com";
-	x-sender="Paul.Durrant@citrix.com"; x-conformance=sidf_compatible
-Received-SPF: Pass (esa3.hc3370-68.iphmx.com: domain of
-	Paul.Durrant@citrix.com designates 23.29.105.83 as permitted
-	sender) identity=mailfrom; client-ip=23.29.105.83;
-	receiver=esa3.hc3370-68.iphmx.com;
-	envelope-from="Paul.Durrant@citrix.com";
-	x-sender="Paul.Durrant@citrix.com";
-	x-conformance=sidf_compatible; x-record-type="v=spf1";
-	x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
-	ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
-	ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
-	ip4:216.52.6.188 ip4:23.29.105.83 ip4:162.221.156.50 ~all"
-Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
-	authenticity information available from domain of
-	postmaster@MIAPEX02MSOL01.citrite.net) identity=helo;
-	client-ip=23.29.105.83; receiver=esa3.hc3370-68.iphmx.com;
-	envelope-from="Paul.Durrant@citrix.com";
-	x-sender="postmaster@MIAPEX02MSOL01.citrite.net";
-	x-conformance=sidf_compatible
-IronPort-SDR: QgjiMWa/I70xxpyNkEeXlCg41APGsSuR3uHXLKb5xzzzaBejbFOJqsiyJEJQoil0BEbZ6H83ay
-	XZLeh0IBQAmuvA97zdfTt8upGUmi4n0+pj4BMknFlr+GvpLoWVhMCu0NYg4Rs4/hJSe7wBESG7
-	joedtFkFjRTxfLmc8jtKntJtLshLh+UGy6FN0g/SfSe6Am3LCvumvWBYD54IB5xyZ4UPv5nhEx
-	npTcCRWHnKJpXElMJtH2NdYeKLX9lwv1AP/twXi2KkIksNxz/9zlytWkW5NdiBSzG6PReye1wO
-	RAU=
-X-SBRS: 2.7
-X-MesageID: 1035703
-X-Ironport-Server: esa3.hc3370-68.iphmx.com
-X-Remote-IP: 23.29.105.83
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.60,526,1549947600"; 
-   d="scan'208";a="1035703"
-From: Paul Durrant <Paul.Durrant@citrix.com>
-To: 'Eduardo Habkost' <ehabkost@redhat.com>, Markus Armbruster
-	<armbru@redhat.com>
-Thread-Topic: Headers without multiple inclusion guards
-Thread-Index: AQHVFYEBg2PnLBQnXE6+nzp55xu0haaAyRGAgAD6mIA=
-Date: Wed, 29 May 2019 08:21:33 +0000
-Message-ID: <3038b5ea224c4f2b84eb7c1f5fa36134@AMSPEX02CL03.citrite.net>
-References: <87lfyqla7r.fsf@dusky.pond.sub.org>
-	<20190528192317.GG22103@habkost.net>
-In-Reply-To: <20190528192317.GG22103@habkost.net>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	(Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hVtqw-0000jF-KE
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 04:22:30 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 29D8D9D43B;
+	Wed, 29 May 2019 08:22:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.118.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 95AB01A4D9;
+	Wed, 29 May 2019 08:22:19 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+In-Reply-To: <20190529003422.GB24428@richard> (Wei Yang's message of "Wed, 29
+	May 2019 08:34:22 +0800")
+References: <20190528014703.21030-1-richardw.yang@linux.intel.com>
+	<20190528014703.21030-2-richardw.yang@linux.intel.com>
+	<87muj780dc.fsf@trasno.org> <20190529003422.GB24428@richard>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Wed, 29 May 2019 10:22:17 +0200
+Message-ID: <87muj57jra.fsf@trasno.org>
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.145.155
-Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.39]);
+	Wed, 29 May 2019 08:22:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/4] migration: multifd_save_setup always
+ return 0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -94,72 +60,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
-	Sagar Karandikar <sagark@eecs.berkeley.edu>,
-	David Hildenbrand <david@redhat.com>, James Hogan <jhogan@kernel.org>,
-	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	Max Filippov <jcmvbkbc@gmail.com>, Dmitry
-	Fleytman <dmitry.fleytman@gmail.com>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek
-	Vasut <marex@denx.de>, Stefano Stabellini <sstabellini@kernel.org>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Anthony Perard <anthony.perard@citrix.com>, Richard
-	Henderson <rth@twiddle.net>, Jason Wang <jasowang@redhat.com>,
-	Artyom Tarasenko <atar4qemu@gmail.com>,
-	Laurent Vivier <lvivier@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
-	Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Beniamino Galvani <b.galvani@gmail.com>,
-	Eric Auger <eric.auger@redhat.com>, Stafford Horne <shorne@gmail.com>,
-	=?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	"Daniel P. Berrange" <berrange@redhat.com>,
-	Claudio Fontana <claudio.fontana@gmail.com>,
-	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Claudio Fontana <claudio.fontana@huawei.com>,
-	Laurent Vivier <laurent@vivier.eu>,
-	Andrew Baumann <Andrew.Baumann@microsoft.com>,
-	=?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
-	Michael Walle <michael@walle.cc>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
-	=?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Reply-To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=20
-> [...]
-> > Guest CPU Cores (Xen):
-> > ----------------------
-> >
-> > X86
-> > M: Stefano Stabellini <sstabellini@kernel.org>
-> > M: Anthony Perard <anthony.perard@citrix.com>
-> > M: Paul Durrant <paul.durrant@citrix.com>
-> > include/hw/xen/io/ring.h
->=20
-> I see a __XEN_PUBLIC_IO_RING_H__ guard there.  Probably
-> clean-header-guards.pl is confused by the comments at the end of
-> the file?
->=20
+Wei Yang <richardw.yang@linux.intel.com> wrote:
+> On Tue, May 28, 2019 at 10:11:11AM +0200, Juan Quintela wrote:
+>>Wei Yang <richardw.yang@linux.intel.com> wrote:
+>>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>>> ---
+>>>  migration/migration.c | 7 +------
+>>>  1 file changed, 1 insertion(+), 6 deletions(-)
+>>>
+>>> diff --git a/migration/migration.c b/migration/migration.c
+>>> index d0a0f68f11..3aae4f2734 100644
+>>> --- a/migration/migration.c
+>>> +++ b/migration/migration.c
+>>> @@ -3336,12 +3336,7 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+>>>          return;
+>>>      }
+>>>  
+>>> -    if (multifd_save_setup() != 0) {
+>>> -        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+>>> -                          MIGRATION_STATUS_FAILED);
+>>> -        migrate_fd_cleanup(s);
+>>> -        return;
+>>> -    }
+>>> +    multifd_save_setup();
+>>>      qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
+>>>                         QEMU_THREAD_JOINABLE);
+>>>      s->migration_thread_running = true;
+>>
+>>Nack.
+>>
+>>On the compression patches that are on list, multifd_save_setup()
+>>returns -1 if there is a problem when we allocate a zbuff.
+>
+> You mean there are some patches in mail list?
 
-Yes, I see no problem there. The emacs boilerplate is common in Xen headers=
- and persisted when this was imported.
-
-  Paul
-
-> > [...]
->=20
-> --
-> Eduardo
+Yeap.
 
