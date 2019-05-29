@@ -2,55 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F52C2FB19
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 13:44:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52527 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355082E1C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 17:57:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57023 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWJTp-0001x1-9h
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 07:44:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47671)
+	id 1hW0xQ-0003Hn-5e
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 11:57:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57607)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hWJSS-0001KJ-JR
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:43:00 -0400
+	(envelope-from <philmd@redhat.com>) id 1hW0vw-0002WB-BI
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:56:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hWJSR-00084K-Fu
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:42:56 -0400
-Resent-Date: Thu, 30 May 2019 07:42:56 -0400
-Resent-Message-Id: <E1hWJSR-00084K-Fu@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21583)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hWJSQ-0007vy-Ub
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:42:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1559145265; cv=none; d=zoho.com; s=zohoarc; 
-	b=mw1Fg5qJL4GtNZDOM1aof9uQV17kqPo/k6TsTBpF0dbRr1+1UCaEao5Mj1LfDk97xG5oCRik2n6Nfuv3kXDlFSDVmTNSDkUkOmnt1+JLk/nr8/eUG0s/jQyksHYEldRiA1YgockJ4JyHaHpzMj1rKO6oNJ/Xu1qcFQD31jqjj4M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1559145265;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=9FF8ZNp3NFDBZa2B78cEEDOImLJPbBlLCB49duf5syw=; 
-	b=X7qGO1uRrpuL/vwdQW4+r33PGU6qOPh+zGuSXwe1t/DWLpIhCt/54L+wMoYE+tFtOgW21+/yR1Utrn0Z+vwpVg3focGAf+Nh7WhRtPJ03ue390I07ez6ksufwpiFsu5O4351yrwxyyoRbJ8F/WHp/pQvGrqfCvINFsj5S9aK4os=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1559145262363258.29003660298486;
-	Wed, 29 May 2019 08:54:22 -0700 (PDT)
-In-Reply-To: <20190529140217.12841-1-dplotnikov@virtuozzo.com>
-Message-ID: <155914526121.9187.15571129947169869405@ce79690b2cb9>
+	(envelope-from <philmd@redhat.com>) id 1hW0vv-0003Ao-CM
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:56:08 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40001)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hW0vv-00036T-5G
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:56:07 -0400
+Received: by mail-wr1-f65.google.com with SMTP id t4so2164423wrx.7
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 08:56:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=jTz4HqNA9exRiAH5IpZGzZJh95v62szgh4vP1BY39vI=;
+	b=ekIu9B6bZzjrWS5J7sO48qKp5kMQW9FfNKQQZ0lExRsZhdQbKT9b4rDD/jk3vdxEBZ
+	7EbMSOoMzwa2CPRmdd2NXQL68xICbQYhT3J3AfnkXxBMT9FJhFCPbcrdVP9/g9nC7lT9
+	QvxC7OD15F95p0hnUJrruWW4fMqQa7EUH8GSW36w40U0bS/rH/JVafB1UeJK9H/7ZVPw
+	Gmfx+SQyJ+RyQplSwS3xODVlYyVJnwV9HXPzveL+HjC7EoTAl3jRO9WtrQBiKyTlwMcf
+	wxe0wNhgbFrtqfFtQBcoNZhlq1LUW1lczFBkhHCqF9J/liXHV/Jkn3ShQK5fNHWbDWqC
+	GMkg==
+X-Gm-Message-State: APjAAAWh8TQ2L0Giyh0I3VMMuEhs5fzTIoCUfn0jSyLN6uUT/m0I/Fm2
+	9uGWTaXTqfAN3T5LrSC6nlE6sw0VXTU=
+X-Google-Smtp-Source: APXvYqwmnfNFl2eaIAihjLfr9LenC6ussMXpCVBMvJJy8wRm8xwKOtZHF8rXdhHu1rR9IFvyJ9R2jA==
+X-Received: by 2002:adf:c709:: with SMTP id k9mr7339945wrg.144.1559145365833; 
+	Wed, 29 May 2019 08:56:05 -0700 (PDT)
+Received: from [10.201.33.53] ([195.166.127.210])
+	by smtp.gmail.com with ESMTPSA id h8sm13828253wmf.5.2019.05.29.08.56.04
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Wed, 29 May 2019 08:56:04 -0700 (PDT)
+To: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+	qemu-devel@nongnu.org
+References: <20190529150853.9772-1-armbru@redhat.com>
+	<20190529150853.9772-3-armbru@redhat.com>
+	<84e2792c-3fd3-3236-dc45-83405abb9a12@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <1ddf4672-eea7-d4de-62ae-930f98f388be@redhat.com>
+Date: Wed, 29 May 2019 17:56:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dplotnikov@virtuozzo.com
-Date: Wed, 29 May 2019 08:54:22 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <84e2792c-3fd3-3236-dc45-83405abb9a12@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH v3] qemu-io: add pattern file for write
- command
+	[fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH 2/3] MAINTAINERS: Improve section headlines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,43 +75,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, den@virtuozzo.com, qemu-block@nongnu.org,
-	qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyOTE0MDIxNy4xMjg0
-MS0xLWRwbG90bmlrb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
-byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
-b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2M10gcWVtdS1p
-bzogYWRkIHBhdHRlcm4gZmlsZSBmb3Igd3JpdGUgY29tbWFuZApUeXBlOiBzZXJpZXMKTWVzc2Fn
-ZS1pZDogMjAxOTA1MjkxNDAyMTcuMTI4NDEtMS1kcGxvdG5pa292QHZpcnR1b3p6by5jb20KCj09
-PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4g
-L2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwg
-ZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJh
-Y2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNv
-bS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAgICBwYXRjaGV3
-LzIwMTkwNTI5MTQwMjE3LjEyODQxLTEtZHBsb3RuaWtvdkB2aXJ0dW96em8uY29tIC0+IHBhdGNo
-ZXcvMjAxOTA1MjkxNDAyMTcuMTI4NDEtMS1kcGxvdG5pa292QHZpcnR1b3p6by5jb20KU3dpdGNo
-ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo2NTc5ZmY3MWRiIHFlbXUtaW86IGFkZCBwYXR0ZXJu
-IGZpbGUgZm9yIHdyaXRlIGNvbW1hbmQKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBzdXNw
-ZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg4LCAxMSkKIzUwOiBG
-SUxFOiBxZW11LWlvLWNtZHMuYzozNzA6CisgICAgICAgIGlmIChmZW9mKGYpKSB7CisgICAgICAg
-ICAgIHJld2luZChmKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMzI6IEZJ
-TEU6IHFlbXUtaW8tY21kcy5jOjExMTY6CisgICAgICAgIHByaW50ZigiT25seSBvbmUgb2YgLXos
-IC1QLCBhbmQgLXMgY2FuIGJlIHNwZWNpZmllZCBhdCB0aGUgc2FtZSB0aW1lXG4iKTsKCkVSUk9S
-OiBNaXNzaW5nIFNpZ25lZC1vZmYtYnk6IGxpbmUocykKCnRvdGFsOiAyIGVycm9ycywgMSB3YXJu
-aW5ncywgMTI5IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA2NTc5ZmY3MWRiYWEgKHFlbXUtaW86IGFk
-ZCBwYXR0ZXJuIGZpbGUgZm9yIHdyaXRlIGNvbW1hbmQpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEK
-CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
-MTkwNTI5MTQwMjE3LjEyODQxLTEtZHBsb3RuaWtvdkB2aXJ0dW96em8uY29tL3Rlc3RpbmcuY2hl
-Y2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
-YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
-YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 5/29/19 5:16 PM, Eric Blake wrote:
+> On 5/29/19 10:08 AM, Markus Armbruster wrote:
+>> When scripts/get_maintainer.pl reports something like
+>>
+>>     John Doe <jdoe@example.org> (maintainer:Overall)
+>>
+>> the user is left to wonder *which* of our three "Overall" sections
+>> applies.  We have three, one each under "Guest CPU cores (TCG)",
+>> "Guest CPU Cores (KVM)", and "Overall usermode emulation".
+>>
+>> Rename sections under
+>>
+>> * "Guest CPU cores (TCG)" from "FOO" to "FOO CPU cores (TCG)"
+>>
+>> * "Guest CPU Cores (KVM)" from "FOO" to "FOO CPU cores (KVM)"
+>>
+>> * "Guest CPU Cores (Xen)" from "FOO" to "FOO CPU cores (Xen)"
+>>
+>> * "Architecture support" from "FOO" to "FOO general architecture
+>>   support"
+>>
+>> * "Tiny Code Generator (TCG)" from "FOO target" to "FOO TCG target"
+>>
+>> While there,
+>>
+> 
+> Unintentional truncation? Or leftover thought that should be removed
+> after you instead split things?
 
+leftover :)
+
+"While there, polish headline decorations"
+
+> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  MAINTAINERS | 78 ++++++++++++++++++++++++++---------------------------
+>>  1 file changed, 39 insertions(+), 39 deletions(-)
+> 
 
