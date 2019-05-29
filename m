@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66BB42D657
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:30:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48981 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2091A2D604
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:13:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48699 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVt2E-0007od-HB
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:30:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48334)
+	id 1hVslt-0001kE-89
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:13:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48328)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsQo-0000n5-3z
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:27 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsQn-00031I-16
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsQn-0000mn-TO
 	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:26 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56773 helo=ozlabs.org)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsQm-000316-RS
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:25 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35887 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hVsQm-0002rC-M1; Wed, 29 May 2019 02:51:24 -0400
+	id 1hVsQm-0002r4-E6; Wed, 29 May 2019 02:51:24 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45DLv726v9z9sPZ; Wed, 29 May 2019 16:50:26 +1000 (AEST)
+	id 45DLv70LlFz9sPc; Wed, 29 May 2019 16:50:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1559112627;
-	bh=zeNEbEta8kla1fTMD1ODliIetCj1SoUIfL596OlUPyk=;
+	bh=Slm6kw9RPZToEV2z3ODo3MPSUQ2me32jV07w5nNpeO0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jNE9Gce5TEZpFuAjJ5dmqFb7v4J33fY+hy2G+2tmUAZjmidx6iuM63Rh/xL0NK2+P
-	/D/wrokd8QIjPzxiDWYYr/MjNYVhLi1ZcNfJFNRDM3vxoK5sXOo5WlMmFcjYQuf2UV
-	M2cJrBRPhj2MiouuTRAEAl3RymXOAZKEujO5i/yg=
+	b=SunNSyiOn1WF2RmuqwEdAFJIUnww2eXCgLZ1Xa1xOlJ4n4Cg9h/vEL90UFPQZpyUj
+	5DX0G5pfUwXSvN987d2ickIdRV7Ph/3kxikqoCitzEdSkxZdZ0a1yO/X4GWiTTeVDr
+	1ZJo5q/UbH2Uxo6KuxNhhQ444uHU4qhZuuOkhZoA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 29 May 2019 16:50:16 +1000
-Message-Id: <20190529065017.15149-44-david@gibson.dropbear.id.au>
+Date: Wed, 29 May 2019 16:50:17 +1000
+Message-Id: <20190529065017.15149-45-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190529065017.15149-1-david@gibson.dropbear.id.au>
 References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
@@ -42,8 +42,8 @@ Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 43/44] ppc/pnv: introduce new skiboot platform
- properties
+Subject: [Qemu-devel] [PULL 44/44] ppc/pnv: add dummy XSCOM registers for
+ PRD initialization
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,55 +63,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Newer skiboots (after 6.3) support QEMU platforms that have
-characteristics closer to real OpenPOWER systems. The CPU type is used
-to define the BMC drivers: Aspeed AST2400 for POWER8 processors and
-AST2500 for POWER9s.
-
-Advertise the new platform property names, "qemu,powernv8" and
-"qemu,powernv9", using the CPU type chosen for the QEMU PowerNV
-machine. Also, advertise the original platform name "qemu,powernv" in
-case of POWER8 processors for compatibility with older skiboots.
+PRD (Processor recovery diagnostics) is a service available on
+OpenPower systems. The opal-prd daemon initializes the PowerPC
+Processor through the XSCOM bus and then waits for hardware diagnostic
+events.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190527071749.31499-1-clg@kaod.org>
+Message-Id: <20190527071722.31424-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ hw/ppc/pnv_xscom.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 31aa20ee25..046f0a83c8 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -450,7 +450,8 @@ static void pnv_dt_power_mgt(void *fdt)
+diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+index c285ef514e..f53a6d7a94 100644
+--- a/hw/ppc/pnv_xscom.c
++++ b/hw/ppc/pnv_xscom.c
+@@ -29,6 +29,12 @@
 =20
- static void *pnv_dt_create(MachineState *machine)
- {
--    const char plat_compat[] =3D "qemu,powernv\0ibm,powernv";
-+    const char plat_compat8[] =3D "qemu,powernv8\0qemu,powernv\0ibm,powe=
-rnv";
-+    const char plat_compat9[] =3D "qemu,powernv9\0ibm,powernv";
-     PnvMachineState *pnv =3D PNV_MACHINE(machine);
-     void *fdt;
-     char *buf;
-@@ -465,8 +466,14 @@ static void *pnv_dt_create(MachineState *machine)
-     _FDT((fdt_setprop_cell(fdt, 0, "#size-cells", 0x2)));
-     _FDT((fdt_setprop_string(fdt, 0, "model",
-                              "IBM PowerNV (emulated by qemu)")));
--    _FDT((fdt_setprop(fdt, 0, "compatible", plat_compat,
--                      sizeof(plat_compat))));
-+    if (pnv_is_power9(pnv)) {
-+        _FDT((fdt_setprop(fdt, 0, "compatible", plat_compat9,
-+                          sizeof(plat_compat9))));
-+    } else {
-+        _FDT((fdt_setprop(fdt, 0, "compatible", plat_compat8,
-+                          sizeof(plat_compat8))));
-+    }
+ #include <libfdt.h>
+=20
++/* PRD registers */
++#define PRD_P8_IPOLL_REG_MASK           0x01020013
++#define PRD_P8_IPOLL_REG_STATUS         0x01020014
++#define PRD_P9_IPOLL_REG_MASK           0x000F0033
++#define PRD_P9_IPOLL_REG_STATUS         0x000F0034
 +
+ static void xscom_complete(CPUState *cs, uint64_t hmer_bits)
+ {
+     /*
+@@ -70,6 +76,12 @@ static uint64_t xscom_read_default(PnvChip *chip, uint=
+32_t pcba)
+     case 0x1010c00:     /* PIBAM FIR */
+     case 0x1010c03:     /* PIBAM FIR MASK */
 =20
-     buf =3D  qemu_uuid_unparse_strdup(&qemu_uuid);
-     _FDT((fdt_setprop_string(fdt, 0, "vm,uuid", buf)));
++        /* PRD registers */
++    case PRD_P8_IPOLL_REG_MASK:
++    case PRD_P8_IPOLL_REG_STATUS:
++    case PRD_P9_IPOLL_REG_MASK:
++    case PRD_P9_IPOLL_REG_STATUS:
++
+         /* P9 xscom reset */
+     case 0x0090018:     /* Receive status reg */
+     case 0x0090012:     /* log register */
+@@ -124,6 +136,12 @@ static bool xscom_write_default(PnvChip *chip, uint3=
+2_t pcba, uint64_t val)
+     case 0x201302a:     /* CAPP stuff */
+     case 0x2013801:     /* CAPP stuff */
+     case 0x2013802:     /* CAPP stuff */
++
++        /* P8 PRD registers */
++    case PRD_P8_IPOLL_REG_MASK:
++    case PRD_P8_IPOLL_REG_STATUS:
++    case PRD_P9_IPOLL_REG_MASK:
++    case PRD_P9_IPOLL_REG_STATUS:
+         return true;
+     default:
+         return false;
 --=20
 2.21.0
 
