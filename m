@@ -2,69 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF382D656
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:29:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48967 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A81F2D663
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:32:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49031 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVt1G-0006vV-Br
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:29:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53376)
+	id 1hVt4A-0000uL-Ds
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:32:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56149)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <elohimes@gmail.com>) id 1hVsjt-0000lv-Rg
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:11:12 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hVsuK-00013Q-K6
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:21:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <elohimes@gmail.com>) id 1hVsjs-0006Vh-Mw
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:11:09 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:37046)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hVsjs-0006VU-HT
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:11:08 -0400
-Received: by mail-pf1-x443.google.com with SMTP id a23so1020499pff.4
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 00:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=wRsGG+CGI58wbB7Mu7nQkCFNg2G6+zgNOiTS5HlNUlA=;
-	b=oS4L5qKNQS+ZvLE5YFnPSgWq1B9nlIahoTrgCkNKl6aLEN+fsxF+wztid3inPjecMl
-	jZ3DR2FKtD0nqnTFX4Kt7kgbBaawIkJ7sD3N2tYneHvotojaZBSf9H0dghyVDyDAbDbE
-	+JKYlHWGqLAvMStwxRMSdG73kNr9F91H/hw9LIpS7EjvHcL0j5OPw7jRZFHR/v/iRqjz
-	D8FBMbWGtKUXEjJqCxekpti3CxoplQOOomKga0tytLaAeqUkjs5e12sOEBoBU0/7vTaR
-	CgNDaooWZlayngwSZRuDouvaFzEFZFVn9CzAFuPKGObKPV2b0Q76rSjG+b604BvoK1Gv
-	DrWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=wRsGG+CGI58wbB7Mu7nQkCFNg2G6+zgNOiTS5HlNUlA=;
-	b=RTVxFr8UXGU+kAoHOYOkWEDhFjGJG60S7P2kFGWY3tpwPWrhM3cjUaB6dVacPfyr9H
-	jztXIVf85/T+j5LEXg6lMe4X4gTUxjrFeWd/OeLd/zLJYEtiCQvQCotpULn38/J+FrtG
-	ADUozO3w3vYELUK/334/nYT/V9MX8FxQPNmaaJ0DqFD/xySyWLQS8zcYOaWawuBTgfUq
-	lZPSRzijeH3UGVRiZ2DxwNSr3DDQUEr0P5PhjW04JwJff3AIdNtrJzAJSWcJd04ZxtJV
-	jQuuqOe6CzCRp2/8kXM2XAqRTrClBI5adF1Bbz8fMU3RwC4Vfs2rSfELhzvGQ8fZMMCt
-	M0Bw==
-X-Gm-Message-State: APjAAAWlGT93Rk5+Q8F8/ezfcgzretKYtEX63jNmNZEK65X0xC44bbHO
-	ubNs3o1jP7XDfTIRF+r/F5Q=
-X-Google-Smtp-Source: APXvYqxkMNjESQg57MaxRwMsrqBHV13dx6I98in6HvbqVaR4y7VLSFJYCnMk5lZ238uXg/sd7/Ebsg==
-X-Received: by 2002:a63:8449:: with SMTP id k70mr19826829pgd.208.1559113867619;
-	Wed, 29 May 2019 00:11:07 -0700 (PDT)
-Received: from localhost ([116.247.112.152]) by smtp.gmail.com with ESMTPSA id
-	5sm16693672pfh.109.2019.05.29.00.11.06
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 29 May 2019 00:11:07 -0700 (PDT)
-From: elohimes@gmail.com
-X-Google-Original-From: xieyongji@baidu.com
-To: mst@redhat.com,
-	groug@kaod.org,
-	dgilbert@redhat.com
-Date: Wed, 29 May 2019 15:09:55 +0800
-Message-Id: <20190529070955.25565-6-xieyongji@baidu.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190529070955.25565-1-xieyongji@baidu.com>
-References: <20190529070955.25565-1-xieyongji@baidu.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH 5/5] virtio: add "use-started" property
+	(envelope-from <kraxel@redhat.com>) id 1hVsuJ-0004zu-R5
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:21:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52704)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hVsuJ-0004zI-IC
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:21:55 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5F39A9FFD4
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 07:21:49 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-59.ams2.redhat.com
+	[10.36.116.59])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3A2A060BE0;
+	Wed, 29 May 2019 07:21:45 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id 792F511AAB; Wed, 29 May 2019 09:21:44 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 29 May 2019 09:21:40 +0200
+Message-Id: <20190529072144.26737-1-kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.39]);
+	Wed, 29 May 2019 07:21:49 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3 0/4] add drm modifier support for dmabufs.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,134 +57,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xie Yongji <xieyongji@baidu.com>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xie Yongji <xieyongji@baidu.com>
+v2: fix build failure with older mesa versions which don't have
+    EGL_DMA_BUF_PLANE0_MODIFIER_LO_EXT
 
-In order to avoid migration issues, we introduce a "use-started"
-property to the base virtio device to indicate whether "started"
-and "start_on_kick" flag could be used. This property will be
-true by default and set to false when machine type <= 4.0.
+Gerd Hoffmann (4):
+  console: add dmabuf modifier field.
+  vfio/display: set dmabuf modifier field
+  egl-helpers: add modifier support to egl_get_fd_for_texture().
+  egl-helpers: add modifier support to egl_dmabuf_import_texture()
 
-Suggested-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Xie Yongji <xieyongji@baidu.com>
----
- hw/block/vhost-user-blk.c  |  8 ++++++--
- hw/core/machine.c          |  4 +++-
- hw/virtio/virtio.c         |  7 ++++---
- include/hw/virtio/virtio.h | 10 ++++++++++
- 4 files changed, 23 insertions(+), 6 deletions(-)
+ include/ui/console.h     |  1 +
+ include/ui/egl-helpers.h |  3 ++-
+ hw/vfio/display.c        |  1 +
+ ui/egl-helpers.c         | 39 ++++++++++++++++++++++++++++-----------
+ ui/spice-display.c       |  7 ++++---
+ 5 files changed, 36 insertions(+), 15 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 9cb61336a6..520c5d3d4b 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -191,9 +191,13 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
- static void vhost_user_blk_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
--    bool should_start = vdev->started;
-+    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
-     int ret;
- 
-+    if (virtio_device_started(vdev)) {
-+        should_start = true;
-+    }
-+
-     if (!vdev->vm_running) {
-         should_start = false;
-     }
-@@ -317,7 +321,7 @@ static int vhost_user_blk_connect(DeviceState *dev)
-     }
- 
-     /* restore vhost state */
--    if (vdev->started) {
-+    if (virtio_device_started(vdev)) {
-         ret = vhost_user_blk_start(vdev);
-         if (ret < 0) {
-             error_report("vhost-user-blk: vhost start failed: %s",
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 934c1bcceb..1730d28c1b 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -24,7 +24,9 @@
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
- 
--GlobalProperty hw_compat_4_0[] = {};
-+GlobalProperty hw_compat_4_0[] = {
-+    { "virtio-device", "use-started", "false" },
-+};
- const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
- 
- GlobalProperty hw_compat_3_1[] = {
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 9e17293d46..4c05a9efe3 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -1803,14 +1803,14 @@ static bool virtio_started_needed(void *opaque)
- {
-     VirtIODevice *vdev = opaque;
- 
--    return vdev->started;
-+    return vdev->started && vdev->use_started;
- }
- 
- static bool virtio_start_on_kick_needed(void *opaque)
- {
-     VirtIODevice *vdev = opaque;
- 
--    return vdev->start_on_kick;
-+    return vdev->start_on_kick && vdev->use_started;
- }
- 
- static const VMStateDescription vmstate_virtqueue = {
-@@ -2320,7 +2320,7 @@ static void virtio_vmstate_change(void *opaque, int running, RunState state)
-     VirtIODevice *vdev = opaque;
-     BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
-     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
--    bool backend_run = running && vdev->started;
-+    bool backend_run = running && virtio_device_started(vdev);
-     vdev->vm_running = running;
- 
-     if (backend_run) {
-@@ -2698,6 +2698,7 @@ static void virtio_device_instance_finalize(Object *obj)
- 
- static Property virtio_properties[] = {
-     DEFINE_VIRTIO_COMMON_FEATURES(VirtIODevice, host_features),
-+    DEFINE_PROP_BOOL("use-started", VirtIODevice, use_started, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 27c0efc3d0..ba4dbd7480 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -105,6 +105,7 @@ struct VirtIODevice
-     uint16_t device_id;
-     bool vm_running;
-     bool broken; /* device in invalid state, needs reset */
-+    bool use_started;
-     bool started;
-     bool start_on_kick; /* virtio 1.0 transitional devices support that */
-     VMChangeStateEntry *vmstate;
-@@ -351,4 +352,13 @@ static inline bool virtio_is_big_endian(VirtIODevice *vdev)
-     /* Devices conforming to VIRTIO 1.0 or later are always LE. */
-     return false;
- }
-+
-+static inline bool virtio_device_started(VirtIODevice *vdev)
-+{
-+    if (vdev->use_started) {
-+        return vdev->started;
-+    }
-+
-+    return vdev->status & VIRTIO_CONFIG_S_DRIVER_OK;
-+}
- #endif
--- 
-2.17.1
+--=20
+2.18.1
 
 
