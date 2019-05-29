@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375AA2E27E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:47:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57984 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8A12E272
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:43:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57865 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hW1jM-0007EW-Es
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:47:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39673)
+	id 1hW1fM-0004Ot-P5
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:43:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39697)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1a4-00009e-MT
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:37 -0400
+	(envelope-from <mst@redhat.com>) id 1hW1a6-0000Bz-Jt
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hW1a3-0002sr-Ov
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:36 -0400
-Received: from mail-qt1-f173.google.com ([209.85.160.173]:35182)
+	(envelope-from <mst@redhat.com>) id 1hW1a5-0002uJ-MY
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:38 -0400
+Received: from mail-qt1-f182.google.com ([209.85.160.182]:44298)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hW1a3-0002sd-Km
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:35 -0400
-Received: by mail-qt1-f173.google.com with SMTP id w1so3401682qts.2
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:37:35 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hW1a5-0002tz-IX
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:37:37 -0400
+Received: by mail-qt1-f182.google.com with SMTP id m2so3358247qtp.11
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:37:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=iiDzl4UMV1aoKP5peI6KxUVyGaqr+EjtWQoUZIGhRlM=;
-	b=RihmqOlpMVnelhWlJIvOGNQEx6KyUlc3kFN2VqsyJTMGMhcf08gRGSTNaANE3/Yqyz
-	KjGQe8y/WpmZnKGRNbhp9hYjnpipEJU7izsIK4Cez06fc1W/awml+RrGvWXYIFLH2lCG
-	eEv1i9pQcWbSOBB58DbvgcGKx/LJyBKiyPhY3lEsYiOs/3msPYo4rTK6aog8FMXNR68n
-	ndnNpXTrWM4g3H2mcOGhoFWRjWZMo74oa9vUnN0EKPYUiluluiofhWd/MF6wdYBtivs4
-	qB8lNt/qhXzvV1HlhXwBOqC1Fma5BEKDcV4pEJ/UnDOPVAOtbEWQ2kxWYeN0921hoD1b
-	J9tw==
-X-Gm-Message-State: APjAAAUq2z1dX5oSHug2iZXgV9yFF4uLbP2n4pCwgXkJ9PpL7181e8jX
-	u443bMRWvLpnAIgIuWjepqRFtMr+vm0=
-X-Google-Smtp-Source: APXvYqwfPEXRZFxOlMKYpV5KHvBLMHoQ5yf4zntBNKntULB5d8VAq4SErFI/n1rBtQmmFVXDYa+Iog==
-X-Received: by 2002:aed:39e5:: with SMTP id m92mr92855637qte.106.1559147854764;
-	Wed, 29 May 2019 09:37:34 -0700 (PDT)
+	:mime-version:content-disposition:in-reply-to;
+	bh=oWUawf31eMQD6ACHrKCfMWf9y12ShHT6G47Hktpyv9Q=;
+	b=FO7ngOtVL8ZztA43D88g9kpqTmOMPZIzmD0wDy6w1jJdQJQgeVmr6lbAVi2//VXoks
+	JqPFBzWmc6su20kLZFN1cOi8NwASEI9s633Ro+Rtz8aHfltcYV8RtGgvpQ5MpLwGQCtW
+	936Pvy5r59NoPEYIw7H1zFC+mxHYUr1jQ6/CyrRN0MfqGpEC+sR+fgLTp5CsFkgvd1JS
+	8lfjQMCwKaxNDuW919lE9FXK7Z3TNfWgT8bnE6mT59D3jDZMcKVF0nwYFddKJ7Jb9OGb
+	/YVWsF5rlV8uyy/4IOMdDDCDEz/Y+/DqOIfRaFMClfVVTUK70YDmurU5OKrnPZuUgeMU
+	GtsA==
+X-Gm-Message-State: APjAAAUr0P9GXZoBcOpzKzaP7bOlQpwJqLB2zpdeCGCSEMd4bqgTLF4S
+	7+LY48cuwRsiMrL3WLdTGRUbK1M4TnU=
+X-Google-Smtp-Source: APXvYqwKGiEmCOovN367gIQaWKlj38MpHm6b6G8uYqL8ztgDatB/JGNARa/JMW35eljR2eBkAW4ebQ==
+X-Received: by 2002:a0c:af51:: with SMTP id j17mr77292207qvc.34.1559147856882; 
+	Wed, 29 May 2019 09:37:36 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
 	[100.0.197.103])
-	by smtp.gmail.com with ESMTPSA id x1sm4759171qkf.61.2019.05.29.09.37.33
+	by smtp.gmail.com with ESMTPSA id q9sm4810735qtr.83.2019.05.29.09.37.35
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 29 May 2019 09:37:33 -0700 (PDT)
-Date: Wed, 29 May 2019 12:37:32 -0400
+	Wed, 29 May 2019 09:37:36 -0700 (PDT)
+Date: Wed, 29 May 2019 12:37:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1556605773-42019-1-git-send-email-wangjie88@huawei.com>
+Message-ID: <1556608500-12183-1-git-send-email-wangjie88@huawei.com>
 References: <20190529163604.18560-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190529163604.18560-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.173
-Subject: [Qemu-devel] [PULL 09/10] vhost: fix incorrect print type
+X-Received-From: 209.85.160.182
+Subject: [Qemu-devel] [PULL 10/10] vhost: fix memory leak in
+ vhost_user_scsi_realize
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,38 +70,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+	Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
 	Jie Wang <wangjie88@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jie Wang <wangjie88@huawei.com>
 
-fix incorrect print type in vhost_virtqueue_stop
+fix memory leak in vhost_user_scsi_realize
 
 Signed-off-by: Jie Wang <wangjie88@huawei.com>
-Message-Id: <1556605773-42019-1-git-send-email-wangjie88@huawei.com>
+Message-Id: <1556608500-12183-1-git-send-email-wangjie88@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/virtio/vhost.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/scsi/vhost-user-scsi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 2303a8c206..60747a6f93 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1081,7 +1081,7 @@ static void vhost_virtqueue_stop(struct vhost_dev *dev,
+diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
+index 8b1e6876db..a9fd8ea305 100644
+--- a/hw/scsi/vhost-user-scsi.c
++++ b/hw/scsi/vhost-user-scsi.c
+@@ -69,6 +69,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
+     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
+     VHostUserSCSI *s = VHOST_USER_SCSI(dev);
+     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(s);
++    struct vhost_virtqueue *vqs = NULL;
+     Error *err = NULL;
+     int ret;
  
-     r = dev->vhost_ops->vhost_get_vring_base(dev, &state);
-     if (r < 0) {
--        VHOST_OPS_DEBUG("vhost VQ %d ring restore failed: %d", idx, r);
-+        VHOST_OPS_DEBUG("vhost VQ %u ring restore failed: %d", idx, r);
-         /* Connection to the backend is broken, so let's sync internal
-          * last avail idx to the device used idx.
-          */
+@@ -93,6 +94,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
+     vsc->dev.vqs = g_new(struct vhost_virtqueue, vsc->dev.nvqs);
+     vsc->dev.vq_index = 0;
+     vsc->dev.backend_features = 0;
++    vqs = vsc->dev.vqs;
+ 
+     ret = vhost_dev_init(&vsc->dev, &s->vhost_user,
+                          VHOST_BACKEND_TYPE_USER, 0);
+@@ -100,6 +102,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
+         error_setg(errp, "vhost-user-scsi: vhost initialization failed: %s",
+                    strerror(-ret));
+         vhost_user_cleanup(&s->vhost_user);
++        g_free(vqs);
+         return;
+     }
+ 
 -- 
 MST
 
