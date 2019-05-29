@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67692D5C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:56:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48425 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536602D5CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:58:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48459 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVsVO-00043f-VK
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:56:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47479)
+	id 1hVsY2-0006cn-DN
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:58:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47486)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsPx-0008Cw-VL
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsPy-0008Cx-Au
 	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:50:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsPw-0002Vk-V0
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:50:33 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43353 helo=ozlabs.org)
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsPw-0002Vp-VY
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:50:34 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:60433 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hVsPw-0002R7-BC; Wed, 29 May 2019 02:50:32 -0400
+	id 1hVsPw-0002RC-Dh; Wed, 29 May 2019 02:50:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45DLv15rXYz9sCJ; Wed, 29 May 2019 16:50:21 +1000 (AEST)
+	id 45DLv202WYz9sBb; Wed, 29 May 2019 16:50:21 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1559112621;
-	bh=BkQijpXj/KCURZ/rN6s0iYa5Zt/xqM674NRmoCOpbX8=;
+	d=gibson.dropbear.id.au; s=201602; t=1559112622;
+	bh=LwgeqNNd+ZrGocsW9YkV/sNtHFn1cTUistNEVdfncKs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MMLvW8FRZqE5WD3IwaJE6Xb56IxHPKswr34PqNWau7FtY1SyoQ02kEKXwXY7t3jUC
-	a4ssuzw/ExVvcoZ9iznQDjFe4UMihI++/QnP6mfb4D6z7/u4LxNf23TmcocGgdF44o
-	BwldK2gSXCvw8ZCMGF8tkwbXa1wNpOyE6YzABT/k=
+	b=Vz6F4jI5xZxurPa0LSXyqCKCq+Byvqdu66rpJTzdeYb1ah9tQdKxb19jqOa1F9wVq
+	0F4JWa1mCjIOnAs/id+DqpPo30SbHGzY8s2ANtAAeQ4phm8uGfzZS9Y+4RYoI4Tll9
+	wfkCet87TzUjshie84+jIFk1VI2WUseKPvN55F8E=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 29 May 2019 16:49:34 +1000
-Message-Id: <20190529065017.15149-2-david@gibson.dropbear.id.au>
+Date: Wed, 29 May 2019 16:49:35 +1000
+Message-Id: <20190529065017.15149-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190529065017.15149-1-david@gibson.dropbear.id.au>
 References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
@@ -40,8 +40,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 01/44] tests: Fix up docker cross builds for
- ppc64 (BE) targets
+Subject: [Qemu-devel] [PULL 02/44] configure: Distinguish ppc64 and ppc64le
+ hosts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,72 +53,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
-	qemu-ppc@nongnu.org, clg@kaod.org,
-	David Gibson <david@gibson.dropbear.id.au>, rth@twiddle.net
+Cc: lvivier@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+	qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+	clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently have docker cross building targets for powerpc (32-bit, BE)
-and ppc64el (64-bit, LE), but not for pcp64 (64-bit, BE).  This is an
-irritating gap in make check-tcg coverage so correct it.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+We cannot use the ppc64le host compiler to build ppc64(be) guest code.
+Clean up confusion between cross_cc_powerpc and cross_cc_ppc; make use
+of the cflags variable as well.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20190501223819.8584-2-richard.henderson@linaro.org>
+[dwg: Dropped hunk relating to ppc64abi32, it doesn't test properly]
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- tests/docker/Makefile.include                      |  1 +
- tests/docker/dockerfiles/debian-ppc64-cross.docker | 11 +++++++++++
- tests/tcg/ppc/Makefile.include                     |  3 +++
- 3 files changed, 15 insertions(+)
- create mode 100644 tests/docker/dockerfiles/debian-ppc64-cross.docker
+ configure | 33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.includ=
-e
-index c0e1bf57a3..aaf5396b85 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -107,6 +107,7 @@ docker-image-debian-sparc64-cross: docker-image-debia=
-n-sid
- docker-image-debian-mips64-cross: docker-image-debian-sid
- docker-image-debian-riscv64-cross: docker-image-debian-sid
- docker-image-debian-powerpc-cross: docker-image-debian-sid
-+docker-image-debian-ppc64-cross: docker-image-debian-sid
- docker-image-travis: NOUSER=3D1
+diff --git a/configure b/configure
+index 528b9ff705..07eb2b3942 100755
+--- a/configure
++++ b/configure
+@@ -198,7 +198,7 @@ supported_kvm_target() {
+         i386:i386 | i386:x86_64 | i386:x32 | \
+         x86_64:i386 | x86_64:x86_64 | x86_64:x32 | \
+         mips:mips | mipsel:mips | \
+-        ppc:ppc | ppc64:ppc | ppc:ppc64 | ppc64:ppc64 | \
++        ppc:ppc | ppc64:ppc | ppc:ppc64 | ppc64:ppc64 | ppc64:ppc64le | =
+\
+         s390x:s390x)
+             return 0
+         ;;
+@@ -502,8 +502,11 @@ cross_cc_arm=3D"arm-linux-gnueabihf-gcc"
+ cross_cc_cflags_armeb=3D"-mbig-endian"
+ cross_cc_i386=3D"i386-pc-linux-gnu-gcc"
+ cross_cc_cflags_i386=3D""
+-cross_cc_powerpc=3D"powerpc-linux-gnu-gcc"
+-cross_cc_powerpc=3D"powerpc-linux-gnu-gcc"
++cross_cc_ppc=3D"powerpc-linux-gnu-gcc"
++cross_cc_cflags_ppc=3D"-m32"
++cross_cc_ppc64=3D"powerpc-linux-gnu-gcc"
++cross_cc_cflags_ppc64=3D"-m64"
++cross_cc_ppc64le=3D"powerpc64le-linux-gnu-gcc"
 =20
- # Specialist build images, sometimes very limited tools
-diff --git a/tests/docker/dockerfiles/debian-ppc64-cross.docker b/tests/d=
-ocker/dockerfiles/debian-ppc64-cross.docker
-new file mode 100644
-index 0000000000..7f239c322d
---- /dev/null
-+++ b/tests/docker/dockerfiles/debian-ppc64-cross.docker
-@@ -0,0 +1,11 @@
-+#
-+# Docker ppc64 cross-compiler target
-+#
-+# This docker target builds on the debian sid base image which
-+# contains cross compilers for Debian "ports" targets.
-+FROM qemu:debian-sid
-+
-+RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-+    apt-get install -y --no-install-recommends \
-+       gcc-powerpc64-linux-gnu \
-+       libc6-dev-ppc64-cross || { echo "Failed to build - see debian-sid=
-.docker notes"; exit 1; }
-diff --git a/tests/tcg/ppc/Makefile.include b/tests/tcg/ppc/Makefile.incl=
-ude
-index b062c30dd3..ae01fb8fad 100644
---- a/tests/tcg/ppc/Makefile.include
-+++ b/tests/tcg/ppc/Makefile.include
-@@ -1,6 +1,9 @@
- ifeq ($(TARGET_NAME),ppc)
- DOCKER_IMAGE=3Ddebian-powerpc-cross
- DOCKER_CROSS_COMPILER=3Dpowerpc-linux-gnu-gcc
-+else ifeq ($(TARGET_NAME),ppc64)
-+DOCKER_IMAGE=3Ddebian-ppc64-cross
-+DOCKER_CROSS_COMPILER=3Dpowerpc64-linux-gnu-gcc
- else ifeq ($(TARGET_NAME),ppc64le)
- DOCKER_IMAGE=3Ddebian-ppc64el-cross
- DOCKER_CROSS_COMPILER=3Dpowerpc64le-linux-gnu-gcc
+ enabled_cross_compilers=3D""
+=20
+@@ -700,7 +703,11 @@ elif check_define __sparc__ ; then
+   fi
+ elif check_define _ARCH_PPC ; then
+   if check_define _ARCH_PPC64 ; then
+-    cpu=3D"ppc64"
++    if check_define _LITTLE_ENDIAN ; then
++      cpu=3D"ppc64le"
++    else
++      cpu=3D"ppc64"
++    fi
+   else
+     cpu=3D"ppc"
+   fi
+@@ -731,10 +738,14 @@ ARCH=3D
+ # Note that this case should only have supported host CPUs, not guests.
+ case "$cpu" in
+   ppc|ppc64|s390|s390x|sparc64|x32|riscv32|riscv64)
+-    cpu=3D"$cpu"
+     supported_cpu=3D"yes"
+     eval "cross_cc_${cpu}=3D\$host_cc"
+   ;;
++  ppc64le)
++    ARCH=3D"ppc64"
++    supported_cpu=3D"yes"
++    cross_cc_ppc64le=3D$host_cc
++  ;;
+   i386|i486|i586|i686|i86pc|BePC)
+     cpu=3D"i386"
+     supported_cpu=3D"yes"
+@@ -1538,8 +1549,8 @@ case "$cpu" in
+     ppc)
+            CPU_CFLAGS=3D"-m32"
+            LDFLAGS=3D"-m32 $LDFLAGS"
+-           cross_cc_powerpc=3D$cc
+-           cross_cc_cflags_powerpc=3D$CPU_CFLAGS
++           cross_cc_ppc=3D$cc
++           cross_cc_cflags_ppc=3D"$CPU_CFLAGS"
+            ;;
+     ppc64)
+            CPU_CFLAGS=3D"-m64"
+@@ -6191,7 +6202,7 @@ if { test "$cpu" =3D "i386" || test "$cpu" =3D "x86=
+_64"; } && \
+         fi
+     done
+ fi
+-if test "$cpu" =3D "ppc64" && test "$targetos" !=3D "Darwin" ; then
++if test "$ARCH" =3D "ppc64" && test "$targetos" !=3D "Darwin" ; then
+   roms=3D"$roms spapr-rtas"
+ fi
+=20
+@@ -7378,7 +7389,7 @@ if test "$linux" =3D "yes" ; then
+   i386|x86_64|x32)
+     linux_arch=3Dx86
+     ;;
+-  ppc|ppc64)
++  ppc|ppc64|ppc64le)
+     linux_arch=3Dpowerpc
+     ;;
+   s390x)
+@@ -7539,7 +7550,8 @@ case "$target_name" in
+   ;;
+   ppc)
+     gdb_xml_files=3D"power-core.xml power-fpu.xml power-altivec.xml powe=
+r-spe.xml"
+-    target_compiler=3D$cross_cc_powerpc
++    target_compiler=3D$cross_cc_ppc
++    target_compiler_cflags=3D"$cross_cc_cflags_ppc"
+   ;;
+   ppc64)
+     TARGET_BASE_ARCH=3Dppc
+@@ -7547,6 +7559,7 @@ case "$target_name" in
+     mttcg=3Dyes
+     gdb_xml_files=3D"power64-core.xml power-fpu.xml power-altivec.xml po=
+wer-spe.xml power-vsx.xml"
+     target_compiler=3D$cross_cc_ppc64
++    target_compiler_cflags=3D"$cross_cc_cflags_ppc64"
+   ;;
+   ppc64le)
+     TARGET_ARCH=3Dppc64
 --=20
 2.21.0
 
