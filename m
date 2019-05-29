@@ -2,52 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78CDC2D596
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:36:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48128 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C913D2D597
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:36:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48132 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVsCC-0005XP-M6
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:36:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42095)
+	id 1hVsCY-0005ka-1g
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:36:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42816)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hVs4u-0000ge-9N
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:28:49 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hVs8I-00030w-Ua
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:32:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hVs4o-0004gc-EY
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:28:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60334)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>)
-	id 1hVs4o-0004fq-9k; Wed, 29 May 2019 02:28:42 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EC38572665;
-	Wed, 29 May 2019 06:28:40 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-59.ams2.redhat.com
-	[10.36.116.59])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4DFB218027;
-	Wed, 29 May 2019 06:28:38 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 49CF617536; Wed, 29 May 2019 08:28:33 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 29 May 2019 08:28:32 +0200
-Message-Id: <20190529062832.26483-10-kraxel@redhat.com>
-In-Reply-To: <20190529062832.26483-1-kraxel@redhat.com>
-References: <20190529062832.26483-1-kraxel@redhat.com>
+	(envelope-from <laurent@vivier.eu>) id 1hVs8H-0006V5-Bn
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:32:18 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:54767)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hVs8F-0006UD-Pr
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:32:16 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1M9nAB-1hZSbB16nd-005qRZ; Wed, 29 May 2019 08:30:20 +0200
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <87lfyqla7r.fsf@dusky.pond.sub.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <31aacc13-8d1b-8a4c-5a9d-0b615321e0ed@vivier.eu>
+Date: Wed, 29 May 2019 08:30:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 29 May 2019 06:28:41 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87lfyqla7r.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:hW47ejWM1Xq98d15JxS7Al0o8pQafdhQqApfb8+hDdEiNshNfKD
+	BplFDXGI0k/ZCihBs6qQUix7T0kG/J9w21Ew+CFttLxz5lkWiACKdOibDFn93R82MEaZpn9
+	0ITzz84VlH7CvCVBtZ3Eel+vTeLNMYGV12BG65+ZqvzKi0mmap1hbFS2pCYCihsioIdG2QE
+	RwLxUoOfbbbmnokbzxJIQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qNatheslna4=:ybEqr9LyECRihsaCujaYwq
+	7RcrgDpzdZKF3AibQw5pHp+fpEnm+Nsvct1QBLerDyAp8cgwugQ2p+qHzj5yJBOk4kOs3EavQ
+	We+oa4mvH842OEs8tqSniP6BUmkx7MVOl8qc3uUhd3a2OsISbTWbIZJOfMwqsHQh7ZrfOYnCS
+	7GzGHyo4gywoQzDYb4VMhpeiOx1d5Hq46lycDDTFJQxBP8c6K0Kg1m1gFUTZusF2mkoEhetti
+	1od2OGYXiLoM+PFv4vLWHRiaT1qTsstTVIwjKQb+0CYff2IoOFJ3OHtyNomfDlN7IY/MTg+jG
+	chBSiqTsHvi90JOKH9tGDEqR1GqPGUzjfSit7Ru+4jgzQzJEbeFVH5W6OJlsj+6JUdkcVr7rp
+	/6V3uKH7iD8W50B7WudfLb/4wIUMfp3dMl5TD80dtQuqxBeRuwe+qgVMEdJGhWK0yrSMwwhZA
+	T8SwDGPxM1cx7NE7zXv+3HvXUzhKdNvjlrqYKED45wey0SqI22QzynKgzr4mSxXe4Ls+LJrh8
+	xOvcNmd6T+1hh/tlyF4bI44M2FrshAC9WfEHYGuegX81pOh5mgp/sGVEO/2VfuCKonRfesci2
+	3yTbVmlZaaXbTqySEsg3PYsWyQoxj5ejn+OpORRBcsvLd/ld2NsB4+J4euborm5Dr+NVxOyzx
+	Wg/eUbD9GLn/Xg2jRf3aZM5ZrvLTEJfAEx3DVc9r+vkADnuvx0MCV8g4tgVbh0QtszOhEF5XY
+	/cGmkxdAsFnL0XRUqOinyGRkxBfgjEOm48CsQcOHCuchotxHCRy2goUjcLk=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 9/9] usb-tablet: fix serial compat property
+X-Received-From: 217.72.192.74
+Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,38 +65,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	David Hildenbrand <david@redhat.com>, James Hogan <jhogan@kernel.org>,
+	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Anthony Perard <anthony.perard@citrix.com>,
+	Richard Henderson <rth@twiddle.net>, Jason Wang <jasowang@redhat.com>,
+	Artyom Tarasenko <atar4qemu@gmail.com>,
+	Laurent Vivier <lvivier@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Beniamino Galvani <b.galvani@gmail.com>,
+	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
+	Stafford Horne <shorne@gmail.com>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	David Gibson <david@gibson.dropbear.id.au>,
+	"Daniel P. Berrange" <berrange@redhat.com>,
+	Claudio Fontana <claudio.fontana@gmail.com>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Claudio Fontana <claudio.fontana@huawei.com>,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+	Andrew Baumann <Andrew.Baumann@microsoft.com>,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Michael Walle <michael@walle.cc>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s/kbd/tablet/, fixes cut+paste bug.
+On 28/05/2019 20:12, Markus Armbruster wrote:
+...
+> Linux user
+> M: Riku Voipio <riku.voipio@iki.fi>
+> R: Laurent Vivier <laurent@vivier.eu>
 
-Cc: qemu-stable@nongnu.org
-Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20190520081805.15019-1-kraxel@redhat.com
----
- hw/core/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Unintentionnal:
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 934c1bcceb46..16ba66743441 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -36,7 +36,7 @@ GlobalProperty hw_compat_3_1[] =3D {
-     { "tpm-tis", "ppi", "false" },
-     { "usb-kbd", "serial", "42" },
-     { "usb-mouse", "serial", "42" },
--    { "usb-kbd", "serial", "42" },
-+    { "usb-tablet", "serial", "42" },
-     { "virtio-blk-device", "discard", "false" },
-     { "virtio-blk-device", "write-zeroes", "false" },
- };
---=20
-2.18.1
+linux-user/errno_defs.h
+linux-user/flat.h
+linux-user/hppa/sockbits.h
+linux-user/socket.h
+linux-user/aarch64/syscall_nr.h
+linux-user/alpha/syscall_nr.h
+linux-user/arm/syscall_nr.h
+linux-user/cris/syscall_nr.h
+linux-user/hppa/syscall_nr.h
+linux-user/i386/syscall_nr.h
+linux-user/m68k/syscall_nr.h
+linux-user/microblaze/syscall_nr.h
+linux-user/mips/syscall_nr.h
+linux-user/mips64/syscall_nr.h
+linux-user/nios2/syscall_nr.h
+linux-user/openrisc/syscall_nr.h
+linux-user/ppc/syscall_nr.h
+linux-user/riscv/syscall_nr.h
+linux-user/s390x/syscall_nr.h
+linux-user/sh4/syscall_nr.h
+linux-user/sparc/syscall_nr.h
+linux-user/sparc64/syscall_nr.h
+linux-user/x86_64/syscall_nr.h
+linux-user/target_flat.h
+linux-user/xtensa/target_flat.h
+linux-user/riscv/target_syscall.h
+linux-user/aarch64/termbits.h
+linux-user/alpha/termbits.h
+linux-user/arm/termbits.h
+linux-user/cris/termbits.h
+linux-user/hppa/termbits.h
+linux-user/i386/termbits.h
+linux-user/m68k/termbits.h
+linux-user/microblaze/termbits.h
+linux-user/mips/termbits.h
+linux-user/nios2/termbits.h
+linux-user/openrisc/termbits.h
+linux-user/ppc/termbits.h
+linux-user/riscv/termbits.h
+linux-user/s390x/termbits.h
+linux-user/sh4/termbits.h
+linux-user/sparc/termbits.h
+linux-user/sparc64/termbits.h
+linux-user/x86_64/termbits.h
+
+Intentionnal:
+
+linux-user/ioctls.h
+linux-user/aarch64/sockbits.h
+linux-user/arm/sockbits.h
+linux-user/cris/sockbits.h
+linux-user/i386/sockbits.h
+linux-user/m68k/sockbits.h
+linux-user/microblaze/sockbits.h
+linux-user/mips64/sockbits.h
+linux-user/nios2/sockbits.h
+linux-user/openrisc/sockbits.h
+linux-user/riscv/sockbits.h
+linux-user/s390x/sockbits.h
+linux-user/sh4/sockbits.h
+linux-user/sparc64/sockbits.h
+linux-user/tilegx/sockbits.h
+linux-user/x86_64/sockbits.h
+linux-user/xtensa/sockbits.h
+linux-user/syscall_types.h
+linux-user/mips64/target_cpu.h
+linux-user/sparc64/target_cpu.h
+linux-user/x86_64/target_cpu.h
+linux-user/mips64/target_fcntl.h
+linux-user/sparc64/target_fcntl.h
+linux-user/sparc64/target_signal.h
+linux-user/mips64/target_structs.h
+linux-user/mips64/termbits.h
+
+Thanks,
+Laurent
 
 
