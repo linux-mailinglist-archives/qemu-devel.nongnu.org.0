@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A292D58E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:33:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48070 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B6D2D599
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 08:37:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48144 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVs9r-0003Nl-CE
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:33:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42039)
+	id 1hVsDf-0006rx-AM
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 02:37:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42076)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hVs4o-0000ao-Az
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:28:43 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hVs4q-0000ck-Hf
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:28:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hVs4m-0004eu-0H
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:28:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60314)
+	(envelope-from <kraxel@redhat.com>) id 1hVs4o-0004gt-I4
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:28:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53476)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hVs4l-0004dt-G8
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:28:39 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hVs4o-0004fw-BT
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:28:42 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 74F6F59450;
-	Wed, 29 May 2019 06:28:38 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 154AD7E423;
+	Wed, 29 May 2019 06:28:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-59.ams2.redhat.com
 	[10.36.116.59])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2A7181001DDD;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2CF9E61B66;
 	Wed, 29 May 2019 06:28:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 398A317534; Wed, 29 May 2019 08:28:33 +0200 (CEST)
+	id 41B7D17535; Wed, 29 May 2019 08:28:33 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 29 May 2019 08:28:30 +0200
-Message-Id: <20190529062832.26483-8-kraxel@redhat.com>
+Date: Wed, 29 May 2019 08:28:31 +0200
+Message-Id: <20190529062832.26483-9-kraxel@redhat.com>
 In-Reply-To: <20190529062832.26483-1-kraxel@redhat.com>
 References: <20190529062832.26483-1-kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 29 May 2019 06:28:38 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.27]);
+	Wed, 29 May 2019 06:28:41 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 7/9] usb-hub: add usb_hub_port_update()
+Subject: [Qemu-devel] [PULL 8/9] usb-hub: emulate per port power switching
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,73 +60,160 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Helper function to update port status bits which depends on the
-connected device.  We need the same logic for device attach and
-port reset, so factor it out.
+Add support for per port power switching.
+Virtual power of course ;)
+
+Use port-power=on property to enable this.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20190524070310.4952-5-kraxel@redhat.com
+Message-id: 20190524070310.4952-6-kraxel@redhat.com
 ---
- hw/usb/dev-hub.c | 29 +++++++++++++++++------------
- 1 file changed, 17 insertions(+), 12 deletions(-)
+ hw/usb/dev-hub.c | 63 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
 diff --git a/hw/usb/dev-hub.c b/hw/usb/dev-hub.c
-index 1cc92a5f9abe..29f4d6723e26 100644
+index 29f4d6723e26..2b64d6ef0349 100644
 --- a/hw/usb/dev-hub.c
 +++ b/hw/usb/dev-hub.c
-@@ -188,18 +188,28 @@ static bool usb_hub_port_clear(USBHubPort *port, ui=
-nt16_t status)
-     return usb_hub_port_change(port, status);
+@@ -24,6 +24,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "qemu-common.h"
++#include "qemu/timer.h"
+ #include "trace.h"
+ #include "hw/usb.h"
+ #include "desc.h"
+@@ -41,6 +42,8 @@ typedef struct USBHubState {
+     USBDevice dev;
+     USBEndpoint *intr;
+     uint32_t num_ports;
++    bool port_power;
++    QEMUTimer *port_timer;
+     USBHubPort ports[MAX_PORTS];
+ } USBHubState;
+ 
+@@ -203,6 +206,20 @@ static bool usb_hub_port_update(USBHubPort *port)
+     return notify;
  }
-=20
-+static bool usb_hub_port_update(USBHubPort *port)
+ 
++static void usb_hub_port_update_timer(void *opaque)
 +{
-+    bool notify =3D false;
++    USBHubState *s = opaque;
++    bool notify = false;
++    int i;
 +
-+    if (port->port.dev && port->port.dev->attached) {
-+        notify =3D usb_hub_port_set(port, PORT_STAT_CONNECTION);
-+        if (port->port.dev->speed =3D=3D USB_SPEED_LOW) {
-+            usb_hub_port_set(port, PORT_STAT_LOW_SPEED);
-+        } else {
-+            usb_hub_port_clear(port, PORT_STAT_LOW_SPEED);
-+        }
++    for (i = 0; i < s->num_ports; i++) {
++        notify |= usb_hub_port_update(&s->ports[i]);
 +    }
-+    return notify;
++    if (notify) {
++        usb_wakeup(s->intr, 0);
++    }
 +}
 +
  static void usb_hub_attach(USBPort *port1)
  {
-     USBHubState *s =3D port1->opaque;
-     USBHubPort *port =3D &s->ports[port1->index];
-=20
-     trace_usb_hub_attach(s->dev.addr, port1->index + 1);
--    usb_hub_port_set(port, PORT_STAT_CONNECTION);
--    if (port->port.dev->speed =3D=3D USB_SPEED_LOW) {
--        usb_hub_port_set(port, PORT_STAT_LOW_SPEED);
--    } else {
--        usb_hub_port_clear(port, PORT_STAT_LOW_SPEED);
--    }
-+    usb_hub_port_update(port);
-     usb_wakeup(s->intr, 0);
- }
-=20
-@@ -287,12 +297,7 @@ static void usb_hub_handle_reset(USBDevice *dev)
-         port->wPortStatus =3D 0;
-         port->wPortChange =3D 0;
-         usb_hub_port_set(port, PORT_STAT_POWER);
--        if (port->port.dev && port->port.dev->attached) {
--            usb_hub_port_set(port, PORT_STAT_CONNECTION);
--            if (port->port.dev->speed =3D=3D USB_SPEED_LOW) {
--                usb_hub_port_set(port, PORT_STAT_LOW_SPEED);
--            }
--        }
-+        usb_hub_port_update(port);
+     USBHubState *s = port1->opaque;
+@@ -405,6 +422,11 @@ static void usb_hub_handle_control(USBDevice *dev, USBPacket *p,
+                 usb_wakeup(s->intr, 0);
+                 break;
+             case PORT_POWER:
++                if (s->port_power) {
++                    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++                    usb_hub_port_set(port, PORT_STAT_POWER);
++                    timer_mod(s->port_timer, now + 5000000); /* 5 ms */
++                }
+                 break;
+             default:
+                 goto fail;
+@@ -445,6 +467,14 @@ static void usb_hub_handle_control(USBDevice *dev, USBPacket *p,
+             case PORT_C_RESET:
+                 port->wPortChange &= ~PORT_STAT_C_RESET;
+                 break;
++            case PORT_POWER:
++                if (s->port_power) {
++                    usb_hub_port_clear(port, PORT_STAT_POWER);
++                    usb_hub_port_clear(port, PORT_STAT_CONNECTION);
++                    usb_hub_port_clear(port, PORT_STAT_ENABLE);
++                    usb_hub_port_clear(port, PORT_STAT_SUSPEND);
++                    port->wPortChange = 0;
++                }
+             default:
+                 goto fail;
+             }
+@@ -457,6 +487,11 @@ static void usb_hub_handle_control(USBDevice *dev, USBPacket *p,
+                    sizeof(qemu_hub_hub_descriptor));
+             data[2] = s->num_ports;
+ 
++            if (s->port_power) {
++                data[3] &= ~0x03;
++                data[3] |= 0x01;
++            }
++
+             /* fill DeviceRemovable bits */
+             limit = DIV_ROUND_UP(s->num_ports + 1, 8) + 7;
+             for (n = 7; n < limit; n++) {
+@@ -536,6 +571,9 @@ static void usb_hub_unrealize(USBDevice *dev, Error **errp)
+         usb_unregister_port(usb_bus_from_device(dev),
+                             &s->ports[i].port);
      }
++
++    timer_del(s->port_timer);
++    timer_free(s->port_timer);
  }
-=20
---=20
+ 
+ static USBPortOps usb_hub_port_ops = {
+@@ -565,6 +603,8 @@ static void usb_hub_realize(USBDevice *dev, Error **errp)
+ 
+     usb_desc_create_serial(dev);
+     usb_desc_init(dev);
++    s->port_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
++                                 usb_hub_port_update_timer, s);
+     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
+     for (i = 0; i < s->num_ports; i++) {
+         port = &s->ports[i];
+@@ -587,6 +627,24 @@ static const VMStateDescription vmstate_usb_hub_port = {
+     }
+ };
+ 
++static bool usb_hub_port_timer_needed(void *opaque)
++{
++    USBHubState *s = opaque;
++
++    return s->port_power;
++}
++
++static const VMStateDescription vmstate_usb_hub_port_timer = {
++    .name = "usb-hub/port-timer",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = usb_hub_port_timer_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_TIMER_PTR(port_timer, USBHubState),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
+ static const VMStateDescription vmstate_usb_hub = {
+     .name = "usb-hub",
+     .version_id = 1,
+@@ -596,11 +654,16 @@ static const VMStateDescription vmstate_usb_hub = {
+         VMSTATE_STRUCT_ARRAY(ports, USBHubState, MAX_PORTS, 0,
+                              vmstate_usb_hub_port, USBHubPort),
+         VMSTATE_END_OF_LIST()
++    },
++    .subsections = (const VMStateDescription * []) {
++        &vmstate_usb_hub_port_timer,
++        NULL
+     }
+ };
+ 
+ static Property usb_hub_properties[] = {
+     DEFINE_PROP_UINT32("ports", USBHubState, num_ports, 8),
++    DEFINE_PROP_BOOL("port-power", USBHubState, port_power, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+-- 
 2.18.1
 
 
