@@ -2,74 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D38B2E00B
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 16:45:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55623 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6740C2E0A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 17:10:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56001 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVzq0-0002Gh-Ju
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 10:45:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37497)
+	id 1hW0E8-0007t9-WB
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 11:10:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42943)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hVzot-0001xx-6x
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:44:48 -0400
+	(envelope-from <armbru@redhat.com>) id 1hW0CJ-00075d-D6
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:09:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hVzos-0002v5-9Q
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:44:47 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:45194)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
-	id 1hVzos-0002uR-1X
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:44:46 -0400
-Received: by mail-ot1-x342.google.com with SMTP id t24so2243403otl.12
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 07:44:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=QAqxNAEa3taE7m7nxWKzMS8hLjCvDdZtBZgUx0FYZsQ=;
-	b=L4AOXddUaHvJpBVgXZ5v2QFkajQhwEnpKJFMJ9Jf/taiIi0BNJ2NgRyTEdGI468IhP
-	MezSDzQJKEIKqE/3Hn6htbeYbd+DvNpv0wo7YIgJSzFO+fsSBqPyh1meozYlphDsLnHa
-	XySekUSFqMNg9rHgsCppKhCdKNMP2MJExfztfMPMrFLzJ875t5bFPSPKP4VE1DfEX7Q8
-	wxJmSezjxij1Q9RZErkzn9vl8QvYPf+UvapWQ63rjklB0a24ru0YZCJXY/7GO5eLDQE9
-	DQEIVOfG2fwUmbG0r+R4X6taUViSHDtEeFuAY3Lk0jJeFMVJOv9T/z6im84BcflMkMBD
-	jhDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=QAqxNAEa3taE7m7nxWKzMS8hLjCvDdZtBZgUx0FYZsQ=;
-	b=V6yiJu5VI0pzpuTKGJe+FY20wAWx+hSn9atYMVvaIwr1Utu6YhmUk/soza96QUj5zX
-	yIt7+v84gf7ndYJyyTy7l1QLwnaXmxe1CqzHNqYuup5Usj6ZcDhsvAzpSizvEij0WYa+
-	qie5B3JY+mX5BYfKIZ0E21tVvI2bct/uo0akgPkfHj/0mZpBM8r/Cocaikq9ndzUvx58
-	8lzGN57K/pRP6BIqE+Whe7lifV36ME2Z2Os94apKE+SvYgTzfLeXEpwYBC9pIIFQaDwY
-	xYnDc1wgIqg+vkmCWeOcyAEZdPOAz0Bof0kst20pDFqCntlmx7TEZUOtui2YbY4KN1w+
-	MV0w==
-X-Gm-Message-State: APjAAAVxcuP9vIAIS0tCp/Yz9980CEbgwz2H+UOPi6LvT9IMaVmsD6Eo
-	L85RYTFloRDNedyMYpYWUQMXB3Ea44Rq5pdczKU=
-X-Google-Smtp-Source: APXvYqwN6M9Eq7xYR9bUqtMiH9O3rPdrQsE5H0djq08ZzY1ucSe5/IzaxGGOwvt20mKrkxxxD0E2zBbSISB1BrHoVfI=
-X-Received: by 2002:a05:6830:1104:: with SMTP id
-	w4mr411969otq.165.1559141080100; 
-	Wed, 29 May 2019 07:44:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190519084815.7410-1-ppandit@redhat.com>
-	<CAJ+F1CLXdw4gE45vVEpStKrKsu-OYy1+5caC9wUduEtQRhjrpA@mail.gmail.com>
-	<nycvar.YSQ.7.76.1905231257400.23354@xnncv>
-	<CAJ+F1CLH1qN-jVVaMacMB41PWfZ5Xd9A8ycowaNxwgvQhPEvMQ@mail.gmail.com>
-	<nycvar.YSQ.7.76.1905291448250.16122@xnncv>
-	<CAJ+F1C+xhBeoVqoE4aPgLqquq7rNKbZTtNSHe73FFgMyDCUzyw@mail.gmail.com>
-	<nycvar.YSQ.7.76.1905291932220.23737@xnncv>
-In-Reply-To: <nycvar.YSQ.7.76.1905291932220.23737@xnncv>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 29 May 2019 16:44:28 +0200
-Message-ID: <CAJ+F1CLMfGdap0dTmLRNPsvPt9jBJCUcj3qxP9-N-wEPpsLr1A@mail.gmail.com>
-To: P J P <ppandit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v2] qga: check length of command-line &
- environment variables
+	(envelope-from <armbru@redhat.com>) id 1hW0CI-0001u0-LM
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:08:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41618)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hW0CI-0001tb-Fy
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:08:58 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5A28B3001789
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 15:08:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-250.ams2.redhat.com
+	[10.36.117.250])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2826864026
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 15:08:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 997871138648; Wed, 29 May 2019 17:08:53 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 29 May 2019 17:08:50 +0200
+Message-Id: <20190529150853.9772-1-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.44]);
+	Wed, 29 May 2019 15:08:57 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/3] MAINTAINERS: Clean up and improve section
+ headlines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,50 +55,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Ferm=C3=ADn_J=2E_Serna?= <fjserna@gmail.com>,
-	"Daniel P . Berrange" <berrange@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Markus Armbruster (3):
+  MAINTAINERS: Drop redundant L: qemu-devel@nongnu.org
+  MAINTAINERS: Improve section headlines
+  MAINTAINERS: Polish headline decorations
 
-On Wed, May 29, 2019 at 4:35 PM P J P <ppandit@redhat.com> wrote:
->
-> +-- On Wed, 29 May 2019, Marc-Andr=C3=A9 Lureau wrote --+
-> | assert() is good if it's a programming error: that is if it should neve=
-r
-> | happen at run-time. It's a decent way to document the code.
->
->   True; But terminating server because a user sent more input parameters =
-does
-> not sound good.
->
->   {"error": {"class": "GenericError", "desc": "Guest agent command failed=
-,
->    error was 'Failed to execute child process \u201C/bin/ls\u201D
->   (Argument list too long)'"}}
->
-> returning an error, as it does, is better IMO.
+ MAINTAINERS | 113 +++++++++++++++++++++++-----------------------------
+ 1 file changed, 50 insertions(+), 63 deletions(-)
 
-The error is handled before guest_exec_get_args(), isn't it?
+-- 
+2.17.2
 
->
-> | >
-> | > I think same limit will apply to commands coming via QAPIs as well?
-> |
-> | What do you mean? If the generated API is used internally by QEMU?
-> | (it's not, but in this case there would be no limit)
->
-> IIUC, the QAPIs could be used by external libraries/clients to send
-> messages/commands to qemu/qemu-ga?
-
-The qga commands are only called through QMP, afaik.
-
-thanks
-
-
---=20
-Marc-Andr=C3=A9 Lureau
 
