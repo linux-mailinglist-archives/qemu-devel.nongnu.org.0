@@ -2,48 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFCE52D69A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:41:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49195 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D632D722
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:57:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49470 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVtDi-0000lx-PT
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:41:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57691)
+	id 1hVtT9-0002nl-Je
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:57:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58932)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hVt0F-0006pV-Hd
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:28:10 -0400
+	(envelope-from <mprivozn@redhat.com>) id 1hVt5H-00030Y-RJ
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:33:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hVt0B-000892-Uo
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:28:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40358)
+	(envelope-from <mprivozn@redhat.com>) id 1hVt5G-0001zf-QQ
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:33:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60828)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hVt0A-00088J-Rx; Wed, 29 May 2019 03:27:59 -0400
+	(Exim 4.71) (envelope-from <mprivozn@redhat.com>)
+	id 1hVt5C-0001xB-Eb; Wed, 29 May 2019 03:33:10 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DB73C3E2BB;
-	Wed, 29 May 2019 07:27:57 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-116-110.ams2.redhat.com [10.36.116.110])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 65CB15D784;
-	Wed, 29 May 2019 07:27:47 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 29 May 2019 09:27:26 +0200
-Message-Id: <20190529072726.7875-3-david@redhat.com>
-In-Reply-To: <20190529072726.7875-1-david@redhat.com>
-References: <20190529072726.7875-1-david@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 5FD693092656;
+	Wed, 29 May 2019 07:33:07 +0000 (UTC)
+Received: from [10.43.2.30] (unknown [10.43.2.30])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 62E095D756;
+	Wed, 29 May 2019 07:33:06 +0000 (UTC)
+To: Paolo Bonzini <pbonzini@redhat.com>, Jie Wang <wangjie88@huawei.com>,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <1559048796-57016-1-git-send-email-wangjie88@huawei.com>
+	<cac8ed16-7846-ca22-2463-c3c738066d61@redhat.com>
+From: Michal Privoznik <mprivozn@redhat.com>
+Message-ID: <f165741a-2ffd-62fd-b121-49bf1a3597f1@redhat.com>
+Date: Wed, 29 May 2019 09:33:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <cac8ed16-7846-ca22-2463-c3c738066d61@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Wed, 29 May 2019 07:27:57 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.43]);
+	Wed, 29 May 2019 07:33:07 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v1 2/2] s390x: Use uint64_t for vector registers
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] pr-manager-helper: fix pr
+ process been killed when reconectting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,470 +62,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
-	David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: eric.fangyi@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CPU_DoubleU is primarily used to reinterpret between integer and floats.
-We don't really need this functionality. So let's just keep it simple
-and use an uint64_t.
+On 5/28/19 7:45 PM, Paolo Bonzini wrote:
+> On 28/05/19 15:06, Jie Wang wrote:
+>> if pr-helper been killed and qemu send disconnect event to libvirt
+>> and libvirt started a new pr-helper process, the new pr-heleper
+>> been killed again when qemu is connectting to the new pr-helper,
+>> qemu will never send disconnect to libvirt, and libvirt will never
+>> receive connected event.
+> 
+> I think this would let a guest "spam" events just by sending a lot PR
+> commands.  Also, as you said, in this case QEMU has never sent a
+> "connected" event, so I'm not sure why it should send a disconnection event.
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- linux-user/s390x/signal.c  |   4 +-
- target/s390x/arch_dump.c   |   8 +--
- target/s390x/cpu.h         |   4 +-
- target/s390x/excp_helper.c |   6 +-
- target/s390x/gdbstub.c     |  16 ++---
- target/s390x/helper.c      |  10 +--
- target/s390x/kvm.c         |  16 ++---
- target/s390x/machine.c     | 128 ++++++++++++++++++-------------------
- target/s390x/translate.c   |   2 +-
- 9 files changed, 97 insertions(+), 97 deletions(-)
+So pr manager is initialized on the first PR command and not when qemu 
+is starting?
 
-diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index 3d3cb67bbe..ecfa2a14a9 100644
---- a/linux-user/s390x/signal.c
-+++ b/linux-user/s390x/signal.c
-@@ -123,7 +123,7 @@ static void save_sigregs(CPUS390XState *env, target_s=
-igregs *sregs)
-      */
-     //save_fp_regs(&current->thread.fp_regs); FIXME
-     for (i =3D 0; i < 16; i++) {
--        __put_user(get_freg(env, i)->ll, &sregs->fpregs.fprs[i]);
-+        __put_user(*get_freg(env, i), &sregs->fpregs.fprs[i]);
-     }
- }
-=20
-@@ -254,7 +254,7 @@ restore_sigregs(CPUS390XState *env, target_sigregs *s=
-c)
-         __get_user(env->aregs[i], &sc->regs.acrs[i]);
-     }
-     for (i =3D 0; i < 16; i++) {
--        __get_user(get_freg(env, i)->ll, &sc->fpregs.fprs[i]);
-+        __get_user(*get_freg(env, i), &sc->fpregs.fprs[i]);
-     }
-=20
-     return err;
-diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
-index c9ef0a6e60..50fa0ae4b6 100644
---- a/target/s390x/arch_dump.c
-+++ b/target/s390x/arch_dump.c
-@@ -104,7 +104,7 @@ static void s390x_write_elf64_fpregset(Note *note, S3=
-90CPU *cpu, int id)
-     note->hdr.n_type =3D cpu_to_be32(NT_FPREGSET);
-     note->contents.fpregset.fpc =3D cpu_to_be32(cpu->env.fpc);
-     for (i =3D 0; i <=3D 15; i++) {
--        note->contents.fpregset.fprs[i] =3D cpu_to_be64(get_freg(cs, i)-=
->ll);
-+        note->contents.fpregset.fprs[i] =3D cpu_to_be64(*get_freg(cs, i)=
-);
-     }
- }
-=20
-@@ -114,7 +114,7 @@ static void s390x_write_elf64_vregslo(Note *note, S39=
-0CPU *cpu,  int id)
-=20
-     note->hdr.n_type =3D cpu_to_be32(NT_S390_VXRS_LOW);
-     for (i =3D 0; i <=3D 15; i++) {
--        note->contents.vregslo.vregs[i] =3D cpu_to_be64(cpu->env.vregs[i=
-][1].ll);
-+        note->contents.vregslo.vregs[i] =3D cpu_to_be64(cpu->env.vregs[i=
-][1]);
-     }
- }
-=20
-@@ -127,8 +127,8 @@ static void s390x_write_elf64_vregshi(Note *note, S39=
-0CPU *cpu, int id)
-=20
-     note->hdr.n_type =3D cpu_to_be32(NT_S390_VXRS_HIGH);
-     for (i =3D 0; i <=3D 15; i++) {
--        temp_vregshi->vregs[i][0] =3D cpu_to_be64(cpu->env.vregs[i + 16]=
-[0].ll);
--        temp_vregshi->vregs[i][1] =3D cpu_to_be64(cpu->env.vregs[i + 16]=
-[1].ll);
-+        temp_vregshi->vregs[i][0] =3D cpu_to_be64(cpu->env.vregs[i + 16]=
-[0]);
-+        temp_vregshi->vregs[i][1] =3D cpu_to_be64(cpu->env.vregs[i + 16]=
-[1]);
-     }
- }
-=20
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 1bed12b6c3..317a1377e6 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -66,7 +66,7 @@ struct CPUS390XState {
-      * The floating point registers are part of the vector registers.
-      * vregs[0][0] -> vregs[15][0] are 16 floating point registers
-      */
--    CPU_DoubleU vregs[32][2] QEMU_ALIGNED(16);  /* vector registers */
-+    uint64_t vregs[32][2] QEMU_ALIGNED(16);  /* vector registers */
-     uint32_t aregs[16];    /* access registers */
-     uint8_t riccb[64];     /* runtime instrumentation control */
-     uint64_t gscb[4];      /* guarded storage control */
-@@ -153,7 +153,7 @@ struct CPUS390XState {
-=20
- };
-=20
--static inline CPU_DoubleU *get_freg(CPUS390XState *cs, int nr)
-+static inline uint64_t *get_freg(CPUS390XState *cs, int nr)
- {
-     return &cs->vregs[nr][0];
- }
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index 3a467b72c5..85223d00c0 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -390,8 +390,8 @@ static int mchk_store_vregs(CPUS390XState *env, uint6=
-4_t mcesao)
-     }
-=20
-     for (i =3D 0; i < 32; i++) {
--        sa->vregs[i][0] =3D cpu_to_be64(env->vregs[i][0].ll);
--        sa->vregs[i][1] =3D cpu_to_be64(env->vregs[i][1].ll);
-+        sa->vregs[i][0] =3D cpu_to_be64(env->vregs[i][0]);
-+        sa->vregs[i][1] =3D cpu_to_be64(env->vregs[i][1]);
-     }
-=20
-     cpu_physical_memory_unmap(sa, len, 1, len);
-@@ -429,7 +429,7 @@ static void do_mchk_interrupt(CPUS390XState *env)
-     lowcore->ar_access_id =3D 1;
-=20
-     for (i =3D 0; i < 16; i++) {
--        lowcore->floating_pt_save_area[i] =3D cpu_to_be64(get_freg(env, =
-i)->ll);
-+        lowcore->floating_pt_save_area[i] =3D cpu_to_be64(*get_freg(env,=
- i));
-         lowcore->gpregs_save_area[i] =3D cpu_to_be64(env->regs[i]);
-         lowcore->access_regs_save_area[i] =3D cpu_to_be32(env->aregs[i])=
-;
-         lowcore->cregs_save_area[i] =3D cpu_to_be64(env->cregs[i]);
-diff --git a/target/s390x/gdbstub.c b/target/s390x/gdbstub.c
-index df147596ce..9cfd8fe3e0 100644
---- a/target/s390x/gdbstub.c
-+++ b/target/s390x/gdbstub.c
-@@ -116,7 +116,7 @@ static int cpu_read_fp_reg(CPUS390XState *env, uint8_=
-t *mem_buf, int n)
-     case S390_FPC_REGNUM:
-         return gdb_get_reg32(mem_buf, env->fpc);
-     case S390_F0_REGNUM ... S390_F15_REGNUM:
--        return gdb_get_reg64(mem_buf, get_freg(env, n - S390_F0_REGNUM)-=
->ll);
-+        return gdb_get_reg64(mem_buf, *get_freg(env, n - S390_F0_REGNUM)=
-);
-     default:
-         return 0;
-     }
-@@ -129,7 +129,7 @@ static int cpu_write_fp_reg(CPUS390XState *env, uint8=
-_t *mem_buf, int n)
-         env->fpc =3D ldl_p(mem_buf);
-         return 4;
-     case S390_F0_REGNUM ... S390_F15_REGNUM:
--        get_freg(env, n - S390_F0_REGNUM)->ll =3D ldtul_p(mem_buf);
-+        *get_freg(env, n - S390_F0_REGNUM) =3D ldtul_p(mem_buf);
-         return 8;
-     default:
-         return 0;
-@@ -150,11 +150,11 @@ static int cpu_read_vreg(CPUS390XState *env, uint8_=
-t *mem_buf, int n)
-=20
-     switch (n) {
-     case S390_V0L_REGNUM ... S390_V15L_REGNUM:
--        ret =3D gdb_get_reg64(mem_buf, env->vregs[n][1].ll);
-+        ret =3D gdb_get_reg64(mem_buf, env->vregs[n][1]);
-         break;
-     case S390_V16_REGNUM ... S390_V31_REGNUM:
--        ret =3D gdb_get_reg64(mem_buf, env->vregs[n][0].ll);
--        ret +=3D gdb_get_reg64(mem_buf + 8, env->vregs[n][1].ll);
-+        ret =3D gdb_get_reg64(mem_buf, env->vregs[n][0]);
-+        ret +=3D gdb_get_reg64(mem_buf + 8, env->vregs[n][1]);
-         break;
-     default:
-         ret =3D 0;
-@@ -167,11 +167,11 @@ static int cpu_write_vreg(CPUS390XState *env, uint8=
-_t *mem_buf, int n)
- {
-     switch (n) {
-     case S390_V0L_REGNUM ... S390_V15L_REGNUM:
--        env->vregs[n][1].ll =3D ldtul_p(mem_buf + 8);
-+        env->vregs[n][1] =3D ldtul_p(mem_buf + 8);
-         return 8;
-     case S390_V16_REGNUM ... S390_V31_REGNUM:
--        env->vregs[n][0].ll =3D ldtul_p(mem_buf);
--        env->vregs[n][1].ll =3D ldtul_p(mem_buf + 8);
-+        env->vregs[n][0] =3D ldtul_p(mem_buf);
-+        env->vregs[n][1] =3D ldtul_p(mem_buf + 8);
-         return 16;
-     default:
-         return 0;
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index 3c8f0a7615..a69e5abf5f 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -249,7 +249,7 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, bool=
- store_arch)
-         cpu_physical_memory_write(offsetof(LowCore, ar_access_id), &ar_i=
-d, 1);
-     }
-     for (i =3D 0; i < 16; ++i) {
--        sa->fprs[i] =3D cpu_to_be64(get_freg(&cpu->env, i)->ll);
-+        sa->fprs[i] =3D cpu_to_be64(*get_freg(&cpu->env, i));
-     }
-     for (i =3D 0; i < 16; ++i) {
-         sa->grs[i] =3D cpu_to_be64(cpu->env.regs[i]);
-@@ -299,8 +299,8 @@ int s390_store_adtl_status(S390CPU *cpu, hwaddr addr,=
- hwaddr len)
-=20
-     if (s390_has_feat(S390_FEAT_VECTOR)) {
-         for (i =3D 0; i < 32; i++) {
--            sa->vregs[i][0] =3D cpu_to_be64(cpu->env.vregs[i][0].ll);
--            sa->vregs[i][1] =3D cpu_to_be64(cpu->env.vregs[i][1].ll);
-+            sa->vregs[i][0] =3D cpu_to_be64(cpu->env.vregs[i][0]);
-+            sa->vregs[i][1] =3D cpu_to_be64(cpu->env.vregs[i][1]);
-         }
-     }
-     if (s390_has_feat(S390_FEAT_GUARDED_STORAGE) && len >=3D ADTL_GS_MIN=
-_SIZE) {
-@@ -341,13 +341,13 @@ void s390_cpu_dump_state(CPUState *cs, FILE *f, int=
- flags)
-         if (s390_has_feat(S390_FEAT_VECTOR)) {
-             for (i =3D 0; i < 32; i++) {
-                 qemu_fprintf(f, "V%02d=3D%016" PRIx64 "%016" PRIx64 "%c"=
-,
--                             i, env->vregs[i][0].ll, env->vregs[i][1].ll=
-,
-+                             i, env->vregs[i][0], env->vregs[i][1],
-                              i % 2 ? '\n' : ' ');
-             }
-         } else {
-             for (i =3D 0; i < 16; i++) {
-                 qemu_fprintf(f, "F%02d=3D%016" PRIx64 "%c",
--                             i, get_freg(env, i)->ll,
-+                             i, *get_freg(env, i),
-                              (i % 4) =3D=3D 3 ? '\n' : ' ');
-             }
-         }
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index e5e2b691f2..f0649980c9 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -418,21 +418,21 @@ int kvm_arch_put_registers(CPUState *cs, int level)
-=20
-     if (can_sync_regs(cs, KVM_SYNC_VRS)) {
-         for (i =3D 0; i < 32; i++) {
--            cs->kvm_run->s.regs.vrs[i][0] =3D env->vregs[i][0].ll;
--            cs->kvm_run->s.regs.vrs[i][1] =3D env->vregs[i][1].ll;
-+            cs->kvm_run->s.regs.vrs[i][0] =3D env->vregs[i][0];
-+            cs->kvm_run->s.regs.vrs[i][1] =3D env->vregs[i][1];
-         }
-         cs->kvm_run->s.regs.fpc =3D env->fpc;
-         cs->kvm_run->kvm_dirty_regs |=3D KVM_SYNC_VRS;
-     } else if (can_sync_regs(cs, KVM_SYNC_FPRS)) {
-         for (i =3D 0; i < 16; i++) {
--            cs->kvm_run->s.regs.fprs[i] =3D get_freg(env, i)->ll;
-+            cs->kvm_run->s.regs.fprs[i] =3D *get_freg(env, i);
-         }
-         cs->kvm_run->s.regs.fpc =3D env->fpc;
-         cs->kvm_run->kvm_dirty_regs |=3D KVM_SYNC_FPRS;
-     } else {
-         /* Floating point */
-         for (i =3D 0; i < 16; i++) {
--            fpu.fprs[i] =3D get_freg(env, i)->ll;
-+            fpu.fprs[i] =3D *get_freg(env, i);
-         }
-         fpu.fpc =3D env->fpc;
-=20
-@@ -586,13 +586,13 @@ int kvm_arch_get_registers(CPUState *cs)
-     /* Floating point and vector registers */
-     if (can_sync_regs(cs, KVM_SYNC_VRS)) {
-         for (i =3D 0; i < 32; i++) {
--            env->vregs[i][0].ll =3D cs->kvm_run->s.regs.vrs[i][0];
--            env->vregs[i][1].ll =3D cs->kvm_run->s.regs.vrs[i][1];
-+            env->vregs[i][0] =3D cs->kvm_run->s.regs.vrs[i][0];
-+            env->vregs[i][1] =3D cs->kvm_run->s.regs.vrs[i][1];
-         }
-         env->fpc =3D cs->kvm_run->s.regs.fpc;
-     } else if (can_sync_regs(cs, KVM_SYNC_FPRS)) {
-         for (i =3D 0; i < 16; i++) {
--            get_freg(env, i)->ll =3D cs->kvm_run->s.regs.fprs[i];
-+            get_freg(env, i) =3D cs->kvm_run->s.regs.fprs[i];
-         }
-         env->fpc =3D cs->kvm_run->s.regs.fpc;
-     } else {
-@@ -601,7 +601,7 @@ int kvm_arch_get_registers(CPUState *cs)
-             return r;
-         }
-         for (i =3D 0; i < 16; i++) {
--            get_freg(env, i)->ll =3D fpu.fprs[i];
-+            get_freg(env, i) =3D fpu.fprs[i];
-         }
-         env->fpc =3D fpu.fpc;
-     }
-diff --git a/target/s390x/machine.c b/target/s390x/machine.c
-index cb792aa103..e6851a57bc 100644
---- a/target/s390x/machine.c
-+++ b/target/s390x/machine.c
-@@ -66,22 +66,22 @@ static const VMStateDescription vmstate_fpu =3D {
-     .minimum_version_id =3D 1,
-     .needed =3D fpu_needed,
-     .fields =3D (VMStateField[]) {
--        VMSTATE_UINT64(env.vregs[0][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[1][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[2][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[3][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[4][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[5][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[6][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[7][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[8][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[9][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[10][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[11][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[12][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[13][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[14][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[15][0].ll, S390CPU),
-+        VMSTATE_UINT64(env.vregs[0][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[1][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[2][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[3][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[4][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[5][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[6][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[7][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[8][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[9][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[10][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[11][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[12][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[13][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[14][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[15][0], S390CPU),
-         VMSTATE_UINT32(env.fpc, S390CPU),
-         VMSTATE_END_OF_LIST()
-     }
-@@ -99,54 +99,54 @@ static const VMStateDescription vmstate_vregs =3D {
-     .needed =3D vregs_needed,
-     .fields =3D (VMStateField[]) {
-         /* vregs[0][0] -> vregs[15][0] and fregs are overlays */
--        VMSTATE_UINT64(env.vregs[16][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[17][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[18][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[19][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[20][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[21][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[22][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[23][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[24][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[25][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[26][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[27][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[28][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[29][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[30][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[31][0].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[0][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[1][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[2][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[3][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[4][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[5][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[6][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[7][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[8][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[9][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[10][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[11][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[12][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[13][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[14][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[15][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[16][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[17][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[18][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[19][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[20][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[21][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[22][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[23][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[24][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[25][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[26][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[27][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[28][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[29][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[30][1].ll, S390CPU),
--        VMSTATE_UINT64(env.vregs[31][1].ll, S390CPU),
-+        VMSTATE_UINT64(env.vregs[16][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[17][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[18][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[19][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[20][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[21][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[22][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[23][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[24][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[25][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[26][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[27][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[28][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[29][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[30][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[31][0], S390CPU),
-+        VMSTATE_UINT64(env.vregs[0][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[1][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[2][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[3][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[4][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[5][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[6][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[7][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[8][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[9][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[10][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[11][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[12][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[13][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[14][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[15][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[16][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[17][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[18][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[19][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[20][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[21][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[22][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[23][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[24][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[25][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[26][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[27][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[28][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[29][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[30][1], S390CPU),
-+        VMSTATE_UINT64(env.vregs[31][1], S390CPU),
-         VMSTATE_END_OF_LIST()
-     }
- };
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index fa57b7550e..ac0d8b6410 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -149,7 +149,7 @@ void s390x_translate_init(void)
- static inline int vec_full_reg_offset(uint8_t reg)
- {
-     g_assert(reg < 32);
--    return offsetof(CPUS390XState, vregs[reg][0].d);
-+    return offsetof(CPUS390XState, vregs[reg][0]);
- }
-=20
- static inline int vec_reg_offset(uint8_t reg, uint8_t enr, TCGMemOp es)
---=20
-2.20.1
+If a user inside the guest could somehow kill pr-helper process in the 
+host then yes, they could spam libvirt/qemu. But if a user from inside a 
+guest can kill a process in the host that is much bigger problem than 
+spaming libvirt.
 
+> 
+> Does libvirt monitor at all the pr-helper to check if it dies?  Or does
+> it rely exclusively on QEMU's events?
+
+Libvirt relies solely on QEMU's events. Just like with qemu process 
+itself, libvirt can't rely on SIGCHILD because the daemon might be 
+restarted which would reparent all qemu and pr-helper processes 
+rendering libvirt wait for SIGCHILD useless.
+
+But there is an exception to this: when libvirt is spawning pr-helper it 
+does so by following these steps:
+
+1) Try to acquire (lock) pidfile
+2) unlink(socket)
+3) spawn pr-helper process (this yields child's PID)
+4) wait some time until socket is created
+5) some follow up work (move child's PID into same cgroup as qemu's main 
+thread, relabel the socket so that qemu can access it)
+
+If any of these steps fails then child is killed. However, the PID is 
+not recorded anywhere and thus is forgotten once control jumps out of 
+the function.
+
+Michal
 
