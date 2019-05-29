@@ -2,68 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E332E1C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 17:58:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57026 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F52C2FB19
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 13:44:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52527 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hW0xn-0003iB-NS
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 11:58:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56719)
+	id 1hWJTp-0001x1-9h
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 07:44:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47671)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hW0st-0000iJ-Em
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:53:00 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hWJSS-0001KJ-JR
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:43:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hW0ss-0000Xx-5q
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:52:59 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50858)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hW0sr-0000XN-W6
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 11:52:58 -0400
-Received: by mail-wm1-f66.google.com with SMTP id f204so2041264wme.0
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 08:52:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=fEI8N6lsKt6fZ6Iwbx+zoKLKaH50H4fdnNWHKRq8cGw=;
-	b=ZUOCZEU+YuhESBS5D1CoOrf6xzBYXnfriwRNUwVn3sFCRYnAhomWpbwWNQ4XmMimjf
-	kuaZ9WNFdmtxSv23aWYOPngSgRiYb2VAkkg5tihF0dPlxqP75Ntxc+xdEjYs2F50TLgB
-	0AHbUqtuHfeOWdQcNjYOTkGYI181ZSKmiC9xOZ/jjOIaQUiDvR/o1sYQNJ2ib6//mi7P
-	ExjS9MPhY2wNc6I+uDmZ6j1LM4g5b/ivxrYVmRlQOJj5BIfmoX7lGNA0yTgRV3aknAGk
-	FLhDz4al8Px9pg4WDjAORMxd7zQzyhXi2yDUtwE0nNyA9j5KOsevnSNe6xejNgqv7cVX
-	S/Bg==
-X-Gm-Message-State: APjAAAXVpTmbcoais43hzz+AXmEt2VHi7XSB4WRG0cWOK4L5E39FMlck
-	mGcLwNFIgSbehqqohVAobv8VmP2oMVc=
-X-Google-Smtp-Source: APXvYqzIeH8yFRBnPL+MYrsTHDvpGazPyMPrb/CbDDMLhu1zBwA64+W8g9NP3isGE6H3yCzfzt9kTQ==
-X-Received: by 2002:a1c:7c07:: with SMTP id x7mr6767622wmc.60.1559145176456;
-	Wed, 29 May 2019 08:52:56 -0700 (PDT)
-Received: from [10.201.33.53] ([195.166.127.210])
-	by smtp.gmail.com with ESMTPSA id
-	w3sm15520005wrv.25.2019.05.29.08.52.55
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 May 2019 08:52:55 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190529150853.9772-1-armbru@redhat.com>
-	<20190529150853.9772-2-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <fe9bdf35-70bf-0adc-b096-21a891dfdbd4@redhat.com>
-Date: Wed, 29 May 2019 17:52:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <no-reply@patchew.org>) id 1hWJSR-00084K-Fu
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:42:56 -0400
+Resent-Date: Thu, 30 May 2019 07:42:56 -0400
+Resent-Message-Id: <E1hWJSR-00084K-Fu@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21583)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hWJSQ-0007vy-Ub
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:42:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1559145265; cv=none; d=zoho.com; s=zohoarc; 
+	b=mw1Fg5qJL4GtNZDOM1aof9uQV17kqPo/k6TsTBpF0dbRr1+1UCaEao5Mj1LfDk97xG5oCRik2n6Nfuv3kXDlFSDVmTNSDkUkOmnt1+JLk/nr8/eUG0s/jQyksHYEldRiA1YgockJ4JyHaHpzMj1rKO6oNJ/Xu1qcFQD31jqjj4M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1559145265;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=9FF8ZNp3NFDBZa2B78cEEDOImLJPbBlLCB49duf5syw=; 
+	b=X7qGO1uRrpuL/vwdQW4+r33PGU6qOPh+zGuSXwe1t/DWLpIhCt/54L+wMoYE+tFtOgW21+/yR1Utrn0Z+vwpVg3focGAf+Nh7WhRtPJ03ue390I07ez6ksufwpiFsu5O4351yrwxyyoRbJ8F/WHp/pQvGrqfCvINFsj5S9aK4os=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1559145262363258.29003660298486;
+	Wed, 29 May 2019 08:54:22 -0700 (PDT)
+In-Reply-To: <20190529140217.12841-1-dplotnikov@virtuozzo.com>
+Message-ID: <155914526121.9187.15571129947169869405@ce79690b2cb9>
 MIME-Version: 1.0
-In-Reply-To: <20190529150853.9772-2-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: dplotnikov@virtuozzo.com
+Date: Wed, 29 May 2019 08:54:22 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH 1/3] MAINTAINERS: Drop redundant L:
- qemu-devel@nongnu.org
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v3] qemu-io: add pattern file for write
+ command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,112 +62,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, den@virtuozzo.com, qemu-block@nongnu.org,
+	qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/29/19 5:08 PM, Markus Armbruster wrote:
-> Redundant since commit c9a19d5b95 "MAINTAINERS: add all-match entry
-> for qemu-devel@".
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyOTE0MDIxNy4xMjg0
+MS0xLWRwbG90bmlrb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2M10gcWVtdS1p
+bzogYWRkIHBhdHRlcm4gZmlsZSBmb3Igd3JpdGUgY29tbWFuZApUeXBlOiBzZXJpZXMKTWVzc2Fn
+ZS1pZDogMjAxOTA1MjkxNDAyMTcuMTI4NDEtMS1kcGxvdG5pa292QHZpcnR1b3p6by5jb20KCj09
+PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4g
+L2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAw
+CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwg
+ZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJh
+Y2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNv
+bS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAgICBwYXRjaGV3
+LzIwMTkwNTI5MTQwMjE3LjEyODQxLTEtZHBsb3RuaWtvdkB2aXJ0dW96em8uY29tIC0+IHBhdGNo
+ZXcvMjAxOTA1MjkxNDAyMTcuMTI4NDEtMS1kcGxvdG5pa292QHZpcnR1b3p6by5jb20KU3dpdGNo
+ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo2NTc5ZmY3MWRiIHFlbXUtaW86IGFkZCBwYXR0ZXJu
+IGZpbGUgZm9yIHdyaXRlIGNvbW1hbmQKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBzdXNw
+ZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg4LCAxMSkKIzUwOiBG
+SUxFOiBxZW11LWlvLWNtZHMuYzozNzA6CisgICAgICAgIGlmIChmZW9mKGYpKSB7CisgICAgICAg
+ICAgIHJld2luZChmKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMzI6IEZJ
+TEU6IHFlbXUtaW8tY21kcy5jOjExMTY6CisgICAgICAgIHByaW50ZigiT25seSBvbmUgb2YgLXos
+IC1QLCBhbmQgLXMgY2FuIGJlIHNwZWNpZmllZCBhdCB0aGUgc2FtZSB0aW1lXG4iKTsKCkVSUk9S
+OiBNaXNzaW5nIFNpZ25lZC1vZmYtYnk6IGxpbmUocykKCnRvdGFsOiAyIGVycm9ycywgMSB3YXJu
+aW5ncywgMTI5IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA2NTc5ZmY3MWRiYWEgKHFlbXUtaW86IGFk
+ZCBwYXR0ZXJuIGZpbGUgZm9yIHdyaXRlIGNvbW1hbmQpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEK
+CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
+MTkwNTI5MTQwMjE3LjEyODQxLTEtZHBsb3RuaWtvdkB2aXJ0dW96em8uY29tL3Rlc3RpbmcuY2hl
+Y2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
+YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
+YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
-https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg05019.html
-
-:(
-
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> ---
->  MAINTAINERS | 11 -----------
->  1 file changed, 11 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1f5f8b7a2c..edc260e503 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -109,7 +109,6 @@ L: qemu-s390x@nongnu.org
->  Guest CPU cores (TCG):
->  ----------------------
->  Overall
-> -L: qemu-devel@nongnu.org
->  M: Richard Henderson <rth@twiddle.net>
->  R: Paolo Bonzini <pbonzini@redhat.com>
->  S: Maintained
-> @@ -444,19 +443,16 @@ F: util/*posix*.c
->  F: include/qemu/*posix*.h
->  
->  NETBSD
-> -L: qemu-devel@nongnu.org
->  M: Kamil Rytarowski <kamil@netbsd.org>
->  S: Maintained
->  K: ^Subject:.*(?i)NetBSD
->  
->  OPENBSD
-> -L: qemu-devel@nongnu.org
->  M: Brad Smith <brad@comstyle.com>
->  S: Maintained
->  K: ^Subject:.*(?i)OpenBSD
->  
->  W32, W64
-> -L: qemu-devel@nongnu.org
->  M: Stefan Weil <sw@weilnetz.de>
->  S: Maintained
->  F: *win32*
-> @@ -565,7 +561,6 @@ F: include/hw/*/digic*
->  Gumstix
->  M: Peter Maydell <peter.maydell@linaro.org>
->  R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> -L: qemu-devel@nongnu.org
->  L: qemu-arm@nongnu.org
->  S: Odd Fixes
->  F: hw/arm/gumstix.c
-> @@ -1044,7 +1039,6 @@ F: pc-bios/qemu_vga.ndrv
->  
->  PReP
->  M: Hervé Poussineau <hpoussin@reactos.org>
-> -L: qemu-devel@nongnu.org
->  L: qemu-ppc@nongnu.org
->  S: Maintained
->  F: hw/ppc/prep.c
-> @@ -1831,7 +1825,6 @@ S: Supported
->  F: scripts/coverity-model.c
->  
->  CPU
-> -L: qemu-devel@nongnu.org
->  S: Supported
->  F: qom/cpu.c
->  F: include/qom/cpu.h
-> @@ -2566,7 +2559,6 @@ F: qapi/rdma.json
->  
->  Semihosting
->  M: Alex Bennée <alex.bennee@linaro.org>
-> -L: qemu-devel@nongnu.org
->  S: Maintained
->  F: hw/semihosting/
->  F: include/hw/semihosting/
-> @@ -2577,7 +2569,6 @@ Build and test automation
->  M: Alex Bennée <alex.bennee@linaro.org>
->  M: Fam Zheng <fam@euphon.net>
->  R: Philippe Mathieu-Daudé <philmd@redhat.com>
-> -L: qemu-devel@nongnu.org
->  S: Maintained
->  F: .travis.yml
->  F: scripts/travis/
-> @@ -2592,7 +2583,6 @@ W: http://patchew.org/QEMU/
->  FreeBSD Hosted Continuous Integration
->  M: Ed Maste <emaste@freebsd.org>
->  M: Li-Wen Hsu <lwhsu@freebsd.org>
-> -L: qemu-devel@nongnu.org
->  S: Maintained
->  F: .cirrus.yml
->  W: https://cirrus-ci.com/github/qemu/qemu
-> @@ -2608,7 +2598,6 @@ R: Philippe Mathieu-Daudé <f4bug@amsat.org>
->  S: Maintained
->  F: tests/tcg/Makefile
->  F: tests/tcg/Makefile.include
-> -L: qemu-devel@nongnu.org
->  
->  Documentation
->  -------------
-> 
 
