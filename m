@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F072DC44
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 13:56:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52419 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA4F2DC47
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 13:58:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52435 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVxBe-0002jQ-Is
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 07:56:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51520)
+	id 1hVxDU-0004F3-Sh
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 07:58:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51784)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVx9e-0001jr-BL
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:54:03 -0400
+	(envelope-from <groug@kaod.org>) id 1hVxAP-0002IT-6s
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:54:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hVx9d-0004sg-7t
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:54:02 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51830)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hVx9d-0004sJ-2l
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:54:01 -0400
-Received: by mail-wm1-f68.google.com with SMTP id f10so1482031wmb.1
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 04:54:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=3Zx0KpH4xIgjdbwZ2C1DZ6N+jS5tVwtrAgTbOBlbFM4=;
-	b=OF6TYultMHtJSP9nDEl8xE330ua/xlWpb7x/LCBZsgowSnjITl+EMQf7kamPWKsVsW
-	oJSm7z7mxZ1BY184F2Q8YjbfY2/o7/AM7qCj/PFpoltVchaDy4+3dCJ8Sxb+wZ74EmjF
-	Dnhd/9ShRZNNL5gxul4E+n8bo5DLmMWs4apLM2jGyfHw8y548HLdyeGdCSjf1sYf09pN
-	OMTJO23/MwXJwiqMIuavN0g1SzhhErb+zAiIQW/AEwr7UoaUW7rfRrlAjDCYng8RrjzX
-	dh7GdN8xe36Vc06B/fDqQPzOls9KRqal3oZOBv6MTNfsdZfwmnmF3S6UiG+KdCrVZ6ay
-	FKBw==
-X-Gm-Message-State: APjAAAVIpkqPqwGaIl/93t8c3xzCXaS8DVYH/QIWuA7PWeN3+2Wvvws/
-	dNviwpYIvZwhd/OcTJTvwJUDUA==
-X-Google-Smtp-Source: APXvYqzBOVA/xItaeyrBIF3EnM5Is8CBVX12mj1Lyw5g++cWCD6Pd3K+gLWVUNR8aTyuFUW76OK2aQ==
-X-Received: by 2002:a05:600c:218d:: with SMTP id
-	e13mr6674132wme.101.1559130839912; 
-	Wed, 29 May 2019 04:53:59 -0700 (PDT)
-Received: from [10.32.224.40] (red-hat-inc.vlan560.asr1.mad1.gblx.net.
-	[159.63.51.90]) by smtp.gmail.com with ESMTPSA id
-	b10sm33697604wrh.59.2019.05.29.04.53.58
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 May 2019 04:53:59 -0700 (PDT)
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20190520124716.30472-1-kraxel@redhat.com>
-	<20190520124716.30472-2-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <1b1d3794-874c-91e6-1040-f6dd2a1c1343@redhat.com>
-Date: Wed, 29 May 2019 13:53:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <groug@kaod.org>) id 1hVxAN-0005iW-Q7
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:54:49 -0400
+Received: from 5.mo5.mail-out.ovh.net ([87.98.173.103]:47992)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hVxAN-0005hM-Hb
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 07:54:47 -0400
+Received: from player791.ha.ovh.net (unknown [10.108.54.74])
+	by mo5.mail-out.ovh.net (Postfix) with ESMTP id 3CCB323A0DC
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 13:54:45 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player791.ha.ovh.net (Postfix) with ESMTPSA id A402962FE36A;
+	Wed, 29 May 2019 11:54:36 +0000 (UTC)
+Date: Wed, 29 May 2019 13:54:34 +0200
+From: Greg Kurz <groug@kaod.org>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190529135434.34c46b39@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <20190529111849.GD2882@work-vm>
+References: <20190520231008.20140-1-mst@redhat.com>
+	<20190320112646.3712-2-xieyongji@baidu.com>
+	<20190524121909.277ae31e@bahia.lan>
+	<20190528000854.GA11618@umbus.fritz.box>
+	<20190528083909.65ba8be4@bahia.lan> <20190529111849.GD2882@work-vm>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190520124716.30472-2-kraxel@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 8287749217705498930
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddvjedggeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH v3 01/14] scripts: use git archive in
- archive-source
+X-Received-From: 87.98.173.103
+Subject: Re: [Qemu-devel] [PULL v2 04/36] virtio: Introduce started flag to
+ VirtioDevice
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,124 +60,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
-	Kamil Rytarowski <kamil@netbsd.org>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Zhang Yu <zhangyu31@baidu.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+	Xie Yongji <xieyongji@baidu.com>,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/19 2:47 PM, Gerd Hoffmann wrote:
-> Use git archive to create tarballs of qemu and submodules instead of
-> cloning the repository and the submodules.  This is a order of magnitude
-> faster because it doesn't fetch the submodules from the internet each
-> time the script runs.
+On Wed, 29 May 2019 12:18:50 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+
+> * Greg Kurz (groug@kaod.org) wrote:
+> > On Tue, 28 May 2019 10:08:54 +1000
+> > David Gibson <david@gibson.dropbear.id.au> wrote:
+> >   
+> > > On Fri, May 24, 2019 at 12:19:09PM +0200, Greg Kurz wrote:  
+> > > > On Mon, 20 May 2019 19:10:35 -0400
+> > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > >     
+> > > > > From: Xie Yongji <xieyongji@baidu.com>
+> > > > > 
+> > > > > The virtio 1.0 transitional devices support driver uses the device
+> > > > > before setting the DRIVER_OK status bit. So we introduce a started
+> > > > > flag to indicate whether driver has started the device or not.
+> > > > > 
+> > > > > Signed-off-by: Xie Yongji <xieyongji@baidu.com>
+> > > > > Signed-off-by: Zhang Yu <zhangyu31@baidu.com>
+> > > > > Message-Id: <20190320112646.3712-2-xieyongji@baidu.com>
+> > > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > > ---
+> > > > >  include/hw/virtio/virtio.h |  2 ++
+> > > > >  hw/virtio/virtio.c         | 52 ++++++++++++++++++++++++++++++++++++--
+> > > > >  2 files changed, 52 insertions(+), 2 deletions(-)
+> > > > > 
+> > > > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > > > > index 7140381e3a..27c0efc3d0 100644
+> > > > > --- a/include/hw/virtio/virtio.h
+> > > > > +++ b/include/hw/virtio/virtio.h
+> > > > > @@ -105,6 +105,8 @@ struct VirtIODevice
+> > > > >      uint16_t device_id;
+> > > > >      bool vm_running;
+> > > > >      bool broken; /* device in invalid state, needs reset */
+> > > > > +    bool started;
+> > > > > +    bool start_on_kick; /* virtio 1.0 transitional devices support that */
+> > > > >      VMChangeStateEntry *vmstate;
+> > > > >      char *bus_name;
+> > > > >      uint8_t device_endian;
+> > > > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > > > > index 28056a7ef7..5d533ac74e 100644
+> > > > > --- a/hw/virtio/virtio.c
+> > > > > +++ b/hw/virtio/virtio.c
+> > > > > @@ -1162,10 +1162,16 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val)
+> > > > >              }
+> > > > >          }
+> > > > >      }
+> > > > > +    vdev->started = val & VIRTIO_CONFIG_S_DRIVER_OK;
+> > > > > +    if (unlikely(vdev->start_on_kick && vdev->started)) {
+> > > > > +        vdev->start_on_kick = false;
+> > > > > +    }
+> > > > > +
+> > > > >      if (k->set_status) {
+> > > > >          k->set_status(vdev, val);
+> > > > >      }
+> > > > >      vdev->status = val;
+> > > > > +
+> > > > >      return 0;
+> > > > >  }
+> > > > >  
+> > > > > @@ -1208,6 +1214,9 @@ void virtio_reset(void *opaque)
+> > > > >          k->reset(vdev);
+> > > > >      }
+> > > > >  
+> > > > > +    vdev->start_on_kick = (virtio_host_has_feature(vdev, VIRTIO_F_VERSION_1) &&
+> > > > > +                          !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1));
+> > > > > +    vdev->started = false;
+> > > > >      vdev->broken = false;
+> > > > >      vdev->guest_features = 0;
+> > > > >      vdev->queue_sel = 0;
+> > > > > @@ -1518,14 +1527,21 @@ void virtio_queue_set_align(VirtIODevice *vdev, int n, int align)
+> > > > >  
+> > > > >  static bool virtio_queue_notify_aio_vq(VirtQueue *vq)
+> > > > >  {
+> > > > > +    bool ret = false;
+> > > > > +
+> > > > >      if (vq->vring.desc && vq->handle_aio_output) {
+> > > > >          VirtIODevice *vdev = vq->vdev;
+> > > > >  
+> > > > >          trace_virtio_queue_notify(vdev, vq - vdev->vq, vq);
+> > > > > -        return vq->handle_aio_output(vdev, vq);
+> > > > > +        ret = vq->handle_aio_output(vdev, vq);
+> > > > > +
+> > > > > +        if (unlikely(vdev->start_on_kick)) {
+> > > > > +            vdev->started = true;
+> > > > > +            vdev->start_on_kick = false;
+> > > > > +        }
+> > > > >      }
+> > > > >  
+> > > > > -    return false;
+> > > > > +    return ret;
+> > > > >  }
+> > > > >  
+> > > > >  static void virtio_queue_notify_vq(VirtQueue *vq)
+> > > > > @@ -1539,6 +1555,11 @@ static void virtio_queue_notify_vq(VirtQueue *vq)
+> > > > >  
+> > > > >          trace_virtio_queue_notify(vdev, vq - vdev->vq, vq);
+> > > > >          vq->handle_output(vdev, vq);
+> > > > > +
+> > > > > +        if (unlikely(vdev->start_on_kick)) {
+> > > > > +            vdev->started = true;
+> > > > > +            vdev->start_on_kick = false;
+> > > > > +        }
+> > > > >      }
+> > > > >  }
+> > > > >  
+> > > > > @@ -1556,6 +1577,11 @@ void virtio_queue_notify(VirtIODevice *vdev, int n)
+> > > > >      } else if (vq->handle_output) {
+> > > > >          vq->handle_output(vdev, vq);
+> > > > >      }
+> > > > > +
+> > > > > +    if (unlikely(vdev->start_on_kick)) {
+> > > > > +        vdev->started = true;
+> > > > > +        vdev->start_on_kick = false;
+> > > > > +    }
+> > > > >  }
+> > > > >  
+> > > > >  uint16_t virtio_queue_vector(VirtIODevice *vdev, int n)
+> > > > > @@ -1770,6 +1796,13 @@ static bool virtio_broken_needed(void *opaque)
+> > > > >      return vdev->broken;
+> > > > >  }
+> > > > >  
+> > > > > +static bool virtio_started_needed(void *opaque)
+> > > > > +{
+> > > > > +    VirtIODevice *vdev = opaque;
+> > > > > +
+> > > > > +    return vdev->started;    
+> > > > 
+> > > > Existing machine types don't know about the "virtio/started" subsection. This
+> > > > breaks migration to older QEMUs if the driver has started the device, ie. most
+> > > > probably always when it comes to live migration.
+> > > > 
+> > > > My understanding is that we do try to support backward migration though. It
+> > > > is a regular practice in datacenters to migrate workloads without having to
+> > > > take care of the QEMU version. FWIW I had to fix similar issues downstream
+> > > > many times in the past because customers had filed bugs.
+> > > > 
+> > > > Cc'ing David for his opinion.    
+> > > 
+> > > Uh.. did you mean to CC me, or Dave Gilbert?
+> > >   
+> > 
+> > Oops... Dave Gilbert indeed, but you're thoughts on that matter are valuable
+> > as well. I remember being involved in backward migration fixes for spapr
+> > several times.
+> >   
+> > > I mean, I think you're right that we should try to maintain backwards
+> > > migration, but this isn't really my area of authority.
+> > >   
+> > 
+> > Cc'ing Dave Gilbert :)  
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Tested-by: Thomas Huth <thuth@redhat.com>
-> ---
->  scripts/archive-source.sh | 72 +++++++++++++++++----------------------
->  1 file changed, 31 insertions(+), 41 deletions(-)
+> Right, I need to maintain backwards migration compatibility; tie the
+> feature to a machine type so it's only used on newer machine types and
+> then we'll be safe.
 > 
-> diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-> index 8b8994826000..93a48d2063f9 100755
-> --- a/scripts/archive-source.sh
-> +++ b/scripts/archive-source.sh
-> @@ -19,16 +19,25 @@ if test $# -lt 1; then
->  fi
->  
->  tar_file=$(realpath "$1")
-> -list_file="${tar_file}.list"
-> -vroot_dir="${tar_file}.vroot"
-> +sub_tdir=$(mktemp -d "${tar_file%.tar}.sub.XXXXXXXX")
-> +sub_file="${sub_tdir}/submodule.tar"
->  
->  # We want a predictable list of submodules for builds, that is
->  # independent of what the developer currently has initialized
->  # in their checkout, because the build environment is completely
->  # different to the host OS.
->  submodules="dtc slirp ui/keycodemapdb tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
-> +sub_deinit=""
->  
-> -trap "status=$?; rm -rf \"$list_file\" \"$vroot_dir\"; exit \$status" 0 1 2 3 15
-> +function cleanup() {
-> +    local status=$?
-> +    rm -rf "$sub_tdir"
-> +    if test "$sub_deinit" != ""; then
-> +	git submodule deinit $sub_deinit
-> +    fi
-> +    exit $status
-> +}
-> +trap "cleanup" 0 1 2 3 15
->  
->  if git diff-index --quiet HEAD -- &>/dev/null
->  then
-> @@ -36,45 +45,26 @@ then
->  else
->      HEAD=$(git stash create)
->  fi
-> -git clone --shared . "$vroot_dir"
-> -test $? -ne 0 && error "failed to clone into '$vroot_dir'"
-> -for sm in $submodules; do
-> -    if test -d "$sm/.git"
-> -    then
-> -       git clone --shared "$sm" "$vroot_dir/$sm"
-> -       test $? -ne 0 && error "failed to clone submodule $sm"
-> -    fi
-> -done
-> -
-> -cd "$vroot_dir"
-> -test $? -ne 0 && error "failed to change into '$vroot_dir'"
-> -
-> -git checkout $HEAD
-> -test $? -ne 0 && error "failed to checkout $HEAD revision"
->  
-> +git archive --format tar $HEAD > "$tar_file"
-> +test $? -ne 0 && error "failed to archive qemu"
->  for sm in $submodules; do
-> -    git submodule update --init $sm
-> -    test $? -ne 0 && error "failed to init submodule $sm"
-> +    status="$(git submodule status "$sm")"
-> +    smhash="${status#[ +-]}"
-> +    smhash="${smhash%% *}"
-> +    case "$status" in
-> +	-*)
-> +	    sub_deinit="$sub_deinit $sm"
-> +	    git submodule update --init "$sm"
-> +	    test $? -ne 0 && error "failed to update submodule $sm"
-> +	    ;;
-> +	+*)
-> +	    echo "WARNING: submodule $sm is out of sync"
-> +	    ;;
-> +    esac
-> +    (cd $sm; git archive --format tar --prefix "$sm/" $smhash) > "$sub_file"
-> +    test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
-> +    tar --concatenate --file "$tar_file" "$sub_file"
-> +    test $? -ne 0 && error "failed append submodule $sm to $tar_file"
->  done
-> -
-> -if test -n "$submodules"; then
-> -    {
-> -        git ls-files || error "git ls-files failed"
-> -        for sm in $submodules; do
-> -            (cd $sm; git ls-files) | sed "s:^:$sm/:"
-> -            if test "${PIPESTATUS[*]}" != "0 0"; then
-> -                error "git ls-files in submodule $sm failed"
-> -            fi
-> -        done
-> -    } | grep -x -v $(for sm in $submodules; do echo "-e $sm"; done) > "$list_file"
-> -else
-> -    git ls-files > "$list_file"
-> -fi
-> -
-> -if test $? -ne 0; then
-> -    error "failed to generate list file"
-> -fi
-> -
-> -tar -cf "$tar_file" -T "$list_file" || error "failed to create tar file"
-> -
->  exit 0
+> Having said that, what's the symptom when this goes wrong?
 > 
 
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Since the started flag is set as soon as the guest driver begins to use
+the device and remains so until next reset, the associated subsection is
+basically always emitted when migrating a booted guest. This causes
+migration to always fail on the target in this case:
+
+qemu-system-ppc64: Failed to load virtio-net:virtio
+qemu-system-ppc64: error while loading state for instance 0x0 of device 'pci@800000020000000:00.0/virtio-net'
+qemu-system-ppc64: load of migration failed: No such file or directory
+
+Xie Yongji has just sent a series to fix that, with you in Cc:
+
+Cheers,
+
+--
+Greg
+
+> Dave
+> 
+> > Cheers,
+> > 
+> > --
+> > Greg  
+> 
+> 
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
