@@ -2,71 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290DB2DF8A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 16:20:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55355 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D454D2DFD5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 16:33:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55450 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVzRW-0000X7-CC
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 10:20:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56348)
+	id 1hVze8-0003UO-0r
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 10:33:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32831)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hVzQP-0000Ao-MN
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:19:30 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hVzcK-0002dz-9O
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:31:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hVzQO-0000qg-Hq
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:19:29 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:41967)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
-	id 1hVzQO-0000pg-6E
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:19:28 -0400
-Received: by mail-ot1-x335.google.com with SMTP id l25so2167513otp.8
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 07:19:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=no+30y3AssIZl36aiBayhMqNMYAO7PModrCfojkCUog=;
-	b=GMR21/AIT8CtE49idUHvgl8Mwn7Isw6RrZbx71fR/o4NMFKyILoL+tTAi7SPrrzF7y
-	nK43J4FxBaKTSMqFJh3/gb8OK1ari5r3Vfl7TMcgRlKTDxVkK3JJJyr54GESpRguRj8x
-	7Wg3vrPgwxmEub/E70wiKjCn7ZhdWeljkAFr8fFWXrxAcFwrzghAwFht90tfVgvRczN9
-	LWXcD21LkbtP2ZStM7/uywR7YZ1ZyfnhLZ0pSw4etqE4+cmDt72sZRMhRH0/hHgDTZgb
-	EfXkgZBtxp0xgQtbgWQR8CYrIzedSCNcsDBp2NtzVw45o7RnKML4Oe54uVCXDkx5S0bG
-	P6Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=no+30y3AssIZl36aiBayhMqNMYAO7PModrCfojkCUog=;
-	b=S6bWN24Qk7f/E2j1Fu0hSQJWwH5PRCceZJPi/QUAFOzspW2XZ2BB/vbGTvGQycruU7
-	6vOw4i9AYD+dX/V9LicF0mAb4h4vWFGZIH2dNBFZGDnvgj4BWBGD3R8AdADZbqq3hqAz
-	92ex6ei+jyNZzpk3LSLj/C+06wrX3zB+pHNDhHzajMFazO82W16PTnhq7HBabrhjTgX2
-	J6BlZgelgvrRAHi3w5YfGskZt5mLJ53pRyQGOTxWZ53F4ojl9q9TTIC0+KgB8PNMa1t1
-	KLgx2jphAhSjTeD1r4puEFMthSnVPg+jSy0zkQmLMHX9oMga/+XuX+Sd+ZKc0o8NCmvq
-	hvEA==
-X-Gm-Message-State: APjAAAWlErzywB6lAw5rKNJJ8me9WddXTzYBbEgIO4b/HUuwKpT96Wir
-	BbAtIgPaTBoRbIsqokv1Rthk/QJn6Y3u/ZCXr7w=
-X-Google-Smtp-Source: APXvYqzvLvYMVMh7GiZAh+4yxXq/i7YM4wNZWf79q9gdaTku7RQF0cTqtmvMC0rIOE/LNSW/aRitQhExv4lv9wPKT18=
-X-Received: by 2002:a9d:63c1:: with SMTP id e1mr48709218otl.341.1559139566994; 
-	Wed, 29 May 2019 07:19:26 -0700 (PDT)
+	(envelope-from <lvivier@redhat.com>) id 1hVzcJ-0004eQ-Aj
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:31:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49592)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hVzcI-0004BA-Uv
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 10:31:47 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9A2FAA3B48;
+	Wed, 29 May 2019 14:31:15 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-204-181.brq.redhat.com
+	[10.40.204.181])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C6DBE611AD;
+	Wed, 29 May 2019 14:31:07 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 29 May 2019 16:31:02 +0200
+Message-Id: <20190529143106.11789-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Wed, 29 May 2019 07:19:25
-	-0700 (PDT)
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Wed, 29 May 2019 07:19:25
-	-0700 (PDT)
-In-Reply-To: <2b3a7c62-81d1-0d91-e7d5-03c9fcd4a012@redhat.com>
-References: <BN6PR2201MB1251C914F948CFB53757492DC61F0@BN6PR2201MB1251.namprd22.prod.outlook.com>
-	<2b3a7c62-81d1-0d91-e7d5-03c9fcd4a012@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Wed, 29 May 2019 16:19:25 +0200
-Message-ID: <CAL1e-=ix3BeKM3ct25imB1AWXvN620Cpud0apWrOga1cAn7OMQ@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::335
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Wed, 29 May 2019 14:31:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] Malta-related files in MAINTAINERS
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v7 0/4] rng-builtin: add an RNG backend that
+ uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,59 +56,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	=?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+	Kashyap Chamarthy <kchamart@redhat.com>, Amit Shah <amit@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	"Richard W . M . Jones" <rjones@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On May 29, 2019 3:45 PM, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> =
-wrote:
->
-> Hi Aleksandar,
->
-> On 5/29/19 10:22 AM, Aleksandar Markovic wrote:
-> > Hello, Philippe.
-> >
-> > Currently, we have these two files in Malta MAINTAINERS section:
-> > F: hw/mips/mips_malta.c
-> > F: tests/acceptance/linux_ssh_mips_malta.py
-> >
-> > Do we need to add more files, or other Malta-related files naturally
-belong to some other sections, or are shared by many boards?
->
-> Not related to your question:
->
-> The Malta model is an old one in QEMU, as such it uses the condensed
-> format where all the Malta specific devices are self-contained in the
-> same file. This organization has Pro/Cons.
->
-> New MIPS boards where added and instead of reuse components, they were
-> duplicated few times, so now it is harder to maintain.
->
-> Back to your question:
->
-> All the South Bridge and 'below' devices are shared with the x86 PC
-> machine, except:
->
-> - FDC37M81X Super I/O: maintained by 'PC Chipset'
-> - PIIX4 South Bridge: maintained by 'PC' but this might change
->   as Michael S. Tsirkin is mostly interested in the PIIX3.
->   I have a WIP painful series related to PIIX cleanup.
->
-> The North Bridge differs and is Malta specific, so you can add it in
-> this section:
->
-> - hw/mips/gt64xxx_pci.c
->
-> I'll sort the PIIX some day ;)
->
+Add a new RNG backend using QEMU builtin getrandom function.
 
-I honestly appreciate your detailed response.
+v7: rebase on master
+    Make rng-builtin asynchronous with QEMUBH (removed existing R-b)
 
-Aleksandar
+v6: remove "sysemu/rng-random.h" from virtio-rng.c
+    rebase on qemu_getrandom v8
 
-> Regards,
->
-> Phil.
->
+v5: PATCH 1 s/linux/Linux/
+    remove superfluous includes from rng-builtin.c
+    don't update rng-random documentation
+    add a patch from Markus to keep the default backend out of VirtIORNGC=
+onf
+    move TYPE_RNG_BUILTIN to sysemu/rng.h and remove sysemu/rng-builtin.h
+
+v4: update PATCH 1 commit message
+
+v3: Include Kashyap's patch in the series
+    Add a patch to change virtio-rng default backend to rng-builtin
+
+v2: Update qemu-options.hx
+    describe the new backend and specify virtio-rng uses the
+    rng-random by default
+
+Kashyap Chamarthy (1):
+  VirtIO-RNG: Update default entropy source to `/dev/urandom`
+
+Laurent Vivier (2):
+  rng-builtin: add an RNG backend that uses qemu_guest_getrandom()
+  virtio-rng: change default backend to rng-builtin
+
+Markus Armbruster (1):
+  virtio-rng: Keep the default backend out of VirtIORNGConf
+
+ backends/Makefile.objs         |  2 +-
+ backends/rng-builtin.c         | 77 ++++++++++++++++++++++++++++++++++
+ backends/rng-random.c          |  2 +-
+ hw/virtio/virtio-rng.c         | 19 ++++-----
+ include/hw/virtio/virtio-rng.h |  2 -
+ include/sysemu/rng.h           |  2 +
+ qemu-options.hx                |  9 +++-
+ 7 files changed, 97 insertions(+), 16 deletions(-)
+ create mode 100644 backends/rng-builtin.c
+
+--=20
+2.20.1
+
+
