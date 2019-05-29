@@ -2,97 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF282DF02
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 15:58:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54927 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305B52DF08
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 15:59:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54933 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVz6M-0006ck-Ge
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 09:58:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50729)
+	id 1hVz7O-0007QV-Ef
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 09:59:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51064)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hVz4b-00061s-GN
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:56:58 -0400
+	(envelope-from <elohimes@gmail.com>) id 1hVz5Y-0006aT-1l
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:57:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hVz4Z-00082q-DA
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:56:57 -0400
-Received: from mail-eopbgr150105.outbound.protection.outlook.com
-	([40.107.15.105]:2567
-	helo=EUR01-DB5-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
-	id 1hVz4W-0007uC-6O; Wed, 29 May 2019 09:56:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=3D9/74NRfoiFYNW9QxhJpf4nAxsjimrxiN4P3UuKROA=;
-	b=ZhZwYNUhjMb8AnWqASLiRE5NSFfNG9FBGr5as1ohLm+gV1Eb9Teqe5Q7CW/bntymIOunj31odPjaFJZyKCJ6IJrLq2spplFBguoUCVzkZTImTnZftY4408yXtLaJDNuzX9qN5MUPBEqDPhyFGAU0js2N7Bv+it7avA64IV6JDNQ=
-Received: from VI1PR08MB3677.eurprd08.prod.outlook.com (20.177.61.92) by
-	VI1PR08MB4318.eurprd08.prod.outlook.com (20.179.26.77) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1922.19; Wed, 29 May 2019 13:56:47 +0000
-Received: from VI1PR08MB3677.eurprd08.prod.outlook.com
-	([fe80::3c2b:bc42:b670:6c5e]) by
-	VI1PR08MB3677.eurprd08.prod.outlook.com
-	([fe80::3c2b:bc42:b670:6c5e%7]) with mapi id 15.20.1922.021;
-	Wed, 29 May 2019 13:56:47 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org"
-	<qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH] hw/block/fdc: floppy command FIFO memory
-	initialization
-Thread-Index: AQHVFhklDZxIAxK8j0qgesEHbr1LuqaCHBeAgAAEaoA=
-Date: Wed, 29 May 2019 13:56:47 +0000
-Message-ID: <ecd5c524-8b4a-5abf-af0c-f74c3c78b38f@virtuozzo.com>
-References: <1559132524-228613-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-	<3a76e673-8142-a64d-c595-4c8fcecd12b2@redhat.com>
-In-Reply-To: <3a76e673-8142-a64d-c595-4c8fcecd12b2@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR09CA0067.eurprd09.prod.outlook.com
-	(2603:10a6:7:3d::11) To VI1PR08MB3677.eurprd08.prod.outlook.com
-	(2603:10a6:803:85::28)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5201e0b1-bab4-4109-550b-08d6e43d7d98
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
-	SRVR:VI1PR08MB4318; 
-x-ms-traffictypediagnostic: VI1PR08MB4318:
-x-microsoft-antispam-prvs: <VI1PR08MB431867D16F36E3AF2AF15DF7F41F0@VI1PR08MB4318.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 0052308DC6
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(376002)(346002)(136003)(39850400004)(396003)(366004)(199004)(189003)(3846002)(6116002)(81166006)(14454004)(53936002)(2906002)(81156014)(8936002)(6512007)(6486002)(71200400001)(31686004)(7736002)(44832011)(36756003)(66066001)(2201001)(86362001)(31696002)(478600001)(110136005)(107886003)(71190400001)(2501003)(6246003)(4326008)(305945005)(54906003)(6436002)(6506007)(386003)(8676002)(99286004)(68736007)(446003)(11346002)(2616005)(476003)(316002)(186003)(256004)(486006)(5660300002)(66946007)(229853002)(52116002)(73956011)(26005)(66476007)(66556008)(64756008)(25786009)(66446008)(53546011)(76176011)(102836004);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB4318;
-	H:VI1PR08MB3677.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 6SXxlbyeR0RwPOAQLa5yMeDhwXIrnVJiS75EmvSnGRAE0HkUILod+TPdSvVxU5S5fmOgAY3CDYCbS6E4fZ/Ti2Hk8Py6p9PkHtrUil+HN/NVzdm5oTNKCzpPnfhUvp7nsViDOBZJ/rT9sNKZtvqSmENXMKX5PWzK/kE34Aab4sOelLuOMgJoqQ0pszRm/EJ7YnQBA74N1nSJ3kI5hiDs38XqGfTCoSpkFQUdT9ZT3QujpeB2dQ4c7ZpvlZuqCkhjJxpF0RSZRfls7xSG6XOrjByfJKJICefITQ87eL5DlZXIz5r2TOnsJueEwomYiFB34f9fQ38wNc3416TcM3rJbeSM+Rt1l5jbOsc8ubxqqVTvmxEtB1wGVtRpCv+i9gYNsI6GqYP29kgfUsrXKkFtPudS9Mj/pIwFV1IwgsD3deI=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <23775488AA64D54C88DE6616102B5759@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <elohimes@gmail.com>) id 1hVz5W-0000CZ-IX
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:57:55 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:35156)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hVz5W-0000CF-Eg
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 09:57:54 -0400
+Received: by mail-qk1-x742.google.com with SMTP id l128so1527412qke.2
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 06:57:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=px+63hro+iDfedsiZKLSroZeQfHZS1WxQUFK911z370=;
+	b=VDlDZVHvLEpeGJwdKQ4fVt79x8ck4fN3Kfd8SywwkRRSa2/WcBYfKnq1iWP8BBDq99
+	iOIXTKn06fba9HmVMzPpVLjkAW3h/N4gA9EvnRN13xk6z292gbWmKfUb3q1TIznxxTQA
+	Zh9awZo+DTLi/UgqtW6zvvqyvbTiqiZXEQIDzqV7WuPwQiYyPy7fRB6qhu4maO65NtQV
+	BQQHFheB8PMi8nDFb+/yQgCHvUXDe6kdp3vdtbx+pqVMX1bZ9vhwye8JEgmhA1HQUmn8
+	6uUp8DQJKcL+5qgtDZZK5ldEUwkUtrfj6bLEHAW/I+ADHEh6PiriPo32F2EXAFkmpsGA
+	nnDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=px+63hro+iDfedsiZKLSroZeQfHZS1WxQUFK911z370=;
+	b=fkS0RhwKs4xh/iSuIxdA74prkJizU9qWWmOsRrJL1X2mKX2m9jMZY9RufjHnel8DNK
+	M2s4x6qmxAAA0icAk+zNZJL7h+5krkUQNJhC6qQLVDVQw9Oo2037c302qRG+jSNlneeR
+	4pgT2Swr42C4atr3Duw2wngqNDEt+VzKtRRGdz6yvMytOx4Yelf2m1Fc9K1iuZ8ise1f
+	tn3Hh7ORSeq5WniYWEJRH7G2Eo6D2g99wEU5HVwBMVqQCZZgIjoPQVzxRaV09+nc1M1G
+	kSEyyfIRQFycGSmWY3uY3BhXhOkG5k2Py//z6YzQ0PV4TKlsYJAh+AEZSsbSCYqRv8ll
+	BZkA==
+X-Gm-Message-State: APjAAAUNjfm+UnoRK86EuIuj592jXBPdq1O+/KNVRM+AUL+bAc7UujOE
+	pg5PdhCDBwI/3k2oyDARsfFid233RWrOTq0aeoA=
+X-Google-Smtp-Source: APXvYqxxlq9fznWDsM/rPNyag8wUfKYx2DhupsHeZ1SoZ+oGERJY6BYKbr3da+Tlc7Z9fcPgXQtCHK1uRBuMtaQfjqY=
+X-Received: by 2002:a05:620a:12b9:: with SMTP id
+	x25mr7138200qki.248.1559138273830; 
+	Wed, 29 May 2019 06:57:53 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5201e0b1-bab4-4109-550b-08d6e43d7d98
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2019 13:56:47.3505 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: andrey.shinkevich@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4318
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.15.105
-Subject: Re: [Qemu-devel] [PATCH] hw/block/fdc: floppy command FIFO memory
- initialization
+References: <20190520231008.20140-1-mst@redhat.com>
+	<20190320112646.3712-2-xieyongji@baidu.com>
+	<20190524121909.277ae31e@bahia.lan>
+	<20190528000854.GA11618@umbus.fritz.box>
+	<20190528083909.65ba8be4@bahia.lan> <20190529111849.GD2882@work-vm>
+	<20190529135434.34c46b39@bahia.lab.toulouse-stg.fr.ibm.com>
+	<20190529123818.GG2882@work-vm>
+	<20190529150213.51143f1c@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <20190529150213.51143f1c@bahia.lab.toulouse-stg.fr.ibm.com>
+From: Yongji Xie <elohimes@gmail.com>
+Date: Wed, 29 May 2019 21:57:42 +0800
+Message-ID: <CAONzpcZBjCD3m0+9FgKBnx=_ziAPxo2-i8x3t-SP3iWTCLWLTQ@mail.gmail.com>
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::742
+Subject: Re: [Qemu-devel] [PULL v2 04/36] virtio: Introduce started flag to
+ VirtioDevice
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,39 +79,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
-	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	Denis Lunev <den@virtuozzo.com>, "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Zhang Yu <zhangyu31@baidu.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	Xie Yongji <xieyongji@baidu.com>,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDI5LzA1LzIwMTkgMTY6NDAsIEpvaG4gU25vdyB3cm90ZToNCj4gDQo+IA0KPiBPbiA1
-LzI5LzE5IDg6MjIgQU0sIEFuZHJleSBTaGlua2V2aWNoIHdyb3RlOg0KPj4gVGhlIHVuaW5pdGlh
-bGl6ZWQgbWVtb3J5IGFsbG9jYXRlZCBmb3IgdGhlIGNvbW1hbmQgRklGTyBvZiB0aGUNCj4+IGZs
-b3BweSBjb250cm9sbGVyIGR1cmluZyB0aGUgVk0gaGFyZHdhcmUgaW5pdGlhbGl6YXRpb24gaW5j
-dXJzDQo+PiBtYW55IHVud2FudGVkIHJlcG9ydHMgYnkgVmFsZ3JpbmQgd2hlbiBWTSBzdGF0ZSBp
-cyBiZWluZyBzYXZlZC4NCj4+IFRoYXQgdmVyYm9zaXR5IGhhcmRlbnMgYSBzZWFyY2ggZm9yIHRo
-ZSByZWFsIG1lbW9yeSBpc3N1ZXMgd2hlbg0KPj4gdGhlIGlvdGVzdHMgcnVuLiBQYXJ0aWN1bGFy
-bHksIHRoZSBwYXRjaCBlbGltaW5hdGVzIDIwIHVubmVjZXNzYXJ5DQo+PiByZXBvcnRzIG9mIHRo
-ZSBWYWxncmluZCB0b29sIGluIHRoZSBpb3Rlc3QgIzE2OS4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5
-OiBBbmRyZXkgU2hpbmtldmljaCA8YW5kcmV5LnNoaW5rZXZpY2hAdmlydHVvenpvLmNvbT4NCj4+
-IC0tLQ0KPj4gICBody9ibG9jay9mZGMuYyB8IDQgKysrKw0KPj4gICAxIGZpbGUgY2hhbmdlZCwg
-NCBpbnNlcnRpb25zKCspDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2h3L2Jsb2NrL2ZkYy5jIGIvaHcv
-YmxvY2svZmRjLmMNCj4+IGluZGV4IDZmMTlmMTIuLjU0ZTQ3MGMgMTAwNjQ0DQo+PiAtLS0gYS9o
-dy9ibG9jay9mZGMuYw0KPj4gKysrIGIvaHcvYmxvY2svZmRjLmMNCj4+IEBAIC0yNjQ3LDYgKzI2
-NDcsMTAgQEAgc3RhdGljIHZvaWQgZmRjdHJsX3JlYWxpemVfY29tbW9uKERldmljZVN0YXRlICpk
-ZXYsIEZEQ3RybCAqZmRjdHJsLA0KPj4gICANCj4+ICAgICAgIEZMT1BQWV9EUFJJTlRGKCJpbml0
-IGNvbnRyb2xsZXJcbiIpOw0KPj4gICAgICAgZmRjdHJsLT5maWZvID0gcWVtdV9tZW1hbGlnbig1
-MTIsIEZEX1NFQ1RPUl9MRU4pOw0KPj4gKyAgICBpZiAoZmRjdHJsLT5maWZvKSB7DQo+PiArICAg
-ICAgICAvKiBUbyBhdm9pZCB1c2luZyB0aGUgdW5pbml0aWFsaXplZCBtZW1vcnkgd2hpbGUgc2F2
-aW5nIFZNIHN0YXRlICovDQo+PiArICAgICAgICBtZW1zZXQoZmRjdHJsLT5maWZvLCAwLCBGRF9T
-RUNUT1JfTEVOKTsNCj4+ICsgICAgfQ0KPiANCj4gcWVtdV9tZW1hbGlnbiBkb2Vzbid0IGxvb2sg
-bGlrZSBpdCBjYW4gZmFpbCAobG9va2luZyBhdA0KPiB1dGlsL29zbGliLXBvc2l4KTsgaXMgdGhp
-cyBjb25kaXRpb25hbCBuZWNlc3Nhcnk/DQo+IA0KPiBJIHRoaW5rIHlvdSBjb3VsZCBqdXN0Og0K
-PiANCj4gZmRjdHJsLT5maWZvID0gcWVtdV9tZW1hbGlnbig1MTIsIEZEX1NFQ1RPUl9MRU4pOw0K
-PiBtZW1zZXQoZmRjdHJsLT5maWZvLCAwLCBGRF9TRUNUT1JfTEVOKTsNCj4gDQo+PiAgICAgICBm
-ZGN0cmwtPmZpZm9fc2l6ZSA9IDUxMjsNCj4+ICAgICAgIGZkY3RybC0+cmVzdWx0X3RpbWVyID0g
-dGltZXJfbmV3X25zKFFFTVVfQ0xPQ0tfVklSVFVBTCwNCj4+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgZmRjdHJsX3Jlc3VsdF90aW1lciwgZmRjdHJsKTsN
-Cj4+DQoNClllcywgdGhhdCdzIHJpZ2h0Lg0KVGhhbmsgeW91LCBKb2huLg0KDQpBbmRyZXkNCg0K
+On Wed, 29 May 2019 at 21:02, Greg Kurz <groug@kaod.org> wrote:
+>
+> On Wed, 29 May 2019 13:38:19 +0100
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+>
+> > * Greg Kurz (groug@kaod.org) wrote:
+> > > On Wed, 29 May 2019 12:18:50 +0100
+> > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > >
+> > > > * Greg Kurz (groug@kaod.org) wrote:
+> > > > > On Tue, 28 May 2019 10:08:54 +1000
+> > > > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > > > >
+> > > > > > On Fri, May 24, 2019 at 12:19:09PM +0200, Greg Kurz wrote:
+> > > > > > > On Mon, 20 May 2019 19:10:35 -0400
+> > > > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > > > > >
+> > > > > > > > From: Xie Yongji <xieyongji@baidu.com>
+> > > > > > > >
+> > > > > > > > The virtio 1.0 transitional devices support driver uses the device
+> > > > > > > > before setting the DRIVER_OK status bit. So we introduce a started
+> > > > > > > > flag to indicate whether driver has started the device or not.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Xie Yongji <xieyongji@baidu.com>
+> > > > > > > > Signed-off-by: Zhang Yu <zhangyu31@baidu.com>
+> > > > > > > > Message-Id: <20190320112646.3712-2-xieyongji@baidu.com>
+> > > > > > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > > > > > ---
+> > > > > > > >  include/hw/virtio/virtio.h |  2 ++
+> > > > > > > >  hw/virtio/virtio.c         | 52 ++++++++++++++++++++++++++++++++++++--
+> > > > > > > >  2 files changed, 52 insertions(+), 2 deletions(-)
+> > > > > > > >
+> > > > > > > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > > > > > > > index 7140381e3a..27c0efc3d0 100644
+> > > > > > > > --- a/include/hw/virtio/virtio.h
+> > > > > > > > +++ b/include/hw/virtio/virtio.h
+> > > > > > > > @@ -105,6 +105,8 @@ struct VirtIODevice
+> > > > > > > >      uint16_t device_id;
+> > > > > > > >      bool vm_running;
+> > > > > > > >      bool broken; /* device in invalid state, needs reset */
+> > > > > > > > +    bool started;
+> > > > > > > > +    bool start_on_kick; /* virtio 1.0 transitional devices support that */
+> > > > > > > >      VMChangeStateEntry *vmstate;
+> > > > > > > >      char *bus_name;
+> > > > > > > >      uint8_t device_endian;
+> > > > > > > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > > > > > > > index 28056a7ef7..5d533ac74e 100644
+> > > > > > > > --- a/hw/virtio/virtio.c
+> > > > > > > > +++ b/hw/virtio/virtio.c
+> > > > > > > > @@ -1162,10 +1162,16 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val)
+> > > > > > > >              }
+> > > > > > > >          }
+> > > > > > > >      }
+> > > > > > > > +    vdev->started = val & VIRTIO_CONFIG_S_DRIVER_OK;
+> > > > > > > > +    if (unlikely(vdev->start_on_kick && vdev->started)) {
+> > > > > > > > +        vdev->start_on_kick = false;
+> > > > > > > > +    }
+> > > > > > > > +
+> > > > > > > >      if (k->set_status) {
+> > > > > > > >          k->set_status(vdev, val);
+> > > > > > > >      }
+> > > > > > > >      vdev->status = val;
+> > > > > > > > +
+> > > > > > > >      return 0;
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > > @@ -1208,6 +1214,9 @@ void virtio_reset(void *opaque)
+> > > > > > > >          k->reset(vdev);
+> > > > > > > >      }
+> > > > > > > >
+> > > > > > > > +    vdev->start_on_kick = (virtio_host_has_feature(vdev, VIRTIO_F_VERSION_1) &&
+> > > > > > > > +                          !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1));
+> > > > > > > > +    vdev->started = false;
+> > > > > > > >      vdev->broken = false;
+> > > > > > > >      vdev->guest_features = 0;
+> > > > > > > >      vdev->queue_sel = 0;
+> > > > > > > > @@ -1518,14 +1527,21 @@ void virtio_queue_set_align(VirtIODevice *vdev, int n, int align)
+> > > > > > > >
+> > > > > > > >  static bool virtio_queue_notify_aio_vq(VirtQueue *vq)
+> > > > > > > >  {
+> > > > > > > > +    bool ret = false;
+> > > > > > > > +
+> > > > > > > >      if (vq->vring.desc && vq->handle_aio_output) {
+> > > > > > > >          VirtIODevice *vdev = vq->vdev;
+> > > > > > > >
+> > > > > > > >          trace_virtio_queue_notify(vdev, vq - vdev->vq, vq);
+> > > > > > > > -        return vq->handle_aio_output(vdev, vq);
+> > > > > > > > +        ret = vq->handle_aio_output(vdev, vq);
+> > > > > > > > +
+> > > > > > > > +        if (unlikely(vdev->start_on_kick)) {
+> > > > > > > > +            vdev->started = true;
+> > > > > > > > +            vdev->start_on_kick = false;
+> > > > > > > > +        }
+> > > > > > > >      }
+> > > > > > > >
+> > > > > > > > -    return false;
+> > > > > > > > +    return ret;
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > >  static void virtio_queue_notify_vq(VirtQueue *vq)
+> > > > > > > > @@ -1539,6 +1555,11 @@ static void virtio_queue_notify_vq(VirtQueue *vq)
+> > > > > > > >
+> > > > > > > >          trace_virtio_queue_notify(vdev, vq - vdev->vq, vq);
+> > > > > > > >          vq->handle_output(vdev, vq);
+> > > > > > > > +
+> > > > > > > > +        if (unlikely(vdev->start_on_kick)) {
+> > > > > > > > +            vdev->started = true;
+> > > > > > > > +            vdev->start_on_kick = false;
+> > > > > > > > +        }
+> > > > > > > >      }
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > > @@ -1556,6 +1577,11 @@ void virtio_queue_notify(VirtIODevice *vdev, int n)
+> > > > > > > >      } else if (vq->handle_output) {
+> > > > > > > >          vq->handle_output(vdev, vq);
+> > > > > > > >      }
+> > > > > > > > +
+> > > > > > > > +    if (unlikely(vdev->start_on_kick)) {
+> > > > > > > > +        vdev->started = true;
+> > > > > > > > +        vdev->start_on_kick = false;
+> > > > > > > > +    }
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > >  uint16_t virtio_queue_vector(VirtIODevice *vdev, int n)
+> > > > > > > > @@ -1770,6 +1796,13 @@ static bool virtio_broken_needed(void *opaque)
+> > > > > > > >      return vdev->broken;
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > > +static bool virtio_started_needed(void *opaque)
+> > > > > > > > +{
+> > > > > > > > +    VirtIODevice *vdev = opaque;
+> > > > > > > > +
+> > > > > > > > +    return vdev->started;
+> > > > > > >
+> > > > > > > Existing machine types don't know about the "virtio/started" subsection. This
+> > > > > > > breaks migration to older QEMUs if the driver has started the device, ie. most
+> > > > > > > probably always when it comes to live migration.
+> > > > > > >
+> > > > > > > My understanding is that we do try to support backward migration though. It
+> > > > > > > is a regular practice in datacenters to migrate workloads without having to
+> > > > > > > take care of the QEMU version. FWIW I had to fix similar issues downstream
+> > > > > > > many times in the past because customers had filed bugs.
+> > > > > > >
+> > > > > > > Cc'ing David for his opinion.
+> > > > > >
+> > > > > > Uh.. did you mean to CC me, or Dave Gilbert?
+> > > > > >
+> > > > >
+> > > > > Oops... Dave Gilbert indeed, but you're thoughts on that matter are valuable
+> > > > > as well. I remember being involved in backward migration fixes for spapr
+> > > > > several times.
+> > > > >
+> > > > > > I mean, I think you're right that we should try to maintain backwards
+> > > > > > migration, but this isn't really my area of authority.
+> > > > > >
+> > > > >
+> > > > > Cc'ing Dave Gilbert :)
+> > > >
+> > > > Right, I need to maintain backwards migration compatibility; tie the
+> > > > feature to a machine type so it's only used on newer machine types and
+> > > > then we'll be safe.
+> > > >
+> > > > Having said that, what's the symptom when this goes wrong?
+> > > >
+> > >
+> > > Since the started flag is set as soon as the guest driver begins to use
+> > > the device and remains so until next reset, the associated subsection is
+> > > basically always emitted when migrating a booted guest. This causes
+> > > migration to always fail on the target in this case:
+> >
+> > I meant what's the symptom without this patch series at all?
+> >
+>
+> Oh sorry... if I got it right, migrating when the guest first kicked the
+> device but not set the DRIVE_OK bit yet would result in a guest hang on
+> the destination. Yongji might elaborate a bit more on that.
+>
+
+Yes, that's the issue that my patch tries to fix. It only happens in a
+short window for virtio 1.0 transitional devices.
+
+Thanks,
+Yongji
 
