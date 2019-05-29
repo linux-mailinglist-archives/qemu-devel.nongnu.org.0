@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D882D530
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 07:45:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47629 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4CDB2D532
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 07:47:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47678 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVrOb-0000fp-PX
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 01:45:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33287)
+	id 1hVrQU-00020I-Ra
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 01:47:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33351)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hVrK9-0005v2-RQ
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 01:40:31 -0400
+	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hVrKD-00060f-H0
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 01:40:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hVrK8-0004zE-IN
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 01:40:29 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41196)
+	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hVrKC-00057y-HO
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 01:40:33 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41852)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
-	id 1hVrK8-0004wW-89
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 01:40:28 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+	id 1hVrKC-00055Q-6b
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 01:40:32 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
 	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4T5Xlh0079875
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 01:40:23 -0400
-Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2sskw8gfh2-1
+	x4T5XOKJ042559
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 01:40:31 -0400
+Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2ssk4s9w5r-1
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 01:40:23 -0400
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 01:40:30 -0400
 Received: from localhost
-	by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
 	Violators will be prosecuted
 	for <qemu-devel@nongnu.org> from <aravinda@linux.vnet.ibm.com>;
-	Wed, 29 May 2019 06:40:22 +0100
-Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
-	by e35.co.us.ibm.com (192.168.1.135) with IBM ESMTP SMTP Gateway:
+	Wed, 29 May 2019 06:40:30 +0100
+Received: from b03cxnp08025.gho.boulder.ibm.com (9.17.130.17)
+	by e31.co.us.ibm.com (192.168.1.131) with IBM ESMTP SMTP Gateway:
 	Authorized Use Only! Violators will be prosecuted; 
 	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Wed, 29 May 2019 06:40:19 +0100
-Received: from b03ledav004.gho.boulder.ibm.com
-	(b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-	by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4T5eIUr38011034
+	Wed, 29 May 2019 06:40:27 +0100
+Received: from b03ledav005.gho.boulder.ibm.com
+	(b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+	by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x4T5eQiC12648894
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Wed, 29 May 2019 05:40:18 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1C74A7805C;
-	Wed, 29 May 2019 05:40:18 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EE81A7805E;
-	Wed, 29 May 2019 05:40:15 +0000 (GMT)
+	verify=OK); Wed, 29 May 2019 05:40:26 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B185DBE051;
+	Wed, 29 May 2019 05:40:26 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8FD0DBE04F;
+	Wed, 29 May 2019 05:40:24 +0000 (GMT)
 Received: from [127.0.1.1] (unknown [9.124.31.56])
-	by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-	Wed, 29 May 2019 05:40:15 +0000 (GMT)
+	by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+	Wed, 29 May 2019 05:40:24 +0000 (GMT)
 From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
 To: aik@au1.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 	david@gibson.dropbear.id.au
-Date: Wed, 29 May 2019 11:10:14 +0530
+Date: Wed, 29 May 2019 11:10:23 +0530
 In-Reply-To: <155910829070.13149.5215948335633966328.stgit@aravinda>
 References: <155910829070.13149.5215948335633966328.stgit@aravinda>
 User-Agent: StGit/0.17.1-dirty
@@ -65,27 +65,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19052905-0012-0000-0000-0000173CE1D6
+x-cbid: 19052905-8235-0000-0000-00000E9FBB27
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00011177; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000286; SDB=6.01210122; UDB=6.00635757;
+	PH=3.00000004; SC=3.00000286; SDB=6.01210123; UDB=6.00635758;
 	IPR=6.00991155; 
-	MB=3.00027096; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-29 05:40:21
+	MB=3.00027096; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-29 05:40:29
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19052905-0013-0000-0000-000057730904
-Message-Id: <155910841478.13149.2830700794862210739.stgit@aravinda>
+x-cbparentid: 19052905-8236-0000-0000-000045C34D72
+Message-Id: <155910842340.13149.1753970249353896871.stgit@aravinda>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 	definitions=2019-05-29_03:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 	priorityscore=1501
 	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
 	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	mlxlogscore=908 adultscore=0 classifier=spam adjust=0 reason=mlx
 	scancount=1 engine=8.0.1-1810050000 definitions=main-1905290037
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH v9 1/6] ppc: spapr: Handle "ibm,
- nmi-register" and "ibm, nmi-interlock" RTAS calls
+Subject: [Qemu-devel] [PATCH v9 2/6] Wrapper function to wait on condition
+ for the main loop mutex
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -101,179 +101,54 @@ Cc: paulus@ozlabs.org, aravinda@linux.vnet.ibm.com, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds support in QEMU to handle "ibm,nmi-register"
-and "ibm,nmi-interlock" RTAS calls.
-
-The machine check notification address is saved when the
-OS issues "ibm,nmi-register" RTAS call.
-
-This patch also handles the case when multiple processors
-experience machine check at or about the same time by
-handling "ibm,nmi-interlock" call. In such cases, as per
-PAPR, subsequent processors serialize waiting for the first
-processor to issue the "ibm,nmi-interlock" call. The second
-processor that also received a machine check error waits
-till the first processor is done reading the error log.
-The first processor issues "ibm,nmi-interlock" call
-when the error log is consumed. This patch implements the
-releasing part of the error-log while subsequent patch
-(which builds error log) handles the locking part.
+Introduce a wrapper function to wait on condition for
+the main loop mutex. This function atomically releases
+the main loop mutex and causes the calling thread to
+block on the condition. This wrapper is required because
+qemu_global_mutex is a static variable.
 
 Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr.c         |    7 +++++
- hw/ppc/spapr_rtas.c    |   65 ++++++++++++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h |    9 ++++++-
- 3 files changed, 80 insertions(+), 1 deletion(-)
+ cpus.c                   |    5 +++++
+ include/qemu/main-loop.h |    8 ++++++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e2b33e5..fae28a9 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1808,6 +1808,11 @@ static void spapr_machine_reset(void)
-     first_ppc_cpu->env.gpr[5] = 0;
- 
-     spapr->cas_reboot = false;
-+
-+    spapr->guest_machine_check_addr = -1;
-+
-+    /* Signal all vCPUs waiting on this condition */
-+    qemu_cond_broadcast(&spapr->mc_delivery_cond);
+diff --git a/cpus.c b/cpus.c
+index ffc5711..14cb24b 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1867,6 +1867,11 @@ void qemu_mutex_unlock_iothread(void)
+     qemu_mutex_unlock(&qemu_global_mutex);
  }
  
- static void spapr_create_nvram(SpaprMachineState *spapr)
-@@ -3072,6 +3077,8 @@ static void spapr_machine_init(MachineState *machine)
- 
-         kvmppc_spapr_enable_inkernel_multitce();
-     }
-+
-+    qemu_cond_init(&spapr->mc_delivery_cond);
- }
- 
- static int spapr_kvm_type(MachineState *machine, const char *vm_type)
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index 5bc1a93..e7509cf 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -352,6 +352,38 @@ static void rtas_get_power_level(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     rtas_st(rets, 1, 100);
- }
- 
-+static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
-+                                  SpaprMachineState *spapr,
-+                                  uint32_t token, uint32_t nargs,
-+                                  target_ulong args,
-+                                  uint32_t nret, target_ulong rets)
++void qemu_cond_wait_iothread(QemuCond *cond)
 +{
-+    hwaddr rtas_addr = spapr_get_rtas_addr();
-+
-+    if (!rtas_addr) {
-+        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-+        return;
-+    }
-+
-+    spapr->guest_machine_check_addr = rtas_ld(args, 1);
-+    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
++    qemu_cond_wait(cond, &qemu_global_mutex);
 +}
 +
-+static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
-+                                   SpaprMachineState *spapr,
-+                                   uint32_t token, uint32_t nargs,
-+                                   target_ulong args,
-+                                   uint32_t nret, target_ulong rets)
-+{
-+    if (spapr->guest_machine_check_addr == -1) {
-+        /* NMI register not called */
-+        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-+    } else {
-+        qemu_cond_signal(&spapr->mc_delivery_cond);
-+        rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-+    }
-+}
-+
- static struct rtas_call {
-     const char *name;
-     spapr_rtas_fn fn;
-@@ -470,6 +502,35 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *fdt, hwaddr addr)
-     }
- }
- 
-+hwaddr spapr_get_rtas_addr(void)
-+{
-+    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-+    int rtas_node;
-+    const struct fdt_property *rtas_addr_prop;
-+    void *fdt = spapr->fdt_blob;
-+    uint32_t rtas_addr;
-+
-+    /* fetch rtas addr from fdt */
-+    rtas_node = fdt_path_offset(fdt, "/rtas");
-+    if (rtas_node == 0) {
-+        return 0;
-+    }
-+
-+    rtas_addr_prop = fdt_get_property(fdt, rtas_node, "linux,rtas-base", NULL);
-+    if (!rtas_addr_prop) {
-+        return 0;
-+    }
-+
-+    /*
-+     * We assume that the OS called RTAS instantiate-rtas, but some other
-+     * OS might call RTAS instantiate-rtas-64 instead. This fine as of now
-+     * as SLOF only supports 32-bit variant.
-+     */
-+    rtas_addr = fdt32_to_cpu(*(uint32_t *)rtas_addr_prop->data);
-+    return (hwaddr)rtas_addr;
-+}
-+
-+
- static void core_rtas_register_types(void)
+ static bool all_vcpus_paused(void)
  {
-     spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
-@@ -493,6 +554,10 @@ static void core_rtas_register_types(void)
-                         rtas_set_power_level);
-     spapr_rtas_register(RTAS_GET_POWER_LEVEL, "get-power-level",
-                         rtas_get_power_level);
-+    spapr_rtas_register(RTAS_IBM_NMI_REGISTER, "ibm,nmi-register",
-+                        rtas_ibm_nmi_register);
-+    spapr_rtas_register(RTAS_IBM_NMI_INTERLOCK, "ibm,nmi-interlock",
-+                        rtas_ibm_nmi_interlock);
- }
+     CPUState *cpu;
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index f6ba78e..a6d20b0 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -295,6 +295,14 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line);
+  */
+ void qemu_mutex_unlock_iothread(void);
  
- type_init(core_rtas_register_types)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 4f5becf..9dc5e30 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -188,6 +188,10 @@ struct SpaprMachineState {
-      * occurs during the unplug process. */
-     QTAILQ_HEAD(, SpaprDimmState) pending_dimm_unplugs;
- 
-+    /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls */
-+    target_ulong guest_machine_check_addr;
-+    QemuCond mc_delivery_cond;
++/*
++ * qemu_cond_wait_iothread: Wait on condition for the main loop mutex
++ *
++ * This function atomically releases the main loop mutex and causes
++ * the calling thread to block on the condition.
++ */
++void qemu_cond_wait_iothread(QemuCond *cond);
 +
-     /*< public >*/
-     char *kvm_type;
-     char *host_model;
-@@ -624,8 +628,10 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
- #define RTAS_IBM_CREATE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x27)
- #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x28)
- #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + 0x29)
-+#define RTAS_IBM_NMI_REGISTER                   (RTAS_TOKEN_BASE + 0x2A)
-+#define RTAS_IBM_NMI_INTERLOCK                  (RTAS_TOKEN_BASE + 0x2B)
+ /* internal interfaces */
  
--#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2A)
-+#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2C)
- 
- /* RTAS ibm,get-system-parameter token values */
- #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
-@@ -876,4 +882,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
- #define SPAPR_OV5_XIVE_BOTH     0x80 /* Only to advertise on the platform */
- 
- void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
-+uint64_t spapr_get_rtas_addr(void);
- #endif /* HW_SPAPR_H */
+ void qemu_fd_register(int fd);
 
 
