@@ -2,73 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9587F2E23C
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 18:26:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57629 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12ABB3033D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 22:23:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58706 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hW1PE-0004aO-CF
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 12:26:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36291)
+	id 1hWRaB-0001VX-TS
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 16:23:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43945)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hW1O0-000492-V3
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:25:10 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hWRYt-00014b-Ow
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 16:22:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hW1Nx-0003TI-Dg
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:25:08 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36366)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hW1Nt-0003C9-0V
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 12:25:02 -0400
-Received: by mail-wr1-x441.google.com with SMTP id s17so2245542wru.3
-	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 09:24:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=W0SJ8X2eriH/6uj+RKzK10RqVpztQENWh4cWX7jYDAc=;
-	b=OBMcVcOWTlFcfIZCbvsu422JxebiE/oN+Lf+leJmuWolRjayadeZiwRPe1BsH8vxqJ
-	ZiWBqfacKGxiJtNwCXAcIymiQXfyByagnbAhu2VAD8YntD0OtrSrOmtvsUJstUGqcXQt
-	VXa52Y1asLpzGk5JG4xTkDZF4IlLU9gmIqucDawzAkY0PuiJYPXp5LjpsI8yrYRw5y5Z
-	hBBsLSZdtjf+lItxd4rhf9iGhIpqTk9rTZeLZAmnrJK2ll9ipQS6IDO3sNC1mRSLg8Ql
-	W3/dV14klhYXMdtB/yogBnKN9zCr4/eD6LUd6jnpMFI0wg394gUba7sqBgKJRxrxnEsf
-	0OWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=W0SJ8X2eriH/6uj+RKzK10RqVpztQENWh4cWX7jYDAc=;
-	b=mfHGcSSDXjwv1d7zgT/Rf8yLVcwwECN64CtAaHYUQ6b0nOZ6hGaGJV2dM1ktugFUtA
-	Fpg0CCXW7dcj0ctdhs3qgVTNVwijyvPnLsg8WYcX5j1EXC6CjouuVhrseWKj/mnuDV2l
-	USgy7Ug+aN7GGt/38lc+yNs//1D5RYtZVyw6YYUuyZic5x6wzXIjnd96Rk2LZo4mXgaE
-	KSLviByglZ/dHNTikcrP4FTX57v8je8af/tJamzYMhlpXYrj4owNIkG837vQ5oHBSDsJ
-	3cjnf+V9cL+nnvA4dBDaT3K922Y5tOEeYs6MpyOfda1mry/gjHuWRhEEdFgiXShffofb
-	kTUA==
-X-Gm-Message-State: APjAAAX4tG04pJ1vjtFsBb1WXfuPYlwoO17F+2FaKD4RKgr65ttASdRE
-	WFraHx3b6d5Fpmot1XjLClTEsQ==
-X-Google-Smtp-Source: APXvYqzo+3LwH9lTvP/CZg0ro/Mz3OsZFnbFjCM57o2PglRllOH0LF2TE5iYj2wWZmdbATMnEk3WCw==
-X-Received: by 2002:a5d:6745:: with SMTP id l5mr16004900wrw.160.1559147089687; 
-	Wed, 29 May 2019 09:24:49 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	d17sm24019029wrw.18.2019.05.29.09.24.48
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 29 May 2019 09:24:48 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 215211FF87;
-	Wed, 29 May 2019 17:24:48 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed, 29 May 2019 17:24:38 +0100
-Message-Id: <20190529162438.22653-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+	(envelope-from <no-reply@patchew.org>) id 1hWRYs-0002kJ-Au
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 16:22:07 -0400
+Resent-Date: Thu, 30 May 2019 16:22:07 -0400
+Resent-Message-Id: <E1hWRYs-0002kJ-Au@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21465)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hWRYs-0002bz-4g
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 16:22:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1559147604; cv=none; d=zoho.com; s=zohoarc; 
+	b=EImsrOzoZx/FS3BmiUtsZuAfdEYMByYTaup3fizox4MUiX40QbWUv15bKF82Bi2XhHaREvcaLT5jtIG5RdGmjsEBmr+iqYO2oclCPk3cI3KLjLv3rXOfA03/ESsJNPja8RYYfOOFMFoTqDAIkcBL4/G/yiOvO2upo6u22WUh9iE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1559147604;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=PQ6s3wx3gzzgJv7usj1cGrHztx6G3cMxQ+ml5DjAur4=; 
+	b=nfvL8bbOOO9u4zsEMcUjvTjjSLlFNjKn6FQWW3Xe9vOioEbFbOGFfspk50APB4zyvQ1QVWmdGhVXqgz5IceQv4vz9HcHki+S5oXOPQqPqcKj2i28Jfj8SV7DxJ4pTgbXF+jq+fI7sminc1mQt6CERiyUVoj/Jamk8+9o1V3y+xk=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1559147601580865.4050150616389;
+	Wed, 29 May 2019 09:33:21 -0700 (PDT)
+In-Reply-To: <20190529162438.22653-1-alex.bennee@linaro.org>
+Message-ID: <155914760052.9187.16991391604746750968@ce79690b2cb9>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [RFC PATCH] qemu-io-cmds: use clock_gettime for
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Wed, 29 May 2019 09:33:21 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [RFC PATCH] qemu-io-cmds: use clock_gettime for
  benchmarking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -81,266 +62,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	"open list:Block layer core" <qemu-block@nongnu.org>,
-	Max Reitz <mreitz@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+	qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous use of gettimeofday() ran into undefined behaviour when
-we ended up doing a div 0 for a very short operation. This is because
-gettimeofday only works at the microsecond level as well as being
-prone to discontinuous jumps in system time. Using clock_gettime with
-CLOCK_MONOTONIC gives greater precision and alleviates some of the
-potential problems with time jumping around.
-
-We could use CLOCK_MONOTONIC_RAW to avoid being tripped up by NTP and
-adjtime but that is Linux specific so I decided it would do for now.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- qemu-io-cmds.c | 69 +++++++++++++++++++++++++-------------------------
- 1 file changed, 35 insertions(+), 34 deletions(-)
-
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 30a7d9a13bf..4ace2969a9e 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -248,20 +248,21 @@ static void cvtstr(double value, char *str, size_t size)
- 
- 
- 
--static struct timeval tsub(struct timeval t1, struct timeval t2)
-+static struct timespec tsub(struct timespec t1, struct timespec t2)
- {
--    t1.tv_usec -= t2.tv_usec;
--    if (t1.tv_usec < 0) {
--        t1.tv_usec += 1000000;
-+    t1.tv_nsec -= t2.tv_nsec;
-+    if (t1.tv_nsec < 0) {
-+        t1.tv_nsec += 1000000000;
-         t1.tv_sec--;
-     }
-     t1.tv_sec -= t2.tv_sec;
-     return t1;
- }
- 
--static double tdiv(double value, struct timeval tv)
-+static double tdiv(double value, struct timespec tv)
- {
--    return value / ((double)tv.tv_sec + ((double)tv.tv_usec / 1000000.0));
-+    double time = (double)tv.tv_sec + ((double)tv.tv_nsec / 1000000000.0);
-+    return value / time;
- }
- 
- #define HOURS(sec)      ((sec) / (60 * 60))
-@@ -274,16 +275,16 @@ enum {
-     VERBOSE_FIXED_TIME  = 0x2,
- };
- 
--static void timestr(struct timeval *tv, char *ts, size_t size, int format)
-+static void timestr(struct timespec *tv, char *ts, size_t size, int format)
- {
--    double usec = (double)tv->tv_usec / 1000000.0;
-+    double nsec = (double)tv->tv_nsec / 1000000000.0;
- 
-     if (format & TERSE_FIXED_TIME) {
-         if (!HOURS(tv->tv_sec)) {
-             snprintf(ts, size, "%u:%02u.%02u",
-                     (unsigned int) MINUTES(tv->tv_sec),
-                     (unsigned int) SECONDS(tv->tv_sec),
--                    (unsigned int) (usec * 100));
-+                    (unsigned int) (nsec * 100000));
-             return;
-         }
-         format |= VERBOSE_FIXED_TIME; /* fallback if hours needed */
-@@ -294,9 +295,9 @@ static void timestr(struct timeval *tv, char *ts, size_t size, int format)
-                 (unsigned int) HOURS(tv->tv_sec),
-                 (unsigned int) MINUTES(tv->tv_sec),
-                 (unsigned int) SECONDS(tv->tv_sec),
--                (unsigned int) (usec * 100));
-+                (unsigned int) (nsec * 100000));
-     } else {
--        snprintf(ts, size, "0.%04u sec", (unsigned int) (usec * 10000));
-+        snprintf(ts, size, "0.%04u sec", (unsigned int) (nsec * 10000000));
-     }
- }
- 
-@@ -376,7 +377,7 @@ static void dump_buffer(const void *buffer, int64_t offset, int64_t len)
-     }
- }
- 
--static void print_report(const char *op, struct timeval *t, int64_t offset,
-+static void print_report(const char *op, struct timespec *t, int64_t offset,
-                          int64_t count, int64_t total, int cnt, bool Cflag)
- {
-     char s1[64], s2[64], ts[64];
-@@ -649,7 +650,7 @@ static const cmdinfo_t read_cmd = {
- 
- static int read_f(BlockBackend *blk, int argc, char **argv)
- {
--    struct timeval t1, t2;
-+    struct timespec t1, t2;
-     bool Cflag = false, qflag = false, vflag = false;
-     bool Pflag = false, sflag = false, lflag = false, bflag = false;
-     int c, cnt, ret;
-@@ -758,13 +759,13 @@ static int read_f(BlockBackend *blk, int argc, char **argv)
- 
-     buf = qemu_io_alloc(blk, count, 0xab);
- 
--    gettimeofday(&t1, NULL);
-+    clock_gettime(CLOCK_MONOTONIC, &t1);
-     if (bflag) {
-         ret = do_load_vmstate(blk, buf, offset, count, &total);
-     } else {
-         ret = do_pread(blk, buf, offset, count, &total);
-     }
--    gettimeofday(&t2, NULL);
-+    clock_gettime(CLOCK_MONOTONIC, &t2);
- 
-     if (ret < 0) {
-         printf("read failed: %s\n", strerror(-ret));
-@@ -836,7 +837,7 @@ static const cmdinfo_t readv_cmd = {
- 
- static int readv_f(BlockBackend *blk, int argc, char **argv)
- {
--    struct timeval t1, t2;
-+    struct timespec t1, t2;
-     bool Cflag = false, qflag = false, vflag = false;
-     int c, cnt, ret;
-     char *buf;
-@@ -891,9 +892,9 @@ static int readv_f(BlockBackend *blk, int argc, char **argv)
-         return -EINVAL;
-     }
- 
--    gettimeofday(&t1, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t1);
-     ret = do_aio_readv(blk, &qiov, offset, &total);
--    gettimeofday(&t2, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t2);
- 
-     if (ret < 0) {
-         printf("readv failed: %s\n", strerror(-ret));
-@@ -972,7 +973,7 @@ static const cmdinfo_t write_cmd = {
- 
- static int write_f(BlockBackend *blk, int argc, char **argv)
- {
--    struct timeval t1, t2;
-+    struct timespec t1, t2;
-     bool Cflag = false, qflag = false, bflag = false;
-     bool Pflag = false, zflag = false, cflag = false;
-     int flags = 0;
-@@ -1091,7 +1092,7 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-         buf = qemu_io_alloc(blk, count, pattern);
-     }
- 
--    gettimeofday(&t1, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t1);
-     if (bflag) {
-         ret = do_save_vmstate(blk, buf, offset, count, &total);
-     } else if (zflag) {
-@@ -1101,7 +1102,7 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     } else {
-         ret = do_pwrite(blk, buf, offset, count, flags, &total);
-     }
--    gettimeofday(&t2, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t2);
- 
-     if (ret < 0) {
-         printf("write failed: %s\n", strerror(-ret));
-@@ -1160,7 +1161,7 @@ static const cmdinfo_t writev_cmd = {
- 
- static int writev_f(BlockBackend *blk, int argc, char **argv)
- {
--    struct timeval t1, t2;
-+    struct timespec t1, t2;
-     bool Cflag = false, qflag = false;
-     int flags = 0;
-     int c, cnt, ret;
-@@ -1213,9 +1214,9 @@ static int writev_f(BlockBackend *blk, int argc, char **argv)
-         return -EINVAL;
-     }
- 
--    gettimeofday(&t1, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t1);
-     ret = do_aio_writev(blk, &qiov, offset, flags, &total);
--    gettimeofday(&t2, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t2);
- 
-     if (ret < 0) {
-         printf("writev failed: %s\n", strerror(-ret));
-@@ -1250,15 +1251,15 @@ struct aio_ctx {
-     bool zflag;
-     BlockAcctCookie acct;
-     int pattern;
--    struct timeval t1;
-+    struct timespec t1;
- };
- 
- static void aio_write_done(void *opaque, int ret)
- {
-     struct aio_ctx *ctx = opaque;
--    struct timeval t2;
-+    struct timespec t2;
- 
--    gettimeofday(&t2, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t2);
- 
- 
-     if (ret < 0) {
-@@ -1288,9 +1289,9 @@ out:
- static void aio_read_done(void *opaque, int ret)
- {
-     struct aio_ctx *ctx = opaque;
--    struct timeval t2;
-+    struct timespec t2;
- 
--    gettimeofday(&t2, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t2);
- 
-     if (ret < 0) {
-         printf("readv failed: %s\n", strerror(-ret));
-@@ -1425,7 +1426,7 @@ static int aio_read_f(BlockBackend *blk, int argc, char **argv)
-         return -EINVAL;
-     }
- 
--    gettimeofday(&ctx->t1, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&ctx->t1);
-     block_acct_start(blk_get_stats(blk), &ctx->acct, ctx->qiov.size,
-                      BLOCK_ACCT_READ);
-     blk_aio_preadv(blk, ctx->offset, &ctx->qiov, 0, aio_read_done, ctx);
-@@ -1570,7 +1571,7 @@ static int aio_write_f(BlockBackend *blk, int argc, char **argv)
-             return -EINVAL;
-         }
- 
--        gettimeofday(&ctx->t1, NULL);
-+        clock_gettime(CLOCK_MONOTONIC,&ctx->t1);
-         block_acct_start(blk_get_stats(blk), &ctx->acct, ctx->qiov.size,
-                          BLOCK_ACCT_WRITE);
- 
-@@ -1746,7 +1747,7 @@ static const cmdinfo_t discard_cmd = {
- 
- static int discard_f(BlockBackend *blk, int argc, char **argv)
- {
--    struct timeval t1, t2;
-+    struct timespec t1, t2;
-     bool Cflag = false, qflag = false;
-     int c, ret;
-     int64_t offset, bytes;
-@@ -1787,9 +1788,9 @@ static int discard_f(BlockBackend *blk, int argc, char **argv)
-         return -EINVAL;
-     }
- 
--    gettimeofday(&t1, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t1);
-     ret = blk_pdiscard(blk, offset, bytes);
--    gettimeofday(&t2, NULL);
-+    clock_gettime(CLOCK_MONOTONIC,&t2);
- 
-     if (ret < 0) {
-         printf("discard failed: %s\n", strerror(-ret));
--- 
-2.20.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyOTE2MjQzOC4yMjY1
+My0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUkZDIFBBVENIXSBxZW11LWlv
+LWNtZHM6IHVzZSBjbG9ja19nZXR0aW1lIGZvciBiZW5jaG1hcmtpbmcKVHlwZTogc2VyaWVzCk1l
+c3NhZ2UtaWQ6IDIwMTkwNTI5MTYyNDM4LjIyNjUzLTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZwoK
+PT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2Ug
+PiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0
+IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2Nh
+bCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWls
+YmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIu
+Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgICAgICAgIHBhdGNo
+ZXcvMjAxOTA1MjkxNjI0MzguMjI2NTMtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnIC0+IHBhdGNo
+ZXcvMjAxOTA1MjkxNjI0MzguMjI2NTMtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnClN3aXRjaGVk
+IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZDZlYmNiNjM1YSBxZW11LWlvLWNtZHM6IHVzZSBjbG9j
+a19nZXR0aW1lIGZvciBiZW5jaG1hcmtpbmcKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBz
+cGFjZSByZXF1aXJlZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4TykKIzEzMjogRklMRTogcWVtdS1p
+by1jbWRzLmM6ODk1OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0MSk7CiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQg
+YmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMTMyOiBGSUxFOiBxZW11LWlvLWNtZHMuYzo4OTU6
+CisgICAgY2xvY2tfZ2V0dGltZShDTE9DS19NT05PVE9OSUMsJnQxKTsKICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAn
+LCcgKGN0eDpWeE8pCiMxMzU6IEZJTEU6IHFlbXUtaW8tY21kcy5jOjg5NzoKKyAgICBjbG9ja19n
+ZXR0aW1lKENMT0NLX01PTk9UT05JQywmdDIpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0aGF0ICcmJyAoY3R4Ok94VikK
+IzEzNTogRklMRTogcWVtdS1pby1jbWRzLmM6ODk3OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tf
+TU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJS
+T1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMTUzOiBGSUxFOiBx
+ZW11LWlvLWNtZHMuYzoxMDk1OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0
+MSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVx
+dWlyZWQgYmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMTUzOiBGSUxFOiBxZW11LWlvLWNtZHMu
+YzoxMDk1OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0MSk7CiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVy
+IHRoYXQgJywnIChjdHg6VnhPKQojMTYyOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMTA1OgorICAg
+IGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoYXQgJyYnIChj
+dHg6T3hWKQojMTYyOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMTA1OgorICAgIGNsb2NrX2dldHRp
+bWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMTgw
+OiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMjE3OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9O
+T1RPTklDLCZ0MSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjog
+c3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMTgwOiBGSUxFOiBxZW11
+LWlvLWNtZHMuYzoxMjE3OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0MSk7
+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVp
+cmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMTgzOiBGSUxFOiBxZW11LWlvLWNtZHMuYzox
+MjE5OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRo
+YXQgJyYnIChjdHg6T3hWKQojMTgzOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMjE5OgorICAgIGNs
+b2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6
+VnhPKQojMjAyOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMjYyOgorICAgIGNsb2NrX2dldHRpbWUo
+Q0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
+CgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMjAyOiBG
+SUxFOiBxZW11LWlvLWNtZHMuYzoxMjYyOgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RP
+TklDLCZ0Mik7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNw
+YWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMjE0OiBGSUxFOiBxZW11LWlv
+LWNtZHMuYzoxMjk0OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQg
+YmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMjE0OiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxMjk0
+OgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQg
+JywnIChjdHg6VnhPKQojMjIzOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxNDI5OgorICAgIGNsb2Nr
+X2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZjdHgtPnQxKTsKICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhhdCAnJicgKGN0
+eDpPeFYpCiMyMjM6IEZJTEU6IHFlbXUtaW8tY21kcy5jOjE0Mjk6CisgICAgY2xvY2tfZ2V0dGlt
+ZShDTE9DS19NT05PVE9OSUMsJmN0eC0+dDEpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4TykK
+IzIzMjogRklMRTogcWVtdS1pby1jbWRzLmM6MTU3NDoKKyAgICAgICAgY2xvY2tfZ2V0dGltZShD
+TE9DS19NT05PVE9OSUMsJmN0eC0+dDEpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhhdCAnJicgKGN0eDpPeFYp
+CiMyMzI6IEZJTEU6IHFlbXUtaW8tY21kcy5jOjE1NzQ6CisgICAgICAgIGNsb2NrX2dldHRpbWUo
+Q0xPQ0tfTU9OT1RPTklDLCZjdHgtPnQxKTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhP
+KQojMjUwOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxNzkxOgorICAgIGNsb2NrX2dldHRpbWUoQ0xP
+Q0tfTU9OT1RPTklDLCZ0MSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpF
+UlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMjUwOiBGSUxF
+OiBxZW11LWlvLWNtZHMuYzoxNzkxOgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklD
+LCZ0MSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNl
+IHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhPKQojMjUzOiBGSUxFOiBxZW11LWlvLWNt
+ZHMuYzoxNzkzOgorICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVm
+b3JlIHRoYXQgJyYnIChjdHg6T3hWKQojMjUzOiBGSUxFOiBxZW11LWlvLWNtZHMuYzoxNzkzOgor
+ICAgIGNsb2NrX2dldHRpbWUoQ0xPQ0tfTU9OT1RPTklDLCZ0Mik7CiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDI0IGVycm9ycywgMCB3YXJuaW5ncywgMjE0IGxp
+bmVzIGNoZWNrZWQKCkNvbW1pdCBkNmViY2I2MzVhYzYgKHFlbXUtaW8tY21kczogdXNlIGNsb2Nr
+X2dldHRpbWUgZm9yIGJlbmNobWFya2luZykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
+aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
+aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09
+IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
+dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA1Mjkx
+NjI0MzguMjI2NTMtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/
+dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
+dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
+dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
