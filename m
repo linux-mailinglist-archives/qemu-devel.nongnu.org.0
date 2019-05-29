@@ -2,48 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2091A2D604
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:13:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48699 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55032D621
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:20:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48804 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVslt-0001kE-89
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:13:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48328)
+	id 1hVssi-0007EP-Nn
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:20:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53215)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsQn-0000mn-TO
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:26 -0400
+	(envelope-from <elohimes@gmail.com>) id 1hVsjf-0000OB-Iq
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:10:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsQm-000316-RS
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:25 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35887 helo=ozlabs.org)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hVsQm-0002r4-E6; Wed, 29 May 2019 02:51:24 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45DLv70LlFz9sPc; Wed, 29 May 2019 16:50:26 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1559112627;
-	bh=Slm6kw9RPZToEV2z3ODo3MPSUQ2me32jV07w5nNpeO0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SunNSyiOn1WF2RmuqwEdAFJIUnww2eXCgLZ1Xa1xOlJ4n4Cg9h/vEL90UFPQZpyUj
-	5DX0G5pfUwXSvN987d2ickIdRV7Ph/3kxikqoCitzEdSkxZdZ0a1yO/X4GWiTTeVDr
-	1ZJo5q/UbH2Uxo6KuxNhhQ444uHU4qhZuuOkhZoA=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Date: Wed, 29 May 2019 16:50:17 +1000
-Message-Id: <20190529065017.15149-45-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190529065017.15149-1-david@gibson.dropbear.id.au>
-References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+	(envelope-from <elohimes@gmail.com>) id 1hVsjd-0006O8-Kv
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:10:55 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39332)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hVsjb-0006My-SK
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 03:10:53 -0400
+Received: by mail-pl1-x644.google.com with SMTP id g9so658058plm.6
+	for <qemu-devel@nongnu.org>; Wed, 29 May 2019 00:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=JUZGbiiSfwtgG6+C+pk4U0bdDVaD9HvtYKCMbozyaBc=;
+	b=YGffU8spWs/c0/20Bxf0xYPMFODHpYE4XZ+M3rF62ZYbQ5bXxi8MUI1Hwn1OsBQAJG
+	JtjBONn92czWOes14brkx9iexrRHv/Ui9gvUL4ROrKgUIyI36Ad8FNUHowhg2/OI8zlB
+	R0gMzUmwakIEaumOvi63OqAKm+7KEXoO9Q+xvkywA+7NbeqBt+vaoulGAJvpDyvrc8dZ
+	dqqzTy5mDdQgj8N3NwUmlQFOQlYVyU7PNEs0CQS3MQTRjjuhzZaEmkfR96zzQP3pjbMD
+	Olkncp9utC64N4QViKkmWxwvSOfYdYzeYISs2WWAE2NkLtLi3rGxScj7MWWgvZq02RHf
+	oHPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=JUZGbiiSfwtgG6+C+pk4U0bdDVaD9HvtYKCMbozyaBc=;
+	b=IIsDadp6k5WOiPXBhaPyOjXpT/WPtYevW5Wt50/bxwfsKV6yZjKJ1+fNCFQ70Oiu+z
+	13/AY80/mPmEaiFvrz1Ompg+IhpltAIqfCqQCME0rHiDjhlCJUZtxrwjPX25eMMjLJnv
+	jkFEc15Vi8vK14dRNFNEEUnzaNtM1qub+BtMYuB+32yWGgCj5d/6eyIlRVPvR9Fdi3uV
+	flNxzR2F7UpusBZZM6lJgy5v0ohmuu4guRMcVNPhWqMC0YiM+xRWq6fZftiWLk/FBs6a
+	0b753dQmQaQw00hJ9QJT5o3KT+MfBKjQLU7hYD1k8cVmDc1bIMfmqOe8gu5G2DwwsU4P
+	vBLg==
+X-Gm-Message-State: APjAAAVjFkNl4ZMMLwHmX8jfZC0DLSiJk3zImN0/fYmoOAUqd08O3vIA
+	MdoeLSa7jR6VaIwU4qCGuyQ=
+X-Google-Smtp-Source: APXvYqwg1nKuJgYbKwH8oTF1LIjtQX6dSCMFlz/hfAIbZg/4vkTnQJeEzCrLoFgy+zTKs7z6mnidXw==
+X-Received: by 2002:a17:902:e40a:: with SMTP id
+	ci10mr92503927plb.195.1559113850254; 
+	Wed, 29 May 2019 00:10:50 -0700 (PDT)
+Received: from localhost ([116.247.112.152]) by smtp.gmail.com with ESMTPSA id
+	g17sm24212474pfk.55.2019.05.29.00.10.49
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 29 May 2019 00:10:49 -0700 (PDT)
+From: elohimes@gmail.com
+X-Google-Original-From: xieyongji@baidu.com
+To: mst@redhat.com,
+	groug@kaod.org,
+	dgilbert@redhat.com
+Date: Wed, 29 May 2019 15:09:50 +0800
+Message-Id: <20190529070955.25565-1-xieyongji@baidu.com>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 44/44] ppc/pnv: add dummy XSCOM registers for
- PRD initialization
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: [Qemu-devel] [PATCH 0/5] virtio: fix some issues of "started" and
+ "start_on_kick" flag
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,72 +75,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
-	qemu-ppc@nongnu.org, clg@kaod.org,
-	David Gibson <david@gibson.dropbear.id.au>, rth@twiddle.net
+Cc: Xie Yongji <xieyongji@baidu.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Xie Yongji <xieyongji@baidu.com>
 
-PRD (Processor recovery diagnostics) is a service available on
-OpenPower systems. The opal-prd daemon initializes the PowerPC
-Processor through the XSCOM bus and then waits for hardware diagnostic
-events.
+We introduced two flags "started" and "start_on_kick" to indicate virtio
+device's state before. But there still are some problems with them. So
+we try to fixup them in this patchset.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190527071722.31424-1-clg@kaod.org>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/pnv_xscom.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+The patch 1 fixes a regression bug that old guest is not able to boot with
+vhost-user-blk device.
 
-diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index c285ef514e..f53a6d7a94 100644
---- a/hw/ppc/pnv_xscom.c
-+++ b/hw/ppc/pnv_xscom.c
-@@ -29,6 +29,12 @@
-=20
- #include <libfdt.h>
-=20
-+/* PRD registers */
-+#define PRD_P8_IPOLL_REG_MASK           0x01020013
-+#define PRD_P8_IPOLL_REG_STATUS         0x01020014
-+#define PRD_P9_IPOLL_REG_MASK           0x000F0033
-+#define PRD_P9_IPOLL_REG_STATUS         0x000F0034
-+
- static void xscom_complete(CPUState *cs, uint64_t hmer_bits)
- {
-     /*
-@@ -70,6 +76,12 @@ static uint64_t xscom_read_default(PnvChip *chip, uint=
-32_t pcba)
-     case 0x1010c00:     /* PIBAM FIR */
-     case 0x1010c03:     /* PIBAM FIR MASK */
-=20
-+        /* PRD registers */
-+    case PRD_P8_IPOLL_REG_MASK:
-+    case PRD_P8_IPOLL_REG_STATUS:
-+    case PRD_P9_IPOLL_REG_MASK:
-+    case PRD_P9_IPOLL_REG_STATUS:
-+
-         /* P9 xscom reset */
-     case 0x0090018:     /* Receive status reg */
-     case 0x0090012:     /* log register */
-@@ -124,6 +136,12 @@ static bool xscom_write_default(PnvChip *chip, uint3=
-2_t pcba, uint64_t val)
-     case 0x201302a:     /* CAPP stuff */
-     case 0x2013801:     /* CAPP stuff */
-     case 0x2013802:     /* CAPP stuff */
-+
-+        /* P8 PRD registers */
-+    case PRD_P8_IPOLL_REG_MASK:
-+    case PRD_P8_IPOLL_REG_STATUS:
-+    case PRD_P9_IPOLL_REG_MASK:
-+    case PRD_P9_IPOLL_REG_STATUS:
-         return true;
-     default:
-         return false;
---=20
-2.21.0
+The patch 2,3,4 fix some problems with "started" and "start_on_kick" flag.
+
+The patch 5 introduces a "use-started" property to avoid a migration
+issue under Greg Kurz's suggestion [1].
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg06247.html
+
+Xie Yongji (5):
+  virtio: Set "start_on_kick" on virtio_set_features()
+  virtio: Migrate the "start_on_kick" flag
+  virtio: Make sure we get correct state of device on
+    handle_aio_output()
+  virtio: Don't change "started" flag on virtio_vmstate_change()
+  virtio: add "use-started" property
+
+ hw/block/vhost-user-blk.c  |  8 +++--
+ hw/core/machine.c          |  4 ++-
+ hw/virtio/virtio.c         | 67 +++++++++++++++++++++++++++-----------
+ include/hw/virtio/virtio.h | 10 ++++++
+ 4 files changed, 67 insertions(+), 22 deletions(-)
+
+-- 
+2.17.1
 
 
