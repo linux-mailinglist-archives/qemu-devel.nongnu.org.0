@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9987B2D6F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:52:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49369 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1F72D6F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 May 2019 09:49:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49313 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hVtNS-0007rw-Rk
-	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:52:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48570)
+	id 1hVtKy-00063R-DZ
+	for lists+qemu-devel@lfdr.de; Wed, 29 May 2019 03:49:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48434)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsRC-0001HW-93
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:51 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsQr-0000rQ-Ee
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hVsRA-0003DG-A6
-	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:50 -0400
-Received: from ozlabs.org ([203.11.71.1]:52401)
+	(envelope-from <dgibson@ozlabs.org>) id 1hVsQp-00033T-GL
+	for qemu-devel@nongnu.org; Wed, 29 May 2019 02:51:29 -0400
+Received: from ozlabs.org ([203.11.71.1]:34609)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hVsR9-00031j-5L; Wed, 29 May 2019 02:51:48 -0400
+	id 1hVsQo-0002uJ-Uo; Wed, 29 May 2019 02:51:27 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45DLv81Vx9z9sPn; Wed, 29 May 2019 16:50:26 +1000 (AEST)
+	id 45DLv74x39z9sPk; Wed, 29 May 2019 16:50:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1559112628;
-	bh=N4Msu5vC5ToRCfQzQVywNNY77GKEdiRxWk6vPULpnQw=;
+	d=gibson.dropbear.id.au; s=201602; t=1559112627;
+	bh=FcN2l0wlMJx6UoLeNzM7RfA5UZkdBt6MKYnqEaJdFWg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cMlWuh/+x/9K20YM6e6Jsb418/6kpUa1dwxXB+b50N2F+zaA0vLFZOffNovH7LSEY
-	K2zw7RcZkHfLyUv2o2FmizuyldUasM8cpTdKbLhSUm7JF8AIqdDnOHL9yiLANaQnzQ
-	NcnzJ1OmyoX65YiM/B2KVVGoH5h3lhL/wnBHrKew=
+	b=pIhSLIefWsuBq16/X+0dQheJzxX9JoXLrG2Ri5uehswWna3qxwAtG1VuUatS5oWC4
+	f44q7l79933Q2As/mmlC/TwWCpS98dtNTtgn7LBMH2Kz0ZkyvSoNNVskP8jtofy4D6
+	6ViCko7Ewgd1HtSeSAqeDzOCvvG5Es+pamtkxnzc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 29 May 2019 16:50:10 +1000
-Message-Id: <20190529065017.15149-38-david@gibson.dropbear.id.au>
+Date: Wed, 29 May 2019 16:50:11 +1000
+Message-Id: <20190529065017.15149-39-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190529065017.15149-1-david@gibson.dropbear.id.au>
 References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 37/44] ppc/xics: fix irq priority in
- ics_set_irq_type()
+Subject: [Qemu-devel] [PULL 38/44] spapr/irq: add KVM support to the 'dual'
+ machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,69 +62,336 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Recent commits changed the behavior of ics_set_irq_type() to
-initialize correctly LSIs at the KVM level. ics_set_irq_type() is also
-called by the realize routine of the different devices of the machine
-when initial interrupts are claimed, before the ICSState device is
-reseted.
+The interrupt mode is chosen by the CAS negotiation process and
+activated after a reset to take into account the required changes in
+the machine. This brings new constraints on how the associated KVM IRQ
+device is initialized.
 
-In the case, the ICSIRQState priority is 0x0 and the call to
-ics_set_irq_type() results in configuring the target of the
-interrupt. On P9, when using the KVM XICS-on-XIVE device, the target
-is configured to be server 0, priority 0 and the event queue 0 is
-created automatically by KVM.
+Currently, each model takes care of the initialization of the KVM
+device in their realize method but this is not possible anymore as the
+initialization needs to be done globaly when the interrupt mode is
+known, i.e. when machine is reseted. It also means that we need a way
+to delete a KVM device when another mode is chosen.
 
-With the dual interrupt mode creating the KVM device at reset, it
-leads to unexpected effects on the guest, mostly blocking IPIs. This
-is wrong, fix it by reseting the ICSIRQState structure when
-ics_set_irq_type() is called.
+Also, to support migration, the QEMU objects holding the state to
+transfer should always be available but not necessarily activated.
 
-Fixes: commit 6cead90c5c9c ("xics: Write source state to KVM at claim tim=
-e")
-Signed-off-by: Greg Kurz <groug@kaod.org>
+The overall approach of this proposal is to initialize both interrupt
+mode at the QEMU level to keep the IRQ number space in sync and to
+allow switching from one mode to another. For the KVM side of things,
+the whole initialization of the KVM device, sources and presenters, is
+grouped in a single routine. The XICS and XIVE sPAPR IRQ reset
+handlers are modified accordingly to handle the init and the delete
+sequences of the KVM device.
+
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190513084245.25755-14-clg@kaod.org>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20190513084245.25755-15-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xics.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ hw/intc/spapr_xive_kvm.c | 29 +++++++++++++++++++-
+ hw/intc/xics_kvm.c       | 31 +++++++++++++++++++++
+ hw/intc/xive.c           |  4 ---
+ hw/ppc/spapr_irq.c       | 58 ++++++++++++++++++++++++++--------------
+ include/hw/ppc/xive.h    |  1 -
+ 5 files changed, 97 insertions(+), 26 deletions(-)
 
-diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index af7dc709ab..79f5a8a916 100644
---- a/hw/intc/xics.c
-+++ b/hw/intc/xics.c
-@@ -610,6 +610,12 @@ static const TypeInfo ics_simple_info =3D {
-     .class_size =3D sizeof(ICSStateClass),
- };
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index 078d18d775..ec170b3045 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -246,7 +246,7 @@ void kvmppc_xive_source_reset_one(XiveSource *xsrc, i=
+nt srcno, Error **errp)
+                       true, errp);
+ }
 =20
-+static void ics_reset_irq(ICSIRQState *irq)
-+{
-+    irq->priority =3D 0xff;
-+    irq->saved_priority =3D 0xff;
-+}
-+
- static void ics_base_reset(DeviceState *dev)
+-void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
++static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
  {
-     ICSState *ics =3D ICS_BASE(dev);
-@@ -623,8 +629,7 @@ static void ics_base_reset(DeviceState *dev)
-     memset(ics->irqs, 0, sizeof(ICSIRQState) * ics->nr_irqs);
+     int i;
 =20
-     for (i =3D 0; i < ics->nr_irqs; i++) {
--        ics->irqs[i].priority =3D 0xff;
--        ics->irqs[i].saved_priority =3D 0xff;
-+        ics_reset_irq(ics->irqs + i);
-         ics->irqs[i].flags =3D flags[i];
-     }
- }
-@@ -760,6 +765,7 @@ void ics_set_irq_type(ICSState *ics, int srcno, bool =
-lsi)
-         lsi ? XICS_FLAGS_IRQ_LSI : XICS_FLAGS_IRQ_MSI;
+@@ -697,6 +697,15 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **er=
+rp)
+     Error *local_err =3D NULL;
+     size_t esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
+     size_t tima_len =3D 4ull << TM_SHIFT;
++    CPUState *cs;
++
++    /*
++     * The KVM XIVE device already in use. This is the case when
++     * rebooting under the XIVE-only interrupt mode.
++     */
++    if (xive->fd !=3D -1) {
++        return;
++    }
 =20
-     if (kvm_irqchip_in_kernel()) {
-+        ics_reset_irq(ics->irqs + srcno);
-         ics_set_kvm_state_one(ics, srcno);
-     }
+     if (!kvmppc_has_cap_xive()) {
+         error_setg(errp, "IRQ_XIVE capability must be present for KVM");
+@@ -745,6 +754,24 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **er=
+rp)
+     xive->change =3D qemu_add_vm_change_state_handler(
+         kvmppc_xive_change_state_handler, xive);
+=20
++    /* Connect the presenters to the initial VCPUs of the machine */
++    CPU_FOREACH(cs) {
++        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++
++        kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, &local_err);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            return;
++        }
++    }
++
++    /* Update the KVM sources */
++    kvmppc_xive_source_reset(xsrc, &local_err);
++    if (local_err) {
++            error_propagate(errp, local_err);
++            return;
++    }
++
+     kvm_kernel_irqchip =3D true;
+     kvm_msi_via_irqfd_allowed =3D true;
+     kvm_gsi_direct_mapping =3D true;
+diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
+index 12bd5190cf..5ba5b77561 100644
+--- a/hw/intc/xics_kvm.c
++++ b/hw/intc/xics_kvm.c
+@@ -33,6 +33,7 @@
+ #include "trace.h"
+ #include "sysemu/kvm.h"
+ #include "hw/ppc/spapr.h"
++#include "hw/ppc/spapr_cpu_core.h"
+ #include "hw/ppc/xics.h"
+ #include "hw/ppc/xics_spapr.h"
+ #include "kvm_ppc.h"
+@@ -342,6 +343,16 @@ static void rtas_dummy(PowerPCCPU *cpu, SpaprMachine=
+State *spapr,
+ int xics_kvm_init(SpaprMachineState *spapr, Error **errp)
+ {
+     int rc;
++    CPUState *cs;
++    Error *local_err =3D NULL;
++
++    /*
++     * The KVM XICS device already in use. This is the case when
++     * rebooting under the XICS-only interrupt mode.
++     */
++    if (kernel_xics_fd !=3D -1) {
++        return 0;
++    }
+=20
+     if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_IRQ_XI=
+CS)) {
+         error_setg(errp,
+@@ -390,6 +401,26 @@ int xics_kvm_init(SpaprMachineState *spapr, Error **=
+errp)
+     kvm_msi_via_irqfd_allowed =3D true;
+     kvm_gsi_direct_mapping =3D true;
+=20
++    /* Create the presenters */
++    CPU_FOREACH(cs) {
++        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++
++        icp_kvm_realize(DEVICE(spapr_cpu_state(cpu)->icp), &local_err);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            goto fail;
++        }
++    }
++
++    /* Update the KVM sources */
++    ics_set_kvm_state(spapr->ics);
++
++    /* Connect the presenters to the initial VCPUs of the machine */
++    CPU_FOREACH(cs) {
++        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++        icp_set_kvm_state(spapr_cpu_state(cpu)->icp);
++    }
++
+     return 0;
+=20
+ fail:
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index b5ebb33527..0c74e47aa4 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -993,10 +993,6 @@ static void xive_source_reset(void *dev)
+=20
+     /* PQs are initialized to 0b01 (Q=3D1) which corresponds to "ints of=
+f" */
+     memset(xsrc->status, XIVE_ESB_OFF, xsrc->nr_irqs);
+-
+-    if (kvm_irqchip_in_kernel()) {
+-        kvmppc_xive_source_reset(xsrc, &error_fatal);
+-    }
  }
+=20
+ static void xive_source_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index d1e87577fb..3156daf093 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -102,12 +102,6 @@ static void spapr_irq_init_xics(SpaprMachineState *s=
+papr, int nr_irqs,
+     Object *obj;
+     Error *local_err =3D NULL;
+=20
+-    spapr_irq_init_device(spapr, &spapr_irq_xics, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
+-
+     obj =3D object_new(TYPE_ICS_SIMPLE);
+     object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
+     object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
+@@ -226,7 +220,13 @@ static void spapr_irq_set_irq_xics(void *opaque, int=
+ srcno, int val)
+=20
+ static void spapr_irq_reset_xics(SpaprMachineState *spapr, Error **errp)
+ {
+-    /* TODO: create the KVM XICS device */
++    Error *local_err =3D NULL;
++
++    spapr_irq_init_device(spapr, &spapr_irq_xics, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
+ }
+=20
+ static const char *spapr_irq_get_nodename_xics(SpaprMachineState *spapr)
+@@ -279,7 +279,6 @@ static void spapr_irq_init_xive(SpaprMachineState *sp=
+apr, int nr_irqs,
+     uint32_t nr_servers =3D spapr_max_server_number(spapr);
+     DeviceState *dev;
+     int i;
+-    Error *local_err =3D NULL;
+=20
+     dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
+     qdev_prop_set_uint32(dev, "nr-irqs", nr_irqs);
+@@ -297,12 +296,6 @@ static void spapr_irq_init_xive(SpaprMachineState *s=
+papr, int nr_irqs,
+     }
+=20
+     spapr_xive_hcall_init(spapr);
+-
+-    spapr_irq_init_device(spapr, &spapr_irq_xive, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
+ }
+=20
+ static int spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, bool =
+lsi,
+@@ -382,6 +375,7 @@ static int spapr_irq_post_load_xive(SpaprMachineState=
+ *spapr, int version_id)
+ static void spapr_irq_reset_xive(SpaprMachineState *spapr, Error **errp)
+ {
+     CPUState *cs;
++    Error *local_err =3D NULL;
+=20
+     CPU_FOREACH(cs) {
+         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+@@ -390,6 +384,12 @@ static void spapr_irq_reset_xive(SpaprMachineState *=
+spapr, Error **errp)
+         spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
+     }
+=20
++    spapr_irq_init_device(spapr, &spapr_irq_xive, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
+     /* Activate the XIVE MMIOs */
+     spapr_xive_mmio_set_enabled(spapr->xive, true);
+ }
+@@ -472,14 +472,8 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState=
+ *spapr)
+ static void spapr_irq_init_dual(SpaprMachineState *spapr, int nr_irqs,
+                                 Error **errp)
+ {
+-    MachineState *machine =3D MACHINE(spapr);
+     Error *local_err =3D NULL;
+=20
+-    if (kvm_enabled() && machine_kernel_irqchip_allowed(machine)) {
+-        error_setg(errp, "No KVM support for the 'dual' machine");
+-        return;
+-    }
+-
+     spapr_irq_xics.init(spapr, spapr_irq_xics.nr_irqs, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+@@ -558,6 +552,9 @@ static int spapr_irq_post_load_dual(SpaprMachineState=
+ *spapr, int version_id)
+      * defaults to XICS at startup.
+      */
+     if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
++        if (kvm_irqchip_in_kernel()) {
++            xics_kvm_disconnect(spapr, &error_fatal);
++        }
+         spapr_irq_xive.reset(spapr, &error_fatal);
+     }
+=20
+@@ -566,12 +563,30 @@ static int spapr_irq_post_load_dual(SpaprMachineSta=
+te *spapr, int version_id)
+=20
+ static void spapr_irq_reset_dual(SpaprMachineState *spapr, Error **errp)
+ {
++    Error *local_err =3D NULL;
++
+     /*
+      * Deactivate the XIVE MMIOs. The XIVE backend will reenable them
+      * if selected.
+      */
+     spapr_xive_mmio_set_enabled(spapr->xive, false);
+=20
++    /* Destroy all KVM devices */
++    if (kvm_irqchip_in_kernel()) {
++        xics_kvm_disconnect(spapr, &local_err);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            error_prepend(errp, "KVM XICS disconnect failed: ");
++            return;
++        }
++        kvmppc_xive_disconnect(spapr->xive, &local_err);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            error_prepend(errp, "KVM XIVE disconnect failed: ");
++            return;
++        }
++    }
++
+     spapr_irq_current(spapr)->reset(spapr, errp);
+ }
+=20
+@@ -809,6 +824,9 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+     .dt_populate =3D spapr_dt_xics,
+     .cpu_intc_create =3D spapr_irq_cpu_intc_create_xics,
+     .post_load   =3D spapr_irq_post_load_xics,
++    .reset       =3D spapr_irq_reset_xics,
+     .set_irq     =3D spapr_irq_set_irq_xics,
+     .get_nodename =3D spapr_irq_get_nodename_xics,
++    .init_emu    =3D spapr_irq_init_emu_xics,
++    .init_kvm    =3D spapr_irq_init_kvm_xics,
+ };
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index edb8937f17..d872f96d1a 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -432,7 +432,6 @@ static inline uint32_t xive_nvt_cam_line(uint8_t nvt_=
+blk, uint32_t nvt_idx)
+  */
+=20
+ void kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **e=
+rrp);
+-void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp);
+ void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val);
+ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
+ void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
 --=20
 2.21.0
 
