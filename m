@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94552FA64
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:39:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51192 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351E52FA3B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:25:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50638 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWISl-0003Pb-64
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:39:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57078)
+	id 1hWIF8-0000Kg-99
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:25:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55407)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWIFF-0001Ee-RR
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:15 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWI90-0004NO-BU
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:18:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWIFD-0000IW-Lp
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:13 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46629)
+	(envelope-from <alex.bennee@linaro.org>) id 1hWI8y-0000Zc-Ps
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:18:46 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45397)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWIFD-00006h-AK
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:11 -0400
-Received: by mail-wr1-x442.google.com with SMTP id r7so3808391wrr.13
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:25:05 -0700 (PDT)
+	id 1hWI8x-0000XC-1y
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:18:44 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b18so3784663wrq.12
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:18:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=CpnAoS/0GcDEawDwz3KOhZJ7qTcVFE5i2TefLG4nXpc=;
-	b=GK2VeXpKbHRBUYHZ7j7VMimnF5DLHkozn5ZPwW/6q3H97FNgcCI7K4F2fiRUIVEshy
-	G8cf6CDAVzIG3dw4cZjUU0RaP/v5q72ZtmQPZU+BcZIAOvzk2lF+6L7hOoYuIjNxv/ww
-	RAtkT3judKRtxA88y79MLUew2Fx/dfp9KcOJU+qj2wHvE/IOnJGevtUbyMo0Jnv0PxIf
-	WBQ7Qi1UZEWA66dLCC0BKb0nm8AVot4UO133jMd9wLw/6cQ0EhO+XAmkRwu8/0bwDMiv
-	Fii3C19vJ2cw7iOTtgRxTkxf/7h/gTK/JuXyx/91yUw1l67y0UeRw4VcP2AqCYOJTRFA
-	CePg==
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=2XI14DR6u5bbhjtYZyFcs2wYwEyUJYWQly5Qr1ehVoo=;
+	b=VTm0d7bd5nY2glhZ/GCZqxpMR6EWAg198UkvXNe4TwOXB3fA/1pEE/mM10YeJAIrkh
+	kCqBVe54BNhqVFeAScTs+2wVlKeAzYDMXYTIu9zZIfP5cqM1rphC7ybI/Nn0lzOqUjiN
+	EYrjTPKEvPQc4sHmgwM/xzI0PJTYizG1vfK6wqeuZRghM5IZqAIs8VdAaMJTVssW1DQk
+	NginEBXwHPhBl6u0taKjd7Q+tqHXcj55E6VloIfFw54sKDWuiL1PzTVNw5eFO330gC6B
+	e58ARZeUs128n1FYIkq5DHitDXy3asYN1eAtqCWkI4cJRnFeN/bPCtfJx25C/hOiHeso
+	qErg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=CpnAoS/0GcDEawDwz3KOhZJ7qTcVFE5i2TefLG4nXpc=;
-	b=K8TnCsLYip2GtkVRB47LHv0FSWfZ7jhSGeaULfY1DQu1ZRfD/nwFe5cBXwKtCYNglk
-	t9l5Wa8b2uiUS07OWbPPt6SxET7ymn6apLY4/4ELitZbu2Dpm8N0entVGfYOCF+JPp2l
-	d0+B2NRMVZ5ZPFADcH+5GHlpzG4xDleSFvUN2lbBVSIalonj+HH05CZtyzzXcRsFgVhI
-	fN5WOldbTcTQ2U/V00nWUGa7Mm+OKFIJwcgs0lrg6EJS4d6UzRdQAA4oQpEg32GWVpQX
-	VP30PKpHnDThDDTmbJm0iRPMjHSNE9pQMhCl0P18x16vFzV++ihtre6Hn7UWdKwBg/jo
-	iHYg==
-X-Gm-Message-State: APjAAAWpUkOshhtA1fFQcFhP2Vy6IgHI2zkkmzsvndhDJHhfuq68WoeV
-	34fScFBdGQ6nhCqf8xpH6R83jQ==
-X-Google-Smtp-Source: APXvYqxV0pPYFLsJpTdZJyw5wtHVgYWzQCsqXtO6V94uUu7ujlit5hz+WG4kKW4DZqmtM2lCJWJZSQ==
-X-Received: by 2002:a5d:4d46:: with SMTP id a6mr2176257wru.142.1559211904702; 
-	Thu, 30 May 2019 03:25:04 -0700 (PDT)
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=2XI14DR6u5bbhjtYZyFcs2wYwEyUJYWQly5Qr1ehVoo=;
+	b=YSzC/7V7a+ZQbCLvMgiIhrtzHpGM+uhn4ID8h4UGs3Lw5LBKsNgO9qi9d1ux6xy+X2
+	wR/g9prQajf+im4O4PbXQ7mdMaDfnZqhtPf927QFD7CmCb18UwqCLEFfAy3AmUsMc6ZB
+	hmrmTB9Pw5XPYDaKeNmSDNmy8Vkp1vsiv38Buer/YQ39cmAb0V9hMAVwn7Ljop6KGbVG
+	fZ6B/IQOX3k4hKZBugiKoeNqYb5VVI20/QCzHgtVuC3XQgGLZ7b3eZXvlcLnrQIHpWzp
+	Zv45RnsUKnovft7xKhLC/Av+aqQo4kQ6fhx+omS7JJg6CEu0sAP3Y9Zy92E6UNubUvPF
+	GW0Q==
+X-Gm-Message-State: APjAAAXV5yKYXcEm6jST8iSghqrv2vEfLVlNn5dyXDTszzW7RcJEW7QV
+	TM+cIE6f64MVnfvraKXUJ1xrhg==
+X-Google-Smtp-Source: APXvYqyVU8bvUU+ztSqhRl8lObqOLKrsc+JASA4aHeEPj0ezvm3f1MhHbWo+S8pDAtZuTuCD/ncHTg==
+X-Received: by 2002:adf:fc0e:: with SMTP id i14mr2057582wrr.163.1559211521969; 
+	Thu, 30 May 2019 03:18:41 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	p16sm4156798wrg.49.2019.05.30.03.25.01
+	s13sm1517928wmh.31.2019.05.30.03.18.40
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 30 May 2019 03:25:03 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 3E06B1FFB1;
-	Thu, 30 May 2019 11:16:06 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 11:16:03 +0100
-Message-Id: <20190530101603.22254-27-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190530101603.22254-1-alex.bennee@linaro.org>
-References: <20190530101603.22254-1-alex.bennee@linaro.org>
+	Thu, 30 May 2019 03:18:40 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 09D7D1FF96;
+	Thu, 30 May 2019 11:18:40 +0100 (BST)
+References: <20190520124716.30472-1-kraxel@redhat.com>
+	<878suo5ls0.fsf@zen.linaroharston>
+	<f77a0c5b-c36e-4c44-5c3b-580e977682d5@redhat.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+In-reply-to: <f77a0c5b-c36e-4c44-5c3b-580e977682d5@redhat.com>
+Date: Thu, 30 May 2019 11:18:39 +0100
+Message-ID: <874l5c5jpc.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH v1 26/26] tests/vm: ubuntu.i386: apt proxy setup
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v3 00/14] tests/vm: serial console
+ autoinstall, misc fixes.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,41 +85,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
+	qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
 
-Configure apt proxy so package downloads
-can be cached and can pass firewalls.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190520124716.30472-15-kraxel@redhat.com>
----
- tests/vm/ubuntu.i386 | 4 ++++
- 1 file changed, 4 insertions(+)
+> On 5/30/19 11:33 AM, Alex Benn=C3=A9e wrote:
+>>
+>> Gerd Hoffmann <kraxel@redhat.com> writes:
+>>
+>>> This patch series changes the way virtual machines for test builds are
+>>> managed.  They are created locally on the developer machine now.  The
+>>> installer is booted on the serial console and the scripts walks through
+>>> the dialogs to install and configure the guest.
+>>>
+>>> That takes the download.patchew.org server out of the loop and makes it
+>>> alot easier to tweak the guest images (adding build dependencies for
+>>> example).
+>>>
+>>> The install scripts take care to apply host proxy settings (from *_proxy
+>>> environment variables) to the guest, so any package downloads will be
+>>> routed through the proxy and can be cached that way.  This also makes
+>>> them work behind strict firewalls.
+>>>
+>>> There are also a bunch of smaller tweaks for tests/vm to fix issues I
+>>> was struggling with.  See commit messages of individual patches for
+>>> details.
+>>
+>> Queued to testing/next, thanks.
+>>
+>> One of the machines I'm testing on seems to have problems with getting
+>> the installer working over the serial link but it works on my main dev
+>> box and others have it working as well so I suspect it might be a local
+>> problem.
+>
+> Is this the same issue I described there?
+> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg06784.html
 
-diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index a22d137e76d..b869afd212f 100755
---- a/tests/vm/ubuntu.i386
-+++ b/tests/vm/ubuntu.i386
-@@ -51,6 +51,10 @@ class UbuntuX86VM(basevm.BaseVM):
-                           "    ssh-authorized-keys:\n",
-                           "    - %s\n" % basevm.SSH_PUB_KEY,
-                           "locale: en_US.UTF-8\n"])
-+        proxy = os.environ.get("http_proxy")
-+        if not proxy is None:
-+            udata.writelines(["apt:\n",
-+                              "  proxy: %s" % proxy])
-         udata.close()
-         subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
-                                "-volid", "cidata", "-joliet", "-rock",
--- 
-2.20.1
+Not quite.. on the failing machine I see it hang at:
 
+  make[1]: Leaving directory '/home/alex.bennee/lsrc/qemu.git/dtc'
+  python3 -B /home/alex.bennee/lsrc/qemu.git/tests/vm/openbsd  --debug --im=
+age "/home/alex.bennee/.cache/qemu-vm/images/openbsd.img" --force --build-i=
+mage /home/alex.bennee/.cache/qemu-vm/images/openbsd.img
+  ### Downloading install iso ...
+  ### Preparing iso and disk image ...
+  Formatting '/home/alex.bennee/.cache/qemu-vm/images/openbsd.img.tmp', fmt=
+=3Dqcow2 size=3D21474836480 cluster_size=3D65536 lazy_refcounts=3Doff refco=
+unt_bits=3D16
+  ### Booting installer ...
+  DEBUG:root:QEMU args: -nodefaults -m 4G -cpu max -netdev user,id=3Dvnet,h=
+ostfwd=3D:127.0.0.1:0-:22 -device virtio-net-pci,netdev=3Dvnet -vnc 127.0.0=
+.1:0,to=3D20 -smp 18 -enable-kvm
+  -device VGA -drive file=3D/home/alex.bennee/.cache/qemu-vm/images/openbsd=
+.img.tmp,if=3Dnone,id=3Ddrive0,cache=3Dwriteback -device virtio-blk,drive=
+=3Ddrive0,bootindex=3D0 -machine graphics=3Doff -cdrom /home/alex.bennee/.c=
+ache/qemu-vm/images/openbsd.img.install.iso
+  DEBUG:qemu:VM launch command: 'qemu-system-x86_64 -chardev socket,id=3Dmo=
+n,path=3D/var/tmp/tmp0uvsee9z/qemu-18506-monitor.sock -mon chardev=3Dmon,mo=
+de=3Dcontrol -display none -vga none -machine pc -chardev socket,id=3Dconso=
+le,path=3D/var/tmp/tmp0uvsee9z/qemu-18506-console.sock,server,nowait -seria=
+l chardev:console -nodefaults -m 4G -cpu max -netdev user,id=3Dvnet,hostfwd=
+=3D:127.0.0.1:0-:22 -device virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,t=
+o=3D20 -smp 18 -enable-kvm -device VGA -drive file=3D/home/alex.bennee/.cac=
+he/qemu-vm/images/openbsd.img.tmp,if=3Dnone,id=3Ddrive0,cache=3Dwriteback -=
+device virtio-blk,drive=3Ddrive0,bootindex=3D0 -machine graphics=3Doff -cdr=
+om /home/alex.bennee/.cache/qemu-vm/images/openbsd.img.install.iso'
+  DEBUG:QMP:>>> {'execute': 'qmp_capabilities'}
+  DEBUG:QMP:<<< {'return': {}}
+  DEBUG:QMP:>>> {'execute': 'human-monitor-command', 'arguments': {'command=
+-line': 'info usernet'}}
+  DEBUG:QMP:<<< {'return': 'VLAN -1 (vnet):\r\n  Protocol[State]    FD  Sou=
+rce Address  Port   Dest. Address  Port RecvQ SendQ\r\n  TCP[HOST_FORWARD] =
+ 13       127.0.0.1 33465       10.0.2.15    22     0     0\r\n'}
+  console: *** read timeout ***
+  console: waiting for: 'boot>'
+  console: line buffer:
+
+
+  Failed to prepare guest environment
+  Traceback (most recent call last):
+    File "/home/alex.bennee/lsrc/qemu.git/tests/vm/basevm.py", line 350, in=
+ main
+      return vm.build_image(args.image)
+    File "/home/alex.bennee/lsrc/qemu.git/tests/vm/openbsd", line 85, in bu=
+ild_image
+      self.console_wait_send("boot>", "set tty com0\n")
+    File "/home/alex.bennee/lsrc/qemu.git/tests/vm/basevm.py", line 250, in=
+ console_wait_send
+      self.console_wait(wait)
+    File "/home/alex.bennee/lsrc/qemu.git/tests/vm/basevm.py", line 212, in=
+ console_wait
+      chars =3D vm.console_socket.recv(1024)
+  socket.timeout: timed out
+  DEBUG:QMP:>>> {'execute': 'quit'}
+  DEBUG:QMP:<<< {'return': {}}
+  /home/alex.bennee/lsrc/qemu.git/tests/vm/Makefile.include:47: recipe for =
+target '/home/alex.bennee/.cache/qemu-vm/images/openbsd.img' failed
+  make: *** [/home/alex.bennee/.cache/qemu-vm/images/openbsd.img] Error 2
+
+I can see the machine has actually booted as VNC can connect but for
+some reason the serial isn't working.
+
+--
+Alex Benn=C3=A9e
 
