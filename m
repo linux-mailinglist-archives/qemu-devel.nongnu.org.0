@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82582FA4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:30:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50725 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A253C2FA63
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:37:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51034 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWIKd-0005IE-S2
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:30:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57107)
+	id 1hWIRK-0002St-Qy
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:37:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54463)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWIFG-0001Ej-AL
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:15 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWI6g-0002js-OO
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWIFD-0000Iz-Tj
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:14 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55521)
+	(envelope-from <alex.bennee@linaro.org>) id 1hWI6f-0006eO-RV
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:22 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39180)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWIFD-0000BY-Dj
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:11 -0400
-Received: by mail-wm1-x334.google.com with SMTP id u78so3603731wmu.5
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:25:09 -0700 (PDT)
+	id 1hWI6f-0006dD-K0
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:21 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id z23so3460006wma.4
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=f1LzSCynUI6fUnn106lFa25PqYUY/YDKYZafY8tD3Yg=;
-	b=tL38zyF0BhsVozr95jh31CUABlgftio1pK336oAi9rr4l0aYWXBMCRVE71Me+u9AFH
-	P9e9Vp4KmdyIwYL8cCKyOAcI/hAaWOYrVGuobcQTne+YKUrgZcWW5Y3P06h5ac3Yi+en
-	4oqpF7I3hqnebO5BEB/ZYox1iTnwUottJWXpzo2frLimSFkxRnZO61mdCk2Bd1aB11Ja
-	s7/yzCHbglYed+bUTxnOG5fwIMXdKJqL6+8jbcm4BoPT6vW16dHfPPB8oDstVtq6iHH+
-	MmYzwlsf7zU4Cur692GcnUitumsTfCfeyhjKRGm6HI62SewUdMaZ7DM2Hrx7/iJUqydU
-	N9Aw==
+	bh=9uHkcMcsE9fyEwD5PKdvI++8JESJlTBOyqyYuFuuSZE=;
+	b=X1sEQNqZbd4mlCH6UlYXnKT8C5RngBph4LPyHKT0/zM7GR4nhpA75kDAL+Hms7IWCA
+	LrOnEJ6LlbWNxqgyqqvyfyS2/DFzGpTD1PA4kWiA9DwJ46B76SBNb/1v6vjcyaQHzYS1
+	70Rc20sQy7y0EIWNLUDJ0nszdSw27mARIMVgSlLx/ZOeJf8KD8iL+SRmDLIwGRyqruo5
+	761cw5G/Kgaqx8qOr64v3MwwQblCnwTZi7qcV0qncZjr8L8NH2dxfySxr2jkLKwKh3Gt
+	fEAoYbVu3zuixIMvgWGbsmPtQxil7MHDQ007hkIclLv10jqDwD6W0r8TAxpCg+b1YFqI
+	u7Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=f1LzSCynUI6fUnn106lFa25PqYUY/YDKYZafY8tD3Yg=;
-	b=Z6jUofCJHWm6ljlyCLi08DlyftFQ6l1r/9pwHIFL1xnWnI5Acdqjz55+dHIFODVrgV
-	jU9Q1DCitapF2ceUR3l+UqSbRyIpxim4YCJfCWQxdGmD981tLzth/OcanBsKiOhkWcBh
-	cm9+oSIjLmN72ywurU7c9T2ElXSJj9amNFqw5ZdINhuHPfDGY9o9gWSnD9JOP2kgIUkq
-	nBENMsi3U9m739mtPEWPQBH09jDqCips/krjiR1/BqYXrpFGpt9ckkEU1Sfr3oxqwnMQ
-	EqXXh4NIjurdqCYKjsnH2N3Zc0rCwaGmbJ/9deDWb/JJbVourWpTwaIEljxeSP3C6+sc
-	35yA==
-X-Gm-Message-State: APjAAAUuA8eK6BiVbVilCCNA1HSBxPLKjhTCEXpWvbgTF58jpvkvYMBv
-	io1GF+Nii+SCTRNQiXhzUDXh3w==
-X-Google-Smtp-Source: APXvYqzyZLa5HM3V3vBkGjUkCfCmt/DZglm6u6rTjZMbugLlBdvsqGk2ozyKeZb2hAHwmPCUWn/k9w==
-X-Received: by 2002:a1c:7510:: with SMTP id o16mr1893664wmc.154.1559211908713; 
-	Thu, 30 May 2019 03:25:08 -0700 (PDT)
+	bh=9uHkcMcsE9fyEwD5PKdvI++8JESJlTBOyqyYuFuuSZE=;
+	b=ngmkxG520l0WXvNZPhQuljcQeEzK0m84pEj1xkT3ttreFNj+rMIuB3UlE1vqurexmr
+	huVN9QpVtd1tHPtNCSOWOgk+XQo9+59Ggq+8tBGtm99BKcyw63OCWdqCB0zDmcJurCpg
+	RJHtuvhEbRq6VLC36n8Q3MWdo3C6wTu8ahu6oTcK1qsI8AUt4ny6xBpsTD16brWkxvHl
+	u9mFmxDe//BBswa3Ud4ANcv/oVcmL/4XeWhMgNt0yRtljUOTFqX9yybxDaocMYtz+gHJ
+	HCh+e5r6euQGaaxY81iFtS9v5D0AL8dlYZGalzMvjXPVNuJjfXijMHDQPat2r2srBN+B
+	TMxg==
+X-Gm-Message-State: APjAAAXyoLA/UxeZCz8mb3P9HsKEe6o5DFbytfLIDDLDzDNo/VVts30c
+	cLEh1+ul7TZOEpQj1uyHhrjjlA==
+X-Google-Smtp-Source: APXvYqyIkMhQYYZ0CApOcZbBcjaNPMmTg9qio/noONhXDjVQsco7L5f9nddIuw1x9kixtBGT+qikNg==
+X-Received: by 2002:a1c:6154:: with SMTP id v81mr1648078wmb.92.1559211380553; 
+	Thu, 30 May 2019 03:16:20 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	y132sm3811044wmd.35.2019.05.30.03.25.03
+	h90sm7066459wrh.15.2019.05.30.03.16.10
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 30 May 2019 03:25:07 -0700 (PDT)
+	Thu, 30 May 2019 03:16:18 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 7428F1FFA5;
+	by zen.linaroharston (Postfix) with ESMTP id 86F201FFA6;
 	Thu, 30 May 2019 11:16:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 11:15:54 +0100
-Message-Id: <20190530101603.22254-18-alex.bennee@linaro.org>
+Date: Thu, 30 May 2019 11:15:55 +0100
+Message-Id: <20190530101603.22254-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190530101603.22254-1-alex.bennee@linaro.org>
 References: <20190530101603.22254-1-alex.bennee@linaro.org>
@@ -69,8 +69,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PATCH v1 17/26] tests/vm: run test builds on snapshot
+X-Received-From: 2a00:1450:4864:20::32f
+Subject: [Qemu-devel] [PATCH  v1 18/26] tests/vm: proper guest shutdown
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,46 +82,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
-	Ed Maste <emaste@freebsd.org>,
+Cc: Fam Zheng <fam@euphon.net>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Thomas Huth <thuth@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+	Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-The build script doesn't shutdown the guest VMs properly,
-which results in filesystem corruption and guest boot
-failures sooner or later.
-
-Use the --snapshot to run builds on a snapshot,
-That way killing the VM doesn't corrupt the base image.
+When not running in snapshot mode ask the guest to poweroff and wait for
+this to finish instead of simply quitting qemu, so the guest can flush
+pending updates to disk.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Tested-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Ed Maste <emaste@freebsd.org>
-Message-Id: <20190520124716.30472-6-kraxel@redhat.com>
+Message-Id: <20190520124716.30472-7-kraxel@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/vm/Makefile.include | 1 +
- 1 file changed, 1 insertion(+)
+ tests/vm/basevm.py | 22 +++++++++++++++-------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index c59411bee01..276b870216c 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -57,6 +57,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
- 		$(if $(V),--verbose) \
- 		--image "$<" \
- 		$(if $(BUILD_TARGET),--build-target $(BUILD_TARGET)) \
-+		--snapshot \
- 		--build-qemu $(SRC_PATH) -- \
- 		$(if $(TARGET_LIST),--target-list=$(TARGET_LIST)) \
- 		$(if $(EXTRA_CONFIGURE_OPTS),$(EXTRA_CONFIGURE_OPTS)), \
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 395eefaec94..f27178f3c7c 100755
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -51,6 +51,8 @@ class BaseVM(object):
+     name = "#base"
+     # The guest architecture, to be overridden by subclasses
+     arch = "#arch"
++    # command to halt the guest, can be overridden by subclasses
++    poweroff = "poweroff"
+     def __init__(self, debug=False, vcpus=None):
+         self._guest = None
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+@@ -202,6 +204,10 @@ class BaseVM(object):
+     def wait(self):
+         self._guest.wait()
+ 
++    def graceful_shutdown(self):
++        self.ssh_root(self.poweroff)
++        self._guest.wait()
++
+     def qmp(self, *args, **kwargs):
+         return self._guest.qmp(*args, **kwargs)
+ 
+@@ -278,11 +284,13 @@ def main(vmcls):
+         traceback.print_exc()
+         return 2
+ 
+-    if args.interactive:
+-        if vm.ssh(*cmd) == 0:
+-            return 0
++    exitcode = 0
++    if vm.ssh(*cmd) != 0:
++        exitcode = 3
++    if exitcode != 0 and args.interactive:
+         vm.ssh()
+-        return 3
+-    else:
+-        if vm.ssh(*cmd) != 0:
+-            return 3
++
++    if not args.snapshot:
++        vm.graceful_shutdown()
++
++    return exitcode
 -- 
 2.20.1
 
