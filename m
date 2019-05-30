@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FACF2F8A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 10:35:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49214 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AF92F8A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 10:37:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49266 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWGX5-0003qV-BK
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 04:35:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34389)
+	id 1hWGZ0-0005NK-4t
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 04:37:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34414)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hWGUw-0002wv-FA
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:33:19 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hWGV3-00031J-Fq
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:33:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hWGUv-0006gk-7z
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:33:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:20660)
+	(envelope-from <imammedo@redhat.com>) id 1hWGV2-0006kj-AA
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:33:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57555)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hWGUu-00066J-WF
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:33:17 -0400
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hWGV2-0006FO-2r
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:33:24 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D5602309703F
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 08:32:44 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6FDA281E04
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 08:32:47 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
 	(dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 63FA410027B6;
-	Thu, 30 May 2019 08:32:40 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 270091017E2E;
+	Thu, 30 May 2019 08:32:45 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 10:33:16 +0200
-Message-Id: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
+Date: Thu, 30 May 2019 10:33:17 +0200
+Message-Id: <1559205199-233510-2-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
+References: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Thu, 30 May 2019 08:32:49 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Thu, 30 May 2019 08:32:50 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 0/3] numa: deprecate '-numa node,
- mem' and default memory distribution
+Subject: [Qemu-devel] [PATCH v4 1/3] machine: show if CLI option '-numa node,
+ mem' is supported in QAPI schema
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,68 +60,128 @@ Cc: libvir-list@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes since v3:
-  - simplify series by dropping idea of showing property values in "qom-list-properties"
-    and use MachineInfo in QAPI schema instead
+Legacy '-numa node,mem' option has a number of issues and mgmt often
+defaults to it. Unfortunately it's no possible to replace it with
+an alternative '-numa memdev' without breaking migration compatibility.
+What's possible though is to deprecate it, keeping option working with
+old machine types only.
 
-Changes since v2:
-  - taking in account previous review, implement a way for mgmt to intospect if
-    '-numa node,mem' is supported by machine type as suggested by Daniel at
-             https://www.mail-archive.com/qemu-devel@nongnu.org/msg601220.html
-      * ammend "qom-list-properties" to show property values
-      * add "numa-mem-supported" machine property to reflect if '-numa node,mem=SZ'
-        is supported. It culd be used with '-machine none' or at runtime with
-        --preconfig before numa memory mapping are configured
-  * minor fixes to deprecation documentation mentioning "numa-mem-supported" property
+In order to help users to find out if being deprecated CLI option
+'-numa node,mem' is still supported by particular machine type, add new
+"numa-mem-supported" property to MachineInfo description in QAPI schema.
 
- 1) "I'm considering to deprecating -mem-path/prealloc CLI options and replacing
-them with a single memdev Machine property to allow interested users to pick
-used backend for initial RAM (fixes mixed -mem-path+hostmem backends issues)
-and as a transition step to modeling initial RAM as a Device instead of
-(ab)using MemoryRegion APIs."
-(for more details see: https://www.mail-archive.com/qemu-devel@nongnu.org/msg596314.html)
+"numa-mem-supported" is set to 'true' for machines that currently support
+NUMA, but it will be flipped to 'false' later on, once deprecation period
+expires and kept 'true' only for old machine types that used to support
+the legacy option so it won't break existing configuration that are using
+it.
 
-However there is a couple of roadblocks on the way (s390x and numa memory handling).
-I think I finally thought out a way to hack s390x in migration compatible manner,
-but I don't see any way to do it for -numa node,mem and default RAM assignement
-to nodes. Considering both numa usecases aren't meaningfully using NUMA (aside
-guest side testing) and could be replaced with explicitly used memdev parameter,
-I'd like to propose removing these fake NUMA friends on new machine types,
-hence this deprecation. And once the last machie type that supported the option
-is removed we would be able to remove option altogether.
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
 
-As result of removing deprecated options and replacing initial RAM allocation
-with 'memdev's (1), QEMU will allocate guest RAM in consistent way, fixing mixed
-use-case and allowing boards to move towards modelling initial RAM as Device(s).
-Which in its own turn should allow to cleanup NUMA/HMP/memory accounting code
-more by dropping ad-hoc node_mem tracking and reusing memory device enumeration
-instead.
+Notes:
+    v4:
+      * drop idea to use "qom-list-properties" and use MachineInfo instead
+        which could be inspected with 'query-machines'
 
-Reference to previous versions:
- * https://www.mail-archive.com/qemu-devel@nongnu.org/msg617694.html
+ include/hw/boards.h | 3 +++
+ hw/arm/virt.c       | 1 +
+ hw/i386/pc.c        | 1 +
+ hw/ppc/spapr.c      | 1 +
+ qapi/misc.json      | 5 ++++-
+ vl.c                | 1 +
+ 6 files changed, 11 insertions(+), 1 deletion(-)
 
-CC: libvir-list@redhat.com
-CC: ehabkost@redhat.com
-CC: pbonzini@redhat.com
-CC: berrange@redhat.com
-CC: armbru@redhat.com
-
-Igor Mammedov (3):
-  machine: show if CLI option '-numa node,mem' is supported in QAPI
-    schema
-  numa: deprecate 'mem' parameter of '-numa node' option
-  numa: deprecate implict memory distribution between nodes
-
- include/hw/boards.h  |  3 +++
- hw/arm/virt.c        |  1 +
- hw/i386/pc.c         |  1 +
- hw/ppc/spapr.c       |  1 +
- numa.c               |  5 +++++
- qapi/misc.json       |  5 ++++-
- qemu-deprecated.texi | 24 ++++++++++++++++++++++++
- vl.c                 |  1 +
- 8 files changed, 40 insertions(+), 1 deletion(-)
-
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 6f7916f..86894b6 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -158,6 +158,8 @@ typedef struct {
+  * @kvm_type:
+  *    Return the type of KVM corresponding to the kvm-type string option or
+  *    computed based on other criteria such as the host kernel capabilities.
++ * @numa_mem_supported:
++ *    true if '--numa node.mem' option is supported and false otherwise
+  */
+ struct MachineClass {
+     /*< private >*/
+@@ -210,6 +212,7 @@ struct MachineClass {
+     bool ignore_boot_device_suffixes;
+     bool smbus_no_migration_support;
+     bool nvdimm_supported;
++    bool numa_mem_supported;
+ 
+     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
+                                            DeviceState *dev);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index bf54f10..481a603 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1943,6 +1943,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     assert(!mc->get_hotplug_handler);
+     mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
+     hc->plug = virt_machine_device_plug_cb;
++    mc->numa_mem_supported = true;
+ }
+ 
+ static void virt_instance_init(Object *obj)
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 2632b73..05b8368 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -2747,6 +2747,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     nc->nmi_monitor_handler = x86_nmi;
+     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+     mc->nvdimm_supported = true;
++    mc->numa_mem_supported = true;
+ 
+     object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
+         pc_machine_get_device_memory_region_size, NULL,
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 2ef3ce4..265ecfb 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4336,6 +4336,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+      * in which LMBs are represented and hot-added
+      */
+     mc->numa_mem_align_shift = 28;
++    mc->numa_mem_supported = true;
+ 
+     smc->default_caps.caps[SPAPR_CAP_HTM] = SPAPR_CAP_OFF;
+     smc->default_caps.caps[SPAPR_CAP_VSX] = SPAPR_CAP_ON;
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 8b3ca4f..d0bdccb 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -2018,12 +2018,15 @@
+ #
+ # @hotpluggable-cpus: cpu hotplug via -device is supported (since 2.7.0)
+ #
++# @numa-mem-supported: true if '-numa node,mem' option is supported by machine
++#                      type and false otherwise (since 4.1)
++#
+ # Since: 1.2.0
+ ##
+ { 'struct': 'MachineInfo',
+   'data': { 'name': 'str', '*alias': 'str',
+             '*is-default': 'bool', 'cpu-max': 'int',
+-            'hotpluggable-cpus': 'bool'} }
++            'hotpluggable-cpus': 'bool', 'numa-mem-supported': 'bool'} }
+ 
+ ##
+ # @query-machines:
+diff --git a/vl.c b/vl.c
+index 5550bd7..5bf17f5 100644
+--- a/vl.c
++++ b/vl.c
+@@ -1520,6 +1520,7 @@ MachineInfoList *qmp_query_machines(Error **errp)
+         info->name = g_strdup(mc->name);
+         info->cpu_max = !mc->max_cpus ? 1 : mc->max_cpus;
+         info->hotpluggable_cpus = mc->has_hotpluggable_cpus;
++        info->numa_mem_supported = mc->numa_mem_supported;
+ 
+         entry = g_malloc0(sizeof(*entry));
+         entry->value = info;
 -- 
 2.7.4
 
