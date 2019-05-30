@@ -2,67 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A6B2F882
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 10:29:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49153 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FACF2F8A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 10:35:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49214 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWGR4-0001RR-3z
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 04:29:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33355)
+	id 1hWGX5-0003qV-BK
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 04:35:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34389)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hWGQ2-00010E-Qf
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:28:15 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hWGUw-0002wv-FA
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:33:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hWGQ2-0002vd-16
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:28:14 -0400
-Received: from mail-wm1-f53.google.com ([209.85.128.53]:39852)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hWGQ1-0002lH-Qy
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:28:13 -0400
-Received: by mail-wm1-f53.google.com with SMTP id z23so3229501wma.4
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 01:27:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=Ym8zAV4HuOVtBjpiNLxVUk0ikr3v6QLlxKO837em+FQ=;
-	b=bPjRoUf1Cxq1p8hnDMirKOToUOPQ0GG4BorFtOpUUG8NqVP4owprger1gmHbCDEHQ7
-	nK0R0CCjASdeqARfmdjzIxsTGyP3WjJCN4ByMkFydMLOSh6pW2qOMeXfGIGlRokBKDeU
-	+OqLat961HloxBs+oXll5AlWPxZyo7abMe0wCGZHUhROgPp5oVmZn8txNFduDfdXA4nS
-	x3bMddRH8MPbyOxPwrAy/Z5DmaHw71LrzPeTZaAuZnJmFZg6SCLjSoHE+fzvp/FohuCe
-	I7WVitHX1vjidTHuWwIYRq6cU+fNVIQ0feQd9BcxBm/dZwmCs3ieng1b8o8jZ45kSjnl
-	W82Q==
-X-Gm-Message-State: APjAAAWTgafX+zUOB4hsux16b3xOXNkNIF9895TgbJ9PAr2VjpVh6542
-	YKPOLbaZACNxdxe74doqogzsLsnEsPoTpw==
-X-Google-Smtp-Source: APXvYqx6CznjikUK/mOZp0hWYjcY0af+eg6+nEAlIOjfPrvFJyz5EFjBsKpNDnYkrhIG4K5VJ1UEjQ==
-X-Received: by 2002:a1c:c8:: with SMTP id 191mr1496667wma.6.1559204876666;
-	Thu, 30 May 2019 01:27:56 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:3da1:318a:275c:408?
-	([2001:b07:6468:f312:3da1:318a:275c:408])
-	by smtp.gmail.com with ESMTPSA id m17sm1475406wmc.6.2019.05.30.01.27.55
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 May 2019 01:27:55 -0700 (PDT)
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190524183638.20745-1-stefanha@redhat.com>
-	<24b93cc5-edb1-a197-14be-e63ac356325d@redhat.com>
-	<20190529221030.GD3471@localhost.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <2666245b-7873-dc66-4af0-6b9c1eaa445d@redhat.com>
-Date: Thu, 30 May 2019 10:27:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190529221030.GD3471@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+	(envelope-from <imammedo@redhat.com>) id 1hWGUv-0006gk-7z
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:33:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:20660)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hWGUu-00066J-WF
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 04:33:17 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id D5602309703F
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 08:32:44 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+	(dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 63FA410027B6;
+	Thu, 30 May 2019 08:32:40 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 30 May 2019 10:33:16 +0200
+Message-Id: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Thu, 30 May 2019 08:32:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.53
-Subject: Re: [Qemu-devel] [RFC v3 0/3] scsi: restart dma after vm change
- state handlers
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v4 0/3] numa: deprecate '-numa node,
+ mem' and default memory distribution
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,21 +53,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
+Cc: libvir-list@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
+	ehabkost@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/05/19 00:10, Kevin Wolf wrote:
-> I don't think this is as nice because stopping or resuming a device
-> could involve some async operation (e.g. be delegated to a BH). In this
-> case, a device on a child bus must still wait for the BH (or other async
-> part) to be completed before it can resume its own operation.
-> 
-> Basically, a single flat list of global VM state handlers wasn't a good
-> design, because what we actually need in such cases is something
-> hierarchical.
+Changes since v3:
+  - simplify series by dropping idea of showing property values in "qom-list-properties"
+    and use MachineInfo in QAPI schema instead
 
-So add an AioContext state change handler?
+Changes since v2:
+  - taking in account previous review, implement a way for mgmt to intospect if
+    '-numa node,mem' is supported by machine type as suggested by Daniel at
+             https://www.mail-archive.com/qemu-devel@nongnu.org/msg601220.html
+      * ammend "qom-list-properties" to show property values
+      * add "numa-mem-supported" machine property to reflect if '-numa node,mem=SZ'
+        is supported. It culd be used with '-machine none' or at runtime with
+        --preconfig before numa memory mapping are configured
+  * minor fixes to deprecation documentation mentioning "numa-mem-supported" property
+
+ 1) "I'm considering to deprecating -mem-path/prealloc CLI options and replacing
+them with a single memdev Machine property to allow interested users to pick
+used backend for initial RAM (fixes mixed -mem-path+hostmem backends issues)
+and as a transition step to modeling initial RAM as a Device instead of
+(ab)using MemoryRegion APIs."
+(for more details see: https://www.mail-archive.com/qemu-devel@nongnu.org/msg596314.html)
+
+However there is a couple of roadblocks on the way (s390x and numa memory handling).
+I think I finally thought out a way to hack s390x in migration compatible manner,
+but I don't see any way to do it for -numa node,mem and default RAM assignement
+to nodes. Considering both numa usecases aren't meaningfully using NUMA (aside
+guest side testing) and could be replaced with explicitly used memdev parameter,
+I'd like to propose removing these fake NUMA friends on new machine types,
+hence this deprecation. And once the last machie type that supported the option
+is removed we would be able to remove option altogether.
+
+As result of removing deprecated options and replacing initial RAM allocation
+with 'memdev's (1), QEMU will allocate guest RAM in consistent way, fixing mixed
+use-case and allowing boards to move towards modelling initial RAM as Device(s).
+Which in its own turn should allow to cleanup NUMA/HMP/memory accounting code
+more by dropping ad-hoc node_mem tracking and reusing memory device enumeration
+instead.
+
+Reference to previous versions:
+ * https://www.mail-archive.com/qemu-devel@nongnu.org/msg617694.html
+
+CC: libvir-list@redhat.com
+CC: ehabkost@redhat.com
+CC: pbonzini@redhat.com
+CC: berrange@redhat.com
+CC: armbru@redhat.com
+
+Igor Mammedov (3):
+  machine: show if CLI option '-numa node,mem' is supported in QAPI
+    schema
+  numa: deprecate 'mem' parameter of '-numa node' option
+  numa: deprecate implict memory distribution between nodes
+
+ include/hw/boards.h  |  3 +++
+ hw/arm/virt.c        |  1 +
+ hw/i386/pc.c         |  1 +
+ hw/ppc/spapr.c       |  1 +
+ numa.c               |  5 +++++
+ qapi/misc.json       |  5 ++++-
+ qemu-deprecated.texi | 24 ++++++++++++++++++++++++
+ vl.c                 |  1 +
+ 8 files changed, 40 insertions(+), 1 deletion(-)
+
+-- 
+2.7.4
+
 
