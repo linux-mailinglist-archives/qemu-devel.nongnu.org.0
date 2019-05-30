@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DABA2FA51
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:32:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50762 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD6C2FA6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:41:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51262 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWILx-0006Lm-Q5
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:32:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57138)
+	id 1hWIV6-0004id-0x
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:41:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57136)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWIFH-0001FU-0Y
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:20 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWIFG-0001FS-WA
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWIFD-0000Hf-Ck
+	(envelope-from <alex.bennee@linaro.org>) id 1hWIFD-0000Hl-D4
 	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:14 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38370)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36419)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWIFC-000084-Tj
+	id 1hWIFC-00005N-Rf
 	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:11 -0400
-Received: by mail-wm1-x344.google.com with SMTP id t5so3485440wmh.3
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:25:07 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id n4so784452wrs.3
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:25:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=va2aVkiTrZ/koDvdRJBXUCzzwNDsrPnddM8kRf0oauo=;
-	b=FhZr4sq/npVp5hp155MS1l9IwHy5BynqFOrKZ2FsshYjC1YveSAwlfYIaBoL8TVzAY
-	2yOeHpYRQO+QVaEmKd5CZ/aiBSwvWbPCJMpqKezXLjghTM61O2B3FiBsoRSuEd3sriG3
-	OnP2AZG3omLerTyYfHkrMW2lvEbNfuOZ4k6dSbhkeJVfvyMFak+mBbKVNFTOzqA8j+g6
-	hPHgIIRRRP2tgafoPJsBiqes+FPG92OuTvP6+dAODJFxPI8gfHUWDC3gllM6i5gsvRF/
-	ShiN2/e4Wf21n+1jS4buFsFgHfc2MEyZc6wS2VMbSevLMJ9AA/N1P8RJdOriXVOW7w4V
-	fORg==
+	bh=aZAe5/QuAbq/RHBzy6OF/4DQuFxdnGK9gRe+n2IiOXg=;
+	b=QTSBLr0XWHCd/iJm3vSaH+EHQOXGEqP1yZOPE4f8BN7VS1vZcEFHqyF0dn0Qr8ou0t
+	Qi3umUy1mH+xWYgoQam6C+XdNTOO0iwpvt7DCiyc9nX+U8+aBUV+9sAqre4vgca9JocE
+	3F9O3eBH9AyjbpAlkVJMpkMzHanuT+yFMWAqghPiIYSsna4gyaxpvvhrgFt8196ayndS
+	GmkOUcxbjng5xCovVxuoTFty3CQDzYwNlW2SaOM0acCrf+i7qikEY0c6mbc5gimPc/7L
+	IYvrAUhqQYq5o6thYdLdhj9+INjPePBS6ONdDgUXOzM25P18fCH1KQ3BLcK6Cjn7nFk3
+	stKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=va2aVkiTrZ/koDvdRJBXUCzzwNDsrPnddM8kRf0oauo=;
-	b=g1SJ+kGOt9nGRfZKjMIm/HySlyCINBjFTxNaRqusujiNAdMslDJM0he141nkfoXVNN
-	Zi41LA6nkWDBdeV6S6jYpm53UQah6uyyYnEB216dlk8d5ocDbzCjPAXKBUM/8j8A+7oG
-	TBUmeBzIYblSFCQAZ3r5DpOSU9EFapeHver7Uo3KFADqNUzTlK2ulLmnIF/3G6UiMz7o
-	hV+2K6NMNdcdm74Khm7C36n/2meWxuCaydsFVTRbJlFDmw3NlhSHot2E2iL8JFVAgmob
-	jx6aRqsB5zswGNiBEQZ3kNkFxjUSel1i7PcP1dasK5CExjnSHIpP9Vjf5DVlYz5XzzmZ
-	N3sQ==
-X-Gm-Message-State: APjAAAVi2v2w6yez6rtxfQiWoJpoLqRGaW90JvXTFSyqI5ScfxqCcFJL
-	mtm/jjrNN0KWi0FGlmBfgrI8x1U6gAA=
-X-Google-Smtp-Source: APXvYqwvWSSjztdX2J8UhR7c2KNjflR28b4Ee63xFSdF0whXjGMMAC9Za5xAB1pv6gcwev0LK3rCdg==
-X-Received: by 2002:a1c:f111:: with SMTP id p17mr1859994wmh.62.1559211906225; 
-	Thu, 30 May 2019 03:25:06 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	k17sm1516486wrm.73.2019.05.30.03.25.02
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	bh=aZAe5/QuAbq/RHBzy6OF/4DQuFxdnGK9gRe+n2IiOXg=;
+	b=ZCPSlx6UKXlhejQEo8D+/BlyUhKardzspy3BraRBLQvqwKhIcYgF6k3Ac4Gbbsiaba
+	tisYN61punv+n1uMBMAoGb+7EJek3YEeUNCYBTrQusX/WtQGTLRe1b5Woq7QQv6ipgjt
+	Gt3gCyz7GXB1Dvc6phO6Cn3LyFwZudDPLhSkv0UBFBYpgnnRVLP0yOCs30cCjL1czbmF
+	nEryXNIUiyFhOhH8rPYTrmC5V2eivc6V+ajLp8NNGBz5ah/KFRqBNRvrphxuR9rGR7nD
+	Wj3wfE79reZbT1M3u4GvQXEgcs+6iMI0GIdlnJJLqFJWM+Ah4Tj68PX7isT8jPA9Vqf+
+	VAUQ==
+X-Gm-Message-State: APjAAAVvaPr/qXCPS5zx2t2s2lovtIujo64icJoZbXhvi4kGhBlP97MQ
+	/09MEYIAWLP1R02g/a4rv+7k7XlULFs=
+X-Google-Smtp-Source: APXvYqx6eaCcEk+CMFQDC7PJdU1LAmQuFbecWSvKdj39mX0/q21zqFWbTH9YKj4j4K0RhQMA+6XjJw==
+X-Received: by 2002:a5d:4f0d:: with SMTP id c13mr2141228wru.117.1559211903205; 
 	Thu, 30 May 2019 03:25:03 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id s9sm2304564wmc.1.2019.05.30.03.25.00
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 30 May 2019 03:25:01 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id F03CC1FFAC;
-	Thu, 30 May 2019 11:16:05 +0100 (BST)
+	by zen.linaroharston (Postfix) with ESMTP id 113A61FFAE;
+	Thu, 30 May 2019 11:16:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 11:16:00 +0100
-Message-Id: <20190530101603.22254-24-alex.bennee@linaro.org>
+Date: Thu, 30 May 2019 11:16:01 +0100
+Message-Id: <20190530101603.22254-25-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190530101603.22254-1-alex.bennee@linaro.org>
 References: <20190530101603.22254-1-alex.bennee@linaro.org>
@@ -69,8 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH  v1 23/26] tests/vm: freebsd autoinstall,
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH  v1 24/26] tests/vm: netbsd autoinstall,
  using serial console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -83,11 +82,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Thomas Huth <thuth@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
+	Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
+	Kamil Rytarowski <n54@gmx.com>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,27 +97,24 @@ iso and prepare the image locally.  Install to disk, using the serial
 console.  Create qemu user, configure ssh login.  Install packages
 needed for qemu builds.
 
-Note that freebsd package downloads are delivered as non-cachable
-content, so I had to configure squid with "ignore-no-store
-ignore-private ignore-reload" for pkgmir.geo.freebsd.org to make the
-caching actually work.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Kamil Rytarowski <n54@gmx.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190520124716.30472-12-kraxel@redhat.com>
+Message-Id: <20190520124716.30472-13-kraxel@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/vm/freebsd | 179 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 169 insertions(+), 10 deletions(-)
+ tests/vm/netbsd | 187 +++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 177 insertions(+), 10 deletions(-)
 
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index b0066017a61..eb029bdfede 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -2,43 +2,202 @@
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 4c6624ea5ed..6dbfc1b0fbe 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -2,10 +2,11 @@
  #
- # FreeBSD VM image
+ # NetBSD VM image
  #
 -# Copyright 2017 Red Hat Inc.
 +# Copyright 2017-2019 Red Hat Inc.
@@ -129,28 +125,26 @@ index b0066017a61..eb029bdfede 100755
  #
  # This code is licensed under the GPL version 2 or later.  See
  # the COPYING file in the top-level directory.
- #
+@@ -13,32 +14,198 @@
  
  import os
-+import re
  import sys
 +import time
-+import socket
  import subprocess
  import basevm
  
- class FreeBSDVM(basevm.BaseVM):
-     name = "freebsd"
+ class NetBSDVM(basevm.BaseVM):
+     name = "netbsd"
      arch = "x86_64"
 +
-+    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.0/FreeBSD-12.0-RELEASE-amd64-disc1.iso.xz"
-+    csum = "1d40015bea89d05b8bd13e2ed80c40b522a9ec1abd8e7c8b80954fb485fb99db"
++    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.0/images/NetBSD-8.0-amd64.iso"
 +    size = "20G"
 +    pkgs = [
-+        # build tools
-+        "git",
++        # tools
++        "git-base",
 +        "pkgconf",
-+        "bzip2",
++        "xz",
++        "python37",
 +
 +        # gnu tools
 +        "bash",
@@ -162,17 +156,13 @@ index b0066017a61..eb029bdfede 100755
 +        "gnutls",
 +
 +        # libs: images
-+        "jpeg-turbo",
++        "jpeg",
 +        "png",
 +
-+        # libs: ui
-+        "sdl2",
-+        "gtk3",
++	# libs: ui
++        "SDL2",
++        "gtk3+",
 +        "libxkbcommon",
-+
-+        # libs: opengl
-+        "libepoxy",
-+        "mesa-libs",
 +    ]
 +
      BUILD_SCRIPT = """
@@ -182,131 +172,144 @@ index b0066017a61..eb029bdfede 100755
 +        rm -rf /home/qemu/qemu-test.*
 +        cd $(mktemp -d /home/qemu/qemu-test.XXXXXX);
 +        mkdir src build; cd src;
-         tar -xf /dev/vtbd1;
--        ./configure {configure_opts};
+         tar -xf /dev/rld1a;
+-        ./configure --python=python2.7 {configure_opts};
 +        cd ../build
-+        ../src/configure --python=python3.6 {configure_opts};
++        ../src/configure --python=python3.7 --disable-opengl {configure_opts};
          gmake --output-sync -j{jobs} {target} {verbose};
      """
++    poweroff = "/sbin/poweroff"
  
-+    def console_boot_serial(self):
-+        self.console_wait_send("Autoboot", "3")
-+        self.console_wait_send("OK", "set console=comconsole\n")
-+        self.console_wait_send("OK", "boot\n")
-+
      def build_image(self, img):
--        cimg = self._download_with_cache("http://download.patchew.org/freebsd-11.1-amd64.img.xz",
--                sha256sum='adcb771549b37bc63826c501f05121a206ed3d9f55f49145908f7e1432d65891')
+-        cimg = self._download_with_cache("http://download.patchew.org/netbsd-7.1-amd64.img.xz",
+-                                         sha256sum='b633d565b0eac3d02015cd0c81440bd8a7a8df8512615ac1ee05d318be015732')
 -        img_tmp_xz = img + ".tmp.xz"
-+        self.print_step("Downloading install iso")
-+        cimg = self._download_with_cache(self.link, sha256sum=self.csum)
++        cimg = self._download_with_cache(self.link)
          img_tmp = img + ".tmp"
 -        sys.stderr.write("Extracting the image...\n")
 -        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
 -        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
 +        iso = img + ".install.iso"
-+        iso_xz = iso + ".xz"
 +
 +        self.print_step("Preparing iso and disk image")
-+        subprocess.check_call(["cp", "-f", cimg, iso_xz])
-+        subprocess.check_call(["xz", "-dvf", iso_xz])
++        subprocess.check_call(["cp", "-f", cimg, iso])
 +        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
 +                               img_tmp, self.size])
 +
 +        self.print_step("Booting installer")
 +        self.boot(img_tmp, extra_args = [
++            "-device", "VGA",
 +            "-machine", "graphics=off",
 +            "-cdrom", iso
 +        ])
 +        self.console_init()
-+        self.console_boot_serial()
-+        self.console_wait_send("Console type",          "xterm\n")
++        self.console_wait("Primary Bootstrap")
 +
-+        # pre-install configuration
-+        self.console_wait_send("Welcome",               "\n")
-+        self.console_wait_send("Keymap Selection",      "\n")
-+        self.console_wait_send("Set Hostname",          "freebsd\n")
-+        self.console_wait_send("Distribution Select",   "\n")
-+        self.console_wait_send("Partitioning",          "\n")
-+        self.console_wait_send("Partition",             "\n")
-+        self.console_wait_send("Scheme",                "\n")
-+        self.console_wait_send("Editor",                "f")
-+        self.console_wait_send("Confirmation",          "c")
++        # serial console boot menu output doesn't work for some
++        # reason, so we have to fly blind ...
++        for char in list("5consdev com0\n"):
++            time.sleep(0.2)
++            self.console_send(char)
++            self.console_wait("")
++        self.console_wait_send("> ", "boot\n")
++
++        self.console_wait_send("Terminal type",            "xterm\n")
++        self.console_wait_send("a: Installation messages", "a\n")
++        self.console_wait_send("b: US-English",            "b\n")
++        self.console_wait_send("a: Install NetBSD",        "a\n")
++        self.console_wait("Shall we continue?")
++        self.console_wait_send("b: Yes",                   "b\n")
++
++        self.console_wait_send("a: ld0",                   "a\n")
++        self.console_wait_send("a: This is the correct",   "a\n")
++        self.console_wait_send("b: Use the entire disk",   "b\n")
++        self.console_wait("NetBSD bootcode")
++        self.console_wait_send("a: Yes",                   "a\n")
++        self.console_wait_send("b: Use existing part",     "b\n")
++        self.console_wait_send("x: Partition sizes ok",    "x\n")
++        self.console_wait_send("for your NetBSD disk",     "\n")
++        self.console_wait("Shall we continue?")
++        self.console_wait_send("b: Yes",                   "b\n")
++
++        self.console_wait_send("b: Use serial port com0",  "b\n")
++        self.console_wait_send("f: Set serial baud rate",  "f\n")
++        self.console_wait_send("a: 9600",                  "a\n")
++        self.console_wait_send("x: Exit",                  "x\n")
++
++        self.console_wait_send("a: Full installation",     "a\n")
++        self.console_wait_send("a: CD-ROM",                "a\n")
 +
 +        self.print_step("Installation started now, this will take a while")
++        self.console_wait_send("Hit enter to continue",    "\n")
 +
-+        # post-install configuration
-+        self.console_wait("New Password:")
++        self.console_wait_send("d: Change root password",  "d\n")
++        self.console_wait_send("a: Yes",                   "a\n")
++        self.console_wait("New password:")
 +        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_wait("Retype New Password:")
++        self.console_wait("New password:")
++        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_wait("Retype new password:")
 +        self.console_send("%s\n" % self.ROOT_PASS)
 +
-+        self.console_wait_send("Network Configuration", "\n")
-+        self.console_wait_send("IPv4",                  "y")
-+        self.console_wait_send("DHCP",                  "y")
-+        self.console_wait_send("IPv6",                  "n")
-+        self.console_wait_send("Resolver",              "\n")
-+
-+        self.console_wait_send("Time Zone Selector",    "a\n")
-+        self.console_wait_send("Confirmation",          "y")
-+        self.console_wait_send("Time & Date",           "\n")
-+        self.console_wait_send("Time & Date",           "\n")
-+
-+        self.console_wait_send("System Configuration",  "\n")
-+        self.console_wait_send("System Hardening",      "\n")
-+
-+        # qemu user
-+        self.console_wait_send("Add User Accounts", "y")
-+        self.console_wait("Username")
++        self.console_wait_send("o: Add a user",            "o\n")
++        self.console_wait("username")
 +        self.console_send("%s\n" % self.GUEST_USER)
-+        self.console_wait("Full name")
-+        self.console_send("%s\n" % self.GUEST_USER)
-+        self.console_wait_send("Uid",                   "\n")
-+        self.console_wait_send("Login group",           "\n")
-+        self.console_wait_send("Login group",           "\n")
-+        self.console_wait_send("Login class",           "\n")
-+        self.console_wait_send("Shell",                 "\n")
-+        self.console_wait_send("Home directory",        "\n")
-+        self.console_wait_send("Home directory perm",   "\n")
-+        self.console_wait_send("Use password",          "\n")
-+        self.console_wait_send("Use an empty password", "\n")
-+        self.console_wait_send("Use a random password", "\n")
-+        self.console_wait("Enter password:")
++        self.console_wait("to group wheel")
++        self.console_wait_send("a: Yes",                   "a\n")
++        self.console_wait_send("a: /bin/sh",               "a\n")
++        self.console_wait("New password:")
 +        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_wait("Enter password again:")
++        self.console_wait("New password:")
 +        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_wait_send("Lock out",              "\n")
-+        self.console_wait_send("OK",                    "yes\n")
-+        self.console_wait_send("Add another user",      "no\n")
++        self.console_wait("Retype new password:")
++        self.console_send("%s\n" % self.GUEST_PASS)
 +
-+        self.console_wait_send("Final Configuration",   "\n")
-+        self.console_wait_send("Manual Configuration",  "\n")
-+        self.console_wait_send("Complete",              "\n")
++        self.console_wait_send("a: Configure network",     "a\n")
++        self.console_wait_send("a: vioif0",                "a\n")
++        self.console_wait_send("Network media type",       "\n")
++        self.console_wait("autoconfiguration")
++        self.console_wait_send("a: Yes",                   "a\n")
++        self.console_wait_send("DNS domain",               "localnet\n")
++        self.console_wait("Are they OK?")
++        self.console_wait_send("a: Yes",                   "a\n")
++        self.console_wait("installed in /etc")
++        self.console_wait_send("a: Yes",                   "a\n")
++
++        self.console_wait_send("e: Enable install",        "e\n")
++        proxy = os.environ.get("http_proxy")
++        if not proxy is None:
++            self.console_wait_send("f: Proxy",             "f\n")
++            self.console_wait("Proxy")
++            self.console_send("%s\n" % proxy)
++        self.console_wait_send("x: Install pkgin",         "x\n")
++        self.console_init(1200)
++        self.console_wait_send("Hit enter to continue", "\n")
++        self.console_init()
++
++        self.console_wait_send("g: Enable sshd",           "g\n")
++        self.console_wait_send("x: Finished conf",         "x\n")
++        self.console_wait_send("Hit enter to continue",    "\n")
 +
 +        self.print_step("Installation finished, rebooting")
-+        self.console_boot_serial()
++        self.console_wait_send("d: Reboot the computer",   "d\n")
 +
 +        # setup qemu user
-+        prompt = "$"
++        prompt = "localhost$"
 +        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
 +        self.console_wait_send(prompt, "exit\n")
 +
 +        # setup root user
-+        prompt = "root@freebsd:~ #"
++        prompt = "localhost#"
 +        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
 +        self.console_sshd_config(prompt)
 +
-+        # setup serial console
-+        self.console_wait(prompt)
-+        self.console_send("echo 'console=comconsole' >> /boot/loader.conf\n")
-+
-+        # setup boot delay
-+        self.console_wait(prompt)
-+        self.console_send("echo 'autoboot_delay=1' >> /boot/loader.conf\n")
-+
 +        # setup virtio-blk #1 (tarfile)
 +        self.console_wait(prompt)
-+        self.console_send("echo 'chmod 666 /dev/vtbd1' >> /etc/rc.local\n")
++        self.console_send("echo 'chmod 666 /dev/rld1a' >> /etc/rc.local\n")
++
++        # turn off mprotect (conflicts with tcg)
++        self.console_wait(prompt)
++        self.console_send("echo security.pax.mprotect.enabled=0 >> /etc/sysctl.conf\n")
 +
 +        self.print_step("Configuration finished, rebooting")
 +        self.console_wait_send(prompt, "reboot\n")
@@ -314,11 +317,12 @@ index b0066017a61..eb029bdfede 100755
 +        self.wait_ssh()
 +
 +        self.print_step("Installing packages")
-+        self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
++        self.ssh_root_check("pkgin update\n")
++        self.ssh_root_check("pkgin -y install %s\n" % " ".join(self.pkgs))
 +
 +        # shutdown
 +        self.ssh_root(self.poweroff)
-+        self.console_wait("Uptime:")
++        self.console_wait("entering state S5")
 +        self.wait()
 +
          if os.path.exists(img):
@@ -328,7 +332,7 @@ index b0066017a61..eb029bdfede 100755
 +        self.print_step("All done")
  
  if __name__ == "__main__":
-     sys.exit(basevm.main(FreeBSDVM))
+     sys.exit(basevm.main(NetBSDVM))
 -- 
 2.20.1
 
