@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC17C3029B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 21:10:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58017 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAC0302A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 21:12:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58075 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWQRS-0007Ud-B9
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 15:10:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58858)
+	id 1hWQTv-0001Xs-Mc
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 15:12:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58888)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hWQOz-0006NN-Nl
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:07:51 -0400
+	(envelope-from <mrolnik@gmail.com>) id 1hWQP2-0006NV-Sf
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:07:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hWQOy-00074K-7T
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:07:49 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38676)
+	(envelope-from <mrolnik@gmail.com>) id 1hWQOz-00075E-Df
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:07:52 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34132)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hWQOx-000732-VG
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:07:48 -0400
-Received: by mail-wr1-x444.google.com with SMTP id d18so4897557wrs.5
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 12:07:47 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hWQOz-00074S-1e
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:07:49 -0400
+Received: by mail-wr1-x430.google.com with SMTP id f8so4920603wrt.1
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 12:07:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=JkWILbyjQUBjfe8Bnjfcos2cTjqOqy1LxMC/99vfhlA=;
-	b=RGnQfi8avGTeT5onUOgPjIeyqWRCybMOVa4xCl07pu0LzCrX6DFXKtx1DCv7QNfL4l
-	xCmm1yBqexYXq6BbHUPYi3hxYiv/e+q2LyARR07B4ZUvtBwCmoSgiSUV/ZKQVZHloqIE
-	yQ1UihvBr8tk0Osi31HibWKEakoPV+8CppSBqg9t60mckxzeBH4LKTdQlQIXIE2t6vkn
-	3a7dAykWX8vic+fVirSWaS8iRDA0YorGAc3iY3Q8Prj11OApVIHzDrK4dUA7qwEuxfKW
-	yS8GVXFH2B/oUcyHjzAFLXaGQZvxEi/00ku+FO3ZpCJasQgmJonWB1fbxDKR2oQg0lLR
-	fEeg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=h7hP3uS/rvz+6m+NuPpESNtKzlNpX4x77Sa71ROuDj4=;
+	b=pSKVk/4fC4gBBSi4uD4ZtpSieb7Ri3QS9x8Ab/UNIzS1c3PCartYLL9BUF5DIM1QkK
+	FnyqLdHmbeCNqL+MV07MIc75qy721SL53NlYBZAint7W9N569o5fy4cFz1fSosEUboWC
+	JseQobn7PYx3OtPD6Gph6ZoET1DSl3JyazR/Z16eQLWwMuy0KXaHZtxsjGcctr1HeTvi
+	0hOB3piMZOlcPIcXU6QaT4mzer1x1HTi2XTGqKmU34rdgqUyHR+xyKZ0gRrW2LxxA8gK
+	dRm3lr0fugVGye9o5pV4eMqqP0JgiztaAl2sPYNzXy0c4PPC94TThCxYFGojRf0nfEqI
+	pBYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=JkWILbyjQUBjfe8Bnjfcos2cTjqOqy1LxMC/99vfhlA=;
-	b=XMlGsx25aLdiRemxE8UFXLLzRxLE72eZvMvWa5Bm/i+PBItwdjrWB4KVBsvz5yl4gV
-	pjwE0HHON/OC/s3exs152/wTCBYYvZ/G61VQ8CDUIQSm6+NXJz0hLUacvzZuz5ShQ+Sv
-	wOzUGp95k4mAQ5G7aVYqzCAaNSdmn4QJjxSPpeHD4jlGebHr+4pV16AJCt5d23MWA3sF
-	TnQeY3JraWkP8tbGv0U7ttSgOXv3jy6Gp+o240jdDPX6bZgi63dTK89m5Sf9cy0exIDm
-	0murgb8Yilt/gIvtPINkZXqFX3oJAiA4cZacjzrdzgsrwbkn1cwDr0nHzqbscoWtz9qL
-	xb1A==
-X-Gm-Message-State: APjAAAWzhFGlfNrUV0hyvg0GmH2hXARB6q1V+UONUCPPsBdHgF7/SffU
-	vGkoH6l1mUFyk1wi2zybbFk0bX2kM2A=
-X-Google-Smtp-Source: APXvYqx6dY/JEfKM7wHdY3LfA5x5pf5fQAuL2hhgfyGyiblrvcNB84rXoXmugtQlrlhXXV9OmylhZw==
-X-Received: by 2002:a5d:4f0a:: with SMTP id c10mr3627057wru.180.1559243265458; 
-	Thu, 30 May 2019 12:07:45 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=h7hP3uS/rvz+6m+NuPpESNtKzlNpX4x77Sa71ROuDj4=;
+	b=c+/leXO/fCscy4UcvcL/5QKhZrQFWRHIrN2ttxj2he7PZp08qRS20Pc0aoAavWAez+
+	VEeFx6GBTWvv7EgcHjEizKuqL7q3tHM5BCawVJgKN12TIGDXsBGpgSovHPg6jPX+hjgr
+	CKikl+f9sWoJn4pCawzWH0Ble0dB9QrwT+vm1AJ+rb+VdnsAXaugIWS1A08FYGCI6H+W
+	Z/ntGcKpwMFsgN7aNnMbvbqTqRicYrMs/mMR8Tk5Ht2M9vzlIhXe710L7cLG/YlFbRVp
+	PYP7DSF6Fwaw1r8oHB4gLVDJalJfzqRf0cyvYTx3pCEiYyT5Oq3Tt0jN9p4yIgBVVtmh
+	dG3Q==
+X-Gm-Message-State: APjAAAVwSLxbl+2/eEjf2PR3U7ImBGpxvG6RV9j/33GkGzD07k/1aaPf
+	RedKJ782c9+KtqCvkaMKDtB3zFDI/ZE=
+X-Google-Smtp-Source: APXvYqzv4l9v6I6DsC75R1T4AOw0NgbCWn+qB/DjsDP+f71bDIuaxnMYRZCWtfPL32pHg3Nvh6bzxw==
+X-Received: by 2002:adf:dc8a:: with SMTP id r10mr3619024wrj.15.1559243267255; 
+	Thu, 30 May 2019 12:07:47 -0700 (PDT)
 Received: from localhost.localdomain (bzq-109-65-68-81.red.bezeqint.net.
 	[109.65.68.81])
-	by smtp.gmail.com with ESMTPSA id u9sm8711230wme.48.2019.05.30.12.07.44
+	by smtp.gmail.com with ESMTPSA id u9sm8711230wme.48.2019.05.30.12.07.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 May 2019 12:07:44 -0700 (PDT)
+	Thu, 30 May 2019 12:07:46 -0700 (PDT)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 22:07:30 +0300
-Message-Id: <20190530190738.22713-1-mrolnik@gmail.com>
+Date: Thu, 30 May 2019 22:07:31 +0300
+Message-Id: <20190530190738.22713-2-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190530190738.22713-1-mrolnik@gmail.com>
+References: <20190530190738.22713-1-mrolnik@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH RFC v20 0/8] QEMU AVR 8 bit cores
+X-Received-From: 2a00:1450:4864:20::430
+Subject: [Qemu-devel] [PATCH RFC v20 1/8] target/avr: Add outward facing
+ interfaces and core CPU logic
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,245 +75,1167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Rolnik <mrolnik@gmail.com>, rth@twiddle.net
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
+	rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series of patches adds 8bit AVR cores to QEMU.
-All instruction, except BREAK/DES/SPM/SPMX, are implemented. Not fully tested yet.
-However I was able to execute simple code with functions. e.g fibonacci calculation.
-This series of patches include a non real, sample board.
-No fuses support yet. PC is set to 0 at reset.
+From: Sarah Harris <S.E.Harris@kent.ac.uk>
 
-the patches include the following
-1. just a basic 8bit AVR CPU, without instruction decoding or translation
-2. CPU features which allow define the following 8bit AVR cores
-     avr1
-     avr2 avr25
-     avr3 avr31 avr35
-     avr4
-     avr5 avr51
-     avr6
-     xmega2 xmega4 xmega5 xmega6 xmega7
-3. a definition of sample machine with SRAM, FLASH and CPU which allows to execute simple code
-4. encoding for all AVR instructions
-5. interrupt handling
-6. helpers for IN, OUT, SLEEP, WBR & unsupported instructions
-7. a decoder which given an opcode decides what istruction it is
-8. translation of AVR instruction into TCG
-9. all features together
+This includes:
+- CPU data structures
+- object model classes and functions
+- migration functions
+- GDB hooks
 
-changes since v3
-1. rampD/X/Y/Z registers are encoded as 0x00ff0000 (instead of 0x000000ff) for faster address manipulaton
-2. ffs changed to ctz32
-3. duplicate code removed at avr_cpu_do_interrupt
-4. using andc instead of not + and
-5. fixing V flag calculation in varios instructions
-6. freeing local variables in PUSH
-7. tcg_const_local_i32 -> tcg_const_i32
-8. using sextract32 instead of my implementation
-9. fixing BLD instruction
-10.xor(r) instead of 0xff - r at COM
-11.fixing MULS/MULSU not to modify inputs' content
-12.using SUB for NEG
-13.fixing tcg_gen_qemu_ld/st call in XCH
-
-changes since v4
-1. target is now defined as big endian in order to optimize push_ret/pop_ret
-2. all style warnings are fixed
-3. adding cpu_set/get_sreg functions
-4. simplifying gen_goto_tb as there is no real paging
-5. env->pc -> env->pc_w
-6. making flag dump more compact
-7. more spacing
-8. renaming CODE/DATA_INDEX -> MMU_CODE/DATA_IDX
-9. removing avr_set_feature
-10. SPL/SPH set bug fix
-11. switching stb_phys to cpu_stb_data
-12. cleaning up avr_decode
-13. saving sreg, rampD/X/Y/Z, eind in HW format (savevm)
-14. saving CPU features (savevm)
-
-changes since v5
-1. BLD bug fix
-2. decoder generator is added
-
-chages since v6
-1. using cpu_get_sreg/cpu_set_sreg in avr_cpu_gdb_read_register/avr_cpu_gdb_write_register
-2. configure the target as little endian because otherwise GDB does not work
-3. fixing and testing gen_push_ret/gen_pop_ret
-
-changes since v7
-1. folding back v6 
-2. logging at helper_outb and helper_inb are done for non supported yet registers only
-3. MAINTAINERS updated
-
-changes since v8
-1. removing hw/avr from hw/Makefile.obj as it should not be built for all
-2. making linux compilable
-3. testing on
-    a. Mac, Apple LLVM version 7.0.0
-    b. Ubuntu 12.04, gcc 4.9.2
-    c. Fedora 23, gcc 5.3.1
-4. folding back some patches
-5. translation bug fixes for ORI, CPI, XOR instructions
-6. propper handling of cpu register writes though memory
-
-changes since v9
-1. removing forward declarations of static functions
-2. disabling debug prints
-3. switching to case range instead of if else if ...
-4. LD/ST IN/OUT accessing CPU maintainder registers are not routed to any device
-5. commenst about sample board and sample IO device added
-6. sample board description is more descriptive now
-7. memory_region_allocate_system_memory is used to create RAM
-8. now there are helper_fullrd & helper_fullwr when LD/ST try to access registers
-
-changes since v10
-1. movig back fullwr & fullrd into the commit where outb and inb were introduced
-2. changing tlb_fill function signature
-3. adding empty line between functions
-4. adding newline on the last line of the file
-5. using tb->flags to generae full access ST/LD instructions
-6. fixing SBRC bug
-7. folding back 10th commit
-8. whenever a new file is introduced it's added to Makefile.objs
-
-changes since v11
-1. updating to v2.7.0-rc
-2. removing assignment to env->fullacc from gen_intermediate_code
-
-changes since v12
-1. fixing spacing
-2. fixing get/put_segment functions
-3. removing target-avr/machine.h file
-4. VMSTATE_SINGLE_TEST -> VMSTATE_SINGLE
-5. comment spelling
-6. removing hw/avr/sample_io.c
-7. char const* -> const char*
-8. proper ram allocation
-9. fixing breakpoint functionality.
-10.env1 -> env
-11.fixing avr_cpu_gdb_write_register & avr_cpu_gdb_read_register functions
-12.any cpu is removed
-12.feature bits are not saved into vm state
-
-changes since v13
-1. rebasing to v2.7.0-rc1
-
-changes since v14
-1. I made self review with git gui tool. (I did not know such a thing exists)
-2. removing all double/tripple spaces
-3. removing comment reference to SampleIO
-4. folding back some changes, so there is not deleted lines in my code
-5. moving avr configuration, within configure file, before chris
-
-changes since v15
-1. removing IO registers cache from CPU
-2. implementing CBI/SBI as read(helper_inb), modify, write(helper_outb)
-3. implementing CBIC/SBIC as read(helper_inb), check, branch
-4. adding missing tcg_temp_free_i32 for tcg_const_i32
-
-changes since v16
-1. removing EXT IO registers knoledge from CPU. These registers are accessible 
-   by LD/ST only. CPU has no interest in them
-
-changes since v17 (by Richard Henderson)
-This is Michael's v17, with some adjustments of my own:
-
-1. Fix the whitespace errors reported by "git am",
-2. Replace the utf-8 characters with normal ascii,
-3. Ditch the separate compilation of translate.c.
-
-I retained the two separate files that could be regenerated
-from the included cpugen program, but merged in translate-insn.c.
-Not that it matters, but the code generated is about 3k smaller.
-
-changes since v18
-1.  moving target-avr into target/avr
-2.  do not call cpu_exec_initfn function from avr_cpu_initfn
-3.  call cpu_exec_realizefn avr_cpu_realizefn
-4.  do not fail sample machine creation if no rom is suplied
-5.  add tcg_gen_exit_tb(0) for BS_BRANCH in gen_intermediate_code
-6.  fix a register getters/setters in machine.c
-7.  changing QEMU_ARCH_AVR from 1<<17 to 1<<18
-
-changes since v19
-1.  use decodetree.py tool to decode instructions
-2.  adding USART
-3.  adding 16 bit timer peripherals
-4.  changing QEMU_ARCH_AVR from 1<<18 to 1<<20
-5.  renaming tlb_fill to avr_cpu_tlb_fill
-
-*** BLURB HERE ***
-
-Michael Rolnik (1):
-  target-avr: Add instruction decoding
-
-Sarah Harris (7):
-  target/avr: Add outward facing interfaces and core CPU logic
-  target/avr: Add instruction helpers
-  target/avr: Add mechanism to check for active debugger connection
-  target/avr: Add instruction translation
-  target/avr: Add limited support for USART and 16 bit timer peripherals
-  target/avr: Add example board configuration
-  target/avr: Register AVR support with the rest of QEMU, the build
-    system, and the MAINTAINERS file
-
- MAINTAINERS                     |    6 +
- arch_init.c                     |    2 +
- configure                       |    6 +
- default-configs/avr-softmmu.mak |    5 +
- gdbstub.c                       |    5 +
- hw/Kconfig                      |    1 +
- hw/avr/Kconfig                  |    4 +
- hw/avr/Makefile.objs            |    1 +
- hw/avr/sample.c                 |  177 ++
- hw/char/Kconfig                 |    3 +
- hw/char/Makefile.objs           |    1 +
- hw/char/avr_usart.c             |  316 ++++
- hw/timer/Kconfig                |    3 +
- hw/timer/Makefile.objs          |    1 +
- hw/timer/avr_timer16.c          |  587 ++++++
- include/disas/dis-asm.h         |    6 +
- include/exec/gdbstub.h          |    4 +
- include/hw/char/avr_usart.h     |   99 +
- include/hw/timer/avr_timer16.h  |   99 +
- include/sysemu/arch_init.h      |    1 +
- qapi/common.json                |    2 +-
- target/avr/Makefile.objs        |   40 +
- target/avr/cpu-qom.h            |   83 +
- target/avr/cpu.c                |  571 ++++++
- target/avr/cpu.h                |  242 +++
- target/avr/gdbstub.c            |   85 +
- target/avr/helper.c             |  346 ++++
- target/avr/helper.h             |   28 +
- target/avr/insn16.decode        |  160 ++
- target/avr/insn32.decode        |   10 +
- target/avr/machine.c            |  122 ++
- target/avr/translate.c          | 2981 +++++++++++++++++++++++++++++++
- tests/machine-none-test.c       |    1 +
- 33 files changed, 5997 insertions(+), 1 deletion(-)
- create mode 100644 default-configs/avr-softmmu.mak
- create mode 100644 hw/avr/Kconfig
- create mode 100644 hw/avr/Makefile.objs
- create mode 100644 hw/avr/sample.c
- create mode 100644 hw/char/avr_usart.c
- create mode 100644 hw/timer/avr_timer16.c
- create mode 100644 include/hw/char/avr_usart.h
- create mode 100644 include/hw/timer/avr_timer16.h
- create mode 100644 target/avr/Makefile.objs
+Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+---
+ target/avr/cpu-qom.h |  83 +++++++
+ target/avr/cpu.c     | 571 +++++++++++++++++++++++++++++++++++++++++++
+ target/avr/cpu.h     | 242 ++++++++++++++++++
+ target/avr/gdbstub.c |  85 +++++++
+ target/avr/machine.c | 122 +++++++++
+ 5 files changed, 1103 insertions(+)
  create mode 100644 target/avr/cpu-qom.h
  create mode 100644 target/avr/cpu.c
  create mode 100644 target/avr/cpu.h
  create mode 100644 target/avr/gdbstub.c
- create mode 100644 target/avr/helper.c
- create mode 100644 target/avr/helper.h
- create mode 100644 target/avr/insn16.decode
- create mode 100644 target/avr/insn32.decode
  create mode 100644 target/avr/machine.c
- create mode 100644 target/avr/translate.c
 
+diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h
+new file mode 100644
+index 0000000000..8085567b87
+--- /dev/null
++++ b/target/avr/cpu-qom.h
+@@ -0,0 +1,83 @@
++/*
++ * QEMU AVR CPU
++ *
++ * Copyright (c) 2016 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#ifndef QEMU_AVR_CPU_QOM_H
++#define QEMU_AVR_CPU_QOM_H
++
++#include "qom/cpu.h"
++
++#define TYPE_AVR_CPU "avr"
++
++#define AVR_CPU_CLASS(klass) \
++                    OBJECT_CLASS_CHECK(AVRCPUClass, (klass), TYPE_AVR_CPU)
++#define AVR_CPU(obj) \
++                    OBJECT_CHECK(AVRCPU, (obj), TYPE_AVR_CPU)
++#define AVR_CPU_GET_CLASS(obj) \
++                    OBJECT_GET_CLASS(AVRCPUClass, (obj), TYPE_AVR_CPU)
++
++/**
++ *  AVRCPUClass:
++ *  @parent_realize: The parent class' realize handler.
++ *  @parent_reset: The parent class' reset handler.
++ *  @vr: Version Register value.
++ *
++ *  A AVR CPU model.
++ */
++typedef struct AVRCPUClass {
++    CPUClass parent_class;
++
++    DeviceRealize parent_realize;
++    void (*parent_reset)(CPUState *cpu);
++} AVRCPUClass;
++
++/**
++ *  AVRCPU:
++ *  @env: #CPUAVRState
++ *
++ *  A AVR CPU.
++ */
++typedef struct AVRCPU {
++    /*< private >*/
++    CPUState parent_obj;
++    /*< public >*/
++
++    CPUAVRState env;
++} AVRCPU;
++
++static inline AVRCPU *avr_env_get_cpu(CPUAVRState *env)
++{
++    return container_of(env, AVRCPU, env);
++}
++
++#define ENV_GET_CPU(e) CPU(avr_env_get_cpu(e))
++#define ENV_OFFSET offsetof(AVRCPU, env)
++
++#ifndef CONFIG_USER_ONLY
++extern const struct VMStateDescription vms_avr_cpu;
++#endif
++
++void avr_cpu_do_interrupt(CPUState *cpu);
++bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
++void avr_cpu_dump_state(CPUState *cs, FILE *f, int flags);
++hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
++int avr_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
++int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
++
++#endif
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+new file mode 100644
+index 0000000000..9175f9d022
+--- /dev/null
++++ b/target/avr/cpu.c
+@@ -0,0 +1,571 @@
++/*
++ * QEMU AVR CPU
++ *
++ * Copyright (c) 2016 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/qemu-print.h"
++#include "qapi/error.h"
++#include "cpu.h"
++#include "qemu-common.h"
++#include "migration/vmstate.h"
++
++static void avr_cpu_set_pc(CPUState *cs, vaddr value)
++{
++    AVRCPU *cpu = AVR_CPU(cs);
++
++    cpu->env.pc_w = value / 2; /* internally PC points to words */
++}
++
++static bool avr_cpu_has_work(CPUState *cs)
++{
++    AVRCPU *cpu = AVR_CPU(cs);
++    CPUAVRState *env = &cpu->env;
++
++    return (cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_RESET))
++            && cpu_interrupts_enabled(env);
++}
++
++static void avr_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++{
++    AVRCPU *cpu = AVR_CPU(cs);
++    CPUAVRState *env = &cpu->env;
++
++    env->pc_w = tb->pc / 2; /* internally PC points to words */
++}
++
++static void avr_cpu_reset(CPUState *s)
++{
++    AVRCPU *cpu = AVR_CPU(s);
++    AVRCPUClass *mcc = AVR_CPU_GET_CLASS(cpu);
++    CPUAVRState *env = &cpu->env;
++
++    mcc->parent_reset(s);
++
++    env->pc_w = 0;
++    env->sregI = 1;
++    env->sregC = 0;
++    env->sregZ = 0;
++    env->sregN = 0;
++    env->sregV = 0;
++    env->sregS = 0;
++    env->sregH = 0;
++    env->sregT = 0;
++
++    env->rampD = 0;
++    env->rampX = 0;
++    env->rampY = 0;
++    env->rampZ = 0;
++    env->eind = 0;
++    env->sp = 0;
++
++    memset(env->r, 0, sizeof(env->r));
++
++    tlb_flush(s);
++}
++
++static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
++{
++    info->mach = bfd_arch_avr;
++    info->print_insn = NULL;
++}
++
++static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
++{
++    CPUState *cs = CPU(dev);
++    AVRCPUClass *mcc = AVR_CPU_GET_CLASS(dev);
++    Error *local_err = NULL;
++
++    cpu_exec_realizefn(cs, &local_err);
++    if (local_err != NULL) {
++        error_propagate(errp, local_err);
++        return;
++    }
++    qemu_init_vcpu(cs);
++    cpu_reset(cs);
++
++    mcc->parent_realize(dev, errp);
++}
++
++static void avr_cpu_set_int(void *opaque, int irq, int level)
++{
++    AVRCPU *cpu = opaque;
++    CPUAVRState *env = &cpu->env;
++    CPUState *cs = CPU(cpu);
++
++    uint64_t mask = (1ull << irq);
++    if (level) {
++        env->intsrc |= mask;
++        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++    } else {
++        env->intsrc &= ~mask;
++        if (env->intsrc == 0) {
++            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
++        }
++    }
++}
++
++static void avr_cpu_initfn(Object *obj)
++{
++    CPUState *cs = CPU(obj);
++    AVRCPU *cpu = AVR_CPU(obj);
++
++    cs->env_ptr = &cpu->env;
++
++#ifndef CONFIG_USER_ONLY
++    /* Set the number of interrupts supported by the CPU. */
++    qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int, 57);
++#endif
++}
++
++static ObjectClass *avr_cpu_class_by_name(const char *cpu_model)
++{
++    ObjectClass *oc;
++    char *name;
++
++    if (!cpu_model) {
++        return NULL;
++    }
++
++    oc = object_class_by_name(cpu_model);
++    if (oc != NULL && object_class_dynamic_cast(oc, TYPE_AVR_CPU) != NULL &&
++        !object_class_is_abstract(oc)) {
++        return oc;
++    }
++
++    name = g_strdup_printf(AVR_CPU_TYPE_NAME("%s"), cpu_model);
++    oc = object_class_by_name(name);
++    g_free(name);
++    if (oc != NULL && object_class_dynamic_cast(oc, TYPE_AVR_CPU) != NULL &&
++        !object_class_is_abstract(oc)) {
++        return oc;
++    }
++
++    return NULL;
++}
++
++static void avr_cpu_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    CPUClass *cc = CPU_CLASS(oc);
++    AVRCPUClass *mcc = AVR_CPU_CLASS(oc);
++
++    mcc->parent_realize = dc->realize;
++    dc->realize = avr_cpu_realizefn;
++
++    mcc->parent_reset = cc->reset;
++    cc->reset = avr_cpu_reset;
++
++    cc->class_by_name = avr_cpu_class_by_name;
++
++    cc->has_work = avr_cpu_has_work;
++    cc->do_interrupt = avr_cpu_do_interrupt;
++    cc->cpu_exec_interrupt = avr_cpu_exec_interrupt;
++    cc->dump_state = avr_cpu_dump_state;
++    cc->set_pc = avr_cpu_set_pc;
++#if !defined(CONFIG_USER_ONLY)
++    cc->memory_rw_debug = avr_cpu_memory_rw_debug;
++#endif
++#ifdef CONFIG_USER_ONLY
++    cc->handle_mmu_fault = avr_cpu_handle_mmu_fault;
++#else
++    cc->get_phys_page_debug = avr_cpu_get_phys_page_debug;
++    cc->vmsd = &vms_avr_cpu;
++#endif
++    cc->disas_set_info = avr_cpu_disas_set_info;
++    cc->tlb_fill = avr_cpu_tlb_fill;
++    cc->tcg_initialize = avr_cpu_tcg_init;
++    cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
++    cc->gdb_read_register = avr_cpu_gdb_read_register;
++    cc->gdb_write_register = avr_cpu_gdb_write_register;
++    cc->gdb_num_core_regs = 35;
++}
++
++static void avr_avr1_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++}
++
++static void avr_avr2_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++}
++
++static void avr_avr25_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++}
++
++static void avr_avr3_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++}
++
++static void avr_avr31_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_RAMPZ);
++    avr_set_feature(env, AVR_FEATURE_ELPM);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++}
++
++static void avr_avr35_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++}
++
++static void avr_avr4_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++    avr_set_feature(env, AVR_FEATURE_MUL);
++}
++
++static void avr_avr5_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++    avr_set_feature(env, AVR_FEATURE_MUL);
++}
++
++static void avr_avr51_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_RAMPZ);
++    avr_set_feature(env, AVR_FEATURE_ELPMX);
++    avr_set_feature(env, AVR_FEATURE_ELPM);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++    avr_set_feature(env, AVR_FEATURE_MUL);
++}
++
++static void avr_avr6_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_RAMPZ);
++    avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);
++    avr_set_feature(env, AVR_FEATURE_ELPMX);
++    avr_set_feature(env, AVR_FEATURE_ELPM);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++    avr_set_feature(env, AVR_FEATURE_MUL);
++}
++
++static void avr_xmega2_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++    avr_set_feature(env, AVR_FEATURE_MUL);
++    avr_set_feature(env, AVR_FEATURE_RMW);
++}
++
++static void avr_xmega4_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_RAMPZ);
++    avr_set_feature(env, AVR_FEATURE_ELPMX);
++    avr_set_feature(env, AVR_FEATURE_ELPM);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++    avr_set_feature(env, AVR_FEATURE_MUL);
++    avr_set_feature(env, AVR_FEATURE_RMW);
++}
++
++static void avr_xmega5_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_RAMPD);
++    avr_set_feature(env, AVR_FEATURE_RAMPX);
++    avr_set_feature(env, AVR_FEATURE_RAMPY);
++    avr_set_feature(env, AVR_FEATURE_RAMPZ);
++    avr_set_feature(env, AVR_FEATURE_ELPMX);
++    avr_set_feature(env, AVR_FEATURE_ELPM);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++    avr_set_feature(env, AVR_FEATURE_MUL);
++    avr_set_feature(env, AVR_FEATURE_RMW);
++}
++
++static void avr_xmega6_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_RAMPZ);
++    avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);
++    avr_set_feature(env, AVR_FEATURE_ELPMX);
++    avr_set_feature(env, AVR_FEATURE_ELPM);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++    avr_set_feature(env, AVR_FEATURE_MUL);
++    avr_set_feature(env, AVR_FEATURE_RMW);
++}
++
++static void avr_xmega7_initfn(Object *obj)
++{
++    AVRCPU *cpu = AVR_CPU(obj);
++    CPUAVRState *env = &cpu->env;
++
++    avr_set_feature(env, AVR_FEATURE_LPM);
++    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
++    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
++    avr_set_feature(env, AVR_FEATURE_SRAM);
++    avr_set_feature(env, AVR_FEATURE_BREAK);
++
++    avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);
++    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
++    avr_set_feature(env, AVR_FEATURE_RAMPD);
++    avr_set_feature(env, AVR_FEATURE_RAMPX);
++    avr_set_feature(env, AVR_FEATURE_RAMPY);
++    avr_set_feature(env, AVR_FEATURE_RAMPZ);
++    avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);
++    avr_set_feature(env, AVR_FEATURE_ELPMX);
++    avr_set_feature(env, AVR_FEATURE_ELPM);
++    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
++    avr_set_feature(env, AVR_FEATURE_LPMX);
++    avr_set_feature(env, AVR_FEATURE_MOVW);
++    avr_set_feature(env, AVR_FEATURE_MUL);
++    avr_set_feature(env, AVR_FEATURE_RMW);
++}
++
++typedef struct AVRCPUInfo {
++    const char *name;
++    void (*initfn)(Object *obj);
++} AVRCPUInfo;
++
++static gint avr_cpu_list_compare(gconstpointer a, gconstpointer b)
++{
++    ObjectClass *class_a = (ObjectClass *)a;
++    ObjectClass *class_b = (ObjectClass *)b;
++    const char *name_a;
++    const char *name_b;
++
++    name_a = object_class_get_name(class_a);
++    name_b = object_class_get_name(class_b);
++
++    return strcmp(name_a, name_b);
++}
++
++static void avr_cpu_list_entry(gpointer data, gpointer user_data)
++{
++    ObjectClass *oc = data;
++    const char *typename = object_class_get_name(oc);
++    size_t len = strlen(typename);
++    size_t suffix_len = strlen(AVR_CPU_TYPE_SUFFIX);
++
++    if (len > suffix_len) {
++        qemu_printf("  %.*s\n", (int)(len - suffix_len), typename);
++    } else {
++        qemu_printf("  %s\n", typename);
++    }
++}
++
++void avr_cpu_list(void)
++{
++    GSList *list;
++    list = object_class_get_list(TYPE_AVR_CPU, false);
++    list = g_slist_sort(list, avr_cpu_list_compare);
++    qemu_printf("Available CPUs:\n");
++    g_slist_foreach(list, avr_cpu_list_entry, NULL);
++    g_slist_free(list);
++}
++
++#define DEFINE_AVR_CPU_TYPE(model, initfn) \
++    {                                      \
++        .parent = TYPE_AVR_CPU,            \
++        .instance_init = initfn,           \
++        .name = AVR_CPU_TYPE_NAME(model),  \
++    }
++
++static const TypeInfo avr_cpu_type_info[] = {
++    {
++        .name = TYPE_AVR_CPU,
++        .parent = TYPE_CPU,
++        .instance_size = sizeof(AVRCPU),
++        .instance_init = avr_cpu_initfn,
++        .class_size = sizeof(AVRCPUClass),
++        .class_init = avr_cpu_class_init,
++        .abstract = false,
++    },
++    DEFINE_AVR_CPU_TYPE("avr1", avr_avr1_initfn),
++    DEFINE_AVR_CPU_TYPE("avr2", avr_avr2_initfn),
++    DEFINE_AVR_CPU_TYPE("avr25", avr_avr25_initfn),
++    DEFINE_AVR_CPU_TYPE("avr3", avr_avr3_initfn),
++    DEFINE_AVR_CPU_TYPE("avr31", avr_avr31_initfn),
++    DEFINE_AVR_CPU_TYPE("avr35", avr_avr35_initfn),
++    DEFINE_AVR_CPU_TYPE("avr4", avr_avr4_initfn),
++    DEFINE_AVR_CPU_TYPE("avr5", avr_avr5_initfn),
++    DEFINE_AVR_CPU_TYPE("avr51", avr_avr51_initfn),
++    DEFINE_AVR_CPU_TYPE("avr6", avr_avr6_initfn),
++    DEFINE_AVR_CPU_TYPE("xmega2", avr_xmega2_initfn),
++    DEFINE_AVR_CPU_TYPE("xmega4", avr_xmega4_initfn),
++    DEFINE_AVR_CPU_TYPE("xmega5", avr_xmega5_initfn),
++    DEFINE_AVR_CPU_TYPE("xmega6", avr_xmega6_initfn),
++    DEFINE_AVR_CPU_TYPE("xmega7", avr_xmega7_initfn),
++};
++
++DEFINE_TYPES(avr_cpu_type_info)
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+new file mode 100644
+index 0000000000..d1de4e64b1
+--- /dev/null
++++ b/target/avr/cpu.h
+@@ -0,0 +1,242 @@
++/*
++ * QEMU AVR CPU
++ *
++ * Copyright (c) 2016 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#if !defined(CPU_AVR_H)
++#define CPU_AVR_H
++
++#include "qemu-common.h"
++
++#define TARGET_LONG_BITS 32
++
++#define CPUArchState struct CPUAVRState
++
++#include "exec/cpu-defs.h"
++#include "fpu/softfloat.h"
++
++/*
++ * TARGET_PAGE_BITS cannot be more than 8 bits because
++ * 1.  all IO registers occupy [0x0000 .. 0x00ff] address range, and they
++ *     should be implemented as a device and not memory
++ * 2.  SRAM starts at the address 0x0100
++ */
++#define TARGET_PAGE_BITS 8
++#define TARGET_PHYS_ADDR_SPACE_BITS 24
++#define TARGET_VIRT_ADDR_SPACE_BITS 24
++#define NB_MMU_MODES 2
++
++/*
++ * AVR has two memory spaces, data & code.
++ * e.g. both have 0 address
++ * ST/LD instructions access data space
++ * LPM/SPM and instruction fetching access code memory space
++ */
++#define MMU_CODE_IDX 0
++#define MMU_DATA_IDX 1
++
++#define EXCP_RESET 1
++#define EXCP_INT(n) (EXCP_RESET + (n) + 1)
++
++/* Number of CPU registers */
++#define NO_CPU_REGISTERS 32
++/* Number of IO registers accessible by ld/st/in/out */
++#define NO_IO_REGISTERS 64
++
++/*
++ * Offsets of AVR memory regions in host memory space.
++ *
++ * This is needed because the AVR has separate code and data address
++ * spaces that both have start from zero but have to go somewhere in
++ * host memory.
++ *
++ * It's also useful to know where some things are, like the IO registers.
++ */
++/* Flash program memory */
++#define OFFSET_CODE 0x00000000
++/* CPU registers, IO registers, and SRAM */
++#define OFFSET_DATA 0x00800000
++/* CPU registers specifically, these are mapped at the start of data */
++#define OFFSET_CPU_REGISTERS OFFSET_DATA
++/*
++ * IO registers, including status register, stack pointer, and memory
++ * mapped peripherals, mapped just after CPU registers
++ */
++#define OFFSET_IO_REGISTERS (OFFSET_DATA + NO_CPU_REGISTERS)
++
++enum avr_features {
++    AVR_FEATURE_SRAM,
++
++    AVR_FEATURE_1_BYTE_PC,
++    AVR_FEATURE_2_BYTE_PC,
++    AVR_FEATURE_3_BYTE_PC,
++
++    AVR_FEATURE_1_BYTE_SP,
++    AVR_FEATURE_2_BYTE_SP,
++
++    AVR_FEATURE_BREAK,
++    AVR_FEATURE_DES,
++    AVR_FEATURE_RMW, /* Read Modify Write - XCH LAC LAS LAT */
++
++    AVR_FEATURE_EIJMP_EICALL,
++    AVR_FEATURE_IJMP_ICALL,
++    AVR_FEATURE_JMP_CALL,
++
++    AVR_FEATURE_ADIW_SBIW,
++
++    AVR_FEATURE_SPM,
++    AVR_FEATURE_SPMX,
++
++    AVR_FEATURE_ELPMX,
++    AVR_FEATURE_ELPM,
++    AVR_FEATURE_LPMX,
++    AVR_FEATURE_LPM,
++
++    AVR_FEATURE_MOVW,
++    AVR_FEATURE_MUL,
++    AVR_FEATURE_RAMPD,
++    AVR_FEATURE_RAMPX,
++    AVR_FEATURE_RAMPY,
++    AVR_FEATURE_RAMPZ,
++};
++
++typedef struct CPUAVRState CPUAVRState;
++
++struct CPUAVRState {
++    uint32_t pc_w; /* 0x003fffff up to 22 bits */
++
++    uint32_t sregC; /* 0x00000001 1 bits */
++    uint32_t sregZ; /* 0x0000ffff 16 bits, negative logic; */
++                    /* 0=flag set, >0=flag cleared */
++    uint32_t sregN; /* 0x00000001 1 bits */
++    uint32_t sregV; /* 0x00000001 1 bits */
++    uint32_t sregS; /* 0x00000001 1 bits */
++    uint32_t sregH; /* 0x00000001 1 bits */
++    uint32_t sregT; /* 0x00000001 1 bits */
++    uint32_t sregI; /* 0x00000001 1 bits */
++
++    uint32_t rampD; /* 0x00ff0000 8 bits */
++    uint32_t rampX; /* 0x00ff0000 8 bits */
++    uint32_t rampY; /* 0x00ff0000 8 bits */
++    uint32_t rampZ; /* 0x00ff0000 8 bits */
++    uint32_t eind; /* 0x00ff0000 8 bits */
++
++    uint32_t r[NO_CPU_REGISTERS]; /* 8 bits each */
++    uint32_t sp; /* 16 bits */
++
++    uint64_t intsrc; /* interrupt sources */
++    bool fullacc; /* CPU/MEM if true MEM only otherwise */
++
++    uint32_t features;
++
++    /* Those resources are used only in QEMU core */
++    CPU_COMMON
++};
++
++static inline int avr_feature(CPUAVRState *env, int feature)
++{
++    return (env->features & (1U << feature)) != 0;
++}
++
++static inline void avr_set_feature(CPUAVRState *env, int feature)
++{
++    env->features |= (1U << feature);
++}
++
++#define cpu_list avr_cpu_list
++#define cpu_signal_handler cpu_avr_signal_handler
++
++#include "exec/cpu-all.h"
++#include "cpu-qom.h"
++
++#define AVR_CPU_TYPE_SUFFIX "-" TYPE_AVR_CPU
++#define AVR_CPU_TYPE_NAME(model) model AVR_CPU_TYPE_SUFFIX
++#define CPU_RESOLVING_TYPE TYPE_AVR_CPU
++
++static inline int cpu_mmu_index(CPUAVRState *env, bool ifetch)
++{
++    return ifetch ? MMU_CODE_IDX : MMU_DATA_IDX;
++}
++
++void avr_cpu_tcg_init(void);
++
++void avr_cpu_list(void);
++int cpu_avr_exec(CPUState *cpu);
++int cpu_avr_signal_handler(int host_signum, void *pinfo, void *puc);
++int avr_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size,
++                                int rw, int mmu_idx);
++int avr_cpu_memory_rw_debug(CPUState *cs, vaddr address, uint8_t *buf,
++                                int len, bool is_write);
++
++enum {
++    TB_FLAGS_FULL_ACCESS = 1,
++};
++
++static inline void cpu_get_tb_cpu_state(CPUAVRState *env, target_ulong *pc,
++                                target_ulong *cs_base, uint32_t *pflags)
++{
++    uint32_t flags = 0;
++
++    *pc = env->pc_w * 2;
++    *cs_base = 0;
++
++    if (env->fullacc) {
++        flags |= TB_FLAGS_FULL_ACCESS;
++    }
++
++    *pflags = flags;
++}
++
++static inline int cpu_interrupts_enabled(CPUAVRState *env)
++{
++    return env->sregI != 0;
++}
++
++static inline uint8_t cpu_get_sreg(CPUAVRState *env)
++{
++    uint8_t sreg;
++    sreg = (env->sregC & 0x01) << 0
++         | (env->sregZ == 0 ? 1 : 0) << 1
++         | (env->sregN) << 2
++         | (env->sregV) << 3
++         | (env->sregS) << 4
++         | (env->sregH) << 5
++         | (env->sregT) << 6
++         | (env->sregI) << 7;
++    return sreg;
++}
++
++static inline void cpu_set_sreg(CPUAVRState *env, uint8_t sreg)
++{
++    env->sregC = (sreg >> 0) & 0x01;
++    env->sregZ = (sreg >> 1) & 0x01 ? 0 : 1;
++    env->sregN = (sreg >> 2) & 0x01;
++    env->sregV = (sreg >> 3) & 0x01;
++    env->sregS = (sreg >> 4) & 0x01;
++    env->sregH = (sreg >> 5) & 0x01;
++    env->sregT = (sreg >> 6) & 0x01;
++    env->sregI = (sreg >> 7) & 0x01;
++}
++
++bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr);
++
++#include "exec/exec-all.h"
++
++#endif /* !defined (CPU_AVR_H) */
+diff --git a/target/avr/gdbstub.c b/target/avr/gdbstub.c
+new file mode 100644
+index 0000000000..537dc7226e
+--- /dev/null
++++ b/target/avr/gdbstub.c
+@@ -0,0 +1,85 @@
++/*
++ * QEMU AVR CPU
++ *
++ * Copyright (c) 2016 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "exec/gdbstub.h"
++
++int avr_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
++{
++    AVRCPU *cpu = AVR_CPU(cs);
++    CPUAVRState *env = &cpu->env;
++
++    /*  R */
++    if (n < 32) {
++        return gdb_get_reg8(mem_buf, env->r[n]);
++    }
++
++    /*  SREG */
++    if (n == 32) {
++        uint8_t sreg = cpu_get_sreg(env);
++
++        return gdb_get_reg8(mem_buf, sreg);
++    }
++
++    /*  SP */
++    if (n == 33) {
++        return gdb_get_reg16(mem_buf, env->sp & 0x0000ffff);
++    }
++
++    /*  PC */
++    if (n == 34) {
++        return gdb_get_reg32(mem_buf, env->pc_w * 2);
++    }
++
++    return 0;
++}
++
++int avr_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
++{
++    AVRCPU *cpu = AVR_CPU(cs);
++    CPUAVRState *env = &cpu->env;
++
++    /*  R */
++    if (n < 32) {
++        env->r[n] = *mem_buf;
++        return 1;
++    }
++
++    /*  SREG */
++    if (n == 32) {
++        cpu_set_sreg(env, *mem_buf);
++        return 1;
++    }
++
++    /*  SP */
++    if (n == 33) {
++        env->sp = lduw_p(mem_buf);
++        return 2;
++    }
++
++    /*  PC */
++    if (n == 34) {
++        env->pc_w = ldl_p(mem_buf) / 2;
++        return 4;
++    }
++
++    return 0;
++}
+diff --git a/target/avr/machine.c b/target/avr/machine.c
+new file mode 100644
+index 0000000000..438c8a6cb5
+--- /dev/null
++++ b/target/avr/machine.c
+@@ -0,0 +1,122 @@
++/*
++ * QEMU AVR CPU
++ *
++ * Copyright (c) 2016 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#include "qemu/osdep.h"
++#include "hw/hw.h"
++#include "cpu.h"
++#include "hw/boards.h"
++#include "migration/qemu-file.h"
++
++static int get_sreg(QEMUFile *f, void *opaque, size_t size,
++    const VMStateField *field)
++{
++    CPUAVRState *env = opaque;
++    uint8_t sreg;
++
++    sreg = qemu_get_byte(f);
++    cpu_set_sreg(env, sreg);
++    return 0;
++}
++
++static int put_sreg(
++    QEMUFile *f, void *opaque, size_t size,
++    const VMStateField *field, QJSON *vmdesc)
++{
++    CPUAVRState *env = opaque;
++    uint8_t sreg = cpu_get_sreg(env);
++
++    qemu_put_byte(f, sreg);
++    return 0;
++}
++
++static const VMStateInfo vms_sreg = {
++    .name = "sreg",
++    .get = get_sreg,
++    .put = put_sreg,
++};
++
++static int get_segment(
++    QEMUFile *f, void *opaque, size_t size, const VMStateField *field)
++{
++    uint32_t *ramp = opaque;
++    uint8_t temp;
++
++    temp = qemu_get_byte(f);
++    *ramp = ((uint32_t)temp) << 16;
++    return 0;
++}
++
++static int put_segment(
++    QEMUFile *f, void *opaque, size_t size,
++    const VMStateField *field, QJSON *vmdesc)
++{
++    uint32_t *ramp = opaque;
++    uint8_t temp = *ramp >> 16;
++
++    qemu_put_byte(f, temp);
++    return 0;
++}
++
++static const VMStateInfo vms_rampD = {
++    .name = "rampD",
++    .get = get_segment,
++    .put = put_segment,
++};
++static const VMStateInfo vms_rampX = {
++    .name = "rampX",
++    .get = get_segment,
++    .put = put_segment,
++};
++static const VMStateInfo vms_rampY = {
++    .name = "rampY",
++    .get = get_segment,
++    .put = put_segment,
++};
++static const VMStateInfo vms_rampZ = {
++    .name = "rampZ",
++    .get = get_segment,
++    .put = put_segment,
++};
++static const VMStateInfo vms_eind = {
++    .name = "eind",
++    .get = get_segment,
++    .put = put_segment,
++};
++
++const VMStateDescription vms_avr_cpu = {
++    .name = "cpu",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(env.pc_w, AVRCPU),
++        VMSTATE_UINT32(env.sp, AVRCPU),
++
++        VMSTATE_UINT32_ARRAY(env.r, AVRCPU, NO_CPU_REGISTERS),
++
++        VMSTATE_SINGLE(env, AVRCPU, 0, vms_sreg, CPUAVRState),
++        VMSTATE_SINGLE(env.rampD, AVRCPU, 0, vms_rampD, uint32_t),
++        VMSTATE_SINGLE(env.rampX, AVRCPU, 0, vms_rampX, uint32_t),
++        VMSTATE_SINGLE(env.rampY, AVRCPU, 0, vms_rampY, uint32_t),
++        VMSTATE_SINGLE(env.rampZ, AVRCPU, 0, vms_rampZ, uint32_t),
++        VMSTATE_SINGLE(env.eind, AVRCPU, 0, vms_eind, uint32_t),
++
++        VMSTATE_END_OF_LIST()
++    }
++};
 -- 
 2.18.0
 
