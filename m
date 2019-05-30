@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5300E302A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 21:13:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58077 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4394302B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 21:17:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58135 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWQUX-00027L-Fs
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 15:13:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58952)
+	id 1hWQYT-0004i2-2V
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 15:17:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59032)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hWQPC-0006Vy-3T
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:03 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hWQPk-0006xV-6c
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hWQPA-0007FG-M2
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:02 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54808)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hWQPA-0007Ek-Ea
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:00 -0400
-Received: by mail-wm1-x341.google.com with SMTP id g135so1402892wme.4
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 12:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=NChLzNXhY7ydvjEawMkdPp3Dr7YO8RUiKwuSwBBtLuY=;
-	b=rcFwWecRbD83lvmUJ9qWc38CkLFS0UHXJwngdONU04+KhmF8+CLV0dmYexuccbMvJE
-	tGRUjfB4lUNnzLMkcw9XRdMNKwyZHOfzy5WgAZvCXsWRM8jGmFykh4sfl/Weg/CPPjwl
-	tmgV/IyxxS7R6494PKnJiiIlGtHfuNOXJ3u5vtp7mlSYWddjOzzar7AIyKpWlj2ndWVC
-	MVndCNJMrFfM1YSzsKXukZaUxw7zdxLE6HiOgFJU06iN/E3tT4mPA068GknT5ZzMdMBa
-	oSY1fQHrtSH8YMC+luTMytgKjd2cxB1UAjazx+wKy/tt/jviYqzkF1kXO7jjTPL44GwN
-	8L+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=NChLzNXhY7ydvjEawMkdPp3Dr7YO8RUiKwuSwBBtLuY=;
-	b=RZpG3R8ytKsTFzeGKFAe8KeXQc5pDebd96XQ1xSX0HBflzBu8g7nW6VyWj2tnH10aL
-	/jcfRif1wM959nuN3nDJpy/jDegfdGNTMbHTQQ1n6SsvKCK7MAE90iEwoAs6o1fFOiKs
-	lSKXlgyi6j3wiqNo5kK1JXvJwXcXYo24xA+V50htOTJ5pS9cGTOaUCfzTzIxdgyRj0Pp
-	yFSE1J7/EM5GTdWmJzShWOkif0s24rQufAeaZG5Gk4MtqiV/ijYX45F4HD6YXqTyxFfQ
-	dcJXrI7HYIn4MBvxzapA5jtuYX0SELbSMpS4BJLP9djVfpMlW3sc4OsF0Nyl3LZ8AT1G
-	+MQw==
-X-Gm-Message-State: APjAAAV3mU5cKPZAqDbKO81JszsQVNgP10QEqHhDYu4VN1NNa9xWKErX
-	bYmSMayaZb7ixb1HZNM39ynPsnJT1ko=
-X-Google-Smtp-Source: APXvYqwi/YIxDHerdmIx1l9Lt3eSftmFiyq2IsYmPmW0gLi8ACpJFqniuGG/p/ItwtEvIp+ZKnlWNw==
-X-Received: by 2002:a7b:c8c1:: with SMTP id f1mr2966137wml.159.1559243279105; 
-	Thu, 30 May 2019 12:07:59 -0700 (PDT)
-Received: from localhost.localdomain (bzq-109-65-68-81.red.bezeqint.net.
-	[109.65.68.81])
-	by smtp.gmail.com with ESMTPSA id u9sm8711230wme.48.2019.05.30.12.07.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 May 2019 12:07:58 -0700 (PDT)
-From: Michael Rolnik <mrolnik@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 22:07:38 +0300
-Message-Id: <20190530190738.22713-9-mrolnik@gmail.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190530190738.22713-1-mrolnik@gmail.com>
-References: <20190530190738.22713-1-mrolnik@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH RFC v20 8/8] target/avr: Register AVR support
- with the rest of QEMU, the build system, and the MAINTAINERS file
+	(envelope-from <dgilbert@redhat.com>) id 1hWQPi-0007gw-Ry
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41148)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hWQPi-0007gP-J0
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:34 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id E3E34882FD
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 19:08:33 +0000 (UTC)
+Received: from work-vm (ovpn-117-91.ams2.redhat.com [10.36.117.91])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A980E7E31C;
+	Thu, 30 May 2019 19:08:25 +0000 (UTC)
+Date: Thu, 30 May 2019 20:08:23 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <20190530190822.GL2823@work-vm>
+References: <20190517125820.2885-1-jfreimann@redhat.com>
+	<20190517125820.2885-4-jfreimann@redhat.com>
+	<20190521094504.GB2915@work-vm>
+	<20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
+	<20190530134631-mutt-send-email-mst@kernel.org>
+	<20190530180022.GB2864@work-vm>
+	<20190530140419-mutt-send-email-mst@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190530140419-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.28]);
+	Thu, 30 May 2019 19:08:33 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,195 +64,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
-	rth@twiddle.net
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+	aadam@redhat.com, qemu-devel@nongnu.org, laine@redhat.com,
+	Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sarah Harris <S.E.Harris@kent.ac.uk>
+* Michael S. Tsirkin (mst@redhat.com) wrote:
+> On Thu, May 30, 2019 at 07:00:23PM +0100, Dr. David Alan Gilbert wrote:
+> > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > On Thu, May 30, 2019 at 04:56:45PM +0200, Jens Freimann wrote:
+> > > > Hi David,
+> > > >=20
+> > > > sorry for the  delayed reply.
+> > > >=20
+> > > > On Tue, May 28, 2019 at 11:04:15AM -0400, Michael S. Tsirkin wrote:
+> > > > > On Tue, May 21, 2019 at 10:45:05AM +0100, Dr. David Alan Gilbert =
+wrote:
+> > > > > > * Jens Freimann (jfreimann@redhat.com) wrote:
+> > > > > > > +static void virtio_net_primary_plug_timer(void *opaque);
+> > > > > > > +
+> > > > > > >  static void virtio_net_set_link_status(NetClientState *nc)
+> > > > > > >  {
+> > > > > > >      VirtIONet *n =3D qemu_get_nic_opaque(nc);
+> > > > > > > @@ -786,6 +796,14 @@ static void virtio_net_set_features(Virt=
+IODevice *vdev, uint64_t features)
+> > > > > > >      } else {
+> > > > > > >          memset(n->vlans, 0xff, MAX_VLAN >> 3);
+> > > > > > >      }
+> > > > > > > +
+> > > > > > > +    if (virtio_has_feature(features, VIRTIO_NET_F_STANDBY)) {
+> > > > > > > +        atomic_set(&n->primary_should_be_hidden, false);
+> > > > > > > +        if (n->primary_device_timer)
+> > > > > > > +            timer_mod(n->primary_device_timer,
+> > > > > > > +                qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
+> > > > > > > +                4000);
+> > > > > > > +    }
+> > > > > >=20
+> > > > > > What's this magic timer constant and why?
+> > > >=20
+> > > > To be honest it's a leftover from previous versions (before I took
+> > > > over) of the patches and I'm not sure why the timer is there.
+> > > > I removed it and so far see no reason to keep it.
+> > > >=20
+> > > > > >=20
+> > > > > > >  }
+> > > > > > >
+> > > > > > >  static int virtio_net_handle_rx_mode(VirtIONet *n, uint8_t c=
+md,
+> > > > > > > @@ -2626,6 +2644,87 @@ void virtio_net_set_netclient_name(Vir=
+tIONet *n, const char *name,
+> > > > > > >      n->netclient_type =3D g_strdup(type);
+> > > > > > >  }
+> > > > > > >
+> > > > > > > +static void virtio_net_primary_plug_timer(void *opaque)
+> > > > > > > +{
+> > > > > > > +    VirtIONet *n =3D opaque;
+> > > > > > > +    Error *err =3D NULL;
+> > > > > > > +
+> > > > > > > +    if (n->primary_device_dict)
+> > > > > > > +        n->primary_device_opts =3D qemu_opts_from_qdict(qemu=
+_find_opts("device"),
+> > > > > > > +            n->primary_device_dict, &err);
+> > > > > > > +    if (n->primary_device_opts) {
+> > > > > > > +        n->primary_dev =3D qdev_device_add(n->primary_device=
+_opts, &err);
+> > > > > > > +        error_setg(&err, "virtio_net: couldn't plug in prima=
+ry device");
+> > > > > > > +        return;
+> > > > > > > +    }
+> > > > > > > +    if (!n->primary_device_dict && err) {
+> > > > > > > +        if (n->primary_device_timer) {
+> > > > > > > +            timer_mod(n->primary_device_timer,
+> > > > > > > +                qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
+> > > > > > > +                100);
+> > > > > >=20
+> > > > > > same here.
+> > > >=20
+> > > > see above
+> > > >=20
+> > > > > >=20
+> > > > > >=20
+> > > > > > > +        }
+> > > > > > > +    }
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static void virtio_net_handle_migration_primary(VirtIONet *n,
+> > > > > > > +                                                MigrationSta=
+te *s)
+> > > > > > > +{
+> > > > > > > +    Error *err =3D NULL;
+> > > > > > > +    bool should_be_hidden =3D atomic_read(&n->primary_should=
+_be_hidden);
+> > > > > > > +
+> > > > > > > +    n->primary_dev =3D qdev_find_recursive(sysbus_get_defaul=
+t(),
+> > > > > > > +            n->primary_device_id);
+> > > > > > > +    if (!n->primary_dev) {
+> > > > > > > +        error_setg(&err, "virtio_net: couldn't find primary =
+device");
+> > > > > >=20
+> > > > > > There's something broken with the error handling in this functi=
+on - the
+> > > > > > 'err' never goes anywhere - I don't think it ever gets printed =
+or
+> > > > > > reported or stops the migration.
+> > > >=20
+> > > > yes, I'll fix it.
+> > > >=20
+> > > > > > > +    }
+> > > > > > > +    if (migration_in_setup(s) && !should_be_hidden && n->pri=
+mary_dev) {
+> > > > > > > +        qdev_unplug(n->primary_dev, &err);
+> > > > > >=20
+> > > > > > Not knowing unplug well; can you just explain - is that device =
+hard
+> > > > > > unplugged and it's gone by the time this function returns or is=
+ it still
+> > > > > > hanging around for some indeterminate time?
+> > > >=20
+> > > > Qemu will trigger an unplug request via pcie attention button in wh=
+ich case
+> > > > there could be a delay by the guest operating system. We could give=
+ it some
+> > > > amount of time and if nothing happens try surpise removal or handle=
+ the
+> > > > error otherwise.
+> > > >=20
+> > > >=20
+> > > > regards,
+> > > > Jens
+> > >=20
+> > > That's a subject for another day. Let's get the basic thing
+> > > working.
+> >=20
+> > Well no, we need to know this thing isn't going to hang in the migration
+> > setup phase, or if it does how we recover.
+>=20
+>=20
+> This thing is *supposed* to be stuck in migration startup phase
+> if guest is malicious.
+>=20
+> If migration does not progress management needs
+> a way to detect this and cancel.
+>=20
+> Some more documentation about how this is supposed to happen
+> would be helpful.
 
-Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
----
- MAINTAINERS                     |  6 +++++
- arch_init.c                     |  2 ++
- configure                       |  6 +++++
- default-configs/avr-softmmu.mak |  5 +++++
- include/disas/dis-asm.h         |  6 +++++
- include/sysemu/arch_init.h      |  1 +
- qapi/common.json                |  2 +-
- target/avr/Makefile.objs        | 40 +++++++++++++++++++++++++++++++++
- tests/machine-none-test.c       |  1 +
- 9 files changed, 68 insertions(+), 1 deletion(-)
- create mode 100644 default-configs/avr-softmmu.mak
- create mode 100644 target/avr/Makefile.objs
+I want to see that first; because I want to convinced it's just a
+documentation problem and that we actually really have a method of
+recovering.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1f5f8b7a2c..4bad81f974 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -162,6 +162,12 @@ S: Maintained
- F: hw/arm/smmu*
- F: include/hw/arm/smmu*
- 
-+AVR
-+M: Michael Rolnik <mrolnik@gmail.com>
-+S: Odd Fixes
-+F: target/avr/
-+F: hw/avr/
-+
- CRIS
- M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
- S: Maintained
-diff --git a/arch_init.c b/arch_init.c
-index f4f3f610c8..184cdca6dd 100644
---- a/arch_init.c
-+++ b/arch_init.c
-@@ -86,6 +86,8 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_UNICORE32
- #elif defined(TARGET_XTENSA)
- #define QEMU_ARCH QEMU_ARCH_XTENSA
-+#elif defined(TARGET_AVR)
-+#define QEMU_ARCH QEMU_ARCH_AVR
- #endif
- 
- const uint32_t arch_type = QEMU_ARCH;
-diff --git a/configure b/configure
-index 528b9ff705..933c166b02 100755
---- a/configure
-+++ b/configure
-@@ -7484,6 +7484,9 @@ case "$target_name" in
-     target_compiler=$cross_cc_aarch64
-     eval "target_compiler_cflags=\$cross_cc_cflags_${target_name}"
-   ;;
-+  avr)
-+    target_compiler=$cross_cc_avr
-+  ;;
-   cris)
-     target_compiler=$cross_cc_cris
-   ;;
-@@ -7759,6 +7762,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-       disas_config "ARM_A64"
-     fi
-   ;;
-+  avr)
-+    disas_config "AVR"
-+  ;;
-   cris)
-     disas_config "CRIS"
-   ;;
-diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
-new file mode 100644
-index 0000000000..d1e1c28118
---- /dev/null
-+++ b/default-configs/avr-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for avr-softmmu
-+
-+# Boards:
-+#
-+CONFIG_AVR_SAMPLE=y
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index 9240ec32c2..a7d230ba66 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -211,6 +211,12 @@ enum bfd_architecture
- #define bfd_mach_m32r          0  /* backwards compatibility */
-   bfd_arch_mn10200,    /* Matsushita MN10200 */
-   bfd_arch_mn10300,    /* Matsushita MN10300 */
-+  bfd_arch_avr,       /* Atmel AVR microcontrollers.  */
-+#define bfd_mach_avr1          1
-+#define bfd_mach_avr2          2
-+#define bfd_mach_avr3          3
-+#define bfd_mach_avr4          4
-+#define bfd_mach_avr5          5
-   bfd_arch_cris,       /* Axis CRIS */
- #define bfd_mach_cris_v0_v10   255
- #define bfd_mach_cris_v32      32
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 10cbafe970..aff57bfe61 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -25,6 +25,7 @@ enum {
-     QEMU_ARCH_NIOS2 = (1 << 17),
-     QEMU_ARCH_HPPA = (1 << 18),
-     QEMU_ARCH_RISCV = (1 << 19),
-+    QEMU_ARCH_AVR = (1 << 20),
- };
- 
- extern const uint32_t arch_type;
-diff --git a/qapi/common.json b/qapi/common.json
-index 99d313ef3b..eeacd0e3c2 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -187,7 +187,7 @@
- # Since: 3.0
- ##
- { 'enum' : 'SysEmuTarget',
--  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-+  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-              'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
-new file mode 100644
-index 0000000000..9ceddf1fdb
---- /dev/null
-+++ b/target/avr/Makefile.objs
-@@ -0,0 +1,40 @@
-+#
-+#  QEMU AVR CPU
-+#
-+#  Copyright (c) 2016 Michael Rolnik
-+#
-+#  This library is free software; you can redistribute it and/or
-+#  modify it under the terms of the GNU Lesser General Public
-+#  License as published by the Free Software Foundation; either
-+#  version 2.1 of the License, or (at your option) any later version.
-+#
-+#  This library is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+#  Lesser General Public License for more details.
-+#
-+#  You should have received a copy of the GNU Lesser General Public
-+#  License along with this library; if not, see
-+#  <http://www.gnu.org/licenses/lgpl-2.1.html>
-+#
-+
-+DECODETREE = $(SRC_PATH)/scripts/decodetree.py
-+decode32-y = $(SRC_PATH)/target/avr/insn32.decode
-+decode16-y = $(SRC_PATH)/target/avr/insn16.decode
-+
-+target/avr/decode_insn32.inc.c: $(decode32-y) $(DECODETREE)
-+	$(call quiet-command, \
-+	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn32 $(decode32-y), \
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/avr/decode_insn16.inc.c: $(decode16-y) $(DECODETREE)
-+	$(call quiet-command, \
-+	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn16 --insnwidth 16 $<, \
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/avr/translate.o: target/avr/decode_insn32.inc.c \
-+	target/avr/decode_insn16.inc.c
-+
-+obj-y += translate.o cpu.o helper.o
-+obj-y += gdbstub.o
-+obj-$(CONFIG_SOFTMMU) += machine.o
-diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
-index 4c6d470798..361927bb76 100644
---- a/tests/machine-none-test.c
-+++ b/tests/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6" },
-     { "x86_64", "qemu64,apic-id=0" },
-     { "i386", "qemu32,apic-id=0" },
-     { "alpha", "ev67" },
--- 
-2.18.0
+> >  This patch series is very
+> > odd precisely because it's trying to do the unplug itself in the
+> > migration phase rather than let the management layer do it - so unless
+> > it's nailed down how to make sure that's really really bullet proof
+> > then we've got to go back and ask the question about whether we should
+> > really fix it so it can be done by the management layer.
+> >=20
+> > Dave
+>=20
+> management already said they can't because files get closed and
+> resources freed on unplug and so they might not be able to re-add device
+> on migration failure. We do it in migration because that is
+> where failures can happen and we can recover.
 
+I find this explanation confusing - I can kind of see where it's coming
+=66rom, but we've got a pretty clear separation between a NIC and the
+netdev that backs it; those files and resources should be associated
+with the netdev and not the NIC.  So does hot-removing the NIC really
+clean up the netdev?  (I guess maybe this is a different in vfio
+which is the problem)
+
+Dave
+
+> > > --=20
+> > > MST
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
