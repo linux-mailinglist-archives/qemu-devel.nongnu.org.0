@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F350E2FA52
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:33:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50831 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481D92FA57
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:35:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50919 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWINM-0007t4-4R
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:33:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57076)
+	id 1hWIPI-0000jC-Fp
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:35:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57158)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWIFF-0001Ed-Pi
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:15 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWIFH-0001Fy-EM
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWIFD-0000Ha-C9
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:13 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51755)
+	(envelope-from <alex.bennee@linaro.org>) id 1hWIFD-0000IU-MC
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:15 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37404)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWIFC-0000Af-TB
+	id 1hWIFD-000063-93
 	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:11 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f10so3617872wmb.1
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:25:09 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 7so3479010wmo.2
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:25:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=2471IffjmNwT1ZIHN+LiHQt5WCW20wr0QmjXYo3CRl8=;
-	b=GhP6pyvgxpZHNbcmuwIEZapIcPwTGrWK0KZLjWSykCKgyPcPg2c1rfpruDvYzZsjt6
-	MMzu1U5NZa7LdAGOfNQm5KJDcjnzTbl+hFh7iHD+eNMY4yboMipXfdtjtMTRYtoEX/Uh
-	bZYiSPwFsYtuFGSVQHMAJdiKdAhTowkASDpUA8uFlqTUsKeq1UNMnfZZt9sKD1XAYamM
-	q79zSr5dkeLTSPI0b7H6Td1KqyX5TdHLXbpoHPGLaPIlSQp0UMUSAUhUA7dJdykWM9vU
-	xxj+Wp4WmedLwGahsLBEu9vQ4VEP6F66xvC0fiKsBvXGNzTGB1W9JK214ORoHdSUnkWi
-	q8fQ==
+	bh=i/i2ywuXLTtPSClMKCvPqBuSnYnrMH6w3mkxq4w23A4=;
+	b=TNcxgGyp5olZtcGwMrsQZz9b1DiB1Qg6J72RCiIIFI8KfjP50Hm7kLdE+BNF43CVL0
+	yQUCUg8lALISTJOPr03WIWH5vSMeBu+HaD8kUyMIVZmggwzKa410X3+GhAmB6oMXHYXO
+	O96P7XMjKxxwoLlbnf1IsmDL48z/CUWzwDgAxcIIoEPTczWCgG+AiRRkrCgKF3fkfkbZ
+	78jcOLi7uYQpiy1FGjXsa7cstlFAJENKKlLm/gmJph3ivyfbJAwxbFIu5PAFz61PPSz5
+	kJl4kG5Wov8hbWd75Wj+7wpxaaxRC/GKreNAALgVB+0vaA5QKRi6Q/F36ubLqZkfgiCH
+	RIRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=2471IffjmNwT1ZIHN+LiHQt5WCW20wr0QmjXYo3CRl8=;
-	b=GjjV/JBiFVLYKaUGDxIgM6J+2DT8peDzDzDVvyOlm5E5PNLvWwCSlj1drtfRbHKGMy
-	gEkVda7RX3t1rNdsNjeeGC64FEWLjyiNImAoQvNnVd5uWoZy9UP6FqH9ETN7EPKgV2Ls
-	mPxrCDWir/v2tnecQeGaBzgFOHOnfMoe2Ns5H7dkJp8Qj2bYLewiDTahgZr2Pwl9410Z
-	c/9EQaj0YRirDovy2TjtyznlijRFrCBjl+yXgxb/+ueS2L5tedmDcIUzEw9D+sOrc8h+
-	LpqumTf6Ji232szEdEh4zZcrEo5j6El96nUy7sveH0S1b6GLCalGdHetgIGakUfJP43u
-	m/RA==
-X-Gm-Message-State: APjAAAWwV5nMlnu94cqZUbwBO05aGZbPA781E+GMIhm/r+hDjVnv5YUb
-	ZT4PDWlRlCXUrk2DBqpN5sJNNJUfy2k=
-X-Google-Smtp-Source: APXvYqyW9Iqbs65U6v8JWEmqsWuxobq7L/pVtQOWf2xVlngb/kvOEdicMkKa5lrXYcSjWE8k45uxOw==
-X-Received: by 2002:a05:600c:1101:: with SMTP id
-	b1mr1855856wma.154.1559211907916; 
-	Thu, 30 May 2019 03:25:07 -0700 (PDT)
+	bh=i/i2ywuXLTtPSClMKCvPqBuSnYnrMH6w3mkxq4w23A4=;
+	b=ByCCSwD04DhP9av0+TNW5TstqeZy1Vc0jtQvifZCPHvJ5vFL7JlH3aCsnYSLZKgoA+
+	74JNzuUAjTjgB/OL7/RyDwg4bbGAhqT+Ez6qb7dVUJfufGy8ugxk5mjbhz1DDYoZbqV0
+	1KhSGRdTlviCWCt+bc25v3e0rAsPgmv3/97N7B6k6dw04fkUT93QxoGt6Tg6h5mbHZxm
+	sU443O5NHWDApkrJ38sjMIj92zWdc6ojfuNHfzJlFYky3ejLVY3vdKttrEuXzSvpn5+K
+	0HLC3qDEBoTiy+32r1NifRBqBGOpe7Zy6Wirh+YJ9oZ7trvu8DvmJtZS0jdKukDTDwZ0
+	HTSw==
+X-Gm-Message-State: APjAAAW4D/nGPxfYMFAHxVNW1jFVvEBdInOePQJsoKBg9dpTn/gAyecu
+	f/p7WY3hTrzDiPmjnEgkrvECFQ==
+X-Google-Smtp-Source: APXvYqyc0UG19jjbB87M/dlL+IjWMEbEtaIEdM70TUl48hejadU+sWYm/OzDuMGpwwipkH7sHsOdmw==
+X-Received: by 2002:a1c:9a16:: with SMTP id c22mr1852538wme.39.1559211903728; 
+	Thu, 30 May 2019 03:25:03 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id w2sm1744827wru.16.2019.05.30.03.25.02
+	by smtp.gmail.com with ESMTPSA id n4sm2145728wrp.61.2019.05.30.03.25.00
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 30 May 2019 03:25:04 -0700 (PDT)
+	Thu, 30 May 2019 03:25:02 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id C4FBF1FFAA;
+	by zen.linaroharston (Postfix) with ESMTP id DABD61FFAB;
 	Thu, 30 May 2019 11:16:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 11:15:58 +0100
-Message-Id: <20190530101603.22254-22-alex.bennee@linaro.org>
+Date: Thu, 30 May 2019 11:15:59 +0100
+Message-Id: <20190530101603.22254-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190530101603.22254-1-alex.bennee@linaro.org>
 References: <20190530101603.22254-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH v1 21/26] tests/vm: serial console support
- helpers
+X-Received-From: 2a00:1450:4864:20::332
+Subject: [Qemu-devel] [PATCH  v1 22/26] tests/vm: openbsd autoinstall,
+ using serial console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,37 +84,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Thomas Huth <thuth@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
+	Gerd Hoffmann <kraxel@redhat.com>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Add a bunch of helpers to talk to the guest using the
-serial console.
-
-Also drop the hard-coded -serial parameter for the vm
-so QEMUMachine.set_console() actually works.
+Instead of fetching the prebuilt image from patchew download the install
+iso and prepare the image locally.  Install to disk, using the serial
+console.  Create qemu user, configure ssh login.  Install packages
+needed for qemu builds.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190520124716.30472-10-kraxel@redhat.com>
+Message-Id: <20190520124716.30472-11-kraxel@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/vm/basevm.py | 85 ++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 82 insertions(+), 3 deletions(-)
+ tests/vm/openbsd | 158 +++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 145 insertions(+), 13 deletions(-)
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index f27178f3c7c..8894267f078 100755
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index 2105c01a267..c5f0a152183 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
 @@ -2,10 +2,11 @@
  #
- # VM testing base class
+ # OpenBSD VM image
  #
 -# Copyright 2017 Red Hat Inc.
 +# Copyright 2017-2019 Red Hat Inc.
@@ -126,117 +122,184 @@ index f27178f3c7c..8894267f078 100755
  #
  # This code is licensed under the GPL version 2 or later.  See
  # the COPYING file in the top-level directory.
-@@ -13,7 +14,9 @@
+@@ -13,34 +14,165 @@
  
- from __future__ import print_function
  import os
-+import re
  import sys
 +import socket
- import logging
- import time
- import datetime
-@@ -79,8 +82,7 @@ class BaseVM(object):
-             "-cpu", "max",
-             "-netdev", "user,id=vnet,hostfwd=:127.0.0.1:0-:22",
-             "-device", "virtio-net-pci,netdev=vnet",
--            "-vnc", "127.0.0.1:0,to=20",
--            "-serial", "file:%s" % os.path.join(self._tmpdir, "serial.out")]
-+            "-vnc", "127.0.0.1:0,to=20"]
-         if vcpus and vcpus > 1:
-             self._args += ["-smp", "%d" % vcpus]
-         if kvm_available(self.arch):
-@@ -162,6 +164,8 @@ class BaseVM(object):
-         logging.debug("QEMU args: %s", " ".join(args))
-         qemu_bin = os.environ.get("QEMU", "qemu-system-" + self.arch)
-         guest = QEMUMachine(binary=qemu_bin, args=args)
-+        guest.set_machine('pc')
-+        guest.set_console()
-         try:
-             guest.launch()
-         except:
-@@ -184,6 +188,81 @@ class BaseVM(object):
-             raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
-                             usernet_info)
+ import subprocess
+ import basevm
  
-+    def console_init(self, timeout = 120):
-+        vm = self._guest
-+        vm.console_socket.settimeout(timeout)
+ class OpenBSDVM(basevm.BaseVM):
+     name = "openbsd"
+     arch = "x86_64"
 +
-+    def console_log(self, text):
-+        for line in re.split("[\r\n]", text):
-+            # filter out terminal escape sequences
-+            line = re.sub("\x1b\[[0-9;?]*[a-zA-Z]", "", line)
-+            line = re.sub("\x1b\([0-9;?]*[a-zA-Z]", "", line)
-+            # replace unprintable chars
-+            line = re.sub("\x1b", "<esc>", line)
-+            line = re.sub("[\x00-\x1f]", ".", line)
-+            if line == "":
-+                continue
-+            # log console line
-+            sys.stderr.write("con recv: %s\n" % line)
++    link = "https://cdn.openbsd.org/pub/OpenBSD/6.5/amd64/install65.iso"
++    csum = "38d1f8cadd502f1c27bf05c5abde6cc505dd28f3f34f8a941048ff9a54f9f608"
++    size = "20G"
++    pkgs = [
++        # tools
++        "git",
++        "pkgconf",
++        "bzip2", "xz",
 +
-+    def console_wait(self, expect):
-+        vm = self._guest
-+        output = ""
-+        while True:
-+            try:
-+                chars = vm.console_socket.recv(1024)
-+            except socket.timeout:
-+                sys.stderr.write("console: *** read timeout ***\n")
-+                sys.stderr.write("console: waiting for: '%s'\n" % expect)
-+                sys.stderr.write("console: line buffer:\n")
-+                sys.stderr.write("\n")
-+                self.console_log(output.rstrip())
-+                sys.stderr.write("\n")
-+                raise
-+            output += chars.decode("latin1")
-+            if expect in output:
-+                break
-+            if "\r" in output or "\n" in output:
-+                lines = re.split("[\r\n]", output)
-+                output = lines.pop()
-+                if self.debug:
-+                    self.console_log("\n".join(lines))
-+        if self.debug:
-+            self.console_log(output)
++        # gnu tools
++        "bash",
++        "gmake",
++        "gsed",
++        "bison",
 +
-+    def console_send(self, command):
-+        vm = self._guest
-+        if self.debug:
-+            logline = re.sub("\n", "<enter>", command)
-+            logline = re.sub("[\x00-\x1f]", ".", logline)
-+            sys.stderr.write("con send: %s\n" % logline)
-+        for char in list(command):
-+            vm.console_socket.send(char.encode("utf-8"))
-+            time.sleep(0.01)
++        # libs: usb
++        "libusb1",
 +
-+    def console_wait_send(self, wait, command):
-+        self.console_wait(wait)
-+        self.console_send(command)
++        # libs: crypto
++        "gnutls",
 +
-+    def console_ssh_init(self, prompt, user, pw):
-+        sshkey_cmd = "echo '%s' > .ssh/authorized_keys\n" % SSH_PUB_KEY.rstrip()
-+        self.console_wait_send("login:",    "%s\n" % user)
-+        self.console_wait_send("Password:", "%s\n" % pw)
-+        self.console_wait_send(prompt,      "mkdir .ssh\n")
-+        self.console_wait_send(prompt,      sshkey_cmd)
-+        self.console_wait_send(prompt,      "chmod 755 .ssh\n")
-+        self.console_wait_send(prompt,      "chmod 644 .ssh/authorized_keys\n")
++        # libs: images
++        "jpeg",
++        "png",
 +
-+    def console_sshd_config(self, prompt):
++	# libs: ui
++        "sdl2",
++        "gtk+3",
++        "libxkbcommon",
++    ]
++
+     BUILD_SCRIPT = """
+         set -e;
+-        rm -rf /var/tmp/qemu-test.*
+-        cd $(mktemp -d /var/tmp/qemu-test.XXXXXX);
++        rm -rf /home/qemu/qemu-test.*
++        cd $(mktemp -d /home/qemu/qemu-test.XXXXXX);
++        mkdir src build; cd src;
+         tar -xf /dev/rsd1c;
+-        ./configure --cc=x86_64-unknown-openbsd6.1-gcc-4.9.4 --python=python2.7 {configure_opts};
+-        gmake --output-sync -j{jobs} {verbose};
+-        # XXX: "gmake check" seems to always hang or fail
+-        #gmake --output-sync -j{jobs} check {verbose};
++        cd ../build
++        ../src/configure --cc=cc --python=python3 {configure_opts};
++        gmake --output-sync -j{jobs} {target} {verbose};
+     """
++    poweroff = "halt -p"
+ 
+     def build_image(self, img):
+-        cimg = self._download_with_cache("http://download.patchew.org/openbsd-6.1-amd64.img.xz",
+-                sha256sum='8c6cedc483e602cfee5e04f0406c64eb99138495e8ca580bc0293bcf0640c1bf')
+-        img_tmp_xz = img + ".tmp.xz"
++        self.print_step("Downloading install iso")
++        cimg = self._download_with_cache(self.link, sha256sum=self.csum)
+         img_tmp = img + ".tmp"
+-        sys.stderr.write("Extracting the image...\n")
+-        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
+-        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
++        iso = img + ".install.iso"
++
++        self.print_step("Preparing iso and disk image")
++        subprocess.check_call(["cp", "-f", cimg, iso])
++        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
++                               img_tmp, self.size])
++
++        self.print_step("Booting installer")
++        self.boot(img_tmp, extra_args = [
++            "-machine", "graphics=off",
++            "-cdrom", iso
++        ])
++        self.console_init()
++        self.console_wait_send("boot>", "set tty com0\n")
++        self.console_wait_send("boot>", "\n")
++
++        # pre-install configuration
++        self.console_wait_send("(I)nstall",               "i\n")
++        self.console_wait_send("Terminal type",           "xterm\n")
++        self.console_wait_send("System hostname",         "openbsd\n")
++        self.console_wait_send("Which network interface", "vio0\n")
++        self.console_wait_send("IPv4 address",            "dhcp\n")
++        self.console_wait_send("IPv6 address",            "none\n")
++        self.console_wait_send("Which network interface", "done\n")
++        self.console_wait_send("DNS domain name",         "localnet\n")
++        self.console_wait("Password for root account")
++        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_wait("Password for root account")
++        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_wait_send("Start sshd(8)",           "yes\n")
++        self.console_wait_send("X Window System",         "\n")
++        self.console_wait_send("xenodm",                  "\n")
++        self.console_wait_send("console to com0",         "\n")
++        self.console_wait_send("Which speed",             "\n")
++
++        self.console_wait("Setup a user")
++        self.console_send("%s\n" % self.GUEST_USER)
++        self.console_wait("Full name")
++        self.console_send("%s\n" % self.GUEST_USER)
++        self.console_wait("Password")
++        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_wait("Password")
++        self.console_send("%s\n" % self.GUEST_PASS)
++
++        self.console_wait_send("Allow root ssh login",    "yes\n")
++        self.console_wait_send("timezone",                "UTC\n")
++        self.console_wait_send("root disk",               "\n")
++        self.console_wait_send("(W)hole disk",            "\n")
++        self.console_wait_send("(A)uto layout",           "\n")
++        self.console_wait_send("Location of sets",        "cd0\n")
++        self.console_wait_send("Pathname to the sets",    "\n")
++        self.console_wait_send("Set name(s)",             "\n")
++        self.console_wait_send("without verification",    "yes\n")
++
++        self.print_step("Installation started now, this will take a while")
++        self.console_wait_send("Location of sets",        "done\n")
++
++        self.console_wait("successfully completed")
++        self.print_step("Installation finished, rebooting")
++        self.console_wait_send("(R)eboot",                "reboot\n")
++
++        # setup qemu user
++        prompt = "$"
++        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
++        self.console_wait_send(prompt, "exit\n")
++
++        # setup root user
++        prompt = "openbsd#"
++        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
++        self.console_sshd_config(prompt)
++
++        # setup virtio-blk #1 (tarfile)
 +        self.console_wait(prompt)
-+        self.console_send("echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config\n")
-+        for var in self.envvars:
-+            self.console_wait(prompt)
-+            self.console_send("echo 'AcceptEnv %s' >> /etc/ssh/sshd_config\n" % var)
++        self.console_send("echo 'chmod 666 /dev/rsd1c' >> /etc/rc.local\n")
 +
-+    def print_step(self, text):
-+        sys.stderr.write("### %s ...\n" % text)
++        # enable w+x for /home
++        self.console_wait(prompt)
++        self.console_send("sed -i -e '/home/s/rw,/rw,wxallowed,/' /etc/fstab\n")
 +
-     def wait_ssh(self, seconds=300):
-         starttime = datetime.datetime.now()
-         endtime = starttime + datetime.timedelta(seconds=seconds)
++        # tweak datasize limit
++        self.console_wait(prompt)
++        self.console_send("sed -i -e 's/\\(datasize[^=]*\\)=[^:]*/\\1=infinity/' /etc/login.conf\n")
++
++        # use http (be proxy cache friendly)
++        self.console_wait(prompt)
++        self.console_send("sed -i -e 's/https/http/' /etc/installurl\n")
++
++        self.print_step("Configuration finished, rebooting")
++        self.console_wait_send(prompt, "reboot\n")
++        self.console_wait("login:")
++        self.wait_ssh()
++
++        self.print_step("Installing packages")
++        self.ssh_root_check("pkg_add %s\n" % " ".join(self.pkgs))
++
++        # shutdown
++        self.ssh_root(self.poweroff)
++        self.wait()
++
+         if os.path.exists(img):
+             os.remove(img)
+         os.rename(img_tmp, img)
++        os.remove(iso)
++        self.print_step("All done")
+ 
+ if __name__ == "__main__":
+     sys.exit(basevm.main(OpenBSDVM))
 -- 
 2.20.1
 
