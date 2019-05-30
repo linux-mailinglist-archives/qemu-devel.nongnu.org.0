@@ -2,63 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ECB02FA9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 13:01:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52006 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED332FAA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 13:05:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52040 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWIoa-00013S-AX
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 07:01:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39800)
+	id 1hWIsI-0002pm-SW
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 07:05:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40267)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <geleman@gmail.com>) id 1hWInS-0000i1-RE
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:00:35 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hWIq4-0001hu-Gt
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:03:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <geleman@gmail.com>) id 1hWInR-0003iK-P5
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:00:34 -0400
-Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:41659)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <geleman@gmail.com>) id 1hWInR-0003aQ-IP
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:00:33 -0400
-Received: by mail-vs1-xe42.google.com with SMTP id g24so2042408vso.8
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 04:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lW5xxki/o6CsCWfxBGqWQ/PA8jgHGun1vZIu7u0tq98=;
-	b=si1MAE/9rmkLK/HQJ2z/jjQM7qkzflpQMybvfZqDqeJVsiPLlMDqSHD8/ygFq6DjC+
-	1Ptl7uAAqSojk7c1LY5c7hza5kgf823UMaP3MTAo4zW2tE0LBmEaeloqWyp9cqv8GFxq
-	RR0UFj665d0XW0oFwuv1+TnB2WQwR+cDtuuAIpz9jij52WFNoh4BAkSRs1L3y7RKWIAD
-	IbCj3lzdHoHOcqgysiioJS+a0M9dD3MDXuTed95/x4Py0cBcB2SONPHeo1Qce7mHB71o
-	qfgD7f/npYaOQXHUT7/x+fVdCgE3ev0Qu8A0dFNmZLLinrhLiw4FJbDJFA/tfiSYdeut
-	P2AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=lW5xxki/o6CsCWfxBGqWQ/PA8jgHGun1vZIu7u0tq98=;
-	b=l5aSP0TLdpmNcwUaVxhJ9q4zDmW1zZSHCIwuroGlt8zir4gIJSnrWVPuTiKZn0dndD
-	EjVBQliIg229Zt42nDWeal/ODObPeQuFwl3cOP+UBEXw2gyGHANGCvtLfBqvdpwHXcLY
-	pqZj2lqMU1XQkR1MHXdDZ9aZqBFju3Niud1oHfpyXrNW+N8iL0SijLNy5w/jysIm5wvv
-	u3+VlSZ8nAwgKfIGAAsZQRw6bZsrYwpHQ4W5gPTJclmdbOeZbLPgMKyXlMRm4RxIlmZA
-	tWcBz92Luiy4cKmBtacLqzCm5kcpx/Q3FUym0MB5f91tsMCOBy4y8fxo3dJWcbYk1fbc
-	aQug==
-X-Gm-Message-State: APjAAAVVmjvCGdSU7jyIiBYHTaIwXyyZPDkWpqrDF0sSQQ85YFwlmvXl
-	+NnO7gF54CLHbXNn8qhgQ1PTFx3MRVjAU31havE=
-X-Google-Smtp-Source: APXvYqxVDmGPBK7D19Y3zTojrWnqX7qXfOz+j8HkVpV2q7fvDQBCR1w1vnmVD9VLtmKyXN7pBFpHU4VZxFio+YC8M0o=
-X-Received: by 2002:a67:f4c6:: with SMTP id s6mr1484754vsn.193.1559214031364; 
-	Thu, 30 May 2019 04:00:31 -0700 (PDT)
+	(envelope-from <kwolf@redhat.com>) id 1hWIq3-0003Wk-5U
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 07:03:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58544)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hWIq0-0003Nc-2c; Thu, 30 May 2019 07:03:12 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6026930C319F;
+	Thu, 30 May 2019 11:03:01 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-116-119.ams2.redhat.com
+	[10.36.116.119])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EC5186B8E0;
+	Thu, 30 May 2019 11:02:59 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Date: Thu, 30 May 2019 13:02:49 +0200
+Message-Id: <20190530110255.16225-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <003a01d51611$6251a2b0$26f4e810$@ru>
-In-Reply-To: <003a01d51611$6251a2b0$26f4e810$@ru>
-From: TeLeMan <geleman@gmail.com>
-Date: Thu, 30 May 2019 19:00:17 +0800
-Message-ID: <CAETRQWkhH-ZPkbLcCWE7xiY6eTeTS0Ow=wHwo=iFGp0uy5OwQA@mail.gmail.com>
-To: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::e42
-Subject: Re: [Qemu-devel] i386: EFER vs 32-bit CPU
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Thu, 30 May 2019 11:03:06 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v4 0/6] file-posix: Add dynamic-auto-read-only
+ QAPI feature
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,42 +55,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, Juan Quintela <quintela@redhat.com>,
-	dgilbert@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
-	Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, pkrempa@redhat.com, armbru@redhat.com,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 29, 2019 at 7:27 PM Pavel Dovgalyuk <dovgaluk@ispras.ru> wrote:
->
-> Hello!
->
->
->
-> I found this while debugging the inconsistent saved/restored state of the virtual machine.
->
->
->
-> i386 (32 bit) emulation uses this register (in wrmsr and in MMU fault processing).
->
-> But it does not included in VMState, because "efer" field is disabled with #ifdef TARGET_X86_64
->
->
->
-> I think that efer should be saved for i386 too, but how it should be made to preserve the backward
-> compatibility?
->
-> Should we add a section for i386, which duplicates efer, or just version_id of the main VMSD should
-> be updated?
->
->
->
-> Pavel Dovgalyuk
->
->
->
+This series adds optional feature lists to struct definitions in the
+QAPI schema and makes use of them to advertise the new behaviour of
+auto-read-only=3Don in file-posix.
 
-Nobody followed this issue 10 years ago:
+v4:
+- Build fix for tests/test-qmp-cmds
 
-https://lists.gnu.org/archive/html/qemu-devel/2009-10/msg01765.html
+v3:
+- Added a command using the structs types to the positive test case
+- Renamed QAPIDoc.SymbolPart to QAPIDoc.DocPart
+- Applied requested comment changes
+- Style fixes to avoid adding pycodestyle-3 complaints
+- More stylistic changes to match Markus' taste better
+
+v2:
+- Check that features have well-formed names instead of just checking
+  that they are strings
+- Use QAPISchemaFeature objects instead of dicts
+- Catch duplicate feature names (and test that a feature name doesn't
+  conflict with an object member)
+- Added patch 4 and 5 to add rudimentary support for features to
+  QAPIDoc so it doesn't complain about the documentation format
+  suggested by Markus. Used that format in the documentation of
+  dynamic-auto-read-only.
+
+
+Kevin Wolf (6):
+  qapi: Add feature flags to struct types
+  tests/qapi-schema: Test for good feature lists in structs
+  tests/qapi-schema: Error case tests for features in structs
+  qapi: Disentangle QAPIDoc code
+  qapi: Allow documentation for features
+  file-posix: Add dynamic-auto-read-only QAPI feature
+
+ qapi/block-core.json                          |  13 +-
+ qapi/introspect.json                          |   6 +-
+ tests/qapi-schema/features-bad-type.json      |   3 +
+ .../qapi-schema/features-duplicate-name.json  |   3 +
+ tests/qapi-schema/features-missing-name.json  |   3 +
+ tests/qapi-schema/features-name-bad-type.json |   3 +
+ tests/qapi-schema/features-no-list.json       |   3 +
+ tests/qapi-schema/features-unknown-key.json   |   3 +
+ tests/qapi-schema/qapi-schema-test.json       |  39 +++
+ docs/devel/qapi-code-gen.txt                  |  38 +++
+ tests/test-qmp-cmds.c                         |   8 +
+ scripts/qapi/common.py                        | 228 +++++++++++++++---
+ scripts/qapi/doc.py                           |  15 +-
+ scripts/qapi/introspect.py                    |   6 +-
+ scripts/qapi/types.py                         |   3 +-
+ scripts/qapi/visit.py                         |   3 +-
+ tests/Makefile.include                        |   6 +
+ tests/qapi-schema/double-type.err             |   2 +-
+ tests/qapi-schema/features-bad-type.err       |   1 +
+ tests/qapi-schema/features-bad-type.exit      |   1 +
+ tests/qapi-schema/features-bad-type.out       |   0
+ tests/qapi-schema/features-duplicate-name.err |   1 +
+ .../qapi-schema/features-duplicate-name.exit  |   1 +
+ tests/qapi-schema/features-duplicate-name.out |   0
+ tests/qapi-schema/features-missing-name.err   |   1 +
+ tests/qapi-schema/features-missing-name.exit  |   1 +
+ tests/qapi-schema/features-missing-name.out   |   0
+ tests/qapi-schema/features-name-bad-type.err  |   1 +
+ tests/qapi-schema/features-name-bad-type.exit |   1 +
+ tests/qapi-schema/features-name-bad-type.out  |   0
+ tests/qapi-schema/features-no-list.err        |   1 +
+ tests/qapi-schema/features-no-list.exit       |   1 +
+ tests/qapi-schema/features-no-list.out        |   0
+ tests/qapi-schema/features-unknown-key.err    |   2 +
+ tests/qapi-schema/features-unknown-key.exit   |   1 +
+ tests/qapi-schema/features-unknown-key.out    |   0
+ tests/qapi-schema/qapi-schema-test.out        |  43 ++++
+ tests/qapi-schema/test-qapi.py                |   7 +-
+ tests/qapi-schema/unknown-expr-key.err        |   2 +-
+ 39 files changed, 403 insertions(+), 47 deletions(-)
+ create mode 100644 tests/qapi-schema/features-bad-type.json
+ create mode 100644 tests/qapi-schema/features-duplicate-name.json
+ create mode 100644 tests/qapi-schema/features-missing-name.json
+ create mode 100644 tests/qapi-schema/features-name-bad-type.json
+ create mode 100644 tests/qapi-schema/features-no-list.json
+ create mode 100644 tests/qapi-schema/features-unknown-key.json
+ create mode 100644 tests/qapi-schema/features-bad-type.err
+ create mode 100644 tests/qapi-schema/features-bad-type.exit
+ create mode 100644 tests/qapi-schema/features-bad-type.out
+ create mode 100644 tests/qapi-schema/features-duplicate-name.err
+ create mode 100644 tests/qapi-schema/features-duplicate-name.exit
+ create mode 100644 tests/qapi-schema/features-duplicate-name.out
+ create mode 100644 tests/qapi-schema/features-missing-name.err
+ create mode 100644 tests/qapi-schema/features-missing-name.exit
+ create mode 100644 tests/qapi-schema/features-missing-name.out
+ create mode 100644 tests/qapi-schema/features-name-bad-type.err
+ create mode 100644 tests/qapi-schema/features-name-bad-type.exit
+ create mode 100644 tests/qapi-schema/features-name-bad-type.out
+ create mode 100644 tests/qapi-schema/features-no-list.err
+ create mode 100644 tests/qapi-schema/features-no-list.exit
+ create mode 100644 tests/qapi-schema/features-no-list.out
+ create mode 100644 tests/qapi-schema/features-unknown-key.err
+ create mode 100644 tests/qapi-schema/features-unknown-key.exit
+ create mode 100644 tests/qapi-schema/features-unknown-key.out
+
+--=20
+2.20.1
+
 
