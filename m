@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A0B302A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 21:12:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58073 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5300E302A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 21:13:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58077 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWQTm-0001Sq-T0
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 15:12:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58938)
+	id 1hWQUX-00027L-Fs
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 15:13:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58952)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hWQPB-0006V1-35
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:02 -0400
+	(envelope-from <mrolnik@gmail.com>) id 1hWQPC-0006Vy-3T
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hWQP9-0007EH-FL
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:01 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54079)
+	(envelope-from <mrolnik@gmail.com>) id 1hWQPA-0007FG-M2
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:02 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54808)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hWQP9-0007Dj-8S
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:07:59 -0400
-Received: by mail-wm1-x343.google.com with SMTP id d17so4600204wmb.3
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 12:07:59 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hWQPA-0007Ek-Ea
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 15:08:00 -0400
+Received: by mail-wm1-x341.google.com with SMTP id g135so1402892wme.4
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 12:08:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eFr6DMxrFEb/0pHkWce3K9IKLH6aRk1AfZWOrhPs13w=;
-	b=JGsttYYLJRo5k9osx+7AgvlygJcrRzXpGLrgBDuKDICXZsV9Hv5qT2pGxFYdhRdx8h
-	5NV5SB0Ny3a9EnZOUBafYhD020cug6m0Cm1mJVgteoaoMtClcsLerddYJFmFiB9YF5xe
-	E+jFxLKQMJjctvgfBaIKXH67Ff3SH92o+E9zZ3a7tMvQnJRCf0OErQr22gRnWc92xeAU
-	jqJpI14RBHX4G4w/LzqIb5xIldrwNX/X0/MkAx4g0H38/ICenAvp5WVNfB92tQgXkGTR
-	sNttFuVgXLecsCL91wpUG3XYgEcw9x/yR+K9sTg+ovICbQCvPBM3hagmjF19hesYmXq/
-	d7vg==
+	bh=NChLzNXhY7ydvjEawMkdPp3Dr7YO8RUiKwuSwBBtLuY=;
+	b=rcFwWecRbD83lvmUJ9qWc38CkLFS0UHXJwngdONU04+KhmF8+CLV0dmYexuccbMvJE
+	tGRUjfB4lUNnzLMkcw9XRdMNKwyZHOfzy5WgAZvCXsWRM8jGmFykh4sfl/Weg/CPPjwl
+	tmgV/IyxxS7R6494PKnJiiIlGtHfuNOXJ3u5vtp7mlSYWddjOzzar7AIyKpWlj2ndWVC
+	MVndCNJMrFfM1YSzsKXukZaUxw7zdxLE6HiOgFJU06iN/E3tT4mPA068GknT5ZzMdMBa
+	oSY1fQHrtSH8YMC+luTMytgKjd2cxB1UAjazx+wKy/tt/jviYqzkF1kXO7jjTPL44GwN
+	8L+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=eFr6DMxrFEb/0pHkWce3K9IKLH6aRk1AfZWOrhPs13w=;
-	b=ozy3LrSnv39a3dEhzBOqs/Ka0JwyBL1jzDnEu0DuBu3aWTW5ORdW0eEPizHUtDyWmv
-	X5ZWQQdY7D1cTPe4Z3rHxy5I+YWidgW1xobOTx+JJ61v0DUG/XpQTPFN06YNdN63NGzu
-	+J9OG2m5pwCoeccy1td9SHbFShe/Kng1MQtg3t5D6SGnJyxx7W6OGdrVF6iLmm/cCgYG
-	sZ7qU7WJinFb/h1K5m6hqIT6o4zmC5OF1mAy4HKcAvBrcmlgRtdXhkGQw6iXYquwpPBh
-	u4+EoPNAv2I4hqnS/dxz0LFfvhmsIPes+PF+VhKrlvR7W9It2XxJ8ue0b4yq1lelH2/m
-	QweQ==
-X-Gm-Message-State: APjAAAWJisQ9kTa3EA6s5VbaMXCcygsxMcO7ApOCyS4HDjBG78975XfS
-	AVy4Ydr8VcpMMHMsM2TKt9DROr6CIGg=
-X-Google-Smtp-Source: APXvYqwYmzhgfOnJjfPZOiDlWvefY9MeQoOiAqQIp6BfLhPzj/8LZpFfW+EBh7j5j4PwXPB3kVPs1Q==
-X-Received: by 2002:a1c:f111:: with SMTP id p17mr3258661wmh.62.1559243277793; 
-	Thu, 30 May 2019 12:07:57 -0700 (PDT)
+	bh=NChLzNXhY7ydvjEawMkdPp3Dr7YO8RUiKwuSwBBtLuY=;
+	b=RZpG3R8ytKsTFzeGKFAe8KeXQc5pDebd96XQ1xSX0HBflzBu8g7nW6VyWj2tnH10aL
+	/jcfRif1wM959nuN3nDJpy/jDegfdGNTMbHTQQ1n6SsvKCK7MAE90iEwoAs6o1fFOiKs
+	lSKXlgyi6j3wiqNo5kK1JXvJwXcXYo24xA+V50htOTJ5pS9cGTOaUCfzTzIxdgyRj0Pp
+	yFSE1J7/EM5GTdWmJzShWOkif0s24rQufAeaZG5Gk4MtqiV/ijYX45F4HD6YXqTyxFfQ
+	dcJXrI7HYIn4MBvxzapA5jtuYX0SELbSMpS4BJLP9djVfpMlW3sc4OsF0Nyl3LZ8AT1G
+	+MQw==
+X-Gm-Message-State: APjAAAV3mU5cKPZAqDbKO81JszsQVNgP10QEqHhDYu4VN1NNa9xWKErX
+	bYmSMayaZb7ixb1HZNM39ynPsnJT1ko=
+X-Google-Smtp-Source: APXvYqwi/YIxDHerdmIx1l9Lt3eSftmFiyq2IsYmPmW0gLi8ACpJFqniuGG/p/ItwtEvIp+ZKnlWNw==
+X-Received: by 2002:a7b:c8c1:: with SMTP id f1mr2966137wml.159.1559243279105; 
+	Thu, 30 May 2019 12:07:59 -0700 (PDT)
 Received: from localhost.localdomain (bzq-109-65-68-81.red.bezeqint.net.
 	[109.65.68.81])
-	by smtp.gmail.com with ESMTPSA id u9sm8711230wme.48.2019.05.30.12.07.56
+	by smtp.gmail.com with ESMTPSA id u9sm8711230wme.48.2019.05.30.12.07.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 May 2019 12:07:57 -0700 (PDT)
+	Thu, 30 May 2019 12:07:58 -0700 (PDT)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 22:07:37 +0300
-Message-Id: <20190530190738.22713-8-mrolnik@gmail.com>
+Date: Thu, 30 May 2019 22:07:38 +0300
+Message-Id: <20190530190738.22713-9-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190530190738.22713-1-mrolnik@gmail.com>
 References: <20190530190738.22713-1-mrolnik@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH RFC v20 7/8] target/avr: Add example board
- configuration
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH RFC v20 8/8] target/avr: Register AVR support
+ with the rest of QEMU, the build system, and the MAINTAINERS file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,233 +82,187 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sarah Harris <S.E.Harris@kent.ac.uk>
 
-A simple board setup that configures an AVR CPU to run a given firmware image.
-This is all that's useful to implement without peripheral emulation as AVR CPUs include a lot of on-board peripherals.
-
 Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 ---
- hw/Kconfig           |   1 +
- hw/avr/Kconfig       |   4 +
- hw/avr/Makefile.objs |   1 +
- hw/avr/sample.c      | 177 +++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 183 insertions(+)
- create mode 100644 hw/avr/Kconfig
- create mode 100644 hw/avr/Makefile.objs
- create mode 100644 hw/avr/sample.c
+ MAINTAINERS                     |  6 +++++
+ arch_init.c                     |  2 ++
+ configure                       |  6 +++++
+ default-configs/avr-softmmu.mak |  5 +++++
+ include/disas/dis-asm.h         |  6 +++++
+ include/sysemu/arch_init.h      |  1 +
+ qapi/common.json                |  2 +-
+ target/avr/Makefile.objs        | 40 +++++++++++++++++++++++++++++++++
+ tests/machine-none-test.c       |  1 +
+ 9 files changed, 68 insertions(+), 1 deletion(-)
+ create mode 100644 default-configs/avr-softmmu.mak
+ create mode 100644 target/avr/Makefile.objs
 
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 195f541e50..1f25636855 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -42,6 +42,7 @@ source watchdog/Kconfig
- # arch Kconfig
- source arm/Kconfig
- source alpha/Kconfig
-+source avr/Kconfig
- source cris/Kconfig
- source hppa/Kconfig
- source i386/Kconfig
-diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1f5f8b7a2c..4bad81f974 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -162,6 +162,12 @@ S: Maintained
+ F: hw/arm/smmu*
+ F: include/hw/arm/smmu*
+ 
++AVR
++M: Michael Rolnik <mrolnik@gmail.com>
++S: Odd Fixes
++F: target/avr/
++F: hw/avr/
++
+ CRIS
+ M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+ S: Maintained
+diff --git a/arch_init.c b/arch_init.c
+index f4f3f610c8..184cdca6dd 100644
+--- a/arch_init.c
++++ b/arch_init.c
+@@ -86,6 +86,8 @@ int graphic_depth = 32;
+ #define QEMU_ARCH QEMU_ARCH_UNICORE32
+ #elif defined(TARGET_XTENSA)
+ #define QEMU_ARCH QEMU_ARCH_XTENSA
++#elif defined(TARGET_AVR)
++#define QEMU_ARCH QEMU_ARCH_AVR
+ #endif
+ 
+ const uint32_t arch_type = QEMU_ARCH;
+diff --git a/configure b/configure
+index 528b9ff705..933c166b02 100755
+--- a/configure
++++ b/configure
+@@ -7484,6 +7484,9 @@ case "$target_name" in
+     target_compiler=$cross_cc_aarch64
+     eval "target_compiler_cflags=\$cross_cc_cflags_${target_name}"
+   ;;
++  avr)
++    target_compiler=$cross_cc_avr
++  ;;
+   cris)
+     target_compiler=$cross_cc_cris
+   ;;
+@@ -7759,6 +7762,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
+       disas_config "ARM_A64"
+     fi
+   ;;
++  avr)
++    disas_config "AVR"
++  ;;
+   cris)
+     disas_config "CRIS"
+   ;;
+diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
 new file mode 100644
-index 0000000000..c6ca8fe775
+index 0000000000..d1e1c28118
 --- /dev/null
-+++ b/hw/avr/Kconfig
-@@ -0,0 +1,4 @@
-+config AVR_SAMPLE
-+    bool
-+    select AVR_TIMER16
-+    select AVR_USART
-diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
++++ b/default-configs/avr-softmmu.mak
+@@ -0,0 +1,5 @@
++# Default configuration for avr-softmmu
++
++# Boards:
++#
++CONFIG_AVR_SAMPLE=y
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index 9240ec32c2..a7d230ba66 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -211,6 +211,12 @@ enum bfd_architecture
+ #define bfd_mach_m32r          0  /* backwards compatibility */
+   bfd_arch_mn10200,    /* Matsushita MN10200 */
+   bfd_arch_mn10300,    /* Matsushita MN10300 */
++  bfd_arch_avr,       /* Atmel AVR microcontrollers.  */
++#define bfd_mach_avr1          1
++#define bfd_mach_avr2          2
++#define bfd_mach_avr3          3
++#define bfd_mach_avr4          4
++#define bfd_mach_avr5          5
+   bfd_arch_cris,       /* Axis CRIS */
+ #define bfd_mach_cris_v0_v10   255
+ #define bfd_mach_cris_v32      32
+diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+index 10cbafe970..aff57bfe61 100644
+--- a/include/sysemu/arch_init.h
++++ b/include/sysemu/arch_init.h
+@@ -25,6 +25,7 @@ enum {
+     QEMU_ARCH_NIOS2 = (1 << 17),
+     QEMU_ARCH_HPPA = (1 << 18),
+     QEMU_ARCH_RISCV = (1 << 19),
++    QEMU_ARCH_AVR = (1 << 20),
+ };
+ 
+ extern const uint32_t arch_type;
+diff --git a/qapi/common.json b/qapi/common.json
+index 99d313ef3b..eeacd0e3c2 100644
+--- a/qapi/common.json
++++ b/qapi/common.json
+@@ -187,7 +187,7 @@
+ # Since: 3.0
+ ##
+ { 'enum' : 'SysEmuTarget',
+-  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
++  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
+              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+              'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
+diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
 new file mode 100644
-index 0000000000..626b7064b3
+index 0000000000..9ceddf1fdb
 --- /dev/null
-+++ b/hw/avr/Makefile.objs
-@@ -0,0 +1 @@
-+obj-y += sample.o
-diff --git a/hw/avr/sample.c b/hw/avr/sample.c
-new file mode 100644
-index 0000000000..21b384b3b3
---- /dev/null
-+++ b/hw/avr/sample.c
-@@ -0,0 +1,177 @@
-+/*
-+ * QEMU AVR CPU
-+ *
-+ * Copyright (c) 2016 Michael Rolnik
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
-+ */
++++ b/target/avr/Makefile.objs
+@@ -0,0 +1,40 @@
++#
++#  QEMU AVR CPU
++#
++#  Copyright (c) 2016 Michael Rolnik
++#
++#  This library is free software; you can redistribute it and/or
++#  modify it under the terms of the GNU Lesser General Public
++#  License as published by the Free Software Foundation; either
++#  version 2.1 of the License, or (at your option) any later version.
++#
++#  This library is distributed in the hope that it will be useful,
++#  but WITHOUT ANY WARRANTY; without even the implied warranty of
++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++#  Lesser General Public License for more details.
++#
++#  You should have received a copy of the GNU Lesser General Public
++#  License along with this library; if not, see
++#  <http://www.gnu.org/licenses/lgpl-2.1.html>
++#
 +
-+/*
-+ *  NOTE:
-+ *      This is not a real AVR board, this is an example!
-+ *      The CPU is an approximation of an ATmega2560, but is missing various
-+ *      built-in peripherals.
-+ *
-+ *      This example board loads provided binary file into flash memory and
-+ *      executes it from 0x00000000 address in the code memory space.
-+ *
-+ *      Currently used for AVR CPU validation
-+ *
-+ */
++DECODETREE = $(SRC_PATH)/scripts/decodetree.py
++decode32-y = $(SRC_PATH)/target/avr/insn32.decode
++decode16-y = $(SRC_PATH)/target/avr/insn16.decode
 +
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu-common.h"
-+#include "cpu.h"
-+#include "hw/hw.h"
-+#include "sysemu/sysemu.h"
-+#include "sysemu/qtest.h"
-+#include "ui/console.h"
-+#include "hw/boards.h"
-+#include "hw/loader.h"
-+#include "qemu/error-report.h"
-+#include "exec/address-spaces.h"
-+#include "include/hw/sysbus.h"
-+#include "include/hw/char/avr_usart.h"
-+#include "include/hw/timer/avr_timer16.h"
-+#include "elf.h"
++target/avr/decode_insn32.inc.c: $(decode32-y) $(DECODETREE)
++	$(call quiet-command, \
++	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn32 $(decode32-y), \
++	  "GEN", $(TARGET_DIR)$@)
 +
-+#define SIZE_FLASH 0x00040000
-+#define SIZE_SRAM 0x00002200
-+/*
-+ * Size of additional "external" memory, as if the AVR were configured to use
-+ * an external RAM chip.
-+ * Note that the configuration registers that normally enable this feature are
-+ * unimplemented.
-+ */
-+#define SIZE_EXMEM 0x00000000
++target/avr/decode_insn16.inc.c: $(decode16-y) $(DECODETREE)
++	$(call quiet-command, \
++	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn16 --insnwidth 16 $<, \
++	  "GEN", $(TARGET_DIR)$@)
 +
-+/* Offsets of periphals in emulated memory space (i.e. not host addresses)  */
-+#define PRR0 0x64
-+#define PRR1 0x65
-+#define USART_BASE 0xc0
-+#define USART_PRR PRR0
-+#define USART_PRR_MASK 0b00000010
-+#define TIMER1_BASE 0x80
-+#define TIMER1_IMSK_BASE 0x6f
-+#define TIMER1_IFR_BASE 0x36
-+#define TIMER1_PRR PRR0
-+#define TIMER1_PRR_MASK 0b01000000
++target/avr/translate.o: target/avr/decode_insn32.inc.c \
++	target/avr/decode_insn16.inc.c
 +
-+/* Interrupt numbers used by peripherals */
-+#define TIMER1_CAPT_IRQ 15
-+#define TIMER1_COMPA_IRQ 16
-+#define TIMER1_COMPB_IRQ 17
-+#define TIMER1_COMPC_IRQ 18
-+#define TIMER1_OVF_IRQ 19
-+
-+static void sample_init(MachineState *machine)
-+{
-+    MemoryRegion *address_space_mem;
-+    MemoryRegion *ram;
-+    MemoryRegion *flash;
-+    AVRCPU *cpu_avr;
-+    const char *firmware = NULL;
-+    const char *filename;
-+    int bytes_loaded;
-+    AVRUsartState *usart0;
-+    AVRTimer16State *timer1;
-+    SysBusDevice *busdev;
-+
-+    address_space_mem = get_system_memory();
-+    ram = g_new(MemoryRegion, 1);
-+    flash = g_new(MemoryRegion, 1);
-+
-+    /* ATmega2560. */
-+    cpu_avr = AVR_CPU(cpu_create("avr6-avr"));
-+
-+    memory_region_allocate_system_memory(
-+        ram, NULL, "avr.ram", SIZE_SRAM + SIZE_EXMEM);
-+    memory_region_add_subregion(address_space_mem, OFFSET_DATA, ram);
-+
-+    memory_region_init_rom(flash, NULL, "avr.flash", SIZE_FLASH, &error_fatal);
-+    memory_region_add_subregion(address_space_mem, OFFSET_CODE, flash);
-+
-+    /* USART 0 built-in peripheral */
-+    usart0 = AVR_USART(object_new(TYPE_AVR_USART));
-+    busdev = SYS_BUS_DEVICE(usart0);
-+    sysbus_mmio_map(busdev, 0, OFFSET_DATA + USART_BASE);
-+    /*
-+     * These IRQ numbers don't match the datasheet because we're counting from
-+     * zero and not including reset.
-+     */
-+    sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(DEVICE(cpu_avr), 24));
-+    sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(DEVICE(cpu_avr), 25));
-+    sysbus_connect_irq(busdev, 2, qdev_get_gpio_in(DEVICE(cpu_avr), 26));
-+    usart0->prr_address = OFFSET_DATA + PRR0;
-+    usart0->prr_mask = USART_PRR_MASK;
-+    qdev_prop_set_chr(DEVICE(usart0), "chardev", serial_hd(0));
-+    object_property_set_bool(OBJECT(usart0), true, "realized", &error_fatal);
-+
-+    /* Timer 1 built-in periphal */
-+    timer1 = AVR_TIMER16(object_new(TYPE_AVR_TIMER16));
-+    busdev = SYS_BUS_DEVICE(timer1);
-+    sysbus_mmio_map(busdev, 0, OFFSET_DATA + TIMER1_BASE);
-+    sysbus_mmio_map(busdev, 1, OFFSET_DATA + TIMER1_IMSK_BASE);
-+    sysbus_mmio_map(busdev, 2, OFFSET_DATA + TIMER1_IFR_BASE);
-+    sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(
-+        DEVICE(cpu_avr), TIMER1_CAPT_IRQ));
-+    sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(
-+        DEVICE(cpu_avr), TIMER1_COMPA_IRQ));
-+    sysbus_connect_irq(busdev, 2, qdev_get_gpio_in(
-+        DEVICE(cpu_avr), TIMER1_COMPB_IRQ));
-+    sysbus_connect_irq(busdev, 3, qdev_get_gpio_in(
-+        DEVICE(cpu_avr), TIMER1_COMPC_IRQ));
-+    sysbus_connect_irq(busdev, 4, qdev_get_gpio_in(
-+        DEVICE(cpu_avr), TIMER1_OVF_IRQ));
-+    timer1->prr_address = OFFSET_DATA + TIMER1_PRR;
-+    timer1->prr_mask = TIMER1_PRR_MASK;
-+    object_property_set_bool(OBJECT(timer1), true, "realized", &error_fatal);
-+
-+    /* Load firmware (contents of flash) trying to auto-detect format */
-+    firmware = machine->firmware;
-+    if (firmware != NULL) {
-+        filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
-+        if (filename == NULL) {
-+            error_report("Unable to find %s", firmware);
-+            exit(1);
-+        }
-+
-+        bytes_loaded = load_elf(
-+            filename, NULL, NULL, NULL, NULL, NULL, NULL, 0, EM_NONE, 0, 0);
-+        if (bytes_loaded < 0) {
-+            error_report(
-+                "Unable to load %s as ELF, trying again as raw binary",
-+                firmware);
-+            bytes_loaded = load_image_targphys(
-+                filename, OFFSET_CODE, SIZE_FLASH);
-+        }
-+        if (bytes_loaded < 0) {
-+            error_report(
-+                "Unable to load firmware image %s as ELF or raw binary",
-+                firmware);
-+            exit(1);
-+        }
-+    }
-+}
-+
-+static void sample_machine_init(MachineClass *mc)
-+{
-+    mc->desc = "AVR sample/example board";
-+    mc->init = sample_init;
-+    mc->is_default = 1;
-+}
-+
-+DEFINE_MACHINE("sample", sample_machine_init)
++obj-y += translate.o cpu.o helper.o
++obj-y += gdbstub.o
++obj-$(CONFIG_SOFTMMU) += machine.o
+diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
+index 4c6d470798..361927bb76 100644
+--- a/tests/machine-none-test.c
++++ b/tests/machine-none-test.c
+@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
+     /* tested targets list */
+     { "arm", "cortex-a15" },
+     { "aarch64", "cortex-a57" },
++    { "avr", "avr6" },
+     { "x86_64", "qemu64,apic-id=0" },
+     { "i386", "qemu32,apic-id=0" },
+     { "alpha", "ev67" },
 -- 
 2.18.0
 
