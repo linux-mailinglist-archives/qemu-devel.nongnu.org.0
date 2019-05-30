@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F24B2FA4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:31:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50731 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4375A2FA35
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:22:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50613 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWIKv-0005Wz-9S
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:31:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54415)
+	id 1hWICL-0006Gg-Al
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:22:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54401)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWI6e-0002gc-0B
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:21 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWI6d-0002ff-3j
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWI6d-0006bi-4V
+	(envelope-from <alex.bennee@linaro.org>) id 1hWI6c-0006ao-2t
 	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:19 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35741)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39175)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWI6c-0006b5-SU
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:19 -0400
-Received: by mail-wr1-x442.google.com with SMTP id m3so3829115wrv.2
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:16:18 -0700 (PDT)
+	id 1hWI6b-0006aH-Se
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:18 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id z23so3459874wma.4
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=DzRVR0ExhRGQxByUv2nr/r2y2wqFk/czcVmFguGzwdY=;
-	b=RdP14LNOerzbqEp1tTroRRiVS7bA7UBC9UFnl1qdwxUFoUTbHJiokmedvonwoFAK9h
-	svvAk61R/y5JcfxyI9ZyDTK/MRqY24Sqgu0JXNeJ0OxcU5DSl/KNWQZ0e6ds3xMNt4u+
-	RHk2qlNNmDCURKd8lpOeqrtex3kemf54jHZpw6c/Iol5wzzDaj6BT4Iv6ZuwSqL1A1/Z
-	ct4r6deydGD0uezL2mgsr8wD2Uoi9Ez03bU+3kHy52G3uT/uEUYoc3WLlb7Z9ROdhLRb
-	k4q1XFF1wdIXd3szo7nAfz6YVJX+8fwgd0nXDTdOPCL1KEkKzkejhzx7Zz0tT7rq5M8m
-	9reA==
+	bh=zHc+QewZiPLzAKrh7Ap5biSxTst0S3+b8dtoVpxzoyo=;
+	b=aCUSwaMJHXE+rRG3Ku2QceQq/98HeRQvRONO/R1BIQnVG1jeFIsenqNU2jnpL0T2ZR
+	dJgxHo72vXx71eNWJL6906Jhbtz7kCkBlK5hAr/8OGWlMA8fNT70v3V5LBMjUujpICOt
+	J4Slyk4z+Nss4WmEAqhnOs2e/vGKirgumAUVWCi0rcjG9UUrzD3AKZtGFm3b6qExo9eD
+	T+qWDkaR+ygFV7IjU0Dm0cF0gNRFkPlAXIg43+UfGpGFp5yFBlDf0xtfXKEW+1O8z043
+	YT06593rCtvOeKfwp9wS1LfhB1wA0oX6wlct4ZPcIN+0uHll2F8LpG+bnbkRmaBtnAZ8
+	flTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=DzRVR0ExhRGQxByUv2nr/r2y2wqFk/czcVmFguGzwdY=;
-	b=agjecLv99QkjPUzYchKT4Tk5k0s8YQ2vqa7sambCtZTLNyjOD/AHvjlscL02r5Zjku
-	LFehZc/Y4vhFFHf/6bEMZeTvp16+tDbOWoNVwSgAt55FuSWOx2DXsWlZSI304ZEISqY1
-	6WWlzv4droPKhjNE91rePDN5aPVazPQ/L0tUg3SQDJ863bxnTs956J3cflASUA3wKgoX
-	ZqfXpQqyWTACAb8LlZ4mx/JN68vesmiFk2S8DUQWDZNwuF/hKZlNRJw4VTI0sXVkp+dE
-	ZBVsiWB/ug4+xsba7E+Sxnd85PM3tv3vKjix8j1p8wCPYq5tLAOwk6hhPGrOPLJlg7XJ
-	CfBQ==
-X-Gm-Message-State: APjAAAVbgfViFIVAJFmXQk3W0NbWP/qaojUP7ngrNyyOe+TpqJcpchuO
-	uoMp/MTGb8YZ62CmikDwUpuDBQ==
-X-Google-Smtp-Source: APXvYqxiVDZNyIeMpJQHDPyfutDG8NqOHk19OMPgk26WtEZBtYdEGT6YG1wFsuPIoeKU0C70u0LpFA==
-X-Received: by 2002:a5d:694c:: with SMTP id r12mr2152352wrw.214.1559211377929; 
-	Thu, 30 May 2019 03:16:17 -0700 (PDT)
+	bh=zHc+QewZiPLzAKrh7Ap5biSxTst0S3+b8dtoVpxzoyo=;
+	b=iU+wpEwofmiGF6KZMcju4eTgyhrPnL1OKKSVkH7lMUrtm20yWE0JWgWTfj75hopztT
+	KCLE1h3eVaacUbl2rXyJjreaiZZnsfnySJ/9ORnDQv2XISWvQXRvURVrcZr+tWIfMGm8
+	ubjG9RmET8uA+xri7rqgRKgheyGItKPQbj+xyWRQkP44D+43ShH5+9bO/fR/IEo83hFN
+	nlnSsCyWsYxiNRh1+caGKnlf0LfoSCUU9QRtDzGimhs0ADf6xC0Pn6DITctUPAhoD9Sz
+	d0WMMp0kaqxbC48+7SwPtbASHsv3bQgG+Rv4gU2ZTY/zqzeZDTNxO4BEYEBjhICv4cqL
+	YM9Q==
+X-Gm-Message-State: APjAAAWfI49mGGixaRG7Ut7PSC9TVE/Uaa3ZJdspkH/tzZZMFoHKzkVL
+	CgopxEt8QyffvzgJxE0qH1J98Q==
+X-Google-Smtp-Source: APXvYqxXVomBiQw3TuXtOTLMLtFFcwzUhA1wgp8lcEVVqIUI4bAYpGBzQjTgJ6/fW0Hb8TOLmkSO/g==
+X-Received: by 2002:a1c:e109:: with SMTP id y9mr1689806wmg.35.1559211376798;
+	Thu, 30 May 2019 03:16:16 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id f2sm2888915wme.12.2019.05.30.03.16.08
+	by smtp.gmail.com with ESMTPSA id h8sm5024657wmf.5.2019.05.30.03.16.08
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
 	Thu, 30 May 2019 03:16:10 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id E9E961FF9B;
-	Thu, 30 May 2019 11:16:04 +0100 (BST)
+	by zen.linaroharston (Postfix) with ESMTP id 0B85E1FF9C;
+	Thu, 30 May 2019 11:16:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 11:15:48 +0100
-Message-Id: <20190530101603.22254-12-alex.bennee@linaro.org>
+Date: Thu, 30 May 2019 11:15:49 +0100
+Message-Id: <20190530101603.22254-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190530101603.22254-1-alex.bennee@linaro.org>
 References: <20190530101603.22254-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH v1 11/26] tests/vm: Fix build-centos
- docker-based tests run
+X-Received-From: 2a00:1450:4864:20::32a
+Subject: [Qemu-devel] [PATCH v1 12/26] tests/vm: Add missing variables on
+ help
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,35 +91,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-`make vm-build-centos` run docker-based tests on CentOS. The
-created containers should have network otherwise some tests
-fail. Also fixed the BUILD_SCRIPT template to correctly
-evaluate "V=1" for verbose output.
+Added description of variables missing on vm-test help.
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20190329210804.22121-5-wainersm@redhat.com>
+Message-Id: <20190329210804.22121-6-wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/vm/centos | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/vm/Makefile.include | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/tests/vm/centos b/tests/vm/centos
-index ba133ea429a..7417b50af4a 100755
---- a/tests/vm/centos
-+++ b/tests/vm/centos
-@@ -26,9 +26,9 @@ class CentosVM(basevm.BaseVM):
-         export SRC_ARCHIVE=/dev/vdb;
-         sudo chmod a+r $SRC_ARCHIVE;
-         tar -xf $SRC_ARCHIVE;
--        make docker-test-block@centos7 V={verbose} J={jobs};
--        make docker-test-quick@centos7 V={verbose} J={jobs};
--        make docker-test-mingw@fedora V={verbose} J={jobs};
-+        make docker-test-block@centos7 {verbose} J={jobs} NETWORK=1;
-+        make docker-test-quick@centos7 {verbose} J={jobs} NETWORK=1;
-+        make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
-     """
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index 6f82676306d..c59411bee01 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -21,9 +21,13 @@ vm-test:
+ 	@echo "  vm-clean-all                    - Clean up VM images"
+ 	@echo
+ 	@echo "Special variables:"
+-	@echo "    BUILD_TARGET=foo		 - override the build target"
+-	@echo "    TARGET_LIST=a,b,c    	 - Override target list in builds."
++	@echo "    BUILD_TARGET=foo		 - Override the build target"
++	@echo "    TARGET_LIST=a,b,c    	 - Override target list in builds"
+ 	@echo '    EXTRA_CONFIGURE_OPTS="..."'
++	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
++	@echo "    DEBUG=1              	 - Enable verbose output on host and interactive debugging"
++	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
++	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
  
-     def _gen_cloud_init_iso(self):
+ vm-build-all: $(addprefix vm-build-, $(IMAGES))
+ 
 -- 
 2.20.1
 
