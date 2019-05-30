@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DA12FA53
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:33:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50859 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4522FA43
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:27:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50695 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWINZ-00081m-9S
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:33:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54434)
+	id 1hWIHr-0002zt-HR
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:27:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57046)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWI6f-0002iD-7u
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:22 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWIFE-0001EL-Ez
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWI6e-0006cZ-2r
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:21 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39187)
+	(envelope-from <alex.bennee@linaro.org>) id 1hWIFC-0000Gq-VK
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:12 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35939)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWI6d-0006bp-Qi
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:20 -0400
-Received: by mail-wr1-x444.google.com with SMTP id x4so3823233wrt.6
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:16:19 -0700 (PDT)
+	id 1hWIFC-00004y-NL
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:25:10 -0400
+Received: by mail-wm1-x344.google.com with SMTP id v22so3489000wml.1
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=y2B2y1XQyJxhlxlLqIvvLBXxQCmx4xrmH/BIjlRjWcs=;
-	b=f0wR+s4PFVjNDk4AMOB+0UFj5XJN5P3DQ+suNvlR1vlOZFnL/ZdlFwTdxwMLARF6Tr
-	gpbCJkbLz95o0AgRFTltIfiu1vdPzisBn+wo6PNUqvmmm2IDVlZ6u4plFy3sxSzDDcRz
-	Us7bfyFayZm58+kC7y40nKaa9aZ+wvtZe9cn53GsyUpLVMmcq0Dwa4kwI0SViCPy8fNy
-	PwDRUw/YygeIiMlUo4GX13xiafwhWPlS6LljgFWIZNgVGArq5naOngOSj/5qyyRabV2X
-	HGn3Y/+4XzA91bHjENRe9euUc9hHhVvM44ddQX9Jo8ZWJMkMkJz+CA+Q4UPo2cIB4vhm
-	mA7g==
+	bh=cCiZUh4L2IhfBkOcPLSzMZiMaGor1Q+neTC7jHeJYrM=;
+	b=O56u2QoNY9oNO8vrbzs8wgl/wHsOmo9d5QufBecCQecm5KrjpChZR3S2U7kgXObvfR
+	rMGKqnjBJDmXRpIpAAHwYH2npDiBOs+ww7v6n/xpA/w+k/2zHoNaVlAxe4r+vkPCpbZT
+	egN9fcGcBhC6WYjYAho8ZG25WTGl+0tDYvpAPuKlLy1WoRSKbKVWLTMgneANYbWeJaZ+
+	yEyocS1D8ySUvO9vg3e3Mr7yYZTA56aIbP++3TJxDfxW5HzAhfITUHt9PF03YUxRCh49
+	6Yum5wjefv8ofdDmhH8eU91vKlO/NpuAJ6OtN16fB3nS036HoI5C2APU4XBgsbSbF4J0
+	eyPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=y2B2y1XQyJxhlxlLqIvvLBXxQCmx4xrmH/BIjlRjWcs=;
-	b=sVtUe1WaUcxvxrXyujWC57rj/tfdpyM2J4iR0EJUn8c3gM6WYs3YfJ7pfLfhg6AxXo
-	Gg2zU96/j2HBGTbeVdwmXmhz84PHXE8DizuvrjrtRFEmBor4L9JJ4LU5s6fNTYGvhW+a
-	uVjeDKNWGecYDsRiCvQk/xY1UQ7cWwnnE86aDxybE8wQgaCcsrdaffiyyNjybT40KBjW
-	LFNeTR2W5rL3qXVm+WLIXoZlDwtpFyfyI1PqCBRGSkcS73gKtfADMtAZLk6KuTgPNK+I
-	zH5NkGlXaV9SorGQU+l6xAopXAKD3rIzgg95dhvyoG1yADwX3Ofoqn2B6W6kCwr0QF5r
-	bIDw==
-X-Gm-Message-State: APjAAAXtMJRgb+A51GJUB6R7YLimQdUY3W1qej7nUN5ag+eDA3gXJcZ+
-	NYtll63b243Wf7+wlVn+4Cz7y49DxHA=
-X-Google-Smtp-Source: APXvYqz1kHYFpJlkWKPIPHy8MV5oBerdGUwyhZy8vFS5nefHZMDqwx7gUHGry4D8qbXDHwbJ7ioe/w==
-X-Received: by 2002:a5d:51cf:: with SMTP id n15mr958810wrv.216.1559211378693; 
-	Thu, 30 May 2019 03:16:18 -0700 (PDT)
+	bh=cCiZUh4L2IhfBkOcPLSzMZiMaGor1Q+neTC7jHeJYrM=;
+	b=eOtnPpI4G2qVVXcF1pkmq8V2jrXskSeDDm6E/vvwSpc1Umhh2oQXqQ3BPJt07CuDKf
+	6+ih07BEiHtGz4dS9HW0vLxHkvlqMyVK6t1alU6UMiv0Ta9S+sAfvdlJ42D3zeqcp73y
+	EmEcwBuss4d+RxaYJ8O07ZXOlJ4yNVviiKjUhkKwkrff/KZu6ggW2S2qUnZ9tdK4H0YM
+	If1/dLSdmgeBDVOKXGxUzBwRp/KDblvn8JO7hus0ji99PaqM1k+6hdA3lme4hiC4vIM1
+	fzcYrQe5Bb9WNDJuBCzm1lYTtlLiqxmImmEePacxpWl6OE9cojZBVg2bEwYK6kVM+vFB
+	yPQw==
+X-Gm-Message-State: APjAAAUPppNzAiJLiIZZIP+W2zOR1RTm7jJOipj4wHFmBdTdFeiY1EkI
+	5fMyOqqxq23WuymbMisK8sGQ+Q==
+X-Google-Smtp-Source: APXvYqzqGGBcw7DFlPv+otwQ0w3RiZKgcp8+SLyvczVN3qOKx/Avebiidsp25pQR1it9FVAZvTuIWg==
+X-Received: by 2002:a05:600c:c4:: with SMTP id u4mr1809023wmm.96.1559211902477;
+	Thu, 30 May 2019 03:25:02 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id o4sm2355995wmo.20.2019.05.30.03.16.09
+	by smtp.gmail.com with ESMTPSA id
+	h90sm7115328wrh.15.2019.05.30.03.25.00
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 30 May 2019 03:16:17 -0700 (PDT)
+	Thu, 30 May 2019 03:25:00 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 20DA71FF9D;
+	by zen.linaroharston (Postfix) with ESMTP id 351D61FF9E;
 	Thu, 30 May 2019 11:16:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 11:15:50 +0100
-Message-Id: <20190530101603.22254-14-alex.bennee@linaro.org>
+Date: Thu, 30 May 2019 11:15:51 +0100
+Message-Id: <20190530101603.22254-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190530101603.22254-1-alex.bennee@linaro.org>
 References: <20190530101603.22254-1-alex.bennee@linaro.org>
@@ -68,9 +69,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v1 13/26] scripts: use git archive in
- archive-source
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH  v1 14/26] tests/vm: python3 fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,7 +84,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Thomas Huth <thuth@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -92,119 +91,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Use git archive to create tarballs of qemu and submodules instead of
-cloning the repository and the submodules.  This is a order of magnitude
-faster because it doesn't fetch the submodules from the internet each
-time the script runs.
+Add proper unicode handling when processing strings.
+Also need to explicitly say we want int not float.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190520124716.30472-2-kraxel@redhat.com>
-[AJB: fixed up tabs]
+Message-Id: <20190520124716.30472-3-kraxel@redhat.com>
+[AJB: fix conflicts with tests/vm: Port basevm to Python 3]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- scripts/archive-source.sh | 72 +++++++++++++++++----------------------
- 1 file changed, 31 insertions(+), 41 deletions(-)
+ tests/vm/basevm.py | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-index 8b899482600..ca94e49978f 100755
---- a/scripts/archive-source.sh
-+++ b/scripts/archive-source.sh
-@@ -19,16 +19,25 @@ if test $# -lt 1; then
- fi
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 083befce9f5..4847549592d 100755
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -73,7 +73,7 @@ class BaseVM(object):
+             "-vnc", "127.0.0.1:0,to=20",
+             "-serial", "file:%s" % os.path.join(self._tmpdir, "serial.out")]
+         if vcpus and vcpus > 1:
+-            self._args += ["-smp", str(vcpus)]
++            self._args += ["-smp", "%d" % vcpus]
+         if kvm_available(self.arch):
+             self._args += ["-enable-kvm"]
+         else:
+@@ -85,12 +85,13 @@ class BaseVM(object):
+             if not sha256sum:
+                 return True
+             checksum = subprocess.check_output(["sha256sum", fname]).split()[0]
+-            return sha256sum == checksum.decode()
++            return sha256sum == checksum.decode("utf-8")
  
- tar_file=$(realpath "$1")
--list_file="${tar_file}.list"
--vroot_dir="${tar_file}.vroot"
-+sub_tdir=$(mktemp -d "${tar_file%.tar}.sub.XXXXXXXX")
-+sub_file="${sub_tdir}/submodule.tar"
+         cache_dir = os.path.expanduser("~/.cache/qemu-vm/download")
+         if not os.path.exists(cache_dir):
+             os.makedirs(cache_dir)
+-        fname = os.path.join(cache_dir, hashlib.sha1(url.encode()).hexdigest())
++        fname = os.path.join(cache_dir,
++                             hashlib.sha1(url.encode("utf-8")).hexdigest())
+         if os.path.exists(fname) and check_sha256sum(fname):
+             return fname
+         logging.debug("Downloading %s to %s...", url, fname)
+@@ -134,7 +135,7 @@ class BaseVM(object):
+         raise NotImplementedError
  
- # We want a predictable list of submodules for builds, that is
- # independent of what the developer currently has initialized
- # in their checkout, because the build environment is completely
- # different to the host OS.
- submodules="dtc slirp ui/keycodemapdb tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
-+sub_deinit=""
- 
--trap "status=$?; rm -rf \"$list_file\" \"$vroot_dir\"; exit \$status" 0 1 2 3 15
-+function cleanup() {
-+    local status=$?
-+    rm -rf "$sub_tdir"
-+    if test "$sub_deinit" != ""; then
-+        git submodule deinit $sub_deinit
-+    fi
-+    exit $status
-+}
-+trap "cleanup" 0 1 2 3 15
- 
- if git diff-index --quiet HEAD -- &>/dev/null
- then
-@@ -36,45 +45,26 @@ then
- else
-     HEAD=$(git stash create)
- fi
--git clone --shared . "$vroot_dir"
--test $? -ne 0 && error "failed to clone into '$vroot_dir'"
--for sm in $submodules; do
--    if test -d "$sm/.git"
--    then
--       git clone --shared "$sm" "$vroot_dir/$sm"
--       test $? -ne 0 && error "failed to clone submodule $sm"
--    fi
--done
--
--cd "$vroot_dir"
--test $? -ne 0 && error "failed to change into '$vroot_dir'"
--
--git checkout $HEAD
--test $? -ne 0 && error "failed to checkout $HEAD revision"
- 
-+git archive --format tar $HEAD > "$tar_file"
-+test $? -ne 0 && error "failed to archive qemu"
- for sm in $submodules; do
--    git submodule update --init $sm
--    test $? -ne 0 && error "failed to init submodule $sm"
-+    status="$(git submodule status "$sm")"
-+    smhash="${status#[ +-]}"
-+    smhash="${smhash%% *}"
-+    case "$status" in
-+        -*)
-+            sub_deinit="$sub_deinit $sm"
-+            git submodule update --init "$sm"
-+            test $? -ne 0 && error "failed to update submodule $sm"
-+            ;;
-+        +*)
-+            echo "WARNING: submodule $sm is out of sync"
-+            ;;
-+    esac
-+    (cd $sm; git archive --format tar --prefix "$sm/" $smhash) > "$sub_file"
-+    test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
-+    tar --concatenate --file "$tar_file" "$sub_file"
-+    test $? -ne 0 && error "failed append submodule $sm to $tar_file"
- done
--
--if test -n "$submodules"; then
--    {
--        git ls-files || error "git ls-files failed"
--        for sm in $submodules; do
--            (cd $sm; git ls-files) | sed "s:^:$sm/:"
--            if test "${PIPESTATUS[*]}" != "0 0"; then
--                error "git ls-files in submodule $sm failed"
--            fi
--        done
--    } | grep -x -v $(for sm in $submodules; do echo "-e $sm"; done) > "$list_file"
--else
--    git ls-files > "$list_file"
--fi
--
--if test $? -ne 0; then
--    error "failed to generate list file"
--fi
--
--tar -cf "$tar_file" -T "$list_file" || error "failed to create tar file"
--
- exit 0
+     def add_source_dir(self, src_dir):
+-        name = "data-" + hashlib.sha1(src_dir.encode()).hexdigest()[:5]
++        name = "data-" + hashlib.sha1(src_dir.encode("utf-8")).hexdigest()[:5]
+         tarfile = os.path.join(self._tmpdir, name + ".tar")
+         logging.debug("Creating archive %s for src_dir dir: %s", tarfile, src_dir)
+         subprocess.check_call(["./scripts/archive-source.sh", tarfile],
+@@ -256,7 +257,7 @@ def main(vmcls):
+             vm.add_source_dir(args.build_qemu)
+             cmd = [vm.BUILD_SCRIPT.format(
+                    configure_opts = " ".join(argv),
+-                   jobs=args.jobs,
++                   jobs=int(args.jobs),
+                    target=args.build_target,
+                    verbose = "V=1" if args.verbose else "")]
+         else:
 -- 
 2.20.1
 
