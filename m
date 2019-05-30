@@ -2,103 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710712FE06
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 16:41:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55018 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707252FE12
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 16:42:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55028 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWMEo-0007RG-0O
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 10:41:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52386)
+	id 1hWMGG-0000LG-MP
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 10:42:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52432)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hWMDA-0006nK-Bs
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 10:39:21 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWMDK-0006qp-PW
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 10:39:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hWMD8-0005BQ-VL
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 10:39:20 -0400
-Received: from mail-eopbgr60094.outbound.protection.outlook.com
-	([40.107.6.94]:3710
-	helo=EUR04-DB3-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hWMD5-00058Q-E0; Thu, 30 May 2019 10:39:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=2GJ1vSYuh+n/Jv1lKNbHoPfRuiy2b84ELnQyuTW2AoI=;
-	b=Z5zwGA/g+8lY3Ou1RstSwqaeORehnTca167Ha6Wdw9oa5BzP7H/FIaa4884QOHyme96SmK9/5A6qwKyGw7Eg8lImLN43oyE4ZAzwiGAUpug5X0Dyx/b9Mfg3yacf2+U+bofpyFoEH85kXDUpTMhJUrVNCcsVwuWKgaRXWQQJAVo=
-Received: from DB7PR08MB2972.eurprd08.prod.outlook.com (52.134.109.150) by
-	DB7PR08MB3324.eurprd08.prod.outlook.com (52.134.111.143) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1922.18; Thu, 30 May 2019 14:39:13 +0000
-Received: from DB7PR08MB2972.eurprd08.prod.outlook.com
-	([fe80::e5eb:4576:5a22:7f82]) by
-	DB7PR08MB2972.eurprd08.prod.outlook.com
-	([fe80::e5eb:4576:5a22:7f82%7]) with mapi id 15.20.1943.016;
-	Thu, 30 May 2019 14:39:13 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org"
-	<qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH 3/3] block/qcow2-bitmap: rewrite bitmap
-	reopening logic
-Thread-Index: AQHVEX7kb+YUVuiEF0SEYwFufr/zvqaBNhAAgACjxgCAAJZXAIABIQwAgAAxcgCAAAU5AA==
-Date: Thu, 30 May 2019 14:39:12 +0000
-Message-ID: <a1be0624-dfb3-46bb-eb87-f80e48aa347d@virtuozzo.com>
-References: <20190523154733.54944-1-vsementsov@virtuozzo.com>
-	<20190523154733.54944-4-vsementsov@virtuozzo.com>
-	<c63d4dae-6fa5-a47f-9aca-791f36963262@redhat.com>
-	<a00207af-97f3-fd24-90a5-2860473ace17@virtuozzo.com>
-	<50d29692-51df-3880-58d0-e151deae7471@redhat.com>
-	<3c695d7d-0ae1-a96c-17f8-0c1c72466122@virtuozzo.com>
-	<8d969ad9-976c-ad6c-f728-4e7d1028975d@redhat.com>
-In-Reply-To: <8d969ad9-976c-ad6c-f728-4e7d1028975d@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P189CA0025.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::38)
-	To DB7PR08MB2972.eurprd08.prod.outlook.com
-	(2603:10a6:5:1c::22)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190530173910004
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7dac9fb2-d271-46de-96be-08d6e50c952b
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:DB7PR08MB3324; 
-x-ms-traffictypediagnostic: DB7PR08MB3324:
-x-microsoft-antispam-prvs: <DB7PR08MB3324B3FC7A6E518CEF623FD4C1180@DB7PR08MB3324.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 00531FAC2C
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(396003)(136003)(39850400004)(366004)(346002)(376002)(52314003)(199004)(189003)(25786009)(2906002)(54906003)(4326008)(14454004)(68736007)(64756008)(73956011)(31696002)(66946007)(76176011)(3846002)(31686004)(186003)(66446008)(26005)(66476007)(229853002)(71190400001)(36756003)(66556008)(2501003)(71200400001)(110136005)(5660300002)(86362001)(14444005)(256004)(2201001)(99286004)(6486002)(66066001)(2616005)(476003)(6436002)(102836004)(52116002)(6506007)(53546011)(386003)(446003)(107886003)(8676002)(53936002)(6116002)(81166006)(478600001)(8936002)(6246003)(81156014)(316002)(305945005)(6512007)(11346002)(486006)(7736002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DB7PR08MB3324;
-	H:DB7PR08MB2972.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: XBOSY/bwHO08YI2ypZs0x1lCpRWeRlT9bYPWEWqy3cnrGAUX0jvc0J3BhkZgOCvKkgncl6Fb9K9drF2y/jed2YVqEN+6D29m1bPv9YylE7K/Uubfj/YjHx3QuNjLhTu8WZ9X4XtncDc3B2FCcvJhlTUy5ju+faNrOXf3rHjkT2hTW19RuPOPG8jAr4NbkPlIrWEtY54PvhUcrxAtwbocx3oHJizqsc5i3hWaHVX+O4DWF8qiOp+JYZZClF5OaoZ8WJZVnS0CE2hAD07YTRZC7eZTR+waR/qRNin8+hN9nJvcFAbChUAAapqrCn8qt6znUykI4rIiii1jOz4dieHqs7pEJxpD7KKL3wRw1PYaaWG+M6FR8uzU/q3zkcuFv2j0MOMphqAKJjmT6XZW5Vx1usASd5mhyvj64YOS6f91yTU=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <268BF730BCF692499FEC8CB8C845C212@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <alex.bennee@linaro.org>) id 1hWMDJ-0005Hg-EW
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 10:39:30 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41490)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hWMDJ-0005GI-6n
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 10:39:29 -0400
+Received: by mail-wr1-x443.google.com with SMTP id c2so4376675wrm.8
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 07:39:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gd7q2lASJXtZ62TPJp+YNylW5PUKFPl62DxNRPE7tEM=;
+	b=lBI5c59N+5+ZjSIaNBxt3B/w3E5pbPVO3uFxirhSbYvP26TY0v1yh1y8hoOUfVW4bb
+	tKatTGEse6/xNZF1vplbp9UwzvjCohzV4wGUy5mJEfIQ9QzqpMzRd63gz8giUg9HV6yi
+	XQMY5WjbX76SCnnEZ/p4vB/Y1J7lwS1ToFwtnHFHdLXFddDdxOn0lG6rPeToMeFQtdTB
+	b29xwcgk8oVt1gHXxcMgHuBtBPnzcDC7pc+zxlfnPvGXJXnFWegaHBFyuZRvQ1DhLFJR
+	E2SYaCfY/BSgQDemZ6etKfmCKpvIdwmFnwZgl4Qqyqrl7QsoQS7uMLTHu7X9JuGWwrX6
+	jvFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gd7q2lASJXtZ62TPJp+YNylW5PUKFPl62DxNRPE7tEM=;
+	b=T9fHXZ6cu24iVqFdehnuX4OWiGO0T04dBEPvdS4A6B/iogOPTOs16UdKxzScGxl9sr
+	Bt5FDgPOwycAd+YswAU3wd3lDh1Sjho/lEXRtGtyCalyn4jn3MzI6Yg/t8ahpd+LkZAg
+	OobB3giO6IpCa37Sw0PJl6YYJt4ybK5d6yMkEMTiCEsJ54HsYJk4UMeZMm/wIRjysZIM
+	aVKfzCnEk3CPmmDcv35N+ppEkB8a8qjyDZYm9lbjmPpHczXw/hRqpaNs662Pb+Fc9mwA
+	jDN1cI/a8BglCfdTGwQVDmH7AbbrQ8biFyxiDDZoaoKo3wAQzun2vZNAxhZ097mcfCc4
+	Asjg==
+X-Gm-Message-State: APjAAAVx7iSU5GRqrrXQFW9UtBxBujLLXyn/Je1w4eKcWXQ4Gppn6BIt
+	kBHsi/9dRjZHhu7Y3tUP6QKSNQ==
+X-Google-Smtp-Source: APXvYqxd5zkcxzkO7Al6A61qG1znBUh3836KMWXux+DYTUy8enmh8vvT4FiD9z/k/Ep99gu4WhAPbg==
+X-Received: by 2002:a5d:6604:: with SMTP id n4mr1923490wru.124.1559227167371; 
+	Thu, 30 May 2019 07:39:27 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id 32sm6830428wra.35.2019.05.30.07.39.26
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 30 May 2019 07:39:26 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id A03461FF87;
+	Thu, 30 May 2019 15:39:25 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Thu, 30 May 2019 15:39:16 +0100
+Message-Id: <20190530143916.20255-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7dac9fb2-d271-46de-96be-08d6e50c952b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2019 14:39:12.9820 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3324
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.6.94
-Subject: Re: [Qemu-devel] [PATCH 3/3] block/qcow2-bitmap: rewrite bitmap
- reopening logic
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [RFC PATCH] semihosting: split console_out intro
+ string and char versions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -110,104 +80,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
-	Denis Lunev <den@virtuozzo.com>, "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+	qemu-arm@nongnu.org,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MzAuMDUuMjAxOSAxNzoyMCwgSm9obiBTbm93IHdyb3RlOg0KPiANCj4gT24gNS8zMC8xOSA0OjIz
-IEFNLCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPj4gMjkuMDUuMjAxOSAy
-MTowOCwgSm9obiBTbm93IHdyb3RlOg0KPj4+IE9uIDUvMjkvMTkgNToxMCBBTSwgVmxhZGltaXIg
-U2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+Pj4gMjkuMDUuMjAxOSAyOjI0LCBKb2huIFNu
-b3cgd3JvdGU6DQo+Pj4+PiBPbiA1LzIzLzE5IDExOjQ3IEFNLCBWbGFkaW1pciBTZW1lbnRzb3Yt
-T2dpZXZza2l5IHdyb3RlOg0KPiANCj4gWy4uLl0NCj4gDQo+Pj4NCj4+PiBSaWdodCwgd2UndmUg
-bm90IHJlYWxseSB1c2VkIHJlYWRvbmx5IGluIHRoaXMgd2F5IGJlZm9yZS4gSXQgbWFrZXMgc2Vu
-c2UNCj4+PiB0byBhIHBvaW50LCBidXQgaXQncyBhIGJpdCBvZiBhIHNlbWFudGljIG92ZXJsb2Fk
-IC0tIHRoZSBkaXNrIGlzDQo+Pj4gYWN0dWFsbHkgUlcgYnV0IHRoZSBiaXRtYXAgaXMgUk87IHRo
-ZSBwcm9ibGVtIHRoYXQgSSBoYXZlIHdpdGggdGhpcyBpcw0KPj4+IHRoYXQgd2UgZ3VhcmQgUk8g
-Yml0bWFwcyB3aXRoIGFzc2VydGlvbnMgYW5kIG5vdCBlcnJvcnMsDQo+Pg0KPj4gT29wcywgeW91
-IGFyZSByaWdodC4gSSB0aG91Z2h0IHdlIGhhdmUgZXJyb3JzIGZvciBndWVzdCB3cml0ZXMgaW4g
-dGhpcyBjYXNlLg0KPj4NCj4gDQo+IChJJ20gbG9va2luZyBhdCB5b3VyIHNlY29uZCBlbWFpbCkg
-LS0gQWgsIHdlIGd1YXJkIHRoaXMgZWxzZXdoZXJlLg0KPiANCj4gQXNzZXJ0czoNCj4gYmRydl9z
-ZXRfZGlydHlfYml0bWFwX2xvY2tlZA0KPiBiZHJ2X3Jlc2V0X2RpcnR5X2JpdG1hcF9sb2NrZWQN
-Cj4gYmRydl9jbGVhcl9kaXJ0eV9iaXRtYXANCj4gYmRydl9yZXN0b3JlX2RpcnR5X2JpdG1hcA0K
-PiBiZHJ2X3NldF9kaXJ0eQ0KPiANCj4gUnVudGltZSBlcnJvcnMgKHZpYSBoYXNfcmVhZG9ubHlf
-Yml0bWFwcyk6DQo+IGJkcnZfYWxpZ25lZF9wd3JpdGV2DQo+IGJkcnZfY29fcGRpc2NhcmQNCj4g
-DQo+IEkgZ3Vlc3MgaXQncyBPSyB0byBzZXQgcmVhZG9ubHkgaW4gdGhpcyB3YXkgdGhlbiwgYnV0
-IEkgc3RpbGwgdGhpbmsgaXQncw0KPiBhIGxpdHRsZSBjb25mdXNpbmcgYW5kLCBzbyBsb25nIGFz
-IHRoZSBpbi1tZW1vcnkgaW5jb25zaXN0ZW50IGJpdCBpcw0KPiBzZXQsIG5vdCBzdHJpY3RseSBu
-ZWNlc3NhcnkuIChVbmxlc3MgdGhlcmUncyBzb21lIGNhc2UgSSBhbSBub3QgYXdhcmUNCj4gb2Ys
-IG9yIGl0IGp1c3QgaGVscHMgdGhlIGNvZGUgdG8gYmUgbmljZXIgaW4gc29tZSB3YXksIGV0Yy4g
-SSdtIG5vdA0KPiBhaW1pbmcgdG8gYmUgYSBwdXJpc3QgYWJvdXQgdGhlIHdheSB0aGlzIGZsYWcg
-aXMgdXNlZC4pDQo+IA0KPj4+IHNvIGl0IHNlZW1zDQo+Pj4gZmVhc2libGUgdG8gbWUgdGhhdCB0
-aGUgcmVvcGVuLXJ3IHdpbGwgc3VjY2VlZCwgYSBndWVzdCB3aWxsIHdyaXRlLCBhbmQNCj4+PiB0
-aGVuIHdlJ2xsIGFib3J0IGJlY2F1c2Ugb2YgdGhlc2UgInJlYWRvbmx5IGNvcnJ1cHQiIGJpdG1h
-cHMuDQo+Pj4NCj4+PiBJbiBvdGhlciB3b3Jkcywgd2UgZG9uJ3QgKnJlYWxseSogc3VwcG9ydCB0
-aGUgaWRlYSBvZiBoYXZpbmcgcmVhZG9ubHkNCj4+PiBiaXRtYXBzIG9uIHJlYWR3cml0ZSBub2Rl
-cy4NCj4+Pg0KPj4+IEkgdGhpbmsgZ2l2ZW4gdGhhdCB0aGlzIGlzIGFuIGVycm9yIHN0YXRlIHRv
-IGJlZ2luIHdpdGggdGhhdCBzaW1wbHkNCj4+PiBtYXJraW5nIHRoZSBiaXRtYXAgYXMgaW5jb25z
-aXN0ZW50IGluIG1lbW9yeSAoYW5kIHRyeWluZyB0byB3cml0ZSB0aGUNCj4+PiBJTl9VU0UgZmxh
-ZyB0byBpdHMgaGVhZGVyKSBpcyBzdWZmaWNpZW50LCBpdCB3aWxsIHNraXAgYW55IG5ldyB3cml0
-ZXMNCj4+PiBhbmQgcHJvaGliaXQgaXRzIHVzZSBmb3IgYW55IGJhY2t1cCBvcGVyYXRpb25zLg0K
-Pj4NCj4+IFNvLCB5b3UgcHJvcG9zZSBub3QgdG8gYW5ub3kgdXNlciB0b28gbXVjaCBiZWNhdXNl
-IG9mIGluY29uc2lzdGVudCBiaXRtYXBzLA0KPj4gZm9yIHdoaWNoIHdlIGNhbid0IHN5bmMgdGhl
-aXIgaW5jb25zaXN0YW5jeSB0byB0aGUgaW1hZ2UuLiBNYXkgYmUgaXQncyBPSywNCj4+IGJ1dCBs
-ZXQncyBzZWUgd2hhdCB3ZSBkZWNpZGUgaW4gYmxvY2stZGlzY3Vzc2lvbi4gSXQgd291bGQgYmUg
-cmVhbGx5IGNvb2wNCj4+IGlmIHdlIGNhbiBtb3ZlIHRoaXMgYWxsIHRvIC5wcmVwYXJlDQo+Pg0K
-PiANCj4gSG0sIEkgd291bGRuJ3Qgc2F5IGl0J3MgYWJvdXQgbm90IGFubm95aW5nIHRoZSB1c2Vy
-IHRvbyBtdWNoOyB3ZSBzaG91bGQNCj4gc3RpbGwgdHJ5IHRvIHdyaXRlIHRoZSBJTl9VU0UgZmxh
-ZyB0byB0aGUgaW1hZ2UgYW5kIChpZGVhbGx5KSByZXBvcnQNCj4gdGhhdCB3ZSB3ZXJlIHVuYWJs
-ZSB0byBpZiB3ZSBmYWlsLg0KPiANCj4gU28gSSB0aGluayBkb2luZyB0aGVzZSB0d28gdGhpbmdz
-IGlzIGVub3VnaDoNCj4gDQo+IDEuIFNldCB0aGUgaW4tbWVtb3J5IGluY29uc2lzdGVudCBmbGFn
-LCB3aGljaCB3aWxsIHByb2hpYml0IHRoZSB1c2VyDQo+IGZyb20gZG9pbmcgYW55dGhpbmcgd2l0
-aCB0aGlzIGJpdG1hcCBBTkQgaWdub3JlIGFsbCBmdXR1cmUgZGF0YSB3cml0ZXMNCj4gDQo+IDIu
-IEF0dGVtcHQgdG8gd3JpdGUgdGhlIElOX1VTRSBmbGFnIGJhY2sgb3V0IHRvIGRpc2sgdG8gZW5z
-dXJlIHRoYXQgaXQNCj4gd2lsbCBiZSBsb2FkZWQgaW5jb25zaXN0ZW50IGluIHRoZSBmdXR1cmUu
-IElmIHdlIGZhaWwgdG8gZG8gc28sIHRoaXMNCj4gc2hvdWxkIGJlIGNvbnNpZGVyZWQgYSBmYXRh
-bCBlcnJvci4gKFdoeSBjYW4ndCB3ZSB3cml0ZSB0byBvdXIgbm9kZT8NCj4gSXQncyBwcm9iYWJs
-eSBFSU8gb3Igc29tZXRoaW5nIGZhdGFsLikNCj4gDQo+IE9mIGNvdXJzZSwgYWN0dWFsbHkgaGF2
-aW5nICMyIGJlIGZhdGFsIGRlcGVuZHMgb24gcmV3b3JraW5nIHRoZSBibG9jaw0KPiBsYXllciBh
-IGJpdC4NCj4gDQo+IFsuLi5dDQo+IA0KPj4+Pj4+ICsgICAgaWYgKG5lZWRfdXBkYXRlKSB7DQo+
-Pj4+Pj4gKyAgICAgICAgaWYgKCFjYW5fd3JpdGUoYnMtPmZpbGUtPmJzKSkgew0KPj4+Pj4NCj4+
-Pj4+IEkgZ2VudWluZWx5IGRvbid0IGtub3c6IGlzIGl0IGxlZ2l0aW1hdGUgdG8gY2hlY2sgeW91
-ciBjaGlsZCdzIHdyaXRlDQo+Pj4+PiBwZXJtaXNzaW9uIGluIHRoaXMgd2F5PyB3aWxsIHdlIGFs
-d2F5cyBoYXZlIGJzLT5maWxlLT5icz8NCj4+Pj4NCj4+Pj4gSG1tLi4gYnV0IHdlIGFyZSBnb2lu
-ZyB0byB3cml0ZSB0byBpdCB2ZXJ5IHNvb24sIEkgdGhpbmsgaXQgc2hvdWxkIGV4aXN0Lg0KPj4+
-Pg0KPj4+DQo+Pj4gQXBwYXJlbnRseSBNYXggaXMgYWRkaW5nIGEgYmRydl9zdG9yYWdlX2JzKCkg
-aGVscGVyIGZvciB0aGlzIGV4YWN0DQo+Pj4gdGhpbmcsIGluIGFuIHVwY29taW5nIHBhdGNoLiBJ
-IGp1c3QgZ2V0IG5lcnZvdXMgd2hlbiBJIHNlZSBkb3VibGUNCj4+PiBpbmRpcmVjdGlvbnMgPg0K
-Pj4NCj4+IEhtbS4uLiBCdXQgaWYgd2UgaGF2ZSBzZXBhcmF0ZSBkYXRhIGZpbGUgZm9yIHFjb3cy
-LCBiZHJ2X3N0b3JhZ2VfYnMgd2lsbCByZWZlciB0byBpdCwNCj4+IHNvIGhlcmUgd2UgbmVlZCBl
-eGFjdGx5IGJzLT5maWxlIEkgdGhpbmsuDQo+Pg0KPiANCj4gQWxyaWdodCwgSSBkb24ndCBrbm93
-IHRoZSBwYXJ0aWN1bGFycy4gV2hhdGV2ZXIgd29ya3MgaXMgZmluZSBieSBtZS4NCj4gDQo+IFsu
-Li5dDQo+IA0KPj4+Pg0KPj4+PiBZZXMuIEluIHNob3J0LCBpdCB3YXMgYmFkLCBpdCBzdGlsbCBi
-YWQsIGJ1dCBhdCBsZWFzdCBvbmUgYnVnIGlzIGZpeGVkIDopDQo+Pj4+DQo+Pj4NCj4+PiBIYWhh
-aGEhIFZlcnkgZ29vZCBzdW1tYXJ5LiBMZXQncyBkaXNjdXNzIHRoZSBibG9jayBpbXBsaWNhdGlv
-bnMgd2l0aA0KPj4+IE1heCwgQmVydG8gYW5kIEtldmluLiBVbnRpbCB0aGVuLCBkbyB5b3UgdGhp
-bmsgaXQncyBPSyB0byBzcGxpdCBvdXQgdGhlDQo+Pj4gcmVsZWFzZV9iaXRtYXBzIGJvb2xlYW4g
-YXMgaXRzIG93biBwYXRjaCB0byAibGVzc2VuIiB0aGUgc2V2ZXJpdHkgb2YgdGhlDQo+Pj4gYnVn
-Pw0KPj4NCj4+IEJpdG1hcCB3aWxsIG5vdCBiZSByZW9wZW5kIHJ3IGFueXdheSwgc28sIHdlIHNo
-b3VsZCBjcmFzaCBvbiBmaXJzdCBndWVzdCB3cml0ZSwgYXMNCj4+IHlvdSBub3RlZC4uDQo+Pg0K
-PiANCj4gV2h5IG5vdD8gSWYgdGhlIGJpdG1hcHMgYXJlIHN0aWxsIGluIG1lbW9yeSAoYmVjYXVz
-ZSB3ZSBkaWRuJ3QgY2xvc2UNCj4gdGhlbSBmdWxseSBvbiByZW9wZW4tcm8pLCB0aGVuIHJlb3Bl
-bi1ydyBvdWdodCB0byBiZSBhYmxlIHRvIHNlZSB0aGVtDQo+IGFuZCBkcm9wIHRoZSByZWFkb25s
-eSBtYXJrZXIsIHJpZ2h0Pw0KPiANCj4+IE1heWJlLCBJJ2xsIHJlZmFjdG9yIGl0IGJhY2ssIHRv
-IHJldHVybiBub3JtYWwgZXJyb3IsIGFuZCBqdXN0IGlnbm9yZSBpdCBpbiBjb21taXQsIHNvIHRo
-YXQsDQo+PiB3ZSdsbCBtb3ZlIGl0IHRvIC5wcmVwYXJlIGFzIHNvb24gYXMgd2UgYWJsZSB0byBk
-byBhbmQgd2l0aCBsZXNzIHBhaW4/DQo+Pg0KPiANCj4gSSBtYXkgaGF2ZSBtaXN1bmRlcnN0b29k
-IE1heCwgYnV0IGF0IHRoZSBtb21lbnQgSSdtIHRoaW5raW5nIHRoYXQgYXMNCj4gbXVjaCBhcyB5
-b3UgY2FuIG1vdmUgaW50byBwcmVwYXJlKCkgYW5kIGhhdmUgaXQgc3RpbGwgd29yayB0aGUgYmV0
-dGVyLiBJDQo+IGFzc3VtZSB0aGF0IHdyaXRpbmcgdGhlIElOX1VTRSBmbGFncyBmcm9tIHByZXBh
-cmUoKSB3b24ndCB3b3JrLCB0aG91Z2gsDQo+IGJlY2F1c2UgdGhlIG5vZGVzIGFyZW4ndCB0ZWNo
-bmljYWxseSBSVyB5ZXQsIHNvIHRoZSB3cml0ZSBwcmltaXRpdmVzDQo+IHdvbid0IHdvcmsuLi4N
-Cj4gDQo+IEF0IHRoaXMgcG9pbnQsIEknbGwgdHJ1c3QgeW91ciBqdWRnbWVudCB0byBjb21lIHVw
-IHdpdGggc29tZXRoaW5nIHRoYXQNCj4gc2VlbXMgdGlkaWVyOyBJIGRvbid0IHRoaW5rIEkgaGF2
-ZSBzdWdnZXN0aW9ucyB1bmxlc3MgSSBzdGFydA0KPiBwcm90b3R5cGluZyBpdCB0b28uDQo+IA0K
-PiAoVGhvdWdoIEkgbWlnaHQgdHJ5IHRvIGNvbWUgdXAgd2l0aCBzb21ldGhpbmcgbWluaW1hbGx5
-IHdvcmthYmxlIGFzIGENCj4gYnVnZml4IHdoaWxlIHdlIHRyeSB0byB0YWNrbGUgbW9yZSBzeXN0
-ZW1pYyBpc3N1ZXMuLi4pDQo+IA0KPiAtLWpzDQo+IA0KDQpJJ20gbm93IHByZXBhcmluZyB2MiB3
-aGljaCB0cmllcyB0byBkbyBldmVyeXRoaW5nIHdlIG5lZWQgaW4gcHJlcGFyZSwgd2hpY2ggaW5j
-bHVkZXMNCmNoYW5nZXMgaW4gZ2VuZXJpYyBibG9jayBsYXllciByZW9wZW4gZnVuY3Rpb25hbGl0
-eS4gU2VlbXMgbGlrZSBpdCdzIG5vdCB2ZXJ5IGhhcmQuDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMs
-DQpWbGFkaW1pcg0K
+This is ostensibly to avoid the weirdness of len looking like it might
+come from a guest and sometimes being used. While we are at it fix up
+the error checking for the arm-linux-user implementation of the API
+which got flagged up by Coverity (CID 1401700).
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ hw/semihosting/console.c         | 34 +++++++++++++++++++++++---------
+ include/hw/semihosting/console.h | 25 +++++++++++++++++------
+ linux-user/arm/semihost.c        | 28 ++++++++++++++++++++++++--
+ target/arm/arm-semi.c            |  4 ++--
+ 4 files changed, 72 insertions(+), 19 deletions(-)
+
+diff --git a/hw/semihosting/console.c b/hw/semihosting/console.c
+index 466ea6dade7..4a5758972db 100644
+--- a/hw/semihosting/console.c
++++ b/hw/semihosting/console.c
+@@ -36,26 +36,24 @@ int qemu_semihosting_log_out(const char *s, int len)
+ /*
+  * A re-implementation of lock_user_string that we can use locally
+  * instead of relying on softmmu-semi. Hopefully we can deprecate that
+- * in time. We either copy len bytes if specified or until we find a NULL.
++ * in time. Copy string until we find a 0 or address error.
+  */
+-static GString *copy_user_string(CPUArchState *env, target_ulong addr, int len)
++static GString *copy_user_string(CPUArchState *env, target_ulong addr)
+ {
+     CPUState *cpu = ENV_GET_CPU(env);
+-    GString *s = g_string_sized_new(len ? len : 128);
++    GString *s = g_string_sized_new(128);
+     uint8_t c;
+-    bool done;
+ 
+     do {
+         if (cpu_memory_rw_debug(cpu, addr++, &c, 1, 0) == 0) {
+             s = g_string_append_c(s, c);
+-            done = len ? s->len == len : c == 0;
+         } else {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                           "%s: passed inaccessible address " TARGET_FMT_lx,
+                           __func__, addr);
+-            done = true;
++            break;
+         }
+-    } while (!done);
++    } while (c!=0);
+ 
+     return s;
+ }
+@@ -68,9 +66,9 @@ static void semihosting_cb(CPUState *cs, target_ulong ret, target_ulong err)
+     }
+ }
+ 
+-int qemu_semihosting_console_out(CPUArchState *env, target_ulong addr, int len)
++int qemu_semihosting_console_outs(CPUArchState *env, target_ulong addr)
+ {
+-    GString *s = copy_user_string(env, addr, len);
++    GString *s = copy_user_string(env, addr);
+     int out = s->len;
+ 
+     if (use_gdb_syscalls()) {
+@@ -82,3 +80,21 @@ int qemu_semihosting_console_out(CPUArchState *env, target_ulong addr, int len)
+     g_string_free(s, true);
+     return out;
+ }
++
++void qemu_semihosting_console_outc(CPUArchState *env, target_ulong addr)
++{
++    CPUState *cpu = ENV_GET_CPU(env);
++    uint8_t c;
++
++    if (cpu_memory_rw_debug(cpu, addr, &c, 1, 0) == 0) {
++        if (use_gdb_syscalls()) {
++            gdb_do_syscall(semihosting_cb, "write,2,%x,%x", addr, 1);
++        } else {
++            qemu_semihosting_log_out((const char *) &c, 1);
++        }
++    } else {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: passed inaccessible address " TARGET_FMT_lx,
++                      __func__, addr);
++    }
++}
+diff --git a/include/hw/semihosting/console.h b/include/hw/semihosting/console.h
+index 30e66ae20aa..3a4fba75905 100644
+--- a/include/hw/semihosting/console.h
++++ b/include/hw/semihosting/console.h
+@@ -10,17 +10,30 @@
+ #define _SEMIHOST_CONSOLE_H_
+ 
+ /**
+- * qemu_semihosting_console_out:
++ * qemu_semihosting_console_outs:
+  * @env: CPUArchState
+- * @s: host address of guest string
+- * @len: length of string or 0 (string is null terminated)
++ * @s: host address of null terminated guest string
+  *
+- * Send a guest string to the debug console. This may be the remote
+- * gdb session if a softmmu guest is currently being debugged.
++ * Send a null terminated guest string to the debug console. This may
++ * be the remote gdb session if a softmmu guest is currently being
++ * debugged.
+  *
+  * Returns: number of bytes written.
+  */
+-int qemu_semihosting_console_out(CPUArchState *env, target_ulong s, int len);
++int qemu_semihosting_console_outs(CPUArchState *env, target_ulong s);
++
++/**
++ * qemu_semihosting_console_outc:
++ * @env: CPUArchState
++ * @s: host address of null terminated guest string
++ *
++ * Send single character from guest memory to the debug console. This
++ * may be the remote gdb session if a softmmu guest is currently being
++ * debugged.
++ *
++ * Returns: nothing
++ */
++void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
+ 
+ /**
+  * qemu_semihosting_log_out:
+diff --git a/linux-user/arm/semihost.c b/linux-user/arm/semihost.c
+index 9554102a855..b7cdc21f832 100644
+--- a/linux-user/arm/semihost.c
++++ b/linux-user/arm/semihost.c
+@@ -15,10 +15,34 @@
+ #include "hw/semihosting/console.h"
+ #include "qemu.h"
+ 
+-int qemu_semihosting_console_out(CPUArchState *env, target_ulong addr, int len)
++int qemu_semihosting_console_outs(CPUArchState *env, target_ulong addr)
+ {
++    int len;
+     void *s = lock_user_string(addr);
+-    len = write(STDERR_FILENO, s, len ? len : strlen(s));
++    if (!s) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: passed inaccessible address " TARGET_FMT_lx,
++                      __func__, addr);
++        return 0;
++    }
++
++    len = write(STDERR_FILENO, s, strlen(s));
+     unlock_user(s, addr, 0);
+     return len;
+ }
++
++void qemu_semihosting_console_outc(CPUArchState *env, target_ulong addr)
++{
++    char c;
++
++    if (get_user_u8(c, addr)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: passed inaccessible address " TARGET_FMT_lx,
++                      __func__, addr);
++    } else {
++        if (write(STDERR_FILENO, &c, 1) != 1) {
++            qemu_log_mask(LOG_UNIMP, "%s: unexpected write to stdout failure",
++                          __func__);
++        }
++    }
++}
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index 53e807ab721..8844da8da38 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -315,10 +315,10 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+             return set_swi_errno(ts, close(arg0));
+         }
+     case TARGET_SYS_WRITEC:
+-        qemu_semihosting_console_out(env, args, 1);
++        qemu_semihosting_console_outc(env, args);
+         return 0xdeadbeef;
+     case TARGET_SYS_WRITE0:
+-        return qemu_semihosting_console_out(env, args, 0);
++        return qemu_semihosting_console_outs(env, args);
+     case TARGET_SYS_WRITE:
+         GET_ARG(0);
+         GET_ARG(1);
+-- 
+2.20.1
+
 
