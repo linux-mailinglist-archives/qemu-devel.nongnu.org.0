@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C183530039
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 18:35:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56546 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A278D30047
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 18:42:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56661 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWO1T-00050H-W4
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 12:35:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58934)
+	id 1hWO8S-0007GZ-HD
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 12:42:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33290)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hWO0K-0004gh-56
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 12:34:13 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hWO7G-0006j5-NK
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 12:41:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hWO0I-0000m1-VT
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 12:34:12 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41026)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hWO0I-0000lD-OW
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 12:34:10 -0400
-Received: by mail-wr1-f66.google.com with SMTP id c2so4622482wrm.8
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 09:34:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=1AgZoy454L+s0PduOvRU73bcQAh4Zk736l+VO1SADmI=;
-	b=YPCx1mbWWBQNZxeTnWfp5Lk0J0XjnxPs8LK6mT2fJHpQ0PidF2k2LPK4Fo2VDk9RyB
-	qvqkh9h1wczlEv/4zS77uGYMeB47X/R78NgRcKZt7Sms9N+bHJQwHQD8K1Djqhwp9IdC
-	3uMSSowzChuM6JNOn2/5oNY+5cspWZninJzR71N1eqacz/nrkzCo5E3viRfLTzJEGL4h
-	aXdrqINkBjKGEj04BbcHYdU3eiA+iYFjeaeTrHKLKmyixfZHtiTvncD7bB0nY5pz9P0S
-	DmUaXIS109aVCXyXjE4/m+lpZY6hPuZuxuW1H6o7+Rgm2eYNcI7gJFus6UM69ZIC2VjX
-	ioNg==
-X-Gm-Message-State: APjAAAVsmRFqF/Jcy1pbn+5WkjNFPE6DaE0/XB5IWYCbHOlpPbpgHBKS
-	CpHlkK653qCEL3yA7RnYjJluzQ==
-X-Google-Smtp-Source: APXvYqwO/QY1kHCI3URCGJOxJxkPGj/e19HoGEuKAZbJadezxZqf1G0tPinz6VVXBOpjS1t08+bk9A==
-X-Received: by 2002:a5d:4886:: with SMTP id g6mr3132151wrq.108.1559234049348; 
-	Thu, 30 May 2019 09:34:09 -0700 (PDT)
-Received: from [192.168.1.38] (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	b10sm8476912wrh.59.2019.05.30.09.34.07
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 May 2019 09:34:07 -0700 (PDT)
-To: Li Qiang <liq3ea@gmail.com>
-References: <20190524063553.5339-1-philmd@redhat.com>
-	<20190524063553.5339-5-philmd@redhat.com>
-	<CAKXe6SJaLz5Hmyi-0ZhZvqcZ=HhP78ad_Z5RcBysp70dXxZ4=g@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <f1c033b6-780e-0849-41cf-e8c776bacefd@redhat.com>
-Date: Thu, 30 May 2019 18:34:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <dgilbert@redhat.com>) id 1hWO7F-000786-5y
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 12:41:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47106)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hWO78-0006ZS-NH
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 12:41:15 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 69ADC81112
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 16:40:48 +0000 (UTC)
+Received: from work-vm (ovpn-117-91.ams2.redhat.com [10.36.117.91])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 895F17A547;
+	Thu, 30 May 2019 16:40:40 +0000 (UTC)
+Date: Thu, 30 May 2019 17:40:38 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Message-ID: <20190530164037.GH2823@work-vm>
+References: <20190530092919.26059-1-peterx@redhat.com>
+	<20190530092919.26059-11-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKXe6SJaLz5Hmyi-0ZhZvqcZ=HhP78ad_Z5RcBysp70dXxZ4=g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190530092919.26059-11-peterx@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.28]);
+	Thu, 30 May 2019 16:40:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH 04/20] hw/i386/pc: Add the E820Type enum
- type
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 10/12] kvm: Introduce slots lock for
+ memory listener
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,132 +59,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
-	Rob Bradford <robert.bradford@intel.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Qemu Developers <qemu-devel@nongnu.org>,
-	Samuel Ortiz <sameo@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Li,
+* Peter Xu (peterx@redhat.com) wrote:
+> Introduce KVMMemoryListener.slots_lock to protect the slots inside the
+> kvm memory listener.  Currently it is close to useless because all the
+> KVM code path now is always protected by the BQL.  But it'll start to
+> make sense in follow up patches where we might do remote dirty bitmap
+> clear and also we'll update the per-slot cached dirty bitmap even
+> without the BQL.  So let's prepare for it.
+> 
+> We can also use per-slot lock for above reason but it seems to be an
+> overkill.  Let's just use this bigger one (which covers all the slots
+> of a single address space) but anyway this lock is still much smaller
+> than the BQL.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-On 5/24/19 2:33 PM, Li Qiang wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com <mailto:philmd@redhat.com>> 于
-> 2019年5月24日周五 下午2:45写道：
-> 
->     This ensure we won't use an incorrect value.
-> 
->     Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com
->     <mailto:philmd@redhat.com>>
->     ---
->      hw/i386/pc.c         | 12 +++++++-----
->      include/hw/i386/pc.h | 16 ++++++++++------
->      2 files changed, 17 insertions(+), 11 deletions(-)
-> 
->     diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->     index 1245028dd6..ac8343c728 100644
->     --- a/hw/i386/pc.c
->     +++ b/hw/i386/pc.c
->     @@ -868,9 +868,10 @@ static void handle_a20_line_change(void
->     *opaque, int irq, int level)
->          x86_cpu_set_a20(cpu, level);
->      }
-> 
->     -ssize_t e820_add_entry(uint64_t address, uint64_t length, uint32_t
->     type)
->     +ssize_t e820_add_entry(uint64_t address, uint64_t length, E820Type
->     type)
->      {
->          unsigned int index = le32_to_cpu(e820_reserve.count);
->     +    uint32_t utype = (uint32_t)type;
-> 
-> 
-> I don't have strong opinion for this, as I don't like add an explicit
-> conversion.
+No one ever frees it? Huh OK, in that case if no one ever frees the
+listener then I guess you don't need to cleanup the lock.
 
-Usually I try to not over-cast, but I guess remember I added that
-because some Clang build was failing, but I started a build on Travis-CI
-and all passed, so I might have been trying in a local build directory
-with stricter CPPFLAGS.
-I'll clean that out.
 
-Thanks for your review of this series!
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Phil.
-
->          struct e820_entry *entry;
+> ---
+>  accel/kvm/kvm-all.c      | 58 +++++++++++++++++++++++++++++++---------
+>  include/sysemu/kvm_int.h |  2 ++
+>  2 files changed, 48 insertions(+), 12 deletions(-)
 > 
->          if (type != E820_RAM) {
->     @@ -882,7 +883,7 @@ ssize_t e820_add_entry(uint64_t address,
->     uint64_t length, uint32_t type)
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 334c610918..e687060296 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -138,6 +138,9 @@ static const KVMCapabilityInfo kvm_required_capabilites[] = {
+>      KVM_CAP_LAST_INFO
+>  };
+>  
+> +#define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
+> +#define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
+> +
+>  int kvm_get_max_memslots(void)
+>  {
+>      KVMState *s = KVM_STATE(current_machine->accelerator);
+> @@ -165,6 +168,7 @@ int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
+>      return 1;
+>  }
+>  
+> +/* Called with KVMMemoryListener.slots_lock held */
+>  static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
+>  {
+>      KVMState *s = kvm_state;
+> @@ -182,10 +186,17 @@ static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
+>  bool kvm_has_free_slot(MachineState *ms)
+>  {
+>      KVMState *s = KVM_STATE(ms->accelerator);
+> +    bool result;
+> +    KVMMemoryListener *kml = &s->memory_listener;
+> +
+> +    kvm_slots_lock(kml);
+> +    result = !!kvm_get_free_slot(kml);
+> +    kvm_slots_unlock(kml);
+>  
+> -    return kvm_get_free_slot(&s->memory_listener);
+> +    return result;
+>  }
+>  
+> +/* Called with KVMMemoryListener.slots_lock held */
+>  static KVMSlot *kvm_alloc_slot(KVMMemoryListener *kml)
+>  {
+>      KVMSlot *slot = kvm_get_free_slot(kml);
+> @@ -244,18 +255,21 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
+>                                         hwaddr *phys_addr)
+>  {
+>      KVMMemoryListener *kml = &s->memory_listener;
+> -    int i;
+> +    int i, ret = 0;
+>  
+> +    kvm_slots_lock(kml);
+>      for (i = 0; i < s->nr_slots; i++) {
+>          KVMSlot *mem = &kml->slots[i];
+>  
+>          if (ram >= mem->ram && ram < mem->ram + mem->memory_size) {
+>              *phys_addr = mem->start_addr + (ram - mem->ram);
+> -            return 1;
+> +            ret = 1;
+> +            break;
+>          }
+>      }
+> +    kvm_slots_unlock(kml);
+>  
+> -    return 0;
+> +    return ret;
+>  }
+>  
+>  static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, bool new)
+> @@ -391,6 +405,7 @@ static int kvm_mem_flags(MemoryRegion *mr)
+>      return flags;
+>  }
+>  
+> +/* Called with KVMMemoryListener.slots_lock held */
+>  static int kvm_slot_update_flags(KVMMemoryListener *kml, KVMSlot *mem,
+>                                   MemoryRegion *mr)
+>  {
+> @@ -409,19 +424,26 @@ static int kvm_section_update_flags(KVMMemoryListener *kml,
+>  {
+>      hwaddr start_addr, size;
+>      KVMSlot *mem;
+> +    int ret = 0;
+>  
+>      size = kvm_align_section(section, &start_addr);
+>      if (!size) {
+>          return 0;
+>      }
+>  
+> +    kvm_slots_lock(kml);
+> +
+>      mem = kvm_lookup_matching_slot(kml, start_addr, size);
+>      if (!mem) {
+>          /* We don't have a slot if we want to trap every access. */
+> -        return 0;
+> +        goto out;
+>      }
+>  
+> -    return kvm_slot_update_flags(kml, mem, section->mr);
+> +    ret = kvm_slot_update_flags(kml, mem, section->mr);
+> +
+> +out:
+> +    kvm_slots_unlock(kml);
+> +    return ret;
+>  }
+>  
+>  static void kvm_log_start(MemoryListener *listener,
+> @@ -478,6 +500,8 @@ static int kvm_get_dirty_pages_log_range(MemoryRegionSection *section,
+>   * This function will first try to fetch dirty bitmap from the kernel,
+>   * and then updates qemu's dirty bitmap.
+>   *
+> + * NOTE: caller must be with kml->slots_lock held.
+> + *
+>   * @kml: the KVM memory listener object
+>   * @section: the memory section to sync the dirty bitmap with
+>   */
+> @@ -488,26 +512,28 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
+>      struct kvm_dirty_log d = {};
+>      KVMSlot *mem;
+>      hwaddr start_addr, size;
+> +    int ret = 0;
+>  
+>      size = kvm_align_section(section, &start_addr);
+>      if (size) {
+>          mem = kvm_lookup_matching_slot(kml, start_addr, size);
+>          if (!mem) {
+>              /* We don't have a slot if we want to trap every access. */
+> -            return 0;
+> +            goto out;
+>          }
+>  
+>          d.dirty_bitmap = mem->dirty_bmap;
+>          d.slot = mem->slot | (kml->as_id << 16);
+>          if (kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d) == -1) {
+>              DPRINTF("ioctl failed %d\n", errno);
+> -            return -1;
+> +            ret = -1;
+> +            goto out;
+>          }
+>  
+>          kvm_get_dirty_pages_log_range(section, d.dirty_bitmap);
+>      }
+> -
+> -    return 0;
+> +out:
+> +    return ret;
+>  }
+>  
+>  static void kvm_coalesce_mmio_region(MemoryListener *listener,
+> @@ -770,10 +796,12 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+>      ram = memory_region_get_ram_ptr(mr) + section->offset_within_region +
+>            (start_addr - section->offset_within_address_space);
+>  
+> +    kvm_slots_lock(kml);
+> +
+>      if (!add) {
+>          mem = kvm_lookup_matching_slot(kml, start_addr, size);
+>          if (!mem) {
+> -            return;
+> +            goto out;
+>          }
+>          if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
+>              kvm_physical_sync_dirty_bitmap(kml, section);
+> @@ -790,7 +818,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+>                      __func__, strerror(-err));
+>              abort();
+>          }
+> -        return;
+> +        goto out;
+>      }
+>  
+>      /*
+> @@ -823,6 +851,9 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+>                  strerror(-err));
+>          abort();
+>      }
+> +
+> +out:
+> +    kvm_slots_unlock(kml);
+>  }
+>  
+>  static void kvm_region_add(MemoryListener *listener,
+> @@ -849,7 +880,9 @@ static void kvm_log_sync(MemoryListener *listener,
+>      KVMMemoryListener *kml = container_of(listener, KVMMemoryListener, listener);
+>      int r;
+>  
+> +    kvm_slots_lock(kml);
+>      r = kvm_physical_sync_dirty_bitmap(kml, section);
+> +    kvm_slots_unlock(kml);
+>      if (r < 0) {
+>          abort();
+>      }
+> @@ -929,6 +962,7 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+>  {
+>      int i;
+>  
+> +    qemu_mutex_init(&kml->slots_lock);
+>      kml->slots = g_malloc0(s->nr_slots * sizeof(KVMSlot));
+>      kml->as_id = as_id;
+>  
+> diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+> index 687a2ee423..31df465fdc 100644
+> --- a/include/sysemu/kvm_int.h
+> +++ b/include/sysemu/kvm_int.h
+> @@ -27,6 +27,8 @@ typedef struct KVMSlot
+>  
+>  typedef struct KVMMemoryListener {
+>      MemoryListener listener;
+> +    /* Protects the slots and all inside them */
+> +    QemuMutex slots_lock;
+>      KVMSlot *slots;
+>      int as_id;
+>  } KVMMemoryListener;
+> -- 
+> 2.17.1
 > 
->              entry->address = cpu_to_le64(address);
->              entry->length = cpu_to_le64(length);
->     -        entry->type = cpu_to_le32(type);
->     +        entry->type = cpu_to_le32(utype);
-> 
->              e820_reserve.count = cpu_to_le32(index);
->          }
->     @@ -891,7 +892,7 @@ ssize_t e820_add_entry(uint64_t address,
->     uint64_t length, uint32_t type)
->          e820_table = g_renew(struct e820_entry, e820_table,
->     e820_entries + 1);
->          e820_table[e820_entries].address = cpu_to_le64(address);
->          e820_table[e820_entries].length = cpu_to_le64(length);
->     -    e820_table[e820_entries].type = cpu_to_le32(type);
->     +    e820_table[e820_entries].type = cpu_to_le32(utype);
->          e820_entries++;
-> 
->          return e820_entries;
->     @@ -902,10 +903,11 @@ size_t e820_get_num_entries(void)
->          return e820_entries;
->      }
-> 
->     -bool e820_get_entry(unsigned int idx, uint32_t type,
->     +bool e820_get_entry(unsigned int idx, E820Type type,
->                          uint64_t *address, uint64_t *length)
->      {
->     -    if (idx < e820_entries && e820_table[idx].type ==
->     cpu_to_le32(type)) {
->     +    uint32_t utype = (uint32_t)type;
->     +    if (idx < e820_entries && e820_table[idx].type ==
->     cpu_to_le32(utype)) {
->              *address = le64_to_cpu(e820_table[idx].address);
->              *length = le64_to_cpu(e820_table[idx].length);
->              return true;
->     diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
->     index 2bc48c03c6..10e77a40ce 100644
->     --- a/include/hw/i386/pc.h
->     +++ b/include/hw/i386/pc.h
->     @@ -282,12 +282,16 @@ void pc_system_firmware_init(PCMachineState
->     *pcms, MemoryRegion *rom_memory);
->      void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
->                             const CPUArchIdList *apic_ids, GArray *entry);
-> 
->     -/* e820 types */
->     -#define E820_RAM        1
->     -#define E820_RESERVED   2
->     -#define E820_ACPI       3
->     -#define E820_NVS        4
->     -#define E820_UNUSABLE   5
->     +/**
->     + * E820Type: Type of the e820 address range.
->     + */
->     +typedef enum {
->     +    E820_RAM        = 1,
->     +    E820_RESERVED   = 2,
->     +    E820_ACPI       = 3,
->     +    E820_NVS        = 4,
->     +    E820_UNUSABLE   = 5
->     +} E820Type;
-> 
->      ssize_t e820_add_entry(uint64_t, uint64_t, uint32_t);
->      size_t e820_get_num_entries(void);
->     -- 
->     2.20.1
-> 
-> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
