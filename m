@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2652FBBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 14:52:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53659 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812812FBC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 14:56:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53697 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWKY5-0003fK-S4
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 08:52:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60203)
+	id 1hWKbB-0004Tq-O7
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 08:56:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60821)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hWKX6-0003OI-FQ
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 08:51:49 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hWKa5-00047G-S1
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 08:54:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hWKX5-0001gT-Ad
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 08:51:48 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46126)
+	(envelope-from <peter.maydell@linaro.org>) id 1hWKa4-0005XM-45
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 08:54:53 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:34878)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
-	id 1hWKX4-0001ei-VF
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 08:51:47 -0400
-Received: by mail-oi1-x243.google.com with SMTP id 203so4788085oid.13
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 05:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hWKa3-0005UD-U2
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 08:54:52 -0400
+Received: by mail-oi1-x235.google.com with SMTP id y6so1212297oix.2
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 05:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=WpapVoqIj3ygdX0ysmxrSDNnoQcZKd4aOtbsCubzLGw=;
-	b=QevhJZRhaP0dIyfua6w44pMIoxg6BshT2ovB057/8Bhjt+YzrYH9ysjGeK67ei87XW
-	wg0jlzCL6uXGVijxSgIbCf9727Ru+SGi9U33MOjkOtzxC8m/+2IayKfDx0950p00DpkS
-	XbFvlxy+9PGRioOcvl+QAbOe+ammpIXNOPDjscKmR0uFnjsnENqpmV/5RG0oFbXTlnvd
-	4J/iOPn97exMSOLIvtwNaPpq9DqY8VyQQtKgauICfqj8b+BPqaMnWwAU0bbKnDhLpLbZ
-	uQzTFpveIQnzy6GIZSn5YP+yghKs1RUmLmUmMmMSi38Du8OpYxRoG92tXy6x0SB1FNx0
-	os1A==
+	bh=arSGMF0EHSmPwohYo5hXUKuMRWeA6PEHARITBOIAbaY=;
+	b=EnMy75bNl9RmXdbMqmDGiaFlSbaIUzoUscztUQ9KFW1xDdXjPj9QMMeL5mu9bjYMhq
+	QoLN9Kgm556+QB9J8Wwk0kODU3bTv3lD6+hAfLfP8dkk98v8SDp6x9lLbdpMcoGOcCsR
+	YCChBsshT/o4/SsjWirM2WItMwyLaywlXcNsE9o/64s1K+bq2IJSiHqtdKvAKXsrK0+L
+	8PAjdWVof1cyRgJ/vmvyKvsS1rwqGSqNlwcTS6f+ESga94oqnUxGSEc1TicydE1A1KHZ
+	BYQyiOFat2fdomT/mZRPZB2U7YXjk9IWyx0W3hdTxSxDhunV1e0g3gGNJ7KtwGLxtN3L
+	MVvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=WpapVoqIj3ygdX0ysmxrSDNnoQcZKd4aOtbsCubzLGw=;
-	b=SV898irLWeTIoHdhZ7OaprNKrHzMdWLRjx8398NDBf9rLqLaL0g3HzUrM8ktfIKN/u
-	fB7EXSy2OEZWfrdkYBxnKdnMafMssiPGO5flcg28jwxBiFJbOcS32bb15LY+v4c6Er5u
-	gn5xeJ7EG+yd60M1dpaJLRX8CEVTar2mm8Prh8DxNjlK38d56rWLZsdUXzNXpUqHV9uV
-	IT2c2j95j7YKQmHg0tAPlgIxPnlWuyo6sNzx7DvGsguSQ/jq8H7RfwIVwgbeSdLZmD/R
-	ajyb0exCAIMA8ZadzehM4Yb6fWdf2OEm4rcgMb4dGXNWw8WCUjBjA3XzTp/jXrVJflwk
-	6kOg==
-X-Gm-Message-State: APjAAAWrOFcei+lK4kIgRtlD/esGO2i/ZfAQ3HqKU3u+HNChVfC8Cb0U
-	BxeWw/a0UzkorgbBowZJL5ry/002v/8csAWUheY=
-X-Google-Smtp-Source: APXvYqyeHnZmYDgHAiTOh100KPejndI+7YKRrf4xyIU2MDpAq6d6XV5ypQWEDgb3MKbq4aCaSPLEQcP0aD+xVO+k8J4=
-X-Received: by 2002:aca:330b:: with SMTP id z11mr2224902oiz.148.1559220705533; 
-	Thu, 30 May 2019 05:51:45 -0700 (PDT)
+	bh=arSGMF0EHSmPwohYo5hXUKuMRWeA6PEHARITBOIAbaY=;
+	b=KwVIZQ1E2DbcpBWuokrHIFkIuE0b66vY4KVXWDTfv0FtSk6UiTNEFU6tQLWoQRlvMS
+	uDmRQ316CP58ID40Zn5Xf9kVIhw9cd3pgayCYsJ+xubv7oviagCb8WhrJFFjjAPYePXg
+	nYYnojAeRD8R0trJSxVY/LNObhriICBv6OBfsaWzgVJV0m1xMt28OsNwBwZx9SBuYWRK
+	9GdCzXJ4OdLm9l7/hCMOPailApOgkW4R5Kt1Jy90kuKKt2iw96fsYEgt50lWPsgcKzm8
+	rhiByE9UyQjPeWkS09ILZkv8IcUx/K37DcBwWrP8nmw7qFIDXXcN+JK0W4ZXR+IX0cKi
+	vTZA==
+X-Gm-Message-State: APjAAAVxheK0AQHGG5G/cL6Jc28kUo2Y9IEzpLTsqPZYVmcs8+XBS5bk
+	kUzF7oWWIcc3yBwoAB0mrbk1NMLIJevp/AocAmL5zg==
+X-Google-Smtp-Source: APXvYqyt5f86m1hFHPOqimrWaj39Uv7lI+HS4lidxjcrLW3husjI3HgfSC6DEiOVZe8mnKrTZ514SP8a/bw7dtFIw5E=
+X-Received: by 2002:aca:cd12:: with SMTP id d18mr2255928oig.146.1559220889840; 
+	Thu, 30 May 2019 05:54:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190529072144.26737-1-kraxel@redhat.com>
-	<20190529072144.26737-5-kraxel@redhat.com>
-In-Reply-To: <20190529072144.26737-5-kraxel@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 30 May 2019 14:51:33 +0200
-Message-ID: <CAJ+F1C+u9mojgn40JUMN975jf3WsJxnWtd_O0gwDYKtTAauTCA@mail.gmail.com>
+References: <20190529044020.27003-1-kraxel@redhat.com>
+In-Reply-To: <20190529044020.27003-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 30 May 2019 13:54:38 +0100
+Message-ID: <CAFEAcA-jsLaezEzPi_E3Q7EjBahmPAbYyUcRqobZNOnQ1yYktQ@mail.gmail.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH v3 4/4] egl-helpers: add modifier support
- to egl_dmabuf_import_texture()
+X-Received-From: 2607:f8b0:4864:20::235
+Subject: Re: [Qemu-devel] [PULL 0/9] Vga 20190529 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,82 +73,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Wed, May 29, 2019 at 9:24 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Wed, 29 May 2019 at 05:42, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> Check and use QemuDmaBuf->modifier in egl_dmabuf_import_texture()
-> for dmabuf imports.
+> The following changes since commit da35f7f1eeff9f249a9597400fc514c83fd3a0=
+f8:
 >
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  ui/egl-helpers.c | 34 +++++++++++++++++++++++++---------
->  1 file changed, 25 insertions(+), 9 deletions(-)
+>   virtio-gpu: add sanity check (2019-05-28 08:14:44 +0200)
 >
-> diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-> index 0c9716067cfb..edc53f6d3464 100644
-> --- a/ui/egl-helpers.c
-> +++ b/ui/egl-helpers.c
-> @@ -229,20 +229,36 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint =
-*stride, EGLint *fourcc,
->  void egl_dmabuf_import_texture(QemuDmaBuf *dmabuf)
->  {
->      EGLImageKHR image =3D EGL_NO_IMAGE_KHR;
-> -    EGLint attrs[] =3D {
-> -        EGL_DMA_BUF_PLANE0_FD_EXT,      dmabuf->fd,
-> -        EGL_DMA_BUF_PLANE0_PITCH_EXT,   dmabuf->stride,
-> -        EGL_DMA_BUF_PLANE0_OFFSET_EXT,  0,
-> -        EGL_WIDTH,                      dmabuf->width,
-> -        EGL_HEIGHT,                     dmabuf->height,
-> -        EGL_LINUX_DRM_FOURCC_EXT,       dmabuf->fourcc,
-> -        EGL_NONE, /* end of list */
-> -    };
-> +    EGLint attrs[64];
-> +    int i =3D 0;
+> are available in the Git repository at:
 >
->      if (dmabuf->texture !=3D 0) {
->          return;
->      }
+>   git://git.kraxel.org/qemu tags/vga-20190529-pull-request
 >
-> +    attrs[i++] =3D EGL_WIDTH;
-> +    attrs[i++] =3D dmabuf->width;
-> +    attrs[i++] =3D EGL_HEIGHT;
-> +    attrs[i++] =3D dmabuf->height;
-> +    attrs[i++] =3D EGL_LINUX_DRM_FOURCC_EXT;
-> +    attrs[i++] =3D dmabuf->fourcc;
-> +
-> +    attrs[i++] =3D EGL_DMA_BUF_PLANE0_FD_EXT;
-> +    attrs[i++] =3D dmabuf->fd;
-> +    attrs[i++] =3D EGL_DMA_BUF_PLANE0_PITCH_EXT;
-> +    attrs[i++] =3D dmabuf->stride;
-> +    attrs[i++] =3D EGL_DMA_BUF_PLANE0_OFFSET_EXT;
-> +    attrs[i++] =3D 0;
-> +#ifdef EGL_DMA_BUF_PLANE0_MODIFIER_LO_EXT
-> +    if (dmabuf->modifier) {
-> +        attrs[i++] =3D EGL_DMA_BUF_PLANE0_MODIFIER_LO_EXT;
-> +        attrs[i++] =3D (dmabuf->modifier >>  0) & 0xffffffff;
-> +        attrs[i++] =3D EGL_DMA_BUF_PLANE0_MODIFIER_HI_EXT;
-> +        attrs[i++] =3D (dmabuf->modifier >> 32) & 0xffffffff;
-> +    }
-> +#endif
-
-Shouldn't there be at least a warning for #else?
-
-> +    attrs[i++] =3D EGL_NONE;
-> +
->      image =3D eglCreateImageKHR(qemu_egl_display,
->                                EGL_NO_CONTEXT,
->                                EGL_LINUX_DMA_BUF_EXT,
-> --
-> 2.18.1
+> for you to fetch changes up to 267f664658fee4138f80013fa25354191e8091cb:
 >
+>   hw/display: add vhost-user-vga & gpu-pci (2019-05-29 06:30:45 +0200)
+>
+> ----------------------------------------------------------------
+> vga: add vhost-user-gpu.
+>
+> ----------------------------------------------------------------
+>
+> Marc-Andr=C3=A9 Lureau (9):
+>   vhost-user: add vhost_user_gpu_set_socket()
+>   virtio-gpu: add bswap helpers header
+>   virtio-gpu: add a pixman helper header
+>   util: compile drm.o on posix
+>   contrib: add vhost-user-gpu
+>   spice-app: fix running when !CONFIG_OPENGL
+>   virtio-gpu: split virtio-gpu, introduce virtio-gpu-base
+>   virtio-gpu: split virtio-gpu-pci & virtio-vga
+>   hw/display: add vhost-user-vga & gpu-pci
 >
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
