@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0780D2FA47
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:28:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50699 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F24B2FA4E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 12:31:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50731 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWII7-0003Dq-3s
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:28:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54372)
+	id 1hWIKv-0005Wz-9S
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 06:31:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54415)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWI6b-0002dd-3r
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:18 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWI6e-0002gc-0B
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWI6Z-0006Yz-Ng
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:16 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38314)
+	(envelope-from <alex.bennee@linaro.org>) id 1hWI6d-0006bi-4V
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:19 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35741)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWI6Z-0006YD-HC
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:15 -0400
-Received: by mail-wm1-x341.google.com with SMTP id t5so3468383wmh.3
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:16:15 -0700 (PDT)
+	id 1hWI6c-0006b5-SU
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 06:16:19 -0400
+Received: by mail-wr1-x442.google.com with SMTP id m3so3829115wrv.2
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 03:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=VBYJNdKck0NWEjbEOdu/UU5WU/f6QnZI7h23fVKWf28=;
-	b=L+hNclivWdfxNoKP9Bg5hf2z80o79jIPVIg4SR5HEfYzUFc0vWnf2F0ue9qFLldiEr
-	4yetA3dJhZqKAfepklZYFmo3CBXUB7GQMX779pmL7qUCq2OcCUO96v41Oj9fYvhfh75d
-	Ir5YciGcITLKee7uQfSBYGC7EIQwgO8+gPNoiH9ppdsNdqLHwm2cP4eUeWREWkMAJWux
-	U34GYK2BWqxf3aWSTlkA5QK/wrGRnVncjLDlbe68dv7XghiQVQyUIatFosPGgYWWpspx
-	aDL9dcVlYmOxUJOHm8ASEM1sR6cZHLV8plAYkZ3hksyqP1csrWrUo8SIg8gRDsIWEW/9
-	ur7w==
+	bh=DzRVR0ExhRGQxByUv2nr/r2y2wqFk/czcVmFguGzwdY=;
+	b=RdP14LNOerzbqEp1tTroRRiVS7bA7UBC9UFnl1qdwxUFoUTbHJiokmedvonwoFAK9h
+	svvAk61R/y5JcfxyI9ZyDTK/MRqY24Sqgu0JXNeJ0OxcU5DSl/KNWQZ0e6ds3xMNt4u+
+	RHk2qlNNmDCURKd8lpOeqrtex3kemf54jHZpw6c/Iol5wzzDaj6BT4Iv6ZuwSqL1A1/Z
+	ct4r6deydGD0uezL2mgsr8wD2Uoi9Ez03bU+3kHy52G3uT/uEUYoc3WLlb7Z9ROdhLRb
+	k4q1XFF1wdIXd3szo7nAfz6YVJX+8fwgd0nXDTdOPCL1KEkKzkejhzx7Zz0tT7rq5M8m
+	9reA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=VBYJNdKck0NWEjbEOdu/UU5WU/f6QnZI7h23fVKWf28=;
-	b=tZ0jFSZj1rZ/8qDXBfFpoC8VSqKi+amoTlpTRY9Ii58J1dp+iiAdrKRiF9rtMeByLi
-	dmfXZYXYEobVO3dzc23trAVKEWlpnsiljkd+0Nl3zwN8zRFoZK1HgZjUbzCK72Ven7kO
-	0Z0N9GvZEKwqkRYM1Nvd3bOnzoLLOUR3Ivl66UaTGN6kFdXKVdVs77IHpMwP1tTZKcBF
-	gvBOAjxczYiNlmRcz3sbA5fa2TFmNIaBPpfgMNad2nqAnGpTzpK8+uV3Yxc9J78U0Gac
-	nnhD6EoHocXFbyRnfNCZAxsshmX1r4rEkgYAK+Xoji9gQbkuj2f+/aYPgie2voQrvwi1
-	1YbQ==
-X-Gm-Message-State: APjAAAUymBS4Reb/jtuk0Nba8+u+cuXGyo9X9moVRbkWFV4mz9EC8ns0
-	LSH5LUFgQbZ1YxkwYl9BCyBf8A==
-X-Google-Smtp-Source: APXvYqwh5uWhkwqzfkXG5uWnOwaQfz//Eyss57ef36H+vxIXMZtK7lvQI5WSB+zFlqczjj0Um/xt0g==
-X-Received: by 2002:a1c:e3d7:: with SMTP id a206mr1840893wmh.7.1559211374442; 
-	Thu, 30 May 2019 03:16:14 -0700 (PDT)
+	bh=DzRVR0ExhRGQxByUv2nr/r2y2wqFk/czcVmFguGzwdY=;
+	b=agjecLv99QkjPUzYchKT4Tk5k0s8YQ2vqa7sambCtZTLNyjOD/AHvjlscL02r5Zjku
+	LFehZc/Y4vhFFHf/6bEMZeTvp16+tDbOWoNVwSgAt55FuSWOx2DXsWlZSI304ZEISqY1
+	6WWlzv4droPKhjNE91rePDN5aPVazPQ/L0tUg3SQDJ863bxnTs956J3cflASUA3wKgoX
+	ZqfXpQqyWTACAb8LlZ4mx/JN68vesmiFk2S8DUQWDZNwuF/hKZlNRJw4VTI0sXVkp+dE
+	ZBVsiWB/ug4+xsba7E+Sxnd85PM3tv3vKjix8j1p8wCPYq5tLAOwk6hhPGrOPLJlg7XJ
+	CfBQ==
+X-Gm-Message-State: APjAAAVbgfViFIVAJFmXQk3W0NbWP/qaojUP7ngrNyyOe+TpqJcpchuO
+	uoMp/MTGb8YZ62CmikDwUpuDBQ==
+X-Google-Smtp-Source: APXvYqxiVDZNyIeMpJQHDPyfutDG8NqOHk19OMPgk26WtEZBtYdEGT6YG1wFsuPIoeKU0C70u0LpFA==
+X-Received: by 2002:a5d:694c:: with SMTP id r12mr2152352wrw.214.1559211377929; 
+	Thu, 30 May 2019 03:16:17 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id t4sm2364980wmi.41.2019.05.30.03.16.07
+	by smtp.gmail.com with ESMTPSA id f2sm2888915wme.12.2019.05.30.03.16.08
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 30 May 2019 03:16:09 -0700 (PDT)
+	Thu, 30 May 2019 03:16:10 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id D623D1FF9A;
+	by zen.linaroharston (Postfix) with ESMTP id E9E961FF9B;
 	Thu, 30 May 2019 11:16:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 11:15:47 +0100
-Message-Id: <20190530101603.22254-11-alex.bennee@linaro.org>
+Date: Thu, 30 May 2019 11:15:48 +0100
+Message-Id: <20190530101603.22254-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190530101603.22254-1-alex.bennee@linaro.org>
 References: <20190530101603.22254-1-alex.bennee@linaro.org>
@@ -68,8 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH  v1 10/26] tests/vm: Port basevm to Python 3
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH v1 11/26] tests/vm: Fix build-centos
+ docker-based tests run
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,64 +83,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-Fixed tests/vm/basevm.py to run with Python 3:
- - hashlib.sha1() requires an binary encoded object.
- - uses floor division ("//") (PEP 238).
- - decode bytes to unicode when needed.
+`make vm-build-centos` run docker-based tests on CentOS. The
+created containers should have network otherwise some tests
+fail. Also fixed the BUILD_SCRIPT template to correctly
+evaluate "V=1" for verbose output.
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190329210804.22121-3-wainersm@redhat.com>
+Message-Id: <20190329210804.22121-5-wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/vm/basevm.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/vm/centos | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 0556bdcf9e9..083befce9f5 100755
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -85,12 +85,12 @@ class BaseVM(object):
-             if not sha256sum:
-                 return True
-             checksum = subprocess.check_output(["sha256sum", fname]).split()[0]
--            return sha256sum == checksum
-+            return sha256sum == checksum.decode()
+diff --git a/tests/vm/centos b/tests/vm/centos
+index ba133ea429a..7417b50af4a 100755
+--- a/tests/vm/centos
++++ b/tests/vm/centos
+@@ -26,9 +26,9 @@ class CentosVM(basevm.BaseVM):
+         export SRC_ARCHIVE=/dev/vdb;
+         sudo chmod a+r $SRC_ARCHIVE;
+         tar -xf $SRC_ARCHIVE;
+-        make docker-test-block@centos7 V={verbose} J={jobs};
+-        make docker-test-quick@centos7 V={verbose} J={jobs};
+-        make docker-test-mingw@fedora V={verbose} J={jobs};
++        make docker-test-block@centos7 {verbose} J={jobs} NETWORK=1;
++        make docker-test-quick@centos7 {verbose} J={jobs} NETWORK=1;
++        make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
+     """
  
-         cache_dir = os.path.expanduser("~/.cache/qemu-vm/download")
-         if not os.path.exists(cache_dir):
-             os.makedirs(cache_dir)
--        fname = os.path.join(cache_dir, hashlib.sha1(url).hexdigest())
-+        fname = os.path.join(cache_dir, hashlib.sha1(url.encode()).hexdigest())
-         if os.path.exists(fname) and check_sha256sum(fname):
-             return fname
-         logging.debug("Downloading %s to %s...", url, fname)
-@@ -134,7 +134,7 @@ class BaseVM(object):
-         raise NotImplementedError
- 
-     def add_source_dir(self, src_dir):
--        name = "data-" + hashlib.sha1(src_dir).hexdigest()[:5]
-+        name = "data-" + hashlib.sha1(src_dir.encode()).hexdigest()[:5]
-         tarfile = os.path.join(self._tmpdir, name + ".tar")
-         logging.debug("Creating archive %s for src_dir dir: %s", tarfile, src_dir)
-         subprocess.check_call(["./scripts/archive-source.sh", tarfile],
-@@ -204,7 +204,7 @@ def parse_args(vmcls):
- 
-     def get_default_jobs():
-         if kvm_available(vmcls.arch):
--            return multiprocessing.cpu_count() / 2
-+            return multiprocessing.cpu_count() // 2
-         else:
-             return 1
- 
+     def _gen_cloud_init_iso(self):
 -- 
 2.20.1
 
