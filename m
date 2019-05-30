@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE702FCB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 15:55:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54375 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C462FCB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 15:54:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54369 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWLWL-0002ke-VO
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 09:55:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43721)
+	id 1hWLVk-0002Ce-P9
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 09:54:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43631)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hWLTS-00017d-0a
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 09:52:06 -0400
+	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hWLTN-000147-RY
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 09:52:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hWLTR-0005wU-18
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 09:52:05 -0400
-Received: from mta2.cl.cam.ac.uk ([2001:630:212:200::25:2]:55992)
+	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hWLTM-0005qF-Q3
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 09:52:01 -0400
+Received: from mta2.cl.cam.ac.uk ([2001:630:212:200::25:2]:55766)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <hmka2@cl.cam.ac.uk>)
-	id 1hWLTO-0005jc-Pf; Thu, 30 May 2019 09:52:02 -0400
+	id 1hWLTK-0005lP-Ek; Thu, 30 May 2019 09:51:58 -0400
 Received: from cassia.cl.cam.ac.uk ([2001:630:212:238:b26e:bfff:fe2f:c7d9])
 	by mta2.cl.cam.ac.uk with esmtps
 	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.86_2)
 	(envelope-from <hmka2@cl.cam.ac.uk>)
-	id 1hWLTB-000GcU-Os; Thu, 30 May 2019 14:51:49 +0100
+	id 1hWLTI-000Gcc-9v; Thu, 30 May 2019 14:51:56 +0100
 Received: from hmka2 by cassia.cl.cam.ac.uk with local (Exim 4.90_1)
 	(envelope-from <hmka2@cl.cam.ac.uk>)
-	id 1hWLTB-0005Nh-NK; Thu, 30 May 2019 14:51:49 +0100
+	id 1hWLTI-0005Tw-8G; Thu, 30 May 2019 14:51:56 +0100
 From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 To: qemu-riscv@nongnu.org
-Date: Thu, 30 May 2019 14:51:30 +0100
-Message-Id: <20190530135135.19715-1-Hesham.Almatary@cl.cam.ac.uk>
+Date: Thu, 30 May 2019 14:51:31 +0100
+Message-Id: <20190530135135.19715-2-Hesham.Almatary@cl.cam.ac.uk>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190530135135.19715-1-Hesham.Almatary@cl.cam.ac.uk>
+References: <20190530135135.19715-1-Hesham.Almatary@cl.cam.ac.uk>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2001:630:212:200::25:2
-Subject: [Qemu-devel] [PATCHv4 1/6] RISC-V: Only Check PMP if MMU
- translation succeeds
+Subject: [Qemu-devel] [PATCHv4 2/6] RISC-V: Raise access fault exceptions on
+ PMP violations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,36 +59,64 @@ Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current implementation unnecessarily checks for PMP even if MMU translation
-failed. This may trigger a wrong PMP access exception instead of
-a page exception.
+Section 3.6 in RISC-V v1.10 privilege specification states that PMP violations
+report "access exceptions." The current PMP implementation has
+a bug which wrongly reports "page exceptions" on PMP violations.
 
-For example, the very first instruction fetched after the first satp write in
-S-Mode will trigger a PMP access fault instead of an instruction fetch page
-fault.
-
-This patch prioritises MMU exceptions over PMP exceptions and only checks for
-PMP if MMU translation succeeds. This patch is required for future commits
-that properly report PMP exception violations if PTW succeeds.
+This patch fixes this bug by reporting the correct PMP access exceptions
+trap values.
 
 Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/cpu_helper.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 41d6db41c3..40fb47e794 100644
+index 40fb47e794..7c7282c680 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -401,6 +401,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                   " prot %d\n", __func__, address, ret, pa, prot);
+@@ -318,12 +318,13 @@ restart:
+ }
 
+ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+-                                MMUAccessType access_type)
++                                MMUAccessType access_type, bool pmp_violation)
+ {
+     CPUState *cs = CPU(riscv_env_get_cpu(env));
+     int page_fault_exceptions =
+         (env->priv_ver >= PRIV_VERSION_1_10_0) &&
+-        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE;
++        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE &&
++        !pmp_violation;
+     switch (access_type) {
+     case MMU_INST_FETCH:
+         cs->exception_index = page_fault_exceptions ?
+@@ -389,6 +390,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     CPURISCVState *env = &cpu->env;
+     hwaddr pa = 0;
+     int prot;
++    bool pmp_violation = false;
+     int ret = TRANSLATE_FAIL;
+
+     qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
+@@ -403,6 +405,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-+        (ret == TRANSLATE_SUCCESS) &&
+         (ret == TRANSLATE_SUCCESS) &&
          !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
++        pmp_violation = true;
          ret = TRANSLATE_FAIL;
      }
+     if (ret == TRANSLATE_SUCCESS) {
+@@ -412,7 +415,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     } else if (probe) {
+         return false;
+     } else {
+-        raise_mmu_exception(env, address, access_type);
++        raise_mmu_exception(env, address, access_type, pmp_violation);
+         riscv_raise_exception(env, cs->exception_index, retaddr);
+     }
+ #else
 --
 2.17.1
 
