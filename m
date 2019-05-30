@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B9E2F9A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 11:41:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50084 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCAD42F9A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 May 2019 11:43:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50111 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWHYl-0000bA-GF
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 05:41:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44730)
+	id 1hWHad-0002dp-1p
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 05:43:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44742)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hWHO5-0001HO-Vz
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 05:30:19 -0400
+	(envelope-from <peterx@redhat.com>) id 1hWHOA-0001Lj-5O
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 05:30:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hWHO4-0002FJ-0G
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 05:30:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53430)
+	(envelope-from <peterx@redhat.com>) id 1hWHO6-0002IR-SK
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 05:30:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33930)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hWHO2-0002Du-Lw
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 05:30:15 -0400
+	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hWHO6-0002HH-KX
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 05:30:18 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D89503001822
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 09:30:13 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id F015130821AE
+	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 09:30:17 +0000 (UTC)
 Received: from xz-x1.redhat.com (ovpn-12-221.pek2.redhat.com [10.72.12.221])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id EED3C1001E77;
-	Thu, 30 May 2019 09:30:10 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A16591001E77;
+	Thu, 30 May 2019 09:30:14 +0000 (UTC)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 May 2019 17:29:18 +0800
-Message-Id: <20190530092919.26059-12-peterx@redhat.com>
+Date: Thu, 30 May 2019 17:29:19 +0800
+Message-Id: <20190530092919.26059-13-peterx@redhat.com>
 In-Reply-To: <20190530092919.26059-1-peterx@redhat.com>
 References: <20190530092919.26059-1-peterx@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Thu, 30 May 2019 09:30:13 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Thu, 30 May 2019 09:30:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 11/12] kvm: Support KVM_CLEAR_DIRTY_LOG
+Subject: [Qemu-devel] [PATCH v3 12/12] migration: Split log_clear() into
+ smaller chunks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,249 +60,291 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Firstly detect the interface using KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2
-and mark it.  When failed to enable the new feature we'll fall back to
-the old sync.
+Currently we are doing log_clear() right after log_sync() which mostly
+keeps the old behavior when log_clear() was still part of log_sync().
 
-Provide the log_clear() hook for the memory listeners for both address
-spaces of KVM (normal system memory, and SMM) and deliever the clear
-message to kernel.
+This patch tries to further optimize the migration log_clear() code
+path to split huge log_clear()s into smaller chunks.
+
+We do this by spliting the whole guest memory region into memory
+chunks, whose size is decided by MigrationState.clear_bitmap_shift (an
+example will be given below).  With that, we don't do the dirty bitmap
+clear operation on the remote node (e.g., KVM) when we fetch the dirty
+bitmap, instead we explicitly clear the dirty bitmap for the memory
+chunk for each of the first time we send a page in that chunk.
+
+Here comes an example.
+
+Assuming the guest has 64G memory, then before this patch the KVM
+ioctl KVM_CLEAR_DIRTY_LOG will be a single one covering 64G memory.
+If after the patch, let's assume when the clear bitmap shift is 18,
+then the memory chunk size on x86_64 will be 1UL<<18 * 4K = 1GB.  Then
+instead of sending a big 64G ioctl, we'll send 64 small ioctls, each
+of the ioctl will cover 1G of the guest memory.  For each of the 64
+small ioctls, we'll only send if any of the page in that small chunk
+was going to be sent right away.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- accel/kvm/kvm-all.c    | 180 +++++++++++++++++++++++++++++++++++++++++
- accel/kvm/trace-events |   1 +
- 2 files changed, 181 insertions(+)
+ include/exec/ram_addr.h | 75 +++++++++++++++++++++++++++++++++++++++--
+ migration/migration.c   |  4 +++
+ migration/migration.h   | 27 +++++++++++++++
+ migration/ram.c         | 44 ++++++++++++++++++++++++
+ migration/trace-events  |  1 +
+ 5 files changed, 149 insertions(+), 2 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index e687060296..23895a95a2 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -91,6 +91,7 @@ struct KVMState
-     int many_ioeventfds;
-     int intx_set_mask;
-     bool sync_mmu;
-+    bool manual_dirty_log_protect;
-     /* The man page (and posix) say ioctl numbers are signed int, but
-      * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
-      * unsigned, and treating them as signed here can break things */
-@@ -536,6 +537,157 @@ out:
-     return ret;
- }
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index f8930914cd..c85896f4d5 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -50,8 +50,69 @@ struct RAMBlock {
+     unsigned long *unsentmap;
+     /* bitmap of already received pages in postcopy */
+     unsigned long *receivedmap;
++
++    /*
++     * bitmap of already cleared dirty bitmap.  Set this up to
++     * non-NULL to enable the capability to postpone and split
++     * clearing of dirty bitmap on the remote node (e.g., KVM).  The
++     * bitmap will be set only when doing global sync.
++     *
++     * NOTE: this bitmap is different comparing to the other bitmaps
++     * in that one bit can represent multiple guest pages (which is
++     * decided by the `clear_bmap_shift' variable below).  On
++     * destination side, this should always be NULL, and the variable
++     * `clear_bmap_shift' is meaningless.
++     */
++    unsigned long *clear_bmap;
++    uint8_t clear_bmap_shift;
+ };
  
-+/* Alignment requirement for KVM_CLEAR_DIRTY_LOG - 64 pages */
-+#define KVM_CLEAR_LOG_SHIFT  6
-+#define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
-+#define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
++/**
++ * clear_bmap_size: calculate clear bitmap size
++ *
++ * @pages: number of guest pages
++ * @shift: guest page number shift
++ *
++ * Returns: number of bits for the clear bitmap
++ */
++static inline long clear_bmap_size(uint64_t pages, uint8_t shift)
++{
++    return DIV_ROUND_UP(pages, 1UL << shift);
++}
 +
 +/**
-+ * kvm_physical_log_clear - Clear the kernel's dirty bitmap for range
++ * clear_bmap_set: set clear bitmap for the page range
 + *
-+ * NOTE: this will be a no-op if we haven't enabled manual dirty log
-+ * protection in the host kernel because in that case this operation
-+ * will be done within log_sync().
++ * @rb: the ramblock to operate on
++ * @start: the start page number
++ * @size: number of pages to set in the bitmap
 + *
-+ * @kml:     the kvm memory listener
-+ * @section: the memory range to clear dirty bitmap
++ * Returns: None
 + */
-+static int kvm_physical_log_clear(KVMMemoryListener *kml,
-+                                  MemoryRegionSection *section)
++static inline void clear_bmap_set(RAMBlock *rb, uint64_t start,
++                                  uint64_t npages)
 +{
-+    KVMState *s = kvm_state;
-+    struct kvm_clear_dirty_log d;
-+    uint64_t start, end, bmap_start, start_delta, bmap_npages, size;
-+    unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
-+    KVMSlot *mem = NULL;
-+    int ret, i;
++    uint8_t shift = rb->clear_bmap_shift;
 +
-+    if (!s->manual_dirty_log_protect) {
-+        /* No need to do explicit clear */
-+        return 0;
-+    }
-+
-+    start = section->offset_within_address_space;
-+    size = int128_get64(section->size);
-+
-+    if (!size) {
-+        /* Nothing more we can do... */
-+        return 0;
-+    }
-+
-+    kvm_slots_lock(kml);
-+
-+    /* Find any possible slot that covers the section */
-+    for (i = 0; i < s->nr_slots; i++) {
-+        mem = &kml->slots[i];
-+        if (mem->start_addr <= start &&
-+            start + size <= mem->start_addr + mem->memory_size) {
-+            break;
-+        }
-+    }
-+
-+    /*
-+     * We should always find one memslot until this point, otherwise
-+     * there could be something wrong from the upper layer
-+     */
-+    assert(mem && i != s->nr_slots);
-+
-+    /*
-+     * We need to extend either the start or the size or both to
-+     * satisfy the KVM interface requirement.  Firstly, do the start
-+     * page alignment on 64 host pages
-+     */
-+    bmap_start = (start - mem->start_addr) & KVM_CLEAR_LOG_MASK;
-+    start_delta = start - mem->start_addr - bmap_start;
-+    bmap_start /= psize;
-+
-+    /*
-+     * The kernel interface has restriction on the size too, that either:
-+     *
-+     * (1) the size is 64 host pages aligned (just like the start), or
-+     * (2) the size fills up until the end of the KVM memslot.
-+     */
-+    bmap_npages = DIV_ROUND_UP(size + start_delta, KVM_CLEAR_LOG_ALIGN)
-+        << KVM_CLEAR_LOG_SHIFT;
-+    end = mem->memory_size / psize;
-+    if (bmap_npages > end - bmap_start) {
-+        bmap_npages = end - bmap_start;
-+    }
-+    start_delta /= psize;
-+
-+    /*
-+     * Prepare the bitmap to clear dirty bits.  Here we must guarantee
-+     * that we won't clear any unknown dirty bits otherwise we might
-+     * accidentally clear some set bits which are not yet synced from
-+     * the kernel into QEMU's bitmap, then we'll lose track of the
-+     * guest modifications upon those pages (which can directly lead
-+     * to guest data loss or panic after migration).
-+     *
-+     * Layout of the KVMSlot.dirty_bmap:
-+     *
-+     *                   |<-------- bmap_npages -----------..>|
-+     *                                                     [1]
-+     *                     start_delta         size
-+     *  |----------------|-------------|------------------|------------|
-+     *  ^                ^             ^                               ^
-+     *  |                |             |                               |
-+     * start          bmap_start     (start)                         end
-+     * of memslot                                             of memslot
-+     *
-+     * [1] bmap_npages can be aligned to either 64 pages or the end of slot
-+     */
-+
-+    assert(bmap_start % BITS_PER_LONG == 0);
-+    if (start_delta) {
-+        /* Slow path - we need to manipulate a temp bitmap */
-+        bmap_clear = bitmap_new(bmap_npages);
-+        bitmap_copy_with_src_offset(bmap_clear, mem->dirty_bmap,
-+                                    bmap_start, start_delta + size / psize);
-+        /*
-+         * We need to fill the holes at start because that was not
-+         * specified by the caller and we extended the bitmap only for
-+         * 64 pages alignment
-+         */
-+        bitmap_clear(bmap_clear, 0, start_delta);
-+        d.dirty_bitmap = bmap_clear;
-+    } else {
-+        /* Fast path - start address aligns well with BITS_PER_LONG */
-+        d.dirty_bitmap = mem->dirty_bmap + BIT_WORD(bmap_start);
-+    }
-+
-+    d.first_page = bmap_start;
-+    /* It should never overflow.  If it happens, say something */
-+    assert(bmap_npages <= UINT32_MAX);
-+    d.num_pages = bmap_npages;
-+    d.slot = mem->slot | (kml->as_id << 16);
-+
-+    if (kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d) == -1) {
-+        ret = -errno;
-+        error_report("%s: KVM_CLEAR_DIRTY_LOG failed, slot=%d, "
-+                     "start=0x%"PRIx64", size=0x%"PRIx32", errno=%d",
-+                     __func__, d.slot, (uint64_t)d.first_page,
-+                     (uint32_t)d.num_pages, ret);
-+    } else {
-+        ret = 0;
-+        trace_kvm_clear_dirty_log(d.slot, d.first_page, d.num_pages);
-+    }
-+
-+    /*
-+     * After we have updated the remote dirty bitmap, we update the
-+     * cached bitmap as well for the memslot, then if another user
-+     * clears the same region we know we shouldn't clear it again on
-+     * the remote otherwise it's data loss as well.
-+     */
-+    bitmap_clear(mem->dirty_bmap, bmap_start + start_delta,
-+                 size / psize);
-+    /* This handles the NULL case well */
-+    g_free(bmap_clear);
-+
-+    kvm_slots_unlock(kml);
-+
-+    return ret;
++    bitmap_set_atomic(rb->clear_bmap, start >> shift,
++                      clear_bmap_size(npages, shift));
 +}
 +
- static void kvm_coalesce_mmio_region(MemoryListener *listener,
-                                      MemoryRegionSection *secion,
-                                      hwaddr start, hwaddr size)
-@@ -888,6 +1040,22 @@ static void kvm_log_sync(MemoryListener *listener,
-     }
++/**
++ * clear_bmap_test_and_clear: test clear bitmap for the page, clear if set
++ *
++ * @rb: the ramblock to operate on
++ * @page: the page number to check
++ *
++ * Returns: true if the bit was set, false otherwise
++ */
++static inline bool clear_bmap_test_and_clear(RAMBlock *rb, uint64_t page)
++{
++    uint8_t shift = rb->clear_bmap_shift;
++
++    return bitmap_test_and_clear_atomic(rb->clear_bmap, page >> shift, 1);
++}
++
+ static inline bool offset_in_ramblock(RAMBlock *b, ram_addr_t offset)
+ {
+     return (b && b->host && offset < b->used_length) ? true : false;
+@@ -462,8 +523,18 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
+             }
+         }
+ 
+-        /* TODO: split the huge bitmap into smaller chunks */
+-        memory_region_clear_dirty_bitmap(rb->mr, start, length);
++        if (rb->clear_bmap) {
++            /*
++             * Postpone the dirty bitmap clear to the point before we
++             * really send the pages, also we will split the clear
++             * dirty procedure into smaller chunks.
++             */
++            clear_bmap_set(rb, start >> TARGET_PAGE_BITS,
++                           length >> TARGET_PAGE_BITS);
++        } else {
++            /* Slow path - still do that in a huge chunk */
++            memory_region_clear_dirty_bitmap(rb->mr, start, length);
++        }
+     } else {
+         ram_addr_t offset = rb->offset;
+ 
+diff --git a/migration/migration.c b/migration/migration.c
+index 2865ae3fa9..8a607fe1e2 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3362,6 +3362,8 @@ void migration_global_dump(Monitor *mon)
+                    ms->send_section_footer ? "on" : "off");
+     monitor_printf(mon, "decompress-error-check: %s\n",
+                    ms->decompress_error_check ? "on" : "off");
++    monitor_printf(mon, "clear-bitmap-shift: %u\n",
++                   ms->clear_bitmap_shift);
  }
  
-+static void kvm_log_clear(MemoryListener *listener,
-+                          MemoryRegionSection *section)
-+{
-+    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener, listener);
-+    int r;
+ #define DEFINE_PROP_MIG_CAP(name, x)             \
+@@ -3376,6 +3378,8 @@ static Property migration_properties[] = {
+                      send_section_footer, true),
+     DEFINE_PROP_BOOL("decompress-error-check", MigrationState,
+                       decompress_error_check, true),
++    DEFINE_PROP_UINT8("x-clear-bitmap-shift", MigrationState,
++                      clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
+ 
+     /* Migration parameters */
+     DEFINE_PROP_UINT8("x-compress-level", MigrationState,
+diff --git a/migration/migration.h b/migration/migration.h
+index 780a096857..6e3178d8b2 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -27,6 +27,23 @@ struct PostcopyBlocktimeContext;
+ 
+ #define  MIGRATION_RESUME_ACK_VALUE  (1)
+ 
++/*
++ * 1<<6=64 pages -> 256K chunk when page size is 4K.  This gives us
++ * the benefit that all the chunks are 64 pages aligned then the
++ * bitmaps are always aligned to LONG.
++ */
++#define CLEAR_BITMAP_SHIFT_MIN             6
++/*
++ * 1<<18=256K pages -> 1G chunk when page size is 4K.  This is the
++ * default value to use if no one specified.
++ */
++#define CLEAR_BITMAP_SHIFT_DEFAULT        18
++/*
++ * 1<<31=2G pages -> 8T chunk when page size is 4K.  This should be
++ * big enough and make sure we won't overflow easily.
++ */
++#define CLEAR_BITMAP_SHIFT_MAX            31
 +
-+    r = kvm_physical_log_clear(kml, section);
-+    if (r < 0) {
-+        error_report_once("%s: kvm log clear failed: mr=%s "
-+                          "offset=%"HWADDR_PRIx" size=%"PRIx64, __func__,
-+                          section->mr->name, section->offset_within_region,
-+                          int128_get64(section->size));
-+        abort();
+ /* State for the incoming migration */
+ struct MigrationIncomingState {
+     QEMUFile *from_src_file;
+@@ -233,6 +250,16 @@ struct MigrationState
+      * do not trigger spurious decompression errors.
+      */
+     bool decompress_error_check;
++
++    /*
++     * This decides the size of guest memory chunk that will be used
++     * to track dirty bitmap clearing.  The size of memory chunk will
++     * be GUEST_PAGE_SIZE << N.  Say, N=0 means we will clear dirty
++     * bitmap for each page to send (1<<0=1); N=10 means we will clear
++     * dirty bitmap only once for 1<<10=1K continuous guest pages
++     * (which is in 4M chunk).
++     */
++    uint8_t clear_bitmap_shift;
+ };
+ 
+ void migrate_set_state(int *state, int old_state, int new_state);
+diff --git a/migration/ram.c b/migration/ram.c
+index dc916042fb..632bf02575 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1668,6 +1668,33 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+     bool ret;
+ 
+     qemu_mutex_lock(&rs->bitmap_mutex);
++
++    /*
++     * Clear dirty bitmap if needed.  This _must_ be called before we
++     * send any of the page in the chunk because we need to make sure
++     * we can capture further page content changes when we sync dirty
++     * log the next time.  So as long as we are going to send any of
++     * the page in the chunk we clear the remote dirty bitmap for all.
++     * Clearing it earlier won't be a problem, but too late will.
++     */
++    if (rb->clear_bmap && clear_bmap_test_and_clear(rb, page)) {
++        uint8_t shift = rb->clear_bmap_shift;
++        hwaddr size = 1ULL << (TARGET_PAGE_BITS + shift);
++        hwaddr start = (page << TARGET_PAGE_BITS) & (-size);
++
++        /*
++         * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
++         * can make things easier sometimes since then start address
++         * of the small chunk will always be 64 pages aligned so the
++         * bitmap will always be aligned to unsigned long.  We should
++         * even be able to remove this restriction but I'm simply
++         * keeping it.
++         */
++        assert(shift >= 6);
++        trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
++        memory_region_clear_dirty_bitmap(rb->mr, start, size);
 +    }
-+}
 +
- static void kvm_mem_ioeventfd_add(MemoryListener *listener,
-                                   MemoryRegionSection *section,
-                                   bool match_data, uint64_t data,
-@@ -975,6 +1143,7 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
-     kml->listener.log_start = kvm_log_start;
-     kml->listener.log_stop = kvm_log_stop;
-     kml->listener.log_sync = kvm_log_sync;
-+    kml->listener.log_clear = kvm_log_clear;
-     kml->listener.priority = 10;
+     ret = test_and_clear_bit(page, rb->bmap);
  
-     memory_listener_register(&kml->listener, as);
-@@ -1699,6 +1868,17 @@ static int kvm_init(MachineState *ms)
-     s->coalesced_pio = s->coalesced_mmio &&
-                        kvm_check_extension(s, KVM_CAP_COALESCED_PIO);
+     if (ret) {
+@@ -2685,6 +2712,8 @@ static void ram_save_cleanup(void *opaque)
+     memory_global_dirty_log_stop();
  
-+    s->manual_dirty_log_protect =
-+        kvm_check_extension(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2);
-+    if (s->manual_dirty_log_protect) {
-+        ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0, 1);
-+        if (ret) {
-+            warn_report("Trying to enable KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 "
-+                        "but failed.  Falling back to the legacy mode. ");
-+            s->manual_dirty_log_protect = false;
+     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
++        g_free(block->clear_bmap);
++        block->clear_bmap = NULL;
+         g_free(block->bmap);
+         block->bmap = NULL;
+         g_free(block->unsentmap);
+@@ -3195,15 +3224,30 @@ static int ram_state_init(RAMState **rsp)
+ 
+ static void ram_list_init_bitmaps(void)
+ {
++    MigrationState *ms = migrate_get_current();
+     RAMBlock *block;
+     unsigned long pages;
++    uint8_t shift;
+ 
+     /* Skip setting bitmap if there is no RAM */
+     if (ram_bytes_total()) {
++        shift = ms->clear_bitmap_shift;
++        if (shift > CLEAR_BITMAP_SHIFT_MAX) {
++            error_report("clear_bitmap_shift (%u) too big, using "
++                         "max value (%u)", shift, CLEAR_BITMAP_SHIFT_MAX);
++            shift = CLEAR_BITMAP_SHIFT_MAX;
++        } else if (shift < CLEAR_BITMAP_SHIFT_MIN) {
++            error_report("clear_bitmap_shift (%u) too small, using "
++                         "min value (%u)", shift, CLEAR_BITMAP_SHIFT_MIN);
++            shift = CLEAR_BITMAP_SHIFT_MIN;
 +        }
-+    }
 +
- #ifdef KVM_CAP_VCPU_EVENTS
-     s->vcpu_events = kvm_check_extension(s, KVM_CAP_VCPU_EVENTS);
- #endif
-diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
-index 33c5b1b3af..4fb6e59d19 100644
---- a/accel/kvm/trace-events
-+++ b/accel/kvm/trace-events
-@@ -15,4 +15,5 @@ kvm_irqchip_release_virq(int virq) "virq %d"
- kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%" PRIx64 " val=0x%x assign: %d size: %d match: %d"
- kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
- kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
-+kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
- 
+         RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+             pages = block->max_length >> TARGET_PAGE_BITS;
+             block->bmap = bitmap_new(pages);
+             bitmap_set(block->bmap, 0, pages);
++            block->clear_bmap_shift = shift;
++            block->clear_bmap = bitmap_new(clear_bmap_size(pages, shift));
+             if (migrate_postcopy_ram()) {
+                 block->unsentmap = bitmap_new(pages);
+                 bitmap_set(block->unsentmap, 0, pages);
+diff --git a/migration/trace-events b/migration/trace-events
+index de2e136e57..2c45974330 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -79,6 +79,7 @@ get_queued_page(const char *block_name, uint64_t tmp_offset, unsigned long page_
+ get_queued_page_not_dirty(const char *block_name, uint64_t tmp_offset, unsigned long page_abs, int sent) "%s/0x%" PRIx64 " page_abs=0x%lx (sent=%d)"
+ migration_bitmap_sync_start(void) ""
+ migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
++migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, unsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
+ migration_throttle(void) ""
+ multifd_recv(uint8_t id, uint64_t packet_num, uint32_t used, uint32_t flags, uint32_t next_packet_size) "channel %d packet number %" PRIu64 " pages %d flags 0x%x next packet size %d"
+ multifd_recv_sync_main(long packet_num) "packet num %ld"
 -- 
 2.17.1
 
