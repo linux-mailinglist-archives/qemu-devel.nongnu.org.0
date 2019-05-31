@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE6C30B34
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 11:16:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39002 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F6930B5F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 11:24:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39074 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWdei-0003HO-Da
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 05:16:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37170)
+	id 1hWdls-0005z6-96
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 05:24:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38243)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hWddU-0002gu-85
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:15:41 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hWdkM-0005KW-E1
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:22:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hWddS-0000fD-4J
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:15:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32962)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1hWddM-0000aI-OR
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:15:34 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D43C5C002965;
-	Fri, 31 May 2019 09:15:26 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-126.ams2.redhat.com
-	[10.36.117.126])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C4545608CA;
-	Fri, 31 May 2019 09:15:20 +0000 (UTC)
-Date: Fri, 31 May 2019 11:15:14 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190531091514.GA9842@localhost.localdomain>
-References: <20190409161009.6322-1-marcandre.lureau@redhat.com>
-	<87sgt7sxhy.fsf@dusky.pond.sub.org>
-	<CAJ+F1CJ6hpQZf6199_-rAW98HwEssNT_kXBJF9he9NZFvWaGPA@mail.gmail.com>
-	<87tvdlhakq.fsf@dusky.pond.sub.org>
-	<CAJ+F1CJLuNVu_aWPjQtFwP_tLMqn=vd_gCtW7SWZWdhYMF6H7w@mail.gmail.com>
-	<87blzo1fa5.fsf@dusky.pond.sub.org>
-	<20190527090731.uohmamahlg53bu77@sirius.home.kraxel.org>
-	<87pno46ngf.fsf@dusky.pond.sub.org>
+	(envelope-from <richard.henderson@linaro.org>) id 1hWdkK-0005P4-VF
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:22:46 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35417)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hWdkK-0005OV-Os
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:22:44 -0400
+Received: by mail-oi1-x244.google.com with SMTP id y6so3590575oix.2
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 02:22:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=VFefAcz7vhah8dUJuS0yMaKY1nkmL0rkoR5Q/xK4EqU=;
+	b=ExCLcfKSQwE/EWJZnv6uZELWBpQb3OfSRG5MQELEWPsBsvbaFQeF1cqtmDKH3hdp02
+	FaEv1WJ+F7tFviNPsCHbLSzLpzM9TmfGIqnG1B1ylWIIIM74cUT5iBCUFLvW0DdVE9uG
+	Mw6yd/DrTSIAFMN8ou2C8ZlcFCztgxRtpDDlOJDZw7hLkK0606VyLdosV1iJ0xZKYh+n
+	HTwmGx0E3Eac+Qv3ncwXgxBOdbgMKFjbrvU3ey6D7wYeXHyTUQRjuP+kos9CtAGlp5gH
+	+mFTKTOLJuH5aLTflpalaja+Ul4V0yQ3i9Hl6uhxBv6JxvrRnJfaiK/I8aYqmJlK6DsK
+	CgXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=VFefAcz7vhah8dUJuS0yMaKY1nkmL0rkoR5Q/xK4EqU=;
+	b=dv9UQ0AiuMmr1fgjzhwLmcWkeNJ1LIa9Tsp8mzSG4CZGTqJU52K31A9me5BndGBtXk
+	8FtLovNDhJP6+iPBuS341v7VUa4WilDYfg516HrXtzMIfjPNYtoz7TCUckPYUIyRGz2v
+	dYde5g1Cnh5jOJCnOdEs4Kvx16kta4kbQlaeFv9AybnRP6cwyMMmsaauWC61UJU8COzf
+	5XMwJnrVzYwEmyj5TYbcE5DAxmESmUhIZAQ19NB4Gzo6UlCbI9uX/P0CmJVrP3BWq26Q
+	SAlnVjfp/SLc8EUm4EdM7CW7NtNT1eCNXdhzGmpm479Z5+j9OcT0EM4v4OUgJutad1J3
+	VoeQ==
+X-Gm-Message-State: APjAAAWci1x9+R1MYw2dAU00C3BpoAUH64TMIQnABWD/wB8X9qORoW0L
+	eIluR3y+xwmOIPIPXwNm3PHRkIACJMtf3w==
+X-Google-Smtp-Source: APXvYqzZoSeNPPrHwT1MVtAVxECEpsg9kzoSdWS0KwCcfq3KZ2IswR+Wq3J5eytVVXFEPa1DfgQO2Q==
+X-Received: by 2002:aca:5054:: with SMTP id e81mr33487oib.74.1559294563542;
+	Fri, 31 May 2019 02:22:43 -0700 (PDT)
+Received: from [172.24.12.210] (168.189-204-159.bestelclientes.com.mx.
+	[189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+	s63sm1920417oia.34.2019.05.31.02.22.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 May 2019 02:22:42 -0700 (PDT)
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+References: <20190523150803.31504-1-richard.henderson@linaro.org>
+	<87woib6h5z.wl-ysato@users.sourceforge.jp>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <67c75ec8-f3f8-655b-6b82-86f5fe2648b2@linaro.org>
+Date: Fri, 31 May 2019 04:22:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <87pno46ngf.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Fri, 31 May 2019 09:15:27 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 00/20] monitor: add asynchronous command
- type
+In-Reply-To: <87woib6h5z.wl-ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH 0/6] target/rx: Improvements to disassembly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,76 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, QEMU <qemu-devel@nongnu.org>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	=?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.05.2019 um 15:23 hat Markus Armbruster geschrieben:
-> Gerd Hoffmann <kraxel@redhat.com> writes:
->=20
-> > On Mon, May 27, 2019 at 10:18:42AM +0200, Markus Armbruster wrote:
-> >> Marc-Andr=E9 Lureau <marcandre.lureau@gmail.com> writes:
-> >>=20
-> >> > Hi
-> >> >
-> >> > On Thu, May 23, 2019 at 9:52 AM Markus Armbruster <armbru@redhat.c=
-om> wrote:
-> >> >> I'm not sure how asynchronous commands could support reconnect an=
-d
-> >> >> resume.
-> >> >
-> >> > The same way as current commands, including job commands.
-> >>=20
-> >> Consider the following scenario: a management application such as
-> >> libvirt starts a long-running task with the intent to monitor it unt=
-il
-> >> it finishes.  Half-way through, the management application needs to
-> >> disconnect and reconnect for some reason (systemctl restart, or cras=
-h &
-> >> recover, or whatever).
-> >>=20
-> >> If the long-running task is a job, the management application can re=
-sume
-> >> after reconnect: the job's ID is as valid as it was before, and the
-> >> commands to query and control the job work as before.
-> >>=20
-> >> What if it's and asynchronous command?
-> >
-> > This is not meant for some long-running job which you have to manage.
-> >
-> > Allowing commands being asynchronous makes sense for things which (a)
-> > typically don't take long, and (b) don't need any management.
-> >
-> > So, if the connection goes down the job is simply canceled, and after
-> > reconnecting the management can simply send the same command again.
->=20
-> Is this worth its own infrastructure?
->=20
-> Would you hazard a guess on how many commands can take long enough to
-> demand a conversion to asynchronous, yet not need any management?
+On 5/27/19 10:39 AM, Yoshinori Sato wrote:
+> On Fri, 24 May 2019 00:07:57 +0900,
+> Richard Henderson wrote:
+>> Obviously there are still a few inconsistencies in the
+>> format strings used for the immediates, but the format
+>> is readable and it is easy to look at the opcode to see
+>> how our decode compares to the manual.
+>>
+> 
+> Hmm.
+> The output of the immediate value should be the same as the output of objdump.
+> I do not think that it is the proper format, but I did that because
+> it was useful for comparing the results.
 
-Candidates are any commands that perform I/O. You don't want to hold the
-BQL while doing I/O. Probably most block layer commands fall into this
-category.
+This is a fair comment.
 
-In fact, even the commands to start a block job could probably make use
-of this infrastructure because they typically do some I/O before
-returning success for starting the job.
+Of course, we could also simultaneously fix inconsistencies in objdump.  I
+doubt that any of these cases are intentionally different.
 
-> >> > Whenever we can solve things on qemu side, I would rather not
-> >> > deprecate current API.
-> >>=20
-> >> Making a synchronous command asynchronous definitely changes API.
-> >
-> > Inside qemu yes, sure.  But for the QMP client nothing changes.
->=20
-> Command replies can arrive out of order, can't they?
+Something for later, perhaps.
 
-My understanding is that this is just an internal change and commands
-still aren't processed in parallel.
 
-Kevin
+r~
 
