@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B62130E3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 14:43:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42904 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B06E30EB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 15:16:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43453 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWgsv-0005Tu-Cd
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 08:43:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50571)
+	id 1hWhOl-0006Mm-O9
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 09:16:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55870)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hWgro-0005AX-FZ
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 08:42:41 -0400
+	(envelope-from <quintela@redhat.com>) id 1hWhKE-0003EX-0K
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:12:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hWgrn-0004Qo-IE
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 08:42:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43936)
+	(envelope-from <quintela@redhat.com>) id 1hWh5P-0002aw-1Q
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 08:56:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43540)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hWgrn-0004QC-D5; Fri, 31 May 2019 08:42:39 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hWh5O-0002Si-SH
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 08:56:42 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6B574E3E08;
-	Fri, 31 May 2019 12:42:28 +0000 (UTC)
-Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 8BF001001F5D;
-	Fri, 31 May 2019 12:42:22 +0000 (UTC)
-Date: Fri, 31 May 2019 14:42:19 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>
-Message-ID: <20190531144219.75e4dc39.cohuck@redhat.com>
-In-Reply-To: <5cee6204-3106-9a99-3620-aa8f4df491aa@linux.ibm.com>
-References: <20190507154733.28604-1-cohuck@redhat.com>
-	<20190507154733.28604-3-cohuck@redhat.com>
-	<5cee6204-3106-9a99-3620-aa8f4df491aa@linux.ibm.com>
-Organization: Red Hat GmbH
+	by mx1.redhat.com (Postfix) with ESMTPS id 083B68666C
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 12:56:28 +0000 (UTC)
+Received: from redhat.com (ovpn-116-135.ams2.redhat.com [10.36.116.135])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0434653C3A;
+	Fri, 31 May 2019 12:56:24 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+In-Reply-To: <20190530092919.26059-2-peterx@redhat.com> (Peter Xu's message of
+	"Thu, 30 May 2019 17:29:08 +0800")
+References: <20190530092919.26059-1-peterx@redhat.com>
+	<20190530092919.26059-2-peterx@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Fri, 31 May 2019 14:56:21 +0200
+Message-ID: <87r28eok96.fsf@trasno.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Fri, 31 May 2019 12:42:33 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.26]);
+	Fri, 31 May 2019 12:56:36 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 2/2] vfio-ccw: support async command
- subregion
+Subject: Re: [Qemu-devel] [PATCH v3 01/12] checkpatch: Allow
+ SPDX-License-Identifier
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,35 +59,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pierre Morel <pmorel@linux.ibm.com>, Farhan Ali <alifm@linux.ibm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
-	qemu-s390x@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 May 2019 09:47:57 -0400
-Eric Farman <farman@linux.ibm.com> wrote:
+Peter Xu <peterx@redhat.com> wrote:
+> According to: https://spdx.org/ids-how, let's still allow QEMU to use
+> the SPDX license identifier:
+>
+> // SPDX-License-Identifier: ***
+>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-> On 5/7/19 11:47 AM, Cornelia Huck wrote:
-> > A vfio-ccw device may provide an async command subregion for
-> > issuing halt/clear subchannel requests. If it is present, use
-> > it for sending halt/clear request to the device; if not, fall
-> > back to emulation (as done today).
-> > 
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>  
-> 
-> This looks fine to me; thanks for the explanations!
-> 
-> Reviewed-by: Eric Farman <farman@linux.ibm.com>
-> 
-> > ---
-> >  hw/s390x/css.c              |  27 +++++++--
-> >  hw/vfio/ccw.c               | 110 +++++++++++++++++++++++++++++++++++-
-> >  include/hw/s390x/s390-ccw.h |   3 +
-> >  3 files changed, 134 insertions(+), 6 deletions(-)
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Thanks for your review!
-
-Queued to s390-next.
+Althought this patch don't belong to the series O:-)
 
