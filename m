@@ -2,75 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97363056B
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 01:19:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60258 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8591305F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 02:52:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32786 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWUKo-0004Kw-NJ
-	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 19:19:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46728)
+	id 1hWVmA-0008U8-Bx
+	for lists+qemu-devel@lfdr.de; Thu, 30 May 2019 20:52:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58507)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hWUJX-00042B-Qb
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 19:18:29 -0400
+	(envelope-from <yan.y.zhao@intel.com>) id 1hWVl2-0007uV-F9
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 20:50:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hWUJW-0001R6-Ki
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 19:18:27 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40785)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
-	id 1hWUJW-0001QL-Bu
-	for qemu-devel@nongnu.org; Thu, 30 May 2019 19:18:26 -0400
-Received: by mail-oi1-x242.google.com with SMTP id r136so6321909oie.7
-	for <qemu-devel@nongnu.org>; Thu, 30 May 2019 16:18:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=96l73FnALMu6Bl88Udii/cN1qV0Gnk8VFiNzlfJ/zf4=;
-	b=auF2WPw1tXs63/9o1rkk6Y996CX1My/oEKSXuXdunMnDM1OgxJDymjG7mRsJ/p5QEJ
-	J5VihCMtFgKgpl3L4tzITyTv64Ke+moV941OQM71Mr+SkB2t6Rm9KYow01a5+neNVoPM
-	rd0UrEaEMRG6ck6I+mDkwiqlrxOHKFh3HpnM7VYH0OnLIky7wCafZUa5zLykxSHsKeG9
-	2zWvGA3B8YcAbSdhPQP+7Cqng8VNKWbzeDwImtpzLK/dAICUsTDzSDHvjPn90XTHy+t0
-	z/r+QnvZFmOMCcvDRU5vreN7D+HMq17V+96uY1ioVQttCQJyrSUZmyA8nU1igMoevcNk
-	RpAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=96l73FnALMu6Bl88Udii/cN1qV0Gnk8VFiNzlfJ/zf4=;
-	b=RICwzk32G3afV9/gbwmY37AEwA5nHnQ3oOBo/Yj+oQNHpEFmto5fe8S3TIvXBcAsKy
-	joZtlIZzkVtz3WJbdVxh0quuLMqagTDROOZlASye+KE7diG40DA+tCTadDwieXDYaizS
-	9686aT2RRQH9kD40OfgqVFIZOlZ5Hwgd6pUeLoK6uQNXz6gJwF3omu0ed2ldzWOGWodB
-	zICnaH6sVPta/CEiH9pr6leUXz4vXKxRLLkP952NZBjwE/t+PhHjHZl/DFmAlRM++LSk
-	YKI7+WDjDsVqMmUjfb+PLoptlGogwWI7tF7r35d344pLezK1Cf0uR6BOq0LtGh+dqjvG
-	LXCw==
-X-Gm-Message-State: APjAAAUVE4sL+m48dmjhNwEQKdwNH6acZB8gNryxysGoT5F2NEoG76wM
-	5tL19sqjU4DRMI/zCBDuPuH1xM36f4WfS3FzdEQ=
-X-Google-Smtp-Source: APXvYqxG5VQsA4bOiHKPHpwsm58k06oB/jaGNhIoqlub+vXqUjtEjUwDnMifnKP6VWSdjA5R3k5iiUnykhrUAbuDnCk=
-X-Received: by 2002:aca:1916:: with SMTP id l22mr4320991oii.136.1559258304914; 
-	Thu, 30 May 2019 16:18:24 -0700 (PDT)
+	(envelope-from <yan.y.zhao@intel.com>) id 1hWVl1-0004r7-J1
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 20:50:56 -0400
+Received: from mga04.intel.com ([192.55.52.120]:30285)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+	id 1hWVl1-0004SN-BF
+	for qemu-devel@nongnu.org; Thu, 30 May 2019 20:50:55 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 May 2019 17:50:46 -0700
+X-ExtLoop1: 1
+Received: from joy-optiplex-7040.sh.intel.com ([10.239.13.9])
+	by orsmga001.jf.intel.com with ESMTP; 30 May 2019 17:50:40 -0700
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: intel-gvt-dev@lists.freedesktop.org
+Date: Thu, 30 May 2019 20:44:38 -0400
+Message-Id: <20190531004438.24528-1-yan.y.zhao@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Received: by 2002:a9d:7212:0:0:0:0:0 with HTTP; Thu, 30 May 2019 16:18:24
-	-0700 (PDT)
-Received: by 2002:a9d:7212:0:0:0:0:0 with HTTP; Thu, 30 May 2019 16:18:24
-	-0700 (PDT)
-In-Reply-To: <ce9444ea-b046-28b6-cb92-12e93b368caa@linaro.org>
-References: <20190522222821.23850-1-richard.henderson@linaro.org>
-	<20190522222821.23850-9-richard.henderson@linaro.org>
-	<CAFEAcA9MTBqd5GO58hywGhYYGdbbvqiASwCvuKRBE+CVqVZTig@mail.gmail.com>
-	<ecf35f19-ac1e-4964-8c9a-5cab000c6627@linaro.org>
-	<CAL1e-=i6ee0YqGMOFBeiyPsiSzfF55CHePL6Gm_0pM17ZcG-PQ@mail.gmail.com>
-	<ce9444ea-b046-28b6-cb92-12e93b368caa@linaro.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 31 May 2019 01:18:24 +0200
-Message-ID: <CAL1e-=jF=nrC+_6EE=+yS3yj05tJwjb539Y5jSdeRbSs_j=ZmQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PULL 08/16] tcg/i386: Support vector comparison
- select value
+X-Received-From: 192.55.52.120
+Subject: [Qemu-devel] [PATCH v4 0/2] introduction of migration_version
+ attribute for VFIO live migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,59 +53,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Cc: cjia@nvidia.com, kvm@vger.kernel.org, aik@ozlabs.ru,
+	Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+	qemu-devel@nongnu.org, kwankhede@nvidia.com, eauger@redhat.com,
+	yi.l.liu@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
+	mlevitsk@redhat.com, pasic@linux.ibm.com, libvir-list@redhat.com,
+	felipe@nutanix.com, Ken.Xue@amd.com, kevin.tian@intel.com,
+	Yan Zhao <yan.y.zhao@intel.com>, dgilbert@redhat.com,
+	zhenyuw@linux.intel.com, dinechin@redhat.com,
+	alex.williamson@redhat.com, changpeng.liu@intel.com,
+	berrange@redhat.com, cohuck@redhat.com,
+	linux-kernel@vger.kernel.org, zhi.a.wang@intel.com,
+	jonathan.davies@nutanix.com, shaopeng.he@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On May 30, 2019 7:45 PM, "Richard Henderson" <richard.henderson@linaro.org>
-wrote:
->
-> On 5/30/19 9:54 AM, Aleksandar Markovic wrote:
-> >
-> > On May 30, 2019 2:50 PM, "Richard Henderson" <
-richard.henderson@linaro.org
-> > <mailto:richard.henderson@linaro.org>> wrote:
-> >>
-> >> On 5/30/19 6:26 AM, Peter Maydell wrote:
-> >> >> -#define TCG_TARGET_HAS_cmpsel_vec       0
-> >> >> +#define TCG_TARGET_HAS_cmpsel_vec       -1
-> >> >
-> >> > This is the only place where we define a TCG_TARGET_HAS_* macro
-> >> > to something other than 0 or 1, which means that Coverity
-> >> > complains (CID 1401702) when we use it in a logical boolean
-expression
-> >> >   return have_vec && TCG_TARGET_HAS_cmpsel_vec;
-> >> > later on.
-> >> >
-> >> > Should it really be -1, or is this a typo for 1 ?
-> >>
-> >> It really should be -1.
-> >> See commit 25c012b4009256505be3430480954a0233de343e,
-> >> which contains the rationale.
-> >>
-> >
-> > How about extending commit message so that it contains explanation for
--1
-> > introduced in this very patch allowing future developers not to need to
-reverse
-> > engineer whole git history to (maybe) find the explanation?
->
-> No.
->
-> There seems to be no point at which you would stop, and not include the
-entire
-> git history of the project into each and every commit message.
->
-> I will not be drawn into such a discussion further.
+This patchset introduces a migration_version attribute under sysfs of VFIO
+Mediated devices.
 
-Your commit messages are often disconnected with the content of the code
-change, sometimes even look like cryptic puzzles. You can do much better
-job there, and not look for what is good and clear for you, but what is
-good and clear for others.
+This migration_version attribute is used to check migration compatibility
+between two mdev devices of the same mdev type.
 
-Regards,
-Aleksandar
+Patch 1 defines migration_version attribute in
+Documentation/vfio-mediated-device.txt
 
->
-> r~
+Patch 2 uses GVT as an example to show how to expose migration_version
+attribute and check migration compatibility in vendor driver.
+
+v4:
+1. fixed indentation/spell errors, reworded several error messages
+2. added a missing memory free for error handling in patch 2
+
+v3:
+1. renamed version to migration_version
+2. let errno to be freely defined by vendor driver
+3. let checking mdev_type be prerequisite of migration compatibility check
+4. reworded most part of patch 1
+5. print detailed error log in patch 2 and generate migration_version
+string at init time
+
+v2:
+1. renamed patched 1
+2. made definition of device version string completely private to vendor
+driver
+3. reverted changes to sample mdev drivers
+4. described intent and usage of version attribute more clearly.
+
+
+Yan Zhao (2):
+  vfio/mdev: add migration_version attribute for mdev device
+  drm/i915/gvt: export migration_version to mdev sysfs for Intel vGPU
+
+ Documentation/vfio-mediated-device.txt       | 113 +++++++++++++
+ drivers/gpu/drm/i915/gvt/Makefile            |   2 +-
+ drivers/gpu/drm/i915/gvt/gvt.c               |  39 +++++
+ drivers/gpu/drm/i915/gvt/gvt.h               |   5 +
+ drivers/gpu/drm/i915/gvt/migration_version.c | 168 +++++++++++++++++++
+ drivers/gpu/drm/i915/gvt/vgpu.c              |  13 +-
+ 6 files changed, 337 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gvt/migration_version.c
+
+-- 
+2.17.1
+
+
