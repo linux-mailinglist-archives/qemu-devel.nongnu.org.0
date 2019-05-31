@@ -2,98 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D842930CFC
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 13:00:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40999 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FB330D0E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 13:07:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41123 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWfGl-0002Ay-2R
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 07:00:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56945)
+	id 1hWfNf-0007yO-W2
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 07:07:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57779)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hWf4B-0000q0-3P
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:47:20 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hWf7t-0003lB-Nj
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:51:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hWf49-0004qH-Ry
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:47:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46802)
+	(envelope-from <stefanha@redhat.com>) id 1hWf7s-0000ja-F7
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:51:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46270)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <david@redhat.com>) id 1hWf49-0004nn-J1
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:47:17 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <stefanha@redhat.com>)
+	id 1hWf7o-0000e3-C4; Fri, 31 May 2019 06:51:04 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DE6C8A3EA4;
-	Fri, 31 May 2019 10:47:16 +0000 (UTC)
-Received: from [10.36.116.233] (ovpn-116-233.ams2.redhat.com [10.36.116.233])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7BB76271AE;
-	Fri, 31 May 2019 10:47:15 +0000 (UTC)
-To: qemu-devel@nongnu.org
-References: <20190531104432.29379-1-david@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
-	xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
-	dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
-	QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
-	XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
-	Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
-	PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
-	WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
-	UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
-	jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
-	B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
-	ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwX4EEwECACgFAljj9eoCGwMFCQlmAYAGCwkI
-	BwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEE3eEPcA/4Na5IIP/3T/FIQMxIfNzZshIq687qgG
-	8UbspuE/YSUDdv7r5szYTK6KPTlqN8NAcSfheywbuYD9A4ZeSBWD3/NAVUdrCaRP2IvFyELj
-	xoMvfJccbq45BxzgEspg/bVahNbyuBpLBVjVWwRtFCUEXkyazksSv8pdTMAs9IucChvFmmq3
-	jJ2vlaz9lYt/lxN246fIVceckPMiUveimngvXZw21VOAhfQ+/sofXF8JCFv2mFcBDoa7eYob
-	s0FLpmqFaeNRHAlzMWgSsP80qx5nWWEvRLdKWi533N2vC/EyunN3HcBwVrXH4hxRBMco3jvM
-	m8VKLKao9wKj82qSivUnkPIwsAGNPdFoPbgghCQiBjBe6A75Z2xHFrzo7t1jg7nQfIyNC7ez
-	MZBJ59sqA9EDMEJPlLNIeJmqslXPjmMFnE7Mby/+335WJYDulsRybN+W5rLT5aMvhC6x6POK
-	z55fMNKrMASCzBJum2Fwjf/VnuGRYkhKCqqZ8gJ3OvmR50tInDV2jZ1DQgc3i550T5JDpToh
-	dPBxZocIhzg+MBSRDXcJmHOx/7nQm3iQ6iLuwmXsRC6f5FbFefk9EjuTKcLMvBsEx+2DEx0E
-	UnmJ4hVg7u1PQ+2Oy+Lh/opK/BDiqlQ8Pz2jiXv5xkECvr/3Sv59hlOCZMOaiLTTjtOIU7Tq
-	7ut6OL64oAq+zsFNBFXLn5EBEADn1959INH2cwYJv0tsxf5MUCghCj/CA/lc/LMthqQ773ga
-	uB9mN+F1rE9cyyXb6jyOGn+GUjMbnq1o121Vm0+neKHUCBtHyseBfDXHA6m4B3mUTWo13nid
-	0e4AM71r0DS8+KYh6zvweLX/LL5kQS9GQeT+QNroXcC1NzWbitts6TZ+IrPOwT1hfB4WNC+X
-	2n4AzDqp3+ILiVST2DT4VBc11Gz6jijpC/KI5Al8ZDhRwG47LUiuQmt3yqrmN63V9wzaPhC+
-	xbwIsNZlLUvuRnmBPkTJwwrFRZvwu5GPHNndBjVpAfaSTOfppyKBTccu2AXJXWAE1Xjh6GOC
-	8mlFjZwLxWFqdPHR1n2aPVgoiTLk34LR/bXO+e0GpzFXT7enwyvFFFyAS0Nk1q/7EChPcbRb
-	hJqEBpRNZemxmg55zC3GLvgLKd5A09MOM2BrMea+l0FUR+PuTenh2YmnmLRTro6eZ/qYwWkC
-	u8FFIw4pT0OUDMyLgi+GI1aMpVogTZJ70FgV0pUAlpmrzk/bLbRkF3TwgucpyPtcpmQtTkWS
-	gDS50QG9DR/1As3LLLcNkwJBZzBG6PWbvcOyrwMQUF1nl4SSPV0LLH63+BrrHasfJzxKXzqg
-	rW28CTAE2x8qi7e/6M/+XXhrsMYG+uaViM7n2je3qKe7ofum3s4vq7oFCPsOgwARAQABwsFl
-	BBgBAgAPBQJVy5+RAhsMBQkJZgGAAAoJEE3eEPcA/4NagOsP/jPoIBb/iXVbM+fmSHOjEshl
-	KMwEl/m5iLj3iHnHPVLBUWrXPdS7iQijJA/VLxjnFknhaS60hkUNWexDMxVVP/6lbOrs4bDZ
-	NEWDMktAeqJaFtxackPszlcpRVkAs6Msn9tu8hlvB517pyUgvuD7ZS9gGOMmYwFQDyytpepo
-	YApVV00P0u3AaE0Cj/o71STqGJKZxcVhPaZ+LR+UCBZOyKfEyq+ZN311VpOJZ1IvTExf+S/5
-	lqnciDtbO3I4Wq0ArLX1gs1q1XlXLaVaA3yVqeC8E7kOchDNinD3hJS4OX0e1gdsx/e6COvy
-	qNg5aL5n0Kl4fcVqM0LdIhsubVs4eiNCa5XMSYpXmVi3HAuFyg9dN+x8thSwI836FoMASwOl
-	C7tHsTjnSGufB+D7F7ZBT61BffNBBIm1KdMxcxqLUVXpBQHHlGkbwI+3Ye+nE6HmZH7IwLwV
-	W+Ajl7oYF+jeKaH4DZFtgLYGLtZ1LDwKPjX7VAsa4Yx7S5+EBAaZGxK510MjIx6SGrZWBrrV
-	TEvdV00F2MnQoeXKzD7O4WFbL55hhyGgfWTHwZ457iN9SgYi1JLPqWkZB0JRXIEtjd4JEQcx
-	+8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
-	SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <53d0b27c-6a9b-c410-033f-db5796f02046@redhat.com>
-Date: Fri, 31 May 2019 12:47:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	by mx1.redhat.com (Postfix) with ESMTPS id AB55081E04;
+	Fri, 31 May 2019 10:51:03 +0000 (UTC)
+Received: from localhost (ovpn-117-45.ams2.redhat.com [10.36.117.45])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 09C315D6A6;
+	Fri, 31 May 2019 10:51:02 +0000 (UTC)
+Date: Fri, 31 May 2019 11:51:01 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20190531105101.GB29868@stefanha-x1.localdomain>
+References: <20190528084544.183558-1-vsementsov@virtuozzo.com>
+	<20190528084544.183558-3-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20190531104432.29379-1-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Yylu36WmvOXNoKYn"
+Content-Disposition: inline
+In-Reply-To: <20190528084544.183558-3-vsementsov@virtuozzo.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Fri, 31 May 2019 10:47:16 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Fri, 31 May 2019 10:51:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v1 00/23] s390x/tcg: Vector Instruction
- Support Part 4
+Subject: Re: [Qemu-devel] [PATCH 2/2] block/io: refactor padding
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -105,99 +59,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
-	Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
-	Denys Vlasenko <dvlasenk@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-devel@nongnu.org,
+	qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31.05.19 12:44, David Hildenbrand wrote:
-> This is the final part of vector instruction support for s390x. It is based
-> on part 2, which is will send a pull-request for to Conny soon.
-> 
-> Part 1: Vector Support Instructions
-> Part 2: Vector Integer Instructions
-> Part 3: Vector String Instructions
-> Part 4: Vector Floating-Point Instructions
-> 
-> The current state can be found at (kept updated):
->     https://github.com/davidhildenbrand/qemu/tree/vx
-> 
-> It is based on:
-> - [PATCH v2 0/5] s390x/tcg: Vector Instruction Support Part 3
-> - [PATCH v1 0/2] s390x: Fix vector register alignment
-> 
-> With the current state I can boot Linux kernel + user space compiled with
-> SIMD support. This allows to boot distributions compiled exclusively for
-> z13, requiring SIMD support. Also, it is now possible to build a complete
-> kernel using rpmbuild as quite some issues have been sorted out.
-> 
-> While the current state works fine for me with RHEL 8, I am experiencing
-> some issues with newer userspace versions (I suspect glibc). I'll have
-> to look into the details first - could be a BUG in !vector
-> instruction or a BUG in a vector instruction that was until now unused.
-> 
-> In this part, all Vector Floating-Point Instructions introduced with the
-> "Vector Facility" are added. Also, the "qemu" model is changed to a
-> z13 machine.
-> 
-> David Hildenbrand (23):
->   s390x: Use uint64_t for vector registers
->   s390x/tcg: Introduce tcg_s390_vector_exception()
->   s390x/tcg: Export float_comp_to_cc() and float(32|64|128)_dcmask()
->   s390x/tcg: Implement VECTOR FP ADD
->   s390x/tcg: Implement VECTOR FP COMPARE (AND SIGNAL) SCALAR
->   s390x/tcg: Implement VECTOR FP COMPARE (EQUAL|HIGH|HIGH OR EQUAL)
->   s390x/tcg: Implement VECTOR FP CONVERT FROM FIXED 64-BIT
->   s390x/tcg: Implement VECTOR FP CONVERT FROM LOGICAL 64-BIT
->   s390x/tcg: Implement VECTOR FP CONVERT TO FIXED 64-BIT
->   s390x/tcg: Implement VECTOR FP CONVERT TO LOGICAL 64-BIT
->   s390x/tcg: Implement VECTOR FP DIVIDE
->   s390x/tcg: Implement VECTOR LOAD FP INTEGER
->   s390x/tcg: Implement VECTOR LOAD LENGTHENED
->   s390x/tcg: Implement VECTOR LOAD ROUNDED
->   s390x/tcg: Implement VECTOR FP MULTIPLY
->   s390x/tcg: Implement VECTOR FP MULTIPLY AND (ADD|SUBTRACT)
->   s390x/tcg: Implement VECTOR FP PERFORM SIGN OPERATION
->   s390x/tcg: Implement VECTOR FP SQUARE ROOT
->   s390x/tcg: Implement VECTOR FP SUBTRACT
->   s390x/tcg: Implement VECTOR FP TEST DATA CLASS IMMEDIATE
->   s390x/tcg: Allow linux-user to use vector instructions
->   s390x/tcg: We support the Vector Facility
->   s390x: Bump the "qemu" CPU model up to a stripped-down z13
-> 
->  hw/s390x/s390-virtio-ccw.c      |   2 +
->  linux-user/s390x/signal.c       |   4 +-
->  target/s390x/Makefile.objs      |   1 +
->  target/s390x/arch_dump.c        |   8 +-
->  target/s390x/cpu.c              |   3 +
->  target/s390x/cpu.h              |   5 +-
->  target/s390x/cpu_models.c       |   4 +-
->  target/s390x/excp_helper.c      |  21 +-
->  target/s390x/fpu_helper.c       |   4 +-
->  target/s390x/gdbstub.c          |  16 +-
->  target/s390x/gen-features.c     |  10 +-
->  target/s390x/helper.c           |  10 +-
->  target/s390x/helper.h           |  46 +++
->  target/s390x/insn-data.def      |  45 +++
->  target/s390x/internal.h         |   4 +
->  target/s390x/kvm.c              |  16 +-
->  target/s390x/machine.c          | 128 +++----
->  target/s390x/tcg_s390x.h        |   2 +
->  target/s390x/translate.c        |   2 +-
->  target/s390x/translate_vx.inc.c | 274 ++++++++++++++
->  target/s390x/vec_fpu_helper.c   | 644 ++++++++++++++++++++++++++++++++
->  21 files changed, 1145 insertions(+), 104 deletions(-)
->  create mode 100644 target/s390x/vec_fpu_helper.c
-> 
 
-Nasty git "-identity" + manual "-cc" collision.
+--Yylu36WmvOXNoKYn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-CC'ing some more people.
+On Tue, May 28, 2019 at 11:45:44AM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> We have similar padding code in bdrv_co_pwritev,
+> bdrv_co_do_pwrite_zeroes and bdrv_co_preadv. Let's combine and unify
+> it.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/io.c | 344 ++++++++++++++++++++++++++++-------------------------
 
--- 
+Hmmm...this adds more lines than it removes.  O_o
 
-Thanks,
+Merging a change like this can still be useful but there's a risk of
+making the code harder to understand due to the additional layers of
+abstraction.
 
-David / dhildenb
+>  1 file changed, 179 insertions(+), 165 deletions(-)
+>=20
+> diff --git a/block/io.c b/block/io.c
+> index 3134a60a48..840e276269 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -1344,28 +1344,155 @@ out:
+>  }
+> =20
+>  /*
+> - * Handle a read request in coroutine context
+> + * Request padding
+> + *
+> + *  |<---- align ---->|                     |<---- align ---->|
+> + *  |<- head ->|<------------ bytes ------------>|<-- tail -->|
+> + *  |          |      |                     |    |            |
+> + * -*----------$------*-------- ... --------*----$------------*---
+> + *  |          |      |                     |    |            |
+> + *  |          offset |                     |    end          |
+> + *  ALIGN_UP(offset)  ALIGN_DOWN(offset)    ALIGN_DOWN(end)   ALIGN_UP(e=
+nd)
+
+Are ALIGN_UP(offset) and ALIGN_DOWN(offset) in the wrong order?
+
+> + *  [buf   ... )                            [tail_buf         )
+> + *
+> + * @buf is an aligned allocation needed to store @head and @tail padding=
+s. @head
+> + * is placed at the beginning of @buf and @tail at the @end.
+> + *
+> + * @tail_buf is a pointer to sub-buffer, corresponding to align-sized ch=
+unk
+> + * around tail, if tail exists.
+> + *
+> + * @merge_reads is true for small requests,
+> + * if @buf_len =3D=3D @head + bytes + @tail. In this case it is possible=
+ that both
+> + * head and tail exist but @buf_len =3D=3D align and @tail_buf =3D=3D @b=
+uf.
+>   */
+> +typedef struct BdrvRequestPadding {
+> +    uint8_t *buf;
+> +    size_t buf_len;
+> +    uint8_t *tail_buf;
+> +    size_t head;
+> +    size_t tail;
+> +    bool merge_reads;
+> +    QEMUIOVector local_qiov;
+> +} BdrvRequestPadding;
+> +
+> +static bool bdrv_init_padding(BlockDriverState *bs,
+> +                              int64_t offset, int64_t bytes,
+> +                              BdrvRequestPadding *pad)
+> +{
+> +    uint64_t align =3D bs->bl.request_alignment;
+> +    size_t sum;
+> +
+> +    memset(pad, 0, sizeof(*pad));
+> +
+> +    pad->head =3D offset & (align - 1);
+> +    pad->tail =3D ((offset + bytes) & (align - 1));
+> +    if (pad->tail) {
+> +        pad->tail =3D align - pad->tail;
+> +    }
+> +
+> +    if ((!pad->head && !pad->tail) || !bytes) {
+> +        return false;
+> +    }
+> +
+> +    sum =3D pad->head + bytes + pad->tail;
+> +    pad->buf_len =3D (sum > align && pad->head && pad->tail) ? 2 * align=
+ : align;
+> +    pad->buf =3D qemu_blockalign(bs, pad->buf_len);
+> +    pad->merge_reads =3D sum =3D=3D pad->buf_len;
+> +    if (pad->tail) {
+> +        pad->tail_buf =3D pad->buf + pad->buf_len - align;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+> +static int bdrv_padding_read(BdrvChild *child,
+> +                             BdrvTrackedRequest *req,
+> +                             BdrvRequestPadding *pad,
+> +                             bool zero_middle)
+> +{
+> +    QEMUIOVector local_qiov;
+> +    BlockDriverState *bs =3D child->bs;
+> +    uint64_t align =3D bs->bl.request_alignment;
+> +    int ret;
+> +
+> +    assert(req->serialising && pad->buf);
+> +
+> +    if (pad->head || pad->merge_reads) {
+> +        uint64_t bytes =3D pad->merge_reads ? pad->buf_len : align;
+> +
+> +        qemu_iovec_init_buf(&local_qiov, pad->buf, bytes);
+> +
+> +        bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_HEAD);
+
+PWRITEV?  That's unexpected for a function called bdrv_padding_read().
+Please rename this to bdrv_padding_rmw_read() so it's clear this is part
+of a read-modify-write operation, not a regular read.
+
+> +        ret =3D bdrv_aligned_preadv(child, req, req->overlap_offset, byt=
+es,
+> +                                  align, &local_qiov, 0);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+> +        bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_HEAD);
+> +
+> +        if (pad->merge_reads) {
+> +            goto zero_mem;
+> +        }
+> +    }
+> +
+> +    if (pad->tail) {
+> +        qemu_iovec_init_buf(&local_qiov, pad->tail_buf, align);
+> +
+> +        bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_TAIL);
+> +        ret =3D bdrv_aligned_preadv(
+> +                child, req,
+> +                req->overlap_offset + req->overlap_bytes - align,
+> +                align, align, &local_qiov, 0);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+> +        bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_TAIL);
+> +    }
+> +
+> +zero_mem:
+> +    if (zero_middle) {
+> +        memset(pad->buf + pad->head, 0, pad->buf_len - pad->head - pad->=
+tail);
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static void bdrv_padding_destroy(BdrvRequestPadding *pad)
+> +{
+> +    if (pad->buf) {
+> +        qemu_vfree(pad->buf);
+> +        qemu_iovec_destroy(&pad->local_qiov);
+> +    }
+> +}
+> +
+> +static QEMUIOVector *bdrv_pad_request(BlockDriverState *bs, QEMUIOVector=
+ *qiov,
+> +                                      int64_t *offset, unsigned int *byt=
+es,
+> +                                      BdrvRequestPadding *pad)
+
+Doc comment missing?
+
+> +{
+> +    bdrv_init_padding(bs, *offset, *bytes, pad);
+> +    if (!pad->buf) {
+> +        return qiov;
+> +    }
+
+I think there's no need to peek at pad->buf:
+
+  if (!bdrv_init_padding(bs, *offset, *bytes, pad)) {
+      return qiov;
+  }
+
+--Yylu36WmvOXNoKYn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzxBxUACgkQnKSrs4Gr
+c8jtqAf+P5o0E67+8kXmChWPJ51TaX/Mleyz23DoB9rUpkw0CTnyuU8jGvXlyBnK
+sqXYjZ0SYTI73iIcStS7mm0EaaXxTPjIoVw7UerupKVXDZvHmFFB5x9Tq9/y3IEq
+9ovH1Jnu/61NVwqHg80iNUpJ1BCS2+y7+fwoK5aRBKob84W0BwFYTzj4nXhrfKJ0
+Kx4HmFPREyh/KA6OHBvyRRMN32o4doc84tWih5xWiVpxn3/i1OJ3Z5mzyEYydc2K
+LORgMqUazyOZTQk0c2rv/Zvd+EoGHA5VpMRF+UpKmXyvbgKVNURomO/SO6bVdz/y
+fBeoyGVtlA9dkJVNSQh9RIdILl0W7g==
+=rZRO
+-----END PGP SIGNATURE-----
+
+--Yylu36WmvOXNoKYn--
 
