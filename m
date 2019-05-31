@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFB230F61
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 15:56:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43966 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C0430F7A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 16:01:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44053 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWi1G-0008M4-MZ
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 09:56:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34492)
+	id 1hWi6N-0004Yt-VE
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 10:01:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34508)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hWhon-0007Tn-F3
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:39 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hWhoo-0007To-92
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hWhom-0000L2-7y
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:37 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37234)
+	(envelope-from <richard.henderson@linaro.org>) id 1hWhon-0000MH-6d
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:38 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36236)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hWhom-0000JW-1z
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:36 -0400
-Received: by mail-ot1-x343.google.com with SMTP id r10so9216927otd.4
+	id 1hWhon-0000Ld-1k
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:37 -0400
+Received: by mail-oi1-x244.google.com with SMTP id y124so7752308oiy.3
 	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 06:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=1XbDcSxPxIwShmL7ibaMkqeCI/KNLPvufrTgWj8SAo0=;
-	b=DjtHXRHxrYfFzwevW4bKlMnGwULoonBQA7Vt6JPJzAc07Xy8fZ8YG0lT3EqL9cpDHn
-	ZWQ5xV5RBPLTyuuN0buX9LQhI2QwVFkFxXFy59neaUwaqIn+f9QJxfdQwtnlUf2WPcfh
-	/JrgqHhg4tgBhIpcGb5YsPDw0aUZ/3+CbgVNbgYDGu4OVVSBjZARvzD7Ss8V0a0hFObC
-	Ljh2HBA0HbPZDe9TvSHZw/QJaBXBZmuB2V0U4Ir7dGzJ3BLiqaqg8HDDPNM3AynCr1kF
-	FZkie+4SqFROIUFSn8qNZ8+NyAmTrLdH+R6YMtAUpa8IJCnTp8WODNVXvZgEs6Tqy3T7
-	LsUQ==
+	bh=YB1fZJoA1Y1wxrdEJayHVTCzPLNtdm/r4TsjTEPf7eE=;
+	b=ClBMu1OWQAARMpVvZL7Q/VGJg+5q+D9y3XnpQ4py2CUIPPLS/RsNpHLuzJY3z4d34r
+	NjuKP7scorreohOVQ6P+mboO7UKOvNHq/1XhFiQaA22Sba2Oyo6Cx2W0HOAGlp/KJxo/
+	3TCeH4ydSzBVYgEmLTjqjcuUK9HgrMqn8R2xYoOdMCErSugO9J2dxwddwVtJeVBSSl6N
+	mqKsLBb1DAVl6b54BOk4TPNw6KG61B5k7IxJlCj+ruAupyGGcMZdCgyksIsfVN6HdIad
+	NNY0X95N+KLzdtYpPCIldKyFXzmlfFH5s7OMqBI0t02YxhSJlcxALS4M77cWf1Uyb4gB
+	l+cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=1XbDcSxPxIwShmL7ibaMkqeCI/KNLPvufrTgWj8SAo0=;
-	b=aPO3SCStj+GC2yCqSmMNJh3L/3cDowst7wZeYFKqhh4A1oBGYl+hPMhhKNTWzBoLGM
-	W7LWWz8ZZnj8Hsm/wzqArrwRHqgigmhjy+xGHHMIJUHomTj9bBfk2xjV2XOpyLFhA6da
-	62sKVAjyWoKfmtWpRg+82Rq42X/7DjybxpBHdu+mlM8UB3Zy0FEttGxgVuwXlwN5HFq+
-	gWbz+GU9QNtl+ujDjhusyRce7J5rvgeR3kxa+dEmYMoxZBPHP3VEpnderRQkSBIpqBsQ
-	4amsTjK7Cfyeq801cf+pi8FtQepXVPB9HP1PwywtIQH3opsvJweWasZAX5gUm4lqSt/o
-	SMcQ==
-X-Gm-Message-State: APjAAAXa20v3znTr3fq5gIBCyBH+KdW4CUDktbB0yg5Fd6Rxxvrd74wP
-	Z/Eo1m90+F7BaYYSoqLXv3GgaaVYqZAn+w==
-X-Google-Smtp-Source: APXvYqwqaaiFDBOXi1COP9v1gkAfA6VrZWmI/djIrASB0I+0p8WV3556C7KNnIjC0b5xQqQmLw3BIg==
-X-Received: by 2002:a9d:6e0f:: with SMTP id e15mr2024004otr.0.1559310215125;
-	Fri, 31 May 2019 06:43:35 -0700 (PDT)
+	bh=YB1fZJoA1Y1wxrdEJayHVTCzPLNtdm/r4TsjTEPf7eE=;
+	b=RnjKwI37gjeDPAVZzZbCDdi39cj/hAKYP0O0uQ3Mpi3rjJPajQ2B4FUmQaPzsMGp0+
+	voTS0evbg1dCeQ2wjVaRNC/j9+xOx9XRIxvT9X2yFY/bPjVd2WUXMNGBcgvk8Tl6PRc4
+	/NxWzeMBORG48uFd4T2zu1xVRw39jfRZlfDvcB391g598rVUDznMyMsph82es/84vHhA
+	1jiWRqBpmp0mkTd0OBb3AzyasQd//Rfi4ahQeAaXnrRRuTsId7nDL2Tk/ApDf9lpAgUw
+	O3QvEJDYJd4S5guv57Fo/PjR31SHFI+uhk9eEb64h9ShFEGil63EWGDz0YmgjVTi0pjX
+	rbvQ==
+X-Gm-Message-State: APjAAAUf1WUnMacKv2EQ9LvznSmx+52RrZWTexKx8+PHqX7FwrHqRze2
+	smVN1zQ9J62X+WHYeIXVYEfBKb0laVIWQQ==
+X-Google-Smtp-Source: APXvYqzsxQPFvQF8Wc6c8OICS2Sdxq9j2iTGBCkTTw9L3NJs5WIG91t2dN1yIClJ+aC50u7pweV3ng==
+X-Received: by 2002:aca:b444:: with SMTP id d65mr670402oif.102.1559310216164; 
+	Fri, 31 May 2019 06:43:36 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
 	[189.204.159.168]) by smtp.gmail.com with ESMTPSA id
-	r23sm2391176otg.49.2019.05.31.06.43.33
+	r23sm2391176otg.49.2019.05.31.06.43.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 May 2019 06:43:34 -0700 (PDT)
+	Fri, 31 May 2019 06:43:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 31 May 2019 08:43:02 -0500
-Message-Id: <20190531134315.4109-11-richard.henderson@linaro.org>
+Date: Fri, 31 May 2019 08:43:03 -0500
+Message-Id: <20190531134315.4109-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190531134315.4109-1-richard.henderson@linaro.org>
 References: <20190531134315.4109-1-richard.henderson@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: [Qemu-devel] [PATCH v16 10/23] hw/registerfields.h: Add 8bit and
- 16bit register macros
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: [Qemu-devel] [PATCH v16 11/23] target/rx: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,84 +84,68 @@ Cc: philmd@redhat.com, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
+The interface for tlb_fill has changed very recently.
+Move the function into cpu.c so that it may be static
+while assigning to the CPUClass methods.
 
-Some RX peripheral using 8bit and 16bit registers.
-Added 8bit and 16bit APIs.
-
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190516055244.95559-11-ysato@users.sourceforge.jp>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/registerfields.h | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+ target/rx/cpu.c       | 14 ++++++++++++++
+ target/rx/op_helper.c | 11 -----------
+ 2 files changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
-index 2659a58737..a0bb0654d6 100644
---- a/include/hw/registerfields.h
-+++ b/include/hw/registerfields.h
-@@ -22,6 +22,14 @@
-     enum { A_ ## reg = (addr) };                                          \
-     enum { R_ ## reg = (addr) / 4 };
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index 4b96f2e463..3268077d08 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -143,6 +143,19 @@ static void rx_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
+     info->print_insn = print_insn_rx;
+ }
  
-+#define REG8(reg, addr)                                                  \
-+    enum { A_ ## reg = (addr) };                                          \
-+    enum { R_ ## reg = (addr) };
++static bool rx_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
++                            MMUAccessType access_type, int mmu_idx,
++                            bool probe, uintptr_t retaddr)
++{
++    uint32_t address, physical, prot;
 +
-+#define REG16(reg, addr)                                                  \
-+    enum { A_ ## reg = (addr) };                                          \
-+    enum { R_ ## reg = (addr) / 2 };
++    /* Linear mapping */
++    address = physical = addr & TARGET_PAGE_MASK;
++    prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
++    tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
++    return true;
++}
 +
- /* Define SHIFT, LENGTH and MASK constants for a field within a register */
+ static void rx_cpu_init(Object *obj)
+ {
+     CPUState *cs = CPU(obj);
+@@ -177,6 +190,7 @@ static void rxcpu_class_init(ObjectClass *klass, void *data)
+     cc->get_phys_page_debug = rx_cpu_get_phys_page_debug;
+     cc->disas_set_info = rx_cpu_disas_set_info;
+     cc->tcg_initialize = rx_translate_init;
++    cc->tlb_fill = rx_cpu_tlb_fill;
  
- /* This macro will define R_FOO_BAR_MASK, R_FOO_BAR_SHIFT and R_FOO_BAR_LENGTH
-@@ -34,6 +42,12 @@
-                                         MAKE_64BIT_MASK(shift, length)};
- 
- /* Extract a field from a register */
-+#define FIELD_EX8(storage, reg, field)                                    \
-+    extract8((storage), R_ ## reg ## _ ## field ## _SHIFT,                \
-+              R_ ## reg ## _ ## field ## _LENGTH)
-+#define FIELD_EX16(storage, reg, field)                                   \
-+    extract16((storage), R_ ## reg ## _ ## field ## _SHIFT,               \
-+              R_ ## reg ## _ ## field ## _LENGTH)
- #define FIELD_EX32(storage, reg, field)                                   \
-     extract32((storage), R_ ## reg ## _ ## field ## _SHIFT,               \
-               R_ ## reg ## _ ## field ## _LENGTH)
-@@ -49,6 +63,22 @@
-  * Assigning values larger then the target field will result in
-  * compilation warnings.
-  */
-+#define FIELD_DP8(storage, reg, field, val) ({                            \
-+    struct {                                                              \
-+        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
-+    } v = { .v = val };                                                   \
-+    uint8_t d;                                                            \
-+    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
-+                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
-+    d; })
-+#define FIELD_DP16(storage, reg, field, val) ({                           \
-+    struct {                                                              \
-+        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
-+    } v = { .v = val };                                                   \
-+    uint16_t d;                                                           \
-+    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
-+                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
-+    d; })
- #define FIELD_DP32(storage, reg, field, val) ({                           \
-     struct {                                                              \
-         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
-@@ -57,7 +87,7 @@
-     d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
-                   R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
-     d; })
--#define FIELD_DP64(storage, reg, field, val) ({                           \
-+#define FIELD_DP64(storage, reg, field, val) ({                         \
-     struct {                                                              \
-         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
-     } v = { .v = val };                                                   \
+     cc->gdb_num_core_regs = 26;
+ }
+diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+index 9a460070e9..fb7ae3c3ec 100644
+--- a/target/rx/op_helper.c
++++ b/target/rx/op_helper.c
+@@ -468,14 +468,3 @@ void QEMU_NORETURN helper_rxbrk(CPURXState *env)
+ {
+     raise_exception(env, 0x100, 0);
+ }
+-
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    uint32_t address, physical, prot;
+-
+-    /* Linear mapping */
+-    address = physical = addr & TARGET_PAGE_MASK;
+-    prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+-    tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
+-}
 -- 
 2.17.1
 
