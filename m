@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6AC3132E
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:56:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46472 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4213130C
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:52:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46396 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWkpl-0003U4-8J
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:56:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43623)
+	id 1hWklY-00086D-7n
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:52:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43416)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hWkjq-0006js-Tp
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:50:47 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hWkjU-0006TD-29
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:50:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hWkaB-0005be-EH
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:40:44 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:41012)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hWkaB-0005Dl-7t
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:40:43 -0400
-Received: by mail-wr1-f68.google.com with SMTP id c2so6938357wrm.8
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 09:40:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=arjCHb58x12BUOgTbM8YeO65qdXrGPkTtcxs9sdPUP8=;
-	b=hTUT6LyDRt/rYjwqBNaqcbPM/Lo3vBGHLnVZE82GWE51yuKO3WxGCaT6360p9xf1rJ
-	laUpXpuyoyg1W+7A0XattFQj27AcopohSguDIlKxSA6hkTw2dtJ99+wuRZiagNos1ITZ
-	MehiC6yrYvQa7KjKHDdPAzOMDOVV2re4kKsJ4uvTRQIyx2eH7RR8d0gvIcXlWlBzdyrL
-	e0l1j4sNd3LwKf1E8FEJ4/SSlIaMcj9n3Sx5jVI863dKzcArQv5hy270miz7Gv2+OAUq
-	4/ectaL2h8fyQVev8nHvuPDmcuWs6yvs3hIDUtaYSS0D06Uf0A9kj7FfEfB8xEEbXZVB
-	uNOg==
-X-Gm-Message-State: APjAAAX6ObtJ1Nmeb2Uh/Z4j1haKhiOMMVeXIsj5lLkeGRb32qF2qHvN
-	3ZujQDKPmVscjc8fgSQjzOr5rw==
-X-Google-Smtp-Source: APXvYqwi1HcbCpieRvy0CirRtDBOMrahE6N+jE6vyLbnWCHdM9n9yBoOSZEoUNXb5Y6Bw+7yl0gIFA==
-X-Received: by 2002:adf:e841:: with SMTP id d1mr7340562wrn.204.1559320832943; 
-	Fri, 31 May 2019 09:40:32 -0700 (PDT)
-Received: from [192.168.1.43] (183.red-88-21-202.staticip.rima-tde.net.
-	[88.21.202.183]) by smtp.gmail.com with ESMTPSA id
-	u9sm13705282wme.48.2019.05.31.09.40.31
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 May 2019 09:40:32 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190531154735.20809-1-philmd@redhat.com>
-	<CAFEAcA9TJGq-8fMv2amQEEGz9QKCNWYwJxCXrjqSh=Yc87yTww@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <947e851b-4b95-3126-2eaf-d5d16f8b831b@redhat.com>
-Date: Fri, 31 May 2019 18:40:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <dgilbert@redhat.com>) id 1hWkdO-0000Z6-Ix
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:44:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59710)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hWkdN-00007B-UA
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:44:02 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4A49736807;
+	Fri, 31 May 2019 16:43:49 +0000 (UTC)
+Received: from work-vm (ovpn-117-254.ams2.redhat.com [10.36.117.254])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E38E891CE;
+	Fri, 31 May 2019 16:43:40 +0000 (UTC)
+Date: Fri, 31 May 2019 17:43:37 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>, peterx@redhat.com,
+	quintela@redhat.com
+Message-ID: <20190531164337.GK3169@work-vm>
+References: <20190507031703.856-1-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9TJGq-8fMv2amQEEGz9QKCNWYwJxCXrjqSh=Yc87yTww@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190507031703.856-1-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Fri, 31 May 2019 16:43:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [RFC PATCH 0/2] target: Build with
- CONFIG_SEMIHOSTING disabled
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] migratioin/ram: leave RAMBlock->bmap blank
+ on allocating
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,49 +59,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Ortiz <sameo@linux.intel.com>,
-	Rob Bradford <robert.bradford@intel.com>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Miroslav Rezanina <mrezanin@redhat.com>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/19 6:21 PM, Peter Maydell wrote:
-> On Fri, 31 May 2019 at 16:47, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> Amusingly Miroslav and myself hit this issue at the same time.
->>
->> Currently there is no way to pass a CONFIG_X to sources in target/,
->> except via a Makefile rule (and filling with stubs).
->>
->> Paolo says this is on purpose, CONFIG_X selectors are meant for
->> devices and we try to avoid having config-devices.mak in
->> config-target.h.
+* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> During migration, we would sync bitmap from ram_list.dirty_memory to
+> RAMBlock.bmap in cpu_physical_memory_sync_dirty_bitmap().
 > 
-> ...but some things in target/ are devices (like the Arm CPUs,
-> which inherit from TYPE_DEVICE).
+> Since we set RAMBlock.bmap and ram_list.dirty_memory both to all 1, this
+> means at the first round this sync is meaningless and is a duplicated
+> work.
 > 
-> Is there a way we can have a Kconfig fragment that expresses
-> "if you asked for an Arm CPU then this should 'select SEMIHOSTING'" ?
+> Leaving RAMBlock->bmap blank on allocating would have a side effect on
+> migration_dirty_pages, since it is calculated from the result of
+> cpu_physical_memory_sync_dirty_bitmap(). To keep it right, we need to
+> set migration_dirty_pages to 0 in ram_state_init().
+> 
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 
-Yes, but inversely, we can also deselect a feature, and all features
-that requires it get deselected. My guess is Miroslav is building a
-KVM-only QEMU, but upstream does not allow to build ARM without TCG.
+I've looked at this for a while, and I think it's OK, so
 
-I'll see what happened to Samuel series "Support disabling TCG on ARM"
-and see if it can be salvaged:
-https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg02451.html
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-I suppose in this thread:
-https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg05641.html
-you refer to this series (not yet merged):
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03137.html
+Peter, Juan: Can you just see if there's arny reason this would be bad,
+but I think it's actually more sensible than what we have.
 
-I'll try to figure what "KVM injection of interrupts" is.
+Dave
+> ---
+>  migration/ram.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 95c51109d2..417874707d 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -3151,12 +3151,7 @@ static int ram_state_init(RAMState **rsp)
+>      qemu_mutex_init(&(*rsp)->src_page_req_mutex);
+>      QSIMPLEQ_INIT(&(*rsp)->src_page_requests);
+>  
+> -    /*
+> -     * Count the total number of pages used by ram blocks not including any
+> -     * gaps due to alignment or unplugs.
+> -     */
+> -    (*rsp)->migration_dirty_pages = ram_bytes_total() >> TARGET_PAGE_BITS;
+> -
+> +    (*rsp)->migration_dirty_pages = 0;
+>      ram_state_reset(*rsp);
+>  
+>      return 0;
+> @@ -3172,7 +3167,6 @@ static void ram_list_init_bitmaps(void)
+>          RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+>              pages = block->max_length >> TARGET_PAGE_BITS;
+>              block->bmap = bitmap_new(pages);
+> -            bitmap_set(block->bmap, 0, pages);
+>              if (migrate_postcopy_ram()) {
+>                  block->unsentmap = bitmap_new(pages);
+>                  bitmap_set(block->unsentmap, 0, pages);
+> -- 
+> 2.19.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
