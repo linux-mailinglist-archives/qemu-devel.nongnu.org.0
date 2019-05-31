@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056EA30CC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 12:43:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40780 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EC730CD8
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 12:50:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40854 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWf0v-0006LA-Q5
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 06:43:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55532)
+	id 1hWf7Z-0002Uc-Cl
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 06:50:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56024)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hWezr-0005y6-0O
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:42:52 -0400
+	(envelope-from <david@redhat.com>) id 1hWf1n-0006qE-Rt
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:44:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hWezp-00070K-Ok
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:42:50 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:40023)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hWezp-0006yP-I7
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:42:49 -0400
-Received: by mail-wr1-f67.google.com with SMTP id p11so1355914wre.7
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 03:42:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=vO1Ew/ZqISYVIX5HEOx51Yc6znbw8xHoNHe4b+X75QI=;
-	b=Mrqhd8v7GbOrSHZjvn199vkIvc5wYNaQQ0Leb9CidGOgKWG9RhwnWAX6DAukHOcfkL
-	DAQPFkOcBOVgmUfmsMwcnQEXo+Pe8oWDK6GYSevqDPv/nOVE230rukNMWrZ1GW9Y6QkE
-	IL34cnZESTO9iLGSyn3e/KNnuqkGPRGlwuI/5OKPtk+1nfejEJ83DtYodKoP1X7ah8mn
-	6wwc+jj0iuS8hRFk4IVK3u8o8Tn2lJASH6STl4UYYxAYJlm5MQqPfgTQMLWGPFY7Bfc3
-	xZZzbfZnqT5tOwMo5f2baBY1lP2PKIi0HjUSwejUXm7k1WABHdTw9cWGptsjLvidf1ue
-	mXlg==
-X-Gm-Message-State: APjAAAUBP9aAxVws/muRm/1t8pr0AHKKPDdsQjHhYOCqQsdB0X8qBPYj
-	hBBJAiYIIodEFIQ6ISGGH/QDqg==
-X-Google-Smtp-Source: APXvYqwOABhGPhI58u49aJcFB7gDWUQOcnrBA8FwVEAbTOeZBTv2VWZEN6kEottdx6cZ/dr3VB+h1Q==
-X-Received: by 2002:adf:90e7:: with SMTP id i94mr5221529wri.213.1559299368264; 
-	Fri, 31 May 2019 03:42:48 -0700 (PDT)
-Received: from [192.168.1.43] (183.red-88-21-202.staticip.rima-tde.net.
-	[88.21.202.183]) by smtp.gmail.com with ESMTPSA id
-	z20sm5766965wmf.14.2019.05.31.03.42.47
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 May 2019 03:42:47 -0700 (PDT)
-To: Miroslav Rezanina <mrezanin@redhat.com>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20190514155301.16123-1-alex.bennee@linaro.org>
-	<20190514155301.16123-7-alex.bennee@linaro.org>
-	<20190531091204.tjmq622gw457xbdr@lws.brq.redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <891973f7-2f2b-ad59-70bf-6069382fd977@redhat.com>
-Date: Fri, 31 May 2019 12:42:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <david@redhat.com>) id 1hWf1m-0001Lq-4v
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:44:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35622)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <david@redhat.com>) id 1hWf1l-00014S-Rg
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:44:50 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id C95C8C058CBD;
+	Fri, 31 May 2019 10:44:36 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-233.ams2.redhat.com [10.36.116.233])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 97EFF271AE;
+	Fri, 31 May 2019 10:44:33 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 31 May 2019 12:44:09 +0200
+Message-Id: <20190531104432.29379-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190531091204.tjmq622gw457xbdr@lws.brq.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Fri, 31 May 2019 10:44:36 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the common
- interface for WRITE0/WRITEC in arm-semi
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v1 00/23] s390x/tcg: Vector Instruction Support
+ Part 4
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,139 +54,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
-	qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
-	qemu-arm@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+	Denys Vlasenko <dvlasenk@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Miroslav,
+This is the final part of vector instruction support for s390x. It is bas=
+ed
+on part 2, which is will send a pull-request for to Conny soon.
 
-On 5/31/19 11:12 AM, Miroslav Rezanina wrote:
-> On Tue, May 14, 2019 at 04:52:56PM +0100, Alex Bennée wrote:
->> Now we have a common semihosting console interface use that for our
->> string output. However ARM is currently unique in also supporting
->> semihosting for linux-user so we need to replicate the API in
->> linux-user. If other architectures gain this support we can move the
->> file later.
->>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>  linux-user/Makefile.objs  |  2 ++
->>  linux-user/arm/semihost.c | 24 ++++++++++++++++++++++++
->>  target/arm/arm-semi.c     | 31 ++++++-------------------------
->>  3 files changed, 32 insertions(+), 25 deletions(-)
->>  create mode 100644 linux-user/arm/semihost.c
->>
->> diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
->> index 769b8d83362..285c5dfa17a 100644
->> --- a/linux-user/Makefile.objs
->> +++ b/linux-user/Makefile.objs
->> @@ -6,4 +6,6 @@ obj-y = main.o syscall.o strace.o mmap.o signal.o \
->>  obj-$(TARGET_HAS_BFLT) += flatload.o
->>  obj-$(TARGET_I386) += vm86.o
->>  obj-$(TARGET_ARM) += arm/nwfpe/
->> +obj-$(TARGET_ARM) += arm/semihost.o
->> +obj-$(TARGET_AARCH64) += arm/semihost.o
->>  obj-$(TARGET_M68K) += m68k-sim.o
->> diff --git a/linux-user/arm/semihost.c b/linux-user/arm/semihost.c
->> new file mode 100644
->> index 00000000000..9554102a855
->> --- /dev/null
->> +++ b/linux-user/arm/semihost.c
->> @@ -0,0 +1,24 @@
->> +/*
->> + * ARM Semihosting Console Support
->> + *
->> + * Copyright (c) 2019 Linaro Ltd
->> + *
->> + * Currently ARM is unique in having support for semihosting support
->> + * in linux-user. So for now we implement the common console API but
->> + * just for arm linux-user.
->> + *
->> + * SPDX-License-Identifier: GPL-2.0-or-later
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "cpu.h"
->> +#include "hw/semihosting/console.h"
->> +#include "qemu.h"
->> +
->> +int qemu_semihosting_console_out(CPUArchState *env, target_ulong addr, int len)
->> +{
->> +    void *s = lock_user_string(addr);
->> +    len = write(STDERR_FILENO, s, len ? len : strlen(s));
->> +    unlock_user(s, addr, 0);
->> +    return len;
->> +}
->> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
->> index 9e5a414dd89..253c66b172a 100644
->> --- a/target/arm/arm-semi.c
->> +++ b/target/arm/arm-semi.c
->> @@ -27,6 +27,7 @@
->>  
->>  #include "cpu.h"
->>  #include "hw/semihosting/semihost.h"
->> +#include "hw/semihosting/console.h"
->>  #ifdef CONFIG_USER_ONLY
->>  #include "qemu.h"
->>  
->> @@ -314,32 +315,12 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->>              return set_swi_errno(ts, close(arg0));
->>          }
->>      case TARGET_SYS_WRITEC:
->> -        {
->> -          char c;
->> -
->> -          if (get_user_u8(c, args))
->> -              /* FIXME - should this error code be -TARGET_EFAULT ? */
->> -              return (uint32_t)-1;
->> -          /* Write to debug console.  stderr is near enough.  */
->> -          if (use_gdb_syscalls()) {
->> -                return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,1", args);
->> -          } else {
->> -                return write(STDERR_FILENO, &c, 1);
->> -          }
->> -        }
->> +    {
->> +        qemu_semihosting_console_out(env, args, 1);
->> +        return 0xdeadbeef;
->> +    }
->>      case TARGET_SYS_WRITE0:
->> -        if (!(s = lock_user_string(args)))
->> -            /* FIXME - should this error code be -TARGET_EFAULT ? */
->> -            return (uint32_t)-1;
->> -        len = strlen(s);
->> -        if (use_gdb_syscalls()) {
->> -            return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,%x",
->> -                                   args, len);
->> -        } else {
->> -            ret = write(STDERR_FILENO, s, len);
->> -        }
->> -        unlock_user(s, args, 0);
->> -        return ret;
->> +        return qemu_semihosting_console_out(env, args, 0);
->>      case TARGET_SYS_WRITE:
->>          GET_ARG(0);
->>          GET_ARG(1);
->> -- 
->> 2.20.1
->>
->>
-> 
-> Hi Alex,
-> 
-> this patch breaks build for softmmu target when CONFIG_SEMIHOSTING is not enabled as qemu_semihosting_console_out
-> is not defined in such case - neither linux-user/arm/semihost.c nor hw/semihosting/console.c compiled and function
-> is not in stubs/semihost.c
+Part 1: Vector Support Instructions
+Part 2: Vector Integer Instructions
+Part 3: Vector String Instructions
+Part 4: Vector Floating-Point Instructions
 
-Kinda funny, I noticed the same issue at the same time, and was chatting
-with Alex about it.
+The current state can be found at (kept updated):
+    https://github.com/davidhildenbrand/qemu/tree/vx
 
-I prepared a patch expliciting we can not disable CONFIG_SEMIHOSTING on
-the MIPS arch. Would that work for you?
+It is based on:
+- [PATCH v2 0/5] s390x/tcg: Vector Instruction Support Part 3
+- [PATCH v1 0/2] s390x: Fix vector register alignment
 
-Regards,
+With the current state I can boot Linux kernel + user space compiled with
+SIMD support. This allows to boot distributions compiled exclusively for
+z13, requiring SIMD support. Also, it is now possible to build a complete
+kernel using rpmbuild as quite some issues have been sorted out.
 
-Phil.
+While the current state works fine for me with RHEL 8, I am experiencing
+some issues with newer userspace versions (I suspect glibc). I'll have
+to look into the details first - could be a BUG in !vector
+instruction or a BUG in a vector instruction that was until now unused.
+
+In this part, all Vector Floating-Point Instructions introduced with the
+"Vector Facility" are added. Also, the "qemu" model is changed to a
+z13 machine.
+
+David Hildenbrand (23):
+  s390x: Use uint64_t for vector registers
+  s390x/tcg: Introduce tcg_s390_vector_exception()
+  s390x/tcg: Export float_comp_to_cc() and float(32|64|128)_dcmask()
+  s390x/tcg: Implement VECTOR FP ADD
+  s390x/tcg: Implement VECTOR FP COMPARE (AND SIGNAL) SCALAR
+  s390x/tcg: Implement VECTOR FP COMPARE (EQUAL|HIGH|HIGH OR EQUAL)
+  s390x/tcg: Implement VECTOR FP CONVERT FROM FIXED 64-BIT
+  s390x/tcg: Implement VECTOR FP CONVERT FROM LOGICAL 64-BIT
+  s390x/tcg: Implement VECTOR FP CONVERT TO FIXED 64-BIT
+  s390x/tcg: Implement VECTOR FP CONVERT TO LOGICAL 64-BIT
+  s390x/tcg: Implement VECTOR FP DIVIDE
+  s390x/tcg: Implement VECTOR LOAD FP INTEGER
+  s390x/tcg: Implement VECTOR LOAD LENGTHENED
+  s390x/tcg: Implement VECTOR LOAD ROUNDED
+  s390x/tcg: Implement VECTOR FP MULTIPLY
+  s390x/tcg: Implement VECTOR FP MULTIPLY AND (ADD|SUBTRACT)
+  s390x/tcg: Implement VECTOR FP PERFORM SIGN OPERATION
+  s390x/tcg: Implement VECTOR FP SQUARE ROOT
+  s390x/tcg: Implement VECTOR FP SUBTRACT
+  s390x/tcg: Implement VECTOR FP TEST DATA CLASS IMMEDIATE
+  s390x/tcg: Allow linux-user to use vector instructions
+  s390x/tcg: We support the Vector Facility
+  s390x: Bump the "qemu" CPU model up to a stripped-down z13
+
+ hw/s390x/s390-virtio-ccw.c      |   2 +
+ linux-user/s390x/signal.c       |   4 +-
+ target/s390x/Makefile.objs      |   1 +
+ target/s390x/arch_dump.c        |   8 +-
+ target/s390x/cpu.c              |   3 +
+ target/s390x/cpu.h              |   5 +-
+ target/s390x/cpu_models.c       |   4 +-
+ target/s390x/excp_helper.c      |  21 +-
+ target/s390x/fpu_helper.c       |   4 +-
+ target/s390x/gdbstub.c          |  16 +-
+ target/s390x/gen-features.c     |  10 +-
+ target/s390x/helper.c           |  10 +-
+ target/s390x/helper.h           |  46 +++
+ target/s390x/insn-data.def      |  45 +++
+ target/s390x/internal.h         |   4 +
+ target/s390x/kvm.c              |  16 +-
+ target/s390x/machine.c          | 128 +++----
+ target/s390x/tcg_s390x.h        |   2 +
+ target/s390x/translate.c        |   2 +-
+ target/s390x/translate_vx.inc.c | 274 ++++++++++++++
+ target/s390x/vec_fpu_helper.c   | 644 ++++++++++++++++++++++++++++++++
+ 21 files changed, 1145 insertions(+), 104 deletions(-)
+ create mode 100644 target/s390x/vec_fpu_helper.c
+
+--=20
+2.20.1
+
 
