@@ -2,54 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE2831134
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 17:23:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45179 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026E73114F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 17:29:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45239 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWjNT-0006hN-40
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 11:23:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56002)
+	id 1hWjT6-0000nn-4m
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 11:29:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57170)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.williamson@redhat.com>) id 1hWjMH-0006E6-QB
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 11:22:19 -0400
+	(envelope-from <thanos.makatos@nutanix.com>) id 1hWjS2-0000V9-7H
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 11:28:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.williamson@redhat.com>) id 1hWjMG-0003mR-73
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 11:22:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38452)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
-	id 1hWjMF-0003kh-VT
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 11:22:16 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2376830842A8;
-	Fri, 31 May 2019 15:22:15 +0000 (UTC)
-Received: from x1.home (ovpn-116-22.phx2.redhat.com [10.3.116.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E9E02601AC;
-	Fri, 31 May 2019 15:22:09 +0000 (UTC)
-Date: Fri, 31 May 2019 09:22:07 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: pbonzini@redhat.com
-Message-ID: <20190531092207.0e341dbf@x1.home>
-In-Reply-To: <20190529120043-mutt-send-email-mst@kernel.org>
-References: <155786484688.13873.6037015630912983760.stgit@gimli.home>
-	<20190528232626-mutt-send-email-mst@kernel.org>
-	<20190529074356.29ab0f7a@x1.home>
-	<20190529120043-mutt-send-email-mst@kernel.org>
-Organization: Red Hat
+	(envelope-from <thanos.makatos@nutanix.com>) id 1hWjS1-0001Sh-3R
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 11:28:14 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:41424)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <thanos.makatos@nutanix.com>)
+	id 1hWjS0-0001QI-Ms
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 11:28:13 -0400
+Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
+	by mx0a-002c1b01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4VFN4to018173; Fri, 31 May 2019 08:28:09 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+	h=from : to : cc :
+	subject : date : message-id : references : in-reply-to : content-type :
+	content-transfer-encoding : mime-version; s=proofpoint20171006;
+	bh=3cIGREHCXGjIe4zDXshovQ8m/tDGYim1WcqlPVqEtdY=;
+	b=pY+h/9/Hq6HuwQ0jpvEjdq2awdrURJc3xt/FKtZ1CHUKFfCQXYu9HCMF7QuRAx0eqksr
+	b74VZL/LeiG0XnFKa/W3Gz3AORWDvdaaJVsZ/Qwy7T6WKCXOMFH+4SzsPD0om8lC3cxj
+	VanNcs46Dv40uBRCyntW/F7dZxUXVINDBwQwZQrxD1V1OcrWrn+j8vTzT8zJ7jgmkkXs
+	sVg6Bbtc93rQEEaJbd4egEewEEM+MgorE7yu2FkoRrNUFwUfikMv03Vm8LwlPBia8viN
+	ttNZJyO8Xx+XNYi/ippTF7Eyp7a3/28C8yMLJ+evb9+oaAdGxCeMjTzCsEmwFjWWw5vh
+	pQ== 
+Received: from nam01-sn1-obe.outbound.protection.outlook.com
+	(mail-sn1nam01lp2058.outbound.protection.outlook.com [104.47.32.58])
+	by mx0a-002c1b01.pphosted.com with ESMTP id 2styhxrn9e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Fri, 31 May 2019 08:28:09 -0700
+Received: from MN2PR02MB6205.namprd02.prod.outlook.com (52.132.174.26) by
+	MN2PR02MB6399.namprd02.prod.outlook.com (52.132.175.208) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1922.18; Fri, 31 May 2019 15:28:08 +0000
+Received: from MN2PR02MB6205.namprd02.prod.outlook.com
+	([fe80::25d5:60b3:a680:7ebd]) by
+	MN2PR02MB6205.namprd02.prod.outlook.com
+	([fe80::25d5:60b3:a680:7ebd%3]) with mapi id 15.20.1922.021;
+	Fri, 31 May 2019 15:28:08 +0000
+From: Thanos Makatos <thanos.makatos@nutanix.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Thread-Topic: [Qemu-devel] QEMU tries to register to VFIO memory that is not
+	RAM
+Thread-Index: AdUXtUBrTZM56mQoR86m4RxpHSXlmQACSDQAAAGm+pA=
+Date: Fri, 31 May 2019 15:28:07 +0000
+Message-ID: <MN2PR02MB620549D68EB53487C6FCF51F8B190@MN2PR02MB6205.namprd02.prod.outlook.com>
+References: <MN2PR02MB62053CE40CA6B4A97B32FA048B190@MN2PR02MB6205.namprd02.prod.outlook.com>
+	<20190531083732.37ecbb1e@x1.home>
+In-Reply-To: <20190531083732.37ecbb1e@x1.home>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: eb1ae5e8-fc46-45b6-3a21-08d6e5dc955d
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+	SRVR:MN2PR02MB6399; 
+x-ms-traffictypediagnostic: MN2PR02MB6399:
+x-proofpoint-crosstenant: true
+x-microsoft-antispam-prvs: <MN2PR02MB6399A4CE3CFDFB3BBC5760A08B190@MN2PR02MB6399.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 00540983E2
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(39860400002)(396003)(376002)(346002)(136003)(366004)(199004)(189003)(14444005)(8936002)(81166006)(8676002)(81156014)(7736002)(99286004)(76176011)(55016002)(53936002)(9686003)(305945005)(68736007)(26005)(256004)(52536014)(71200400001)(74316002)(86362001)(229853002)(7696005)(6436002)(71190400001)(5660300002)(66066001)(6246003)(486006)(446003)(73956011)(2906002)(102836004)(6916009)(6506007)(476003)(76116006)(107886003)(33656002)(186003)(66946007)(4326008)(66446008)(54906003)(44832011)(66556008)(3846002)(14454004)(6116002)(25786009)(478600001)(64756008)(316002)(11346002)(66476007)(64030200001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR02MB6399;
+	H:MN2PR02MB6205.namprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: fEr+kH5cG0lVN/DE0/0dn30dVeUYUdM5XtklZYdeuunURl6pKB8jLwow6WbWmuQ+fLS3AQfl7WxDhYfzzX+w29tfqL6Bo4sYX8kY8Y1VhdmVXt3pNpXjCevAxogRj4yi2RkOpd6m+pe6KhTHQ8QIPx7htjVkX9tyuQvTYmBqGSGGLp/MACf2hT5NfQSwzPE/2TZ5NQMtpY/rkJTQPLuFDTmJwp4avQc+/Yhw/8B8wi3EkEBS3MmR4skR3nNNyoRtRsJi/rX+CGZ8cBSVLfhq5e/I9SDgGOHCdljHBgZ8cLChUpKKkeUUEj1bP76F5+JvFuNrp6edItCetmSUjB/lzccfBA+ZPO1aRk6H+I1zRH4F6TZgGRAU23ft6T3oI9xd7HZg8H+RutMPfDUyd/kNf+74/IRMPVcajp3GXvfyqus=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Fri, 31 May 2019 15:22:15 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.1 v2] q35: Revert to kernel irqchip
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb1ae5e8-fc46-45b6-3a21-08d6e5dc955d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2019 15:28:07.9825 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: thanos.makatos@nutanix.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6399
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-31_10:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.151.68
+Subject: Re: [Qemu-devel] QEMU tries to register to VFIO memory that is not
+ RAM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,167 +113,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com,
-	"Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
-	peterx@redhat.com, rth@twiddle.net
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	Swapnil Ingle <swapnil.ingle@nutanix.com>,
+	Felipe Franciosi <felipe@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+> > When configuring device pass-through via VFIO to a VM, I noticed that
+> > QEMU tries to register (DMA_MAP) all memory regions of a guest (not
+                > > only RAM). That includes firmware regions like "pc.rom"=
+. Would a
+> > physical device ever need access to those?
+>
+> Probably not, but are those things not in the address space of the
+> device on a physical system?
 
-Paolo?  Please see MST's request below.  Thanks,
+They are. I'm wondering whether it makes sense in a virtualized environment=
+.
 
-Alex
+>
+> > Am I missing something?
+>
+> Does this cause a problem?
 
-On Wed, 29 May 2019 12:01:14 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+It does in my use case. We're experimenting with devices backed by another
+userspace application. We can configure QEMU to allocate shared memory
+(MAP_SHARED) for guest RAM (which we can register in the other process) but=
+ not
+for anything else.
 
-> On Wed, May 29, 2019 at 07:43:56AM -0600, Alex Williamson wrote:
-> > On Tue, 28 May 2019 23:30:20 -0400
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >   
-> > > On Tue, May 14, 2019 at 02:14:41PM -0600, Alex Williamson wrote:  
-> > > > Commit b2fc91db8447 ("q35: set split kernel irqchip as default") changed
-> > > > the default for the pc-q35-4.0 machine type to use split irqchip, which
-> > > > turned out to have disasterous effects on vfio-pci INTx support.  KVM
-> > > > resampling irqfds are registered for handling these interrupts, but
-> > > > these are non-functional in split irqchip mode.  We can't simply test
-> > > > for split irqchip in QEMU as userspace handling of this interrupt is a
-> > > > significant performance regression versus KVM handling (GeForce GPUs
-> > > > assigned to Windows VMs are non-functional without forcing MSI mode or
-> > > > re-enabling kernel irqchip).
-> > > > 
-> > > > The resolution is to revert the change in default irqchip mode in the
-> > > > pc-q35-4.1 machine and create a pc-q35-4.0.1 machine for the 4.0-stable
-> > > > branch.  The qemu-q35-4.0 machine type should not be used in vfio-pci
-> > > > configurations for devices requiring legacy INTx support without
-> > > > explicitly modifying the VM configuration to use kernel irqchip.
-> > > > 
-> > > > Link: https://bugs.launchpad.net/qemu/+bug/1826422
-> > > > Fixes: b2fc91db8447 ("q35: set split kernel irqchip as default")
-> > > > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>    
-> > > 
-> > > OK I guess but it's really a kvm patch.
-> > > So I'd like Paolo to review and merge if appropriate.
-> > > 
-> > > Can't say this makes me too happy. split irqchip
-> > > has a bunch of advantages.  
-> > 
-> > What exactly are those advantages relative to a our default QEMU
-> > users?  I see lots of users assigning consumer class hardware and
-> > seeing regressions.  They don't care about a theoretically improved
-> > security attack surface at the cost of performance for legacy devices,
-> > or especially functionality.  Should these users be our focus for the
-> > default machine type?  I think we could make these sorts of compromises
-> > in a legacy-free or virt/cloud/enterprise machine type, but for a
-> > general purpose PC emulator, it doesn't seem a good match given the
-> > issues we have currently.  Obviously users can continue to tune the q35
-> > machine type on their own and enable split irqchip if it's important to
-> > them.  Thanks,
-> > 
-> > Alex  
-> 
-> It's a reasonable argument. Again I think Paolo should make the call.
-> 
-> > > > ---
-> > > >  hw/core/machine.c    |    3 +++
-> > > >  hw/i386/pc.c         |    3 +++
-> > > >  hw/i386/pc_q35.c     |   16 ++++++++++++++--
-> > > >  include/hw/boards.h  |    3 +++
-> > > >  include/hw/i386/pc.h |    3 +++
-> > > >  5 files changed, 26 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > > index 5d046a43e3d2..e41e6698ac9f 100644
-> > > > --- a/hw/core/machine.c
-> > > > +++ b/hw/core/machine.c
-> > > > @@ -24,6 +24,9 @@
-> > > >  #include "hw/pci/pci.h"
-> > > >  #include "hw/mem/nvdimm.h"
-> > > >  
-> > > > +GlobalProperty hw_compat_4_0_1[] = {};
-> > > > +const size_t hw_compat_4_0_1_len = G_N_ELEMENTS(hw_compat_4_0_1);
-> > > > +
-> > > >  GlobalProperty hw_compat_4_0[] = {};
-> > > >  const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
-> > > >  
-> > > > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > > > index d98b737b8f3b..b5311e7e2bd5 100644
-> > > > --- a/hw/i386/pc.c
-> > > > +++ b/hw/i386/pc.c
-> > > > @@ -115,6 +115,9 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
-> > > >  /* Physical Address of PVH entry point read from kernel ELF NOTE */
-> > > >  static size_t pvh_start_addr;
-> > > >  
-> > > > +GlobalProperty pc_compat_4_0_1[] = {};
-> > > > +const size_t pc_compat_4_0_1_len = G_N_ELEMENTS(pc_compat_4_0_1);
-> > > > +
-> > > >  GlobalProperty pc_compat_4_0[] = {};
-> > > >  const size_t pc_compat_4_0_len = G_N_ELEMENTS(pc_compat_4_0);
-> > > >  
-> > > > diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> > > > index 37dd350511a9..dcddc6466200 100644
-> > > > --- a/hw/i386/pc_q35.c
-> > > > +++ b/hw/i386/pc_q35.c
-> > > > @@ -357,7 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
-> > > >      m->units_per_default_bus = 1;
-> > > >      m->default_machine_opts = "firmware=bios-256k.bin";
-> > > >      m->default_display = "std";
-> > > > -    m->default_kernel_irqchip_split = true;
-> > > > +    m->default_kernel_irqchip_split = false;
-> > > >      m->no_floppy = 1;
-> > > >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_AMD_IOMMU_DEVICE);
-> > > >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
-> > > > @@ -374,10 +374,22 @@ static void pc_q35_4_1_machine_options(MachineClass *m)
-> > > >  DEFINE_Q35_MACHINE(v4_1, "pc-q35-4.1", NULL,
-> > > >                     pc_q35_4_1_machine_options);
-> > > >  
-> > > > -static void pc_q35_4_0_machine_options(MachineClass *m)
-> > > > +static void pc_q35_4_0_1_machine_options(MachineClass *m)
-> > > >  {
-> > > >      pc_q35_4_1_machine_options(m);
-> > > >      m->alias = NULL;
-> > > > +    compat_props_add(m->compat_props, hw_compat_4_0_1, hw_compat_4_0_1_len);
-> > > > +    compat_props_add(m->compat_props, pc_compat_4_0_1, pc_compat_4_0_1_len);
-> > > > +}
-> > > > +
-> > > > +DEFINE_Q35_MACHINE(v4_0_1, "pc-q35-4.0.1", NULL,
-> > > > +                   pc_q35_4_0_1_machine_options);
-> > > > +
-> > > > +static void pc_q35_4_0_machine_options(MachineClass *m)
-> > > > +{
-> > > > +    pc_q35_4_0_1_machine_options(m);
-> > > > +    m->default_kernel_irqchip_split = true;
-> > > > +    m->alias = NULL;
-> > > >      compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
-> > > >      compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
-> > > >  }
-> > > > diff --git a/include/hw/boards.h b/include/hw/boards.h
-> > > > index 6f7916f88f02..6ff02bf3e472 100644
-> > > > --- a/include/hw/boards.h
-> > > > +++ b/include/hw/boards.h
-> > > > @@ -292,6 +292,9 @@ struct MachineState {
-> > > >      } \
-> > > >      type_init(machine_initfn##_register_types)
-> > > >  
-> > > > +extern GlobalProperty hw_compat_4_0_1[];
-> > > > +extern const size_t hw_compat_4_0_1_len;
-> > > > +
-> > > >  extern GlobalProperty hw_compat_4_0[];
-> > > >  extern const size_t hw_compat_4_0_len;
-> > > >  
-> > > > diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> > > > index 43df7230a22b..5d5636241e34 100644
-> > > > --- a/include/hw/i386/pc.h
-> > > > +++ b/include/hw/i386/pc.h
-> > > > @@ -293,6 +293,9 @@ int e820_add_entry(uint64_t, uint64_t, uint32_t);
-> > > >  int e820_get_num_entries(void);
-> > > >  bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
-> > > >  
-> > > > +extern GlobalProperty pc_compat_4_0_1[];
-> > > > +extern const size_t pc_compat_4_0_1_len;
-> > > > +
-> > > >  extern GlobalProperty pc_compat_4_0[];
-> > > >  extern const size_t pc_compat_4_0_len;
-> > > >      
+>  It's not always easy to identify regions
+> that should not be mapped to a device, clearly we're not going to
+> create a whitelist based on the name of the region.  Thanks,
 
+Indeed. Could we decide whether or not to register an address space with
+VFIO in a more intelligent manner? E.g. the following simplistic patch solv=
+es
+our problem:
+
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 4374cc6176..d9d3b1277a 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -430,6 +430,9 @@ static void vfio_listener_region_add(MemoryListener *li=
+stener,
+     VFIOHostDMAWindow *hostwin;
+     bool hostwin_found;
+
++    if (!section->mr->ram_device)
++        return;
++
+     if (vfio_listener_skipped_section(section)) {
+         trace_vfio_listener_region_add_skip(
+                 section->offset_within_address_space,
 
