@@ -2,65 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5166730AF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 11:02:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38884 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723A630B47
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 11:20:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39057 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWdQe-0000DH-AF
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 05:02:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34168)
+	id 1hWdiY-0004iV-EC
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 05:20:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37886)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hWdPJ-0008CZ-09
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:01:05 -0400
+	(envelope-from <mrezanin@redhat.com>) id 1hWdhP-0004FX-8P
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:19:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hWdPI-00076G-0g
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:01:00 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41199)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hWdPH-00074U-Ob
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:00:59 -0400
-Received: by mail-ot1-x342.google.com with SMTP id 107so2645703otj.8
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 02:00:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=q6pv/FQFsCWJI7vYgX4n9cwOf3W3UOWrJeFAt5iBe6A=;
-	b=oNKh0T0J8j2rqelCFaprkANrXdREw0B+sEM08h4k7ZRC7o0EzRjKsMGu/2ywiWsp2V
-	acJryvisC1D+0ND4orOVoaYtv6X1+zGt9k3KWM+cu6cSa/yGddJQ3xuvkZK+yQzZIvC7
-	a9r6JjjhEEc52/9FF8a+MxATf0dFDHNQUH+QPH7+IpFCyUT66o2JbfqqnT9BT4MBvEjt
-	IyLPFMqAOeNTPPogD9R+GMT23Cvcrfek84+Kn9bs2Yxs1sblxJbIVWayp1eThgsGIztw
-	OIMdCauxJKkilgdIKQX5UVcnHy8fCeXTtik7rvPKBETku4b33b0Q9FCfipw/hVIbZBpZ
-	HF8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=q6pv/FQFsCWJI7vYgX4n9cwOf3W3UOWrJeFAt5iBe6A=;
-	b=Joq0K6FFuy4EvRYUFmGY9PmxHLyPDRHAjREEcmuFqIYVc2jAuFxtp7LUTTNY6ZQ8bT
-	nKnlRHbf8AiybwiXjDuxiEdRUa+mWUYbSHG0PezZuoRTX5COr4p/H0FLtH/OFxtYWbAs
-	k3GyBCcBU4rDz0uEPFbD+8q/YkhKsYLpkxdJnVW0M78UcVJJt0w3N01U6+NFo05mRfwx
-	ftB+6apV6a+LuwwfOHQV9WoPSnSjcJlRp8vJCfXvE5AhcHIKqM6gP/jygu+0hS4hDbve
-	QNJlO7i00gu/Ru6MZr9Q3hhTOD//FHGQkhhFZcikvOIAKr2LzipJTIdImlHf+j+1/6U0
-	YrYw==
-X-Gm-Message-State: APjAAAVZjqSyLFHhKVh58C7UMPO45X2RSXN1MQ/dFMKu5Ye318fH1N5l
-	6pQouyfCe3ADY1C2KRMQ5OpUuZ9H8KrsJYpKeBNORg==
-X-Google-Smtp-Source: APXvYqw0mXSocs1klp9c9f6dPwH9I94qOzoz8P3RxBIXhgLWVXwjesxYhFBqLS8FAfSq7xcHH3tW2e5i1rQI+qJ89vs=
-X-Received: by 2002:a9d:2c29:: with SMTP id f38mr879996otb.97.1559293258702;
-	Fri, 31 May 2019 02:00:58 -0700 (PDT)
+	(envelope-from <mrezanin@redhat.com>) id 1hWdhO-0003Fq-3p
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 05:19:43 -0400
+Received: from 212-4-128-36.cust.selfnet.cz ([212.4.128.36]:60036
+	helo=workimage.localdomain) by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <mrezanin@redhat.com>)
+	id 1hWdhL-0003CD-1C; Fri, 31 May 2019 05:19:39 -0400
+Received: by workimage.localdomain (Postfix, from userid 1000)
+	id 12A541C3399; Fri, 31 May 2019 11:12:05 +0200 (CEST)
+Date: Fri, 31 May 2019 11:12:04 +0200
+From: Miroslav Rezanina <mrezanin@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Message-ID: <20190531091204.tjmq622gw457xbdr@lws.brq.redhat.com>
+References: <20190514155301.16123-1-alex.bennee@linaro.org>
+	<20190514155301.16123-7-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20190530173824.30699-1-richard.henderson@linaro.org>
-In-Reply-To: <20190530173824.30699-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 31 May 2019 10:00:47 +0100
-Message-ID: <CAFEAcA8QoncdF-rQt7LDHx3B09xSgzrOjZGxb7L71Jh4h3vM1g@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH] util: Adjust qemu_guest_getrandom_nofail
- for Coverity
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190514155301.16123-7-alex.bennee@linaro.org>
+User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.4.128.36
+Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the common
+ interface for WRITE0/WRITEC in arm-semi
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,25 +49,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+	qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 May 2019 at 18:38, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Explicitly ignore the return value of qemu_guest_getrandom.
-> Because we use error_fatal, all errors are already caught.
->
-> Fixes: CID 1401701
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, May 14, 2019 at 04:52:56PM +0100, Alex Benn=E9e wrote:
+> Now we have a common semihosting console interface use that for our
+> string output. However ARM is currently unique in also supporting
+> semihosting for linux-user so we need to replicate the API in
+> linux-user. If other architectures gain this support we can move the
+> file later.
+>=20
+> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
 > ---
->  util/guest-random.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  linux-user/Makefile.objs  |  2 ++
+>  linux-user/arm/semihost.c | 24 ++++++++++++++++++++++++
+>  target/arm/arm-semi.c     | 31 ++++++-------------------------
+>  3 files changed, 32 insertions(+), 25 deletions(-)
+>  create mode 100644 linux-user/arm/semihost.c
+>=20
+> diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
+> index 769b8d83362..285c5dfa17a 100644
+> --- a/linux-user/Makefile.objs
+> +++ b/linux-user/Makefile.objs
+> @@ -6,4 +6,6 @@ obj-y =3D main.o syscall.o strace.o mmap.o signal.o \
+>  obj-$(TARGET_HAS_BFLT) +=3D flatload.o
+>  obj-$(TARGET_I386) +=3D vm86.o
+>  obj-$(TARGET_ARM) +=3D arm/nwfpe/
+> +obj-$(TARGET_ARM) +=3D arm/semihost.o
+> +obj-$(TARGET_AARCH64) +=3D arm/semihost.o
+>  obj-$(TARGET_M68K) +=3D m68k-sim.o
+> diff --git a/linux-user/arm/semihost.c b/linux-user/arm/semihost.c
+> new file mode 100644
+> index 00000000000..9554102a855
+> --- /dev/null
+> +++ b/linux-user/arm/semihost.c
+> @@ -0,0 +1,24 @@
+> +/*
+> + * ARM Semihosting Console Support
+> + *
+> + * Copyright (c) 2019 Linaro Ltd
+> + *
+> + * Currently ARM is unique in having support for semihosting support
+> + * in linux-user. So for now we implement the common console API but
+> + * just for arm linux-user.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "hw/semihosting/console.h"
+> +#include "qemu.h"
+> +
+> +int qemu_semihosting_console_out(CPUArchState *env, target_ulong addr,=
+ int len)
+> +{
+> +    void *s =3D lock_user_string(addr);
+> +    len =3D write(STDERR_FILENO, s, len ? len : strlen(s));
+> +    unlock_user(s, addr, 0);
+> +    return len;
+> +}
+> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+> index 9e5a414dd89..253c66b172a 100644
+> --- a/target/arm/arm-semi.c
+> +++ b/target/arm/arm-semi.c
+> @@ -27,6 +27,7 @@
+> =20
+>  #include "cpu.h"
+>  #include "hw/semihosting/semihost.h"
+> +#include "hw/semihosting/console.h"
+>  #ifdef CONFIG_USER_ONLY
+>  #include "qemu.h"
+> =20
+> @@ -314,32 +315,12 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+>              return set_swi_errno(ts, close(arg0));
+>          }
+>      case TARGET_SYS_WRITEC:
+> -        {
+> -          char c;
+> -
+> -          if (get_user_u8(c, args))
+> -              /* FIXME - should this error code be -TARGET_EFAULT ? */
+> -              return (uint32_t)-1;
+> -          /* Write to debug console.  stderr is near enough.  */
+> -          if (use_gdb_syscalls()) {
+> -                return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,1=
+", args);
+> -          } else {
+> -                return write(STDERR_FILENO, &c, 1);
+> -          }
+> -        }
+> +    {
+> +        qemu_semihosting_console_out(env, args, 1);
+> +        return 0xdeadbeef;
+> +    }
+>      case TARGET_SYS_WRITE0:
+> -        if (!(s =3D lock_user_string(args)))
+> -            /* FIXME - should this error code be -TARGET_EFAULT ? */
+> -            return (uint32_t)-1;
+> -        len =3D strlen(s);
+> -        if (use_gdb_syscalls()) {
+> -            return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,%x",
+> -                                   args, len);
+> -        } else {
+> -            ret =3D write(STDERR_FILENO, s, len);
+> -        }
+> -        unlock_user(s, args, 0);
+> -        return ret;
+> +        return qemu_semihosting_console_out(env, args, 0);
+>      case TARGET_SYS_WRITE:
+>          GET_ARG(0);
+>          GET_ARG(1);
+> --=20
+> 2.20.1
+>=20
+>=20
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Alex,
 
-thanks
--- PMM
+this patch breaks build for softmmu target when CONFIG_SEMIHOSTING is not=
+ enabled as qemu_semihosting_console_out
+is not defined in such case - neither linux-user/arm/semihost.c nor hw/se=
+mihosting/console.c compiled and function
+is not in stubs/semihost.c=20
+
+Mirek
 
