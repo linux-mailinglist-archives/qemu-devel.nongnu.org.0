@@ -2,40 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A2E3127B
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:34:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46163 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594623129E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:42:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46285 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWkUb-00081l-0s
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:34:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40231)
+	id 1hWkcE-00057y-I3
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:42:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40559)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hWkRu-0006mB-7U
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:32:11 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hWkSq-0007Wu-1h
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:33:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hWkRs-0008DV-NK
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:32:10 -0400
-Received: from relay.sw.ru ([185.231.240.75]:57244)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hWkRs-0008Aj-8x; Fri, 31 May 2019 12:32:08 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hWkRp-0006Lb-2U; Fri, 31 May 2019 19:32:05 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Fri, 31 May 2019 19:32:02 +0300
-Message-Id: <20190531163202.162543-10-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190531163202.162543-1-vsementsov@virtuozzo.com>
-References: <20190531163202.162543-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v2 9/9] qcow2-bitmap: move bitmap reopen-rw
- code to qcow2_reopen_prepare
+	(envelope-from <richard.henderson@linaro.org>) id 1hWkSp-0000X6-7E
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:33:08 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:42784)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hWkSo-0000TM-Vj
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:33:07 -0400
+Received: by mail-oi1-x244.google.com with SMTP id v25so7605491oic.9
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 09:33:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=cB4en2+uCPke6Fuk4m0z7OxmoutTGxu19V77q4wQRvQ=;
+	b=CDgN1x64K3MaJveyDi+TyckygfdwLiT6+yqcMxmpdSfWxPmlAlZwVbCpixfWq041WZ
+	CQGc+i5sHBBWSDVi3Gxarl0LpZg9oq5qFUO6tCbE2NFbr3GEBOY/Zxu9ePPevd0Q8keS
+	KEACtCEh0hVEoMDnYoJZYD68uFV/6mGIGq0geopy69VDXmhGvwprxUxS719IRbl2blLA
+	RK7NeGWI8asdDBwn7dunZhWpOGAyP5jiUlpQDlmahgHBSmYZ+uuISyr4quu43R95AMAV
+	te36aEyt0N8ChltR7yBx0FqgveO8YmD/viJ7KBInGjCamDAb0TuDSFYJ+9AF+osmQi7k
+	dkPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=cB4en2+uCPke6Fuk4m0z7OxmoutTGxu19V77q4wQRvQ=;
+	b=Vv7cp4A2GWXz7o76LRnUMpBOPMyh7bNO9Lth8V97vljOUERqztwLqZciVS8ZPJnacu
+	EvURnzr3V/GbkQncoTUItaX6rgPnadXWmUw+AxeEkXW3kImqEVu5+TVs1UJxggvuV6CK
+	TJsVG+cUnFRhvaVb6fyXTxIRC2kMoFoKOPnsil20Ih+7ZlhsXGNeUdsMdypAuYoUAlyv
+	m8Rxe/cec3DYvedqgJD6PY7kRcJY5cJ1bqjQ3UBvybqVTlbcYwsvmyrFCh7l1Bldv2I0
+	Jt5Nql166TSxJ9+GC0CBeBjQ5c0aBb6RR8n1+zR7TG6ElvpTiLOOWUZK/Tn/HJ3LQpm4
+	cECA==
+X-Gm-Message-State: APjAAAVuTh5MgE8Aqd4yLTLKW9UjdFr3yHjulF4r+IcFJ2ye/xVg8GtX
+	2WATVy471qFwLjIFPPGpqFK+qw==
+X-Google-Smtp-Source: APXvYqyZXYdIMpD7qPQXNO32eb+KXnVjh8ttclN+lfo1h4u4xDOYE+EOqS9zgNH4/7vtQ3DFRqIyqg==
+X-Received: by 2002:aca:5941:: with SMTP id n62mr56672oib.43.1559320385873;
+	Fri, 31 May 2019 09:33:05 -0700 (PDT)
+Received: from [172.24.12.210] (168.189-204-159.bestelclientes.com.mx.
+	[189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+	a15sm2146932otl.20.2019.05.31.09.33.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 May 2019 09:33:05 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190531104432.29379-1-david@redhat.com>
+	<20190531104432.29379-6-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <e36e4dcf-790b-f4fa-35b9-00d51e689440@linaro.org>
+Date: Fri, 31 May 2019 11:33:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190531104432.29379-6-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH v1 05/23] s390x/tcg: Implement VECTOR FP
+ COMPARE (AND SIGNAL) SCALAR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -47,112 +85,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
-	mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+	Denys Vlasenko <dvlasenk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we have used .bdrv_need_rw_file_child_during_reopen_rw handler,
-and have write access to file child in reopen-prepare, and we prepared
-qcow2_reopen_bitmaps_rw to be called from reopening rw -> rw, we now
-can simple move qcow2_reopen_bitmaps_rw() call to
-qcow2_reopen_prepare() and handle errors as befits.
+On 5/31/19 5:44 AM, David Hildenbrand wrote:
+> As far as I can see, there is only a tiny difference.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/helper.h           |  2 ++
+>  target/s390x/insn-data.def      |  4 ++++
+>  target/s390x/translate_vx.inc.c | 21 +++++++++++++++++++++
+>  target/s390x/vec_fpu_helper.c   | 32 ++++++++++++++++++++++++++++++++
+>  4 files changed, 59 insertions(+)
 
-Hacky handler .bdrv_reopen_bitmaps_rw is not needed more and therefore
-dropped.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- include/block/block_int.h |  6 ------
- block.c                   | 19 -------------------
- block/qcow2.c             |  6 +++++-
- 3 files changed, 5 insertions(+), 26 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 7b22fb5d9c..a35b3e0d96 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -533,12 +533,6 @@ struct BlockDriver {
- 
-      bool (*bdrv_need_rw_file_child_during_reopen_rw)(BlockDriverState *bs);
- 
--    /**
--     * Bitmaps should be marked as 'IN_USE' in the image on reopening image
--     * as rw. This handler should realize it. It also should unset readonly
--     * field of BlockDirtyBitmap's in case of success.
--     */
--    int (*bdrv_reopen_bitmaps_rw)(BlockDriverState *bs, Error **errp);
-     bool (*bdrv_can_store_new_dirty_bitmap)(BlockDriverState *bs,
-                                             const char *name,
-                                             uint32_t granularity,
-diff --git a/block.c b/block.c
-index 56e1388908..b5527ae713 100644
---- a/block.c
-+++ b/block.c
-@@ -3894,16 +3894,12 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_state)
-     BlockDriver *drv;
-     BlockDriverState *bs;
-     BdrvChild *child;
--    bool old_can_write, new_can_write;
- 
-     assert(reopen_state != NULL);
-     bs = reopen_state->bs;
-     drv = bs->drv;
-     assert(drv != NULL);
- 
--    old_can_write =
--        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTIVE);
--
-     /* If there are any driver level actions to take */
-     if (drv->bdrv_reopen_commit) {
-         drv->bdrv_reopen_commit(reopen_state);
-@@ -3947,21 +3943,6 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_state)
-     }
- 
-     bdrv_refresh_limits(bs, NULL);
--
--    new_can_write =
--        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTIVE);
--    if (!old_can_write && new_can_write && drv->bdrv_reopen_bitmaps_rw) {
--        Error *local_err = NULL;
--        if (drv->bdrv_reopen_bitmaps_rw(bs, &local_err) < 0) {
--            /* This is not fatal, bitmaps just left read-only, so all following
--             * writes will fail. User can remove read-only bitmaps to unblock
--             * writes.
--             */
--            error_reportf_err(local_err,
--                              "%s: Failed to make dirty bitmaps writable: ",
--                              bdrv_get_node_name(bs));
--        }
--    }
- }
- 
- /*
-diff --git a/block/qcow2.c b/block/qcow2.c
-index ffc067a8ac..945fae74b5 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1815,6 +1815,11 @@ static int qcow2_reopen_prepare(BDRVReopenState *state,
-         if (ret < 0) {
-             goto fail;
-         }
-+    } else {
-+        ret = qcow2_reopen_bitmaps_rw(state->bs, errp);
-+        if (ret < 0) {
-+            goto fail;
-+        }
-     }
- 
-     return 0;
-@@ -5215,7 +5220,6 @@ BlockDriver bdrv_qcow2 = {
-     .bdrv_detach_aio_context  = qcow2_detach_aio_context,
-     .bdrv_attach_aio_context  = qcow2_attach_aio_context,
- 
--    .bdrv_reopen_bitmaps_rw = qcow2_reopen_bitmaps_rw,
-     .bdrv_can_store_new_dirty_bitmap = qcow2_can_store_new_dirty_bitmap,
-     .bdrv_remove_persistent_dirty_bitmap = qcow2_remove_persistent_dirty_bitmap,
-     .bdrv_need_rw_file_child_during_reopen_rw = qcow2_has_bitmaps,
--- 
-2.18.0
+r~
 
 
