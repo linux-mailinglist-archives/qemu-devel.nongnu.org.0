@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6DC30F26
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 15:43:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43748 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6712530F42
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 15:47:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43831 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWhoP-0006YB-65
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 09:43:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33823)
+	id 1hWhsn-0001qr-H8
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 09:47:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34142)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWhmT-0005eS-37
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:41:14 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWhnk-0006fQ-Te
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:42:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWhmR-0005yf-WB
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:41:13 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53608)
+	(envelope-from <alex.bennee@linaro.org>) id 1hWhnj-0007Qi-JX
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:42:32 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40661)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWhmR-0005xv-Q1
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:41:11 -0400
-Received: by mail-wm1-x342.google.com with SMTP id d17so6107872wmb.3
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 06:41:11 -0700 (PDT)
+	id 1hWhnj-0007Pc-CQ
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:42:31 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p11so1737435wre.7
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 06:42:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=references:user-agent:from:to:cc:subject:in-reply-to:date
 	:message-id:mime-version:content-transfer-encoding;
-	bh=Lzlpq1HkhnpaPvn6nX8cdPTXodg+GdTp1awQk0BxCng=;
-	b=K2G6SMVTHeCiz4aqpnBzjWpmbNAzrfoEGvRZ0Xd8Shfe+rILmISijvway1oVTU2vJh
-	qud36rl4gSuROyZ/KyK98mwlEz/MwTL0f1ZCVEMrFBO6VjSI5ggZkl8pZNrkTDWgATWK
-	iGcu66b2jZPMxYMs6uv4zr8ovH9rluoCVvb1VxCZP63nKd3ExwP96xgQQ2N3qUhJX70H
-	C9DujzU7QbE9knFB93RyvmIF1DMrISfRwNy2v9H/uMii0sGieZDl+Va9Zjj9zDhRVtBW
-	yKv/OwLgKe4YIMWAo69Pp+1BZ5909zYhNdh3Zcv8qbdzBoIV6htvIsFqvZKy3ZA/KLoA
-	1RPA==
+	bh=062yvBP43SlJ/7au0KOthvqCDGNnNfcrbhh3ieL3gbI=;
+	b=WRBB8zxCFlUHCW4KlX/gzEZYUqzTVmz9Xd1hVniDqZE1gcy+oPvqOwfufgPOF18iYO
+	yg+yPwVo+NHy38POxYyZT9lFQXFanRX2BX5ytpRKyuJaEFR7Y8hBCGU8BAbk0RfnnDtN
+	ZeWCtPhHyv2tLh55Ry6RNE3FuR6liQ+Xl1MehtmllAdBiVjZXjpyteLd8px/y6fiFnpI
+	VpE9LaAfwhEhVhwONrMHWoR7+IFKzyv/ymAJH3YQz/PidruPCu2v6sp2Yevq97vNjtr5
+	D0QMhn1tANfcYeQreh/qunA7X9OMV3N+g8uf4A7/oeX/MssqaAT2yRiWCnGuTf7OMyUn
+	tDbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:references:user-agent:from:to:cc:subject
 	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=Lzlpq1HkhnpaPvn6nX8cdPTXodg+GdTp1awQk0BxCng=;
-	b=KMnY4IOLjEi5CFY/TUFBNnGQosh5K0GQnPaRtS0hjfgtUcr1uQi2+jgavkLLy9tHcN
-	OKCa5ucl99j+PM8o3Y7teObbYLDfJBO0UOk6++kaUruOkZQJjeoOWPLfGqd5/HgR5xpp
-	U30m7G/hW/MCXc1jqv2Rn2dSYZ7UpOI6GDxpZmopIgmB92nFnvn5bRt2PwzLj0lXppH3
-	y5GcJ1oKl6B4cuNq+TO5QT5zAekZFdQ8/2WWmTgk87owg9N2hDLawi3tUUUBoGfPWCq3
-	5o5MLPxAGMdsrkxg2XR1llDnV65MuSwbm6sdOp4U2WmQiPROLJQmeEKFB9fT9Xdun8YK
-	1lkQ==
-X-Gm-Message-State: APjAAAU+VIuh2zaFVH9gBacRKvZXtYrpiWDexn+Ne80DBFYkjybLU+1Y
-	8m8JipgnSSyJ6tp/SXfX18xxqHssEtw=
-X-Google-Smtp-Source: APXvYqzQuFIDNxey4ZmRus6fQjKgfPBAf0MBIxDDSIWWr/8QheXYC8gmQGWACvWSR+ljvLau6bKr9A==
-X-Received: by 2002:a05:600c:506:: with SMTP id
-	i6mr5925065wmc.57.1559310070671; 
-	Fri, 31 May 2019 06:41:10 -0700 (PDT)
+	bh=062yvBP43SlJ/7au0KOthvqCDGNnNfcrbhh3ieL3gbI=;
+	b=cS1zUpej6VeIWCnkLOeak1jPadSFsBoTN1UU0DuCBmC7x1pkpXYzs6PYSnO71ZRn5t
+	Tgq17TU7wzHfGOEmUJXjXaeVbFAM8FdiW64blOviqx20xAg1QQuEKohZ2vX8iOHNR4bN
+	RnPO2fsEzFElO+o/CiqYR8UM0wNCOKl6tZZ9vT9IpjBkSNLt7foyKCxTCD/N6+mkeb1O
+	D0fdYyJTiA2j3TlNhPDjbIiYLJewN30o8xozMCk8s2NgUnsveBit1p98caVE2tnhJvqk
+	jX7DOqf0FcilnMHjlo31iJ06iAyRbv751eq9QI7ExR95M9qWuZxd0uhhZ0f3O771TTRn
+	Fn9g==
+X-Gm-Message-State: APjAAAXNr9MFElrUB8ZyRrhFIN4kpdPC2E75u5vzv0jc2oxBO/6Ksovx
+	hoLKyx6PJhvITquub29K8cURPg==
+X-Google-Smtp-Source: APXvYqyFWnRWvbL8lcctaxa3QpWBJ8ZvpWQj8K8vxAA1UN4Pj9r653/hZRKbsSnfsltxRj5ZDqAkOA==
+X-Received: by 2002:a5d:56c1:: with SMTP id m1mr7032043wrw.26.1559310150203;
+	Fri, 31 May 2019 06:42:30 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id p2sm4029527wmp.40.2019.05.31.06.41.09
+	by smtp.gmail.com with ESMTPSA id
+	t123sm11606447wmt.0.2019.05.31.06.42.28
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 31 May 2019 06:41:10 -0700 (PDT)
+	Fri, 31 May 2019 06:42:29 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 5F5C21FF87;
-	Fri, 31 May 2019 14:41:09 +0100 (BST)
+	by zen.linaroharston (Postfix) with ESMTP id 6C0A01FF87;
+	Fri, 31 May 2019 14:42:28 +0100 (BST)
 References: <20190529064148.19856-1-arilou@gmail.com>
-	<20190529064148.19856-15-arilou@gmail.com>
+	<20190529064148.19856-17-arilou@gmail.com>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Jon Doron <arilou@gmail.com>
-In-reply-to: <20190529064148.19856-15-arilou@gmail.com>
-Date: Fri, 31 May 2019 14:41:09 +0100
-Message-ID: <87v9xq91xm.fsf@zen.linaroharston>
+In-reply-to: <20190529064148.19856-17-arilou@gmail.com>
+Date: Fri, 31 May 2019 14:42:28 +0100
+Message-ID: <87tvda91vf.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v12 14/20] gdbstub: Implement file io (F
- pkt) with new infra
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH v12 16/20] gdbstub: Implement v commands
+ with new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -96,78 +96,211 @@ Jon Doron <arilou@gmail.com> writes:
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  gdbstub.c | 48 ++++++++++++++++++++++++++----------------------
->  1 file changed, 26 insertions(+), 22 deletions(-)
+>  gdbstub.c | 170 +++++++++++++++++++++++++++++++++++-------------------
+>  1 file changed, 110 insertions(+), 60 deletions(-)
 >
 > diff --git a/gdbstub.c b/gdbstub.c
-> index 8a401e6527..ea85966b27 100644
+> index 3fd1a1cddb..648191a3b0 100644
 > --- a/gdbstub.c
 > +++ b/gdbstub.c
-> @@ -1789,6 +1789,25 @@ static void handle_read_all_regs(GdbCmdContext *gd=
-b_ctx, void *user_ctx)
->      put_packet(gdb_ctx->s, gdb_ctx->str_buf);
+> @@ -1818,6 +1818,106 @@ static void handle_step(GdbCmdContext *gdb_ctx, v=
+oid *user_ctx)
+>      gdb_continue(gdb_ctx->s);
 >  }
 >
-> +static void handle_file_io(GdbCmdContext *gdb_ctx, void *user_ctx)
+> +static void handle_v_cont_query(GdbCmdContext *gdb_ctx, void *user_ctx)
 > +{
-> +    if (gdb_ctx->num_params >=3D 2 && gdb_ctx->s->current_syscall_cb) {
-> +        target_ulong ret, err;
+> +    put_packet(gdb_ctx->s, "vCont;c;C;s;S");
+> +}
 > +
-> +        ret =3D (target_ulong)gdb_ctx->params[0].val_ull;
-> +        err =3D (target_ulong)gdb_ctx->params[1].val_ull;
-> +        gdb_ctx->s->current_syscall_cb(gdb_ctx->s->c_cpu, ret, err);
-> +        gdb_ctx->s->current_syscall_cb =3D NULL;
-> +    }
+> +static void handle_v_cont(GdbCmdContext *gdb_ctx, void *user_ctx)
+> +{
+> +    int res;
 > +
-> +    if (gdb_ctx->num_params >=3D 3 && gdb_ctx->params[2].opcode =3D=3D (=
-uint8_t)'C') {
-> +        put_packet(gdb_ctx->s, "T02");
+> +    if (!gdb_ctx->num_params) {
 > +        return;
 > +    }
 > +
-> +    gdb_continue(gdb_ctx->s);
+> +    res =3D gdb_handle_vcont(gdb_ctx->s, gdb_ctx->params[0].data);
+> +    if ((res =3D=3D -EINVAL) || (res =3D=3D -ERANGE)) {
+> +        put_packet(gdb_ctx->s, "E22");
+> +    } else if (res) {
+> +        put_packet(gdb_ctx->s, "");
+> +    }
+> +}
+> +
+> +static void handle_v_attach(GdbCmdContext *gdb_ctx, void *user_ctx)
+> +{
+> +    GDBProcess *process;
+> +    CPUState *cpu;
+> +    char thread_id[16];
+> +
+> +    pstrcpy(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "E22");
+> +    if (!gdb_ctx->num_params) {
+> +        goto cleanup;
+> +    }
+> +
+> +    process =3D gdb_get_process(gdb_ctx->s, gdb_ctx->params[0].val_ul);
+> +    if (!process) {
+> +        goto cleanup;
+> +    }
+> +
+> +    cpu =3D get_first_cpu_in_process(gdb_ctx->s, process);
+> +    if (!cpu) {
+> +        goto cleanup;
+> +    }
+> +
+> +    process->attached =3D true;
+> +    gdb_ctx->s->g_cpu =3D cpu;
+> +    gdb_ctx->s->c_cpu =3D cpu;
+> +
+> +    gdb_fmt_thread_id(gdb_ctx->s, cpu, thread_id, sizeof(thread_id));
+> +    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "T%02xthread:%s=
+;",
+> +             GDB_SIGNAL_TRAP, thread_id);
+> +cleanup:
+> +    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
+> +}
+> +
+> +static void handle_v_kill(GdbCmdContext *gdb_ctx, void *user_ctx)
+> +{
+> +    /* Kill the target */
+> +    put_packet(gdb_ctx->s, "OK");
+> +    error_report("QEMU: Terminated via GDBstub");
+> +    exit(0);
+> +}
+> +
+> +static GdbCmdParseEntry gdb_v_commands_table[] =3D {
+> +    /* Order is important if has same prefix */
+> +    {
+> +        .handler =3D handle_v_cont_query,
+> +        .cmd =3D "Cont?",
+> +        .cmd_startswith =3D 1
+> +    },
+> +    {
+> +        .handler =3D handle_v_cont,
+> +        .cmd =3D "Cont",
+> +        .cmd_startswith =3D 1,
+> +        .schema =3D "s0"
+> +    },
+> +    {
+> +        .handler =3D handle_v_attach,
+> +        .cmd =3D "Attach;",
+> +        .cmd_startswith =3D 1,
+> +        .schema =3D "l0"
+> +    },
+> +    {
+> +        .handler =3D handle_v_kill,
+> +        .cmd =3D "Kill;",
+> +        .cmd_startswith =3D 1
+> +    },
+> +};
+> +
+> +static void handle_v_commands(GdbCmdContext *gdb_ctx, void *user_ctx)
+> +{
+> +    if (!gdb_ctx->num_params) {
+> +        return;
+> +    }
+> +
+> +    if (process_string_cmd(gdb_ctx->s, NULL, gdb_ctx->params[0].data,
+> +                           gdb_v_commands_table,
+> +                           ARRAY_SIZE(gdb_v_commands_table))) {
+> +        put_packet(gdb_ctx->s, "");
+> +    }
 > +}
 > +
 >  static int gdb_handle_packet(GDBState *s, const char *line_buf)
 >  {
 >      CPUState *cpu;
-> @@ -1930,28 +1949,13 @@ static int gdb_handle_packet(GDBState *s, const c=
+> @@ -1825,7 +1925,7 @@ static int gdb_handle_packet(GDBState *s, const cha=
+r *line_buf)
+>      CPUClass *cc;
+>      const char *p;
+>      uint32_t pid, tid;
+> -    int ch, type, res;
+> +    int ch, type;
+>      uint8_t mem_buf[MAX_PACKET_LENGTH];
+>      char buf[sizeof(mem_buf) + 1 /* trailing NUL */];
+>      char thread_id[16];
+> @@ -1874,66 +1974,16 @@ static int gdb_handle_packet(GDBState *s, const c=
 har *line_buf)
->          return RS_IDLE;
->      case 'F':
->          {
-> -            target_ulong ret;
-> -            target_ulong err;
-> -
-> -            ret =3D strtoull(p, (char **)&p, 16);
-> -            if (*p =3D=3D ',') {
-> -                p++;
-> -                err =3D strtoull(p, (char **)&p, 16);
-> -            } else {
-> -                err =3D 0;
-> -            }
-> -            if (*p =3D=3D ',')
-> -                p++;
-> -            type =3D *p;
-> -            if (s->current_syscall_cb) {
-> -                s->current_syscall_cb(s->c_cpu, ret, err);
-> -                s->current_syscall_cb =3D NULL;
-> -            }
-> -            if (type =3D=3D 'C') {
-> -                put_packet(s, "T02");
-> -            } else {
-> -                gdb_continue(s);
-> -            }
-> +            static const GdbCmdParseEntry file_io_cmd_desc =3D {
-> +                .handler =3D handle_file_io,
-> +                .cmd =3D "F",
-> +                .cmd_startswith =3D 1,
-> +                .schema =3D "L,L,o0"
-> +            };
-> +            cmd_parser =3D &file_io_cmd_desc;
 >          }
 >          break;
->      case 'g':
+>      case 'v':
+> -        if (strncmp(p, "Cont", 4) =3D=3D 0) {
+> -            p +=3D 4;
+> -            if (*p =3D=3D '?') {
+> -                put_packet(s, "vCont;c;C;s;S");
+> -                break;
+> -            }
+> -
+> -            res =3D gdb_handle_vcont(s, p);
+> -
+> -            if (res) {
+> -                if ((res =3D=3D -EINVAL) || (res =3D=3D -ERANGE)) {
+> -                    put_packet(s, "E22");
+> -                    break;
+> -                }
+> -                goto unknown_command;
+> -            }
+> -            break;
+> -        } else if (strncmp(p, "Attach;", 7) =3D=3D 0) {
+> -            unsigned long pid;
+> -
+> -            p +=3D 7;
+> -
+> -            if (qemu_strtoul(p, &p, 16, &pid)) {
+> -                put_packet(s, "E22");
+> -                break;
+> -            }
+> -
+> -            process =3D gdb_get_process(s, pid);
+> -
+> -            if (process =3D=3D NULL) {
+> -                put_packet(s, "E22");
+> -                break;
+> -            }
+> -
+> -            cpu =3D get_first_cpu_in_process(s, process);
+> -
+> -            if (cpu =3D=3D NULL) {
+> -                /* Refuse to attach an empty process */
+> -                put_packet(s, "E22");
+> -                break;
+> -            }
+> -
+> -            process->attached =3D true;
+> -
+> -            s->g_cpu =3D cpu;
+> -            s->c_cpu =3D cpu;
+> -
+> -            snprintf(buf, sizeof(buf), "T%02xthread:%s;", GDB_SIGNAL_TRA=
+P,
+> -                     gdb_fmt_thread_id(s, cpu, thread_id, sizeof(thread_=
+id)));
+> -
+> -            put_packet(s, buf);
+> -            break;
+> -        } else if (strncmp(p, "Kill;", 5) =3D=3D 0) {
+> -            /* Kill the target */
+> -            put_packet(s, "OK");
+> -            error_report("QEMU: Terminated via GDBstub");
+> -            exit(0);
+> -        } else {
+> -            goto unknown_command;
+> +        {
+> +            static const GdbCmdParseEntry v_cmd_desc =3D {
+> +                .handler =3D handle_v_commands,
+> +                .cmd =3D "v",
+> +                .cmd_startswith =3D 1,
+> +                .schema =3D "s0"
+> +            };
+> +            cmd_parser =3D &v_cmd_desc;
+>          }
+> +        break;
+>      case 'k':
+>          /* Kill the target */
+>          error_report("QEMU: Terminated via GDBstub");
 
 
 --
