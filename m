@@ -2,77 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4450F31265
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:31:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46143 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0083127A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:34:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46161 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWkRc-0005xX-F9
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:31:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39793)
+	id 1hWkUa-00080H-3a
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:34:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40215)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hWkQ2-0005Pq-FF
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:30:15 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hWkRt-0006lx-UX
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:32:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hWkQ1-00071d-Gv
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:30:14 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46947)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hWkQ1-00070p-99
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:30:13 -0400
-Received: by mail-ot1-x343.google.com with SMTP id j49so9748485otc.13
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 09:30:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=vDHWb/vjJEtCHLGlyN8+Fso/8qZ52QsvAca+qFV/9Eo=;
-	b=lgwvd/JoXTJc/pxAonxVqASVU8xFrjvnHD6/Ee11GVMcYg3f5HYCPBwl4PGG8+7X18
-	pjdUgQtr4ubjnhgS+emM5/kkj/DxKL5djCL9od4qUa948nyK76hABGy22bJa2hVsZ8nY
-	UqfnwHrOFzX5Nr6ERxNOO4BnU+UBevHmu6onSpIlkFiEUbqzixHOcTAec8lLpHDef/UY
-	+Ffy5IY+gpnVqh27yJfJ8dDvQPcv47Tby9lb5ZMdufLI/txxBTieRE1cJBupmQ+l8+Co
-	vhS0OamUp5zjJBJBNJVTNzqCk254+OoitMQsXQqgPIV5Jy1w14ei4HsXHc/nhmbCkzok
-	2DFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=vDHWb/vjJEtCHLGlyN8+Fso/8qZ52QsvAca+qFV/9Eo=;
-	b=awknGEvhwR+xCcvSz+Y51aJjMIBnEdOwbV2O/viW2KhCp1wdji7Bwjl6GlyEp+DlCy
-	glcZYTlXsRwQTXh+lBXwilFrHwe+yIY3O7HyG+CpvWQNMM6AYKYFl1ZUpAhe7HMZa1F3
-	u3kB2zgaOeUO9jO4yac1r5niYLcoGBujv+Xg7EniIOw5gy2DGppVd/ElNINMQQBosMCt
-	27BFY6jvs0tGP7ZaRq+e46OM2PQGne1ELo4cQ8zaIqAryPIOjUYbWW4jnD1jxLXpRKE6
-	55CzkKJCnZOIAFo1HmVQFw6u2ub58E/6Vgf1W4konXSbItFosggoti1e11n4J72HrGWc
-	d/GQ==
-X-Gm-Message-State: APjAAAXZNkKo7VAgkAqVSHguJc0kOnLir/ro8no0j4zT+kQD+e6NXBqM
-	ryKDkcOaNTrh6Kh/jhH/XgOeFw==
-X-Google-Smtp-Source: APXvYqyjXzYQYYVhFQjjuhCvzT+UtrvQJ2ziclXf8QvxgHz+vPUJHsZp2lS0ucnMH3EmKrJUCu0L1g==
-X-Received: by 2002:a9d:1d22:: with SMTP id m31mr2620474otm.23.1559320211979; 
-	Fri, 31 May 2019 09:30:11 -0700 (PDT)
-Received: from [172.24.12.210] (168.189-204-159.bestelclientes.com.mx.
-	[189.204.159.168])
-	by smtp.gmail.com with ESMTPSA id m32sm764889otc.55.2019.05.31.09.30.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 May 2019 09:30:11 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190531104432.29379-1-david@redhat.com>
-	<20190531104432.29379-5-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <e6a275b9-1466-656c-e6ea-f4f51daf4636@linaro.org>
-Date: Fri, 31 May 2019 11:30:08 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190531104432.29379-5-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v1 04/23] s390x/tcg: Implement VECTOR FP ADD
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hWkRs-0008Cv-H1
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:32:09 -0400
+Received: from relay.sw.ru ([185.231.240.75]:57242)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+	id 1hWkRs-0008Ad-6z; Fri, 31 May 2019 12:32:08 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+	by relay.sw.ru with esmtp (Exim 4.91)
+	(envelope-from <vsementsov@virtuozzo.com>)
+	id 1hWkRn-0006Lb-31; Fri, 31 May 2019 19:32:03 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Fri, 31 May 2019 19:31:53 +0300
+Message-Id: <20190531163202.162543-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v2 0/9] qcow2-bitmaps: rewrite reopening logic
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,24 +44,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
-	Denys Vlasenko <dvlasenk@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+	mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/19 5:44 AM, David Hildenbrand wrote:
-> +void HELPER(gvec_vfa64)(void *v1, const void *v2, const void *v3,
-> +                        CPUS390XState *env, uint32_t desc)
-> +{
-> +    vop64_3(v1, v2, v3, env, false, vfa64, GETPC());
-> +}
+Hi all!
 
-Given that make_float64 is banished, I guess you can pass float64_add here
-directly.
+Bitmaps reopening is buggy, we may easily produce broken incremental
+backup if we do temporary snapshot. Let's fix it!
 
-With that,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+v2:
+01: new
+02-03: test: splat into two patches, some wording
+       improvements and event_wait improved
+04: add John's r-b
+05: new
+06-09: fixes: changed, splat, use patch 01
 
+Vladimir Sementsov-Ogievskiy (9):
+  block: add .bdrv_need_rw_file_child_during_reopen_rw handler
+  python/qemu: improve event_wait method of vm
+  iotests: add test 255 to check bitmap life after snapshot + commit
+  block/qcow2-bitmap: get rid of bdrv_has_changed_persistent_bitmaps
+  block/qcow2-bitmap: drop qcow2_reopen_bitmaps_rw_hint()
+  block/qcow2-bitmap: do not remove bitmaps on reopen-ro
+  block/qcow2-bitmap: fix and improve qcow2_reopen_bitmaps_rw
+  block/qcow2-bitmap: fix reopening bitmaps to RW
+  qcow2-bitmap: move bitmap reopen-rw code to qcow2_reopen_prepare
 
-r~
+ block/qcow2.h                 |   6 +-
+ include/block/block_int.h     |   8 +-
+ include/block/dirty-bitmap.h  |   1 -
+ block.c                       | 163 +++++++++++++++++++++++++++-------
+ block/dirty-bitmap.c          |  12 ---
+ block/qcow2-bitmap.c          | 146 ++++++++++++++++++------------
+ block/qcow2.c                 |   9 +-
+ python/qemu/__init__.py       |   9 +-
+ tests/qemu-iotests/255        |  86 ++++++++++++++++++
+ tests/qemu-iotests/255.out    |  52 +++++++++++
+ tests/qemu-iotests/group      |   1 +
+ tests/qemu-iotests/iotests.py |   5 ++
+ 12 files changed, 381 insertions(+), 117 deletions(-)
+ create mode 100755 tests/qemu-iotests/255
+ create mode 100644 tests/qemu-iotests/255.out
+
+-- 
+2.18.0
+
 
