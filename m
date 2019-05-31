@@ -2,49 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED463310B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 16:58:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44871 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A913310CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 17:02:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44952 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWizF-0003pr-43
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 10:58:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50892)
+	id 1hWj2m-0006kw-P8
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 11:02:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51586)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hWixM-0002iA-Lf
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:56:33 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hWj04-0005AJ-BY
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:59:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hWixL-0004aI-El
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:56:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60154)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hWixL-0004ZD-8u; Fri, 31 May 2019 10:56:31 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6433530C5846;
-	Fri, 31 May 2019 14:56:20 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-116-233.ams2.redhat.com [10.36.116.233])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A6EA01759D;
-	Fri, 31 May 2019 14:56:17 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 31 May 2019 16:56:08 +0200
-Message-Id: <20190531145608.28183-3-david@redhat.com>
-In-Reply-To: <20190531145608.28183-1-david@redhat.com>
-References: <20190531145608.28183-1-david@redhat.com>
+	(envelope-from <richard.henderson@linaro.org>) id 1hWj03-0006tV-8M
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:59:20 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35505)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hWj03-0006s5-0T
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:59:19 -0400
+Received: by mail-ot1-x343.google.com with SMTP id n14so9471829otk.2
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 07:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=j1ZHhwe+yzamYZOOliGnDRxB/h8lFwkpybiuXwA5Gf4=;
+	b=nC3GKnZMdGhVv/936AhSJJB6ZW/LUZX166DETf5HUUWlcxsScx4psQpdQs1/Hc2qZq
+	l+2dg95MLHHjL29U6OgIFWj41TRAVw8M1btvlgxcNXvpoFtzkLLAt/ZTilTLJ+1+V3uy
+	BCG9yvDF77ZBQPzjahOiyN+cz+WmzoM09LXgsXIyxcDOM54WuPxs0G5KaBr2kiu6gfyX
+	33LiBQxinsSHVio6h3iRTaWeFa3CzArshqB7C53izwP2UsHMs2oFm5maWs89wvZRY7Lk
+	HCHNW0JB/GvJRSibeVeQUIE19O8+wMmWYs7qknTedv2PvYxLSN99gRk187vTJl9p+Ytf
+	W8+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=j1ZHhwe+yzamYZOOliGnDRxB/h8lFwkpybiuXwA5Gf4=;
+	b=CQ5H0p+Yj+aEgrmIHWGY94bXMNQVuYpnIMUi5eXIjbeSUcu6HeL9YrQztfz1SvNq2C
+	TiuLwAYrLIjuyaHbfm9QMSiS8/FdTx+ML4PPwJW3Rz24fZObew5gAvVx0+wvS6ooiWCc
+	khhh6RQZsAVi4wmNDiTMhObVeNA10BYJ1fYRZph9AL3dHzHv6cEJ3glZs43jv8J2oC5w
+	h0Iat3hOK4BU+8ui1nX/0pSXLayHk6NDQxRoQXgcbyRZQwmwlI6cUQAoyw7Le84bOcE1
+	k9xT+b9/OiIS12GSWajlcUvDF3Pgcxgo2DvlWuzRUgCDMZoFXd7UCxerb79V0iIwi/9t
+	lu6Q==
+X-Gm-Message-State: APjAAAW+Wp1xSobShdrbbguPuxxm8xiIBOIubUrUsXlRHFjxFzGHqFWH
+	cGdBm22vR7croBX9dYscyFDb6A==
+X-Google-Smtp-Source: APXvYqzm+cu0o4V+Y+n3s7LvIU2zG4T3yxHgvSZxQPF0CJPzrL6nAf8O96PEemhI87tiqXcJ9fI4tw==
+X-Received: by 2002:a05:6830:118:: with SMTP id
+	i24mr2136027otp.307.1559314757493; 
+	Fri, 31 May 2019 07:59:17 -0700 (PDT)
+Received: from [172.24.12.210] (168.189-204-159.bestelclientes.com.mx.
+	[189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+	f186sm2114205oia.52.2019.05.31.07.59.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 May 2019 07:59:16 -0700 (PDT)
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20190531134315.4109-1-richard.henderson@linaro.org>
+	<20190531134315.4109-14-richard.henderson@linaro.org>
+	<20190531162341.3743eb45@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <6e7ec64f-43e2-fb66-3e47-ea7ff0f86eb4@linaro.org>
+Date: Fri, 31 May 2019 09:59:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Fri, 31 May 2019 14:56:25 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v1 2/2] s390x/tcg: Store only the necessary
- amount of doublewords for STFLE
+In-Reply-To: <20190531162341.3743eb45@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v16 13/23] target/rx: Fix cpu types and
+ names
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,71 +87,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Liebler <stli@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
-	David Hildenbrand <david@redhat.com>,
-	Andreas Krebbel <Andreas.Krebbel@de.ibm.com>,
-	Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
-	Richard Henderson <rth@twiddle.net>
+Cc: philmd@redhat.com, qemu-devel@nongnu.org, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PoP (z14, 7-382) says:
-    Doublewords to the right of the doubleword in which the
-    highest-numbered facility bit is assigned for a model
-    may or may not be stored.
+On 5/31/19 9:23 AM, Igor Mammedov wrote:
+> On Fri, 31 May 2019 08:43:05 -0500
+> Richard Henderson <richard.henderson@linaro.org> wrote:
+> 
+>> There was confusion here about abstract classes and naming cpus.
+>> We had registered a concrete class named "-rxcpu".  This was put
+>> into the default cpu fields, and matched, so basic tests worked.
+>> However, no value for -cpu could ever match in rx_cpu_class_by_name.
+>>
+>> Rename the base class to "rx-cpu" and make it abstract.  This
+>> matches what we do for most other targets.  Create a new concrete
+>> cpu with the name "rx62n-rx-cpu".
+> 
+> since it hasn't been merged yet, it would be better to squash this
+> fixup into 3/23
 
-However, stack protection in certain binaries can't deal with that.
-"gzip" example code:
+Except that it's not just 3/23 but also 8/23.  Which is why it was so much
+easier to leave it separate for review.
 
-f1b4:       a7 08 00 03             lhi     %r0,3
-f1b8:       b2 b0 f0 a0             stfle   160(%r15)
-f1bc:       e3 20 f0 b2 00 90       llgc    %r2,178(%r15)
-f1c2:       c0 2b 00 00 00 01       nilf    %r2,1
-f1c8:       b2 4f 00 10             ear     %r1,%a0
-f1cc:       b9 14 00 22             lgfr    %r2,%r2
-f1d0:       eb 11 00 20 00 0d       sllg    %r1,%r1,32
-f1d6:       b2 4f 00 11             ear     %r1,%a1
-f1da:       d5 07 f0 b8 10 28       clc     184(8,%r15),40(%r1)
-f1e0:       a7 74 00 06             jne     f1ec <file_read@@Base+0x1bc>
-f1e4:       eb ef f1 30 00 04       lmg     %r14,%r15,304(%r15)
-f1ea:       07 fe                   br      %r14
-f1ec:       c0 e5 ff ff 9d 6e       brasl   %r14,2cc8 <__stack_chk_fail@p=
-lt>
+I suppose this could be split and squashed, it you insist.  I don't see any
+particular value in that though.
 
-In QEMU, we currently have:
-    max_bytes =3D 24
-the code asks for (3 + 1) doublewords =3D=3D 32 bytes.
+>> -    typename = g_strdup_printf(RX_CPU_TYPE_NAME(""));
+>> +    typename = g_strdup_printf(RX_CPU_TYPE_NAME("%s"), cpu_model);
+>>      oc = object_class_by_name(typename);
+> 
+> in case of new cpu, I'd allow only typename as cpu_model
+> 
+> s/typename/cpu_model/
+>   
+> which is compatible with '-device' naming and QMP/monitor interfaces
+> that we support.
+> 
+> and I would not add other naming schemes /like adding suffix to cpu_model or .../
+> that  are existing in QEMU for legacy reasons.
 
-If we write 32 bytes instead of only 24, and return "2 + 1" doublewords
-("one less than the number of doulewords needed to contain all of the
- facility bits"), the example code detects a stack corruption.
+I don't understand what you're looking for.
 
-In my opinion, the code is wrong. However, it seems to work fine on
-real machines. So let's limit storing to the minimum of the requested
-and the maximum doublewords.
+Do you want a type called "rx62n" for the concrete cpu instance?
+That seems to be contrary to every other device in our system.
 
-Cc: Stefan Liebler <stli@linux.ibm.com>
-Cc: Andreas Krebbel <Andreas.Krebbel@de.ibm.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/misc_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I hope you're not suggesting that the command-line be "-cpu rx62n-rx-cpu".
+That seems pointlessly verbose.
 
-diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
-index 34476134a4..b561c5781b 100644
---- a/target/s390x/misc_helper.c
-+++ b/target/s390x/misc_helper.c
-@@ -678,7 +678,7 @@ uint32_t HELPER(stfle)(CPUS390XState *env, uint64_t a=
-ddr)
-=20
-     prepare_stfl();
-     max_bytes =3D ROUND_UP(used_stfl_bytes, 8);
--    for (i =3D 0; i < count_bytes; ++i) {
-+    for (i =3D 0; i < MIN(count_bytes, max_bytes); ++i) {
-         cpu_stb_data_ra(env, addr + i, stfl_bytes[i], ra);
-     }
-=20
---=20
-2.20.1
+If we're going to change the way we do things, we should do that everywhere,
+and not make things different for only one target.
 
+
+r~
 
