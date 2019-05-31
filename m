@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC053128C
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:39:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46231 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275D831295
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:41:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46275 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWkYi-0002k3-TH
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:39:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40240)
+	id 1hWkaW-0003zD-BR
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:41:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40269)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hWkRu-0006mI-C5
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:32:11 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hWkRv-0006mt-2A
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:32:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hWkRs-0008D9-Jm
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:32:10 -0400
-Received: from relay.sw.ru ([185.231.240.75]:57218)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hWkRs-0008Dm-O5
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:32:11 -0400
+Received: from relay.sw.ru ([185.231.240.75]:57214)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hWkRs-0008Ac-7y; Fri, 31 May 2019 12:32:08 -0400
+	id 1hWkRs-0008Aa-CQ; Fri, 31 May 2019 12:32:08 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hWkRn-0006Lb-RT; Fri, 31 May 2019 19:32:04 +0300
+	id 1hWkRo-0006Lb-BU; Fri, 31 May 2019 19:32:04 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Fri, 31 May 2019 19:31:57 +0300
-Message-Id: <20190531163202.162543-5-vsementsov@virtuozzo.com>
+Date: Fri, 31 May 2019 19:31:58 +0300
+Message-Id: <20190531163202.162543-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190531163202.162543-1-vsementsov@virtuozzo.com>
 References: <20190531163202.162543-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v2 4/9] block/qcow2-bitmap: get rid of
- bdrv_has_changed_persistent_bitmaps
+Subject: [Qemu-devel] [PATCH v2 5/9] block/qcow2-bitmap: drop
+ qcow2_reopen_bitmaps_rw_hint()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,110 +52,74 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Firstly, no reason to optimize failure path. Then, function name is
-ambiguous: it checks for readonly and similar things, but someone may
-think that it will ignore normal bitmaps which was just unchanged, and
-this is in bad relation with the fact that we should drop IN_USE flag
-for unchanged bitmaps in the image.
+The function is unused, drop it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- include/block/dirty-bitmap.h |  1 -
- block/dirty-bitmap.c         | 12 ------------
- block/qcow2-bitmap.c         | 23 +++++++++++++----------
- 3 files changed, 13 insertions(+), 23 deletions(-)
+ block/qcow2.h        |  2 --
+ block/qcow2-bitmap.c | 15 +--------------
+ 2 files changed, 1 insertion(+), 16 deletions(-)
 
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index 8044ace63e..816022972b 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -105,7 +105,6 @@ bool bdrv_has_readonly_bitmaps(BlockDriverState *bs);
- bool bdrv_dirty_bitmap_get_autoload(const BdrvDirtyBitmap *bitmap);
- bool bdrv_dirty_bitmap_get_persistence(BdrvDirtyBitmap *bitmap);
- bool bdrv_dirty_bitmap_inconsistent(const BdrvDirtyBitmap *bitmap);
--bool bdrv_has_changed_persistent_bitmaps(BlockDriverState *bs);
- BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BlockDriverState *bs,
-                                         BdrvDirtyBitmap *bitmap);
- char *bdrv_dirty_bitmap_sha256(const BdrvDirtyBitmap *bitmap, Error **errp);
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 49646a30e6..d4923ee614 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -775,18 +775,6 @@ bool bdrv_dirty_bitmap_inconsistent(const BdrvDirtyBitmap *bitmap)
-     return bitmap->inconsistent;
- }
- 
--bool bdrv_has_changed_persistent_bitmaps(BlockDriverState *bs)
--{
--    BdrvDirtyBitmap *bm;
--    QLIST_FOREACH(bm, &bs->dirty_bitmaps, list) {
--        if (bm->persistent && !bm->readonly && !bm->migration) {
--            return true;
--        }
--    }
--
--    return false;
--}
--
- BdrvDirtyBitmap *bdrv_dirty_bitmap_next(BlockDriverState *bs,
-                                         BdrvDirtyBitmap *bitmap)
- {
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 567375e56c..88a2030f54 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -732,8 +732,6 @@ int qcow2_check_bitmaps_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
+ bool qcow2_load_dirty_bitmaps(BlockDriverState *bs, Error **errp);
+ Qcow2BitmapInfoList *qcow2_get_bitmap_info_list(BlockDriverState *bs,
+                                                 Error **errp);
+-int qcow2_reopen_bitmaps_rw_hint(BlockDriverState *bs, bool *header_updated,
+-                                 Error **errp);
+ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp);
+ int qcow2_truncate_bitmaps_check(BlockDriverState *bs, Error **errp);
+ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp);
 diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index b2487101ed..60b79f1dac 100644
+index 60b79f1dac..fbeee37243 100644
 --- a/block/qcow2-bitmap.c
 +++ b/block/qcow2-bitmap.c
-@@ -1456,16 +1456,7 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
-     Qcow2Bitmap *bm;
-     QSIMPLEQ_HEAD(, Qcow2BitmapTable) drop_tables;
-     Qcow2BitmapTable *tb, *tb_next;
--
--    if (!bdrv_has_changed_persistent_bitmaps(bs)) {
--        /* nothing to do */
--        return;
+@@ -1102,8 +1102,7 @@ Qcow2BitmapInfoList *qcow2_get_bitmap_info_list(BlockDriverState *bs,
+     return list;
+ }
+ 
+-int qcow2_reopen_bitmaps_rw_hint(BlockDriverState *bs, bool *header_updated,
+-                                 Error **errp)
++int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     Qcow2BitmapList *bm_list;
+@@ -1111,10 +1110,6 @@ int qcow2_reopen_bitmaps_rw_hint(BlockDriverState *bs, bool *header_updated,
+     GSList *ro_dirty_bitmaps = NULL;
+     int ret = 0;
+ 
+-    if (header_updated != NULL) {
+-        *header_updated = false;
 -    }
 -
--    if (!can_write(bs)) {
--        error_setg(errp, "No write access");
--        return;
--    }
-+    bool need_write = false;
- 
-     QSIMPLEQ_INIT(&drop_tables);
- 
-@@ -1493,6 +1484,8 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
-             continue;
+     if (s->nb_bitmaps == 0) {
+         /* No bitmaps - nothing to do */
+         return 0;
+@@ -1156,9 +1151,6 @@ int qcow2_reopen_bitmaps_rw_hint(BlockDriverState *bs, bool *header_updated,
+             error_setg_errno(errp, -ret, "Can't update bitmap directory");
+             goto out;
          }
- 
-+        need_write = true;
-+
-         if (check_constraints_on_bitmap(bs, name, granularity, errp) < 0) {
-             error_prepend(errp, "Bitmap '%s' doesn't satisfy the constraints: ",
-                           name);
-@@ -1531,6 +1524,15 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
-         bm->dirty_bitmap = bitmap;
+-        if (header_updated != NULL) {
+-            *header_updated = true;
+-        }
+         g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
      }
  
-+    if (!need_write) {
-+        goto success;
-+    }
-+
-+    if (!can_write(bs)) {
-+        error_setg(errp, "No write access");
-+        goto fail;
-+    }
-+
-     /* allocate clusters and store bitmaps */
-     QSIMPLEQ_FOREACH(bm, bm_list, entry) {
-         if (bm->dirty_bitmap == NULL) {
-@@ -1572,6 +1574,7 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error **errp)
-         bdrv_release_dirty_bitmap(bs, bm->dirty_bitmap);
-     }
+@@ -1169,11 +1161,6 @@ out:
+     return ret;
+ }
  
-+success:
-     bitmap_list_free(bm_list);
-     return;
- 
+-int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
+-{
+-    return qcow2_reopen_bitmaps_rw_hint(bs, NULL, errp);
+-}
+-
+ /* Checks to see if it's safe to resize bitmaps */
+ int qcow2_truncate_bitmaps_check(BlockDriverState *bs, Error **errp)
+ {
 -- 
 2.18.0
 
