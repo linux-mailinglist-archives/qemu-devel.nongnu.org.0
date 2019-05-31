@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C0430F7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 16:01:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44053 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D11A30F44
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 15:49:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43841 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWi6N-0004Yt-VE
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 10:01:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34508)
+	id 1hWhu5-0002n5-Qt
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 09:49:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34558)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hWhoo-0007To-92
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:43 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hWhot-0007Y5-DS
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hWhon-0000MH-6d
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:38 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36236)
+	(envelope-from <richard.henderson@linaro.org>) id 1hWhoo-0000Oc-JA
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:43 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36215)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hWhon-0000Ld-1k
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:37 -0400
-Received: by mail-oi1-x244.google.com with SMTP id y124so7752308oiy.3
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 06:43:36 -0700 (PDT)
+	id 1hWhoo-0000Ne-Cu
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:38 -0400
+Received: by mail-ot1-x343.google.com with SMTP id c3so9219057otr.3
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 06:43:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=YB1fZJoA1Y1wxrdEJayHVTCzPLNtdm/r4TsjTEPf7eE=;
-	b=ClBMu1OWQAARMpVvZL7Q/VGJg+5q+D9y3XnpQ4py2CUIPPLS/RsNpHLuzJY3z4d34r
-	NjuKP7scorreohOVQ6P+mboO7UKOvNHq/1XhFiQaA22Sba2Oyo6Cx2W0HOAGlp/KJxo/
-	3TCeH4ydSzBVYgEmLTjqjcuUK9HgrMqn8R2xYoOdMCErSugO9J2dxwddwVtJeVBSSl6N
-	mqKsLBb1DAVl6b54BOk4TPNw6KG61B5k7IxJlCj+ruAupyGGcMZdCgyksIsfVN6HdIad
-	NNY0X95N+KLzdtYpPCIldKyFXzmlfFH5s7OMqBI0t02YxhSJlcxALS4M77cWf1Uyb4gB
-	l+cw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=3dEx21RG2xJrc6WESswMJA8asVI8Tn0Ptx0Kuiu28fo=;
+	b=P1meWXV2MQlOI/4KlS9szLHxEkX6rdOdsMsHmd1x8w4AfPKWDr+H+6nr0isNEIMjdT
+	k5M/gH6K4vIUdf8XIdNCgQnN7wGVV9dzFIyZ9wYM2fH5ZttkeMKkQgxI73waEUZnoKE/
+	dhMSfAQUKfMCBdupnX32OCtIjHYk/lDuMTb8A6DTZADe5KxubzySCSyekwSAsUzhiwBb
+	RGRPEagnDQgfpThez6OJgQncihm+QECwSw/r5V7TcpEvK27AGafnuP8uhUKS/GzgZnQI
+	NQTFGiBRhOJWQK3KdqPpArL6Ke5QxJmNTQEt0WDQAAgHEHgcKWbSGsHdDOWbmBl3vM6+
+	wSww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=YB1fZJoA1Y1wxrdEJayHVTCzPLNtdm/r4TsjTEPf7eE=;
-	b=RnjKwI37gjeDPAVZzZbCDdi39cj/hAKYP0O0uQ3Mpi3rjJPajQ2B4FUmQaPzsMGp0+
-	voTS0evbg1dCeQ2wjVaRNC/j9+xOx9XRIxvT9X2yFY/bPjVd2WUXMNGBcgvk8Tl6PRc4
-	/NxWzeMBORG48uFd4T2zu1xVRw39jfRZlfDvcB391g598rVUDznMyMsph82es/84vHhA
-	1jiWRqBpmp0mkTd0OBb3AzyasQd//Rfi4ahQeAaXnrRRuTsId7nDL2Tk/ApDf9lpAgUw
-	O3QvEJDYJd4S5guv57Fo/PjR31SHFI+uhk9eEb64h9ShFEGil63EWGDz0YmgjVTi0pjX
-	rbvQ==
-X-Gm-Message-State: APjAAAUf1WUnMacKv2EQ9LvznSmx+52RrZWTexKx8+PHqX7FwrHqRze2
-	smVN1zQ9J62X+WHYeIXVYEfBKb0laVIWQQ==
-X-Google-Smtp-Source: APXvYqzsxQPFvQF8Wc6c8OICS2Sdxq9j2iTGBCkTTw9L3NJs5WIG91t2dN1yIClJ+aC50u7pweV3ng==
-X-Received: by 2002:aca:b444:: with SMTP id d65mr670402oif.102.1559310216164; 
-	Fri, 31 May 2019 06:43:36 -0700 (PDT)
+	:references;
+	bh=3dEx21RG2xJrc6WESswMJA8asVI8Tn0Ptx0Kuiu28fo=;
+	b=LpRiuOEaPppfB1WRviGyyKuo5VPQYi4DeeW/yGXACGP9uGKLcJYfI6uqGx3AtTTMpg
+	bvjC63wr+pFsDkkDZitQf89kjGizaZATXJIVTCAvLDdx6SuCgvb4EzKo5mxC1/ctHupY
+	gDkmaUWYyulemr7Ii2vnfpzcphrAhc0Kp2D1OMSDRnXx4BiW3unMEHhM1cq2rp0pdq2i
+	1h8NgR4IPrc9HX9pv/p5QRFpNvayuvvLQTVweyKhbCI7CwiBWiakhTcuumiCX/l7W2QR
+	yfTc/RtOCUiLQbiD9bo3AWDcegZoZVeLFZaw41+TilMrj1+2A6VggiPvSSRtP8CD7DjP
+	LtMw==
+X-Gm-Message-State: APjAAAXSNEJgewuNw3AEZANHt7YhRtaiWr1seDxr9I2yaFTr1hRk0ITL
+	xxe24FCPOgID/rFBx8faMGoaMHmr0QycYA==
+X-Google-Smtp-Source: APXvYqwoV0hPaZSfpS+SE55qlwD2x9JfBhmP2dFKqWwwngMyJISBGeeYwM7LutavIthSfmCzxDtz4A==
+X-Received: by 2002:a9d:67d8:: with SMTP id c24mr1926607otn.190.1559310217419; 
+	Fri, 31 May 2019 06:43:37 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
 	[189.204.159.168]) by smtp.gmail.com with ESMTPSA id
-	r23sm2391176otg.49.2019.05.31.06.43.35
+	r23sm2391176otg.49.2019.05.31.06.43.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 May 2019 06:43:35 -0700 (PDT)
+	Fri, 31 May 2019 06:43:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 31 May 2019 08:43:03 -0500
-Message-Id: <20190531134315.4109-12-richard.henderson@linaro.org>
+Date: Fri, 31 May 2019 08:43:04 -0500
+Message-Id: <20190531134315.4109-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190531134315.4109-1-richard.henderson@linaro.org>
 References: <20190531134315.4109-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: [Qemu-devel] [PATCH v16 11/23] target/rx: Convert to
- CPUClass::tlb_fill
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: [Qemu-devel] [PATCH v16 12/23] target/rx: Add RX to SysEmuTarget
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,72 +75,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, ysato@users.sourceforge.jp
+Cc: philmd@redhat.com, Markus Armbruster <armbru@redhat.com>,
+	ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The interface for tlb_fill has changed very recently.
-Move the function into cpu.c so that it may be static
-while assigning to the CPUClass methods.
+Fixes check-qtest-rx: tests/qmp-cmd-test
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/rx/cpu.c       | 14 ++++++++++++++
- target/rx/op_helper.c | 11 -----------
- 2 files changed, 14 insertions(+), 11 deletions(-)
+ qapi/common.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 4b96f2e463..3268077d08 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -143,6 +143,19 @@ static void rx_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
-     info->print_insn = print_insn_rx;
- }
- 
-+static bool rx_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-+                            MMUAccessType access_type, int mmu_idx,
-+                            bool probe, uintptr_t retaddr)
-+{
-+    uint32_t address, physical, prot;
-+
-+    /* Linear mapping */
-+    address = physical = addr & TARGET_PAGE_MASK;
-+    prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+    tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
-+    return true;
-+}
-+
- static void rx_cpu_init(Object *obj)
- {
-     CPUState *cs = CPU(obj);
-@@ -177,6 +190,7 @@ static void rxcpu_class_init(ObjectClass *klass, void *data)
-     cc->get_phys_page_debug = rx_cpu_get_phys_page_debug;
-     cc->disas_set_info = rx_cpu_disas_set_info;
-     cc->tcg_initialize = rx_translate_init;
-+    cc->tlb_fill = rx_cpu_tlb_fill;
- 
-     cc->gdb_num_core_regs = 26;
- }
-diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
-index 9a460070e9..fb7ae3c3ec 100644
---- a/target/rx/op_helper.c
-+++ b/target/rx/op_helper.c
-@@ -468,14 +468,3 @@ void QEMU_NORETURN helper_rxbrk(CPURXState *env)
- {
-     raise_exception(env, 0x100, 0);
- }
--
--void tlb_fill(CPUState *cs, target_ulong addr, int size,
--              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
--{
--    uint32_t address, physical, prot;
--
--    /* Linear mapping */
--    address = physical = addr & TARGET_PAGE_MASK;
--    prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--    tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
--}
+diff --git a/qapi/common.json b/qapi/common.json
+index 99d313ef3b..d0fc931159 100644
+--- a/qapi/common.json
++++ b/qapi/common.json
+@@ -183,6 +183,7 @@
+ #        is true even for "qemu-system-x86_64".
+ #
+ # ppcemb: dropped in 3.1
++# rx: added in 4.1
+ #
+ # Since: 3.0
+ ##
+@@ -190,6 +191,6 @@
+   'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
+              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+-             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
++             'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+              'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
+              'x86_64', 'xtensa', 'xtensaeb' ] }
 -- 
 2.17.1
 
