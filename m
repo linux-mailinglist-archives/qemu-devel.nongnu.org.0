@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6150C31213
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:16:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45985 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F7431372
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 19:07:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46664 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWkD7-00017M-Jk
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:16:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36991)
+	id 1hWl0L-0001cW-AL
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 13:07:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47544)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hWkBw-0000hP-Ur
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:15:44 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hWkyM-0000xO-Kf
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:05:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hWkBv-0000cu-1g
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:15:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33850)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hWkBt-0000bh-47
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:15:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hWkBr-0002Nh-Kd
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 16:15:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 9A2182E80CB
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 16:15:35 +0000 (UTC)
+	(envelope-from <no-reply@patchew.org>) id 1hWkyL-00066G-4S
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:05:42 -0400
+Resent-Date: Fri, 31 May 2019 13:05:42 -0400
+Resent-Message-Id: <E1hWkyL-00066G-4S@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21555)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hWkyJ-0005uI-9p
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:05:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1559319513; cv=none; d=zoho.com; s=zohoarc; 
+	b=aJyyMOcFE5frvCiTWTIdcWj5jz+fQkE8Z0R77B1hcEaIJg0lrcUCu7aDckxIo1SEQDc7czqqJHDR0d+1UBuTNxBD2iqYlIUO3l3wGfPUsRH3vFhWrb8+povjSwtokVzVRJfIDI4pctqKlyKZ2FmVQuu0TLt8VqIyv1ATe5ECdAo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1559319513;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=SkWGZBZ9BhVLu8XbGCUPtzKgVXcBVtFAfQFg6VZ+Udw=; 
+	b=fYSzd8m0prcBtgR97bYxOX174UFzFIx1LdslAX8jTJCyGB1fqv8wUvdVnagZwi9QBIw8o8adTH0OLIT3maTGMRHNYYfB4J9GtpPHeCBGk440PX7uGeR7/VNwgaIv5lW+uCmAiQtV/O+kw7rE5Brihp7OCykV/b1Apuym9Di9AP4=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 155931951101099.43089206900481;
+	Fri, 31 May 2019 09:18:31 -0700 (PDT)
+In-Reply-To: <20190531154735.20809-1-philmd@redhat.com>
+Message-ID: <155931950942.4137.194678647486612190@ce79690b2cb9>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 May 2019 16:06:40 -0000
-From: Dion Bosschieter <1831225@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h dionbosschieter
-X-Launchpad-Bug-Reporter: Dion Bosschieter (dionbosschieter)
-X-Launchpad-Bug-Modifier: Dion Bosschieter (dionbosschieter)
-References: <155929929657.13088.9555373471112683391.malonedeb@soybean.canonical.com>
-Message-Id: <155931880076.16237.3115193650924011748.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18968";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 6b92a97846170e54a257bece383bfd8cb3bd2989
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: philmd@redhat.com
+Date: Fri, 31 May 2019 09:18:31 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1831225] Re: guest migration 100% cpu freeze bug
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [RFC PATCH 0/2] target: Build with
+ CONFIG_SEMIHOSTING disabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,213 +62,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1831225 <1831225@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, arikalo@wavecomp.com, alex.bennee@linaro.org,
+	richard.henderson@linaro.org, qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org, amarkovic@wavecomp.com, pbonzini@redhat.com,
+	mrezanin@redhat.com, philmd@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alan,
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUzMTE1NDczNS4yMDgw
+OS0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1JGQyBQQVRDSCAwLzJdIHRhcmdldDog
+QnVpbGQgd2l0aCBDT05GSUdfU0VNSUhPU1RJTkcgZGlzYWJsZWQKVHlwZTogc2VyaWVzCk1lc3Nh
+Z2UtaWQ6IDIwMTkwNTMxMTU0NzM1LjIwODA5LTEtcGhpbG1kQHJlZGhhdC5jb20KCj09PSBURVNU
+IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
+dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
+b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
+bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
+ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRj
+aGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAgICBwYXRjaGV3LzIwMTkw
+NTMxMTU0NzM1LjIwODA5LTEtcGhpbG1kQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDE5MDUzMTE1
+NDczNS4yMDgwOS0xLXBoaWxtZEByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAn
+dGVzdCcKMzAzZmJjODExZiB0YXJnZXQvbWlwczogQWRkIHN0dWJzIHRvIGJ1aWxkIHdpdGggQ09O
+RklHX1NFTUlIT1NUSU5HIGRpc2FibGVkCmFhZDFiZDg1ZTEgdGFyZ2V0L2FybTogQWRkIHN0dWJz
+IHRvIGJ1aWxkIHdpdGggQ09ORklHX1NFTUlIT1NUSU5HIGRpc2FibGVkCgo9PT0gT1VUUFVUIEJF
+R0lOID09PQoxLzIgQ2hlY2tpbmcgY29tbWl0IGFhZDFiZDg1ZTFlNSAodGFyZ2V0L2FybTogQWRk
+IHN0dWJzIHRvIGJ1aWxkIHdpdGggQ09ORklHX1NFTUlIT1NUSU5HIGRpc2FibGVkKQpXQVJOSU5H
+OiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQg
+dXBkYXRpbmc/CiM0MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEg
+d2FybmluZ3MsIDI3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMiBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgoyLzIgQ2hlY2tpbmcgY29tbWl0IDMwM2ZiYzgxMWYyNCAodGFyZ2V0L21pcHM6IEFk
+ZCBzdHVicyB0byBidWlsZCB3aXRoIENPTkZJR19TRU1JSE9TVElORyBkaXNhYmxlZCkKV0FSTklO
+RzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVk
+IHVwZGF0aW5nPwojNDA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IGV4dGVybnMgc2hv
+dWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzYyOiBGSUxFOiB0YXJnZXQvbWlwcy9taXBzLXNl
+bWktc3R1YnMuYzoxODoKK2V4dGVybiB2b2lkIGhlbHBlcl9kb19zZW1paG9zdGluZyhDUFVNSVBT
+U3RhdGUgKmVudik7Cgp0b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3MsIDMwIGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDIvMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
+b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
+aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQg
+PT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBh
+dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA1MzExNTQ3MzUuMjA4MDkt
+MS1waGlsbWRAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
+CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
+dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
+dC5jb20=
 
-
-Dmesg shows nothing special:
-[29891577.708544] IPv6 addrconf: prefix with wrong length 48
-[29891580.650637] IPv6 addrconf: prefix with wrong length 48
-[29891582.013656] IPv6 addrconf: prefix with wrong length 48
-[29891583.753246] IPv6 addrconf: prefix with wrong length 48
-[29891585.397941] IPv6 addrconf: prefix with wrong length 48
-[29891587.031141] IPv6 addrconf: prefix with wrong length 48
-[29891588.991541] IPv6 addrconf: prefix with wrong length 48
-[29891590.162395] IPv6 addrconf: prefix with wrong length 48
-[29891592.681133] IPv6 addrconf: prefix with wrong length 48
-[29891593.418342] IPv6 addrconf: prefix with wrong length 48
-[29891596.491791] IPv6 addrconf: prefix with wrong length 48
-[29891597.262282] IPv6 addrconf: prefix with wrong length 48
-[29891600.116510] IPv6 addrconf: prefix with wrong length 48
-[29891600.987599] IPv6 addrconf: prefix with wrong length 48
-[29891603.954923] IPv6 addrconf: prefix with wrong length 48
-[29891604.554989] IPv6 addrconf: prefix with wrong length 48
-[29891607.641694] IPv6 addrconf: prefix with wrong length 48
-[29891607.855495] IPv6 addrconf: prefix with wrong length 48
-[29891611.128803] IPv6 addrconf: prefix with wrong length 48
-[29891611.293230] IPv6 addrconf: prefix with wrong length 48
-[29891615.011260] IPv6 addrconf: prefix with wrong length 48
-[29891615.182883] IPv6 addrconf: prefix with wrong length 48
-[29891618.577801] IPv6 addrconf: prefix with wrong length 48
-[29891619.146512] IPv6 addrconf: prefix with wrong length 48
-[29891622.250595] IPv6 addrconf: prefix with wrong length 48
-[29891623.051844] IPv6 addrconf: prefix with wrong length 48
-[29891625.642684] IPv6 addrconf: prefix with wrong length 48
-[29891626.457455] IPv6 addrconf: prefix with wrong length 48
-
-Crash shows me the uptime though which doesn't seem right:
-        DATE: Tue Nov 29 18:55:46 2603
-      UPTIME: 106751 days, 23:55:03
-Not sure if this is related to the amount of kvm clock calls.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1831225
-
-Title:
-  guest migration 100% cpu freeze bug
-
-Status in QEMU:
-  New
-
-Bug description:
-  # Investigate migration cpu hog(100%) bug
-
-  I have some issues when migrating from kernel 4.14.63 running qemu 2.11.2=
- to kernel 4.19.43 running qemu 2.11.2.
-  The hypervisors are running on debian jessie with libvirt v5.3.0.
-  Linux, libvirt and qemu are all custom compiled.
-
-  I migrated around 10.000 vms and every once in a while a vm is stuck
-  at 100% cpu after what we can see right now is that the target
-  hypervisor runs on linux 4.19.53. This happened with 4 vms so far. It
-  is not that easy to debug, we found this out pretty quickly because we
-  are running monitoring on frozen vms after migrations.
-
-  Last year we were having the same "kind of" bug https://bugs.launchpad.ne=
-t/qemu/+bug/1775555 when trying to upgrade qemu 2.6 to 2.11.
-  This bug was fixed after applying the following patch: http://lists.nongn=
-u.org/archive/html/qemu-devel/2018-04/msg00820.html
-
-  This patch is still applied as you can see because of the available pre_l=
-oad var on the kvmclock_vmsd struct:
-  (gdb) ptype kvmclock_vmsd
-  type =3D const struct VMStateDescription {
-      const char *name;
-      int unmigratable;
-      int version_id;
-      int minimum_version_id;
-      int minimum_version_id_old;
-      MigrationPriority priority;
-      LoadStateHandler *load_state_old;
-      int (*pre_load)(void *);                                             =
-   =
-
-      int (*post_load)(void *, int);
-      int (*pre_save)(void *);
-      _Bool (*needed)(void *);
-      VMStateField *fields;
-      const VMStateDescription **subsections;
-  }
-
-  I attached gdb to a vcpu thread of one stuck vm, and a bt showed the foll=
-owing info:
-  Thread 4 (Thread 0x7f3a431a4700 (LWP 37799)):
-  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-84
-  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fca78d=
-0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
-kvm/kvm-all.c:2050
-  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fca78d0)=
- at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
-  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fca78d0) a=
-t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
-  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a431a4700) at pthread_=
-create.c:456
-  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:97
-
-  Thread 3 (Thread 0x7f3a439a5700 (LWP 37798)):
-  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-84
-  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fc5cbb=
-0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
-kvm/kvm-all.c:2050
-  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fc5cbb0)=
- at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
-  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fc5cbb0) a=
-t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
-  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a439a5700) at pthread_=
-create.c:456
-  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:97
-
-  The ioctl call is a ioctl(18, KVM_RUN and it looks like it is looping
-  inside the vm itself.
-
-  I saved the state of the VM (with `virsh save`) after I found it was hang=
-ing on its vcpu threads. Then I restored this vm on a test environment runn=
-ing the same kernel, QEMU and libvirt version). After the restore the VM st=
-ill was haning at 100% cpu usage on all the vcpus.
-  I tried to use the perf kvm guest option to trace the guest vm with a cop=
-y of the kernel, modules and kallsyms files from inside the guest vm and I =
-got to the following perf stat:
-
-   Event                                         Total %Total CurAvg/s
-   kvm_entry                                   5198993   23.1   277007
-   kvm_exit                                    5198976   23.1   277006
-   kvm_apic                                    1732103    7.7    92289
-   kvm_msr                                     1732101    7.7    92289
-   kvm_inj_virq                                1731904    7.7    92278
-   kvm_eoi                                     1731900    7.7    92278
-   kvm_apic_accept_irq                         1731900    7.7    92278
-   kvm_hv_timer_state                          1731780    7.7    92274
-   kvm_pv_eoi                                  1731701    7.7    92267
-   kvm_ple_window                                   36    0.0        2
-   Total                                      22521394         1199967
-
-  We tried to run the crash tool against a dump of guest vm memory and that=
- gave us the following backtrace:
-  crash> bt
-  PID: 0      TASK: ffffffff81610040  CPU: 0   COMMAND: "swapper/0"
-      [exception RIP: native_read_tsc+2]
-      RIP: ffffffff810146a9  RSP: ffff88003fc03df0  RFLAGS: 00000046
-      RAX: 000000008762c0fa  RBX: ffff88003fc13680  RCX: 0000000000000001
-      RDX: 0000000000fe4871  RSI: 0000000000000000  RDI: ffff88003fc13603
-      RBP: 000000000003052c   R8: 0000000000000200   R9: ffffffff8169b180
-      R10: 0000000000000020  R11: 0000000000000005  R12: 006a33290b40455c
-      R13: 00000000df1fd292  R14: 000000002ca284ff  R15: 00fe485f3febe21a
-      CS: 0010  SS: 0018
-   #0 [ffff88003fc03df0] pvclock_clocksource_read at ffffffff8102cbb3
-   #1 [ffff88003fc03e40] kvm_clock_read at ffffffff8102c2c9
-   #2 [ffff88003fc03e50] timekeeping_get_ns at ffffffff810691b0
-   #3 [ffff88003fc03e60] ktime_get at ffffffff810695c8
-   #4 [ffff88003fc03e90] sched_rt_period_timer at ffffffff8103e4f5
-   #5 [ffff88003fc03ee0] __run_hrtimer at ffffffff810652d3
-   #6 [ffff88003fc03f20] hrtimer_interrupt at ffffffff81065abd
-   #7 [ffff88003fc03f90] smp_apic_timer_interrupt at ffffffff81024ba8
-   #8 [ffff88003fc03fb0] apic_timer_interrupt at ffffffff813587e2
-  --- <IRQ stack> ---
-   #9 [ffffffff81601e98] apic_timer_interrupt at ffffffff813587e2
-      [exception RIP: native_safe_halt+2]
-      RIP: ffffffff8102c360  RSP: ffffffff81601f40  RFLAGS: 00010246
-      RAX: 0000000000000000  RBX: ffffffff81601fd8  RCX: 00000000ffffffff
-      RDX: 00000000ffffffff  RSI: 0000000000000000  RDI: 0000000000000001
-      RBP: 0000000000000000   R8: 0000000000000000   R9: 0000000000000000
-      R10: 0000000000000020  R11: 0000000000000005  R12: ffffffff816f5d80
-      R13: ffffffffffffffff  R14: 000000000008c800  R15: 0000000000000000
-      ORIG_RAX: ffffffffffffff10  CS: 0010  SS: 0018
-  #10 [ffffffff81601f40] default_idle at ffffffff81014c35
-  #11 [ffffffff81601f50] cpu_idle at ffffffff8100d258
-
-  So it seems like the vm is reading its clock constantly trying to
-  catch up some time after the migration.
-
-  Last time it was a bug that was only triggered on newer Gold cpu
-  hardware, but this time we also see this coming back on older Intel E5
-  cpus we tried to reproduce with a migrate loop of 3 days times between
-  kernel 4.14.63 and 4.19.43 but this gave us no results.
-
-  The vms were running ubuntu 14.04, centos 7, debian 7, debian 8 these
-  vms are running linux kernel 3.*.
-
-  The thing is that we are out of ideas for reproducing this, it seems
-  like it the same kind of bug we are hitting, just like last time the
-  vm is basically only trying to read the clock. Perhaps we can try to
-  read the clock data and also try to read what the guest is actually
-  waiting for, which value of the counter does it want to reach.
-
-  I am not sure how to pinpoint the cause of this issue, I would like some =
-help and possible some extra tips on debugging.
-  We are able to read the guests kernel which makes it a bit easier to debu=
-g, reproducing and finding the source of the problem is still something we =
-are trying to figure out.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1831225/+subscriptions
 
