@@ -2,44 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E644D30D78
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 13:47:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41533 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A231330D8F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 13:53:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41626 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWg0N-00029h-MH
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 07:47:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40508)
+	id 1hWg66-0005Y0-TU
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 07:53:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42945)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hWfxq-0000x9-9y
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 07:44:51 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hWg52-0005CL-OE
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 07:52:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hWfwZ-0000Td-6m
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 07:43:33 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:42459 helo=mail.rt-rk.com)
+	(envelope-from <mreitz@redhat.com>) id 1hWg51-0008AA-AJ
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 07:52:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51264)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hWfwX-00085B-7K
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 07:43:31 -0400
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id D66B21A1E5B;
-	Fri, 31 May 2019 13:42:24 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
-	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id B62B21A1DDB;
-	Fri, 31 May 2019 13:42:24 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 31 May 2019 13:41:31 +0200
-Message-Id: <1559302891-29002-3-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559302891-29002-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1559302891-29002-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v7 2/2] linux-user: Add support for statx()
- syscall
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hWg4w-0007vF-MZ; Fri, 31 May 2019 07:52:10 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 51B97308FF30;
+	Fri, 31 May 2019 11:51:57 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.32])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EB389473C4;
+	Fri, 31 May 2019 11:51:53 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190524172812.27308-1-mreitz@redhat.com>
+	<20190524172812.27308-2-mreitz@redhat.com>
+	<20190529221010.GC3471@localhost.localdomain>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <9690f4f9-d618-4d0d-4094-356f8e5c922a@redhat.com>
+Date: Fri, 31 May 2019 13:51:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190529221010.GC3471@localhost.localdomain>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="rZYRCLDpDjWDHR6YUXaXn5VxqzM4u1bf8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.49]);
+	Fri, 31 May 2019 11:51:57 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [RFC 1/3] block: Add ImageRotationalInfo
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,261 +87,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, lvivier@redhat.com, amarkovic@wavecomp.com
+Cc: Alberto Garcia <berto@igalia.com>,
+	Anton Nefedov <anton.nefedov@virtuozzo.com>,
+	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Rikalo <arikalo@wavecomp.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--rZYRCLDpDjWDHR6YUXaXn5VxqzM4u1bf8
+From: Max Reitz <mreitz@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>
+Message-ID: <9690f4f9-d618-4d0d-4094-356f8e5c922a@redhat.com>
+Subject: Re: [RFC 1/3] block: Add ImageRotationalInfo
+References: <20190524172812.27308-1-mreitz@redhat.com>
+ <20190524172812.27308-2-mreitz@redhat.com>
+ <20190529221010.GC3471@localhost.localdomain>
+In-Reply-To: <20190529221010.GC3471@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Implement support for translation of system call statx(). The
-implementation includes invoking other (more mature) system calls
-(from the same 'stat' family) on the host side. This way, the
-problems of potential lack of statx() availability of on the host
-side are avoided.
+On 30.05.19 00:10, Kevin Wolf wrote:
+> Am 24.05.2019 um 19:28 hat Max Reitz geschrieben:
+>> This enum indicates whether a file is stored on a rotating disk or a
+>> solid-state drive.  Drivers report it via the .bdrv_get_info() callbac=
+k,
+>> and if they do not, the global bdrv_get_info() implementation
+>> automatically takes it from bs->file or bs->backing, if available.
+>=20
+> Good that you wrote "bs->file or bs->backing" explicitly. Otherwise, I
+> might have missed that it begs one big question: What is the correct
+> answer for a qcow2 file that has bs->file on an SSD, but bs->backing on=
 
-Support for statx() in kernel and glibc was unfortunately introduced
-in different points of time (the difference is more than a year):
+> a rotating disk?
+>=20
+> I don't think there is a correct answer for the whole device, so maybe
+> this information shouldn't be per device in BlockDriverInfo, but per
+> block in bdrv_co_block_status() (optionally determined if the caller
+> requests it)?
 
-  - kernel: Linux 4.11 (30 April 2017)
-  - glibc: glibc 2.28 (1 Aug 2018)
+I think that=E2=80=99s taking it a bit too far.  There is no heavy implic=
+ation
+in making the wrong choice here, it=E2=80=99s just a performance problem.=
 
-In this patch, the availability of statx() support is established
-via __NR_statx (if it is defined, statx() is considered available).
-This coincedes with statx() introduction in kernel.
+Having to call block_status for every block where we want to know what
+to do seems like the opposite of performance optimization to me.  (We
+could add a flag to block_status to only query that status, but that
+sounds plainly wrong.)
 
-However, the structure statx definition may not be available for hosts
-with glibc older than 2.28 (it is, by design, to be defined in one of
-glibc headers), even though the full statx() functionality may be
-supported in kernel, if the kernel is not older than 4.11. Hence,
-a structure "target_statx" is defined in this patch, to remove that
-dependency on glibc headers, and to use statx() functionality as soon
-as the host kernel is capable of supporting it. Such structure statx
-definition is used for both target and host structures statx (of
-course, this doesn't mean the endian arrangement is the same on
-target and host, and endian conversion is done in all necessary
-cases).
+So, in this series I decided that since all writes go to bs->file, that
+seemed like what mostly determines the behavior of @bs.  (After my =E2=80=
+=9CDeal
+with filters=E2=80=9D series, that would become a decision of bdrv_storag=
+e_bs()
+vs. bdrv_filtered_cow_bs().)
 
-Signed-off-by: Aleksandar Rikalo <arikalo@wavecomp.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/syscall.c      | 135 +++++++++++++++++++++++++++++++++++++++++++++-
- linux-user/syscall_defs.h |  37 +++++++++++++
- 2 files changed, 171 insertions(+), 1 deletion(-)
+(Note that it has to get even funnier with vmdk, if your extents are on
+an HDD, but your descriptor file is on an SSD.  I don=E2=80=99t care too =
+much
+about vmdk=E2=80=99s performance, though.)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index b690404..035f230 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -43,6 +43,7 @@
- #include <sys/times.h>
- #include <sys/shm.h>
- #include <sys/sem.h>
-+#include <sys/stat.h>
- #include <sys/statfs.h>
- #include <utime.h>
- #include <sys/sysinfo.h>
-@@ -6431,6 +6432,48 @@ static inline abi_long host_to_target_stat64(void *cpu_env,
- }
- #endif
- 
-+#if defined(TARGET_NR_statx) && defined(__NR_statx)
-+static inline abi_long host_to_target_statx(struct target_statx *host_stx,
-+                                            abi_ulong target_addr)
-+{
-+    struct target_statx *target_stx;
-+
-+    if (!lock_user_struct(VERIFY_WRITE, target_stx, target_addr,  0)) {
-+        return -TARGET_EFAULT;
-+    }
-+    memset(target_stx, 0, sizeof(*target_stx));
-+
-+    __put_user(host_stx->stx_mask, &target_stx->stx_mask);
-+    __put_user(host_stx->stx_blksize, &target_stx->stx_blksize);
-+    __put_user(host_stx->stx_attributes, &target_stx->stx_attributes);
-+    __put_user(host_stx->stx_nlink, &target_stx->stx_nlink);
-+    __put_user(host_stx->stx_uid, &target_stx->stx_uid);
-+    __put_user(host_stx->stx_gid, &target_stx->stx_gid);
-+    __put_user(host_stx->stx_mode, &target_stx->stx_mode);
-+    __put_user(host_stx->stx_ino, &target_stx->stx_ino);
-+    __put_user(host_stx->stx_size, &target_stx->stx_size);
-+    __put_user(host_stx->stx_blocks, &target_stx->stx_blocks);
-+    __put_user(host_stx->stx_attributes_mask, &target_stx->stx_attributes_mask);
-+    __put_user(host_stx->stx_atime.tv_sec, &target_stx->stx_atime.tv_sec);
-+    __put_user(host_stx->stx_atime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-+    __put_user(host_stx->stx_btime.tv_sec, &target_stx->stx_atime.tv_sec);
-+    __put_user(host_stx->stx_btime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-+    __put_user(host_stx->stx_ctime.tv_sec, &target_stx->stx_atime.tv_sec);
-+    __put_user(host_stx->stx_ctime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-+    __put_user(host_stx->stx_mtime.tv_sec, &target_stx->stx_atime.tv_sec);
-+    __put_user(host_stx->stx_mtime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-+    __put_user(host_stx->stx_rdev_major, &target_stx->stx_rdev_major);
-+    __put_user(host_stx->stx_rdev_minor, &target_stx->stx_rdev_minor);
-+    __put_user(host_stx->stx_dev_major, &target_stx->stx_dev_major);
-+    __put_user(host_stx->stx_dev_minor, &target_stx->stx_dev_minor);
-+
-+    unlock_user_struct(target_stx, target_addr, 1);
-+
-+    return 0;
-+}
-+#endif
-+
-+
- /* ??? Using host futex calls even when target atomic operations
-    are not really atomic probably breaks things.  However implementing
-    futexes locally would make futexes shared between multiple processes
-@@ -6984,7 +7027,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     abi_long ret;
- #if defined(TARGET_NR_stat) || defined(TARGET_NR_stat64) \
-     || defined(TARGET_NR_lstat) || defined(TARGET_NR_lstat64) \
--    || defined(TARGET_NR_fstat) || defined(TARGET_NR_fstat64)
-+    || defined(TARGET_NR_fstat) || defined(TARGET_NR_fstat64) \
-+    || defined(TARGET_NR_statx)
-     struct stat st;
- #endif
- #if defined(TARGET_NR_statfs) || defined(TARGET_NR_statfs64) \
-@@ -10033,6 +10077,95 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             ret = host_to_target_stat64(cpu_env, arg3, &st);
-         return ret;
- #endif
-+#if defined(TARGET_NR_statx)
-+    case TARGET_NR_statx:
-+        {
-+            struct target_statx *target_stx;
-+            int dirfd = arg1;
-+            int flags = arg3;
-+
-+            p = lock_user_string(arg2);
-+            if (p == NULL) {
-+                return -TARGET_EFAULT;
-+            }
-+#if defined(__NR_statx)
-+            {
-+                /*
-+                 * It is assumed that struct statx is arhitecture independent
-+                 */
-+                struct target_statx host_stx;
-+                int mask = arg4;
-+
-+                ret = get_errno(syscall(__NR_statx, dirfd, p, flags, mask,
-+                                        &host_stx));
-+                if (!is_error(ret)) {
-+                    if (host_to_target_statx(&host_stx, arg5) != 0) {
-+                        unlock_user(p, arg2, 0);
-+                        return -TARGET_EFAULT;
-+                    }
-+                }
-+
-+                if (ret != TARGET_ENOSYS) {
-+                    unlock_user(p, arg2, 0);
-+                    return ret;
-+                }
-+            }
-+#endif
-+            if ((p == NULL) || (*((char *)p) == 0)) {
-+                /*
-+                 * By file descriptor
-+                 */
-+                if (flags & AT_EMPTY_PATH) {
-+                    unlock_user(p, arg2, 0);
-+                    return -TARGET_ENOENT;
-+                }
-+                ret = get_errno(fstat(dirfd, &st));
-+            } else if (*((char *)p) == '/') {
-+                /*
-+                 * By absolute pathname
-+                 */
-+                ret = get_errno(stat(path(p), &st));
-+            } else {
-+                if (dirfd == AT_FDCWD) {
-+                    /*
-+                     * By pathname relative to the current working directory
-+                     */
-+                    ret = get_errno(stat(path(p), &st));
-+                } else {
-+                    /*
-+                     * By pathname relative to the directory referred to by
-+                     * the file descriptor 'dirfd'
-+                     */
-+                    ret = get_errno(fstatat(dirfd, path(p), &st, flags));
-+                }
-+            }
-+            unlock_user(p, arg2, 0);
-+
-+            if (!is_error(ret)) {
-+                if (!lock_user_struct(VERIFY_WRITE, target_stx, arg5, 0)) {
-+                    return -TARGET_EFAULT;
-+                }
-+                memset(target_stx, 0, sizeof(*target_stx));
-+                __put_user(major(st.st_dev), &target_stx->stx_dev_major);
-+                __put_user(minor(st.st_dev), &target_stx->stx_dev_minor);
-+                __put_user(st.st_ino, &target_stx->stx_ino);
-+                __put_user(st.st_mode, &target_stx->stx_mode);
-+                __put_user(st.st_uid, &target_stx->stx_uid);
-+                __put_user(st.st_gid, &target_stx->stx_gid);
-+                __put_user(st.st_nlink, &target_stx->stx_nlink);
-+                __put_user(major(st.st_rdev), &target_stx->stx_rdev_major);
-+                __put_user(minor(st.st_rdev), &target_stx->stx_rdev_minor);
-+                __put_user(st.st_size, &target_stx->stx_size);
-+                __put_user(st.st_blksize, &target_stx->stx_blksize);
-+                __put_user(st.st_blocks, &target_stx->stx_blocks);
-+                __put_user(st.st_atime, &target_stx->stx_atime.tv_sec);
-+                __put_user(st.st_mtime, &target_stx->stx_mtime.tv_sec);
-+                __put_user(st.st_ctime, &target_stx->stx_ctime.tv_sec);
-+                unlock_user_struct(target_stx, arg5, 1);
-+            }
-+        }
-+        return ret;
-+#endif
- #ifdef TARGET_NR_lchown
-     case TARGET_NR_lchown:
-         if (!(p = lock_user_string(arg1)))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 8904d35..82f2ac3 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2522,4 +2522,41 @@ struct target_user_cap_data {
- /* Return size of the log buffer */
- #define TARGET_SYSLOG_ACTION_SIZE_BUFFER   10
- 
-+struct target_statx_timestamp {
-+   int64_t tv_sec;
-+   uint32_t tv_nsec;
-+   int32_t __reserved;
-+};
-+
-+struct target_statx {
-+   /* 0x00 */
-+   uint32_t stx_mask;       /* What results were written [uncond] */
-+   uint32_t stx_blksize;    /* Preferred general I/O size [uncond] */
-+   uint64_t stx_attributes; /* Flags conveying information about the file */
-+   /* 0x10 */
-+   uint32_t stx_nlink;      /* Number of hard links */
-+   uint32_t stx_uid;        /* User ID of owner */
-+   uint32_t stx_gid;        /* Group ID of owner */
-+   uint16_t stx_mode;       /* File mode */
-+   uint16_t __spare0[1];
-+   /* 0x20 */
-+   uint64_t stx_ino;        /* Inode number */
-+   uint64_t stx_size;       /* File size */
-+   uint64_t stx_blocks;     /* Number of 512-byte blocks allocated */
-+   uint64_t stx_attributes_mask; /* Mask to show what is supported */
-+   /* 0x40 */
-+   struct target_statx_timestamp  stx_atime;  /* Last access time */
-+   struct target_statx_timestamp  stx_btime;  /* File creation time */
-+   struct target_statx_timestamp  stx_ctime;  /* Last attribute change time */
-+   struct target_statx_timestamp  stx_mtime;  /* Last data modification time */
-+   /* 0x80 */
-+   uint32_t stx_rdev_major;   /* Device ID of special file [if bdev/cdev] */
-+   uint32_t stx_rdev_minor;
-+   uint32_t stx_dev_major; /* ID of device containing file [uncond] */
-+   uint32_t stx_dev_minor;
-+   /* 0x90 */
-+   uint64_t __spare2[14];  /* Spare space for future expansion */
-+   /* 0x100 */
-+};
-+
- #endif
--- 
-2.7.4
+In my v1, I=E2=80=99ll add a per-node @rotational parameter with which th=
+e user
+can override the status we guessed.  In fact, currently, my commit
+message explicitly notes that case:
 
+https://git.xanclic.moe/XanClic/qemu/commit/0834f1ce77b4c27f0c00f1e4fbee0=
+99278e530b2
+
+(Point 4)
+
+(from
+https://git.xanclic.moe/XanClic/qemu/commits/branch/spinning-rust-next)
+
+
+Alternatively to making bs->file take precedence over bs->backing, we
+could also just set the status to unknown if bs->file and bs->backing
+differ in their status.
+
+
+I think it=E2=80=99s generally better to prefer what bs->file says.  This=
+ is an
+optimization case, so I think it=E2=80=99s more important to get it right=
+ most
+of the time (and guess wrong sometimes) than to stop guessing in all
+cases where we could be wrong.
+
+Max
+
+
+--rZYRCLDpDjWDHR6YUXaXn5VxqzM4u1bf8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzxFVcACgkQ9AfbAGHV
+z0BwtggAsed5H1dplITqwzld3nMDuY6a6m483uwhXaC1TZd6SIAlgG9zIXQk1jyL
+W2JIi4uAh9/6O30qUAclrkMN2RDIICmabGu1BeiIXM0ajpVC4YjEwWWf2OgHNDhQ
+rDlOSHUXW86Hx/hCb/heYmmzK/EvebXHctTzk34hBnTdnVOdvtmn7JCXawtjMnRk
+yFCzcp/VvGN7A1WnJq059mbsOCbCwjR1OLtMamLFLE34AOLiNZAKf5FRoNsk/ZQA
+H6HmershFfvuLwdm6bz9UEIPZ3sYyVmT/oejMHb4pZV4sbfg1m+uNAniy1jtFocx
+g1bJ5nPu9MJQEcNbId8nQRFlPZr46Q==
+=Oh88
+-----END PGP SIGNATURE-----
+
+--rZYRCLDpDjWDHR6YUXaXn5VxqzM4u1bf8--
 
