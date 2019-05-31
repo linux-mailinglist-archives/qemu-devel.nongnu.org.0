@@ -2,51 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87092315A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 21:51:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48366 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83F831643
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 22:43:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48895 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWnYb-0003Xr-8g
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 15:51:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47756)
+	id 1hWoN7-0002kv-DK
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 16:43:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55612)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hWnXL-00032W-8J
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 15:50:00 -0400
+	(envelope-from <alex.williamson@redhat.com>) id 1hWoLu-0002D6-N8
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 16:42:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hWnXK-0004Lc-94
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 15:49:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:14329)
+	(envelope-from <alex.williamson@redhat.com>) id 1hWo9x-0000tN-4U
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 16:29:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56800)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>)
-	id 1hWnXI-0004Ie-4Y; Fri, 31 May 2019 15:49:56 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	(Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+	id 1hWo9w-0000sc-TE
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 16:29:53 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E4BDF30C1E3A;
-	Fri, 31 May 2019 19:49:47 +0000 (UTC)
-Received: from localhost (ovpn-120-246.rdu2.redhat.com [10.10.120.246])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3217578380;
-	Fri, 31 May 2019 19:49:45 +0000 (UTC)
-Date: Fri, 31 May 2019 16:49:44 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <20190531194944.GL22103@habkost.net>
-References: <20190529160747.778-1-lvivier@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id AE24D20276
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 20:29:41 +0000 (UTC)
+Received: from x1.home (ovpn-116-22.phx2.redhat.com [10.3.116.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5C5455D71B;
+	Fri, 31 May 2019 20:29:34 +0000 (UTC)
+Date: Fri, 31 May 2019 14:29:33 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190531142933.248cbd17@x1.home>
+In-Reply-To: <20190531184512.GN3169@work-vm>
+References: <20190517125820.2885-4-jfreimann@redhat.com>
+	<20190521094504.GB2915@work-vm>
+	<20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
+	<20190530134631-mutt-send-email-mst@kernel.org>
+	<20190530180022.GB2864@work-vm>
+	<20190530140419-mutt-send-email-mst@kernel.org>
+	<20190530182210.GA22103@habkost.net>
+	<20190530190322-mutt-send-email-mst@kernel.org>
+	<20190531170154.GB22103@habkost.net>
+	<20190531135059-mutt-send-email-mst@kernel.org>
+	<20190531184512.GN3169@work-vm>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190529160747.778-1-lvivier@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Fri, 31 May 2019 19:49:55 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.29]);
+	Fri, 31 May 2019 20:29:46 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4] numa: improve cpu hotplug error message
- with a wrong node-id
+Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,33 +68,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
-	Igor Mammedov <imammedo@redhat.com>,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: pkrempa@redhat.com, berrange@redhat.com,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, aadam@redhat.com,
+	qemu-devel@nongnu.org, laine@redhat.com, jdenemar@redhat.com,
+	Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 29, 2019 at 06:07:47PM +0200, Laurent Vivier wrote:
-> On pseries, core-ids are strongly binded to a node-id by the command
-> line option. If an user tries to add a CPU to the wrong node, he has
-> an error but it is not really helpful:
-> 
->   qemu-system-ppc64 ... -smp 1,maxcpus=64,cores=1,threads=1,sockets=1 \
->                         -numa node,nodeid=0 -numa node,nodeid=1 ...
-> 
->   (qemu) device_add power9_v2.0-spapr-cpu-core,core-id=30,node-id=1
->   Error: node-id=1 must match numa node specified with -numa option
-> 
-> This patch improves this error message by giving to the user the good
-> node-id to use with the core-id he's providing
-> 
->   Error: invalid node-id, must be 0
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+On Fri, 31 May 2019 19:45:13 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-Queued, thanks.
+> * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > On Fri, May 31, 2019 at 02:01:54PM -0300, Eduardo Habkost wrote:  
+> > > > Yes. It's just lots of extremely low level interfaces
+> > > > and all rather pointless.
+> > > > 
+> > > > And down the road extensions like surprise removal support will make it
+> > > > all cleaner and more transparent. Floating things up to libvirt means
+> > > > all these low level details will require more and more hacks.  
+> > > 
+> > > Why do you call it pointless?  
+> > 
+> > We'd need APIs to manipulate device visibility to guest, hotplug
+> > controller state and separately manipulate the resources allocated. This
+> > is low level stuff that users really have no idea what to do about.
+> > Exposing such a level of detail to management is imho pointless.
+> > We are better off with a high level API, see below.  
+> 
+> so I don't know much about vfio; but to me it strikes me that
+> you wouldn't need that low level detail if we just reworked vfio
+> to look more like all our other devices;
 
--- 
-Eduardo
+I don't understand what this means, I thought vfio-pci followed a very
+standard device model.
+
+> something like:
+> 
+>   -vfiodev  host=02:00.0,id=gpu
+>   -device vfio-pci,dev=gpu
+>
+> The 'vfiodev' would own the resources; so to do this trick, the
+> management layer would:
+>    hotunplug the vfio-pci
+>    migrate
+> 
+> if anything went wrong it would
+>    hotplug the vfio-pci backin
+> 
+> you wouldn't have free'd up any resources because they belonged
+> to the vfiodev.
+
+So you're looking more for some sort of frontend-backend separation, we
+hot-unplug the frontend device that's exposed to the guest while the
+backend device that holds the host resources is still attached.  I
+would have hardly guessed that's "like all our other devices".  I was
+under the impression (from previous discussions mostly) that the device
+removal would be caught before actually allowing the device to finalize
+and exit, such that with a failed migration, re-adding the device would
+be deterministic since the device is never released back to the host.
+I expected that could be done within QEMU, but I guess that's what
+we're getting into here is how management tools specify that eject w/o
+release semantic.  I don't know what this frontend/backend rework would
+look like for vfio-pci, but it seems non-trivial for this one use case
+and I don't see that it adds any value outside of this use case,
+perhaps quite the opposite, it's an overly complicated interface for
+the majority of use cases so we either move to a more complicated
+interface or maintain both.  Poor choices either way.  Thanks,
+
+Alex
 
