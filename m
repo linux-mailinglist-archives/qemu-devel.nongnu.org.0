@@ -2,54 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8F2320D6
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 00:02:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41875 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4729A3101C
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 16:25:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44461 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXC5A-0001jW-Gc
-	for lists+qemu-devel@lfdr.de; Sat, 01 Jun 2019 18:02:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43796)
+	id 1hWiTF-0007yo-15
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 10:25:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44822)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hXC42-0001N4-Fh
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 18:01:24 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hWiRu-0007Ya-JU
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:24:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hXC40-0000Li-Kt
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 18:01:22 -0400
-Resent-Date: Sat, 01 Jun 2019 18:01:22 -0400
-Resent-Message-Id: <E1hXC40-0000Li-Kt@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21439)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hXC40-00007u-Ck
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 18:01:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1559311950; cv=none; d=zoho.com; s=zohoarc; 
-	b=ZOywvDSl1mn/ohY2bK5F4vsic6kQmbb0IZ8WccHZm3dcCwGYnEWqMqjKd/3lqTBrZmlF+TOk1iFZHGIYCIZLrWWv/+Z+eBsswc7GaHkABryDf1WEJlLpCBYG9hAtMdoSqVXzSwkcQ6N4H9eyHl0/vtOMnxmrhx4eVirLnoJdgho=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1559311950;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=HR6lPH+hxMrPQwNgV9R/IWMhMy/fPiY13/kiwrekXDk=; 
-	b=SQKMAdEQvh6nOpPmjfPR1yTmw1s1YuLzxL7uga2a2FNnFeklYuErQ6Sf3FPSBuAXyLQ/RiCle7HrBVa8WIMt20MKtWIALAzKkzt9F0fvEYYmcKDm/KRG2EbJ02W6TelnVNfFIaFg3MyV2a5EJt9e2vs59uNUfEqMoLu1psZpR5c=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1559311949164186.378010757948;
-	Fri, 31 May 2019 07:12:29 -0700 (PDT)
-In-Reply-To: <20190531134315.4109-1-richard.henderson@linaro.org>
-Message-ID: <155931194800.9187.11174704470136190139@ce79690b2cb9>
+	(envelope-from <imammedo@redhat.com>) id 1hWiRr-0007jl-F8
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:24:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57038)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hWiRr-0007aM-5p
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:23:59 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 78A6CA3EB1;
+	Fri, 31 May 2019 14:23:51 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 25A1D1009976;
+	Fri, 31 May 2019 14:23:46 +0000 (UTC)
+Date: Fri, 31 May 2019 16:23:41 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190531162341.3743eb45@redhat.com>
+In-Reply-To: <20190531134315.4109-14-richard.henderson@linaro.org>
+References: <20190531134315.4109-1-richard.henderson@linaro.org>
+	<20190531134315.4109-14-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Fri, 31 May 2019 07:12:29 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Fri, 31 May 2019 14:23:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH v16 00/23] Add RX architecture
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v16 13/23] target/rx: Fix cpu types and
+ names
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,145 +58,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
 Cc: philmd@redhat.com, qemu-devel@nongnu.org, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUzMTEzNDMxNS40MTA5
-LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2MTYgMDAv
-MjNdIEFkZCBSWCBhcmNoaXRlY3R1cmUKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwNTMx
-MTM0MzE1LjQxMDktMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnCgo9PT0gVEVTVCBTQ1JJ
-UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8
-fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3Jp
-dGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9
-PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1w
-cm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgICAgICAgcGF0Y2hldy8yMDE5MDUzMTEz
-NDMxNS40MTA5LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMTkw
-NTMxMTM0MzE1LjQxMDktMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3aXRjaGVkIHRv
-IGEgbmV3IGJyYW5jaCAndGVzdCcKZmZjZWE0NDBiOCB0YXJnZXQvcng6IER1bXAgYnl0ZXMgZm9y
-IGVhY2ggaW5zbiBkdXJpbmcgZGlzYXNzZW1ibHkKZDU1M2NlNGEwOCB0YXJnZXQvcng6IENvbGxl
-Y3QgYWxsIGJ5dGVzIGR1cmluZyBkaXNhc3NlbWJseQplZTA5NDMyNmZlIHRhcmdldC9yeDogRW1p
-dCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpCjE4OGNhZDU2N2MgdGFyZ2V0L3J4OiBVc2Ug
-cHJ0X2xkbWkgZm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkKYzkzNTFhMjJjMiB0YXJnZXQvcng6IFJl
-cGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxlcgo1ZWNiMTc5M2UzIHRh
-cmdldC9yeDogRGlzYXNzZW1ibGUgcnhfaW5kZXhfYWRkciBpbnRvIGEgc3RyaW5nCmZmNjhiZGM1
-MDYgTUFJTlRBSU5FUlM6IEFkZCBSWAphNGY0NTkzYzc3IEFkZCByeC1zb2Z0bW11CmM5ODZkYjZl
-ZjggaHcvcng6IEhvbm9yIC1hY2NlbCBxdGVzdAoxZWE3NDI1OGZlIHRlc3RzOiBBZGQgcnggdG8g
-bWFjaGluZS1ub25lLXRlc3QuYwo0Yzg5ZWZjYTNiIHRhcmdldC9yeDogRml4IGNwdSB0eXBlcyBh
-bmQgbmFtZXMKNjAzMjY5YzFhMSB0YXJnZXQvcng6IEFkZCBSWCB0byBTeXNFbXVUYXJnZXQKMDJi
-MzZjZWNmNyB0YXJnZXQvcng6IENvbnZlcnQgdG8gQ1BVQ2xhc3M6OnRsYl9maWxsCjQxYzk5YzNj
-YzAgaHcvcmVnaXN0ZXJmaWVsZHMuaDogQWRkIDhiaXQgYW5kIDE2Yml0IHJlZ2lzdGVyIG1hY3Jv
-cwozMWJiNWY1YmI3IHFlbXUvYml0b3BzLmg6IEFkZCBleHRyYWN0OCBhbmQgZXh0cmFjdDE2Cjkw
-NDI5ZmZiY2MgaHcvcng6IFJYIFRhcmdldCBoYXJkd2FyZSBkZWZpbml0aW9uCmYxZmMzNjVmNmMg
-aHcvY2hhcjogUlg2Mk4gc2VyaWFsIGNvbW11bmljYXRpb24gaW50ZXJmYWNlIChTQ0kpCjU2Mjdh
-YzA0YWEgaHcvdGltZXI6IFJYNjJOIGludGVybmFsIHRpbWVyIG1vZHVsZXMKOTdkYWZkMjI5OSBo
-dy9pbnRjOiBSWDYyTiBpbnRlcnJ1cHQgY29udHJvbGxlciAoSUNVYSkKNjYyYWI2N2U2ZCB0YXJn
-ZXQvcng6IFJYIGRpc2Fzc2VtYmxlcgo1ZTg3OTBlOGM1IHRhcmdldC9yeDogQ1BVIGRlZmluaXRp
-b24KNTExM2FlZWQ0MSB0YXJnZXQvcng6IFRDRyBoZWxwZXIKNmFmZjNmNGNjMiB0YXJnZXQvcng6
-IFRDRyB0cmFuc2xhdGlvbgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yMyBDaGVja2luZyBjb21t
-aXQgNmFmZjNmNGNjMjhiICh0YXJnZXQvcng6IFRDRyB0cmFuc2xhdGlvbikKV0FSTklORzogYWRk
-ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
-aW5nPwojMTk6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5p
-bmdzLCAzMDY1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMjMgaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KMi8yMyBDaGVja2luZyBjb21taXQgNTExM2FlZWQ0MTM3ICh0YXJnZXQvcng6IFRDRyBo
-ZWxwZXIpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJ
-TlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE0OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFs
-OiAwIGVycm9ycywgMSB3YXJuaW5ncywgNjYwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMjMgaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy8yMyBDaGVja2luZyBjb21taXQgNWU4NzkwZThjNTYz
-ICh0YXJnZXQvcng6IENQVSBkZWZpbml0aW9uKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
-ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNDogCm5ldyBm
-aWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDU5OSBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAzLzIzIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjQvMjMgQ2hlY2tp
-bmcgY29tbWl0IDY2MmFiNjdlNmQ5MCAodGFyZ2V0L3J4OiBSWCBkaXNhc3NlbWJsZXIpCldBUk5J
-Tkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVl
-ZCB1cGRhdGluZz8KIzM4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywg
-MSB3YXJuaW5ncywgMTQ5NyBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzIzIGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCjUvMjMgQ2hlY2tpbmcgY29tbWl0IDk3ZGFmZDIyOTlkYSAoaHcvaW50Yzog
-Ulg2Mk4gaW50ZXJydXB0IGNvbnRyb2xsZXIgKElDVWEpKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQg
-b3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzOTog
-Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDQ0MiBs
-aW5lcyBjaGVja2VkCgpQYXRjaCA1LzIzIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
-dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
-bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjYvMjMg
-Q2hlY2tpbmcgY29tbWl0IDU2MjdhYzA0YWExNyAoaHcvdGltZXI6IFJYNjJOIGludGVybmFsIHRp
-bWVyIG1vZHVsZXMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
-ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQ5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQK
-CnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgODM5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYv
-MjMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNy8yMyBDaGVja2luZyBjb21taXQgZjFmYzM2
-NWY2Y2U5IChody9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFND
-SSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
-SU5FUlMgbmVlZCB1cGRhdGluZz8KIzQyOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAw
-IGVycm9ycywgMSB3YXJuaW5ncywgMzk4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvMjMgaGFzIHN0
-eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
-ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
-QVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8yMyBDaGVja2luZyBjb21taXQgOTA0MjlmZmJjYzBlICho
-dy9yeDogUlggVGFyZ2V0IGhhcmR3YXJlIGRlZmluaXRpb24pCldBUk5JTkc6IGFkZGVkLCBtb3Zl
-ZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE4
-OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDYw
-IGxpbmVzIGNoZWNrZWQKClBhdGNoIDgvMjMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOS8y
-MyBDaGVja2luZyBjb21taXQgMzFiYjVmNWJiNzBmIChxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFj
-dDggYW5kIGV4dHJhY3QxNikKMTAvMjMgQ2hlY2tpbmcgY29tbWl0IDQxYzk5YzNjYzA4NyAoaHcv
-cmVnaXN0ZXJmaWVsZHMuaDogQWRkIDhiaXQgYW5kIDE2Yml0IHJlZ2lzdGVyIG1hY3JvcykKVXNl
-IG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgd2l0aGluIEByYXdsaW5lcyBpbiBjb25jYXRlbmF0aW9u
-ICguKSBvciBzdHJpbmcgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAyNDY2LgpFUlJP
-UjogTWFjcm9zIHdpdGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4g
-YSBkbyAtIHdoaWxlIGxvb3AKIzI1OiBGSUxFOiBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6
-MjU6CisjZGVmaW5lIFJFRzgocmVnLCBhZGRyKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVudW0geyBBXyAjIyByZWcgPSAoYWRkcikgfTsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IFJf
-ICMjIHJlZyA9IChhZGRyKSB9OwoKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVu
-dHMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiMyOTogRklMRTogaW5j
-bHVkZS9ody9yZWdpc3RlcmZpZWxkcy5oOjI5OgorI2RlZmluZSBSRUcxNihyZWcsIGFkZHIpICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51
-bSB7IEFfICMjIHJlZyA9IChhZGRyKSB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIFwKKyAgICBlbnVtIHsgUl8gIyMgcmVnID0gKGFkZHIpIC8gMiB9OwoKdG90YWw6
-IDIgZXJyb3JzLCAwIHdhcm5pbmdzLCA1NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8yMyBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTEvMjMgQ2hlY2tpbmcgY29tbWl0IDAyYjM2Y2VjZjc4
-YSAodGFyZ2V0L3J4OiBDb252ZXJ0IHRvIENQVUNsYXNzOjp0bGJfZmlsbCkKMTIvMjMgQ2hlY2tp
-bmcgY29tbWl0IDYwMzI2OWMxYTEzMCAodGFyZ2V0L3J4OiBBZGQgUlggdG8gU3lzRW11VGFyZ2V0
-KQoxMy8yMyBDaGVja2luZyBjb21taXQgNGM4OWVmY2EzYjE5ICh0YXJnZXQvcng6IEZpeCBjcHUg
-dHlwZXMgYW5kIG5hbWVzKQoxNC8yMyBDaGVja2luZyBjb21taXQgMWVhNzQyNThmZWJlICh0ZXN0
-czogQWRkIHJ4IHRvIG1hY2hpbmUtbm9uZS10ZXN0LmMpCjE1LzIzIENoZWNraW5nIGNvbW1pdCBj
-OTg2ZGI2ZWY4NjcgKGh3L3J4OiBIb25vciAtYWNjZWwgcXRlc3QpCjE2LzIzIENoZWNraW5nIGNv
-bW1pdCBhNGY0NTkzYzc3YzcgKEFkZCByeC1zb2Z0bW11KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQg
-b3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1NDog
-Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDQ1IGxp
-bmVzIGNoZWNrZWQKClBhdGNoIDE2LzIzIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
-dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
-bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE3LzIz
-IENoZWNraW5nIGNvbW1pdCBmZjY4YmRjNTA2MDQgKE1BSU5UQUlORVJTOiBBZGQgUlgpCjE4LzIz
-IENoZWNraW5nIGNvbW1pdCA1ZWNiMTc5M2UzOWIgKHRhcmdldC9yeDogRGlzYXNzZW1ibGUgcnhf
-aW5kZXhfYWRkciBpbnRvIGEgc3RyaW5nKQoxOS8yMyBDaGVja2luZyBjb21taXQgYzkzNTFhMjJj
-Mjg0ICh0YXJnZXQvcng6IFJlcGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2Vt
-YmxlcikKMjAvMjMgQ2hlY2tpbmcgY29tbWl0IDE4OGNhZDU2N2M4NyAodGFyZ2V0L3J4OiBVc2Ug
-cHJ0X2xkbWkgZm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkpCjIxLzIzIENoZWNraW5nIGNvbW1pdCBl
-ZTA5NDMyNmZlYmEgKHRhcmdldC9yeDogRW1pdCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgp
-KQoyMi8yMyBDaGVja2luZyBjb21taXQgZDU1M2NlNGEwODNhICh0YXJnZXQvcng6IENvbGxlY3Qg
-YWxsIGJ5dGVzIGR1cmluZyBkaXNhc3NlbWJseSkKMjMvMjMgQ2hlY2tpbmcgY29tbWl0IGZmY2Vh
-NDQwYjg2MyAodGFyZ2V0L3J4OiBEdW1wIGJ5dGVzIGZvciBlYWNoIGluc24gZHVyaW5nIGRpc2Fz
-c2VtYmx5KQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2Rl
-OiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9n
-cy8yMDE5MDUzMTEzNDMxNS40MTA5LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy90ZXN0
-aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
-aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91
-ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Fri, 31 May 2019 08:43:05 -0500
+Richard Henderson <richard.henderson@linaro.org> wrote:
+
+> There was confusion here about abstract classes and naming cpus.
+> We had registered a concrete class named "-rxcpu".  This was put
+> into the default cpu fields, and matched, so basic tests worked.
+> However, no value for -cpu could ever match in rx_cpu_class_by_name.
+> 
+> Rename the base class to "rx-cpu" and make it abstract.  This
+> matches what we do for most other targets.  Create a new concrete
+> cpu with the name "rx62n-rx-cpu".
+
+since it hasn't been merged yet, it would be better to squash this
+fixup into 3/23
+
+[...]
+
+> diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+> index 3268077d08..41fe1de4bb 100644
+> --- a/target/rx/cpu.c
+> +++ b/target/rx/cpu.c
+> @@ -74,13 +74,14 @@ static void rx_cpu_list_entry(gpointer data, gpointer user_data)
+>      const char *typename = object_class_get_name(OBJECT_CLASS(data));
+>      int len = strlen(typename) - strlen(RX_CPU_TYPE_SUFFIX);
+>  
+> -    qemu_printf("%.*s\n", len, typename);
+> +    qemu_printf("  %.*s\n", len, typename);
+>  }
+>  
+>  void rx_cpu_list(void)
+>  {
+> -    GSList *list;
+> -    list = object_class_get_list_sorted(TYPE_RXCPU, false);
+> +    GSList *list = object_class_get_list_sorted(TYPE_RX_CPU, false);
+> +
+> +    qemu_printf("Available CPUs:\n");
+>      g_slist_foreach(list, rx_cpu_list_entry, NULL);
+>      g_slist_free(list);
+>  }
+> @@ -88,15 +89,17 @@ void rx_cpu_list(void)
+>  static ObjectClass *rx_cpu_class_by_name(const char cpu_model)
+>  {
+>      ObjectClass *oc;
+> -    char *typename = NULL;
+> +    char *typename;
+>  
+> -    typename = g_strdup_printf(RX_CPU_TYPE_NAME(""));
+> +    typename = g_strdup_printf(RX_CPU_TYPE_NAME("%s"), cpu_model);
+>      oc = object_class_by_name(typename);
+
+in case of new cpu, I'd allow only typename as cpu_model
+
+s/typename/cpu_model/
+  
+which is compatible with '-device' naming and QMP/monitor interfaces
+that we support.
+
+and I would not add other naming schemes /like adding suffix to cpu_model or .../
+that  are existing in QEMU for legacy reasons.
+
+
+> -    if (oc != NULL && object_class_is_abstract(oc)) {
+> -        oc = NULL;
+> -    }
+> -
+>      g_free(typename);
+> +
+> +    if (oc == NULL ||
+> +        object_class_is_abstract(oc) ||
+> +        !object_class_dynamic_cast(oc, TYPE_RX_CPU)) {
+> +        return NULL;
+> +    }
+>      return oc;
+>  }
+>  
+[...]
+
 
 
