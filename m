@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B06E30EB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 15:16:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43453 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131B230EB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 15:16:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43449 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWhOl-0006Mm-O9
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 09:16:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55870)
+	id 1hWhOH-00066G-5i
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 09:16:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55793)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <quintela@redhat.com>) id 1hWhKE-0003EX-0K
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:12:03 -0400
+	(envelope-from <quintela@redhat.com>) id 1hWhK9-0003E6-S1
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:12:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <quintela@redhat.com>) id 1hWh5P-0002aw-1Q
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 08:56:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43540)
+	(envelope-from <quintela@redhat.com>) id 1hWh6C-0003Mx-39
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 08:57:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50788)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hWh5O-0002Si-SH
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 08:56:42 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	(Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hWh6B-0003KI-TZ
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 08:57:32 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 083B68666C
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 12:56:28 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 88EF53179174
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 12:57:28 +0000 (UTC)
 Received: from redhat.com (ovpn-116-135.ams2.redhat.com [10.36.116.135])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0434653C3A;
-	Fri, 31 May 2019 12:56:24 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CB7A9601AC;
+	Fri, 31 May 2019 12:57:22 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-In-Reply-To: <20190530092919.26059-2-peterx@redhat.com> (Peter Xu's message of
-	"Thu, 30 May 2019 17:29:08 +0800")
+In-Reply-To: <20190530092919.26059-3-peterx@redhat.com> (Peter Xu's message of
+	"Thu, 30 May 2019 17:29:09 +0800")
 References: <20190530092919.26059-1-peterx@redhat.com>
-	<20190530092919.26059-2-peterx@redhat.com>
+	<20190530092919.26059-3-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Fri, 31 May 2019 14:56:21 +0200
-Message-ID: <87r28eok96.fsf@trasno.org>
+Date: Fri, 31 May 2019 14:57:20 +0200
+Message-ID: <87muj2ok7j.fsf@trasno.org>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Fri, 31 May 2019 12:56:36 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.41]);
+	Fri, 31 May 2019 12:57:28 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 01/12] checkpatch: Allow
- SPDX-License-Identifier
+Subject: Re: [Qemu-devel] [PATCH v3 02/12] migration: No need to take rcu
+ during sync_dirty_bitmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,14 +66,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Peter Xu <peterx@redhat.com> wrote:
-> According to: https://spdx.org/ids-how, let's still allow QEMU to use
-> the SPDX license identifier:
+> cpu_physical_memory_sync_dirty_bitmap() has one RAMBlock* as
+> parameter, which means that it must be with RCU read lock held
+> already.  Taking it again inside seems redundant.  Removing it.
+> Instead comment on the functions about the RCU read lock.
 >
-> // SPDX-License-Identifier: ***
->
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-Althought this patch don't belong to the series O:-)
 
