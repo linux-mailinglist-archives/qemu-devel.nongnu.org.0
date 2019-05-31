@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6712530F42
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 15:47:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43831 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E52630F31
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 15:45:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43779 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWhsn-0001qr-H8
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 09:47:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34142)
+	id 1hWhr2-0000DL-Gt
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 09:45:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34308)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWhnk-0006fQ-Te
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:42:34 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hWhoW-0007GB-FM
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWhnj-0007Qi-JX
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:42:32 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40661)
+	(envelope-from <richard.henderson@linaro.org>) id 1hWhoV-0008ML-87
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:20 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:36676)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWhnj-0007Pc-CQ
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:42:31 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p11so1737435wre.7
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 06:42:31 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hWhoV-0008LV-2g
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:43:19 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id y124so7751565oiy.3
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 06:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=062yvBP43SlJ/7au0KOthvqCDGNnNfcrbhh3ieL3gbI=;
-	b=WRBB8zxCFlUHCW4KlX/gzEZYUqzTVmz9Xd1hVniDqZE1gcy+oPvqOwfufgPOF18iYO
-	yg+yPwVo+NHy38POxYyZT9lFQXFanRX2BX5ytpRKyuJaEFR7Y8hBCGU8BAbk0RfnnDtN
-	ZeWCtPhHyv2tLh55Ry6RNE3FuR6liQ+Xl1MehtmllAdBiVjZXjpyteLd8px/y6fiFnpI
-	VpE9LaAfwhEhVhwONrMHWoR7+IFKzyv/ymAJH3YQz/PidruPCu2v6sp2Yevq97vNjtr5
-	D0QMhn1tANfcYeQreh/qunA7X9OMV3N+g8uf4A7/oeX/MssqaAT2yRiWCnGuTf7OMyUn
-	tDbw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JcjDx8lv6syXknEH6gXvbh3NkQrjO+4cM/hkpXquMSM=;
+	b=cpqucE0dL4H6AunrKPaRzyrliVPAit0WBXvAK71v+o/iL2gmRqnAfJR3dR8Qr0qtgT
+	SJhSNS+qs0519zhJPeOyY1qn5gUAKSPSTSHoXwg4ayrvsrZBEEXxTgim0Rck4c7C7EeJ
+	DZoKGaO+G4e7jgZZwi7YbliQV+OGDj5PcF/E4lh/R1sztAEkJcqU5JOXJtdPsv3BOFaO
+	ysVWpTZGiPc0q5e+b4UiTH68gAZ6rbHL5N80A6l3qLE4IAgfsJmVf7HC2YEFFLLn1Fsi
+	kV0oripFY/0oDUQhVp+J2gZ4xtiaZHp72+TqeeQ97SUXbQUsd2t7k5hrBgnCSJxIZw+d
+	UCog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=062yvBP43SlJ/7au0KOthvqCDGNnNfcrbhh3ieL3gbI=;
-	b=cS1zUpej6VeIWCnkLOeak1jPadSFsBoTN1UU0DuCBmC7x1pkpXYzs6PYSnO71ZRn5t
-	Tgq17TU7wzHfGOEmUJXjXaeVbFAM8FdiW64blOviqx20xAg1QQuEKohZ2vX8iOHNR4bN
-	RnPO2fsEzFElO+o/CiqYR8UM0wNCOKl6tZZ9vT9IpjBkSNLt7foyKCxTCD/N6+mkeb1O
-	D0fdYyJTiA2j3TlNhPDjbIiYLJewN30o8xozMCk8s2NgUnsveBit1p98caVE2tnhJvqk
-	jX7DOqf0FcilnMHjlo31iJ06iAyRbv751eq9QI7ExR95M9qWuZxd0uhhZ0f3O771TTRn
-	Fn9g==
-X-Gm-Message-State: APjAAAXNr9MFElrUB8ZyRrhFIN4kpdPC2E75u5vzv0jc2oxBO/6Ksovx
-	hoLKyx6PJhvITquub29K8cURPg==
-X-Google-Smtp-Source: APXvYqyFWnRWvbL8lcctaxa3QpWBJ8ZvpWQj8K8vxAA1UN4Pj9r653/hZRKbsSnfsltxRj5ZDqAkOA==
-X-Received: by 2002:a5d:56c1:: with SMTP id m1mr7032043wrw.26.1559310150203;
-	Fri, 31 May 2019 06:42:30 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	t123sm11606447wmt.0.2019.05.31.06.42.28
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 31 May 2019 06:42:29 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 6C0A01FF87;
-	Fri, 31 May 2019 14:42:28 +0100 (BST)
-References: <20190529064148.19856-1-arilou@gmail.com>
-	<20190529064148.19856-17-arilou@gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jon Doron <arilou@gmail.com>
-In-reply-to: <20190529064148.19856-17-arilou@gmail.com>
-Date: Fri, 31 May 2019 14:42:28 +0100
-Message-ID: <87tvda91vf.fsf@zen.linaroharston>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JcjDx8lv6syXknEH6gXvbh3NkQrjO+4cM/hkpXquMSM=;
+	b=V/SMu2Me+G3xmP0pK5kAi2BtynUbQFtfZQjNOLOmzWUBF+sNkDOxjqkxG+L7bhfbey
+	kRdUpPX6G1aCYPcq4k+E2yK4bqPGpCIFyFHbEmpg34QfAIBFOA3jJh/679c6j//tsOTQ
+	JV3eT4tUIYIjENgto1f+BE3QHXdROpv+3zzvvJ7vaAU1Mt58Zxvl8jDYwCn8py0iAs8a
+	oEea3tnNK0QY08Zk24MMAcyToMNgydGotRMnfU4oDlEVE7+ryHN8Th7XwSwrOeYbPcsM
+	tqlSDGlDj5suC8gZ3GVBZ0ZJj99KAQT09CDjIlc2fHpylUSKtFrm7l+awydytEVpi5n8
+	nYLg==
+X-Gm-Message-State: APjAAAWzHYHJ2Gw3XQz72a6cg25uroU8lHgNpwPIK7zpkjDC3dXIMtkC
+	xpLtFJl7ptSGXEDWWtsbvojLbMwZxejXkg==
+X-Google-Smtp-Source: APXvYqwW+1kBP9KF7o3pgn3TCynOzhKygvot/rTwry0HOLMKMXe/tS80m3Ji5QUXCQnYCGtP4HgBaA==
+X-Received: by 2002:aca:ed04:: with SMTP id l4mr5927787oih.64.1559310197521;
+	Fri, 31 May 2019 06:43:17 -0700 (PDT)
+Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
+	[189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+	r23sm2391176otg.49.2019.05.31.06.43.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 May 2019 06:43:16 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Fri, 31 May 2019 08:42:52 -0500
+Message-Id: <20190531134315.4109-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v12 16/20] gdbstub: Implement v commands
- with new infra
+X-Received-From: 2607:f8b0:4864:20::22f
+Subject: [Qemu-devel] [PATCH v16 00/23] Add RX architecture
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,225 +77,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: philmd@redhat.com, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The v14 patch set, from which I had prepared the pull request,
+contained errors within make check-qtest-rx.  I have added 4
+new patches, 12 through 15, to address those failures.  These
+are placed before the enablement patch 16 so that there is no
+point at which these tests both run and fail.
 
-Jon Doron <arilou@gmail.com> writes:
+I have not tried to extract the changes that Sato-san made in
+his v15 patch set and folded in to previous patches.
 
-> Signed-off-by: Jon Doron <arilou@gmail.com>
+I have appended the disassembler patches that have been reviewed.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  gdbstub.c | 170 +++++++++++++++++++++++++++++++++++-------------------
->  1 file changed, 110 insertions(+), 60 deletions(-)
->
-> diff --git a/gdbstub.c b/gdbstub.c
-> index 3fd1a1cddb..648191a3b0 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -1818,6 +1818,106 @@ static void handle_step(GdbCmdContext *gdb_ctx, v=
-oid *user_ctx)
->      gdb_continue(gdb_ctx->s);
->  }
->
-> +static void handle_v_cont_query(GdbCmdContext *gdb_ctx, void *user_ctx)
-> +{
-> +    put_packet(gdb_ctx->s, "vCont;c;C;s;S");
-> +}
-> +
-> +static void handle_v_cont(GdbCmdContext *gdb_ctx, void *user_ctx)
-> +{
-> +    int res;
-> +
-> +    if (!gdb_ctx->num_params) {
-> +        return;
-> +    }
-> +
-> +    res =3D gdb_handle_vcont(gdb_ctx->s, gdb_ctx->params[0].data);
-> +    if ((res =3D=3D -EINVAL) || (res =3D=3D -ERANGE)) {
-> +        put_packet(gdb_ctx->s, "E22");
-> +    } else if (res) {
-> +        put_packet(gdb_ctx->s, "");
-> +    }
-> +}
-> +
-> +static void handle_v_attach(GdbCmdContext *gdb_ctx, void *user_ctx)
-> +{
-> +    GDBProcess *process;
-> +    CPUState *cpu;
-> +    char thread_id[16];
-> +
-> +    pstrcpy(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "E22");
-> +    if (!gdb_ctx->num_params) {
-> +        goto cleanup;
-> +    }
-> +
-> +    process =3D gdb_get_process(gdb_ctx->s, gdb_ctx->params[0].val_ul);
-> +    if (!process) {
-> +        goto cleanup;
-> +    }
-> +
-> +    cpu =3D get_first_cpu_in_process(gdb_ctx->s, process);
-> +    if (!cpu) {
-> +        goto cleanup;
-> +    }
-> +
-> +    process->attached =3D true;
-> +    gdb_ctx->s->g_cpu =3D cpu;
-> +    gdb_ctx->s->c_cpu =3D cpu;
-> +
-> +    gdb_fmt_thread_id(gdb_ctx->s, cpu, thread_id, sizeof(thread_id));
-> +    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "T%02xthread:%s=
-;",
-> +             GDB_SIGNAL_TRAP, thread_id);
-> +cleanup:
-> +    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-> +}
-> +
-> +static void handle_v_kill(GdbCmdContext *gdb_ctx, void *user_ctx)
-> +{
-> +    /* Kill the target */
-> +    put_packet(gdb_ctx->s, "OK");
-> +    error_report("QEMU: Terminated via GDBstub");
-> +    exit(0);
-> +}
-> +
-> +static GdbCmdParseEntry gdb_v_commands_table[] =3D {
-> +    /* Order is important if has same prefix */
-> +    {
-> +        .handler =3D handle_v_cont_query,
-> +        .cmd =3D "Cont?",
-> +        .cmd_startswith =3D 1
-> +    },
-> +    {
-> +        .handler =3D handle_v_cont,
-> +        .cmd =3D "Cont",
-> +        .cmd_startswith =3D 1,
-> +        .schema =3D "s0"
-> +    },
-> +    {
-> +        .handler =3D handle_v_attach,
-> +        .cmd =3D "Attach;",
-> +        .cmd_startswith =3D 1,
-> +        .schema =3D "l0"
-> +    },
-> +    {
-> +        .handler =3D handle_v_kill,
-> +        .cmd =3D "Kill;",
-> +        .cmd_startswith =3D 1
-> +    },
-> +};
-> +
-> +static void handle_v_commands(GdbCmdContext *gdb_ctx, void *user_ctx)
-> +{
-> +    if (!gdb_ctx->num_params) {
-> +        return;
-> +    }
-> +
-> +    if (process_string_cmd(gdb_ctx->s, NULL, gdb_ctx->params[0].data,
-> +                           gdb_v_commands_table,
-> +                           ARRAY_SIZE(gdb_v_commands_table))) {
-> +        put_packet(gdb_ctx->s, "");
-> +    }
-> +}
-> +
->  static int gdb_handle_packet(GDBState *s, const char *line_buf)
->  {
->      CPUState *cpu;
-> @@ -1825,7 +1925,7 @@ static int gdb_handle_packet(GDBState *s, const cha=
-r *line_buf)
->      CPUClass *cc;
->      const char *p;
->      uint32_t pid, tid;
-> -    int ch, type, res;
-> +    int ch, type;
->      uint8_t mem_buf[MAX_PACKET_LENGTH];
->      char buf[sizeof(mem_buf) + 1 /* trailing NUL */];
->      char thread_id[16];
-> @@ -1874,66 +1974,16 @@ static int gdb_handle_packet(GDBState *s, const c=
-har *line_buf)
->          }
->          break;
->      case 'v':
-> -        if (strncmp(p, "Cont", 4) =3D=3D 0) {
-> -            p +=3D 4;
-> -            if (*p =3D=3D '?') {
-> -                put_packet(s, "vCont;c;C;s;S");
-> -                break;
-> -            }
-> -
-> -            res =3D gdb_handle_vcont(s, p);
-> -
-> -            if (res) {
-> -                if ((res =3D=3D -EINVAL) || (res =3D=3D -ERANGE)) {
-> -                    put_packet(s, "E22");
-> -                    break;
-> -                }
-> -                goto unknown_command;
-> -            }
-> -            break;
-> -        } else if (strncmp(p, "Attach;", 7) =3D=3D 0) {
-> -            unsigned long pid;
-> -
-> -            p +=3D 7;
-> -
-> -            if (qemu_strtoul(p, &p, 16, &pid)) {
-> -                put_packet(s, "E22");
-> -                break;
-> -            }
-> -
-> -            process =3D gdb_get_process(s, pid);
-> -
-> -            if (process =3D=3D NULL) {
-> -                put_packet(s, "E22");
-> -                break;
-> -            }
-> -
-> -            cpu =3D get_first_cpu_in_process(s, process);
-> -
-> -            if (cpu =3D=3D NULL) {
-> -                /* Refuse to attach an empty process */
-> -                put_packet(s, "E22");
-> -                break;
-> -            }
-> -
-> -            process->attached =3D true;
-> -
-> -            s->g_cpu =3D cpu;
-> -            s->c_cpu =3D cpu;
-> -
-> -            snprintf(buf, sizeof(buf), "T%02xthread:%s;", GDB_SIGNAL_TRA=
-P,
-> -                     gdb_fmt_thread_id(s, cpu, thread_id, sizeof(thread_=
-id)));
-> -
-> -            put_packet(s, buf);
-> -            break;
-> -        } else if (strncmp(p, "Kill;", 5) =3D=3D 0) {
-> -            /* Kill the target */
-> -            put_packet(s, "OK");
-> -            error_report("QEMU: Terminated via GDBstub");
-> -            exit(0);
-> -        } else {
-> -            goto unknown_command;
-> +        {
-> +            static const GdbCmdParseEntry v_cmd_desc =3D {
-> +                .handler =3D handle_v_commands,
-> +                .cmd =3D "v",
-> +                .cmd_startswith =3D 1,
-> +                .schema =3D "s0"
-> +            };
-> +            cmd_parser =3D &v_cmd_desc;
->          }
-> +        break;
->      case 'k':
->          /* Kill the target */
->          error_report("QEMU: Terminated via GDBstub");
+Hopefully this is the version that can be merged, so that normal
+development can proceed from there.
 
 
---
-Alex Benn=C3=A9e
+r~
+
+
+Richard Henderson (11):
+  target/rx: Convert to CPUClass::tlb_fill
+  target/rx: Add RX to SysEmuTarget
+  target/rx: Fix cpu types and names
+  tests: Add rx to machine-none-test.c
+  hw/rx: Honor -accel qtest
+  target/rx: Disassemble rx_index_addr into a string
+  target/rx: Replace operand with prt_ldmi in disassembler
+  target/rx: Use prt_ldmi for XCHG_mr disassembly
+  target/rx: Emit all disassembly in one prt()
+  target/rx: Collect all bytes during disassembly
+  target/rx: Dump bytes for each insn during disassembly
+
+Yoshinori Sato (12):
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  qemu/bitops.h: Add extract8 and extract16
+  hw/registerfields.h: Add 8bit and 16bit register macros
+  Add rx-softmmu
+  MAINTAINERS: Add RX
+
+ include/disas/dis-asm.h        |    5 +
+ include/hw/char/renesas_sci.h  |   45 +
+ include/hw/intc/rx_icu.h       |   56 +
+ include/hw/registerfields.h    |   32 +-
+ include/hw/rx/rx.h             |    7 +
+ include/hw/rx/rx62n.h          |   94 ++
+ include/hw/timer/renesas_cmt.h |   38 +
+ include/hw/timer/renesas_tmr.h |   53 +
+ include/qemu/bitops.h          |   38 +
+ include/sysemu/arch_init.h     |    1 +
+ target/rx/cpu.h                |  227 +++
+ target/rx/helper.h             |   31 +
+ arch_init.c                    |    2 +
+ hw/char/renesas_sci.c          |  340 +++++
+ hw/intc/rx_icu.c               |  376 +++++
+ hw/rx/rx-virt.c                |  105 ++
+ hw/rx/rx62n.c                  |  246 ++++
+ hw/timer/renesas_cmt.c         |  275 ++++
+ hw/timer/renesas_tmr.c         |  455 ++++++
+ target/rx/cpu.c                |  245 ++++
+ target/rx/disas.c              | 1446 +++++++++++++++++++
+ target/rx/gdbstub.c            |  112 ++
+ target/rx/helper.c             |  148 ++
+ target/rx/monitor.c            |   38 +
+ target/rx/op_helper.c          |  470 ++++++
+ target/rx/translate.c          | 2432 ++++++++++++++++++++++++++++++++
+ tests/machine-none-test.c      |    1 +
+ MAINTAINERS                    |   19 +
+ configure                      |    8 +
+ default-configs/rx-softmmu.mak |    3 +
+ hw/Kconfig                     |    1 +
+ hw/char/Kconfig                |    3 +
+ hw/char/Makefile.objs          |    1 +
+ hw/intc/Kconfig                |    3 +
+ hw/intc/Makefile.objs          |    1 +
+ hw/rx/Kconfig                  |   14 +
+ hw/rx/Makefile.objs            |    2 +
+ hw/timer/Kconfig               |    6 +
+ hw/timer/Makefile.objs         |    3 +
+ qapi/common.json               |    3 +-
+ target/rx/Makefile.objs        |   12 +
+ target/rx/insns.decode         |  621 ++++++++
+ 42 files changed, 8016 insertions(+), 2 deletions(-)
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/helper.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/monitor.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/insns.decode
+
+-- 
+2.17.1
+
 
