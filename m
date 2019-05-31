@@ -2,64 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D637130FA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 16:10:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44169 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C28330FB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 16:12:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44236 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWiEW-0001qP-VB
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 10:10:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38523)
+	id 1hWiH4-0003wv-G0
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 10:12:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39400)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrezanin@redhat.com>) id 1hWi4K-0003Z6-6O
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:59:41 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hWi7E-0005vB-Jo
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:02:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrezanin@redhat.com>) id 1hWi4I-00063f-Aw
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 09:59:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:18386)
+	(envelope-from <kwolf@redhat.com>) id 1hWi7C-00016S-Jx
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 10:02:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58670)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mrezanin@redhat.com>)
-	id 1hWi4E-00060X-6k; Fri, 31 May 2019 09:59:34 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hWi6q-0000Ip-3h; Fri, 31 May 2019 10:02:18 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DCF3BC130719;
-	Fri, 31 May 2019 13:59:32 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
-	(colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CCB7F1001E86;
-	Fri, 31 May 2019 13:59:32 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
-	(zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B3A95206D2;
-	Fri, 31 May 2019 13:59:32 +0000 (UTC)
-Date: Fri, 31 May 2019 09:59:29 -0400 (EDT)
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Message-ID: <627031963.25549126.1559311169316.JavaMail.zimbra@redhat.com>
-In-Reply-To: <874l5aahmx.fsf@zen.linaroharston>
-References: <20190514155301.16123-1-alex.bennee@linaro.org>
-	<20190514155301.16123-7-alex.bennee@linaro.org>
-	<20190531091204.tjmq622gw457xbdr@lws.brq.redhat.com>
-	<87sgsu51bd.fsf@zen.linaroharston>
-	<833530119.25503992.1559302089822.JavaMail.zimbra@redhat.com>
-	<874l5aahmx.fsf@zen.linaroharston>
+	by mx1.redhat.com (Postfix) with ESMTPS id 091927E42C;
+	Fri, 31 May 2019 14:02:08 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-126.ams2.redhat.com
+	[10.36.117.126])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 59FE75DE70;
+	Fri, 31 May 2019 14:02:05 +0000 (UTC)
+Date: Fri, 31 May 2019 16:02:03 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190531140203.GE9842@localhost.localdomain>
+References: <20190524172812.27308-1-mreitz@redhat.com>
+	<20190524172812.27308-2-mreitz@redhat.com>
+	<20190529221010.GC3471@localhost.localdomain>
+	<9690f4f9-d618-4d0d-4094-356f8e5c922a@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.40.204.19, 10.4.195.20]
-Thread-Topic: target/arm: use the common interface for WRITE0/WRITEC in
-	arm-semi
-Thread-Index: PHKtkS65/Rg51CAuNZ8JNu6imuD3rQ==
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+Content-Disposition: inline
+In-Reply-To: <9690f4f9-d618-4d0d-4094-356f8e5c922a@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Fri, 31 May 2019 13:59:32 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Fri, 31 May 2019 14:02:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the common
- interface for WRITE0/WRITEC in arm-semi
+Subject: Re: [Qemu-devel] [RFC 1/3] block: Add ImageRotationalInfo
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,227 +62,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
-	qemu-devel@nongnu.org, qemu-arm@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>
+Cc: Alberto Garcia <berto@igalia.com>,
+	Anton Nefedov <anton.nefedov@virtuozzo.com>,
+	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
------ Original Message -----
-> From: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
-> To: "Miroslav Rezanina" <mrezanin@redhat.com>
-> Cc: qemu-devel@nongnu.org, "Peter Maydell" <peter.maydell@linaro.org>, "R=
-iku Voipio" <riku.voipio@iki.fi>,
-> qemu-arm@nongnu.org, "Laurent Vivier" <laurent@vivier.eu>
-> Sent: Friday, May 31, 2019 3:16:38 PM
-> Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the common in=
-terface for WRITE0/WRITEC in arm-semi
+Am 31.05.2019 um 13:51 hat Max Reitz geschrieben:
+> On 30.05.19 00:10, Kevin Wolf wrote:
+> > Am 24.05.2019 um 19:28 hat Max Reitz geschrieben:
+> >> This enum indicates whether a file is stored on a rotating disk or a
+> >> solid-state drive.  Drivers report it via the .bdrv_get_info() callbac=
+k,
+> >> and if they do not, the global bdrv_get_info() implementation
+> >> automatically takes it from bs->file or bs->backing, if available.
+> >=20
+> > Good that you wrote "bs->file or bs->backing" explicitly. Otherwise, I
+> > might have missed that it begs one big question: What is the correct
+> > answer for a qcow2 file that has bs->file on an SSD, but bs->backing on
+> > a rotating disk?
+> >=20
+> > I don't think there is a correct answer for the whole device, so maybe
+> > this information shouldn't be per device in BlockDriverInfo, but per
+> > block in bdrv_co_block_status() (optionally determined if the caller
+> > requests it)?
 >=20
+> I think that=E2=80=99s taking it a bit too far.  There is no heavy implic=
+ation
+> in making the wrong choice here, it=E2=80=99s just a performance problem.
+> Having to call block_status for every block where we want to know what
+> to do seems like the opposite of performance optimization to me.  (We
+> could add a flag to block_status to only query that status, but that
+> sounds plainly wrong.)
 >=20
-> Miroslav Rezanina <mrezanin@redhat.com> writes:
->=20
-> > ----- Original Message -----
-> >> From: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
-> >> To: "Miroslav Rezanina" <mrezanin@redhat.com>
-> >> Cc: qemu-devel@nongnu.org, "Peter Maydell" <peter.maydell@linaro.org>,
-> >> "Riku Voipio" <riku.voipio@iki.fi>,
-> >> qemu-arm@nongnu.org, "Laurent Vivier" <laurent@vivier.eu>
-> >> Sent: Friday, May 31, 2019 1:08:06 PM
-> >> Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the common
-> >> interface for WRITE0/WRITEC in arm-semi
-> >>
-> >>
-> >> Miroslav Rezanina <mrezanin@redhat.com> writes:
-> >>
-> >> > On Tue, May 14, 2019 at 04:52:56PM +0100, Alex Benn=C3=A9e wrote:
-> >> >> Now we have a common semihosting console interface use that for our
-> >> >> string output. However ARM is currently unique in also supporting
-> >> >> semihosting for linux-user so we need to replicate the API in
-> >> >> linux-user. If other architectures gain this support we can move th=
-e
-> >> >> file later.
-> >> >>
-> >> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> >> >> ---
-> >> >>  linux-user/Makefile.objs  |  2 ++
-> >> >>  linux-user/arm/semihost.c | 24 ++++++++++++++++++++++++
-> >> >>  target/arm/arm-semi.c     | 31 ++++++-------------------------
-> >> >>  3 files changed, 32 insertions(+), 25 deletions(-)
-> >> >>  create mode 100644 linux-user/arm/semihost.c
-> >> >>
-> >> >> diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
-> >> >> index 769b8d83362..285c5dfa17a 100644
-> >> >> --- a/linux-user/Makefile.objs
-> >> >> +++ b/linux-user/Makefile.objs
-> >> >> @@ -6,4 +6,6 @@ obj-y =3D main.o syscall.o strace.o mmap.o signal.o=
- \
-> >> >>  obj-$(TARGET_HAS_BFLT) +=3D flatload.o
-> >> >>  obj-$(TARGET_I386) +=3D vm86.o
-> >> >>  obj-$(TARGET_ARM) +=3D arm/nwfpe/
-> >> >> +obj-$(TARGET_ARM) +=3D arm/semihost.o
-> >> >> +obj-$(TARGET_AARCH64) +=3D arm/semihost.o
-> >> >>  obj-$(TARGET_M68K) +=3D m68k-sim.o
-> >> >> diff --git a/linux-user/arm/semihost.c b/linux-user/arm/semihost.c
-> >> >> new file mode 100644
-> >> >> index 00000000000..9554102a855
-> >> >> --- /dev/null
-> >> >> +++ b/linux-user/arm/semihost.c
-> >> >> @@ -0,0 +1,24 @@
-> >> >> +/*
-> >> >> + * ARM Semihosting Console Support
-> >> >> + *
-> >> >> + * Copyright (c) 2019 Linaro Ltd
-> >> >> + *
-> >> >> + * Currently ARM is unique in having support for semihosting suppo=
-rt
-> >> >> + * in linux-user. So for now we implement the common console API b=
-ut
-> >> >> + * just for arm linux-user.
-> >> >> + *
-> >> >> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >> >> + */
-> >> >> +
-> >> >> +#include "qemu/osdep.h"
-> >> >> +#include "cpu.h"
-> >> >> +#include "hw/semihosting/console.h"
-> >> >> +#include "qemu.h"
-> >> >> +
-> >> >> +int qemu_semihosting_console_out(CPUArchState *env, target_ulong a=
-ddr,
-> >> >> int len)
-> >> >> +{
-> >> >> +    void *s =3D lock_user_string(addr);
-> >> >> +    len =3D write(STDERR_FILENO, s, len ? len : strlen(s));
-> >> >> +    unlock_user(s, addr, 0);
-> >> >> +    return len;
-> >> >> +}
-> >> >> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-> >> >> index 9e5a414dd89..253c66b172a 100644
-> >> >> --- a/target/arm/arm-semi.c
-> >> >> +++ b/target/arm/arm-semi.c
-> >> >> @@ -27,6 +27,7 @@
-> >> >>
-> >> >>  #include "cpu.h"
-> >> >>  #include "hw/semihosting/semihost.h"
-> >> >> +#include "hw/semihosting/console.h"
-> >> >>  #ifdef CONFIG_USER_ONLY
-> >> >>  #include "qemu.h"
-> >> >>
-> >> >> @@ -314,32 +315,12 @@ target_ulong do_arm_semihosting(CPUARMState *=
-env)
-> >> >>              return set_swi_errno(ts, close(arg0));
-> >> >>          }
-> >> >>      case TARGET_SYS_WRITEC:
-> >> >> -        {
-> >> >> -          char c;
-> >> >> -
-> >> >> -          if (get_user_u8(c, args))
-> >> >> -              /* FIXME - should this error code be -TARGET_EFAULT =
-? */
-> >> >> -              return (uint32_t)-1;
-> >> >> -          /* Write to debug console.  stderr is near enough.  */
-> >> >> -          if (use_gdb_syscalls()) {
-> >> >> -                return arm_gdb_syscall(cpu, arm_semi_cb,
-> >> >> "write,2,%x,1",
-> >> >> args);
-> >> >> -          } else {
-> >> >> -                return write(STDERR_FILENO, &c, 1);
-> >> >> -          }
-> >> >> -        }
-> >> >> +    {
-> >> >> +        qemu_semihosting_console_out(env, args, 1);
-> >> >> +        return 0xdeadbeef;
-> >> >> +    }
-> >> >>      case TARGET_SYS_WRITE0:
-> >> >> -        if (!(s =3D lock_user_string(args)))
-> >> >> -            /* FIXME - should this error code be -TARGET_EFAULT ? =
-*/
-> >> >> -            return (uint32_t)-1;
-> >> >> -        len =3D strlen(s);
-> >> >> -        if (use_gdb_syscalls()) {
-> >> >> -            return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,%=
-x",
-> >> >> -                                   args, len);
-> >> >> -        } else {
-> >> >> -            ret =3D write(STDERR_FILENO, s, len);
-> >> >> -        }
-> >> >> -        unlock_user(s, args, 0);
-> >> >> -        return ret;
-> >> >> +        return qemu_semihosting_console_out(env, args, 0);
-> >> >>      case TARGET_SYS_WRITE:
-> >> >>          GET_ARG(0);
-> >> >>          GET_ARG(1);
-> >> >> --
-> >> >> 2.20.1
-> >> >>
-> >> >>
-> >> >
-> >> > Hi Alex,
-> >> >
-> >> > this patch breaks build for softmmu target when CONFIG_SEMIHOSTING i=
-s
-> >> > not
-> >> > enabled as qemu_semihosting_console_out
-> >> > is not defined in such case - neither linux-user/arm/semihost.c nor
-> >> > hw/semihosting/console.c compiled and function
-> >> > is not in stubs/semihost.c
-> >>
-> >> How do you do that? I tried ../../configure --without-default-devices
-> >> and that still builds for me.
-> >
-> > It's usual RHEL way - use --without-default-devices and use specific
-> > list of enabled devices (this mean disable CONFIG_SEMIHOSTING in
-> > default_config/* file).
->=20
-> OK - so from the upstream source tree CONFIG_SEMIHOSTING is still =3Dy
-> (but I can see most of them are now =3Dn). Isn't the simplest solution to
-> fix-up your version of the default_config file to include SEMIHOSTING?
->=20
+> So, in this series I decided that since all writes go to bs->file, that
+> seemed like what mostly determines the behavior of @bs.  (After my =E2=80=
+=9CDeal
+> with filters=E2=80=9D series, that would become a decision of bdrv_storag=
+e_bs()
+> vs. bdrv_filtered_cow_bs().)
 
-It's fix but it goes against our policy of handling CONFIG options so we
-would prefer to have this fixed - otherwise there's no meaning in having
-config option if you can't disable it.
+Okay, if we consider the existing qcow2 case as the only case, writes
+are what matters. Then we can ignore backing files. (However, it
+shouldn't check bs->file, but s->data_file, I think.)
 
-> Is this an out-of-tree RHEL addition?
->
-
-No, it's RHEL device config handling.
-
-Mirek
-=20
-> >>
-> >> But I suspect what's needed is to change:
-> >>
-> >> #ifndef CONFIG_USER_ONLY
-> >>
-> >> to
-> >>
-> >> #ifdef CONFIG_SEMIHOSTING
-> >>
-> >> to the relevant headers and helper bits.
-> >
-> > Yeah, have to find out what are relevant pieces.
-> >
-> > Mirek
-> >
-> >>
-> >> >
-> >> > Mirek
-> >>
-> >>
-> >> --
-> >> Alex Benn=C3=A9e
-> >>
+> (Note that it has to get even funnier with vmdk, if your extents are on
+> an HDD, but your descriptor file is on an SSD.  I don=E2=80=99t care too =
+much
+> about vmdk=E2=80=99s performance, though.)
+>=20
+> In my v1, I=E2=80=99ll add a per-node @rotational parameter with which th=
+e user
+> can override the status we guessed.  In fact, currently, my commit
+> message explicitly notes that case:
+>=20
+> https://git.xanclic.moe/XanClic/qemu/commit/0834f1ce77b4c27f0c00f1e4fbee0=
+99278e530b2
+>=20
+> (Point 4)
+>=20
+> (from
+> https://git.xanclic.moe/XanClic/qemu/commits/branch/spinning-rust-next)
 >=20
 >=20
-> --
-> Alex Benn=C3=A9e
+> Alternatively to making bs->file take precedence over bs->backing, we
+> could also just set the status to unknown if bs->file and bs->backing
+> differ in their status.
 >=20
+> I think it=E2=80=99s generally better to prefer what bs->file says.  This=
+ is an
+> optimization case, so I think it=E2=80=99s more important to get it right=
+ most
+> of the time (and guess wrong sometimes) than to stop guessing in all
+> cases where we could be wrong.
 
---=20
-Miroslav Rezanina
-Software Engineer - Virtualization Team Maintainer
+Fair enough, but let's improve the documentation (both QAPI schema and
+comments in the code) to be explicit about these details, how the result
+is determined for nodes with multiple children, and what it means and
+doesn't mean therefore.
 
+Kevin
+
+--h31gzZEtNLTqOjlF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBAgAGBQJc8TPbAAoJEH8JsnLIjy/WrU8P/2DUtcqKScre+sdLP2gsDqCX
+Ua4DKBCxzAvW78MAqPLbBer3Vq7tT0+kWxbstv1pFKPgbMhpGl2Y4zz8iCd7paVT
+KIfhQoMXvkuL4KDz15YDPxCxoE6DfTiynoUeQBgloFcENaDWBuIm5lmSQPmpMveT
+KrHu2z9+rTQtAjh2KqH8/rppBMAOiwTlOkoqSMkT7zBQOucqTn9QJqbmYJghsSQo
+Vld934sHl3ybPIPnj+65R2ZRX8b4BpnolSKvGX5OhRCdizt/0c7Ur6n5rSvKLTqT
+K1Ef/5isDdclCr/t9+r2aCXA1v2lMWnlY0LRKzxTgIPOwDxJGb49W8bahTteJ8Ql
+IA2pasRk8kwgwPJc/F1rHaH26oGS/j/mHLZ5OsoSF/m3OSWEEBxaZZnQxKBPKEif
+LtLtJRKVIsWtA6wt6AUDeKXOiK4WPaCCdl0essZb7Q5vtQk4q02xfh+TfmuBFBSi
+G8eCoMW9Bxx3c1c8vfmRENwtQNp6fbUnNI91IHk7aqPzgPvA7//QbeUV5eMaEWJM
+WpY//S5w1XGEnv39vbrP7P56ljgMQBqt6oU0zbjoLCRbWGjQkwNckU97l/JGcAku
+aU28OOTxOViVKnRT0LT2mglDTQmT9Cxd5aPC1sGzcCFuILTrfut4WT44lwBizBp2
+1h75+1/N6sIqLhmzl5Rr
+=ZLXI
+-----END PGP SIGNATURE-----
+
+--h31gzZEtNLTqOjlF--
 
