@@ -2,53 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADD731645
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 22:45:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48909 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9775F31691
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 23:20:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49283 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWoOZ-0003WN-8v
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 16:44:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56182)
+	id 1hWoxK-0001ML-Or
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 17:20:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33006)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hWoNa-0003D0-H7
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 16:43:59 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hWovp-0000az-GU
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 17:19:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hWoNY-0006BN-NQ
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 16:43:58 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:44375)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hWoNY-00063V-Ib
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 16:43:56 -0400
-Received: by mail-qt1-f194.google.com with SMTP id x47so2510116qtk.11
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 13:43:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=I3VJTDC49V6uejUJqoYHVZdxU4fFHfuG0sZxJ/9TqrU=;
-	b=pZR0icebz/akrAKY895dr/Dz3PEuSZOlqL7sTubVobH3yNKj/DJZBBgehs5F7VNQ5u
-	D0YQTItwEcqI5h53i/8bKw/ozpZbie4u7rPN3rvtVQPfYZdsKtiz++uBXqIzf8Fbz15l
-	zdv8OvBu6894Ge7Thsd+OtXBqNULPMrGEX/uUrhL/E/WdTDMSiVDII3wp5vrYORynGFk
-	32aeOQdCG8nOWw6ceQrq46Wnf6kJToTgrPpRAU/AYY1gntNE1I85/j9E1w41QH1fp/1K
-	5iICUp63rz5YTC1USe3zqnuXPEqlzJOz1kuylFXUHeSyKkfxgBGX5ybWUHAIXJHxDx7w
-	mKUg==
-X-Gm-Message-State: APjAAAWwBdth99hMdqtF9NYaiJeuLiaJfiZZv32A722A30RpxAT1z0Ug
-	Lf8/7429bvmdL1J5olJ6GpejmA==
-X-Google-Smtp-Source: APXvYqzvrbULZzJqDCFcFTMBMcdt5BH5LNOzfbMhAqokDgKDXY/5eqpNM8MAb4+6VNv4zVYY9ATqHw==
-X-Received: by 2002:a0c:ba20:: with SMTP id w32mr10549150qvf.152.1559335428221;
-	Fri, 31 May 2019 13:43:48 -0700 (PDT)
-Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
-	[100.0.197.103])
-	by smtp.gmail.com with ESMTPSA id c9sm5507301qtc.39.2019.05.31.13.43.45
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 31 May 2019 13:43:46 -0700 (PDT)
-Date: Fri, 31 May 2019 16:43:44 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Message-ID: <20190531164209-mutt-send-email-mst@kernel.org>
-References: <20190521094504.GB2915@work-vm>
-	<20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
+	(envelope-from <ehabkost@redhat.com>) id 1hWogL-0001y5-SU
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 17:03:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59448)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hWogL-0001xv-LY
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 17:03:21 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 11C99A3B7A
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 21:03:20 +0000 (UTC)
+Received: from localhost (ovpn-120-246.rdu2.redhat.com [10.10.120.246])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 27CF161D0A;
+	Fri, 31 May 2019 21:03:12 +0000 (UTC)
+Date: Fri, 31 May 2019 18:03:11 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <20190531210311.GM22103@habkost.net>
+References: <20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
 	<20190530134631-mutt-send-email-mst@kernel.org>
 	<20190530180022.GB2864@work-vm>
 	<20190530140419-mutt-send-email-mst@kernel.org>
@@ -57,13 +42,18 @@ References: <20190521094504.GB2915@work-vm>
 	<20190531170154.GB22103@habkost.net>
 	<20190531135059-mutt-send-email-mst@kernel.org>
 	<20190531184512.GN3169@work-vm>
+	<20190531164209-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190531184512.GN3169@work-vm>
+In-Reply-To: <20190531164209-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Fri, 31 May 2019 21:03:20 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.160.194
+X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -76,83 +66,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com,
-	Eduardo Habkost <ehabkost@redhat.com>, aadam@redhat.com,
+Cc: pkrempa@redhat.com, berrange@redhat.com, aadam@redhat.com,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 	qemu-devel@nongnu.org, laine@redhat.com, jdenemar@redhat.com,
 	Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 31, 2019 at 07:45:13PM +0100, Dr. David Alan Gilbert wrote:
-> * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > On Fri, May 31, 2019 at 02:01:54PM -0300, Eduardo Habkost wrote:
-> > > > Yes. It's just lots of extremely low level interfaces
-> > > > and all rather pointless.
+On Fri, May 31, 2019 at 04:43:44PM -0400, Michael S. Tsirkin wrote:
+> On Fri, May 31, 2019 at 07:45:13PM +0100, Dr. David Alan Gilbert wrote:
+> > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > On Fri, May 31, 2019 at 02:01:54PM -0300, Eduardo Habkost wrote:
+> > > > > Yes. It's just lots of extremely low level interfaces
+> > > > > and all rather pointless.
+> > > > > 
+> > > > > And down the road extensions like surprise removal support will make it
+> > > > > all cleaner and more transparent. Floating things up to libvirt means
+> > > > > all these low level details will require more and more hacks.
 > > > > 
-> > > > And down the road extensions like surprise removal support will make it
-> > > > all cleaner and more transparent. Floating things up to libvirt means
-> > > > all these low level details will require more and more hacks.
+> > > > Why do you call it pointless?
 > > > 
-> > > Why do you call it pointless?
+> > > We'd need APIs to manipulate device visibility to guest, hotplug
+> > > controller state and separately manipulate the resources allocated. This
+> > > is low level stuff that users really have no idea what to do about.
+> > > Exposing such a level of detail to management is imho pointless.
+> > > We are better off with a high level API, see below.
 > > 
-> > We'd need APIs to manipulate device visibility to guest, hotplug
-> > controller state and separately manipulate the resources allocated. This
-> > is low level stuff that users really have no idea what to do about.
-> > Exposing such a level of detail to management is imho pointless.
-> > We are better off with a high level API, see below.
+> > so I don't know much about vfio; but to me it strikes me that
+> > you wouldn't need that low level detail if we just reworked vfio
+> > to look more like all our other devices; something like:
+> > 
+> >   -vfiodev  host=02:00.0,id=gpu
+> >   -device vfio-pci,dev=gpu
+> > 
+> > The 'vfiodev' would own the resources; so to do this trick, the
+> > management layer would:
+> >    hotunplug the vfio-pci
+> >    migrate
+> > 
+> > if anything went wrong it would
+> >    hotplug the vfio-pci backin
+> > 
+> > you wouldn't have free'd up any resources because they belonged
+> > to the vfiodev.
 > 
-> so I don't know much about vfio; but to me it strikes me that
-> you wouldn't need that low level detail if we just reworked vfio
-> to look more like all our other devices; something like:
 > 
->   -vfiodev  host=02:00.0,id=gpu
->   -device vfio-pci,dev=gpu
-> 
-> The 'vfiodev' would own the resources; so to do this trick, the
-> management layer would:
->    hotunplug the vfio-pci
->    migrate
-> 
-> if anything went wrong it would
->    hotplug the vfio-pci backin
-> 
-> you wouldn't have free'd up any resources because they belonged
-> to the vfiodev.
+> IIUC that doesn't really work with passthrough
+> unless guests support surprise removal.
 
+Why?  For the guest, this is indistinguishable from the unplug
+request implemented by this series.
 
-IIUC that doesn't really work with passthrough
-unless guests support surprise removal.
-
-
-> > > If we want this to work before
-> > > surprise removal is implemented, we need to provide an API that
-> > > works for management software.
-> > >  Don't we want to make this work
-> > > without surprise removal too?
-> > 
-> > This patchset adds an optional, off by default support for
-> > migrating guests with an assigned network device.
-> > If enabled this requires guest to allow migration.
-> > 
-> > Of course this can be viewed as a security problem since it allows guest
-> > to block migration. We can't detect a malicious guest reliably imho.
-> > What we can do is report to management when guest allows migration.
-> > Policy such what to do when this does not happen for a while and
-> > what timeout to set would be up to management.
-> > 
-> > The API in question would be a high level one, something
-> > along the lines of a single "guest allowed migration" event.
-> 
-> This is all fairly normal problems with hot unplugging - that's
-> already dealt with at higher levels for normal hot unplugging.
-> 
-> The question here is to try to avoid duplicating that fairly
-> painful process in qemu.
-> 
-> Dave
-> > 
-> > -- 
-> > MST
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+-- 
+Eduardo
 
