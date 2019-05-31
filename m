@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F9B30A11
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 10:17:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38408 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA0530A16
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 10:18:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38412 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWcjd-0005GC-4O
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 04:17:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54784)
+	id 1hWckN-0005hM-IX
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 04:18:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54969)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWcgr-0003dU-Pe
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 04:15:06 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hWci2-0004Qo-Nr
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 04:16:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWcgq-0006MY-Pf
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 04:15:05 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34414)
+	(envelope-from <alex.bennee@linaro.org>) id 1hWci1-0007Ip-QO
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 04:16:18 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51929)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWcgq-0006LJ-HH
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 04:15:04 -0400
-Received: by mail-wm1-x344.google.com with SMTP id e19so7132175wme.1
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 01:15:03 -0700 (PDT)
+	id 1hWci1-0007H2-J4
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 04:16:17 -0400
+Received: by mail-wm1-x343.google.com with SMTP id f10so5454183wmb.1
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 01:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=references:user-agent:from:to:cc:subject:in-reply-to:date
 	:message-id:mime-version:content-transfer-encoding;
-	bh=yqiRe5OgaB/dmM0M59VMBOOk9ZeiW/PQd52uRaMYFjc=;
-	b=d2XDU7mphXAOY5t/VNoSLNy6MbV6V+A5h4IdOqt43bv1LIGuE/fCdnsdLiu5OwGpsc
-	q1Mr59Hc12u49Umig8REpz+zChzs3lt7/9WASPTnkzmWPVP+MnwK81RonfID5DLLmkta
-	O/1UVOoZBHvb5sa9q63TAuWYIiPwhS7+Mlv4aIzbccyceoyDNlu1hbZzmIIUsWmb0Nrq
-	xWUcKh6cH6joPU2BwrXtwTWe1ARjVDWUdO55qvBWxYyDm0rqIs0Uwa7XlBgTT4sPvL+X
-	bCc9gUWphHfx7SjfTqYebJftD/kchUQC7ApnMayPYKYS2AD+neKBJJ9+N0iJouhkC0YQ
-	9XEQ==
+	bh=O97IgFMCFRZwWXFBnbvNNbEqWTuVBiX4GIEEOnJTGbs=;
+	b=JEd9+kgdQ7jIPV+yJxgetVI15zsvTnIUkwV5zyTQyl5gC+OXhO3T1lrF8tO42ap2G+
+	g1Uvjt97/WwZaxXSOfrSt5mDa9HNr48j53aZQlHgmzEurjS4nm+PYYpIW774W92GJhV+
+	+zBXgxlnFG/cslmKjUgN4JvaG9WELvM9HVCGmIm+YO12CGLfk6+ZvvIboctPub4VKlVt
+	CO0tCge0JFx2wZZd5F4GUM9arPw190cSNx3OByzBbazHk3t5VnJC83P1S7Nrcelg/2OG
+	/Azeq3VU7hFu3zPP9UOFhyqRc5e+I2k8g7v3czunly8ulDbjTZULjv1ucFELDbh6fJNb
+	HizQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:references:user-agent:from:to:cc:subject
 	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=yqiRe5OgaB/dmM0M59VMBOOk9ZeiW/PQd52uRaMYFjc=;
-	b=HQEKfpNODOGdUo9kgi4T7ahg4H+LWxX7VhzrcqFWmA1uiKwPOanNJh80EyWX5xSvsO
-	08mOSA/6H2PycHQC9PI7HdNnM5ScGmpJwZ2oQqtSM8WAXvSBZ9dcMxp1oWvvcrHRP1sj
-	IshwjYk+qtyvxuo7rRqzDIogdHhI5BWiYt+iH9MXIWNqoU3trOco7vvAPz/SqqGsnGj7
-	jJggVISKWdMKf4cEMTsu3L9ecM3x+sbjUtUWkXwh/Bz1gQ4eJUxj9bmjSNOp21vzEVkz
-	AosBW8HqfBw+7I1y9kjmorCRLwqHddoofwPOld5hFlghlQ7HM1X2eVdRRhzVy/y4xhd2
-	i6Sw==
-X-Gm-Message-State: APjAAAUxZSAwvSsdg8q6Gw64OZjVzjAtO4NqNP3fazoJbgx+A/dSsoBW
-	qz66aH1WepTG/JVJ3S5LB18COQ==
-X-Google-Smtp-Source: APXvYqywEwzOMpG4Ik/D4OzH+32fh7r3BHFQBxNL62Qx+J7X4FTC5LI+/B5z9HKQSbxmVB9I2pRFqQ==
-X-Received: by 2002:a1c:228b:: with SMTP id i133mr4856652wmi.140.1559290502684;
-	Fri, 31 May 2019 01:15:02 -0700 (PDT)
+	bh=O97IgFMCFRZwWXFBnbvNNbEqWTuVBiX4GIEEOnJTGbs=;
+	b=OtwXPEPJXnnjpK+YmNzhffi4mXqKwFQ+6E718lnZ3/dKoBq0Q5IYUl0IGveNHTHp5k
+	B0vQ2XjlsdRnN+LIWLbXMDtWVzTpVE9gXejPA9kN0HKZ4MASn/mlA93Ul+WvPqjUgocN
+	NUz2CgeQ2PKR51XdDIq7BuNsoPQZBeeqOAAFjVX8pUTrAK9X/EqDMcBt1VuO/N2/MhmL
+	HRCrF5jepfP33E9KXhiCH+Sd8seY0jnH6zO2icfA/D+6DjB0pVVRn1DqyckmZs2RXBMr
+	sHJEY5HETalCQ2q6nUQBG6Cc0j/Z0hPj0+r2r/OwDWsufCaVrlCUXWsgGG0b2th/S6WH
+	qeTA==
+X-Gm-Message-State: APjAAAUw0Ni30ROpYSqwV33Y38HuS/QIeMuL968poaQ2MYNY3WQBFtMY
+	uomDqAcNWxUWZyaFhpLQurp4MQ==
+X-Google-Smtp-Source: APXvYqzB858Uw+k23uG541wloTi4Am/RST7U2uPUP+7Y9hDtJj+xo3KLMy2qtPxGC/cfySpSugAQrw==
+X-Received: by 2002:a1c:dc45:: with SMTP id t66mr4969048wmg.63.1559290576337; 
+	Fri, 31 May 2019 01:16:16 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	h12sm4225202wre.14.2019.05.31.01.15.01
+	y132sm7739568wmd.35.2019.05.31.01.16.15
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 31 May 2019 01:15:01 -0700 (PDT)
+	Fri, 31 May 2019 01:16:15 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 3D3271FF87;
-	Fri, 31 May 2019 09:15:01 +0100 (BST)
+	by zen.linaroharston (Postfix) with ESMTP id D5F481FF87;
+	Fri, 31 May 2019 09:16:14 +0100 (BST)
 References: <20190530101603.22254-1-alex.bennee@linaro.org>
-	<20190530101603.22254-21-alex.bennee@linaro.org>
-	<6c2efee2-31bb-68f2-12d0-684ca5959ad4@redhat.com>
+	<20190530101603.22254-8-alex.bennee@linaro.org>
+	<20190531075638.thjpihktz7zxplvy@steredhat.homenet.telecomitalia.it>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-In-reply-to: <6c2efee2-31bb-68f2-12d0-684ca5959ad4@redhat.com>
-Date: Fri, 31 May 2019 09:15:01 +0100
-Message-ID: <87y32n3ure.fsf@zen.linaroharston>
+To: Stefano Garzarella <sgarzare@redhat.com>
+In-reply-to: <20190531075638.thjpihktz7zxplvy@steredhat.homenet.telecomitalia.it>
+Date: Fri, 31 May 2019 09:16:14 +0100
+Message-ID: <87woi73upd.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v1 20/26] tests/vm: add DEBUG=1 to help text
+X-Received-From: 2a00:1450:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v1 07/26] .travis.yml: bump gcc sanitiser
+ job to gcc-9
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,61 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
-	qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Stefano Garzarella <sgarzare@redhat.com> writes:
 
-> Hi  Alex,
->
-> On 5/30/19 12:15 PM, Alex Benn=C3=A9e wrote:
->> From: Gerd Hoffmann <kraxel@redhat.com>
+> On Thu, May 30, 2019 at 11:15:44AM +0100, Alex Benn=C3=A9e wrote:
+>> The toolchain PPA has it so we might as well use it.
 >>
->> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> Tested-by: Thomas Huth <thuth@redhat.com>
->> Message-Id: <20190520124716.30472-9-kraxel@redhat.com>
->> [AJB: fix minor conflict]
 >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 >> ---
->>  tests/vm/Makefile.include | 2 ++
->>  1 file changed, 2 insertions(+)
+>>  .travis.yml | 10 +++++-----
+>>  1 file changed, 5 insertions(+), 5 deletions(-)
 >>
->> diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
->> index e329129bd65..628eecade78 100644
->> --- a/tests/vm/Makefile.include
->> +++ b/tests/vm/Makefile.include
->> @@ -25,6 +25,8 @@ vm-test:
->>  	@echo "  vm-boot-ssh-<guest>             - Boot guest and login via ss=
-h"
->>  	@echo
->>  	@echo "Special variables:"
->> +	@echo "    DEBUG=3D1                       - be verbose, also start in=
-teractive"
->> +	@echo "	                                   shell on build failures"
->
-> Patch 12 of this series (tests/vm: Add missing variables on help)
-> already added this, it now appears 2 times:
->
-> Special variables:
->     DEBUG=3D1                       - be verbose, also start interactive
->                                            shell on build failures
->     DEBUG=3D1                      - Enable verbose output on host and
-> interactive debugging
->
-> This one is more precise although...
-
-Oops merge failure - will fix that.
-
->
->>  	@echo "    BUILD_TARGET=3Dfoo		 - Override the build target"
->>  	@echo "    TARGET_LIST=3Da,b,c    	 - Override target list in builds"
->>  	@echo '    EXTRA_CONFIGURE_OPTS=3D"..."'
+>> diff --git a/.travis.yml b/.travis.yml
+>> index b053a836a32..f0aa37f2d12 100644
+>> --- a/.travis.yml
+>> +++ b/.travis.yml
+>> @@ -240,8 +240,8 @@ matrix:
+>>              - ubuntu-toolchain-r-test
+>>            packages:
+>>              # Extra toolchains
+>> -            - gcc-7
+>> -            - g++-7
+>> +            - gcc-9
+>> +            - g++-9
+>>              # Build dependencies
+>>              - libaio-dev
+>>              - libattr1-dev
+>> @@ -270,11 +270,11 @@ matrix:
+>>        language: generic
+>>        compiler: none
+>>        env:
+>> -        - COMPILER_NAME=3Dgcc CXX=3Dg++-7 CC=3Dgcc-7
+>> -        - CONFIG=3D"--cc=3Dgcc-7 --cxx=3Dg++-7 --disable-pie --disable-=
+linux-user"
+>> +        - COMPILER_NAME=3Dgcc CXX=3Dg++-9 CC=3Dgcc-9
+>> +        - CONFIG=3D"--cc=3Dgcc-9 --cxx=3Dg++-9 --disable-pie --disable-=
+linux-user"
+>>          - TEST_CMD=3D""
+>>        before_script:
+>> -        - ./configure ${CONFIG} --extra-cflags=3D"-g3 -O0 -fsanitize=3D=
+thread -fuse-ld=3Dgold" || { cat config.log && exit 1; }
+>> +        - ./configure ${CONFIG} --extra-cflags=3D"-g3 -O0 -Wno-error=3D=
+stringop-truncation -fsanitize=3Dthread -fuse-ld=3Dgold" || { cat config.lo=
+g && exit 1; }
 >>
+>
+> What about describing in the commit message that we are adding
+> '-Wno-error=3Dstringop-truncation' in the cflags?
+
+I was sure I'd written that commit message, but obviously only in my
+head. Will update.
+
+>
+> Thanks,
+> Stefano
 
 
 --
