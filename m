@@ -2,60 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F82830CD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 12:47:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40830 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7AE30CF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 12:58:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40971 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWf4K-0008HC-JH
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 06:47:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55953)
+	id 1hWfEm-0000OH-5e
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 06:58:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56237)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pmathieu@redhat.com>) id 1hWf1m-0006m0-57
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:44:51 -0400
+	(envelope-from <david@redhat.com>) id 1hWf23-0007CS-IE
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:45:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pmathieu@redhat.com>) id 1hWf1j-0001IT-Um
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:44:49 -0400
-Received: from mail-ua1-f67.google.com ([209.85.222.67]:37860)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1hWf1h-0000zE-Tj
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:44:47 -0400
-Received: by mail-ua1-f67.google.com with SMTP id l3so3537330uad.4
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 03:44:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=EdhB9JH3Hwhf79ZfXwKSc7iAncNQo6k0AQsUx2P2i0A=;
-	b=hhU6jcFSrW6dtFMAzwD9OaRoHg4tEoMW8PdzrMH0ArYw+q+XWR27lmMb2+q5I2J1lC
-	GVvk0ld89mWXnjZTNflaLdoUGpAAcu/wFJovOU3R185RUBTdYSDcldOAJA/3Y7GZnPuz
-	VyNexjYaqWAkxTDGu80erCfHSmzb+nhilRP8VZHDUlZf9znabaDPPYKuBPC0VYvBvNMH
-	KjQ9BAOAYHRhOrFyTIqOCr51hlrc3tT0y5IKkANG568q+N4RD137rz4O9PhVSgl1f/zB
-	hnGN76McALy2CTcxHj/J6Qb3VIxHU2Tb6yztVWrLZ8QLs6QKk0V6UUwYWZlGXlk7pDlf
-	oWzg==
-X-Gm-Message-State: APjAAAWSjVBQRWaRyJuwHSlkDHGAC0tNI8MzNdMM+cxIQtZfh18kSvp9
-	60z/7QgB0t0os/OyIZHytgMgncbnrckxgcK5/rbm2w==
-X-Google-Smtp-Source: APXvYqzR2Onq3HkFNqNS1n0k3XRe4xn2VvgKtnTXWnExfgb1pn8jFrluOvZyro1zqAdEkRgLFm41NsC2H/f7+IJgigM=
-X-Received: by 2002:ab0:698f:: with SMTP id t15mr4914986uaq.34.1559299475418; 
-	Fri, 31 May 2019 03:44:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190514155301.16123-1-alex.bennee@linaro.org>
-	<20190514155301.16123-7-alex.bennee@linaro.org>
-	<20190531091204.tjmq622gw457xbdr@lws.brq.redhat.com>
-	<891973f7-2f2b-ad59-70bf-6069382fd977@redhat.com>
-In-Reply-To: <891973f7-2f2b-ad59-70bf-6069382fd977@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+	(envelope-from <david@redhat.com>) id 1hWf22-0001kW-I3
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:45:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42778)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <david@redhat.com>) id 1hWf22-0001jb-Ad
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 06:45:06 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A106F30821F8;
+	Fri, 31 May 2019 10:45:05 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-233.ams2.redhat.com [10.36.116.233])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7FB32271AE;
+	Fri, 31 May 2019 10:45:02 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
 Date: Fri, 31 May 2019 12:44:24 +0200
-Message-ID: <CAP+75-UfBN0SKrtcDDhp+anbbFz7u0AjmM=7robpeEPQC6fhKw@mail.gmail.com>
-To: Miroslav Rezanina <mrezanin@redhat.com>,
-	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <20190531104432.29379-16-david@redhat.com>
+In-Reply-To: <20190531104432.29379-1-david@redhat.com>
+References: <20190531104432.29379-1-david@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Fri, 31 May 2019 10:45:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.222.67
-Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the common
- interface for WRITE0/WRITEC in arm-semi
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v1 15/23] s390x/tcg: Implement VECTOR FP
+ MULTIPLY
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,151 +56,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Laurent Vivier <laurent@vivier.eu>, qemu-arm <qemu-arm@nongnu.org>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+	Denys Vlasenko <dvlasenk@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 31, 2019 at 12:42 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Hi Miroslav,
->
-> On 5/31/19 11:12 AM, Miroslav Rezanina wrote:
-> > On Tue, May 14, 2019 at 04:52:56PM +0100, Alex Benn=C3=A9e wrote:
-> >> Now we have a common semihosting console interface use that for our
-> >> string output. However ARM is currently unique in also supporting
-> >> semihosting for linux-user so we need to replicate the API in
-> >> linux-user. If other architectures gain this support we can move the
-> >> file later.
-> >>
-> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> >> ---
-> >>  linux-user/Makefile.objs  |  2 ++
-> >>  linux-user/arm/semihost.c | 24 ++++++++++++++++++++++++
-> >>  target/arm/arm-semi.c     | 31 ++++++-------------------------
-> >>  3 files changed, 32 insertions(+), 25 deletions(-)
-> >>  create mode 100644 linux-user/arm/semihost.c
-> >>
-> >> diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
-> >> index 769b8d83362..285c5dfa17a 100644
-> >> --- a/linux-user/Makefile.objs
-> >> +++ b/linux-user/Makefile.objs
-> >> @@ -6,4 +6,6 @@ obj-y =3D main.o syscall.o strace.o mmap.o signal.o \
-> >>  obj-$(TARGET_HAS_BFLT) +=3D flatload.o
-> >>  obj-$(TARGET_I386) +=3D vm86.o
-> >>  obj-$(TARGET_ARM) +=3D arm/nwfpe/
-> >> +obj-$(TARGET_ARM) +=3D arm/semihost.o
-> >> +obj-$(TARGET_AARCH64) +=3D arm/semihost.o
-> >>  obj-$(TARGET_M68K) +=3D m68k-sim.o
-> >> diff --git a/linux-user/arm/semihost.c b/linux-user/arm/semihost.c
-> >> new file mode 100644
-> >> index 00000000000..9554102a855
-> >> --- /dev/null
-> >> +++ b/linux-user/arm/semihost.c
-> >> @@ -0,0 +1,24 @@
-> >> +/*
-> >> + * ARM Semihosting Console Support
-> >> + *
-> >> + * Copyright (c) 2019 Linaro Ltd
-> >> + *
-> >> + * Currently ARM is unique in having support for semihosting support
-> >> + * in linux-user. So for now we implement the common console API but
-> >> + * just for arm linux-user.
-> >> + *
-> >> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >> + */
-> >> +
-> >> +#include "qemu/osdep.h"
-> >> +#include "cpu.h"
-> >> +#include "hw/semihosting/console.h"
-> >> +#include "qemu.h"
-> >> +
-> >> +int qemu_semihosting_console_out(CPUArchState *env, target_ulong addr=
-, int len)
-> >> +{
-> >> +    void *s =3D lock_user_string(addr);
-> >> +    len =3D write(STDERR_FILENO, s, len ? len : strlen(s));
-> >> +    unlock_user(s, addr, 0);
-> >> +    return len;
-> >> +}
-> >> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-> >> index 9e5a414dd89..253c66b172a 100644
-> >> --- a/target/arm/arm-semi.c
-> >> +++ b/target/arm/arm-semi.c
-> >> @@ -27,6 +27,7 @@
-> >>
-> >>  #include "cpu.h"
-> >>  #include "hw/semihosting/semihost.h"
-> >> +#include "hw/semihosting/console.h"
-> >>  #ifdef CONFIG_USER_ONLY
-> >>  #include "qemu.h"
-> >>
-> >> @@ -314,32 +315,12 @@ target_ulong do_arm_semihosting(CPUARMState *env=
-)
-> >>              return set_swi_errno(ts, close(arg0));
-> >>          }
-> >>      case TARGET_SYS_WRITEC:
-> >> -        {
-> >> -          char c;
-> >> -
-> >> -          if (get_user_u8(c, args))
-> >> -              /* FIXME - should this error code be -TARGET_EFAULT ? *=
-/
-> >> -              return (uint32_t)-1;
-> >> -          /* Write to debug console.  stderr is near enough.  */
-> >> -          if (use_gdb_syscalls()) {
-> >> -                return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,=
-1", args);
-> >> -          } else {
-> >> -                return write(STDERR_FILENO, &c, 1);
-> >> -          }
-> >> -        }
-> >> +    {
-> >> +        qemu_semihosting_console_out(env, args, 1);
-> >> +        return 0xdeadbeef;
-> >> +    }
-> >>      case TARGET_SYS_WRITE0:
-> >> -        if (!(s =3D lock_user_string(args)))
-> >> -            /* FIXME - should this error code be -TARGET_EFAULT ? */
-> >> -            return (uint32_t)-1;
-> >> -        len =3D strlen(s);
-> >> -        if (use_gdb_syscalls()) {
-> >> -            return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,%x",
-> >> -                                   args, len);
-> >> -        } else {
-> >> -            ret =3D write(STDERR_FILENO, s, len);
-> >> -        }
-> >> -        unlock_user(s, args, 0);
-> >> -        return ret;
-> >> +        return qemu_semihosting_console_out(env, args, 0);
-> >>      case TARGET_SYS_WRITE:
-> >>          GET_ARG(0);
-> >>          GET_ARG(1);
-> >> --
-> >> 2.20.1
-> >>
-> >>
-> >
-> > Hi Alex,
-> >
-> > this patch breaks build for softmmu target when CONFIG_SEMIHOSTING is n=
-ot enabled as qemu_semihosting_console_out
-> > is not defined in such case - neither linux-user/arm/semihost.c nor hw/=
-semihosting/console.c compiled and function
-> > is not in stubs/semihost.c
+Very similar to VECTOR FP DIVIDE.
 
-linux-user/arm/semihost.c is not built on softmmu-only build.
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/helper.h           |  2 ++
+ target/s390x/insn-data.def      |  2 ++
+ target/s390x/translate_vx.inc.c |  3 +++
+ target/s390x/vec_fpu_helper.c   | 17 +++++++++++++++++
+ 4 files changed, 24 insertions(+)
 
-> Kinda funny, I noticed the same issue at the same time, and was chatting
-> with Alex about it.
->
-> I prepared a patch expliciting we can not disable CONFIG_SEMIHOSTING on
-> the MIPS arch. Would that work for you?
->
-> Regards,
->
-> Phil.
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 7526f8e8c6..22e02a0178 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -282,6 +282,8 @@ DEF_HELPER_FLAGS_4(gvec_vfll32, TCG_CALL_NO_WG, void,=
+ ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vfll32s, TCG_CALL_NO_WG, void, ptr, cptr, env, i=
+32)
+ DEF_HELPER_FLAGS_4(gvec_vflr64, TCG_CALL_NO_WG, void, ptr, cptr, env, i3=
+2)
+ DEF_HELPER_FLAGS_4(gvec_vflr64s, TCG_CALL_NO_WG, void, ptr, cptr, env, i=
+32)
++DEF_HELPER_FLAGS_5(gvec_vfm64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, en=
+v, i32)
++DEF_HELPER_FLAGS_5(gvec_vfm64s, TCG_CALL_NO_WG, void, ptr, cptr, cptr, e=
+nv, i32)
+=20
+ #ifndef CONFIG_USER_ONLY
+ DEF_HELPER_3(servc, i32, env, i64, i64)
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index f03914d528..e56059ac34 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -1234,6 +1234,8 @@
+     F(0xe7c4, VFLL,    VRR_a, V,   0, 0, 0, 0, vfll, 0, IF_VEC)
+ /* VECTOR LOAD ROUNDED */
+     F(0xe7c5, VFLR,    VRR_a, V,   0, 0, 0, 0, vcdg, 0, IF_VEC)
++/* VECTOR FP MULTIPLY */
++    F(0xe7e7, VFM,     VRR_c, V,   0, 0, 0, 0, vfa, 0, IF_VEC)
+=20
+ #ifndef CONFIG_USER_ONLY
+ /* COMPARE AND SWAP AND PURGE */
+diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.=
+inc.c
+index 73e1b1062a..ae31a327cf 100644
+--- a/target/s390x/translate_vx.inc.c
++++ b/target/s390x/translate_vx.inc.c
+@@ -2563,6 +2563,9 @@ static DisasJumpType op_vfa(DisasContext *s, DisasO=
+ps *o)
+     case 0xe5:
+         fn =3D se ? gen_helper_gvec_vfd64s : gen_helper_gvec_vfd64;
+         break;
++    case 0xe7:
++        fn =3D se ? gen_helper_gvec_vfm64s : gen_helper_gvec_vfm64;
++        break;
+     default:
+         g_assert_not_reached();
+     }
+diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.=
+c
+index d5fd931b61..fd147cc055 100644
+--- a/target/s390x/vec_fpu_helper.c
++++ b/target/s390x/vec_fpu_helper.c
+@@ -491,3 +491,20 @@ void HELPER(gvec_vflr64s)(void *v1, const void *v2, =
+CPUS390XState *env,
+=20
+     vflr64(v1, v2, env, true, XxC, erm, GETPC());
+ }
++
++static uint64_t vfm64(uint64_t a, uint64_t b, float_status *s)
++{
++    return float64_val(float64_mul(make_float64(a), make_float64(b), s))=
+;
++}
++
++void HELPER(gvec_vfm64)(void *v1, const void *v2, const void *v3,
++                        CPUS390XState *env, uint32_t desc)
++{
++    vop64_3(v1, v2, v3, env, false, vfm64, GETPC());
++}
++
++void HELPER(gvec_vfm64s)(void *v1, const void *v2, const void *v3,
++                         CPUS390XState *env, uint32_t desc)
++{
++    vop64_3(v1, v2, v3, env, true, vfm64, GETPC());
++}
+--=20
+2.20.1
+
 
