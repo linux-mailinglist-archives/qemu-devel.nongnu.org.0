@@ -2,52 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBD231514
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 21:09:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47939 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8EA3156C
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 21:34:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48160 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWmtj-0002zR-Vp
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 15:09:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40835)
+	id 1hWnIm-0006yO-GZ
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 15:34:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43850)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hWmsk-0002e2-OS
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 15:08:03 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hWnHQ-00063d-65
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 15:33:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hWmsj-000845-N7
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 15:08:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47952)
+	(envelope-from <ehabkost@redhat.com>) id 1hWn8s-000867-4q
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 15:24:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53086)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hWmsj-00083A-HE
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 15:08:01 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hWn8r-000857-Vr
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 15:24:42 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B8A483066800;
-	Fri, 31 May 2019 19:07:58 +0000 (UTC)
-Received: from work-vm (ovpn-117-254.ams2.redhat.com [10.36.117.254])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B4AD608CA;
-	Fri, 31 May 2019 19:07:56 +0000 (UTC)
-Date: Fri, 31 May 2019 20:07:53 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190531190753.GO3169@work-vm>
-References: <20190523094433.30297-1-yury-kotov@yandex-team.ru>
-	<87k1ebdsbm.fsf@dusky.pond.sub.org>
+	by mx1.redhat.com (Postfix) with ESMTPS id CEF7E30C540C;
+	Fri, 31 May 2019 19:24:38 +0000 (UTC)
+Received: from localhost (ovpn-120-246.rdu2.redhat.com [10.10.120.246])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4AF7119C69;
+	Fri, 31 May 2019 19:24:31 +0000 (UTC)
+Date: Fri, 31 May 2019 16:24:29 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Message-ID: <20190531192429.GH22103@habkost.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87k1ebdsbm.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
 	(mx1.redhat.com [10.5.110.46]);
-	Fri, 31 May 2019 19:07:59 +0000 (UTC)
+	Fri, 31 May 2019 19:24:41 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3] monitor: Fix return type of
- monitor_fdset_dup_fd_find
+Subject: [Qemu-devel] Deprecation policy and build dependencies
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,87 +55,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yury Kotov <yury-kotov@yandex-team.ru>, Paolo Bonzini <pbonzini@redhat.com>,
-	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	"Daniel P. Berrange" <berrange@redhat.com>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>,
+	Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> David, got anything queued for the monitor?  If yes, can you stick this
-> in?  If not, I can handle it.
+Long story short: I would really like to drop support for Python
+2 in QEMU 4.1.
 
-I've not got anything else, so please take it;
-am I right in thinking this supercedes
+What exactly prevents us from doing this?  Does our deprecation
+policy really apply to build dependencies?
 
-  'monitor: Fix fdset_id & fd types for corresponding QMP commands'
-
-Thanks,
-
-Dave
-
-
-> Yury Kotov <yury-kotov@yandex-team.ru> writes:
-> 
-> > monitor_fdset_dup_fd_find_remove() and monitor_fdset_dup_fd_find()
-> > return mon_fdset->id which is int64_t. Downcasting from int64_t to int
-> > leads to a bug with removing fd from fdset with id >= 2^32.
-> > So, fix return types for these function.
-> >
-> > Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
-> > Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> > ---
-> >  include/monitor/monitor.h | 2 +-
-> >  monitor.c                 | 4 ++--
-> >  stubs/fdset.c             | 2 +-
-> >  3 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-> > index 86656297f1..51f048d61f 100644
-> > --- a/include/monitor/monitor.h
-> > +++ b/include/monitor/monitor.h
-> > @@ -45,6 +45,6 @@ AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
-> >  int monitor_fdset_get_fd(int64_t fdset_id, int flags);
-> >  int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd);
-> >  void monitor_fdset_dup_fd_remove(int dup_fd);
-> > -int monitor_fdset_dup_fd_find(int dup_fd);
-> > +int64_t monitor_fdset_dup_fd_find(int dup_fd);
-> >  
-> >  #endif /* MONITOR_H */
-> > diff --git a/monitor.c b/monitor.c
-> > index 6428eb3b7e..a0e637f7d6 100644
-> > --- a/monitor.c
-> > +++ b/monitor.c
-> > @@ -2602,7 +2602,7 @@ err:
-> >      return -1;
-> >  }
-> >  
-> > -static int monitor_fdset_dup_fd_find_remove(int dup_fd, bool remove)
-> > +static int64_t monitor_fdset_dup_fd_find_remove(int dup_fd, bool remove)
-> >  {
-> >      MonFdset *mon_fdset;
-> >      MonFdsetFd *mon_fdset_fd_dup;
-> > @@ -2630,7 +2630,7 @@ err:
-> >      return -1;
-> >  }
-> >  
-> > -int monitor_fdset_dup_fd_find(int dup_fd)
-> > +int64_t monitor_fdset_dup_fd_find(int dup_fd)
-> >  {
-> >      return monitor_fdset_dup_fd_find_remove(dup_fd, false);
-> >  }
-> > diff --git a/stubs/fdset.c b/stubs/fdset.c
-> > index 4f3edf2ea4..a1b8f41f62 100644
-> > --- a/stubs/fdset.c
-> > +++ b/stubs/fdset.c
-> > @@ -7,7 +7,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd)
-> >      return -1;
-> >  }
-> >  
-> > -int monitor_fdset_dup_fd_find(int dup_fd)
-> > +int64_t monitor_fdset_dup_fd_find(int dup_fd)
-> >  {
-> >      return -1;
-> >  }
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+-- 
+Eduardo
 
