@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DC331374
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 19:07:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46666 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3121D31378
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 19:08:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46681 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWl0V-0001gx-GG
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 13:07:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47294)
+	id 1hWl1S-0002jq-Cf
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 13:08:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47864)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hWkxV-0000Rq-3D
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:04:50 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hWkzW-0001gk-HO
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:06:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hWkxS-0005HW-Th
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:04:49 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44336)
+	(envelope-from <peter.maydell@linaro.org>) id 1hWkzV-0007A6-Ek
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:06:54 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35612)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hWkxQ-0005Ce-TL
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:04:46 -0400
-Received: by mail-ot1-x344.google.com with SMTP id g18so9849405otj.11
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 10:04:42 -0700 (PDT)
+	id 1hWkzV-00078y-87
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:06:53 -0400
+Received: by mail-oi1-x243.google.com with SMTP id y6so4639829oix.2
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 10:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7fQjKjvMizxEUH+ZmLWmHokn2Oviwij2SRB/vhvQN/s=;
-	b=NW3DvrDD9ptKFwR7osjK1zByZU1LbYTlrcX4ARTtvm/qg9tDXKqGQHLJloFyczyx/+
-	538PPalK2XcoTDx929BA6jJiOHrMT4xWrejpT2VTlmkSJQnX4vXVbcQ6DgixglLRAvDh
-	YF+O3yz6OVUPMgYq5poP33yHeFkeTbFSt6CVNT3rk7dCYRuxwpJjW7Igw9C3yFTivcSL
-	dBWeBjcV4y1nNJPfCFHPUbR/sCmLvtLpPlwwTwmubey0NzfLSUUuGykbPxz9SV/KwyPx
-	AvHjbRx8jUcZKmWisWiU4+IiAsuTN+FDOQgrtNP9DgGulfrsxJgNCju7GnxZJdvH7mNV
-	80uw==
+	:cc:content-transfer-encoding;
+	bh=bGEgwcdg7BQDVwN5gbQCpbUXmzK9K+tKsUN6ULwLP6o=;
+	b=B+Oq20K+qDarF0B/R080DljMCKoTpHjwGkkIGgNtEwo56QV9dFqJrlwSOSWdS7ZSfj
+	r5NgIu/zy2qbJL5rTllite+Ns/f47+0XUxJ2i/EEhXSiTgorVeC7f9lpiXZMSClxtnUd
+	adi8Ejl0ZrRDml7XaqzuqNFYLSDvKwBi0ny51QTi/PiD7ZDA3uQzL3hHsCUN3Kxrweed
+	mF2v2ML3qfhGOD1kcmVBkkVh+LY8wMTVU4FgtcsqlGLzlFggGcYTmyFXe5qH0Nx4NF5y
+	32MXCNiNfVWkUVRiUjF6Y6FiERrqAZtP8oIVIMqPnWsVHClGlIru/gZdTSsUUI1DYXLt
+	Hn8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7fQjKjvMizxEUH+ZmLWmHokn2Oviwij2SRB/vhvQN/s=;
-	b=tRjFadwrVQEm7JTANcYeeiix2eNYtrdMbYzosPjKxjOGLtSCfF+bXe/j6bpo1nxdUS
-	GTOPZnogtZU2hSBIlvJtGrzTU2FdhzPfaVl/Kj7bZXXFqgNOFNa4XJXaaRRoc4dleMWq
-	Q3MipetNs01mgUS5OLvRoEqvgc1WyrFmTwQZtd4Nf0mrf9Ofq3nDguYFJp5iZ5jBwmJw
-	zQNJLXZRLRRDqxO+5sjO6fh7/g4e5UMmxgrdt44yARzLxHGDr0vBKu6vvEJXwrGphpzg
-	FjgUe/Y+Gz3kS1FyO97qVqayOgrq4aRFq9ANzxWkq77p3KgyzgDk/Gp2RtvzeJqrczCC
-	Dsww==
-X-Gm-Message-State: APjAAAUSlD3Y5cSGWNdcAAO/9ncxxkw74RQE5mV9YqMhqgK6Hs/Nk41A
-	nIWnVFTXWrze0vkIef1ynvYdCUkAi3a262kJG3uC9A==
-X-Google-Smtp-Source: APXvYqz+eieM/Aiez3X/SAhpyNPCiRqcRRsbo+/FHP9dUHyU2LDOMfQAwx8zaPzm8vlE3qGmka1oDsJIpprBlz3AoJo=
-X-Received: by 2002:a9d:193:: with SMTP id e19mr2663060ote.135.1559322281450; 
-	Fri, 31 May 2019 10:04:41 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=bGEgwcdg7BQDVwN5gbQCpbUXmzK9K+tKsUN6ULwLP6o=;
+	b=fvJOmJYS6u8U4kcLmvZFg6dPVCaG3+QFCN8bEg2rWwd55LL3uoDatH9CexRPUmdE8l
+	5CFXvZQqSgmXXFPeqNznGn2yXtXpHXopbhqop9vQ3mWF4kgx7icCKH7ZWjcekAddnRjf
+	e5mbgj+2H308hr/H0IT/pNyPDD4x+MaKhHlCop6WPxgspFuknMICheysaV7WphaJ/Jgf
+	KZ+oJmCQIaj7s3jYZl35HAbIS8H0uM791DtY8DqfM0IDiuyaIVH3G/x4HRXRGB4zXyx8
+	DGk7N7Nfw7jIERJ3iZowghrWarEoqyaZN3glt1k5CQaIkcJj4VBg0gJp2bUZy1T7CdiE
+	Hczg==
+X-Gm-Message-State: APjAAAXvom7UthCU9jOLT9Tolaugo+SknMxd4W1HxyvbUfkkunKGd/UA
+	ZtJyDzhIK0+p4P8XqsTP6bz1JShYpbXBCEB7VN8yXA==
+X-Google-Smtp-Source: APXvYqy53KqPb3kHCJ8QIsSrO4QxITByDLUC+dJI1UCDwhRh0iGKs8RpEhibZG893xpMS2wEZLijU37i+k4yYu+vkek=
+X-Received: by 2002:aca:6cc1:: with SMTP id h184mr2037150oic.170.1559322412328;
+	Fri, 31 May 2019 10:06:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190531154735.20809-1-philmd@redhat.com>
 	<CAFEAcA9TJGq-8fMv2amQEEGz9QKCNWYwJxCXrjqSh=Yc87yTww@mail.gmail.com>
 	<947e851b-4b95-3126-2eaf-d5d16f8b831b@redhat.com>
-	<431872249.25606899.1559321648368.JavaMail.zimbra@redhat.com>
-In-Reply-To: <431872249.25606899.1559321648368.JavaMail.zimbra@redhat.com>
+In-Reply-To: <947e851b-4b95-3126-2eaf-d5d16f8b831b@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 31 May 2019 18:04:30 +0100
-Message-ID: <CAFEAcA_KKH62rK2pbR8dWXOCJWe1X8wif5whc+y0_e-hTpmoRQ@mail.gmail.com>
-To: Miroslav Rezanina <mrezanin@redhat.com>
+Date: Fri, 31 May 2019 18:06:41 +0100
+Message-ID: <CAFEAcA9m842==pUU2ux9PQzetJ2kDFp4LS+VT9TyTUqPEH-+Xg@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::243
 Subject: Re: [Qemu-devel] [RFC PATCH 0/2] target: Build with
  CONFIG_SEMIHOSTING disabled
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,26 +79,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Samuel Ortiz <sameo@linux.intel.com>,
 	Rob Bradford <robert.bradford@intel.com>,
 	Aleksandar Rikalo <arikalo@wavecomp.com>,
-	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
 	Richard Henderson <richard.henderson@linaro.org>,
 	QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
 	Aleksandar Markovic <amarkovic@wavecomp.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+	Miroslav Rezanina <mrezanin@redhat.com>,
+	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
 	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 31 May 2019 at 17:54, Miroslav Rezanina <mrezanin@redhat.com> wrote:
-> What about CONFIG_ARM_VIRT - can we use it to introduce dependency on
-> CONFIG_SEMIHOSTING or is there valid scenario of qemu build with CONFIG_ARM_VIRT
-> enabled and CONFIG_SEMIHOSTING disabled?
+On Fri, 31 May 2019 at 17:40, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+> I'll see what happened to Samuel series "Support disabling TCG on ARM"
+> and see if it can be salvaged:
+> https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg02451.html
 
-Semihosting is a feature that works on all Arm CPUs
-regardless of which machine model you're using (or whether
-you're using softmmu or linux-user), so I think
-the machine's Kconfig fragment is the wrong place to try
-to pull it in.
+That would certainly be useful.
+
+> I suppose in this thread:
+> https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg05641.html
+> you refer to this series (not yet merged):
+> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03137.html
+>
+> I'll try to figure what "KVM injection of interrupts" is.
+
+This is about some (rare) cases where userspace QEMU in a KVM
+setup determines that it needs to deliver an exception to the
+guest, and does that by adjusting the CPU state appropriately
+(changing PC, PSTATE, ESR_EL1, etc etc) before telling KVM
+to KVM_RUN again. Currently we only need that for some places
+where we're doing debugging of the guest, but there is that
+pending patchset that would also like to do it in case of
+a detected hardware memory error. (Most of the time when the
+guest takes an exception it's because the host kernel/KVM
+have determined that it's necessary and done the relevant
+messing with the guest CPU state.)
 
 thanks
 -- PMM
