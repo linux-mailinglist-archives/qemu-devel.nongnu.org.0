@@ -2,79 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E05313FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 19:39:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47019 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8F9313FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 19:40:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47058 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWlUy-0000rY-2l
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 13:39:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53669)
+	id 1hWlWF-0001vh-Al
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 13:40:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53880)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hWlTU-0000H8-3K
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:37:52 -0400
+	(envelope-from <david@redhat.com>) id 1hWlUf-00016n-9r
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:39:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hWlTT-00040g-4X
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:37:52 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44849)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hWlTS-0003zo-Rc
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:37:51 -0400
-Received: by mail-ot1-x344.google.com with SMTP id g18so9955338otj.11
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 10:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=50tDTUOv2u7OC9QdPFya6RrI5mcoqwqMADWJFToiGvY=;
-	b=BhfnIP4uwTge28oWkXwojZMEuOJCn3HNQivuk60ljvAPF872LPIsCAB2rkFRDfQ0j4
-	pGpetHypsmoJuu0oiZuwekj1g7xdyAKddUWP9EwY69fE/+/Q7TIimY2V/gnrMn0XB9QE
-	P+HvzQlbrU3cWfa1X7fYsEDUxgXrj64BvS7rm7bNUrqEWS3z+5aHFCI1+kTE3R226kPY
-	a98V9lD1F0Jcrx7wvvOiumvcOCW5cDxFUj3j/Pob919i+qF+RQ461ZwJf+DVJtOf8q8B
-	LT/8wl0vbjQJaYj67YWH+1eydyZX/jaag7qsKDDaqbwl7KKCbjNRJbZnRTmqXH3IWUQX
-	8Ffw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=50tDTUOv2u7OC9QdPFya6RrI5mcoqwqMADWJFToiGvY=;
-	b=O4g3DSQOyxqHWB25m45F2xcWNsaRgvKSFnpjDDV+j5HRwGSBdqymHxcUKCugwp2yGx
-	5sQcv85aqSiSLR2nb65BuG8bWuIwrSRdxLLMe2W6NOtKw1MkA7SaVN6XjgkO2pxaE/n3
-	Pc6av0JdddkFMcQRtwBU8R38bHw9xo+7CfD2zkAUhFlTGiO+J2dWdESqI1WAORkH+zpI
-	tO/e5+2bJ6Vd4j81tFrjrMC7hInys8cvlovn72Cij0EsX3aqZ3fhsb7xXzY55Hu3vIFq
-	SLry2i8LYJ35yCJLxwR61Jz9OAsn3ln1l2BA+0PCdcugB1duWjAM9QnAM7fm6p1Z2RPc
-	2t2Q==
-X-Gm-Message-State: APjAAAUOXYCr4JMUgD681CkXADgblmHuwZMO8/RRmB6PFnfqMn14sfwR
-	f1IxzDQ8Ei1tt/yhR/tlmuy/Zg==
-X-Google-Smtp-Source: APXvYqyeF/4e7vgzR36BHMKRHxgPPzN8xkiZ6xbfLRG4VprQXEpOyEVS+pXz6wzXW0PxGlOkwsyHEQ==
-X-Received: by 2002:a05:6830:11c6:: with SMTP id
-	v6mr2613147otq.26.1559324270046; 
-	Fri, 31 May 2019 10:37:50 -0700 (PDT)
-Received: from [172.24.12.210] (168.189-204-159.bestelclientes.com.mx.
-	[189.204.159.168]) by smtp.gmail.com with ESMTPSA id
-	t139sm2450078oie.21.2019.05.31.10.37.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 May 2019 10:37:49 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+	(envelope-from <david@redhat.com>) id 1hWlUb-000509-15
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:39:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51834)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <david@redhat.com>) id 1hWlUX-0004vC-0l
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:38:58 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6AE0E3078AB5;
+	Fri, 31 May 2019 17:38:53 +0000 (UTC)
+Received: from [10.36.116.233] (ovpn-116-233.ams2.redhat.com [10.36.116.233])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 659EF5DE8D;
+	Fri, 31 May 2019 17:38:52 +0000 (UTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190531104432.29379-1-david@redhat.com>
-	<20190531104432.29379-16-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
+	<20190531104432.29379-14-david@redhat.com>
+	<c2c09ef3-10f0-7dd7-c1fb-df6583ca5464@linaro.org>
+	<7166dad4-831b-1978-fd23-2f9742ec940c@redhat.com>
+	<26558069-098b-46fc-1b2f-22a1ab179436@linaro.org>
+From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <951558d8-8a61-63d7-49d7-2c41e55c7827@linaro.org>
-Date: Fri, 31 May 2019 12:37:47 -0500
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+	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
+	SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <e9ba2a19-3679-c111-0802-1361d6c74510@redhat.com>
+Date: Fri, 31 May 2019 19:38:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190531104432.29379-16-david@redhat.com>
+In-Reply-To: <26558069-098b-46fc-1b2f-22a1ab179436@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v1 15/23] s390x/tcg: Implement VECTOR FP
- MULTIPLY
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.48]);
+	Fri, 31 May 2019 17:38:53 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v1 13/23] s390x/tcg: Implement VECTOR LOAD
+ LENGTHENED
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,21 +114,47 @@ Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/19 5:44 AM, David Hildenbrand wrote:
-> Very similar to VECTOR FP DIVIDE.
+On 31.05.19 19:36, Richard Henderson wrote:
+> On 5/31/19 12:35 PM, David Hildenbrand wrote:
+>> On 31.05.19 19:33, Richard Henderson wrote:
+>>> On 5/31/19 5:44 AM, David Hildenbrand wrote:
+>>>> +    for (i = 0; i < 2; i++) {
+>>>> +        /* load from even element */
+>>>> +        const float32 a = make_float32(s390_vec_read_element32(v2, i * 2));
+>>>
+>>> I suppose.
+>>>
+>>> You could also reuse vop64_2 with
+>>>
+>>> static uint64_t vfll(uint64_t a, float_status *s)
+>>> {
+>>>     /* Even float32 are stored in the high half of each doubleword.  */
+>>>     return float32_to_float64(a >> 32, s);
+>>> }
+>>>
+>>
+>> Then, I wouldn't be able to indicate the correct element index on
+>> exceptions via the vex (has to be the 32-bit index).
+
+I guess we can later handle all type conversions (lower -> bigger) via
+this single function (passing the source size). Then we only need a
+second function for the other direction.
+
+Thanks!
+
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/helper.h           |  2 ++
->  target/s390x/insn-data.def      |  2 ++
->  target/s390x/translate_vx.inc.c |  3 +++
->  target/s390x/vec_fpu_helper.c   | 17 +++++++++++++++++
->  4 files changed, 24 insertions(+)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Ah, tricky.  Missed that detail.
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> 
+> r~
+> 
 
 
-r~
+-- 
 
+Thanks,
 
+David / dhildenb
 
