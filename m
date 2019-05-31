@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0428A31330
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:57:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46474 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4967231345
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 19:02:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46582 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWkqG-0003pA-4n
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:57:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44241)
+	id 1hWkvN-0007Gr-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 13:02:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46434)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrezanin@redhat.com>) id 1hWkkZ-0007t1-Om
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:51:29 -0400
+	(envelope-from <bounces@canonical.com>) id 1hWktc-0006cy-JX
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:00:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrezanin@redhat.com>) id 1hWkkY-0007Ki-2X
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:51:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48972)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mrezanin@redhat.com>)
-	id 1hWkjN-0006BE-Uw; Fri, 31 May 2019 12:50:14 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1DD45308A951;
-	Fri, 31 May 2019 16:50:13 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
-	(colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E97817A8C;
-	Fri, 31 May 2019 16:50:13 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
-	(zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id EF6C33F6E4;
-	Fri, 31 May 2019 16:50:12 +0000 (UTC)
-Date: Fri, 31 May 2019 12:50:12 -0400 (EDT)
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Message-ID: <224526561.25606311.1559321412887.JavaMail.zimbra@redhat.com>
-In-Reply-To: <87o93i8zrh.fsf@zen.linaroharston>
-References: <20190514155301.16123-1-alex.bennee@linaro.org>
-	<20190514155301.16123-7-alex.bennee@linaro.org>
-	<20190531091204.tjmq622gw457xbdr@lws.brq.redhat.com>
-	<87sgsu51bd.fsf@zen.linaroharston>
-	<833530119.25503992.1559302089822.JavaMail.zimbra@redhat.com>
-	<874l5aahmx.fsf@zen.linaroharston>
-	<627031963.25549126.1559311169316.JavaMail.zimbra@redhat.com>
-	<87o93i8zrh.fsf@zen.linaroharston>
+	(envelope-from <bounces@canonical.com>) id 1hWkta-0000eP-Ft
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:00:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43370)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hWkta-0000d5-2V
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 13:00:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hWktY-0007uO-P4
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 17:00:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id B7B552E80C9
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 17:00:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.40.204.19, 10.4.195.14]
-Thread-Topic: target/arm: use the common interface for WRITE0/WRITEC in
-	arm-semi
-Thread-Index: JmXOEwhbRXclDTseR5ZVIY3msM2nnQ==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Fri, 31 May 2019 16:50:13 +0000 (UTC)
+Date: Fri, 31 May 2019 16:50:27 -0000
+From: Jerry <ubuntu@mail.jerryxiao.cc>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Tags: aarch64 uefi
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee jerryxiao lersek
+X-Launchpad-Bug-Reporter: Jerry (jerryxiao)
+X-Launchpad-Bug-Modifier: Jerry (jerryxiao)
+References: <155923186868.25498.16417785082829115907.malonedeb@gac.canonical.com>
+Message-Id: <155932142803.24846.8987381570456503017.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 822faa9e982bb285ffe5d1fc0657909033a65830
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the common
- interface for WRITE0/WRITEC in arm-semi
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831115] Re: qemu 4.0.0 on aarch64: uefi firmware
+ oversize
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,277 +66,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
-	qemu-devel@nongnu.org, qemu-arm@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>
+Reply-To: Bug 1831115 <1831115@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I just noticed that it was a libvirt bug that caused the error.
+
+-drive file=3D/opt/ovmf/aarch64/AAVMF_CODE.fd,if=3Dpflash,format=3Draw,unit=
+=3D0,readonly=3Don \
+-drive file=3D/var/lib/libvirt/qemu/nvram/debiantesting_VARS.fd,if=3Dpflash=
+,format=3Draw,unit=3D1 \
+
+debiantesting_VARS.fd was never removed or replaced after its first
+creation since the installation errored out. I deleted this file
+manually and everything is fine now.
+
+Sorry for your inconvenience.
+
+** Changed in: qemu
+       Status: New =3D> Invalid
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831115
+
+Title:
+  qemu 4.0.0 on aarch64: uefi firmware oversize
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  I'd like to enable uefi in my virtual machine, however qemu is always sho=
+wing the same error:   qemu-system-aarch64: Initialization of device cfi.pf=
+lash01 failed: device requires 67108864 bytes, block backend provides 78643=
+2 bytes  =
+
+  It's clearly impossible to fit a uefi firmware into 786432 bytes.  =
 
 
------ Original Message -----
-> From: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
-> To: "Miroslav Rezanina" <mrezanin@redhat.com>
-> Cc: qemu-devel@nongnu.org, "Peter Maydell" <peter.maydell@linaro.org>, "R=
-iku Voipio" <riku.voipio@iki.fi>,
-> qemu-arm@nongnu.org, "Laurent Vivier" <laurent@vivier.eu>
-> Sent: Friday, May 31, 2019 4:28:02 PM
-> Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the common in=
-terface for WRITE0/WRITEC in arm-semi
->=20
->=20
-> Miroslav Rezanina <mrezanin@redhat.com> writes:
->=20
-> > ----- Original Message -----
-> >> From: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
-> >> To: "Miroslav Rezanina" <mrezanin@redhat.com>
-> >> Cc: qemu-devel@nongnu.org, "Peter Maydell" <peter.maydell@linaro.org>,
-> >> "Riku Voipio" <riku.voipio@iki.fi>,
-> >> qemu-arm@nongnu.org, "Laurent Vivier" <laurent@vivier.eu>
-> >> Sent: Friday, May 31, 2019 3:16:38 PM
-> >> Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the common
-> >> interface for WRITE0/WRITEC in arm-semi
-> >>
-> >>
-> >> Miroslav Rezanina <mrezanin@redhat.com> writes:
-> >>
-> >> > ----- Original Message -----
-> >> >> From: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
-> >> >> To: "Miroslav Rezanina" <mrezanin@redhat.com>
-> >> >> Cc: qemu-devel@nongnu.org, "Peter Maydell" <peter.maydell@linaro.or=
-g>,
-> >> >> "Riku Voipio" <riku.voipio@iki.fi>,
-> >> >> qemu-arm@nongnu.org, "Laurent Vivier" <laurent@vivier.eu>
-> >> >> Sent: Friday, May 31, 2019 1:08:06 PM
-> >> >> Subject: Re: [Qemu-devel] [RFC PATCH 06/11] target/arm: use the com=
-mon
-> >> >> interface for WRITE0/WRITEC in arm-semi
-> >> >>
-> >> >>
-> >> >> Miroslav Rezanina <mrezanin@redhat.com> writes:
-> >> >>
-> >> >> > On Tue, May 14, 2019 at 04:52:56PM +0100, Alex Benn=C3=A9e wrote:
-> >> >> >> Now we have a common semihosting console interface use that for =
-our
-> >> >> >> string output. However ARM is currently unique in also supportin=
-g
-> >> >> >> semihosting for linux-user so we need to replicate the API in
-> >> >> >> linux-user. If other architectures gain this support we can move=
- the
-> >> >> >> file later.
-> >> >> >>
-> >> >> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> >> >> >> ---
-> >> >> >>  linux-user/Makefile.objs  |  2 ++
-> >> >> >>  linux-user/arm/semihost.c | 24 ++++++++++++++++++++++++
-> >> >> >>  target/arm/arm-semi.c     | 31 ++++++-------------------------
-> >> >> >>  3 files changed, 32 insertions(+), 25 deletions(-)
-> >> >> >>  create mode 100644 linux-user/arm/semihost.c
-> >> >> >>
-> >> >> >> diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
-> >> >> >> index 769b8d83362..285c5dfa17a 100644
-> >> >> >> --- a/linux-user/Makefile.objs
-> >> >> >> +++ b/linux-user/Makefile.objs
-> >> >> >> @@ -6,4 +6,6 @@ obj-y =3D main.o syscall.o strace.o mmap.o signa=
-l.o \
-> >> >> >>  obj-$(TARGET_HAS_BFLT) +=3D flatload.o
-> >> >> >>  obj-$(TARGET_I386) +=3D vm86.o
-> >> >> >>  obj-$(TARGET_ARM) +=3D arm/nwfpe/
-> >> >> >> +obj-$(TARGET_ARM) +=3D arm/semihost.o
-> >> >> >> +obj-$(TARGET_AARCH64) +=3D arm/semihost.o
-> >> >> >>  obj-$(TARGET_M68K) +=3D m68k-sim.o
-> >> >> >> diff --git a/linux-user/arm/semihost.c b/linux-user/arm/semihost=
-.c
-> >> >> >> new file mode 100644
-> >> >> >> index 00000000000..9554102a855
-> >> >> >> --- /dev/null
-> >> >> >> +++ b/linux-user/arm/semihost.c
-> >> >> >> @@ -0,0 +1,24 @@
-> >> >> >> +/*
-> >> >> >> + * ARM Semihosting Console Support
-> >> >> >> + *
-> >> >> >> + * Copyright (c) 2019 Linaro Ltd
-> >> >> >> + *
-> >> >> >> + * Currently ARM is unique in having support for semihosting
-> >> >> >> support
-> >> >> >> + * in linux-user. So for now we implement the common console AP=
-I
-> >> >> >> but
-> >> >> >> + * just for arm linux-user.
-> >> >> >> + *
-> >> >> >> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >> >> >> + */
-> >> >> >> +
-> >> >> >> +#include "qemu/osdep.h"
-> >> >> >> +#include "cpu.h"
-> >> >> >> +#include "hw/semihosting/console.h"
-> >> >> >> +#include "qemu.h"
-> >> >> >> +
-> >> >> >> +int qemu_semihosting_console_out(CPUArchState *env, target_ulon=
-g
-> >> >> >> addr,
-> >> >> >> int len)
-> >> >> >> +{
-> >> >> >> +    void *s =3D lock_user_string(addr);
-> >> >> >> +    len =3D write(STDERR_FILENO, s, len ? len : strlen(s));
-> >> >> >> +    unlock_user(s, addr, 0);
-> >> >> >> +    return len;
-> >> >> >> +}
-> >> >> >> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-> >> >> >> index 9e5a414dd89..253c66b172a 100644
-> >> >> >> --- a/target/arm/arm-semi.c
-> >> >> >> +++ b/target/arm/arm-semi.c
-> >> >> >> @@ -27,6 +27,7 @@
-> >> >> >>
-> >> >> >>  #include "cpu.h"
-> >> >> >>  #include "hw/semihosting/semihost.h"
-> >> >> >> +#include "hw/semihosting/console.h"
-> >> >> >>  #ifdef CONFIG_USER_ONLY
-> >> >> >>  #include "qemu.h"
-> >> >> >>
-> >> >> >> @@ -314,32 +315,12 @@ target_ulong do_arm_semihosting(CPUARMStat=
-e
-> >> >> >> *env)
-> >> >> >>              return set_swi_errno(ts, close(arg0));
-> >> >> >>          }
-> >> >> >>      case TARGET_SYS_WRITEC:
-> >> >> >> -        {
-> >> >> >> -          char c;
-> >> >> >> -
-> >> >> >> -          if (get_user_u8(c, args))
-> >> >> >> -              /* FIXME - should this error code be -TARGET_EFAU=
-LT ?
-> >> >> >> */
-> >> >> >> -              return (uint32_t)-1;
-> >> >> >> -          /* Write to debug console.  stderr is near enough.  *=
-/
-> >> >> >> -          if (use_gdb_syscalls()) {
-> >> >> >> -                return arm_gdb_syscall(cpu, arm_semi_cb,
-> >> >> >> "write,2,%x,1",
-> >> >> >> args);
-> >> >> >> -          } else {
-> >> >> >> -                return write(STDERR_FILENO, &c, 1);
-> >> >> >> -          }
-> >> >> >> -        }
-> >> >> >> +    {
-> >> >> >> +        qemu_semihosting_console_out(env, args, 1);
-> >> >> >> +        return 0xdeadbeef;
-> >> >> >> +    }
-> >> >> >>      case TARGET_SYS_WRITE0:
-> >> >> >> -        if (!(s =3D lock_user_string(args)))
-> >> >> >> -            /* FIXME - should this error code be -TARGET_EFAULT=
- ?
-> >> >> >> */
-> >> >> >> -            return (uint32_t)-1;
-> >> >> >> -        len =3D strlen(s);
-> >> >> >> -        if (use_gdb_syscalls()) {
-> >> >> >> -            return arm_gdb_syscall(cpu, arm_semi_cb,
-> >> >> >> "write,2,%x,%x",
-> >> >> >> -                                   args, len);
-> >> >> >> -        } else {
-> >> >> >> -            ret =3D write(STDERR_FILENO, s, len);
-> >> >> >> -        }
-> >> >> >> -        unlock_user(s, args, 0);
-> >> >> >> -        return ret;
-> >> >> >> +        return qemu_semihosting_console_out(env, args, 0);
-> >> >> >>      case TARGET_SYS_WRITE:
-> >> >> >>          GET_ARG(0);
-> >> >> >>          GET_ARG(1);
-> >> >> >> --
-> >> >> >> 2.20.1
-> >> >> >>
-> >> >> >>
-> >> >> >
-> >> >> > Hi Alex,
-> >> >> >
-> >> >> > this patch breaks build for softmmu target when CONFIG_SEMIHOSTIN=
-G is
-> >> >> > not
-> >> >> > enabled as qemu_semihosting_console_out
-> >> >> > is not defined in such case - neither linux-user/arm/semihost.c n=
-or
-> >> >> > hw/semihosting/console.c compiled and function
-> >> >> > is not in stubs/semihost.c
-> >> >>
-> >> >> How do you do that? I tried ../../configure --without-default-devic=
-es
-> >> >> and that still builds for me.
-> >> >
-> >> > It's usual RHEL way - use --without-default-devices and use specific
-> >> > list of enabled devices (this mean disable CONFIG_SEMIHOSTING in
-> >> > default_config/* file).
-> >>
-> >> OK - so from the upstream source tree CONFIG_SEMIHOSTING is still =3Dy
-> >> (but I can see most of them are now =3Dn). Isn't the simplest solution=
- to
-> >> fix-up your version of the default_config file to include SEMIHOSTING?
-> >>
-> >
-> > It's fix but it goes against our policy of handling CONFIG options so w=
-e
-> > would prefer to have this fixed - otherwise there's no meaning in havin=
-g
-> > config option if you can't disable it.
->=20
-> Is that what it means? For my part it means we don't build in
-> CONFIG_SEMIHOSTING for the arches that don't need it (which we were
-> before). Granted it only really simplified the vl.c parsing and dropped
-> support for semihosting for the linux-user targets (except ARM).
->=20
-> >
-> >> Is this an out-of-tree RHEL addition?
-> >>
-> >
-> > No, it's RHEL device config handling.
->=20
-> I mean how do I replicate this failure on the upstream source tree?
+  Environment: qemu-system-aarch64 with kvm on an amlogic s905d aarch64
+  dev board, running archlinuxarm, qemu in the repository is compiled
+  with https://download.qemu.org/qemu-4.0.0.tar.xz
 
-Easiest way should be probably commenting out the CONFIG_SEMIHOSTING=3Dy
-line in default_config/arm-softmmu.mak. It is not auto-include so the
-build will be run without it and fail.
+  (My AAVMF_CODE.fd and AAVMF_VARS.fd are extracted from debian package
+  qemu-efi-aarch64 0~20181115.85588389-3)
 
-Mirek
+  Below is my libvirt log.
 
->=20
-> >
-> > Mirek
-> >
-> >> >>
-> >> >> But I suspect what's needed is to change:
-> >> >>
-> >> >> #ifndef CONFIG_USER_ONLY
-> >> >>
-> >> >> to
-> >> >>
-> >> >> #ifdef CONFIG_SEMIHOSTING
-> >> >>
-> >> >> to the relevant headers and helper bits.
-> >> >
-> >> > Yeah, have to find out what are relevant pieces.
-> >> >
-> >> > Mirek
-> >> >
-> >> >>
-> >> >> >
-> >> >> > Mirek
-> >> >>
-> >> >>
-> >> >> --
-> >> >> Alex Benn=C3=A9e
-> >> >>
-> >>
-> >>
-> >> --
-> >> Alex Benn=C3=A9e
-> >>
->=20
->=20
-> --
-> Alex Benn=C3=A9e
->=20
+  2019-05-30 15:07:44.216+0000: starting up libvirt version: 5.3.0, qemu ve=
+rsion: 4.0.0, kernel: 4.19.46-1-ARCH, hostname: jerry-n1.localdomain
+  LC_ALL=3DC \
+  PATH=3D/usr/local/sbin:/usr/local/bin:/usr/bin \
+  HOME=3D/var/lib/libvirt/qemu/domain-2-debiantesting \
+  XDG_DATA_HOME=3D/var/lib/libvirt/qemu/domain-2-debiantesting/.local/share=
+ \
+  XDG_CACHE_HOME=3D/var/lib/libvirt/qemu/domain-2-debiantesting/.cache \
+  XDG_CONFIG_HOME=3D/var/lib/libvirt/qemu/domain-2-debiantesting/.config \
+  QEMU_AUDIO_DRV=3Dnone \
+  /usr/bin/qemu-system-aarch64 \
+  -name guest=3Ddebiantesting,debug-threads=3Don \
+  -S \
+  -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/=
+domain-2-debiantesting/master-key.aes \
+  -machine virt-4.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,gic-version=
+=3D2 \
+  -cpu host \
+  -drive file=3D/opt/ovmf/aarch64/AAVMF_CODE.fd,if=3Dpflash,format=3Draw,un=
+it=3D0,readonly=3Don \
+  -drive file=3D/var/lib/libvirt/qemu/nvram/debiantesting_VARS.fd,if=3Dpfla=
+sh,format=3Draw,unit=3D1 \
+  -m 1024 \
+  -overcommit mem-lock=3Doff \
+  -smp 4,sockets=3D4,cores=3D1,threads=3D1 \
+  -uuid 508d100a-b4e5-4199-9ff9-ac6d40fe2896 \
+  -display none \
+  -no-user-config \
+  -nodefaults \
+  -chardev socket,id=3Dcharmonitor,fd=3D25,server,nowait \
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  -rtc base=3Dutc \
+  -no-reboot \
+  -boot strict=3Don \
+  -device pcie-root-port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,mul=
+tifunction=3Don,addr=3D0x1 \
+  -device pcie-root-port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,add=
+r=3D0x1.0x1 \
+  -device pcie-root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,add=
+r=3D0x1.0x2 \
+  -device pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,add=
+r=3D0x1.0x3 \
+  -device pcie-root-port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,add=
+r=3D0x1.0x4 \
+  -device pcie-root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,add=
+r=3D0x1.0x5 \
+  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 \
+  -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.3,addr=3D0x0 \
+  -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.4,addr=3D0x0 \
+  -drive file=3D/mnt/hddp1/jerry/libvirt/aarch64-images/debiantesting.qcow2=
+,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 \
+  -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=
+=3Ddrive-scsi0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=
+=3D2 \
+  -drive file=3D/mnt/hddp1/jerry/libvirt/aarch64-iso/debian-testing-arm64-n=
+etinst.iso,format=3Draw,if=3Dnone,id=3Ddrive-scsi0-0-0-1,readonly=3Don \
+  -device scsi-cd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,device_id=
+=3Ddrive-scsi0-0-0-1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1,bootindex=
+=3D1 \
+  -netdev tap,fd=3D27,id=3Dhostnet0 \
+  -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:d5:28:6=
+d,bus=3Dpci.1,addr=3D0x0 \
+  -chardev pty,id=3Dcharserial0 \
+  -serial chardev:charserial0 \
+  -chardev socket,id=3Dcharchannel0,fd=3D28,server,nowait \
+  -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchanne=
+l0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+  -object rng-random,id=3Dobjrng0,filename=3D/dev/urandom \
+  -device virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.5,addr=3D0x0 \
+  -sandbox on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourc=
+econtrol=3Ddeny \
+  -msg timestamp=3Don
+  2019-05-30 15:07:44.216+0000: Domain id=3D2 is tainted: host-cpu
+  char device redirected to /dev/pts/2 (label charserial0)
+  2019-05-30T15:07:46.701125Z qemu-system-aarch64: Initialization of device=
+ cfi.pflash01 failed: device requires 67108864 bytes, block backend provide=
+s 786432 bytes
+  2019-05-30 15:07:46.779+0000: shutting down, reason=3Dfailed
+  (END)
 
---=20
-Miroslav Rezanina
-Software Engineer - Virtualization Team Maintainer
+  # /etc/libvirt/qemu.conf  =
 
+  nvram =3D [
+          "/opt/ovmf/aarch64/AAVMF_CODE.fd:/opt/ovmf/aarch64/AAVMF_VARS.fd"
+  ]
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831115/+subscriptions
 
