@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8237331690
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 23:20:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49281 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F60316C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 23:49:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49545 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWoxF-0001Hc-Tp
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 17:20:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32890)
+	id 1hWpOX-0006t7-US
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 17:49:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37736)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hWovi-0000Xn-8u
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 17:19:15 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hWpNZ-0006aZ-9j
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 17:48:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hWoiY-0003KV-O4
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 17:05:39 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:38726)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hWoiY-0003Fw-Ii
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 17:05:38 -0400
-Received: by mail-qt1-f195.google.com with SMTP id l3so2643912qtj.5
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 14:05:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=qS5KKLAuXTVNp49lNgfyAlqUee6N5DH2z0Ff1EHVEBY=;
-	b=HC5VzUgJLWsAHWxBlI1JOFl5dp4DyTpWWJt8OuaRd+rvXQy8HojGsEGgt0dBX+3tdo
-	SfN37W9fVgR1SJdFfcVdqaY9Qy2siBOVO212tsdghqOn7xIhGMW58rzX+vbq8q9TnnyL
-	RBRQWhiA2XwehRUQMyXMQQ5xHblGgyqfEQDngYwT/y7pa10mk1TqV1KWlYtJXGFdJCeG
-	x91QdmcOiHZ+KvVbfoOoJG9SpAQhlzJTGZdhuqigycyQlsOfndW/QpKOUbDEJidAIMTN
-	WgXS6IwvKXYdSWfnmPJTZAEbE1TMiqiX+3LCNlAqgJ9gRwMd27w0ublmHYZ0MdgKyHMD
-	kzrg==
-X-Gm-Message-State: APjAAAW/W4ibpzg+n8uMC8FrlKtpYhXQh4OXc9/X+H7j7gS5f3BAHKKD
-	9nLSZUE/yfGZgSWTkgXG3/IzQg==
-X-Google-Smtp-Source: APXvYqydb3u++fSNSAE3fUOPfISlIgE9JmBSnIz+qjv7VbQgRv8UHEjelYZ5lDsdjSytlj2GqvHKsw==
-X-Received: by 2002:a0c:9ac8:: with SMTP id k8mr10680413qvf.159.1559336730128; 
-	Fri, 31 May 2019 14:05:30 -0700 (PDT)
-Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
-	[100.0.197.103])
-	by smtp.gmail.com with ESMTPSA id k9sm4403987qki.20.2019.05.31.14.05.27
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 31 May 2019 14:05:28 -0700 (PDT)
-Date: Fri, 31 May 2019 17:05:26 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Message-ID: <20190531170437-mutt-send-email-mst@kernel.org>
-References: <20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
-	<20190530134631-mutt-send-email-mst@kernel.org>
-	<20190530180022.GB2864@work-vm>
-	<20190530140419-mutt-send-email-mst@kernel.org>
-	<20190530182210.GA22103@habkost.net>
-	<20190530190322-mutt-send-email-mst@kernel.org>
-	<20190531170154.GB22103@habkost.net>
-	<20190531135059-mutt-send-email-mst@kernel.org>
-	<20190531184512.GN3169@work-vm> <20190531142933.248cbd17@x1.home>
+	(envelope-from <ehabkost@redhat.com>) id 1hWpNX-0005wI-He
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 17:48:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40944)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hWpNX-0005rZ-Bx
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 17:47:59 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id EC5CB3002C7D
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 21:47:57 +0000 (UTC)
+Received: from localhost (ovpn-120-246.rdu2.redhat.com [10.10.120.246])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6BB8260BFC;
+	Fri, 31 May 2019 21:47:50 +0000 (UTC)
+Date: Fri, 31 May 2019 18:47:48 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Message-ID: <20190531214748.GN22103@habkost.net>
+References: <20190517125820.2885-1-jfreimann@redhat.com>
+	<20190517125820.2885-4-jfreimann@redhat.com>
+	<20190521094504.GB2915@work-vm>
+	<20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190531142933.248cbd17@x1.home>
+In-Reply-To: <20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Fri, 31 May 2019 21:47:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.160.195
+X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -75,23 +60,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com,
-	Eduardo Habkost <ehabkost@redhat.com>, aadam@redhat.com,
-	qemu-devel@nongnu.org,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, laine@redhat.com,
-	jdenemar@redhat.com, Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com
+Cc: pkrempa@redhat.com, berrange@redhat.com, mst@redhat.com, aadam@redhat.com,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	qemu-devel@nongnu.org, laine@redhat.com, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 31, 2019 at 02:29:33PM -0600, Alex Williamson wrote:
-> I don't know what this frontend/backend rework would
-> look like for vfio-pci, but it seems non-trivial for this one use case
-> and I don't see that it adds any value outside of this use case,
-> perhaps quite the opposite, it's an overly complicated interface for
-> the majority of use cases so we either move to a more complicated
-> interface or maintain both.  Poor choices either way.
+On Thu, May 30, 2019 at 04:56:45PM +0200, Jens Freimann wrote:
+> On Tue, May 28, 2019 at 11:04:15AM -0400, Michael S. Tsirkin wrote:
+> > On Tue, May 21, 2019 at 10:45:05AM +0100, Dr. David Alan Gilbert wrote:
+> > > * Jens Freimann (jfreimann@redhat.com) wrote:
+[...]
+> > > > +    }
+> > > > +    if (migration_in_setup(s) && !should_be_hidden && n->primary_dev) {
+> > > > +        qdev_unplug(n->primary_dev, &err);
+> > > 
+> > > Not knowing unplug well; can you just explain - is that device hard
+> > > unplugged and it's gone by the time this function returns or is it still
+> > > hanging around for some indeterminate time?
+> 
+> Qemu will trigger an unplug request via pcie attention button in which case
+> there could be a delay by the guest operating system. We could give it some
+> amount of time and if nothing happens try surpise removal or handle the
+> error otherwise.
 
-Well put Alex this is what I meant when I said it's a useless
-interface. I meant it only has a single use.
+I'm missing something here:
 
+Isn't the whole point of the new device-hiding infrastructure to
+prevent QEMU from closing the VFIO until migration ended
+successfully?
+
+What exactly is preventing QEMU from closing the host VFIO device
+after the guest OS has handled the unplug request?
+
+-- 
+Eduardo
 
