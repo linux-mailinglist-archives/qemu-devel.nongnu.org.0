@@ -2,80 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8063631260
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:30:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46096 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E7231334
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 18:58:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46514 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWkPn-0004zx-OG
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:29:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39511)
+	id 1hWkrj-0005N7-89
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 12:58:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43535)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWkOp-0004gV-Q6
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:29:01 -0400
+	(envelope-from <bounces@canonical.com>) id 1hWkkT-0006bo-1u
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:51:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hWkOn-0004q5-UT
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:28:59 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43824)
+	(envelope-from <bounces@canonical.com>) id 1hWkV8-0003j1-Ti
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:35:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40204)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hWkOl-0004mF-UN
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:28:57 -0400
-Received: by mail-wr1-x442.google.com with SMTP id m6so1221435wrj.10
-	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 09:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=VfK96mQbwbTPMECSvLcjRvExGPmA/7+SDYsox9nXIKA=;
-	b=qiavmvGaFXnGsZwgXtuiPraieYOvSVd3YdhzcBL+/DiySGI8Plxwi/QtEIo2MZi01L
-	FHnvrpAYXUlFzj5y4ZNZo5BPLGURz0XXOA+a7xP7LCQDbjnX+hTTdVPT7A88W195JxtC
-	OO69P646C+LL0oSLQU8zPdwAvXxs1gCvVPhByX6fIamRHsuHU5jlTLR0qhvtT+JUx/MP
-	qRwvErysXShmgNLO6JTfoKELhtZzt6fIsBrGl82aW6Hfh4v8Iiead97Jgig8bQBSE4Ld
-	aIxCCqyq7O4FDMLKljFR0CfpRbg+Hxxh424cQuq8+r7jGNApH2tmgzLYzVMj7jCWUpAG
-	KnSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=VfK96mQbwbTPMECSvLcjRvExGPmA/7+SDYsox9nXIKA=;
-	b=G5UVTZRGSP4GNqCKln5iU44hXWKbjlcMU9BMctHcD6AbmicB3VKS2CJOsZtSEzibRi
-	vSU+69DWqG/6TfCVm+QJcGmRtb4AJwdzI6lA6FSppOfnZJPpTQ22Y/lnScYGaf3zixML
-	gNJSriNxBl1ZJSlCTXavMSePRxBcrmFUPv9q5Ibe4ZqmCLWupACVYB6XTyHrXN/VtsJD
-	LfBOY7yBpqIp2tZ/8gBygG7rYLo1RYiqQMZIFAafxrccbvVminpRhd9Z+ysSK73yQVth
-	s6+1mIckWi3RjWmEoT0d2dTxVXLsWi/beK2dLfUK7SzwsiqximCxhqRcvivXYfFeoOJz
-	oD/A==
-X-Gm-Message-State: APjAAAXDkibd4Q3tF430r73BY1sABwEcvQ1JTBV1G/29CnNVQt/AYr4A
-	f9B4JyUyvFaVZ+Ef5V/Grk9d6pdebhM=
-X-Google-Smtp-Source: APXvYqyDA576KTXI/lIlCzPnn4exb4qSP4s2JNX6ETrO/Oo62ijsJyBB4YVKT53VIGlFTAtn2vZ5Xw==
-X-Received: by 2002:adf:ebc6:: with SMTP id v6mr7537980wrn.258.1559320132558; 
-	Fri, 31 May 2019 09:28:52 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	j82sm6245811wmj.40.2019.05.31.09.28.51
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 31 May 2019 09:28:51 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 07F4F1FF87;
-	Fri, 31 May 2019 17:28:51 +0100 (BST)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hWkV8-0003gb-CC
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 12:35:30 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hWkV6-0005tJ-Lq
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 16:35:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 95AF02E80CB
+	for <qemu-devel@nongnu.org>; Fri, 31 May 2019 16:35:28 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 31 May 2019 16:28:50 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: aarch64 uefi
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee jerryxiao lersek
+X-Launchpad-Bug-Reporter: Jerry (jerryxiao)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
 References: <155923186868.25498.16417785082829115907.malonedeb@gac.canonical.com>
 	<155931574363.8426.10336516680800433530.malone@wampee.canonical.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Bug 1831115 <1831115@bugs.launchpad.net>
-In-reply-to: <155931574363.8426.10336516680800433530.malone@wampee.canonical.com>
-Date: Fri, 31 May 2019 17:28:50 +0100
-Message-ID: <87muj28u65.fsf@zen.linaroharston>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Message-Id: <87muj28u65.fsf@zen.linaroharston>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: a0dca6dee6426dd88dd489deec96a3653c5b7351
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 Subject: Re: [Qemu-devel] [Bug 1831115] Re: qemu 4.0.0 on aarch64: uefi
  firmware oversize
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,10 +66,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1831115 <1831115@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
 
 Jerry <ubuntu@mail.jerryxiao.cc> writes:
 
@@ -118,12 +99,14 @@ You can use:
 Are you sure your libvirt invocation is properly pointing at your new
 re-sized blobs? WFM here on master:
 
-  ./aarch64-softmmu/qemu-system-aarch64 -cpu max -machine type=3Dvirt,virtu=
-alization=3Don -display none -m 4096 -serial mon:stdio -netdev user,id=3Dun=
-et,hostfwd=3Dtcp::2222-:22 -device virtio-net-pci,netdev=3Dunet -device vir=
-tio-scsi-pci -blockdev driver=3Draw,node-name=3Dhd,discard=3Dunmap,file.dri=
-ver=3Dhost_device,file.filename=3D/dev/zen-disk/debian-buster-arm64 -device=
- scsi-hd,drive=3Dhd -bios /usr/share/AAVMF/AAVMF_CODE.fd
+  ./aarch64-softmmu/qemu-system-aarch64 -cpu max -machine
+type=3Dvirt,virtualization=3Don -display none -m 4096 -serial mon:stdio
+-netdev user,id=3Dunet,hostfwd=3Dtcp::2222-:22 -device virtio-net-
+pci,netdev=3Dunet -device virtio-scsi-pci -blockdev driver=3Draw,node-
+name=3Dhd,discard=3Dunmap,file.driver=3Dhost_device,file.filename=3D/dev/ze=
+n-
+disk/debian-buster-arm64 -device scsi-hd,drive=3Dhd -bios
+/usr/share/AAVMF/AAVMF_CODE.fd
 
 Where:
 
@@ -137,4 +120,123 @@ fd
 
 --
 Alex Benn=C3=A9e
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831115
+
+Title:
+  qemu 4.0.0 on aarch64: uefi firmware oversize
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'd like to enable uefi in my virtual machine, however qemu is always sho=
+wing the same error:   qemu-system-aarch64: Initialization of device cfi.pf=
+lash01 failed: device requires 67108864 bytes, block backend provides 78643=
+2 bytes  =
+
+  It's clearly impossible to fit a uefi firmware into 786432 bytes.  =
+
+
+  Environment: qemu-system-aarch64 with kvm on an amlogic s905d aarch64
+  dev board, running archlinuxarm, qemu in the repository is compiled
+  with https://download.qemu.org/qemu-4.0.0.tar.xz
+
+  (My AAVMF_CODE.fd and AAVMF_VARS.fd are extracted from debian package
+  qemu-efi-aarch64 0~20181115.85588389-3)
+
+  Below is my libvirt log.
+
+  2019-05-30 15:07:44.216+0000: starting up libvirt version: 5.3.0, qemu ve=
+rsion: 4.0.0, kernel: 4.19.46-1-ARCH, hostname: jerry-n1.localdomain
+  LC_ALL=3DC \
+  PATH=3D/usr/local/sbin:/usr/local/bin:/usr/bin \
+  HOME=3D/var/lib/libvirt/qemu/domain-2-debiantesting \
+  XDG_DATA_HOME=3D/var/lib/libvirt/qemu/domain-2-debiantesting/.local/share=
+ \
+  XDG_CACHE_HOME=3D/var/lib/libvirt/qemu/domain-2-debiantesting/.cache \
+  XDG_CONFIG_HOME=3D/var/lib/libvirt/qemu/domain-2-debiantesting/.config \
+  QEMU_AUDIO_DRV=3Dnone \
+  /usr/bin/qemu-system-aarch64 \
+  -name guest=3Ddebiantesting,debug-threads=3Don \
+  -S \
+  -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/=
+domain-2-debiantesting/master-key.aes \
+  -machine virt-4.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,gic-version=
+=3D2 \
+  -cpu host \
+  -drive file=3D/opt/ovmf/aarch64/AAVMF_CODE.fd,if=3Dpflash,format=3Draw,un=
+it=3D0,readonly=3Don \
+  -drive file=3D/var/lib/libvirt/qemu/nvram/debiantesting_VARS.fd,if=3Dpfla=
+sh,format=3Draw,unit=3D1 \
+  -m 1024 \
+  -overcommit mem-lock=3Doff \
+  -smp 4,sockets=3D4,cores=3D1,threads=3D1 \
+  -uuid 508d100a-b4e5-4199-9ff9-ac6d40fe2896 \
+  -display none \
+  -no-user-config \
+  -nodefaults \
+  -chardev socket,id=3Dcharmonitor,fd=3D25,server,nowait \
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  -rtc base=3Dutc \
+  -no-reboot \
+  -boot strict=3Don \
+  -device pcie-root-port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,mul=
+tifunction=3Don,addr=3D0x1 \
+  -device pcie-root-port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,add=
+r=3D0x1.0x1 \
+  -device pcie-root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,add=
+r=3D0x1.0x2 \
+  -device pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,add=
+r=3D0x1.0x3 \
+  -device pcie-root-port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,add=
+r=3D0x1.0x4 \
+  -device pcie-root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,add=
+r=3D0x1.0x5 \
+  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 \
+  -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.3,addr=3D0x0 \
+  -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.4,addr=3D0x0 \
+  -drive file=3D/mnt/hddp1/jerry/libvirt/aarch64-images/debiantesting.qcow2=
+,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 \
+  -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=
+=3Ddrive-scsi0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=
+=3D2 \
+  -drive file=3D/mnt/hddp1/jerry/libvirt/aarch64-iso/debian-testing-arm64-n=
+etinst.iso,format=3Draw,if=3Dnone,id=3Ddrive-scsi0-0-0-1,readonly=3Don \
+  -device scsi-cd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,device_id=
+=3Ddrive-scsi0-0-0-1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1,bootindex=
+=3D1 \
+  -netdev tap,fd=3D27,id=3Dhostnet0 \
+  -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:d5:28:6=
+d,bus=3Dpci.1,addr=3D0x0 \
+  -chardev pty,id=3Dcharserial0 \
+  -serial chardev:charserial0 \
+  -chardev socket,id=3Dcharchannel0,fd=3D28,server,nowait \
+  -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchanne=
+l0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+  -object rng-random,id=3Dobjrng0,filename=3D/dev/urandom \
+  -device virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.5,addr=3D0x0 \
+  -sandbox on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourc=
+econtrol=3Ddeny \
+  -msg timestamp=3Don
+  2019-05-30 15:07:44.216+0000: Domain id=3D2 is tainted: host-cpu
+  char device redirected to /dev/pts/2 (label charserial0)
+  2019-05-30T15:07:46.701125Z qemu-system-aarch64: Initialization of device=
+ cfi.pflash01 failed: device requires 67108864 bytes, block backend provide=
+s 786432 bytes
+  2019-05-30 15:07:46.779+0000: shutting down, reason=3Dfailed
+  (END)
+
+  # /etc/libvirt/qemu.conf  =
+
+  nvram =3D [
+          "/opt/ovmf/aarch64/AAVMF_CODE.fd:/opt/ovmf/aarch64/AAVMF_VARS.fd"
+  ]
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831115/+subscriptions
 
