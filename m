@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD87A3148C
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 20:21:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47462 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FDF31497
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 May 2019 20:24:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47500 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hWm9n-00079v-DU
-	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 14:21:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33130)
+	id 1hWmCT-0000z4-Ii
+	for lists+qemu-devel@lfdr.de; Fri, 31 May 2019 14:24:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34067)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hWm7e-00062V-47
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 14:19:23 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hWmAa-00007T-FP
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 14:22:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hWm58-0007mZ-J6
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 14:16:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51508)
+	(envelope-from <jsnow@redhat.com>) id 1hWmAZ-0004y4-A3
+	for qemu-devel@nongnu.org; Fri, 31 May 2019 14:22:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52404)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1hWm57-0007fc-PF
-	for qemu-devel@nongnu.org; Fri, 31 May 2019 14:16:46 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
+	id 1hWmAU-0004om-PI; Fri, 31 May 2019 14:22:18 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7009A368B1;
-	Fri, 31 May 2019 18:16:37 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 476CA30BBE97;
+	Fri, 31 May 2019 18:22:15 +0000 (UTC)
 Received: from [10.18.17.164] (dhcp-17-164.bos.redhat.com [10.18.17.164])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C54574119;
-	Fri, 31 May 2019 18:16:36 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20190220180112.28250-1-jsnow@redhat.com>
-	<20190220180112.28250-4-jsnow@redhat.com>
-	<c4cfb4f0-cc7b-3952-3c70-b498b2ec9847@virtuozzo.com>
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6B2DE5D71B;
+	Fri, 31 May 2019 18:22:12 +0000 (UTC)
+To: Eric Blake <eblake@redhat.com>,
+	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190530143941.241963-1-vsementsov@virtuozzo.com>
+	<c7ef8501-0c9f-f21b-1b60-dcd7dba03557@redhat.com>
+	<f9af022a-7acf-bb1c-3d2c-b095bff2e251@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -110,23 +111,23 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
 	i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
 	RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
 	glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <44d131fa-9cb8-95ba-eab6-0b7cdda374ab@redhat.com>
-Date: Fri, 31 May 2019 14:16:36 -0400
+Message-ID: <2a9f6327-1cb6-78eb-ad10-93a33c6e754c@redhat.com>
+Date: Fri, 31 May 2019 14:22:11 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <c4cfb4f0-cc7b-3952-3c70-b498b2ec9847@virtuozzo.com>
+In-Reply-To: <f9af022a-7acf-bb1c-3d2c-b095bff2e251@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Fri, 31 May 2019 18:16:37 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Fri, 31 May 2019 18:22:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL v2 3/3] blockdev: acquire aio_context for
- bitmap add/remove
+Subject: Re: [Qemu-devel] [PATCH] qapi: add dirty-bitmaps to
+ query-named-block-nodes result
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -138,73 +139,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>
+Cc: kwolf@redhat.com, den@openvz.org, mreitz@redhat.com,
+	nshirokovskiy@virtuozzo.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 5/31/19 1:30 PM, Vladimir Sementsov-Ogievskiy wrote:
-> Hi!
-> 
-> 20.02.2019 21:01, John Snow wrote:
->> When bitmaps are persistent, they may incur a disk read or write when bitmaps
->> are added or removed. For configurations like virtio-dataplane, failing to
->> acquire this lock will abort QEMU when disk IO occurs.
+On 5/31/19 10:55 AM, Eric Blake wrote:
+> On 5/30/19 11:26 AM, John Snow wrote:
 >>
->> We used to acquire aio_context as part of the bitmap lookup, so re-introduce
->> the lock for just the cases that have an IO penalty. Commit 2119882c removed
->> these locks, and I failed to notice this when we committed fd5ae4cc, so this
->> has been broken since persistent bitmaps were introduced.
 >>
->> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1672010
->> Reported-By: Aihua Liang <aliang@redhat.com>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
->> Message-id: 20190218233154.19303-1-jsnow@redhat.com
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
+>> On 5/30/19 10:39 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>> Let's add a possibility to query dirty-bitmaps not only on root nodes.
+>>> It is useful when dealing both with snapshots and incremental backups.
+>>>
 > 
-> [..]
-> 
->>   void qmp_block_dirty_bitmap_remove(const char *node, const char *name,
->> @@ -2878,6 +2885,7 @@ void qmp_block_dirty_bitmap_remove(const char *node, const char *name,
->>       BlockDriverState *bs;
->>       BdrvDirtyBitmap *bitmap;
->>       Error *local_err = NULL;
->> +    AioContext *aio_context = NULL;
->>   
->>       bitmap = block_dirty_bitmap_lookup(node, name, &bs, errp);
->>       if (!bitmap || !bs) {
->> @@ -2892,14 +2900,20 @@ void qmp_block_dirty_bitmap_remove(const char *node, const char *name,
->>       }
->>   
->>       if (bdrv_dirty_bitmap_get_persistance(bitmap)) {
->> +        aio_context = bdrv_get_aio_context(bs);
->> +        aio_context_acquire(aio_context);
->>           bdrv_remove_persistent_dirty_bitmap(bs, name, &local_err);
->>           if (local_err != NULL) {
->>               error_propagate(errp, local_err);
->> -            return;
->> +            goto out;
->>           }
->>       }
->>   
->>       bdrv_release_dirty_bitmap(bs, bitmap);
->> + out:
->> +    if (aio_context) {
->> +        aio_context_release(aio_context);
->> +    }
->>   }
->>   
->>   /**
+>>> +++ b/block/qapi.c
+>>> @@ -78,6 +78,11 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+>>>          info->backing_file = g_strdup(bs->backing_file);
+>>>      }
+>>>  
+>>> +    if (!QLIST_EMPTY(&bs->dirty_bitmaps)) {
+>>> +        info->has_dirty_bitmaps = true;
+>>> +        info->dirty_bitmaps = bdrv_query_dirty_bitmaps(bs);
+>>> +    }
+>>> +
+>>>      info->detect_zeroes = bs->detect_zeroes;
+>>>  
+>>>      if (blk && blk_get_public(blk)->throttle_group_member.throttle_state) {
+>>>
 >>
+>> So query-block uses bdrv_query_info, which calls bdrv_block_device_info,
+>> so we'll duplicate the bitmap output when doing the old-fashioned block
+>> query, but that's probably harmless overall.
 > 
-> A bit late, but I have a question:
+> We already know that none of our existing query- interfaces are sane
+> (either too little information, or too much).  Duplication starts to
+> push an interface towards too much (it takes processor time to bundle up
+> the extra JSON, especially if the other end is not going to care if it
+> was present). I know Kevin still has somewhere on his to-do list the
+> implementation of a saner query- command for the information we really
+> want (about each block, without redundant information, and where we
+> don't repeat information in a nested manner, but where we also don't
+> omit information that would otherwise require multiple existing query-
+> to reconstruct).
 > 
-> Why did you include bdrv_release_dirty_bitmap call into context-acquired section? As I can
-> understand from commit message, it's not actually needed?
+>>
+>> We can continue to support the output in both places, or we could opt to
+>> deprecate the older interface; I think this is one of the last chances
+>> we'd get to do so before libvirt and wider adoption.
+>>
+>> I think that's probably Eric's choice.
+> 
+> If you want to try to deprecate the old location, introspection at least
+> works to allow libvirt to know which place to look for it on a given
+> qemu. If you don't think deprecation is necessary, the duplication is
+> probably tolerable for now (as ideally we'd be deprecating ALL of our
+> not-quite-perfect query- block interfaces in favor of whatever sane
+> interface Kevin comes up with).
 > 
 
-No reason beyond habit.
+It sounds like it's probably the right move to deprecate the entire
+legacy interface, but still... If you have 20 or 30 bitmaps on a root
+node, you will see 40 or 60 entries.
+
+What's the smart way to deprecate it? We're not adding new flags or
+showing new arguments or anything. There might not be bitmaps, so you
+can't rely on that field being present or absent.
+
+Recommendations?
 
