@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D8C3207F
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB3932080
 	for <lists+qemu-devel@lfdr.de>; Sat,  1 Jun 2019 20:37:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40008 helo=lists.gnu.org)
+Received: from localhost ([127.0.0.1]:40006 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hX8sV-0006aV-AS
+	id 1hX8sV-0006a2-L7
 	for lists+qemu-devel@lfdr.de; Sat, 01 Jun 2019 14:37:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48251)
+Received: from eggs.gnu.org ([209.51.188.92]:48234)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hX8nV-0002sq-Kh
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 14:32:07 -0400
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hX8nV-0002so-Kk
+	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 14:32:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hX8nS-0005ui-Ha
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 14:32:03 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:59860 helo=mail.rt-rk.com)
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hX8nR-0005tq-JT
+	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 14:32:02 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:33317 helo=mail.rt-rk.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hX8nS-0005Q1-5R
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 14:32:02 -0400
+	id 1hX8nR-0005tK-Ca
+	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 14:32:01 -0400
 Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id D63071A1E2A;
+	by mail.rt-rk.com (Postfix) with ESMTP id E36AF1A1E4D;
 	Sat,  1 Jun 2019 20:30:55 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
 	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id A8CC91A1DC0;
+	by mail.rt-rk.com (Postfix) with ESMTPSA id B0AB51A1DA3;
 	Sat,  1 Jun 2019 20:30:55 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Sat,  1 Jun 2019 20:30:44 +0200
-Message-Id: <1559413846-4402-7-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Sat,  1 Jun 2019 20:30:45 +0200
+Message-Id: <1559413846-4402-8-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559413846-4402-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1559413846-4402-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -41,7 +41,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 6/8] target/mips: Clean up dsp_helper.c
+Subject: [Qemu-devel] [PULL 7/8] target/mips: Clean up lmi_helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,136 +63,31 @@ Remove several minor checkpatch warnings and errors.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <1556018982-3715-6-git-send-email-aleksandar.markovic@rt-rk.c=
+Message-Id: <1556018982-3715-7-git-send-email-aleksandar.markovic@rt-rk.c=
 om>
 ---
- target/mips/dsp_helper.c | 40 +++++++++++++++++++++++++++++-----------
- 1 file changed, 29 insertions(+), 11 deletions(-)
+ target/mips/lmi_helper.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/target/mips/dsp_helper.c b/target/mips/dsp_helper.c
-index 739b69d..8c58eeb 100644
---- a/target/mips/dsp_helper.c
-+++ b/target/mips/dsp_helper.c
-@@ -22,8 +22,10 @@
+diff --git a/target/mips/lmi_helper.c b/target/mips/lmi_helper.c
+index fb1245b..6c645cf 100644
+--- a/target/mips/lmi_helper.c
++++ b/target/mips/lmi_helper.c
+@@ -21,9 +21,11 @@
+ #include "cpu.h"
  #include "exec/helper-proto.h"
- #include "qemu/bitops.h"
 =20
--/* As the byte ordering doesn't matter, i.e. all columns are treated
--   identically, these unions can be used directly.  */
+-/* If the byte ordering doesn't matter, i.e. all columns are treated
+-   identically, then this union can be used directly.  If byte ordering
+-   does matter, we generally ignore dumping to memory.  */
 +/*
-+ * As the byte ordering doesn't matter, i.e. all columns are treated
-+ * identically, these unions can be used directly.
++ * If the byte ordering doesn't matter, i.e. all columns are treated
++ * identically, then this union can be used directly.  If byte ordering
++ * does matter, we generally ignore dumping to memory.
 + */
  typedef union {
-     uint8_t  ub[4];
-     int8_t   sb[4];
-@@ -1445,9 +1447,15 @@ target_ulong helper_precr_ob_qh(target_ulong rs, t=
-arget_ulong rt)
-     return temp;
- }
-=20
--#define PRECR_QH_PW(name, var) \
--target_ulong helper_precr_##name##_qh_pw(target_ulong rs, target_ulong r=
-t, \
--                                    uint32_t sa)                      \
-+
-+/*
-+ * In case sa =3D=3D 0, use rt2, rt0, rs2, rs0.
-+ * In case sa !=3D 0, use rt3, rt1, rs3, rs1.
-+ */
-+#define PRECR_QH_PW(name, var)                                        \
-+target_ulong helper_precr_##name##_qh_pw(target_ulong rs,             \
-+                                         target_ulong rt,             \
-+                                         uint32_t sa)                 \
- {                                                                     \
-     uint16_t rs3, rs2, rs1, rs0;                                      \
-     uint16_t rt3, rt2, rt1, rt0;                                      \
-@@ -1456,8 +1464,6 @@ target_ulong helper_precr_##name##_qh_pw(target_ulo=
-ng rs, target_ulong rt, \
-     MIPSDSP_SPLIT64_16(rs, rs3, rs2, rs1, rs0);                       \
-     MIPSDSP_SPLIT64_16(rt, rt3, rt2, rt1, rt0);                       \
-                                                                       \
--    /* When sa =3D 0, we use rt2, rt0, rs2, rs0;                        =
-\
--     * when sa !=3D 0, we use rt3, rt1, rs3, rs1. */                    =
-\
-     if (sa =3D=3D 0) {                                                  =
-  \
-         tempD =3D rt2 << var;                                           =
-\
-         tempC =3D rt0 << var;                                           =
-\
-@@ -1965,7 +1971,8 @@ SHIFT_PH(shra_r, rnd16_rashift);
- #undef SHIFT_PH
-=20
- /** DSP Multiply Sub-class insns **/
--/* Return value made up by two 16bits value.
-+/*
-+ * Return value made up by two 16bits value.
-  * FIXME give the macro a better name.
-  */
- #define MUL_RETURN32_16_PH(name, func, \
-@@ -3274,11 +3281,15 @@ target_ulong helper_dextr_l(target_ulong ac, targ=
-et_ulong shift,
-                             CPUMIPSState *env)
- {
-     uint64_t temp[3];
-+    target_ulong ret;
-=20
-     shift =3D shift & 0x3F;
-=20
-     mipsdsp_rndrashift_acc(temp, ac, shift, env);
--    return (temp[1] << 63) | (temp[0] >> 1);
-+
-+    ret =3D (temp[1] << 63) | (temp[0] >> 1);
-+
-+    return ret;
- }
-=20
- target_ulong helper_dextr_r_l(target_ulong ac, target_ulong shift,
-@@ -3286,6 +3297,7 @@ target_ulong helper_dextr_r_l(target_ulong ac, targ=
-et_ulong shift,
- {
-     uint64_t temp[3];
-     uint32_t temp128;
-+    target_ulong ret;
-=20
-     shift =3D shift & 0x3F;
-     mipsdsp_rndrashift_acc(temp, ac, shift, env);
-@@ -3305,7 +3317,9 @@ target_ulong helper_dextr_r_l(target_ulong ac, targ=
-et_ulong shift,
-         set_DSPControl_overflow_flag(1, 23, env);
-     }
-=20
--    return (temp[1] << 63) | (temp[0] >> 1);
-+    ret =3D (temp[1] << 63) | (temp[0] >> 1);
-+
-+    return ret;
- }
-=20
- target_ulong helper_dextr_rs_l(target_ulong ac, target_ulong shift,
-@@ -3313,6 +3327,7 @@ target_ulong helper_dextr_rs_l(target_ulong ac, tar=
-get_ulong shift,
- {
-     uint64_t temp[3];
-     uint32_t temp128;
-+    target_ulong ret;
-=20
-     shift =3D shift & 0x3F;
-     mipsdsp_rndrashift_acc(temp, ac, shift, env);
-@@ -3338,7 +3353,10 @@ target_ulong helper_dextr_rs_l(target_ulong ac, ta=
-rget_ulong shift,
-         }
-         set_DSPControl_overflow_flag(1, 23, env);
-     }
--    return (temp[1] << 63) | (temp[0] >> 1);
-+
-+    ret =3D (temp[1] << 63) | (temp[0] >> 1);
-+
-+    return ret;
- }
- #endif
-=20
+     uint8_t  ub[8];
+     int8_t   sb[8];
 --=20
 2.7.4
 
