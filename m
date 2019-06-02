@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9233231C
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 13:18:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47737 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC913232C
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 13:45:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47971 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXOUx-00073q-7S
-	for lists+qemu-devel@lfdr.de; Sun, 02 Jun 2019 07:17:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34183)
+	id 1hXOvV-0006Fh-17
+	for lists+qemu-devel@lfdr.de; Sun, 02 Jun 2019 07:45:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38118)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOPh-0003NO-On
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 07:12:35 -0400
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOtE-0004pU-GG
+	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 07:43:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOPf-0003bj-OV
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 07:12:33 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:51410
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOln-0008Cq-TY
+	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 07:35:25 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:51542
 	helo=mail.default.ilande.uk0.bigv.io)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hXOPf-0002mJ-Hy; Sun, 02 Jun 2019 07:12:31 -0400
+	id 1hXOln-0008BY-Ba; Sun, 02 Jun 2019 07:35:23 -0400
 Received: from host81-158-188-206.range81-158.btcentralplus.com
 	([81.158.188.206] helo=kentang.home)
 	by mail.default.ilande.uk0.bigv.io with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
 	(envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hXOLh-0008A4-2d; Sun, 02 Jun 2019 12:08:25 +0100
+	id 1hXOLh-0008A4-Kl; Sun, 02 Jun 2019 12:08:26 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
 	rth@twiddle.net, gkurz@kaod.org
-Date: Sun,  2 Jun 2019 12:08:57 +0100
-Message-Id: <20190602110903.3431-10-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  2 Jun 2019 12:08:58 +0100
+Message-Id: <20190602110903.3431-11-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190602110903.3431-1-mark.cave-ayland@ilande.co.uk>
 References: <20190602110903.3431-1-mark.cave-ayland@ilande.co.uk>
@@ -41,8 +41,8 @@ X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 46.43.2.167
-Subject: [Qemu-devel] [PATCH v2 09/15] target/ppc: introduce
- GEN_VSX_HELPER_X1 macro to fpu_helper.c
+Subject: [Qemu-devel] [PATCH v2 10/15] target/ppc: introduce
+ GEN_VSX_HELPER_R3 macro to fpu_helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,145 +58,219 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Rather than perform the VSR register decoding within the helper itself,
-introduce a new GEN_VSX_HELPER_X1 macro which performs the decode based
-upon xB at translation time.
+introduce a new GEN_VSX_HELPER_R3 macro which performs the decode based
+upon rD, rA and rB at translation time.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- target/ppc/fpu_helper.c             |  6 ++----
- target/ppc/helper.h                 |  8 ++++----
- target/ppc/translate/vsx-impl.inc.c | 24 ++++++++++++++++++++----
- 3 files changed, 26 insertions(+), 12 deletions(-)
+ target/ppc/fpu_helper.c             | 36 ++++++++++++------------------------
+ target/ppc/helper.h                 | 16 ++++++++--------
+ target/ppc/translate/vsx-impl.inc.c | 36 ++++++++++++++++++++++++++++--------
+ 3 files changed, 48 insertions(+), 40 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 628621d1b2..953d57d34e 100644
+index 953d57d34e..90d3566ec8 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -2236,9 +2236,8 @@ VSX_TDIV(xvtdivsp, 4, float32, VsrW(i), -126, 127, 23)
-  *   nbits - number of fraction bits
-  */
- #define VSX_TSQRT(op, nels, tp, fld, emin, nbits)                       \
--void helper_##op(CPUPPCState *env, uint32_t opcode)                     \
-+void helper_##op(CPUPPCState *env, uint32_t opcode, ppc_vsr_t *xb)      \
- {                                                                       \
--    ppc_vsr_t *xb = &env->vsr[xB(opcode)];                              \
-     int i;                                                              \
-     int fe_flag = 0;                                                    \
-     int fg_flag = 0;                                                    \
-@@ -3258,9 +3257,8 @@ VSX_TEST_DC(xvtstdcsp, 4, xB(opcode), float32, VsrW(i), VsrW(i), UINT32_MAX, 0)
- VSX_TEST_DC(xststdcdp, 1, xB(opcode), float64, VsrD(0), VsrD(0), 0, 1)
- VSX_TEST_DC(xststdcqp, 1, (rB(opcode) + 32), float128, f128, VsrD(0), 0, 1)
+@@ -1842,11 +1842,9 @@ VSX_ADD_SUB(xssubsp, sub, 1, float64, VsrD(0), 1, 1)
+ VSX_ADD_SUB(xvsubdp, sub, 2, float64, VsrD(i), 0, 0)
+ VSX_ADD_SUB(xvsubsp, sub, 4, float32, VsrW(i), 0, 0)
  
--void helper_xststdcsp(CPUPPCState *env, uint32_t opcode)
-+void helper_xststdcsp(CPUPPCState *env, uint32_t opcode, ppc_vsr_t *xb)
+-void helper_xsaddqp(CPUPPCState *env, uint32_t opcode)
++void helper_xsaddqp(CPUPPCState *env, uint32_t opcode,
++                    ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)
  {
--    ppc_vsr_t *xb = &env->vsr[xB(opcode)];
-     uint32_t dcmx, sign, exp;
-     uint32_t cc, match = 0, not_sp = 0;
+-    ppc_vsr_t *xt = &env->vsr[rD(opcode) + 32];
+-    ppc_vsr_t *xa = &env->vsr[rA(opcode) + 32];
+-    ppc_vsr_t *xb = &env->vsr[rB(opcode) + 32];
+     ppc_vsr_t t = *xt;
+     float_status tstat;
+ 
+@@ -1920,11 +1918,9 @@ VSX_MUL(xsmulsp, 1, float64, VsrD(0), 1, 1)
+ VSX_MUL(xvmuldp, 2, float64, VsrD(i), 0, 0)
+ VSX_MUL(xvmulsp, 4, float32, VsrW(i), 0, 0)
+ 
+-void helper_xsmulqp(CPUPPCState *env, uint32_t opcode)
++void helper_xsmulqp(CPUPPCState *env, uint32_t opcode,
++                    ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)
+ {
+-    ppc_vsr_t *xt = &env->vsr[rD(opcode) + 32];
+-    ppc_vsr_t *xa = &env->vsr[rA(opcode) + 32];
+-    ppc_vsr_t *xb = &env->vsr[rB(opcode) + 32];
+     ppc_vsr_t t = *xt;
+     float_status tstat;
+ 
+@@ -1999,11 +1995,9 @@ VSX_DIV(xsdivsp, 1, float64, VsrD(0), 1, 1)
+ VSX_DIV(xvdivdp, 2, float64, VsrD(i), 0, 0)
+ VSX_DIV(xvdivsp, 4, float32, VsrW(i), 0, 0)
+ 
+-void helper_xsdivqp(CPUPPCState *env, uint32_t opcode)
++void helper_xsdivqp(CPUPPCState *env, uint32_t opcode,
++                    ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)
+ {
+-    ppc_vsr_t *xt = &env->vsr[rD(opcode) + 32];
+-    ppc_vsr_t *xa = &env->vsr[rA(opcode) + 32];
+-    ppc_vsr_t *xb = &env->vsr[rB(opcode) + 32];
+     ppc_vsr_t t = *xt;
+     float_status tstat;
+ 
+@@ -2620,11 +2614,9 @@ VSX_MAX_MIN(xvmindp, minnum, 2, float64, VsrD(i))
+ VSX_MAX_MIN(xvminsp, minnum, 4, float32, VsrW(i))
+ 
+ #define VSX_MAX_MINC(name, max)                                               \
+-void helper_##name(CPUPPCState *env, uint32_t opcode)                         \
++void helper_##name(CPUPPCState *env, uint32_t opcode,                         \
++                   ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)               \
+ {                                                                             \
+-    ppc_vsr_t *xt = &env->vsr[rD(opcode) + 32];                               \
+-    ppc_vsr_t *xa = &env->vsr[rA(opcode) + 32];                               \
+-    ppc_vsr_t *xb = &env->vsr[rB(opcode) + 32];                               \
+     ppc_vsr_t t = *xt;                                                        \
+     bool vxsnan_flag = false, vex_flag = false;                               \
+                                                                               \
+@@ -2657,11 +2649,9 @@ VSX_MAX_MINC(xsmaxcdp, 1);
+ VSX_MAX_MINC(xsmincdp, 0);
+ 
+ #define VSX_MAX_MINJ(name, max)                                               \
+-void helper_##name(CPUPPCState *env, uint32_t opcode)                         \
++void helper_##name(CPUPPCState *env, uint32_t opcode,                         \
++                   ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)               \
+ {                                                                             \
+-    ppc_vsr_t *xt = &env->vsr[rD(opcode) + 32];                               \
+-    ppc_vsr_t *xa = &env->vsr[rA(opcode) + 32];                               \
+-    ppc_vsr_t *xb = &env->vsr[rB(opcode) + 32];                               \
+     ppc_vsr_t t = *xt;                                                        \
+     bool vxsnan_flag = false, vex_flag = false;                               \
+                                                                               \
+@@ -3436,11 +3426,9 @@ void helper_xssqrtqp(CPUPPCState *env, uint32_t opcode)
+     do_float_check_status(env, GETPC());
+ }
+ 
+-void helper_xssubqp(CPUPPCState *env, uint32_t opcode)
++void helper_xssubqp(CPUPPCState *env, uint32_t opcode,
++                    ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)
+ {
+-    ppc_vsr_t *xt = &env->vsr[rD(opcode) + 32];
+-    ppc_vsr_t *xa = &env->vsr[rA(opcode) + 32];
+-    ppc_vsr_t *xb = &env->vsr[rB(opcode) + 32];
+     ppc_vsr_t t = *xt;
+     float_status tstat;
  
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 0ab1ef2aee..a8886c56ad 100644
+index a8886c56ad..9134da9cbb 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -376,7 +376,7 @@ DEF_HELPER_3(xsredp, void, env, vsr, vsr)
+@@ -366,12 +366,12 @@ DEF_HELPER_4(bcdtrunc, i32, avr, avr, avr, i32)
+ DEF_HELPER_4(bcdutrunc, i32, avr, avr, avr, i32)
+ 
+ DEF_HELPER_4(xsadddp, void, env, vsr, vsr, vsr)
+-DEF_HELPER_2(xsaddqp, void, env, i32)
++DEF_HELPER_5(xsaddqp, void, env, i32, vsr, vsr, vsr)
+ DEF_HELPER_4(xssubdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xsmuldp, void, env, vsr, vsr, vsr)
+-DEF_HELPER_2(xsmulqp, void, env, i32)
++DEF_HELPER_5(xsmulqp, void, env, i32, vsr, vsr, vsr)
+ DEF_HELPER_4(xsdivdp, void, env, vsr, vsr, vsr)
+-DEF_HELPER_2(xsdivqp, void, env, i32)
++DEF_HELPER_5(xsdivqp, void, env, i32, vsr, vsr, vsr)
+ DEF_HELPER_3(xsredp, void, env, vsr, vsr)
  DEF_HELPER_3(xssqrtdp, void, env, vsr, vsr)
  DEF_HELPER_3(xsrsqrtedp, void, env, vsr, vsr)
- DEF_HELPER_4(xstdivdp, void, env, i32, vsr, vsr)
--DEF_HELPER_2(xstsqrtdp, void, env, i32)
-+DEF_HELPER_3(xstsqrtdp, void, env, i32, vsr)
- DEF_HELPER_4(xsmaddadp, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(xsmaddmdp, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(xsmsubadp, void, env, vsr, vsr, vsr)
-@@ -423,7 +423,7 @@ DEF_HELPER_3(xscvuxdsp, void, env, vsr, vsr)
- DEF_HELPER_3(xscvsxdsp, void, env, vsr, vsr)
- DEF_HELPER_2(xscvudqp, void, env, i32)
- DEF_HELPER_3(xscvuxddp, void, env, vsr, vsr)
--DEF_HELPER_2(xststdcsp, void, env, i32)
-+DEF_HELPER_3(xststdcsp, void, env, i32, vsr)
- DEF_HELPER_2(xststdcdp, void, env, i32)
- DEF_HELPER_2(xststdcqp, void, env, i32)
- DEF_HELPER_3(xsrdpi, void, env, vsr, vsr)
-@@ -461,7 +461,7 @@ DEF_HELPER_3(xvredp, void, env, vsr, vsr)
- DEF_HELPER_3(xvsqrtdp, void, env, vsr, vsr)
- DEF_HELPER_3(xvrsqrtedp, void, env, vsr, vsr)
- DEF_HELPER_4(xvtdivdp, void, env, i32, vsr, vsr)
--DEF_HELPER_2(xvtsqrtdp, void, env, i32)
-+DEF_HELPER_3(xvtsqrtdp, void, env, i32, vsr)
- DEF_HELPER_4(xvmaddadp, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(xvmaddmdp, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(xvmsubadp, void, env, vsr, vsr, vsr)
-@@ -499,7 +499,7 @@ DEF_HELPER_3(xvresp, void, env, vsr, vsr)
- DEF_HELPER_3(xvsqrtsp, void, env, vsr, vsr)
- DEF_HELPER_3(xvrsqrtesp, void, env, vsr, vsr)
- DEF_HELPER_4(xvtdivsp, void, env, i32, vsr, vsr)
--DEF_HELPER_2(xvtsqrtsp, void, env, i32)
-+DEF_HELPER_3(xvtsqrtsp, void, env, i32, vsr)
- DEF_HELPER_4(xvmaddasp, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(xvmaddmsp, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(xvmsubasp, void, env, vsr, vsr, vsr)
+@@ -397,10 +397,10 @@ DEF_HELPER_2(xscmpoqp, void, env, i32)
+ DEF_HELPER_2(xscmpuqp, void, env, i32)
+ DEF_HELPER_4(xsmaxdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xsmindp, void, env, vsr, vsr, vsr)
+-DEF_HELPER_2(xsmaxcdp, void, env, i32)
+-DEF_HELPER_2(xsmincdp, void, env, i32)
+-DEF_HELPER_2(xsmaxjdp, void, env, i32)
+-DEF_HELPER_2(xsminjdp, void, env, i32)
++DEF_HELPER_5(xsmaxcdp, void, env, i32, vsr, vsr, vsr)
++DEF_HELPER_5(xsmincdp, void, env, i32, vsr, vsr, vsr)
++DEF_HELPER_5(xsmaxjdp, void, env, i32, vsr, vsr, vsr)
++DEF_HELPER_5(xsminjdp, void, env, i32, vsr, vsr, vsr)
+ DEF_HELPER_3(xscvdphp, void, env, vsr, vsr)
+ DEF_HELPER_2(xscvdpqp, void, env, i32)
+ DEF_HELPER_3(xscvdpsp, void, env, vsr, vsr)
+@@ -434,7 +434,7 @@ DEF_HELPER_3(xsrdpiz, void, env, vsr, vsr)
+ DEF_HELPER_2(xsrqpi, void, env, i32)
+ DEF_HELPER_2(xsrqpxp, void, env, i32)
+ DEF_HELPER_2(xssqrtqp, void, env, i32)
+-DEF_HELPER_2(xssubqp, void, env, i32)
++DEF_HELPER_5(xssubqp, void, env, i32, vsr, vsr, vsr)
+ 
+ DEF_HELPER_4(xsaddsp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xssubsp, void, env, vsr, vsr, vsr)
 diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/vsx-impl.inc.c
-index d8e9b80d4a..e4831700bf 100644
+index e4831700bf..1aa6e04e39 100644
 --- a/target/ppc/translate/vsx-impl.inc.c
 +++ b/target/ppc/translate/vsx-impl.inc.c
-@@ -1078,6 +1078,22 @@ static void gen_##name(DisasContext *ctx)                                     \
+@@ -1094,6 +1094,26 @@ static void gen_##name(DisasContext *ctx)                                     \
      tcg_temp_free_ptr(xb);                                                    \
  }
  
-+#define GEN_VSX_HELPER_X1(name, op1, op2, inval, type)                        \
++#define GEN_VSX_HELPER_R3(name, op1, op2, inval, type)                        \
 +static void gen_##name(DisasContext *ctx)                                     \
 +{                                                                             \
 +    TCGv_i32 opc;                                                             \
-+    TCGv_ptr xb;                                                              \
++    TCGv_ptr xt, xa, xb;                                                      \
 +    if (unlikely(!ctx->vsx_enabled)) {                                        \
 +        gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
 +        return;                                                               \
 +    }                                                                         \
 +    opc = tcg_const_i32(ctx->opcode);                                         \
-+    xb = gen_vsr_ptr(xB(ctx->opcode));                                        \
-+    gen_helper_##name(cpu_env, opc, xb);                                      \
++    xt = gen_vsr_ptr(rD(ctx->opcode) + 32);                                   \
++    xa = gen_vsr_ptr(rA(ctx->opcode) + 32);                                   \
++    xb = gen_vsr_ptr(rB(ctx->opcode) + 32);                                   \
++    gen_helper_##name(cpu_env, opc, xt, xa, xb);                              \
 +    tcg_temp_free_i32(opc);                                                   \
++    tcg_temp_free_ptr(xt);                                                    \
++    tcg_temp_free_ptr(xa);                                                    \
 +    tcg_temp_free_ptr(xb);                                                    \
 +}
 +
  #define GEN_VSX_HELPER_XT_XB_ENV(name, op1, op2, inval, type) \
  static void gen_##name(DisasContext *ctx)                     \
  {                                                             \
-@@ -1107,7 +1123,7 @@ GEN_VSX_HELPER_X2(xsredp, 0x14, 0x05, 0, PPC2_VSX)
+@@ -1113,12 +1133,12 @@ static void gen_##name(DisasContext *ctx)                     \
+ }
+ 
+ GEN_VSX_HELPER_X3(xsadddp, 0x00, 0x04, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xsaddqp, 0x04, 0x00, 0, PPC2_ISA300)
++GEN_VSX_HELPER_R3(xsaddqp, 0x04, 0x00, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X3(xssubdp, 0x00, 0x05, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X3(xsmuldp, 0x00, 0x06, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xsmulqp, 0x04, 0x01, 0, PPC2_ISA300)
++GEN_VSX_HELPER_R3(xsmulqp, 0x04, 0x01, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X3(xsdivdp, 0x00, 0x07, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xsdivqp, 0x04, 0x11, 0, PPC2_ISA300)
++GEN_VSX_HELPER_R3(xsdivqp, 0x04, 0x11, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X2(xsredp, 0x14, 0x05, 0, PPC2_VSX)
  GEN_VSX_HELPER_X2(xssqrtdp, 0x16, 0x04, 0, PPC2_VSX)
  GEN_VSX_HELPER_X2(xsrsqrtedp, 0x14, 0x04, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2_AB(xstdivdp, 0x14, 0x07, 0, PPC2_VSX)
--GEN_VSX_HELPER_2(xstsqrtdp, 0x14, 0x06, 0, PPC2_VSX)
-+GEN_VSX_HELPER_X1(xstsqrtdp, 0x14, 0x06, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xsmaddadp, 0x04, 0x04, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xsmaddmdp, 0x04, 0x05, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xsmsubadp, 0x04, 0x06, 0, PPC2_VSX)
-@@ -1180,7 +1196,7 @@ GEN_VSX_HELPER_X3(xsnmsubasp, 0x04, 0x12, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X3(xsnmsubmsp, 0x04, 0x13, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xscvsxdsp, 0x10, 0x13, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xscvuxdsp, 0x10, 0x12, 0, PPC2_VSX207)
--GEN_VSX_HELPER_2(xststdcsp, 0x14, 0x12, 0, PPC2_ISA300)
-+GEN_VSX_HELPER_X1(xststdcsp, 0x14, 0x12, 0, PPC2_ISA300)
- GEN_VSX_HELPER_2(xststdcdp, 0x14, 0x16, 0, PPC2_ISA300)
- GEN_VSX_HELPER_2(xststdcqp, 0x04, 0x16, 0, PPC2_ISA300)
+@@ -1144,10 +1164,10 @@ GEN_VSX_HELPER_2(xscmpoqp, 0x04, 0x04, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xscmpuqp, 0x04, 0x14, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X3(xsmaxdp, 0x00, 0x14, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X3(xsmindp, 0x00, 0x15, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xsmaxcdp, 0x00, 0x10, 0, PPC2_ISA300)
+-GEN_VSX_HELPER_2(xsmincdp, 0x00, 0x11, 0, PPC2_ISA300)
+-GEN_VSX_HELPER_2(xsmaxjdp, 0x00, 0x12, 0, PPC2_ISA300)
+-GEN_VSX_HELPER_2(xsminjdp, 0x00, 0x12, 0, PPC2_ISA300)
++GEN_VSX_HELPER_R3(xsmaxcdp, 0x00, 0x10, 0, PPC2_ISA300)
++GEN_VSX_HELPER_R3(xsmincdp, 0x00, 0x11, 0, PPC2_ISA300)
++GEN_VSX_HELPER_R3(xsmaxjdp, 0x00, 0x12, 0, PPC2_ISA300)
++GEN_VSX_HELPER_R3(xsminjdp, 0x00, 0x12, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X2(xscvdphp, 0x16, 0x15, 0x11, PPC2_ISA300)
+ GEN_VSX_HELPER_X2(xscvdpsp, 0x12, 0x10, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xscvdpqp, 0x04, 0x1A, 0x16, PPC2_ISA300)
+@@ -1177,7 +1197,7 @@ GEN_VSX_HELPER_XT_XB_ENV(xsrsp, 0x12, 0x11, 0, PPC2_VSX207)
+ GEN_VSX_HELPER_2(xsrqpi, 0x05, 0x00, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_2(xsrqpxp, 0x05, 0x01, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_2(xssqrtqp, 0x04, 0x19, 0x1B, PPC2_ISA300)
+-GEN_VSX_HELPER_2(xssubqp, 0x04, 0x10, 0, PPC2_ISA300)
++GEN_VSX_HELPER_R3(xssubqp, 0x04, 0x10, 0, PPC2_ISA300)
  
-@@ -1192,7 +1208,7 @@ GEN_VSX_HELPER_X2(xvredp, 0x14, 0x0D, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xvsqrtdp, 0x16, 0x0C, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xvrsqrtedp, 0x14, 0x0C, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2_AB(xvtdivdp, 0x14, 0x0F, 0, PPC2_VSX)
--GEN_VSX_HELPER_2(xvtsqrtdp, 0x14, 0x0E, 0, PPC2_VSX)
-+GEN_VSX_HELPER_X1(xvtsqrtdp, 0x14, 0x0E, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvmaddadp, 0x04, 0x0C, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvmaddmdp, 0x04, 0x0D, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvmsubadp, 0x04, 0x0E, 0, PPC2_VSX)
-@@ -1226,7 +1242,7 @@ GEN_VSX_HELPER_X2(xvresp, 0x14, 0x09, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xvsqrtsp, 0x16, 0x08, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xvrsqrtesp, 0x14, 0x08, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2_AB(xvtdivsp, 0x14, 0x0B, 0, PPC2_VSX)
--GEN_VSX_HELPER_2(xvtsqrtsp, 0x14, 0x0A, 0, PPC2_VSX)
-+GEN_VSX_HELPER_X1(xvtsqrtsp, 0x14, 0x0A, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvmaddasp, 0x04, 0x08, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvmaddmsp, 0x04, 0x09, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvmsubasp, 0x04, 0x0A, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X3(xsaddsp, 0x00, 0x00, 0, PPC2_VSX207)
+ GEN_VSX_HELPER_X3(xssubsp, 0x00, 0x01, 0, PPC2_VSX207)
 -- 
 2.11.0
 
