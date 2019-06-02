@@ -2,68 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4784321AE
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 05:32:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44309 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F5C321B2
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 05:49:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44452 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXHER-0004c1-T3
-	for lists+qemu-devel@lfdr.de; Sat, 01 Jun 2019 23:32:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45012)
+	id 1hXHUl-00085Y-79
+	for lists+qemu-devel@lfdr.de; Sat, 01 Jun 2019 23:49:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47038)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <hongbo.zhang@linaro.org>) id 1hXHDJ-0003oq-DA
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 23:31:18 -0400
+	(envelope-from <chen.zhang@intel.com>) id 1hXHSo-0007Dv-Qq
+	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 23:47:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <hongbo.zhang@linaro.org>) id 1hXGz5-0006LH-Iy
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 23:16:36 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:37007)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <hongbo.zhang@linaro.org>)
-	id 1hXGz5-0006Iq-5G
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 23:16:35 -0400
-Received: by mail-lj1-x243.google.com with SMTP id 131so548181ljf.4
-	for <qemu-devel@nongnu.org>; Sat, 01 Jun 2019 20:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=D3JFs7E1SZmBAPQiKL3HwgWeR0oL/aOl1WIX3xka4To=;
-	b=QxbO5xw80ma37MnNcZBBV85+KSPLHrezEfuBW0slPi8oZF3BGFinCjq2QMHH5/lsGS
-	3Rlo3qrTYM8Wf5bP/11pjtYNC2CdvlpC7EHAdjQMktyTm7jZx+tgNFBV2tQYyrehAp5X
-	FoiDxv+bRxA3sSoUqyTE+1S0fl/krs/0E0hNCOm7QIaGR9mcICqUeKLfUuS9miT7wtuu
-	wtwJfMDchSDwO4eSqRH0NiB7LOs10pBjrAQt2qAW4NDZEa9PJpee0HKzOJZNdqLshBxi
-	5todOSPVU/UeJuflyQYIfYKf2SMgWuvLrSUyCI2yA4vg0HLwN2XEkFdT/ApstzjHSTdR
-	NFeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=D3JFs7E1SZmBAPQiKL3HwgWeR0oL/aOl1WIX3xka4To=;
-	b=lbFJFgR1wdmRwb9Sd0aEalpTVc6X4PmaJHCGyOmqhZOt57ZSwGAxuRq7n9LS+PkEwp
-	WNIilSev1Qr9S/HsBWT6wTqRkNsFQrgT+BaZUD0uNZsaSk312d0Cbtnrz4oQtAYCa8ox
-	5sYssC61JFrLcnNhTIFjdd0QxXtp4RpQY6k6AhHIcvHSLOO+BW3RCaCg5DRjFgBrtLh4
-	TgUJj1SCrf5Z9+BquaPyJ49HY+BJuZoMJcShX909uUnQzxFeOwpem1u3PPr0h3oogui5
-	OaMsUPRLLnhHjKVOUR4sXQDngZMzU5GggXlJf6P4+fcHVl1XAFwnOtmVLmKGMgoJcVgK
-	QPVg==
-X-Gm-Message-State: APjAAAU8u1QfIPYLXWlHg6+c8OBu61JJrOItrzntgYVvQmbWORBhiM4T
-	UszxtmBMEbKvqjstYSY0MUmSnDcz8mySfrTC6eVErQ==
-X-Google-Smtp-Source: APXvYqwPtfCOJ3hpFBhqwTnzP3TCsNN6idSbg6Gp4yynfkQ9pvPm7dYe5MmduB5KEn3Epk0PAsX+6nSZp54ZCrpeDyc=
-X-Received: by 2002:a2e:824d:: with SMTP id j13mr9919004ljh.137.1559445389243; 
-	Sat, 01 Jun 2019 20:16:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <1555560291-3415-1-git-send-email-hongbo.zhang@linaro.org>
-	<1555560291-3415-3-git-send-email-hongbo.zhang@linaro.org>
-	<CAFEAcA-poCxPqPtfhx4mUJ5pcOjn1Hz-WNxEt29f=JgpFMi4Kg@mail.gmail.com>
-	<87mujxavy3.fsf@dusky.pond.sub.org>
-In-Reply-To: <87mujxavy3.fsf@dusky.pond.sub.org>
-From: Hongbo Zhang <hongbo.zhang@linaro.org>
-Date: Sun, 2 Jun 2019 11:16:17 +0800
-Message-ID: <CAHmQWvDC5392euk2zdKhjYBuxHx7Bw7+pnDhTPfqsRnHk51qhw@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+	(envelope-from <chen.zhang@intel.com>) id 1hXHSn-00039Z-QR
+	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 23:47:18 -0400
+Received: from mga12.intel.com ([192.55.52.136]:51833)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <chen.zhang@intel.com>)
+	id 1hXHSn-00030z-Hz
+	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 23:47:17 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Jun 2019 20:47:09 -0700
+X-ExtLoop1: 1
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+	by orsmga005.jf.intel.com with ESMTP; 01 Jun 2019 20:47:07 -0700
+From: Zhang Chen <chen.zhang@intel.com >
+To: Li Zhijian <lizhijian@cn.fujitsu.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	Juan Quintela <quintela@redhat.com>,
+	zhanghailiang <zhang.zhanghailiang@huawei.com>,
+	Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>
+Date: Sun,  2 Jun 2019 11:42:33 +0800
+Message-Id: <20190602034239.23225-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.17.GIT
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH v7 2/2] hw/arm: Add arm SBSA reference
- machine, devices part
+X-Received-From: 192.55.52.136
+Subject: [Qemu-devel] [PATCH 0/6] Add Xen COLO support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,81 +53,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Leif Lindholm <leif.lindholm@linaro.org>, qemu-arm <qemu-arm@nongnu.org>
+Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 May 2019 at 21:59, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Thu, 18 Apr 2019 at 05:05, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
-> >>
-> >> Following the previous patch, this patch adds peripheral devices to the
-> >> newly introduced SBSA-ref machine.
-> >>
-> >> Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
-> >> ---
-> >>  hw/arm/sbsa-ref.c | 451 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >>  1 file changed, 451 insertions(+)
-> >
-> > Some fairly minor comments on this one.
-> >
-> >> +static void create_flash(const SBSAMachineState *vms,
-> >> +                         MemoryRegion *sysmem,
-> >> +                         MemoryRegion *secure_sysmem)
-> >> +{
-> >> +    /*
-> >> +     * Create one secure and nonsecure flash devices to fill SBSA_FLASH
-> >> +     * space in the memmap, file passed via -bios goes in the first one.
-> >> +     */
-> >> +    hwaddr flashsize = vms->memmap[SBSA_FLASH].size / 2;
-> >> +    hwaddr flashbase = vms->memmap[SBSA_FLASH].base;
-> >> +
-> >> +    create_one_flash("sbsa-ref.flash0", flashbase, flashsize,
-> >> +                     bios_name, secure_sysmem);
-> >> +    create_one_flash("sbsa-ref.flash1", flashbase + flashsize, flashsize,
-> >> +                     NULL, sysmem);
-> >> +}
-> >
-> > I think Markus might have an opinion on the best way to create
-> > flash devices on a new board model. Is "just create two flash
-> > devices the way the virt board does" the right thing?
->
-> Short answer: create flash devices the way the ARM virt board does now,
-> after commit e0561e60f17, merged into master today.  Possibly less
-> backward compatibility stuff you don't need.  As is, your patch creates
-> them the way the ARM virt board did before commit e0561e60f17.  Please
-> consider updating.
->
-> Longer answer:
->
-> The old way to configure block backends is -drive.
->
-> The newer -blockdev is more flexible.  Libvirt is in the process of
-> transitioning from -drive to -blockdev entirely.  Other users with
-> similar needs for flexibility may do the same.  We hope to deprecate
-> -drive eventually.
->
-> The traditional way to configure onboard flash is -drive if=pflash.
-> Works, but we need a way to configure with -blockdev for full
-> flexibility, and to support libvirt ditching -drive entirely.
->
-> I recently improved the i386 PC machine types (commit ebc29e1beab) and
-> the ARM virt machine types (commit e0561e60f17) to support flash
-> configuration with -blockdev.
->
-> I recommend new boards support flash configuration with -blockdev from
-> the start.
->
-> Questions?
+From: Zhang Chen <chen.zhang@intel.com>
 
-Sorry for the late response.
-Thank you for the detailed explanation, and I'll follow the new
-pattern in my next version of patch which will be sent out in a few
-days.
+Xen COLO based on KVM COLO architecture, it shared COLO proxy and block
+replication with KVM COLO. The only differece is Xen COLO have own
+COLO-frame to handle live migration related function, so we need this
+series make Xen COLO frame can communicate with other COLO modules in
+qemu. Xen side related patches have been merged.
+
+Zhang Chen (6):
+  COLO-compare: Add new parameter to communicate with remote colo-frame
+  COLO-compare: Add remote notification chardev handler frame
+  COLO-compare: Make the compare_chr_send() can send notification
+    message.
+  COLO-compare: Add colo-compare remote notify support
+  COLO-compare: Rename the colo_compare_inconsistency_notify
+  migration/colo.c: Add missed filter notify for Xen COLO.
+
+ migration/colo.c   |   2 +
+ net/colo-compare.c | 154 ++++++++++++++++++++++++++++++++++++++++-----
+ qemu-options.hx    |  33 +++++++++-
+ 3 files changed, 174 insertions(+), 15 deletions(-)
+
+-- 
+2.17.GIT
+
 
