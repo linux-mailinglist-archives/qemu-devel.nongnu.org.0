@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2402C32323
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 13:22:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47803 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9113231B
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 13:17:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47735 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXOZC-00025M-AX
-	for lists+qemu-devel@lfdr.de; Sun, 02 Jun 2019 07:22:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34112)
+	id 1hXOUo-0006zJ-Ma
+	for lists+qemu-devel@lfdr.de; Sun, 02 Jun 2019 07:17:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34073)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOPf-0003Ld-Gz
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 07:12:33 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOPe-0003ZS-2K
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOPd-0003LO-HN
 	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 07:12:31 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:51406
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOPb-0003X9-SW
+	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 07:12:29 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:51378
 	helo=mail.default.ilande.uk0.bigv.io)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hXOPd-0002kX-RA; Sun, 02 Jun 2019 07:12:29 -0400
+	id 1hXOPb-0002iH-M8; Sun, 02 Jun 2019 07:12:27 -0400
 Received: from host81-158-188-206.range81-158.btcentralplus.com
 	([81.158.188.206] helo=kentang.home)
 	by mail.default.ilande.uk0.bigv.io with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
 	(envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hXOLd-0008A4-0L; Sun, 02 Jun 2019 12:08:21 +0100
+	id 1hXOLd-0008A4-FD; Sun, 02 Jun 2019 12:08:21 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
 	rth@twiddle.net, gkurz@kaod.org
-Date: Sun,  2 Jun 2019 12:08:51 +0100
-Message-Id: <20190602110903.3431-4-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  2 Jun 2019 12:08:52 +0100
+Message-Id: <20190602110903.3431-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190602110903.3431-1-mark.cave-ayland@ilande.co.uk>
 References: <20190602110903.3431-1-mark.cave-ayland@ilande.co.uk>
@@ -41,8 +41,8 @@ X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 46.43.2.167
-Subject: [Qemu-devel] [PATCH v2 03/15] target/ppc: remove getVSR()/putVSR()
- from int_helper.c
+Subject: [Qemu-devel] [PATCH v2 04/15] target/ppc: introduce separate
+ VSX_CMP macro for xvcmp* instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,95 +57,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 8a14d31b00 "target/ppc: switch fpr/vsrl registers so all VSX
-registers are in host endian order" functions getVSR() and putVSR() which used
-to convert the VSR registers into host endian order are no longer required.
+Rather than perform the VSR register decoding within the helper itself,
+introduce a new VSX_CMP macro which performs the decode based upon xT, xA
+and xB at translation time.
 
-Now that there are now no more users of getVSR()/putVSR() these functions can
-be completely removed.
+Subsequent commits will make the same changes for other instructions however
+the xvcmp* instructions are different in that they return a set of flags to be
+optionally written back to the crf[6] register. Move this logic from the
+helper function to the generator function, along with the float_status update.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- target/ppc/int_helper.c | 22 ++++++++++------------
- target/ppc/internal.h   | 12 ------------
- 2 files changed, 10 insertions(+), 24 deletions(-)
+ target/ppc/fpu_helper.c             | 15 +++++-------
+ target/ppc/helper.h                 | 20 +++++++++------
+ target/ppc/translate/vsx-impl.inc.c | 49 +++++++++++++++++++++++++++++++------
+ 3 files changed, 59 insertions(+), 25 deletions(-)
 
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 8ce89f2ad9..3b8939edcc 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1902,38 +1902,36 @@ VEXTRACT(d, u64)
- void helper_xxextractuw(CPUPPCState *env, target_ulong xtn,
-                         target_ulong xbn, uint32_t index)
- {
--    ppc_vsr_t xt, xb;
-+    ppc_vsr_t *xt = &env->vsr[xtn];
-+    ppc_vsr_t *xb = &env->vsr[xbn];
-+    ppc_vsr_t t = { };
-     size_t es = sizeof(uint32_t);
-     uint32_t ext_index;
-     int i;
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 5edf913a89..4b9b695333 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -2746,12 +2746,11 @@ VSX_MAX_MINJ(xsminjdp, 0);
+  *   exp   - expected result of comparison
+  */
+ #define VSX_CMP(op, nels, tp, fld, cmp, svxvc, exp)                       \
+-void helper_##op(CPUPPCState *env, uint32_t opcode)                       \
++uint32_t helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                     \
++                     ppc_vsr_t *xa, ppc_vsr_t *xb)                        \
+ {                                                                         \
+-    ppc_vsr_t *xt = &env->vsr[xT(opcode)];                                \
+-    ppc_vsr_t *xa = &env->vsr[xA(opcode)];                                \
+-    ppc_vsr_t *xb = &env->vsr[xB(opcode)];                                \
+     ppc_vsr_t t = *xt;                                                    \
++    uint32_t crf6 = 0;                                                    \
+     int i;                                                                \
+     int all_true = 1;                                                     \
+     int all_false = 1;                                                    \
+@@ -2780,11 +2779,9 @@ void helper_##op(CPUPPCState *env, uint32_t opcode)                       \
+     }                                                                     \
+                                                                           \
+     *xt = t;                                                              \
+-    if ((opcode >> (31 - 21)) & 1) {                                      \
+-        env->crf[6] = (all_true ? 0x8 : 0) | (all_false ? 0x2 : 0);       \
+-    }                                                                     \
+-    do_float_check_status(env, GETPC());                                  \
+- }
++    crf6 = (all_true ? 0x8 : 0) | (all_false ? 0x2 : 0);                  \
++    return crf6;                                                          \
++}
  
--    getVSR(xbn, &xb, env);
--    memset(&xt, 0, sizeof(xt));
--
-     ext_index = index;
-     for (i = 0; i < es; i++, ext_index++) {
--        xt.VsrB(8 - es + i) = xb.VsrB(ext_index % 16);
-+        t.VsrB(8 - es + i) = xb->VsrB(ext_index % 16);
-     }
+ VSX_CMP(xvcmpeqdp, 2, float64, VsrD(i), eq, 0, 1)
+ VSX_CMP(xvcmpgedp, 2, float64, VsrD(i), le, 1, 1)
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 02b67a333e..8666415169 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -108,6 +108,10 @@ DEF_HELPER_FLAGS_1(ftsqrt, TCG_CALL_NO_RWG_SE, i32, i64)
+ #define dh_ctype_avr ppc_avr_t *
+ #define dh_is_signed_avr dh_is_signed_ptr
  
--    putVSR(xtn, &xt, env);
-+    *xt = t;
++#define dh_alias_vsr ptr
++#define dh_ctype_vsr ppc_vsr_t *
++#define dh_is_signed_vsr dh_is_signed_ptr
++
+ DEF_HELPER_3(vavgub, void, avr, avr, avr)
+ DEF_HELPER_3(vavguh, void, avr, avr, avr)
+ DEF_HELPER_3(vavguw, void, avr, avr, avr)
+@@ -468,10 +472,10 @@ DEF_HELPER_2(xvnmsubadp, void, env, i32)
+ DEF_HELPER_2(xvnmsubmdp, void, env, i32)
+ DEF_HELPER_2(xvmaxdp, void, env, i32)
+ DEF_HELPER_2(xvmindp, void, env, i32)
+-DEF_HELPER_2(xvcmpeqdp, void, env, i32)
+-DEF_HELPER_2(xvcmpgedp, void, env, i32)
+-DEF_HELPER_2(xvcmpgtdp, void, env, i32)
+-DEF_HELPER_2(xvcmpnedp, void, env, i32)
++DEF_HELPER_FLAGS_4(xvcmpeqdp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
++DEF_HELPER_FLAGS_4(xvcmpgedp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
++DEF_HELPER_FLAGS_4(xvcmpgtdp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
++DEF_HELPER_FLAGS_4(xvcmpnedp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
+ DEF_HELPER_2(xvcvdpsp, void, env, i32)
+ DEF_HELPER_2(xvcvdpsxds, void, env, i32)
+ DEF_HELPER_2(xvcvdpsxws, void, env, i32)
+@@ -506,10 +510,10 @@ DEF_HELPER_2(xvnmsubasp, void, env, i32)
+ DEF_HELPER_2(xvnmsubmsp, void, env, i32)
+ DEF_HELPER_2(xvmaxsp, void, env, i32)
+ DEF_HELPER_2(xvminsp, void, env, i32)
+-DEF_HELPER_2(xvcmpeqsp, void, env, i32)
+-DEF_HELPER_2(xvcmpgesp, void, env, i32)
+-DEF_HELPER_2(xvcmpgtsp, void, env, i32)
+-DEF_HELPER_2(xvcmpnesp, void, env, i32)
++DEF_HELPER_FLAGS_4(xvcmpeqsp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
++DEF_HELPER_FLAGS_4(xvcmpgesp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
++DEF_HELPER_FLAGS_4(xvcmpgtsp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
++DEF_HELPER_FLAGS_4(xvcmpnesp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
+ DEF_HELPER_2(xvcvspdp, void, env, i32)
+ DEF_HELPER_2(xvcvsphp, void, env, i32)
+ DEF_HELPER_2(xvcvhpsp, void, env, i32)
+diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/vsx-impl.inc.c
+index 199d22da97..fb52a5bbf7 100644
+--- a/target/ppc/translate/vsx-impl.inc.c
++++ b/target/ppc/translate/vsx-impl.inc.c
+@@ -20,6 +20,13 @@ static inline void set_cpu_vsrl(int n, TCGv_i64 src)
+     tcg_gen_st_i64(src, cpu_env, vsr64_offset(n, false));
  }
  
- void helper_xxinsertw(CPUPPCState *env, target_ulong xtn,
-                       target_ulong xbn, uint32_t index)
- {
--    ppc_vsr_t xt, xb;
-+    ppc_vsr_t *xt = &env->vsr[xtn];
-+    ppc_vsr_t *xb = &env->vsr[xbn];
-+    ppc_vsr_t t = *xt;
-     size_t es = sizeof(uint32_t);
-     int ins_index, i = 0;
++static inline TCGv_ptr gen_vsr_ptr(int reg)
++{
++    TCGv_ptr r = tcg_temp_new_ptr();
++    tcg_gen_addi_ptr(r, cpu_env, vsr_full_offset(reg));
++    return r;
++}
++
+ #define VSX_LOAD_SCALAR(name, operation)                      \
+ static void gen_##name(DisasContext *ctx)                     \
+ {                                                             \
+@@ -957,6 +964,40 @@ VSX_VECTOR_MOVE(xvnabssp, OP_NABS, SGN_MASK_SP)
+ VSX_VECTOR_MOVE(xvnegsp, OP_NEG, SGN_MASK_SP)
+ VSX_VECTOR_MOVE(xvcpsgnsp, OP_CPSGN, SGN_MASK_SP)
  
--    getVSR(xbn, &xb, env);
--    getVSR(xtn, &xt, env);
--
-     ins_index = index;
-     for (i = 0; i < es && ins_index < 16; i++, ins_index++) {
--        xt.VsrB(ins_index) = xb.VsrB(8 - es + i);
-+        t.VsrB(ins_index) = xb->VsrB(8 - es + i);
-     }
- 
--    putVSR(xtn, &xt, env);
-+    *xt = t;
- }
- 
- #define VEXT_SIGNED(name, element, cast)                            \
-diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-index fb6f64ed1e..d3d327e548 100644
---- a/target/ppc/internal.h
-+++ b/target/ppc/internal.h
-@@ -204,18 +204,6 @@ EXTRACT_HELPER(IMM8, 11, 8);
- EXTRACT_HELPER(DCMX, 16, 7);
- EXTRACT_HELPER_SPLIT_3(DCMX_XV, 5, 16, 0, 1, 2, 5, 1, 6, 6);
- 
--static inline void getVSR(int n, ppc_vsr_t *vsr, CPUPPCState *env)
--{
--    vsr->VsrD(0) = env->vsr[n].VsrD(0);
--    vsr->VsrD(1) = env->vsr[n].VsrD(1);
--}
--
--static inline void putVSR(int n, ppc_vsr_t *vsr, CPUPPCState *env)
--{
--    env->vsr[n].VsrD(0) = vsr->VsrD(0);
--    env->vsr[n].VsrD(1) = vsr->VsrD(1);
--}
--
- void helper_compute_fprf_float16(CPUPPCState *env, float16 arg);
- void helper_compute_fprf_float32(CPUPPCState *env, float32 arg);
- void helper_compute_fprf_float128(CPUPPCState *env, float128 arg);
++#define VSX_CMP(name, op1, op2, inval, type)                                  \
++static void gen_##name(DisasContext *ctx)                                     \
++{                                                                             \
++    TCGv_i32 ignored;                                                         \
++    TCGv_ptr xt, xa, xb;                                                      \
++    if (unlikely(!ctx->vsx_enabled)) {                                        \
++        gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
++        return;                                                               \
++    }                                                                         \
++    xt = gen_vsr_ptr(xT(ctx->opcode));                                        \
++    xa = gen_vsr_ptr(xA(ctx->opcode));                                        \
++    xb = gen_vsr_ptr(xB(ctx->opcode));                                        \
++    if ((ctx->opcode >> (31 - 21)) & 1) {                                     \
++        gen_helper_##name(cpu_crf[6], cpu_env, xt, xa, xb);                   \
++    } else {                                                                  \
++        ignored = tcg_temp_new_i32();                                         \
++        gen_helper_##name(ignored, cpu_env, xt, xa, xb);                      \
++        tcg_temp_free_i32(ignored);                                           \
++    }                                                                         \
++    gen_helper_float_check_status(cpu_env);                                   \
++    tcg_temp_free_ptr(xt);                                                    \
++    tcg_temp_free_ptr(xa);                                                    \
++    tcg_temp_free_ptr(xb);                                                    \
++}
++
++VSX_CMP(xvcmpeqdp, 0x0C, 0x0C, 0, PPC2_VSX)
++VSX_CMP(xvcmpgedp, 0x0C, 0x0E, 0, PPC2_VSX)
++VSX_CMP(xvcmpgtdp, 0x0C, 0x0D, 0, PPC2_VSX)
++VSX_CMP(xvcmpnedp, 0x0C, 0x0F, 0, PPC2_ISA300)
++VSX_CMP(xvcmpeqsp, 0x0C, 0x08, 0, PPC2_VSX)
++VSX_CMP(xvcmpgesp, 0x0C, 0x0A, 0, PPC2_VSX)
++VSX_CMP(xvcmpgtsp, 0x0C, 0x09, 0, PPC2_VSX)
++VSX_CMP(xvcmpnesp, 0x0C, 0x0B, 0, PPC2_VSX)
++
+ #define GEN_VSX_HELPER_2(name, op1, op2, inval, type)                         \
+ static void gen_##name(DisasContext *ctx)                                     \
+ {                                                                             \
+@@ -1096,10 +1137,6 @@ GEN_VSX_HELPER_2(xvnmsubadp, 0x04, 0x1E, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvnmsubmdp, 0x04, 0x1F, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvmaxdp, 0x00, 0x1C, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvmindp, 0x00, 0x1D, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvcmpeqdp, 0x0C, 0x0C, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvcmpgtdp, 0x0C, 0x0D, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvcmpgedp, 0x0C, 0x0E, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvcmpnedp, 0x0C, 0x0F, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_2(xvcvdpsp, 0x12, 0x18, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvcvdpsxds, 0x10, 0x1D, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvcvdpsxws, 0x10, 0x0D, 0, PPC2_VSX)
+@@ -1134,10 +1171,6 @@ GEN_VSX_HELPER_2(xvnmsubasp, 0x04, 0x1A, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvnmsubmsp, 0x04, 0x1B, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvmaxsp, 0x00, 0x18, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvminsp, 0x00, 0x19, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvcmpeqsp, 0x0C, 0x08, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvcmpgtsp, 0x0C, 0x09, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvcmpgesp, 0x0C, 0x0A, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvcmpnesp, 0x0C, 0x0B, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvcvspdp, 0x12, 0x1C, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvcvhpsp, 0x16, 0x1D, 0x18, PPC2_ISA300)
+ GEN_VSX_HELPER_2(xvcvsphp, 0x16, 0x1D, 0x19, PPC2_ISA300)
 -- 
 2.11.0
 
