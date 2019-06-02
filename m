@@ -2,61 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001DB322FE
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 12:27:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47313 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A3F32320
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 13:20:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47785 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXNhr-00063C-VL
-	for lists+qemu-devel@lfdr.de; Sun, 02 Jun 2019 06:27:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57040)
+	id 1hXOXl-0000eu-C6
+	for lists+qemu-devel@lfdr.de; Sun, 02 Jun 2019 07:20:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34089)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hXNgJ-0004uF-Ng
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 06:25:41 -0400
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOPe-0003LU-Bj
+	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 07:12:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hXNgH-0001oC-5J
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 06:25:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34944)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hXNgG-0001my-Uq
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 06:25:37 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hXNgF-0005K4-Iy
-	for <qemu-devel@nongnu.org>; Sun, 02 Jun 2019 10:25:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 846732E80CB
-	for <qemu-devel@nongnu.org>; Sun,  2 Jun 2019 10:25:35 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 02 Jun 2019 10:19:29 -0000
-From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lersek
-X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
-X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <155912118291.12579.8926874795813611531.malonedeb@soybean.canonical.com>
-Message-Id: <155947076950.12691.8450256339566609756.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18968";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 63c4f60e4fd3346d1cf06f1c05c07ca04de3a8a0
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hXOPd-0003YA-0R
+	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 07:12:30 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:51374
+	helo=mail.default.ilande.uk0.bigv.io)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+	id 1hXOPc-0002gJ-Pw; Sun, 02 Jun 2019 07:12:28 -0400
+Received: from host81-158-188-206.range81-158.btcentralplus.com
+	([81.158.188.206] helo=kentang.home)
+	by mail.default.ilande.uk0.bigv.io with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+	(envelope-from <mark.cave-ayland@ilande.co.uk>)
+	id 1hXOLX-0008A4-AL; Sun, 02 Jun 2019 12:08:17 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
+	rth@twiddle.net, gkurz@kaod.org
+Date: Sun,  2 Jun 2019 12:08:48 +0100
+Message-Id: <20190602110903.3431-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.11.0
+X-SA-Exim-Connect-IP: 81.158.188.206
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1830872] Re: AARCH64 to ARMv7 mistranslation in
- TCG
+X-Received-From: 46.43.2.167
+Subject: [Qemu-devel] [PATCH v2 00/15] target/ppc: remove getVSR()/putVSR()
+ and further tidy-up
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,115 +52,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1830872 <1830872@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Possibly related:
-[Qemu-devel] "accel/tcg: demacro cputlb" break qemu-system-x86_64
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg07362.html
+With the conversion of PPC VSX registers to host endian during the 4.0 development
+cycle, the VSX helpers getVSR() and putVSR() which were used to convert between big
+endian and host endian (and are currently just a no-op) can now be removed. This
+eliminates an extra copy for each VSX source register at runtime.
 
-(qemu-system-x86_64 fails to boot 64-bit kernel under TCG accel when
-QEMU is built for i686)
+Patches 1-3 do the elimination work on a per-file basis and switch VSX register
+accesses to be via pointers rather than on copies managed using getVSR()/putVSR().
 
-Note to self: try to reprodouce the present issue with QEMU built at
-eed5664238ea^ -- this LP has originally been filed about the tree at
-a4f667b67149, and that commit contains eed5664238ea. So checking at
-eed5664238ea^ might reveal a difference.
+After this patches 4-14 change the VSX registers to be passed to helpers via pointers
+rather than register number so that the decode of the vector register pointers occurs
+at translation time instead of at runtime. This matches how VMX instructions are
+currently decoded.
 
--- =
+Finally patch 15 performs some related tidy-up around VSX_FMADD which decodes the
+a or m form at translation time, allowing a single helper function to be used for
+both implementations.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1830872
+Greg: I've added you as CC since you managed to find a bug in my last series. This
+one is much more mechanical, but if you are able to confirm this doesn't introduce
+any regressions in your test images then that would be great.
 
-Title:
-  AARCH64 to ARMv7 mistranslation in TCG
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Status in QEMU:
-  New
+v2:
+- Rebase onto master
+- Use working copy of VSX destination registers in patches 1-3 to keep current
+  semantics where src == dest and exception handling
+- Add patches 4 and 6 to split out helper functions still requiring an opcode
+  parameter
+- Remove opcode parameter from GEN_VSX_HELPER_X3 and GEN_VSX_HELPER_X2 as it
+  isn't required for the common case
+- Drop VSX_TEST_DC improvement patch since it is no longer applicable with the
+  removal of opcode from the above macros
+- Rework VSX_MADD improvement patch to use a single helper for both a and m
+  forms as suggested by Richard
 
-Bug description:
-  The following guest code:
 
-  https://github.com/tianocore/edk2/blob/3604174718e2afc950c3cc64c64ba5165c=
-8692bd/MdePkg/Library/BaseMemoryLibOptDxe/AArch64/CopyMem.S
+Mark Cave-Ayland (15):
+  target/ppc: remove getVSR()/putVSR() from fpu_helper.c
+  target/ppc: remove getVSR()/putVSR() from mem_helper.c
+  target/ppc: remove getVSR()/putVSR() from int_helper.c
+  target/ppc: introduce separate VSX_CMP macro for xvcmp* instructions
+  target/ppc: introduce GEN_VSX_HELPER_X3 macro to fpu_helper.c
+  target/ppc: introduce separate generator and helper for xscvqpdp
+  target/ppc: introduce GEN_VSX_HELPER_X2 macro to fpu_helper.c
+  target/ppc: introduce GEN_VSX_HELPER_X2_AB macro to fpu_helper.c
+  target/ppc: introduce GEN_VSX_HELPER_X1 macro to fpu_helper.c
+  target/ppc: introduce GEN_VSX_HELPER_R3 macro to fpu_helper.c
+  target/ppc: introduce GEN_VSX_HELPER_R2 macro to fpu_helper.c
+  target/ppc: introduce GEN_VSX_HELPER_R2_AB macro to fpu_helper.c
+  target/ppc: decode target register in VSX_VECTOR_LOAD_STORE_LENGTH at
+    translation time
+  target/ppc: decode target register in VSX_EXTRACT_INSERT at
+    translation time
+  target/ppc: improve VSX_FMADD with new GEN_VSX_HELPER_VSX_MADD macro
 
-  implements, in hand-optimized aarch64 assembly, the CopyMem() edk2 (EFI
-  Development Kit II) library function. (CopyMem() basically has memmove()
-  semantics, to provide a standard C analog here.) The relevant functions
-  are InternalMemCopyMem() and __memcpy().
+ target/ppc/fpu_helper.c             | 841 ++++++++++++++++--------------------
+ target/ppc/helper.h                 | 320 +++++++-------
+ target/ppc/int_helper.c             |  26 +-
+ target/ppc/internal.h               |  12 -
+ target/ppc/mem_helper.c             |  27 +-
+ target/ppc/translate/vsx-impl.inc.c | 567 ++++++++++++++++--------
+ target/ppc/translate/vsx-ops.inc.c  |  70 +--
+ 7 files changed, 954 insertions(+), 909 deletions(-)
 
-  When TCG translates this aarch64 code to x86_64, everything works
-  fine.
+-- 
+2.11.0
 
-  When TCG translates this aarch64 code to ARMv7, the destination area of
-  the translated CopyMem() function becomes corrupted -- it differs from
-  the intended source contents. Namely, in every 4096 byte block, the
-  8-byte word at offset 4032 (0xFC0) is zeroed out in the destination,
-  instead of receiving the intended source value.
-
-  I'm attaching two hexdumps of the same destination area:
-
-  - "good.txt" is a hexdump of the destination area when CopyMem() was
-    translated to x86_64,
-
-  - "bad.txt" is a hexdump of the destination area when CopyMem() was
-    translated to ARMv7.
-
-  In order to assist with the analysis of this issue, I disassembled the
-  aarch64 binary with "objdump". Please find the listing in
-  "DxeCore.objdump", attached. The InternalMemCopyMem() function starts at
-  hex offset 2b2ec. The __memcpy() function starts at hex offset 2b180.
-
-  And, I ran the guest on the ARMv7 host with "-d
-  in_asm,op,op_opt,op_ind,out_asm". Please find the log in
-  "tcg.in_asm.op.op_opt.op_ind.out_asm.log", attached.
-
-  The TBs that correspond to (parts of) the InternalMemCopyMem() and
-  __memcpy() functions are scattered over the TCG log file, but the offset
-  between the "nice" disassembly from "DxeCore.objdump", and the in-RAM
-  TBs in the TCG log, can be determined from the fact that there is a
-  single prfm instruction in the entire binary. The instruction's offset
-  is 0x2b180 in "DxeCore.objdump" -- at the beginning of the __memcpy()
-  function --, and its RAM address is 0x472d2180 in the TCG log. Thus the
-  difference (=3D the load address of DxeCore.efi) is 0x472a7000.
-
-  QEMU was built at commit a4f667b67149 ("Merge remote-tracking branch
-  'remotes/cohuck/tags/s390x-20190521-3' into staging", 2019-05-21).
-
-  The reproducer command line is (on an ARMv7 host):
-
-    qemu-system-aarch64 \
-      -display none \
-      -machine virt,accel=3Dtcg \
-      -nodefaults \
-      -nographic \
-      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-aarch6=
-4-code.fd,readonly \
-      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-arm-va=
-rs.fd,snapshot=3Don \
-      -cpu cortex-a57 \
-      -chardev stdio,signal=3Doff,mux=3Don,id=3Dchar0 \
-      -mon chardev=3Dchar0,mode=3Dreadline \
-      -serial chardev:char0
-
-  The apparent symptom is an assertion failure *in the guest*, such as
-
-  > ASSERT [DxeCore]
-  > /home/lacos/src/upstream/qemu/roms/edk2/MdePkg/Library/BaseLib/String.c=
-(1090):
-  > Length < _gPcd_FixedAtBuild_PcdMaximumAsciiStringLength
-
-  but that is only a (distant) consequence of the CopyMem()
-  mistranslation, and resultant destination area corruption.
-
-  Originally reported in the following two mailing list messages:
-  - http://mid.mail-archive.com/9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat=
-.com
-  - http://mid.mail-archive.com/f1cec8c0-1a9b-f5bb-f951-ea0ba9d276ee@redhat=
-.com
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1830872/+subscriptions
 
