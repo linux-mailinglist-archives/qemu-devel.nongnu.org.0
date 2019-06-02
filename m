@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A1B320C5
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Jun 2019 23:26:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41547 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF25832150
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 02:44:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43026 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXBWh-0004Gu-Hj
-	for lists+qemu-devel@lfdr.de; Sat, 01 Jun 2019 17:26:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39038)
+	id 1hXEcD-0006wu-PB
+	for lists+qemu-devel@lfdr.de; Sat, 01 Jun 2019 20:44:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59184)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hXBV4-0003G6-Nr
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 17:25:15 -0400
+	(envelope-from <bounces@canonical.com>) id 1hXEaj-0006Lj-QM
+	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 20:43:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hXBQs-0002n2-Bl
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 17:20:55 -0400
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:46693)
+	(envelope-from <bounces@canonical.com>) id 1hXEOW-0003f2-JF
+	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 20:30:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56176)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hXBQs-0002mX-7N
-	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 17:20:54 -0400
-Received: by mail-qt1-x844.google.com with SMTP id z19so5261010qtz.13
-	for <qemu-devel@nongnu.org>; Sat, 01 Jun 2019 14:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7FXvEaKBvt1NI2FEjhWewua8v/CE4on3bSW9Zeh1iFE=;
-	b=PbRfUxNTJ+syl2kEqfN3ULCDPX7JpJ9nj30RIHG8c+CBwvWucn0bd/dpC6Gmz65FKU
-	km8KloMEwjrPTs5OCa1UGB3k7yMDYnjv+7GXc0oZGeG+mPfv29kttZ14CVuByNXzy3vB
-	LDDE8UjqbetozGKjEroQByNdnal5zN3Cf8Vu8SMB0akDt8y8t/BnN3VoZcS05+UntK2G
-	XmiJ1m7gx1+HXCh1KahUBv4rv/Rg70JJses38MQ0UOHCFaymekKTYF7b3XE9gWdxfED3
-	r1eMTlw3LBaHVMCQyrGNh+l7yxDCpX4qRYCCDGXhGruhTNIsqfZowMjBCt/cm9DB41LR
-	ryvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7FXvEaKBvt1NI2FEjhWewua8v/CE4on3bSW9Zeh1iFE=;
-	b=Nmni+nym2QEIcd3ZQHHpIm/sCYG15tLDm6Pz3CPTb490nNlFsodYtAhFloyopZ+fI0
-	LILNjczckIk1aGYOLLYZfMLZwRW6cm71xSbCtr91sPk72s0+PPP5h2YY8qohsjpJY/j6
-	EpEjqOiasXL2FnxqnqbDhX5jzkQK723jHJX1il707b2tcBw6jco12cfWy7glPx8rwV1d
-	KKab6J1I45q0XPdAZwtuLBurOZ8G6KjUo3iRWHMszjKnZruLuQjBI8pTM8UJ9uX5tkZf
-	JNiaNoFfNOW5kVNtU0FPWguj1eqsyV1EaLWLBktmPXblS46oiDClyUXZ+XJGUp66g6h/
-	VJqg==
-X-Gm-Message-State: APjAAAV9cMtLFtydPqhVW1RqP742Jfos2x8Y6YHi021nvedfcahR7Dk1
-	ZuEKpabnwz9nW61L/dkWrHK174kA3j1PIMwwfKg=
-X-Google-Smtp-Source: APXvYqyjw/NTsFaYtNJGcRnGUXmyEHFPRDR4YM82C5SYF0HfThj3Q5Gn4tadELNdR2l8g0d9KTDQ5K2fNlmJIfGOX/E=
-X-Received: by 2002:ac8:4101:: with SMTP id q1mr12207283qtl.160.1559424052148; 
-	Sat, 01 Jun 2019 14:20:52 -0700 (PDT)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hXEOW-0003e9-DB
+	for qemu-devel@nongnu.org; Sat, 01 Jun 2019 20:30:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hXEOU-00033c-5Y
+	for <qemu-devel@nongnu.org>; Sun, 02 Jun 2019 00:30:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 227BF2E8076
+	for <qemu-devel@nongnu.org>; Sun,  2 Jun 2019 00:30:38 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190530190738.22713-1-mrolnik@gmail.com>
-	<20190530190738.22713-9-mrolnik@gmail.com>
-	<c501a681-fc9b-1fec-f9bf-190f74c4bb73@redhat.com>
-In-Reply-To: <c501a681-fc9b-1fec-f9bf-190f74c4bb73@redhat.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Sun, 2 Jun 2019 00:20:15 +0300
-Message-ID: <CAK4993gA1TTKE74Z++r1d7fpGr6NHqosVCLoKaaVLF-AngynmA@mail.gmail.com>
-To: Eric Blake <eblake@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::844
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH RFC v20 8/8] target/avr: Register AVR
- support with the rest of QEMU, the build system, and the MAINTAINERS file
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 02 Jun 2019 00:20:34 -0000
+From: Olie Hilt <1831354@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ohilt
+X-Launchpad-Bug-Reporter: Olie Hilt (ohilt)
+X-Launchpad-Bug-Modifier: Olie Hilt (ohilt)
+Message-Id: <155943483504.16885.17011343834954742829.malonedeb@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 48a75cb54b90a7b5a0225d445a817d209a021259
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831354] [NEW] unable to read symlinks when
+ mounting 9p filesystem with security_model=mapped
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,46 +63,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1831354 <1831354@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric.
+Public bug reported:
 
-please explain what should I do or point to an example or documentation.
+I am trying to use clang that is mounted from a 9p filesystem that has the =
+options =
 
-On Fri, May 31, 2019 at 5:50 PM Eric Blake <eblake@redhat.com> wrote:
+ -fsdev local,id=3Dvirtfs3,path=3D/clang,security_model=3Dmapped-file -devi=
+ce virtio-9p-pci,fsdev=3Dvirtfs3,mount_tag=3Dclang
 
-> On 5/30/19 2:07 PM, Michael Rolnik wrote:
-> > From: Sarah Harris <S.E.Harris@kent.ac.uk>
-> >
-> > Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
-> > Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> > ---
->
-> > +++ b/qapi/common.json
-> > @@ -187,7 +187,7 @@
-> >  # Since: 3.0
-> >  ##
-> >  { 'enum' : 'SysEmuTarget',
-> > -  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-> > +  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386',
-> 'lm32',
-> >               'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-> >               'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-> >               'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
->
-> Missing documentation that 'avr' is (since 4.1).
->
-> --
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
->
->
+clang has symlinks to clang-9. eg /clang/clang/bin/clang is a symlink
+that points to clang-9 in the current directory.
 
--- 
-Best Regards,
-Michael Rolnik
+the clang filesystem is on a bind mount point on /clang/clang on the
+host and this is mapped to the same place on the guest. If I have the
+same virtfs mount point with the security_model=3Dnone I don't have this
+problem.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831354
+
+Title:
+  unable to read symlinks when mounting 9p filesystem with
+  security_model=3Dmapped
+
+Status in QEMU:
+  New
+
+Bug description:
+  I am trying to use clang that is mounted from a 9p filesystem that has th=
+e options =
+
+   -fsdev local,id=3Dvirtfs3,path=3D/clang,security_model=3Dmapped-file -de=
+vice virtio-9p-pci,fsdev=3Dvirtfs3,mount_tag=3Dclang
+
+  clang has symlinks to clang-9. eg /clang/clang/bin/clang is a symlink
+  that points to clang-9 in the current directory.
+
+  the clang filesystem is on a bind mount point on /clang/clang on the
+  host and this is mapped to the same place on the guest. If I have the
+  same virtfs mount point with the security_model=3Dnone I don't have this
+  problem.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831354/+subscriptions
+
