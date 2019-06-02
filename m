@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5F432363
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 15:23:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49153 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF3C32368
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jun 2019 15:41:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49314 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXQSG-00086b-Nk
-	for lists+qemu-devel@lfdr.de; Sun, 02 Jun 2019 09:23:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48782)
+	id 1hXQkC-00036n-N1
+	for lists+qemu-devel@lfdr.de; Sun, 02 Jun 2019 09:41:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51264)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hXQRL-0007md-Sv
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 09:22:25 -0400
+	(envelope-from <bounces@canonical.com>) id 1hXQjA-0002lX-Ho
+	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 09:40:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hXQRG-0004Fk-PX
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 09:22:23 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34711)
+	(envelope-from <bounces@canonical.com>) id 1hXQj9-00032M-2f
+	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 09:40:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46662)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hXQRG-0004Eb-Hs
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 09:22:18 -0400
-Received: by mail-wr1-x444.google.com with SMTP id e16so1246707wrn.1
-	for <qemu-devel@nongnu.org>; Sun, 02 Jun 2019 06:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=5fC/lQIDFj2exvwbecU7yQNp1xlFzqDhegz4Ki6+CUI=;
-	b=faxRDXfzj0ecenpoIkXWqxiE02R8M/r4cP7XMm5cCv3khp+msLIi7W1Ra2U7yHReoA
-	zjJhCApPvne1OMqW8ShcNOIQgSjrjDuVH7/8IQolppIAQ0/MuFPVPOfssptpsSjldl/z
-	WfyFHySv6s98nC2Y1tFFvbLqGYX19UVDh1CsZJFG9x1I7XVlUaEVhw2GTiy9Xzw4JFGU
-	y0kLvUcSRZhqLU5YfDohcBJXxFf+2VX9WadI0MWdAsElZKtFJRNRzcG2FQHoUC1mCX9t
-	XbX/gagKRfDcxBYjyNVfmbAxldk9xZfd/H3KNnCna9Dxt6G8NGRDx+si/5bUAFMT8crR
-	WCkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=5fC/lQIDFj2exvwbecU7yQNp1xlFzqDhegz4Ki6+CUI=;
-	b=IZHrh74dtWurdx2K0p6aTtX2V0TrRF0dYUcX5/huOhU8p1ZAFLIga4ukwhPOBc9obj
-	S9avsTn0B8vdBEdpahZbLVBYAXLQEPs0vCvFDmNUld41iBWuuCGR4Ftmd6d1O+ldvuml
-	ThevGv3FEy6qKhIzMAiG+IEtReFPZRdKRKkUxnT3STc0whYpGcWsocYLMKIE43oBIIBi
-	fEvvmNE79sHmgo3gwQ8ENbLV3BYqKPyn0M1x5ucAgHdgSFtqHk4wIvwx121WU1Y/dFFE
-	4Esd+mI6T6lU3hCR+ugwsy9ntj1y9JgsHZEJy3mv0psP7molFDt+logr5rLbk6NCyJEi
-	mzyQ==
-X-Gm-Message-State: APjAAAVnYHS4NpI9sSx6Ys0Vy3hUkj+BcFEHu/CmY7ND501uhjuwQ6EV
-	s6Fypz6l1Qg+oG3ZNUBr2qBuGg==
-X-Google-Smtp-Source: APXvYqw4QLmqxGBxeJhMxi5FS//TGYRc+SZY19nrjBAp/+CsQQMhPvsreCNsE0/r3K/z8IP2IOK+PA==
-X-Received: by 2002:a05:6000:110:: with SMTP id
-	o16mr12562488wrx.200.1559481736147; 
-	Sun, 02 Jun 2019 06:22:16 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	k125sm27000326wmb.34.2019.06.02.06.22.15
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 02 Jun 2019 06:22:15 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id B24781FF87;
-	Sun,  2 Jun 2019 14:22:14 +0100 (BST)
-References: <1551718283-4487-1-git-send-email-mateja.marjanovic@rt-rk.com>
-	<1551718283-4487-2-git-send-email-mateja.marjanovic@rt-rk.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <1551718283-4487-2-git-send-email-mateja.marjanovic@rt-rk.com>
-Date: Sun, 02 Jun 2019 14:22:14 +0100
-Message-ID: <877ea4dsvt.fsf@zen.linaroharston>
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hXQj8-00031d-RP
+	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 09:40:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hXQj7-0006nf-FI
+	for <qemu-devel@nongnu.org>; Sun, 02 Jun 2019 13:40:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 69DF22E8055
+	for <qemu-devel@nongnu.org>; Sun,  2 Jun 2019 13:40:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH 1/2] target/mips: Improve performance for
- MSA binary operations
+Date: Sun, 02 Jun 2019 13:30:29 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <155912118291.12579.8926874795813611531.malonedeb@soybean.canonical.com>
+	<155947076950.12691.8450256339566609756.malone@soybean.canonical.com>
+Message-Id: <875zpodsi2.fsf@zen.linaroharston>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 831c101525966702506c2e86104620c25ef7e455
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: Re: [Qemu-devel] [Bug 1830872] Re: AARCH64 to ARMv7 mistranslation
+ in TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,140 +66,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, aurelien@aurel32.net, amarkovic@wavecomp.com
+Reply-To: Bug 1830872 <1830872@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Laszlo Ersek (Red Hat) <lersek@redhat.com> writes:
 
-Mateja Marjanovic <mateja.marjanovic@rt-rk.com> writes:
-
-> From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
+> Possibly related:
+> [Qemu-devel] "accel/tcg: demacro cputlb" break qemu-system-x86_64
+> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg07362.html
 >
-> Eliminate loops for better performance.
-
-Have you done any measurements of the bellow loop unrolling? Because
-this is something that maybe we can achieve and let the compiler make
-the choice.
-
+> (qemu-system-x86_64 fails to boot 64-bit kernel under TCG accel when
+> QEMU is built for i686)
 >
-> Signed-off-by: Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
-> ---
->  target/mips/msa_helper.c | 43 ++++++++++++++++++++++++++++++-------------
->  1 file changed, 30 insertions(+), 13 deletions(-)
->
-> diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-> index 4c7ec05..1152fda 100644
-> --- a/target/mips/msa_helper.c
-> +++ b/target/mips/msa_helper.c
-> @@ -804,28 +804,45 @@ void helper_msa_ ## func ## _df(CPUMIPSState *env, =
-uint32_t df,         \
->      wr_t *pwd =3D &(env->active_fpu.fpr[wd].wr);                        =
-  \
->      wr_t *pws =3D &(env->active_fpu.fpr[ws].wr);                        =
-  \
->      wr_t *pwt =3D &(env->active_fpu.fpr[wt].wr);
-> \
+> Note to self: try to reprodouce the present issue with QEMU built at
+> eed5664238ea^ -- this LP has originally been filed about the tree at
+> a4f667b67149, and that commit contains eed5664238ea. So checking at
+> eed5664238ea^ might reveal a difference.
 
-If we can ensure alignment for the various vector registers then the
-compiler always has the option of using host vectors (certainly for int
-and logic operations).
-
-> -    uint32_t i;                                                         \
->                                                                          \
-
->      switch (df) {                                                       \
->      case DF_BYTE:                                                       \
-> -        for (i =3D 0; i < DF_ELEMENTS(DF_BYTE); i++) {                  =
-  \
-> -            pwd->b[i] =3D msa_ ## func ## _df(df, pws->b[i], pwt->b[i]);=
-  \
-> -        }                                                               \
-> +        pwd->b[0]  =3D msa_ ## func ## _df(df, pws->b[0], pwt->b[0]);   =
-  \
-> +        pwd->b[1]  =3D msa_ ## func ## _df(df, pws->b[1], pwt->b[1]);   =
-  \
-> +        pwd->b[2]  =3D msa_ ## func ## _df(df, pws->b[2], pwt->b[2]);   =
-  \
-> +        pwd->b[3]  =3D msa_ ## func ## _df(df, pws->b[3], pwt->b[3]);   =
-  \
-> +        pwd->b[4]  =3D msa_ ## func ## _df(df, pws->b[4], pwt->b[4]);   =
-  \
-> +        pwd->b[5]  =3D msa_ ## func ## _df(df, pws->b[5], pwt->b[5]);   =
-  \
-> +        pwd->b[6]  =3D msa_ ## func ## _df(df, pws->b[6], pwt->b[6]);   =
-  \
-> +        pwd->b[7]  =3D msa_ ## func ## _df(df, pws->b[7], pwt->b[7]);   =
-  \
-> +        pwd->b[8]  =3D msa_ ## func ## _df(df, pws->b[8], pwt->b[8]);   =
-  \
-> +        pwd->b[9]  =3D msa_ ## func ## _df(df, pws->b[9], pwt->b[9]);   =
-  \
-> +        pwd->b[10] =3D msa_ ## func ## _df(df, pws->b[10], pwt->b[10]); =
-  \
-> +        pwd->b[11] =3D msa_ ## func ## _df(df, pws->b[11], pwt->b[11]); =
-  \
-> +        pwd->b[12] =3D msa_ ## func ## _df(df, pws->b[12], pwt->b[12]); =
-  \
-> +        pwd->b[13] =3D msa_ ## func ## _df(df, pws->b[13], pwt->b[13]); =
-  \
-> +        pwd->b[14] =3D msa_ ## func ## _df(df, pws->b[14], pwt->b[14]); =
-  \
-> +        pwd->b[15] =3D msa_ ## func ## _df(df, pws->b[15], pwt->b[15]); =
-  \
->          break;                                                          \
->      case DF_HALF:                                                       \
-> -        for (i =3D 0; i < DF_ELEMENTS(DF_HALF); i++) {                  =
-  \
-> -            pwd->h[i] =3D msa_ ## func ## _df(df, pws->h[i], pwt->h[i]);=
-  \
-> -        }                                                               \
-> +        pwd->h[0] =3D msa_ ## func ## _df(df, pws->h[0], pwt->h[0]);    =
-  \
-> +        pwd->h[1] =3D msa_ ## func ## _df(df, pws->h[1], pwt->h[1]);    =
-  \
-> +        pwd->h[2] =3D msa_ ## func ## _df(df, pws->h[2], pwt->h[2]);    =
-  \
-> +        pwd->h[3] =3D msa_ ## func ## _df(df, pws->h[3], pwt->h[3]);    =
-  \
-> +        pwd->h[4] =3D msa_ ## func ## _df(df, pws->h[4], pwt->h[4]);    =
-  \
-> +        pwd->h[5] =3D msa_ ## func ## _df(df, pws->h[5], pwt->h[5]);    =
-  \
-> +        pwd->h[6] =3D msa_ ## func ## _df(df, pws->h[6], pwt->h[6]);    =
-  \
-> +        pwd->h[7] =3D msa_ ## func ## _df(df, pws->h[7], pwt->h[7]);    =
-  \
->          break;                                                          \
->      case DF_WORD:                                                       \
-> -        for (i =3D 0; i < DF_ELEMENTS(DF_WORD); i++) {                  =
-  \
-> -            pwd->w[i] =3D msa_ ## func ## _df(df, pws->w[i], pwt->w[i]);=
-  \
-> -        }                                                               \
-> +        pwd->w[0] =3D msa_ ## func ## _df(df, pws->w[0], pwt->w[0]);    =
-  \
-> +        pwd->w[1] =3D msa_ ## func ## _df(df, pws->w[1], pwt->w[1]);    =
-  \
-> +        pwd->w[2] =3D msa_ ## func ## _df(df, pws->w[2], pwt->w[2]);    =
-  \
-> +        pwd->w[3] =3D msa_ ## func ## _df(df, pws->w[3], pwt->w[3]);    =
-  \
->          break;                                                          \
->      case DF_DOUBLE:                                                     \
-> -        for (i =3D 0; i < DF_ELEMENTS(DF_DOUBLE); i++) {                =
-  \
-> -            pwd->d[i] =3D msa_ ## func ## _df(df, pws->d[i], pwt->d[i]);=
-  \
-> -        }                                                               \
-> +        pwd->d[0] =3D msa_ ## func ## _df(df, pws->d[0], pwt->d[0]);    =
-  \
-> +        pwd->d[1] =3D msa_ ## func ## _df(df, pws->d[1], pwt->d[1]);    =
-  \
->          break;                                                          \
->      default:                                                            \
->          assert(0);                                                      \
-
+Oops. Looks like tests/tcg/multiarch/system/memory.c didn't cover enough
+cases.
 
 --
 Alex Benn=C3=A9e
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830872
+
+Title:
+  AARCH64 to ARMv7 mistranslation in TCG
+
+Status in QEMU:
+  New
+
+Bug description:
+  The following guest code:
+
+  https://github.com/tianocore/edk2/blob/3604174718e2afc950c3cc64c64ba5165c=
+8692bd/MdePkg/Library/BaseMemoryLibOptDxe/AArch64/CopyMem.S
+
+  implements, in hand-optimized aarch64 assembly, the CopyMem() edk2 (EFI
+  Development Kit II) library function. (CopyMem() basically has memmove()
+  semantics, to provide a standard C analog here.) The relevant functions
+  are InternalMemCopyMem() and __memcpy().
+
+  When TCG translates this aarch64 code to x86_64, everything works
+  fine.
+
+  When TCG translates this aarch64 code to ARMv7, the destination area of
+  the translated CopyMem() function becomes corrupted -- it differs from
+  the intended source contents. Namely, in every 4096 byte block, the
+  8-byte word at offset 4032 (0xFC0) is zeroed out in the destination,
+  instead of receiving the intended source value.
+
+  I'm attaching two hexdumps of the same destination area:
+
+  - "good.txt" is a hexdump of the destination area when CopyMem() was
+    translated to x86_64,
+
+  - "bad.txt" is a hexdump of the destination area when CopyMem() was
+    translated to ARMv7.
+
+  In order to assist with the analysis of this issue, I disassembled the
+  aarch64 binary with "objdump". Please find the listing in
+  "DxeCore.objdump", attached. The InternalMemCopyMem() function starts at
+  hex offset 2b2ec. The __memcpy() function starts at hex offset 2b180.
+
+  And, I ran the guest on the ARMv7 host with "-d
+  in_asm,op,op_opt,op_ind,out_asm". Please find the log in
+  "tcg.in_asm.op.op_opt.op_ind.out_asm.log", attached.
+
+  The TBs that correspond to (parts of) the InternalMemCopyMem() and
+  __memcpy() functions are scattered over the TCG log file, but the offset
+  between the "nice" disassembly from "DxeCore.objdump", and the in-RAM
+  TBs in the TCG log, can be determined from the fact that there is a
+  single prfm instruction in the entire binary. The instruction's offset
+  is 0x2b180 in "DxeCore.objdump" -- at the beginning of the __memcpy()
+  function --, and its RAM address is 0x472d2180 in the TCG log. Thus the
+  difference (=3D the load address of DxeCore.efi) is 0x472a7000.
+
+  QEMU was built at commit a4f667b67149 ("Merge remote-tracking branch
+  'remotes/cohuck/tags/s390x-20190521-3' into staging", 2019-05-21).
+
+  The reproducer command line is (on an ARMv7 host):
+
+    qemu-system-aarch64 \
+      -display none \
+      -machine virt,accel=3Dtcg \
+      -nodefaults \
+      -nographic \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-aarch6=
+4-code.fd,readonly \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-arm-va=
+rs.fd,snapshot=3Don \
+      -cpu cortex-a57 \
+      -chardev stdio,signal=3Doff,mux=3Don,id=3Dchar0 \
+      -mon chardev=3Dchar0,mode=3Dreadline \
+      -serial chardev:char0
+
+  The apparent symptom is an assertion failure *in the guest*, such as
+
+  > ASSERT [DxeCore]
+  > /home/lacos/src/upstream/qemu/roms/edk2/MdePkg/Library/BaseLib/String.c=
+(1090):
+  > Length < _gPcd_FixedAtBuild_PcdMaximumAsciiStringLength
+
+  but that is only a (distant) consequence of the CopyMem()
+  mistranslation, and resultant destination area corruption.
+
+  Originally reported in the following two mailing list messages:
+  - http://mid.mail-archive.com/9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat=
+.com
+  - http://mid.mail-archive.com/f1cec8c0-1a9b-f5bb-f951-ea0ba9d276ee@redhat=
+.com
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1830872/+subscriptions
 
