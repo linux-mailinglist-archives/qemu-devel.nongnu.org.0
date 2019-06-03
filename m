@@ -2,69 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7196332A8D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 10:14:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59396 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B9432A9B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 10:17:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59447 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXi7B-0006IS-VB
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 04:14:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35009)
+	id 1hXi9w-00080d-P9
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 04:17:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35380)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hXi5W-0005dc-Vc
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:06 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hXi67-00061o-PA
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hXi3k-0003t4-B9
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:11:14 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:32874)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hXi3i-0003qO-Eb
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:11:11 -0400
-Received: by mail-wr1-f68.google.com with SMTP id d9so11005412wrx.0
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 01:11:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=UJY43iiuLGtmLI0s9YlpkwQjhF7g9c5cS45Lq4hmJnE=;
-	b=fz39pCav8Gras7FIDiPGxJjVUwoq89Rhxz0j3xmvHDMj9C25v9mmWo0tVDRBJ1zXZ+
-	Cw2lI8mJOT1IZSwDxpTUnbI9+7axyUj2Xcv5tVusd/Rez1VxJleBy6UsfqsK3n55HABi
-	8GSHJ+QYa2nlABvIqAxnkN1znuYEATvSL6JN8NaSiWCVL7ltnmq4YHOKr7ODP7IBRhbd
-	yEoPiXdzXXQJ/Nfs67m6V5jmCvq5Hwzbc3dIUOKdaZaJW4RBKz/gSEax5HqUUZaD6yYL
-	bc4dnAcJ9wJSqzXkJz7rBvhrIRzUfAOMTi5xRTH3KWn1X/GcNZOdz43tfW3lZCkXq1dm
-	zMgA==
-X-Gm-Message-State: APjAAAWdqTljkJyFZwSiAcez4xs8qHIXlJWbrpaWNIPZfhtS1VyDSgpy
-	pvnD94yzowccvUtSsit3aB2/Uw==
-X-Google-Smtp-Source: APXvYqzIkWSBt3a3x6Fd7cci1WOIE6fuJsWd8C/7qzTELH7Ug5siCZKyCvPNoEHd/5y4drNPwQg3PQ==
-X-Received: by 2002:a5d:6207:: with SMTP id y7mr1434687wru.265.1559549469219; 
-	Mon, 03 Jun 2019 01:11:09 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:d43d:6da3:9364:a775?
-	([2001:b07:6468:f312:d43d:6da3:9364:a775])
-	by smtp.gmail.com with ESMTPSA id w6sm3410528wro.71.2019.06.03.01.11.08
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 01:11:08 -0700 (PDT)
-To: Miroslav Rezanina <mrezanin@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20190531154735.20809-1-philmd@redhat.com>
-	<CAFEAcA9TJGq-8fMv2amQEEGz9QKCNWYwJxCXrjqSh=Yc87yTww@mail.gmail.com>
-	<947e851b-4b95-3126-2eaf-d5d16f8b831b@redhat.com>
-	<431872249.25606899.1559321648368.JavaMail.zimbra@redhat.com>
+	(envelope-from <pbonzini@redhat.com>) id 1hXi66-0006fZ-P3
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45774)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hXi66-0006eb-Jx
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:38 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id EEFA181127
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 08:13:37 +0000 (UTC)
+Received: from donizetti.redhat.com (ovpn-112-59.ams2.redhat.com
+	[10.36.112.59])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id CBF7A1B465;
+	Mon,  3 Jun 2019 08:13:36 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a3cbd83c-a942-25f4-d424-bbbc0013acec@redhat.com>
-Date: Mon, 3 Jun 2019 10:11:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+To: qemu-devel@nongnu.org
+Date: Mon,  3 Jun 2019 10:13:34 +0200
+Message-Id: <20190603081335.8185-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <431872249.25606899.1559321648368.JavaMail.zimbra@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Mon, 03 Jun 2019 08:13:38 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [RFC PATCH 0/2] target: Build with
- CONFIG_SEMIHOSTING disabled
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] qgraph: allow extra_device_opts on contains
+ nodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,29 +55,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Samuel Ortiz <sameo@linux.intel.com>,
-	Rob Bradford <robert.bradford@intel.com>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/05/19 18:54, Miroslav Rezanina wrote:
-> What about CONFIG_ARM_VIRT - can we use it to introduce dependency on
-> CONFIG_SEMIHOSTING or is there valid scenario of qemu build with CONFIG_ARM_VIRT
-> enabled and CONFIG_SEMIHOSTING disabled?
+Allow choosing the bus that the device will be placed on, in case
+the machine has more than one.  Otherwise, the bus may not match
+the base address of the controller we attach it to.
 
-If you are not really going to use TCG, disabling SEMIHOSTING makes sense.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/qos-test.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-I think Philippe's patch are the right way to do it.
+diff --git a/tests/qos-test.c b/tests/qos-test.c
+index ae2fb5de1c..01b2a22c08 100644
+--- a/tests/qos-test.c
++++ b/tests/qos-test.c
+@@ -340,7 +340,8 @@ static void walk_path(QOSGraphNode *orig_path, int le=
+n)
+     char **path_vec =3D g_new0(char *, (QOS_PATH_MAX_ELEMENT_SIZE * 2));
+     int path_vec_size =3D 0;
+=20
+-    char *after_cmd =3D NULL, *before_cmd =3D NULL, *after_device =3D NU=
+LL;
++    char *after_cmd, *before_cmd, *after_device;
++    GString *after_device_str =3D g_string_new("");
+     char *node_name =3D orig_path->name, *path_str;
+=20
+     GString *cmd_line =3D g_string_new("");
+@@ -363,9 +364,8 @@ static void walk_path(QOSGraphNode *orig_path, int le=
+n)
+         /* append node command line + previous edge command line */
+         if (path->command_line && etype =3D=3D QEDGE_CONSUMED_BY) {
+             g_string_append(cmd_line, path->command_line);
+-            if (after_device) {
+-                g_string_append(cmd_line, after_device);
+-            }
++            g_string_append(cmd_line, after_device_str->str);
++            g_string_truncate(after_device_str, 0);
+         }
+=20
+         path_vec[path_vec_size++] =3D qos_graph_edge_get_name(path->path=
+_edge);
+@@ -382,12 +382,15 @@ static void walk_path(QOSGraphNode *orig_path, int =
+len)
+         if (after_cmd) {
+             g_string_append(cmd_line2, after_cmd);
+         }
++        if (after_device) {
++            g_string_append(after_device_str, after_device);
++        }
+     }
+=20
+     path_vec[path_vec_size++] =3D NULL;
+-    if (after_device) {
+-        g_string_append(cmd_line, after_device);
+-    }
++    g_string_append(cmd_line, after_device_str->str);
++    g_string_free(after_device_str, true);
++
+     g_string_append(cmd_line, cmd_line2->str);
+     g_string_free(cmd_line2, true);
+=20
+--=20
+2.21.0
 
-Perhaps CONFIG_SEMIHOSTING should be made "default y" and added as
-"#CONFIG_SEMIHOSTING=n" to default-configs/, but that's just cosmetic.
-
-Paolo
 
