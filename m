@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B678E32709
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 05:50:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57241 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796C43290A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 09:01:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58824 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXdzP-0001JJ-7q
-	for lists+qemu-devel@lfdr.de; Sun, 02 Jun 2019 23:50:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52845)
+	id 1hXgyX-0006tK-MU
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 03:01:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50028)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hXdyL-0000yL-Tt
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 23:49:26 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hXgqe-0000zG-ST
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:53:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hXdlx-0004VT-NM
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 23:36:34 -0400
-Received: from mga09.intel.com ([134.134.136.24]:54743)
+	(envelope-from <dgibson@ozlabs.org>) id 1hXgqb-0004aL-7b
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:53:34 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:58759)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hXdlx-0004Tm-Dp
-	for qemu-devel@nongnu.org; Sun, 02 Jun 2019 23:36:33 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Jun 2019 20:36:30 -0700
-X-ExtLoop1: 1
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2019 20:36:29 -0700
-Date: Mon, 3 Jun 2019 11:36:00 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Peter Xu <peterx@redhat.com>
-Message-ID: <20190603033600.GB7784@richard>
-References: <20190507031703.856-1-richardw.yang@linux.intel.com>
-	<20190531164337.GK3169@work-vm> <20190601033441.GB4958@xz-x1>
-	<20190603013305.GA7784@richard> <20190603023527.GD4958@xz-x1>
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hXgqX-0004Qv-Qn; Mon, 03 Jun 2019 02:53:32 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 45HQkD3WGqz9s7h; Mon,  3 Jun 2019 16:53:24 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1559544804;
+	bh=YAoY1NXQKRdLk+MDmT7Ggel0JrcUK/Jy4LcDH+d6e+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EnXpnuZlv6Tjmv7Fx0ms0qKxG9S5kTX30UbM6SnQba0fMXtncEMwDvmwwtRS3ZNMf
+	VC5a0Lk4fC8HLp+zALunn1r6nKqA6quHsSSFlv17C8BzDKtA9rz8YHDL98vZ4z49KD
+	SGMvqaOsHoMtjNP5W2yEezDOmjPO10qmT7irqWuo=
+Date: Mon, 3 Jun 2019 15:04:18 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Message-ID: <20190603050417.GA3285@umbus>
+References: <20190530053831.22115-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
 Content-Disposition: inline
-In-Reply-To: <20190603023527.GD4958@xz-x1>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190530053831.22115-1-david@gibson.dropbear.id.au>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 134.134.136.24
-Subject: Re: [Qemu-devel] [PATCH] migratioin/ram: leave RAMBlock->bmap blank
- on allocating
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v2 0/8] pseries: Allow hotplug of P2P
+ bridges and devices under P2P bridges
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,76 +56,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: mdroth@linux.ibm.com, groug@kaod.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 03, 2019 at 10:35:27AM +0800, Peter Xu wrote:
->On Mon, Jun 03, 2019 at 09:33:05AM +0800, Wei Yang wrote:
->> On Sat, Jun 01, 2019 at 11:34:41AM +0800, Peter Xu wrote:
->> >On Fri, May 31, 2019 at 05:43:37PM +0100, Dr. David Alan Gilbert wrote:
->> >> * Wei Yang (richardw.yang@linux.intel.com) wrote:
->> >> > During migration, we would sync bitmap from ram_list.dirty_memory to
->> >> > RAMBlock.bmap in cpu_physical_memory_sync_dirty_bitmap().
->> >> > 
->> >> > Since we set RAMBlock.bmap and ram_list.dirty_memory both to all 1, this
->> >> > means at the first round this sync is meaningless and is a duplicated
->> >> > work.
->> >> > 
->> >> > Leaving RAMBlock->bmap blank on allocating would have a side effect on
->> >> > migration_dirty_pages, since it is calculated from the result of
->> >> > cpu_physical_memory_sync_dirty_bitmap(). To keep it right, we need to
->> >> > set migration_dirty_pages to 0 in ram_state_init().
->> >> > 
->> >> > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->> >> 
->> >> I've looked at this for a while, and I think it's OK, so
->> >> 
->> >> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> >> 
->> >> Peter, Juan: Can you just see if there's arny reason this would be bad,
->> >> but I think it's actually more sensible than what we have.
->> >
->> >I really suspect it will work in all cases...  Wei, have you done any
->> >test (or better, thorough tests) with this change?  My reasoning of
->> >why we should need the bitmap all set is here:
->> >
->> 
->> I have done some migration cases, like migrate a linux guest through tcp.
->
->When did you start the migration?  Have you tried to migrate during
->some workload?
->
 
-I tried kernel build in guest.
+--vtzGhvizbBRQ85DL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> 
->> Other cases suggested to do?
->
->Could you also help answer the question I raised below in the link?
->
->Thanks,
->
->> >https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg07361.html
->
+On Thu, May 30, 2019 at 03:38:23PM +1000, David Gibson wrote:
+> PAPR has its own PCI hotplug mechanism which we implemented quite a
+> while ago.  However, we weren't able to hotplug devices under PCI
+> bridges, because the pci-bridge code would try to handle the hotplug
+> using SHPC which won't work with PAPR.
+>=20
+> We now have the infrastructure in the hotplug core to have the machine
+> take control of the hotplug before the bus tries to claim it, which
+> lets us address this.  While we're about it, make a bunch of cleanups
+> and also allow hot plug of P2P bridges themselves (this turns out to
+> be quite straightforward once the rest is in place).
+>=20
+> For now, we don't support hot unplug of bridges - this seems to cause
+> problems, at least for a Linux guest.  I suspect the problem is on the
+> guest side, but for now just prohibit until we have time to
+> investigate properly.
 
-I took a look into this link, hope my understanding is correct.
+I've fixed the problem Alexey pointed out, and I've merged this
+tentatively to the ppc-for-4.1 branch.
 
-You concern is this thread/patch is based on one prerequisite -- dirty all the
-bitmap at start.
+>=20
+> Changes since v1:
+>  * Added proper cover letter
+>  * Addressed some minor comments
+>=20
+> David Gibson (8):
+>   spapr: Clean up device node name generation for PCI devices
+>   spapr: Clean up device tree construction for PCI devices
+>   spapr: Clean up dt creation for PCI buses
+>   spapr: Clean up spapr_drc_populate_dt()
+>   spapr: Clean up DRC index construction
+>   spapr: Don't use bus number for building DRC ids
+>   spapr: Direct all PCI hotplug to host bridge, rather than P2P bridge
+>   spapr: Allow hot plug/unplug of PCI bridges and devices under PCI
+>     bridges
+>=20
+>  hw/ppc/spapr.c              |  25 +-
+>  hw/ppc/spapr_drc.c          |  13 +-
+>  hw/ppc/spapr_pci.c          | 486 ++++++++++++++++++++++--------------
+>  include/hw/pci-host/spapr.h |   4 +-
+>  include/hw/ppc/spapr_drc.h  |   3 +-
+>  5 files changed, 327 insertions(+), 204 deletions(-)
+>=20
 
-My answer is we already did it in ram_block_add() for each RAMBlock. And then
-the bitmap is synced by migration_bitmap_sync_precopy() from
-ram_list.dirty_memory to RAMBlock.bmap.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--vtzGhvizbBRQ85DL
+Content-Type: application/pgp-signature; name="signature.asc"
 
->-- 
->Peter Xu
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Wei Yang
-Help you, Help me
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz0qlEACgkQbDjKyiDZ
+s5JBhRAAm09Oz6bZ6yRVKTYYR/5Y7+eBogcMKNCnX2J09j28YREonPBhCWWvdAaL
+SV5jJHIIMrtwgG2wa+d2jcIkXxIIUHRSj7al65eF/tIsjivAgCt4KOSd82S0WG3U
+5A7Gd8Pk8gZ8OcnfSTb1Z+6J8Y0DsQkvEGUzlWnKdM5OddH9Ifzw2gkvFf2UAg2x
+ZZm6WiWanqIu/Ysi3fWpodWFiwJgbHxvL89msz438L3vFFbtAAXYqTqTQOZEH6yk
+O4MQRr2/OgdE1cUNPDGAYVzsRNj8hy0Y0ulNqcZvNNT9yDd/BQ5EbfRxrrIv6xZx
+vL1DSyDjp+omQSsdM26186yre9AhTr3szNPEyUx6uDdrKr94C8hkc8cWIDvpeBUR
+e4kmvpHPY17scEQHd8n9iFyBqEZOnEkyzGoNEqRN2JEby9p+wwKPqgfj13vfJdpM
+LKiXiQm4JBYCG/VCZgeaCGp4DBRpMQuIDHp89CrU+MijCPPq0KXLGRZdRhiDrMYG
+QqK50z+mlvhXpZwxsezvIMt4wkzlZTLTIQ3vVfh7aWb4Sm8aVvTKDWU880gG6L3t
+x/YICKnPFfSv8oVE3f349SV1NLMVYGHD/CIhv80slAISGFE1Iw6qmPGP+EVtq/Yg
+P1ETq3Pe3U3PEFf8pXwTm5SZLGDFZ8C6CscxLzMMU78pGC71Xe4=
+=vysS
+-----END PGP SIGNATURE-----
+
+--vtzGhvizbBRQ85DL--
 
