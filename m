@@ -2,52 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960E332871
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 08:25:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58373 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB5433060
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:58:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34829 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXgPR-0008Rg-Oo
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 02:25:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44672)
+	id 1hXmYB-00016T-Ox
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:58:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44675)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hXgMc-0006TG-1i
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:22:35 -0400
+	(envelope-from <lihangjing@baidu.com>) id 1hXgMW-0006TI-8L
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:22:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hXgBW-0008OW-Jd
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:11:07 -0400
-Received: from mga03.intel.com ([134.134.136.65]:46107)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hXgBW-0008LK-9s
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:11:06 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Jun 2019 23:11:04 -0700
-X-ExtLoop1: 1
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by orsmga008.jf.intel.com with ESMTP; 02 Jun 2019 23:11:03 -0700
-Date: Mon, 3 Jun 2019 14:10:34 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190603061034.GA18247@richard>
-References: <20190507031703.856-1-richardw.yang@linux.intel.com>
-	<20190531164337.GK3169@work-vm> <20190601033441.GB4958@xz-x1>
-	<20190603013305.GA7784@richard> <20190603023527.GD4958@xz-x1>
-	<20190603033600.GB7784@richard> <20190603054013.GE4958@xz-x1>
-	<20190603060547.GA17726@richard>
+	(envelope-from <lihangjing@baidu.com>) id 1hXgGi-0006uR-3w
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:16:29 -0400
+Received: from mx22.baidu.com ([220.181.50.185]:57703 helo=baidu.com)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <lihangjing@baidu.com>) id 1hXgGh-0006Nd-LB
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:16:28 -0400
+Received: from m1-mail-ex09.internal.baidu.com (unknown [10.44.89.49])
+	by Forcepoint Email with ESMTPS id 20AB4864EA32A;
+	Mon,  3 Jun 2019 14:16:14 +0800 (CST)
+Received: from BC-Mail-Ex03.internal.baidu.com (172.31.40.17) by
+	m1-mail-ex09.internal.baidu.com (10.44.89.49) with Microsoft SMTP
+	Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.1.1531.3; Mon, 3 Jun 2019 14:16:15 +0800
+Received: from DDAFF7EBB9FF247.internal.baidu.com (172.31.63.8) by
+	BC-Mail-Ex03.internal.baidu.com (172.31.40.17) with Microsoft SMTP
+	Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.1.1531.3; Mon, 3 Jun 2019 14:16:08 +0800
+From: "lihangjing@baidu.com" <lihangjing@baidu.com>
+To: <mst@redhat.com>
+Date: Mon, 3 Jun 2019 14:15:24 +0800
+Message-ID: <20190603061524.24076-1-lihangjing@baidu.com>
+X-Mailer: git-send-email 2.15.1.windows.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190603060547.GA17726@richard>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 134.134.136.65
-Subject: Re: [Qemu-devel] [PATCH] migratioin/ram: leave RAMBlock->bmap blank
- on allocating
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-MAIL-EX01.internal.baidu.com (172.31.40.15) To
+	BC-Mail-Ex03.internal.baidu.com (172.31.40.17)
+X-Baidu-BdMsfe-DateCheck: 1_BC-Mail-Ex03_2019-06-03 14:16:08:671
+X-Baidu-BdMsfe-VirusCheck: BC-Mail-Ex03_GRAY_Inside_WithoutAtta_2019-06-03
+	14:16:08:718
+X-Baidu-BdMsfe-DateCheck: 1_BC-Mail-Ex03_2019-06-03 14:16:08:733
+X-Baidu-BdMsfe-DateCheck: 1_m1-mail-ex09_2019-06-03 14:16:15:794
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 220.181.50.185
+X-Mailman-Approved-At: Mon, 03 Jun 2019 08:50:25 -0400
+Subject: [Qemu-devel] [PATCH] vhost: fix vhost_log size overflow during
+ migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,63 +64,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	Peter Xu <peterx@redhat.com>, quintela@redhat.com
+Cc: Li Hangjing <lihangjing@baidu.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 03, 2019 at 02:05:47PM +0800, Wei Yang wrote:
->On Mon, Jun 03, 2019 at 01:40:13PM +0800, Peter Xu wrote:
->>
->>Ah I see, thanks for the pointer.  Then I would agree it's fine.
->>
->>I'm not an expert of TCG - I'm curious on why all those three dirty
->>bitmaps need to be set at the very beginning.  IIUC at least the VGA
->>bitmap should not require that (so IMHO we should be fine to have all
->>zeros with VGA bitmap for ramblocks, and we only set them when the
->>guest touches them).  Migration bitmap should be special somehow but I
->>don't know much on TCG/TLB part I'd confess so I can't say.  In other
->>words, if migration is the only one that requires this "all-1"
->>initialization then IMHO we may consider to remove the other part
->>rather than here in migration because that's what we'd better to be
->>sure with.
->
->I am not sure about the background here, so I didn't make a change at this
->place.
->
->>
->>And even if you want to remove this, I still have two suggestions:
->>
->>(1) proper comment here above bmap on the above fact that although
->>    bmap is not set here but it's actually set somewhere else because
->>    we'll sooner or later copy all 1s from the ramblock bitmap
->>
->>(2) imho you can move "migration_dirty_pages = 0" into
->>    ram_list_init_bitmaps() too to let them be together
->>
+From: Li Hangjing <lihangjing@baidu.com>
 
-I took a look into this one.
+When a guest which doesn't support multiqueue is migrated with a multi queues
+vhost-user-blk deivce, a crash will occur like:
 
-ram_list_init_bitmaps() setup bitmap for each RAMBlock, while ram_state_init()
-setup RAMState. Since migration_dirty_pages belongs to RAMState, it maybe more
-proper to leave it at the original place.
+0 qemu_memfd_alloc (name=<value optimized out>, size=562949953421312, seals=<value optimized out>, fd=0x7f87171fe8b4, errp=0x7f87171fe8a8) at util/memfd.c:153
+1 0x00007f883559d7cf in vhost_log_alloc (size=70368744177664, share=true) at hw/virtio/vhost.c:186
+2 0x00007f88355a0758 in vhost_log_get (listener=0x7f8838bd7940, enable=1) at qemu-2-12/hw/virtio/vhost.c:211
+3 vhost_dev_log_resize (listener=0x7f8838bd7940, enable=1) at hw/virtio/vhost.c:263
+4 vhost_migration_log (listener=0x7f8838bd7940, enable=1) at hw/virtio/vhost.c:787
+5 0x00007f88355463d6 in memory_global_dirty_log_start () at memory.c:2503
+6 0x00007f8835550577 in ram_init_bitmaps (f=0x7f88384ce600, opaque=0x7f8836024098) at migration/ram.c:2173
+7 ram_init_all (f=0x7f88384ce600, opaque=0x7f8836024098) at migration/ram.c:2192
+8 ram_save_setup (f=0x7f88384ce600, opaque=0x7f8836024098) at migration/ram.c:2219
+9 0x00007f88357a419d in qemu_savevm_state_setup (f=0x7f88384ce600) at migration/savevm.c:1002
+10 0x00007f883579fc3e in migration_thread (opaque=0x7f8837530400) at migration/migration.c:2382
+11 0x00007f8832447893 in start_thread () from /lib64/libpthread.so.0
+12 0x00007f8832178bfd in clone () from /lib64/libc.so.6
 
-Do you feel good about this?
+This is because vhost_get_log_size() returns a overflowed vhost-log size.
+In this function, it uses the uninitialized variable vqs->used_phys and
+vqs->used_size to get the vhost-log size.
 
->
->I will address these two comments and send v2.
->
->Thanks.
->
->>-- 
->>Peter Xu
->
->-- 
->Wei Yang
->Help you, Help me
+Signed-off-by: Li Hangjing <lihangjing@baidu.com>
+Reviewed-by: Xie Yongji <xieyongji@baidu.com>
+Reviewed-by: Chai Wen <chaiwen@baidu.com>
+---
+ hw/virtio/vhost.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 7f61018f2a..6d3a013f49 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -131,6 +131,11 @@ static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
+     }
+     for (i = 0; i < dev->nvqs; ++i) {
+         struct vhost_virtqueue *vq = dev->vqs + i;
++
++        if (!vq->used_phys && !vq->used_size) {
++            continue;
++        }
++
+         vhost_dev_sync_region(dev, section, start_addr, end_addr, vq->used_phys,
+                               range_get_last(vq->used_phys, vq->used_size));
+     }
+@@ -168,6 +173,11 @@ static uint64_t vhost_get_log_size(struct vhost_dev *dev)
+     }
+     for (i = 0; i < dev->nvqs; ++i) {
+         struct vhost_virtqueue *vq = dev->vqs + i;
++
++        if (!vq->used_phys && !vq->used_size) {
++            continue;
++        }
++
+         uint64_t last = vq->used_phys + vq->used_size - 1;
+         log_size = MAX(log_size, last / VHOST_LOG_CHUNK + 1);
+     }
 -- 
-Wei Yang
-Help you, Help me
+2.15.1.windows.2
+
 
