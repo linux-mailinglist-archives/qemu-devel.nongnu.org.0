@@ -2,37 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D6E33775
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:03:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38881 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF18337BE
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:22:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39146 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXrJE-0000B0-Tr
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:03:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55312)
+	id 1hXrbV-0004R0-Uv
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:22:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56645)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hXrI8-0008GK-Cd
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:02:41 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hXrOx-0002gn-47
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:09:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hXrI6-0003QU-TN
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:02:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36296)
+	(envelope-from <jsnow@redhat.com>) id 1hXrOw-0001zl-9B
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:09:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46658)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1hXrI6-0002s8-L2
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:02:38 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
+	id 1hXrK4-0007rU-2w; Mon, 03 Jun 2019 14:04:40 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C7CF8223882;
-	Mon,  3 Jun 2019 18:02:20 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4EA2CC18B2E4;
+	Mon,  3 Jun 2019 18:04:27 +0000 (UTC)
 Received: from [10.18.17.164] (dhcp-17-164.bos.redhat.com [10.18.17.164])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E5D03601B6;
-	Mon,  3 Jun 2019 18:02:17 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20190531192429.GH22103@habkost.net>
-	<93e5101f-67f1-a416-5e80-f16371a35e6a@redhat.com>
-	<871s0asvli.fsf@dusky.pond.sub.org>
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 63E6B5D71A;
+	Mon,  3 Jun 2019 18:04:25 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190523121230.17193-1-jsnow@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -109,22 +107,23 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
 	i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
 	RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
 	glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <236db86d-52df-5537-4f33-f3c09bbb6289@redhat.com>
-Date: Mon, 3 Jun 2019 14:02:16 -0400
+Message-ID: <4216a20b-1b23-e1cd-3479-1d1011e9d683@redhat.com>
+Date: Mon, 3 Jun 2019 14:04:24 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <871s0asvli.fsf@dusky.pond.sub.org>
+In-Reply-To: <20190523121230.17193-1-jsnow@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Mon, 03 Jun 2019 18:02:20 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Mon, 03 Jun 2019 18:04:34 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Deprecation policy and build dependencies
+Subject: Re: [Qemu-devel] [PATCH v2 0/2] Add QMP lexer for annotated JSON to
+ Sphinx
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -136,71 +135,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	"Daniel P. Berrange" <berrange@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
-	Cleber Rosa <crosa@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Aarushi Mehta <mehta.aaru20@gmail.com>,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org,
+	Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Peter: I think this one would be through your tree if anyone's, yes? Any
+thoughts?
 
+--js
 
-On 6/3/19 8:26 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
+On 5/23/19 8:12 AM, John Snow wrote:
+> QMP isn't json. It turns out Pygments cares about this.
+> Teach Pygments to go with the annotated flow.
 > 
->> On 5/31/19 3:24 PM, Eduardo Habkost wrote:
->>> Long story short: I would really like to drop support for Python
->>> 2 in QEMU 4.1.
+> V2:
+>  - Change GPL2 to GPLv2+ (Peter Maydell)
+>  - Change "highlights" to "lexes" in docstrings
+>  - Fix typo ("Sphinx()" => "Sphinx") in docstring
 > 
-> The sooner, the better, as far as I'm concerned.
+> Reported-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 > 
->>> What exactly prevents us from doing this?  Does our deprecation
->>> policy really apply to build dependencies?
->>>
->>
->> Normally I'd say it's only nice to also follow the depreciation policy
->> for tooling as well to give people a chance to switch away, but with
->> regards to Python2, I feel like we're in the clear to drop it for the
->> first release that will happen after the Python2 doomsday clock.
->>
->> (So, probably 4.2.)
+> John Snow (2):
+>   sphinx: add qmp_lexer
+>   docs/bitmaps: use QMP lexer instead of json
 > 
-> In addition to our feature deprecation policity, we have a "Supported
-> build platforms" policy (commit 45b47130f4b).  The most common holdback
-> is this one:
+>  docs/conf.py             |  4 +--
+>  docs/interop/bitmaps.rst | 54 ++++++++++++++++++++--------------------
+>  docs/sphinx/qmp_lexer.py | 34 +++++++++++++++++++++++++
+>  3 files changed, 63 insertions(+), 29 deletions(-)
+>  create mode 100644 docs/sphinx/qmp_lexer.py
 > 
->     For distributions with long-lifetime releases, the project will aim
->     to support the most recent major version at all times. Support for
->     the previous major version will be dropped 2 years after the new
->     major version is released. For the purposes of identifying supported
->     software versions, the project will look at RHEL, Debian, Ubuntu
->     LTS, and SLES distros. Other long-lifetime distros will be assumed
->     to ship similar software versions.
-> 
-> RHEL-7 has Python 3 only in EPEL.  RHEL-8 came out last month.  Unless
-> we interpret our policy to include EPEL, this means supporting Python 2
-> for some 16 months after upstream Python retires it.  My personal
-> opinion: nuts.
-> 
-
-I would rather not support Python2 a day after the clock expires.
-
-> I didn't bother checking Debian, Ubuntu LTS and SLES.
-> 
-> For hosts other than Linux, we're less ambitious.
-> 
-
-That policy strikes me as weird, because RHEL7 is not going to be, in
-general, using the latest and greatest QEMU. Usually stable versions of
-distros stick with the versions of the programs that came out at the time.
-
-What's the benefit of making sure that stable platforms can continue to
-run the *newest* QEMU? Is this even a reasonable restriction? If you are
-running RHEL7, how many projects do you expect to be able to git clone
-and build and have that work with the rest of your legacy/stable
-dependencies?
-
-RHEL7 uses a 1.5.3 based version. I don't think it matters if we update
-4.2 to be Python3 only, really.
 
