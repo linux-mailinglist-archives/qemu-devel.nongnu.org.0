@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B483366A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:20:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38352 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AC63369A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:29:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38494 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqd5-0004yT-2V
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:20:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43387)
+	id 1hXqlm-0004Tg-J8
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:29:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43384)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUQ-0007LM-2Y
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUQ-0007LI-2J
 	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUO-0004Sl-0I
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUO-0004St-2c
 	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:17 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39501)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53846)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hXqUN-00044T-PS
+	id 1hXqUN-00045w-Ps
 	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:15 -0400
-Received: by mail-wr1-x431.google.com with SMTP id x4so12921292wrt.6
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:01 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id d17so4290234wmb.3
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:subject:date:message-id:in-reply-to:references;
-	bh=7SaMpOvODHuGBK9ZU2E8tUIRm7zqRrLcE07dgiBjSQ4=;
-	b=X3VgkKfKpIY7JtX5dplho2vAfvmcPqMqeSSRWWVQCtQMGuv13o6cRhx8htUBqfMR+L
-	f5nzNpJz/1ogHF80AArhnEACKfmxggKT0A80Er6qkgIbb9n4P759/9KSa0tnPC/GSQWF
-	xaF/kSDaJcZ5HT/MeAesJbkJxJ4bheJaDFlOEG3uEYfRK7CF4OKyV5VfbvlnbjndWcj0
-	qNB9DDnXE1Bd0JwKaJylPkkDkOH3wa1t/tBMqdPsfKIqnLDSfps0BgDgMSfIGnaRfYoV
-	+NaBpwiFaFilB+nRKbnO0+6Er1uy6kAwOG7UHCxZ1SICLQmHQQ8ePeZIvUdXuynABlII
-	zx0w==
+	bh=uoQaRMWdBdep+YNnKReegUQC2lBBqvjSH/ITdZEowUI=;
+	b=bfmLulX6w/jMAYEgy1HkHwFmlvV3tN3sK8ng3erwovapyAkLK5ofVAV1cAjvFsLkb1
+	stTKR1LLllzeEhPdnbZ1bIxPrnVaNVk68V3o546vL7cBf2PE9PXrzRiWAfYAXtCnpmcz
+	VA1ornolXIiUjZFsTbSsO40qM58Tuc70mjBtxDXiqipbfLBkVfJblBwIbpgoHBMmQY1u
+	44DPJH5QX3VCnCshMPtfxyPclAfaRrdxpgP7l0TuPkXGzgI/GIvBWZbXLv5/Go7uVyng
+	5ILbd6Bng79M4xsj26WTHFmFJbnESwJ7Zt0g0K8xQDupyKBS4nAGbb4ewf9KdkzlyGMA
+	bkRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:subject:date:message-id
 	:in-reply-to:references;
-	bh=7SaMpOvODHuGBK9ZU2E8tUIRm7zqRrLcE07dgiBjSQ4=;
-	b=tYQInRg/1uY5KEzH8IGHJeVf13i+balmwkz21mATPVphMxKXFJj42kz0sWszIoRcz7
-	5V4DqXGYgBH7gmXX8pWooOGcC9DO5ouk5n19x60OzPbyiOozqVG1hAi6XXQizb6dG8ko
-	8LAv4Rr2sVQj2F0zTeyD0QC8Ugyo2oeZLzvpG9Fx9dKzHAAm97f+GMGIZObjXQyuXYAh
-	i9hizPgcZOYWch8x1YmVTsd9eUWoXLmnNN//lrJihPn1q6zhO1fgIUaLI8vmPBx8ibWx
-	7jmhoRXMsvQt94gqIyUU05hESdMgno/kjkudZWvXZjUmOjIMrXh5ux2cZMkv8JowBQLD
-	2qmA==
-X-Gm-Message-State: APjAAAXBO7CmSGO1mq+0EVt+J009/o5Ee/KzoXFHOUe/q7kS9l1AtNTe
-	qKeLwQF3sOfZhr8VMDa+I4YfwFGB
-X-Google-Smtp-Source: APXvYqxcc7WzNISrJDypuJ0688/t3ZzQb8jJFepfE134h9m/JhNvCeAkg3CNS1skIXq6QbQosU/jKA==
-X-Received: by 2002:adf:f542:: with SMTP id j2mr3498147wrp.16.1559581860404;
-	Mon, 03 Jun 2019 10:11:00 -0700 (PDT)
+	bh=uoQaRMWdBdep+YNnKReegUQC2lBBqvjSH/ITdZEowUI=;
+	b=BBo+ELsxyoLERKJ2SkL47MJbv+6Q979VFMCRFSa2fxPFkBarBK/i5NblNQZ6R6584p
+	a6Ius/iGgsMS/PFlWa1dBhXg4p0rCMz7cZHTQoxBmjesiB3qH0t8hUUt7hVvYeGnRASu
+	DvkLYfxMyJ/YSmat9f8F4PBUQ/jqztBdjRQh9oOCtIHAdNJ/W9ukL1A4si48AXSD82UV
+	AYW6wAq1a6iLsHNM5SFsfJ36Gb1fqUtyq+KINB6ZVfBv88x6TWfJCaJua6bzeD7wWHTX
+	KNB3zChR+RB0GUtMYKJrFWw9QxYL3tNHAah2/7fhM7kzmjUI1HXKJg/WCkDMSwwez/f/
+	iGoQ==
+X-Gm-Message-State: APjAAAWnnb4F9yIsaqFBbMatF33zl51i5RujzT1Xi9o80Dg69CrvTT30
+	gAwSDEmySuPyi9itO+cHs4qj7PVC
+X-Google-Smtp-Source: APXvYqzyAKonLVWMKV2uDNSlbYewUd+j2k/H2HEUb0YkWqLxIjIMmWJmZ2IFlVQmO6C6sUgDqpoY8A==
+X-Received: by 2002:a1c:6c04:: with SMTP id h4mr14601664wmc.135.1559581861355; 
+	Mon, 03 Jun 2019 10:11:01 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
-	r131sm3325045wmf.4.2019.06.03.10.10.59 for <qemu-devel@nongnu.org>
+	r131sm3325045wmf.4.2019.06.03.10.11.00 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 10:10:59 -0700 (PDT)
+	Mon, 03 Jun 2019 10:11:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 19:10:33 +0200
-Message-Id: <1559581843-3968-15-git-send-email-pbonzini@redhat.com>
+Date: Mon,  3 Jun 2019 19:10:34 +0200
+Message-Id: <1559581843-3968-16-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 References: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::431
-Subject: [Qemu-devel] [PULL 14/24] imx25-pdk: create ds1338 for qtest inside
- the test
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 15/24] libqos: split I2CAdapter initialization
+ and allocation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,50 +78,228 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no need to have a test device created by the board.
-Instead, create it in the qtest so that we will be able to run
-it on other boards too.
+Provide *_init functions that populate an I2CAdapter struct without
+allocating one, and make the existing *_create functions wrap them.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Because in the new setup *_create might return a pointer inside the
+IMXI2C or OMAPI2C struct, create companion *_free functions to go
+back to the outer pointer.
+
+All this is temporary until allocation will be handled entirely by
+qgraph.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/arm/imx25_pdk.c  | 9 ---------
- tests/ds1338-test.c | 2 +-
- 2 files changed, 1 insertion(+), 10 deletions(-)
+ tests/libqos/i2c-imx.c  | 37 ++++++++++++++++++++++---------------
+ tests/libqos/i2c-omap.c | 32 +++++++++++++++++++++-----------
+ tests/libqos/i2c.h      | 20 ++++++++++++++++++--
+ tests/pca9552-test.c    |  2 +-
+ tests/tmp105-test.c     |  2 +-
+ 5 files changed, 63 insertions(+), 30 deletions(-)
 
-diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
-index eef1b18..a0423ff 100644
---- a/hw/arm/imx25_pdk.c
-+++ b/hw/arm/imx25_pdk.c
-@@ -131,15 +131,6 @@ static void imx25_pdk_init(MachineState *machine)
-      */
-     if (!qtest_enabled()) {
-         arm_load_kernel(&s->soc.cpu, &imx25_pdk_binfo);
--    } else {
--        /*
--         * This I2C device doesn't exist on the real board.
--         * We add it here (only on qtest usage) to be able to do a bit
--         * of simple qtest. See "make check" for details.
--         */
--        i2c_create_slave((I2CBus *)qdev_get_child_bus(DEVICE(&s->soc.i2c[0]),
--                                                      "i2c-bus.0"),
--                         "ds1338", 0x68);
-     }
+diff --git a/tests/libqos/i2c-imx.c b/tests/libqos/i2c-imx.c
+index 0945f2e..28289c5 100644
+--- a/tests/libqos/i2c-imx.c
++++ b/tests/libqos/i2c-imx.c
+@@ -30,13 +30,6 @@ enum IMXI2CDirection {
+     IMX_I2C_WRITE,
+ };
+ 
+-typedef struct IMXI2C {
+-    I2CAdapter parent;
+-
+-    uint64_t addr;
+-} IMXI2C;
+-
+-
+ static void imx_i2c_set_slave_addr(IMXI2C *s, uint8_t addr,
+                                    enum IMXI2CDirection direction)
+ {
+@@ -47,7 +40,7 @@ static void imx_i2c_set_slave_addr(IMXI2C *s, uint8_t addr,
+ static void imx_i2c_send(I2CAdapter *i2c, uint8_t addr,
+                          const uint8_t *buf, uint16_t len)
+ {
+-    IMXI2C *s = (IMXI2C *)i2c;
++    IMXI2C *s = container_of(i2c, IMXI2C, parent);
+     uint8_t data;
+     uint8_t status;
+     uint16_t size = 0;
+@@ -107,7 +100,7 @@ static void imx_i2c_send(I2CAdapter *i2c, uint8_t addr,
+ static void imx_i2c_recv(I2CAdapter *i2c, uint8_t addr,
+                          uint8_t *buf, uint16_t len)
+ {
+-    IMXI2C *s = (IMXI2C *)i2c;
++    IMXI2C *s = container_of(i2c, IMXI2C, parent);
+     uint8_t data;
+     uint8_t status;
+     uint16_t size = 0;
+@@ -193,16 +186,30 @@ static void imx_i2c_recv(I2CAdapter *i2c, uint8_t addr,
+     g_assert((status & I2SR_IBB) == 0);
  }
  
-diff --git a/tests/ds1338-test.c b/tests/ds1338-test.c
-index 88f829f..bd72a15 100644
---- a/tests/ds1338-test.c
-+++ b/tests/ds1338-test.c
-@@ -54,7 +54,7 @@ int main(int argc, char **argv)
++void imx_i2c_init(IMXI2C *s, QTestState *qts, uint64_t addr)
++{
++    s->addr = addr;
++
++    s->parent.send = imx_i2c_send;
++    s->parent.recv = imx_i2c_recv;
++    s->parent.qts = qts;
++}
++
+ I2CAdapter *imx_i2c_create(QTestState *qts, uint64_t addr)
+ {
+     IMXI2C *s = g_malloc0(sizeof(*s));
+-    I2CAdapter *i2c = (I2CAdapter *)s;
  
-     g_test_init(&argc, &argv, NULL);
+-    s->addr = addr;
++    imx_i2c_init(s, qts, addr);
++    return &s->parent;
++}
  
--    s = qtest_start("-display none -machine imx25-pdk");
-+    s = qtest_start("-display none -machine imx25-pdk -device ds1338,address=0x68");
-     i2c = imx_i2c_create(s, IMX25_I2C_0_BASE);
-     addr = DS1338_ADDR;
+-    i2c->send = imx_i2c_send;
+-    i2c->recv = imx_i2c_recv;
+-    i2c->qts = qts;
++void imx_i2c_free(I2CAdapter *i2c)
++{
++    IMXI2C *s;
  
+-    return i2c;
++    if (!i2c) {
++        return;
++    }
++    s = container_of(i2c, IMXI2C, parent);
++    g_free(s);
+ }
+diff --git a/tests/libqos/i2c-omap.c b/tests/libqos/i2c-omap.c
+index bb65336..c7cbb9e 100644
+--- a/tests/libqos/i2c-omap.c
++++ b/tests/libqos/i2c-omap.c
+@@ -40,12 +40,6 @@ enum OMAPI2CCONBits {
+     OMAP_I2C_CON_I2C_EN = 1 << 15,
+ };
+ 
+-typedef struct OMAPI2C {
+-    I2CAdapter parent;
+-
+-    uint64_t addr;
+-} OMAPI2C;
+-
+ 
+ static void omap_i2c_set_slave_addr(OMAPI2C *s, uint8_t addr)
+ {
+@@ -59,7 +53,7 @@ static void omap_i2c_set_slave_addr(OMAPI2C *s, uint8_t addr)
+ static void omap_i2c_send(I2CAdapter *i2c, uint8_t addr,
+                           const uint8_t *buf, uint16_t len)
+ {
+-    OMAPI2C *s = (OMAPI2C *)i2c;
++    OMAPI2C *s = container_of(i2c, OMAPI2C, parent);
+     uint16_t data;
+ 
+     omap_i2c_set_slave_addr(s, addr);
+@@ -103,7 +97,7 @@ static void omap_i2c_send(I2CAdapter *i2c, uint8_t addr,
+ static void omap_i2c_recv(I2CAdapter *i2c, uint8_t addr,
+                           uint8_t *buf, uint16_t len)
+ {
+-    OMAPI2C *s = (OMAPI2C *)i2c;
++    OMAPI2C *s = container_of(i2c, OMAPI2C, parent);
+     uint16_t data, stat;
+     uint16_t orig_len = len;
+ 
+@@ -161,9 +155,8 @@ static void omap_i2c_recv(I2CAdapter *i2c, uint8_t addr,
+     g_assert((data & OMAP_I2C_CON_STP) == 0);
+ }
+ 
+-I2CAdapter *omap_i2c_create(QTestState *qts, uint64_t addr)
++void omap_i2c_init(OMAPI2C *s, QTestState *qts, uint64_t addr)
+ {
+-    OMAPI2C *s = g_malloc0(sizeof(*s));
+     I2CAdapter *i2c = (I2CAdapter *)s;
+     uint16_t data;
+ 
+@@ -176,6 +169,23 @@ I2CAdapter *omap_i2c_create(QTestState *qts, uint64_t addr)
+     /* verify the mmio address by looking for a known signature */
+     data = qtest_readw(qts, addr + OMAP_I2C_REV);
+     g_assert_cmphex(data, ==, 0x34);
++}
++
++I2CAdapter *omap_i2c_create(QTestState *qts, uint64_t addr)
++{
++    OMAPI2C *s = g_malloc0(sizeof(*s));
++
++    omap_i2c_init(s, qts, addr);
++    return &s->parent;
++}
+ 
+-    return i2c;
++void omap_i2c_free(I2CAdapter *i2c)
++{
++    OMAPI2C *s;
++
++    if (!i2c) {
++        return;
++    }
++    s = container_of(i2c, OMAPI2C, parent);
++    g_free(s);
+ }
+diff --git a/tests/libqos/i2c.h b/tests/libqos/i2c.h
+index a462114..877d2ab 100644
+--- a/tests/libqos/i2c.h
++++ b/tests/libqos/i2c.h
+@@ -39,10 +39,26 @@ void i2c_set8(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
+ void i2c_set16(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
+                uint16_t value);
+ 
+-/* libi2c-omap.c */
++/* i2c-omap.c */
++typedef struct OMAPI2C {
++    I2CAdapter parent;
++
++    uint64_t addr;
++} OMAPI2C;
++
++void omap_i2c_init(OMAPI2C *s, QTestState *qts, uint64_t addr);
+ I2CAdapter *omap_i2c_create(QTestState *qts, uint64_t addr);
++void omap_i2c_free(I2CAdapter *i2c);
++
++/* i2c-imx.c */
++typedef struct IMXI2C {
++    I2CAdapter parent;
++
++    uint64_t addr;
++} IMXI2C;
+ 
+-/* libi2c-imx.c */
++void imx_i2c_init(IMXI2C *s, QTestState *qts, uint64_t addr);
+ I2CAdapter *imx_i2c_create(QTestState *qts, uint64_t addr);
++void imx_i2c_free(I2CAdapter *i2c);
+ 
+ #endif
+diff --git a/tests/pca9552-test.c b/tests/pca9552-test.c
+index 89b4445..f950932 100644
+--- a/tests/pca9552-test.c
++++ b/tests/pca9552-test.c
+@@ -96,7 +96,7 @@ int main(int argc, char **argv)
+     if (s) {
+         qtest_quit(s);
+     }
+-    g_free(i2c);
++    omap_i2c_free(i2c);
+ 
+     return ret;
+ }
+diff --git a/tests/tmp105-test.c b/tests/tmp105-test.c
+index c86d257..25ea05f 100644
+--- a/tests/tmp105-test.c
++++ b/tests/tmp105-test.c
+@@ -122,7 +122,7 @@ int main(int argc, char **argv)
+     ret = g_test_run();
+ 
+     qtest_quit(s);
+-    g_free(i2c);
++    omap_i2c_free(i2c);
+ 
+     return ret;
+ }
 -- 
 1.8.3.1
 
