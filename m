@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C473367B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:23:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38409 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C133368F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:27:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38469 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqgA-0007mM-SX
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:23:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43465)
+	id 1hXqjv-0002dn-5E
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:27:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43506)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUT-0007Sg-W4
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUV-0007Vf-5k
 	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUQ-0004WH-1z
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:20 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35875)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUT-0004dI-VE
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:23 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36700)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hXqUN-0003yc-S0
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:16 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id n4so9858080wrs.3
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:10:58 -0700 (PDT)
+	id 1hXqUQ-00041K-7v
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:20 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n4so9858167wrs.3
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:subject:date:message-id:in-reply-to:references;
-	bh=soA4io5WAhJTcvEEt4vIULBxnysle2UEV000MhP1Je4=;
-	b=oizq4QA8Zzvf0kwLN5k8CKBQTu7vi9ZsrRWo6QiS3wN2E4uWMHEsSEWeIiAUIrqCt7
-	7mOoSvhabcBBq9oIQnnF8N87hRiqrvKVRA7/vIW5/WLWjNEHCM6SlgoNhMy3WH9OYF4y
-	FzDHfXM9O5mSW3HfgdfNfE5HILVlg2J0znEINw2unmQNm4sETo01VUP5WMCzKYy2cOvM
-	yXDxReZ/JBHtpbuevRvG+VMo3I37Db/cYA/aF2kMvxdWvlk5xegCF+JOi/UM+HAfZAuw
-	vb6EzDGj0bXa4Avfuc4tEo9furGG0qX1V6bGJ94k/ZAa11QHDT/NYApnD3qcYFNByqsD
-	LxAw==
+	bh=vgPNCTWPR6hZCIfyU4XsAQRjfaEbN+8hR83G4zbsugU=;
+	b=ARBcdiR+Vqg8Mr/QTvJ6DNif9W59CXbdwM7AsKmKe/77/zALmnEtgkx3NL92oV6cj2
+	avU14ne22GwBsqfG7kH1fH3bZz/I/vL8l4dMMDM1hpOS1NY/5WC+mY8rq3ZhGWwsOLCg
+	RttDokmUvr13HtT13vd1B5Mdysjf69GyaFYhk8PDwNxW6iwhv+U8HgjNpEkRrJEd5/3H
+	OiIJixXh2TX6LoaSqplvWOf25duwdyNeS80TcQhb9E8TlC8g/zNZxQybp6eOfn42CJne
+	1w/lCvInEIeCl1AxFTZBnM9DIz8Ipl0E1HmLMBTu86hfQUsxqMZFX5PUNE/zkfd6HpiA
+	ZxaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:subject:date:message-id
 	:in-reply-to:references;
-	bh=soA4io5WAhJTcvEEt4vIULBxnysle2UEV000MhP1Je4=;
-	b=Zh140SafsJreJuUx/+V48O3jKCnQ8bswt6A5NcBi4R6gwsnK4yvEiBG1yIf2rb9eVR
-	0MfB56D5Lf9pR4nu28piKiY2VSEVLXc7Apl7TAd/UoJL0EsH6uyID0n5Xhs5tDIJhRaI
-	uj7rQtDCe8GbDcXqTEC1DOhjLZbMupwzqBZxQYNvfOzlwSdQAx4gQSZuUWk7vP7yXdlv
-	eqNAZYay0J2XdNsoBNqxYySgv31ev0w3O3QVg0OK+XapH6ym3j+WWkpR6B3/BbsIScGB
-	LheBdtn9GAJHuOIMqAnrgbfl0edL4IJO8gjV75BSfV/xrIVgx1BPgYmbMij5vlmgC7jC
-	xQYQ==
-X-Gm-Message-State: APjAAAUOLUxIyBdxymunIGaauyIiSP9RueoNasC5HtL6UJD3iC+wBCC5
-	KS+pAyhHMKfd2CP0Pumc4TWMpoQx
-X-Google-Smtp-Source: APXvYqw1xUDQD+kzpHmlD+IAb+Eq6p0nrvHbKUIS2SeP+iBLC6+L4E+RLlWBRw0u90kwrJArptFepQ==
-X-Received: by 2002:adf:ea4a:: with SMTP id j10mr5322496wrn.114.1559581856838; 
-	Mon, 03 Jun 2019 10:10:56 -0700 (PDT)
+	bh=vgPNCTWPR6hZCIfyU4XsAQRjfaEbN+8hR83G4zbsugU=;
+	b=IpOUQBMxiVn2NTv5PEbAf6AuNwrJL8ZDb8Q3DPyYoXFlreO1rOMU8st6TSmjiMYFLM
+	5w6oUHiLmI4UQAX4DUFUg8AgYkvvDU/1uv692V5UfVs11kRpWlOs1/ALWuTcLqXSTklm
+	Q62oLZxwELliJ3aQtqwRXjnx9qC3yRvioMri2DgqHX9uiaLtZhbfXtaMPDv8bgYiTJJc
+	uK0dPOCPze9WdXdYxELbwr8ryck1SSGQy6nPKoB0LNigk6FRU548Fez4oxmWElwddQgx
+	kJoY1OqIh4atVj2Jvmw+Bh6yKBm/4zuRKV9So8GtFlxAvf+i+5jW4hVkdcY5nNcbb/Mm
+	tIzA==
+X-Gm-Message-State: APjAAAVsL21oEwTeBHJqhGK7MKo3bOPCCEqLGDp/nlHq2Ot1nY9oB/rF
+	QFQV3IsO8gLjKA4gmhtyUNAJ0ZHB
+X-Google-Smtp-Source: APXvYqz5YXvvAhifupJE8LR96J/f/1waTbplqx6iaZBZNeNDNelYnaqS79+7ZeEZlo2Pxjjdtj1o6Q==
+X-Received: by 2002:adf:f544:: with SMTP id j4mr3421411wrp.150.1559581858567; 
+	Mon, 03 Jun 2019 10:10:58 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
-	r131sm3325045wmf.4.2019.06.03.10.10.55 for <qemu-devel@nongnu.org>
+	r131sm3325045wmf.4.2019.06.03.10.10.56 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 10:10:56 -0700 (PDT)
+	Mon, 03 Jun 2019 10:10:57 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 19:10:30 +0200
-Message-Id: <1559581843-3968-12-git-send-email-pbonzini@redhat.com>
+Date: Mon,  3 Jun 2019 19:10:31 +0200
+Message-Id: <1559581843-3968-13-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 References: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::42d
-Subject: [Qemu-devel] [PULL 11/24] libqos: move common i2c code to libqos
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PULL 12/24] libqos: fix omap-i2c receiving more than
+ 4 bytes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,320 +78,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The functions to read/write 8-bit or 16-bit registers are the same
-in tmp105 and pca9552 tests, and in fact they are a special case of
-"read block"/"write block" functionality; read block in turn is used
-in ds1338-test.
+If more than 4 bytes are received, the FIFO cannot host the entire
+contents of the transfer and STP will be nonzero before entering
+the transfer loop.  Also, CNT will contain the number of bytes
+left to be transferred instead of the total number of bytes in
+the transfer.
 
-Move everything inside libqos-test, removing the duplication.  Account
-for the small differences by adding to tmp105-test.c the "read register
-after writing" behavior that is specific to it.
+(Reverse engineered from the omap_i2c.c source code; no available
+datasheet).
+
+This will fix ds1338-test for omap-i2c.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/ds1338-test.c  |  8 +-----
- tests/libqos/i2c.c   | 47 ++++++++++++++++++++++++++++++
- tests/libqos/i2c.h   | 11 ++++++++
- tests/pca9552-test.c | 37 ++++++------------------
- tests/tmp105-test.c  | 80 ++++++++++++++--------------------------------------
- 5 files changed, 88 insertions(+), 95 deletions(-)
+ tests/libqos/i2c-omap.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/tests/ds1338-test.c b/tests/ds1338-test.c
-index 742dad9..88f829f 100644
---- a/tests/ds1338-test.c
-+++ b/tests/ds1338-test.c
-@@ -35,17 +35,11 @@ static inline uint8_t bcd2bin(uint8_t x)
- 
- static void send_and_receive(void)
+diff --git a/tests/libqos/i2c-omap.c b/tests/libqos/i2c-omap.c
+index 1ef6e7b..bb65336 100644
+--- a/tests/libqos/i2c-omap.c
++++ b/tests/libqos/i2c-omap.c
+@@ -105,6 +105,7 @@ static void omap_i2c_recv(I2CAdapter *i2c, uint8_t addr,
  {
--    uint8_t cmd[1];
-     uint8_t resp[7];
-     time_t now = time(NULL);
-     struct tm *tm_ptr = gmtime(&now);
+     OMAPI2C *s = (OMAPI2C *)i2c;
+     uint16_t data, stat;
++    uint16_t orig_len = len;
  
--    /* reset the index in the RTC memory */
--    cmd[0] = 0;
--    i2c_send(i2c, addr, cmd, 1);
+     omap_i2c_set_slave_addr(s, addr);
+ 
+@@ -116,16 +117,24 @@ static void omap_i2c_recv(I2CAdapter *i2c, uint8_t addr,
+            OMAP_I2C_CON_STT |
+            OMAP_I2C_CON_STP;
+     qtest_writew(i2c->qts, s->addr + OMAP_I2C_CON, data);
+-    data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CON);
+-    g_assert((data & OMAP_I2C_CON_STP) == 0);
+ 
+     data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_STAT);
+     g_assert((data & OMAP_I2C_STAT_NACK) == 0);
+ 
+-    data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CNT);
+-    g_assert_cmpuint(data, ==, len);
 -
--    /* retrieve the date */
--    i2c_recv(i2c, addr, resp, 7);
-+    i2c_read_block(i2c, addr, 0, resp, sizeof(resp));
- 
-     /* check retrieved time againt local time */
-     g_assert_cmpuint(bcd2bin(resp[4]), == , tm_ptr->tm_mday);
-diff --git a/tests/libqos/i2c.c b/tests/libqos/i2c.c
-index 23bc2a3..daf9a96 100644
---- a/tests/libqos/i2c.c
-+++ b/tests/libqos/i2c.c
-@@ -21,3 +21,50 @@ void i2c_recv(I2CAdapter *i2c, uint8_t addr,
- {
-     i2c->recv(i2c, addr, buf, len);
- }
+     while (len > 0) {
++        data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CON);
++        if (len <= 4) {
++            g_assert((data & OMAP_I2C_CON_STP) == 0);
 +
-+void i2c_read_block(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
-+                       uint8_t *buf, uint16_t len)
-+{
-+    i2c_send(i2c, addr, &reg, 1);
-+    i2c_recv(i2c, addr, buf, len);
-+}
++            data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CNT);
++            g_assert_cmpuint(data, ==, orig_len);
++        } else {
++            g_assert((data & OMAP_I2C_CON_STP) != 0);
 +
-+void i2c_write_block(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
-+                     const uint8_t *buf, uint16_t len)
-+{
-+    uint8_t *cmd = g_malloc(len + 1);
-+    cmd[0] = reg;
-+    memcpy(&cmd[1], buf, len);
-+    i2c_send(i2c, addr, cmd, len + 1);
-+    g_free(cmd);
-+}
++            data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CNT);
++            g_assert_cmpuint(data, ==, len - 4);
++        }
 +
-+uint8_t i2c_get8(I2CAdapter *i2c, uint8_t addr, uint8_t reg)
-+{
-+    uint8_t resp[1];
-+    i2c_read_block(i2c, addr, reg, resp, sizeof(resp));
-+    return resp[0];
-+}
-+
-+uint16_t i2c_get16(I2CAdapter *i2c, uint8_t addr, uint8_t reg)
-+{
-+    uint8_t resp[2];
-+    i2c_read_block(i2c, addr, reg, resp, sizeof(resp));
-+    return (resp[0] << 8) | resp[1];
-+}
-+
-+void i2c_set8(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
-+              uint8_t value)
-+{
-+    i2c_write_block(i2c, addr, reg, &value, 1);
-+}
-+
-+void i2c_set16(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
-+               uint16_t value)
-+{
-+    uint8_t data[2];
-+
-+    data[0] = value >> 8;
-+    data[1] = value & 255;
-+    i2c_write_block(i2c, addr, reg, data, sizeof(data));
-+}
-diff --git a/tests/libqos/i2c.h b/tests/libqos/i2c.h
-index cc01358..a462114 100644
---- a/tests/libqos/i2c.h
-+++ b/tests/libqos/i2c.h
-@@ -28,6 +28,17 @@ void i2c_send(I2CAdapter *i2c, uint8_t addr,
- void i2c_recv(I2CAdapter *i2c, uint8_t addr,
-               uint8_t *buf, uint16_t len);
- 
-+void i2c_read_block(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
-+                    uint8_t *buf, uint16_t len);
-+void i2c_write_block(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
-+                     const uint8_t *buf, uint16_t len);
-+uint8_t i2c_get8(I2CAdapter *i2c, uint8_t addr, uint8_t reg);
-+uint16_t i2c_get16(I2CAdapter *i2c, uint8_t addr, uint8_t reg);
-+void i2c_set8(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
-+              uint8_t value);
-+void i2c_set16(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
-+               uint16_t value);
-+
- /* libi2c-omap.c */
- I2CAdapter *omap_i2c_create(QTestState *qts, uint64_t addr);
- 
-diff --git a/tests/pca9552-test.c b/tests/pca9552-test.c
-index 5466a67..06359b7 100644
---- a/tests/pca9552-test.c
-+++ b/tests/pca9552-test.c
-@@ -18,27 +18,6 @@
- 
- static I2CAdapter *i2c;
- 
--static uint8_t pca9552_get8(I2CAdapter *i2c, uint8_t addr, uint8_t reg)
--{
--    uint8_t resp[1];
--    i2c_send(i2c, addr, &reg, 1);
--    i2c_recv(i2c, addr, resp, 1);
--    return resp[0];
--}
--
--static void pca9552_set8(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
--                         uint8_t value)
--{
--    uint8_t cmd[2];
--    uint8_t resp[1];
--
--    cmd[0] = reg;
--    cmd[1] = value;
--    i2c_send(i2c, addr, cmd, 2);
--    i2c_recv(i2c, addr, resp, 1);
--    g_assert_cmphex(resp[0], ==, cmd[1]);
--}
--
- static void receive_autoinc(void)
- {
-     uint8_t resp;
-@@ -67,26 +46,26 @@ static void send_and_receive(void)
- {
-     uint8_t value;
- 
--    value = pca9552_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0);
-+    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0);
-     g_assert_cmphex(value, ==, 0x55);
- 
--    value = pca9552_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
-+    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
-     g_assert_cmphex(value, ==, 0x0);
- 
-     /* Switch on LED 0 */
--    pca9552_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0, 0x54);
--    value = pca9552_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0);
-+    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0, 0x54);
-+    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0);
-     g_assert_cmphex(value, ==, 0x54);
- 
--    value = pca9552_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
-+    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
-     g_assert_cmphex(value, ==, 0x01);
- 
-     /* Switch on LED 12 */
--    pca9552_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3, 0x54);
--    value = pca9552_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3);
-+    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3, 0x54);
-+    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3);
-     g_assert_cmphex(value, ==, 0x54);
- 
--    value = pca9552_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT1);
-+    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT1);
-     g_assert_cmphex(value, ==, 0x10);
- }
- 
-diff --git a/tests/tmp105-test.c b/tests/tmp105-test.c
-index 34cae7a..c86d257 100644
---- a/tests/tmp105-test.c
-+++ b/tests/tmp105-test.c
-@@ -19,50 +19,6 @@
- 
- static I2CAdapter *i2c;
- 
--static uint16_t tmp105_get8(I2CAdapter *i2c, uint8_t addr, uint8_t reg)
--{
--    uint8_t resp[1];
--    i2c_send(i2c, addr, &reg, 1);
--    i2c_recv(i2c, addr, resp, 1);
--    return resp[0];
--}
--
--static uint16_t tmp105_get16(I2CAdapter *i2c, uint8_t addr, uint8_t reg)
--{
--    uint8_t resp[2];
--    i2c_send(i2c, addr, &reg, 1);
--    i2c_recv(i2c, addr, resp, 2);
--    return (resp[0] << 8) | resp[1];
--}
--
--static void tmp105_set8(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
--                        uint8_t value)
--{
--    uint8_t cmd[2];
--    uint8_t resp[1];
--
--    cmd[0] = reg;
--    cmd[1] = value;
--    i2c_send(i2c, addr, cmd, 2);
--    i2c_recv(i2c, addr, resp, 1);
--    g_assert_cmphex(resp[0], ==, cmd[1]);
--}
--
--static void tmp105_set16(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
--                         uint16_t value)
--{
--    uint8_t cmd[3];
--    uint8_t resp[2];
--
--    cmd[0] = reg;
--    cmd[1] = value >> 8;
--    cmd[2] = value & 255;
--    i2c_send(i2c, addr, cmd, 3);
--    i2c_recv(i2c, addr, resp, 2);
--    g_assert_cmphex(resp[0], ==, cmd[1]);
--    g_assert_cmphex(resp[1], ==, cmd[2]);
--}
--
- static int qmp_tmp105_get_temperature(const char *id)
- {
-     QDict *response;
-@@ -94,14 +50,14 @@ static void send_and_receive(void)
-     value = qmp_tmp105_get_temperature(TMP105_TEST_ID);
-     g_assert_cmpuint(value, ==, 0);
- 
--    value = tmp105_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-+    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-     g_assert_cmphex(value, ==, 0);
- 
-     qmp_tmp105_set_temperature(TMP105_TEST_ID, 20000);
-     value = qmp_tmp105_get_temperature(TMP105_TEST_ID);
-     g_assert_cmpuint(value, ==, 20000);
- 
--    value = tmp105_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-+    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-     g_assert_cmphex(value, ==, 0x1400);
- 
-     qmp_tmp105_set_temperature(TMP105_TEST_ID, 20938); /* 20 + 15/16 */
-@@ -110,24 +66,27 @@ static void send_and_receive(void)
-     g_assert_cmpuint(value, <, 20938 + TMP105_PRECISION/2);
- 
-     /* Set config */
--    tmp105_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x60);
--    value = tmp105_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG);
-+    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x60);
-+    value = i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG);
-     g_assert_cmphex(value, ==, 0x60);
- 
--    value = tmp105_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-+    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-     g_assert_cmphex(value, ==, 0x14f0);
- 
-     /* Set precision to 9, 10, 11 bits.  */
--    tmp105_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x00);
--    value = tmp105_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-+    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x00);
-+    g_assert_cmphex(i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG), ==, 0x00);
-+    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-     g_assert_cmphex(value, ==, 0x1480);
- 
--    tmp105_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x20);
--    value = tmp105_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-+    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x20);
-+    g_assert_cmphex(i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG), ==, 0x20);
-+    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-     g_assert_cmphex(value, ==, 0x14c0);
- 
--    tmp105_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x40);
--    value = tmp105_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-+    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x40);
-+    g_assert_cmphex(i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG), ==, 0x40);
-+    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-     g_assert_cmphex(value, ==, 0x14e0);
- 
-     /* stored precision remains the same */
-@@ -135,12 +94,15 @@ static void send_and_receive(void)
-     g_assert_cmpuint(value, >=, 20938 - TMP105_PRECISION/2);
-     g_assert_cmpuint(value, <, 20938 + TMP105_PRECISION/2);
- 
--    tmp105_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x60);
--    value = tmp105_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-+    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x60);
-+    g_assert_cmphex(i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG), ==, 0x60);
-+    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
-     g_assert_cmphex(value, ==, 0x14f0);
- 
--    tmp105_set16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_LOW, 0x1234);
--    tmp105_set16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_HIGH, 0x4231);
-+    i2c_set16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_LOW, 0x1234);
-+    g_assert_cmphex(i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_LOW), ==, 0x1234);
-+    i2c_set16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_HIGH, 0x4231);
-+    g_assert_cmphex(i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_HIGH), ==, 0x4231);
- }
- 
- int main(int argc, char **argv)
+         data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_STAT);
+         g_assert((data & OMAP_I2C_STAT_RRDY) != 0);
+         g_assert((data & OMAP_I2C_STAT_ROVR) == 0);
 -- 
 1.8.3.1
 
