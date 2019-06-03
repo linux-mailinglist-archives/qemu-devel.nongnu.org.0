@@ -2,74 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6456132912
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 09:04:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58844 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82128328E2
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 08:53:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58688 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXh1S-0000yU-KE
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 03:04:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50621)
+	id 1hXgqi-0000F1-2X
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 02:53:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49430)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hXgsg-0002gf-QK
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:55:43 -0400
+	(envelope-from <peterx@redhat.com>) id 1hXgoD-0007HF-FC
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:51:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hXgsf-00071i-BX
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:55:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47772)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hXgsf-00070L-1B
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:55:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hXgsc-0003v7-PU
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 06:55:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id BED432E80CB
-	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 06:55:38 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 Jun 2019 06:45:23 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1830821@bugs.launchpad.net>
+	(envelope-from <peterx@redhat.com>) id 1hXgoC-0001sE-39
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:51:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47322)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hXgoB-0001qD-Rr
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:51:04 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 781A82F8BE5
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 06:51:02 +0000 (UTC)
+Received: from xz-x1.nay.redhat.com (dhcp-15-205.nay.redhat.com [10.66.15.205])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 286894E6AA;
+	Mon,  3 Jun 2019 06:50:57 +0000 (UTC)
+From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=intel; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
-	status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
-	component=main; status=Confirmed; importance=Wishlist;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=cosmic; sourcepackage=qemu; 
-	component=main; status=Confirmed; importance=Wishlist;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
-	component=main; status=Fix Released; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug-Tags: intel-virt-19.10 qemu-19.10
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paelzer quanxian-wang sbeattie
-X-Launchpad-Bug-Reporter: quanxian (quanxian-wang)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
-	=?utf-8?q?=29?=
-References: <155909595152.12810.1489513977238974514.malonedeb@soybean.canonical.com>
-Message-Id: <155954432307.24515.10059972768129249740.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18968";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: bd68244785db41f7fad8ef940f01055721235083
+Date: Mon,  3 Jun 2019 14:50:45 +0800
+Message-Id: <20190603065056.25211-1-peterx@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.38]);
+	Mon, 03 Jun 2019 06:51:02 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1830821] Re: Expose ARCH_CAP_MDS_NO in guest
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v4 00/11] kvm/migration: support
+ KVM_CLEAR_DIRTY_LOG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,77 +52,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1830821 <1830821@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+	peterx@redhat.com, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is done upstream, no need for the upstream bug task.
-For Ubuntu I'll update the tasks to match the statement of sbeattie.
-There are discussions to reconsider some of the backports, but unfortunatel=
-y the IA32_ARCH_CAPABILITIES infrastructure is a rather big set of changes.
+v4:
+- add r-bs for Dave & Juan
+- dropped patch 1 since queued
+- fixup misc places in bitmap patch [Dave]
+- indent and naming fixes in "pass mr into snapshot_and_clear_dirty"
+  [Dave]
+- allocate kvmslot dirty_bmap on first usage [Dave]
+- comment fixup in clear-log split patch [Dave]
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+v3:
+- drop header update because another same patch already merged in
+  master by cohuck
+- drop qmp/hmp patches [Paolo]
+- comment fixes [Paolo]
+- fix misuse of kvm cap names in either strings or commit messages [Paolo]
 
-** Also affects: qemu (Ubuntu Cosmic)
-   Importance: Undecided
-       Status: New
+v2:
+- rebase, add r-bs from Paolo
+- added a few patches
+  - linux-headers: Update to Linux 5.2-rc1
+    this is needed because we've got a new cap in kvm
+  - checkpatch: Allow SPDX-License-Identifier
+    picked up the standalone patch into the series in case it got lost
+  - hmp: Expose manual_dirty_log_protect via "info kvm"
+    qmp: Expose manual_dirty_log_protect via "query-kvm"
+    add interface to detect the new kvm capability
+- switched default chunk size to 128M
 
-** Also affects: qemu (Ubuntu Disco)
-   Importance: Undecided
-       Status: New
+Performance update is here:
 
-** Also affects: qemu (Ubuntu Bionic)
-   Importance: Undecided
-       Status: New
+  https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03621.html
 
-** Changed in: qemu (Ubuntu Disco)
-       Status: New =3D> Fix Released
+Summary
+=====================
 
-** Changed in: qemu (Ubuntu)
-       Status: New =3D> Fix Released
+This series allows QEMU to start using the new KVM_CLEAR_DIRTY_LOG
+interface. For more on KVM_CLEAR_DIRTY_LOG itself, please refer to:
 
-** Changed in: qemu (Ubuntu Bionic)
-   Importance: Undecided =3D> Wishlist
+  https://github.com/torvalds/linux/blob/master/Documentation/virtual/kvm/api.txt#L3810
 
-** Changed in: qemu (Ubuntu Cosmic)
-   Importance: Undecided =3D> Wishlist
+The QEMU work (which is this series) is pushed too, please find the
+tree here:
 
-** Changed in: qemu (Ubuntu Bionic)
-       Status: New =3D> Confirmed
+  https://github.com/xzpeter/qemu/tree/kvm-clear-dirty-log
 
-** Changed in: qemu (Ubuntu Cosmic)
-       Status: New =3D> Confirmed
+Meanwhile, For anyone who really wants to try this out, please also
+upgrade the host kernel to linux 5.2-rc1.
 
--- =
+Design
+===================
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1830821
+I started with a naive/stupid design that I always pass all 1's to the
+KVM for a memory range to clear all the dirty bits within that memory
+range, but then I encountered guest oops - it's simply because we
+can't clear any dirty bit from QEMU if we are not _sure_ that the bit
+is dirty in the kernel.  Otherwise we might accidentally clear a bit
+that we don't even know of (e.g., the bit was clear in migration's
+dirty bitmap in QEMU) but actually that page was just being written so
+QEMU will never remember to migrate that new page again.
 
-Title:
-  Expose ARCH_CAP_MDS_NO in guest
+The new design is focused on a dirty bitmap cache within the QEMU kvm
+layer (which is per kvm memory slot).  With that we know what's dirty
+in the kernel previously (note! the kernel bitmap is still growing all
+the time so the cache will only be a subset of the realtime kernel
+bitmap but that's far enough for us) and with that we'll be sure to
+not accidentally clear unknown dirty pages.
 
-Status in intel:
-  New
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Bionic:
-  Confirmed
-Status in qemu source package in Cosmic:
-  Confirmed
-Status in qemu source package in Disco:
-  Fix Released
+With this method, we can also avoid race when multiple users (e.g.,
+DIRTY_MEMORY_VGA and DIRTY_MEMORY_MIGRATION) want to clear the bit for
+multiple time.  If without the kvm memory slot cached dirty bitmap we
+won't be able to know which bit has been cleared and then if we send
+the CLEAR operation upon the same bit twice (or more) we can still
+face the same issue to clear something accidentally while we
+shouldn't.
 
-Bug description:
-  Description:
+Summary: we really need to be careful on what bit to clear otherwise
+we can face anything after the migration completes.  And I hope this
+series has considered all about this.
 
-  MDS_NO is bit 5 of ARCH_CAPABILITIES. Expose this bit to guest.
+Besides the new KVM cache layer and the new ioctl support, this series
+introduced the memory_region_clear_dirty_bitmap() in the memory API
+layer to allow clearing dirty bits of a specific memory range within
+the memory region.
 
-  Target Qemu: 4.1
+Please have a look, thanks.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/intel/+bug/1830821/+subscriptions
+Peter Xu (11):
+  migration: No need to take rcu during sync_dirty_bitmap
+  memory: Remove memory_region_get_dirty()
+  memory: Don't set migration bitmap when without migration
+  bitmap: Add bitmap_copy_with_{src|dst}_offset()
+  memory: Pass mr into snapshot_and_clear_dirty
+  memory: Introduce memory listener hook log_clear()
+  kvm: Update comments for sync_dirty_bitmap
+  kvm: Persistent per kvmslot dirty bitmap
+  kvm: Introduce slots lock for memory listener
+  kvm: Support KVM_CLEAR_DIRTY_LOG
+  migration: Split log_clear() into smaller chunks
+
+ accel/kvm/kvm-all.c      | 260 ++++++++++++++++++++++++++++++++++++---
+ accel/kvm/trace-events   |   1 +
+ exec.c                   |  15 ++-
+ include/exec/memory.h    |  36 +++---
+ include/exec/ram_addr.h  |  92 +++++++++++++-
+ include/qemu/bitmap.h    |   9 ++
+ include/sysemu/kvm_int.h |   4 +
+ memory.c                 |  64 ++++++++--
+ migration/migration.c    |   4 +
+ migration/migration.h    |  27 ++++
+ migration/ram.c          |  45 +++++++
+ migration/trace-events   |   1 +
+ tests/Makefile.include   |   2 +
+ tests/test-bitmap.c      |  72 +++++++++++
+ util/bitmap.c            |  85 +++++++++++++
+ 15 files changed, 663 insertions(+), 54 deletions(-)
+ create mode 100644 tests/test-bitmap.c
+
+-- 
+2.17.1
+
 
