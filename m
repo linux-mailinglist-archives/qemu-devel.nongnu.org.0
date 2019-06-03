@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559FD32D02
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 11:37:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60526 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C05132D25
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 11:49:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60613 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXjPh-000364-IS
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 05:37:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55439)
+	id 1hXjaj-0005hW-Ls
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 05:49:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57678)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hXjOb-0002Ff-II
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:36:51 -0400
+	(envelope-from <Mateja.Marjanovic@rt-rk.com>) id 1hXjZa-0005Or-KT
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:48:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hXjOT-0003Q7-Tc
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:36:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56942)
+	(envelope-from <Mateja.Marjanovic@rt-rk.com>) id 1hXjZY-00030h-Kv
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:48:10 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:43567 helo=mail.rt-rk.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hXjOM-0003DM-2a
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:36:34 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B968B3086258
-	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 09:36:32 +0000 (UTC)
-Received: from work-vm (ovpn-117-145.ams2.redhat.com [10.36.117.145])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9290A1B465;
-	Mon,  3 Jun 2019 09:36:29 +0000 (UTC)
-Date: Mon, 3 Jun 2019 10:36:26 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Message-ID: <20190603093626.GD2640@work-vm>
-References: <20190603065056.25211-1-peterx@redhat.com>
-	<20190603065056.25211-6-peterx@redhat.com>
+	(Exim 4.71) (envelope-from <Mateja.Marjanovic@rt-rk.com>)
+	id 1hXjZY-0000k6-4b
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:48:08 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rt-rk.com (Postfix) with ESMTP id 04E231A1DE0;
+	Mon,  3 Jun 2019 11:47:00 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from [10.10.13.110] (rtrkw310-lin.domain.local [10.10.13.110])
+	by mail.rt-rk.com (Postfix) with ESMTPSA id D90201A1CBC;
+	Mon,  3 Jun 2019 11:46:59 +0200 (CEST)
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>
+References: <1551718283-4487-1-git-send-email-mateja.marjanovic@rt-rk.com>
+	<1551718283-4487-2-git-send-email-mateja.marjanovic@rt-rk.com>
+	<BN6PR2201MB1251E8A4D8209209DAC36D69C61A0@BN6PR2201MB1251.namprd22.prod.outlook.com>
+	<CAL1e-=gfyTOeYZtgZ=xpgUDje2jG1N05cH9-2-dCcgMcaoJ21A@mail.gmail.com>
+From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
+Message-ID: <f7e0f304-ddb7-60a9-3faf-c9c0d5c6668c@rt-rk.com>
+Date: Mon, 3 Jun 2019 11:46:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190603065056.25211-6-peterx@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Mon, 03 Jun 2019 09:36:32 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 05/11] memory: Pass mr into
- snapshot_and_clear_dirty
+In-Reply-To: <CAL1e-=gfyTOeYZtgZ=xpgUDje2jG1N05cH9-2-dCcgMcaoJ21A@mail.gmail.com>
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH 1/2] target/mips: Improve performance for
+ MSA binary operations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,71 +60,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
+	aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Also we change the 2nd parameter of it to be the relative offset
-> within the memory region. This is to be used in follow up patches.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On 2.6.19. 09:06, Aleksandar Markovic wrote:
+>
+>
+> On Jun 1, 2019 4:16 PM, "Aleksandar Markovic" <amarkovic@wavecomp.com=20
+> <mailto:amarkovic@wavecomp.com>> wrote:
+> >
+> > > From: Mateja Marjanovic <mateja.marjanovic@rt-rk.com=20
+> <mailto:mateja.marjanovic@rt-rk.com>>
+> > > Sent: Monday, March 4, 2019 5:51 PM
+> > > To: qemu-devel@nongnu.org <mailto:qemu-devel@nongnu.org>
+> > > Cc: aurelien@aurel32.net <mailto:aurelien@aurel32.net>; Aleksandar=20
+> Markovic; Aleksandar Rikalo
+> > > Subject: [PATCH 1/2] target/mips: Improve performance for MSA=20
+> binary operations
+> > >
+> > > From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com=20
+> <mailto:Mateja.Marjanovic@rt-rk.com>>
+> > >
+> > > Eliminate loops for better performance.
+> > >
+> > > Signed-off-by: Mateja Marjanovic <mateja.marjanovic@rt-rk.com=20
+> <mailto:mateja.marjanovic@rt-rk.com>>
+> > > ---
+> > >=C2=A0 target/mips/msa_helper.c | 43=20
+> ++++++++++++++++++++++++++++++-------------
+> > >=C2=A0 1 file changed, 30 insertions(+), 13 deletions(-)
+> > >
+> >
+> > The commit message should be a little bit more informative - for=20
+> example,
+> > it could list the affected instructions. Please consider other groups=
+ of
+> > MSA instructions that are implemented via helpers that use similar "f=
+or"
+> > loops. Otherwise:
+> >
+> > Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com=20
+> <mailto:amarkovic@wavecomp.com>>
+> >
+>
+> Mateja, you don't need to do anything regarding this patch, I am going=20
+> to fix the issues while appying.
+>
+Alright, thanks. :)
 
-> ---
->  exec.c                  | 3 ++-
->  include/exec/ram_addr.h | 2 +-
->  memory.c                | 3 +--
->  3 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/exec.c b/exec.c
-> index 4e734770c2..815e4f48b9 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -1387,9 +1387,10 @@ bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
->  }
->  
->  DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty
-> -     (ram_addr_t start, ram_addr_t length, unsigned client)
-> +    (MemoryRegion *mr, hwaddr offset, hwaddr length, unsigned client)
->  {
->      DirtyMemoryBlocks *blocks;
-> +    ram_addr_t start = memory_region_get_ram_addr(mr) + offset;
->      unsigned long align = 1UL << (TARGET_PAGE_BITS + BITS_PER_LEVEL);
->      ram_addr_t first = QEMU_ALIGN_DOWN(start, align);
->      ram_addr_t last  = QEMU_ALIGN_UP(start + length, align);
-> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-> index 79e70a96ee..a4456f3615 100644
-> --- a/include/exec/ram_addr.h
-> +++ b/include/exec/ram_addr.h
-> @@ -403,7 +403,7 @@ bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
->                                                unsigned client);
->  
->  DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty
-> -    (ram_addr_t start, ram_addr_t length, unsigned client);
-> +    (MemoryRegion *mr, hwaddr offset, hwaddr length, unsigned client);
->  
->  bool cpu_physical_memory_snapshot_get_dirty(DirtyBitmapSnapshot *snap,
->                                              ram_addr_t start,
-> diff --git a/memory.c b/memory.c
-> index cff0ea8f40..84bba7b65c 100644
-> --- a/memory.c
-> +++ b/memory.c
-> @@ -2071,8 +2071,7 @@ DirtyBitmapSnapshot *memory_region_snapshot_and_clear_dirty(MemoryRegion *mr,
->  {
->      assert(mr->ram_block);
->      memory_region_sync_dirty_bitmap(mr);
-> -    return cpu_physical_memory_snapshot_and_clear_dirty(
-> -                memory_region_get_ram_addr(mr) + addr, size, client);
-> +    return cpu_physical_memory_snapshot_and_clear_dirty(mr, addr, size, client);
->  }
->  
->  bool memory_region_snapshot_get_dirty(MemoryRegion *mr, DirtyBitmapSnapshot *snap,
-> -- 
-> 2.17.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Regards,
+Mateja
+>
+> Thanks, Aleksandar
+>
+> > > diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+> > > index 4c7ec05..1152fda 100644
+> > > --- a/target/mips/msa_helper.c
+> > > +++ b/target/mips/msa_helper.c
+> > > @@ -804,28 +804,45 @@ void helper_msa_ ## func ## _df(CPUMIPSState=20
+> *env, uint32_t > df,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > >=C2=A0 =C2=A0 =C2=A0 wr_t *pwd =3D &(env->active_fpu.fpr[wd].wr);=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=20
+> =C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 wr_t *pws =3D &(env->active_fpu.fpr[ws].wr);=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=20
+> =C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 wr_t *pwt =3D &(env->active_fpu.fpr[wt].wr);=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=20
+> =C2=A0 =C2=A0 =C2=A0 \
+> > > -=C2=A0 =C2=A0 uint32_t i; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 switch (df) { =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > >=C2=A0 =C2=A0 =C2=A0 case DF_BYTE: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i < DF_ELEMENTS(DF_BYTE)=
+; i++) {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=20
+> =C2=A0 =C2=A0 =C2=A0 \
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[i] =3D msa_ ## fu=
+nc ## _df(df, pws->b[i],=20
+> pwt->b[i]);=C2=A0 \
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 } =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[0]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[0],=20
+> pwt->b[0]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[1]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[1],=20
+> pwt->b[1]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[2]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[2],=20
+> pwt->b[2]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[3]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[3],=20
+> pwt->b[3]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[4]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[4],=20
+> pwt->b[4]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[5]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[5],=20
+> pwt->b[5]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[6]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[6],=20
+> pwt->b[6]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[7]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[7],=20
+> pwt->b[7]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[8]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[8],=20
+> pwt->b[8]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[9]=C2=A0 =3D msa_ ## func ## _d=
+f(df, pws->b[9],=20
+> pwt->b[9]);=C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[10] =3D msa_ ## func ## _df(df,=
+ pws->b[10],=20
+> pwt->b[10]);=C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[11] =3D msa_ ## func ## _df(df,=
+ pws->b[11],=20
+> pwt->b[11]);=C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[12] =3D msa_ ## func ## _df(df,=
+ pws->b[12],=20
+> pwt->b[12]);=C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[13] =3D msa_ ## func ## _df(df,=
+ pws->b[13],=20
+> pwt->b[13]);=C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[14] =3D msa_ ## func ## _df(df,=
+ pws->b[14],=20
+> pwt->b[14]);=C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->b[15] =3D msa_ ## func ## _df(df,=
+ pws->b[15],=20
+> pwt->b[15]);=C2=A0 =C2=A0\
+> > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break; =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 case DF_HALF: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i < DF_ELEMENTS(DF_HALF)=
+; i++) {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=20
+> =C2=A0 =C2=A0 =C2=A0 \
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->h[i] =3D msa_ ## fu=
+nc ## _df(df, pws->h[i],=20
+> pwt->h[i]);=C2=A0 \
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 } =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->h[0] =3D msa_ ## func ## _df(df, =
+pws->h[0],=20
+> pwt->h[0]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->h[1] =3D msa_ ## func ## _df(df, =
+pws->h[1],=20
+> pwt->h[1]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->h[2] =3D msa_ ## func ## _df(df, =
+pws->h[2],=20
+> pwt->h[2]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->h[3] =3D msa_ ## func ## _df(df, =
+pws->h[3],=20
+> pwt->h[3]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->h[4] =3D msa_ ## func ## _df(df, =
+pws->h[4],=20
+> pwt->h[4]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->h[5] =3D msa_ ## func ## _df(df, =
+pws->h[5],=20
+> pwt->h[5]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->h[6] =3D msa_ ## func ## _df(df, =
+pws->h[6],=20
+> pwt->h[6]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->h[7] =3D msa_ ## func ## _df(df, =
+pws->h[7],=20
+> pwt->h[7]);=C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break; =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 case DF_WORD: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i < DF_ELEMENTS(DF_WORD)=
+; i++) {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=20
+> =C2=A0 =C2=A0 =C2=A0 \
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->w[i] =3D msa_ ## fu=
+nc ## _df(df, pws->w[i],=20
+> pwt->w[i]);=C2=A0 \
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 } =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->w[0] =3D msa_ ## func ## _df(df, =
+pws->w[0],=20
+> pwt->w[0]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->w[1] =3D msa_ ## func ## _df(df, =
+pws->w[1],=20
+> pwt->w[1]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->w[2] =3D msa_ ## func ## _df(df, =
+pws->w[2],=20
+> pwt->w[2]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->w[3] =3D msa_ ## func ## _df(df, =
+pws->w[3],=20
+> pwt->w[3]);=C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break; =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 case DF_DOUBLE: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i < DF_ELEMENTS(DF_DOUBL=
+E); i++) {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=20
+> =C2=A0 =C2=A0 =C2=A0 \
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->d[i] =3D msa_ ## fu=
+nc ## _df(df, pws->d[i],=20
+> pwt->d[i]);=C2=A0 \
+> > > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 } =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->d[0] =3D msa_ ## func ## _df(df, =
+pws->d[0],=20
+> pwt->d[0]);=C2=A0 =C2=A0 =C2=A0 \
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pwd->d[1] =3D msa_ ## func ## _df(df, =
+pws->d[1],=20
+> pwt->d[1]);=C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break; =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 default: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 \
+> > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(0); =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \
+> > > --
+> > > 2.7.4
+> > >
+> > >
+>
