@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D973304A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:52:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34710 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E1833057
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:56:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34800 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXmSJ-0004Db-Dn
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:52:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38124)
+	id 1hXmWC-0007ak-SS
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:56:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37968)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmL1-0007Hi-M4
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:45:20 -0400
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmKz-0007F5-8u
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:45:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmEc-0006Re-TV
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:38:43 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38645)
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmEi-0006fZ-4E
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:38:49 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:40546)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
-	id 1hXmEc-0006Od-No; Mon, 03 Jun 2019 08:38:42 -0400
-Received: by mail-pf1-x441.google.com with SMTP id a186so9851429pfa.5;
-	Mon, 03 Jun 2019 05:38:42 -0700 (PDT)
+	id 1hXmEh-0006dJ-U6; Mon, 03 Jun 2019 08:38:48 -0400
+Received: by mail-pf1-x443.google.com with SMTP id u17so10554613pfn.7;
+	Mon, 03 Jun 2019 05:38:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=AaE53greKWPWfxk0mQUfYB5AefuproOTcNmfTvVZZOQ=;
-	b=DUYXA47HNd4n5tH0dcDQjkEwqzMz4Tb1O/hVVEy//XYXmyghlN9jrDYm6hJ0oEqCLK
-	Qq0ea6PtE2AZfSnAxSUiIHEEGI3iO5hPRuBgtFJ0Pkspsni6njaRUD+vVi/9YCm2K3CD
-	hkujHLzILUa1oRO1rloK+ZPGZg1EiwroUB7d3h8hGUSecPVDBEhNQ96ekqX/a77oTEWO
-	zAP3AgRGQ2O35UB/LYwstHJ3QTKKL1JichsQRohpvEgASU5bkjAs6dSZNiyfessYoMnB
-	9SMMRi4ZoV5CZUndWIp2kF3Es3wdDIoObYe0A655naVzIVxSKftjfC3zd+t3dmowlxap
-	WG6w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=oqhNazyySRIYrazXPTmYq2UuxaK7vSiSAxrOSw+gi18=;
+	b=X5zU45LkjQ1Ga143ma3aoN7U20HmsbW/2kKh9+4R0rbAHRbnonp4OVOv0OGsgy4S0q
+	wdDxCbPGdZ6LT+J9MJ1BoChgqlYepuZ8tkGXzmG2GTXSSwbyKYZI/TAQxgXo1KEhDto1
+	uD8l66qORzJuL3F+fcsLdkToC5GX1E99dVBIqu5EbTfIvyLaKlZ6lFWU6BURBF6VLycF
+	jJ0zwe8CwIsGEZSDACa1UjrDJ/OxjJrg9ngai5LzdHxAEHZKXTg3IDCiM32NJAx+PaIv
+	9oZYgzMGKDroRK+uNPxNqnIJ6bvJoSBh7Ni3FgDmUbhfFpvThfYP0jqbpwmqH4EpygwE
+	z0LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=AaE53greKWPWfxk0mQUfYB5AefuproOTcNmfTvVZZOQ=;
-	b=tPXYZGi8ev6NDURdLfajZ4IllQ47C0BiGkb9dzAvmIkKQU690N41HirwPmpqVBl331
-	VH2xI+TPpCI0uyIy6taUfbJmcMkFFjlhOYa5k4wh2K1/3zTuOmzy7gx1ftyFOT1vFlV4
-	kGuP0pIjsI9i4yA9sqvXBoIhHwo4x0HUkZ45R3txQOMtuzCHqEZE8/h7NUiEgXcISfQI
-	rh1z3pzUfaAzMamuDHmNxy/EzsPq0Pab2TvjNP+2lRjuQiAU+nKr2T6pfDvunDpQZPx/
-	EVV99nXRA0ggua7CeORS0DkvrGSTPB82kfDCSK/FCHJmxX4AjFc+PHVGLyJR+HgflhTt
-	47qg==
-X-Gm-Message-State: APjAAAV4R6kej3Xvqcsc/0WDMmV07lWX78P0gzSa+l1OLSktlBx8hFMO
-	u4YB21tgVXIijgQe7Je4FVPqF3u0Jko=
-X-Google-Smtp-Source: APXvYqzzvWW2oFT9ZfvdKKpVndcWUjwUvreK6vzchv2vVXUAxuYY79xHjOBsqSZzjB1RTOLcRhT4sA==
-X-Received: by 2002:a65:62c7:: with SMTP id m7mr28340474pgv.223.1559565520815; 
-	Mon, 03 Jun 2019 05:38:40 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=oqhNazyySRIYrazXPTmYq2UuxaK7vSiSAxrOSw+gi18=;
+	b=mRK4/EM3iTvcfhG0DtHJ379LvqveuENioNobNjWUbGdIZc1LpxdfKmRxUQWI6n5QCx
+	uyv/Hs0LsycLXw54ywMyesCVDa/g2nyuc0+a44xiC3jEHl/RSvCRuHQOcq5LC9GtAr8j
+	zzWGIKt3+PBZP895LYsU9KjyaPLwmg2/AuMbRjHuqXjZoQcLzkhP3/kudQ9fmV189aBx
+	SXVZbnvEoSjvnkpBBoQhdczyoyIL1SB72WU4TtsLlSOBcTXM2qANvHSC1Dagx6jrCQGH
+	OgOgTMV93QKBUbFn84SQMPiSXUkhsqTdeBZzVQ5bNcdy0YL3dVohTZwBofNiCmyJNgOP
+	7KGQ==
+X-Gm-Message-State: APjAAAVrcttFCDgRFv31I53isl+z5RL0bUKeb/LbNsl5bS5l6uxOLqTG
+	JfkzTRB1H+achftrzCgI0U/mNwtc2hyP2w==
+X-Google-Smtp-Source: APXvYqwVrX5NKCCiwYQBLkeR4n8TGYYjFuVKRa2YBenJ8q8wOn80zybnckBdgHgmBR0wPF8xIiDQpA==
+X-Received: by 2002:a65:620d:: with SMTP id d13mr28332716pgv.109.1559565526565;
+	Mon, 03 Jun 2019 05:38:46 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.100])
 	by smtp.gmail.com with ESMTPSA id
-	k14sm34860257pga.5.2019.06.03.05.38.33
+	k14sm34860257pga.5.2019.06.03.05.38.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 05:38:40 -0700 (PDT)
+	Mon, 03 Jun 2019 05:38:45 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 18:08:14 +0530
-Message-Id: <20190603123823.32661-1-mehta.aaru20@gmail.com>
+Date: Mon,  3 Jun 2019 18:08:15 +0530
+Message-Id: <20190603123823.32661-2-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190603123823.32661-1-mehta.aaru20@gmail.com>
+References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v4 0/9] Add support for io_uring
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH v4 1/9] configure: permit use of io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,53 +82,85 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series adds support for the newly developed io_uring Linux AIO
-interface. Linux io_uring is faster than Linux's AIO asynchronous I/O code,
-offers efficient buffered asynchronous I/O support, the ability to do I/O
-without performing a system call via polled I/O, and other efficiency enhancements.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+---
+ configure | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Testing it requires a host kernel (5.1+) and the liburing library.
-Use the option -drive aio=io_uring to enable it.
-
-v4:
-- Add error handling
-- Add trace events
-- Remove aio submission based code
-
-v3:
-- Fix major errors in io_uring (sorry)
-- Option now enumerates for CONFIG_LINUX_IO_URING
-- pkg config support added
-
-Aarushi Mehta (9):
-  configure: permit use of io_uring
-  qapi/block-core: add option for io_uring
-  block/block: add BDRV flag for io_uring
-  block/io_uring: implements interfaces for io_uring
-  stubs: add stubs for io_uring interface
-  util/async: add aio interfaces for io_uring
-  blockdev: accept io_uring as option
-  block/file-posix.c: extend to use io_uring
-  block: add trace events for io_uring
-
- MAINTAINERS             |   8 +
- block/Makefile.objs     |   3 +
- block/file-posix.c      |  85 +++++++++--
- block/io_uring.c        | 325 ++++++++++++++++++++++++++++++++++++++++
- block/trace-events      |   8 +
- blockdev.c              |   4 +-
- configure               |  27 ++++
- include/block/aio.h     |  16 +-
- include/block/block.h   |   1 +
- include/block/raw-aio.h |  12 ++
- qapi/block-core.json    |   4 +-
- stubs/Makefile.objs     |   1 +
- stubs/io_uring.c        |  32 ++++
- util/async.c            |  36 +++++
- 14 files changed, 543 insertions(+), 19 deletions(-)
- create mode 100644 block/io_uring.c
- create mode 100644 stubs/io_uring.c
-
+diff --git a/configure b/configure
+index 6cdcfb2dc3..cb49ef0fcc 100755
+--- a/configure
++++ b/configure
+@@ -365,6 +365,7 @@ xen=""
+ xen_ctrl_version=""
+ xen_pci_passthrough=""
+ linux_aio=""
++linux_io_uring=""
+ cap_ng=""
+ attr=""
+ libattr=""
+@@ -1266,6 +1267,10 @@ for opt do
+   ;;
+   --enable-linux-aio) linux_aio="yes"
+   ;;
++  --disable-linux-io-uring) linux_io_uring="no"
++  ;;
++  --enable-linux-io-uring) linux_io_uring="yes"
++  ;;
+   --disable-attr) attr="no"
+   ;;
+   --enable-attr) attr="yes"
+@@ -1784,6 +1789,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   vde             support for vde network
+   netmap          support for netmap network
+   linux-aio       Linux AIO support
++  linux-io-uring  Linux io_uring support
+   cap-ng          libcap-ng support
+   attr            attr and xattr support
+   vhost-net       vhost-net kernel acceleration support
+@@ -3973,6 +3979,21 @@ EOF
+     linux_aio=no
+   fi
+ fi
++##########################################
++# linux-io-uring probe
++
++if test "$linux_io_uring" != "no" ; then
++  if $pkg_config liburing; then
++    linux_io_uring_cflags=$($pkg_config --cflags liburing)
++    linux_io_uring_libs=$($pkg_config --libs liburing)
++    linux_io_uring=yes
++  else
++    if test "$linux_io_uring" = "yes" ; then
++      feature_not_found "linux io_uring" "Install liburing devel"
++    fi
++    linux_io_uring=no
++  fi
++fi
+ 
+ ##########################################
+ # TPM emulation is only on POSIX
+@@ -6396,6 +6417,7 @@ echo "PIE               $pie"
+ echo "vde support       $vde"
+ echo "netmap support    $netmap"
+ echo "Linux AIO support $linux_aio"
++echo "Linux io_uring support $linux_io_uring"
+ echo "ATTR/XATTR support $attr"
+ echo "Install blobs     $blobs"
+ echo "KVM support       $kvm"
+@@ -6876,6 +6898,11 @@ fi
+ if test "$linux_aio" = "yes" ; then
+   echo "CONFIG_LINUX_AIO=y" >> $config_host_mak
+ fi
++if test "$linux_io_uring" = "yes" ; then
++  echo "CONFIG_LINUX_IO_URING=y" >> $config_host_mak
++  echo "LINUX_IO_URING_CFLAGS=$linux_io_uring_cflags" >> $config_host_mak
++  echo "LINUX_IO_URING_LIBS=$linux_io_uring_libs" >> $config_host_mak
++fi
+ if test "$attr" = "yes" ; then
+   echo "CONFIG_ATTR=y" >> $config_host_mak
+ fi
 -- 
 2.17.1
 
