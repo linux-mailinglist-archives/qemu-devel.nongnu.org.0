@@ -2,97 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1953305E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:58:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34825 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D973304A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:52:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34710 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXmXT-0000f7-9P
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:58:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38344)
+	id 1hXmSJ-0004Db-Dn
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:52:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38124)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hXmLS-0007ds-ID
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:45:47 -0400
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmL1-0007Hi-M4
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:45:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hXm6h-0000Wp-Q4
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:30:33 -0400
-Received: from mail-ve1eur02on071a.outbound.protection.outlook.com
-	([2a01:111:f400:fe06::71a]:64832
-	helo=EUR02-VE1-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hXm6b-0000Cc-Ix; Mon, 03 Jun 2019 08:30:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=g76GAh6EFwGJVi9aIAF6O4S/pIVWVHktHKFDY6oVxj4=;
-	b=Vvyx8Sr5h5UDdrJ8XzXdBaY12T8IWYgJMWNrIZUypwZpZXc3WKzoJMovtjSuzKIwkU1TgHEgoDCLuDuUEXOEXzfBIkznvipWgKbEoJpfZobt+xMaKhcsCgFUOWoyAe8r/ZJd9UrsGKS8n82r8IQUPx2QhS1fzxxig13FnHB68DY=
-Received: from AM0PR08MB2961.eurprd08.prod.outlook.com (52.134.126.11) by
-	AM0PR08MB4516.eurprd08.prod.outlook.com (20.179.36.76) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1943.22; Mon, 3 Jun 2019 12:30:21 +0000
-Received: from AM0PR08MB2961.eurprd08.prod.outlook.com
-	([fe80::8d90:32ae:bdd6:48e8]) by
-	AM0PR08MB2961.eurprd08.prod.outlook.com
-	([fe80::8d90:32ae:bdd6:48e8%7]) with mapi id 15.20.1943.018;
-	Mon, 3 Jun 2019 12:30:21 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
-	<qemu-block@nongnu.org>
-Thread-Topic: ping Re: [PATCH v5 0/3] Fix overflow bug in qcow2 discard
-Thread-Index: AQHU+dQTIRtQy84OJ0+wrrxOKT4l3aZ1sJyAgBRr6QA=
-Date: Mon, 3 Jun 2019 12:30:21 +0000
-Message-ID: <88b122de-aa79-0606-4718-1f2d9e543454@virtuozzo.com>
-References: <20190423125706.26989-1-vsementsov@virtuozzo.com>
-	<4d40c6f9-36c3-076e-16e2-84b8344704b1@virtuozzo.com>
-In-Reply-To: <4d40c6f9-36c3-076e-16e2-84b8344704b1@virtuozzo.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR07CA0036.eurprd07.prod.outlook.com
-	(2603:10a6:7:66::22) To AM0PR08MB2961.eurprd08.prod.outlook.com
-	(2603:10a6:208:66::11)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190603153011949
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: de4f1622-265f-4a3f-5ea2-08d6e81f3e9d
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:AM0PR08MB4516; 
-x-ms-traffictypediagnostic: AM0PR08MB4516:
-x-microsoft-antispam-prvs: <AM0PR08MB4516EC946AC0CF213109420EC1140@AM0PR08MB4516.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2887;
-x-forefront-prvs: 0057EE387C
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(366004)(136003)(376002)(396003)(39850400004)(346002)(189003)(199004)(478600001)(7736002)(66476007)(5660300002)(66946007)(73956011)(4744005)(6512007)(68736007)(66556008)(305945005)(66446008)(64756008)(486006)(25786009)(476003)(14454004)(71200400001)(2501003)(6436002)(2616005)(11346002)(31686004)(6486002)(256004)(66066001)(71190400001)(446003)(316002)(110136005)(4326008)(6506007)(386003)(54906003)(81166006)(81156014)(8936002)(8676002)(31696002)(102836004)(86362001)(99286004)(6116002)(52116002)(2906002)(186003)(53936002)(76176011)(36756003)(3846002)(26005);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4516;
-	H:AM0PR08MB2961.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: +jiHfdT1Eg2t8l2sJwK09Kq7NS8GcgGOp6O+yKn3hlp/cgLNdEunBjG6t9dLoW0V4P4ae0M/vdq6hco/B260PZ13cPGNLlwkpqYSMliGC4tGKg+F2OEAs1ziCzNu+6WV3FQst02Wl6EMYdLb/FLJne4bYpuwW0js//DvIFCyZYkrdxMuVnQEwZ4Znz3B+CfRdiny1rWoNTUBklAn/3INim+xJ7mBod9/b9AT0DiAMFxgA3zpOo1ifFg95IR2KiVGy/xgymIvfQf8lRYwYb7trY/XKI2+7x0P62pbaBR9E92F3dKTyODYZ6uuIw/AW5Qn5mOZiZoSoBlAPOc/nD8rDHGz2mW1uEXRVXQWjaXBoFGwJro8ydSTozFYr7Kl2avlnEpWqamm0LIUJ4zXcHaKx0Fh/2mLf/hZkayTnNVGe78=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EA7B8D2FE0FAFD4B80E5E9CF7D492D0A@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de4f1622-265f-4a3f-5ea2-08d6e81f3e9d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jun 2019 12:30:21.5432 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4516
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe06::71a
-Subject: [Qemu-devel] ping Re: [PATCH v5 0/3] Fix overflow bug in qcow2
- discard
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmEc-0006Re-TV
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:38:43 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38645)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
+	id 1hXmEc-0006Od-No; Mon, 03 Jun 2019 08:38:42 -0400
+Received: by mail-pf1-x441.google.com with SMTP id a186so9851429pfa.5;
+	Mon, 03 Jun 2019 05:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=AaE53greKWPWfxk0mQUfYB5AefuproOTcNmfTvVZZOQ=;
+	b=DUYXA47HNd4n5tH0dcDQjkEwqzMz4Tb1O/hVVEy//XYXmyghlN9jrDYm6hJ0oEqCLK
+	Qq0ea6PtE2AZfSnAxSUiIHEEGI3iO5hPRuBgtFJ0Pkspsni6njaRUD+vVi/9YCm2K3CD
+	hkujHLzILUa1oRO1rloK+ZPGZg1EiwroUB7d3h8hGUSecPVDBEhNQ96ekqX/a77oTEWO
+	zAP3AgRGQ2O35UB/LYwstHJ3QTKKL1JichsQRohpvEgASU5bkjAs6dSZNiyfessYoMnB
+	9SMMRi4ZoV5CZUndWIp2kF3Es3wdDIoObYe0A655naVzIVxSKftjfC3zd+t3dmowlxap
+	WG6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AaE53greKWPWfxk0mQUfYB5AefuproOTcNmfTvVZZOQ=;
+	b=tPXYZGi8ev6NDURdLfajZ4IllQ47C0BiGkb9dzAvmIkKQU690N41HirwPmpqVBl331
+	VH2xI+TPpCI0uyIy6taUfbJmcMkFFjlhOYa5k4wh2K1/3zTuOmzy7gx1ftyFOT1vFlV4
+	kGuP0pIjsI9i4yA9sqvXBoIhHwo4x0HUkZ45R3txQOMtuzCHqEZE8/h7NUiEgXcISfQI
+	rh1z3pzUfaAzMamuDHmNxy/EzsPq0Pab2TvjNP+2lRjuQiAU+nKr2T6pfDvunDpQZPx/
+	EVV99nXRA0ggua7CeORS0DkvrGSTPB82kfDCSK/FCHJmxX4AjFc+PHVGLyJR+HgflhTt
+	47qg==
+X-Gm-Message-State: APjAAAV4R6kej3Xvqcsc/0WDMmV07lWX78P0gzSa+l1OLSktlBx8hFMO
+	u4YB21tgVXIijgQe7Je4FVPqF3u0Jko=
+X-Google-Smtp-Source: APXvYqzzvWW2oFT9ZfvdKKpVndcWUjwUvreK6vzchv2vVXUAxuYY79xHjOBsqSZzjB1RTOLcRhT4sA==
+X-Received: by 2002:a65:62c7:: with SMTP id m7mr28340474pgv.223.1559565520815; 
+	Mon, 03 Jun 2019 05:38:40 -0700 (PDT)
+Received: from localhost.localdomain ([136.233.9.100])
+	by smtp.gmail.com with ESMTPSA id
+	k14sm34860257pga.5.2019.06.03.05.38.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Jun 2019 05:38:40 -0700 (PDT)
+From: Aarushi Mehta <mehta.aaru20@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  3 Jun 2019 18:08:14 +0530
+Message-Id: <20190603123823.32661-1-mehta.aaru20@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [PATCH v4 0/9] Add support for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,30 +71,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
-	Denis Lunev <den@virtuozzo.com>, "mreitz@redhat.com" <mreitz@redhat.com>,
-	"stefanha@redhat.com" <stefanha@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+	qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+	Max Reitz <mreitz@redhat.com>, saket.sinha89@gmail.com,
+	Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Julia Suvorova <jusual@mail.ru>, Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cGluZyAyMS4wNS4yMDE5IDEyOjM4LCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3Rl
-Og0KPiBwaW5nDQo+IA0KPiAyMy4wNC4yMDE5IDE1OjU3LCBWbGFkaW1pciBTZW1lbnRzb3YtT2dp
-ZXZza2l5IHdyb3RlOg0KPj4gdjU6IGJ5IEtldmluJ3MgY29tbWVudHMNCj4+IDAyOiBhZGQgY2hl
-Y2sgZm9yIGludmFsaWQgQGJ5dGVzIHBhcmFtZXRlciwgZHJvcCByLWINCj4+IDAzOiBtb3ZlIGZy
-b20gcWVtdS1pbWcgaW5mbyB0byBxZW11LWltZyBtYXAgLWYgcmF3LCBkcm9wIHItYiBhbmQgdC1i
-DQo+Pg0KPj4gVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSAoMyk6DQo+PiDCoMKgIGJsb2Nr
-L3Fjb3cyLXJlZmNvdW50OiBhZGQgdHJhY2UtcG9pbnQgdG8gcWNvdzJfcHJvY2Vzc19kaXNjYXJk
-cw0KPj4gwqDCoCBibG9jay9pbzogYmRydl9wZGlzY2FyZDogc3VwcG9ydCBpbnQ2NF90IGJ5dGVz
-IHBhcmFtZXRlcg0KPj4gwqDCoCBpb3Rlc3RzOiB0ZXN0IGJpZyBxY293MiBzaHJpbmsNCj4+DQo+
-PiDCoCBpbmNsdWRlL2Jsb2NrL2Jsb2NrLmjCoMKgwqDCoMKgIHzCoCA0ICstLQ0KPj4gwqAgYmxv
-Y2svaW8uY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMTYgKysrKy0tLS0tDQo+
-PiDCoCBibG9jay9xY293Mi1yZWZjb3VudC5jwqDCoMKgwqAgfMKgIDcgKysrLQ0KPj4gwqAgYmxv
-Y2svdHJhY2UtZXZlbnRzwqDCoMKgwqDCoMKgwqDCoCB8wqAgMyArKw0KPj4gwqAgdGVzdHMvcWVt
-dS1pb3Rlc3RzLzI1MMKgwqDCoMKgIHwgNzMgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysNCj4+IMKgIHRlc3RzL3FlbXUtaW90ZXN0cy8yNTAub3V0IHwgMjMgKysrKysrKysr
-KysrDQo+PiDCoCB0ZXN0cy9xZW11LWlvdGVzdHMvZ3JvdXDCoMKgIHzCoCAxICsNCj4+IMKgIDcg
-ZmlsZXMgY2hhbmdlZCwgMTE2IGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQ0KPj4gwqAg
-Y3JlYXRlIG1vZGUgMTAwNzU1IHRlc3RzL3FlbXUtaW90ZXN0cy8yNTANCj4+IMKgIGNyZWF0ZSBt
-b2RlIDEwMDY0NCB0ZXN0cy9xZW11LWlvdGVzdHMvMjUwLm91dA0KPj4NCj4gDQo+IA0KDQoNCi0t
-IA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+This patch series adds support for the newly developed io_uring Linux AIO
+interface. Linux io_uring is faster than Linux's AIO asynchronous I/O code,
+offers efficient buffered asynchronous I/O support, the ability to do I/O
+without performing a system call via polled I/O, and other efficiency enhancements.
+
+Testing it requires a host kernel (5.1+) and the liburing library.
+Use the option -drive aio=io_uring to enable it.
+
+v4:
+- Add error handling
+- Add trace events
+- Remove aio submission based code
+
+v3:
+- Fix major errors in io_uring (sorry)
+- Option now enumerates for CONFIG_LINUX_IO_URING
+- pkg config support added
+
+Aarushi Mehta (9):
+  configure: permit use of io_uring
+  qapi/block-core: add option for io_uring
+  block/block: add BDRV flag for io_uring
+  block/io_uring: implements interfaces for io_uring
+  stubs: add stubs for io_uring interface
+  util/async: add aio interfaces for io_uring
+  blockdev: accept io_uring as option
+  block/file-posix.c: extend to use io_uring
+  block: add trace events for io_uring
+
+ MAINTAINERS             |   8 +
+ block/Makefile.objs     |   3 +
+ block/file-posix.c      |  85 +++++++++--
+ block/io_uring.c        | 325 ++++++++++++++++++++++++++++++++++++++++
+ block/trace-events      |   8 +
+ blockdev.c              |   4 +-
+ configure               |  27 ++++
+ include/block/aio.h     |  16 +-
+ include/block/block.h   |   1 +
+ include/block/raw-aio.h |  12 ++
+ qapi/block-core.json    |   4 +-
+ stubs/Makefile.objs     |   1 +
+ stubs/io_uring.c        |  32 ++++
+ util/async.c            |  36 +++++
+ 14 files changed, 543 insertions(+), 19 deletions(-)
+ create mode 100644 block/io_uring.c
+ create mode 100644 stubs/io_uring.c
+
+-- 
+2.17.1
+
 
