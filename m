@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C133368F
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:27:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38469 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F4C336A8
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:29:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38496 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqjv-0002dn-5E
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:27:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43506)
+	id 1hXqmU-00057l-QO
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:29:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43573)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUV-0007Vf-5k
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:25 -0400
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUW-0007X3-Kk
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUT-0004dI-VE
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:23 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36700)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUU-0004eZ-6H
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:24 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54400)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hXqUQ-00041K-7v
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:20 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n4so9858167wrs.3
+	id 1hXqUT-00043E-UO
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:22 -0400
+Received: by mail-wm1-x342.google.com with SMTP id g135so8825733wme.4
 	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:subject:date:message-id:in-reply-to:references;
-	bh=vgPNCTWPR6hZCIfyU4XsAQRjfaEbN+8hR83G4zbsugU=;
-	b=ARBcdiR+Vqg8Mr/QTvJ6DNif9W59CXbdwM7AsKmKe/77/zALmnEtgkx3NL92oV6cj2
-	avU14ne22GwBsqfG7kH1fH3bZz/I/vL8l4dMMDM1hpOS1NY/5WC+mY8rq3ZhGWwsOLCg
-	RttDokmUvr13HtT13vd1B5Mdysjf69GyaFYhk8PDwNxW6iwhv+U8HgjNpEkRrJEd5/3H
-	OiIJixXh2TX6LoaSqplvWOf25duwdyNeS80TcQhb9E8TlC8g/zNZxQybp6eOfn42CJne
-	1w/lCvInEIeCl1AxFTZBnM9DIz8Ipl0E1HmLMBTu86hfQUsxqMZFX5PUNE/zkfd6HpiA
-	ZxaQ==
+	bh=hDt9uPR7rzEo7ud7l9pi841FaWW9ftZDCffNNeB3xZo=;
+	b=E3TfGzAj9MQcvKRYGTKKhQR/MCbZjR9Cl3BXMU8vZSlv5CmhmDhU1rSRd2BJte/plv
+	9twTo3giQF94g9yae201BoIH8XikmwS9m8bTkspcRsn/79v5mdHr/USZIpb9j2dw97p3
+	aNYDoQhKcTlNTX4sNuDuej5v2qWznWNT0nZZe01wX/nujLmpGov6lhrEChamxwqRVUpH
+	RUcUpT+qI3VPtcXwPhmn17Ifl30AnTspDTg1XTlNux9ZrXJE+tGOali8SPWNdJl37Bg5
+	gjl4ZGPLaaxKNATn5Wn3/cA6ZkJn3j8ZDZSVcAoAmuc1/vWZ0n7cFDlgwMg2IgBJjU2a
+	Pz+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:subject:date:message-id
 	:in-reply-to:references;
-	bh=vgPNCTWPR6hZCIfyU4XsAQRjfaEbN+8hR83G4zbsugU=;
-	b=IpOUQBMxiVn2NTv5PEbAf6AuNwrJL8ZDb8Q3DPyYoXFlreO1rOMU8st6TSmjiMYFLM
-	5w6oUHiLmI4UQAX4DUFUg8AgYkvvDU/1uv692V5UfVs11kRpWlOs1/ALWuTcLqXSTklm
-	Q62oLZxwELliJ3aQtqwRXjnx9qC3yRvioMri2DgqHX9uiaLtZhbfXtaMPDv8bgYiTJJc
-	uK0dPOCPze9WdXdYxELbwr8ryck1SSGQy6nPKoB0LNigk6FRU548Fez4oxmWElwddQgx
-	kJoY1OqIh4atVj2Jvmw+Bh6yKBm/4zuRKV9So8GtFlxAvf+i+5jW4hVkdcY5nNcbb/Mm
-	tIzA==
-X-Gm-Message-State: APjAAAVsL21oEwTeBHJqhGK7MKo3bOPCCEqLGDp/nlHq2Ot1nY9oB/rF
-	QFQV3IsO8gLjKA4gmhtyUNAJ0ZHB
-X-Google-Smtp-Source: APXvYqz5YXvvAhifupJE8LR96J/f/1waTbplqx6iaZBZNeNDNelYnaqS79+7ZeEZlo2Pxjjdtj1o6Q==
-X-Received: by 2002:adf:f544:: with SMTP id j4mr3421411wrp.150.1559581858567; 
-	Mon, 03 Jun 2019 10:10:58 -0700 (PDT)
+	bh=hDt9uPR7rzEo7ud7l9pi841FaWW9ftZDCffNNeB3xZo=;
+	b=OSTEP/MG7f/m2hgtsoMpw1jRgR+Q00Pv8srVgRNjh4/uKZ9et8wyqLwPphnC7Jkfsc
+	yHr8Bpo8nThAcgnQKx73vDeQtzMHwwuzV0QLFJJFa+g6xZMK0rf01We/abCGPdOQTlNK
+	XL91dWePrw9sa0EIHbbuCJJLNHM4an1BBk79OKfgiJe6hLXWHUvTdwedLIC7uCNKG8Ro
+	K+VvuiI+uTZ6NPZQRU/NqfIiKSiSaCAnkjp1a3H7/zgeRwKUN8gSbjfV1y6AmmfEvVuy
+	ZTaiW6YWkxeZowk0hVoKIa+vMDy3miHV3vFV23+S4ZQXXd7zDf2vtHMiQLLnbhmK5U5X
+	151A==
+X-Gm-Message-State: APjAAAXCBcjg+NQZiQJKlQEFAGl2kNzNO6Ek76xo9GTuueZp1jTb76so
+	kpo/skfA8z2bltQFDIEbHT3VUNKN
+X-Google-Smtp-Source: APXvYqxZi8LSLprypd4JzO8At29JdMqFoifjOjn+VIj4SVvByWBn6DRo7T924C8qklRMepfrZm+n7w==
+X-Received: by 2002:a1c:b3c3:: with SMTP id c186mr15433654wmf.93.1559581859524;
+	Mon, 03 Jun 2019 10:10:59 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
-	r131sm3325045wmf.4.2019.06.03.10.10.56 for <qemu-devel@nongnu.org>
+	r131sm3325045wmf.4.2019.06.03.10.10.58 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 10:10:57 -0700 (PDT)
+	Mon, 03 Jun 2019 10:10:58 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 19:10:31 +0200
-Message-Id: <1559581843-3968-13-git-send-email-pbonzini@redhat.com>
+Date: Mon,  3 Jun 2019 19:10:32 +0200
+Message-Id: <1559581843-3968-14-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 References: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PULL 12/24] libqos: fix omap-i2c receiving more than
- 4 bytes
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PULL 13/24] pca9552-test: do not rely on state across
+ tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,64 +78,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If more than 4 bytes are received, the FIFO cannot host the entire
-contents of the transfer and STP will be nonzero before entering
-the transfer loop.  Also, CNT will contain the number of bytes
-left to be transferred instead of the total number of bytes in
-the transfer.
+receive_autoinc is relying on the LED state that is set by
+send_and_receive.  Stop doing that, because qgraph resets the
+machine between tests.
 
-(Reverse engineered from the omap_i2c.c source code; no available
-datasheet).
-
-This will fix ds1338-test for omap-i2c.
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/libqos/i2c-omap.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ tests/pca9552-test.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/tests/libqos/i2c-omap.c b/tests/libqos/i2c-omap.c
-index 1ef6e7b..bb65336 100644
---- a/tests/libqos/i2c-omap.c
-+++ b/tests/libqos/i2c-omap.c
-@@ -105,6 +105,7 @@ static void omap_i2c_recv(I2CAdapter *i2c, uint8_t addr,
+diff --git a/tests/pca9552-test.c b/tests/pca9552-test.c
+index 06359b7..89b4445 100644
+--- a/tests/pca9552-test.c
++++ b/tests/pca9552-test.c
+@@ -18,11 +18,20 @@
+ 
+ static I2CAdapter *i2c;
+ 
++static void pca9552_init(I2CAdapter *i2c)
++{
++    /* Switch on LEDs 0 and 12 */
++    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0, 0x54);
++    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3, 0x54);
++}
++
+ static void receive_autoinc(void)
  {
-     OMAPI2C *s = (OMAPI2C *)i2c;
-     uint16_t data, stat;
-+    uint16_t orig_len = len;
+     uint8_t resp;
+     uint8_t reg = PCA9552_LS0 | PCA9552_AUTOINC;
  
-     omap_i2c_set_slave_addr(s, addr);
- 
-@@ -116,16 +117,24 @@ static void omap_i2c_recv(I2CAdapter *i2c, uint8_t addr,
-            OMAP_I2C_CON_STT |
-            OMAP_I2C_CON_STP;
-     qtest_writew(i2c->qts, s->addr + OMAP_I2C_CON, data);
--    data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CON);
--    g_assert((data & OMAP_I2C_CON_STP) == 0);
- 
-     data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_STAT);
-     g_assert((data & OMAP_I2C_STAT_NACK) == 0);
- 
--    data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CNT);
--    g_assert_cmpuint(data, ==, len);
--
-     while (len > 0) {
-+        data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CON);
-+        if (len <= 4) {
-+            g_assert((data & OMAP_I2C_CON_STP) == 0);
++    pca9552_init(i2cdev);
 +
-+            data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CNT);
-+            g_assert_cmpuint(data, ==, orig_len);
-+        } else {
-+            g_assert((data & OMAP_I2C_CON_STP) != 0);
+     i2c_send(i2c, PCA9552_TEST_ADDR, &reg, 1);
+ 
+     /* PCA9552_LS0 */
+@@ -52,16 +61,14 @@ static void send_and_receive(void)
+     value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
+     g_assert_cmphex(value, ==, 0x0);
+ 
+-    /* Switch on LED 0 */
+-    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0, 0x54);
++    pca9552_init(i2cdev);
 +
-+            data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_CNT);
-+            g_assert_cmpuint(data, ==, len - 4);
-+        }
-+
-         data = qtest_readw(i2c->qts, s->addr + OMAP_I2C_STAT);
-         g_assert((data & OMAP_I2C_STAT_RRDY) != 0);
-         g_assert((data & OMAP_I2C_STAT_ROVR) == 0);
+     value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0);
+     g_assert_cmphex(value, ==, 0x54);
+ 
+     value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
+     g_assert_cmphex(value, ==, 0x01);
+ 
+-    /* Switch on LED 12 */
+-    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3, 0x54);
+     value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3);
+     g_assert_cmphex(value, ==, 0x54);
+ 
 -- 
 1.8.3.1
 
