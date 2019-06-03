@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D89336CB
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:32:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38556 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BADFE33660
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:18:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38334 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqol-0006sZ-58
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:32:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43507)
+	id 1hXqat-0003XV-Qu
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:17:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43267)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUV-0007Vj-6T
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:25 -0400
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUE-00078s-RI
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUU-0004dg-0p
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:23 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35497)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqU8-00043c-BK
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:03 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39814)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hXqUQ-0003rY-91
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:20 -0400
-Received: by mail-wm1-x341.google.com with SMTP id c6so8963890wml.0
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:10:53 -0700 (PDT)
+	id 1hXqU5-0003sy-9n
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:10:59 -0400
+Received: by mail-wr1-x443.google.com with SMTP id x4so12920924wrt.6
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:10:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eVwMFZ+KWBK7cXllizTF1Ac4hocoCZRu5KoL6VrLxIY=;
-	b=czZ7N9K412S+tYUzSeq0tihlWPMfLRhw4kcNsjd4OMM06MFBw09rXuvOAFJw1XTFIy
-	jq5GTDjVobTiN79g0AVaLituZ60V0TLZC8SxqtT5SJJ5xtCN8t1IlMX9PWnp4LjfbQzc
-	LCboTW6o1md9ltJTq64WE78Qi/V8EL58NIAKipetuSxteJt9UgHZuzKE+PdoSs1XMc6v
-	KqSl/GB2n6wPl+Hih70ZMgn0JcsXDaVVWd2ATfaM1TSRyvrW6IidGM8+medwFx/0S8Pm
-	bhDkbuKaPg5fb2DLvULdv1loug0s12/W7AoBP9KjkTdMsFxl5QKfOnNifcSCFrbIlSWO
-	p15g==
+	bh=i8cdpTQpJJWnX9/W8Ct8bcoN/ZoC8uS3+XE2cylOq34=;
+	b=aXYOJaeDS/kqo3T/r/8s0CEmQXyST/ysfepjBYfJD8DDwWg8fdZoOQwRQfeIeLulJR
+	oXJ2QlFaIKuFi/os+o75zTEHmKaFRX7mTOJXsTutbVtPFwIpH0cajFqTXzxK8siFlCYO
+	me3ZH3uZoxhT/mn1fu088Y2pnFie6ky3N4Vnfeg49aJ0Ir/FhabvUov94zeesEXOOLG3
+	90Mp74ciBtH/H4RMPSBEvVr0FSRjIAT5fYkKs1ZNMYPnDNZDB5fZEFGYY0mAM447ueph
+	LS9ljnYY0YiQHs74igG+Tt/OP+DOPW4n7zWHVqZbrfH22QR9cyagzIzEkCYo3VdNCbft
+	38Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references;
-	bh=eVwMFZ+KWBK7cXllizTF1Ac4hocoCZRu5KoL6VrLxIY=;
-	b=n0cW/dHdspaYZiasGVUk0VCxOApNfvec1hwCqEkDhebbofHIv2b3Rge2Skv03Qobvu
-	00d7nmr1Wv/XtcXWUNPe9OvNrnTQdYm+0d127HZeRdB4Rv3efzCQ6KK6hgzgy/DSfhnO
-	Juxyw24McVhZdWq0Qcu7AWmauRxck1TctRaz7DQtSluh8+9Ugk5AwlYWulSNC2rXRPLM
-	RDaB9ELixznXMZ1SI/taBbttPRK99m+7zsV4ULi4errMmo6kZUT5ukCiE5oWb9bbVqBf
-	gR+c2anvdTIH7Qew5MxxIx9hEL8Y+4i2s99zen7XLbYcrsbNcQY1ziFWI2oHrcnw2Fp9
-	0Y1w==
-X-Gm-Message-State: APjAAAWN6EFlydFFZm9qRnPFlLchkM0cXw0Yjz3fdvXciAPN7owWt6uf
-	C29RSt1z1/6GwqknuLbd42rnzNGp
-X-Google-Smtp-Source: APXvYqxmDEZBu22I9MgJWfCEM6yTIN70ysy5Z0tfpDZAXENTKxLQYi8Shhod3UfHbtmDpkWvfBkcMA==
-X-Received: by 2002:a05:600c:2182:: with SMTP id
-	e2mr10999857wme.55.1559581852547; 
-	Mon, 03 Jun 2019 10:10:52 -0700 (PDT)
+	bh=i8cdpTQpJJWnX9/W8Ct8bcoN/ZoC8uS3+XE2cylOq34=;
+	b=S50pDz6ZJA907u4AJz8twG7EHsjycYRB7IhXKFfwPY2rR4/bL1TrFMzoKakkGkDf/I
+	RN0KFgwK7Q14uFZqSJGxuSGIYgE41y6tf/1zqaBSG2tM9Y1nNyNqVJdOXXQ1plUNKdns
+	tcTWFO8LCRa7T0eEzaxp/TkVUwL1ojIazDc8Ak0TK/1SJcEOrirCnpwjjurt7Qf9CMXi
+	cCyN/V+og9mWOP05PpvvtATXYQwnw2+aLIFyBxjZ6W+LxweEsUc4fb2XaHBLv0Opz2nc
+	MGyFy9lju113k+k4xoSvilq0EFzMgbgD7xI8yd5sWBvSklmHhF+u3D6y2G//VQ6ufhT9
+	Jadw==
+X-Gm-Message-State: APjAAAUC57w/wvL/QeuSGjphyWd+kBfNoTChagRcEEcZ3N09fvW3U8AO
+	qcdfnDPGWPgUebkudN5ZWt6SIkFp
+X-Google-Smtp-Source: APXvYqwd2RnC5QqL+gMa37Y6W0/XKcflPJTH2ABE/44nLizBwo3I5oyeRzCKCWNUyHLYln94YAZuHA==
+X-Received: by 2002:adf:f951:: with SMTP id q17mr16842462wrr.173.1559581853400;
+	Mon, 03 Jun 2019 10:10:53 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
-	r131sm3325045wmf.4.2019.06.03.10.10.51
+	r131sm3325045wmf.4.2019.06.03.10.10.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Mon, 03 Jun 2019 10:10:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 19:10:25 +0200
-Message-Id: <1559581843-3968-7-git-send-email-pbonzini@redhat.com>
+Date: Mon,  3 Jun 2019 19:10:26 +0200
+Message-Id: <1559581843-3968-8-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 References: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 06/24] edu: mmio: allow 64-bit access
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PULL 07/24] edu: mmio: allow 64-bit access in read
+ dispatch
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,39 +81,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Li Qiang <liq3ea@163.com>
 
-The edu spec says the MMIO area can be accessed by 64-bit.
-However currently the 'max_access_size' is not so the MMIO
-access dispatch can only access 32-bit one time. This patch fixes
-this to respect the spec.
+The edu spec says when address >= 0x80, the MMIO area can
+be accessed by 64-bit.
 
 Signed-off-by: Li Qiang <liq3ea@163.com>
 Reviewed-by: Philippe Mathieu-Daude <philmd@redhat.com>
-Message-Id: <20190510164349.81507-2-liq3ea@163.com>
+Message-Id: <20190510164349.81507-3-liq3ea@163.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/misc/edu.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/misc/edu.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/hw/misc/edu.c b/hw/misc/edu.c
-index 91af452..65fc32b 100644
+index 65fc32b..33de051 100644
 --- a/hw/misc/edu.c
 +++ b/hw/misc/edu.c
-@@ -289,6 +289,15 @@ static const MemoryRegionOps edu_mmio_ops = {
-     .read = edu_mmio_read,
-     .write = edu_mmio_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 8,
-+    },
-+    .impl = {
-+        .min_access_size = 4,
-+        .max_access_size = 8,
-+    },
-+
- };
+@@ -185,7 +185,11 @@ static uint64_t edu_mmio_read(void *opaque, hwaddr addr, unsigned size)
+     EduState *edu = opaque;
+     uint64_t val = ~0ULL;
  
- /*
+-    if (size != 4) {
++    if (addr < 0x80 && size != 4) {
++        return val;
++    }
++
++    if (addr >= 0x80 && size != 4 && size != 8) {
+         return val;
+     }
+ 
 -- 
 1.8.3.1
 
