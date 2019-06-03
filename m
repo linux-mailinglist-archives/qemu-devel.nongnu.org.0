@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACABE32B4B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 11:01:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59960 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57EAA32D14
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 11:47:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60606 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXiqe-0003Pn-1E
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 05:01:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44244)
+	id 1hXjZ9-0004yR-Ht
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 05:47:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57374)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hXipL-000315-FN
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:00:24 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hXjY0-0004fq-80
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:46:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hXipG-0001cn-2Z
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:00:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46336)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hXipF-0001Xl-Ps
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:00:18 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5D323309178C
-	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 09:00:14 +0000 (UTC)
-Received: from work-vm (ovpn-117-145.ams2.redhat.com [10.36.117.145])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 500B617508;
-	Mon,  3 Jun 2019 08:59:59 +0000 (UTC)
-Date: Mon, 3 Jun 2019 09:59:57 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Message-ID: <20190603085956.GB2640@work-vm>
-References: <20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
-	<20190530134631-mutt-send-email-mst@kernel.org>
-	<20190530180022.GB2864@work-vm>
-	<20190530140419-mutt-send-email-mst@kernel.org>
-	<20190530182210.GA22103@habkost.net>
-	<20190530190322-mutt-send-email-mst@kernel.org>
-	<20190531170154.GB22103@habkost.net>
-	<20190531135059-mutt-send-email-mst@kernel.org>
-	<20190531184512.GN3169@work-vm> <20190531142933.248cbd17@x1.home>
+	(envelope-from <no-reply@patchew.org>) id 1hXjXy-0008Qr-CA
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:46:32 -0400
+Resent-Date: Mon, 03 Jun 2019 05:46:31 -0400
+Resent-Message-Id: <E1hXjXy-0008Qr-CA@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21511)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hXjXw-00084K-Vx
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:46:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1559552426; cv=none; d=zoho.com; s=zohoarc; 
+	b=jpPwerKtxhLKqOdbXoPEof1N+XVlVWtrioFBtUON/6ajGDOfYwDFBlDLMJODJkVwh8yf4XY0wN8BYWk0FyEMjF8HnqEWe2f6nD/7XhoD3+cyeo3ASOr6KwTdDEJLIsmpZOe9Zhb5X5iwaYyEK+lYcprvtjJascR3oG3aN5/SMXY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1559552426;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=PDhAPBykmQVof5VMs2scdF38fRr8uoJp2fMrrN+pXm4=; 
+	b=WToyYK34lZVv6fm9nAofqK5eNgm1zZkcxXwN5cKWb1iD5K6cBIK/Mjfh2RsIgUJvjkzjPqmd1gXAZ2yQMIaE/59VQkLmh8ISVwzJW4SDjCxZPMdkH9a3PbzgESL/yw8jytEUTvzfUv21eVLUhirYliKzOU9qHMcrLnVvmhxMftE=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1559552424658321.91174742629323;
+	Mon, 3 Jun 2019 02:00:24 -0700 (PDT)
+In-Reply-To: <20190602201709.11901-1-jusual@mail.ru>
+Message-ID: <155955242317.4368.14579521029462113568@ce79690b2cb9>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190531142933.248cbd17@x1.home>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Mon, 03 Jun 2019 09:00:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Mon, 3 Jun 2019 02:00:24 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH] block/linux-aio: Drop unused BlockAIOCB
+ submission method
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,94 +62,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, aadam@redhat.com,
-	qemu-devel@nongnu.org, laine@redhat.com, jdenemar@redhat.com,
-	Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+	stefanha@redhat.com, pbonzini@redhat.com, jusual@mail.ru,
+	mehta.aaru20@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Alex Williamson (alex.williamson@redhat.com) wrote:
-> On Fri, 31 May 2019 19:45:13 +0100
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> 
-> > * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > > On Fri, May 31, 2019 at 02:01:54PM -0300, Eduardo Habkost wrote:  
-> > > > > Yes. It's just lots of extremely low level interfaces
-> > > > > and all rather pointless.
-> > > > > 
-> > > > > And down the road extensions like surprise removal support will make it
-> > > > > all cleaner and more transparent. Floating things up to libvirt means
-> > > > > all these low level details will require more and more hacks.  
-> > > > 
-> > > > Why do you call it pointless?  
-> > > 
-> > > We'd need APIs to manipulate device visibility to guest, hotplug
-> > > controller state and separately manipulate the resources allocated. This
-> > > is low level stuff that users really have no idea what to do about.
-> > > Exposing such a level of detail to management is imho pointless.
-> > > We are better off with a high level API, see below.  
-> > 
-> > so I don't know much about vfio; but to me it strikes me that
-> > you wouldn't need that low level detail if we just reworked vfio
-> > to look more like all our other devices;
-> 
-> I don't understand what this means, I thought vfio-pci followed a very
-> standard device model.
-> 
-> > something like:
-> > 
-> >   -vfiodev  host=02:00.0,id=gpu
-> >   -device vfio-pci,dev=gpu
-> >
-> > The 'vfiodev' would own the resources; so to do this trick, the
-> > management layer would:
-> >    hotunplug the vfio-pci
-> >    migrate
-> > 
-> > if anything went wrong it would
-> >    hotplug the vfio-pci backin
-> > 
-> > you wouldn't have free'd up any resources because they belonged
-> > to the vfiodev.
-> 
-> So you're looking more for some sort of frontend-backend separation, we
-> hot-unplug the frontend device that's exposed to the guest while the
-> backend device that holds the host resources is still attached.  I
-> would have hardly guessed that's "like all our other devices".
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYwMjIwMTcwOS4xMTkw
+MS0xLWp1c3VhbEBtYWlsLnJ1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
+ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
+YXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIXSBibG9jay9saW51eC1haW86IERy
+b3AgdW51c2VkIEJsb2NrQUlPQ0Igc3VibWlzc2lvbiBtZXRob2QKVHlwZTogc2VyaWVzCk1lc3Nh
+Z2UtaWQ6IDIwMTkwNjAyMjAxNzA5LjExOTAxLTEtanVzdWFsQG1haWwucnUKCj09PSBURVNUIFND
+UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
+IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
+cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
+Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3
+LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAgICBwYXRjaGV3LzIwMTkwNjAy
+MjAxNzA5LjExOTAxLTEtanVzdWFsQG1haWwucnUgLT4gcGF0Y2hldy8yMDE5MDYwMjIwMTcwOS4x
+MTkwMS0xLWp1c3VhbEBtYWlsLnJ1ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMjk5
+YTcxYzhjZSBibG9jay9saW51eC1haW86IERyb3AgdW51c2VkIEJsb2NrQUlPQ0Igc3VibWlzc2lv
+biBtZXRob2QKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVz
+cyBpcyBtYW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6IEp1bGlhIFN1dm9y
+b3ZhIHZpYSBRZW11LWRldmVsIDxxZW11LWRldmVsQG5vbmdudS5vcmc+Cgp0b3RhbDogMSBlcnJv
+cnMsIDAgd2FybmluZ3MsIDExMSBsaW5lcyBjaGVja2VkCgpDb21taXQgMjk5YTcxYzhjZWQ2IChi
+bG9jay9saW51eC1haW86IERyb3AgdW51c2VkIEJsb2NrQUlPQ0Igc3VibWlzc2lvbiBtZXRob2Qp
+IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
+cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
+CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21t
+YW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNjAyMjAxNzA5LjExOTAxLTEtanVzdWFsQG1haWwu
+cnUvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQg
+YXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBz
+ZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
-
-Well, we have netdev's and NICs that connect them to the guest,
-        and blockdev's and guest devices that expose them to the guest
-
-> I was
-> under the impression (from previous discussions mostly) that the device
-> removal would be caught before actually allowing the device to finalize
-> and exit, such that with a failed migration, re-adding the device would
-> be deterministic since the device is never released back to the host.
-> I expected that could be done within QEMU, but I guess that's what
-> we're getting into here is how management tools specify that eject w/o
-> release semantic.
-
-My worry here is that this is all being done behind the back of the
-management tools in this series.
-The management tools already deal with hot-unplugging and problems with
-it;  here we're duplicating that set of problems and trying to stuff
-them into the start of migration.
-
-> I don't know what this frontend/backend rework would
-> look like for vfio-pci, but it seems non-trivial for this one use case
-> and I don't see that it adds any value outside of this use case,
-> perhaps quite the opposite, it's an overly complicated interface for
-> the majority of use cases so we either move to a more complicated
-> interface or maintain both.  Poor choices either way.  Thanks,
-
-Yep, tricky.
-
-Dave
-
-> Alex
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
