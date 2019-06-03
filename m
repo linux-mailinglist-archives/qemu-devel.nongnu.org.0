@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E0D33025
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:48:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34623 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6F433027
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:48:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34625 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXmNf-0000HG-1g
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:48:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38124)
+	id 1hXmO0-0000VR-NT
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:48:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37968)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmKg-0007Hi-3w
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:45:02 -0400
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmKp-0007F5-Ns
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:45:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmF9-0007ux-BW
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:39:16 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34575)
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmFF-00089x-6v
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:39:22 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:38389)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
-	id 1hXmF9-0007sj-0n; Mon, 03 Jun 2019 08:39:15 -0400
-Received: by mail-pg1-x541.google.com with SMTP id h2so4981933pgg.1;
-	Mon, 03 Jun 2019 05:39:14 -0700 (PDT)
+	id 1hXmFF-000883-0r; Mon, 03 Jun 2019 08:39:21 -0400
+Received: by mail-pl1-x643.google.com with SMTP id f97so6958256plb.5;
+	Mon, 03 Jun 2019 05:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0zPchgJi6YzPvMMFd4UjDrg2UEfvsfzn5zpjZoO+8yc=;
-	b=GN+JDPE5sHE8TneYV18T0327b0x23aI20VULiCdCbsuYnRb0diJix1TQA49Fte/pei
-	W55EMiRlLx8E78r4ezDG2TaCisS3zaH0Vf5nTfkip193qxBDjL1zT8LQmU4UADDCgkfY
-	bV5DS+fMC0gIQ2WyqV5Httf60uMe4CKp0VhIsZvGtGtOuwt0QorIQ3AKpsgDGt9TWzOW
-	5tW+v8IyKEQ5DFPrT6kjHrURCuIWdJwwXL+lqjewVKn65yW2ZU5lsiNrb+nsxAUwPZUk
-	JotK/gvRt9Soruci7N1MrMrddPLVYHJj1f6Hg2J3cZLkZzrvIBihW4i/GbTdU6QR7PO3
-	TuRg==
+	bh=2n2TNPYPU066kE92JQNbBm7Ypw4YV4ofgNfP3dVPw+E=;
+	b=b3y5vYnQjEXFQ76uHJujX4qrMGjTf6sme8zfuRomZuIKay8FZj0Qe7L2Fr/XBumxcX
+	rCeurwOclbe6ZwKaeZin5UBxVUEWh9B5T6CFYwWJ1wPGnC7Pbh5IePY1UeLW4JAzXT9/
+	CTwS1fOqcaMuLSogBklmTRN5kxw8bH6X9ODk/6ZVrVNUncWeJWfSPHZ0+N6iCfDGcm3O
+	lGosMhgOhwOWQ96Kk9M5DWC60a0MLgpTmIGryAIvUTJjH5gTdU0G6UQLgBvVsnU7t4K7
+	xFWHpbMQXR9cWeWSPo5IhGyfILJ/huBsy67KoCWTQgng62f1mK4ZGW9l5PRNajWa8hvZ
+	YWaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=0zPchgJi6YzPvMMFd4UjDrg2UEfvsfzn5zpjZoO+8yc=;
-	b=O3J3+8BcHhvRs5gZdcGHTMgroqKwKfovhnoJFTpsvfJJ3SZSoSE4/85z81qfISfsep
-	cWonka+65U+NmxZV0k28KEAQQFg36cUh41n+ItkOaF3xamJ4iQXDimdcQI9yTK9VhNso
-	yWs1SNpBLGCusrO3tNfjW3ZHVJuDWH5HQYEboFPXIHMLz/J2qc32zV6O32AEeDTQIhAG
-	DGHMneTQee9Gurzr0F/bQeiiZNmo3ZYRPJYhDA9I9exXB44MYAHseSAW2+zrZhSv3UwY
-	ZvOQsSIGmDOykQxUCgXj+NNFMzGbputFxqHafiFf1krSbDWy7qARjJHnV0IEucXYNwx6
-	kyVw==
-X-Gm-Message-State: APjAAAVbbiadK0eQHMlqvkGSTWAAtTxbkRak6Gf464GuvY+gAQg7H5CH
-	hZPkaWnFzZUQ3Py62Cux4MQZ1P5b/zgG+A==
-X-Google-Smtp-Source: APXvYqwgzY4p26lmGP+Vl/Aqmqdi7qNa1/vcxHVIypoU36BDXIAFg7LTiMk9WGz/D5WgX/IB6+3vBg==
-X-Received: by 2002:a63:fa16:: with SMTP id y22mr28139592pgh.15.1559565553736; 
-	Mon, 03 Jun 2019 05:39:13 -0700 (PDT)
+	bh=2n2TNPYPU066kE92JQNbBm7Ypw4YV4ofgNfP3dVPw+E=;
+	b=aX/PZe2JqC+XFJoUjiarTTJIpyygtIuE9tP0u5n0RqBy/RnXj6OHTfNlna12x0drqX
+	pETa7xmuzTpAbX7ewIe0vsVYB3BrWVcY4g+RN2BqNIEZuupdaQzvMc/wnQW/RejgSJcA
+	m6ox6GBKCgbAczXiv8etyHvQ0NPlE0BP2dYO6bF6jp1lgEOxazH+KoVjA2/2iMfQ+ws2
+	BO+3yiEkblaYWQ21ix/nvsP3MivrkMeJDztnAY3EEg7igGLzk6/pawxNaNtETJHw5oPX
+	l8WsjuLhR6N7ysEaB1IxEZ0MzIvG7Oedh2aq5++ECdkG0XUmbV5fe2drtYzq8CgWxTqm
+	oSBg==
+X-Gm-Message-State: APjAAAX2DiwVmw8B7mmHV9YEmLxsZ/Aywarp6hAy+dtsQcRJ57f166YO
+	lKvj4TXIWwrg0X0MXsb7qy6VHWy6a4DfYg==
+X-Google-Smtp-Source: APXvYqxFp4Hj/SE/43w0jiQXnGH3O30SQrJGDw2nQeIjE0uXxnYpnINNBP4YFf9il5Ej2i/yy2WL4g==
+X-Received: by 2002:a17:902:5ac9:: with SMTP id
+	g9mr29729911plm.134.1559565559775; 
+	Mon, 03 Jun 2019 05:39:19 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.100])
 	by smtp.gmail.com with ESMTPSA id
-	k14sm34860257pga.5.2019.06.03.05.39.07
+	k14sm34860257pga.5.2019.06.03.05.39.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 05:39:13 -0700 (PDT)
+	Mon, 03 Jun 2019 05:39:19 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 18:08:19 +0530
-Message-Id: <20190603123823.32661-6-mehta.aaru20@gmail.com>
+Date: Mon,  3 Jun 2019 18:08:20 +0530
+Message-Id: <20190603123823.32661-7-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190603123823.32661-1-mehta.aaru20@gmail.com>
 References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v4 5/9] stubs: add stubs for io_uring interface
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH v4 6/9] util/async: add aio interfaces for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,74 +87,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- MAINTAINERS         |  1 +
- stubs/Makefile.objs |  1 +
- stubs/io_uring.c    | 32 ++++++++++++++++++++++++++++++++
- 3 files changed, 34 insertions(+)
- create mode 100644 stubs/io_uring.c
+ util/async.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dcaddec21f..e30f62024e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2521,6 +2521,7 @@ R: Stefan Hajnoczi <stefan@redhat.com>
- L: qemu-block@nongnu.org
- S: Maintained
- F: block/io_uring.c
-+F: stubs/io_uring.c
+diff --git a/util/async.c b/util/async.c
+index c10642a385..2709f0edc3 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -277,6 +277,14 @@ aio_ctx_finalize(GSource     *source)
+     }
+ #endif
  
- qcow2
- M: Kevin Wolf <kwolf@redhat.com>
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 9c7393b08c..5cf160a9c8 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -13,6 +13,7 @@ stub-obj-y += iothread.o
- stub-obj-y += iothread-lock.o
- stub-obj-y += is-daemonized.o
- stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
-+stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
- stub-obj-y += machine-init-done.o
- stub-obj-y += migr-blocker.o
- stub-obj-y += change-state-handler.o
-diff --git a/stubs/io_uring.c b/stubs/io_uring.c
-new file mode 100644
-index 0000000000..622d1e4648
---- /dev/null
-+++ b/stubs/io_uring.c
-@@ -0,0 +1,32 @@
-+/*
-+ * Linux io_uring support.
-+ *
-+ * Copyright (C) 2009 IBM, Corp.
-+ * Copyright (C) 2009 Red Hat, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "block/aio.h"
-+#include "block/raw-aio.h"
++#ifdef CONFIG_LINUX_IO_URING
++    if (ctx->linux_io_uring) {
++        luring_detach_aio_context(ctx->linux_io_uring, ctx);
++        luring_cleanup(ctx->linux_io_uring);
++        ctx->linux_io_uring = NULL;
++    }
++#endif
 +
-+void luring_detach_aio_context(LuringState *s, AioContext *old_context)
+     assert(QSLIST_EMPTY(&ctx->scheduled_coroutines));
+     qemu_bh_delete(ctx->co_schedule_bh);
+ 
+@@ -341,6 +349,29 @@ LinuxAioState *aio_get_linux_aio(AioContext *ctx)
+ }
+ #endif
+ 
++#ifdef CONFIG_LINUX_IO_URING
++LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp)
 +{
-+    abort();
++    if (ctx->linux_io_uring) {
++        return ctx->linux_io_uring;
++    }
++
++    ctx->linux_io_uring = luring_init(errp);
++    if (!ctx->linux_io_uring) {
++        return NULL;
++    }
++
++    luring_attach_aio_context(ctx->linux_io_uring, ctx);
++    return ctx->linux_io_uring;
 +}
 +
-+void luring_attach_aio_context(LuringState *s, AioContext *new_context)
++LuringState *aio_get_linux_io_uring(AioContext *ctx)
 +{
-+    abort();
++    assert(ctx->linux_io_uring);
++    return ctx->linux_io_uring;
 +}
++#endif
 +
-+LuringState *luring_init(Error **errp)
-+{
-+    abort();
-+}
+ void aio_notify(AioContext *ctx)
+ {
+     /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
+@@ -432,6 +463,11 @@ AioContext *aio_context_new(Error **errp)
+ #ifdef CONFIG_LINUX_AIO
+     ctx->linux_aio = NULL;
+ #endif
 +
-+void luring_cleanup(LuringState *s)
-+{
-+    abort();
-+}
++#ifdef CONFIG_LINUX_IO_URING
++    ctx->linux_io_uring = NULL;
++#endif
++
+     ctx->thread_pool = NULL;
+     qemu_rec_mutex_init(&ctx->lock);
+     timerlistgroup_init(&ctx->tlg, aio_timerlist_notify, ctx);
 -- 
 2.17.1
 
