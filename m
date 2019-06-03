@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8950633332
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:12:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36401 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0743331A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:07:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36315 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXod4-0006Vq-LP
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:12:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39574)
+	id 1hXoYG-0002S0-Jt
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:07:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39530)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hXoUZ-0000PN-FZ
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:03:21 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hXoUW-0000M2-J8
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:03:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hXoUX-0006yd-Oi
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:03:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45930)
+	(envelope-from <kwolf@redhat.com>) id 1hXoUV-0006rX-4v
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:03:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37115)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hXoUU-0006kA-2h; Mon, 03 Jun 2019 11:03:14 -0400
+	id 1hXoUS-0006XB-Hn; Mon, 03 Jun 2019 11:03:12 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9D9743001448;
-	Mon,  3 Jun 2019 15:02:58 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 13920223891;
+	Mon,  3 Jun 2019 15:03:05 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-116-129.ams2.redhat.com
 	[10.36.116.129])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 06B6C6726F;
-	Mon,  3 Jun 2019 15:02:54 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EC4A067279;
+	Mon,  3 Jun 2019 15:02:58 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon,  3 Jun 2019 17:02:07 +0200
-Message-Id: <20190603150233.6614-3-kwolf@redhat.com>
+Date: Mon,  3 Jun 2019 17:02:08 +0200
+Message-Id: <20190603150233.6614-4-kwolf@redhat.com>
 In-Reply-To: <20190603150233.6614-1-kwolf@redhat.com>
 References: <20190603150233.6614-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Mon, 03 Jun 2019 15:03:08 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.39]);
+	Mon, 03 Jun 2019 15:03:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 02/28] iotests: Test commit job start with
- concurrent I/O
+Subject: [Qemu-devel] [PULL 03/28] blockdev: fix missed target unref for
+ drive-backup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,193 +61,73 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests that concurrent requests are correctly drained before making
-graph modifications instead of running into assertions in
-bdrv_replace_node().
+From: John Snow <jsnow@redhat.com>
 
+If the bitmap can't be used for whatever reason, we skip putting down
+the reference. Fix that.
+
+In practice, this means that if you attempt to gracefully exit QEMU
+after a backup command being rejected, bdrv_close_all will fail and
+tell you some unpleasant things via assert().
+
+Reported-by: aihua liang <aliang@redhat.com>
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1703916
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/255        | 83 +++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/255.out    | 16 +++++++
- tests/qemu-iotests/group      |  1 +
- tests/qemu-iotests/iotests.py | 10 ++++-
- 4 files changed, 109 insertions(+), 1 deletion(-)
- create mode 100755 tests/qemu-iotests/255
- create mode 100644 tests/qemu-iotests/255.out
+ blockdev.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
-new file mode 100755
-index 0000000000..c0bb37a9b0
---- /dev/null
-+++ b/tests/qemu-iotests/255
-@@ -0,0 +1,83 @@
-+#!/usr/bin/env python
-+#
-+# Test commit job graph modifications while requests are active
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# Creator/Owner: Kevin Wolf <kwolf@redhat.com>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+from iotests import imgfmt
-+
-+iotests.verify_image_format(supported_fmts=3D['qcow2'])
-+
-+def blockdev_create(vm, options):
-+    result =3D vm.qmp_log('blockdev-create',
-+                        filters=3D[iotests.filter_qmp_testfiles],
-+                        job_id=3D'job0', options=3Doptions)
-+
-+    if 'return' in result:
-+        assert result['return'] =3D=3D {}
-+        vm.run_job('job0')
-+    iotests.log("")
-+
-+with iotests.FilePath('t.qcow2') as disk_path, \
-+     iotests.FilePath('t.qcow2.mid') as mid_path, \
-+     iotests.FilePath('t.qcow2.base') as base_path, \
-+     iotests.VM() as vm:
-+
-+    iotests.log("=3D=3D=3D Create backing chain and start VM =3D=3D=3D")
-+    iotests.log("")
-+
-+    size =3D 128 * 1024 * 1024
-+    size_str =3D str(size)
-+
-+    iotests.create_image(base_path, size)
-+    iotests.qemu_img_log('create', '-f', iotests.imgfmt, mid_path, size_=
-str)
-+    iotests.qemu_img_log('create', '-f', iotests.imgfmt, disk_path, size=
-_str)
-+
-+    # Create a backing chain like this:
-+    # base <- [throttled: bps-read=3D4096] <- mid <- overlay
-+
-+    vm.add_object('throttle-group,x-bps-read=3D4096,id=3Dthrottle0')
-+    vm.add_blockdev('file,filename=3D%s,node-name=3Dbase' % (base_path))
-+    vm.add_blockdev('throttle,throttle-group=3Dthrottle0,file=3Dbase,nod=
-e-name=3Dthrottled')
-+    vm.add_blockdev('file,filename=3D%s,node-name=3Dmid-file' % (mid_pat=
-h))
-+    vm.add_blockdev('qcow2,file=3Dmid-file,node-name=3Dmid,backing=3Dthr=
-ottled')
-+    vm.add_drive_raw('if=3Dnone,id=3Doverlay,driver=3Dqcow2,file=3D%s,ba=
-cking=3Dmid' % (disk_path))
-+
-+    vm.launch()
-+
-+    iotests.log("=3D=3D=3D Start background read requests =3D=3D=3D")
-+    iotests.log("")
-+
-+    def start_requests():
-+        vm.hmp_qemu_io('overlay', 'aio_read 0 4k')
-+        vm.hmp_qemu_io('overlay', 'aio_read 0 4k')
-+
-+    start_requests()
-+
-+    iotests.log("=3D=3D=3D Run a commit job =3D=3D=3D")
-+    iotests.log("")
-+
-+    result =3D vm.qmp_log('block-commit', job_id=3D'job0', auto_finalize=
-=3DFalse,
-+                        device=3D'overlay', top_node=3D'mid')
-+
-+    vm.run_job('job0', auto_finalize=3DFalse, pre_finalize=3Dstart_reque=
-sts,
-+                auto_dismiss=3DTrue)
-+
-+    vm.shutdown()
-diff --git a/tests/qemu-iotests/255.out b/tests/qemu-iotests/255.out
-new file mode 100644
-index 0000000000..9a2d7cbb77
---- /dev/null
-+++ b/tests/qemu-iotests/255.out
-@@ -0,0 +1,16 @@
-+=3D=3D=3D Create backing chain and start VM =3D=3D=3D
-+
-+Formatting 'TEST_DIR/PID-t.qcow2.mid', fmt=3Dqcow2 size=3D134217728 clus=
-ter_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
-+
-+Formatting 'TEST_DIR/PID-t.qcow2', fmt=3Dqcow2 size=3D134217728 cluster_=
-size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
-+
-+=3D=3D=3D Start background read requests =3D=3D=3D
-+
-+=3D=3D=3D Run a commit job =3D=3D=3D
-+
-+{"execute": "block-commit", "arguments": {"auto-finalize": false, "devic=
-e": "overlay", "job-id": "job0", "top-node": "mid"}}
-+{"return": {}}
-+{"execute": "job-finalize", "arguments": {"id": "job0"}}
-+{"return": {}}
-+{"data": {"id": "job0", "type": "commit"}, "event": "BLOCK_JOB_PENDING",=
- "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "job0", "len": 134217728, "offset": 134217728, "spee=
-d": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
-microseconds": "USECS", "seconds": "SECS"}}
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 859c4b5e9f..88049ad46c 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -265,3 +265,4 @@
- 252 rw auto backing quick
- 253 rw auto quick
- 254 rw auto backing quick
-+255 rw auto quick
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index 7bde380d96..6bcddd8870 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -126,6 +126,11 @@ def qemu_img_pipe(*args):
-         sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcod=
-e, ' '.join(qemu_img_args + list(args))))
-     return subp.communicate()[0]
+diff --git a/blockdev.c b/blockdev.c
+index 17c2d801d7..d88dc115f2 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3546,8 +3546,7 @@ static BlockJob *do_drive_backup(DriveBackup *backu=
+p, JobTxn *txn,
+     if (set_backing_hd) {
+         bdrv_set_backing_hd(target_bs, source, &local_err);
+         if (local_err) {
+-            bdrv_unref(target_bs);
+-            goto out;
++            goto unref;
+         }
+     }
 =20
-+def qemu_img_log(*args):
-+    result =3D qemu_img_pipe(*args)
-+    log(result, filters=3D[filter_testfiles])
-+    return result
-+
- def img_info_log(filename, filter_path=3DNone, imgopts=3DFalse, extra_ar=
-gs=3D[]):
-     args =3D [ 'info' ]
-     if imgopts:
-@@ -533,7 +538,8 @@ class VM(qtest.QEMUQtestMachine):
-         return result
+@@ -3555,11 +3554,10 @@ static BlockJob *do_drive_backup(DriveBackup *bac=
+kup, JobTxn *txn,
+         bmap =3D bdrv_find_dirty_bitmap(bs, backup->bitmap);
+         if (!bmap) {
+             error_setg(errp, "Bitmap '%s' could not be found", backup->b=
+itmap);
+-            bdrv_unref(target_bs);
+-            goto out;
++            goto unref;
+         }
+         if (bdrv_dirty_bitmap_check(bmap, BDRV_BITMAP_DEFAULT, errp)) {
+-            goto out;
++            goto unref;
+         }
+     }
+     if (!backup->auto_finalize) {
+@@ -3573,12 +3571,13 @@ static BlockJob *do_drive_backup(DriveBackup *bac=
+kup, JobTxn *txn,
+                             backup->sync, bmap, backup->compress,
+                             backup->on_source_error, backup->on_target_e=
+rror,
+                             job_flags, NULL, NULL, txn, &local_err);
+-    bdrv_unref(target_bs);
+     if (local_err !=3D NULL) {
+         error_propagate(errp, local_err);
+-        goto out;
++        goto unref;
+     }
 =20
-     # Returns None on success, and an error string on failure
--    def run_job(self, job, auto_finalize=3DTrue, auto_dismiss=3DFalse):
-+    def run_job(self, job, auto_finalize=3DTrue, auto_dismiss=3DFalse,
-+                pre_finalize=3DNone):
-         error =3D None
-         while True:
-             for ev in self.get_qmp_events_filtered(wait=3DTrue):
-@@ -546,6 +552,8 @@ class VM(qtest.QEMUQtestMachine):
-                                 error =3D j['error']
-                                 log('Job failed: %s' % (j['error']))
-                     elif status =3D=3D 'pending' and not auto_finalize:
-+                        if pre_finalize:
-+                            pre_finalize()
-                         self.qmp_log('job-finalize', id=3Djob)
-                     elif status =3D=3D 'concluded' and not auto_dismiss:
-                         self.qmp_log('job-dismiss', id=3Djob)
++unref:
++    bdrv_unref(target_bs);
+ out:
+     aio_context_release(aio_context);
+     return job;
 --=20
 2.20.1
 
