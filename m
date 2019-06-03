@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8428F337D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:29:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39230 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75848337CB
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:25:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39184 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXrhs-0000d5-Oh
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:29:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58728)
+	id 1hXreR-0006fD-LF
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:25:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58893)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hXrX2-0001Lt-Bx
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:05 -0400
+	(envelope-from <laine@redhat.com>) id 1hXrXh-0001sr-En
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hXrX1-0000hO-FD
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:04 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:42300)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hXrX1-0000g6-7v
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:03 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id i2so16003882otr.9
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 11:18:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zW5+ft4DHrr5jZwJj0gH36zDo/eTD6o3CbEgSk7iPqc=;
-	b=d+U531D7qClca9qVeRPy/32TSKqYhBh2Yp6jaSGVhSwfuFI6qEnG39eBeDrQbNMsE8
-	ylWN6vAQ6jm4t5Ao4lw9yirp/gDITWHg+bn5nmmk9itPhRcCX68+Q44OmtfX3DgZWUCp
-	AFaq+yDQlMsKOmENXyUx113vfi3B5nh8AGgJ4c5X8mH8ryCAQmF6DT4DuAJ/xrlKysNo
-	I15L4O/MQzbE0bOLWH0/pLO68wTZaHuI1pUX28qPcdPK/n6EOuSqM/F9waBoQlsjGou4
-	iKk37TjOjnynXLJQNOz2olQxR0J8G1TLNRlWT1EDB+qEdjk3a81/QaaHy78BXTcBBL1K
-	W/xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=zW5+ft4DHrr5jZwJj0gH36zDo/eTD6o3CbEgSk7iPqc=;
-	b=ICo1MguHNthngXA9+6Y4zrXRp5DqDDarUxiegPB5FUSy2ybLOOMDQbS1uk1/YzmmJG
-	jmIdKS4IC+rUvORGqrGNVQ9BFkPwS9x8mEGym3HYyyjm9Lt5ycUIUKf1jwb0aGgU/28u
-	PVptVCvzVnwvQccvPFy0KUKQXjCJQCZTsbDUfImM0RMt1+uaSn0TOqkmFce28hS6U0lK
-	KRLpr/qLREd7GvBiTiystZMDtvF4/4xU64eb5bcRmz8bDvMA+AmMCgfMLBetiH22KORx
-	8ZdWN1HbZEHDUp5PzB+7oZ1yZx3aQd2b5dQbWn9FGYkY8g65hqSnKP/R7OG4uhzccTLt
-	ypGw==
-X-Gm-Message-State: APjAAAXcjH2KfqDL5zoVe2ajheiLL2V+S6A3vgKIyxlgL5cs40ID9crb
-	dkMpAfxCyyT5i1M9m4Z/T/Rg2cEru7n8ORdX12N/dg==
-X-Google-Smtp-Source: APXvYqzAnIeXJWdYB+93b50awDnoffhJXu5S9ndXkn6H4CbRgJkyiwj9h7AKJO2fLp4mDJfGaMimRf6mZxny9J7VJlM=
-X-Received: by 2002:a9d:d17:: with SMTP id 23mr2090452oti.221.1559585882253;
-	Mon, 03 Jun 2019 11:18:02 -0700 (PDT)
+	(envelope-from <laine@redhat.com>) id 1hXrXg-0001kv-DB
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51548)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <laine@redhat.com>) id 1hXrXg-0001jk-59
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:44 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7A80F30C31A3;
+	Mon,  3 Jun 2019 18:18:38 +0000 (UTC)
+Received: from vhost2.laine.org (ovpn-117-135.phx2.redhat.com [10.3.117.135])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DAC460487;
+	Mon,  3 Jun 2019 18:18:24 +0000 (UTC)
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20190517125820.2885-1-jfreimann@redhat.com>
+	<20190520165657.2293c5d7@x1.home>
+	<20190521072157.wpb77wlc5mhfcdes@jenstp.localdomain>
+	<20190521073511-mutt-send-email-mst@kernel.org>
+	<20190521184918.n4nnk6ack3ssp6jv@jenstp.localdomain>
+	<d116bc65-0715-2c6a-2616-49f67cd685c8@oracle.com>
+	<20190528225039-mutt-send-email-mst@kernel.org>
+	<1c5f460e-a3b9-56c1-90f7-b3a5c3d0a0d3@redhat.com>
+	<20190603140832-mutt-send-email-mst@kernel.org>
+From: Laine Stump <laine@redhat.com>
+Message-ID: <1fa683cc-02c6-c674-78ef-db6afa55026a@redhat.com>
+Date: Mon, 3 Jun 2019 14:18:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190531192429.GH22103@habkost.net>
-	<93e5101f-67f1-a416-5e80-f16371a35e6a@redhat.com>
-	<871s0asvli.fsf@dusky.pond.sub.org>
-	<236db86d-52df-5537-4f33-f3c09bbb6289@redhat.com>
-In-Reply-To: <236db86d-52df-5537-4f33-f3c09bbb6289@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Jun 2019 19:17:51 +0100
-Message-ID: <CAFEAcA_bSzWYu5Oa_knq2SAK9Z3RN3LZjxeirVncgRQ9FsDZXA@mail.gmail.com>
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::32c
-Subject: Re: [Qemu-devel] Deprecation policy and build dependencies
+In-Reply-To: <20190603140832-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Mon, 03 Jun 2019 18:18:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
+ network devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,38 +68,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+	aadam@redhat.com, qemu-devel@nongnu.org,
+	Alex Williamson <alex.williamson@redhat.com>,
+	si-wei liu <si-wei.liu@oracle.com>,
+	Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Jun 2019 at 19:02, John Snow <jsnow@redhat.com> wrote:
-> That policy strikes me as weird, because RHEL7 is not going to be, in
-> general, using the latest and greatest QEMU. Usually stable versions of
-> distros stick with the versions of the programs that came out at the time.
->
-> What's the benefit of making sure that stable platforms can continue to
-> run the *newest* QEMU? Is this even a reasonable restriction? If you are
-> running RHEL7, how many projects do you expect to be able to git clone
-> and build and have that work with the rest of your legacy/stable
-> dependencies?
+On 6/3/19 2:12 PM, Michael S. Tsirkin wrote:
+> On Mon, Jun 03, 2019 at 02:06:47PM -0400, Laine Stump wrote:
+>> On 5/28/19 10:54 PM, Michael S. Tsirkin wrote:
+>>> On Tue, May 28, 2019 at 05:14:22PM -0700, si-wei liu wrote:
+>>>>
+>>>>
+>>>> On 5/21/2019 11:49 AM, Jens Freimann wrote:
+>>>>> On Tue, May 21, 2019 at 07:37:19AM -0400, Michael S. Tsirkin wrote:
+>>>>>> On Tue, May 21, 2019 at 09:21:57AM +0200, Jens Freimann wrote:
+>>>>>>> On Mon, May 20, 2019 at 04:56:57PM -0600, Alex Williamson wrote:
+>>
+>>>>>> Actually is there a list of devices for which this has been tested
+>>>>>> besides mlx5? I think someone said some old intel cards
+>>>>>> don't support this well, we might need to blacklist these ...
+>>>>>
+>>>>> So far I've tested mlx5 and XL710 which both worked, but I'm
+>>>>> working on testing with more devices. But of course help with testing
+>>>>> is greatly appreciated.
+>>>>
+>>>> It won't work on Intel ixgbe and Broadcom bnxt_en, which requires toggling
+>>>> the state of tap backing the virtio-net in order to release/reprogram MAC
+>>>> filter. Actually, it's very few NICs that could work with this - even some
+>>>> works by chance the behavior is undefined. Instead of blacklisting it makes
+>>>> more sense to whitelist the NIC that supports it - with some new sysfs
+>>>> attribute claiming the support presumably.
+>>>>
+>>>> -Siwei
+>>>
+>>> I agree for many cards we won't know how they behave until we try.  One
+>>> can consider this a bug in Linux that cards don't behave in a consistent
+>>> way.  The best thing to do IMHO would be to write a tool that people can
+>>> run to test the behaviour.
+>>
+>> Is the "bad behavior" something due to the hardware of the cards, or their
+>> drivers? If it's the latter, then at least initially having a whitelist
+>> would be counterproductive, since it would make it difficult for relative
+>> outsiders to test and report success/failure of various cards.
+> 
+> We can add an "ignore whitelist" flag. Would that address the issue?
 
-The benefit is that in general people who want to build QEMU
-from source can do so. I don't want us to be the kind of
-project that needs latest-and-greatest-foo for everything
-to build, because that sort of project is pretty infuriating
-to try to work with if you're an occasional contributor.
-"Builds on LTS distros" is an easy-to-express way to keep
-things from getting out of hand.
+It would be better than requiring a kernel/qemu recompile :-)
 
-Plus a bunch of the build machines we do testing on are
-not running bleeding edge distros, and as Connie says plenty
-of developers do QEMU development on non-bleeding-edge versions
-(my primary dev box run an LTS Ubuntu).
 
-thanks
--- PMM
+Where would the whilelist live? In qemu or in the kernel? It would be 
+problematic to have the whitelist in qemu if kernel driver changes could 
+fix a particular card.
+
+Beyond that, what about *always* just issuing some sort of warning 
+rather than completely forbidding a card that wasn't whitelisted? 
+(Haven't decided if I like that better or not (and it probably doesn't 
+matter, since I'm not a "real" user, but I thought I would mention it).
 
