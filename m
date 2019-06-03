@@ -2,134 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB94A337D7
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:30:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39242 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21063385C
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:41:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39361 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXrj2-0001HH-Vf
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:30:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59924)
+	id 1hXrtQ-0003zM-VM
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:41:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35267)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hXraA-00044Q-Si
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:21:20 -0400
+	(envelope-from <bounces@canonical.com>) id 1hXrr4-0002iJ-KG
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:38:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hXra9-00064E-RI
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:21:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38052)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1hXra9-00062Z-Jf
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:21:17 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B3F3B2F8BF1;
-	Mon,  3 Jun 2019 18:21:16 +0000 (UTC)
-Received: from [10.18.17.164] (dhcp-17-164.bos.redhat.com [10.18.17.164])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6A67417CC0;
-	Mon,  3 Jun 2019 18:21:11 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190531192429.GH22103@habkost.net>
-	<93e5101f-67f1-a416-5e80-f16371a35e6a@redhat.com>
-	<871s0asvli.fsf@dusky.pond.sub.org>
-	<236db86d-52df-5537-4f33-f3c09bbb6289@redhat.com>
-	<CAFEAcA_bSzWYu5Oa_knq2SAK9Z3RN3LZjxeirVncgRQ9FsDZXA@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
-	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
-Message-ID: <b4de3161-7b9c-debc-a652-21832612ebf4@redhat.com>
-Date: Mon, 3 Jun 2019 14:21:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <bounces@canonical.com>) id 1hXrjL-0004Mt-Or
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:30:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36584)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hXrjL-0004KI-Ho
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:30:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hXrjJ-000867-FX
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 18:30:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 713322E80C8
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 18:30:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_bSzWYu5Oa_knq2SAK9Z3RN3LZjxeirVncgRQ9FsDZXA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Mon, 03 Jun 2019 18:21:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Jun 2019 18:22:13 -0000
+From: elmarco <marcandre.lureau@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: marcandre-lureau
+X-Launchpad-Bug-Reporter: elmarco (marcandre-lureau)
+X-Launchpad-Bug-Modifier: elmarco (marcandre-lureau)
+Message-Id: <155958613349.25037.18347376667379404456.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: b4a7f8091aeaa260d815a11c897160aa85df4042
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Deprecation policy and build dependencies
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831486] [NEW] qmp monitor deadlock (with spice
+ events for ex)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -138,49 +63,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Bug 1831486 <1831486@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
+If an event is emitted during monitor_flush_locked() it will deadlock.
 
-On 6/3/19 2:17 PM, Peter Maydell wrote:
-> On Mon, 3 Jun 2019 at 19:02, John Snow <jsnow@redhat.com> wrote:
->> That policy strikes me as weird, because RHEL7 is not going to be, in
->> general, using the latest and greatest QEMU. Usually stable versions of
->> distros stick with the versions of the programs that came out at the time.
->>
->> What's the benefit of making sure that stable platforms can continue to
->> run the *newest* QEMU? Is this even a reasonable restriction? If you are
->> running RHEL7, how many projects do you expect to be able to git clone
->> and build and have that work with the rest of your legacy/stable
->> dependencies?
-> 
-> The benefit is that in general people who want to build QEMU
-> from source can do so. I don't want us to be the kind of
-> project that needs latest-and-greatest-foo for everything
-> to build, because that sort of project is pretty infuriating
-> to try to work with if you're an occasional contributor.
-> "Builds on LTS distros" is an easy-to-express way to keep
-> things from getting out of hand.
-> 
-> Plus a bunch of the build machines we do testing on are
-> not running bleeding edge distros, and as Connie says plenty
-> of developers do QEMU development on non-bleeding-edge versions
-> (my primary dev box run an LTS Ubuntu).
-> 
+Thread 1 (Thread 0x7f14f1854000 (LWP 7245)):
+#0  0x00007f14fc30592d in __lll_lock_wait () at /lib64/libpthread.so.0
+#1  0x00007f14fc2fedc9 in pthread_mutex_lock () at /lib64/libpthread.so.0
+#2  0x000055de60e19327 in qemu_mutex_lock_impl (mutex=3D0x55de61859e58, fil=
+e=3D0x55de60f1a640 "/home/elmarco/src/qq/monitor.c", line=3D438) at /home/e=
+lmarco/src/qq/util/qemu-thread-posix.c:66
+#3  0x000055de6085c5af in monitor_puts (mon=3D0x55de61859d30, str=3D0x55de6=
+2a61d30 "{\"timestamp\": {\"seconds\": 1559585795, \"microseconds\": 508720=
+}, \"event\": \"SPICE_DISCONNECTED\", \"data\": {\"server\": {\"port\": \"/=
+tmp/.9IW52Z/spice.sock\", \"family\": \"unix\", \"host\": \"localhost\"}, \=
+"client\": {"...) at /home/elmarco/src/qq/monitor.c:438
+#4  0x000055de6085c85a in qmp_send_response (mon=3D0x55de61859d30, rsp=3D0x=
+55de61ed19a0) at /home/elmarco/src/qq/monitor.c:493
+#5  0x000055de6085c8ee in monitor_qapi_event_emit (event=3DQAPI_EVENT_SPICE=
+_DISCONNECTED, qdict=3D0x55de61ed19a0) at /home/elmarco/src/qq/monitor.c:521
+#6  0x000055de6085c9ea in monitor_qapi_event_queue_no_reenter (event=3DQAPI=
+_EVENT_SPICE_DISCONNECTED, qdict=3D0x55de61ed19a0) at /home/elmarco/src/qq/=
+monitor.c:546
+#7  0x000055de6085cd7a in qapi_event_emit (event=3DQAPI_EVENT_SPICE_DISCONN=
+ECTED, qdict=3D0x55de61ed19a0) at /home/elmarco/src/qq/monitor.c:621
+#8  0x000055de60e04bc3 in qapi_event_send_spice_disconnected (server=3D0x55=
+de61ee7b30, client=3D0x55de620c9090) at qapi/qapi-events-ui.c:101
+#9  0x000055de60c84381 in channel_event (event=3D3, info=3D0x55de6222f4c0) =
+at /home/elmarco/src/qq/ui/spice-core.c:234
+#10 0x00007f14fc70ba3b in reds_handle_channel_event (reds=3D<optimized out>=
+, event=3D3, info=3D0x55de6222f4c0) at reds.c:318
+#11 0x00007f14fc6f407b in main_dispatcher_self_handle_channel_event (info=
+=3D0x55de6222f4c0, event=3D3, self=3D0x55de61a5b0b0) at main-dispatcher.c:1=
+91
+#12 0x00007f14fc6f407b in main_dispatcher_channel_event (self=3D0x55de61a5b=
+0b0, event=3Devent@entry=3D3, info=3D0x55de6222f4c0) at main-dispatcher.c:1=
+91
+#13 0x00007f14fc713cf3 in red_stream_push_channel_event (s=3Ds@entry=3D0x55=
+de6222f400, event=3Devent@entry=3D3) at red-stream.c:416
+#14 0x00007f14fc713d2b in red_stream_free (s=3D0x55de6222f400) at red-strea=
+m.c:390
+#15 0x00007f14fc6fa67c in red_channel_client_finalize (object=3D0x55de62511=
+360) at red-channel-client.c:347
+#16 0x00007f14fe4cfcf0 in g_object_unref () at /lib64/libgobject-2.0.so.0
+#17 0x00007f14fc6fca12 in red_channel_client_push (rcc=3D0x55de62511360) at=
+ red-channel-client.c:1340
+#18 0x00007f14fc6fca12 in red_channel_client_push (rcc=3D0x55de62511360) at=
+ red-channel-client.c:1303
+#19 0x00007f14fc6cd479 in red_char_device_send_msg_to_client (client=3D<opt=
+imized out>, msg=3D0x55de62512c00, dev=3D0x55de61a5b3b0) at char-device.c:3=
+07
+#20 0x00007f14fc6cd479 in red_char_device_send_msg_to_clients (msg=3D0x55de=
+62512c00, dev=3D0x55de61a5b3b0) at char-device.c:307
+#21 0x00007f14fc6cd479 in red_char_device_read_from_device (dev=3D0x55de61a=
+5b3b0) at char-device.c:355
+#22 0x000055de60a27dba in spice_chr_write (chr=3D0x55de61924c00, buf=3D0x55=
+de6236c070 "{\"return\": {}, \"id\": 2}\r\n", len=3D25) at /home/elmarco/sr=
+c/qq/chardev/spice.c:201
+#23 0x000055de60d89e29 in qemu_chr_write_buffer (s=3D0x55de61924c00, buf=3D=
+0x55de6236c070 "{\"return\": {}, \"id\": 2}\r\n", len=3D25, offset=3D0x7ffc=
+d5e1a860, write_all=3Dfalse) at /home/elmarco/src/qq/chardev/char.c:113
+#24 0x000055de60d89f96 in qemu_chr_write (s=3D0x55de61924c00, buf=3D0x55de6=
+236c070 "{\"return\": {}, \"id\": 2}\r\n", len=3D25, write_all=3Dfalse) at =
+/home/elmarco/src/qq/chardev/char.c:148
+#25 0x000055de60d8cf78 in qemu_chr_fe_write (be=3D0x55de61859d30, buf=3D0x5=
+5de6236c070 "{\"return\": {}, \"id\": 2}\r\n", len=3D25) at /home/elmarco/s=
+rc/qq/chardev/char-fe.c:42
+#26 0x000055de6085c40f in monitor_flush_locked (mon=3D0x55de61859d30) at /h=
+ome/elmarco/src/qq/monitor.c:404
+#27 0x000055de6085c614 in monitor_puts (mon=3D0x55de61859d30, str=3D0x55de6=
+22f6a40 "{\"return\": {}, \"id\": 2}\n") at /home/elmarco/src/qq/monitor.c:=
+446
+#28 0x000055de6085c85a in qmp_send_response (mon=3D0x55de61859d30, rsp=3D0x=
+55de61ecf960) at /home/elmarco/src/qq/monitor.c:493
+#29 0x000055de60865902 in monitor_qmp_respond (mon=3D0x55de61859d30, rsp=3D=
+0x55de61ecf960) at /home/elmarco/src/qq/monitor.c:4128
+#30 0x000055de60865a19 in monitor_qmp_dispatch (mon=3D0x55de61859d30, req=
+=3D0x55de622ec000) at /home/elmarco/src/qq/monitor.c:4157
+#31 0x000055de60865ce2 in monitor_qmp_bh_dispatcher (data=3D0x0) at /home/e=
+lmarco/src/qq/monitor.c:4224
 
-I get it, we don't want to require Python 3.8 because some dev wanted
-assignment conditionals -- but we're talking about Python 2 here, which
-suffers its EOL by the end of this calendar year.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-So do we think it's reasonable to drop support for Python2 for the
-release that comes out after Python2's EOL, or do we insist on 2x3
-simultaneous support for years more?
+-- =
 
---js
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831486
+
+Title:
+  qmp monitor deadlock (with spice events for ex)
+
+Status in QEMU:
+  New
+
+Bug description:
+  If an event is emitted during monitor_flush_locked() it will deadlock.
+
+  Thread 1 (Thread 0x7f14f1854000 (LWP 7245)):
+  #0  0x00007f14fc30592d in __lll_lock_wait () at /lib64/libpthread.so.0
+  #1  0x00007f14fc2fedc9 in pthread_mutex_lock () at /lib64/libpthread.so.0
+  #2  0x000055de60e19327 in qemu_mutex_lock_impl (mutex=3D0x55de61859e58, f=
+ile=3D0x55de60f1a640 "/home/elmarco/src/qq/monitor.c", line=3D438) at /home=
+/elmarco/src/qq/util/qemu-thread-posix.c:66
+  #3  0x000055de6085c5af in monitor_puts (mon=3D0x55de61859d30, str=3D0x55d=
+e62a61d30 "{\"timestamp\": {\"seconds\": 1559585795, \"microseconds\": 5087=
+20}, \"event\": \"SPICE_DISCONNECTED\", \"data\": {\"server\": {\"port\": \=
+"/tmp/.9IW52Z/spice.sock\", \"family\": \"unix\", \"host\": \"localhost\"},=
+ \"client\": {"...) at /home/elmarco/src/qq/monitor.c:438
+  #4  0x000055de6085c85a in qmp_send_response (mon=3D0x55de61859d30, rsp=3D=
+0x55de61ed19a0) at /home/elmarco/src/qq/monitor.c:493
+  #5  0x000055de6085c8ee in monitor_qapi_event_emit (event=3DQAPI_EVENT_SPI=
+CE_DISCONNECTED, qdict=3D0x55de61ed19a0) at /home/elmarco/src/qq/monitor.c:=
+521
+  #6  0x000055de6085c9ea in monitor_qapi_event_queue_no_reenter (event=3DQA=
+PI_EVENT_SPICE_DISCONNECTED, qdict=3D0x55de61ed19a0) at /home/elmarco/src/q=
+q/monitor.c:546
+  #7  0x000055de6085cd7a in qapi_event_emit (event=3DQAPI_EVENT_SPICE_DISCO=
+NNECTED, qdict=3D0x55de61ed19a0) at /home/elmarco/src/qq/monitor.c:621
+  #8  0x000055de60e04bc3 in qapi_event_send_spice_disconnected (server=3D0x=
+55de61ee7b30, client=3D0x55de620c9090) at qapi/qapi-events-ui.c:101
+  #9  0x000055de60c84381 in channel_event (event=3D3, info=3D0x55de6222f4c0=
+) at /home/elmarco/src/qq/ui/spice-core.c:234
+  #10 0x00007f14fc70ba3b in reds_handle_channel_event (reds=3D<optimized ou=
+t>, event=3D3, info=3D0x55de6222f4c0) at reds.c:318
+  #11 0x00007f14fc6f407b in main_dispatcher_self_handle_channel_event (info=
+=3D0x55de6222f4c0, event=3D3, self=3D0x55de61a5b0b0) at main-dispatcher.c:1=
+91
+  #12 0x00007f14fc6f407b in main_dispatcher_channel_event (self=3D0x55de61a=
+5b0b0, event=3Devent@entry=3D3, info=3D0x55de6222f4c0) at main-dispatcher.c=
+:191
+  #13 0x00007f14fc713cf3 in red_stream_push_channel_event (s=3Ds@entry=3D0x=
+55de6222f400, event=3Devent@entry=3D3) at red-stream.c:416
+  #14 0x00007f14fc713d2b in red_stream_free (s=3D0x55de6222f400) at red-str=
+eam.c:390
+  #15 0x00007f14fc6fa67c in red_channel_client_finalize (object=3D0x55de625=
+11360) at red-channel-client.c:347
+  #16 0x00007f14fe4cfcf0 in g_object_unref () at /lib64/libgobject-2.0.so.0
+  #17 0x00007f14fc6fca12 in red_channel_client_push (rcc=3D0x55de62511360) =
+at red-channel-client.c:1340
+  #18 0x00007f14fc6fca12 in red_channel_client_push (rcc=3D0x55de62511360) =
+at red-channel-client.c:1303
+  #19 0x00007f14fc6cd479 in red_char_device_send_msg_to_client (client=3D<o=
+ptimized out>, msg=3D0x55de62512c00, dev=3D0x55de61a5b3b0) at char-device.c=
+:307
+  #20 0x00007f14fc6cd479 in red_char_device_send_msg_to_clients (msg=3D0x55=
+de62512c00, dev=3D0x55de61a5b3b0) at char-device.c:307
+  #21 0x00007f14fc6cd479 in red_char_device_read_from_device (dev=3D0x55de6=
+1a5b3b0) at char-device.c:355
+  #22 0x000055de60a27dba in spice_chr_write (chr=3D0x55de61924c00, buf=3D0x=
+55de6236c070 "{\"return\": {}, \"id\": 2}\r\n", len=3D25) at /home/elmarco/=
+src/qq/chardev/spice.c:201
+  #23 0x000055de60d89e29 in qemu_chr_write_buffer (s=3D0x55de61924c00, buf=
+=3D0x55de6236c070 "{\"return\": {}, \"id\": 2}\r\n", len=3D25, offset=3D0x7=
+ffcd5e1a860, write_all=3Dfalse) at /home/elmarco/src/qq/chardev/char.c:113
+  #24 0x000055de60d89f96 in qemu_chr_write (s=3D0x55de61924c00, buf=3D0x55d=
+e6236c070 "{\"return\": {}, \"id\": 2}\r\n", len=3D25, write_all=3Dfalse) a=
+t /home/elmarco/src/qq/chardev/char.c:148
+  #25 0x000055de60d8cf78 in qemu_chr_fe_write (be=3D0x55de61859d30, buf=3D0=
+x55de6236c070 "{\"return\": {}, \"id\": 2}\r\n", len=3D25) at /home/elmarco=
+/src/qq/chardev/char-fe.c:42
+  #26 0x000055de6085c40f in monitor_flush_locked (mon=3D0x55de61859d30) at =
+/home/elmarco/src/qq/monitor.c:404
+  #27 0x000055de6085c614 in monitor_puts (mon=3D0x55de61859d30, str=3D0x55d=
+e622f6a40 "{\"return\": {}, \"id\": 2}\n") at /home/elmarco/src/qq/monitor.=
+c:446
+  #28 0x000055de6085c85a in qmp_send_response (mon=3D0x55de61859d30, rsp=3D=
+0x55de61ecf960) at /home/elmarco/src/qq/monitor.c:493
+  #29 0x000055de60865902 in monitor_qmp_respond (mon=3D0x55de61859d30, rsp=
+=3D0x55de61ecf960) at /home/elmarco/src/qq/monitor.c:4128
+  #30 0x000055de60865a19 in monitor_qmp_dispatch (mon=3D0x55de61859d30, req=
+=3D0x55de622ec000) at /home/elmarco/src/qq/monitor.c:4157
+  #31 0x000055de60865ce2 in monitor_qmp_bh_dispatcher (data=3D0x0) at /home=
+/elmarco/src/qq/monitor.c:4224
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831486/+subscriptions
 
