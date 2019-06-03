@@ -2,100 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B6332DDF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 12:47:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33001 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AD834FE8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 20:38:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56370 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXkUm-0004mm-UU
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 06:47:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42873)
+	id 1hYEKa-0006FE-1l
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 14:38:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39752)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hXkTc-0004J7-2W
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 06:46:05 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hYEJQ-0005uc-I1
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 14:37:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hXkTa-0002yQ-6u
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 06:46:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53288)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hXkTW-0002ma-FZ; Mon, 03 Jun 2019 06:46:00 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 579AB30917AB;
-	Mon,  3 Jun 2019 10:45:57 +0000 (UTC)
-Received: from [10.36.117.0] (unknown [10.36.117.0])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A85235D9CC;
-	Mon,  3 Jun 2019 10:45:55 +0000 (UTC)
-To: Stefan Liebler <stli@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20190531145608.28183-1-david@redhat.com>
-	<20190531145608.28183-3-david@redhat.com>
-	<b16f8afd-3458-591c-5b47-e1672e53e64a@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
-	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
-	SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <dcf1b51b-78c8-7936-092b-439e8a9a3c8b@redhat.com>
-Date: Mon, 3 Jun 2019 12:45:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	(envelope-from <no-reply@patchew.org>) id 1hYEJO-0002XF-Ve
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 14:37:32 -0400
+Resent-Date: Tue, 04 Jun 2019 14:37:32 -0400
+Resent-Message-Id: <E1hYEJO-0002XF-Ve@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21545)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hYEJO-0002Tz-Ow
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 14:37:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1559558913; cv=none; d=zoho.com; s=zohoarc; 
+	b=auYM/as2WMyu5WPUeQ0bNPBKkXkTy6LgnZBKbE2UQUZwtubG125+xLXwNA1MS36hJO0W7dsXpqrorXtYz5PAhpA67S4cv5r0GZNB0QRRiRImrMh95u1awJX0ZGbD3RKUsq0oVdxyGDjMXEWGvyB9y4Y0ZB+lVndIH+cPRaJcPH0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1559558913;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=OdGSMS/H7RqU+SVATIxOxCJvklc+vcm++wjllBWFJR8=; 
+	b=eT5x6+qbc8wJhKA0twoqP7fI6Nz5AzzEVfvoG6nyCKfL9z7GPrO1mhMuSX6J7SN2fwjMx3ab9z6rk0PaCIMoPix3rMqILiju098dw6s8xmd+SxGsXTCxJfUHeeQ6CSViD3xZYr1bzCEHqWXSbMXXj11nlxHXpgZElWzNpnrjiHU=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1559558911192967.5167011686991;
+	Mon, 3 Jun 2019 03:48:31 -0700 (PDT)
+In-Reply-To: <20190602110903.3431-1-mark.cave-ayland@ilande.co.uk>
+Message-ID: <155955891012.32260.9064081470614985823@ce79690b2cb9>
 MIME-Version: 1.0
-In-Reply-To: <b16f8afd-3458-591c-5b47-e1672e53e64a@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Mon, 03 Jun 2019 10:45:57 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mark.cave-ayland@ilande.co.uk
+Date: Mon, 3 Jun 2019 03:48:31 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v1 2/2] s390x/tcg: Store only the necessary
- amount of doublewords for STFLE
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v2 00/15] target/ppc: remove
+ getVSR()/putVSR() and further tidy-up
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -107,78 +62,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ilya Leoshkevich <iii@de.ibm.com>,
-	Andreas Krebbel <Andreas.Krebbel@de.ibm.com>,
-	Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
-	Richard Henderson <rth@twiddle.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: gkurz@kaod.org, rth@twiddle.net, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+	david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.06.19 12:38, Stefan Liebler wrote:
-> On 5/31/19 4:56 PM, David Hildenbrand wrote:
->> The PoP (z14, 7-382) says:
->>      Doublewords to the right of the doubleword in which the
->>      highest-numbered facility bit is assigned for a model
->>      may or may not be stored.
->>
->> However, stack protection in certain binaries can't deal with that.
->> "gzip" example code:
->>
->> f1b4:       a7 08 00 03             lhi     %r0,3
->> f1b8:       b2 b0 f0 a0             stfle   160(%r15)
->> f1bc:       e3 20 f0 b2 00 90       llgc    %r2,178(%r15)
->> f1c2:       c0 2b 00 00 00 01       nilf    %r2,1
->> f1c8:       b2 4f 00 10             ear     %r1,%a0
->> f1cc:       b9 14 00 22             lgfr    %r2,%r2
->> f1d0:       eb 11 00 20 00 0d       sllg    %r1,%r1,32
->> f1d6:       b2 4f 00 11             ear     %r1,%a1
->> f1da:       d5 07 f0 b8 10 28       clc     184(8,%r15),40(%r1)
->> f1e0:       a7 74 00 06             jne     f1ec <file_read@@Base+0x1b=
-c>
->> f1e4:       eb ef f1 30 00 04       lmg     %r14,%r15,304(%r15)
->> f1ea:       07 fe                   br      %r14
->> f1ec:       c0 e5 ff ff 9d 6e       brasl   %r14,2cc8 <__stack_chk_fai=
-l@plt>
->>
->> In QEMU, we currently have:
->>      max_bytes =3D 24
->> the code asks for (3 + 1) doublewords =3D=3D 32 bytes.
->>
->> If we write 32 bytes instead of only 24, and return "2 + 1" doubleword=
-s
->> ("one less than the number of doulewords needed to contain all of the
->>   facility bits"), the example code detects a stack corruption.
->>
->> In my opinion, the code is wrong. However, it seems to work fine on
->> real machines. So let's limit storing to the minimum of the requested
->> and the maximum doublewords.
-> Hi David,
->=20
-> Thanks for catching this. I've reported the "gzip" example to Ilya and=20
-> indeed, r0 is setup too large. He will fix it in gzip.
->=20
-> You've mentioned, that this is detected in certain binaries.
-> Can you please share those occurrences.
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYwMjExMDkwMy4zNDMx
+LTEtbWFyay5jYXZlLWF5bGFuZEBpbGFuZGUuY28udWsvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0ggdjIgMDAv
+MTVdIHRhcmdldC9wcGM6IHJlbW92ZSBnZXRWU1IoKS9wdXRWU1IoKSBhbmQgZnVydGhlciB0aWR5
+LXVwClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDE5MDYwMjExMDkwMy4zNDMxLTEtbWFyay5j
+YXZlLWF5bGFuZEBpbGFuZGUuY28udWsKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmlu
+L2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
+ZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2Ny
+aXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQg
+PT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogICA2MDkw
+NTI4NmNiLi5hZDg4ZTQyNTJmICBtYXN0ZXIgICAgIC0+IG1hc3RlcgpGcm9tIGh0dHBzOi8vZ2l0
+aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAgICBw
+YXRjaGV3LzIwMTkwNjAyMTEwOTAzLjM0MzEtMS1tYXJrLmNhdmUtYXlsYW5kQGlsYW5kZS5jby51
+ayAtPiBwYXRjaGV3LzIwMTkwNjAyMTEwOTAzLjM0MzEtMS1tYXJrLmNhdmUtYXlsYW5kQGlsYW5k
+ZS5jby51awpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjg2OGY2NDA1MDEgdGFyZ2V0
+L3BwYzogaW1wcm92ZSBWU1hfRk1BREQgd2l0aCBuZXcgR0VOX1ZTWF9IRUxQRVJfVlNYX01BREQg
+bWFjcm8KMTE2NTg0MzVmOSB0YXJnZXQvcHBjOiBkZWNvZGUgdGFyZ2V0IHJlZ2lzdGVyIGluIFZT
+WF9FWFRSQUNUX0lOU0VSVCBhdCB0cmFuc2xhdGlvbiB0aW1lCmU5ZTUyZTNmMGEgdGFyZ2V0L3Bw
+YzogZGVjb2RlIHRhcmdldCByZWdpc3RlciBpbiBWU1hfVkVDVE9SX0xPQURfU1RPUkVfTEVOR1RI
+IGF0IHRyYW5zbGF0aW9uIHRpbWUKMjM5ZTA3YTBjZiB0YXJnZXQvcHBjOiBpbnRyb2R1Y2UgR0VO
+X1ZTWF9IRUxQRVJfUjJfQUIgbWFjcm8gdG8gZnB1X2hlbHBlci5jCjZhZWI4YTJlMzYgdGFyZ2V0
+L3BwYzogaW50cm9kdWNlIEdFTl9WU1hfSEVMUEVSX1IyIG1hY3JvIHRvIGZwdV9oZWxwZXIuYwpi
+NDM4MzZkNGU4IHRhcmdldC9wcGM6IGludHJvZHVjZSBHRU5fVlNYX0hFTFBFUl9SMyBtYWNybyB0
+byBmcHVfaGVscGVyLmMKMjQxOTIwMDU2YSB0YXJnZXQvcHBjOiBpbnRyb2R1Y2UgR0VOX1ZTWF9I
+RUxQRVJfWDEgbWFjcm8gdG8gZnB1X2hlbHBlci5jCjk1OTI2MWEwNzQgdGFyZ2V0L3BwYzogaW50
+cm9kdWNlIEdFTl9WU1hfSEVMUEVSX1gyX0FCIG1hY3JvIHRvIGZwdV9oZWxwZXIuYwplY2Q1MTli
+ODZlIHRhcmdldC9wcGM6IGludHJvZHVjZSBHRU5fVlNYX0hFTFBFUl9YMiBtYWNybyB0byBmcHVf
+aGVscGVyLmMKNjJiNDY2NzcwYiB0YXJnZXQvcHBjOiBpbnRyb2R1Y2Ugc2VwYXJhdGUgZ2VuZXJh
+dG9yIGFuZCBoZWxwZXIgZm9yIHhzY3ZxcGRwCmQ4YTViZWVjMzMgdGFyZ2V0L3BwYzogaW50cm9k
+dWNlIEdFTl9WU1hfSEVMUEVSX1gzIG1hY3JvIHRvIGZwdV9oZWxwZXIuYwpiMmRlMTc2MWU1IHRh
+cmdldC9wcGM6IGludHJvZHVjZSBzZXBhcmF0ZSBWU1hfQ01QIG1hY3JvIGZvciB4dmNtcCogaW5z
+dHJ1Y3Rpb25zCjg5NWI5NTNmODEgdGFyZ2V0L3BwYzogcmVtb3ZlIGdldFZTUigpL3B1dFZTUigp
+IGZyb20gaW50X2hlbHBlci5jCmNhOTQxZmZlOWUgdGFyZ2V0L3BwYzogcmVtb3ZlIGdldFZTUigp
+L3B1dFZTUigpIGZyb20gbWVtX2hlbHBlci5jCmVhZTU5Yzc5YzUgdGFyZ2V0L3BwYzogcmVtb3Zl
+IGdldFZTUigpL3B1dFZTUigpIGZyb20gZnB1X2hlbHBlci5jCgo9PT0gT1VUUFVUIEJFR0lOID09
+PQoxLzE1IENoZWNraW5nIGNvbW1pdCBlYWU1OWM3OWM1ZWEgKHRhcmdldC9wcGM6IHJlbW92ZSBn
+ZXRWU1IoKS9wdXRWU1IoKSBmcm9tIGZwdV9oZWxwZXIuYykKMi8xNSBDaGVja2luZyBjb21taXQg
+Y2E5NDFmZmU5ZWFmICh0YXJnZXQvcHBjOiByZW1vdmUgZ2V0VlNSKCkvcHV0VlNSKCkgZnJvbSBt
+ZW1faGVscGVyLmMpCjMvMTUgQ2hlY2tpbmcgY29tbWl0IDg5NWI5NTNmODE3NSAodGFyZ2V0L3Bw
+YzogcmVtb3ZlIGdldFZTUigpL3B1dFZTUigpIGZyb20gaW50X2hlbHBlci5jKQo0LzE1IENoZWNr
+aW5nIGNvbW1pdCBiMmRlMTc2MWU1ODEgKHRhcmdldC9wcGM6IGludHJvZHVjZSBzZXBhcmF0ZSBW
+U1hfQ01QIG1hY3JvIGZvciB4dmNtcCogaW5zdHJ1Y3Rpb25zKQo1LzE1IENoZWNraW5nIGNvbW1p
+dCBkOGE1YmVlYzMzYmQgKHRhcmdldC9wcGM6IGludHJvZHVjZSBHRU5fVlNYX0hFTFBFUl9YMyBt
+YWNybyB0byBmcHVfaGVscGVyLmMpCjYvMTUgQ2hlY2tpbmcgY29tbWl0IDYyYjQ2Njc3MGJhYSAo
+dGFyZ2V0L3BwYzogaW50cm9kdWNlIHNlcGFyYXRlIGdlbmVyYXRvciBhbmQgaGVscGVyIGZvciB4
+c2N2cXBkcCkKNy8xNSBDaGVja2luZyBjb21taXQgZWNkNTE5Yjg2ZWVjICh0YXJnZXQvcHBjOiBp
+bnRyb2R1Y2UgR0VOX1ZTWF9IRUxQRVJfWDIgbWFjcm8gdG8gZnB1X2hlbHBlci5jKQo4LzE1IENo
+ZWNraW5nIGNvbW1pdCA5NTkyNjFhMDc0ODAgKHRhcmdldC9wcGM6IGludHJvZHVjZSBHRU5fVlNY
+X0hFTFBFUl9YMl9BQiBtYWNybyB0byBmcHVfaGVscGVyLmMpCjkvMTUgQ2hlY2tpbmcgY29tbWl0
+IDI0MTkyMDA1NmFiMCAodGFyZ2V0L3BwYzogaW50cm9kdWNlIEdFTl9WU1hfSEVMUEVSX1gxIG1h
+Y3JvIHRvIGZwdV9oZWxwZXIuYykKMTAvMTUgQ2hlY2tpbmcgY29tbWl0IGI0MzgzNmQ0ZThiYiAo
+dGFyZ2V0L3BwYzogaW50cm9kdWNlIEdFTl9WU1hfSEVMUEVSX1IzIG1hY3JvIHRvIGZwdV9oZWxw
+ZXIuYykKMTEvMTUgQ2hlY2tpbmcgY29tbWl0IDZhZWI4YTJlMzZjNyAodGFyZ2V0L3BwYzogaW50
+cm9kdWNlIEdFTl9WU1hfSEVMUEVSX1IyIG1hY3JvIHRvIGZwdV9oZWxwZXIuYykKMTIvMTUgQ2hl
+Y2tpbmcgY29tbWl0IDIzOWUwN2EwY2ZmYSAodGFyZ2V0L3BwYzogaW50cm9kdWNlIEdFTl9WU1hf
+SEVMUEVSX1IyX0FCIG1hY3JvIHRvIGZwdV9oZWxwZXIuYykKMTMvMTUgQ2hlY2tpbmcgY29tbWl0
+IGU5ZTUyZTNmMGEzOSAodGFyZ2V0L3BwYzogZGVjb2RlIHRhcmdldCByZWdpc3RlciBpbiBWU1hf
+VkVDVE9SX0xPQURfU1RPUkVfTEVOR1RIIGF0IHRyYW5zbGF0aW9uIHRpbWUpCjE0LzE1IENoZWNr
+aW5nIGNvbW1pdCAxMTY1ODQzNWY5ZmYgKHRhcmdldC9wcGM6IGRlY29kZSB0YXJnZXQgcmVnaXN0
+ZXIgaW4gVlNYX0VYVFJBQ1RfSU5TRVJUIGF0IHRyYW5zbGF0aW9uIHRpbWUpCjE1LzE1IENoZWNr
+aW5nIGNvbW1pdCA4NjhmNjQwNTAxNWMgKHRhcmdldC9wcGM6IGltcHJvdmUgVlNYX0ZNQUREIHdp
+dGggbmV3IEdFTl9WU1hfSEVMUEVSX1ZTWF9NQUREIG1hY3JvKQpXQVJOSU5HOiBCbG9jayBjb21t
+ZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjc4OiBGSUxFOiB0YXJn
+ZXQvcHBjL3RyYW5zbGF0ZS92c3gtaW1wbC5pbmMuYzoxMzExOgorICAgICAgICAvKiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgXAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFy
+YXRlIGxpbmUKIzI4NDogRklMRTogdGFyZ2V0L3BwYy90cmFuc2xhdGUvdnN4LWltcGwuaW5jLmM6
+MTMxNzoKKyAgICAgICAgLyogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKCkVSUk9SOiBNYWNyb3Mgd2l0aCBjb21wbGV4
+IHZhbHVlcyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gcGFyZW50aGVzaXMKIzMyNTogRklMRTogdGFy
+Z2V0L3BwYy90cmFuc2xhdGUvdnN4LW9wcy5pbmMuYzo2NjoKKyNkZWZpbmUgR0VOX1hYM0ZPUk1f
+TkFNRShuYW1lLCBvcGNuYW1lLCBvcGMyLCBvcGMzLCBmbDIpICAgICAgICAgICAgICAgXAorR0VO
+X0hBTkRMRVIyX0UobmFtZSwgb3BjbmFtZSwgMHgzQywgb3BjMiB8IDAsIG9wYzMsIDAsIFBQQ19O
+T05FLCBmbDIpLCBcCitHRU5fSEFORExFUjJfRShuYW1lLCBvcGNuYW1lLCAweDNDLCBvcGMyIHwg
+MSwgb3BjMywgMCwgUFBDX05PTkUsIGZsMiksIFwKK0dFTl9IQU5ETEVSMl9FKG5hbWUsIG9wY25h
+bWUsIDB4M0MsIG9wYzIgfCAyLCBvcGMzLCAwLCBQUENfTk9ORSwgZmwyKSwgXAorR0VOX0hBTkRM
+RVIyX0UobmFtZSwgb3BjbmFtZSwgMHgzQywgb3BjMiB8IDMsIG9wYzMsIDAsIFBQQ19OT05FLCBm
+bDIpCgp0b3RhbDogMSBlcnJvcnMsIDIgd2FybmluZ3MsIDM3NyBsaW5lcyBjaGVja2VkCgpQYXRj
+aCAxNS8xNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
+c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
+ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpU
+ZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
+bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA2MDIxMTA5MDMuMzQzMS0xLW1hcmsu
+Y2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdl
+LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
+YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
+cmVkaGF0LmNvbQ==
 
-Hi Stafan,
-
-thanks for your reply.
-
-I didn't track all occurrences, it *could* be that it was only gzip in
-the background making other processes fail.
-
-For example, the systemd "vitual console setup" unit failed, too, which
-was fixed by this change.
-
-I also remember, seeing segfaults in rpmbuild, for example. They only
-"changed" with this fix - I m still chasing different errors. :)
-
-You mentioned "He will fix it in gzip", so I assume this is a gzip issue
-and not a gcc/glibc/whatever toolchain issue?
-
---=20
-
-Thanks,
-
-David / dhildenb
 
