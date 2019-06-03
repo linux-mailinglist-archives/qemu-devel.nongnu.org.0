@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0222033043
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:51:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34702 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E0D33025
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:48:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34623 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXmRB-0003C1-38
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:51:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37968)
+	id 1hXmNf-0000HG-1g
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:48:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38124)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmKs-0007F5-13
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:45:11 -0400
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmKg-0007Hi-3w
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:45:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmF2-0007aD-9D
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:39:10 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37824)
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmF9-0007ux-BW
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:39:16 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34575)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
-	id 1hXmF2-0007Y3-1I; Mon, 03 Jun 2019 08:39:08 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 20so8228022pgr.4;
-	Mon, 03 Jun 2019 05:39:07 -0700 (PDT)
+	id 1hXmF9-0007sj-0n; Mon, 03 Jun 2019 08:39:15 -0400
+Received: by mail-pg1-x541.google.com with SMTP id h2so4981933pgg.1;
+	Mon, 03 Jun 2019 05:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=G3ZSglryhsNUt/h90DmGkj8h+92M8tgHTqIsTGOKnJ4=;
-	b=bbQqmj0M7cOWbQWWIPWYPxGWnOGdmAY3VcDaM2ex39NkPAZEMXi5LUPRV6VdCZIA59
-	j8Mv+hn/T/T6cZOtrDOSnus2XUNSzWYJTTpBAwdrjzFV4dk61s4j9egPO0v7zKmuinYR
-	X7hK0r6HtNp2qctI1xldnIPp2PYILG/xfA/RLq5g+N6XHSYLEMp6HkIF2c1GbEdjOG+2
-	/wBdJlN7ZlSAEKljgf6MEtbOEnn3BR58mlCzBDGSfeUAa/d5Ev7jjGAeVkdqnfALLrdC
-	kLD6OFk7XKoht4UNS9/qgOQ/QK8QG9VsLIJLyp+rfv3Yn/zDKHjR6CTzQB2LmPKMkX5N
-	3ZmQ==
+	bh=0zPchgJi6YzPvMMFd4UjDrg2UEfvsfzn5zpjZoO+8yc=;
+	b=GN+JDPE5sHE8TneYV18T0327b0x23aI20VULiCdCbsuYnRb0diJix1TQA49Fte/pei
+	W55EMiRlLx8E78r4ezDG2TaCisS3zaH0Vf5nTfkip193qxBDjL1zT8LQmU4UADDCgkfY
+	bV5DS+fMC0gIQ2WyqV5Httf60uMe4CKp0VhIsZvGtGtOuwt0QorIQ3AKpsgDGt9TWzOW
+	5tW+v8IyKEQ5DFPrT6kjHrURCuIWdJwwXL+lqjewVKn65yW2ZU5lsiNrb+nsxAUwPZUk
+	JotK/gvRt9Soruci7N1MrMrddPLVYHJj1f6Hg2J3cZLkZzrvIBihW4i/GbTdU6QR7PO3
+	TuRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=G3ZSglryhsNUt/h90DmGkj8h+92M8tgHTqIsTGOKnJ4=;
-	b=cel83nhjVwLCo34cxh1lhjLj1mGga/zvQUYBzLwvE8+IB02jf1Ig02FsiH2Yqhmw9m
-	oxA+ClAz+VfQUNIE2xkPuFPjJGgBOdQLzRKRNdfeLlql+r8Z3oq8LCqlYUNoYb/if//I
-	tY6fKzf3nnvNNVZNZgvFzmaIpPJdykTDpF9gUT5FC8/XYb1qpXdFi+4yPxIjKqBlnDtM
-	baLR0ZA+QyE0VJ0YFFdM/mrWHDW2zmZUUaRgjSFGJdK3JYxtaazEcBXw0IWIRkBsbbKz
-	egRzEWU6oM2ykJVoBC80CR6Ak6I5Nt2JVQ1SmFY3zEoPDsA9JAHNnkbnugip2mSCa6m4
-	aR/Q==
-X-Gm-Message-State: APjAAAXSry8/eVIB/HKi2XtMdlggG0kn17/hIN7d9r7ShlYS4nZXuhkF
-	AK32NypGt7/1tCy/1ZKhEfzhtaychO/Q1Q==
-X-Google-Smtp-Source: APXvYqwPmxjEzBQBnHbLmH4nUxGRfPhlFVJkEFZkGI7DolvYFYe7Af9idnkMv1chUbPP/m3eUNa07w==
-X-Received: by 2002:a65:6551:: with SMTP id a17mr25787591pgw.1.1559565546585; 
-	Mon, 03 Jun 2019 05:39:06 -0700 (PDT)
+	bh=0zPchgJi6YzPvMMFd4UjDrg2UEfvsfzn5zpjZoO+8yc=;
+	b=O3J3+8BcHhvRs5gZdcGHTMgroqKwKfovhnoJFTpsvfJJ3SZSoSE4/85z81qfISfsep
+	cWonka+65U+NmxZV0k28KEAQQFg36cUh41n+ItkOaF3xamJ4iQXDimdcQI9yTK9VhNso
+	yWs1SNpBLGCusrO3tNfjW3ZHVJuDWH5HQYEboFPXIHMLz/J2qc32zV6O32AEeDTQIhAG
+	DGHMneTQee9Gurzr0F/bQeiiZNmo3ZYRPJYhDA9I9exXB44MYAHseSAW2+zrZhSv3UwY
+	ZvOQsSIGmDOykQxUCgXj+NNFMzGbputFxqHafiFf1krSbDWy7qARjJHnV0IEucXYNwx6
+	kyVw==
+X-Gm-Message-State: APjAAAVbbiadK0eQHMlqvkGSTWAAtTxbkRak6Gf464GuvY+gAQg7H5CH
+	hZPkaWnFzZUQ3Py62Cux4MQZ1P5b/zgG+A==
+X-Google-Smtp-Source: APXvYqwgzY4p26lmGP+Vl/Aqmqdi7qNa1/vcxHVIypoU36BDXIAFg7LTiMk9WGz/D5WgX/IB6+3vBg==
+X-Received: by 2002:a63:fa16:: with SMTP id y22mr28139592pgh.15.1559565553736; 
+	Mon, 03 Jun 2019 05:39:13 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.100])
 	by smtp.gmail.com with ESMTPSA id
-	k14sm34860257pga.5.2019.06.03.05.39.00
+	k14sm34860257pga.5.2019.06.03.05.39.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 05:39:05 -0700 (PDT)
+	Mon, 03 Jun 2019 05:39:13 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 18:08:18 +0530
-Message-Id: <20190603123823.32661-5-mehta.aaru20@gmail.com>
+Date: Mon,  3 Jun 2019 18:08:19 +0530
+Message-Id: <20190603123823.32661-6-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190603123823.32661-1-mehta.aaru20@gmail.com>
 References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH v4 4/9] block/io_uring: implements interfaces
- for io_uring
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v4 5/9] stubs: add stubs for io_uring interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,444 +82,77 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aborts when sqes cannot be set as sqes cannot be returned to ring.
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- MAINTAINERS             |   7 +
- block/Makefile.objs     |   3 +
- block/io_uring.c        | 315 ++++++++++++++++++++++++++++++++++++++++
- include/block/aio.h     |  16 +-
- include/block/raw-aio.h |  12 ++
- 5 files changed, 352 insertions(+), 1 deletion(-)
- create mode 100644 block/io_uring.c
+ MAINTAINERS         |  1 +
+ stubs/Makefile.objs |  1 +
+ stubs/io_uring.c    | 32 ++++++++++++++++++++++++++++++++
+ 3 files changed, 34 insertions(+)
+ create mode 100644 stubs/io_uring.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index a96829ea83..dcaddec21f 100644
+index dcaddec21f..e30f62024e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2515,6 +2515,13 @@ F: block/file-posix.c
- F: block/file-win32.c
- F: block/win32-aio.c
+@@ -2521,6 +2521,7 @@ R: Stefan Hajnoczi <stefan@redhat.com>
+ L: qemu-block@nongnu.org
+ S: Maintained
+ F: block/io_uring.c
++F: stubs/io_uring.c
  
-+Linux io_uring
-+M: Aarushi Mehta <mehta.aaru20@gmail.com>
-+R: Stefan Hajnoczi <stefan@redhat.com>
-+L: qemu-block@nongnu.org
-+S: Maintained
-+F: block/io_uring.c
-+
  qcow2
  M: Kevin Wolf <kwolf@redhat.com>
- M: Max Reitz <mreitz@redhat.com>
-diff --git a/block/Makefile.objs b/block/Makefile.objs
-index ae11605c9f..8fde7a23a5 100644
---- a/block/Makefile.objs
-+++ b/block/Makefile.objs
-@@ -18,6 +18,7 @@ block-obj-y += block-backend.o snapshot.o qapi.o
- block-obj-$(CONFIG_WIN32) += file-win32.o win32-aio.o
- block-obj-$(CONFIG_POSIX) += file-posix.o
- block-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
-+block-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
- block-obj-y += null.o mirror.o commit.o io.o create.o
- block-obj-y += throttle-groups.o
- block-obj-$(CONFIG_LINUX) += nvme.o
-@@ -61,5 +62,7 @@ block-obj-$(if $(CONFIG_LZFSE),m,n) += dmg-lzfse.o
- dmg-lzfse.o-libs   := $(LZFSE_LIBS)
- qcow.o-libs        := -lz
- linux-aio.o-libs   := -laio
-+io_uring.o-cflags  := $(LINUX_IO_URING_CFLAGS)
-+io_uring.o-libs    := $(LINUX_IO_URING_LIBS)
- parallels.o-cflags := $(LIBXML2_CFLAGS)
- parallels.o-libs   := $(LIBXML2_LIBS)
-diff --git a/block/io_uring.c b/block/io_uring.c
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+index 9c7393b08c..5cf160a9c8 100644
+--- a/stubs/Makefile.objs
++++ b/stubs/Makefile.objs
+@@ -13,6 +13,7 @@ stub-obj-y += iothread.o
+ stub-obj-y += iothread-lock.o
+ stub-obj-y += is-daemonized.o
+ stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
++stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
+ stub-obj-y += machine-init-done.o
+ stub-obj-y += migr-blocker.o
+ stub-obj-y += change-state-handler.o
+diff --git a/stubs/io_uring.c b/stubs/io_uring.c
 new file mode 100644
-index 0000000000..536a9fbe87
+index 0000000000..622d1e4648
 --- /dev/null
-+++ b/block/io_uring.c
-@@ -0,0 +1,315 @@
++++ b/stubs/io_uring.c
+@@ -0,0 +1,32 @@
 +/*
 + * Linux io_uring support.
 + *
 + * Copyright (C) 2009 IBM, Corp.
 + * Copyright (C) 2009 Red Hat, Inc.
-+ * Copyright (C) 2019 Aarushi Mehta
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
 +#include "qemu/osdep.h"
-+#include <liburing.h>
-+#include "qemu-common.h"
 +#include "block/aio.h"
-+#include "qemu/queue.h"
-+#include "block/block.h"
 +#include "block/raw-aio.h"
-+#include "qemu/coroutine.h"
-+#include "qapi/error.h"
-+
-+#define MAX_EVENTS 128
-+
-+typedef struct LuringAIOCB {
-+    Coroutine *co;
-+    struct io_uring_sqe sqeq;
-+    ssize_t ret;
-+    QEMUIOVector *qiov;
-+    bool is_read;
-+    QSIMPLEQ_ENTRY(LuringAIOCB) next;
-+} LuringAIOCB;
-+
-+typedef struct LuringQueue {
-+    int plugged;
-+    unsigned int in_queue;
-+    unsigned int in_flight;
-+    bool blocked;
-+    QSIMPLEQ_HEAD(, LuringAIOCB) sq_overflow;
-+} LuringQueue;
-+
-+typedef struct LuringState {
-+    AioContext *aio_context;
-+
-+    struct io_uring ring;
-+
-+    /* io queue for submit at batch.  Protected by AioContext lock. */
-+    LuringQueue io_q;
-+
-+    /* I/O completion processing.  Only runs in I/O thread.  */
-+    QEMUBH *completion_bh;
-+} LuringState;
-+
-+/**
-+ * ioq_submit:
-+ * @s: AIO state
-+ *
-+ * Queues pending sqes and submits them
-+ *
-+ */
-+static int ioq_submit(LuringState *s);
-+
-+/**
-+ * qemu_luring_process_completions:
-+ * @s: AIO state
-+ *
-+ * Fetches completed I/O requests, consumes cqes and invokes their callbacks.
-+ *
-+ */
-+static void qemu_luring_process_completions(LuringState *s)
-+{
-+    struct io_uring_cqe *cqes;
-+    int ret;
-+
-+    /*
-+     * Request completion callbacks can run the nested event loop.
-+     * Schedule ourselves so the nested event loop will "see" remaining
-+     * completed requests and process them.  Without this, completion
-+     * callbacks that wait for other requests using a nested event loop
-+     * would hang forever.
-+     */
-+    qemu_bh_schedule(s->completion_bh);
-+
-+    while (io_uring_peek_cqe(&s->ring, &cqes) == 0) {
-+        if (!cqes) {
-+            break;
-+        }
-+        LuringAIOCB *luringcb = io_uring_cqe_get_data(cqes);
-+        read_barrier();
-+        ret = cqes->res;
-+
-+        if (ret == luringcb->qiov->size) {
-+            ret = 0;
-+        } else if (ret >= 0) {
-+            /* Short Read/Write */
-+            if (luringcb->is_read) {
-+                /* Read, pad with zeroes */
-+                qemu_iovec_memset(luringcb->qiov, ret, 0,
-+                luringcb->qiov->size - ret);
-+            } else {
-+                ret = -ENOSPC;;
-+            }
-+        }
-+        luringcb->ret = ret;
-+
-+        io_uring_cqe_seen(&s->ring, cqes);
-+        cqes = NULL;
-+        /* Change counters one-by-one because we can be nested. */
-+        s->io_q.in_flight--;
-+
-+        /*
-+         * If the coroutine is already entered it must be in ioq_submit()
-+         * and will notice luringcb->ret has been filled in when it
-+         * eventually runs later. Coroutines cannot be entered recursively
-+         * so avoid doing that!
-+         */
-+        if (!qemu_coroutine_entered(luringcb->co)) {
-+            aio_co_wake(luringcb->co);
-+        }
-+    }
-+    qemu_bh_cancel(s->completion_bh);
-+}
-+
-+static void qemu_luring_process_completions_and_submit(LuringState *s)
-+{
-+    aio_context_acquire(s->aio_context);
-+    qemu_luring_process_completions(s);
-+
-+    if (!s->io_q.plugged && !s->io_q.in_queue) {
-+        ioq_submit(s);
-+    }
-+    aio_context_release(s->aio_context);
-+}
-+
-+static void qemu_luring_completion_bh(void *opaque)
-+{
-+    LuringState *s = opaque;
-+    qemu_luring_process_completions_and_submit(s);
-+}
-+
-+static void qemu_luring_completion_cb(void *opaque)
-+{
-+    LuringState *s = opaque;
-+    qemu_luring_process_completions_and_submit(s);
-+}
-+
-+static void ioq_init(LuringQueue *io_q)
-+{
-+    QSIMPLEQ_INIT(&io_q->sq_overflow);
-+    io_q->plugged = 0;
-+    io_q->in_queue = 0;
-+    io_q->in_flight = 0;
-+    io_q->blocked = false;
-+}
-+
-+static int ioq_submit(LuringState *s)
-+{
-+    int ret = 0;
-+    LuringAIOCB *luringcb, *luringcb_next;
-+
-+    while (s->io_q.in_queue > 0) {
-+        QSIMPLEQ_FOREACH_SAFE(luringcb, &s->io_q.sq_overflow, next,
-+                              luringcb_next) {
-+            struct io_uring_sqe *sqes = io_uring_get_sqe(&s->ring);
-+            if (!sqes) {
-+                break;
-+            }
-+            /* Prep sqe for submission */
-+            *sqes = luringcb->sqeq;
-+            QSIMPLEQ_REMOVE_HEAD(&s->io_q.sq_overflow, next);
-+        }
-+        ret =  io_uring_submit(&s->ring);
-+        /* Prevent infinite loop if submission is repeatedly refused */
-+        if (ret <= 0) {
-+            if (ret == -EAGAIN) {
-+                continue;
-+            }
-+            break;
-+        }
-+        s->io_q.in_flight += ret;
-+        s->io_q.in_queue  -= ret;
-+    }
-+    s->io_q.blocked = (s->io_q.in_queue > 0);
-+
-+    if (s->io_q.in_flight) {
-+        /*
-+         * We can try to complete something just right away if there are
-+         * still requests in-flight.
-+         */
-+        qemu_luring_process_completions(s);
-+    }
-+    return ret;
-+}
-+
-+void luring_io_plug(BlockDriverState *bs, LuringState *s)
-+{
-+    s->io_q.plugged++;
-+}
-+
-+void luring_io_unplug(BlockDriverState *bs, LuringState *s)
-+{
-+    assert(s->io_q.plugged);
-+    if (--s->io_q.plugged == 0 &&
-+        !s->io_q.blocked && s->io_q.in_queue > 0) {
-+        ioq_submit(s);
-+    }
-+}
-+
-+/**
-+ * luring_do_submit:
-+ * @fd: file descriptor for I/O
-+ * @luringcb: AIO control block
-+ * @s: AIO state
-+ * @offset: offset for request
-+ * @type: type of request
-+ *
-+ * Fetches sqes from ring, adds to pending queue and preps them
-+ *
-+ */
-+static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
-+                            uint64_t offset, int type)
-+{
-+    struct io_uring_sqe *sqes = io_uring_get_sqe(&s->ring);
-+    if (!sqes) {
-+        sqes = &luringcb->sqeq;
-+        QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
-+    }
-+
-+    switch (type) {
-+    case QEMU_AIO_WRITE:
-+        io_uring_prep_writev(sqes, fd, luringcb->qiov->iov,
-+                             luringcb->qiov->niov, offset);
-+        break;
-+    case QEMU_AIO_READ:
-+        io_uring_prep_readv(sqes, fd, luringcb->qiov->iov,
-+                            luringcb->qiov->niov, offset);
-+        break;
-+    case QEMU_AIO_FLUSH:
-+        io_uring_prep_fsync(sqes, fd, 0);
-+        break;
-+    default:
-+        fprintf(stderr, "%s: invalid AIO request type, aborting 0x%x.\n",
-+                        __func__, type);
-+        abort();
-+    }
-+    io_uring_sqe_set_data(sqes, luringcb);
-+    s->io_q.in_queue++;
-+
-+    if (!s->io_q.blocked &&
-+        (!s->io_q.plugged ||
-+         s->io_q.in_flight + s->io_q.in_queue >= MAX_EVENTS)) {
-+        return ioq_submit(s);
-+    }
-+    return 0;
-+}
-+
-+int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
-+                                uint64_t offset, QEMUIOVector *qiov, int type)
-+{
-+    int ret;
-+    LuringAIOCB luringcb = {
-+        .co         = qemu_coroutine_self(),
-+        .ret        = -EINPROGRESS,
-+        .qiov       = qiov,
-+        .is_read    = (type == QEMU_AIO_READ),
-+    };
-+
-+    ret = luring_do_submit(fd, &luringcb, s, offset, type);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    if (luringcb.ret == -EINPROGRESS) {
-+        qemu_coroutine_yield();
-+    }
-+    return luringcb.ret;
-+}
 +
 +void luring_detach_aio_context(LuringState *s, AioContext *old_context)
 +{
-+    aio_set_fd_handler(old_context, s->ring.ring_fd, false, NULL, NULL, NULL,
-+                       s);
-+    qemu_bh_delete(s->completion_bh);
-+    s->aio_context = NULL;
++    abort();
 +}
 +
 +void luring_attach_aio_context(LuringState *s, AioContext *new_context)
 +{
-+    s->aio_context = new_context;
-+    s->completion_bh = aio_bh_new(new_context, qemu_luring_completion_bh, s);
-+    aio_set_fd_handler(s->aio_context, s->ring.ring_fd, false,
-+                       qemu_luring_completion_cb, NULL, NULL, s);
++    abort();
 +}
 +
 +LuringState *luring_init(Error **errp)
 +{
-+    int rc;
-+    LuringState *s;
-+    s = g_malloc0(sizeof(*s));
-+    struct io_uring *ring = &s->ring;
-+    rc =  io_uring_queue_init(MAX_EVENTS, ring, 0);
-+    if (rc < 0) {
-+        error_setg_errno(errp, errno, "failed to init linux io_uring ring");
-+        g_free(s);
-+        return NULL;
-+    }
-+
-+    ioq_init(&s->io_q);
-+    return s;
-+
++    abort();
 +}
 +
 +void luring_cleanup(LuringState *s)
 +{
-+    io_uring_queue_exit(&s->ring);
-+    g_free(s);
++    abort();
 +}
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 0ca25dfec6..9da3fd9793 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -50,6 +50,7 @@ typedef void IOHandler(void *opaque);
- struct Coroutine;
- struct ThreadPool;
- struct LinuxAioState;
-+struct LuringState;
- 
- struct AioContext {
-     GSource source;
-@@ -118,11 +119,19 @@ struct AioContext {
-     struct ThreadPool *thread_pool;
- 
- #ifdef CONFIG_LINUX_AIO
--    /* State for native Linux AIO.  Uses aio_context_acquire/release for
-+    /*
-+     * State for native Linux AIO.  Uses aio_context_acquire/release for
-      * locking.
-      */
-     struct LinuxAioState *linux_aio;
- #endif
-+#ifdef CONFIG_LINUX_IO_URING
-+    /*
-+     * State for Linux io_uring.  Uses aio_context_acquire/release for
-+     * locking.
-+     */
-+    struct LuringState *linux_io_uring;
-+#endif
- 
-     /* TimerLists for calling timers - one per clock type.  Has its own
-      * locking.
-@@ -387,6 +396,11 @@ struct LinuxAioState *aio_setup_linux_aio(AioContext *ctx, Error **errp);
- /* Return the LinuxAioState bound to this AioContext */
- struct LinuxAioState *aio_get_linux_aio(AioContext *ctx);
- 
-+/* Setup the LuringState bound to this AioContext */
-+struct LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp);
-+
-+/* Return the LuringState bound to this AioContext */
-+struct LuringState *aio_get_linux_io_uring(AioContext *ctx);
- /**
-  * aio_timer_new_with_attrs:
-  * @ctx: the aio context
-diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
-index ba223dd1f1..1885b086e6 100644
---- a/include/block/raw-aio.h
-+++ b/include/block/raw-aio.h
-@@ -58,6 +58,18 @@ void laio_attach_aio_context(LinuxAioState *s, AioContext *new_context);
- void laio_io_plug(BlockDriverState *bs, LinuxAioState *s);
- void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s);
- #endif
-+/* io_uring.c - Linux io_uring implementation */
-+#ifdef CONFIG_LINUX_IO_URING
-+typedef struct LuringState LuringState;
-+LuringState *luring_init(Error **errp);
-+void luring_cleanup(LuringState *s);
-+int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
-+                                uint64_t offset, QEMUIOVector *qiov, int type);
-+void luring_detach_aio_context(LuringState *s, AioContext *old_context);
-+void luring_attach_aio_context(LuringState *s, AioContext *new_context);
-+void luring_io_plug(BlockDriverState *bs, LuringState *s);
-+void luring_io_unplug(BlockDriverState *bs, LuringState *s);
-+#endif
- 
- #ifdef _WIN32
- typedef struct QEMUWin32AIOState QEMUWin32AIOState;
 -- 
 2.17.1
 
