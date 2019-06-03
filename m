@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F158E3303A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:50:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34656 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896BA33078
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 15:03:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35017 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXmQM-0002SM-5B
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:50:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37968)
+	id 1hXmcp-00034I-Ew
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 09:03:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42602)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmKk-0007F5-NN
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:45:03 -0400
+	(envelope-from <armbru@redhat.com>) id 1hXmbM-0002Y1-M4
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 09:02:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hXmFX-0000XE-Eb
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:39:40 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:35199)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
-	id 1hXmFX-0000VG-8S; Mon, 03 Jun 2019 08:39:39 -0400
-Received: by mail-pf1-x444.google.com with SMTP id d126so10573977pfd.2;
-	Mon, 03 Jun 2019 05:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=exvxrzkjOwxuFB3cwxOAuZc0lL7VPvQ7Qj9JqFUo65E=;
-	b=gFXEito+I80q41xrNzphhouu3Ysd2EFCHnSAkLKD2C5U9U2EK0U2CBpFRgpBT9+y1b
-	kcO+SSK2AdlhFZZDFC4Idp6CoYlRrXRrm8SfqkWhgPHyJMd+W9WmLZkAM6+prQLpKhqk
-	CF/KM+df+Eg1+pem+5+RIY65bJRhlMEWSfobp9u4uyA3gD0PVBSfH1N8n+xTEHRNLHBs
-	BgFhi/45ov8ZRcjYuYlVfQTxlUGRgJaD0LmR22cZArv/SQTcbQeCpDAL19mfO9TAglNN
-	cbLG6zrrfBAC8Ac1TyOexiTSRjeX570ef5g79AfdjEFwWi7Y0HiP/3xEfdZwhIYaJ+eZ
-	KQwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=exvxrzkjOwxuFB3cwxOAuZc0lL7VPvQ7Qj9JqFUo65E=;
-	b=ZESSXe6m6+g6RxRs3fdLL5pp5+lQF33fGDrgBkzsA+Vk00TWml2gaYbvtpK1J3I1IR
-	qjRGF9ZEuMFYh9kM1LMhUsWvT2sZbRsRxUiCF2UHxA5J8vpGa2cqP+0SzGOGWNUQQFR2
-	MewRusJn/hKv23BMUPw8LOmT4jCIfDmV54/p2Qe9tj72JDJqWqraXvFmoZg1SVGxhc62
-	rmDckxkZORUoIFKgncO/yG8qjSmMAH/lSrneQ3dXGxlnogXXKHX3rhdJremvo1FYY5Ne
-	m/v4UqCOzg/6g9oLS51OkgtCMSKfAx54rVj6TGsyp2kRbX9kK6Oe+PCa/3W54xUbwAnI
-	CfJQ==
-X-Gm-Message-State: APjAAAXUnleBaMbbboYeUJ71JpQ65OjD2VomJ2zQQ4Pj5h3OwmQ0FkKY
-	oojVVvNl1YZYAgeXk6VzGkhZqaPriLvIpg==
-X-Google-Smtp-Source: APXvYqzvdO4Z2vKk/9N0P5zOWQyGZaN8WYSkakUoMxEA+Va3/OPb4g1Qw/bHybiGuCDuaYfSitYgmw==
-X-Received: by 2002:a62:160b:: with SMTP id 11mr30724598pfw.30.1559565577877; 
-	Mon, 03 Jun 2019 05:39:37 -0700 (PDT)
-Received: from localhost.localdomain ([136.233.9.100])
-	by smtp.gmail.com with ESMTPSA id
-	k14sm34860257pga.5.2019.06.03.05.39.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 05:39:37 -0700 (PDT)
-From: Aarushi Mehta <mehta.aaru20@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 18:08:23 +0530
-Message-Id: <20190603123823.32661-10-mehta.aaru20@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190603123823.32661-1-mehta.aaru20@gmail.com>
-References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v4 9/9] block: add trace events for io_uring
+	(envelope-from <armbru@redhat.com>) id 1hXmbK-0007Ci-PS
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 09:02:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42544)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hXmbJ-0006Fg-1M
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 09:02:10 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 237C13097052;
+	Mon,  3 Jun 2019 13:01:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-223.ams2.redhat.com
+	[10.36.117.223])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D8AE60491;
+	Mon,  3 Jun 2019 12:59:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 1AC5D11386A0; Mon,  3 Jun 2019 14:59:56 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+References: <87lfyqla7r.fsf@dusky.pond.sub.org>
+	<4397594e-ccba-3f54-6359-2cb061b8fcc0@redhat.com>
+Date: Mon, 03 Jun 2019 14:59:56 +0200
+In-Reply-To: <4397594e-ccba-3f54-6359-2cb061b8fcc0@redhat.com> (Laszlo Ersek's
+	message of "Mon, 3 Jun 2019 12:55:01 +0200")
+Message-ID: <875zpmrfhv.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Mon, 03 Jun 2019 13:01:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,107 +62,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
-	qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
-	Max Reitz <mreitz@redhat.com>, saket.sinha89@gmail.com,
-	Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Julia Suvorova <jusual@mail.ru>, Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	"Michael S. Tsirkin" <mst@redhat.com>, James Hogan <jhogan@kernel.org>,
+	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+	Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <f4bug@amsat.org>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+	David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Anthony Perard <anthony.perard@citrix.com>,
+	David Gibson <david@gibson.dropbear.id.au>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+	Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	Alistair Francis <alistair@alistair23.me>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Riku Voipio <riku.voipio@iki.fi>, Greg Kurz <groug@kaod.org>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Beniamino Galvani <b.galvani@gmail.com>,
+	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
+	Stafford Horne <shorne@gmail.com>,
+	Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Richard Henderson <rth@twiddle.net>,
+	"Daniel P. Berrange" <berrange@redhat.com>,
+	Claudio Fontana <claudio.fontana@gmail.com>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	Chris Wulff <crwulff@gmail.com>,
+	Claudio Fontana <claudio.fontana@huawei.com>,
+	Laurent Vivier <laurent@vivier.eu>,
+	Andrew Baumann <Andrew.Baumann@microsoft.com>,
+	Michael Walle <michael@walle.cc>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
----
- block/io_uring.c   | 14 ++++++++++++--
- block/trace-events |  8 ++++++++
- 2 files changed, 20 insertions(+), 2 deletions(-)
+Laszlo Ersek <lersek@redhat.com> writes:
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index 536a9fbe87..e92e45ccca 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -17,6 +17,7 @@
- #include "block/raw-aio.h"
- #include "qemu/coroutine.h"
- #include "qapi/error.h"
-+#include "trace.h"
- 
- #define MAX_EVENTS 128
- 
-@@ -192,12 +193,15 @@ static int ioq_submit(LuringState *s)
- 
- void luring_io_plug(BlockDriverState *bs, LuringState *s)
- {
-+    trace_luring_io_plug();
-     s->io_q.plugged++;
- }
- 
- void luring_io_unplug(BlockDriverState *bs, LuringState *s)
- {
-     assert(s->io_q.plugged);
-+    trace_luring_io_unplug(s->io_q.blocked, s->io_q.plugged,
-+                                 s->io_q.in_queue, s->io_q.in_flight);
-     if (--s->io_q.plugged == 0 &&
-         !s->io_q.blocked && s->io_q.in_queue > 0) {
-         ioq_submit(s);
-@@ -218,6 +222,7 @@ void luring_io_unplug(BlockDriverState *bs, LuringState *s)
- static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
-                             uint64_t offset, int type)
- {
-+    int ret;
-     struct io_uring_sqe *sqes = io_uring_get_sqe(&s->ring);
-     if (!sqes) {
-         sqes = &luringcb->sqeq;
-@@ -243,11 +248,14 @@ static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
-     }
-     io_uring_sqe_set_data(sqes, luringcb);
-     s->io_q.in_queue++;
--
-+    trace_luring_do_submit(s->io_q.blocked, s->io_q.plugged,
-+                           s->io_q.in_queue, s->io_q.in_flight);
-     if (!s->io_q.blocked &&
-         (!s->io_q.plugged ||
-          s->io_q.in_flight + s->io_q.in_queue >= MAX_EVENTS)) {
--        return ioq_submit(s);
-+        ret = ioq_submit(s);
-+        trace_luring_do_submit_done(ret);
-+        return ret;
-     }
-     return 0;
- }
-@@ -295,6 +303,7 @@ LuringState *luring_init(Error **errp)
-     int rc;
-     LuringState *s;
-     s = g_malloc0(sizeof(*s));
-+    trace_luring_init_state((void *)s, sizeof(*s));
-     struct io_uring *ring = &s->ring;
-     rc =  io_uring_queue_init(MAX_EVENTS, ring, 0);
-     if (rc < 0) {
-@@ -312,4 +321,5 @@ void luring_cleanup(LuringState *s)
- {
-     io_uring_queue_exit(&s->ring);
-     g_free(s);
-+    trace_luring_cleanup_state();
- }
-diff --git a/block/trace-events b/block/trace-events
-index 1e0653ce6d..038ff14815 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -60,6 +60,14 @@ qmp_block_stream(void *bs, void *job) "bs %p job %p"
- file_paio_submit(void *acb, void *opaque, int64_t offset, int count, int type) "acb %p opaque %p offset %"PRId64" count %d type %d"
- file_copy_file_range(void *bs, int src, int64_t src_off, int dst, int64_t dst_off, int64_t bytes, int flags, int64_t ret) "bs %p src_fd %d offset %"PRIu64" dst_fd %d offset %"PRIu64" bytes %"PRIu64" flags %d ret %"PRId64
- 
-+#io_uring.c
-+luring_init_state(void *s, size_t size) "s %p size %zu"
-+luring_cleanup_state(void) "s freed"
-+disable luring_io_plug(void) "plug"
-+disable luring_io_unplug(int blocked, int plugged, int queued, int inflight) "blocked %d plugged %d queued %d inflight %d"
-+disable luring_do_submit(int blocked, int plugged, int queued, int inflight) "blocked %d plugged %d queued %d inflight %d"
-+disable luring_do_submit_done(int ret) "submitted to kernel %d"
-+
- # qcow2.c
- qcow2_writev_start_req(void *co, int64_t offset, int bytes) "co %p offset 0x%" PRIx64 " bytes %d"
- qcow2_writev_done_req(void *co, int ret) "co %p ret %d"
--- 
-2.17.1
+> Hi Markus,
+>
+> (sorry about the late reply, I've been away.)
+>
+> On 05/28/19 20:12, Markus Armbruster wrote:
+>
+>> EDK2 Firmware
+>> M: Laszlo Ersek <lersek@redhat.com>
+>> M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> tests/uefi-test-tools/UefiTestToolsPkg/Include/Guid/BiosTablesTest.h
+>
+> This header file does have a multiple inclusion guard:
+>
+>> /** @file
+>>   Expose the address(es) of the ACPI RSD PTR table(s) and the SMBIOS ent=
+ry
+>>   point(s) in a MB-aligned structure to the hypervisor.
+>>
+>>   [...]
+>> **/
+>>
+>> #ifndef __BIOS_TABLES_TEST_H__
+>> #define __BIOS_TABLES_TEST_H__
+>>
+>> [...]
+>>
+>> #endif // __BIOS_TABLES_TEST_H__
+>
+> It's possible that "scripts/clean-header-guards.pl" does not recognize
+> the guard.
 
+Correct.  I fixed the script in my tree.
+
+> According to the ISO C standard, "All identifiers that begin with an
+> underscore and either an uppercase letter or another underscore are
+> always reserved for any use". Therefore, technically speaking, the above
+> inclusion guard implies undefined behavior. In practice, this particular
+> style for header guards is extremely common in the edk2 codebase:
+>
+> $ git grep '^#ifndef __' -- '*.h'  | wc -l
+> 1012
+>
+> And, "tests/uefi-test-tools/UefiTestToolsPkg" follows the edk2 coding
+> style.
+>
+> That said, if you'd like to remove the leading "__" from the macro name,
+> I'd be fully OK with that.
+
+We routinely exempt files from style cleanups when we have a reason.  If
+you want this one to be exempted, that's fine with me.
+
+If we decide not to exempt it, then I want a header guard that makes my
+(fixed) script happy.  It isn't right now:
+
+    $ scripts/clean-header-guards.pl -nv tests/uefi-test-tools/UefiTestTool=
+sPkg/Include/Guid/BiosTablesTest.h=20
+    tests/uefi-test-tools/UefiTestToolsPkg/Include/Guid/BiosTablesTest.h gu=
+ard __BIOS_TABLES_TEST_H__ needs cleanup:
+        is a reserved identifier, doesn't end with _H, doesn't match the fi=
+le name
+    [...]
+
+Removing the leading "__" takes care of the first complaint:
+
+    tests/uefi-test-tools/UefiTestToolsPkg/Include/Guid/BiosTablesTest.h gu=
+ard BIOS_TABLES_TEST_H__ needs cleanup:
+        doesn't end with _H, doesn't match the file name
+
+Removing the trailing "__" as well takes care of the second one:
+
+    tests/uefi-test-tools/UefiTestToolsPkg/Include/Guid/BiosTablesTest.h gu=
+ard BIOS_TABLES_TEST_H needs cleanup:
+        doesn't match the file name
+
+To get rid of the last one, we can:
+
+* Rename to BIOSTABLESTEST_H.  Easy.
+
+* Teach scripts/clean-header-guards.pl to capitalize StudlyCaps
+  filenames to STUDLY_CAPS rather than STUDLYCAPS.  But that would break
+  include/libdecnumber/*.h.
+
+* Teach scripts/clean-header-guards to accept either STUDLYCAPS or
+  STUDLY_CAPS.  Considering we have exactly one filename that needs
+  this, I'd prefer not to.
+
+My first preference is BIOSTABLESTEST_H, second is to exempt the file.
+Yours?
 
