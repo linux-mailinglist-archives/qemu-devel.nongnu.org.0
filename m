@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABCDD335D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 18:58:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38078 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94CF336D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:35:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38585 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqIC-0001or-VJ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 12:58:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39517)
+	id 1hXqrS-0000qD-1g
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:35:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45010)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hXqHH-0001Y2-00
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:57:44 -0400
+	(envelope-from <bounces@canonical.com>) id 1hXqYi-0002YL-Nx
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:15:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hXqHF-0006Ou-Kr
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:57:42 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:46348)
+	(envelope-from <bounces@canonical.com>) id 1hXqYh-0003co-F5
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:15:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53008)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hXqHF-0006N5-EA
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:57:41 -0400
-Received: by mail-oi1-x241.google.com with SMTP id 203so13329657oid.13
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 09:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=Z16mSEfJcCmDQbOGYHSA8D+ldy5k0zTmMQKPbURTJ5E=;
-	b=JynOt/j8I7vZJL1cwc0yXNNvyYqnt/jbv0qR00Nz7wel+h1SQ4SBCEVKbUry2vNMRU
-	D7LMteMrznDlwaytO9GbFCnPDt0fAJ7wzRHnAPaI0DnJFzvAsXPWVuAi9kmWsfOk6NZU
-	fEStBeyNTqgF+oRaBdXZZatec44LMKoAEBBZJuG/phA8I0S1w3+4dcfgTMTzUWmtge+S
-	hTcCUuoAwyArBDoX+zt5YNUCwQctOM9DUM5e1iAHNHJ0hREm6KScCxlov6BIMOOLD+8u
-	fa1ZlNtsPIPYSVFD1kMrAGjNAXlfqORRa6Wsv8qD7etX0duE+zNxZPY0wYvL6nqUBDmc
-	CkSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Z16mSEfJcCmDQbOGYHSA8D+ldy5k0zTmMQKPbURTJ5E=;
-	b=B192IkbblJhXu+41HJ/DYPuAcpu8kN4d5vsukTmIdnshORJ3UOHwIdGvA4UdSvUm35
-	q0Utgmgt/WG6wqEpCR6YyP9H+Mk9yx8BZTbjTfgJLOsm/AMzBpYfalCva0vIF8wc/m1X
-	5QigeJXep3eIc2PGcc4Mc6e62Jx1AAYRmKpEMsDsuxyzdrNtbLegej0XekFR9BOAQEJq
-	SPlsX18XpRjS5Fwm4aYk1uU9LHlVtKv0Ns3c0fW4hqUtveNhcG5JeIxm6IyuuzaQAhj5
-	iv7ksVVIfJIwR5IeHnCE3Mv79Y1R/XSF60J01RhO20fLk+9hx50V9Ozszgl4O1paT7l2
-	6yzQ==
-X-Gm-Message-State: APjAAAVa1JnjWV4ZPbwKzSXANBO2YSwfIznBoqyBVpGD19Vuz3Xtr1De
-	23O0YJXuzKTdKaum3LalCMs/OjW692/64w==
-X-Google-Smtp-Source: APXvYqzU7/E9Zav735sA7QFvAg7ObAiI48KlZOInzb8EGbd7RcBBxtwhtMQa4yki/1Emh1C/n13Tiw==
-X-Received: by 2002:aca:5c06:: with SMTP id q6mr48039oib.63.1559581059945;
-	Mon, 03 Jun 2019 09:57:39 -0700 (PDT)
-Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
-	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id e16sm2820998otk.1.2019.06.03.09.57.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 09:57:39 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hXqYh-0003aL-8i
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:15:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hXqYf-0001BV-MH
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 17:15:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id A6C562E80CB
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 17:15:41 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Jun 2019 17:03:40 -0000
+From: Andrew Randrianasulu <1830872@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 11:57:35 -0500
-Message-Id: <20190603165735.8934-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: [Qemu-devel] [PATCH] target/s390x: Use tcg_gen_gvec_bitsel
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee andrew-randrianasulu lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Andrew Randrianasulu (andrew-randrianasulu)
+References: <155912118291.12579.8926874795813611531.malonedeb@soybean.canonical.com>
+Message-Id: <155958142157.4435.17545964704288334045.launchpad@loganberry.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: ed1d2c43656119da13d185cee55d995c9d613e40
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1830872] Re: AARCH64 to ARMv7 mistranslation in
+ TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,76 +65,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, david@redhat.com
+Reply-To: Bug 1830872 <1830872@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This replaces the target-specific implementations for VSEL.
+** Attachment added: "bzImage-4.12.0-x64"
+   https://bugs.launchpad.net/bugs/1830872/+attachment/5268560/+files/bzIma=
+ge-4.12.0-x64
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/s390x/translate_vx.inc.c | 38 ++++++---------------------------
- 1 file changed, 6 insertions(+), 32 deletions(-)
+-- =
 
-diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.inc.c
-index 7e0bfcb190..a8603cbfd6 100644
---- a/target/s390x/translate_vx.inc.c
-+++ b/target/s390x/translate_vx.inc.c
-@@ -233,6 +233,9 @@ static void get_vec_element_ptr_i64(TCGv_ptr ptr, uint8_t reg, TCGv_i64 enr,
- #define gen_gvec_fn_3(fn, es, v1, v2, v3) \
-     tcg_gen_gvec_##fn(es, vec_full_reg_offset(v1), vec_full_reg_offset(v2), \
-                       vec_full_reg_offset(v3), 16, 16)
-+#define gen_gvec_fn_4(fn, es, v1, v2, v3, v4) \
-+    tcg_gen_gvec_##fn(es, vec_full_reg_offset(v1), vec_full_reg_offset(v2), \
-+                      vec_full_reg_offset(v3), vec_full_reg_offset(v4), 16, 16)
- 
- /*
-  * Helper to carry out a 128 bit vector computation using 2 i64 values per
-@@ -903,40 +906,11 @@ static DisasJumpType op_vsce(DisasContext *s, DisasOps *o)
-     return DISAS_NEXT;
- }
- 
--static void gen_sel_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b, TCGv_i64 c)
--{
--    TCGv_i64 t = tcg_temp_new_i64();
--
--    /* bit in c not set -> copy bit from b */
--    tcg_gen_andc_i64(t, b, c);
--    /* bit in c set -> copy bit from a */
--    tcg_gen_and_i64(d, a, c);
--    /* merge the results */
--    tcg_gen_or_i64(d, d, t);
--    tcg_temp_free_i64(t);
--}
--
--static void gen_sel_vec(unsigned vece, TCGv_vec d, TCGv_vec a, TCGv_vec b,
--                        TCGv_vec c)
--{
--    TCGv_vec t = tcg_temp_new_vec_matching(d);
--
--    tcg_gen_andc_vec(vece, t, b, c);
--    tcg_gen_and_vec(vece, d, a, c);
--    tcg_gen_or_vec(vece, d, d, t);
--    tcg_temp_free_vec(t);
--}
--
- static DisasJumpType op_vsel(DisasContext *s, DisasOps *o)
- {
--    static const GVecGen4 gvec_op = {
--        .fni8 = gen_sel_i64,
--        .fniv = gen_sel_vec,
--        .prefer_i64 = TCG_TARGET_REG_BITS == 64,
--    };
--
--    gen_gvec_4(get_field(s->fields, v1), get_field(s->fields, v2),
--               get_field(s->fields, v3), get_field(s->fields, v4), &gvec_op);
-+    gen_gvec_fn_4(bitsel, ES_8, get_field(s->fields, v1),
-+                  get_field(s->fields, v4), get_field(s->fields, v2),
-+                  get_field(s->fields, v3));
-     return DISAS_NEXT;
- }
- 
--- 
-2.17.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830872
 
+Title:
+  AARCH64 to ARMv7 mistranslation in TCG
+
+Status in QEMU:
+  New
+
+Bug description:
+  The following guest code:
+
+  https://github.com/tianocore/edk2/blob/3604174718e2afc950c3cc64c64ba5165c=
+8692bd/MdePkg/Library/BaseMemoryLibOptDxe/AArch64/CopyMem.S
+
+  implements, in hand-optimized aarch64 assembly, the CopyMem() edk2 (EFI
+  Development Kit II) library function. (CopyMem() basically has memmove()
+  semantics, to provide a standard C analog here.) The relevant functions
+  are InternalMemCopyMem() and __memcpy().
+
+  When TCG translates this aarch64 code to x86_64, everything works
+  fine.
+
+  When TCG translates this aarch64 code to ARMv7, the destination area of
+  the translated CopyMem() function becomes corrupted -- it differs from
+  the intended source contents. Namely, in every 4096 byte block, the
+  8-byte word at offset 4032 (0xFC0) is zeroed out in the destination,
+  instead of receiving the intended source value.
+
+  I'm attaching two hexdumps of the same destination area:
+
+  - "good.txt" is a hexdump of the destination area when CopyMem() was
+    translated to x86_64,
+
+  - "bad.txt" is a hexdump of the destination area when CopyMem() was
+    translated to ARMv7.
+
+  In order to assist with the analysis of this issue, I disassembled the
+  aarch64 binary with "objdump". Please find the listing in
+  "DxeCore.objdump", attached. The InternalMemCopyMem() function starts at
+  hex offset 2b2ec. The __memcpy() function starts at hex offset 2b180.
+
+  And, I ran the guest on the ARMv7 host with "-d
+  in_asm,op,op_opt,op_ind,out_asm". Please find the log in
+  "tcg.in_asm.op.op_opt.op_ind.out_asm.log", attached.
+
+  The TBs that correspond to (parts of) the InternalMemCopyMem() and
+  __memcpy() functions are scattered over the TCG log file, but the offset
+  between the "nice" disassembly from "DxeCore.objdump", and the in-RAM
+  TBs in the TCG log, can be determined from the fact that there is a
+  single prfm instruction in the entire binary. The instruction's offset
+  is 0x2b180 in "DxeCore.objdump" -- at the beginning of the __memcpy()
+  function --, and its RAM address is 0x472d2180 in the TCG log. Thus the
+  difference (=3D the load address of DxeCore.efi) is 0x472a7000.
+
+  QEMU was built at commit a4f667b67149 ("Merge remote-tracking branch
+  'remotes/cohuck/tags/s390x-20190521-3' into staging", 2019-05-21).
+
+  The reproducer command line is (on an ARMv7 host):
+
+    qemu-system-aarch64 \
+      -display none \
+      -machine virt,accel=3Dtcg \
+      -nodefaults \
+      -nographic \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-aarch6=
+4-code.fd,readonly \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-arm-va=
+rs.fd,snapshot=3Don \
+      -cpu cortex-a57 \
+      -chardev stdio,signal=3Doff,mux=3Don,id=3Dchar0 \
+      -mon chardev=3Dchar0,mode=3Dreadline \
+      -serial chardev:char0
+
+  The apparent symptom is an assertion failure *in the guest*, such as
+
+  > ASSERT [DxeCore]
+  > /home/lacos/src/upstream/qemu/roms/edk2/MdePkg/Library/BaseLib/String.c=
+(1090):
+  > Length < _gPcd_FixedAtBuild_PcdMaximumAsciiStringLength
+
+  but that is only a (distant) consequence of the CopyMem()
+  mistranslation, and resultant destination area corruption.
+
+  Originally reported in the following two mailing list messages:
+  - http://mid.mail-archive.com/9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat=
+.com
+  - http://mid.mail-archive.com/f1cec8c0-1a9b-f5bb-f951-ea0ba9d276ee@redhat=
+.com
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1830872/+subscriptions
 
