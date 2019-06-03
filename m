@@ -2,78 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D358334C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 18:20:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37623 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0266633527
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 18:41:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37887 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXphG-0005TK-Jj
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 12:20:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59392)
+	id 1hXq1l-0004ot-73
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 12:41:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33918)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hXpf5-0004VK-RG
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:18:16 -0400
+	(envelope-from <lersek@redhat.com>) id 1hXpv2-0007Mh-Jc
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:34:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hXpf4-00072t-VY
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:18:15 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46657)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hXpf4-00071f-OI
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:18:14 -0400
-Received: by mail-ot1-x342.google.com with SMTP id z23so1643284ote.13
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 09:18:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=NBbL+t+4z5uGn6n/IUmrYtZrVWMwOUIxdDcZc43z18s=;
-	b=Zi1s6O0tdtEuqsKetPH/RYF3noETrYij4KZ4qgbtdjK6Yx5krU+NeDFDwt1+1zT6ZD
-	i52jQP1di/fUmkKW9MyxvtX6ON4HX6fgWbjSCBAtWGSNgTTeDzx2c2HwKzCKeACfmE7o
-	l0dBi2+QqGXg6GqNDpodQwfWZQvBZnfDyCy+qaxmd66gLKCXRAhsfN3GsOnghh6eqQwa
-	FAfZ4HIJ9omimU0lNb6FJ3MgqhNeQ+Dx2aAUBDL7Us8RQIZ6isr2MSKHlc1OEU0fqN4a
-	glMcSLgg3iCe9LyJ2i4Wqh/NzjiDxj1lI+5ruVemd2UMC3tdndtEaLooDpOfslkdmd4T
-	6t2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=NBbL+t+4z5uGn6n/IUmrYtZrVWMwOUIxdDcZc43z18s=;
-	b=T7jycGN1AVH3PwLp2EEyoKQ+KL14Fi7q5cduUifJnqarL9frRlMR5icp2dq0x7tM2R
-	utc6MrbJbZ24UMVMPQYabx+TfItxJkQZ0cXMm0L819LRjbqiGpfqL806nk40r/gJ69gx
-	Wn+8g15OjwU3HX0R2+RvcRu0fAx6TomIEg/2l0/XwUx7GCZdPbhozDKeXKdIsk4Yaf5A
-	IAtRLM2n1l12DgrnF9EaJug3ioQ+RqPKwwdCc4ZoyL3tKTSf4flRdKhcZyBdKdXgk4Qh
-	Lo413a0qFFzMbZz24Ner7t+FR9iW20tXQZ0qcMc3J6ltX+U2w+QUEhH4pOHiAMf2R0hm
-	0uxA==
-X-Gm-Message-State: APjAAAXyeohDbav/z2TrUze5EU30pzPYZsouccbez0OQHl0+KI0k5wy/
-	z67NmXky/NTobeVmikhk4OtdhA==
-X-Google-Smtp-Source: APXvYqx/HS/tcTV9ZZPDUOurlYGDtEd6bTM8Jr1XlCy/1HtWxnyuBGdAkQ3pFg4J9fMcVZRhrcNoBw==
-X-Received: by 2002:a9d:2af:: with SMTP id 44mr1783473otl.187.1559578693825;
-	Mon, 03 Jun 2019 09:18:13 -0700 (PDT)
-Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
-	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id u9sm5188537otb.0.2019.06.03.09.18.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 09:18:13 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190603090635.10631-1-david@redhat.com>
-	<20190603090635.10631-18-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <4d2c8a9a-0409-12ec-649a-7c1b97050721@linaro.org>
-Date: Mon, 3 Jun 2019 11:18:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	(envelope-from <lersek@redhat.com>) id 1hXpko-0008Am-WA
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:24:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46634)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hXpko-00089Q-Or
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:24:10 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id C7D7681E03;
+	Mon,  3 Jun 2019 16:23:49 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-121-13.rdu2.redhat.com
+	[10.10.121.13])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A497E10021B4;
+	Mon,  3 Jun 2019 16:23:17 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>
+References: <87lfyqla7r.fsf@dusky.pond.sub.org>
+	<4397594e-ccba-3f54-6359-2cb061b8fcc0@redhat.com>
+	<875zpmrfhv.fsf@dusky.pond.sub.org>
+	<7d5c114c-e51b-8a6b-8285-d9d4f65ced8d@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <684dc570-856d-c2e1-b34e-bbd9daa0e4cd@redhat.com>
+Date: Mon, 3 Jun 2019 18:23:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20190603090635.10631-18-david@redhat.com>
+In-Reply-To: <7d5c114c-e51b-8a6b-8285-d9d4f65ced8d@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v2 17/22] s390x/tcg: Implement VECTOR FP
- PERFORM SIGN OPERATION
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.25]);
+	Mon, 03 Jun 2019 16:24:07 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,25 +64,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Denys Vlasenko <dvlasenk@redhat.com>,
-	Cornelia Huck <cohuck@redhat.com>, Pino Toscano <ptoscano@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	"Michael S. Tsirkin" <mst@redhat.com>, James Hogan <jhogan@kernel.org>,
+	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+	David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
 	Christian Borntraeger <borntraeger@de.ibm.com>,
-	qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+	Anthony Perard <anthony.perard@citrix.com>,
+	David Gibson <david@gibson.dropbear.id.au>,
+	Jason Wang <jasowang@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+	Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	Alistair Francis <alistair@alistair23.me>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Riku Voipio <riku.voipio@iki.fi>, Greg Kurz <groug@kaod.org>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Beniamino Galvani <b.galvani@gmail.com>,
+	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
+	Stafford Horne <shorne@gmail.com>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Richard Henderson <rth@twiddle.net>,
+	"Daniel P. Berrange" <berrange@redhat.com>,
+	Claudio Fontana <claudio.fontana@gmail.com>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	Chris Wulff <crwulff@gmail.com>,
+	Claudio Fontana <claudio.fontana@huawei.com>,
+	Laurent Vivier <laurent@vivier.eu>,
+	Andrew Baumann <Andrew.Baumann@microsoft.com>,
+	Michael Walle <michael@walle.cc>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/19 4:06 AM, David Hildenbrand wrote:
-> The only FP instruction we can implement without an helper.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/insn-data.def      |  2 ++
->  target/s390x/translate_vx.inc.c | 52 +++++++++++++++++++++++++++++++++
->  2 files changed, 54 insertions(+)
+On 06/03/19 16:24, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 6/3/19 2:59 PM, Markus Armbruster wrote:
+>> Laszlo Ersek <lersek@redhat.com> writes:
+>>
+>>> Hi Markus,
+>>>
+>>> (sorry about the late reply, I've been away.)
+>>>
+>>> On 05/28/19 20:12, Markus Armbruster wrote:
+>>>
+>>>> EDK2 Firmware
+>>>> M: Laszlo Ersek <lersek@redhat.com>
+>>>> M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>>> tests/uefi-test-tools/UefiTestToolsPkg/Include/Guid/BiosTablesTest.h
+>>>
+>>> This header file does have a multiple inclusion guard:
+>>>
+>>>> /** @file
+>>>>   Expose the address(es) of the ACPI RSD PTR table(s) and the SMBIOS=
+ entry
+>>>>   point(s) in a MB-aligned structure to the hypervisor.
+>>>>
+>>>>   [...]
+>>>> **/
+>>>>
+>>>> #ifndef __BIOS_TABLES_TEST_H__
+>>>> #define __BIOS_TABLES_TEST_H__
+>>>>
+>>>> [...]
+>>>>
+>>>> #endif // __BIOS_TABLES_TEST_H__
+>>>
+>>> It's possible that "scripts/clean-header-guards.pl" does not recogniz=
+e
+>>> the guard.
+>>
+>> Correct.  I fixed the script in my tree.
+>>
+>>> According to the ISO C standard, "All identifiers that begin with an
+>>> underscore and either an uppercase letter or another underscore are
+>>> always reserved for any use". Therefore, technically speaking, the ab=
+ove
+>>> inclusion guard implies undefined behavior. In practice, this particu=
+lar
+>>> style for header guards is extremely common in the edk2 codebase:
+>>>
+>>> $ git grep '^#ifndef __' -- '*.h'  | wc -l
+>>> 1012
+>>>
+>>> And, "tests/uefi-test-tools/UefiTestToolsPkg" follows the edk2 coding
+>>> style.
+>>>
+>>> That said, if you'd like to remove the leading "__" from the macro na=
+me,
+>>> I'd be fully OK with that.
+>>
+>> We routinely exempt files from style cleanups when we have a reason.  =
+If
+>> you want this one to be exempted, that's fine with me.
+>>
+>> If we decide not to exempt it, then I want a header guard that makes m=
+y
+>> (fixed) script happy.  It isn't right now:
+>>
+>>     $ scripts/clean-header-guards.pl -nv tests/uefi-test-tools/UefiTes=
+tToolsPkg/Include/Guid/BiosTablesTest.h=20
+>>     tests/uefi-test-tools/UefiTestToolsPkg/Include/Guid/BiosTablesTest=
+.h guard __BIOS_TABLES_TEST_H__ needs cleanup:
+>>         is a reserved identifier, doesn't end with _H, doesn't match t=
+he file name
+>>     [...]
+>>
+>> Removing the leading "__" takes care of the first complaint:
+>>
+>>     tests/uefi-test-tools/UefiTestToolsPkg/Include/Guid/BiosTablesTest=
+.h guard BIOS_TABLES_TEST_H__ needs cleanup:
+>>         doesn't end with _H, doesn't match the file name
+>>
+>> Removing the trailing "__" as well takes care of the second one:
+>>
+>>     tests/uefi-test-tools/UefiTestToolsPkg/Include/Guid/BiosTablesTest=
+.h guard BIOS_TABLES_TEST_H needs cleanup:
+>>         doesn't match the file name
+>>
+>> To get rid of the last one, we can:
+>>
+>> * Rename to BIOSTABLESTEST_H.  Easy.
+>>
+>> * Teach scripts/clean-header-guards.pl to capitalize StudlyCaps
+>>   filenames to STUDLY_CAPS rather than STUDLYCAPS.  But that would bre=
+ak
+>>   include/libdecnumber/*.h.
+>>
+>> * Teach scripts/clean-header-guards to accept either STUDLYCAPS or
+>>   STUDLY_CAPS.  Considering we have exactly one filename that needs
+>>   this, I'd prefer not to.
+>>
+>> My first preference is BIOSTABLESTEST_H, second is to exempt the file.
+>> Yours?
+>>
+>=20
+> What about excluding UefiTestToolsPkg?
+>=20
+> $ git grep '^#ifndef __' -- \
+>   '*.h' ':!tests/uefi-test-tools/UefiTestToolsPkg'
+>=20
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Let's go with BIOSTABLESTEST_H for now. If UefiTestToolsPkg continues to
+generate a bunch of warnings in other QEMU checkers too, we can still
+decide to exclude it, later. This change looks small enough to me, for no=
+w.
 
+BTW thanks for that nice git-grep syntax :) I guess I should read up on
+"pathspec" in gitglossary(7) sometime...
 
-r~
-
+Thanks!
+Laszlo
 
