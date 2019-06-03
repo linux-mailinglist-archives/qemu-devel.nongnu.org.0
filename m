@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A218336D0
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:33:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38558 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31C133699
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:28:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38492 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqpW-0007iQ-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:33:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43595)
+	id 1hXqlV-0004EY-Mo
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:28:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43553)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUX-0007X5-81
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:27 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUU-0004do-1O
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUW-0007X0-CC
 	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:25 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33658)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUU-0004fM-Ee
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:24 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41320)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hXqUR-0004Gj-MR
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:20 -0400
-Received: by mail-wr1-x435.google.com with SMTP id n9so477088wru.0
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:09 -0700 (PDT)
+	id 1hXqUU-0004K8-6n
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:22 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c2so12909378wrm.8
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:subject:date:message-id:in-reply-to:references;
-	bh=jNpy9tHxPkSPZ/2Idn45uExjC/vMdFuinTQ1rueNmsI=;
-	b=itYqi2QG9kgnCmMYxUNUa/dPTJAQCTevI79mPsAy0otbzHsh06+w7nZbcYhbFkkX+f
-	D1lrcjiNv1JlVV2TwzRpYAkmc3uJZQl+07Yk+kLTwuQHGkd09dh9pKcChBvxdKus/ult
-	3rtqCLWetEiF4Zhtt8/U5+DvV7HKAlNfVisS83bOgytooERO0Kq6aCZrmO5yF2KZWszF
-	LbW6IFj5ywh1iQLyYmnq6dFKOXeh9s8ql18gkVGmoAiia9TxQXTZxXnZ4f5Wnt+e2qXf
-	dyt3nT++BGZ5oZ7lGaHY8TFpNvsa0/1rMqZCrJvW9j7mj7LJcayyB5GgXBVRMmK7Q+Ga
-	s4rQ==
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=/LqFWIj4+X0FRNeuxBBYQa+fju4V1g/lIpEfigt6J+8=;
+	b=WNjpck8xHI1HeoA5SlnkXwjgBQ2WeSt9lQj08VuAty5+O1hOxHU6T9Jmjd1fNZsPvO
+	JCKpWYjGObtkgfMb2pRAH+j3bAnlf7Y45DkxQmP+ZZ9G9EX5/FQUnEU28Lp9hMxS1Pp+
+	82rImiJxn++NGTOuSqCFiWgL04U5L1BRinrcgDXe1iVdTQaIgbtUOMprqu9P6N9ZvlSl
+	Q0WX8TFf3swobpdqOY7efzQ5LKiU4eVE9VyXaxjUyXJn0IK6VZULEpv+kdIz2Paa3aGu
+	CN44f2tQMQXDlYz8o9app8gt0tVRXYAaXWCxC1yOuZMin0OsXhKJfJLzeQHGGR7GB0sK
+	VbWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:subject:date:message-id
-	:in-reply-to:references;
-	bh=jNpy9tHxPkSPZ/2Idn45uExjC/vMdFuinTQ1rueNmsI=;
-	b=dB5TLH0ZgSzkYkp0jSaCHbvbLi99/o+7Z/YmNo8h1vUB//192gJ+l447fjlQHEDDJB
-	T2X7I5sWpq0FzAKhyY2GUy6YrOCZqNXwLUBDcsvT0/XqTwJJRFz8aToAluJF9byR/rKW
-	u37IcPO6Gie0RUydRancbJ6LEhM9zLP709TxQwiTEc4F4+w5KX75yuZBHJFD7tRVzE+0
-	Vlj5OaxGOKyzYrlGVXZkjiMg8h8rFaZmHEPgRp6Ml8MZVTcV4qCX4n6v4HbBzLLUf6TA
-	vzqdu6W5p31k3gMvLhoh2mcxPu1LhnCs0sePjc7V94e/mPcBQKOTbXo41Crad6lLBtrW
-	VtwA==
-X-Gm-Message-State: APjAAAUPwLb7lMhQHix8K3PbjbV6ytBBbcmyBIYfWOZ6VWBOSgvI9Syd
-	8PHxCyNRmd/fSuROGFCtG09md+Mv
-X-Google-Smtp-Source: APXvYqyeTRDUo1NPrvbpujwcDdsezWbYOWEK4OWW4D14kK36+Iv0eByLGXixlBFei6vex4FAR4vViw==
-X-Received: by 2002:adf:f14a:: with SMTP id y10mr3389310wro.183.1559581868403; 
-	Mon, 03 Jun 2019 10:11:08 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	bh=/LqFWIj4+X0FRNeuxBBYQa+fju4V1g/lIpEfigt6J+8=;
+	b=g/FjJj+GkTol6BFaWYIYrkT72wUYkBvyarylvzo2807M8DxKvprmU4dbHQApbuC/YX
+	Ww2o5TDG+fdmwpCdLbRP9zspHsw6mIFpFx0aLTUVZ5YBNfz59Kg2ZRQsiQjOKyxkWIeQ
+	py8tVfFHE42qgVPPdBq1LsrimU++bznbmtCwmjI5KGoPG9zvzk25sTcuZZZGGl5uZxzy
+	+CeKyNTuXaNBV7Ug6Ii3IwfzvusxXzaYwUrAFLP9MAywlqfpuTOtTOc+D0ij0Ms9R4VI
+	qrX9qLHVlW+hv+qEV6PmS1HdK1t7PME/Bojkd/O9NJ4paI7kHVWgDlDI7vKUgfWelqE+
+	ZOxQ==
+X-Gm-Message-State: APjAAAVuDe5kZsQFH1y1M/CW3lLuyBko3VClfxvuVaKvPydj+jkl3OWS
+	wKa9XSIfDAxCGfKqDq0cCKe5ck32
+X-Google-Smtp-Source: APXvYqwx9TwSIK7MZ49pVSEd5g9DXggqeE/mXOUdvj6v5FDBYrji4elNEcxfS5hZ8l1XMPtyAaK2hg==
+X-Received: by 2002:adf:8367:: with SMTP id 94mr17655165wrd.179.1559581870361; 
+	Mon, 03 Jun 2019 10:11:10 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
-	r131sm3325045wmf.4.2019.06.03.10.11.07 for <qemu-devel@nongnu.org>
+	r131sm3325045wmf.4.2019.06.03.10.11.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 10:11:07 -0700 (PDT)
+	Mon, 03 Jun 2019 10:11:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 19:10:41 +0200
-Message-Id: <1559581843-3968-23-git-send-email-pbonzini@redhat.com>
+Date: Mon,  3 Jun 2019 19:10:42 +0200
+Message-Id: <1559581843-3968-24-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 References: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::435
-Subject: [Qemu-devel] [PULL 22/24] ci: store Patchew configuration in the
- tree
+X-Received-From: 2a00:1450:4864:20::42f
+Subject: [Qemu-devel] [PULL 23/24] configure: remove tpm_passthrough &
+ tpm_emulator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,328 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patchew cannot yet retrieve the configuration from the QEMU Git tree, but
-this is planned.  In the meanwhile, let's start storing it as YAML
-so that the Patchew configuration (currently accessible only to administrators)
-is public and documented.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+This is a left-over from commit 7aaa6a16373 "tpm: express dependencies
+with Kconfig".
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20190524181411.8599-1-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- .patchew.yml | 302 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 302 insertions(+)
- create mode 100644 .patchew.yml
+ configure | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/.patchew.yml b/.patchew.yml
-new file mode 100644
-index 0000000..988c292
---- /dev/null
-+++ b/.patchew.yml
-@@ -0,0 +1,302 @@
-+---
-+# Note: this file is still unused.  It serves as a documentation for the
-+# Patchew configuration in case patchew.org disappears or has to be
-+# reinstalled.
-+#
-+# Patchew configuration is available to project administrators at
-+# https://patchew.org/api/v1/projects/1/config/ and can be configured
-+# to YAML using the following Python script:
-+#
-+#     import json
-+#     import sys
-+#     import ruamel.yaml
-+#
-+#     json_str = sys.stdin.read()
-+#     yaml = ruamel.yaml.YAML()
-+#     yaml.explicit_start = True
-+#     data = json.loads(json_str, object_pairs_hook=ruamel.yaml.comments.CommentedMap)
-+#     ruamel.yaml.scalarstring.walk_tree(data)
-+#     yaml.dump(data, sys.stdout)
-+
-+email:
-+  notifications:
-+    timeouts:
-+      event: TestingReport
-+      enabled: true
-+      to_user: false
-+      reply_subject: true
-+      set_reply_to: true
-+      in_reply_to: true
-+      reply_to_all: false
-+      subject_template: none
-+      to: fam@euphon.net
-+      cc: ''
-+      body_template: |
-+        {% if not is_timeout %} {{ cancel }} {% endif %}
-+
-+        Test '{{ test }}' timeout, log:
-+
-+        {{ log }}
-+    ENOSPC:
-+      event: TestingReport
-+      enabled: true
-+      to_user: false
-+      reply_subject: false
-+      set_reply_to: false
-+      in_reply_to: true
-+      reply_to_all: false
-+      subject_template: Out of space error
-+      to: fam@euphon.net
-+      cc: ''
-+      body_template: |
-+        {% if passed %}
-+          {{ cancel }}
-+        {% endif %}
-+
-+        {% if 'No space left on device' in log %}
-+        Tester {{ tester }} out of space when running {{ test }}
-+
-+          {{ log }}
-+        {% else %}
-+          {{ cancel }}
-+        {% endif %}
-+    FailureShort:
-+      event: TestingReport
-+      enabled: true
-+      to_user: false
-+      reply_subject: true
-+      set_reply_to: true
-+      in_reply_to: true
-+      reply_to_all: true
-+      subject_template: Testing failed
-+      to: ''
-+      cc: ''
-+      body_template: |
-+        {% if passed or not obj.message_id or is_timeout %}
-+          {{ cancel }}
-+        {% endif %}
-+        {% if 'No space left on device' in log %}
-+          {{ cancel }}
-+        {% endif %}
-+        Patchew URL: https://patchew.org/QEMU/{{ obj.message_id }}/
-+
-+        {% ansi2text log as logtext %}
-+        {% if test == "checkpatch" %}
-+        Hi,
-+
-+        This series seems to have some coding style problems. See output below for
-+        more information:
-+
-+        {{ logtext }}
-+        {% elif test == "docker-mingw@fedora" or test == "docker-quick@centos7" or test == "asan" %}
-+        Hi,
-+
-+        This series failed the {{ test }} build test. Please find the testing commands and
-+        their output below. If you have Docker installed, you can probably reproduce it
-+        locally.
-+
-+        {% lines_between logtext start="^=== TEST SCRIPT BEGIN ===$" stop="^=== TEST SCRIPT END ===$" %}
-+        {% lines_between logtext start="^=== OUTPUT BEGIN ===$" stop="=== OUTPUT END ===$" as output %}
-+        {% grep_C output regex="\b(FAIL|XPASS|ERROR|WARN|error:|warning:)" n=3 %}
-+        {% elif test == "s390x" or test == "FreeBSD" or test == "ppcle" or test == "ppcbe" %}
-+        Hi,
-+
-+        This series failed build test on {{test}} host. Please find the details below.
-+
-+        {% lines_between logtext start="^=== TEST SCRIPT BEGIN ===$" stop="^=== TEST SCRIPT END ===$" %}
-+        {% lines_between logtext start="^=== OUTPUT BEGIN ===$" stop="=== OUTPUT END ===$" as output %}
-+        {% grep_C output regex="\b(FAIL|XPASS|ERROR|WARN|error:|warning:)" n=3 %}
-+        {% else %}
-+        {{ cancel }}
-+        {% endif %}
-+
-+        The full log is available at
-+        {{ log_url }}.
-+        ---
-+        Email generated automatically by Patchew [https://patchew.org/].
-+        Please send your feedback to patchew-devel@redhat.com
-+testing:
-+  tests:
-+    asan:
-+      enabled: true
-+      requirements: docker
-+      timeout: 3600
-+      script: |
-+        #!/bin/bash
-+        time make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu J=14 NETWORK=1
-+    docker-quick@centos7:
-+      enabled: false
-+      requirements: docker,x86_64
-+      timeout: 3600
-+      script: |
-+        #!/bin/bash
-+        time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
-+    checkpatch:
-+      enabled: true
-+      requirements: ''
-+      timeout: 600
-+      script: |
-+        #!/bin/bash
-+        git rev-parse base > /dev/null || exit 0
-+        git config --local diff.renamelimit 0
-+        git config --local diff.renames True
-+        git config --local diff.algorithm histogram
-+        ./scripts/checkpatch.pl --mailback base..
-+    docker-mingw@fedora:
-+      enabled: true
-+      requirements: docker,x86_64
-+      timeout: 3600
-+      script: |
-+        #! /bin/bash
-+        test "$(uname -m)" = "x86_64"
-+    ppcle:
-+      enabled: false
-+      requirements: ppcle
-+      timeout: 3600
-+      script: |
-+        #!/bin/bash
-+        # Testing script will be invoked under the git checkout with
-+        # HEAD pointing to a commit that has the patches applied on top of "base"
-+        # branch
-+        set -e
-+        CC=$HOME/bin/cc
-+        INSTALL=$PWD/install
-+        BUILD=$PWD/build
-+        mkdir -p $BUILD $INSTALL
-+        SRC=$PWD
-+        cd $BUILD
-+        $SRC/configure --cc=$CC --prefix=$INSTALL
-+        make -j4
-+        # XXX: we need reliable clean up
-+        # make check -j4 V=1
-+        make install
-+
-+        echo
-+        echo "=== ENV ==="
-+        env
-+
-+        echo
-+        echo "=== PACKAGES ==="
-+        rpm -qa
-+    ppcbe:
-+      enabled: false
-+      requirements: ppcbe
-+      timeout: 3600
-+      script: |
-+        #!/bin/bash
-+        # Testing script will be invoked under the git checkout with
-+        # HEAD pointing to a commit that has the patches applied on top of "base"
-+        # branch
-+        set -e
-+        CC=$HOME/bin/cc
-+        INSTALL=$PWD/install
-+        BUILD=$PWD/build
-+        mkdir -p $BUILD $INSTALL
-+        SRC=$PWD
-+        cd $BUILD
-+        $SRC/configure --cc=$CC --prefix=$INSTALL
-+        make -j4
-+        # XXX: we need reliable clean up
-+        # make check -j4 V=1
-+        make install
-+
-+        echo
-+        echo "=== ENV ==="
-+        env
-+
-+        echo
-+        echo "=== PACKAGES ==="
-+        rpm -qa
-+    FreeBSD:
-+      enabled: true
-+      requirements: qemu-x86,x86_64,git
-+      timeout: 3600
-+      script: |
-+        #!/bin/bash
-+        # Testing script will be invoked under the git checkout with
-+        # HEAD pointing to a commit that has the patches applied on top of "base"
-+        # branch
-+        if qemu-system-x86_64 --help >/dev/null 2>&1; then
-+          QEMU=qemu-system-x86_64
-+        elif /usr/libexec/qemu-kvm --help >/dev/null 2>&1; then
-+          QEMU=/usr/libexec/qemu-kvm
-+        else
-+          exit 1
-+        fi
-+        make vm-build-freebsd J=21 QEMU=$QEMU
-+        exit 0
-+    docker-clang@ubuntu:
-+      enabled: true
-+      requirements: docker,x86_64
-+      timeout: 3600
-+      script: |
-+        #!/bin/bash
-+        time make docker-test-clang@ubuntu SHOW_ENV=1 J=14 NETWORK=1
-+    s390x:
-+      enabled: true
-+      requirements: s390x
-+      timeout: 3600
-+      script: |
-+        #!/bin/bash
-+        # Testing script will be invoked under the git checkout with
-+        # HEAD pointing to a commit that has the patches applied on top of "base"
-+        # branch
-+        set -e
-+        CC=$HOME/bin/cc
-+        INSTALL=$PWD/install
-+        BUILD=$PWD/build
-+        mkdir -p $BUILD $INSTALL
-+        SRC=$PWD
-+        cd $BUILD
-+        $SRC/configure --cc=$CC --prefix=$INSTALL
-+        make -j4
-+        # XXX: we need reliable clean up
-+        # make check -j4 V=1
-+        make install
-+
-+        echo
-+        echo "=== ENV ==="
-+        env
-+
-+        echo
-+        echo "=== PACKAGES ==="
-+        rpm -qa
-+  requirements:
-+    x86_64:
-+      script: |
-+        #! /bin/bash
-+        test "$(uname -m)" = "x86_64"
-+    qemu-x86:
-+      script: |
-+        #!/bin/bash
-+        if qemu-system-x86_64 --help >/dev/null 2>&1; then
-+          :
-+        elif /usr/libexec/qemu-kvm --help >/dev/null 2>&1; then
-+          :
-+        else
-+          exit 1
-+        fi
-+    ppcle:
-+      script: |
-+        #!/bin/bash
-+        test "$(uname -m)" = "ppc64le"
-+    ppcbe:
-+      script: |
-+        #!/bin/bash
-+        test "$(uname -m)" = "ppc64"
-+    git:
-+      script: |
-+        #! /bin/bash
-+        git config user.name > /dev/null 2>&1
-+    docker:
-+      script: |
-+        #!/bin/bash
-+        docker ps || sudo -n docker ps
-+    s390x:
-+      script: |
-+        #!/bin/bash
-+        test "$(uname -m)" = "s390x"
-+git:
-+  push_to: git@github.com:patchew-project/qemu
-+  public_repo: https://github.com/patchew-project/qemu
-+  url_template: https://github.com/patchew-project/qemu/tree/%t
+diff --git a/configure b/configure
+index 6cdcfb2..b091b82 100755
+--- a/configure
++++ b/configure
+@@ -6452,8 +6452,6 @@ echo "gcov              $gcov_tool"
+ echo "gcov enabled      $gcov"
+ echo "TPM support       $tpm"
+ echo "libssh2 support   $libssh2"
+-echo "TPM passthrough   $tpm_passthrough"
+-echo "TPM emulator      $tpm_emulator"
+ echo "QOM debugging     $qom_cast_debug"
+ echo "Live block migration $live_block_migration"
+ echo "lzo support       $lzo"
+@@ -7158,14 +7156,6 @@ fi
+ 
+ if test "$tpm" = "yes"; then
+   echo 'CONFIG_TPM=$(CONFIG_SOFTMMU)' >> $config_host_mak
+-  # TPM passthrough support?
+-  if test "$tpm_passthrough" = "yes"; then
+-    echo "CONFIG_TPM_PASSTHROUGH=y" >> $config_host_mak
+-  fi
+-  # TPM emulator support?
+-  if test "$tpm_emulator" = "yes"; then
+-    echo "CONFIG_TPM_EMULATOR=y" >> $config_host_mak
+-  fi
+ fi
+ 
+ echo "TRACE_BACKENDS=$trace_backends" >> $config_host_mak
 -- 
 1.8.3.1
 
