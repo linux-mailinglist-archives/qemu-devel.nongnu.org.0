@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF3C33644
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:14:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38275 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3173365D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:17:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38332 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqXi-0000rC-7p
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:14:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43229)
+	id 1hXqa5-0002cX-4j
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:17:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43237)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqU5-0006vP-9e
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:10:58 -0400
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqU7-0006x5-5S
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqTz-0003oi-FW
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:10:54 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38681)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqU2-0003tG-9I
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:10:55 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34653)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hXqTz-0003mv-7s
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:10:51 -0400
-Received: by mail-wm1-x335.google.com with SMTP id t5so11903960wmh.3
+	id 1hXqU0-0003oT-3h
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:10:52 -0400
+Received: by mail-wr1-x436.google.com with SMTP id e16so4655391wrn.1
 	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:10:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OfXaHwLocSqyB2wiPEkoKB+aQeRQgtUC2AE1X7T3HBk=;
-	b=fKm338fet40W/xfxKr72q0CCg9ETJ8d4e6bxxSmZA6aNJBQiu8YxNp9V969PYEGk5k
-	bm89YU4HXxw1zpecO3lMLAdBiFPEAwoz5P+dQIQGfp2x80umlSkF+XlnUwmg1TljHs1H
-	qMapF3wqqEud6K/7KNrvAKfbIehSfeUtP9KV3tK0+cE97dlV89/YPyln2A6Sv6/6kBgR
-	U7vtxSKo0UPVM9n7uXdq+FR43P2HwZaZlAp3FG3IbTwx8bINQaJlthsqDdBonHGOFfrb
-	O9AXyRdoqT5VAdUHhTwABQMQw43SsGTm7+mWAsHM279EmT+c2nERLz/WDhXOzldVEhLb
-	iHGQ==
+	bh=bRzNU7pLbDF3z9hSoLufG1Um4Ru1n9Yc1bLC3gJaiBI=;
+	b=P+zvewF+hqgJ7sxVqTcu/lePG6/HJKwULriDPvt1Ff+BLQfxFCsaY5JfhdNsmVAnRE
+	KzyzmjPVW48GOAO8s9+WnRfJMDdR4AqFKgWeVtY5T5BIbm2A3881D0Mt9XPQIP+F0Dtn
+	3BpHsd5fX1KwmJ1YMMT7TPxQ5omfj3n+4h10nPJ4bAcYd7VezRH/2JL9UCtxI+HJf2Nh
+	WPv1f7C1sZtR9jjpmMKkn4pr2hXE0mPoARQ7tMx+ty0BcQyrGWHHWfp4GYvrvzwQWEBg
+	nrJh9Cz7knst/PPoHYSr0bD9dJL8VfNNHJklkP3kPRlYcL6Ka9NEVgNUUoBNpaHVssRr
+	4IDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references;
-	bh=OfXaHwLocSqyB2wiPEkoKB+aQeRQgtUC2AE1X7T3HBk=;
-	b=NwHVfbBNuY668iaEfNEeyl8MjJ0aeHLe4qZQSNCsY2FA2kckYZ48ll1Exip0Kh0Hde
-	SEri6pwUoOj0ngL34WNAHipeVQrxep8MQFE1HGkf2Z2xxKrqtdUjgbrMtKuYWcK97RYx
-	nXz+pMr5d7DjRQ1ps1YFgbjHtQbY5s543oo4oNWrvh6AIlOnZv61KiwHy6bXOx4gmnUQ
-	oTF5v55KMPTVg3mWaHOb1OIsrGgBAO3MoDvowqj1/j2eNMzHazc/MhtM5iLjrByCAk1U
-	WGmBqgeb3zOb7xMsueeTT7P4oEP4V1sYcCmxZqpY+XH+ygsFU5u7B5v5PuD4o1Irpxsc
-	HVkg==
-X-Gm-Message-State: APjAAAVCw001hxVJW2s9jIpJfRr4Slkk6y65csZoHWoIbjZiJjXbvi62
-	LbffrQfF+ODNedg04mCeHO8JdMHX
-X-Google-Smtp-Source: APXvYqxoOSQInDP/CI6FJ6ae8HqNifmRDDxninXbrhHBs/78g0BZkIt7OwaLGUN/FwgsEObEIbkzlA==
-X-Received: by 2002:a1c:8017:: with SMTP id b23mr15023714wmd.117.1559581849689;
-	Mon, 03 Jun 2019 10:10:49 -0700 (PDT)
+	bh=bRzNU7pLbDF3z9hSoLufG1Um4Ru1n9Yc1bLC3gJaiBI=;
+	b=sDOsi/hZCz+ARRoek4gqfUgOfMM+pVbTG6IXd1/325lkoJ/zVNxkbDIfo+T8BHPMvr
+	dHhxjDRY6eS6PYf61veZP1YeEv5sFyFhLGL8vQqtbwOy2R5dG3OMwEmATRJHnAcUuOEc
+	fRQgABe5Apvxo/niTQgGKTfNvqPSt2DB41mbdy7n5rDINE8ryb/eq+x0EnxjjrXKA4u2
+	oOgL4kamNgkhpvyNZJUMbNraOPuEUIIKThENr1ed9Ehj0PyathHIgcPezlP2slShuLXj
+	ZxKpBZbtSer505P1h5xEcUz4qJeeHKXSrBv7AmTGf99Xx/ETEYpjtBSCBQAag01EZxet
+	+jHw==
+X-Gm-Message-State: APjAAAXxtTZPanXbUg84SbbsnQpr6We5bAXCAuyCwNgpZFmRYTCenvRO
+	hCKaT7MHVlJkKUX3ASxSM9mjC2nE
+X-Google-Smtp-Source: APXvYqyLOURkgQtuOJBlfDpnznfJTquHUeATReBvA9w45U3125q88MaXCER4jUXzjUknZsDv3c9gMg==
+X-Received: by 2002:a5d:4b51:: with SMTP id w17mr1549199wrs.151.1559581850680; 
+	Mon, 03 Jun 2019 10:10:50 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
-	r131sm3325045wmf.4.2019.06.03.10.10.48
+	r131sm3325045wmf.4.2019.06.03.10.10.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 10:10:48 -0700 (PDT)
+	Mon, 03 Jun 2019 10:10:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 19:10:22 +0200
-Message-Id: <1559581843-3968-4-git-send-email-pbonzini@redhat.com>
+Date: Mon,  3 Jun 2019 19:10:23 +0200
+Message-Id: <1559581843-3968-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 References: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::335
-Subject: [Qemu-devel] [PULL 03/24] checkpatch: allow SPDX-License-Identifier
+X-Received-From: 2a00:1450:4864:20::436
+Subject: [Qemu-devel] [PULL 04/24] memory: Remove memory_region_get_dirty()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,33 +80,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-According to: https://spdx.org/ids-how, let's still allow QEMU to use
-the SPDX license identifier:
+It's never used anywhere.
 
-// SPDX-License-Identifier: ***
-
-CC: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20190426062705.4651-1-peterx@redhat.com>
+Message-Id: <20190520030839.6795-5-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/checkpatch.pl | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/exec/memory.h | 17 -----------------
+ memory.c              |  8 --------
+ 2 files changed, 25 deletions(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 88682cb..c2aaf42 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1949,7 +1949,8 @@ sub process {
- 		}
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 9144a47..e6140e8 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1255,23 +1255,6 @@ void memory_region_ram_resize(MemoryRegion *mr, ram_addr_t newsize,
+ void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client);
  
- # no C99 // comments
--		if ($line =~ m{//}) {
-+		if ($line =~ m{//} &&
-+		    $rawline !~ m{// SPDX-License-Identifier: }) {
- 			ERROR("do not use C99 // comments\n" . $herecurr);
- 		}
- 		# Remove C99 comments.
+ /**
+- * memory_region_get_dirty: Check whether a range of bytes is dirty
+- *                          for a specified client.
+- *
+- * Checks whether a range of bytes has been written to since the last
+- * call to memory_region_reset_dirty() with the same @client.  Dirty logging
+- * must be enabled.
+- *
+- * @mr: the memory region being queried.
+- * @addr: the address (relative to the start of the region) being queried.
+- * @size: the size of the range being queried.
+- * @client: the user of the logging information; %DIRTY_MEMORY_MIGRATION or
+- *          %DIRTY_MEMORY_VGA.
+- */
+-bool memory_region_get_dirty(MemoryRegion *mr, hwaddr addr,
+-                             hwaddr size, unsigned client);
+-
+-/**
+  * memory_region_set_dirty: Mark a range of bytes as dirty in a memory region.
+  *
+  * Marks a range of bytes as dirty, after it has been dirtied outside
+diff --git a/memory.c b/memory.c
+index 3071c4b..0920c10 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2027,14 +2027,6 @@ void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
+     memory_region_transaction_commit();
+ }
+ 
+-bool memory_region_get_dirty(MemoryRegion *mr, hwaddr addr,
+-                             hwaddr size, unsigned client)
+-{
+-    assert(mr->ram_block);
+-    return cpu_physical_memory_get_dirty(memory_region_get_ram_addr(mr) + addr,
+-                                         size, client);
+-}
+-
+ void memory_region_set_dirty(MemoryRegion *mr, hwaddr addr,
+                              hwaddr size)
+ {
 -- 
 1.8.3.1
 
