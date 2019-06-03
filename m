@@ -2,78 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23944336C9
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:32:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38554 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4211336DB
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:35:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38593 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqoi-0006rm-8q
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:32:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47013)
+	id 1hXqs2-0001Bo-0d
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:35:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47174)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hXqgL-0000KH-T7
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:23:39 -0400
+	(envelope-from <borntraeger@de.ibm.com>) id 1hXqgw-0000lu-4h
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:24:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hXqgK-0000Mw-S5
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:23:37 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43947)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hXqgK-0000LB-LW
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:23:36 -0400
-Received: by mail-ot1-x343.google.com with SMTP id i8so16785901oth.10
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:23:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=qXEFM9CJItJX0vpcqvPfTD/f9gNGf7/Ln/Ae8IkxzS0=;
-	b=aGokcyOij0l6ucVUiT+J4da8d5/Fkxg9m0T6cXUSKbHoWFtZG714H8hsFhdlKq2Ds6
-	rmXJ9wnzDPPtdk1gq1bEdWzYMrS3OFKQBxzeD7Zdb6/TJ8QFRkVAkLwUr8JbOsvGOwW5
-	rTOFD9DDlpFWzOfbJNzPPzubOPs0SdgNsZ/pXuDguj+qhxdSur+Vk4VlzSYcURLrCARg
-	yVw/x/Uou1HfBWQ+kFsllMvVo57TelfU1ewQEqJUqhIT2Dje/US+11K3Gb2zMVapcvcg
-	3ExTBNpM1tFWS9U0hP/wG64omWiGR2omE9nmZPTeWzhPG/5N1LAocL+LNWPsslAcU0or
-	Bhww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=qXEFM9CJItJX0vpcqvPfTD/f9gNGf7/Ln/Ae8IkxzS0=;
-	b=PWqXY4yUQGzZbHINNwOQLOO3D5V1EYbtLs2YTIVJZJG3HRXPAxlPDyE3UhjdbwdpVF
-	bqRmpQfu7xa2H0r/bKWQPsl9Vpzk3Q2HSDn3no+UzKqU5KH/+m3LKwX6ZMPlb+oow75z
-	7ilyIuf1bMuzF9A/ndLU6VwnW31PsTuu0tSuuySHFFSYveZl1o7Br0da3rC6TbmWxC5K
-	FkLuVwHN4x8CgCiyhbhvCpQ+3qckS7rPkEj+cXjxDYbP/VbnYbI/xie6X3hV+9rPyUnX
-	xemT8AA1AWyYCkhN6xs18i0SP2pTjD/G7uZK2KXQ9KuK6bE/HrEjb7BGKq5sMmEc+xyL
-	Xx/w==
-X-Gm-Message-State: APjAAAWlzt8ey62okRUBD7j78phu26775tMuEYpMmDvOpgi8LEDRrWM1
-	qZT1GTWwA70XFTrr95DVsAQqzg==
-X-Google-Smtp-Source: APXvYqyn9LDABYynvSOSlaiYTp9wBKZVzRtH6qPC+vzA4Ofa3BH2XgKSsS8yIM2ra4EdVafhHvf70g==
-X-Received: by 2002:a9d:6b0e:: with SMTP id g14mr2080580otp.206.1559582615211; 
-	Mon, 03 Jun 2019 10:23:35 -0700 (PDT)
-Received: from [192.168.3.43] ([200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id r7sm5438771oia.22.2019.06.03.10.23.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 10:23:34 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190518191934.21887-1-richard.henderson@linaro.org>
-	<20190518191934.21887-2-richard.henderson@linaro.org>
-	<CAFEAcA8rbLn53iP8SBKpDju-5n=u8ieWW6=RF8t37nF0UspNkQ@mail.gmail.com>
-	<CAFEAcA_MnfJokoggLb5WmhaCZuPb8y7E8L5P+KO=nNaGyKUKAA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
+	(envelope-from <borntraeger@de.ibm.com>) id 1hXqgu-0001P9-FW
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:24:13 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59850)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+	id 1hXqgu-0001I9-0H
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:24:12 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x53HN9xq076001
+	for <qemu-devel@nongnu.org>; Mon, 3 Jun 2019 13:24:04 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2sw7jq0re1-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 13:24:04 -0400
+Received: from localhost
+	by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	Only! Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+	Mon, 3 Jun 2019 18:24:02 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+	by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Mon, 3 Jun 2019 18:23:59 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+	[9.149.105.61])
+	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x53HNwqL33620064
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Mon, 3 Jun 2019 17:23:58 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 737AF11C054;
+	Mon,  3 Jun 2019 17:23:58 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 364C411C04C;
+	Mon,  3 Jun 2019 17:23:58 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.59.2])
+	by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Mon,  3 Jun 2019 17:23:58 +0000 (GMT)
+To: Arnd Bergmann <arnd@arndb.de>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
 Openpgp: preference=signencrypt
-Message-ID: <00d8928c-a37a-770d-00b2-4d1781221b44@linaro.org>
-Date: Mon, 3 Jun 2019 12:23:29 -0500
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+	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
+	syiRa+UVlsKmx1hsEg==
+Date: Mon, 3 Jun 2019 19:23:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_MnfJokoggLb5WmhaCZuPb8y7E8L5P+KO=nNaGyKUKAA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH 1/2] target/arm: Vectorize USHL and SSHL
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19060317-0028-0000-0000-000003747894
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060317-0029-0000-0000-000024344CCC
+Message-Id: <af0eb47a-5b98-1bd9-3e8d-652e7f28b01f@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-06-03_13:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1906030120
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] qemu build error with latest kernel headers due to
+ net: socket: implement 64-bit timestamps
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,71 +135,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Network Development <netdev@vger.kernel.org>,
+	qemu-devel <qemu-devel@nongnu.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/19 8:03 AM, Peter Maydell wrote:
-> On Thu, 23 May 2019 at 13:44, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> On Sat, 18 May 2019 at 20:19, Richard Henderson
->> <richard.henderson@linaro.org> wrote:
->>>
->>> These instructions shift left or right depending on the sign
->>> of the input, and 7 bits are significant to the shift.  This
->>> requires several masks and selects in addition to the actual
->>> shifts to form the complete answer.
->>>
->>> That said, the operation is still a small improvement even for
->>> two 64-bit elements -- 13 vector operations instead of 2 * 7
->>> integer operations.
->>>
->>> +void gen_ushl_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
->>> +{
->>> +    TCGv_i32 lval = tcg_temp_new_i32();
->>> +    TCGv_i32 rval = tcg_temp_new_i32();
->>> +    TCGv_i32 lsh = tcg_temp_new_i32();
->>> +    TCGv_i32 rsh = tcg_temp_new_i32();
->>> +    TCGv_i32 zero = tcg_const_i32(0);
->>> +    TCGv_i32 max = tcg_const_i32(32);
->>> +
->>> +    /*
->>> +     * Perform possibly out of range shifts, trusting that the operation
->>> +     * does not trap.  Discard unused results after the fact.
->>> +     */
->>
->> This comment reads to me like we're relying on a guarantee
->> that TCG doesn't make, but in fact the readme says it does:
->> out-of-range shifts are "unspecified behavior" which may give
->> bogus results but won't crash. Perhaps phrasing the comment
->> as "relying on the TCG guarantee that these are only
->> 'unspecified behavior' and not 'undefined behavior' and so
->> won't crash" would be clearer ?
+Arnd,
 
-I've adjusted the comment along these lines.
+with kernel headers from the latest kernel QEMU fails to build if the user run
+configure with --target-list=s390x-linux-user:
 
-> I had a look through the rest of the patch, but there is
-> too much code here and I don't have enough context to
-> figure out how all the various new gvec helpers are
-> called and what jobs they are doing compared to the
-> actual instruction operation. Maybe I'll have another try later.
-If the host supports vectors, then the .fniv expander will be called.
-Otherwise, .fni4 or .fni8 will be used to expand with 32-bit or 64-bit
-integers.  Finally, the .fno expander calls an out-of-line helper.
-
-Not strictly kosher perhaps, but in some places we Know that MAX_UNROLL is set
-to 4 in tcg/tcg-op-gvec.c, and that since AdvSIMD uses 128-bit vectors, 4 *
-32-bit will always be expanded inline, and so omit the out-of-line helper.
-
-I'm not sure why I didn't do this here, since this is not one of the cases in
-which we could share helpers with SVE.  (SVE dropped the right-shift as
-negative shift count thing.)
-
-> Why can we get rid of the 8-bit, 32-bit and 64-bit old shift
-> helpers, but not 16-bit ?
-
-It's still used by gen_neon_shift_narrow.
+when the kernel has commit 0768e17073dc527ccd18ed5f96ce85f9985e9115
+    net: socket: implement 64-bit timestamps 
 
 
-r~
+
+/root/rpmbuild/BUILD/qemu-4.0.50/linux-user/ioctls.h:222:9: error: 'SIOCGSTAMP' undeclared here (not in a function); did you mean 'SIOCSRARP'?
+  222 |   IOCTL(SIOCGSTAMP, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
+      |         ^~~~~~~~~~
+
+It seems that qemu build relies on SIOCGSTAMP to be present via sys/socket.h.
+
+Adding this patch to qemu helps.
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index efa3ec2837..7332be9b06 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -34,6 +34,7 @@
+ #include <sys/resource.h>
+ #include <sys/swap.h>
+ #include <linux/capability.h>
++#include <linux/sockios.h>
+ #include <sched.h>
+ #include <sys/timex.h>
+ #include <sys/socket.h>
+
+But it is also a change in behavior of the kernel headers. (but only for programs that
+use sys/socket.h instead of linux/sockios.h.
+
 
