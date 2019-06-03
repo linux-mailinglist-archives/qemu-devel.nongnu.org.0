@@ -2,95 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E69331BE
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 16:10:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35647 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFC4331B9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 16:08:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35628 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXnf4-0002y3-L8
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 10:10:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54466)
+	id 1hXndC-0001UV-QB
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 10:08:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54631)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hXnc0-0008W3-3F
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 10:06:57 -0400
+	(envelope-from <groug@kaod.org>) id 1hXnbH-0000Su-U6
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 10:06:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hXnNu-000235-Ej
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 09:52:23 -0400
-Received: from mail-eopbgr20137.outbound.protection.outlook.com
-	([40.107.2.137]:28028
-	helo=EUR02-VE1-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hXnNs-0001x5-F2; Mon, 03 Jun 2019 09:52:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=OWosmA4LUk9ofuoCMl1lUnaaXO6HaaGsP4+mUtIPMew=;
-	b=C32pbJ9SX5ZIdjoqXZle1PUfLbMkZH6vR+CejnPtG0mIKIEgtjSpS5TCZB6WKB6qRKsKOJegTQbDzuObUXlTHPtPwL6TVS/WUyWSlDFapDilaA+0SC4Ar7++v0RLmEoewzxJkJ03yrkouG9BxSD44mhg+kPEKXb/an8g/Zmt0KU=
-Received: from AM0PR08MB2961.eurprd08.prod.outlook.com (52.134.126.11) by
-	AM0PR08MB3138.eurprd08.prod.outlook.com (52.134.126.14) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1943.22; Mon, 3 Jun 2019 13:52:17 +0000
-Received: from AM0PR08MB2961.eurprd08.prod.outlook.com
-	([fe80::8d90:32ae:bdd6:48e8]) by
-	AM0PR08MB2961.eurprd08.prod.outlook.com
-	([fe80::8d90:32ae:bdd6:48e8%7]) with mapi id 15.20.1943.018;
-	Mon, 3 Jun 2019 13:52:17 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Thread-Topic: [PATCH v5 0/3] Fix overflow bug in qcow2 discard
-Thread-Index: AQHU+dQTIRtQy84OJ0+wrrxOKT4l3aaKMEYAgAADKgA=
-Date: Mon, 3 Jun 2019 13:52:17 +0000
-Message-ID: <cf96dd79-14a2-7dcd-62b8-c735c4e055cf@virtuozzo.com>
-References: <20190423125706.26989-1-vsementsov@virtuozzo.com>
-	<20190603134054.GF6523@linux.fritz.box>
-In-Reply-To: <20190603134054.GF6523@linux.fritz.box>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0901CA0064.eurprd09.prod.outlook.com
-	(2603:10a6:3:45::32) To AM0PR08MB2961.eurprd08.prod.outlook.com
-	(2603:10a6:208:66::11)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190603165214890
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 63341083-9eb1-468a-4019-08d6e82ab09c
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:AM0PR08MB3138; 
-x-ms-traffictypediagnostic: AM0PR08MB3138:
-x-microsoft-antispam-prvs: <AM0PR08MB31385AF97C82CCEF75E4FC30C1140@AM0PR08MB3138.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0057EE387C
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(39850400004)(136003)(376002)(396003)(366004)(346002)(199004)(189003)(86362001)(2906002)(316002)(6916009)(71190400001)(71200400001)(66066001)(256004)(31696002)(8676002)(486006)(99286004)(11346002)(102836004)(8936002)(2616005)(81166006)(81156014)(476003)(68736007)(386003)(26005)(6116002)(3846002)(446003)(6506007)(186003)(54906003)(76176011)(305945005)(7736002)(52116002)(36756003)(6436002)(66946007)(25786009)(6246003)(31686004)(478600001)(66446008)(14454004)(5660300002)(6486002)(4326008)(66476007)(229853002)(6512007)(53936002)(66556008)(73956011)(64756008);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3138;
-	H:AM0PR08MB2961.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Tsm6laICwKyRsRm6yolhRmyR23AOUhsINQM/tOsNNsz5gUPTn8i8AcCyvc8r9iJVu3tY8z4s9joQcq29w80sZ6tT1922fikLFL7APbs+LnSNpbFe3wUBglbGTP/ay5zXRG2tL4wVV6Cp2rJIJGCU39B2hP1SFrLj0K/xk4Dn2PlDsPMRbr/XMYBT9zc9tMXIlufzaifkpx4SblLm8FaiwFTlIbFXvBZRZPpSU/tjqRLawYk1/xpn4s215rnv130W5+roJW1s2xK1mh3+GrpTVPlIJE+2nlmwlJpudUPMJF0j0TVYsuO3imrc3+8Eoud8t8HYfoP4mrywqamtFHrnHJkzn+sRRk97qo8/Vrenanh2jApd2cojE+/ngBuA1jX2Cdu9PllHg3wpO0bnNudzgWgd+0tRWMQ6pjV6KITKR5c=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D92751AADEC4F6468F687DCCABDA9B03@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <groug@kaod.org>) id 1hXnWE-0000IX-Tz
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 10:01:01 -0400
+Received: from 3.mo179.mail-out.ovh.net ([178.33.251.175]:53912)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hXnWC-0008Fg-VX
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 10:00:58 -0400
+Received: from player731.ha.ovh.net (unknown [10.109.143.225])
+	by mo179.mail-out.ovh.net (Postfix) with ESMTP id 727D9131A72
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 16:00:40 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player731.ha.ovh.net (Postfix) with ESMTPSA id 32CC4652882C;
+	Mon,  3 Jun 2019 14:00:31 +0000 (UTC)
+Date: Mon, 3 Jun 2019 16:00:30 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190603160030.03e3c691@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <155910844057.13149.1476616524987244293.stgit@aravinda>
+References: <155910829070.13149.5215948335633966328.stgit@aravinda>
+	<155910844057.13149.1476616524987244293.stgit@aravinda>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63341083-9eb1-468a-4019-08d6e82ab09c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jun 2019 13:52:17.2422 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3138
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.2.137
-Subject: Re: [Qemu-devel] [PATCH v5 0/3] Fix overflow bug in qcow2 discard
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 2884274087201773972
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudefjedgieelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 178.33.251.175
+Subject: Re: [Qemu-devel] [PATCH v9 4/6] target/ppc: Build rtas error log
+ upon an MCE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -102,42 +57,347 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, Denis Lunev <den@virtuozzo.com>,
-	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"mreitz@redhat.com" <mreitz@redhat.com>,
-	"stefanha@redhat.com" <stefanha@redhat.com>
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDMuMDYuMjAxOSAxNjo0MCwgS2V2aW4gV29sZiB3cm90ZToNCj4gQW0gMjMuMDQuMjAxOSB1bSAx
-NDo1NyBoYXQgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSBnZXNjaHJpZWJlbjoNCj4+IHY1
-OiBieSBLZXZpbidzIGNvbW1lbnRzDQo+PiAwMjogYWRkIGNoZWNrIGZvciBpbnZhbGlkIEBieXRl
-cyBwYXJhbWV0ZXIsIGRyb3Agci1iDQo+PiAwMzogbW92ZSBmcm9tIHFlbXUtaW1nIGluZm8gdG8g
-cWVtdS1pbWcgbWFwIC1mIHJhdywgZHJvcCByLWIgYW5kIHQtYg0KPiANCj4gVGhlIHBhdGNoZXMg
-bG9vayBnb29kIHRvIG1lLCBidXQgdGhlIHRlc3QgY2FzZSBmYWlscyAodGhpcyBpcyBvbiBYRlM7
-IGl0DQo+IGRvZXMgd29yayBvbiB0bXBmcyk6DQo+IA0KPiAtLS0gL2hvbWUva3dvbGYvc291cmNl
-L3FlbXUvdGVzdHMvcWVtdS1pb3Rlc3RzLzI1MC5vdXQgIDIwMTktMDYtMDMgMTU6MjI6NTEuMjEy
-OTYxMTIzICswMjAwDQo+ICsrKyAvaG9tZS9rd29sZi9zb3VyY2UvcWVtdS90ZXN0cy9xZW11LWlv
-dGVzdHMvMjUwLm91dC5iYWQgICAgICAyMDE5LTA2LTAzIDE1OjM3OjM3LjIwMjk1OTEwMSArMDIw
-MA0KPiBAQCAtMTIsMTIgKzEyLDEwIEBADQo+ICAgMCAgICAgICAgICAgICAgIDB4YTAwMDAwICAg
-ICAgICAweDgyZjAwMDAwICAgICAgVEVTVF9ESVIvdC5xY293Mg0KPiAgIDB4ODJhMDAwMDAgICAg
-ICAweGEwMDAwMCAgICAgICAgMHg1MDAwMDAgICAgICAgIFRFU1RfRElSL3QucWNvdzINCj4gICBP
-ZmZzZXQgICAgICAgICAgTGVuZ3RoICAgICAgICAgIE1hcHBlZCB0byAgICAgICBGaWxlDQo+IC0w
-ICAgICAgICAgICAgICAgMHgzMDEwMDAgICAgICAgIDAgICAgICAgICAgICAgICBURVNUX0RJUi90
-LnFjb3cyDQo+IC0weDQwMDAwMCAgICAgICAgMHhiMDAwMDAgICAgICAgIDB4NDAwMDAwICAgICAg
-ICBURVNUX0RJUi90LnFjb3cyDQo+ICswICAgICAgICAgICAgICAgMHhmMDAwMDAgICAgICAgIDAg
-ICAgICAgICAgICAgICBURVNUX0RJUi90LnFjb3cyDQo+ICAgMHg4MmYwMDAwMCAgICAgIDB4YTAw
-MDAwICAgICAgICAweDgyZjAwMDAwICAgICAgVEVTVF9ESVIvdC5xY293Mg0KPiAgIEltYWdlIHJl
-c2l6ZWQuDQo+ICAgT2Zmc2V0ICAgICAgICAgIExlbmd0aCAgICAgICAgICBNYXBwZWQgdG8gICAg
-ICAgRmlsZQ0KPiAtMCAgICAgICAgICAgICAgIDB4MzAxMDAwICAgICAgICAwICAgICAgICAgICAg
-ICAgVEVTVF9ESVIvdC5xY293Mg0KPiAtMHg0MDAwMDAgICAgICAgIDB4MTAwMDAwICAgICAgICAw
-eDQwMDAwMCAgICAgICAgVEVTVF9ESVIvdC5xY293Mg0KPiArMCAgICAgICAgICAgICAgIDB4NTAw
-MDAwICAgICAgICAwICAgICAgICAgICAgICAgVEVTVF9ESVIvdC5xY293Mg0KPiAgIDB4ODJmMDAw
-MDAgICAgICAweDUwMDAwMCAgICAgICAgMHg4MmYwMDAwMCAgICAgIFRFU1RfRElSL3QucWNvdzIN
-Cj4gICAqKiogZG9uZQ0KPiANCj4gSSdsbCBhcHBseSB0aGUgZmlyc3QgdHdvIHBhdGNoZXMgd2l0
-aG91dCB0aGUgdGVzdCBmb3Igbm93LCBidXQgcGxlYXNlDQo+IHRyeSBpZiB5b3UgY2FuIHR3ZWFr
-IHRoZSB0ZXN0IGNhc2UgdG8gd29yayBvbiBhbGwgY29tbW9uIGZpbGVzeXN0ZW1zLg0KPiANCj4g
-S2V2aW4NCj4gDQoNClRoYW5rIHlvdSEgT0ssIEknbGwgdHJ5DQoNCi0tIA0KQmVzdCByZWdhcmRz
-LA0KVmxhZGltaXINCg==
+On Wed, 29 May 2019 11:10:40 +0530
+Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+
+> Upon a machine check exception (MCE) in a guest address space,
+> KVM causes a guest exit to enable QEMU to build and pass the
+> error to the guest in the PAPR defined rtas error log format.
+> 
+> This patch builds the rtas error log, copies it to the rtas_addr
+> and then invokes the guest registered machine check handler. The
+> handler in the guest takes suitable action(s) depending on the type
+> and criticality of the error. For example, if an error is
+> unrecoverable memory corruption in an application inside the
+> guest, then the guest kernel sends a SIGBUS to the application.
+> For recoverable errors, the guest performs recovery actions and
+> logs the error.
+> 
+> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> ---
+>  hw/ppc/spapr.c         |    5 +
+>  hw/ppc/spapr_events.c  |  236 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr.h |    4 +
+>  3 files changed, 245 insertions(+)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 6b6c962..c97f6a6 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -2910,6 +2910,11 @@ static void spapr_machine_init(MachineState *machine)
+>          error_report("Could not get size of LPAR rtas '%s'", filename);
+>          exit(1);
+>      }
+> +
+> +    /* Resize blob to accommodate error log. */
+> +    g_assert(spapr->rtas_size < RTAS_ERROR_LOG_OFFSET);
+
+I don't see the point of this assertion... especially with the assignment
+below.
+
+> +    spapr->rtas_size = RTAS_ERROR_LOG_MAX;
+
+As requested by David, this should only be done when the spapr cap is set,
+so that 4.0 machine types and older continue to use the current size.
+
+> +
+>      spapr->rtas_blob = g_malloc(spapr->rtas_size);
+>      if (load_image_size(filename, spapr->rtas_blob, spapr->rtas_size) < 0) {
+>          error_report("Could not load LPAR rtas '%s'", filename);
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index a18446b..573c0b7 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -212,6 +212,106 @@ struct hp_extended_log {
+>      struct rtas_event_log_v6_hp hp;
+>  } QEMU_PACKED;
+>  
+> +struct rtas_event_log_v6_mc {
+> +#define RTAS_LOG_V6_SECTION_ID_MC                   0x4D43 /* MC */
+> +    struct rtas_event_log_v6_section_header hdr;
+> +    uint32_t fru_id;
+> +    uint32_t proc_id;
+> +    uint8_t error_type;
+> +#define RTAS_LOG_V6_MC_TYPE_UE                           0
+> +#define RTAS_LOG_V6_MC_TYPE_SLB                          1
+> +#define RTAS_LOG_V6_MC_TYPE_ERAT                         2
+> +#define RTAS_LOG_V6_MC_TYPE_TLB                          4
+> +#define RTAS_LOG_V6_MC_TYPE_D_CACHE                      5
+> +#define RTAS_LOG_V6_MC_TYPE_I_CACHE                      7
+> +    uint8_t sub_err_type;
+> +#define RTAS_LOG_V6_MC_UE_INDETERMINATE                  0
+> +#define RTAS_LOG_V6_MC_UE_IFETCH                         1
+> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH         2
+> +#define RTAS_LOG_V6_MC_UE_LOAD_STORE                     3
+> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE     4
+> +#define RTAS_LOG_V6_MC_SLB_PARITY                        0
+> +#define RTAS_LOG_V6_MC_SLB_MULTIHIT                      1
+> +#define RTAS_LOG_V6_MC_SLB_INDETERMINATE                 2
+> +#define RTAS_LOG_V6_MC_ERAT_PARITY                       1
+> +#define RTAS_LOG_V6_MC_ERAT_MULTIHIT                     2
+> +#define RTAS_LOG_V6_MC_ERAT_INDETERMINATE                3
+> +#define RTAS_LOG_V6_MC_TLB_PARITY                        1
+> +#define RTAS_LOG_V6_MC_TLB_MULTIHIT                      2
+> +#define RTAS_LOG_V6_MC_TLB_INDETERMINATE                 3
+> +    uint8_t reserved_1[6];
+> +    uint64_t effective_address;
+> +    uint64_t logical_address;
+> +} QEMU_PACKED;
+> +
+> +struct mc_extended_log {
+> +    struct rtas_event_log_v6 v6hdr;
+> +    struct rtas_event_log_v6_mc mc;
+> +} QEMU_PACKED;
+> +
+> +struct MC_ierror_table {
+> +    unsigned long srr1_mask;
+> +    unsigned long srr1_value;
+> +    bool nip_valid; /* nip is a valid indicator of faulting address */
+> +    uint8_t error_type;
+> +    uint8_t error_subtype;
+> +    unsigned int initiator;
+> +    unsigned int severity;
+> +};
+> +
+> +static const struct MC_ierror_table mc_ierror_table[] = {
+> +{ 0x00000000081c0000, 0x0000000000040000, true,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_IFETCH,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000080000, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x00000000000c0000, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000100000, true,
+> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000140000, true,
+> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000180000, true,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0, 0, 0, 0, 0, 0 } };
+> +
+> +struct MC_derror_table {
+> +    unsigned long dsisr_value;
+> +    bool dar_valid; /* dar is a valid indicator of faulting address */
+> +    uint8_t error_type;
+> +    uint8_t error_subtype;
+> +    unsigned int initiator;
+> +    unsigned int severity;
+> +};
+> +
+> +static const struct MC_derror_table mc_derror_table[] = {
+> +{ 0x00008000, false,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_LOAD_STORE,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00004000, true,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000800, true,
+> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000400, true,
+> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000080, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,  /* Before PARITY */
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000100, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0, false, 0, 0, 0, 0 } };
+> +
+> +#define SRR1_MC_LOADSTORE(srr1) ((srr1) & PPC_BIT(42))
+> +
+>  typedef enum EventClass {
+>      EVENT_CLASS_INTERNAL_ERRORS     = 0,
+>      EVENT_CLASS_EPOW                = 1,
+> @@ -620,6 +720,138 @@ void spapr_hotplug_req_remove_by_count_indexed(SpaprDrcType drc_type,
+>                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc_id);
+>  }
+>  
+> +static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
+> +                                        struct mc_extended_log *ext_elog)
+> +{
+> +    int i;
+> +    CPUPPCState *env = &cpu->env;
+> +    uint32_t summary;
+> +    uint64_t dsisr = env->spr[SPR_DSISR];
+> +
+> +    summary = RTAS_LOG_VERSION_6 | RTAS_LOG_OPTIONAL_PART_PRESENT;
+> +    if (recovered) {
+> +        summary |= RTAS_LOG_DISPOSITION_FULLY_RECOVERED;
+> +    } else {
+> +        summary |= RTAS_LOG_DISPOSITION_NOT_RECOVERED;
+> +    }
+> +
+> +    if (SRR1_MC_LOADSTORE(env->spr[SPR_SRR1])) {
+> +        for (i = 0; mc_derror_table[i].dsisr_value; i++) {
+> +            if (!(dsisr & mc_derror_table[i].dsisr_value)) {
+> +                continue;
+> +            }
+> +
+> +            ext_elog->mc.error_type = mc_derror_table[i].error_type;
+> +            ext_elog->mc.sub_err_type = mc_derror_table[i].error_subtype;
+> +            if (mc_derror_table[i].dar_valid) {
+> +                ext_elog->mc.effective_address = cpu_to_be64(env->spr[SPR_DAR]);
+> +            }
+> +
+> +            summary |= mc_derror_table[i].initiator
+> +                        | mc_derror_table[i].severity;
+> +
+> +            return summary;
+> +        }
+> +    } else {
+> +        for (i = 0; mc_ierror_table[i].srr1_mask; i++) {
+> +            if ((env->spr[SPR_SRR1] & mc_ierror_table[i].srr1_mask) !=
+> +                    mc_ierror_table[i].srr1_value) {
+> +                continue;
+> +            }
+> +
+> +            ext_elog->mc.error_type = mc_ierror_table[i].error_type;
+> +            ext_elog->mc.sub_err_type = mc_ierror_table[i].error_subtype;
+> +            if (mc_ierror_table[i].nip_valid) {
+> +                ext_elog->mc.effective_address = cpu_to_be64(env->nip);
+> +            }
+> +
+> +            summary |= mc_ierror_table[i].initiator
+> +                        | mc_ierror_table[i].severity;
+> +
+> +            return summary;
+> +        }
+> +    }
+> +
+> +    summary |= RTAS_LOG_INITIATOR_CPU;
+> +    return summary;
+> +}
+> +
+> +static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+> +{
+> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> +    CPUState *cs = CPU(cpu);
+> +    uint64_t rtas_addr;
+> +    CPUPPCState *env = &cpu->env;
+> +    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+> +    target_ulong r3, msr = 0;
+> +    struct rtas_error_log log;
+> +    struct mc_extended_log *ext_elog;
+> +    uint32_t summary;
+> +
+> +    /*
+> +     * Properly set bits in MSR before we invoke the handler.
+> +     * SRR0/1, DAR and DSISR are properly set by KVM
+> +     */
+> +    if (!(*pcc->interrupts_big_endian)(cpu)) {
+> +        msr |= (1ULL << MSR_LE);
+> +    }
+> +
+> +    if (env->msr & (1ULL << MSR_SF)) {
+> +        msr |= (1ULL << MSR_SF);
+> +    }
+> +
+> +    msr |= (1ULL << MSR_ME);
+> +
+> +    if (spapr->guest_machine_check_addr == -1) {
+> +        /*
+> +         * This implies that we have hit a machine check between system
+> +         * reset and "ibm,nmi-register". Fall back to the old machine
+> +         * check behavior in such cases.
+> +         */
+> +        env->spr[SPR_SRR0] = env->nip;
+> +        env->spr[SPR_SRR1] = env->msr;
+> +        env->msr = msr;
+> +        env->nip = 0x200;
+> +        return;
+> +    }
+> +
+> +    ext_elog = g_malloc0(sizeof(*ext_elog));
+> +    summary = spapr_mce_get_elog_type(cpu, recovered, ext_elog);
+> +
+> +    log.summary = cpu_to_be32(summary);
+> +    log.extended_length = cpu_to_be32(sizeof(*ext_elog));
+> +
+> +    /* r3 should be in BE always */
+> +    r3 = cpu_to_be64(env->gpr[3]);
+> +    env->msr = msr;
+> +
+> +    spapr_init_v6hdr(&ext_elog->v6hdr);
+> +    ext_elog->mc.hdr.section_id = cpu_to_be16(RTAS_LOG_V6_SECTION_ID_MC);
+> +    ext_elog->mc.hdr.section_length =
+> +                    cpu_to_be16(sizeof(struct rtas_event_log_v6_mc));
+> +    ext_elog->mc.hdr.section_version = 1;
+> +
+> +    /* get rtas addr from fdt */
+> +    rtas_addr = spapr_get_rtas_addr();
+> +    if (!rtas_addr) {
+> +        /* Unable to fetch rtas_addr. Hence reset the guest */
+> +        ppc_cpu_do_system_reset(cs);
+> +    }
+> +
+> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET, &r3,
+> +                              sizeof(r3));
+> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET + sizeof(r3),
+> +                              &log, sizeof(log));
+> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET + sizeof(r3) +
+> +                              sizeof(log), ext_elog,
+> +                              sizeof(*ext_elog));
+> +
+> +    env->gpr[3] = rtas_addr + RTAS_ERROR_LOG_OFFSET;
+> +    env->nip = spapr->guest_machine_check_addr;
+> +
+> +    g_free(ext_elog);
+> +}
+> +
+>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>  {
+>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> @@ -641,6 +873,10 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>          }
+>      }
+>      spapr->mc_status = cpu->vcpu_id;
+> +
+> +    spapr_mce_dispatch_elog(cpu, recovered);
+> +
+> +    return;
+
+Drop the last two lines.
+
+>  }
+>  
+>  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index fc3a776..c717ab2 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -710,6 +710,9 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *fdt, hwaddr addr);
+>  
+>  #define RTAS_ERROR_LOG_MAX      2048
+>  
+> +/* Offset from rtas-base where error log is placed */
+> +#define RTAS_ERROR_LOG_OFFSET       0x30
+> +
+>  #define RTAS_EVENT_SCAN_RATE    1
+>  
+>  /* This helper should be used to encode interrupt specifiers when the related
+> @@ -799,6 +802,7 @@ int spapr_max_server_number(SpaprMachineState *spapr);
+>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>                        uint64_t pte0, uint64_t pte1);
+>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
+> +ssize_t spapr_get_rtas_size(ssize_t old_rtas_sizea);
+>  
+
+Looks like a leftover.
+
+>  /* DRC callbacks. */
+>  void spapr_core_release(DeviceState *dev);
+> 
+
 
