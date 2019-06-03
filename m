@@ -2,129 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C77433B2D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 00:26:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41753 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3655C33BBA
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 01:06:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42150 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXvPY-0002Pe-DA
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 18:26:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36612)
+	id 1hXw2F-0001Hh-Dc
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 19:06:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36374)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hXvOU-000235-3A
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 18:25:30 -0400
+	(envelope-from <mtosatti@redhat.com>) id 1hXw0R-0000Pz-7H
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 19:04:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hXvOS-00013r-0j
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 18:25:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34886)
+	(envelope-from <mtosatti@redhat.com>) id 1hXw0P-0005ZX-JG
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 19:04:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46864)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
-	id 1hXvOP-0000vw-Cb; Mon, 03 Jun 2019 18:25:25 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <mtosatti@redhat.com>) id 1hXw0P-0005JQ-A2
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 19:04:41 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id BFA613091783;
-	Mon,  3 Jun 2019 22:25:22 +0000 (UTC)
-Received: from [10.18.17.164] (dhcp-17-164.bos.redhat.com [10.18.17.164])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id EB51C1001DFD;
-	Mon,  3 Jun 2019 22:25:21 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
-References: <20190417195355.16123-1-mlevitsk@redhat.com>
-	<20190417195355.16123-2-mlevitsk@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
-	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
-Message-ID: <d1ab2f6e-a5b1-466b-7ad9-df47b8739579@redhat.com>
-Date: Mon, 3 Jun 2019 18:25:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	by mx1.redhat.com (Postfix) with ESMTPS id C5E363082231;
+	Mon,  3 Jun 2019 23:04:33 +0000 (UTC)
+Received: from amt.cnet (ovpn-112-8.gru2.redhat.com [10.97.112.8])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 387775B684;
+	Mon,  3 Jun 2019 23:04:33 +0000 (UTC)
+Received: from amt.cnet (localhost [127.0.0.1])
+	by amt.cnet (Postfix) with ESMTP id D200B10515C;
+	Mon,  3 Jun 2019 20:04:10 -0300 (BRT)
+Received: (from marcelo@localhost)
+	by amt.cnet (8.14.7/8.14.7/Submit) id x53N48jP008254;
+	Mon, 3 Jun 2019 20:04:08 -0300
+Date: Mon, 3 Jun 2019 20:04:08 -0300
+From: Marcelo Tosatti <mtosatti@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <20190603230408.GA7938@amt.cnet>
 MIME-Version: 1.0
-In-Reply-To: <20190417195355.16123-2-mlevitsk@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Mon, 03 Jun 2019 22:25:22 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Mon, 03 Jun 2019 23:04:33 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2 1/5] block/nvme: don't flip
- CQ phase bits
+Subject: [Qemu-devel] [patch QEMU] kvm: i386: halt poll control MSR support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -136,39 +61,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+(CC'ing qemu devel)
 
+Add support for halt poll control MSR: save/restore, migration
+and new feature name.
 
-On 4/17/19 3:53 PM, Maxim Levitsky wrote:
-> Phase bits are only set by the hardware to indicate new completions
-> and not by the device driver.
-> 
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  block/nvme.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/block/nvme.c b/block/nvme.c
-> index 0684bbd077..2d208000df 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-> @@ -340,8 +340,6 @@ static bool nvme_process_completion(BDRVNVMeState *s, NVMeQueuePair *q)
->          qemu_mutex_lock(&q->lock);
->          c->cid = cpu_to_le16(0);
->          q->inflight--;
-> -        /* Flip Phase Tag bit. */
-> -        c->status = cpu_to_le16(le16_to_cpu(c->status) ^ 0x1);
->          progress = true;
->      }
->      if (progress) {
-> 
+The purpose of this MSR is to allow the guest to disable
+host halt poll.
 
-Since you've not got much traction on this and you've pinged a v2, can
-you point me to a spec or a reproducer that illustrates the problem?
+Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
 
-(Or wait for more NVME knowledgeable people to give you a review...!)
+diff --git a/include/standard-headers/asm-x86/kvm_para.h b/include/standard-headers/asm-x86/kvm_para.h
+index 35cd8d6..e171514 100644
+--- a/include/standard-headers/asm-x86/kvm_para.h
++++ b/include/standard-headers/asm-x86/kvm_para.h
+@@ -29,6 +29,7 @@
+ #define KVM_FEATURE_PV_TLB_FLUSH	9
+ #define KVM_FEATURE_ASYNC_PF_VMEXIT	10
+ #define KVM_FEATURE_PV_SEND_IPI	11
++#define KVM_FEATURE_POLL_CONTROL	12
+ 
+ #define KVM_HINTS_REALTIME      0
+ 
+@@ -47,6 +48,7 @@
+ #define MSR_KVM_ASYNC_PF_EN 0x4b564d02
+ #define MSR_KVM_STEAL_TIME  0x4b564d03
+ #define MSR_KVM_PV_EOI_EN      0x4b564d04
++#define MSR_KVM_POLL_CONTROL	0x4b564d05
+ 
+ struct kvm_steal_time {
+ 	uint64_t steal;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index c1ab86d..1ca6944 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -903,7 +903,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "kvmclock", "kvm-nopiodelay", "kvm-mmu", "kvmclock",
+             "kvm-asyncpf", "kvm-steal-time", "kvm-pv-eoi", "kvm-pv-unhalt",
+             NULL, "kvm-pv-tlb-flush", NULL, "kvm-pv-ipi",
+-            NULL, NULL, NULL, NULL,
++            "kvm-poll-control", NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             "kvmclock-stable-bit", NULL, NULL, NULL,
+@@ -3001,6 +3001,7 @@ static PropValue kvm_default_props[] = {
+     { "kvm-asyncpf", "on" },
+     { "kvm-steal-time", "on" },
+     { "kvm-pv-eoi", "on" },
++    { "kvm-poll-control", "on" },
+     { "kvmclock-stable-bit", "on" },
+     { "x2apic", "on" },
+     { "acpi", "off" },
+@@ -5660,6 +5661,8 @@ static void x86_cpu_initfn(Object *obj)
+     object_property_add_alias(obj, "kvm_steal_time", obj, "kvm-steal-time", &error_abort);
+     object_property_add_alias(obj, "kvm_pv_eoi", obj, "kvm-pv-eoi", &error_abort);
+     object_property_add_alias(obj, "kvm_pv_unhalt", obj, "kvm-pv-unhalt", &error_abort);
++    object_property_add_alias(obj, "kvm_poll_control", obj, "kvm-poll-control",
++                              &error_abort);
+     object_property_add_alias(obj, "svm_lock", obj, "svm-lock", &error_abort);
+     object_property_add_alias(obj, "nrip_save", obj, "nrip-save", &error_abort);
+     object_property_add_alias(obj, "tsc_scale", obj, "tsc-scale", &error_abort);
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index bd06523..21ed2f8 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1241,6 +1241,7 @@ typedef struct CPUX86State {
+     uint64_t steal_time_msr;
+     uint64_t async_pf_en_msr;
+     uint64_t pv_eoi_en_msr;
++    uint64_t poll_control_msr;
+ 
+     /* Partition-wide HV MSRs, will be updated only on the first vcpu */
+     uint64_t msr_hv_hypercall;
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 3b29ce5..a5e9cdf 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1369,6 +1369,8 @@ void kvm_arch_reset_vcpu(X86CPU *cpu)
+ 
+         hyperv_x86_synic_reset(cpu);
+     }
++    /* enabled by default */
++    env->poll_control_msr = 1;
+ }
+ 
+ void kvm_arch_do_init_vcpu(X86CPU *cpu)
+@@ -2059,6 +2061,11 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+         if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_STEAL_TIME)) {
+             kvm_msr_entry_add(cpu, MSR_KVM_STEAL_TIME, env->steal_time_msr);
+         }
++
++        if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_POLL_CONTROL)) {
++            kvm_msr_entry_add(cpu, MSR_KVM_POLL_CONTROL, env->poll_control_msr);
++        }
++
+         if (has_architectural_pmu_version > 0) {
+             if (has_architectural_pmu_version > 1) {
+                 /* Stop the counter.  */
+@@ -2443,6 +2450,9 @@ static int kvm_get_msrs(X86CPU *cpu)
+     if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_STEAL_TIME)) {
+         kvm_msr_entry_add(cpu, MSR_KVM_STEAL_TIME, 0);
+     }
++    if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_POLL_CONTROL)) {
++        kvm_msr_entry_add(cpu, MSR_KVM_POLL_CONTROL, 1);
++    }
+     if (has_architectural_pmu_version > 0) {
+         if (has_architectural_pmu_version > 1) {
+             kvm_msr_entry_add(cpu, MSR_CORE_PERF_FIXED_CTR_CTRL, 0);
+@@ -2677,6 +2687,10 @@ static int kvm_get_msrs(X86CPU *cpu)
+         case MSR_KVM_STEAL_TIME:
+             env->steal_time_msr = msrs[i].data;
+             break;
++        case MSR_KVM_POLL_CONTROL: {
++            env->poll_control_msr = msrs[i].data;
++            break;
++        }
+         case MSR_CORE_PERF_FIXED_CTR_CTRL:
+             env->msr_fixed_ctr_ctrl = msrs[i].data;
+             break;
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 225b5d4..1c23e5e 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -323,6 +323,14 @@ static bool steal_time_msr_needed(void *opaque)
+     return cpu->env.steal_time_msr != 0;
+ }
+ 
++/* Poll control MSR enabled by default */
++static bool poll_control_msr_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++
++    return cpu->env.poll_control_msr != 1;
++}
++
+ static const VMStateDescription vmstate_steal_time_msr = {
+     .name = "cpu/steal_time_msr",
+     .version_id = 1,
+@@ -356,6 +364,17 @@ static const VMStateDescription vmstate_pv_eoi_msr = {
+     }
+ };
+ 
++static const VMStateDescription vmstate_poll_control_msr = {
++    .name = "cpu/poll_control_msr",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = poll_control_msr_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.poll_control_msr, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static bool fpop_ip_dp_needed(void *opaque)
+ {
+     X86CPU *cpu = opaque;
+@@ -1062,6 +1081,7 @@ VMStateDescription vmstate_x86_cpu = {
+         &vmstate_async_pf_msr,
+         &vmstate_pv_eoi_msr,
+         &vmstate_steal_time_msr,
++        &vmstate_poll_control_msr,
+         &vmstate_fpop_ip_dp,
+         &vmstate_msr_tsc_adjust,
+         &vmstate_msr_tscdeadline,
 
