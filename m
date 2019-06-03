@@ -2,39 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACF332F6B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:20:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34331 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D23932F58
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:16:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34253 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXlwf-0002DM-VA
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:20:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59918)
+	id 1hXlsm-0007KG-4w
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:16:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59800)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hXlqV-00067O-4t
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:13:48 -0400
+	(envelope-from <lersek@redhat.com>) id 1hXlqL-00066I-O2
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:13:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hXldW-0001in-MO
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:00:25 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39512)
+	(envelope-from <lersek@redhat.com>) id 1hXlkM-0003Ii-Au
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:07:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48442)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hXldU-000129-CF; Mon, 03 Jun 2019 08:00:20 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hXldH-0002hc-7u; Mon, 03 Jun 2019 15:00:07 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Mon,  3 Jun 2019 15:00:05 +0300
-Message-Id: <20190603120005.37394-5-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190603120005.37394-1-vsementsov@virtuozzo.com>
-References: <20190603120005.37394-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 4/4] iotests: test bitmap moving inside 254
+	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hXlkM-0003HI-5N
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:07:26 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id C5F3EB5BA;
+	Mon,  3 Jun 2019 12:07:21 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-121-13.rdu2.redhat.com
+	[10.10.121.13])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2B9E567268;
+	Mon,  3 Jun 2019 12:07:19 +0000 (UTC)
+To: Andrew Randrianasulu <randrianasulu@gmail.com>, qemu-devel@nongnu.org
+References: <201906010603.23645.randrianasulu@gmail.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <350e1497-767a-d3eb-6be3-62d213be24d8@redhat.com>
+Date: Mon, 3 Jun 2019 14:07:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <201906010603.23645.randrianasulu@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.38]);
+	Mon, 03 Jun 2019 12:07:25 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] "accel/tcg: demacro cputlb" break
+ qemu-system-x86_64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -46,195 +61,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
-	armbru@redhat.com, mreitz@redhat.com,
-	nshirokovskiy@virtuozzo.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test persistent bitmap copying with and without removal of original
-bitmap.
+Hi Andrew,
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/254     | 30 +++++++++++++-
- tests/qemu-iotests/254.out | 82 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 110 insertions(+), 2 deletions(-)
+On 06/01/19 05:03, Andrew Randrianasulu wrote:
+> Hello!
+> 
+> I was compiling latest qemu git, and was surprized to find qemu-system-x86_64
+> (compiled for 32-bit x86 machine) can't boot any 64-bit kernel anymore.
+> 
+> 32-bit kernels and kvm were fine.
+> So, I run git bisect
 
-diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
-index 33cb80a512..05afc6d6f1 100755
---- a/tests/qemu-iotests/254
-+++ b/tests/qemu-iotests/254
-@@ -1,6 +1,6 @@
- #!/usr/bin/env python
- #
--# Test external snapshot with bitmap copying.
-+# Test external snapshot with bitmap copying and moving.
- #
- # Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
- #
-@@ -30,6 +30,10 @@ vm = iotests.VM().add_drive(disk, opts='node-name=base')
- vm.launch()
- 
- vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap0')
-+vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap1',
-+           persistent=True)
-+vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap2',
-+           persistent=True)
- 
- vm.hmp_qemu_io('drive0', 'write 0 512K')
- 
-@@ -37,16 +41,38 @@ vm.qmp_log('transaction', indent=2, actions=[
-     {'type': 'blockdev-snapshot-sync',
-      'data': {'device': 'drive0', 'snapshot-file': top,
-               'snapshot-node-name': 'snap'}},
-+
-+    # copy non-persistent bitmap0
-     {'type': 'block-dirty-bitmap-add',
-      'data': {'node': 'snap', 'name': 'bitmap0'}},
-     {'type': 'block-dirty-bitmap-merge',
-      'data': {'node': 'snap', 'target': 'bitmap0',
--              'bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}}
-+              'bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}},
-+
-+    # copy persistent bitmap1, original will be saved to base image
-+    {'type': 'block-dirty-bitmap-add',
-+     'data': {'node': 'snap', 'name': 'bitmap1', 'persistent': True}},
-+    {'type': 'block-dirty-bitmap-merge',
-+     'data': {'node': 'snap', 'target': 'bitmap1',
-+              'bitmaps': [{'node': 'base', 'name': 'bitmap1'}]}},
-+
-+    # move persistent bitmap1, original will be removed and not saved
-+    # to base image
-+    {'type': 'block-dirty-bitmap-add',
-+     'data': {'node': 'snap', 'name': 'bitmap2', 'persistent': True}},
-+    {'type': 'block-dirty-bitmap-merge',
-+     'data': {'node': 'snap', 'target': 'bitmap2',
-+              'bitmaps': [{'node': 'base', 'name': 'bitmap2'}]}},
-+    {'type': 'block-dirty-bitmap-remove',
-+     'data': {'node': 'base', 'name': 'bitmap2'}}
- ], filters=[iotests.filter_qmp_testfiles])
- 
- result = vm.qmp('query-block')['return'][0]
- log("query-block: device = {}, node-name = {}, dirty-bitmaps:".format(
-     result['device'], result['inserted']['node-name']))
- log(result['dirty-bitmaps'], indent=2)
-+log("\nbitmaps in backing image:")
-+log(result['inserted']['image']['backing-image']['format-specific'] \
-+    ['data']['bitmaps'], indent=2)
- 
- vm.shutdown()
-diff --git a/tests/qemu-iotests/254.out b/tests/qemu-iotests/254.out
-index d7394cf002..d185c0532f 100644
---- a/tests/qemu-iotests/254.out
-+++ b/tests/qemu-iotests/254.out
-@@ -1,5 +1,9 @@
- {"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0"}}
- {"return": {}}
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap1", "node": "drive0", "persistent": true}}
-+{"return": {}}
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap2", "node": "drive0", "persistent": true}}
-+{"return": {}}
- {
-   "execute": "transaction",
-   "arguments": {
-@@ -31,6 +35,55 @@
-           "target": "bitmap0"
-         },
-         "type": "block-dirty-bitmap-merge"
-+      },
-+      {
-+        "data": {
-+          "name": "bitmap1",
-+          "node": "snap",
-+          "persistent": true
-+        },
-+        "type": "block-dirty-bitmap-add"
-+      },
-+      {
-+        "data": {
-+          "bitmaps": [
-+            {
-+              "name": "bitmap1",
-+              "node": "base"
-+            }
-+          ],
-+          "node": "snap",
-+          "target": "bitmap1"
-+        },
-+        "type": "block-dirty-bitmap-merge"
-+      },
-+      {
-+        "data": {
-+          "name": "bitmap2",
-+          "node": "snap",
-+          "persistent": true
-+        },
-+        "type": "block-dirty-bitmap-add"
-+      },
-+      {
-+        "data": {
-+          "bitmaps": [
-+            {
-+              "name": "bitmap2",
-+              "node": "base"
-+            }
-+          ],
-+          "node": "snap",
-+          "target": "bitmap2"
-+        },
-+        "type": "block-dirty-bitmap-merge"
-+      },
-+      {
-+        "data": {
-+          "name": "bitmap2",
-+          "node": "base"
-+        },
-+        "type": "block-dirty-bitmap-remove"
-       }
-     ]
-   }
-@@ -40,6 +93,24 @@
- }
- query-block: device = drive0, node-name = snap, dirty-bitmaps:
- [
-+  {
-+    "busy": false,
-+    "count": 524288,
-+    "granularity": 65536,
-+    "name": "bitmap2",
-+    "persistent": true,
-+    "recording": true,
-+    "status": "active"
-+  },
-+  {
-+    "busy": false,
-+    "count": 524288,
-+    "granularity": 65536,
-+    "name": "bitmap1",
-+    "persistent": true,
-+    "recording": true,
-+    "status": "active"
-+  },
-   {
-     "busy": false,
-     "count": 524288,
-@@ -50,3 +121,14 @@ query-block: device = drive0, node-name = snap, dirty-bitmaps:
-     "status": "active"
-   }
- ]
-+
-+bitmaps in backing image:
-+[
-+  {
-+    "flags": [
-+      "auto"
-+    ],
-+    "granularity": 65536,
-+    "name": "bitmap1"
-+  }
-+]
--- 
-2.18.0
+> # first bad commit: [eed5664238ea5317689cf32426d9318686b2b75c] accel/tcg: demacro cputlb
+> 
+> Not sure how many people test qemu-system-x86_64 on 32-bit x86 hosts....
 
+Please consider subscribing to
+<https://bugs.launchpad.net/qemu/+bug/1830872>. I think both the symptom
+you've reported and the symptom described in LP#1830872 could have the
+same root cause.
+
+(I'll try to retest LP#1830872 at eed5664238ea^ later.)
+
+Thanks,
+Laszlo
 
