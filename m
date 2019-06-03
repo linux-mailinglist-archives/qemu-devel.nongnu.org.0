@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA780335FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:05:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38188 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6721A33640
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:13:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38269 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqP9-0004d4-QY
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:05:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41033)
+	id 1hXqWX-0008NH-5e
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:13:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43188)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hXqNm-0004GS-Vj
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:04:28 -0400
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqTz-0006qM-08
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:10:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hXqNl-0001WO-Jl
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:04:26 -0400
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:46618)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqTw-0003ka-Sg
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:10:50 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:33916)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hXqNl-0001T9-Dr
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:04:25 -0400
-Received: by mail-qt1-x82a.google.com with SMTP id z19so10215549qtz.13
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:04:24 -0700 (PDT)
+	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+	id 1hXqTv-0003gt-UD
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:10:48 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id w9so375119wmd.1
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QEtVKPOGCTSdY31AqEu8FvNmuIk1yer5QGLOCHmJTJE=;
-	b=b+5/Pe2et3TTe2WIPduo0+WnLhgkFzP5ONarXlu4R2jdXWWjNPPtvHfd8kGcN/x4C6
-	GiFgYWdq6+yqG4hm4QYD7IdTLpL4l48EsGNrTbigCSGteaKXoZaGjV2cXuV4OrIxFqd4
-	xcIcfI+BNCuzN2F+VoYyWLQTEjrXIttNSzTk/Fvyb20o+ajzgHtcIrp8MXsy5wBNdc6n
-	0WV1/pXUylNKTvp6PBDu8f/XhuRd7vzmL9vcKGbLYVRI5gnXlbjxh8zwheQ1SAWJVpxi
-	g7r5ou7lhJ9b22B6qE0gmSYP4YG2YKL1lvHsLH3HBgcaQS0NrLH1d1NjtpubxAvuIKmr
-	9dYw==
+	h=sender:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZT3/vpwPJ71Zz9LJvEB6C1GfZYvSozg8uRtzVi+3yRk=;
+	b=foxXm7oLT+uxKHwEfxkO0t6aMpWDe+x+ZNBlQOGlrfwlx2PQHOwW5e8i+JDfNWgj30
+	GutisKJOhpYc7KBmKFpR9/jO9UAsnX3ViuAVNi4yi22DxlkFU9CuKfw6uRmHfyFk7MJE
+	6KvyUdj8KEm3J6Jcy4Sup1YOGM11+Y8CVyhIXi34hxrA+Fnkj83xVtrhWuMWpqTEjhVX
+	pipzr3wiGuPTtYOM/5PEYK4M6RlQwWADA6gmXiJHqXLKjDqIuQQH1D1rd+7L++p4nUGa
+	eQ8CmX4kOvmPhXFI2EZ+kri/dKnsljLTDhZlRytckxp6Hamj/vvCZJI/9EntQ3moC0hE
+	S9Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QEtVKPOGCTSdY31AqEu8FvNmuIk1yer5QGLOCHmJTJE=;
-	b=UcOIUBaDqS+s/mXaJwdJ1/aO1GlkeTi8w31omoiB4s66ad9RJLcv7rHO+mfdR56uht
-	6fLR9Y7hIAYXZsIYuwAkgwWs3fhNNH8Qnd96fo70LG+V5/0x/JNkG147jv712BWqeOQF
-	k/exOdjFd9p+/FBCL0q9c03FRvCyLOkdhtQ5QWgY7kvoUefI8vS+teTSsONohHfENpzB
-	Fb0gOayhff2llAUB6UR2ceAzGXtcohPwCOwP57+CatfCA/A2c8x61WIlyrT26WILol6v
-	XG310Mx1GoSbnDdta3lysCFlN4X+T50ZgQPpr46zBSwFLimIgXLeS5+AK8vVgtEyLVlE
-	34NQ==
-X-Gm-Message-State: APjAAAVJGxP2ayoa8AYV1P5kc6QsTq8G1Jbo06TI9GGizvwcKXsxMs0N
-	gmy2sqhzckVq7E43oEqv49o5fG6dFYo5JBgS5jI=
-X-Google-Smtp-Source: APXvYqxk9YuTDa0dgn4WF6Q3pVxM7+Ej/3wXmtBoxiLRdf9Dhqqc7iyPIjI+LaRgnN9eE4B5BIU1p4boA4+7SBOp3eg=
-X-Received: by 2002:ac8:3a63:: with SMTP id w90mr23104163qte.371.1559581463090;
-	Mon, 03 Jun 2019 10:04:23 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=ZT3/vpwPJ71Zz9LJvEB6C1GfZYvSozg8uRtzVi+3yRk=;
+	b=gLQExv4iKW6inMqVSZT9hCaA3DpVPU3cA/Aer9d7DB/9/4ScFWXnOXyMjk/OM0yAP3
+	/+iJV8voCI/qNRbw5ya0nQMhaVMQUuE5EnIilxhdOr+6y08EDwSRGTwgBMnb1ISYPVjf
+	huo+KIjlgUCyn1VfRMXNlD01UsIzQAt8PMMJX/2YaIqWh0kQWQ30bycaUv/Wxq8LiTPT
+	Li3vWPILrPvB9O6LeBLxtbruHmXtgPsrGV4AIxHp5WINZ2r1bFfVUd7PNdfuyD1k1A0I
+	WS03VwJb95X+SUymVC55vRr+NpbQvjsGJ4rgVqYchboRXKUPoQ1+0qozMJr5V0Zzy0Vz
+	vzfw==
+X-Gm-Message-State: APjAAAWmtR59Eiecz7BnVlQXhyBAx16sypFKFWjgwPq0u1AZiRLGqtN5
+	A81Quc1IyFw9S13d4pjNzN/gsA4M
+X-Google-Smtp-Source: APXvYqxvtNrEdvx8VArT/p1yPyBcFfibMl5SD10DtAj9oHvmXAWNOOL8Y9SlYb3Mq+JSLNxl6yzBjQ==
+X-Received: by 2002:a1c:c011:: with SMTP id q17mr3232787wmf.105.1559581845672; 
+	Mon, 03 Jun 2019 10:10:45 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
+	r131sm3325045wmf.4.2019.06.03.10.10.44 for <qemu-devel@nongnu.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Jun 2019 10:10:45 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  3 Jun 2019 19:10:19 +0200
+Message-Id: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20190530190738.22713-1-mrolnik@gmail.com>
-	<20190530190738.22713-4-mrolnik@gmail.com>
-	<402ba0b2-e2e0-6b7a-1862-4588e5f83357@linaro.org>
-	<CAK4993iXV9oRr_VfabJHg4fCYEppW49i_PE9R0X_TBqk7TDkrQ@mail.gmail.com>
-	<9e2acbbe-7ede-c45d-5e9f-bb269aa25fcc@linaro.org>
-	<CAK4993hXTOSoW5FFjeur+pLzT18c-C=vwao-904ASyqMsT5eMQ@mail.gmail.com>
-	<3bc0d426-bd59-055d-a010-b136cba555bf@linaro.org>
-In-Reply-To: <3bc0d426-bd59-055d-a010-b136cba555bf@linaro.org>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Mon, 3 Jun 2019 20:04:09 +0300
-Message-ID: <CAK4993j5JXgV9CYDckt99kwgQaG6w-GN-Tka7r2nahoh33rheQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::82a
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH RFC v20 3/8] target/avr: Add mechanism to
- check for active debugger connection
+X-Received-From: 2a00:1450:4864:20::32d
+Subject: [Qemu-devel] [PULL 00/24] Misc patches for 2019-06-03
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,86 +76,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Got it.
+The following changes since commit ad88e4252f09c2956b99c90de39e95bab2e8e7af:
 
-Sent from my cell phone, please ignore typos
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-1-2019' into staging (2019-06-03 10:25:12 +0100)
 
-On Mon, Jun 3, 2019, 7:37 PM Richard Henderson <richard.henderson@linaro.org>
-wrote:
+are available in the git repository at:
 
-> On 6/3/19 11:29 AM, Michael Rolnik wrote:
-> > 1. There's a break
-> > instruction
-> https://www.microchip.com/webdoc/avrassembler/avrassembler.wb_BREAK.html
-> > 2. There's a set of tests that use break.
-> >
-> > So I assume I have to implement this instruction as described in the
-> spec.
->
-> The spec talks about fuses, not gdb.  A valid implementation of this
-> instruction is a no-op -- it say so right there in the spec.
->
-> What does it mean to "test" break?  AFAIK, you can't test this at all from
-> within the cpu itself, since it does not generate a cpu-level exception.
->
-> If gdb is setting a breakpoint via -S, it should be done via
-> cpu_breakpoint_test.
->
->
->
-> > On Mon, Jun 3, 2019, 6:44 PM Richard Henderson <
-> richard.henderson@linaro.org
-> > <mailto:richard.henderson@linaro.org>> wrote:
-> >
-> >     On 6/1/19 4:12 PM, Michael Rolnik wrote:
-> >     > Hi Richard.
-> >     >
-> >     > If I implement it this way
-> >     >
-> >     > ```
-> >     >  static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
-> >     >  {
-> >     >      if (avr_feature(ctx->env, AVR_FEATURE_BREAK) == false) {
-> >     >          gen_helper_unsupported(cpu_env);
-> >     >      } else {
-> >     >          tcg_gen_movi_tl(cpu_pc, ctx->inst[0].npc);
-> >     >          gen_helper_debug(cpu_env);
-> >     >      }
-> >     >
-> >     >      ctx->bstate = BS_EXCP;
-> >     >
-> >     >      return true;
-> >     >  }
-> >     > ```
-> >     >
-> >     > qemu (without -s -S flags) crashes when debugger is not connected
-> >
-> >     I was not suggesting using the internal qemu EXCP_DEBUG, but another
-> AVR
-> >     specific exception, much the same way as every other cpu has a
-> cpu-specific
-> >     debug exception.
-> >
-> >     Or perhaps always do nothing.  Why is gdb insertting BREAK in the
-> first place?
-> >      It should be using the "hardware breakpoint" support that qemu
-> advertises as
-> >     part of the gdbstub protocol, and that you support here:
-> >
-> >     > +        if (unlikely(cpu_breakpoint_test(cs, OFFSET_CODE + cpc *
-> 2, BP_ANY))
-> >     > +                 || cpu_breakpoint_test(cs, OFFSET_DATA + cpc * 2,
-> >     BP_ANY)) {
-> >     > +            tcg_gen_movi_i32(cpu_pc, cpc);
-> >     > +            gen_helper_debug(cpu_env);
-> >     > +            ctx.bstate = BS_EXCP;
-> >     > +            goto done_generating;
-> >     > +        }
->
->
+
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to c87759ce876a7a0b17c2bf4f0b964bd51f0ee871:
+
+  q35: Revert to kernel irqchip (2019-06-03 14:03:03 +0200)
+
+----------------------------------------------------------------
+* Revert q35 to kernel irqchip (Alex)
+* edu device fixes (Li Qiang)
+* cleanups (Marc-André, Peter)
+* Improvements to -accel help
+* Better support for IA32_MISC_ENABLE MSR (Wanpeng)
+* I2C test conversion to qgraph (Paolo)
+
+----------------------------------------------------------------
+Alex Williamson (1):
+      q35: Revert to kernel irqchip
+
+Li Qiang (3):
+      edu: mmio: allow 64-bit access
+      edu: mmio: allow 64-bit access in read dispatch
+      edu: uses uint64_t in dma operation
+
+Marc-André Lureau (1):
+      configure: remove tpm_passthrough & tpm_emulator
+
+Paolo Bonzini (15):
+      test-thread-pool: be more reliable
+      qgraph: allow extra_device_opts on contains nodes
+      qgraph: fix qos_node_contains with options
+      libqos: move common i2c code to libqos
+      libqos: fix omap-i2c receiving more than 4 bytes
+      pca9552-test: do not rely on state across tests
+      imx25-pdk: create ds1338 for qtest inside the test
+      libqos: split I2CAdapter initialization and allocation
+      libqos: convert I2C to qgraph
+      libqos: add ARM n800 machine object
+      libqos: add ARM imx25-pdk machine object
+      tests: convert OMAP i2c tests to qgraph
+      tests: convert ds1338-test to qtest
+      libqos: i2c: move address into QI2CDevice
+      ci: store Patchew configuration in the tree
+
+Peter Xu (2):
+      checkpatch: allow SPDX-License-Identifier
+      memory: Remove memory_region_get_dirty()
+
+Wainer dos Santos Moschetta (1):
+      vl: make -accel help to list enabled accelerators only
+
+Wanpeng Li (1):
+      i386: Enable IA32_MISC_ENABLE MWAIT bit when exposing mwait/monitor
+
+ .patchew.yml                         | 302 +++++++++++++++++++++++++++++++++++
+ configure                            |  10 --
+ hw/arm/imx25_pdk.c                   |   9 --
+ hw/core/machine.c                    |   3 +
+ hw/i386/pc.c                         |   3 +
+ hw/i386/pc_q35.c                     |  16 +-
+ hw/misc/edu.c                        |  32 ++--
+ include/exec/memory.h                |  17 --
+ include/hw/boards.h                  |   3 +
+ include/hw/i386/pc.h                 |   3 +
+ memory.c                             |   8 -
+ scripts/checkpatch.pl                |   3 +-
+ target/i386/cpu.c                    |   3 +
+ target/i386/cpu.h                    |   1 +
+ tests/Makefile.include               |  18 +--
+ tests/ds1338-test.c                  |  45 ++----
+ tests/libqos/arm-imx25-pdk-machine.c |  92 +++++++++++
+ tests/libqos/arm-n800-machine.c      |  92 +++++++++++
+ tests/libqos/i2c-imx.c               |  40 +++--
+ tests/libqos/i2c-omap.c              |  70 +++++---
+ tests/libqos/i2c.c                   |  74 ++++++++-
+ tests/libqos/i2c.h                   |  63 ++++++--
+ tests/libqos/qgraph.c                |  12 +-
+ tests/libqos/qgraph.h                |  15 +-
+ tests/pca9552-test.c                 |  91 ++++-------
+ tests/qos-test.c                     |  17 +-
+ tests/test-thread-pool.c             |  32 ++--
+ tests/tmp105-test.c                  | 112 ++++---------
+ vl.c                                 |  18 ++-
+ 29 files changed, 889 insertions(+), 315 deletions(-)
+ create mode 100644 .patchew.yml
+ create mode 100644 tests/libqos/arm-imx25-pdk-machine.c
+ create mode 100644 tests/libqos/arm-n800-machine.c
+-- 
+1.8.3.1
+
+
