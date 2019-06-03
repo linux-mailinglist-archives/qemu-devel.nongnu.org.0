@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C568033873
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:44:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39418 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF1633868
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:43:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39404 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXrwe-0007Db-VU
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:44:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35209)
+	id 1hXrvS-00060o-6o
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:43:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36603)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hXrrO-0002fN-7d
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:39:08 -0400
+	(envelope-from <bounces@canonical.com>) id 1hXrtB-0004YP-63
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:40:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hXrfw-0007dU-3S
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:27:17 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:46632)
+	(envelope-from <bounces@canonical.com>) id 1hXrt9-0004dR-Nq
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:40:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38322)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hXrfu-0007WX-Nz
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:27:15 -0400
-Received: by mail-ot1-x336.google.com with SMTP id z23so2057865ote.13
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 11:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GtzhnxJPfvR3BFHdR2jF6zhNGrLrYRK46/mV4PixzNY=;
-	b=F5DSJV/8++1qIcJhcKLVdDjjWKrjvcM46UkbNRx+okbeFeAP0V9i0CSIM4CO8rJqgx
-	MF0iEMEkFlPrI3XXne1xDEPHvk80pvPKdqxaPrlWDmI7AlIYrkkC4BOeo6zAafQXwuQL
-	1Aav7rLIeLJRiz88xyvkn+UMkfFjAri1JueOq4sGOvkf1AHXdZq2FocNx5Na0zhGLqLe
-	5EKBV2/fX0p0x7gZw6DKkCSU7LjWJDkxs0QSx/PuVOoh6+OAjHdrqQm/wD4BgdNMIzsK
-	ikz+upvMT+pRxGPTH4D8DnQrLOrChJtgHy1AJ9VRNhc7izLDdSrxgwOrg2cWSxmWJpEl
-	qdHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=GtzhnxJPfvR3BFHdR2jF6zhNGrLrYRK46/mV4PixzNY=;
-	b=gaXeUScc5qhuJgEDxECv9Qi3W6gdb91wRrrG8YQAfmOUrCZoTYPNTtNZlOv6DSUtX3
-	Nzy2hhXypPCFdTdfUUhtXFoSs5DOBqtezeGZInl9AjZZ9Nz5Gk4ek67Xja0NnYQmsKgx
-	+xR77hwkHrhYW4/gKkGK21CnNpGpoCDYyzF56ZSmFxC60P3/nkfQqb7Z64zBJG+3Stom
-	z9d8koNDKbqPUKrcIstJH1jqx/nP8Gu1orzmaVX1rtybqry9rqZHJUt6dd2S4SB8V/G7
-	1uzE/EC5BiVdz/dAdKB827piG7Mk3B7XMEn8mkrg4JQ2CL8FRBYXWHW5zVrtrgRcesl1
-	k6qA==
-X-Gm-Message-State: APjAAAUBxOWOZCcQCXQKRlJK5ocNDOxiL6gVWQD3J28AAzFIeSF65Ho/
-	roUR9yU/xtBI7JEUcr7FsMj0IEfZhnuSYAN4a1byYw==
-X-Google-Smtp-Source: APXvYqysLBdtV/d2/8JFuq0cHXBLrywM8XD8Qhe5OVN48OZxd8quoD+jgnS1fPWnmGszgVJhQk9UcdCLRNuf0WQV+tg=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr2226002otk.232.1559586431312; 
-	Mon, 03 Jun 2019 11:27:11 -0700 (PDT)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hXrt9-0004bj-Gy
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:40:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hXrt7-0000c4-Bh
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 18:40:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 445B22E80CB
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 18:40:53 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190531192429.GH22103@habkost.net>
-	<93e5101f-67f1-a416-5e80-f16371a35e6a@redhat.com>
-	<871s0asvli.fsf@dusky.pond.sub.org>
-	<236db86d-52df-5537-4f33-f3c09bbb6289@redhat.com>
-	<CAFEAcA_bSzWYu5Oa_knq2SAK9Z3RN3LZjxeirVncgRQ9FsDZXA@mail.gmail.com>
-	<b4de3161-7b9c-debc-a652-21832612ebf4@redhat.com>
-In-Reply-To: <b4de3161-7b9c-debc-a652-21832612ebf4@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Jun 2019 19:27:00 +0100
-Message-ID: <CAFEAcA-+2Csn4wW8xLaogJrQiqc2xHrGKFc_zdaOMKNn-yas9g@mail.gmail.com>
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::336
-Subject: Re: [Qemu-devel] Deprecation policy and build dependencies
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Jun 2019 18:29:11 -0000
+From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee andrew-randrianasulu lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+References: <155912118291.12579.8926874795813611531.malonedeb@soybean.canonical.com>
+	<20190603150120.29255-1-alex.bennee@linaro.org>
+Message-Id: <5f684c68-d2cd-90f7-3892-1c6245728042@redhat.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 30032e40571463437dd18332ec8b9aeaf4354f73
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1830872] Re: [RFC PATCH] cputlb: use uint64_t for
+ interim values for unaligned load
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,29 +66,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1830872 <1830872@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Jun 2019 at 19:21, John Snow <jsnow@redhat.com> wrote:
-> I get it, we don't want to require Python 3.8 because some dev wanted
-> assignment conditionals -- but we're talking about Python 2 here, which
-> suffers its EOL by the end of this calendar year.
->
-> So do we think it's reasonable to drop support for Python2 for the
-> release that comes out after Python2's EOL, or do we insist on 2x3
-> simultaneous support for years more?
+(+Igor)
 
-I don't have a strong opinion on Python in particular, but
-I think it would be nicer to avoid the "python is a special
-snowflake" effect. Would it really be so bad for it to just
-be "drop it when it falls off the last LTS distro" like the
-rest of our dependencies ?
+On 06/03/19 17:01, Alex Benn=C3=A9e wrote:
+> When running on 32 bit TCG backends a wide unaligned load ends up
+> truncating data before returning to the guest. We specifically have
+> the return type as uint64_t to avoid any premature truncation so we
+> should use the same for the interim types.
+> =
 
-thanks
--- PMM
+> Hopefully fixes #1830872
+> =
+
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  accel/tcg/cputlb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> =
+
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index cdcc3771020..b796ab1cbea 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1303,7 +1303,7 @@ load_helper(CPUArchState *env, target_ulong addr, T=
+CGMemOpIdx oi,
+>          && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
+>                      >=3D TARGET_PAGE_SIZE)) {
+>          target_ulong addr1, addr2;
+> -        tcg_target_ulong r1, r2;
+> +        uint64_t r1, r2;
+>          unsigned shift;
+>      do_unaligned_access:
+>          addr1 =3D addr & ~(size - 1);
+> =
+
+
+Applied on top of commit ad88e4252f09c2956b99c90de39e95bab2e8e7af:
+
+Tested-by: Laszlo Ersek <lersek@redhat.com>
+
+Thanks!
+Laszlo
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830872
+
+Title:
+  AARCH64 to ARMv7 mistranslation in TCG
+
+Status in QEMU:
+  New
+
+Bug description:
+  The following guest code:
+
+  https://github.com/tianocore/edk2/blob/3604174718e2afc950c3cc64c64ba5165c=
+8692bd/MdePkg/Library/BaseMemoryLibOptDxe/AArch64/CopyMem.S
+
+  implements, in hand-optimized aarch64 assembly, the CopyMem() edk2 (EFI
+  Development Kit II) library function. (CopyMem() basically has memmove()
+  semantics, to provide a standard C analog here.) The relevant functions
+  are InternalMemCopyMem() and __memcpy().
+
+  When TCG translates this aarch64 code to x86_64, everything works
+  fine.
+
+  When TCG translates this aarch64 code to ARMv7, the destination area of
+  the translated CopyMem() function becomes corrupted -- it differs from
+  the intended source contents. Namely, in every 4096 byte block, the
+  8-byte word at offset 4032 (0xFC0) is zeroed out in the destination,
+  instead of receiving the intended source value.
+
+  I'm attaching two hexdumps of the same destination area:
+
+  - "good.txt" is a hexdump of the destination area when CopyMem() was
+    translated to x86_64,
+
+  - "bad.txt" is a hexdump of the destination area when CopyMem() was
+    translated to ARMv7.
+
+  In order to assist with the analysis of this issue, I disassembled the
+  aarch64 binary with "objdump". Please find the listing in
+  "DxeCore.objdump", attached. The InternalMemCopyMem() function starts at
+  hex offset 2b2ec. The __memcpy() function starts at hex offset 2b180.
+
+  And, I ran the guest on the ARMv7 host with "-d
+  in_asm,op,op_opt,op_ind,out_asm". Please find the log in
+  "tcg.in_asm.op.op_opt.op_ind.out_asm.log", attached.
+
+  The TBs that correspond to (parts of) the InternalMemCopyMem() and
+  __memcpy() functions are scattered over the TCG log file, but the offset
+  between the "nice" disassembly from "DxeCore.objdump", and the in-RAM
+  TBs in the TCG log, can be determined from the fact that there is a
+  single prfm instruction in the entire binary. The instruction's offset
+  is 0x2b180 in "DxeCore.objdump" -- at the beginning of the __memcpy()
+  function --, and its RAM address is 0x472d2180 in the TCG log. Thus the
+  difference (=3D the load address of DxeCore.efi) is 0x472a7000.
+
+  QEMU was built at commit a4f667b67149 ("Merge remote-tracking branch
+  'remotes/cohuck/tags/s390x-20190521-3' into staging", 2019-05-21).
+
+  The reproducer command line is (on an ARMv7 host):
+
+    qemu-system-aarch64 \
+      -display none \
+      -machine virt,accel=3Dtcg \
+      -nodefaults \
+      -nographic \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-aarch6=
+4-code.fd,readonly \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-arm-va=
+rs.fd,snapshot=3Don \
+      -cpu cortex-a57 \
+      -chardev stdio,signal=3Doff,mux=3Don,id=3Dchar0 \
+      -mon chardev=3Dchar0,mode=3Dreadline \
+      -serial chardev:char0
+
+  The apparent symptom is an assertion failure *in the guest*, such as
+
+  > ASSERT [DxeCore]
+  > /home/lacos/src/upstream/qemu/roms/edk2/MdePkg/Library/BaseLib/String.c=
+(1090):
+  > Length < _gPcd_FixedAtBuild_PcdMaximumAsciiStringLength
+
+  but that is only a (distant) consequence of the CopyMem()
+  mistranslation, and resultant destination area corruption.
+
+  Originally reported in the following two mailing list messages:
+  - http://mid.mail-archive.com/9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat=
+.com
+  - http://mid.mail-archive.com/f1cec8c0-1a9b-f5bb-f951-ea0ba9d276ee@redhat=
+.com
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1830872/+subscriptions
 
