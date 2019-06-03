@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D23932F58
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:16:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34253 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5C732F9D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:29:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34461 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXlsm-0007KG-4w
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:16:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59800)
+	id 1hXm5Q-000589-Pe
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:29:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35094)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hXlqL-00066I-O2
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:13:38 -0400
+	(envelope-from <mlevitsk@redhat.com>) id 1hXm3d-0004K9-7b
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:27:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hXlkM-0003Ii-Au
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:07:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48442)
+	(envelope-from <mlevitsk@redhat.com>) id 1hXm3c-00008u-7m
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:27:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59506)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hXlkM-0003HI-5N
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:07:26 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+	id 1hXm3Y-0007wb-40; Mon, 03 Jun 2019 08:27:16 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C5F3EB5BA;
-	Mon,  3 Jun 2019 12:07:21 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-121-13.rdu2.redhat.com
-	[10.10.121.13])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2B9E567268;
-	Mon,  3 Jun 2019 12:07:19 +0000 (UTC)
-To: Andrew Randrianasulu <randrianasulu@gmail.com>, qemu-devel@nongnu.org
-References: <201906010603.23645.randrianasulu@gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <350e1497-767a-d3eb-6be3-62d213be24d8@redhat.com>
-Date: Mon, 3 Jun 2019 14:07:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <201906010603.23645.randrianasulu@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+	by mx1.redhat.com (Postfix) with ESMTPS id 0B3AD30C1AFC;
+	Mon,  3 Jun 2019 12:26:49 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.49])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 47A7E45CD;
+	Mon,  3 Jun 2019 12:26:45 +0000 (UTC)
+Message-ID: <9f33152c244d64be67b80ad920c6f735a41b6f2f.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-block@nongnu.org
+Date: Mon, 03 Jun 2019 15:26:45 +0300
+In-Reply-To: <20190417195355.16123-1-mlevitsk@redhat.com>
+References: <20190417195355.16123-1-mlevitsk@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Mon, 03 Jun 2019 12:07:25 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.40]);
+	Mon, 03 Jun 2019 12:27:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] "accel/tcg: demacro cputlb" break
- qemu-system-x86_64
+Subject: Re: [Qemu-devel] [PATCH v2 0/5] Few fixes for userspace NVME driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,31 +56,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Andrew,
-
-On 06/01/19 05:03, Andrew Randrianasulu wrote:
-> Hello!
+On Wed, 2019-04-17 at 22:53 +0300, Maxim Levitsky wrote:
+> Hi!
+> These are few assorted fixes and features for the userspace
+> nvme driver.
 > 
-> I was compiling latest qemu git, and was surprized to find qemu-system-x86_64
-> (compiled for 32-bit x86 machine) can't boot any 64-bit kernel anymore.
+> Tested that on my laptop with my Samsung X5 thunderbolt drive, which
+> happens to have 4K sectors, support for discard and write zeros.
 > 
-> 32-bit kernels and kvm were fine.
-> So, I run git bisect
-
-> # first bad commit: [eed5664238ea5317689cf32426d9318686b2b75c] accel/tcg: demacro cputlb
+> Also bunch of fixes sitting in my queue from the period when I developed
+> the nvme-mdev driver.
 > 
-> Not sure how many people test qemu-system-x86_64 on 32-bit x86 hosts....
+> Best regards,
+>         Maxim Levitsky
+> 
+> Maxim Levitsky (5):
+>   block/nvme: don't flip CQ phase bits
+>   block/nvme: fix doorbell stride
+>   block/nvme: support larger that 512 bytes sector devices
+>   block/nvme: add support for write zeros
+>   block/nvme: add support for discard
+> 
+>  block/nvme.c         | 193 +++++++++++++++++++++++++++++++++++++++++--
+>  block/trace-events   |   3 +
+>  include/block/nvme.h |  19 ++++-
+>  3 files changed, 205 insertions(+), 10 deletions(-)
+> 
 
-Please consider subscribing to
-<https://bugs.launchpad.net/qemu/+bug/1830872>. I think both the symptom
-you've reported and the symptom described in LP#1830872 could have the
-same root cause.
+Ping.
 
-(I'll try to retest LP#1830872 at eed5664238ea^ later.)
+Best regards,
+	Maxim Levitsky
 
-Thanks,
-Laszlo
 
