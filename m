@@ -2,55 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EAA32D14
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 11:47:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60606 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A6832B86
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 11:09:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60020 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXjZ9-0004yR-Ht
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 05:47:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57374)
+	id 1hXixx-0005ib-2t
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 05:09:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46645)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hXjY0-0004fq-80
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:46:33 -0400
+	(envelope-from <david@redhat.com>) id 1hXivX-0004FK-DG
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:06:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hXjXy-0008Qr-CA
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:46:32 -0400
-Resent-Date: Mon, 03 Jun 2019 05:46:31 -0400
-Resent-Message-Id: <E1hXjXy-0008Qr-CA@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21511)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hXjXw-00084K-Vx
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:46:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1559552426; cv=none; d=zoho.com; s=zohoarc; 
-	b=jpPwerKtxhLKqOdbXoPEof1N+XVlVWtrioFBtUON/6ajGDOfYwDFBlDLMJODJkVwh8yf4XY0wN8BYWk0FyEMjF8HnqEWe2f6nD/7XhoD3+cyeo3ASOr6KwTdDEJLIsmpZOe9Zhb5X5iwaYyEK+lYcprvtjJascR3oG3aN5/SMXY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1559552426;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=PDhAPBykmQVof5VMs2scdF38fRr8uoJp2fMrrN+pXm4=; 
-	b=WToyYK34lZVv6fm9nAofqK5eNgm1zZkcxXwN5cKWb1iD5K6cBIK/Mjfh2RsIgUJvjkzjPqmd1gXAZ2yQMIaE/59VQkLmh8ISVwzJW4SDjCxZPMdkH9a3PbzgESL/yw8jytEUTvzfUv21eVLUhirYliKzOU9qHMcrLnVvmhxMftE=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1559552424658321.91174742629323;
-	Mon, 3 Jun 2019 02:00:24 -0700 (PDT)
-In-Reply-To: <20190602201709.11901-1-jusual@mail.ru>
-Message-ID: <155955242317.4368.14579521029462113568@ce79690b2cb9>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
+	(envelope-from <david@redhat.com>) id 1hXivU-00024j-H1
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 05:06:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46674)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <david@redhat.com>)
+	id 1hXivU-0001xe-72; Mon, 03 Jun 2019 05:06:44 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 61E7588305;
+	Mon,  3 Jun 2019 09:06:40 +0000 (UTC)
+Received: from t460s.redhat.com (unknown [10.36.117.0])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6256361101;
+	Mon,  3 Jun 2019 09:06:36 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 3 Jun 2019 02:00:24 -0700 (PDT)
-X-ZohoMailClient: External
+Date: Mon,  3 Jun 2019 11:06:13 +0200
+Message-Id: <20190603090635.10631-1-david@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.28]);
+	Mon, 03 Jun 2019 09:06:40 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH] block/linux-aio: Drop unused BlockAIOCB
- submission method
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 00/22] s390x/tcg: Vector Instruction Support
+ Part 4
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,40 +54,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
-	stefanha@redhat.com, pbonzini@redhat.com, jusual@mail.ru,
-	mehta.aaru20@gmail.com
+Cc: Thomas Huth <thuth@redhat.com>, Denys Vlasenko <dvlasenk@redhat.com>,
+	David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+	Pino Toscano <ptoscano@redhat.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYwMjIwMTcwOS4xMTkw
-MS0xLWp1c3VhbEBtYWlsLnJ1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
-ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
-YXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIXSBibG9jay9saW51eC1haW86IERy
-b3AgdW51c2VkIEJsb2NrQUlPQ0Igc3VibWlzc2lvbiBtZXRob2QKVHlwZTogc2VyaWVzCk1lc3Nh
-Z2UtaWQ6IDIwMTkwNjAyMjAxNzA5LjExOTAxLTEtanVzdWFsQG1haWwucnUKCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
-IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
-cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
-Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3
-LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAgICBwYXRjaGV3LzIwMTkwNjAy
-MjAxNzA5LjExOTAxLTEtanVzdWFsQG1haWwucnUgLT4gcGF0Y2hldy8yMDE5MDYwMjIwMTcwOS4x
-MTkwMS0xLWp1c3VhbEBtYWlsLnJ1ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMjk5
-YTcxYzhjZSBibG9jay9saW51eC1haW86IERyb3AgdW51c2VkIEJsb2NrQUlPQ0Igc3VibWlzc2lv
-biBtZXRob2QKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVz
-cyBpcyBtYW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6IEp1bGlhIFN1dm9y
-b3ZhIHZpYSBRZW11LWRldmVsIDxxZW11LWRldmVsQG5vbmdudS5vcmc+Cgp0b3RhbDogMSBlcnJv
-cnMsIDAgd2FybmluZ3MsIDExMSBsaW5lcyBjaGVja2VkCgpDb21taXQgMjk5YTcxYzhjZWQ2IChi
-bG9jay9saW51eC1haW86IERyb3AgdW51c2VkIEJsb2NrQUlPQ0Igc3VibWlzc2lvbiBtZXRob2Qp
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21t
-YW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNjAyMjAxNzA5LjExOTAxLTEtanVzdWFsQG1haWwu
-cnUvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQg
-YXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBz
-ZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+This is the final part of vector instruction support for s390x.
+
+Part 1: Vector Support Instructions
+Part 2: Vector Integer Instructions
+Part 3: Vector String Instructions
+Part 4: Vector Floating-Point Instructions
+
+The current state can be found at (kept updated):
+    https://github.com/davidhildenbrand/qemu/tree/vx
+
+It is based on:
+- [PATCH v2 0/5] s390x/tcg: Vector Instruction Support Part 3
+- [PATCH v1 0/2] s390x: Fix vector register alignment
+
+With the current state I can boot Linux kernel + user space compiled with
+SIMD support. This allows to boot distributions compiled exclusively for
+z13, requiring SIMD support. Also, it is now possible to build a complete
+kernel using rpmbuild as quite some issues have been sorted out.
+
+While the current state works fine for me with RHEL 8, I am experiencing
+some issues with newer userspace versions. I already found and fixed
+some stack overflow protection issues (stfle instruction). I still see
+random rpm database corruptions and rpmbuild doesn't work correctly
+(looks like another stack protection issue).
+
+In this part, all Vector Floating-Point Instructions introduced with the
+"Vector Facility" are added. Also, the "qemu" model is changed to a
+z13 machine.
+
+v1 -> v2:
+- get rid of make_float64() and float64_val().
+- fixed two cc calculation issues (thanks Richard)
+- Rework "VECTOR FP COMPARE (EQUAL|HIGH|HIGH OR EQUAL)"
+- Rework "VECTOR FP MULTIPLY AND (ADD|SUBTRACT)"
+- Use gvec expansion in "s390x/tcg: Implement VECTOR FP PERFORM SIGN
+  OPERATION"
+
+Cc: Denys Vlasenko <dvlasenk@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Pino Toscano <ptoscano@redhat.com>
+
+David Hildenbrand (22):
+  s390x/tcg: Store only the necessary amount of doublewords for STFLE
+  s390x/tcg: Introduce tcg_s390_vector_exception()
+  s390x/tcg: Export float_comp_to_cc() and float(32|64|128)_dcmask()
+  s390x/tcg: Implement VECTOR FP ADD
+  s390x/tcg: Implement VECTOR FP COMPARE (AND SIGNAL) SCALAR
+  s390x/tcg: Implement VECTOR FP COMPARE (EQUAL|HIGH|HIGH OR EQUAL)
+  s390x/tcg: Implement VECTOR FP CONVERT FROM FIXED 64-BIT
+  s390x/tcg: Implement VECTOR FP CONVERT FROM LOGICAL 64-BIT
+  s390x/tcg: Implement VECTOR FP CONVERT TO FIXED 64-BIT
+  s390x/tcg: Implement VECTOR FP CONVERT TO LOGICAL 64-BIT
+  s390x/tcg: Implement VECTOR FP DIVIDE
+  s390x/tcg: Implement VECTOR LOAD FP INTEGER
+  s390x/tcg: Implement VECTOR LOAD LENGTHENED
+  s390x/tcg: Implement VECTOR LOAD ROUNDED
+  s390x/tcg: Implement VECTOR FP MULTIPLY
+  s390x/tcg: Implement VECTOR FP MULTIPLY AND (ADD|SUBTRACT)
+  s390x/tcg: Implement VECTOR FP PERFORM SIGN OPERATION
+  s390x/tcg: Implement VECTOR FP SQUARE ROOT
+  s390x/tcg: Implement VECTOR FP SUBTRACT
+  s390x/tcg: Implement VECTOR FP TEST DATA CLASS IMMEDIATE
+  s390x/tcg: Allow linux-user to use vector instructions
+  s390x/tcg: We support the Vector Facility
+
+ target/s390x/Makefile.objs      |   1 +
+ target/s390x/cpu.c              |   3 +
+ target/s390x/cpu.h              |   1 +
+ target/s390x/excp_helper.c      |  15 +
+ target/s390x/fpu_helper.c       |   4 +-
+ target/s390x/gen-features.c     |   1 +
+ target/s390x/helper.h           |  46 +++
+ target/s390x/insn-data.def      |  45 +++
+ target/s390x/internal.h         |   4 +
+ target/s390x/misc_helper.c      |   8 +-
+ target/s390x/tcg_s390x.h        |   2 +
+ target/s390x/translate_vx.inc.c | 284 +++++++++++++++
+ target/s390x/vec_fpu_helper.c   | 625 ++++++++++++++++++++++++++++++++
+ 13 files changed, 1036 insertions(+), 3 deletions(-)
+ create mode 100644 target/s390x/vec_fpu_helper.c
+
+--=20
+2.21.0
 
 
