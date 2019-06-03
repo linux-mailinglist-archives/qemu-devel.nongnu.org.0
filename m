@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F9833513
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 18:36:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37784 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9B833522
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 18:39:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37822 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXpwu-0000Gv-6f
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 12:36:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33918)
+	id 1hXq04-00036U-1b
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 12:39:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34959)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hXpug-0007Mh-8o
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:34:23 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hXpxH-0001K9-Dg
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:37:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hXpq4-00015s-J7
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:29:41 -0400
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:38045)
+	(envelope-from <richard.henderson@linaro.org>) id 1hXpxG-0008Vn-5U
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:37:03 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40880)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hXpq0-0000un-Pg
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:29:34 -0400
-Received: by mail-qt1-x844.google.com with SMTP id l3so10131480qtj.5
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 09:29:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lRuIkeul+qqgsLppUx57B3WUblp1ykcJJeI+hoHIZ2o=;
-	b=CVc5RXaf/VrBrfgBfAv+t5jTKh1tdrEm6HHaGdvdHx7plZD/DnFnN+pFvcjXaJPdFy
-	F91k8G5wUdSktcz0tDSono8lt62ya7LGeUe12TmjNDpHaNnGp/8NOG/fBAwQRjK2j60e
-	RI8q/uaetBwTJooRjc37I9vT/Gk/krVcRouUWD2Icz7nSUylkFG0SDtENt4oaqVK8aLv
-	bVeyW8cos3yaJpLep4iPMKx1m6qi4LqI6igQCRwTu0uNQwhDnaLwA6Z0Zb06AapsNf7b
-	rEgR3tK9OxMuCQsuIYmEYdchaYbDzk8hn1szhhrIyZnU60h2FXVj5I1ysAagYA4eSaRM
-	31bg==
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hXpxF-0008TM-Vw
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:37:02 -0400
+Received: by mail-ot1-x344.google.com with SMTP id u11so16651481otq.7
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 09:37:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=+hJVmNCcsydsN0TfjYwt9CYBJrxjatoQ2AWAKd8J6z0=;
+	b=i3bzZfYPY+erLGGWAB9RoIGDWLLaSIn7Oo0Wda5BTd9UbU6M23j/0XZX5UFy77ZhS5
+	ok7mEiDa2YOqiEFipdO5HwAMzpsXM3s/VF/W0zRuRAvdtPfJ4YOT2L8AyiUt+Gk4Q8nd
+	mfmGxYf3WiouBFgK+hwKFpR3A1REBRbE8crsJ0V0wxYVDZgCooR9SWstGnA7vtXD6Mb/
+	fqJJKJvuwljE6wlpyz1gaib2VZ22Hnb+HX75fmxKt5sDGFOy3t1gaKaQRGmATWDQC/28
+	FO08qKKWJf89Ouc4qzWsz25ein5hcMe1UhZzTaJPIDFJ9UCi3OWwmOMOlJK9ngNoGkUA
+	44bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=lRuIkeul+qqgsLppUx57B3WUblp1ykcJJeI+hoHIZ2o=;
-	b=gyEBmYaxAvTgMGv+AdK8kfDhhEvUmK1+VY9RVa64a3Bp4UGJ1yAEkjjLASC1HK3mIW
-	gjIvZrSsYbpGD/vNmU0H18H+T60VNpMUvndp5oxt3aiplHivX8TQGItfkBkRp8mxa2i5
-	Z7GmBj6yVE0+TLC/TIJfCfg1pgkm01O/K922EHi+88vATpnD10oOs3dGFzcKlTR3yjfU
-	YQGz8psyzXRHJcwKcDfMGHhyHEZ2lRdTSawcOOXdKS2SWUUxk3eNA0U/90S9jEyknfXM
-	9EmNsV4sERScYcnI+BT3Pyr0z3uli1fM+O56L9DshzDWVzD3TnxVCC4CFUH/PdfUvcOT
-	1yxA==
-X-Gm-Message-State: APjAAAUtV5UJ+CZER+76+pzHu0cgWlycJSM4fFolNE9MnCFkaKcr6KlE
-	ROX/UZaNcGBuKy2FldkIIGIjq6qiyItR1w64/is=
-X-Google-Smtp-Source: APXvYqwynpIpgifDnplqJd5xx/aXE9wLL0ZAGSAdwgD1sTQgNIKoy22JSYWy6FCdYykGphh2XZr4lPUQrlr0NqsySpI=
-X-Received: by 2002:ac8:5315:: with SMTP id t21mr14106729qtn.229.1559579370510;
-	Mon, 03 Jun 2019 09:29:30 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=+hJVmNCcsydsN0TfjYwt9CYBJrxjatoQ2AWAKd8J6z0=;
+	b=KjdLUbqH+V4Je28d0rzteUJmBnm1L88OoUDC+/RIWr3ebJjBfAssKArgRScRGfe/8H
+	4/kqzxMqyqjeHs8zqkw5eKfbK7n00GfGKPt1uLPmtDm+rD6NIdayMGkEd64onmqf4o/O
+	bMhVNbZcUSME5pYHVRQrslqGjyrs0yOdozkgbCIPlLjqnL9M85J8EiPaM4oDyfIAbF4k
+	Ql9BVK6weTkqU5NigGYlcgavz6wjikzUag4IB0+Cpa430aqnqKwU5AmeI4ptrwxq2tx8
+	RfsMes7HJfwcKiU+4siy7u2XY24k4d6TiU5javCmeUseGbM1YvfLf9VqO5a3cWlJaKs6
+	k3SQ==
+X-Gm-Message-State: APjAAAUzaFxNm/Ms10RnC44glWjwRmosjoCFqIF0xaKDxsBmsuoFsBFC
+	wjk5/k2Q31oAHD5NtMqSjT6RBA==
+X-Google-Smtp-Source: APXvYqzJFleHaGsgtdDpPo1eCjs/HkrDiQjyqj/ZQ5lWtyZ4hkdfP2GQgIcKcW74EXVcJnoiW4IWMA==
+X-Received: by 2002:a9d:6f01:: with SMTP id n1mr160251otq.276.1559579820282;
+	Mon, 03 Jun 2019 09:37:00 -0700 (PDT)
+Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
+	[200.56.192.86]) by smtp.gmail.com with ESMTPSA id
+	m13sm4958062ote.68.2019.06.03.09.36.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Jun 2019 09:36:59 -0700 (PDT)
+To: Michael Rolnik <mrolnik@gmail.com>
 References: <20190530190738.22713-1-mrolnik@gmail.com>
 	<20190530190738.22713-4-mrolnik@gmail.com>
 	<402ba0b2-e2e0-6b7a-1862-4588e5f83357@linaro.org>
 	<CAK4993iXV9oRr_VfabJHg4fCYEppW49i_PE9R0X_TBqk7TDkrQ@mail.gmail.com>
 	<9e2acbbe-7ede-c45d-5e9f-bb269aa25fcc@linaro.org>
-In-Reply-To: <9e2acbbe-7ede-c45d-5e9f-bb269aa25fcc@linaro.org>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Mon, 3 Jun 2019 19:29:17 +0300
-Message-ID: <CAK4993hXTOSoW5FFjeur+pLzT18c-C=vwao-904ASyqMsT5eMQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+	<CAK4993hXTOSoW5FFjeur+pLzT18c-C=vwao-904ASyqMsT5eMQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <3bc0d426-bd59-055d-a010-b136cba555bf@linaro.org>
+Date: Mon, 3 Jun 2019 11:36:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAK4993hXTOSoW5FFjeur+pLzT18c-C=vwao-904ASyqMsT5eMQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::844
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+X-Received-From: 2607:f8b0:4864:20::344
 Subject: Re: [Qemu-devel] [PATCH RFC v20 3/8] target/avr: Add mechanism to
  check for active debugger connection
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,61 +95,64 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-1. There's a break instruction
-https://www.microchip.com/webdoc/avrassembler/avrassembler.wb_BREAK.html
-2. There's a set of tests that use break.
+On 6/3/19 11:29 AM, Michael Rolnik wrote:
+> 1. There's a break
+> instruction https://www.microchip.com/webdoc/avrassembler/avrassembler.wb_BREAK.html
+> 2. There's a set of tests that use break. 
+> 
+> So I assume I have to implement this instruction as described in the spec.
 
-So I assume I have to implement this instruction as described in the spec.
+The spec talks about fuses, not gdb.  A valid implementation of this
+instruction is a no-op -- it say so right there in the spec.
 
-Sent from my cell phone, please ignore typos
+What does it mean to "test" break?  AFAIK, you can't test this at all from
+within the cpu itself, since it does not generate a cpu-level exception.
 
-On Mon, Jun 3, 2019, 6:44 PM Richard Henderson <richard.henderson@linaro.org>
-wrote:
+If gdb is setting a breakpoint via -S, it should be done via cpu_breakpoint_test.
 
-> On 6/1/19 4:12 PM, Michael Rolnik wrote:
-> > Hi Richard.
-> >
-> > If I implement it this way
-> >
-> > ```
-> >  static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
-> >  {
-> >      if (avr_feature(ctx->env, AVR_FEATURE_BREAK) == false) {
-> >          gen_helper_unsupported(cpu_env);
-> >      } else {
-> >          tcg_gen_movi_tl(cpu_pc, ctx->inst[0].npc);
-> >          gen_helper_debug(cpu_env);
-> >      }
-> >
-> >      ctx->bstate = BS_EXCP;
-> >
-> >      return true;
-> >  }
-> > ```
-> >
-> > qemu (without -s -S flags) crashes when debugger is not connected
->
-> I was not suggesting using the internal qemu EXCP_DEBUG, but another AVR
-> specific exception, much the same way as every other cpu has a cpu-specific
-> debug exception.
->
-> Or perhaps always do nothing.  Why is gdb insertting BREAK in the first
-> place?
->  It should be using the "hardware breakpoint" support that qemu advertises
-> as
-> part of the gdbstub protocol, and that you support here:
->
-> > +        if (unlikely(cpu_breakpoint_test(cs, OFFSET_CODE + cpc * 2,
-> BP_ANY))
-> > +                 || cpu_breakpoint_test(cs, OFFSET_DATA + cpc * 2,
-> BP_ANY)) {
-> > +            tcg_gen_movi_i32(cpu_pc, cpc);
-> > +            gen_helper_debug(cpu_env);
-> > +            ctx.bstate = BS_EXCP;
-> > +            goto done_generating;
-> > +        }
->
->
->
-> r~
->
+
+
+> On Mon, Jun 3, 2019, 6:44 PM Richard Henderson <richard.henderson@linaro.org
+> <mailto:richard.henderson@linaro.org>> wrote:
+> 
+>     On 6/1/19 4:12 PM, Michael Rolnik wrote:
+>     > Hi Richard.
+>     >
+>     > If I implement it this way
+>     >
+>     > ```
+>     >  static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
+>     >  {
+>     >      if (avr_feature(ctx->env, AVR_FEATURE_BREAK) == false) {
+>     >          gen_helper_unsupported(cpu_env);
+>     >      } else {
+>     >          tcg_gen_movi_tl(cpu_pc, ctx->inst[0].npc);
+>     >          gen_helper_debug(cpu_env);
+>     >      }
+>     >
+>     >      ctx->bstate = BS_EXCP;
+>     >
+>     >      return true;
+>     >  }
+>     > ```
+>     >
+>     > qemu (without -s -S flags) crashes when debugger is not connected
+> 
+>     I was not suggesting using the internal qemu EXCP_DEBUG, but another AVR
+>     specific exception, much the same way as every other cpu has a cpu-specific
+>     debug exception.
+> 
+>     Or perhaps always do nothing.  Why is gdb insertting BREAK in the first place?
+>      It should be using the "hardware breakpoint" support that qemu advertises as
+>     part of the gdbstub protocol, and that you support here:
+> 
+>     > +        if (unlikely(cpu_breakpoint_test(cs, OFFSET_CODE + cpc * 2, BP_ANY))
+>     > +                 || cpu_breakpoint_test(cs, OFFSET_DATA + cpc * 2,
+>     BP_ANY)) {
+>     > +            tcg_gen_movi_i32(cpu_pc, cpc);
+>     > +            gen_helper_debug(cpu_env);
+>     > +            ctx.bstate = BS_EXCP;
+>     > +            goto done_generating;
+>     > +        }
+
+
