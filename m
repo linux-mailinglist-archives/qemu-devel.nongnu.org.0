@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED97F33949
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 21:51:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40065 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5022E3395C
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 21:55:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40098 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXszp-0003Co-Nn
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 15:51:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49351)
+	id 1hXt3f-0005wp-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 15:55:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51034)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hXsy9-0002M9-5Y
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:50:10 -0400
+	(envelope-from <mrolnik@gmail.com>) id 1hXt1b-00051H-PQ
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:53:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hXsvQ-00083N-29
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:47:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:62950)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hXsvP-0007zV-Pu
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:47:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9A7982F8BC1;
-	Mon,  3 Jun 2019 19:47:17 +0000 (UTC)
-Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C49E2679CE;
-	Mon,  3 Jun 2019 19:47:16 +0000 (UTC)
-To: Michael Rolnik <mrolnik@gmail.com>
+	(envelope-from <mrolnik@gmail.com>) id 1hXt1a-0005Ce-KL
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:53:43 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:45553)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hXt1a-0005AM-FC
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:53:42 -0400
+Received: by mail-qk1-x741.google.com with SMTP id s22so1253050qkj.12
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 12:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=zdEgs1wJH0i3bBjSBd7DPVOfk8fjwHyXVwJbYdlnyH0=;
+	b=BtH9HzHPAmfN/afRSg+c3IxIHQN3eZ6Si+kxSfxGiHGYAG3ohDoySJYme1PKJkQrZ9
+	2RiiQGcbP3E1nUu7px8VQa6B6Y5T/qhnzYHKtowUZTzz9adILc+CDZirRWq/xx19WZoL
+	0R5vyHB4IDMx3okvGDQ/CEl0xBYawkCxHNCz10/gGOTz5BK6gXHz8ZQ7H126J9eOwrgY
+	mu1Vd/FQ+SgPOBS1YikTeTJ5fzVvEji/5gG9n4coEP4rJRw5xiYBQNXvY8QzKNs+7gv4
+	UDOyG5Y1oOavUdqQ//ebKyfqy8ZvXKnYLTRI2u+qhOOrGyLgbq25zp0Vfrwa+IwYvZ4V
+	FKnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=zdEgs1wJH0i3bBjSBd7DPVOfk8fjwHyXVwJbYdlnyH0=;
+	b=IkqZ2h273rWkmDrsTmWjYE4+IQpAl7H2NzQR02Mvd1kH74eaEliDvbW/1zmYVlkWWL
+	GSPvGH3qgqm973DKepi6j6NYU9l3iqIBGnWXYb5tFqgLRx0RW2lZ67rnEYg8Cx7jEKl2
+	ViIlsIfO0Lm6v16msANtHInxH0FC2DwNthcC1Codw/N/CcIE+AZ4dFDookEDIok8Fp7l
+	+Q2MBoPxySfPR67MbXcyq38EIuyAyFtl01GyJstC5MTWGDUtxR1TdHMoP/G9DIFeCr4X
+	OON0OOmot6l+nr3RPwcjFXuHdPMMjbzubibV3ZFLTJzf+yd/MykOU6yUDJIyYDTwy153
+	Ul4w==
+X-Gm-Message-State: APjAAAXni1s5bphI7zA9iKgTZ4ywELjEVkwsy90HtKmmp8d3Rq8zLIq4
+	ixtxnJOjbjIEQih+QBxm6CP0pNOx7wjwNOBisv8=
+X-Google-Smtp-Source: APXvYqwMHeOYNQwEhcbAssgQhtOuUSSbrOgejC/Hy+YX1wjmxQAyQ+l2X3MKu6RBqWPCVcR6v3qtlBXfHa0zxcrn5fg=
+X-Received: by 2002:a05:620a:5b1:: with SMTP id
+	q17mr22962612qkq.174.1559591621006; 
+	Mon, 03 Jun 2019 12:53:41 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190530190738.22713-1-mrolnik@gmail.com>
 	<20190530190738.22713-9-mrolnik@gmail.com>
 	<c501a681-fc9b-1fec-f9bf-190f74c4bb73@redhat.com>
 	<CAK4993gA1TTKE74Z++r1d7fpGr6NHqosVCLoKaaVLF-AngynmA@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
-	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
-	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
-	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
-	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
-	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
-	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
-	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
-	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
-	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
-	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
-	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
-	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
-	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
-	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
-	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
-	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
-	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
-	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
-	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
-	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
-	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
-	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <a71efc15-ec01-43b5-42e9-2393ac9450a5@redhat.com>
-Date: Mon, 3 Jun 2019 14:47:15 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAK4993gA1TTKE74Z++r1d7fpGr6NHqosVCLoKaaVLF-AngynmA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="GDSGiFpuL8rVtI11hR0gG99qj15VZeMbu"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Mon, 03 Jun 2019 19:47:17 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+	<a71efc15-ec01-43b5-42e9-2393ac9450a5@redhat.com>
+In-Reply-To: <a71efc15-ec01-43b5-42e9-2393ac9450a5@redhat.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Mon, 3 Jun 2019 22:53:03 +0300
+Message-ID: <CAK4993gPcebFNOUQtC83PXDR7GWcwTfvTtRs0ho3OYGoyi=FWw@mail.gmail.com>
+To: Eric Blake <eblake@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::741
+Content-Type: text/plain; charset="UTF-8"
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
 Subject: Re: [Qemu-devel] [PATCH RFC v20 8/8] target/avr: Register AVR
  support with the rest of QEMU, the build system, and the MAINTAINERS file
@@ -95,79 +83,48 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---GDSGiFpuL8rVtI11hR0gG99qj15VZeMbu
-From: Eric Blake <eblake@redhat.com>
-To: Michael Rolnik <mrolnik@gmail.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>, Richard Henderson <rth@twiddle.net>
-Message-ID: <a71efc15-ec01-43b5-42e9-2393ac9450a5@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH RFC v20 8/8] target/avr: Register AVR support
- with the rest of QEMU, the build system, and the MAINTAINERS file
-References: <20190530190738.22713-1-mrolnik@gmail.com>
- <20190530190738.22713-9-mrolnik@gmail.com>
- <c501a681-fc9b-1fec-f9bf-190f74c4bb73@redhat.com>
- <CAK4993gA1TTKE74Z++r1d7fpGr6NHqosVCLoKaaVLF-AngynmA@mail.gmail.com>
-In-Reply-To: <CAK4993gA1TTKE74Z++r1d7fpGr6NHqosVCLoKaaVLF-AngynmA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Thanks!
 
-On 6/1/19 4:20 PM, Michael Rolnik wrote:
-> Hi Eric.
->=20
-> please explain what should I do or point to an example or documentation=
-=2E
->=20
+On Mon, Jun 3, 2019 at 10:47 PM Eric Blake <eblake@redhat.com> wrote:
 
->>>  # Since: 3.0
->>>  ##
->>>  { 'enum' : 'SysEmuTarget',
->>> -  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm3=
-2',
->>> +  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386=
-',
->> 'lm32',
->>>               'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',=
+> On 6/1/19 4:20 PM, Michael Rolnik wrote:
+> > Hi Eric.
+> >
+> > please explain what should I do or point to an example or documentation.
+> >
+>
+> >>>  # Since: 3.0
+> >>>  ##
+> >>>  { 'enum' : 'SysEmuTarget',
+> >>> -  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386',
+> 'lm32',
+> >>> +  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386',
+> >> 'lm32',
+> >>>               'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+> >>>               'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+> >>>               'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
+> >>
+> >> Missing documentation that 'avr' is (since 4.1).
+>
+> Look above a few lines, where it says:
+>
+> # ppcemb: dropped in 3.1
+> #
+> # Since: 3.0
+> ##
+> { 'enum' : 'SysEmuTarget',
+>
+> You'll add a new line, right after ppcemb, which states
+>
+> # avr: since 4.1
+>
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
+>
+>
 
->>>               'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
->>>               'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
->>
->> Missing documentation that 'avr' is (since 4.1).
-
-Look above a few lines, where it says:
-
-# ppcemb: dropped in 3.1
-#
-# Since: 3.0
-##
-{ 'enum' : 'SysEmuTarget',
-
-You'll add a new line, right after ppcemb, which states
-
-# avr: since 4.1
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---GDSGiFpuL8rVtI11hR0gG99qj15VZeMbu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz1eUMACgkQp6FrSiUn
-Q2p0xAf+IC56CPJeEJJpC88EQoYapRDosg/onWsV1EGWwXYHB9wYs0prgJZWx2Eo
-XK0u5NAg1/YLIg2xL2uuG48qPKzpJf3yrIvL0rtpWyTcFWb8XGzlb/OItwFRG7jN
-iZf6GZWkxESEFPn9BgIRR+Av4TrC18rgeGzJ8ggwn3UO1d/6WLn0tMNGHxQqb2k7
-+uSko1MRlIM+pe7v2/eAVvcA+YJs2CB0gpKV8W1G9NLG/4p6wIZmrjbGqBWZHefL
-i1S4p6Pk9FMO7MVrzR5o75+ZUUDG9+lzGTZ57rQn/t2qWxpAKr2NNyTm34dDzL1l
-7RQy+NHNAf8UG2ovaV/dfk0rFBr6yQ==
-=78iO
------END PGP SIGNATURE-----
-
---GDSGiFpuL8rVtI11hR0gG99qj15VZeMbu--
-
+-- 
+Best Regards,
+Michael Rolnik
