@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0743331A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:07:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36315 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25D633317
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:06:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36311 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXoYG-0002S0-Jt
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:07:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39530)
+	id 1hXoXg-00020M-48
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:06:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39562)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hXoUW-0000M2-J8
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:03:17 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hXoUY-0000O7-KS
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:03:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hXoUV-0006rX-4v
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:03:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37115)
+	(envelope-from <kwolf@redhat.com>) id 1hXoUX-0006xq-6K
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:03:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35658)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hXoUS-0006XB-Hn; Mon, 03 Jun 2019 11:03:12 -0400
+	id 1hXoUU-0006k5-2Y; Mon, 03 Jun 2019 11:03:14 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 13920223891;
-	Mon,  3 Jun 2019 15:03:05 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 273D5C051684;
+	Mon,  3 Jun 2019 15:03:09 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-116-129.ams2.redhat.com
 	[10.36.116.129])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id EC4A067279;
-	Mon,  3 Jun 2019 15:02:58 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6587D61B6A;
+	Mon,  3 Jun 2019 15:03:05 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon,  3 Jun 2019 17:02:08 +0200
-Message-Id: <20190603150233.6614-4-kwolf@redhat.com>
+Date: Mon,  3 Jun 2019 17:02:09 +0200
+Message-Id: <20190603150233.6614-5-kwolf@redhat.com>
 In-Reply-To: <20190603150233.6614-1-kwolf@redhat.com>
 References: <20190603150233.6614-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Mon, 03 Jun 2019 15:03:05 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Mon, 03 Jun 2019 15:03:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 03/28] blockdev: fix missed target unref for
- drive-backup
+Subject: [Qemu-devel] [PULL 04/28] tests/perf: Test lseek influence on qcow2
+ block-status
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,73 +61,106 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-If the bitmap can't be used for whatever reason, we skip putting down
-the reference. Fix that.
+Block layer may recursively check block_status in file child of qcow2,
+if qcow2 driver returned DATA. There are several test cases to check
+influence of lseek on block_status performance. To see real difference
+run on tmpfs.
 
-In practice, this means that if you attempt to gracefully exit QEMU
-after a backup command being rejected, bdrv_close_all will fail and
-tell you some unpleasant things via assert().
+Tests originally created by Kevin, I just refactored and put them
+together into one executable file with simple output.
 
-Reported-by: aihua liang <aliang@redhat.com>
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1703916
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- blockdev.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ tests/perf/block/qcow2/convert-blockstatus | 71 ++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100755 tests/perf/block/qcow2/convert-blockstatus
 
-diff --git a/blockdev.c b/blockdev.c
-index 17c2d801d7..d88dc115f2 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3546,8 +3546,7 @@ static BlockJob *do_drive_backup(DriveBackup *backu=
-p, JobTxn *txn,
-     if (set_backing_hd) {
-         bdrv_set_backing_hd(target_bs, source, &local_err);
-         if (local_err) {
--            bdrv_unref(target_bs);
--            goto out;
-+            goto unref;
-         }
-     }
-=20
-@@ -3555,11 +3554,10 @@ static BlockJob *do_drive_backup(DriveBackup *bac=
-kup, JobTxn *txn,
-         bmap =3D bdrv_find_dirty_bitmap(bs, backup->bitmap);
-         if (!bmap) {
-             error_setg(errp, "Bitmap '%s' could not be found", backup->b=
-itmap);
--            bdrv_unref(target_bs);
--            goto out;
-+            goto unref;
-         }
-         if (bdrv_dirty_bitmap_check(bmap, BDRV_BITMAP_DEFAULT, errp)) {
--            goto out;
-+            goto unref;
-         }
-     }
-     if (!backup->auto_finalize) {
-@@ -3573,12 +3571,13 @@ static BlockJob *do_drive_backup(DriveBackup *bac=
-kup, JobTxn *txn,
-                             backup->sync, bmap, backup->compress,
-                             backup->on_source_error, backup->on_target_e=
-rror,
-                             job_flags, NULL, NULL, txn, &local_err);
--    bdrv_unref(target_bs);
-     if (local_err !=3D NULL) {
-         error_propagate(errp, local_err);
--        goto out;
-+        goto unref;
-     }
-=20
-+unref:
-+    bdrv_unref(target_bs);
- out:
-     aio_context_release(aio_context);
-     return job;
+diff --git a/tests/perf/block/qcow2/convert-blockstatus b/tests/perf/bloc=
+k/qcow2/convert-blockstatus
+new file mode 100755
+index 0000000000..a1a3c1ef43
+--- /dev/null
++++ b/tests/perf/block/qcow2/convert-blockstatus
+@@ -0,0 +1,71 @@
++#!/bin/bash
++#
++# Test lseek influence on qcow2 block-status
++#
++# Block layer may recursively check block_status in file child of qcow2,=
+ if
++# qcow2 driver returned DATA. There are several test cases to check infl=
+uence
++# of lseek on block_status performance. To see real difference run on tm=
+pfs.
++#
++# Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
++#
++# Tests originally written by Kevin Wolf
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++if [ "$#" -lt 1 ]; then
++    echo "Usage: $0 SOURCE_FILE"
++    exit 1
++fi
++
++ROOT_DIR=3D"$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." >/dev/n=
+ull 2>&1 && pwd )"
++QEMU_IMG=3D"$ROOT_DIR/qemu-img"
++QEMU_IO=3D"$ROOT_DIR/qemu-io"
++
++size=3D1G
++src=3D"$1"
++
++# test-case plain
++
++(
++$QEMU_IMG create -f qcow2 "$src" $size
++for i in $(seq 16384 -1 0); do
++    echo "write $((i * 65536)) 64k"
++done | $QEMU_IO "$src"
++) > /dev/null
++
++echo -n "plain: "
++/usr/bin/time -f %e $QEMU_IMG convert -n "$src" null-co://
++
++# test-case forward
++
++(
++$QEMU_IMG create -f qcow2 "$src" $size
++for i in $(seq 0 2 16384); do
++    echo "write $((i * 65536)) 64k"
++done | $QEMU_IO "$src"
++for i in $(seq 1 2 16384); do
++    echo "write $((i * 65536)) 64k"
++done | $QEMU_IO "$src"
++) > /dev/null
++
++echo -n "forward: "
++/usr/bin/time -f %e $QEMU_IMG convert -n "$src" null-co://
++
++# test-case prealloc
++
++$QEMU_IMG create -f qcow2 -o preallocation=3Dmetadata "$src" $size > /de=
+v/null
++
++echo -n "prealloc: "
++/usr/bin/time -f %e $QEMU_IMG convert -n "$src" null-co://
 --=20
 2.20.1
 
