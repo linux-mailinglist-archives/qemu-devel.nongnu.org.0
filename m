@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1033336E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:24:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36592 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DEBC3335E
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:21:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36537 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXood-00009q-EB
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:24:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40323)
+	id 1hXolt-00062f-Jn
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:21:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40322)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hXoW0-0001Vc-DM
+	(envelope-from <kwolf@redhat.com>) id 1hXoW0-0001Vb-DI
 	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:04:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hXoVy-0001M7-3u
+	(envelope-from <kwolf@redhat.com>) id 1hXoVy-0001Lj-0D
 	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:04:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:9779)
+Received: from mx1.redhat.com ([209.132.183.28]:43942)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hXoVu-0000oq-7x; Mon, 03 Jun 2019 11:04:42 -0400
+	id 1hXoVs-0000kn-4y; Mon, 03 Jun 2019 11:04:40 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 30DA72ED2C4;
-	Mon,  3 Jun 2019 15:04:23 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 67BA52F8BE8;
+	Mon,  3 Jun 2019 15:04:26 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-116-129.ams2.redhat.com
 	[10.36.116.129])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 102676726F;
-	Mon,  3 Jun 2019 15:04:18 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7BA6E6727B;
+	Mon,  3 Jun 2019 15:04:23 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon,  3 Jun 2019 17:02:26 +0200
-Message-Id: <20190603150233.6614-22-kwolf@redhat.com>
+Date: Mon,  3 Jun 2019 17:02:27 +0200
+Message-Id: <20190603150233.6614-23-kwolf@redhat.com>
 In-Reply-To: <20190603150233.6614-1-kwolf@redhat.com>
 References: <20190603150233.6614-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.29]);
-	Mon, 03 Jun 2019 15:04:28 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Mon, 03 Jun 2019 15:04:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 21/28] block: Remove wrong
- bdrv_set_aio_context() calls
+Subject: [Qemu-devel] [PULL 22/28] virtio-scsi-test: Test attaching new
+ overlay with iothreads
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,78 +61,168 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The mirror and commit block jobs use bdrv_set_aio_context() to move
-their filter node into the right AioContext before hooking it up in the
-graph. Similarly, bdrv_open_backing_file() explicitly moves the backing
-file node into the right AioContext first.
+This tests that blockdev-add can correctly add a qcow2 overlay to an
+image used by a virtio-scsi disk in an iothread. The interesting point
+here is whether the newly added node gets correctly moved into the
+iothread AioContext.
 
-This isn't necessary any more, they get automatically moved into the
-right context now when attaching them.
+If it isn't, we get an assertion failure in virtio-scsi while processing
+the next request:
 
-However, in the case of bdrv_open_backing_file() with a node reference,
-it's actually not only unnecessary, but even wrong: The unchecked
-bdrv_set_aio_context() changes the AioContext of the child node even if
-other parents require it to retain the old context. So this is not only
-a simplification, but a bug fix, too.
+    virtio_scsi_ctx_check: Assertion `blk_get_aio_context(d->conf.blk) =3D=
+=3D s->ctx' failed.
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1684342
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c        | 1 -
- block/commit.c | 2 --
- block/mirror.c | 1 -
- 3 files changed, 4 deletions(-)
+ tests/libqtest.h         | 11 +++++++
+ tests/libqtest.c         | 19 ++++++++++++
+ tests/virtio-scsi-test.c | 62 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 92 insertions(+)
 
-diff --git a/block.c b/block.c
-index 6830f2d940..ddfae15d9b 100644
---- a/block.c
-+++ b/block.c
-@@ -2554,7 +2554,6 @@ int bdrv_open_backing_file(BlockDriverState *bs, QD=
-ict *parent_options,
-         ret =3D -EINVAL;
-         goto free_exit;
-     }
--    bdrv_set_aio_context(backing_hd, bdrv_get_aio_context(bs));
+diff --git a/tests/libqtest.h b/tests/libqtest.h
+index a98ea15b7d..32d927755d 100644
+--- a/tests/libqtest.h
++++ b/tests/libqtest.h
+@@ -619,6 +619,17 @@ static inline void qtest_end(void)
+ QDict *qmp(const char *fmt, ...) GCC_FMT_ATTR(1, 2);
 =20
-     if (implicit_backing) {
-         bdrv_refresh_filename(backing_hd);
-diff --git a/block/commit.c b/block/commit.c
-index 4d519506d6..c815def89a 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -301,7 +301,6 @@ void commit_start(const char *job_id, BlockDriverStat=
-e *bs,
-         commit_top_bs->implicit =3D true;
-     }
-     commit_top_bs->total_sectors =3D top->total_sectors;
--    bdrv_set_aio_context(commit_top_bs, bdrv_get_aio_context(top));
+ /**
++ * qmp_assert_success:
++ * @fmt...: QMP message to send to qemu, formatted like
++ * qobject_from_jsonf_nofail().  See parse_escape() for what's
++ * supported after '%'.
++ *
++ * Sends a QMP message to QEMU and asserts that a 'return' key is presen=
+t in
++ * the response.
++ */
++void qmp_assert_success(const char *fmt, ...) GCC_FMT_ATTR(1, 2);
++
++/*
+  * qmp_eventwait:
+  * @s: #event event to wait for.
+  *
+diff --git a/tests/libqtest.c b/tests/libqtest.c
+index 8ac0c02af4..546a875913 100644
+--- a/tests/libqtest.c
++++ b/tests/libqtest.c
+@@ -1038,6 +1038,25 @@ QDict *qmp(const char *fmt, ...)
+     return response;
+ }
 =20
-     bdrv_append(commit_top_bs, top, &local_err);
-     if (local_err) {
-@@ -443,7 +442,6 @@ int bdrv_commit(BlockDriverState *bs)
-         error_report_err(local_err);
-         goto ro_cleanup;
-     }
--    bdrv_set_aio_context(commit_top_bs, bdrv_get_aio_context(backing_fil=
-e_bs));
++void qmp_assert_success(const char *fmt, ...)
++{
++    va_list ap;
++    QDict *response;
++
++    va_start(ap, fmt);
++    response =3D qtest_vqmp(global_qtest, fmt, ap);
++    va_end(ap);
++
++    g_assert(response);
++    if (!qdict_haskey(response, "return")) {
++        QString *s =3D qobject_to_json_pretty(QOBJECT(response));
++        g_test_message("%s", qstring_get_str(s));
++        qobject_unref(s);
++    }
++    g_assert(qdict_haskey(response, "return"));
++    qobject_unref(response);
++}
++
+ char *hmp(const char *fmt, ...)
+ {
+     va_list ap;
+diff --git a/tests/virtio-scsi-test.c b/tests/virtio-scsi-test.c
+index 162b31c88d..923febc76e 100644
+--- a/tests/virtio-scsi-test.c
++++ b/tests/virtio-scsi-test.c
+@@ -188,6 +188,52 @@ static void test_unaligned_write_same(void *obj, voi=
+d *data,
+     qvirtio_scsi_pci_free(vs);
+ }
 =20
-     bdrv_set_backing_hd(commit_top_bs, backing_file_bs, &error_abort);
-     bdrv_set_backing_hd(bs, commit_top_bs, &error_abort);
-diff --git a/block/mirror.c b/block/mirror.c
-index eb96b52de9..f8bdb5b21b 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1543,7 +1543,6 @@ static void mirror_start_job(const char *job_id, Bl=
-ockDriverState *bs,
-                                           BDRV_REQ_NO_FALLBACK;
-     bs_opaque =3D g_new0(MirrorBDSOpaque, 1);
-     mirror_top_bs->opaque =3D bs_opaque;
--    bdrv_set_aio_context(mirror_top_bs, bdrv_get_aio_context(bs));
++static void test_iothread_attach_node(void *obj, void *data,
++                                      QGuestAllocator *t_alloc)
++{
++    QVirtioSCSI *scsi =3D obj;
++    QVirtioSCSIQueues *vs;
++    char tmp_path[] =3D "/tmp/qtest.XXXXXX";
++    int fd;
++    int ret;
++
++    uint8_t buf[512] =3D { 0 };
++    const uint8_t write_cdb[VIRTIO_SCSI_CDB_SIZE] =3D {
++        /* WRITE(10) to LBA 0, transfer length 1 */
++        0x2a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00
++    };
++
++    alloc =3D t_alloc;
++    vs =3D qvirtio_scsi_init(scsi->vdev);
++
++    /* Create a temporary qcow2 overlay*/
++    fd =3D mkstemp(tmp_path);
++    g_assert(fd >=3D 0);
++    close(fd);
++
++    if (!have_qemu_img()) {
++        g_test_message("QTEST_QEMU_IMG not set or qemu-img missing; "
++                       "skipping snapshot test");
++        goto fail;
++    }
++
++    mkqcow2(tmp_path, 64);
++
++    /* Attach the overlay to the null0 node */
++    qmp_assert_success("{'execute': 'blockdev-add', 'arguments': {"
++                       "   'driver': 'qcow2', 'node-name': 'overlay',"
++                       "   'backing': 'null0', 'file': {"
++                       "     'driver': 'file', 'filename': %s}}}", tmp_p=
+ath);
++
++    /* Send a request to see if the AioContext is still right */
++    ret =3D virtio_scsi_do_command(vs, write_cdb, NULL, 0, buf, 512, NUL=
+L);
++    g_assert_cmphex(ret, =3D=3D, 0);
++
++fail:
++    qvirtio_scsi_pci_free(vs);
++    unlink(tmp_path);
++}
++
+ static void *virtio_scsi_hotplug_setup(GString *cmd_line, void *arg)
+ {
+     g_string_append(cmd_line,
+@@ -204,6 +250,15 @@ static void *virtio_scsi_setup(GString *cmd_line, vo=
+id *arg)
+     return arg;
+ }
 =20
-     /* bdrv_append takes ownership of the mirror_top_bs reference, need =
-to keep
-      * it alive until block_job_create() succeeds even if bs has no pare=
-nt. */
++static void *virtio_scsi_setup_iothread(GString *cmd_line, void *arg)
++{
++    g_string_append(cmd_line,
++                    " -object iothread,id=3Dthread0"
++                    " -blockdev driver=3Dnull-co,node-name=3Dnull0"
++                    " -device scsi-hd,drive=3Dnull0");
++    return arg;
++}
++
+ static void register_virtio_scsi_test(void)
+ {
+     QOSGraphTestOptions opts =3D { };
+@@ -214,6 +269,13 @@ static void register_virtio_scsi_test(void)
+     opts.before =3D virtio_scsi_setup;
+     qos_add_test("unaligned-write-same", "virtio-scsi",
+                  test_unaligned_write_same, &opts);
++
++    opts.before =3D virtio_scsi_setup_iothread;
++    opts.edge =3D (QOSGraphEdgeOptions) {
++        .extra_device_opts =3D "iothread=3Dthread0",
++    };
++    qos_add_test("iothread-attach-node", "virtio-scsi",
++                 test_iothread_attach_node, &opts);
+ }
+=20
+ libqos_init(register_virtio_scsi_test);
 --=20
 2.20.1
 
