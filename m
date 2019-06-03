@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C913D337C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:22:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39148 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4574337C3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:24:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39171 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXrbh-0004bF-Vd
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:22:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56538)
+	id 1hXrda-00065m-4G
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:24:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57034)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hXrOT-0002Ga-Hz
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:09:14 -0400
+	(envelope-from <laine@redhat.com>) id 1hXrQS-0003w7-Db
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:11:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hXrOS-0000xU-LJ
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:09:13 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:39863)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hXrOS-0000wU-Ga
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:09:12 -0400
-Received: by mail-qk1-f194.google.com with SMTP id i125so1038275qkd.6
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 11:09:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=rmZ1LeFhTShzPpR471gaFIMsLeMRdMAxMgQBdzVGjC4=;
-	b=JHEpkM1NOfcedVcIC4cpoqonJbaaPnQoBUKZQlbYeDPdCk6KvbB9HD8jjSaeV9S1DE
-	MRU8ph91WkggvRzArkT+TQVeDtt5EnhIYmRl6lF9ccxJzEhktIHcLdCYJIX0fjAr238v
-	sGj/2/mlhPYvgPRPnSJE6dYWQco2arP6ooQWtUZFh/k8SspUUY0iIW5ySJ+4KyLsM7wY
-	MXefxHUImyCwnuSecrAZ0JpwmUkl7IjBxgPnJBXVdv1YbQtVSWemM4AHWJfKhDjy/1m6
-	B2Qo2iMRxyXBo9sch4Tg4d1nsB5MvL6GB4wMW3hcOMfPGkDvVW2zZTwpalXVMIMljk6U
-	g3yA==
-X-Gm-Message-State: APjAAAXvJRXSJLautZ/pSxQo3Px/F+eSCDr1DSUWxiCgm01225oWyiPg
-	pjGbBL4jCaQVvKXYK3poZmxoCptzNsE=
-X-Google-Smtp-Source: APXvYqxQGRP8NlD8tUES55AM7xEUL5WLQMWmy7M5SAALZkLzEPKSGcgGg5Ck9Xrak+ZytGa/nhWPnA==
-X-Received: by 2002:a05:620a:16a6:: with SMTP id
-	s6mr23641419qkj.39.1559585351662; 
-	Mon, 03 Jun 2019 11:09:11 -0700 (PDT)
-Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
-	[100.0.197.103])
-	by smtp.gmail.com with ESMTPSA id f9sm9690047qkb.97.2019.06.03.11.09.10
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 03 Jun 2019 11:09:10 -0700 (PDT)
-Date: Mon, 3 Jun 2019 14:09:09 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <20190603180807.16140-15-mst@redhat.com>
-References: <20190603180807.16140-1-mst@redhat.com>
+	(envelope-from <laine@redhat.com>) id 1hXrQR-0005e9-B6
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:11:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46880)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <laine@redhat.com>) id 1hXrQR-0005cK-3X
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:11:15 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 2D4EB3002F32
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 18:11:09 +0000 (UTC)
+Received: from vhost2.laine.org (ovpn-117-135.phx2.redhat.com [10.3.117.135])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DE452E167;
+	Mon,  3 Jun 2019 18:10:52 +0000 (UTC)
+To: Jens Freimann <jfreimann@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20190517125820.2885-1-jfreimann@redhat.com>
+	<20190517125820.2885-4-jfreimann@redhat.com>
+	<20190521094504.GB2915@work-vm>
+	<20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
+	<20190531214748.GN22103@habkost.net>
+	<20190603082456.vzpy256kj4o5e5wu@jenstp.localdomain>
+From: Laine Stump <laine@redhat.com>
+Message-ID: <97b5f189-a75d-3efe-0af6-4570f6d38a58@redhat.com>
+Date: Mon, 3 Jun 2019 14:10:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190603180807.16140-1-mst@redhat.com>
-X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
-X-Mutt-Fcc: =sent
+In-Reply-To: <20190603082456.vzpy256kj4o5e5wu@jenstp.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Mon, 03 Jun 2019 18:11:09 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.222.194
-Subject: [Qemu-devel] [PULL v2 14/14] bios-tables-test: list all tables that
- differ
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,50 +64,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: pkrempa@redhat.com, berrange@redhat.com, mst@redhat.com, aadam@redhat.com,
+	qemu-devel@nongnu.org,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fail after comparing all tables: this way
-user gets the full list of tables that need
-to be updated or whitelisted.
+On 6/3/19 4:24 AM, Jens Freimann wrote:
+> On Fri, May 31, 2019 at 06:47:48PM -0300, Eduardo Habkost wrote:
+>> On Thu, May 30, 2019 at 04:56:45PM +0200, Jens Freimann wrote:
+>>> On Tue, May 28, 2019 at 11:04:15AM -0400, Michael S. Tsirkin wrote:
+>>> > On Tue, May 21, 2019 at 10:45:05AM +0100, Dr. David Alan Gilbert=20
+>>> wrote:
+>>> > > * Jens Freimann (jfreimann@redhat.com) wrote:
+>> [...]
+>>> > > > +=C2=A0=C2=A0=C2=A0 }
+>>> > > > +=C2=A0=C2=A0=C2=A0 if (migration_in_setup(s) && !should_be_hid=
+den &&=20
+>>> n->primary_dev) {
+>>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_unplug(n->prim=
+ary_dev, &err);
+>>> > >
+>>> > > Not knowing unplug well; can you just explain - is that device ha=
+rd
+>>> > > unplugged and it's gone by the time this function returns or is=20
+>>> it still
+>>> > > hanging around for some indeterminate time?
+>>>
+>>> Qemu will trigger an unplug request via pcie attention button in=20
+>>> which case
+>>> there could be a delay by the guest operating system. We could give=20
+>>> it some
+>>> amount of time and if nothing happens try surpise removal or handle t=
+he
+>>> error otherwise.
+>>
+>> I'm missing something here:
+>>
+>> Isn't the whole point of the new device-hiding infrastructure to
+>> prevent QEMU from closing the VFIO until migration ended
+>> successfully?
+>=20
+> No. The point of hiding it is to only add the VFIO (that is configured
+> with the same MAC as the virtio-net device) until the
+> VIRTIO_NET_F_STANDBY feature is negotiated. We don't want to expose to
+> devices with the same MAC to guests who can't handle it.
+>=20
+>> What exactly is preventing QEMU from closing the host VFIO device
+>> after the guest OS has handled the unplug request?
+>=20
+> We qdev_unplug() the VFIO device and want the virtio-net standby device=
+ to
+> take over. If something goes wrong with unplug or
+> migration in general we have to qdev_plug() the device back.
+>=20
+> This series does not try to implement new functionality to close a
+> device without freeing the resources.
+>=20
+>  From the discussion in this thread I understand that is what libvirt
+> needs though. Something that will trigger the unplug from the
+> guest but not free the devices resources in the host system (which is
+> what qdev_unplug() does). Correct?
+> Why is it bad to fully re-create the device in case of a failed migrati=
+on?
 
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- tests/bios-tables-test.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 28d7d427e0..70895e1014 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -364,7 +364,7 @@ static void test_acpi_asl(test_data *data)
-     int i;
-     AcpiSdtTable *sdt, *exp_sdt;
-     test_data exp_data;
--    gboolean exp_err, err;
-+    gboolean exp_err, err, all_tables_match = true;
- 
-     memset(&exp_data, 0, sizeof(exp_data));
-     exp_data.tables = load_expected_aml(data);
-@@ -413,11 +413,13 @@ static void test_acpi_asl(test_data *data)
-                     }
-                 }
-             }
--            g_assert(test_acpi_find_diff_allowed(exp_sdt));
-+            all_tables_match = all_tables_match &&
-+                test_acpi_find_diff_allowed(exp_sdt);
-         }
-         g_string_free(asl, true);
-         g_string_free(exp_asl, true);
-     }
-+    g_assert(all_tables_match);
- 
-     free_test_data(&exp_data);
- }
--- 
-MST
-
+I think the concern is that if the device was fully released by qemu=20
+during migration, it might have already been given to some other/new=20
+guest during the time that migration is trying to complete. If migration=20
+then fails, you may be unable to restore the guest to the previous state.
 
