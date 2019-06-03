@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273A732909
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 09:01:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58822 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71F632906
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 08:59:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58769 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXgyU-0006qF-BI
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 03:01:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49623)
+	id 1hXgw4-0004us-UZ
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 02:59:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49643)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hXgog-0007uf-QC
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:51:36 -0400
+	(envelope-from <peterx@redhat.com>) id 1hXgoj-0007ww-EK
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:51:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hXgof-0002Rz-9R
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:51:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56534)
+	(envelope-from <peterx@redhat.com>) id 1hXgoh-0002Ud-Nr
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:51:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33800)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hXgof-0002Qn-1g
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:51:33 -0400
+	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hXgoh-0002To-Gj
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:51:35 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5AD38308402F
-	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 06:51:32 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id DB6F9309265A
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 06:51:34 +0000 (UTC)
 Received: from xz-x1.nay.redhat.com (dhcp-15-205.nay.redhat.com [10.66.15.205])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3EFE5648B0;
-	Mon,  3 Jun 2019 06:51:29 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id CF0E3648B0;
+	Mon,  3 Jun 2019 06:51:32 +0000 (UTC)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 14:50:54 +0800
-Message-Id: <20190603065056.25211-10-peterx@redhat.com>
+Date: Mon,  3 Jun 2019 14:50:55 +0800
+Message-Id: <20190603065056.25211-11-peterx@redhat.com>
 In-Reply-To: <20190603065056.25211-1-peterx@redhat.com>
 References: <20190603065056.25211-1-peterx@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Mon, 03 Jun 2019 06:51:32 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Mon, 03 Jun 2019 06:51:34 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 09/11] kvm: Introduce slots lock for memory
- listener
+Subject: [Qemu-devel] [PATCH v4 10/11] kvm: Support KVM_CLEAR_DIRTY_LOG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,235 +59,252 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce KVMMemoryListener.slots_lock to protect the slots inside the
-kvm memory listener.  Currently it is close to useless because all the
-KVM code path now is always protected by the BQL.  But it'll start to
-make sense in follow up patches where we might do remote dirty bitmap
-clear and also we'll update the per-slot cached dirty bitmap even
-without the BQL.  So let's prepare for it.
+Firstly detect the interface using KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2
+and mark it.  When failed to enable the new feature we'll fall back to
+the old sync.
 
-We can also use per-slot lock for above reason but it seems to be an
-overkill.  Let's just use this bigger one (which covers all the slots
-of a single address space) but anyway this lock is still much smaller
-than the BQL.
+Provide the log_clear() hook for the memory listeners for both address
+spaces of KVM (normal system memory, and SMM) and deliever the clear
+message to kernel.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- accel/kvm/kvm-all.c      | 58 +++++++++++++++++++++++++++++++---------
- include/sysemu/kvm_int.h |  2 ++
- 2 files changed, 48 insertions(+), 12 deletions(-)
+ accel/kvm/kvm-all.c    | 182 +++++++++++++++++++++++++++++++++++++++++
+ accel/kvm/trace-events |   1 +
+ 2 files changed, 183 insertions(+)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 9fb0694772..e3006006ea 100644
+index e3006006ea..5511550d21 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -138,6 +138,9 @@ static const KVMCapabilityInfo kvm_required_capabilites[] = {
-     KVM_CAP_LAST_INFO
- };
+@@ -91,6 +91,7 @@ struct KVMState
+     int many_ioeventfds;
+     int intx_set_mask;
+     bool sync_mmu;
++    bool manual_dirty_log_protect;
+     /* The man page (and posix) say ioctl numbers are signed int, but
+      * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
+      * unsigned, and treating them as signed here can break things */
+@@ -555,6 +556,159 @@ out:
+     return ret;
+ }
  
-+#define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
-+#define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
++/* Alignment requirement for KVM_CLEAR_DIRTY_LOG - 64 pages */
++#define KVM_CLEAR_LOG_SHIFT  6
++#define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
++#define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
 +
- int kvm_get_max_memslots(void)
- {
-     KVMState *s = KVM_STATE(current_machine->accelerator);
-@@ -165,6 +168,7 @@ int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
-     return 1;
- }
- 
-+/* Called with KVMMemoryListener.slots_lock held */
- static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
- {
-     KVMState *s = kvm_state;
-@@ -182,10 +186,17 @@ static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
- bool kvm_has_free_slot(MachineState *ms)
- {
-     KVMState *s = KVM_STATE(ms->accelerator);
-+    bool result;
-+    KVMMemoryListener *kml = &s->memory_listener;
-+
-+    kvm_slots_lock(kml);
-+    result = !!kvm_get_free_slot(kml);
-+    kvm_slots_unlock(kml);
- 
--    return kvm_get_free_slot(&s->memory_listener);
-+    return result;
- }
- 
-+/* Called with KVMMemoryListener.slots_lock held */
- static KVMSlot *kvm_alloc_slot(KVMMemoryListener *kml)
- {
-     KVMSlot *slot = kvm_get_free_slot(kml);
-@@ -244,18 +255,21 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
-                                        hwaddr *phys_addr)
- {
-     KVMMemoryListener *kml = &s->memory_listener;
--    int i;
-+    int i, ret = 0;
- 
-+    kvm_slots_lock(kml);
-     for (i = 0; i < s->nr_slots; i++) {
-         KVMSlot *mem = &kml->slots[i];
- 
-         if (ram >= mem->ram && ram < mem->ram + mem->memory_size) {
-             *phys_addr = mem->start_addr + (ram - mem->ram);
--            return 1;
-+            ret = 1;
-+            break;
-         }
-     }
-+    kvm_slots_unlock(kml);
- 
--    return 0;
-+    return ret;
- }
- 
- static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, bool new)
-@@ -391,6 +405,7 @@ static int kvm_mem_flags(MemoryRegion *mr)
-     return flags;
- }
- 
-+/* Called with KVMMemoryListener.slots_lock held */
- static int kvm_slot_update_flags(KVMMemoryListener *kml, KVMSlot *mem,
-                                  MemoryRegion *mr)
- {
-@@ -409,19 +424,26 @@ static int kvm_section_update_flags(KVMMemoryListener *kml,
- {
-     hwaddr start_addr, size;
-     KVMSlot *mem;
-+    int ret = 0;
- 
-     size = kvm_align_section(section, &start_addr);
-     if (!size) {
-         return 0;
-     }
- 
-+    kvm_slots_lock(kml);
-+
-     mem = kvm_lookup_matching_slot(kml, start_addr, size);
-     if (!mem) {
-         /* We don't have a slot if we want to trap every access. */
--        return 0;
-+        goto out;
-     }
- 
--    return kvm_slot_update_flags(kml, mem, section->mr);
-+    ret = kvm_slot_update_flags(kml, mem, section->mr);
-+
-+out:
-+    kvm_slots_unlock(kml);
-+    return ret;
- }
- 
- static void kvm_log_start(MemoryListener *listener,
-@@ -478,6 +500,8 @@ static int kvm_get_dirty_pages_log_range(MemoryRegionSection *section,
-  * This function will first try to fetch dirty bitmap from the kernel,
-  * and then updates qemu's dirty bitmap.
-  *
-+ * NOTE: caller must be with kml->slots_lock held.
++/**
++ * kvm_physical_log_clear - Clear the kernel's dirty bitmap for range
 + *
-  * @kml: the KVM memory listener object
-  * @section: the memory section to sync the dirty bitmap with
-  */
-@@ -488,13 +512,14 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-     struct kvm_dirty_log d = {};
-     KVMSlot *mem;
-     hwaddr start_addr, size;
-+    int ret = 0;
- 
-     size = kvm_align_section(section, &start_addr);
-     if (size) {
-         mem = kvm_lookup_matching_slot(kml, start_addr, size);
-         if (!mem) {
-             /* We don't have a slot if we want to trap every access. */
--            return 0;
-+            goto out;
-         }
- 
-         /* XXX bad kernel interface alert
-@@ -520,13 +545,14 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-         d.slot = mem->slot | (kml->as_id << 16);
-         if (kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d) == -1) {
-             DPRINTF("ioctl failed %d\n", errno);
--            return -1;
-+            ret = -1;
-+            goto out;
-         }
- 
-         kvm_get_dirty_pages_log_range(section, d.dirty_bitmap);
-     }
--
--    return 0;
-+out:
++ * NOTE: this will be a no-op if we haven't enabled manual dirty log
++ * protection in the host kernel because in that case this operation
++ * will be done within log_sync().
++ *
++ * @kml:     the kvm memory listener
++ * @section: the memory range to clear dirty bitmap
++ */
++static int kvm_physical_log_clear(KVMMemoryListener *kml,
++                                  MemoryRegionSection *section)
++{
++    KVMState *s = kvm_state;
++    struct kvm_clear_dirty_log d;
++    uint64_t start, end, bmap_start, start_delta, bmap_npages, size;
++    unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
++    KVMSlot *mem = NULL;
++    int ret, i;
++
++    if (!s->manual_dirty_log_protect) {
++        /* No need to do explicit clear */
++        return 0;
++    }
++
++    start = section->offset_within_address_space;
++    size = int128_get64(section->size);
++
++    if (!size) {
++        /* Nothing more we can do... */
++        return 0;
++    }
++
++    kvm_slots_lock(kml);
++
++    /* Find any possible slot that covers the section */
++    for (i = 0; i < s->nr_slots; i++) {
++        mem = &kml->slots[i];
++        if (mem->start_addr <= start &&
++            start + size <= mem->start_addr + mem->memory_size) {
++            break;
++        }
++    }
++
++    /*
++     * We should always find one memslot until this point, otherwise
++     * there could be something wrong from the upper layer
++     */
++    assert(mem && i != s->nr_slots);
++
++    /*
++     * We need to extend either the start or the size or both to
++     * satisfy the KVM interface requirement.  Firstly, do the start
++     * page alignment on 64 host pages
++     */
++    bmap_start = (start - mem->start_addr) & KVM_CLEAR_LOG_MASK;
++    start_delta = start - mem->start_addr - bmap_start;
++    bmap_start /= psize;
++
++    /*
++     * The kernel interface has restriction on the size too, that either:
++     *
++     * (1) the size is 64 host pages aligned (just like the start), or
++     * (2) the size fills up until the end of the KVM memslot.
++     */
++    bmap_npages = DIV_ROUND_UP(size + start_delta, KVM_CLEAR_LOG_ALIGN)
++        << KVM_CLEAR_LOG_SHIFT;
++    end = mem->memory_size / psize;
++    if (bmap_npages > end - bmap_start) {
++        bmap_npages = end - bmap_start;
++    }
++    start_delta /= psize;
++
++    /*
++     * Prepare the bitmap to clear dirty bits.  Here we must guarantee
++     * that we won't clear any unknown dirty bits otherwise we might
++     * accidentally clear some set bits which are not yet synced from
++     * the kernel into QEMU's bitmap, then we'll lose track of the
++     * guest modifications upon those pages (which can directly lead
++     * to guest data loss or panic after migration).
++     *
++     * Layout of the KVMSlot.dirty_bmap:
++     *
++     *                   |<-------- bmap_npages -----------..>|
++     *                                                     [1]
++     *                     start_delta         size
++     *  |----------------|-------------|------------------|------------|
++     *  ^                ^             ^                               ^
++     *  |                |             |                               |
++     * start          bmap_start     (start)                         end
++     * of memslot                                             of memslot
++     *
++     * [1] bmap_npages can be aligned to either 64 pages or the end of slot
++     */
++
++    assert(bmap_start % BITS_PER_LONG == 0);
++    /* We should never do log_clear before log_sync */
++    assert(mem->dirty_bmap);
++    if (start_delta) {
++        /* Slow path - we need to manipulate a temp bitmap */
++        bmap_clear = bitmap_new(bmap_npages);
++        bitmap_copy_with_src_offset(bmap_clear, mem->dirty_bmap,
++                                    bmap_start, start_delta + size / psize);
++        /*
++         * We need to fill the holes at start because that was not
++         * specified by the caller and we extended the bitmap only for
++         * 64 pages alignment
++         */
++        bitmap_clear(bmap_clear, 0, start_delta);
++        d.dirty_bitmap = bmap_clear;
++    } else {
++        /* Fast path - start address aligns well with BITS_PER_LONG */
++        d.dirty_bitmap = mem->dirty_bmap + BIT_WORD(bmap_start);
++    }
++
++    d.first_page = bmap_start;
++    /* It should never overflow.  If it happens, say something */
++    assert(bmap_npages <= UINT32_MAX);
++    d.num_pages = bmap_npages;
++    d.slot = mem->slot | (kml->as_id << 16);
++
++    if (kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d) == -1) {
++        ret = -errno;
++        error_report("%s: KVM_CLEAR_DIRTY_LOG failed, slot=%d, "
++                     "start=0x%"PRIx64", size=0x%"PRIx32", errno=%d",
++                     __func__, d.slot, (uint64_t)d.first_page,
++                     (uint32_t)d.num_pages, ret);
++    } else {
++        ret = 0;
++        trace_kvm_clear_dirty_log(d.slot, d.first_page, d.num_pages);
++    }
++
++    /*
++     * After we have updated the remote dirty bitmap, we update the
++     * cached bitmap as well for the memslot, then if another user
++     * clears the same region we know we shouldn't clear it again on
++     * the remote otherwise it's data loss as well.
++     */
++    bitmap_clear(mem->dirty_bmap, bmap_start + start_delta,
++                 size / psize);
++    /* This handles the NULL case well */
++    g_free(bmap_clear);
++
++    kvm_slots_unlock(kml);
++
 +    return ret;
- }
- 
++}
++
  static void kvm_coalesce_mmio_region(MemoryListener *listener,
-@@ -788,10 +814,12 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-     ram = memory_region_get_ram_ptr(mr) + section->offset_within_region +
-           (start_addr - section->offset_within_address_space);
- 
-+    kvm_slots_lock(kml);
-+
-     if (!add) {
-         mem = kvm_lookup_matching_slot(kml, start_addr, size);
-         if (!mem) {
--            return;
-+            goto out;
-         }
-         if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
-             kvm_physical_sync_dirty_bitmap(kml, section);
-@@ -808,7 +836,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-                     __func__, strerror(-err));
-             abort();
-         }
--        return;
-+        goto out;
+                                      MemoryRegionSection *secion,
+                                      hwaddr start, hwaddr size)
+@@ -889,6 +1043,22 @@ static void kvm_log_sync(MemoryListener *listener,
      }
- 
-     /* register the new slot */
-@@ -824,6 +852,9 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-                 strerror(-err));
-         abort();
-     }
-+
-+out:
-+    kvm_slots_unlock(kml);
  }
  
- static void kvm_region_add(MemoryListener *listener,
-@@ -850,7 +881,9 @@ static void kvm_log_sync(MemoryListener *listener,
-     KVMMemoryListener *kml = container_of(listener, KVMMemoryListener, listener);
-     int r;
++static void kvm_log_clear(MemoryListener *listener,
++                          MemoryRegionSection *section)
++{
++    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener, listener);
++    int r;
++
++    r = kvm_physical_log_clear(kml, section);
++    if (r < 0) {
++        error_report_once("%s: kvm log clear failed: mr=%s "
++                          "offset=%"HWADDR_PRIx" size=%"PRIx64, __func__,
++                          section->mr->name, section->offset_within_region,
++                          int128_get64(section->size));
++        abort();
++    }
++}
++
+ static void kvm_mem_ioeventfd_add(MemoryListener *listener,
+                                   MemoryRegionSection *section,
+                                   bool match_data, uint64_t data,
+@@ -976,6 +1146,7 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+     kml->listener.log_start = kvm_log_start;
+     kml->listener.log_stop = kvm_log_stop;
+     kml->listener.log_sync = kvm_log_sync;
++    kml->listener.log_clear = kvm_log_clear;
+     kml->listener.priority = 10;
  
-+    kvm_slots_lock(kml);
-     r = kvm_physical_sync_dirty_bitmap(kml, section);
-+    kvm_slots_unlock(kml);
-     if (r < 0) {
-         abort();
-     }
-@@ -930,6 +963,7 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
- {
-     int i;
+     memory_listener_register(&kml->listener, as);
+@@ -1700,6 +1871,17 @@ static int kvm_init(MachineState *ms)
+     s->coalesced_pio = s->coalesced_mmio &&
+                        kvm_check_extension(s, KVM_CAP_COALESCED_PIO);
  
-+    qemu_mutex_init(&kml->slots_lock);
-     kml->slots = g_malloc0(s->nr_slots * sizeof(KVMSlot));
-     kml->as_id = as_id;
++    s->manual_dirty_log_protect =
++        kvm_check_extension(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2);
++    if (s->manual_dirty_log_protect) {
++        ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0, 1);
++        if (ret) {
++            warn_report("Trying to enable KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 "
++                        "but failed.  Falling back to the legacy mode. ");
++            s->manual_dirty_log_protect = false;
++        }
++    }
++
+ #ifdef KVM_CAP_VCPU_EVENTS
+     s->vcpu_events = kvm_check_extension(s, KVM_CAP_VCPU_EVENTS);
+ #endif
+diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
+index 33c5b1b3af..4fb6e59d19 100644
+--- a/accel/kvm/trace-events
++++ b/accel/kvm/trace-events
+@@ -15,4 +15,5 @@ kvm_irqchip_release_virq(int virq) "virq %d"
+ kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%" PRIx64 " val=0x%x assign: %d size: %d match: %d"
+ kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
+ kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
++kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
  
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 687a2ee423..31df465fdc 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -27,6 +27,8 @@ typedef struct KVMSlot
- 
- typedef struct KVMMemoryListener {
-     MemoryListener listener;
-+    /* Protects the slots and all inside them */
-+    QemuMutex slots_lock;
-     KVMSlot *slots;
-     int as_id;
- } KVMMemoryListener;
 -- 
 2.17.1
 
