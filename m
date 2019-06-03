@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4574337C3
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:24:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39171 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1352337AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:17:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39068 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXrda-00065m-4G
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:24:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57034)
+	id 1hXrWp-0000L9-U4
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:17:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57343)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laine@redhat.com>) id 1hXrQS-0003w7-Db
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:11:17 -0400
+	(envelope-from <mst@redhat.com>) id 1hXrRt-00058O-Io
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:12:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laine@redhat.com>) id 1hXrQR-0005e9-B6
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:11:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46880)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <laine@redhat.com>) id 1hXrQR-0005cK-3X
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:11:15 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2D4EB3002F32
-	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 18:11:09 +0000 (UTC)
-Received: from vhost2.laine.org (ovpn-117-135.phx2.redhat.com [10.3.117.135])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DE452E167;
-	Mon,  3 Jun 2019 18:10:52 +0000 (UTC)
-To: Jens Freimann <jfreimann@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+	(envelope-from <mst@redhat.com>) id 1hXrRs-00009r-FZ
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:12:45 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:45643)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hXrRs-00008d-An
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:12:44 -0400
+Received: by mail-qk1-f193.google.com with SMTP id s22so1025806qkj.12
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 11:12:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=0pw6MZAMWtuA3pyD/FdS3ul+2ngVJ2pjV9pwSa8Ik8U=;
+	b=kycW0/f5MJ8Gul59tIgWasv/GV90yeVo8WFqiBeLHM7q0Q183NI66HPTH58IaJ2W6j
+	LrsjNXAsBA/ByHqe8bOiFPp+vHM2n6dyw0ItUSazqiPgsyI7co91n24mid0NjjI0Jrzu
+	Z8FF8Mb2LUVFuUmL2rgeWYvpgrgmA/IXl4nuJGGP0CbmupDiEOV8wIdHw3FQY6ZEeo2y
+	bXzuy7Y9M6O2f2RCtOiJ7tO0qFea59ehhfG83vch56dM74pU/Jozmh0oxZ8T8ZBaD3aM
+	x2wDf4pH71tRFna2qHx9/InJ4S3RqeDmBBjClfrJMXJZHdwiZ7EFkxwufZq2vg1E/vlw
+	NMtg==
+X-Gm-Message-State: APjAAAU82mo3+uIKQM9q+FpXamZSSeR3cK9oyOHS3RJYCFJAsgvzYVu7
+	jPee0CbJaTxeXp+i20llnNconA==
+X-Google-Smtp-Source: APXvYqw1XZ7HGg08iTVC1IOhqaxZwC44a55HrPYgnFbWbIquSfu3pHOBCtrcvlEBfmu0ej4mSj3zqQ==
+X-Received: by 2002:a37:4d56:: with SMTP id a83mr3938108qkb.62.1559585563534; 
+	Mon, 03 Jun 2019 11:12:43 -0700 (PDT)
+Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
+	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
+	r186sm6690925qkb.9.2019.06.03.11.12.41
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 03 Jun 2019 11:12:42 -0700 (PDT)
+Date: Mon, 3 Jun 2019 14:12:40 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Laine Stump <laine@redhat.com>
+Message-ID: <20190603140832-mutt-send-email-mst@kernel.org>
 References: <20190517125820.2885-1-jfreimann@redhat.com>
-	<20190517125820.2885-4-jfreimann@redhat.com>
-	<20190521094504.GB2915@work-vm>
-	<20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
-	<20190531214748.GN22103@habkost.net>
-	<20190603082456.vzpy256kj4o5e5wu@jenstp.localdomain>
-From: Laine Stump <laine@redhat.com>
-Message-ID: <97b5f189-a75d-3efe-0af6-4570f6d38a58@redhat.com>
-Date: Mon, 3 Jun 2019 14:10:52 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	<20190520165657.2293c5d7@x1.home>
+	<20190521072157.wpb77wlc5mhfcdes@jenstp.localdomain>
+	<20190521073511-mutt-send-email-mst@kernel.org>
+	<20190521184918.n4nnk6ack3ssp6jv@jenstp.localdomain>
+	<d116bc65-0715-2c6a-2616-49f67cd685c8@oracle.com>
+	<20190528225039-mutt-send-email-mst@kernel.org>
+	<1c5f460e-a3b9-56c1-90f7-b3a5c3d0a0d3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190603082456.vzpy256kj4o5e5wu@jenstp.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Mon, 03 Jun 2019 18:11:09 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1c5f460e-a3b9-56c1-90f7-b3a5c3d0a0d3@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
+	[fuzzy]
+X-Received-From: 209.85.222.193
+Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
+ network devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,72 +75,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, mst@redhat.com, aadam@redhat.com,
-	qemu-devel@nongnu.org,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, ailan@redhat.com
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+	aadam@redhat.com, qemu-devel@nongnu.org,
+	Alex Williamson <alex.williamson@redhat.com>,
+	si-wei liu <si-wei.liu@oracle.com>,
+	Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/19 4:24 AM, Jens Freimann wrote:
-> On Fri, May 31, 2019 at 06:47:48PM -0300, Eduardo Habkost wrote:
->> On Thu, May 30, 2019 at 04:56:45PM +0200, Jens Freimann wrote:
->>> On Tue, May 28, 2019 at 11:04:15AM -0400, Michael S. Tsirkin wrote:
->>> > On Tue, May 21, 2019 at 10:45:05AM +0100, Dr. David Alan Gilbert=20
->>> wrote:
->>> > > * Jens Freimann (jfreimann@redhat.com) wrote:
->> [...]
->>> > > > +=C2=A0=C2=A0=C2=A0 }
->>> > > > +=C2=A0=C2=A0=C2=A0 if (migration_in_setup(s) && !should_be_hid=
-den &&=20
->>> n->primary_dev) {
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_unplug(n->prim=
-ary_dev, &err);
->>> > >
->>> > > Not knowing unplug well; can you just explain - is that device ha=
-rd
->>> > > unplugged and it's gone by the time this function returns or is=20
->>> it still
->>> > > hanging around for some indeterminate time?
->>>
->>> Qemu will trigger an unplug request via pcie attention button in=20
->>> which case
->>> there could be a delay by the guest operating system. We could give=20
->>> it some
->>> amount of time and if nothing happens try surpise removal or handle t=
-he
->>> error otherwise.
->>
->> I'm missing something here:
->>
->> Isn't the whole point of the new device-hiding infrastructure to
->> prevent QEMU from closing the VFIO until migration ended
->> successfully?
->=20
-> No. The point of hiding it is to only add the VFIO (that is configured
-> with the same MAC as the virtio-net device) until the
-> VIRTIO_NET_F_STANDBY feature is negotiated. We don't want to expose to
-> devices with the same MAC to guests who can't handle it.
->=20
->> What exactly is preventing QEMU from closing the host VFIO device
->> after the guest OS has handled the unplug request?
->=20
-> We qdev_unplug() the VFIO device and want the virtio-net standby device=
- to
-> take over. If something goes wrong with unplug or
-> migration in general we have to qdev_plug() the device back.
->=20
-> This series does not try to implement new functionality to close a
-> device without freeing the resources.
->=20
->  From the discussion in this thread I understand that is what libvirt
-> needs though. Something that will trigger the unplug from the
-> guest but not free the devices resources in the host system (which is
-> what qdev_unplug() does). Correct?
-> Why is it bad to fully re-create the device in case of a failed migrati=
-on?
+On Mon, Jun 03, 2019 at 02:06:47PM -0400, Laine Stump wrote:
+> On 5/28/19 10:54 PM, Michael S. Tsirkin wrote:
+> > On Tue, May 28, 2019 at 05:14:22PM -0700, si-wei liu wrote:
+> > > 
+> > > 
+> > > On 5/21/2019 11:49 AM, Jens Freimann wrote:
+> > > > On Tue, May 21, 2019 at 07:37:19AM -0400, Michael S. Tsirkin wrote:
+> > > > > On Tue, May 21, 2019 at 09:21:57AM +0200, Jens Freimann wrote:
+> > > > > > On Mon, May 20, 2019 at 04:56:57PM -0600, Alex Williamson wrote:
+> 
+> > > > > Actually is there a list of devices for which this has been tested
+> > > > > besides mlx5? I think someone said some old intel cards
+> > > > > don't support this well, we might need to blacklist these ...
+> > > > 
+> > > > So far I've tested mlx5 and XL710 which both worked, but I'm
+> > > > working on testing with more devices. But of course help with testing
+> > > > is greatly appreciated.
+> >>
+> > > It won't work on Intel ixgbe and Broadcom bnxt_en, which requires toggling
+> > > the state of tap backing the virtio-net in order to release/reprogram MAC
+> > > filter. Actually, it's very few NICs that could work with this - even some
+> > > works by chance the behavior is undefined. Instead of blacklisting it makes
+> > > more sense to whitelist the NIC that supports it - with some new sysfs
+> > > attribute claiming the support presumably.
+> > > 
+> > > -Siwei
+> > 
+> > I agree for many cards we won't know how they behave until we try.  One
+> > can consider this a bug in Linux that cards don't behave in a consistent
+> > way.  The best thing to do IMHO would be to write a tool that people can
+> > run to test the behaviour.
+> 
+> Is the "bad behavior" something due to the hardware of the cards, or their
+> drivers? If it's the latter, then at least initially having a whitelist
+> would be counterproductive, since it would make it difficult for relative
+> outsiders to test and report success/failure of various cards.
 
-I think the concern is that if the device was fully released by qemu=20
-during migration, it might have already been given to some other/new=20
-guest during the time that migration is trying to complete. If migration=20
-then fails, you may be unable to restore the guest to the previous state.
+We can add an "ignore whitelist" flag. Would that address the issue?
+
+> (It's probably just a pipe dream, but it would be nice if it eventually
+> could work with old igb cards - I have several of them that I use for SRIOV
+> testing, and would rather avoid having to buy new hardware.)
+
+I think it generally can be worked around in the driver.
+Most host drivers do get a notification when guest driver
+loads/unloads and can use that to manipulate the on-device
+switch.
+
+-- 
+MST
 
