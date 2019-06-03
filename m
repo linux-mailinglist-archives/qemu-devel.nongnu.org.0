@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C96432A0F
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 09:52:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59237 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E92232A8F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 10:14:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59398 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXhlq-0002zO-QN
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 03:52:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60173)
+	id 1hXi7O-0006Px-I7
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 04:14:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35210)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hXhkl-0002fn-C2
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 03:51:36 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hXi5p-0005ls-Eq
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hXhkk-0004Im-F8
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 03:51:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47172)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1hXhkk-0004Ga-9t
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 03:51:34 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A6EB9356C4;
-	Mon,  3 Jun 2019 07:51:32 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-129.ams2.redhat.com [10.36.116.129])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EE4C91001DE0;
-	Mon,  3 Jun 2019 07:51:28 +0000 (UTC)
-Date: Mon, 3 Jun 2019 09:51:27 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Julia Suvorova <jusual@mail.ru>
-Message-ID: <20190603075127.GB6523@linux.fritz.box>
-References: <20190602201709.11901-1-jusual@mail.ru>
+	(envelope-from <pbonzini@redhat.com>) id 1hXhuh-000759-54
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:01:53 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39956)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hXhuf-0006Pn-LW
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:01:51 -0400
+Received: by mail-wr1-f67.google.com with SMTP id p11so6091938wre.7
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 01:01:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=wfNe27NMx0zlUqSQRCaCNlc+UkMhiTNJEksUZxsq4B8=;
+	b=gLYVYuwjt+47Da8oVEuuzny3d1WU+lQf8hJurjbDr2yrlW0dAB24X/vJGrMja9TnIS
+	hgU5VvMo5nxhvPqC1wcN7c4DbTRUb7TqVMs+MNtDA1KKrqV05Lq1sPifgWz3ljsDHO/t
+	yytPoTrn3/ZfA00W7OJUK+lVkTyrtG8rMI+xJxrFAv7Gr1WQPiQ3rHxBwV7hL5bWnpvc
+	f5oHQDny06YlZPcRUU0x7/ioGEKS/ZBHVOAoy1pvtVTOxtIqPNFagvPklWLnUjuuNBpg
+	4Rtzm6kKoTLgHqe/eQWX/BkshoLWZCkkVz9R7Ft7QEi/l6Uc/1SC5r8uSBZLATYZYuLF
+	zbFA==
+X-Gm-Message-State: APjAAAWEV9FJqtcv0qNhvDy6BZIYRDcW0u/87ABLzMCQFyp0PfVOQSOr
+	u3Iq2Ur1znYZaSmBB6WsDdyVrw==
+X-Google-Smtp-Source: APXvYqz+7OeOEWDtN49krHdV5c+zH0Trxykik5sooePcCNFSfvkJ82pWc+oWNFZABRcRTCPdtigx9Q==
+X-Received: by 2002:adf:fa03:: with SMTP id m3mr16011275wrr.21.1559548887006; 
+	Mon, 03 Jun 2019 01:01:27 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d43d:6da3:9364:a775?
+	([2001:b07:6468:f312:d43d:6da3:9364:a775])
+	by smtp.gmail.com with ESMTPSA id
+	v13sm10498139wmj.46.2019.06.03.01.01.25
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Jun 2019 01:01:26 -0700 (PDT)
+To: Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>
+References: <20190530092919.26059-1-peterx@redhat.com>
+	<20190530092919.26059-2-peterx@redhat.com> <87r28eok96.fsf@trasno.org>
+	<20190603062142.GA31512@xz-x1>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d11825ea-c46a-f734-6a47-ecc3250f1259@redhat.com>
+Date: Mon, 3 Jun 2019 10:01:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190602201709.11901-1-jusual@mail.ru>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Mon, 03 Jun 2019 07:51:32 +0000 (UTC)
+In-Reply-To: <20190603062142.GA31512@xz-x1>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] block/linux-aio: Drop unused BlockAIOCB
- submission method
+	[fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH v3 01/12] checkpatch: Allow
+ SPDX-License-Identifier
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,21 +75,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
-	qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
-	Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org,
+	"Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.06.2019 um 22:17 hat Julia Suvorova geschrieben:
-> Callback-based laio_submit() and laio_cancel() were left after
-> rewriting Linux AIO backend to coroutines in hope that they would be
-> used in other code that could bypass coroutines. They can be safely
-> removed because they have not been used since that time.
+On 03/06/19 08:21, Peter Xu wrote:
+> On Fri, May 31, 2019 at 02:56:21PM +0200, Juan Quintela wrote:
+>> Peter Xu <peterx@redhat.com> wrote:
+>>> According to: https://spdx.org/ids-how, let's still allow QEMU to use
+>>> the SPDX license identifier:
+>>>
+>>> // SPDX-License-Identifier: ***
+>>>
+>>> Signed-off-by: Peter Xu <peterx@redhat.com>
+>>
+>> Reviewed-by: Juan Quintela <quintela@redhat.com>
+>>
+>> Althought this patch don't belong to the series O:-)
 > 
-> Signed-off-by: Julia Suvorova <jusual@mail.ru>
+> Right. :)  And Paolo should have queued the patch.
+> 
+> To make life easier, I plan to simply drop this patch in next spin and
+> change the only user of "// SPDX-License-Identifier" patch in the
+> series to simply use "/* ... */" since I just noticed vast codes in
+> QEMU is using that... then we don't have to depend on this patch.
 
-Thanks, applied to the block branch.
+No problem, I'll send a pull request today.
 
-Kevin
+Paolo
 
