@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F4C336A8
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:29:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38496 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B483366A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:20:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38352 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqmU-00057l-QO
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:29:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43573)
+	id 1hXqd5-0004yT-2V
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:20:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43387)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUW-0007X3-Kk
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:26 -0400
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUQ-0007LM-2Y
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUU-0004eZ-6H
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:24 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54400)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUO-0004Sl-0I
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:17 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39501)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hXqUT-00043E-UO
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:22 -0400
-Received: by mail-wm1-x342.google.com with SMTP id g135so8825733wme.4
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:00 -0700 (PDT)
+	id 1hXqUN-00044T-PS
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:15 -0400
+Received: by mail-wr1-x431.google.com with SMTP id x4so12921292wrt.6
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:subject:date:message-id:in-reply-to:references;
-	bh=hDt9uPR7rzEo7ud7l9pi841FaWW9ftZDCffNNeB3xZo=;
-	b=E3TfGzAj9MQcvKRYGTKKhQR/MCbZjR9Cl3BXMU8vZSlv5CmhmDhU1rSRd2BJte/plv
-	9twTo3giQF94g9yae201BoIH8XikmwS9m8bTkspcRsn/79v5mdHr/USZIpb9j2dw97p3
-	aNYDoQhKcTlNTX4sNuDuej5v2qWznWNT0nZZe01wX/nujLmpGov6lhrEChamxwqRVUpH
-	RUcUpT+qI3VPtcXwPhmn17Ifl30AnTspDTg1XTlNux9ZrXJE+tGOali8SPWNdJl37Bg5
-	gjl4ZGPLaaxKNATn5Wn3/cA6ZkJn3j8ZDZSVcAoAmuc1/vWZ0n7cFDlgwMg2IgBJjU2a
-	Pz+Q==
+	bh=7SaMpOvODHuGBK9ZU2E8tUIRm7zqRrLcE07dgiBjSQ4=;
+	b=X3VgkKfKpIY7JtX5dplho2vAfvmcPqMqeSSRWWVQCtQMGuv13o6cRhx8htUBqfMR+L
+	f5nzNpJz/1ogHF80AArhnEACKfmxggKT0A80Er6qkgIbb9n4P759/9KSa0tnPC/GSQWF
+	xaF/kSDaJcZ5HT/MeAesJbkJxJ4bheJaDFlOEG3uEYfRK7CF4OKyV5VfbvlnbjndWcj0
+	qNB9DDnXE1Bd0JwKaJylPkkDkOH3wa1t/tBMqdPsfKIqnLDSfps0BgDgMSfIGnaRfYoV
+	+NaBpwiFaFilB+nRKbnO0+6Er1uy6kAwOG7UHCxZ1SICLQmHQQ8ePeZIvUdXuynABlII
+	zx0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:subject:date:message-id
 	:in-reply-to:references;
-	bh=hDt9uPR7rzEo7ud7l9pi841FaWW9ftZDCffNNeB3xZo=;
-	b=OSTEP/MG7f/m2hgtsoMpw1jRgR+Q00Pv8srVgRNjh4/uKZ9et8wyqLwPphnC7Jkfsc
-	yHr8Bpo8nThAcgnQKx73vDeQtzMHwwuzV0QLFJJFa+g6xZMK0rf01We/abCGPdOQTlNK
-	XL91dWePrw9sa0EIHbbuCJJLNHM4an1BBk79OKfgiJe6hLXWHUvTdwedLIC7uCNKG8Ro
-	K+VvuiI+uTZ6NPZQRU/NqfIiKSiSaCAnkjp1a3H7/zgeRwKUN8gSbjfV1y6AmmfEvVuy
-	ZTaiW6YWkxeZowk0hVoKIa+vMDy3miHV3vFV23+S4ZQXXd7zDf2vtHMiQLLnbhmK5U5X
-	151A==
-X-Gm-Message-State: APjAAAXCBcjg+NQZiQJKlQEFAGl2kNzNO6Ek76xo9GTuueZp1jTb76so
-	kpo/skfA8z2bltQFDIEbHT3VUNKN
-X-Google-Smtp-Source: APXvYqxZi8LSLprypd4JzO8At29JdMqFoifjOjn+VIj4SVvByWBn6DRo7T924C8qklRMepfrZm+n7w==
-X-Received: by 2002:a1c:b3c3:: with SMTP id c186mr15433654wmf.93.1559581859524;
-	Mon, 03 Jun 2019 10:10:59 -0700 (PDT)
+	bh=7SaMpOvODHuGBK9ZU2E8tUIRm7zqRrLcE07dgiBjSQ4=;
+	b=tYQInRg/1uY5KEzH8IGHJeVf13i+balmwkz21mATPVphMxKXFJj42kz0sWszIoRcz7
+	5V4DqXGYgBH7gmXX8pWooOGcC9DO5ouk5n19x60OzPbyiOozqVG1hAi6XXQizb6dG8ko
+	8LAv4Rr2sVQj2F0zTeyD0QC8Ugyo2oeZLzvpG9Fx9dKzHAAm97f+GMGIZObjXQyuXYAh
+	i9hizPgcZOYWch8x1YmVTsd9eUWoXLmnNN//lrJihPn1q6zhO1fgIUaLI8vmPBx8ibWx
+	7jmhoRXMsvQt94gqIyUU05hESdMgno/kjkudZWvXZjUmOjIMrXh5ux2cZMkv8JowBQLD
+	2qmA==
+X-Gm-Message-State: APjAAAXBO7CmSGO1mq+0EVt+J009/o5Ee/KzoXFHOUe/q7kS9l1AtNTe
+	qKeLwQF3sOfZhr8VMDa+I4YfwFGB
+X-Google-Smtp-Source: APXvYqxcc7WzNISrJDypuJ0688/t3ZzQb8jJFepfE134h9m/JhNvCeAkg3CNS1skIXq6QbQosU/jKA==
+X-Received: by 2002:adf:f542:: with SMTP id j2mr3498147wrp.16.1559581860404;
+	Mon, 03 Jun 2019 10:11:00 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
-	r131sm3325045wmf.4.2019.06.03.10.10.58 for <qemu-devel@nongnu.org>
+	r131sm3325045wmf.4.2019.06.03.10.10.59 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 10:10:58 -0700 (PDT)
+	Mon, 03 Jun 2019 10:10:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 19:10:32 +0200
-Message-Id: <1559581843-3968-14-git-send-email-pbonzini@redhat.com>
+Date: Mon,  3 Jun 2019 19:10:33 +0200
+Message-Id: <1559581843-3968-15-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 References: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PULL 13/24] pca9552-test: do not rely on state across
- tests
+X-Received-From: 2a00:1450:4864:20::431
+Subject: [Qemu-devel] [PULL 14/24] imx25-pdk: create ds1338 for qtest inside
+ the test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,59 +78,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-receive_autoinc is relying on the LED state that is set by
-send_and_receive.  Stop doing that, because qgraph resets the
-machine between tests.
+There is no need to have a test device created by the board.
+Instead, create it in the qtest so that we will be able to run
+it on other boards too.
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/pca9552-test.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ hw/arm/imx25_pdk.c  | 9 ---------
+ tests/ds1338-test.c | 2 +-
+ 2 files changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/tests/pca9552-test.c b/tests/pca9552-test.c
-index 06359b7..89b4445 100644
---- a/tests/pca9552-test.c
-+++ b/tests/pca9552-test.c
-@@ -18,11 +18,20 @@
+diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
+index eef1b18..a0423ff 100644
+--- a/hw/arm/imx25_pdk.c
++++ b/hw/arm/imx25_pdk.c
+@@ -131,15 +131,6 @@ static void imx25_pdk_init(MachineState *machine)
+      */
+     if (!qtest_enabled()) {
+         arm_load_kernel(&s->soc.cpu, &imx25_pdk_binfo);
+-    } else {
+-        /*
+-         * This I2C device doesn't exist on the real board.
+-         * We add it here (only on qtest usage) to be able to do a bit
+-         * of simple qtest. See "make check" for details.
+-         */
+-        i2c_create_slave((I2CBus *)qdev_get_child_bus(DEVICE(&s->soc.i2c[0]),
+-                                                      "i2c-bus.0"),
+-                         "ds1338", 0x68);
+     }
+ }
  
- static I2CAdapter *i2c;
+diff --git a/tests/ds1338-test.c b/tests/ds1338-test.c
+index 88f829f..bd72a15 100644
+--- a/tests/ds1338-test.c
++++ b/tests/ds1338-test.c
+@@ -54,7 +54,7 @@ int main(int argc, char **argv)
  
-+static void pca9552_init(I2CAdapter *i2c)
-+{
-+    /* Switch on LEDs 0 and 12 */
-+    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0, 0x54);
-+    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3, 0x54);
-+}
-+
- static void receive_autoinc(void)
- {
-     uint8_t resp;
-     uint8_t reg = PCA9552_LS0 | PCA9552_AUTOINC;
+     g_test_init(&argc, &argv, NULL);
  
-+    pca9552_init(i2cdev);
-+
-     i2c_send(i2c, PCA9552_TEST_ADDR, &reg, 1);
- 
-     /* PCA9552_LS0 */
-@@ -52,16 +61,14 @@ static void send_and_receive(void)
-     value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
-     g_assert_cmphex(value, ==, 0x0);
- 
--    /* Switch on LED 0 */
--    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0, 0x54);
-+    pca9552_init(i2cdev);
-+
-     value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0);
-     g_assert_cmphex(value, ==, 0x54);
- 
-     value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
-     g_assert_cmphex(value, ==, 0x01);
- 
--    /* Switch on LED 12 */
--    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3, 0x54);
-     value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3);
-     g_assert_cmphex(value, ==, 0x54);
+-    s = qtest_start("-display none -machine imx25-pdk");
++    s = qtest_start("-display none -machine imx25-pdk -device ds1338,address=0x68");
+     i2c = imx_i2c_create(s, IMX25_I2C_0_BASE);
+     addr = DS1338_ADDR;
  
 -- 
 1.8.3.1
