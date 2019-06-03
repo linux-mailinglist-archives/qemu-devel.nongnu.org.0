@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6FB333AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:37:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36865 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA8E333D1
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:44:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36951 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXp1E-0000n2-0X
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:37:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49301)
+	id 1hXp8H-0004yB-Qu
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:44:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51349)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hXoz1-0008Mx-EW
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:34:49 -0400
+	(envelope-from <randrianasulu@gmail.com>) id 1hXp7G-0004YT-TB
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:43:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hXoyz-0006o2-Sk
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:34:47 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:42222)
+	(envelope-from <randrianasulu@gmail.com>) id 1hXp7F-0005Ko-RG
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:43:18 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:39249)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hXoyz-0006mp-Nv
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:34:45 -0400
-Received: by mail-qk1-x744.google.com with SMTP id b18so669545qkc.9
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 08:34:45 -0700 (PDT)
+	(Exim 4.71) (envelope-from <randrianasulu@gmail.com>)
+	id 1hXp7F-0005GF-Iw; Mon, 03 Jun 2019 11:43:17 -0400
+Received: by mail-lf1-x141.google.com with SMTP id p24so7514617lfo.6;
+	Mon, 03 Jun 2019 08:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zfyNrFdHvdP05ue5xadDHk3G4KHLQ+0LPtsCLVQgp3k=;
-	b=NBGynjHn1NU+LE/ni0ngxVrmqZQko/sFG9/1BATCNWcAp6zofFKiIxaUdhYdPIjl8f
-	p+c7lxdHULMa7Yu5Nh7w3Ka0jikaQgzTHqKgMMqnTevByPMwPMuwTankGil2Vopexxis
-	+lDS74PI/uOlskOuiHIiXLZ2cZ7dC84CWq1xJ3Lk7aLydepowNbaf4ZEQ42rxMR4rfY3
-	6VhNNB+bQqpd2bzMH6lO7B4zUGt28zrZGBSo97TIVLHLJ/hyrQlTgwB/KOg3gZnjAYlV
-	o4BGnxfkueJWtCkEHeHsLqaEg08jPWq40nTyiuWcQCevfyUB8C7T/VIlgWjtPgcBGRnH
-	5xpQ==
+	h=from:to:subject:date:user-agent:cc:references:in-reply-to
+	:mime-version:content-transfer-encoding:content-disposition
+	:message-id; bh=oSZhidXep9ZqP/yYb06ujCa4jLpPDdZ3fQEzb4ebxeA=;
+	b=K3NvzhpRLI5Em/Y4B58Yi0W2IO+q2FNksM2oj1PQHj8Rsk8h/seJURnt3Rx59Woq2t
+	gF4L+TgVNYfDjHTJtYxVlwGv2HZ12Bs9DFYkt2iPaRnMP6A5K8IsWC5GCU4gvnuYJAg4
+	3SO0gLoYr8ZZcYixBkc1Lk1b7vVG2m+mzGq6v1vS1Y0e8vcgnXE/N+/pUia9qS09/qri
+	VFqeb7Q/QoQAE3l+FvxeXZdND/wqHDQUHtDWyfX7U8SPgj4b4+o8ynhwikri/AwIO6sx
+	TFiGndjoI8fTuoKdHM+H0FiQpshwg+XxXNZSBueOuvY5RHinRJfLkDnHHPY7ilFeX3KM
+	6JsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=zfyNrFdHvdP05ue5xadDHk3G4KHLQ+0LPtsCLVQgp3k=;
-	b=gSMpgwvJpc3FL4+h1WC36iCQDrQhd7aNsA6PXxCvYVZp1vlPXcefTTf/Dr8r/rArUe
-	stTAEZV9lAS+AygIVvzz7KZEtFO9iPA1/++i1332vDOOUxiMZIpQmsAqK75jAJp64Dvs
-	39TojUH56310QH+qgRCM9T0OeNHA3CUnu6YgbbgoGCevdEMznD2KdkDSwoT4gYstPd/i
-	wZnzcebD8yyaEDMKPyO3sd15X2BnwJ6JYXnrNnumGypTjMvvXKqTwBl2yeCGaWXYuiYm
-	G/IUAkm/pZx9BwYVa8NEjEO92tpxqvV0SZG1IY2Nprs725KB+y79NDW3IWMoJbNhvbDo
-	VEag==
-X-Gm-Message-State: APjAAAVLN+9AnBq+y9Ve01HSWSKwEKD0P90w7CaFifzuUhv8n+V6cZTD
-	KcPrKh7fURI8qCiKI/7QIzxkY04hPDFSlqCo3l4=
-X-Google-Smtp-Source: APXvYqwLpDcMiRae6zEr5ir5eZ/KPbsJWojFxn0+RKl6NXip/CPt+JyvBnEA+j0/Ag+2LhZ6zi1Kj/ndDuoQFywZEik=
-X-Received: by 2002:a37:454d:: with SMTP id s74mr15924004qka.115.1559576084511;
-	Mon, 03 Jun 2019 08:34:44 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:user-agent:cc:references
+	:in-reply-to:mime-version:content-transfer-encoding
+	:content-disposition:message-id;
+	bh=oSZhidXep9ZqP/yYb06ujCa4jLpPDdZ3fQEzb4ebxeA=;
+	b=J/V0PZ3LuRtfmNRA1rplvjP3bGYR9fGj0/i9CEDsqRDFLCq/Bshmf+177p32XwjxfG
+	ldSDgH9Pe7IT20PV1LqtKvR2P/GKL5Tx+VEoqXy+WzrdStTkU6XkTJYYj/7OgkiMxeg0
+	qqpA7vTKlNLzFA+MVqLhBF67zSuOZlXbbpvKFGU1ImUtQyQbLR61OsfAHg6JLOKjS+uH
+	6BkKd37kDK57jwcOcKhYysKEzbkacWA0K7PWPVmdRblB2WV1DrvQDuoTN111f79tSIy2
+	ts+bgtn/UWtsZMqnN3lL67oID+okGLRw9MzfOESJzFmLTcOp0juii4UKhX7AbQoL1EMo
+	RdOw==
+X-Gm-Message-State: APjAAAX9iI7PWkG+uqy0U6mliYYcG5gjN2rYd4hlPcblp4YePGGVEnsa
+	121ZiUipkPCF96TA/ca5B/k=
+X-Google-Smtp-Source: APXvYqxQFRrcZh1MLOpMtz1rPunzFizLDpRKnWN2JRZAcxIb+5NFTUkWljdNJRAjJmOjH/8dulCTDg==
+X-Received: by 2002:ac2:4ac5:: with SMTP id m5mr13592083lfp.95.1559576594831; 
+	Mon, 03 Jun 2019 08:43:14 -0700 (PDT)
+Received: from [192.168.1.121] ([176.116.252.109])
+	by smtp.gmail.com with ESMTPSA id s5sm3202338lfe.43.2019.06.03.08.43.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Jun 2019 08:43:14 -0700 (PDT)
+From: Andrew Randrianasulu <randrianasulu@gmail.com>
+To: Alex =?utf-8?q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Date: Mon, 3 Jun 2019 18:35:12 +0300
+User-Agent: KMail/1.9.10
+References: <20190603150120.29255-1-alex.bennee@linaro.org>
+In-Reply-To: <20190603150120.29255-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20190530190738.22713-1-mrolnik@gmail.com>
-	<20190530190738.22713-6-mrolnik@gmail.com>
-	<89ce6f5b-17d6-5a11-c8c6-da23f1245162@linaro.org>
-	<CAK4993hWDHMPR7Oq6ROoAU_N-=iiXqEP2BG-T-MgT1g6UdESJw@mail.gmail.com>
-	<e9abf7a7-24df-d85d-1108-a635c9588553@linaro.org>
-In-Reply-To: <e9abf7a7-24df-d85d-1108-a635c9588553@linaro.org>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Mon, 3 Jun 2019 18:34:30 +0300
-Message-ID: <CAK4993g8cUbkSVKZy+3bOpuMR_+8uOdp101KxQgcJ0pGt5eTXQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Message-Id: <201906031835.13420.randrianasulu@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::744
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH RFC v20 5/8] target/avr: Add instruction
- translation
+X-Received-From: 2a00:1450:4864:20::141
+Subject: Re: [Qemu-devel] [RFC PATCH] cputlb: use uint64_t for interim
+ values for unaligned load
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,131 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Richard Henderson <rth@twiddle.net>
+Cc: 1830872@bugs.launchpad.net, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Got it.
-Thanks for the explanation
+=D0=92 =D1=81=D0=BE=D0=BE=D0=B1=D1=89=D0=B5=D0=BD=D0=B8=D0=B8 =D0=BE=D1=82 =
+Monday 03 June 2019 18:01:20 Alex Benn=C3=A9e =D0=BD=D0=B0=D0=BF=D0=B8=D1=
+=81=D0=B0=D0=BB(=D0=B0):
+> When running on 32 bit TCG backends a wide unaligned load ends up
+> truncating data before returning to the guest. We specifically have
+> the return type as uint64_t to avoid any premature truncation so we
+> should use the same for the interim types.
+>=20
+> Hopefully fixes #1830872
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  accel/tcg/cputlb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index cdcc3771020..b796ab1cbea 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1303,7 +1303,7 @@ load_helper(CPUArchState *env, target_ulong addr, T=
+CGMemOpIdx oi,
+>          && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
+>                      >=3D TARGET_PAGE_SIZE)) {
+>          target_ulong addr1, addr2;
+> -        tcg_target_ulong r1, r2;
+> +        uint64_t r1, r2;
+>          unsigned shift;
+>      do_unaligned_access:
+>          addr1 =3D addr & ~(size - 1);
 
-Sent from my cell phone, please ignore typos
+Unfortunatly, this doesn't fix 32-bit qemu-system-x86_64 .... so, my bug is=
+ separate from #1830872 ?
 
-On Mon, Jun 3, 2019, 6:31 PM Richard Henderson <richard.henderson@linaro.org>
-wrote:
+I also was unable to convince qemu to use my kernel-only x86_64 gcc 6.5.0 c=
+ross-compiler ..
+probably x86-64 testing on i686 requires either docker (I don't have this
+) or 'real' cross-compiler (build with glibc support).
 
-> On 6/1/19 10:44 PM, Michael Rolnik wrote:
-> > Hi Richard.
-> >
-> > these instructions are not branches or jumps they all do skip.
->
-> Of course they're not all branches.  I used the example of a branch to
-> show a
-> situation in which your translation is wrong.
->
-> > however, if you think it's important I change it, I will, just show me an
-> > example or explain.
->
-> Ok, let's take HPPA as a very similar example.
->
-> Many HPPA instructions may "nullify" the next instruction.  The language is
-> different, but it's the same thing as the AVR "skip".
->
-> Now, I spent quite a bit of effort in target/hppa using conditional move
-> instructions to implement this.  But you need not go that far.
->
-> Now, AVR is differs from HPPA in that there is a nullify bit as part of the
-> process state.  Since AVR does not have this, we will need to keep the
-> "skip"
-> state entirely internal to the qemu implementation.
->
-> I suggest:
->
-> (1) Add "bool skipping;" to CPUAVRState.
->
-> Because TranslationBlocks can be ended at any instruction boundary, we need
-> some way to preserve the skipping state across TB's.
->
-> (2) Include "skipping" into the flags for cpu_get_tb_cpu_state,
-> TB_FLAGS_SKIPPING.
->
-> (3) Include "skipping" into the computation of cpu_interrupts_enabled.
->
-> Because "skipping" is not part of the architectural state of the CPU, we
-> cannot
-> allow an interrupt to come between the two instructions.  Therefore, while
-> "skipping" is true, disable interrupts.
->
-> (4) Within the instructions that skip the next, issue the branch but
-> record the
-> label as DisasContext->skip_label.  This will allow the main loop (and
-> other
-> instructions) know that skipping is active.
->
-> (5a) In gen_intermediate_code, if TB_FLAGS_SKIPPING, decode but do not
-> translate the insn, then clear TB_FLAGS_SKIPPING and store 0 into
-> env->skipping.
->
-> (5b) In gen_intermediate_code, if !TB_FLAGS_SKIPPING, copy
-> DisasContext->skip_label into a local variable, this_skip_label and zero.
->
-> We need to prepare for skip of skip, so do not allow the label of the first
-> skip to be clobbered by the label of the second skip.
->
-> (5c) After translate(), if this_skip_label is non-null, emit the label.
->
-> (6) Reverse the sense of your conditional branches.
->
-> Currently you generate
->
->   brcond(xxx, yyy, zzz, true_label);
->   goto npc
-> true_label:
->   goto true_pc
->
-> which is fine until we have skip labels.  We now want to emit
->
->   brcond(!xxx, yyy, zzz, false_label);
->   goto true_pc
-> false_label:
-> skip_label:
->   goto npc
->
-> which you can do by issuing only the branch, goto, label, and then setting
-> ctx->bstate to BS_STOP, so that the skip_label is emitted by the main
-> loop, and
-> the goto npc is also issued by the main loop.
->
-> (7) At the end of the loop in gen_intermedite_code, if
-> DisasContext->skip_label
-> is non-null, then we ended the TB with a skipping instruction and we need
-> to
-> preserve that within env.
->
->     TCGLabel *finish = NULL;
->
->     if (ctx.skip_label) {
->         finish = gen_new_label();
->     }
->
->     if (tb->cflags & CF_LAST_IO) {
->     ...
->
->
->     if (ctx.skip_label) {
->         TCGv_i32 one;
->
->         gen_set_label(ctx.skip_label);
->         one = tcg_const_i32(1);
->         tcg_gen_st8_i32(one, cpu_env, offsetof(CPUAVRState, skipping));
->         tcg_temp_free_i32(one);
->         tcg_gen_br(finish);
->     }
->
->  done_generating:
->    gen_tb_end(tb, num_insns);
->
->
-> r~
->
