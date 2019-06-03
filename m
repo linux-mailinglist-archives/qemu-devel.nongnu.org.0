@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8D933525
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 18:40:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37832 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA40833515
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 18:36:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37788 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXq0a-0003pF-47
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 12:40:28 -0400
+	id 1hXpx8-0000On-Uw
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 12:36:55 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:34018)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hXpuu-0007UL-He
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:34:37 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hXpus-0007UL-2k
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:34:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hXpm6-00023D-CD
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:25:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55042)
+	(envelope-from <mreitz@redhat.com>) id 1hXpmA-0002BW-HI
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 12:25:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53922)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hXpm4-0001bL-Ug; Mon, 03 Jun 2019 12:25:29 -0400
+	id 1hXpm9-0001f0-8i; Mon, 03 Jun 2019 12:25:33 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1CC018F927;
-	Mon,  3 Jun 2019 16:25:17 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6FAB5308794D;
+	Mon,  3 Jun 2019 16:25:19 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.221])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A9F692E053;
-	Mon,  3 Jun 2019 16:25:16 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 06E2B2E198;
+	Mon,  3 Jun 2019 16:25:18 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon,  3 Jun 2019 18:25:11 +0200
-Message-Id: <20190603162512.30422-2-mreitz@redhat.com>
+Date: Mon,  3 Jun 2019 18:25:12 +0200
+Message-Id: <20190603162512.30422-3-mreitz@redhat.com>
 In-Reply-To: <20190603162512.30422-1-mreitz@redhat.com>
 References: <20190603162512.30422-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Mon, 03 Jun 2019 16:25:17 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Mon, 03 Jun 2019 16:25:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/2] qapi/block-core: Overlays are not snapshots
+Subject: [Qemu-devel] [PATCH 2/2] blockdev: Overlays are not snapshots
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,80 +60,63 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A snapshot is something that reflects the state of something at a
-certain point in time.  It does not change.
-
-The file our snapshot commands create (or the node they install) is not
-a snapshot, as it does change over time.  It is an overlay.  We cannot
-do anything about the parameter names, but we can at least adjust the
-descriptions to reflect that fact.
+There are error messages which refer to an overlay node as the snapshot.
+That is wrong, those are two different things.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ blockdev.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 1defcde048..df52a90736 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1279,17 +1279,17 @@
- #
- # Either @device or @node-name must be set but not both.
- #
--# @device: the name of the device to generate the snapshot from.
-+# @device: the name of the device to take a snapshot of.
- #
- # @node-name: graph node name to generate the snapshot from (Since 2.0)
- #
--# @snapshot-file: the target of the new image. If the file exists, or
--# if it is a device, the snapshot will be created in the existing
--# file/device. Otherwise, a new file will be created.
-+# @snapshot-file: the target of the new overlay image. If the file
-+# exists, or if it is a device, the overlay will be created in the
-+# existing file/device. Otherwise, a new file will be created.
- #
- # @snapshot-node-name: the graph node name of the new image (Since 2.0)
- #
--# @format: the format of the snapshot image, default is 'qcow2'.
-+# @format: the format of the overlay image, default is 'qcow2'.
- #
- # @mode: whether and how QEMU should create a new image, default is
- #        'absolute-paths'.
-@@ -1302,10 +1302,10 @@
- ##
- # @BlockdevSnapshot:
- #
--# @node: device or node name that will have a snapshot created.
-+# @node: device or node name that will have a snapshot taken.
- #
- # @overlay: reference to the existing block device that will become
--#           the overlay of @node, as part of creating the snapshot.
-+#           the overlay of @node, as part of taking the snapshot.
- #           It must not have a current backing file (this can be
- #           achieved by passing "backing": null to blockdev-add).
- #
-@@ -1443,7 +1443,7 @@
- ##
- # @blockdev-snapshot-sync:
- #
--# Generates a synchronous snapshot of a block device.
-+# Takes a synchronous snapshot of a block device.
- #
- # For the arguments, see the documentation of BlockdevSnapshotSync.
- #
-@@ -1469,9 +1469,9 @@
- ##
- # @blockdev-snapshot:
- #
--# Generates a snapshot of a block device.
-+# Takes a snapshot of a block device.
- #
--# Create a snapshot, by installing 'node' as the backing image of
-+# Take a snapshot, by installing 'node' as the backing image of
- # 'overlay'. Additionally, if 'node' is associated with a block
- # device, the block device changes to using 'overlay' as its new active
- # image.
+diff --git a/blockdev.c b/blockdev.c
+index 6963270108..7de0b04fe7 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1608,13 +1608,13 @@ static void external_snapshot_prepare(BlkActionSt=
+ate *common,
+             s->has_snapshot_node_name ? s->snapshot_node_name : NULL;
+=20
+         if (node_name && !snapshot_node_name) {
+-            error_setg(errp, "New snapshot node name missing");
++            error_setg(errp, "New overlay node name missing");
+             goto out;
+         }
+=20
+         if (snapshot_node_name &&
+             bdrv_lookup_bs(snapshot_node_name, snapshot_node_name, NULL)=
+) {
+-            error_setg(errp, "New snapshot node name already in use");
++            error_setg(errp, "New overlay node name already in use");
+             goto out;
+         }
+=20
+@@ -1656,7 +1656,7 @@ static void external_snapshot_prepare(BlkActionStat=
+e *common,
+     }
+=20
+     if (bdrv_has_blk(state->new_bs)) {
+-        error_setg(errp, "The snapshot is already in use");
++        error_setg(errp, "The overlay is already in use");
+         goto out;
+     }
+=20
+@@ -1666,12 +1666,12 @@ static void external_snapshot_prepare(BlkActionSt=
+ate *common,
+     }
+=20
+     if (state->new_bs->backing !=3D NULL) {
+-        error_setg(errp, "The snapshot already has a backing image");
++        error_setg(errp, "The overlay already has a backing image");
+         goto out;
+     }
+=20
+     if (!state->new_bs->drv->supports_backing) {
+-        error_setg(errp, "The snapshot does not support backing images")=
+;
++        error_setg(errp, "The overlay does not support backing images");
+         goto out;
+     }
+=20
 --=20
 2.21.0
 
