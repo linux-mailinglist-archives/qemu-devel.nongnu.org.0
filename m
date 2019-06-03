@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94CF336D5
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:35:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38585 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA780335FD
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:05:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38188 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqrS-0000qD-1g
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:35:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45010)
+	id 1hXqP9-0004d4-QY
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:05:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41033)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hXqYi-0002YL-Nx
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:15:45 -0400
+	(envelope-from <mrolnik@gmail.com>) id 1hXqNm-0004GS-Vj
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:04:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hXqYh-0003co-F5
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:15:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53008)
+	(envelope-from <mrolnik@gmail.com>) id 1hXqNl-0001WO-Jl
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:04:26 -0400
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:46618)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hXqYh-0003aL-8i
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:15:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hXqYf-0001BV-MH
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 17:15:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id A6C562E80CB
-	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 17:15:41 +0000 (UTC)
+	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hXqNl-0001T9-Dr
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:04:25 -0400
+Received: by mail-qt1-x82a.google.com with SMTP id z19so10215549qtz.13
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:04:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=QEtVKPOGCTSdY31AqEu8FvNmuIk1yer5QGLOCHmJTJE=;
+	b=b+5/Pe2et3TTe2WIPduo0+WnLhgkFzP5ONarXlu4R2jdXWWjNPPtvHfd8kGcN/x4C6
+	GiFgYWdq6+yqG4hm4QYD7IdTLpL4l48EsGNrTbigCSGteaKXoZaGjV2cXuV4OrIxFqd4
+	xcIcfI+BNCuzN2F+VoYyWLQTEjrXIttNSzTk/Fvyb20o+ajzgHtcIrp8MXsy5wBNdc6n
+	0WV1/pXUylNKTvp6PBDu8f/XhuRd7vzmL9vcKGbLYVRI5gnXlbjxh8zwheQ1SAWJVpxi
+	g7r5ou7lhJ9b22B6qE0gmSYP4YG2YKL1lvHsLH3HBgcaQS0NrLH1d1NjtpubxAvuIKmr
+	9dYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=QEtVKPOGCTSdY31AqEu8FvNmuIk1yer5QGLOCHmJTJE=;
+	b=UcOIUBaDqS+s/mXaJwdJ1/aO1GlkeTi8w31omoiB4s66ad9RJLcv7rHO+mfdR56uht
+	6fLR9Y7hIAYXZsIYuwAkgwWs3fhNNH8Qnd96fo70LG+V5/0x/JNkG147jv712BWqeOQF
+	k/exOdjFd9p+/FBCL0q9c03FRvCyLOkdhtQ5QWgY7kvoUefI8vS+teTSsONohHfENpzB
+	Fb0gOayhff2llAUB6UR2ceAzGXtcohPwCOwP57+CatfCA/A2c8x61WIlyrT26WILol6v
+	XG310Mx1GoSbnDdta3lysCFlN4X+T50ZgQPpr46zBSwFLimIgXLeS5+AK8vVgtEyLVlE
+	34NQ==
+X-Gm-Message-State: APjAAAVJGxP2ayoa8AYV1P5kc6QsTq8G1Jbo06TI9GGizvwcKXsxMs0N
+	gmy2sqhzckVq7E43oEqv49o5fG6dFYo5JBgS5jI=
+X-Google-Smtp-Source: APXvYqxk9YuTDa0dgn4WF6Q3pVxM7+Ej/3wXmtBoxiLRdf9Dhqqc7iyPIjI+LaRgnN9eE4B5BIU1p4boA4+7SBOp3eg=
+X-Received: by 2002:ac8:3a63:: with SMTP id w90mr23104163qte.371.1559581463090;
+	Mon, 03 Jun 2019 10:04:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 Jun 2019 17:03:40 -0000
-From: Andrew Randrianasulu <1830872@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee andrew-randrianasulu lersek
-X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
-X-Launchpad-Bug-Modifier: Andrew Randrianasulu (andrew-randrianasulu)
-References: <155912118291.12579.8926874795813611531.malonedeb@soybean.canonical.com>
-Message-Id: <155958142157.4435.17545964704288334045.launchpad@loganberry.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18968";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: ed1d2c43656119da13d185cee55d995c9d613e40
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1830872] Re: AARCH64 to ARMv7 mistranslation in
- TCG
+References: <20190530190738.22713-1-mrolnik@gmail.com>
+	<20190530190738.22713-4-mrolnik@gmail.com>
+	<402ba0b2-e2e0-6b7a-1862-4588e5f83357@linaro.org>
+	<CAK4993iXV9oRr_VfabJHg4fCYEppW49i_PE9R0X_TBqk7TDkrQ@mail.gmail.com>
+	<9e2acbbe-7ede-c45d-5e9f-bb269aa25fcc@linaro.org>
+	<CAK4993hXTOSoW5FFjeur+pLzT18c-C=vwao-904ASyqMsT5eMQ@mail.gmail.com>
+	<3bc0d426-bd59-055d-a010-b136cba555bf@linaro.org>
+In-Reply-To: <3bc0d426-bd59-055d-a010-b136cba555bf@linaro.org>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Mon, 3 Jun 2019 20:04:09 +0300
+Message-ID: <CAK4993j5JXgV9CYDckt99kwgQaG6w-GN-Tka7r2nahoh33rheQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::82a
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH RFC v20 3/8] target/avr: Add mechanism to
+ check for active debugger connection
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,107 +78,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1830872 <1830872@bugs.launchpad.net>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "bzImage-4.12.0-x64"
-   https://bugs.launchpad.net/bugs/1830872/+attachment/5268560/+files/bzIma=
-ge-4.12.0-x64
+Got it.
 
--- =
+Sent from my cell phone, please ignore typos
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1830872
+On Mon, Jun 3, 2019, 7:37 PM Richard Henderson <richard.henderson@linaro.org>
+wrote:
 
-Title:
-  AARCH64 to ARMv7 mistranslation in TCG
-
-Status in QEMU:
-  New
-
-Bug description:
-  The following guest code:
-
-  https://github.com/tianocore/edk2/blob/3604174718e2afc950c3cc64c64ba5165c=
-8692bd/MdePkg/Library/BaseMemoryLibOptDxe/AArch64/CopyMem.S
-
-  implements, in hand-optimized aarch64 assembly, the CopyMem() edk2 (EFI
-  Development Kit II) library function. (CopyMem() basically has memmove()
-  semantics, to provide a standard C analog here.) The relevant functions
-  are InternalMemCopyMem() and __memcpy().
-
-  When TCG translates this aarch64 code to x86_64, everything works
-  fine.
-
-  When TCG translates this aarch64 code to ARMv7, the destination area of
-  the translated CopyMem() function becomes corrupted -- it differs from
-  the intended source contents. Namely, in every 4096 byte block, the
-  8-byte word at offset 4032 (0xFC0) is zeroed out in the destination,
-  instead of receiving the intended source value.
-
-  I'm attaching two hexdumps of the same destination area:
-
-  - "good.txt" is a hexdump of the destination area when CopyMem() was
-    translated to x86_64,
-
-  - "bad.txt" is a hexdump of the destination area when CopyMem() was
-    translated to ARMv7.
-
-  In order to assist with the analysis of this issue, I disassembled the
-  aarch64 binary with "objdump". Please find the listing in
-  "DxeCore.objdump", attached. The InternalMemCopyMem() function starts at
-  hex offset 2b2ec. The __memcpy() function starts at hex offset 2b180.
-
-  And, I ran the guest on the ARMv7 host with "-d
-  in_asm,op,op_opt,op_ind,out_asm". Please find the log in
-  "tcg.in_asm.op.op_opt.op_ind.out_asm.log", attached.
-
-  The TBs that correspond to (parts of) the InternalMemCopyMem() and
-  __memcpy() functions are scattered over the TCG log file, but the offset
-  between the "nice" disassembly from "DxeCore.objdump", and the in-RAM
-  TBs in the TCG log, can be determined from the fact that there is a
-  single prfm instruction in the entire binary. The instruction's offset
-  is 0x2b180 in "DxeCore.objdump" -- at the beginning of the __memcpy()
-  function --, and its RAM address is 0x472d2180 in the TCG log. Thus the
-  difference (=3D the load address of DxeCore.efi) is 0x472a7000.
-
-  QEMU was built at commit a4f667b67149 ("Merge remote-tracking branch
-  'remotes/cohuck/tags/s390x-20190521-3' into staging", 2019-05-21).
-
-  The reproducer command line is (on an ARMv7 host):
-
-    qemu-system-aarch64 \
-      -display none \
-      -machine virt,accel=3Dtcg \
-      -nodefaults \
-      -nographic \
-      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-aarch6=
-4-code.fd,readonly \
-      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-arm-va=
-rs.fd,snapshot=3Don \
-      -cpu cortex-a57 \
-      -chardev stdio,signal=3Doff,mux=3Don,id=3Dchar0 \
-      -mon chardev=3Dchar0,mode=3Dreadline \
-      -serial chardev:char0
-
-  The apparent symptom is an assertion failure *in the guest*, such as
-
-  > ASSERT [DxeCore]
-  > /home/lacos/src/upstream/qemu/roms/edk2/MdePkg/Library/BaseLib/String.c=
-(1090):
-  > Length < _gPcd_FixedAtBuild_PcdMaximumAsciiStringLength
-
-  but that is only a (distant) consequence of the CopyMem()
-  mistranslation, and resultant destination area corruption.
-
-  Originally reported in the following two mailing list messages:
-  - http://mid.mail-archive.com/9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat=
-.com
-  - http://mid.mail-archive.com/f1cec8c0-1a9b-f5bb-f951-ea0ba9d276ee@redhat=
-.com
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1830872/+subscriptions
-
+> On 6/3/19 11:29 AM, Michael Rolnik wrote:
+> > 1. There's a break
+> > instruction
+> https://www.microchip.com/webdoc/avrassembler/avrassembler.wb_BREAK.html
+> > 2. There's a set of tests that use break.
+> >
+> > So I assume I have to implement this instruction as described in the
+> spec.
+>
+> The spec talks about fuses, not gdb.  A valid implementation of this
+> instruction is a no-op -- it say so right there in the spec.
+>
+> What does it mean to "test" break?  AFAIK, you can't test this at all from
+> within the cpu itself, since it does not generate a cpu-level exception.
+>
+> If gdb is setting a breakpoint via -S, it should be done via
+> cpu_breakpoint_test.
+>
+>
+>
+> > On Mon, Jun 3, 2019, 6:44 PM Richard Henderson <
+> richard.henderson@linaro.org
+> > <mailto:richard.henderson@linaro.org>> wrote:
+> >
+> >     On 6/1/19 4:12 PM, Michael Rolnik wrote:
+> >     > Hi Richard.
+> >     >
+> >     > If I implement it this way
+> >     >
+> >     > ```
+> >     >  static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
+> >     >  {
+> >     >      if (avr_feature(ctx->env, AVR_FEATURE_BREAK) == false) {
+> >     >          gen_helper_unsupported(cpu_env);
+> >     >      } else {
+> >     >          tcg_gen_movi_tl(cpu_pc, ctx->inst[0].npc);
+> >     >          gen_helper_debug(cpu_env);
+> >     >      }
+> >     >
+> >     >      ctx->bstate = BS_EXCP;
+> >     >
+> >     >      return true;
+> >     >  }
+> >     > ```
+> >     >
+> >     > qemu (without -s -S flags) crashes when debugger is not connected
+> >
+> >     I was not suggesting using the internal qemu EXCP_DEBUG, but another
+> AVR
+> >     specific exception, much the same way as every other cpu has a
+> cpu-specific
+> >     debug exception.
+> >
+> >     Or perhaps always do nothing.  Why is gdb insertting BREAK in the
+> first place?
+> >      It should be using the "hardware breakpoint" support that qemu
+> advertises as
+> >     part of the gdbstub protocol, and that you support here:
+> >
+> >     > +        if (unlikely(cpu_breakpoint_test(cs, OFFSET_CODE + cpc *
+> 2, BP_ANY))
+> >     > +                 || cpu_breakpoint_test(cs, OFFSET_DATA + cpc * 2,
+> >     BP_ANY)) {
+> >     > +            tcg_gen_movi_i32(cpu_pc, cpc);
+> >     > +            gen_helper_debug(cpu_env);
+> >     > +            ctx.bstate = BS_EXCP;
+> >     > +            goto done_generating;
+> >     > +        }
+>
+>
