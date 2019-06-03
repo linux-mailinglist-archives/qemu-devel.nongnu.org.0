@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B9432A9B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 10:17:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59447 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F116432AA4
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 10:19:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59470 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXi9w-00080d-P9
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 04:17:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35380)
+	id 1hXiC9-0001Sk-4p
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 04:19:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35394)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hXi67-00061o-PA
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:40 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hXi6A-000644-Mx
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hXi66-0006fZ-P3
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45774)
+	(envelope-from <pbonzini@redhat.com>) id 1hXi69-0006iQ-JN
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40102)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hXi66-0006eb-Jx
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:38 -0400
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hXi69-0006ha-DX
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 04:13:41 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EEFA181127
-	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 08:13:37 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B260630821F4
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 08:13:40 +0000 (UTC)
 Received: from donizetti.redhat.com (ovpn-112-59.ams2.redhat.com
 	[10.36.112.59])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id CBF7A1B465;
-	Mon,  3 Jun 2019 08:13:36 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6D38B5C8BD;
+	Mon,  3 Jun 2019 08:13:38 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 10:13:34 +0200
-Message-Id: <20190603081335.8185-1-pbonzini@redhat.com>
+Date: Mon,  3 Jun 2019 10:13:35 +0200
+Message-Id: <20190603081335.8185-2-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Mon, 03 Jun 2019 08:13:38 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Mon, 03 Jun 2019 08:13:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] qgraph: allow extra_device_opts on contains
- nodes
+Subject: [Qemu-devel] [PATCH] qgraph: fix qos_node_contains with options
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,65 +58,86 @@ Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow choosing the bus that the device will be placed on, in case
-the machine has more than one.  Otherwise, the bus may not match
-the base address of the controller we attach it to.
+Currently, if qos_node_contains was passed options, it would still
+create an edge without any options.  Instead, in that case
+NULL acts as a terminator.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qos-test.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ tests/libqos/qgraph.c | 12 ++++++++----
+ tests/libqos/qgraph.h | 15 +++++++++------
+ 2 files changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/tests/qos-test.c b/tests/qos-test.c
-index ae2fb5de1c..01b2a22c08 100644
---- a/tests/qos-test.c
-+++ b/tests/qos-test.c
-@@ -340,7 +340,8 @@ static void walk_path(QOSGraphNode *orig_path, int le=
-n)
-     char **path_vec =3D g_new0(char *, (QOS_PATH_MAX_ELEMENT_SIZE * 2));
-     int path_vec_size =3D 0;
+diff --git a/tests/libqos/qgraph.c b/tests/libqos/qgraph.c
+index b149caaaa9..7a7ae2a19e 100644
+--- a/tests/libqos/qgraph.c
++++ b/tests/libqos/qgraph.c
+@@ -632,15 +632,19 @@ void qos_node_create_driver(const char *name, QOSCr=
+eateDriverFunc function)
+ }
 =20
--    char *after_cmd =3D NULL, *before_cmd =3D NULL, *after_device =3D NU=
-LL;
-+    char *after_cmd, *before_cmd, *after_device;
-+    GString *after_device_str =3D g_string_new("");
-     char *node_name =3D orig_path->name, *path_str;
+ void qos_node_contains(const char *container, const char *contained,
+-                       ...)
++                       QOSGraphEdgeOptions *opts, ...)
+ {
+     va_list va;
+-    va_start(va, contained);
+-    QOSGraphEdgeOptions *opts;
 =20
-     GString *cmd_line =3D g_string_new("");
-@@ -363,9 +364,8 @@ static void walk_path(QOSGraphNode *orig_path, int le=
-n)
-         /* append node command line + previous edge command line */
-         if (path->command_line && etype =3D=3D QEDGE_CONSUMED_BY) {
-             g_string_append(cmd_line, path->command_line);
--            if (after_device) {
--                g_string_append(cmd_line, after_device);
--            }
-+            g_string_append(cmd_line, after_device_str->str);
-+            g_string_truncate(after_device_str, 0);
-         }
-=20
-         path_vec[path_vec_size++] =3D qos_graph_edge_get_name(path->path=
-_edge);
-@@ -382,12 +382,15 @@ static void walk_path(QOSGraphNode *orig_path, int =
-len)
-         if (after_cmd) {
-             g_string_append(cmd_line2, after_cmd);
-         }
-+        if (after_device) {
-+            g_string_append(after_device_str, after_device);
-+        }
-     }
-=20
-     path_vec[path_vec_size++] =3D NULL;
--    if (after_device) {
--        g_string_append(cmd_line, after_device);
--    }
-+    g_string_append(cmd_line, after_device_str->str);
-+    g_string_free(after_device_str, true);
++    if (opts =3D=3D NULL) {
++        add_edge(container, contained, QEDGE_CONTAINS, NULL);
++        return;
++    }
 +
-     g_string_append(cmd_line, cmd_line2->str);
-     g_string_free(cmd_line2, true);
++    va_start(va, opts);
+     do {
+-        opts =3D va_arg(va, QOSGraphEdgeOptions *);
+         add_edge(container, contained, QEDGE_CONTAINS, opts);
++        opts =3D va_arg(va, QOSGraphEdgeOptions *);
+     } while (opts !=3D NULL);
 =20
+     va_end(va);
+diff --git a/tests/libqos/qgraph.h b/tests/libqos/qgraph.h
+index e799095b30..3a25dda4b2 100644
+--- a/tests/libqos/qgraph.h
++++ b/tests/libqos/qgraph.h
+@@ -453,14 +453,16 @@ void qos_node_create_machine_args(const char *name,
+ void qos_node_create_driver(const char *name, QOSCreateDriverFunc functi=
+on);
+=20
+ /**
+- * qos_node_contains(): creates an edge of type QEDGE_CONTAINS and
+- * adds it to the edge list mapped to @container in the
++ * qos_node_contains(): creates one or more edges of type QEDGE_CONTAINS
++ * and adds them to the edge list mapped to @container in the
+  * edge hash table.
+  *
+- * This edge will have @container as source and @contained as destinatio=
+n.
++ * The edges will have @container as source and @contained as destinatio=
+n.
+  *
+- * It also has the possibility to add optional NULL-terminated
+- * @opts parameters (see %QOSGraphEdgeOptions)
++ * If @opts is NULL, a single edge will be added with no options.
++ * If @opts is non-NULL, the arguments after @contained represent a
++ * NULL-terminated list of %QOSGraphEdgeOptions structs, and an
++ * edge will be added for each of them.
+  *
+  * This function can be useful when there are multiple devices
+  * with the same node name contained in a machine/other node
+@@ -480,7 +482,8 @@ void qos_node_create_driver(const char *name, QOSCrea=
+teDriverFunc function);
+  * For contains, op1.arg and op1.size_arg represent the arg to pass
+  * to @contained constructor to properly initialize it.
+  */
+-void qos_node_contains(const char *container, const char *contained, ...=
+);
++void qos_node_contains(const char *container, const char *contained,
++                       QOSGraphEdgeOptions *opts, ...);
+=20
+ /**
+  * qos_node_produces(): creates an edge of type QEDGE_PRODUCES and
 --=20
 2.21.0
 
