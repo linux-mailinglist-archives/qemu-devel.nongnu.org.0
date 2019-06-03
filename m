@@ -2,61 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75848337CB
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:25:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39184 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7EF3337C2
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:23:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39150 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXreR-0006fD-LF
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:25:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58893)
+	id 1hXrcY-0005Gg-TC
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:23:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58867)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laine@redhat.com>) id 1hXrXh-0001sr-En
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:46 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hXrXe-0001pj-BG
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laine@redhat.com>) id 1hXrXg-0001kv-DB
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51548)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <laine@redhat.com>) id 1hXrXg-0001jk-59
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:44 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7A80F30C31A3;
-	Mon,  3 Jun 2019 18:18:38 +0000 (UTC)
-Received: from vhost2.laine.org (ovpn-117-135.phx2.redhat.com [10.3.117.135])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DAC460487;
-	Mon,  3 Jun 2019 18:18:24 +0000 (UTC)
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20190517125820.2885-1-jfreimann@redhat.com>
-	<20190520165657.2293c5d7@x1.home>
-	<20190521072157.wpb77wlc5mhfcdes@jenstp.localdomain>
-	<20190521073511-mutt-send-email-mst@kernel.org>
-	<20190521184918.n4nnk6ack3ssp6jv@jenstp.localdomain>
-	<d116bc65-0715-2c6a-2616-49f67cd685c8@oracle.com>
-	<20190528225039-mutt-send-email-mst@kernel.org>
-	<1c5f460e-a3b9-56c1-90f7-b3a5c3d0a0d3@redhat.com>
-	<20190603140832-mutt-send-email-mst@kernel.org>
-From: Laine Stump <laine@redhat.com>
-Message-ID: <1fa683cc-02c6-c674-78ef-db6afa55026a@redhat.com>
-Date: Mon, 3 Jun 2019 14:18:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <peter.maydell@linaro.org>) id 1hXrXd-0001fz-B0
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:42 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:46443)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hXrXd-0001ea-4v
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:18:41 -0400
+Received: by mail-oi1-x236.google.com with SMTP id 203so13533795oid.13
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 11:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=WKJWUawff5Jn/35B6H8lKXVx2tuTsRt1smNkaOMSrlU=;
+	b=eSKAosxLBF/kq948kqdV0M4E9toDgOkd7L2OKyOiVPaChdtK1370KDSeInDmBnRgRn
+	8lmFkscs+XLfUwZ6m8r2jCE/ZpwmN7Ywy+HcPPziY+TO18ZDoppgbvPLq6HNAtd8kgjj
+	NKmmHhb/6IL47mVHohfmA5r6tJNRqkuPVisMQwwKOIZbPcoyQgqosV0BJVWs/7+mNEJk
+	iZzNIbc+px1CslUDohpgQRVhEE4+IJ8ybMQNZ7PVizZGtlBor1TpSelxDgWxVQDQXtx6
+	fa28LUe7xIW6pcDvQuWNY/lgHHMNkoqNPb73lh11OwIt8vfnTGodrYc5+XCto/vaeh8Y
+	UwpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=WKJWUawff5Jn/35B6H8lKXVx2tuTsRt1smNkaOMSrlU=;
+	b=pQ7pdMbanRkZDTWvnyOBjlwtJYx77aWvUjIuV7ULjUbmlVQc4YxfRhkCIGLfzuqHOm
+	KYqxZMkzJrNolPCWYi2rI5jckwfgY1TGzA6bQ+S/6ZoVFMIxgKX++zqKOa/avYpV3UMs
+	11HnZkfG2e6PJOf8IPXqzpi2kD2DJLZ9T1LnVyYdk0BMPqu0XMmx9FpaZIb4BduKJW4p
+	KAcaX1C987N6vuxuAcakxF2nqQUkFNJ6CNU17Yr8pctVC8p/EnwuDS44yENJIlo03eyz
+	Q0hVzxaqPctXKjAebb6xIv0+65Lb8NiLYqV5ZHtWy9JUhCnCGJxuXODhDT4vjrs/lkoQ
+	GPFg==
+X-Gm-Message-State: APjAAAWBrD0ob4m0IHXShi6hk8MdlYhpv6teD0MycJEJAYaglKesoPOd
+	I8LXhd3Y32F2Nte6BwOjsshvg2gg82gYRIK4QdJ0LA==
+X-Google-Smtp-Source: APXvYqyjSUVpIWMgD8ojD1xnJpHVzBRl8/vci56HRqsNHn4ooxfAbBFrNM3YO9r/yFX5Ci36Nq4DgG4Y8hAbpd/0BrU=
+X-Received: by 2002:aca:6cc1:: with SMTP id h184mr1924214oic.170.1559585920220;
+	Mon, 03 Jun 2019 11:18:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190603140832-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Mon, 03 Jun 2019 18:18:43 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
- network devices
+References: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 3 Jun 2019 19:18:29 +0100
+Message-ID: <CAFEAcA_D1RvZ2FuOZkXx_8fYFzkSUsG+sjLptgaFfuxuiYPsmA@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::236
+Subject: Re: [Qemu-devel] [PULL 00/24] Misc patches for 2019-06-03
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,63 +73,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
-	aadam@redhat.com, qemu-devel@nongnu.org,
-	Alex Williamson <alex.williamson@redhat.com>,
-	si-wei liu <si-wei.liu@oracle.com>,
-	Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/19 2:12 PM, Michael S. Tsirkin wrote:
-> On Mon, Jun 03, 2019 at 02:06:47PM -0400, Laine Stump wrote:
->> On 5/28/19 10:54 PM, Michael S. Tsirkin wrote:
->>> On Tue, May 28, 2019 at 05:14:22PM -0700, si-wei liu wrote:
->>>>
->>>>
->>>> On 5/21/2019 11:49 AM, Jens Freimann wrote:
->>>>> On Tue, May 21, 2019 at 07:37:19AM -0400, Michael S. Tsirkin wrote:
->>>>>> On Tue, May 21, 2019 at 09:21:57AM +0200, Jens Freimann wrote:
->>>>>>> On Mon, May 20, 2019 at 04:56:57PM -0600, Alex Williamson wrote:
->>
->>>>>> Actually is there a list of devices for which this has been tested
->>>>>> besides mlx5? I think someone said some old intel cards
->>>>>> don't support this well, we might need to blacklist these ...
->>>>>
->>>>> So far I've tested mlx5 and XL710 which both worked, but I'm
->>>>> working on testing with more devices. But of course help with testing
->>>>> is greatly appreciated.
->>>>
->>>> It won't work on Intel ixgbe and Broadcom bnxt_en, which requires toggling
->>>> the state of tap backing the virtio-net in order to release/reprogram MAC
->>>> filter. Actually, it's very few NICs that could work with this - even some
->>>> works by chance the behavior is undefined. Instead of blacklisting it makes
->>>> more sense to whitelist the NIC that supports it - with some new sysfs
->>>> attribute claiming the support presumably.
->>>>
->>>> -Siwei
->>>
->>> I agree for many cards we won't know how they behave until we try.  One
->>> can consider this a bug in Linux that cards don't behave in a consistent
->>> way.  The best thing to do IMHO would be to write a tool that people can
->>> run to test the behaviour.
->>
->> Is the "bad behavior" something due to the hardware of the cards, or their
->> drivers? If it's the latter, then at least initially having a whitelist
->> would be counterproductive, since it would make it difficult for relative
->> outsiders to test and report success/failure of various cards.
-> 
-> We can add an "ignore whitelist" flag. Would that address the issue?
-
-It would be better than requiring a kernel/qemu recompile :-)
+On Mon, 3 Jun 2019 at 18:12, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit ad88e4252f09c2956b99c90de39e95bab2e8e7=
+af:
+>
+>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-1-2=
+019' into staging (2019-06-03 10:25:12 +0100)
+>
+> are available in the git repository at:
+>
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to c87759ce876a7a0b17c2bf4f0b964bd51f0ee871:
+>
+>   q35: Revert to kernel irqchip (2019-06-03 14:03:03 +0200)
+>
+> ----------------------------------------------------------------
+> * Revert q35 to kernel irqchip (Alex)
+> * edu device fixes (Li Qiang)
+> * cleanups (Marc-Andr=C3=A9, Peter)
+> * Improvements to -accel help
+> * Better support for IA32_MISC_ENABLE MSR (Wanpeng)
+> * I2C test conversion to qgraph (Paolo)
+>
+> ----------------------------------------------------------------
 
 
-Where would the whilelist live? In qemu or in the kernel? It would be 
-problematic to have the whitelist in qemu if kernel driver changes could 
-fix a particular card.
+Applied, thanks.
 
-Beyond that, what about *always* just issuing some sort of warning 
-rather than completely forbidding a card that wasn't whitelisted? 
-(Haven't decided if I like that better or not (and it probably doesn't 
-matter, since I'm not a "real" user, but I thought I would mention it).
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
