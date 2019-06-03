@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970C733963
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 21:57:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40144 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E787C3395A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 21:55:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40093 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXt5F-0007Ue-Oh
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 15:57:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49718)
+	id 1hXt3H-0005fW-3G
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 15:55:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49437)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hXsyq-0002jt-2Y
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:50:53 -0400
+	(envelope-from <eblake@redhat.com>) id 1hXsyo-0002Mz-0m
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:50:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hXsqX-000668-2W
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:42:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36314)
+	(envelope-from <eblake@redhat.com>) id 1hXsqv-0006tB-Dr
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:42:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41196)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hXsqV-0005ha-No; Mon, 03 Jun 2019 15:42:15 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	id 1hXsqu-0006q2-7m; Mon, 03 Jun 2019 15:42:40 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6A48780467;
-	Mon,  3 Jun 2019 19:42:04 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8263C300144E;
+	Mon,  3 Jun 2019 19:42:34 +0000 (UTC)
 Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CE42E5D739;
-	Mon,  3 Jun 2019 19:42:01 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0605B17DD4;
+	Mon,  3 Jun 2019 19:42:33 +0000 (UTC)
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20190603162512.30422-1-mreitz@redhat.com>
-	<20190603162512.30422-2-mreitz@redhat.com>
+	<20190603162512.30422-3-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,24 +58,23 @@ Autocrypt: addr=eblake@redhat.com; keydata=
 	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
 	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <a6918306-6b01-23eb-338b-f7a0fe90db24@redhat.com>
-Date: Mon, 3 Jun 2019 14:42:00 -0500
+Message-ID: <c3a8e513-c659-641f-d9d8-ccd068978df5@redhat.com>
+Date: Mon, 3 Jun 2019 14:42:33 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190603162512.30422-2-mreitz@redhat.com>
+In-Reply-To: <20190603162512.30422-3-mreitz@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="JK8Q5JrVPiptHX1ZqL0DMW6E6knaQ49Av"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+	boundary="WFObeyZWlUEldoi2AttoLHBgmDYcaOmcM"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Mon, 03 Jun 2019 19:42:04 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Mon, 03 Jun 2019 19:42:34 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 1/2] qapi/block-core: Overlays are not
- snapshots
+Subject: Re: [Qemu-devel] [PATCH 2/2] blockdev: Overlays are not snapshots
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -93,33 +92,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JK8Q5JrVPiptHX1ZqL0DMW6E6knaQ49Av
+--WFObeyZWlUEldoi2AttoLHBgmDYcaOmcM
 From: Eric Blake <eblake@redhat.com>
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Message-ID: <a6918306-6b01-23eb-338b-f7a0fe90db24@redhat.com>
-Subject: Re: [PATCH 1/2] qapi/block-core: Overlays are not snapshots
+Message-ID: <c3a8e513-c659-641f-d9d8-ccd068978df5@redhat.com>
+Subject: Re: [PATCH 2/2] blockdev: Overlays are not snapshots
 References: <20190603162512.30422-1-mreitz@redhat.com>
- <20190603162512.30422-2-mreitz@redhat.com>
-In-Reply-To: <20190603162512.30422-2-mreitz@redhat.com>
+ <20190603162512.30422-3-mreitz@redhat.com>
+In-Reply-To: <20190603162512.30422-3-mreitz@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 On 6/3/19 11:25 AM, Max Reitz wrote:
-> A snapshot is something that reflects the state of something at a
-> certain point in time.  It does not change.
->=20
-> The file our snapshot commands create (or the node they install) is not=
-
-> a snapshot, as it does change over time.  It is an overlay.  We cannot
-> do anything about the parameter names, but we can at least adjust the
-> descriptions to reflect that fact.
+> There are error messages which refer to an overlay node as the snapshot=
+=2E
+> That is wrong, those are two different things.
 >=20
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  qapi/block-core.json | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
+>  blockdev.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >=20
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
@@ -130,22 +124,22 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---JK8Q5JrVPiptHX1ZqL0DMW6E6knaQ49Av
+--WFObeyZWlUEldoi2AttoLHBgmDYcaOmcM
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz1eAkACgkQp6FrSiUn
-Q2rKoAf/X8fdJb15ktPsvzQuS8QUHW+sufGBGK+THigXBuaqCLIk0QWe0t37TOHQ
-CdrHESQWufYlLAIv0nbuvtyu1au3JIlQxds0NwTyp4MNtsgEuBoT/7QIU+sMXu+r
-vmH3Y3WGiLO8wMbeG8z7uGIrWtaRJACnM8z8NIc8OFFHdLYAVrWW6odppDzT5wpz
-pHADjs1h8VFN1BrLdXMGC9lITpv/y/L5eHr8MKJ5KlIGqccdg89GhSCaXHGlbpyJ
-7587L65Jjb75nYKCgTpzxQKOqs5/HevlLkj/Vc8AyzSBr1Lt9QjzWwJs9NxqfSRQ
-mWZEalLcYMQip69+OYLyxZoPS8Ogmg==
-=v9UG
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz1eCkACgkQp6FrSiUn
+Q2r1rAf9Gr/yVQ8/L5H8UB5dHGB2RgF2Oq6ZWOO23gTAI+Pftl9Q2gYb1AVousYg
+p1t6AYYhzB9c3mSx+FiO/SP2NftLr7U81yHpmnVERGQdYBptwavFxBWYAtXqFozh
+DFpAWcPEhI4cdqDRzX5uqh6hbPUtqzb1iR/GyBrt1figwkZxlAUyolcNMm/lpduD
+dEqHcDJAonJiQSVqXgmQTyTaOqwSBljxBZkQJwV1vbhELLDxbrb+vfgzd/RfdMB5
+z9PMdUQ7YLDn6Ew3wcPd7uwn5MakeIAVikvi266eqdl2FnUs5ZaK2O+48HTLnG2+
+JIczXFrdJPIc++83U2RflQ4gk3WgGg==
+=8sJF
 -----END PGP SIGNATURE-----
 
---JK8Q5JrVPiptHX1ZqL0DMW6E6knaQ49Av--
+--WFObeyZWlUEldoi2AttoLHBgmDYcaOmcM--
 
