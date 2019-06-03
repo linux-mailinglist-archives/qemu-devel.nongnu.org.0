@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8854C32E8D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 13:24:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33299 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E1A32F09
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 13:54:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33655 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXl4X-0003fb-Di
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 07:24:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48953)
+	id 1hXlY4-0002VA-3V
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 07:54:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55792)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hXl2b-0002jQ-Kf
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 07:22:14 -0400
+	(envelope-from <groug@kaod.org>) id 1hXlWy-0002Ac-14
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 07:53:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hXl2A-0000nX-D9
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 07:21:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40864)
+	(envelope-from <groug@kaod.org>) id 1hXlWw-0000f8-CH
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 07:53:35 -0400
+Received: from 17.mo4.mail-out.ovh.net ([46.105.41.16]:53429)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hXl2A-0000lk-5o
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 07:21:46 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6F2C3309266D;
-	Mon,  3 Jun 2019 11:21:40 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
-	(dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 815BD67262;
-	Mon,  3 Jun 2019 11:21:38 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 13:22:09 +0200
-Message-Id: <1559560929-260254-3-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1559560929-260254-1-git-send-email-imammedo@redhat.com>
-References: <1559560929-260254-1-git-send-email-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Mon, 03 Jun 2019 11:21:45 +0000 (UTC)
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hXlWw-0000Zz-5v
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 07:53:34 -0400
+Received: from player774.ha.ovh.net (unknown [10.108.42.168])
+	by mo4.mail-out.ovh.net (Postfix) with ESMTP id 709EF1F4D40
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 13:53:31 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player774.ha.ovh.net (Postfix) with ESMTPSA id AAEAA668CEDA;
+	Mon,  3 Jun 2019 11:53:23 +0000 (UTC)
+Date: Mon, 3 Jun 2019 13:53:22 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190603135322.1c69f310@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <155910843201.13149.14968680567084380259.stgit@aravinda>
+References: <155910829070.13149.5215948335633966328.stgit@aravinda>
+	<155910843201.13149.14968680567084380259.stgit@aravinda>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 736901491476502932
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudefjedggedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 2/2] tests: acpi: add simple arm/virt
- testcase
+X-Received-From: 46.105.41.16
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v9 3/6] target/ppc: Handle NMI
+ guest exit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,110 +57,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Ben Warren <ben@skyportsystems.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Shannon Zhao <shannon.zhaosl@gmail.com>, Gonglei <arei.gonglei@huawei.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-adds simple arm/virt test case that starts guest with
-bios-tables-test.aarch64.iso.qcow2 boot image which
-initializes UefiTestSupport* structure in RAM once
-guest is booted.
+On Wed, 29 May 2019 11:10:32 +0530
+Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
 
- * see commit: tests: acpi: add acpi_find_rsdp_address_uefi() helper
+> Memory error such as bit flips that cannot be corrected
+> by hardware are passed on to the kernel for handling.
+> If the memory address in error belongs to guest then
+> the guest kernel is responsible for taking suitable action.
+> Patch [1] enhances KVM to exit guest with exit reason
+> set to KVM_EXIT_NMI in such cases. This patch handles
+> KVM_EXIT_NMI exit.
+> 
+> [1] https://www.spinics.net/lists/kvm-ppc/msg12637.html
+>     (e20bbd3d and related commits)
+> 
+> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> ---
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v6:
-  * Since aarch64 TCG is broken on 32 bit arm host,
-    blacklist it till it's fixed
-  * add aarch64 to rebuild script list
-v4:
-  * force test to use TCG accelerator
-v3:
-  * use firmware blobs directly from pc-bios directory
-  * use bios-tables-test.aarch64.iso.qcow2 as test boot image
-  * drop leftover qtest-uefi-images-aarch64 iMakefile rule from
-    previos version (Laszlo)
-  * add Makefile rule to include bios-tables-test into
-    check-qtest-aarch64 target
-v2:
-  * specify in test_data where board's RAM starts and RAM size
+LGTM
 
- tests/Makefile.include                  |  4 ++++
- tests/bios-tables-test.c                | 18 ++++++++++++++++++
- tests/data/acpi/rebuild-expected-aml.sh |  2 +-
- 3 files changed, 23 insertions(+), 1 deletion(-)
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 1865f6b..2334969 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -267,6 +267,10 @@ check-qtest-arm-y += tests/hexloader-test$(EXESUF)
- check-qtest-aarch64-y = tests/numa-test$(EXESUF)
- check-qtest-aarch64-y += tests/boot-serial-test$(EXESUF)
- check-qtest-aarch64-y += tests/migration-test$(EXESUF)
-+# TODO: once aarch64 TCG is fixed on ARM 32 bit host, make test unconditional
-+ifneq ($(ARCH),arm)
-+check-qtest-aarch64-y += tests/bios-tables-test$(EXESUF)
-+endif
- 
- check-qtest-microblazeel-y += $(check-qtest-microblaze-y)
- 
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 28d7d42..1242d63 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -830,6 +830,22 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
-     test_acpi_tcg_dimm_pxm(MACHINE_PC);
- }
- 
-+static void test_acpi_virt_tcg(void)
-+{
-+    test_data data = {
-+        .machine = "virt",
-+        .accel = "tcg",
-+        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-+        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-+        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-+        .ram_start = 0x40000000ULL,
-+        .scan_len = 128ULL * 1024 * 1024,
-+    };
-+
-+    test_acpi_one("-cpu cortex-a57", &data);
-+    free_test_data(&data);
-+}
-+
- int main(int argc, char *argv[])
- {
-     const char *arch = qtest_get_arch();
-@@ -858,6 +874,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-+    } else if (strcmp(arch, "aarch64") == 0) {
-+        qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-     }
-     ret = g_test_run();
-     boot_sector_cleanup(disk);
-diff --git a/tests/data/acpi/rebuild-expected-aml.sh b/tests/data/acpi/rebuild-expected-aml.sh
-index ff7e622..d285321 100755
---- a/tests/data/acpi/rebuild-expected-aml.sh
-+++ b/tests/data/acpi/rebuild-expected-aml.sh
-@@ -12,7 +12,7 @@
- # This work is licensed under the terms of the GNU GPLv2.
- # See the COPYING.LIB file in the top-level directory.
- 
--qemu_bins="x86_64-softmmu/qemu-system-x86_64"
-+qemu_bins="x86_64-softmmu/qemu-system-x86_64 aarch64-softmmu/qemu-system-aarch64"
- 
- if [ ! -e "tests/bios-tables-test" ]; then
-     echo "Test: bios-tables-test is required! Run make check before this script."
--- 
-2.7.4
+>  hw/ppc/spapr.c          |    1 +
+>  hw/ppc/spapr_events.c   |   23 +++++++++++++++++++++++
+>  hw/ppc/spapr_rtas.c     |    5 +++++
+>  include/hw/ppc/spapr.h  |    6 ++++++
+>  target/ppc/kvm.c        |   16 ++++++++++++++++
+>  target/ppc/kvm_ppc.h    |    2 ++
+>  target/ppc/trace-events |    1 +
+>  7 files changed, 54 insertions(+)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index fae28a9..6b6c962 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1809,6 +1809,7 @@ static void spapr_machine_reset(void)
+>  
+>      spapr->cas_reboot = false;
+>  
+> +    spapr->mc_status = -1;
+>      spapr->guest_machine_check_addr = -1;
+>  
+>      /* Signal all vCPUs waiting on this condition */
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index ae0f093..a18446b 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -620,6 +620,29 @@ void spapr_hotplug_req_remove_by_count_indexed(SpaprDrcType drc_type,
+>                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc_id);
+>  }
+>  
+> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+> +{
+> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> +
+> +    while (spapr->mc_status != -1) {
+> +        /*
+> +         * Check whether the same CPU got machine check error
+> +         * while still handling the mc error (i.e., before
+> +         * that CPU called "ibm,nmi-interlock")
+> +         */
+> +        if (spapr->mc_status == cpu->vcpu_id) {
+> +            qemu_system_guest_panicked(NULL);
+> +            return;
+> +        }
+> +        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
+> +        /* Meanwhile if the system is reset, then just return */
+> +        if (spapr->guest_machine_check_addr == -1) {
+> +            return;
+> +        }
+> +    }
+> +    spapr->mc_status = cpu->vcpu_id;
+> +}
+> +
+>  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>                              uint32_t token, uint32_t nargs,
+>                              target_ulong args,
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index e7509cf..e0bdfc8 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -379,6 +379,11 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>          /* NMI register not called */
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>      } else {
+> +        /*
+> +         * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
+> +         * hence unset mc_status.
+> +         */
+> +        spapr->mc_status = -1;
+>          qemu_cond_signal(&spapr->mc_delivery_cond);
+>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>      }
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 9dc5e30..fc3a776 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -190,6 +190,11 @@ struct SpaprMachineState {
+>  
+>      /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls */
+>      target_ulong guest_machine_check_addr;
+> +    /*
+> +     * mc_status is set to -1 if mc is not in progress, else is set to the CPU
+> +     * handling the mc.
+> +     */
+> +    int mc_status;
+>      QemuCond mc_delivery_cond;
+>  
+>      /*< public >*/
+> @@ -793,6 +798,7 @@ void spapr_clear_pending_events(SpaprMachineState *spapr);
+>  int spapr_max_server_number(SpaprMachineState *spapr);
+>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>                        uint64_t pte0, uint64_t pte1);
+> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
+>  
+>  /* DRC callbacks. */
+>  void spapr_core_release(DeviceState *dev);
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 3bf0a46..39f1a73 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -1761,6 +1761,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>          ret = 0;
+>          break;
+>  
+> +    case KVM_EXIT_NMI:
+> +        trace_kvm_handle_nmi_exception();
+> +        ret = kvm_handle_nmi(cpu, run);
+> +        break;
+> +
+>      default:
+>          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+>          ret = -1;
+> @@ -2844,6 +2849,17 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+>      return data & 0xffff;
+>  }
+>  
+> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
+> +{
+> +    bool recovered = run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
+> +
+> +    cpu_synchronize_state(CPU(cpu));
+> +
+> +    spapr_mce_req_event(cpu, recovered);
+> +
+> +    return 0;
+> +}
+> +
+>  int kvmppc_enable_hwrng(void)
+>  {
+>      if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_PPC_HWRNG)) {
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index 45776ca..18693f1 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -81,6 +81,8 @@ bool kvmppc_hpt_needs_host_contiguous_pages(void);
+>  void kvm_check_mmu(PowerPCCPU *cpu, Error **errp);
+>  void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu, unsigned int online);
+>  
+> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run);
+> +
+>  #else
+>  
+>  static inline uint32_t kvmppc_get_tbfreq(void)
+> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
+> index 3dc6740..6d15aa9 100644
+> --- a/target/ppc/trace-events
+> +++ b/target/ppc/trace-events
+> @@ -28,3 +28,4 @@ kvm_handle_papr_hcall(void) "handle PAPR hypercall"
+>  kvm_handle_epr(void) "handle epr"
+>  kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
+>  kvm_handle_debug_exception(void) "handle debug exception"
+> +kvm_handle_nmi_exception(void) "handle NMI exception"
+> 
+> 
 
 
