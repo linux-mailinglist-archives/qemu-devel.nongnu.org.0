@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CC132F65
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:19:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34327 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CACF332F6B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:20:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34331 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXlvZ-0001Rs-Sy
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:19:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60202)
+	id 1hXlwf-0002DM-VA
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:20:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59918)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hXlqU-0006DT-Si
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hXlqV-00067O-4t
 	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:13:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hXldZ-0001qF-OX
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:00:27 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39524)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hXldW-0001in-MO
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:00:25 -0400
+Received: from relay.sw.ru ([185.231.240.75]:39512)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hXldU-00012C-Im; Mon, 03 Jun 2019 08:00:22 -0400
+	id 1hXldU-000129-CF; Mon, 03 Jun 2019 08:00:20 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hXldG-0002hc-Pt; Mon, 03 Jun 2019 15:00:07 +0300
+	id 1hXldH-0002hc-7u; Mon, 03 Jun 2019 15:00:07 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Mon,  3 Jun 2019 15:00:04 +0300
-Message-Id: <20190603120005.37394-4-vsementsov@virtuozzo.com>
+Date: Mon,  3 Jun 2019 15:00:05 +0300
+Message-Id: <20190603120005.37394-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190603120005.37394-1-vsementsov@virtuozzo.com>
 References: <20190603120005.37394-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 3/4] qapi: implement block-dirty-bitmap-remove
- transaction action
+Subject: [Qemu-devel] [PATCH 4/4] iotests: test bitmap moving inside 254
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,158 +52,188 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is used to do transactional movement of the bitmap (which is
-possible in conjunction with merge command). Transactional bitmap
-movement is needed in scenarios with external snapshot, when we don't
-want to leave copy of the bitmap in the base image.
+Test persistent bitmap copying with and without removal of original
+bitmap.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qapi/transaction.json |  2 ++
- blockdev.c            | 74 +++++++++++++++++++++++++++++++++++++++----
- 2 files changed, 70 insertions(+), 6 deletions(-)
+ tests/qemu-iotests/254     | 30 +++++++++++++-
+ tests/qemu-iotests/254.out | 82 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 110 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index 95edb78227..da95b804aa 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -45,6 +45,7 @@
+diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
+index 33cb80a512..05afc6d6f1 100755
+--- a/tests/qemu-iotests/254
++++ b/tests/qemu-iotests/254
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env python
  #
- # - @abort: since 1.6
- # - @block-dirty-bitmap-add: since 2.5
-+# - @block-dirty-bitmap-remove: since 4.1
- # - @block-dirty-bitmap-clear: since 2.5
- # - @block-dirty-bitmap-enable: since 4.0
- # - @block-dirty-bitmap-disable: since 4.0
-@@ -61,6 +62,7 @@
-   'data': {
-        'abort': 'Abort',
-        'block-dirty-bitmap-add': 'BlockDirtyBitmapAdd',
-+       'block-dirty-bitmap-remove': 'BlockDirtyBitmap',
-        'block-dirty-bitmap-clear': 'BlockDirtyBitmap',
-        'block-dirty-bitmap-enable': 'BlockDirtyBitmap',
-        'block-dirty-bitmap-disable': 'BlockDirtyBitmap',
-diff --git a/blockdev.c b/blockdev.c
-index 5b3eef0d3e..0d9aa7f0a1 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2135,6 +2135,46 @@ static void block_dirty_bitmap_merge_prepare(BlkActionState *common,
-                                                 errp);
- }
+-# Test external snapshot with bitmap copying.
++# Test external snapshot with bitmap copying and moving.
+ #
+ # Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
+ #
+@@ -30,6 +30,10 @@ vm = iotests.VM().add_drive(disk, opts='node-name=base')
+ vm.launch()
  
-+static BdrvDirtyBitmap *do_block_dirty_bitmap_remove(
-+        const char *node, const char *name, bool release,
-+        BlockDriverState **bitmap_bs, Error **errp);
+ vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap0')
++vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap1',
++           persistent=True)
++vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap2',
++           persistent=True)
+ 
+ vm.hmp_qemu_io('drive0', 'write 0 512K')
+ 
+@@ -37,16 +41,38 @@ vm.qmp_log('transaction', indent=2, actions=[
+     {'type': 'blockdev-snapshot-sync',
+      'data': {'device': 'drive0', 'snapshot-file': top,
+               'snapshot-node-name': 'snap'}},
 +
-+static void block_dirty_bitmap_remove_prepare(BlkActionState *common,
-+                                              Error **errp)
-+{
-+    BlockDirtyBitmap *action;
-+    BlockDirtyBitmapState *state = DO_UPCAST(BlockDirtyBitmapState,
-+                                             common, common);
++    # copy non-persistent bitmap0
+     {'type': 'block-dirty-bitmap-add',
+      'data': {'node': 'snap', 'name': 'bitmap0'}},
+     {'type': 'block-dirty-bitmap-merge',
+      'data': {'node': 'snap', 'target': 'bitmap0',
+-              'bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}}
++              'bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}},
 +
-+    if (action_check_completion_mode(common, errp) < 0) {
-+        return;
-+    }
++    # copy persistent bitmap1, original will be saved to base image
++    {'type': 'block-dirty-bitmap-add',
++     'data': {'node': 'snap', 'name': 'bitmap1', 'persistent': True}},
++    {'type': 'block-dirty-bitmap-merge',
++     'data': {'node': 'snap', 'target': 'bitmap1',
++              'bitmaps': [{'node': 'base', 'name': 'bitmap1'}]}},
 +
-+    action = common->action->u.block_dirty_bitmap_remove.data;
-+
-+    state->bitmap = do_block_dirty_bitmap_remove(action->node, action->name,
-+                                                 false, &state->bs, errp);
-+    if (state->bitmap) {
-+        bdrv_dirty_bitmap_hide(state->bitmap);
-+    }
-+}
-+
-+static void block_dirty_bitmap_remove_abort(BlkActionState *common)
-+{
-+    BlockDirtyBitmapState *state = DO_UPCAST(BlockDirtyBitmapState,
-+                                             common, common);
-+
-+    bdrv_dirty_bitmap_unhide(state->bitmap);
-+}
-+
-+static void block_dirty_bitmap_remove_commit(BlkActionState *common)
-+{
-+    BlockDirtyBitmapState *state = DO_UPCAST(BlockDirtyBitmapState,
-+                                             common, common);
-+
-+    bdrv_release_dirty_bitmap(state->bs, state->bitmap);
-+}
-+
- static void abort_prepare(BlkActionState *common, Error **errp)
++    # move persistent bitmap1, original will be removed and not saved
++    # to base image
++    {'type': 'block-dirty-bitmap-add',
++     'data': {'node': 'snap', 'name': 'bitmap2', 'persistent': True}},
++    {'type': 'block-dirty-bitmap-merge',
++     'data': {'node': 'snap', 'target': 'bitmap2',
++              'bitmaps': [{'node': 'base', 'name': 'bitmap2'}]}},
++    {'type': 'block-dirty-bitmap-remove',
++     'data': {'node': 'base', 'name': 'bitmap2'}}
+ ], filters=[iotests.filter_qmp_testfiles])
+ 
+ result = vm.qmp('query-block')['return'][0]
+ log("query-block: device = {}, node-name = {}, dirty-bitmaps:".format(
+     result['device'], result['inserted']['node-name']))
+ log(result['dirty-bitmaps'], indent=2)
++log("\nbitmaps in backing image:")
++log(result['inserted']['image']['backing-image']['format-specific'] \
++    ['data']['bitmaps'], indent=2)
+ 
+ vm.shutdown()
+diff --git a/tests/qemu-iotests/254.out b/tests/qemu-iotests/254.out
+index d7394cf002..d185c0532f 100644
+--- a/tests/qemu-iotests/254.out
++++ b/tests/qemu-iotests/254.out
+@@ -1,5 +1,9 @@
+ {"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0"}}
+ {"return": {}}
++{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap1", "node": "drive0", "persistent": true}}
++{"return": {}}
++{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap2", "node": "drive0", "persistent": true}}
++{"return": {}}
  {
-     error_setg(errp, "Transaction aborted using Abort action");
-@@ -2212,6 +2252,12 @@ static const BlkActionOps actions[] = {
-         .commit = block_dirty_bitmap_free_backup,
-         .abort = block_dirty_bitmap_restore,
-     },
-+    [TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_REMOVE] = {
-+        .instance_size = sizeof(BlockDirtyBitmapState),
-+        .prepare = block_dirty_bitmap_remove_prepare,
-+        .commit = block_dirty_bitmap_remove_commit,
-+        .abort = block_dirty_bitmap_remove_abort,
-+    },
-     /* Where are transactions for MIRROR, COMMIT and STREAM?
-      * Although these blockjobs use transaction callbacks like the backup job,
-      * these jobs do not necessarily adhere to transaction semantics.
-@@ -2870,20 +2916,21 @@ void qmp_block_dirty_bitmap_add(const char *node, const char *name,
-     bdrv_dirty_bitmap_set_persistence(bitmap, persistent);
+   "execute": "transaction",
+   "arguments": {
+@@ -31,6 +35,55 @@
+           "target": "bitmap0"
+         },
+         "type": "block-dirty-bitmap-merge"
++      },
++      {
++        "data": {
++          "name": "bitmap1",
++          "node": "snap",
++          "persistent": true
++        },
++        "type": "block-dirty-bitmap-add"
++      },
++      {
++        "data": {
++          "bitmaps": [
++            {
++              "name": "bitmap1",
++              "node": "base"
++            }
++          ],
++          "node": "snap",
++          "target": "bitmap1"
++        },
++        "type": "block-dirty-bitmap-merge"
++      },
++      {
++        "data": {
++          "name": "bitmap2",
++          "node": "snap",
++          "persistent": true
++        },
++        "type": "block-dirty-bitmap-add"
++      },
++      {
++        "data": {
++          "bitmaps": [
++            {
++              "name": "bitmap2",
++              "node": "base"
++            }
++          ],
++          "node": "snap",
++          "target": "bitmap2"
++        },
++        "type": "block-dirty-bitmap-merge"
++      },
++      {
++        "data": {
++          "name": "bitmap2",
++          "node": "base"
++        },
++        "type": "block-dirty-bitmap-remove"
+       }
+     ]
+   }
+@@ -40,6 +93,24 @@
  }
- 
--void qmp_block_dirty_bitmap_remove(const char *node, const char *name,
--                                   Error **errp)
-+static BdrvDirtyBitmap *do_block_dirty_bitmap_remove(
-+        const char *node, const char *name, bool release,
-+        BlockDriverState **bitmap_bs, Error **errp)
- {
-     BlockDriverState *bs;
-     BdrvDirtyBitmap *bitmap;
- 
-     bitmap = block_dirty_bitmap_lookup(node, name, &bs, errp);
-     if (!bitmap || !bs) {
--        return;
-+        return NULL;
-     }
- 
-     if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_BUSY | BDRV_BITMAP_RO,
-                                 errp)) {
--        return;
-+        return NULL;
-     }
- 
-     if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
-@@ -2893,13 +2940,28 @@ void qmp_block_dirty_bitmap_remove(const char *node, const char *name,
-         aio_context_acquire(aio_context);
-         bdrv_remove_persistent_dirty_bitmap(bs, name, &local_err);
-         aio_context_release(aio_context);
+ query-block: device = drive0, node-name = snap, dirty-bitmaps:
+ [
++  {
++    "busy": false,
++    "count": 524288,
++    "granularity": 65536,
++    "name": "bitmap2",
++    "persistent": true,
++    "recording": true,
++    "status": "active"
++  },
++  {
++    "busy": false,
++    "count": 524288,
++    "granularity": 65536,
++    "name": "bitmap1",
++    "persistent": true,
++    "recording": true,
++    "status": "active"
++  },
+   {
+     "busy": false,
+     "count": 524288,
+@@ -50,3 +121,14 @@ query-block: device = drive0, node-name = snap, dirty-bitmaps:
+     "status": "active"
+   }
+ ]
 +
-         if (local_err != NULL) {
-             error_propagate(errp, local_err);
--            return;
-+            return NULL;
-         }
-     }
- 
--    bdrv_release_dirty_bitmap(bs, bitmap);
-+    if (release) {
-+        bdrv_release_dirty_bitmap(bs, bitmap);
-+    }
-+
-+    if (bitmap_bs) {
-+        *bitmap_bs = bs;
-+    }
-+
-+    return bitmap;
-+}
-+
-+void qmp_block_dirty_bitmap_remove(const char *node, const char *name,
-+                                   Error **errp)
-+{
-+    do_block_dirty_bitmap_remove(node, name, true, NULL, errp);
- }
- 
- /**
++bitmaps in backing image:
++[
++  {
++    "flags": [
++      "auto"
++    ],
++    "granularity": 65536,
++    "name": "bitmap1"
++  }
++]
 -- 
 2.18.0
 
