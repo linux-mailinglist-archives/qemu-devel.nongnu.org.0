@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CFC33670
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:21:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38385 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB73233656
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 19:16:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38329 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXqeD-0005rH-F0
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:21:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43337)
+	id 1hXqZl-0002Oh-Uq
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 13:16:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43386)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUN-0007In-Pv
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:17 -0400
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUQ-0007LL-2I
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUL-0004Oo-RS
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:15 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52202)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hXqUN-0004SK-ST
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:17 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52020)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hXqUK-0004Dk-3D
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:13 -0400
-Received: by mail-wm1-x332.google.com with SMTP id f10so12032738wmb.1
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:08 -0700 (PDT)
+	id 1hXqUL-0004Fd-Q2
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 13:11:15 -0400
+Received: by mail-wm1-x343.google.com with SMTP id f10so12032812wmb.1
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 10:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:subject:date:message-id:in-reply-to:references;
-	bh=h9pzJqBxd1kk+NLb46bmp/qSs2GUDyrQqgzMDq+2xko=;
-	b=hj7e8FEFqKcjeeUtbFPHKlavoi+VdSRPx1eo1J/nNba+Qu8/fm/x5fxagN5We+fnJG
-	LFxGNQkYuc+uBCf6/ygC5CdaL4luMYIZbaghVEgsIiSoPiYMQVAlS6Xm9VnzfUfCAKr/
-	/9SYqLkbhuYNy6Pv6rdcZbrwiJvJw1fjJu4Rm3Fhjk7KaGaRi0adsuerJc3Zb6IbP5jQ
-	d1qMoCTsazk57rxFjWs48LT8ufUvQAYjsR9pTElSPwvmg597F+4R8jRdYe01cynhzBLH
-	F6I92gcGeG8FLkfg32Gc1NFBoJB/sauU+/mbu39xIPSLUzFEAuZBO+m2a4kfXM65DmTv
-	xMOw==
+	bh=OCnCbQhO61/vRWDJ8AvVMz35F+DknibMXLjAc1BFL1E=;
+	b=D81g9cSoyRGsISBVmg/BOqx7IMNsebeVQpAfm10fUneA3U6ZEjccJpy/yNFRqzSJuz
+	55QwGzKvUipmWUr9FeYO0s1jVnwbcwNpWN0Ab3EeOM8PYKWMKD8tR+5Kt7wLbN6i5Ic9
+	YL8PLL/F27rkGmUP171gMJ89Xi3jeCSv5Wqwfx0sS/DoJoxHvjVYqqCHcywelYDz4D8Z
+	tH8ojA3xs0aHIbeJOjajPcfw2BQN/4NYqf9r/P2Tx1itiqYaeEtJNrvngiWtzDA0mWPT
+	xjhHqK4XvWdiNDvxUGJvImgHN+eGFTn3Kci/BV1qWCa2QxL9KP7F8LRQO2bLfy2lslRv
+	9fzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:subject:date:message-id
 	:in-reply-to:references;
-	bh=h9pzJqBxd1kk+NLb46bmp/qSs2GUDyrQqgzMDq+2xko=;
-	b=SbUqemZEpIbkUudE9jSvkpTRkZpvYFpa1yjuAOxDWKCWFh8tnDngB7jS3hrlPfLHNe
-	VbV5EQREmitAlRRVPKevCUXFL+XcbWrc+Gora9a2MOU0g7eCHlY6JNKyGf3DggjTalNN
-	C/Ffd+iHkiq1B/wdwd1tIDcRZXTem0SdxsKa1uK29L8M3OiYNw4g15BWFBegUzwy08XC
-	H8cY20d51P/vKMHqgpoE7/qt97nWzyO2cI0nKzL+gFLbYZWQsqjLhx+dbiQDbI5VMrW3
-	AUb9YdkUcNRsAlFM04LtFq2VfONgn2ASS/x/TG3THzaRJT2sOmzv5L7b8GaFTVGD2orY
-	2ugw==
-X-Gm-Message-State: APjAAAXKPkl2A8Z28NpCg9DKonX4RCzMm1WI6hC6GesIJ7Tz99nGb2Kh
-	AuyrXgnqFietLQv0VqSUNZNXTWJg
-X-Google-Smtp-Source: APXvYqxffzkArju12RGf1wqQQhU3KLhy9sC8RcZGSHNDaOQrTt6BTvnoJzaXeS1AKWceb2y2pJhLhQ==
-X-Received: by 2002:a05:600c:2182:: with SMTP id
-	e2mr11000461wme.55.1559581866680; 
-	Mon, 03 Jun 2019 10:11:06 -0700 (PDT)
+	bh=OCnCbQhO61/vRWDJ8AvVMz35F+DknibMXLjAc1BFL1E=;
+	b=snPA3DRTKDabquqSQeHyuEdOIWsll8Z5j67hDADdp1orQ6zEh8OBX5jGORC3ojfAHI
+	rLlTLk1lW0aAVxtpYqH9vgaW3u2D0xuWZaFiv/cVgP1saPLVwAFYGKYihzIM1TATL7FL
+	VZiwnUsgQ5iIfS0quKxclCAxYmr+GQjiPFgtmUe4nxKRymhtaJsSQaUSNykTyIAp1fFa
+	oOxBpttHvak+scn7FG4Gm1vbV8t6jlgZitD5hfu2DtJ5KRyvdmAEY9H7/0+KXGas1NcQ
+	0cOSrqBBH4c6+73BJb9N4k6+4zMqmGUfdxpeKf8UD5vvY7trhQfQROjREg0CdL4LSB1i
+	ZkQg==
+X-Gm-Message-State: APjAAAWlBfXuwEfkICRyN+XBoa3bf0P1KAf+S7b6D9QRxOSYgyI7OWKd
+	FnAKjsXIXm2I2fFn4/u6fH4+a/C6
+X-Google-Smtp-Source: APXvYqwC7e4iB9ldoQOLWAmZva6erL6IMCtLdAIlGJ1ad4YOONh2REUuPrgX5WfaiFYlJdUbhVoSpw==
+X-Received: by 2002:a1c:ab42:: with SMTP id u63mr15546580wme.130.1559581867694;
+	Mon, 03 Jun 2019 10:11:07 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
-	r131sm3325045wmf.4.2019.06.03.10.11.05 for <qemu-devel@nongnu.org>
+	r131sm3325045wmf.4.2019.06.03.10.11.06 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 10:11:05 -0700 (PDT)
+	Mon, 03 Jun 2019 10:11:06 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  3 Jun 2019 19:10:39 +0200
-Message-Id: <1559581843-3968-21-git-send-email-pbonzini@redhat.com>
+Date: Mon,  3 Jun 2019 19:10:40 +0200
+Message-Id: <1559581843-3968-22-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 References: <1559581843-3968-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::332
-Subject: [Qemu-devel] [PULL 20/24] tests: convert ds1338-test to qtest
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PULL 21/24] libqos: i2c: move address into QI2CDevice
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,180 +77,393 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This way, ds1338-test will run for every machine that exposes
-an i2c-bus.
+This removes the hardcoded I2C address from the tests.  The address
+is passed via QOSGraphEdgeOptions to i2c_device_create and stored
+in the QI2CDevice.
+
+The i2c_send and i2c_recv functions, along with their wrappers,
+therefore, can be changed to take a QI2CDevice rather than an
+adapter/address pair.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/Makefile.include |  9 ++++-----
- tests/ds1338-test.c    | 37 +++++++++++++------------------------
- tests/libqos/i2c-imx.c | 19 -------------------
- tests/libqos/i2c.h     |  2 --
- 4 files changed, 17 insertions(+), 50 deletions(-)
+ tests/ds1338-test.c  |  4 ++--
+ tests/libqos/i2c.c   | 51 +++++++++++++++++++++++++++++----------------------
+ tests/libqos/i2c.h   | 27 +++++++++++++++------------
+ tests/pca9552-test.c | 31 ++++++++++++++-----------------
+ tests/tmp105-test.c  | 44 ++++++++++++++++++++++----------------------
+ 5 files changed, 82 insertions(+), 75 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 0f1ddde..46a36c2 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -255,7 +255,6 @@ check-qtest-sparc64-$(CONFIG_ISA_TESTDEV) = tests/endianness-test$(EXESUF)
- check-qtest-sparc64-y += tests/prom-env-test$(EXESUF)
- check-qtest-sparc64-y += tests/boot-serial-test$(EXESUF)
- 
--check-qtest-arm-y += tests/ds1338-test$(EXESUF)
- check-qtest-arm-y += tests/microbit-test$(EXESUF)
- check-qtest-arm-y += tests/m25p80-test$(EXESUF)
- check-qtest-arm-y += tests/test-arm-mptimer$(EXESUF)
-@@ -676,7 +675,7 @@ libqgraph-obj-y = tests/libqos/qgraph.o
- 
- libqos-obj-y = $(libqgraph-obj-y) tests/libqos/pci.o tests/libqos/fw_cfg.o
- libqos-obj-y += tests/libqos/malloc.o
--libqos-obj-y += tests/libqos/i2c.o tests/libqos/libqos.o
-+libqos-obj-y += tests/libqos/libqos.o
- libqos-spapr-obj-y = $(libqos-obj-y) tests/libqos/malloc-spapr.o
- libqos-spapr-obj-y += tests/libqos/libqos-spapr.o
- libqos-spapr-obj-y += tests/libqos/rtas.o
-@@ -684,14 +683,14 @@ libqos-spapr-obj-y += tests/libqos/pci-spapr.o
- libqos-pc-obj-y = $(libqos-obj-y) tests/libqos/pci-pc.o
- libqos-pc-obj-y += tests/libqos/malloc-pc.o tests/libqos/libqos-pc.o
- libqos-pc-obj-y += tests/libqos/ahci.o
--libqos-imx-obj-y = $(libqos-obj-y) tests/libqos/i2c-imx.o
- libqos-usb-obj-y = $(libqos-spapr-obj-y) $(libqos-pc-obj-y) tests/libqos/usb.o
- 
- # Devices
- qos-test-obj-y = tests/qos-test.o $(libqgraph-obj-y)
- qos-test-obj-y += $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
- qos-test-obj-y += tests/libqos/e1000e.o
--qos-test-obj-y += $(libqos-imx-obj-y)
-+qos-test-obj-y += tests/libqos/i2c.o
-+qos-test-obj-y += tests/libqos/i2c-imx.o
- qos-test-obj-y += tests/libqos/i2c-omap.o
- qos-test-obj-y += tests/libqos/sdhci.o
- qos-test-obj-y += tests/libqos/tpci200.o
-@@ -720,6 +719,7 @@ qos-test-obj-y += tests/libqos/x86_64_pc-machine.o
- 
- # Tests
- qos-test-obj-y += tests/ac97-test.o
-+qos-test-obj-y += tests/ds1338-test.o
- qos-test-obj-y += tests/e1000-test.o
- qos-test-obj-y += tests/e1000e-test.o
- qos-test-obj-y += tests/eepro100-test.o
-@@ -771,7 +771,6 @@ tests/boot-serial-test$(EXESUF): tests/boot-serial-test.o $(libqos-obj-y)
- tests/bios-tables-test$(EXESUF): tests/bios-tables-test.o \
- 	tests/boot-sector.o tests/acpi-utils.o $(libqos-obj-y)
- tests/pxe-test$(EXESUF): tests/pxe-test.o tests/boot-sector.o $(libqos-obj-y)
--tests/ds1338-test$(EXESUF): tests/ds1338-test.o $(libqos-imx-obj-y)
- tests/microbit-test$(EXESUF): tests/microbit-test.o
- tests/m25p80-test$(EXESUF): tests/m25p80-test.o
- tests/i440fx-test$(EXESUF): tests/i440fx-test.o $(libqos-pc-obj-y)
 diff --git a/tests/ds1338-test.c b/tests/ds1338-test.c
-index bd72a15..fd8fbad 100644
+index fd8fbad..f6ade9a 100644
 --- a/tests/ds1338-test.c
 +++ b/tests/ds1338-test.c
-@@ -21,25 +21,23 @@
- #include "libqtest.h"
- #include "libqos/i2c.h"
- 
--#define IMX25_I2C_0_BASE 0x43F80000
--
- #define DS1338_ADDR 0x68
- 
--static I2CAdapter *i2c;
--static uint8_t addr;
--
- static inline uint8_t bcd2bin(uint8_t x)
+@@ -31,13 +31,12 @@ static inline uint8_t bcd2bin(uint8_t x)
+ static void send_and_receive(void *obj, void *data, QGuestAllocator *alloc)
  {
-     return ((x) & 0x0f) + ((x) >> 4) * 10;
- }
+     QI2CDevice *i2cdev = (QI2CDevice *)obj;
+-    I2CAdapter *i2c = i2cdev->bus;
  
--static void send_and_receive(void)
-+static void send_and_receive(void *obj, void *data, QGuestAllocator *alloc)
- {
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    I2CAdapter *i2c = i2cdev->bus;
-+
      uint8_t resp[7];
      time_t now = time(NULL);
      struct tm *tm_ptr = gmtime(&now);
  
--    i2c_read_block(i2c, addr, 0, resp, sizeof(resp));
-+    i2c_read_block(i2c, DS1338_ADDR, 0, resp, sizeof(resp));
+-    i2c_read_block(i2c, DS1338_ADDR, 0, resp, sizeof(resp));
++    i2c_read_block(i2cdev, 0, resp, sizeof(resp));
  
      /* check retrieved time againt local time */
      g_assert_cmpuint(bcd2bin(resp[4]), == , tm_ptr->tm_mday);
-@@ -47,23 +45,14 @@ static void send_and_receive(void)
-     g_assert_cmpuint(2000 + bcd2bin(resp[6]), == , 1900 + tm_ptr->tm_year);
- }
+@@ -50,6 +49,7 @@ static void ds1338_register_nodes(void)
+     QOSGraphEdgeOptions opts = {
+         .extra_device_opts = "address=0x68"
+     };
++    add_qi2c_address(&opts, &(QI2CAddress) { DS1338_ADDR });
  
--int main(int argc, char **argv)
-+static void ds1338_register_nodes(void)
+     qos_node_create_driver("ds1338", i2c_device_create);
+     qos_node_consumes("ds1338", "i2c-bus", &opts);
+diff --git a/tests/libqos/i2c.c b/tests/libqos/i2c.c
+index 8117d13..156114e 100644
+--- a/tests/libqos/i2c.c
++++ b/tests/libqos/i2c.c
+@@ -10,63 +10,59 @@
+ #include "libqos/i2c.h"
+ #include "libqtest.h"
+ 
+-void i2c_send(I2CAdapter *i2c, uint8_t addr,
+-              const uint8_t *buf, uint16_t len)
++void i2c_send(QI2CDevice *i2cdev, const uint8_t *buf, uint16_t len)
  {
--    QTestState *s = NULL;
--    int ret;
--
--    g_test_init(&argc, &argv, NULL);
--
--    s = qtest_start("-display none -machine imx25-pdk -device ds1338,address=0x68");
--    i2c = imx_i2c_create(s, IMX25_I2C_0_BASE);
--    addr = DS1338_ADDR;
--
--    qtest_add_func("/ds1338/tx-rx", send_and_receive);
--
--    ret = g_test_run();
--
--    qtest_quit(s);
--    g_free(i2c);
-+    QOSGraphEdgeOptions opts = {
-+        .extra_device_opts = "address=0x68"
-+    };
- 
--    return ret;
-+    qos_node_create_driver("ds1338", i2c_device_create);
-+    qos_node_consumes("ds1338", "i2c-bus", &opts);
-+    qos_add_test("tx-rx", "ds1338", send_and_receive, NULL);
- }
-+libqos_init(ds1338_register_nodes);
-diff --git a/tests/libqos/i2c-imx.c b/tests/libqos/i2c-imx.c
-index 86d84a7..f33ece5 100644
---- a/tests/libqos/i2c-imx.c
-+++ b/tests/libqos/i2c-imx.c
-@@ -207,25 +207,6 @@ void imx_i2c_init(IMXI2C *s, QTestState *qts, uint64_t addr)
-     s->parent.qts = qts;
+-    i2c->send(i2c, addr, buf, len);
++    i2cdev->bus->send(i2cdev->bus, i2cdev->addr, buf, len);
  }
  
--I2CAdapter *imx_i2c_create(QTestState *qts, uint64_t addr)
--{
--    IMXI2C *s = g_malloc0(sizeof(*s));
--
--    imx_i2c_init(s, qts, addr);
--    return &s->parent;
--}
--
--void imx_i2c_free(I2CAdapter *i2c)
--{
--    IMXI2C *s;
--
--    if (!i2c) {
--        return;
--    }
--    s = container_of(i2c, IMXI2C, parent);
--    g_free(s);
--}
--
- static void imx_i2c_register_nodes(void)
+-void i2c_recv(I2CAdapter *i2c, uint8_t addr,
+-              uint8_t *buf, uint16_t len)
++void i2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
  {
-     qos_node_create_driver("imx.i2c", NULL);
+-    i2c->recv(i2c, addr, buf, len);
++    i2cdev->bus->recv(i2cdev->bus, i2cdev->addr, buf, len);
+ }
+ 
+-void i2c_read_block(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
+-                       uint8_t *buf, uint16_t len)
++void i2c_read_block(QI2CDevice *i2cdev, uint8_t reg,
++                    uint8_t *buf, uint16_t len)
+ {
+-    i2c_send(i2c, addr, &reg, 1);
+-    i2c_recv(i2c, addr, buf, len);
++    i2c_send(i2cdev, &reg, 1);
++    i2c_recv(i2cdev, buf, len);
+ }
+ 
+-void i2c_write_block(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
++void i2c_write_block(QI2CDevice *i2cdev, uint8_t reg,
+                      const uint8_t *buf, uint16_t len)
+ {
+     uint8_t *cmd = g_malloc(len + 1);
+     cmd[0] = reg;
+     memcpy(&cmd[1], buf, len);
+-    i2c_send(i2c, addr, cmd, len + 1);
++    i2c_send(i2cdev, cmd, len + 1);
+     g_free(cmd);
+ }
+ 
+-uint8_t i2c_get8(I2CAdapter *i2c, uint8_t addr, uint8_t reg)
++uint8_t i2c_get8(QI2CDevice *i2cdev, uint8_t reg)
+ {
+     uint8_t resp[1];
+-    i2c_read_block(i2c, addr, reg, resp, sizeof(resp));
++    i2c_read_block(i2cdev, reg, resp, sizeof(resp));
+     return resp[0];
+ }
+ 
+-uint16_t i2c_get16(I2CAdapter *i2c, uint8_t addr, uint8_t reg)
++uint16_t i2c_get16(QI2CDevice *i2cdev, uint8_t reg)
+ {
+     uint8_t resp[2];
+-    i2c_read_block(i2c, addr, reg, resp, sizeof(resp));
++    i2c_read_block(i2cdev, reg, resp, sizeof(resp));
+     return (resp[0] << 8) | resp[1];
+ }
+ 
+-void i2c_set8(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
+-              uint8_t value)
++void i2c_set8(QI2CDevice *i2cdev, uint8_t reg, uint8_t value)
+ {
+-    i2c_write_block(i2c, addr, reg, &value, 1);
++    i2c_write_block(i2cdev, reg, &value, 1);
+ }
+ 
+-void i2c_set16(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
+-               uint16_t value)
++void i2c_set16(QI2CDevice *i2cdev, uint8_t reg, uint16_t value)
+ {
+     uint8_t data[2];
+ 
+     data[0] = value >> 8;
+     data[1] = value & 255;
+-    i2c_write_block(i2c, addr, reg, data, sizeof(data));
++    i2c_write_block(i2cdev, reg, data, sizeof(data));
+ }
+ 
+ void *i2c_device_create(void *i2c_bus, QGuestAllocator *alloc, void *addr)
+@@ -74,5 +70,16 @@ void *i2c_device_create(void *i2c_bus, QGuestAllocator *alloc, void *addr)
+     QI2CDevice *i2cdev = g_new0(QI2CDevice, 1);
+ 
+     i2cdev->bus = i2c_bus;
++    if (addr) {
++        i2cdev->addr = ((QI2CAddress *)addr)->addr;
++    }
+     return &i2cdev->obj;
+ }
++
++void add_qi2c_address(QOSGraphEdgeOptions *opts, QI2CAddress *addr)
++{
++    g_assert(addr);
++
++    opts->arg = addr;
++    opts->size_arg = sizeof(QI2CAddress);
++}
 diff --git a/tests/libqos/i2c.h b/tests/libqos/i2c.h
-index 66b0e0d..2c8cc3e 100644
+index 2c8cc3e..945b65b 100644
 --- a/tests/libqos/i2c.h
 +++ b/tests/libqos/i2c.h
-@@ -75,7 +75,5 @@ typedef struct IMXI2C {
- } IMXI2C;
+@@ -22,6 +22,11 @@ struct I2CAdapter {
+     QTestState *qts;
+ };
  
- void imx_i2c_init(IMXI2C *s, QTestState *qts, uint64_t addr);
--I2CAdapter *imx_i2c_create(QTestState *qts, uint64_t addr);
--void imx_i2c_free(I2CAdapter *i2c);
++typedef struct QI2CAddress QI2CAddress;
++struct QI2CAddress {
++    uint8_t addr;
++};
++
+ typedef struct QI2CDevice QI2CDevice;
+ struct QI2CDevice {
+     /*
+@@ -36,25 +41,23 @@ struct QI2CDevice {
+      */
+     QOSGraphObject obj;
+     I2CAdapter *bus;
++    uint8_t addr;
+ };
  
- #endif
+ void *i2c_device_create(void *i2c_bus, QGuestAllocator *alloc, void *addr);
++void add_qi2c_address(QOSGraphEdgeOptions *opts, QI2CAddress *addr);
+ 
+-void i2c_send(I2CAdapter *i2c, uint8_t addr,
+-              const uint8_t *buf, uint16_t len);
+-void i2c_recv(I2CAdapter *i2c, uint8_t addr,
+-              uint8_t *buf, uint16_t len);
++void i2c_send(QI2CDevice *dev, const uint8_t *buf, uint16_t len);
++void i2c_recv(QI2CDevice *dev, uint8_t *buf, uint16_t len);
+ 
+-void i2c_read_block(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
++void i2c_read_block(QI2CDevice *dev, uint8_t reg,
+                     uint8_t *buf, uint16_t len);
+-void i2c_write_block(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
++void i2c_write_block(QI2CDevice *dev, uint8_t reg,
+                      const uint8_t *buf, uint16_t len);
+-uint8_t i2c_get8(I2CAdapter *i2c, uint8_t addr, uint8_t reg);
+-uint16_t i2c_get16(I2CAdapter *i2c, uint8_t addr, uint8_t reg);
+-void i2c_set8(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
+-              uint8_t value);
+-void i2c_set16(I2CAdapter *i2c, uint8_t addr, uint8_t reg,
+-               uint16_t value);
++uint8_t i2c_get8(QI2CDevice *dev, uint8_t reg);
++uint16_t i2c_get16(QI2CDevice *dev, uint8_t reg);
++void i2c_set8(QI2CDevice *dev, uint8_t reg, uint8_t value);
++void i2c_set16(QI2CDevice *dev, uint8_t reg, uint16_t value);
+ 
+ /* i2c-omap.c */
+ typedef struct OMAPI2C {
+diff --git a/tests/pca9552-test.c b/tests/pca9552-test.c
+index 0598d0b..4b800d3 100644
+--- a/tests/pca9552-test.c
++++ b/tests/pca9552-test.c
+@@ -19,65 +19,61 @@
+ 
+ static void pca9552_init(QI2CDevice *i2cdev)
+ {
+-    I2CAdapter *i2c = i2cdev->bus;
+-
+     /* Switch on LEDs 0 and 12 */
+-    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0, 0x54);
+-    i2c_set8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3, 0x54);
++    i2c_set8(i2cdev, PCA9552_LS0, 0x54);
++    i2c_set8(i2cdev, PCA9552_LS3, 0x54);
+ }
+ 
+ static void receive_autoinc(void *obj, void *data, QGuestAllocator *alloc)
+ {
+     QI2CDevice *i2cdev = (QI2CDevice *)obj;
+-    I2CAdapter *i2c = i2cdev->bus;
+     uint8_t resp;
+     uint8_t reg = PCA9552_LS0 | PCA9552_AUTOINC;
+ 
+     pca9552_init(i2cdev);
+ 
+-    i2c_send(i2c, PCA9552_TEST_ADDR, &reg, 1);
++    i2c_send(i2cdev, &reg, 1);
+ 
+     /* PCA9552_LS0 */
+-    i2c_recv(i2c, PCA9552_TEST_ADDR, &resp, 1);
++    i2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, ==, 0x54);
+ 
+     /* PCA9552_LS1 */
+-    i2c_recv(i2c, PCA9552_TEST_ADDR, &resp, 1);
++    i2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, ==, 0x55);
+ 
+     /* PCA9552_LS2 */
+-    i2c_recv(i2c, PCA9552_TEST_ADDR, &resp, 1);
++    i2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, ==, 0x55);
+ 
+     /* PCA9552_LS3 */
+-    i2c_recv(i2c, PCA9552_TEST_ADDR, &resp, 1);
++    i2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, ==, 0x54);
+ }
+ 
+ static void send_and_receive(void *obj, void *data, QGuestAllocator *alloc)
+ {
+     QI2CDevice *i2cdev = (QI2CDevice *)obj;
+-    I2CAdapter *i2c = i2cdev->bus;
+     uint8_t value;
+ 
+-    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0);
++    value = i2c_get8(i2cdev, PCA9552_LS0);
+     g_assert_cmphex(value, ==, 0x55);
+ 
+-    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
++    value = i2c_get8(i2cdev, PCA9552_INPUT0);
+     g_assert_cmphex(value, ==, 0x0);
+ 
+     pca9552_init(i2cdev);
+ 
+-    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS0);
++    value = i2c_get8(i2cdev, PCA9552_LS0);
+     g_assert_cmphex(value, ==, 0x54);
+ 
+-    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT0);
++    value = i2c_get8(i2cdev, PCA9552_INPUT0);
+     g_assert_cmphex(value, ==, 0x01);
+ 
+-    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_LS3);
++    value = i2c_get8(i2cdev, PCA9552_LS3);
+     g_assert_cmphex(value, ==, 0x54);
+ 
+-    value = i2c_get8(i2c, PCA9552_TEST_ADDR, PCA9552_INPUT1);
++    value = i2c_get8(i2cdev, PCA9552_INPUT1);
+     g_assert_cmphex(value, ==, 0x10);
+ }
+ 
+@@ -86,6 +82,7 @@ static void pca9552_register_nodes(void)
+     QOSGraphEdgeOptions opts = {
+         .extra_device_opts = "address=0x60"
+     };
++    add_qi2c_address(&opts, &(QI2CAddress) { 0x60 });
+ 
+     qos_node_create_driver("pca9552", i2c_device_create);
+     qos_node_consumes("pca9552", "i2c-bus", &opts);
+diff --git a/tests/tmp105-test.c b/tests/tmp105-test.c
+index 40318763..f599309 100644
+--- a/tests/tmp105-test.c
++++ b/tests/tmp105-test.c
+@@ -46,19 +46,18 @@ static void send_and_receive(void *obj, void *data, QGuestAllocator *alloc)
+ {
+     uint16_t value;
+     QI2CDevice *i2cdev = (QI2CDevice *)obj;
+-    I2CAdapter *i2c = i2cdev->bus;
+ 
+     value = qmp_tmp105_get_temperature(TMP105_TEST_ID);
+     g_assert_cmpuint(value, ==, 0);
+ 
+-    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
++    value = i2c_get16(i2cdev, TMP105_REG_TEMPERATURE);
+     g_assert_cmphex(value, ==, 0);
+ 
+     qmp_tmp105_set_temperature(TMP105_TEST_ID, 20000);
+     value = qmp_tmp105_get_temperature(TMP105_TEST_ID);
+     g_assert_cmpuint(value, ==, 20000);
+ 
+-    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
++    value = i2c_get16(i2cdev, TMP105_REG_TEMPERATURE);
+     g_assert_cmphex(value, ==, 0x1400);
+ 
+     qmp_tmp105_set_temperature(TMP105_TEST_ID, 20938); /* 20 + 15/16 */
+@@ -67,27 +66,27 @@ static void send_and_receive(void *obj, void *data, QGuestAllocator *alloc)
+     g_assert_cmpuint(value, <, 20938 + TMP105_PRECISION/2);
+ 
+     /* Set config */
+-    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x60);
+-    value = i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG);
++    i2c_set8(i2cdev, TMP105_REG_CONFIG, 0x60);
++    value = i2c_get8(i2cdev, TMP105_REG_CONFIG);
+     g_assert_cmphex(value, ==, 0x60);
+ 
+-    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
++    value = i2c_get16(i2cdev, TMP105_REG_TEMPERATURE);
+     g_assert_cmphex(value, ==, 0x14f0);
+ 
+     /* Set precision to 9, 10, 11 bits.  */
+-    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x00);
+-    g_assert_cmphex(i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG), ==, 0x00);
+-    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
++    i2c_set8(i2cdev, TMP105_REG_CONFIG, 0x00);
++    g_assert_cmphex(i2c_get8(i2cdev, TMP105_REG_CONFIG), ==, 0x00);
++    value = i2c_get16(i2cdev, TMP105_REG_TEMPERATURE);
+     g_assert_cmphex(value, ==, 0x1480);
+ 
+-    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x20);
+-    g_assert_cmphex(i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG), ==, 0x20);
+-    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
++    i2c_set8(i2cdev, TMP105_REG_CONFIG, 0x20);
++    g_assert_cmphex(i2c_get8(i2cdev, TMP105_REG_CONFIG), ==, 0x20);
++    value = i2c_get16(i2cdev, TMP105_REG_TEMPERATURE);
+     g_assert_cmphex(value, ==, 0x14c0);
+ 
+-    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x40);
+-    g_assert_cmphex(i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG), ==, 0x40);
+-    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
++    i2c_set8(i2cdev, TMP105_REG_CONFIG, 0x40);
++    g_assert_cmphex(i2c_get8(i2cdev, TMP105_REG_CONFIG), ==, 0x40);
++    value = i2c_get16(i2cdev, TMP105_REG_TEMPERATURE);
+     g_assert_cmphex(value, ==, 0x14e0);
+ 
+     /* stored precision remains the same */
+@@ -95,15 +94,15 @@ static void send_and_receive(void *obj, void *data, QGuestAllocator *alloc)
+     g_assert_cmpuint(value, >=, 20938 - TMP105_PRECISION/2);
+     g_assert_cmpuint(value, <, 20938 + TMP105_PRECISION/2);
+ 
+-    i2c_set8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG, 0x60);
+-    g_assert_cmphex(i2c_get8(i2c, TMP105_TEST_ADDR, TMP105_REG_CONFIG), ==, 0x60);
+-    value = i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_TEMPERATURE);
++    i2c_set8(i2cdev, TMP105_REG_CONFIG, 0x60);
++    g_assert_cmphex(i2c_get8(i2cdev, TMP105_REG_CONFIG), ==, 0x60);
++    value = i2c_get16(i2cdev, TMP105_REG_TEMPERATURE);
+     g_assert_cmphex(value, ==, 0x14f0);
+ 
+-    i2c_set16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_LOW, 0x1234);
+-    g_assert_cmphex(i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_LOW), ==, 0x1234);
+-    i2c_set16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_HIGH, 0x4231);
+-    g_assert_cmphex(i2c_get16(i2c, TMP105_TEST_ADDR, TMP105_REG_T_HIGH), ==, 0x4231);
++    i2c_set16(i2cdev, TMP105_REG_T_LOW, 0x1234);
++    g_assert_cmphex(i2c_get16(i2cdev, TMP105_REG_T_LOW), ==, 0x1234);
++    i2c_set16(i2cdev, TMP105_REG_T_HIGH, 0x4231);
++    g_assert_cmphex(i2c_get16(i2cdev, TMP105_REG_T_HIGH), ==, 0x4231);
+ }
+ 
+ static void tmp105_register_nodes(void)
+@@ -111,6 +110,7 @@ static void tmp105_register_nodes(void)
+     QOSGraphEdgeOptions opts = {
+         .extra_device_opts = "id=" TMP105_TEST_ID ",address=0x49"
+     };
++    add_qi2c_address(&opts, &(QI2CAddress) { 0x49 });
+ 
+     qos_node_create_driver("tmp105", i2c_device_create);
+     qos_node_consumes("tmp105", "i2c-bus", &opts);
 -- 
 1.8.3.1
 
