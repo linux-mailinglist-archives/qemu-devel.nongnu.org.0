@@ -2,53 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E1A32F09
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 13:54:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33655 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8120032F59
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:16:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34256 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXlY4-0002VA-3V
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 07:54:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55792)
+	id 1hXlsn-0007Kd-FN
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:16:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59855)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hXlWy-0002Ac-14
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 07:53:37 -0400
+	(envelope-from <bounces@canonical.com>) id 1hXlqM-00066l-QE
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:13:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hXlWw-0000f8-CH
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 07:53:35 -0400
-Received: from 17.mo4.mail-out.ovh.net ([46.105.41.16]:53429)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hXlWw-0000Zz-5v
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 07:53:34 -0400
-Received: from player774.ha.ovh.net (unknown [10.108.42.168])
-	by mo4.mail-out.ovh.net (Postfix) with ESMTP id 709EF1F4D40
-	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 13:53:31 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player774.ha.ovh.net (Postfix) with ESMTPSA id AAEAA668CEDA;
-	Mon,  3 Jun 2019 11:53:23 +0000 (UTC)
-Date: Mon, 3 Jun 2019 13:53:22 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190603135322.1c69f310@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <155910843201.13149.14968680567084380259.stgit@aravinda>
-References: <155910829070.13149.5215948335633966328.stgit@aravinda>
-	<155910843201.13149.14968680567084380259.stgit@aravinda>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(envelope-from <bounces@canonical.com>) id 1hXlio-0007hp-23
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:05:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44772)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hXlim-00070B-7D
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 08:05:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hXliW-0001rP-1r
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 12:05:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 0163A2E80CB
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 12:05:32 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 736901491476502932
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudefjedggedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Jun 2019 11:56:11 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <155912118291.12579.8926874795813611531.malonedeb@soybean.canonical.com>
+	<155947076950.12691.8450256339566609756.malone@soybean.canonical.com>
+	<875zpodsi2.fsf@zen.linaroharston>
+Message-Id: <874l56c278.fsf@zen.linaroharston>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: e3f01b55bb764e88d351721f9522e8549c36ea44
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.41.16
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v9 3/6] target/ppc: Handle NMI
- guest exit
+X-Received-From: 91.189.90.7
+Subject: Re: [Qemu-devel] [Bug 1830872] Re: AARCH64 to ARMv7 mistranslation
+ in TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,184 +67,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
-	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Reply-To: Bug 1830872 <1830872@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 May 2019 11:10:32 +0530
-Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> Memory error such as bit flips that cannot be corrected
-> by hardware are passed on to the kernel for handling.
-> If the memory address in error belongs to guest then
-> the guest kernel is responsible for taking suitable action.
-> Patch [1] enhances KVM to exit guest with exit reason
-> set to KVM_EXIT_NMI in such cases. This patch handles
-> KVM_EXIT_NMI exit.
-> 
-> [1] https://www.spinics.net/lists/kvm-ppc/msg12637.html
->     (e20bbd3d and related commits)
-> 
-> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> ---
+> Laszlo Ersek (Red Hat) <lersek@redhat.com> writes:
+>
+>> Possibly related:
+>> [Qemu-devel] "accel/tcg: demacro cputlb" break qemu-system-x86_64
+>> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg07362.html
+>>
+>> (qemu-system-x86_64 fails to boot 64-bit kernel under TCG accel when
+>> QEMU is built for i686)
+>>
+>> Note to self: try to reprodouce the present issue with QEMU built at
+>> eed5664238ea^ -- this LP has originally been filed about the tree at
+>> a4f667b67149, and that commit contains eed5664238ea. So checking at
+>> eed5664238ea^ might reveal a difference.
+>
+> Oops. Looks like tests/tcg/multiarch/system/memory.c didn't cover enough
+> cases.
 
-LGTM
+Actually I do see something with i386 host running the aarch64 memory
+test (although so far not with a armv7 host):
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+  ./qemu-system-aarch64  -monitor none -display none -M virt -cpu max
+-display none -semihosting -kernel tests/memory
 
->  hw/ppc/spapr.c          |    1 +
->  hw/ppc/spapr_events.c   |   23 +++++++++++++++++++++++
->  hw/ppc/spapr_rtas.c     |    5 +++++
->  include/hw/ppc/spapr.h  |    6 ++++++
->  target/ppc/kvm.c        |   16 ++++++++++++++++
->  target/ppc/kvm_ppc.h    |    2 ++
->  target/ppc/trace-events |    1 +
->  7 files changed, 54 insertions(+)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index fae28a9..6b6c962 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1809,6 +1809,7 @@ static void spapr_machine_reset(void)
->  
->      spapr->cas_reboot = false;
->  
-> +    spapr->mc_status = -1;
->      spapr->guest_machine_check_addr = -1;
->  
->      /* Signal all vCPUs waiting on this condition */
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index ae0f093..a18446b 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -620,6 +620,29 @@ void spapr_hotplug_req_remove_by_count_indexed(SpaprDrcType drc_type,
->                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc_id);
->  }
->  
-> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
-> +{
-> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-> +
-> +    while (spapr->mc_status != -1) {
-> +        /*
-> +         * Check whether the same CPU got machine check error
-> +         * while still handling the mc error (i.e., before
-> +         * that CPU called "ibm,nmi-interlock")
-> +         */
-> +        if (spapr->mc_status == cpu->vcpu_id) {
-> +            qemu_system_guest_panicked(NULL);
-> +            return;
-> +        }
-> +        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
-> +        /* Meanwhile if the system is reset, then just return */
-> +        if (spapr->guest_machine_check_addr == -1) {
-> +            return;
-> +        }
-> +    }
-> +    spapr->mc_status = cpu->vcpu_id;
-> +}
-> +
->  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
->                              uint32_t token, uint32_t nargs,
->                              target_ulong args,
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index e7509cf..e0bdfc8 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -379,6 +379,11 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
->          /* NMI register not called */
->          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
->      } else {
-> +        /*
-> +         * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
-> +         * hence unset mc_status.
-> +         */
-> +        spapr->mc_status = -1;
->          qemu_cond_signal(&spapr->mc_delivery_cond);
->          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->      }
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 9dc5e30..fc3a776 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -190,6 +190,11 @@ struct SpaprMachineState {
->  
->      /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls */
->      target_ulong guest_machine_check_addr;
-> +    /*
-> +     * mc_status is set to -1 if mc is not in progress, else is set to the CPU
-> +     * handling the mc.
-> +     */
-> +    int mc_status;
->      QemuCond mc_delivery_cond;
->  
->      /*< public >*/
-> @@ -793,6 +798,7 @@ void spapr_clear_pending_events(SpaprMachineState *spapr);
->  int spapr_max_server_number(SpaprMachineState *spapr);
->  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->                        uint64_t pte0, uint64_t pte1);
-> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
->  
->  /* DRC callbacks. */
->  void spapr_core_release(DeviceState *dev);
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 3bf0a46..39f1a73 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -1761,6 +1761,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
->          ret = 0;
->          break;
->  
-> +    case KVM_EXIT_NMI:
-> +        trace_kvm_handle_nmi_exception();
-> +        ret = kvm_handle_nmi(cpu, run);
-> +        break;
-> +
->      default:
->          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
->          ret = -1;
-> @@ -2844,6 +2849,17 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
->      return data & 0xffff;
->  }
->  
-> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
-> +{
-> +    bool recovered = run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
-> +
-> +    cpu_synchronize_state(CPU(cpu));
-> +
-> +    spapr_mce_req_event(cpu, recovered);
-> +
-> +    return 0;
-> +}
-> +
->  int kvmppc_enable_hwrng(void)
->  {
->      if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_PPC_HWRNG)) {
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 45776ca..18693f1 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -81,6 +81,8 @@ bool kvmppc_hpt_needs_host_contiguous_pages(void);
->  void kvm_check_mmu(PowerPCCPU *cpu, Error **errp);
->  void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu, unsigned int online);
->  
-> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run);
-> +
->  #else
->  
->  static inline uint32_t kvmppc_get_tbfreq(void)
-> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
-> index 3dc6740..6d15aa9 100644
-> --- a/target/ppc/trace-events
-> +++ b/target/ppc/trace-events
-> @@ -28,3 +28,4 @@ kvm_handle_papr_hcall(void) "handle PAPR hypercall"
->  kvm_handle_epr(void) "handle epr"
->  kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
->  kvm_handle_debug_exception(void) "handle debug exception"
-> +kvm_handle_nmi_exception(void) "handle NMI exception"
-> 
-> 
+Gives:
 
+  Reading u64 from 0x40213004 (offset 4):....Error 0, 0, 0, 0, 250, 249,
+248, 255Test complete: FAILED
+
+--
+Alex Benn=C3=A9e
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830872
+
+Title:
+  AARCH64 to ARMv7 mistranslation in TCG
+
+Status in QEMU:
+  New
+
+Bug description:
+  The following guest code:
+
+  https://github.com/tianocore/edk2/blob/3604174718e2afc950c3cc64c64ba5165c=
+8692bd/MdePkg/Library/BaseMemoryLibOptDxe/AArch64/CopyMem.S
+
+  implements, in hand-optimized aarch64 assembly, the CopyMem() edk2 (EFI
+  Development Kit II) library function. (CopyMem() basically has memmove()
+  semantics, to provide a standard C analog here.) The relevant functions
+  are InternalMemCopyMem() and __memcpy().
+
+  When TCG translates this aarch64 code to x86_64, everything works
+  fine.
+
+  When TCG translates this aarch64 code to ARMv7, the destination area of
+  the translated CopyMem() function becomes corrupted -- it differs from
+  the intended source contents. Namely, in every 4096 byte block, the
+  8-byte word at offset 4032 (0xFC0) is zeroed out in the destination,
+  instead of receiving the intended source value.
+
+  I'm attaching two hexdumps of the same destination area:
+
+  - "good.txt" is a hexdump of the destination area when CopyMem() was
+    translated to x86_64,
+
+  - "bad.txt" is a hexdump of the destination area when CopyMem() was
+    translated to ARMv7.
+
+  In order to assist with the analysis of this issue, I disassembled the
+  aarch64 binary with "objdump". Please find the listing in
+  "DxeCore.objdump", attached. The InternalMemCopyMem() function starts at
+  hex offset 2b2ec. The __memcpy() function starts at hex offset 2b180.
+
+  And, I ran the guest on the ARMv7 host with "-d
+  in_asm,op,op_opt,op_ind,out_asm". Please find the log in
+  "tcg.in_asm.op.op_opt.op_ind.out_asm.log", attached.
+
+  The TBs that correspond to (parts of) the InternalMemCopyMem() and
+  __memcpy() functions are scattered over the TCG log file, but the offset
+  between the "nice" disassembly from "DxeCore.objdump", and the in-RAM
+  TBs in the TCG log, can be determined from the fact that there is a
+  single prfm instruction in the entire binary. The instruction's offset
+  is 0x2b180 in "DxeCore.objdump" -- at the beginning of the __memcpy()
+  function --, and its RAM address is 0x472d2180 in the TCG log. Thus the
+  difference (=3D the load address of DxeCore.efi) is 0x472a7000.
+
+  QEMU was built at commit a4f667b67149 ("Merge remote-tracking branch
+  'remotes/cohuck/tags/s390x-20190521-3' into staging", 2019-05-21).
+
+  The reproducer command line is (on an ARMv7 host):
+
+    qemu-system-aarch64 \
+      -display none \
+      -machine virt,accel=3Dtcg \
+      -nodefaults \
+      -nographic \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-aarch6=
+4-code.fd,readonly \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-arm-va=
+rs.fd,snapshot=3Don \
+      -cpu cortex-a57 \
+      -chardev stdio,signal=3Doff,mux=3Don,id=3Dchar0 \
+      -mon chardev=3Dchar0,mode=3Dreadline \
+      -serial chardev:char0
+
+  The apparent symptom is an assertion failure *in the guest*, such as
+
+  > ASSERT [DxeCore]
+  > /home/lacos/src/upstream/qemu/roms/edk2/MdePkg/Library/BaseLib/String.c=
+(1090):
+  > Length < _gPcd_FixedAtBuild_PcdMaximumAsciiStringLength
+
+  but that is only a (distant) consequence of the CopyMem()
+  mistranslation, and resultant destination area corruption.
+
+  Originally reported in the following two mailing list messages:
+  - http://mid.mail-archive.com/9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat=
+.com
+  - http://mid.mail-archive.com/f1cec8c0-1a9b-f5bb-f951-ea0ba9d276ee@redhat=
+.com
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1830872/+subscriptions
 
