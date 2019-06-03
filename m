@@ -2,53 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B3633397
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:32:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36772 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9ABB333BA
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 17:38:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36869 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXowz-0006VE-TE
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:32:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46325)
+	id 1hXp2A-0001dz-4S
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 11:38:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49491)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hXoqV-00029Y-AF
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:26:01 -0400
+	(envelope-from <bounces@canonical.com>) id 1hXp07-0000fh-6K
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:35:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hXoqS-00009V-8I
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:25:59 -0400
-Received: from 10.mo4.mail-out.ovh.net ([188.165.33.109]:51563)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hXoqS-00005w-1m
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:25:56 -0400
-Received: from player794.ha.ovh.net (unknown [10.108.42.196])
-	by mo4.mail-out.ovh.net (Postfix) with ESMTP id 354A01F05F9
-	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 17:25:52 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player794.ha.ovh.net (Postfix) with ESMTPSA id AD64466B4F32;
-	Mon,  3 Jun 2019 15:25:45 +0000 (UTC)
-Date: Mon, 3 Jun 2019 17:25:44 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190603172544.277d0183@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <155910844950.13149.6460514692958589700.stgit@aravinda>
-References: <155910829070.13149.5215948335633966328.stgit@aravinda>
-	<155910844950.13149.6460514692958589700.stgit@aravinda>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(envelope-from <bounces@canonical.com>) id 1hXp05-0000B8-Pl
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:35:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54692)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hXp05-00009X-KB
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 11:35:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hXp04-0006TS-1F
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 15:35:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id E200A2E80CB
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 15:35:51 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 4323455645378582932
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudefjedgkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Jun 2019 15:27:59 -0000
+From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+References: <155912118291.12579.8926874795813611531.malonedeb@soybean.canonical.com>
+Message-Id: <155957567997.7808.14001979407214352306.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 41af21e97d0e02f0962cd1f723cda8ba8f0951c7
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.33.109
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v9 5/6] ppc: spapr: Enable FWNMI
- capability
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1830872] Re: AARCH64 to ARMv7 mistranslation in
+ TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,259 +65,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
-	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Reply-To: Bug 1830872 <1830872@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 May 2019 11:10:49 +0530
-Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+I confirm that QEMU works fine (for the use case originally reported in
+this LP ticket) when built at commit a6ae23831b, i.e. at the parent of
+eed5664238ea.
 
-> Enable the KVM capability KVM_CAP_PPC_FWNMI so that
-> the KVM causes guest exit with NMI as exit reason
-> when it encounters a machine check exception on the
-> address belonging to a guest. Without this capability
-> enabled, KVM redirects machine check exceptions to
-> guest's 0x200 vector.
-> 
-> This patch also deals with the case when a guest with
-> the KVM_CAP_PPC_FWNMI capability enabled is attempted
-> to migrate to a host that does not support this
-> capability.
-> 
-> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> ---
+-- =
 
-As suggested in another mail, it may be worth introducing the sPAPR cap
-in its own patch, earlier in the series.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830872
 
-Anyway, I have some comments below.
+Title:
+  AARCH64 to ARMv7 mistranslation in TCG
 
->  hw/ppc/spapr.c         |    1 +
->  hw/ppc/spapr_caps.c    |   24 ++++++++++++++++++++++++
->  hw/ppc/spapr_rtas.c    |   18 ++++++++++++++++++
->  include/hw/ppc/spapr.h |    4 +++-
->  target/ppc/kvm.c       |   19 +++++++++++++++++++
->  target/ppc/kvm_ppc.h   |   12 ++++++++++++
->  6 files changed, 77 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index c97f6a6..e8a77636 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4364,6 +4364,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
->      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
->      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
->      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_OFF;
-> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_ON;
->      spapr_caps_add_properties(smc, &error_abort);
->      smc->irq = &spapr_irq_dual;
->      smc->dr_phb_enabled = true;
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 31b4661..ef9e612 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -479,6 +479,20 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
->      }
->  }
->  
-> +static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
-> +                                Error **errp)
-> +{
-> +    if (!val) {
-> +        return; /* Disabled by default */
-> +    }
-> +
-> +    if (tcg_enabled()) {
-> +            error_setg(errp, "No fwnmi support in TCG, try cap-fwnmi-mce=off");
+Status in QEMU:
+  New
 
-Maybe expand "fwnmi" to "Firmware Assisted Non-Maskable Interrupts" ?
+Bug description:
+  The following guest code:
 
-> +    } else if (kvm_enabled() && !kvmppc_has_cap_ppc_fwnmi()) {
-> +            error_setg(errp, "Requested fwnmi capability not support by KVM");
+  https://github.com/tianocore/edk2/blob/3604174718e2afc950c3cc64c64ba5165c=
+8692bd/MdePkg/Library/BaseMemoryLibOptDxe/AArch64/CopyMem.S
 
-Maybe reword and add a hint:
+  implements, in hand-optimized aarch64 assembly, the CopyMem() edk2 (EFI
+  Development Kit II) library function. (CopyMem() basically has memmove()
+  semantics, to provide a standard C analog here.) The relevant functions
+  are InternalMemCopyMem() and __memcpy().
 
-"KVM implementation does not support Firmware Assisted Non-Maskable Interrupts, try cap-fwnmi-mce=off"
+  When TCG translates this aarch64 code to x86_64, everything works
+  fine.
 
+  When TCG translates this aarch64 code to ARMv7, the destination area of
+  the translated CopyMem() function becomes corrupted -- it differs from
+  the intended source contents. Namely, in every 4096 byte block, the
+  8-byte word at offset 4032 (0xFC0) is zeroed out in the destination,
+  instead of receiving the intended source value.
 
-> +    }
-> +}
-> +
->  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
->      [SPAPR_CAP_HTM] = {
->          .name = "htm",
-> @@ -578,6 +592,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
->          .type = "bool",
->          .apply = cap_ccf_assist_apply,
->      },
-> +    [SPAPR_CAP_FWNMI_MCE] = {
-> +        .name = "fwnmi-mce",
-> +        .description = "Handle fwnmi machine check exceptions",
-> +        .index = SPAPR_CAP_FWNMI_MCE,
-> +        .get = spapr_cap_get_bool,
-> +        .set = spapr_cap_set_bool,
-> +        .type = "bool",
-> +        .apply = cap_fwnmi_mce_apply,
-> +    },
->  };
->  
->  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
-> @@ -717,6 +740,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
->  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
->  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
->  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
->  
->  void spapr_caps_init(SpaprMachineState *spapr)
->  {
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index e0bdfc8..91a7ab9 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -49,6 +49,7 @@
->  #include "hw/ppc/fdt.h"
->  #include "target/ppc/mmu-hash64.h"
->  #include "target/ppc/mmu-book3s-v3.h"
-> +#include "kvm_ppc.h"
->  
->  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
->                                     uint32_t token, uint32_t nargs,
-> @@ -358,6 +359,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
->                                    target_ulong args,
->                                    uint32_t nret, target_ulong rets)
->  {
-> +    int ret;
->      hwaddr rtas_addr = spapr_get_rtas_addr();
->  
->      if (!rtas_addr) {
-> @@ -365,6 +367,22 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
->          return;
->      }
->  
-> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) == 0) {
-> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> +        return;
-> +    }
-> +
-> +    ret = kvmppc_fwnmi_enable(cpu);
-> +    if (ret == 1) {
+  I'm attaching two hexdumps of the same destination area:
 
-I have the impression that this should really not happen,
-otherwise something has gone terribly wrong in QEMU or
-in KVM... this maybe deserves an error message as well ?
-No big deal.
+  - "good.txt" is a hexdump of the destination area when CopyMem() was
+    translated to x86_64,
 
-> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> +        return;
-> +    }
-> +
-> +    if (ret < 0) {
-> +        rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
-> +        return;
-> +    }
-> +
->      spapr->guest_machine_check_addr = rtas_ld(args, 1);
->      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->  }
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index c717ab2..bd75d4b 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -78,8 +78,10 @@ typedef enum {
->  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
->  /* Count Cache Flush Assist HW Instruction */
->  #define SPAPR_CAP_CCF_ASSIST            0x09
-> +/* FWNMI machine check handling */
-> +#define SPAPR_CAP_FWNMI_MCE             0x0A
->  /* Num Caps */
-> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_CCF_ASSIST + 1)
-> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
->  
->  /*
->   * Capability Values
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 39f1a73..368ec6e 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -84,6 +84,7 @@ static int cap_ppc_safe_indirect_branch;
->  static int cap_ppc_count_cache_flush_assist;
->  static int cap_ppc_nested_kvm_hv;
->  static int cap_large_decr;
-> +static int cap_ppc_fwnmi;
->  
->  static uint32_t debug_inst_opcode;
->  
-> @@ -152,6 +153,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->      kvmppc_get_cpu_characteristics(s);
->      cap_ppc_nested_kvm_hv = kvm_vm_check_extension(s, KVM_CAP_PPC_NESTED_HV);
->      cap_large_decr = kvmppc_get_dec_bits();
-> +    cap_ppc_fwnmi = kvm_check_extension(s, KVM_CAP_PPC_FWNMI);
->      /*
->       * Note: setting it to false because there is not such capability
->       * in KVM at this moment.
-> @@ -2119,6 +2121,18 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
->      }
->  }
->  
-> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
-> +{
-> +    CPUState *cs = CPU(cpu);
-> +
-> +    if (!cap_ppc_fwnmi) {
-> +        return 1;
-> +    }
-> +
-> +    return kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
-> +}
-> +
-> +
->  int kvmppc_smt_threads(void)
->  {
->      return cap_ppc_smt ? cap_ppc_smt : 1;
-> @@ -2419,6 +2433,11 @@ bool kvmppc_has_cap_mmu_hash_v3(void)
->      return cap_mmu_hash_v3;
->  }
->  
-> +bool kvmppc_has_cap_ppc_fwnmi(void)
-> +{
-> +    return cap_ppc_fwnmi;
-> +}
-> +
->  static bool kvmppc_power8_host(void)
->  {
->      bool ret = false;
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 18693f1..3d9f0b4 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -27,6 +27,8 @@ void kvmppc_enable_h_page_init(void);
->  void kvmppc_set_papr(PowerPCCPU *cpu);
->  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
->  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu);
-> +bool kvmppc_has_cap_ppc_fwnmi(void);
->  int kvmppc_smt_threads(void);
->  void kvmppc_hint_smt_possible(Error **errp);
->  int kvmppc_set_smt_threads(int smt);
-> @@ -160,6 +162,16 @@ static inline void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
->  {
->  }
->  
-> +static inline int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
-> +{
-> +    return 1;
-> +}
-> +
-> +static inline bool kvmppc_has_cap_ppc_fwnmi(void)
-> +{
-> +    return false;
-> +}
-> +
->  static inline int kvmppc_smt_threads(void)
->  {
->      return 1;
-> 
-> 
+  - "bad.txt" is a hexdump of the destination area when CopyMem() was
+    translated to ARMv7.
 
+  In order to assist with the analysis of this issue, I disassembled the
+  aarch64 binary with "objdump". Please find the listing in
+  "DxeCore.objdump", attached. The InternalMemCopyMem() function starts at
+  hex offset 2b2ec. The __memcpy() function starts at hex offset 2b180.
+
+  And, I ran the guest on the ARMv7 host with "-d
+  in_asm,op,op_opt,op_ind,out_asm". Please find the log in
+  "tcg.in_asm.op.op_opt.op_ind.out_asm.log", attached.
+
+  The TBs that correspond to (parts of) the InternalMemCopyMem() and
+  __memcpy() functions are scattered over the TCG log file, but the offset
+  between the "nice" disassembly from "DxeCore.objdump", and the in-RAM
+  TBs in the TCG log, can be determined from the fact that there is a
+  single prfm instruction in the entire binary. The instruction's offset
+  is 0x2b180 in "DxeCore.objdump" -- at the beginning of the __memcpy()
+  function --, and its RAM address is 0x472d2180 in the TCG log. Thus the
+  difference (=3D the load address of DxeCore.efi) is 0x472a7000.
+
+  QEMU was built at commit a4f667b67149 ("Merge remote-tracking branch
+  'remotes/cohuck/tags/s390x-20190521-3' into staging", 2019-05-21).
+
+  The reproducer command line is (on an ARMv7 host):
+
+    qemu-system-aarch64 \
+      -display none \
+      -machine virt,accel=3Dtcg \
+      -nodefaults \
+      -nographic \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-aarch6=
+4-code.fd,readonly \
+      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-arm-va=
+rs.fd,snapshot=3Don \
+      -cpu cortex-a57 \
+      -chardev stdio,signal=3Doff,mux=3Don,id=3Dchar0 \
+      -mon chardev=3Dchar0,mode=3Dreadline \
+      -serial chardev:char0
+
+  The apparent symptom is an assertion failure *in the guest*, such as
+
+  > ASSERT [DxeCore]
+  > /home/lacos/src/upstream/qemu/roms/edk2/MdePkg/Library/BaseLib/String.c=
+(1090):
+  > Length < _gPcd_FixedAtBuild_PcdMaximumAsciiStringLength
+
+  but that is only a (distant) consequence of the CopyMem()
+  mistranslation, and resultant destination area corruption.
+
+  Originally reported in the following two mailing list messages:
+  - http://mid.mail-archive.com/9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat=
+.com
+  - http://mid.mail-archive.com/f1cec8c0-1a9b-f5bb-f951-ea0ba9d276ee@redhat=
+.com
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1830872/+subscriptions
 
