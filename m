@@ -2,56 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFEE32DAE
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 12:27:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32796 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260F033055
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 14:55:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34746 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXkBU-0000Za-Os
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 06:27:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38586)
+	id 1hXmUk-00068y-B1
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 08:55:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41567)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hXkAR-0000Az-P8
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 06:26:17 -0400
+	(envelope-from <stli@linux.ibm.com>) id 1hXkMu-0002s9-VS
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 06:39:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hXkAP-0003X6-8q
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 06:26:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39306)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hXkAI-00031D-Uz
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 06:26:09 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9DFE72F8BCF;
-	Mon,  3 Jun 2019 10:25:53 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-121-13.rdu2.redhat.com
-	[10.10.121.13])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 60682104B4C2;
-	Mon,  3 Jun 2019 10:25:46 +0000 (UTC)
-To: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20190528204838.21568-1-kraxel@redhat.com>
-	<bf45adf2-1594-89b4-6a4d-9af6d9e8ac6e@redhat.com>
-	<20190528224810-mutt-send-email-mst@kernel.org>
-	<20190529044701.skqpsdna3c5yvbnm@sirius.home.kraxel.org>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <d8b99f5b-301c-317a-2a8a-db687ebd1e52@redhat.com>
-Date: Mon, 3 Jun 2019 12:25:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	(envelope-from <stli@linux.ibm.com>) id 1hXkMt-0007dJ-D3
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 06:39:08 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46580
+	helo=mx0a-001b2d01.pphosted.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <stli@linux.ibm.com>) id 1hXkMt-0007a6-5L
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 06:39:07 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x53AVko1142957
+	for <qemu-devel@nongnu.org>; Mon, 3 Jun 2019 06:39:01 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2sw0tab98g-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 06:39:01 -0400
+Received: from localhost
+	by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	Only! Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <stli@linux.ibm.com>;
+	Mon, 3 Jun 2019 11:38:59 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+	by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Mon, 3 Jun 2019 11:38:57 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+	[9.149.105.62])
+	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x53AcsaI46858312
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Mon, 3 Jun 2019 10:38:54 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1698CAE055;
+	Mon,  3 Jun 2019 10:38:54 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CC254AE051;
+	Mon,  3 Jun 2019 10:38:53 +0000 (GMT)
+Received: from oc4452167425.ibm.com (unknown [9.152.222.74])
+	by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Mon,  3 Jun 2019 10:38:53 +0000 (GMT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190531145608.28183-1-david@redhat.com>
+	<20190531145608.28183-3-david@redhat.com>
+From: Stefan Liebler <stli@linux.ibm.com>
+Date: Mon, 3 Jun 2019 12:38:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190529044701.skqpsdna3c5yvbnm@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20190531145608.28183-3-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-IE
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Mon, 03 Jun 2019 10:25:53 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] q35: split memory at 2G
+X-TM-AS-GCONF: 00
+x-cbid: 19060310-0008-0000-0000-000002ED46AF
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060310-0009-0000-0000-0000225A2549
+Message-Id: <b16f8afd-3458-591c-5b47-e1672e53e64a@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-06-03_08:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=724 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1906030078
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+X-Mailman-Approved-At: Mon, 03 Jun 2019 08:50:25 -0400
+Subject: Re: [Qemu-devel] [PATCH v1 2/2] s390x/tcg: Store only the necessary
+ amount of doublewords for STFLE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,97 +95,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
-	qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Thomas Huth <thuth@redhat.com>, Ilya Leoshkevich <iii@de.ibm.com>,
+	Andreas Krebbel <Andreas.Krebbel@de.ibm.com>,
+	Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/29/19 06:47, Gerd Hoffmann wrote:
-> On Tue, May 28, 2019 at 10:49:55PM -0400, Michael S. Tsirkin wrote:
->> On Wed, May 29, 2019 at 03:21:16AM +0200, Paolo Bonzini wrote:
->>> On 28/05/19 22:48, Gerd Hoffmann wrote:
->>>> Original q35 behavior was to split memory 2.75 GB, leaving space for the
->>>> mmconfig bar at 0xb000000 and pci I/O window starting at 0xc0000000.
->>>>
->>>> Note: Those machine types have been removed from the qemu codebase
->>>> meanwhile because they could not be live-migrated so there was little
->>>> value in keeping them around.
->>>>
->>>> With the effort to allow for gigabyte-alignment of guest memory that
->>>> behavior was changed:  The split was moved to 2G, but only in case the
->>>> memory didn't fit below 2.75 GB.
->>>>
->>>> So today the address space between 2G and 2,75G is not used for guest
->>>> memory in typical use cases, where the guest memory sized at a power of
->>>> two or a gigabyte number.  But if you configure your guest with some odd
->>>> amout of memory (such as 2.5G) the address space is used.
->>>
->>> Wasn't it done to ensure pre-PAE OSes could use as much memory as
->>> possible?  (If you run pre-PAE OSes with more RAM than can fit below 4G,
->>> you can just reduce the amount of memory and get all the 2.75G).
->>>
->>> Paolo
->>
->> Absolutely. Gerd is just saying the configuration is rare enough that
->> it's not worth worrying about. I don't know myself - why do
->> we bother making this change? What's the advantage?
+On 5/31/19 4:56 PM, David Hildenbrand wrote:
+> The PoP (z14, 7-382) says:
+>      Doublewords to the right of the doubleword in which the
+>      highest-numbered facility bit is assigned for a model
+>      may or may not be stored.
 > 
-> Some ovmf versions place the mmconfig @ 2G.  Which works fine in 99% of
-> the cases, but with memory sizes between 2G and 2.75G it doesn't.
+> However, stack protection in certain binaries can't deal with that.
+> "gzip" example code:
+> 
+> f1b4:       a7 08 00 03             lhi     %r0,3
+> f1b8:       b2 b0 f0 a0             stfle   160(%r15)
+> f1bc:       e3 20 f0 b2 00 90       llgc    %r2,178(%r15)
+> f1c2:       c0 2b 00 00 00 01       nilf    %r2,1
+> f1c8:       b2 4f 00 10             ear     %r1,%a0
+> f1cc:       b9 14 00 22             lgfr    %r2,%r2
+> f1d0:       eb 11 00 20 00 0d       sllg    %r1,%r1,32
+> f1d6:       b2 4f 00 11             ear     %r1,%a1
+> f1da:       d5 07 f0 b8 10 28       clc     184(8,%r15),40(%r1)
+> f1e0:       a7 74 00 06             jne     f1ec <file_read@@Base+0x1bc>
+> f1e4:       eb ef f1 30 00 04       lmg     %r14,%r15,304(%r15)
+> f1ea:       07 fe                   br      %r14
+> f1ec:       c0 e5 ff ff 9d 6e       brasl   %r14,2cc8 <__stack_chk_fail@plt>
+> 
+> In QEMU, we currently have:
+>      max_bytes = 24
+> the code asks for (3 + 1) doublewords == 32 bytes.
+> 
+> If we write 32 bytes instead of only 24, and return "2 + 1" doublewords
+> ("one less than the number of doulewords needed to contain all of the
+>   facility bits"), the example code detects a stack corruption.
+> 
+> In my opinion, the code is wrong. However, it seems to work fine on
+> real machines. So let's limit storing to the minimum of the requested
+> and the maximum doublewords.
+Hi David,
 
-Here's the stages of PCIEXBAR placement in OVMF:
+Thanks for catching this. I've reported the "gzip" example to Ilya and 
+indeed, r0 is setup too large. He will fix it in gzip.
 
-#1 Commit 7b8fe63561b4 ("OvmfPkg: PlatformPei: enable PCIEXBAR (aka
-MMCONFIG / ECAM) on Q35", 2016-03-10): places the PCIEXBAR at 2GB.
-Behaves according to your description.
+You've mentioned, that this is detected in certain binaries.
+Can you please share those occurrences.
+Perhaps on future machines with further facility bits, stfle will write 
+beyond the provided doubleword-array on a real machine or in qemu.
 
-#2 Commit 75136b29541b ("OvmfPkg/PlatformPei: reorder the 32-bit PCI
-window vs. the PCIEXBAR on q35", 2019-05-16): made for the 1% of cases
-(according to your description) where the previous logic would fail,
-namely with RAM between 2G and 2.75G. Places the PCIEXBAR at
-0xE000_0000, and the 32-bit MMIO window below it. Unfortunately, this
-causes a regression for end-users, because this ordering of areas
-triggers a bug in QEMU's ACPI generator somewhere. The 32-bit MMIO
-window will be clamped *above* 0xF000_0000, when it should actually end
-at 0xE000_0000. Causes confusion for some guest OSes (the mildest
-symptom is PCI resource reassignment).
+Bye
+Stefan
 
-#3 Patch series linked in
-<https://bugzilla.tianocore.org/show_bug.cgi?id=1859#c1>: restores the
-original order (so as to pacify the ACPI generator in QEMU). Places the
-PCIEXBAR at 0xB000_0000. Places the 32-bit MMIO window at 0xC000_0000.
-This wastes a bit of 32-bit MMIO space, but it has the best
-compatibility. The cases under which the waste occurs are: (a) pre-4.1
-Q35 machine types with low RAM side *outside* of 2GB..2.75GB, and (b)
-4.1+ Q35 machine types (with this patch applied), regardless of low RAM
-size. Effectively this patch set returns to the first variant, except it
-bumps the PCIEXBAR base from 2GB to 2.75GB.
+> 
+> Cc: Stefan Liebler <stli@linux.ibm.com>
+> Cc: Andreas Krebbel <Andreas.Krebbel@de.ibm.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   target/s390x/misc_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
+> index 34476134a4..b561c5781b 100644
+> --- a/target/s390x/misc_helper.c
+> +++ b/target/s390x/misc_helper.c
+> @@ -678,7 +678,7 @@ uint32_t HELPER(stfle)(CPUS390XState *env, uint64_t addr)
+>   
+>       prepare_stfl();
+>       max_bytes = ROUND_UP(used_stfl_bytes, 8);
+> -    for (i = 0; i < count_bytes; ++i) {
+> +    for (i = 0; i < MIN(count_bytes, max_bytes); ++i) {
+>           cpu_stb_data_ra(env, addr + i, stfl_bytes[i], ra);
+>       }
+>   
+> 
 
-Once all pre-4.1 Q35 machine types can be considered obsolete, we can
-return OVMF to option#1 again. Until then, it's best to fix the host
-side and the guest side both, for best compatibility for end-users.
-(This is generally what we do, i.e. fix both sides, when there is a
-host-guest disagreement.)
-
-So, for this patch:
-
-Acked-by: Laszlo Ersek <lersek@redhat.com>
-
-I'll also push (soon) the edk2 patches for option#3 above.
-
-(
-
-Things I haven't discussed here: (a) why we'd like to continue
-specifying the PXIEXBAR base in OVMF as a build-time constant (because
-making it dynamic might introduce complications for module dispatch
-order), (b) MTRR aspects (both the PCIEXBAR and the 32-bit MMIO window
-should be marked UC through variable MTRRs, and while SeaBIOS currently
-ignores the first, I wouldn't like to, in OVMF). All of options #1
-through #3 can be made work correctly wrt. variable MTRRs, but *some*
-OVMF patches are necessary for either of those.
-
-)
-
-Thanks
-Laszlo
 
