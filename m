@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF3C3289C
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 08:37:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58550 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6456132912
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 09:04:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58844 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXgb4-000408-QM
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 02:37:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46908)
+	id 1hXh1S-0000yU-KE
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 03:04:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50621)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hXgZO-0003JQ-0z
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:35:48 -0400
+	(envelope-from <bounces@canonical.com>) id 1hXgsg-0002gf-QK
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:55:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hXgZN-000832-1c
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:35:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42654)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hXgZJ-0007j1-JK; Mon, 03 Jun 2019 02:35:41 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0754A5946A;
-	Mon,  3 Jun 2019 06:35:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-223.ams2.redhat.com
-	[10.36.117.223])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C6B9817F71;
-	Mon,  3 Jun 2019 06:35:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 58A9A11386A0; Mon,  3 Jun 2019 08:35:35 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190517144232.18965-1-kwolf@redhat.com>
-	<20190517144232.18965-3-kwolf@redhat.com>
-	<87y32w6kws.fsf@dusky.pond.sub.org>
-	<20190529220945.GB3471@localhost.localdomain>
-Date: Mon, 03 Jun 2019 08:35:35 +0200
-In-Reply-To: <20190529220945.GB3471@localhost.localdomain> (Kevin Wolf's
-	message of "Thu, 30 May 2019 00:09:45 +0200")
-Message-ID: <87a7ezuqfc.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+	(envelope-from <bounces@canonical.com>) id 1hXgsf-00071i-BX
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:55:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47772)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hXgsf-00070L-1B
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 02:55:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hXgsc-0003v7-PU
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 06:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id BED432E80CB
+	for <qemu-devel@nongnu.org>; Mon,  3 Jun 2019 06:55:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Mon, 03 Jun 2019 06:35:37 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Jun 2019 06:45:23 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1830821@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=intel; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+	status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+	component=main; status=Confirmed; importance=Wishlist;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=cosmic; sourcepackage=qemu; 
+	component=main; status=Confirmed; importance=Wishlist;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
+	component=main; status=Fix Released; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Tags: intel-virt-19.10 qemu-19.10
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paelzer quanxian-wang sbeattie
+X-Launchpad-Bug-Reporter: quanxian (quanxian-wang)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+	=?utf-8?q?=29?=
+References: <155909595152.12810.1489513977238974514.malonedeb@soybean.canonical.com>
+Message-Id: <155954432307.24515.10059972768129249740.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: bd68244785db41f7fad8ef940f01055721235083
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 2/6] tests/qapi-schema: Test for good
- feature lists in structs
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1830821] Re: Expose ARCH_CAP_MDS_NO in guest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,51 +78,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Bug 1830821 <1830821@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+This is done upstream, no need for the upstream bug task.
+For Ubuntu I'll update the tasks to match the statement of sbeattie.
+There are discussions to reconsider some of the backports, but unfortunatel=
+y the IA32_ARCH_CAPABILITIES infrastructure is a rather big set of changes.
 
-> Am 24.05.2019 um 15:29 hat Markus Armbruster geschrieben:
->> Let's add
->> 
->>    { 'command': 'test-features',
->>      'data': { 'fs0': 'FeatureStruct0',
->>                'fs1': 'FeatureStruct1',
->>                'fs2': 'FeatureStruct2',
->>                'fs3': 'FeatureStruct3',
->>                'cfs1': 'CondFeatureStruct1',
->>                'cfs2': 'CondFeatureStruct2',
->>                'cfs3': 'CondFeatureStruct3' } }
->> 
->> because without it, the feature test cases won't generate introspection
->> code.
->
-> Of course, like everything else you requested, I'll just do this to get
-> the series off my table, but I'm still curious: Where would
-> introspection code ever be generated for the test cases? I saw neither
-> test code that generates the source files nor reference output that it
-> would be compared against.
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-Asking me to explain why I want something done when you can't see it
-yourself is much, much better than blindly implementing it.
+** Also affects: qemu (Ubuntu Cosmic)
+   Importance: Undecided
+       Status: New
 
-Makefile.include feeds the two positive tests qapi-schema-test.json and
-doc-good.json to qapi-gen.py.
+** Also affects: qemu (Ubuntu Disco)
+   Importance: Undecided
+       Status: New
 
-The .o for the former's .c get linked into a bunch of tests via Make
-variable $(test-qapi-obj-y).  One of them is test-qobject-input-visitor.
-Its test case "/visitor/input/qapi-introspect" checks the generated
-QObject conforms to the schema.
+** Also affects: qemu (Ubuntu Bionic)
+   Importance: Undecided
+       Status: New
 
-qapi-schema.json gets tested end-to-end instead: qmp-cmd-tests tests
-query-qmp-schema.
+** Changed in: qemu (Ubuntu Disco)
+       Status: New =3D> Fix Released
 
-Both tests only check schema conformance, they don't compare to expected
-output.  Perhaps they should.  But I can still diff the generated
-qmp-introspect.c manually, which I routinely do when messing with the
-generator.
+** Changed in: qemu (Ubuntu)
+       Status: New =3D> Fix Released
 
-Makes sense?
+** Changed in: qemu (Ubuntu Bionic)
+   Importance: Undecided =3D> Wishlist
+
+** Changed in: qemu (Ubuntu Cosmic)
+   Importance: Undecided =3D> Wishlist
+
+** Changed in: qemu (Ubuntu Bionic)
+       Status: New =3D> Confirmed
+
+** Changed in: qemu (Ubuntu Cosmic)
+       Status: New =3D> Confirmed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830821
+
+Title:
+  Expose ARCH_CAP_MDS_NO in guest
+
+Status in intel:
+  New
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Bionic:
+  Confirmed
+Status in qemu source package in Cosmic:
+  Confirmed
+Status in qemu source package in Disco:
+  Fix Released
+
+Bug description:
+  Description:
+
+  MDS_NO is bit 5 of ARCH_CAPABILITIES. Expose this bit to guest.
+
+  Target Qemu: 4.1
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/intel/+bug/1830821/+subscriptions
 
