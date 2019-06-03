@@ -2,52 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E619338AE
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:58:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39589 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC58339D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 22:57:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40815 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXs9t-00039a-3y
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:58:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40198)
+	id 1hXu0r-0007a5-Nu
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 16:57:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42516)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.williamson@redhat.com>) id 1hXs8n-0002hA-J4
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:57:06 -0400
+	(envelope-from <anoo@linux.ibm.com>) id 1hXsML-0005cm-2i
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:11:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.williamson@redhat.com>) id 1hXs8m-0000bt-Jf
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:57:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43510)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
-	id 1hXs8m-0000aR-EG; Mon, 03 Jun 2019 14:57:04 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A32D8300144F;
-	Mon,  3 Jun 2019 18:57:01 +0000 (UTC)
-Received: from x1.home (ovpn-116-22.phx2.redhat.com [10.3.116.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BB07F5D9D2;
-	Mon,  3 Jun 2019 18:56:48 +0000 (UTC)
-Date: Mon, 3 Jun 2019 12:56:47 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Message-ID: <20190603125647.160a7a7c@x1.home>
-In-Reply-To: <20190528164020.32250-10-philmd@redhat.com>
-References: <20190528164020.32250-1-philmd@redhat.com>
-	<20190528164020.32250-10-philmd@redhat.com>
-Organization: Red Hat
+	(envelope-from <anoo@linux.ibm.com>) id 1hXsMK-0001QT-0p
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:11:05 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54344
+	helo=mx0a-001b2d01.pphosted.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <anoo@linux.ibm.com>) id 1hXsMJ-0001N6-Ri
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 15:11:03 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x53J7vi0104711
+	for <qemu-devel@nongnu.org>; Mon, 3 Jun 2019 15:11:02 -0400
+Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 2sw82b3p5y-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 15:11:01 -0400
+Received: from localhost
+	by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <anoo@linux.ibm.com>;
+	Mon, 3 Jun 2019 20:11:00 +0100
+Received: from b03cxnp08025.gho.boulder.ibm.com (9.17.130.17)
+	by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Mon, 3 Jun 2019 20:10:58 +0100
+Received: from b03ledav004.gho.boulder.ibm.com
+	(b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+	by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x53JAvgM25756064
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Mon, 3 Jun 2019 19:10:57 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9D7FE7805F;
+	Mon,  3 Jun 2019 19:10:57 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 264817805C;
+	Mon,  3 Jun 2019 19:10:57 +0000 (GMT)
+Received: from habcap11p1.aus.stglabs.ibm.com (unknown [9.41.164.53])
+	by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+	Mon,  3 Jun 2019 19:10:56 +0000 (GMT)
+From: Adriana Kobylak <anoo@linux.ibm.com>
+To: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+	qemu-arm@nongnu.org
+Date: Mon,  3 Jun 2019 14:10:55 -0500
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+x-cbid: 19060319-0036-0000-0000-00000AC65D99
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011209; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000286; SDB=6.01212763; UDB=6.00637359;
+	IPR=6.00993823; 
+	MB=3.00027167; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-03 19:11:00
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060319-0037-0000-0000-00004C0E0A8E
+Message-Id: <1559589055-71202-1-git-send-email-anoo@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-06-03_15:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1906030129
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Mon, 03 Jun 2019 18:57:03 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 09/10] hw/vfio/pci: Use the QOM DEVICE()
- macro to access DeviceState.qdev
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+	mx0b-001b2d01.pphosted.com id x53J7vi0104711
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+X-Mailman-Approved-At: Mon, 03 Jun 2019 16:56:01 -0400
+Subject: [Qemu-devel] [PATCH qemu] aspeed: Add support for the swift-bmc
+ board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,69 +98,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
-	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>,
-	David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
-	qemu-s390x@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, Michael Walle <michael@walle.cc>,
-	Gerd Hoffmann <kraxel@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Richard Henderson <rth@twiddle.net>
+Cc: Adriana Kobylak <anoo@us.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 May 2019 18:40:19 +0200
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+From: Adriana Kobylak <anoo@us.ibm.com>
 
-> Rather than looking inside the definition of a DeviceState with
-> "s->qdev", use the QOM prefered style: "DEVICE(s)".
->=20
-> This patch was generated using the following Coccinelle script:
->=20
->     // Use DEVICE() macros to access DeviceState.qdev
->     @use_device_macro_to_access_qdev@
->     expression obj;
->     identifier dev;
->     @@
->     -&obj->dev.qdev
->     +DEVICE(obj)
->=20
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/vfio/pci.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+The Swift board is an OpenPOWER system hosting POWER processors.
+Add support for their BMC including the I2C devices as found on HW.
 
+Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/arm/aspeed.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-
-
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 8e555db12e..2a4091d216 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -2717,7 +2717,7 @@ static void vfio_req_notifier_handler(void *opaque)
->          return;
->      }
-> =20
-> -    qdev_unplug(&vdev->pdev.qdev, &err);
-> +    qdev_unplug(DEVICE(vdev), &err);
->      if (err) {
->          warn_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
->      }
-> @@ -2839,7 +2839,7 @@ static void vfio_realize(PCIDevice *pdev, Error **e=
-rrp)
->      vdev->vbasedev.name =3D g_path_get_basename(vdev->vbasedev.sysfsdev);
->      vdev->vbasedev.ops =3D &vfio_pci_ops;
->      vdev->vbasedev.type =3D VFIO_DEVICE_TYPE_PCI;
-> -    vdev->vbasedev.dev =3D &vdev->pdev.qdev;
-> +    vdev->vbasedev.dev =3D DEVICE(vdev);
-> =20
->      tmp =3D g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
->      len =3D readlink(tmp, group_path, sizeof(group_path));
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 33070a6..cd95b3c 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -73,6 +73,9 @@ struct AspeedBoardState {
+         SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              =
+\
+         SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
+=20
++/* TODO: Swift hardware value: ? (use romulus definition for now) */
++#define SWIFT_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
++
+ /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) *=
+/
+ #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
+=20
+@@ -287,6 +290,35 @@ static void romulus_bmc_i2c_init(AspeedBoardState *b=
+mc)
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338"=
+, 0x32);
+ }
+=20
++static void swift_bmc_i2c_init(AspeedBoardState *bmc)
++{
++    AspeedSoCState *soc =3D &bmc->soc;
++
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), "pca9552"=
+, 0x60);
++
++    /* The swift board expects a TMP275 but a TMP105 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "tmp105",=
+ 0x48);
++    /* The swift board expects a pca9551 but a pca9552 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "pca9552"=
+, 0x60);
++
++    /* The swift board expects an Epson RX8900 RTC but a ds1338 is compa=
+tible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "ds1338",=
+ 0x32);
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "pca9552"=
+, 0x60);
++
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "tmp423",=
+ 0x4c);
++    /* The swift board expects a pca9539 but a pca9552 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "pca9552"=
+, 0x74);
++
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 10), "tmp423"=
+, 0x4c);
++    /* The swift board expects a pca9539 but a pca9552 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 10), "pca9552=
+",
++                     0x74);
++
++    /* The swift board expects a TMP275 but a TMP105 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105"=
+, 0x48);
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105"=
+, 0x4a);
++}
++
+ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
+ {
+     AspeedSoCState *soc =3D &bmc->soc;
+@@ -378,6 +410,16 @@ static const AspeedBoardConfig aspeed_boards[] =3D {
+         .i2c_init  =3D romulus_bmc_i2c_init,
+         .ram       =3D 512 * MiB,
+     }, {
++        .name      =3D MACHINE_TYPE_NAME("swift-bmc"),
++        .desc      =3D "OpenPOWER Swift BMC (ARM1176)",
++        .soc_name  =3D "ast2500-a1",
++        .hw_strap1 =3D SWIFT_BMC_HW_STRAP1,
++        .fmc_model =3D "mx66l1g45g",
++        .spi_model =3D "mx66l1g45g",
++        .num_cs    =3D 2,
++        .i2c_init  =3D swift_bmc_i2c_init,
++        .ram       =3D 512 * MiB,
++    }, {
+         .name      =3D MACHINE_TYPE_NAME("witherspoon-bmc"),
+         .desc      =3D "OpenPOWER Witherspoon BMC (ARM1176)",
+         .soc_name  =3D "ast2500-a1",
+--=20
+1.8.3.1
 
 
