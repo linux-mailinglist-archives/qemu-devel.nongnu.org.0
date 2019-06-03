@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1352337AF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:17:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39068 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E80A337CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jun 2019 20:26:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39215 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXrWp-0000L9-U4
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:17:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57343)
+	id 1hXrfP-0007Mt-7k
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 14:26:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58138)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hXrRt-00058O-Io
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:12:46 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hXrV5-00082j-9N
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:16:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hXrRs-00009r-FZ
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:12:45 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:45643)
+	(envelope-from <richard.henderson@linaro.org>) id 1hXrV4-0005j2-Dm
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:16:03 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33259)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hXrRs-00008d-An
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:12:44 -0400
-Received: by mail-qk1-f193.google.com with SMTP id s22so1025806qkj.12
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 11:12:44 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hXrV4-0005gf-6E
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 14:16:02 -0400
+Received: by mail-oi1-x244.google.com with SMTP id q186so13599037oia.0
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 11:16:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=OVQKzPP3Dh0R+sR938iDr/HtlZw38Ct8+TwxZDTndLQ=;
+	b=RmMMNNypM+X9S7yxNaM8i67Mexv6U0ulQAQz1AN9kxlq5rM4R/oNdj3PCzHFkEfYWH
+	Agbc/blmfeujiUYVwLf6JVmWevbF7oZep0a8Nqtua7Q2v/b+TdMwBn8JlczU/RtevWVn
+	awcYaTnwm9C7HnzQT69tPZYJGffXe0MsLxELJK5Wu4qm9VjRufdtD53G1DZ7AJsxeRp4
+	KTchlpViGUGZhVSLxGo4tdVFRTxKJmMHLUcH4w8hUQhGUIb3yqJSoORunHH8a5z+lq7J
+	zg4sGAe28lHqW5UlvfECYNQ8IvZKs4qQaA1lLCRtZpwm+Hs3Icywk83wFXucRJRsHNMd
+	YSTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=0pw6MZAMWtuA3pyD/FdS3ul+2ngVJ2pjV9pwSa8Ik8U=;
-	b=kycW0/f5MJ8Gul59tIgWasv/GV90yeVo8WFqiBeLHM7q0Q183NI66HPTH58IaJ2W6j
-	LrsjNXAsBA/ByHqe8bOiFPp+vHM2n6dyw0ItUSazqiPgsyI7co91n24mid0NjjI0Jrzu
-	Z8FF8Mb2LUVFuUmL2rgeWYvpgrgmA/IXl4nuJGGP0CbmupDiEOV8wIdHw3FQY6ZEeo2y
-	bXzuy7Y9M6O2f2RCtOiJ7tO0qFea59ehhfG83vch56dM74pU/Jozmh0oxZ8T8ZBaD3aM
-	x2wDf4pH71tRFna2qHx9/InJ4S3RqeDmBBjClfrJMXJZHdwiZ7EFkxwufZq2vg1E/vlw
-	NMtg==
-X-Gm-Message-State: APjAAAU82mo3+uIKQM9q+FpXamZSSeR3cK9oyOHS3RJYCFJAsgvzYVu7
-	jPee0CbJaTxeXp+i20llnNconA==
-X-Google-Smtp-Source: APXvYqw1XZ7HGg08iTVC1IOhqaxZwC44a55HrPYgnFbWbIquSfu3pHOBCtrcvlEBfmu0ej4mSj3zqQ==
-X-Received: by 2002:a37:4d56:: with SMTP id a83mr3938108qkb.62.1559585563534; 
-	Mon, 03 Jun 2019 11:12:43 -0700 (PDT)
-Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
-	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
-	r186sm6690925qkb.9.2019.06.03.11.12.41
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 03 Jun 2019 11:12:42 -0700 (PDT)
-Date: Mon, 3 Jun 2019 14:12:40 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laine Stump <laine@redhat.com>
-Message-ID: <20190603140832-mutt-send-email-mst@kernel.org>
-References: <20190517125820.2885-1-jfreimann@redhat.com>
-	<20190520165657.2293c5d7@x1.home>
-	<20190521072157.wpb77wlc5mhfcdes@jenstp.localdomain>
-	<20190521073511-mutt-send-email-mst@kernel.org>
-	<20190521184918.n4nnk6ack3ssp6jv@jenstp.localdomain>
-	<d116bc65-0715-2c6a-2616-49f67cd685c8@oracle.com>
-	<20190528225039-mutt-send-email-mst@kernel.org>
-	<1c5f460e-a3b9-56c1-90f7-b3a5c3d0a0d3@redhat.com>
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=OVQKzPP3Dh0R+sR938iDr/HtlZw38Ct8+TwxZDTndLQ=;
+	b=SaCkPCuLeuCtdUDOL0pGy+SxQy0pB7WcgqHtmcqSIecXtOHYeyTmB7yLTM6UQHDE0r
+	CWQ/v8UjspPVrRR9SUPce7m9uSTe1hTKDNQ1XwNhvtQYInlhxb9d/X+COrq0lNNgV6+p
+	UIDXXTlY2j0g4jTDQ2/zppjcPoaCqbbxGDsHR7QGSmJEe6WMVEC23i/OfsslA5EOpi0R
+	ufhMytygEMi7t7coPCmQoLcOxjMpjMbC8mLp6E/Xg4ORT1XbQ2loEdpI1GEx7KbAGQLI
+	C4xmCuFwXqFnnNLE6POZcLo3LQHaaPuEbW77thHXfw493wF3EGM5pbS2ylktmGW20KFp
+	+Fpw==
+X-Gm-Message-State: APjAAAXuFLFRK+2WwwwaOAf94I+5uas/L4Az3aOygCrPKVoDaLxaLRvk
+	pQ8waDBpBhbIFleWwlGvwOXJIA==
+X-Google-Smtp-Source: APXvYqwyQpHPH73O8OZsGDlEzGc3mrdZrErg4SFKxfE3+RioeJNFLUpiwtooMV3lEwGl5ErXFFRqJQ==
+X-Received: by 2002:aca:fc8d:: with SMTP id a135mr1861429oii.145.1559585760708;
+	Mon, 03 Jun 2019 11:16:00 -0700 (PDT)
+Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
+	[200.56.192.86]) by smtp.gmail.com with ESMTPSA id
+	c125sm5535852oif.17.2019.06.03.11.15.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Jun 2019 11:15:59 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190518191934.21887-1-richard.henderson@linaro.org>
+	<20190518191934.21887-3-richard.henderson@linaro.org>
+	<CAFEAcA88nA_2u1Yc-9ZPAy2w6LVk5f9Rrss0e53E11W4Xb4YpA@mail.gmail.com>
+	<e177b43a-2abc-3aee-461c-2cfd9a8a0a20@linaro.org>
+	<CAFEAcA_1XuWqVu9gonn5_Y9x1V=UcWNHEXtwop2s0qyUbwiZpg@mail.gmail.com>
+	<13d9e22b-4ac5-fb87-622c-a99b5494d06c@linaro.org>
+	<CAFEAcA--wutvPH5xSRm7yNCQ9+TpjJ84qbSLTUa7YFgKnLmi=Q@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <56471d19-7c58-3790-84d6-e7b60f8a3b8e@linaro.org>
+Date: Mon, 3 Jun 2019 13:15:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1c5f460e-a3b9-56c1-90f7-b3a5c3d0a0d3@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.222.193
-Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
- network devices
+In-Reply-To: <CAFEAcA--wutvPH5xSRm7yNCQ9+TpjJ84qbSLTUa7YFgKnLmi=Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH 2/2] target/arm: Use tcg_gen_gvec_bitsel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,62 +89,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
-	aadam@redhat.com, qemu-devel@nongnu.org,
-	Alex Williamson <alex.williamson@redhat.com>,
-	si-wei liu <si-wei.liu@oracle.com>,
-	Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 03, 2019 at 02:06:47PM -0400, Laine Stump wrote:
-> On 5/28/19 10:54 PM, Michael S. Tsirkin wrote:
-> > On Tue, May 28, 2019 at 05:14:22PM -0700, si-wei liu wrote:
-> > > 
-> > > 
-> > > On 5/21/2019 11:49 AM, Jens Freimann wrote:
-> > > > On Tue, May 21, 2019 at 07:37:19AM -0400, Michael S. Tsirkin wrote:
-> > > > > On Tue, May 21, 2019 at 09:21:57AM +0200, Jens Freimann wrote:
-> > > > > > On Mon, May 20, 2019 at 04:56:57PM -0600, Alex Williamson wrote:
+On 5/23/19 8:30 AM, Peter Maydell wrote:
+> On Thu, 23 May 2019 at 14:16, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 5/23/19 9:08 AM, Peter Maydell wrote:
+>>>> Because the three different instructions perform the same operation with
+>>>> reshuffled register arguments.
+>>>
+>>> Ah, so they do. Next question, how do I find out what the
+>>> order of arguments in the above code means so I can compare
+>>> it against the pseudocode expression we're implementing?
+>>
+>> >From tcg/README:
+>>
+>> * bitsel_vec v0, v1, v2, v3
+>>
+>>   Bitwise select, v0 = (v2 & v1) | (v3 & ~v1), across the entire vector.
+>>
+>> The "selector" is second, the first input operand.
 > 
-> > > > > Actually is there a list of devices for which this has been tested
-> > > > > besides mlx5? I think someone said some old intel cards
-> > > > > don't support this well, we might need to blacklist these ...
-> > > > 
-> > > > So far I've tested mlx5 and XL710 which both worked, but I'm
-> > > > working on testing with more devices. But of course help with testing
-> > > > is greatly appreciated.
-> >>
-> > > It won't work on Intel ixgbe and Broadcom bnxt_en, which requires toggling
-> > > the state of tap backing the virtio-net in order to release/reprogram MAC
-> > > filter. Actually, it's very few NICs that could work with this - even some
-> > > works by chance the behavior is undefined. Instead of blacklisting it makes
-> > > more sense to whitelist the NIC that supports it - with some new sysfs
-> > > attribute claiming the support presumably.
-> > > 
-> > > -Siwei
-> > 
-> > I agree for many cards we won't know how they behave until we try.  One
-> > can consider this a bug in Linux that cards don't behave in a consistent
-> > way.  The best thing to do IMHO would be to write a tool that people can
-> > run to test the behaviour.
+> Oh, this series is based on another patchset.
 > 
-> Is the "bad behavior" something due to the hardware of the cards, or their
-> drivers? If it's the latter, then at least initially having a whitelist
-> would be counterproductive, since it would make it difficult for relative
-> outsiders to test and report success/failure of various cards.
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-We can add an "ignore whitelist" flag. Would that address the issue?
+The prerequisite for this patch is now in master.
 
-> (It's probably just a pipe dream, but it would be nice if it eventually
-> could work with old igb cards - I have several of them that I use for SRIOV
-> testing, and would rather avoid having to buy new hardware.)
 
-I think it generally can be worked around in the driver.
-Most host drivers do get a notification when guest driver
-loads/unloads and can use that to manipulate the on-device
-switch.
+r~
 
--- 
-MST
 
