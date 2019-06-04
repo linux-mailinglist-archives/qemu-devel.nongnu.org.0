@@ -2,52 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5FB34618
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 14:01:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50906 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFA734716
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 14:41:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51757 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY88B-0001a7-Qp
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 08:01:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57327)
+	id 1hY8kR-0003wE-7b
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 08:41:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39233)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hY84V-0007xN-Mt
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 07:57:44 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hY8jO-0003YN-29
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 08:39:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hY7zN-0000R6-5t
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 07:52:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43866)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hY8jM-0002wD-Mg
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 08:39:58 -0400
+Received: from relay.sw.ru ([185.231.240.75]:33282)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hY7zM-0000Pi-0H
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 07:52:24 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 590388F90F
-	for <qemu-devel@nongnu.org>; Tue,  4 Jun 2019 11:52:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
-	[10.36.116.148])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 23B6D5D9D2;
-	Tue,  4 Jun 2019 11:52:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id A93AC11386A7; Tue,  4 Jun 2019 13:52:21 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 13:52:21 +0200
-Message-Id: <20190604115221.28364-4-armbru@redhat.com>
-In-Reply-To: <20190604115221.28364-1-armbru@redhat.com>
-References: <20190604115221.28364-1-armbru@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Tue, 04 Jun 2019 11:52:23 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/3] qemu-bridge-helper: Document known
- shortcomings
+	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+	id 1hY8jM-0002uD-Ah; Tue, 04 Jun 2019 08:39:56 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+	by relay.sw.ru with esmtp (Exim 4.91)
+	(envelope-from <vsementsov@virtuozzo.com>)
+	id 1hY8jG-0002gO-5i; Tue, 04 Jun 2019 15:39:50 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Tue,  4 Jun 2019 15:39:48 +0300
+Message-Id: <20190604123948.48736-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v6] iotests: test big qcow2 shrink
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,39 +44,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+	den@virtuozzo.com, mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qemu-bridge-helper.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+This test checks bug in qcow2_process_discards, fixed by previous
+commit.
 
-diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
-index f9940deefd..95624bc300 100644
---- a/qemu-bridge-helper.c
-+++ b/qemu-bridge-helper.c
-@@ -10,7 +10,17 @@
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2.  See
-  * the COPYING file in the top-level directory.
-- *
-+ */
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+
+Hi all!
+
+This is a continuation of 
+ [PATCH v5 0/3] Fix overflow bug in qcow2 discard
+Two first patches are in Kevin's block branch, and here is fixed third.
+
+v6:
+  calculate reduce of disk usage instead of printing qemu-img map -f raw,
+  which makes output the same for xfs, tmpfs and ext4, at least it works
+  for me.
+
+Based-on: git://repo.or.cz/qemu/kevin.git block
+
+ tests/qemu-iotests/250     | 78 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/250.out | 16 ++++++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 95 insertions(+)
+ create mode 100755 tests/qemu-iotests/250
+ create mode 100644 tests/qemu-iotests/250.out
+
+diff --git a/tests/qemu-iotests/250 b/tests/qemu-iotests/250
+new file mode 100755
+index 0000000000..c9c0a84a5a
+--- /dev/null
++++ b/tests/qemu-iotests/250
+@@ -0,0 +1,78 @@
++#!/usr/bin/env bash
++#
++# Test big discard in qcow2 shrink
++#
++# Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+/*
-+ * Known shortcomings:
-+ * - There is no manual page
-+ * - The syntax of the ACL file is not documented anywhere
-+ * - parse_acl_file() doesn't report fopen() failure properly, fails
-+ *   to check ferror() after fgets() failure, arbitrarily truncates
-+ *   long lines, handles whitespace inconsistently, error messages
-+ *   don't point to the offending file and line, errors in included
-+ *   files are reported, but otherwise ignored, ...
-  */
-=20
- #include "qemu/osdep.h"
---=20
-2.21.0
++# creator
++owner=vsementsov@virtuozzo.com
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++
++# This test checks that qcow2_process_discards does not truncate a discard
++# request > 2G.
++# To reproduce bug we need to overflow int by one sequential discard, so we
++# need size > 2G, bigger cluster size (as with default 64k we may have maximum
++# of 512M sequential data, corresponding to one L1 entry), and we need some
++# data of the beginning of the disk mapped to the end of file to prevent
++# bdrv_co_truncate(bs->file) call in qcow2_co_truncate(), which might succeed
++# anyway.
++
++disk_usage()
++{
++    du --block-size=1 $1 | awk '{print $1}'
++}
++
++size=2100M
++IMGOPTS="cluster_size=1M,preallocation=metadata"
++
++_make_test_img $size
++$QEMU_IO -c 'discard 0 10M' -c 'discard 2090M 10M' \
++         -c 'write 2090M 10M' -c 'write 0 10M' "$TEST_IMG" | _filter_qemu_io
++
++# Check that our trick with swapping first and last 10M chunks succeeded.
++# Otherwise test may pass even if bdrv_pdiscard() fails in
++# qcow2_process_discards()
++$QEMU_IMG map "$TEST_IMG" | _filter_testdir
++
++before=$(disk_usage "$TEST_IMG")
++$QEMU_IMG resize --shrink "$TEST_IMG" 5M
++after=$(disk_usage "$TEST_IMG")
++
++echo "Disk usage delta: $((before - after))"
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/250.out b/tests/qemu-iotests/250.out
+new file mode 100644
+index 0000000000..f480fd273b
+--- /dev/null
++++ b/tests/qemu-iotests/250.out
+@@ -0,0 +1,16 @@
++QA output created by 250
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2202009600 preallocation=metadata
++discard 10485760/10485760 bytes at offset 0
++10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++discard 10485760/10485760 bytes at offset 2191523840
++10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 10485760/10485760 bytes at offset 2191523840
++10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 10485760/10485760 bytes at offset 0
++10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Offset          Length          Mapped to       File
++0               0xa00000        0x82f00000      TEST_DIR/t.qcow2
++0x82a00000      0xa00000        0x500000        TEST_DIR/t.qcow2
++Image resized.
++Disk usage delta: 15728640
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 88049ad46c..f3b6d601b2 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -262,6 +262,7 @@
+ 247 rw quick
+ 248 rw quick
+ 249 rw auto quick
++250 rw auto quick
+ 252 rw auto backing quick
+ 253 rw auto quick
+ 254 rw auto backing quick
+-- 
+2.18.0
 
 
