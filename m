@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E6334D17
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 18:20:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54870 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3356534D1C
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 18:22:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54909 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYCB1-0003lt-D6
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 12:20:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35822)
+	id 1hYCCa-00050N-AI
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 12:22:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35753)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6D-000149-KJ
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:46 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6B-00012f-PS
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6A-0005fk-Mf
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:44 -0400
-Received: from relay.sw.ru ([185.231.240.75]:41662)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6A-0005fV-JX
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:43 -0400
+Received: from relay.sw.ru ([185.231.240.75]:41696)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYC6A-0005C4-EL; Tue, 04 Jun 2019 12:15:42 -0400
+	id 1hYC6A-0005C2-AV; Tue, 04 Jun 2019 12:15:42 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYC5k-0005Pq-GR; Tue, 04 Jun 2019 19:15:16 +0300
+	id 1hYC5k-0005Pq-L1; Tue, 04 Jun 2019 19:15:16 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Tue,  4 Jun 2019 19:15:11 +0300
-Message-Id: <20190604161514.262241-10-vsementsov@virtuozzo.com>
+Date: Tue,  4 Jun 2019 19:15:12 +0300
+Message-Id: <20190604161514.262241-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190604161514.262241-1-vsementsov@virtuozzo.com>
 References: <20190604161514.262241-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v2 09/12] block/io: introduce bdrv_co_p{read,
- write}v_part
+Subject: [Qemu-devel] [PATCH v2 10/12] block/qcow2: refactor qcow2_co_preadv
+ to use buffer-based io
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,123 +52,59 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce extended variants of bdrv_co_preadv and bdrv_co_pwritev
-with qiov_offset parameter.
+Use buffer based io in encrypted case.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block_int.h |  6 ++++++
- block/io.c                | 29 +++++++++++++++++++++++------
- 2 files changed, 29 insertions(+), 6 deletions(-)
+ block/qcow2.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 46e17d2e2f..8b7b5d5b84 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -940,9 +940,15 @@ extern BlockDriver bdrv_qcow2;
- int coroutine_fn bdrv_co_preadv(BdrvChild *child,
-     int64_t offset, unsigned int bytes, QEMUIOVector *qiov,
-     BdrvRequestFlags flags);
-+int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
-+    int64_t offset, unsigned int bytes,
-+    QEMUIOVector *qiov, size_t qiov_offset, BdrvRequestFlags flags);
- int coroutine_fn bdrv_co_pwritev(BdrvChild *child,
-     int64_t offset, unsigned int bytes, QEMUIOVector *qiov,
-     BdrvRequestFlags flags);
-+int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
-+    int64_t offset, unsigned int bytes,
-+    QEMUIOVector *qiov, size_t qiov_offset, BdrvRequestFlags flags);
+diff --git a/block/qcow2.c b/block/qcow2.c
+index f2cb131048..8a033ae08c 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2047,19 +2047,15 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
+                 }
  
- static inline int coroutine_fn bdrv_co_pread(BdrvChild *child,
-     int64_t offset, unsigned int bytes, void *buf, BdrvRequestFlags flags)
-diff --git a/block/io.c b/block/io.c
-index 660c96527d..82051730fd 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1534,7 +1534,8 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
-  *
-  * Function always succeeds.
-  */
--static bool bdrv_pad_request(BlockDriverState *bs, QEMUIOVector **qiov,
-+static bool bdrv_pad_request(BlockDriverState *bs,
-+                             QEMUIOVector **qiov, size_t *qiov_offset,
-                              int64_t *offset, unsigned int *bytes,
-                              BdrvRequestPadding *pad)
- {
-@@ -1543,11 +1544,12 @@ static bool bdrv_pad_request(BlockDriverState *bs, QEMUIOVector **qiov,
-     }
+                 assert(cur_bytes <= QCOW_MAX_CRYPT_CLUSTERS * s->cluster_size);
+-                qemu_iovec_reset(&hd_qiov);
+-                qemu_iovec_add(&hd_qiov, cluster_data, cur_bytes);
+-            }
  
-     qemu_iovec_init_extended(&pad->local_qiov, pad->buf, pad->head,
--                             *qiov, 0, *bytes,
-+                             *qiov, *qiov_offset, *bytes,
-                              pad->buf + pad->buf_len - pad->tail, pad->tail);
-     *bytes += pad->head + pad->tail;
-     *offset -= pad->head;
-     *qiov = &pad->local_qiov;
-+    *qiov_offset = 0;
- 
-     return true;
- }
-@@ -1555,6 +1557,14 @@ static bool bdrv_pad_request(BlockDriverState *bs, QEMUIOVector **qiov,
- int coroutine_fn bdrv_co_preadv(BdrvChild *child,
-     int64_t offset, unsigned int bytes, QEMUIOVector *qiov,
-     BdrvRequestFlags flags)
-+{
-+    return bdrv_co_preadv_part(child, offset, bytes, qiov, 0, flags);
-+}
+-            BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+-            ret = bdrv_co_preadv(s->data_file,
+-                                 cluster_offset + offset_in_cluster,
+-                                 cur_bytes, &hd_qiov, 0);
+-            if (ret < 0) {
+-                goto fail;
+-            }
+-            if (bs->encrypted) {
+-                assert(s->crypto);
++                BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
++                ret = bdrv_co_pread(s->data_file,
++                                    cluster_offset + offset_in_cluster,
++                                    cur_bytes, cluster_data, 0);
++                if (ret < 0) {
++                    goto fail;
++                }
 +
-+int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
-+    int64_t offset, unsigned int bytes,
-+    QEMUIOVector *qiov, size_t qiov_offset,
-+    BdrvRequestFlags flags)
- {
-     BlockDriverState *bs = child->bs;
-     BdrvTrackedRequest req;
-@@ -1575,12 +1585,12 @@ int coroutine_fn bdrv_co_preadv(BdrvChild *child,
-         flags |= BDRV_REQ_COPY_ON_READ;
-     }
- 
--    bdrv_pad_request(bs, &qiov, &offset, &bytes, &pad);
-+    bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad);
- 
-     tracked_request_begin(&req, bs, offset, bytes, BDRV_TRACKED_READ);
-     ret = bdrv_aligned_preadv(child, &req, offset, bytes,
-                               bs->bl.request_alignment,
--                              qiov, 0, flags);
-+                              qiov, qiov_offset, flags);
-     tracked_request_end(&req);
-     bdrv_dec_in_flight(bs);
- 
-@@ -1943,6 +1953,13 @@ out:
- int coroutine_fn bdrv_co_pwritev(BdrvChild *child,
-     int64_t offset, unsigned int bytes, QEMUIOVector *qiov,
-     BdrvRequestFlags flags)
-+{
-+    return bdrv_co_pwritev_part(child, offset, bytes, qiov, 0, flags);
-+}
-+
-+int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
-+    int64_t offset, unsigned int bytes, QEMUIOVector *qiov, size_t qiov_offset,
-+    BdrvRequestFlags flags)
- {
-     BlockDriverState *bs = child->bs;
-     BdrvTrackedRequest req;
-@@ -1974,14 +1991,14 @@ int coroutine_fn bdrv_co_pwritev(BdrvChild *child,
-         goto out;
-     }
- 
--    if (bdrv_pad_request(bs, &qiov, &offset, &bytes, &pad)) {
-+    if (bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad)) {
-         mark_request_serialising(&req, align);
-         wait_serialising_requests(&req);
-         bdrv_padding_rmw_read(child, &req, &pad, false);
-     }
- 
-     ret = bdrv_aligned_pwritev(child, &req, offset, bytes, align,
--                               qiov, 0, flags);
-+                               qiov, qiov_offset, flags);
- 
-     bdrv_padding_destroy(&pad);
+                 assert((offset & (BDRV_SECTOR_SIZE - 1)) == 0);
+                 assert((cur_bytes & (BDRV_SECTOR_SIZE - 1)) == 0);
+                 if (qcow2_co_decrypt(bs, cluster_offset, offset,
+@@ -2068,6 +2064,14 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
+                     goto fail;
+                 }
+                 qemu_iovec_from_buf(qiov, bytes_done, cluster_data, cur_bytes);
++            } else {
++                BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
++                ret = bdrv_co_preadv(s->data_file,
++                                     cluster_offset + offset_in_cluster,
++                                     cur_bytes, &hd_qiov, 0);
++                if (ret < 0) {
++                    goto fail;
++                }
+             }
+             break;
  
 -- 
 2.18.0
