@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAABC35155
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:50:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57795 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0847635176
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:57:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57929 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYGOO-0005pg-Un
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:50:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35911)
+	id 1hYGV0-0003PZ-6Y
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:57:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35894)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8i-0001Pm-5p
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:40 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8g-0001OE-E9
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8d-0004Td-Pd
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:36 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44170)
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8f-0004Uy-3Z
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:34 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33401)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYG8d-0004Sp-Gd
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:31 -0400
-Received: by mail-ot1-x342.google.com with SMTP id b7so7252464otl.11
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:31 -0700 (PDT)
+	id 1hYG8e-0004UV-Ur
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:33 -0400
+Received: by mail-oi1-x244.google.com with SMTP id q186so16643841oia.0
+	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=lf5icV2lVCkIWEYrBl+I62jKJuQAE3cwX0XZzw8SlLo=;
-	b=FFkovk0R4KCwBUpWOPHE0x9s8PQS0yNl/4hv/bdFGwUZVeWbBQ1nIrAlwyW6E3ajZl
-	8Qq+iJVZBUHwUIXH1ZclBIMwsXlXfiQPcjvANpABGq8JyqcuoJmHO1+HeQw87W+eaZVK
-	6dmyBRNVTLIBeI5kZfFaSQnvq3AwXt4FfN5iSOuBdRTChlkQjolMib9v9SDFYyi3Hm/m
-	ATwGwTbdFGDCliTgDVoSSax484QJZ4cu2uWaOY7Ioz7q12+hi3D0njt21W4th0sdtved
-	lhAXbBEHV+v3chg7483HBhFId2pkrhOp29YHE8mnGvzJyUc60Xo2nloonHwNxySa4YnR
-	sJ/Q==
+	bh=BPOSGSRwnnlDmzKutwLcU2dnjTQ5x21/pJ7MvOt5Ozw=;
+	b=zQXpIkhoLJ2PE18jawcfmuA8iNFcDbP/w12SvOjJfI42egHFlCyc99T0AaimN2Rzqh
+	gmWqPnuJQs871qfZ3zeIwXGgGlyrB+1oBvMrXYRXdjcbM/dtC+oQJpHXDlKuoAURqgc4
+	YyBk0Lmvb1534tWlNx2GRCO7rUJFf2FX0HBJb3SB62IYzkjpGYR4gvP1pDW8TTncRV7m
+	2WXua+cNpPu+F2oJQisrWJ/gs2sm9EXhMxPqqefgjm94c8jZeKBVZeZiE2Yx5tiMk6bK
+	90OgEC24oOXfIx44CR2eqvIgoID9z1EFnEbvfzjwJsaSG2NSGYiA49gr3nhVAv/7fkhj
+	UZuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=lf5icV2lVCkIWEYrBl+I62jKJuQAE3cwX0XZzw8SlLo=;
-	b=bbhm9A0KEcYaCNrwuEMh1TCnhjNNuttlVgyUUmGRJ90ag+cCIKCuHmg/WwvI38LBe5
-	JZGpATibAM8SrvbZpSErIihATeVSU/+usjXq3Q308oV6pmDPFmvedzFvd+pPQSwJDoZC
-	7+JuHbJrV4GmpxneIyHiL3PeUIcAPrOaHpkYirOyl+TZySQ/iESBPamUIFzwu0e9f/QJ
-	qdsPX3HZVBExb6H7yIBp0HklNdJTBJ4Vd4esFZ0R0dj7aSvfP9mVfmekTmIGsbPSW/Mh
-	VRvAjNWQqi866BbJ4yhq5RYhuLqGzsqnebQdOJc/bbPWpmsKNP7hxXjUh+198yzUPPBT
-	E+Ig==
-X-Gm-Message-State: APjAAAVJPXlKp1HS4w9mcTWL/tKN9LUvGjo6iojsdH7AYcTsvqyCMwT/
-	Kgbrencxonurkydo+uNEFGtOQosUSk5jig==
-X-Google-Smtp-Source: APXvYqwfyBlKR3jjzBa6cL9DTaV2G3MDanfoffKG38ITzmAbc5pUiILg3E1+q34xtTsoQvu/DWqI/Q==
-X-Received: by 2002:a9d:3bb4:: with SMTP id k49mr6446753otc.332.1559680469817; 
-	Tue, 04 Jun 2019 13:34:29 -0700 (PDT)
+	bh=BPOSGSRwnnlDmzKutwLcU2dnjTQ5x21/pJ7MvOt5Ozw=;
+	b=QpuOAuwElth15s81tNTvwne/xPIg2zjf4DvBoPp8mUzJSkPGpshJRYTxbwdgCZ8SBx
+	vocQ8J5hxkKjKIhOa8wPgcvMzMmaKBtaR6j/6diGHtYmW0VhLr7SwUv8w2qzCWPlanvn
+	gg7YbBDZcUlSQRU5yOv2VbcEUVWb/hIKAWg+qzo6nBq0Mf5E3rFM6fKQFu+shGT59vI6
+	xkVX5kqVoD2VhPPVhZaKvGGovjRb7FWdwn5ZQfjqn7HCBZBJLTKpXRX6vPVgA/WMk3uH
+	QEFUL+S6zvIyiGELqQb0wKXsu8ypxJfgWlg87c3Q55mWJFeXX/JkigrGMzAg0IE5qbIO
+	bpsQ==
+X-Gm-Message-State: APjAAAUeKit4a4/yiwvP52bh0vNBb9Zah8GZtgbreFxuIWYkbXx22+ID
+	VpoIoh6d5tYBCqI0GJFc5Ija0irxC8sblg==
+X-Google-Smtp-Source: APXvYqzx+vBy0YDlrr3wxgshRQgayL9nCRIroF0Jkr1xrzGzeczxHruScDLdt2BKXfOaP3d69coHkQ==
+X-Received: by 2002:aca:3c86:: with SMTP id j128mr5594952oia.1.1559680471865; 
+	Tue, 04 Jun 2019 13:34:31 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.28
+	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.29
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 13:34:29 -0700 (PDT)
+	Tue, 04 Jun 2019 13:34:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 15:33:34 -0500
-Message-Id: <20190604203351.27778-23-richard.henderson@linaro.org>
+Date: Tue,  4 Jun 2019 15:33:35 -0500
+Message-Id: <20190604203351.27778-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604203351.27778-1-richard.henderson@linaro.org>
 References: <20190604203351.27778-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: [Qemu-devel] [PATCH v4 22/39] target/ppc: Use env_cpu, env_archcpu
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: [Qemu-devel] [PATCH v4 23/39] target/riscv: Use env_cpu, env_archcpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,1359 +80,178 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Cleanup in the boilerplate that each target must define.
-Replace ppc_env_get_cpu with env_archcpu.  The combination
-CPU(ppc_env_get_cpu) should have used ENV_GET_CPU to begin;
+Replace riscv_env_get_cpu with env_archcpu.  The combination
+CPU(riscv_env_get_cpu) should have used ENV_GET_CPU to begin;
 use env_cpu now.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/cpu.h                |   7 +-
- target/ppc/helper_regs.h        |   4 +-
- hw/ppc/ppc.c                    |  18 ++---
- hw/ppc/ppc405_uc.c              |   2 +-
- hw/ppc/ppc_booke.c              |   4 +-
- linux-user/ppc/cpu_loop.c       |   2 +-
- target/ppc/excp_helper.c        |  14 ++--
- target/ppc/fpu_helper.c         |  14 ++--
- target/ppc/kvm.c                |   5 +-
- target/ppc/misc_helper.c        |  22 ++----
- target/ppc/mmu-hash64.c         |  14 ++--
- target/ppc/mmu_helper.c         | 115 +++++++++++++-------------------
- target/ppc/translate_init.inc.c |  85 ++++++++++++-----------
- 13 files changed, 134 insertions(+), 172 deletions(-)
+ target/riscv/cpu.h          |  5 -----
+ linux-user/riscv/cpu_loop.c |  2 +-
+ target/riscv/cpu_helper.c   | 10 ++++------
+ target/riscv/csr.c          | 12 ++++++------
+ target/riscv/op_helper.c    |  7 +++----
+ 5 files changed, 14 insertions(+), 22 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index ec92a8e7af..73ef868a7b 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1203,11 +1203,6 @@ struct PowerPCCPU {
-     int32_t mig_slb_nr;
- };
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 9ab038bac3..29a1e08f03 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -221,11 +221,6 @@ typedef struct RISCVCPU {
+     } cfg;
+ } RISCVCPU;
  
--static inline PowerPCCPU *ppc_env_get_cpu(CPUPPCState *env)
+-static inline RISCVCPU *riscv_env_get_cpu(CPURISCVState *env)
 -{
--    return container_of(env, PowerPCCPU, env);
+-    return container_of(env, RISCVCPU, env);
 -}
 -
- #define ENV_OFFSET offsetof(PowerPCCPU, env)
- 
- PowerPCCPUClass *ppc_cpu_class_by_pvr(uint32_t pvr);
-@@ -2450,7 +2445,7 @@ static inline int booke206_tlbm_to_tlbn(CPUPPCState *env, ppcmas_tlb_t *tlbm)
-         }
-     }
- 
--    cpu_abort(CPU(ppc_env_get_cpu(env)), "Unknown TLBe: %d\n", id);
-+    cpu_abort(env_cpu(env), "Unknown TLBe: %d\n", id);
-     return 0;
- }
- 
-diff --git a/target/ppc/helper_regs.h b/target/ppc/helper_regs.h
-index 922da76c6c..85dfe7687f 100644
---- a/target/ppc/helper_regs.h
-+++ b/target/ppc/helper_regs.h
-@@ -116,7 +116,7 @@ static inline int hreg_store_msr(CPUPPCState *env, target_ulong value,
+ static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
  {
-     int excp;
- #if !defined(CONFIG_USER_ONLY)
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
+     return (env->misa & ext) != 0;
+diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+index 31700f75d0..c1134597fd 100644
+--- a/linux-user/riscv/cpu_loop.c
++++ b/linux-user/riscv/cpu_loop.c
+@@ -25,7 +25,7 @@
+ 
+ void cpu_loop(CPURISCVState *env)
+ {
+-    CPUState *cs = CPU(riscv_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
- #endif
- 
-     excp = 0;
-@@ -175,7 +175,7 @@ static inline int hreg_store_msr(CPUPPCState *env, target_ulong value,
- #if !defined(CONFIG_USER_ONLY)
- static inline void check_tlb_flush(CPUPPCState *env, bool global)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     /* Handle global flushes first */
-     if (global && (env->tlb_need_flush & TLB_NEED_GLOBAL_FLUSH)) {
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index ad20584f26..debcdab993 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -385,7 +385,7 @@ void ppc40x_system_reset(PowerPCCPU *cpu)
- 
- void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
- 
-     switch ((val >> 28) & 0x3) {
-     case 0x0:
-@@ -785,7 +785,7 @@ target_ulong cpu_ppc_load_decr(CPUPPCState *env)
- 
- target_ulong cpu_ppc_load_hdecr(CPUPPCState *env)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
-     ppc_tb_t *tb_env = env->tb_env;
-     uint64_t hdecr;
-@@ -923,7 +923,7 @@ static inline void _cpu_ppc_store_decr(PowerPCCPU *cpu, target_ulong decr,
- 
- void cpu_ppc_store_decr(CPUPPCState *env, target_ulong value)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
-     int nr_bits = 32;
- 
-@@ -955,7 +955,7 @@ static inline void _cpu_ppc_store_hdecr(PowerPCCPU *cpu, target_ulong hdecr,
- 
- void cpu_ppc_store_hdecr(CPUPPCState *env, target_ulong value)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
- 
-     _cpu_ppc_store_hdecr(cpu, cpu_ppc_load_hdecr(env), value,
-@@ -980,7 +980,7 @@ static void cpu_ppc_store_purr(PowerPCCPU *cpu, uint64_t value)
- static void cpu_ppc_set_tb_clk (void *opaque, uint32_t freq)
- {
-     CPUPPCState *env = opaque;
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     ppc_tb_t *tb_env = env->tb_env;
- 
-     tb_env->tb_freq = freq;
-@@ -1095,7 +1095,7 @@ const VMStateDescription vmstate_ppc_timebase = {
- /* Set up (once) timebase frequency (in Hz) */
- clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     ppc_tb_t *tb_env;
- 
-     tb_env = g_malloc0(sizeof(ppc_tb_t));
-@@ -1165,7 +1165,7 @@ static void cpu_4xx_fit_cb (void *opaque)
-     uint64_t now, next;
- 
-     env = opaque;
--    cpu = ppc_env_get_cpu(env);
-+    cpu = env_archcpu(env);
-     tb_env = env->tb_env;
-     ppc40x_timer = tb_env->opaque;
-     now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-@@ -1235,7 +1235,7 @@ static void cpu_4xx_pit_cb (void *opaque)
-     ppc40x_timer_t *ppc40x_timer;
- 
-     env = opaque;
--    cpu = ppc_env_get_cpu(env);
-+    cpu = env_archcpu(env);
-     tb_env = env->tb_env;
-     ppc40x_timer = tb_env->opaque;
-     env->spr[SPR_40x_TSR] |= 1 << 27;
-@@ -1261,7 +1261,7 @@ static void cpu_4xx_wdt_cb (void *opaque)
-     uint64_t now, next;
- 
-     env = opaque;
--    cpu = ppc_env_get_cpu(env);
-+    cpu = env_archcpu(env);
-     tb_env = env->tb_env;
-     ppc40x_timer = tb_env->opaque;
-     now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index 3ae7f6d4df..018dcca888 100644
---- a/hw/ppc/ppc405_uc.c
-+++ b/hw/ppc/ppc405_uc.c
-@@ -49,7 +49,7 @@
- ram_addr_t ppc405_set_bootinfo (CPUPPCState *env, ppc4xx_bd_info_t *bd,
-                                 uint32_t flags)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     ram_addr_t bdloc;
-     int i, n;
- 
-diff --git a/hw/ppc/ppc_booke.c b/hw/ppc/ppc_booke.c
-index 4f11e00a17..323413e074 100644
---- a/hw/ppc/ppc_booke.c
-+++ b/hw/ppc/ppc_booke.c
-@@ -249,7 +249,7 @@ static void booke_wdt_cb(void *opaque)
- 
- void store_booke_tsr(CPUPPCState *env, target_ulong val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     ppc_tb_t *tb_env = env->tb_env;
-     booke_timer_t *booke_timer = tb_env->opaque;
- 
-@@ -277,7 +277,7 @@ void store_booke_tsr(CPUPPCState *env, target_ulong val)
- 
- void store_booke_tcr(CPUPPCState *env, target_ulong val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     ppc_tb_t *tb_env = env->tb_env;
-     booke_timer_t *booke_timer = tb_env->opaque;
- 
-diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
-index 801f5ace29..24dfdba854 100644
---- a/linux-user/ppc/cpu_loop.c
-+++ b/linux-user/ppc/cpu_loop.c
-@@ -67,7 +67,7 @@ int ppc_dcr_write (ppc_dcr_t *dcr_env, int dcrn, uint32_t val)
- 
- void cpu_loop(CPUPPCState *env)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     target_siginfo_t info;
-     int trapnr;
+     int trapnr, signum, sigcode;
+     target_ulong sigaddr;
      target_ulong ret;
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index ec2c177091..50b004d00d 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -49,7 +49,7 @@ void ppc_cpu_do_interrupt(CPUState *cs)
- 
- static void ppc_hw_interrupt(CPUPPCState *env)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index c577a262b8..8b6754b917 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -89,14 +89,12 @@ struct CpuAsyncInfo {
+ static void riscv_cpu_update_mip_irqs_async(CPUState *target_cpu_state,
+                                             run_on_cpu_data data)
  {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
+-    CPURISCVState *env = &RISCV_CPU(target_cpu_state)->env;
+-    RISCVCPU *cpu = riscv_env_get_cpu(env);
+     struct CpuAsyncInfo *info = (struct CpuAsyncInfo *) data.host_ptr;
  
-     cs->exception_index = POWERPC_EXCP_NONE;
-     env->error_code = 0;
-@@ -792,7 +792,7 @@ void ppc_cpu_do_interrupt(CPUState *cs)
- 
- static void ppc_hw_interrupt(CPUPPCState *env)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     bool async_deliver;
- 
-     /* External reset */
-@@ -931,7 +931,7 @@ static void ppc_hw_interrupt(CPUPPCState *env)
-          * It generally means a discrepancy between the wakup conditions in the
-          * processor has_work implementation and the logic in this function.
-          */
--        cpu_abort(CPU(ppc_env_get_cpu(env)),
-+        cpu_abort(env_cpu(env),
-                   "Wakeup from PM state but interrupt Undelivered");
-     }
- }
-@@ -974,7 +974,7 @@ static void cpu_dump_rfi(target_ulong RA, target_ulong msr)
- void raise_exception_err_ra(CPUPPCState *env, uint32_t exception,
-                             uint32_t error_code, uintptr_t raddr)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     cs->exception_index = exception;
-     env->error_code = error_code;
-@@ -1015,7 +1015,7 @@ void helper_store_msr(CPUPPCState *env, target_ulong val)
-     uint32_t excp = hreg_store_msr(env, val, 0);
- 
-     if (excp != 0) {
--        CPUState *cs = CPU(ppc_env_get_cpu(env));
-+        CPUState *cs = env_cpu(env);
-         cpu_interrupt_exittb(cs);
-         raise_exception(env, excp);
-     }
-@@ -1026,7 +1026,7 @@ void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
- {
-     CPUState *cs;
- 
--    cs = CPU(ppc_env_get_cpu(env));
-+    cs = env_cpu(env);
-     cs->halted = 1;
- 
-     /*
-@@ -1043,7 +1043,7 @@ void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
- 
- static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     /* MSR:POW cannot be set by any form of rfi */
-     msr &= ~(1ULL << MSR_POW);
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 0b7308f539..ffbd19afa1 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -271,7 +271,7 @@ static void float_invalid_op_vxvc(CPUPPCState *env, bool set_fpcc,
-     env->fpscr |= FP_FX;
-     /* We must update the target FPR before raising the exception */
-     if (fpscr_ve != 0) {
--        CPUState *cs = CPU(ppc_env_get_cpu(env));
-+        CPUState *cs = env_cpu(env);
- 
-         cs->exception_index = POWERPC_EXCP_PROGRAM;
-         env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_VXVC;
-@@ -315,7 +315,7 @@ static inline void float_zero_divide_excp(CPUPPCState *env, uintptr_t raddr)
- 
- static inline void float_overflow_excp(CPUPPCState *env)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     env->fpscr |= 1 << FPSCR_OX;
-     /* Update the floating-point exception summary */
-@@ -335,7 +335,7 @@ static inline void float_overflow_excp(CPUPPCState *env)
- 
- static inline void float_underflow_excp(CPUPPCState *env)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     env->fpscr |= 1 << FPSCR_UX;
-     /* Update the floating-point exception summary */
-@@ -352,7 +352,7 @@ static inline void float_underflow_excp(CPUPPCState *env)
- 
- static inline void float_inexact_excp(CPUPPCState *env)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     env->fpscr |= 1 << FPSCR_FI;
-     env->fpscr |= 1 << FPSCR_XX;
-@@ -442,7 +442,7 @@ void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
- 
- void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     int prev;
- 
-     prev = (env->fpscr >> bit) & 1;
-@@ -574,7 +574,7 @@ void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
- 
- void helper_store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     target_ulong prev, new;
-     int i;
- 
-@@ -612,7 +612,7 @@ void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
- 
- static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     int status = get_float_exception_flags(&env->fp_status);
-     bool inexact_happened = false;
- 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 3bf0a46c33..d4107dd70d 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -1991,9 +1991,8 @@ static int kvmppc_get_dec_bits(void)
- }
- 
- static int kvmppc_get_pvinfo(CPUPPCState *env, struct kvm_ppc_pvinfo *pvinfo)
-- {
--     PowerPCCPU *cpu = ppc_env_get_cpu(env);
--     CPUState *cs = CPU(cpu);
-+{
-+    CPUState *cs = env_cpu(env);
- 
-     if (kvm_vm_check_extension(cs->kvm_state, KVM_CAP_PPC_GET_PVINFO) &&
-         !kvm_vm_ioctl(cs->kvm_state, KVM_PPC_GET_PVINFO, pvinfo)) {
-diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index 0a81e98ee9..49a8a02363 100644
---- a/target/ppc/misc_helper.c
-+++ b/target/ppc/misc_helper.c
-@@ -81,28 +81,24 @@ void helper_msr_facility_check(CPUPPCState *env, uint32_t bit,
- 
- void helper_store_sdr1(CPUPPCState *env, target_ulong val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
-     if (env->spr[SPR_SDR1] != val) {
-         ppc_store_sdr1(env, val);
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
-     }
- }
- 
- #if defined(TARGET_PPC64)
- void helper_store_ptcr(CPUPPCState *env, target_ulong val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
-     if (env->spr[SPR_PTCR] != val) {
-         ppc_store_ptcr(env, val);
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
-     }
- }
- 
- void helper_store_pcr(CPUPPCState *env, target_ulong value)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
- 
-     env->spr[SPR_PCR] = value & pcc->pcr_mask;
-@@ -111,16 +107,12 @@ void helper_store_pcr(CPUPPCState *env, target_ulong value)
- 
- void helper_store_pidr(CPUPPCState *env, target_ulong val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
-     env->spr[SPR_BOOKS_PID] = val;
--    tlb_flush(CPU(cpu));
-+    tlb_flush(env_cpu(env));
- }
- 
- void helper_store_lpidr(CPUPPCState *env, target_ulong val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
-     env->spr[SPR_LPIDR] = val;
- 
-     /*
-@@ -129,7 +121,7 @@ void helper_store_lpidr(CPUPPCState *env, target_ulong val)
-      * potentially access and cache entries for the current LPID as
-      * well.
-      */
--    tlb_flush(CPU(cpu));
-+    tlb_flush(env_cpu(env));
- }
- 
- void helper_store_hid0_601(CPUPPCState *env, target_ulong val)
-@@ -151,12 +143,10 @@ void helper_store_hid0_601(CPUPPCState *env, target_ulong val)
- 
- void helper_store_403_pbr(CPUPPCState *env, uint32_t num, target_ulong value)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
-     if (likely(env->pb[num] != value)) {
-         env->pb[num] = value;
-         /* Should be optimized */
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
-     }
- }
- 
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 7899eb2918..da8966ccf5 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -96,7 +96,7 @@ void dump_slb(PowerPCCPU *cpu)
- 
- void helper_slbia(CPUPPCState *env)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     int n;
- 
-     /* XXX: Warning: slbia never invalidates the first segment */
-@@ -118,7 +118,7 @@ void helper_slbia(CPUPPCState *env)
- static void __helper_slbie(CPUPPCState *env, target_ulong addr,
-                            target_ulong global)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     ppc_slb_t *slb;
- 
-     slb = slb_lookup(cpu, addr);
-@@ -251,7 +251,7 @@ static int ppc_find_slb_vsid(PowerPCCPU *cpu, target_ulong rb,
- 
- void helper_store_slb(CPUPPCState *env, target_ulong rb, target_ulong rs)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
- 
-     if (ppc_store_slb(cpu, rb & 0xfff, rb & ~0xfffULL, rs) < 0) {
-         raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-@@ -261,7 +261,7 @@ void helper_store_slb(CPUPPCState *env, target_ulong rb, target_ulong rs)
- 
- target_ulong helper_load_slb_esid(CPUPPCState *env, target_ulong rb)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     target_ulong rt = 0;
- 
-     if (ppc_load_slb_esid(cpu, rb, &rt) < 0) {
-@@ -273,7 +273,7 @@ target_ulong helper_load_slb_esid(CPUPPCState *env, target_ulong rb)
- 
- target_ulong helper_find_slb_vsid(CPUPPCState *env, target_ulong rb)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     target_ulong rt = 0;
- 
-     if (ppc_find_slb_vsid(cpu, rb, &rt) < 0) {
-@@ -285,7 +285,7 @@ target_ulong helper_find_slb_vsid(CPUPPCState *env, target_ulong rb)
- 
- target_ulong helper_load_slb_vsid(CPUPPCState *env, target_ulong rb)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     target_ulong rt = 0;
- 
-     if (ppc_load_slb_vsid(cpu, rb, &rt) < 0) {
-@@ -1163,7 +1163,7 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
- 
- void helper_store_lpcr(CPUPPCState *env, target_ulong val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
- 
-     ppc_store_lpcr(cpu, val);
- }
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index e3149e4d3f..261a8fe707 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -239,7 +239,6 @@ static inline int ppc6xx_tlb_getnum(CPUPPCState *env, target_ulong eaddr,
- 
- static inline void ppc6xx_tlb_invalidate_all(CPUPPCState *env)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     ppc6xx_tlb_t *tlb;
-     int nr, max;
- 
-@@ -253,7 +252,7 @@ static inline void ppc6xx_tlb_invalidate_all(CPUPPCState *env)
-         tlb = &env->tlb.tlb6[nr];
-         pte_invalidate(&tlb->pte0);
-     }
--    tlb_flush(CPU(cpu));
-+    tlb_flush(env_cpu(env));
- }
- 
- static inline void ppc6xx_tlb_invalidate_virt2(CPUPPCState *env,
-@@ -261,7 +260,7 @@ static inline void ppc6xx_tlb_invalidate_virt2(CPUPPCState *env,
-                                                int is_code, int match_epn)
- {
- #if !defined(FLUSH_ALL_TLBS)
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     ppc6xx_tlb_t *tlb;
-     int way, nr;
- 
-@@ -474,7 +473,7 @@ static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
- static inline int get_segment_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
-                                       target_ulong eaddr, int rw, int type)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     hwaddr hash;
-     target_ulong vsid;
-     int ds, pr, target_page_bits;
-@@ -670,7 +669,6 @@ static int ppcemb_tlb_search(CPUPPCState *env, target_ulong address,
- /* Helpers specific to PowerPC 40x implementations */
- static inline void ppc4xx_tlb_invalidate_all(CPUPPCState *env)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     ppcemb_tlb_t *tlb;
-     int i;
- 
-@@ -678,7 +676,7 @@ static inline void ppc4xx_tlb_invalidate_all(CPUPPCState *env)
-         tlb = &env->tlb.tlbe[i];
-         tlb->prot &= ~PAGE_VALID;
-     }
--    tlb_flush(CPU(cpu));
-+    tlb_flush(env_cpu(env));
- }
- 
- static int mmu40x_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
-@@ -749,11 +747,10 @@ static int mmu40x_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
- 
- void store_40x_sler(CPUPPCState *env, uint32_t val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
-     /* XXX: TO BE FIXED */
-     if (val != 0x00000000) {
--        cpu_abort(CPU(cpu), "Little-endian regions are not supported by now\n");
-+        cpu_abort(env_cpu(env),
-+                  "Little-endian regions are not supported by now\n");
-     }
-     env->spr[SPR_405_SLER] = val;
- }
-@@ -863,7 +860,6 @@ static int mmubooke_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
- static void booke206_flush_tlb(CPUPPCState *env, int flags,
-                                const int check_iprot)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     int tlb_size;
-     int i, j;
-     ppcmas_tlb_t *tlb = env->tlb.tlbm;
-@@ -880,7 +876,7 @@ static void booke206_flush_tlb(CPUPPCState *env, int flags,
-         tlb += booke206_tlb_size(env, i);
+     if (info->new_mip) {
+-        cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
++        cpu_interrupt(target_cpu_state, CPU_INTERRUPT_HARD);
+     } else {
+-        cpu_reset_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
++        cpu_reset_interrupt(target_cpu_state, CPU_INTERRUPT_HARD);
      }
  
--    tlb_flush(CPU(cpu));
-+    tlb_flush(env_cpu(env));
- }
- 
- static hwaddr booke206_tlb_to_page_size(CPUPPCState *env,
-@@ -1275,7 +1271,7 @@ static void mmu6xx_dump_BATs(CPUPPCState *env, int type)
- 
- static void mmu6xx_dump_mmu(CPUPPCState *env)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     ppc6xx_tlb_t *tlb;
-     target_ulong sr;
-     int type, way, entry, i;
-@@ -1347,13 +1343,13 @@ void dump_mmu(CPUPPCState *env)
-     case POWERPC_MMU_2_03:
-     case POWERPC_MMU_2_06:
-     case POWERPC_MMU_2_07:
--        dump_slb(ppc_env_get_cpu(env));
-+        dump_slb(env_archcpu(env));
-         break;
-     case POWERPC_MMU_3_00:
--        if (ppc64_v3_radix(ppc_env_get_cpu(env))) {
-+        if (ppc64_v3_radix(env_archcpu(env))) {
-             /* TODO - Unsupported */
-         } else {
--            dump_slb(ppc_env_get_cpu(env));
-+            dump_slb(env_archcpu(env));
-             break;
+     g_free(info);
+@@ -212,7 +210,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
          }
- #endif
-@@ -1419,7 +1415,6 @@ static int get_physical_address_wtlb(
-     target_ulong eaddr, int rw, int access_type,
-     int mmu_idx)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     int ret = -1;
-     bool real_mode = (access_type == ACCESS_CODE && msr_ir == 0)
-         || (access_type != ACCESS_CODE && msr_dr == 0);
-@@ -1460,18 +1455,18 @@ static int get_physical_address_wtlb(
-         break;
-     case POWERPC_MMU_MPC8xx:
-         /* XXX: TODO */
--        cpu_abort(CPU(cpu), "MPC8xx MMU model is not implemented\n");
-+        cpu_abort(env_cpu(env), "MPC8xx MMU model is not implemented\n");
-         break;
-     case POWERPC_MMU_REAL:
-         if (real_mode) {
-             ret = check_physical(env, ctx, eaddr, rw);
-         } else {
--            cpu_abort(CPU(cpu),
-+            cpu_abort(env_cpu(env),
-                       "PowerPC in real mode do not do any translation\n");
-         }
-         return -1;
-     default:
--        cpu_abort(CPU(cpu), "Unknown or invalid MMU model\n");
-+        cpu_abort(env_cpu(env), "Unknown or invalid MMU model\n");
-         return -1;
      }
  
-@@ -1583,7 +1578,7 @@ static void booke206_update_mas_tlb_miss(CPUPPCState *env, target_ulong address,
- static int cpu_ppc_handle_mmu_fault(CPUPPCState *env, target_ulong address,
-                                     int rw, int mmu_idx)
- {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
+-    CPUState *cs = CPU(riscv_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     mmu_ctx_t ctx;
-     int access_type;
-@@ -1815,7 +1810,7 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *env, target_ulong address,
- static inline void do_invalidate_BAT(CPUPPCState *env, target_ulong BATu,
-                                      target_ulong mask)
+     int va_bits = PGSHIFT + levels * ptidxbits;
+     target_ulong mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
+     target_ulong masked_msbs = (addr >> (va_bits - 1)) & mask;
+@@ -341,7 +339,7 @@ restart:
+ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+                                 MMUAccessType access_type)
  {
--    CPUState *cs = CPU(ppc_env_get_cpu(env));
+-    CPUState *cs = CPU(riscv_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
-     target_ulong base, end, page;
- 
-     base = BATu & ~0x0001FFFF;
-@@ -1847,7 +1842,7 @@ void helper_store_ibatu(CPUPPCState *env, uint32_t nr, target_ulong value)
- {
-     target_ulong mask;
- #if defined(FLUSH_ALL_TLBS)
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
- #endif
- 
-     dump_store_bat(env, 'I', 0, nr, value);
-@@ -1868,7 +1863,7 @@ void helper_store_ibatu(CPUPPCState *env, uint32_t nr, target_ulong value)
- #if !defined(FLUSH_ALL_TLBS)
-         do_invalidate_BAT(env, env->IBAT[0][nr], mask);
- #else
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
- #endif
-     }
- }
-@@ -1883,7 +1878,7 @@ void helper_store_dbatu(CPUPPCState *env, uint32_t nr, target_ulong value)
- {
-     target_ulong mask;
- #if defined(FLUSH_ALL_TLBS)
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
- #endif
- 
-     dump_store_bat(env, 'D', 0, nr, value);
-@@ -1904,7 +1899,7 @@ void helper_store_dbatu(CPUPPCState *env, uint32_t nr, target_ulong value)
- #if !defined(FLUSH_ALL_TLBS)
-         do_invalidate_BAT(env, env->DBAT[0][nr], mask);
- #else
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
- #endif
-     }
- }
-@@ -1919,7 +1914,7 @@ void helper_store_601_batu(CPUPPCState *env, uint32_t nr, target_ulong value)
- {
-     target_ulong mask;
- #if defined(FLUSH_ALL_TLBS)
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     int do_inval;
- #endif
- 
-@@ -1953,7 +1948,7 @@ void helper_store_601_batu(CPUPPCState *env, uint32_t nr, target_ulong value)
-         }
- #if defined(FLUSH_ALL_TLBS)
-         if (do_inval) {
--            tlb_flush(CPU(cpu));
+     int page_fault_exceptions =
+         (env->priv_ver >= PRIV_VERSION_1_10_0) &&
+         get_field(env->satp, SATP_MODE) != VM_1_10_MBARE;
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index f9e2910643..c67d29e206 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -296,7 +296,7 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
+     if (env->priv_ver <= PRIV_VERSION_1_09_1) {
+         if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP |
+                 MSTATUS_MPRV | MSTATUS_SUM | MSTATUS_VM)) {
+-            tlb_flush(CPU(riscv_env_get_cpu(env)));
 +            tlb_flush(env_cpu(env));
          }
- #endif
-     }
-@@ -1964,7 +1959,7 @@ void helper_store_601_batl(CPUPPCState *env, uint32_t nr, target_ulong value)
- #if !defined(FLUSH_ALL_TLBS)
-     target_ulong mask;
- #else
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     int do_inval;
- #endif
- 
-@@ -1993,7 +1988,7 @@ void helper_store_601_batl(CPUPPCState *env, uint32_t nr, target_ulong value)
-         env->DBAT[1][nr] = value;
- #if defined(FLUSH_ALL_TLBS)
-         if (do_inval) {
--            tlb_flush(CPU(cpu));
+         mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+             MSTATUS_SPP | MSTATUS_FS | MSTATUS_MPRV | MSTATUS_SUM |
+@@ -307,7 +307,7 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
+     if (env->priv_ver >= PRIV_VERSION_1_10_0) {
+         if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+                 MSTATUS_MPRV | MSTATUS_SUM)) {
+-            tlb_flush(CPU(riscv_env_get_cpu(env)));
 +            tlb_flush(env_cpu(env));
          }
- #endif
-     }
-@@ -2003,12 +1998,10 @@ void helper_store_601_batl(CPUPPCState *env, uint32_t nr, target_ulong value)
- /* TLB management */
- void ppc_tlb_invalidate_all(CPUPPCState *env)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
- #if defined(TARGET_PPC64)
-     if (env->mmu_model & POWERPC_MMU_64) {
-         env->tlb_need_flush = 0;
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
-     } else
- #endif /* defined(TARGET_PPC64) */
-     switch (env->mmu_model) {
-@@ -2021,14 +2014,14 @@ void ppc_tlb_invalidate_all(CPUPPCState *env)
-         ppc4xx_tlb_invalidate_all(env);
-         break;
-     case POWERPC_MMU_REAL:
--        cpu_abort(CPU(cpu), "No TLB for PowerPC 4xx in real mode\n");
-+        cpu_abort(env_cpu(env), "No TLB for PowerPC 4xx in real mode\n");
-         break;
-     case POWERPC_MMU_MPC8xx:
-         /* XXX: TODO */
--        cpu_abort(CPU(cpu), "MPC8xx MMU model is not implemented\n");
-+        cpu_abort(env_cpu(env), "MPC8xx MMU model is not implemented\n");
-         break;
-     case POWERPC_MMU_BOOKE:
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
-         break;
-     case POWERPC_MMU_BOOKE206:
-         booke206_flush_tlb(env, -1, 0);
-@@ -2036,11 +2029,11 @@ void ppc_tlb_invalidate_all(CPUPPCState *env)
-     case POWERPC_MMU_32B:
-     case POWERPC_MMU_601:
-         env->tlb_need_flush = 0;
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
-         break;
-     default:
-         /* XXX: TODO */
--        cpu_abort(CPU(cpu), "Unknown MMU model %x\n", env->mmu_model);
-+        cpu_abort(env_cpu(env), "Unknown MMU model %x\n", env->mmu_model);
-         break;
-     }
- }
-@@ -2091,7 +2084,7 @@ void ppc_tlb_invalidate_one(CPUPPCState *env, target_ulong addr)
- /* Special registers manipulation */
- void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
-     assert(!cpu->vhyp);
- #if defined(TARGET_PPC64)
-@@ -2118,7 +2111,7 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
- #if defined(TARGET_PPC64)
- void ppc_store_ptcr(CPUPPCState *env, target_ulong value)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+    PowerPCCPU *cpu = env_archcpu(env);
-     target_ulong ptcr_mask = PTCR_PATB | PTCR_PATS;
-     target_ulong patbsize = value & PTCR_PATS;
+         mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+             MSTATUS_SPP | MSTATUS_FS | MSTATUS_MPRV | MSTATUS_SUM |
+@@ -382,7 +382,7 @@ static int write_misa(CPURISCVState *env, int csrno, target_ulong val)
  
-@@ -2163,7 +2156,7 @@ void helper_store_sr(CPUPPCState *env, target_ulong srnum, target_ulong value)
-             (int)srnum, value, env->sr[srnum]);
- #if defined(TARGET_PPC64)
-     if (env->mmu_model & POWERPC_MMU_64) {
--        PowerPCCPU *cpu = ppc_env_get_cpu(env);
-+        PowerPCCPU *cpu = env_archcpu(env);
-         uint64_t esid, vsid;
+     /* flush translation cache */
+     if (val != env->misa) {
+-        tb_flush(CPU(riscv_env_get_cpu(env)));
++        tb_flush(env_cpu(env));
+     }
  
-         /* ESID = srnum */
-@@ -2190,7 +2183,7 @@ void helper_store_sr(CPUPPCState *env, target_ulong srnum, target_ulong value)
-             page = (16 << 20) * srnum;
-             end = page + (16 << 20);
-             for (; page != end; page += TARGET_PAGE_SIZE) {
--                tlb_flush_page(CPU(cpu), page);
-+                tlb_flush_page(env_cpu(env), page);
+     env->misa = val;
+@@ -549,7 +549,7 @@ static int write_mbadaddr(CPURISCVState *env, int csrno, target_ulong val)
+ static int rmw_mip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+                    target_ulong new_value, target_ulong write_mask)
+ {
+-    RISCVCPU *cpu = riscv_env_get_cpu(env);
++    RISCVCPU *cpu = env_archcpu(env);
+     /* Allow software control of delegable interrupts not claimed by hardware */
+     target_ulong mask = write_mask & delegable_ints & ~env->miclaim;
+     uint32_t old_mip;
+@@ -712,7 +712,7 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
+         return 0;
+     }
+     if (env->priv_ver <= PRIV_VERSION_1_09_1 && (val ^ env->sptbr)) {
+-        tlb_flush(CPU(riscv_env_get_cpu(env)));
++        tlb_flush(env_cpu(env));
+         env->sptbr = val & (((target_ulong)
+             1 << (TARGET_PHYS_ADDR_SPACE_BITS - PGSHIFT)) - 1);
+     }
+@@ -724,7 +724,7 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
+             return -1;
+         } else {
+             if((val ^ env->satp) & SATP_ASID) {
+-                tlb_flush(CPU(riscv_env_get_cpu(env)));
++                tlb_flush(env_cpu(env));
              }
+             env->satp = val;
          }
- #else
-@@ -2212,12 +2205,10 @@ void helper_tlbie(CPUPPCState *env, target_ulong addr)
- 
- void helper_tlbiva(CPUPPCState *env, target_ulong addr)
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 644d0fb35f..331cc36232 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -28,7 +28,7 @@
+ void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
+                                           uint32_t exception, uintptr_t pc)
  {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
-     /* tlbiva instruction only exists on BookE */
-     assert(env->mmu_model == POWERPC_MMU_BOOKE);
-     /* XXX: TODO */
--    cpu_abort(CPU(cpu), "BookE MMU model is not implemented\n");
-+    cpu_abort(env_cpu(env), "BookE MMU model is not implemented\n");
- }
+-    CPUState *cs = CPU(riscv_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     qemu_log_mask(CPU_LOG_INT, "%s: %d\n", __func__, exception);
+     cs->exception_index = exception;
+     cpu_loop_exit_restore(cs, pc);
+@@ -128,7 +128,7 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
  
- /* Software driven TLBs management */
-@@ -2433,8 +2424,7 @@ target_ulong helper_4xx_tlbre_lo(CPUPPCState *env, target_ulong entry)
- void helper_4xx_tlbwe_hi(CPUPPCState *env, target_ulong entry,
-                          target_ulong val)
+ void helper_wfi(CPURISCVState *env)
  {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
+-    CPUState *cs = CPU(riscv_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+ 
+     if (env->priv == PRV_S &&
+         env->priv_ver >= PRIV_VERSION_1_10_0 &&
+@@ -143,8 +143,7 @@ void helper_wfi(CPURISCVState *env)
+ 
+ void helper_tlb_flush(CPURISCVState *env)
+ {
+-    RISCVCPU *cpu = riscv_env_get_cpu(env);
 -    CPUState *cs = CPU(cpu);
 +    CPUState *cs = env_cpu(env);
-     ppcemb_tlb_t *tlb;
-     target_ulong page, end;
- 
-@@ -2529,7 +2519,6 @@ target_ulong helper_4xx_tlbsx(CPUPPCState *env, target_ulong address)
- void helper_440_tlbwe(CPUPPCState *env, uint32_t word, target_ulong entry,
-                       target_ulong value)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     ppcemb_tlb_t *tlb;
-     target_ulong EPN, RPN, size;
-     int do_flush_tlbs;
-@@ -2565,13 +2554,13 @@ void helper_440_tlbwe(CPUPPCState *env, uint32_t word, target_ulong entry,
-         }
-         tlb->PID = env->spr[SPR_440_MMUCR] & 0x000000FF;
-         if (do_flush_tlbs) {
--            tlb_flush(CPU(cpu));
-+            tlb_flush(env_cpu(env));
-         }
-         break;
-     case 1:
-         RPN = value & 0xFFFFFC0F;
-         if ((tlb->prot & PAGE_VALID) && tlb->RPN != RPN) {
--            tlb_flush(CPU(cpu));
-+            tlb_flush(env_cpu(env));
-         }
-         tlb->RPN = RPN;
-         break;
-@@ -2665,7 +2654,6 @@ target_ulong helper_440_tlbsx(CPUPPCState *env, target_ulong address)
- 
- static ppcmas_tlb_t *booke206_cur_tlb(CPUPPCState *env)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     uint32_t tlbncfg = 0;
-     int esel = (env->spr[SPR_BOOKE_MAS0] & MAS0_ESEL_MASK) >> MAS0_ESEL_SHIFT;
-     int ea = (env->spr[SPR_BOOKE_MAS2] & MAS2_EPN_MASK);
-@@ -2675,7 +2663,7 @@ static ppcmas_tlb_t *booke206_cur_tlb(CPUPPCState *env)
-     tlbncfg = env->spr[SPR_BOOKE_TLB0CFG + tlb];
- 
-     if ((tlbncfg & TLBnCFG_HES) && (env->spr[SPR_BOOKE_MAS0] & MAS0_HES)) {
--        cpu_abort(CPU(cpu), "we don't support HES yet\n");
-+        cpu_abort(env_cpu(env), "we don't support HES yet\n");
-     }
- 
-     return booke206_get_tlbm(env, tlb, ea, esel);
-@@ -2683,40 +2671,33 @@ static ppcmas_tlb_t *booke206_cur_tlb(CPUPPCState *env)
- 
- void helper_booke_setpid(CPUPPCState *env, uint32_t pidn, target_ulong pid)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
-     env->spr[pidn] = pid;
-     /* changing PIDs mean we're in a different address space now */
--    tlb_flush(CPU(cpu));
-+    tlb_flush(env_cpu(env));
- }
- 
- void helper_booke_set_eplc(CPUPPCState *env, target_ulong val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     env->spr[SPR_BOOKE_EPLC] = val & EPID_MASK;
--    tlb_flush_by_mmuidx(CPU(cpu), 1 << PPC_TLB_EPID_LOAD);
-+    tlb_flush_by_mmuidx(env_cpu(env), 1 << PPC_TLB_EPID_LOAD);
- }
- void helper_booke_set_epsc(CPUPPCState *env, target_ulong val)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     env->spr[SPR_BOOKE_EPSC] = val & EPID_MASK;
--    tlb_flush_by_mmuidx(CPU(cpu), 1 << PPC_TLB_EPID_STORE);
-+    tlb_flush_by_mmuidx(env_cpu(env), 1 << PPC_TLB_EPID_STORE);
- }
- 
- static inline void flush_page(CPUPPCState *env, ppcmas_tlb_t *tlb)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
--
-     if (booke206_tlb_to_page_size(env, tlb) == TARGET_PAGE_SIZE) {
--        tlb_flush_page(CPU(cpu), tlb->mas2 & MAS2_EPN_MASK);
-+        tlb_flush_page(env_cpu(env), tlb->mas2 & MAS2_EPN_MASK);
-     } else {
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
-     }
- }
- 
- void helper_booke206_tlbwe(CPUPPCState *env)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     uint32_t tlbncfg, tlbn;
-     ppcmas_tlb_t *tlb;
-     uint32_t size_tlb, size_ps;
-@@ -2770,7 +2751,7 @@ void helper_booke206_tlbwe(CPUPPCState *env)
-     }
- 
-     if (msr_gs) {
--        cpu_abort(CPU(cpu), "missing HV implementation\n");
-+        cpu_abort(env_cpu(env), "missing HV implementation\n");
-     }
- 
-     if (tlb->mas1 & MAS1_VALID) {
-@@ -2968,7 +2949,6 @@ void helper_booke206_tlbilx0(CPUPPCState *env, target_ulong address)
- 
- void helper_booke206_tlbilx1(CPUPPCState *env, target_ulong address)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     int i, j;
-     int tid = (env->spr[SPR_BOOKE_MAS6] & MAS6_SPID);
-     ppcmas_tlb_t *tlb = env->tlb.tlbm;
-@@ -2985,12 +2965,11 @@ void helper_booke206_tlbilx1(CPUPPCState *env, target_ulong address)
-         }
-         tlb += booke206_tlb_size(env, i);
-     }
--    tlb_flush(CPU(cpu));
-+    tlb_flush(env_cpu(env));
- }
- 
- void helper_booke206_tlbilx3(CPUPPCState *env, target_ulong address)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     int i, j;
-     ppcmas_tlb_t *tlb;
-     int tid = (env->spr[SPR_BOOKE_MAS6] & MAS6_SPID);
-@@ -3026,7 +3005,7 @@ void helper_booke206_tlbilx3(CPUPPCState *env, target_ulong address)
-             tlb->mas1 &= ~MAS1_VALID;
-         }
-     }
--    tlb_flush(CPU(cpu));
-+    tlb_flush(env_cpu(env));
- }
- 
- void helper_booke206_tlbflush(CPUPPCState *env, target_ulong type)
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index ad5e14b16f..d161e95fb2 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -3432,7 +3432,7 @@ static void init_proc_401(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc40x_irq_init(ppc_env_get_cpu(env));
-+    ppc40x_irq_init(env_archcpu(env));
- 
-     SET_FIT_PERIOD(12, 16, 20, 24);
-     SET_WDT_PERIOD(16, 20, 24, 28);
-@@ -3486,7 +3486,7 @@ static void init_proc_401x2(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc40x_irq_init(ppc_env_get_cpu(env));
-+    ppc40x_irq_init(env_archcpu(env));
- 
-     SET_FIT_PERIOD(12, 16, 20, 24);
-     SET_WDT_PERIOD(16, 20, 24, 28);
-@@ -3538,7 +3538,7 @@ static void init_proc_401x3(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc40x_irq_init(ppc_env_get_cpu(env));
-+    ppc40x_irq_init(env_archcpu(env));
- 
-     SET_FIT_PERIOD(12, 16, 20, 24);
-     SET_WDT_PERIOD(16, 20, 24, 28);
-@@ -3597,7 +3597,7 @@ static void init_proc_IOP480(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc40x_irq_init(ppc_env_get_cpu(env));
-+    ppc40x_irq_init(env_archcpu(env));
- 
-     SET_FIT_PERIOD(8, 12, 16, 20);
-     SET_WDT_PERIOD(16, 20, 24, 28);
-@@ -3648,7 +3648,7 @@ static void init_proc_403(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc40x_irq_init(ppc_env_get_cpu(env));
-+    ppc40x_irq_init(env_archcpu(env));
- 
-     SET_FIT_PERIOD(8, 12, 16, 20);
-     SET_WDT_PERIOD(16, 20, 24, 28);
-@@ -3714,7 +3714,7 @@ static void init_proc_403GCX(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc40x_irq_init(ppc_env_get_cpu(env));
-+    ppc40x_irq_init(env_archcpu(env));
- 
-     SET_FIT_PERIOD(8, 12, 16, 20);
-     SET_WDT_PERIOD(16, 20, 24, 28);
-@@ -3780,7 +3780,7 @@ static void init_proc_405(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc40x_irq_init(ppc_env_get_cpu(env));
-+    ppc40x_irq_init(env_archcpu(env));
- 
-     SET_FIT_PERIOD(8, 12, 16, 20);
-     SET_WDT_PERIOD(16, 20, 24, 28);
-@@ -3878,7 +3878,7 @@ static void init_proc_440EP(CPUPPCState *env)
-     init_excp_BookE(env);
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
--    ppc40x_irq_init(ppc_env_get_cpu(env));
-+    ppc40x_irq_init(env_archcpu(env));
- 
-     SET_FIT_PERIOD(12, 16, 20, 24);
-     SET_WDT_PERIOD(20, 24, 28, 32);
-@@ -4186,7 +4186,7 @@ static void init_proc_440x5(CPUPPCState *env)
-     init_excp_BookE(env);
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
--    ppc40x_irq_init(ppc_env_get_cpu(env));
-+    ppc40x_irq_init(env_archcpu(env));
- 
-     SET_FIT_PERIOD(12, 16, 20, 24);
-     SET_WDT_PERIOD(20, 24, 28, 32);
-@@ -4392,7 +4392,7 @@ static void init_proc_G2(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(G2)(ObjectClass *oc, void *data)
-@@ -4472,7 +4472,7 @@ static void init_proc_G2LE(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(G2LE)(ObjectClass *oc, void *data)
-@@ -4727,7 +4727,7 @@ static void init_proc_e300(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(e300)(ObjectClass *oc, void *data)
-@@ -4805,7 +4805,6 @@ enum fsl_e500_version {
- 
- static void init_proc_e500(CPUPPCState *env, int version)
- {
--    PowerPCCPU *cpu = ppc_env_get_cpu(env);
-     uint32_t tlbncfg[2];
-     uint64_t ivor_mask;
-     uint64_t ivpr_mask = 0xFFFF0000ULL;
-@@ -4877,7 +4876,7 @@ static void init_proc_e500(CPUPPCState *env, int version)
-         tlbncfg[1] = 0x40028040;
-         break;
-     default:
--        cpu_abort(CPU(cpu), "Unknown CPU: " TARGET_FMT_lx "\n",
-+        cpu_abort(env_cpu(env), "Unknown CPU: " TARGET_FMT_lx "\n",
-                   env->spr[SPR_PVR]);
-     }
- #endif
-@@ -4902,7 +4901,7 @@ static void init_proc_e500(CPUPPCState *env, int version)
-         l1cfg1 |= 0x0B83820;
-         break;
-     default:
--        cpu_abort(CPU(cpu), "Unknown CPU: " TARGET_FMT_lx "\n",
-+        cpu_abort(env_cpu(env), "Unknown CPU: " TARGET_FMT_lx "\n",
-                   env->spr[SPR_PVR]);
-     }
-     gen_spr_BookE206(env, 0x000000DF, tlbncfg, mmucfg);
-@@ -5018,7 +5017,7 @@ static void init_proc_e500(CPUPPCState *env, int version)
- 
-     init_excp_e200(env, ivpr_mask);
-     /* Allocate hardware IRQ controller */
--    ppce500_irq_init(ppc_env_get_cpu(env));
-+    ppce500_irq_init(env_archcpu(env));
- }
- 
- static void init_proc_e500v1(CPUPPCState *env)
-@@ -5291,7 +5290,7 @@ static void init_proc_601(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 64;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(601)(ObjectClass *oc, void *data)
-@@ -5396,7 +5395,7 @@ static void init_proc_602(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(602)(ObjectClass *oc, void *data)
-@@ -5466,7 +5465,7 @@ static void init_proc_603(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(603)(ObjectClass *oc, void *data)
-@@ -5533,7 +5532,7 @@ static void init_proc_603E(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(603E)(ObjectClass *oc, void *data)
-@@ -5594,7 +5593,7 @@ static void init_proc_604(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(604)(ObjectClass *oc, void *data)
-@@ -5678,7 +5677,7 @@ static void init_proc_604E(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(604E)(ObjectClass *oc, void *data)
-@@ -5749,7 +5748,7 @@ static void init_proc_740(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(740)(ObjectClass *oc, void *data)
-@@ -5829,7 +5828,7 @@ static void init_proc_750(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(750)(ObjectClass *oc, void *data)
-@@ -5993,7 +5992,7 @@ static void init_proc_750cl(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(750cl)(ObjectClass *oc, void *data)
-@@ -6115,7 +6114,7 @@ static void init_proc_750cx(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(750cx)(ObjectClass *oc, void *data)
-@@ -6203,7 +6202,7 @@ static void init_proc_750fx(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(750fx)(ObjectClass *oc, void *data)
-@@ -6291,7 +6290,7 @@ static void init_proc_750gx(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(750gx)(ObjectClass *oc, void *data)
-@@ -6370,7 +6369,7 @@ static void init_proc_745(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(745)(ObjectClass *oc, void *data)
-@@ -6457,7 +6456,7 @@ static void init_proc_755(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(755)(ObjectClass *oc, void *data)
-@@ -6527,7 +6526,7 @@ static void init_proc_7400(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(7400)(ObjectClass *oc, void *data)
-@@ -6612,7 +6611,7 @@ static void init_proc_7410(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(7410)(ObjectClass *oc, void *data)
-@@ -6723,7 +6722,7 @@ static void init_proc_7440(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(7440)(ObjectClass *oc, void *data)
-@@ -6857,7 +6856,7 @@ static void init_proc_7450(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(7450)(ObjectClass *oc, void *data)
-@@ -6994,7 +6993,7 @@ static void init_proc_7445(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(7445)(ObjectClass *oc, void *data)
-@@ -7133,7 +7132,7 @@ static void init_proc_7455(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(7455)(ObjectClass *oc, void *data)
-@@ -7296,7 +7295,7 @@ static void init_proc_7457(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(7457)(ObjectClass *oc, void *data)
-@@ -7434,7 +7433,7 @@ static void init_proc_e600(CPUPPCState *env)
-     env->dcache_line_size = 32;
-     env->icache_line_size = 32;
-     /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(ppc_env_get_cpu(env));
-+    ppc6xx_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(e600)(ObjectClass *oc, void *data)
-@@ -8298,7 +8297,7 @@ static void init_proc_970(CPUPPCState *env)
- 
-     /* Allocate hardware IRQ controller */
-     init_excp_970(env);
--    ppc970_irq_init(ppc_env_get_cpu(env));
-+    ppc970_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(970)(ObjectClass *oc, void *data)
-@@ -8372,7 +8371,7 @@ static void init_proc_power5plus(CPUPPCState *env)
- 
-     /* Allocate hardware IRQ controller */
-     init_excp_970(env);
--    ppc970_irq_init(ppc_env_get_cpu(env));
-+    ppc970_irq_init(env_archcpu(env));
- }
- 
- POWERPC_FAMILY(POWER5P)(ObjectClass *oc, void *data)
-@@ -8487,7 +8486,7 @@ static void init_proc_POWER7(CPUPPCState *env)
- 
-     /* Allocate hardware IRQ controller */
-     init_excp_POWER7(env);
--    ppcPOWER7_irq_init(ppc_env_get_cpu(env));
-+    ppcPOWER7_irq_init(env_archcpu(env));
- }
- 
- static bool ppc_pvr_match_power7(PowerPCCPUClass *pcc, uint32_t pvr)
-@@ -8639,7 +8638,7 @@ static void init_proc_POWER8(CPUPPCState *env)
- 
-     /* Allocate hardware IRQ controller */
-     init_excp_POWER8(env);
--    ppcPOWER7_irq_init(ppc_env_get_cpu(env));
-+    ppcPOWER7_irq_init(env_archcpu(env));
- }
- 
- static bool ppc_pvr_match_power8(PowerPCCPUClass *pcc, uint32_t pvr)
-@@ -8838,7 +8837,7 @@ static void init_proc_POWER9(CPUPPCState *env)
- 
-     /* Allocate hardware IRQ controller */
-     init_excp_POWER9(env);
--    ppcPOWER9_irq_init(ppc_env_get_cpu(env));
-+    ppcPOWER9_irq_init(env_archcpu(env));
- }
- 
- static bool ppc_pvr_match_power9(PowerPCCPUClass *pcc, uint32_t pvr)
+     if (!(env->priv >= PRV_S) ||
+         (env->priv == PRV_S &&
+          env->priv_ver >= PRIV_VERSION_1_10_0 &&
 -- 
 2.17.1
 
