@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E008F348B7
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 15:30:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52732 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620F3348B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 15:30:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52713 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY9WP-00069g-3U
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 09:30:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52383)
+	id 1hY9Vn-0005dS-Vl
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 09:30:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52481)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hY9Ty-0004sK-Ol
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:28:07 -0400
+	(envelope-from <david@redhat.com>) id 1hY9UF-00050r-H0
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:28:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hY9Tw-0008Pk-Oj
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:28:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47232)
+	(envelope-from <david@redhat.com>) id 1hY9UD-0000Ho-Jn
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:28:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54840)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hY9Tw-0008O0-Ec; Tue, 04 Jun 2019 09:28:04 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	id 1hY9UC-0000Eu-Bc; Tue, 04 Jun 2019 09:28:21 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 693C7BBD8;
-	Tue,  4 Jun 2019 13:27:58 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id A0C8730BDE49;
+	Tue,  4 Jun 2019 13:28:18 +0000 (UTC)
 Received: from [10.36.117.157] (ovpn-117-157.ams2.redhat.com [10.36.117.157])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id AABF7608A7;
-	Tue,  4 Jun 2019 13:27:56 +0000 (UTC)
-To: Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D16D767260;
+	Tue,  4 Jun 2019 13:28:14 +0000 (UTC)
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <20190604093656.23565-1-david@redhat.com>
-	<a48caa15-dafa-2f03-9fd2-769adf613ed2@twiddle.net>
+	<a813de86-33eb-b22e-8d06-054e85e4f074@vivier.eu>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -78,19 +78,19 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
 	+8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
 	SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <57d0f110-07b4-76d2-9c71-eb40e7754c88@redhat.com>
-Date: Tue, 4 Jun 2019 15:27:55 +0200
+Message-ID: <d61ac5a3-4480-956c-c4b4-603c06f088f8@redhat.com>
+Date: Tue, 4 Jun 2019 15:28:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <a48caa15-dafa-2f03-9fd2-769adf613ed2@twiddle.net>
+In-Reply-To: <a813de86-33eb-b22e-8d06-054e85e4f074@vivier.eu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Tue, 04 Jun 2019 13:27:58 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.40]);
+	Tue, 04 Jun 2019 13:28:18 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH v1] linux-user: elf: ELF_HWCAP for s390x
@@ -105,67 +105,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
-	Cornelia Huck <cohuck@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+	Riku Voipio <riku.voipio@iki.fi>,
 	Richard Henderson <richard.henderson@linaro.org>,
-	Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org
+	qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.06.19 15:00, Richard Henderson wrote:
-> On 6/4/19 4:36 AM, David Hildenbrand wrote:
+On 04.06.19 14:54, Laurent Vivier wrote:
+> Le 04/06/2019 =C3=A0 11:36, David Hildenbrand a =C3=A9crit=C2=A0:
+>> Let's add all HWCAPs that we can support under TCG right now, when the
+>> respective CPU facilities are enabled.
+>>
+>> Cc: Riku Voipio <riku.voipio@iki.fi>
+>> Cc: Laurent Vivier <laurent@vivier.eu>
+>> Cc: Cornelia Huck <cohuck@redhat.com>
+>> Cc: Laurent Vivier <laurent@vivier.eu>
+>> Cc: Richard Henderson <richard.henderson@linaro.org>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>
+>> This patch is based on "[PATCH v2 00/22] s390x/tcg: Vector Instruction
+>> Support Part 4". I guess it is best if I just include it in my next
+>> pull request.
+> Based-on: <20190603090635.10631-1-david@redhat.com>
+>           [PATCH v2 00/22] s390x/tcg: Vector Instruction Support Part 4
+>=20
+>>
+>> ---
+>>  include/elf.h        |  1 +
+>>  linux-user/elfload.c | 39 +++++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 40 insertions(+)
+>>
+>> diff --git a/include/elf.h b/include/elf.h
+>> index ea7708a4ea..3501e0c8d0 100644
+>> --- a/include/elf.h
+>> +++ b/include/elf.h
+>> @@ -598,6 +598,7 @@ typedef struct {
+>>  #define HWCAP_S390_ETF3EH       256
+>>  #define HWCAP_S390_HIGH_GPRS    512
+>>  #define HWCAP_S390_TE           1024
+>> +#define HWCAP_S390_VXRS         2048
+>> =20
+>>  /* M68K specific definitions. */
+>>  /* We use the top 24 bits to encode information about the
+>> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+>> index a57b7049dd..59b813066c 100644
+>> --- a/linux-user/elfload.c
+>> +++ b/linux-user/elfload.c
+>> @@ -1308,6 +1308,45 @@ static inline void init_thread(struct target_pt=
+_regs *regs,
+>>  #define ELF_DATA	ELFDATA2MSB
+>>  #define ELF_ARCH	EM_S390
+>> =20
+>> +#include "elf.h"
+>> +
+>> +#define ELF_HWCAP get_elf_hwcap()
+>> +
+>> +static uint32_t get_elf_hwcap(void)
+>> +{
+>> +    uint32_t hwcap =3D 0;
+>> +
 >> +    if (s390_has_feat(S390_FEAT_ESAN3)) {
->> +        hwcap |= HWCAP_S390_ESAN3;
+>> +        hwcap |=3D HWCAP_S390_ESAN3;
 >> +    }
 >> +    if (s390_has_feat(S390_FEAT_ZARCH)) {
->> +        hwcap |= HWCAP_S390_ZARCH;
+>> +        hwcap |=3D HWCAP_S390_ZARCH;
 >> +    }
-> 
-> While it's nice and symetrical testing these two features, I don't think they
-> can ever be false.
-> 
 >> +    if (s390_has_feat(S390_FEAT_STFLE)) {
->> +        hwcap |= HWCAP_S390_STFLE;
+>> +        hwcap |=3D HWCAP_S390_STFLE;
 >> +    }
 >> +    if (s390_has_feat(S390_FEAT_MSA)) {
->> +        hwcap |= HWCAP_S390_MSA;
+>> +        hwcap |=3D HWCAP_S390_MSA;
 >> +    }
 >> +    if (s390_has_feat(S390_FEAT_LONG_DISPLACEMENT)) {
->> +        hwcap |= HWCAP_S390_LDISP;
+>> +        hwcap |=3D HWCAP_S390_LDISP;
 >> +    }
 >> +    if (s390_has_feat(S390_FEAT_EXTENDED_IMMEDIATE)) {
->> +        hwcap |= HWCAP_S390_EIMM;
+>> +        hwcap |=3D HWCAP_S390_EIMM;
 >> +    }
 >> +    if (s390_has_feat(S390_FEAT_EXTENDED_TRANSLATION_3) &&
 >> +        s390_has_feat(S390_FEAT_ETF3_ENH)) {
->> +        hwcap |= HWCAP_S390_ETF3EH;
+>> +        hwcap |=3D HWCAP_S390_ETF3EH;
 >> +    }
 >> +    /* 31-bit processes can use 64-bit registers */
->> +    hwcap |= HWCAP_S390_HIGH_GPRS;
-> 
-> And certainly this could never be set unless ZARCH, otherwise you have no
-> 64-bit registers.  ;-)
-> 
-> So maybe clearer to just start with
-> 
->   hwcap = HWCAP_S390_ESAN3 | HWCAP_S390_ZARCH | HWCAP_S390_HIGH_GPRS;
+>> +    hwcap |=3D HWCAP_S390_HIGH_GPRS;
+>> +    if (s390_has_feat(S390_FEAT_VECTOR)) {
+>> +        hwcap |=3D HWCAP_S390_VXRS;
+>> +    }
+>> +
+>> +    return hwcap;
+>> +}
+>> +
+>>  static inline void init_thread(struct target_pt_regs *regs, struct im=
+age_info *infop)
+>>  {
+>>      regs->psw.addr =3D infop->entry;
+>>
+>=20
+> Acked-by: Laurent Vivier <laurent@vivier.eu>
+>=20
+> You can also do like the other architectures that use shortcuts like th=
+is:
+>=20
+> #define GET_FEATURE(feat, hwcap) \
+>     do { if (s390_has_feat(feat)) { hwcaps |=3D hwcap; } } while (0)
+> ...
+> GET_FEATURE(S390_FEAT_VECTOR, HWCAP_S390_VXRS);
+> ...
 
-Makes sense, and fits into a single line ;)
+Thanks, I'll use this.
 
-Thanks!
+Cheers!
 
-> 
-> and continue from there.
-> 
-> Otherwise,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> 
-> r~
-> 
-
-
--- 
+--=20
 
 Thanks,
 
