@@ -2,64 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9F234E84
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 19:14:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55664 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A96362D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 19:38:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47761 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYD0x-00086t-VN
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 13:14:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53854)
+	id 1hYZsC-0000gi-RF
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 13:38:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60575)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYD00-0007nJ-JS
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 13:13:26 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hYZr3-0000IO-Q6
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 13:37:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYCzz-0004yn-6h
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 13:13:24 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:35799)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYCzz-0004yO-2I
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 13:13:23 -0400
-Received: by mail-qt1-f194.google.com with SMTP id d23so14694343qto.2
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 10:13:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=3lE+9X7pwAsz/e6j1Xj+FZVr6kk6Av0U/9MA4AYZKLY=;
-	b=WAVopGviB8xt+zicQdj+elcDp5hMbDqdZKeHfPqn0VCwpYgTvuTo2bwVv0RDRLoW+o
-	OJ7XYTsSzvcqPGyZANHwjfzOtSiJzflS4Zv1MNkGt4VyTnGOmCgcZKwfXYXRmo2WNrhw
-	DVBZFctpvyWETKwLsSyaRkyxetAwx5CoIJLumabd4cULkAp5+IfesohZfLqiX7I9q1q7
-	zeUgxUiXWth33uZdt2es7d53Wy08BRBjZaGFdJpQtS9DHeQgVJcBsJT3f1rm95TxIEcE
-	Eruprf/C+XS1sAMRbvTroHm942u2w5Yan/+0XFz1vGkdICuSKwuMOEgKYyBShf+GhFRl
-	EoXg==
-X-Gm-Message-State: APjAAAUi/hsNcCxpZNZezDoPxAldB8K51MYT+L0S1fXkYCNufXV7Xfug
-	95+MK9z4FujCB6hka/YUePK6Dw==
-X-Google-Smtp-Source: APXvYqziUUWrf6WpYrP3vH5bYIBpvYWDYhBQrR1DY4CKTQtdVWeVj6cvhh8P869eGzjse5gNev+A9w==
-X-Received: by 2002:ac8:2fce:: with SMTP id m14mr9965864qta.22.1559668402501; 
-	Tue, 04 Jun 2019 10:13:22 -0700 (PDT)
-Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
-	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
-	d141sm5167522qke.3.2019.06.04.10.13.21
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 04 Jun 2019 10:13:21 -0700 (PDT)
-Date: Tue, 4 Jun 2019 13:13:19 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190604131243-mutt-send-email-mst@kernel.org>
-References: <1559560929-260254-1-git-send-email-imammedo@redhat.com>
-	<1559560929-260254-3-git-send-email-imammedo@redhat.com>
-	<9e26a7e9-31a5-c0ef-45f2-617051fd02b7@redhat.com>
-	<20190604135133.28b25ea8@redhat.com>
+	(envelope-from <no-reply@patchew.org>) id 1hYZr1-0000ha-5X
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 13:37:41 -0400
+Resent-Date: Wed, 05 Jun 2019 13:37:40 -0400
+Resent-Message-Id: <E1hYZr1-0000ha-5X@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21403)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hYZr0-0000b1-3x
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 13:37:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1559670511; cv=none; d=zoho.com; s=zohoarc; 
+	b=eYohwTz8QRClS4VOt4hkjTp0LFGwKLLCr8vNqb6QDtHUPczYtLCDebYWT890POPY78MQKgl8Q1cMDuQUIj3KuXI3mtGMrHLrv1plKBzZOTd3bLJNmvwoVIVsCXBiZ7zUtKrXbKsqvoz4TVOdcI56OYQC8sNm0FFpYjnHNc/AgXo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1559670511;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=FN768EYvq+LaacDGAHiEJGxPV3tmthpjoFnaodlkK1s=; 
+	b=BGfWAk1UwfucOPAnRW6bW1PJ4yYmA+qkeDMPnRdDBQoLeS8ewQgcg0RjBQhnYFpyV+WEloDmhcmAyjTP+BVp6DucubpyIWG7a+G41mZkSjjJSQMp/3FKqVeTcPxjUieMSEVm0JqhAr6Xtwn57svU9zCBKPpCG3jzHF3mpZQxrJ0=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1559670509815498.45104372456433;
+	Tue, 4 Jun 2019 10:48:29 -0700 (PDT)
+In-Reply-To: <20190604161514.262241-1-vsementsov@virtuozzo.com>
+Message-ID: <155967050840.32260.4549003262973982966@ce79690b2cb9>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190604135133.28b25ea8@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Tue, 4 Jun 2019 10:48:29 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.160.194
-Subject: Re: [Qemu-devel] [PATCH v6 2/2] tests: acpi: add simple arm/virt
- testcase
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH v2 00/12] block: qiov_offset parameter for
+ io
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,148 +62,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Ben Warren <ben@skyportsystems.com>,
-	Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Shannon Zhao <shannon.zhaosl@gmail.com>, Gonglei <arei.gonglei@huawei.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+	qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+	stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 04, 2019 at 01:51:33PM +0200, Igor Mammedov wrote:
-> On Mon, 3 Jun 2019 18:08:12 +0200
-> Laszlo Ersek <lersek@redhat.com> wrote:
-> 
-> > On 06/03/19 13:22, Igor Mammedov wrote:
-> > > adds simple arm/virt test case that starts guest with
-> > > bios-tables-test.aarch64.iso.qcow2 boot image which
-> > > initializes UefiTestSupport* structure in RAM once
-> > > guest is booted.
-> > > 
-> > >  * see commit: tests: acpi: add acpi_find_rsdp_address_uefi() helper
-> > > 
-> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > ---
-> > > v6:
-> > >   * Since aarch64 TCG is broken on 32 bit arm host,
-> > >     blacklist it till it's fixed
-> > >   * add aarch64 to rebuild script list
-> > > v4:
-> > >   * force test to use TCG accelerator
-> > > v3:
-> > >   * use firmware blobs directly from pc-bios directory
-> > >   * use bios-tables-test.aarch64.iso.qcow2 as test boot image
-> > >   * drop leftover qtest-uefi-images-aarch64 iMakefile rule from
-> > >     previos version (Laszlo)
-> > >   * add Makefile rule to include bios-tables-test into
-> > >     check-qtest-aarch64 target
-> > > v2:
-> > >   * specify in test_data where board's RAM starts and RAM size
-> > > 
-> > >  tests/Makefile.include                  |  4 ++++
-> > >  tests/bios-tables-test.c                | 18 ++++++++++++++++++
-> > >  tests/data/acpi/rebuild-expected-aml.sh |  2 +-
-> > >  3 files changed, 23 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/tests/Makefile.include b/tests/Makefile.include
-> > > index 1865f6b..2334969 100644
-> > > --- a/tests/Makefile.include
-> > > +++ b/tests/Makefile.include
-> > > @@ -267,6 +267,10 @@ check-qtest-arm-y += tests/hexloader-test$(EXESUF)
-> > >  check-qtest-aarch64-y = tests/numa-test$(EXESUF)
-> > >  check-qtest-aarch64-y += tests/boot-serial-test$(EXESUF)
-> > >  check-qtest-aarch64-y += tests/migration-test$(EXESUF)
-> > > +# TODO: once aarch64 TCG is fixed on ARM 32 bit host, make test unconditional  
-> > 
-> > I think you could also capture the following link here, in a comment:
-> > 
-> > # https://bugs.launchpad.net/qemu/+bug/1830872
-> Michael,
->  could you fix it up on commit?
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYwNDE2MTUxNC4yNjIy
+NDEtMS12c2VtZW50c292QHZpcnR1b3p6by5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVk
+IHRoZSBhc2FuIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFu
+ZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQsIHlvdSBj
+YW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
+PT09CiMhL2Jpbi9iYXNoCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VU
+X0xJU1Q9eDg2XzY0LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9
+PT0KCiAgQ0MgICAgICBhY2NlbC90Y2cvdHJhY2UubwogIENDICAgICAgY3J5cHRvL3RyYWNlLm8K
+ICBDQyAgICAgIGF1dGh6L3RyYWNlLm8KL3RtcC9xZW11LXRlc3Qvc3JjL3V0aWwvaW92LmM6NDI4
+Ojk6IGVycm9yOiB2YXJpYWJsZSAnbWlkX25pb3YnIGlzIHVzZWQgdW5pbml0aWFsaXplZCB3aGVu
+ZXZlciAnaWYnIGNvbmRpdGlvbiBpcyBmYWxzZSBbLVdlcnJvciwtV3NvbWV0aW1lcy11bmluaXRp
+YWxpemVkXQogICAgaWYgKG1pZF9sZW4pIHsKICAgICAgICBefn5+fn5+Ci90bXAvcWVtdS10ZXN0
+L3NyYy91dGlsL2lvdi5jOjQzMzozMTogbm90ZTogdW5pbml0aWFsaXplZCB1c2Ugb2NjdXJzIGhl
+cmUKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
+LzIwMTkwNjA0MTYxNTE0LjI2MjI0MS0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS90ZXN0aW5n
+LmFzYW4vP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5
+IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFj
+ayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-I prefer just seeing a fixed up patch.
-
-> or we could merge v4
->    [PATCH v4 13/15] tests: acpi: add simple arm/virt  testcase
-> which is the same modulo this blacklisting hunk, if
->    [RFC PATCH] cputlb: use uint64_t for interim values  for unaligned load
-> fix is used as prerequisite.
-> 
-> > 
-> > > +ifneq ($(ARCH),arm)  
-> > 
-> > Can we exclude all 32-bit host arches, not just ARM? The discussion in
-> > LP#1830872 indicates aarch64-on-i386 can fail too (not this specific
-> > guest payload FWIW, but the "tests/memory" test).
-> I'd guess it's topic for a separate discussion (considering bios-tables-test
-> isn't affected it's probably not upto me to pull this trigger).
-> 
-> > 
-> > Other than that:
-> > 
-> > Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> Thanks!
-> 
-> > 
-> > Thanks,
-> > Laszlo
-> > 
-> > 
-> > > +check-qtest-aarch64-y += tests/bios-tables-test$(EXESUF)
-> > > +endif
-> > >  
-> > >  check-qtest-microblazeel-y += $(check-qtest-microblaze-y)
-> > >  
-> > > diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-> > > index 28d7d42..1242d63 100644
-> > > --- a/tests/bios-tables-test.c
-> > > +++ b/tests/bios-tables-test.c
-> > > @@ -830,6 +830,22 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
-> > >      test_acpi_tcg_dimm_pxm(MACHINE_PC);
-> > >  }
-> > >  
-> > > +static void test_acpi_virt_tcg(void)
-> > > +{
-> > > +    test_data data = {
-> > > +        .machine = "virt",
-> > > +        .accel = "tcg",
-> > > +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-> > > +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-> > > +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-> > > +        .ram_start = 0x40000000ULL,
-> > > +        .scan_len = 128ULL * 1024 * 1024,
-> > > +    };
-> > > +
-> > > +    test_acpi_one("-cpu cortex-a57", &data);
-> > > +    free_test_data(&data);
-> > > +}
-> > > +
-> > >  int main(int argc, char *argv[])
-> > >  {
-> > >      const char *arch = qtest_get_arch();
-> > > @@ -858,6 +874,8 @@ int main(int argc, char *argv[])
-> > >          qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-> > >          qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-> > >          qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-> > > +    } else if (strcmp(arch, "aarch64") == 0) {
-> > > +        qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-> > >      }
-> > >      ret = g_test_run();
-> > >      boot_sector_cleanup(disk);
-> > > diff --git a/tests/data/acpi/rebuild-expected-aml.sh b/tests/data/acpi/rebuild-expected-aml.sh
-> > > index ff7e622..d285321 100755
-> > > --- a/tests/data/acpi/rebuild-expected-aml.sh
-> > > +++ b/tests/data/acpi/rebuild-expected-aml.sh
-> > > @@ -12,7 +12,7 @@
-> > >  # This work is licensed under the terms of the GNU GPLv2.
-> > >  # See the COPYING.LIB file in the top-level directory.
-> > >  
-> > > -qemu_bins="x86_64-softmmu/qemu-system-x86_64"
-> > > +qemu_bins="x86_64-softmmu/qemu-system-x86_64 aarch64-softmmu/qemu-system-aarch64"
-> > >  
-> > >  if [ ! -e "tests/bios-tables-test" ]; then
-> > >      echo "Test: bios-tables-test is required! Run make check before this script."
-> > >   
-> > 
 
