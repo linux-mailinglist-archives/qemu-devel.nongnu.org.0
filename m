@@ -2,37 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DB834D2E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 18:25:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54943 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9876234D16
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 18:19:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54860 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYCFF-0007bB-7V
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 12:25:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35856)
+	id 1hYC9X-0002os-Ez
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 12:19:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35893)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6F-00016U-Ta
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:48 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6H-00018d-R8
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6B-0005h4-B1
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:45 -0400
-Received: from relay.sw.ru ([185.231.240.75]:41664)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6B-0005hJ-Bg
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:46 -0400
+Received: from relay.sw.ru ([185.231.240.75]:41660)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYC6A-0005C3-NU; Tue, 04 Jun 2019 12:15:43 -0400
+	id 1hYC6A-0005C1-O6; Tue, 04 Jun 2019 12:15:43 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYC5i-0005Pq-PQ; Tue, 04 Jun 2019 19:15:15 +0300
+	id 1hYC5j-0005Pq-8I; Tue, 04 Jun 2019 19:15:15 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Tue,  4 Jun 2019 19:15:02 +0300
-Message-Id: <20190604161514.262241-1-vsementsov@virtuozzo.com>
+Date: Tue,  4 Jun 2019 19:15:03 +0300
+Message-Id: <20190604161514.262241-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190604161514.262241-1-vsementsov@virtuozzo.com>
+References: <20190604161514.262241-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v2 00/12] block: qiov_offset parameter for io
+Subject: [Qemu-devel] [PATCH v2 01/12] util/iov: introduce
+ qemu_iovec_init_extended
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -49,41 +52,169 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Introduce new initialization API, to create requests with padding. Will
+be used in the following patch. New API uses qemu_iovec_init_buf if
+resulting io vector has only one element, to avoid extra allocations.
+So, we need to update qemu_iovec_destroy to support destroying such
+QIOVs.
 
-Here is new parameter qiov_offset for io path, to avoid
-a lot of places with same pattern of creating local_qiov or hd_qiov
-variables.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ include/qemu/iov.h |   7 +++
+ util/iov.c         | 112 +++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 114 insertions(+), 5 deletions(-)
 
-These series also includes my
-"[Qemu-devel] [PATCH 0/2] block/io: refactor padding"
-with some changes [described in 01 and 03 emails]
-
-Vladimir Sementsov-Ogievskiy (12):
-  util/iov: introduce qemu_iovec_init_extended
-  util/iov: improve qemu_iovec_is_zero
-  block/io: refactor padding
-  block: define .*_part io handlers in BlockDriver
-  block/io: bdrv_co_do_copy_on_readv: use and support qiov_offset
-  block/io: bdrv_co_do_copy_on_readv: lazy allocation
-  block/io: bdrv_aligned_preadv: use and support qiov_offset
-  block/io: bdrv_aligned_pwritev: use and support qiov_offset
-  block/io: introduce bdrv_co_p{read,write}v_part
-  block/qcow2: refactor qcow2_co_preadv to use buffer-based io
-  block/qcow2: implement .bdrv_co_preadv_part
-  block/qcow2: implement .bdrv_co_pwritev(_compressed)_part
-
- block/qcow2.h             |   1 +
- include/block/block_int.h |  21 ++
- include/qemu/iov.h        |  10 +-
- block/backup.c            |   2 +-
- block/io.c                | 532 ++++++++++++++++++++++----------------
- block/qcow2-cluster.c     |  14 +-
- block/qcow2.c             | 131 +++++-----
- qemu-img.c                |   4 +-
- util/iov.c                | 153 +++++++++--
- 9 files changed, 559 insertions(+), 309 deletions(-)
-
+diff --git a/include/qemu/iov.h b/include/qemu/iov.h
+index 48b45987b7..f3787a0cf7 100644
+--- a/include/qemu/iov.h
++++ b/include/qemu/iov.h
+@@ -199,6 +199,13 @@ static inline void *qemu_iovec_buf(QEMUIOVector *qiov)
+ 
+ void qemu_iovec_init(QEMUIOVector *qiov, int alloc_hint);
+ void qemu_iovec_init_external(QEMUIOVector *qiov, struct iovec *iov, int niov);
++void qemu_iovec_init_extended(
++        QEMUIOVector *qiov,
++        void *head_buf, size_t head_len,
++        QEMUIOVector *mid_qiov, size_t mid_offset, size_t mid_len,
++        void *tail_buf, size_t tail_len);
++void qemu_iovec_init_slice(QEMUIOVector *qiov, QEMUIOVector *source,
++                           size_t offset, size_t len);
+ void qemu_iovec_add(QEMUIOVector *qiov, void *base, size_t len);
+ void qemu_iovec_concat(QEMUIOVector *dst,
+                        QEMUIOVector *src, size_t soffset, size_t sbytes);
+diff --git a/util/iov.c b/util/iov.c
+index 74e6ca8ed7..39b6e31494 100644
+--- a/util/iov.c
++++ b/util/iov.c
+@@ -353,6 +353,103 @@ void qemu_iovec_concat(QEMUIOVector *dst,
+     qemu_iovec_concat_iov(dst, src->iov, src->niov, soffset, sbytes);
+ }
+ 
++/*
++ * qiov_find_iov
++ *
++ * Return pointer to iovec structure, where byte at @offset in original vector
++ * @iov exactly is.
++ * Set @remaining_offset to be offset inside that iovec to the same byte.
++ */
++static struct iovec *iov_skip_offset(struct iovec *iov, size_t offset,
++                                     size_t *remaining_offset)
++{
++    while (offset > 0 && offset >= iov->iov_len) {
++        offset -= iov->iov_len;
++        iov++;
++    }
++    *remaining_offset = offset;
++
++    return iov;
++}
++
++/*
++ * qiov_slice
++ *
++ * Find subarray of iovec's, containing requested range. @head would
++ * be offset in first iov (returned by the function), @tail would be
++ * count of extra bytes in last iovec (returned iov + @niov - 1).
++ */
++static struct iovec *qiov_slice(QEMUIOVector *qiov,
++                                size_t offset, size_t len,
++                                size_t *head, size_t *tail, int *niov)
++{
++    struct iovec *iov, *end_iov;
++
++    assert(offset + len <= qiov->size);
++
++    iov = iov_skip_offset(qiov->iov, offset, head);
++    end_iov = iov_skip_offset(iov, *head + len, tail);
++
++    if (*tail > 0) {
++        assert(*tail < end_iov->iov_len);
++        *tail = end_iov->iov_len - *tail;
++        end_iov++;
++    }
++
++    *niov = end_iov - iov;
++
++    return iov;
++}
++
++/*
++ * Compile new iovec, combining @head_buf buffer, sub-qiov of @mid_qiov,
++ * and @tail_buf buffer into new qiov.
++ */
++void qemu_iovec_init_extended(
++        QEMUIOVector *qiov,
++        void *head_buf, size_t head_len,
++        QEMUIOVector *mid_qiov, size_t mid_offset, size_t mid_len,
++        void *tail_buf, size_t tail_len)
++{
++    size_t mid_head, mid_tail;
++    int total_niov, mid_niov;
++    struct iovec *p, *mid_iov;
++
++    if (mid_len) {
++        mid_iov = qiov_slice(mid_qiov, mid_offset, mid_len,
++                             &mid_head, &mid_tail, &mid_niov);
++    }
++
++    total_niov = !!head_len + mid_niov + !!tail_len;
++    if (total_niov == 1) {
++        qemu_iovec_init_buf(qiov, NULL, 0);
++        p = &qiov->local_iov;
++    } else {
++        qiov->niov = qiov->nalloc = total_niov;
++        qiov->size = head_len + mid_len + tail_len;
++        p = qiov->iov = g_new(struct iovec, qiov->niov);
++    }
++
++    if (head_len) {
++        p->iov_base = head_buf;
++        p->iov_len = head_len;
++        p++;
++    }
++
++    if (mid_len) {
++        memcpy(p, mid_iov, mid_niov * sizeof(*p));
++        p[0].iov_base = (uint8_t *)p[0].iov_base + mid_head;
++        p[0].iov_len -= mid_head;
++        p[mid_niov - 1].iov_len -= mid_tail;
++        p += mid_niov;
++    }
++
++    if (tail_len) {
++        p->iov_base = tail_buf;
++        p->iov_len = tail_len;
++    }
++}
++
+ /*
+  * Check if the contents of the iovecs are all zero
+  */
+@@ -374,14 +471,19 @@ bool qemu_iovec_is_zero(QEMUIOVector *qiov)
+     return true;
+ }
+ 
++void qemu_iovec_init_slice(QEMUIOVector *qiov, QEMUIOVector *source,
++                           size_t offset, size_t len)
++{
++    qemu_iovec_init_extended(qiov, NULL, 0, source, offset, len, NULL, 0);
++}
++
+ void qemu_iovec_destroy(QEMUIOVector *qiov)
+ {
+-    assert(qiov->nalloc != -1);
++    if (qiov->nalloc != -1) {
++        g_free(qiov->iov);
++    }
+ 
+-    qemu_iovec_reset(qiov);
+-    g_free(qiov->iov);
+-    qiov->nalloc = 0;
+-    qiov->iov = NULL;
++    memset(qiov, 0, sizeof(*qiov));
+ }
+ 
+ void qemu_iovec_reset(QEMUIOVector *qiov)
 -- 
 2.18.0
 
