@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C180335121
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:37:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57624 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70D43512F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:40:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57646 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYGBt-0003RN-SR
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:37:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35779)
+	id 1hYGEa-0005pp-Dc
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:40:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35794)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8U-0001A2-IF
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:23 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8W-0001Bb-3k
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8T-0004HB-BX
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:22 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44166)
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8U-0004Hr-E8
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:24 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46443)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYG8T-0004Gi-6l
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:21 -0400
-Received: by mail-ot1-x343.google.com with SMTP id b7so7252002otl.11
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:20 -0700 (PDT)
+	id 1hYG8U-0004HU-89
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:22 -0400
+Received: by mail-oi1-x242.google.com with SMTP id 203so16575667oid.13
+	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=TkngbE1sypwzNw5h/VQnw7E5NCmBkYtpc+Uhii5AlrQ=;
-	b=GJobI6GdOpbwAfuPyeym7Clk4GjX2Vx31FB2NEmuZkrJ4yQotula7TKIWsO1js+eLa
-	RvTZcitUnsRXWZnDx1Q94lWUSffXSiTOrAs62PlKPVS7lQfHEd6Jk7kkgNo/7DpjCOrK
-	T11ZJaibMe7d6g687A+HBCNFWpz2F1TdOn62ctDp/IbTL863fI5wleWcBt8fMdVabmMa
-	g+ABxrQRFmC8fdKQXk6GQdZL/BabDw7Rv09lWHMDoabvmoWcnuTTg4ZuaFjcVslu91ox
-	ekbYSXJaURvwExRIVN1iGhHYOD9QtnfOGv8X3m6Q3UgQheBm+GWo0L1aUNkkr6/U5FHp
-	ZAsg==
+	bh=r2euVyUV+cLCvC2LxVd/hVa/8V0irmgvDixd4QUTeBo=;
+	b=gONT1/tGZYLchH9oEl4TZLGOwRfXH2Z8gOjeaU/eso3ttNNUh+zfD88O7B3S4HqSZZ
+	CngufVV0Mw3NQcEsla41vMwy9X6IkjjGtmLFhiKKg2oUj/uSsVz92SGRV8ZQfnT5+qVY
+	Yc+K4XkB51fK3zoJjCzGkg2F2ehq1N1Kn4IwNv3vocfZo8TVobY+ox08bKJ6zN3Qhxca
+	kUHlQ5fdz2OWrfu14XGyvkE3f5GKFWEWD8TrLVtEEjzfOVcg9lNDCSUvHX4ofow+E+Ym
+	erlj9oKBnw98fk2yoZzxtL4K9q8mxTmqk6V6H9Sbk/oE9t8+MofIMM9QOLE6qtohWm6x
+	SpIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=TkngbE1sypwzNw5h/VQnw7E5NCmBkYtpc+Uhii5AlrQ=;
-	b=ZzXUR8KkiXGoyqlk/ShpylAAbLT2oRpmYSNDTbmHKCq4Hk5TXO7RCgxzbB4DC0mdqp
-	gQl/8kXuWmf2RL/SMBloSp9Emu0lUiP1s9A/N4gvwILR21FNgS02/hy/5a3fCVeOeSIz
-	NFw8a+8H0Avpo7VyOV/x2+YXlEZgJiOzD7t5I1VK8VPTXg9mv/dIdBKnMwD4dK4o1ZBY
-	hxxpz4h6CsyPUOWXkAvCcEohAw0vgVutzi7Z+5IzaLRE4N6wa950UEMR6GQMTji3zxUM
-	EVFiL0h3y3CfNs8mNp7FvafDYB80L1vectO0TfjLgQGmOxrQCbm5qEHA9Kqs1cLDQMdT
-	io9g==
-X-Gm-Message-State: APjAAAVskf6cetX93UQ0KReFi8Jvib5Pue/Au9y1REzCrag+fgt7S19I
-	XI2EqHY1KIv7iNgqyK1bt9SuthdhEseCYw==
-X-Google-Smtp-Source: APXvYqz+ggfrvJU5LGP6ISY4hEOFbXI3NmR1elxd0XC5EiIqm7xgOCq19Mi48VADFpdAihet5ASwPg==
-X-Received: by 2002:a9d:5e83:: with SMTP id f3mr1884658otl.90.1559680459991;
-	Tue, 04 Jun 2019 13:34:19 -0700 (PDT)
+	bh=r2euVyUV+cLCvC2LxVd/hVa/8V0irmgvDixd4QUTeBo=;
+	b=AFbjTor+AcNH9pN10FtHlUry5H9ievMc5Tg+tr0LbNL1YgHE2DNFe71aKJLHtcHZ1z
+	9DzCz8ITF/j00WzVci4xNrKAQImaDmrQlmIaGFIQJcX7Y/H4R5vnRdg6e3oHQrU/oOFc
+	lS9gQSl74HZ8yxd64M2c47qZ4+YLhvFdcV82Nm47wKtqvRJT+iMIxMfbq+8RuFl3m2bu
+	Moui5v80wML2rNEvzc2KQEtgDgQHZHhGJbKZxZVPiYtMRtc3Zw9vYjWq+hW9Qetc/kSe
+	f4uV6Nnzyz2z/NhoLcxHTPK/GaBmNIxT+12//W8fds8Y9RsHMdV2gozh1KSeT+TWaicg
+	XIsg==
+X-Gm-Message-State: APjAAAV2Sxt/AAp6+S7fvq5O/yWEfN79x6viWFx7b1UJebZD0JliCnhf
+	GKYOTEiozK4gYTg7qKfOyCiIhRvHrrcEMQ==
+X-Google-Smtp-Source: APXvYqyXI6huscZurkNTk1aAVwg7l91p8LnME4KuoDNmX9QmL+HS+lVLs/W74M/VDlW+6GXD+cVNvA==
+X-Received: by 2002:aca:5c54:: with SMTP id q81mr5618461oib.91.1559680461185; 
+	Tue, 04 Jun 2019 13:34:21 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.18
+	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.20
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 13:34:19 -0700 (PDT)
+	Tue, 04 Jun 2019 13:34:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 15:33:27 -0500
-Message-Id: <20190604203351.27778-16-richard.henderson@linaro.org>
+Date: Tue,  4 Jun 2019 15:33:28 -0500
+Message-Id: <20190604203351.27778-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604203351.27778-1-richard.henderson@linaro.org>
 References: <20190604203351.27778-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: [Qemu-devel] [PATCH v4 15/39] target/lm32: Use env_cpu, env_archcpu
+X-Received-From: 2607:f8b0:4864:20::242
+Subject: [Qemu-devel] [PATCH v4 16/39] target/m68k: Use env_cpu, env_archcpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,146 +80,313 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Cleanup in the boilerplate that each target must define.
-Replace lm32_env_get_cpu with env_archcpu.  The combination
-CPU(lm32_env_get_cpu) should have used ENV_GET_CPU to begin;
+Replace m68k_env_get_cpu with env_archcpu.  The combination
+CPU(m68k_env_get_cpu) should have used ENV_GET_CPU to begin;
 use env_cpu now.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/lm32/cpu.h       |  5 -----
- target/lm32/helper.c    | 19 ++++++-------------
- target/lm32/op_helper.c |  6 +++---
- target/lm32/translate.c |  2 +-
- 4 files changed, 10 insertions(+), 22 deletions(-)
+ linux-user/m68k/target_cpu.h |  2 +-
+ target/m68k/cpu.h            |  5 -----
+ linux-user/m68k-sim.c        |  3 +--
+ linux-user/m68k/cpu_loop.c   |  2 +-
+ target/m68k/helper.c         | 33 ++++++++++++---------------------
+ target/m68k/m68k-semi.c      |  4 ++--
+ target/m68k/op_helper.c      | 12 ++++++------
+ target/m68k/translate.c      |  4 +---
+ 8 files changed, 24 insertions(+), 41 deletions(-)
 
-diff --git a/target/lm32/cpu.h b/target/lm32/cpu.h
-index ad9452eb9f..7fb65fb4b6 100644
---- a/target/lm32/cpu.h
-+++ b/target/lm32/cpu.h
-@@ -195,11 +195,6 @@ struct LM32CPU {
-     uint32_t features;
+diff --git a/linux-user/m68k/target_cpu.h b/linux-user/m68k/target_cpu.h
+index 7a26f3c3fc..bc7446fbaf 100644
+--- a/linux-user/m68k/target_cpu.h
++++ b/linux-user/m68k/target_cpu.h
+@@ -31,7 +31,7 @@ static inline void cpu_clone_regs(CPUM68KState *env, target_ulong newsp)
+ 
+ static inline void cpu_set_tls(CPUM68KState *env, target_ulong newtls)
+ {
+-    CPUState *cs = CPU(m68k_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     TaskState *ts = cs->opaque;
+ 
+     ts->tp_value = newtls;
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 2e53cde076..7f3fa8d141 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -163,11 +163,6 @@ struct M68kCPU {
+     CPUM68KState env;
  };
  
--static inline LM32CPU *lm32_env_get_cpu(CPULM32State *env)
+-static inline M68kCPU *m68k_env_get_cpu(CPUM68KState *env)
 -{
--    return container_of(env, LM32CPU, env);
+-    return container_of(env, M68kCPU, env);
 -}
 -
- #define ENV_OFFSET offsetof(LM32CPU, env)
+ #define ENV_OFFSET offsetof(M68kCPU, env)
  
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/lm32/helper.c b/target/lm32/helper.c
-index 8cd4840052..9f3b107474 100644
---- a/target/lm32/helper.c
-+++ b/target/lm32/helper.c
-@@ -58,28 +58,23 @@ hwaddr lm32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
- 
- void lm32_breakpoint_insert(CPULM32State *env, int idx, target_ulong address)
+ void m68k_cpu_do_interrupt(CPUState *cpu);
+diff --git a/linux-user/m68k-sim.c b/linux-user/m68k-sim.c
+index 34d332d8b1..9bc6ff3d3a 100644
+--- a/linux-user/m68k-sim.c
++++ b/linux-user/m68k-sim.c
+@@ -91,7 +91,6 @@ static int translate_openflags(int flags)
+ #define ARG(x) tswap32(args[x])
+ void do_m68k_simcall(CPUM68KState *env, int nr)
  {
--    LM32CPU *cpu = lm32_env_get_cpu(env);
--
--    cpu_breakpoint_insert(CPU(cpu), address, BP_CPU,
-+    cpu_breakpoint_insert(env_cpu(env), address, BP_CPU,
-                           &env->cpu_breakpoint[idx]);
+-    M68kCPU *cpu = m68k_env_get_cpu(env);
+     uint32_t *args;
+ 
+     args = (uint32_t *)(unsigned long)(env->aregs[7] + 4);
+@@ -159,6 +158,6 @@ void do_m68k_simcall(CPUM68KState *env, int nr)
+         check_err(env, lseek(ARG(0), (int32_t)ARG(1), ARG(2)));
+         break;
+     default:
+-        cpu_abort(CPU(cpu), "Unsupported m68k sim syscall %d\n", nr);
++        cpu_abort(env_cpu(env), "Unsupported m68k sim syscall %d\n", nr);
+     }
  }
+diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
+index 42d8d841ea..f2c33057b3 100644
+--- a/linux-user/m68k/cpu_loop.c
++++ b/linux-user/m68k/cpu_loop.c
+@@ -23,7 +23,7 @@
  
- void lm32_breakpoint_remove(CPULM32State *env, int idx)
+ void cpu_loop(CPUM68KState *env)
  {
--    LM32CPU *cpu = lm32_env_get_cpu(env);
+-    CPUState *cs = CPU(m68k_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     int trapnr;
+     unsigned int n;
+     target_siginfo_t info;
+diff --git a/target/m68k/helper.c b/target/m68k/helper.c
+index 6db93bdd81..31aacb51c6 100644
+--- a/target/m68k/helper.c
++++ b/target/m68k/helper.c
+@@ -168,8 +168,6 @@ void m68k_cpu_init_gdb(M68kCPU *cpu)
+ 
+ void HELPER(cf_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
+ {
+-    M68kCPU *cpu = m68k_env_get_cpu(env);
 -
-     if (!env->cpu_breakpoint[idx]) {
+     switch (reg) {
+     case M68K_CR_CACR:
+         env->cacr = val;
+@@ -186,7 +184,7 @@ void HELPER(cf_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
+         break;
+     /* TODO: Implement control registers.  */
+     default:
+-        cpu_abort(CPU(cpu),
++        cpu_abort(env_cpu(env),
+                   "Unimplemented control register write 0x%x = 0x%x\n",
+                   reg, val);
+     }
+@@ -194,8 +192,6 @@ void HELPER(cf_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
+ 
+ void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
+ {
+-    M68kCPU *cpu = m68k_env_get_cpu(env);
+-
+     switch (reg) {
+     /* MC680[1234]0 */
+     case M68K_CR_SFC:
+@@ -248,14 +244,13 @@ void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
+         env->mmu.ttr[M68K_DTTR1] = val;
          return;
      }
- 
--    cpu_breakpoint_remove_by_ref(CPU(cpu), env->cpu_breakpoint[idx]);
-+    cpu_breakpoint_remove_by_ref(env_cpu(env), env->cpu_breakpoint[idx]);
-     env->cpu_breakpoint[idx] = NULL;
+-    cpu_abort(CPU(cpu), "Unimplemented control register write 0x%x = 0x%x\n",
++    cpu_abort(env_cpu(env),
++              "Unimplemented control register write 0x%x = 0x%x\n",
+               reg, val);
  }
  
- void lm32_watchpoint_insert(CPULM32State *env, int idx, target_ulong address,
-                             lm32_wp_t wp_type)
+ uint32_t HELPER(m68k_movec_from)(CPUM68KState *env, uint32_t reg)
  {
--    LM32CPU *cpu = lm32_env_get_cpu(env);
-     int flags = 0;
- 
-     switch (wp_type) {
-@@ -98,26 +93,24 @@ void lm32_watchpoint_insert(CPULM32State *env, int idx, target_ulong address,
-     }
- 
-     if (flags != 0) {
--        cpu_watchpoint_insert(CPU(cpu), address, 1, flags,
--                &env->cpu_watchpoint[idx]);
-+        cpu_watchpoint_insert(env_cpu(env), address, 1, flags,
-+                              &env->cpu_watchpoint[idx]);
-     }
- }
- 
- void lm32_watchpoint_remove(CPULM32State *env, int idx)
- {
--    LM32CPU *cpu = lm32_env_get_cpu(env);
+-    M68kCPU *cpu = m68k_env_get_cpu(env);
 -
-     if (!env->cpu_watchpoint[idx]) {
+     switch (reg) {
+     /* MC680[1234]0 */
+     case M68K_CR_SFC:
+@@ -292,7 +287,7 @@ uint32_t HELPER(m68k_movec_from)(CPUM68KState *env, uint32_t reg)
+     case M68K_CR_DTT1:
+         return env->mmu.ttr[M68K_DTTR1];
+     }
+-    cpu_abort(CPU(cpu), "Unimplemented control register read 0x%x\n",
++    cpu_abort(env_cpu(env), "Unimplemented control register read 0x%x\n",
+               reg);
+ }
+ 
+@@ -388,8 +383,7 @@ static void dump_address_map(CPUM68KState *env, uint32_t root_pointer)
+     uint32_t last_logical, last_physical;
+     int32_t size;
+     int last_attr = -1, attr = -1;
+-    M68kCPU *cpu = m68k_env_get_cpu(env);
+-    CPUState *cs = CPU(cpu);
++    CPUState *cs = env_cpu(env);
+     MemTxResult txres;
+ 
+     if (env->mmu.tcr & M68K_TCR_PAGE_8K) {
+@@ -630,8 +624,7 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
+                                 int *prot, target_ulong address,
+                                 int access_type, target_ulong *page_size)
+ {
+-    M68kCPU *cpu = m68k_env_get_cpu(env);
+-    CPUState *cs = CPU(cpu);
++    CPUState *cs = env_cpu(env);
+     uint32_t entry;
+     uint32_t next;
+     target_ulong page_mask;
+@@ -1175,7 +1168,7 @@ void HELPER(mac_set_flags)(CPUM68KState *env, uint32_t acc)
+         z = n;                                                             \
+         break;                                                             \
+     default:                                                               \
+-        cpu_abort(CPU(m68k_env_get_cpu(env)), "Bad CC_OP %d", op);         \
++        cpu_abort(env_cpu(env), "Bad CC_OP %d", op);                       \
+     }                                                                      \
+ } while (0)
+ 
+@@ -1358,8 +1351,6 @@ void HELPER(set_mac_extu)(CPUM68KState *env, uint32_t val, uint32_t acc)
+ #if defined(CONFIG_SOFTMMU)
+ void HELPER(ptest)(CPUM68KState *env, uint32_t addr, uint32_t is_read)
+ {
+-    M68kCPU *cpu = m68k_env_get_cpu(env);
+-    CPUState *cs = CPU(cpu);
+     hwaddr physical;
+     int access_type;
+     int prot;
+@@ -1384,7 +1375,7 @@ void HELPER(ptest)(CPUM68KState *env, uint32_t addr, uint32_t is_read)
+     if (ret == 0) {
+         addr &= TARGET_PAGE_MASK;
+         physical += addr & (page_size - 1);
+-        tlb_set_page(cs, addr, physical,
++        tlb_set_page(env_cpu(env), addr, physical,
+                      prot, access_type & ACCESS_SUPER ?
+                      MMU_KERNEL_IDX : MMU_USER_IDX, page_size);
+     }
+@@ -1392,18 +1383,18 @@ void HELPER(ptest)(CPUM68KState *env, uint32_t addr, uint32_t is_read)
+ 
+ void HELPER(pflush)(CPUM68KState *env, uint32_t addr, uint32_t opmode)
+ {
+-    M68kCPU *cpu = m68k_env_get_cpu(env);
++    CPUState *cs = env_cpu(env);
+ 
+     switch (opmode) {
+     case 0: /* Flush page entry if not global */
+     case 1: /* Flush page entry */
+-        tlb_flush_page(CPU(cpu), addr);
++        tlb_flush_page(cs, addr);
+         break;
+     case 2: /* Flush all except global entries */
+-        tlb_flush(CPU(cpu));
++        tlb_flush(cs);
+         break;
+     case 3: /* Flush all entries */
+-        tlb_flush(CPU(cpu));
++        tlb_flush(cs);
+         break;
+     }
+ }
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index 1402145c8f..6716b93b5a 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -421,7 +421,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+     case HOSTED_INIT_SIM:
+ #if defined(CONFIG_USER_ONLY)
+         {
+-        CPUState *cs = CPU(m68k_env_get_cpu(env));
++        CPUState *cs = env_cpu(env);
+         TaskState *ts = cs->opaque;
+         /* Allocate the heap using sbrk.  */
+         if (!ts->heap_limit) {
+@@ -454,7 +454,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+ #endif
+         return;
+     default:
+-        cpu_abort(CPU(m68k_env_get_cpu(env)), "Unsupported semihosting syscall %d\n", nr);
++        cpu_abort(env_cpu(env), "Unsupported semihosting syscall %d\n", nr);
+         result = 0;
+     }
+ failed:
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index 3d1aa23a02..ebcfe3dfdd 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -196,7 +196,7 @@ static const char *m68k_exception_name(int index)
+ 
+ static void cf_interrupt_all(CPUM68KState *env, int is_hw)
+ {
+-    CPUState *cs = CPU(m68k_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     uint32_t sp;
+     uint32_t sr;
+     uint32_t fmt;
+@@ -274,7 +274,7 @@ static inline void do_stack_frame(CPUM68KState *env, uint32_t *sp,
+ {
+     if (m68k_feature(env, M68K_FEATURE_QUAD_MULDIV)) {
+         /*  all except 68000 */
+-        CPUState *cs = CPU(m68k_env_get_cpu(env));
++        CPUState *cs = env_cpu(env);
+         switch (format) {
+         case 4:
+             *sp -= 4;
+@@ -299,7 +299,7 @@ static inline void do_stack_frame(CPUM68KState *env, uint32_t *sp,
+ 
+ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+ {
+-    CPUState *cs = CPU(m68k_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     uint32_t sp;
+     uint32_t retaddr;
+     uint32_t vector;
+@@ -507,7 +507,7 @@ bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ 
+ static void raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
+ {
+-    CPUState *cs = CPU(m68k_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+ 
+     cs->exception_index = tt;
+     cpu_loop_exit_restore(cs, raddr);
+@@ -1037,7 +1037,7 @@ void HELPER(chk)(CPUM68KState *env, int32_t val, int32_t ub)
+     env->cc_c = 0 <= ub ? val < 0 || val > ub : val > ub && val < 0;
+ 
+     if (val < 0 || val > ub) {
+-        CPUState *cs = CPU(m68k_env_get_cpu(env));
++        CPUState *cs = env_cpu(env);
+ 
+         /* Recover PC and CC_OP for the beginning of the insn.  */
+         cpu_restore_state(cs, GETPC(), true);
+@@ -1068,7 +1068,7 @@ void HELPER(chk2)(CPUM68KState *env, int32_t val, int32_t lb, int32_t ub)
+     env->cc_c = lb <= ub ? val < lb || val > ub : val > ub && val < lb;
+ 
+     if (env->cc_c) {
+-        CPUState *cs = CPU(m68k_env_get_cpu(env));
++        CPUState *cs = env_cpu(env);
+ 
+         /* Recover PC and CC_OP for the beginning of the insn.  */
+         cpu_restore_state(cs, GETPC(), true);
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index f0534a4ba0..2ae537461f 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -4777,14 +4777,12 @@ DISAS_INSN(wddata)
+ 
+ DISAS_INSN(wdebug)
+ {
+-    M68kCPU *cpu = m68k_env_get_cpu(env);
+-
+     if (IS_USER(s)) {
+         gen_exception(s, s->base.pc_next, EXCP_PRIVILEGE);
          return;
      }
- 
--    cpu_watchpoint_remove_by_ref(CPU(cpu), env->cpu_watchpoint[idx]);
-+    cpu_watchpoint_remove_by_ref(env_cpu(env), env->cpu_watchpoint[idx]);
-     env->cpu_watchpoint[idx] = NULL;
+     /* TODO: Implement wdebug.  */
+-    cpu_abort(CPU(cpu), "WDEBUG not implemented");
++    cpu_abort(env_cpu(env), "WDEBUG not implemented");
  }
+ #endif
  
- static bool check_watchpoints(CPULM32State *env)
- {
--    LM32CPU *cpu = lm32_env_get_cpu(env);
-+    LM32CPU *cpu = env_archcpu(env);
-     int i;
- 
-     for (i = 0; i < cpu->num_watchpoints; i++) {
-diff --git a/target/lm32/op_helper.c b/target/lm32/op_helper.c
-index be12b11b02..d184550a7b 100644
---- a/target/lm32/op_helper.c
-+++ b/target/lm32/op_helper.c
-@@ -16,7 +16,7 @@
- #if !defined(CONFIG_USER_ONLY)
- void raise_exception(CPULM32State *env, int index)
- {
--    CPUState *cs = CPU(lm32_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     cs->exception_index = index;
-     cpu_loop_exit(cs);
-@@ -29,7 +29,7 @@ void HELPER(raise_exception)(CPULM32State *env, uint32_t index)
- 
- void HELPER(hlt)(CPULM32State *env)
- {
--    CPUState *cs = CPU(lm32_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     cs->halted = 1;
-     cs->exception_index = EXCP_HLT;
-@@ -39,7 +39,7 @@ void HELPER(hlt)(CPULM32State *env)
- void HELPER(ill)(CPULM32State *env)
- {
- #ifndef CONFIG_USER_ONLY
--    CPUState *cs = CPU(lm32_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     fprintf(stderr, "VM paused due to illegal instruction. "
-             "Connect a debugger or switch to the monitor console "
-             "to find out more.\n");
-diff --git a/target/lm32/translate.c b/target/lm32/translate.c
-index f0e0e7058e..b9f2f2c4a7 100644
---- a/target/lm32/translate.c
-+++ b/target/lm32/translate.c
-@@ -1053,7 +1053,7 @@ static inline void decode(DisasContext *dc, uint32_t ir)
- void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
- {
-     CPULM32State *env = cs->env_ptr;
--    LM32CPU *cpu = lm32_env_get_cpu(env);
-+    LM32CPU *cpu = env_archcpu(env);
-     struct DisasContext ctx, *dc = &ctx;
-     uint32_t pc_start;
-     uint32_t page_start;
 -- 
 2.17.1
 
