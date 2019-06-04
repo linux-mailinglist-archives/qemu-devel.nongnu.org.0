@@ -2,39 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47FE354D4
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 03:02:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33543 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A1A342F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 11:15:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49126 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYKK5-0007dN-Se
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 21:02:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52568)
+	id 1hY5XJ-00054u-Mt
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 05:15:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44567)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cuser@cusers-Mac-mini.local>) id 1hYKI9-0006am-Oe
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 21:00:38 -0400
+	(envelope-from <klaus@birkelund.eu>) id 1hY5WA-0004jX-9F
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 05:14:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cuser@cusers-Mac-mini.local>) id 1hYKI7-000782-8z
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 21:00:37 -0400
-Received: from [36.106.167.139] (port=63967 helo=cusers-Mac-mini.local)
-	by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cuser@cusers-Mac-mini.local>) id 1hYKI5-00070q-9f
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 21:00:34 -0400
-Received: by cusers-Mac-mini.local (Postfix, from userid 501)
-	id EFE5DEFD86D; Tue,  4 Jun 2019 17:13:59 +0800 (CST)
-To: peter.maydell@linaro.org,
-	kraxel@redhat.com
-Date: Tue,  4 Jun 2019 17:12:45 +0800
-Message-Id: <0095872e709300198d5fc96f42b112a6fd724391.1559638310.git.tgfbeta@me.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1559638310.git.tgfbeta@me.com>
-References: <cover.1559638310.git.tgfbeta@me.com>
+	(envelope-from <klaus@birkelund.eu>) id 1hY5W8-0004zj-Uo
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 05:14:06 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:36682)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
+	id 1hY5W6-0004w9-GE; Tue, 04 Jun 2019 05:14:02 -0400
+Received: from apples.localdomain (soho-cph.cust-cnex.dsd101.net
+	[194.62.216.132])
+	by charlie.dont.surf (Postfix) with ESMTPSA id 4E955BFCD3;
+	Tue,  4 Jun 2019 09:14:00 +0000 (UTC)
+Date: Tue, 4 Jun 2019 11:13:58 +0200
+From: Klaus Birkelund <klaus@birkelund.eu>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <20190604091358.GB11013@apples.localdomain>
+Mail-Followup-To: Kevin Wolf <kwolf@redhat.com>,
+	"Heitke, Kenneth" <kenneth.heitke@intel.com>, mreitz@redhat.com,
+	keith.busch@intel.com, qemu-block@nongnu.org, philmd@redhat.com,
+	qemu-devel@nongnu.org
+References: <20190520174030.1647-1-kenneth.heitke@intel.com>
+	<20190528061836.GB32236@apples.localdomain>
+	<20190603111409.GD6523@linux.fritz.box>
+	<a58ef975-78f2-9c5c-35c2-b2dd359a4c03@intel.com>
+	<20190604082828.GA11013@apples.localdomain>
+	<20190604084645.GB14925@linux.fritz.box>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Mac OS X  [generic] [fuzzy]
-X-Received-From: 36.106.167.139
-Subject: [Qemu-devel] [PATCH 2/2] ui/cocoa: Fix mouse grabbing in fullscreen
- mode for relative input device
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190604084645.GB14925@linux.fritz.box>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 128.199.63.193
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] nvme: add Get/Set Feature
+ Timestamp support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -46,47 +58,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Chen Zhang via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Chen Zhang <tgfbeta@me.com>
-Cc: qemu-devel@nongnu.org, Chen Zhang <tgfbeta@me.com>
+Cc: qemu-block@nongnu.org, "Heitke, Kenneth" <kenneth.heitke@intel.com>,
+	qemu-devel@nongnu.org, mreitz@redhat.com, keith.busch@intel.com,
+	philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In fullscreen mode, the window property of cocoaView may not be the key
-window, and the current implementation would not re-grab cursor by left c=
-lick
-in fullscreen mode after ungrabbed in fullscreen mode with hot-key ctrl-o=
-pt-g.
+On Tue, Jun 04, 2019 at 10:46:45AM +0200, Kevin Wolf wrote:
+> Am 04.06.2019 um 10:28 hat Klaus Birkelund geschrieben:
+> > On Mon, Jun 03, 2019 at 09:30:53AM -0600, Heitke, Kenneth wrote:
+> > > 
+> > > 
+> > > On 6/3/2019 5:14 AM, Kevin Wolf wrote:
+> > > > Am 28.05.2019 um 08:18 hat Klaus Birkelund geschrieben:
+> > > > > On Mon, May 20, 2019 at 11:40:30AM -0600, Kenneth Heitke wrote:
+> > > > > > Signed-off-by: Kenneth Heitke <kenneth.heitke@intel.com>
+> > > > 
+> > > > > > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> > > > > > index 56c9d4b4b1..d7277e72b7 100644
+> > > > > > --- a/hw/block/nvme.h
+> > > > > > +++ b/hw/block/nvme.h
+> > > > > > @@ -69,6 +69,7 @@ typedef struct NvmeCtrl {
+> > > > > >       uint16_t    max_prp_ents;
+> > > > > >       uint16_t    cqe_size;
+> > > > > >       uint16_t    sqe_size;
+> > > > > > +    uint16_t    oncs;
+> > > > > 
+> > > > > Looks like this unused member snuck its way into the patch. But I see no
+> > > > > harm in it being there.
+> > > > 
+> > > > Good catch. I'll just remove it again from my branch.
+> > > > 
+> > > > > > +static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
+> > > > > > +{
+> > > > > > +    trace_nvme_setfeat_timestamp(ts);
+> > > > > > +
+> > > > > > +    n->host_timestamp = le64_to_cpu(ts);
+> > > > > > +    n->timestamp_set_qemu_clock_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> > > > > > +}
+> > > > > > +
+> > > > > > +static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
+> > > > > > +{
+> > > > > > +    uint64_t current_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> > > > 
+> > > > Here I wonder why we use QEMU_CLOCK_REALTIME in a device emulation.
+> > > > Wouldn't QEMU_CLOCK_VIRTUAL make more sense?
+> > > > 
+> > > 
+> > > QEMU_CLOCK_VIRTUAL probably would make more sense. When I was reading
+> > > through the differences I wasn't really sure what to pick. iven that this is
+> > > the time within the device's context, the virtual time seems more correct.
+> > > 
+> >  
+> > I thought about this too when I reviewed, but came to the conclusion
+> > that REALTIME was correct. The timestamp is basically a value that the
+> > host stores in the controller. When the host uses Get Features to get
+> > the the current time it would expect it to match the progression for its
+> > own wall clockright? If I understand REALTIME vs VIRTUAL correctly,
+> > using VIRTUAL, it would go way out of sync.
+> 
+> Which two things would go out of sync with VIRTUAL?
+> 
+> Not an expert on clocks myself, but I think the main question is what
+> happens to the clock while the VM is stopped. REALTIME continues running
+> where as VIRTUAL is stopped. If we expose REALTIME measurements to the
+> guest, the time passed may look a lot longer than what the guest's clock
+> actually says. So this is the thing I am worried would go out of sync
+> with REALTIME.
+> 
 
-This patch used value of isFullscreen as a short-cirtuit condition for
-relative input device grabbing.
+OK, fair point.
 
-Signed-off-by: Chen Zhang <tgfbeta@me.com>
----
- ui/cocoa.m | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Thinking about this some more, I agree that VIRTUAL is more correct. An
+application should never track elapsed time using real wall clock time,
+but some monotonic clock that is oblivious to say NTP adjustments.
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 474d44cb9f..aa7cf07368 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -901,7 +901,12 @@ QemuCocoaView *cocoaView;
-         case NSEventTypeLeftMouseUp:
-             mouse_event =3D true;
-             if (!isMouseGrabbed && [self screenContainsPoint:p]) {
--                if([[self window] isKeyWindow]) {
-+                /*
-+                 * In fullscreen mode, the window of cocoaView may not b=
-e the
-+                 * key window, therefore the position relative to the vi=
-rtual
-+                 * screen alone will be sufficient.
-+                 */
-+                if(isFullscreen || [[self window] isKeyWindow]) {
-                     [self grabMouse];
-                 }
-             }
---=20
-2.21.0
-
+Klaus
 
