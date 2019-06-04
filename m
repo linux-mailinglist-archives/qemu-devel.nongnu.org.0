@@ -2,55 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8BF35FE2
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 17:08:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44214 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D71345BC
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 13:43:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50726 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYXWV-0005uY-Ct
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 11:08:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37085)
+	id 1hY7qt-0005ue-Ot
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 07:43:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54156)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hYXU0-0004ie-J9
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:05:46 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hY7pj-0005M1-QP
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 07:42:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hYXTy-0008D1-6j
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:05:44 -0400
-Resent-Date: Wed, 05 Jun 2019 11:05:44 -0400
-Resent-Message-Id: <E1hYXTy-0008D1-6j@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21578)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hYXTx-0007vz-VN
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:05:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1559647103; cv=none; d=zoho.com; s=zohoarc; 
-	b=nwpn4X4sbuShaMfNlq+iqiWYsMCij2eMljGAAd5Ra4e9gUT2ehxnYyf9SywRnYzUjs88PL3/LfcEJkuKOqPWb93iow5mOyenb3hxUeowTSbNB9eU/GhEE2qUMMNtFqqImy+EzsVyWsFnOgpHOwj5m7vCAu1VQLjrutBMvUOc4ko=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1559647103;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=i0tQLq2fl0BNfV7Nc+aQ9soefM9s3LIEAuQd2ZvZycM=; 
-	b=LET/6uxgz5pkaX3L/0Bgh5KXOUl5eAx2ECZ/vgxQx0N732MiQW9OyZdT8ndIPd+UF1DjuZ8BsXPw4EsP2YOw8B3/K2qT6iC1RYFSRvpKmwKsCxFjx5tvaP/DMqjMaL3f5G8QZqmDyQZDnwj6RtX/48/VxsaoeXreTzOx7u2/p5Y=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1559647102646499.35721284856766;
-	Tue, 4 Jun 2019 04:18:22 -0700 (PDT)
-In-Reply-To: <20190604095847.10532-1-tina.zhang@intel.com>
-Message-ID: <155964710115.32260.473364048613517312@ce79690b2cb9>
+	(envelope-from <imammedo@redhat.com>) id 1hY7pi-0005Xr-Tm
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 07:42:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55654)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
+	id 1hY7pe-0004no-TL; Tue, 04 Jun 2019 07:42:23 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0023F316290F;
+	Tue,  4 Jun 2019 11:42:09 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 71CC05D9CD;
+	Tue,  4 Jun 2019 11:42:06 +0000 (UTC)
+Date: Tue, 4 Jun 2019 13:42:05 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Message-ID: <20190604134205.757b217a@redhat.com>
+In-Reply-To: <20190603150120.29255-1-alex.bennee@linaro.org>
+References: <20190603150120.29255-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: tina.zhang@intel.com
-Date: Tue, 4 Jun 2019 04:18:22 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Tue, 04 Jun 2019 11:42:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [RFC PATCH 0/3] hw/display: Refresh UI depending
- on vGPU page flip events
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH] cputlb: use uint64_t for interim
+ values for unaligned load
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,112 +57,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kevin.tian@intel.com, qemu-devel@nongnu.org, zhenyuw@linux.intel.com,
-	tina.zhang@intel.com, alex.williamson@redhat.com,
-	zhiyuan.lv@intel.com, hang.yuan@intel.com,
-	intel-gvt-dev@lists.freedesktop.org, zhi.a.wang@intel.com,
-	kraxel@redhat.com
+Cc: qemu-devel@nongnu.org, 1830872@bugs.launchpad.net, qemu-arm@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>, randrianasulu@gmail.com,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYwNDA5NTg0Ny4xMDUz
-Mi0xLXRpbmEuemhhbmdAaW50ZWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
-YXNhbiBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhl
-aXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHBy
-b2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQoj
-IS9iaW4vYmFzaAp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtZGVidWdAZmVkb3JhIFRBUkdFVF9MSVNU
-PXg4Nl82NC1zb2Z0bW11IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09Cgog
-IENDICAgICAgeDg2XzY0LXNvZnRtbXUvcWFwaS9xYXBpLXZpc2l0LXRhcmdldC5vCiAgQ0MgICAg
-ICB4ODZfNjQtc29mdG1tdS9xYXBpL3FhcGktdmlzaXQubwogIENDICAgICAgeDg2XzY0LXNvZnRt
-bXUvcWFwaS9xYXBpLWV2ZW50cy10YXJnZXQubwovdG1wL3FlbXUtdGVzdC9zcmMvaHcvdmZpby9k
-aXNwbGF5LmM6Mjk1Ojk6IGVycm9yOiB2YXJpYWJsZSAncHJpbWFyeScgaXMgdXNlZCB1bmluaXRp
-YWxpemVkIHdoZW5ldmVyICdpZicgY29uZGl0aW9uIGlzIGZhbHNlIFstV2Vycm9yLC1Xc29tZXRp
-bWVzLXVuaW5pdGlhbGl6ZWRdCiAgICBpZiAoIWRweS0+ZXZlbnRfZmxhZ3MgfHwKICAgICAgICBe
-fn5+fn5+fn5+fn5+fn5+fn5+fgovdG1wL3FlbXUtdGVzdC9zcmMvaHcvdmZpby9kaXNwbGF5LmM6
-MzQxOjM1OiBub3RlOiB1bmluaXRpYWxpemVkIHVzZSBvY2N1cnMgaGVyZQotLS0KICAgIFZGSU9E
-TUFCdWYgKnByaW1hcnksICpjdXJzb3I7CiAgICAgICAgICAgICAgICAgICAgICAgXgogICAgICAg
-ICAgICAgICAgICAgICAgICA9IE5VTEwKL3RtcC9xZW11LXRlc3Qvc3JjL2h3L3ZmaW8vZGlzcGxh
-eS5jOjYwMTo0MzogZXJyb3I6IHVzZSBvZiB1bmRlY2xhcmVkIGlkZW50aWZpZXIgJ1ZGSU9fSVJR
-X1RZUEVfR0ZYJwogICAgcmV0ID0gcmVnaXN0ZXJfZGlzcGxheV9ub3RpZmllcih2ZGV2LCBWRklP
-X0lSUV9UWVBFX0dGWCwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-XgovdG1wL3FlbXUtdGVzdC9zcmMvaHcvdmZpby9kaXNwbGF5LmM6NjAyOjM3OiBlcnJvcjogdXNl
-IG9mIHVuZGVjbGFyZWQgaWRlbnRpZmllciAnVkZJT19JUlFfU1VCVFlQRV9HRlhfUFJJX1BMQU5F
-X0ZMSVAnCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFZGSU9fSVJRX1NVQlRZ
-UEVfR0ZYX1BSSV9QTEFORV9GTElQLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBeCi90bXAvcWVtdS10ZXN0L3NyYy9ody92ZmlvL2Rpc3BsYXkuYzo2MTA6NDM6IGVycm9yOiB1
-c2Ugb2YgdW5kZWNsYXJlZCBpZGVudGlmaWVyICdWRklPX0lSUV9UWVBFX0dGWCcKICAgIHJldCA9
-IHJlZ2lzdGVyX2Rpc3BsYXlfbm90aWZpZXIodmRldiwgVkZJT19JUlFfVFlQRV9HRlgsCiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3Jj
-L2h3L3ZmaW8vZGlzcGxheS5jOjYxMTozNjogZXJyb3I6IHVzZSBvZiB1bmRlY2xhcmVkIGlkZW50
-aWZpZXIgJ1ZGSU9fSVJRX1NVQlRZUEVfR0ZYX0NVUl9QTEFORV9GTElQJwogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIFZGSU9fSVJRX1NVQlRZUEVfR0ZYX0NVUl9QTEFORV9GTElQ
-LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3Jj
-L2h3L3ZmaW8vZGlzcGxheS5jOjY3MjozOTogZXJyb3I6IHVzZSBvZiB1bmRlY2xhcmVkIGlkZW50
-aWZpZXIgJ1ZGSU9fSVJRX1RZUEVfR0ZYJwogICAgdW5yZWdpc3Rlcl9kaXNwbGF5X25vdGlmaWVy
-KHZkZXYsIFZGSU9fSVJRX1RZUEVfR0ZYLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL2h3L3ZmaW8vZGlzcGxheS5jOjY3MzozMzogZXJy
-b3I6IHVzZSBvZiB1bmRlY2xhcmVkIGlkZW50aWZpZXIgJ1ZGSU9fSVJRX1NVQlRZUEVfR0ZYX1BS
-SV9QTEFORV9GTElQJwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFZGSU9fSVJRX1NV
-QlRZUEVfR0ZYX1BSSV9QTEFORV9GTElQLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IF4KL3RtcC9xZW11LXRlc3Qvc3JjL2h3L3ZmaW8vZGlzcGxheS5jOjY3NjozOTogZXJyb3I6IHVz
-ZSBvZiB1bmRlY2xhcmVkIGlkZW50aWZpZXIgJ1ZGSU9fSVJRX1RZUEVfR0ZYJwogICAgdW5yZWdp
-c3Rlcl9kaXNwbGF5X25vdGlmaWVyKHZkZXYsIFZGSU9fSVJRX1RZUEVfR0ZYLAogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL2h3L3ZmaW8v
-ZGlzcGxheS5jOjY3NzozMzogZXJyb3I6IHVzZSBvZiB1bmRlY2xhcmVkIGlkZW50aWZpZXIgJ1ZG
-SU9fSVJRX1NVQlRZUEVfR0ZYX0NVUl9QTEFORV9GTElQJwogICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIFZGSU9fSVJRX1NVQlRZUEVfR0ZYX0NVUl9QTEFORV9GTElQLAogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIF4KOSBlcnJvcnMgZ2VuZXJhdGVkLgovdG1wL3FlbXUtdGVz
-dC9zcmMvaHcvdmZpby9jb21tb24uYzo3NTc6MjU6IGVycm9yOiB1c2Ugb2YgdW5kZWNsYXJlZCBp
-ZGVudGlmaWVyICdWRklPX0lSUV9JTkZPX0ZMQUdfQ0FQUycKICAgIGlmICghKGluZm8tPmZsYWdz
-ICYgVkZJT19JUlFfSU5GT19GTEFHX0NBUFMpKSB7CiAgICAgICAgICAgICAgICAgICAgICAgIF4K
-L3RtcC9xZW11LXRlc3Qvc3JjL2h3L3ZmaW8vY29tbW9uLmM6NzYxOjI4OiBlcnJvcjogbm8gbWVt
-YmVyIG5hbWVkICdjYXBfb2Zmc2V0JyBpbiAnc3RydWN0IHZmaW9faXJxX2luZm8nCiAgICBmb3Ig
-KGhkciA9IHB0ciArIGluZm8tPmNhcF9vZmZzZXQ7IGhkciAhPSBwdHI7IGhkciA9IHB0ciArIGhk
-ci0+bmV4dCkgewogICAgICAgICAgICAgICAgICAgICB+fn5+ICBeCi90bXAvcWVtdS10ZXN0L3Ny
-Yy9ody92ZmlvL2NvbW1vbi5jOjE2MzY6NDQ6IGVycm9yOiB1c2Ugb2YgdW5kZWNsYXJlZCBpZGVu
-dGlmaWVyICdWRklPX0lSUV9JTkZPX0NBUF9UWVBFJwogICAgICAgIGhkciA9IHZmaW9fZ2V0X2ly
-cV9pbmZvX2NhcCgqaW5mbywgVkZJT19JUlFfSU5GT19DQVBfVFlQRSk7CiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9ody92Zmlv
-L2NvbW1vbi5jOjE2NDI6MjA6IGVycm9yOiBpbmNvbXBsZXRlIGRlZmluaXRpb24gb2YgdHlwZSAn
-c3RydWN0IHZmaW9faXJxX2luZm9fY2FwX3R5cGUnCiAgICAgICAgY2FwX3R5cGUgPSBjb250YWlu
-ZXJfb2YoaGRyLCBzdHJ1Y3QgdmZpb19pcnFfaW5mb19jYXBfdHlwZSwgaGVhZGVyKTsKICAgICAg
-ICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+Ci90bXAvcWVtdS10ZXN0L3NyYy9pbmNsdWRlL3FlbXUvY29tcGlsZXIuaDo1
-NzozNDogbm90ZTogZXhwYW5kZWQgZnJvbSBtYWNybyAnY29udGFpbmVyX29mJwotLS0KL3RtcC9x
-ZW11LXRlc3Qvc3JjL2h3L3ZmaW8vY29tbW9uLmM6MTYzMDoxNjogbm90ZTogZm9yd2FyZCBkZWNs
-YXJhdGlvbiBvZiAnc3RydWN0IHZmaW9faXJxX2luZm9fY2FwX3R5cGUnCiAgICAgICAgc3RydWN0
-IHZmaW9faXJxX2luZm9fY2FwX3R5cGUgKmNhcF90eXBlOwogICAgICAgICAgICAgICBeCi90bXAv
-cWVtdS10ZXN0L3NyYy9ody92ZmlvL2NvbW1vbi5jOjE2NDI6MjA6IGVycm9yOiBvZmZzZXRvZiBv
-ZiBpbmNvbXBsZXRlIHR5cGUgJ3N0cnVjdCB2ZmlvX2lycV9pbmZvX2NhcF90eXBlJwogICAgICAg
-IGNhcF90eXBlID0gY29udGFpbmVyX29mKGhkciwgc3RydWN0IHZmaW9faXJxX2luZm9fY2FwX3R5
-cGUsIGhlYWRlcik7CiAgICAgICAgICAgICAgICAgICBeICAgICAgICAgICAgICAgICB+fn5+fn4K
-L3RtcC9xZW11LXRlc3Qvc3JjL2luY2x1ZGUvcWVtdS9jb21waWxlci5oOjU4OjM3OiBub3RlOiBl
-eHBhbmRlZCBmcm9tIG1hY3JvICdjb250YWluZXJfb2YnCi0tLQovdG1wL3FlbXUtdGVzdC9zcmMv
-aHcvdmZpby9jb21tb24uYzoxNjMwOjE2OiBub3RlOiBmb3J3YXJkIGRlY2xhcmF0aW9uIG9mICdz
-dHJ1Y3QgdmZpb19pcnFfaW5mb19jYXBfdHlwZScKICAgICAgICBzdHJ1Y3QgdmZpb19pcnFfaW5m
-b19jYXBfdHlwZSAqY2FwX3R5cGU7CiAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3Jj
-L2h3L3ZmaW8vY29tbW9uLmM6MTY0MjoxODogZXJyb3I6IGFzc2lnbmluZyB0byAnc3RydWN0IHZm
-aW9faXJxX2luZm9fY2FwX3R5cGUgKicgZnJvbSBpbmNvbXBhdGlibGUgdHlwZSAndm9pZCcKICAg
-ICAgICBjYXBfdHlwZSA9IGNvbnRhaW5lcl9vZihoZHIsIHN0cnVjdCB2ZmlvX2lycV9pbmZvX2Nh
-cF90eXBlLCBoZWFkZXIpOwogICAgICAgICAgICAgICAgIF4gfn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KL3RtcC9xZW11LXRlc3Qvc3JjL2h3
-L3ZmaW8vY29tbW9uLmM6MTY0NDoyMTogZXJyb3I6IGluY29tcGxldGUgZGVmaW5pdGlvbiBvZiB0
-eXBlICdzdHJ1Y3QgdmZpb19pcnFfaW5mb19jYXBfdHlwZScKICAgICAgICBpZiAoY2FwX3R5cGUt
-PnR5cGUgPT0gdHlwZSAmJiBjYXBfdHlwZS0+c3VidHlwZSA9PSBzdWJ0eXBlKSB7CiAgICAgICAg
-ICAgIH5+fn5+fn5+XgovdG1wL3FlbXUtdGVzdC9zcmMvaHcvdmZpby9jb21tb24uYzoxNjMwOjE2
-OiBub3RlOiBmb3J3YXJkIGRlY2xhcmF0aW9uIG9mICdzdHJ1Y3QgdmZpb19pcnFfaW5mb19jYXBf
-dHlwZScKICAgICAgICBzdHJ1Y3QgdmZpb19pcnFfaW5mb19jYXBfdHlwZSAqY2FwX3R5cGU7CiAg
-ICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL2h3L3ZmaW8vY29tbW9uLmM6MTY0NDo0
-NzogZXJyb3I6IGluY29tcGxldGUgZGVmaW5pdGlvbiBvZiB0eXBlICdzdHJ1Y3QgdmZpb19pcnFf
-aW5mb19jYXBfdHlwZScKICAgICAgICBpZiAoY2FwX3R5cGUtPnR5cGUgPT0gdHlwZSAmJiBjYXBf
-dHlwZS0+c3VidHlwZSA9PSBzdWJ0eXBlKSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgfn5+fn5+fn5eCi90bXAvcWVtdS10ZXN0L3NyYy9ody92ZmlvL2NvbW1vbi5jOjE2
-MzA6MTY6IG5vdGU6IGZvcndhcmQgZGVjbGFyYXRpb24gb2YgJ3N0cnVjdCB2ZmlvX2lycV9pbmZv
-X2NhcF90eXBlJwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcu
-b3JnL2xvZ3MvMjAxOTA2MDQwOTU4NDcuMTA1MzItMS10aW5hLnpoYW5nQGludGVsLmNvbS90ZXN0
-aW5nLmFzYW4vP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
-IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVk
-YmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Mon,  3 Jun 2019 16:01:20 +0100
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+
+> When running on 32 bit TCG backends a wide unaligned load ends up
+> truncating data before returning to the guest. We specifically have
+> the return type as uint64_t to avoid any premature truncation so we
+> should use the same for the interim types.
+>=20
+> Hopefully fixes #1830872
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+Fixes arm/virt bios-tables-test for me, so
+
+Tested-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  accel/tcg/cputlb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index cdcc3771020..b796ab1cbea 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1303,7 +1303,7 @@ load_helper(CPUArchState *env, target_ulong addr, T=
+CGMemOpIdx oi,
+>          && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
+>                      >=3D TARGET_PAGE_SIZE)) { =20
+>          target_ulong addr1, addr2;
+> -        tcg_target_ulong r1, r2;
+> +        uint64_t r1, r2;
+>          unsigned shift;
+>      do_unaligned_access:
+>          addr1 =3D addr & ~(size - 1);
 
 
