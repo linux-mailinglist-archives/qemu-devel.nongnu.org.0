@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0847635176
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:57:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57929 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C938E35157
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:51:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57799 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYGV0-0003PZ-6Y
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:57:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35894)
+	id 1hYGOl-00068A-SJ
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:51:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35923)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8g-0001OE-E9
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:35 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8j-0001QB-P7
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8f-0004Uy-3Z
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:34 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33401)
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8h-0004Xx-7S
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:37 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:44830)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYG8e-0004UV-Ur
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:33 -0400
-Received: by mail-oi1-x244.google.com with SMTP id q186so16643841oia.0
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:32 -0700 (PDT)
+	id 1hYG8h-0004Ww-0y
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:35 -0400
+Received: by mail-oi1-x236.google.com with SMTP id e189so9884351oib.11
+	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=BPOSGSRwnnlDmzKutwLcU2dnjTQ5x21/pJ7MvOt5Ozw=;
-	b=zQXpIkhoLJ2PE18jawcfmuA8iNFcDbP/w12SvOjJfI42egHFlCyc99T0AaimN2Rzqh
-	gmWqPnuJQs871qfZ3zeIwXGgGlyrB+1oBvMrXYRXdjcbM/dtC+oQJpHXDlKuoAURqgc4
-	YyBk0Lmvb1534tWlNx2GRCO7rUJFf2FX0HBJb3SB62IYzkjpGYR4gvP1pDW8TTncRV7m
-	2WXua+cNpPu+F2oJQisrWJ/gs2sm9EXhMxPqqefgjm94c8jZeKBVZeZiE2Yx5tiMk6bK
-	90OgEC24oOXfIx44CR2eqvIgoID9z1EFnEbvfzjwJsaSG2NSGYiA49gr3nhVAv/7fkhj
-	UZuw==
+	bh=fq9eJodKPUjXUT0wTPDnO6cE+6R1a7GOx1eVKOsBlxY=;
+	b=ilQIYcm2yk7zoCDMAYupCk6ER8FvIarTGiPDbuBBgEVGizz4l5RMgp1wN78awgeAGb
+	ltOVWuDOyK742fYuKde7GOwKqzHIzWat89VuqyoKeJEngd6rxm4xdm9WuFvYm23uxn4x
+	IRfBEi1k/yaJwAXUk4exXnbAT+wqNm+c7AfQtl5bMl59HHyRi1TznYFOc4G8Zt2teHCp
+	I1oeWwJNfu0SnhVJuQvJ1o0BkBgTOSKk2RG6g5owYEVj513c0Hufs4AIy2kDPwfLOmom
+	OZTDx2FomKU8P2owcvNJboSbAugAq6SE5ALkHFEtaiXzxQyro4alDz8v+XT+cirt9nqn
+	BoDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=BPOSGSRwnnlDmzKutwLcU2dnjTQ5x21/pJ7MvOt5Ozw=;
-	b=QpuOAuwElth15s81tNTvwne/xPIg2zjf4DvBoPp8mUzJSkPGpshJRYTxbwdgCZ8SBx
-	vocQ8J5hxkKjKIhOa8wPgcvMzMmaKBtaR6j/6diGHtYmW0VhLr7SwUv8w2qzCWPlanvn
-	gg7YbBDZcUlSQRU5yOv2VbcEUVWb/hIKAWg+qzo6nBq0Mf5E3rFM6fKQFu+shGT59vI6
-	xkVX5kqVoD2VhPPVhZaKvGGovjRb7FWdwn5ZQfjqn7HCBZBJLTKpXRX6vPVgA/WMk3uH
-	QEFUL+S6zvIyiGELqQb0wKXsu8ypxJfgWlg87c3Q55mWJFeXX/JkigrGMzAg0IE5qbIO
-	bpsQ==
-X-Gm-Message-State: APjAAAUeKit4a4/yiwvP52bh0vNBb9Zah8GZtgbreFxuIWYkbXx22+ID
-	VpoIoh6d5tYBCqI0GJFc5Ija0irxC8sblg==
-X-Google-Smtp-Source: APXvYqzx+vBy0YDlrr3wxgshRQgayL9nCRIroF0Jkr1xrzGzeczxHruScDLdt2BKXfOaP3d69coHkQ==
-X-Received: by 2002:aca:3c86:: with SMTP id j128mr5594952oia.1.1559680471865; 
-	Tue, 04 Jun 2019 13:34:31 -0700 (PDT)
+	bh=fq9eJodKPUjXUT0wTPDnO6cE+6R1a7GOx1eVKOsBlxY=;
+	b=YL0lVzjVOM3b4tMUSilaxxUYtGBhCqPBwFTs6BHS9xeabZbONg6RSueSwGnapOesTA
+	p2tCNiB9BvXEFA9iEFXptkEoejJ3t4q3c5lyGh80kO7u/FqMOgly4E2hqCtfnH4aQB+T
+	aYMyDWY2ylgcscd6/zgCALeKtJrKzLaLOD5r5Wi0ywF4RLmUj6MbFE7w+hcYhh0KHcai
+	iBds91nlo/7XZ4OEjvOJXI0Nh2p0F0ekbRUEqJhEY+hRiq3Hbt5eNiNGmf/UhmGcsj2x
+	bUW7s2O1rsZS9xDkQxGNoLRqAAsjM+ZKIqQZv9GGi3B5qxcCHulT929frMCaYc891+JA
+	Vcow==
+X-Gm-Message-State: APjAAAX9xvyHyWof0itiuz5dBWRHBbn3Jzm74exRXqdH0SsPtBJDje/d
+	LUrn0+3NkKIG1dz9xsWzOG/ELUi5wazdsg==
+X-Google-Smtp-Source: APXvYqxEAvLZmS4fk41s9Mrl5Xo7VQWcUGi/Xb8a5yTKUKw+RNRwUeLa7dBRE3gVRuASKGjNDKLxoA==
+X-Received: by 2002:aca:3fc6:: with SMTP id m189mr3476504oia.124.1559680473657;
+	Tue, 04 Jun 2019 13:34:33 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.29
+	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.32
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 13:34:30 -0700 (PDT)
+	Tue, 04 Jun 2019 13:34:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 15:33:35 -0500
-Message-Id: <20190604203351.27778-24-richard.henderson@linaro.org>
+Date: Tue,  4 Jun 2019 15:33:36 -0500
+Message-Id: <20190604203351.27778-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604203351.27778-1-richard.henderson@linaro.org>
 References: <20190604203351.27778-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: [Qemu-devel] [PATCH v4 23/39] target/riscv: Use env_cpu, env_archcpu
+X-Received-From: 2607:f8b0:4864:20::236
+Subject: [Qemu-devel] [PATCH v4 24/39] target/s390x: Use env_cpu, env_archcpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,178 +80,619 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Cleanup in the boilerplate that each target must define.
-Replace riscv_env_get_cpu with env_archcpu.  The combination
-CPU(riscv_env_get_cpu) should have used ENV_GET_CPU to begin;
+Replace s390_env_get_cpu with env_archcpu.  The combination
+CPU(s390_env_get_cpu) should have used ENV_GET_CPU to begin;
 use env_cpu now.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu.h          |  5 -----
- linux-user/riscv/cpu_loop.c |  2 +-
- target/riscv/cpu_helper.c   | 10 ++++------
- target/riscv/csr.c          | 12 ++++++------
- target/riscv/op_helper.c    |  7 +++----
- 5 files changed, 14 insertions(+), 22 deletions(-)
+ target/s390x/cpu.h          |  5 ----
+ linux-user/s390x/cpu_loop.c |  2 +-
+ target/s390x/cc_helper.c    |  5 ++--
+ target/s390x/diag.c         |  2 +-
+ target/s390x/excp_helper.c  |  6 ++---
+ target/s390x/fpu_helper.c   |  4 +--
+ target/s390x/helper.c       |  7 +++---
+ target/s390x/int_helper.c   |  3 +--
+ target/s390x/interrupt.c    |  6 ++---
+ target/s390x/mem_helper.c   | 28 ++++++++-------------
+ target/s390x/misc_helper.c  | 50 ++++++++++++++++++-------------------
+ target/s390x/mmu_helper.c   |  8 +++---
+ target/s390x/sigp.c         |  4 +--
+ 13 files changed, 56 insertions(+), 74 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 9ab038bac3..29a1e08f03 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -221,11 +221,6 @@ typedef struct RISCVCPU {
-     } cfg;
- } RISCVCPU;
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 9cdd831a77..eefed6f509 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -163,11 +163,6 @@ struct S390CPU {
+     uint32_t irqstate_saved_size;
+ };
  
--static inline RISCVCPU *riscv_env_get_cpu(CPURISCVState *env)
+-static inline S390CPU *s390_env_get_cpu(CPUS390XState *env)
 -{
--    return container_of(env, RISCVCPU, env);
+-    return container_of(env, S390CPU, env);
 -}
 -
- static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
- {
-     return (env->misa & ext) != 0;
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index 31700f75d0..c1134597fd 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -25,7 +25,7 @@
+ #define ENV_OFFSET offsetof(S390CPU, env)
  
- void cpu_loop(CPURISCVState *env)
+ #ifndef CONFIG_USER_ONLY
+diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
+index b8bd1c956c..8211022ceb 100644
+--- a/linux-user/s390x/cpu_loop.c
++++ b/linux-user/s390x/cpu_loop.c
+@@ -26,7 +26,7 @@
+ 
+ void cpu_loop(CPUS390XState *env)
  {
--    CPUState *cs = CPU(riscv_env_get_cpu(env));
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
-     int trapnr, signum, sigcode;
-     target_ulong sigaddr;
-     target_ulong ret;
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index c577a262b8..8b6754b917 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -89,14 +89,12 @@ struct CpuAsyncInfo {
- static void riscv_cpu_update_mip_irqs_async(CPUState *target_cpu_state,
-                                             run_on_cpu_data data)
+     int trapnr, n, sig;
+     target_siginfo_t info;
+     target_ulong addr;
+diff --git a/target/s390x/cc_helper.c b/target/s390x/cc_helper.c
+index a00294f183..cf68792733 100644
+--- a/target/s390x/cc_helper.c
++++ b/target/s390x/cc_helper.c
+@@ -419,7 +419,6 @@ static uint32_t cc_calc_vc(uint64_t low, uint64_t high)
+ static uint32_t do_calc_cc(CPUS390XState *env, uint32_t cc_op,
+                                   uint64_t src, uint64_t dst, uint64_t vr)
  {
--    CPURISCVState *env = &RISCV_CPU(target_cpu_state)->env;
--    RISCVCPU *cpu = riscv_env_get_cpu(env);
-     struct CpuAsyncInfo *info = (struct CpuAsyncInfo *) data.host_ptr;
+-    S390CPU *cpu = s390_env_get_cpu(env);
+     uint32_t r = 0;
  
-     if (info->new_mip) {
--        cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
-+        cpu_interrupt(target_cpu_state, CPU_INTERRUPT_HARD);
-     } else {
--        cpu_reset_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
-+        cpu_reset_interrupt(target_cpu_state, CPU_INTERRUPT_HARD);
+     switch (cc_op) {
+@@ -543,7 +542,7 @@ static uint32_t do_calc_cc(CPUS390XState *env, uint32_t cc_op,
+         break;
+ 
+     default:
+-        cpu_abort(CPU(cpu), "Unknown CC operation: %s\n", cc_name(cc_op));
++        cpu_abort(env_cpu(env), "Unknown CC operation: %s\n", cc_name(cc_op));
      }
  
-     g_free(info);
-@@ -212,7 +210,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-         }
-     }
- 
--    CPUState *cs = CPU(riscv_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     int va_bits = PGSHIFT + levels * ptidxbits;
-     target_ulong mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
-     target_ulong masked_msbs = (addr >> (va_bits - 1)) & mask;
-@@ -341,7 +339,7 @@ restart:
- static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
-                                 MMUAccessType access_type)
+     HELPER_LOG("%s: %15s 0x%016lx 0x%016lx 0x%016lx = %d\n", __func__,
+@@ -567,7 +566,7 @@ uint32_t HELPER(calc_cc)(CPUS390XState *env, uint32_t cc_op, uint64_t src,
+ void HELPER(load_psw)(CPUS390XState *env, uint64_t mask, uint64_t addr)
  {
--    CPUState *cs = CPU(riscv_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     int page_fault_exceptions =
-         (env->priv_ver >= PRIV_VERSION_1_10_0) &&
-         get_field(env->satp, SATP_MODE) != VM_1_10_MBARE;
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index f9e2910643..c67d29e206 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -296,7 +296,7 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
-     if (env->priv_ver <= PRIV_VERSION_1_09_1) {
-         if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP |
-                 MSTATUS_MPRV | MSTATUS_SUM | MSTATUS_VM)) {
--            tlb_flush(CPU(riscv_env_get_cpu(env)));
-+            tlb_flush(env_cpu(env));
-         }
-         mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
-             MSTATUS_SPP | MSTATUS_FS | MSTATUS_MPRV | MSTATUS_SUM |
-@@ -307,7 +307,7 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
-     if (env->priv_ver >= PRIV_VERSION_1_10_0) {
-         if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-                 MSTATUS_MPRV | MSTATUS_SUM)) {
--            tlb_flush(CPU(riscv_env_get_cpu(env)));
-+            tlb_flush(env_cpu(env));
-         }
-         mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
-             MSTATUS_SPP | MSTATUS_FS | MSTATUS_MPRV | MSTATUS_SUM |
-@@ -382,7 +382,7 @@ static int write_misa(CPURISCVState *env, int csrno, target_ulong val)
+     load_psw(env, mask, addr);
+-    cpu_loop_exit(CPU(s390_env_get_cpu(env)));
++    cpu_loop_exit(env_cpu(env));
+ }
  
-     /* flush translation cache */
-     if (val != env->misa) {
--        tb_flush(CPU(riscv_env_get_cpu(env)));
-+        tb_flush(env_cpu(env));
-     }
+ void HELPER(sacf)(CPUS390XState *env, uint64_t a1)
+diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+index aafa740f61..65eabf0461 100644
+--- a/target/s390x/diag.c
++++ b/target/s390x/diag.c
+@@ -55,7 +55,7 @@ int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
  
-     env->misa = val;
-@@ -549,7 +549,7 @@ static int write_mbadaddr(CPURISCVState *env, int csrno, target_ulong val)
- static int rmw_mip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-                    target_ulong new_value, target_ulong write_mask)
+ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
  {
--    RISCVCPU *cpu = riscv_env_get_cpu(env);
-+    RISCVCPU *cpu = env_archcpu(env);
-     /* Allow software control of delegable interrupts not claimed by hardware */
-     target_ulong mask = write_mask & delegable_ints & ~env->miclaim;
-     uint32_t old_mip;
-@@ -712,7 +712,7 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     uint64_t addr =  env->regs[r1];
+     uint64_t subcode = env->regs[r3];
+     IplParameterBlock *iplb;
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index 3a467b72c5..b718760175 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -36,7 +36,7 @@
+ void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
+                                               int ilen, uintptr_t ra)
+ {
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+ 
+     cpu_restore_state(cs, ra, true);
+     qemu_log_mask(CPU_LOG_INT, "program interrupt at %#" PRIx64 "\n",
+@@ -51,7 +51,7 @@ void QEMU_NORETURN tcg_s390_data_exception(CPUS390XState *env, uint32_t dxc,
+     g_assert(dxc <= 0xff);
+ #if !defined(CONFIG_USER_ONLY)
+     /* Store the DXC into the lowcore */
+-    stl_phys(CPU(s390_env_get_cpu(env))->as,
++    stl_phys(env_cpu(env)->as,
+              env->psa + offsetof(LowCore, data_exc_code), dxc);
+ #endif
+ 
+@@ -282,7 +282,7 @@ static void do_svc_interrupt(CPUS390XState *env)
+ static void do_ext_interrupt(CPUS390XState *env)
+ {
+     QEMUS390FLICState *flic = QEMU_S390_FLIC(s390_get_flic());
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     uint64_t mask, addr;
+     uint16_t cpu_addr;
+     LowCore *lowcore;
+diff --git a/target/s390x/fpu_helper.c b/target/s390x/fpu_helper.c
+index 1be68bafea..906fa8ce99 100644
+--- a/target/s390x/fpu_helper.c
++++ b/target/s390x/fpu_helper.c
+@@ -114,8 +114,6 @@ static void handle_exceptions(CPUS390XState *env, bool XxC, uintptr_t retaddr)
+ 
+ static inline int float_comp_to_cc(CPUS390XState *env, int float_compare)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
+-
+     switch (float_compare) {
+     case float_relation_equal:
          return 0;
+@@ -126,7 +124,7 @@ static inline int float_comp_to_cc(CPUS390XState *env, int float_compare)
+     case float_relation_unordered:
+         return 3;
+     default:
+-        cpu_abort(CPU(cpu), "unknown return value for float compare\n");
++        cpu_abort(env_cpu(env), "unknown return value for float compare\n");
      }
-     if (env->priv_ver <= PRIV_VERSION_1_09_1 && (val ^ env->sptbr)) {
--        tlb_flush(CPU(riscv_env_get_cpu(env)));
-+        tlb_flush(env_cpu(env));
-         env->sptbr = val & (((target_ulong)
-             1 << (TARGET_PHYS_ADDR_SPACE_BITS - PGSHIFT)) - 1);
+ }
+ 
+diff --git a/target/s390x/helper.c b/target/s390x/helper.c
+index 3c8f0a7615..398c2874e0 100644
+--- a/target/s390x/helper.c
++++ b/target/s390x/helper.c
+@@ -111,11 +111,11 @@ void load_psw(CPUS390XState *env, uint64_t mask, uint64_t addr)
+     env->cc_op = (mask >> 44) & 3;
+ 
+     if ((old_mask ^ mask) & PSW_MASK_PER) {
+-        s390_cpu_recompute_watchpoints(CPU(s390_env_get_cpu(env)));
++        s390_cpu_recompute_watchpoints(env_cpu(env));
      }
-@@ -724,7 +724,7 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
-             return -1;
-         } else {
-             if((val ^ env->satp) & SATP_ASID) {
--                tlb_flush(CPU(riscv_env_get_cpu(env)));
-+                tlb_flush(env_cpu(env));
-             }
-             env->satp = val;
+ 
+     if (mask & PSW_MASK_WAIT) {
+-        s390_handle_wait(s390_env_get_cpu(env));
++        s390_handle_wait(env_archcpu(env));
+     }
+ }
+ 
+@@ -137,14 +137,13 @@ uint64_t get_psw_mask(CPUS390XState *env)
+ 
+ LowCore *cpu_map_lowcore(CPUS390XState *env)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
+     LowCore *lowcore;
+     hwaddr len = sizeof(LowCore);
+ 
+     lowcore = cpu_physical_memory_map(env->psa, &len, 1);
+ 
+     if (len < sizeof(LowCore)) {
+-        cpu_abort(CPU(cpu), "Could not map lowcore\n");
++        cpu_abort(env_cpu(env), "Could not map lowcore\n");
+     }
+ 
+     return lowcore;
+diff --git a/target/s390x/int_helper.c b/target/s390x/int_helper.c
+index abbbc20d9c..d13cc49be6 100644
+--- a/target/s390x/int_helper.c
++++ b/target/s390x/int_helper.c
+@@ -109,10 +109,9 @@ uint64_t HELPER(divu64)(CPUS390XState *env, uint64_t ah, uint64_t al,
+             s390_program_interrupt(env, PGM_FIXPT_DIVIDE, ILEN_AUTO, GETPC());
          }
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 644d0fb35f..331cc36232 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -28,7 +28,7 @@
- void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
-                                           uint32_t exception, uintptr_t pc)
+ #else
+-        S390CPU *cpu = s390_env_get_cpu(env);
+         /* 32-bit hosts would need special wrapper functionality - just abort if
+            we encounter such a case; it's very unlikely anyways. */
+-        cpu_abort(CPU(cpu), "128 -> 64/64 division not implemented\n");
++        cpu_abort(env_cpu(env), "128 -> 64/64 division not implemented\n");
+ #endif
+     }
+     return ret;
+diff --git a/target/s390x/interrupt.c b/target/s390x/interrupt.c
+index a17eff5ebc..a8f9b38795 100644
+--- a/target/s390x/interrupt.c
++++ b/target/s390x/interrupt.c
+@@ -23,7 +23,7 @@
+ /* Ensure to exit the TB after this call! */
+ void trigger_pgm_exception(CPUS390XState *env, uint32_t code, uint32_t ilen)
  {
--    CPUState *cs = CPU(riscv_env_get_cpu(env));
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
-     qemu_log_mask(CPU_LOG_INT, "%s: %d\n", __func__, exception);
-     cs->exception_index = exception;
-     cpu_loop_exit_restore(cs, pc);
-@@ -128,7 +128,7 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
  
- void helper_wfi(CPURISCVState *env)
+     cs->exception_index = EXCP_PGM;
+     env->int_pgm_code = code;
+@@ -33,10 +33,8 @@ void trigger_pgm_exception(CPUS390XState *env, uint32_t code, uint32_t ilen)
+ void s390_program_interrupt(CPUS390XState *env, uint32_t code, int ilen,
+                             uintptr_t ra)
  {
--    CPUState *cs = CPU(riscv_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     if (env->priv == PRV_S &&
-         env->priv_ver >= PRIV_VERSION_1_10_0 &&
-@@ -143,8 +143,7 @@ void helper_wfi(CPURISCVState *env)
- 
- void helper_tlb_flush(CPURISCVState *env)
+-    S390CPU *cpu = s390_env_get_cpu(env);
+-
+     if (kvm_enabled()) {
+-        kvm_s390_program_interrupt(cpu, code);
++        kvm_s390_program_interrupt(env_archcpu(env), code);
+     } else if (tcg_enabled()) {
+         tcg_s390_program_interrupt(env, code, ilen, ra);
+     } else {
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index 4a0161602f..29d9eaa5b7 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -1617,7 +1617,6 @@ uint32_t HELPER(csst_parallel)(CPUS390XState *env, uint32_t r3, uint64_t a1,
+ void HELPER(lctlg)(CPUS390XState *env, uint32_t r1, uint64_t a2, uint32_t r3)
  {
--    RISCVCPU *cpu = riscv_env_get_cpu(env);
+     uintptr_t ra = GETPC();
+-    S390CPU *cpu = s390_env_get_cpu(env);
+     bool PERchanged = false;
+     uint64_t src = a2;
+     uint32_t i;
+@@ -1642,16 +1641,15 @@ void HELPER(lctlg)(CPUS390XState *env, uint32_t r1, uint64_t a2, uint32_t r3)
+     }
+ 
+     if (PERchanged && env->psw.mask & PSW_MASK_PER) {
+-        s390_cpu_recompute_watchpoints(CPU(cpu));
++        s390_cpu_recompute_watchpoints(env_cpu(env));
+     }
+ 
+-    tlb_flush(CPU(cpu));
++    tlb_flush(env_cpu(env));
+ }
+ 
+ void HELPER(lctl)(CPUS390XState *env, uint32_t r1, uint64_t a2, uint32_t r3)
+ {
+     uintptr_t ra = GETPC();
+-    S390CPU *cpu = s390_env_get_cpu(env);
+     bool PERchanged = false;
+     uint64_t src = a2;
+     uint32_t i;
+@@ -1675,10 +1673,10 @@ void HELPER(lctl)(CPUS390XState *env, uint32_t r1, uint64_t a2, uint32_t r3)
+     }
+ 
+     if (PERchanged && env->psw.mask & PSW_MASK_PER) {
+-        s390_cpu_recompute_watchpoints(CPU(cpu));
++        s390_cpu_recompute_watchpoints(env_cpu(env));
+     }
+ 
+-    tlb_flush(CPU(cpu));
++    tlb_flush(env_cpu(env));
+ }
+ 
+ void HELPER(stctg)(CPUS390XState *env, uint32_t r1, uint64_t a2, uint32_t r3)
+@@ -1737,8 +1735,8 @@ uint32_t HELPER(testblock)(CPUS390XState *env, uint64_t real_addr)
+ 
+ uint32_t HELPER(tprot)(CPUS390XState *env, uint64_t a1, uint64_t a2)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
 -    CPUState *cs = CPU(cpu);
++    S390CPU *cpu = env_archcpu(env);
 +    CPUState *cs = env_cpu(env);
-     if (!(env->priv >= PRV_S) ||
-         (env->priv == PRV_S &&
-          env->priv_ver >= PRIV_VERSION_1_10_0 &&
+ 
+     /*
+      * TODO: we currently don't handle all access protection types
+@@ -1906,7 +1904,7 @@ uint32_t HELPER(mvcp)(CPUS390XState *env, uint64_t l, uint64_t a1, uint64_t a2)
+ 
+ void HELPER(idte)(CPUS390XState *env, uint64_t r1, uint64_t r2, uint32_t m4)
+ {
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     const uintptr_t ra = GETPC();
+     uint64_t table, entry, raddr;
+     uint16_t entries, i, index = 0;
+@@ -1958,7 +1956,7 @@ void HELPER(idte)(CPUS390XState *env, uint64_t r1, uint64_t r2, uint32_t m4)
+ void HELPER(ipte)(CPUS390XState *env, uint64_t pto, uint64_t vaddr,
+                   uint32_t m4)
+ {
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     const uintptr_t ra = GETPC();
+     uint64_t page = vaddr & TARGET_PAGE_MASK;
+     uint64_t pte_addr, pte;
+@@ -1998,17 +1996,13 @@ void HELPER(ipte)(CPUS390XState *env, uint64_t pto, uint64_t vaddr,
+ /* flush local tlb */
+ void HELPER(ptlb)(CPUS390XState *env)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
+-
+-    tlb_flush(CPU(cpu));
++    tlb_flush(env_cpu(env));
+ }
+ 
+ /* flush global tlb */
+ void HELPER(purge)(CPUS390XState *env)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
+-
+-    tlb_flush_all_cpus_synced(CPU(cpu));
++    tlb_flush_all_cpus_synced(env_cpu(env));
+ }
+ 
+ /* load using real address */
+@@ -2052,7 +2046,7 @@ void HELPER(sturg)(CPUS390XState *env, uint64_t addr, uint64_t v1)
+ /* load real address */
+ uint64_t HELPER(lra)(CPUS390XState *env, uint64_t addr)
+ {
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     uint32_t cc = 0;
+     uint64_t asc = env->psw.mask & PSW_MASK_ASC;
+     uint64_t ret;
+diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
+index ee67c1fa0c..c806c3ec00 100644
+--- a/target/s390x/misc_helper.c
++++ b/target/s390x/misc_helper.c
+@@ -55,7 +55,7 @@
+ /* Raise an exception statically from a TB.  */
+ void HELPER(exception)(CPUS390XState *env, uint32_t excp)
+ {
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+ 
+     HELPER_LOG("%s: exception %d\n", __func__, excp);
+     cs->exception_index = excp;
+@@ -150,7 +150,7 @@ void HELPER(diag)(CPUS390XState *env, uint32_t r1, uint32_t r3, uint32_t num)
+ /* Set Prefix */
+ void HELPER(spx)(CPUS390XState *env, uint64_t a1)
+ {
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     uint32_t prefix = a1 & 0x7fffe000;
+ 
+     env->psa = prefix;
+@@ -256,7 +256,7 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0, uint64_t r0, uint64_t r1)
+     const uint32_t sel2 = r1 & STSI_R1_SEL2_MASK;
+     const MachineState *ms = MACHINE(qdev_get_machine());
+     uint16_t total_cpus = 0, conf_cpus = 0, reserved_cpus = 0;
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     SysIB sysib = { };
+     int i, cc = 0;
+ 
+@@ -411,7 +411,7 @@ uint32_t HELPER(sigp)(CPUS390XState *env, uint64_t order_code, uint32_t r1,
+ #ifndef CONFIG_USER_ONLY
+ void HELPER(xsch)(CPUS390XState *env, uint64_t r1)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_xsch(cpu, r1, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -419,7 +419,7 @@ void HELPER(xsch)(CPUS390XState *env, uint64_t r1)
+ 
+ void HELPER(csch)(CPUS390XState *env, uint64_t r1)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_csch(cpu, r1, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -427,7 +427,7 @@ void HELPER(csch)(CPUS390XState *env, uint64_t r1)
+ 
+ void HELPER(hsch)(CPUS390XState *env, uint64_t r1)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_hsch(cpu, r1, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -435,7 +435,7 @@ void HELPER(hsch)(CPUS390XState *env, uint64_t r1)
+ 
+ void HELPER(msch)(CPUS390XState *env, uint64_t r1, uint64_t inst)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_msch(cpu, r1, inst >> 16, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -443,7 +443,7 @@ void HELPER(msch)(CPUS390XState *env, uint64_t r1, uint64_t inst)
+ 
+ void HELPER(rchp)(CPUS390XState *env, uint64_t r1)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_rchp(cpu, r1, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -451,7 +451,7 @@ void HELPER(rchp)(CPUS390XState *env, uint64_t r1)
+ 
+ void HELPER(rsch)(CPUS390XState *env, uint64_t r1)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_rsch(cpu, r1, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -459,7 +459,7 @@ void HELPER(rsch)(CPUS390XState *env, uint64_t r1)
+ 
+ void HELPER(sal)(CPUS390XState *env, uint64_t r1)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     ioinst_handle_sal(cpu, r1, GETPC());
+@@ -468,7 +468,7 @@ void HELPER(sal)(CPUS390XState *env, uint64_t r1)
+ 
+ void HELPER(schm)(CPUS390XState *env, uint64_t r1, uint64_t r2, uint64_t inst)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     ioinst_handle_schm(cpu, r1, r2, inst >> 16, GETPC());
+@@ -477,7 +477,7 @@ void HELPER(schm)(CPUS390XState *env, uint64_t r1, uint64_t r2, uint64_t inst)
+ 
+ void HELPER(ssch)(CPUS390XState *env, uint64_t r1, uint64_t inst)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_ssch(cpu, r1, inst >> 16, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -485,7 +485,7 @@ void HELPER(ssch)(CPUS390XState *env, uint64_t r1, uint64_t inst)
+ 
+ void HELPER(stcrw)(CPUS390XState *env, uint64_t inst)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     ioinst_handle_stcrw(cpu, inst >> 16, GETPC());
+@@ -494,7 +494,7 @@ void HELPER(stcrw)(CPUS390XState *env, uint64_t inst)
+ 
+ void HELPER(stsch)(CPUS390XState *env, uint64_t r1, uint64_t inst)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_stsch(cpu, r1, inst >> 16, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -503,7 +503,7 @@ void HELPER(stsch)(CPUS390XState *env, uint64_t r1, uint64_t inst)
+ uint32_t HELPER(tpi)(CPUS390XState *env, uint64_t addr)
+ {
+     const uintptr_t ra = GETPC();
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     QEMUS390FLICState *flic = s390_get_qemu_flic(s390_get_flic());
+     QEMUS390FlicIO *io = NULL;
+     LowCore *lowcore;
+@@ -555,7 +555,7 @@ uint32_t HELPER(tpi)(CPUS390XState *env, uint64_t addr)
+ 
+ void HELPER(tsch)(CPUS390XState *env, uint64_t r1, uint64_t inst)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_tsch(cpu, r1, inst >> 16, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -563,7 +563,7 @@ void HELPER(tsch)(CPUS390XState *env, uint64_t r1, uint64_t inst)
+ 
+ void HELPER(chsc)(CPUS390XState *env, uint64_t inst)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     qemu_mutex_lock_iothread();
+     ioinst_handle_chsc(cpu, inst >> 16, GETPC());
+     qemu_mutex_unlock_iothread();
+@@ -618,7 +618,7 @@ void HELPER(per_ifetch)(CPUS390XState *env, uint64_t addr)
+         /* If the instruction has to be nullified, trigger the
+            exception immediately. */
+         if (env->cregs[9] & PER_CR9_EVENT_NULLIFICATION) {
+-            CPUState *cs = CPU(s390_env_get_cpu(env));
++            CPUState *cs = env_cpu(env);
+ 
+             env->per_perc_atmid |= PER_CODE_EVENT_NULLIFICATION;
+             env->int_pgm_code = PGM_PER;
+@@ -695,7 +695,7 @@ uint32_t HELPER(stfle)(CPUS390XState *env, uint64_t addr)
+  */
+ void HELPER(clp)(CPUS390XState *env, uint32_t r2)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     clp_service_call(cpu, r2, GETPC());
+@@ -704,7 +704,7 @@ void HELPER(clp)(CPUS390XState *env, uint32_t r2)
+ 
+ void HELPER(pcilg)(CPUS390XState *env, uint32_t r1, uint32_t r2)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     pcilg_service_call(cpu, r1, r2, GETPC());
+@@ -713,7 +713,7 @@ void HELPER(pcilg)(CPUS390XState *env, uint32_t r1, uint32_t r2)
+ 
+ void HELPER(pcistg)(CPUS390XState *env, uint32_t r1, uint32_t r2)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     pcistg_service_call(cpu, r1, r2, GETPC());
+@@ -723,7 +723,7 @@ void HELPER(pcistg)(CPUS390XState *env, uint32_t r1, uint32_t r2)
+ void HELPER(stpcifc)(CPUS390XState *env, uint32_t r1, uint64_t fiba,
+                      uint32_t ar)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     stpcifc_service_call(cpu, r1, fiba, ar, GETPC());
+@@ -745,7 +745,7 @@ void HELPER(sic)(CPUS390XState *env, uint64_t r1, uint64_t r3)
+ 
+ void HELPER(rpcit)(CPUS390XState *env, uint32_t r1, uint32_t r2)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     rpcit_service_call(cpu, r1, r2, GETPC());
+@@ -755,7 +755,7 @@ void HELPER(rpcit)(CPUS390XState *env, uint32_t r1, uint32_t r2)
+ void HELPER(pcistb)(CPUS390XState *env, uint32_t r1, uint32_t r3,
+                     uint64_t gaddr, uint32_t ar)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     pcistb_service_call(cpu, r1, r3, gaddr, ar, GETPC());
+@@ -765,7 +765,7 @@ void HELPER(pcistb)(CPUS390XState *env, uint32_t r1, uint32_t r3,
+ void HELPER(mpcifc)(CPUS390XState *env, uint32_t r1, uint64_t fiba,
+                     uint32_t ar)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     qemu_mutex_lock_iothread();
+     mpcifc_service_call(cpu, r1, fiba, ar, GETPC());
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index 145b62a7ef..9669bae393 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -58,12 +58,12 @@
+ static void trigger_access_exception(CPUS390XState *env, uint32_t type,
+                                      uint32_t ilen, uint64_t tec)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     if (kvm_enabled()) {
+         kvm_s390_access_exception(cpu, type, tec);
+     } else {
+-        CPUState *cs = CPU(cpu);
++        CPUState *cs = env_cpu(env);
+         if (type != PGM_ADDRESSING) {
+             stq_phys(cs->as, env->psa + offsetof(LowCore, trans_exc_code), tec);
+         }
+@@ -185,7 +185,7 @@ static int mmu_translate_segment(CPUS390XState *env, target_ulong vaddr,
+                                  target_ulong *raddr, int *flags, int rw,
+                                  bool exc)
+ {
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     uint64_t origin, offs, pt_entry;
+ 
+     if (st_entry & SEGMENT_ENTRY_RO) {
+@@ -214,7 +214,7 @@ static int mmu_translate_region(CPUS390XState *env, target_ulong vaddr,
+                                 target_ulong *raddr, int *flags, int rw,
+                                 bool exc)
+ {
+-    CPUState *cs = CPU(s390_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     uint64_t origin, offs, new_entry;
+     const int pchks[4] = {
+         PGM_SEGMENT_TRANS, PGM_REG_THIRD_TRANS,
+diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
+index c1f9245797..ea5f69d5d8 100644
+--- a/target/s390x/sigp.c
++++ b/target/s390x/sigp.c
+@@ -454,7 +454,7 @@ int handle_sigp(CPUS390XState *env, uint8_t order, uint64_t r1, uint64_t r3)
+ {
+     uint64_t *status_reg = &env->regs[r1];
+     uint64_t param = (r1 % 2) ? env->regs[r1] : env->regs[r1 + 1];
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+     S390CPU *dst_cpu = NULL;
+     int ret;
+ 
+@@ -492,7 +492,7 @@ int s390_cpu_restart(S390CPU *cpu)
+ 
+ void do_stop_interrupt(CPUS390XState *env)
+ {
+-    S390CPU *cpu = s390_env_get_cpu(env);
++    S390CPU *cpu = env_archcpu(env);
+ 
+     if (s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu) == 0) {
+         qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
 -- 
 2.17.1
 
