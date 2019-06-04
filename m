@@ -2,59 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4522B3489C
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 15:25:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52619 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E008F348B7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 15:30:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52732 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY9RM-0002yQ-43
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 09:25:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51259)
+	id 1hY9WP-00069g-3U
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 09:30:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52383)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hY9QB-0002bw-3Y
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:24:12 -0400
+	(envelope-from <david@redhat.com>) id 1hY9Ty-0004sK-Ol
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:28:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hY9QA-0004dR-37
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:24:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49076)
+	(envelope-from <david@redhat.com>) id 1hY9Tw-0008Pk-Oj
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:28:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47232)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hY9Q7-0004a4-II; Tue, 04 Jun 2019 09:24:07 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <david@redhat.com>)
+	id 1hY9Tw-0008O0-Ec; Tue, 04 Jun 2019 09:28:04 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AD3C52F8BC2;
-	Tue,  4 Jun 2019 13:23:56 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-215.ams2.redhat.com [10.36.116.215])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EBE055B683;
-	Tue,  4 Jun 2019 13:23:50 +0000 (UTC)
-Date: Tue, 4 Jun 2019 15:23:49 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: "Heitke, Kenneth" <kenneth.heitke@intel.com>, mreitz@redhat.com,
-	keith.busch@intel.com, qemu-block@nongnu.org, philmd@redhat.com,
-	qemu-devel@nongnu.org
-Message-ID: <20190604132349.GD14925@linux.fritz.box>
-References: <20190520174030.1647-1-kenneth.heitke@intel.com>
-	<20190528061836.GB32236@apples.localdomain>
-	<20190603111409.GD6523@linux.fritz.box>
-	<a58ef975-78f2-9c5c-35c2-b2dd359a4c03@intel.com>
-	<20190604082828.GA11013@apples.localdomain>
-	<20190604084645.GB14925@linux.fritz.box>
-	<20190604091358.GB11013@apples.localdomain>
+	by mx1.redhat.com (Postfix) with ESMTPS id 693C7BBD8;
+	Tue,  4 Jun 2019 13:27:58 +0000 (UTC)
+Received: from [10.36.117.157] (ovpn-117-157.ams2.redhat.com [10.36.117.157])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id AABF7608A7;
+	Tue,  4 Jun 2019 13:27:56 +0000 (UTC)
+To: Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org
+References: <20190604093656.23565-1-david@redhat.com>
+	<a48caa15-dafa-2f03-9fd2-769adf613ed2@twiddle.net>
+From: David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+	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
+	SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <57d0f110-07b4-76d2-9c71-eb40e7754c88@redhat.com>
+Date: Tue, 4 Jun 2019 15:27:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190604091358.GB11013@apples.localdomain>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <a48caa15-dafa-2f03-9fd2-769adf613ed2@twiddle.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Tue, 04 Jun 2019 13:24:06 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Tue, 04 Jun 2019 13:27:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] nvme: add Get/Set Feature
- Timestamp support
+Subject: Re: [Qemu-devel] [PATCH v1] linux-user: elf: ELF_HWCAP for s390x
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,80 +105,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.06.2019 um 11:13 hat Klaus Birkelund geschrieben:
-> On Tue, Jun 04, 2019 at 10:46:45AM +0200, Kevin Wolf wrote:
-> > Am 04.06.2019 um 10:28 hat Klaus Birkelund geschrieben:
-> > > On Mon, Jun 03, 2019 at 09:30:53AM -0600, Heitke, Kenneth wrote:
-> > > > 
-> > > > 
-> > > > On 6/3/2019 5:14 AM, Kevin Wolf wrote:
-> > > > > Am 28.05.2019 um 08:18 hat Klaus Birkelund geschrieben:
-> > > > > > On Mon, May 20, 2019 at 11:40:30AM -0600, Kenneth Heitke wrote:
-> > > > > > > Signed-off-by: Kenneth Heitke <kenneth.heitke@intel.com>
-> > > > > 
-> > > > > > > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> > > > > > > index 56c9d4b4b1..d7277e72b7 100644
-> > > > > > > --- a/hw/block/nvme.h
-> > > > > > > +++ b/hw/block/nvme.h
-> > > > > > > @@ -69,6 +69,7 @@ typedef struct NvmeCtrl {
-> > > > > > >       uint16_t    max_prp_ents;
-> > > > > > >       uint16_t    cqe_size;
-> > > > > > >       uint16_t    sqe_size;
-> > > > > > > +    uint16_t    oncs;
-> > > > > > 
-> > > > > > Looks like this unused member snuck its way into the patch. But I see no
-> > > > > > harm in it being there.
-> > > > > 
-> > > > > Good catch. I'll just remove it again from my branch.
-> > > > > 
-> > > > > > > +static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
-> > > > > > > +{
-> > > > > > > +    trace_nvme_setfeat_timestamp(ts);
-> > > > > > > +
-> > > > > > > +    n->host_timestamp = le64_to_cpu(ts);
-> > > > > > > +    n->timestamp_set_qemu_clock_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
-> > > > > > > +{
-> > > > > > > +    uint64_t current_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> > > > > 
-> > > > > Here I wonder why we use QEMU_CLOCK_REALTIME in a device emulation.
-> > > > > Wouldn't QEMU_CLOCK_VIRTUAL make more sense?
-> > > > > 
-> > > > 
-> > > > QEMU_CLOCK_VIRTUAL probably would make more sense. When I was reading
-> > > > through the differences I wasn't really sure what to pick. iven that this is
-> > > > the time within the device's context, the virtual time seems more correct.
-> > > > 
-> > >  
-> > > I thought about this too when I reviewed, but came to the conclusion
-> > > that REALTIME was correct. The timestamp is basically a value that the
-> > > host stores in the controller. When the host uses Get Features to get
-> > > the the current time it would expect it to match the progression for its
-> > > own wall clockright? If I understand REALTIME vs VIRTUAL correctly,
-> > > using VIRTUAL, it would go way out of sync.
-> > 
-> > Which two things would go out of sync with VIRTUAL?
-> > 
-> > Not an expert on clocks myself, but I think the main question is what
-> > happens to the clock while the VM is stopped. REALTIME continues running
-> > where as VIRTUAL is stopped. If we expose REALTIME measurements to the
-> > guest, the time passed may look a lot longer than what the guest's clock
-> > actually says. So this is the thing I am worried would go out of sync
-> > with REALTIME.
-> > 
+On 04.06.19 15:00, Richard Henderson wrote:
+> On 6/4/19 4:36 AM, David Hildenbrand wrote:
+>> +    if (s390_has_feat(S390_FEAT_ESAN3)) {
+>> +        hwcap |= HWCAP_S390_ESAN3;
+>> +    }
+>> +    if (s390_has_feat(S390_FEAT_ZARCH)) {
+>> +        hwcap |= HWCAP_S390_ZARCH;
+>> +    }
 > 
-> OK, fair point.
+> While it's nice and symetrical testing these two features, I don't think they
+> can ever be false.
 > 
-> Thinking about this some more, I agree that VIRTUAL is more correct. An
-> application should never track elapsed time using real wall clock time,
-> but some monotonic clock that is oblivious to say NTP adjustments.
+>> +    if (s390_has_feat(S390_FEAT_STFLE)) {
+>> +        hwcap |= HWCAP_S390_STFLE;
+>> +    }
+>> +    if (s390_has_feat(S390_FEAT_MSA)) {
+>> +        hwcap |= HWCAP_S390_MSA;
+>> +    }
+>> +    if (s390_has_feat(S390_FEAT_LONG_DISPLACEMENT)) {
+>> +        hwcap |= HWCAP_S390_LDISP;
+>> +    }
+>> +    if (s390_has_feat(S390_FEAT_EXTENDED_IMMEDIATE)) {
+>> +        hwcap |= HWCAP_S390_EIMM;
+>> +    }
+>> +    if (s390_has_feat(S390_FEAT_EXTENDED_TRANSLATION_3) &&
+>> +        s390_has_feat(S390_FEAT_ETF3_ENH)) {
+>> +        hwcap |= HWCAP_S390_ETF3EH;
+>> +    }
+>> +    /* 31-bit processes can use 64-bit registers */
+>> +    hwcap |= HWCAP_S390_HIGH_GPRS;
+> 
+> And certainly this could never be set unless ZARCH, otherwise you have no
+> 64-bit registers.  ;-)
+> 
+> So maybe clearer to just start with
+> 
+>   hwcap = HWCAP_S390_ESAN3 | HWCAP_S390_ZARCH | HWCAP_S390_HIGH_GPRS;
 
-Thanks. I'll fix up the patch accordingly.
+Makes sense, and fits into a single line ;)
 
-Kevin
+Thanks!
+
+> 
+> and continue from there.
+> 
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> 
+> r~
+> 
+
+
+-- 
+
+Thanks,
+
+David / dhildenb
 
