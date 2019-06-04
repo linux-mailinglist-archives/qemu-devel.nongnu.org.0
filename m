@@ -2,66 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED7F33D08
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 04:16:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43977 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DF233D26
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 04:26:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44070 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXz0J-0008VN-CO
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 22:16:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59541)
+	id 1hXz9u-00029w-Cw
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 22:26:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39305)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <elohimes@gmail.com>) id 1hXyzF-000853-UH
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 22:15:43 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hXz8x-0001qd-KM
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 22:25:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <elohimes@gmail.com>) id 1hXyzE-0006eS-Ee
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 22:15:41 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:36064)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hXyzD-0006Ep-Tw
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 22:15:40 -0400
-Received: by mail-qk1-x744.google.com with SMTP id g18so1852423qkl.3
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 19:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JLiv5abDVFbLnIY1IKuCfX1ZsuGLizQfKZM4y3KF+48=;
-	b=hewHdWzf0zkVWQ1kUxQ9RI5u4+WTZqKkD6OOFuTh8epNeLJ5yg2Y0vqarsRrdglZ7Z
-	UAInBgVSwe+taGsR4t1pJVD5v6h1t0/0+VocNj+CHJJL70WAdq80XWaT5enYVBMFCZ/0
-	ERf/DWCsOGKnvC3i+FWtGIJ7WytaeJL4QAY1alKSWmaoc+RC/raIIzF1u/6DH9fDMv7l
-	kIX3SSiRBvze2jCO/qj0s6npD+wrC5V5E0GFtqTh/zBdOgoz0sZHYQ2WFoHoanQkoEjd
-	/04jtQJTZ3Vlu8f5uA0lcbUF54G29ngtah+w8B9DyqyzmTWPbfRMhSkoYBDZ6fvyGozl
-	eb7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JLiv5abDVFbLnIY1IKuCfX1ZsuGLizQfKZM4y3KF+48=;
-	b=iYmFR1e9QlazCBFn9XHNmh1DWMtfvYvyxIzoKrvMNDMcmprI+nOi611pqEubgcPQ3V
-	6lLQ9g9efwFMv6UXo3LN5XKkkvDTfC/qIz9z3laHZonDxoocO1Rsn3P3/fH2wo2oz9X9
-	r1pQc9sTdEI3CFFy/CBZllxX1wgcfAh9WEHk92XXUXJtdolonenTkDp3YaksLyde59D1
-	CPssKypvZ3EZtWcbhkn6yNv3/XQ5ZJ0EkmUfGIjoSN5ZYlpEDylaiZlPlMckroXQ5G9i
-	BPbyS79ZfsVFmIvw4R6+fuk+916TACpcRbCP+8d0kVaETZEDM8moLdY90cDiu95HYF0T
-	OEWA==
-X-Gm-Message-State: APjAAAUqQ6ePLEleRxhTav1wQXCBO2kKgjSzuBFCm0Ceq4tquVc3DPUA
-	tvhoOlcm9dk9K/jH2+wZsuJUBe0kOm5l23/DETo=
-X-Google-Smtp-Source: APXvYqxMVTJrOaOjX7FdEmRNOrbr/PAP5T66XjaZUElkxv+QWfGTALTzF0VdXre5UHgTbQqwX/dCv2kOm5MK9vuyDgI=
-X-Received: by 2002:a37:e40a:: with SMTP id y10mr1314135qkf.303.1559614515923; 
-	Mon, 03 Jun 2019 19:15:15 -0700 (PDT)
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hXz8w-0002nU-Fd
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 22:25:43 -0400
+Received: from mga01.intel.com ([192.55.52.88]:37665)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+	id 1hXz8w-0002gE-2y
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 22:25:42 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Jun 2019 19:25:37 -0700
+X-ExtLoop1: 1
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+	by orsmga007.jf.intel.com with ESMTP; 03 Jun 2019 19:25:36 -0700
+Date: Tue, 4 Jun 2019 10:25:07 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190604022507.GA25530@richard>
+References: <20190528014703.21030-1-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-References: <20190529070955.25565-1-xieyongji@baidu.com>
-	<20190529070955.25565-3-xieyongji@baidu.com>
-	<20190603221639.5e4ddac1@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <20190603221639.5e4ddac1@bahia.lab.toulouse-stg.fr.ibm.com>
-From: Yongji Xie <elohimes@gmail.com>
-Date: Tue, 4 Jun 2019 10:15:04 +0800
-Message-ID: <CAONzpcZrDS0XiEz7san49FQ1BT3CeHTe3k+F6Z=L-mhVTdcfzQ@mail.gmail.com>
-To: Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190528014703.21030-1-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::744
-Subject: Re: [Qemu-devel] [PATCH 2/5] virtio: Migrate the "start_on_kick"
- flag
+X-Received-From: 192.55.52.88
+Subject: Re: [Qemu-devel] [PATCH 0/4] Multifd Cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,38 +55,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Xie Yongji <xieyongji@baidu.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Jun 2019 at 04:16, Greg Kurz <groug@kaod.org> wrote:
->
-> On Wed, 29 May 2019 15:09:52 +0800
-> elohimes@gmail.com wrote:
->
-> > From: Xie Yongji <xieyongji@baidu.com>
-> >
-> > We should migrate the "start_on_kick" flag so that we
-> > would not miss starting device on kicking at startup
-> > after migration.
-> >
->
-> Hmm... IIUC "start_on_kick" means "virtio 1.0 transitional device that has
-> not been started yet", ie:
->
-> !vdev->started &&
-> (virtio_host_has_feature(vdev, VIRTIO_F_VERSION_1) &&
->  !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1))
->
-> If so, not sure why you need this extra field in the first place, but
-> you probably don't need to migrate it. Just recalculate in a post load
-> callback.
->
+Hi, David
 
-Good idea! Will recalculate this in virtio_load() in v2. Thank you.
+Do you prefer I resend 3/4 or it is ok for you to pick up here directly?
 
-Thanks,
-Yongji
+On Tue, May 28, 2019 at 09:46:59AM +0800, Wei Yang wrote:
+>Just found several small places for unused variables.
+>
+>Wei Yang (4):
+>  migration: multifd_save_setup always return 0
+>  migration/ram.c: use same type in MultiFDPages_t to define offsest
+>  migration/ram.c: MultiFDSendParams.sem_sync is not really used
+>  migration/ram.c: multifd_send_state->count is not really used
+>
+> migration/migration.c |  7 +------
+> migration/ram.c       | 11 +----------
+> 2 files changed, 2 insertions(+), 16 deletions(-)
+>
+>-- 
+>2.19.1
+
+-- 
+Wei Yang
+Help you, Help me
 
