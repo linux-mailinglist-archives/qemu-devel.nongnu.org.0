@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130763480D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 15:18:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52544 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDCB3489F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 15:27:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52658 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY9KT-0001Gu-TK
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 09:18:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48951)
+	id 1hY9Ta-00041d-Dj
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 09:27:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51789)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hY9Io-0000Rk-Ep
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:16:35 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hY9SK-0003ef-QS
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:26:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hY9In-0003TC-IP
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:16:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48320)
+	(envelope-from <kwolf@redhat.com>) id 1hY9SK-0006NP-2F
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:26:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47200)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hY9In-0002zr-Cm
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:16:33 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hY9NJ-0001CB-Bn; Tue, 04 Jun 2019 09:21:14 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1E68C3001809;
-	Tue,  4 Jun 2019 13:15:56 +0000 (UTC)
-Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4C33319C69;
-	Tue,  4 Jun 2019 13:15:43 +0000 (UTC)
-Date: Tue, 4 Jun 2019 15:15:40 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Pankaj Gupta <pagupta@redhat.com>
-Message-ID: <20190604151540.1076d3d8.cohuck@redhat.com>
-In-Reply-To: <20190523102449.2642-2-pagupta@redhat.com>
-References: <20190523102449.2642-1-pagupta@redhat.com>
-	<20190523102449.2642-2-pagupta@redhat.com>
-Organization: Red Hat GmbH
+	by mx1.redhat.com (Postfix) with ESMTPS id 804D23079B9F;
+	Tue,  4 Jun 2019 13:21:00 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-215.ams2.redhat.com [10.36.116.215])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AFA61001947;
+	Tue,  4 Jun 2019 13:20:55 +0000 (UTC)
+Date: Tue, 4 Jun 2019 15:20:53 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20190604132053.GC14925@linux.fritz.box>
+References: <20190604123948.48736-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190604123948.48736-1-vsementsov@virtuozzo.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Tue, 04 Jun 2019 13:15:56 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.41]);
+	Tue, 04 Jun 2019 13:21:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/7] virtio-pmem: add virtio device
+Subject: Re: [Qemu-devel] [PATCH v6] iotests: test big qcow2 shrink
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,63 +57,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, aarcange@redhat.com, xiaoguangrong.eric@gmail.com,
-	mst@redhat.com, armbru@redhat.com, riel@surriel.com,
-	david@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
-	lcapitulino@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
-	imammedo@redhat.com, dan.j.williams@intel.com, nilal@redhat.com,
-	dgilbert@redhat.com, rth@twiddle.net
+Cc: fam@euphon.net, den@virtuozzo.com, qemu-block@nongnu.org,
+	qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 May 2019 15:54:43 +0530
-Pankaj Gupta <pagupta@redhat.com> wrote:
-
-> This is the implementation of virtio-pmem device. Support will require
-> machine changes for the architectures that will support it, so it will
-> not yet be compiled. It can be unlocked with VIRTIO_PMEM_SUPPORTED per
-> machine and disabled globally via VIRTIO_PMEM.
+Am 04.06.2019 um 14:39 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> This test checks bug in qcow2_process_discards, fixed by previous
+> commit.
 > 
-> We cannot use the "addr" property as that is already used e.g. for
-> virtio-pci/pci devices. And we will have e.g. virtio-pmem-pci as a proxy.
-> So we have to choose a different one (unfortunately). "memaddr" it is.
-> That name should ideally be used by all other virtio-* based memory
-> devices in the future.
->     -device virtio-pmem-pci,id=p0,bus=bux0,addr=0x01,memaddr=0x1000000...
-> 
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> [ QAPI bits ]
-> Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-> [ MemoryDevice/MemoryRegion changes, cleanups, addr property "memaddr",
->   split up patches, unplug handler ]
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  hw/virtio/Kconfig               |  10 +++
->  hw/virtio/Makefile.objs         |   1 +
->  hw/virtio/virtio-pmem.c         | 190 ++++++++++++++++++++++++++++++++++++++++
->  include/hw/virtio/virtio-pmem.h |  49 +++++++++++
->  qapi/misc.json                  |  28 +++++-
->  5 files changed, 277 insertions(+), 1 deletion(-)
->  create mode 100644 hw/virtio/virtio-pmem.c
->  create mode 100644 include/hw/virtio/virtio-pmem.h
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-> diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
-> new file mode 100644
-> index 0000000000..c462d2c942
-> --- /dev/null
-> +++ b/hw/virtio/virtio-pmem.c
-> @@ -0,0 +1,190 @@
+Thanks, applied to the block branch.
 
-> +static void virtio_pmem_unrealize(DeviceState *dev, Error **errp)
-> +{
-> +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> +    VirtIOPMEM *pmem = VIRTIO_PMEM(dev);
-> +
-> +    host_memory_backend_set_mapped(pmem->memdev, false);
-> +    pmem->rq_vq = virtio_add_queue(vdev, 128, virtio_pmem_flush);
-
-Adding a queue during unrealize looks weird... copy/paste error?
-
-> +    virtio_cleanup(vdev);
-> +}
+Kevin
 
