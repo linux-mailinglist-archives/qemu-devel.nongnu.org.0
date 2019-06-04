@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A57F33E69
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 07:33:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46000 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48D033E83
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 07:42:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46144 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY258-0002t2-HG
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 01:33:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43547)
+	id 1hY2DJ-0000oZ-W3
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 01:42:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46705)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hY23M-0002GV-7P
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:32:09 -0400
+	(envelope-from <bounces@canonical.com>) id 1hY2C3-0000EQ-3L
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:41:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hY23L-0002UY-By
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:32:08 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45575)
+	(envelope-from <bounces@canonical.com>) id 1hY2Bs-00050o-73
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:41:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43644)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hY23L-0002Sg-6W
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:32:07 -0400
-Received: by mail-wr1-f66.google.com with SMTP id b18so14310515wrq.12
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 22:32:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=ME+de7G7kPlvL1eBvVBSn8nzj27BFrwDCVfSAJv+SO4=;
-	b=gktoRUX2IuaIxi1b2h9vtb68rcnPwFUGFWi5vxzedlm3EJeYQU3E+ZTj+22qcYrX+K
-	ctNtT0kQV4wf+cFtUmUvWgcm8+E/F0e91BOHxnTjd+41woz5/2jC7YjbQ2pmsoHcoXx+
-	75OJtK78F4VsD59TtJI3wEZw4BlLcWAa6nLt3DmPokuVVj3AUH9o4FMZWwMaMcht8NBI
-	ODmQEbqXyM5TRwoqYeW+cbdEo3Hun0vDC3sCDYIormVwrT0yMjOIhtO69U/E8WV0xkrt
-	eGuCa7klZIAtVTgqw7EQNtIEnkFaIWcJKM1dXFEaqenIBYUtc8WQTQiGju8DdsRxRN+o
-	RVXA==
-X-Gm-Message-State: APjAAAVaJ/8/qX6gQP2+EyG/8lu4TslqZFqCKslRPP1sMcFlsA6bWpyV
-	9wCTMCKGFIqNjh6FTaLKRpFviA==
-X-Google-Smtp-Source: APXvYqzT9N/M3X5lQy2B7gp0saazMw9qhqD2okJhq+J1NzRZlIFdNk9MZLZ8LN+a2vgd+uAsG54+uw==
-X-Received: by 2002:a5d:554f:: with SMTP id g15mr18911020wrw.318.1559626326085;
-	Mon, 03 Jun 2019 22:32:06 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
-	[88.21.202.183])
-	by smtp.gmail.com with ESMTPSA id v6sm5235772wru.6.2019.06.03.22.32.05
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 22:32:05 -0700 (PDT)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190531134315.4109-1-richard.henderson@linaro.org>
-	<20190531134315.4109-13-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <ca987c52-f3c2-9799-2c7a-312c87e00e2a@redhat.com>
-Date: Tue, 4 Jun 2019 07:32:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hY2Bq-0004xy-CN
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:40:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hY2Bo-0007Mg-OV
+	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 05:40:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id B7D672E8055
+	for <qemu-devel@nongnu.org>; Tue,  4 Jun 2019 05:40:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190531134315.4109-13-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 04 Jun 2019 05:32:12 -0000
+From: Andrew Randrianasulu <1831545@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: regression
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-randrianasulu
+X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
+X-Launchpad-Bug-Modifier: Andrew Randrianasulu (andrew-randrianasulu)
+Message-Id: <155962633298.7880.15982922254182327026.malonedeb@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18968";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 28f5b459c1830303ecb982c948de042387dcbe53
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v16 12/23] target/rx: Add RX to SysEmuTarget
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831545] [NEW] "accel/tcg: demacro cputlb" break
+ qemu-system-x86_64 on 32-bit x86 host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,41 +64,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, ysato@users.sourceforge.jp
+Reply-To: Bug 1831545 <1831545@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/19 3:43 PM, Richard Henderson wrote:
-> Fixes check-qtest-rx: tests/qmp-cmd-test
-> 
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  qapi/common.json | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/qapi/common.json b/qapi/common.json
-> index 99d313ef3b..d0fc931159 100644
-> --- a/qapi/common.json
-> +++ b/qapi/common.json
-> @@ -183,6 +183,7 @@
->  #        is true even for "qemu-system-x86_64".
->  #
->  # ppcemb: dropped in 3.1
-> +# rx: added in 4.1
->  #
->  # Since: 3.0
->  ##
-> @@ -190,6 +191,6 @@
->    'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
->               'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
->               'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-> -             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-> +             'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
->               'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
->               'x86_64', 'xtensa', 'xtensaeb' ] }
-> 
+Public bug reported:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+As described in https://lists.gnu.org/archive/html/qemu-
+devel//2019-05/msg07362.html I run into TCG regression in qemu-git.
+
+Unfortunately, fix from bug https://bugs.launchpad.net/qemu/+bug/1830872
+seems to be nonn-effective for my case.
+
+For reproduction (on 32-bit x86 host, in my case Slackware with gcc
+5.5.0):
+
+./configure --target-list=3Dx86_64-softmmu --disable-werror --enable-
+debug-tcg
+
+make (-j5 in my case)
+
+try to boot any 64-bit kernel:
+
+x86_64-softmmu/qemu-system-x86_64 -kernel /boot/bzImage-4.12.0-x64
+-accel tcg
+
+result is - qemu appear to hang right after "Booting the kernel" line.
+Decompression (xz) was ok.
+
+Tested with qemu-git commit  e2a58ff493a2e00db3e963c1839c5374500110f2
+
+32-bit OS can be booted fine, and -enable-kvm also allow 64 bit
+kernel/os to boot.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: regression
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831545
+
+Title:
+  "accel/tcg: demacro cputlb" break qemu-system-x86_64 on 32-bit x86
+  host
+
+Status in QEMU:
+  New
+
+Bug description:
+  As described in https://lists.gnu.org/archive/html/qemu-
+  devel//2019-05/msg07362.html I run into TCG regression in qemu-git.
+
+  Unfortunately, fix from bug
+  https://bugs.launchpad.net/qemu/+bug/1830872 seems to be nonn-
+  effective for my case.
+
+  For reproduction (on 32-bit x86 host, in my case Slackware with gcc
+  5.5.0):
+
+  ./configure --target-list=3Dx86_64-softmmu --disable-werror --enable-
+  debug-tcg
+
+  make (-j5 in my case)
+
+  try to boot any 64-bit kernel:
+
+  x86_64-softmmu/qemu-system-x86_64 -kernel /boot/bzImage-4.12.0-x64
+  -accel tcg
+
+  result is - qemu appear to hang right after "Booting the kernel" line.
+  Decompression (xz) was ok.
+
+  Tested with qemu-git commit  e2a58ff493a2e00db3e963c1839c5374500110f2
+
+  32-bit OS can be booted fine, and -enable-kvm also allow 64 bit
+  kernel/os to boot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831545/+subscriptions
 
