@@ -2,100 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C1B34798
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 15:05:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52347 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130763480D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 15:18:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52544 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY98S-0003uY-BX
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 09:05:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44444)
+	id 1hY9KT-0001Gu-TK
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 09:18:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48951)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <rth7680@gmail.com>) id 1hY93H-0000mN-KW
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:00:32 -0400
+	(envelope-from <cohuck@redhat.com>) id 1hY9Io-0000Rk-Ep
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:16:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <rth7680@gmail.com>) id 1hY93G-0001Sp-N8
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:00:31 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42923)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <rth7680@gmail.com>)
-	id 1hY93D-0001MK-2v; Tue, 04 Jun 2019 09:00:27 -0400
-Received: by mail-oi1-x242.google.com with SMTP id s184so4440075oie.9;
-	Tue, 04 Jun 2019 06:00:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:subject:to:cc:references:from:openpgp:autocrypt:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=etDHn4AcdZvuAoC28iuFuS6wDnUf6C4Dyo1BwHeMYbA=;
-	b=sLB2mmmc3QkCj3GB6BMVJkFgTd9huNY09IwFGDFQTTWKIOsG2pZBexZ38bE1wf/IuD
-	iKBtyBeMH3ryUuCjOJ4GRRpACD3AcLoaZ739YhLJWPJfe+YGh7dvJilzAYWMjiHvl6Bd
-	ZdUZC2NFvaBjNO9pjfpnWA3osnVNXq5jHYswONklQAA39VZUUEpOx9nFGVR24pBdbKq/
-	H+Lk2A36GVO/O7zKNIoJDX0KS6vf2xfC1AfZCWG6QuUAzddV3N9pxAs3VQ+bSznmEpuS
-	QlEfyNMs1isxxJrzGUd14y1AjlOFScjjkl39ha6jEDgUkMRm1H7n69bEN5VpPe2Evmnv
-	5zzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
-	:autocrypt:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=etDHn4AcdZvuAoC28iuFuS6wDnUf6C4Dyo1BwHeMYbA=;
-	b=jBglY1Pw+2awDGr5i/o4Pb9VQDDI8rwwusTZKNdK8/SY5lNMHkCwYufLpT/jiEng8A
-	V1FAGjdoATeSpG+hvIuZZMvo0wmJaonDa6m/Ax3Ox+X0Qmm7zHNmBCQKGhanNrRKoDaQ
-	N/VSdbWmCChe0tx/xojSwfbWD5mWE4vg07oRuyJEGhourQ5mPgh5Gi2C6SV82QzFER4n
-	Pkoa448GfU+8JSksRmRBdBKB5K/E4lOoMmayjRtUUB5Z964T0gFQPDYbJ7urz0CBv0+2
-	P0OF68+VYB7FAHmg1SRG0hCQ13NjO9k72eN2J9o6iQNSokEtDBg+9h7nwQymf5xynw/A
-	vA1Q==
-X-Gm-Message-State: APjAAAVIdtMlzziuKWrJk/sAduwzDjD5LuCGUu9A6K4MABOLHCWqvfzT
-	kTiWstxD/QqVSDvL4kyDjtE=
-X-Google-Smtp-Source: APXvYqxgpRx+RLJNhDsmMnEY8s61Ma/KwkuNdiiBISNnvExD9MvE+65NJy41fI3XkzIF6px85Fy3eg==
-X-Received: by 2002:aca:dac3:: with SMTP id r186mr4135393oig.94.1559653225625; 
-	Tue, 04 Jun 2019 06:00:25 -0700 (PDT)
-Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
-	[200.56.192.86]) by smtp.googlemail.com with ESMTPSA id
-	j8sm5880695otl.54.2019.06.04.06.00.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 06:00:24 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190604093656.23565-1-david@redhat.com>
-From: Richard Henderson <rth@twiddle.net>
-Openpgp: preference=signencrypt
-Autocrypt: addr=rth@twiddle.net; prefer-encrypt=mutual; keydata=
-	mQENBFGuLC8BCADcAoWcnW9lTsDMzbO3MBU+KbiGaj5JPatEUscRDkQYM2fyNjJp2tIWDK5a
-	n4yngeXB3eX61WbYR3QraRK8mlYLGxyAdHMEQfPipbqf3TmN043fssT2bc82ApJcs1zvLYgI
-	rhMht7Dck7A0wNC1jo+ZjVVFig5gDTN7gOzaAdBtV8tVNUddwkLzzaGpfihhSD6U46NdqKOG
-	Wlnn6TrkMy0QGdQ5NaXHkRlUjnnUTSW/nKfoxD+EI+A9V4sYOd8mc/TL4aJh/i/AiU57eLbo
-	n17uQI6/VTWDUWl8USiz4x9c8vmqlywLx00tAFxxoRWqk4KVJlj+Sh0up/D/sJ+vPpgBABEB
-	AAG0I1JpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5uZXQ+iQFBBBMBAgArAhsDBgsJ
-	CAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUJC7UHogUCWaDNVgIZAQAKCRCtEnDMTdAnm9N5CADO
-	cB8F/SudJ72IupxQf40hbJdBK176+gb3sHMsixyLtrU59lee+lIM1OZmlNjsnCYmiSnbA5ks
-	Q7p0HfO7DgdmfLzcK6xsHZukqSZy5LByw348Y913ZyjOrJZFdPP7kDg1MnqRqH4+3ZdzxV4y
-	eYBWFU9GYMIF06JbUubossOOO4ArNVZbnIPu8Vn2tDZVVqsCBqkoCSBMj519xrvyOu5z4mHS
-	LkCglXmVDOXMbqLuNAC3rfNXSnyM4hYkLUyfALJlAAy1Ro+jUqYhu7XUFV/MiwRuFMh5GbtY
-	Urkx7tqsWQXLT3GeDk/LqvpWJQwk4cHHckYjRih+70CHIenm81PVuQENBFGuLC8BCACyEx3x
-	94HIkTX0CHu2sA0w75+h9wuoA8ggJ7+S4ri0y2YsijWad5TTt6z6MMiqxk9kSA5bppaj4HXh
-	86hBF/dWCtMpNr3Rb8FNOKyeA/qkYHVD6HiAiw9c6D8Dr9hWmOk3/HSmGrNURxeUFOckDXsv
-	I+yGGKBNshj59j7QZr7ZiuIi2rWlBL8dFN/OWa/o3x7HKsE4k6K8ngwvCKP/QbDLwLLBOWH+
-	VEUtpyeyxTr3OJ47ECTxdYvXoAV2iJaKr+6doVQiiR5eVFiMYrUPUECJeolOCwqc/JlWE18L
-	+PCAFaW1H+/mpPVfSpN4wnkJ5cQiQVB41IaCM4p20iRzx7ZJABEBAAGJASUEGAECAA8CGwwF
-	AlmgzYEFCQu1CEoACgkQrRJwzE3QJ5s7rggAwABzDAGrZ6uWsMxg5PeiiAYPy6LBnCBJSpB5
-	Tfy5jH8QTmLfXW+u4Ib4sWXG7PYNR7sIrtqUHjRqXLVXrSnBX9ASGcYw/Xil45khW6LsRpO1
-	prHv9gkwQfa6fTiWXVfSfm2Nant6u02q+MaYtQpCVTiz/9ki4FfftUwUHFLU0MhIQogjd11y
-	/E08RJsqBwaHQdt14PwU1HphDOzSkhOXRXQLSd3ysyeGUXvL+gqQoXl5XYdvk8IId4PoJRo4
-	jcyJ4VbnldvXh5gdGhFA/f9JgkLk9tPW+C3wNtNWyRUq8azR9hF2fg2HJUf4IXQlIu8OOgh1
-	VcROBqvtH3ecaIL9iw==
-Message-ID: <a48caa15-dafa-2f03-9fd2-769adf613ed2@twiddle.net>
-Date: Tue, 4 Jun 2019 08:00:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	(envelope-from <cohuck@redhat.com>) id 1hY9In-0003TC-IP
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:16:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48320)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hY9In-0002zr-Cm
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 09:16:33 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1E68C3001809;
+	Tue,  4 Jun 2019 13:15:56 +0000 (UTC)
+Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4C33319C69;
+	Tue,  4 Jun 2019 13:15:43 +0000 (UTC)
+Date: Tue, 4 Jun 2019 15:15:40 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Pankaj Gupta <pagupta@redhat.com>
+Message-ID: <20190604151540.1076d3d8.cohuck@redhat.com>
+In-Reply-To: <20190523102449.2642-2-pagupta@redhat.com>
+References: <20190523102449.2642-1-pagupta@redhat.com>
+	<20190523102449.2642-2-pagupta@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20190604093656.23565-1-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v1] linux-user: elf: ELF_HWCAP for s390x
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Tue, 04 Jun 2019 13:15:56 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/7] virtio-pmem: add virtio device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -107,55 +58,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org
+Cc: kwolf@redhat.com, aarcange@redhat.com, xiaoguangrong.eric@gmail.com,
+	mst@redhat.com, armbru@redhat.com, riel@surriel.com,
+	david@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
+	lcapitulino@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+	imammedo@redhat.com, dan.j.williams@intel.com, nilal@redhat.com,
+	dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/19 4:36 AM, David Hildenbrand wrote:
-> +    if (s390_has_feat(S390_FEAT_ESAN3)) {
-> +        hwcap |= HWCAP_S390_ESAN3;
-> +    }
-> +    if (s390_has_feat(S390_FEAT_ZARCH)) {
-> +        hwcap |= HWCAP_S390_ZARCH;
-> +    }
+On Thu, 23 May 2019 15:54:43 +0530
+Pankaj Gupta <pagupta@redhat.com> wrote:
 
-While it's nice and symetrical testing these two features, I don't think they
-can ever be false.
+> This is the implementation of virtio-pmem device. Support will require
+> machine changes for the architectures that will support it, so it will
+> not yet be compiled. It can be unlocked with VIRTIO_PMEM_SUPPORTED per
+> machine and disabled globally via VIRTIO_PMEM.
+> 
+> We cannot use the "addr" property as that is already used e.g. for
+> virtio-pci/pci devices. And we will have e.g. virtio-pmem-pci as a proxy.
+> So we have to choose a different one (unfortunately). "memaddr" it is.
+> That name should ideally be used by all other virtio-* based memory
+> devices in the future.
+>     -device virtio-pmem-pci,id=p0,bus=bux0,addr=0x01,memaddr=0x1000000...
+> 
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> [ QAPI bits ]
+> Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> [ MemoryDevice/MemoryRegion changes, cleanups, addr property "memaddr",
+>   split up patches, unplug handler ]
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/virtio/Kconfig               |  10 +++
+>  hw/virtio/Makefile.objs         |   1 +
+>  hw/virtio/virtio-pmem.c         | 190 ++++++++++++++++++++++++++++++++++++++++
+>  include/hw/virtio/virtio-pmem.h |  49 +++++++++++
+>  qapi/misc.json                  |  28 +++++-
+>  5 files changed, 277 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/virtio/virtio-pmem.c
+>  create mode 100644 include/hw/virtio/virtio-pmem.h
 
-> +    if (s390_has_feat(S390_FEAT_STFLE)) {
-> +        hwcap |= HWCAP_S390_STFLE;
-> +    }
-> +    if (s390_has_feat(S390_FEAT_MSA)) {
-> +        hwcap |= HWCAP_S390_MSA;
-> +    }
-> +    if (s390_has_feat(S390_FEAT_LONG_DISPLACEMENT)) {
-> +        hwcap |= HWCAP_S390_LDISP;
-> +    }
-> +    if (s390_has_feat(S390_FEAT_EXTENDED_IMMEDIATE)) {
-> +        hwcap |= HWCAP_S390_EIMM;
-> +    }
-> +    if (s390_has_feat(S390_FEAT_EXTENDED_TRANSLATION_3) &&
-> +        s390_has_feat(S390_FEAT_ETF3_ENH)) {
-> +        hwcap |= HWCAP_S390_ETF3EH;
-> +    }
-> +    /* 31-bit processes can use 64-bit registers */
-> +    hwcap |= HWCAP_S390_HIGH_GPRS;
+> diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+> new file mode 100644
+> index 0000000000..c462d2c942
+> --- /dev/null
+> +++ b/hw/virtio/virtio-pmem.c
+> @@ -0,0 +1,190 @@
 
-And certainly this could never be set unless ZARCH, otherwise you have no
-64-bit registers.  ;-)
+> +static void virtio_pmem_unrealize(DeviceState *dev, Error **errp)
+> +{
+> +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> +    VirtIOPMEM *pmem = VIRTIO_PMEM(dev);
+> +
+> +    host_memory_backend_set_mapped(pmem->memdev, false);
+> +    pmem->rq_vq = virtio_add_queue(vdev, 128, virtio_pmem_flush);
 
-So maybe clearer to just start with
+Adding a queue during unrealize looks weird... copy/paste error?
 
-  hwcap = HWCAP_S390_ESAN3 | HWCAP_S390_ZARCH | HWCAP_S390_HIGH_GPRS;
-
-and continue from there.
-
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+> +    virtio_cleanup(vdev);
+> +}
 
