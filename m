@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD8C33E73
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 07:37:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46061 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8142633E7D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 07:39:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46082 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY28a-0005J7-6c
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 01:37:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44101)
+	id 1hY2Af-0007GN-NC
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 01:39:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44746)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hY25O-0003VE-Rf
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:34:15 -0400
+	(envelope-from <philmd@redhat.com>) id 1hY275-0004jl-SI
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:36:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hY25N-0005GM-S0
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:34:14 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:36857)
+	(envelope-from <philmd@redhat.com>) id 1hY273-0007mk-VE
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:35:59 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37864)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hY25N-0005Fe-Mf
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:34:13 -0400
-Received: by mail-wr1-f68.google.com with SMTP id n4so11304506wrs.3
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 22:34:13 -0700 (PDT)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hY271-0007jK-TV
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:35:56 -0400
+Received: by mail-wr1-f67.google.com with SMTP id h1so14363297wro.4
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 22:35:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=8ekESd1gSGGAn0kKgbM4pOPIxcVvp29KJy0xVK4uy7E=;
-	b=fIB6UdI9M6iyfn+HJ+gZljhkWgah6nyijE7TQKixbsDaKet/AGlmx9hRMk6FJJcbY/
-	MW0e4ftn1KJCBEmpsmz9s4cDzi52uFnYnVvINYjnpjax8negtPs8VPhgXquLOQp3pMSL
-	ZuqspyBzt/nJnXnRY+p4MUwDeRTfvCvUj+sRHfitdfKlWUBcm5oZadvH9HHWYmdnlDzU
-	ViNmCWiImu9m37d7nzNfF/gRHnTcjJ542pHRltEuD8NlFtmnjqzaTYIh7yA0qqkYp377
-	YiZgg5ndT3Gt9TtX/cU/zGp0n8YYZnoxyfFp83vtX5mEpPC6ayyLvaRthme3jD4/j6RX
-	sLag==
-X-Gm-Message-State: APjAAAXYxMwvSu47Zs189wbVMU7lQRin7Yxc2fusHbBh2ba8g/w/FE9w
-	QXRwaT0r4N8HFPLfT/0RXm4pCw==
-X-Google-Smtp-Source: APXvYqzzvB33XEDwQdXkfThTr+19yDli2Jclovjr3qtTnyasBBIj/NbK5xTEtRxkMgPL1COl9qDShw==
-X-Received: by 2002:adf:f9cb:: with SMTP id w11mr17624871wrr.314.1559626452707;
-	Mon, 03 Jun 2019 22:34:12 -0700 (PDT)
+	bh=sk4iNQYwli028PZd8oQlftvipe73FWtqrtHilorjNKI=;
+	b=dHhc8/h2gmjIpK0nE2c7JtjZQVQQwpSkJDjijeUuMcy7s4kBH1VeOdwMYy1qJIR1Vq
+	Omo5AWbToBwy62K9Nis+r4hSRFCStiiu6eRcVwy/lV10BzM4x1RdOG7xMciPQBTDXTB3
+	Ynp7WGujk9NBAzf0Xnkk7b86OD2dDgLxhYx+tinOk4yF3enFBtQdyQmqIJafgbwK/2qY
+	Y6Hi1fIJ/g+bnjB4oW+OjHRRHrB952UtZM8W/MNCoJdp2t33YzCs5np8bDVGt6kxI9/r
+	+Q4YfLrGZUPwLiYl1MzxC+46bOh5e90CEJTHBclQCelmgbo/FyZ0ShvIOWm9ybpNUxz+
+	0Z2A==
+X-Gm-Message-State: APjAAAXCvMnXajvblZVO4abk8AQmlvGJN0tHCSTVZTFSiaIDpLLS1Y8V
+	dSBqN8Ugo5wcydhTdVorYg2aXA==
+X-Google-Smtp-Source: APXvYqytpd2Hmnn5SMzPEmqu5ytjtyUFk9wk0tRDAL0q/5mterrNiuN8vFHHjiIO2ucoWHpEdoj0JA==
+X-Received: by 2002:adf:ea44:: with SMTP id j4mr3980488wrn.123.1559626554341; 
+	Mon, 03 Jun 2019 22:35:54 -0700 (PDT)
 Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
-	[88.21.202.183]) by smtp.gmail.com with ESMTPSA id
-	95sm34028325wrk.70.2019.06.03.22.34.11
+	[88.21.202.183])
+	by smtp.gmail.com with ESMTPSA id y12sm8928062wrr.3.2019.06.03.22.35.53
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 22:34:12 -0700 (PDT)
+	Mon, 03 Jun 2019 22:35:53 -0700 (PDT)
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190531134315.4109-1-richard.henderson@linaro.org>
-	<20190531134315.4109-16-richard.henderson@linaro.org>
+	<20190531134315.4109-24-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
 	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <199483f6-2ab5-5f10-011d-fd19154b2c29@redhat.com>
-Date: Tue, 4 Jun 2019 07:34:11 +0200
+Message-ID: <46da7cb3-1c9f-80af-edb8-bc4658373471@redhat.com>
+Date: Tue, 4 Jun 2019 07:35:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190531134315.4109-16-richard.henderson@linaro.org>
+In-Reply-To: <20190531134315.4109-24-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v16 15/23] hw/rx: Honor -accel qtest
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH v16 23/23] target/rx: Dump bytes for each
+ insn during disassembly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,48 +80,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/31/19 3:43 PM, Richard Henderson wrote:
-> Issue an error if no kernel, no bios, and not qtest'ing.
-> Fixes make check-qtest-rx: test/qom-test.
+> There are so many different forms of each RX instruction
+> that it will be very useful to be able to look at the bytes
+> to see on which path a bug may lie.
 > 
+> Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/rx/rx62n.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>  target/rx/disas.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
-> index 3a8fe7b0bf..e55257c622 100644
-> --- a/hw/rx/rx62n.c
-> +++ b/hw/rx/rx62n.c
-> @@ -21,11 +21,13 @@
+> diff --git a/target/rx/disas.c b/target/rx/disas.c
+> index 5a32a87534..d73b53db44 100644
+> --- a/target/rx/disas.c
+> +++ b/target/rx/disas.c
+> @@ -102,7 +102,21 @@ static int bdsp_s(DisasContext *ctx, int d)
+>  /* Include the auto-generated decoder.  */
+>  #include "decode.inc.c"
 >  
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
-> +#include "qemu/error-report.h"
->  #include "hw/hw.h"
->  #include "hw/rx/rx62n.h"
->  #include "hw/loader.h"
->  #include "hw/sysbus.h"
->  #include "sysemu/sysemu.h"
-> +#include "sysemu/qtest.h"
->  #include "cpu.h"
->  
->  /*
-> @@ -190,8 +192,14 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
->      memory_region_init_rom(&s->c_flash, NULL, "codeflash",
->                             RX62N_CFLASH_SIZE, errp);
->      memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE, &s->c_flash);
+> -#define prt(...) (ctx->dis->fprintf_func)((ctx->dis->stream), __VA_ARGS__)
+> +static void dump_bytes(DisasContext *ctx)
+> +{
+> +    int i, len = ctx->len;
 > +
->      if (!s->kernel) {
-> -        rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
-> +        if (bios_name) {
-> +            rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
-> +        }  else if (!qtest_enabled()) {
-> +            error_report("No bios or kernel specified");
-> +            exit(1);
-> +        }
->      }
+> +    for (i = 0; i < len; ++i) {
+> +        ctx->dis->fprintf_func(ctx->dis->stream, "%02x ", ctx->bytes[i]);
+> +    }
+> +    ctx->dis->fprintf_func(ctx->dis->stream, "%*c", (8 - i) * 3, '\t');
+> +}
+> +
+> +#define prt(...) \
+> +    do {                                                        \
+> +        dump_bytes(ctx);                                        \
+> +        ctx->dis->fprintf_func(ctx->dis->stream, __VA_ARGS__);  \
+> +    } while (0)
 >  
->      object_initialize_child(OBJECT(s), "cpu", &s->cpu,
+>  #define RX_MEMORY_BYTE 0
+>  #define RX_MEMORY_WORD 1
 > 
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
