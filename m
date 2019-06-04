@@ -2,70 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E06235199
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 23:05:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58102 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A539351D5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 23:25:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58366 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYGcv-0001aO-RW
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 17:05:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36163)
+	id 1hYGvy-0000rO-GN
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 17:25:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48444)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG95-0001j2-SS
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:35:01 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hYGus-0000Tl-6A
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 17:24:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG94-00051U-5b
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:59 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:37825)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYG93-0004wI-W2
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:58 -0400
-Received: by mail-oi1-x244.google.com with SMTP id t76so1581677oih.4
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=8wDpuqt2tvKadOymhMpkkiKWS+EHs0ZcemyyrplJ7bs=;
-	b=b4G3l++DM5lY5nFvXhNgyNVJdSJiP2fPobYejXCrWikvLRamBtiHVfz6uOm74JSxhv
-	R7IaeprCyybU+WzZ1cExVhgKfoTmYqlUU9EjDtd8IEbnhSRtGnswnhtcE/qehpbKeD0R
-	eqTn7Qj8oAg2zw9xK9+bcCmJOtHhrINCnQ+nkayj+d/r+LBs4GyosIrmFdKK+eVmi6YJ
-	MGlx/HeNaMIfmJBmi9SNNGR7c0vrMeEmLeLgIH5Vuvddm2RfrmzH3Gmg1pAhnOyT7yY1
-	PlnYymO9H6Wtcb9igKbU1a7PiIWbt/7MCnIbkI3IJxqFWOXHIDJ7vDCqN911InkEJXaq
-	qK5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=8wDpuqt2tvKadOymhMpkkiKWS+EHs0ZcemyyrplJ7bs=;
-	b=sNO2vfsgHVqyQjZ0hMQQSJa6OPecS/J9MQjbUidunuuy2LrKfxk53HRy9mE+YzmSLm
-	itYHZClmoh63n12dsYTwXAdCRg7f0g2mrHj4gGl1ThgZx9N2n6dZCTg9FnsiRTShGthn
-	s05P3EawJEco73y2E5RZpCERvAo2Gm/YVtmys23Iz0FSzrNaBBJSXHSpf582z1ll6F9z
-	iNVPcaFyzFmLjbXQ7pG1yG6sUE54uaIatFIp8uYHpG7C5wPGRNwYUiGQBT1LRncvavCM
-	nkPkTb80nuUhsBqlojgVHIM5C+KwTUt3YY+sDMH32tFHx2WK0YuM8Y0NRNC1Th2sVwK5
-	PMFw==
-X-Gm-Message-State: APjAAAW4kJ50DIeviy0bcbPq1qJRWGgEXzt2Fs64ePdfDl/a4su9oLZW
-	aQ8VCc7VsxMqxgHyvcMFF8ryAm15b1nIjw==
-X-Google-Smtp-Source: APXvYqx0obfITlNBpwOqhgqWqUkaiiaI0Dm4MVBeqeu/pvXuDFg8Dr2AmPThwZf8y9ulAqkepg0rbg==
-X-Received: by 2002:aca:5d45:: with SMTP id r66mr1036453oib.143.1559680493992; 
-	Tue, 04 Jun 2019 13:34:53 -0700 (PDT)
-Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
-	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.52
-	for <qemu-devel@nongnu.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 13:34:53 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 15:33:51 -0500
-Message-Id: <20190604203351.27778-40-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190604203351.27778-1-richard.henderson@linaro.org>
-References: <20190604203351.27778-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: [Qemu-devel] [PATCH v4 39/39] tcg/arm: Remove mostly unreachable
- tlb special case
+	(envelope-from <lvivier@redhat.com>) id 1hYGuq-00068J-Uz
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 17:24:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43146)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>)
+	id 1hYGuq-0005IA-OO; Tue, 04 Jun 2019 17:24:20 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id CB2893082B69;
+	Tue,  4 Jun 2019 21:23:37 +0000 (UTC)
+Received: from [10.40.204.44] (ovpn-204-44.brq.redhat.com [10.40.204.44])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4573219C69;
+	Tue,  4 Jun 2019 21:23:33 +0000 (UTC)
+To: David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
+References: <20190108224600.23125-1-david@gibson.dropbear.id.au>
+	<20190108224600.23125-10-david@gibson.dropbear.id.au>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <759cdab3-6cf9-bb83-54f2-12d60063b15c@redhat.com>
+Date: Tue, 4 Jun 2019 23:23:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190108224600.23125-10-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Tue, 04 Jun 2019 21:23:48 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PULL 09/29] target/ppc: introduce
+ get_cpu_vsr{l, h}() and set_cpu_vsr{l, h}() helpers for VSR register access
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,58 +61,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There was nothing armv7 specific about the bic+cmp sequence, however
-looking at the set of guests more closely shows that the 8-bit immediate
-operand for the bic can only be satisfied with one guest in tree:
-baseline m-profile -- 10-bit pages with aligned 4-byte memory ops.
-Therefore it does not seem useful to keep this path.
+On 08/01/2019 23:45, David Gibson wrote:
+> From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> 
+> These helpers allow us to move VSR register values to/from the specified TCGv_i64
+> argument.
+> 
+> To prevent VSX helpers accessing the cpu_vsr array directly, add extra TCG
+> temporaries as required.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  target/ppc/translate/vsx-impl.inc.c | 862 ++++++++++++++++++++--------
+>  1 file changed, 638 insertions(+), 224 deletions(-)
+> 
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/arm/tcg-target.inc.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+This patch breaks something in the libcrypto.
 
-diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
-index 276e843627..ece88dc2eb 100644
---- a/tcg/arm/tcg-target.inc.c
-+++ b/tcg/arm/tcg-target.inc.c
-@@ -1290,19 +1290,20 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
-     tcg_out_ld32_12(s, COND_AL, TCG_REG_R1, TCG_REG_R1,
-                     offsetof(CPUTLBEntry, addend));
- 
--    /* Check alignment, check comparators.  */
--    if (use_armv7_instructions) {
-+    /*
-+     * Check alignment, check comparators.
-+     * Do this in no more than 3 insns.  Use MOVW for v7, if possible,
-+     * to reduce the number of sequential conditional instructions.
-+     * Almost all guests have at least 4k pages, which means that we need
-+     * to clear at least 9 bits even for an 8-byte memory, which means it
-+     * isn't worth checking for an immediate operand for BIC.
-+     */
-+    if (use_armv7_instructions && TARGET_PAGE_BITS <= 16) {
-         tcg_target_ulong mask = ~(TARGET_PAGE_MASK | ((1 << a_bits) - 1));
--        int rot = encode_imm(mask);
- 
--        if (rot >= 0) { 
--            tcg_out_dat_imm(s, COND_AL, ARITH_BIC, TCG_REG_TMP, addrlo,
--                            rotl(mask, rot) | (rot << 7));
--        } else {
--            tcg_out_movi32(s, COND_AL, TCG_REG_TMP, mask);
--            tcg_out_dat_reg(s, COND_AL, ARITH_BIC, TCG_REG_TMP,
--                            addrlo, TCG_REG_TMP, 0);
--        }
-+        tcg_out_movi32(s, COND_AL, TCG_REG_TMP, mask);
-+        tcg_out_dat_reg(s, COND_AL, ARITH_BIC, TCG_REG_TMP,
-+                        addrlo, TCG_REG_TMP, 0);
-         tcg_out_dat_reg(s, COND_AL, ARITH_CMP, 0, TCG_REG_R2, TCG_REG_TMP, 0);
-     } else {
-         if (a_bits) {
--- 
-2.17.1
+I've been able to reproduce the problem with Fedora 29:
 
+dnf install 'dnf-command(download)'
+dnf download --source coreutils-single
+rpm --verify coreutils-8.30-7.fc29.src.rpm
+error: coreutils-8.30-7.fc29.src.rpm: Header V3 RSA/SHA256 Signature, key ID 429476b4: BAD
+error: coreutils-8.30-7.fc29.src.rpm: Header SHA256 digest: BAD (Expected fa042669e74ac435bd5defaa8c2e4efe779a0329c24f2b6377591c53b38aa280 != d6e22527412fafc4aa12882432d0d157e5427097710eeb2d5fce8fbc52a47be6)
+error: coreutils-8.30-7.fc29.src.rpm: not an rpm package (or package manifest)
+
+See https://bugzilla.redhat.com/show_bug.cgi?id=1715017
+
+I've tested with origin/master (47fbad45d47af8af784bb12a5719489edcd89b4c) and all the 
+merged fixes for this patch don't fix this problem.
+
+We should be able to reproduce it on Debian Sid too: it breaks ssh (this is one of the rare binaries using libcrypto on debian).
+
+I've been able to reproduce it with qemu linux-user if I enable PPC_FEATURE2_VEC_CRYPTO in linux-user/elfload.c
+(git clone -b linux-user-ppc64-hwcap git@github.com:vivier/qemu.git).
+
+To ease debugging, you can install a Fedora 29 chroot with something like:
+
+curl -o container.tar.xz http://download-ib01.fedoraproject.org/pub/fedora-secondary/releases/29/Container/ppc64le/images/Fedora-Container-Base-29-1.2.ppc64le.tar.xz
+tar Jxvf container.tar.xz '*/layer.tar'
+mkdir -p chroot/ppc64le/29
+cd chroot/ppc64le/29
+tar xf $OLDPWD/*/layer.tar
+cd -
+cp ~/qemu/ppc64le-linux-user/qemu-ppc64le chroot/ppc64le/29/
+[use "configure --target-list=ppc64le-linux-user --static --disable-tools" and don't forget to run scripts/qemu-binfmt-conf.sh]
+
+Thanks,
+Laurent
 
