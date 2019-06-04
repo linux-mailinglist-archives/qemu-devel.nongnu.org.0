@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8142633E7D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 07:39:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46082 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF1933E79
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 07:38:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46069 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY2Af-0007GN-NC
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 01:39:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44746)
+	id 1hY29i-0006Lf-8f
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 01:38:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44993)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hY275-0004jl-SI
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:36:00 -0400
+	(envelope-from <philmd@redhat.com>) id 1hY27h-0005FM-Vp
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:36:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hY273-0007mk-VE
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:35:59 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:37864)
+	(envelope-from <philmd@redhat.com>) id 1hY27g-0008Vb-LA
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:36:37 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46249)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hY271-0007jK-TV
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:35:56 -0400
-Received: by mail-wr1-f67.google.com with SMTP id h1so14363297wro.4
-	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 22:35:55 -0700 (PDT)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hY27g-0008Ul-Bm
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:36:36 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n4so9098456wrw.13
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 22:36:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=sk4iNQYwli028PZd8oQlftvipe73FWtqrtHilorjNKI=;
-	b=dHhc8/h2gmjIpK0nE2c7JtjZQVQQwpSkJDjijeUuMcy7s4kBH1VeOdwMYy1qJIR1Vq
-	Omo5AWbToBwy62K9Nis+r4hSRFCStiiu6eRcVwy/lV10BzM4x1RdOG7xMciPQBTDXTB3
-	Ynp7WGujk9NBAzf0Xnkk7b86OD2dDgLxhYx+tinOk4yF3enFBtQdyQmqIJafgbwK/2qY
-	Y6Hi1fIJ/g+bnjB4oW+OjHRRHrB952UtZM8W/MNCoJdp2t33YzCs5np8bDVGt6kxI9/r
-	+Q4YfLrGZUPwLiYl1MzxC+46bOh5e90CEJTHBclQCelmgbo/FyZ0ShvIOWm9ybpNUxz+
-	0Z2A==
-X-Gm-Message-State: APjAAAXCvMnXajvblZVO4abk8AQmlvGJN0tHCSTVZTFSiaIDpLLS1Y8V
-	dSBqN8Ugo5wcydhTdVorYg2aXA==
-X-Google-Smtp-Source: APXvYqytpd2Hmnn5SMzPEmqu5ytjtyUFk9wk0tRDAL0q/5mterrNiuN8vFHHjiIO2ucoWHpEdoj0JA==
-X-Received: by 2002:adf:ea44:: with SMTP id j4mr3980488wrn.123.1559626554341; 
-	Mon, 03 Jun 2019 22:35:54 -0700 (PDT)
+	bh=vgLOwtD6adiNOKe068CEj6N1u7Lq0M6X5fJeTMUe1lg=;
+	b=E0xF0uyrMImNliXfWxv8xctIERY1YeZbne4/3OAXjQsWee/sArPgSeLiOG+X7oOm7v
+	o6Ed77BnqYQTVqXwEDBx2siUFs/dDcEBEsHzpdXoma418efhizHacr7X3ubNCxQJ6P4X
+	5fX0MK7jthY9Em/UhwjFEiKnji8w+NGHhh6HFA9Kjg57vHJrDiaCvhnEz7wCV9N3CGNO
+	2X+F9W2Nf/WydT9UXl30lMCeHyrHhTBLSOXCMImtUfK0Rm46XXGrUaW/8QI6Gd3G9ANd
+	madxWxyiCncvzuDHKmpmpq8gd/ALuqGLdtRLMCzC6hAkK1GWFivasII34U465EKMSwz9
+	sA8w==
+X-Gm-Message-State: APjAAAXp3zsw3Yn7eRM9JpSrw+yD9YQ8aaks/8spj+Ax5tbnCqDnbH0T
+	CKrObpd3qo8N4xvyDpmVoplH1Q==
+X-Google-Smtp-Source: APXvYqxfWfa1o8P6+xvC583gq9QW42E+0rUm2C/7uu6edm6l19MDxdFemQfz4Ezmi6mcbZ7OBdDigA==
+X-Received: by 2002:adf:f003:: with SMTP id j3mr4839207wro.250.1559626595159; 
+	Mon, 03 Jun 2019 22:36:35 -0700 (PDT)
 Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
-	[88.21.202.183])
-	by smtp.gmail.com with ESMTPSA id y12sm8928062wrr.3.2019.06.03.22.35.53
+	[88.21.202.183]) by smtp.gmail.com with ESMTPSA id
+	i13sm8043278wrw.65.2019.06.03.22.36.34
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Jun 2019 22:35:53 -0700 (PDT)
+	Mon, 03 Jun 2019 22:36:34 -0700 (PDT)
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190531134315.4109-1-richard.henderson@linaro.org>
-	<20190531134315.4109-24-richard.henderson@linaro.org>
+	<20190531134315.4109-22-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
 	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <46da7cb3-1c9f-80af-edb8-bc4658373471@redhat.com>
-Date: Tue, 4 Jun 2019 07:35:52 +0200
+Message-ID: <48cf829e-3306-aed7-0623-498a4a4beb02@redhat.com>
+Date: Tue, 4 Jun 2019 07:36:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190531134315.4109-24-richard.henderson@linaro.org>
+In-Reply-To: <20190531134315.4109-22-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH v16 23/23] target/rx: Dump bytes for each
- insn during disassembly
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v16 21/23] target/rx: Emit all disassembly
+ in one prt()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,43 +80,184 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/31/19 3:43 PM, Richard Henderson wrote:
-> There are so many different forms of each RX instruction
-> that it will be very useful to be able to look at the bytes
-> to see on which path a bug may lie.
+> Many of the multi-part prints have been eliminated by previous
+> patches.  Eliminate the rest of them.
 > 
 > Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/rx/disas.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
+>  target/rx/disas.c | 75 ++++++++++++++++++++++++-----------------------
+>  1 file changed, 39 insertions(+), 36 deletions(-)
 > 
 > diff --git a/target/rx/disas.c b/target/rx/disas.c
-> index 5a32a87534..d73b53db44 100644
+> index db10385fd0..ebc1a44249 100644
 > --- a/target/rx/disas.c
 > +++ b/target/rx/disas.c
-> @@ -102,7 +102,21 @@ static int bdsp_s(DisasContext *ctx, int d)
->  /* Include the auto-generated decoder.  */
->  #include "decode.inc.c"
+> @@ -228,24 +228,21 @@ static bool trans_MOV_ra(DisasContext *ctx, arg_MOV_ra *a)
+>  /* mov.[bwl] rs,rd */
+>  static bool trans_MOV_mm(DisasContext *ctx, arg_MOV_mm *a)
+>  {
+> -    char dspd[8], dsps[8];
+> +    char dspd[8], dsps[8], szc = size[a->sz];
 >  
-> -#define prt(...) (ctx->dis->fprintf_func)((ctx->dis->stream), __VA_ARGS__)
-> +static void dump_bytes(DisasContext *ctx)
-> +{
-> +    int i, len = ctx->len;
-> +
-> +    for (i = 0; i < len; ++i) {
-> +        ctx->dis->fprintf_func(ctx->dis->stream, "%02x ", ctx->bytes[i]);
+> -    prt("mov.%c\t", size[a->sz]);
+>      if (a->lds == 3 && a->ldd == 3) {
+>          /* mov.[bwl] rs,rd */
+> -        prt("r%d, r%d", a->rs, a->rd);
+> -        return true;
+> -    }
+> -    if (a->lds == 3) {
+> +        prt("mov.%c\tr%d, r%d", szc, a->rs, a->rd);
+> +    } else if (a->lds == 3) {
+>          rx_index_addr(ctx, dspd, a->ldd, a->sz);
+> -        prt("r%d, %s[r%d]", a->rs, dspd, a->rd);
+> +        prt("mov.%c\tr%d, %s[r%d]", szc, a->rs, dspd, a->rd);
+>      } else if (a->ldd == 3) {
+>          rx_index_addr(ctx, dsps, a->lds, a->sz);
+> -        prt("%s[r%d], r%d", dsps, a->rs, a->rd);
+> +        prt("mov.%c\t%s[r%d], r%d", szc, dsps, a->rs, a->rd);
+>      } else {
+>          rx_index_addr(ctx, dsps, a->lds, a->sz);
+>          rx_index_addr(ctx, dspd, a->ldd, a->sz);
+> -        prt("%s[r%d], %s[r%d]", dsps, a->rs, dspd, a->rd);
+> +        prt("mov.%c\t%s[r%d], %s[r%d]", szc, dsps, a->rs, dspd, a->rd);
+>      }
+>      return true;
+>  }
+> @@ -254,8 +251,11 @@ static bool trans_MOV_mm(DisasContext *ctx, arg_MOV_mm *a)
+>  /* mov.[bwl] rs,[-rd] */
+>  static bool trans_MOV_rp(DisasContext *ctx, arg_MOV_rp *a)
+>  {
+> -    prt("mov.%c\tr%d, ", size[a->sz], a->rs);
+> -    prt((a->ad == 0) ? "[r%d+]" : "[-r%d]", a->rd);
+> +    if (a->ad) {
+> +        prt("mov.%c\tr%d, [-r%d]", size[a->sz], a->rs, a->rd);
+> +    } else {
+> +        prt("mov.%c\tr%d, [r%d+]", size[a->sz], a->rs, a->rd);
 > +    }
-> +    ctx->dis->fprintf_func(ctx->dis->stream, "%*c", (8 - i) * 3, '\t');
-> +}
-> +
-> +#define prt(...) \
-> +    do {                                                        \
-> +        dump_bytes(ctx);                                        \
-> +        ctx->dis->fprintf_func(ctx->dis->stream, __VA_ARGS__);  \
-> +    } while (0)
+>      return true;
+>  }
 >  
->  #define RX_MEMORY_BYTE 0
->  #define RX_MEMORY_WORD 1
+> @@ -263,9 +263,11 @@ static bool trans_MOV_rp(DisasContext *ctx, arg_MOV_rp *a)
+>  /* mov.[bwl] [-rd],rs */
+>  static bool trans_MOV_pr(DisasContext *ctx, arg_MOV_pr *a)
+>  {
+> -    prt("mov.%c\t", size[a->sz]);
+> -    prt((a->ad == 0) ? "[r%d+]" : "[-r%d]", a->rd);
+> -    prt(", r%d", a->rs);
+> +    if (a->ad) {
+> +        prt("mov.%c\t[-r%d], r%d", size[a->sz], a->rd, a->rs);
+> +    } else {
+> +        prt("mov.%c\t[r%d+], r%d", size[a->sz], a->rd, a->rs);
+> +    }
+>      return true;
+>  }
+>  
+> @@ -299,9 +301,11 @@ static bool trans_MOVU_ar(DisasContext *ctx, arg_MOVU_ar *a)
+>  /* movu.[bw] [-rs],rd */
+>  static bool trans_MOVU_pr(DisasContext *ctx, arg_MOVU_pr *a)
+>  {
+> -    prt("movu.%c\t", size[a->sz]);
+> -    prt((a->ad == 0) ? "[r%d+]" : "[-r%d]", a->rd);
+> -    prt(", r%d", a->rs);
+> +    if (a->ad) {
+> +        prt("movu.%c\t[-r%d], r%d", size[a->sz], a->rd, a->rs);
+> +    } else {
+> +        prt("movu.%c\t[r%d+], r%d", size[a->sz], a->rd, a->rs);
+> +    }
+>      return true;
+>  }
+>  
+> @@ -478,11 +482,11 @@ static bool trans_TST_mr(DisasContext *ctx, arg_TST_mr *a)
+>  /* not rs, rd */
+>  static bool trans_NOT_rr(DisasContext *ctx, arg_NOT_rr *a)
+>  {
+> -    prt("not\t");
+>      if (a->rs != a->rd) {
+> -        prt("r%d, ", a->rs);
+> +        prt("not\tr%d, r%d", a->rs, a->rd);
+> +    } else {
+> +        prt("not\tr%d", a->rs);
+>      }
+> -    prt("r%d", a->rd);
+>      return true;
+>  }
+>  
+> @@ -490,11 +494,11 @@ static bool trans_NOT_rr(DisasContext *ctx, arg_NOT_rr *a)
+>  /* neg rs, rd */
+>  static bool trans_NEG_rr(DisasContext *ctx, arg_NEG_rr *a)
+>  {
+> -    prt("neg\t");
+>      if (a->rs != a->rd) {
+> -        prt("r%d, ", a->rs);
+> +        prt("neg\tr%d, r%d", a->rs, a->rd);
+> +    } else {
+> +        prt("neg\tr%d", a->rs);
+>      }
+> -    prt("r%d", a->rd);
+>      return true;
+>  }
+>  
+> @@ -606,11 +610,10 @@ static bool trans_SBB_mr(DisasContext *ctx, arg_SBB_mr *a)
+>  /* abs rs, rd */
+>  static bool trans_ABS_rr(DisasContext *ctx, arg_ABS_rr *a)
+>  {
+> -    prt("abs\t");
+> -    if (a->rs == a->rd) {
+> -        prt("r%d", a->rd);
+> +    if (a->rs != a->rd) {
+> +        prt("abs\tr%d, r%d", a->rs, a->rd);
+>      } else {
+> -        prt("r%d, r%d", a->rs, a->rd);
+> +        prt("abs\tr%d", a->rs);
+>      }
+>      return true;
+>  }
+> @@ -733,11 +736,11 @@ static bool trans_DIVU_mr(DisasContext *ctx, arg_DIVU_mr *a)
+>  /* shll #imm:5, rs, rd */
+>  static bool trans_SHLL_irr(DisasContext *ctx, arg_SHLL_irr *a)
+>  {
+> -    prt("shll\t#%d, ", a->imm);
+>      if (a->rs2 != a->rd) {
+> -        prt("r%d, ", a->rs2);
+> +        prt("shll\t#%d, r%d, r%d", a->imm, a->rs2, a->rd);
+> +    } else {
+> +        prt("shll\t#%d, r%d", a->imm, a->rd);
+>      }
+> -    prt("r%d", a->rd);
+>      return true;
+>  }
+>  
+> @@ -752,11 +755,11 @@ static bool trans_SHLL_rr(DisasContext *ctx, arg_SHLL_rr *a)
+>  /* shar #imm:5, rs, rd */
+>  static bool trans_SHAR_irr(DisasContext *ctx, arg_SHAR_irr *a)
+>  {
+> -    prt("shar\t#%d,", a->imm);
+>      if (a->rs2 != a->rd) {
+> -        prt("r%d, ", a->rs2);
+> +        prt("shar\t#%d, r%d, r%d", a->imm, a->rs2, a->rd);
+> +    } else {
+> +        prt("shar\t#%d, r%d", a->imm, a->rd);
+>      }
+> -    prt("r%d", a->rd);
+>      return true;
+>  }
+>  
+> @@ -771,11 +774,11 @@ static bool trans_SHAR_rr(DisasContext *ctx, arg_SHAR_rr *a)
+>  /* shlr #imm:5, rs, rd */
+>  static bool trans_SHLR_irr(DisasContext *ctx, arg_SHLR_irr *a)
+>  {
+> -    prt("shlr\t#%d, ", a->imm);
+>      if (a->rs2 != a->rd) {
+> -        prt("r%d, ", a->rs2);
+> +        prt("shlr\t#%d, r%d, r%d", a->imm, a->rs2, a->rd);
+> +    } else {
+> +        prt("shlr\t#%d, r%d", a->imm, a->rd);
+>      }
+> -    prt("r%d", a->rd);
+>      return true;
+>  }
+>  
 > 
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
