@@ -2,78 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62843423A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 10:54:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48839 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1138134248
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 10:55:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48887 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY5Co-00062t-Nb
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 04:54:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39756)
+	id 1hY5EN-0007Pj-AF
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 04:55:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40293)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hY5Al-00058W-FM
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:52:00 -0400
+	(envelope-from <lizhengui@huawei.com>) id 1hY5DK-00074U-SZ
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:54:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hY5Ak-0001Ox-F6
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:51:59 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35693)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hY5Ak-0001OL-4Y
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:51:58 -0400
-Received: by mail-wm1-x342.google.com with SMTP id c6so10870302wml.0
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 01:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=E+0gdnk2zFsqvhIMvOxfAZSOkzi7ahsa38Rv7Htkmd8=;
-	b=I2DMNqvYyrPIupnpdaQI/vxNoxNH3Qims/ePWZNZNS2cYkRen3Lp8MJ4TCyQ7WJsLd
-	/Xi++0ueA4bBvvKYf+/bDdpRVknCVoPuQJeBtZDnN/yuIucSIfKD/RLWMZeKJAOxbGfM
-	0MX+rJrxWkDXVszAAQmhSgtafF28XCF9XduYcp7FehgrDHGEHyfXr3Hv5ufajeJhsXCg
-	eFuZCXfVQYUyGkn9JKTy+QuNXdC61PCJj6fiTCbg5MYZ2Ff08+PPPYaFJDQr6s6d/MkA
-	NNSkOzKosjtfJSdoF485HQmiQpS4TY6Bmz44J0m7zmfH3PUHRGlloKT8f7fA1FAM7plc
-	2Ijw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=E+0gdnk2zFsqvhIMvOxfAZSOkzi7ahsa38Rv7Htkmd8=;
-	b=CPT12A1U3CzcjsMerWhhyNtk0k340HT27I0KI0k4NXo8b7CaOTW8kGSPi1fQGShI1L
-	JcSr7/F9RADiOT34VKlwTW47aqSS1BGb0YDylDW2X9r5BwwIRqew/giB1lhsqcJySl4j
-	gMp1hZcr/lXVWN8F9jpczFtj85Ul7ZWTYjTj9ZW+vEj2AP3qz/HzOhEkDLeiH7QBA6om
-	nKCc+NMr1JDKZvn8NQEvSg62ZnVq1ygeZYA4aL5aEWWmrnweeIoXyuxk3lBZBcoYCUVj
-	LRmZK19TloIJEA/R7mewSHTa9s9lGtAtzFUh9+3DzpI/1hKTpe32zFz1KZ5/fUNk0h/e
-	Ng6A==
-X-Gm-Message-State: APjAAAU9uerRdhfDaTW5B33lEz2ZcpdXQNM2tolt1O1CyZlPVT2y+B7i
-	780o1O1dPZqNZANDPn+bmZUNhg==
-X-Google-Smtp-Source: APXvYqzy2N0MwDd/Qg0EPjfhdR8J3cioub7fDEpM1fRsKgbmSNVHGCQv4tLlGZC8iCjPJSMAhy7/GQ==
-X-Received: by 2002:a1c:21c4:: with SMTP id h187mr17631216wmh.27.1559638316486;
-	Tue, 04 Jun 2019 01:51:56 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	u205sm20552858wmu.47.2019.06.04.01.51.55
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 04 Jun 2019 01:51:55 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 293C61FF87;
-	Tue,  4 Jun 2019 09:51:55 +0100 (BST)
-References: <65b0acd5-e919-73a3-e313-cb01da12afb4@redhat.com>
-	<78b8e397-8bf3-ac52-02f5-dba79372480f@redhat.com>
-	<ae439814-4ed1-eb40-7a44-cea1a566a850@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: David Hildenbrand <david@redhat.com>
-In-reply-to: <ae439814-4ed1-eb40-7a44-cea1a566a850@redhat.com>
-Date: Tue, 04 Jun 2019 09:51:55 +0100
-Message-ID: <871s09u40k.fsf@zen.linaroharston>
+	(envelope-from <lizhengui@huawei.com>) id 1hY5DI-0002pv-Qc
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:54:38 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:47862 helo=huawei.com)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lizhengui@huawei.com>)
+	id 1hY5DC-0002is-DF; Tue, 04 Jun 2019 04:54:32 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+	by Forcepoint Email with ESMTP id A55581AC282A70549374;
+	Tue,  4 Jun 2019 16:54:21 +0800 (CST)
+Received: from [127.0.0.1] (10.177.251.193) by DGGEMS412-HUB.china.huawei.com
+	(10.3.19.212) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 4 Jun 2019 16:54:13 +0800
+To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+	<stefanha@redhat.com>, <kwolf@redhat.com>
+From: l00284672 <lizhengui@huawei.com>
+Message-ID: <944b5cc0-c677-2bef-69ab-196a74d954e2@huawei.com>
+Date: Tue, 4 Jun 2019 16:53:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] "make run-tcg-tests-s390x-linux-user" not working
- for me
+Content-Type: multipart/mixed; boundary="------------6E2AC00B01FA9C6F14BF7105"
+Content-Language: en-US
+X-Originating-IP: [10.177.251.193]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 45.249.212.35
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: [Qemu-devel] virtual machine cpu soft lockup when qemu attach disk
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,67 +53,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: jiangyiwen@huawei.com, lizhengui@huawi.com, qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-David Hildenbrand <david@redhat.com> writes:
-
-> On 04.06.19 09:25, David Hildenbrand wrote:
->> On 04.06.19 09:17, David Hildenbrand wrote:
->>> Hi,
->>>
->>> for now I was able to run TCG tests using "make
->>> run-tcg-tests-s390x-linux-user". Lately, trying to run the tests always
->>> results in
->>>
->>> t460s: ~/git/qemu vx $ LANG=3DC make run-tcg-tests-s390x-linux-user
->>> make[1]: Entering directory '/home/dhildenb/git/qemu/slirp'
->>> make[1]: Nothing to be done for 'all'.
->>> make[1]: Leaving directory '/home/dhildenb/git/qemu/slirp'
->>>         CHK version_gen.h
->>>   BUILD   TCG tests for s390x-linux-user
->>>   BUILD   s390x guest-tests SKIPPED
->>>   RUN     TCG tests for s390x-linux-user
->>>   RUN     tests for s390x SKIPPED
->>>
->>> t460s: ~/git/qemu vx $ LANG=3DC make check-tcg
->>> make[1]: Entering directory '/home/dhildenb/git/qemu/slirp'
->>> make[1]: Nothing to be done for 'all'.
->>> make[1]: Leaving directory '/home/dhildenb/git/qemu/slirp'
->>>         CHK version_gen.h
->>>   BUILD   TCG tests for s390x-softmmu
->>>   BUILD   s390x guest-tests SKIPPED
->>>   RUN     TCG tests for s390x-softmmu
->>>   RUN     tests for s390x SKIPPED
->>>   BUILD   TCG tests for s390x-linux-user
->>>   BUILD   s390x guest-tests SKIPPED
->>>   RUN     TCG tests for s390x-linux-user
->>>   RUN     tests for s390x SKIPPED
->>>
->>> I am using "./configure --target-list=3Ds390x-softmmu,s390x-linux-user
->>> --enable-sdl --enable-spice --enable-kvm"
->>>
->>> What am I missing? Why is the build skipped?
->>>
->>
->> BTW, docker seems to be working fine, just tried with "make
->> docker-test-build@debian-armhf-cross J=3Dn"
->>
->
-> Turns out I had to rerun ./configure (it didn't include HAVE_USER_DOCKER
-> for some reason).
-
-Yeah that was a relatively recent addition rather than dynamically
-probing everytime we ran.
-
->
-> Sorry for the noise :)
+--------------6E2AC00B01FA9C6F14BF7105
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
 
---
-Alex Benn=C3=A9e
+Hi,=C2=A0 I found a problem that virtual machine cpu soft lockup when I=20
+attach a disk to the vm in the case that
+
+backend storage network has a large delay or IO pressure is too large.
+
+1) The disk xml which I attached is:
+
+ =C2=A0=C2=A0=C2=A0 <disk type=3D'block' device=3D'lun' rawio=3D'yes'>
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <driver name=3D'qemu' type=3D'raw' cache=3D=
+'none' io=3D'native'/>
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <source dev=3D'/dev/mapper/360022a11000c1=
+e0a0787c23a000001cb'/>
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <backingStore/>
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <target dev=3D'sdb' bus=3D'scsi'/>
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <alias name=3D'scsi0-0-1-0'/>
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <address type=3D'drive' controller=3D'0' =
+bus=3D'0' target=3D'1' unit=3D'0'/>
+ =C2=A0=C2=A0=C2=A0 </disk>
+
+2) The bt of qemu main thread:
+
+#0 0x0000ffff9d78402c in pread64 () from /lib64/libpthread.so.0
+#1 0x0000aaaace3357d8 in pread64 (__offset=3D0, __nbytes=3D4096,=20
+__buf=3D0xaaaad47a5200, __fd=3D202) at /usr/include/bits/unistd.h:99
+#2 raw_is_io_aligned (fd=3Dfd@entry=3D202, buf=3Dbuf@entry=3D0xaaaad47a52=
+00,=20
+len=3Dlen@entry=3D4096) at block/raw_posix.c:294
+#3 0x0000aaaace33597c in raw_probe_alignment=20
+(bs=3Dbs@entry=3D0xaaaad32ea920, fd=3D202, errp=3Derrp@entry=3D0xfffffef7=
+a330) at=20
+block/raw_posix.c:349
+#4 0x0000aaaace335a48 in raw_refresh_limits (bs=3D0xaaaad32ea920,=20
+errp=3D0xfffffef7a330) at block/raw_posix.c:811
+#5 0x0000aaaace3404b0 in bdrv_refresh_limits (bs=3D0xaaaad32ea920,=20
+errp=3D0xfffffef7a330, errp@entry=3D0xfffffef7a360) at block/io.c:122
+#6 0x0000aaaace340504 in bdrv_refresh_limits=20
+(bs=3Dbs@entry=3D0xaaaad09ce800, errp=3Derrp@entry=3D0xfffffef7a3b0) at=20
+block/io.c:97
+#7 0x0000aaaace2eb9f0 in bdrv_open_common (bs=3Dbs@entry=3D0xaaaad09ce800=
+,=20
+file=3Dfile@entry=3D0xaaaad0e89800, options=3D<optimized out>,=20
+errp=3Derrp@entry=3D0xfffffef7a450)
+at block.c:1194
+#8 0x0000aaaace2eedec in bdrv_open_inherit (filename=3D<optimized out>,=20
+filename@entry=3D0xaaaad25f92d0=20
+"/dev/mapper/36384c4f100630193359db7a80000011d",
+reference=3Dreference@entry=3D0x0, options=3D<optimized out>,=20
+options@entry=3D0xaaaad3d0f4b0, flags=3D<optimized out>, flags@entry=3D12=
+8,=20
+parent=3Dparent@entry=3D0x0,
+child_role=3Dchild_role@entry=3D0x0, errp=3Derrp@entry=3D0xfffffef7a710) =
+at=20
+block.c:1895
+#9 0x0000aaaace2ef510 in bdrv_open=20
+(filename=3Dfilename@entry=3D0xaaaad25f92d0=20
+"/dev/mapper/36384c4f100630193359db7a80000011d",=20
+reference=3Dreference@entry=3D0x0,
+options=3Doptions@entry=3D0xaaaad3d0f4b0, flags=3Dflags@entry=3D128,=20
+errp=3Derrp@entry=3D0xfffffef7a710) at block.c:1979
+#10 0x0000aaaace331ef0 in blk_new_open=20
+(filename=3Dfilename@entry=3D0xaaaad25f92d0=20
+"/dev/mapper/36384c4f100630193359db7a80000011d",=20
+reference=3Dreference@entry=3D0x0,
+options=3Doptions@entry=3D0xaaaad3d0f4b0, flags=3D128,=20
+errp=3Derrp@entry=3D0xfffffef7a710) at block/block_backend.c:213
+#11 0x0000aaaace0da1f4 in blockdev_init (file=3Dfile@entry=3D0xaaaad25f92=
+d0=20
+"/dev/mapper/36384c4f100630193359db7a80000011d",=20
+bs_opts=3Dbs_opts@entry=3D0xaaaad3d0f4b0,
+errp=3Derrp@entry=3D0xfffffef7a710) at blockdev.c:603
+#12 0x0000aaaace0dc478 in drive_new=20
+(all_opts=3Dall_opts@entry=3D0xaaaad4dc31d0, block_default_type=3D<optimi=
+zed=20
+out>) at blockdev.c:1116
+#13 0x0000aaaace0e3ee0 in add_init_drive (
+optstr=3Doptstr@entry=3D0xaaaad0872ec0=20
+"file=3D/dev/mapper/36384c4f100630193359db7a80000011d,format=3Draw,if=3Dn=
+one,id=3Ddrive-scsi0-0-0-3,cache=3Dnone,aio=3Dnative")
+at device_hotplug.c:46
+#14 0x0000aaaace0e3f78 in hmp_drive_add (mon=3D0xfffffef7a810,=20
+qdict=3D0xaaaad0c8f000) at device_hotplug.c:67
+#15 0x0000aaaacdf7d688 in handle_hmp_command (mon=3D0xfffffef7a810,=20
+cmdline=3D<optimized out>) at /usr/src/debug/qemu-kvm-2.8.1/monitor.c:319=
+9
+#16 0x0000aaaacdf7d778 in qmp_human_monitor_command (
+command_line=3D0xaaaacfc8e3c0 "drive_add dummy=20
+file=3D/dev/mapper/36384c4f100630193359db7a80000011d,format=3Draw,if=3Dno=
+ne,id=3Ddrive-scsi0-0-0-3,cache=3Dnone,aio=3Dnative",=20
+
+has_cpu_index=3Dfalse, cpu_index=3D0, errp=3Derrp@entry=3D0xfffffef7a968)=
+ at=20
+/usr/src/debug/qemu-kvm-2.8.1/monitor.c:660
+#17 0x0000aaaace0fdb30 in qmp_marshal_human_monitor_command=20
+(args=3D<optimized out>, ret=3D0xfffffef7a9e0, errp=3D0xfffffef7a9d8) at=20
+qmp-marshal.c:2223
+#18 0x0000aaaace3b6ad0 in do_qmp_dispatch (request=3D<optimized out>,=20
+errp=3D0xfffffef7aa20, errp@entry=3D0xfffffef7aa40) at qapi/qmp_dispatch.=
+c:115
+#19 0x0000aaaace3b6d58 in qmp_dispatch (request=3D<optimized out>) at=20
+qapi/qmp_dispatch.c:142
+#20 0x0000aaaacdf79398 in handle_qmp_command (parser=3D<optimized out>,=20
+tokens=3D<optimized out>) at /usr/src/debug/qemu-kvm-2.8.1/monitor.c:4010
+#21 0x0000aaaace3bd6c0 in json_message_process_token=20
+(lexer=3D0xaaaacf834c80, input=3D<optimized out>, type=3DJSON_RCURLY, x=3D=
+214,=20
+y=3D274) at qobject/json_streamer.c:105
+#22 0x0000aaaace3f3d4c in json_lexer_feed_char=20
+(lexer=3Dlexer@entry=3D0xaaaacf834c80, ch=3D<optimized out>,=20
+flush=3Dflush@entry=3Dfalse) at qobject/json_lexer.c:319
+#23 0x0000aaaace3f3e6c in json_lexer_feed (lexer=3D0xaaaacf834c80,=20
+buffer=3D<optimized out>, size=3D<optimized out>) at qobject/json_lexer.c=
+:369
+#24 0x0000aaaacdf77c64 in monitor_qmp_read (opaque=3D<optimized out>,=20
+buf=3D<optimized out>, size=3D<optimized out>) at=20
+/usr/src/debug/qemu-kvm-2.8.1/monitor.c:4040
+#25 0x0000aaaace0eab18 in tcp_chr_read (chan=3D<optimized out>,=20
+cond=3D<optimized out>, opaque=3D0xaaaacf90b280) at qemu_char.c:3260
+#26 0x0000ffff9dadf200 in g_main_context_dispatch () from=20
+/lib64/libglib-2.0.so.0
+#27 0x0000aaaace3c4a00 in glib_pollfds_poll () at util/main_loop.c:230
+--Type <RET> for more, q to quit, c to continue without paging--
+#28 0x0000aaaace3c4a88 in os_host_main_loop_wait (timeout=3D<optimized=20
+out>) at util/main_loop.c:278
+#29 0x0000aaaace3c4bf0 in main_loop_wait (nonblocking=3D<optimized out>)=20
+at util/main_loop.c:534
+#30 0x0000aaaace0f5d08 in main_loop () at vl.c:2120
+#31 0x0000aaaacdf3a770 in main (argc=3D<optimized out>, argv=3D<optimized=
+=20
+out>, envp=3D<optimized out>) at vl.c:5017
+
+3)The bt of vcpu thread
+
+ From the bt we can see,=C2=A0 when do qmp sush as drive_add,=C2=A0 qemu =
+main=20
+thread locks the qemu_global_mutex=C2=A0 and do pread in raw_probe_alignm=
+en.=20
+Pread
+
+is a synchronous operation. If backend storage network has a large delay=20
+or IO pressure is too large,=C2=A0 the pread operation will not return fo=
+r a=20
+long time, which
+
+make vcpu thread can't acquire qemu_global_mutex for a long time and=20
+make the vcpu thread unable to be scheduled for a long time.=C2=A0 So vir=
+tual=20
+machine cpu soft lockup happened.
+
+
+I thank=C2=A0 qemu main thread should not hold qemu_global_mutex for a lo=
+ng=20
+time when do qmp that involving IO synchronous operation sush pread ,=20
+ioctl, etc.
+
+Do you have any solutions or good ideas about it? Thanks for your reply!
+
+
+
+
+
+
+--------------6E2AC00B01FA9C6F14BF7105
+Content-Type: text/x-vcard; name="lizhengui.vcf"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="lizhengui.vcf"
+
+bnVsbA==
+--------------6E2AC00B01FA9C6F14BF7105--
 
