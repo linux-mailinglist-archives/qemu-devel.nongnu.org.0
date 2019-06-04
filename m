@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DAF33E74
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 07:37:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46063 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A57F33E69
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 07:33:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46000 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY28d-0005Kc-2U
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 01:37:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43393)
+	id 1hY258-0002t2-HG
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 01:33:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43547)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hY22s-0001wH-GZ
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:31:39 -0400
+	(envelope-from <philmd@redhat.com>) id 1hY23M-0002GV-7P
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:32:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hY22r-0001sG-CF
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:31:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51504)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hY22r-0001qw-78
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:31:37 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1C4CD308795D;
-	Tue,  4 Jun 2019 05:31:36 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
-	[10.36.116.148])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 651A35D9CC;
-	Tue,  4 Jun 2019 05:31:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id E996A11386A0; Tue,  4 Jun 2019 07:31:29 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190531192429.GH22103@habkost.net>
-	<93e5101f-67f1-a416-5e80-f16371a35e6a@redhat.com>
-	<871s0asvli.fsf@dusky.pond.sub.org>
-	<236db86d-52df-5537-4f33-f3c09bbb6289@redhat.com>
-	<CAFEAcA_bSzWYu5Oa_knq2SAK9Z3RN3LZjxeirVncgRQ9FsDZXA@mail.gmail.com>
-	<b4de3161-7b9c-debc-a652-21832612ebf4@redhat.com>
-	<CAFEAcA-+2Csn4wW8xLaogJrQiqc2xHrGKFc_zdaOMKNn-yas9g@mail.gmail.com>
-Date: Tue, 04 Jun 2019 07:31:29 +0200
-In-Reply-To: <CAFEAcA-+2Csn4wW8xLaogJrQiqc2xHrGKFc_zdaOMKNn-yas9g@mail.gmail.com>
-	(Peter Maydell's message of "Mon, 3 Jun 2019 19:27:00 +0100")
-Message-ID: <87lfyhq5la.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+	(envelope-from <philmd@redhat.com>) id 1hY23L-0002UY-By
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:32:08 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:45575)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hY23L-0002Sg-6W
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 01:32:07 -0400
+Received: by mail-wr1-f66.google.com with SMTP id b18so14310515wrq.12
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 22:32:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=ME+de7G7kPlvL1eBvVBSn8nzj27BFrwDCVfSAJv+SO4=;
+	b=gktoRUX2IuaIxi1b2h9vtb68rcnPwFUGFWi5vxzedlm3EJeYQU3E+ZTj+22qcYrX+K
+	ctNtT0kQV4wf+cFtUmUvWgcm8+E/F0e91BOHxnTjd+41woz5/2jC7YjbQ2pmsoHcoXx+
+	75OJtK78F4VsD59TtJI3wEZw4BlLcWAa6nLt3DmPokuVVj3AUH9o4FMZWwMaMcht8NBI
+	ODmQEbqXyM5TRwoqYeW+cbdEo3Hun0vDC3sCDYIormVwrT0yMjOIhtO69U/E8WV0xkrt
+	eGuCa7klZIAtVTgqw7EQNtIEnkFaIWcJKM1dXFEaqenIBYUtc8WQTQiGju8DdsRxRN+o
+	RVXA==
+X-Gm-Message-State: APjAAAVaJ/8/qX6gQP2+EyG/8lu4TslqZFqCKslRPP1sMcFlsA6bWpyV
+	9wCTMCKGFIqNjh6FTaLKRpFviA==
+X-Google-Smtp-Source: APXvYqzT9N/M3X5lQy2B7gp0saazMw9qhqD2okJhq+J1NzRZlIFdNk9MZLZ8LN+a2vgd+uAsG54+uw==
+X-Received: by 2002:a5d:554f:: with SMTP id g15mr18911020wrw.318.1559626326085;
+	Mon, 03 Jun 2019 22:32:06 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+	[88.21.202.183])
+	by smtp.gmail.com with ESMTPSA id v6sm5235772wru.6.2019.06.03.22.32.05
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Jun 2019 22:32:05 -0700 (PDT)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190531134315.4109-1-richard.henderson@linaro.org>
+	<20190531134315.4109-13-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <ca987c52-f3c2-9799-2c7a-312c87e00e2a@redhat.com>
+Date: Tue, 4 Jun 2019 07:32:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.45]);
-	Tue, 04 Jun 2019 05:31:36 +0000 (UTC)
+In-Reply-To: <20190531134315.4109-13-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Deprecation policy and build dependencies
+	[fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v16 12/23] target/rx: Add RX to SysEmuTarget
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,53 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On 5/31/19 3:43 PM, Richard Henderson wrote:
+> Fixes check-qtest-rx: tests/qmp-cmd-test
+> 
+> Cc: Eric Blake <eblake@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  qapi/common.json | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/qapi/common.json b/qapi/common.json
+> index 99d313ef3b..d0fc931159 100644
+> --- a/qapi/common.json
+> +++ b/qapi/common.json
+> @@ -183,6 +183,7 @@
+>  #        is true even for "qemu-system-x86_64".
+>  #
+>  # ppcemb: dropped in 3.1
+> +# rx: added in 4.1
+>  #
+>  # Since: 3.0
+>  ##
+> @@ -190,6 +191,6 @@
+>    'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
+>               'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+>               'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+> -             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
+> +             'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+>               'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
+>               'x86_64', 'xtensa', 'xtensaeb' ] }
+> 
 
-> On Mon, 3 Jun 2019 at 19:21, John Snow <jsnow@redhat.com> wrote:
->> I get it, we don't want to require Python 3.8 because some dev wanted
->> assignment conditionals -- but we're talking about Python 2 here, which
->> suffers its EOL by the end of this calendar year.
-
-"Not because some dev wanted assignment conditionals" is the non-reason.
-Let me spell out the reason: supporting Python 2 is expensive for us.
-As the amount of Python code grows, it gets more and more expensive.
-
-Is this really time and effort well spent?
-
->> So do we think it's reasonable to drop support for Python2 for the
->> release that comes out after Python2's EOL, or do we insist on 2x3
->> simultaneous support for years more?
->
-> I don't have a strong opinion on Python in particular, but
-> I think it would be nicer to avoid the "python is a special
-> snowflake" effect.
-
-Lots of things are nice.  Limited resources dictate we can only get some
-of them.
-
->                    Would it really be so bad for it to just
-> be "drop it when it falls off the last LTS distro" like the
-> rest of our dependencies ?
-
-In my experience maintaining and evolving the QAPI generators,
-supporting both Python 2 and 3 is a constant distraction that adds up
-over time.  It's all manual; we decided against adopting one of tool
-chains made for dealing with this mess.  I'd rather think about how to
-solve real user problems like deprecation information or command line
-introspection than deal with Python 2 vs. 3 arcana.
-
-Just the other day, I flagged an innocent-looking simplification of some
-non-QAPI Python code that changed semantics subtly on Python 2, impact
-unknown.  The developer did not know.  The fact that I waste precious
-brain capacity on knowing this shit (pardon my French) is a bloody
-shame.  Well, some of this shit, because I've screwed it up myself, too.
-
-The sooner we stop the bleeding, the better.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
