@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80FB635158
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:51:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57833 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B523035152
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:48:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57777 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYGPU-0006lp-I8
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:51:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35661)
+	id 1hYGMO-0004Oy-OW
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:48:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35647)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8P-00014e-VN
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:20 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8P-000144-IJ
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8N-0004Bf-2d
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8O-0004CJ-93
 	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:17 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37335)
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42711)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYG8M-0004B0-RU
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:15 -0400
-Received: by mail-ot1-x344.google.com with SMTP id r10so20879844otd.4
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:14 -0700 (PDT)
+	id 1hYG8O-0004C5-3g
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:16 -0400
+Received: by mail-ot1-x342.google.com with SMTP id l15so1106097otn.9
+	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=p0tev9WgodjF1CThft5mVtLhk9/A+qxKvGcT8DHulyI=;
-	b=uB5mTd9HfW193BTpbYcv7jISo/XMoXP+78954B42EqBXMadC4pH0o3YHguyjLVLaTa
-	aguqXHmgAMZArWWQKuJYYcvvikK9KYFLR2691+bs/tgM3O+EzxCmy/hrchhMnfPuGOIY
-	rk9apBxp7HUHBXqbMPyD7i1RrWOtjlpVImZpj5f+m+QaP/vh2nF7D9wqhxqxj5zxWyCc
-	ICrDXJwImS/dM8/NmmClLAuZWbR95GfQo6dCuyDHgELHat3pgOT1y7fy2fyxJwK313Jy
-	4omRNCEfMmW/aacisVHMuUEtquXbrtJCsisE6i5gtZx3mpuxSbI54VXx9tGHKhrENO2L
-	tLmw==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=2YlJXMPiyvFoAXCG6DRvfJeW5V6xBJbkISsj/LLUjoo=;
+	b=EY322XWAvZvQJVV4QAqcLMUr0r7lRokt6qf7jl/Ge+RbsZGwQhbU+mjmGZfARFljvI
+	9COuTn3++nZZNCLrTOmx16t0E4EGkpz+V3fGcmTiuTFevGNByiKHHJPOwBDdOhria1nH
+	JS0QZw3BgJf2crmT/nmOqP7eXpdQxHcJ3rctFGUN7vWc9jN1k+wxGeYMZMrZt46A+HPb
+	llfHOI4LPljcsPfDTV0/5PDAkxayd19Q4zmPgelU5VLM24AKaAEA3eU5Y7ASfkpuRcKr
+	+bVuTPjvrBc+agIPm928DRwdYik6eop8P4T+8g7gpUFqEYcac/h4su1rXmoTVjH8FZqQ
+	OkPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=p0tev9WgodjF1CThft5mVtLhk9/A+qxKvGcT8DHulyI=;
-	b=FsHJZOcwtLC0r8A6WckOZB95BvMSGa82OtaeePBBNc9AyI/MTfjJ+ruq3xgoP7Pwjp
-	P3r9vhxNNsTV3uR7DXbdvrUw2x0FV8cYdo6kopAcF3sbcY4snCrqOvtg/qZC14WleEpQ
-	y3dpFi4WFGQS0ew1wcjVtydpveZrFmIQCSW5Zti6rJzs9E+PXm5eW+1Qn2cFyziH9gSw
-	k86Z3bNf5i4rZM1tliFylYl06k1L3jGNI1iCoXDDCqZnHaGUgKeJ+c4Zn4AZoP2I9ycr
-	ZwyRjTKmt1L0JqyL9Jmg9FPqhRXhEcgEjdshxuBSKXWth4GDFYmRoU3q5CzdDLWGUBrG
-	MdMA==
-X-Gm-Message-State: APjAAAXbqtJSF3kXAPpEnYPvw3TO5yAR6TBEjYVC1Fl0o0Z5E/HghHox
-	J7M60hyR7WZhd7XDYHFbwosEIxB2IXNImw==
-X-Google-Smtp-Source: APXvYqwsqaLNmRGYY+gI0XHgIMeLHdu+xy2LUnc6Ums1WWRJCgOaiPyoc3MOOjz5YoITxuwoYkpEow==
-X-Received: by 2002:a9d:57c6:: with SMTP id q6mr26871oti.17.1559680453498;
-	Tue, 04 Jun 2019 13:34:13 -0700 (PDT)
+	:references;
+	bh=2YlJXMPiyvFoAXCG6DRvfJeW5V6xBJbkISsj/LLUjoo=;
+	b=uNGP4PExo4M/0atpnalHCu9kwQZCSeQ6gxqLZZ018dLalhEHHb66WiZWHcdYdAwizT
+	cVEiWOfvLJPbq/0GAogC0JZhHvIoPZlCI1jYoX7KuWb4HNn09/bReqHfwZjvRrNMZ55g
+	xfqftp9sMwiPOwvlxLLPLZuSOt/sPNDeqMfASw1tnO0+f4iNBhuh20/ipurz2+kqIZnd
+	hzbPbEa6kV+w4XnLKiSR/WhUahzADvBMRWEdNCo9uQg9ZdcP/pDk8L0gXSkpVTh7SwF8
+	WHPX+M3oiJHCmqTfNCaSr5Q5jyku8s5p4SPAiozg/XTp9ThTfsBy4G5yXL808Qqvn7fA
+	vSxA==
+X-Gm-Message-State: APjAAAURYx2Vf9elj/Ay/gkD5xEEL9ElMtPWDYlNtxRJV3o6QlK3BOaR
+	fmYsjIwqBoon6efM2UV9t3LbMBdku9hJEw==
+X-Google-Smtp-Source: APXvYqzPAd2r1a21gYCNg+87yC8OzL05OdIP8rQ57voHWufr0fhm9wbnosS8kLngWqLX7r5JSzZP8w==
+X-Received: by 2002:a9d:4c17:: with SMTP id l23mr6515409otf.367.1559680455136; 
+	Tue, 04 Jun 2019 13:34:15 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.11
+	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.13
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 13:34:12 -0700 (PDT)
+	Tue, 04 Jun 2019 13:34:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 15:33:23 -0500
-Message-Id: <20190604203351.27778-12-richard.henderson@linaro.org>
+Date: Tue,  4 Jun 2019 15:33:24 -0500
+Message-Id: <20190604203351.27778-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604203351.27778-1-richard.henderson@linaro.org>
 References: <20190604203351.27778-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: [Qemu-devel] [PATCH v4 11/39] target/cris: Reindent op_helper.c
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: [Qemu-devel] [PATCH v4 12/39] target/cris: Use env_cpu, env_archcpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,969 +79,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix all of the coding style errors in this file at once.
+Cleanup in the boilerplate that each target must define.
+Replace cris_env_get_cpu with env_archcpu.  The combination
+CPU(cris_env_get_cpu) should have used ENV_GET_CPU to begin;
+use env_cpu now.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/op_helper.c | 817 +++++++++++++++++++---------------------
- 1 file changed, 398 insertions(+), 419 deletions(-)
+ target/cris/cpu.h          |  5 -----
+ linux-user/cris/cpu_loop.c |  2 +-
+ target/cris/mmu.c          |  3 +--
+ target/cris/op_helper.c    | 10 +++-------
+ target/cris/translate.c    |  2 +-
+ 5 files changed, 6 insertions(+), 16 deletions(-)
 
+diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+index 0746d19f38..e9e4e39a40 100644
+--- a/target/cris/cpu.h
++++ b/target/cris/cpu.h
+@@ -183,11 +183,6 @@ struct CRISCPU {
+     CPUCRISState env;
+ };
+ 
+-static inline CRISCPU *cris_env_get_cpu(CPUCRISState *env)
+-{
+-    return container_of(env, CRISCPU, env);
+-}
+-
+ #define ENV_OFFSET offsetof(CRISCPU, env)
+ 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/linux-user/cris/cpu_loop.c b/linux-user/cris/cpu_loop.c
+index 7ec36cb0b5..86e711108d 100644
+--- a/linux-user/cris/cpu_loop.c
++++ b/linux-user/cris/cpu_loop.c
+@@ -23,7 +23,7 @@
+ 
+ void cpu_loop(CPUCRISState *env)
+ {
+-    CPUState *cs = CPU(cris_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+     int trapnr, ret;
+     target_siginfo_t info;
+     
+diff --git a/target/cris/mmu.c b/target/cris/mmu.c
+index 9cb73bbfec..2acbcfd1c7 100644
+--- a/target/cris/mmu.c
++++ b/target/cris/mmu.c
+@@ -288,7 +288,6 @@ static int cris_mmu_translate_page(struct cris_mmu_result *res,
+ 
+ void cris_mmu_flush_pid(CPUCRISState *env, uint32_t pid)
+ {
+-    CRISCPU *cpu = cris_env_get_cpu(env);
+     target_ulong vaddr;
+     unsigned int idx;
+     uint32_t lo, hi;
+@@ -312,7 +311,7 @@ void cris_mmu_flush_pid(CPUCRISState *env, uint32_t pid)
+                 if (tlb_v && !tlb_g && (tlb_pid == pid)) {
+                     vaddr = tlb_vpn << TARGET_PAGE_BITS;
+                     D_LOG("flush pid=%x vaddr=%x\n", pid, vaddr);
+-                    tlb_flush_page(CPU(cpu), vaddr);
++                    tlb_flush_page(env_cpu(env), vaddr);
+                 }
+             }
+         }
 diff --git a/target/cris/op_helper.c b/target/cris/op_helper.c
-index 26a395b413..e4c6942922 100644
+index e4c6942922..6b1e7ae4a8 100644
 --- a/target/cris/op_helper.c
 +++ b/target/cris/op_helper.c
-@@ -48,9 +48,10 @@ void helper_raise_exception(CPUCRISState *env, uint32_t index)
- void helper_tlb_flush_pid(CPUCRISState *env, uint32_t pid)
+@@ -39,7 +39,7 @@
+ 
+ void helper_raise_exception(CPUCRISState *env, uint32_t index)
+ {
+-    CPUState *cs = CPU(cris_env_get_cpu(env));
++    CPUState *cs = env_cpu(env);
+ 
+     cs->exception_index = index;
+     cpu_loop_exit(cs);
+@@ -58,8 +58,7 @@ void helper_tlb_flush_pid(CPUCRISState *env, uint32_t pid)
+ void helper_spc_write(CPUCRISState *env, uint32_t new_spc)
  {
  #if !defined(CONFIG_USER_ONLY)
--	pid &= 0xff;
--	if (pid != (env->pregs[PR_PID] & 0xff))
--		cris_mmu_flush_pid(env, env->pregs[PR_PID]);
-+    pid &= 0xff;
-+    if (pid != (env->pregs[PR_PID] & 0xff)) {
-+        cris_mmu_flush_pid(env, env->pregs[PR_PID]);
-+    }
- #endif
- }
+-    CRISCPU *cpu = cris_env_get_cpu(env);
+-    CPUState *cs = CPU(cpu);
++    CPUState *cs = env_cpu(env);
  
-@@ -66,541 +67,519 @@ void helper_spc_write(CPUCRISState *env, uint32_t new_spc)
- }
- 
- /* Used by the tlb decoder.  */
--#define EXTRACT_FIELD(src, start, end) \
--	    (((src) >> start) & ((1 << (end - start + 1)) - 1))
-+#define EXTRACT_FIELD(src, start, end)                  \
-+    (((src) >> start) & ((1 << (end - start + 1)) - 1))
+     tlb_flush_page(cs, env->pregs[PR_SPC]);
+     tlb_flush_page(cs, new_spc);
+@@ -72,9 +71,6 @@ void helper_spc_write(CPUCRISState *env, uint32_t new_spc)
  
  void helper_movl_sreg_reg(CPUCRISState *env, uint32_t sreg, uint32_t reg)
  {
- #if !defined(CONFIG_USER_ONLY)
-     CRISCPU *cpu = cris_env_get_cpu(env);
- #endif
--	uint32_t srs;
--	srs = env->pregs[PR_SRS];
--	srs &= 3;
--	env->sregs[srs][sreg] = env->regs[reg];
-+    uint32_t srs;
-+    srs = env->pregs[PR_SRS];
-+    srs &= 3;
-+    env->sregs[srs][sreg] = env->regs[reg];
+-#if !defined(CONFIG_USER_ONLY)
+-    CRISCPU *cpu = cris_env_get_cpu(env);
+-#endif
+     uint32_t srs;
+     srs = env->pregs[PR_SRS];
+     srs &= 3;
+@@ -112,7 +108,7 @@ void helper_movl_sreg_reg(CPUCRISState *env, uint32_t sreg, uint32_t reg)
+             D_LOG("tlb flush vaddr=%x v=%d pc=%x\n",
+                   vaddr, tlb_v, env->pc);
+             if (tlb_v) {
+-                tlb_flush_page(CPU(cpu), vaddr);
++                tlb_flush_page(env_cpu(env), vaddr);
+             }
+         }
+     }
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index 31b40a57f9..3429a3b768 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -3097,7 +3097,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+      * delayslot, like in real hw.
+      */
+     pc_start = tb->pc & ~1;
+-    dc->cpu = cris_env_get_cpu(env);
++    dc->cpu = env_archcpu(env);
+     dc->tb = tb;
  
- #if !defined(CONFIG_USER_ONLY)
--	if (srs == 1 || srs == 2) {
--		if (sreg == 6) {
--			/* Writes to tlb-hi write to mm_cause as a side 
--			   effect.  */
--			env->sregs[SFR_RW_MM_TLB_HI] = env->regs[reg];
--			env->sregs[SFR_R_MM_CAUSE] = env->regs[reg];
--		}
--		else if (sreg == 5) {
--			uint32_t set;
--			uint32_t idx;
--			uint32_t lo, hi;
--			uint32_t vaddr;
--			int tlb_v;
-+    if (srs == 1 || srs == 2) {
-+        if (sreg == 6) {
-+            /* Writes to tlb-hi write to mm_cause as a side effect.  */
-+            env->sregs[SFR_RW_MM_TLB_HI] = env->regs[reg];
-+            env->sregs[SFR_R_MM_CAUSE] = env->regs[reg];
-+        } else if (sreg == 5) {
-+            uint32_t set;
-+            uint32_t idx;
-+            uint32_t lo, hi;
-+            uint32_t vaddr;
-+            int tlb_v;
- 
--			idx = set = env->sregs[SFR_RW_MM_TLB_SEL];
--			set >>= 4;
--			set &= 3;
-+            idx = set = env->sregs[SFR_RW_MM_TLB_SEL];
-+            set >>= 4;
-+            set &= 3;
- 
--			idx &= 15;
--			/* We've just made a write to tlb_lo.  */
--			lo = env->sregs[SFR_RW_MM_TLB_LO];
--			/* Writes are done via r_mm_cause.  */
--			hi = env->sregs[SFR_R_MM_CAUSE];
-+            idx &= 15;
-+            /* We've just made a write to tlb_lo.  */
-+            lo = env->sregs[SFR_RW_MM_TLB_LO];
-+            /* Writes are done via r_mm_cause.  */
-+            hi = env->sregs[SFR_R_MM_CAUSE];
- 
--			vaddr = EXTRACT_FIELD(env->tlbsets[srs-1][set][idx].hi,
--					      13, 31);
--			vaddr <<= TARGET_PAGE_BITS;
--			tlb_v = EXTRACT_FIELD(env->tlbsets[srs-1][set][idx].lo,
--					    3, 3);
--			env->tlbsets[srs - 1][set][idx].lo = lo;
--			env->tlbsets[srs - 1][set][idx].hi = hi;
-+            vaddr = EXTRACT_FIELD(env->tlbsets[srs - 1][set][idx].hi, 13, 31);
-+            vaddr <<= TARGET_PAGE_BITS;
-+            tlb_v = EXTRACT_FIELD(env->tlbsets[srs - 1][set][idx].lo, 3, 3);
-+            env->tlbsets[srs - 1][set][idx].lo = lo;
-+            env->tlbsets[srs - 1][set][idx].hi = hi;
- 
--			D_LOG("tlb flush vaddr=%x v=%d pc=%x\n", 
--				  vaddr, tlb_v, env->pc);
--			if (tlb_v) {
-+            D_LOG("tlb flush vaddr=%x v=%d pc=%x\n",
-+                  vaddr, tlb_v, env->pc);
-+            if (tlb_v) {
-                 tlb_flush_page(CPU(cpu), vaddr);
--			}
--		}
--	}
-+            }
-+        }
-+    }
- #endif
- }
- 
- void helper_movl_reg_sreg(CPUCRISState *env, uint32_t reg, uint32_t sreg)
- {
--	uint32_t srs;
--	env->pregs[PR_SRS] &= 3;
--	srs = env->pregs[PR_SRS];
--	
-+    uint32_t srs;
-+    env->pregs[PR_SRS] &= 3;
-+    srs = env->pregs[PR_SRS];
-+
- #if !defined(CONFIG_USER_ONLY)
--	if (srs == 1 || srs == 2)
--	{
--		uint32_t set;
--		uint32_t idx;
--		uint32_t lo, hi;
-+    if (srs == 1 || srs == 2) {
-+        uint32_t set;
-+        uint32_t idx;
-+        uint32_t lo, hi;
- 
--		idx = set = env->sregs[SFR_RW_MM_TLB_SEL];
--		set >>= 4;
--		set &= 3;
--		idx &= 15;
-+        idx = set = env->sregs[SFR_RW_MM_TLB_SEL];
-+        set >>= 4;
-+        set &= 3;
-+        idx &= 15;
- 
--		/* Update the mirror regs.  */
--		hi = env->tlbsets[srs - 1][set][idx].hi;
--		lo = env->tlbsets[srs - 1][set][idx].lo;
--		env->sregs[SFR_RW_MM_TLB_HI] = hi;
--		env->sregs[SFR_RW_MM_TLB_LO] = lo;
--	}
-+        /* Update the mirror regs.  */
-+        hi = env->tlbsets[srs - 1][set][idx].hi;
-+        lo = env->tlbsets[srs - 1][set][idx].lo;
-+        env->sregs[SFR_RW_MM_TLB_HI] = hi;
-+        env->sregs[SFR_RW_MM_TLB_LO] = lo;
-+    }
- #endif
--	env->regs[reg] = env->sregs[srs][sreg];
-+    env->regs[reg] = env->sregs[srs][sreg];
- }
- 
- static void cris_ccs_rshift(CPUCRISState *env)
- {
--	uint32_t ccs;
-+    uint32_t ccs;
- 
--	/* Apply the ccs shift.  */
--	ccs = env->pregs[PR_CCS];
--	ccs = (ccs & 0xc0000000) | ((ccs & 0x0fffffff) >> 10);
--	if (ccs & U_FLAG)
--	{
--		/* Enter user mode.  */
--		env->ksp = env->regs[R_SP];
--		env->regs[R_SP] = env->pregs[PR_USP];
--	}
-+    /* Apply the ccs shift.  */
-+    ccs = env->pregs[PR_CCS];
-+    ccs = (ccs & 0xc0000000) | ((ccs & 0x0fffffff) >> 10);
-+    if (ccs & U_FLAG) {
-+        /* Enter user mode.  */
-+        env->ksp = env->regs[R_SP];
-+        env->regs[R_SP] = env->pregs[PR_USP];
-+    }
- 
--	env->pregs[PR_CCS] = ccs;
-+    env->pregs[PR_CCS] = ccs;
- }
- 
- void helper_rfe(CPUCRISState *env)
- {
--	int rflag = env->pregs[PR_CCS] & R_FLAG;
-+    int rflag = env->pregs[PR_CCS] & R_FLAG;
- 
--	D_LOG("rfe: erp=%x pid=%x ccs=%x btarget=%x\n", 
--		 env->pregs[PR_ERP], env->pregs[PR_PID],
--		 env->pregs[PR_CCS],
--		 env->btarget);
-+    D_LOG("rfe: erp=%x pid=%x ccs=%x btarget=%x\n",
-+          env->pregs[PR_ERP], env->pregs[PR_PID],
-+          env->pregs[PR_CCS],
-+          env->btarget);
- 
--	cris_ccs_rshift(env);
-+    cris_ccs_rshift(env);
- 
--	/* RFE sets the P_FLAG only if the R_FLAG is not set.  */
--	if (!rflag)
--		env->pregs[PR_CCS] |= P_FLAG;
-+    /* RFE sets the P_FLAG only if the R_FLAG is not set.  */
-+    if (!rflag) {
-+        env->pregs[PR_CCS] |= P_FLAG;
-+    }
- }
- 
- void helper_rfn(CPUCRISState *env)
- {
--	int rflag = env->pregs[PR_CCS] & R_FLAG;
-+    int rflag = env->pregs[PR_CCS] & R_FLAG;
- 
--	D_LOG("rfn: erp=%x pid=%x ccs=%x btarget=%x\n", 
--		 env->pregs[PR_ERP], env->pregs[PR_PID],
--		 env->pregs[PR_CCS],
--		 env->btarget);
-+    D_LOG("rfn: erp=%x pid=%x ccs=%x btarget=%x\n",
-+          env->pregs[PR_ERP], env->pregs[PR_PID],
-+          env->pregs[PR_CCS],
-+          env->btarget);
- 
--	cris_ccs_rshift(env);
-+    cris_ccs_rshift(env);
- 
--	/* Set the P_FLAG only if the R_FLAG is not set.  */
--	if (!rflag)
--		env->pregs[PR_CCS] |= P_FLAG;
-+    /* Set the P_FLAG only if the R_FLAG is not set.  */
-+    if (!rflag) {
-+        env->pregs[PR_CCS] |= P_FLAG;
-+    }
- 
--	/* Always set the M flag.  */
--	env->pregs[PR_CCS] |= M_FLAG_V32;
-+    /* Always set the M flag.  */
-+    env->pregs[PR_CCS] |= M_FLAG_V32;
- }
- 
- uint32_t helper_btst(CPUCRISState *env, uint32_t t0, uint32_t t1, uint32_t ccs)
- {
--	/* FIXME: clean this up.  */
-+    /* FIXME: clean this up.  */
- 
--	/* des ref:
--	   The N flag is set according to the selected bit in the dest reg.
--	   The Z flag is set if the selected bit and all bits to the right are
--	   zero.
--	   The X flag is cleared.
--	   Other flags are left untouched.
--	   The destination reg is not affected.*/
--	unsigned int fz, sbit, bset, mask, masked_t0;
-+    /*
-+     * des ref:
-+     *  The N flag is set according to the selected bit in the dest reg.
-+     *  The Z flag is set if the selected bit and all bits to the right are
-+     *  zero.
-+     *  The X flag is cleared.
-+     *  Other flags are left untouched.
-+     *  The destination reg is not affected.
-+     */
-+    unsigned int fz, sbit, bset, mask, masked_t0;
- 
--	sbit = t1 & 31;
--	bset = !!(t0 & (1 << sbit));
--	mask = sbit == 31 ? -1 : (1 << (sbit + 1)) - 1;
--	masked_t0 = t0 & mask;
--	fz = !(masked_t0 | bset);
-+    sbit = t1 & 31;
-+    bset = !!(t0 & (1 << sbit));
-+    mask = sbit == 31 ? -1 : (1 << (sbit + 1)) - 1;
-+    masked_t0 = t0 & mask;
-+    fz = !(masked_t0 | bset);
- 
--	/* Clear the X, N and Z flags.  */
--	ccs = ccs & ~(X_FLAG | N_FLAG | Z_FLAG);
--	if (env->pregs[PR_VR] < 32)
--		ccs &= ~(V_FLAG | C_FLAG);
--	/* Set the N and Z flags accordingly.  */
--	ccs |= (bset << 3) | (fz << 2);
--	return ccs;
-+    /* Clear the X, N and Z flags.  */
-+    ccs = ccs & ~(X_FLAG | N_FLAG | Z_FLAG);
-+    if (env->pregs[PR_VR] < 32) {
-+        ccs &= ~(V_FLAG | C_FLAG);
-+    }
-+    /* Set the N and Z flags accordingly.  */
-+    ccs |= (bset << 3) | (fz << 2);
-+    return ccs;
- }
- 
- static inline uint32_t evaluate_flags_writeback(CPUCRISState *env,
-                                                 uint32_t flags, uint32_t ccs)
- {
--	unsigned int x, z, mask;
-+    unsigned int x, z, mask;
- 
--	/* Extended arithmetics, leave the z flag alone.  */
--	x = env->cc_x;
--	mask = env->cc_mask | X_FLAG;
--        if (x) {
--		z = flags & Z_FLAG;
--		mask = mask & ~z;
--	}
--	flags &= mask;
-+    /* Extended arithmetics, leave the z flag alone.  */
-+    x = env->cc_x;
-+    mask = env->cc_mask | X_FLAG;
-+    if (x) {
-+        z = flags & Z_FLAG;
-+        mask = mask & ~z;
-+    }
-+    flags &= mask;
- 
--	/* all insn clear the x-flag except setf or clrf.  */
--	ccs &= ~mask;
--	ccs |= flags;
--	return ccs;
-+    /* all insn clear the x-flag except setf or clrf.  */
-+    ccs &= ~mask;
-+    ccs |= flags;
-+    return ccs;
- }
- 
- uint32_t helper_evaluate_flags_muls(CPUCRISState *env,
-                                     uint32_t ccs, uint32_t res, uint32_t mof)
- {
--	uint32_t flags = 0;
--	int64_t tmp;
--	int dneg;
-+    uint32_t flags = 0;
-+    int64_t tmp;
-+    int dneg;
- 
--	dneg = ((int32_t)res) < 0;
-+    dneg = ((int32_t)res) < 0;
- 
--	tmp = mof;
--	tmp <<= 32;
--	tmp |= res;
--	if (tmp == 0)
--		flags |= Z_FLAG;
--	else if (tmp < 0)
--		flags |= N_FLAG;
--	if ((dneg && mof != -1)
--	    || (!dneg && mof != 0))
--		flags |= V_FLAG;
--        return evaluate_flags_writeback(env, flags, ccs);
-+    tmp = mof;
-+    tmp <<= 32;
-+    tmp |= res;
-+    if (tmp == 0) {
-+        flags |= Z_FLAG;
-+    } else if (tmp < 0) {
-+        flags |= N_FLAG;
-+    }
-+    if ((dneg && mof != -1) || (!dneg && mof != 0)) {
-+        flags |= V_FLAG;
-+    }
-+    return evaluate_flags_writeback(env, flags, ccs);
- }
- 
- uint32_t helper_evaluate_flags_mulu(CPUCRISState *env,
-                                     uint32_t ccs, uint32_t res, uint32_t mof)
- {
--	uint32_t flags = 0;
--	uint64_t tmp;
-+    uint32_t flags = 0;
-+    uint64_t tmp;
- 
--	tmp = mof;
--	tmp <<= 32;
--	tmp |= res;
--	if (tmp == 0)
--		flags |= Z_FLAG;
--	else if (tmp >> 63)
--		flags |= N_FLAG;
--	if (mof)
--		flags |= V_FLAG;
-+    tmp = mof;
-+    tmp <<= 32;
-+    tmp |= res;
-+    if (tmp == 0) {
-+        flags |= Z_FLAG;
-+    } else if (tmp >> 63) {
-+        flags |= N_FLAG;
-+    }
-+    if (mof) {
-+        flags |= V_FLAG;
-+    }
- 
--        return evaluate_flags_writeback(env, flags, ccs);
-+    return evaluate_flags_writeback(env, flags, ccs);
- }
- 
- uint32_t helper_evaluate_flags_mcp(CPUCRISState *env, uint32_t ccs,
- 				   uint32_t src, uint32_t dst, uint32_t res)
- {
--	uint32_t flags = 0;
-+    uint32_t flags = 0;
- 
--	src = src & 0x80000000;
--	dst = dst & 0x80000000;
-+    src = src & 0x80000000;
-+    dst = dst & 0x80000000;
- 
--	if ((res & 0x80000000L) != 0L)
--	{
--		flags |= N_FLAG;
--		if (!src && !dst)
--			flags |= V_FLAG;
--		else if (src & dst)
--			flags |= R_FLAG;
--	}
--	else
--	{
--		if (res == 0L)
--			flags |= Z_FLAG;
--		if (src & dst) 
--			flags |= V_FLAG;
--		if (dst | src) 
--			flags |= R_FLAG;
--	}
-+    if ((res & 0x80000000L) != 0L) {
-+        flags |= N_FLAG;
-+        if (!src && !dst) {
-+            flags |= V_FLAG;
-+        } else if (src & dst) {
-+            flags |= R_FLAG;
-+        }
-+    } else {
-+        if (res == 0L) {
-+            flags |= Z_FLAG;
-+        }
-+        if (src & dst) {
-+            flags |= V_FLAG;
-+        }
-+        if (dst | src) {
-+            flags |= R_FLAG;
-+        }
-+    }
- 
--        return evaluate_flags_writeback(env, flags, ccs);
-+    return evaluate_flags_writeback(env, flags, ccs);
- }
- 
- uint32_t helper_evaluate_flags_alu_4(CPUCRISState *env, uint32_t ccs,
- 				     uint32_t src, uint32_t dst, uint32_t res)
- {
--	uint32_t flags = 0;
-+    uint32_t flags = 0;
- 
--	src = src & 0x80000000;
--	dst = dst & 0x80000000;
-+    src = src & 0x80000000;
-+    dst = dst & 0x80000000;
- 
--	if ((res & 0x80000000L) != 0L)
--	{
--		flags |= N_FLAG;
--		if (!src && !dst)
--			flags |= V_FLAG;
--		else if (src & dst)
--			flags |= C_FLAG;
--	}
--	else
--	{
--		if (res == 0L)
--			flags |= Z_FLAG;
--		if (src & dst) 
--			flags |= V_FLAG;
--		if (dst | src) 
--			flags |= C_FLAG;
--	}
-+    if ((res & 0x80000000L) != 0L) {
-+        flags |= N_FLAG;
-+        if (!src && !dst) {
-+            flags |= V_FLAG;
-+        } else if (src & dst) {
-+            flags |= C_FLAG;
-+        }
-+    } else {
-+        if (res == 0L) {
-+            flags |= Z_FLAG;
-+        }
-+        if (src & dst) {
-+            flags |= V_FLAG;
-+        }
-+        if (dst | src) {
-+            flags |= C_FLAG;
-+        }
-+    }
- 
--        return evaluate_flags_writeback(env, flags, ccs);
-+    return evaluate_flags_writeback(env, flags, ccs);
- }
- 
- uint32_t helper_evaluate_flags_sub_4(CPUCRISState *env, uint32_t ccs,
- 				     uint32_t src, uint32_t dst, uint32_t res)
- {
--	uint32_t flags = 0;
-+    uint32_t flags = 0;
- 
--	src = (~src) & 0x80000000;
--	dst = dst & 0x80000000;
-+    src = (~src) & 0x80000000;
-+    dst = dst & 0x80000000;
- 
--	if ((res & 0x80000000L) != 0L)
--	{
--		flags |= N_FLAG;
--		if (!src && !dst)
--			flags |= V_FLAG;
--		else if (src & dst)
--			flags |= C_FLAG;
--	}
--	else
--	{
--		if (res == 0L)
--			flags |= Z_FLAG;
--		if (src & dst) 
--			flags |= V_FLAG;
--		if (dst | src) 
--			flags |= C_FLAG;
--	}
-+    if ((res & 0x80000000L) != 0L) {
-+        flags |= N_FLAG;
-+        if (!src && !dst) {
-+            flags |= V_FLAG;
-+        } else if (src & dst) {
-+            flags |= C_FLAG;
-+        }
-+    } else {
-+        if (res == 0L) {
-+            flags |= Z_FLAG;
-+        }
-+        if (src & dst) {
-+            flags |= V_FLAG;
-+        }
-+        if (dst | src) {
-+            flags |= C_FLAG;
-+        }
-+    }
- 
--	flags ^= C_FLAG;
--        return evaluate_flags_writeback(env, flags, ccs);
-+    flags ^= C_FLAG;
-+    return evaluate_flags_writeback(env, flags, ccs);
- }
- 
- uint32_t helper_evaluate_flags_move_4(CPUCRISState *env,
-                                       uint32_t ccs, uint32_t res)
- {
--	uint32_t flags = 0;
-+    uint32_t flags = 0;
- 
--	if ((int32_t)res < 0)
--		flags |= N_FLAG;
--	else if (res == 0L)
--		flags |= Z_FLAG;
-+    if ((int32_t)res < 0) {
-+        flags |= N_FLAG;
-+    } else if (res == 0L) {
-+        flags |= Z_FLAG;
-+    }
- 
--        return evaluate_flags_writeback(env, flags, ccs);
-+    return evaluate_flags_writeback(env, flags, ccs);
- }
-+
- uint32_t helper_evaluate_flags_move_2(CPUCRISState *env,
-                                       uint32_t ccs, uint32_t res)
- {
--	uint32_t flags = 0;
-+    uint32_t flags = 0;
- 
--	if ((int16_t)res < 0L)
--		flags |= N_FLAG;
--	else if (res == 0)
--		flags |= Z_FLAG;
-+    if ((int16_t)res < 0L) {
-+        flags |= N_FLAG;
-+    } else if (res == 0) {
-+        flags |= Z_FLAG;
-+    }
- 
--        return evaluate_flags_writeback(env, flags, ccs);
-+    return evaluate_flags_writeback(env, flags, ccs);
- }
- 
--/* TODO: This is expensive. We could split things up and only evaluate part of
--   CCR on a need to know basis. For now, we simply re-evaluate everything.  */
-+/*
-+ * TODO: This is expensive. We could split things up and only evaluate part of
-+ * CCR on a need to know basis. For now, we simply re-evaluate everything.
-+ */
- void helper_evaluate_flags(CPUCRISState *env)
- {
--	uint32_t src, dst, res;
--	uint32_t flags = 0;
-+    uint32_t src, dst, res;
-+    uint32_t flags = 0;
- 
--	src = env->cc_src;
--	dst = env->cc_dest;
--	res = env->cc_result;
-+    src = env->cc_src;
-+    dst = env->cc_dest;
-+    res = env->cc_result;
- 
--	if (env->cc_op == CC_OP_SUB || env->cc_op == CC_OP_CMP)
--		src = ~src;
-+    if (env->cc_op == CC_OP_SUB || env->cc_op == CC_OP_CMP) {
-+        src = ~src;
-+    }
- 
--	/* Now, evaluate the flags. This stuff is based on
--	   Per Zander's CRISv10 simulator.  */
--	switch (env->cc_size)
--	{
--		case 1:
--			if ((res & 0x80L) != 0L)
--			{
--				flags |= N_FLAG;
--				if (((src & 0x80L) == 0L)
--				    && ((dst & 0x80L) == 0L))
--				{
--					flags |= V_FLAG;
--				}
--				else if (((src & 0x80L) != 0L)
--					 && ((dst & 0x80L) != 0L))
--				{
--					flags |= C_FLAG;
--				}
--			}
--			else
--			{
--				if ((res & 0xFFL) == 0L)
--				{
--					flags |= Z_FLAG;
--				}
--				if (((src & 0x80L) != 0L)
--				    && ((dst & 0x80L) != 0L))
--				{
--					flags |= V_FLAG;
--				}
--				if ((dst & 0x80L) != 0L
--				    || (src & 0x80L) != 0L)
--				{
--					flags |= C_FLAG;
--				}
--			}
--			break;
--		case 2:
--			if ((res & 0x8000L) != 0L)
--			{
--				flags |= N_FLAG;
--				if (((src & 0x8000L) == 0L)
--				    && ((dst & 0x8000L) == 0L))
--				{
--					flags |= V_FLAG;
--				}
--				else if (((src & 0x8000L) != 0L)
--					 && ((dst & 0x8000L) != 0L))
--				{
--					flags |= C_FLAG;
--				}
--			}
--			else
--			{
--				if ((res & 0xFFFFL) == 0L)
--				{
--					flags |= Z_FLAG;
--				}
--				if (((src & 0x8000L) != 0L)
--				    && ((dst & 0x8000L) != 0L))
--				{
--					flags |= V_FLAG;
--				}
--				if ((dst & 0x8000L) != 0L
--				    || (src & 0x8000L) != 0L)
--				{
--					flags |= C_FLAG;
--				}
--			}
--			break;
--		case 4:
--			if ((res & 0x80000000L) != 0L)
--			{
--				flags |= N_FLAG;
--				if (((src & 0x80000000L) == 0L)
--				    && ((dst & 0x80000000L) == 0L))
--				{
--					flags |= V_FLAG;
--				}
--				else if (((src & 0x80000000L) != 0L) &&
--					 ((dst & 0x80000000L) != 0L))
--				{
--					flags |= C_FLAG;
--				}
--			}
--			else
--			{
--				if (res == 0L)
--					flags |= Z_FLAG;
--				if (((src & 0x80000000L) != 0L)
--				    && ((dst & 0x80000000L) != 0L))
--					flags |= V_FLAG;
--				if ((dst & 0x80000000L) != 0L
--				    || (src & 0x80000000L) != 0L)
--					flags |= C_FLAG;
--			}
--			break;
--		default:
--			break;
--	}
-+    /*
-+     * Now, evaluate the flags. This stuff is based on
-+     * Per Zander's CRISv10 simulator.
-+     */
-+    switch (env->cc_size) {
-+    case 1:
-+        if ((res & 0x80L) != 0L) {
-+            flags |= N_FLAG;
-+            if (((src & 0x80L) == 0L) && ((dst & 0x80L) == 0L)) {
-+                flags |= V_FLAG;
-+            } else if (((src & 0x80L) != 0L) && ((dst & 0x80L) != 0L)) {
-+                flags |= C_FLAG;
-+            }
-+        } else {
-+            if ((res & 0xFFL) == 0L) {
-+                flags |= Z_FLAG;
-+            }
-+            if (((src & 0x80L) != 0L) && ((dst & 0x80L) != 0L)) {
-+                flags |= V_FLAG;
-+            }
-+            if ((dst & 0x80L) != 0L || (src & 0x80L) != 0L) {
-+                flags |= C_FLAG;
-+            }
-+        }
-+        break;
-+    case 2:
-+        if ((res & 0x8000L) != 0L) {
-+            flags |= N_FLAG;
-+            if (((src & 0x8000L) == 0L) && ((dst & 0x8000L) == 0L)) {
-+                flags |= V_FLAG;
-+            } else if (((src & 0x8000L) != 0L) && ((dst & 0x8000L) != 0L)) {
-+                flags |= C_FLAG;
-+            }
-+        } else {
-+            if ((res & 0xFFFFL) == 0L) {
-+                flags |= Z_FLAG;
-+            }
-+            if (((src & 0x8000L) != 0L) && ((dst & 0x8000L) != 0L)) {
-+                flags |= V_FLAG;
-+            }
-+            if ((dst & 0x8000L) != 0L || (src & 0x8000L) != 0L) {
-+                flags |= C_FLAG;
-+            }
-+        }
-+        break;
-+    case 4:
-+        if ((res & 0x80000000L) != 0L) {
-+            flags |= N_FLAG;
-+            if (((src & 0x80000000L) == 0L) && ((dst & 0x80000000L) == 0L)) {
-+                flags |= V_FLAG;
-+            } else if (((src & 0x80000000L) != 0L) &&
-+                       ((dst & 0x80000000L) != 0L)) {
-+                flags |= C_FLAG;
-+            }
-+        } else {
-+            if (res == 0L) {
-+                flags |= Z_FLAG;
-+            }
-+            if (((src & 0x80000000L) != 0L) && ((dst & 0x80000000L) != 0L)) {
-+                flags |= V_FLAG;
-+            }
-+            if ((dst & 0x80000000L) != 0L || (src & 0x80000000L) != 0L) {
-+                flags |= C_FLAG;
-+            }
-+        }
-+        break;
-+    default:
-+        break;
-+    }
- 
--	if (env->cc_op == CC_OP_SUB || env->cc_op == CC_OP_CMP)
--		flags ^= C_FLAG;
-+    if (env->cc_op == CC_OP_SUB || env->cc_op == CC_OP_CMP) {
-+        flags ^= C_FLAG;
-+    }
- 
--        env->pregs[PR_CCS] = evaluate_flags_writeback(env, flags,
--                                                      env->pregs[PR_CCS]);
-+    env->pregs[PR_CCS] = evaluate_flags_writeback(env, flags,
-+                                                  env->pregs[PR_CCS]);
- }
- 
- void helper_top_evaluate_flags(CPUCRISState *env)
- {
--	switch (env->cc_op)
--	{
--		case CC_OP_MCP:
--                        env->pregs[PR_CCS] = helper_evaluate_flags_mcp(env,
--					env->pregs[PR_CCS], env->cc_src,
--					env->cc_dest, env->cc_result);
--			break;
--		case CC_OP_MULS:
--                        env->pregs[PR_CCS] = helper_evaluate_flags_muls(env,
--					env->pregs[PR_CCS], env->cc_result,
--					env->pregs[PR_MOF]);
--			break;
--		case CC_OP_MULU:
--                        env->pregs[PR_CCS] = helper_evaluate_flags_mulu(env,
--					env->pregs[PR_CCS], env->cc_result,
--					env->pregs[PR_MOF]);
--			break;
--		case CC_OP_MOVE:
--		case CC_OP_AND:
--		case CC_OP_OR:
--		case CC_OP_XOR:
--		case CC_OP_ASR:
--		case CC_OP_LSR:
--		case CC_OP_LSL:
--		switch (env->cc_size)
--		{
--			case 4:
--				env->pregs[PR_CCS] =
--                                        helper_evaluate_flags_move_4(env,
--							env->pregs[PR_CCS],
--							env->cc_result);
--				break;
--			case 2:
--				env->pregs[PR_CCS] =
--                                        helper_evaluate_flags_move_2(env,
--							env->pregs[PR_CCS],
--							env->cc_result);
--				break;
--			default:
--                                helper_evaluate_flags(env);
--				break;
--		}
--		break;
--		case CC_OP_FLAGS:
--			/* live.  */
--			break;
--		case CC_OP_SUB:
--		case CC_OP_CMP:
--			if (env->cc_size == 4)
--				env->pregs[PR_CCS] =
--                                        helper_evaluate_flags_sub_4(env,
--						env->pregs[PR_CCS],
--						env->cc_src, env->cc_dest,
--						env->cc_result);
--			else
--                                helper_evaluate_flags(env);
--			break;
--		default:
--		{
--			switch (env->cc_size)
--			{
--			case 4:
--				env->pregs[PR_CCS] =
--                                        helper_evaluate_flags_alu_4(env,
--						env->pregs[PR_CCS],
--						env->cc_src, env->cc_dest,
--						env->cc_result);
--				break;
--			default:
--                                helper_evaluate_flags(env);
--				break;
--			}
--		}
--		break;
--	}
-+    switch (env->cc_op) {
-+    case CC_OP_MCP:
-+        env->pregs[PR_CCS]
-+            = helper_evaluate_flags_mcp(env, env->pregs[PR_CCS],
-+                                        env->cc_src, env->cc_dest,
-+                                        env->cc_result);
-+        break;
-+    case CC_OP_MULS:
-+        env->pregs[PR_CCS]
-+            = helper_evaluate_flags_muls(env, env->pregs[PR_CCS],
-+                                         env->cc_result, env->pregs[PR_MOF]);
-+        break;
-+    case CC_OP_MULU:
-+        env->pregs[PR_CCS]
-+            = helper_evaluate_flags_mulu(env, env->pregs[PR_CCS],
-+                                         env->cc_result, env->pregs[PR_MOF]);
-+        break;
-+    case CC_OP_MOVE:
-+    case CC_OP_AND:
-+    case CC_OP_OR:
-+    case CC_OP_XOR:
-+    case CC_OP_ASR:
-+    case CC_OP_LSR:
-+    case CC_OP_LSL:
-+        switch (env->cc_size) {
-+        case 4:
-+            env->pregs[PR_CCS] =
-+                helper_evaluate_flags_move_4(env,
-+                                             env->pregs[PR_CCS],
-+                                             env->cc_result);
-+            break;
-+        case 2:
-+            env->pregs[PR_CCS] =
-+                helper_evaluate_flags_move_2(env,
-+                                             env->pregs[PR_CCS],
-+                                             env->cc_result);
-+            break;
-+        default:
-+            helper_evaluate_flags(env);
-+            break;
-+        }
-+        break;
-+    case CC_OP_FLAGS:
-+        /* live.  */
-+        break;
-+    case CC_OP_SUB:
-+    case CC_OP_CMP:
-+        if (env->cc_size == 4) {
-+            env->pregs[PR_CCS] =
-+                helper_evaluate_flags_sub_4(env,
-+                                            env->pregs[PR_CCS],
-+                                            env->cc_src, env->cc_dest,
-+                                            env->cc_result);
-+        } else {
-+            helper_evaluate_flags(env);
-+        }
-+        break;
-+    default:
-+        switch (env->cc_size) {
-+        case 4:
-+            env->pregs[PR_CCS] =
-+                helper_evaluate_flags_alu_4(env,
-+                                            env->pregs[PR_CCS],
-+                                            env->cc_src, env->cc_dest,
-+                                            env->cc_result);
-+            break;
-+        default:
-+            helper_evaluate_flags(env);
-+            break;
-+        }
-+        break;
-+    }
- }
+     dc->is_jmp = DISAS_NEXT;
 -- 
 2.17.1
 
