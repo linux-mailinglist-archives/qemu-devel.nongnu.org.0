@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5584034D44
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 18:29:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55079 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED2C34D9F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 18:35:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55174 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYCJs-0003bL-E8
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 12:29:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39299)
+	id 1hYCPb-00080l-Do
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 12:35:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39360)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <damien.hedde@greensocs.com>) id 1hYCFy-0000ay-DQ
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:25:51 -0400
+	(envelope-from <damien.hedde@greensocs.com>) id 1hYCG1-0000dA-Qh
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:25:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <damien.hedde@greensocs.com>) id 1hYCFw-0003d9-SW
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:25:50 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:40564)
+	(envelope-from <damien.hedde@greensocs.com>) id 1hYCFy-0003gU-Tc
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:25:52 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:40578)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
-	id 1hYCFt-0003Wh-EE; Tue, 04 Jun 2019 12:25:45 -0400
+	id 1hYCFu-0003Xk-61; Tue, 04 Jun 2019 12:25:46 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.17.10.6])
-	by beetle.greensocs.com (Postfix) with ESMTPSA id E0A7096F60;
-	Tue,  4 Jun 2019 16:25:43 +0000 (UTC)
+	by beetle.greensocs.com (Postfix) with ESMTPSA id A3A9C96F62;
+	Tue,  4 Jun 2019 16:25:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
-	s=mail; t=1559665544;
+	s=mail; t=1559665545;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:cc:mime-version:mime-version:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=6EFLWJiXnIDh4G42bZanNNuCQdKUk7RN59mJdttTr24=;
-	b=ZiD70jtDlPpOxgyZSBUycnFNnLMtTxgs7BEla/ZZg+FZbMa3Rrir3DjEuDpd9CCSv0a/41
-	MgMP5wtDyWXyBwcQIWpLTdzNBc5aDDZm6bXowFnyj4KlCkd+gOpafn3FgU5GrwyVsFdnvl
-	GEStZHTm+6xx76hTHPXZsOnW3u3gJaA=
+	bh=uEF2McHRjJAqSo5QcKbdG0zwjTeD+AMnzAukkEqETLw=;
+	b=43MGdX14BxD16FUKTvZJ7yI+l/WUtXXPHuHI6naj/Ujy6TqVc+MUt1jyt5aPTiHQxXmVZJ
+	KzPJ6FWTR8kHxG9gVhxff4fenUTy5cStzcyZ1DRozsSfi//KTnJo5tpd5jouro3koxnOdk
+	WScFg/Z/y7Pf1nzlEW/yjpk8CMl4KJo=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 18:25:20 +0200
-Message-Id: <20190604162526.10655-7-damien.hedde@greensocs.com>
+Date: Tue,  4 Jun 2019 18:25:21 +0200
+Message-Id: <20190604162526.10655-8-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190604162526.10655-1-damien.hedde@greensocs.com>
 References: <20190604162526.10655-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
-	s=mail; t=1559665544;
+	s=mail; t=1559665545;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:cc:mime-version:mime-version:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=6EFLWJiXnIDh4G42bZanNNuCQdKUk7RN59mJdttTr24=;
-	b=LpAx+SUevuy//buTU6W3eizqRWN9mkwLktl35rSHqjP7vAOW+RtvrAKZ9ZC0M3YD2gcP7j
-	Nbks990yePPAVGZTTFRTek7p8nxUbqL2AIL5i3+ZmidROkbLkc+g+nryD8bzf9j+9nI/Vm
-	M1BCvylY2aNayhi40rewYpoY1OR1mRw=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1559665544; a=rsa-sha256; cv=none;
-	b=U0s5U0WI451qiHSzVN9FbmwVJ5Z+AdYpBCMMWcev21CM/1MYLveFAKBwIzFfwIkiAFOfyk
-	DY3itOyh9nHE8VGnXRueng97UEdG3Y1nT23dx7I4fEii/rW1LT14RDRLuirzi+L44WRCWU
-	ar/ZTmjUYx+lQTB74Cca/p1qLfdP/bE=
+	bh=uEF2McHRjJAqSo5QcKbdG0zwjTeD+AMnzAukkEqETLw=;
+	b=6wdXnTdvGspYn3s+hUmdSEIpGspL1tZkdxPe32kaZDDgWJimGMJJHedqKasFlSbgDLU1bh
+	XrzBfrMvQH/4173HASA9qXjQtpGinQLvhPP9rYphNIIgoOtvYQBOitJfD6Eo3Q7vqVjCgC
+	ref3jwKR+ySNJDqNZq3pmTMgGe4SHoA=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1559665545; a=rsa-sha256; cv=none;
+	b=PjdtQBxCQ2hT4Yq4GvYBuTt64xpttCGCfvcdcbgekpIZ3VYn/tH8VN8Jvcnti3teKu7b1W
+	g20RU1zcxX/1s0PRWeClPH1llf6RO3wMZsev8AEKPkAFfnY9DSLgBIyhjScqmJcHE73hZE
+	rPoAigC7pQK3bqsltJVA7quOGssSAtc=
 ARC-Authentication-Results: i=1; ORIGINATING;
 	auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [RFC PATCH v2 06/12] add vmstate description for
- device reset state
+Subject: [Qemu-devel] [RFC PATCH v2 07/12] add doc about Resettable interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,88 +80,198 @@ Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The `device_vmstate_reset` can be added by device specialization, as
-vmsd subsection, to migrate the reset related device state part.
-
-It contains the resetting counter and the reset inputs current status.
-
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/core/Makefile.objs  |  1 +
- hw/core/qdev-vmstate.c | 34 ++++++++++++++++++++++++++++++++++
- include/hw/qdev-core.h |  6 ++++++
- 3 files changed, 41 insertions(+)
- create mode 100644 hw/core/qdev-vmstate.c
+ docs/devel/reset.txt | 151 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 151 insertions(+)
+ create mode 100644 docs/devel/reset.txt
 
-diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-index 97007454a8..b3b4990005 100644
---- a/hw/core/Makefile.objs
-+++ b/hw/core/Makefile.objs
-@@ -4,6 +4,7 @@ common-obj-y +=3D bus.o reset.o
- common-obj-y +=3D resettable.o
- common-obj-$(CONFIG_SOFTMMU) +=3D qdev-fw.o
- common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
-+common-obj-$(CONFIG_SOFTMMU) +=3D qdev-vmstate.o
- # irq.o needed for qdev GPIO handling:
- common-obj-y +=3D irq.o
- common-obj-y +=3D hotplug.o
-diff --git a/hw/core/qdev-vmstate.c b/hw/core/qdev-vmstate.c
+diff --git a/docs/devel/reset.txt b/docs/devel/reset.txt
 new file mode 100644
-index 0000000000..5322b70b0e
+index 0000000000..32c211d8ca
 --- /dev/null
-+++ b/hw/core/qdev-vmstate.c
-@@ -0,0 +1,34 @@
-+/*
-+ * Device vmstate
-+ *
-+ * Copyright (c) 2019 GreenSocs
-+ *
-+ * Authors:
-+ *   Damien Hedde
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ */
++++ b/docs/devel/reset.txt
+@@ -0,0 +1,151 @@
 +
-+#include "qemu/osdep.h"
-+#include "hw/qdev.h"
-+#include "migration/vmstate.h"
++=3D=3D=3D=3D=3D
++Reset
++=3D=3D=3D=3D=3D
 +
-+static bool device_vmstate_reset_needed(void *opaque)
-+{
-+    DeviceState *dev =3D (DeviceState *) opaque;
-+    return dev->resetting;
-+}
++The reset of qemu objects is handled using the Resettable interface decl=
+ared
++in *include/hw/resettable.h*.
++As of now DeviceClass and BusClass implement this interface.
 +
-+const struct VMStateDescription device_vmstate_reset =3D {
-+    .name =3D "device_reset",
-+    .version_id =3D 0,
-+    .minimum_version_id =3D 0,
-+    .needed =3D device_vmstate_reset_needed,
-+    .fields =3D (VMStateField[]) {
-+        VMSTATE_UINT32(resetting, DeviceState),
-+        VMSTATE_BOOL(cold_reset_input.state, DeviceState),
-+        VMSTATE_BOOL(warm_reset_input.state, DeviceState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 693f79b385..596a5bbead 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -546,4 +546,10 @@ static inline bool qbus_is_hotpluggable(BusState *bu=
-s)
- void device_listener_register(DeviceListener *listener);
- void device_listener_unregister(DeviceListener *listener);
-=20
-+/**
-+ * device_vmstate_reset:
-+ * vmstate entry for reset related state
-+ */
-+extern const struct VMStateDescription device_vmstate_reset;
 +
- #endif
++Triggering reset
++----------------
++
++The function *resettable_reset* must be used to trigger a reset on a giv=
+en
++object.
++void resettable_reset(Object *obj, bool cold)
++
++The parameter *obj* must implement the Resettable interface.
++The parameter *cold* is a boolean specifying whether to do a cold or war=
+m
++reset
++
++For Devices and Buses there is also the corresponding helpers:
++void device_reset(Device *dev, bool cold)
++void bus_reset(Device *dev, bool cold)
++
++If one wants to put an object into a reset state. There is the
++*resettable_assert_reset* function.
++void resettable_assert_reset(Object *obj, bool cold)
++
++One must eventually call the function *resettable_deassert_reset* to end=
+ the
++reset state:
++void resettable_deassert_reset(Object *obj, bool cold)
++
++Calling *resettable_assert_reset* then *resettable_deassert_reset* is th=
+e
++same as calling *resettable_reset*.
++
++It is possible to interleave multiple calls to
++ - resettable_reset,
++ - resettable_assert_reset, and
++ - resettable_deassert_reset.
++The only constraint is that *resettable_deassert_reset* must be called o=
+nce
++per *resettable_assert_reset* call so that the object leaves the reset s=
+tate.
++
++Therefore there may be several reset sources/controllers of a given obje=
+ct.
++The interface handle everything and the controllers do not need to know
++anything about each others. The object will leave reset state only when =
+all
++controllers released their reset.
++
++All theses functions must called while holding the iothread lock.
++
++
++Implementing reset for a Resettable object : Multi-phase reset
++--------------------------------------------------------------
++
++The Resettable uses a multi-phase mechanism to handle some ordering cons=
+traints
++when resetting multiple object at the same time. For a given object the =
+reset
++procedure is split into three different phases executed in order:
++ 1 INIT: This phase should set/reset the state of the Resettable it has =
+when is
++         in reset state. Side-effects to others object is forbidden (suc=
+h as
++         setting IO level).
++ 2 HOLD: This phase corresponds to the external side-effects due to stay=
+ing into
++         the reset state.
++ 3 EXIT: This phase corresponds to leaving the reset state. It have both
++         local and external effects.
++
++*resettable_assert_reset* does the INIT and HOLD phases. While
++*resettable_deassert_reset* does the EXIT phase.
++
++When resetting multiple object at the same time. The interface executes =
+the
++given phase of the objects before going to the next phase. This guarante=
+e that
++all INIT phases are done before any HOLD phase and so on.
++
++There is three methods in the interface so must be implemented in an obj=
+ect.
++The methods corresponds to the three phases:
++```
++typedef void (*ResettableInitPhase)(Object *obj, bool cold);
++typedef void (*ResettableHoldPhase)(Object *obj);
++typedef void (*ResettableExitPhase)(Object *obj);
++typedef struct ResettableClass {
++    InterfaceClass parent_class;
++
++    struct ResettablePhases {
++        ResettableInitPhase init;
++        ResettableHoldPhase hold;
++        ResettableExitPhase exit;
++    } phases;
++    [...]
++} ResettableClass;
++```
++
++Note that only the init method takes the bool parameter, if the warm/col=
+d
++information is needed by other methods it should be stored somewhere in =
+the
++object state.
++
++Theses methods should be updated when specializing an object. For this t=
+he
++helper function *resettable_class_set_parent_reset_phases* can be used t=
+o
++backup parent methods while changing the specialized ones.
++void resettable_class_set_parent_reset_phases(ResettableClass *rc,
++                                              ResettableInitPhase init,
++                                              ResettableHoldPhase hold,
++                                              ResettableExitPhase exit,
++                                              ResettablePhases *parent_p=
+hases);
++
++
++Implementing the base Resettable behavior : Re-entrance and Hierarchy
++---------------------------------------------------------------------
++
++There is four others methods in the interface to handle the base mechani=
+cs
++of the Resettable interface. The methods should be implemented in object
++base class. DeviceClass and BusClass implement them.
++
++```
++typedef uint32_t (*ResettableGetCount)(Object *obj);
++typedef uint32_t (*ResettableIncrementCount)(Object *obj);
++typedef uint32_t (*ResettableDecrementCount)(Object *obj);
++typedef void (*ResettableForeachChild)(Object *obj, void (*visitor)(Obje=
+ct *));
++typedef struct ResettableClass {
++    InterfaceClass parent_class;
++
++    [...]
++
++    ResettableGetCount get_count;
++    ResettableIncrementCount increment_count;
++    ResettableDecrementCount decrement_count;
++    ResettableForeachChild foreach_child;
++} ResettableClass;
++```
++
++As stated above, several reset procedures can be concurrent on an object=
+.
++This is handled with the three methods *get_count*, *increment_count* an=
+d
++*decrement_count*. An object is in reset state if the count is non-zero.
++
++The reset hierarchy is handled using the *foreach_child* method. This me=
+thod
++executes a given function on every reset "child".
++
++In DeviceClass and BusClass the base behavior is to mimic the legacy qde=
+v
++reset. Reset hierarchy follows the qdev/qbus tree.
++
++Reset control through GPIO
++--------------------------
++
++For devices, two reset inputs can be added: one for the cold, one the wa=
+rm
++reset. This is done using the following function.
++```
++typedef enum DeviceActiveType {
++    DEVICE_ACTIVE_LOW,
++    DEVICE_ACTIVE_HIGH,
++} DeviceActiveType;
++void qdev_init_reset_gpio_in_named(DeviceState *dev, const char *name,
++                                   bool cold, DeviceActiveType type);
++```
 --=20
 2.21.0
 
