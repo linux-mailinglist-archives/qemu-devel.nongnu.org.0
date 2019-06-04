@@ -2,70 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C7834219
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 10:44:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48742 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D28973423D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 10:54:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48841 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY53n-0003PR-PQ
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 04:44:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38102)
+	id 1hY5Cs-00065A-Ru
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 04:54:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39781)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hY52T-0002us-28
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:43:26 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hY5As-0005CR-Ky
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:52:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hY52R-0005Ea-2a
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:43:24 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40211)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hY52J-0004vM-RW
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:43:19 -0400
-Received: by mail-wm1-f65.google.com with SMTP id u16so8534227wmc.5
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 01:42:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=qPoEKbMGuvU9BnLXJ9hZZI4+cC8xO+pYsGVRctwfA48=;
-	b=ZHQDobvdTDrJZ2SU1+eDTe1YE9b9Y9/V79nNf6/k0aYW+mkqapJXR4S4Uf+T/tNvlO
-	llFvOP+2kI6KpZGX87jAn4vr6NGzzPIBjAxVlxDLQgDhM7gm3lIkeqRr8o+OGDu3ErOr
-	2e//iKH3JfrCKi8ggEpyfr3zgUjatdommYPmDpPUELgLTQj/r2mM0SOdbMw2nbx0ms+e
-	2iiihkwByhJKnOv70S8evNMkrPLdiDIKwZ+7+PIY2S9SI19KWuKTeihh+ZcOoZoTGXBN
-	rojwo3qU3MkyekyK9wUfmbQBM71NlUbkfcf6CdSoj1SXjppmr2A8rSF+LyIL30F7S0JJ
-	66eA==
-X-Gm-Message-State: APjAAAV8kQUdOYagjmvdOWLlo5GSKWd90p8q96QjpbgNuZ7ST5DRqKuJ
-	K3Dpn8GiqYhNy4p+3A4YqQtK2g==
-X-Google-Smtp-Source: APXvYqxsD1upUD2ZAyiNPGJo8hj6T/ciAwUwZAm8OI5qzx3BjzWSAo+yKuuIIpQ8C7CBkh4v4TsjZA==
-X-Received: by 2002:a7b:c933:: with SMTP id h19mr17879429wml.52.1559637773256; 
-	Tue, 04 Jun 2019 01:42:53 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
-	[88.21.202.183])
-	by smtp.gmail.com with ESMTPSA id l1sm5952310wmg.13.2019.06.04.01.42.52
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 01:42:52 -0700 (PDT)
-To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster
-	<armbru@redhat.com>, qemu-devel@nongnu.org,
-	"qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-References: <20190604080010.23186-1-armbru@redhat.com>
-	<ff72b9fc-003f-275a-d382-860f2a483d60@redhat.com>
-	<803fdb35-f28e-c033-b5ac-02d230dacf94@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <56d043be-efd0-cfb5-2c68-30855eb42d03@redhat.com>
-Date: Tue, 4 Jun 2019 10:42:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <kwolf@redhat.com>) id 1hY5Ar-0001SA-JO
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 04:52:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44762)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hY55y-0007Gi-Le; Tue, 04 Jun 2019 04:47:02 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 118A6104C1;
+	Tue,  4 Jun 2019 08:46:51 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-215.ams2.redhat.com [10.36.116.215])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D3FC5B689;
+	Tue,  4 Jun 2019 08:46:47 +0000 (UTC)
+Date: Tue, 4 Jun 2019 10:46:45 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: "Heitke, Kenneth" <kenneth.heitke@intel.com>, mreitz@redhat.com,
+	keith.busch@intel.com, qemu-block@nongnu.org, philmd@redhat.com,
+	qemu-devel@nongnu.org
+Message-ID: <20190604084645.GB14925@linux.fritz.box>
+References: <20190520174030.1647-1-kenneth.heitke@intel.com>
+	<20190528061836.GB32236@apples.localdomain>
+	<20190603111409.GD6523@linux.fritz.box>
+	<a58ef975-78f2-9c5c-35c2-b2dd359a4c03@intel.com>
+	<20190604082828.GA11013@apples.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <803fdb35-f28e-c033-b5ac-02d230dacf94@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190604082828.GA11013@apples.localdomain>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.38]);
+	Tue, 04 Jun 2019 08:46:51 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH] test: Fix make target check-report.tap
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] nvme: add Get/Set Feature
+ Timestamp support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,23 +67,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/19 10:28 AM, Paolo Bonzini wrote:
-> On 04/06/19 10:09, Philippe Mathieu-Daudé wrote:
->>>  check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check-report-unit.tap
->>> -	$(call quiet-command,./scripts/tap-merge.py $^ > $@,"GEN","$@")
->>> +	$(call quiet-command, cat $^ | scripts/tap-merge.pl >$@,"GEN","$@")
->> Paolo, did you intend to submit a new tap-merge.py script in commit
->> 9df43317b82?
->>
-> 
-> No, it's really just y vs l.
+Am 04.06.2019 um 10:28 hat Klaus Birkelund geschrieben:
+> On Mon, Jun 03, 2019 at 09:30:53AM -0600, Heitke, Kenneth wrote:
+> > 
+> > 
+> > On 6/3/2019 5:14 AM, Kevin Wolf wrote:
+> > > Am 28.05.2019 um 08:18 hat Klaus Birkelund geschrieben:
+> > > > On Mon, May 20, 2019 at 11:40:30AM -0600, Kenneth Heitke wrote:
+> > > > > Signed-off-by: Kenneth Heitke <kenneth.heitke@intel.com>
+> > > 
+> > > > > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> > > > > index 56c9d4b4b1..d7277e72b7 100644
+> > > > > --- a/hw/block/nvme.h
+> > > > > +++ b/hw/block/nvme.h
+> > > > > @@ -69,6 +69,7 @@ typedef struct NvmeCtrl {
+> > > > >       uint16_t    max_prp_ents;
+> > > > >       uint16_t    cqe_size;
+> > > > >       uint16_t    sqe_size;
+> > > > > +    uint16_t    oncs;
+> > > > 
+> > > > Looks like this unused member snuck its way into the patch. But I see no
+> > > > harm in it being there.
+> > > 
+> > > Good catch. I'll just remove it again from my branch.
+> > > 
+> > > > > +static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
+> > > > > +{
+> > > > > +    trace_nvme_setfeat_timestamp(ts);
+> > > > > +
+> > > > > +    n->host_timestamp = le64_to_cpu(ts);
+> > > > > +    n->timestamp_set_qemu_clock_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> > > > > +}
+> > > > > +
+> > > > > +static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
+> > > > > +{
+> > > > > +    uint64_t current_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> > > 
+> > > Here I wonder why we use QEMU_CLOCK_REALTIME in a device emulation.
+> > > Wouldn't QEMU_CLOCK_VIRTUAL make more sense?
+> > > 
+> > 
+> > QEMU_CLOCK_VIRTUAL probably would make more sense. When I was reading
+> > through the differences I wasn't really sure what to pick. iven that this is
+> > the time within the device's context, the virtual time seems more correct.
+> > 
+>  
+> I thought about this too when I reviewed, but came to the conclusion
+> that REALTIME was correct. The timestamp is basically a value that the
+> host stores in the controller. When the host uses Get Features to get
+> the the current time it would expect it to match the progression for its
+> own wall clockright? If I understand REALTIME vs VIRTUAL correctly,
+> using VIRTUAL, it would go way out of sync.
 
-OK!
+Which two things would go out of sync with VIRTUAL?
 
-> 
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: qemu-trivial@nongnu.org
+Not an expert on clocks myself, but I think the main question is what
+happens to the clock while the VM is stopped. REALTIME continues running
+where as VIRTUAL is stopped. If we expose REALTIME measurements to the
+guest, the time passed may look a lot longer than what the guest's clock
+actually says. So this is the thing I am worried would go out of sync
+with REALTIME.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Or did I read the code wrong and this isn't actually exposed to the
+guest?
+
+Kevin
 
