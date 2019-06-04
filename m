@@ -2,48 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48F433D0B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 04:18:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43992 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB0833CCA
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 03:42:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43636 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hXz1W-0000o7-TQ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 22:18:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60169)
+	id 1hXyTW-0002m6-Mi
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jun 2019 21:42:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35035)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hXyzZ-0008D9-Fq
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 22:16:02 -0400
+	(envelope-from <elohimes@gmail.com>) id 1hXySS-0002PU-6R
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 21:41:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hXyzY-0007SM-6a
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 22:16:01 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:55455)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hXyzW-0006tb-OB
-	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 22:16:00 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45HwWD3fX5z9s5c; Tue,  4 Jun 2019 12:15:36 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1559614536;
-	bh=98A1GoWUfcboLTp6dEMOQ8XvfPmi2CSa8rTYlXY+I0A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oQohS2nH+u5u8vg42S3epeOsJkxRw6ta9JPYdBKPBq2Afk8O3wcXZYf9HEzDCEynI
-	F+JpWmEfrkhka9tel07uMhhorlbNLzi9087ktDb1XSu013Io1CfEjY+VoJg7dNA51C
-	micm+mAdvfIfw6YVr5rfdi2n9FLyQYAA4vncDCyk=
-Date: Tue, 4 Jun 2019 11:21:48 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190604012147.GB9045@umbus.fritz.box>
-References: <20190603164927.8336-1-richard.henderson@linaro.org>
+	(envelope-from <elohimes@gmail.com>) id 1hXySR-00069m-46
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 21:41:48 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:42685)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hXySQ-00065h-Qs
+	for qemu-devel@nongnu.org; Mon, 03 Jun 2019 21:41:47 -0400
+Received: by mail-qt1-x844.google.com with SMTP id s15so11890687qtk.9
+	for <qemu-devel@nongnu.org>; Mon, 03 Jun 2019 18:41:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=AXPxIj9gAyr4JNcxPY+aslM7lYJ49ackIR8Pyl+pQls=;
+	b=aG8YA80rWUJxlCiMOfMuIFs557paaztQB++HBhcQIbLoKhRqe6RBmCaf5D9PtB+2Qw
+	m7ZTZHIJl1XnRvj8yJMxOyuKs2Bt8lmUZct7bjs8UN60bjQD76CKBPoH8zyeynfqoBRm
+	JlD9c/ge4SYxBhWHuht74QILuol/7IDDJGzuO4wDzLdCWc4l4IVw54iKkzdiA86ka/d4
+	xAAR3z4Ij5sSZ9AOG63wxJCTLKLN3tRHbrAnfJRSvxC+lf/W3WJC+068oxxBWa2w1C7L
+	eWQUQqSbCjDnplUOGAWe68IkLS5yNLy8PQMl3z9d3jQHkf5RKDYajgvPOLXUCZdYuwOt
+	+25w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=AXPxIj9gAyr4JNcxPY+aslM7lYJ49ackIR8Pyl+pQls=;
+	b=i34ZOldxMyBKU/FRsik1KW9+Q2vJBIpP5acUQAj/zKkutgINdWzyiXuUBcc3qZO31k
+	coVVx8kFHTvuaDQ83ZxnSXCicCbIOauKkkM2gUYweRncoBh9khbkzrnS+YlMmhXuvyJF
+	l1WGJK0N+5YE9Ge2qPXgTQDKX4hsAAPGs4V44gxfrj+wuFIiiErV/s7WTbK0w6OYTRTt
+	rBhcSeyeeV24tvtj3Bl917Cv7zKMEJKCdlhePJTP4Njs6W64TGKVHiaTctHZokYq0Pxs
+	LnMWoYpXUHg6QCgMYje7saR5l3LOUGBlew02b8MIehZ/hDed0Pxo+ImjeTStuoIixYhR
+	CgNg==
+X-Gm-Message-State: APjAAAW3c2ftz+jerPOSo+iRJHTVWbc46Sa8zgKMQGdiDh0y+xBdygLK
+	G6RE9/VqbX2CEARmk9iNjToJilqZz42oSyq+GeQ=
+X-Google-Smtp-Source: APXvYqz11POk0RovWHYWbwT1Dyxz4NUfdkrK1+0Ht1uBJAEgmzD1gFX8ps8QN1IYqwD7yWOx2K5XbTzFWECLO27KOUg=
+X-Received: by 2002:a0c:b59c:: with SMTP id g28mr24727505qve.171.1559612505297;
+	Mon, 03 Jun 2019 18:41:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="f2QGlHpHGjS2mn6Y"
-Content-Disposition: inline
-In-Reply-To: <20190603164927.8336-1-richard.henderson@linaro.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190529070955.25565-1-xieyongji@baidu.com>
+	<20190529070955.25565-2-xieyongji@baidu.com>
+	<20190603185318.659015e0@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <20190603185318.659015e0@bahia.lab.toulouse-stg.fr.ibm.com>
+From: Yongji Xie <elohimes@gmail.com>
+Date: Tue, 4 Jun 2019 09:41:34 +0800
+Message-ID: <CAONzpcZ6JaG3bY1D6T+ruQ-Go84dkcPCbBFO2_+Er_GAuDAmLA@mail.gmail.com>
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH] target/ppc: Use tcg_gen_gvec_bitsel
+X-Received-From: 2607:f8b0:4864:20::844
+Subject: Re: [Qemu-devel] [PATCH 1/5] virtio: Set "start_on_kick" on
+ virtio_set_features()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,100 +73,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>, Xie Yongji <xieyongji@baidu.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 4 Jun 2019 at 00:53, Greg Kurz <groug@kaod.org> wrote:
+>
+> On Wed, 29 May 2019 15:09:51 +0800
+> elohimes@gmail.com wrote:
+>
+> > From: Xie Yongji <xieyongji@baidu.com>
+> >
+> > The guest feature is not set correctly on virtio_reset() and
+> > virtio_init(). So we should not use it to set "start_on_kick" at that
+> > point. This patch set "start_on_kick" on virtio_set_features() instead.
+> >
+> > Signed-off-by: Xie Yongji <xieyongji@baidu.com>
+> > ---
+>
+> Maybe add a Fixes: badaf79cfdbd3 ?
+>
 
---f2QGlHpHGjS2mn6Y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Will add it in v2. Thanks for review.
 
-On Mon, Jun 03, 2019 at 11:49:27AM -0500, Richard Henderson wrote:
-> Replace the target-specific implementation of XXSEL.
-
-Applied, thanks.
-
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/ppc/translate/vsx-impl.inc.c | 24 ++----------------------
->  1 file changed, 2 insertions(+), 22 deletions(-)
->=20
-> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
-sx-impl.inc.c
-> index 199d22da97..a7a0a88975 100644
-> --- a/target/ppc/translate/vsx-impl.inc.c
-> +++ b/target/ppc/translate/vsx-impl.inc.c
-> @@ -1338,28 +1338,8 @@ static void glue(gen_, name)(DisasContext *ctx)   =
-          \
->  VSX_XXMRG(xxmrghw, 1)
->  VSX_XXMRG(xxmrglw, 0)
-> =20
-> -static void xxsel_i64(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b, TCGv_i64 c)
-> -{
-> -    tcg_gen_and_i64(b, b, c);
-> -    tcg_gen_andc_i64(a, a, c);
-> -    tcg_gen_or_i64(t, a, b);
-> -}
-> -
-> -static void xxsel_vec(unsigned vece, TCGv_vec t, TCGv_vec a,
-> -                      TCGv_vec b, TCGv_vec c)
-> -{
-> -    tcg_gen_and_vec(vece, b, b, c);
-> -    tcg_gen_andc_vec(vece, a, a, c);
-> -    tcg_gen_or_vec(vece, t, a, b);
-> -}
-> -
->  static void gen_xxsel(DisasContext *ctx)
->  {
-> -    static const GVecGen4 g =3D {
-> -        .fni8 =3D xxsel_i64,
-> -        .fniv =3D xxsel_vec,
-> -        .vece =3D MO_64,
-> -    };
->      int rt =3D xT(ctx->opcode);
->      int ra =3D xA(ctx->opcode);
->      int rb =3D xB(ctx->opcode);
-> @@ -1369,8 +1349,8 @@ static void gen_xxsel(DisasContext *ctx)
->          gen_exception(ctx, POWERPC_EXCP_VSXU);
->          return;
->      }
-> -    tcg_gen_gvec_4(vsr_full_offset(rt), vsr_full_offset(ra),
-> -                   vsr_full_offset(rb), vsr_full_offset(rc), 16, 16, &g);
-> +    tcg_gen_gvec_bitsel(MO_64, vsr_full_offset(rt), vsr_full_offset(rc),
-> +                        vsr_full_offset(rb), vsr_full_offset(ra), 16, 16=
-);
->  }
-> =20
->  static void gen_xxspltw(DisasContext *ctx)
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---f2QGlHpHGjS2mn6Y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz1x6kACgkQbDjKyiDZ
-s5KXpxAAtPs6yoR1aghVLej4nlscZZ599yGdqIZQZEfr9AiCrrQQMmQavN1XyQDI
-b2qhhJAybaTh2M2btZLPvY7I+aqMerQTZo2/FYXJoJHnan2ga9MsvmuAOQoF6lok
-NxVlPLKQP8mHFRgkATguiLA7YKfDZoQd8H+tE9SUf9XHaK4qPiJxgU1wOkL06nL8
-I7zek1eTFCIAXJNnpd4gQVAQ9Jx4nQ6dGOGbk29fRfDS3qZON544PbzP+0O8/Dmf
-7vytu3Q1cXJHi8Truh/ptvnlYsh6zm6YJ6Lm7rr5/tTxDRFpmO9f+nOykQmBrmMx
-69LDeYzWlDlAKixGDhWWg8diutt7MzdKx7YxkTx6dT53ResSgKtdgQvYZ3CBCHBq
-OJKugcXOgDkxPlrtVAtx3NO7UydZ26i8+aIWa3wjWxeaYV9+PhU6Q0JSZRLddYfE
-Angk/uGrmpwVvJH+jOhP15maSSGWKMR1UBLxfvoYcvN3o6h1LWtxjH5EPMBk3jkJ
-m3WmcOhFO9QQvcHtaW8VQ9mV5nZZL/Z/b/Nnz84odWKrYj6EwQbNMHD8EZR+VLx7
-jbAmWryh948UWpshw6jyPYvb4WBWumpQ4a8Dfhurc6uoTx0x+G946WJy4JhPEhot
-LMCkXXFJ9cUo4PkgT9IRhDNt+tRv6HpQhXYvq4Yz5jVnoo1xFTo=
-=WQHf
------END PGP SIGNATURE-----
-
---f2QGlHpHGjS2mn6Y--
+Thanks,
+Yongji
 
