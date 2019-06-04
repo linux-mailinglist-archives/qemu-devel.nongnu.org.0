@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D908E35127
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:39:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57640 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDE335116
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:36:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57613 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYGDL-0004j4-0k
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:39:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35385)
+	id 1hYGAU-00026z-Iq
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:36:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35381)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG87-0000uh-6u
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:00 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG85-0003xe-FF
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG86-0000uf-Pl
 	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:33:59 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36206)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG85-0003xs-L3
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:33:58 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45858)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYG85-0003wi-73
+	id 1hYG85-0003xQ-GK
 	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:33:57 -0400
-Received: by mail-oi1-x244.google.com with SMTP id w7so5243436oic.3
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:33:56 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id m206so1328480oib.12
+	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:33:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=/GGE9uzaJZM7BXK+ZvdxD9k00XdIm1UShmScAk8afLo=;
-	b=pk2FxKhl7u9AOg0BD+9E+TNKfNMfqlDDl/k1ZL4Zx292Q8r63+NuNVdmvr1WstlT90
-	NVvSN0GZ7cdop9vLjlmQtRWB7wRNce0YpyrnTGOXqR/GksJlYlSegl88tkw/kEzcwYM2
-	HkNeWy6Su5xlJmH51Aj4yAqvbWNN3BqlgJxRGzaRzaS32DmUCnw4l3zm5n6+MCODtXx7
-	Lxf+3szBr1inK3JsrO15/eijbnU81yUVQUkXW5jURbVkL1fX0cWZXeeg6b5ouWhCpgs6
-	kVsJkrxAKcjRW/MofmgBo2+6i0BI6yR3KvXr0EYDcTCCjnZ9rdPNRHhUSQoTKoUBv9AB
-	/Ibw==
+	bh=SsD841efZqo7uciuvvdZgxC3XyiWIUZWbge19pY103g=;
+	b=KvFhHb3SAShtgHAUjH5dqVDJqyjIl8If/pMPiuRNI9c8DBuTUIonor4lXyQHWwUvzI
+	jJ16f3R+Si68LJPYUARZ5kis6dOukRny8PmscbO4vlQ5kcww4ze6dEKZ4MOawxoieHmd
+	7AJ6iJlIjh9fdzY/XIQnU8Y12e4wFqtWeI91Ah1x78HNM6iwzr43Waz398KZr7WsT63G
+	rgTkc/8y2NeAKNme8m5bl0VtJrFEfoSjGRTDYzWTcvK6iKMwFED+lkfWUWHAbjBXXWrx
+	Udt0m0py2GYJWhJ1awF/VrsrlLMs8bv1rjsdwAjgbtCAfK72S4i2cPsiCREzqAq8VjMq
+	oRSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/GGE9uzaJZM7BXK+ZvdxD9k00XdIm1UShmScAk8afLo=;
-	b=TpFNyx/MoGcVuP18qYMJ+F95FhZoeR27ZfBS5ilRxsoRtJXxEtIvtL37A7iQL8IWAj
-	Pb9mvCBlMEBEDDGTt12BPoAdtSB9z3sqC3Vfcjv/F9ztF+RGg752U47EQN9HPPrbQ1cJ
-	qfRq5EQtgR9yXf4HR68FyY5PNnQrg0K2ecw/qdgl5soasuFMyIcmxLcDAxLTJbkGZ8TC
-	NU8qDKurHdb1s2CMeC2CJv6r2s1+PC+C9uRhWuf9b7O04u4U6mbncg7loYioMMJlo6x6
-	/YmxUaXOaYbLkRQlKfwZwevPbS9ekB9lnZ68cy1Li4dCz4ehIkwKoL81xVSU3GmjBNjZ
-	DPfw==
-X-Gm-Message-State: APjAAAXBHP/cBxq1ssS47ncUpJKJ5opmwm1b0hl0Nee2Tt5TvY25PfIR
-	ev7UTbVM84qMwBCtjBKrboN6QLMXr3Jx6A==
-X-Google-Smtp-Source: APXvYqwdPGtEOiduPwJxsFbqDXCgtird7eK7YkSvARvyf7QWxIcc+PwEWbK+HYpAiVBOuAUmZbLORA==
-X-Received: by 2002:aca:38d4:: with SMTP id f203mr5736880oia.88.1559680435099; 
-	Tue, 04 Jun 2019 13:33:55 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=SsD841efZqo7uciuvvdZgxC3XyiWIUZWbge19pY103g=;
+	b=GttKA2EL+DItZ09Sq3fAg9kHT25jeUWoExtzbhoq5dLLFBj4Tb6C6FXJ2ZkCwxzlgK
+	ttkOUpVKveDXgfaTlmppEDS5pjxNo1JkEIoqpPN1SQpNt2Rhy+2SPmF8yx9pSszUodF9
+	rkL0Rux4Yjfa0Dto+yl37ARlqv/Ydj4JvWxoTblm2MuqQiGWvIYLt4Iaz9K8g/X/kD/W
+	8qc5GykRK2dmSrYy0kwWflpOYd5dUVD4cnlGibtWQEnXoD0pDDAd/8UlD5SM3vXd2UJS
+	dgjqcsbHklIcNsZVSun3/0jZpOkBrHjm3XiReWZPgQRkFwBOX3MMipf9wL1k+jl0bd4r
+	OxAA==
+X-Gm-Message-State: APjAAAXq4uNtFiza7eAFj1X98CedApAzj1T9n7Xu31S2kFuppteoKqFs
+	0DBemvLkCJaHtXr6E8hDqarlTazXispYwg==
+X-Google-Smtp-Source: APXvYqx6X1YmYVinTn4WPjQRdsjrBsWOrrsHldQ+RN0PhZfeX3Rc/3AfKYarTGqgsKKRH8XRiNTykA==
+X-Received: by 2002:aca:5b57:: with SMTP id p84mr5549475oib.4.1559680436510;
+	Tue, 04 Jun 2019 13:33:56 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.33.52
+	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.33.55
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 13:33:54 -0700 (PDT)
+	Tue, 04 Jun 2019 13:33:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 15:33:12 -0500
-Message-Id: <20190604203351.27778-1-richard.henderson@linaro.org>
+Date: Tue,  4 Jun 2019 15:33:13 -0500
+Message-Id: <20190604203351.27778-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190604203351.27778-1-richard.henderson@linaro.org>
+References: <20190604203351.27778-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2607:f8b0:4864:20::244
-Subject: [Qemu-devel] [PATCH v4 00/39] tcg: Move the softmmu tlb to
- CPUNegativeOffsetState
+Subject: [Qemu-devel] [PATCH v4 01/39] tcg: Fold CPUTLBWindow into CPUTLBDesc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,329 +83,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patches missing review/ack:
-0038-tcg-arm-Use-LDRD-to-load-tlb-mask-table.patch
+Both structures are allocated once per mmu_idx.
+There is no reason for them to be separate.
 
-Changes from v3->v4:
-  * Rebase to master, fixing a few conflicts.
-  * Reword and replicate commit messages.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/exec/cpu-defs.h | 17 ++++-------------
+ accel/tcg/cputlb.c      | 24 ++++++++++++------------
+ 2 files changed, 16 insertions(+), 25 deletions(-)
 
-Changes from v2->v3:
-  * Incorporate review from pm215:
-    include guards and copyright/license for new headers;
-    qemu_build_bug_on for tcg/{arm,aarch64}/ load-pair expectations;
-    split out an independant tlb change in tcg/arm/;
-    split out some re-indent patches for target/cris/.
-
-Changes from v1->v2:
-  * Add cpu_set_cpustate_pointers.
-  * Add icount_decr_ptr to CPUState.
-
-Blurb from v1:
-
-This started merely as an attempt to reduce the size of each
-softmmu lookup by using smaller offsets from env.  But in the
-end it also represents a significant cleanup in the boilerplate
-that each target must define.
-
-With respect to the initial goal, here are the relevant code
-snips generated for loading the mask & table fields for a
-qemu_ld from an aarch64 guest on the indicated host.
-
-
-r~
-
-
-Richard Henderson (39):
-  tcg: Fold CPUTLBWindow into CPUTLBDesc
-  tcg: Split out target/arch/cpu-param.h
-  tcg: Create struct CPUTLB
-  cpu: Define CPUArchState with typedef
-  cpu: Define ArchCPU
-  cpu: Replace ENV_GET_CPU with env_cpu
-  cpu: Introduce env_archcpu
-  target/alpha: Use env_cpu, env_archcpu
-  target/arm: Use env_cpu, env_archcpu
-  target/cris: Reindent mmu.c
-  target/cris: Reindent op_helper.c
-  target/cris: Use env_cpu, env_archcpu
-  target/hppa: Use env_cpu, env_archcpu
-  target/i386: Use env_cpu, env_archcpu
-  target/lm32: Use env_cpu, env_archcpu
-  target/m68k: Use env_cpu, env_archcpu
-  target/microblaze: Use env_cpu, env_archcpu
-  target/mips: Use env_cpu, env_archcpu
-  target/moxie: Use env_cpu, env_archcpu
-  target/nios2: Use env_cpu, env_archcpu
-  target/openrisc: Use env_cpu, env_archcpu
-  target/ppc: Use env_cpu, env_archcpu
-  target/riscv: Use env_cpu, env_archcpu
-  target/s390x: Use env_cpu, env_archcpu
-  target/sh4: Use env_cpu, env_archcpu
-  target/sparc: Use env_cpu, env_archcpu
-  target/tilegx: Use env_cpu
-  target/tricore: Use env_cpu
-  target/unicore32: Use env_cpu, env_archcpu
-  target/xtensa: Use env_cpu, env_archcpu
-  cpu: Move ENV_OFFSET to exec/gen-icount.h
-  cpu: Introduce cpu_set_cpustate_pointers
-  cpu: Introduce CPUNegativeOffsetState
-  cpu: Move icount_decr to CPUNegativeOffsetState
-  cpu: Move the softmmu tlb to CPUNegativeOffsetState
-  cpu: Remove CPU_COMMON
-  tcg/aarch64: Use LDP to load tlb mask+table
-  tcg/arm: Use LDRD to load tlb mask+table
-  tcg/arm: Remove mostly unreachable tlb special case
-
- accel/tcg/atomic_template.h               |   8 +-
- include/exec/cpu-all.h                    |  58 ++
- include/exec/cpu-defs.h                   | 113 ++-
- include/exec/cpu_ldst.h                   |   6 +-
- include/exec/cpu_ldst_template.h          |   6 +-
- include/exec/cpu_ldst_useronly_template.h |   6 +-
- include/exec/gen-icount.h                 |  14 +-
- include/exec/softmmu-semi.h               |  16 +-
- include/qom/cpu.h                         |  40 +-
- linux-user/cpu_loop-common.h              |   2 +-
- linux-user/m68k/target_cpu.h              |   2 +-
- target/alpha/cpu-param.h                  |  31 +
- target/alpha/cpu.h                        |  40 +-
- target/arm/cpu-param.h                    |  34 +
- target/arm/cpu.h                          |  52 +-
- target/cris/cpu-param.h                   |  17 +
- target/cris/cpu.h                         |  25 +-
- target/hppa/cpu-param.h                   |  34 +
- target/hppa/cpu.h                         |  38 +-
- target/i386/cpu-param.h                   |  28 +
- target/i386/cpu.h                         |  40 +-
- target/lm32/cpu-param.h                   |  17 +
- target/lm32/cpu.h                         |  25 +-
- target/m68k/cpu-param.h                   |  22 +
- target/m68k/cpu.h                         |  28 +-
- target/microblaze/cpu-param.h             |  18 +
- target/microblaze/cpu.h                   |  63 +-
- target/mips/cpu-param.h                   |  29 +
- target/mips/cpu.h                         |  21 +-
- target/mips/mips-defs.h                   |  15 -
- target/moxie/cpu-param.h                  |  17 +
- target/moxie/cpu.h                        |  29 +-
- target/nios2/cpu-param.h                  |  21 +
- target/nios2/cpu.h                        |  33 +-
- target/openrisc/cpu-param.h               |  17 +
- target/openrisc/cpu.h                     |  31 +-
- target/ppc/cpu-param.h                    |  37 +
- target/ppc/cpu.h                          |  61 +-
- target/ppc/helper_regs.h                  |   4 +-
- target/riscv/cpu-param.h                  |  23 +
- target/riscv/cpu.h                        |  34 +-
- target/s390x/cpu-param.h                  |  17 +
- target/s390x/cpu.h                        |  31 +-
- target/sh4/cpu-param.h                    |  21 +
- target/sh4/cpu.h                          |  30 +-
- target/sparc/cpu-param.h                  |  28 +
- target/sparc/cpu.h                        |  36 +-
- target/tilegx/cpu-param.h                 |  17 +
- target/tilegx/cpu.h                       |  23 +-
- target/tricore/cpu-param.h                |  17 +
- target/tricore/cpu.h                      |  22 +-
- target/tricore/tricore-defs.h             |   5 -
- target/unicore32/cpu-param.h              |  17 +
- target/unicore32/cpu.h                    |  24 +-
- target/xtensa/cpu-param.h                 |  21 +
- target/xtensa/cpu.h                       |  40 +-
- accel/tcg/cpu-exec.c                      |  23 +-
- accel/tcg/cputlb.c                        | 226 +++---
- accel/tcg/tcg-all.c                       |   6 +-
- accel/tcg/tcg-runtime.c                   |   4 +-
- accel/tcg/translate-all.c                 |  10 +-
- accel/tcg/user-exec.c                     |   2 +-
- bsd-user/main.c                           |   5 +-
- bsd-user/syscall.c                        |   6 +-
- cpus.c                                    |   9 +-
- hw/i386/kvmvapic.c                        |   4 +-
- hw/i386/pc.c                              |   2 +-
- hw/intc/mips_gic.c                        |   2 +-
- hw/mips/mips_int.c                        |   2 +-
- hw/nios2/cpu_pic.c                        |   5 +-
- hw/ppc/ppc.c                              |  18 +-
- hw/ppc/ppc405_uc.c                        |   2 +-
- hw/ppc/ppc_booke.c                        |   4 +-
- hw/semihosting/console.c                  |   2 +-
- hw/sparc/leon3.c                          |   4 +-
- hw/sparc/sun4m.c                          |   4 +-
- hw/sparc64/sparc64.c                      |   2 +-
- hw/unicore32/puv3.c                       |   2 +-
- hw/xtensa/pic_cpu.c                       |   2 +-
- linux-user/aarch64/cpu_loop.c             |   6 +-
- linux-user/aarch64/signal.c               |   4 +-
- linux-user/alpha/cpu_loop.c               |   2 +-
- linux-user/arm/cpu_loop.c                 |   4 +-
- linux-user/cris/cpu_loop.c                |   4 +-
- linux-user/elfload.c                      |   6 +-
- linux-user/hppa/cpu_loop.c                |   2 +-
- linux-user/i386/cpu_loop.c                |   2 +-
- linux-user/i386/signal.c                  |   2 +-
- linux-user/m68k-sim.c                     |   3 +-
- linux-user/m68k/cpu_loop.c                |   4 +-
- linux-user/main.c                         |   2 +-
- linux-user/microblaze/cpu_loop.c          |   2 +-
- linux-user/mips/cpu_loop.c                |   4 +-
- linux-user/nios2/cpu_loop.c               |   2 +-
- linux-user/openrisc/cpu_loop.c            |   2 +-
- linux-user/ppc/cpu_loop.c                 |   2 +-
- linux-user/riscv/cpu_loop.c               |   4 +-
- linux-user/s390x/cpu_loop.c               |   2 +-
- linux-user/sh4/cpu_loop.c                 |   2 +-
- linux-user/signal.c                       |   8 +-
- linux-user/sparc/cpu_loop.c               |   2 +-
- linux-user/syscall.c                      |  26 +-
- linux-user/tilegx/cpu_loop.c              |   2 +-
- linux-user/uname.c                        |   2 +-
- linux-user/vm86.c                         |  18 +-
- linux-user/xtensa/cpu_loop.c              |   2 +-
- qom/cpu.c                                 |   4 +-
- target/alpha/cpu.c                        |   3 +-
- target/alpha/helper.c                     |   8 +-
- target/alpha/sys_helper.c                 |   8 +-
- target/arm/arm-semi.c                     |   4 +-
- target/arm/cpu.c                          |   3 +-
- target/arm/cpu64.c                        |   2 +-
- target/arm/helper-a64.c                   |   4 +-
- target/arm/helper.c                       | 162 ++---
- target/arm/op_helper.c                    |  21 +-
- target/arm/translate-a64.c                |   4 +-
- target/arm/translate.c                    |   2 +-
- target/arm/vfp_helper.c                   |   2 +-
- target/cris/cpu.c                         |   3 +-
- target/cris/mmu.c                         | 482 +++++++------
- target/cris/op_helper.c                   | 827 +++++++++++-----------
- target/cris/translate.c                   |   2 +-
- target/hppa/cpu.c                         |   2 +-
- target/hppa/helper.c                      |   3 +-
- target/hppa/int_helper.c                  |   4 +-
- target/hppa/mem_helper.c                  |  10 +-
- target/hppa/op_helper.c                   |  10 +-
- target/i386/bpt_helper.c                  |   4 +-
- target/i386/cpu.c                         |   7 +-
- target/i386/excp_helper.c                 |   2 +-
- target/i386/fpu_helper.c                  |   2 +-
- target/i386/hax-all.c                     |   6 +-
- target/i386/helper.c                      |  16 +-
- target/i386/hvf/x86_decode.c              |  22 +-
- target/i386/hvf/x86_emu.c                 |  60 +-
- target/i386/mem_helper.c                  |   4 +-
- target/i386/misc_helper.c                 |  24 +-
- target/i386/seg_helper.c                  |  14 +-
- target/i386/smm_helper.c                  |   4 +-
- target/i386/svm_helper.c                  |  22 +-
- target/lm32/cpu.c                         |   3 +-
- target/lm32/helper.c                      |  19 +-
- target/lm32/op_helper.c                   |   6 +-
- target/lm32/translate.c                   |   2 +-
- target/m68k/cpu.c                         |   4 +-
- target/m68k/helper.c                      |  33 +-
- target/m68k/m68k-semi.c                   |   4 +-
- target/m68k/op_helper.c                   |  14 +-
- target/m68k/translate.c                   |   4 +-
- target/microblaze/cpu.c                   |   3 +-
- target/microblaze/mmu.c                   |   5 +-
- target/microblaze/op_helper.c             |   2 +-
- target/microblaze/translate.c             |   2 +-
- target/mips/cpu.c                         |   3 +-
- target/mips/helper.c                      |  15 +-
- target/mips/op_helper.c                   |  25 +-
- target/mips/translate.c                   |   3 +-
- target/mips/translate_init.inc.c          |   4 +-
- target/moxie/cpu.c                        |   3 +-
- target/moxie/helper.c                     |   4 +-
- target/moxie/translate.c                  |   2 +-
- target/nios2/cpu.c                        |   6 +-
- target/nios2/mmu.c                        |  14 +-
- target/nios2/op_helper.c                  |   2 +-
- target/openrisc/cpu.c                     |   3 +-
- target/openrisc/exception_helper.c        |   5 +-
- target/openrisc/sys_helper.c              |   8 +-
- target/ppc/excp_helper.c                  |  14 +-
- target/ppc/fpu_helper.c                   |  14 +-
- target/ppc/kvm.c                          |   5 +-
- target/ppc/misc_helper.c                  |  22 +-
- target/ppc/mmu-hash64.c                   |  14 +-
- target/ppc/mmu_helper.c                   | 117 ++-
- target/ppc/translate_init.inc.c           |  88 ++-
- target/riscv/cpu.c                        |   3 +-
- target/riscv/cpu_helper.c                 |  10 +-
- target/riscv/csr.c                        |  12 +-
- target/riscv/op_helper.c                  |   7 +-
- target/s390x/cc_helper.c                  |   5 +-
- target/s390x/cpu.c                        |   9 +-
- target/s390x/diag.c                       |   2 +-
- target/s390x/excp_helper.c                |   6 +-
- target/s390x/fpu_helper.c                 |   4 +-
- target/s390x/gdbstub.c                    |  24 +-
- target/s390x/helper.c                     |   7 +-
- target/s390x/int_helper.c                 |   3 +-
- target/s390x/interrupt.c                  |   6 +-
- target/s390x/mem_helper.c                 |  30 +-
- target/s390x/misc_helper.c                |  50 +-
- target/s390x/mmu_helper.c                 |   8 +-
- target/s390x/sigp.c                       |   4 +-
- target/sh4/cpu.c                          |   3 +-
- target/sh4/helper.c                       |  26 +-
- target/sh4/op_helper.c                    |  11 +-
- target/sparc/cpu.c                        |   3 +-
- target/sparc/fop_helper.c                 |   2 +-
- target/sparc/helper.c                     |   8 +-
- target/sparc/ldst_helper.c                |  33 +-
- target/sparc/mmu_helper.c                 |  10 +-
- target/tilegx/cpu.c                       |   4 +-
- target/tilegx/helper.c                    |   2 +-
- target/tricore/cpu.c                      |   4 +-
- target/tricore/op_helper.c                |   2 +-
- target/unicore32/cpu.c                    |   3 +-
- target/unicore32/helper.c                 |   4 +-
- target/unicore32/op_helper.c              |   2 +-
- target/unicore32/softmmu.c                |  11 +-
- target/unicore32/translate.c              |  26 +-
- target/unicore32/ucf64_helper.c           |   2 +-
- target/xtensa/cpu.c                       |   3 +-
- target/xtensa/dbg_helper.c                |   4 +-
- target/xtensa/exc_helper.c                |   9 +-
- target/xtensa/helper.c                    |   2 +-
- target/xtensa/mmu_helper.c                |  17 +-
- target/xtensa/xtensa-semi.c               |   2 +-
- tcg/aarch64/tcg-target.inc.c              |  40 +-
- tcg/arm/tcg-target.inc.c                  | 149 ++--
- tcg/i386/tcg-target.inc.c                 |   6 +-
- tcg/mips/tcg-target.inc.c                 |  45 +-
- tcg/ppc/tcg-target.inc.c                  |  32 +-
- tcg/riscv/tcg-target.inc.c                |  37 +-
- tcg/s390/tcg-target.inc.c                 |  13 +-
- tcg/sparc/tcg-target.inc.c                |  40 +-
- docs/devel/tracing.txt                    |   4 +-
- scripts/tracetool/format/tcg_helper_c.py  |   2 +-
- 226 files changed, 2379 insertions(+), 2572 deletions(-)
- create mode 100644 target/alpha/cpu-param.h
- create mode 100644 target/arm/cpu-param.h
- create mode 100644 target/cris/cpu-param.h
- create mode 100644 target/hppa/cpu-param.h
- create mode 100644 target/i386/cpu-param.h
- create mode 100644 target/lm32/cpu-param.h
- create mode 100644 target/m68k/cpu-param.h
- create mode 100644 target/microblaze/cpu-param.h
- create mode 100644 target/mips/cpu-param.h
- create mode 100644 target/moxie/cpu-param.h
- create mode 100644 target/nios2/cpu-param.h
- create mode 100644 target/openrisc/cpu-param.h
- create mode 100644 target/ppc/cpu-param.h
- create mode 100644 target/riscv/cpu-param.h
- create mode 100644 target/s390x/cpu-param.h
- create mode 100644 target/sh4/cpu-param.h
- create mode 100644 target/sparc/cpu-param.h
- create mode 100644 target/tilegx/cpu-param.h
- create mode 100644 target/tricore/cpu-param.h
- create mode 100644 target/unicore32/cpu-param.h
- create mode 100644 target/xtensa/cpu-param.h
-
+diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+index 8f2a848bf5..52d150aaf1 100644
+--- a/include/exec/cpu-defs.h
++++ b/include/exec/cpu-defs.h
+@@ -127,18 +127,6 @@ typedef struct CPUIOTLBEntry {
+     MemTxAttrs attrs;
+ } CPUIOTLBEntry;
+ 
+-/**
+- * struct CPUTLBWindow
+- * @begin_ns: host time (in ns) at the beginning of the time window
+- * @max_entries: maximum number of entries observed in the window
+- *
+- * See also: tlb_mmu_resize_locked()
+- */
+-typedef struct CPUTLBWindow {
+-    int64_t begin_ns;
+-    size_t max_entries;
+-} CPUTLBWindow;
+-
+ typedef struct CPUTLBDesc {
+     /*
+      * Describe a region covering all of the large pages allocated
+@@ -148,9 +136,12 @@ typedef struct CPUTLBDesc {
+      */
+     target_ulong large_page_addr;
+     target_ulong large_page_mask;
++    /* host time (in ns) at the beginning of the time window */
++    int64_t window_begin_ns;
++    /* maximum number of entries observed in the window */
++    size_t window_max_entries;
+     /* The next index to use in the tlb victim table.  */
+     size_t vindex;
+-    CPUTLBWindow window;
+     size_t n_used_entries;
+ } CPUTLBDesc;
+ 
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index cdcc377102..41f2296f93 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -79,11 +79,11 @@ static inline size_t sizeof_tlb(CPUArchState *env, uintptr_t mmu_idx)
+     return env->tlb_mask[mmu_idx] + (1 << CPU_TLB_ENTRY_BITS);
+ }
+ 
+-static void tlb_window_reset(CPUTLBWindow *window, int64_t ns,
++static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
+                              size_t max_entries)
+ {
+-    window->begin_ns = ns;
+-    window->max_entries = max_entries;
++    desc->window_begin_ns = ns;
++    desc->window_max_entries = max_entries;
+ }
+ 
+ static void tlb_dyn_init(CPUArchState *env)
+@@ -94,7 +94,7 @@ static void tlb_dyn_init(CPUArchState *env)
+         CPUTLBDesc *desc = &env->tlb_d[i];
+         size_t n_entries = 1 << CPU_TLB_DYN_DEFAULT_BITS;
+ 
+-        tlb_window_reset(&desc->window, get_clock_realtime(), 0);
++        tlb_window_reset(desc, get_clock_realtime(), 0);
+         desc->n_used_entries = 0;
+         env->tlb_mask[i] = (n_entries - 1) << CPU_TLB_ENTRY_BITS;
+         env->tlb_table[i] = g_new(CPUTLBEntry, n_entries);
+@@ -151,18 +151,18 @@ static void tlb_mmu_resize_locked(CPUArchState *env, int mmu_idx)
+     int64_t now = get_clock_realtime();
+     int64_t window_len_ms = 100;
+     int64_t window_len_ns = window_len_ms * 1000 * 1000;
+-    bool window_expired = now > desc->window.begin_ns + window_len_ns;
++    bool window_expired = now > desc->window_begin_ns + window_len_ns;
+ 
+-    if (desc->n_used_entries > desc->window.max_entries) {
+-        desc->window.max_entries = desc->n_used_entries;
++    if (desc->n_used_entries > desc->window_max_entries) {
++        desc->window_max_entries = desc->n_used_entries;
+     }
+-    rate = desc->window.max_entries * 100 / old_size;
++    rate = desc->window_max_entries * 100 / old_size;
+ 
+     if (rate > 70) {
+         new_size = MIN(old_size << 1, 1 << CPU_TLB_DYN_MAX_BITS);
+     } else if (rate < 30 && window_expired) {
+-        size_t ceil = pow2ceil(desc->window.max_entries);
+-        size_t expected_rate = desc->window.max_entries * 100 / ceil;
++        size_t ceil = pow2ceil(desc->window_max_entries);
++        size_t expected_rate = desc->window_max_entries * 100 / ceil;
+ 
+         /*
+          * Avoid undersizing when the max number of entries seen is just below
+@@ -182,7 +182,7 @@ static void tlb_mmu_resize_locked(CPUArchState *env, int mmu_idx)
+ 
+     if (new_size == old_size) {
+         if (window_expired) {
+-            tlb_window_reset(&desc->window, now, desc->n_used_entries);
++            tlb_window_reset(desc, now, desc->n_used_entries);
+         }
+         return;
+     }
+@@ -190,7 +190,7 @@ static void tlb_mmu_resize_locked(CPUArchState *env, int mmu_idx)
+     g_free(env->tlb_table[mmu_idx]);
+     g_free(env->iotlb[mmu_idx]);
+ 
+-    tlb_window_reset(&desc->window, now, 0);
++    tlb_window_reset(desc, now, 0);
+     /* desc->n_used_entries is cleared by the caller */
+     env->tlb_mask[mmu_idx] = (new_size - 1) << CPU_TLB_ENTRY_BITS;
+     env->tlb_table[mmu_idx] = g_try_new(CPUTLBEntry, new_size);
 -- 
 2.17.1
 
