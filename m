@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732C034D1E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 18:22:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54915 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B2B34D11
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 18:18:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54850 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYCCz-0005PX-G5
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 12:22:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35899)
+	id 1hYC93-0002Op-Ha
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 12:18:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35701)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6H-00018h-Si
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:51 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC66-0000zS-Tj
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC6B-0005hG-CA
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:46 -0400
-Received: from relay.sw.ru ([185.231.240.75]:41672)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYC61-0005S2-Ff
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 12:15:37 -0400
+Received: from relay.sw.ru ([185.231.240.75]:41678)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYC6A-0005By-Pm; Tue, 04 Jun 2019 12:15:43 -0400
+	id 1hYC5x-0005C5-Cj; Tue, 04 Jun 2019 12:15:30 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYC5k-0005Pq-Oi; Tue, 04 Jun 2019 19:15:16 +0300
+	id 1hYC5k-0005Pq-Vi; Tue, 04 Jun 2019 19:15:17 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Tue,  4 Jun 2019 19:15:13 +0300
-Message-Id: <20190604161514.262241-12-vsementsov@virtuozzo.com>
+Date: Tue,  4 Jun 2019 19:15:14 +0300
+Message-Id: <20190604161514.262241-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190604161514.262241-1-vsementsov@virtuozzo.com>
 References: <20190604161514.262241-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v2 11/12] block/qcow2: implement
- .bdrv_co_preadv_part
+Subject: [Qemu-devel] [PATCH v2 12/12] block/qcow2: implement
+ .bdrv_co_pwritev(_compressed)_part
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,176 +56,272 @@ Implement and use new interface to get rid of hd_qiov.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2-cluster.c |  5 +++--
- block/qcow2.c         | 49 +++++++++++++++++++------------------------
- 2 files changed, 25 insertions(+), 29 deletions(-)
+ block/qcow2.h         |  1 +
+ include/qemu/iov.h    |  1 +
+ block/qcow2-cluster.c |  9 ++++---
+ block/qcow2.c         | 60 +++++++++++++++++++++----------------------
+ util/iov.c            | 10 ++++++++
+ 5 files changed, 48 insertions(+), 33 deletions(-)
 
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 567375e56c..ea3bdb0699 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -417,6 +417,7 @@ typedef struct QCowL2Meta
+      * from @cow_start and @cow_end into one single write operation.
+      */
+     QEMUIOVector *data_qiov;
++    size_t data_qiov_offset;
+ 
+     /** Pointer to next L2Meta of the same write request */
+     struct QCowL2Meta *next;
+diff --git a/include/qemu/iov.h b/include/qemu/iov.h
+index 29957c8a72..bffc151282 100644
+--- a/include/qemu/iov.h
++++ b/include/qemu/iov.h
+@@ -206,6 +206,7 @@ void qemu_iovec_init_extended(
+         void *tail_buf, size_t tail_len);
+ void qemu_iovec_init_slice(QEMUIOVector *qiov, QEMUIOVector *source,
+                            size_t offset, size_t len);
++int qemu_iovec_subvec_niov(QEMUIOVector *qiov, size_t offset, size_t len);
+ void qemu_iovec_add(QEMUIOVector *qiov, void *base, size_t len);
+ void qemu_iovec_concat(QEMUIOVector *dst,
+                        QEMUIOVector *src, size_t soffset, size_t sbytes);
 diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index cf892f37a8..1159d6ed2f 100644
+index 1159d6ed2f..00b1a9ab8d 100644
 --- a/block/qcow2-cluster.c
 +++ b/block/qcow2-cluster.c
-@@ -453,8 +453,9 @@ static int coroutine_fn do_perform_cow_read(BlockDriverState *bs,
-      * interface.  This avoids double I/O throttling and request tracking,
-      * which can lead to deadlock when block layer copy-on-read is enabled.
-      */
--    ret = bs->drv->bdrv_co_preadv(bs, src_cluster_offset + offset_in_cluster,
--                                  qiov->size, qiov, 0);
-+    ret = bs->drv->bdrv_co_preadv_part(bs,
-+                                       src_cluster_offset + offset_in_cluster,
-+                                       qiov->size, qiov, 0, 0);
-     if (ret < 0) {
-         return ret;
-     }
+@@ -830,7 +830,6 @@ static int perform_cow(BlockDriverState *bs, QCowL2Meta *m)
+     assert(start->nb_bytes <= UINT_MAX - end->nb_bytes);
+     assert(start->nb_bytes + end->nb_bytes <= UINT_MAX - data_bytes);
+     assert(start->offset + start->nb_bytes <= end->offset);
+-    assert(!m->data_qiov || m->data_qiov->size == data_bytes);
+ 
+     if ((start->nb_bytes == 0 && end->nb_bytes == 0) || m->skip_cow) {
+         return 0;
+@@ -862,7 +861,11 @@ static int perform_cow(BlockDriverState *bs, QCowL2Meta *m)
+     /* The part of the buffer where the end region is located */
+     end_buffer = start_buffer + buffer_size - end->nb_bytes;
+ 
+-    qemu_iovec_init(&qiov, 2 + (m->data_qiov ? m->data_qiov->niov : 0));
++    qemu_iovec_init(&qiov, 2 + (m->data_qiov ?
++                                qemu_iovec_subvec_niov(m->data_qiov,
++                                                       m->data_qiov_offset,
++                                                       data_bytes)
++                                : 0));
+ 
+     qemu_co_mutex_unlock(&s->lock);
+     /* First we read the existing data from both COW regions. We
+@@ -905,7 +908,7 @@ static int perform_cow(BlockDriverState *bs, QCowL2Meta *m)
+         if (start->nb_bytes) {
+             qemu_iovec_add(&qiov, start_buffer, start->nb_bytes);
+         }
+-        qemu_iovec_concat(&qiov, m->data_qiov, 0, data_bytes);
++        qemu_iovec_concat(&qiov, m->data_qiov, m->data_qiov_offset, data_bytes);
+         if (end->nb_bytes) {
+             qemu_iovec_add(&qiov, end_buffer, end->nb_bytes);
+         }
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 8a033ae08c..c389ef07b0 100644
+index c389ef07b0..850117cfa2 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -75,7 +75,8 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
-                            uint64_t file_cluster_offset,
-                            uint64_t offset,
-                            uint64_t bytes,
--                           QEMUIOVector *qiov);
-+                           QEMUIOVector *qiov,
-+                           size_t qiov_offset);
- 
- static int qcow2_probe(const uint8_t *buf, int buf_size, const char *filename)
+@@ -2091,7 +2091,8 @@ fail:
+ /* Check if it's possible to merge a write request with the writing of
+  * the data from the COW regions */
+ static bool merge_cow(uint64_t offset, unsigned bytes,
+-                      QEMUIOVector *hd_qiov, QCowL2Meta *l2meta)
++                      QEMUIOVector *qiov, size_t qiov_offset,
++                      QCowL2Meta *l2meta)
  {
-@@ -1955,21 +1956,18 @@ out:
-     return ret;
+     QCowL2Meta *m;
+ 
+@@ -2120,11 +2121,12 @@ static bool merge_cow(uint64_t offset, unsigned bytes,
+ 
+         /* Make sure that adding both COW regions to the QEMUIOVector
+          * does not exceed IOV_MAX */
+-        if (hd_qiov->niov > IOV_MAX - 2) {
++        if (qemu_iovec_subvec_niov(qiov, qiov_offset, bytes) > IOV_MAX - 2) {
+             continue;
+         }
+ 
+-        m->data_qiov = hd_qiov;
++        m->data_qiov = qiov;
++        m->data_qiov_offset = qiov_offset;
+         return true;
+     }
+ 
+@@ -2205,24 +2207,22 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+     return 0;
  }
  
--static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
--                                        uint64_t bytes, QEMUIOVector *qiov,
--                                        int flags)
-+static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
-+                                             uint64_t offset, uint64_t bytes,
-+                                             QEMUIOVector *qiov,
-+                                             size_t qiov_offset, int flags)
+-static coroutine_fn int qcow2_co_pwritev(BlockDriverState *bs, uint64_t offset,
+-                                         uint64_t bytes, QEMUIOVector *qiov,
+-                                         int flags)
++static coroutine_fn int qcow2_co_pwritev_part(
++        BlockDriverState *bs, uint64_t offset, uint64_t bytes,
++        QEMUIOVector *qiov, size_t qiov_offset, int flags)
  {
      BDRVQcow2State *s = bs->opaque;
      int offset_in_cluster;
      int ret;
-     unsigned int cur_bytes; /* number of bytes in current iteration */
-     uint64_t cluster_offset = 0;
--    uint64_t bytes_done = 0;
+     unsigned int cur_bytes; /* number of sectors in current iteration */
+     uint64_t cluster_offset;
 -    QEMUIOVector hd_qiov;
++    QEMUIOVector encrypted_qiov;
+     uint64_t bytes_done = 0;
      uint8_t *cluster_data = NULL;
+     QCowL2Meta *l2meta = NULL;
+ 
+     trace_qcow2_writev_start_req(qemu_coroutine_self(), offset, bytes);
  
 -    qemu_iovec_init(&hd_qiov, qiov->niov);
 -
+     qemu_co_mutex_lock(&s->lock);
+ 
      while (bytes != 0) {
+@@ -2255,9 +2255,6 @@ static coroutine_fn int qcow2_co_pwritev(BlockDriverState *bs, uint64_t offset,
  
-         /* prepare next request */
-@@ -1988,34 +1986,31 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
- 
-         offset_in_cluster = offset_into_cluster(s, offset);
+         qemu_co_mutex_unlock(&s->lock);
  
 -        qemu_iovec_reset(&hd_qiov);
 -        qemu_iovec_concat(&hd_qiov, qiov, bytes_done, cur_bytes);
 -
-         switch (ret) {
-         case QCOW2_CLUSTER_UNALLOCATED:
- 
-             if (bs->backing) {
-                 BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
--                ret = bdrv_co_preadv(bs->backing, offset, cur_bytes,
--                                     &hd_qiov, 0);
-+                ret = bdrv_co_preadv_part(bs->backing, offset, cur_bytes,
-+                                          qiov, qiov_offset, 0);
-                 if (ret < 0) {
-                     goto fail;
+         if (bs->encrypted) {
+             assert(s->crypto);
+             if (!cluster_data) {
+@@ -2270,9 +2267,9 @@ static coroutine_fn int qcow2_co_pwritev(BlockDriverState *bs, uint64_t offset,
                  }
-             } else {
-                 /* Note: in this case, no need to wait */
--                qemu_iovec_memset(&hd_qiov, 0, 0, cur_bytes);
-+                qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
              }
-             break;
  
-         case QCOW2_CLUSTER_ZERO_PLAIN:
-         case QCOW2_CLUSTER_ZERO_ALLOC:
--            qemu_iovec_memset(&hd_qiov, 0, 0, cur_bytes);
-+            qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
-             break;
+-            assert(hd_qiov.size <=
+-                   QCOW_MAX_CRYPT_CLUSTERS * s->cluster_size);
+-            qemu_iovec_to_buf(&hd_qiov, 0, cluster_data, hd_qiov.size);
++            assert(cur_bytes <= QCOW_MAX_CRYPT_CLUSTERS * s->cluster_size);
++            qemu_iovec_to_buf(qiov, qiov_offset + bytes_done,
++                              cluster_data, cur_bytes);
  
-         case QCOW2_CLUSTER_COMPRESSED:
-             ret = qcow2_co_preadv_compressed(bs, cluster_offset,
-                                              offset, cur_bytes,
--                                             &hd_qiov);
-+                                             qiov, qiov_offset);
+             if (qcow2_co_encrypt(bs, cluster_offset, offset,
+                                  cluster_data, cur_bytes) < 0) {
+@@ -2280,8 +2277,7 @@ static coroutine_fn int qcow2_co_pwritev(BlockDriverState *bs, uint64_t offset,
+                 goto out_unlocked;
+             }
+ 
+-            qemu_iovec_reset(&hd_qiov);
+-            qemu_iovec_add(&hd_qiov, cluster_data, cur_bytes);
++            qemu_iovec_init_buf(&encrypted_qiov, cluster_data, cur_bytes);
+         }
+ 
+         /* Try to efficiently initialize the physical space with zeroes */
+@@ -2294,13 +2290,17 @@ static coroutine_fn int qcow2_co_pwritev(BlockDriverState *bs, uint64_t offset,
+          * writing of the guest data together with that of the COW regions.
+          * If it's not possible (or not necessary) then write the
+          * guest data now. */
+-        if (!merge_cow(offset, cur_bytes, &hd_qiov, l2meta)) {
++        if (!merge_cow(offset, cur_bytes,
++                       bs->encrypted ? &encrypted_qiov : qiov,
++                       bs->encrypted ? 0 : qiov_offset + bytes_done, l2meta))
++        {
+             BLKDBG_EVENT(bs->file, BLKDBG_WRITE_AIO);
+             trace_qcow2_writev_data(qemu_coroutine_self(),
+                                     cluster_offset + offset_in_cluster);
+-            ret = bdrv_co_pwritev(s->data_file,
+-                                  cluster_offset + offset_in_cluster,
+-                                  cur_bytes, &hd_qiov, 0);
++            ret = bdrv_co_pwritev_part(
++                    s->data_file, cluster_offset + offset_in_cluster, cur_bytes,
++                    bs->encrypted ? &encrypted_qiov : qiov,
++                    bs->encrypted ? 0 : qiov_offset + bytes_done, 0);
              if (ret < 0) {
-                 goto fail;
+                 goto out_unlocked;
              }
-@@ -2063,12 +2058,12 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
-                     ret = -EIO;
-                     goto fail;
-                 }
--                qemu_iovec_from_buf(qiov, bytes_done, cluster_data, cur_bytes);
-+                qemu_iovec_from_buf(qiov, qiov_offset, cluster_data, cur_bytes);
-             } else {
-                 BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
--                ret = bdrv_co_preadv(s->data_file,
--                                     cluster_offset + offset_in_cluster,
--                                     cur_bytes, &hd_qiov, 0);
-+                ret = bdrv_co_preadv_part(s->data_file,
-+                                          cluster_offset + offset_in_cluster,
-+                                          cur_bytes, qiov, qiov_offset, 0);
-                 if (ret < 0) {
-                     goto fail;
-                 }
-@@ -2083,12 +2078,11 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
+@@ -2329,7 +2329,6 @@ out_locked:
  
-         bytes -= cur_bytes;
-         offset += cur_bytes;
--        bytes_done += cur_bytes;
-+        qiov_offset += cur_bytes;
-     }
-     ret = 0;
+     qemu_co_mutex_unlock(&s->lock);
  
- fail:
 -    qemu_iovec_destroy(&hd_qiov);
      qemu_vfree(cluster_data);
+     trace_qcow2_writev_done_req(qemu_coroutine_self(), ret);
  
-     return ret;
-@@ -4087,7 +4081,8 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
-                            uint64_t file_cluster_offset,
-                            uint64_t offset,
-                            uint64_t bytes,
--                           QEMUIOVector *qiov)
-+                           QEMUIOVector *qiov,
-+                           size_t qiov_offset)
+@@ -3993,8 +3992,9 @@ fail:
+ /* XXX: put compressed sectors first, then all the cluster aligned
+    tables to avoid losing bytes in alignment */
+ static coroutine_fn int
+-qcow2_co_pwritev_compressed(BlockDriverState *bs, uint64_t offset,
+-                            uint64_t bytes, QEMUIOVector *qiov)
++qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
++                                 uint64_t offset, uint64_t bytes,
++                                 QEMUIOVector *qiov, size_t qiov_offset)
  {
      BDRVQcow2State *s = bs->opaque;
-     int ret = 0, csize, nb_csectors;
-@@ -4118,7 +4113,7 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
-         goto fail;
+     int ret;
+@@ -4031,7 +4031,7 @@ qcow2_co_pwritev_compressed(BlockDriverState *bs, uint64_t offset,
+         /* Zero-pad last write if image size is not cluster aligned */
+         memset(buf + bytes, 0, s->cluster_size - bytes);
      }
+-    qemu_iovec_to_buf(qiov, 0, buf, bytes);
++    qemu_iovec_to_buf(qiov, qiov_offset, buf, bytes);
  
--    qemu_iovec_from_buf(qiov, 0, out_buf + offset_in_cluster, bytes);
-+    qemu_iovec_from_buf(qiov, qiov_offset, out_buf + offset_in_cluster, bytes);
+     out_buf = g_malloc(s->cluster_size);
  
- fail:
-     qemu_vfree(out_buf);
-@@ -4638,8 +4633,8 @@ static int qcow2_load_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
+@@ -4039,7 +4039,7 @@ qcow2_co_pwritev_compressed(BlockDriverState *bs, uint64_t offset,
+                                 buf, s->cluster_size);
+     if (out_len == -ENOMEM) {
+         /* could not compress: write normal cluster */
+-        ret = qcow2_co_pwritev(bs, offset, bytes, qiov, 0);
++        ret = qcow2_co_pwritev_part(bs, offset, bytes, qiov, qiov_offset, 0);
+         if (ret < 0) {
+             goto fail;
+         }
+@@ -4623,8 +4623,8 @@ static int qcow2_save_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
      BDRVQcow2State *s = bs->opaque;
  
-     BLKDBG_EVENT(bs->file, BLKDBG_VMSTATE_LOAD);
--    return bs->drv->bdrv_co_preadv(bs, qcow2_vm_state_offset(s) + pos,
--                                   qiov->size, qiov, 0);
-+    return bs->drv->bdrv_co_preadv_part(bs, qcow2_vm_state_offset(s) + pos,
-+                                        qiov->size, qiov, 0, 0);
+     BLKDBG_EVENT(bs->file, BLKDBG_VMSTATE_SAVE);
+-    return bs->drv->bdrv_co_pwritev(bs, qcow2_vm_state_offset(s) + pos,
+-                                    qiov->size, qiov, 0);
++    return bs->drv->bdrv_co_pwritev_part(bs, qcow2_vm_state_offset(s) + pos,
++                                         qiov->size, qiov, 0, 0);
  }
  
- /*
-@@ -5179,7 +5174,7 @@ BlockDriver bdrv_qcow2 = {
-     .bdrv_has_zero_init = bdrv_has_zero_init_1,
+ static int qcow2_load_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
+@@ -5175,7 +5175,7 @@ BlockDriver bdrv_qcow2 = {
      .bdrv_co_block_status = qcow2_co_block_status,
  
--    .bdrv_co_preadv         = qcow2_co_preadv,
-+    .bdrv_co_preadv_part    = qcow2_co_preadv_part,
-     .bdrv_co_pwritev        = qcow2_co_pwritev,
+     .bdrv_co_preadv_part    = qcow2_co_preadv_part,
+-    .bdrv_co_pwritev        = qcow2_co_pwritev,
++    .bdrv_co_pwritev_part   = qcow2_co_pwritev_part,
      .bdrv_co_flush_to_os    = qcow2_co_flush_to_os,
  
+     .bdrv_co_pwrite_zeroes  = qcow2_co_pwrite_zeroes,
+@@ -5183,7 +5183,7 @@ BlockDriver bdrv_qcow2 = {
+     .bdrv_co_copy_range_from = qcow2_co_copy_range_from,
+     .bdrv_co_copy_range_to  = qcow2_co_copy_range_to,
+     .bdrv_co_truncate       = qcow2_co_truncate,
+-    .bdrv_co_pwritev_compressed = qcow2_co_pwritev_compressed,
++    .bdrv_co_pwritev_compressed_part = qcow2_co_pwritev_compressed_part,
+     .bdrv_make_empty        = qcow2_make_empty,
+ 
+     .bdrv_snapshot_create   = qcow2_snapshot_create,
+diff --git a/util/iov.c b/util/iov.c
+index d988a533ce..0ed75e764c 100644
+--- a/util/iov.c
++++ b/util/iov.c
+@@ -401,6 +401,16 @@ static struct iovec *qiov_slice(QEMUIOVector *qiov,
+     return iov;
+ }
+ 
++int qemu_iovec_subvec_niov(QEMUIOVector *qiov, size_t offset, size_t len)
++{
++    size_t head, tail;
++    int niov;
++
++    qiov_slice(qiov, offset, len, &head, &tail, &niov);
++
++    return niov;
++}
++
+ /*
+  * Compile new iovec, combining @head_buf buffer, sub-qiov of @mid_qiov,
+  * and @tail_buf buffer into new qiov.
 -- 
 2.18.0
 
