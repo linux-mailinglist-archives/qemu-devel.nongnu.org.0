@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D998F343B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 12:07:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49683 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18CF343B0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 12:07:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49681 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY6LY-0000xT-0z
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 06:07:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55915)
+	id 1hY6LT-0000wv-NW
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 06:07:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55916)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <tina.zhang@intel.com>) id 1hY6J6-00083R-9I
+	(envelope-from <tina.zhang@intel.com>) id 1hY6J6-00083S-9V
 	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 06:04:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <tina.zhang@intel.com>) id 1hY6J4-0000mz-DL
+	(envelope-from <tina.zhang@intel.com>) id 1hY6J4-0000mv-Cf
 	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 06:04:40 -0400
-Received: from mga18.intel.com ([134.134.136.126]:33969)
+Received: from mga18.intel.com ([134.134.136.126]:33971)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <tina.zhang@intel.com>)
-	id 1hY6J4-0000eZ-0b
+	id 1hY6J4-0000hK-0f
 	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 06:04:38 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
 	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jun 2019 03:04:28 -0700
+	04 Jun 2019 03:04:30 -0700
 X-ExtLoop1: 1
 Received: from gvt.bj.intel.com ([10.238.158.187])
-	by orsmga007.jf.intel.com with ESMTP; 04 Jun 2019 03:04:26 -0700
+	by orsmga007.jf.intel.com with ESMTP; 04 Jun 2019 03:04:28 -0700
 From: Tina Zhang <tina.zhang@intel.com>
 To: intel-gvt-dev@lists.freedesktop.org,
 	qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 17:58:45 +0800
-Message-Id: <20190604095847.10532-2-tina.zhang@intel.com>
+Date: Tue,  4 Jun 2019 17:58:46 +0800
+Message-Id: <20190604095847.10532-3-tina.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604095847.10532-1-tina.zhang@intel.com>
 References: <20190604095847.10532-1-tina.zhang@intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 134.134.136.126
-Subject: [Qemu-devel] [RFC PATCH 1/3] vfio: Add a funtion to return a
- specific irq capabilities
+Subject: [Qemu-devel] [RFC PATCH 2/3] ui/console: Introduce two new APIs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,132 +59,88 @@ Cc: kevin.tian@intel.com, zhenyuw@linux.intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vfio_get_dev_irq_info is introduced to return a specific irq
-capabilities.
+graphic_hw_refresh is used by display to invoke console refresh.
+dpy_update_interval is used by display to update gui timer interval.
 
 Signed-off-by: Tina Zhang <tina.zhang@intel.com>
 ---
- hw/vfio/common.c              | 78 +++++++++++++++++++++++++++++++++++
- include/hw/vfio/vfio-common.h |  3 ++
- 2 files changed, 81 insertions(+)
+ include/ui/console.h |  2 ++
+ ui/console.c         | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 4374cc6176..928ea54411 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -748,6 +748,25 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-     return NULL;
+diff --git a/include/ui/console.h b/include/ui/console.h
+index fef900db76..3b46264efb 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -275,6 +275,7 @@ void register_displaychangelistener(DisplayChangeListener *dcl);
+ void update_displaychangelistener(DisplayChangeListener *dcl,
+                                   uint64_t interval);
+ void unregister_displaychangelistener(DisplayChangeListener *dcl);
++void dpy_update_interval(QemuConsole *con, uint64_t interval);
+ 
+ bool dpy_ui_info_supported(QemuConsole *con);
+ int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info);
+@@ -379,6 +380,7 @@ void graphic_console_set_hwops(QemuConsole *con,
+ void graphic_console_close(QemuConsole *con);
+ 
+ void graphic_hw_update(QemuConsole *con);
++void graphic_hw_refresh(QemuConsole *con);
+ void graphic_hw_invalidate(QemuConsole *con);
+ void graphic_hw_text_update(QemuConsole *con, console_ch_t *chardata);
+ void graphic_hw_gl_block(QemuConsole *con, bool block);
+diff --git a/ui/console.c b/ui/console.c
+index 6d2282d3e9..3a02cea37d 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -268,6 +268,24 @@ void graphic_hw_update(QemuConsole *con)
+     }
  }
  
-+static struct vfio_info_cap_header *
-+vfio_get_irq_info_cap(struct vfio_irq_info *info, uint16_t id)
++void graphic_hw_refresh(QemuConsole *con)
 +{
-+    struct vfio_info_cap_header *hdr;
-+    void *ptr = info;
++    DisplayState *ds;
++    DisplayChangeListener *dcl;
 +
-+    if (!(info->flags & VFIO_IRQ_INFO_FLAG_CAPS)) {
-+        return NULL;
++    if (!con) {
++        con = active_console;
 +    }
 +
-+    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-+        if (hdr->id == id) {
-+            return hdr;
++    ds = con->ds;
++
++    QLIST_FOREACH(dcl, &ds->listeners, next) {
++        if (dcl->ops->dpy_refresh) {
++            dcl->ops->dpy_refresh(dcl);
 +        }
 +    }
-+
-+    return NULL;
 +}
 +
- static int vfio_setup_region_sparse_mmaps(VFIORegion *region,
-                                           struct vfio_region_info *info)
+ void graphic_hw_gl_block(QemuConsole *con, bool block)
  {
-@@ -1539,6 +1558,33 @@ retry:
-     return 0;
+     assert(con != NULL);
+@@ -1480,6 +1498,23 @@ void update_displaychangelistener(DisplayChangeListener *dcl,
+     }
  }
  
-+static int vfio_get_irq_info(VFIODevice *vbasedev, int index,
-+                         struct vfio_irq_info **info)
++void dpy_update_interval(QemuConsole *con, uint64_t interval)
 +{
-+    size_t argsz = sizeof(struct vfio_irq_info);
++    DisplayChangeListener *dcl;
++    DisplayState *ds;
 +
-+    *info = g_malloc0(argsz);
-+
-+    (*info)->index = index;
-+retry:
-+    (*info)->argsz = argsz;
-+
-+    if (ioctl(vbasedev->fd, VFIO_DEVICE_GET_IRQ_INFO, *info)) {
-+        g_free(*info);
-+        *info = NULL;
-+        return -errno;
++    if (!con) {
++        return;
 +    }
 +
-+    if ((*info)->argsz > argsz) {
-+        argsz = (*info)->argsz;
-+        *info = g_realloc(*info, argsz);
++    ds = con->ds;
 +
-+        goto retry;
++    QLIST_FOREACH(dcl, &ds->listeners, next) {
++        update_displaychangelistener(dcl, interval);
 +    }
-+
-+    return 0;
 +}
 +
- int vfio_get_dev_region_info(VFIODevice *vbasedev, uint32_t type,
-                              uint32_t subtype, struct vfio_region_info **info)
++
+ void unregister_displaychangelistener(DisplayChangeListener *dcl)
  {
-@@ -1574,6 +1620,38 @@ int vfio_get_dev_region_info(VFIODevice *vbasedev, uint32_t type,
-     return -ENODEV;
- }
- 
-+int vfio_get_dev_irq_info(VFIODevice *vbasedev, uint32_t type,
-+                             uint32_t subtype, struct vfio_irq_info **info)
-+{
-+    int i;
-+
-+    for (i = 0; i < vbasedev->num_irqs; i++) {
-+        struct vfio_info_cap_header *hdr;
-+        struct vfio_irq_info_cap_type *cap_type;
-+
-+        if (vfio_get_irq_info(vbasedev, i, info)) {
-+            continue;
-+        }
-+
-+        hdr = vfio_get_irq_info_cap(*info, VFIO_IRQ_INFO_CAP_TYPE);
-+        if (!hdr) {
-+            g_free(*info);
-+            continue;
-+        }
-+
-+        cap_type = container_of(hdr, struct vfio_irq_info_cap_type, header);
-+
-+        if (cap_type->type == type && cap_type->subtype == subtype) {
-+            return 0;
-+        }
-+
-+        g_free(*info);
-+    }
-+
-+    *info = NULL;
-+    return -ENODEV;
-+}
-+
- bool vfio_has_region_cap(VFIODevice *vbasedev, int region, uint16_t cap_type)
- {
-     struct vfio_region_info *info = NULL;
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 1155b79678..5cab6a1b81 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -195,6 +195,9 @@ int vfio_get_dev_region_info(VFIODevice *vbasedev, uint32_t type,
- bool vfio_has_region_cap(VFIODevice *vbasedev, int region, uint16_t cap_type);
- struct vfio_info_cap_header *
- vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id);
-+
-+int vfio_get_dev_irq_info(VFIODevice *vbasedev, uint32_t type,
-+                          uint32_t subtype, struct vfio_irq_info **info);
- #endif
- extern const MemoryListener vfio_prereg_listener;
- 
+     DisplayState *ds = dcl->ds;
 -- 
 2.17.1
 
