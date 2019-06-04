@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70D43512F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:40:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57646 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D72735166
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:54:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57860 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYGEa-0005pp-Dc
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:40:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35794)
+	id 1hYGSM-0000oa-8Y
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:54:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35804)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8W-0001Bb-3k
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:25 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8W-0001CN-Tg
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8U-0004Hr-E8
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8V-0004Il-MI
 	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:24 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46443)
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37815)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYG8U-0004HU-89
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:22 -0400
-Received: by mail-oi1-x242.google.com with SMTP id 203so16575667oid.13
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:22 -0700 (PDT)
+	id 1hYG8V-0004IH-HN
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:23 -0400
+Received: by mail-oi1-x243.google.com with SMTP id t76so1580574oih.4
+	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=r2euVyUV+cLCvC2LxVd/hVa/8V0irmgvDixd4QUTeBo=;
-	b=gONT1/tGZYLchH9oEl4TZLGOwRfXH2Z8gOjeaU/eso3ttNNUh+zfD88O7B3S4HqSZZ
-	CngufVV0Mw3NQcEsla41vMwy9X6IkjjGtmLFhiKKg2oUj/uSsVz92SGRV8ZQfnT5+qVY
-	Yc+K4XkB51fK3zoJjCzGkg2F2ehq1N1Kn4IwNv3vocfZo8TVobY+ox08bKJ6zN3Qhxca
-	kUHlQ5fdz2OWrfu14XGyvkE3f5GKFWEWD8TrLVtEEjzfOVcg9lNDCSUvHX4ofow+E+Ym
-	erlj9oKBnw98fk2yoZzxtL4K9q8mxTmqk6V6H9Sbk/oE9t8+MofIMM9QOLE6qtohWm6x
-	SpIQ==
+	bh=1kOvtkiHCUjgMw+1Z+kL1S4IV3z9pyM77bVL+IO/D5Y=;
+	b=bdTDWCxtSqUpS+kyfe3TeH3lAbfUVkcPRvUG2YsYteUy2L4WkzD7KZKUfAs8ioQnpx
+	xDm7KIkLdQR5kdbWJVyorLt10TS+cLgdoNNLJEyuKFOBvCnW2zKQ0prCuTpgT+/6HWla
+	VzXp/T6lX686GWn736949LGtdaWd+dZvg4xukX9c/ul7kcY6kFVAGFU0C0NgcXAA0FXp
+	9XvzhrfTuk+IRpWhbFV9cN7K7aK55nQv1M/RizzBlHigqmZoYO2Zcu2KtFf1qIWAoh0f
+	hlkNUQRbZlRCE4qcJ3+nopUKa7BDhnXJSynS0Rkkmbi3GRPA8VlpeRxziOIiSXd0LHmY
+	hZ7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=r2euVyUV+cLCvC2LxVd/hVa/8V0irmgvDixd4QUTeBo=;
-	b=AFbjTor+AcNH9pN10FtHlUry5H9ievMc5Tg+tr0LbNL1YgHE2DNFe71aKJLHtcHZ1z
-	9DzCz8ITF/j00WzVci4xNrKAQImaDmrQlmIaGFIQJcX7Y/H4R5vnRdg6e3oHQrU/oOFc
-	lS9gQSl74HZ8yxd64M2c47qZ4+YLhvFdcV82Nm47wKtqvRJT+iMIxMfbq+8RuFl3m2bu
-	Moui5v80wML2rNEvzc2KQEtgDgQHZHhGJbKZxZVPiYtMRtc3Zw9vYjWq+hW9Qetc/kSe
-	f4uV6Nnzyz2z/NhoLcxHTPK/GaBmNIxT+12//W8fds8Y9RsHMdV2gozh1KSeT+TWaicg
-	XIsg==
-X-Gm-Message-State: APjAAAV2Sxt/AAp6+S7fvq5O/yWEfN79x6viWFx7b1UJebZD0JliCnhf
-	GKYOTEiozK4gYTg7qKfOyCiIhRvHrrcEMQ==
-X-Google-Smtp-Source: APXvYqyXI6huscZurkNTk1aAVwg7l91p8LnME4KuoDNmX9QmL+HS+lVLs/W74M/VDlW+6GXD+cVNvA==
-X-Received: by 2002:aca:5c54:: with SMTP id q81mr5618461oib.91.1559680461185; 
-	Tue, 04 Jun 2019 13:34:21 -0700 (PDT)
+	bh=1kOvtkiHCUjgMw+1Z+kL1S4IV3z9pyM77bVL+IO/D5Y=;
+	b=nNstdii8n/mBv8+k0lHoJZwm4swLbTFNrrsMI0O7NNU7KWnNaxF686O65Wrr+nTild
+	sN3S0Au3j75lN2+IaxvRP4VPCRd0plpYEADqhN+24YHhWTSUnCTphAunUilK42o0wtoI
+	SeWgdIwZFtPZp5v9r+dRclE1vO8053cQXij8bFbkg7iWKoFE/EqRYVgPEoLD1LOsH8WC
+	D5NF8y36XxVW7LFmDp/EVeR59Kbd7mkS3UjbUQbgP8Ic3HES1253r579uwbXha0u5JLL
+	9+x7nnnAvqqQLj6gmPXdZ3FB9ojcUL2AYp3w3O+eEkmUNccQyynwy5+0X81UQPX1wssG
+	u2Iw==
+X-Gm-Message-State: APjAAAVV3mDaI5d9j8G4DoaC5LMSaEWCCbxMDm56ekyJN5Jhw/HDCT+e
+	o7NL6uJ2OJVaBFZILoubnB2pDbPsrJJqbw==
+X-Google-Smtp-Source: APXvYqxWszT5UGsqqoXCbbf08VS1w6ZWxoaf7kBSPujNrbxeLd8cyPCSafWWLxoy+H5UixvwrJVA/Q==
+X-Received: by 2002:aca:f183:: with SMTP id p125mr5626484oih.13.1559680462440; 
+	Tue, 04 Jun 2019 13:34:22 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.20
+	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.21
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 13:34:20 -0700 (PDT)
+	Tue, 04 Jun 2019 13:34:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 15:33:28 -0500
-Message-Id: <20190604203351.27778-17-richard.henderson@linaro.org>
+Date: Tue,  4 Jun 2019 15:33:29 -0500
+Message-Id: <20190604203351.27778-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604203351.27778-1-richard.henderson@linaro.org>
 References: <20190604203351.27778-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: [Qemu-devel] [PATCH v4 16/39] target/m68k: Use env_cpu, env_archcpu
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: [Qemu-devel] [PATCH v4 17/39] target/microblaze: Use env_cpu,
+ env_archcpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,313 +81,151 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Cleanup in the boilerplate that each target must define.
-Replace m68k_env_get_cpu with env_archcpu.  The combination
-CPU(m68k_env_get_cpu) should have used ENV_GET_CPU to begin;
+Replace mb_env_get_cpu with env_archcpu.  The combination
+CPU(mb_env_get_cpu) should have used ENV_GET_CPU to begin;
 use env_cpu now.
+
+Move cpu_mmu_index below the include of "exec/cpu-all.h",
+so that the definition of env_archcpu is available.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/m68k/target_cpu.h |  2 +-
- target/m68k/cpu.h            |  5 -----
- linux-user/m68k-sim.c        |  3 +--
- linux-user/m68k/cpu_loop.c   |  2 +-
- target/m68k/helper.c         | 33 ++++++++++++---------------------
- target/m68k/m68k-semi.c      |  4 ++--
- target/m68k/op_helper.c      | 12 ++++++------
- target/m68k/translate.c      |  4 +---
- 8 files changed, 24 insertions(+), 41 deletions(-)
+ target/microblaze/cpu.h          | 35 ++++++++++++++------------------
+ linux-user/microblaze/cpu_loop.c |  2 +-
+ target/microblaze/mmu.c          |  5 ++---
+ target/microblaze/op_helper.c    |  2 +-
+ target/microblaze/translate.c    |  2 +-
+ 5 files changed, 20 insertions(+), 26 deletions(-)
 
-diff --git a/linux-user/m68k/target_cpu.h b/linux-user/m68k/target_cpu.h
-index 7a26f3c3fc..bc7446fbaf 100644
---- a/linux-user/m68k/target_cpu.h
-+++ b/linux-user/m68k/target_cpu.h
-@@ -31,7 +31,7 @@ static inline void cpu_clone_regs(CPUM68KState *env, target_ulong newsp)
- 
- static inline void cpu_set_tls(CPUM68KState *env, target_ulong newtls)
- {
--    CPUState *cs = CPU(m68k_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     TaskState *ts = cs->opaque;
- 
-     ts->tp_value = newtls;
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 2e53cde076..7f3fa8d141 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -163,11 +163,6 @@ struct M68kCPU {
-     CPUM68KState env;
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index 6e68e00e1f..8402cc81f6 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -310,11 +310,6 @@ struct MicroBlazeCPU {
+     CPUMBState env;
  };
  
--static inline M68kCPU *m68k_env_get_cpu(CPUM68KState *env)
+-static inline MicroBlazeCPU *mb_env_get_cpu(CPUMBState *env)
 -{
--    return container_of(env, M68kCPU, env);
+-    return container_of(env, MicroBlazeCPU, env);
 -}
 -
- #define ENV_OFFSET offsetof(M68kCPU, env)
+ #define ENV_OFFSET offsetof(MicroBlazeCPU, env)
  
- void m68k_cpu_do_interrupt(CPUState *cpu);
-diff --git a/linux-user/m68k-sim.c b/linux-user/m68k-sim.c
-index 34d332d8b1..9bc6ff3d3a 100644
---- a/linux-user/m68k-sim.c
-+++ b/linux-user/m68k-sim.c
-@@ -91,7 +91,6 @@ static int translate_openflags(int flags)
- #define ARG(x) tswap32(args[x])
- void do_m68k_simcall(CPUM68KState *env, int nr)
- {
--    M68kCPU *cpu = m68k_env_get_cpu(env);
-     uint32_t *args;
+ void mb_cpu_do_interrupt(CPUState *cs);
+@@ -344,21 +339,6 @@ int cpu_mb_signal_handler(int host_signum, void *pinfo,
+ #define MMU_USER_IDX    2
+ /* See NB_MMU_MODES further up the file.  */
  
-     args = (uint32_t *)(unsigned long)(env->aregs[7] + 4);
-@@ -159,6 +158,6 @@ void do_m68k_simcall(CPUM68KState *env, int nr)
-         check_err(env, lseek(ARG(0), (int32_t)ARG(1), ARG(2)));
-         break;
-     default:
--        cpu_abort(CPU(cpu), "Unsupported m68k sim syscall %d\n", nr);
-+        cpu_abort(env_cpu(env), "Unsupported m68k sim syscall %d\n", nr);
-     }
- }
-diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
-index 42d8d841ea..f2c33057b3 100644
---- a/linux-user/m68k/cpu_loop.c
-+++ b/linux-user/m68k/cpu_loop.c
+-static inline int cpu_mmu_index (CPUMBState *env, bool ifetch)
+-{
+-    MicroBlazeCPU *cpu = mb_env_get_cpu(env);
+-
+-    /* Are we in nommu mode?.  */
+-    if (!(env->sregs[SR_MSR] & MSR_VM) || !cpu->cfg.use_mmu) {
+-        return MMU_NOMMU_IDX;
+-    }
+-
+-    if (env->sregs[SR_MSR] & MSR_UM) {
+-        return MMU_USER_IDX;
+-    }
+-    return MMU_KERNEL_IDX;
+-}
+-
+ bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                      MMUAccessType access_type, int mmu_idx,
+                      bool probe, uintptr_t retaddr);
+@@ -384,4 +364,19 @@ void mb_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+                                MemTxResult response, uintptr_t retaddr);
+ #endif
+ 
++static inline int cpu_mmu_index(CPUMBState *env, bool ifetch)
++{
++    MicroBlazeCPU *cpu = env_archcpu(env);
++
++    /* Are we in nommu mode?.  */
++    if (!(env->sregs[SR_MSR] & MSR_VM) || !cpu->cfg.use_mmu) {
++        return MMU_NOMMU_IDX;
++    }
++
++    if (env->sregs[SR_MSR] & MSR_UM) {
++        return MMU_USER_IDX;
++    }
++    return MMU_KERNEL_IDX;
++}
++
+ #endif
+diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
+index 076bdb9a61..a6ea71401d 100644
+--- a/linux-user/microblaze/cpu_loop.c
++++ b/linux-user/microblaze/cpu_loop.c
 @@ -23,7 +23,7 @@
  
- void cpu_loop(CPUM68KState *env)
+ void cpu_loop(CPUMBState *env)
  {
--    CPUState *cs = CPU(m68k_env_get_cpu(env));
+-    CPUState *cs = CPU(mb_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
-     int trapnr;
-     unsigned int n;
+     int trapnr, ret;
      target_siginfo_t info;
-diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-index 6db93bdd81..31aacb51c6 100644
---- a/target/m68k/helper.c
-+++ b/target/m68k/helper.c
-@@ -168,8 +168,6 @@ void m68k_cpu_init_gdb(M68kCPU *cpu)
+     
+diff --git a/target/microblaze/mmu.c b/target/microblaze/mmu.c
+index fcf86b12d5..6763421ba2 100644
+--- a/target/microblaze/mmu.c
++++ b/target/microblaze/mmu.c
+@@ -34,7 +34,7 @@ static unsigned int tlb_decode_size(unsigned int f)
  
- void HELPER(cf_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
+ static void mmu_flush_idx(CPUMBState *env, unsigned int idx)
  {
--    M68kCPU *cpu = m68k_env_get_cpu(env);
--
-     switch (reg) {
-     case M68K_CR_CACR:
-         env->cacr = val;
-@@ -186,7 +184,7 @@ void HELPER(cf_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
-         break;
-     /* TODO: Implement control registers.  */
-     default:
--        cpu_abort(CPU(cpu),
-+        cpu_abort(env_cpu(env),
-                   "Unimplemented control register write 0x%x = 0x%x\n",
-                   reg, val);
-     }
-@@ -194,8 +192,6 @@ void HELPER(cf_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
- 
- void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
- {
--    M68kCPU *cpu = m68k_env_get_cpu(env);
--
-     switch (reg) {
-     /* MC680[1234]0 */
-     case M68K_CR_SFC:
-@@ -248,14 +244,13 @@ void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
-         env->mmu.ttr[M68K_DTTR1] = val;
-         return;
-     }
--    cpu_abort(CPU(cpu), "Unimplemented control register write 0x%x = 0x%x\n",
-+    cpu_abort(env_cpu(env),
-+              "Unimplemented control register write 0x%x = 0x%x\n",
-               reg, val);
- }
- 
- uint32_t HELPER(m68k_movec_from)(CPUM68KState *env, uint32_t reg)
- {
--    M68kCPU *cpu = m68k_env_get_cpu(env);
--
-     switch (reg) {
-     /* MC680[1234]0 */
-     case M68K_CR_SFC:
-@@ -292,7 +287,7 @@ uint32_t HELPER(m68k_movec_from)(CPUM68KState *env, uint32_t reg)
-     case M68K_CR_DTT1:
-         return env->mmu.ttr[M68K_DTTR1];
-     }
--    cpu_abort(CPU(cpu), "Unimplemented control register read 0x%x\n",
-+    cpu_abort(env_cpu(env), "Unimplemented control register read 0x%x\n",
-               reg);
- }
- 
-@@ -388,8 +383,7 @@ static void dump_address_map(CPUM68KState *env, uint32_t root_pointer)
-     uint32_t last_logical, last_physical;
-     int32_t size;
-     int last_attr = -1, attr = -1;
--    M68kCPU *cpu = m68k_env_get_cpu(env);
--    CPUState *cs = CPU(cpu);
+-    CPUState *cs = CPU(mb_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
-     MemTxResult txres;
+     struct microblaze_mmu *mmu = &env->mmu;
+     unsigned int tlb_size;
+     uint32_t tlb_tag, end, t;
+@@ -228,7 +228,6 @@ uint32_t mmu_read(CPUMBState *env, bool ext, uint32_t rn)
  
-     if (env->mmu.tcr & M68K_TCR_PAGE_8K) {
-@@ -630,8 +624,7 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
-                                 int *prot, target_ulong address,
-                                 int access_type, target_ulong *page_size)
+ void mmu_write(CPUMBState *env, bool ext, uint32_t rn, uint32_t v)
  {
--    M68kCPU *cpu = m68k_env_get_cpu(env);
--    CPUState *cs = CPU(cpu);
-+    CPUState *cs = env_cpu(env);
-     uint32_t entry;
-     uint32_t next;
-     target_ulong page_mask;
-@@ -1175,7 +1168,7 @@ void HELPER(mac_set_flags)(CPUM68KState *env, uint32_t acc)
-         z = n;                                                             \
-         break;                                                             \
-     default:                                                               \
--        cpu_abort(CPU(m68k_env_get_cpu(env)), "Bad CC_OP %d", op);         \
-+        cpu_abort(env_cpu(env), "Bad CC_OP %d", op);                       \
-     }                                                                      \
- } while (0)
+-    MicroBlazeCPU *cpu = mb_env_get_cpu(env);
+     uint64_t tmp64;
+     unsigned int i;
+     qemu_log_mask(CPU_LOG_MMU,
+@@ -269,7 +268,7 @@ void mmu_write(CPUMBState *env, bool ext, uint32_t rn, uint32_t v)
+             /* Changes to the zone protection reg flush the QEMU TLB.
+                Fortunately, these are very uncommon.  */
+             if (v != env->mmu.regs[rn]) {
+-                tlb_flush(CPU(cpu));
++                tlb_flush(env_cpu(env));
+             }
+             env->mmu.regs[rn] = v;
+             break;
+diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
+index b5dbb90d05..18677ddfca 100644
+--- a/target/microblaze/op_helper.c
++++ b/target/microblaze/op_helper.c
+@@ -65,7 +65,7 @@ uint32_t helper_get(uint32_t id, uint32_t ctrl)
  
-@@ -1358,8 +1351,6 @@ void HELPER(set_mac_extu)(CPUM68KState *env, uint32_t val, uint32_t acc)
- #if defined(CONFIG_SOFTMMU)
- void HELPER(ptest)(CPUM68KState *env, uint32_t addr, uint32_t is_read)
+ void helper_raise_exception(CPUMBState *env, uint32_t index)
  {
--    M68kCPU *cpu = m68k_env_get_cpu(env);
--    CPUState *cs = CPU(cpu);
-     hwaddr physical;
-     int access_type;
-     int prot;
-@@ -1384,7 +1375,7 @@ void HELPER(ptest)(CPUM68KState *env, uint32_t addr, uint32_t is_read)
-     if (ret == 0) {
-         addr &= TARGET_PAGE_MASK;
-         physical += addr & (page_size - 1);
--        tlb_set_page(cs, addr, physical,
-+        tlb_set_page(env_cpu(env), addr, physical,
-                      prot, access_type & ACCESS_SUPER ?
-                      MMU_KERNEL_IDX : MMU_USER_IDX, page_size);
-     }
-@@ -1392,18 +1383,18 @@ void HELPER(ptest)(CPUM68KState *env, uint32_t addr, uint32_t is_read)
- 
- void HELPER(pflush)(CPUM68KState *env, uint32_t addr, uint32_t opmode)
- {
--    M68kCPU *cpu = m68k_env_get_cpu(env);
+-    CPUState *cs = CPU(mb_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
  
-     switch (opmode) {
-     case 0: /* Flush page entry if not global */
-     case 1: /* Flush page entry */
--        tlb_flush_page(CPU(cpu), addr);
-+        tlb_flush_page(cs, addr);
-         break;
-     case 2: /* Flush all except global entries */
--        tlb_flush(CPU(cpu));
-+        tlb_flush(cs);
-         break;
-     case 3: /* Flush all entries */
--        tlb_flush(CPU(cpu));
-+        tlb_flush(cs);
-         break;
-     }
- }
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index 1402145c8f..6716b93b5a 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -421,7 +421,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
-     case HOSTED_INIT_SIM:
- #if defined(CONFIG_USER_ONLY)
-         {
--        CPUState *cs = CPU(m68k_env_get_cpu(env));
-+        CPUState *cs = env_cpu(env);
-         TaskState *ts = cs->opaque;
-         /* Allocate the heap using sbrk.  */
-         if (!ts->heap_limit) {
-@@ -454,7 +454,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
- #endif
-         return;
-     default:
--        cpu_abort(CPU(m68k_env_get_cpu(env)), "Unsupported semihosting syscall %d\n", nr);
-+        cpu_abort(env_cpu(env), "Unsupported semihosting syscall %d\n", nr);
-         result = 0;
-     }
- failed:
-diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index 3d1aa23a02..ebcfe3dfdd 100644
---- a/target/m68k/op_helper.c
-+++ b/target/m68k/op_helper.c
-@@ -196,7 +196,7 @@ static const char *m68k_exception_name(int index)
- 
- static void cf_interrupt_all(CPUM68KState *env, int is_hw)
+     cs->exception_index = index;
+     cpu_loop_exit(cs);
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index 885fc44b51..9ce65f3bcf 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -1604,7 +1604,7 @@ static inline void decode(DisasContext *dc, uint32_t ir)
+ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
  {
--    CPUState *cs = CPU(m68k_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     uint32_t sp;
-     uint32_t sr;
-     uint32_t fmt;
-@@ -274,7 +274,7 @@ static inline void do_stack_frame(CPUM68KState *env, uint32_t *sp,
- {
-     if (m68k_feature(env, M68K_FEATURE_QUAD_MULDIV)) {
-         /*  all except 68000 */
--        CPUState *cs = CPU(m68k_env_get_cpu(env));
-+        CPUState *cs = env_cpu(env);
-         switch (format) {
-         case 4:
-             *sp -= 4;
-@@ -299,7 +299,7 @@ static inline void do_stack_frame(CPUM68KState *env, uint32_t *sp,
- 
- static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
- {
--    CPUState *cs = CPU(m68k_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     uint32_t sp;
-     uint32_t retaddr;
-     uint32_t vector;
-@@ -507,7 +507,7 @@ bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- 
- static void raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
- {
--    CPUState *cs = CPU(m68k_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     cs->exception_index = tt;
-     cpu_loop_exit_restore(cs, raddr);
-@@ -1037,7 +1037,7 @@ void HELPER(chk)(CPUM68KState *env, int32_t val, int32_t ub)
-     env->cc_c = 0 <= ub ? val < 0 || val > ub : val > ub && val < 0;
- 
-     if (val < 0 || val > ub) {
--        CPUState *cs = CPU(m68k_env_get_cpu(env));
-+        CPUState *cs = env_cpu(env);
- 
-         /* Recover PC and CC_OP for the beginning of the insn.  */
-         cpu_restore_state(cs, GETPC(), true);
-@@ -1068,7 +1068,7 @@ void HELPER(chk2)(CPUM68KState *env, int32_t val, int32_t lb, int32_t ub)
-     env->cc_c = lb <= ub ? val < lb || val > ub : val > ub && val < lb;
- 
-     if (env->cc_c) {
--        CPUState *cs = CPU(m68k_env_get_cpu(env));
-+        CPUState *cs = env_cpu(env);
- 
-         /* Recover PC and CC_OP for the beginning of the insn.  */
-         cpu_restore_state(cs, GETPC(), true);
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index f0534a4ba0..2ae537461f 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -4777,14 +4777,12 @@ DISAS_INSN(wddata)
- 
- DISAS_INSN(wdebug)
- {
--    M68kCPU *cpu = m68k_env_get_cpu(env);
--
-     if (IS_USER(s)) {
-         gen_exception(s, s->base.pc_next, EXCP_PRIVILEGE);
-         return;
-     }
-     /* TODO: Implement wdebug.  */
--    cpu_abort(CPU(cpu), "WDEBUG not implemented");
-+    cpu_abort(env_cpu(env), "WDEBUG not implemented");
- }
- #endif
- 
+     CPUMBState *env = cs->env_ptr;
+-    MicroBlazeCPU *cpu = mb_env_get_cpu(env);
++    MicroBlazeCPU *cpu = env_archcpu(env);
+     uint32_t pc_start;
+     struct DisasContext ctx;
+     struct DisasContext *dc = &ctx;
 -- 
 2.17.1
 
