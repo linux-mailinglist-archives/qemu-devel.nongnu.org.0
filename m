@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B523035152
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:48:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57777 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DB635148
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 22:44:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57711 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYGMO-0004Oy-OW
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:48:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35647)
+	id 1hYGIF-0000sd-3S
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 16:44:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35734)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8P-000144-IJ
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:18 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8R-00016S-Jl
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYG8O-0004CJ-93
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:17 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42711)
+	(envelope-from <richard.henderson@linaro.org>) id 1hYG8Q-0004EM-4p
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:19 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:40972)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYG8O-0004C5-3g
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:16 -0400
-Received: by mail-ot1-x342.google.com with SMTP id l15so1106097otn.9
-	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:16 -0700 (PDT)
+	id 1hYG8P-0004Cy-Vd
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 16:34:18 -0400
+Received: by mail-oi1-x241.google.com with SMTP id b21so12668317oic.8
+	for <qemu-devel@nongnu.org>; Tue, 04 Jun 2019 13:34:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=2YlJXMPiyvFoAXCG6DRvfJeW5V6xBJbkISsj/LLUjoo=;
-	b=EY322XWAvZvQJVV4QAqcLMUr0r7lRokt6qf7jl/Ge+RbsZGwQhbU+mjmGZfARFljvI
-	9COuTn3++nZZNCLrTOmx16t0E4EGkpz+V3fGcmTiuTFevGNByiKHHJPOwBDdOhria1nH
-	JS0QZw3BgJf2crmT/nmOqP7eXpdQxHcJ3rctFGUN7vWc9jN1k+wxGeYMZMrZt46A+HPb
-	llfHOI4LPljcsPfDTV0/5PDAkxayd19Q4zmPgelU5VLM24AKaAEA3eU5Y7ASfkpuRcKr
-	+bVuTPjvrBc+agIPm928DRwdYik6eop8P4T+8g7gpUFqEYcac/h4su1rXmoTVjH8FZqQ
-	OkPA==
+	bh=3eEZ43+foZOHsJH12yR7I4WMYSzG6ykvnQtbtEqnbDs=;
+	b=r3wNXQSWE0KBY++rKoL85Ou3wukzAVz1/VJHrrErBFc899eCqZF0Kiy4b3MOQMEeP0
+	p33LgbNYFwbGh5JfkOZc6/EbSaO3c8fdgxLa13eJlQllWHnxAO4D+zE8oqbkVhor0Ut0
+	JJDz366FysAXDysVDzO8ncnoX80NA6NXCKeWU6CLemJi7S3jjYcNUxGjjXhQKTWhyBQ3
+	bc4DYN1TFBHpxhJ493f4eNQ3M1cmapQrhb0ZBKMnS+hvyaniQGGW/FHfdAqHuEQ6fxzs
+	SJoTap9rLYSKYjhrzihC8qAD3ppUm9MTs89Psz+YbpdnDRfBIyCeK4y9Y2F37/pjFGOx
+	TJnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=2YlJXMPiyvFoAXCG6DRvfJeW5V6xBJbkISsj/LLUjoo=;
-	b=uNGP4PExo4M/0atpnalHCu9kwQZCSeQ6gxqLZZ018dLalhEHHb66WiZWHcdYdAwizT
-	cVEiWOfvLJPbq/0GAogC0JZhHvIoPZlCI1jYoX7KuWb4HNn09/bReqHfwZjvRrNMZ55g
-	xfqftp9sMwiPOwvlxLLPLZuSOt/sPNDeqMfASw1tnO0+f4iNBhuh20/ipurz2+kqIZnd
-	hzbPbEa6kV+w4XnLKiSR/WhUahzADvBMRWEdNCo9uQg9ZdcP/pDk8L0gXSkpVTh7SwF8
-	WHPX+M3oiJHCmqTfNCaSr5Q5jyku8s5p4SPAiozg/XTp9ThTfsBy4G5yXL808Qqvn7fA
-	vSxA==
-X-Gm-Message-State: APjAAAURYx2Vf9elj/Ay/gkD5xEEL9ElMtPWDYlNtxRJV3o6QlK3BOaR
-	fmYsjIwqBoon6efM2UV9t3LbMBdku9hJEw==
-X-Google-Smtp-Source: APXvYqzPAd2r1a21gYCNg+87yC8OzL05OdIP8rQ57voHWufr0fhm9wbnosS8kLngWqLX7r5JSzZP8w==
-X-Received: by 2002:a9d:4c17:: with SMTP id l23mr6515409otf.367.1559680455136; 
-	Tue, 04 Jun 2019 13:34:15 -0700 (PDT)
+	bh=3eEZ43+foZOHsJH12yR7I4WMYSzG6ykvnQtbtEqnbDs=;
+	b=rpgg4PDjlePJ/ps9EJoA8NYGfWoGPLUpCSGsrRH+P7TUtzmZysFnSGt3q+MJPa4nkc
+	NTTL6BBA0B0/M6vRAQakrxb1HI85rZCtYSzFMA7/VRwhSXUSIglrYJqzdGSxMldOMQGm
+	jUgBjthtgExEply21PDRFhOA6+7Ms9wiu7/5Wr3JEvg5991pjt0eBMK+MfD2+eOex1Wi
+	00330OlrEzx6CMG+p8rKjWCYZDq92wktmg3JQewpp+V8s8jvlhu5/EbLJK1gH/TJWVbk
+	2vP3fX6PA7JDeDhrB/80Fi2hGlWgPPkL/GzFOf38/j2c3Of0nwabdO+DujlvoDDTzyHU
+	LV1w==
+X-Gm-Message-State: APjAAAWMJpuHoI2b2XxpvjFFPIDUs3XtW1cLdB6CkgAFbdqao/+pdotx
+	1lvckX7Fxz36bdzx/+Q9bQHDRH14IzTbIA==
+X-Google-Smtp-Source: APXvYqyasOz7WlN5+FxpIfJs+IXH8vw6ywZkKDupThC4IhNL241mnxZX4dJKO2clg2f6rjSgNYHBvw==
+X-Received: by 2002:aca:3fc6:: with SMTP id m189mr3475894oia.124.1559680456690;
+	Tue, 04 Jun 2019 13:34:16 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.13
+	by smtp.gmail.com with ESMTPSA id h1sm5979901otj.78.2019.06.04.13.34.15
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 13:34:14 -0700 (PDT)
+	Tue, 04 Jun 2019 13:34:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  4 Jun 2019 15:33:24 -0500
-Message-Id: <20190604203351.27778-13-richard.henderson@linaro.org>
+Date: Tue,  4 Jun 2019 15:33:25 -0500
+Message-Id: <20190604203351.27778-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604203351.27778-1-richard.henderson@linaro.org>
 References: <20190604203351.27778-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: [Qemu-devel] [PATCH v4 12/39] target/cris: Use env_cpu, env_archcpu
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: [Qemu-devel] [PATCH v4 13/39] target/hppa: Use env_cpu, env_archcpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,126 +80,162 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Cleanup in the boilerplate that each target must define.
-Replace cris_env_get_cpu with env_archcpu.  The combination
-CPU(cris_env_get_cpu) should have used ENV_GET_CPU to begin;
+Replace hppa_env_get_cpu with env_archcpu.  The combination
+CPU(hppa_env_get_cpu) should have used ENV_GET_CPU to begin;
 use env_cpu now.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/cpu.h          |  5 -----
- linux-user/cris/cpu_loop.c |  2 +-
- target/cris/mmu.c          |  3 +--
- target/cris/op_helper.c    | 10 +++-------
- target/cris/translate.c    |  2 +-
- 5 files changed, 6 insertions(+), 16 deletions(-)
+ target/hppa/cpu.h          |  5 -----
+ linux-user/hppa/cpu_loop.c |  2 +-
+ target/hppa/helper.c       |  3 +--
+ target/hppa/int_helper.c   |  4 ++--
+ target/hppa/mem_helper.c   | 10 ++++------
+ target/hppa/op_helper.c    |  8 +++-----
+ 6 files changed, 11 insertions(+), 21 deletions(-)
 
-diff --git a/target/cris/cpu.h b/target/cris/cpu.h
-index 0746d19f38..e9e4e39a40 100644
---- a/target/cris/cpu.h
-+++ b/target/cris/cpu.h
-@@ -183,11 +183,6 @@ struct CRISCPU {
-     CPUCRISState env;
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index 0cb1fc8800..75e6a91a5e 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
+@@ -222,11 +222,6 @@ struct HPPACPU {
+     QEMUTimer *alarm_timer;
  };
  
--static inline CRISCPU *cris_env_get_cpu(CPUCRISState *env)
+-static inline HPPACPU *hppa_env_get_cpu(CPUHPPAState *env)
 -{
--    return container_of(env, CRISCPU, env);
+-    return container_of(env, HPPACPU, env);
 -}
 -
- #define ENV_OFFSET offsetof(CRISCPU, env)
+ #define ENV_OFFSET      offsetof(HPPACPU, env)
  
- #ifndef CONFIG_USER_ONLY
-diff --git a/linux-user/cris/cpu_loop.c b/linux-user/cris/cpu_loop.c
-index 7ec36cb0b5..86e711108d 100644
---- a/linux-user/cris/cpu_loop.c
-+++ b/linux-user/cris/cpu_loop.c
-@@ -23,7 +23,7 @@
+ typedef CPUHPPAState CPUArchState;
+diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
+index 880955fdef..9915456a1d 100644
+--- a/linux-user/hppa/cpu_loop.c
++++ b/linux-user/hppa/cpu_loop.c
+@@ -105,7 +105,7 @@ static abi_ulong hppa_lws(CPUHPPAState *env)
  
- void cpu_loop(CPUCRISState *env)
+ void cpu_loop(CPUHPPAState *env)
  {
--    CPUState *cs = CPU(cris_env_get_cpu(env));
+-    CPUState *cs = CPU(hppa_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
-     int trapnr, ret;
      target_siginfo_t info;
-     
-diff --git a/target/cris/mmu.c b/target/cris/mmu.c
-index 9cb73bbfec..2acbcfd1c7 100644
---- a/target/cris/mmu.c
-+++ b/target/cris/mmu.c
-@@ -288,7 +288,6 @@ static int cris_mmu_translate_page(struct cris_mmu_result *res,
- 
- void cris_mmu_flush_pid(CPUCRISState *env, uint32_t pid)
+     abi_ulong ret;
+     int trapnr;
+diff --git a/target/hppa/helper.c b/target/hppa/helper.c
+index 11c61b3ca2..0dcd105b88 100644
+--- a/target/hppa/helper.c
++++ b/target/hppa/helper.c
+@@ -71,8 +71,7 @@ void cpu_hppa_put_psw(CPUHPPAState *env, target_ureg psw)
+     /* If PSW_P changes, it affects how we translate addresses.  */
+     if ((psw ^ old_psw) & PSW_P) {
+ #ifndef CONFIG_USER_ONLY
+-        CPUState *src = CPU(hppa_env_get_cpu(env));
+-        tlb_flush_by_mmuidx(src, 0xf);
++        tlb_flush_by_mmuidx(env_cpu(env), 0xf);
+ #endif
+     }
+ }
+diff --git a/target/hppa/int_helper.c b/target/hppa/int_helper.c
+index 8d5edd3a20..89241c31e7 100644
+--- a/target/hppa/int_helper.c
++++ b/target/hppa/int_helper.c
+@@ -77,7 +77,7 @@ void HELPER(write_eirr)(CPUHPPAState *env, target_ureg val)
  {
--    CRISCPU *cpu = cris_env_get_cpu(env);
-     target_ulong vaddr;
-     unsigned int idx;
-     uint32_t lo, hi;
-@@ -312,7 +311,7 @@ void cris_mmu_flush_pid(CPUCRISState *env, uint32_t pid)
-                 if (tlb_v && !tlb_g && (tlb_pid == pid)) {
-                     vaddr = tlb_vpn << TARGET_PAGE_BITS;
-                     D_LOG("flush pid=%x vaddr=%x\n", pid, vaddr);
--                    tlb_flush_page(CPU(cpu), vaddr);
-+                    tlb_flush_page(env_cpu(env), vaddr);
-                 }
-             }
-         }
-diff --git a/target/cris/op_helper.c b/target/cris/op_helper.c
-index e4c6942922..6b1e7ae4a8 100644
---- a/target/cris/op_helper.c
-+++ b/target/cris/op_helper.c
-@@ -39,7 +39,7 @@
+     env->cr[CR_EIRR] &= ~val;
+     qemu_mutex_lock_iothread();
+-    eval_interrupt(hppa_env_get_cpu(env));
++    eval_interrupt(env_archcpu(env));
+     qemu_mutex_unlock_iothread();
+ }
  
- void helper_raise_exception(CPUCRISState *env, uint32_t index)
+@@ -85,7 +85,7 @@ void HELPER(write_eiem)(CPUHPPAState *env, target_ureg val)
  {
--    CPUState *cs = CPU(cris_env_get_cpu(env));
+     env->cr[CR_EIEM] = val;
+     qemu_mutex_lock_iothread();
+-    eval_interrupt(hppa_env_get_cpu(env));
++    eval_interrupt(env_archcpu(env));
+     qemu_mutex_unlock_iothread();
+ }
+ #endif /* !CONFIG_USER_ONLY */
+diff --git a/target/hppa/mem_helper.c b/target/hppa/mem_helper.c
+index 0fd3ac6645..b12c5b5054 100644
+--- a/target/hppa/mem_helper.c
++++ b/target/hppa/mem_helper.c
+@@ -56,7 +56,7 @@ static hppa_tlb_entry *hppa_find_tlb(CPUHPPAState *env, vaddr addr)
+ 
+ static void hppa_flush_tlb_ent(CPUHPPAState *env, hppa_tlb_entry *ent)
+ {
+-    CPUState *cs = CPU(hppa_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
+     unsigned i, n = 1 << (2 * ent->page_size);
+     uint64_t addr = ent->va_b;
  
-     cs->exception_index = index;
-     cpu_loop_exit(cs);
-@@ -58,8 +58,7 @@ void helper_tlb_flush_pid(CPUCRISState *env, uint32_t pid)
- void helper_spc_write(CPUCRISState *env, uint32_t new_spc)
+@@ -329,7 +329,7 @@ static void ptlb_work(CPUState *cpu, run_on_cpu_data data)
+ 
+ void HELPER(ptlb)(CPUHPPAState *env, target_ulong addr)
  {
- #if !defined(CONFIG_USER_ONLY)
--    CRISCPU *cpu = cris_env_get_cpu(env);
+-    CPUState *src = CPU(hppa_env_get_cpu(env));
++    CPUState *src = env_cpu(env);
+     CPUState *cpu;
+     trace_hppa_tlb_ptlb(env);
+     run_on_cpu_data data = RUN_ON_CPU_TARGET_PTR(addr);
+@@ -346,17 +346,15 @@ void HELPER(ptlb)(CPUHPPAState *env, target_ulong addr)
+    number of pages/entries (we choose all), and is local to the cpu.  */
+ void HELPER(ptlbe)(CPUHPPAState *env)
+ {
+-    CPUState *src = CPU(hppa_env_get_cpu(env));
+     trace_hppa_tlb_ptlbe(env);
+     memset(env->tlb, 0, sizeof(env->tlb));
+-    tlb_flush_by_mmuidx(src, 0xf);
++    tlb_flush_by_mmuidx(env_cpu(env), 0xf);
+ }
+ 
+ void cpu_hppa_change_prot_id(CPUHPPAState *env)
+ {
+     if (env->psw & PSW_P) {
+-        CPUState *src = CPU(hppa_env_get_cpu(env));
+-        tlb_flush_by_mmuidx(src, 0xf);
++        tlb_flush_by_mmuidx(env_cpu(env), 0xf);
+     }
+ }
+ 
+diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
+index 952e97a7d7..04d23c1b22 100644
+--- a/target/hppa/op_helper.c
++++ b/target/hppa/op_helper.c
+@@ -29,8 +29,7 @@
+ 
+ void QEMU_NORETURN HELPER(excp)(CPUHPPAState *env, int excp)
+ {
+-    HPPACPU *cpu = hppa_env_get_cpu(env);
 -    CPUState *cs = CPU(cpu);
 +    CPUState *cs = env_cpu(env);
  
-     tlb_flush_page(cs, env->pregs[PR_SPC]);
-     tlb_flush_page(cs, new_spc);
-@@ -72,9 +71,6 @@ void helper_spc_write(CPUCRISState *env, uint32_t new_spc)
+     cs->exception_index = excp;
+     cpu_loop_exit(cs);
+@@ -38,8 +37,7 @@ void QEMU_NORETURN HELPER(excp)(CPUHPPAState *env, int excp)
  
- void helper_movl_sreg_reg(CPUCRISState *env, uint32_t sreg, uint32_t reg)
+ void QEMU_NORETURN hppa_dynamic_excp(CPUHPPAState *env, int excp, uintptr_t ra)
  {
--#if !defined(CONFIG_USER_ONLY)
--    CRISCPU *cpu = cris_env_get_cpu(env);
--#endif
-     uint32_t srs;
-     srs = env->pregs[PR_SRS];
-     srs &= 3;
-@@ -112,7 +108,7 @@ void helper_movl_sreg_reg(CPUCRISState *env, uint32_t sreg, uint32_t reg)
-             D_LOG("tlb flush vaddr=%x v=%d pc=%x\n",
-                   vaddr, tlb_v, env->pc);
-             if (tlb_v) {
--                tlb_flush_page(CPU(cpu), vaddr);
-+                tlb_flush_page(env_cpu(env), vaddr);
-             }
-         }
-     }
-diff --git a/target/cris/translate.c b/target/cris/translate.c
-index 31b40a57f9..3429a3b768 100644
---- a/target/cris/translate.c
-+++ b/target/cris/translate.c
-@@ -3097,7 +3097,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-      * delayslot, like in real hw.
-      */
-     pc_start = tb->pc & ~1;
--    dc->cpu = cris_env_get_cpu(env);
-+    dc->cpu = env_archcpu(env);
-     dc->tb = tb;
+-    HPPACPU *cpu = hppa_env_get_cpu(env);
+-    CPUState *cs = CPU(cpu);
++    CPUState *cs = env_cpu(env);
  
-     dc->is_jmp = DISAS_NEXT;
+     cs->exception_index = excp;
+     cpu_loop_exit_restore(cs, ra);
+@@ -630,7 +628,7 @@ target_ureg HELPER(read_interval_timer)(void)
+ #ifndef CONFIG_USER_ONLY
+ void HELPER(write_interval_timer)(CPUHPPAState *env, target_ureg val)
+ {
+-    HPPACPU *cpu = hppa_env_get_cpu(env);
++    HPPACPU *cpu = env_archcpu(env);
+     uint64_t current = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+     uint64_t timeout;
+ 
 -- 
 2.17.1
 
