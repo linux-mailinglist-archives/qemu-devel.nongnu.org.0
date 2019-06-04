@@ -2,103 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D84B3409E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 09:47:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47663 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B7A347B4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jun 2019 15:10:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52429 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hY4AO-0007iT-J3
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 03:47:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49656)
+	id 1hY9Cf-00072z-3x
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 09:10:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50910)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hY49E-0007Ip-SO
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 03:46:21 -0400
+	(envelope-from <Michael.Jacky@protonmail.com>) id 1hY4Br-0008QZ-Gz
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 03:49:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hY49D-0001yb-Nz
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 03:46:20 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:53811)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hY49D-0001sS-Ay; Tue, 04 Jun 2019 03:46:19 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
-	1MSZDt-1hABUT0rVJ-00SslL; Tue, 04 Jun 2019 09:45:40 +0200
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190603090635.10631-1-david@redhat.com>
-	<20190603090635.10631-22-david@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
-	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
-Message-ID: <38a7fb8f-bb36-10b5-c387-e6c9604a97a7@vivier.eu>
-Date: Tue, 4 Jun 2019 09:45:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	(envelope-from <Michael.Jacky@protonmail.com>) id 1hY4Bq-00033K-HA
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 03:49:03 -0400
+Received: from mail-40136.protonmail.ch ([185.70.40.136]:60809)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <Michael.Jacky@protonmail.com>)
+	id 1hY4Bp-0002bf-VO
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 03:49:02 -0400
+Date: Tue, 04 Jun 2019 07:48:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=default; t=1559634535;
+	bh=viMk2W9kLp3P1em8l99jI1zVUV2gmJGo46EI922oWR8=;
+	h=Date:To:From:Reply-To:Subject:Feedback-ID:From;
+	b=QitmR5wdQxvCzGDRZ2NZkuiv97tGVEph+MI0RHs4iTtXyQUENsNHzIDnuh47pQS4x
+	810rZMn5yioJ5w33oJtioATSdK0A8LuBDmwnbIHKs7T0aGZiYKrdEjyccqveUk3DWU
+	CvZjEctJxxfafjDmbWOHa+sUmg4ixACvAtPsMLG4=
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Message-ID: <F13Qey_Jyf_vQSjmSkO77i-Gt_DGMbZllNK-BrRixfqSg5U8WEHyqMQKTtyGN2wg49CFDgl5xGUjt73oiiJnWsctvX31ex65fFVZU8NnfWo=@protonmail.com>
+Feedback-ID: lLRqVZ2xWcsQb5cyu5L-VrK136YRclC-0qoBtesUit4TFTvye7PTxNWtKI7vsxs_WZDkvIgSjjPJjXQg6rqVYA==:Ext:ProtonMail
 MIME-Version: 1.0
-In-Reply-To: <20190603090635.10631-22-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YLdwt+LBeZ2i6/U1qBl4FGB3XQWyLxTf29u3/k9+ALVGFCVQO5p
-	hrkm1NgHBHE23pY7kvFdNBUUZU9jar0wniXg8pzBiv582gUuuTdGtsO0A7M/PnGxu4FlyIL
-	0zDC9kChDRjEDSH1VhbCmesqYoP0+P8aFUg276s+5MRBe3jeHUeUWxYJwdV7+W2kXkc6wKC
-	nyBC0zLdl4J/xWUb7PI8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7xCWgebdxVQ=:Fv343onMY4Bl5R5YHyii6w
-	3pRdbLF0M8eTtuW/FiCzwmaJbXvk76ukE1CNvLcLue97J3RlZmw934/4Lg37B2xUqDz9MeM81
-	iqz1Xyq6KpFfx/VNpahR2rXkLH6SCrQGdIZ6av5oc2TnO/C/m+COXC2/TcTWhZLL5OLDxaCh3
-	85O+pdbhqSUg33PXNKKtKX8mejs1Wv7u7zykkS48oeauj/0VtNXtu02c1M82nUfxoHJ1SdGKy
-	MMhB1hJ0JkdNYDdY3zQ2Z2hjmU5MnZ5xAnuTUW9d2UAoBPi4Z/Du4eu4VfbcEzQe/mFMBiZ+y
-	TZ/KAWFCSEV4a6VUjDI0qCFXEzfmN7lG+qSKyouNhhJhrGUVZxkxsI1DdKgx5ZcR1Fn1S0DAO
-	xqAH0vL66A4I3SdnnJFqX9xkjfpJgwkfJOj79ufXEmWf54BSq80YvTl6KP21gOvB3/Gs6gS3n
-	kbt3xUq3p7mzsiZycMq54JYqY8ve7oCtdwZUt4O1ZAARuLyB4YHRxbVllyGAgEnj0plI1PuTd
-	I2XVSC2Iu195sDcTUy3OYPrIhBAC/8y6V4WrNPc5LMGtQE3v6rsjLaQ4/WukodGr0QjYSr6dq
-	aVCIw5vg10w43NIwtZhnCVhnqmvNZx7HMh+yXRCFq4KY2PZmpUsmZWHt/PtJ0pAH500ILHYTv
-	GOD9Hczpz7l+QwbcIZnZwbaKKmJDZWSQEZIfwQ9M+jZmPhZU06oPDqJts0IcmRjSmIpgM/VTy
-	Tc64BK0Pcb1CUsLtdKnkkDy9bkcPrZnTWL0hwRG31IoVpnL8mmGLVRSsjuI=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: Re: [Qemu-devel] [PATCH v2 21/22] s390x/tcg: Allow linux-user to
- use vector instructions
+X-Received-From: 185.70.40.136
+X-Mailman-Approved-At: Tue, 04 Jun 2019 09:08:54 -0400
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: [Qemu-devel] How can i run different router or switch on qemu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -110,41 +51,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Denys Vlasenko <dvlasenk@redhat.com>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Pino Toscano <ptoscano@redhat.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+From: "Michael.Jacky via Qemu-devel" <qemu-devel@nongnu.org>
+Reply-To: "Michael.Jacky" <Michael.Jacky@protonmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 03/06/2019 à 11:06, David Hildenbrand a écrit :
-> Once we unlock S390_FEAT_VECTOR for TCG, we want linux-user to be
-> able to make use of it.
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/cpu.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index b1df63d82c..6af1a1530f 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -145,6 +145,9 @@ static void s390_cpu_full_reset(CPUState *s)
->  #if defined(CONFIG_USER_ONLY)
->      /* user mode should always be allowed to use the full FPU */
->      env->cregs[0] |= CR0_AFP;
-> +    if (s390_has_feat(S390_FEAT_VECTOR)) {
-> +        env->cregs[0] |= CR0_VECTOR;
-> +    }
->  #endif
->  
->      /* architectured initial value for Breaking-Event-Address register */
-> 
-
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+SGVsbG8sCkknbSBzb3JyeSB0byB3YXN0ZSB5b3VyIHRpbWUuCk5vdyBJIGhhdmUgYSBxdWVzdGlv
+biBhbmQgaSBjYW4ndCBmaW5kIGFuc3dlciBieSBnb29nbGUuCkkgbmVlZCB0byB1c2UgcWVtdSB0
+byBydW4gZGlmZmVyZW50IHJvdXRlcixzd2l0Y2gsYW5kIGRpZmZlcmVudCB0eXBlKGV4YW1wbGU6
+Y2lzY28sbmV0Z2Vhcixmb3J0aSBhbmQgbW9yZSkgYW5kIHVzZSBvcGVuc3RhY2sgdm0gdG8gY29u
+bmVjdCB0aGVzZSBlcXVpcG1lbnQuCkkgZm91bmQgdGhlc2UgZXF1aXBtZW50IHdpdGggZGlmZmVy
+ZW50IHR5cGUsZm9yIGV4YW1wbGUgLmJpbiwuaW1nLGFuZCBkaWZmZXJlbnQgZXF1aXBtZW50IGRp
+cmVjdG9yeSBzdHJ1Y3R1cmUgaXMgZGlmZmVyZW50LgpIb3cgY2FuIGkgcnVuIHRoZXNlIGVxdWlw
+bWVudHMgb24gcWVtdSBhbmQgd2hhdCBpIG5lZWQgdG8gZG8gZmlyc3QuClRoYW5rIHlvdSB2ZXJ5
+IG11Y2gu
 
