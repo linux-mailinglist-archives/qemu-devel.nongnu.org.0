@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0DE3662F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:02:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49967 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650D436651
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:08:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50070 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYd3T-0001n9-RJ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:02:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48018)
+	id 1hYd9J-0006Ea-J0
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:08:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48058)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYcyA-00068g-8f
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:15 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYcyB-0006A4-Lx
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYcy9-00082H-1p
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:14 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34602)
+	(envelope-from <richard.henderson@linaro.org>) id 1hYcyA-00087R-9p
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:15 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35086)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYcy8-0007zs-PR
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:12 -0400
-Received: by mail-ot1-x341.google.com with SMTP id z24so2087252oto.1
-	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:57:12 -0700 (PDT)
+	id 1hYcyA-00085J-5G
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:14 -0400
+Received: by mail-oi1-x243.google.com with SMTP id y6so59282oix.2
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=W6HDhQJMBdxe5wJFgzRB2+t1x+cTtvvyIgBUjEbLKfs=;
-	b=q4HL3wPqkPUTCX1upK44DzH2jCj02ieD6b0YpeC0R/MEdah0OXekz6TmD6F5cWnHpE
-	9RKOu8xmj0bENhBs1Utf2n9JyQTVzR2ItMaIVhWx5tNkXHlEeDG3eAZw9ibK+x+ScRdM
-	kDYpw8DTmEqpcMrVAgH7oA4QwyNv+JmlqW94/hbv+AA/RUMotwdFYQKSG4bQA68p+iCa
-	pO5cmfXp8XrrZB9GIUERzJBXHl3iYdd0siEL4Yawnrd7u2uxRG9PS6BJw2Cfyf7Hf0yR
-	rhe6mW+swv5WxkrLKYXgP+mIbms/UobnPZ3o9ez9hg54ThKb7fFXFnNV4eM9KE6fqLVg
-	zypQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=VGvFhyg+EUZksh+VTROd86GaO53VcnzMT3R6u6jPQAY=;
+	b=OoIeqPmZjHB3rL9pqVkgC//djxrxRKMbvTLI/lNj/jUKtpVZU24+DJwHFfk8rkB9Et
+	7VZQU9GvIwyFNUNQPGcg/9eZOzeoBIBK983oq242StsYqiZ//A15cr/9Afk+f4rxa4XB
+	lYxTPX/3mEyYWtPYY23n1eqvuhL/Gxnl7drwrlPsrThBz2/Cdt+0Gbo7+JcSMohL32uc
+	KmQOxb9+xAszytdDLr+/TbaKY/r27in9EW5QvLNcH6YJrgzYcKWQbNS8BSXrhoLfzJog
+	UvSZaazsPsbp/cpi5i+WyC49uDxok4v9bzoPw685T020BnOWZkmNao9ZCerC8zeR0alH
+	8yLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=W6HDhQJMBdxe5wJFgzRB2+t1x+cTtvvyIgBUjEbLKfs=;
-	b=OT/DJVnnoqvsAX2qtMU+gfhOg14gGvE/6/iiPsQZHZQu32f5EWJnx+NdzHu05MPBWM
-	3J5VIM29BVl1F9BJ2Nxx3lIpqIcVQwIeWMKJnnL7YzbDgopTiHrkvmte8iNTRKGFiVEB
-	5RrCk460rKfxk2+byLK9ezv8vxqRCREZ6ErP+imqjOgHfFjRkejP71GgH/4zc4Mjp4GM
-	UhxwqTsnyn/us9K1cFaULx4RGr3Bxf5ATrw40jCifjtGk+IFRDN6kC1rI3ZwsAFBy2/5
-	r1HRKSl8TU+vPMg3dYctSSDra2mgHHkEGTThhPVIx6wxvJBSaLHG38zrTZo9YcMF7JJA
-	+72Q==
-X-Gm-Message-State: APjAAAXgJqxgWBsvfaFavmxUYF0uq7yTtNBDJSzWdWlZvldpEpWiNL1i
-	ySGdjLvx/1c9rSiXdMb63Yyu7yh4YsRWIA==
-X-Google-Smtp-Source: APXvYqxRxK+q4iCU2GaNKmznya6CNXDRyJ3Wzk9lR6s2ercfVvslIzPp920K8R0q9lzKcEtPrwaRGg==
-X-Received: by 2002:a9d:5cc2:: with SMTP id r2mr11408179oti.122.1559768231571; 
-	Wed, 05 Jun 2019 13:57:11 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=VGvFhyg+EUZksh+VTROd86GaO53VcnzMT3R6u6jPQAY=;
+	b=da7zeKHRXv186AJGtKi31/l6LP6uxkKJAxU+xwy2HthsCANmrYOFySs0/jZE07WCrB
+	OSAValXkCp/nsv3/2MXF/4KjWjsWH7VOfjmJt0YUqEhveuwErIR77dm+xW2dZlH4BSzX
+	Ng+IUlmdASFRE9njkpwpE3loiiPC0k6KgJo30cfyKLpoC5+ICZcMhB43cgI07YAWRE3z
+	bwmr1t+rM6m2ECQ/y+sF21WNucp/pczsg2p2Rd8Svfb2+pjZ/I35VmUss9TFKlM5U0CY
+	oPi1U//eMYWYtTaFko7SlE+KSIeIRxSDbGqDu944ALjJJi0NWgvjcE3cJPW7zUwWIj2J
+	zgvQ==
+X-Gm-Message-State: APjAAAWKTAXwM7DdoDm1lea6WWNIqOTnYVgf9v8Xb+JtAhBJQ3Vho9r1
+	lqQBFayInSGtsDcZQTyAlZ7ON43a9yulig==
+X-Google-Smtp-Source: APXvYqwDZlSJHeOHpiN3BzzPI+pVdj83ZReu7U2U08ZNM1z8tN8XzHbbvjthjb70jMuGvmVjoxaHgA==
+X-Received: by 2002:aca:ef43:: with SMTP id n64mr10168835oih.79.1559768233178; 
+	Wed, 05 Jun 2019 13:57:13 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id f5sm7414155otl.51.2019.06.05.13.57.09
+	by smtp.gmail.com with ESMTPSA id f5sm7414155otl.51.2019.06.05.13.57.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Jun 2019 13:57:10 -0700 (PDT)
+	Wed, 05 Jun 2019 13:57:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  5 Jun 2019 15:57:00 -0500
-Message-Id: <20190605205706.569-1-richard.henderson@linaro.org>
+Date: Wed,  5 Jun 2019 15:57:01 -0500
+Message-Id: <20190605205706.569-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190605205706.569-1-richard.henderson@linaro.org>
+References: <20190605205706.569-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: [Qemu-devel] [PATCH v6 0/6] linux-user/aarch64: Support PROT_BTI
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: [Qemu-devel] [PATCH v6 1/6] linux-user/aarch64: Reset btype for
+ syscalls and signals
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,49 +80,59 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dave Martin has recently posted a kernel patch set for 
-supporting ARMv8.5 Branch Target Identification in userland.
+The value of btype for syscalls is CONSTRAINED UNPREDICTABLE,
+so we need to make sure that the value is 0 before clone,
+fork, or syscall return.
 
-  http://lists.infradead.org/pipermail/linux-arm-kernel/2019-May/654654.html
+The kernel sets btype for the signal handler as if for a call.
 
-While that support is not yet in the upstream kernel, it looks
-to be close to its final form.  Note that the patch set spells
-this PROT_BTI_GUARDED, but review suggested to rename to PROT_BTI.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/aarch64/cpu_loop.c |  7 +++++++
+ linux-user/aarch64/signal.c   | 10 ++++++++--
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
-Changes since v5:
-  * New function to validate the target PROT parameter for mmap/mprotect.
-  * Require BTI in the cpu for PROT_BTI set.
-  * Set PSTATE.BTYPE=2 for the signal handler.
-    Adjust the smoke test to match.
-  * Tidy up the note parsing.
-
-
-r~
-
-
-Richard Henderson (6):
-  linux-user/aarch64: Reset btype for syscalls and signals
-  linux-user: Validate mmap/mprotect prot value
-  linux-user: Set PAGE_TARGET_1 for TARGET_PROT_BTI
-  include/elf: Add defines related to notes for GNU systems
-  linux-user: Parse NT_GNU_PROPERTY_TYPE_0 notes
-  tests/tcg/aarch64: Add bti smoke test
-
- include/elf.h                     |  48 ++++++++++++
- include/exec/cpu-all.h            |   2 +
- linux-user/syscall_defs.h         |   4 +
- linux-user/aarch64/cpu_loop.c     |   7 ++
- linux-user/aarch64/signal.c       |  10 ++-
- linux-user/elfload.c              |  83 ++++++++++++++++++--
- linux-user/mmap.c                 | 122 ++++++++++++++++++++++--------
- target/arm/translate-a64.c        |   6 +-
- tests/tcg/aarch64/bti-1.c         |  77 +++++++++++++++++++
- tests/tcg/aarch64/bti-crt.inc.c   |  69 +++++++++++++++++
- tests/tcg/aarch64/Makefile.target |   3 +
- 11 files changed, 387 insertions(+), 44 deletions(-)
- create mode 100644 tests/tcg/aarch64/bti-1.c
- create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
-
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index 2f2f63e3e8..1f68b13168 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -86,6 +86,13 @@ void cpu_loop(CPUARMState *env)
+ 
+         switch (trapnr) {
+         case EXCP_SWI:
++            /*
++             * The state of BTYPE on syscall entry is CONSTRAINED
++             * UNPREDICTABLE.  The real kernel will need to tidy this up
++             * as well.  Do this before syscalls so that the value is
++             * correct on return from syscall (especially clone & fork).
++             */
++            env->btype = 0;
+             ret = do_syscall(env,
+                              env->xregs[8],
+                              env->xregs[0],
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index f84a9cf28a..5605d404b3 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -506,10 +506,16 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
+             + offsetof(struct target_rt_frame_record, tramp);
+     }
+     env->xregs[0] = usig;
+-    env->xregs[31] = frame_addr;
+     env->xregs[29] = frame_addr + fr_ofs;
+-    env->pc = ka->_sa_handler;
+     env->xregs[30] = return_addr;
++    env->xregs[31] = frame_addr;
++    env->pc = ka->_sa_handler;
++
++    /* Invoke the signal handler as if by indirect call.  */
++    if (cpu_isar_feature(aa64_bti, arm_env_get_cpu(env))) {
++        env->btype = 2;
++    }
++
+     if (info) {
+         tswap_siginfo(&frame->info, info);
+         env->xregs[1] = frame_addr + offsetof(struct target_rt_sigframe, info);
 -- 
 2.17.1
 
