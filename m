@@ -2,56 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C51356D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 08:18:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36145 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38576356EF
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 08:24:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36218 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYPG6-0007an-E5
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 02:18:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45508)
+	id 1hYPLZ-0002MI-EC
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 02:24:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47823)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david.brenken@efs-auto.org>) id 1hYPER-0006zY-Lh
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:08 -0400
+	(envelope-from <lidong.chen@oracle.com>) id 1hYPKW-000239-Q2
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:23:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david.brenken@efs-auto.org>) id 1hYPEQ-0006i7-8A
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:07 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:55367)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <david.brenken@efs-auto.org>)
-	id 1hYPEK-0006GU-1i
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:01 -0400
-Received: from localhost.localdomain ([178.239.76.114]) by
-	mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA
-	(Nemesis)
-	id 1M4s8v-1hWTbU2tsd-0021jG; Wed, 05 Jun 2019 08:11:43 +0200
-From: David Brenken <david.brenken@efs-auto.org>
+	(envelope-from <lidong.chen@oracle.com>) id 1hYPKV-0001ep-WF
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:23:24 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:43821)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lidong.chen@oracle.com>)
+	id 1hYPKV-0001cx-N7
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:23:23 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x556Iukr194189; Wed, 5 Jun 2019 06:23:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+	h=from : to : cc :
+	subject : date : message-id : mime-version : content-type :
+	content-transfer-encoding; s=corp-2018-07-02;
+	bh=+PMsfItGVketrxIb+Jzsa6Y6gSXQaHicTKjm1XqgqLY=;
+	b=EQN3ys0jgGsEBupNzq4taZ29/nLRjhb/ju2Y6yBypg0rTWwlPky1794b3/3r6NzAgIIt
+	yKsedtJrFZapuK1n3lXn4h+BuH7Te4xYs1aYUT/OY1p5Dc5aLQhONwhMRz6CbxtcQ8Pe
+	17IpviGrIHXWL63odIY9k3wvQMfSP8RYbsK2iej2H/ng1bbMev2MMpDgatpLL8Bk5wG4
+	/6FqqVt7R/OPy8uqXhKJrimIuLIw4BEertYUWvOoUAOeUriVvMU8nTlnELUT7KxtIlK1
+	zHw19NL8UelQjQBBAmvwVHQ4w23zw+oJ+oLF6xaOJ9uv2/xK3gya9yDRpsBU+hnfRuc6
+	SQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by userp2120.oracle.com with ESMTP id 2suj0qgtwj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 05 Jun 2019 06:23:20 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x556KVbm184955; Wed, 5 Jun 2019 06:21:20 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 2swnha08ux-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 05 Jun 2019 06:21:20 +0000
+Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x556LIi5030974;
+	Wed, 5 Jun 2019 06:21:19 GMT
+Received: from ca-virt2-2.us.oracle.com (/10.211.11.112)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 04 Jun 2019 23:21:18 -0700
+From: Lidong Chen <lidong.chen@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Wed,  5 Jun 2019 08:11:26 +0200
-Message-Id: <20190605061126.10244-6-david.brenken@efs-auto.org>
-X-Mailer: git-send-email 2.16.1.windows.4
-In-Reply-To: <20190605061126.10244-1-david.brenken@efs-auto.org>
-References: <20190605061126.10244-1-david.brenken@efs-auto.org>
-X-Provags-ID: V03:K1:s2njwR6oGYM7fGhSjh80tDAupNymw4DP6+GnNZpG0A7q5SNgqPj
-	Q1gVWae9o/A7SJ31cnFcoecHcin5aihR4j3o078Ly7TixR/ICeO3EutQeZtbxonhOSq1Es4
-	tGp06Zxxqi4KuqRru6NNxBEA8qbM5Rd8HyTHmZq9O0j+ACW4gaBZzVtzKXg/sNuzwhrKYWb
-	IIEJgaWNB62J7mMOodknw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ld+D5SrsS4k=:p0eqtS5xeRNe+HXDjw7a1U
-	m8P3t9rVoTs1EeLnjZxBUgRdTh6JhMFEkSLauZI07mpK9HgI3tYuzuJtCsbYy45DRzETXfKQg
-	4undPE/jYcQuvjhgSV9dw8DlTjNoaNXMESsQRvko3p9R8DC6LMwQ6jJ7b0WkLH4J7XcJPPdB7
-	x26clWd2pewigBZ9UcxSHdhDC0Flneq+voW7pWrx2E7BArfDkJn4D0TloKVueF4v+BDpk3hEJ
-	zhOCmU+FWQZR7wfOY+y/SLfgI/9/U6YkiCc+qtBs03/Nk9GACUUnwmN+OANze8/sbuQ1vE8jT
-	rijcFWSgCYQAmZOv8Xw9rxdvPA3ZCLEqSULFgbOU2oyDKq0TfJSb0TzU7TIK3urCdrjan4qRN
-	K+ecYccU658L4d2ZWKXLT7iGKJmaiGNn4G+crvTnqOz/pytNmOM9+YoRzPvrrSmnZxyK6oyHS
-	gGFSfrlwu5cFDCXcYx9zzAreitEH6jlBN10xH3l6YcRx4wXeEpZ9BmBypyv4wigyn13y81exv
-	2ZXFWbyXpCsdXj1mNHuF6wgFqtB/bJty5K6kXm7LhKDkejS4bJfzwtUbaBSLapPQ/ARIfwwhg
-	dE/JgvO5NaDuXxAszwIsE+cr3RF8JOhiVjvasDAjqNOOJRo5bGcyP3OaWopGfO7PqrkhUEm+B
-	88I/FVcQSJ6NgJU67JGeuMPDtC3+D+h6XhXu8n54tmhf5E+TYh5ZPtE2/OfVHayo/fD9hySbQ
-	vr3xQIuP6E3wYq24kv07gvTALUmhZvmjYkpb+Nn5aN8IFfGP1XpSF8+WSI4=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: [Qemu-devel] [PATCH 5/5] tricore: reset DisasContext before
- generating code
+Date: Wed,  5 Jun 2019 02:21:04 -0400
+Message-Id: <cover.1559710447.git.lidong.chen@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9278
+	signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+	malwarescore=0
+	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=564
+	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+	engine=8.0.1-1810050000 definitions=main-1906050040
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9278
+	signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=616
+	adultscore=0
+	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+	definitions=main-1906050040
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: [Qemu-devel] [Qemu-devel PATCH v2 0/2] sd: Fix out-of-bounds
+ assertions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,40 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbastian@mail.uni-paderborn.de,
-	Lars Biermanski <lars.biermanski@efs-auto.de>,
-	Georg Hofstetter <georg.hofstetter@efs-auto.de>,
-	David Brenken <david.brenken@efs-auto.de>,
-	Robert Rasche <robert.rasche@efs-auto.de>,
-	Andreas Konopik <andreas.konopik@efs-auto.de>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, liran.alon@oracle.com,
+	liq3ea@gmail.com, armbru@redhat.com, lidong.chen@oracle.com,
+	darren.kenny@oracle.com, marcandre.lureau@gmail.com,
+	amarkovic@wavecomp.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Georg Hofstetter <georg.hofstetter@efs-auto.de>
+The v2 changes include the fix for the incorrect assertion for poll_fds
+in util/main-loop.c according to the review comments from the previous
+sd fixes.
 
-Signed-off-by: Andreas Konopik <andreas.konopik@efs-auto.de>
-Signed-off-by: David Brenken <david.brenken@efs-auto.de>
-Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
-Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
-Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
+Lidong Chen (2):
+  sd: Fix out-of-bounds assertions
+  util/main-loop: Fix incorrect assertion
 
----
- target/tricore/translate.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/sd/sd.c       | 4 ++--
+ util/main-loop.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index db09f82c31..cdbc00d654 100644
---- a/target/tricore/translate.c
-+++ b/target/tricore/translate.c
-@@ -8811,6 +8811,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-     target_ulong pc_start;
-     int num_insns = 0;
- 
-+    memset(&ctx, 0x00, sizeof(DisasContext));
-     pc_start = tb->pc;
-     ctx.pc = pc_start;
-     ctx.saved_pc = -1;
 -- 
-2.17.1
+1.8.3.1
 
 
