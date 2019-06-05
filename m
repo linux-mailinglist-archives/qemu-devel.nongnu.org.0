@@ -2,100 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F9136292
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 19:30:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47629 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA39362C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 19:35:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47703 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYZjv-0004Wi-Dt
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 13:30:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58017)
+	id 1hYZoT-0007E1-SJ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 13:35:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59558)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYZiF-0003fu-BR
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 13:28:36 -0400
+	(envelope-from <berrange@redhat.com>) id 1hYZn4-0006fX-1a
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 13:33:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYZiC-0002Te-Bn
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 13:28:35 -0400
-Received: from mail-eopbgr40126.outbound.protection.outlook.com
-	([40.107.4.126]:17126
-	helo=EUR03-DB5-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYZhu-0001uP-1c; Wed, 05 Jun 2019 13:28:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=54mcsB7maQ2xm7w9OOpyc/v5oyrOe+n16yYEnXXs4Yw=;
-	b=TAFR1BVtAa8cY4EcfQsetifHpy3VJi/5r3pFoCQ7xtcmeaH1G1486mfZBarXQmHOWR2AuY3TjJZ1Xo8+dV2R83D4ZDH/jbFjCMmLOEd3tebu9bKv7gey8n1mMpclyLgHn0tArHF22XkuRfw59GgjCsOSOai4XwYIpqPiwYuoSL8=
-Received: from AM0PR08MB2961.eurprd08.prod.outlook.com (52.134.126.11) by
-	AM0PR08MB3202.eurprd08.prod.outlook.com (52.134.90.13) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1965.12; Wed, 5 Jun 2019 17:28:06 +0000
-Received: from AM0PR08MB2961.eurprd08.prod.outlook.com
-	([fe80::8d90:32ae:bdd6:48e8]) by
-	AM0PR08MB2961.eurprd08.prod.outlook.com
-	([fe80::8d90:32ae:bdd6:48e8%7]) with mapi id 15.20.1965.011;
-	Wed, 5 Jun 2019 17:28:06 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?=
-	<berrange@redhat.com>
-Thread-Topic: [PATCH 2/2] nbd-client: enable TCP keepalive
-Thread-Index: AQHVG4a+gcethstE402cAbEv20QdEaaNIdEAgAAg+ACAADo6AP//z8UAgAAEOYA=
-Date: Wed, 5 Jun 2019 17:28:05 +0000
-Message-ID: <c0df2189-d90a-8a58-776b-646bbad76976@virtuozzo.com>
-References: <20190605100913.34972-1-vsementsov@virtuozzo.com>
-	<20190605100913.34972-3-vsementsov@virtuozzo.com>
-	<cd780b66-ab31-1feb-0cce-0b6525df7d79@redhat.com>
-	<20190605163710.GP8956@redhat.com>
-	<e5a35aeb-21a4-449c-f8d5-9d2ac2968fd5@virtuozzo.com>
-	<19a96fc2-7f12-7b30-edef-b3da66eef759@redhat.com>
-In-Reply-To: <19a96fc2-7f12-7b30-edef-b3da66eef759@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR07CA0013.eurprd07.prod.outlook.com
-	(2603:10a6:7:67::23) To AM0PR08MB2961.eurprd08.prod.outlook.com
-	(2603:10a6:208:66::11)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190605202803852
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: febf0976-a238-49d3-aaa3-08d6e9db2b93
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:AM0PR08MB3202; 
-x-ms-traffictypediagnostic: AM0PR08MB3202:
-x-microsoft-antispam-prvs: <AM0PR08MB3202F3E58793AE0E2ADE555FC1160@AM0PR08MB3202.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 00594E8DBA
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(396003)(39850400004)(346002)(136003)(366004)(376002)(199004)(189003)(6512007)(305945005)(7736002)(25786009)(36756003)(6486002)(6436002)(256004)(316002)(4326008)(478600001)(66066001)(229853002)(2906002)(6116002)(68736007)(86362001)(6506007)(386003)(486006)(8936002)(31686004)(110136005)(2616005)(107886003)(3846002)(11346002)(476003)(102836004)(14454004)(31696002)(5660300002)(446003)(186003)(54906003)(73956011)(71190400001)(76176011)(6246003)(66476007)(66556008)(66446008)(64756008)(52116002)(53936002)(99286004)(8676002)(26005)(66946007)(71200400001)(53546011)(81166006)(81156014);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3202;
-	H:AM0PR08MB2961.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 1MwhQDKI4AN7tlKasaySJbaV/RqgWuWopRhGWiA1cn48v1fffyp31pXEEZNtxoAAiao+YdcsVZ8MMndPMHj9IDkQbgC039+iXXtvM9DgLXiS3F2v2LBbB5llJ6xY2rbQCEfgbqRT45LbYG/eygIRfk4ex1sHrbuRzC8mFHOBHmq0Oti/8OagvvrOm8rZ82EDgwLhfwQam9U4CmigLDrCUgiZYSZ9/ZKo77NPCFBySSfxHxFu8g8EeIz7uRjN0hsakqo33NTh/TedPCm1JL+0ngy1P3+pUPTX6HKe4iy89TjPQZoGLRa7F52m6CGpEUSjRv4oXMYsKjq41hbQYKlugS2OO+L1HkaiGu8neGSPZOZxD8LwfNmL2aIspMpEYjMi44cHP+I7FE8HR2K6FdWH1M76fQMKp53W7qi+97vqeds=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8A48520A2F9DB1479807054A5CC3CBE7@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <berrange@redhat.com>) id 1hYZn2-0001wb-IN
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 13:33:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48802)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hYZmx-0001eX-5i
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 13:33:28 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8FD6A883BA
+	for <qemu-devel@nongnu.org>; Wed,  5 Jun 2019 17:33:20 +0000 (UTC)
+Received: from redhat.com (ovpn-112-70.ams2.redhat.com [10.36.112.70])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 325CC1019615;
+	Wed,  5 Jun 2019 17:33:14 +0000 (UTC)
+Date: Wed, 5 Jun 2019 18:33:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Message-ID: <20190605173311.GA13261@redhat.com>
+References: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: febf0976-a238-49d3-aaa3-08d6e9db2b93
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2019 17:28:05.9680 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3202
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.4.126
-Subject: Re: [Qemu-devel] [PATCH 2/2] nbd-client: enable TCP keepalive
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.26]);
+	Wed, 05 Jun 2019 17:33:25 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] numa: deprecate '-numa node,
+ mem' and default memory distribution
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -107,52 +58,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
-	"mreitz@redhat.com" <mreitz@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+	armbru@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDUuMDYuMjAxOSAyMDoxMiwgRXJpYyBCbGFrZSB3cm90ZToNCj4gT24gNi81LzE5IDEyOjA1IFBN
-LCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPiANCj4+PiBCeSBlbmFibGlu
-ZyBUQ1Aga2VlcGFsaXZlcyB3ZSBhcmUgZXhwbGljaXRseSBtYWtpbmcgdGhlIGNvbm5lY3Rpb24N
-Cj4+PiBsZXNzIHJlbGlhYmxlIGJ5IGZvcmNpbmcgaXQgdG8gYmUgdGVybWluYXRlZCB3aGVuIGtl
-ZXBhbGl2ZQ0KPj4+IHRocmVzaG9sZCB0cmlnZ2VycywgaW5zdGVhZCBvZiB3YWl0aW5nIGxvbmdl
-ciBmb3IgVENQIHRvIHJlY292ZXIuDQo+Pj4NCj4+PiBUaGUgcmF0aW9uYWxlIHMgdGhhdCBvbmNl
-IGEgY29ubmVjdGlvbiBoYXMgYmVlbiBpbiBhIGh1bmcgc3RhdGUgZm9yDQo+Pj4gc28gbG9uZyB0
-aGF0IGtlZXBhbGl2ZSB0cmlnZ2VycywgaXRzIChob3BlZnVsbHkpIG5vdCB1c2VmdWwgdG8gdGhl
-DQo+Pj4gbWdtdCBhcHAgdG8gY2Fycnkgb24gd2FpdGluZyBhbnl3YXkuDQo+Pj4NCj4+PiBJZiB0
-aGUgY29ubmVjdGlvbiBpcyB0ZXJtaW5hdGVkIGJ5IGtlZXBhbGl2ZSAmIHRoZSBtZ210IGFwcCB0
-aGVuDQo+Pj4gc3Bhd25zIGEgbmV3IGNsaWVudCB0byBjYXJyeSBvbiB3aXRoIHRoZSB3b3JrLCB3
-aGF0IGFyZSB0aGUgcmlza3MNCj4+PiBpbnZvbHZlZCA/IGVnIENvdWxkIHBhY2tldHMgZnJvbSB0
-aGUgc3R1Y2ssIHRlcm1pbmF0ZWQsIGNvbm5lY3Rpb24NCj4+PiBzdWRkZW5seSBhcnJpdmUgbGF0
-ZXIgYW5kIHRyaWdnZXIgSS9PIHdpdGggb3V0ZGF0ZWQgZGF0YSBwYXlsb2FkID8NCj4+DQo+PiBI
-bW0sIEkgYmVsaWV2ZSB0aGF0IHRjcCBndWFyYW50ZWVzIGlzb2xhdGlvbiBiZXR3ZWVuIGRpZmZl
-cmVudCBjb25uZWN0aW9ucw0KPj4NCj4+Pg0KPj4+IEkgZ3Vlc3MgdGhpcyBpcyBubyBkaWZmZXJl
-bnQgYSBzaXR1YXRpb24gZnJvbSBhbiBhcHAgZXhwbGljaXRseQ0KPj4+IGtpbGxpbmcgdGhlIFFF
-TVUgTkJEIGNsaWVudCBwcm9jZXNzIGluc3RlYWQgJiBzcGF3bmluZyBhIG5ldyBvbmUuDQo+Pj4N
-Cj4+PiBJJ20gc3RpbGwgZmVlbGluZyBhIGxpdHRsZSB1bmVhc3kgYWJvdXQgZW5hYmxpbmcgaXQg
-dW5jb25kaXRpb25hbGx5DQo+Pj4gdGhvdWdoLCBzaW5jZSBwcmV0dHkgbXVjaCBldmVyeXRoaW5n
-IEkga25vdyB3aGljaCBzdXBwb3J0cyBrZWVwYWxpdmVzDQo+Pj4gaGFzIGEgd2F5IHRvIHR1cm4g
-dGhlbSBvbi9vZmYgYXQgbGVhc3QsIGV2ZW4gaWYgeW91IGNhbid0IHR1bmUgdGhlDQo+Pj4gaW5k
-aXZpZHVhbCB0aW1lciBzZXR0aW5ncy4NCj4+DQo+PiBIbS4gU28sIEkgY2FuIGFkZCBib29sIGtl
-ZXBhbGl2ZSBwYXJhbWV0ZXIgZm9yIG5iZCBmb3JtYXQgd2l0aCBkZWZhdWx0IHRvIHRydWUuDQo+
-PiBBbmQgaWYgbmVlZGVkLCBpdCBtYXkgYmUgbGF0ZXIgZXh0ZW5kZWQgdG8gYmUgcWFwaSAnYWx0
-ZXJuYXRlJyBvZiBib29sIG9yIHN0cnVjdCB3aXRoDQo+PiB0aHJlZSBudW1lcmljIHBhcmFtZXRl
-cnMsIGNvcnJlc3BvbmRpbmcgdG8gVENQX0tFRVBDTlQsIFRDUF9LRUVQSURMRSBhbmQgVENQX0tF
-RVBJTlRWTCAuDQo+Pg0KPj4gT3BpbmlvbnM/DQo+IA0KPiBBZGRpbmcgYSBib29sIHRoYXQgY291
-bGQgbGF0ZXIgdHVybiBpbnRvIGEgcWFwaSAnYWx0ZXJuYXRlJyBmb3INCj4gZmluZS10dW5pbmcg
-c2VlbXMgcmVhc29uYWJsZS4gRGVmYXVsdGluZyB0aGUgYm9vbCB0byB0cnVlIGlzIG5vdA0KPiBi
-YWNrd2FyZHMtY29tcGF0aWJsZTsgYmV0dGVyIHdvdWxkIGJlIGRlZmF1bHRpbmcgaXQgdG8gZmFs
-c2UgYW5kIGxldHRpbmcNCj4gdXNlcnMgb3B0LWluOyBpbnRyb3NwZWN0aW9uIHdpbGwgYWxzbyB3
-b3JrIHRvIGxldCB5b3Uga25vdyB3aGV0aGVyIHRoZQ0KPiBmZWF0dXJlIGlzIHByZXNlbnQuDQo+
-IA0KDQpPay4NCg0KT25lIG1vcmUgdGhpbmcgdG8gZGlzY3VzcyB0aGVuLiBTaG91bGQgSSBhZGQg
-a2VlcGFsaXZlIGRpcmVjdGx5IHRvIEJsb2NrZGV2T3B0aW9uc05iZD8NCg0KU2VlbXMgbW9yZSB1
-c2VmdWwgdG8gcHV0IGl0IGludG8gU29ja2V0QWRkcmVzcywgdG8gYmUgcmV1c2VkIGJ5IG90aGVy
-IHNvY2tldCB1c2Vycy4uDQpCdXQgIlNvY2tldEFkZHJlc3MiIHNvdW5kcyBsaWtlIGFkZHJlc3Ms
-IG5vdCBsaWtlIGFkZHJlc3MrY29ubmVjdGlvbi1vcHRpb25zLiBPbg0KdGhlIG90aGVyIGhhbmQs
-IHN0cnVjdHVyZSBuYW1lcyBhcmUgbm90IHBhcnQgb2YgQVBJLiBTbywgZmluYWxseSwgaXMgSW5l
-dFNvY2tldEFkZHJlc3MNCmEgZ29vZCBwbGFjZSBmb3Igc3VjaCB0aGluZz8NCg0KLS0gDQpCZXN0
-IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+To summarize implications on libvirt...
+
+This patch currently doesn't change the deprecation status of any machine
+type, so it is effectively no-op metadata addition right now.
+
+Libvirt version N can implement support for this today, and nothing would
+change from a functional POV with QEMU 4.1.
+
+At some later time, a QEMU release X.Y will mark a new machine type has
+having this deprecation enabled, at which point the dormant libvirt logic
+will activate, causing libvirt to use the new syntax for NUMA.
+
+
+IOW, libvirt version N onwards can live migrate QEMU with machine type
+pc-X.Y to a host with arbitrary future libvirt or QEMU version.
+
+Libvirt version N-1  can *not* live migrate QEMU with machine type
+pc-X.Y to a host with libvirt version N or newer.
+
+This restriction won't be a problem in practice if there's a moderate
+time window between libvirt implementing support for this concept,
+and the future QEMU X.Y which actually enables the deprecation.
+
+The main downside of this approach is the one Eduardo raised previously
+which is that the dormant libvirt logic will not be testable/tested until
+that QEMU X.Y actually arrives.
+
+The testing gap is not nice, but I don't think it is sufficient to reject
+this approach entirely.
+
+I wonder if there's a way to close the testing gap somehow ? Random idea
+would be a non-versioned "pc-no-deprecated" machine type, which blocks
+all use of deprecated features and does not promise any migration compat.
+Essentially it would exist just for testing purposem as a way todo
+functional tests for libvirt & mgmt apps to prove they don't use any
+deprecated features (any deprecated features, not merely this  NUMA one).
+
+On Thu, May 30, 2019 at 10:33:16AM +0200, Igor Mammedov wrote:
+> Changes since v3:
+>   - simplify series by dropping idea of showing property values in "qom-list-properties"
+>     and use MachineInfo in QAPI schema instead
+> 
+> Changes since v2:
+>   - taking in account previous review, implement a way for mgmt to intospect if
+>     '-numa node,mem' is supported by machine type as suggested by Daniel at
+>              https://www.mail-archive.com/qemu-devel@nongnu.org/msg601220.html
+>       * ammend "qom-list-properties" to show property values
+>       * add "numa-mem-supported" machine property to reflect if '-numa node,mem=SZ'
+>         is supported. It culd be used with '-machine none' or at runtime with
+>         --preconfig before numa memory mapping are configured
+>   * minor fixes to deprecation documentation mentioning "numa-mem-supported" property
+> 
+>  1) "I'm considering to deprecating -mem-path/prealloc CLI options and replacing
+> them with a single memdev Machine property to allow interested users to pick
+> used backend for initial RAM (fixes mixed -mem-path+hostmem backends issues)
+> and as a transition step to modeling initial RAM as a Device instead of
+> (ab)using MemoryRegion APIs."
+> (for more details see: https://www.mail-archive.com/qemu-devel@nongnu.org/msg596314.html)
+> 
+> However there is a couple of roadblocks on the way (s390x and numa memory handling).
+> I think I finally thought out a way to hack s390x in migration compatible manner,
+> but I don't see any way to do it for -numa node,mem and default RAM assignement
+> to nodes. Considering both numa usecases aren't meaningfully using NUMA (aside
+> guest side testing) and could be replaced with explicitly used memdev parameter,
+> I'd like to propose removing these fake NUMA friends on new machine types,
+> hence this deprecation. And once the last machie type that supported the option
+> is removed we would be able to remove option altogether.
+> 
+> As result of removing deprecated options and replacing initial RAM allocation
+> with 'memdev's (1), QEMU will allocate guest RAM in consistent way, fixing mixed
+> use-case and allowing boards to move towards modelling initial RAM as Device(s).
+> Which in its own turn should allow to cleanup NUMA/HMP/memory accounting code
+> more by dropping ad-hoc node_mem tracking and reusing memory device enumeration
+> instead.
+> 
+> Reference to previous versions:
+>  * https://www.mail-archive.com/qemu-devel@nongnu.org/msg617694.html
+> 
+> CC: libvir-list@redhat.com
+> CC: ehabkost@redhat.com
+> CC: pbonzini@redhat.com
+> CC: berrange@redhat.com
+> CC: armbru@redhat.com
+> 
+> Igor Mammedov (3):
+>   machine: show if CLI option '-numa node,mem' is supported in QAPI
+>     schema
+>   numa: deprecate 'mem' parameter of '-numa node' option
+>   numa: deprecate implict memory distribution between nodes
+> 
+>  include/hw/boards.h  |  3 +++
+>  hw/arm/virt.c        |  1 +
+>  hw/i386/pc.c         |  1 +
+>  hw/ppc/spapr.c       |  1 +
+>  numa.c               |  5 +++++
+>  qapi/misc.json       |  5 ++++-
+>  qemu-deprecated.texi | 24 ++++++++++++++++++++++++
+>  vl.c                 |  1 +
+>  8 files changed, 40 insertions(+), 1 deletion(-)
+> 
+> -- 
+> 2.7.4
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
