@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404CB35F7B
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:43:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43775 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FA8B35F8C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:48:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43854 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYX8Y-0004aE-Ub
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:43:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56281)
+	id 1hYXDU-0000OK-4s
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:48:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56585)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hYX3p-0000ol-PE
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:38:42 -0400
+	(envelope-from <eblake@redhat.com>) id 1hYX4P-0001JN-VB
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:39:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hYX3n-0007sy-TE
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:38:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53644)
+	(envelope-from <eblake@redhat.com>) id 1hYX4O-00022E-SL
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:39:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44844)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hYX3f-0005zU-Vz; Wed, 05 Jun 2019 10:38:32 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	id 1hYX4M-0001oN-7X; Wed, 05 Jun 2019 10:39:14 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7D6A959474;
-	Wed,  5 Jun 2019 14:38:08 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 240E74CF9D;
+	Wed,  5 Jun 2019 14:39:13 +0000 (UTC)
 Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BDF4279B5;
-	Wed,  5 Jun 2019 14:38:07 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 16CDD5B694;
+	Wed,  5 Jun 2019 14:39:11 +0000 (UTC)
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
 	qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20190605100913.34972-1-vsementsov@virtuozzo.com>
-	<20190605100913.34972-2-vsementsov@virtuozzo.com>
+	<20190605100913.34972-3-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -59,24 +59,23 @@ Autocrypt: addr=eblake@redhat.com; keydata=
 	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
 	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <203f0c03-12bb-5e8d-7615-f820c2a01cba@redhat.com>
-Date: Wed, 5 Jun 2019 09:38:06 -0500
+Message-ID: <cd780b66-ab31-1feb-0cce-0b6525df7d79@redhat.com>
+Date: Wed, 5 Jun 2019 09:39:10 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190605100913.34972-2-vsementsov@virtuozzo.com>
+In-Reply-To: <20190605100913.34972-3-vsementsov@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="V8en6NpHt2q5cxvMScHpJXoSwzgmQGniC"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+	boundary="iXgT2kfNmjuS4zkTyyrpDvlKzAnfpzDlb"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 05 Jun 2019 14:38:08 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Wed, 05 Jun 2019 14:39:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 1/2] io/channel: add
- qio_channel_set_keepalive
+Subject: Re: [Qemu-devel] [PATCH 2/2] nbd-client: enable TCP keepalive
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -93,30 +92,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---V8en6NpHt2q5cxvMScHpJXoSwzgmQGniC
+--iXgT2kfNmjuS4zkTyyrpDvlKzAnfpzDlb
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 Cc: berrange@redhat.com, mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
-Message-ID: <203f0c03-12bb-5e8d-7615-f820c2a01cba@redhat.com>
-Subject: Re: [PATCH 1/2] io/channel: add qio_channel_set_keepalive
+Message-ID: <cd780b66-ab31-1feb-0cce-0b6525df7d79@redhat.com>
+Subject: Re: [PATCH 2/2] nbd-client: enable TCP keepalive
 References: <20190605100913.34972-1-vsementsov@virtuozzo.com>
- <20190605100913.34972-2-vsementsov@virtuozzo.com>
-In-Reply-To: <20190605100913.34972-2-vsementsov@virtuozzo.com>
+ <20190605100913.34972-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20190605100913.34972-3-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 On 6/5/19 5:09 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Enable keepalive option to track server availablity.
+
+s/availablity/availability/
+
+Do we want this unconditionally, or should it be an option (and hence
+exposed over QMP)?
+
+>=20
+> Requested-by: Denis V. Lunev <den@openvz.org>
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  include/io/channel.h | 13 +++++++++++++
->  io/channel-socket.c  | 19 +++++++++++++++++++
->  io/channel.c         | 14 ++++++++++++++
->  3 files changed, 46 insertions(+)
-
-Dan, if you'd like, I can take this through my NBD tree.
-
-Reviewed-by: Eric Blake <eblake@redhat.com
+>  block/nbd-client.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/block/nbd-client.c b/block/nbd-client.c
+> index 790ecc1ee1..b57cea8482 100644
+> --- a/block/nbd-client.c
+> +++ b/block/nbd-client.c
+> @@ -1137,6 +1137,7 @@ static int nbd_client_connect(BlockDriverState *b=
+s,
+> =20
+>      /* NBD handshake */
+>      logout("session init %s\n", export);
+> +    qio_channel_set_keepalive(QIO_CHANNEL(sioc), true, NULL);
+>      qio_channel_set_blocking(QIO_CHANNEL(sioc), true, NULL);
+> =20
+>      client->info.request_sizes =3D true;
+>=20
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -124,22 +141,22 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---V8en6NpHt2q5cxvMScHpJXoSwzgmQGniC
+--iXgT2kfNmjuS4zkTyyrpDvlKzAnfpzDlb
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz3084ACgkQp6FrSiUn
-Q2p8/Qf/UrLh8dx8hut5DMlPcLoKCkanKZh9Mlz27t9kU5PIaYA+IOa2UK1LyRBT
-CekZfaPfFB4XcpdTwo9yNgRg3s5sjRNm/vuXSm0jvoLh/ef7FDw/T28YnJVywPek
-6xqlKc8MhMkPyMGbnYdNj+7G3Z7zkE+V+/MKapZlfUSClVSvGeGcIACW4IbJ0H7j
-eot4OyWo771kqTEhmJKasey5o/bRSaOePzC2/eSlbAhXMJpgQ6oegdNXl3iX76bW
-LVoO7dEbIklCmlgzRrqRrxHyquYFeInH3ifuWNzeZ7sBsz3IrGHyX6k9mb1dlEyg
-wpjRF0tkPsCykJeHnqHLk3TdIwy5Eg==
-=51mP
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz31A4ACgkQp6FrSiUn
+Q2os2Af6AhpzPfXgfwk0jYoHbfsomqBVmyolc1lijeKYU+L+gxPOwb+J6NjigkzS
+9SflA4fsb3OlL8OS/ifsiki5mBsP4IP85d8IqqeRipd1A9Aw7yoIgX7WMpI1lc4G
+KNsbaV0JK366yHkJPYwFOupEmpUfdQiMjKL7xxtTh0hCO0L0jVXAgL5yW27Oxsmq
+NlJxeBh+VwHBr4XlmyUB5HlI3Mg5TTMZGgAKHxCuvMwWtVKX6pMHVFMU0N63yqeI
+7ulU2DA1kh5xDAw0DWAeBF6niPVgDvYVxHqhr9WRwk59fVaGKdxR2BFXw7LOobMg
+7YAQ2w/ZPPH4xdakHDkGI86DJjPUqQ==
+=ZW0z
 -----END PGP SIGNATURE-----
 
---V8en6NpHt2q5cxvMScHpJXoSwzgmQGniC--
+--iXgT2kfNmjuS4zkTyyrpDvlKzAnfpzDlb--
 
