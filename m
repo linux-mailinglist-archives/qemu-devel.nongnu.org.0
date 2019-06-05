@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF3D365ED
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:48:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49692 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A670A365FB
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:51:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49738 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYcpV-00060h-Rq
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:48:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41309)
+	id 1hYcsU-0008Qr-R4
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:51:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41411)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hYcdN-0003s8-2h
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:35:47 -0400
+	(envelope-from <david@redhat.com>) id 1hYcdP-0003to-89
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:35:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hYcdL-0008JJ-JZ
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:35:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41094)
+	(envelope-from <david@redhat.com>) id 1hYcdM-0008Kx-AB
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:35:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59276)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hYcdL-0006Ev-8l; Wed, 05 Jun 2019 16:35:43 -0400
+	id 1hYcdL-0006HT-TC; Wed, 05 Jun 2019 16:35:44 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
 	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A001383F3F;
-	Wed,  5 Jun 2019 20:34:31 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 70F2E3082E06;
+	Wed,  5 Jun 2019 20:34:33 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-124.ams2.redhat.com [10.36.116.124])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 33379619A9;
-	Wed,  5 Jun 2019 20:34:28 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EA7EF619A9;
+	Wed,  5 Jun 2019 20:34:31 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed,  5 Jun 2019 22:33:40 +0200
-Message-Id: <20190605203403.29461-11-david@redhat.com>
+Date: Wed,  5 Jun 2019 22:33:41 +0200
+Message-Id: <20190605203403.29461-12-david@redhat.com>
 In-Reply-To: <20190605203403.29461-1-david@redhat.com>
 References: <20190605203403.29461-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Wed, 05 Jun 2019 20:34:31 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Wed, 05 Jun 2019 20:34:33 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 10/33] s390x/tcg: Introduce
- tcg_s390_vector_exception()
+Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 11/33] s390x/tcg: Export
+ float_comp_to_cc() and float(32|64|128)_dcmask()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,91 +56,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
-	David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	Richard Henderson <rth@twiddle.net>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handling is similar to data exceptions, however we can always store the
-VXC into the lowore and the FPC:
+Vector floating-point instructions will require these functions, so
+allow to use them from other files.
 
-z14 PoP, 6-20, "Vector-Exception Code"
-    When a vector-processing exception causes a pro-
-    gram interruption, a vector-exception code (VXC) is
-    stored at location 147, and zeros are stored at loca-
-    tions 144-146. The VXC is also placed in the DXC
-    field of the floating-point-control (FPC) register if bit
-    45 of control register 0 is one. When bit 45 of control
-    register 0 is zero and bit 46 of control register 0 is
-    one, the DXC field of the FPC register and the con-
-    tents of storage at location 147 are unpredictable.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/cpu.h         |  1 +
- target/s390x/excp_helper.c | 15 +++++++++++++++
- target/s390x/tcg_s390x.h   |  2 ++
- 3 files changed, 18 insertions(+)
+ target/s390x/fpu_helper.c | 4 ++--
+ target/s390x/internal.h   | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 317a1377e6..4fc08a2c88 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -215,6 +215,7 @@ extern const struct VMStateDescription vmstate_s390_c=
-pu;
- #define PGM_SPECIAL_OP                  0x0013
- #define PGM_OPERAND                     0x0015
- #define PGM_TRACE_TABLE                 0x0016
-+#define PGM_VECTOR_PROCESSING           0x001b
- #define PGM_SPACE_SWITCH                0x001c
- #define PGM_HFP_SQRT                    0x001d
- #define PGM_PC_TRANS_SPEC               0x001f
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index 85223d00c0..f21bcf79ae 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -62,6 +62,21 @@ void QEMU_NORETURN tcg_s390_data_exception(CPUS390XSta=
-te *env, uint32_t dxc,
-     tcg_s390_program_interrupt(env, PGM_DATA, ILEN_AUTO, ra);
+diff --git a/target/s390x/fpu_helper.c b/target/s390x/fpu_helper.c
+index 1be68bafea..d2c17ed942 100644
+--- a/target/s390x/fpu_helper.c
++++ b/target/s390x/fpu_helper.c
+@@ -112,7 +112,7 @@ static void handle_exceptions(CPUS390XState *env, boo=
+l XxC, uintptr_t retaddr)
+     }
  }
 =20
-+void QEMU_NORETURN tcg_s390_vector_exception(CPUS390XState *env, uint32_=
-t vxc,
-+                                             uintptr_t ra)
-+{
-+    g_assert(vxc <=3D 0xff);
-+#if !defined(CONFIG_USER_ONLY)
-+    /* Always store the VXC into the lowcore, without AFP it is undefine=
-d */
-+    stl_phys(CPU(s390_env_get_cpu(env))->as,
-+             env->psa + offsetof(LowCore, data_exc_code), vxc);
-+#endif
-+
-+    /* Always store the VXC into the FPC, without AFP it is undefined */
-+    env->fpc =3D deposit32(env->fpc, 8, 8, vxc);
-+    tcg_s390_program_interrupt(env, PGM_VECTOR_PROCESSING, ILEN_AUTO, ra=
-);
-+}
-+
- void HELPER(data_exception)(CPUS390XState *env, uint32_t dxc)
+-static inline int float_comp_to_cc(CPUS390XState *env, int float_compare=
+)
++int float_comp_to_cc(CPUS390XState *env, int float_compare)
  {
-     tcg_s390_data_exception(env, dxc, GETPC());
-diff --git a/target/s390x/tcg_s390x.h b/target/s390x/tcg_s390x.h
-index ab2c4ba703..2813f9d48e 100644
---- a/target/s390x/tcg_s390x.h
-+++ b/target/s390x/tcg_s390x.h
-@@ -18,5 +18,7 @@ void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XS=
-tate *env, uint32_t code,
-                                               int ilen, uintptr_t ra);
- void QEMU_NORETURN tcg_s390_data_exception(CPUS390XState *env, uint32_t =
-dxc,
-                                            uintptr_t ra);
-+void QEMU_NORETURN tcg_s390_vector_exception(CPUS390XState *env, uint32_=
-t vxc,
-+                                             uintptr_t ra);
+     S390CPU *cpu =3D s390_env_get_cpu(env);
 =20
- #endif /* TCG_S390X_H */
+@@ -746,7 +746,7 @@ static inline uint16_t dcmask(int bit, bool neg)
+ }
+=20
+ #define DEF_FLOAT_DCMASK(_TYPE) \
+-static uint16_t _TYPE##_dcmask(CPUS390XState *env, _TYPE f1)       \
++uint16_t _TYPE##_dcmask(CPUS390XState *env, _TYPE f1)              \
+ {                                                                  \
+     const bool neg =3D _TYPE##_is_neg(f1);                           \
+                                                                    \
+diff --git a/target/s390x/internal.h b/target/s390x/internal.h
+index 9893fc094b..c243fa725b 100644
+--- a/target/s390x/internal.h
++++ b/target/s390x/internal.h
+@@ -285,6 +285,10 @@ uint32_t set_cc_nz_f128(float128 v);
+ uint8_t s390_softfloat_exc_to_ieee(unsigned int exc);
+ int s390_swap_bfp_rounding_mode(CPUS390XState *env, int m3);
+ void s390_restore_bfp_rounding_mode(CPUS390XState *env, int old_mode);
++int float_comp_to_cc(CPUS390XState *env, int float_compare);
++uint16_t float32_dcmask(CPUS390XState *env, float32 f1);
++uint16_t float64_dcmask(CPUS390XState *env, float64 f1);
++uint16_t float128_dcmask(CPUS390XState *env, float128 f1);
+=20
+=20
+ /* gdbstub.c */
 --=20
 2.21.0
 
