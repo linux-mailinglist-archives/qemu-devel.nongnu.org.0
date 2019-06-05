@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAD53651F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:10:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49175 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7924A3652B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:14:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49239 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYcEh-0001Zc-UP
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:10:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34148)
+	id 1hYcIa-0005C5-Lq
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:14:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34147)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5Y-0003EM-Kw
+	(envelope-from <mst@redhat.com>) id 1hYc5Y-0003EL-Kw
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5R-0005ml-UG
+	(envelope-from <mst@redhat.com>) id 1hYc5S-0005o0-Pr
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:46 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:40858)
+Received: from mail-qt1-f176.google.com ([209.85.160.176]:34466)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5O-0005aI-VT
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5O-0005dU-Vl
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:39 -0400
-Received: by mail-qt1-f194.google.com with SMTP id a15so5013586qtn.7
-	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:35 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id m29so18882qtu.1
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:content-transfer-encoding
 	:in-reply-to;
-	bh=k+AJ3Fh6N8GnLwjJBflOCLdYcgacwSZPHZMjqBixblY=;
-	b=Rsg0qorcKj51NYBfGC/5e+wJq5mLZz0U7nb2+odIYcbEtFF7XFoejBawdz0WE3nXUD
-	mOCDf5pz1YvXBo1c/KVqtGNpiQCxFencvx6wSuMOTaEmbMvYYm+zM6t4e5DJXT/UNi2D
-	WTjNNuK4myRjkWXdjq4TtjMvMMfyblyz41LdAE/54puBXWrGGHmAt6F79WfNrWmd4ecD
-	ThEZ4AS/wxGznCpNdgm97OsoGMJdPVajX63f54sglPWL/By94frtcF7RuzMCvRFVa6NV
-	U8OjNAT9rLa8dspdHRVaXlh9Eh28y1BQwMuiv+6Lz9OvY0R/INdJntXSUpj/SlaK9kpT
-	L5YQ==
-X-Gm-Message-State: APjAAAWTD5FGRgQQaoWEIwmgCmDsCN2DQmIO3fYAjiqE4cO1ahFAai5C
-	+EvVSEtwNMG/9j8mhfWyI04rkWcgY6Y=
-X-Google-Smtp-Source: APXvYqyOAgyshQ55J1J8QyAccDWTZ+hUQHLet398MUFVcUNHa/WjhQy9s4lDFABEYm7uhVB4juh+mw==
-X-Received: by 2002:ac8:87d:: with SMTP id x58mr36566795qth.368.1559764835011; 
-	Wed, 05 Jun 2019 13:00:35 -0700 (PDT)
+	bh=+Ua4MZswQW6oblrgifdLgsm6Vm0TDh310FALHECFhNU=;
+	b=ASrpd1xtDOC4tmzuEqcHBfOMXU4XzegDKFQSN8Nnf4j39QdJG9CnSacTMzq2aM69OJ
+	O5dAVvwUEjqHoZ2MlxJmXSuZpcmt3VoTlJdEQ39TWFcpk6DM60HidmI4QeXe2lpkdbPI
+	8DtcNCtZyiWzEs3RG/ZL3gWJI6zVCsB2FpCsdsPT6F7sU8CweuxzbuL+AXBURb/tGCbk
+	n0Kbidw2w7q/5820GeY2R/eewYsc51aCbC71Gy0I+t6D9nHpR1745TTTnqy9lfnyr4Dh
+	y2CqPmoiaSC5PQu6nV+E/aAQFIBA/Lxhtvq2KnDiD0bIIo9rbbUBtbIm602xVsm/B0RZ
+	0Mtg==
+X-Gm-Message-State: APjAAAXtTLz3pQscK8KCUQIZ8TU+bVR6h7IF7DJIqXGNgnMQUOv9vqik
+	oDXJpLq/0yvzlND/aR2jkDkYO6HEmGs=
+X-Google-Smtp-Source: APXvYqx0cG5W84jVUAsSyYc2nUqnzRlmTH4d28aUnFm6H/CGt6Oy/n116Rh2cz7tGbMRbW5UY1Ao+Q==
+X-Received: by 2002:ac8:2318:: with SMTP id a24mr35565211qta.60.1559764836944; 
+	Wed, 05 Jun 2019 13:00:36 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
 	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
-	f9sm13488264qkb.97.2019.06.05.13.00.33
+	m5sm13359433qke.25.2019.06.05.13.00.35
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 05 Jun 2019 13:00:34 -0700 (PDT)
-Date: Wed, 5 Jun 2019 16:00:33 -0400
+	Wed, 05 Jun 2019 13:00:36 -0700 (PDT)
+Date: Wed, 5 Jun 2019 16:00:35 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190416125912.44001-2-liran.alon@oracle.com>
+Message-ID: <20190416125912.44001-3-liran.alon@oracle.com>
 References: <20190605195913.12243-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -58,9 +58,8 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.194
-Subject: [Qemu-devel] [PULL v3 11/17] vhost-scsi: The vhost backend should
- be stopped when the VM is not running
+X-Received-From: 209.85.160.176
+Subject: [Qemu-devel] [PULL v3 12/17] vhost-scsi: Add VMState descriptor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,49 +80,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nir Weiner <nir.weiner@oracle.com>
 
-vhost-scsi doesn’t takes into account whether the VM is running or not in
-order to decide if it should start/stop vhost backend.
-This would lead to vhost backend still being active when VM's RunState
-suddenly change to stopped.
+As preparation of enabling migration of vhost-scsi device,
+define it’s VMState. Note, we keep the convention of
+verifying in the pre_save() method that the vhost backend
+must be stopped before attempting to save the device
+state. Similar to how it is done for vhost-vsock.
 
-An example of when this issue is encountered is when Live-Migration Pre-Copy
-phase completes. As in this case, VM state will be changed to stopped (while
-vhost backend is still active), which will result in
-virtio_vmstate_change() -> virtio_set_status() -> vhost_scsi_set_status()
-executed but vhost_scsi_set_status() will just return without stopping
-vhost backend.
-
-To handle this, change code to consider that vhost processing should be
-stopped when VM is not running. Similar to how it is done in vhost-vsock
-device at vhost_vsock_set_status().
-
-Fixes: 5e9be92d7752 ("vhost-scsi: new device supporting the tcm_vhost Linux kernel module”)
 Reviewed-by: Bijan Mottahedeh <bijan.mottahedeh@oracle.com>
 Reviewed-by: Liran Alon <liran.alon@oracle.com>
 Signed-off-by: Nir Weiner <nir.weiner@oracle.com>
-Message-Id: <20190416125912.44001-2-liran.alon@oracle.com>
+Message-Id: <20190416125912.44001-3-liran.alon@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/scsi/vhost-scsi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/scsi/vhost-scsi.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index 61e2e57da9..ca42cff1b9 100644
+index ca42cff1b9..eb0cf9e131 100644
 --- a/hw/scsi/vhost-scsi.c
 +++ b/hw/scsi/vhost-scsi.c
-@@ -114,6 +114,10 @@ static void vhost_scsi_set_status(VirtIODevice *vdev, uint8_t val)
-     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(s);
-     bool start = (val & VIRTIO_CONFIG_S_DRIVER_OK);
+@@ -139,6 +139,28 @@ static void vhost_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+ {
+ }
  
-+    if (!vdev->vm_running) {
-+        start = false;
-+    }
++static int vhost_scsi_pre_save(void *opaque)
++{
++    VHostSCSICommon *vsc = opaque;
 +
-     if (vsc->dev.started == start) {
-         return;
-     }
++    /* At this point, backend must be stopped, otherwise
++     * it might keep writing to memory. */
++    assert(!vsc->dev.started);
++
++    return 0;
++}
++
++static const VMStateDescription vmstate_virtio_vhost_scsi = {
++    .name = "virtio-vhost_scsi",
++    .minimum_version_id = 1,
++    .version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_VIRTIO_DEVICE,
++        VMSTATE_END_OF_LIST()
++    },
++    .pre_save = vhost_scsi_pre_save,
++};
++
+ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
+ {
+     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
+@@ -256,6 +278,7 @@ static void vhost_scsi_class_init(ObjectClass *klass, void *data)
+     FWPathProviderClass *fwc = FW_PATH_PROVIDER_CLASS(klass);
+ 
+     dc->props = vhost_scsi_properties;
++    dc->vmsd = &vmstate_virtio_vhost_scsi;
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+     vdc->realize = vhost_scsi_realize;
+     vdc->unrealize = vhost_scsi_unrealize;
 -- 
 MST
 
