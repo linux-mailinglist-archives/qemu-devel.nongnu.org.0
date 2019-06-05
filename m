@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C2836630
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:02:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49969 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC2036620
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:58:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49858 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYd3W-0001oC-4O
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:02:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43952)
+	id 1hYcyy-00063O-U1
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:58:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44835)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYcl8-0002g9-QH
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:43:47 -0400
+	(envelope-from <hpa@zytor.com>) id 1hYcoF-0005j6-0l
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:46:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYcl7-0004YY-Ej
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:43:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40122)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>)
-	id 1hYcl3-0004H1-Su; Wed, 05 Jun 2019 16:43:42 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B1D6530593D8;
-	Wed,  5 Jun 2019 20:43:29 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 50C0A29AD9;
-	Wed,  5 Jun 2019 20:43:24 +0000 (UTC)
-Date: Wed, 5 Jun 2019 17:43:23 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Message-ID: <20190605204323.GF22416@habkost.net>
-References: <20190520220635.10961-1-f4bug@amsat.org>
-	<20190520220635.10961-3-f4bug@amsat.org>
-	<20190605160659.GB7080@localhost.localdomain>
+	(envelope-from <hpa@zytor.com>) id 1hYcoC-0004Ju-SN
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:46:58 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:42955 helo=mail.zytor.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <hpa@zytor.com>) id 1hYcoB-0004Bc-7v
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:46:55 -0400
+Received: from carbon-x1.hos.anvin.org ([192.55.54.60]) (authenticated bits=0)
+	by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x55Kknta1677802
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Wed, 5 Jun 2019 13:46:49 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x55Kknta1677802
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2019051801; t=1559767610;
+	bh=WqBE13UslozMsjTH/RL6KZ/KWhTyuH4I2RYDIGLL+WA=;
+	h=Subject:From:To:References:Date:In-Reply-To:From;
+	b=UBXzIkxUpKfbWiZDmisY3f0dnYRr48OG6N+uZryxRD9XJQ9QTt9gsbqjo34BoFugo
+	BkoIhCeIJcRDxnALXbjmA2/KIJyRw/IkaGngQIRgpLzQLbqSolr+4pw6VdOhQ2lxyJ
+	9q6ys1JIBr+S/lb1+sgki/HqQkS7riejtVOjUAQjGuOCngc6e6/S8EQRNM6aXqajQk
+	2E9XmShysfJTsQ0VEIhYLJgTHdS5rHoi5t+FQc0QqSME4uO4cNVMLMsqt1fxFH/cSy
+	FUgt+6QRVRwz7/xiNkbcuLleo7y04Clhu4dKRnw1fNcCOF6tsVPXoPlEC634PJPar6
+	+6fAyP69RP4wg==
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: qemu-devel@nongnu.org
+References: <6364a057-23ab-db7f-cb2c-ccff70fb7aed@zytor.com>
+Message-ID: <aaf15ebe-7442-2e25-d533-c40c2e2df8cb@zytor.com>
+Date: Wed, 5 Jun 2019 13:46:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190605160659.GB7080@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Wed, 05 Jun 2019 20:43:34 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <6364a057-23ab-db7f-cb2c-ccff70fb7aed@zytor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/2] BootLinuxConsoleTest: Test the
- SmartFusion2 board
+X-Received-From: 198.137.202.136
+Subject: Re: [Qemu-devel] Qemu baseline requirements/portability?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,63 +61,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
-	Alistair Francis <alistair@alistair23.me>,
-	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
-	Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 05, 2019 at 12:06:59PM -0400, Cleber Rosa wrote:
-> On Tue, May 21, 2019 at 12:06:35AM +0200, Philippe Mathieu-Daud=E9 wrot=
-e:
-> > Similar to the x86_64/pc test, it boots a Linux kernel on an
-> > Emcraft board and verify the serial is working.
-> >=20
-> > If ARM is a target being built, "make check-acceptance" will
-> > automatically include this test by the use of the "arch:arm" tags.
-> >=20
-> > Alternatively, this test can be run using:
-> >=20
-> >   $ avocado run -t arch:arm tests/acceptance
-> >   $ avocado run -t machine:emcraft-sf2 tests/acceptance
-> >
->=20
-> The pattern accepted as a tag currently doesn't include a dash, see:
->=20
->    https://avocado-framework.readthedocs.io/en/68.0/ReferenceGuide.html=
-#docstring-directives-rules
->=20
+On 6/5/19 12:55 PM, H. Peter Anvin wrote:
+> Hi,
+> 
+> I am writing some code I'm hoping will be able to make it into Qemu, but I
+> can't seem to find what the baseline portability requirements are.  I'm
+> specifically wondering about newer POSIX features like openat(), which seems
+> to be used in the 9p filesystem and nowhere else, and what version of glib one
+> can rely on?
+> 
 
-Why isn't this causing test jobs to fail?
+Specifically, I'm trying to satisfy a 10-year-old request by me and others to
+support composite initrd during Linux boot.
 
-This patch is already queued on python-next, should I remove it?
+	-hpa
 
-
-> My suggestion is to replace the dash for an underline.  This was done
-> on the s390 test:
->=20
->    :avocado: tags=3Dmachine:s390_ccw_virtio
-
-I would love if we stopped using the docstring to store
-machine-readable data and used Python class attributes or
-methods, like most Python APIs do.  e.g.:
-
-  class MyTest(avocado.Test):
-      tags =3D {'machine':'s390-ccw-virtio'}
-
-      def test_my_feature(self):
-          ...
-
-
-I understand the Avocado runner currently tries to not run any
-test code at the "list" step.  But can we have a mode where it
-will actually load the Python module and look at the class
-objects directly, instead of trying to parse the Python code
-without evaluating it?
-
-> [...]
-
---=20
-Eduardo
 
