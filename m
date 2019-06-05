@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D89356E3
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 08:20:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36182 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2403C356B0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 08:13:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36070 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYPI5-0000Mt-JM
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 02:20:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45503)
+	id 1hYPB5-0005uL-0n
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 02:13:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44045)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david.brenken@efs-auto.org>) id 1hYPER-0006zW-LG
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:08 -0400
+	(envelope-from <david.brenken@efs-auto.org>) id 1hYP9M-0004yq-AA
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:11:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david.brenken@efs-auto.org>) id 1hYPEQ-0006hz-85
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:07 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:60013)
+	(envelope-from <david.brenken@efs-auto.org>) id 1hYP9L-0008LJ-AC
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:11:52 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:33441)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <david.brenken@efs-auto.org>)
-	id 1hYPEK-0006GC-2v
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:01 -0400
+	id 1hYP9L-0008Fy-1K
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:11:51 -0400
 Received: from localhost.localdomain ([178.239.76.114]) by
 	mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1N8XHb-1gUDfz3aQj-014S32; Wed, 05 Jun 2019 08:11:42 +0200
+	id 1MBUuP-1hPu2C0HKJ-00D3H0; Wed, 05 Jun 2019 08:11:43 +0200
 From: David Brenken <david.brenken@efs-auto.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  5 Jun 2019 08:11:22 +0200
-Message-Id: <20190605061126.10244-2-david.brenken@efs-auto.org>
+Date: Wed,  5 Jun 2019 08:11:23 +0200
+Message-Id: <20190605061126.10244-3-david.brenken@efs-auto.org>
 X-Mailer: git-send-email 2.16.1.windows.4
 In-Reply-To: <20190605061126.10244-1-david.brenken@efs-auto.org>
 References: <20190605061126.10244-1-david.brenken@efs-auto.org>
-X-Provags-ID: V03:K1:GnenMGQ7VAKZr/Cz9lBUqcAD5zucyJsQjMneTeJnYLc+OsBP81U
-	XpGrQel1yPjLC9A9Qjx+t7ldIyOfYEocH4xtUF53cz2u8sU6+DD1x6tgFki86FWZ0ebGiuj
-	q2DPkaEuLQo/MYpGC6xJJX6bYK8wxkxtnDAHjMDV5I8zbLHva9Ti8MGgkzpOKz6G9McexmB
-	eQDhlRdGcB6kGqJDxJmJg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:69Z7dGpGgkY=:HfpjiSKNbhVL9vjLKmeiGD
-	NKosQLI3nwdgHfbkcq6JmHhroUf1fqudCGkPcF1Iviu4swOovj4t3WfN0MV1qvzuma0n02ZfA
-	P5Dffd6VzJGdo+TLF6gQfCznYMpNP/mz5McMEbJYpcHt8lSwvAcf+G/IqtyfjDHJLR7AJC9XM
-	Nf8tWCkXK08PokO2D7+58V4D2EpgLsW5gQ4GGoGc2ScrfZS+GAEvOU1zW59+x2c/Ft4z5r2R0
-	37Xoxi+r2+XSBJJckkPX/U0iheJwXVuDB4s1qB64IglBatXThmFuTcSCSvOBQxcpHqhE1gCa5
-	cc1bVpa4B+Wx5tI2/VAxHjM9BAQxtRYxQqJYzz5RIsvw2XLehyYfS1YmMviYNl2oUDW1ZlJ5e
-	BJ4AJcCGWg2Wcnh6pLm/beOPlRuGcGWeAFwYVrCwAAZUwYJ/IJQERmNXTvBd9SLs/+b6ZggA1
-	cR0unxzace/HJtXmZs0xLoj2M6yriSjcjb6FNWAu24YNcM2W9MYw8knN6GpZ82ngm1dHWMZOP
-	fzWPEzhGxAACr70m5SNxqfeaT15ZjAIQ8YhAQO2SI7exlmwS5XcjwiPUrkCxRafBIj+KemcQt
-	Qjz1LRWNY/yxvL4Ch3UJ91HjATDz1ffddYMlceFe0CyfNKrWuw9xOUSAGQFmAkpYM96oAyP0n
-	/BY04v4kymM/t2XOpe6f8uYNtZOCO1iFgVep/a8SetK3r0IjmaLfJ0k4Nx4Nsncak1mVwqtEP
-	u6sbxGOTm/nBnz3wTEk8rT/ThGbB1L87Ab11yyHrOBLRBa6gB750k/eRd4c=
+X-Provags-ID: V03:K1:TEZT9UUxGWLf9FfaWoDi1gOpgnmWXzXNN3KWJBjVttaxbPoOT6L
+	4pCpyC+N4ukd4GCbqd129iT5KoztFspbo/bPDa7u7xOJ5Ams4Wbqwod1TDxHTtJzewLRv/Q
+	27afpFbyy8AZghBUeW9+w5V7sAh4drxRba8TwvW4SJUXNu63YZFJ6bCUId8mjHX3x245p+S
+	LSQJzvIer5LaLmSsxkiyA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mdF6Qmfm4/o=:vf/z7gKJQTTIJqd6FLzEpY
+	4wqoIHf9wcP0FBfkcWgw9X1I59UJUewcQ87N2aXn8wqXWfNkaeu1/W7KHqdlcpu9Cb1fbOIva
+	VWqiWTpdtjU0lH3FdPvFsZSYJPElvSO7uUzH5o93gZAB/1x7zDvaFF8eATohYtsT6tak01hSD
+	Towwv5/bDDcET/7Oh0efUgNs/KCBFN0uzRqwBTQmrp1F72WUVdL9RBud16fc2tsVUWjM06Rsg
+	X/NbTfG46Uh0F+/NUt0+rusLqqCaIrrIv87iGAhBDr4D6+ON0ZyGKgihovXOiMqJHVMl8n2cW
+	gtq8NXAJYCcgplBlG0XMLGCdZRJnIsKDrCm+asI4R2cAZwVMvn/KuEGTTWwKoPdFI5el4tUmx
+	ItF1rVeD69igqlQaLVpHbU9Dj3kWSAzdQeDJ7k4kQcOU9O/9jJxXYZsBtd7YlemRcKFWeMAJ2
+	mcvq8RTFGmD1hnIu+mDWNOfnaUq9k0jldJC5LR4VzhKCh3vX8DBpI39eQNebi32tjEiSmuxcR
+	gNgfKZy9QGgoqT5Gj6I4tK5McpIqXfAImNVOoijFRgrrh33TnlPMvNG0YEatM9iTu119aUhQq
+	TNoV83/V2IxUSEpEvs2wnB8btA8/4ZMfmPk0BH6wFVcTk7aOpkawqtO4SFQqNZ8/Dl8WNbASJ
+	iY1NQtCYmkzCjqpp/bxg5THVJ91S2ShC7cTctqJUJbv5bE4DVpiwIecCvb/NRFuNYEq4WC4fg
+	WVarkBk0bEZvF/F0iTpKNjvGYxWrLKUe6+2B0AUZOK1ra0tQn+LDQzk2byg=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: [Qemu-devel] [PATCH 1/5] tricore: add FTOIZ instruction
+X-Received-From: 212.227.17.13
+Subject: [Qemu-devel] [PATCH 2/5] tricore: add UTOF instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,73 +80,64 @@ Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
 Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
 
 ---
- target/tricore/fpu_helper.c | 25 +++++++++++++++++++++++++
+ target/tricore/fpu_helper.c | 16 ++++++++++++++++
  target/tricore/helper.h     |  1 +
  target/tricore/translate.c  |  3 +++
- 3 files changed, 29 insertions(+)
+ 3 files changed, 20 insertions(+)
 
 diff --git a/target/tricore/fpu_helper.c b/target/tricore/fpu_helper.c
-index d8a6c0d25b..f079d9e939 100644
+index f079d9e939..432079c8e2 100644
 --- a/target/tricore/fpu_helper.c
 +++ b/target/tricore/fpu_helper.c
-@@ -303,6 +303,31 @@ uint32_t helper_itof(CPUTriCoreState *env, uint32_t arg)
+@@ -303,6 +303,22 @@ uint32_t helper_itof(CPUTriCoreState *env, uint32_t arg)
      return (uint32_t)f_result;
  }
  
-+uint32_t helper_ftoiz(CPUTriCoreState *env, uint32_t arg)
++uint32_t helper_utof(CPUTriCoreState *env, uint32_t arg)
 +{
-+    float32 f_arg = make_float32(arg);
-+    uint32_t result;
-+    int32_t flags;
++    float32 f_result;
++    uint32_t flags;
 +
-+    result = float32_to_int32_round_to_zero(f_arg, &env->fp_status);
++    f_result = uint32_to_float32(arg, &env->fp_status);
 +
 +    flags = f_get_excp_flags(env);
-+    if (flags & float_flag_invalid) {
-+        flags &= ~float_flag_inexact;
-+        if (float32_is_any_nan(f_arg)) {
-+            result = 0;
-+        }
-+    }
-+
 +    if (flags) {
 +        f_update_psw_flags(env, flags);
 +    } else {
 +        env->FPU_FS = 0;
 +    }
-+
-+    return result;
++    return (uint32_t)f_result;
 +}
 +
- uint32_t helper_ftouz(CPUTriCoreState *env, uint32_t arg)
+ uint32_t helper_ftoiz(CPUTriCoreState *env, uint32_t arg)
  {
      float32 f_arg = make_float32(arg);
 diff --git a/target/tricore/helper.h b/target/tricore/helper.h
-index f60e81096b..16b62edf7f 100644
+index 16b62edf7f..f1a5cb367e 100644
 --- a/target/tricore/helper.h
 +++ b/target/tricore/helper.h
 @@ -111,6 +111,7 @@ DEF_HELPER_4(fmsub, i32, env, i32, i32, i32)
  DEF_HELPER_3(fcmp, i32, env, i32, i32)
  DEF_HELPER_2(ftoi, i32, env, i32)
  DEF_HELPER_2(itof, i32, env, i32)
-+DEF_HELPER_2(ftoiz, i32, env, i32)
++DEF_HELPER_2(utof, i32, env, i32)
+ DEF_HELPER_2(ftoiz, i32, env, i32)
  DEF_HELPER_2(ftouz, i32, env, i32)
  DEF_HELPER_2(updfl, void, env, i32)
- /* dvinit */
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 352f52bb4a..66cdc63286 100644
+index 66cdc63286..a8b4de647a 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
 @@ -6764,6 +6764,9 @@ static void decode_rr_divide(CPUTriCoreState *env, DisasContext *ctx)
      case OPC2_32_RR_UPDFL:
          gen_helper_updfl(cpu_env, cpu_gpr_d[r1]);
          break;
-+    case OPC2_32_RR_FTOIZ:
-+        gen_helper_ftoiz(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
++    case OPC2_32_RR_UTOF:
++        gen_helper_utof(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
 +        break;
-     default:
-         generate_trap(ctx, TRAPC_INSN_ERR, TIN2_IOPC);
-     }
+     case OPC2_32_RR_FTOIZ:
+         gen_helper_ftoiz(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
+         break;
 -- 
 2.17.1
 
