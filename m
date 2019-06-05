@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1643650E
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:03:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49084 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5CB136513
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:05:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49106 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYc7p-0004JL-Ui
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:03:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34070)
+	id 1hYcAL-0006HI-Oa
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:05:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34077)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5O-000347-VV
+	(envelope-from <mst@redhat.com>) id 1hYc5P-00034B-27
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5K-0005Y0-Em
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:36 -0400
-Received: from mail-qt1-f182.google.com ([209.85.160.182]:33287)
+	(envelope-from <mst@redhat.com>) id 1hYc5K-0005YP-Jz
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:38 -0400
+Received: from mail-qk1-f172.google.com ([209.85.222.172]:36784)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5K-00059f-69
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5K-0005Bi-Bs
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:34 -0400
-Received: by mail-qt1-f182.google.com with SMTP id 14so25257qtf.0
-	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:20 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id g18so26835qkl.3
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=L0AgkiXhLjFVQRi+vsOb3iccAaKRvAtIDXeiJDWz4Hs=;
-	b=dt4f/t7wNrZz0kw+DYsArtWNo6YTE5wH0OyyTzKAOkf0qa87tAo6QIZ+DxTWiCg+MC
-	lC2Nm1nxOY7d5wcsTBnVxjKNpCWldV8hq656P7DNelaRRZ+FmV89D96sMtUPgDx59/0V
-	cd6wQoM28iPR/lFRX9xwKNcTe39tj2LWv2f3s357qUpRzwqk7BpjoloDjIx9PqJ86Sh+
-	awQ0Gpb0piY/yASPYf4dRAyY1lxto67cOY4ThL8WadmrldNzHQXGUQLqS5IPqOuEiiJC
-	Etk8/Avyd7qSoL9ZiE4RExoElutdVX0IhC0aKurENJ709uxKWUB0dsvezQ/kTUtC8od1
-	P5Yg==
-X-Gm-Message-State: APjAAAVdZRDwdd1WriLjc7Y8yWyPp/sjGhW2jiNQIwjzY/URcLK3sB8F
-	hHey9u24NBhlExykRD4uNax4g61qSWA=
-X-Google-Smtp-Source: APXvYqyuy4gUmXXX2cGyhJ6A+TAYm40Y4gbdCR3qr8t7ApSv3LM0M9DeaTROnncxC+wCbu1pbx2FDA==
-X-Received: by 2002:aed:33e6:: with SMTP id v93mr36877631qtd.157.1559764820063;
-	Wed, 05 Jun 2019 13:00:20 -0700 (PDT)
+	bh=v+ECkpJzkDVdVI5rLDwJXguPVOQxaO4yQjX4+F++UwY=;
+	b=iQOAowjvdO4BNJNGRjAlbgTBR0t2X9JWWD3XKRarZ87rbNEQKfmsl8Ih/KoSiCBH6I
+	sj6Zslfj8xusWUN3lt7y9G6Qq8hGwjsRpLy1thNI5anxZiaCKkcUASSdZXkOwfE2hCBW
+	0B/3CmEp2/QkaQdWFzaiYrt/Xlp5eJDPLQF5VM0/rcKOcQcc2xm4yhn1TYxV/l+BwYDd
+	vMf5gxHySGrWyXu3GG+XP+a1Z/fNckMYTlHST/8XQl9ni9ETVNuUXZiAxk6+qJ3F/+hF
+	B6ITBfO9OFhayL949I1f9TF7kkMta+Xm+hiti1US+RxN10HyaZBb5CAwMSPRUn1NCon5
+	1c4A==
+X-Gm-Message-State: APjAAAVNjBSQMe+jAuvYHs8UO8Z6lqoj/Jh/M4/Qu8kvqUOeUqmQXxZb
+	u7hzkuT5//W3TzUDgIpUp13+UGZJS+Q=
+X-Google-Smtp-Source: APXvYqxdVM8fzD5SnvnjlJT4x5IoavvSSHrw+LPYWFKStqf7ljki//aj6G1uhSo7NWE3Ad6iPW9pmA==
+X-Received: by 2002:a05:620a:1329:: with SMTP id
+	p9mr15864237qkj.224.1559764822016; 
+	Wed, 05 Jun 2019 13:00:22 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
 	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
-	x7sm13564627qth.37.2019.06.05.13.00.18
+	p37sm13545546qtc.35.2019.06.05.13.00.20
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 05 Jun 2019 13:00:19 -0700 (PDT)
-Date: Wed, 5 Jun 2019 16:00:18 -0400
+	Wed, 05 Jun 2019 13:00:21 -0700 (PDT)
+Date: Wed, 5 Jun 2019 16:00:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1558448611-315074-1-git-send-email-imammedo@redhat.com>
+Message-ID: <1556604614-32081-1-git-send-email-wangjie88@huawei.com>
 References: <20190605195913.12243-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,9 +57,8 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.182
-Subject: [Qemu-devel] [PULL v3 06/17] docs: smbios: remove family=x from
- type2 entry description
+X-Received-From: 209.85.222.172
+Subject: [Qemu-devel] [PULL v3 07/17] vhost: remove the dead code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,42 +70,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
-	Thomas Huth <thuth@redhat.com>,
-	Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Jie Wang <wangjie88@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Jie Wang <wangjie88@huawei.com>
 
-'family' option is not part of type 2 table and if user tries to use it
-as such QEMU will error out with an unknow option error.
-Drop it from docs lest it confuse users.
+remove the dead code
 
-Fixes: b155eb1d04 ("smbios: document cmdline options for smbios type 2-4, 17 structures")
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1558448611-315074-1-git-send-email-imammedo@redhat.com>
+Signed-off-by: Jie Wang <wangjie88@huawei.com>
+Message-Id: <1556604614-32081-1-git-send-email-wangjie88@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- qemu-options.hx | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/virtio/vhost.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 39dc170429..0d8beb4afd 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2080,7 +2080,7 @@ Specify SMBIOS type 0 fields
- @item -smbios type=1[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,uuid=@var{uuid}][,sku=@var{str}][,family=@var{str}]
- Specify SMBIOS type 1 fields
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 7f61018f2a..2303a8c206 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1650,7 +1650,6 @@ fail_vq:
+                              hdev->vqs + i,
+                              hdev->vq_index + i);
+     }
+-    i = hdev->nvqs;
  
--@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}][,family=@var{str}]
-+@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}]
- Specify SMBIOS type 2 fields
- 
- @item -smbios type=3[,manufacturer=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,sku=@var{str}]
+ fail_mem:
+ fail_features:
 -- 
 MST
 
