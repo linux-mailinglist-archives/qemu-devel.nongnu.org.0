@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9737135C6F
+	by mail.lfdr.de (Postfix) with ESMTPS id A72FC35C70
 	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 14:19:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40511 helo=lists.gnu.org)
+Received: from localhost ([127.0.0.1]:40513 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYUtP-0003S2-Jn
+	id 1hYUtP-0003SL-Ev
 	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 08:19:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43599)
+Received: from eggs.gnu.org ([209.51.188.92]:43600)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hYUrT-0002Zl-6u
+	(envelope-from <shmuel.eiderman@oracle.com>) id 1hYUrT-0002Zm-6u
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 08:17:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hYUrR-0002o2-0x
+	(envelope-from <shmuel.eiderman@oracle.com>) id 1hYUrR-0002o3-0z
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 08:17:47 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:47864)
+Received: from userp2130.oracle.com ([156.151.31.86]:35320)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
-	id 1hYUrN-0002cP-93; Wed, 05 Jun 2019 08:17:41 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x55C4xCG071543; Wed, 5 Jun 2019 12:17:36 GMT
+	id 1hYUrN-0002dr-97; Wed, 05 Jun 2019 08:17:41 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+	by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x55C4wWV050876; Wed, 5 Jun 2019 12:17:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
 	h=from : to : cc :
-	subject : date : message-id; s=corp-2018-07-02;
-	bh=jKAYSVD57Abj8fOqnbC/jSNwgyrrLg96uks1IxQ18Bo=;
-	b=kBJ1M7pyscS9DrZqko+PMoq6tcfuN7H96SVS2NravYOAhRVzO1InyeynOjHas7Q5kCm5
-	3FqDTJ3cK734v2DBpqtYELmcuc0iG0XcNuLCki8Ia0B1KjH40iD3PdX2Reu0Q4JYiGIr
-	QkfmKNW8HYec+Ow5RhjrqllO07ghVJZy6cle+HQdVUz8z1deL61LmLBb8OMZ0njk7vY4
-	9HM1/QXpDNLPkjfQYeMtgbnM2+T2YLHUsJ6hMTt9C4uDFByAe/5p16Q47hELhVo7fnVI
-	Vbseiz63oC9cWwqdkHt0UdyXGuCSrlP7Wsbr5tNBQGuTbB7mWvr4UjkkRw4Gy+rj8lgg
-	EQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by aserp2130.oracle.com with ESMTP id 2suevdjfkj-1
+	subject : date : message-id : in-reply-to : references;
+	s=corp-2018-07-02; 
+	bh=h+mba0+eNWHBSHqCqhd4pFi93/ujCsDGO0cw1r+phXc=;
+	b=q4ZZiz3wVgJmv4R78lJlmfnrgC4CL7wlHoV6ylCy1UbysIxbJvq7c3c5XLidvYq7+Lxo
+	/fmkhZCrlnoV0VgNPFejlpLfGHmmYpJFg6RYoaHdrKbg0I29y/Z2ot1vvm32FHT8U5//
+	0Qb1zA0GHIl0vMij0dl0q2S5AK8UoZ2xAYK7PaBkkMk56oXO0vapYq0Dw3E9CqHpXZsO
+	F8Dr/PwBUuoq35HksnqwDv4ltK1vNkqdzNkX1Po9Qu60bDO6QNFUArZTCPhB5xeaXuZj
+	oRSF4L+0vO6ZksUQiGRqafL6HCeP37NSXkRZE5+WUiVmmlbZbctyk/n56XOV4gaxeqX6
+	PA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by userp2130.oracle.com with ESMTP id 2sugstj8et-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 05 Jun 2019 12:17:35 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x55CHYxm092700; Wed, 5 Jun 2019 12:17:35 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3020.oracle.com with ESMTP id 2swnha3y32-1
+	Wed, 05 Jun 2019 12:17:37 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x55CHYuZ023752; Wed, 5 Jun 2019 12:17:37 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by userp3030.oracle.com with ESMTP id 2swngkv104-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 05 Jun 2019 12:17:35 +0000
+	Wed, 05 Jun 2019 12:17:37 +0000
 Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x55CHXj2030425;
-	Wed, 5 Jun 2019 12:17:34 GMT
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x55CHa09011640;
+	Wed, 5 Jun 2019 12:17:36 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 05 Jun 2019 05:17:33 -0700
+	with ESMTP ; Wed, 05 Jun 2019 05:17:35 -0700
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
 	mreitz@redhat.com
-Date: Wed,  5 Jun 2019 15:17:18 +0300
-Message-Id: <20190605121721.29815-1-shmuel.eiderman@oracle.com>
+Date: Wed,  5 Jun 2019 15:17:19 +0300
+Message-Id: <20190605121721.29815-2-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
+In-Reply-To: <20190605121721.29815-1-shmuel.eiderman@oracle.com>
+References: <20190605121721.29815-1-shmuel.eiderman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9278
 	signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
 	malwarescore=0
-	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=769
+	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
 	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
 	engine=8.0.1-1810050000 definitions=main-1906050078
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9278
@@ -68,14 +71,14 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9278
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
 	priorityscore=1501 malwarescore=0
 	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=825
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
 	adultscore=0
 	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
 	definitions=main-1906050077
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.79
-Subject: [Qemu-devel] [PATCH v2 0/3] vmdk: Add read-only support for the new
- seSparse format
+X-Received-From: 156.151.31.86
+Subject: [Qemu-devel] [PATCH v2 1/3] vmdk: Fix comment regarding max l1_size
+ coverage
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -92,29 +95,56 @@ Cc: liran.alon@oracle.com, arbel.moshe@oracle.com, shmuel.eiderman@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1:
+Commit b0651b8c246d ("vmdk: Move l1_size check into vmdk_add_extent")
+extended the l1_size check from VMDK4 to VMDK3 but did not update the
+default coverage in the moved comment.
 
-VMware introduced a new snapshot format in VMFS6 - seSparse (Space
-Efficient Sparse) which is the default format available in ESXi 6.7.
-Add read-only support for the new snapshot format.
+The previous vmdk4 calculation:
 
-v2:
+    (512 * 1024 * 1024) * 512(l2 entries) * 65536(grain) = 16PB
 
-Fixed after Max's review:
+The added vmdk3 calculation:
 
-* Removed strict sesparse checks
-* Reduced maximal L1 table size
-* Added non-write mode check in vmdk_open() on sesparse
+    (512 * 1024 * 1024) * 4096(l2 entries) * 512(grain) = 1PB
 
-Sam Eiderman (3):
-  vmdk: Fix comment regarding max l1_size coverage
-  vmdk: Reduce the max bound for L1 table size
-  vmdk: Add read-only support for seSparse snapshots
+Adding the calculation of vmdk3 to the comment.
 
- block/vmdk.c               | 371 ++++++++++++++++++++++++++++++++++++++++++---
- tests/qemu-iotests/059.out |   2 +-
- 2 files changed, 352 insertions(+), 21 deletions(-)
+In any case, VMware does not offer virtual disks more than 2TB for
+vmdk4/vmdk3 or 64TB for the new undocumented seSparse format which is
+not implemented yet in qemu.
 
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
+Reviewed-by: Liran Alon <liran.alon@oracle.com>
+Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+---
+ block/vmdk.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 51067c774f..0f2e453bf5 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -426,10 +426,15 @@ static int vmdk_add_extent(BlockDriverState *bs,
+         return -EFBIG;
+     }
+     if (l1_size > 512 * 1024 * 1024) {
+-        /* Although with big capacity and small l1_entry_sectors, we can get a
++        /*
++         * Although with big capacity and small l1_entry_sectors, we can get a
+          * big l1_size, we don't want unbounded value to allocate the table.
+-         * Limit it to 512M, which is 16PB for default cluster and L2 table
+-         * size */
++         * Limit it to 512M, which is:
++         *     16PB - for default "Hosted Sparse Extent" (VMDK4)
++         *            cluster size: 64KB, L2 table size: 512 entries
++         *     1PB  - for default "ESXi Host Sparse Extent" (VMDK3/vmfsSparse)
++         *            cluster size: 512B, L2 table size: 4096 entries
++         */
+         error_setg(errp, "L1 size too big");
+         return -EFBIG;
+     }
 -- 
 2.13.3
 
