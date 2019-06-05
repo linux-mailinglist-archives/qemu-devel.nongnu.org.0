@@ -2,81 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48ADD35FA9
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:54:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43967 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9986035FCB
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 17:00:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44083 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYXJN-0004z8-DC
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:54:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33153)
+	id 1hYXOr-0000xv-6X
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 11:00:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35037)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hYXGz-0003q7-Nn
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:52:21 -0400
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hYXNE-0000HU-2a
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:58:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hYXGy-0007j3-QL
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:52:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37172)
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hYXNC-0002Da-75
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:58:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36282)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hYXGw-00077q-AO; Wed, 05 Jun 2019 10:52:14 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+	id 1hYXNA-0002BI-S6
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:58:42 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D80EF5945D;
-	Wed,  5 Jun 2019 14:51:48 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C2A2601B6;
-	Wed,  5 Jun 2019 14:51:47 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190517152111.206494-1-vsementsov@virtuozzo.com>
-	<20190517152111.206494-3-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <235f1fe9-d878-7afd-ccf4-2b4f899a93b3@redhat.com>
-Date: Wed, 5 Jun 2019 16:51:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	by mx1.redhat.com (Postfix) with ESMTPS id B7D77306E33B
+	for <qemu-devel@nongnu.org>; Wed,  5 Jun 2019 14:58:38 +0000 (UTC)
+Received: from localhost (ovpn-112-54.ams2.redhat.com [10.36.112.54])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9D0A0546E3;
+	Wed,  5 Jun 2019 14:58:30 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  5 Jun 2019 16:58:24 +0200
+Message-Id: <20190605145829.7674-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190517152111.206494-3-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="7iQ6JcvpLwZ4sItowyHznfjncoPek5sJ2"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 05 Jun 2019 14:51:55 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Wed, 05 Jun 2019 14:58:38 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2 2/2] iotests: test external
- snapshot with bitmap copying
+Subject: [Qemu-devel] [PATCH 0/5] Misc vhost-user fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,61 +55,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, den@virtuozzo.com, armbru@redhat.com
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---7iQ6JcvpLwZ4sItowyHznfjncoPek5sJ2
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: kwolf@redhat.com, fam@euphon.net, den@virtuozzo.com, armbru@redhat.com
-Message-ID: <235f1fe9-d878-7afd-ccf4-2b4f899a93b3@redhat.com>
-Subject: Re: [Qemu-block] [PATCH v2 2/2] iotests: test external snapshot with
- bitmap copying
-References: <20190517152111.206494-1-vsementsov@virtuozzo.com>
- <20190517152111.206494-3-vsementsov@virtuozzo.com>
-In-Reply-To: <20190517152111.206494-3-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On 17.05.19 17:21, Vladimir Sementsov-Ogievskiy wrote:
-> This test shows that external snapshots and incremental backups are
-> friends.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/254     | 52 ++++++++++++++++++++++++++++++++++++++=
+Here is a few fixes spotted by Coverity in the recently landed
+vhost-user-{input,gpu}.
 
->  tests/qemu-iotests/254.out | 52 ++++++++++++++++++++++++++++++++++++++=
+Marc-Andr=C3=A9 Lureau (5):
+  vhost-user-gpu: do not send scanout update if no GPU socket
+  vhost-user: check unix_listen() return value
+  vhost-user: improve error report
+  vhost-user-input: check ioctl(EVIOCGNAME) return value
+  vhost-user-gpu: initialize msghdr & iov at declaration
 
->  tests/qemu-iotests/group   |  1 +
->  3 files changed, 105 insertions(+)
->  create mode 100755 tests/qemu-iotests/254
->  create mode 100644 tests/qemu-iotests/254.out
+ contrib/vhost-user-gpu/main.c   | 29 ++++++++++++++---------------
+ contrib/vhost-user-input/main.c | 12 ++++++++++--
+ 2 files changed, 24 insertions(+), 17 deletions(-)
 
-This test fails for me with qcow (v1).
+--=20
+2.22.0.rc2.384.g1a9a72ea1d
 
-Max
-
-
---7iQ6JcvpLwZ4sItowyHznfjncoPek5sJ2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlz31wEACgkQ9AfbAGHV
-z0DbjggAs6ubgaFboaGSv2vgLy74Rf9D3FDxZ/TPhXfwYCs694nBZiuBVxth2RUt
-CRdbJE7k0uicoKgkeys8N4Dk1MKcirgcHgbWxy5TKeHOnuYCdKMTkcqrRKs0AmmO
-AZYU+HO+71cmk8v7aPf1/0ULKJCMkLM/df9tC328UyC318GeCgmgLACe5EhmRWpG
-GAFBcZa1mS0Uq/8IR8M0GUflQDdTAcXOIQZDMOIa1UnSRk2lQEHXOc2rzAYQhlUD
-CuB/j2Ld7/lok4L4XhPIKVdTulsZZmJOqHg4snSMe6ie12BHUdw8wEFAskoGCAdI
-jILMBbXME0dyF9RQhjkRkydZV6Mnmg==
-=Or/X
------END PGP SIGNATURE-----
-
---7iQ6JcvpLwZ4sItowyHznfjncoPek5sJ2--
 
