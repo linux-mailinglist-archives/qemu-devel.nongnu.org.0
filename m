@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA8B35F8C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:48:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43854 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E200F35F87
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:46:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43834 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYXDU-0000OK-4s
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:48:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56585)
+	id 1hYXBI-0006sH-G9
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:46:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56979)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hYX4P-0001JN-VB
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:39:18 -0400
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hYX5Y-0002PH-Qc
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:40:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hYX4O-00022E-SL
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:39:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44844)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hYX4M-0001oN-7X; Wed, 05 Jun 2019 10:39:14 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 240E74CF9D;
-	Wed,  5 Jun 2019 14:39:13 +0000 (UTC)
-Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 16CDD5B694;
-	Wed,  5 Jun 2019 14:39:11 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190605100913.34972-1-vsementsov@virtuozzo.com>
-	<20190605100913.34972-3-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
-	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
-	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
-	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
-	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
-	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
-	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
-	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
-	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
-	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
-	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
-	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
-	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
-	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
-	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
-	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
-	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
-	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
-	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
-	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
-	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
-	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
-	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <cd780b66-ab31-1feb-0cce-0b6525df7d79@redhat.com>
-Date: Wed, 5 Jun 2019 09:39:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190605100913.34972-3-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="iXgT2kfNmjuS4zkTyyrpDvlKzAnfpzDlb"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Wed, 05 Jun 2019 14:39:13 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 2/2] nbd-client: enable TCP keepalive
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hYX5X-0004Il-3c
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:40:28 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44572)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+	id 1hYX5W-0004DJ-T1
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:40:27 -0400
+Received: by mail-wr1-x436.google.com with SMTP id w13so19699677wru.11
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 07:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:subject:date:message-id;
+	bh=YwwS/Fhfq8EuqX9k717eLOkoypze8UvhPqnn1LmdKs4=;
+	b=NpL7VgjcVM93Z/3fSlH/r3/VvU3ILRJbgFW7ZpxMnlQXSD3zFpSUwRlToZP0g+/RLE
+	M3eOtGJVpkRefqhH9F3XJK590y3ZB79w3HZpz/1KhVjA1202J/kAvOvQvYjl6VSIKrcN
+	ypvOAB6QglrstUln+KVu7KZejqMW8Tctae64uVhn2/cpJRpOc+ThOs6haPjA92Kj0Ms7
+	BFyzzCFKRovyOoXkBWLj+fdYZqOdPuC9eOGUoBq0/VTeEgSCDiTezNvqzW14txlyPGhJ
+	PKUhyGv8UQz1xgy2tloCna58zFK1dHjn47Mapx6LqTM5qyE6Y/sZ1GFNmiC80frPCXNU
+	dAJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:to:subject:date:message-id;
+	bh=YwwS/Fhfq8EuqX9k717eLOkoypze8UvhPqnn1LmdKs4=;
+	b=ZYrKbk2VD5n7yLtuflsxvk+6Lj7fjSnUah9tEr58njE4jJp4I124OyAmV0CvvaBT25
+	1fuTqdpGtBGkC41YP7P1fTTHrP+ufbTU6Of4uEt7sXVR0weT/DcNEbxOOlOe/H2iMM+q
+	ONv+myhdqh94YnZuCdcAtO093uSnIZyVpB151cqvbaHC8mTI80FwLLfOg2d86akHlIBN
+	GHatSI76Zsux2cH29ni7n/gOqwvEolzpArNRfFfMkW99X6LL4yioF8kYlyVPK9Nl8Nc6
+	L8mCmigqbLB+06aREdtDi+k+rDHMarX8Llf77ly7s7wx1eFI4pwNc39lp0sfH2nEFobP
+	YGAA==
+X-Gm-Message-State: APjAAAWy3Go55lnuwPT7b1/t52eIfRcFVH6Ck/9JVKGHrXsRYE7S4UIH
+	QxB7J0PJQs69FdCiyaeN7YN01yie
+X-Google-Smtp-Source: APXvYqxr0nIRJ7ryQRwTxJfvkU0QZMcJOPCj37Y5W8rb+DobfBGuikhFZRuIp7BtY26U0HEtCosiVQ==
+X-Received: by 2002:adf:ee4a:: with SMTP id w10mr14081340wro.311.1559745622032;
+	Wed, 05 Jun 2019 07:40:22 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5]) by smtp.gmail.com with ESMTPSA id
+	t14sm22123117wrr.33.2019.06.05.07.40.21 for <qemu-devel@nongnu.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Jun 2019 07:40:21 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  5 Jun 2019 16:40:18 +0200
+Message-Id: <1559745620-18828-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::436
+Subject: [Qemu-devel] [PULL 0/2] SCSI/vl.c patches for 2019-06-05
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,76 +71,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, berrange@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---iXgT2kfNmjuS4zkTyyrpDvlKzAnfpzDlb
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: berrange@redhat.com, mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
-Message-ID: <cd780b66-ab31-1feb-0cce-0b6525df7d79@redhat.com>
-Subject: Re: [PATCH 2/2] nbd-client: enable TCP keepalive
-References: <20190605100913.34972-1-vsementsov@virtuozzo.com>
- <20190605100913.34972-3-vsementsov@virtuozzo.com>
-In-Reply-To: <20190605100913.34972-3-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit c87759ce876a7a0b17c2bf4f0b964bd51f0ee871:
 
-On 6/5/19 5:09 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Enable keepalive option to track server availablity.
+  q35: Revert to kernel irqchip (2019-06-03 14:03:03 +0200)
 
-s/availablity/availability/
+are available in the git repository at:
 
-Do we want this unconditionally, or should it be an option (and hence
-exposed over QMP)?
+  git://github.com/bonzini/qemu.git tags/for-upstream
 
->=20
-> Requested-by: Denis V. Lunev <den@openvz.org>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/nbd-client.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/block/nbd-client.c b/block/nbd-client.c
-> index 790ecc1ee1..b57cea8482 100644
-> --- a/block/nbd-client.c
-> +++ b/block/nbd-client.c
-> @@ -1137,6 +1137,7 @@ static int nbd_client_connect(BlockDriverState *b=
-s,
-> =20
->      /* NBD handshake */
->      logout("session init %s\n", export);
-> +    qio_channel_set_keepalive(QIO_CHANNEL(sioc), true, NULL);
->      qio_channel_set_blocking(QIO_CHANNEL(sioc), true, NULL);
-> =20
->      client->info.request_sizes =3D true;
->=20
+for you to fetch changes up to edfb4389c26cbfd873707306024130bda6049780:
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+  vl: Document why objects are delayed (2019-06-05 16:15:32 +0200)
 
+----------------------------------------------------------------
+* Fix pr-manager-helper (Markus)
 
---iXgT2kfNmjuS4zkTyyrpDvlKzAnfpzDlb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+----------------------------------------------------------------
+Markus Armbruster (2):
+      vl: Fix -drive / -blockdev persistent reservation management
+      vl: Document why objects are delayed
 
------BEGIN PGP SIGNATURE-----
+ vl.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+-- 
+1.8.3.1
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz31A4ACgkQp6FrSiUn
-Q2os2Af6AhpzPfXgfwk0jYoHbfsomqBVmyolc1lijeKYU+L+gxPOwb+J6NjigkzS
-9SflA4fsb3OlL8OS/ifsiki5mBsP4IP85d8IqqeRipd1A9Aw7yoIgX7WMpI1lc4G
-KNsbaV0JK366yHkJPYwFOupEmpUfdQiMjKL7xxtTh0hCO0L0jVXAgL5yW27Oxsmq
-NlJxeBh+VwHBr4XlmyUB5HlI3Mg5TTMZGgAKHxCuvMwWtVKX6pMHVFMU0N63yqeI
-7ulU2DA1kh5xDAw0DWAeBF6niPVgDvYVxHqhr9WRwk59fVaGKdxR2BFXw7LOobMg
-7YAQ2w/ZPPH4xdakHDkGI86DJjPUqQ==
-=ZW0z
------END PGP SIGNATURE-----
-
---iXgT2kfNmjuS4zkTyyrpDvlKzAnfpzDlb--
 
