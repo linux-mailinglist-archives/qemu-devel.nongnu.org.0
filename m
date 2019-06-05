@@ -2,49 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82F235570
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 04:57:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34498 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC94354F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 03:23:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33801 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYM6o-0002Cr-F2
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 22:57:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47586)
+	id 1hYKeh-0006lE-CE
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jun 2019 21:23:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40505)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hYM5h-0001nT-EC
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 22:55:54 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hYKdh-0006PG-5b
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 21:22:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hYM5b-0001du-Md
-	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 22:55:49 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:56137)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hYM5W-0000P0-U6; Tue, 04 Jun 2019 22:55:45 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45JYLR4pbVz9s7h; Wed,  5 Jun 2019 12:55:11 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1559703311;
-	bh=g3q2pSqEs+eQBRZMHeCFr25zLI4FxPNwvfDFA/fLRto=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aomuRGWAxg/4uDM+oN1WlPq73GaCSW5oELCCF9h3iTzgDY8DbLf2FAi8GgFyZL2BC
-	tbWsjaDG6OyWHXdSdNN6sMw09tbUZW7+XNhy48R6gUHLBTE0rT0PLzUYJFCYrILRPs
-	tnoMvx0yK3xyPKltsnx69K5TNj7cYb02lF/Ome+g=
-Date: Wed, 5 Jun 2019 10:10:57 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <20190605001057.GA26598@umbus.fritz.box>
-References: <20190604190115.8053-1-mark.cave-ayland@ilande.co.uk>
+	(envelope-from <no-reply@patchew.org>) id 1hYKdY-0000yT-H8
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 21:22:51 -0400
+Resent-Date: Tue, 04 Jun 2019 21:22:45 -0400
+Resent-Message-Id: <E1hYKdY-0000yT-H8@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21464)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hYKdX-0000oB-53
+	for qemu-devel@nongnu.org; Tue, 04 Jun 2019 21:22:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1559696792; cv=none; d=zoho.com; s=zohoarc; 
+	b=lzz4zdavC2RESpuKuQ9V93eY5G/CmKVvtq/FUW7yny1YcvzU8wWXICNjqfQAdxdLNPiIznXElkPiBNplWPoqjf8L1OSVfJrs1JFcjeQp9PATgnK7w60xPNHRs0Iofigk+2OVtIUIiVg38EdD7/tKTBV0d7fY2mzlhZDD4QcwVlg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1559696792;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=R1+XstUzQLfSQji+TRxhISzHQjVzUGIBPxje5Kd+OZA=; 
+	b=O48RCFaAYRhTc+4aQ6gDfIufFG4NaRMjgN86H8sI237mvNw47MYfgueB9+CuD5D0OtRyUf7MvkovEqqtodMpGqTe0IXIMDfihHIveMuz5y12RIFE84OlgHBhYdEWlP+/daY4cnmwYDHw3oCTGPJD0uyql+ioiz3fTOLRvh3UE6s=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1559696791443184.5473280689888;
+	Tue, 4 Jun 2019 18:06:31 -0700 (PDT)
+In-Reply-To: <cover.1559638310.git.tgfbeta@me.com>
+Message-ID: <155969679045.32260.1519674070503985895@ce79690b2cb9>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
-Content-Disposition: inline
-In-Reply-To: <20190604190115.8053-1-mark.cave-ayland@ilande.co.uk>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH for-stable 0/5] target/ppc: VSX/xvxsigdp
- fixes for 4.0 stable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Tue, 4 Jun 2019 18:06:31 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH 0/2] ui/cocoa: Fix input device issues on
+ Mojave
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,65 +62,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, kraxel@redhat.com, tgfbeta@me.com,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNTU5NjM4MzEwLmdp
+dC50Z2ZiZXRhQG1lLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUg
+Y29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0
+aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCAwLzJdIHVpL2NvY29hOiBGaXggaW5w
+dXQgZGV2aWNlIGlzc3VlcyBvbiBNb2phdmUKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IGNvdmVy
+LjE1NTk2MzgzMTAuZ2l0LnRnZmJldGFAbWUuY29tCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
+CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
+bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
+UFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUK
+ICogW25ldyB0YWddICAgICAgICAgICAgICAgcGF0Y2hldy9jb3Zlci4xNTU5NjM4MzEwLmdpdC50
+Z2ZiZXRhQG1lLmNvbSAtPiBwYXRjaGV3L2NvdmVyLjE1NTk2MzgzMTAuZ2l0LnRnZmJldGFAbWUu
+Y29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMTI3YTY3MDdhNSB1aS9jb2NvYTog
+Rml4IG1vdXNlIGdyYWJiaW5nIGluIGZ1bGxzY3JlZW4gbW9kZSBmb3IgcmVsYXRpdmUgaW5wdXQg
+ZGV2aWNlCmU1Nzk5MzU5ZDAgdWkvY29jb2E6IEZpeCBhYnNvbHV0ZSBpbnB1dCBkZXZpY2UgZ3Jh
+YmJpbmcgaXNzdWUgb24gTW9qYXZlCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzIgQ2hlY2tpbmcg
+Y29tbWl0IGU1Nzk5MzU5ZDA1ZCAodWkvY29jb2E6IEZpeCBhYnNvbHV0ZSBpbnB1dCBkZXZpY2Ug
+Z3JhYmJpbmcgaXNzdWUgb24gTW9qYXZlKQpFUlJPUjogQXV0aG9yIGVtYWlsIGFkZHJlc3MgaXMg
+bWFuZ2xlZCBieSB0aGUgbWFpbGluZyBsaXN0CiMyOiAKQXV0aG9yOiBDaGVuIFpoYW5nIHZpYSBR
+ZW11LWRldmVsIDxxZW11LWRldmVsQG5vbmdudS5vcmc+Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2Fy
+bmluZ3MsIDYxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
+ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
+cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
+RVJTLgoKMi8yIENoZWNraW5nIGNvbW1pdCAxMjdhNjcwN2E1ZTggKHVpL2NvY29hOiBGaXggbW91
+c2UgZ3JhYmJpbmcgaW4gZnVsbHNjcmVlbiBtb2RlIGZvciByZWxhdGl2ZSBpbnB1dCBkZXZpY2Up
+CkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVzcyBpcyBtYW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxp
+c3QKIzI6IApBdXRob3I6IENoZW4gWmhhbmcgdmlhIFFlbXUtZGV2ZWwgPHFlbXUtZGV2ZWxAbm9u
+Z251Lm9yZz4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTMgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggMi8yIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0K
+ClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWls
+YWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy9jb3Zlci4xNTU5NjM4MzEwLmdpdC50Z2Zi
+ZXRhQG1lLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdl
+bmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4K
+UGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
---J2SCkAp4GZ/dPZZf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 04, 2019 at 08:01:10PM +0100, Mark Cave-Ayland wrote:
-> Nothing to see here - just Anton's patches fixing several issues with the
-> VSX native endian conversion patches from 4.0, plus a related bug in xvxs=
-igdp
-> queued for 4.0 stable.
->=20
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-
->=20
->=20
-> Anton Blanchard (5):
->   target/ppc: Fix xvabs[sd]p, xvnabs[sd]p, xvneg[sd]p, xvcpsgn[sd]p
->   target/ppc: Fix xvxsigdp
->   target/ppc: Fix xxbrq, xxbrw
->   target/ppc: Fix vsum2sws
->   target/ppc: Fix lxvw4x, lxvh8x and lxvb16x
->=20
->  target/ppc/int_helper.c             |  2 +-
->  target/ppc/translate/vsx-impl.inc.c | 23 ++++++++++++-----------
->  2 files changed, 13 insertions(+), 12 deletions(-)
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---J2SCkAp4GZ/dPZZf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz3CI8ACgkQbDjKyiDZ
-s5IQfRAAqtysuRhYhX48J2ISCeQ//6BACSU8/dTR9kFt2g3stSZibdnKbuO2F5e9
-kwLIDgqO3KZGiftXKYWOlI5cb/PPFV/RlyQHMVeOd9nLng42p952lBeJ+18WH/Z4
-yK6zT3Zt8Rx/rHlq/vyj1tE/DSWpeddGqkhhUZSQoK6dmJ61h8JqXcjERprmMuzf
-pnumTF4cNinHEAPdgZJbdjC9P7jcuCYNJTVKTlkj5dcfWJT9aotR5i5FXCbv0dFC
-AmATGdf3GzrenjSwBxZT90LGEh6eVZ7hmth1lVQ1j9IFqQsXlSi2yUHtrzU6ccdD
-sZCaZQ1oe9ZapzDSOfRIt+yM8wHEHC+HBJPIDVO6HvFc9NlOM8yoTFqakHlI50Ra
-6RChgk2rgNPXDS7F1QuN2V3YwhKnnmgv7D76WCMXTlVyqnlUBfFL6QbB1J4InnTv
-4Kl/4nkJFCYCuTI9pO+MNN7t+001c283/5DOlSYuDYQUw+KFHWUWjOacMWUEUlT2
-5OEsQetpXBV+7MfvVtFpsowxBJi+7pSU0Wj2b+Cdg1f62pOOZHankTIWC7XyWJkn
-7Ct03k5zCADLUqaXfDBbzcRCFWPOujioRSu/51+LRVmC0RsDxiHvl1Q8TsV+L4c+
-Ahif677NGg6rgpP1RBiXSPEakKXgLP+Gk+8jx7jfYgh/t17ZoKQ=
-=IVL0
------END PGP SIGNATURE-----
-
---J2SCkAp4GZ/dPZZf--
 
