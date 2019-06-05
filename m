@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB4B35695
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 08:05:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35987 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A364356E2
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 08:20:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36175 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYP3J-0003VQ-UZ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 02:05:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42056)
+	id 1hYPI1-0000LQ-KQ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 02:20:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45505)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hYP2A-0003CC-90
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:04:27 -0400
+	(envelope-from <david.brenken@efs-auto.org>) id 1hYPER-0006zX-LJ
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hYP29-0006Zq-7u
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:04:26 -0400
-Received: from mga11.intel.com ([192.55.52.93]:20074)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hYP28-0005vS-TJ
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:04:25 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jun 2019 23:04:13 -0700
-X-ExtLoop1: 1
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.142])
-	([10.239.196.142])
-	by orsmga006.jf.intel.com with ESMTP; 04 Jun 2019 23:04:11 -0700
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20190508061726.27631-1-tao3.xu@intel.com>
-	<20190508061726.27631-8-tao3.xu@intel.com>
-	<20190604170456.5b3c198e@redhat.com>
-From: Tao Xu <tao3.xu@intel.com>
-Message-ID: <729bde4a-bcb9-dac5-3a8a-04cc5f4d2bf9@intel.com>
-Date: Wed, 5 Jun 2019 14:04:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190604170456.5b3c198e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 192.55.52.93
-Subject: Re: [Qemu-devel] [PATCH v4 07/11] hmat acpi: Build Memory Side
- Cache Information Structure(s) in ACPI HMAT
+	(envelope-from <david.brenken@efs-auto.org>) id 1hYPEQ-0006hn-7X
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:07 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:49555)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <david.brenken@efs-auto.org>)
+	id 1hYPEK-0006EN-31
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:01 -0400
+Received: from localhost.localdomain ([178.239.76.114]) by
+	mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA
+	(Nemesis)
+	id 1MxUfn-1gfAxT2l0j-00xoDU; Wed, 05 Jun 2019 08:11:42 +0200
+From: David Brenken <david.brenken@efs-auto.org>
+To: qemu-devel@nongnu.org
+Date: Wed,  5 Jun 2019 08:11:21 +0200
+Message-Id: <20190605061126.10244-1-david.brenken@efs-auto.org>
+X-Mailer: git-send-email 2.16.1.windows.4
+X-Provags-ID: V03:K1:9Ks7sV9w2FdhZWKzXLv1dY0hTZPLEI2Hcqgs0PvfPD5jxf4XoBZ
+	o6/+CAyHCR7X/JRuxe+dDg1Sew2CdRFlK+9OR5hcFCmhO9R47k7xfcXuJIa3SD0rPXJ78Nx
+	RTbN4HSRq/iKArhv66805P7BgUtONBQZ0LWAGUV1JdV39hwb0YtvlAKalqcHLaNDZS7LheY
+	uaPuWxTxfu38Uls1Jg3kQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gm2VGpCZpfY=:09PRqCcEIC2IWPQdNPld06
+	7ItwgUrPLOWtSP0mB2DIFH9deysLcelgHimevCBS5ZAb27JmK6iaREfTpkuhYx9WL7qq5nNc6
+	jWxVDTK6YRhIIigBRt8n8k4J5iIyWvwNf5OwVrSJVfuq2Vjusmi2MWj9hh/ejfp6x9Nz70cd8
+	EWeRHudnsTrggPPQNQqX+wKzxgoi8l7fZJI+8KbvGRwenKBjmwEDJIfN58JSGrZ2q862sX6a5
+	y5XECKFKInAPtXoKEmrvLxKyrkz1/3qZqRs7cMoD0tVbuAhCqaoa3N5yFN582pTSq3akw5ZPG
+	lCzQfipKqvb6CYkgFamqIh0NZxmkMsYy0a1Cn7Pby6LiOhBTEc21lxrx6iDpeiZOqMHzLv466
+	GKdJoNFLBkQRI9wcAIv83xLSOafooZMzaaMc4Lgf3zl5AVY4mmesj7XFeLn6GFPx/Gdl4qFqf
+	rptO266LdcKYrbp5Q6VbdNzJ0KZLhnsughXl3UooB/qvMYXfsfOLgUXCmsUvIZvm7PvjDxvdL
+	GGRGnnVor0cN+A9o1AWwFvA8rJd1HZpGULO68SnXMNpNh+ORQFu+Qg2IhQe/yNnQ637WesM5E
+	uErvvrZa3KUhDY1vbYdZKEBFiuxC8Wis+DzmiZ3roU/szqrD3gU58ZubhssPPX+keFztv7ES9
+	dxfXvCZmg3frSqtF9EUB/HJrHOY93QZkyQ/pAqplE72upDYnm0KolqKquiM8mp1yNx7u6tEMF
+	tkoggudOF3l1e6UzM6SNiaOfEP+xx5ck6lBKXxo5HKQAJI/pRU3szWULMvQ=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PATCH 0/5] tricore: adding new instructions and
+ fixing issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,36 +61,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
-	qemu-devel@nongnu.org, ehabkost@redhat.com, pbonzini@redhat.com,
-	rth@twiddle.net
+Cc: kbastian@mail.uni-paderborn.de, David Brenken <david.brenken@efs-auto.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/2019 11:04 PM, Igor Mammedov wrote:
-> On Wed,  8 May 2019 14:17:22 +0800
-> Tao Xu <tao3.xu@intel.com> wrote:
-> 
->> From: Liu Jingqi <jingqi.liu@intel.com>
->>
->> This structure describes memory side cache information for memory
->> proximity domains if the memory side cache is present and the
->> physical device(SMBIOS handle) forms the memory side cache.
->> The software could use this information to effectively place
->> the data in memory to maximize the performance of the system
->> memory that use the memory side cache.
->>
->> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
->> Signed-off-by: Tao Xu <tao3.xu@intel.com>
->> ---
->>
-...
->> +
->> +                /* SMBIOS Handles */
->> +                /* TBD: set smbios handles */
->> +                build_append_int_noprefix(table_data, 0, 2 * n);
-> Is memory side cache structure useful at all without pointing to SMBIOS entries?
-> 
-They are not useful yet, and the kernel 5.1 HMAT sysfs doesn't show 
-SMBIOS entries. We can update it if it useful in the future.
+From: David Brenken <david.brenken@efs-auto.de>
+
+Hello everyone,
+
+in the scope of this patchset we added implementations for the following 
+instructions for the target TriCore:
+
+QSEED, FTOIZ, UTOF
+
+For the implementation of the QSEED instruction we wrote a test application to 
+record the QSEED results on the actual target. We recognized that the results
+of the instruction can be clustered in blocks and do not use all available mantissa bits.
+After investigating on how to calculate the square root on floats, which can easily
+be done using shift and add, we implemented it using a 128 entry LUT and finetuned
+the values to exactly match the hardware results.
+
+Furthermore we added a fix for the RRPW_INSERT instruction.
+
+Internally we are now using QEMU head and encountered strange issues during 
+execution. Sometimes the PC of the target was set to address 0x0 which was wrong 
+behaviour. A detailed analysis (using valgrind and git bisect) resulted in the fix 
+to reset the ctx variable before generating intermediate code.
+
+Best regards
+
+David Brenken
+
+
+Andreas Konopik (1):
+  tricore: add QSEED instruction
+
+David Brenken (3):
+  tricore: add FTOIZ instruction
+  tricore: add UTOF instruction
+  tricore: fix RRPW_INSERT instruction
+
+Georg Hofstetter (1):
+  tricore: reset DisasContext before generating code
+
+ target/tricore/fpu_helper.c | 129 ++++++++++++++++++++++++++++++++++++
+ target/tricore/helper.h     |   3 +
+ target/tricore/translate.c  |  21 +++++-
+ 3 files changed, 150 insertions(+), 3 deletions(-)
+
+-- 
+2.17.1
+
 
