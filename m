@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647673636D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 20:38:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48259 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F1B36386
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 20:46:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48357 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYaoM-0003TB-A6
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 14:38:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45637)
+	id 1hYavY-0005Us-Fp
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 14:46:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47577)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hYamV-0002dr-2K
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 14:37:04 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hYauB-00056M-At
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 14:45:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hYamT-0008Qr-CF
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 14:37:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39408)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hYamT-0008Pd-6D
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 14:37:01 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 84C923092669;
-	Wed,  5 Jun 2019 18:36:59 +0000 (UTC)
-Received: from [10.40.204.44] (ovpn-204-44.brq.redhat.com [10.40.204.44])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 19EFB1001DD1;
-	Wed,  5 Jun 2019 18:36:52 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20190529143106.11789-1-lvivier@redhat.com>
-	<87a7ewp4h4.fsf@dusky.pond.sub.org>
-	<4601cfa8-732a-3063-7106-da8d3b990410@redhat.com>
-	<87v9xjlxuu.fsf@dusky.pond.sub.org>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <adf9f2b2-931d-01ac-ed44-99aac169b89e@redhat.com>
-Date: Wed, 5 Jun 2019 20:36:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <no-reply@patchew.org>) id 1hYauA-0002fW-2K
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 14:44:59 -0400
+Resent-Date: Wed, 05 Jun 2019 14:44:59 -0400
+Resent-Message-Id: <E1hYauA-0002fW-2K@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21536)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hYau8-0002Ya-Kv
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 14:44:57 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1559760276; cv=none; d=zoho.com; s=zohoarc; 
+	b=AqgiKciVLMkYE6Af0+d1nZ9+DJy7Wqj4RhZYHLi5nCiuB4i3AGk+TtSi6vklzqu+mx+jXfMfi4ZBL7sRmj8JhLR6uNvtUIE6ILm5OMZXB+55Ve78MwBRPODvMAX0/Wxn9AUE16K1zEvpCfG4gy8CVm/yArOJeHxldaxJnjq9HnI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1559760276;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=ERg7YxPehJSblByx800uvYAGCS0Xbkjvw4zst0/gOyg=; 
+	b=WNkLZzBwKT0oNf8ewEMT24AEUzqZ+PV0iGfk+oR/+cL4U0c11viHqMXUVR9BAsAEk6+SUYv2r+hP4Xb2oGLxy5y+A8ax8rCa+siTaYag7AtmqXv+tVcMMtjUIOuCAaHos427zY8769kXblkkAqQCe6/b+2M4Bu5dY8nVbyzp8k0=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1559760273653708.3566285580528;
+	Wed, 5 Jun 2019 11:44:33 -0700 (PDT)
+In-Reply-To: <20190605162326.13896-1-alex.bennee@linaro.org>
+Message-ID: <155976027279.32260.12612937992786116413@ce79690b2cb9>
 MIME-Version: 1.0
-In-Reply-To: <87v9xjlxuu.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Wed, 05 Jun 2019 18:36:59 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Wed, 5 Jun 2019 11:44:33 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v7 0/4] rng-builtin: add an RNG backend
- that uses qemu_guest_getrandom()
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH  v1 0/4] softmmu de-macro fix with tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,49 +61,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "=?UTF-8?Q?Daniel_P.Berrang=c3=a9?=" <berrange@redhat.com>,
-	Kashyap Chamarthy <kchamart@redhat.com>, Amit Shah <amit@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
-	"Richard W . M . Jones" <rjones@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/06/2019 19:56, Markus Armbruster wrote:
-> Laurent Vivier <lvivier@redhat.com> writes:
-> 
->> On 05/06/2019 15:05, Markus Armbruster wrote:
->>> Laurent Vivier <lvivier@redhat.com> writes:
->>>
->>>> Add a new RNG backend using QEMU builtin getrandom function.
->>>>
->>>> v7: rebase on master
->>>>     Make rng-builtin asynchronous with QEMUBH (removed existing R-b)
->>>
->>> Pardon the ignorant question: why is that necessary?
->>>
->>
->> Because request_entropy() function is called while the request is not in
->> the requests queue, so the loop on !QSIMPLEQ_EMPTY(&s->parent.requests)
->> doens't process it. The request is added just after the call.
-> 
-> In rng_backend_request_entropy().  I see.  Any particular reason for
-> this order?  "I don't know" is an acceptable answer :)
-> 
-
-Yes...
-
-and there is a reason:
-
-in rng_random_request_entropy(), QSIMPLEQ_EMPTY() is used to know if we
-have to register an fd handler with qemu_set_fd_handler().
-
-For me, it seemed easier to use QEMUBH rather than to change the
-existing algorithm, as the backend has been thought to be asynchronous.
-
-Thanks,
-Laurent
-
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYwNTE2MjMyNi4xMzg5
+Ni0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNjA1MTYyMzI2LjEzODk2LTEtYWxleC5i
+ZW5uZWVAbGluYXJvLm9yZwpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIICB2MSAwLzRdIHNv
+ZnRtbXUgZGUtbWFjcm8gZml4IHdpdGggdGVzdHMKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJ
+UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8
+fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3Jp
+dGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9
+PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRl
+ZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjlhMmI4ZTYg
+dGVzdHMvdGNnL3g4Nl82NDogYWRkIGEgUFZIVk0gY3J0Lm8gZm9yIHg4Nl82NCBzeXN0ZW0gdGVz
+dHMKNDk4NDFlZCB0ZXN0cy90Y2c6IGNsZWFuLXVwIFZQQVRIL1RFU1RTIGZvciBpMzg2CmZkMTg4
+MmUgdGVzdHMvdGNnOiBiZXR0ZXIgZGV0ZWN0IHRydW5jYXRlZCByZWFkcwoyMTRhMmM5IGNwdXRs
+YjogdXNlIHVpbnQ2NF90IGZvciBpbnRlcmltIHZhbHVlcyBmb3IgdW5hbGlnbmVkIGxvYWQKCj09
+PSBPVVRQVVQgQkVHSU4gPT09CjEvNCBDaGVja2luZyBjb21taXQgMjE0YTJjOTlhODEzIChjcHV0
+bGI6IHVzZSB1aW50NjRfdCBmb3IgaW50ZXJpbSB2YWx1ZXMgZm9yIHVuYWxpZ25lZCBsb2FkKQoy
+LzQgQ2hlY2tpbmcgY29tbWl0IGZkMTg4MmViZDYwZiAodGVzdHMvdGNnOiBiZXR0ZXIgZGV0ZWN0
+IHRydW5jYXRlZCByZWFkcykKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM2NTogRklM
+RTogdGVzdHMvdGNnL211bHRpYXJjaC9zeXN0ZW0vbWVtb3J5LmM6MjczOgorICAgICAgICAgICAg
+bWxfcHJpbnRmKCJFcnJvciBAICVwLCBtb3JlIHplcm9zIHRoYW4gZXhwZWN0ZWQ6ICVkLCAlZCwg
+JWQsICVkLCAlZCwgJWQsICVkLCAlZCIsCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDg0
+IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
+ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
+ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy80
+IENoZWNraW5nIGNvbW1pdCA0OTg0MWVkZjdhMWYgKHRlc3RzL3RjZzogY2xlYW4tdXAgVlBBVEgv
+VEVTVFMgZm9yIGkzODYpCjQvNCBDaGVja2luZyBjb21taXQgOWEyYjhlNjZkYWJmICh0ZXN0cy90
+Y2cveDg2XzY0OiBhZGQgYSBQVkhWTSBjcnQubyBmb3IgeDg2XzY0IHN5c3RlbSB0ZXN0cykKV0FS
+TklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBu
+ZWVkIHVwZGF0aW5nPwojMjY6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IGxpbmUgb3Zl
+ciA5MCBjaGFyYWN0ZXJzCiM4MjogRklMRTogdGVzdHMvdGNnL3g4Nl82NC9zeXN0ZW0vYm9vdC5T
+OjUyOgorICAgICAgIEVMRk5PVEUoWGVuLCBYRU5fRUxGTk9URV9QSFlTMzJfRU5UUlksICAgX0FT
+TV9QVFIgX3N0YXJ0KSAgICAvKiBlbnRyeSA9PSB2aXJ0YmFzZSAqLwoKV0FSTklORzogbGluZSBv
+dmVyIDgwIGNoYXJhY3RlcnMKIzkwOiBGSUxFOiB0ZXN0cy90Y2cveDg2XzY0L3N5c3RlbS9ib290
+LlM6NjA6CisgICAgICAgKiAtIGBlYnhgOiBjb250YWlucyB0aGUgcGh5c2ljYWwgbWVtb3J5IGFk
+ZHJlc3Mgd2hlcmUgdGhlIGxvYWRlciBoYXMgcGxhY2VkCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAg
+Y2hhcmFjdGVycwojOTI6IEZJTEU6IHRlc3RzL3RjZy94ODZfNjQvc3lzdGVtL2Jvb3QuUzo2MjoK
+KyAgICAgICAqIC0gYGNyMGA6IGJpdCAwIChQRSkgbXVzdCBiZSBzZXQuIEFsbCB0aGUgb3RoZXIg
+d3JpdGVhYmxlIGJpdHMgYXJlIGNsZWFyZWQuCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFj
+dGVycwojOTQ6IEZJTEU6IHRlc3RzL3RjZy94ODZfNjQvc3lzdGVtL2Jvb3QuUzo2NDoKKyAgICAg
+ICAqIC0gYGNzIGA6IG11c3QgYmUgYSAzMi1iaXQgcmVhZC9leGVjdXRlIGNvZGUgc2VnbWVudCB3
+aXRoIGEgYmFzZSBvZiDigJgw4oCZCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
+OTU6IEZJTEU6IHRlc3RzL3RjZy94ODZfNjQvc3lzdGVtL2Jvb3QuUzo2NToKKyAgICAgICAqICAg
+ICAgICAgIGFuZCBhIGxpbWl0IG9mIOKAmDB4RkZGRkZGRkbigJkuIFRoZSBzZWxlY3RvciB2YWx1
+ZSBpcyB1bnNwZWNpZmllZC4KCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojOTc6IEZJ
+TEU6IHRlc3RzL3RjZy94ODZfNjQvc3lzdGVtL2Jvb3QuUzo2NzoKKyAgICAgICAqICAgICAgICAg
+ICAgICAg4oCYMOKAmSBhbmQgYSBsaW1pdCBvZiDigJgweEZGRkZGRkZG4oCZLiBUaGUgc2VsZWN0
+b3IgdmFsdWVzIGFyZSBhbGwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMDI6
+IEZJTEU6IHRlc3RzL3RjZy94ODZfNjQvc3lzdGVtL2Jvb3QuUzo3MjoKKyAgICAgICAqICAgICAg
+ICAgICAgIEJpdCA4IChURikgbXVzdCBiZSBjbGVhcmVkLiBPdGhlciBiaXRzIGFyZSBhbGwgdW5z
+cGVjaWZpZWQuCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTA0OiBGSUxFOiB0
+ZXN0cy90Y2cveDg2XzY0L3N5c3RlbS9ib290LlM6NzQ6CisgICAgICAgKiBBbGwgb3RoZXIgcHJv
+Y2Vzc29yIHJlZ2lzdGVycyBhbmQgZmxhZyBiaXRzIGFyZSB1bnNwZWNpZmllZC4gVGhlIE9TIGlz
+IGluCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTU3OiBGSUxFOiB0ZXN0cy90
+Y2cveDg2XzY0L3N5c3RlbS9ib290LlM6MTI3OgorICAgICAgICAvKiBkb24ndCB3b3JyeSBhYm91
+dCBzdGFjayBmcmFtZSwgYXNzdW1lIGV2ZXJ0aGluZyBpcyBnYXJiYWdlIHdoZW4gd2UgcmV0dXJu
+ICovCgp0b3RhbDogMiBlcnJvcnMsIDggd2FybmluZ3MsIDMxNyBsaW5lcyBjaGVja2VkCgpQYXRj
+aCA0LzQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
+IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
+LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVz
+dCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxl
+IGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNjA1MTYyMzI2LjEzODk2LTEtYWxleC5i
+ZW5uZWVAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVt
+YWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5v
+cmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5j
+b20=
 
 
