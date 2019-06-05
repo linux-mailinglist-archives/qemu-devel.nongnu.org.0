@@ -2,56 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BF836596
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:36:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49471 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEDB365FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:51:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49751 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYcdu-0003MD-EZ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:36:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40852)
+	id 1hYcsl-0000Dm-Nn
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:51:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41522)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYcbq-0002SV-PY
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:34:12 -0400
+	(envelope-from <david@redhat.com>) id 1hYcdT-0003x7-24
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:35:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYcbo-0005JX-4i
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:34:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40764)
+	(envelope-from <david@redhat.com>) id 1hYcdO-0008Qx-9p
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:35:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46580)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>)
-	id 1hYcbg-00051d-7y; Wed, 05 Jun 2019 16:34:01 -0400
+	(Exim 4.71) (envelope-from <david@redhat.com>)
+	id 1hYcdN-0005yG-PW; Wed, 05 Jun 2019 16:35:46 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
 	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5D8377E422;
-	Wed,  5 Jun 2019 20:33:50 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9798D619A9;
-	Wed,  5 Jun 2019 20:33:37 +0000 (UTC)
-Date: Wed, 5 Jun 2019 17:33:35 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Message-ID: <20190605203335.GE22416@habkost.net>
-References: <20190312234541.2887-1-philmd@redhat.com>
-	<20190312234541.2887-3-philmd@redhat.com>
-	<20190522205234.GY10764@habkost.net>
-	<1204725743.24201394.1558559144548.JavaMail.zimbra@redhat.com>
-	<1088d160-20c1-00ed-b494-fede1a3a8410@redhat.com>
-	<1894627419.24355320.1558618806274.JavaMail.zimbra@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 01F8F3087946;
+	Wed,  5 Jun 2019 20:34:22 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-124.ams2.redhat.com [10.36.116.124])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7DDFD619A9;
+	Wed,  5 Jun 2019 20:34:20 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  5 Jun 2019 22:33:36 +0200
+Message-Id: <20190605203403.29461-7-david@redhat.com>
+In-Reply-To: <20190605203403.29461-1-david@redhat.com>
+References: <20190605203403.29461-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <1894627419.24355320.1558618806274.JavaMail.zimbra@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Wed, 05 Jun 2019 20:33:58 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Wed, 05 Jun 2019 20:34:22 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 2/2] Boot Linux Console Test: add a test
- for the Raspberry Pi 2
+Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 06/33] s390x: Align vector
+ registers to 16 bytes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,97 +56,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
-	Andrew Baumann <Andrew.Baumann@microsoft.com>,
-	qemu-devel@nongnu.org, qemu-arm@nongnu.org,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 23, 2019 at 09:40:06AM -0400, Cleber Rosa wrote:
-> ----- Original Message -----
-> > From: "Philippe Mathieu-Daud=E9" <philmd@redhat.com>
-> > To: "Cleber Rosa" <crosa@redhat.com>, "Eduardo Habkost" <ehabkost@red=
-hat.com>
-> > Cc: qemu-devel@nongnu.org, "Peter Maydell" <peter.maydell@linaro.org>=
-, qemu-arm@nongnu.org, "Philippe Mathieu-Daud=E9"
-> > <f4bug@amsat.org>, "Andrew Baumann" <Andrew.Baumann@microsoft.com>, "=
-Gerd Hoffmann" <kraxel@redhat.com>
-> > Sent: Thursday, May 23, 2019 5:29:22 AM
-> > Subject: Re: [Qemu-devel] [PATCH v2 2/2] Boot Linux Console Test: add=
- a test for the Raspberry Pi 2
-> >=20
-> > On 5/22/19 11:05 PM, Cleber Rosa wrote:
-> > > ----- Original Message -----
-> > >> From: "Eduardo Habkost" <ehabkost@redhat.com>
-> > >> On Wed, Mar 13, 2019 at 12:45:41AM +0100, Philippe Mathieu-Daud=E9=
- wrote:
-> > >>> From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> > >>>
-> > >>> Similar to the x86_64/pc test, it boots a Linux kernel on a raspi=
-2
-> > >>> board and verify the serial is working.
-> > >>>
-> > >>> If ARM is a target being built, "make check-acceptance" will
-> > >>> automatically include this test by the use of the "arch:arm" tags=
-.
-> > >>>
-> > >>> Alternatively, this test can be run using:
-> > >>>
-> > >>>     $ avocado run -t arch:arm tests/acceptance
-> > >>>     $ avocado run -t machine:raspi2 tests/acceptance
-> > >>>
-> > >>> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> > >>
-> > >> We're getting timeouts on travis-ci:
-> > >> https://travis-ci.org/ehabkost/qemu/jobs/535468057#L3289
-> > >>
-> > >> I don't know yet if the guest is hanging, or if we just need to
-> > >> increase the timeout.  I could reproduce the timeout locally,
-> > >> too.
-> >=20
-> > That's odd, I can't reproduce (this test is quicker than the followin=
-g
-> > test_arm_emcraft_sf2 which start u-boot then timeouts and start the k=
-ernel).
-> >=20
-> > My guess is network issues, since this test use a different mirror:
-> > archive.raspberrypi.org
-> >=20
->=20
-> It could be a network issue, it could be something else.  I think the v=
-ery
-> first step, and I'd urge us to get that on master ASAP, is to show the
-> entire logs in CI, I mean:
->=20
-> ---
->=20
-> diff --git a/.travis.yml b/.travis.yml
-> index 6fd89b3d91..fd8f6ca2d2 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -225,7 +225,7 @@ matrix:
->      # Acceptance (Functional) tests
->      - env:
->          - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64=
--softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-=
-softmmu,alpha-softmmu"
-> -        - TEST_CMD=3D"make check-acceptance"
-> +        - TEST_CMD=3D"make AVOCADO_SHOW=3Dtest check-acceptance"
->        addons:
->          apt:
->            packages:
+11e2bfef7990 ("tcg/i386: Use MOVDQA for TCG_TYPE_V128 load/store")
+revealed that the vregs are not aligned to 16 bytes. Align them to
+16 bytes, to avoid segfault'ing on x86.
 
-I have applied this change on python-next.  The failure can be
-seen here:
-https://travis-ci.org/ehabkost/qemu/jobs/541758418#L4033
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/cpu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-While we don't fix this, I'm removing this test case from the
-queue, so I can send a pull request.  Sorry for taking so long to
-act on this.
-
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 7305cacc7b..1bed12b6c3 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -66,7 +66,7 @@ struct CPUS390XState {
+      * The floating point registers are part of the vector registers.
+      * vregs[0][0] -> vregs[15][0] are 16 floating point registers
+      */
+-    CPU_DoubleU vregs[32][2];  /* vector registers */
++    CPU_DoubleU vregs[32][2] QEMU_ALIGNED(16);  /* vector registers */
+     uint32_t aregs[16];    /* access registers */
+     uint8_t riccb[64];     /* runtime instrumentation control */
+     uint64_t gscb[4];      /* guarded storage control */
 --=20
-Eduardo
+2.21.0
+
 
