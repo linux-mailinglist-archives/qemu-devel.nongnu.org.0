@@ -2,54 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D34F36626
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:00:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49911 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1010836672
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:11:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50137 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYd10-0008BG-Cd
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:00:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45723)
+	id 1hYdCD-0008Qy-6z
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:11:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46527)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYcqp-0007tz-OM
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:49:40 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hYctn-00029i-TC
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:52:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYcqo-0001Fv-T1
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:49:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53486)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hYcqn-0001A5-Ga
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:49:37 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id F39113087932;
-	Wed,  5 Jun 2019 20:49:29 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 95A8219C6F;
-	Wed,  5 Jun 2019 20:49:22 +0000 (UTC)
-Date: Wed, 5 Jun 2019 17:49:20 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Message-ID: <20190605204920.GG22416@habkost.net>
-References: <20190531192429.GH22103@habkost.net>
-	<93e5101f-67f1-a416-5e80-f16371a35e6a@redhat.com>
-	<871s0asvli.fsf@dusky.pond.sub.org>
-	<20190605155006.GI8956@redhat.com>
-	<20190605201335.GD22416@habkost.net>
-	<c6a830b7-2892-6f05-faa1-3c8124e7e78a@redhat.com>
+	(envelope-from <alistair23@gmail.com>) id 1hYctm-0002nH-CB
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:52:43 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:44047)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
+	id 1hYctm-0000Re-1F
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:52:42 -0400
+Received: by mail-lf1-x144.google.com with SMTP id r15so20121583lfm.11
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:52:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=1Hz16CjSVKI9mJnkn1KnvjIQu9ifaRY9cU/IZVUlwNU=;
+	b=DFaGiDsJPCZHPSW5WRa15aA6TkjjxYnuUYh+ZaAanOY/RGmUCtRzHoTvwpi8Tpi7ok
+	csv1RIHnED1e9RQ6rx3PQN3s8b+9JAf8Tp8Br+VpACsH1gkg+JaWLH3GJt+BBqxs02bu
+	ZNHwii7Rt7SABHnyl7duVdww/8FlIMvAvJZxNOA6szqzTlOHLnfr4m4/FqkEsUjWHnI6
+	6kybgCbfHs8r8v96/Rfl0i6NKfbtihguG1sG0e+Mz5oF9jv2QLbpgxTtFnKAM3+PMuxR
+	IlXJWmlqaX/sQ2R7K7UOHziyl1K5X8NNMzFCfkGDj2dDT4kjGWnRfJaEcP8KAylNVYSb
+	SxjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=1Hz16CjSVKI9mJnkn1KnvjIQu9ifaRY9cU/IZVUlwNU=;
+	b=XDEH34wU96FFdDJ5FZCkb/HKxo9gFyIszjJa7clQRK5f3bKnJrso+gax7VuuIjbUKq
+	3ZfYFHr3MABqa9im1L9HvG2nJZJUVMgxeP+THqlv/Lu5d3r0dwDs9x4o6R4gUmNElNyZ
+	GrJPwcHwOdp8uksvMPmoNGECUkIQI0KW4I1XFtj2+1A1w6ejHBd+Tn+nGE9jx1CfPY1U
+	oOdIRKree2QnAbTliKscrWlKsDlOOvxgqx/Pz1U/MQ1irdf+B+1huO2XxpALheaE8gGY
+	pJJZnq/J4ml/194KhegcZpJElknRiugU/d9gRrBSbe8ea7hNfDtJQWd0tKOn6QPYTIBx
+	UlsA==
+X-Gm-Message-State: APjAAAV/Z+0ikISA/f8aOPUJU78KPFApDrjqxoUDCk56vWJXvEUdwzLZ
+	v9vtl9xikJU5FMPOao5iPgi4tJcs/SPrPdehWPk=
+X-Google-Smtp-Source: APXvYqynYKhryBu6X7B1rsR4QbD0PBAMuj5DyvqhC/LfRcieddq+/mKdvDk62gtyNMH3tpoM0bmlMMrMwddfRzUiGFs=
+X-Received: by 2002:a19:6a01:: with SMTP id u1mr19769994lfu.141.1559767938080; 
+	Wed, 05 Jun 2019 13:52:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c6a830b7-2892-6f05-faa1-3c8124e7e78a@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.45]);
-	Wed, 05 Jun 2019 20:49:30 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Deprecation policy and build dependencies
+References: <87lfyqla7r.fsf@dusky.pond.sub.org>
+In-Reply-To: <87lfyqla7r.fsf@dusky.pond.sub.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 5 Jun 2019 13:49:44 -0700
+Message-ID: <CAKmqyKMWRS0Duz2DFw0nwtBPSdj04AMWod-c4sXu_Jc-N3+4Qg@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::144
+Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,38 +72,90 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
-	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
-	Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	"Michael S. Tsirkin" <mst@redhat.com>, James Hogan <jhogan@kernel.org>,
+	Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+	Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+	David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Anthony Perard <anthony.perard@citrix.com>,
+	David Gibson <david@gibson.dropbear.id.au>,
+	Laszlo Ersek <lersek@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	Artyom Tarasenko <atar4qemu@gmail.com>,
+	Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	Alistair Francis <alistair@alistair23.me>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Riku Voipio <riku.voipio@iki.fi>, Greg Kurz <groug@kaod.org>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Beniamino Galvani <b.galvani@gmail.com>,
+	Eric Auger <eric.auger@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
+	Stafford Horne <shorne@gmail.com>,
+	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+	Richard Henderson <rth@twiddle.net>,
+	"Daniel P. Berrange" <berrange@redhat.com>,
+	Claudio Fontana <claudio.fontana@gmail.com>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	Chris Wulff <crwulff@gmail.com>,
+	Claudio Fontana <claudio.fontana@huawei.com>,
+	Laurent Vivier <laurent@vivier.eu>,
+	Andrew Baumann <Andrew.Baumann@microsoft.com>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+	Michael Walle <michael@walle.cc>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 05, 2019 at 03:42:39PM -0500, Eric Blake wrote:
-> On 6/5/19 3:13 PM, Eduardo Habkost wrote:
-> 
-> >> IOW, I don't think RHEL-7 support as a build platform blocks us from
-> >> dropping py2. We merely need to tweak our build platforms doc to clarify
-> >> our intent wrt add-on yum repos.
-> > 
-> > If we clarify the docs in QEMU 4.1, is there anything that
-> > prevents us from removing Python 2 support in QEMU 4.1 too?
-> 
-> My take (but not definitive): if we have any CI setups that are testing
-> RHEL 7 without software collections and/or EPEL, then save Python 2
-> removal for 4.2 to give us time to update CI setups. But if all of our
-> CI setups are already fine, and we clarify the docs, then I'm all for
-> getting rid of Python 2 support in 4.1.
+On Tue, May 28, 2019 at 11:13 AM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> We have a bunch of headers without multiple inclusion guards.  Some are
+> clearly intentional, some look accidental.  Too many for me to find out
+> by examining each of them, so I'm asking their maintainers.
+>
+> Why do I ask?  I'd like to mark the intentional ones and fix the
+> accidental ones, so they don't flunk "make check-headers" from "[RFC v4
+> 0/7] Baby steps towards saner headers" just because they lack multiple
+> inclusion guards.
+>
 
-If we do this soon, CI system owners will have at least 9 weeks
-to fix them before 4.1.0 is released.
+Sorry for the delay I have been on holidays. I think the ARM ones have
+all been covered by Peter, here is some info on the RISC-V includes.
 
-> 
-> Similarly, if we are going to outlaw in-tree builds, let's get that done
-> in 4.1 instead of waiting yet another release.
+....
 
-I'm missing the context on this.  Is this from a separate discussion?
+> linux-user/riscv/sockbits.h
+> linux-user/riscv/syscall_nr.h
+> linux-user/riscv/target_syscall.h
+> linux-user/riscv/termbits.h
 
--- 
-Eduardo
+I'm not sure here, it looks like all targets have the same guards, so
+just follow what the others do here.
+
+....
+
+> target/riscv/cpu_bits.h
+> target/riscv/cpu_user.h
+
+These should have guards
+
+> target/riscv/helper.h
+
+Intentional
+
+> target/riscv/instmap.h
+
+I think this should have a guard.
+
+Alistair
 
