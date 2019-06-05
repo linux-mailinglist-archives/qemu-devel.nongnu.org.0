@@ -2,98 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E05A35FAD
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:55:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43977 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961FE35FB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:57:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44033 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYXK2-0005am-HM
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:55:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58416)
+	id 1hYXM1-0007oX-9Q
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:57:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59350)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <den@virtuozzo.com>) id 1hYX9C-0005uh-50
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:44:15 -0400
+	(envelope-from <philmd@redhat.com>) id 1hYXBQ-00087h-Ur
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:46:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <den@virtuozzo.com>) id 1hYX99-00087c-GB
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:44:13 -0400
-Received: from mail-eopbgr00128.outbound.protection.outlook.com
-	([40.107.0.128]:1812
-	helo=EUR02-AM5-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <den@virtuozzo.com>)
-	id 1hYX94-0007Yh-FE; Wed, 05 Jun 2019 10:44:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=7t04TrhbiCwTZh3BkSOtoIh2z/Cw5CNnQ9fcBHgBXx8=;
-	b=KxxVY7IPGP3qVXZF4NXZs9Vxt6WpVzKEwZfdc7Afc4DFdFkg1ZZNBckDQpDGs2kfk+T7hJWdCZLFRL3MPkytDHlzNpJm7cmWh//gJ1OQ+/D0xJ2EbI9CPtFi8Z4PRyWCwSm+5/tSJy3praorcLGBieNeauW9ndaA5p+NBoqWz/4=
-Received: from DBBPR08MB4250.eurprd08.prod.outlook.com (20.179.40.149) by
-	DBBPR08MB4332.eurprd08.prod.outlook.com (20.179.41.206) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1965.13; Wed, 5 Jun 2019 14:43:59 +0000
-Received: from DBBPR08MB4250.eurprd08.prod.outlook.com
-	([fe80::fcca:9f3e:dbc6:5a1f]) by
-	DBBPR08MB4250.eurprd08.prod.outlook.com
-	([fe80::fcca:9f3e:dbc6:5a1f%4]) with mapi id 15.20.1943.018;
-	Wed, 5 Jun 2019 14:43:59 +0000
-From: "Denis V. Lunev" <den@openvz.org>
-To: Eric Blake <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
-	<vsementsov@virtuozzo.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
-	"qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [PATCH 2/2] nbd-client: enable TCP keepalive
-Thread-Index: AQHVG4a/lcghbcFVAUyMliejkoc596aNIdEAgAABV4A=
-Date: Wed, 5 Jun 2019 14:43:59 +0000
-Message-ID: <9f2d9816-3539-666e-8ed7-5e4d95e9ba56@openvz.org>
-References: <20190605100913.34972-1-vsementsov@virtuozzo.com>
-	<20190605100913.34972-3-vsementsov@virtuozzo.com>
-	<cd780b66-ab31-1feb-0cce-0b6525df7d79@redhat.com>
-In-Reply-To: <cd780b66-ab31-1feb-0cce-0b6525df7d79@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P192CA0010.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::20)
-	To DBBPR08MB4250.eurprd08.prod.outlook.com
-	(2603:10a6:10:c2::21)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=den@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 40d2b227-5437-4ac1-0471-08d6e9c43ebc
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:DBBPR08MB4332; 
-x-ms-traffictypediagnostic: DBBPR08MB4332:
-x-microsoft-antispam-prvs: <DBBPR08MB433257ED2DDA7BFA5E6E58A0B6160@DBBPR08MB4332.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:107;
-x-forefront-prvs: 00594E8DBA
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(366004)(136003)(39850400004)(346002)(376002)(396003)(199004)(189003)(99286004)(102836004)(316002)(31686004)(3846002)(6116002)(386003)(53546011)(42882007)(6506007)(6246003)(256004)(26005)(14444005)(54906003)(110136005)(186003)(2501003)(52116002)(53936002)(76176011)(25786009)(4326008)(2616005)(66066001)(64756008)(66446008)(73956011)(66946007)(14454004)(6436002)(68736007)(229853002)(66556008)(478600001)(66476007)(2201001)(6512007)(31696002)(6486002)(5660300002)(8936002)(71190400001)(71200400001)(305945005)(7736002)(81156014)(81166006)(446003)(8676002)(11346002)(476003)(36756003)(486006)(2906002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DBBPR08MB4332;
-	H:DBBPR08MB4250.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: TPTXyrOW+BWWMOXTjgRF+kdzyByv7MLJc0rnxtuMF6b46lG1w+wKtkLxgdCmDFCYqyA9LnN1u3KQU8PuRm8ndEE2M1FXvZLxMpc57RNFWBHtEYYHwRgDV0+NeqKGObPSf2cHXFXEDjfDFg9KEMoGig3ZM7qKwe5nC8lcLaTc8B7H88uxceMybgK+aVKUIno3vscghARk2MTAOWMzHU1wn7b05OIoRpbDmKwUA/7cJLsy0+j0zT+Atk/RVJzO+xj7+3L1UNz9/C34BOFuL8tciWJr2gBMWVsxE0hruipEkXPw0pYUB8XR0DqbUCGRIL5eqoL3aMDEnzXX5FSb+q6B/ZegSRoCfIE/9j4JJW6gixxFSUI40YBlKV5xxkVwrA99RE+pQQU414go0Jvcq2ZBL4VoBScT81d6ut6Bfww/BX8=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <82941F5A934CC140A0B60B3FA62C41F9@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <philmd@redhat.com>) id 1hYXBN-0001OK-3m
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:46:30 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:35390)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hYXBL-0001Du-8W
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:46:27 -0400
+Received: by mail-wr1-f65.google.com with SMTP id m3so3945685wrv.2
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 07:46:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=pucGnOk+55CqjUgzL4haQ1hXw35XEWkw0NyQZXByNvU=;
+	b=q0FgGv42IO8qZLhVQoFk++5gfQBZokKoT0b5Jm+bNVV6o4Hpc2yj+cSzmijbA/Cemn
+	pzut1MqgUapnGgKbGmfNwFRhdV3aCqvdBhp2pBlk5CJ9xp2F9u6qq5re66XMb9UGBv/C
+	NiIq+XFdrO6u3iglY49tQSa33VDxyHeAxp93HFh+K+wPr137yHjqe7RY0NdSKy61LH8D
+	ZS9WFBD07IfvajqjRBLZkPsW2Skk4luavs9RJqVJJdTNKR6O+Uby7+Ii55dR3p5y285s
+	2i97bopFD+cOEbSNCEP6ODsL9xY87TkL7hDCF/ADtlnuO+2/5ec9nnzZbK4POmQBdApP
+	f26A==
+X-Gm-Message-State: APjAAAU9Ch/Qp1B2v13WMDLQvnpMKwp4jX0b0/yl0mtmKJiUxfqXW51U
+	vvYIkeGJvuWyrd5M+DAu3RHO/A==
+X-Google-Smtp-Source: APXvYqypimsF/BiMR1P1jGJIKvQUkDF3lZs4Hd1eiCJTXzGyEQxOosuAWyc9FnAEekzr0eMQoWdZ1Q==
+X-Received: by 2002:a5d:5607:: with SMTP id l7mr21997077wrv.228.1559745985733; 
+	Wed, 05 Jun 2019 07:46:25 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+	[88.21.202.183]) by smtp.gmail.com with ESMTPSA id
+	d10sm25111449wrh.91.2019.06.05.07.46.24
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Jun 2019 07:46:25 -0700 (PDT)
+To: Olaf Hering <olaf@aepfle.de>, qemu-devel@nongnu.org,
+	Laszlo Ersek <lersek@redhat.com>
+References: <20190530192812.17637-1-olaf@aepfle.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <3e79c06b-cffb-977d-1f08-f1bb46dad795@redhat.com>
+Date: Wed, 5 Jun 2019 16:46:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: openvz.org
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40d2b227-5437-4ac1-0471-08d6e9c43ebc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2019 14:43:59.7143 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: den@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4332
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.0.128
-Subject: Re: [Qemu-devel] [PATCH 2/2] nbd-client: enable TCP keepalive
+In-Reply-To: <20190530192812.17637-1-olaf@aepfle.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH v1] Makefile: remove DESTDIR from firmware
+ file content
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -105,31 +75,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
-	"berrange@redhat.com" <berrange@redhat.com>,
-	"mreitz@redhat.com" <mreitz@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	=?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gNi81LzE5IDU6MzkgUE0sIEVyaWMgQmxha2Ugd3JvdGU6DQo+IE9uIDYvNS8xOSA1OjA5IEFN
-LCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPj4gRW5hYmxlIGtlZXBhbGl2
-ZSBvcHRpb24gdG8gdHJhY2sgc2VydmVyIGF2YWlsYWJsaXR5Lg0KPiBzL2F2YWlsYWJsaXR5L2F2
-YWlsYWJpbGl0eS8NCj4NCj4gRG8gd2Ugd2FudCB0aGlzIHVuY29uZGl0aW9uYWxseSwgb3Igc2hv
-dWxkIGl0IGJlIGFuIG9wdGlvbiAoYW5kIGhlbmNlDQo+IGV4cG9zZWQgb3ZlciBRTVApPw0KVGhh
-dCBpcyBnb29kIHF1ZXN0aW9uLCBpZiB3ZSB3b3VsZCBleHBvc2UgaXQsIHdlIHNob3VsZCBzcGVj
-aWZ5DQp0aW1lb3V0IGR1cmF0aW9uIGFzIGFuIG9wdGlvbi4gVGhvdWdoIElNSE8gaXQgd291bGQg
-YmUgc2FmZQ0KdG8gZ2V0IHRoaXMgdW5jb25kaXRpb25hbC4NCg0KDQo+PiBSZXF1ZXN0ZWQtYnk6
-IERlbmlzIFYuIEx1bmV2IDxkZW5Ab3BlbnZ6Lm9yZz4NCj4+IFNpZ25lZC1vZmYtYnk6IFZsYWRp
-bWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCj4+IC0t
-LQ0KPj4gIGJsb2NrL25iZC1jbGllbnQuYyB8IDEgKw0KPj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9ibG9jay9uYmQtY2xpZW50LmMgYi9ibG9j
-ay9uYmQtY2xpZW50LmMNCj4+IGluZGV4IDc5MGVjYzFlZTEuLmI1N2NlYTg0ODIgMTAwNjQ0DQo+
-PiAtLS0gYS9ibG9jay9uYmQtY2xpZW50LmMNCj4+ICsrKyBiL2Jsb2NrL25iZC1jbGllbnQuYw0K
-Pj4gQEAgLTExMzcsNiArMTEzNyw3IEBAIHN0YXRpYyBpbnQgbmJkX2NsaWVudF9jb25uZWN0KEJs
-b2NrRHJpdmVyU3RhdGUgKmJzLA0KPj4gIA0KPj4gICAgICAvKiBOQkQgaGFuZHNoYWtlICovDQo+
-PiAgICAgIGxvZ291dCgic2Vzc2lvbiBpbml0ICVzXG4iLCBleHBvcnQpOw0KPj4gKyAgICBxaW9f
-Y2hhbm5lbF9zZXRfa2VlcGFsaXZlKFFJT19DSEFOTkVMKHNpb2MpLCB0cnVlLCBOVUxMKTsNCj4+
-ICAgICAgcWlvX2NoYW5uZWxfc2V0X2Jsb2NraW5nKFFJT19DSEFOTkVMKHNpb2MpLCB0cnVlLCBO
-VUxMKTsNCj4+ICANCj4+ICAgICAgY2xpZW50LT5pbmZvLnJlcXVlc3Rfc2l6ZXMgPSB0cnVlOw0K
-Pj4NCg0K
+[Odd, I'm pretty sure I replied to this last week but can't find it, so
+again]
+Cc'ing Laszlo since he wrote this.
+
+On 5/30/19 9:28 PM, Olaf Hering wrote:
+> The resulting firmware files should only contain the runtime path.
+> Fixes commit 26ce90fde5c ("Makefile: install the edk2 firmware images
+> and their descriptors")
+> 
+> Signed-off-by: Olaf Hering <olaf@aepfle.de>
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index f0be624f47..61267bf1a4 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -844,7 +844,7 @@ ifneq ($(DESCS),)
+>  	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/firmware"
+>  	set -e; tmpf=$$(mktemp); trap 'rm -f -- "$$tmpf"' EXIT; \
+>  	for x in $(DESCS); do \
+> -		sed -e 's,@DATADIR@,$(DESTDIR)$(qemu_datadir),' \
+> +		sed -e 's,@DATADIR@,$(qemu_datadir),' \
+
+I'm fine with this patch.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Laszlo, did you use the full path for a particular reason?
+
+>  			"$(SRC_PATH)/pc-bios/descriptors/$$x" > "$$tmpf"; \
+>  		$(INSTALL_DATA) "$$tmpf" \
+>  			"$(DESTDIR)$(qemu_datadir)/firmware/$$x"; \
+> 
 
