@@ -2,48 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E91366B3
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:21:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50364 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297F736692
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:15:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50263 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYdLX-0005pY-Dq
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:21:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49328)
+	id 1hYdGG-000371-CO
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:15:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50539)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marco@decred.org>) id 1hYd0u-0000I2-A0
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 17:00:06 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hYd5e-0003yz-E0
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 17:05:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marco@decred.org>) id 1hYd0s-0006xi-Fg
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 17:00:04 -0400
-Received: from 96-92-233-220-static.hfc.comcastbusiness.net
-	([96.92.233.220]:59670 helo=dcr0.decred.org)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <marco@decred.org>) id 1hYd0s-0006s7-7q
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 17:00:02 -0400
-Received: from marcos-macbook.home (a95-94-160-35.cpe.netcabo.pt
-	[95.94.160.35])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by dcr0.decred.org (Postfix) with ESMTPSA id 0B22518B407F
-	for <qemu-devel@nongnu.org>; Wed,  5 Jun 2019 20:59:57 +0000 (UTC)
-From: Marco Peereboom <marco@decred.org>
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_3FBB73B5-C2E3-4C80-8646-40BF9438B27C";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Message-Id: <B1A3E8F6-F8C2-4EDB-A31B-EBB4CA636CA3@decred.org>
-References: <4350e3aabc7651c63286c78ffa3f273b5cb16884.camel@wdc.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 5 Jun 2019 21:59:53 +0100
-X-Mailer: Apple Mail (2.3445.104.11)
+	(envelope-from <alistair23@gmail.com>) id 1hYd5Y-0001RD-Ej
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 17:04:54 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:36520)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
+	id 1hYd5T-00013m-FT; Wed, 05 Jun 2019 17:04:48 -0400
+Received: by mail-lf1-x143.google.com with SMTP id q26so20171627lfc.3;
+	Wed, 05 Jun 2019 14:04:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=qcXdaZTey46TXYdfN37Xdz/5yLen0016lB6K5BXvTB0=;
+	b=VqemLmbtfZQeGR9hgn0ZS4fhZVxj8/AqoNOxXyOGetszS5g9TJpn+tLl/a+AJ0yOCF
+	n94VfglipJBzJAUViivewCTrHQoQLy9zsLfmJvCJ+Xn6QmUX+qHiXIAtcV1ifHHmC6OV
+	2JWtbYGEt6Gao/KGZfTcaHtEfjfUq+vIbMT2coy5U0YkLxKpab60xf5YWIyAZPqbVmI3
+	rrZutEQMdhnR1mD38A4HUVJbKJKBl+jQjJx/qWNZAQhgEevsPOuxF+LC9iIX6CxLOH0r
+	6EGMslqNAQu7g+1M/Hbu9zBaXtcOy2i85T99QJ8vrYN4kxDzxVkdhLgvjrDtUH5wayUU
+	fD0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=qcXdaZTey46TXYdfN37Xdz/5yLen0016lB6K5BXvTB0=;
+	b=jFsEKiWi/Bh74OK/2YtQSLiIR7ERo5zzWBLJ/veD1seDPhwSVgnCk0GwCXRrVecF77
+	TI7y6j6HOldgpChBP+olye3WWneCjPT+if4FmxgqbRRvh19SdkzhYLHT38X5Nyt4aoXg
+	FJzjVKuxQkAWW9qOw7E8FU1xkxNEBs7QgW9ty9/8cvjpwMzvh2BDTBlURNzdRczU7pc1
+	30+aXu2WifdmludNiKQUb4me1iBA3gOYRhRj7Ka/BaHyWThEYLUicfzozc7bXopWzrBc
+	77ZU6/BVRAEdj2aGQHUmvk7agZQTdYQiidAEYL6gPxl9Jqr8+9aqzUxFos9NgRdPFQid
+	cu+w==
+X-Gm-Message-State: APjAAAVHVrVQimcCASsFjk8MbRpAkaoox3QXl55R4OqT4xct20TZ/pwI
+	LwJ39xkvjksXi6fy+s2p/5uTMFfrdfZO7R0Bj58=
+X-Google-Smtp-Source: APXvYqyUM11OCHeqfgE2bG3Ky4obsLz06bQcoKamztFxW/OmXbsAi2AmtbCbKFwHica4B7ZO23PO1qlKLkp5Sxo2zmw=
+X-Received: by 2002:a19:710b:: with SMTP id m11mr16684065lfc.135.1559768680212;
+	Wed, 05 Jun 2019 14:04:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190530135135.19715-1-Hesham.Almatary@cl.cam.ac.uk>
+	<20190530135135.19715-3-Hesham.Almatary@cl.cam.ac.uk>
+In-Reply-To: <20190530135135.19715-3-Hesham.Almatary@cl.cam.ac.uk>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 5 Jun 2019 14:02:07 -0700
+Message-ID: <CAKmqyKMF-WXT_UB3tZGznCzdox8Raee9_v9erdMkyvy8XxjeMw@mail.gmail.com>
+To: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 96.92.233.220
-X-Mailman-Approved-At: Wed, 05 Jun 2019 17:20:04 -0400
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: [Qemu-devel] Fwd: [joel@sing.id.au: atomic failures on
- qemu-system-riscv64]
+X-Received-From: 2a00:1450:4864:20::143
+Subject: Re: [Qemu-devel] [PATCHv4 3/6] RISC-V: Check for the effective
+ memory privilege mode during PMP checks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,140 +72,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	Palmer Dabbelt <palmer@sifive.com>,
+	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+	Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, May 30, 2019 at 6:52 AM Hesham Almatary
+<Hesham.Almatary@cl.cam.ac.uk> wrote:
+>
+> The current PMP check function checks for env->priv which is not the effective
+> memory privilege mode.
+>
+> For example, mstatus.MPRV could be set while executing in M-Mode, and in that
+> case the privilege mode for the PMP check should be S-Mode rather than M-Mode
+> (in env->priv) if mstatus.MPP == PRV_S.
+>
+> This patch passes the effective memory privilege mode to the PMP check.
+> Functions that call the PMP check should pass the correct memory privilege mode
+> after reading mstatus' MPRV/MPP or hstatus.SPRV (if Hypervisor mode exists).
+>
+> Suggested-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 
---Apple-Mail=_3FBB73B5-C2E3-4C80-8646-40BF9438B27C
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Joel is on vacation so here it is again.
+Alistair
 
-> Begin forwarded message:
->=20
-> From: Alistair Francis <Alistair.Francis@wdc.com>
-> Subject: Re: [joel@sing.id.au: atomic failures on qemu-system-riscv64]
-> Date: June 5, 2019 at 7:19:53 PM GMT+1
-> To: "joel@sing.id.au" <joel@sing.id.au>, "palmer@sifive.com" =
-<palmer@sifive.com>
-> Cc: "marco@decred.org" <marco@decred.org>, "me@carlosedp.com" =
-<me@carlosedp.com>
->=20
-> On Fri, 2019-05-31 at 03:21 +1000, Joel Sing wrote:
->> I've just sent this to qemu-riscv@nongnu.org - forwarding for
->> visibility...
->=20
-> Hello Joel,
->=20
-> Can you please send this to the QEMU mailing list?
-> https://wiki.qemu.org/Contribute/MailingLists
->=20
->>=20
->> ----- Forwarded message from Joel Sing <joel@sing.id.au> -----
->>=20
->> Date: Fri, 31 May 2019 03:20:03 +1000
->> From: Joel Sing <joel@sing.id.au>
->> To: qemu-riscv@nongnu.org
->> Subject: atomic failures on qemu-system-riscv64
->> User-Agent: Mutt/1.10.1 (2018-07-13)
->>=20
->> While working on a Go (www.golang.org) port for riscv, I've run
->> into issues with atomics (namely LR/SC) on qemu-system-riscv64.
->> There are several reproducers for this problem including (using
->> gcc builtin atomics):
->>=20
->>  https://gist.github.com/4a6f656c/8433032a3f70893a278259f8108aad90
->>=20
->> And a version using inline assembly:
->>=20
->>  https://gist.github.com/4a6f656c/d883091f5ca811822720213be343a75a
->>=20
->> Depending on the qemu configuration the number of threads may
->> need increasing (to force context switching) and/or run in a
->> loop. Go's sync/atomic tests also fail regularly.
->>=20
->> Having dug into the qemu code, what I believe is happening is
->> along the lines of the following:
->>=20
->> 1. Thread 1 runs and executes an LR - this assigns an address
->>   to load_res and a value to load_val (say 1).
->>=20
->> 2. A context switch occurs and thread 2 is now run - it runs
->>   an LR and SC on the same address modifying the stored value.
->>   Another LR is executed loading load_val with the current
->>   value (say 3).
->>=20
->> 3. A context switch occurs and thread 1 is now run again, it
->>   continues on its LR/SC sequence and now runs the SC instruction.
->>   This is based on the assumption that it had a reservation
->>   and the SC will fail if the memory has changed. The underlying
->>   implementation of SC is a cmpxchg with the value in load_val
->>   - this no longer has the original value and hence successfully
->>   compares (as does the tcg_gen_setcond_tl() between the returned
->>   value and load_val) thus the SC succeeds when it should not.
->>=20
->> The diff below clears load_res when the mode changes - with this
->> applied the reproducers work correctly, as do Go's atomic tests.
->> I'm not sure this "fix" is 100% correct, but it certainly verifies
->> where the problem lies. It does also fall inline with the RISCV
->> spec:
->>=20
->> "The SC must fail if there is an observable memory access from
->> another hart to the address, or if there is an intervening context
->> switch on this hart, or if in the meantime the hart executed a
->> privileged exception-return instruction."
->>=20
->> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->> index b17f169681..9875b8e5d3 100644
->> --- a/target/riscv/cpu_helper.c
->> +++ b/target/riscv/cpu_helper.c
->> @@ -113,6 +113,8 @@ void riscv_cpu_set_mode(CPURISCVState *env,
->> target_ulong newpriv)
->>     }
->>     /* tlb_flush is unnecessary as mode is contained in mmu_idx */
->>     env->priv =3D newpriv;
->> +
->> +    env->load_res =3D 0;
->=20
-> This looks ok to me, I'll read the spec to double check though. Do you
-> mind adding a comment in the code as to why this is required?
->=20
-> Alistair
->=20
->> }
->>=20
->> /* get_physical_address - get the physical address for this virtual
->> address
->>=20
->> ----- End forwarded message -----
-
-
---Apple-Mail=_3FBB73B5-C2E3-4C80-8646-40BF9438B27C
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE8htVBWYODFIPzwuljM0W459K7ykFAlz4LUkACgkQjM0W459K
-7yk9/g/7BKgyerF9cM7s4saoTfOGIsMXXGtShYkGC4OvY9sUJVdLE5Ci974i79zv
-CJ6Tq1JF3uU0/SWpjrGhqGaTuoLoDO3aM3xbT8n42HCJIL1bGjGcaa2NxhQclc1w
-VuyEGoyYvnsDRSCGXQ9PVYZl7pvvAirpVMhzGxaDhlZX7cZilA39OzNsEJNxTO8O
-lmvq88zs+QwYfg1r2CVTqX+/eGL0PTYapUTFtYoRz/EDMrstMYhQligqpV95ceEH
-C3J+ktkYpNBb55nTftNjgKoOb35qdx/bRL2jJH4I7rOYimG5SCru/0+YiGYE+FzN
-cZkJtD4ZQuWqSDi8dTZ71TvOxn+719L1zF7n9Z6yHQHaGrHM7BulOSqoS1/4B9fZ
-QumS4ydgWbkSl6nH4frPLQu1fu0GSYIigik7h36p4kmEMQo3DccgyBhkCoWlvN14
-Wu2mpBXW/qgqc5+meWPRe9tXkt9BP3B469IYkRDdgeZlBF4utwOm83TeoSFW0ANk
-DwneL7xrJFqIdlYKK/W/zRUr6+Ot6gjl3McxTm3Vr+HVwGF9kFS9xVSPW2t3wHS9
-VRoXolPPhE3aRqcUUQq3jaSwUHp49nudvLfXDerp94m5oEM+f0atXeh4axJks6IO
-RMyCRI79xvFVTZMV4cEjWBmygzLIiNAIX6/csXew+pa74OvMi2Q=
-=FlIS
------END PGP SIGNATURE-----
-
---Apple-Mail=_3FBB73B5-C2E3-4C80-8646-40BF9438B27C--
+> ---
+>  target/riscv/cpu_helper.c | 10 +++++++++-
+>  target/riscv/pmp.c        |  6 +++---
+>  target/riscv/pmp.h        |  2 +-
+>  3 files changed, 13 insertions(+), 5 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 7c7282c680..5a1cd7cf96 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -392,19 +392,27 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>      int prot;
+>      bool pmp_violation = false;
+>      int ret = TRANSLATE_FAIL;
+> +    int mode = mmu_idx;
+>
+>      qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
+>                    __func__, address, access_type, mmu_idx);
+>
+>      ret = get_physical_address(env, &pa, &prot, address, access_type, mmu_idx);
+>
+> +    if (mode == PRV_M && access_type != MMU_INST_FETCH) {
+> +        if (get_field(env->mstatus, MSTATUS_MPRV)) {
+> +            mode = get_field(env->mstatus, MSTATUS_MPP);
+> +        }
+> +    }
+> +
+>      qemu_log_mask(CPU_LOG_MMU,
+>                    "%s address=%" VADDR_PRIx " ret %d physical " TARGET_FMT_plx
+>                    " prot %d\n", __func__, address, ret, pa, prot);
+>
+>      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+>          (ret == TRANSLATE_SUCCESS) &&
+> -        !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
+> +        !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type,
+> +        mode)) {
+>          pmp_violation = true;
+>          ret = TRANSLATE_FAIL;
+>      }
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index b11c4ae22f..89170bc11d 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -229,7 +229,7 @@ static int pmp_is_in_range(CPURISCVState *env, int pmp_index, target_ulong addr)
+>   * Check if the address has required RWX privs to complete desired operation
+>   */
+>  bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+> -    target_ulong size, pmp_priv_t privs)
+> +    target_ulong size, pmp_priv_t privs, target_ulong mode)
+>  {
+>      int i = 0;
+>      int ret = -1;
+> @@ -265,7 +265,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>              }
+>
+>              allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
+> -            if ((env->priv != PRV_M) || pmp_is_locked(env, i)) {
+> +            if ((mode != PRV_M) || pmp_is_locked(env, i)) {
+>                  allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
+>              }
+>
+> @@ -281,7 +281,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>
+>      /* No rule matched */
+>      if (ret == -1) {
+> -        if (env->priv == PRV_M) {
+> +        if (mode == PRV_M) {
+>              ret = 1; /* Privileged spec v1.10 states if no PMP entry matches an
+>                        * M-Mode access, the access succeeds */
+>          } else {
+> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+> index 66790950eb..8e19793132 100644
+> --- a/target/riscv/pmp.h
+> +++ b/target/riscv/pmp.h
+> @@ -59,6 +59,6 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+>      target_ulong val);
+>  target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
+>  bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+> -    target_ulong size, pmp_priv_t priv);
+> +    target_ulong size, pmp_priv_t priv, target_ulong mode);
+>
+>  #endif
+> --
+> 2.17.1
+>
+>
 
