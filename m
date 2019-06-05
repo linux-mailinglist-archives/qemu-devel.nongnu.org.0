@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1939636518
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:07:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49153 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329613650F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:03:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49088 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYcCM-00086H-7m
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:07:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34080)
+	id 1hYc81-0004U6-Bl
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:03:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34076)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5P-00034E-2H
+	(envelope-from <mst@redhat.com>) id 1hYc5P-00034A-1J
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5K-0005YF-HA
+	(envelope-from <mst@redhat.com>) id 1hYc5K-0005YV-Ke
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:38 -0400
-Received: from mail-qk1-f177.google.com ([209.85.222.177]:38984)
+Received: from mail-qk1-f170.google.com ([209.85.222.170]:43530)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5K-0005S6-8Y
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5K-0005W5-Ad
 	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:34 -0400
-Received: by mail-qk1-f177.google.com with SMTP id i125so14544qkd.6
-	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:31 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id m14so5980292qka.10
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=oWUawf31eMQD6ACHrKCfMWf9y12ShHT6G47Hktpyv9Q=;
-	b=q5llxD4egr0h949w0XzpdmTG20Wk69qKCDK8z56JuBeMmx0lwbo/9nF2kt8eJXwpDX
-	eAhNFTfyEDE/uoCAdGAbRREFl3VONGJxbSYiEExfNV9sTpHrt+5ug0RRn3MnPhelYV2Q
-	DWcaRzDoC/szW3AbTWTC/6U5K+rq2sEEnAdX0QidpbaOCVBqmaX4gIPeuZruASDqnuPJ
-	2oTaVlhom5R1l02Iu0rxbMBe2/i4pW8zVDJ4SpNf17nDCFGzFYvXtfFHKkxS0dsyyhFZ
-	SrCx4f28Zu+nMqyXHrgK6MokNo5GjJ4BsYID3/aHueGafBU0qvPQUEeSnQCzRUE5hm23
-	Syqg==
-X-Gm-Message-State: APjAAAUAFYooT4bridVwEXzBtDmGLJatEfW99oBlzUNsCI4RgEqK8L+a
-	Ibop0SGe0EuigHCRAKfqAQkn3y9imsg=
-X-Google-Smtp-Source: APXvYqy5gBBDtyELR+odhBlxh6XC34KxFSvbHoFD4dB1BFp2UlRz3v+AWendTGyfjGJ2PvB/hV9u9Q==
-X-Received: by 2002:a37:4152:: with SMTP id o79mr6863827qka.276.1559764830950; 
-	Wed, 05 Jun 2019 13:00:30 -0700 (PDT)
+	bh=nFPCh5odrVBik4hdEQQECWSU7rqWJuCuSRkfsEPasz4=;
+	b=ICbqLd3c0zjhVCFLa4O7ZqvWfrFDruVbyRZFi9Y8gT1OFoXl8GFLlu2+TMRZfQuE0f
+	dVnVEUkr3FjznLJ2iSWiP5A3BCC/QNTIIToIT5DR3mkdsBrqrXOeUyxHEc/msM8W8cQI
+	xSBkLnxyDmtbtjbEjt5o1LCyFlQG00dv9VJSmTnRocCrtLy4jREF4jDnAC+zMI0+gNVf
+	VKqsZKDTTEnr0v451TRUXEbRKXmc8E3YsY9mlCuAfbZ3PcYFc9rmEwH5IFaHqEs2I+D6
+	shLW0QEbUonPRxI4xW3B76r0HgmgxoOIZaBghhDUVBlGxZph3RI/9Qut/n8pjh6vGg0r
+	0i5w==
+X-Gm-Message-State: APjAAAX1bAAB0/Okts6Z0hifVxzaFloKkhnGfUj8O/P9TUVsYviWFF/b
+	7kfM94DPpgSch5qXTOBhI51AUixnMsI=
+X-Google-Smtp-Source: APXvYqzConzbxCeP9Vq6srhcvHD0HYhxkziruj5dUh18kk/RTx4jCgjFqE2HLqjQXwU1++sFnP4EDw==
+X-Received: by 2002:a37:9885:: with SMTP id
+	a127mr15381716qke.230.1559764832953; 
+	Wed, 05 Jun 2019 13:00:32 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
 	[100.0.197.103])
-	by smtp.gmail.com with ESMTPSA id k6sm1280188qkd.21.2019.06.05.13.00.29
+	by smtp.gmail.com with ESMTPSA id 34sm8543730qtq.59.2019.06.05.13.00.31
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 05 Jun 2019 13:00:30 -0700 (PDT)
-Date: Wed, 5 Jun 2019 16:00:29 -0400
+	Wed, 05 Jun 2019 13:00:32 -0700 (PDT)
+Date: Wed, 5 Jun 2019 16:00:31 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1556608500-12183-1-git-send-email-wangjie88@huawei.com>
+Message-ID: <20190605195913.12243-11-mst@redhat.com>
 References: <20190605195913.12243-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,9 +57,8 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.177
-Subject: [Qemu-devel] [PULL v3 09/17] vhost: fix memory leak in
- vhost_user_scsi_realize
+X-Received-From: 209.85.222.170
+Subject: [Qemu-devel] [PULL v3 10/17] bios-tables-test: add diff allowed list
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,53 +70,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
-	Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
-	Jie Wang <wangjie88@huawei.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jie Wang <wangjie88@huawei.com>
+Expected table change is then handled like this:
+1. add table to diff allowed list
+2. change generating code (can be combined with 1)
+3. maintainer runs a script to update expected +
+   blows away allowed diff list
 
-fix memory leak in vhost_user_scsi_realize
-
-Signed-off-by: Jie Wang <wangjie88@huawei.com>
-Message-Id: <1556608500-12183-1-git-send-email-wangjie88@huawei.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/scsi/vhost-user-scsi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/bios-tables-test-allowed-diff.h |  1 +
+ tests/bios-tables-test.c              | 19 ++++++++++++++++++-
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+ create mode 100644 tests/bios-tables-test-allowed-diff.h
 
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index 8b1e6876db..a9fd8ea305 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -69,6 +69,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
-     VHostUserSCSI *s = VHOST_USER_SCSI(dev);
-     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(s);
-+    struct vhost_virtqueue *vqs = NULL;
-     Error *err = NULL;
-     int ret;
+diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
+new file mode 100644
+index 0000000000..dfb8523c8b
+--- /dev/null
++++ b/tests/bios-tables-test-allowed-diff.h
+@@ -0,0 +1 @@
++/* List of comma-separated changed AML files to ignore */
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index 11e07be093..28d7d427e0 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -342,6 +342,22 @@ try_again:
+     return exp_tables;
+ }
  
-@@ -93,6 +94,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     vsc->dev.vqs = g_new(struct vhost_virtqueue, vsc->dev.nvqs);
-     vsc->dev.vq_index = 0;
-     vsc->dev.backend_features = 0;
-+    vqs = vsc->dev.vqs;
- 
-     ret = vhost_dev_init(&vsc->dev, &s->vhost_user,
-                          VHOST_BACKEND_TYPE_USER, 0);
-@@ -100,6 +102,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-         error_setg(errp, "vhost-user-scsi: vhost initialization failed: %s",
-                    strerror(-ret));
-         vhost_user_cleanup(&s->vhost_user);
-+        g_free(vqs);
-         return;
-     }
- 
++static bool test_acpi_find_diff_allowed(AcpiSdtTable *sdt)
++{
++    const gchar *allowed_diff_file[] = {
++#include "bios-tables-test-allowed-diff.h"
++        NULL
++    };
++    const gchar **f;
++
++    for (f = allowed_diff_file; *f; ++f) {
++        if (!g_strcmp0(sdt->aml_file, *f)) {
++            return true;
++        }
++    }
++    return false;
++}
++
+ /* test the list of tables in @data->tables against reference tables */
+ static void test_acpi_asl(test_data *data)
+ {
+@@ -396,7 +412,8 @@ static void test_acpi_asl(test_data *data)
+                             "see ASL difference.");
+                     }
+                 }
+-          }
++            }
++            g_assert(test_acpi_find_diff_allowed(exp_sdt));
+         }
+         g_string_free(asl, true);
+         g_string_free(exp_asl, true);
 -- 
 MST
 
