@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339CD36503
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 21:56:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49023 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17E436511
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:05:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49102 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYc1n-0002SA-D8
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 15:56:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33216)
+	id 1hYcA2-00062T-ML
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:05:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33974)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <hpa@zytor.com>) id 1hYc0u-0001yd-Es
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 15:56:01 -0400
+	(envelope-from <mst@redhat.com>) id 1hYc5K-00031Y-7J
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <hpa@zytor.com>) id 1hYc0l-00068y-Db
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 15:55:55 -0400
-Received: from terminus.zytor.com ([198.137.202.136]:54939 helo=mail.zytor.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <hpa@zytor.com>) id 1hYc0e-0005Sc-5r
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 15:55:44 -0400
-Received: from carbon-x1.hos.anvin.org ([192.55.54.60]) (authenticated bits=0)
-	by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x55JtN271660258
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 5 Jun 2019 12:55:24 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x55JtN271660258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2019051801; t=1559764528;
-	bh=nQ7d0NzVmeYZX5h42LR5kpiTw7aa4e3qC1p5rNhsCLg=;
-	h=To:From:Subject:Date:From;
-	b=lXMZWUe7VrrH563LJkeJ61WhbJ0G6PM/D9TifwKNtbP1+HQPlL+ltYOtXN/IFxejD
-	mTUJWJTXIBgzhuu9JsrsNxyftFmz5wioLiauB2bY/zp0Gkoag+Yc3tDJf/KaHi2cKD
-	7Gw2gtTz0E8xPzSYs4Ublffxl2tj6puM5bEAdaA3CQexFQJxKCu9zdmRzJX1G1/AF9
-	EsLCJzNkJueMO/m3Q2FPtn/2BsHFZw7mnRsXKyT8TNoWqd32CW3tatk6GRvx88ieSC
-	YDTjq1fD7M3zWbefLzwOYMxSBiK/zoQwrsR5xmIBQu2GftSX7cWmfRcmRTZfIYvNwL
-	w9GYTFR7bIMww==
+	(envelope-from <mst@redhat.com>) id 1hYc5H-0005Rg-9Y
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:33 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:45117)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc55-0004e1-KF
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:23 -0400
+Received: by mail-qt1-f193.google.com with SMTP id j19so15793634qtr.12
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+	:content-disposition;
+	bh=ldbJ3yVur27BPk7Rjn88rZYMMv0OSSP4AG5eTN2aFs8=;
+	b=aBWroLAnwi37L5/S/9HVpG42iNDBRZhzSBKp7fvwAndDQ2xuxA0G8KWTFRx02sWicx
+	4DqOPZMgp3Mek7/X1bW1RDmjZDBk2jhtJPmE0hgnTXxAcyCbDpz/UKwcDWwCFLrO+yQk
+	X1A7bt16j1YIIPMekXF1Gdl/2k1kPnqbpcNZvhFj3VIlWrzX3fnvdot50DHoldT/ntmN
+	6JGICOgnPrYpoTO4TGH8WM/l/4qvrL/2oaqzz+IbhLfNeI9xfF2b7a4ZZeyqartv4A2L
+	MW0BtTcHQPC2W7YfA0AQgzG4FdHSj4baWX0dXUXVJ6eJKlElYBtlyJUR2UDLLn5N92B0
+	Y3+A==
+X-Gm-Message-State: APjAAAUAj+i30ZMnXmriM/ubvUuMRHQxGOgmUSP5ioync3t+xpgrsfeF
+	CYosxxNmpYn4wQmJXL8UgHMdHw34kCw=
+X-Google-Smtp-Source: APXvYqzDAdwAintmmssqFBrw7ShpxroirbC/Mgy8H8Yk2VsBBQD+9jnmseWmoY9nUDOX1mP5yVFl4A==
+X-Received: by 2002:a05:6214:206:: with SMTP id
+	i6mr7663520qvt.169.1559764806682; 
+	Wed, 05 Jun 2019 13:00:06 -0700 (PDT)
+Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
+	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
+	x55sm11445622qtx.33.2019.06.05.13.00.04
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 05 Jun 2019 13:00:05 -0700 (PDT)
+Date: Wed, 5 Jun 2019 16:00:03 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-From: "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <6364a057-23ab-db7f-cb2c-ccff70fb7aed@zytor.com>
-Date: Wed, 5 Jun 2019 12:55:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+Message-ID: <20190605195913.12243-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
+X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 198.137.202.136
-Subject: [Qemu-devel] Qemu baseline requirements/portability?
+	[fuzzy]
+X-Received-From: 209.85.160.193
+Subject: [Qemu-devel] [PULL v3 00/17] virtio, pci, pc: cleanups, features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,18 +68,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The following changes since commit 8c1ecb590497b0349c550607db923972b37f6963:
 
-I am writing some code I'm hoping will be able to make it into Qemu, but I
-can't seem to find what the baseline portability requirements are.  I'm
-specifically wondering about newer POSIX features like openat(), which seems
-to be used in the 9p filesystem and nowhere else, and what version of glib one
-can rely on?
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-next-280519-2' into staging (2019-05-28 17:38:32 +0100)
 
-Thanks,
+are available in the Git repository at:
 
-	-hpa
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to 7f36f0930ffec11a551844c0452dbce33f80a525:
+
+  bios-tables-test: ignore identical binaries (2019-06-05 15:54:15 -0400)
+
+----------------------------------------------------------------
+virtio, pci, pc: cleanups, features
+
+stricter rules for acpi tables: we now fail
+on any difference that isn't whitelisted.
+
+vhost-scsi migration.
+
+some cleanups all over the place
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+David Gibson (3):
+      pcie: Simplify pci_adjust_config_limit()
+      pci: Make is_bridge a bool
+      pci: Fold pci_get_bus_devfn() into its sole caller
+
+Igor Mammedov (3):
+      docs: smbios: remove family=x from type2 entry description
+      tests: add expected ACPI tables for arm/virt board
+      tests: acpi: add simple arm/virt testcase
+
+Jie Wang (3):
+      vhost: remove the dead code
+      vhost: fix incorrect print type
+      vhost: fix memory leak in vhost_user_scsi_realize
+
+Liran Alon (1):
+      vhost-scsi: Allow user to enable migration
+
+Michael S. Tsirkin (3):
+      bios-tables-test: add diff allowed list
+      bios-tables-test: list all tables that differ
+      bios-tables-test: ignore identical binaries
+
+Nir Weiner (2):
+      vhost-scsi: The vhost backend should be stopped when the VM is not running
+      vhost-scsi: Add VMState descriptor
+
+Wei Yang (2):
+      hw/acpi: Consolidate build_mcfg to pci.c
+      acpi: pci: use build_append_foo() API to construct MCFG
+
+ default-configs/i386-softmmu.mak        |   1 +
+ include/hw/acpi/acpi-defs.h             |  18 ------
+ include/hw/acpi/pci.h                   |   1 +
+ include/hw/pci/pci.h                    |   3 +-
+ include/hw/pci/pci_bus.h                |   8 ++-
+ include/hw/virtio/vhost-scsi-common.h   |   1 +
+ tests/bios-tables-test-allowed-diff.h   |   1 +
+ hw/acpi/pci.c                           |  61 +++++++++++++++++++
+ hw/arm/virt-acpi-build.c                |  17 ------
+ hw/i386/acpi-build.c                    |  18 +-----
+ hw/pci-bridge/dec.c                     |   4 +-
+ hw/pci-bridge/i82801b11.c               |   2 +-
+ hw/pci-bridge/pci_bridge_dev.c          |   2 +-
+ hw/pci-bridge/pcie_pci_bridge.c         |   2 +-
+ hw/pci-bridge/pcie_root_port.c          |   2 +-
+ hw/pci-bridge/simba.c                   |   2 +-
+ hw/pci-bridge/xio3130_downstream.c      |   2 +-
+ hw/pci-bridge/xio3130_upstream.c        |   2 +-
+ hw/pci/pci.c                            | 101 ++++++++++++++++----------------
+ hw/pci/pci_host.c                       |  13 +---
+ hw/ppc/spapr_pci.c                      |  34 ++++-------
+ hw/scsi/vhost-scsi.c                    |  57 ++++++++++++++----
+ hw/scsi/vhost-user-scsi.c               |   3 +
+ hw/virtio/vhost.c                       |   3 +-
+ tests/bios-tables-test.c                |  53 ++++++++++++++++-
+ hw/acpi/Kconfig                         |   4 ++
+ hw/acpi/Makefile.objs                   |   1 +
+ hw/arm/Kconfig                          |   1 +
+ qemu-options.hx                         |   2 +-
+ tests/Makefile.include                  |   4 ++
+ tests/data/acpi/rebuild-expected-aml.sh |   2 +-
+ tests/data/acpi/virt/APIC               | Bin 0 -> 168 bytes
+ tests/data/acpi/virt/DSDT               | Bin 0 -> 18476 bytes
+ tests/data/acpi/virt/FACP               | Bin 0 -> 268 bytes
+ tests/data/acpi/virt/GTDT               | Bin 0 -> 96 bytes
+ tests/data/acpi/virt/MCFG               | Bin 0 -> 60 bytes
+ tests/data/acpi/virt/SPCR               | Bin 0 -> 80 bytes
+ 37 files changed, 261 insertions(+), 164 deletions(-)
+ create mode 100644 tests/bios-tables-test-allowed-diff.h
+ create mode 100644 hw/acpi/pci.c
+ create mode 100644 tests/data/acpi/virt/APIC
+ create mode 100644 tests/data/acpi/virt/DSDT
+ create mode 100644 tests/data/acpi/virt/FACP
+ create mode 100644 tests/data/acpi/virt/GTDT
+ create mode 100644 tests/data/acpi/virt/MCFG
+ create mode 100644 tests/data/acpi/virt/SPCR
+
 
