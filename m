@@ -2,55 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68003567C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 07:59:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35929 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDB4B35695
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 08:05:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35987 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYOxh-0002Lh-Ck
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 01:59:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40821)
+	id 1hYP3J-0003VQ-UZ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 02:05:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42056)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hYOwg-000223-6d
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 01:58:47 -0400
+	(envelope-from <tao3.xu@intel.com>) id 1hYP2A-0003CC-90
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:04:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hYOwf-0001BB-7k
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 01:58:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50924)
+	(envelope-from <tao3.xu@intel.com>) id 1hYP29-0006Zq-7u
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:04:26 -0400
+Received: from mga11.intel.com ([192.55.52.93]:20074)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hYOwd-0000xx-1p; Wed, 05 Jun 2019 01:58:43 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AE1D73086202;
-	Wed,  5 Jun 2019 05:58:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
-	[10.36.116.148])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 93B415C207;
-	Wed,  5 Jun 2019 05:58:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 25AB411386A0; Wed,  5 Jun 2019 07:58:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Aarushi Mehta <mehta.aaru20@gmail.com>
-References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
-	<20190603123823.32661-3-mehta.aaru20@gmail.com>
-Date: Wed, 05 Jun 2019 07:58:32 +0200
-In-Reply-To: <20190603123823.32661-3-mehta.aaru20@gmail.com> (Aarushi Mehta's
-	message of "Mon, 3 Jun 2019 18:08:16 +0530")
-Message-ID: <871s08efp3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+	(Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hYP28-0005vS-TJ
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:04:25 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jun 2019 23:04:13 -0700
+X-ExtLoop1: 1
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.142])
+	([10.239.196.142])
+	by orsmga006.jf.intel.com with ESMTP; 04 Jun 2019 23:04:11 -0700
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20190508061726.27631-1-tao3.xu@intel.com>
+	<20190508061726.27631-8-tao3.xu@intel.com>
+	<20190604170456.5b3c198e@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <729bde4a-bcb9-dac5-3a8a-04cc5f4d2bf9@intel.com>
+Date: Wed, 5 Jun 2019 14:04:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Wed, 05 Jun 2019 05:58:41 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 2/9] qapi/block-core: add option for
- io_uring
+In-Reply-To: <20190604170456.5b3c198e@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 192.55.52.93
+Subject: Re: [Qemu-devel] [PATCH v4 07/11] hmat acpi: Build Memory Side
+ Cache Information Structure(s) in ACPI HMAT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,49 +59,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
-	qemu-block@nongnu.org, qemu-devel@nongnu.org,
-	Max Reitz <mreitz@redhat.com>, saket.sinha89@gmail.com,
-	Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Julia Suvorova <jusual@mail.ru>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
+	qemu-devel@nongnu.org, ehabkost@redhat.com, pbonzini@redhat.com,
+	rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aarushi Mehta <mehta.aaru20@gmail.com> writes:
-
-> Option only enumerates for hosts that support it.
-
-Blank line here, please.  Same in other patches.
-
-> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> ---
->  qapi/block-core.json | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 1defcde048..db7eedd058 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -2792,11 +2792,13 @@
->  #
->  # @threads:     Use qemu's thread pool
->  # @native:      Use native AIO backend (only Linux and Windows)
-> +# @io_uring:    Use linux io_uring (since 4.1)
->  #
->  # Since: 2.9
->  ##
->  { 'enum': 'BlockdevAioOptions',
-> -  'data': [ 'threads', 'native' ] }
-> +  'data': [ 'threads', 'native',
-> +            { 'name': 'io_uring', 'if': 'defined(CONFIG_LINUX_IO_URING)' } ] }
-
-We prefer '-' over '_' in the QAPI schema: 'io-uring' instead of
-'io_uring'.  Exceptions can be made when existing siblings use '_' (not
-the case here), or to match how the thing is commonly spelled outside
-QEMU.  Up to the subject matter experts; I just want to make sure it's
-not accidental.
-
->  
->  ##
->  # @BlockdevCacheOptions:
+On 6/4/2019 11:04 PM, Igor Mammedov wrote:
+> On Wed,  8 May 2019 14:17:22 +0800
+> Tao Xu <tao3.xu@intel.com> wrote:
+> 
+>> From: Liu Jingqi <jingqi.liu@intel.com>
+>>
+>> This structure describes memory side cache information for memory
+>> proximity domains if the memory side cache is present and the
+>> physical device(SMBIOS handle) forms the memory side cache.
+>> The software could use this information to effectively place
+>> the data in memory to maximize the performance of the system
+>> memory that use the memory side cache.
+>>
+>> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
+>> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+>> ---
+>>
+...
+>> +
+>> +                /* SMBIOS Handles */
+>> +                /* TBD: set smbios handles */
+>> +                build_append_int_noprefix(table_data, 0, 2 * n);
+> Is memory side cache structure useful at all without pointing to SMBIOS entries?
+> 
+They are not useful yet, and the kernel 5.1 HMAT sysfs doesn't show 
+SMBIOS entries. We can update it if it useful in the future.
 
