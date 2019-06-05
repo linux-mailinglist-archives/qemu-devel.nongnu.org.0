@@ -2,52 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D4C35EB8
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:08:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43253 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0F735ED2
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:13:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43328 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYWao-0005Ev-JL
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:08:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48469)
+	id 1hYWfB-00074N-Eh
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:13:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49456)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hYWZn-0004xW-4W
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:07:40 -0400
+	(envelope-from <philmd@redhat.com>) id 1hYWdI-00067x-TV
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:11:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hYWZl-00070u-Vk
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:07:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40978)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hYWZl-0006yC-QD
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:07:37 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4D9C7C18B2DA;
-	Wed,  5 Jun 2019 14:07:31 +0000 (UTC)
-Received: from redhat.com (ovpn-112-70.ams2.redhat.com [10.36.112.70])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CD225C22F;
-	Wed,  5 Jun 2019 14:07:14 +0000 (UTC)
-Date: Wed, 5 Jun 2019 15:07:11 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Olaf Hering <olaf@aepfle.de>
-Message-ID: <20190605140711.GA8956@redhat.com>
-References: <20190530192812.17637-1-olaf@aepfle.de>
+	(envelope-from <philmd@redhat.com>) id 1hYWdH-0004ON-It
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:11:16 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51316)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hYWdF-0004Lu-KF
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:11:14 -0400
+Received: by mail-wm1-f66.google.com with SMTP id f10so2427666wmb.1
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 07:11:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=z6IgQJxRPYMJDE2qUDN1r3HB4av5lx06Rmxd27LH654=;
+	b=a630c8SG26kFQl8dZi0DucptNFDsFE5nZPl9Jbd8fOIkogW59NL3HYTqC6d4v+BRxL
+	9ZUP077seF57s/inkK1M74ICC2mcgMWDp8RVFAF5RACkJwDaGXtuCBRd4EUNIJOjxETA
+	IZdyCzPAugph9kOg/ensQuN6922yFv3mZeYzjG7zar3f6ITjxhBe+SovLDgobYyJQIfp
+	x97VSFodrvdnc+GVbNd5JEXcxXc/WySUgi19j2zUAea91Fjl6EeYYZtylPAATz5xYDAQ
+	6XLXDLph3/fJ6kh/T6RVFr3uWAA8AGk2l4zTrmY6mKemkJEtbt7VuMEBE0amJn1dsdf8
+	5QTw==
+X-Gm-Message-State: APjAAAXcduQOzcOyyOuEWazavtAZ3P6Pl5mPmpOMqFmgll5W4AuJmHmU
+	I11l//sdXWP+0p8iFknu/c6BXA==
+X-Google-Smtp-Source: APXvYqy0/W/arBsYdbpHAy8KdGoxasl/Z6zJUBPYCFCPfbfehoOezsLXJh1BYJ1a94UgUr4FPxl27A==
+X-Received: by 2002:a1c:99ca:: with SMTP id b193mr8884880wme.31.1559743871475; 
+	Wed, 05 Jun 2019 07:11:11 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+	[88.21.202.183]) by smtp.gmail.com with ESMTPSA id
+	v184sm7625410wme.10.2019.06.05.07.11.10
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Jun 2019 07:11:10 -0700 (PDT)
+To: Wei Yang <richard.weiyang@gmail.com>
+References: <20190605010828.6969-1-richardw.yang@linux.intel.com>
+	<c3b37e07-6d13-1ed9-bb75-0a94c31c8399@redhat.com>
+	<20190605133919.2yslqh6seu7ij5mr@master>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <d1860a08-7bfa-89e0-0011-e5f961132eaa@redhat.com>
+Date: Wed, 5 Jun 2019 16:11:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190605133919.2yslqh6seu7ij5mr@master>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190530192812.17637-1-olaf@aepfle.de>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Wed, 05 Jun 2019 14:07:31 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v1] Makefile: remove DESTDIR from firmware
- file content
+	[fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH] migratioin/ram.c: reset complete_round
+ when we gets a queued page
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,48 +76,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	=?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: quintela@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
+	dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 30, 2019 at 09:28:11PM +0200, Olaf Hering wrote:
-> The resulting firmware files should only contain the runtime path.
-> Fixes commit 26ce90fde5c ("Makefile: install the edk2 firmware images
-> and their descriptors")
->=20
-> Signed-off-by: Olaf Hering <olaf@aepfle.de>
-> ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Makefile b/Makefile
-> index f0be624f47..61267bf1a4 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -844,7 +844,7 @@ ifneq ($(DESCS),)
->  	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/firmware"
->  	set -e; tmpf=3D$$(mktemp); trap 'rm -f -- "$$tmpf"' EXIT; \
->  	for x in $(DESCS); do \
-> -		sed -e 's,@DATADIR@,$(DESTDIR)$(qemu_datadir),' \
-> +		sed -e 's,@DATADIR@,$(qemu_datadir),' \
->  			"$(SRC_PATH)/pc-bios/descriptors/$$x" > "$$tmpf"; \
->  		$(INSTALL_DATA) "$$tmpf" \
->  			"$(DESTDIR)$(qemu_datadir)/firmware/$$x"; \
+On 6/5/19 3:39 PM, Wei Yang wrote:
+> On Wed, Jun 05, 2019 at 02:27:11PM +0200, Philippe Mathieu-Daud?? wrote:
+>> migratioin -> migration
+> 
+> Ah... I should take an English lesson...
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+Your English is fine, I believe this is just a typo that slipped in ;)
 
