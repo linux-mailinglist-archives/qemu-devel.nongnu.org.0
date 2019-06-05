@@ -2,49 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F26C365F2
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:48:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49696 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A30236625
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:59:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49909 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYcpm-0006Fa-N3
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:48:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41520)
+	id 1hYd0o-000806-Mp
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:59:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43767)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hYcdT-0003x4-11
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:35:56 -0400
+	(envelope-from <eblake@redhat.com>) id 1hYckg-0002FL-25
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:43:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hYcdO-0008Qr-9T
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:35:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59702)
+	(envelope-from <eblake@redhat.com>) id 1hYckb-0002lJ-NA
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:43:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36842)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hYcdN-0007nD-Ps; Wed, 05 Jun 2019 16:35:46 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hYckP-0001mw-OJ
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:43:05 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 59F5630044CE;
-	Wed,  5 Jun 2019 20:35:22 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-116-124.ams2.redhat.com [10.36.116.124])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 25FC6619A9;
-	Wed,  5 Jun 2019 20:35:19 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed,  5 Jun 2019 22:34:03 +0200
-Message-Id: <20190605203403.29461-34-david@redhat.com>
-In-Reply-To: <20190605203403.29461-1-david@redhat.com>
-References: <20190605203403.29461-1-david@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 2308444BC6;
+	Wed,  5 Jun 2019 20:42:48 +0000 (UTC)
+Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 44C43299C5;
+	Wed,  5 Jun 2019 20:42:39 +0000 (UTC)
+To: Eduardo Habkost <ehabkost@redhat.com>,
+	=?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20190531192429.GH22103@habkost.net>
+	<93e5101f-67f1-a416-5e80-f16371a35e6a@redhat.com>
+	<871s0asvli.fsf@dusky.pond.sub.org> <20190605155006.GI8956@redhat.com>
+	<20190605201335.GD22416@habkost.net>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <c6a830b7-2892-6f05-faa1-3c8124e7e78a@redhat.com>
+Date: Wed, 5 Jun 2019 15:42:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20190605201335.GD22416@habkost.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="mB9H1ncxQMP1rx8zX0r0vFHFwn1Vius58"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Wed, 05 Jun 2019 20:35:27 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.30]);
+	Wed, 05 Jun 2019 20:42:48 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 33/33] linux-user: elf:
- ELF_HWCAP for s390x
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] Deprecation policy and build dependencies
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,85 +89,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
-	David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org,
-	Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+	Cleber Rosa <crosa@redhat.com>,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's add all HWCAPs that we can support under TCG right now, when the
-respective CPU facilities are enabled.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--mB9H1ncxQMP1rx8zX0r0vFHFwn1Vius58
+From: Eric Blake <eblake@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+Message-ID: <c6a830b7-2892-6f05-faa1-3c8124e7e78a@redhat.com>
+Subject: Re: [Qemu-devel] Deprecation policy and build dependencies
+References: <20190531192429.GH22103@habkost.net>
+ <93e5101f-67f1-a416-5e80-f16371a35e6a@redhat.com>
+ <871s0asvli.fsf@dusky.pond.sub.org> <20190605155006.GI8956@redhat.com>
+ <20190605201335.GD22416@habkost.net>
+In-Reply-To: <20190605201335.GD22416@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Cc: Riku Voipio <riku.voipio@iki.fi>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- include/elf.h        |  1 +
- linux-user/elfload.c | 28 ++++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+On 6/5/19 3:13 PM, Eduardo Habkost wrote:
 
-diff --git a/include/elf.h b/include/elf.h
-index ea7708a4ea..3501e0c8d0 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -598,6 +598,7 @@ typedef struct {
- #define HWCAP_S390_ETF3EH       256
- #define HWCAP_S390_HIGH_GPRS    512
- #define HWCAP_S390_TE           1024
-+#define HWCAP_S390_VXRS         2048
-=20
- /* M68K specific definitions. */
- /* We use the top 24 bits to encode information about the
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index a57b7049dd..5451d262ec 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1308,6 +1308,34 @@ static inline void init_thread(struct target_pt_re=
-gs *regs,
- #define ELF_DATA	ELFDATA2MSB
- #define ELF_ARCH	EM_S390
-=20
-+#include "elf.h"
-+
-+#define ELF_HWCAP get_elf_hwcap()
-+
-+#define GET_FEATURE(_feat, _hwcap) \
-+    do { if (s390_has_feat(_feat)) { hwcap |=3D _hwcap; } } while (0)
-+
-+static uint32_t get_elf_hwcap(void)
-+{
-+    /*
-+     * Let's assume we always have esan3 and zarch.
-+     * 31-bit processes can use 64-bit registers (high gprs).
-+     */
-+    uint32_t hwcap =3D HWCAP_S390_ESAN3 | HWCAP_S390_ZARCH | HWCAP_S390_=
-HIGH_GPRS;
-+
-+    GET_FEATURE(S390_FEAT_STFLE, HWCAP_S390_STFLE);
-+    GET_FEATURE(S390_FEAT_MSA, HWCAP_S390_MSA);
-+    GET_FEATURE(S390_FEAT_LONG_DISPLACEMENT, HWCAP_S390_LDISP);
-+    GET_FEATURE(S390_FEAT_EXTENDED_IMMEDIATE, HWCAP_S390_EIMM);
-+    if (s390_has_feat(S390_FEAT_EXTENDED_TRANSLATION_3) &&
-+        s390_has_feat(S390_FEAT_ETF3_ENH)) {
-+        hwcap |=3D HWCAP_S390_ETF3EH;
-+    }
-+    GET_FEATURE(S390_FEAT_VECTOR, HWCAP_S390_VXRS);
-+
-+    return hwcap;
-+}
-+
- static inline void init_thread(struct target_pt_regs *regs, struct image=
-_info *infop)
- {
-     regs->psw.addr =3D infop->entry;
+>> IOW, I don't think RHEL-7 support as a build platform blocks us from
+>> dropping py2. We merely need to tweak our build platforms doc to clari=
+fy
+>> our intent wrt add-on yum repos.
+>=20
+> If we clarify the docs in QEMU 4.1, is there anything that
+> prevents us from removing Python 2 support in QEMU 4.1 too?
+
+My take (but not definitive): if we have any CI setups that are testing
+RHEL 7 without software collections and/or EPEL, then save Python 2
+removal for 4.2 to give us time to update CI setups. But if all of our
+CI setups are already fine, and we clarify the docs, then I'm all for
+getting rid of Python 2 support in 4.1.
+
+Similarly, if we are going to outlaw in-tree builds, let's get that done
+in 4.1 instead of waiting yet another release.
+
 --=20
-2.21.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
+
+--mB9H1ncxQMP1rx8zX0r0vFHFwn1Vius58
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz4KT8ACgkQp6FrSiUn
+Q2qczAf/WPTA+pNuXAS3DiWqc4ABl1YmUJgOid+2p5ACO7or9qhMHlmuDrE2n3mv
+EqbcRhBfNKuNajFa/V3s69Jy+MhlkYAGP00twrhJrQByFarfTcgdmeoj+JXKSe8V
+eDbfDi7xPRHPz9LJzfwXXPel6yMTyCBzRblDT3oWiBef+TBx18XD0jMaLuy4sdGw
+xhslWofBlqmWUnAE3UKed79dZkah4RxN8K65c+YZOcRyqVz3QMkUKoH3FAv9/M2N
+WONRUImrNMMi5GEC7I5CsY1+sypvXHYBWvsC59yXssscgcTUGALdrnyayMCn+kWX
+o2XsVZ03LpZTKYYcy0Cfd6bbWdNdrA==
+=HKAr
+-----END PGP SIGNATURE-----
+
+--mB9H1ncxQMP1rx8zX0r0vFHFwn1Vius58--
 
