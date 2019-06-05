@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2403C356B0
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 08:13:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36070 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EF5356D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 08:18:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36147 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYPB5-0005uL-0n
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 02:13:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44045)
+	id 1hYPG8-0007cG-Bj
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 02:18:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45510)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david.brenken@efs-auto.org>) id 1hYP9M-0004yq-AA
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:11:53 -0400
+	(envelope-from <david.brenken@efs-auto.org>) id 1hYPER-0006zZ-Ma
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david.brenken@efs-auto.org>) id 1hYP9L-0008LJ-AC
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:11:52 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:33441)
+	(envelope-from <david.brenken@efs-auto.org>) id 1hYPEQ-0006iE-8L
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:07 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:50153)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <david.brenken@efs-auto.org>)
-	id 1hYP9L-0008Fy-1K
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:11:51 -0400
+	id 1hYPEK-0006GI-3u
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 02:17:01 -0400
 Received: from localhost.localdomain ([178.239.76.114]) by
 	mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1MBUuP-1hPu2C0HKJ-00D3H0; Wed, 05 Jun 2019 08:11:43 +0200
+	id 1MCsLu-1hPdip18Ou-008vbp; Wed, 05 Jun 2019 08:11:43 +0200
 From: David Brenken <david.brenken@efs-auto.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  5 Jun 2019 08:11:23 +0200
-Message-Id: <20190605061126.10244-3-david.brenken@efs-auto.org>
+Date: Wed,  5 Jun 2019 08:11:24 +0200
+Message-Id: <20190605061126.10244-4-david.brenken@efs-auto.org>
 X-Mailer: git-send-email 2.16.1.windows.4
 In-Reply-To: <20190605061126.10244-1-david.brenken@efs-auto.org>
 References: <20190605061126.10244-1-david.brenken@efs-auto.org>
-X-Provags-ID: V03:K1:TEZT9UUxGWLf9FfaWoDi1gOpgnmWXzXNN3KWJBjVttaxbPoOT6L
-	4pCpyC+N4ukd4GCbqd129iT5KoztFspbo/bPDa7u7xOJ5Ams4Wbqwod1TDxHTtJzewLRv/Q
-	27afpFbyy8AZghBUeW9+w5V7sAh4drxRba8TwvW4SJUXNu63YZFJ6bCUId8mjHX3x245p+S
-	LSQJzvIer5LaLmSsxkiyA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mdF6Qmfm4/o=:vf/z7gKJQTTIJqd6FLzEpY
-	4wqoIHf9wcP0FBfkcWgw9X1I59UJUewcQ87N2aXn8wqXWfNkaeu1/W7KHqdlcpu9Cb1fbOIva
-	VWqiWTpdtjU0lH3FdPvFsZSYJPElvSO7uUzH5o93gZAB/1x7zDvaFF8eATohYtsT6tak01hSD
-	Towwv5/bDDcET/7Oh0efUgNs/KCBFN0uzRqwBTQmrp1F72WUVdL9RBud16fc2tsVUWjM06Rsg
-	X/NbTfG46Uh0F+/NUt0+rusLqqCaIrrIv87iGAhBDr4D6+ON0ZyGKgihovXOiMqJHVMl8n2cW
-	gtq8NXAJYCcgplBlG0XMLGCdZRJnIsKDrCm+asI4R2cAZwVMvn/KuEGTTWwKoPdFI5el4tUmx
-	ItF1rVeD69igqlQaLVpHbU9Dj3kWSAzdQeDJ7k4kQcOU9O/9jJxXYZsBtd7YlemRcKFWeMAJ2
-	mcvq8RTFGmD1hnIu+mDWNOfnaUq9k0jldJC5LR4VzhKCh3vX8DBpI39eQNebi32tjEiSmuxcR
-	gNgfKZy9QGgoqT5Gj6I4tK5McpIqXfAImNVOoijFRgrrh33TnlPMvNG0YEatM9iTu119aUhQq
-	TNoV83/V2IxUSEpEvs2wnB8btA8/4ZMfmPk0BH6wFVcTk7aOpkawqtO4SFQqNZ8/Dl8WNbASJ
-	iY1NQtCYmkzCjqpp/bxg5THVJ91S2ShC7cTctqJUJbv5bE4DVpiwIecCvb/NRFuNYEq4WC4fg
-	WVarkBk0bEZvF/F0iTpKNjvGYxWrLKUe6+2B0AUZOK1ra0tQn+LDQzk2byg=
+X-Provags-ID: V03:K1:huaG837WSCb22Y4/6E1lul7xCo+dvvB8JL1tT5vABgwUQ+71Tze
+	rsgSwLnH7t0/4lk7dm9czrVTfIzG61F3U4X4Uvbf8jWtgODBckDfs2QAPcRtZkLyI6x0Bpo
+	5tI010x0/7bxTrwyY9G8crXY5qAO4kEufrPwjTxzbH37Gx7+0RvDbk9ZloGHAVc2KPggwQb
+	XNZ1axU2OCzMpfrag3WXg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:d6YL3AWet40=:CAOq1fNK2wE/bpwQOJz9vZ
+	2g9+WA/uXX2F3y5med8NKVujW9nyoXEMHkNEd1bF1t7jgvepnIddelcaP0G8qeZ1brJcmfDD1
+	lGuzpuyS+EiBTu/HlN3ZOn0gitRn4GuMczef2/o+hZu2Khy6pKOjGxECPJ0+KcvoiFcGiadID
+	5kw2zbeKzn6SBjnS6PPh/S2nV9M+rafe29FNkSocLXP/IGDpNCxehoYCe42oOxZB4nTrW8bpS
+	rhBOu1JvOFdNnNYGpsoc98MhYmpILCaeHBsGzy+Pg+7GZC0qlkisoUoz0wsFPM+lvacQv6Ggw
+	H4HBFLh6rqwUKrVAz845UQX+S1ZKSYzgo7Pr+XSavZbmYIM5idlxiVhJo9BvT24DqmRoBUfaV
+	xcTH3sUEb+9wDZQ45cUXPPs3yQOLLLq1NeW4oZ98mGpWbnd9ihNacBnVTof4j0e3AgOL7cxN/
+	+97XolNN5cTU9LWozOtLOM4cjrP2crPndCnxKgx+dCV79CPXq9joo3nzQGyQa7VNpwHe3wBfL
+	QHpQa19o6FiBBuifmI1V0Kv1FTiKi4HLkBTScYwYSDXj3QMg/tF/J0YKlLLDbYrBZI+joXGNF
+	ajl2EsqVfiPIket8qXj5kD4Sy05dEq1siyPt9e6Te5tYpMDvcMXeyuj1R60JEq+AUTcfaxMOB
+	W2oQAKdMWgD3aCAD0/Py3Q7osw3D1+hMI3mEDNEyE92qJNoAQoGazIS7qWTPgGG1NQDmbNe+H
+	SseM5nE6gHCpzM2s5bpKGuU68Ud/jwfIng9VCM9q8jHKdMX/FwkrjANEYmI=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
-Subject: [Qemu-devel] [PATCH 2/5] tricore: add UTOF instruction
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PATCH 3/5] tricore: fix RRPW_INSERT instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,64 +80,38 @@ Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
 Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
 
 ---
- target/tricore/fpu_helper.c | 16 ++++++++++++++++
- target/tricore/helper.h     |  1 +
- target/tricore/translate.c  |  3 +++
- 3 files changed, 20 insertions(+)
+ target/tricore/translate.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/target/tricore/fpu_helper.c b/target/tricore/fpu_helper.c
-index f079d9e939..432079c8e2 100644
---- a/target/tricore/fpu_helper.c
-+++ b/target/tricore/fpu_helper.c
-@@ -303,6 +303,22 @@ uint32_t helper_itof(CPUTriCoreState *env, uint32_t arg)
-     return (uint32_t)f_result;
- }
- 
-+uint32_t helper_utof(CPUTriCoreState *env, uint32_t arg)
-+{
-+    float32 f_result;
-+    uint32_t flags;
-+
-+    f_result = uint32_to_float32(arg, &env->fp_status);
-+
-+    flags = f_get_excp_flags(env);
-+    if (flags) {
-+        f_update_psw_flags(env, flags);
-+    } else {
-+        env->FPU_FS = 0;
-+    }
-+    return (uint32_t)f_result;
-+}
-+
- uint32_t helper_ftoiz(CPUTriCoreState *env, uint32_t arg)
- {
-     float32 f_arg = make_float32(arg);
-diff --git a/target/tricore/helper.h b/target/tricore/helper.h
-index 16b62edf7f..f1a5cb367e 100644
---- a/target/tricore/helper.h
-+++ b/target/tricore/helper.h
-@@ -111,6 +111,7 @@ DEF_HELPER_4(fmsub, i32, env, i32, i32, i32)
- DEF_HELPER_3(fcmp, i32, env, i32, i32)
- DEF_HELPER_2(ftoi, i32, env, i32)
- DEF_HELPER_2(itof, i32, env, i32)
-+DEF_HELPER_2(utof, i32, env, i32)
- DEF_HELPER_2(ftoiz, i32, env, i32)
- DEF_HELPER_2(ftouz, i32, env, i32)
- DEF_HELPER_2(updfl, void, env, i32)
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 66cdc63286..a8b4de647a 100644
+index a8b4de647a..19d8db7a46 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -6764,6 +6764,9 @@ static void decode_rr_divide(CPUTriCoreState *env, DisasContext *ctx)
-     case OPC2_32_RR_UPDFL:
-         gen_helper_updfl(cpu_env, cpu_gpr_d[r1]);
+@@ -7004,6 +7004,7 @@ static void decode_rrpw_extract_insert(CPUTriCoreState *env, DisasContext *ctx)
+     uint32_t op2;
+     int r1, r2, r3;
+     int32_t pos, width;
++    TCGv temp1, temp2;
+ 
+     op2 = MASK_OP_RRPW_OP2(ctx->opcode);
+     r1 = MASK_OP_RRPW_S1(ctx->opcode);
+@@ -7042,9 +7043,13 @@ static void decode_rrpw_extract_insert(CPUTriCoreState *env, DisasContext *ctx)
+         }
          break;
-+    case OPC2_32_RR_UTOF:
-+        gen_helper_utof(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
-+        break;
-     case OPC2_32_RR_FTOIZ:
-         gen_helper_ftoiz(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
+     case OPC2_32_RRPW_INSERT:
+-        if (pos + width <= 31) {
+-            tcg_gen_deposit_tl(cpu_gpr_d[r3], cpu_gpr_d[r1], cpu_gpr_d[r2],
+-                               width, pos);
++        if (pos + width <= 32) {
++            temp1 = tcg_const_i32(pos);   /* pos */
++            temp2 = tcg_const_i32(width); /* width */
++            gen_insert(cpu_gpr_d[r3], cpu_gpr_d[r1], cpu_gpr_d[r2],
++                       temp1, temp2);
++            tcg_temp_free(temp1);
++            tcg_temp_free(temp2);
+         }
          break;
+     default:
 -- 
 2.17.1
 
