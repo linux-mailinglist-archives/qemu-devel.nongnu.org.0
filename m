@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9E936083
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 17:47:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44753 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C883607E
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 17:45:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44679 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYY8F-0001Wg-2X
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 11:47:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46958)
+	id 1hYY6I-0008Ip-DS
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 11:45:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46843)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hYY4M-0007Jm-JE
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:43:19 -0400
+	(envelope-from <philmd@redhat.com>) id 1hYY4H-0007FQ-W5
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:43:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hYXuh-000157-JN
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:33:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:17420)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hYXug-0000ys-5w; Wed, 05 Jun 2019 11:33:18 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 95AC330A6960;
-	Wed,  5 Jun 2019 15:33:16 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7ABF360BC9;
-	Wed,  5 Jun 2019 15:33:14 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190605152650.103483-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <2b93344d-d0c2-5c36-0693-6fc1e3cef607@redhat.com>
-Date: Wed, 5 Jun 2019 17:33:07 +0200
+	(envelope-from <philmd@redhat.com>) id 1hYY0d-0005u2-CA
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:39:29 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41372)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hYY0Y-0005hu-9X
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:39:24 -0400
+Received: by mail-wr1-f66.google.com with SMTP id c2so19974917wrm.8
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 08:39:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=W3KUJRvQLWBZz5OsKlhD8eGlR1Mj5g1achVcHTjSt1o=;
+	b=bI4jA0rOpMs3i3CoUXuURp4Y0KVGEpMzww8jtpwmg1x0JmQy+AbZmoA0gF7bu3Uc+f
+	IkjnJj641Yzc844qbkqAT9oXmbMQsekJ2zsdU+PFRMDh0u73qKsOVPhxNcCeGKP3fhs9
+	g0DtHLYd7geLA8CiZWN+UxW3wimcYQZzdDE6tJY3b4SPiW1U474DYGUaiGdXgdeo32Z2
+	38UQV4cbvxc0R+QzjMVdbdcTpDCtXMfZCE6waGbm+hPQsl6XdzM3N94Y+k5RBY37JS5V
+	7SLR2pJjeUoHBVnilAm8b5WRhuC26yw4e8bUO9CkpMTg+iMvxR7JZhduvn45hgd9BMgg
+	DGtw==
+X-Gm-Message-State: APjAAAV6zfxdu1zW4pghkjDAlwJ23MqSQ2pu25GNAYC1k0doYYuEMaD0
+	ns+HoTkSURCq1YuJAaXRe63LXw==
+X-Google-Smtp-Source: APXvYqykVWg98lciFOv5olMOxDxNz1gATirL1eL7s4myZYwwmbNAia+V1wcOqgZmqyG/POCdJd9yRg==
+X-Received: by 2002:a5d:6acc:: with SMTP id u12mr16684462wrw.349.1559749160335;
+	Wed, 05 Jun 2019 08:39:20 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+	[88.21.202.183]) by smtp.gmail.com with ESMTPSA id
+	s8sm36563248wra.55.2019.06.05.08.39.17
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Jun 2019 08:39:19 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+	=?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20190523234011.583-1-marcandre.lureau@redhat.com>
+	<20190523234011.583-4-marcandre.lureau@redhat.com>
+	<e0cf3112-62f6-aaff-0821-f472297dbb93@redhat.com>
+	<CAMxuvay+ZrdjhJg-juU0aTOtcy=cLshC+WGyPBQ6VysXZksa5w@mail.gmail.com>
+	<20190605151008.GE8956@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <d565ab4b-c64b-b15b-e648-a40ad0a64135@redhat.com>
+Date: Wed, 5 Jun 2019 17:39:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190605152650.103483-1-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="3jMWI3i7GVhYl3Sg86ck25O9OlIRpt9Su"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Wed, 05 Jun 2019 15:33:16 +0000 (UTC)
+In-Reply-To: <20190605151008.GE8956@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH] iotests: fix 254 for qcow (1)
+	[fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH 3/4] docker: update fedora to f30
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,118 +78,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com
+Cc: Fam Zheng <fam@euphon.net>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---3jMWI3i7GVhYl3Sg86ck25O9OlIRpt9Su
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: kwolf@redhat.com
-Message-ID: <2b93344d-d0c2-5c36-0693-6fc1e3cef607@redhat.com>
-Subject: Re: [PATCH] iotests: fix 254 for qcow (1)
-References: <20190605152650.103483-1-vsementsov@virtuozzo.com>
-In-Reply-To: <20190605152650.103483-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On 6/5/19 5:10 PM, Daniel P. Berrangé wrote:
+> On Fri, May 24, 2019 at 01:17:17PM +0200, Marc-André Lureau wrote:
+>> Hi
+>>
+>> On Fri, May 24, 2019 at 9:41 AM Philippe Mathieu-Daudé
+>> <philmd@redhat.com> wrote:
+>>>
+>>> On 5/24/19 1:40 AM, Marc-André Lureau wrote:
+>>>> Released last month.
+>>>>
+>>>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>>> ---
+>>>>  tests/docker/dockerfiles/fedora.docker | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+>>>> index 69d4a7f5d7..1496b68ba1 100644
+>>>> --- a/tests/docker/dockerfiles/fedora.docker
+>>>> +++ b/tests/docker/dockerfiles/fedora.docker
+>>>> @@ -1,4 +1,4 @@
+>>>> -FROM fedora:29
+>>>> +FROM fedora:30
+>>>
+>>> Hmm this patch is pending for review:
+>>> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg00819.html
+>>
+>> Oh I missed that. Maybe we should use "latest" to avoid bumping the
+>> version every 6 months.
+>>
+>> fwiw we have different versions:
+>>
+>> tests/docker/dockerfiles/fedora-cris-cross.docker:FROM fedora:latest
+>> tests/docker/dockerfiles/fedora-i386-cross.docker:FROM fedora:29
+>> tests/docker/dockerfiles/fedora.docker:FROM fedora:29
+>>
+>> In 62559b916 "tests: update Fedora i386 cross image to Fedora 29", Daniel said:
+>>
+>>     Using the "latest" tag is not a good idea because this changes what
+>>     release it points to every 6 months. Together with caching of docker
+>>     builds this can cause confusion where CI has cached & built with Fedora
+>>     N, while a developer tries to reproduce a CI problem with Fedora N + 1,
+>>     or vica-verca.
+>>
+>> But at the same time, Daniel bumped f28 to f29 in commit 19a9978db1.
+>>
+>> It's confusing, do we need some stability or follow the latest?
+> 
+> The problem is introduced by local caching. "latest" may point to "29"
+> today, but the CI system had cached content meaining its use of "latest"
+> still resolved to "28".
+> 
+> Using "29" meant both CI & developers saw the same image, even when
+> caching is used.
 
-On 05.06.19 17:26, Vladimir Sementsov-Ogievskiy wrote:
-> Qcow default cluster size is 4k, but default format of created overlay
-> image on snapshot operation is qcow2 with it's default cluster of 64k.
+Should we invert the default NOCACHE value?
 
-Then I wonder why we run this test even for anything but qcow2.
+See commits c1958e9d & 6fe3ae3f:
 
-I forgot to mention that this test also fails for all image formats that
-do not support image creation.  So we need some form of
-iotests.verify_image_format() anyway.  If half of this test requires
-qcow2, and the other half does not really care about the image format,
-then why not just restrict it to qcow2 altogether.
+commit c1958e9d54c8de85ceda7c96b302b75a2f67b4e1
+Author: Fam Zheng <famz@redhat.com>
+Date:   Fri Nov 3 21:12:29 2017 +0800
 
-(Or restrict it to all formats that support backing files, and then
-explicitly specify the format when creating the snapshot?)
+    docker: Improved image checksum
 
-Max
+    When a base image locally defined by QEMU, such as in the debian images,
+    is updated, the dockerfile checksum mechanism in docker.py still skips
+    updating the derived image, because it only looks at the literal content
+    of the dockerfile, without considering changes to the base image.
 
-> This leads to block-dirty-bitmap-merge fail when test run for qcow
-> format, as it can't merge bitmaps with different granularities.
-> Let's fix it by specifying strict granularity.
->=20
-> Reported-by: Max Reitz <mreitz@redhat.com>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/254     | 5 +++--
->  tests/qemu-iotests/254.out | 3 ++-
->  2 files changed, 5 insertions(+), 3 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
-> index 33cb80a512..a8ea5818ff 100755
-> --- a/tests/qemu-iotests/254
-> +++ b/tests/qemu-iotests/254
-> @@ -29,7 +29,8 @@ qemu_img_create('-f', iotests.imgfmt, disk, str(size)=
-)
->  vm =3D iotests.VM().add_drive(disk, opts=3D'node-name=3Dbase')
->  vm.launch()
-> =20
-> -vm.qmp_log('block-dirty-bitmap-add', node=3D'drive0', name=3D'bitmap0'=
-)
-> +vm.qmp_log('block-dirty-bitmap-add', node=3D'drive0', name=3D'bitmap0'=
-,
-> +           granularity=3D65536)
-> =20
->  vm.hmp_qemu_io('drive0', 'write 0 512K')
-> =20
-> @@ -38,7 +39,7 @@ vm.qmp_log('transaction', indent=3D2, actions=3D[
->       'data': {'device': 'drive0', 'snapshot-file': top,
->                'snapshot-node-name': 'snap'}},
->      {'type': 'block-dirty-bitmap-add',
-> -     'data': {'node': 'snap', 'name': 'bitmap0'}},
-> +     'data': {'node': 'snap', 'name': 'bitmap0', 'granularity': 65536}=
-},
->      {'type': 'block-dirty-bitmap-merge',
->       'data': {'node': 'snap', 'target': 'bitmap0',
->                'bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}}
-> diff --git a/tests/qemu-iotests/254.out b/tests/qemu-iotests/254.out
-> index d7394cf002..dc899016da 100644
-> --- a/tests/qemu-iotests/254.out
-> +++ b/tests/qemu-iotests/254.out
-> @@ -1,4 +1,4 @@
-> -{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0",=
- "node": "drive0"}}
-> +{"execute": "block-dirty-bitmap-add", "arguments": {"granularity": 655=
-36, "name": "bitmap0", "node": "drive0"}}
->  {"return": {}}
->  {
->    "execute": "transaction",
-> @@ -14,6 +14,7 @@
->        },
->        {
->          "data": {
-> +          "granularity": 65536,
->            "name": "bitmap0",
->            "node": "snap"
->          },
->=20
+    For example we have a recent fix e58c1f9b35e81 that fixed
+    debian-win64-cross by updating its base image, debian8-mxe, but due to
+    above "feature" of docker.py the image in question is automatically NOT
+    rebuilt unless you add NOCACHE=1. It is noticed on Shippable:
 
+    https://app.shippable.com/github/qemu/qemu/runs/541/2/console
 
+    because after the fix is merged, the error still occurs, and the log
+    shows the container image is, as explained above, not updated.
 
---3jMWI3i7GVhYl3Sg86ck25O9OlIRpt9Su
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+    This is because at the time docker.py was written, there wasn't any
+    dependencies between QEMU's docker images.
 
------BEGIN PGP SIGNATURE-----
+    Now improve this to preprocess any "FROM qemu:*" directives in the
+    dockerfiles while doing checksum, and inline the base image's dockerfile
+    content, recursively. This ensures any changes on the depended _QEMU_
+    images are taken into account.
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlz34LMACgkQ9AfbAGHV
-z0DqDAf/VOEkX2jFePJf+qhBkdfgrNmC0lxuuV8I2bXCL24FuDINuDw2gfxeFoiE
-HEeDm6S5B4X+AlcfauSDyue1bEFa+AqCjdjJ6nNFFDXAbXGmxb8THhbiFs/hmwHU
-rJqhWo5qp8fGteedLF+vH66YC0BTaVsez+aOaVieXMJH4iE9TfdOchtNrDsJqLnI
-UxLdyPqBtyo29/lDNnptH33/RIa7itiPPBXTFU2aQatxLaus8StKWj+okeK89ggh
-RIvvCnxbyZ+pgYdbb66jMClgAX4zQ6o7Y8qAokjGBFUJjprt+gg7eul0E96KK89t
-je8A/dj31CQyztGwn8zHmMWihwEyBw==
-=eq3O
------END PGP SIGNATURE-----
+    This means for external images that we expect to retrieve from docker
+    registries, we still do it as before. It is not perfect, because
+    registry images can get updated too. Technically we could substitute the
+    image name with its hex ID as obtained with $(docker images $IMAGE
+    --format="{{.Id}}"), but --format is not supported by RHEL 7, so leave
+    it for now.
 
---3jMWI3i7GVhYl3Sg86ck25O9OlIRpt9Su--
+commit 6fe3ae3f194a675a3b73b6beab3ed5dd35db3be3
+Author: Alex Bennée <alex.bennee@linaro.org>
+Date:   Tue Jul 25 14:34:23 2017 +0100
+
+    docker: docker.py make --no-cache skip checksum test
+
+    If you invoke with NOCACHE=1 we pass --no-cache in the argv to
+    docker.py but may still not force a rebuild if the dockerfile checksum
+    hasn't changed. By testing for its presence we can force builds
+    without having to manually remove the docker image.
 
