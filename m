@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329613650F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:03:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49088 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAD53651F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:10:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49175 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYc81-0004U6-Bl
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:03:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34076)
+	id 1hYcEh-0001Zc-UP
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:10:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34148)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5P-00034A-1J
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:40 -0400
+	(envelope-from <mst@redhat.com>) id 1hYc5Y-0003EM-Kw
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5K-0005YV-Ke
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:38 -0400
-Received: from mail-qk1-f170.google.com ([209.85.222.170]:43530)
+	(envelope-from <mst@redhat.com>) id 1hYc5R-0005ml-UG
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:46 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:40858)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5K-0005W5-Ad
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:34 -0400
-Received: by mail-qk1-f170.google.com with SMTP id m14so5980292qka.10
-	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:33 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5O-0005aI-VT
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:39 -0400
+Received: by mail-qt1-f194.google.com with SMTP id a15so5013586qtn.7
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=nFPCh5odrVBik4hdEQQECWSU7rqWJuCuSRkfsEPasz4=;
-	b=ICbqLd3c0zjhVCFLa4O7ZqvWfrFDruVbyRZFi9Y8gT1OFoXl8GFLlu2+TMRZfQuE0f
-	dVnVEUkr3FjznLJ2iSWiP5A3BCC/QNTIIToIT5DR3mkdsBrqrXOeUyxHEc/msM8W8cQI
-	xSBkLnxyDmtbtjbEjt5o1LCyFlQG00dv9VJSmTnRocCrtLy4jREF4jDnAC+zMI0+gNVf
-	VKqsZKDTTEnr0v451TRUXEbRKXmc8E3YsY9mlCuAfbZ3PcYFc9rmEwH5IFaHqEs2I+D6
-	shLW0QEbUonPRxI4xW3B76r0HgmgxoOIZaBghhDUVBlGxZph3RI/9Qut/n8pjh6vGg0r
-	0i5w==
-X-Gm-Message-State: APjAAAX1bAAB0/Okts6Z0hifVxzaFloKkhnGfUj8O/P9TUVsYviWFF/b
-	7kfM94DPpgSch5qXTOBhI51AUixnMsI=
-X-Google-Smtp-Source: APXvYqzConzbxCeP9Vq6srhcvHD0HYhxkziruj5dUh18kk/RTx4jCgjFqE2HLqjQXwU1++sFnP4EDw==
-X-Received: by 2002:a37:9885:: with SMTP id
-	a127mr15381716qke.230.1559764832953; 
-	Wed, 05 Jun 2019 13:00:32 -0700 (PDT)
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to;
+	bh=k+AJ3Fh6N8GnLwjJBflOCLdYcgacwSZPHZMjqBixblY=;
+	b=Rsg0qorcKj51NYBfGC/5e+wJq5mLZz0U7nb2+odIYcbEtFF7XFoejBawdz0WE3nXUD
+	mOCDf5pz1YvXBo1c/KVqtGNpiQCxFencvx6wSuMOTaEmbMvYYm+zM6t4e5DJXT/UNi2D
+	WTjNNuK4myRjkWXdjq4TtjMvMMfyblyz41LdAE/54puBXWrGGHmAt6F79WfNrWmd4ecD
+	ThEZ4AS/wxGznCpNdgm97OsoGMJdPVajX63f54sglPWL/By94frtcF7RuzMCvRFVa6NV
+	U8OjNAT9rLa8dspdHRVaXlh9Eh28y1BQwMuiv+6Lz9OvY0R/INdJntXSUpj/SlaK9kpT
+	L5YQ==
+X-Gm-Message-State: APjAAAWTD5FGRgQQaoWEIwmgCmDsCN2DQmIO3fYAjiqE4cO1ahFAai5C
+	+EvVSEtwNMG/9j8mhfWyI04rkWcgY6Y=
+X-Google-Smtp-Source: APXvYqyOAgyshQ55J1J8QyAccDWTZ+hUQHLet398MUFVcUNHa/WjhQy9s4lDFABEYm7uhVB4juh+mw==
+X-Received: by 2002:ac8:87d:: with SMTP id x58mr36566795qth.368.1559764835011; 
+	Wed, 05 Jun 2019 13:00:35 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
-	[100.0.197.103])
-	by smtp.gmail.com with ESMTPSA id 34sm8543730qtq.59.2019.06.05.13.00.31
+	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
+	f9sm13488264qkb.97.2019.06.05.13.00.33
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 05 Jun 2019 13:00:32 -0700 (PDT)
-Date: Wed, 5 Jun 2019 16:00:31 -0400
+	Wed, 05 Jun 2019 13:00:34 -0700 (PDT)
+Date: Wed, 5 Jun 2019 16:00:33 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190605195913.12243-11-mst@redhat.com>
+Message-ID: <20190416125912.44001-2-liran.alon@oracle.com>
 References: <20190605195913.12243-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190605195913.12243-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.170
-Subject: [Qemu-devel] [PULL v3 10/17] bios-tables-test: add diff allowed list
+X-Received-From: 209.85.160.194
+Subject: [Qemu-devel] [PULL v3 11/17] vhost-scsi: The vhost backend should
+ be stopped when the VM is not running
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,69 +72,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+	Bijan Mottahedeh <bijan.mottahedeh@oracle.com>,
+	Liran Alon <liran.alon@oracle.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Nir Weiner <nir.weiner@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expected table change is then handled like this:
-1. add table to diff allowed list
-2. change generating code (can be combined with 1)
-3. maintainer runs a script to update expected +
-   blows away allowed diff list
+From: Nir Weiner <nir.weiner@oracle.com>
 
+vhost-scsi doesn’t takes into account whether the VM is running or not in
+order to decide if it should start/stop vhost backend.
+This would lead to vhost backend still being active when VM's RunState
+suddenly change to stopped.
+
+An example of when this issue is encountered is when Live-Migration Pre-Copy
+phase completes. As in this case, VM state will be changed to stopped (while
+vhost backend is still active), which will result in
+virtio_vmstate_change() -> virtio_set_status() -> vhost_scsi_set_status()
+executed but vhost_scsi_set_status() will just return without stopping
+vhost backend.
+
+To handle this, change code to consider that vhost processing should be
+stopped when VM is not running. Similar to how it is done in vhost-vsock
+device at vhost_vsock_set_status().
+
+Fixes: 5e9be92d7752 ("vhost-scsi: new device supporting the tcm_vhost Linux kernel module”)
+Reviewed-by: Bijan Mottahedeh <bijan.mottahedeh@oracle.com>
+Reviewed-by: Liran Alon <liran.alon@oracle.com>
+Signed-off-by: Nir Weiner <nir.weiner@oracle.com>
+Message-Id: <20190416125912.44001-2-liran.alon@oracle.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tests/bios-tables-test-allowed-diff.h |  1 +
- tests/bios-tables-test.c              | 19 ++++++++++++++++++-
- 2 files changed, 19 insertions(+), 1 deletion(-)
- create mode 100644 tests/bios-tables-test-allowed-diff.h
+ hw/scsi/vhost-scsi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
-new file mode 100644
-index 0000000000..dfb8523c8b
---- /dev/null
-+++ b/tests/bios-tables-test-allowed-diff.h
-@@ -0,0 +1 @@
-+/* List of comma-separated changed AML files to ignore */
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 11e07be093..28d7d427e0 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -342,6 +342,22 @@ try_again:
-     return exp_tables;
- }
+diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
+index 61e2e57da9..ca42cff1b9 100644
+--- a/hw/scsi/vhost-scsi.c
++++ b/hw/scsi/vhost-scsi.c
+@@ -114,6 +114,10 @@ static void vhost_scsi_set_status(VirtIODevice *vdev, uint8_t val)
+     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(s);
+     bool start = (val & VIRTIO_CONFIG_S_DRIVER_OK);
  
-+static bool test_acpi_find_diff_allowed(AcpiSdtTable *sdt)
-+{
-+    const gchar *allowed_diff_file[] = {
-+#include "bios-tables-test-allowed-diff.h"
-+        NULL
-+    };
-+    const gchar **f;
-+
-+    for (f = allowed_diff_file; *f; ++f) {
-+        if (!g_strcmp0(sdt->aml_file, *f)) {
-+            return true;
-+        }
++    if (!vdev->vm_running) {
++        start = false;
 +    }
-+    return false;
-+}
 +
- /* test the list of tables in @data->tables against reference tables */
- static void test_acpi_asl(test_data *data)
- {
-@@ -396,7 +412,8 @@ static void test_acpi_asl(test_data *data)
-                             "see ASL difference.");
-                     }
-                 }
--          }
-+            }
-+            g_assert(test_acpi_find_diff_allowed(exp_sdt));
-         }
-         g_string_free(asl, true);
-         g_string_free(exp_asl, true);
+     if (vsc->dev.started == start) {
+         return;
+     }
 -- 
 MST
 
