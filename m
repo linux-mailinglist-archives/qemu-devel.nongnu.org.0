@@ -2,57 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C36D35F65
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:38:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43696 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F6335F97
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:50:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43883 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYX3z-00006n-1g
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:38:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55553)
+	id 1hYXEr-0001Zl-46
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:50:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56058)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hYX1i-0007VI-CB
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:36:31 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYX3G-0000Jp-75
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:38:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hYX1g-0001m1-FT
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:36:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52248)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hYX1e-0001bc-IZ
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:36:26 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3EFB75945D
-	for <qemu-devel@nongnu.org>; Wed,  5 Jun 2019 14:36:18 +0000 (UTC)
-Received: from redhat.com (ovpn-112-70.ams2.redhat.com [10.36.112.70])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A4285C260;
-	Wed,  5 Jun 2019 14:36:07 +0000 (UTC)
-Date: Wed, 5 Jun 2019 15:36:05 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Message-ID: <20190605143605.GC8956@redhat.com>
-References: <20190517125820.2885-1-jfreimann@redhat.com>
-	<20190517125820.2885-4-jfreimann@redhat.com>
-	<20190521094504.GB2915@work-vm>
-	<20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
-	<20190531214748.GN22103@habkost.net>
-	<20190603082456.vzpy256kj4o5e5wu@jenstp.localdomain>
-	<20190603193648.GQ22103@habkost.net>
-	<20190604134321.txlw7wjwe247g5ug@jenstp.localdomain>
+	(envelope-from <richard.henderson@linaro.org>) id 1hYX3B-0005io-8u
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:38:04 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39068)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hYX3A-0005IE-4D
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:38:00 -0400
+Received: by mail-ot1-x341.google.com with SMTP id r21so915911otq.6
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 07:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=3xdpGgZCJmSQTGkNGdWANnF9HghU7JJeKQII55IzPS4=;
+	b=TZ8q9B0w3EO5EnRaDT8SFEMNQjVIzxGcrGpWx8xlw7M+WK5JvsUBrd/qvLKjbBe7p7
+	Gcl5pnyetoAL9tzwT9QnJSru1OjhH7KgwBKpI5BXZWzyHmWyUoaralowAy0z+ohVNBAo
+	OMUymlNgcvLplxEpokKs5IAw1wFlwyUf2wa3V2x4jwu3tmxHjTb6jF7Qsmim4UAb+vKq
+	+UdSBhkpsULt7pB8nfv+9dFNw5JG1brAT6nuBfRQpHZyuDYo2crTwDacGQnMGvaZRML7
+	fYNl6BT3JQJK/hoEGuBtV7vAhLmDac01XXmAXxzUXYk3GXQQIIV0skE3ck4HpP3bF0EZ
+	ibDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=3xdpGgZCJmSQTGkNGdWANnF9HghU7JJeKQII55IzPS4=;
+	b=JjrEz2ZvxHZ+X0IkOziRTf29kGBMF+Twnbr4xgrxj+XnSseDIAqCZLEbX9qZRKBrGi
+	kVQWmshYhGluipFjTy2pL7soDPa/0oLubYLN6WqwGK3yFf1eFimI816kbSlGHoON+EUv
+	y48N8Oy0oPIc/Z0uXC+zTrG1PuHlJ0KJ6LhtXPcMLz9+Afi05pGIN1CcViUKrUZLy/Lm
+	eBTxcYNBHoJ875GqQrmOQ7CDTK4LUnSc9tfbE7howxembDygSvqWwQ6XU5wC3PEc/TYW
+	SagYKzv6gOYf///146Pn8Sh2hAY+44jBEpKOvy/FBFrxqdr9o5s4+lrETtx3bE/Yd+2o
+	Jb9g==
+X-Gm-Message-State: APjAAAWhQFqpxsZZjYpyJjCY6UDyeLXwNlgJx9EF3Z5LH1+9LBiWzFku
+	mnCnyf9eijM6x0bBwaxBWgTX2A==
+X-Google-Smtp-Source: APXvYqzaOfPe1SDPpFh0denFTjEkWiA9ZZfWCZ1HKV5kpK13Nhj4koYQr9KURYUzfXIZSYNs/CVzhA==
+X-Received: by 2002:a9d:62d9:: with SMTP id z25mr7629455otk.268.1559745473213; 
+	Wed, 05 Jun 2019 07:37:53 -0700 (PDT)
+Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
+	[200.56.192.86]) by smtp.gmail.com with ESMTPSA id
+	e184sm7981375oia.28.2019.06.05.07.37.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Jun 2019 07:37:52 -0700 (PDT)
+To: Michael Rolnik <mrolnik@gmail.com>
+References: <20190530190738.22713-1-mrolnik@gmail.com>
+	<20190530190738.22713-4-mrolnik@gmail.com>
+	<402ba0b2-e2e0-6b7a-1862-4588e5f83357@linaro.org>
+	<CAK4993iXV9oRr_VfabJHg4fCYEppW49i_PE9R0X_TBqk7TDkrQ@mail.gmail.com>
+	<9e2acbbe-7ede-c45d-5e9f-bb269aa25fcc@linaro.org>
+	<CAK4993hXTOSoW5FFjeur+pLzT18c-C=vwao-904ASyqMsT5eMQ@mail.gmail.com>
+	<3bc0d426-bd59-055d-a010-b136cba555bf@linaro.org>
+	<CAK4993j5JXgV9CYDckt99kwgQaG6w-GN-Tka7r2nahoh33rheQ@mail.gmail.com>
+	<CAK4993jWViasj8PKUCHcbMh-9SPJmELqua9eSbFvwL7gpm2e5A@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <7b0c5e07-5b99-3344-7f80-847880f85b5b@linaro.org>
+Date: Wed, 5 Jun 2019 09:36:27 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <CAK4993jWViasj8PKUCHcbMh-9SPJmELqua9eSbFvwL7gpm2e5A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190604134321.txlw7wjwe247g5ug@jenstp.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 05 Jun 2019 14:36:18 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH RFC v20 3/8] target/avr: Add mechanism to
+ check for active debugger connection
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,84 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pkrempa@redhat.com, Eduardo Habkost <ehabkost@redhat.com>, mst@redhat.com,
-	aadam@redhat.com, qemu-devel@nongnu.org,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, laine@redhat.com,
-	ailan@redhat.com
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 04, 2019 at 03:43:21PM +0200, Jens Freimann wrote:
-> On Mon, Jun 03, 2019 at 04:36:48PM -0300, Eduardo Habkost wrote:
-> > On Mon, Jun 03, 2019 at 10:24:56AM +0200, Jens Freimann wrote:
-> > > On Fri, May 31, 2019 at 06:47:48PM -0300, Eduardo Habkost wrote:
-> > > > On Thu, May 30, 2019 at 04:56:45PM +0200, Jens Freimann wrote:
-> > > > > On Tue, May 28, 2019 at 11:04:15AM -0400, Michael S. Tsirkin wrote:
-> > > > > > On Tue, May 21, 2019 at 10:45:05AM +0100, Dr. David Alan Gilbert wrote:
-> > > > > > > * Jens Freimann (jfreimann@redhat.com) wrote:
-> > > Why is it bad to fully re-create the device in case of a failed migration?
-> > 
-> > Bad or not, I thought the whole point of doing it inside QEMU was
-> > to do something libvirt wouldn't be able to do (namely,
-> > unplugging the device while not freeing resources).  If we are
-> > doing something that management software is already capable of
-> > doing, what's the point?
+On 6/5/19 2:20 AM, Michael Rolnik wrote:
+> Hi Richard.
 > 
-> Event though management software seems to be capable of it, a failover
-> implementation has never happened. As Michael says network failover is
-> a mechanism (there's no good reason not to use a PT device if it is
-> available), not a policy. We are now trying to implement it in a
-> simple way, contained within QEMU.
+> I am still struggling with this one.
 > 
-> > Quoting a previous message from this thread:
-> > 
-> > On Thu, May 30, 2019 at 02:09:42PM -0400, Michael S. Tsirkin wrote:
-> > | > On Thu, May 30, 2019 at 07:00:23PM +0100, Dr. David Alan Gilbert wrote:
-> > | > >  This patch series is very
-> > | > > odd precisely because it's trying to do the unplug itself in the
-> > | > > migration phase rather than let the management layer do it - so unless
-> > | > > it's nailed down how to make sure that's really really bullet proof
-> > | > > then we've got to go back and ask the question about whether we should
-> > | > > really fix it so it can be done by the management layer.
-> > | > >
-> > | > > Dave
-> > | >
-> > | > management already said they can't because files get closed and
-> > | > resources freed on unplug and so they might not be able to re-add device
-> > | > on migration failure. We do it in migration because that is
-> > | > where failures can happen and we can recover.
-> 
-> This is something that I can work on as well, but it doesn't have to
-> be part of this patch set in my opinion. Let's say migration fails and we can't
-> re-plug the primary device. We can still use the standby (virtio-net)
-> device which would only mean slower networking. How likely is it that
-> the primary device is grabbed by another VM between unplugging and
-> migration failure anyway?
+> The spec says.
+> The BREAK instruction is used by the On-chip Debug system, and is normally not
+> used in the application software. 
+> When the BREAK instruction is executed, the AVR CPU is set in the Stopped Mode. 
+> This gives the On-chip Debugger access to internal resources. 
+> If any Lock bits are set, or either the JTAGEN or OCDEN Fuses are unprogrammed,
+> the CPU will treat the BREAK instruction as a NOP and will not enter the
+> Stopped mode.
 
-The case of another VM taking the primary device is *not* a problem for
-libvirt. We keep track of which device is allocated for use by which
-guest, so even if its not currently plugged into the guest, we won't
-give it away to a second guest.
+Yep.
 
-The failure scenario is the edge cases where replugging the device fails
-for some reason more outside libvirt's control. Running out of file
-descriptors, memory allocation failure when pinning guest RAM. Essentially
-any failure path that may arise from "device-add vfio..."
+> I read is as follows
+> - If user has an intention of using debugger, BREAK should be translated to
+> QEMU debug breakpoint
+> - If user has no intention of using debugger, BREAK should be translated into NOP.
 
-In such a case the device won't get replugged. So the mgmt app will think
-the migration was rolled back, but the rollback won't be complete as the
-original device will be missing.
+I do not read it that way.  The spec is talking about a specific implementation
+of debugging -- fuses, jtag and all.  We do not need to implement breakpoints
+using any of those mechanisms, because we can insert breakpoints via
+on-the-side data structures and re-translation.
 
-I guess the question is whether that's really something to worry about ?
 
-Can we justifiably just leave this as a docs problem give that it would
-be very rare failure ?
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+r~
 
