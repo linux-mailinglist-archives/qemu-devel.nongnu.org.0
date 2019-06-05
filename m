@@ -2,57 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44D8F35F66
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:38:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43698 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D2435F72
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 16:41:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43750 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYX44-0000Cm-9o
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:38:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55065)
+	id 1hYX6e-0002dN-Jf
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 10:41:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55579)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kbastian@mail.uni-paderborn.de>) id 1hYX0C-0006DA-Q0
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:34:57 -0400
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hYX1m-0007YN-FH
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:36:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kbastian@mail.uni-paderborn.de>) id 1hYX0B-0005gC-Qz
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:34:56 -0400
-Received: from zuban.uni-paderborn.de ([131.234.189.17]:42062)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
-	id 1hYX0A-0005Xe-W7
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:34:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mail.uni-paderborn.de; s=20170601;
-	h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
-	Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=zkEbc/dzofgQsyiWdFHVMsu+iVxuHVnDsY35gvk5YQU=;
-	b=VHgXHA+RxV3MJbIUwjsBo+nSLX
-	CXsODykKYyph3nwyqyOn4tJaXeWN37ilp2kvjJFZTSTHh0z/FTvPinDzel3013W1pWEpRaaxW9bHO
-	ZGAuBXvSzm0sLfmtYX5jDkz/JRIztw/vbdoKDswNuYozdBM/Kdl6Ot7kmeGzBWZ9OODk=; 
-To: David Brenken <david.brenken@efs-auto.org>, qemu-devel@nongnu.org
-References: <20190605061126.10244-1-david.brenken@efs-auto.org>
-	<20190605061126.10244-4-david.brenken@efs-auto.org>
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-ID: <ffb4ba2c-318e-6b08-c206-a90b000074d2@mail.uni-paderborn.de>
-Date: Wed, 5 Jun 2019 16:34:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190605061126.10244-4-david.brenken@efs-auto.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US-large
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.6.2792898, Antispam-Engine: 2.7.2.2107409,
-	Antispam-Data: 2019.6.5.143016, AntiVirus-Engine: 5.63.0,
-	AntiVirus-Data: 2019.6.4.5630002
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 131.234.189.17
-Subject: Re: [Qemu-devel] [PATCH 3/5] tricore: fix RRPW_INSERT instruction
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hYX1l-0001yl-C1
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:36:34 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:53777 helo=mail.rt-rk.com)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+	id 1hYX1l-0007FD-0U
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:36:33 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rt-rk.com (Postfix) with ESMTP id 312FC1A21AF;
+	Wed,  5 Jun 2019 16:35:26 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+	[10.10.13.43])
+	by mail.rt-rk.com (Postfix) with ESMTPSA id 0B43B1A2173;
+	Wed,  5 Jun 2019 16:35:26 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  5 Jun 2019 16:35:10 +0200
+Message-Id: <1559745316-1454-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH 0/6] target/mips: Amend and clean up MSA support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,60 +48,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andreas Konopik <andreas.konopik@efs-auto.de>,
-	David Brenken <david.brenken@efs-auto.de>,
-	Robert Rasche <robert.rasche@efs-auto.de>,
-	Georg Hofstetter <georg.hofstetter@efs-auto.de>,
-	Lars Biermanski <lars.biermanski@efs-auto.de>
+Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-On 6/5/19 8:11 AM, David Brenken wrote:
-> From: David Brenken <david.brenken@efs-auto.de>
->
-> Signed-off-by: Andreas Konopik <andreas.konopik@efs-auto.de>
-> Signed-off-by: David Brenken <david.brenken@efs-auto.de>
-> Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
-> Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
-> Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
->
-> ---
->   target/tricore/translate.c | 11 ++++++++---
->   1 file changed, 8 insertions(+), 3 deletions(-)
->
-> diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-> index a8b4de647a..19d8db7a46 100644
-> --- a/target/tricore/translate.c
-> +++ b/target/tricore/translate.c
-> @@ -7004,6 +7004,7 @@ static void decode_rrpw_extract_insert(CPUTriCoreState *env, DisasContext *ctx)
->       uint32_t op2;
->       int r1, r2, r3;
->       int32_t pos, width;
-> +    TCGv temp1, temp2;
->   
->       op2 = MASK_OP_RRPW_OP2(ctx->opcode);
->       r1 = MASK_OP_RRPW_S1(ctx->opcode);
-> @@ -7042,9 +7043,13 @@ static void decode_rrpw_extract_insert(CPUTriCoreState *env, DisasContext *ctx)
->           }
->           break;
->       case OPC2_32_RRPW_INSERT:
-> -        if (pos + width <= 31) {
-> -            tcg_gen_deposit_tl(cpu_gpr_d[r3], cpu_gpr_d[r1], cpu_gpr_d[r2],
-> -                               width, pos);
-Can you explain the problem causing the bug? Deposit looks fine to me. 
-After reading the specs again, I agree that the check needs to be <= 32.
+This series contains various refactorings and cleanups of MSA
+support.
 
+Improve support for logic instructions, add tests for shift
+instructions, improve code style, outline future organization.
 
-> +        if (pos + width <= 32) {
-> +            temp1 = tcg_const_i32(pos);   /* pos */
-> +            temp2 = tcg_const_i32(width); /* width */
-Useless comments.
+Aleksandar Markovic (6):
+  target/mips: Fix space-related format issues im msa_helper.c
+  target/mips: Fix block-comment-related issues im msa_helper.c
+  target/mips: Unroll loops in helpers for MSA logic instructions
+  tests/tcg: target/mips: Add tests for MSA shift instructions
+  tests/tcg: target/mips: Amend and rearrange MSA wrappers
+  target/mips: Outline places for future MSA helpers
 
+ target/mips/msa_helper.c                           | 252 +++++++++++--
+ tests/tcg/mips/include/wrappers_msa.h              | 402 ++++++++++++++-------
+ tests/tcg/mips/user/ase/msa/shift/test_msa_sll_b.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_sll_d.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_sll_h.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_sll_w.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_sra_b.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_sra_d.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_sra_h.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_sra_w.c | 153 ++++++++
+ .../tcg/mips/user/ase/msa/shift/test_msa_srar_b.c  | 153 ++++++++
+ .../tcg/mips/user/ase/msa/shift/test_msa_srar_d.c  | 153 ++++++++
+ .../tcg/mips/user/ase/msa/shift/test_msa_srar_h.c  | 153 ++++++++
+ .../tcg/mips/user/ase/msa/shift/test_msa_srar_w.c  | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_srl_b.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_srl_d.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_srl_h.c | 153 ++++++++
+ tests/tcg/mips/user/ase/msa/shift/test_msa_srl_w.c | 153 ++++++++
+ .../tcg/mips/user/ase/msa/shift/test_msa_srlr_b.c  | 153 ++++++++
+ .../tcg/mips/user/ase/msa/shift/test_msa_srlr_d.c  | 153 ++++++++
+ .../tcg/mips/user/ase/msa/shift/test_msa_srlr_h.c  | 153 ++++++++
+ .../tcg/mips/user/ase/msa/shift/test_msa_srlr_w.c  | 153 ++++++++
+ 22 files changed, 3544 insertions(+), 170 deletions(-)
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_sll_b.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_sll_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_sll_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_sll_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_sra_b.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_sra_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_sra_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_sra_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srar_b.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srar_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srar_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srar_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srl_b.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srl_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srl_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srl_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srlr_b.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srlr_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srlr_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/shift/test_msa_srlr_w.c
 
-Cheers,
-
-Bastian
+-- 
+2.7.4
 
 
