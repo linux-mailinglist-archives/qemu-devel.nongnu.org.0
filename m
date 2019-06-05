@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E429F3666D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:11:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50117 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2615F3663E
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:05:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50000 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYdBg-00080O-26
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:11:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48136)
+	id 1hYd6S-0003u2-Av
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:05:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48179)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYcyF-0006E6-Nq
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:20 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYcyL-0006KN-3J
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYcyD-0008JM-QM
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:19 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44391)
+	(envelope-from <richard.henderson@linaro.org>) id 1hYcyH-00008m-Ik
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:23 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39336)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYcyD-0008FC-GF
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:17 -0400
-Received: by mail-ot1-x342.google.com with SMTP id b7so2050481otl.11
-	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:57:17 -0700 (PDT)
+	id 1hYcyF-0008O5-Lg
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:19 -0400
+Received: by mail-ot1-x343.google.com with SMTP id r21so2063880otq.6
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:57:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ZCHRkKij7pQF0R23SJZo3xfE1Nbsenr9fc05DQb889w=;
-	b=EovjxdH3T/hFo28fwmEY4teqysvGF3kpTosbWNfLqUUzpCL/8VbOr3ZGjDF1pTpI8B
-	oPHN+5wO3+zDIAIxJRJsvvbX9gAgMWjpbzFADf9Lz5j9VO0UzuruG3h8PqUiUw1Zrt1f
-	y5vuroM/lNzamL3UIV0WTJCsP1I3I3uy+wp9ctYDAGfNBw9ceHa4QzpkjTbsf5uderb6
-	97i3uUECZOUwXgKhu0RFjLZc6jrzMTogEwJhpyzDTujT6CbfcZi3HNljgukKMl8k4tZt
-	IC2bgX9MZ3N5Y+mnhjF+D5pROkgOhWcOUBHAmwbcjaOjDCjP/JplwRwQ1zaLjJ7DoTCc
-	ze2A==
+	bh=D6qDvZ2yUvasBaOhuVQfPLH+R2qFXowjyUNz4x5+OYc=;
+	b=J8pG3bM/LjB0cDoDlSI5UGePw0K1tCSNuNaoyOjXBz8CrSjK5paG3fYBqJdIU9EjZT
+	6I9JHV/67BUUsAVCVFl98PLGWRfYjn6WDXXPZ/gvFMnj3q2seoK9QlrAIr10B2c/SK5k
+	fhLhKuLSX7URKzTIAtnEw1l4W7p+YNEH6WxnD9ZosvxIcVOHpJVzJFtwPd7NSi98brsJ
+	29YPxB5Uyuvum2L+DAsJZaKkx6ezoz0kNfPUWZ21HyMFWsAGNc/GJEcqCFxKbxZj5RfE
+	1BwcKaCDhKf+WCMlHcDcTBe1Z2jGk4lZi5R0JKc6e+xUZYEr9suK8S8QO1yEbeBF28g4
+	mn7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ZCHRkKij7pQF0R23SJZo3xfE1Nbsenr9fc05DQb889w=;
-	b=LKP7UWYACCwNELBUfW+g6tZRzCOrijQTCTOoqpoBGLvZkFZN/k3kyVXqfhdSQiwMRM
-	a3p6uwoqyrRcOxZKIBVVvyut/3yFzq4AA/+4QoLbOpp1NxxohV1/NElDbrCOaQczBJe9
-	rRUPrqa/tXvEvoBvkWuLttsTMjJi5jMoe2Hstv1ArxhaQ3KwouA+r6MdiuS3tfeKbt4O
-	6qO5keWJsiBDjThYplC8Phu0USGW5/mwxy+ksOvNPBiJ1pqwZVOvgLXMoDu80B776zQb
-	YWIMDlZmpSxuY/r6J37PiYICSN5Nd5C8oPhdl1ElsnX2BaHLAfOF7FvpiI2nyiwI1mrf
-	oZUQ==
-X-Gm-Message-State: APjAAAUUOEO6w/LBCyTVLkJsBSu5xLmgCveuoipJYHDThs+QhOPBWKQU
-	h/DsR3F7PEAWEfDQVdU+u7Or10kAyZ5Ucg==
-X-Google-Smtp-Source: APXvYqy18XEoP8fT2E9NlREr0NTN1kEIaLyYkvPqMMbn+29/iX9lk1cEw+LcEtEBCitX6HwiJPOtow==
-X-Received: by 2002:a9d:7c8b:: with SMTP id q11mr4161202otn.161.1559768236302; 
-	Wed, 05 Jun 2019 13:57:16 -0700 (PDT)
+	bh=D6qDvZ2yUvasBaOhuVQfPLH+R2qFXowjyUNz4x5+OYc=;
+	b=UZsWee8412HLjHPup9LQFrikuR7Tf2L4xIVHnkf8rDDCkDGBjM1rzj8/cX6NSOvKy0
+	LBmkASCADG5Hw7gsWc9dnSJYqicDQ1MIv3vEXKnwimseSHE1sV4zsENFTDt/lT6lM94j
+	wWQuPTFl2Tmy7ZvdZMt8Q5GyR1NX2IMeqcTuAVl3juEiRWSpChby7cNMRZZiily2KLkc
+	GUznKYjxVH6wQ4VqpsvCkFjKP3jcEOfjw+5AAE9Wtc88o+/LpGVEJ0NSoD6HKZMhbJuw
+	lmCK8EFCQKV0rFDqjHtuzOlShEC+BjCT3+lRVzkNhgAHsYb+JUJ3zRiz9wKnKcgamYgO
+	tH3g==
+X-Gm-Message-State: APjAAAW2Vrf5kdnWFGbbm6VXXz7JwN/NHpw9vPgma2VR4fJVNEyesO/e
+	5+U2XAr9EZHWuvdN6dw7eWO+a9NWzWZ4qA==
+X-Google-Smtp-Source: APXvYqwBcD2Gicrk7oIxpgPdL0Wu4yCSxx5ZXlZ7FdhHXh5LDaRCxw2VCbIX8elea933bf4J1keRPg==
+X-Received: by 2002:a05:6830:1698:: with SMTP id
+	k24mr6033344otr.323.1559768237896; 
+	Wed, 05 Jun 2019 13:57:17 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id f5sm7414155otl.51.2019.06.05.13.57.14
+	by smtp.gmail.com with ESMTPSA id f5sm7414155otl.51.2019.06.05.13.57.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Jun 2019 13:57:15 -0700 (PDT)
+	Wed, 05 Jun 2019 13:57:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  5 Jun 2019 15:57:03 -0500
-Message-Id: <20190605205706.569-4-richard.henderson@linaro.org>
+Date: Wed,  5 Jun 2019 15:57:04 -0500
+Message-Id: <20190605205706.569-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190605205706.569-1-richard.henderson@linaro.org>
 References: <20190605205706.569-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: [Qemu-devel] [PATCH v6 3/6] linux-user: Set PAGE_TARGET_1 for
- TARGET_PROT_BTI
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: [Qemu-devel] [PATCH v6 4/6] include/elf: Add defines related to
+ notes for GNU systems
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,90 +81,75 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Transform the prot bit to a qemu internal page bit, and save
-it in the page tables.
+This is a collection of related defines for notes, copied
+from glibc's <elf.h>.  We're not going to use all of these
+right away, but it seemed foolish to cherry-pick only the
+ones we need now.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h     |  2 ++
- linux-user/syscall_defs.h  |  4 ++++
- linux-user/mmap.c          | 16 ++++++++++++++++
- target/arm/translate-a64.c |  6 +++---
- 4 files changed, 25 insertions(+), 3 deletions(-)
+ include/elf.h | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index da07ce311f..e65530acae 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -249,6 +249,8 @@ extern intptr_t qemu_host_page_mask;
- /* FIXME: Code that sets/uses this is broken and needs to go away.  */
- #define PAGE_RESERVED  0x0020
- #endif
-+/* Target-specific bits that will be used via page_get_flags().  */
-+#define PAGE_TARGET_1  0x0080
+diff --git a/include/elf.h b/include/elf.h
+index ea7708a4ea..6f3eada36f 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -1650,6 +1650,54 @@ typedef struct elf64_shdr {
+ #define NT_ARM_HW_WATCH 0x403           /* ARM hardware watchpoint registers */
+ #define NT_ARM_SYSTEM_CALL      0x404   /* ARM system call number */
  
- #if defined(CONFIG_USER_ONLY)
- void page_dump(FILE *f);
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 7f141f699c..9a8a14e81e 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -1097,6 +1097,10 @@ struct target_winsize {
- #define TARGET_PROT_SEM         0x08
- #endif
- 
-+#ifdef TARGET_AARCH64
-+#define TARGET_PROT_BTI         0x10
-+#endif
++/* Defined note types for GNU systems.  */
 +
- /* Common */
- #define TARGET_MAP_SHARED	0x01		/* Share changes */
- #define TARGET_MAP_PRIVATE	0x02		/* Changes are private */
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 3117f57fd8..def64a41d5 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -85,6 +85,22 @@ static int validate_prot_to_pageflags(int *host_prot, int prot)
-      */
-     *host_prot = prot & (PROT_READ | PROT_WRITE | PROT_EXEC);
- 
-+#ifdef TARGET_AARCH64
-+    /*
-+     * The PROT_BTI bit is only accepted if the cpu supports the feature.
-+     * Since this is the unusual case, don't bother checking unless
-+     * the bit has been requested.  If set and valid, record the bit
-+     * within QEMU's page_flags as PAGE_TARGET_1.
-+     */
-+    if (prot & TARGET_PROT_BTI) {
-+        ARMCPU *cpu = ARM_CPU(thread_cpu);
-+        if (cpu_isar_feature(aa64_bti, cpu)) {
-+            valid |= TARGET_PROT_BTI;
-+            page_flags |= PAGE_TARGET_1;
-+        }
-+    }
-+#endif
++#define NT_GNU_ABI_TAG          1       /* ABI information */
++#define NT_GNU_HWCAP            2       /* Synthetic hwcap information */
++#define NT_GNU_BUILD_ID         3       /* Build ID */
++#define NT_GNU_GOLD_VERSION     4       /* Version of ld.gold */
++#define NT_GNU_PROPERTY_TYPE_0  5       /* Program property */
 +
-     return prot & ~valid ? 0 : page_flags;
- }
- 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 092f0df3c4..5043344eba 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -14115,10 +14115,10 @@ static void disas_data_proc_simd_fp(DisasContext *s, uint32_t insn)
-  */
- static bool is_guarded_page(CPUARMState *env, DisasContext *s)
- {
--#ifdef CONFIG_USER_ONLY
--    return false;  /* FIXME */
--#else
-     uint64_t addr = s->base.pc_first;
-+#ifdef CONFIG_USER_ONLY
-+    return page_get_flags(addr) & PAGE_TARGET_1;
-+#else
-     int mmu_idx = arm_to_core_mmu_idx(s->mmu_idx);
-     unsigned int index = tlb_index(env, mmu_idx, addr);
-     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
++/* Values used in GNU .note.gnu.property notes (NT_GNU_PROPERTY_TYPE_0).  */
++
++#define GNU_PROPERTY_STACK_SIZE                 1
++#define GNU_PROPERTY_NO_COPY_ON_PROTECTED       2
++
++#define GNU_PROPERTY_LOPROC                     0xc0000000
++#define GNU_PROPERTY_HIPROC                     0xdfffffff
++#define GNU_PROPERTY_LOUSER                     0xe0000000
++#define GNU_PROPERTY_HIUSER                     0xffffffff
++
++#define GNU_PROPERTY_X86_ISA_1_USED             0xc0000000
++#define GNU_PROPERTY_X86_ISA_1_NEEDED           0xc0000001
++
++#define GNU_PROPERTY_X86_ISA_1_486              (1U << 0)
++#define GNU_PROPERTY_X86_ISA_1_586              (1U << 1)
++#define GNU_PROPERTY_X86_ISA_1_686              (1U << 2)
++#define GNU_PROPERTY_X86_ISA_1_SSE              (1U << 3)
++#define GNU_PROPERTY_X86_ISA_1_SSE2             (1U << 4)
++#define GNU_PROPERTY_X86_ISA_1_SSE3             (1U << 5)
++#define GNU_PROPERTY_X86_ISA_1_SSSE3            (1U << 6)
++#define GNU_PROPERTY_X86_ISA_1_SSE4_1           (1U << 7)
++#define GNU_PROPERTY_X86_ISA_1_SSE4_2           (1U << 8)
++#define GNU_PROPERTY_X86_ISA_1_AVX              (1U << 9)
++#define GNU_PROPERTY_X86_ISA_1_AVX2             (1U << 10)
++#define GNU_PROPERTY_X86_ISA_1_AVX512F          (1U << 11)
++#define GNU_PROPERTY_X86_ISA_1_AVX512CD         (1U << 12)
++#define GNU_PROPERTY_X86_ISA_1_AVX512ER         (1U << 13)
++#define GNU_PROPERTY_X86_ISA_1_AVX512PF         (1U << 14)
++#define GNU_PROPERTY_X86_ISA_1_AVX512VL         (1U << 15)
++#define GNU_PROPERTY_X86_ISA_1_AVX512DQ         (1U << 16)
++#define GNU_PROPERTY_X86_ISA_1_AVX512BW         (1U << 17)
++
++#define GNU_PROPERTY_X86_FEATURE_1_AND          0xc0000002
++#define GNU_PROPERTY_X86_FEATURE_1_IBT          (1U << 0)
++#define GNU_PROPERTY_X86_FEATURE_1_SHSTK        (1U << 1)
++
++#define GNU_PROPERTY_AARCH64_FEATURE_1_AND      0xc0000000
++#define GNU_PROPERTY_AARCH64_FEATURE_1_BTI      (1u << 0)
++#define GNU_PROPERTY_AARCH64_FEATURE_1_PAC      (1u << 1)
++
+ /*
+  * Physical entry point into the kernel.
+  *
 -- 
 2.17.1
 
