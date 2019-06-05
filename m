@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2615F3663E
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:05:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50000 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356923664F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 23:08:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50060 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYd6S-0003u2-Av
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:05:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48179)
+	id 1hYd91-00060D-3V
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 17:08:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48206)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYcyL-0006KN-3J
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:26 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYcyP-0006Ot-3e
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYcyH-00008m-Ik
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:23 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39336)
+	(envelope-from <richard.henderson@linaro.org>) id 1hYcyL-0000N2-8q
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:27 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41049)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYcyF-0008O5-Lg
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:19 -0400
-Received: by mail-ot1-x343.google.com with SMTP id r21so2063880otq.6
-	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:57:18 -0700 (PDT)
+	id 1hYcyI-00005E-4K
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:57:23 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 107so2060207otj.8
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:57:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=D6qDvZ2yUvasBaOhuVQfPLH+R2qFXowjyUNz4x5+OYc=;
-	b=J8pG3bM/LjB0cDoDlSI5UGePw0K1tCSNuNaoyOjXBz8CrSjK5paG3fYBqJdIU9EjZT
-	6I9JHV/67BUUsAVCVFl98PLGWRfYjn6WDXXPZ/gvFMnj3q2seoK9QlrAIr10B2c/SK5k
-	fhLhKuLSX7URKzTIAtnEw1l4W7p+YNEH6WxnD9ZosvxIcVOHpJVzJFtwPd7NSi98brsJ
-	29YPxB5Uyuvum2L+DAsJZaKkx6ezoz0kNfPUWZ21HyMFWsAGNc/GJEcqCFxKbxZj5RfE
-	1BwcKaCDhKf+WCMlHcDcTBe1Z2jGk4lZi5R0JKc6e+xUZYEr9suK8S8QO1yEbeBF28g4
-	mn7Q==
+	bh=jLJZRLTAFOL7hrqtZKjJ5DWxzgzN1ppLIoLLfp8TQiM=;
+	b=nHI2qAKF8DVhaGVta3M8y934YeYSfHsN6rW2M4NWEqfw/rOXiJHAanGayDqYpgaJjg
+	HxkPybsYI3s+FTHw7lI5YqsKIOnYC+HAO0qhnuc9WtZjwxGoIj9yy1+MB9bjHurIHXIi
+	wk5BNxiNgLTpvrWq9bsKaz1p7A0pvIsU5Bd5+rZGGwhlLKctP7664+bEIK6FEX/PD0ZM
+	2pL/ek67fogTVm9CDhX4hzbZdZqzy4sXJYUdrNJeBROdGpUtIuNrruGp15DBmJm7UqPf
+	lGqsZIYCkbHOIdoUd0i1+RqxT0O9VgMjOLs2P1I13srZl2VASGbeMgfzG/tY85+zstIK
+	qS+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=D6qDvZ2yUvasBaOhuVQfPLH+R2qFXowjyUNz4x5+OYc=;
-	b=UZsWee8412HLjHPup9LQFrikuR7Tf2L4xIVHnkf8rDDCkDGBjM1rzj8/cX6NSOvKy0
-	LBmkASCADG5Hw7gsWc9dnSJYqicDQ1MIv3vEXKnwimseSHE1sV4zsENFTDt/lT6lM94j
-	wWQuPTFl2Tmy7ZvdZMt8Q5GyR1NX2IMeqcTuAVl3juEiRWSpChby7cNMRZZiily2KLkc
-	GUznKYjxVH6wQ4VqpsvCkFjKP3jcEOfjw+5AAE9Wtc88o+/LpGVEJ0NSoD6HKZMhbJuw
-	lmCK8EFCQKV0rFDqjHtuzOlShEC+BjCT3+lRVzkNhgAHsYb+JUJ3zRiz9wKnKcgamYgO
-	tH3g==
-X-Gm-Message-State: APjAAAW2Vrf5kdnWFGbbm6VXXz7JwN/NHpw9vPgma2VR4fJVNEyesO/e
-	5+U2XAr9EZHWuvdN6dw7eWO+a9NWzWZ4qA==
-X-Google-Smtp-Source: APXvYqwBcD2Gicrk7oIxpgPdL0Wu4yCSxx5ZXlZ7FdhHXh5LDaRCxw2VCbIX8elea933bf4J1keRPg==
-X-Received: by 2002:a05:6830:1698:: with SMTP id
-	k24mr6033344otr.323.1559768237896; 
-	Wed, 05 Jun 2019 13:57:17 -0700 (PDT)
+	bh=jLJZRLTAFOL7hrqtZKjJ5DWxzgzN1ppLIoLLfp8TQiM=;
+	b=sdrm3Tx4oGn5zKBVS5w6/7avDkOX8qdYjGl8/idt+CpDr6QGgfYJ1y2uEQlZWbsEUO
+	haeBl0femjht5Y+1asKJ2P6sIhDC7nIn+XBIjbxZ4YnE4a6nn7lOl2LQoKj9KCegVE1K
+	htLHZJ8q4mFqxfPBGheHojRg0tB3sCGsF5962UR3dxKEpESRgyXihGpJPD8WDfWhXNBJ
+	zVYnz+O7iXFDsR9AkhT/iqEk4LZ1ufT9XIE411suy9XvSL8vaxwwUhTzuIcU+Fjh0IYA
+	e4UDgo9TfmXsXo/wk+bvd6Z+Na8bWKJPgJVz70zsrClaiDInAV1w6wdn+2RsbXNl50Xk
+	Fe7Q==
+X-Gm-Message-State: APjAAAXoNxbjGt+D6hVT+XlZFLLFSETn33n2GBodlm0f521VhHjswWb0
+	rJntqoVHTm9Tgj+j1CXAetdPQQI2V99Tyg==
+X-Google-Smtp-Source: APXvYqzPHMhHLYrh2ztWxc8CLuO9imbOQ8AkvPiVPRaq3o1KkaFWCtFPaYA42jrQX83XDvxpUleMrg==
+X-Received: by 2002:a9d:2f69:: with SMTP id h96mr11289872otb.366.1559768239896;
+	Wed, 05 Jun 2019 13:57:19 -0700 (PDT)
 Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
 	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id f5sm7414155otl.51.2019.06.05.13.57.16
+	by smtp.gmail.com with ESMTPSA id f5sm7414155otl.51.2019.06.05.13.57.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Jun 2019 13:57:17 -0700 (PDT)
+	Wed, 05 Jun 2019 13:57:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  5 Jun 2019 15:57:04 -0500
-Message-Id: <20190605205706.569-5-richard.henderson@linaro.org>
+Date: Wed,  5 Jun 2019 15:57:05 -0500
+Message-Id: <20190605205706.569-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190605205706.569-1-richard.henderson@linaro.org>
 References: <20190605205706.569-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: [Qemu-devel] [PATCH v6 4/6] include/elf: Add defines related to
- notes for GNU systems
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: [Qemu-devel] [PATCH v6 5/6] linux-user: Parse
+ NT_GNU_PROPERTY_TYPE_0 notes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,75 +80,129 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a collection of related defines for notes, copied
-from glibc's <elf.h>.  We're not going to use all of these
-right away, but it seemed foolish to cherry-pick only the
-ones we need now.
+For aarch64, this includes the GNU_PROPERTY_AARCH64_FEATURE_1_BTI bit,
+which indicates that the image should be mapped with guarded pages.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/elf.h | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ linux-user/elfload.c | 83 +++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 75 insertions(+), 8 deletions(-)
 
-diff --git a/include/elf.h b/include/elf.h
-index ea7708a4ea..6f3eada36f 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -1650,6 +1650,54 @@ typedef struct elf64_shdr {
- #define NT_ARM_HW_WATCH 0x403           /* ARM hardware watchpoint registers */
- #define NT_ARM_SYSTEM_CALL      0x404   /* ARM system call number */
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index a57b7049dd..1a12c60a33 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2253,7 +2253,7 @@ static void load_elf_image(const char *image_name, int image_fd,
+     struct elfhdr *ehdr = (struct elfhdr *)bprm_buf;
+     struct elf_phdr *phdr;
+     abi_ulong load_addr, load_bias, loaddr, hiaddr, error;
+-    int i, retval;
++    int i, retval, prot_exec = PROT_EXEC;
+     const char *errmsg;
  
-+/* Defined note types for GNU systems.  */
+     /* First of all, some simple consistency checks */
+@@ -2288,17 +2288,78 @@ static void load_elf_image(const char *image_name, int image_fd,
+     loaddr = -1, hiaddr = 0;
+     info->alignment = 0;
+     for (i = 0; i < ehdr->e_phnum; ++i) {
+-        if (phdr[i].p_type == PT_LOAD) {
+-            abi_ulong a = phdr[i].p_vaddr - phdr[i].p_offset;
++        struct elf_phdr *eppnt = phdr + i;
 +
-+#define NT_GNU_ABI_TAG          1       /* ABI information */
-+#define NT_GNU_HWCAP            2       /* Synthetic hwcap information */
-+#define NT_GNU_BUILD_ID         3       /* Build ID */
-+#define NT_GNU_GOLD_VERSION     4       /* Version of ld.gold */
-+#define NT_GNU_PROPERTY_TYPE_0  5       /* Program property */
++        if (eppnt->p_type == PT_LOAD) {
++            abi_ulong a = eppnt->p_vaddr - eppnt->p_offset;
+             if (a < loaddr) {
+                 loaddr = a;
+             }
+-            a = phdr[i].p_vaddr + phdr[i].p_memsz;
++            a = eppnt->p_vaddr + eppnt->p_memsz;
+             if (a > hiaddr) {
+                 hiaddr = a;
+             }
+             ++info->nsegs;
+-            info->alignment |= phdr[i].p_align;
++            info->alignment |= eppnt->p_align;
++        } else if (eppnt->p_type == PT_NOTE) {
++#ifdef TARGET_AARCH64
++            /*
++             * Process NT_GNU_PROPERTY_TYPE_0.
++             *
++             * TODO: The only item that is AArch64 specific is the
++             * GNU_PROPERTY_AARCH64_FEATURE_1_AND processing at the end.
++             * If we were to ever process GNU_PROPERTY_X86_*, all of the
++             * code through checking the gnu0 magic number is sharable.
++             * But for now, since this *is* only used by AArch64, don't
++             * process the note elsewhere.
++             */
++            const uint32_t gnu0_magic = const_le32('G' | 'N' << 8 | 'U' << 16);
++            uint32_t note[7];
 +
-+/* Values used in GNU .note.gnu.property notes (NT_GNU_PROPERTY_TYPE_0).  */
-+
-+#define GNU_PROPERTY_STACK_SIZE                 1
-+#define GNU_PROPERTY_NO_COPY_ON_PROTECTED       2
-+
-+#define GNU_PROPERTY_LOPROC                     0xc0000000
-+#define GNU_PROPERTY_HIPROC                     0xdfffffff
-+#define GNU_PROPERTY_LOUSER                     0xe0000000
-+#define GNU_PROPERTY_HIUSER                     0xffffffff
-+
-+#define GNU_PROPERTY_X86_ISA_1_USED             0xc0000000
-+#define GNU_PROPERTY_X86_ISA_1_NEEDED           0xc0000001
-+
-+#define GNU_PROPERTY_X86_ISA_1_486              (1U << 0)
-+#define GNU_PROPERTY_X86_ISA_1_586              (1U << 1)
-+#define GNU_PROPERTY_X86_ISA_1_686              (1U << 2)
-+#define GNU_PROPERTY_X86_ISA_1_SSE              (1U << 3)
-+#define GNU_PROPERTY_X86_ISA_1_SSE2             (1U << 4)
-+#define GNU_PROPERTY_X86_ISA_1_SSE3             (1U << 5)
-+#define GNU_PROPERTY_X86_ISA_1_SSSE3            (1U << 6)
-+#define GNU_PROPERTY_X86_ISA_1_SSE4_1           (1U << 7)
-+#define GNU_PROPERTY_X86_ISA_1_SSE4_2           (1U << 8)
-+#define GNU_PROPERTY_X86_ISA_1_AVX              (1U << 9)
-+#define GNU_PROPERTY_X86_ISA_1_AVX2             (1U << 10)
-+#define GNU_PROPERTY_X86_ISA_1_AVX512F          (1U << 11)
-+#define GNU_PROPERTY_X86_ISA_1_AVX512CD         (1U << 12)
-+#define GNU_PROPERTY_X86_ISA_1_AVX512ER         (1U << 13)
-+#define GNU_PROPERTY_X86_ISA_1_AVX512PF         (1U << 14)
-+#define GNU_PROPERTY_X86_ISA_1_AVX512VL         (1U << 15)
-+#define GNU_PROPERTY_X86_ISA_1_AVX512DQ         (1U << 16)
-+#define GNU_PROPERTY_X86_ISA_1_AVX512BW         (1U << 17)
-+
-+#define GNU_PROPERTY_X86_FEATURE_1_AND          0xc0000002
-+#define GNU_PROPERTY_X86_FEATURE_1_IBT          (1U << 0)
-+#define GNU_PROPERTY_X86_FEATURE_1_SHSTK        (1U << 1)
-+
-+#define GNU_PROPERTY_AARCH64_FEATURE_1_AND      0xc0000000
-+#define GNU_PROPERTY_AARCH64_FEATURE_1_BTI      (1u << 0)
-+#define GNU_PROPERTY_AARCH64_FEATURE_1_PAC      (1u << 1)
-+
- /*
-  * Physical entry point into the kernel.
-  *
++            /*
++             * The note contents are 7 words, but depending on LP64 vs ILP32
++             * there may be an 8th padding word at the end.  Check for and
++             * read the minimum size.  Further checks below will validate
++             * that the sizes of everything involved are as we expect.
++             */
++            if (eppnt->p_filesz < sizeof(note)) {
++                continue;
++            }
++            if (eppnt->p_offset + eppnt->p_filesz <= BPRM_BUF_SIZE) {
++                memcpy(note, bprm_buf + eppnt->p_offset, sizeof(note));
++            } else {
++                retval = pread(image_fd, note, sizeof(note), eppnt->p_offset);
++                if (retval != sizeof(note)) {
++                    goto exit_perror;
++                }
++            }
++#ifdef BSWAP_NEEDED
++            for (i = 0; i < ARRAY_SIZE(note); ++i) {
++                bswap32s(note + i);
++            }
++#endif
++            /*
++             * Check that this is a NT_GNU_PROPERTY_TYPE_0 note.
++             * Again, descsz includes padding.  Full size validation
++             * awaits checking the final payload.
++             */
++            if (note[0] != 4 ||                       /* namesz */
++                note[1] < 12 ||                       /* descsz */
++                note[2] != NT_GNU_PROPERTY_TYPE_0 ||  /* type */
++                note[3] != gnu0_magic) {              /* name */
++                continue;
++            }
++            /*
++             * Check for the BTI feature.  If present, this indicates
++             * that all the executable pages of the binary should be
++             * mapped with PROT_BTI, so that branch targets are enforced.
++             */
++            if (note[4] == GNU_PROPERTY_AARCH64_FEATURE_1_AND &&
++                note[5] == 4 &&
++                (note[6] & GNU_PROPERTY_AARCH64_FEATURE_1_BTI)) {
++                prot_exec |= TARGET_PROT_BTI;
++            }
++#endif /* TARGET_AARCH64 */
+         }
+     }
+ 
+@@ -2358,9 +2419,15 @@ static void load_elf_image(const char *image_name, int image_fd,
+             abi_ulong vaddr, vaddr_po, vaddr_ps, vaddr_ef, vaddr_em, vaddr_len;
+             int elf_prot = 0;
+ 
+-            if (eppnt->p_flags & PF_R) elf_prot =  PROT_READ;
+-            if (eppnt->p_flags & PF_W) elf_prot |= PROT_WRITE;
+-            if (eppnt->p_flags & PF_X) elf_prot |= PROT_EXEC;
++            if (eppnt->p_flags & PF_R) {
++                elf_prot |= PROT_READ;
++            }
++            if (eppnt->p_flags & PF_W) {
++                elf_prot |= PROT_WRITE;
++            }
++            if (eppnt->p_flags & PF_X) {
++                elf_prot |= prot_exec;
++            }
+ 
+             vaddr = load_bias + eppnt->p_vaddr;
+             vaddr_po = TARGET_ELF_PAGEOFFSET(vaddr);
 -- 
 2.17.1
 
