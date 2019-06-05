@@ -2,51 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2356C35FCE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 17:01:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44121 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F6835FD7
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 17:06:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44197 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYXQ6-0001qv-9F
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 11:01:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35245)
+	id 1hYXUX-0004gT-P1
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 11:06:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36681)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hYXNf-0000aw-Oz
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:59:12 -0400
+	(envelope-from <kbastian@mail.uni-paderborn.de>) id 1hYXSb-0003vt-0o
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:04:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hYXNe-0002gI-PW
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:59:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54042)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
-	id 1hYXNe-0002fN-Ju
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 10:59:10 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id F049FA3EB3
-	for <qemu-devel@nongnu.org>; Wed,  5 Jun 2019 14:59:09 +0000 (UTC)
-Received: from localhost (ovpn-112-54.ams2.redhat.com [10.36.112.54])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C75D11A7D0;
-	Wed,  5 Jun 2019 14:59:02 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed,  5 Jun 2019 16:58:29 +0200
-Message-Id: <20190605145829.7674-6-marcandre.lureau@redhat.com>
-In-Reply-To: <20190605145829.7674-1-marcandre.lureau@redhat.com>
-References: <20190605145829.7674-1-marcandre.lureau@redhat.com>
+	(envelope-from <kbastian@mail.uni-paderborn.de>) id 1hYXSZ-0005QW-KE
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:04:16 -0400
+Received: from zuban.uni-paderborn.de ([131.234.189.17]:50684)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
+	id 1hYXSZ-0005Nk-0C
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 11:04:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=mail.uni-paderborn.de; s=20170601;
+	h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
+	Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=2do2sMAIm7e8TJAL+gd7xIHVH5HyBu5SAu8WRWPdU+g=;
+	b=F9AhlCK3MfjkGfo9GPGg92r9B4
+	CVeQbfeFxdy/A/g6RjZu1Gx5LEE5YBozAKwy3Efgah+XUgaduWOKz8kMXvMZqBbF/Uzx0wSjlKkko
+	Kjpml9CW6C3LQqJjP6INRvJUFcSGqa18H21c5Oi+O0ViQi4pVIk4xUhJtoYEXsir6jQI=; 
+To: David Brenken <david.brenken@efs-auto.org>, qemu-devel@nongnu.org
+References: <20190605061126.10244-1-david.brenken@efs-auto.org>
+	<20190605061126.10244-5-david.brenken@efs-auto.org>
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Message-ID: <9baa6207-17a2-7218-9ad2-9627de232304@mail.uni-paderborn.de>
+Date: Wed, 5 Jun 2019 17:04:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Wed, 05 Jun 2019 14:59:09 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190605061126.10244-5-david.brenken@efs-auto.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US-large
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.6.2792898, Antispam-Engine: 2.7.2.2107409,
+	Antispam-Data: 2019.6.5.150016, AntiVirus-Engine: 5.63.0,
+	AntiVirus-Data: 2019.6.4.5630002
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 5/5] vhost-user-gpu: initialize msghdr & iov at
- declaration
+X-Received-From: 131.234.189.17
+Subject: Re: [Qemu-devel] [PATCH 4/5] tricore: add QSEED instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,66 +64,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Lars Biermanski <lars.biermanski@efs-auto.de>,
+	Andreas Konopik <andreas.konopik@efs-auto.com>,
+	Georg Hofstetter <georg.hofstetter@efs-auto.de>,
+	David Brenken <david.brenken@efs-auto.de>,
+	Robert Rasche <robert.rasche@efs-auto.de>,
+	Andreas Konopik <andreas.konopik@efs-auto.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This should fix uninitialized fields found by coverity CID 1401762.
+Hi,
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- contrib/vhost-user-gpu/main.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+On 6/5/19 8:11 AM, David Brenken wrote:
+> +/*
+> + * Target TriCore QSEED.F significand Lookup Table
+> + *
+> + * The QSEED.F output significand depends on the least-significant
+> + * exponent bit and the 6 most-significant significand bits.
+> + *
+> + * IEEE 754 float datatype
+> + * partitioned into Sign (S), Exponent (E) and Significand (M):
+> + *
+> + * S   E E E E E E E E   M M M M M M ...
+> + *    |             |               |
+> + *    +------+------+-------+-------+
+> + *           |              |
+> + *          for        lookup table
+> + *      calculating     index for
+> + *        output E       output M
+> + */
+> +static const uint8_t target_qseed_significand_table[128] = {
+> +    253, 252, 245, 244, 239, 238, 231, 230, 225, 224, 217, 216,
+> +    211, 210, 205, 204, 201, 200, 195, 194, 189, 188, 185, 184,
+> +    179, 178, 175, 174, 169, 168, 165, 164, 161, 160, 157, 156,
+> +    153, 152, 149, 148, 145, 144, 141, 140, 137, 136, 133, 132,
+> +    131, 130, 127, 126, 123, 122, 121, 120, 117, 116, 115, 114,
+> +    111, 110, 109, 108, 103, 102, 99, 98, 93, 92, 89, 88, 83,
+> +    82, 79, 78, 75, 74, 71, 70, 67, 66, 63, 62, 59, 58, 55,
+> +    54, 53, 52, 49, 48, 45, 44, 43, 42, 39, 38, 37, 36, 33,
+> +    32, 31, 30, 27, 26, 25, 24, 23, 22, 19, 18, 17, 16, 15,
+> +    14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2
+> +};
 
-diff --git a/contrib/vhost-user-gpu/main.c b/contrib/vhost-user-gpu/main.=
-c
-index 0ef649ffaa..04b753046f 100644
---- a/contrib/vhost-user-gpu/main.c
-+++ b/contrib/vhost-user-gpu/main.c
-@@ -138,22 +138,20 @@ static int
- vg_sock_fd_write(int sock, const void *buf, ssize_t buflen, int fd)
- {
-     ssize_t ret;
--    struct msghdr msg;
--    struct iovec iov;
-+    struct iovec iov =3D {
-+        .iov_base =3D (void *)buf,
-+        .iov_len =3D buflen,
-+    };
-+    struct msghdr msg =3D {
-+        .msg_iov =3D &iov,
-+        .msg_iovlen =3D 1,
-+    };
-     union {
-         struct cmsghdr cmsghdr;
-         char control[CMSG_SPACE(sizeof(int))];
-     } cmsgu;
-     struct cmsghdr *cmsg;
-=20
--    iov.iov_base =3D (void *)buf;
--    iov.iov_len =3D buflen;
--
--    msg.msg_name =3D NULL;
--    msg.msg_namelen =3D 0;
--    msg.msg_iov =3D &iov;
--    msg.msg_iovlen =3D 1;
--
-     if (fd !=3D -1) {
-         msg.msg_control =3D cmsgu.control;
-         msg.msg_controllen =3D sizeof(cmsgu.control);
-@@ -164,9 +162,6 @@ vg_sock_fd_write(int sock, const void *buf, ssize_t b=
-uflen, int fd)
-         cmsg->cmsg_type =3D SCM_RIGHTS;
-=20
-         *((int *)CMSG_DATA(cmsg)) =3D fd;
--    } else {
--        msg.msg_control =3D NULL;
--        msg.msg_controllen =3D 0;
-     }
-=20
-     do {
---=20
-2.22.0.rc2.384.g1a9a72ea1d
+
+Can you explain in a comment how you arrived at this lookup table?
+
+
+> +    } else if (float32_is_neg(arg1)) {
+> +        result = float32_sqrt_nan;
+> +        env->FPU_FI = 1;
+[...]
+> +
+> +    flags = f_get_excp_flags(env);
+> +    if (flags) {
+> +        if (flags & float_flag_invalid) {
+> +            f_update_psw_flags(env, flags);
+> +        } else {
+> +            env->FPU_FS = 0;
+> +        }
+> +    } else {
+> +        env->FPU_FS = 0;
+
+You are setting FPU_FS to 0, even though FPU_FI might have been set in 
+case of a NaN. I think it's best to remove the whole softfloat check, as 
+none of the softfloat functions you call, can raise any flags.
+
+Cheers,
+
+Bastian
+
 
 
