@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7924A3652B
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:14:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49239 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A5A36535
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jun 2019 22:16:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49285 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYcIa-0005C5-Lq
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:14:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34147)
+	id 1hYcKM-0006Un-DQ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 16:16:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34176)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5Y-0003EL-Kw
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:49 -0400
+	(envelope-from <mst@redhat.com>) id 1hYc5c-0003IL-KY
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hYc5S-0005o0-Pr
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:46 -0400
-Received: from mail-qt1-f176.google.com ([209.85.160.176]:34466)
+	(envelope-from <mst@redhat.com>) id 1hYc5a-0005zs-Kv
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:52 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:40891)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5O-0005dU-Vl
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:39 -0400
-Received: by mail-qt1-f176.google.com with SMTP id m29so18882qtu.1
-	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:37 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYc5Y-0005qO-M1
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 16:00:49 -0400
+Received: by mail-qt1-f196.google.com with SMTP id a15so5014105qtn.7
+	for <qemu-devel@nongnu.org>; Wed, 05 Jun 2019 13:00:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=+Ua4MZswQW6oblrgifdLgsm6Vm0TDh310FALHECFhNU=;
-	b=ASrpd1xtDOC4tmzuEqcHBfOMXU4XzegDKFQSN8Nnf4j39QdJG9CnSacTMzq2aM69OJ
-	O5dAVvwUEjqHoZ2MlxJmXSuZpcmt3VoTlJdEQ39TWFcpk6DM60HidmI4QeXe2lpkdbPI
-	8DtcNCtZyiWzEs3RG/ZL3gWJI6zVCsB2FpCsdsPT6F7sU8CweuxzbuL+AXBURb/tGCbk
-	n0Kbidw2w7q/5820GeY2R/eewYsc51aCbC71Gy0I+t6D9nHpR1745TTTnqy9lfnyr4Dh
-	y2CqPmoiaSC5PQu6nV+E/aAQFIBA/Lxhtvq2KnDiD0bIIo9rbbUBtbIm602xVsm/B0RZ
-	0Mtg==
-X-Gm-Message-State: APjAAAXtTLz3pQscK8KCUQIZ8TU+bVR6h7IF7DJIqXGNgnMQUOv9vqik
-	oDXJpLq/0yvzlND/aR2jkDkYO6HEmGs=
-X-Google-Smtp-Source: APXvYqx0cG5W84jVUAsSyYc2nUqnzRlmTH4d28aUnFm6H/CGt6Oy/n116Rh2cz7tGbMRbW5UY1Ao+Q==
-X-Received: by 2002:ac8:2318:: with SMTP id a24mr35565211qta.60.1559764836944; 
-	Wed, 05 Jun 2019 13:00:36 -0700 (PDT)
+	:mime-version:content-disposition:in-reply-to;
+	bh=1DkvQpNZ6CwyiPWrtu8aXp08JjOfs2dpwhlXm3wVrEk=;
+	b=Kk2t6FoOEQEplvVMhEC2O5J/ba4IFU1QDZURhZVA+jQhByNlahU3APW91QoCZvYfJu
+	+V/tILuXoOm0sAOBhtxuPjZM26uRw2SO2X5A/Hu1Cv9IDxz1p5F/Y23aG2Wi1SwH9OLj
+	FMxG4f6DzI97aP4uOcx71F0E71bucuon9bz99IqgdcOCquaJNuAhOkVMY8zJoSIj86cM
+	l6B0nfqASbf2oL/yuMWXPHdDEA9pHtVcvKUcZzpJUcYzwewLGuH/2f9I8Uw5cKX5XyQi
+	r+mXM6iuPM7W99Dc2qmTkthBsT8+dae005RzB4OZrobcEr49FR4PidvHgVKIMn/drNdI
+	XU+A==
+X-Gm-Message-State: APjAAAWhK/bP/bn4gopeP0Ody0vt1P77MNQSFbsP1FQZyvCPQvv2icob
+	DJO1IvSEoxhGE9e2aEQLkd2zzjTGz3w=
+X-Google-Smtp-Source: APXvYqxECZpV5xdjlWuu9jXWcFVwz+KsbNOC0CG85mqOT8txyzNeL3gGthjSpj9S9kXLaxaJaayOtQ==
+X-Received: by 2002:aed:23d0:: with SMTP id k16mr20940806qtc.45.1559764844229; 
+	Wed, 05 Jun 2019 13:00:44 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
 	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
-	m5sm13359433qke.25.2019.06.05.13.00.35
+	o38sm14224738qto.96.2019.06.05.13.00.42
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 05 Jun 2019 13:00:36 -0700 (PDT)
-Date: Wed, 5 Jun 2019 16:00:35 -0400
+	Wed, 05 Jun 2019 13:00:43 -0700 (PDT)
+Date: Wed, 5 Jun 2019 16:00:42 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190416125912.44001-3-liran.alon@oracle.com>
+Message-ID: <20190416125912.44001-4-liran.alon@oracle.com>
 References: <20190605195913.12243-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190605195913.12243-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.176
-Subject: [Qemu-devel] [PULL v3 12/17] vhost-scsi: Add VMState descriptor
+X-Received-From: 209.85.160.196
+Subject: [Qemu-devel] [PULL v3 13/17] vhost-scsi: Allow user to enable
+ migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,66 +77,148 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nir Weiner <nir.weiner@oracle.com>
+From: Liran Alon <liran.alon@oracle.com>
 
-As preparation of enabling migration of vhost-scsi device,
-define it’s VMState. Note, we keep the convention of
-verifying in the pre_save() method that the vhost backend
-must be stopped before attempting to save the device
-state. Similar to how it is done for vhost-vsock.
+In order to perform a valid migration of a vhost-scsi device,
+the following requirements must be met:
+(1) The virtio-scsi device state needs to be saved & loaded.
+(2) The vhost backend must be stopped before virtio-scsi device state
+is saved:
+  (2.1) Sync vhost backend state to virtio-scsi device state.
+  (2.2) No further I/O requests are made by vhost backend to target
+        SCSI device.
+  (2.3) No further guest memory access takes place after VM is stopped.
+(3) Requests in-flight to target SCSI device are completed before
+    migration handover.
+(4) Target SCSI device state needs to be saved & loaded into the
+    destination host target SCSI device.
 
+Previous commit ("vhost-scsi: Add VMState descriptor")
+add support to save & load the device state using VMState.
+This meets requirement (1).
+
+When VM is stopped by migration thread (On Pre-Copy complete), the
+following code path is executed:
+migration_completion() -> vm_stop_force_state() -> vm_stop() ->
+do_vm_stop().
+
+do_vm_stop() calls first pause_all_vcpus() which pause all guest
+vCPUs and then call vm_state_notify().
+In case of vhost-scsi device, this will lead to the following code path
+to be executed:
+vm_state_notify() -> virtio_vmstate_change() ->
+virtio_set_status() -> vhost_scsi_set_status() -> vhost_scsi_stop().
+vhost_scsi_stop() then calls vhost_scsi_clear_endpoint() and
+vhost_scsi_common_stop().
+
+vhost_scsi_clear_endpoint() sends VHOST_SCSI_CLEAR_ENDPOINT ioctl to
+vhost backend which will reach kernel's vhost_scsi_clear_endpoint()
+which process all pending I/O requests and wait for them to complete
+(vhost_scsi_flush()). This meets requirement (3).
+
+vhost_scsi_common_stop() will stop the vhost backend.
+As part of this stop, dirty-bitmap is synced and vhost backend state is
+synced with virtio-scsi device state. As at this point guest vCPUs are
+already paused, this meets requirement (2).
+
+At this point we are left with requirement (4) which is target SCSI
+device specific and therefore cannot be done by QEMU. Which is the main
+reason why vhost-scsi adds a migration blocker.
+However, as this can be handled either by an external orchestrator or
+by using shared-storage (i.e. iSCSI), there is no reason to limit the
+orchestrator from being able to explictly specify it wish to enable
+migration even when VM have a vhost-scsi device.
+
+Considering all the above, this commit allows orchestrator to explictly
+specify that it is responsbile for taking care of requirement (4) and
+therefore vhost-scsi should not add a migration blocker.
+
+Reviewed-by: Nir Weiner <nir.weiner@oracle.com>
 Reviewed-by: Bijan Mottahedeh <bijan.mottahedeh@oracle.com>
-Reviewed-by: Liran Alon <liran.alon@oracle.com>
-Signed-off-by: Nir Weiner <nir.weiner@oracle.com>
-Message-Id: <20190416125912.44001-3-liran.alon@oracle.com>
+Signed-off-by: Liran Alon <liran.alon@oracle.com>
+Message-Id: <20190416125912.44001-4-liran.alon@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/scsi/vhost-scsi.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ include/hw/virtio/vhost-scsi-common.h |  1 +
+ hw/scsi/vhost-scsi.c                  | 30 ++++++++++++++++++---------
+ 2 files changed, 21 insertions(+), 10 deletions(-)
 
+diff --git a/include/hw/virtio/vhost-scsi-common.h b/include/hw/virtio/vhost-scsi-common.h
+index 57fb1d87b5..4eab767ee8 100644
+--- a/include/hw/virtio/vhost-scsi-common.h
++++ b/include/hw/virtio/vhost-scsi-common.h
+@@ -36,6 +36,7 @@ typedef struct VHostSCSICommon {
+     int target;
+     int lun;
+     uint64_t host_features;
++    bool migratable;
+ } VHostSCSICommon;
+ 
+ int vhost_scsi_common_start(VHostSCSICommon *vsc);
 diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index ca42cff1b9..eb0cf9e131 100644
+index eb0cf9e131..6b01accf61 100644
 --- a/hw/scsi/vhost-scsi.c
 +++ b/hw/scsi/vhost-scsi.c
-@@ -139,6 +139,28 @@ static void vhost_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- {
- }
+@@ -199,13 +199,18 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
+         goto close_fd;
+     }
  
-+static int vhost_scsi_pre_save(void *opaque)
-+{
-+    VHostSCSICommon *vsc = opaque;
-+
-+    /* At this point, backend must be stopped, otherwise
-+     * it might keep writing to memory. */
-+    assert(!vsc->dev.started);
-+
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_virtio_vhost_scsi = {
-+    .name = "virtio-vhost_scsi",
-+    .minimum_version_id = 1,
-+    .version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_VIRTIO_DEVICE,
-+        VMSTATE_END_OF_LIST()
-+    },
-+    .pre_save = vhost_scsi_pre_save,
-+};
-+
- static void vhost_scsi_realize(DeviceState *dev, Error **errp)
- {
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
-@@ -256,6 +278,7 @@ static void vhost_scsi_class_init(ObjectClass *klass, void *data)
-     FWPathProviderClass *fwc = FW_PATH_PROVIDER_CLASS(klass);
+-    error_setg(&vsc->migration_blocker,
+-               "vhost-scsi does not support migration");
+-    migrate_add_blocker(vsc->migration_blocker, &err);
+-    if (err) {
+-        error_propagate(errp, err);
+-        error_free(vsc->migration_blocker);
+-        goto close_fd;
++    if (!vsc->migratable) {
++        error_setg(&vsc->migration_blocker,
++                "vhost-scsi does not support migration in all cases. "
++                "When external environment supports it (Orchestrator migrates "
++                "target SCSI device state or use shared storage over network), "
++                "set 'migratable' property to true to enable migration.");
++        migrate_add_blocker(vsc->migration_blocker, &err);
++        if (err) {
++            error_propagate(errp, err);
++            error_free(vsc->migration_blocker);
++            goto close_fd;
++        }
+     }
  
-     dc->props = vhost_scsi_properties;
-+    dc->vmsd = &vmstate_virtio_vhost_scsi;
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-     vdc->realize = vhost_scsi_realize;
-     vdc->unrealize = vhost_scsi_unrealize;
+     vsc->dev.nvqs = VHOST_SCSI_VQ_NUM_FIXED + vs->conf.num_queues;
+@@ -230,7 +235,9 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
+     return;
+ 
+  free_vqs:
+-    migrate_del_blocker(vsc->migration_blocker);
++    if (!vsc->migratable) {
++        migrate_del_blocker(vsc->migration_blocker);
++    }
+     g_free(vsc->dev.vqs);
+  close_fd:
+     close(vhostfd);
+@@ -243,8 +250,10 @@ static void vhost_scsi_unrealize(DeviceState *dev, Error **errp)
+     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(dev);
+     struct vhost_virtqueue *vqs = vsc->dev.vqs;
+ 
+-    migrate_del_blocker(vsc->migration_blocker);
+-    error_free(vsc->migration_blocker);
++    if (!vsc->migratable) {
++        migrate_del_blocker(vsc->migration_blocker);
++        error_free(vsc->migration_blocker);
++    }
+ 
+     /* This will stop vhost backend. */
+     vhost_scsi_set_status(vdev, 0);
+@@ -268,6 +277,7 @@ static Property vhost_scsi_properties[] = {
+     DEFINE_PROP_BIT64("t10_pi", VHostSCSICommon, host_features,
+                                                  VIRTIO_SCSI_F_T10_PI,
+                                                  false),
++    DEFINE_PROP_BOOL("migratable", VHostSCSICommon, migratable, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 MST
 
