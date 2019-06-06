@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB41B36A50
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 05:04:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53457 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AF636A5E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 05:10:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53564 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYihh-0000df-QT
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 23:04:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54986)
+	id 1hYine-0004Hj-FA
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 23:10:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55920)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYifV-00084d-NP
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:02:23 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hYijz-0002Ch-OY
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:07:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYifU-0007YV-6Q
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:02:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45786)
+	(envelope-from <dgibson@ozlabs.org>) id 1hYijm-0006Vo-Lo
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:06:51 -0400
+Received: from ozlabs.org ([203.11.71.1]:57259)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>)
-	id 1hYifT-0007WX-Tw; Wed, 05 Jun 2019 23:02:20 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 26662C058CC0;
-	Thu,  6 Jun 2019 03:02:19 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A29AE1839C;
-	Thu,  6 Jun 2019 03:02:18 +0000 (UTC)
-Date: Thu, 6 Jun 2019 00:02:17 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Like Xu <like.xu@linux.intel.com>
-Message-ID: <20190606030217.GT22416@habkost.net>
-References: <20190518205428.90532-1-like.xu@linux.intel.com>
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hYijd-0006FO-Bl; Wed, 05 Jun 2019 23:06:40 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 45K9Xs3LWbz9sNf; Thu,  6 Jun 2019 13:06:21 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1559790381;
+	bh=aYL8cwlPtguN31mOiGvSQMgBZrb+ZZ9x7aLdUUfko5M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YMfOIFcXOLrdBuK9iT2BjOibZ158IXfpvM6XvXlNkxV73POv8PdtnzlB24GQgiTHn
+	F1YK+1IFlbaKP7lLCi4/sfXmKIRF/welaXyM2pxeCOJRF3JPAHIDIYiJjmhSgUISZ1
+	w/ucHYtJH4MWpsiIdEk2lHU0UjvQtoqUPSr3whBU=
+Date: Thu, 6 Jun 2019 13:06:14 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190606030614.GK10319@umbus.fritz.box>
+References: <155910829070.13149.5215948335633966328.stgit@aravinda>
+	<155910845769.13149.8097972239187020170.stgit@aravinda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Z8yxTSU1mh2gsre7"
 Content-Disposition: inline
-In-Reply-To: <20190518205428.90532-1-like.xu@linux.intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Thu, 06 Jun 2019 03:02:19 +0000 (UTC)
+In-Reply-To: <155910845769.13149.8097972239187020170.stgit@aravinda>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 00/10] Refactor cpu topo into machine
- properties
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v9 6/6] migration: Include migration
+ support for machine check handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,128 +56,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
-	qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-	Alistair Francis <alistair23@gmail.com>,
-	Igor Mammedov <imammedo@redhat.com>
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org,
+	qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 19, 2019 at 04:54:18AM +0800, Like Xu wrote:
-> This patch series make existing cores/threads/sockets into machine
-> properties and get rid of global smp_* variables they use currently.
-> 
-> The purpose of getting rid of globals is disentangle layer violations and
-> let's do it one step at a time by replacing the smp_foo with qdev_get_machine()
-> as few calls as possible and delay other related refactoring efforts.
 
-Thanks, and sorry for taking so long to review this.  This
-version looks good, I'm planning to queue it.  I will just wait
-for a few days to hear from the maintainers of the machines that
-are touched by the series.
+--Z8yxTSU1mh2gsre7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> ==changelog==
-> 
-> v3:
-> 
-> - rephrase commit messages
-> - s/of/of present/ for CpuTopology comment
-> - drop reduanct arguments such as cpu_type
-> - use ms instead of macs in migration context
-> - rebase to commit 1b46b4daa6
-> 
-> v2: https://patchwork.ozlabs.org/cover/1095727/
-> 
-> - pass MachineState via call chain with trivial fixups
-> - replace smp_cpus directly at places if it's only used once
-> - s/topo/smp/ and drop smp_ prefix inside CpuTopology structure
-> - add more commit messages to explaining what patch does
-> - fix Patchew build failure for xen usage
-> - use macs rather than ms in migration context for MigrationState
-> - cleanup unrelated and redundant changes
-> - spilt OpenRISC and RISC-V related patches
-> 
-> v1: https://patchwork.kernel.org/cover/10876667/
-> 
-> Like Xu (10):
->   hw/boards: Add struct CpuTopology to MachineState
->   machine: Refactor smp-related call chains to pass MachineState
->   general: Replace global smp variables with smp machine properties
->   hw/ppc: Replace global smp variables with machine smp properties
->   hw/riscv: Replace global smp variables with machine smp properties
->   hw/s390x: Replace global smp variables with machine smp properties
->   hw/i386: Replace global smp variables with machine smp properties
->   hw/arm: Replace global smp variables with machine smp properties
->   hw: Replace global smp variables with MachineState for all remaining archs
->   vl.c: Replace smp global variables with smp machine properties
-> 
->  accel/kvm/kvm-all.c          |  4 +--
->  backends/hostmem.c           |  6 +++--
->  cpus.c                       |  6 +++--
->  exec.c                       |  3 ++-
->  gdbstub.c                    |  4 +++
->  hw/alpha/dp264.c             |  1 +
->  hw/arm/fsl-imx6.c            |  6 ++++-
->  hw/arm/fsl-imx6ul.c          |  6 ++++-
->  hw/arm/fsl-imx7.c            |  7 +++--
->  hw/arm/highbank.c            |  1 +
->  hw/arm/mcimx6ul-evk.c        |  2 +-
->  hw/arm/mcimx7d-sabre.c       |  2 +-
->  hw/arm/raspi.c               |  4 +--
->  hw/arm/realview.c            |  1 +
->  hw/arm/sabrelite.c           |  2 +-
->  hw/arm/vexpress.c            | 16 +++++++-----
->  hw/arm/virt.c                | 10 ++++++--
->  hw/arm/xlnx-zynqmp.c         | 16 +++++++-----
->  hw/cpu/core.c                |  4 ++-
->  hw/hppa/machine.c            |  4 ++-
->  hw/i386/acpi-build.c         | 13 ++++++----
->  hw/i386/kvmvapic.c           |  7 +++--
->  hw/i386/pc.c                 | 33 ++++++++++++++----------
->  hw/i386/xen/xen-hvm.c        |  4 +++
->  hw/mips/boston.c             |  2 +-
->  hw/mips/mips_malta.c         | 24 +++++++++--------
->  hw/openrisc/openrisc_sim.c   |  1 +
->  hw/ppc/e500.c                |  3 +++
->  hw/ppc/mac_newworld.c        |  3 ++-
->  hw/ppc/mac_oldworld.c        |  3 ++-
->  hw/ppc/pnv.c                 |  9 ++++---
->  hw/ppc/prep.c                |  4 +--
->  hw/ppc/spapr.c               | 37 ++++++++++++++++++--------
->  hw/ppc/spapr_rtas.c          |  4 ++-
->  hw/riscv/sifive_e.c          |  6 +++--
->  hw/riscv/sifive_plic.c       |  3 +++
->  hw/riscv/sifive_u.c          |  6 +++--
->  hw/riscv/spike.c             |  2 ++
->  hw/riscv/virt.c              |  1 +
->  hw/s390x/s390-virtio-ccw.c   |  9 ++++---
->  hw/s390x/sclp.c              |  2 +-
->  hw/smbios/smbios.c           | 26 +++++++++++--------
->  hw/sparc/sun4m.c             |  2 ++
->  hw/sparc64/sun4u.c           |  4 +--
->  hw/xtensa/sim.c              |  2 +-
->  hw/xtensa/xtfpga.c           |  1 +
->  include/hw/boards.h          | 19 ++++++++++++--
->  include/hw/firmware/smbios.h |  5 ++--
->  include/hw/i386/pc.h         |  2 +-
->  migration/postcopy-ram.c     |  8 +++++-
->  numa.c                       |  1 +
->  qmp.c                        |  2 +-
->  target/arm/cpu.c             |  8 +++++-
->  target/i386/cpu.c            |  4 ++-
->  target/openrisc/sys_helper.c |  6 ++++-
->  target/s390x/cpu.c           |  3 +++
->  target/s390x/excp_helper.c   |  5 ++++
->  tcg/tcg.c                    | 13 +++++++++-
->  vl.c                         | 50 +++++++++++++++++++-----------------
->  59 files changed, 301 insertions(+), 141 deletions(-)
-> 
-> -- 
-> 2.21.0
-> 
-> 
+On Wed, May 29, 2019 at 11:10:57AM +0530, Aravinda Prasad wrote:
+> This patch includes migration support for machine check
+> handling. Especially this patch blocks VM migration
+> requests until the machine check error handling is
+> complete as (i) these errors are specific to the source
+> hardware and is irrelevant on the target hardware,
+> (ii) these errors cause data corruption and should
+> be handled before migration.
+>=20
+> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> ---
+>  hw/ppc/spapr.c         |   20 ++++++++++++++++++++
+>  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
+>  hw/ppc/spapr_rtas.c    |    4 ++++
+>  include/hw/ppc/spapr.h |    2 ++
+>  4 files changed, 43 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index e8a77636..31c4850 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -2104,6 +2104,25 @@ static const VMStateDescription vmstate_spapr_dtb =
+=3D {
+>      },
+>  };
+> =20
+> +static bool spapr_fwnmi_needed(void *opaque)
+> +{
+> +    SpaprMachineState *spapr =3D (SpaprMachineState *)opaque;
+> +
+> +    return (spapr->guest_machine_check_addr =3D=3D -1) ? 0 : 1;
 
--- 
-Eduardo
+Since we're introducing a PAPR capability to enable this, it would
+actually be better to check that here, rather than the runtime state.
+That leads to less cases and easier to understand semantics for the
+migration stream.
+
+> +}
+> +
+> +static const VMStateDescription vmstate_spapr_machine_check =3D {
+> +    .name =3D "spapr_machine_check",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .needed =3D spapr_fwnmi_needed,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
+> +        VMSTATE_INT32(mc_status, SpaprMachineState),
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
+> +
+>  static const VMStateDescription vmstate_spapr =3D {
+>      .name =3D "spapr",
+>      .version_id =3D 3,
+> @@ -2137,6 +2156,7 @@ static const VMStateDescription vmstate_spapr =3D {
+>          &vmstate_spapr_dtb,
+>          &vmstate_spapr_cap_large_decr,
+>          &vmstate_spapr_cap_ccf_assist,
+> +        &vmstate_spapr_machine_check,
+>          NULL
+>      }
+>  };
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 573c0b7..35e21e4 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -41,6 +41,7 @@
+>  #include "qemu/bcd.h"
+>  #include "hw/ppc/spapr_ovec.h"
+>  #include <libfdt.h>
+> +#include "migration/blocker.h"
+> =20
+>  #define RTAS_LOG_VERSION_MASK                   0xff000000
+>  #define   RTAS_LOG_VERSION_6                    0x06000000
+> @@ -855,6 +856,22 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu,=
+ bool recovered)
+>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>  {
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> +    int ret;
+> +    Error *local_err =3D NULL;
+> +
+> +    error_setg(&spapr->fwnmi_migration_blocker,
+> +            "Live migration not supported during machine check handling"=
+);
+> +    ret =3D migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_e=
+rr);
+> +    if (ret < 0) {
+> +        /*
+> +         * We don't want to abort and let the migration to continue. In a
+> +         * rare case, the machine check handler will run on the target
+> +         * hardware. Though this is not preferable, it is better than ab=
+orting
+> +         * the migration or killing the VM.
+> +         */
+> +        error_free(spapr->fwnmi_migration_blocker);
+
+You should set fwnmi_migration_blocker to NULL here as well.
+
+As mentioned on an earlier iteration, the migration blocker is the
+same every time.  Couldn't you just create it once and free at final
+teardown, rather than recreating it for every NMI?
+
+> +        warn_report_err(local_err);
+> +    }
+> =20
+>      while (spapr->mc_status !=3D -1) {
+>          /*
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 91a7ab9..c849223 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -50,6 +50,7 @@
+>  #include "target/ppc/mmu-hash64.h"
+>  #include "target/ppc/mmu-book3s-v3.h"
+>  #include "kvm_ppc.h"
+> +#include "migration/blocker.h"
+> =20
+>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *s=
+papr,
+>                                     uint32_t token, uint32_t nargs,
+> @@ -404,6 +405,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>          spapr->mc_status =3D -1;
+>          qemu_cond_signal(&spapr->mc_delivery_cond);
+>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> +        migrate_del_blocker(spapr->fwnmi_migration_blocker);
+> +        error_free(spapr->fwnmi_migration_blocker);
+> +        spapr->fwnmi_migration_blocker =3D NULL;
+>      }
+>  }
+> =20
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index bd75d4b..6c0cfd8 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -214,6 +214,8 @@ struct SpaprMachineState {
+>      SpaprCapabilities def, eff, mig;
+> =20
+>      unsigned gpu_numa_id;
+> +
+> +    Error *fwnmi_migration_blocker;
+>  };
+> =20
+>  #define H_SUCCESS         0
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Z8yxTSU1mh2gsre7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz4gyYACgkQbDjKyiDZ
+s5I0Mw//Wqd18dXjkYea0FsNpE3rBEEMkaGMrWhmj1YVc3sFfxIjT6J1RdE48aI6
+x1Q9rEkdMWbi5kjDwuqvv+/wgmsP92gCzpimcV+ZFEU4TdFeWdMOTNMnYQ2khPHc
+DH2dPh8p6dTjO0hUN3v27cxSR9IsuAkHZN+n+nARx9Fu7mW3lzgsCGGo5F3mOYex
+kcvcH2bHzs+mRWDrDNVjkYBgcrB5Hf94ZkgJDeBr3ukud6tivdMxFPf92UV7mWWj
+hNox8nP5287ju6MPGTCVdYPANENWdGHTuJQFt/u7H70NnyQmow4v+8u1R5g+hBQk
+BiyZcNJmpIFelrF7wSu6cy7YZ0Y3tu+t4eLgBLz+omjlecmYkUFhSBhgoPKyVfPD
+WSzkFz0yunGotqfzFaMY+i92Qa/aAWVA1ukmvgJEdcj0FR9NKJM/xUHrLQkevkzE
+A5bErXE2uAoWbByPnD9inoCIZ9cJ9zJ96gpuGYYI03cADJpae/OPl3j7GMD0TziT
+0JL+FLcBxa0SmaXjUbZve3VElSBgASR2e7wiO7oZFLpKIMKKjicrMBqfF61WdptN
+u18kEgkchFBxnWQuhhxg1v4jENuBAsrO/MjQF8eCg6ws08bT6F4nt2YLxwJyYP0K
+h9DbGCBKp0kbE/t8NZ7QOEQuNruJjuw68Ht5b6Pp2LLI5ykRSzs=
+=MGr/
+-----END PGP SIGNATURE-----
+
+--Z8yxTSU1mh2gsre7--
 
