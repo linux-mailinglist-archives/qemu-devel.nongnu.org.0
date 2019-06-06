@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF6137282
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 13:10:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58375 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB58B372A4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 13:19:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58551 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYqHW-0001Wu-Ei
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 07:10:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60314)
+	id 1hYqQa-0001SQ-Ny
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 07:19:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60804)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYqF8-0000BW-Lr
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:07:39 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hYqFd-0000d2-E9
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:08:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYqF6-0003G2-8Z
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:07:38 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:59545)
+	(envelope-from <laurent@vivier.eu>) id 1hYqFc-00042R-Au
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:08:09 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:45529)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hYqF3-00037Y-JN; Thu, 06 Jun 2019 07:07:33 -0400
+	id 1hYqFU-0003nF-Ly; Thu, 06 Jun 2019 07:08:00 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1N3KDM-1gZYHa2AiY-010LEk; Thu, 06 Jun 2019 13:06:56 +0200
+	id 1MxVbb-1gbVHP18Jd-00xp3V; Thu, 06 Jun 2019 13:06:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 13:06:20 +0200
-Message-Id: <20190606110625.32127-12-laurent@vivier.eu>
+Date: Thu,  6 Jun 2019 13:06:21 +0200
+Message-Id: <20190606110625.32127-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190606110625.32127-1-laurent@vivier.eu>
 References: <20190606110625.32127-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sJX7kOEASuUqzKMQ0rklS29mfRE7eUYEEoU/Bn7KIEsOMKwqJ2X
-	YWBGxkVKP21No4MYqZEreaKD3SKmNr0IVXBWh40+U/9wjURMbjPqw8xeygGtw6C5ruUhURw
-	5PTP2d1ArFFy1tfPiZ2v60S3hEqYzBDPMVDYHsP6/bOT7MTQFtMBMFBnNyiu2k8qqxW4zGN
-	d5/gMCNINInwKR1/la0Hw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wzw5+xshbZk=:eOln+xl+YM9UAHFJYpiARo
-	kMAa5EWoxeJf34xxDTgqQC7fOaimZY1Apa9qaRK20b2mH5uttdGv5MT0xv8KkiEvQwmXTKOrI
-	G2w9K0lP2YVN4PKXr3HXSK0hfP1ilcrHsjdI9FfPWdj40yGFwONc+PLcvGlkcsaqIextT69My
-	rWsilrh0PqEV/gOa+bSvsZmd2o6oXtWzcINnTA2TM2kyejnf5FaobVGleekLnqui3iiB3KDdm
-	+mrthPjiRiF+4ZoRmeNyHoQJadUmb1D9jXvzXFpkSk2FIaa3V+e4pEwGFocsoa+5Qziid1dXL
-	G/hSg2quGyzbJoQizY0Is1jXorDCvkW1jORInWTjiYN+eXsJ0JSH0xCf9bGlS4niFydQTqsRu
-	NfNWtaSO09TbKrjupcwPheqsAkmieZoeh7OtLq0lvDQSWXVObbQbzxUQTOsB0u5F0tCEnNQ+x
-	KnarwqmnqkOCRTaNrbJJ/iGOaFAaWo/Ok/3OcNTC30q6TnYKqgV5pzyP814fkUGLUVJ9AczkQ
-	wMRWKKLAifJ1iX+FYEu5sfFCAM5mw6I8j6qsXaHiYS+WDrO28oOUmtqwZ1r+Ced6EkQhr9Tah
-	7OKszfHeqfKOaG7tEXrqVWN9gnCjLP1Lcr2AQ1KhdtQpCPZ437d1npzmQju6AyY11X2l4RDT2
-	lOZtGC96V3nZOncQEtpZptxJsmP4A3jVp0PxHXvfVRwUadEL9507lG4oScg+uHRfOhJQxiupc
-	+21hzqQAGybZD2uXCflfJLXdq9D7qS8WmCZrFi5lKSxFoCg+NiVzEQWCFi8=
+X-Provags-ID: V03:K1:tp+rYBTeSmojRMJaBdyBwiM6HZA7HXAoWJTNrbm/XbfsIZGyr5c
+	bFYNMuwa8UFRYcuI0xeaWvVMG6ikGk+Tabzw/180r2IsFGYPc9kGQnqkFYJr3vvoCyA2Hmc
+	O/SFmaoC+qo6bhpQJNqtzbQI16lQV2XRXTH8vDtSVLfm/gsHc9Oa1EXXSd9Ac/+2w6KOU9R
+	AfXaqJjyRtyWkTYfZ0EpA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UNc6Ohb4JzQ=:yLxa3ypR43F8VyTpKGx8Hz
+	dDldjE5xQnZPw0Fr9CbW6skDAsDFZckP05CZoGNm0A4B8DhI0oW/K2uj3y9TPCkto3sFLTJFS
+	24vU6c/aVrik6hAec0EUbP/npG2hpttLjzrSiiEFLPgIsHSZz9tnLEq02Fyi9+AC7LamlgL8w
+	iYMjNI43aEaHJ690EAWQXeU5zaUrH/rPh8XGxcPm+imaw1jFf8q2nckH1SHg6dbbdLaoBZfHh
+	raxNvD1/YvwTtFk79ElS5PvIasEI/XlL3NvxqhLVNICsHwmX+bKnS6xx1/n4mqLBuDNTwUwWT
+	eO9ZzAAwJxsk4lYdR17r2CwM2zaZVB+gmHOA8axs1Q9kcYPEgAh6bExU6aH9olCJnorA+x8OD
+	atycWsH7UsSvMRv2mFd3SzQwOMGeH+VBj8jKgWjfcnLYfepxvXg2I+brl/ACHigfLFw8mnhSk
+	8fRxLEdVDchrQbNAFWN4DM3oxjyq5icy4GUGf3LFQHU5LvB/wh/F+uI0iHDJeDuhTQWLCu64c
+	U+emYNHRcolYJqumF2AMK4cfkW6aN/Z1KZO609s0n83x3fKKTlRIpP/r6oRnK48EprgWAOSzr
+	/XWF5gcQ+rVeNoJuYU+Xo6oICNNhtI63eVVNBsnoqNDdDasPDsid1Aerdg1AFmsKWKdiKVpih
+	K5CKbsDT0WnkHrQb32/08g7WX3ru4WlJsqinxgIU4Vk6ZDsGJUjpU8x6AXyAFrxkvLIthpqc/
+	azZ7K1eMvzsAYX+1Wlv5lprGNq8rRlSBYbfwZVli2gl4bmmNhDp1jMFldDs=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PULL 11/16] hw/usb-storage: Use the QOM DEVICE()
- macro to access DeviceState.qdev
+X-Received-From: 217.72.192.73
+Subject: [Qemu-devel] [PULL 12/16] hw/vfio/pci: Use the QOM DEVICE() macro
+ to access DeviceState.qdev
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -103,26 +103,35 @@ This patch was generated using the following Coccinelle script:
 
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20190528164020.32250-9-philmd@redhat.com>
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
+Message-Id: <20190528164020.32250-10-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/usb/dev-storage.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/vfio/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-index cd5551d94f35..0e4e93ef1673 100644
---- a/hw/usb/dev-storage.c
-+++ b/hw/usb/dev-storage.c
-@@ -616,7 +616,7 @@ static void usb_msd_storage_realize(USBDevice *dev, Error **errp)
-      * The hack is probably a bad idea.
-      */
-     blk_ref(blk);
--    blk_detach_dev(blk, &s->dev.qdev);
-+    blk_detach_dev(blk, DEVICE(s));
-     s->conf.blk = NULL;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 8e555db12ec0..2a4091d216e2 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2717,7 +2717,7 @@ static void vfio_req_notifier_handler(void *opaque)
+         return;
+     }
  
-     usb_desc_create_serial(dev);
+-    qdev_unplug(&vdev->pdev.qdev, &err);
++    qdev_unplug(DEVICE(vdev), &err);
+     if (err) {
+         warn_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+     }
+@@ -2839,7 +2839,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+     vdev->vbasedev.name = g_path_get_basename(vdev->vbasedev.sysfsdev);
+     vdev->vbasedev.ops = &vfio_pci_ops;
+     vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
+-    vdev->vbasedev.dev = &vdev->pdev.qdev;
++    vdev->vbasedev.dev = DEVICE(vdev);
+ 
+     tmp = g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
+     len = readlink(tmp, group_path, sizeof(group_path));
 -- 
 2.21.0
 
