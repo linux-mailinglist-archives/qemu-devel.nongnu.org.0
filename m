@@ -2,51 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2556237886
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 17:51:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34318 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E63378FC
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 17:55:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34388 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYufW-0007M5-BU
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 11:51:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45887)
+	id 1hYukA-0000r4-49
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 11:55:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48157)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hYua9-0003rJ-Va
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 11:45:39 -0400
+	(envelope-from <eblake@redhat.com>) id 1hYuj9-0000YM-0x
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 11:54:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hYua8-0006wp-7b
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 11:45:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38876)
+	(envelope-from <eblake@redhat.com>) id 1hYuj6-0005O3-6B
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 11:54:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59794)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hYua8-0006l2-04; Thu, 06 Jun 2019 11:45:36 -0400
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hYuj1-0004pG-Nt; Thu, 06 Jun 2019 11:54:48 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
 	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2EAB6B5C15;
-	Thu,  6 Jun 2019 15:45:26 +0000 (UTC)
-Received: from gondolin (dhcp-192-191.str.redhat.com [10.33.192.191])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 60EE67BE7F;
-	Thu,  6 Jun 2019 15:45:23 +0000 (UTC)
-Date: Thu, 6 Jun 2019 17:45:21 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Message-ID: <20190606174521.1db762d0.cohuck@redhat.com>
-In-Reply-To: <20190605203403.29461-1-david@redhat.com>
-References: <20190605203403.29461-1-david@redhat.com>
-Organization: Red Hat GmbH
+	by mx1.redhat.com (Postfix) with ESMTPS id D74B530C0DE6;
+	Thu,  6 Jun 2019 15:54:19 +0000 (UTC)
+Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D9FD7BE92;
+	Thu,  6 Jun 2019 15:54:16 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190606153803.5278-1-armbru@redhat.com>
+	<20190606153803.5278-7-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <2d2f4567-1b35-6586-e195-a89b398e676c@redhat.com>
+Date: Thu, 6 Jun 2019 10:54:16 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20190606153803.5278-7-armbru@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="CQom1Q6zKHat1YzADbTdBrdxViQj1zdvp"
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Thu, 06 Jun 2019 15:45:29 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Thu, 06 Jun 2019 15:54:27 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL SUBSYSTEM s390x 00/33] s390x/tcg: Final
- Vector Instruction Support
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH 6/7] file-posix: Add dynamic-auto-read-only
+ QAPI feature
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,107 +87,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
-	qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  5 Jun 2019 22:33:30 +0200
-David Hildenbrand <david@redhat.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--CQom1Q6zKHat1YzADbTdBrdxViQj1zdvp
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org
+Message-ID: <2d2f4567-1b35-6586-e195-a89b398e676c@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH 6/7] file-posix: Add dynamic-auto-read-only
+ QAPI feature
+References: <20190606153803.5278-1-armbru@redhat.com>
+ <20190606153803.5278-7-armbru@redhat.com>
+In-Reply-To: <20190606153803.5278-7-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-> This pull request is not for master.
-> 
-> Hi Cornelia,
-> 
-> The following changes since commit dd5382ad6deb5a07ec3c72b2c3cce36ce1307a57:
-> 
->   vfio-ccw: support async command subregion (2019-06-05 07:55:18 +0200)
-> 
-> are available in the Git repository at:
-> 
->   https://github.com/davidhildenbrand/qemu.git tags/s390x-tcg-2019-06-05
-> 
-> for you to fetch changes up to cebb5e9c211764f9b7d0ad205cc81632f2609667:
-> 
->   linux-user: elf: ELF_HWCAP for s390x (2019-06-05 16:48:29 +0200)
-> 
-> ----------------------------------------------------------------
-> Finalize implementation of the "Vector Facility" for s390x TCG. Add it
-> to the QEMU CPU model, so it is enabled as default.
-> Also:
-> - One fix (and one workaround) for the STFLE instruction
-> - Fix the alignment of vector registers (and change the data type)
-> - Properly generate ELF_HWCAP for s390x for linux-user
-> - Use a gvec helper for VECTOR SELECT
-> 
-> ----------------------------------------------------------------
-> David Hildenbrand (32):
->   s390x/tcg: Implement VECTOR FIND ANY ELEMENT EQUAL
->   s390x/tcg: Implement VECTOR FIND ELEMENT EQUAL
->   s390x/tcg: Implement VECTOR FIND ELEMENT NOT EQUAL
->   s390x/tcg: Implement VECTOR ISOLATE STRING
->   s390x/tcg: Implement VECTOR STRING RANGE COMPARE
->   s390x: Align vector registers to 16 bytes
->   s390x: Use uint64_t for vector registers
->   s390x/tcg: Fix max_byte detection for stfle
->   s390x/tcg: Store only the necessary amount of doublewords for STFLE
->   s390x/tcg: Introduce tcg_s390_vector_exception()
->   s390x/tcg: Export float_comp_to_cc() and float(32|64|128)_dcmask()
->   s390x/tcg: Implement VECTOR FP ADD
->   s390x/tcg: Implement VECTOR FP COMPARE (AND SIGNAL) SCALAR
->   s390x/tcg: Implement VECTOR FP COMPARE (EQUAL|HIGH|HIGH OR EQUAL)
->   s390x/tcg: Implement VECTOR FP CONVERT FROM FIXED 64-BIT
->   s390x/tcg: Implement VECTOR FP CONVERT FROM LOGICAL 64-BIT
->   s390x/tcg: Implement VECTOR FP CONVERT TO FIXED 64-BIT
->   s390x/tcg: Implement VECTOR FP CONVERT TO LOGICAL 64-BIT
->   s390x/tcg: Implement VECTOR FP DIVIDE
->   s390x/tcg: Implement VECTOR LOAD FP INTEGER
->   s390x/tcg: Implement VECTOR LOAD LENGTHENED
->   s390x/tcg: Implement VECTOR LOAD ROUNDED
->   s390x/tcg: Implement VECTOR FP MULTIPLY
->   s390x/tcg: Implement VECTOR FP MULTIPLY AND (ADD|SUBTRACT)
->   s390x/tcg: Implement VECTOR FP PERFORM SIGN OPERATION
->   s390x/tcg: Implement VECTOR FP SQUARE ROOT
->   s390x/tcg: Implement VECTOR FP SUBTRACT
->   s390x/tcg: Implement VECTOR FP TEST DATA CLASS IMMEDIATE
->   s390x/tcg: Allow linux-user to use vector instructions
->   s390x/tcg: We support the Vector Facility
->   s390x: Bump the "qemu" CPU model up to a stripped-down z13
->   linux-user: elf: ELF_HWCAP for s390x
-> 
-> Richard Henderson (1):
->   s390x/tcg: Use tcg_gen_gvec_bitsel for VECTOR SELECT
-> 
->  hw/s390x/s390-virtio-ccw.c       |   2 +
->  include/elf.h                    |   1 +
->  linux-user/elfload.c             |  28 ++
->  linux-user/s390x/signal.c        |   4 +-
->  target/s390x/Makefile.objs       |   3 +-
->  target/s390x/arch_dump.c         |   8 +-
->  target/s390x/cpu.c               |   3 +
->  target/s390x/cpu.h               |   5 +-
->  target/s390x/cpu_models.c        |   4 +-
->  target/s390x/excp_helper.c       |  21 +-
->  target/s390x/fpu_helper.c        |   4 +-
->  target/s390x/gdbstub.c           |  16 +-
->  target/s390x/gen-features.c      |  10 +-
->  target/s390x/helper.c            |  10 +-
->  target/s390x/helper.h            |  84 +++++
->  target/s390x/insn-data.def       |  58 +++
->  target/s390x/internal.h          |   4 +
->  target/s390x/kvm.c               |  16 +-
->  target/s390x/machine.c           | 128 +++----
->  target/s390x/misc_helper.c       |  11 +-
->  target/s390x/tcg_s390x.h         |   2 +
->  target/s390x/translate.c         |   2 +-
->  target/s390x/translate_vx.inc.c  | 507 +++++++++++++++++++++++--
->  target/s390x/vec.h               |  40 ++
->  target/s390x/vec_fpu_helper.c    | 625 +++++++++++++++++++++++++++++++
->  target/s390x/vec_string_helper.c | 473 +++++++++++++++++++++++
->  26 files changed, 1930 insertions(+), 139 deletions(-)
->  create mode 100644 target/s390x/vec_fpu_helper.c
->  create mode 100644 target/s390x/vec_string_helper.c
-> 
+On 6/6/19 10:38 AM, Markus Armbruster wrote:
+> From: Kevin Wolf <kwolf@redhat.com>
+>=20
+> In commit 23dece19da4 ('file-posix: Make auto-read-only dynamic') ,
+> auto-read-only=3Don changed its behaviour in file-posix for the 4.0
+> release. This change cannot be detected through the usual mechanisms
+> like schema introspection. Add a new feature flag to the schema to
+> allow libvirt to detect the presence of the new behaviour.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  qapi/block-core.json | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 1defcde048..f5e1ee91f9 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2859,6 +2859,15 @@
+>  #                         file is large, do not use in production.
+>  #                         (default: off) (since: 3.0)
+>  #
+> +# Features:
+> +# @dynamic-auto-read-only: If present, enabled auto-read-only means th=
+at the
+> +#                          driver will open the image read-only at fir=
+st,
+> +#                          dynamically reopen the image file read-writ=
+e when
+> +#                          the first writer is attached to the node an=
+d reopen
+> +#                          read-only when the last writer is detached.=
+ This
+> +#                          allows to give QEMU write permissions only =
+on demand
 
-Thanks, pulled.
+s/allows to give/allows giving/
+
+> +#                          when an operation actually needs write acce=
+ss.
+> +#
+>  # Since: 2.9
+>  ##
+>  { 'struct': 'BlockdevOptionsFile',
+> @@ -2868,7 +2877,9 @@
+>              '*aio': 'BlockdevAioOptions',
+>  	    '*drop-cache': {'type': 'bool',
+>  	                    'if': 'defined(CONFIG_LINUX)'},
+> -            '*x-check-cache-dropped': 'bool' } }
+> +            '*x-check-cache-dropped': 'bool' },
+> +  'features': [ { 'name': 'dynamic-auto-read-only',
+> +                  'if': 'defined(CONFIG_POSIX)' } ] }
+> =20
+>  ##
+>  # @BlockdevOptionsNull:
+>=20
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--CQom1Q6zKHat1YzADbTdBrdxViQj1zdvp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz5NygACgkQp6FrSiUn
+Q2oIOQgAleKXU45yce9Bdv3OIM3FZi6wRnxwyClib4OKX2KPv17CPY6awNcPt6VC
++87KRieW98X/r60LYkcF7g4AC/CqO4nOs4dvbAeAmvwQd5Vzy5/EQn29MSc3Vur1
+t4MN5JYU1Vffdjuupg9OQx2SGispR+jseho0eezJSk1uH1/2BwIDRIpJ5SD70V4A
+U/S1tXHypnTih3DX+Fca5VrTbEqw3ZSTBwOecZnFrwfkZx1Qik6Uz1gzssW0kL4D
+gt4BuWPhY0gS7wjubXLSXSpVmUlmD0BxRuZZ7Mx/y+1e73ATGMEFe2h80rk8Lct/
+yMGH+d45STnDpsSDK/hO8hqU1+p6pA==
+=0Bf5
+-----END PGP SIGNATURE-----
+
+--CQom1Q6zKHat1YzADbTdBrdxViQj1zdvp--
 
