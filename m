@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E2837FB4
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 23:38:29 +0200 (CEST)
-Received: from localhost ([::1]:43460 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CB53811E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 00:44:08 +0200 (CEST)
+Received: from localhost ([::1]:42552 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ05c-00054D-1z
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 17:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51944)
+	id 1hZ00A-00011o-TW
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 17:32:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51595)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1hYzu9-000654-Ab
+ (envelope-from <crosa@redhat.com>) id 1hYzu9-0005bg-9v
  for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:26:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hYziU-00082m-KC
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38694)
+ (envelope-from <crosa@redhat.com>) id 1hYziZ-000875-EJ
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38718)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hYziT-0007wr-5h
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:34 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hYziZ-00086N-8b
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:39 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B96F83091851;
- Thu,  6 Jun 2019 21:14:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CB4A431628F9;
+ Thu,  6 Jun 2019 21:14:30 +0000 (UTC)
 Received: from dhcp-17-47.bos.redhat.com (dhcp-17-47.bos.redhat.com
  [10.18.17.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C243E10ABD9F;
- Thu,  6 Jun 2019 21:14:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D892C10A1832;
+ Thu,  6 Jun 2019 21:14:29 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 17:14:12 -0400
-Message-Id: <20190606211414.8681-6-crosa@redhat.com>
+Date: Thu,  6 Jun 2019 17:14:13 -0400
+Message-Id: <20190606211414.8681-7-crosa@redhat.com>
 In-Reply-To: <20190606211414.8681-1-crosa@redhat.com>
 References: <20190606211414.8681-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 06 Jun 2019 21:14:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 06 Jun 2019 21:14:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 5/7] Add "boot_linux" test for x86_64 and pc
- and q35 machine types
+Subject: [Qemu-devel] [PATCH v6 6/7] Add "boot_linux" test for aarch64 and
+ virt machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,154 +66,70 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This acceptance test, validates that a full blown Linux guest can
-successfully boot in QEMU.  In this specific case, the guest chosen is
-Fedora version 30.  It adds two different tests for machine types pc
-and q35.
+This boots a Fedora 30 guest using edk2.
 
-The method for checking the successful boot is based on "cloudinit"
-and its "phone home" feature.  The guest is given an ISO image
-with the location of the phone home server, and the information to
-post (the instance ID).  Upon receiving the correct information,
-from the guest, the test is considered to have PASSed.
+During the first Fedora 30 boot on aarch64, there's a filesystem
+resize operation.  The typical output is similar to:
 
-This test is currently limited to user mode networking only, and
-instructs the guest to connect to the "router" address that is hard
-coded in QEMU.
+   [  203.798938] EXT4-fs (sda2): resizing filesystem from 999168 to 9996=
+75 blocks
+   [  203.823032] EXT4-fs (sda2): resized filesystem to 999675
 
-To create the cloudinit ISO image that will be used to configure the
-guest, the pycdlib library is also required and has been added as
-requirement to the virtual environment created by "check-venv".
+It was observed that, when using virtio-blk, it seems that random
+numbers are exhausted, unless an RNG device is given.  Interestingly
+the same was *not* observed with virtio-scsi.  In accordance with the
+other similar tests, this uses the default devices on the machine
+model used (virtio-blk here) and adds the necessary options to make
+it operation.
+
+In the future, other combinations (such as virtio-scsi) can, should
+and will be tested.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- .travis.yml                    |  2 +-
- tests/acceptance/boot_linux.py | 83 ++++++++++++++++++++++++++++++++++
- tests/requirements.txt         |  2 +
- 3 files changed, 86 insertions(+), 1 deletion(-)
- create mode 100644 tests/acceptance/boot_linux.py
+ tests/acceptance/boot_linux.py | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index b053a836a3..df74234692 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -224,7 +224,7 @@ matrix:
-=20
-     # Acceptance (Functional) tests
-     - env:
--        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
-oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
-ftmmu,alpha-softmmu"
-+        - CONFIG=3D"--python=3D/usr/bin/python3 --enable-slirp=3Dgit --t=
-arget-list=3Dx86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu=
-,arm-softmmu,s390x-softmmu,alpha-softmmu"
-         - TEST_CMD=3D"make check-acceptance"
-       addons:
-         apt:
 diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux=
 .py
-new file mode 100644
-index 0000000000..2180f69a12
---- /dev/null
+index 2180f69a12..9b54a0241f 100644
+--- a/tests/acceptance/boot_linux.py
 +++ b/tests/acceptance/boot_linux.py
-@@ -0,0 +1,83 @@
-+# Functional test that boots a complete Linux system via a cloud image
-+#
-+# Copyright (c) 2018-2019 Red Hat, Inc.
-+#
-+# Author:
-+#  Cleber Rosa <crosa@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+
-+from avocado_qemu import Test
-+
-+from avocado.utils import cloudinit
-+from avocado.utils import network
-+from avocado.utils import vmimage
+@@ -10,7 +10,7 @@
+=20
+ import os
+=20
+-from avocado_qemu import Test
++from avocado_qemu import Test, SRC_ROOT_DIR
+=20
+ from avocado.utils import cloudinit
+ from avocado.utils import network
+@@ -81,3 +81,23 @@ class BootLinuxX8664(BootLinux):
+         self.vm.set_machine('q35')
+         self.vm.launch()
+         self.wait_for_boot_confirmation()
 +
 +
-+class BootLinux(Test):
-+    """
-+    Boots a Linux system, checking for a successful initialization
-+    """
++class BootLinuxAarch64(BootLinux):
 +
-+    timeout =3D 600
-+    chksum =3D None
++    chksum =3D '528f2659a410e3a8bd47d32a6ac4e6c5729f1d28dbad0763b4282a75=
+3ddcab1f'
 +
-+    def setUp(self):
-+        super(BootLinux, self).setUp()
-+        self.prepare_boot()
-+        self.vm.add_args('-m', '1024')
-+        self.vm.add_args('-drive', 'file=3D%s' % self.boot.path)
-+        self.prepare_cloudinit()
-+
-+    def prepare_boot(self):
-+        try:
-+            self.log.info('Downloading and preparing boot image')
-+            self.boot =3D vmimage.get(
-+                'fedora', arch=3Dself.arch, version=3D'30',
-+                checksum=3Dself.chksum,
-+                algorithm=3D'sha256',
-+                cache_dir=3Dself.cache_dirs[0],
-+                snapshot_dir=3Dself.workdir)
-+        except:
-+            self.cancel('Failed to download boot image')
-+
-+    def prepare_cloudinit(self):
-+        cloudinit_iso =3D os.path.join(self.workdir, 'cloudinit.iso')
-+        self.phone_home_port =3D network.find_free_port()
-+        cloudinit.iso(cloudinit_iso, self.name,
-+                      username=3D'root',
-+                      password=3D'password',
-+                      # QEMU's hard coded usermode router address
-+                      phone_home_host=3D'10.0.2.2',
-+                      phone_home_port=3Dself.phone_home_port)
-+        self.vm.add_args('-drive', 'file=3D%s,format=3Draw' % cloudinit_=
-iso)
-+
-+    def wait_for_boot_confirmation(self):
-+        self.log.info('VM launched, waiting for boot confirmation from g=
-uest')
-+        cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port),=
- self.name)
-+
-+
-+class BootLinuxX8664(BootLinux):
-+
-+    chksum =3D '72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837b=
-a00b4e26'
-+
-+    def test_pc(self):
++    def test_virt(self):
 +        """
-+        :avocado: tags=3Darch:x86_64
-+        :avocado: tags=3Dmachine:pc
++        :avocado: tags=3Darch:aarch64
++        :avocado: tags=3Dmachine:virt
 +        """
-+        self.vm.set_machine('pc')
++        self.vm.set_machine('virt')
++        self.vm.add_args('-cpu', 'cortex-a53')
++        self.vm.add_args('-bios',
++                         os.path.join(SRC_ROOT_DIR, 'pc-bios',
++                                      'edk2-aarch64-code.fd'))
++        self.vm.add_args('-device', 'virtio-rng-pci,rng=3Drng0')
++        self.vm.add_args('-object', 'rng-random,id=3Drng0,filename=3D/de=
+v/urandom')
 +        self.vm.launch()
 +        self.wait_for_boot_confirmation()
-+
-+    def test_q35(self):
-+        """
-+        :avocado: tags=3Darch:x86_64
-+        :avocado: tags=3Dmachine:q35
-+        """
-+        self.vm.set_machine('q35')
-+        self.vm.launch()
-+        self.wait_for_boot_confirmation()
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index 3ae0e29ad7..9d2c79b146 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -3,3 +3,5 @@
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
- avocado-framework=3D=3D68.0
- paramiko
-+pycdlib=3D=3D1.6.0
-+
 --=20
 2.21.0
 
