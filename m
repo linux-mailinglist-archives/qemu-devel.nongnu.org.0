@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947BD37C2B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:23:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36509 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C954237BFD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:16:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36400 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYx34-0006Ah-6n
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:23:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45254)
+	id 1hYww4-0007tl-Vs
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:16:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45236)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwUG-0004ft-Bs
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwUG-0004fj-4x
 	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwU8-0004GE-Ju
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwU8-0004Gd-Lm
 	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:40 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41009)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43863)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hYwU8-0003Ob-4p
+	id 1hYwU8-0003Qo-9L
 	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:32 -0400
-Received: by mail-wr1-x441.google.com with SMTP id c2so3327547wrm.8
-	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:57 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id r18so3320247wrm.10
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=BgQRGZdD+nntS+gM5xgt+/km/72hSxW1ESAV32KdFGw=;
-	b=FziAatUmJZkBf7dDGOco4UfbiAoMnXwb0qck2+tDo/Ugxv78pNNiA3GcVDuM+hq3gp
-	wLMGjDhpA4GdRFNJnKvYoHvupEP/AohEySXRCoPjNdVBJEJNluyC4u3+wzKy2I5IwsU8
-	xHtw6zJhGH0XNB/EjDvoCu3CIU+lPfUJMRmrPBFo/xwcZSNmCfOtbx+e0k+LnLTzg+Ed
-	oGuqn+IDneezN+8QrdDlRlxADz0UVegIo6QDEZyPd3kIcEnUyl0Bc4FC/xQ/9z39wrGT
-	RMvC+4NDW3xkvDv4OeRE8KhU3XxiCz1PaAqqNmxz5prvZ636vnEtjJ8wK5EnaCB/Pniw
-	xysQ==
+	bh=OPmJIDS5EQ/XYTrJS7IKfgCnnuP6L+oh/wc5ZioeaMA=;
+	b=YAP0P6+0NIZjQep8hUx2ZRVvPOX2BPiGfh5a2k2s2Rq1di8HrpM1voHArcgjT/rBC+
+	qCbD1EsmKp1/o0lwtRemDDiREMl5QiQOYdk3BXunLB70qF7j7yH+L+MYQ6JQOH0QbC+w
+	l9Su/02YGlOrQ5HiGMLupJgdc2OmG4cPOC7SOVv1ce6F3ORESdL+3DVhAy8AxDCJNKBc
+	A9ezFuJwmtXzPX/OnA/0o9rmruy58t7D9Iz3TNxu0LffXhnUitufChLesfZK/O9n5UDL
+	RGSqeNVHZaqPL/QU/aU4YKDwn3iace2pNlGXThMROUC7Wr4lRriQZeEVa5HYrLrUl7bu
+	bNVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=BgQRGZdD+nntS+gM5xgt+/km/72hSxW1ESAV32KdFGw=;
-	b=LxXlVq2Hf4XHf3hXJruBeCJcNhniS6SQMKAX6xjqyMBfWKHKShDqSYUqY0T3bng3Bf
-	rHM/LiGzHAKUxOckha3qZU0L/gMC9ZMHBJJ/IJTuUlV3VVs9/ay2fMHz5v0RMANqFdUs
-	WthZNOfhFf4qJGwLWGLu4mrnHFbojzITyAEWEclR5gmvrouALUuOFbZzpQi+VWdcDrYV
-	m+YqUKeqv5iCyKGBjoWonJfrRG/u/uhHPxKfdHrSj4TLV83EzkfJnUEdgJKzpAXLafpP
-	6aqQ2n761K2zrhA6piGbsV9fLQqRkEPTfSFQ+pEqopf9/LfXZ6zzazP+PBQFCaPXdCmi
-	OqDA==
-X-Gm-Message-State: APjAAAXozKj0FGleImZ1e/gDNcOJeaxngu1NC0GOBWMGuJJD3aX2c/fd
-	uNeMNceMoXeNcdKa77ttWKkStg==
-X-Google-Smtp-Source: APXvYqw0DYPs/PVtD/TBb2hbBAM7aF8GsJnkOPObCNrfYsyAfjopYBIRvh5AJHoeD/qC4r1utvG4PQ==
-X-Received: by 2002:adf:db81:: with SMTP id u1mr29648035wri.296.1559843216913; 
-	Thu, 06 Jun 2019 10:46:56 -0700 (PDT)
+	bh=OPmJIDS5EQ/XYTrJS7IKfgCnnuP6L+oh/wc5ZioeaMA=;
+	b=nc3L/JNYoK2p1H0WdEm23zaNQucUVGCbUe9v2EchTxT5aoj/t13nxtQyeIIFDEQ/SI
+	Xj0ZjgjamDz6WoKHrGtDI9o/c51CRJsKw058fYUhOBEk7WM1jBPgVbCOUEBOrrmJMm5C
+	vJNLBkU9bRFoAmkNLGPgmM1WjduKf5nGtLVk1k44SvVcPkMYZRYyY0NWR+Ci09ApoUWo
+	cdbP6BVmmNSkkQ9y9JF2ofqJMdcVz6NSPduwMI4RCtbtQZpboBjhz3Y1Te1vHLwyXdMf
+	ceBwFonDwQJR0hJa9T+QSWFA6OGxLQgvCyGzxx49gT6HV3NBN/PcqmShB1ByC7AFQAg1
+	JLuw==
+X-Gm-Message-State: APjAAAXkg6Gx7u2MO8pKtJ8BYLa4H7U8eCJzJwTKQNhSvJ9QsnRjOt7z
+	Qo6dPrJy5GKIjdYM/q/4w2rS3g==
+X-Google-Smtp-Source: APXvYqza78vRv1VdlV46zO8iPVj8g7XFAy1jZDRndXnGI90mLGZpQp40V+OIYKyhkv1gjtRt+nwcgg==
+X-Received: by 2002:a5d:6b03:: with SMTP id v3mr10985542wrw.309.1559843218047; 
+	Thu, 06 Jun 2019 10:46:58 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 	by smtp.gmail.com with ESMTPSA id
-	z135sm2596784wmc.45.2019.06.06.10.46.55
+	z135sm2596784wmc.45.2019.06.06.10.46.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jun 2019 10:46:56 -0700 (PDT)
+	Thu, 06 Jun 2019 10:46:57 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 18:46:08 +0100
-Message-Id: <20190606174609.20487-42-peter.maydell@linaro.org>
+Date: Thu,  6 Jun 2019 18:46:09 +0100
+Message-Id: <20190606174609.20487-43-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190606174609.20487-1-peter.maydell@linaro.org>
 References: <20190606174609.20487-1-peter.maydell@linaro.org>
@@ -67,8 +67,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH 41/42] target/arm: Convert float-to-integer
- VCVT insns to decodetree
+Subject: [Qemu-devel] [PATCH 42/42] target/arm: Fix short-vector increment
+ behaviour
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,386 +84,322 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the float-to-integer VCVT instructions to decodetree.
-Since these are the last unconverted instructions, we can
-delete the old decoder structure entirely now.
+For VFP short vectors, the VFP registers are divided into a
+series of banks: for single-precision these are s0-s7, s8-s15,
+s16-s23 and s24-s31; for double-precision they are d0-d3,
+d4-d7, ... d28-d31. Some banks are "scalar" meaning that
+use of a register within them triggers a pure-scalar or
+mixed vector-scalar operation rather than a full vector
+operation. The scalar banks are s0-s7, d0-d3 and d16-d19.
+When using a bank as part of a vector operation, we
+iterate through it, increasing the register number by
+the specified stride each time, and wrapping around to
+the beginning of the bank.
+
+Unfortunately our calculation of the "increment" part of this
+was incorrect:
+ vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask)
+will only do the intended thing if bank_mask has exactly
+one set high bit. For instance for doubles (bank_mask = 0xc),
+if we start with vd = 6 and delta_d = 2 then vd is updated
+to 12 rather than the intended 4.
+
+This only causes problems in the unlikely case that the
+starting register is not the first in its bank: if the
+register number doesn't have to wrap around then the
+expression happens to give the right answer.
+
+Fix this bug by abstracting out the "check whether register
+is in a scalar bank" and "advance register within bank"
+operations to utility functions which use the right
+bit masking operations.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-vfp.inc.c |  72 ++++++++++
- target/arm/translate.c         | 241 +--------------------------------
- target/arm/vfp.decode          |   6 +
- 3 files changed, 80 insertions(+), 239 deletions(-)
+ target/arm/translate-vfp.inc.c | 100 ++++++++++++++++++++-------------
+ 1 file changed, 60 insertions(+), 40 deletions(-)
 
 diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 80804ebff90..90bc23ef773 100644
+index 90bc23ef773..baeea14d56f 100644
 --- a/target/arm/translate-vfp.inc.c
 +++ b/target/arm/translate-vfp.inc.c
-@@ -2566,3 +2566,75 @@ static bool trans_VCVT_fix_dp(DisasContext *s, arg_VCVT_fix_dp *a)
-     tcg_temp_free_ptr(fpst);
-     return true;
- }
-+
-+static bool trans_VCVT_sp_int(DisasContext *s, arg_VCVT_sp_int *a)
+@@ -1139,6 +1139,42 @@ typedef void VFPGen3OpDPFn(TCGv_i64 vd,
+ typedef void VFPGen2OpSPFn(TCGv_i32 vd, TCGv_i32 vm);
+ typedef void VFPGen2OpDPFn(TCGv_i64 vd, TCGv_i64 vm);
+ 
++/*
++ * Return true if the specified S reg is in a scalar bank
++ * (ie if it is s0..s7)
++ */
++static inline bool vfp_sreg_is_scalar(int reg)
 +{
-+    TCGv_i32 vm;
-+    TCGv_ptr fpst;
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    fpst = get_fpstatus_ptr(false);
-+    vm = tcg_temp_new_i32();
-+    neon_load_reg32(vm, a->vm);
-+
-+    if (a->s) {
-+        if (a->rz) {
-+            gen_helper_vfp_tosizs(vm, vm, fpst);
-+        } else {
-+            gen_helper_vfp_tosis(vm, vm, fpst);
-+        }
-+    } else {
-+        if (a->rz) {
-+            gen_helper_vfp_touizs(vm, vm, fpst);
-+        } else {
-+            gen_helper_vfp_touis(vm, vm, fpst);
-+        }
-+    }
-+    neon_store_reg32(vm, a->vd);
-+    tcg_temp_free_i32(vm);
-+    tcg_temp_free_ptr(fpst);
-+    return true;
++    return (reg & 0x18) == 0;
 +}
 +
-+static bool trans_VCVT_dp_int(DisasContext *s, arg_VCVT_dp_int *a)
++/*
++ * Return true if the specified D reg is in a scalar bank
++ * (ie if it is d0..d3 or d16..d19)
++ */
++static inline bool vfp_dreg_is_scalar(int reg)
 +{
-+    TCGv_i32 vd;
-+    TCGv_i64 vm;
-+    TCGv_ptr fpst;
-+
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_fp_d32, s) && (a->vm & 0x10)) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    fpst = get_fpstatus_ptr(false);
-+    vm = tcg_temp_new_i64();
-+    vd = tcg_temp_new_i32();
-+    neon_load_reg64(vm, a->vm);
-+
-+    if (a->s) {
-+        if (a->rz) {
-+            gen_helper_vfp_tosizd(vd, vm, fpst);
-+        } else {
-+            gen_helper_vfp_tosid(vd, vm, fpst);
-+        }
-+    } else {
-+        if (a->rz) {
-+            gen_helper_vfp_touizd(vd, vm, fpst);
-+        } else {
-+            gen_helper_vfp_touid(vd, vm, fpst);
-+        }
-+    }
-+    neon_store_reg32(vd, a->vd);
-+    tcg_temp_free_i32(vd);
-+    tcg_temp_free_i64(vm);
-+    tcg_temp_free_ptr(fpst);
-+    return true;
++    return (reg & 0xc) == 0;
 +}
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 16c24aafc98..b999ce7a4ac 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -1418,9 +1418,7 @@ static inline void gen_vfp_##name(int dp, int neon) \
-     tcg_temp_free_ptr(statusptr); \
- }
- 
--VFP_GEN_FTOI(toui)
- VFP_GEN_FTOI(touiz)
--VFP_GEN_FTOI(tosi)
- VFP_GEN_FTOI(tosiz)
- #undef VFP_GEN_FTOI
- 
-@@ -1612,33 +1610,7 @@ static TCGv_ptr vfp_reg_ptr(bool dp, int reg)
- }
- 
- #define tcg_gen_ld_f32 tcg_gen_ld_i32
--#define tcg_gen_ld_f64 tcg_gen_ld_i64
- #define tcg_gen_st_f32 tcg_gen_st_i32
--#define tcg_gen_st_f64 tcg_gen_st_i64
--
--static inline void gen_mov_F0_vreg(int dp, int reg)
--{
--    if (dp)
--        tcg_gen_ld_f64(cpu_F0d, cpu_env, vfp_reg_offset(dp, reg));
--    else
--        tcg_gen_ld_f32(cpu_F0s, cpu_env, vfp_reg_offset(dp, reg));
--}
--
--static inline void gen_mov_F1_vreg(int dp, int reg)
--{
--    if (dp)
--        tcg_gen_ld_f64(cpu_F1d, cpu_env, vfp_reg_offset(dp, reg));
--    else
--        tcg_gen_ld_f32(cpu_F1s, cpu_env, vfp_reg_offset(dp, reg));
--}
--
--static inline void gen_mov_vreg_F0(int dp, int reg)
--{
--    if (dp)
--        tcg_gen_st_f64(cpu_F0d, cpu_env, vfp_reg_offset(dp, reg));
--    else
--        tcg_gen_st_f32(cpu_F0s, cpu_env, vfp_reg_offset(dp, reg));
--}
- 
- #define ARM_CP_RW_BIT   (1 << 20)
- 
-@@ -2983,9 +2955,6 @@ static void gen_neon_dup_high16(TCGv_i32 var)
-  */
- static int disas_vfp_insn(DisasContext *s, uint32_t insn)
++
++/*
++ * Advance the S reg number forwards by delta within its bank
++ * (ie increment the low 3 bits but leave the rest the same)
++ */
++static inline int vfp_advance_sreg(int reg, int delta)
++{
++    return ((reg + delta) & 0x7) | (reg & ~0x7);
++}
++
++/*
++ * Advance the D reg number forwards by delta within its bank
++ * (ie increment the low 2 bits but leave the rest the same)
++ */
++static inline int vfp_advance_dreg(int reg, int delta)
++{
++    return ((reg + delta) & 0x3) | (reg & ~0x3);
++}
++
+ /*
+  * Perform a 3-operand VFP data processing instruction. fn is the
+  * callback to do the actual operation; this function deals with the
+@@ -1149,7 +1185,6 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
  {
--    uint32_t rd, rn, rm, op, delta_d, delta_m, bank_mask;
--    int dp, veclen;
--
-     if (!arm_dc_feature(s, ARM_FEATURE_VFP)) {
-         return 1;
+     uint32_t delta_m = 0;
+     uint32_t delta_d = 0;
+-    uint32_t bank_mask = 0;
+     int veclen = s->vec_len;
+     TCGv_i32 f0, f1, fd;
+     TCGv_ptr fpst;
+@@ -1164,16 +1199,14 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
      }
-@@ -3005,214 +2974,8 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
-             return 0;
+ 
+     if (veclen > 0) {
+-        bank_mask = 0x18;
+-
+         /* Figure out what type of vector operation this is.  */
+-        if ((vd & bank_mask) == 0) {
++        if (vfp_sreg_is_scalar(vd)) {
+             /* scalar */
+             veclen = 0;
+         } else {
+             delta_d = s->vec_stride + 1;
+ 
+-            if ((vm & bank_mask) == 0) {
++            if (vfp_sreg_is_scalar(vm)) {
+                 /* mixed scalar/vector */
+                 delta_m = 0;
+             } else {
+@@ -1204,11 +1237,11 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
+ 
+         /* Set up the operands for the next iteration */
+         veclen--;
+-        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
+-        vn = ((vn + delta_d) & (bank_mask - 1)) | (vn & bank_mask);
++        vd = vfp_advance_sreg(vd, delta_d);
++        vn = vfp_advance_sreg(vn, delta_d);
+         neon_load_reg32(f0, vn);
+         if (delta_m) {
+-            vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
++            vm = vfp_advance_sreg(vm, delta_m);
+             neon_load_reg32(f1, vm);
          }
      }
--
--    if (extract32(insn, 28, 4) == 0xf) {
--        /*
--         * Encodings with T=1 (Thumb) or unconditional (ARM): these
--         * were all handled by the decodetree decoder, so any insn
--         * patterns which get here must be UNDEF.
--         */
--        return 1;
--    }
--
--    /*
--     * FIXME: this access check should not take precedence over UNDEF
--     * for invalid encodings; we will generate incorrect syndrome information
--     * for attempts to execute invalid vfp/neon encodings with FP disabled.
--     */
--    if (!vfp_access_check(s)) {
--        return 0;
--    }
--
--    dp = ((insn & 0xf00) == 0xb00);
--    switch ((insn >> 24) & 0xf) {
--    case 0xe:
--        if (insn & (1 << 4)) {
--            /* already handled by decodetree */
--            return 1;
--        } else {
--            /* data processing */
--            bool rd_is_dp = dp;
--            bool rm_is_dp = dp;
--            bool no_output = false;
--
--            /* The opcode is in bits 23, 21, 20 and 6.  */
--            op = ((insn >> 20) & 8) | ((insn >> 19) & 6) | ((insn >> 6) & 1);
--            rn = VFP_SREG_N(insn);
--
--            switch (op) {
--            case 0 ... 14:
--                /* Already handled by decodetree */
--                return 1;
--            case 15:
--                switch (rn) {
--                case 0 ... 23:
--                case 28 ... 31:
--                    /* Already handled by decodetree */
--                    return 1;
--                default:
--                    break;
--                }
--            default:
--                break;
--            }
--
--            if (op == 15) {
--                /* rn is opcode, encoded as per VFP_SREG_N. */
--                switch (rn) {
--                case 0x18: /* vcvtr.u32.fxx */
--                case 0x19: /* vcvtz.u32.fxx */
--                case 0x1a: /* vcvtr.s32.fxx */
--                case 0x1b: /* vcvtz.s32.fxx */
--                    rd_is_dp = false;
--                    break;
--
--                default:
--                    return 1;
--                }
--            } else if (dp) {
--                /* rn is register number */
--                VFP_DREG_N(rn, insn);
--            }
--
--            if (rd_is_dp) {
--                VFP_DREG_D(rd, insn);
--            } else {
--                rd = VFP_SREG_D(insn);
--            }
--            if (rm_is_dp) {
--                VFP_DREG_M(rm, insn);
--            } else {
--                rm = VFP_SREG_M(insn);
--            }
--
--            veclen = s->vec_len;
--            if (op == 15 && rn > 3) {
--                veclen = 0;
--            }
--
--            /* Shut up compiler warnings.  */
--            delta_m = 0;
--            delta_d = 0;
--            bank_mask = 0;
--
--            if (veclen > 0) {
--                if (dp)
--                    bank_mask = 0xc;
--                else
--                    bank_mask = 0x18;
--
--                /* Figure out what type of vector operation this is.  */
--                if ((rd & bank_mask) == 0) {
--                    /* scalar */
--                    veclen = 0;
--                } else {
--                    if (dp)
--                        delta_d = (s->vec_stride >> 1) + 1;
--                    else
--                        delta_d = s->vec_stride + 1;
--
--                    if ((rm & bank_mask) == 0) {
--                        /* mixed scalar/vector */
--                        delta_m = 0;
--                    } else {
--                        /* vector */
--                        delta_m = delta_d;
--                    }
--                }
--            }
--
--            /* Load the initial operands.  */
--            if (op == 15) {
--                switch (rn) {
--                default:
--                    /* One source operand.  */
--                    gen_mov_F0_vreg(rm_is_dp, rm);
--                    break;
--                }
--            } else {
--                /* Two source operands.  */
--                gen_mov_F0_vreg(dp, rn);
--                gen_mov_F1_vreg(dp, rm);
--            }
--
--            for (;;) {
--                /* Perform the calculation.  */
--                switch (op) {
--                case 15: /* extension space */
--                    switch (rn) {
--                    case 24: /* ftoui */
--                        gen_vfp_toui(dp, 0);
--                        break;
--                    case 25: /* ftouiz */
--                        gen_vfp_touiz(dp, 0);
--                        break;
--                    case 26: /* ftosi */
--                        gen_vfp_tosi(dp, 0);
--                        break;
--                    case 27: /* ftosiz */
--                        gen_vfp_tosiz(dp, 0);
--                        break;
--                    default: /* undefined */
--                        g_assert_not_reached();
--                    }
--                    break;
--                default: /* undefined */
--                    return 1;
--                }
--
--                /* Write back the result, if any.  */
--                if (!no_output) {
--                    gen_mov_vreg_F0(rd_is_dp, rd);
--                }
--
--                /* break out of the loop if we have finished  */
--                if (veclen == 0) {
--                    break;
--                }
--
--                if (op == 15 && delta_m == 0) {
--                    /* single source one-many */
--                    while (veclen--) {
--                        rd = ((rd + delta_d) & (bank_mask - 1))
--                             | (rd & bank_mask);
--                        gen_mov_vreg_F0(dp, rd);
--                    }
--                    break;
--                }
--                /* Setup the next operands.  */
--                veclen--;
--                rd = ((rd + delta_d) & (bank_mask - 1))
--                     | (rd & bank_mask);
--
--                if (op == 15) {
--                    /* One source operand.  */
--                    rm = ((rm + delta_m) & (bank_mask - 1))
--                         | (rm & bank_mask);
--                    gen_mov_F0_vreg(dp, rm);
--                } else {
--                    /* Two source operands.  */
--                    rn = ((rn + delta_d) & (bank_mask - 1))
--                         | (rn & bank_mask);
--                    gen_mov_F0_vreg(dp, rn);
--                    if (delta_m) {
--                        rm = ((rm + delta_m) & (bank_mask - 1))
--                             | (rm & bank_mask);
--                        gen_mov_F1_vreg(dp, rm);
--                    }
--                }
--            }
--        }
--        break;
--    case 0xc:
--    case 0xd:
--        /* Already handled by decodetree */
--        return 1;
--    default:
--        /* Should never happen.  */
--        return 1;
--    }
--    return 0;
-+    /* If the decodetree decoder didn't handle this insn, it must be UNDEF */
-+    return 1;
- }
+@@ -1226,7 +1259,6 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
+ {
+     uint32_t delta_m = 0;
+     uint32_t delta_d = 0;
+-    uint32_t bank_mask = 0;
+     int veclen = s->vec_len;
+     TCGv_i64 f0, f1, fd;
+     TCGv_ptr fpst;
+@@ -1246,16 +1278,14 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
+     }
  
- static inline bool use_goto_tb(DisasContext *s, target_ulong dest)
-diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index c3223a124ac..ea24365bb4c 100644
---- a/target/arm/vfp.decode
-+++ b/target/arm/vfp.decode
-@@ -234,3 +234,9 @@ VCVT_fix_sp  ---- 1110 1.11 1.1. .... 1010 .1.0 .... \
-              vd=%vd_sp imm=%vm_sp opc=%vcvt_fix_op
- VCVT_fix_dp  ---- 1110 1.11 1.1. .... 1011 .1.0 .... \
-              vd=%vd_dp imm=%vm_sp opc=%vcvt_fix_op
-+
-+# VCVT float to integer (VCVT and VCVTR): Vd always single; Vd depends on size
-+VCVT_sp_int  ---- 1110 1.11 110 s:1 .... 1010 rz:1 1.0 .... \
-+             vd=%vd_sp vm=%vm_sp
-+VCVT_dp_int  ---- 1110 1.11 110 s:1 .... 1011 rz:1 1.0 .... \
-+             vd=%vd_sp vm=%vm_dp
+     if (veclen > 0) {
+-        bank_mask = 0xc;
+-
+         /* Figure out what type of vector operation this is.  */
+-        if ((vd & bank_mask) == 0) {
++        if (vfp_dreg_is_scalar(vd)) {
+             /* scalar */
+             veclen = 0;
+         } else {
+             delta_d = (s->vec_stride >> 1) + 1;
+ 
+-            if ((vm & bank_mask) == 0) {
++            if (vfp_dreg_is_scalar(vm)) {
+                 /* mixed scalar/vector */
+                 delta_m = 0;
+             } else {
+@@ -1285,11 +1315,11 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
+         }
+         /* Set up the operands for the next iteration */
+         veclen--;
+-        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
+-        vn = ((vn + delta_d) & (bank_mask - 1)) | (vn & bank_mask);
++        vd = vfp_advance_dreg(vd, delta_d);
++        vn = vfp_advance_dreg(vn, delta_d);
+         neon_load_reg64(f0, vn);
+         if (delta_m) {
+-            vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
++            vm = vfp_advance_dreg(vm, delta_m);
+             neon_load_reg64(f1, vm);
+         }
+     }
+@@ -1306,7 +1336,6 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
+ {
+     uint32_t delta_m = 0;
+     uint32_t delta_d = 0;
+-    uint32_t bank_mask = 0;
+     int veclen = s->vec_len;
+     TCGv_i32 f0, fd;
+ 
+@@ -1320,16 +1349,14 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
+     }
+ 
+     if (veclen > 0) {
+-        bank_mask = 0x18;
+-
+         /* Figure out what type of vector operation this is.  */
+-        if ((vd & bank_mask) == 0) {
++        if (vfp_sreg_is_scalar(vd)) {
+             /* scalar */
+             veclen = 0;
+         } else {
+             delta_d = s->vec_stride + 1;
+ 
+-            if ((vm & bank_mask) == 0) {
++            if (vfp_sreg_is_scalar(vm)) {
+                 /* mixed scalar/vector */
+                 delta_m = 0;
+             } else {
+@@ -1355,7 +1382,7 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
+         if (delta_m == 0) {
+             /* single source one-many */
+             while (veclen--) {
+-                vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
++                vd = vfp_advance_sreg(vd, delta_d);
+                 neon_store_reg32(fd, vd);
+             }
+             break;
+@@ -1363,8 +1390,8 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
+ 
+         /* Set up the operands for the next iteration */
+         veclen--;
+-        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
+-        vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
++        vd = vfp_advance_sreg(vd, delta_d);
++        vm = vfp_advance_sreg(vm, delta_m);
+         neon_load_reg32(f0, vm);
+     }
+ 
+@@ -1378,7 +1405,6 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
+ {
+     uint32_t delta_m = 0;
+     uint32_t delta_d = 0;
+-    uint32_t bank_mask = 0;
+     int veclen = s->vec_len;
+     TCGv_i64 f0, fd;
+ 
+@@ -1397,16 +1423,14 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
+     }
+ 
+     if (veclen > 0) {
+-        bank_mask = 0xc;
+-
+         /* Figure out what type of vector operation this is.  */
+-        if ((vd & bank_mask) == 0) {
++        if (vfp_dreg_is_scalar(vd)) {
+             /* scalar */
+             veclen = 0;
+         } else {
+             delta_d = (s->vec_stride >> 1) + 1;
+ 
+-            if ((vm & bank_mask) == 0) {
++            if (vfp_dreg_is_scalar(vm)) {
+                 /* mixed scalar/vector */
+                 delta_m = 0;
+             } else {
+@@ -1432,7 +1456,7 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
+         if (delta_m == 0) {
+             /* single source one-many */
+             while (veclen--) {
+-                vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
++                vd = vfp_advance_dreg(vd, delta_d);
+                 neon_store_reg64(fd, vd);
+             }
+             break;
+@@ -1440,8 +1464,8 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
+ 
+         /* Set up the operands for the next iteration */
+         veclen--;
+-        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
+-        vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
++        vd = vfp_advance_dreg(vd, delta_d);
++        vd = vfp_advance_dreg(vm, delta_m);
+         neon_load_reg64(f0, vm);
+     }
+ 
+@@ -1783,7 +1807,6 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_sp *a)
+ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
+ {
+     uint32_t delta_d = 0;
+-    uint32_t bank_mask = 0;
+     int veclen = s->vec_len;
+     TCGv_i32 fd;
+     uint32_t n, i, vd;
+@@ -1804,9 +1827,8 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
+     }
+ 
+     if (veclen > 0) {
+-        bank_mask = 0x18;
+         /* Figure out what type of vector operation this is.  */
+-        if ((vd & bank_mask) == 0) {
++        if (vfp_sreg_is_scalar(vd)) {
+             /* scalar */
+             veclen = 0;
+         } else {
+@@ -1835,7 +1857,7 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
+ 
+         /* Set up the operands for the next iteration */
+         veclen--;
+-        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
++        vd = vfp_advance_sreg(vd, delta_d);
+     }
+ 
+     tcg_temp_free_i32(fd);
+@@ -1845,7 +1867,6 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
+ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
+ {
+     uint32_t delta_d = 0;
+-    uint32_t bank_mask = 0;
+     int veclen = s->vec_len;
+     TCGv_i64 fd;
+     uint32_t n, i, vd;
+@@ -1871,9 +1892,8 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
+     }
+ 
+     if (veclen > 0) {
+-        bank_mask = 0xc;
+         /* Figure out what type of vector operation this is.  */
+-        if ((vd & bank_mask) == 0) {
++        if (vfp_dreg_is_scalar(vd)) {
+             /* scalar */
+             veclen = 0;
+         } else {
+@@ -1902,7 +1922,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
+ 
+         /* Set up the operands for the next iteration */
+         veclen--;
+-        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
++        vfp_advance_dreg(vd, delta_d);
+     }
+ 
+     tcg_temp_free_i64(fd);
 -- 
 2.20.1
 
