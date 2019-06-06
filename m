@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9E537059
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 11:43:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57362 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F837081
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 11:44:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57371 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYovi-00077y-KE
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 05:43:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42384)
+	id 1hYowS-0007qw-KL
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 05:44:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42597)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYouI-0006dt-0a
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:42:02 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hYouz-00076q-NV
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:42:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYouG-0005bn-0I
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:42:01 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:47797)
+	(envelope-from <laurent@vivier.eu>) id 1hYouv-0006NP-MM
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:42:45 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:46597)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hYouE-0005VW-05; Thu, 06 Jun 2019 05:41:59 -0400
+	id 1hYouo-0006Bb-8G; Thu, 06 Jun 2019 05:42:34 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
 	(mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
-	1Mv3I0-1ghohW1fCy-00r1Xa; Thu, 06 Jun 2019 11:41:14 +0200
+	1N5mWp-1gTFPe23St-017GtR; Thu, 06 Jun 2019 11:42:09 +0200
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
 	qemu-devel@nongnu.org, qemu-trivial@nongnu.org
 References: <20190528164020.32250-1-philmd@redhat.com>
-	<20190528164020.32250-3-philmd@redhat.com>
+	<20190528164020.32250-11-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
@@ -71,36 +71,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
 	OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
 	JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
 	ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <cfba2e0e-9c31-d032-ba27-17b59b2eeb79@vivier.eu>
-Date: Thu, 6 Jun 2019 11:41:09 +0200
+Message-ID: <e7446c5c-2d8a-a7b1-5fb5-6890e62c0856@vivier.eu>
+Date: Thu, 6 Jun 2019 11:42:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190528164020.32250-3-philmd@redhat.com>
+In-Reply-To: <20190528164020.32250-11-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YzWi7DMPhBnS6+l0gQ0hJgTME9Y/sOscYzr/hZisweeE1+qzztH
-	JMB2ZO8FTHxTeIPiWf0+/gKllqBQneafb3Ew9CU2nPaM83/WsKZc73pByZysvTnP5u6eBAi
-	QqqzlPl3k8QrSRKauiqSJC2eXWoH0gGIZ85dOjpibhZm8d+D8pmZlADqdw8YTN1byN6bEqm
-	q7Fm44+Mb/PAjCXfmjJSQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Em3HJatQlGI=:ojDW5oSdhF8tPS6sW7p6Zf
-	x4Bi9g1ZoRZvkFaxMht9uc0nWWu4jdq5WxkuqpZ/Bk2SVxrI2xdyS8UPAiczTXnNl68I89Qgn
-	H8DkNsLGJUOGkXBXOCMdodaVyZC3PgVJWCTnDvkFXfqnppHTBMMKU+VnKVIFT7ZZ1MQDLeaOs
-	L37mBdUFLKCUd5J0MATSEnnqxfzLq1ecDkI9pHuWydY1HO1Ly4ryrPKbBKrEY8+1KOOFv/9JU
-	0sGqi/oAh7C+o27o08u+Fnj+hBSQFaXcmoOrkrRVJk3WTNHRRRyStnARW5XB408RFyMWf+vOK
-	73CVnpEW00dwaAGYx7/olUKJYKJOgUHI1dlK6AMEp8DXTukApDJ4uSeqLtYg7a6ZsH2D4SIJT
-	FaRghcrqmVhh94UXhipmNLBdeFzMnxpNAjDvRHkUVh4wvtYKV3HnQY1OnQHakqcj2Hs59sd2s
-	zXaWeMA3rfUXkEqtY8tSYIcObymor6cgay+I8ymJR++D5tmxJn9L//08npLl9nSYapugTjztu
-	mbXpyV9rZ6YwpA6MALNeuEIeJzU1HkB1QSzOdGWOYIV/2FbU/+7EDb7opZ8ZuY7QP+o/NX9S9
-	2yUVjAWcenFkBNOMsla8mfnaBsny/27lJ5DaDb2WgrW/Zy2HtJL8rCw5UYJ7xwB7dhAHBtby+
-	pL1xCN/3u2uYMx7N8VS7lJLYHkrOp8z1LObeKavXdQVH8RR4lH9P4DLjpZiYNZoFe9OepRepb
-	+pXvVSczEvohJecF/wVmPE6BIqPKSAwdGdlZ+X2IekMoORXV8NBhbCIu70LQtv0JwRyqFW4Xc
-	QMhnLDKbf76sCpjXCkgPa8mG+VqWA==
+X-Provags-ID: V03:K1:TX+rrqKFfhC9YjzAA1gj+l8X2xUVUCrPX5YH0u/R8P73cRY/e6B
+	JttywsZPN1R8L08izE2IBGO5tDqdQ7FaPlgroqF7Ki6BMdIFBz1bb/Oknubz59bJqOif2cj
+	SmiKSpCYRgGf0v/Q6WiYsRvsmF7FZAHMOb558Eq3p6Z/HXUq7tKDKdh6BdgVIKdXiTtvd67
+	B7n1bO0vJ4fGHwV7VVogg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SmGHHdMm5Fo=:8TYuyyyVsPcy66Nz0yMEXL
+	W3aYfOOgi2onvlAc+PlRId2a5Z81r9794jook8ogFaXHHGwPFvA0b5TFTmgzckY5OAJxkp21f
+	LA17Eq1qXRgOSHEx8K1xrsT/HDKVuXNfuTh1ZVPSvpCWhPgljXThCDFyGyNMYdTAWAcF+dR0H
+	LTO4cv2BaSPd/J/YOpqy73OWiQZf4EJDc6EL/D+jR2Z4daYjCyc19e17CfwiKg/szzd5uS4FS
+	Dk+w1sVHcRr1oc/NwKeUSUvgjvty2XgUl0Z5F8EzFK+QPfI7uPkFBkEk1QPEfieZA2N6TPFMw
+	CNiD/Rm6wryzzlw5ScXG+1KbdWEFXJLO0x6aRrej1rvVpnWjKQ6OAeQZvecnZOHw1E3MvlZsM
+	BypaJnd0Sop1tT7ow3bP9aQGY0TeYC4B3A7asoJm/lKwp5ymHqW1LUHTc/C0ek+CTWwl/HzcM
+	1XJ1cyToqbQTk+WACZU44/Vwsc+Qt7YRH/rUcox4pi8rqs0FdHxl3IXQ27Y4MUHxdrJHRDiE4
+	fuTdRO9ydhbI53jog31hzOW0J7BQGqt1bwQHbuFP6TgJahaoe7ZSkHRIefMmZK/sfbD3WCt/5
+	XAbaq7JCfiaV4agVrvKNJ8ne+4j65QmYEpIRtnP3Ij7+aT358PtGiMAnpNPKgzq5uZDgIrKQz
+	qrrVu1yLknVczk/hWqm9JjwYeqv1Ql2+nQ0a7sq+mZNmYrdiybNXSkbyPD0p1UrYuSgMSe+6M
+	fnIIij/6vEp3jkx+8b0jD41r+bcSReHZh9X1k+Ik6GsccQwFEZ28eh11/Qk=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 02/10] hw/scsi: Use the
- QOM BUS() macro to access BusState.qbus
+X-Received-From: 212.227.126.135
+Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 10/10]
+ hw/watchdog/wdt_i6300esb: Use DEVICE() macro to access DeviceState.qdev
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -130,27 +129,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 28/05/2019 à 18:40, Philippe Mathieu-Daudé a écrit :
-> Rather than looking inside the definition of a BusState with "s->bus.qbus",
-> use the QOM prefered style: "BUS(&s->bus)".
+> Rather than looking inside the definition of a DeviceState with
+> "s->qdev", use the QOM prefered style: "DEVICE(s)".
 > 
 > This patch was generated using the following Coccinelle script:
 > 
->     // Use BUS() macros to access BusState.qbus
->     @use_bus_macro_to_access_qbus@
+>     // Use DEVICE() macros to access DeviceState.qdev
+>     @use_device_macro_to_access_qdev@
 >     expression obj;
->     identifier bus;
+>     identifier dev;
 >     @@
->     -&obj->bus.qbus
->     +BUS(&obj->bus)
+>     -&obj->dev.qdev
+>     +DEVICE(obj)
 > 
 > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/scsi/lsi53c895a.c  | 2 +-
->  hw/scsi/mptsas.c      | 4 ++--
->  hw/scsi/virtio-scsi.c | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
-> 
+>  hw/watchdog/wdt_i6300esb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
