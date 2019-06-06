@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7388336E69
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 10:22:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56396 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDDD36F21
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 10:52:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56695 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYnes-00016v-AQ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 04:22:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51583)
+	id 1hYo81-0002UZ-TF
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 04:52:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55443)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hYndc-0000Ko-UM
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:20:45 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hYnyl-0003Zd-RG
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hYndb-0006Bh-1l
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:20:44 -0400
-Received: from 6.mo69.mail-out.ovh.net ([46.105.50.107]:49004)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hYnda-0005qH-HO
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:20:42 -0400
-Received: from player750.ha.ovh.net (unknown [10.108.57.23])
-	by mo69.mail-out.ovh.net (Postfix) with ESMTP id 7D3555D0CD
-	for <qemu-devel@nongnu.org>; Thu,  6 Jun 2019 10:20:31 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player750.ha.ovh.net (Postfix) with ESMTPSA id 413A96A60698;
-	Thu,  6 Jun 2019 08:20:18 +0000 (UTC)
-Date: Thu, 6 Jun 2019 10:20:17 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <20190606102017.264123c5@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <20190606030732.GL10319@umbus.fritz.box>
-References: <20190518205428.90532-1-like.xu@linux.intel.com>
-	<20190518205428.90532-5-like.xu@linux.intel.com>
-	<20190606025241.GM22416@habkost.net>
-	<20190606025456.GN22416@habkost.net>
-	<20190606030732.GL10319@umbus.fritz.box>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(envelope-from <alex.bennee@linaro.org>) id 1hYnlq-0000lE-68
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:29:16 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41914)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hYnln-0000Y7-39
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:29:11 -0400
+Received: by mail-wr1-x444.google.com with SMTP id c2so1415398wrm.8
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 01:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MVxKLXvv3XKjmXllNopXwy6owIzV+D4TJIoeCStLTxM=;
+	b=tXDD8Ml1nxNYVKfT3y2XyClwlG3zQNwov/UUmmuKB58WtNGRPHI0hVI7tyi1/8urU5
+	vtU2VVKuuEzhSzMrqda1ij9g6BUoQDav1TUOD66cojHW4CiJ4xjAW5pnjI4dl5FyBOBx
+	BEocfEXpOxziK3NCVL9RLCI1MCrFDgkJlVr3EwQ8fevTylpc3JphKhRLxOmKawWMgqFh
+	zv7egdGBFbDJA04c5oVeMkOAB+lyLD4byqJt3xIj05WFd/GRU4jeDbA6dGbi2KBFoPwU
+	pt53y9CVrrJ6q1Fvc83K6APLNN9CbR8yc7dPKdEUaoasNPeUtiZ1BrqbYkO5Fae6jFmm
+	ZFsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MVxKLXvv3XKjmXllNopXwy6owIzV+D4TJIoeCStLTxM=;
+	b=aFh3SP9rL8yFn98ysP4NlbUtsVvP7vQ8egEZlhgC/eAmS1C2bDQfavQ94pmgGwto88
+	je5Z472gHOOVRdfxEuwIu0NXH9sYBm+jget0oc6obv1TMd+5WM2eJXu0NE8f7KYBwItr
+	AD8caGkStDD3JtkTJP5/l2EVsWuNNmuSPTVilYkvGfWQwFIHmwaF912UnDplEdQU4PzU
+	vNixrwDP3GO7f8Z+GVdI9edkJtf8nQC2/fzyjxAvkSy5S9OLbbYWQMHI+dNvkQy/LJP4
+	PMk7OUgd7AdaNjieknz8OtttvhRcHo2ca8+egmFrWOoP+SU1BZ+0OfxAg7NGMm5YdB69
+	UgSg==
+X-Gm-Message-State: APjAAAWGsQXIXpTLbjjn3qtnoACQtLqbnLSRQvgvn8Fw6ngBvlW0VgjN
+	2TAiQWpdxQeowZYP3epm+syN7g==
+X-Google-Smtp-Source: APXvYqz+pwNszU9GWPToNpu4l8IXf5+Afw/LaospTeJa8aGxP1r4xOpgL3n00Z0lbVuhvz7yfQqg4Q==
+X-Received: by 2002:a05:6000:148:: with SMTP id
+	r8mr14988744wrx.210.1559809746485; 
+	Thu, 06 Jun 2019 01:29:06 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id f3sm1065155wre.93.2019.06.06.01.29.05
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 06 Jun 2019 01:29:05 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 20E721FF87;
+	Thu,  6 Jun 2019 09:29:05 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Thu,  6 Jun 2019 09:29:00 +0100
+Message-Id: <20190606082900.6330-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	boundary="Sig_/OqITJOZMth2QE6A/fhmv3pz";
-	protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 14758014507939043814
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudeggedgtdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.50.107
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v3 04/10] hw/ppc: Replace global
- smp variables with machine smp properties
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH] MAINTAINERS: put myself forward for gdbstub
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,111 +80,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Like Xu <like.xu@linux.intel.com>, qemu-trivial@nongnu.org,
-	"Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
-	=?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
-	=?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
-	Alistair Francis <alistair23@gmail.com>,
-	Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/OqITJOZMth2QE6A/fhmv3pz
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+As I've been reviewing a lot of this recently and I'm going to put
+together a pull request I'd better keep an eye on it.
 
-On Thu, 6 Jun 2019 13:07:32 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ MAINTAINERS | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> On Wed, Jun 05, 2019 at 11:54:56PM -0300, Eduardo Habkost wrote:
-> > On Wed, Jun 05, 2019 at 11:52:41PM -0300, Eduardo Habkost wrote: =20
-> > > On Sun, May 19, 2019 at 04:54:22AM +0800, Like Xu wrote: =20
-> > > > The global smp variables in ppc are replaced with smp machine prope=
-rties.
-> > > >=20
-> > > > A local variable of the same name would be introduced in the declar=
-ation
-> > > > phase if it's used widely in the context OR replace it on the spot =
-if it's
-> > > > only used once. No semantic changes.
-> > > >=20
-> > > > Signed-off-by: Like Xu <like.xu@linux.intel.com> =20
-> > >=20
-> > > Any objections from the ppc maintainers to queueing this through
-> > > the Machine Core tree? =20
-> >=20
-> > Oops, CCing the ppc maintainers. =20
->=20
-> No objection here.
->=20
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
->=20
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a96829ea83..8ef34cf1ce 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1872,7 +1872,8 @@ F: util/error.c
+ F: util/qemu-error.c
+ 
+ GDB stub
+-S: Orphan
++M: Alex Bennée <alex.bennee@linaro.org>
++S: Maintained
+ F: gdbstub*
+ F: gdb-xml/
+ 
+-- 
+2.20.1
 
-Just one nit...
-
-[...]
-
-> > > > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> > > > index ee24212765..c9ffe9786c 100644
-> > > > --- a/hw/ppc/spapr_rtas.c
-> > > > +++ b/hw/ppc/spapr_rtas.c
-> > > > @@ -231,6 +231,8 @@ static void rtas_ibm_get_system_parameter(Power=
-PCCPU *cpu,
-> > > >                                            target_ulong args,
-> > > >                                            uint32_t nret, target_ul=
-ong rets)
-> > > >  {
-> > > > +    MachineState *ms =3D MACHINE(qdev_get_machine());
-
-rtas_ibm_get_system_parameter() has a SpaprMachineState *spapr argument, no
-need to rely on qdev_get_machine().
-
-But this can be fixed in a followup patch I guess. Not worth holding the
-patchset because of that.
-
-> > > > +    unsigned int max_cpus =3D ms->smp.max_cpus;
-> > > >      target_ulong parameter =3D rtas_ld(args, 0);
-> > > >      target_ulong buffer =3D rtas_ld(args, 1);
-> > > >      target_ulong length =3D rtas_ld(args, 2);
-> > > > @@ -244,7 +246,7 @@ static void rtas_ibm_get_system_parameter(Power=
-PCCPU *cpu,
-> > > >                                            "MaxPlatProcs=3D%d",
-> > > >                                            max_cpus,
-> > > >                                            current_machine->ram_siz=
-e / MiB,
-> > > > -                                          smp_cpus,
-> > > > +                                          ms->smp.cpus,
-> > > >                                            max_cpus);
-> > > >          ret =3D sysparm_st(buffer, length, param_val, strlen(param=
-_val) + 1);
-> > > >          g_free(param_val); =20
-> > >  =20
-> >  =20
->=20
-
-
---Sig_/OqITJOZMth2QE6A/fhmv3pz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAlz4zMEACgkQcdTV5YIv
-c9YlyRAAigru/BNqZDBbSGkoX6B45x6xk7roooaITKIJM9YGw8gKx7aXXaX7HNvc
-0v0Bcfp48PqBynzBIFzKWvpVy3zAV9uodX9VRMaNPJgObvNa0vtEJqbQxfdVnYTt
-JJNRKYOPRPM72FW436/ft6JtmRmt/GvYFOotYE+5NPQ9VsLNN1aZ5i2yYXZ2U6dC
-Z9WQa+Sa9DIAUwW3EANuu9Swvoj5SiXC+1w285lDKHwia037LM0bfZQRSb0oP9cl
-KXuUA2m9sL/wC60DxAoVthuPbd9LDKvQfuR+sLNrBt+i7SpsnWPgITlo1MZTg+1Y
-JYBuPU6m5n2DMLlj9sUBofbyjGWgzxylQdI+5j9wAD09+AQzgmKkUdNpagSwDcqq
-BLhxalUBVe7CJ5vMcxwU+19GIxCZOIK7n6FD3/1xTmOR3a4OXrEHTQlPFVM7k+cr
-JGpGt7IOIE6DAXGDHEGEsPFWmmRj6IQtvf1xm13nhhkJydSGsyvAY2vNmy6vq+nO
-pBoK/K/0zTZcER7jLI2uSTqW+vjlP4P9HFkjlTZrgZ/90/A4hGTaHovx8NhPKUDK
-GGd5XDLOnxidTVIpE+SnIeOlqsz3RheMKBgJlqlArP+Vv9PE+X6BUrpGz6nVfAw4
-i9DMgyZ6uJiY40AeIQj7RnzCGhoAYSXfWF4mYIB6aA9D54iqG0s=
-=XjKp
------END PGP SIGNATURE-----
-
---Sig_/OqITJOZMth2QE6A/fhmv3pz--
 
