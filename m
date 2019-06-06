@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFCA37FA7
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 23:34:36 +0200 (CEST)
-Received: from localhost ([::1]:42902 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396C437F98
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 23:29:50 +0200 (CEST)
+Received: from localhost ([::1]:42226 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ01r-0001oR-9j
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 17:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51796)
+	id 1hYzxF-0007lR-DD
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 17:29:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51627)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1hYzu9-0005vo-CY
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:26:39 -0400
+ (envelope-from <crosa@redhat.com>) id 1hYzu5-0005bq-H6
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:26:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hYziR-0007xg-Rw
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44848)
+ (envelope-from <crosa@redhat.com>) id 1hYziZ-00087T-Ga
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46622)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hYziR-0007ut-Ih
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:31 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hYziZ-00086O-9Z
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:39 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 61DA33092654;
- Thu,  6 Jun 2019 21:14:24 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7A463C0624A1;
+ Thu,  6 Jun 2019 21:14:25 +0000 (UTC)
 Received: from dhcp-17-47.bos.redhat.com (dhcp-17-47.bos.redhat.com
  [10.18.17.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D8E6108420A;
- Thu,  6 Jun 2019 21:14:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83634108F832;
+ Thu,  6 Jun 2019 21:14:24 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 17:14:08 -0400
-Message-Id: <20190606211414.8681-2-crosa@redhat.com>
+Date: Thu,  6 Jun 2019 17:14:09 -0400
+Message-Id: <20190606211414.8681-3-crosa@redhat.com>
 In-Reply-To: <20190606211414.8681-1-crosa@redhat.com>
 References: <20190606211414.8681-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 06 Jun 2019 21:14:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Thu, 06 Jun 2019 21:14:31 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 1/7] Acceptance tests: use relative location
- for tests
+Subject: [Qemu-devel] [PATCH v6 2/7] Acceptance tests: keep a stable
+ reference to the QEMU build dir
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,43 +66,56 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An Avocado Test ID[1] is composed by a number of components, but it
-starts with the Test Name, usually a file system location that was
-given to the loader.
+This is related to the the differences in in-tree and out-of-tree
+builds in QEMU.  For simplification, <BLD> means my build directory.
 
-Because the source directory is being given as a prefix to the
-"tests/acceptance" directory containing the acceptance tests, the test
-names will needlessly include the directory the user is using to host
-the QEMU sources (and/or build tree).
+Currently, by running a `make check-acceptance` one gets (in
+tests/acceptance/avocado_qemu/__init__.py):
 
-Let's remove the source dir (or a build dir) from the path given to
-the test loader.  This should give more constant names, and when using
-result servers and databases, it should give the same test names
-across executions from different people or from different directories.
+   SRC_ROOT_DIR: <BLD>/tests/acceptance/avocado_qemu/../../..
 
-[1] - https://avocado-framework.readthedocs.io/en/69.0/ReferenceGuide.htm=
-l#test-id
+This in itself is problematic, because after the parent directories
+are applied, one may be left not with a pointer to the build directory
+as intended, but with the location of the source tree (assuming they
+differ). Built binaries, such as qemu-img, are of course not there and
+can't be found.
+
+Given that a Python '__file__' will contain the absolute path to the
+file backing the module, say:
+
+   __file__: <BLD>/tests/acceptance/avocado_qemu/__init__.py
+
+                  |  4  |     3    |      2     |     1     |
+
+A solution is to not "evaluate" the third parent dir (marked as 4
+here) because that ends up following the "tests" directory symlink to
+the source tree.  In fact, there's no need to keep or evaluate any of
+the parent directories, we can just drop the rightmost 4 components,
+and we'll keep a stable reference to the build directory (with no
+symlink being followed).  This works for either a dedicated build
+directory or also a combined source and build tree.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/Makefile.include | 2 +-
+ tests/acceptance/avocado_qemu/__init__.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 0cd5f465b7..991ad05aea 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -1147,7 +1147,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
-             --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_RES=
-ULTS_DIR) \
-             --filter-by-tags-include-empty --filter-by-tags-include-empt=
-y-key \
-             $(AVOCADO_TAGS) \
--            --failfast=3Don $(SRC_PATH)/tests/acceptance, \
-+            --failfast=3Don tests/acceptance, \
-             "AVOCADO", "tests/acceptance")
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
+/avocado_qemu/__init__.py
+index 2b236a1cf0..ac59d36a4c 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -14,7 +14,7 @@ import uuid
 =20
- # Consolidated targets
+ import avocado
+=20
+-SRC_ROOT_DIR =3D os.path.join(os.path.dirname(__file__), '..', '..', '..=
+')
++SRC_ROOT_DIR =3D os.path.dirname(os.path.dirname(os.path.dirname(os.path=
+.dirname(__file__))))
+ sys.path.append(os.path.join(SRC_ROOT_DIR, 'python'))
+=20
+ from qemu import QEMUMachine
 --=20
 2.21.0
 
