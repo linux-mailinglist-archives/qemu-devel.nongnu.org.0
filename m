@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFD037BB3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 19:58:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36053 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E6137BCA
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:04:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36159 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYwf3-0005mE-GK
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 13:58:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44650)
+	id 1hYwkv-0004QT-9G
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:04:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45021)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwTz-0004Ko-N6
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:25 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwUB-0004a7-8G
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwTx-0003sd-1D
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:22 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53371)
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwU7-0004Ca-GD
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:35 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51559)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hYwTt-00037t-6N
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:17 -0400
-Received: by mail-wm1-x343.google.com with SMTP id x15so795745wmj.3
-	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:38 -0700 (PDT)
+	id 1hYwU7-00038g-7L
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:31 -0400
+Received: by mail-wm1-x343.google.com with SMTP id f10so812923wmb.1
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=7cJ3cFmAyElsbk0Hu0rymmkEdd46OTUs5chKPb+2SUk=;
-	b=PuzlN0rOoe+tct2TDQT9IC5tcPr1vkND3v3RXksDDziqk71KN+I8TM4mGsw6gjSsOC
-	zc0I5GCHYLuY2iIPqWRRmNzYATGQXE4iQUwk8bvjPykHMgepqJdVu9xi8QUiNW2/7k3m
-	zdeTw5IQndN3DmT48esq9QVncIiIWXyX9UimzoVeGedZqdGybV4c2S0aBCYtTVQto4i1
-	Yk3ODpGi6XUxjgJ+d6+PKN8aD/61vnjxXGNZqTclD+1rNlJrfMyvgIShncRbNdGEN3W0
-	HqprcflwaiJiFUN4o8D7doQYbrlWUsXsdrhaI7e8HK6eQCfAtLrvI3nsCCuqWewHazXQ
-	+Rog==
+	bh=nNQjd9/+a2DdLghORqFl+Muzj1ZfiiJpWnJhjxjLPOE=;
+	b=AeivwsWv6H3IMBY0RADPYPO1lUXNcmCV50EZlViQj9rpGM/zN5493L4aRJAyIaNeOQ
+	Yk2k7qHXCL3EBHhm+2MP/CTSx7N04cQHVYJCjw2vdVFdrm0cV8X27GlCoR4O/enGbfW6
+	dceQC6n7721RoOitNI4VdXQsDYDs6kRXhinqLrGbGet3rek38chCJDlvg5GYjX8lUIhy
+	zTRwZdi0U/vFTEdxajMNQ4xN9YfNnEGwTbWt0hJ0sP0cXhfiu4rhlbXam1ZjOW3yjLcB
+	xO9N6UZdylICDPYeRQaUyT8sLJZCIlyF0BmRanSelP3XkXEk/8eI6NyQlxrsSagEdeH/
+	u0UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=7cJ3cFmAyElsbk0Hu0rymmkEdd46OTUs5chKPb+2SUk=;
-	b=NOqLO0zDqtXnIbWxIk1tdOksbXPEL4fWWqqMqaiz/8zbYKsUPdoeNKWx5hTYJm/5Zq
-	7/IsKJeu4iUOSA8cO2RUyno8LomqW5UmU0iZCL5Km4JFz9ONpuQ//8moJ5cqVYgFbHjI
-	nNSk98+HYtu4d1TAzsblEEehRqEGgAzgn/bGBflnJ+Awp+RxD7xVtMz0yjXAhOau8q5s
-	MVNpXvnLG/z/6UIn1u91NjaYvtRiwB30hFgqLw/QfIBmrnB/aG97//5gNt/iPylpJPQq
-	8trVDMjj49O4+fB3OpAA3Vo542hqhi52aFPUuOVz1C3QWXlK4kX+/cPD0IZ1xwJiX99E
-	BtVA==
-X-Gm-Message-State: APjAAAXw8eYOXwrq1mmwpHaptm23zXkEPe4/658qWY5jGYlxbAAGRthS
-	1EEkhkXHVEeIVSDNAgcVj99MrA==
-X-Google-Smtp-Source: APXvYqwNOjLbparFDztc5upKC6q8OlaD59H1/fy/WMloMbPoIaAitzEnTw3k6NME/WFfkBCcIjq7TA==
-X-Received: by 2002:a1c:ed07:: with SMTP id l7mr753998wmh.148.1559843197969;
-	Thu, 06 Jun 2019 10:46:37 -0700 (PDT)
+	bh=nNQjd9/+a2DdLghORqFl+Muzj1ZfiiJpWnJhjxjLPOE=;
+	b=BVIgIu2q2bBC3tMY8BXbQMCZ4pxppaxeQ/wL+cS0R3qPHkrAAkLoy55yfxvweVfX3/
+	5SZl56v1NQWDUp3kYo/icBW6p9U9Sw2v9G1+QnJcs6kI4pnnQ0teHzOWp4YoVFk1eg9S
+	qNmQ3wRbInSLytH8zb6Nypg12PHgDBZ4MFEUASrguCJdArWbe0piCycv3y5qZhJTm2OO
+	aZx8/b6xuPXe+OhhKzwfPnTW0GRqhmqvAHgC9fPcCz8ZWMCT7OckfYgx70LUDfdU+V8S
+	kuLxzvSSimCepuZZrje45yIGWeQwtk5zFV87B2LojT4T8eritN0FIjgnklYNhFDHpn1y
+	uoMA==
+X-Gm-Message-State: APjAAAVygJSq2JkPPwTiU8293GDnGv6EHsQ+BOpl4+XFlK7E5zSyKEdi
+	GPCfox83CgkNRrZ/hM17UScTHg==
+X-Google-Smtp-Source: APXvYqwpeQ8mciG9lO53pZDwVTwx/zorKDR6VJFwTyaeMhrANtqz7/G13SAurpGczM2SGLhUJBpAwA==
+X-Received: by 2002:a1c:305:: with SMTP id 5mr824561wmd.101.1559843198881;
+	Thu, 06 Jun 2019 10:46:38 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 	by smtp.gmail.com with ESMTPSA id
-	z135sm2596784wmc.45.2019.06.06.10.46.37
+	z135sm2596784wmc.45.2019.06.06.10.46.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jun 2019 10:46:37 -0700 (PDT)
+	Thu, 06 Jun 2019 10:46:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 18:45:51 +0100
-Message-Id: <20190606174609.20487-25-peter.maydell@linaro.org>
+Date: Thu,  6 Jun 2019 18:45:52 +0100
+Message-Id: <20190606174609.20487-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190606174609.20487-1-peter.maydell@linaro.org>
 References: <20190606174609.20487-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH 24/42] target/arm: Convert VADD to decodetree
+Subject: [Qemu-devel] [PATCH 25/42] target/arm: Convert VSUB to decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,7 +83,7 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the VADD instruction to decodetree.
+Convert the VSUB instruction to decodetree.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
@@ -93,66 +93,66 @@ Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
  3 files changed, 16 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 4c684f033b6..14aeb25f597 100644
+index 14aeb25f597..12da3b8acb8 100644
 --- a/target/arm/translate-vfp.inc.c
 +++ b/target/arm/translate-vfp.inc.c
-@@ -1451,3 +1451,13 @@ static bool trans_VNMUL_dp(DisasContext *s, arg_VNMUL_sp *a)
+@@ -1461,3 +1461,13 @@ static bool trans_VADD_dp(DisasContext *s, arg_VADD_sp *a)
  {
-     return do_vfp_3op_dp(s, gen_VNMUL_dp, a->vd, a->vn, a->vm, false);
+     return do_vfp_3op_dp(s, gen_helper_vfp_addd, a->vd, a->vn, a->vm, false);
  }
 +
-+static bool trans_VADD_sp(DisasContext *s, arg_VADD_sp *a)
++static bool trans_VSUB_sp(DisasContext *s, arg_VSUB_sp *a)
 +{
-+    return do_vfp_3op_sp(s, gen_helper_vfp_adds, a->vd, a->vn, a->vm, false);
++    return do_vfp_3op_sp(s, gen_helper_vfp_subs, a->vd, a->vn, a->vm, false);
 +}
 +
-+static bool trans_VADD_dp(DisasContext *s, arg_VADD_sp *a)
++static bool trans_VSUB_dp(DisasContext *s, arg_VSUB_sp *a)
 +{
-+    return do_vfp_3op_dp(s, gen_helper_vfp_addd, a->vd, a->vn, a->vm, false);
++    return do_vfp_3op_dp(s, gen_helper_vfp_subd, a->vd, a->vn, a->vm, false);
 +}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 23addcf53d6..7fa255f6598 100644
+index 7fa255f6598..433f1cbf2c7 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
 @@ -1386,7 +1386,6 @@ static inline void gen_vfp_##name(int dp)                             \
      tcg_temp_free_ptr(fpst);                                          \
  }
  
--VFP_OP2(add)
- VFP_OP2(sub)
+-VFP_OP2(sub)
  VFP_OP2(div)
  
-@@ -3111,7 +3110,7 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
+ #undef VFP_OP2
+@@ -3110,7 +3109,7 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
              rn = VFP_SREG_N(insn);
  
              switch (op) {
--            case 0 ... 5:
-+            case 0 ... 6:
+-            case 0 ... 6:
++            case 0 ... 7:
                  /* Already handled by decodetree */
                  return 1;
              default:
-@@ -3297,9 +3296,6 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
+@@ -3296,9 +3295,6 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
              for (;;) {
                  /* Perform the calculation.  */
                  switch (op) {
--                case 6: /* add: fn + fm */
--                    gen_vfp_add(dp);
+-                case 7: /* sub: fn - fm */
+-                    gen_vfp_sub(dp);
 -                    break;
-                 case 7: /* sub: fn - fm */
-                     gen_vfp_sub(dp);
+                 case 8: /* div: fn / fm */
+                     gen_vfp_div(dp);
                      break;
 diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index 3063fcac23f..d911f12dfd0 100644
+index d911f12dfd0..de56f44efc9 100644
 --- a/target/arm/vfp.decode
 +++ b/target/arm/vfp.decode
-@@ -127,3 +127,8 @@ VNMUL_sp     ---- 1110 0.10 .... .... 1010 .1.0 .... \
+@@ -132,3 +132,8 @@ VADD_sp      ---- 1110 0.11 .... .... 1010 .0.0 .... \
               vm=%vm_sp vn=%vn_sp vd=%vd_sp
- VNMUL_dp     ---- 1110 0.10 .... .... 1011 .1.0 .... \
+ VADD_dp      ---- 1110 0.11 .... .... 1011 .0.0 .... \
               vm=%vm_dp vn=%vn_dp vd=%vd_dp
 +
-+VADD_sp      ---- 1110 0.11 .... .... 1010 .0.0 .... \
++VSUB_sp      ---- 1110 0.11 .... .... 1010 .1.0 .... \
 +             vm=%vm_sp vn=%vn_sp vd=%vd_sp
-+VADD_dp      ---- 1110 0.11 .... .... 1011 .0.0 .... \
++VSUB_dp      ---- 1110 0.11 .... .... 1011 .1.0 .... \
 +             vm=%vm_dp vn=%vn_dp vd=%vd_dp
 -- 
 2.20.1
