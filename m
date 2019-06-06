@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0736B36A4C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 05:01:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53432 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D0136A5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 05:08:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53533 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYif7-0007CZ-7N
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 23:01:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54450)
+	id 1hYilo-0002y9-J8
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 23:08:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55919)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYidR-0006Ru-Cm
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:00:14 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hYijz-0002Cg-Oa
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:07:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYidQ-0002N4-0I
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:00:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:24911)
+	(envelope-from <dgibson@ozlabs.org>) id 1hYijm-0006Vi-Ls
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:06:51 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:37007)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hYidP-0002Kp-Nf
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:00:11 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AA0CD30832C8;
-	Thu,  6 Jun 2019 03:00:10 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C04C5648C4;
-	Thu,  6 Jun 2019 03:00:09 +0000 (UTC)
-Date: Thu, 6 Jun 2019 00:00:08 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Like Xu <like.xu@linux.intel.com>
-Message-ID: <20190606030008.GR22416@habkost.net>
-References: <20190518205428.90532-1-like.xu@linux.intel.com>
-	<20190518205428.90532-10-like.xu@linux.intel.com>
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hYijd-0006FR-Bk; Wed, 05 Jun 2019 23:06:40 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 45K9Xs1RlTz9s4Y; Thu,  6 Jun 2019 13:06:21 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1559790381;
+	bh=h4I9wcYclBc8LByOm+TVM4ZWlscW3Y6FCnDx2Vj/WUA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SfGymQja6UGYjWX9WoIsCrekaEe8kIxQEdHa/DZY9/E5TFUqADsYRwF7lH7lasuc1
+	toqfAPv4KXsqsBYkBCtPrnRVJYTQhQEy0xmanbtD5CMhRq0zni+D77/C5gwasdw664
+	6sEiuuvJS1+urYOa+r8mNM3QK1JqWv3bSSzVzcH4=
+Date: Thu, 6 Jun 2019 13:00:32 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190606030032.GI10319@umbus.fritz.box>
+References: <155910829070.13149.5215948335633966328.stgit@aravinda>
+	<155910844950.13149.6460514692958589700.stgit@aravinda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Uu2n37VG4rOBDVuR"
 Content-Disposition: inline
-In-Reply-To: <20190518205428.90532-10-like.xu@linux.intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Thu, 06 Jun 2019 03:00:11 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 09/10] hw: Replace global smp variables
- with MachineState for all remaining archs
+In-Reply-To: <155910844950.13149.6460514692958589700.stgit@aravinda>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v9 5/6] ppc: spapr: Enable FWNMI capability
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,173 +56,281 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jia Liu <proljc@gmail.com>,
-	Paul Burton <pburton@wavecomp.com>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
-	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-	Max Filippov <jcmvbkbc@gmail.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Alistair Francis <alistair23@gmail.com>,
-	Igor Mammedov <imammedo@redhat.com>, Stafford Horne <shorne@gmail.com>,
-	Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org,
+	qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 19, 2019 at 04:54:27AM +0800, Like Xu wrote:
-> The global smp variables in alpha/hppa/mips/openrisc/sparc*/xtensa codes
-> are replaced with smp properties from MachineState.
-> 
-> A local variable of the same name would be introduced in the declaration
-> phase if it's used widely in the context OR replace it on the spot if it's
-> only used once. No semantic changes.
-> 
-> Signed-off-by: Like Xu <like.xu@linux.intel.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-CCing the maintainers for those machines.  Any objections to merging this
-through the Machine Core tree?
+--Uu2n37VG4rOBDVuR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, May 29, 2019 at 11:10:49AM +0530, Aravinda Prasad wrote:
+> Enable the KVM capability KVM_CAP_PPC_FWNMI so that
+> the KVM causes guest exit with NMI as exit reason
+> when it encounters a machine check exception on the
+> address belonging to a guest. Without this capability
+> enabled, KVM redirects machine check exceptions to
+> guest's 0x200 vector.
+>=20
+> This patch also deals with the case when a guest with
+> the KVM_CAP_PPC_FWNMI capability enabled is attempted
+> to migrate to a host that does not support this
+> capability.
+>=20
+> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
 > ---
->  hw/alpha/dp264.c           | 1 +
->  hw/hppa/machine.c          | 2 ++
->  hw/mips/boston.c           | 2 +-
->  hw/mips/mips_malta.c       | 2 ++
->  hw/openrisc/openrisc_sim.c | 1 +
->  hw/sparc/sun4m.c           | 2 ++
->  hw/sparc64/sun4u.c         | 4 ++--
->  hw/xtensa/sim.c            | 2 +-
->  hw/xtensa/xtfpga.c         | 1 +
->  9 files changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-> index 0347eb897c..9dfb835013 100644
-> --- a/hw/alpha/dp264.c
-> +++ b/hw/alpha/dp264.c
-> @@ -63,6 +63,7 @@ static void clipper_init(MachineState *machine)
->      char *palcode_filename;
->      uint64_t palcode_entry, palcode_low, palcode_high;
->      uint64_t kernel_entry, kernel_low, kernel_high;
-> +    unsigned int smp_cpus = machine->smp.cpus;
->  
->      /* Create up to 4 cpus.  */
->      memset(cpus, 0, sizeof(cpus));
-> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-> index 416e67bab1..662838d83b 100644
-> --- a/hw/hppa/machine.c
-> +++ b/hw/hppa/machine.c
-> @@ -72,6 +72,7 @@ static void machine_hppa_init(MachineState *machine)
->      MemoryRegion *ram_region;
->      MemoryRegion *cpu_region;
->      long i;
-> +    unsigned int smp_cpus = machine->smp.cpus;
->  
->      ram_size = machine->ram_size;
->  
-> @@ -242,6 +243,7 @@ static void machine_hppa_init(MachineState *machine)
->  
->  static void hppa_machine_reset(MachineState *ms)
->  {
-> +    unsigned int smp_cpus = ms->smp.cpus;
->      int i;
->  
->      qemu_devices_reset();
-> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-> index a8b29f62f5..ccbfac54ef 100644
-> --- a/hw/mips/boston.c
-> +++ b/hw/mips/boston.c
-> @@ -460,7 +460,7 @@ static void boston_mach_init(MachineState *machine)
->  
->      object_property_set_str(OBJECT(s->cps), machine->cpu_type, "cpu-type",
->                              &err);
-> -    object_property_set_int(OBJECT(s->cps), smp_cpus, "num-vp", &err);
-> +    object_property_set_int(OBJECT(s->cps), machine->smp.cpus, "num-vp", &err);
->      object_property_set_bool(OBJECT(s->cps), true, "realized", &err);
->  
->      if (err != NULL) {
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 5fe9512c24..ead5976d1a 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -1095,6 +1095,8 @@ static int64_t load_kernel (void)
->  
->  static void malta_mips_config(MIPSCPU *cpu)
->  {
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    unsigned int smp_cpus = ms->smp.cpus;
->      CPUMIPSState *env = &cpu->env;
->      CPUState *cs = CPU(cpu);
->  
-> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-> index 0a906d815e..8d828e78ee 100644
-> --- a/hw/openrisc/openrisc_sim.c
-> +++ b/hw/openrisc/openrisc_sim.c
-> @@ -131,6 +131,7 @@ static void openrisc_sim_init(MachineState *machine)
->      qemu_irq *cpu_irqs[2];
->      qemu_irq serial_irq;
->      int n;
-> +    unsigned int smp_cpus = machine->smp.cpus;
->  
->      for (n = 0; n < smp_cpus; n++) {
->          cpu = OPENRISC_CPU(cpu_create(machine->cpu_type));
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index 07d126aea8..5c3739f2ef 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -852,6 +852,8 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
->      FWCfgState *fw_cfg;
->      DeviceState *dev;
->      SysBusDevice *s;
-> +    unsigned int smp_cpus = machine->smp.cpus;
-> +    unsigned int max_cpus = machine->smp.max_cpus;
->  
->      /* init CPUs */
->      for(i = 0; i < smp_cpus; i++) {
-> diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-> index 399f2d73c8..0807f274bf 100644
-> --- a/hw/sparc64/sun4u.c
-> +++ b/hw/sparc64/sun4u.c
-> @@ -678,8 +678,8 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
->                                  &FW_CFG_IO(dev)->comb_iomem);
->  
->      fw_cfg = FW_CFG(dev);
-> -    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
-> -    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)max_cpus);
-> +    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)machine->smp.cpus);
-> +    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
->      fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
->      fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, hwdef->machine_id);
->      fw_cfg_add_i64(fw_cfg, FW_CFG_KERNEL_ADDR, kernel_entry);
-> diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
-> index 12c7437398..a4eef76fbc 100644
-> --- a/hw/xtensa/sim.c
-> +++ b/hw/xtensa/sim.c
-> @@ -60,7 +60,7 @@ static void xtensa_sim_init(MachineState *machine)
->      const char *kernel_filename = machine->kernel_filename;
->      int n;
->  
-> -    for (n = 0; n < smp_cpus; n++) {
-> +    for (n = 0; n < machine->smp.cpus; n++) {
->          cpu = XTENSA_CPU(cpu_create(machine->cpu_type));
->          env = &cpu->env;
->  
-> diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
-> index e05ef75a75..f7f3e11e93 100644
-> --- a/hw/xtensa/xtfpga.c
-> +++ b/hw/xtensa/xtfpga.c
-> @@ -238,6 +238,7 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
->      const unsigned system_io_size = 224 * MiB;
->      uint32_t freq = 10000000;
->      int n;
-> +    unsigned int smp_cpus = machine->smp.cpus;
->  
->      if (smp_cpus > 1) {
->          mx_pic = xtensa_mx_pic_init(31);
-> -- 
-> 2.21.0
-> 
-> 
+>  hw/ppc/spapr.c         |    1 +
+>  hw/ppc/spapr_caps.c    |   24 ++++++++++++++++++++++++
+>  hw/ppc/spapr_rtas.c    |   18 ++++++++++++++++++
+>  include/hw/ppc/spapr.h |    4 +++-
+>  target/ppc/kvm.c       |   19 +++++++++++++++++++
+>  target/ppc/kvm_ppc.h   |   12 ++++++++++++
+>  6 files changed, 77 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index c97f6a6..e8a77636 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4364,6 +4364,7 @@ static void spapr_machine_class_init(ObjectClass *o=
+c, void *data)
+>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF;
+>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_ON;
+>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
+> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_ON;
 
--- 
-Eduardo
+You need to turn this back off by default for the older machine types.
+
+>      spapr_caps_add_properties(smc, &error_abort);
+>      smc->irq =3D &spapr_irq_dual;
+>      smc->dr_phb_enabled =3D true;
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 31b4661..ef9e612 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -479,6 +479,20 @@ static void cap_ccf_assist_apply(SpaprMachineState *=
+spapr, uint8_t val,
+>      }
+>  }
+> =20
+> +static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
+> +                                Error **errp)
+> +{
+> +    if (!val) {
+> +        return; /* Disabled by default */
+> +    }
+> +
+> +    if (tcg_enabled()) {
+> +            error_setg(errp, "No fwnmi support in TCG, try cap-fwnmi-mce=
+=3Doff");
+> +    } else if (kvm_enabled() && !kvmppc_has_cap_ppc_fwnmi()) {
+> +            error_setg(errp, "Requested fwnmi capability not support by =
+KVM");
+> +    }
+> +}
+> +
+>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
+>      [SPAPR_CAP_HTM] =3D {
+>          .name =3D "htm",
+> @@ -578,6 +592,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =
+=3D {
+>          .type =3D "bool",
+>          .apply =3D cap_ccf_assist_apply,
+>      },
+> +    [SPAPR_CAP_FWNMI_MCE] =3D {
+> +        .name =3D "fwnmi-mce",
+> +        .description =3D "Handle fwnmi machine check exceptions",
+> +        .index =3D SPAPR_CAP_FWNMI_MCE,
+> +        .get =3D spapr_cap_get_bool,
+> +        .set =3D spapr_cap_set_bool,
+> +        .type =3D "bool",
+> +        .apply =3D cap_fwnmi_mce_apply,
+> +    },
+>  };
+> =20
+>  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
+> @@ -717,6 +740,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MA=
+XPAGESIZE);
+>  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
+>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
+>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
+> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
+> =20
+>  void spapr_caps_init(SpaprMachineState *spapr)
+>  {
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index e0bdfc8..91a7ab9 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -49,6 +49,7 @@
+>  #include "hw/ppc/fdt.h"
+>  #include "target/ppc/mmu-hash64.h"
+>  #include "target/ppc/mmu-book3s-v3.h"
+> +#include "kvm_ppc.h"
+> =20
+>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *s=
+papr,
+>                                     uint32_t token, uint32_t nargs,
+> @@ -358,6 +359,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>                                    target_ulong args,
+>                                    uint32_t nret, target_ulong rets)
+>  {
+> +    int ret;
+>      hwaddr rtas_addr =3D spapr_get_rtas_addr();
+> =20
+>      if (!rtas_addr) {
+> @@ -365,6 +367,22 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>          return;
+>      }
+> =20
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D 0) {
+> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> +        return;
+> +    }
+> +
+> +    ret =3D kvmppc_fwnmi_enable(cpu);
+> +    if (ret =3D=3D 1) {
+> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> +        return;
+> +    }
+> +
+> +    if (ret < 0) {
+> +        rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
+> +        return;
+> +    }
+> +
+>      spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>  }
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index c717ab2..bd75d4b 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -78,8 +78,10 @@ typedef enum {
+>  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
+>  /* Count Cache Flush Assist HW Instruction */
+>  #define SPAPR_CAP_CCF_ASSIST            0x09
+> +/* FWNMI machine check handling */
+> +#define SPAPR_CAP_FWNMI_MCE             0x0A
+>  /* Num Caps */
+> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_CCF_ASSIST + 1)
+> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
+> =20
+>  /*
+>   * Capability Values
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 39f1a73..368ec6e 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -84,6 +84,7 @@ static int cap_ppc_safe_indirect_branch;
+>  static int cap_ppc_count_cache_flush_assist;
+>  static int cap_ppc_nested_kvm_hv;
+>  static int cap_large_decr;
+> +static int cap_ppc_fwnmi;
+> =20
+>  static uint32_t debug_inst_opcode;
+> =20
+> @@ -152,6 +153,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>      kvmppc_get_cpu_characteristics(s);
+>      cap_ppc_nested_kvm_hv =3D kvm_vm_check_extension(s, KVM_CAP_PPC_NEST=
+ED_HV);
+>      cap_large_decr =3D kvmppc_get_dec_bits();
+> +    cap_ppc_fwnmi =3D kvm_check_extension(s, KVM_CAP_PPC_FWNMI);
+>      /*
+>       * Note: setting it to false because there is not such capability
+>       * in KVM at this moment.
+> @@ -2119,6 +2121,18 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mp=
+ic_proxy)
+>      }
+>  }
+> =20
+> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
+> +{
+> +    CPUState *cs =3D CPU(cpu);
+> +
+> +    if (!cap_ppc_fwnmi) {
+> +        return 1;
+> +    }
+> +
+> +    return kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
+> +}
+> +
+> +
+>  int kvmppc_smt_threads(void)
+>  {
+>      return cap_ppc_smt ? cap_ppc_smt : 1;
+> @@ -2419,6 +2433,11 @@ bool kvmppc_has_cap_mmu_hash_v3(void)
+>      return cap_mmu_hash_v3;
+>  }
+> =20
+> +bool kvmppc_has_cap_ppc_fwnmi(void)
+> +{
+> +    return cap_ppc_fwnmi;
+> +}
+> +
+>  static bool kvmppc_power8_host(void)
+>  {
+>      bool ret =3D false;
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index 18693f1..3d9f0b4 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -27,6 +27,8 @@ void kvmppc_enable_h_page_init(void);
+>  void kvmppc_set_papr(PowerPCCPU *cpu);
+>  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
+>  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
+> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu);
+> +bool kvmppc_has_cap_ppc_fwnmi(void);
+>  int kvmppc_smt_threads(void);
+>  void kvmppc_hint_smt_possible(Error **errp);
+>  int kvmppc_set_smt_threads(int smt);
+> @@ -160,6 +162,16 @@ static inline void kvmppc_set_mpic_proxy(PowerPCCPU =
+*cpu, int mpic_proxy)
+>  {
+>  }
+> =20
+> +static inline int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
+> +{
+> +    return 1;
+> +}
+> +
+> +static inline bool kvmppc_has_cap_ppc_fwnmi(void)
+> +{
+> +    return false;
+> +}
+> +
+>  static inline int kvmppc_smt_threads(void)
+>  {
+>      return 1;
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Uu2n37VG4rOBDVuR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz4gdAACgkQbDjKyiDZ
+s5ItXQ//bX67Bb5uXLpFbRalceIqkGrG0eB3/tUI+N1DMlfyIeFruTUwvElLEFLz
+lNTJhet4gbYgcz64r20RdZdAYUhF7WYlCUavRJJlpbElQYxlnAzgp3FY9MegTu6C
+/Tb70MVir4Ee+NSqVD/I7HvIark+u+DKmyZ9I/zRwkPRaLa8xBAxdtL9+lt1H+YL
+4RopoQYdltIIu1ycHRn9Vmv74UvrwgVedT1ctvaEFDpKLqwGBu/+QLuFyVFfSYQJ
+qrAFVLtrJ2lKc3gXtmeYaPhX1BNd2qMW4O+W7oQRa3b8pZsUB5W4vSE0091McObi
+6Hi2uk4l2YsU176zADgY6nsUx0pyxmgJMHQEho7oMVckhOKm10MIjcm0GG3kOGZH
+veuTDCCVQhE46+XSGtF8SMlZ7wl4tHWdgPP1j2mIR97durlrf9h15NJzxUgz3vJA
+TqpSb8feGQrlP5gQFI8GOvVPZMoTmIUshmPqvdY+ku7mIl8cTlX2VFJfJjjf5N9O
+njaDGuyD2bPhBvjvgv51NfmLx4wvJ0U8QdRgMcluk39ixZRLdGilTAjiiLh6KBpe
+pc118uhQ5Zah30Q5o4xQPJp+o876821Lt5uNzSXwRFmpIQ+H8CbSaNs2Fze21BgB
+35m50dodO0B3Kh20cC8u3kAoVHjZI1zMJ8DRyAZ5oRHkfaVzedk=
+=x16o
+-----END PGP SIGNATURE-----
+
+--Uu2n37VG4rOBDVuR--
 
