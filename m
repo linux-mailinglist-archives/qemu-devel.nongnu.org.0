@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE2036A4A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 04:58:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53369 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3FE36A62
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 05:12:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53599 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYicE-0005B9-Et
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 22:58:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53504)
+	id 1hYipQ-0005lR-ES
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 23:12:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55917)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYia3-0003qz-Jk
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 22:56:44 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hYijz-0002Ce-ON
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:07:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hYia2-0003Ti-Fg
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 22:56:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42420)
+	(envelope-from <dgibson@ozlabs.org>) id 1hYijm-0006Vu-M6
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 23:06:51 -0400
+Received: from ozlabs.org ([203.11.71.1]:47159)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>)
-	id 1hYia2-0003S2-71; Wed, 05 Jun 2019 22:56:42 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3D065300415C;
-	Thu,  6 Jun 2019 02:56:39 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 97088518E2;
-	Thu,  6 Jun 2019 02:56:36 +0000 (UTC)
-Date: Wed, 5 Jun 2019 23:56:35 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Like Xu <like.xu@linux.intel.com>
-Message-ID: <20190606025635.GO22416@habkost.net>
-References: <20190518205428.90532-1-like.xu@linux.intel.com>
-	<20190518205428.90532-7-like.xu@linux.intel.com>
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hYijd-0006FG-Bw; Wed, 05 Jun 2019 23:06:40 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 45K9Xs0Jybz9s9y; Thu,  6 Jun 2019 13:06:20 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1559790381;
+	bh=0dRhlgZe6t1WXAKBbFTAS7Prc2u4NMgv1e+XleOrmxk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fFkpWQSM4qBx2l0bxCkYKOorzUSIiXFkZzSP58yvi9WN9EJCkuH3xyhSCjEqqxxyt
+	v8fJPtN061CFKU9RbCdHekU91ozoqB3B4KszTfE6pXJSjDOK+r7VWIriFcTwWfy+wj
+	bKQUzpvy10UpmJVqj/vKEXJ0wgWKf4uRB8yfwkcU=
+Date: Thu, 6 Jun 2019 12:57:30 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190606025730.GG10319@umbus.fritz.box>
+References: <155910829070.13149.5215948335633966328.stgit@aravinda>
+	<155910844057.13149.1476616524987244293.stgit@aravinda>
+	<20190603160030.03e3c691@bahia.lab.toulouse-stg.fr.ibm.com>
+	<e7c7ea6a-e377-aa24-dc4b-e56a9973093c@linux.vnet.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="SnV5plBeK2Ge1I9g"
 Content-Disposition: inline
-In-Reply-To: <20190518205428.90532-7-like.xu@linux.intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Thu, 06 Jun 2019 02:56:39 +0000 (UTC)
+In-Reply-To: <e7c7ea6a-e377-aa24-dc4b-e56a9973093c@linux.vnet.ibm.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 06/10] hw/s390x: Replace global smp
- variables with machine smp properties
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v9 4/6] target/ppc: Build rtas error log
+ upon an MCE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,120 +58,438 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	David Hildenbrand <david@redhat.com>, qemu-trivial@nongnu.org,
-	Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
-	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	qemu-s390x@nongnu.org, Alistair Francis <alistair23@gmail.com>,
-	Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: aik@au1.ibm.com, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org,
+	paulus@ozlabs.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 19, 2019 at 04:54:24AM +0800, Like Xu wrote:
-> The global smp variables in s390x are replaced with smp machine properties.
-> 
-> A local variable of the same name would be introduced in the declaration
-> phase if it's used widely in the context OR replace it on the spot if it's
-> only used once. No semantic changes.
-> 
-> Signed-off-by: Like Xu <like.xu@linux.intel.com>
 
-CCing s390 maintainers.
+--SnV5plBeK2Ge1I9g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Any objections to merging this through the Machine Core tree?
+On Tue, Jun 04, 2019 at 11:59:13AM +0530, Aravinda Prasad wrote:
+>=20
+>=20
+> On Monday 03 June 2019 07:30 PM, Greg Kurz wrote:
+> > On Wed, 29 May 2019 11:10:40 +0530
+> > Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+> >=20
+> >> Upon a machine check exception (MCE) in a guest address space,
+> >> KVM causes a guest exit to enable QEMU to build and pass the
+> >> error to the guest in the PAPR defined rtas error log format.
+> >>
+> >> This patch builds the rtas error log, copies it to the rtas_addr
+> >> and then invokes the guest registered machine check handler. The
+> >> handler in the guest takes suitable action(s) depending on the type
+> >> and criticality of the error. For example, if an error is
+> >> unrecoverable memory corruption in an application inside the
+> >> guest, then the guest kernel sends a SIGBUS to the application.
+> >> For recoverable errors, the guest performs recovery actions and
+> >> logs the error.
+> >>
+> >> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> >> ---
+> >>  hw/ppc/spapr.c         |    5 +
+> >>  hw/ppc/spapr_events.c  |  236 +++++++++++++++++++++++++++++++++++++++=
++++++++++
+> >>  include/hw/ppc/spapr.h |    4 +
+> >>  3 files changed, 245 insertions(+)
+> >>
+> >> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> >> index 6b6c962..c97f6a6 100644
+> >> --- a/hw/ppc/spapr.c
+> >> +++ b/hw/ppc/spapr.c
+> >> @@ -2910,6 +2910,11 @@ static void spapr_machine_init(MachineState *ma=
+chine)
+> >>          error_report("Could not get size of LPAR rtas '%s'", filename=
+);
+> >>          exit(1);
+> >>      }
+> >> +
+> >> +    /* Resize blob to accommodate error log. */
+> >> +    g_assert(spapr->rtas_size < RTAS_ERROR_LOG_OFFSET);
+> >=20
+> > I don't see the point of this assertion... especially with the assignme=
+nt
+> > below.
+>=20
+> It is required because we want to ensure that the rtas image size is
+> less than RTAS_ERROR_LOG_OFFSET, or else we will overwrite the rtas
+> image with rtas error when we hit machine check exception. But I think a
+> comment in the code will help. Will add it.
+>=20
+>=20
+> >=20
+> >> +    spapr->rtas_size =3D RTAS_ERROR_LOG_MAX;
+> >=20
+> > As requested by David, this should only be done when the spapr cap is s=
+et,
+> > so that 4.0 machine types and older continue to use the current size.
+>=20
+> Due to other issue of re-allocating the blob and as this is not that
+> much space, we agreed to keep the size to RTAS_ERROR_LOG_MAX always.
+>=20
+> Link to the discussion on this:
+> http://lists.nongnu.org/archive/html/qemu-ppc/2019-05/msg00275.html
 
-> ---
->  hw/s390x/s390-virtio-ccw.c | 3 ++-
->  hw/s390x/sclp.c            | 2 +-
->  target/s390x/cpu.c         | 3 +++
->  target/s390x/excp_helper.c | 5 +++++
->  4 files changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index ed1fe7a93e..692ad6e372 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -83,7 +83,7 @@ static void s390_init_cpus(MachineState *machine)
->      /* initialize possible_cpus */
->      mc->possible_cpu_arch_ids(machine);
->  
-> -    for (i = 0; i < smp_cpus; i++) {
-> +    for (i = 0; i < machine->smp.cpus; i++) {
->          s390x_new_cpu(machine->cpu_type, i, &error_fatal);
->      }
->  }
-> @@ -410,6 +410,7 @@ static CpuInstanceProperties s390_cpu_index_to_props(MachineState *ms,
->  static const CPUArchIdList *s390_possible_cpu_arch_ids(MachineState *ms)
->  {
->      int i;
-> +    unsigned int max_cpus = ms->smp.max_cpus;
->  
->      if (ms->possible_cpus) {
->          g_assert(ms->possible_cpus && ms->possible_cpus->len == max_cpus);
-> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-> index 4510a800cb..fac7c3bb6c 100644
-> --- a/hw/s390x/sclp.c
-> +++ b/hw/s390x/sclp.c
-> @@ -64,7 +64,7 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
->      prepare_cpu_entries(sclp, read_info->entries, &cpu_count);
->      read_info->entries_cpu = cpu_to_be16(cpu_count);
->      read_info->offset_cpu = cpu_to_be16(offsetof(ReadInfo, entries));
-> -    read_info->highest_cpu = cpu_to_be16(max_cpus - 1);
-> +    read_info->highest_cpu = cpu_to_be16(machine->smp.max_cpus - 1);
->  
->      read_info->ibc_val = cpu_to_be32(s390_get_ibc_val());
->  
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index b1df63d82c..f1e5c0d9c3 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -37,6 +37,7 @@
->  #include "hw/qdev-properties.h"
->  #ifndef CONFIG_USER_ONLY
->  #include "hw/hw.h"
-> +#include "hw/boards.h"
->  #include "sysemu/arch_init.h"
->  #include "sysemu/sysemu.h"
->  #endif
-> @@ -193,6 +194,8 @@ static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
->      }
->  
->  #if !defined(CONFIG_USER_ONLY)
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    unsigned int max_cpus = ms->smp.max_cpus;
->      if (cpu->env.core_id >= max_cpus) {
->          error_setg(&err, "Unable to add CPU with core-id: %" PRIu32
->                     ", maximum core-id: %d", cpu->env.core_id,
-> diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-> index 3a467b72c5..1c6938effc 100644
-> --- a/target/s390x/excp_helper.c
-> +++ b/target/s390x/excp_helper.c
-> @@ -31,6 +31,7 @@
->  #ifndef CONFIG_USER_ONLY
->  #include "sysemu/sysemu.h"
->  #include "hw/s390x/s390_flic.h"
-> +#include "hw/boards.h"
->  #endif
->  
->  void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
-> @@ -300,6 +301,10 @@ static void do_ext_interrupt(CPUS390XState *env)
->          g_assert(cpu_addr < S390_MAX_CPUS);
->          lowcore->cpu_addr = cpu_to_be16(cpu_addr);
->          clear_bit(cpu_addr, env->emergency_signals);
-> +#ifndef CONFIG_USER_ONLY
-> +        MachineState *ms = MACHINE(qdev_get_machine());
-> +        unsigned int max_cpus = ms->smp.max_cpus;
-> +#endif
->          if (bitmap_empty(env->emergency_signals, max_cpus)) {
->              env->pending_int &= ~INTERRUPT_EMERGENCY_SIGNAL;
->          }
-> -- 
-> 2.21.0
-> 
-> 
+Sorry, I wasn't clear in that discussion.  It is definitely *not* ok
+to advertise the increased size to the guest for old machine types.
+It *is* ok to waste some space inside qemu internal allocations if it
+reduces conditionals.
 
--- 
-Eduardo
+
+>=20
+> >=20
+> >> +
+> >>      spapr->rtas_blob =3D g_malloc(spapr->rtas_size);
+> >>      if (load_image_size(filename, spapr->rtas_blob, spapr->rtas_size)=
+ < 0) {
+> >>          error_report("Could not load LPAR rtas '%s'", filename);
+> >> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> >> index a18446b..573c0b7 100644
+> >> --- a/hw/ppc/spapr_events.c
+> >> +++ b/hw/ppc/spapr_events.c
+> >> @@ -212,6 +212,106 @@ struct hp_extended_log {
+> >>      struct rtas_event_log_v6_hp hp;
+> >>  } QEMU_PACKED;
+> >> =20
+> >> +struct rtas_event_log_v6_mc {
+> >> +#define RTAS_LOG_V6_SECTION_ID_MC                   0x4D43 /* MC */
+> >> +    struct rtas_event_log_v6_section_header hdr;
+> >> +    uint32_t fru_id;
+> >> +    uint32_t proc_id;
+> >> +    uint8_t error_type;
+> >> +#define RTAS_LOG_V6_MC_TYPE_UE                           0
+> >> +#define RTAS_LOG_V6_MC_TYPE_SLB                          1
+> >> +#define RTAS_LOG_V6_MC_TYPE_ERAT                         2
+> >> +#define RTAS_LOG_V6_MC_TYPE_TLB                          4
+> >> +#define RTAS_LOG_V6_MC_TYPE_D_CACHE                      5
+> >> +#define RTAS_LOG_V6_MC_TYPE_I_CACHE                      7
+> >> +    uint8_t sub_err_type;
+> >> +#define RTAS_LOG_V6_MC_UE_INDETERMINATE                  0
+> >> +#define RTAS_LOG_V6_MC_UE_IFETCH                         1
+> >> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH         2
+> >> +#define RTAS_LOG_V6_MC_UE_LOAD_STORE                     3
+> >> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE     4
+> >> +#define RTAS_LOG_V6_MC_SLB_PARITY                        0
+> >> +#define RTAS_LOG_V6_MC_SLB_MULTIHIT                      1
+> >> +#define RTAS_LOG_V6_MC_SLB_INDETERMINATE                 2
+> >> +#define RTAS_LOG_V6_MC_ERAT_PARITY                       1
+> >> +#define RTAS_LOG_V6_MC_ERAT_MULTIHIT                     2
+> >> +#define RTAS_LOG_V6_MC_ERAT_INDETERMINATE                3
+> >> +#define RTAS_LOG_V6_MC_TLB_PARITY                        1
+> >> +#define RTAS_LOG_V6_MC_TLB_MULTIHIT                      2
+> >> +#define RTAS_LOG_V6_MC_TLB_INDETERMINATE                 3
+> >> +    uint8_t reserved_1[6];
+> >> +    uint64_t effective_address;
+> >> +    uint64_t logical_address;
+> >> +} QEMU_PACKED;
+> >> +
+> >> +struct mc_extended_log {
+> >> +    struct rtas_event_log_v6 v6hdr;
+> >> +    struct rtas_event_log_v6_mc mc;
+> >> +} QEMU_PACKED;
+> >> +
+> >> +struct MC_ierror_table {
+> >> +    unsigned long srr1_mask;
+> >> +    unsigned long srr1_value;
+> >> +    bool nip_valid; /* nip is a valid indicator of faulting address */
+> >> +    uint8_t error_type;
+> >> +    uint8_t error_subtype;
+> >> +    unsigned int initiator;
+> >> +    unsigned int severity;
+> >> +};
+> >> +
+> >> +static const struct MC_ierror_table mc_ierror_table[] =3D {
+> >> +{ 0x00000000081c0000, 0x0000000000040000, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_IFETCH,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00000000081c0000, 0x0000000000080000, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00000000081c0000, 0x00000000000c0000, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00000000081c0000, 0x0000000000100000, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00000000081c0000, 0x0000000000140000, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00000000081c0000, 0x0000000000180000, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0, 0, 0, 0, 0, 0 } };
+> >> +
+> >> +struct MC_derror_table {
+> >> +    unsigned long dsisr_value;
+> >> +    bool dar_valid; /* dar is a valid indicator of faulting address */
+> >> +    uint8_t error_type;
+> >> +    uint8_t error_subtype;
+> >> +    unsigned int initiator;
+> >> +    unsigned int severity;
+> >> +};
+> >> +
+> >> +static const struct MC_derror_table mc_derror_table[] =3D {
+> >> +{ 0x00008000, false,
+> >> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_LOAD_STORE,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00004000, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STOR=
+E,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00000800, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00000400, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00000080, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,  /* Before PA=
+RITY */
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0x00000100, true,
+> >> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+> >> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> >> +{ 0, false, 0, 0, 0, 0 } };
+> >> +
+> >> +#define SRR1_MC_LOADSTORE(srr1) ((srr1) & PPC_BIT(42))
+> >> +
+> >>  typedef enum EventClass {
+> >>      EVENT_CLASS_INTERNAL_ERRORS     =3D 0,
+> >>      EVENT_CLASS_EPOW                =3D 1,
+> >> @@ -620,6 +720,138 @@ void spapr_hotplug_req_remove_by_count_indexed(S=
+paprDrcType drc_type,
+> >>                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &=
+drc_id);
+> >>  }
+> >> =20
+> >> +static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recover=
+ed,
+> >> +                                        struct mc_extended_log *ext_e=
+log)
+> >> +{
+> >> +    int i;
+> >> +    CPUPPCState *env =3D &cpu->env;
+> >> +    uint32_t summary;
+> >> +    uint64_t dsisr =3D env->spr[SPR_DSISR];
+> >> +
+> >> +    summary =3D RTAS_LOG_VERSION_6 | RTAS_LOG_OPTIONAL_PART_PRESENT;
+> >> +    if (recovered) {
+> >> +        summary |=3D RTAS_LOG_DISPOSITION_FULLY_RECOVERED;
+> >> +    } else {
+> >> +        summary |=3D RTAS_LOG_DISPOSITION_NOT_RECOVERED;
+> >> +    }
+> >> +
+> >> +    if (SRR1_MC_LOADSTORE(env->spr[SPR_SRR1])) {
+> >> +        for (i =3D 0; mc_derror_table[i].dsisr_value; i++) {
+> >> +            if (!(dsisr & mc_derror_table[i].dsisr_value)) {
+> >> +                continue;
+> >> +            }
+> >> +
+> >> +            ext_elog->mc.error_type =3D mc_derror_table[i].error_type;
+> >> +            ext_elog->mc.sub_err_type =3D mc_derror_table[i].error_su=
+btype;
+> >> +            if (mc_derror_table[i].dar_valid) {
+> >> +                ext_elog->mc.effective_address =3D cpu_to_be64(env->s=
+pr[SPR_DAR]);
+> >> +            }
+> >> +
+> >> +            summary |=3D mc_derror_table[i].initiator
+> >> +                        | mc_derror_table[i].severity;
+> >> +
+> >> +            return summary;
+> >> +        }
+> >> +    } else {
+> >> +        for (i =3D 0; mc_ierror_table[i].srr1_mask; i++) {
+> >> +            if ((env->spr[SPR_SRR1] & mc_ierror_table[i].srr1_mask) !=
+=3D
+> >> +                    mc_ierror_table[i].srr1_value) {
+> >> +                continue;
+> >> +            }
+> >> +
+> >> +            ext_elog->mc.error_type =3D mc_ierror_table[i].error_type;
+> >> +            ext_elog->mc.sub_err_type =3D mc_ierror_table[i].error_su=
+btype;
+> >> +            if (mc_ierror_table[i].nip_valid) {
+> >> +                ext_elog->mc.effective_address =3D cpu_to_be64(env->n=
+ip);
+> >> +            }
+> >> +
+> >> +            summary |=3D mc_ierror_table[i].initiator
+> >> +                        | mc_ierror_table[i].severity;
+> >> +
+> >> +            return summary;
+> >> +        }
+> >> +    }
+> >> +
+> >> +    summary |=3D RTAS_LOG_INITIATOR_CPU;
+> >> +    return summary;
+> >> +}
+> >> +
+> >> +static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+> >> +{
+> >> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> >> +    CPUState *cs =3D CPU(cpu);
+> >> +    uint64_t rtas_addr;
+> >> +    CPUPPCState *env =3D &cpu->env;
+> >> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> >> +    target_ulong r3, msr =3D 0;
+> >> +    struct rtas_error_log log;
+> >> +    struct mc_extended_log *ext_elog;
+> >> +    uint32_t summary;
+> >> +
+> >> +    /*
+> >> +     * Properly set bits in MSR before we invoke the handler.
+> >> +     * SRR0/1, DAR and DSISR are properly set by KVM
+> >> +     */
+> >> +    if (!(*pcc->interrupts_big_endian)(cpu)) {
+> >> +        msr |=3D (1ULL << MSR_LE);
+> >> +    }
+> >> +
+> >> +    if (env->msr & (1ULL << MSR_SF)) {
+> >> +        msr |=3D (1ULL << MSR_SF);
+> >> +    }
+> >> +
+> >> +    msr |=3D (1ULL << MSR_ME);
+> >> +
+> >> +    if (spapr->guest_machine_check_addr =3D=3D -1) {
+> >> +        /*
+> >> +         * This implies that we have hit a machine check between syst=
+em
+> >> +         * reset and "ibm,nmi-register". Fall back to the old machine
+> >> +         * check behavior in such cases.
+> >> +         */
+> >> +        env->spr[SPR_SRR0] =3D env->nip;
+> >> +        env->spr[SPR_SRR1] =3D env->msr;
+> >> +        env->msr =3D msr;
+> >> +        env->nip =3D 0x200;
+> >> +        return;
+> >> +    }
+> >> +
+> >> +    ext_elog =3D g_malloc0(sizeof(*ext_elog));
+> >> +    summary =3D spapr_mce_get_elog_type(cpu, recovered, ext_elog);
+> >> +
+> >> +    log.summary =3D cpu_to_be32(summary);
+> >> +    log.extended_length =3D cpu_to_be32(sizeof(*ext_elog));
+> >> +
+> >> +    /* r3 should be in BE always */
+> >> +    r3 =3D cpu_to_be64(env->gpr[3]);
+> >> +    env->msr =3D msr;
+> >> +
+> >> +    spapr_init_v6hdr(&ext_elog->v6hdr);
+> >> +    ext_elog->mc.hdr.section_id =3D cpu_to_be16(RTAS_LOG_V6_SECTION_I=
+D_MC);
+> >> +    ext_elog->mc.hdr.section_length =3D
+> >> +                    cpu_to_be16(sizeof(struct rtas_event_log_v6_mc));
+> >> +    ext_elog->mc.hdr.section_version =3D 1;
+> >> +
+> >> +    /* get rtas addr from fdt */
+> >> +    rtas_addr =3D spapr_get_rtas_addr();
+> >> +    if (!rtas_addr) {
+> >> +        /* Unable to fetch rtas_addr. Hence reset the guest */
+> >> +        ppc_cpu_do_system_reset(cs);
+> >> +    }
+> >> +
+> >> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET, &r3,
+> >> +                              sizeof(r3));
+> >> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET + siz=
+eof(r3),
+> >> +                              &log, sizeof(log));
+> >> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET + siz=
+eof(r3) +
+> >> +                              sizeof(log), ext_elog,
+> >> +                              sizeof(*ext_elog));
+> >> +
+> >> +    env->gpr[3] =3D rtas_addr + RTAS_ERROR_LOG_OFFSET;
+> >> +    env->nip =3D spapr->guest_machine_check_addr;
+> >> +
+> >> +    g_free(ext_elog);
+> >> +}
+> >> +
+> >>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+> >>  {
+> >>      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> >> @@ -641,6 +873,10 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool re=
+covered)
+> >>          }
+> >>      }
+> >>      spapr->mc_status =3D cpu->vcpu_id;
+> >> +
+> >> +    spapr_mce_dispatch_elog(cpu, recovered);
+> >> +
+> >> +    return;
+> >=20
+> > Drop the last two lines.
+>=20
+> ok.
+>=20
+> >=20
+> >>  }
+> >> =20
+> >>  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> >> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> >> index fc3a776..c717ab2 100644
+> >> --- a/include/hw/ppc/spapr.h
+> >> +++ b/include/hw/ppc/spapr.h
+> >> @@ -710,6 +710,9 @@ void spapr_load_rtas(SpaprMachineState *spapr, voi=
+d *fdt, hwaddr addr);
+> >> =20
+> >>  #define RTAS_ERROR_LOG_MAX      2048
+> >> =20
+> >> +/* Offset from rtas-base where error log is placed */
+> >> +#define RTAS_ERROR_LOG_OFFSET       0x30
+> >> +
+> >>  #define RTAS_EVENT_SCAN_RATE    1
+> >> =20
+> >>  /* This helper should be used to encode interrupt specifiers when the=
+ related
+> >> @@ -799,6 +802,7 @@ int spapr_max_server_number(SpaprMachineState *spa=
+pr);
+> >>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+> >>                        uint64_t pte0, uint64_t pte1);
+> >>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
+> >> +ssize_t spapr_get_rtas_size(ssize_t old_rtas_sizea);
+> >> =20
+> >=20
+> > Looks like a leftover.
+>=20
+> ah.. yes.
+>=20
+> >=20
+> >>  /* DRC callbacks. */
+> >>  void spapr_core_release(DeviceState *dev);
+> >>
+> >=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--SnV5plBeK2Ge1I9g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz4gRgACgkQbDjKyiDZ
+s5Kb+A/9E/uCN/ECcwF+nn4L6TIKOsZe0pl44djJXWTnpC3RbCs0RPWBjiB9UCZX
+0c1LHrmds2oEFQYSFSo1Wta13W2YKT3RZOXpzHe8i5oGtvjXU9m05BGvWuHcKvwm
+NyJdEo0GZzx27GcgHfzlEKoZTHEe3uW74THf/gR7kcSXOkuW6vt7itzS3ZbBMOaG
+mCpkUv4ap1vARkmGLHtvgEADNmAlVRbkqvpQIjMbD9gS9ESRjYQiJLdZcJNCwmNz
+w/YeWetiu637wYcuju6W9I4fzTiqiU3vxwk9z+likOEktEUgpmQJDd/BD/yky+yn
++5RQIOP9Omsg4oCevhnafK/X4MHLdU0PYyq+6slm3UTqW30LhZlGHzE1NvZHgsUm
+FQukZwVcfa1ZUlHLTHvM0Cb5gszqkzM1gXO1T51WbkHfgoZIIJs2NIYtTFS5s85U
+0oscL0X+VSpQcLNvLdyuURzm8r6QAKBMbtQrqc+AXtcebpsF9fMV313vMz/oPnp0
+pWHxEpyGHGB9TWs70j21H283wRDJJ7X7PufEkxkuog0mySE6bWxmCZe6yTW8BJys
+gIdbOVxqCcWZV50Lv41iKn/pobY330aGC2DD33REx22ACZ+bc/RWDEWaAseL/1ZM
+oR33bGqO/nhndueHfcuriRmqPdE4RjhA76vKotk4MdB1nREGULk=
+=vUy6
+-----END PGP SIGNATURE-----
+
+--SnV5plBeK2Ge1I9g--
 
