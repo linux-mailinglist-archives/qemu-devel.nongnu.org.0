@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674C83718F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 12:25:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57867 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C05B37181
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 12:22:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57834 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYpZz-00009p-Kb
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 06:25:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50081)
+	id 1hYpXG-0006Uy-8H
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 06:22:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50049)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefan.brankovic@rt-rk.com>) id 1hYpRz-0002bd-15
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:16:52 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefan.brankovic@rt-rk.com>) id 1hYpRx-000275-Mp
+	(envelope-from <stefan.brankovic@rt-rk.com>) id 1hYpRx-0002ad-MS
 	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:16:51 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:33643 helo=mail.rt-rk.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <stefan.brankovic@rt-rk.com>) id 1hYpRw-0001zI-96
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:16:49 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:33649 helo=mail.rt-rk.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
-	id 1hYpRx-000719-Ap
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:16:49 -0400
+	id 1hYpRv-00071L-TR
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:16:48 -0400
 Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id A947D1A2106;
+	by mail.rt-rk.com (Postfix) with ESMTP id A8B731A2105;
 	Thu,  6 Jun 2019 12:15:36 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
 	[10.10.13.132])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id 731B01A1DC6;
+	by mail.rt-rk.com (Postfix) with ESMTPSA id 802741A1DE5;
 	Thu,  6 Jun 2019 12:15:36 +0200 (CEST)
 From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 12:15:25 +0200
-Message-Id: <1559816130-17113-4-git-send-email-stefan.brankovic@rt-rk.com>
+Date: Thu,  6 Jun 2019 12:15:26 +0200
+Message-Id: <1559816130-17113-5-git-send-email-stefan.brankovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
 References: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH 3/8] target/ppc: Optimize emulation of vpkpx
+Subject: [Qemu-devel] [PATCH 4/8] target/ppc: Optimize emulation of vgbbd
  instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -55,137 +55,149 @@ Cc: david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Optimize altivec instruction vpkpx (Vector Pack Pixel).
-Rearranges 8 pixels coded in 6-5-5 pattern (4 from each source register)
-into contigous array of bits in the destination register.
+Optimize altivec instruction vgbbd (Vector Gather Bits by Bytes by Doubleword)
+All ith bits (i in range 1 to 8) of each byte of doubleword element in
+source register are concatenated and placed into ith byte of appropriate
+doubleword element in destination register.
 
-In each iteration of outer loop we do the 6-5-5 pack for 2 pixels
-of each doubleword element of each source register. The first thing
-we do in outer loop is choosing which doubleword element of which
-register are we using in current iteration and we place it in avr
-variable. Then we perform 6-5-5 pack of pixels on avr variable
-in inner for loop(2 iterations, 1 for each pixel) and save result
-in tmp variable. In the end of outer for loop, we merge result in
-variable called result and save it in appropriate doubleword element
-of vD if whole doubleword is finished(every second iteration). Outer
-loop has 4 iterations.
+Following solution is done for every doubleword element of source register
+(placed in shifted variable):
+We gather bits in 2x8 iterations.
+In first iteration bit 1 of byte 1, bit 2 of byte 2,... bit 8 of byte 8 are
+in their final spots so we just and avr with mask. For every next iteration,
+we have to shift right both shifted(7 places) and mask(8 places), so we get
+bit 1 of byte 2, bit 2 of byte 3.. bit 7 of byte 8 in right places so we and
+shifted with new value of mask... After first 8 iteration(first for loop) we
+have all first bits in their final place all second bits but second bit from
+eight byte in their place,... only 1 eight bit from eight byte is in it's
+place), so we and result1 with mask1 to save those bits that are at right
+place and save them in result1. In second loop we do all operations
+symetrical, so we get other half of bits on their final spots, and save
+result in result2. Or of result1 and result2 is placed in appropriate
+doubleword element of vD. We repeat this 2 times.
 
 Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 ---
- target/ppc/translate/vmx-impl.inc.c | 93 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 92 insertions(+), 1 deletion(-)
+ target/ppc/translate/vmx-impl.inc.c | 99 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 98 insertions(+), 1 deletion(-)
 
 diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index 6bd072a..87f69dc 100644
+index 87f69dc..010f337 100644
 --- a/target/ppc/translate/vmx-impl.inc.c
 +++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -593,6 +593,97 @@ static void trans_lvsr(DisasContext *ctx)
+@@ -780,6 +780,103 @@ static void trans_vsr(DisasContext *ctx)
+     tcg_temp_free_i64(tmp);
  }
  
- /*
-+ * vpkpx VRT,VRA,VRB - Vector Pack Pixel
++/*
++ * vgbbd VRT,VRB - Vector Gather Bits by Bytes by Doubleword
 + *
-+ * Rearranges 8 pixels coded in 6-5-5 pattern (4 from each source register)
-+ * into contigous array of bits in the destination register.
++ * All ith bits (i in range 1 to 8) of each byte of doubleword element in source
++ * register are concatenated and placed into ith byte of appropriate doubleword
++ * element in destination register.
++ *
++ * Following solution is done for every doubleword element of source register
++ * (placed in shifted variable):
++ * We gather bits in 2x8 iterations.
++ * In first iteration bit 1 of byte 1, bit 2 of byte 2,... bit 8 of byte 8 are
++ * in their final spots so we just and avr with mask. For every next iteration,
++ * we have to shift right both shifted(7 places) and mask(8 places), so we get
++ * bit 1 of byte 2, bit 2 of byte 3.. bit 7 of byte 8 in right places so we and
++ * shifted with new value of mask... After first 8 iteration(first for loop) we
++ * have all first bits in their final place all second bits but second bit from
++ * eight byte in their place,... only 1 eight bit from eight byte is in it's
++ * place), so we and result1 with mask1 to save those bits that are at right
++ * place and save them in result1. In second loop we do all operations
++ * symetrical, so we get other half of bits on their final spots, and save
++ * result in result2. Or of result1 and result2 is placed in appropriate
++ * doubleword element of vD. We repeat this 2 times.
 + */
-+static void trans_vpkpx(DisasContext *ctx)
++static void trans_vgbbd(DisasContext *ctx)
 +{
 +    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
 +    int VB = rB(ctx->opcode);
 +    TCGv_i64 tmp = tcg_temp_new_i64();
-+    TCGv_i64 shifted = tcg_temp_new_i64();
 +    TCGv_i64 avr = tcg_temp_new_i64();
-+    TCGv_i64 result = tcg_temp_new_i64();
-+    int64_t mask1 = 0x1fULL;
-+    int64_t mask2 = 0x1fULL << 5;
-+    int64_t mask3 = 0x3fULL << 10;
-+    int i, j;
-+    /*
-+     * In each iteration do the 6-5-5 pack for 2 pixels of each doubleword
-+     * element of each source register.
-+     */
-+    for (i = 0; i < 4; i++) {
-+        switch (i) {
-+        case 0:
-+            /*
-+             * Get high doubleword of vA to perfrom 6-5-5 pack of pixels
-+             * 1 and 2.
-+             */
-+            get_avr64(avr, VA, true);
-+            tcg_gen_movi_i64(result, 0x0ULL);
-+            break;
-+        case 1:
-+            /*
-+             * Get low doubleword of vA to perfrom 6-5-5 pack of pixels
-+             * 3 and 4.
-+             */
-+            get_avr64(avr, VA, false);
-+            break;
-+        case 2:
-+            /*
-+             * Get high doubleword of vB to perfrom 6-5-5 pack of pixels
-+             * 5 and 6.
-+             */
-+            get_avr64(avr, VB, true);
-+            tcg_gen_movi_i64(result, 0x0ULL);
-+            break;
-+        case 3:
-+            /*
-+             * Get low doubleword of vB to perfrom 6-5-5 pack of pixels
-+             * 7 and 8.
-+             */
-+            get_avr64(avr, VB, false);
-+            break;
-+        }
-+        /* Perform the packing for 2 pixels(each iteration for 1). */
-+        tcg_gen_movi_i64(tmp, 0x0ULL);
-+        for (j = 0; j < 2; j++) {
-+            tcg_gen_shri_i64(shifted, avr, (j * 16 + 3));
-+            tcg_gen_andi_i64(shifted, shifted, mask1 << (j * 16));
-+            tcg_gen_or_i64(tmp, tmp, shifted);
++    TCGv_i64 shifted = tcg_temp_new_i64();
++    TCGv_i64 result1 = tcg_temp_new_i64();
++    TCGv_i64 result2 = tcg_temp_new_i64();
++    uint64_t mask = 0x8040201008040201ULL;
++    uint64_t mask1 = 0x80c0e0f0f8fcfeffULL;
++    uint64_t mask2 = 0x7f3f1f0f07030100ULL;
++    int i;
 +
-+            tcg_gen_shri_i64(shifted, avr, (j * 16 + 6));
-+            tcg_gen_andi_i64(shifted, shifted, mask2 << (j * 16));
-+            tcg_gen_or_i64(tmp, tmp, shifted);
++    get_avr64(avr, VB, true);
++    tcg_gen_movi_i64(result1, 0x0ULL);
++    tcg_gen_mov_i64(shifted, avr);
++    for (i = 0; i < 8; i++) {
++        tcg_gen_andi_i64(tmp, shifted, mask);
++        tcg_gen_or_i64(result1, result1, tmp);
 +
-+            tcg_gen_shri_i64(shifted, avr, (j * 16 + 9));
-+            tcg_gen_andi_i64(shifted, shifted, mask3 << (j * 16));
-+            tcg_gen_or_i64(tmp, tmp, shifted);
-+        }
-+        if ((i == 0) || (i == 2)) {
-+            tcg_gen_shli_i64(tmp, tmp, 32);
-+        }
-+        tcg_gen_or_i64(result, result, tmp);
-+        if (i == 1) {
-+            /* Place packed pixels 1:4 to high doubleword of vD. */
-+            set_avr64(VT, result, true);
-+        }
-+        if (i == 3) {
-+            /* Place packed pixels 5:8 to low doubleword of vD. */
-+            set_avr64(VT, result, false);
-+        }
++        tcg_gen_shri_i64(shifted, shifted, 7);
++        mask = mask >> 8;
 +    }
++    tcg_gen_andi_i64(result1, result1, mask1);
++
++    mask = 0x8040201008040201ULL;
++    tcg_gen_movi_i64(result2, 0x0ULL);
++    for (i = 0; i < 8; i++) {
++        tcg_gen_andi_i64(tmp, avr, mask);
++        tcg_gen_or_i64(result2, result2, tmp);
++
++        tcg_gen_shli_i64(avr, avr, 7);
++        mask = mask << 8;
++    }
++    tcg_gen_andi_i64(result2, result2, mask2);
++
++    tcg_gen_or_i64(result2, result2, result1);
++    set_avr64(VT, result2, true);
++
++    mask = 0x8040201008040201ULL;
++    get_avr64(avr, VB, false);
++    tcg_gen_movi_i64(result1, 0x0ULL);
++    tcg_gen_mov_i64(shifted, avr);
++    for (i = 0; i < 8; i++) {
++        tcg_gen_andi_i64(tmp, shifted, mask);
++        tcg_gen_or_i64(result1, result1, tmp);
++
++        tcg_gen_shri_i64(shifted, shifted, 7);
++        mask = mask >> 8;
++    }
++    tcg_gen_andi_i64(result1, result1, mask1);
++
++    mask = 0x8040201008040201ULL;
++    tcg_gen_movi_i64(result2, 0x0ULL);
++    for (i = 0; i < 8; i++) {
++        tcg_gen_andi_i64(tmp, avr, mask);
++        tcg_gen_or_i64(result2, result2, tmp);
++
++        tcg_gen_shli_i64(avr, avr, 7);
++        mask = mask << 8;
++    }
++    tcg_gen_andi_i64(result2, result2, mask2);
++
++    tcg_gen_or_i64(result2, result2, result1);
++    set_avr64(VT, result2, false);
 +
 +    tcg_temp_free_i64(tmp);
-+    tcg_temp_free_i64(shifted);
 +    tcg_temp_free_i64(avr);
-+    tcg_temp_free_i64(result);
++    tcg_temp_free_i64(shifted);
++    tcg_temp_free_i64(result1);
++    tcg_temp_free_i64(result2);
 +}
 +
-+/*
-  * vsl VRT,VRA,VRB - Vector Shift Left
-  *
-  * Shifting left 128 bit value of vA by value specified in bits 125-127 of vB.
-@@ -813,7 +904,7 @@ GEN_VXFORM_ENV(vpksdus, 7, 21);
- GEN_VXFORM_ENV(vpkshss, 7, 6);
- GEN_VXFORM_ENV(vpkswss, 7, 7);
- GEN_VXFORM_ENV(vpksdss, 7, 23);
--GEN_VXFORM(vpkpx, 7, 12);
-+GEN_VXFORM_TRANS(vpkpx, 7, 12);
- GEN_VXFORM_ENV(vsum4ubs, 4, 24);
- GEN_VXFORM_ENV(vsum4sbs, 4, 28);
- GEN_VXFORM_ENV(vsum4shs, 4, 25);
+ GEN_VXFORM(vmuloub, 4, 0);
+ GEN_VXFORM(vmulouh, 4, 1);
+ GEN_VXFORM(vmulouw, 4, 2);
+@@ -1319,7 +1416,7 @@ GEN_VXFORM_DUAL(vclzd, PPC_NONE, PPC2_ALTIVEC_207, \
+                 vpopcntd, PPC_NONE, PPC2_ALTIVEC_207)
+ GEN_VXFORM(vbpermd, 6, 23);
+ GEN_VXFORM(vbpermq, 6, 21);
+-GEN_VXFORM_NOA(vgbbd, 6, 20);
++GEN_VXFORM_TRANS(vgbbd, 6, 20);
+ GEN_VXFORM(vpmsumb, 4, 16)
+ GEN_VXFORM(vpmsumh, 4, 17)
+ GEN_VXFORM(vpmsumw, 4, 18)
 -- 
 2.7.4
 
