@@ -2,50 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6413729C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 13:17:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58533 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79403372B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 13:22:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58621 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYqOd-0008E5-Jz
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 07:17:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34434)
+	id 1hYqTZ-0004OE-Jp
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 07:22:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35336)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hYqKC-00059o-K9
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:12:53 -0400
+	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hYqMz-0007hs-2A
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:15:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hYqKA-0002kG-Od
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:12:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58834)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>)
-	id 1hYqK4-0002Ze-Rk; Thu, 06 Jun 2019 07:12:45 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 66EBE3079B60;
-	Thu,  6 Jun 2019 11:12:38 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.22.189])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A57192A345;
-	Thu,  6 Jun 2019 11:12:34 +0000 (UTC)
-Date: Thu, 6 Jun 2019 12:12:32 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Pino Toscano <ptoscano@redhat.com>
-Message-ID: <20190606111232.GG14300@redhat.com>
-References: <20190605213654.9785-1-ptoscano@redhat.com>
+	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hYqMx-0006rP-Gz
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:15:44 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46030
+	helo=mx0a-001b2d01.pphosted.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
+	id 1hYqMx-0006n2-AH
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:15:43 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x56BDiUe108792
+	for <qemu-devel@nongnu.org>; Thu, 6 Jun 2019 07:15:38 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 2sy1s3r2rj-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 07:15:38 -0400
+Received: from localhost
+	by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <aravinda@linux.vnet.ibm.com>;
+	Thu, 6 Jun 2019 12:15:37 +0100
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+	by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Thu, 6 Jun 2019 12:15:35 +0100
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+	[9.57.199.109])
+	by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	x56BFY2m18022772
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Thu, 6 Jun 2019 11:15:34 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 385BB112066;
+	Thu,  6 Jun 2019 11:15:34 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D7280112063;
+	Thu,  6 Jun 2019 11:15:31 +0000 (GMT)
+Received: from [9.85.82.46] (unknown [9.85.82.46])
+	by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+	Thu,  6 Jun 2019 11:15:31 +0000 (GMT)
+To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+References: <155910829070.13149.5215948335633966328.stgit@aravinda>
+	<155910845769.13149.8097972239187020170.stgit@aravinda>
+	<20190606030614.GK10319@umbus.fritz.box>
+	<20190606080609.28b4dd15@bahia.lab.toulouse-stg.fr.ibm.com>
+From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Date: Thu, 6 Jun 2019 16:45:30 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190605213654.9785-1-ptoscano@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Thu, 06 Jun 2019 11:12:38 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6] ssh: switch from libssh2 to libssh
+In-Reply-To: <20190606080609.28b4dd15@bahia.lab.toulouse-stg.fr.ibm.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19060611-2213-0000-0000-0000039AF611
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011223; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000286; SDB=6.01214022; UDB=6.00638128;
+	IPR=6.00995102; 
+	MB=3.00027206; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-06 11:15:37
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060611-2214-0000-0000-00005EBD76A3
+Message-Id: <9a4291d3-2ae6-92f3-6922-e8924398cdb7@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-06-06_09:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1906060082
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: Re: [Qemu-devel] [PATCH v9 6/6] migration: Include migration
+ support for machine check handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,114 +102,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, rjones@redhat.com,
-	qemu-devel@nongnu.org, mreitz@redhat.com, philmd@redhat.com
+Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, aik@au1.ibm.com,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 05, 2019 at 11:36:54PM +0200, Pino Toscano wrote:
-> Rewrite the implementation of the ssh block driver to use libssh instead
-> of libssh2.  The libssh library has various advantages over libssh2:
-> - easier API for authentication (for example for using ssh-agent)
-> - easier API for known_hosts handling
-> - supports newer types of keys in known_hosts
+
+
+On Thursday 06 June 2019 11:36 AM, Greg Kurz wrote:
+> On Thu, 6 Jun 2019 13:06:14 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
 > 
-> Use APIs/features available in libssh 0.8 conditionally, to support
-> older versions (which are not recommended though).
-
-
+>> On Wed, May 29, 2019 at 11:10:57AM +0530, Aravinda Prasad wrote:
+>>> This patch includes migration support for machine check
+>>> handling. Especially this patch blocks VM migration
+>>> requests until the machine check error handling is
+>>> complete as (i) these errors are specific to the source
+>>> hardware and is irrelevant on the target hardware,
+>>> (ii) these errors cause data corruption and should
+>>> be handled before migration.
+>>>
+>>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+>>> ---
+>>>  hw/ppc/spapr.c         |   20 ++++++++++++++++++++
+>>>  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
+>>>  hw/ppc/spapr_rtas.c    |    4 ++++
+>>>  include/hw/ppc/spapr.h |    2 ++
+>>>  4 files changed, 43 insertions(+)
+>>>
+>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>>> index e8a77636..31c4850 100644
+>>> --- a/hw/ppc/spapr.c
+>>> +++ b/hw/ppc/spapr.c
+>>> @@ -2104,6 +2104,25 @@ static const VMStateDescription vmstate_spapr_dtb = {
+>>>      },
+>>>  };
+>>>  
+>>> +static bool spapr_fwnmi_needed(void *opaque)
+>>> +{
+>>> +    SpaprMachineState *spapr = (SpaprMachineState *)opaque;
+>>> +
+>>> +    return (spapr->guest_machine_check_addr == -1) ? 0 : 1;  
+>>
+>> Since we're introducing a PAPR capability to enable this, it would
+>> actually be better to check that here, rather than the runtime state.
+>> That leads to less cases and easier to understand semantics for the
+>> migration stream.
+>>
 > 
-> Signed-off-by: Pino Toscano <ptoscano@redhat.com>
-> ---
-> 
-> Changes from v5:
-> - adapt to newer tracing APIs
-> - disable ssh compression (mimic what libssh2 does by default)
-> - use build time checks for libssh 0.8, and use newer APIs directly
-> 
-> Changes from v4:
-> - fix wrong usages of error_setg/session_error_setg/sftp_error_setg
-> - fix few return code checks
-> - remove now-unused parameters in few internal functions
-> - allow authentication with "none" method
-> - switch to unsigned int for the port number
-> - enable TCP_NODELAY on the socket
-> - fix one reference error message in iotest 207
-> 
-> Changes from v3:
-> - fix socket cleanup in connect_to_ssh()
-> - add comments about the socket cleanup
-> - improve the error reporting (closer to what was with libssh2)
-> - improve EOF detection on sftp_read()
-> 
-> Changes from v2:
-> - used again an own fd
-> - fixed co_yield() implementation
-> 
-> Changes from v1:
-> - fixed jumbo packets writing
-> - fixed missing 'err' assignment
-> - fixed commit message
-> 
->  block/Makefile.objs        |   6 +-
->  block/ssh.c                | 610 +++++++++++++++++++------------------
->  block/trace-events         |  14 +-
->  configure                  |  62 ++--
->  tests/qemu-iotests/207.out |   2 +-
->  5 files changed, 351 insertions(+), 343 deletions(-)
+> Hmmm... the purpose of needed() VMState callbacks is precisely about
+> runtime state: the subsection should only be migrated if an MCE is
+> pending, ie. spapr->guest_machine_check_addr != -1.
 
+spapr->guest_machine_check_addr is set when fwnmi is registered. Hence
+an MCE might not be pending if it is set.
 
-> diff --git a/configure b/configure
-> index b091b82cb3..bfdd70c40a 100755
-> --- a/configure
-> +++ b/configure
-
-> @@ -3914,43 +3914,17 @@ EOF
->  fi
->  
->  ##########################################
-> -# libssh2 probe
-> -min_libssh2_version=1.2.8
-
-The commit message says we're conditionally using APIs from 0.8.0,
-but doesn't say what minimum version we actually need and there's
-no check here.
-
-In terms of our supported build platforms, the oldest libssh I
-see is RHEL-7 with 0.7.1.
-
-So assume it does actually compile on RHEL-7, then it is desirable
-to have a min_libssh_Version=0.7.1 set here & checked below.
-
-At some future date when support platforms changes, we'll then be
-able to tweak it to 0.8.0 and drop the conditional compilation.
-
-> -if test "$libssh2" != "no" ; then
-> -  if $pkg_config --atleast-version=$min_libssh2_version libssh2; then
-> -    libssh2_cflags=$($pkg_config libssh2 --cflags)
-> -    libssh2_libs=$($pkg_config libssh2 --libs)
-> -    libssh2=yes
-> +# libssh probe
-> +if test "$libssh" != "no" ; then
-> +  if $pkg_config --exists libssh; then
-> +    libssh_cflags=$($pkg_config libssh --cflags)
-> +    libssh_libs=$($pkg_config libssh --libs)
-> +    libssh=yes
->    else
-> -    if test "$libssh2" = "yes" ; then
-> -      error_exit "libssh2 >= $min_libssh2_version required for --enable-libssh2"
-> +    if test "$libssh" = "yes" ; then
-> +      error_exit "libssh required for --enable-libssh"
->      fi
-> -    libssh2=no
-> -  fi
-> -fi
+I am fine with both the approaches (checking for
+guest_machine_check_addr or for SPAPR_CAP_FWNMI_MCE).
 
 Regards,
-Daniel
+Aravinda
+
+> 
+>>> +}
+>>> +
+>>> +static const VMStateDescription vmstate_spapr_machine_check = {
+>>> +    .name = "spapr_machine_check",
+>>> +    .version_id = 1,
+>>> +    .minimum_version_id = 1,
+>>> +    .needed = spapr_fwnmi_needed,
+>>> +    .fields = (VMStateField[]) {
+>>> +        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
+>>> +        VMSTATE_INT32(mc_status, SpaprMachineState),
+>>> +        VMSTATE_END_OF_LIST()
+>>> +    },
+>>> +};
+>>> +
+>>>  static const VMStateDescription vmstate_spapr = {
+>>>      .name = "spapr",
+>>>      .version_id = 3,
+>>> @@ -2137,6 +2156,7 @@ static const VMStateDescription vmstate_spapr = {
+>>>          &vmstate_spapr_dtb,
+>>>          &vmstate_spapr_cap_large_decr,
+>>>          &vmstate_spapr_cap_ccf_assist,
+>>> +        &vmstate_spapr_machine_check,
+>>>          NULL
+>>>      }
+>>>  };
+>>> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+>>> index 573c0b7..35e21e4 100644
+>>> --- a/hw/ppc/spapr_events.c
+>>> +++ b/hw/ppc/spapr_events.c
+>>> @@ -41,6 +41,7 @@
+>>>  #include "qemu/bcd.h"
+>>>  #include "hw/ppc/spapr_ovec.h"
+>>>  #include <libfdt.h>
+>>> +#include "migration/blocker.h"
+>>>  
+>>>  #define RTAS_LOG_VERSION_MASK                   0xff000000
+>>>  #define   RTAS_LOG_VERSION_6                    0x06000000
+>>> @@ -855,6 +856,22 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+>>>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>>>  {
+>>>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+>>> +    int ret;
+>>> +    Error *local_err = NULL;
+>>> +
+>>> +    error_setg(&spapr->fwnmi_migration_blocker,
+>>> +            "Live migration not supported during machine check handling");
+>>> +    ret = migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_err);
+>>> +    if (ret < 0) {
+>>> +        /*
+>>> +         * We don't want to abort and let the migration to continue. In a
+>>> +         * rare case, the machine check handler will run on the target
+>>> +         * hardware. Though this is not preferable, it is better than aborting
+>>> +         * the migration or killing the VM.
+>>> +         */
+>>> +        error_free(spapr->fwnmi_migration_blocker);  
+>>
+>> You should set fwnmi_migration_blocker to NULL here as well.
+>>
+>> As mentioned on an earlier iteration, the migration blocker is the
+>> same every time.  Couldn't you just create it once and free at final
+>> teardown, rather than recreating it for every NMI?
+>>
+>>> +        warn_report_err(local_err);
+>>> +    }
+>>>  
+>>>      while (spapr->mc_status != -1) {
+>>>          /*
+>>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+>>> index 91a7ab9..c849223 100644
+>>> --- a/hw/ppc/spapr_rtas.c
+>>> +++ b/hw/ppc/spapr_rtas.c
+>>> @@ -50,6 +50,7 @@
+>>>  #include "target/ppc/mmu-hash64.h"
+>>>  #include "target/ppc/mmu-book3s-v3.h"
+>>>  #include "kvm_ppc.h"
+>>> +#include "migration/blocker.h"
+>>>  
+>>>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>>>                                     uint32_t token, uint32_t nargs,
+>>> @@ -404,6 +405,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>>>          spapr->mc_status = -1;
+>>>          qemu_cond_signal(&spapr->mc_delivery_cond);
+>>>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>>> +        migrate_del_blocker(spapr->fwnmi_migration_blocker);
+>>> +        error_free(spapr->fwnmi_migration_blocker);
+>>> +        spapr->fwnmi_migration_blocker = NULL;
+>>>      }
+>>>  }
+>>>  
+>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>>> index bd75d4b..6c0cfd8 100644
+>>> --- a/include/hw/ppc/spapr.h
+>>> +++ b/include/hw/ppc/spapr.h
+>>> @@ -214,6 +214,8 @@ struct SpaprMachineState {
+>>>      SpaprCapabilities def, eff, mig;
+>>>  
+>>>      unsigned gpu_numa_id;
+>>> +
+>>> +    Error *fwnmi_migration_blocker;
+>>>  };
+>>>  
+>>>  #define H_SUCCESS         0
+>>>   
+>>
+> 
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Regards,
+Aravinda
+
 
