@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7CA381A8
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 01:13:13 +0200 (CEST)
-Received: from localhost ([::1]:44818 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81FC381B4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 01:16:53 +0200 (CEST)
+Received: from localhost ([::1]:44880 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ1ZH-00062z-8I
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 19:13:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41533)
+	id 1hZ1cr-0000k4-2z
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 19:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42451)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hZ1Wt-0004N8-8D
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:10:45 -0400
+ (envelope-from <crosa@redhat.com>) id 1hZ1ZV-0007D6-Ci
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:13:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hZ1Wr-0004Ez-Vh
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:10:43 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:43118)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hZ1Wr-0004BH-KQ; Thu, 06 Jun 2019 19:10:41 -0400
-Received: by mail-lj1-x242.google.com with SMTP id 16so77373ljv.10;
- Thu, 06 Jun 2019 16:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QnjzLAuecYO6cCduWJx1ezPBtP44QqdheBhzqRuvzg8=;
- b=AJh5SSlnlfhqqiOhv7pCy4XJLGLcul7qOqd/36x7W9Wbiy6suQk/ZjGwh7vQAkK3tG
- AanXuXDSwDoOAKHXhUJ1ftjkgcCD+FUn0zkLj5jHw/oGVsVoUsGeWWHJE/a/92IRn8Fd
- Xx546aZcAxpUZ/L+ew6jGqFmdrtOPZYIaYaNgwi3NA7us/qdxtmHUPZMiQ9f+9Ql4aN0
- dFeAfTtte9F79GxZYAnFXRqIjwSvi35y0eR6KFhqRckE4wBdMUnPF3yz+bcTu2uuTver
- cLnUYkf2ce22bcqDtvCnWaZAZ4IejD57PRJJU3G3FesUgdoZWUEXYwFZAi4L1e6aQLY3
- Yrqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QnjzLAuecYO6cCduWJx1ezPBtP44QqdheBhzqRuvzg8=;
- b=rgmqPLBk53vqDmgxUj1ZoA5850k5s4iqKsCEXgKCbzf2NhKIU7Dpvi6WHGtLhuWbtx
- PP9YwL94GGrjfstkGUJlBsKOK1Hv4Ml83usxSY4/JysusUEEz1EpKIhgtLKMXG6LQA7/
- wlg0stZsO3rg2/+jZc1uHgK0D5wrBUdf88sY9qWuuIO6w+vqbmHAONtm6QnWa4k5Hl+d
- sKbD2+P6Q6zYR7z5FaY+QTZJMdWyJ2jS4qYIlcnZxKRrHWy4Zdr7TcTJ9QwwYLG7/w0A
- RNV2WUHoYj7+Uljl/N1iytF0JxqwFMbt6byrAGrtg9i3Q5+IrZA3rlXxk/hKWoMffwnR
- uunQ==
-X-Gm-Message-State: APjAAAVFBaXTPo+mj8DOX8n3tzzlY1QBrMNSpemAK3q5LB/RTTcNt+fM
- 1AQLviI6gvr0/QTww/xQgG+aWFmwzOrFGtM30n0=
-X-Google-Smtp-Source: APXvYqzIwgwTPbStoPu2NkiSHADKTP3pAz3haxc7lKDDplcrP3Om98o2oJWjEqfeIs7rCKfbjZKbCJRaEcfPAeujz+8=
-X-Received: by 2002:a2e:6313:: with SMTP id x19mr17108848ljb.25.1559862640106; 
- Thu, 06 Jun 2019 16:10:40 -0700 (PDT)
+ (envelope-from <crosa@redhat.com>) id 1hZ1ZU-0000A4-1R
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:13:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37792)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>)
+ id 1hZ1ZR-0008M4-1U; Thu, 06 Jun 2019 19:13:21 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AB13F2F8BCF;
+ Thu,  6 Jun 2019 23:13:17 +0000 (UTC)
+Received: from dhcp-17-47.bos.redhat.com (dhcp-17-47.bos.redhat.com
+ [10.18.17.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD7754DC4F;
+ Thu,  6 Jun 2019 23:13:13 +0000 (UTC)
+Date: Thu, 6 Jun 2019 19:13:11 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190606231311.GA28186@dhcp-17-47.bos.redhat.com>
+References: <20190606225521.9187-1-philmd@redhat.com>
+ <20190606225521.9187-3-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20190517222342.26394-1-jonathan@fintelia.io>
- <20190517222342.26394-3-jonathan@fintelia.io>
- <CAKmqyKMG6ffhQ5VYgLZ3XVfZ2-E_O9BH6UCanmLJ3awDDUfS_w@mail.gmail.com>
- <CANnJOVFE51rFdV0h0T6_dV6r37kBLcBQCo7Csg8NOUoYkOELpQ@mail.gmail.com>
- <CAKmqyKM3C59_w214=mqLFpfwPhUjcLL0EuOY0Yk3DQePx8ZTQg@mail.gmail.com>
- <CANnJOVGyY71-aZd+dmZWAOUzEfFEOHjAAzVdbGTP_XfP4CmgkA@mail.gmail.com>
-In-Reply-To: <CANnJOVGyY71-aZd+dmZWAOUzEfFEOHjAAzVdbGTP_XfP4CmgkA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 6 Jun 2019 16:08:05 -0700
-Message-ID: <CAKmqyKNiPsoMSi0nnJTz8mTh-W4FwPDitxkmF1JGEK-VdfWpCQ@mail.gmail.com>
-To: Jonathan Behrens <jonathan@fintelia.io>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190606225521.9187-3-philmd@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Thu, 06 Jun 2019 23:13:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH for-4.1 2/2] target/riscv: Add support for
- -bios "firmware_filename" flag
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 2/2] BootLinuxConsoleTest: Test the
+ SmartFusion2 board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,104 +60,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 31, 2019 at 3:38 PM Jonathan Behrens <jonathan@fintelia.io> wro=
-te:
->
-> I've thought some more about this issue, and long term I think there are =
-a couple different useful configurations:
->
-> For end users, having default firmware that loaded the OS from a block de=
-vice would be easiest
->
-> Current invocation: impossible
-> Proposed: empty command line (i.e. pass neither -bios nor -kernel)
->
-> Custom firmware support would be good to test possible firmware improveme=
-nts or if the default is missing something
->
-> Current invocation: -kernel firmware.elf
-> Proposed: -bios firmware.elf
->
-> A kernel developer may want to test a kernel binary without having to mak=
-e a full disk image or bundle firmware (on x86 and perhaps other architectu=
-res this is done with the -kernel parameter, but for RISC-V that invocation=
- currently is used to load M-mode code rather than supervisor code)
->
-> Current invocation: impossible
-> Proposed: -bios firmware.elf -kernel kernel.bin
-> Ideally `-kernel kernel.bin` be the same except using default firmware, b=
-ut I don't know if QEMU would be willing to deprecate the current syntax to=
- allow it
->
-> For now, it is probably too early to add default firmware (but perhaps no=
-t?) which would leave only the firmware only and firmware + kernel variants=
-. What do other people think about this?
+On Fri, Jun 07, 2019 at 12:55:21AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+>=20
+> Similar to the x86_64/pc test, it boots a Linux kernel on an
+> Emcraft board and verify the serial is working.
+>=20
+> If ARM is a target being built, "make check-acceptance" will
+> automatically include this test by the use of the "arch:arm" tags.
+>=20
+> Alternatively, this test can be run using:
+>=20
+>   $ avocado run -t arch:arm tests/acceptance
+>   $ avocado run -t machine:emcraft-sf2 tests/acceptance
+>=20
+> Based on the recommended test setup from Subbaraya Sundeep:
+> https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg03810.html
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Tested-by: Cleber Rosa <crosa@redhat.com>
+> ---
+> v2: (Cleber)
+> - drop 'kernel_command_line'
+> - do no concat string, use format
+> - replace '-' by '_' in Avocado tags
+> ---
+>  tests/acceptance/boot_linux_console.py | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>=20
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/=
+boot_linux_console.py
+> index f593f3858e..34527d4b38 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -178,6 +178,32 @@ class BootLinuxConsole(Test):
+>          console_pattern =3D 'Kernel command line: %s' % kernel_command=
+_line
+>          self.wait_for_console_pattern(console_pattern)
+> =20
+> +    def test_arm_emcraft_sf2(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Dmachine:emcraft_sf2
+> +        :avocado: tags=3Dendian:little
+> +        """
+> +        uboot_url =3D ('https://raw.githubusercontent.com/'
+> +                     'Subbaraya-Sundeep/qemu-test-binaries/'
+> +                     'fa030bd77a014a0b8e360d3b7011df89283a2f0b/u-boot'=
+)
+> +        uboot_hash =3D 'abba5d9c24cdd2d49cdc2a8aa92976cf20737eff'
+> +        uboot_path =3D self.fetch_asset(uboot_url, asset_hash=3Duboot_=
+hash)
+> +        spi_url =3D ('https://raw.githubusercontent.com/'
+> +                   'Subbaraya-Sundeep/qemu-test-binaries/'
+> +                   'fa030bd77a014a0b8e360d3b7011df89283a2f0b/spi.bin')
+> +        spi_hash =3D '85f698329d38de63aea6e884a86fbde70890a78a'
+> +        spi_path =3D self.fetch_asset(spi_url, asset_hash=3Dspi_hash)
+> +
+> +        self.vm.set_machine('emcraft-sf2')
+> +        self.vm.set_console()
+> +        self.vm.add_args('-kernel', uboot_path,
+> +                         '-append', self.KERNEL_COMMON_COMMAND_LINE,
+> +                         '-drive', 'file=3D%s,if=3Dmtd,format=3Draw' %=
+ spi_path,
+> +                         '-no-reboot')
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern('init started: BusyBox')
+> +
+>      def test_s390x_s390_ccw_virtio(self):
+>          """
+>          :avocado: tags=3Darch:s390x
+> --=20
+> 2.20.1
+>=20
 
-I generally agree with what you are saying. I know that x86 includes
-seabios (although I'm not sure how) and maybe that is something we can
-look at. There is now a default RISC-V firmware which would be useful
-to include so that users can just boot their kernel. We would have to
-make sure it's possible to overwrite this default one so that people
-can test their own.
-
-The hard part becomes building the firmware as we don't expect people
-to have a RISC-V toolchain installed.
-
-I think the best bet here is to look at what x86 does for their BIOS
-and we can start to move towards that.
-
-Alistair
-
->
-> Jonathan
->
-> On Mon, May 20, 2019 at 12:56 PM Alistair Francis <alistair23@gmail.com> =
-wrote:
->>
->> On Sat, May 18, 2019 at 2:57 PM Jonathan Behrens <jonathan@fintelia.io> =
-wrote:
->> >
->> > > I've never been fully convinced of this, why not just use the generi=
-c loader?
->> >
->> > If I understand you are proposing passing bbl (or other firmware) with=
- the -kernel flag, and then vmlinux (or another kernel) with the -initrd fl=
-ag? Wouldn't this result in losing the ability to pass a real init ramdisk =
-to Linux? It also seems to open the possibility for strange bugs/compatibil=
-ity issues later if firmware starts recognizing any "initrd" entries in the=
- device tree as kernel code to jump into.
->>
->> No I mean passing in OpenSBI (or some other boot loader) via the
->> -kernel option and then passing in the kernel with QEMU's generic
->> device loader. This is documented as part of the OpenSBI boot flow:
->> https://github.com/riscv/opensbi/blob/master/docs/platform/qemu_virt.md
->>
->> The only disadvantage with that is that we don't get debug symbols
->> from the kernel, but it does mean that the boot loader in QEMU is much
->> simpler.
->>
->> >
->> > I do wonder though how compatible the current design is with providing=
- default firmware for riscv in the future.
->> >
->> > > This should be in a generic boot.c file and support added to all RIS=
-C-V boards.
->> >
->> > I can do this for v2.
->>
->> Thanks
->>
->> Alistair
->>
->> >
->> > Jonathan
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
