@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B203700B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 11:37:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57269 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C243708A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 11:45:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57403 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYopR-0004N9-9D
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 05:37:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40489)
+	id 1hYoxz-00007q-Vs
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 05:45:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43035)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYoni-0003gY-Pj
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:35:15 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hYowU-00086J-4G
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:44:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYong-0006IU-TG
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:35:14 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:47777)
+	(envelope-from <laurent@vivier.eu>) id 1hYowS-0007kG-JU
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:44:17 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:49229)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hYonZ-0005vO-80; Thu, 06 Jun 2019 05:35:05 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hYowS-0007jA-9T
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:44:16 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
-	1MX00X-1h22Jk0K0f-00XNJJ; Thu, 06 Jun 2019 11:34:33 +0200
+	(mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+	1Mzz6s-1gf2fz4ANy-00x1he; Thu, 06 Jun 2019 11:37:02 +0200
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
 	qemu-devel@nongnu.org, qemu-trivial@nongnu.org
 References: <20190528164020.32250-1-philmd@redhat.com>
-	<20190528164020.32250-9-philmd@redhat.com>
+	<20190528164020.32250-7-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
@@ -71,35 +71,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
 	OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
 	JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
 	ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <cf1b7d54-b765-6c6a-741b-d6592405b97f@vivier.eu>
-Date: Thu, 6 Jun 2019 11:34:30 +0200
+Message-ID: <4c2b0e57-2a77-748f-5d31-2e5b0c19cba1@vivier.eu>
+Date: Thu, 6 Jun 2019 11:36:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190528164020.32250-9-philmd@redhat.com>
+In-Reply-To: <20190528164020.32250-7-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:DxDVy2ZPBat1WYjT3Z78pTBd0xSOualC1cULcAmxhTFUPe0jYkS
-	6EgBAVhooorlN2l9NWK9ewW1pncWy4MZCmaZIFArIeXh9I4jPHNKoy5BCxPiv5q45LVgkJj
-	dSZgvkw23GM1QNkM1za6wGMt50CfC2ePeAtBHKh7Izb3LZCCiCrY2G9VvrtzTSnJea90E2n
-	lv7zFI2Mb2CeJyekH+mkg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8F9gBSSk3GE=:8sy6C8Ik3cFBGYD0tMaliS
-	W5a9MOWrQZlQTJ1FS5lb18w9Jpswqh1J8dueJoADGLrERnIOQPsRunxa7owHIuvhLF4+HOryb
-	f3HIX6JOWzmbViqU8zwpiYI5PXXAPKyc/SY4egjWiNDfoTUD/XChnr1YWsgOZ2I2iDt08JOkm
-	fQ407T2HMyJOKb7qZDs1n+j+Mbo3KxKQ+l+yJWwBEenIf9fSPGaxp5AweB73bNjtsLvRm+Kte
-	Xwng0wqob1BSDXOiTCkdXXds9YMWpHFDJ6pFXPIpTp/JS9Sz/OqR2VIFxN9kmhCwNMtziEbau
-	ZPIUBIYXzTClBZp9wDP00rzD1HSGWpb28TuLS73j5qE0lSc6kAX9yaOIeQ/VFF9cfX3jYaepE
-	Ll0GWUBF70BvI0rHiQxe02NyruCMqBwwi9al1PMnk/YJtHCSmE42M89c+fxrm0TUDNQMEjGB0
-	k/nY0Y6SOEoikhldXPjjWMggsCB4eHHV91DPNKim5bNkitCITg1pk11vfmB1UH+ssrgVo8vjB
-	yEEyMZXFTx1aPhXTiS1hBLMGb0CXISEoZhOerzsdmU6Ol7gs6DjD3hJw2mn671Siz+jzK1Fbd
-	SeNwmfYjRx27SFk26KdnuRqkterbKvuyCcBEX1Wi4KlYotEFjv4kHIQsnrIQRRuJZytGiONKq
-	JAF4l5uQVZ5MNAwUIMsVmYhx9LcBGkkqdndb1iXArIxSNZTxMSLEe/l2aWisBucecs1otjj6M
-	we38XWdNQn4qlT91ey/SH6erdJDxgbdV2gNMclqXIvqXncPWKb/rt70oI6U=
+X-Provags-ID: V03:K1:K0647dg7kTVNahhHrjsEabmCbdM41thqA4HM8iXPv3EtPItZLgU
+	UdsOQAiL7yVZDthRdNJhPF8130KnOF9rpVq1F6WnQB3cLThmLemWq9VJ64oWbPo+qXmlTxf
+	3ziILhYblSMAsk6/D8hDWd9qnV7p4VrciJkA2n6nHZ61LPRFhmxH5AFy/eoOBJ7/cwsnJnV
+	Lw9K1nIRC/tOk945QaVFQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WBopeAuIoF0=:VPW1QdEsoPLJTBHFSu7quI
+	KIbwsSPMbsWPlsrKrgycIsYKg9WkBCo5WHbssU6qQ1k7whh7G8jUvG5R/aqKMff9bCxCckEPj
+	6hQwrYSElaWvDKEvEHsCnNXTMG9Flw0XRNb/lsuT4KnB0MK/SEyDu6vmu1LHYNTiSkDSEVPRd
+	9X4ZCvoHuit1V4Hm2npDiuZ123rWWOF3wgRsGguXxlxZYu0iw7SceeAEnswLAoB05nRihlmCi
+	8tOhSzMv7wcZ5d2bMwfkm0l0utO/rkRKAg/WcAeLuTCHKzFZgdvHXX0NvQJ0FGUYpj1qKZytw
+	tHe5E17h/1MwJbGOQGaV2hwuLJOx5v+L5I2JKrLizDti6PA6NLnfMiNCsnM49llM+N7JOjBLm
+	7uEVNZjBtpP13GhBjMzBr1nGRlsO5r0XZc1j03X1acjx8Hepa5+S2jgITgsCzuW1IYCSUU6S4
+	QUq4F7sg57AGXnPH0XOCSisYEvvWd+F1xO7f9dBBSQSMmo5SUq7YfQ29bftbeH20Mo/e9UfCT
+	yAAwbMzreb1SAwkrnSzKTlnBKuxrE0kUd4eU+4w0SpXYLEfJpDVnyEQamkQ4gjHFakjhWJI8b
+	sgdjmLnnNfh9oVWpeT0MKDzfK1kYs44yr6EN7lENsIlkrTFD69tEMTR/618oVtrgvLAAegHRF
+	PSUpK4pRhU8BmZA0X5HTtnZWwnoVwHqmJ1bVB6JoomXjuX/Boq+lEOitCl/CNpVVcPC4f7X24
+	3B1CeaqsCGosUksWk9gtud3r7ainVl3wMLaRrhd2Swa5NAk4Bwd/Xv2Ig70=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 08/10] hw/usb-storage:
- Use the QOM DEVICE() macro to access DeviceState.qdev
+X-Received-From: 212.227.126.130
+Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 06/10] hw/audio/ac97: Use
+ the QOM DEVICE() macro to access DeviceState.qdev
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -132,7 +132,9 @@ Le 28/05/2019 à 18:40, Philippe Mathieu-Daudé a écrit :
 > Rather than looking inside the definition of a DeviceState with
 > "s->qdev", use the QOM prefered style: "DEVICE(s)".
 > 
-> This patch was generated using the following Coccinelle script:
+> This patch was generated using the following Coccinelle script
+> (with a bit of manual fix-up, removing an extra space to please
+> checkpatch.pl):
 > 
 >     // Use DEVICE() macros to access DeviceState.qdev
 >     @use_device_macro_to_access_qdev@
@@ -145,22 +147,22 @@ Le 28/05/2019 à 18:40, Philippe Mathieu-Daudé a écrit :
 > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/usb/dev-storage.c | 2 +-
+>  hw/audio/ac97.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-> index cd5551d94f..0e4e93ef16 100644
-> --- a/hw/usb/dev-storage.c
-> +++ b/hw/usb/dev-storage.c
-> @@ -616,7 +616,7 @@ static void usb_msd_storage_realize(USBDevice *dev, Error **errp)
->       * The hack is probably a bad idea.
->       */
->      blk_ref(blk);
-> -    blk_detach_dev(blk, &s->dev.qdev);
-> +    blk_detach_dev(blk, DEVICE(s));
->      s->conf.blk = NULL;
+> diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
+> index 2265622d44..a4e8d99e77 100644
+> --- a/hw/audio/ac97.c
+> +++ b/hw/audio/ac97.c
+> @@ -1388,7 +1388,7 @@ static void ac97_realize(PCIDevice *dev, Error **errp)
+>      pci_register_bar (&s->dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->io_nam);
+>      pci_register_bar (&s->dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &s->io_nabm);
+>      AUD_register_card ("ac97", &s->card);
+> -    ac97_on_reset (&s->dev.qdev);
+> +    ac97_on_reset(DEVICE(s));
+>  }
 >  
->      usb_desc_create_serial(dev);
+>  static void ac97_exit(PCIDevice *dev)
 > 
 
 Applied to my trivial-patches branch.
