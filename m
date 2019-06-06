@@ -2,44 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3443718D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 12:24:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57861 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC9737172
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 12:17:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57751 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYpYt-00080e-Qn
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 06:23:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50057)
+	id 1hYpSU-0002Qe-Jk
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 06:17:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49776)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefan.brankovic@rt-rk.com>) id 1hYpRx-0002ar-Uk
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:16:51 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYpR4-0001u7-RU
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:15:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefan.brankovic@rt-rk.com>) id 1hYpRw-0001zv-Cl
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:16:49 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:41537 helo=mail.rt-rk.com)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYpQz-0007OW-ND
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:15:51 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38212)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
-	id 1hYpRw-0001tp-0v
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:16:48 -0400
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id 1417A1A1DE5;
-	Thu,  6 Jun 2019 12:15:37 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
-	[10.10.13.132])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id EB2251A1E45;
-	Thu,  6 Jun 2019 12:15:36 +0200 (CEST)
-From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+	id 1hYpQx-0006sf-86
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 06:15:48 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+	by relay.sw.ru with esmtp (Exim 4.91)
+	(envelope-from <vsementsov@virtuozzo.com>)
+	id 1hYpQj-0007Qy-Uc; Thu, 06 Jun 2019 13:15:34 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 12:15:30 +0200
-Message-Id: <1559816130-17113-9-git-send-email-stefan.brankovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
-References: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
+Date: Thu,  6 Jun 2019 13:15:33 +0300
+Message-Id: <20190606101533.20228-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH 8/8] target/ppc: Refactor emulation of vmrgew
- and vmrgow instructions
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH] qapi: InitSocketAddress: add keepalive option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,126 +44,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Cc: vsementsov@virtuozzo.com, berrange@redhat.com, armbru@redhat.com,
+	kraxel@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since I found this two instructions implemented with tcg, I refactored
-them so they are consistent with other similar implementations that
-I introduced in this patch.
-
-Also had to add new dual macro GEN_VXFORM_TRANS_DUAL. We use this macro
-if one instruction is realized with direct translation, and second one
-with helper.
-
-Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- target/ppc/translate/vmx-impl.inc.c | 62 ++++++++++++++++++++-----------------
- 1 file changed, 33 insertions(+), 29 deletions(-)
 
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index 8535a31..46c6f34 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -350,6 +350,24 @@ static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-     }                                                                  \
- }
+Hi all!
+
+This is a continuation of "[PATCH v2 0/2] nbd: enable keepalive", but
+it's a try from another side, so almost nothing common with v2.
+
+
+ qapi/sockets.json   |  5 ++++-
+ util/qemu-sockets.c | 13 +++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/qapi/sockets.json b/qapi/sockets.json
+index fc81d8d5e8..aefa024051 100644
+--- a/qapi/sockets.json
++++ b/qapi/sockets.json
+@@ -53,6 +53,8 @@
+ #
+ # @ipv6: whether to accept IPv6 addresses, default try both IPv4 and IPv6
+ #
++# @keepalive: enable keepalive when connecting to this socket (Since 4.1)
++#
+ # Since: 1.3
+ ##
+ { 'struct': 'InetSocketAddress',
+@@ -61,7 +63,8 @@
+     '*numeric':  'bool',
+     '*to': 'uint16',
+     '*ipv4': 'bool',
+-    '*ipv6': 'bool' } }
++    '*ipv6': 'bool',
++    '*keepalive': 'bool' } }
  
-+/*
-+ * We use this macro if one instruction is realized with direct
-+ * translation, and second one with helper.
-+ */
-+#define GEN_VXFORM_TRANS_DUAL(name0, flg0, flg2_0, name1, flg1, flg2_1)\
-+static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-+{                                                                      \
-+    if ((Rc(ctx->opcode) == 0) &&                                      \
-+        ((ctx->insns_flags & flg0) || (ctx->insns_flags2 & flg2_0))) { \
-+        trans_##name0(ctx);                                            \
-+    } else if ((Rc(ctx->opcode) == 1) &&                               \
-+        ((ctx->insns_flags & flg1) || (ctx->insns_flags2 & flg2_1))) { \
-+        gen_##name1(ctx);                                              \
-+    } else {                                                           \
-+        gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);            \
-+    }                                                                  \
-+}
+ ##
+ # @UnixSocketAddress:
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 8850a280a8..d2cd2a9d4f 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -457,6 +457,19 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+     }
+ 
+     freeaddrinfo(res);
 +
- /* Adds support to provide invalid mask */
- #define GEN_VXFORM_DUAL_EXT(name0, flg0, flg2_0, inval0,                \
-                             name1, flg1, flg2_1, inval1)                \
-@@ -431,20 +449,13 @@ GEN_VXFORM(vmrglb, 6, 4);
- GEN_VXFORM(vmrglh, 6, 5);
- GEN_VXFORM(vmrglw, 6, 6);
- 
--static void gen_vmrgew(DisasContext *ctx)
-+static void trans_vmrgew(DisasContext *ctx)
- {
--    TCGv_i64 tmp;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    tmp = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 tmp = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
- 
-     get_avr64(avr, VB, true);
-     tcg_gen_shri_i64(tmp, avr, 32);
-@@ -462,21 +473,14 @@ static void gen_vmrgew(DisasContext *ctx)
-     tcg_temp_free_i64(avr);
++    if (saddr->keepalive) {
++        int val = 1;
++        int ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
++                                  &val, sizeof(val));
++
++        if (ret < 0) {
++            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
++            close(sock);
++            return -1;
++        }
++    }
++
+     return sock;
  }
  
--static void gen_vmrgow(DisasContext *ctx)
-+static void trans_vmrgow(DisasContext *ctx)
- {
--    TCGv_i64 t0, t1;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    t0 = tcg_temp_new_i64();
--    t1 = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
- 
-     get_avr64(t0, VB, true);
-     get_avr64(t1, VA, true);
-@@ -1213,14 +1217,14 @@ GEN_VXFORM_ENV(vminfp, 5, 17);
- GEN_VXFORM_HETRO(vextublx, 6, 24)
- GEN_VXFORM_HETRO(vextuhlx, 6, 25)
- GEN_VXFORM_HETRO(vextuwlx, 6, 26)
--GEN_VXFORM_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-+GEN_VXFORM_TRANS_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwlx, PPC_NONE, PPC2_ISA300)
- GEN_VXFORM_HETRO(vextubrx, 6, 28)
- GEN_VXFORM_HETRO(vextuhrx, 6, 29)
- GEN_VXFORM_HETRO(vextuwrx, 6, 30)
- GEN_VXFORM_TRANS(lvsl, 6, 31)
- GEN_VXFORM_TRANS(lvsr, 6, 32)
--GEN_VXFORM_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207, \
-+GEN_VXFORM_TRANS_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwrx, PPC_NONE, PPC2_ISA300)
- 
- #define GEN_VXRFORM1(opname, name, str, opc2, opc3)                     \
 -- 
-2.7.4
+2.18.0
 
 
