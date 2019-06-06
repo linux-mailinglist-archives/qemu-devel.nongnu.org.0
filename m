@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C9137298
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 13:15:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58488 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9773372C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 13:25:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58696 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYqN3-0006tc-IT
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 07:15:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60674)
+	id 1hYqWe-0006hl-T9
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 07:25:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34617)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYqFW-0000XB-HD
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:08:03 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hYqKh-0005aM-OF
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:13:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYqFV-0003q8-KE
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:08:02 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:40507)
+	(envelope-from <laurent@vivier.eu>) id 1hYqKg-0003R2-QG
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:13:23 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:51351)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hYqFV-0003o2-B3; Thu, 06 Jun 2019 07:08:01 -0400
+	id 1hYqKc-0003Ma-N0; Thu, 06 Jun 2019 07:13:18 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1MVMJ7-1hAGYT2wEh-00SNSl; Thu, 06 Jun 2019 13:06:38 +0200
+	id 1MbjBo-1gyxyw1siM-00dHVC; Thu, 06 Jun 2019 13:06:40 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 13:06:10 +0200
-Message-Id: <20190606110625.32127-2-laurent@vivier.eu>
+Date: Thu,  6 Jun 2019 13:06:11 +0200
+Message-Id: <20190606110625.32127-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190606110625.32127-1-laurent@vivier.eu>
 References: <20190606110625.32127-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:p5QiGkDHYjVQOWvNLCE7ybZDVUE17nKGGpnu4Z0+6/3/EaA8R1N
-	kYCdU4ffdWKbbeG8UT+wwPoddlRPgXX2pPoyn1Hng7oF8qkXvP/32CduU7RvYU674O3wCoY
-	1G2dlefckFC4MH2wLV5fm/02Vj8k1qm7eLypC94OHNXGtJyxDTTKJKnyy4S/UUQCBWIze+3
-	ewdiiZL7jTzS3LGW3YJpw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ozra9I6ERoU=:x4oV6y93l2CwRU9PJYcolF
-	3A5uiIo3kKa/8t8YAqBEsxQDnvEqndEWdax/9TYtnM2HVXJinyAAulvY22Z17nKM1RA3Y4R9h
-	zknpp7LUkrbCFsOSKYczaNY/GdJwj9E6mePR+yZEoGNC+2pK5v+NAvErVf/cAKOr0AgpDN/kJ
-	k99yDgzGesi5KeX+hu2duTVcpQl1PFNVJSHUrlxVLOR6A0BvJNWAuVSYhCE+YrLdprAk3TKPM
-	whzMnRoj/94MYNz7B2Zyid9VpjPYWQt/YjnoKh/TCHf+95qLjsXQhwrMkeuUOiIsM5LvCNvhk
-	LdAhscXlGZQUQEF9j56+cIEFbCIynn5Dw9weq6BNQc/opicN3wkawuoT9MMWuoiLSk0YAv6qX
-	7yAWDJoEpRaBbKAbNygJuHuxe4Lcp2uL9fSeEx93zN/wAoP367ksL7EWamEe2ctpdVoFxIebn
-	i2zdTnzS1AUN1koioi35GK3BnkCcctdQuGnW8WSMMsyO+3EuZAXO3PRINiFwfYbAqfizoAHxN
-	rxvY3DaDzo+05RENj7SBDHLFgUngCfbjrdfk9lclmWE25/pfw3gDGTd7udQZi65SI0b0Ttm/o
-	Al/wSq6yU5aT6EA1Z7de2WqeTlOMKGQitu7orCd/b+rg37i2BZcd8nxSxx+zuD5yVDLnOWO6J
-	D4B5fRWkRYs/gS5cwgBac+yz87fQXlD73nzRYmwbSDHp6EMrzaf5yWXs0EgIfJ/os1HTIWB00
-	cWfe987/DDqyb1cAsH1i+yXw/+bnpICQHVE4XA==
+X-Provags-ID: V03:K1:wmpSPsS+7A5QbkzIuo4H2PZEXePK7qndfEAgPOgvQ2LxlfTvhw9
+	amvAiKaRxtLucqhiiRKRCyClQcMp60JYWMDX9M+QknvPxj0kNgOs8Peb19vAGcpshprcRxJ
+	WcNPTGerQRJL+zpN8WiRua1Ve4iPwPaQSmZGJQpq9kftPb9yMfEDSixtCjVNxGsKMOTZjjX
+	7E2gfzmJo65wlVOPo5MUA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:X49tWX4nr2Y=:QcF6a7H8Yx79kAHKMB8+1R
+	Cr9r+2MHZWPvUk3fRGmltvgPkeLVMQVr8vGjaOIRmd5IZTQfMWMwBr1K61OqZFuw7wQnHO2lz
+	e9xnVQeTrDiwYNJez9xLMsM1g5HBIkCZqge/0hnqRomBNlraq6/EhLBuJcquFcXeLd6TV8rX7
+	C343+aRz3GQLS2ixo+VpDqJtvr7anT1tGtGN/rHgyN+nrzfuvHFEYx7ME7BEpsqM4rDTREAx6
+	fg8h7xnoykLDgkvJb3S4gyu25uyH4OMXMOjVSwVKC0YZcgt8Sm5NwEsJyOXe7UpSZ7ljqgo9l
+	+R6LBuvMa5gCcBKgdWJFnefL04N/V2IdiPq1i04f4E0nDBmMmgxhWqQCpSXOg+1llT//0H2JZ
+	VgiYKnBrpi7s5DGklyLAQD2ecH8GV5JdCMp/AYY59l/SYnmgYiU+ET6u1GTs5x7KD+bLadhvr
+	7Zycu0uRbBE2HI2SHxSjMgv+fw5dzPhFlRMgo6J13zx2euNYWzQyzVBT5Dzd3kLntNIz3NrIf
+	PVdT12sjtKs1bAy6kMDmMf1cpuNllz+Ttj+1Lo2Sk38zz9b2VQoxZSIiV3cfzl81xd3Qs9X1D
+	ikm4ad7bqEP38NHXtS5HE30q9/oKqugqMbM9iuP3+BSvmWkmwhp+Qrzh29jZ9J4Zxi9T58VZ7
+	TXCGXUeC75VQNdYvnJGsUeCBLudWknut+9FRy1qUNyp7A9hRtEVhQxPr0//Js3q3FYKLhr15l
+	w9ZIvB82HSzCGM9FnAh2UQHCdMla+rNApNbDy6q7u98ZYJLKd+C+4zMVk5o=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
-Subject: [Qemu-devel] [PULL 01/16] hw/rdma: Delete unused headers inclusion
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PULL 02/16] migration: fix a typo
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,15 +68,16 @@ Cc: Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 	David Hildenbrand <david@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
 	Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
 	Aleksandar Rikalo <arikalo@wavecomp.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Li Qiang <liq3ea@163.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
 	Christian Borntraeger <borntraeger@de.ibm.com>,
 	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 	Yuval Shaia <yuval.shaia@oracle.com>,
 	Alex Williamson <alex.williamson@redhat.com>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Richard Henderson <rth@twiddle.net>,
 	=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 	qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
-	Kamal Heib <kheib@redhat.com>,
 	Laurent Vivier <laurent@vivier.eu>, qemu-trivial@nongnu.org,
 	Michael Walle <michael@walle.cc>,
 	Aleksandar Markovic <amarkovic@wavecomp.com>,
@@ -83,39 +85,33 @@ Cc: Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuval Shaia <yuval.shaia@oracle.com>
+From: Li Qiang <liq3ea@163.com>
 
-This is a trivial cleanup patch.
+'postocpy' should be 'postcopy'.
 
-Signed-off-by: Yuval Shaia <yuval.shaia@oracle.com>
-Reviewed-by: Kamal Heib <kheib@redhat.com>
-Message-Id: <20190505105112.22691-1-yuval.shaia@oracle.com>
+CC: qemu-trivial@nongnu.org
+Signed-off-by: Li Qiang <liq3ea@163.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20190525062832.18009-1-liq3ea@163.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/rdma/rdma_backend.c | 7 -------
- 1 file changed, 7 deletions(-)
+ migration/ram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-index cf34874e9d2f..c39051068d1e 100644
---- a/hw/rdma/rdma_backend.c
-+++ b/hw/rdma/rdma_backend.c
-@@ -14,16 +14,9 @@
-  */
+diff --git a/migration/ram.c b/migration/ram.c
+index 4c608692262e..359dc8f1bc44 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2236,7 +2236,7 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+ }
  
- #include "qemu/osdep.h"
--#include "sysemu/sysemu.h"
--#include "qapi/error.h"
--#include "qapi/qmp/qlist.h"
--#include "qapi/qmp/qnum.h"
- #include "qapi/qapi-events-rdma.h"
- 
- #include <infiniband/verbs.h>
--#include <infiniband/umad_types.h>
--#include <infiniband/umad.h>
--#include <rdma/rdma_user_cm.h>
- 
- #include "contrib/rdmacm-mux/rdmacm-mux.h"
- #include "trace.h"
+ /**
+- * get_queued_page: unqueue a page from the postocpy requests
++ * get_queued_page: unqueue a page from the postcopy requests
+  *
+  * Skips pages that are already sent (!dirty)
+  *
 -- 
 2.21.0
 
