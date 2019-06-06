@@ -2,44 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D14D3743A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 14:35:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59861 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D44537417
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 14:27:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59721 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYrcc-0005x1-Js
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 08:35:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50999)
+	id 1hYrUd-0007qF-Jr
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 08:27:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50809)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hYrSW-0006be-1T
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 08:25:37 -0400
+	(envelope-from <groug@kaod.org>) id 1hYrS4-0006Io-QZ
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 08:25:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hYrSA-00069k-Qx
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 08:25:19 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:33465 helo=mail.rt-rk.com)
+	(envelope-from <groug@kaod.org>) id 1hYrS2-0005lm-PW
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 08:25:04 -0400
+Received: from 2.mo179.mail-out.ovh.net ([178.33.250.45]:37021)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hYrSA-00064M-32
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 08:25:10 -0400
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id C9FAE1A2173;
-	Thu,  6 Jun 2019 14:25:03 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
-	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id 879971A21A2;
-	Thu,  6 Jun 2019 14:25:03 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 14:24:40 +0200
-Message-Id: <1559823880-29103-11-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559823880-29103-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1559823880-29103-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v2 10/10] tests/tcg: target/mips: Add tests for
- MSA FP max/min instructions
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hYrS1-0005XY-Jb
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 08:25:02 -0400
+Received: from player774.ha.ovh.net (unknown [10.108.57.49])
+	by mo179.mail-out.ovh.net (Postfix) with ESMTP id 8F2DE133D81
+	for <qemu-devel@nongnu.org>; Thu,  6 Jun 2019 14:24:56 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player774.ha.ovh.net (Postfix) with ESMTPSA id 620F568CF695;
+	Thu,  6 Jun 2019 12:24:47 +0000 (UTC)
+Date: Thu, 6 Jun 2019 14:24:46 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190606142446.72acfd73@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <08b42ce8-2413-ce8f-980a-419146423be7@linux.vnet.ibm.com>
+References: <155910829070.13149.5215948335633966328.stgit@aravinda>
+	<155910845769.13149.8097972239187020170.stgit@aravinda>
+	<20190606030614.GK10319@umbus.fritz.box>
+	<08b42ce8-2413-ce8f-980a-419146423be7@linux.vnet.ibm.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 438819489063278996
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudeggedghedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 178.33.250.45
+Subject: Re: [Qemu-devel] [PATCH v9 6/6] migration: Include migration
+ support for machine check handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,1333 +59,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+	qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On Thu, 6 Jun 2019 16:55:18 +0530
+Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
 
-Add tests for MSA FP max/min instructions. This includes following
-instructions:
+> On Thursday 06 June 2019 08:36 AM, David Gibson wrote:
+> > On Wed, May 29, 2019 at 11:10:57AM +0530, Aravinda Prasad wrote:  
+> >> This patch includes migration support for machine check
+> >> handling. Especially this patch blocks VM migration
+> >> requests until the machine check error handling is
+> >> complete as (i) these errors are specific to the source
+> >> hardware and is irrelevant on the target hardware,
+> >> (ii) these errors cause data corruption and should
+> >> be handled before migration.
+> >>
+> >> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> >> ---
+> >>  hw/ppc/spapr.c         |   20 ++++++++++++++++++++
+> >>  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
+> >>  hw/ppc/spapr_rtas.c    |    4 ++++
+> >>  include/hw/ppc/spapr.h |    2 ++
+> >>  4 files changed, 43 insertions(+)
+> >>
+> >> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> >> index e8a77636..31c4850 100644
+> >> --- a/hw/ppc/spapr.c
+> >> +++ b/hw/ppc/spapr.c
+> >> @@ -2104,6 +2104,25 @@ static const VMStateDescription vmstate_spapr_dtb = {
+> >>      },
+> >>  };
+> >>  
+> >> +static bool spapr_fwnmi_needed(void *opaque)
+> >> +{
+> >> +    SpaprMachineState *spapr = (SpaprMachineState *)opaque;
+> >> +
+> >> +    return (spapr->guest_machine_check_addr == -1) ? 0 : 1;  
+> > 
+> > Since we're introducing a PAPR capability to enable this, it would
+> > actually be better to check that here, rather than the runtime state.
+> > That leads to less cases and easier to understand semantics for the
+> > migration stream.  
+> 
+> I am fine with this approach as well.
+> 
+> >   
+> >> +}
+> >> +
+> >> +static const VMStateDescription vmstate_spapr_machine_check = {
+> >> +    .name = "spapr_machine_check",
+> >> +    .version_id = 1,
+> >> +    .minimum_version_id = 1,
+> >> +    .needed = spapr_fwnmi_needed,
+> >> +    .fields = (VMStateField[]) {
+> >> +        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
+> >> +        VMSTATE_INT32(mc_status, SpaprMachineState),
+> >> +        VMSTATE_END_OF_LIST()
+> >> +    },
+> >> +};
+> >> +
+> >>  static const VMStateDescription vmstate_spapr = {
+> >>      .name = "spapr",
+> >>      .version_id = 3,
+> >> @@ -2137,6 +2156,7 @@ static const VMStateDescription vmstate_spapr = {
+> >>          &vmstate_spapr_dtb,
+> >>          &vmstate_spapr_cap_large_decr,
+> >>          &vmstate_spapr_cap_ccf_assist,
+> >> +        &vmstate_spapr_machine_check,
+> >>          NULL
+> >>      }
+> >>  };
+> >> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> >> index 573c0b7..35e21e4 100644
+> >> --- a/hw/ppc/spapr_events.c
+> >> +++ b/hw/ppc/spapr_events.c
+> >> @@ -41,6 +41,7 @@
+> >>  #include "qemu/bcd.h"
+> >>  #include "hw/ppc/spapr_ovec.h"
+> >>  #include <libfdt.h>
+> >> +#include "migration/blocker.h"
+> >>  
+> >>  #define RTAS_LOG_VERSION_MASK                   0xff000000
+> >>  #define   RTAS_LOG_VERSION_6                    0x06000000
+> >> @@ -855,6 +856,22 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+> >>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+> >>  {
+> >>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> >> +    int ret;
+> >> +    Error *local_err = NULL;
+> >> +
+> >> +    error_setg(&spapr->fwnmi_migration_blocker,
+> >> +            "Live migration not supported during machine check handling");
+> >> +    ret = migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_err);
+> >> +    if (ret < 0) {
+> >> +        /*
+> >> +         * We don't want to abort and let the migration to continue. In a
+> >> +         * rare case, the machine check handler will run on the target
+> >> +         * hardware. Though this is not preferable, it is better than aborting
+> >> +         * the migration or killing the VM.
+> >> +         */
+> >> +        error_free(spapr->fwnmi_migration_blocker);  
+> > 
+> > You should set fwnmi_migration_blocker to NULL here as well.  
+> 
+> ok.
+> 
+> > 
+> > As mentioned on an earlier iteration, the migration blocker is the
+> > same every time.  Couldn't you just create it once and free at final
+> > teardown, rather than recreating it for every NMI?  
+> 
+> That means, we create the error string at the time when ibm,nmi-register
+> is invoked and tear it down during machine reset?
+> 
 
-  * FMAX.W - float maximum (words)
-  * FMAX.D - float maximum (doublewords)
-  * FMAX_A.W - float maximum absolute (words)
-  * FMAX_A.D - float maximum absolute (doublewords)
-  * FMIN.W - float minimum (words)
-  * FMIN.D - float minimum (doublewords)
-  * FMIN_A.W - float minimum absolute (words)
-  * FMIN_A.D - float minimum absolute (doublewords)
+No, I think David is asking to create the error string during machine init,
+for all the machine lifetime. In which case, we don't even need to call
+error_free() at all.
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- .../user/ase/msa/float-max-min/test_msa_fmax_a_d.c | 155 +++++++++++++++++++++
- .../user/ase/msa/float-max-min/test_msa_fmax_a_w.c | 155 +++++++++++++++++++++
- .../user/ase/msa/float-max-min/test_msa_fmax_d.c   | 155 +++++++++++++++++++++
- .../user/ase/msa/float-max-min/test_msa_fmax_w.c   | 155 +++++++++++++++++++++
- .../user/ase/msa/float-max-min/test_msa_fmin_a_d.c | 155 +++++++++++++++++++++
- .../user/ase/msa/float-max-min/test_msa_fmin_a_w.c | 155 +++++++++++++++++++++
- .../user/ase/msa/float-max-min/test_msa_fmin_d.c   | 155 +++++++++++++++++++++
- .../user/ase/msa/float-max-min/test_msa_fmin_w.c   | 155 +++++++++++++++++++++
- 8 files changed, 1240 insertions(+)
- create mode 100644 tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_a_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_a_w.c
- create mode 100644 tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_w.c
- create mode 100644 tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_a_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_a_w.c
- create mode 100644 tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_w.c
-
-diff --git a/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_a_d.c b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_a_d.c
-new file mode 100644
-index 0000000..1807cab
---- /dev/null
-+++ b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_a_d.c
-@@ -0,0 +1,155 @@
-+/*
-+ *  Test program for MSA instruction FMAX_A.D
-+ *
-+ *  Copyright (C) 2019  Wave Computing, Inc.
-+ *  Copyright (C) 2019  Aleksandar Markovic <amarkovic@wavecomp.com>
-+ *
-+ *  This program is free software: you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation, either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include <sys/time.h>
-+#include <stdint.h>
-+
-+#include "../../../../include/wrappers_msa.h"
-+#include "../../../../include/test_inputs_128.h"
-+#include "../../../../include/test_utils_128.h"
-+
-+#define TEST_COUNT_TOTAL (                                                \
-+            (PATTERN_INPUTS_SHORT_COUNT) * (PATTERN_INPUTS_SHORT_COUNT) + \
-+            (RANDOM_INPUTS_SHORT_COUNT) * (RANDOM_INPUTS_SHORT_COUNT))
-+
-+
-+int32_t main(void)
-+{
-+    char *instruction_name = "FMAX_A.D";
-+    int32_t ret;
-+    uint32_t i, j;
-+    struct timeval start, end;
-+    double elapsed_time;
-+
-+    uint64_t b128_result[TEST_COUNT_TOTAL][2];
-+    uint64_t b128_expect[TEST_COUNT_TOTAL][2] = {
-+        { 0xffffffffffffffffULL, 0xffffffffffffffffULL, },    /*   0  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },    /*   8  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },    /*  16  */
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xc71c71c71c71c71cULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },    /*  24  */
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },    /*  32  */
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xe38e38e38e38e38eULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },    /*  40  */
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x3333333333333333ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },    /*  48  */
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x5555555555555555ULL, },
-+        { 0xe38e38e38e38e38eULL, 0xccccccccccccccccULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0xc71c71c71c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },    /*  56  */
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xc71c71c71c71c71cULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xe38e38e38e38e38eULL, 0xc71c71c71c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },    /*  64  */
-+        { 0xfbbe00634d93c708ULL, 0x4b670b5efe7bb00cULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x4b670b5efe7bb00cULL, },
-+        { 0x704f164d5e31e24eULL, 0x4b670b5efe7bb00cULL, },
-+        { 0xfbbe00634d93c708ULL, 0x4b670b5efe7bb00cULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xfbbe00634d93c708ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x4b670b5efe7bb00cULL, },    /*  72  */
-+        { 0xfbbe00634d93c708ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x4b670b5efe7bb00cULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0x704f164d5e31e24eULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+};
-+
-+    reset_msa_registers();
-+
-+    gettimeofday(&start, NULL);
-+
-+    for (i = 0; i < PATTERN_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < PATTERN_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMAX_A_D(b128_pattern[i], b128_pattern[j],
-+                            b128_result[PATTERN_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMAX_A_D(b128_random[i], b128_random[j],
-+                            b128_result[((PATTERN_INPUTS_SHORT_COUNT) *
-+                                         (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                        RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    gettimeofday(&end, NULL);
-+
-+    elapsed_time = (end.tv_sec - start.tv_sec) * 1000.0;
-+    elapsed_time += (end.tv_usec - start.tv_usec) / 1000.0;
-+
-+    ret = check_results(instruction_name, TEST_COUNT_TOTAL, elapsed_time,
-+                        &b128_result[0][0], &b128_expect[0][0]);
-+
-+    return ret;
-+}
-diff --git a/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_a_w.c b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_a_w.c
-new file mode 100644
-index 0000000..b999b1f
---- /dev/null
-+++ b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_a_w.c
-@@ -0,0 +1,155 @@
-+/*
-+ *  Test program for MSA instruction FMAX_A.W
-+ *
-+ *  Copyright (C) 2019  Wave Computing, Inc.
-+ *  Copyright (C) 2019  Aleksandar Markovic <amarkovic@wavecomp.com>
-+ *
-+ *  This program is free software: you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation, either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include <sys/time.h>
-+#include <stdint.h>
-+
-+#include "../../../../include/wrappers_msa.h"
-+#include "../../../../include/test_inputs_128.h"
-+#include "../../../../include/test_utils_128.h"
-+
-+#define TEST_COUNT_TOTAL (                                                \
-+            (PATTERN_INPUTS_SHORT_COUNT) * (PATTERN_INPUTS_SHORT_COUNT) + \
-+            (RANDOM_INPUTS_SHORT_COUNT) * (RANDOM_INPUTS_SHORT_COUNT))
-+
-+
-+int32_t main(void)
-+{
-+    char *instruction_name = "FMAX_A.W";
-+    int32_t ret;
-+    uint32_t i, j;
-+    struct timeval start, end;
-+    double elapsed_time;
-+
-+    uint64_t b128_result[TEST_COUNT_TOTAL][2];
-+    uint64_t b128_expect[TEST_COUNT_TOTAL][2] = {
-+        { 0xffffffffffffffffULL, 0xffffffffffffffffULL, },    /*   0  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },    /*   8  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },    /*  16  */
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e3aaaaaaaaULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xaaaaaaaa71c71c71ULL, 0xc71c71c7aaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },    /*  24  */
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xe38e38e355555555ULL, 0x55555555e38e38e3ULL, },
-+        { 0x5555555571c71c71ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },    /*  32  */
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xe38e38e3ccccccccULL, 0xcccccccce38e38e3ULL, },
-+        { 0xcccccccc71c71c71ULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },    /*  40  */
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e333333333ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x3333333371c71c71ULL, 0xc71c71c733333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },    /*  48  */
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e3aaaaaaaaULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e355555555ULL, 0x55555555e38e38e3ULL, },
-+        { 0xe38e38e3ccccccccULL, 0xcccccccce38e38e3ULL, },
-+        { 0xe38e38e333333333ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e371c71c71ULL, 0xc71c71c7e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },    /*  56  */
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xaaaaaaaa71c71c71ULL, 0xc71c71c7aaaaaaaaULL, },
-+        { 0x5555555571c71c71ULL, 0x5555555555555555ULL, },
-+        { 0xcccccccc71c71c71ULL, 0xccccccccccccccccULL, },
-+        { 0x3333333371c71c71ULL, 0xc71c71c733333333ULL, },
-+        { 0xe38e38e371c71c71ULL, 0xc71c71c7e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },    /*  64  */
-+        { 0xfbbe00634d93c708ULL, 0x4b670b5efe7bb00cULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x4b670b5efe7bb00cULL, },
-+        { 0x704f164d5e31e24eULL, 0x4b670b5efe7bb00cULL, },
-+        { 0xfbbe00634d93c708ULL, 0x4b670b5efe7bb00cULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xfbbe00634d93c708ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0xfbbe00635e31e24eULL, 0x12f7bb1aa942e2a0ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x4b670b5efe7bb00cULL, },    /*  72  */
-+        { 0xfbbe00634d93c708ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x4b670b5efe7bb00cULL, },
-+        { 0xfbbe00635e31e24eULL, 0x12f7bb1aa942e2a0ULL, },
-+        { 0x704f164d5e31e24eULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+};
-+
-+    reset_msa_registers();
-+
-+    gettimeofday(&start, NULL);
-+
-+    for (i = 0; i < PATTERN_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < PATTERN_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMAX_A_W(b128_pattern[i], b128_pattern[j],
-+                            b128_result[PATTERN_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMAX_A_W(b128_random[i], b128_random[j],
-+                            b128_result[((PATTERN_INPUTS_SHORT_COUNT) *
-+                                         (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                        RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    gettimeofday(&end, NULL);
-+
-+    elapsed_time = (end.tv_sec - start.tv_sec) * 1000.0;
-+    elapsed_time += (end.tv_usec - start.tv_usec) / 1000.0;
-+
-+    ret = check_results(instruction_name, TEST_COUNT_TOTAL, elapsed_time,
-+                        &b128_result[0][0], &b128_expect[0][0]);
-+
-+    return ret;
-+}
-diff --git a/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_d.c b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_d.c
-new file mode 100644
-index 0000000..b5ce6c7
---- /dev/null
-+++ b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_d.c
-@@ -0,0 +1,155 @@
-+/*
-+ *  Test program for MSA instruction FMAX.D
-+ *
-+ *  Copyright (C) 2019  Wave Computing, Inc.
-+ *  Copyright (C) 2019  Aleksandar Markovic <amarkovic@wavecomp.com>
-+ *
-+ *  This program is free software: you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation, either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include <sys/time.h>
-+#include <stdint.h>
-+
-+#include "../../../../include/wrappers_msa.h"
-+#include "../../../../include/test_inputs_128.h"
-+#include "../../../../include/test_utils_128.h"
-+
-+#define TEST_COUNT_TOTAL (                                                \
-+            (PATTERN_INPUTS_SHORT_COUNT) * (PATTERN_INPUTS_SHORT_COUNT) + \
-+            (RANDOM_INPUTS_SHORT_COUNT) * (RANDOM_INPUTS_SHORT_COUNT))
-+
-+
-+int32_t main(void)
-+{
-+    char *instruction_name = "FMAX.D";
-+    int32_t ret;
-+    uint32_t i, j;
-+    struct timeval start, end;
-+    double elapsed_time;
-+
-+    uint64_t b128_result[TEST_COUNT_TOTAL][2];
-+    uint64_t b128_expect[TEST_COUNT_TOTAL][2] = {
-+        { 0xffffffffffffffffULL, 0xffffffffffffffffULL, },    /*   0  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },    /*   8  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x0000000000000000ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },    /*  16  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },    /*  24  */
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },    /*  32  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xccccccccccccccccULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },    /*  40  */
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },    /*  48  */
-+        { 0x0000000000000000ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x3333333333333333ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },    /*  56  */
-+        { 0x1c71c71c71c71c71ULL, 0x0000000000000000ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },    /*  64  */
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },
-+        { 0x704f164d5e31e24eULL, 0x4b670b5efe7bb00cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x12f7bb1a153f52fcULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },    /*  72  */
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x4b670b5efe7bb00cULL, },
-+        { 0x704f164d5e31e24eULL, 0x12f7bb1a153f52fcULL, },
-+        { 0x704f164d5e31e24eULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+};
-+
-+    reset_msa_registers();
-+
-+    gettimeofday(&start, NULL);
-+
-+    for (i = 0; i < PATTERN_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < PATTERN_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMAX_D(b128_pattern[i], b128_pattern[j],
-+                          b128_result[PATTERN_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMAX_D(b128_random[i], b128_random[j],
-+                          b128_result[((PATTERN_INPUTS_SHORT_COUNT) *
-+                                       (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                      RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    gettimeofday(&end, NULL);
-+
-+    elapsed_time = (end.tv_sec - start.tv_sec) * 1000.0;
-+    elapsed_time += (end.tv_usec - start.tv_usec) / 1000.0;
-+
-+    ret = check_results(instruction_name, TEST_COUNT_TOTAL, elapsed_time,
-+                        &b128_result[0][0], &b128_expect[0][0]);
-+
-+    return ret;
-+}
-diff --git a/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_w.c b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_w.c
-new file mode 100644
-index 0000000..5fafd30
---- /dev/null
-+++ b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmax_w.c
-@@ -0,0 +1,155 @@
-+/*
-+ *  Test program for MSA instruction FMAX.W
-+ *
-+ *  Copyright (C) 2019  Wave Computing, Inc.
-+ *  Copyright (C) 2019  Aleksandar Markovic <amarkovic@wavecomp.com>
-+ *
-+ *  This program is free software: you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation, either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include <sys/time.h>
-+#include <stdint.h>
-+
-+#include "../../../../include/wrappers_msa.h"
-+#include "../../../../include/test_inputs_128.h"
-+#include "../../../../include/test_utils_128.h"
-+
-+#define TEST_COUNT_TOTAL (                                                \
-+            (PATTERN_INPUTS_SHORT_COUNT) * (PATTERN_INPUTS_SHORT_COUNT) + \
-+            (RANDOM_INPUTS_SHORT_COUNT) * (RANDOM_INPUTS_SHORT_COUNT))
-+
-+
-+int32_t main(void)
-+{
-+    char *instruction_name = "FMAX.W";
-+    int32_t ret;
-+    uint32_t i, j;
-+    struct timeval start, end;
-+    double elapsed_time;
-+
-+    uint64_t b128_result[TEST_COUNT_TOTAL][2];
-+    uint64_t b128_expect[TEST_COUNT_TOTAL][2] = {
-+        { 0xffffffffffffffffULL, 0xffffffffffffffffULL, },    /*   0  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },    /*   8  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x0000000000000000ULL, 0x38e38e3800000000ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x000000001c71c71cULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },    /*  16  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xaaaaaaaa8e38e38eULL, 0x38e38e38aaaaaaaaULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xaaaaaaaa1c71c71cULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },    /*  24  */
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x5555555571c71c71ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },    /*  32  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xcccccccc8e38e38eULL, 0x38e38e38ccccccccULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },    /*  40  */
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x38e38e3833333333ULL, },
-+        { 0x3333333371c71c71ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },    /*  48  */
-+        { 0x0000000000000000ULL, 0x38e38e3800000000ULL, },
-+        { 0xaaaaaaaa8e38e38eULL, 0x38e38e38aaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xcccccccc8e38e38eULL, 0x38e38e38ccccccccULL, },
-+        { 0x3333333333333333ULL, 0x38e38e3833333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x38e38e381c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },    /*  56  */
-+        { 0x1c71c71c71c71c71ULL, 0x000000001c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xaaaaaaaa1c71c71cULL, },
-+        { 0x5555555571c71c71ULL, 0x5555555555555555ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x3333333371c71c71ULL, 0x3333333333333333ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x38e38e381c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },    /*  64  */
-+        { 0x886ae6cc4d93c708ULL, 0x4b670b5e153f52fcULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5eab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x4b670b5ea942e2a0ULL, },
-+        { 0x886ae6cc4d93c708ULL, 0x4b670b5e153f52fcULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xac5aaeaa4d93c708ULL, 0x27d8c6ff153f52fcULL, },
-+        { 0x704f164d5e31e24eULL, 0x12f7bb1a153f52fcULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5eab2b2514ULL, },    /*  72  */
-+        { 0xac5aaeaa4d93c708ULL, 0x27d8c6ff153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x27d8c6ffa942e2a0ULL, },
-+        { 0x704f164d5e31e24eULL, 0x4b670b5ea942e2a0ULL, },
-+        { 0x704f164d5e31e24eULL, 0x12f7bb1a153f52fcULL, },
-+        { 0x704f164d5e31e24eULL, 0x27d8c6ffa942e2a0ULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+};
-+
-+    reset_msa_registers();
-+
-+    gettimeofday(&start, NULL);
-+
-+    for (i = 0; i < PATTERN_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < PATTERN_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMAX_W(b128_pattern[i], b128_pattern[j],
-+                          b128_result[PATTERN_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMAX_W(b128_random[i], b128_random[j],
-+                          b128_result[((PATTERN_INPUTS_SHORT_COUNT) *
-+                                       (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                      RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    gettimeofday(&end, NULL);
-+
-+    elapsed_time = (end.tv_sec - start.tv_sec) * 1000.0;
-+    elapsed_time += (end.tv_usec - start.tv_usec) / 1000.0;
-+
-+    ret = check_results(instruction_name, TEST_COUNT_TOTAL, elapsed_time,
-+                        &b128_result[0][0], &b128_expect[0][0]);
-+
-+    return ret;
-+}
-diff --git a/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_a_d.c b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_a_d.c
-new file mode 100644
-index 0000000..c0b4001
---- /dev/null
-+++ b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_a_d.c
-@@ -0,0 +1,155 @@
-+/*
-+ *  Test program for MSA instruction FMIN_A.D
-+ *
-+ *  Copyright (C) 2019  Wave Computing, Inc.
-+ *  Copyright (C) 2019  Aleksandar Markovic <amarkovic@wavecomp.com>
-+ *
-+ *  This program is free software: you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation, either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include <sys/time.h>
-+#include <stdint.h>
-+
-+#include "../../../../include/wrappers_msa.h"
-+#include "../../../../include/test_inputs_128.h"
-+#include "../../../../include/test_utils_128.h"
-+
-+#define TEST_COUNT_TOTAL (                                                \
-+            (PATTERN_INPUTS_SHORT_COUNT) * (PATTERN_INPUTS_SHORT_COUNT) + \
-+            (RANDOM_INPUTS_SHORT_COUNT) * (RANDOM_INPUTS_SHORT_COUNT))
-+
-+
-+int32_t main(void)
-+{
-+    char *instruction_name = "FMIN_A.D";
-+    int32_t ret;
-+    uint32_t i, j;
-+    struct timeval start, end;
-+    double elapsed_time;
-+
-+    uint64_t b128_result[TEST_COUNT_TOTAL][2];
-+    uint64_t b128_expect[TEST_COUNT_TOTAL][2] = {
-+        { 0xffffffffffffffffULL, 0xffffffffffffffffULL, },    /*   0  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },    /*   8  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },    /*  16  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },    /*  24  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x5555555555555555ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },    /*  32  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xccccccccccccccccULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },    /*  40  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },    /*  48  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xccccccccccccccccULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },    /*  56  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x3333333333333333ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },    /*  64  */
-+        { 0x886ae6cc28625540ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0x886ae6cc28625540ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x886ae6cc28625540ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x886ae6cc28625540ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x886ae6cc28625540ULL, 0x27d8c6ffab2b2514ULL, },    /*  72  */
-+        { 0xac5aaeaab9cf8b80ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x886ae6cc28625540ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+};
-+
-+    reset_msa_registers();
-+
-+    gettimeofday(&start, NULL);
-+
-+    for (i = 0; i < PATTERN_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < PATTERN_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMIN_A_D(b128_pattern[i], b128_pattern[j],
-+                            b128_result[PATTERN_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMIN_A_D(b128_random[i], b128_random[j],
-+                            b128_result[((PATTERN_INPUTS_SHORT_COUNT) *
-+                                         (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                        RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    gettimeofday(&end, NULL);
-+
-+    elapsed_time = (end.tv_sec - start.tv_sec) * 1000.0;
-+    elapsed_time += (end.tv_usec - start.tv_usec) / 1000.0;
-+
-+    ret = check_results(instruction_name, TEST_COUNT_TOTAL, elapsed_time,
-+                        &b128_result[0][0], &b128_expect[0][0]);
-+
-+    return ret;
-+}
-diff --git a/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_a_w.c b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_a_w.c
-new file mode 100644
-index 0000000..d174fcd
---- /dev/null
-+++ b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_a_w.c
-@@ -0,0 +1,155 @@
-+/*
-+ *  Test program for MSA instruction FMIN_A.W
-+ *
-+ *  Copyright (C) 2019  Wave Computing, Inc.
-+ *  Copyright (C) 2019  Aleksandar Markovic <amarkovic@wavecomp.com>
-+ *
-+ *  This program is free software: you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation, either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include <sys/time.h>
-+#include <stdint.h>
-+
-+#include "../../../../include/wrappers_msa.h"
-+#include "../../../../include/test_inputs_128.h"
-+#include "../../../../include/test_utils_128.h"
-+
-+#define TEST_COUNT_TOTAL (                                                \
-+            (PATTERN_INPUTS_SHORT_COUNT) * (PATTERN_INPUTS_SHORT_COUNT) + \
-+            (RANDOM_INPUTS_SHORT_COUNT) * (RANDOM_INPUTS_SHORT_COUNT))
-+
-+
-+int32_t main(void)
-+{
-+    char *instruction_name = "FMIN_A.W";
-+    int32_t ret;
-+    uint32_t i, j;
-+    struct timeval start, end;
-+    double elapsed_time;
-+
-+    uint64_t b128_result[TEST_COUNT_TOTAL][2];
-+    uint64_t b128_expect[TEST_COUNT_TOTAL][2] = {
-+        { 0xffffffffffffffffULL, 0xffffffffffffffffULL, },    /*   0  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },    /*   8  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },    /*  16  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaa8e38e38eULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x1c71c71caaaaaaaaULL, 0xaaaaaaaa1c71c71cULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },    /*  24  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x555555558e38e38eULL, 0x38e38e3855555555ULL, },
-+        { 0x1c71c71c55555555ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },    /*  32  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xcccccccc8e38e38eULL, 0x38e38e38ccccccccULL, },
-+        { 0x1c71c71cccccccccULL, 0xc71c71c71c71c71cULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },    /*  40  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0x333333338e38e38eULL, 0x3333333333333333ULL, },
-+        { 0x1c71c71c33333333ULL, 0x333333331c71c71cULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },    /*  48  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaa8e38e38eULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x555555558e38e38eULL, 0x38e38e3855555555ULL, },
-+        { 0xcccccccc8e38e38eULL, 0x38e38e38ccccccccULL, },
-+        { 0x333333338e38e38eULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c8e38e38eULL, 0x38e38e381c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },    /*  56  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0x1c71c71caaaaaaaaULL, 0xaaaaaaaa1c71c71cULL, },
-+        { 0x1c71c71c55555555ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x1c71c71cccccccccULL, 0xc71c71c71c71c71cULL, },
-+        { 0x1c71c71c33333333ULL, 0x333333331c71c71cULL, },
-+        { 0x1c71c71c8e38e38eULL, 0x38e38e381c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },    /*  64  */
-+        { 0x886ae6cc28625540ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0x886ae6cc28625540ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x886ae6cc28625540ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x886ae6cc28625540ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0x704f164d4d93c708ULL, 0x8df188d8153f52fcULL, },
-+        { 0x886ae6cc28625540ULL, 0x27d8c6ffab2b2514ULL, },    /*  72  */
-+        { 0xac5aaeaab9cf8b80ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x886ae6cc28625540ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x704f164d4d93c708ULL, 0x8df188d8153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+};
-+
-+    reset_msa_registers();
-+
-+    gettimeofday(&start, NULL);
-+
-+    for (i = 0; i < PATTERN_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < PATTERN_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMIN_A_W(b128_pattern[i], b128_pattern[j],
-+                            b128_result[PATTERN_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMIN_A_W(b128_random[i], b128_random[j],
-+                            b128_result[((PATTERN_INPUTS_SHORT_COUNT) *
-+                                         (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                        RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    gettimeofday(&end, NULL);
-+
-+    elapsed_time = (end.tv_sec - start.tv_sec) * 1000.0;
-+    elapsed_time += (end.tv_usec - start.tv_usec) / 1000.0;
-+
-+    ret = check_results(instruction_name, TEST_COUNT_TOTAL, elapsed_time,
-+                        &b128_result[0][0], &b128_expect[0][0]);
-+
-+    return ret;
-+}
-diff --git a/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_d.c b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_d.c
-new file mode 100644
-index 0000000..62c149f
---- /dev/null
-+++ b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_d.c
-@@ -0,0 +1,155 @@
-+/*
-+ *  Test program for MSA instruction FMIN.D
-+ *
-+ *  Copyright (C) 2019  Wave Computing, Inc.
-+ *  Copyright (C) 2019  Aleksandar Markovic <amarkovic@wavecomp.com>
-+ *
-+ *  This program is free software: you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation, either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include <sys/time.h>
-+#include <stdint.h>
-+
-+#include "../../../../include/wrappers_msa.h"
-+#include "../../../../include/test_inputs_128.h"
-+#include "../../../../include/test_utils_128.h"
-+
-+#define TEST_COUNT_TOTAL (                                                \
-+            (PATTERN_INPUTS_SHORT_COUNT) * (PATTERN_INPUTS_SHORT_COUNT) + \
-+            (RANDOM_INPUTS_SHORT_COUNT) * (RANDOM_INPUTS_SHORT_COUNT))
-+
-+
-+int32_t main(void)
-+{
-+    char *instruction_name = "FMIN.D";
-+    int32_t ret;
-+    uint32_t i, j;
-+    struct timeval start, end;
-+    double elapsed_time;
-+
-+    uint64_t b128_result[TEST_COUNT_TOTAL][2];
-+    uint64_t b128_expect[TEST_COUNT_TOTAL][2] = {
-+        { 0xffffffffffffffffULL, 0xffffffffffffffffULL, },    /*   0  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },    /*   8  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x0000000000000000ULL, },
-+        { 0x0000000000000000ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },    /*  16  */
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xe38e38e38e38e38eULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xc71c71c71c71c71cULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },    /*  24  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },    /*  32  */
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xe38e38e38e38e38eULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },    /*  40  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x3333333333333333ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },    /*  48  */
-+        { 0xe38e38e38e38e38eULL, 0x0000000000000000ULL, },
-+        { 0xe38e38e38e38e38eULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0xccccccccccccccccULL, },
-+        { 0xe38e38e38e38e38eULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0xc71c71c71c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },    /*  56  */
-+        { 0x0000000000000000ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xc71c71c71c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xe38e38e38e38e38eULL, 0xc71c71c71c71c71cULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },    /*  64  */
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0x886ae6cc28625540ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xfbbe00634d93c708ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },    /*  72  */
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x886ae6cc28625540ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0xfbbe00634d93c708ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+};
-+
-+    reset_msa_registers();
-+
-+    gettimeofday(&start, NULL);
-+
-+    for (i = 0; i < PATTERN_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < PATTERN_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMIN_D(b128_pattern[i], b128_pattern[j],
-+                          b128_result[PATTERN_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMIN_D(b128_random[i], b128_random[j],
-+                          b128_result[((PATTERN_INPUTS_SHORT_COUNT) *
-+                                       (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                      RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    gettimeofday(&end, NULL);
-+
-+    elapsed_time = (end.tv_sec - start.tv_sec) * 1000.0;
-+    elapsed_time += (end.tv_usec - start.tv_usec) / 1000.0;
-+
-+    ret = check_results(instruction_name, TEST_COUNT_TOTAL, elapsed_time,
-+                        &b128_result[0][0], &b128_expect[0][0]);
-+
-+    return ret;
-+}
-diff --git a/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_w.c b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_w.c
-new file mode 100644
-index 0000000..c5815a6
---- /dev/null
-+++ b/tests/tcg/mips/user/ase/msa/float-max-min/test_msa_fmin_w.c
-@@ -0,0 +1,155 @@
-+/*
-+ *  Test program for MSA instruction FMIN.W
-+ *
-+ *  Copyright (C) 2019  Wave Computing, Inc.
-+ *  Copyright (C) 2019  Aleksandar Markovic <amarkovic@wavecomp.com>
-+ *
-+ *  This program is free software: you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation, either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include <sys/time.h>
-+#include <stdint.h>
-+
-+#include "../../../../include/wrappers_msa.h"
-+#include "../../../../include/test_inputs_128.h"
-+#include "../../../../include/test_utils_128.h"
-+
-+#define TEST_COUNT_TOTAL (                                                \
-+            (PATTERN_INPUTS_SHORT_COUNT) * (PATTERN_INPUTS_SHORT_COUNT) + \
-+            (RANDOM_INPUTS_SHORT_COUNT) * (RANDOM_INPUTS_SHORT_COUNT))
-+
-+
-+int32_t main(void)
-+{
-+    char *instruction_name = "FMIN.W";
-+    int32_t ret;
-+    uint32_t i, j;
-+    struct timeval start, end;
-+    double elapsed_time;
-+
-+    uint64_t b128_result[TEST_COUNT_TOTAL][2];
-+    uint64_t b128_expect[TEST_COUNT_TOTAL][2] = {
-+        { 0xffffffffffffffffULL, 0xffffffffffffffffULL, },    /*   0  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },    /*   8  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x00000000e38e38e3ULL, },
-+        { 0x0000000000000000ULL, 0xc71c71c700000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },    /*  16  */
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xe38e38e3aaaaaaaaULL, 0xaaaaaaaae38e38e3ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xc71c71c7aaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },    /*  24  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0x1c71c71c55555555ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },    /*  32  */
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0xe38e38e3ccccccccULL, 0xcccccccce38e38e3ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },    /*  40  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x33333333e38e38e3ULL, },
-+        { 0x1c71c71c33333333ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },    /*  48  */
-+        { 0xe38e38e38e38e38eULL, 0x00000000e38e38e3ULL, },
-+        { 0xe38e38e3aaaaaaaaULL, 0xaaaaaaaae38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e3ccccccccULL, 0xcccccccce38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x33333333e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0x38e38e38e38e38e3ULL, },
-+        { 0xe38e38e38e38e38eULL, 0xc71c71c7e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },    /*  56  */
-+        { 0x0000000000000000ULL, 0xc71c71c700000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xc71c71c7aaaaaaaaULL, },
-+        { 0x1c71c71c55555555ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x1c71c71c33333333ULL, 0xc71c71c71c71c71cULL, },
-+        { 0xe38e38e38e38e38eULL, 0xc71c71c7e38e38e3ULL, },
-+        { 0x1c71c71c71c71c71ULL, 0xc71c71c71c71c71cULL, },
-+        { 0x886ae6cc28625540ULL, 0x4b670b5efe7bb00cULL, },    /*  64  */
-+        { 0xfbbe006328625540ULL, 0x12f7bb1afe7bb00cULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6fffe7bb00cULL, },
-+        { 0x886ae6cc28625540ULL, 0x8df188d8fe7bb00cULL, },
-+        { 0xfbbe006328625540ULL, 0x12f7bb1afe7bb00cULL, },
-+        { 0xfbbe00634d93c708ULL, 0x12f7bb1a153f52fcULL, },
-+        { 0xfbbe0063b9cf8b80ULL, 0x12f7bb1aab2b2514ULL, },
-+        { 0xfbbe00634d93c708ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6fffe7bb00cULL, },    /*  72  */
-+        { 0xfbbe0063b9cf8b80ULL, 0x12f7bb1aab2b2514ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x27d8c6ffab2b2514ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x8df188d8ab2b2514ULL, },
-+        { 0x886ae6cc28625540ULL, 0x8df188d8fe7bb00cULL, },
-+        { 0xfbbe00634d93c708ULL, 0x8df188d8a942e2a0ULL, },
-+        { 0xac5aaeaab9cf8b80ULL, 0x8df188d8ab2b2514ULL, },
-+        { 0x704f164d5e31e24eULL, 0x8df188d8a942e2a0ULL, },
-+};
-+
-+    reset_msa_registers();
-+
-+    gettimeofday(&start, NULL);
-+
-+    for (i = 0; i < PATTERN_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < PATTERN_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMIN_W(b128_pattern[i], b128_pattern[j],
-+                          b128_result[PATTERN_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_FMIN_W(b128_random[i], b128_random[j],
-+                          b128_result[((PATTERN_INPUTS_SHORT_COUNT) *
-+                                       (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                      RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    gettimeofday(&end, NULL);
-+
-+    elapsed_time = (end.tv_sec - start.tv_sec) * 1000.0;
-+    elapsed_time += (end.tv_usec - start.tv_usec) / 1000.0;
-+
-+    ret = check_results(instruction_name, TEST_COUNT_TOTAL, elapsed_time,
-+                        &b128_result[0][0], &b128_expect[0][0]);
-+
-+    return ret;
-+}
--- 
-2.7.4
+> Regards,
+> Aravinda
+> 
+> >   
+> >> +        warn_report_err(local_err);
+> >> +    }
+> >>  
+> >>      while (spapr->mc_status != -1) {
+> >>          /*
+> >> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> >> index 91a7ab9..c849223 100644
+> >> --- a/hw/ppc/spapr_rtas.c
+> >> +++ b/hw/ppc/spapr_rtas.c
+> >> @@ -50,6 +50,7 @@
+> >>  #include "target/ppc/mmu-hash64.h"
+> >>  #include "target/ppc/mmu-book3s-v3.h"
+> >>  #include "kvm_ppc.h"
+> >> +#include "migration/blocker.h"
+> >>  
+> >>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> >>                                     uint32_t token, uint32_t nargs,
+> >> @@ -404,6 +405,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+> >>          spapr->mc_status = -1;
+> >>          qemu_cond_signal(&spapr->mc_delivery_cond);
+> >>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> >> +        migrate_del_blocker(spapr->fwnmi_migration_blocker);
+> >> +        error_free(spapr->fwnmi_migration_blocker);
+> >> +        spapr->fwnmi_migration_blocker = NULL;
+> >>      }
+> >>  }
+> >>  
+> >> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> >> index bd75d4b..6c0cfd8 100644
+> >> --- a/include/hw/ppc/spapr.h
+> >> +++ b/include/hw/ppc/spapr.h
+> >> @@ -214,6 +214,8 @@ struct SpaprMachineState {
+> >>      SpaprCapabilities def, eff, mig;
+> >>  
+> >>      unsigned gpu_numa_id;
+> >> +
+> >> +    Error *fwnmi_migration_blocker;
+> >>  };
+> >>  
+> >>  #define H_SUCCESS         0
+> >>  
+> >   
+> 
 
 
