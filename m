@@ -2,104 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F837081
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 11:44:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57371 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC537370BD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 11:49:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57431 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYowS-0007qw-KL
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 05:44:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42597)
+	id 1hYp1s-0001ke-QW
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 05:49:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43905)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYouz-00076q-NV
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:42:46 -0400
+	(envelope-from <berrange@redhat.com>) id 1hYp0i-0001Tv-TD
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:48:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYouv-0006NP-MM
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:42:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:46597)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hYouo-0006Bb-8G; Thu, 06 Jun 2019 05:42:34 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
-	1N5mWp-1gTFPe23St-017GtR; Thu, 06 Jun 2019 11:42:09 +0200
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-References: <20190528164020.32250-1-philmd@redhat.com>
-	<20190528164020.32250-11-philmd@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
-	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
-Message-ID: <e7446c5c-2d8a-a7b1-5fb5-6890e62c0856@vivier.eu>
-Date: Thu, 6 Jun 2019 11:42:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	(envelope-from <berrange@redhat.com>) id 1hYp0h-0004t4-NI
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:48:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51126)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hYp0h-0004sC-HX
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:48:39 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3E01481E0A;
+	Thu,  6 Jun 2019 09:48:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.22.189])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E722267C70;
+	Thu,  6 Jun 2019 09:48:23 +0000 (UTC)
+Date: Thu, 6 Jun 2019 10:48:19 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190606094819.GF14300@redhat.com>
+References: <6364a057-23ab-db7f-cb2c-ccff70fb7aed@zytor.com>
+	<aaf15ebe-7442-2e25-d533-c40c2e2df8cb@zytor.com>
+	<87ef47jn6n.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20190528164020.32250-11-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TX+rrqKFfhC9YjzAA1gj+l8X2xUVUCrPX5YH0u/R8P73cRY/e6B
-	JttywsZPN1R8L08izE2IBGO5tDqdQ7FaPlgroqF7Ki6BMdIFBz1bb/Oknubz59bJqOif2cj
-	SmiKSpCYRgGf0v/Q6WiYsRvsmF7FZAHMOb558Eq3p6Z/HXUq7tKDKdh6BdgVIKdXiTtvd67
-	B7n1bO0vJ4fGHwV7VVogg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SmGHHdMm5Fo=:8TYuyyyVsPcy66Nz0yMEXL
-	W3aYfOOgi2onvlAc+PlRId2a5Z81r9794jook8ogFaXHHGwPFvA0b5TFTmgzckY5OAJxkp21f
-	LA17Eq1qXRgOSHEx8K1xrsT/HDKVuXNfuTh1ZVPSvpCWhPgljXThCDFyGyNMYdTAWAcF+dR0H
-	LTO4cv2BaSPd/J/YOpqy73OWiQZf4EJDc6EL/D+jR2Z4daYjCyc19e17CfwiKg/szzd5uS4FS
-	Dk+w1sVHcRr1oc/NwKeUSUvgjvty2XgUl0Z5F8EzFK+QPfI7uPkFBkEk1QPEfieZA2N6TPFMw
-	CNiD/Rm6wryzzlw5ScXG+1KbdWEFXJLO0x6aRrej1rvVpnWjKQ6OAeQZvecnZOHw1E3MvlZsM
-	BypaJnd0Sop1tT7ow3bP9aQGY0TeYC4B3A7asoJm/lKwp5ymHqW1LUHTc/C0ek+CTWwl/HzcM
-	1XJ1cyToqbQTk+WACZU44/Vwsc+Qt7YRH/rUcox4pi8rqs0FdHxl3IXQ27Y4MUHxdrJHRDiE4
-	fuTdRO9ydhbI53jog31hzOW0J7BQGqt1bwQHbuFP6TgJahaoe7ZSkHRIefMmZK/sfbD3WCt/5
-	XAbaq7JCfiaV4agVrvKNJ8ne+4j65QmYEpIRtnP3Ij7+aT358PtGiMAnpNPKgzq5uZDgIrKQz
-	qrrVu1yLknVczk/hWqm9JjwYeqv1Ql2+nQ0a7sq+mZNmYrdiybNXSkbyPD0p1UrYuSgMSe+6M
-	fnIIij/6vEp3jkx+8b0jD41r+bcSReHZh9X1k+Ik6GsccQwFEZ28eh11/Qk=
+Content-Disposition: inline
+In-Reply-To: <87ef47jn6n.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.25]);
+	Thu, 06 Jun 2019 09:48:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 10/10]
- hw/watchdog/wdt_i6300esb: Use DEVICE() macro to access DeviceState.qdev
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Qemu baseline requirements/portability?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -111,43 +59,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
-	Dmitry Fleytman <dmitry.fleytman@gmail.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>,
-	David Hildenbrand <david@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Michael Walle <michael@walle.cc>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Richard Henderson <rth@twiddle.net>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, "H. Peter Anvin" <hpa@zytor.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/05/2019 à 18:40, Philippe Mathieu-Daudé a écrit :
-> Rather than looking inside the definition of a DeviceState with
-> "s->qdev", use the QOM prefered style: "DEVICE(s)".
+On Thu, Jun 06, 2019 at 07:30:08AM +0200, Markus Armbruster wrote:
+> "H. Peter Anvin" <hpa@zytor.com> writes:
 > 
-> This patch was generated using the following Coccinelle script:
+> > On 6/5/19 12:55 PM, H. Peter Anvin wrote:
+> >> Hi,
+> >> 
+> >> I am writing some code I'm hoping will be able to make it into Qemu, but I
+> >> can't seem to find what the baseline portability requirements are.  I'm
+> >> specifically wondering about newer POSIX features like openat(), which seems
+> >> to be used in the 9p filesystem and nowhere else, and what version of glib one
+> >> can rely on?
+> >> 
+> >
+> > Specifically, I'm trying to satisfy a 10-year-old request by me and others to
+> > support composite initrd during Linux boot.
 > 
->     // Use DEVICE() macros to access DeviceState.qdev
->     @use_device_macro_to_access_qdev@
->     expression obj;
->     identifier dev;
->     @@
->     -&obj->dev.qdev
->     +DEVICE(obj)
-> 
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/watchdog/wdt_i6300esb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Please peruse qemu-doc.texi @appendix Supported build platforms.  If it
+> doesn't fully answer your question, ask for clarification here.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+And specificially on the glib version question, we currently mandate 2.40.
 
+If you try to use a glib API from a version newer than 2.40 we have things
+setup so that you should get a fatal compile error due to our use of
+
+   #define GLIB_VERSION_MAX_ALLOWED GLIB_VERSION_2_40
+
+
+If you do think it is useful to have an API from glib > 2.40 you can put
+some back compat logic in include/glib-compat.h so that you can use the
+newer API and gracefully degrade on older glib.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
