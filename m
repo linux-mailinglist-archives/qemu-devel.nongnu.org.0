@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D7637560
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 15:38:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60754 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D99375D4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 15:58:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32797 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYsbV-0003EG-6v
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 09:38:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40627)
+	id 1hYsu5-0005FX-EL
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 09:58:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44164)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hYsUt-0006qg-CW
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:32:04 -0400
+	(envelope-from <bounces@canonical.com>) id 1hYslW-0006LM-E3
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:49:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hYsUo-0002sM-UR
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:32:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60748)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hYsUm-0001V4-Tu
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:31:58 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D7BA7B2DE8;
-	Thu,  6 Jun 2019 13:31:43 +0000 (UTC)
-Received: from work-vm (ovpn-116-119.ams2.redhat.com [10.36.116.119])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CF2C8473C3;
-	Thu,  6 Jun 2019 13:31:41 +0000 (UTC)
-Date: Thu, 6 Jun 2019 14:31:39 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Liran Alon <liran.alon@oracle.com>
-Message-ID: <20190606133138.GM2788@work-vm>
-References: <38B8F53B-F993-45C3-9A82-796A0D4A55EC@oracle.com>
-	<20190606084222.GA2788@work-vm>
-	<862DD946-EB3C-405A-BE88-4B22E0B9709C@oracle.com>
-	<20190606092358.GE2788@work-vm>
-	<8F3FD038-12DB-44BC-A262-3F1B55079753@oracle.com>
-	<20190606103958.GJ2788@work-vm>
-	<B7A9A778-9BD5-449E-A8F3-5D8E3471F4A6@oracle.com>
-	<20190606110737.GK2788@work-vm>
-	<3F6B41CD-C7E2-4A61-875C-F61AE45F2A58@oracle.com>
+	(envelope-from <bounces@canonical.com>) id 1hYsdS-0001Ie-1k
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:40:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39142)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hYsdR-00018w-QZ
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:40:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hYsdO-00065T-Pq
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 13:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id BEC3D2E80C8
+	for <qemu-devel@nongnu.org>; Thu,  6 Jun 2019 13:40:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3F6B41CD-C7E2-4A61-875C-F61AE45F2A58@oracle.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Thu, 06 Jun 2019 13:31:43 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 Jun 2019 13:32:45 -0000
+From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+	assignee=lersek@redhat.com; 
+X-Launchpad-Bug-Tags: feature-request
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+References: <155958011528.16346.9132826883162987130.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155982796566.18535.7537440264952343091.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 32153177a08ce5bfb5383fcfa9d70e5b4505a172
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] QEMU/KVM migration backwards compatibility broken?
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831477] Re: update edk2 submodule & binaries to
+ edk2-stable201905
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,173 +66,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
-	kvm list <kvm@vger.kernel.org>
+Reply-To: Bug 1831477 <1831477@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Liran Alon (liran.alon@oracle.com) wrote:
->=20
->=20
-> > On 6 Jun 2019, at 14:07, Dr. David Alan Gilbert <dgilbert@redhat.com>=
- wrote:
+Posted
+[PATCH 0/6] update edk2 submodule & binaries to edk2-stable201905
+http://mid.mail-archive.com/20190606133110.13754-1-lersek@redhat.com
 
-<snip>
 
-> > It's tricky; for distro-based users, hitting 'update' and getting bot=
-h
-> > makes a lot of sense; but as you say you ened to let them do stuff
-> > individually if they want to, so they can track down problems.
-> > There's also a newer problem which is people want to run the QEMU in
-> > containers on hosts that have separate update schedules - the kernel
-> > version relationship is then much more fluid.
-> >=20
-> >> Compiling all above very useful discussion (thanks for this!), I may=
- have a better suggestion that doesn=E2=80=99t require any additional fla=
-gs:
-> >> 1) Source QEMU will always send all all VMState subsections that is =
-deemed by source QEMU as required to not break guest semantic behaviour.
-> >> This is done by .needed() methods that examine guest runtime state t=
-o understand if this state is required to be sent or not.
-> >=20
-> > So that's as we already do.
->=20
-> Besides the fact that today we also expect to add a flag tied to machin=
-e-type for every new VMState subsection we add that didn=E2=80=99t exist =
-on previous QEMU versions...
->=20
-> >=20
-> >> 2) Destination QEMU will provide a generic QMP command which allows =
-to set names of VMState subsections that if accepted on migration stream
-> >> and failed to be loaded (because either subsection name is not imple=
-mented or because .post_load() method failed) then the failure should be =
-ignored
-> >> and migration should continue as usual. By default, the list of this=
- names will be empty.
-> >=20
-> > The format of the migration stream means that you can't skip an unkno=
-wn
-> > subsection; it's not possible to resume parsing the stream without
-> > knowing what was supposed to be there. [This is pretty awful
-> > but my last attempts to rework it hit a dead end]
->=20
-> Wow=E2=80=A6 That is indeed pretty awful.
-> I thought every VMState subsection have a header with a length field=E2=
-=80=A6 :(
+** Changed in: qemu
+       Status: New =3D> In Progress
 
-No, no length - it's just a header saying it's a subsection with the
-name, then just unformatted data (that had better match what you
-expect!).
+-- =
 
-> Why did your last attempts to add such a length field to migration stre=
-am protocol failed?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831477
 
-There's a lot of stuff that's open coded rather than going through
-VMState's, so you don't know how much data they'll end up generating.
-So the only way to do that is to write to a buffer and then get the
-length and dump the buffer.  Actually all that's rare in subsections
-but does happen elsewhere.  I got some of some of those nasty cases
-but I got stuck trying to get rid of some of the other opencoding
-(and still keep it compatible).
+Title:
+  update edk2 submodule & binaries to edk2-stable201905
 
-> >=20
-> > So we still need to tie subsections to machine types; that way
-> > you don't send them to old qemu's and there for you don't have the
-> > problem of the qemu receiving something it doesn't know.
->=20
-> I agree that if there is no way to skip a VMState subsection in the str=
-eam, then we must
-> have a way to specify to source QEMU to prevent sending this subsection=
- to destination=E2=80=A6
->=20
-> I would suggest though that instead of having a flag tied to machine-ty=
-pe, we will have a QMP command
-> that can specify names of subsections we explicitly wish to be skipped =
-sending to destination even if their .needed() method returns true.
+Status in QEMU:
+  In Progress
 
-I don't like the thought of generically going behind the devices back;
-it's pretty rare to have to do this, so adding a qmp command to tweak
-properties that we've already got seems to make more sense to me.
+Bug description:
+  The edk2 project will soon release edk2-stable201905. Update the edk2
+  submodule in QEMU, and the bundled edk2 binaries, accordingly.
 
-> This seems like a more explicit approach and doesn=E2=80=99t come with =
-the down-side of forever not migrating this VMState subsection
-Dave
+  https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-Release-Plan=
+ning#edk2-stable201905-tag-planning
+  https://github.com/tianocore/edk2/releases/tag/edk2-stable201905 [upcomin=
+g link]
 
-> for the entire lifetime of guest.
->=20
-> >=20
-> > Still, you could skip things where the destination kernel doesn't kno=
-w
-> > about it.
-> >=20
-> >> 3) Destination QEMU will implement .post_load() method for all these=
- VMState subsections that depend on kernel capability to be restored prop=
-erly
-> >> such that it will fail subsection load in case kernel capability is =
-not present. (Note that this load failure will be ignored if subsection n=
-ame is specified in (2)).
-> >>=20
-> >> Above suggestion have the following properties:
-> >> 1) Doesn=E2=80=99t require any flag to be added to QEMU.
-> >=20
-> > There's no logical difference between 'flags' and 'names of subsectio=
-ns'
-> > - they're got the same problem in someone somewhere knowing which are
-> >  safe.
->=20
-> I agree. But creating additional flags does come with a development and=
- testing overhead and makes code less intuitive.
-> I would have prefer to use subsection names.
->=20
-> >=20
-> >> 2) Moves all control on whether to fail migration because of failure=
- to load VMState subsection to receiver side. Sender always attempts to s=
-end max state he believes is required.
-> >> 3) We remove coupling of migration compatibility from machine-type.
-> >>=20
-> >> What do you think?
-> >=20
-> > Sorry, can't do (3) - we need to keep the binding for subsections to
-> > machine types for qemu compatibility;  I'm open for something for
-> > kernel compat, but not when it's breaking the qemu subsection
-> > checks.
-> >=20
-> > Dave
->=20
-> Agree. I have proposed now above how to not break qemu subsection check=
-s while still not tie this to machine-type.
-> Please tell me what you think on that approach. :)
->=20
-> We can combine that approach together with implementing the mentioned .=
-post_load() methods and maybe it solves the discussion at hand here.
->=20
-> -Liran
->=20
-> >=20
-> >>=20
-> >> -Liran
-> >>=20
-> >>>=20
-> >>>> -Liran
-> >>>>=20
-> >>>>>=20
-> >>>>>> -Liran
-> >>>>>>=20
-> >>>>>>>=20
-> >>>>>>>> Thanks,
-> >>>>>>>> -Liran
-> >>>>>>> --
-> >>>>>>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >>>>>>=20
-> >>>>> --
-> >>>>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >>>>=20
-> >>> --
-> >>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >>=20
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831477/+subscriptions
 
