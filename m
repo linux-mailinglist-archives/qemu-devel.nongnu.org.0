@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391F73747E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 14:49:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60026 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5381536D60
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 09:33:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55915 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYrq2-0003Hb-Rb
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 08:49:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40454)
+	id 1hYmtP-0007Hj-1n
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 03:32:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41555)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david.brenken@efs-auto.de>) id 1hYmnc-0005oh-Tz
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 03:27:03 -0400
+	(envelope-from <mlevitsk@redhat.com>) id 1hYmsC-0006dX-08
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 03:31:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david.brenken@efs-auto.de>) id 1hYmnb-0007Gt-Rq
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 03:27:00 -0400
-Received: from mailin4.audi.de ([143.164.102.18]:36479)
+	(envelope-from <mlevitsk@redhat.com>) id 1hYmsA-0006Ag-Oc
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 03:31:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40242)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <david.brenken@efs-auto.de>)
-	id 1hYmnb-0007Dt-J0
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 03:26:59 -0400
-From: "Brenken, David (EFS-GH2)" <david.brenken@efs-auto.de>
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, David Brenken
-	<david.brenken@efs-auto.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH 3/5] tricore: fix RRPW_INSERT instruction
-Thread-Index: AQHVG2WRrcO1I/WiUEGKEn72YVvZnKaM/1iAgAE42kA=
-Date: Thu, 6 Jun 2019 07:26:53 +0000
-Message-ID: <34F764F04E859040BBA6C4FF41AB17D93B2DA4@AUDIINSX0410.audi.vwg>
-References: <20190605061126.10244-1-david.brenken@efs-auto.org>
-	<20190605061126.10244-4-david.brenken@efs-auto.org>
-	<ffb4ba2c-318e-6b08-c206-a90b000074d2@mail.uni-paderborn.de>
-In-Reply-To: <ffb4ba2c-318e-6b08-c206-a90b000074d2@mail.uni-paderborn.de>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.251.134.138]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 143.164.102.18
-X-Mailman-Approved-At: Thu, 06 Jun 2019 08:47:51 -0400
-Subject: Re: [Qemu-devel] [PATCH 3/5] tricore: fix RRPW_INSERT instruction
+	(Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+	id 1hYms7-0005tH-JI; Thu, 06 Jun 2019 03:31:39 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id CC1D76EF;
+	Thu,  6 Jun 2019 07:31:36 +0000 (UTC)
+Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 411DD546F4;
+	Thu,  6 Jun 2019 07:31:30 +0000 (UTC)
+Message-ID: <d2ed59512f533566cbe1750fc7e52c9c5396e49c.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Fam Zheng <fam@euphon.net>
+Date: Thu, 06 Jun 2019 10:31:29 +0300
+In-Reply-To: <20190606031932.3nowbnt67o4omxjv@debian>
+References: <20190417195355.16123-1-mlevitsk@redhat.com>
+	<20190417195355.16123-6-mlevitsk@redhat.com>
+	<20190606031932.3nowbnt67o4omxjv@debian>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.29]);
+	Thu, 06 Jun 2019 07:31:38 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 5/5] block/nvme: add support for discard
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,52 +58,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Konopik, Andreas \(EFS-GH2\)" <andreas.konopik@efs-auto.de>, "Rasche,
-	Robert \(EFS-GH2\)" <robert.rasche@efs-auto.de>, "Hofstetter, 
-	Georg \(EFS-GH2\)" <Georg.Hofstetter@efs-auto.de>, "Biermanski,
-	Lars \(EFS-GH3\)" <lars.biermanski@efs-auto.de>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgQmFzdGlhbiwNCg0KPiBIaSBEYXZpZCwNCj4gDQo+IE9uIDYvNS8xOSA4OjExIEFNLCBEYXZp
-ZCBCcmVua2VuIHdyb3RlOg0KPiA+IEZyb206IERhdmlkIEJyZW5rZW4gPGRhdmlkLmJyZW5rZW5A
-ZWZzLWF1dG8uZGU+DQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZWFzIEtvbm9waWsgPGFu
-ZHJlYXMua29ub3Bpa0BlZnMtYXV0by5kZT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBEYXZpZCBCcmVu
-a2VuIDxkYXZpZC5icmVua2VuQGVmcy1hdXRvLmRlPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEdlb3Jn
-IEhvZnN0ZXR0ZXIgPGdlb3JnLmhvZnN0ZXR0ZXJAZWZzLWF1dG8uZGU+DQo+ID4gU2lnbmVkLW9m
-Zi1ieTogUm9iZXJ0IFJhc2NoZSA8cm9iZXJ0LnJhc2NoZUBlZnMtYXV0by5kZT4NCj4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBMYXJzIEJpZXJtYW5za2kgPGxhcnMuYmllcm1hbnNraUBlZnMtYXV0by5kZT4N
-Cj4gPg0KPiA+IC0tLQ0KPiA+ICAgdGFyZ2V0L3RyaWNvcmUvdHJhbnNsYXRlLmMgfCAxMSArKysr
-KysrKy0tLQ0KPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlv
-bnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS90YXJnZXQvdHJpY29yZS90cmFuc2xhdGUuYyBi
-L3RhcmdldC90cmljb3JlL3RyYW5zbGF0ZS5jDQo+ID4gaW5kZXggYThiNGRlNjQ3YS4uMTlkOGRi
-N2E0NiAxMDA2NDQNCj4gPiAtLS0gYS90YXJnZXQvdHJpY29yZS90cmFuc2xhdGUuYw0KPiA+ICsr
-KyBiL3RhcmdldC90cmljb3JlL3RyYW5zbGF0ZS5jDQo+ID4gQEAgLTcwMDQsNiArNzAwNCw3IEBA
-IHN0YXRpYyB2b2lkDQo+IGRlY29kZV9ycnB3X2V4dHJhY3RfaW5zZXJ0KENQVVRyaUNvcmVTdGF0
-ZSAqZW52LCBEaXNhc0NvbnRleHQgKmN0eCkNCj4gPiAgICAgICB1aW50MzJfdCBvcDI7DQo+ID4g
-ICAgICAgaW50IHIxLCByMiwgcjM7DQo+ID4gICAgICAgaW50MzJfdCBwb3MsIHdpZHRoOw0KPiA+
-ICsgICAgVENHdiB0ZW1wMSwgdGVtcDI7DQo+ID4NCj4gPiAgICAgICBvcDIgPSBNQVNLX09QX1JS
-UFdfT1AyKGN0eC0+b3Bjb2RlKTsNCj4gPiAgICAgICByMSA9IE1BU0tfT1BfUlJQV19TMShjdHgt
-Pm9wY29kZSk7DQo+ID4gQEAgLTcwNDIsOSArNzA0MywxMyBAQCBzdGF0aWMgdm9pZA0KPiBkZWNv
-ZGVfcnJwd19leHRyYWN0X2luc2VydChDUFVUcmlDb3JlU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0
-ICpjdHgpDQo+ID4gICAgICAgICAgIH0NCj4gPiAgICAgICAgICAgYnJlYWs7DQo+ID4gICAgICAg
-Y2FzZSBPUEMyXzMyX1JSUFdfSU5TRVJUOg0KPiA+IC0gICAgICAgIGlmIChwb3MgKyB3aWR0aCA8
-PSAzMSkgew0KPiA+IC0gICAgICAgICAgICB0Y2dfZ2VuX2RlcG9zaXRfdGwoY3B1X2dwcl9kW3Iz
-XSwgY3B1X2dwcl9kW3IxXSwgY3B1X2dwcl9kW3IyXSwNCj4gPiAtICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHdpZHRoLCBwb3MpOw0KPiBDYW4geW91IGV4cGxhaW4gdGhlIHByb2JsZW0g
-Y2F1c2luZyB0aGUgYnVnPyBEZXBvc2l0IGxvb2tzIGZpbmUgdG8gbWUuDQo+IEFmdGVyIHJlYWRp
-bmcgdGhlIHNwZWNzIGFnYWluLCBJIGFncmVlIHRoYXQgdGhlIGNoZWNrIG5lZWRzIHRvIGJlIDw9
-IDMyLg0KVGhlIGJ1ZyB3YXMgcmVjb2duaXplZCBiZWNhdXNlIG9mIGRpZmZlcmVudCBiZWhhdmlv
-ciBiZXR3ZWVuIGFjdHVhbCBoYXJkd2FyZSBhbmQgUUVNVS4NCkp1c3QgZnJvbSBsb29raW5nIGF0
-IGl0IEkgd291bGQgc2F5IHRoYXQgZGVwb3NpdCBtYXNrcyBhbmQgdGhlbiBzaGlmdHMgdGhlIGFy
-ZzIgKERbYl0pIHdoaWxlIHRoZSANCm1hbnVhbCBzdGF0ZXMgdG8gZmlyc3Qgc2hpZnQgRFtiXSBh
-bmQgdGhlbiBtYXNrIGl0LiBJIHJlbWVtYmVyIHRoYXQgaXQgd2FzIGEgY29ybmVyIGNhc2UgKGUu
-Zy4gDQp3aWR0aCArIHBvcyA9IDMxIG9yIDMyKS4gDQpJIGFsc28gdGhvdWdodCB0aGF0IHVzaW5n
-IHRoZSBkaXJlY3QgaW5zZXJ0IGluc3RydWN0aW9uIGlzIG1vcmUgY29udmVuaWVudCBzaW5jZSBp
-dCB3YXMgcHJlc2VudCBhbnl3YXkuDQoNCj4gDQo+IA0KPiA+ICsgICAgICAgIGlmIChwb3MgKyB3
-aWR0aCA8PSAzMikgew0KPiA+ICsgICAgICAgICAgICB0ZW1wMSA9IHRjZ19jb25zdF9pMzIocG9z
-KTsgICAvKiBwb3MgKi8NCj4gPiArICAgICAgICAgICAgdGVtcDIgPSB0Y2dfY29uc3RfaTMyKHdp
-ZHRoKTsgLyogd2lkdGggKi8NCj4gVXNlbGVzcyBjb21tZW50cy4NCkkgd2lsbCByZW1vdmUgdGhl
-bSBpbiBhIHNlY29uZCB2ZXJzaW9uIG9mIHRoZSBwYXRjaHNldC4NCj4gDQo+IA0KPiBDaGVlcnMs
-DQo+IA0KPiBCYXN0aWFuDQpCZXN0IHJlZ2FyZHMNCg0KRGF2aWQNCg0K
+On Thu, 2019-06-06 at 11:19 +0800, Fam Zheng wrote:
+> On Wed, 04/17 22:53, Maxim Levitsky wrote:
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > ---
+> >  block/nvme.c       | 80 ++++++++++++++++++++++++++++++++++++++++++++++
+> >  block/trace-events |  2 ++
+> >  2 files changed, 82 insertions(+)
+> > 
+> > diff --git a/block/nvme.c b/block/nvme.c
+> > index 35b925899f..b83912c627 100644
+> > --- a/block/nvme.c
+> > +++ b/block/nvme.c
+> > @@ -110,6 +110,7 @@ typedef struct {
+> >      bool plugged;
+> >  
+> >      bool supports_write_zeros;
+> > +    bool supports_discard;
+> >  
+> >      CoMutex dma_map_lock;
+> >      CoQueue dma_flush_queue;
+> > @@ -462,6 +463,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+> >  
+> >  
+> >      s->supports_write_zeros = (idctrl->oncs & NVME_ONCS_WRITE_ZEROS) != 0;
+> > +    s->supports_discard = (idctrl->oncs & NVME_ONCS_DSM) != 0;
+> >  
+> >      memset(resp, 0, 4096);
+> >  
+> > @@ -1144,6 +1146,83 @@ static coroutine_fn int nvme_co_pwrite_zeroes(BlockDriverState *bs,
+> >  }
+> >  
+> >  
+> > +static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
+> > +        int64_t offset, int bytes)
+> 
+> While you respin, you can align the parameters.
+
+Hi Fam!!
+
+
+I didn't knew that this is also required by qemu codeing style (it kind of suggested in the kernel)
+I'll be more that glad to do so!
+
+
+> 
+> > +{
+> > +    BDRVNVMeState *s = bs->opaque;
+> > +    NVMeQueuePair *ioq = s->queues[1];
+> > +    NVMeRequest *req;
+> > +    NvmeDsmRange *buf;
+> > +    QEMUIOVector local_qiov;
+> > +    int r;
+> > +
+> > +    NvmeCmd cmd = {
+> > +        .opcode = NVME_CMD_DSM,
+> > +        .nsid = cpu_to_le32(s->nsid),
+> > +        .cdw10 = 0, /*number of ranges - 0 based*/
+> > +        .cdw11 = cpu_to_le32(1 << 2), /*deallocate bit*/
+> > +    };
+> > +
+> > +    NVMeCoData data = {
+> > +        .ctx = bdrv_get_aio_context(bs),
+> > +        .ret = -EINPROGRESS,
+> > +    };
+> > +
+> > +    if (!s->supports_discard) {
+> > +        return -ENOTSUP;
+> > +    }
+> > +
+> > +    assert(s->nr_queues > 1);
+> > +
+> > +    buf = qemu_try_blockalign0(bs, 4096);
+> > +    if (!buf) {
+> > +            return -ENOMEM;
+> > +    }
+> > +
+> > +    buf->nlb = bytes >> s->blkshift;
+> > +    buf->slba = offset >> s->blkshift;
+> 
+> This buffer is for the device, do we need to do anything about the endianness?
+
+Thank you very very much, this is indeed an endianess bug.
+
+
+Thanks a lot for the review,
+	Best regards,
+		Maxim Levitsky
+
+> 
+> > +    buf->cattr = 0;
+> > +
+> > +    qemu_iovec_init(&local_qiov, 1);
+> > +    qemu_iovec_add(&local_qiov, buf, 4096);
+> > +
+> > +    req = nvme_get_free_req(ioq);
+> > +    assert(req);
+> > +
+> > +    qemu_co_mutex_lock(&s->dma_map_lock);
+> > +    r = nvme_cmd_map_qiov(bs, &cmd, req, &local_qiov);
+> > +    qemu_co_mutex_unlock(&s->dma_map_lock);
+> > +
+> > +    if (r) {
+> > +        req->busy = false;
+> > +        return r;
+> > +    }
+> > +
+> > +    trace_nvme_dsm(s, offset, bytes);
+> > +
+> > +    nvme_submit_command(s, ioq, req, &cmd, nvme_rw_cb, &data);
+> > +
+> > +    data.co = qemu_coroutine_self();
+> > +    while (data.ret == -EINPROGRESS) {
+> > +        qemu_coroutine_yield();
+> > +    }
+> > +
+> > +    qemu_co_mutex_lock(&s->dma_map_lock);
+> > +    r = nvme_cmd_unmap_qiov(bs, &local_qiov);
+> > +    qemu_co_mutex_unlock(&s->dma_map_lock);
+> > +    if (r) {
+> > +        return r;
+> > +    }
+> > +
+> > +    trace_nvme_dsm_done(s, offset, bytes, data.ret);
+> > +
+> > +    qemu_iovec_destroy(&local_qiov);
+> > +    qemu_vfree(buf);
+> > +    return data.ret;
+> > +
+> > +}
+> > +
+> > +
+> >  static int nvme_reopen_prepare(BDRVReopenState *reopen_state,
+> >                                 BlockReopenQueue *queue, Error **errp)
+> >  {
+> > @@ -1250,6 +1329,7 @@ static BlockDriver bdrv_nvme = {
+> >      .bdrv_co_pwritev          = nvme_co_pwritev,
+> >  
+> >      .bdrv_co_pwrite_zeroes    = nvme_co_pwrite_zeroes,
+> > +    .bdrv_co_pdiscard         = nvme_co_pdiscard,
+> >  
+> >      .bdrv_co_flush_to_disk    = nvme_co_flush,
+> >      .bdrv_reopen_prepare      = nvme_reopen_prepare,
+> > diff --git a/block/trace-events b/block/trace-events
+> > index 943a58569f..e55ac5c40b 100644
+> > --- a/block/trace-events
+> > +++ b/block/trace-events
+> > @@ -148,6 +148,8 @@ nvme_write_zeros(void *s, uint64_t offset, uint64_t bytes, int flags) "s %p offs
+> >  nvme_qiov_unaligned(const void *qiov, int n, void *base, size_t size, int align) "qiov %p n %d base %p size 0x%zx align 0x%x"
+> >  nvme_prw_buffered(void *s, uint64_t offset, uint64_t bytes, int niov, int is_write) "s %p offset %"PRId64" bytes %"PRId64" niov %d is_write %d"
+> >  nvme_rw_done(void *s, int is_write, uint64_t offset, uint64_t bytes, int ret) "s %p is_write %d offset %"PRId64" bytes %"PRId64" ret %d"
+> > +nvme_dsm(void *s, uint64_t offset, uint64_t bytes) "s %p offset %"PRId64" bytes %"PRId64""
+> > +nvme_dsm_done(void *s, uint64_t offset, uint64_t bytes, int ret) "s %p offset %"PRId64" bytes %"PRId64" ret %d"
+> >  nvme_dma_map_flush(void *s) "s %p"
+> >  nvme_free_req_queue_wait(void *q) "q %p"
+> >  nvme_cmd_map_qiov(void *s, void *cmd, void *req, void *qiov, int entries) "s %p cmd %p req %p qiov %p entries %d"
+> > -- 
+> > 2.17.2
+> > 
+> 
+> 
+
+
 
