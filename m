@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF8A37C39
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:26:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36571 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3922B37C21
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:21:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36485 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYx6H-0000bX-1i
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:26:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46596)
+	id 1hYx18-00040m-Cj
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:21:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54801)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ptoscano@redhat.com>) id 1hYwYF-00006i-4U
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:51:48 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hYwzM-0002wG-CG
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:19:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ptoscano@redhat.com>) id 1hYwYC-0000uR-RC
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:51:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47873)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ptoscano@redhat.com>)
-	id 1hYwY6-0000pj-5r; Thu, 06 Jun 2019 13:51:38 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4EA73307D869;
-	Thu,  6 Jun 2019 17:51:26 +0000 (UTC)
-Received: from lindworm.usersys.redhat.com (ovpn-204-97.brq.redhat.com
-	[10.40.204.97])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 34C8A6A23E;
-	Thu,  6 Jun 2019 17:51:21 +0000 (UTC)
-From: Pino Toscano <ptoscano@redhat.com>
-To: Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Date: Thu, 06 Jun 2019 19:51:15 +0200
-Message-ID: <3631777.4JPVOlAZr6@lindworm.usersys.redhat.com>
-Organization: Red Hat
-In-Reply-To: <20190606111232.GG14300@redhat.com>
-References: <20190605213654.9785-1-ptoscano@redhat.com>
-	<20190606111232.GG14300@redhat.com>
+	(envelope-from <richard.henderson@linaro.org>) id 1hYwzL-0007j3-0b
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:19:48 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43752)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hYwzK-0007hl-P0
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:19:46 -0400
+Received: by mail-oi1-x244.google.com with SMTP id w79so2269682oif.10
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 11:19:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=yGN9qrzNneJv3/WSYmR17UAWi8U6U8S1GHaGhFkX+qA=;
+	b=tNiEgyVKcyVR5YhsLOuIjCmqxl6ggbJw4Fw25p0k20U4/skQmos8kHArBZClktd/P5
+	VwuT167tad0axf1sFGQCiY8GYEV6uTorXiNDZ5O11tPVX5FsCH21al188fCUGzo4Ort1
+	oEdvXKeviwCQWUDurMRCWESpgccfhlnzePjEHt7Z6d9Y4Hwzt9BtiW1G8LwJX8aGzJwm
+	G5+DDGZRBoCWwUa1adp8LRYD63hYPmqmuyE44JahN2ccDAms4Bd+anAKnbkEL17vz18b
+	JHUeNGhjKltKm14YDOs1po+in/OiUUwF8p00FZn6Bi4PvSVX0aXZpcb3gNAtMNe3hnN2
+	B/Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=yGN9qrzNneJv3/WSYmR17UAWi8U6U8S1GHaGhFkX+qA=;
+	b=QS1x5rYeqNrSYq72713LquHvsYR7P2fbsBmucYJjfoQPet1qNM+dh7G9h8ciu9XnNT
+	+9fW3qDghJNHMVHCMpSB/r3sUjQtRa78y1MwCwx95N52YSy6qOX48XgJ88ESSA1nwbhl
+	609rzfWN556vl1xmQqngSUhzH1ERO442G0a4cdBs9gVHoY17zBAOJa2gzSdVz5SDoKS3
+	SKfwFNNiPRVRiD7Em4Q0ScrijSGXB4rALhkD4nwRquOFiz0i25rtKDOZiMvVN9U35ZXy
+	FH4rp/KDBK2PwxyKmkCqQEXRpx+dBrvLogQGkuIA4AXr9+sbpF+3GUL4XVBiat9bw7ju
+	X4Tw==
+X-Gm-Message-State: APjAAAVJNJoYwj2IQPz6xqM8r8NnpN6jqOUq1X43ghvSZP+RsGAFzntw
+	4ocdoj/GCEiENeXOO94a9W8anKaXexAbfw==
+X-Google-Smtp-Source: APXvYqx95hM9rFKT5/CvL3NnMNHPtxkoUA/2pMHpZ36O3sv494aynujqpwwomTu7xzNsooYV9YyHYQ==
+X-Received: by 2002:aca:b546:: with SMTP id e67mr979137oif.127.1559845185559; 
+	Thu, 06 Jun 2019 11:19:45 -0700 (PDT)
+Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
+	[200.56.192.86]) by smtp.gmail.com with ESMTPSA id
+	m129sm961638oif.13.2019.06.06.11.19.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 06 Jun 2019 11:19:44 -0700 (PDT)
+To: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
+	<1559816130-17113-5-git-send-email-stefan.brankovic@rt-rk.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <fac722ec-ea35-80c5-5820-2ff9d1296620@linaro.org>
+Date: Thu, 6 Jun 2019 13:19:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart59998215.3l7yhbUXgf";
-	micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Thu, 06 Jun 2019 17:51:31 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6] ssh: switch from libssh2 to libssh
+In-Reply-To: <1559816130-17113-5-git-send-email-stefan.brankovic@rt-rk.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH 4/8] target/ppc: Optimize emulation of
+ vgbbd instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,127 +85,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, rjones@redhat.com,
-	qemu-devel@nongnu.org, mreitz@redhat.com, philmd@redhat.com
+Cc: david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nextPart59998215.3l7yhbUXgf
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+On 6/6/19 5:15 AM, Stefan Brankovic wrote:
+> Optimize altivec instruction vgbbd (Vector Gather Bits by Bytes by Doubleword)
+> All ith bits (i in range 1 to 8) of each byte of doubleword element in
+> source register are concatenated and placed into ith byte of appropriate
+> doubleword element in destination register.
+> 
+> Following solution is done for every doubleword element of source register
+> (placed in shifted variable):
+> We gather bits in 2x8 iterations.
+> In first iteration bit 1 of byte 1, bit 2 of byte 2,... bit 8 of byte 8 are
+> in their final spots so we just and avr with mask. For every next iteration,
+> we have to shift right both shifted(7 places) and mask(8 places), so we get
+> bit 1 of byte 2, bit 2 of byte 3.. bit 7 of byte 8 in right places so we and
+> shifted with new value of mask... After first 8 iteration(first for loop) we
+> have all first bits in their final place all second bits but second bit from
+> eight byte in their place,... only 1 eight bit from eight byte is in it's
+> place), so we and result1 with mask1 to save those bits that are at right
+> place and save them in result1. In second loop we do all operations
+> symetrical, so we get other half of bits on their final spots, and save
+> result in result2. Or of result1 and result2 is placed in appropriate
+> doubleword element of vD. We repeat this 2 times.
+> 
+> Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+> ---
+>  target/ppc/translate/vmx-impl.inc.c | 99 ++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 98 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
+> index 87f69dc..010f337 100644
+> --- a/target/ppc/translate/vmx-impl.inc.c
+> +++ b/target/ppc/translate/vmx-impl.inc.c
+> @@ -780,6 +780,103 @@ static void trans_vsr(DisasContext *ctx)
+>      tcg_temp_free_i64(tmp);
+>  }
+>  
+> +/*
+> + * vgbbd VRT,VRB - Vector Gather Bits by Bytes by Doubleword
+> + *
+> + * All ith bits (i in range 1 to 8) of each byte of doubleword element in source
+> + * register are concatenated and placed into ith byte of appropriate doubleword
+> + * element in destination register.
+> + *
+> + * Following solution is done for every doubleword element of source register
+> + * (placed in shifted variable):
+> + * We gather bits in 2x8 iterations.
+> + * In first iteration bit 1 of byte 1, bit 2 of byte 2,... bit 8 of byte 8 are
+> + * in their final spots so we just and avr with mask. For every next iteration,
+> + * we have to shift right both shifted(7 places) and mask(8 places), so we get
+> + * bit 1 of byte 2, bit 2 of byte 3.. bit 7 of byte 8 in right places so we and
+> + * shifted with new value of mask... After first 8 iteration(first for loop) we
+> + * have all first bits in their final place all second bits but second bit from
+> + * eight byte in their place,... only 1 eight bit from eight byte is in it's
+> + * place), so we and result1 with mask1 to save those bits that are at right
+> + * place and save them in result1. In second loop we do all operations
+> + * symetrical, so we get other half of bits on their final spots, and save
+> + * result in result2. Or of result1 and result2 is placed in appropriate
+> + * doubleword element of vD. We repeat this 2 times.
+> + */
+> +static void trans_vgbbd(DisasContext *ctx)
+> +{
+> +    int VT = rD(ctx->opcode);
+> +    int VB = rB(ctx->opcode);
+> +    TCGv_i64 tmp = tcg_temp_new_i64();
+> +    TCGv_i64 avr = tcg_temp_new_i64();
+> +    TCGv_i64 shifted = tcg_temp_new_i64();
+> +    TCGv_i64 result1 = tcg_temp_new_i64();
+> +    TCGv_i64 result2 = tcg_temp_new_i64();
+> +    uint64_t mask = 0x8040201008040201ULL;
+> +    uint64_t mask1 = 0x80c0e0f0f8fcfeffULL;
+> +    uint64_t mask2 = 0x7f3f1f0f07030100ULL;
+> +    int i;
+> +
+> +    get_avr64(avr, VB, true);
+> +    tcg_gen_movi_i64(result1, 0x0ULL);
+> +    tcg_gen_mov_i64(shifted, avr);
+> +    for (i = 0; i < 8; i++) {
+> +        tcg_gen_andi_i64(tmp, shifted, mask);
+> +        tcg_gen_or_i64(result1, result1, tmp);
+> +
+> +        tcg_gen_shri_i64(shifted, shifted, 7);
+> +        mask = mask >> 8;
+> +    }
+> +    tcg_gen_andi_i64(result1, result1, mask1);
 
-On Thursday, 6 June 2019 13:12:32 CEST Daniel P. Berrang=E9 wrote:
-> On Wed, Jun 05, 2019 at 11:36:54PM +0200, Pino Toscano wrote:
-> > Rewrite the implementation of the ssh block driver to use libssh instead
-> > of libssh2.  The libssh library has various advantages over libssh2:
-> > - easier API for authentication (for example for using ssh-agent)
-> > - easier API for known_hosts handling
-> > - supports newer types of keys in known_hosts
-> >=20
-> > Use APIs/features available in libssh 0.8 conditionally, to support
-> > older versions (which are not recommended though).
->=20
->=20
-> >=20
-> > Signed-off-by: Pino Toscano <ptoscano@redhat.com>
-> > ---
-> >=20
-> > Changes from v5:
-> > - adapt to newer tracing APIs
-> > - disable ssh compression (mimic what libssh2 does by default)
-> > - use build time checks for libssh 0.8, and use newer APIs directly
-> >=20
-> > Changes from v4:
-> > - fix wrong usages of error_setg/session_error_setg/sftp_error_setg
-> > - fix few return code checks
-> > - remove now-unused parameters in few internal functions
-> > - allow authentication with "none" method
-> > - switch to unsigned int for the port number
-> > - enable TCP_NODELAY on the socket
-> > - fix one reference error message in iotest 207
-> >=20
-> > Changes from v3:
-> > - fix socket cleanup in connect_to_ssh()
-> > - add comments about the socket cleanup
-> > - improve the error reporting (closer to what was with libssh2)
-> > - improve EOF detection on sftp_read()
-> >=20
-> > Changes from v2:
-> > - used again an own fd
-> > - fixed co_yield() implementation
-> >=20
-> > Changes from v1:
-> > - fixed jumbo packets writing
-> > - fixed missing 'err' assignment
-> > - fixed commit message
-> >=20
-> >  block/Makefile.objs        |   6 +-
-> >  block/ssh.c                | 610 +++++++++++++++++++------------------
-> >  block/trace-events         |  14 +-
-> >  configure                  |  62 ++--
-> >  tests/qemu-iotests/207.out |   2 +-
-> >  5 files changed, 351 insertions(+), 343 deletions(-)
->=20
->=20
-> > diff --git a/configure b/configure
-> > index b091b82cb3..bfdd70c40a 100755
-> > --- a/configure
-> > +++ b/configure
->=20
-> > @@ -3914,43 +3914,17 @@ EOF
-> >  fi
-> > =20
-> >  ##########################################
-> > -# libssh2 probe
-> > -min_libssh2_version=3D1.2.8
->=20
-> The commit message says we're conditionally using APIs from 0.8.0,
-> but doesn't say what minimum version we actually need and there's
-> no check here.
+This masking appears to be redundant with the masking within the loop.
 
-When I started to work on this, the libssh version available was
-0.6.x IIRC, which is very old.  This v6 uses APIs added in 0.8
-conditionally, so it will still build with libssh < 0.8 -- of course,
-using an older libssh results in a less performant ssh driver, although
-I would think this can be considered somehow acceptable.
+> +
+> +    mask = 0x8040201008040201ULL;
+> +    tcg_gen_movi_i64(result2, 0x0ULL);
+> +    for (i = 0; i < 8; i++) {
+> +        tcg_gen_andi_i64(tmp, avr, mask);
+> +        tcg_gen_or_i64(result2, result2, tmp);
+> +
+> +        tcg_gen_shli_i64(avr, avr, 7);
+> +        mask = mask << 8;
+> +    }
+> +    tcg_gen_andi_i64(result2, result2, mask2);
 
-> In terms of our supported build platforms, the oldest libssh I
-> see is RHEL-7 with 0.7.1.
->=20
-> So assume it does actually compile on RHEL-7, then it is desirable
-> to have a min_libssh_Version=3D0.7.1 set here & checked below.
+Similarly.
 
-=46or now I do not see the need to enforce a minimum version required;
-it can be easily added in the future in case we need to use an API only
-available starting from some version, and there is no fallback way for
-older versions.
+Also, the first iteration of the second loop is redundant with the first
+iteration of the first loop.
 
-=2D-=20
-Pino Toscano
---nextPart59998215.3l7yhbUXgf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+I will also note that these are large constants, not easily constructable.
+Therefore it would be best to avoid needing to construct them twice.  You can
+do this by processing the two doublewords simultaneously.  e.g.
 
------BEGIN PGP SIGNATURE-----
+	TCGv_i64 avr[2], out[2], tmp, tcg_mask;
 
-iQIzBAABCAAdFiEEbjdOQa52nq0tQalew9FMLZhkN80FAlz5UpMACgkQw9FMLZhk
-N83ekw/8Cw509f6av3GwaiPkhq29iuTwSCOilNkG5kmt/tVSCBzcgY2NJ3/FDfkO
-MahdztedkqFo2X4J3MZdgPNZAGLvibyXudyMd4xZ9fip4zvPJgP4xhp8aP5QnR4A
-bxmLjxlH/yZDrVmspdpx8VSPsQ/6nuD75uWA9dWZrtyST2T6PnzMP5f7WZg2wZ8e
-mIioGY30uPPh+Lign9dZQSMX6yM+W5zT9vhpTXc4EbL4i2QzFDerH5AAf4aL/u1V
-9uZcydtA4CS0IvRrw51hYPCf260w+E5V4eg6BB3SwaTorJB5py+eZB7JKxFKgl6P
-yYaYzqauJX/C/cwcVXI8/8KUvhgQB9nYirU1gWnb/Twt6DvQif7pH6RjB0E7wm3e
-33MIyZPiWZceW9irg7+DSFhqBnkRcx7YSsjCmz0zq3Gf/P2fem6zpF959tg9ogjL
-uPYFQQGkfaIrgcYc1cG1u5hIGKZ3mr16mYLhyPLsnZ42UMqLlyJ9PNViWqGvIGbw
-bT0/rv9jFXGzqi6O5sXZEmP8+gU5JGOPP7LTry5OZH0PKExNy7Thts7IGGpfF2cw
-xp64bklbNa2nbwXLSjGfPSVMSgZwbxD2AW5uqerahBodlbialmBnLr/7upB1EiXa
-erQ0ORKh68JC1jJA3BE8h/nFawKBPXqj6F1hBpu8wxOgpjVmUW8=
-=IeqF
------END PGP SIGNATURE-----
+	identity_mask = 0x8040201008040201ull;
+	tcg_gen_movi_i64(tcg_mask, identity_mask);
+	for (j = 0; j < 2; j++) {
+	    get_avr(avr[j], VB, j);
+	    tcg_gen_and_i64(out[j], avr[j], tcg_mask);
+	}
+	for (i = 1; i < 8; i++) {
+	    tcg_gen_movi_i64(tcg_mask, identity_mask >> (i * 8);
+	    for (j = 0; j < 2; j++) {
+	        tcg_gen_shri_i64(tmp, avr[j], i * 7);
+	        tcg_gen_and_i64(tmp, tmp, tcg_mask);
+	        tcg_gen_or_i64(out[j], out[j], tmp);
+	    }
+	}
+	for (i = 1; i < 8; i++) {
+	    tcg_gen_movi_i64(tcg_mask, identity_mask << (i * 8));
+	    for (j = 0; j < 2; j++) {
+	        tcg_gen_shli_i64(tmp, avr[j], i * 7);
+	        tcg_gen_and_i64(tmp, tmp, tcg_mask);
+	        tcg_gen_or_i64(out[j], out[j], tmp);
+	    }
+	}
+	for (j = 0; j < 2; j++) {
+	    set_avr(VT, out[j], j);
+	}
 
---nextPart59998215.3l7yhbUXgf--
+This should produce the same results with fewer operations.
 
 
-
+r~
 
