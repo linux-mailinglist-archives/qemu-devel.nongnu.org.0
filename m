@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EA437B73
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 19:51:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35927 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE24F37BB4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 19:59:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36057 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYwXo-00077S-0k
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 13:51:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44310)
+	id 1hYwfV-0006Ao-Qp
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 13:59:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44484)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwTj-00043R-F4
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:09 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwTr-0004Ak-5U
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwTg-0003VT-CC
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:07 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40682)
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwTn-0003dN-As
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:13 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36290)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hYwTf-0002s5-Ff
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:03 -0400
-Received: by mail-wm1-x344.google.com with SMTP id v19so806618wmj.5
-	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:21 -0700 (PDT)
+	id 1hYwTm-0002sh-8B
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:10 -0400
+Received: by mail-wm1-x342.google.com with SMTP id u8so826822wmm.1
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=IKYt9IdR9p04yclzZJ7NN0tuSnfOmYMB2x4KhMTCD0Y=;
-	b=Xf1bqLviV2uyjpMBVugSD+hc5B7uuH338ROF0FBMDIuwPJ+MTKTyg8Lw/S/Sw5oyMu
-	DE4eYYUaiQdhn00F7LIVnTUgyXIMD3Zza/Iob/bUrOyaehNrpdf4atTHVxRmcsm1+5qb
-	nrkww3eBtg9fXLlbmZUVnSB78QoDAhgPseQMCtW5AcDXqmFS/zPurEaXZuaUiMkFazBB
-	Awu5v6Irmdo3I7KwZpXFlIJ4Z1TVEVAmcKQ6KEwJRYBzUwOakyt9U9jIVw2bh5G3GgyB
-	5fa9eUaYxvOKg4bhVr/ID/zf+59BcUVUHd9FArT8lJsQ65/sPQpA24XN2XUVFnl6uD6c
-	jPRw==
+	bh=yYV9ZBlnv8DXFwtLcWMXQbHBF1itZYJ0mukmVjZJUHI=;
+	b=WzcUezC4bYu5r0aQiPFLiZvTcT+nZE53EfAljybrxcLwgYzQC9op+xPFR0yolOyzgN
+	V6iRlxyDjLjD21beGQRSSOLm8PorBva/25uliLOgxHBjD4Kfyno60eNlev8Js40BOt5U
+	IF/hSU2VeX2HZqa3x4lNOShwiI1VClXr3dXFdDPG8rhO0mB6XjFJsyb2rAQloK7sNpmr
+	usbArA8obXe2ovsJtcn5fKASgOVRnH3DLlgDALlNur8NN0jdA9g1XkQQ9/b5cKkl6Qz0
+	qTkxcQZ5AhH8K7fGy4tENDNKC715DGAG1khJGjtJEMKpk4PiS6w8yEK2EnON7UAB+qjq
+	rjaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=IKYt9IdR9p04yclzZJ7NN0tuSnfOmYMB2x4KhMTCD0Y=;
-	b=cGoKAGTknV3Mel+abEJvSCvjlP+R5PAoKTL+XC5iV3Xj5pdyJN4/cLop2OU0vcSUhR
-	TUgye7eZ9uL+HcecEOqZxSuzQE0K67U9USwesNrIZpKkhuyVOhD7u/uyYfKBeTouPLyr
-	3LYOQmeFCfvwIWOY01X6xeiiSRSAmI/S4+kzv4Dp9lMLXSKoovqPEiyhLBOb8ewQ0m2/
-	O4Fj3MBWh0QpLPS12jYtNn/sr0WnvitRf65P0Gn2PUGjLLzpRLF7ojQdSPQ8N86237Gn
-	qf8utip5h1i22owvvrRWzlyIbInBRlI8rDjjWYnruddX9klqFsdzjH+OnNrZ6LYWCOXI
-	iZsg==
-X-Gm-Message-State: APjAAAWNyQmYuyb5UKMBJEFKfxkfBZok/y0MDo16SUzPLWbpj/XnxQGQ
-	AwTEjGSD8bGknqh8W0WlANpfoQ==
-X-Google-Smtp-Source: APXvYqwjaS1jA8UHMKkOo99Gq9IfwTwZhEJVkk2xDB3iaKFw8NSMJvcRJrrv5hsZSZ+f2R4GFQazkA==
-X-Received: by 2002:a7b:c189:: with SMTP id y9mr870188wmi.116.1559843180246;
-	Thu, 06 Jun 2019 10:46:20 -0700 (PDT)
+	bh=yYV9ZBlnv8DXFwtLcWMXQbHBF1itZYJ0mukmVjZJUHI=;
+	b=tSuCVg9X1egLDAA+ZfZaZqZl+TtsrztTUFM6w7IQH1YpH2e1kbYhBPbswZLZAWE44V
+	YsI+N6NP6TfacjdDLKhx39qUPy3SeD2+0ZTnZ98u9eXoIiLO3BffQ81s3ovoJyNnuy6N
+	12EW8nWdXQH/B3P56A+XqC30YVANcwmZR7hn1aB2Mb264LKa7ottzMcewSY5HAK9KaI1
+	J77hsHesXNvcUfMhZhcDtAlCfO8Eu5OazPMPoCSwV7v3Jyc4GqPIeiYxfXQDlpiPldIy
+	RrqTzmQWYPkaUsE3Xu3bad3s3ToOcUUJVK3XpF23QovBLSkhI0r6PkD0jG5W9+xbkre0
+	x5Ug==
+X-Gm-Message-State: APjAAAWGmFqllwpQ0ZfsZPFdqqaUZqd6TVW+zllka8UtFvwTYcm9IPTv
+	TJeqL3OWGRNAhTLdc0rG/Hjhzg==
+X-Google-Smtp-Source: APXvYqxTwRV186PuoXdzPeHNuPxqwPH5ZJb7/nSBrq/YhYqEJiVq8lw7bMvKl9O6Jm3wwmppQzF2ZA==
+X-Received: by 2002:a1c:f712:: with SMTP id v18mr912246wmh.0.1559843181458;
+	Thu, 06 Jun 2019 10:46:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 	by smtp.gmail.com with ESMTPSA id
-	z135sm2596784wmc.45.2019.06.06.10.46.19
+	z135sm2596784wmc.45.2019.06.06.10.46.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jun 2019 10:46:19 -0700 (PDT)
+	Thu, 06 Jun 2019 10:46:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 18:45:35 +0100
-Message-Id: <20190606174609.20487-9-peter.maydell@linaro.org>
+Date: Thu,  6 Jun 2019 18:45:36 +0100
+Message-Id: <20190606174609.20487-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190606174609.20487-1-peter.maydell@linaro.org>
 References: <20190606174609.20487-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH 08/42] target/arm: Convert
- VRINTA/VRINTN/VRINTP/VRINTM to decodetree
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH 09/42] target/arm: Convert
+ VCVTA/VCVTN/VCVTP/VCVTM to decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,53 +84,42 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the VRINTA/VRINTN/VRINTP/VRINTM instructions to decodetree.
-Again, trans_VRINT() is temporarily left in translate.c.
+Convert the VCVTA/VCVTN/VCVTP/VCVTM instructions to decodetree.
+trans_VCVT() is temporarily left in translate.c.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.c       | 60 +++++++++++++++++++++++-------------
- target/arm/vfp-uncond.decode |  5 +++
- 2 files changed, 43 insertions(+), 22 deletions(-)
+ target/arm/translate.c       | 72 +++++++++++++++++-------------------
+ target/arm/vfp-uncond.decode |  6 +++
+ 2 files changed, 39 insertions(+), 39 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 312ec455c28..91e3e3680b2 100644
+index 91e3e3680b2..2cf8fd99404 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -3270,11 +3270,43 @@ static bool trans_VMINMAXNM(DisasContext *s, arg_VMINMAXNM *a)
+@@ -3340,12 +3340,31 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
      return true;
  }
  
--static int handle_vrint(uint32_t insn, uint32_t rd, uint32_t rm, uint32_t dp,
--                        int rounding)
-+/*
-+ * Table for converting the most common AArch32 encoding of
-+ * rounding mode to arm_fprounding order (which matches the
-+ * common AArch64 order); see ARM ARM pseudocode FPDecodeRM().
-+ */
-+static const uint8_t fp_decode_rm[] = {
-+    FPROUNDING_TIEAWAY,
-+    FPROUNDING_TIEEVEN,
-+    FPROUNDING_POSINF,
-+    FPROUNDING_NEGINF,
-+};
-+
-+static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
+-static int handle_vcvt(uint32_t insn, uint32_t rd, uint32_t rm, uint32_t dp,
+-                       int rounding)
++static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
  {
+-    bool is_signed = extract32(insn, 7, 1);
 -    TCGv_ptr fpst = get_fpstatus_ptr(0);
 +    uint32_t rd, rm;
 +    bool dp = a->dp;
 +    TCGv_ptr fpst;
-     TCGv_i32 tcg_rmode;
+     TCGv_i32 tcg_rmode, tcg_shift;
 +    int rounding = fp_decode_rm[a->rm];
++    bool is_signed = a->op;
 +
-+    if (!dc_isar_feature(aa32_vrint, s)) {
++    if (!dc_isar_feature(aa32_vcvt_dr, s)) {
 +        return false;
 +    }
 +
 +    /* UNDEF accesses to D16-D31 if they don't exist */
-+    if (dp && !dc_isar_feature(aa32_fp_d32, s) &&
-+        ((a->vm | a->vd) & 0x10)) {
++    if (dp && !dc_isar_feature(aa32_fp_d32, s) && (a->vm & 0x10)) {
 +        return false;
 +    }
 +    rd = a->vd;
@@ -142,64 +131,95 @@ index 312ec455c28..91e3e3680b2 100644
 +
 +    fpst = get_fpstatus_ptr(0);
  
-     tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rounding));
-     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
-@@ -3305,7 +3337,7 @@ static int handle_vrint(uint32_t insn, uint32_t rd, uint32_t rm, uint32_t dp,
-     tcg_temp_free_i32(tcg_rmode);
+     tcg_shift = tcg_const_i32(0);
+ 
+@@ -3355,10 +3374,6 @@ static int handle_vcvt(uint32_t insn, uint32_t rd, uint32_t rm, uint32_t dp,
+     if (dp) {
+         TCGv_i64 tcg_double, tcg_res;
+         TCGv_i32 tcg_tmp;
+-        /* Rd is encoded as a single precision register even when the source
+-         * is double precision.
+-         */
+-        rd = ((rd << 1) & 0x1e) | ((rd >> 4) & 0x1);
+         tcg_double = tcg_temp_new_i64();
+         tcg_res = tcg_temp_new_i64();
+         tcg_tmp = tcg_temp_new_i32();
+@@ -3395,28 +3410,7 @@ static int handle_vcvt(uint32_t insn, uint32_t rd, uint32_t rm, uint32_t dp,
  
      tcg_temp_free_ptr(fpst);
+ 
 -    return 0;
+-}
+-
+-static int disas_vfp_misc_insn(DisasContext *s, uint32_t insn)
+-{
+-    uint32_t rd, rm, dp = extract32(insn, 8, 1);
+-
+-    if (dp) {
+-        VFP_DREG_D(rd, insn);
+-        VFP_DREG_M(rm, insn);
+-    } else {
+-        rd = VFP_SREG_D(insn);
+-        rm = VFP_SREG_M(insn);
+-    }
+-
+-    if ((insn & 0x0fbc0e50) == 0x0ebc0a40 &&
+-        dc_isar_feature(aa32_vcvt_dr, s)) {
+-        /* VCVTA, VCVTN, VCVTP, VCVTM */
+-        int rounding = fp_decode_rm[extract32(insn, 16, 2)];
+-        return handle_vcvt(insn, rd, rm, dp, rounding);
+-    }
+-    return 1;
 +    return true;
  }
  
- static int handle_vcvt(uint32_t insn, uint32_t rd, uint32_t rm, uint32_t dp,
-@@ -3366,17 +3398,6 @@ static int handle_vcvt(uint32_t insn, uint32_t rd, uint32_t rm, uint32_t dp,
-     return 0;
- }
- 
--/* Table for converting the most common AArch32 encoding of
-- * rounding mode to arm_fprounding order (which matches the
-- * common AArch64 order); see ARM ARM pseudocode FPDecodeRM().
-- */
--static const uint8_t fp_decode_rm[] = {
--    FPROUNDING_TIEAWAY,
--    FPROUNDING_TIEEVEN,
--    FPROUNDING_POSINF,
--    FPROUNDING_NEGINF,
--};
--
- static int disas_vfp_misc_insn(DisasContext *s, uint32_t insn)
- {
-     uint32_t rd, rm, dp = extract32(insn, 8, 1);
-@@ -3389,13 +3410,8 @@ static int disas_vfp_misc_insn(DisasContext *s, uint32_t insn)
-         rm = VFP_SREG_M(insn);
+ /*
+@@ -3452,6 +3446,15 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
+         }
      }
  
--    if ((insn & 0x0fbc0ed0) == 0x0eb80a40 &&
--        dc_isar_feature(aa32_vrint, s)) {
--        /* VRINTA, VRINTN, VRINTP, VRINTM */
--        int rounding = fp_decode_rm[extract32(insn, 16, 2)];
--        return handle_vrint(insn, rd, rm, dp, rounding);
--    } else if ((insn & 0x0fbc0e50) == 0x0ebc0a40 &&
--               dc_isar_feature(aa32_vcvt_dr, s)) {
-+    if ((insn & 0x0fbc0e50) == 0x0ebc0a40 &&
-+        dc_isar_feature(aa32_vcvt_dr, s)) {
-         /* VCVTA, VCVTN, VCVTP, VCVTM */
-         int rounding = fp_decode_rm[extract32(insn, 16, 2)];
-         return handle_vcvt(insn, rd, rm, dp, rounding);
++    if (extract32(insn, 28, 4) == 0xf) {
++        /*
++         * Encodings with T=1 (Thumb) or unconditional (ARM): these
++         * were all handled by the decodetree decoder, so any insn
++         * patterns which get here must be UNDEF.
++         */
++        return 1;
++    }
++
+     /*
+      * FIXME: this access check should not take precedence over UNDEF
+      * for invalid encodings; we will generate incorrect syndrome information
+@@ -3468,15 +3471,6 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
+         return 0;
+     }
+ 
+-    if (extract32(insn, 28, 4) == 0xf) {
+-        /*
+-         * Encodings with T=1 (Thumb) or unconditional (ARM):
+-         * only used for the "miscellaneous VFP features" added in v8A
+-         * and v7M (and gated on the MVFR2.FPMisc field).
+-         */
+-        return disas_vfp_misc_insn(s, insn);
+-    }
+-
+     dp = ((insn & 0xf00) == 0xb00);
+     switch ((insn >> 24) & 0xf) {
+     case 0xe:
 diff --git a/target/arm/vfp-uncond.decode b/target/arm/vfp-uncond.decode
-index 8ab201fa058..0aa83285de2 100644
+index 0aa83285de2..5af1f2ee664 100644
 --- a/target/arm/vfp-uncond.decode
 +++ b/target/arm/vfp-uncond.decode
-@@ -50,3 +50,8 @@ VMINMAXNM   1111 1110 1.00 .... .... 1010 . op:1 .0 .... \
-             vm=%vm_sp vn=%vn_sp vd=%vd_sp dp=0
- VMINMAXNM   1111 1110 1.00 .... .... 1011 . op:1 .0 .... \
-             vm=%vm_dp vn=%vn_dp vd=%vd_dp dp=1
+@@ -55,3 +55,9 @@ VRINT       1111 1110 1.11 10 rm:2 .... 1010 01.0 .... \
+             vm=%vm_sp vd=%vd_sp dp=0
+ VRINT       1111 1110 1.11 10 rm:2 .... 1011 01.0 .... \
+             vm=%vm_dp vd=%vd_dp dp=1
 +
-+VRINT       1111 1110 1.11 10 rm:2 .... 1010 01.0 .... \
++# VCVT float to int with specified rounding mode; Vd is always single-precision
++VCVT        1111 1110 1.11 11 rm:2 .... 1010 op:1 1.0 .... \
 +            vm=%vm_sp vd=%vd_sp dp=0
-+VRINT       1111 1110 1.11 10 rm:2 .... 1011 01.0 .... \
-+            vm=%vm_dp vd=%vd_dp dp=1
++VCVT        1111 1110 1.11 11 rm:2 .... 1011 op:1 1.0 .... \
++            vm=%vm_dp vd=%vd_sp dp=1
 -- 
 2.20.1
 
