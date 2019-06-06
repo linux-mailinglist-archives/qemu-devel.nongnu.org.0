@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5829B37867
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 17:46:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34228 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268C037881
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 17:48:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34260 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYuaZ-0003SC-9M
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 11:46:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44565)
+	id 1hYud4-0005dy-9l
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 11:48:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44575)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYuWK-0000Vy-Nu
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYuWL-0000W7-2k
 	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 11:41:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYuWJ-0004al-HV
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYuWJ-0004aW-EM
 	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 11:41:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50224)
+Received: from relay.sw.ru ([185.231.240.75]:50222)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYuWJ-0004X7-A2; Thu, 06 Jun 2019 11:41:39 -0400
+	id 1hYuWJ-0004X5-6r; Thu, 06 Jun 2019 11:41:39 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYuWC-0000xX-Aw; Thu, 06 Jun 2019 18:41:32 +0300
+	id 1hYuWC-0000xX-L1; Thu, 06 Jun 2019 18:41:32 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Thu,  6 Jun 2019 18:41:28 +0300
-Message-Id: <20190606154132.153330-1-vsementsov@virtuozzo.com>
+Date: Thu,  6 Jun 2019 18:41:29 +0300
+Message-Id: <20190606154132.153330-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190606154132.153330-1-vsementsov@virtuozzo.com>
+References: <20190606154132.153330-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 0/4] block: drop bs->job
+Subject: [Qemu-devel] [PATCH 1/4] block/replication: drop usage of bs->job
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -50,31 +52,247 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, wencongyang2@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+We are going to remove bs->job pointer. Drop it's usage in replication
+code. Additionally we have to return job pointer from some mirror APIs.
 
-These series follow Kevin's suggestions under 
-https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg00670.html
-[Qemu-devel] [PATCH v2 0/2] introduce pinned blk
-(hope you don't mind me using exactly your wording in 02)
-
-Vladimir Sementsov-Ogievskiy (4):
-  block/replication: drop usage of bs->job
-  block/block-backend: blk_iostatus_reset: drop usage of bs->job
-  blockdev: blockdev_mark_auto_del: drop usage of bs->job
-  block: drop bs->job
-
- include/block/block_int.h | 15 ++++++---------
- include/block/blockjob.h  |  9 +++++++++
- block.c                   |  2 --
- block/block-backend.c     |  4 ----
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ include/block/block_int.h | 12 ++++++------
  block/mirror.c            | 38 ++++++++++++++++++++++----------------
  block/replication.c       | 21 ++++++++++++---------
- blockdev.c                | 19 +++++++++----------
- blockjob.c                | 22 ++++++++++++++--------
- qmp.c                     |  5 +++++
- block/trace-events        |  2 +-
- 10 files changed, 78 insertions(+), 59 deletions(-)
+ 3 files changed, 40 insertions(+), 31 deletions(-)
 
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 06df2bda1b..8bb1cfb80a 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -1082,12 +1082,12 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+  * @errp: Error object.
+  *
+  */
+-void commit_active_start(const char *job_id, BlockDriverState *bs,
+-                         BlockDriverState *base, int creation_flags,
+-                         int64_t speed, BlockdevOnError on_error,
+-                         const char *filter_node_name,
+-                         BlockCompletionFunc *cb, void *opaque,
+-                         bool auto_complete, Error **errp);
++BlockJob *commit_active_start(const char *job_id, BlockDriverState *bs,
++                              BlockDriverState *base, int creation_flags,
++                              int64_t speed, BlockdevOnError on_error,
++                              const char *filter_node_name,
++                              BlockCompletionFunc *cb, void *opaque,
++                              bool auto_complete, Error **errp);
+ /*
+  * mirror_start:
+  * @job_id: The id of the newly-created job, or %NULL to use the
+diff --git a/block/mirror.c b/block/mirror.c
+index f8bdb5b21b..b5878ba574 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1482,7 +1482,8 @@ static BlockDriver bdrv_mirror_top = {
+     .bdrv_child_perm            = bdrv_mirror_top_child_perm,
+ };
+ 
+-static void mirror_start_job(const char *job_id, BlockDriverState *bs,
++static BlockJob *mirror_start_job(
++                             const char *job_id, BlockDriverState *bs,
+                              int creation_flags, BlockDriverState *target,
+                              const char *replaces, int64_t speed,
+                              uint32_t granularity, int64_t buf_size,
+@@ -1514,7 +1515,7 @@ static void mirror_start_job(const char *job_id, BlockDriverState *bs,
+ 
+     if (buf_size < 0) {
+         error_setg(errp, "Invalid parameter 'buf-size'");
+-        return;
++        return NULL;
+     }
+ 
+     if (buf_size == 0) {
+@@ -1523,7 +1524,7 @@ static void mirror_start_job(const char *job_id, BlockDriverState *bs,
+ 
+     if (bs == target) {
+         error_setg(errp, "Can't mirror node into itself");
+-        return;
++        return NULL;
+     }
+ 
+     /* In the case of active commit, add dummy driver to provide consistent
+@@ -1532,7 +1533,7 @@ static void mirror_start_job(const char *job_id, BlockDriverState *bs,
+     mirror_top_bs = bdrv_new_open_driver(&bdrv_mirror_top, filter_node_name,
+                                          BDRV_O_RDWR, errp);
+     if (mirror_top_bs == NULL) {
+-        return;
++        return NULL;
+     }
+     if (!filter_node_name) {
+         mirror_top_bs->implicit = true;
+@@ -1554,7 +1555,7 @@ static void mirror_start_job(const char *job_id, BlockDriverState *bs,
+     if (local_err) {
+         bdrv_unref(mirror_top_bs);
+         error_propagate(errp, local_err);
+-        return;
++        return NULL;
+     }
+ 
+     /* Make sure that the source is not resized while the job is running */
+@@ -1662,7 +1663,8 @@ static void mirror_start_job(const char *job_id, BlockDriverState *bs,
+ 
+     trace_mirror_start(bs, s, opaque);
+     job_start(&s->common.job);
+-    return;
++
++    return &s->common;
+ 
+ fail:
+     if (s) {
+@@ -1684,6 +1686,8 @@ fail:
+     bdrv_replace_node(mirror_top_bs, backing_bs(mirror_top_bs), &error_abort);
+ 
+     bdrv_unref(mirror_top_bs);
++
++    return NULL;
+ }
+ 
+ void mirror_start(const char *job_id, BlockDriverState *bs,
+@@ -1712,25 +1716,27 @@ void mirror_start(const char *job_id, BlockDriverState *bs,
+                      filter_node_name, true, copy_mode, errp);
+ }
+ 
+-void commit_active_start(const char *job_id, BlockDriverState *bs,
+-                         BlockDriverState *base, int creation_flags,
+-                         int64_t speed, BlockdevOnError on_error,
+-                         const char *filter_node_name,
+-                         BlockCompletionFunc *cb, void *opaque,
+-                         bool auto_complete, Error **errp)
++BlockJob *commit_active_start(const char *job_id, BlockDriverState *bs,
++                              BlockDriverState *base, int creation_flags,
++                              int64_t speed, BlockdevOnError on_error,
++                              const char *filter_node_name,
++                              BlockCompletionFunc *cb, void *opaque,
++                              bool auto_complete, Error **errp)
+ {
+     bool base_read_only;
+     Error *local_err = NULL;
++    BlockJob *ret;
+ 
+     base_read_only = bdrv_is_read_only(base);
+ 
+     if (base_read_only) {
+         if (bdrv_reopen_set_read_only(base, false, errp) < 0) {
+-            return;
++            return NULL;
+         }
+     }
+ 
+-    mirror_start_job(job_id, bs, creation_flags, base, NULL, speed, 0, 0,
++    ret = mirror_start_job(
++                     job_id, bs, creation_flags, base, NULL, speed, 0, 0,
+                      MIRROR_LEAVE_BACKING_CHAIN,
+                      on_error, on_error, true, cb, opaque,
+                      &commit_active_job_driver, false, base, auto_complete,
+@@ -1741,7 +1747,7 @@ void commit_active_start(const char *job_id, BlockDriverState *bs,
+         goto error_restore_flags;
+     }
+ 
+-    return;
++    return ret;
+ 
+ error_restore_flags:
+     /* ignore error and errp for bdrv_reopen, because we want to propagate
+@@ -1749,5 +1755,5 @@ error_restore_flags:
+     if (base_read_only) {
+         bdrv_reopen_set_read_only(base, true, NULL);
+     }
+-    return;
++    return NULL;
+ }
+diff --git a/block/replication.c b/block/replication.c
+index 3d4dedddfc..507512c290 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -35,8 +35,10 @@ typedef struct BDRVReplicationState {
+     ReplicationMode mode;
+     ReplicationStage stage;
+     BdrvChild *active_disk;
++    BlockJob *commit_job;
+     BdrvChild *hidden_disk;
+     BdrvChild *secondary_disk;
++    BlockJob *backup_job;
+     char *top_id;
+     ReplicationState *rs;
+     Error *blocker;
+@@ -146,7 +148,7 @@ static void replication_close(BlockDriverState *bs)
+         replication_stop(s->rs, false, NULL);
+     }
+     if (s->stage == BLOCK_REPLICATION_FAILOVER) {
+-        job_cancel_sync(&s->active_disk->bs->job->job);
++        job_cancel_sync(&s->commit_job->job);
+     }
+ 
+     if (s->mode == REPLICATION_MODE_SECONDARY) {
+@@ -314,12 +316,12 @@ static void secondary_do_checkpoint(BDRVReplicationState *s, Error **errp)
+     Error *local_err = NULL;
+     int ret;
+ 
+-    if (!s->secondary_disk->bs->job) {
++    if (!s->backup_job) {
+         error_setg(errp, "Backup job was cancelled unexpectedly");
+         return;
+     }
+ 
+-    backup_do_checkpoint(s->secondary_disk->bs->job, &local_err);
++    backup_do_checkpoint(s->backup_job, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+@@ -448,7 +450,6 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+     int64_t active_length, hidden_length, disk_length;
+     AioContext *aio_context;
+     Error *local_err = NULL;
+-    BlockJob *job;
+ 
+     aio_context = bdrv_get_aio_context(bs);
+     aio_context_acquire(aio_context);
+@@ -539,7 +540,8 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+         bdrv_op_block_all(top_bs, s->blocker);
+         bdrv_op_unblock(top_bs, BLOCK_OP_TYPE_DATAPLANE, s->blocker);
+ 
+-        job = backup_job_create(NULL, s->secondary_disk->bs, s->hidden_disk->bs,
++        s->backup_job = backup_job_create(
++                                NULL, s->secondary_disk->bs, s->hidden_disk->bs,
+                                 0, MIRROR_SYNC_MODE_NONE, NULL, false,
+                                 BLOCKDEV_ON_ERROR_REPORT,
+                                 BLOCKDEV_ON_ERROR_REPORT, JOB_INTERNAL,
+@@ -550,7 +552,7 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+             aio_context_release(aio_context);
+             return;
+         }
+-        job_start(&job->job);
++        job_start(&s->backup_job->job);
+         break;
+     default:
+         aio_context_release(aio_context);
+@@ -652,8 +654,8 @@ static void replication_stop(ReplicationState *rs, bool failover, Error **errp)
+          * before the BDS is closed, because we will access hidden
+          * disk, secondary disk in backup_job_completed().
+          */
+-        if (s->secondary_disk->bs->job) {
+-            job_cancel_sync(&s->secondary_disk->bs->job->job);
++        if (s->backup_job) {
++            job_cancel_sync(&s->backup_job->job);
+         }
+ 
+         if (!failover) {
+@@ -664,7 +666,8 @@ static void replication_stop(ReplicationState *rs, bool failover, Error **errp)
+         }
+ 
+         s->stage = BLOCK_REPLICATION_FAILOVER;
+-        commit_active_start(NULL, s->active_disk->bs, s->secondary_disk->bs,
++        s->commit_job = commit_active_start(
++                            NULL, s->active_disk->bs, s->secondary_disk->bs,
+                             JOB_INTERNAL, 0, BLOCKDEV_ON_ERROR_REPORT,
+                             NULL, replication_done, bs, true, errp);
+         break;
 -- 
 2.18.0
 
