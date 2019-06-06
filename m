@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F4E37B61
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 19:48:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35870 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C09237B64
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 19:49:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35875 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYwV8-0004ZA-S1
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 13:48:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44177)
+	id 1hYwW3-0005Wq-DD
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 13:49:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44294)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwTA-0003aB-45
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:46:33 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwTi-00042p-Jv
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwT5-0002yo-DG
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:46:29 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37584)
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwTg-0003Va-DI
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:05 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52731)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hYwSt-0002mc-Lq
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:46:21 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 22so828002wmg.2
-	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:12 -0700 (PDT)
+	id 1hYwTf-0002mv-VK
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:04 -0400
+Received: by mail-wm1-x343.google.com with SMTP id s3so802467wms.2
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=AtcFb5Jfvq0KHXYr/zJxoHmo7uGOqmsnuu/sJrhfBCI=;
-	b=AahQcwOySfjOqxy1RVEqSZhQcLG7EafVy2w6phYh8BUOKH1HsjLf4eR3UqfwF6MT0H
-	JMiRJJH8wczocjZnPpFT5R2Q95kV5AAVYstBqYJxrj2jhvMC/8tStQBMH5SZDzeDBbCV
-	7C7fcwS3fdgvo7NYf1yy2eQBvANz76/lPl0XY5tnefK2Bx8oerogyg+WJBmYHQ0B4cpY
-	TfKUk0XYqqDNrW+vxLUTdLtF8Qf1jMiMvfTL3bUAxOsDdFwJMR9UsCUJVZKLxOMhqIOZ
-	SQe5/0/L/bWsczYicZGe/YRM1WUyc5iOz+fan7dw3jsmNg5J/0ADupll4D64emi6A1Oj
-	0ZYg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=KtIfSIKYeaE77uLCULn8mRdtcD4iWxd4JC2TjSFb1R8=;
+	b=SiFVQbaorp/ryzAfQvS9FdhoS3ZlfB/R7KNWo22KXM5RnAbfpAQzuVedj9rm29reWX
+	Odpz2vu1fthyMOZtAktNuQVfn7MvDNHRIub81oqb9mMwfyoUiyBEVmx1otGtj2eUMrx0
+	O/5Uv+pnwe9L30Qg3kWlilCr+wVaDmgK9vU6Up9X1K0OcH5t9pd+JI+Oamg49eMcRO45
+	pAjhZI3T509giCCdxmrhOhA1YuKE9Zpr/W35+PDFLLInRnfG2ULB5cJ8HQWOwv9zWKsm
+	xmok6zVVWJ9xxnMXSGR+f9icxays5c2xCsYCwl+/uEqZdk3Ivh1qLWYxBnADVsAGzFPR
+	wnbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=AtcFb5Jfvq0KHXYr/zJxoHmo7uGOqmsnuu/sJrhfBCI=;
-	b=i4stnns09LChH2M1YdTObB727OIctp1c9AZe6QYU5RMXh/nPkWEHc8f3nGIHsHM/0m
-	aScwH3ZTVicWK4OMWkauRg3HEkuu/4091a2jZDbuxLkD9LK0jHjOwepicndxbwP3dkbc
-	TluQg59SmnpEDPNpmxdV6HAcyvpbwfTEEypVdGgTeTuAwlyi1DfI51i0rOtFg0y9fWsd
-	g/dg1kObsizowyaKMq/N+LRmmZRODy6kuuX4nySC1hw7u7g6K/tDFYlZUCjoEw4iasOa
-	9y3rBl834iNYH/a7muou8Tr5KV0l4o5tZahrEIDKtMAjDPMxx/I40t6IZ54VcsXSkos2
-	VJXw==
-X-Gm-Message-State: APjAAAU7nrIzme58+/m1zBAVrbroXnSYm83I5TeaXwjfkHPFO95HErj+
-	Gf1F+jDy9DQlQM4DcZJDmEkwlQ==
-X-Google-Smtp-Source: APXvYqxrSQJ1qMVgkMXMLAKU5litFPR6A24yMeD5uBU+fObViDPVDUtYo7Y/q28K5qEN3FI9AINY0A==
-X-Received: by 2002:a7b:c444:: with SMTP id l4mr808655wmi.15.1559843171416;
-	Thu, 06 Jun 2019 10:46:11 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=KtIfSIKYeaE77uLCULn8mRdtcD4iWxd4JC2TjSFb1R8=;
+	b=iWPNnpBWcgeCfGidiSemg/QzFTSx1uVVsP5KXAEoWvQuFLSNtGCNtwMXfudGjLVxqy
+	Rkzga9u2xrN6eqBnBmf3ctS+2eNYkSkjN1wiXVfGLADdsEQ1DS8/D0wlSV9Zz21jLGRt
+	Apz8m1eQmPBJIp5XeHhUCxzdYHpXKMFqtzKz7ySlYwHwBEq3kFVt2vD8eFVtiuZItAnb
+	t6JhtC054FPFUrgFvp5Rt9umHLkyMwbWWagVIH5JIv2PU7S2IDxquwhcyoERJmcZyG60
+	AEDbXfvoF/MeH3C7f1tkEVum2naZuL/jz3SH1ftmjhYH5PfHoikEnWdQk4+7AiPjJN+s
+	zwIw==
+X-Gm-Message-State: APjAAAXZHnz05xhDZphynUrZMNkmRqjWRILh8y/WtuBJqDOLSCA+D+fG
+	NJinQZwQMwh5DK8nWMs0mSVXSADivofigw==
+X-Google-Smtp-Source: APXvYqzXshMuRQGP88bBQ+eq4SsY5oa2Rnl05O4Z+qQEI8N9BgO06AkZtIQQFLu6eq9IcTPe2ZoZzQ==
+X-Received: by 2002:a1c:cfc3:: with SMTP id f186mr759827wmg.134.1559843172539; 
+	Thu, 06 Jun 2019 10:46:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 	by smtp.gmail.com with ESMTPSA id
-	z135sm2596784wmc.45.2019.06.06.10.46.10
+	z135sm2596784wmc.45.2019.06.06.10.46.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jun 2019 10:46:10 -0700 (PDT)
+	Thu, 06 Jun 2019 10:46:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 18:45:27 +0100
-Message-Id: <20190606174609.20487-1-peter.maydell@linaro.org>
+Date: Thu,  6 Jun 2019 18:45:28 +0100
+Message-Id: <20190606174609.20487-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190606174609.20487-1-peter.maydell@linaro.org>
+References: <20190606174609.20487-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH 00/42] target/arm: Convert VFP decoder to
- decodetree
+Subject: [Qemu-devel] [PATCH 01/42] decodetree: Fix comparison of Field
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,126 +83,32 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset converts the Arm VFP instructions to use decodetree
-instead of the current hand-written decode.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-We gain:
- * a more maintainable decoder which doesn't live in one big function
- * correct prioritization of UNDEF exceptions against "VFP disabled"
-   exceptions and "M-profile lazy FP stacking" activity
- * significant reduction in the use of the "cpu_F0[sd]" and "cpu_F1[sd]"
-   TCG globals. These are a relic of a much older translator and
-   eventually we should try to get rid of them entirely
- * more accurate decode, UNDEFing some things we were incorrectly lax on
- * a fixed bug for VFP short-vector mixed vector/scalar VMLA/VMLS/VNMLA/VNMLS
-   insns: we were incorrectly corrupting the scalar input operand
-   in the process of performing the multiply-accumulate, so every
-   element after the first was miscalculated
- * a fixed bug in the calculation of the next register number to use
-   when VFP short-vector operations wrapped around the vector bank
- * decode which checks ID registers for "do we have D16-D31" rather
-   than using "is this VFPv3" -- this means that Cortex-M4, -M33 and -R5F
-   all now correctly give the guest only 16 Dregs rather than 31.
-   (Note that the old decoder hides this UNDEF handling inside the
-   VFP_DREG macros...)
- * the fused multiply-add insns now correctly UNDEF for attempts to
-   use them as short-vector operations
- * short-vector functionality is only implemented if the ID registers
-   say it should be (which in practice means "only Cortex-A8 or earlier");
-   we continue to provide it in -cpu max for compatibility
- * VRINTR, VRINTZ and VRINTX are only provided in v8A and above
- * VFP related translation code split out into its own source file
- * the "is this special register present and accessible" check is
-   now consistent between read and write
+Typo comparing the sign of the field, twice, instead of also comparing
+the mask of the field (which itself encodes both position and length).
 
-There is definitely scope for further cleanup:
- * the translate-vfp.inc.c could be further isolated into its
-   own standalone .c file rather than being #included into translate.c
- * cpu_F0* are still used in parts of the Neon decode (and the
-   iwmmxt code, alas)
- * I noticed some places doing a load-and-shift or load-modify-store
-   sequence to update byte or halfword parts of float registers;
-   these could be rewritten to do direct byte or halfword loads/stores
- * we could remove the remaining uses of tcg_gen_ld/st_f32()
-   (in the Neon decode)
-but at 42 patches this is already a pretty hefty patchset, so
-I have deferred those to attack later once this has got in.
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20190604154225.26992-1-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ scripts/decodetree.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On the downside, there are more lines of code here, but some of
-them we'll get back when we finish some of the cleanups noted
-above, some are just copyright-and-license boilerplate, and I
-think the rest are well invested in easier to modify code...
-
-Patch 1 is Richard's recent decodetree script bugfix, which
-is needed for the VFP decode to behave correctly.
-
-Tested with RISU, a mixture of comparison against real Cortex-A7
-and Cortex-A8 and against the old version of QEMU, plus some
-smoke-testing of aarch32 system emulation.
-
-thanks
--- PMM
-
-Peter Maydell (41):
-  target/arm: Add stubs for AArch32 VFP decodetree
-  target/arm: Factor out VFP access checking code
-  target/arm: Fix Cortex-R5F MVFR values
-  target/arm: Explicitly enable VFP short-vectors for aarch32 -cpu max
-  target/arm: Convert the VSEL instructions to decodetree
-  target/arm: Convert VMINNM, VMAXNM to decodetree
-  target/arm: Convert VRINTA/VRINTN/VRINTP/VRINTM to decodetree
-  target/arm: Convert VCVTA/VCVTN/VCVTP/VCVTM to decodetree
-  target/arm: Move the VFP trans_* functions to translate-vfp.inc.c
-  target/arm: Add helpers for VFP register loads and stores
-  target/arm: Convert "double-precision" register moves to decodetree
-  target/arm: Convert "single-precision" register moves to decodetree
-  target/arm: Convert VFP two-register transfer insns to decodetree
-  target/arm: Convert VFP VLDR and VSTR to decodetree
-  target/arm: Convert the VFP load/store multiple insns to decodetree
-  target/arm: Remove VLDR/VSTR/VLDM/VSTM use of cpu_F0s and cpu_F0d
-  target/arm: Convert VFP VMLA to decodetree
-  target/arm: Convert VFP VMLS to decodetree
-  target/arm: Convert VFP VNMLS to decodetree
-  target/arm: Convert VFP VNMLA to decodetree
-  target/arm: Convert VMUL to decodetree
-  target/arm: Convert VNMUL to decodetree
-  target/arm: Convert VADD to decodetree
-  target/arm: Convert VSUB to decodetree
-  target/arm: Convert VDIV to decodetree
-  target/arm: Convert VFP fused multiply-add insns to decodetree
-  target/arm: Convert VMOV (imm) to decodetree
-  target/arm: Convert VABS to decodetree
-  target/arm: Convert VNEG to decodetree
-  target/arm: Convert VSQRT to decodetree
-  target/arm: Convert VMOV (register) to decodetree
-  target/arm: Convert VFP comparison insns to decodetree
-  target/arm: Convert the VCVT-from-f16 insns to decodetree
-  target/arm: Convert the VCVT-to-f16 insns to decodetree
-  target/arm: Convert VFP round insns to decodetree
-  target/arm: Convert double-single precision conversion insns to
-    decodetree
-  target/arm: Convert integer-to-float insns to decodetree
-  target/arm: Convert VJCVT to decodetree
-  target/arm: Convert VCVT fp/fixed-point conversion insns to decodetree
-  target/arm: Convert float-to-integer VCVT insns to decodetree
-  target/arm: Fix short-vector increment behaviour
-
-Richard Henderson (1):
-  decodetree: Fix comparison of Field
-
- target/arm/Makefile.objs       |   13 +
- target/arm/cpu.h               |   11 +
- target/arm/cpu.c               |    6 +
- target/arm/translate-vfp.inc.c | 2660 ++++++++++++++++++++++++++++++++
- target/arm/translate.c         | 1503 +-----------------
- scripts/decodetree.py          |    2 +-
- target/arm/vfp-uncond.decode   |   63 +
- target/arm/vfp.decode          |  242 +++
- 8 files changed, 3024 insertions(+), 1476 deletions(-)
- create mode 100644 target/arm/translate-vfp.inc.c
- create mode 100644 target/arm/vfp-uncond.decode
- create mode 100644 target/arm/vfp.decode
-
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index 81874e22cc7..d7a59d63ac3 100755
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -184,7 +184,7 @@ class Field:
+         return '{0}(insn, {1}, {2})'.format(extr, self.pos, self.len)
+ 
+     def __eq__(self, other):
+-        return self.sign == other.sign and self.sign == other.sign
++        return self.sign == other.sign and self.mask == other.mask
+ 
+     def __ne__(self, other):
+         return not self.__eq__(other)
 -- 
 2.20.1
 
