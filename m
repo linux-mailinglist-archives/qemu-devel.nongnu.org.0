@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D370B37B05
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 19:27:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35641 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC5237B40
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 19:40:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35765 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYwAP-0004pj-1k
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 13:27:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39464)
+	id 1hYwNB-0001Rm-CR
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 13:40:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42666)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hYw82-0003JH-BD
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:24:43 -0400
+	(envelope-from <clg@kaod.org>) id 1hYwMC-00015C-R3
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:39:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hYw7z-0000cU-T6
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:24:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41932)
+	(envelope-from <clg@kaod.org>) id 1hYwMA-00034e-Ow
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:39:20 -0400
+Received: from 4.mo178.mail-out.ovh.net ([46.105.49.171]:37518)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hYw7x-0000O9-QH
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:24:38 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6190BC058CC0;
-	Thu,  6 Jun 2019 17:24:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
-	[10.36.116.148])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 00EC95944E;
-	Thu,  6 Jun 2019 17:24:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 86BAD11385E4; Thu,  6 Jun 2019 19:24:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 19:24:08 +0200
-Message-Id: <20190606172408.18399-4-armbru@redhat.com>
-In-Reply-To: <20190606172408.18399-1-armbru@redhat.com>
-References: <20190606172408.18399-1-armbru@redhat.com>
+	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hYwM6-0002gx-P2
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:39:18 -0400
+Received: from player694.ha.ovh.net (unknown [10.108.42.73])
+	by mo178.mail-out.ovh.net (Postfix) with ESMTP id 136E96B181
+	for <qemu-devel@nongnu.org>; Thu,  6 Jun 2019 19:39:01 +0200 (CEST)
+Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
+	(Authenticated sender: clg@kaod.org)
+	by player694.ha.ovh.net (Postfix) with ESMTPSA id 4109868298E1;
+	Thu,  6 Jun 2019 17:38:57 +0000 (UTC)
+To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+References: <155984093894.2803172.8618224129384655510.stgit@bahia.lan>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <81bbf4ef-d6ed-1e45-04ce-2531e3061284@kaod.org>
+Date: Thu, 6 Jun 2019 19:38:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Thu, 06 Jun 2019 17:24:22 +0000 (UTC)
+In-Reply-To: <155984093894.2803172.8618224129384655510.stgit@bahia.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 5743496900861463379
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudeggedgudduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 3/3] MAINTAINERS: Polish headline decorations
+X-Received-From: 46.105.49.171
+Subject: Re: [Qemu-devel] [PATCH] spapr: Don't use the "dual" interrupt
+ controller mode with an old hypervisor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,93 +58,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, aleksandar.m.mail@gmail.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- MAINTAINERS | 24 +++++++++++-------------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+On 06/06/2019 19:08, Greg Kurz wrote:
+> If KVM is too old to support XIVE native exploitation mode, we might en=
+d
+> up using the emulated XIVE after CAS. This is sub-optimal if KVM in-ker=
+nel
+> XICS is available, which is the case most of the time.
+>=20
+> Also, an old KVM may not allow to destroy and re-create the KVM XICS, w=
+hich
+> is precisely what "dual" does during machine reset. This causes QEMU to=
+ try
+> to switch to emulated XICS and to crash because RTAS call de-registrati=
+on
+> isn't handled correctly. We could possibly fix that, but again we would
+> still end up with an emulated XICS or XIVE.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bdc82c5735..6dc5b5cb67 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -65,7 +65,7 @@ F: *
- F: */
+Yes. I think we should favor a KVM device over an emulated one in any cas=
+e.
 =20
- Responsible Disclosure, Reporting Security Issues
--------------------------------
-+-------------------------------------------------
- W: https://wiki.qemu.org/SecurityProcess
- M: Michael S. Tsirkin <mst@redhat.com>
- L: secalert@redhat.com
-@@ -106,8 +106,8 @@ K: ^Subject:.*(?i)s390x?
- T: git https://github.com/cohuck/qemu.git s390-next
- L: qemu-s390x@nongnu.org
-=20
--Guest CPU cores (TCG):
------------------------
-+Guest CPU cores (TCG)
-+---------------------
- Overall TCG CPUs
- M: Richard Henderson <rth@twiddle.net>
- R: Paolo Bonzini <pbonzini@redhat.com>
-@@ -342,9 +342,8 @@ M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
- S: Maintained
- F: tests/tcg/multiarch/
-=20
--Guest CPU Cores (KVM):
------------------------
--
-+Guest CPU Cores (KVM)
-+---------------------
- Overall KVM CPUs
- M: Paolo Bonzini <pbonzini@redhat.com>
- L: kvm@vger.kernel.org
-@@ -400,9 +399,8 @@ S: Supported
- F: target/i386/kvm.c
- F: scripts/kvm/vmxcap
-=20
--Guest CPU Cores (Xen):
------------------------
--
-+Guest CPU Cores (Xen)
-+---------------------
- X86 Xen CPUs
- M: Stefano Stabellini <sstabellini@kernel.org>
- M: Anthony Perard <anthony.perard@citrix.com>
-@@ -423,9 +421,8 @@ F: include/hw/block/dataplane/xen*
- F: include/hw/xen/
- F: include/sysemu/xen-mapcache.h
-=20
--Hosts:
--------
--
-+Hosts
-+-----
- LINUX
- M: Michael S. Tsirkin <mst@redhat.com>
- M: Cornelia Huck <cohuck@redhat.com>
-@@ -462,6 +459,7 @@ X: qga/*win32*
- F: qemu.nsi
-=20
- Alpha Machines
-+--------------
- M: Richard Henderson <rth@twiddle.net>
- S: Maintained
- F: hw/alpha/
-@@ -1196,7 +1194,7 @@ F: hw/s390x/s390-pci*
- L: qemu-s390x@nongnu.org
-=20
- UniCore32 Machines
---------------
-+------------------
- PKUnity-3 SoC initramfs-with-busybox
- M: Guan Xuetao <gxt@mprc.pku.edu.cn>
- S: Maintained
---=20
-2.21.0
+>=20
+> "dual" is definitely not a good choice with older KVMs. Internally forc=
+e
+> XICS when we detect this.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+we could move the KVM tests done at the beginning of spapr_irq_init()=20
+in routine spapr_irq_check() but this is for another patch, and it's=20
+only a cleanup.
+
+Thanks,
+
+C.
+
+> ---
+>  hw/ppc/spapr_irq.c |   10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index 3156daf09381..d788bd662a7a 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -18,6 +18,7 @@
+>  #include "hw/ppc/xics_spapr.h"
+>  #include "cpu-models.h"
+>  #include "sysemu/kvm.h"
+> +#include "kvm_ppc.h"
+> =20
+>  #include "trace.h"
+> =20
+> @@ -668,6 +669,15 @@ static void spapr_irq_check(SpaprMachineState *spa=
+pr, Error **errp)
+>              return;
+>          }
+>      }
+> +
+> +    /*
+> +     * KVM may be too old to support XIVE, in which case we'd rather t=
+ry
+> +     * to use the in-kernel XICS instead of the emulated XIVE.
+> +     */
+> +    if (kvm_enabled() && !kvmppc_has_cap_xive() &&
+> +        spapr->irq =3D=3D &spapr_irq_dual) {
+> +        spapr->irq =3D &spapr_irq_xics;
+> +    }
+>  }
+> =20
+>  /*
+>=20
 
 
