@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id C288237D3A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 21:29:55 +0200 (CEST)
-Received: from localhost ([::1]:56048 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A242337D0B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 21:14:23 +0200 (CEST)
+Received: from localhost ([::1]:54066 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYy5C-0007Jh-PJ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 15:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53591)
+	id 1hYxq9-0006sc-FU
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 15:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53260)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hYxlW-0004fI-Ie
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 15:09:35 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hYxlC-0004Qx-JD
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 15:09:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hYxLI-0000D0-LW
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:42:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57498)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hYxLE-0007tP-KQ; Thu, 06 Jun 2019 14:42:25 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 63E6159467;
- Thu,  6 Jun 2019 18:42:12 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-177.bos.redhat.com [10.18.17.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43CAC5C2E6;
- Thu,  6 Jun 2019 18:42:09 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 14:41:59 -0400
-Message-Id: <20190606184159.979-6-jsnow@redhat.com>
-In-Reply-To: <20190606184159.979-1-jsnow@redhat.com>
-References: <20190606184159.979-1-jsnow@redhat.com>
+ (envelope-from <alistair23@gmail.com>) id 1hYxOw-0004mK-N6
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:46:15 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:35155)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hYxOv-0004Xf-Aj; Thu, 06 Jun 2019 14:46:13 -0400
+Received: by mail-lj1-x243.google.com with SMTP id h11so3043269ljb.2;
+ Thu, 06 Jun 2019 11:46:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Bhga0YIOBroMMDM2FCjwRLT+/LALmkhEyJF3XLvlVZI=;
+ b=QAB7qUStfUGTNDJcRITAzVovVVgHT3ROcGg6dD3xG8pWoinzmx5kwipNNobbCEoGFd
+ Sg700a/L19QzP8oMRpQwgZosQGYnnT5tdk2IFh5yo6vBdrPYkdn6O9/V981L0QlnKY9H
+ hLQFZLTFFzhW5izxQO3JGEgL3Sp97rLBafB/Au6MokCpZlV1aoR0sIxuiPbJyHMMg2SS
+ e6HeC3qoG8XXuCf0HgWMC5DKft8XYbteCQnycCY5MzqLWyyOzC42jD1e/ZAHlYu3JEO5
+ Q5SAYeni9M5LybXa+p4SKmebpjaMS6VcWDXj72YtMYrG9BibKZbGappcEx9wIsd/xFgY
+ XsPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Bhga0YIOBroMMDM2FCjwRLT+/LALmkhEyJF3XLvlVZI=;
+ b=lyHUlN9F0uoX9K24SDAgBBTglsR4sYKN03GNxWifIj+uR8N5OkIBa/0U8nBP+zvNlz
+ O3CdNFlNn15N6p5zsJp8XpN1Cz3euqP1rKUiL/3hI0gDa1jlQYapFHHaz3gNs5xqodPD
+ g8iTlRTKWWIoyAphDqy7opMk0tWK4KF2OJeC4XD+RdhgqH+oJUYyJWshqeYnZDoub7Vn
+ jXbibwnRV/AFe5N+K1yU8NqtBpsRBX9X7IqWKxbWtMaNmJok9vjZkyItrNu2vUPTAI2Z
+ X1XAv8EhhHN9gTsaqcSEvbmW4VYq2+74w7ZeyUV/jw/dKCERj7nvYO/cmQiEkKcudo14
+ 20Ew==
+X-Gm-Message-State: APjAAAXbYGKsc43sEcoV41dFrFZ+ZlsUXO5q/8tUNaaHhl+3bw3WhtYS
+ QETb5KhE4QlqUTpcv6xNf8dBTDSeApmgkZ3+MY4=
+X-Google-Smtp-Source: APXvYqwFWG4JjF8LIj9f9+z2Mr8jvQYD8U49gb+ZGBh3uL6MdBRJqkXJ1Mw5e20P01067vJJq2xIjeNCHsRCUnrT0QE=
+X-Received: by 2002:a2e:6313:: with SMTP id x19mr16503011ljb.25.1559846771796; 
+ Thu, 06 Jun 2019 11:46:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 06 Jun 2019 18:42:12 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 5/5] block/qcow2-bitmap: Count queued bitmaps
- towards directory_size
+References: <1559119921-6098-1-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKNAL8KtVgfCx6yhaNYEL=_wnZ5Vf1eSjxwtg0x6_q+UHw@mail.gmail.com>
+ <CAEUhbmXLr3zXhbphXRvqfyW1FH9qo3yoPwnFoRoYNtbwkrBBKw@mail.gmail.com>
+ <CAEUhbmUAKoFPqBLVW4FHmiESaF8fqEtjqDb1LKf4ivG3g2z0ZQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmUAKoFPqBLVW4FHmiESaF8fqEtjqDb1LKf4ivG3g2z0ZQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 6 Jun 2019 11:43:36 -0700
+Message-ID: <CAKmqyKPO8CERWMZQEfEM1Q7HBTysB8cG5LsR1wdc334YX5tmgg@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH] riscv: virt: Correct pci "bus-range"
+ encoding
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,106 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- vsementsov@virtuozzo.com, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@sifive.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similarly to the previous commit, we need to also keep a ledger of the
-additional directory size burden that we've not yet committed so we can
-reject new additions sooner instead of later.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- block/qcow2.h        |  1 +
- block/qcow2-bitmap.c | 13 ++++++++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/block/qcow2.h b/block/qcow2.h
-index ebf60ac236..5aff97eb9c 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -318,6 +318,7 @@ typedef struct BDRVQcow2State {
-=20
-     uint32_t nb_bitmaps;
-     uint32_t nb_queued_bitmaps;
-+    uint32_t queued_directory_size;
-     uint64_t bitmap_directory_size;
-     uint64_t bitmap_directory_offset;
-=20
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index 7193c66787..b103fab362 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1405,16 +1405,23 @@ static Qcow2Bitmap *find_bitmap_by_name(Qcow2Bitm=
-apList *bm_list,
- static int qcow2_remove_queued_dirty_bitmap(
-     BlockDriverState *bs, const char *name, Error **errp)
- {
-+    uint32_t size_delta;
-     BDRVQcow2State *s =3D bs->opaque;
-     BdrvDirtyBitmap *bitmap =3D bdrv_find_dirty_bitmap(bs, name);
-+
-     if (!bitmap) {
-         error_setg(errp, "Node '%s' has no stored or enqueued bitmap '%s=
-'",
-                    bdrv_get_node_name(bs), name);
-         return -ENOENT;
-     }
-+
-+    size_delta =3D calc_dir_entry_size(strlen(name), 0);
-     assert(s->nb_queued_bitmaps > 0);
-     assert(bdrv_dirty_bitmap_get_persistence(bitmap));
-+    assert(s->queued_directory_size >=3D size_delta);
-+
-     s->nb_queued_bitmaps -=3D 1;
-+    s->queued_directory_size -=3D size_delta;
-=20
-     return 0;
- }
-@@ -1561,6 +1568,7 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriv=
-erState *bs, Error **errp)
-         goto fail;
-     }
-     s->nb_queued_bitmaps =3D 0;
-+    s->queued_directory_size =3D 0;
-=20
-     /* Bitmap directory was successfully updated, so, old data can be dr=
-opped.
-      * TODO it is better to reuse these clusters */
-@@ -1636,6 +1644,7 @@ int qcow2_add_persistent_dirty_bitmap(BlockDriverSt=
-ate *bs,
-     const char *name =3D bdrv_dirty_bitmap_name(bitmap);
-     uint32_t granularity =3D bdrv_dirty_bitmap_granularity(bitmap);
-     uint32_t nb_bitmaps;
-+    uint32_t size_delta;
-     int ret =3D 0;
-=20
-     if (s->qcow_version < 3) {
-@@ -1666,7 +1675,8 @@ int qcow2_add_persistent_dirty_bitmap(BlockDriverSt=
-ate *bs,
-         goto fail;
-     }
-=20
--    if (s->bitmap_directory_size + calc_dir_entry_size(strlen(name), 0) =
+On Thu, Jun 6, 2019 at 5:55 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-+    size_delta =3D calc_dir_entry_size(strlen(name), 0);
-+    if (s->bitmap_directory_size + s->queued_directory_size + size_delta=
- >
-         QCOW2_MAX_BITMAP_DIRECTORY_SIZE)
-     {
-         error_setg(errp, "Not enough space in the bitmap directory");
-@@ -1687,6 +1697,7 @@ int qcow2_add_persistent_dirty_bitmap(BlockDriverSt=
-ate *bs,
-     }
-=20
-     s->nb_queued_bitmaps +=3D 1;
-+    s->queued_directory_size +=3D size_delta;
-=20
-     return 0;
- fail:
---=20
-2.20.1
+> On Thu, May 30, 2019 at 11:36 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi Alistair,
+> >
+> > On Thu, May 30, 2019 at 11:14 AM Alistair Francis <alistair23@gmail.com> wrote:
+> > >
+> > > On Wed, May 29, 2019 at 1:52 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > >
+> > > > The largest pci bus number should be calculated from ECAM size,
+> > > > instead of its base address.
+> > > >
+> > > > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> > >
+> > > This seems ok, can you maybe explain what this fixes?
+> > >
+> >
+> > The logic is wrong, as the commit message said. With current wrong
+> > logic, the largest pci bus number encoded in "bus-ranges" property was
+> > wrongly set to 0x2ff in this case. Per pci spec, the bus number should
+> > not exceed 0xff.
+> >
+>
+> Ping?
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
 
