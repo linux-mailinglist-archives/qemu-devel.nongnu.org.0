@@ -2,47 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0481537C20
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:21:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36483 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF8A37C39
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:26:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36571 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYx11-0003vG-4f
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:21:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45415)
+	id 1hYx6H-0000bX-1i
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:26:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46596)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hYwUL-0004nE-Gl
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:46 -0400
+	(envelope-from <ptoscano@redhat.com>) id 1hYwYF-00006i-4U
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:51:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hYwUJ-0004f2-TQ
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:45 -0400
-Received: from 5.mo179.mail-out.ovh.net ([46.105.43.140]:34991)
+	(envelope-from <ptoscano@redhat.com>) id 1hYwYC-0000uR-RC
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:51:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47873)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hYwUJ-0004bC-Le
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:43 -0400
-Received: from player750.ha.ovh.net (unknown [10.109.159.157])
-	by mo179.mail-out.ovh.net (Postfix) with ESMTP id 1E4D813519D
-	for <qemu-devel@nongnu.org>; Thu,  6 Jun 2019 19:47:40 +0200 (CEST)
-Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
-	(Authenticated sender: clg@kaod.org)
-	by player750.ha.ovh.net (Postfix) with ESMTPSA id 5104B6ADB01A;
-	Thu,  6 Jun 2019 17:47:36 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu,  6 Jun 2019 19:47:32 +0200
-Message-Id: <20190606174732.13051-1-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
+	(Exim 4.71) (envelope-from <ptoscano@redhat.com>)
+	id 1hYwY6-0000pj-5r; Thu, 06 Jun 2019 13:51:38 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4EA73307D869;
+	Thu,  6 Jun 2019 17:51:26 +0000 (UTC)
+Received: from lindworm.usersys.redhat.com (ovpn-204-97.brq.redhat.com
+	[10.40.204.97])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 34C8A6A23E;
+	Thu,  6 Jun 2019 17:51:21 +0000 (UTC)
+From: Pino Toscano <ptoscano@redhat.com>
+To: Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Date: Thu, 06 Jun 2019 19:51:15 +0200
+Message-ID: <3631777.4JPVOlAZr6@lindworm.usersys.redhat.com>
+Organization: Red Hat
+In-Reply-To: <20190606111232.GG14300@redhat.com>
+References: <20190605213654.9785-1-ptoscano@redhat.com>
+	<20190606111232.GG14300@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 5889582416243297254
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudeggedguddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="nextPart59998215.3l7yhbUXgf";
+	micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.48]);
+	Thu, 06 Jun 2019 17:51:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.43.140
-Subject: [Qemu-devel] [PATCH] ppc/pnv: activate the "dumpdtb" option on the
- powernv machine
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6] ssh: switch from libssh2 to libssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,40 +59,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
-	qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, rjones@redhat.com,
+	qemu-devel@nongnu.org, mreitz@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a good way to debug the DT creation for current PowerNV
-machines and new ones to come.
+--nextPart59998215.3l7yhbUXgf
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/ppc/pnv.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Thursday, 6 June 2019 13:12:32 CEST Daniel P. Berrang=E9 wrote:
+> On Wed, Jun 05, 2019 at 11:36:54PM +0200, Pino Toscano wrote:
+> > Rewrite the implementation of the ssh block driver to use libssh instead
+> > of libssh2.  The libssh library has various advantages over libssh2:
+> > - easier API for authentication (for example for using ssh-agent)
+> > - easier API for known_hosts handling
+> > - supports newer types of keys in known_hosts
+> >=20
+> > Use APIs/features available in libssh 0.8 conditionally, to support
+> > older versions (which are not recommended though).
+>=20
+>=20
+> >=20
+> > Signed-off-by: Pino Toscano <ptoscano@redhat.com>
+> > ---
+> >=20
+> > Changes from v5:
+> > - adapt to newer tracing APIs
+> > - disable ssh compression (mimic what libssh2 does by default)
+> > - use build time checks for libssh 0.8, and use newer APIs directly
+> >=20
+> > Changes from v4:
+> > - fix wrong usages of error_setg/session_error_setg/sftp_error_setg
+> > - fix few return code checks
+> > - remove now-unused parameters in few internal functions
+> > - allow authentication with "none" method
+> > - switch to unsigned int for the port number
+> > - enable TCP_NODELAY on the socket
+> > - fix one reference error message in iotest 207
+> >=20
+> > Changes from v3:
+> > - fix socket cleanup in connect_to_ssh()
+> > - add comments about the socket cleanup
+> > - improve the error reporting (closer to what was with libssh2)
+> > - improve EOF detection on sftp_read()
+> >=20
+> > Changes from v2:
+> > - used again an own fd
+> > - fixed co_yield() implementation
+> >=20
+> > Changes from v1:
+> > - fixed jumbo packets writing
+> > - fixed missing 'err' assignment
+> > - fixed commit message
+> >=20
+> >  block/Makefile.objs        |   6 +-
+> >  block/ssh.c                | 610 +++++++++++++++++++------------------
+> >  block/trace-events         |  14 +-
+> >  configure                  |  62 ++--
+> >  tests/qemu-iotests/207.out |   2 +-
+> >  5 files changed, 351 insertions(+), 343 deletions(-)
+>=20
+>=20
+> > diff --git a/configure b/configure
+> > index b091b82cb3..bfdd70c40a 100755
+> > --- a/configure
+> > +++ b/configure
+>=20
+> > @@ -3914,43 +3914,17 @@ EOF
+> >  fi
+> > =20
+> >  ##########################################
+> > -# libssh2 probe
+> > -min_libssh2_version=3D1.2.8
+>=20
+> The commit message says we're conditionally using APIs from 0.8.0,
+> but doesn't say what minimum version we actually need and there's
+> no check here.
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 046f0a83c8e5..ed6892466793 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -23,6 +23,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/numa.h"
- #include "sysemu/cpus.h"
-+#include "sysemu/device_tree.h"
- #include "hw/hw.h"
- #include "target/ppc/cpu.h"
- #include "qemu/log.h"
-@@ -554,6 +555,7 @@ static void pnv_reset(void)
-     /* Pack resulting tree */
-     _FDT((fdt_pack(fdt)));
-=20
-+    qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
-     cpu_physical_memory_write(PNV_FDT_ADDR, fdt, fdt_totalsize(fdt));
- }
-=20
---=20
-2.21.0
+When I started to work on this, the libssh version available was
+0.6.x IIRC, which is very old.  This v6 uses APIs added in 0.8
+conditionally, so it will still build with libssh < 0.8 -- of course,
+using an older libssh results in a less performant ssh driver, although
+I would think this can be considered somehow acceptable.
+
+> In terms of our supported build platforms, the oldest libssh I
+> see is RHEL-7 with 0.7.1.
+>=20
+> So assume it does actually compile on RHEL-7, then it is desirable
+> to have a min_libssh_Version=3D0.7.1 set here & checked below.
+
+=46or now I do not see the need to enforce a minimum version required;
+it can be easily added in the future in case we need to use an API only
+available starting from some version, and there is no fallback way for
+older versions.
+
+=2D-=20
+Pino Toscano
+--nextPart59998215.3l7yhbUXgf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEbjdOQa52nq0tQalew9FMLZhkN80FAlz5UpMACgkQw9FMLZhk
+N83ekw/8Cw509f6av3GwaiPkhq29iuTwSCOilNkG5kmt/tVSCBzcgY2NJ3/FDfkO
+MahdztedkqFo2X4J3MZdgPNZAGLvibyXudyMd4xZ9fip4zvPJgP4xhp8aP5QnR4A
+bxmLjxlH/yZDrVmspdpx8VSPsQ/6nuD75uWA9dWZrtyST2T6PnzMP5f7WZg2wZ8e
+mIioGY30uPPh+Lign9dZQSMX6yM+W5zT9vhpTXc4EbL4i2QzFDerH5AAf4aL/u1V
+9uZcydtA4CS0IvRrw51hYPCf260w+E5V4eg6BB3SwaTorJB5py+eZB7JKxFKgl6P
+yYaYzqauJX/C/cwcVXI8/8KUvhgQB9nYirU1gWnb/Twt6DvQif7pH6RjB0E7wm3e
+33MIyZPiWZceW9irg7+DSFhqBnkRcx7YSsjCmz0zq3Gf/P2fem6zpF959tg9ogjL
+uPYFQQGkfaIrgcYc1cG1u5hIGKZ3mr16mYLhyPLsnZ42UMqLlyJ9PNViWqGvIGbw
+bT0/rv9jFXGzqi6O5sXZEmP8+gU5JGOPP7LTry5OZH0PKExNy7Thts7IGGpfF2cw
+xp64bklbNa2nbwXLSjGfPSVMSgZwbxD2AW5uqerahBodlbialmBnLr/7upB1EiXa
+erQ0ORKh68JC1jJA3BE8h/nFawKBPXqj6F1hBpu8wxOgpjVmUW8=
+=IeqF
+-----END PGP SIGNATURE-----
+
+--nextPart59998215.3l7yhbUXgf--
+
+
 
 
