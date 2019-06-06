@@ -2,56 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369B036F1F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 10:51:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56684 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C6436F29
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 10:53:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56720 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYo6w-0001az-Bu
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 04:51:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55899)
+	id 1hYo9l-00041j-Vg
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 04:53:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55937)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hYnyq-00043u-LM
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:41 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hYnyu-00047y-PJ
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hYnyp-0003jW-Ow
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44918)
+	(envelope-from <dgilbert@redhat.com>) id 1hYnyt-0003pq-Le
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57458)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hYnyR-0003B2-7o; Thu, 06 Jun 2019 04:42:16 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hYnyt-0003Q9-Du
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:43 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 317263092641;
-	Thu,  6 Jun 2019 08:42:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
-	[10.36.116.148])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0045B18AC1;
-	Thu,  6 Jun 2019 08:42:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 8609D11386A0; Thu,  6 Jun 2019 10:42:12 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20190605205706.569-1-richard.henderson@linaro.org>
-	<20190605205706.569-5-richard.henderson@linaro.org>
-	<CAL1e-=jYwL9bb_YVp28pf=R4Gb0+1MgxYLsO=2927W=CtUrQ-A@mail.gmail.com>
-Date: Thu, 06 Jun 2019 10:42:12 +0200
-In-Reply-To: <CAL1e-=jYwL9bb_YVp28pf=R4Gb0+1MgxYLsO=2927W=CtUrQ-A@mail.gmail.com>
-	(Aleksandar Markovic's message of "Thu, 6 Jun 2019 07:45:58 +0200")
-Message-ID: <87o93bhzq3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+	by mx1.redhat.com (Postfix) with ESMTPS id 2FA1E811DC;
+	Thu,  6 Jun 2019 08:42:26 +0000 (UTC)
+Received: from work-vm (ovpn-116-119.ams2.redhat.com [10.36.116.119])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B1ED18640;
+	Thu,  6 Jun 2019 08:42:25 +0000 (UTC)
+Date: Thu, 6 Jun 2019 09:42:22 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Liran Alon <liran.alon@oracle.com>
+Message-ID: <20190606084222.GA2788@work-vm>
+References: <38B8F53B-F993-45C3-9A82-796A0D4A55EC@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <38B8F53B-F993-45C3-9A82-796A0D4A55EC@oracle.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Thu, 06 Jun 2019 08:42:14 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Thu, 06 Jun 2019 08:42:26 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 4/6] include/elf: Add defines related to
- notes for GNU systems
+Subject: Re: [Qemu-devel] QEMU/KVM migration backwards compatibility broken?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,32 +58,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>,
-	qemu-devel@nongnu.org, Dave.Martin@arm.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+	kvm list <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
+* Liran Alon (liran.alon@oracle.com) wrote:
+> Hi,
+>=20
+> Looking at QEMU source code, I am puzzled regarding how migration backw=
+ards compatibility is preserved regarding X86CPU.
+>=20
+> As I understand it, fields that are based on KVM capabilities and guest=
+ runtime usage are defined in VMState subsections in order to not send th=
+em if not necessary.
+> This is done such that in case they are not needed and we migrate to an=
+ old QEMU which don=E2=80=99t support loading this state, migration will =
+still succeed
+> (As .needed() method will return false and therefore this state won=E2=80=
+=99t be sent as part of migration stream).
+> Furthermore, in case .needed() returns true and old QEMU don=E2=80=99t =
+support loading this state, migration fails. As it should because we are =
+aware that guest state
+> is not going to be restored properly on destination.
+>=20
+> I=E2=80=99m puzzled about what will happen in the following scenario:
+> 1) Source is running new QEMU with new KVM that supports save of some V=
+MState subsection.
+> 2) Destination is running new QEMU that supports load this state but wi=
+th old kernel that doesn=E2=80=99t know how to load this state.
+>=20
+> I would have expected in this case that if source .needed() returns tru=
+e, then migration will fail because of lack of support in destination ker=
+nel.
+> However, it seems from current QEMU code that this will actually succee=
+d in many cases.
+>=20
+> For example, if msr_smi_count is sent as part of migration stream (See =
+vmstate_msr_smi_count) and destination have has_msr_smi_count=3D=3Dfalse,
+> then destination will succeed loading migration stream but kvm_put_msrs=
+() will actually ignore env->msr_smi_count and will successfully load gue=
+st state.
+> Therefore, migration will succeed even though it should have failed=E2=80=
+=A6
+>=20
+> It seems to me that QEMU should have for every such VMState subsection,=
+ a .post_load() method that verifies that relevant capability is supporte=
+d by kernel
+> and otherwise fail migration.
+>=20
+> What do you think? Should I really create a patch to modify all these C=
+PUX86 VMState subsections to behave like this?
 
-> On Jun 5, 2019 11:03 PM, "Richard Henderson" <richard.henderson@linaro.org>
-> wrote:
->>
->> This is a collection of related
->
-> Related to what?
->
->> defines for notes, copied
->> from glibc's <elf.h>.  We're not going to use all of these
->> right away, but it seemed foolish
->
-> I don't think this an appropriate word for a commit message.
+I don't know the x86 specific side that much; but from my migration side
+the answer should mostly be through machine types - indeed for smi-count
+there's a property 'x-migrate-smi-count' which is off for machine types
+pre 2.11 (see hw/i386/pc.c pc_compat_2_11) - so if you've got an old
+kernel you should stick to the old machine types.
 
-Calling an alternative you considered but rejected "foolish" feels
-perfectly alright to me.
+There's nothing guarding running the new machine type on old-kernels;
+and arguably we should have a check at startup that complains if
+your kernel is missing something the machine type uses.
+However, that would mean that people running with -M pc   would fail
+on old kernels.
 
->> to cherry-pick only the
->> ones we need now.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+A post-load is also a valid check; but one question is whether,
+for a particular register, the pain is worth it - it depends on the
+symptom that the missing state causes.  If it's minor then you might
+conclude it's not worth a failed migration;  if it's a hung or
+corrupt guest then yes it is.   Certainly a warning printed is worth
+it.
+
+Dave
+
+> Thanks,
+> -Liran
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
