@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CB53811E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 00:44:08 +0200 (CEST)
-Received: from localhost ([::1]:42552 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03A938027
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 00:01:29 +0200 (CEST)
+Received: from localhost ([::1]:42842 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ00A-00011o-TW
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 17:32:50 -0400
+	id 1hZ018-0001iQ-TJ
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 17:33:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:51595)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1hYzu9-0005bg-9v
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:26:39 -0400
+ (envelope-from <crosa@redhat.com>) id 1hYzu5-0005bg-GE
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:26:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hYziZ-000875-EJ
+ (envelope-from <crosa@redhat.com>) id 1hYziZ-00087g-Ic
  for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38718)
+Received: from mx1.redhat.com ([209.132.183.28]:54712)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hYziZ-00086N-8b
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hYziZ-00086W-AC
  for qemu-devel@nongnu.org; Thu, 06 Jun 2019 17:14:39 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CB4A431628F9;
- Thu,  6 Jun 2019 21:14:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DF9F1330247;
+ Thu,  6 Jun 2019 21:14:31 +0000 (UTC)
 Received: from dhcp-17-47.bos.redhat.com (dhcp-17-47.bos.redhat.com
  [10.18.17.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D892C10A1832;
- Thu,  6 Jun 2019 21:14:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EBB9610ABD9F;
+ Thu,  6 Jun 2019 21:14:30 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 17:14:13 -0400
-Message-Id: <20190606211414.8681-7-crosa@redhat.com>
+Date: Thu,  6 Jun 2019 17:14:14 -0400
+Message-Id: <20190606211414.8681-8-crosa@redhat.com>
 In-Reply-To: <20190606211414.8681-1-crosa@redhat.com>
 References: <20190606211414.8681-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 06 Jun 2019 21:14:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 06 Jun 2019 21:14:31 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 6/7] Add "boot_linux" test for aarch64 and
- virt machine type
+Subject: [Qemu-devel] [PATCH v6 7/7] [RFC]: use Avocado data drainer for
+ console logging
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,70 +66,93 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This boots a Fedora 30 guest using edk2.
+This depends on a proposed feature to Avocado, a new module that
+"drains" data and processes it.  In this case, a drainer for the
+console socket file descriptor is used, and the data is sent to the
+"console" logger.
 
-During the first Fedora 30 boot on aarch64, there's a filesystem
-resize operation.  The typical output is similar to:
-
-   [  203.798938] EXT4-fs (sda2): resizing filesystem from 999168 to 9996=
-75 blocks
-   [  203.823032] EXT4-fs (sda2): resized filesystem to 999675
-
-It was observed that, when using virtio-blk, it seems that random
-numbers are exhausted, unless an RNG device is given.  Interestingly
-the same was *not* observed with virtio-scsi.  In accordance with the
-other similar tests, this uses the default devices on the machine
-model used (virtio-blk here) and adds the necessary options to make
-it operation.
-
-In the future, other combinations (such as virtio-scsi) can, should
-and will be tested.
+This allows for a much better feedback of the test process, showing
+boot data from the guest as it happens, without obstructing the test
+code path.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/boot_linux.py | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ tests/acceptance/boot_linux.py | 14 +++++++++++---
+ tests/requirements.txt         |  2 +-
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux=
 .py
-index 2180f69a12..9b54a0241f 100644
+index 9b54a0241f..f3507f519e 100644
 --- a/tests/acceptance/boot_linux.py
 +++ b/tests/acceptance/boot_linux.py
-@@ -10,7 +10,7 @@
-=20
- import os
-=20
--from avocado_qemu import Test
-+from avocado_qemu import Test, SRC_ROOT_DIR
-=20
+@@ -15,6 +15,7 @@ from avocado_qemu import Test, SRC_ROOT_DIR
  from avocado.utils import cloudinit
  from avocado.utils import network
-@@ -81,3 +81,23 @@ class BootLinuxX8664(BootLinux):
-         self.vm.set_machine('q35')
-         self.vm.launch()
-         self.wait_for_boot_confirmation()
-+
-+
-+class BootLinuxAarch64(BootLinux):
-+
-+    chksum =3D '528f2659a410e3a8bd47d32a6ac4e6c5729f1d28dbad0763b4282a75=
-3ddcab1f'
-+
-+    def test_virt(self):
-+        """
-+        :avocado: tags=3Darch:aarch64
-+        :avocado: tags=3Dmachine:virt
-+        """
-+        self.vm.set_machine('virt')
-+        self.vm.add_args('-cpu', 'cortex-a53')
-+        self.vm.add_args('-bios',
-+                         os.path.join(SRC_ROOT_DIR, 'pc-bios',
-+                                      'edk2-aarch64-code.fd'))
-+        self.vm.add_args('-device', 'virtio-rng-pci,rng=3Drng0')
-+        self.vm.add_args('-object', 'rng-random,id=3Drng0,filename=3D/de=
-v/urandom')
+ from avocado.utils import vmimage
++from avocado.utils import datadrainer
+=20
+=20
+ class BootLinux(Test):
+@@ -55,6 +56,13 @@ class BootLinux(Test):
+                       phone_home_port=3Dself.phone_home_port)
+         self.vm.add_args('-drive', 'file=3D%s,format=3Draw' % cloudinit_=
+iso)
+=20
++    def launch(self):
++        self.vm.set_console()
 +        self.vm.launch()
-+        self.wait_for_boot_confirmation()
++        console_drainer =3D datadrainer.LineLogger(self.vm.console_socke=
+t.fileno(),
++                                                 logger=3Dself.log.getCh=
+ild('console'))
++        console_drainer.start()
++
+     def wait_for_boot_confirmation(self):
+         self.log.info('VM launched, waiting for boot confirmation from g=
+uest')
+         cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port),=
+ self.name)
+@@ -70,7 +78,7 @@ class BootLinuxX8664(BootLinux):
+         :avocado: tags=3Dmachine:pc
+         """
+         self.vm.set_machine('pc')
+-        self.vm.launch()
++        self.launch()
+         self.wait_for_boot_confirmation()
+=20
+     def test_q35(self):
+@@ -79,7 +87,7 @@ class BootLinuxX8664(BootLinux):
+         :avocado: tags=3Dmachine:q35
+         """
+         self.vm.set_machine('q35')
+-        self.vm.launch()
++        self.launch()
+         self.wait_for_boot_confirmation()
+=20
+=20
+@@ -99,5 +107,5 @@ class BootLinuxAarch64(BootLinux):
+                                       'edk2-aarch64-code.fd'))
+         self.vm.add_args('-device', 'virtio-rng-pci,rng=3Drng0')
+         self.vm.add_args('-object', 'rng-random,id=3Drng0,filename=3D/de=
+v/urandom')
+-        self.vm.launch()
++        self.launch()
+         self.wait_for_boot_confirmation()
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index 9d2c79b146..28eaf7b61e 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -1,7 +1,7 @@
+ # Add Python module requirements, one per line, to be installed
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+-avocado-framework=3D=3D68.0
++-e git+https://github.com/clebergnu/avocado@datadrainer#egg=3Davocado_fr=
+amework
+ paramiko
+ pycdlib=3D=3D1.6.0
+=20
 --=20
 2.21.0
 
