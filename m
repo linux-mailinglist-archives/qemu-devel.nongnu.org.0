@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0E1379FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 18:47:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35202 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E4037A15
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 18:52:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35246 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYvYS-0007jy-2n
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 12:47:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59471)
+	id 1hYvcq-0000qM-1X
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 12:52:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60369)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYvX5-00072z-Oq
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 12:46:32 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hYvbU-0008U5-3k
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 12:51:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYvX3-0006LT-NL
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 12:46:31 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:46207)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYvWy-0005fw-VU
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 12:46:27 -0400
-Received: by mail-oi1-x241.google.com with SMTP id 203so2031788oid.13
-	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 09:46:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=NdDsgNS1vRliIN8o6avcKnAbfcXKt0MwnjK6Og/p7V8=;
-	b=dhihTXS6hK/gEPdTIntYAEVECjFLn0t2NAacgzcadbQh3nhEscAwyljmBfgSjBHuMh
-	C95TIGbUo3KkDEVGLDviswQHmzR7X/4hda002kb1q0lhMveFSBeFxgzyBqjmHwzT3/Bz
-	6atDjR0Lp0R2ZbujVKzkAU0JmJQ6l+S7+5Uq2z4TVNOgOZ1gBAufM5rWA8fKDaDAbr1i
-	OEdED0gRct3MB9opZdyf8Z9/IiaQPYATjiP7/Zx/rkXZ6Ld8mSVWTxkGEuqCIXxQrGeM
-	5j1wxy9/DDQF+vhkrxtCa3u8ZwBvvKVbAjOmJieQ3gWfmAyAxgrCTVr7uK7rhVj5Ns1k
-	pzTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=NdDsgNS1vRliIN8o6avcKnAbfcXKt0MwnjK6Og/p7V8=;
-	b=pbVMRd7Vy1K0wSgmbno3/ca7Vs+Rn87UMQ7rRvh/KbEIhe9NH0+JWinOX8+WFCG44C
-	wDdBK79cSIBg1P+z426kxD2fJsL+nNaGer0xEmmGt6Uq799L4/mFai1gM1/mU1ANGppk
-	5Wt0iKFqEFwZxesjSuJkNCqkhSagKWpO1Bsj4pxQk0M/1kt9HslRinZyI+qyaSwH3u3Q
-	QOpOPdA98tS3SnazU0jno5pzwlDpOxtg0QbOl8LhRTOv/XUqG/paVd41120hTp9HQ4fz
-	QohQBVaB7tueARk85q6bugGG42PVGMMsyQThfQ3QH/uPbtfuOpSkA0JMGZADsN6EQ6YZ
-	BPNA==
-X-Gm-Message-State: APjAAAVse+0nOZEmMEElgsL02ZGYEeZPmqQvAUaSTDg2Z4m/vB4b8fH0
-	BmdQZLQjyQw0j6Nk9tiV8psW8g==
-X-Google-Smtp-Source: APXvYqw3GBHW97yXfuNRxZp6gSgikXZmHH81MfUWfwkqy+2itBsKTeUwgXQIibcugDYl5Ck2/fygog==
-X-Received: by 2002:aca:59d6:: with SMTP id n205mr684124oib.2.1559839577099;
-	Thu, 06 Jun 2019 09:46:17 -0700 (PDT)
-Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
-	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id b25sm730080otq.65.2019.06.06.09.46.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jun 2019 09:46:16 -0700 (PDT)
-To: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
-	<1559816130-17113-2-git-send-email-stefan.brankovic@rt-rk.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <0d30e79a-12c8-7fa5-237c-25bd00682d2b@linaro.org>
-Date: Thu, 6 Jun 2019 11:46:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	(envelope-from <imammedo@redhat.com>) id 1hYvbS-0003eL-1N
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 12:51:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:19664)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hYvbQ-0003VA-5C
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 12:51:01 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 35C0930C31A7;
+	Thu,  6 Jun 2019 16:50:50 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 10F182B587;
+	Thu,  6 Jun 2019 16:50:44 +0000 (UTC)
+Date: Thu, 6 Jun 2019 18:50:40 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Message-ID: <20190606185040.7eb6c32e@redhat.com>
+In-Reply-To: <c802e812-dabb-0ec6-4458-71f0379856c7@redhat.com>
+References: <20190508061726.27631-1-tao3.xu@intel.com>
+	<20190508061726.27631-9-tao3.xu@intel.com>
+	<20190605164045.12bf194c@redhat.com>
+	<58e8adc3-18f1-04a6-2c92-baa234293a6f@intel.com>
+	<c802e812-dabb-0ec6-4458-71f0379856c7@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1559816130-17113-2-git-send-email-stefan.brankovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH 1/8] target/ppc: Optimize emulation of lvsl
- and lvsr instructions
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Thu, 06 Jun 2019 16:50:57 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 08/11] numa: Extend the command-line to
+ provide memory latency and bandwidth information
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,31 +61,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
+	Tao Xu <tao3.xu@intel.com>, qemu-devel@nongnu.org,
+	Markus Armbruster <armbru@redhat.com>, pbonzini@redhat.com,
+	rth@twiddle.net, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/19 5:15 AM, Stefan Brankovic wrote:
-> +    tcg_gen_addi_i64(result, sh, 7);
-> +    for (i = 7; i >= 1; i--) {
-> +        tcg_gen_shli_i64(tmp, sh, i * 8);
-> +        tcg_gen_or_i64(result, result, tmp);
-> +        tcg_gen_addi_i64(sh, sh, 1);
-> +    }
+On Thu, 6 Jun 2019 08:23:47 -0500
+Eric Blake <eblake@redhat.com> wrote:
 
-Better to replicate sh into the 8 positions and then use one add.
+> On 6/6/19 2:47 AM, Tao Xu wrote:
+> > On 6/5/2019 10:40 PM, Igor Mammedov wrote: =20
+> >> On Wed,=C2=A0 8 May 2019 14:17:23 +0800
+> >> Tao Xu <tao3.xu@intel.com> wrote:
+> >> =20
+> >>> From: Liu Jingqi <jingqi.liu@intel.com>
+> >>>
+> >>> Add -numa hmat-lb option to provide System Locality Latency and
+> >>> Bandwidth Information. These memory attributes help to build
+> >>> System Locality Latency and Bandwidth Information Structure(s)
+> >>> in ACPI Heterogeneous Memory Attribute Table (HMAT).
+> >>>
+> >>> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
+> >>> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> >>> --- =20
+> > ... =20
+> >>> +##
+> >>> +{ 'struct': 'NumaHmatLBOptions',
+> >>> +=C2=A0 'data': {
+> >>> +=C2=A0=C2=A0 'initiator': 'uint16',
+> >>> +=C2=A0=C2=A0 'target': 'uint16',
+> >>> +=C2=A0=C2=A0 'hierarchy': 'HmatLBMemoryHierarchy',
+> >>> +=C2=A0=C2=A0 'data-type': 'HmatLBDataType', =20
+> >> I think union will be better here with data-type used as discriminator,
+> >> on top of that you'll be able to drop a bit of error checking above si=
+nce
+> >> QAPI's union will not allow user to mix latency and bandwidth.
+> >> =20
+> > Hi Igor,
+> >=20
+> > I have quesion here, the 'hmat-lb' is a member of a union 'NumaOptions',
+> > it seems can' use a union as a member of union. =20
+>=20
+> It should be technically possible to expand the QAPI generators to allow
+> one union as a branch within another union, so long as there are no
+> collisions in identifiers, if that makes for the smartest on-the-wire
+> representation.
 
-    tcg_gen_muli_i64(sh, sh, 0x0101010101010101ull);
-    tcg_gen_addi_i64(hi_result, sh, 0x0001020304050607ull);
-    tcg_gen_addi_i64(lo_result, sh, 0x08090a0b0c0d0e0full);
-
-and
-
-    tcg_gen_subfi_i64(hi_result, 0x1011121314151617ull, sh);
-    tcg_gen_subfi_i64(lo_result, 0x18191a1b1c1d1e1full, sh);
-
-for lvsr.
-
-
-r~
+It would save quite a bit of boiler plate error checking in numa code,
+but since I don't know much about QAPI to make meaningful suggestion
+how to implement it, I won't insist on using union.
 
