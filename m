@@ -2,96 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7262736B0D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 06:41:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54414 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E49C36B1C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 06:48:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54474 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYkDY-0003BW-AW
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 00:41:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41134)
+	id 1hYkK6-0004x9-LU
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 00:48:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42285)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hYkCI-0002YR-Ln
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 00:40:20 -0400
+	(envelope-from <armbru@redhat.com>) id 1hYkI1-00045Z-2v
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 00:46:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hYkCF-000829-1x
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 00:40:16 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48322
-	helo=mx0a-001b2d01.pphosted.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
-	id 1hYkCC-0007qp-Sx
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 00:40:13 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x564cY8U002812
-	for <qemu-devel@nongnu.org>; Thu, 6 Jun 2019 00:40:08 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2sxtr2jvsr-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 00:40:08 -0400
-Received: from localhost
-	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <aravinda@linux.vnet.ibm.com>;
-	Thu, 6 Jun 2019 05:40:07 +0100
-Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
-	by e17.ny.us.ibm.com (146.89.104.204) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Thu, 6 Jun 2019 05:40:04 +0100
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
-	[9.57.199.109])
-	by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
-	x564e3BF18416064
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Thu, 6 Jun 2019 04:40:04 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DDA55112067;
-	Thu,  6 Jun 2019 04:40:03 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8106F112062;
-	Thu,  6 Jun 2019 04:40:01 +0000 (GMT)
-Received: from [9.85.82.46] (unknown [9.85.82.46])
-	by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
-	Thu,  6 Jun 2019 04:40:01 +0000 (GMT)
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <155910829070.13149.5215948335633966328.stgit@aravinda>
-	<155910841478.13149.2830700794862210739.stgit@aravinda>
-	<20190603121243.687d8d75@bahia.lab.toulouse-stg.fr.ibm.com>
-	<20190603131723.261eba99@bahia.lab.toulouse-stg.fr.ibm.com>
-	<20190606013536.GE10319@umbus.fritz.box>
-From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Date: Thu, 6 Jun 2019 10:09:59 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	(envelope-from <armbru@redhat.com>) id 1hYkHy-00074s-8i
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 00:46:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34664)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hYkHv-0006yR-W5
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 00:46:09 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 96689C18B2CC;
+	Thu,  6 Jun 2019 04:45:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
+	[10.36.116.148])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 50FAA2E02B;
+	Thu,  6 Jun 2019 04:45:48 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id D73D811386A0; Thu,  6 Jun 2019 06:45:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+References: <20190529143106.11789-1-lvivier@redhat.com>
+	<87a7ewp4h4.fsf@dusky.pond.sub.org>
+	<4601cfa8-732a-3063-7106-da8d3b990410@redhat.com>
+	<87v9xjlxuu.fsf@dusky.pond.sub.org>
+	<adf9f2b2-931d-01ac-ed44-99aac169b89e@redhat.com>
+Date: Thu, 06 Jun 2019 06:45:46 +0200
+In-Reply-To: <adf9f2b2-931d-01ac-ed44-99aac169b89e@redhat.com> (Laurent
+	Vivier's message of "Wed, 5 Jun 2019 20:36:46 +0200")
+Message-ID: <87zhmvjp8l.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20190606013536.GE10319@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19060604-0040-0000-0000-000004F9592D
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011222; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000286; SDB=6.01213891; UDB=6.00638049;
-	IPR=6.00994970; 
-	MB=3.00027201; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-06 04:40:07
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19060604-0041-0000-0000-000009057895
-Message-Id: <8f850204-d5f3-7f97-950f-5c47c46d80be@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-06-06_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1906060033
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v9 1/6] ppc: spapr: Handle "ibm,
- nmi-register" and "ibm, nmi-interlock" RTAS calls
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.31]);
+	Thu, 06 Jun 2019 04:45:56 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v7 0/4] rng-builtin: add an RNG backend
+ that uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -103,232 +65,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, aik@au1.ibm.com,
-	qemu-devel@nongnu.org
+Cc: =?utf-8?Q?Daniel_P=2EBerrang?= =?utf-8?Q?=C3=A9?= <berrange@redhat.com>,
+	Amit Shah <amit@kernel.org>, Kashyap Chamarthy <kchamart@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+	"Richard W . M .
+	Jones" <rjones@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Laurent Vivier <lvivier@redhat.com> writes:
 
-
-On Thursday 06 June 2019 07:05 AM, David Gibson wrote:
-> On Mon, Jun 03, 2019 at 01:17:23PM +0200, Greg Kurz wrote:
->> On Mon, 3 Jun 2019 12:12:43 +0200
->> Greg Kurz <groug@kaod.org> wrote:
->>
->>> On Wed, 29 May 2019 11:10:14 +0530
->>> Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
->>>
->>>> This patch adds support in QEMU to handle "ibm,nmi-register"
->>>> and "ibm,nmi-interlock" RTAS calls.
+> On 05/06/2019 19:56, Markus Armbruster wrote:
+>> Laurent Vivier <lvivier@redhat.com> writes:
+>> 
+>>> On 05/06/2019 15:05, Markus Armbruster wrote:
+>>>> Laurent Vivier <lvivier@redhat.com> writes:
 >>>>
->>>> The machine check notification address is saved when the
->>>> OS issues "ibm,nmi-register" RTAS call.
+>>>>> Add a new RNG backend using QEMU builtin getrandom function.
+>>>>>
+>>>>> v7: rebase on master
+>>>>>     Make rng-builtin asynchronous with QEMUBH (removed existing R-b)
 >>>>
->>>> This patch also handles the case when multiple processors
->>>> experience machine check at or about the same time by
->>>> handling "ibm,nmi-interlock" call. In such cases, as per
->>>> PAPR, subsequent processors serialize waiting for the first
->>>> processor to issue the "ibm,nmi-interlock" call. The second
->>>> processor that also received a machine check error waits
->>>> till the first processor is done reading the error log.
->>>> The first processor issues "ibm,nmi-interlock" call
->>>> when the error log is consumed. This patch implements the
->>>> releasing part of the error-log while subsequent patch
->>>> (which builds error log) handles the locking part.
+>>>> Pardon the ignorant question: why is that necessary?
 >>>>
->>>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
->>>> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
->>>> ---  
 >>>
->>> The code looks okay but it still seems wrong to advertise the RTAS
->>> calls to the guest that early in the series. The linux kernel in
->>> the guest will assume FWNMI is functional, which isn't true until
->>> patch 6 (yes, migration is part of the feature, it should be
->>> supported upfront, not fixed afterwards).
->>>
->>> It doesn't help much to introduce the RTAS calls early and to
->>> modify them in the other patches. I'd rather see the rest of
->>> the code first and a final patch that introduces the fully
->>> functional RTAS calls and calls spapr_rtas_register().
->>>
->>
->> Thinking again, you should introduce the "fwnmi-mce" spapr capability in
->> its own patch first, default to "off" and and have the last patch in the
->> series to switch the default to "on" for newer machine types only.
->>
->> This patch should then only register the RTAS calls if "fwnmi-mcr" is set
->> to "on".
-> 
-> Yes, I think this is a good approach.
+>>> Because request_entropy() function is called while the request is not in
+>>> the requests queue, so the loop on !QSIMPLEQ_EMPTY(&s->parent.requests)
+>>> doens't process it. The request is added just after the call.
+>> 
+>> In rng_backend_request_entropy().  I see.  Any particular reason for
+>> this order?  "I don't know" is an acceptable answer :)
+>> 
+>
+> Yes...
+>
+> and there is a reason:
+>
+> in rng_random_request_entropy(), QSIMPLEQ_EMPTY() is used to know if we
+> have to register an fd handler with qemu_set_fd_handler().
+>
+> For me, it seemed easier to use QEMUBH rather than to change the
+> existing algorithm, as the backend has been thought to be asynchronous.
 
-ok
+In your shoes, I'd be tempted to explore whether changing the order
+simplifies things overall.  I'm not asking you to do that; your patch is
+okay as is.
 
-> 
->> This should address the fact that we don't want to expose a partially
->> implemented FWNMI feature to the guest, and we don't want to support
->> FWNMI at all with older machine types for the sake of compatibility.
->>
->>>>  hw/ppc/spapr.c         |    7 +++++
->>>>  hw/ppc/spapr_rtas.c    |   65 ++++++++++++++++++++++++++++++++++++++++++++++++
->>>>  include/hw/ppc/spapr.h |    9 ++++++-
->>>>  3 files changed, 80 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->>>> index e2b33e5..fae28a9 100644
->>>> --- a/hw/ppc/spapr.c
->>>> +++ b/hw/ppc/spapr.c
->>>> @@ -1808,6 +1808,11 @@ static void spapr_machine_reset(void)
->>>>      first_ppc_cpu->env.gpr[5] = 0;
->>>>  
->>>>      spapr->cas_reboot = false;
->>>> +
->>>> +    spapr->guest_machine_check_addr = -1;
->>>> +
->>>> +    /* Signal all vCPUs waiting on this condition */
->>>> +    qemu_cond_broadcast(&spapr->mc_delivery_cond);
->>>>  }
->>>>  
->>>>  static void spapr_create_nvram(SpaprMachineState *spapr)
->>>> @@ -3072,6 +3077,8 @@ static void spapr_machine_init(MachineState *machine)
->>>>  
->>>>          kvmppc_spapr_enable_inkernel_multitce();
->>>>      }
->>>> +
->>>> +    qemu_cond_init(&spapr->mc_delivery_cond);
->>>>  }
->>>>  
->>>>  static int spapr_kvm_type(MachineState *machine, const char *vm_type)
->>>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
->>>> index 5bc1a93..e7509cf 100644
->>>> --- a/hw/ppc/spapr_rtas.c
->>>> +++ b/hw/ppc/spapr_rtas.c
->>>> @@ -352,6 +352,38 @@ static void rtas_get_power_level(PowerPCCPU *cpu, SpaprMachineState *spapr,
->>>>      rtas_st(rets, 1, 100);
->>>>  }
->>>>  
->>>> +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
->>>> +                                  SpaprMachineState *spapr,
->>>> +                                  uint32_t token, uint32_t nargs,
->>>> +                                  target_ulong args,
->>>> +                                  uint32_t nret, target_ulong rets)
->>>> +{
->>>> +    hwaddr rtas_addr = spapr_get_rtas_addr();
->>>> +
->>>> +    if (!rtas_addr) {
->>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    spapr->guest_machine_check_addr = rtas_ld(args, 1);
->>>> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->>>> +}
->>>> +
->>>> +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
->>>> +                                   SpaprMachineState *spapr,
->>>> +                                   uint32_t token, uint32_t nargs,
->>>> +                                   target_ulong args,
->>>> +                                   uint32_t nret, target_ulong rets)
->>>> +{
->>>> +    if (spapr->guest_machine_check_addr == -1) {
->>>> +        /* NMI register not called */
->>>> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
->>>> +    } else {
->>>> +        qemu_cond_signal(&spapr->mc_delivery_cond);
->>>> +        rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->>>> +    }
->>>> +}
->>>> +
->>>>  static struct rtas_call {
->>>>      const char *name;
->>>>      spapr_rtas_fn fn;
->>>> @@ -470,6 +502,35 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *fdt, hwaddr addr)
->>>>      }
->>>>  }
->>>>  
->>>> +hwaddr spapr_get_rtas_addr(void)
->>>> +{
->>>> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
->>>> +    int rtas_node;
->>>> +    const struct fdt_property *rtas_addr_prop;
->>>> +    void *fdt = spapr->fdt_blob;
->>>> +    uint32_t rtas_addr;
->>>> +
->>>> +    /* fetch rtas addr from fdt */
->>>> +    rtas_node = fdt_path_offset(fdt, "/rtas");
->>>> +    if (rtas_node == 0) {
->>>> +        return 0;
->>>> +    }
->>>> +
->>>> +    rtas_addr_prop = fdt_get_property(fdt, rtas_node, "linux,rtas-base", NULL);
->>>> +    if (!rtas_addr_prop) {
->>>> +        return 0;
->>>> +    }
->>>> +
->>>> +    /*
->>>> +     * We assume that the OS called RTAS instantiate-rtas, but some other
->>>> +     * OS might call RTAS instantiate-rtas-64 instead. This fine as of now
->>>> +     * as SLOF only supports 32-bit variant.
->>>> +     */
->>>> +    rtas_addr = fdt32_to_cpu(*(uint32_t *)rtas_addr_prop->data);
->>>> +    return (hwaddr)rtas_addr;
->>>> +}
->>>> +
->>>> +
->>>>  static void core_rtas_register_types(void)
->>>>  {
->>>>      spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
->>>> @@ -493,6 +554,10 @@ static void core_rtas_register_types(void)
->>>>                          rtas_set_power_level);
->>>>      spapr_rtas_register(RTAS_GET_POWER_LEVEL, "get-power-level",
->>>>                          rtas_get_power_level);
->>>> +    spapr_rtas_register(RTAS_IBM_NMI_REGISTER, "ibm,nmi-register",
->>>> +                        rtas_ibm_nmi_register);
->>>> +    spapr_rtas_register(RTAS_IBM_NMI_INTERLOCK, "ibm,nmi-interlock",
->>>> +                        rtas_ibm_nmi_interlock);
->>>>  }
->>>>  
->>>>  type_init(core_rtas_register_types)
->>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->>>> index 4f5becf..9dc5e30 100644
->>>> --- a/include/hw/ppc/spapr.h
->>>> +++ b/include/hw/ppc/spapr.h
->>>> @@ -188,6 +188,10 @@ struct SpaprMachineState {
->>>>       * occurs during the unplug process. */
->>>>      QTAILQ_HEAD(, SpaprDimmState) pending_dimm_unplugs;
->>>>  
->>>> +    /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls */
->>>> +    target_ulong guest_machine_check_addr;
->>>> +    QemuCond mc_delivery_cond;
->>>> +
->>>>      /*< public >*/
->>>>      char *kvm_type;
->>>>      char *host_model;
->>>> @@ -624,8 +628,10 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
->>>>  #define RTAS_IBM_CREATE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x27)
->>>>  #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x28)
->>>>  #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + 0x29)
->>>> +#define RTAS_IBM_NMI_REGISTER                   (RTAS_TOKEN_BASE + 0x2A)
->>>> +#define RTAS_IBM_NMI_INTERLOCK                  (RTAS_TOKEN_BASE + 0x2B)
->>>>  
->>>> -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2A)
->>>> +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2C)
->>>>  
->>>>  /* RTAS ibm,get-system-parameter token values */
->>>>  #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
->>>> @@ -876,4 +882,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
->>>>  #define SPAPR_OV5_XIVE_BOTH     0x80 /* Only to advertise on the platform */
->>>>  
->>>>  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
->>>> +uint64_t spapr_get_rtas_addr(void);
->>>>  #endif /* HW_SPAPR_H */
->>>>   
->>>
->>>
->>
-> 
-
--- 
-Regards,
-Aravinda
-
+Thanks!
 
