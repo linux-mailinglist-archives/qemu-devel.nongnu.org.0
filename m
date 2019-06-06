@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83ECA369F2
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 04:19:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53010 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEFF36A32
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 04:54:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53296 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYi0P-0005Uo-B9
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 22:19:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47422)
+	id 1hYiXX-0002Im-Cl
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jun 2019 22:54:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52589)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hYhy9-0004SX-VU
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 22:17:35 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hYiWN-0001yS-Rn
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 22:52:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hYhy8-00074n-Fm
-	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 22:17:33 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:38763 helo=ozlabs.org)
+	(envelope-from <ehabkost@redhat.com>) id 1hYiWL-0002xI-T5
+	for qemu-devel@nongnu.org; Wed, 05 Jun 2019 22:52:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39400)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hYhy7-00072O-9g; Wed, 05 Jun 2019 22:17:32 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45K8SN1QFqz9s4Y; Thu,  6 Jun 2019 12:17:24 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1559787444;
-	bh=AMYmGRKOdVX28Yq7T9w3HRH+FsrMD64KbvAN2kvkKe0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e7M2tYrhWEckpWer5kz1UQrbhCCIbTpxHReLUoaHjVGeqf8tsyRsORnCwSVuNDVOh
-	87wLIVNbEGqCQvP7a/4A8r3cVaT0P5tGQgSxHC/bcKHl5VmeQdIOPVMsp592EfBICu
-	Jy0H4qm1zAoSD3J9O0YJfvU1E9eVRhZUFnX7cFDg=
-Date: Thu, 6 Jun 2019 11:43:06 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190606014306.GF10319@umbus.fritz.box>
-References: <155910829070.13149.5215948335633966328.stgit@aravinda>
-	<155910843201.13149.14968680567084380259.stgit@aravinda>
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>)
+	id 1hYiWE-0002hQ-TM; Wed, 05 Jun 2019 22:52:48 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7E7F93084268;
+	Thu,  6 Jun 2019 02:52:44 +0000 (UTC)
+Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 94D91611D2;
+	Thu,  6 Jun 2019 02:52:43 +0000 (UTC)
+Date: Wed, 5 Jun 2019 23:52:41 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Like Xu <like.xu@linux.intel.com>
+Message-ID: <20190606025241.GM22416@habkost.net>
+References: <20190518205428.90532-1-like.xu@linux.intel.com>
+	<20190518205428.90532-5-like.xu@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="PPYy/fEw/8QCHSq3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <155910843201.13149.14968680567084380259.stgit@aravinda>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190518205428.90532-5-like.xu@linux.intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Thu, 06 Jun 2019 02:52:44 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH v9 3/6] target/ppc: Handle NMI guest exit
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 04/10] hw/ppc: Replace global smp
+ variables with machine smp properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,225 +58,339 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org,
-	qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+	qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+	Alistair Francis <alistair23@gmail.com>,
+	Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, May 19, 2019 at 04:54:22AM +0800, Like Xu wrote:
+> The global smp variables in ppc are replaced with smp machine properties.
+> 
+> A local variable of the same name would be introduced in the declaration
+> phase if it's used widely in the context OR replace it on the spot if it's
+> only used once. No semantic changes.
+> 
+> Signed-off-by: Like Xu <like.xu@linux.intel.com>
 
---PPYy/fEw/8QCHSq3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Any objections from the ppc maintainers to queueing this through
+the Machine Core tree?
 
-On Wed, May 29, 2019 at 11:10:32AM +0530, Aravinda Prasad wrote:
-> Memory error such as bit flips that cannot be corrected
-> by hardware are passed on to the kernel for handling.
-> If the memory address in error belongs to guest then
-> the guest kernel is responsible for taking suitable action.
-> Patch [1] enhances KVM to exit guest with exit reason
-> set to KVM_EXIT_NMI in such cases. This patch handles
-> KVM_EXIT_NMI exit.
->=20
-> [1] https://www.spinics.net/lists/kvm-ppc/msg12637.html
->     (e20bbd3d and related commits)
->=20
-> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
 > ---
->  hw/ppc/spapr.c          |    1 +
->  hw/ppc/spapr_events.c   |   23 +++++++++++++++++++++++
->  hw/ppc/spapr_rtas.c     |    5 +++++
->  include/hw/ppc/spapr.h  |    6 ++++++
->  target/ppc/kvm.c        |   16 ++++++++++++++++
->  target/ppc/kvm_ppc.h    |    2 ++
->  target/ppc/trace-events |    1 +
->  7 files changed, 54 insertions(+)
->=20
+>  hw/ppc/e500.c         |  3 +++
+>  hw/ppc/mac_newworld.c |  3 ++-
+>  hw/ppc/mac_oldworld.c |  3 ++-
+>  hw/ppc/pnv.c          |  6 ++++--
+>  hw/ppc/prep.c         |  4 ++--
+>  hw/ppc/spapr.c        | 34 ++++++++++++++++++++++++++--------
+>  hw/ppc/spapr_rtas.c   |  4 +++-
+>  7 files changed, 42 insertions(+), 15 deletions(-)
+> 
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index beb2efd694..5e42e5a059 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -307,6 +307,7 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
+>                                      bool dry_run)
+>  {
+>      MachineState *machine = MACHINE(pms);
+> +    unsigned int smp_cpus = machine->smp.cpus;
+>      const PPCE500MachineClass *pmc = PPCE500_MACHINE_GET_CLASS(pms);
+>      CPUPPCState *env = first_cpu->env_ptr;
+>      int ret = -1;
+> @@ -734,6 +735,7 @@ static DeviceState *ppce500_init_mpic_qemu(PPCE500MachineState *pms,
+>      SysBusDevice *s;
+>      int i, j, k;
+>      MachineState *machine = MACHINE(pms);
+> +    unsigned int smp_cpus = machine->smp.cpus;
+>      const PPCE500MachineClass *pmc = PPCE500_MACHINE_GET_CLASS(pms);
+>  
+>      dev = qdev_create(NULL, TYPE_OPENPIC);
+> @@ -846,6 +848,7 @@ void ppce500_init(MachineState *machine)
+>      struct boot_info *boot_info;
+>      int dt_size;
+>      int i;
+> +    unsigned int smp_cpus = machine->smp.cpus;
+>      /* irq num for pin INTA, INTB, INTC and INTD is 1, 2, 3 and
+>       * 4 respectively */
+>      unsigned int pci_irq_nrs[PCI_NUM_PINS] = {1, 2, 3, 4};
+> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> index 02d8559621..257b26ee24 100644
+> --- a/hw/ppc/mac_newworld.c
+> +++ b/hw/ppc/mac_newworld.c
+> @@ -135,6 +135,7 @@ static void ppc_core99_init(MachineState *machine)
+>      DeviceState *dev, *pic_dev;
+>      hwaddr nvram_addr = 0xFFF04000;
+>      uint64_t tbfreq;
+> +    unsigned int smp_cpus = machine->smp.cpus;
+>  
+>      linux_boot = (kernel_filename != NULL);
+>  
+> @@ -464,7 +465,7 @@ static void ppc_core99_init(MachineState *machine)
+>      sysbus_mmio_map(s, 1, CFG_ADDR + 2);
+>  
+>      fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
+> -    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)max_cpus);
+> +    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
+>      fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
+>      fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, machine_arch);
+>      fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, kernel_base);
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index 460cbc7923..1968f05a6c 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -99,6 +99,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>      DeviceState *dev, *pic_dev;
+>      BusState *adb_bus;
+>      int bios_size;
+> +    unsigned int smp_cpus = machine->smp.cpus;
+>      uint16_t ppc_boot_device;
+>      DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
+>      void *fw_cfg;
+> @@ -322,7 +323,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>      sysbus_mmio_map(s, 1, CFG_ADDR + 2);
+>  
+>      fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
+> -    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)max_cpus);
+> +    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
+>      fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
+>      fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, ARCH_HEATHROW);
+>      fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, kernel_base);
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 1e8c505936..3bb15338de 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -678,7 +678,8 @@ static void pnv_init(MachineState *machine)
+>          object_property_add_child(OBJECT(pnv), chip_name, chip, &error_fatal);
+>          object_property_set_int(chip, PNV_CHIP_HWID(i), "chip-id",
+>                                  &error_fatal);
+> -        object_property_set_int(chip, smp_cores, "nr-cores", &error_fatal);
+> +        object_property_set_int(chip, machine->smp.cores,
+> +                                "nr-cores", &error_fatal);
+>          object_property_set_bool(chip, true, "realized", &error_fatal);
+>      }
+>      g_free(chip_typename);
+> @@ -1134,6 +1135,7 @@ static void pnv_chip_instance_init(Object *obj)
+>  
+>  static void pnv_chip_core_realize(PnvChip *chip, Error **errp)
+>  {
+> +    MachineState *ms = MACHINE(qdev_get_machine());
+>      Error *error = NULL;
+>      PnvChipClass *pcc = PNV_CHIP_GET_CLASS(chip);
+>      const char *typename = pnv_chip_core_typename(chip);
+> @@ -1168,7 +1170,7 @@ static void pnv_chip_core_realize(PnvChip *chip, Error **errp)
+>          snprintf(core_name, sizeof(core_name), "core[%d]", core_hwid);
+>          object_property_add_child(OBJECT(chip), core_name, OBJECT(pnv_core),
+>                                    &error_fatal);
+> -        object_property_set_int(OBJECT(pnv_core), smp_threads, "nr-threads",
+> +        object_property_set_int(OBJECT(pnv_core), ms->smp.threads, "nr-threads",
+>                                  &error_fatal);
+>          object_property_set_int(OBJECT(pnv_core), core_hwid,
+>                                  CPU_CORE_PROP_CORE_ID, &error_fatal);
+> diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+> index b7f459d475..968fd3ade2 100644
+> --- a/hw/ppc/prep.c
+> +++ b/hw/ppc/prep.c
+> @@ -428,7 +428,7 @@ static void ppc_prep_init(MachineState *machine)
+>      linux_boot = (kernel_filename != NULL);
+>  
+>      /* init CPUs */
+> -    for (i = 0; i < smp_cpus; i++) {
+> +    for (i = 0; i < machine->smp.cpus; i++) {
+>          cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+>          env = &cpu->env;
+>  
+> @@ -765,7 +765,7 @@ static void ibm_40p_init(MachineState *machine)
+>          boot_device = machine->boot_order[0];
+>      }
+>  
+> -    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)max_cpus);
+> +    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
+>      fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
+>      fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, ARCH_PREP);
+>  
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index fae28a9..6b6c962 100644
+> index 7fb34decb9..25da337f84 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -1809,6 +1809,7 @@ static void spapr_machine_reset(void)
-> =20
->      spapr->cas_reboot =3D false;
-> =20
-> +    spapr->mc_status =3D -1;
->      spapr->guest_machine_check_addr =3D -1;
-> =20
->      /* Signal all vCPUs waiting on this condition */
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index ae0f093..a18446b 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -620,6 +620,29 @@ void spapr_hotplug_req_remove_by_count_indexed(Spapr=
-DrcType drc_type,
->                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc=
-_id);
->  }
-> =20
-> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
-> +{
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-
-You ignore the 'recovered' parameter, is that right?
-
-> +    while (spapr->mc_status !=3D -1) {
-> +        /*
-> +         * Check whether the same CPU got machine check error
-> +         * while still handling the mc error (i.e., before
-> +         * that CPU called "ibm,nmi-interlock")
-> +         */
-> +        if (spapr->mc_status =3D=3D cpu->vcpu_id) {
-> +            qemu_system_guest_panicked(NULL);
-> +            return;
-> +        }
-> +        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
-> +        /* Meanwhile if the system is reset, then just return */
-> +        if (spapr->guest_machine_check_addr =3D=3D -1) {
-> +            return;
-> +        }
-> +    }
-> +    spapr->mc_status =3D cpu->vcpu_id;
-> +}
+> @@ -105,6 +105,9 @@
+>   */
+>  static int spapr_vcpu_id(SpaprMachineState *spapr, int cpu_index)
+>  {
+> +    MachineState *ms = MACHINE(spapr);
+> +    unsigned int smp_threads = ms->smp.threads;
 > +
->  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
->                              uint32_t token, uint32_t nargs,
->                              target_ulong args,
+>      assert(spapr->vsmt);
+>      return
+>          (cpu_index / smp_threads) * spapr->vsmt + cpu_index % smp_threads;
+> @@ -152,8 +155,10 @@ static void pre_2_10_vmstate_unregister_dummy_icp(int i)
+>  
+>  int spapr_max_server_number(SpaprMachineState *spapr)
+>  {
+> +    MachineState *ms = MACHINE(spapr);
+> +
+>      assert(spapr->vsmt);
+> -    return DIV_ROUND_UP(max_cpus * spapr->vsmt, smp_threads);
+> +    return DIV_ROUND_UP(ms->smp.max_cpus * spapr->vsmt, ms->smp.threads);
+>  }
+>  
+>  static int spapr_fixup_cpu_smt_dt(void *fdt, int offset, PowerPCCPU *cpu,
+> @@ -286,6 +291,7 @@ static void spapr_populate_pa_features(SpaprMachineState *spapr,
+>  
+>  static int spapr_fixup_cpu_dt(void *fdt, SpaprMachineState *spapr)
+>  {
+> +    MachineState *ms = MACHINE(spapr);
+>      int ret = 0, offset, cpus_offset;
+>      CPUState *cs;
+>      char cpu_model[32];
+> @@ -295,7 +301,7 @@ static int spapr_fixup_cpu_dt(void *fdt, SpaprMachineState *spapr)
+>          PowerPCCPU *cpu = POWERPC_CPU(cs);
+>          DeviceClass *dc = DEVICE_GET_CLASS(cs);
+>          int index = spapr_get_vcpu_id(cpu);
+> -        int compat_smt = MIN(smp_threads, ppc_compat_max_vthreads(cpu));
+> +        int compat_smt = MIN(ms->smp.threads, ppc_compat_max_vthreads(cpu));
+>  
+>          if (!spapr_is_thread0_in_vcore(spapr, cpu)) {
+>              continue;
+> @@ -441,6 +447,7 @@ static int spapr_populate_memory(SpaprMachineState *spapr, void *fdt)
+>  static void spapr_populate_cpu_dt(CPUState *cs, void *fdt, int offset,
+>                                    SpaprMachineState *spapr)
+>  {
+> +    MachineState *ms = MACHINE(spapr);
+>      PowerPCCPU *cpu = POWERPC_CPU(cs);
+>      CPUPPCState *env = &cpu->env;
+>      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cs);
+> @@ -452,7 +459,8 @@ static void spapr_populate_cpu_dt(CPUState *cs, void *fdt, int offset,
+>      uint32_t cpufreq = kvm_enabled() ? kvmppc_get_clockfreq() : 1000000000;
+>      uint32_t page_sizes_prop[64];
+>      size_t page_sizes_prop_size;
+> -    uint32_t vcpus_per_socket = smp_threads * smp_cores;
+> +    unsigned int smp_threads = ms->smp.threads;
+> +    uint32_t vcpus_per_socket = smp_threads * ms->smp.cores;
+>      uint32_t pft_size_prop[] = {0, cpu_to_be32(spapr->htab_shift)};
+>      int compat_smt = MIN(smp_threads, ppc_compat_max_vthreads(cpu));
+>      SpaprDrc *drc;
+> @@ -1022,6 +1030,7 @@ int spapr_h_cas_compose_response(SpaprMachineState *spapr,
+>  
+>  static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+>  {
+> +    MachineState *ms = MACHINE(spapr);
+>      int rtas;
+>      GString *hypertas = g_string_sized_new(256);
+>      GString *qemu_hypertas = g_string_sized_new(256);
+> @@ -1032,7 +1041,7 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+>          cpu_to_be32(max_device_addr >> 32),
+>          cpu_to_be32(max_device_addr & 0xffffffff),
+>          0, cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE),
+> -        cpu_to_be32(max_cpus / smp_threads),
+> +        cpu_to_be32(ms->smp.max_cpus / ms->smp.threads),
+>      };
+>      uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
+>      uint32_t maxdomains[] = {
+> @@ -2540,7 +2549,7 @@ static void spapr_validate_node_memory(MachineState *machine, Error **errp)
+>  /* find cpu slot in machine->possible_cpus by core_id */
+>  static CPUArchId *spapr_find_cpu_slot(MachineState *ms, uint32_t id, int *idx)
+>  {
+> -    int index = id / smp_threads;
+> +    int index = id / ms->smp.threads;
+>  
+>      if (index >= ms->possible_cpus->len) {
+>          return NULL;
+> @@ -2553,10 +2562,12 @@ static CPUArchId *spapr_find_cpu_slot(MachineState *ms, uint32_t id, int *idx)
+>  
+>  static void spapr_set_vsmt_mode(SpaprMachineState *spapr, Error **errp)
+>  {
+> +    MachineState *ms = MACHINE(spapr);
+>      Error *local_err = NULL;
+>      bool vsmt_user = !!spapr->vsmt;
+>      int kvm_smt = kvmppc_smt_threads();
+>      int ret;
+> +    unsigned int smp_threads = ms->smp.threads;
+>  
+>      if (!kvm_enabled() && (smp_threads > 1)) {
+>          error_setg(&local_err, "TCG cannot support more than 1 thread/core "
+> @@ -2630,6 +2641,9 @@ static void spapr_init_cpus(SpaprMachineState *spapr)
+>      SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
+>      const char *type = spapr_get_cpu_core_type(machine->cpu_type);
+>      const CPUArchIdList *possible_cpus;
+> +    unsigned int smp_cpus = machine->smp.cpus;
+> +    unsigned int smp_threads = machine->smp.threads;
+> +    unsigned int max_cpus = machine->smp.max_cpus;
+>      int boot_cores_nr = smp_cpus / smp_threads;
+>      int i;
+>  
+> @@ -3856,6 +3870,7 @@ static void spapr_core_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>      const char *type = object_get_typename(OBJECT(dev));
+>      CPUArchId *core_slot;
+>      int index;
+> +    unsigned int smp_threads = machine->smp.threads;
+>  
+>      if (dev->hotplugged && !mc->has_hotpluggable_cpus) {
+>          error_setg(&local_err, "CPU hotplug not supported for this machine");
+> @@ -4110,14 +4125,16 @@ spapr_cpu_index_to_props(MachineState *machine, unsigned cpu_index)
+>  
+>  static int64_t spapr_get_default_cpu_node_id(const MachineState *ms, int idx)
+>  {
+> -    return idx / smp_cores % nb_numa_nodes;
+> +    return idx / ms->smp.cores % nb_numa_nodes;
+>  }
+>  
+>  static const CPUArchIdList *spapr_possible_cpu_arch_ids(MachineState *machine)
+>  {
+>      int i;
+> +    unsigned int smp_threads = machine->smp.threads;
+> +    unsigned int smp_cpus = machine->smp.cpus;
+>      const char *core_type;
+> -    int spapr_max_cores = max_cpus / smp_threads;
+> +    int spapr_max_cores = machine->smp.max_cpus / smp_threads;
+>      MachineClass *mc = MACHINE_GET_CLASS(machine);
+>  
+>      if (!mc->has_hotpluggable_cpus) {
+> @@ -4240,6 +4257,7 @@ int spapr_get_vcpu_id(PowerPCCPU *cpu)
+>  void spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp)
+>  {
+>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> +    MachineState *ms = MACHINE(spapr);
+>      int vcpu_id;
+>  
+>      vcpu_id = spapr_vcpu_id(spapr, cpu_index);
+> @@ -4248,7 +4266,7 @@ void spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp)
+>          error_setg(errp, "Can't create CPU with id %d in KVM", vcpu_id);
+>          error_append_hint(errp, "Adjust the number of cpus to %d "
+>                            "or try to raise the number of threads per core\n",
+> -                          vcpu_id * smp_threads / spapr->vsmt);
+> +                          vcpu_id * ms->smp.threads / spapr->vsmt);
+>          return;
+>      }
+>  
 > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index e7509cf..e0bdfc8 100644
+> index ee24212765..c9ffe9786c 100644
 > --- a/hw/ppc/spapr_rtas.c
 > +++ b/hw/ppc/spapr_rtas.c
-> @@ -379,6 +379,11 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
->          /* NMI register not called */
->          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
->      } else {
-> +        /*
-> +         * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
-> +         * hence unset mc_status.
-> +         */
-> +        spapr->mc_status =3D -1;
->          qemu_cond_signal(&spapr->mc_delivery_cond);
->          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->      }
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 9dc5e30..fc3a776 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -190,6 +190,11 @@ struct SpaprMachineState {
-> =20
->      /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls=
- */
->      target_ulong guest_machine_check_addr;
-> +    /*
-> +     * mc_status is set to -1 if mc is not in progress, else is set to t=
-he CPU
-> +     * handling the mc.
-> +     */
-> +    int mc_status;
->      QemuCond mc_delivery_cond;
-> =20
->      /*< public >*/
-> @@ -793,6 +798,7 @@ void spapr_clear_pending_events(SpaprMachineState *sp=
-apr);
->  int spapr_max_server_number(SpaprMachineState *spapr);
->  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->                        uint64_t pte0, uint64_t pte1);
-> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
-> =20
->  /* DRC callbacks. */
->  void spapr_core_release(DeviceState *dev);
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 3bf0a46..39f1a73 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -1761,6 +1761,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_=
-run *run)
->          ret =3D 0;
->          break;
-> =20
-> +    case KVM_EXIT_NMI:
-> +        trace_kvm_handle_nmi_exception();
-> +        ret =3D kvm_handle_nmi(cpu, run);
-> +        break;
-> +
->      default:
->          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reaso=
-n);
->          ret =3D -1;
-> @@ -2844,6 +2849,17 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
->      return data & 0xffff;
->  }
-> =20
-> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
-> +{
-> +    bool recovered =3D run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
-> +
-> +    cpu_synchronize_state(CPU(cpu));
-> +
-> +    spapr_mce_req_event(cpu, recovered);
-
-Urgh.. KVM calling directly into spapr code isn't conceptually
-correct, although it's usually kind of ok in practice.  I guess we
-already do it for hypercalls, so this is no worse.  If we ever have
-NMI events for KVM PR or BookE KVM which could happen for non-PAPR
-guests, I guess we'll need to re-examine this.
-
-> +    return 0;
-> +}
-> +
->  int kvmppc_enable_hwrng(void)
+> @@ -231,6 +231,8 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
+>                                            target_ulong args,
+>                                            uint32_t nret, target_ulong rets)
 >  {
->      if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_PPC_HW=
-RNG)) {
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 45776ca..18693f1 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -81,6 +81,8 @@ bool kvmppc_hpt_needs_host_contiguous_pages(void);
->  void kvm_check_mmu(PowerPCCPU *cpu, Error **errp);
->  void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu, unsigned int online);
-> =20
-> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run);
-> +
->  #else
-> =20
->  static inline uint32_t kvmppc_get_tbfreq(void)
-> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
-> index 3dc6740..6d15aa9 100644
-> --- a/target/ppc/trace-events
-> +++ b/target/ppc/trace-events
-> @@ -28,3 +28,4 @@ kvm_handle_papr_hcall(void) "handle PAPR hypercall"
->  kvm_handle_epr(void) "handle epr"
->  kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
->  kvm_handle_debug_exception(void) "handle debug exception"
-> +kvm_handle_nmi_exception(void) "handle NMI exception"
->=20
+> +    MachineState *ms = MACHINE(qdev_get_machine());
+> +    unsigned int max_cpus = ms->smp.max_cpus;
+>      target_ulong parameter = rtas_ld(args, 0);
+>      target_ulong buffer = rtas_ld(args, 1);
+>      target_ulong length = rtas_ld(args, 2);
+> @@ -244,7 +246,7 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
+>                                            "MaxPlatProcs=%d",
+>                                            max_cpus,
+>                                            current_machine->ram_size / MiB,
+> -                                          smp_cpus,
+> +                                          ms->smp.cpus,
+>                                            max_cpus);
+>          ret = sysparm_st(buffer, length, param_val, strlen(param_val) + 1);
+>          g_free(param_val);
+> -- 
+> 2.21.0
+> 
+> 
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---PPYy/fEw/8QCHSq3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz4b6oACgkQbDjKyiDZ
-s5JKRBAAvbQRw9N/5CDjYT/MtMoyVfvEXvjhTWKOblbdadWKYNR+quZwPPJUVZh4
-4UX7+/kuH9cA4ZeHHs7HIceDlbwLNkh1dkvfKDf5MW02x6q0dh2RrlPJwucPfBz7
-nBmIKenGoY1MXV6PPUtH5zzNg94HyS7k7FEG7tycMtgfWmSIa2gsGl2rPqZ3PsW0
-WnQo7UVTB5RoY4KT8+TNVUTnJ3SJAbQX1DZmmvAVjcT20qrk7Ua2vqTZtaogxCau
-tuIAfeUTl7Ux/zNpMyHrQRBv9+ge4hNE+wB838QBsEDgQjFlnFxnxwx8TY7H1bxs
-WV2HD1Re5kdMNvoIYkOcRHCbXENVfXDofYUKnG9lR3Kd5JTfBGq62r2e9z6H3uBz
-iOnxdzRMGQwXiCHQ/j5H65c8cgkbCZy0lafYeRYM3IF+DtK1wNbimUk807j0C2z9
-4bKbmRiNF18wnmNF4F9PvEPiyHaUwbiTqjblfIo8pU0HVMHNAQDpUkwM0txMff3w
-TV8WZgJPitt3eyixC7YyOHxxr6iHxuwdhHaSOGKFNI0TEHDtx32N1WJM5ejKN9BI
-F8DP5tYiRwn/0J230tdwD9erdmcf39sqjMmapJt9o8DYwZOL9SmdGV4nl5yIfYZ+
-mFAIDGozVrhBA0VPKx4LIdpjdD+tQZgiC9R4ILLE/vv+4UuSC3Y=
-=juX6
------END PGP SIGNATURE-----
-
---PPYy/fEw/8QCHSq3--
+-- 
+Eduardo
 
