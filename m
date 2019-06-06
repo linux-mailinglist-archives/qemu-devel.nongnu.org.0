@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BBE38193
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 01:08:12 +0200 (CEST)
-Received: from localhost ([::1]:44754 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2101E381A3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 01:11:29 +0200 (CEST)
+Received: from localhost ([::1]:44792 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ1UR-0000yi-Bl
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 19:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40066)
+	id 1hZ1Xc-00048p-BF
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 19:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40261)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZ1Ru-0007N1-Rz
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:05:36 -0400
+ (envelope-from <bounces@canonical.com>) id 1hZ1Rw-0007dS-Ci
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:05:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZ1IO-00071g-Cz
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 18:55:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:61593)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hZ1IM-0006rf-Qi; Thu, 06 Jun 2019 18:55:43 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 215C7811A9;
- Thu,  6 Jun 2019 22:55:37 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-32.brq.redhat.com [10.40.204.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA5C7473C3;
- Thu,  6 Jun 2019 22:55:33 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	Eduardo Habkost <ehabkost@redhat.com>
-Date: Fri,  7 Jun 2019 00:55:21 +0200
-Message-Id: <20190606225521.9187-3-philmd@redhat.com>
-In-Reply-To: <20190606225521.9187-1-philmd@redhat.com>
-References: <20190606225521.9187-1-philmd@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hZ1Ru-0005cL-SF
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:05:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53428)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hZ1Ru-0005XR-DT
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:05:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hZ1Rs-0004ON-DL
+ for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 23:05:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 41C752E80CC
+ for <qemu-devel@nongnu.org>; Thu,  6 Jun 2019 23:05:32 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 06 Jun 2019 22:55:42 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 Jun 2019 22:57:51 -0000
+From: dann frazier <dann.frazier@canonical.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jnsnow lizhengui th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?b?6LSe6LS15p2OIChsaXpoZW5ndWkp?=
+X-Launchpad-Bug-Modifier: dann frazier (dannf)
+X-Launchpad-Bug-Duplicate: 1805256
+References: <155486495593.20543.13567634487304856304.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155986187263.31090.1945800694514893498.launchpad@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 558d6a7af180aeb883d6aeab736c532e36e38778
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 2/2] BootLinuxConsoleTest: Test the
- SmartFusion2 board
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1824053] Re: Qemu-img convert appears to be stuck
+ on aarch64 host with low probability
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,83 +66,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>
+Reply-To: Bug 1824053 <1824053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+*** This bug is a duplicate of bug 1805256 ***
+    https://bugs.launchpad.net/bugs/1805256
 
-Similar to the x86_64/pc test, it boots a Linux kernel on an
-Emcraft board and verify the serial is working.
+** This bug has been marked a duplicate of bug 1805256
+   qemu-img hangs on high core count ARM system
 
-If ARM is a target being built, "make check-acceptance" will
-automatically include this test by the use of the "arch:arm" tags.
+-- =
 
-Alternatively, this test can be run using:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1824053
 
-  $ avocado run -t arch:arm tests/acceptance
-  $ avocado run -t machine:emcraft-sf2 tests/acceptance
+Title:
+  Qemu-img convert appears to be stuck on aarch64 host with low
+  probability
 
-Based on the recommended test setup from Subbaraya Sundeep:
-https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg03810.html
+Status in QEMU:
+  Confirmed
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
----
-v2: (Cleber)
-- drop 'kernel_command_line'
-- do no concat string, use format
-- replace '-' by '_' in Avocado tags
----
- tests/acceptance/boot_linux_console.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Bug description:
+  Hi,  I found a problem that qemu-img convert appears to be stuck on
+  aarch64 host with low probability.
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-index f593f3858e..34527d4b38 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -178,6 +178,32 @@ class BootLinuxConsole(Test):
-         console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
-         self.wait_for_console_pattern(console_pattern)
-=20
-+    def test_arm_emcraft_sf2(self):
-+        """
-+        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dmachine:emcraft_sf2
-+        :avocado: tags=3Dendian:little
-+        """
-+        uboot_url =3D ('https://raw.githubusercontent.com/'
-+                     'Subbaraya-Sundeep/qemu-test-binaries/'
-+                     'fa030bd77a014a0b8e360d3b7011df89283a2f0b/u-boot')
-+        uboot_hash =3D 'abba5d9c24cdd2d49cdc2a8aa92976cf20737eff'
-+        uboot_path =3D self.fetch_asset(uboot_url, asset_hash=3Duboot_ha=
-sh)
-+        spi_url =3D ('https://raw.githubusercontent.com/'
-+                   'Subbaraya-Sundeep/qemu-test-binaries/'
-+                   'fa030bd77a014a0b8e360d3b7011df89283a2f0b/spi.bin')
-+        spi_hash =3D '85f698329d38de63aea6e884a86fbde70890a78a'
-+        spi_path =3D self.fetch_asset(spi_url, asset_hash=3Dspi_hash)
-+
-+        self.vm.set_machine('emcraft-sf2')
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', uboot_path,
-+                         '-append', self.KERNEL_COMMON_COMMAND_LINE,
-+                         '-drive', 'file=3D%s,if=3Dmtd,format=3Draw' % s=
-pi_path,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        self.wait_for_console_pattern('init started: BusyBox')
-+
-     def test_s390x_s390_ccw_virtio(self):
-         """
-         :avocado: tags=3Darch:s390x
---=20
-2.20.1
+  The convert command  line is  "qemu-img convert -f qcow2 -O raw
+  disk.qcow2 disk.raw ".
 
+  The bt is below:
+
+  Thread 2 (Thread 0x40000b776e50 (LWP 27215)):
+  #0  0x000040000a3f2994 in sigtimedwait () from /lib64/libc.so.6
+  #1  0x000040000a39c60c in sigwait () from /lib64/libpthread.so.0
+  #2  0x0000aaaaaae82610 in sigwait_compat (opaque=3D0xaaaac5163b00) at uti=
+l/compatfd.c:37
+  #3  0x0000aaaaaae85038 in qemu_thread_start (args=3Dargs@entry=3D0xaaaac5=
+163b90) at util/qemu_thread_posix.c:496
+  #4  0x000040000a3918bc in start_thread () from /lib64/libpthread.so.0
+  #5  0x000040000a492b2c in thread_start () from /lib64/libc.so.6
+
+  Thread 1 (Thread 0x40000b573370 (LWP 27214)):
+  #0  0x000040000a489020 in ppoll () from /lib64/libc.so.6
+  #1  0x0000aaaaaadaefc0 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>, __fds=3D<optimized out>) at /usr/include/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>, timeout=
+=3D<optimized out>) at qemu_timer.c:391
+  #3  0x0000aaaaaadae014 in os_host_main_loop_wait (timeout=3D<optimized ou=
+t>) at main_loop.c:272
+  #4  0x0000aaaaaadae190 in main_loop_wait (nonblocking=3D<optimized out>) =
+at main_loop.c:534
+  #5  0x0000aaaaaad97be0 in convert_do_copy (s=3D0xffffdc32eb48) at qemu-im=
+g.c:1923
+  #6  0x0000aaaaaada2d70 in img_convert (argc=3D<optimized out>, argv=3D<op=
+timized out>) at qemu-img.c:2414
+  #7  0x0000aaaaaad99ac4 in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:5305
+
+  The problem seems to be very similar to the phenomenon described by
+  this patch (https://resources.ovirt.org/pub/ovirt-4.1/src/qemu-kvm-
+  ev/0025-aio_notify-force-main-loop-wakeup-with-SIGIO-aarch64.patch),
+
+  which force main loop wakeup with SIGIO.  But this patch was reverted
+  by the patch (http://ovirt.repo.nfrance.com/src/qemu-kvm-ev/kvm-
+  Revert-aio_notify-force-main-loop-wakeup-with-SIGIO-.patch).
+
+  I can reproduce this problem with qemu.git/matser. It still exists in qem=
+u.git/matser. I found that when an IO return in
+  worker threads and want to call aio_notify to wake up main_loop, but it f=
+ound that ctx->notify_me is cleared to 0 by main_loop in aio_ctx_check by c=
+alling atomic_and(&ctx->notify_me, ~1) . So worker thread won't write enven=
+tfd to notify main_loop. If such a scene happens, the main_loop will hang:
+      main loop                        worker thread1                      =
+   worker thread2
+  -------------------------------------------------------------------------=
+-----------------       =
+
+       qemu_poll_ns                     aio_worker        =
+
+                                      qemu_bh_schedule(pool->completion_bh)=
+                              =
+
+      glib_pollfds_poll
+      g_main_context_check
+      aio_ctx_check                                                        =
+ aio_worker                                                                =
+                                    =
+
+      atomic_and(&ctx->notify_me, ~1)                 qemu_bh_schedule(pool=
+->completion_bh)                          =
+
+                                                                           =
+      =
+
+      /* do something for event */   =
+
+      qemu_poll_ns
+      /* hangs !!!*/
+
+  As we known ,ctx->notify_me will be visited by worker thread and main
+  loop. I thank we should add a lock protection for ctx->notify_me to
+  avoid this happend.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1824053/+subscriptions
 
