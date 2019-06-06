@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCB0375BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 15:54:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60949 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56B0375AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 15:51:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60914 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYsqF-0001ig-DQ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 09:54:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44093)
+	id 1hYsnk-0007iU-Eq
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 09:51:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44116)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYskv-0006Is-3L
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:48:38 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYsku-0006L1-Ep
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:48:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYskg-0001im-Qe
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYskg-0001j4-Rk
 	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:48:23 -0400
-Received: from relay.sw.ru ([185.231.240.75]:45562)
+Received: from relay.sw.ru ([185.231.240.75]:45560)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYskf-0001HZ-6G; Thu, 06 Jun 2019 09:48:22 -0400
+	id 1hYskf-0001Ha-3l; Thu, 06 Jun 2019 09:48:22 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYska-00004z-6B; Thu, 06 Jun 2019 16:48:16 +0300
+	id 1hYska-00004z-Ah; Thu, 06 Jun 2019 16:48:16 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Thu,  6 Jun 2019 16:48:13 +0300
-Message-Id: <20190606134814.123689-3-vsementsov@virtuozzo.com>
+Date: Thu,  6 Jun 2019 16:48:14 +0300
+Message-Id: <20190606134814.123689-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190606134814.123689-1-vsementsov@virtuozzo.com>
 References: <20190606134814.123689-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 2/3] block/stream: use blk_co_pcache
+Subject: [Qemu-devel] [PATCH 3/3] nbd: improve CMD_CACHE: use blk_co_pcache
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,90 +52,106 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This helps to avoid extra io, allocations and memory copying.
+We assume here that CMD_CACHE is always used with copy-on-read, as
+otherwise it's a noop.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/stream.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+ nbd/server.c | 43 +++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 35 insertions(+), 8 deletions(-)
 
-diff --git a/block/stream.c b/block/stream.c
-index 1a906fd860..8478aa4a50 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -22,11 +22,11 @@
+diff --git a/nbd/server.c b/nbd/server.c
+index aeca3893fe..a7e8dbaccd 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -2101,12 +2101,15 @@ static int nbd_co_receive_request(NBDRequestData *req, NBDRequest *request,
+             return -EINVAL;
+         }
  
- enum {
-     /*
--     * Size of data buffer for populating the image file.  This should be large
-+     * Maximum chunk size to feed it to copy-on-read.  This should be large
-      * enough to process multiple clusters in a single call, so that populating
-      * contiguous regions of the image is efficient.
-      */
--    STREAM_BUFFER_SIZE = 512 * 1024, /* in bytes */
-+    STREAM_CHUNK = 512 * 1024, /* in bytes */
- };
+-        req->data = blk_try_blockalign(client->exp->blk, request->len);
+-        if (req->data == NULL) {
+-            error_setg(errp, "No memory");
+-            return -ENOMEM;
++        if (request->type != NBD_CMD_CACHE) {
++            req->data = blk_try_blockalign(client->exp->blk, request->len);
++            if (req->data == NULL) {
++                error_setg(errp, "No memory");
++                return -ENOMEM;
++            }
+         }
+     }
++
+     if (request->type == NBD_CMD_WRITE) {
+         if (nbd_read(client->ioc, req->data, request->len, "CMD_WRITE data",
+                      errp) < 0)
+@@ -2191,7 +2194,7 @@ static coroutine_fn int nbd_do_cmd_read(NBDClient *client, NBDRequest *request,
+     int ret;
+     NBDExport *exp = client->exp;
  
- typedef struct StreamBlockJob {
-@@ -39,13 +39,11 @@ typedef struct StreamBlockJob {
- } StreamBlockJob;
+-    assert(request->type == NBD_CMD_READ || request->type == NBD_CMD_CACHE);
++    assert(request->type == NBD_CMD_READ);
  
- static int coroutine_fn stream_populate(BlockBackend *blk,
--                                        int64_t offset, uint64_t bytes,
--                                        void *buf)
-+                                        int64_t offset, uint64_t bytes)
- {
-     assert(bytes < SIZE_MAX);
+     /* XXX: NBD Protocol only documents use of FUA with WRITE */
+     if (request->flags & NBD_CMD_FLAG_FUA) {
+@@ -2203,7 +2206,7 @@ static coroutine_fn int nbd_do_cmd_read(NBDClient *client, NBDRequest *request,
+     }
  
--    /* Copy-on-read the unallocated clusters */
--    return blk_co_pread(blk, offset, bytes, buf, BDRV_REQ_COPY_ON_READ);
-+    return blk_co_pcache(blk, offset, bytes);
+     if (client->structured_reply && !(request->flags & NBD_CMD_FLAG_DF) &&
+-        request->len && request->type != NBD_CMD_CACHE)
++        request->len)
+     {
+         return nbd_co_send_sparse_read(client, request->handle, request->from,
+                                        data, request->len, errp);
+@@ -2211,7 +2214,7 @@ static coroutine_fn int nbd_do_cmd_read(NBDClient *client, NBDRequest *request,
+ 
+     ret = blk_pread(exp->blk, request->from + exp->dev_offset, data,
+                     request->len);
+-    if (ret < 0 || request->type == NBD_CMD_CACHE) {
++    if (ret < 0) {
+         return nbd_send_generic_reply(client, request->handle, ret,
+                                       "reading from file failed", errp);
+     }
+@@ -2230,6 +2233,28 @@ static coroutine_fn int nbd_do_cmd_read(NBDClient *client, NBDRequest *request,
+     }
  }
  
- static void stream_abort(Job *job)
-@@ -117,7 +115,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-     int error = 0;
-     int ret = 0;
-     int64_t n = 0; /* bytes */
--    void *buf;
++/*
++ * nbd_do_cmd_cache
++ *
++ * Handle NBD_CMD_CACHE request.
++ * Return -errno if sending fails. Other errors are reported directly to the
++ * client as an error reply.
++ */
++static coroutine_fn int nbd_do_cmd_cache(NBDClient *client, NBDRequest *request,
++                                         Error **errp)
++{
++    int ret;
++    NBDExport *exp = client->exp;
++
++    assert(request->type == NBD_CMD_CACHE);
++
++    ret = blk_co_pcache(exp->blk, request->from + exp->dev_offset,
++                        request->len);
++
++    return nbd_send_generic_reply(client, request->handle, ret,
++                                  "caching data failed", errp);
++}
++
+ /* Handle NBD request.
+  * Return -errno if sending fails. Other errors are reported directly to the
+  * client as an error reply. */
+@@ -2243,8 +2268,10 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
+     char *msg;
  
-     if (!bs->backing) {
-         goto out;
-@@ -130,8 +127,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-     }
-     job_progress_set_remaining(&s->common.job, len);
+     switch (request->type) {
+-    case NBD_CMD_READ:
+     case NBD_CMD_CACHE:
++        return nbd_do_cmd_cache(client, request, errp);
++
++    case NBD_CMD_READ:
+         return nbd_do_cmd_read(client, request, data, errp);
  
--    buf = qemu_blockalign(bs, STREAM_BUFFER_SIZE);
--
-     /* Turn on copy-on-read for the whole block device so that guest read
-      * requests help us make progress.  Only do this when copying the entire
-      * backing chain since the copy-on-read operation does not take base into
-@@ -154,7 +149,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
- 
-         copy = false;
- 
--        ret = bdrv_is_allocated(bs, offset, STREAM_BUFFER_SIZE, &n);
-+        ret = bdrv_is_allocated(bs, offset, STREAM_CHUNK, &n);
-         if (ret == 1) {
-             /* Allocated in the top, no need to copy.  */
-         } else if (ret >= 0) {
-@@ -172,7 +167,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         }
-         trace_stream_one_iteration(s, offset, n, ret);
-         if (copy) {
--            ret = stream_populate(blk, offset, n, buf);
-+            ret = stream_populate(blk, offset, n);
-         }
-         if (ret < 0) {
-             BlockErrorAction action =
-@@ -206,8 +201,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-     /* Do not remove the backing file if an error was there but ignored.  */
-     ret = error;
- 
--    qemu_vfree(buf);
--
- out:
-     /* Modify backing chain and close BDSes in main loop */
-     return ret;
+     case NBD_CMD_WRITE:
 -- 
 2.18.0
 
