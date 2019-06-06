@@ -2,65 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91014380C3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 00:30:06 +0200 (CEST)
-Received: from localhost ([::1]:44690 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E015A381AB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 01:13:38 +0200 (CEST)
+Received: from localhost ([::1]:44828 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ0tZ-0005IH-RD
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 18:30:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35083)
+	id 1hZ1Zi-00073M-4u
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 19:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40040)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZ0se-0004hY-N2
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 18:29:09 -0400
+ (envelope-from <philmd@redhat.com>) id 1hZ1Rw-0007Mw-7M
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:05:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZ0sc-0003cV-J8
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 18:29:08 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:34920)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZ0sX-0003NS-JP
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 18:29:02 -0400
-Received: by mail-wr1-f67.google.com with SMTP id m3so222409wrv.2
- for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 15:28:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=g05nqlPZqueh6GHM/y6R7bha3/gYOhV36leuPT9KDhk=;
- b=PCCQPkEPG8LrKeUX/GwpJRm9ALM6j93FU5CAAjhHtmyiLbB1zUjEMFEVJPj9vTgAxW
- 69emoaIU5iS6Q39YwazXGPNfrYi/A3B79xbfMgqs96mDxsyA1bFBDARVj1tiWSgmCAnl
- jrCzB5so9keetJAqgN6KBV4X5hyXwGMZnfmCR+rMk3aRrkIEpJzovwvHA/sn0Noudhyo
- P9l+0pF5NcLekH4nwWbSjWigK245nuwfqW99b3e5qFAstKetiCl/9u/4M0ipNgw0Xv6/
- 7gDz456U1uyr+ZJLHKmGa59ZNWBeNKHNT6o1+tLQSTFyEXon399SGUFY606QXJpQnHji
- wuRg==
-X-Gm-Message-State: APjAAAUeOEVcNyYoSR+xnAVBYhT2A2isvcBOV4FQyeXKdRZCa53PA0MS
- GMNilOCta5N4q/aZNWXxr0Dnkw==
-X-Google-Smtp-Source: APXvYqyjWJnniYOsRt1rRbQQJaRg0lsw/N6wLZEkseJEUXCNSzegXmd2LwJL1Ilcxk5JqE8lXhFENA==
-X-Received: by 2002:adf:a18a:: with SMTP id u10mr8934774wru.351.1559860136571; 
- Thu, 06 Jun 2019 15:28:56 -0700 (PDT)
-Received: from [192.168.0.156] ([78.192.181.46])
- by smtp.gmail.com with ESMTPSA id y5sm131228wrs.63.2019.06.06.15.28.55
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 06 Jun 2019 15:28:56 -0700 (PDT)
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20190503193721.18459-1-ehabkost@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <d1447249-9f93-f4d2-53db-c2617a41b43d@redhat.com>
-Date: Fri, 7 Jun 2019 00:28:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <philmd@redhat.com>) id 1hZ1IL-0006m1-A9
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 18:55:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45506)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1hZ1IE-0005r7-57; Thu, 06 Jun 2019 18:55:36 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 556953003097;
+ Thu,  6 Jun 2019 22:55:29 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-32.brq.redhat.com [10.40.204.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C3C447341;
+ Thu,  6 Jun 2019 22:55:23 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org,
+	Eduardo Habkost <ehabkost@redhat.com>
+Date: Fri,  7 Jun 2019 00:55:19 +0200
+Message-Id: <20190606225521.9187-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190503193721.18459-1-ehabkost@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Thu, 06 Jun 2019 22:55:29 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH] Deprecate Python 2 support
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 0/2] tests: Avocado-test for the
+ SmartFusion2 board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,57 +55,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/19 9:37 PM, Eduardo Habkost wrote:
-> Python 2 will reach end of life in January 1 2020.  Declare it as
-> deprecated.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
->  configure            | 8 ++++++++
->  qemu-deprecated.texi | 8 ++++++++
->  2 files changed, 16 insertions(+)
-> 
-> diff --git a/configure b/configure
-> index 5b183c2e39..50385061ed 100755
-> --- a/configure
-> +++ b/configure
-> @@ -6461,6 +6461,14 @@ if test "$supported_os" = "no"; then
->      echo "us upstream at qemu-devel@nongnu.org."
->  fi
->  
-> +# Note that if the Python conditional here evaluates True we will exit
-> +# with status 1 which is a shell 'false' value.
-> +if ! $python -c 'import sys; sys.exit(sys.version_info < (3,0))'; then
-> +  echo
-> +  echo "WARNING: Python 2 support is deprecated" >&2
-> +  echo "WARNING: Python 3 will be required for building future versions of QEMU" >&2
-> +fi
-> +
->  config_host_mak="config-host.mak"
->  
->  echo "# Automatically generated by configure - do not modify" >config-all-disas.mak
-> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-> index 842e71b11d..2f2d9a3e95 100644
-> --- a/qemu-deprecated.texi
-> +++ b/qemu-deprecated.texi
-> @@ -206,3 +206,11 @@ Note that if you are exposing the export via /dev/nbd0, it is easier
->  to just export the entire image and then mount only /dev/nbd0p1 than
->  it is to reinvoke @command{qemu-nbd -c /dev/nbd0} limited to just a
->  subset of the image.
-> +
-> +@section Build system
-> +
-> +@subsection Python 2 support (since 4.1.0)
-> +
-> +In the future, QEMU will require Python 3 to be available at
-> +build time.  Support for Python 2 in scripts shipped with QEMU
-> +is deprecated.
-> 
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I added test guide lines from Subbaraya Sundeep [*] to avoid this
+board to bitrot.
+
+v2: Addressed issues reported by Cleber
+
+Regards,
+
+Phil.
+
+[*] https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg03810.html
+
+Philippe Mathieu-Daud=C3=A9 (2):
+  BootLinuxConsoleTest: Do not log empty lines
+  BootLinuxConsoleTest: Test the SmartFusion2 board
+
+ tests/acceptance/boot_linux_console.py | 32 ++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
+
+--=20
+2.20.1
+
 
