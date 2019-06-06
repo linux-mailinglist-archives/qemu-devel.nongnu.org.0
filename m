@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9773372C2
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 13:25:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58696 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4864337287
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 13:12:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58447 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYqWe-0006hl-T9
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 07:25:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34617)
+	id 1hYqJw-000447-DD
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 07:12:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60310)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYqKh-0005aM-OF
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:13:24 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hYqF8-0000BT-LB
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:07:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYqKg-0003R2-QG
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:13:23 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:51351)
+	(envelope-from <laurent@vivier.eu>) id 1hYqF5-0003FA-Oa
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:07:36 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:58621)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hYqKc-0003Ma-N0; Thu, 06 Jun 2019 07:13:18 -0400
+	id 1hYqF1-0002z6-0o; Thu, 06 Jun 2019 07:07:31 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1MbjBo-1gyxyw1siM-00dHVC; Thu, 06 Jun 2019 13:06:40 +0200
+	id 1MauFB-1gy8V734dX-00cSgp; Thu, 06 Jun 2019 13:06:43 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 13:06:11 +0200
-Message-Id: <20190606110625.32127-3-laurent@vivier.eu>
+Date: Thu,  6 Jun 2019 13:06:12 +0200
+Message-Id: <20190606110625.32127-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190606110625.32127-1-laurent@vivier.eu>
 References: <20190606110625.32127-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wmpSPsS+7A5QbkzIuo4H2PZEXePK7qndfEAgPOgvQ2LxlfTvhw9
-	amvAiKaRxtLucqhiiRKRCyClQcMp60JYWMDX9M+QknvPxj0kNgOs8Peb19vAGcpshprcRxJ
-	WcNPTGerQRJL+zpN8WiRua1Ve4iPwPaQSmZGJQpq9kftPb9yMfEDSixtCjVNxGsKMOTZjjX
-	7E2gfzmJo65wlVOPo5MUA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:X49tWX4nr2Y=:QcF6a7H8Yx79kAHKMB8+1R
-	Cr9r+2MHZWPvUk3fRGmltvgPkeLVMQVr8vGjaOIRmd5IZTQfMWMwBr1K61OqZFuw7wQnHO2lz
-	e9xnVQeTrDiwYNJez9xLMsM1g5HBIkCZqge/0hnqRomBNlraq6/EhLBuJcquFcXeLd6TV8rX7
-	C343+aRz3GQLS2ixo+VpDqJtvr7anT1tGtGN/rHgyN+nrzfuvHFEYx7ME7BEpsqM4rDTREAx6
-	fg8h7xnoykLDgkvJb3S4gyu25uyH4OMXMOjVSwVKC0YZcgt8Sm5NwEsJyOXe7UpSZ7ljqgo9l
-	+R6LBuvMa5gCcBKgdWJFnefL04N/V2IdiPq1i04f4E0nDBmMmgxhWqQCpSXOg+1llT//0H2JZ
-	VgiYKnBrpi7s5DGklyLAQD2ecH8GV5JdCMp/AYY59l/SYnmgYiU+ET6u1GTs5x7KD+bLadhvr
-	7Zycu0uRbBE2HI2SHxSjMgv+fw5dzPhFlRMgo6J13zx2euNYWzQyzVBT5Dzd3kLntNIz3NrIf
-	PVdT12sjtKs1bAy6kMDmMf1cpuNllz+Ttj+1Lo2Sk38zz9b2VQoxZSIiV3cfzl81xd3Qs9X1D
-	ikm4ad7bqEP38NHXtS5HE30q9/oKqugqMbM9iuP3+BSvmWkmwhp+Qrzh29jZ9J4Zxi9T58VZ7
-	TXCGXUeC75VQNdYvnJGsUeCBLudWknut+9FRy1qUNyp7A9hRtEVhQxPr0//Js3q3FYKLhr15l
-	w9ZIvB82HSzCGM9FnAh2UQHCdMla+rNApNbDy6q7u98ZYJLKd+C+4zMVk5o=
+X-Provags-ID: V03:K1:CaPomUUU0ZJp2dT6eUq05+g7tIBXfeNTk8JnnR47rG4Bb3m2Amu
+	FYawHFxHtEN6ZwcplHPtkRE8L99QdHTARU0DkOY5IX6Khlx0ZOP1VVSVn6jDU4cyT9rzXkh
+	OXaCHxOgKUg+NpeQ/u4xYfYdSNT/lncnGfEUNJS7Sjt6PStGn1qP322oM4iT75BrRb6CBMO
+	Cd9LcRhoU7u+7OHe0NImA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:41tRHKGJyP0=:4ymjpaXSKln4RHBYeKTaxe
+	eHWyXozSKm/GfW/N7OJ1Zc3S0QRUoGie3/x2d9eHdXM8jgRb3Bpn9trcYMOS7x23oa2QC51eF
+	rD3Ajl+Kko9qZVsUpoPb2ZCQe+ejJdBGwmLLeGP634ant7VNwHnNNv1z1zyhv/IkfdTWFzLDz
+	4fIOZ5dGwIBtoJSXHGGnfKMhaROJiy69Kc9jUQqIZKJRTuNAnGcYPSvagkCcwQ1WD8b3+6iAl
+	c4eLCHB/4PBsauGmZRy2oA+6aczUWZrK1KUFML2K/dkFkF14ikiuRgve99MLwTYjw1IbRrG2t
+	+xzLn7CXcojeu/kpbk+uqjJcSEMnzKm9iYey8ue05T0SV3y/5OKrYR8OZD1h9Kh7rZEnQvwd2
+	4+ZmV2UPrsTozj2CiuOeeF1bu5k4q9kRh0vJm6gxy82O+Ah3g1JLz+Fh/lAG5Qi3GJ1v6/bDo
+	/febZbm//dL/wxA/uqOSKjnqXZbtRuRZN2voi9/nvCrVYjWgsr2tqM/ejh6p6QgqxzwtfX4la
+	S1xjp5j6K0s0Bu6hRtGUkOQ+EOjKE1XhN8xuHiVi/eG0Bsl4Y6D3XyADr3sPb1tl1reywT2q/
+	sZpVLZwh6KWE/Kq735ggQAk+WI/Wy6QFC/5VYxHRGaxVp+Sd/8gGj/620fIP61ahFlb8rgyD5
+	XJliIqnJR5W0CtqVhKlNYvQp7uhZohjAuRTnMB7ZziPVyuVr8pSAvZOFErkNOY9nqB9KraFQr
+	WpyhXhuuvVMmOi/PNpcTo7iMvda2OWyk6sfLQsXAQBy8pliKk02eM/6Jlb8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PULL 02/16] migration: fix a typo
+X-Received-From: 217.72.192.73
+Subject: [Qemu-devel] [PULL 03/16] vhost: fix incorrect print type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,15 +66,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 	David Hildenbrand <david@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
-	Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, Jie Wang <wangjie88@huawei.com>,
+	Juan Quintela <quintela@redhat.com>,
 	Aleksandar Rikalo <arikalo@wavecomp.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Li Qiang <liq3ea@163.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
 	Christian Borntraeger <borntraeger@de.ibm.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 	Yuval Shaia <yuval.shaia@oracle.com>,
 	Alex Williamson <alex.williamson@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Richard Henderson <rth@twiddle.net>,
 	=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 	qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
@@ -85,33 +85,31 @@ Cc: Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Qiang <liq3ea@163.com>
+From: Jie Wang <wangjie88@huawei.com>
 
-'postocpy' should be 'postcopy'.
+fix incorrect print type in vhost_virtqueue_stop
 
-CC: qemu-trivial@nongnu.org
-Signed-off-by: Li Qiang <liq3ea@163.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20190525062832.18009-1-liq3ea@163.com>
+Signed-off-by: Jie Wang <wangjie88@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <1556605773-42019-1-git-send-email-wangjie88@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- migration/ram.c | 2 +-
+ hw/virtio/vhost.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 4c608692262e..359dc8f1bc44 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2236,7 +2236,7 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
- }
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 7f61018f2a3f..286bb27c6539 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1081,7 +1081,7 @@ static void vhost_virtqueue_stop(struct vhost_dev *dev,
  
- /**
-- * get_queued_page: unqueue a page from the postocpy requests
-+ * get_queued_page: unqueue a page from the postcopy requests
-  *
-  * Skips pages that are already sent (!dirty)
-  *
+     r = dev->vhost_ops->vhost_get_vring_base(dev, &state);
+     if (r < 0) {
+-        VHOST_OPS_DEBUG("vhost VQ %d ring restore failed: %d", idx, r);
++        VHOST_OPS_DEBUG("vhost VQ %u ring restore failed: %d", idx, r);
+         /* Connection to the backend is broken, so let's sync internal
+          * last avail idx to the device used idx.
+          */
 -- 
 2.21.0
 
