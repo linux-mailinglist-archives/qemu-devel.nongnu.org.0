@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFC136FDB
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 11:31:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57176 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45E936FF6
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 11:33:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57198 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYokI-0001cx-CF
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 05:31:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39212)
+	id 1hYomO-0002Oy-Em
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 05:33:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39654)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYoiw-0000rm-Bx
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:30:19 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hYokl-00022X-Pb
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:32:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hYoiv-00061i-DF
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:30:18 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:42199)
+	(envelope-from <laurent@vivier.eu>) id 1hYoki-0001Vd-QV
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 05:32:10 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:55143)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hYoir-0005mL-1R; Thu, 06 Jun 2019 05:30:13 -0400
+	id 1hYokc-0001GO-EO; Thu, 06 Jun 2019 05:32:04 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
 	(mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
-	1MBll6-1hOwH730DU-00CA2V; Thu, 06 Jun 2019 11:29:21 +0200
+	1MRT6b-1hE6OQ1wIP-00NRv7; Thu, 06 Jun 2019 11:31:35 +0200
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
 	qemu-devel@nongnu.org, qemu-trivial@nongnu.org
 References: <20190528164020.32250-1-philmd@redhat.com>
-	<20190528164020.32250-2-philmd@redhat.com>
+	<20190528164020.32250-4-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
@@ -71,35 +71,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
 	OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
 	JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
 	ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <aa834cb2-1d72-f62a-6095-e2bc6b973df7@vivier.eu>
-Date: Thu, 6 Jun 2019 11:29:16 +0200
+Message-ID: <c7e29772-5968-7bc5-a543-2c1866fd1135@vivier.eu>
+Date: Thu, 6 Jun 2019 11:31:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190528164020.32250-2-philmd@redhat.com>
+In-Reply-To: <20190528164020.32250-4-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:FpxFokUw3inagld2oEoc6zlrENHn41ZtXSf08YusAOqDRM788X/
-	CQCylP0Gi9FggN/7/9qgz+oabDOGLrq53GGKv7hfgY4TymMT/2Rqi0QiahTTHmxxNBSfC5s
-	NHlf1fhz/hNIsdxqM34IO0/vnQmrtEcVro7uw1R0TGeELv+3AIAjYecm5YyQs9ss/WHgF1R
-	2TB15d98+/j+Dsbb2bb1g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1U8eLm0kBwU=:pBexdW+h36arjs1w+UakXt
-	k9Y5Cfz7TgwjTAJ0RfVmQ5IeDkVPPlxv98mKm64z77by604r++Ew0mEWrGOtuDaEn/ojMNvWk
-	1Pu40ZhMYCHKlvzKT+uuGIO3IZGOrk+tN+POS1okUqZJqGY7Q29FBCEeMAZyMA4sssNXRD05a
-	p80/LI9D4STrnyUC/G5KUhdCuf8WX3HioEjUn+0lXipdqkq/C735ijkZuJF843rn+SfW15AO6
-	u0tMEiG+qxjSu0i3ZrA7kiGbdtJsaL2N61ihscBzSmdhwFAm/0Ptj4Z+GyqH8dZpGFOfn8L/b
-	nhJmT6i969K2/TST9586ONT29nYarvUAEXub0ZaKdPhH3AKMkKthUaL+ju/xoYMyE6nVfMkH+
-	t7Fpk/wFZqGs8ldALrvI4p9tBFofX10N3KNOjHAfXyj3qg0sGv7JKgKV3rVqcHKonU6AjIF08
-	vG/PRpSHuaAl2U5aD7wZPeSOoMMHpkzlbygpAVM5FfopYwXKjMab9lMITJ3hjydfuMnv3jd8t
-	XWkBZRfgh3QtxDIlCczSMMJlw0FPIpxpA9Q1prjM1RXvADEDX8ZJSmMHN1CDI7ndOOsGRKSjl
-	6iMGdbPM+Z+q86rqpmtr+NUYCiSx0d/uQobFt3Kfsh71CqHf0URi8bVg0pqVIfrlrysgAINhH
-	Uj3ELgPTHd+FjNrqhitDjXAIpdtj75MKqLMWI2k/fnXkWHUTbvKvykydlwnA4ItWgHp3CVwFz
-	QtXZxfhGMMa4fHUYGVd3Tpt2H2q+H12Juttq2wLvZqhjrYsO6pFQE/S5/A0=
+X-Provags-ID: V03:K1:tkU5vNoJkwfSQC8R7wXkSyg4g9Tg/sBdSCmcpn9Hs0Rpw4BDEgn
+	qiQJLCQ+bUaiSJCfat3CtcTrAEGIfjI4W3D/LaO3ydV68tBMuuUEdoyKJkL3SbMGXIXc8E6
+	ZhyZyCFFjJpnlfSQ+zrvkJ8btq3pZIBfr58r0CcULO0Pgz9qDSgefEDBiqbv2iwCdQczHlo
+	b+LpnKmHp7ETBOc7Kv1NA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RyQrphh9o5s=:j2FdppexCTHYw49y06jFHS
+	Fa2Jbsu6lDHqpq3jbk8quwy9UsOCxPdu69jH2bv58kiRDR6eLc9IME6imliJYH9y1kdttvJ4L
+	KSPiOYFY+4jYRIsJ9/7IoJnTUP5URlvmqpxRA9M3IvbxVNMkoAm876i5rCEBmpce3qdXw7cU+
+	5O65a4cINe2MHZ1TXqtMb3IDX9CDNCQB8j2I2f136BTsjafO22Y/qW2apDDyw/LeCM1L/Q5OW
+	jADVEpnmoAOKDTEmf+hECaDk8D/7raWaXUj5thVrNphsId0DYATaC1rG5OlZLfWa/ioW9kOV7
+	70VCEGzQ8Y03P43QBbSnwMCo6VhqZuRLKW+EIDLkq5Q0D7Ncm8XFKIGLaUDsUIzYPoSHqYB2n
+	tvwQcl8H71XhZS5K8kXHZmVxxYhB7euTXYf636smf4UtNwLT0LJDyaN2Se3uhi+Y+14LKElkD
+	FsMCiKNpGlsqDXWdE8DADNAWBQWUBTY3Lv0OvhnDB+OTYi2NxPmMRR19wBIRvWEl8Ib3NjCjA
+	jKbYpezM3RxBDX9IIHrSggGiXaRUAIgcqWJs/tToQd6gm6zWsEjQ+KEdTkpMnI1XZ+dbY1Dhr
+	ohGwzWnSB6lRawvK1ALB+6iQOo11+ieNoVPLHWhFlL8Kgzht9ZKUXUaiNrjPxxjW95uGBTafI
+	8MCSWhuvC6XZvAnnsrPrnWUmDdaB3cazszghFXEHBAA03iscDjbpzTaER4wXmBYSbAgvmYYxP
+	4WOkpClHXDW368M59guJCsxjwWV73ZHY+hgZH4UGgqyp9635efTTnyKr22s=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.133
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 01/10]
- hw/scsi/vmw_pvscsi: Use qbus_reset_all() directly
+Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 03/10] hw/pci-bridge: Use
+ the QOM BUS() macro to access BusState.qbus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -129,41 +129,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 28/05/2019 à 18:40, Philippe Mathieu-Daudé a écrit :
-> Since the BusState is accesible from the SCSIBus object,
-> it is pointless to use qbus_reset_all_fn.
-> Use qbus_reset_all() directly.
+> Rather than looking inside the definition of a BusState with "s->bus.qbus",
+> use the QOM prefered style: "BUS(&s->bus)".
 > 
+> This patch was generated using the following Coccinelle script:
+> 
+>     // Use BUS() macros to access BusState.qbus
+>     @use_bus_macro_to_access_qbus@
+>     expression obj;
+>     identifier bus;
+>     @@
+>     -&obj->bus.qbus
+>     +BUS(&obj->bus)
+> 
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
-> v2: Use BUS() macro (Peter Maydell)
+>  hw/pci/pci_bridge.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> One step toward removing qbus_reset_all_fn()
-> ---
->  hw/scsi/vmw_pvscsi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
-> index 584b4be07e..c39e33fa35 100644
-> --- a/hw/scsi/vmw_pvscsi.c
-> +++ b/hw/scsi/vmw_pvscsi.c
-> @@ -440,7 +440,7 @@ static void
->  pvscsi_reset_adapter(PVSCSIState *s)
->  {
->      s->resetting++;
-> -    qbus_reset_all_fn(&s->bus);
-> +    qbus_reset_all(BUS(&s->bus));
->      s->resetting--;
->      pvscsi_process_completion_queue(s);
->      assert(QTAILQ_EMPTY(&s->pending_queue));
-> @@ -848,7 +848,7 @@ pvscsi_on_cmd_reset_bus(PVSCSIState *s)
->      trace_pvscsi_on_cmd_arrived("PVSCSI_CMD_RESET_BUS");
->  
->      s->resetting++;
-> -    qbus_reset_all_fn(&s->bus);
-> +    qbus_reset_all(BUS(&s->bus));
->      s->resetting--;
->      return PVSCSI_COMMAND_PROCESSING_SUCCEEDED;
+> diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
+> index c6d9ded320..8d954885c0 100644
+> --- a/hw/pci/pci_bridge.c
+> +++ b/hw/pci/pci_bridge.c
+> @@ -273,7 +273,7 @@ void pci_bridge_write_config(PCIDevice *d,
+>      newctl = pci_get_word(d->config + PCI_BRIDGE_CONTROL);
+>      if (~oldctl & newctl & PCI_BRIDGE_CTL_BUS_RESET) {
+>          /* Trigger hot reset on 0->1 transition. */
+> -        qbus_reset_all(&s->sec_bus.qbus);
+> +        qbus_reset_all(BUS(&s->sec_bus));
+>      }
 >  }
+>  
 > 
 
 Applied to my trivial-patches branch.
