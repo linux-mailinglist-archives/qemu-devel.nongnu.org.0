@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2101E381A3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 01:11:29 +0200 (CEST)
-Received: from localhost ([::1]:44792 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7B5381A1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 01:11:00 +0200 (CEST)
+Received: from localhost ([::1]:44788 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ1Xc-00048p-BF
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 19:11:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40261)
+	id 1hZ1X9-0003ip-O0
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 19:10:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40040)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hZ1Rw-0007dS-Ci
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:05:37 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hZ1Ra-0007Mw-Vu
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:05:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hZ1Ru-0005cL-SF
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:05:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53428)
+ (envelope-from <alistair23@gmail.com>) id 1hZ1Ob-0000K3-LP
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:02:10 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:37495)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hZ1Ru-0005XR-DT
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 19:05:34 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hZ1Rs-0004ON-DL
- for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 23:05:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 41C752E80CC
- for <qemu-devel@nongnu.org>; Thu,  6 Jun 2019 23:05:32 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hZ1Oa-0000GG-5E; Thu, 06 Jun 2019 19:02:08 -0400
+Received: by mail-lf1-x141.google.com with SMTP id m15so161627lfh.4;
+ Thu, 06 Jun 2019 16:02:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wMAd7XoZVa4u3lEJXMplu8dFmMqEkJSkW7xUBdkVIdo=;
+ b=bN4EErxrsWnoKLKfBMU8tZyGh73eQl6w5+YoeUAB9o/soaTy2sa6V9tu6GAiodd1DA
+ i7ENw1Nr9HSC+KIWkuA6pedMZKzEPAyMsNCrG4ovFcX6+QEx5jSqsGM2cx/SNteA7wgY
+ WQPuD0r/ouLg13slsbfI0ekHstpn2fwHvJncJrOjSSFecfPHRwHaM2pC3juOtDnO2x1X
+ CQMuHPmaRGkDjmxvCJM9/EdloWSXk0yTQVOU7JzTmFdZlmidXvbZh0/oQ+YcVUoVxt9w
+ o6QYEDyY4oa/+IdVC7YJ6vrlb49joiWw9Tv9aQ0CutH8QovZIM9lsSTItO/MBeugQYbv
+ D/xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wMAd7XoZVa4u3lEJXMplu8dFmMqEkJSkW7xUBdkVIdo=;
+ b=GIADqGktNGrg0gQIsyQhasZgiDxemaN0E83YyU+Yt91bCeLZYjJNigC203dM2u50N2
+ c/4RGw3YSimVeWgDSsJsGafhvSITZ/j2G4NtRKjm7FPgl9397DnwcLJICz94fQQkIOOy
+ wJeIy/YfaesOiyVXll6xlq1lASbJnUZzTyh8kPGo4n054GdpbsErRemXN9daWl1RR1DK
+ v8Lm/2MCCjOgN7XiZcDmfIPx9A7drT/vnuTBiV0bRCCfTrU4ox2o36jTGc5sOvvfFtvz
+ leztJ35uM74OQCb/P869/QmrSWRnD2nZnrw0+FdR8q+cY4+wtoH4kjdD3NsJj1BCNPQV
+ 6qZA==
+X-Gm-Message-State: APjAAAUJ6oVSYThQCJ4tCq3xxa1PFkmNbLp2HL3jeuqXJzK598rvFTrB
+ gtJPmE5L9PxkevvBVgX/ertXva4pGIffafpVl8Q=
+X-Google-Smtp-Source: APXvYqxguDs05bhQoQTe8+TYUC1BI1qSko5laJK6Hofh/eU4qP9v4HmOP1O94kLueYnSYPqVngspEUawPQdIC/UM2qg=
+X-Received: by 2002:ac2:4899:: with SMTP id x25mr22509812lfc.44.1559862126271; 
+ Thu, 06 Jun 2019 16:02:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 Jun 2019 22:57:51 -0000
-From: dann frazier <dann.frazier@canonical.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow lizhengui th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?6LSe6LS15p2OIChsaXpoZW5ndWkp?=
-X-Launchpad-Bug-Modifier: dann frazier (dannf)
-X-Launchpad-Bug-Duplicate: 1805256
-References: <155486495593.20543.13567634487304856304.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155986187263.31090.1945800694514893498.launchpad@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18978";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 558d6a7af180aeb883d6aeab736c532e36e38778
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1824053] Re: Qemu-img convert appears to be stuck
- on aarch64 host with low probability
+References: <20190530135135.19715-1-Hesham.Almatary@cl.cam.ac.uk>
+ <20190530135135.19715-4-Hesham.Almatary@cl.cam.ac.uk>
+ <CAKmqyKNwec3HaNZ_=vsA1eYa3yjRWe8Q9ZaNcQ9AXZcGvbsQdw@mail.gmail.com>
+ <CA+wsVCDMHpM0BCvoWVz1mFPGpjMRSGZ8boGhBF5p2VTAAJaGNw@mail.gmail.com>
+In-Reply-To: <CA+wsVCDMHpM0BCvoWVz1mFPGpjMRSGZ8boGhBF5p2VTAAJaGNw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 6 Jun 2019 15:59:31 -0700
+Message-ID: <CAKmqyKPE3pn15hQnhYu78HnnSNBfugO9R1EgXe+0t31YATHL9w@mail.gmail.com>
+To: Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::141
+Subject: Re: [Qemu-devel] [PATCHv4 4/6] RISC-V: Check PMP during Page Table
+ Walks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,110 +74,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1824053 <1824053@bugs.launchpad.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1805256 ***
-    https://bugs.launchpad.net/bugs/1805256
+On Wed, Jun 5, 2019 at 3:59 PM Hesham Almatary
+<hesham.almatary@cl.cam.ac.uk> wrote:
+>
+> On Wed, 5 Jun 2019 at 23:07, Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Thu, May 30, 2019 at 6:52 AM Hesham Almatary
+> > <Hesham.Almatary@cl.cam.ac.uk> wrote:
+> > >
+> > > The PMP should be checked when doing a page table walk, and report access
+> > > fault exception if the to-be-read PTE failed the PMP check.
+> > >
+> > > Suggested-by: Jonathan Behrens <fintelia@gmail.com>
+> > > Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
+> > > ---
+> > >  target/riscv/cpu.h        |  1 +
+> > >  target/riscv/cpu_helper.c | 10 +++++++++-
+> > >  2 files changed, 10 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > > index c17184f4e4..ab3ba3f15a 100644
+> > > --- a/target/riscv/cpu.h
+> > > +++ b/target/riscv/cpu.h
+> > > @@ -94,6 +94,7 @@ enum {
+> > >  #define PRIV_VERSION_1_09_1 0x00010901
+> > >  #define PRIV_VERSION_1_10_0 0x00011000
+> > >
+> > > +#define TRANSLATE_PMP_FAIL 2
+> > >  #define TRANSLATE_FAIL 1
+> > >  #define TRANSLATE_SUCCESS 0
+> > >  #define NB_MMU_MODES 4
+> > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > > index 5a1cd7cf96..00bc4f1712 100644
+> > > --- a/target/riscv/cpu_helper.c
+> > > +++ b/target/riscv/cpu_helper.c
+> > > @@ -211,6 +211,12 @@ restart:
+> > >
+> > >          /* check that physical address of PTE is legal */
+> > >          target_ulong pte_addr = base + idx * ptesize;
+> > > +
+> > > +        if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+> > > +            !pmp_hart_has_privs(env, pte_addr, sizeof(target_ulong),
+> > > +            1 << MMU_DATA_LOAD, PRV_S)) {
+> >
+> > Shouldn't we be passing mode in here?
+> >
+> I actually thought this way at the start. But then I made it PRV_S for
+> intentionality; as in PTW (in the current master, without hypervisor
+> extensions) always goes under PMP protection in S-Mode.
 
-** This bug has been marked a duplicate of bug 1805256
-   qemu-img hangs on high core count ARM system
+Yep, you are right, I see this in the spec:
 
--- =
+"PMP checks are also applied to page-table accesses for
+virtual-address translation, for which the effective privilege mode is
+S."
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1824053
+In which case:
 
-Title:
-  Qemu-img convert appears to be stuck on aarch64 host with low
-  probability
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Status in QEMU:
-  Confirmed
+Alistair
 
-Bug description:
-  Hi,  I found a problem that qemu-img convert appears to be stuck on
-  aarch64 host with low probability.
-
-  The convert command  line is  "qemu-img convert -f qcow2 -O raw
-  disk.qcow2 disk.raw ".
-
-  The bt is below:
-
-  Thread 2 (Thread 0x40000b776e50 (LWP 27215)):
-  #0  0x000040000a3f2994 in sigtimedwait () from /lib64/libc.so.6
-  #1  0x000040000a39c60c in sigwait () from /lib64/libpthread.so.0
-  #2  0x0000aaaaaae82610 in sigwait_compat (opaque=3D0xaaaac5163b00) at uti=
-l/compatfd.c:37
-  #3  0x0000aaaaaae85038 in qemu_thread_start (args=3Dargs@entry=3D0xaaaac5=
-163b90) at util/qemu_thread_posix.c:496
-  #4  0x000040000a3918bc in start_thread () from /lib64/libpthread.so.0
-  #5  0x000040000a492b2c in thread_start () from /lib64/libc.so.6
-
-  Thread 1 (Thread 0x40000b573370 (LWP 27214)):
-  #0  0x000040000a489020 in ppoll () from /lib64/libc.so.6
-  #1  0x0000aaaaaadaefc0 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
-ptimized out>, __fds=3D<optimized out>) at /usr/include/bits/poll2.h:77
-  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>, timeout=
-=3D<optimized out>) at qemu_timer.c:391
-  #3  0x0000aaaaaadae014 in os_host_main_loop_wait (timeout=3D<optimized ou=
-t>) at main_loop.c:272
-  #4  0x0000aaaaaadae190 in main_loop_wait (nonblocking=3D<optimized out>) =
-at main_loop.c:534
-  #5  0x0000aaaaaad97be0 in convert_do_copy (s=3D0xffffdc32eb48) at qemu-im=
-g.c:1923
-  #6  0x0000aaaaaada2d70 in img_convert (argc=3D<optimized out>, argv=3D<op=
-timized out>) at qemu-img.c:2414
-  #7  0x0000aaaaaad99ac4 in main (argc=3D7, argv=3D<optimized out>) at qemu=
--img.c:5305
-
-  The problem seems to be very similar to the phenomenon described by
-  this patch (https://resources.ovirt.org/pub/ovirt-4.1/src/qemu-kvm-
-  ev/0025-aio_notify-force-main-loop-wakeup-with-SIGIO-aarch64.patch),
-
-  which force main loop wakeup with SIGIO.  But this patch was reverted
-  by the patch (http://ovirt.repo.nfrance.com/src/qemu-kvm-ev/kvm-
-  Revert-aio_notify-force-main-loop-wakeup-with-SIGIO-.patch).
-
-  I can reproduce this problem with qemu.git/matser. It still exists in qem=
-u.git/matser. I found that when an IO return in
-  worker threads and want to call aio_notify to wake up main_loop, but it f=
-ound that ctx->notify_me is cleared to 0 by main_loop in aio_ctx_check by c=
-alling atomic_and(&ctx->notify_me, ~1) . So worker thread won't write enven=
-tfd to notify main_loop. If such a scene happens, the main_loop will hang:
-      main loop                        worker thread1                      =
-   worker thread2
-  -------------------------------------------------------------------------=
------------------       =
-
-       qemu_poll_ns                     aio_worker        =
-
-                                      qemu_bh_schedule(pool->completion_bh)=
-                              =
-
-      glib_pollfds_poll
-      g_main_context_check
-      aio_ctx_check                                                        =
- aio_worker                                                                =
-                                    =
-
-      atomic_and(&ctx->notify_me, ~1)                 qemu_bh_schedule(pool=
-->completion_bh)                          =
-
-                                                                           =
-      =
-
-      /* do something for event */   =
-
-      qemu_poll_ns
-      /* hangs !!!*/
-
-  As we known ,ctx->notify_me will be visited by worker thread and main
-  loop. I thank we should add a lock protection for ctx->notify_me to
-  avoid this happend.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1824053/+subscriptions
+> This also aligns with Spike implementation here [1].
+>
+> [1] https://github.com/riscv/riscv-isa-sim/blob/8ac902f6ff877e976af434bfe8fa8445930174a1/riscv/mmu.cc#L288
+>
+>
+> > Alistair
+> >
+> > > +            return TRANSLATE_PMP_FAIL;
+> > > +        }
+> > >  #if defined(TARGET_RISCV32)
+> > >          target_ulong pte = ldl_phys(cs->as, pte_addr);
+> > >  #elif defined(TARGET_RISCV64)
+> > > @@ -413,8 +419,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> > >          (ret == TRANSLATE_SUCCESS) &&
+> > >          !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type,
+> > >          mode)) {
+> > > +        ret = TRANSLATE_PMP_FAIL;
+> > > +    }
+> > > +    if (ret == TRANSLATE_PMP_FAIL) {
+> > >          pmp_violation = true;
+> > > -        ret = TRANSLATE_FAIL;
+> > >      }
+> > >      if (ret == TRANSLATE_SUCCESS) {
+> > >          tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
+> > > --
+> > > 2.17.1
+> > >
+> > >
 
