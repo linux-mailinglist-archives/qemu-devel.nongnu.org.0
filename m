@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BD737B8F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 19:52:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35936 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC8337C09
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:17:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36411 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYwYm-00089K-9I
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 13:52:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44412)
+	id 1hYwx8-0000Qk-9Y
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:17:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45116)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwTo-00047h-Fb
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:13 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwUD-0004dN-Kn
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hYwTl-0003bV-Iw
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:11 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39174)
+	(envelope-from <peter.maydell@linaro.org>) id 1hYwU7-0004D2-NH
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:37 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46279)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hYwTj-0003A2-Qr
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:08 -0400
-Received: by mail-wm1-x341.google.com with SMTP id z23so808736wma.4
-	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:40 -0700 (PDT)
+	id 1hYwU7-0003B9-9t
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 13:47:31 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id n4so3297745wrw.13
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 10:46:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=/3K4w5xTobetV/OczLSlt15Lz4WijJvW66/wYpgJ/Os=;
-	b=VvivHsjkIt0SLNToC5eJ3tTFbQZ/kvt+LIiLBd144+B3yhA5Q5fkCt5J49T0Yp42yj
-	6CIoYaq3msCfoUYY+vv1hJlKFb4CDXAe9zMXMmdJv6AO/wxlj6M68lpggO+fKGSrCYaC
-	SAQnJewYXZG2JVW8ZE2Fx0DRJjruEFUAOFGLxQl8VpEMmd9Lb63ZytQ/jkvbXH8a59Ed
-	AvGm3p/F3gDXC++Fa1350I0KUQaPqGBWBEnPcAMptGQiDVjzOJz2eK//Q55qs70u7irA
-	OOPInS8CrEuTEKTpL3hKCPnMAT+GPuX3ydpBfiFITYP5xRJOQimA9//ClTXCj5v0Ctuq
-	l5Sw==
+	bh=DYPK+P+JSUxtoNlpvBWaaa9Mw2BXlyzOlDcWjRdGGn0=;
+	b=NbBUrf5mKw3jfcFN3ktPU9a4uSCffrdw9pHyV+1wktCRpVkyahWZJJAedIbCdYENZ0
+	4VFbASA3IO6v9HnOS7GuA3R7MF3wJN7fB8Q+bxAGDGRspBYmqS/ujM+T23v1Ogd3go3Y
+	qQrJa7Od5VUp9nEBwKXSS+9vABrVFyvXh+rUOyrFvrfq30HjZcnhmmv/kLljBWw8fmYT
+	1HXx61AGhj8033HonupdDuaYcdp76unR9YSNl2C2SqHGYMLxLme4zJZS6lcJMhdhdM5F
+	EDkuBMt3/7543yNpcO3IPcUHX2eUB3goW029PhOrXHn9791s+j8o+uCMkdF/ukOxIjhT
+	SgqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=/3K4w5xTobetV/OczLSlt15Lz4WijJvW66/wYpgJ/Os=;
-	b=OI6vzinGfD32jrNc8mNV2nS3FllZiKFTfCNQcKgcJ2xe+Wa66OXrBfqtuFjdh6gtVp
-	KIQXwsI6wqEW1PVmWlMrYgIBxBMliTMguR9rxQiqskaRnKoeEy8M29VKzVOxsdfj6Fd3
-	JZRD9xuLzuAEoKO9ZOUPrayOwmdhwxOsFZc4Jn8aMDsZZGwIbGT9BVHLvMuaSS1NtVeK
-	YWAkn2KeAOj+d8artcvyoUE4/sqReDAsjwcEWr0+R0icr0yERlZf8/CK4ngGQTCjIgMI
-	7sPca5m+j+ey8LsMbGs38J+EjtFovqHgKXUvQr/nuaRneMZt/ewr0daXQW28zXpAgqzC
-	SxJA==
-X-Gm-Message-State: APjAAAUC4JqtIAbasZb5EWHUQd6PW3kOCPfpQONrJ0sglV9gg42XZ9VL
-	Znedc8hIYd51NZE8yEihM0/KAQ==
-X-Google-Smtp-Source: APXvYqwAQ1KC2Nm1sUEmztvu+fWqHZoJu9/92aLtWzBL5C1R5ppap5PJWcT7YhXfaxOyciZf5Jt7Bg==
-X-Received: by 2002:a1c:dc45:: with SMTP id t66mr828212wmg.63.1559843199885;
-	Thu, 06 Jun 2019 10:46:39 -0700 (PDT)
+	bh=DYPK+P+JSUxtoNlpvBWaaa9Mw2BXlyzOlDcWjRdGGn0=;
+	b=iIQcOMl0eX2LCGsoJtjbnjwFtIohkjK45He/AYLG5DFJp5MkuqUNEWiXE/lx/i4eeh
+	oXtjOJZXF7NYrbHQiwhBtZtnaNuSv1kI9FM2pnoJSaWfb7BTayP5Sx2qAKFsZKBkI6sP
+	HPWoan+h0TGqguSAF1IB580ZA+JOfrtuxPEW92dXSUT7vvMdy52IdwMNgs2wUI12lsKi
+	2BLyb7ykj+YUPsR9eUzGW6mN6ywCpazXJanHsXtXrpvEJsV+KCa27tqXzKl8tBZWR+Cc
+	8cBN8upWadYi7irH8ja+v7sOwZNIxUT8f9igSCNMYVGGgtd4Nq7BO6o98eMbak3kY0cy
+	qjsA==
+X-Gm-Message-State: APjAAAUn0PaAO2H+e3zKAThAn14sIXdjZHjsGkX14GsOrnBfXcp2cMqP
+	bJRZq2+MSmlGbbdBEyqPhOS94w==
+X-Google-Smtp-Source: APXvYqy9iCSDwEMfPwGtNSqE1lbXJZ3pNvVCQJiADOqdnmsVroDrewSmXKtTaJ4B6S3Yz/wBfUS2fg==
+X-Received: by 2002:a5d:53d2:: with SMTP id a18mr3581270wrw.98.1559843201025; 
+	Thu, 06 Jun 2019 10:46:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 	by smtp.gmail.com with ESMTPSA id
-	z135sm2596784wmc.45.2019.06.06.10.46.38
+	z135sm2596784wmc.45.2019.06.06.10.46.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jun 2019 10:46:39 -0700 (PDT)
+	Thu, 06 Jun 2019 10:46:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 18:45:53 +0100
-Message-Id: <20190606174609.20487-27-peter.maydell@linaro.org>
+Date: Thu,  6 Jun 2019 18:45:54 +0100
+Message-Id: <20190606174609.20487-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190606174609.20487-1-peter.maydell@linaro.org>
 References: <20190606174609.20487-1-peter.maydell@linaro.org>
@@ -66,8 +66,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH 26/42] target/arm: Convert VDIV to decodetree
+X-Received-From: 2a00:1450:4864:20::42d
+Subject: [Qemu-devel] [PATCH 27/42] target/arm: Convert VFP fused
+ multiply-add insns to decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,92 +84,240 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the VDIV instruction to decodetree.
+Convert the VFP fused multiply-add instructions (VFNMA, VFNMS,
+VFMA, VFMS) to decodetree.
+
+Note that in the old decode structure we were implementing
+these to honour the VFP vector stride/length. These instructions
+were introduced in VFPv4, and in the v7A architecture they
+are UNPREDICTABLE if the vector stride or length are non-zero.
+In v8A they must UNDEF if stride or length are non-zero, like
+all VFP instructions; we choose to UNDEF always.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-vfp.inc.c | 10 ++++++++++
- target/arm/translate.c         | 21 +--------------------
- target/arm/vfp.decode          |  5 +++++
- 3 files changed, 16 insertions(+), 20 deletions(-)
+ target/arm/translate-vfp.inc.c | 121 +++++++++++++++++++++++++++++++++
+ target/arm/translate.c         |  53 +--------------
+ target/arm/vfp.decode          |   9 +++
+ 3 files changed, 131 insertions(+), 52 deletions(-)
 
 diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 12da3b8acb8..6af99605d5c 100644
+index 6af99605d5c..ba6506a378c 100644
 --- a/target/arm/translate-vfp.inc.c
 +++ b/target/arm/translate-vfp.inc.c
-@@ -1471,3 +1471,13 @@ static bool trans_VSUB_dp(DisasContext *s, arg_VSUB_sp *a)
+@@ -1481,3 +1481,124 @@ static bool trans_VDIV_dp(DisasContext *s, arg_VDIV_sp *a)
  {
-     return do_vfp_3op_dp(s, gen_helper_vfp_subd, a->vd, a->vn, a->vm, false);
+     return do_vfp_3op_dp(s, gen_helper_vfp_divd, a->vd, a->vn, a->vm, false);
  }
 +
-+static bool trans_VDIV_sp(DisasContext *s, arg_VDIV_sp *a)
++static bool trans_VFM_sp(DisasContext *s, arg_VFM_sp *a)
 +{
-+    return do_vfp_3op_sp(s, gen_helper_vfp_divs, a->vd, a->vn, a->vm, false);
++    /*
++     * VFNMA : fd = muladd(-fd,  fn, fm)
++     * VFNMS : fd = muladd(-fd, -fn, fm)
++     * VFMA  : fd = muladd( fd,  fn, fm)
++     * VFMS  : fd = muladd( fd, -fn, fm)
++     *
++     * These are fused multiply-add, and must be done as one floating
++     * point operation with no rounding between the multiplication and
++     * addition steps.  NB that doing the negations here as separate
++     * steps is correct : an input NaN should come out with its sign
++     * bit flipped if it is a negated-input.
++     */
++    TCGv_ptr fpst;
++    TCGv_i32 vn, vm, vd;
++
++    /*
++     * Present in VFPv4 only.
++     * In v7A, UNPREDICTABLE with non-zero vector length/stride; from
++     * v8A, must UNDEF. We choose to UNDEF for both v7A and v8A.
++     */
++    if (!arm_dc_feature(s, ARM_FEATURE_VFP4) ||
++        (s->vec_len != 0 || s->vec_stride != 0)) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    vn = tcg_temp_new_i32();
++    vm = tcg_temp_new_i32();
++    vd = tcg_temp_new_i32();
++
++    neon_load_reg32(vn, a->vn);
++    neon_load_reg32(vm, a->vm);
++    if (a->o2) {
++        /* VFNMS, VFMS */
++        gen_helper_vfp_negs(vn, vn);
++    }
++    neon_load_reg32(vd, a->vd);
++    if (a->o1 & 1) {
++        /* VFNMA, VFNMS */
++        gen_helper_vfp_negs(vd, vd);
++    }
++    fpst = get_fpstatus_ptr(0);
++    gen_helper_vfp_muladds(vd, vn, vm, vd, fpst);
++    neon_store_reg32(vd, a->vd);
++
++    tcg_temp_free_ptr(fpst);
++    tcg_temp_free_i32(vn);
++    tcg_temp_free_i32(vm);
++    tcg_temp_free_i32(vd);
++
++    return true;
 +}
 +
-+static bool trans_VDIV_dp(DisasContext *s, arg_VDIV_sp *a)
++static bool trans_VFM_dp(DisasContext *s, arg_VFM_sp *a)
 +{
-+    return do_vfp_3op_dp(s, gen_helper_vfp_divd, a->vd, a->vn, a->vm, false);
++    /*
++     * VFNMA : fd = muladd(-fd,  fn, fm)
++     * VFNMS : fd = muladd(-fd, -fn, fm)
++     * VFMA  : fd = muladd( fd,  fn, fm)
++     * VFMS  : fd = muladd( fd, -fn, fm)
++     *
++     * These are fused multiply-add, and must be done as one floating
++     * point operation with no rounding between the multiplication and
++     * addition steps.  NB that doing the negations here as separate
++     * steps is correct : an input NaN should come out with its sign
++     * bit flipped if it is a negated-input.
++     */
++    TCGv_ptr fpst;
++    TCGv_i64 vn, vm, vd;
++
++    /*
++     * Present in VFPv4 only.
++     * In v7A, UNPREDICTABLE with non-zero vector length/stride; from
++     * v8A, must UNDEF. We choose to UNDEF for both v7A and v8A.
++     */
++    if (!arm_dc_feature(s, ARM_FEATURE_VFP4) ||
++        (s->vec_len != 0 || s->vec_stride != 0)) {
++        return false;
++    }
++
++    /* UNDEF accesses to D16-D31 if they don't exist. */
++    if (!dc_isar_feature(aa32_fp_d32, s) && ((a->vd | a->vn | a->vm) & 0x10)) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    vn = tcg_temp_new_i64();
++    vm = tcg_temp_new_i64();
++    vd = tcg_temp_new_i64();
++
++    neon_load_reg64(vn, a->vn);
++    neon_load_reg64(vm, a->vm);
++    if (a->o2) {
++        /* VFNMS, VFMS */
++        gen_helper_vfp_negd(vn, vn);
++    }
++    neon_load_reg64(vd, a->vd);
++    if (a->o1 & 1) {
++        /* VFNMA, VFNMS */
++        gen_helper_vfp_negd(vd, vd);
++    }
++    fpst = get_fpstatus_ptr(0);
++    gen_helper_vfp_muladdd(vd, vn, vm, vd, fpst);
++    neon_store_reg64(vd, a->vd);
++
++    tcg_temp_free_ptr(fpst);
++    tcg_temp_free_i64(vn);
++    tcg_temp_free_i64(vm);
++    tcg_temp_free_i64(vd);
++
++    return true;
 +}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 433f1cbf2c7..d35bf9d92c3 100644
+index d35bf9d92c3..e8785fd26e6 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1374,22 +1374,6 @@ static TCGv_ptr get_fpstatus_ptr(int neon)
-     return statusptr;
- }
- 
--#define VFP_OP2(name)                                                 \
--static inline void gen_vfp_##name(int dp)                             \
--{                                                                     \
--    TCGv_ptr fpst = get_fpstatus_ptr(0);                              \
--    if (dp) {                                                         \
--        gen_helper_vfp_##name##d(cpu_F0d, cpu_F0d, cpu_F1d, fpst);    \
--    } else {                                                          \
--        gen_helper_vfp_##name##s(cpu_F0s, cpu_F0s, cpu_F1s, fpst);    \
--    }                                                                 \
--    tcg_temp_free_ptr(fpst);                                          \
--}
--
--VFP_OP2(div)
--
--#undef VFP_OP2
--
- static inline void gen_vfp_abs(int dp)
- {
-     if (dp)
-@@ -3109,7 +3093,7 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
+@@ -3093,7 +3093,7 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
              rn = VFP_SREG_N(insn);
  
              switch (op) {
--            case 0 ... 7:
-+            case 0 ... 8:
+-            case 0 ... 8:
++            case 0 ... 13:
                  /* Already handled by decodetree */
                  return 1;
              default:
-@@ -3295,9 +3279,6 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
+@@ -3279,57 +3279,6 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
              for (;;) {
                  /* Perform the calculation.  */
                  switch (op) {
--                case 8: /* div: fn / fm */
--                    gen_vfp_div(dp);
+-                case 10: /* VFNMA : fd = muladd(-fd,  fn, fm) */
+-                case 11: /* VFNMS : fd = muladd(-fd, -fn, fm) */
+-                case 12: /* VFMA  : fd = muladd( fd,  fn, fm) */
+-                case 13: /* VFMS  : fd = muladd( fd, -fn, fm) */
+-                    /* These are fused multiply-add, and must be done as one
+-                     * floating point operation with no rounding between the
+-                     * multiplication and addition steps.
+-                     * NB that doing the negations here as separate steps is
+-                     * correct : an input NaN should come out with its sign bit
+-                     * flipped if it is a negated-input.
+-                     */
+-                    if (!arm_dc_feature(s, ARM_FEATURE_VFP4)) {
+-                        return 1;
+-                    }
+-                    if (dp) {
+-                        TCGv_ptr fpst;
+-                        TCGv_i64 frd;
+-                        if (op & 1) {
+-                            /* VFNMS, VFMS */
+-                            gen_helper_vfp_negd(cpu_F0d, cpu_F0d);
+-                        }
+-                        frd = tcg_temp_new_i64();
+-                        tcg_gen_ld_f64(frd, cpu_env, vfp_reg_offset(dp, rd));
+-                        if (op & 2) {
+-                            /* VFNMA, VFNMS */
+-                            gen_helper_vfp_negd(frd, frd);
+-                        }
+-                        fpst = get_fpstatus_ptr(0);
+-                        gen_helper_vfp_muladdd(cpu_F0d, cpu_F0d,
+-                                               cpu_F1d, frd, fpst);
+-                        tcg_temp_free_ptr(fpst);
+-                        tcg_temp_free_i64(frd);
+-                    } else {
+-                        TCGv_ptr fpst;
+-                        TCGv_i32 frd;
+-                        if (op & 1) {
+-                            /* VFNMS, VFMS */
+-                            gen_helper_vfp_negs(cpu_F0s, cpu_F0s);
+-                        }
+-                        frd = tcg_temp_new_i32();
+-                        tcg_gen_ld_f32(frd, cpu_env, vfp_reg_offset(dp, rd));
+-                        if (op & 2) {
+-                            gen_helper_vfp_negs(frd, frd);
+-                        }
+-                        fpst = get_fpstatus_ptr(0);
+-                        gen_helper_vfp_muladds(cpu_F0s, cpu_F0s,
+-                                               cpu_F1s, frd, fpst);
+-                        tcg_temp_free_ptr(fpst);
+-                        tcg_temp_free_i32(frd);
+-                    }
 -                    break;
-                 case 10: /* VFNMA : fd = muladd(-fd,  fn, fm) */
-                 case 11: /* VFNMS : fd = muladd(-fd, -fn, fm) */
-                 case 12: /* VFMA  : fd = muladd( fd,  fn, fm) */
+                 case 14: /* fconst */
+                     if (!arm_dc_feature(s, ARM_FEATURE_VFP3)) {
+                         return 1;
 diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index de56f44efc9..de305f60e18 100644
+index de305f60e18..37eec0e1310 100644
 --- a/target/arm/vfp.decode
 +++ b/target/arm/vfp.decode
-@@ -137,3 +137,8 @@ VSUB_sp      ---- 1110 0.11 .... .... 1010 .1.0 .... \
+@@ -142,3 +142,12 @@ VDIV_sp      ---- 1110 1.00 .... .... 1010 .0.0 .... \
               vm=%vm_sp vn=%vn_sp vd=%vd_sp
- VSUB_dp      ---- 1110 0.11 .... .... 1011 .1.0 .... \
+ VDIV_dp      ---- 1110 1.00 .... .... 1011 .0.0 .... \
               vm=%vm_dp vn=%vn_dp vd=%vd_dp
 +
-+VDIV_sp      ---- 1110 1.00 .... .... 1010 .0.0 .... \
-+             vm=%vm_sp vn=%vn_sp vd=%vd_sp
-+VDIV_dp      ---- 1110 1.00 .... .... 1011 .0.0 .... \
-+             vm=%vm_dp vn=%vn_dp vd=%vd_dp
++VFM_sp       ---- 1110 1.01 .... .... 1010 . o2:1 . 0 .... \
++             vm=%vm_sp vn=%vn_sp vd=%vd_sp o1=1
++VFM_dp       ---- 1110 1.01 .... .... 1011 . o2:1 . 0 .... \
++             vm=%vm_dp vn=%vn_dp vd=%vd_dp o1=1
++VFM_sp       ---- 1110 1.10 .... .... 1010 . o2:1 . 0 .... \
++             vm=%vm_sp vn=%vn_sp vd=%vd_sp o1=2
++VFM_dp       ---- 1110 1.10 .... .... 1011 . o2:1 . 0 .... \
++             vm=%vm_dp vn=%vn_dp vd=%vd_dp o1=2
 -- 
 2.20.1
 
