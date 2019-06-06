@@ -2,66 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E905D37544
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 15:33:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60648 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50C837547
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 15:34:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60654 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYsVo-0006hQ-A7
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 09:33:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40253)
+	id 1hYsWo-0007c7-Qh
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 09:34:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40459)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hYsTr-00065B-Cu
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:31:00 -0400
+	(envelope-from <lersek@redhat.com>) id 1hYsUE-0006Iq-Vi
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:31:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hYsTa-0004gv-RO
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:30:48 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44057)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
-	id 1hYsTa-0004Zc-Ek; Thu, 06 Jun 2019 09:30:42 -0400
-Received: by mail-wr1-x442.google.com with SMTP id b17so1345029wrq.11;
-	Thu, 06 Jun 2019 06:30:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=NclMiI9dNCtXTcVd2vBcghCgJYacivIg8AK4Wn8pWto=;
-	b=LUa4B32f1ZU6csxVlwgSzomkpKvkn7Q+eP4XKOJFw+1id0q+PBRbKyeZPxKBAw6sWD
-	Wuxn0UxKsKcj20Rtu8z8vBk4obYACDDVMqmutBAc6SYrsUIAFuaxvuPxm5fp3pLRHw2C
-	hSw5zSJ95Andgzm/XZ/m30ShhMblcBPqWFG0eQLosUKQyW1plpz49iFRf04XtjQGi2ou
-	NEA6j0+JPFEp0CvuiRC5J/TVBom3f1KfZnzo0KIa7SGjpvI4jMxgGjcZnNSlGWrcQt3h
-	wDYrICXBbFLlnr8SED7GyyeyaPvUi0U1h5wSwvEJmC2u/0kztGzGbWonuL262qYo7Zxo
-	sgiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=NclMiI9dNCtXTcVd2vBcghCgJYacivIg8AK4Wn8pWto=;
-	b=REnkCdPnB1UD8FpYkwi08u4DqSOfkJ3hITms9D9keSAapaWdRlR9rPux4F23GDul6I
-	owMOLxlkDN6H1R21w6LjuofHNWmXn9017ixKzJRpTGtxF6hDKAFiolNpcygFK2Nv4Lle
-	3eUnPTwJ5zCoG9M2SnnsKxvYyP2m5liihztas5S/0H5V4Nr0z1VMOH7gIrg9xgwJ5yuZ
-	xMQYpqDk8Ak644aE78zk8ZfpQapnEitT/VnvgAWAGrlHzO84Yt4clAPLAWbktVgNxgwS
-	gR9L9XVR1bNQVIWaYT97Uu3mN7sEeKsK37HgWCLXJeoYPUxaInzfpYkhWZFDOzGnFaG1
-	R/tw==
-X-Gm-Message-State: APjAAAVVa1ld5jUXx8RV8Z6WlxF5IvD1yK1FGLjFR9ANRkxO5UXhAAPl
-	M49uBIIWBOaHBIJp5CxgfbISd/TJ79drPdBbQYY=
-X-Google-Smtp-Source: APXvYqyRJF1utCtBoqHB9/CbcgecAju6oAl9db8XrP09vcwrSKMOdKZbkecm3GvP40DTWnQheYpvu0FepnhO4tPo6Po=
-X-Received: by 2002:a5d:62c9:: with SMTP id o9mr28065335wrv.186.1559827841014; 
-	Thu, 06 Jun 2019 06:30:41 -0700 (PDT)
+	(envelope-from <lersek@redhat.com>) id 1hYsUD-00084v-VH
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:31:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59914)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hYsUD-000826-Q7
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 09:31:21 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1D22E18DF7A
+	for <qemu-devel@nongnu.org>; Thu,  6 Jun 2019 13:31:18 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-196.ams2.redhat.com
+	[10.36.116.196])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3BD9268424;
+	Thu,  6 Jun 2019 13:31:13 +0000 (UTC)
+From: Laszlo Ersek <lersek@redhat.com>
+To: qemu devel list <qemu-devel@nongnu.org>
+Date: Thu,  6 Jun 2019 15:31:04 +0200
+Message-Id: <20190606133110.13754-1-lersek@redhat.com>
 MIME-Version: 1.0
-References: <20190426061815.6384-1-tiwei.bie@intel.com>
-In-Reply-To: <20190426061815.6384-1-tiwei.bie@intel.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 6 Jun 2019 15:30:29 +0200
-Message-ID: <CAJ+F1CKjHprs15oqrB8K2COUunjeGx-y7kBvAtaxJ17n5yt+iQ@mail.gmail.com>
-To: Tiwei Bie <tiwei.bie@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.29]);
+	Thu, 06 Jun 2019 13:31:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH] vhost-user: fix reconnection support for
- host notifier
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/6] update edk2 submodule & binaries to
+ edk2-stable201905
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,88 +56,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cunming.liang@intel.com, qemu-stable <qemu-stable@nongnu.org>,
-	QEMU <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Launchpad: https://bugs.launchpad.net/qemu/+bug/1831477
+Repo:      https://github.com/lersek/qemu.git
+Branch:    edk2-stable201905-lp-1831477
 
-On Fri, Apr 26, 2019 at 8:32 AM Tiwei Bie <tiwei.bie@intel.com> wrote:
->
-> We need to destroy the host notifiers when cleaning up
-> the backend. Otherwise, some resources are not released
-> after the connection is closed, and it may prevent the
-> external backend from reopening them (e.g. VFIO files)
-> during restart.
->
-> Fixes: 44866521bd6e ("vhost-user: support registering external host notif=
-iers")
-> Cc: qemu-stable@nongnu.org
->
-> Signed-off-by: Tiwei Bie <tiwei.bie@intel.com>
-> ---
->  hw/virtio/vhost-user.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index 553319c7ac..56656629c0 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1454,10 +1454,24 @@ static int vhost_user_backend_init(struct vhost_d=
-ev *dev, void *opaque)
->  static int vhost_user_backend_cleanup(struct vhost_dev *dev)
->  {
->      struct vhost_user *u;
-> +    VhostUserState *user;
-> +    int i;
->
->      assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_USER);
->
->      u =3D dev->opaque;
-> +
-> +    if (dev->vq_index =3D=3D 0) {
-> +        user =3D u->user;
-> +        for (i =3D 0; i < VIRTIO_QUEUE_MAX; i++) {
-> +            if (user->notifier[i].addr) {
-> +                object_unparent(OBJECT(&user->notifier[i].mr));
-> +                munmap(user->notifier[i].addr, qemu_real_host_page_size)=
-;
-> +                user->notifier[i].addr =3D NULL;
-> +            }
-> +        }
-> +    }
+edk2-stable201905 has been released today; let's update QEMU's
+submodule, and the binaries built thereof. This should be the edk2
+release that goes into QEMU 4.1.
 
-Why not call vhost_user_cleanup() ? Alternatively, factor the notifier
-code in a seperate vhost_user_notifiers_cleanup() ?
+Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> +
->      if (u->postcopy_notifier.notify) {
->          postcopy_remove_notifier(&u->postcopy_notifier);
->          u->postcopy_notifier.notify =3D NULL;
-> @@ -1881,6 +1895,8 @@ bool vhost_user_init(VhostUserState *user, CharBack=
-end *chr, Error **errp)
->          error_setg(errp, "Cannot initialize vhost-user state");
->          return false;
->      }
-> +
-> +    memset(user, 0, sizeof(*user));
+Thanks
+Laszlo
 
-This looks superflous. Is it really needed?
+Laszlo Ersek (6):
+  roms/Makefile.edk2: define edk2-stable201905 network feature test
+    macros
+  roms/edk2: update submodule from edk2-stable201903 to
+    edk2-stable201905
+  roms/Makefile.edk2: remove edk2-stable201903 network feature test
+    macros
+  roms/Makefile.edk2: update input file list for
+    "pc-bios/edk2-licenses.txt"
+  pc-bios: refresh edk2 build artifacts for edk2-stable201905
+  pc-bios: update the README file with edk2-stable201905 information
 
-I wish there would be some basic tests for external host notifiers. Is
-it too much to ask to add it in vhost-user-test.c ?
-
-
->      user->chr =3D chr;
->      return true;
->  }
-> --
-> 2.17.1
->
->
-
+ pc-bios/README                         |  14 +-
+ pc-bios/edk2-aarch64-code.fd.bz2       | Bin 1177603 -> 1178070 bytes
+ pc-bios/edk2-arm-code.fd.bz2           | Bin 1173662 -> 1172752 bytes
+ pc-bios/edk2-i386-code.fd.bz2          | Bin 1688659 -> 1736199 bytes
+ pc-bios/edk2-i386-secure-code.fd.bz2   | Bin 1881979 -> 1943949 bytes
+ pc-bios/edk2-licenses.txt              | 752 ++++++++++++++++++--
+ pc-bios/edk2-x86_64-code.fd.bz2        | Bin 1669280 -> 1717094 bytes
+ pc-bios/edk2-x86_64-secure-code.fd.bz2 | Bin 1901210 -> 1958037 bytes
+ roms/Makefile.edk2                     |  22 +-
+ roms/edk2                              |   2 +-
+ 10 files changed, 714 insertions(+), 76 deletions(-)
 
 --=20
-Marc-Andr=C3=A9 Lureau
+2.19.1.3.g30247aa5d201
+
 
