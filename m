@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3922B37C21
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:21:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36485 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE0837C2F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:23:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36511 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYx18-00040m-Cj
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:21:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54801)
+	id 1hYx3D-0006IO-6R
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:23:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54909)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYwzM-0002wG-CG
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:19:49 -0400
+	(envelope-from <mst@redhat.com>) id 1hYwzu-0003Vq-TI
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:20:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYwzL-0007j3-0b
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:19:48 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43752)
+	(envelope-from <mst@redhat.com>) id 1hYwzt-0000UN-WF
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:20:22 -0400
+Received: from mail-qt1-f178.google.com ([209.85.160.178]:40392)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYwzK-0007hl-P0
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:19:46 -0400
-Received: by mail-oi1-x244.google.com with SMTP id w79so2269682oif.10
-	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 11:19:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=yGN9qrzNneJv3/WSYmR17UAWi8U6U8S1GHaGhFkX+qA=;
-	b=tNiEgyVKcyVR5YhsLOuIjCmqxl6ggbJw4Fw25p0k20U4/skQmos8kHArBZClktd/P5
-	VwuT167tad0axf1sFGQCiY8GYEV6uTorXiNDZ5O11tPVX5FsCH21al188fCUGzo4Ort1
-	oEdvXKeviwCQWUDurMRCWESpgccfhlnzePjEHt7Z6d9Y4Hwzt9BtiW1G8LwJX8aGzJwm
-	G5+DDGZRBoCWwUa1adp8LRYD63hYPmqmuyE44JahN2ccDAms4Bd+anAKnbkEL17vz18b
-	JHUeNGhjKltKm14YDOs1po+in/OiUUwF8p00FZn6Bi4PvSVX0aXZpcb3gNAtMNe3hnN2
-	B/Pg==
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hYwzt-0000TS-SY
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:20:21 -0400
+Received: by mail-qt1-f178.google.com with SMTP id a15so3798170qtn.7
+	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 11:20:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=yGN9qrzNneJv3/WSYmR17UAWi8U6U8S1GHaGhFkX+qA=;
-	b=QS1x5rYeqNrSYq72713LquHvsYR7P2fbsBmucYJjfoQPet1qNM+dh7G9h8ciu9XnNT
-	+9fW3qDghJNHMVHCMpSB/r3sUjQtRa78y1MwCwx95N52YSy6qOX48XgJ88ESSA1nwbhl
-	609rzfWN556vl1xmQqngSUhzH1ERO442G0a4cdBs9gVHoY17zBAOJa2gzSdVz5SDoKS3
-	SKfwFNNiPRVRiD7Em4Q0ScrijSGXB4rALhkD4nwRquOFiz0i25rtKDOZiMvVN9U35ZXy
-	FH4rp/KDBK2PwxyKmkCqQEXRpx+dBrvLogQGkuIA4AXr9+sbpF+3GUL4XVBiat9bw7ju
-	X4Tw==
-X-Gm-Message-State: APjAAAVJNJoYwj2IQPz6xqM8r8NnpN6jqOUq1X43ghvSZP+RsGAFzntw
-	4ocdoj/GCEiENeXOO94a9W8anKaXexAbfw==
-X-Google-Smtp-Source: APXvYqx95hM9rFKT5/CvL3NnMNHPtxkoUA/2pMHpZ36O3sv494aynujqpwwomTu7xzNsooYV9YyHYQ==
-X-Received: by 2002:aca:b546:: with SMTP id e67mr979137oif.127.1559845185559; 
-	Thu, 06 Jun 2019 11:19:45 -0700 (PDT)
-Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
-	[200.56.192.86]) by smtp.gmail.com with ESMTPSA id
-	m129sm961638oif.13.2019.06.06.11.19.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jun 2019 11:19:44 -0700 (PDT)
-To: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
-	<1559816130-17113-5-git-send-email-stefan.brankovic@rt-rk.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <fac722ec-ea35-80c5-5820-2ff9d1296620@linaro.org>
-Date: Thu, 6 Jun 2019 13:19:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=QyAcNtUFB8xdCi76myNy6Kjfjm014zJkGzxJXNm0UUI=;
+	b=ZJC/gFqOinxzt43AfUwyIe5E0RQLmoEu5jgo+xKrMImy9kmWVrzZV2X4ehuTxTn9tF
+	Q8x97yM5PJvhHPVIqCvVm4+2Kqgtx2QwpyGllbomtg/8xm8lEnYbq3+9hu774TUo/PXV
+	0pjBEKQ3f0AHH1SeqmWHYJYfenUm+gOQEBN4hQ+QKfjarxvGUQECXIimpmRkml3sNk5g
+	AiNVOt1TDoruAtnchJCAn1PspqCqVn6/2pSek6w8VVRfpAK2/I+GEJ+qsi0edHpk5z2E
+	TO5Un0i1fQBNYmm0SY27izhEFu/OLOtEJC9MXuUTNQ0idhaLWUCsSBtIf34JhWupU315
+	9u3w==
+X-Gm-Message-State: APjAAAXw3XBq/eV8C7pXsdpC6NFu5ZjZujS71v4P61syYIKLi6rm+uGd
+	qdGfBGB06SSzG2RsEy7nkMT15Q==
+X-Google-Smtp-Source: APXvYqzIff5aWeFmd8zK6g1eaqndHFWovb294PDehUIDvpCDiXPc62uo+3qcc2eRwkqim76uSlz0dg==
+X-Received: by 2002:aed:220e:: with SMTP id n14mr13840148qtc.388.1559845220911;
+	Thu, 06 Jun 2019 11:20:20 -0700 (PDT)
+Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
+	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
+	n19sm1066083qkg.58.2019.06.06.11.20.19
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 06 Jun 2019 11:20:20 -0700 (PDT)
+Date: Thu, 6 Jun 2019 14:20:18 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Kashyap Chamarthy <kchamart@redhat.com>
+Message-ID: <20190606141904-mutt-send-email-mst@kernel.org>
+References: <20190606161943.GA9657@paraplu>
 MIME-Version: 1.0
-In-Reply-To: <1559816130-17113-5-git-send-email-stefan.brankovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH 4/8] target/ppc: Optimize emulation of
- vgbbd instruction
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190606161943.GA9657@paraplu>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.160.178
+Subject: Re: [Qemu-devel] PCI(e): Documentation "io-reserve" and related
+ properties?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,147 +68,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/19 5:15 AM, Stefan Brankovic wrote:
-> Optimize altivec instruction vgbbd (Vector Gather Bits by Bytes by Doubleword)
-> All ith bits (i in range 1 to 8) of each byte of doubleword element in
-> source register are concatenated and placed into ith byte of appropriate
-> doubleword element in destination register.
+On Thu, Jun 06, 2019 at 06:19:43PM +0200, Kashyap Chamarthy wrote:
+> Hi folks,
 > 
-> Following solution is done for every doubleword element of source register
-> (placed in shifted variable):
-> We gather bits in 2x8 iterations.
-> In first iteration bit 1 of byte 1, bit 2 of byte 2,... bit 8 of byte 8 are
-> in their final spots so we just and avr with mask. For every next iteration,
-> we have to shift right both shifted(7 places) and mask(8 places), so we get
-> bit 1 of byte 2, bit 2 of byte 3.. bit 7 of byte 8 in right places so we and
-> shifted with new value of mask... After first 8 iteration(first for loop) we
-> have all first bits in their final place all second bits but second bit from
-> eight byte in their place,... only 1 eight bit from eight byte is in it's
-> place), so we and result1 with mask1 to save those bits that are at right
-> place and save them in result1. In second loop we do all operations
-> symetrical, so we get other half of bits on their final spots, and save
-> result in result2. Or of result1 and result2 is placed in appropriate
-> doubleword element of vD. We repeat this 2 times.
+> Today I learnt about some obscure PCIe-related properties, in context of
+> the adding PCIe root ports to a guest, namely:
 > 
-> Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-> ---
->  target/ppc/translate/vmx-impl.inc.c | 99 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 98 insertions(+), 1 deletion(-)
+>     io-reserve
+>     mem-reserve
+>     bus-reserve
+>     pref32-reserve
+>     pref64-reserve
 > 
-> diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-> index 87f69dc..010f337 100644
-> --- a/target/ppc/translate/vmx-impl.inc.c
-> +++ b/target/ppc/translate/vmx-impl.inc.c
-> @@ -780,6 +780,103 @@ static void trans_vsr(DisasContext *ctx)
->      tcg_temp_free_i64(tmp);
->  }
->  
-> +/*
-> + * vgbbd VRT,VRB - Vector Gather Bits by Bytes by Doubleword
-> + *
-> + * All ith bits (i in range 1 to 8) of each byte of doubleword element in source
-> + * register are concatenated and placed into ith byte of appropriate doubleword
-> + * element in destination register.
-> + *
-> + * Following solution is done for every doubleword element of source register
-> + * (placed in shifted variable):
-> + * We gather bits in 2x8 iterations.
-> + * In first iteration bit 1 of byte 1, bit 2 of byte 2,... bit 8 of byte 8 are
-> + * in their final spots so we just and avr with mask. For every next iteration,
-> + * we have to shift right both shifted(7 places) and mask(8 places), so we get
-> + * bit 1 of byte 2, bit 2 of byte 3.. bit 7 of byte 8 in right places so we and
-> + * shifted with new value of mask... After first 8 iteration(first for loop) we
-> + * have all first bits in their final place all second bits but second bit from
-> + * eight byte in their place,... only 1 eight bit from eight byte is in it's
-> + * place), so we and result1 with mask1 to save those bits that are at right
-> + * place and save them in result1. In second loop we do all operations
-> + * symetrical, so we get other half of bits on their final spots, and save
-> + * result in result2. Or of result1 and result2 is placed in appropriate
-> + * doubleword element of vD. We repeat this 2 times.
-> + */
-> +static void trans_vgbbd(DisasContext *ctx)
-> +{
-> +    int VT = rD(ctx->opcode);
-> +    int VB = rB(ctx->opcode);
-> +    TCGv_i64 tmp = tcg_temp_new_i64();
-> +    TCGv_i64 avr = tcg_temp_new_i64();
-> +    TCGv_i64 shifted = tcg_temp_new_i64();
-> +    TCGv_i64 result1 = tcg_temp_new_i64();
-> +    TCGv_i64 result2 = tcg_temp_new_i64();
-> +    uint64_t mask = 0x8040201008040201ULL;
-> +    uint64_t mask1 = 0x80c0e0f0f8fcfeffULL;
-> +    uint64_t mask2 = 0x7f3f1f0f07030100ULL;
-> +    int i;
-> +
-> +    get_avr64(avr, VB, true);
-> +    tcg_gen_movi_i64(result1, 0x0ULL);
-> +    tcg_gen_mov_i64(shifted, avr);
-> +    for (i = 0; i < 8; i++) {
-> +        tcg_gen_andi_i64(tmp, shifted, mask);
-> +        tcg_gen_or_i64(result1, result1, tmp);
-> +
-> +        tcg_gen_shri_i64(shifted, shifted, 7);
-> +        mask = mask >> 8;
-> +    }
-> +    tcg_gen_andi_i64(result1, result1, mask1);
+> Unfortunately, the commit[*] that added them provided no documentation
+> whatsover.
+> 
+> In my scenario, I was specifically wondering about what does
+> "io-reserve" mean, in what context to use it, etc.  (But documentation
+> about other properties is also welcome.)
+> 
+> Anyone more well-versed in this area care to shed some light?
+> 
+> 
+> [*] 6755e618d0 (hw/pci: add PCI resource reserve capability to legacy
+>     PCI bridge, 2018-08-21)
 
-This masking appears to be redundant with the masking within the loop.
+So normally bios would reserve just enough io space to satisfy all
+devices behind a bridge. What if you intend to hotplug more devices?
+These properties allow you to ask bios to reserve extra space.
 
-> +
-> +    mask = 0x8040201008040201ULL;
-> +    tcg_gen_movi_i64(result2, 0x0ULL);
-> +    for (i = 0; i < 8; i++) {
-> +        tcg_gen_andi_i64(tmp, avr, mask);
-> +        tcg_gen_or_i64(result2, result2, tmp);
-> +
-> +        tcg_gen_shli_i64(avr, avr, 7);
-> +        mask = mask << 8;
-> +    }
-> +    tcg_gen_andi_i64(result2, result2, mask2);
-
-Similarly.
-
-Also, the first iteration of the second loop is redundant with the first
-iteration of the first loop.
-
-I will also note that these are large constants, not easily constructable.
-Therefore it would be best to avoid needing to construct them twice.  You can
-do this by processing the two doublewords simultaneously.  e.g.
-
-	TCGv_i64 avr[2], out[2], tmp, tcg_mask;
-
-	identity_mask = 0x8040201008040201ull;
-	tcg_gen_movi_i64(tcg_mask, identity_mask);
-	for (j = 0; j < 2; j++) {
-	    get_avr(avr[j], VB, j);
-	    tcg_gen_and_i64(out[j], avr[j], tcg_mask);
-	}
-	for (i = 1; i < 8; i++) {
-	    tcg_gen_movi_i64(tcg_mask, identity_mask >> (i * 8);
-	    for (j = 0; j < 2; j++) {
-	        tcg_gen_shri_i64(tmp, avr[j], i * 7);
-	        tcg_gen_and_i64(tmp, tmp, tcg_mask);
-	        tcg_gen_or_i64(out[j], out[j], tmp);
-	    }
-	}
-	for (i = 1; i < 8; i++) {
-	    tcg_gen_movi_i64(tcg_mask, identity_mask << (i * 8));
-	    for (j = 0; j < 2; j++) {
-	        tcg_gen_shli_i64(tmp, avr[j], i * 7);
-	        tcg_gen_and_i64(tmp, tmp, tcg_mask);
-	        tcg_gen_or_i64(out[j], out[j], tmp);
-	    }
-	}
-	for (j = 0; j < 2; j++) {
-	    set_avr(VT, out[j], j);
-	}
-
-This should produce the same results with fewer operations.
-
-
-r~
+> -- 
+> /kashyap
 
