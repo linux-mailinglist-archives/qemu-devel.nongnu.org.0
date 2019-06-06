@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CD737868
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 17:46:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34230 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF673785E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 17:43:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34174 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYual-0003ZQ-P8
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 11:46:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44571)
+	id 1hYuYH-0001Ul-67
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 11:43:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44559)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYuWL-0000W5-0M
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYuWK-0000Vl-E3
 	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 11:41:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hYuWJ-0004au-I3
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hYuWJ-0004a9-7v
 	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 11:41:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50208)
+Received: from relay.sw.ru ([185.231.240.75]:50226)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYuWJ-0004X4-Am; Thu, 06 Jun 2019 11:41:39 -0400
+	id 1hYuWJ-0004X8-0F; Thu, 06 Jun 2019 11:41:39 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hYuWC-0000xX-V9; Thu, 06 Jun 2019 18:41:33 +0300
+	id 1hYuWD-0000xX-CX; Thu, 06 Jun 2019 18:41:33 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Thu,  6 Jun 2019 18:41:31 +0300
-Message-Id: <20190606154132.153330-4-vsementsov@virtuozzo.com>
+Date: Thu,  6 Jun 2019 18:41:32 +0300
+Message-Id: <20190606154132.153330-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190606154132.153330-1-vsementsov@virtuozzo.com>
 References: <20190606154132.153330-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 3/4] blockdev: blockdev_mark_auto_del: drop
- usage of bs->job
+Subject: [Qemu-devel] [PATCH 4/4] block: drop bs->job
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,98 +52,125 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, wencongyang2@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to remove bs->job pointer. Drop it's usage in
-blockdev_mark_auto_del: instead of looking at bs->job let's check all
-jobs for references to bs.
+Drop remaining users of bs->job:
+1. assertions actually duplicated by assert(!bs->refcnt)
+2. trace-point seems not enough reason to change stream_start to return
+   BlockJob pointer
+3. Restricting creation of two jobs based on same bs is bad idea, as
+   3.1 Some jobs creates filters to be their main node, so, this check
+   don't actually prevent creating second job on same real node (which
+   will create another filter node) (but I hope it is restricted by
+   other mechanisms)
+   3.2 Even without bs->job we have two systems of permissions:
+   op-blockers and BLK_PERM
+   3.3 We may want to run several jobs on one node one day
+
+And finally, drop bs->job pointer itself. Hurrah!
 
 Suggested-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/blockjob.h |  9 +++++++++
- blockdev.c               | 17 ++++++++---------
- blockjob.c               | 14 ++++++++++++++
- 3 files changed, 31 insertions(+), 9 deletions(-)
+ include/block/block_int.h | 3 ---
+ block.c                   | 2 --
+ blockdev.c                | 2 +-
+ blockjob.c                | 8 --------
+ block/trace-events        | 2 +-
+ 5 files changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/include/block/blockjob.h b/include/block/blockjob.h
-index ede0bd8dcb..35faa3aa26 100644
---- a/include/block/blockjob.h
-+++ b/include/block/blockjob.h
-@@ -121,6 +121,15 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
-  */
- void block_job_remove_all_bdrv(BlockJob *job);
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 8bb1cfb80a..a498c2670b 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -812,9 +812,6 @@ struct BlockDriverState {
+     /* operation blockers */
+     QLIST_HEAD(, BdrvOpBlocker) op_blockers[BLOCK_OP_TYPE_MAX];
  
-+/**
-+ * block_job_has_bdrv:
-+ * @job: The block job
-+ *
-+ * Searches for @bs in the list of nodes that are involved in the
-+ * job.
-+ */
-+bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs);
-+
- /**
-  * block_job_set_speed:
-  * @job: The job to set the speed for.
+-    /* long-running background operation */
+-    BlockJob *job;
+-
+     /* The node that this node inherited default options from (and a reopen on
+      * which can affect this node by changing these defaults). This is always a
+      * parent node of this node. */
+diff --git a/block.c b/block.c
+index e3e77feee0..ceb2ea23c5 100644
+--- a/block.c
++++ b/block.c
+@@ -3905,7 +3905,6 @@ static void bdrv_close(BlockDriverState *bs)
+     BdrvAioNotifier *ban, *ban_next;
+     BdrvChild *child, *next;
+ 
+-    assert(!bs->job);
+     assert(!bs->refcnt);
+ 
+     bdrv_drained_begin(bs); /* complete I/O */
+@@ -4146,7 +4145,6 @@ out:
+ 
+ static void bdrv_delete(BlockDriverState *bs)
+ {
+-    assert(!bs->job);
+     assert(bdrv_op_blocker_is_empty(bs));
+     assert(!bs->refcnt);
+ 
 diff --git a/blockdev.c b/blockdev.c
-index 3f44b891eb..58aa1369a4 100644
+index 58aa1369a4..51eb5e86d7 100644
 --- a/blockdev.c
 +++ b/blockdev.c
-@@ -140,22 +140,21 @@ void override_max_devs(BlockInterfaceType type, int max_devs)
- void blockdev_mark_auto_del(BlockBackend *blk)
- {
-     DriveInfo *dinfo = blk_legacy_dinfo(blk);
--    BlockDriverState *bs = blk_bs(blk);
--    AioContext *aio_context;
-+    BlockJob *job;
- 
-     if (!dinfo) {
-         return;
+@@ -3264,7 +3264,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         goto out;
      }
  
--    if (bs) {
--        aio_context = bdrv_get_aio_context(bs);
--        aio_context_acquire(aio_context);
-+    for (job = block_job_next(NULL); job; job = block_job_next(job)) {
-+        if (block_job_has_bdrv(job, blk_bs(blk))) {
-+            AioContext *aio_context = job->job.aio_context;
-+            aio_context_acquire(aio_context);
+-    trace_qmp_block_stream(bs, bs->job);
++    trace_qmp_block_stream(bs);
  
--        if (bs->job) {
--            job_cancel(&bs->job->job, false);
--        }
-+            job_cancel(&job->job, false);
- 
--        aio_context_release(aio_context);
-+            aio_context_release(aio_context);
-+        }
-     }
- 
-     dinfo->auto_del = 1;
+ out:
+     aio_context_release(aio_context);
 diff --git a/blockjob.c b/blockjob.c
-index 931d675c0c..7b6737adde 100644
+index 7b6737adde..d64ea2623a 100644
 --- a/blockjob.c
 +++ b/blockjob.c
-@@ -199,6 +199,20 @@ void block_job_remove_all_bdrv(BlockJob *job)
-     job->nodes = NULL;
- }
- 
-+bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs)
-+{
-+    GSList *el;
-+
-+    for (el = job->nodes; el; el = el->next) {
-+        BdrvChild *c = el->data;
-+        if (c->bs == bs) {
-+            return true;
-+        }
-+    }
-+
-+    return false;
-+}
-+
- int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
-                        uint64_t perm, uint64_t shared_perm, Error **errp)
+@@ -84,9 +84,7 @@ BlockJob *block_job_get(const char *id)
+ void block_job_free(Job *job)
  {
+     BlockJob *bjob = container_of(job, BlockJob, job);
+-    BlockDriverState *bs = blk_bs(bjob->blk);
+ 
+-    bs->job = NULL;
+     block_job_remove_all_bdrv(bjob);
+     blk_unref(bjob->blk);
+     error_free(bjob->blocker);
+@@ -403,11 +401,6 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+     BlockJob *job;
+     int ret;
+ 
+-    if (bs->job) {
+-        error_setg(errp, QERR_DEVICE_IN_USE, bdrv_get_device_name(bs));
+-        return NULL;
+-    }
+-
+     if (job_id == NULL && !(flags & JOB_INTERNAL)) {
+         job_id = bdrv_get_device_name(bs);
+     }
+@@ -450,7 +443,6 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+     error_setg(&job->blocker, "block device is in use by block job: %s",
+                job_type_str(&job->job));
+     block_job_add_bdrv(job, "main node", bs, 0, BLK_PERM_ALL, &error_abort);
+-    bs->job = job;
+ 
+     bdrv_op_unblock(bs, BLOCK_OP_TYPE_DATAPLANE, job->blocker);
+ 
+diff --git a/block/trace-events b/block/trace-events
+index eab51497fc..912f84af39 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -53,7 +53,7 @@ qmp_block_job_resume(void *job) "job %p"
+ qmp_block_job_complete(void *job) "job %p"
+ qmp_block_job_finalize(void *job) "job %p"
+ qmp_block_job_dismiss(void *job) "job %p"
+-qmp_block_stream(void *bs, void *job) "bs %p job %p"
++qmp_block_stream(void *bs) "bs %p"
+ 
+ # file-posix.c
+ # file-win32.c
 -- 
 2.18.0
 
