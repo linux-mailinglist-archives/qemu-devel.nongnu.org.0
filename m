@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D89236EF8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 10:44:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56562 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952F036F11
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 10:48:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56636 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYo0L-0004V7-3y
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 04:44:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55430)
+	id 1hYo4b-0008DD-PV
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 04:48:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55549)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hYnyD-0003ZF-Na
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:02 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hYnyf-0003mZ-6q
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hYnsI-0003V1-4h
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:35:54 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hYnsJ-0003W5-Ie
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:35:56 -0400
 Received: from mga14.intel.com ([192.55.52.115]:4990)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hYnsH-0003TJ-Sd
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:35:54 -0400
+	id 1hYnsJ-0003TJ-Ap
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:35:55 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Jun 2019 01:35:53 -0700
+	06 Jun 2019 01:35:55 -0700
 X-ExtLoop1: 1
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2019 01:35:52 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2019 01:35:54 -0700
 From: Wei Yang <richardw.yang@linux.intel.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  6 Jun 2019 16:34:57 +0800
-Message-Id: <20190606083501.2087-3-richardw.yang@linux.intel.com>
+Date: Thu,  6 Jun 2019 16:34:58 +0800
+Message-Id: <20190606083501.2087-4-richardw.yang@linux.intel.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190606083501.2087-1-richardw.yang@linux.intel.com>
 References: <20190606083501.2087-1-richardw.yang@linux.intel.com>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 192.55.52.115
-Subject: [Qemu-devel] [PATCH 2/6] migration/multifd: notify channels_ready
- when send thread starts
+Subject: [Qemu-devel] [PATCH 3/6] migration/multifd: use sync field to
+ synchronize send threads
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,36 +59,80 @@ Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-multifd_send_state->channels_ready is initialized to 0. It is proper to
-let main thread know we are ready when thread start running.
+Add a field in MultiFDSendParams to indicate there is a request to
+synchronize send threads.
 
-Current implementation works since ram_save_setup() calls
-multifd_send_sync_main() which wake up send thread and posts
-channels_ready. This behavior will introduce some unpredictable
-situation and disturb the semaphore value.
-
-This is a preparation patch to use another mechanism to do send thread
-synchronization to avoid post channels_ready in this case. So this patch
-posts channels_ready when send threads start running.
+By doing so, send_thread will just post sem_sync on synchronization
+request and channels_ready will not *overflow*.
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 ---
- migration/ram.c | 2 ++
- 1 file changed, 2 insertions(+)
+ migration/ram.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index a4e7587648..f9e53ac413 100644
+index f9e53ac413..9982930392 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -1093,6 +1093,8 @@ static void *multifd_send_thread(void *opaque)
-     }
-     /* initial packet */
-     p->num_packets = 1;
-+    /* let main thread know we are ready */
-+    qemu_sem_post(&multifd_send_state->channels_ready);
+@@ -640,6 +640,8 @@ typedef struct {
+     QemuMutex mutex;
+     /* is this channel thread running */
+     bool running;
++    /* should sync this channel */
++    bool sync;
+     /* should this thread finish */
+     bool quit;
+     /* thread has work to do */
+@@ -1065,8 +1067,7 @@ static void multifd_send_sync_main(void)
+         qemu_mutex_lock(&p->mutex);
  
-     while (true) {
-         qemu_sem_wait(&p->sem);
+         p->packet_num = multifd_send_state->packet_num++;
+-        p->flags |= MULTIFD_FLAG_SYNC;
+-        p->pending_job++;
++        p->sync = true;
+         qemu_mutex_unlock(&p->mutex);
+         qemu_sem_post(&p->sem);
+     }
+@@ -1129,10 +1130,27 @@ static void *multifd_send_thread(void *opaque)
+             p->pending_job--;
+             qemu_mutex_unlock(&p->mutex);
+ 
+-            if (flags & MULTIFD_FLAG_SYNC) {
+-                qemu_sem_post(&multifd_send_state->sem_sync);
+-            }
+             qemu_sem_post(&multifd_send_state->channels_ready);
++        } else if (p->sync) {
++            uint64_t packet_num = p->packet_num;
++            uint32_t flags = p->flags;
++            assert(!p->pages->used);
++
++            p->flags |= MULTIFD_FLAG_SYNC;
++            multifd_send_fill_packet(p);
++            p->sync = false;
++            qemu_mutex_unlock(&p->mutex);
++
++            trace_multifd_send(p->id, packet_num, 0, flags | MULTIFD_FLAG_SYNC,
++                               p->next_packet_size);
++
++            ret = qio_channel_write_all(p->c, (void *)p->packet,
++                                        p->packet_len, &local_err);
++            if (ret != 0) {
++                break;
++            }
++
++            qemu_sem_post(&multifd_send_state->sem_sync);
+         } else if (p->quit) {
+             qemu_mutex_unlock(&p->mutex);
+             break;
+@@ -1196,7 +1214,7 @@ int multifd_save_setup(void)
+ 
+         qemu_mutex_init(&p->mutex);
+         qemu_sem_init(&p->sem, 0);
+-        p->quit = false;
++        p->sync = p->quit = false;
+         p->pending_job = 0;
+         p->id = i;
+         p->pages = multifd_pages_init(page_count);
 -- 
 2.19.1
 
