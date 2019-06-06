@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC2737483
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 14:51:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60073 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23123734D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 13:49:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58904 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYrrR-0004jO-GV
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 08:51:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41803)
+	id 1hYqtM-0005XR-FJ
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 07:49:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42361)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Georg.Hofstetter@efs-auto.de>) id 1hYqoq-0004rA-GO
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:44:33 -0400
+	(envelope-from <mlevitsk@redhat.com>) id 1hYqrt-00059k-AB
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:47:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <Georg.Hofstetter@efs-auto.de>) id 1hYqoo-0005ud-Hg
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:44:32 -0400
-Received: from mailin3.audi.de ([143.164.102.17]:53801)
+	(envelope-from <mlevitsk@redhat.com>) id 1hYqrs-0001EP-8m
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:47:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43408)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <Georg.Hofstetter@efs-auto.de>)
-	id 1hYqol-0005d0-9w
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 07:44:29 -0400
-From: "Hofstetter, Georg (EFS-GH2)" <Georg.Hofstetter@efs-auto.de>
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH 5/5] tricore: reset DisasContext before
-	generating code
-Thread-Index: AQHVG2WPDZN0Ee3vBE+d7NmN2Cr7ZKaMokeAgAHUenA=
-Date: Thu, 6 Jun 2019 11:44:11 +0000
-Message-ID: <69A9BBE82CEA98469F7BA51850C5B89CDC412063@AUDIINSX0364.audi.vwg>
-References: <20190605061126.10244-1-david.brenken@efs-auto.org>
-	<20190605061126.10244-6-david.brenken@efs-auto.org>
-	<aaf05b6e-fb2b-1aa8-da49-b6ce29616073@mail.uni-paderborn.de>
-In-Reply-To: <aaf05b6e-fb2b-1aa8-da49-b6ce29616073@mail.uni-paderborn.de>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.251.134.55]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 143.164.102.17
-X-Mailman-Approved-At: Thu, 06 Jun 2019 08:47:51 -0400
-Subject: Re: [Qemu-devel] [PATCH 5/5] tricore: reset DisasContext before
- generating code
+	(Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+	id 1hYqrl-0000x6-Dq; Thu, 06 Jun 2019 07:47:34 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 952EFC04BD44;
+	Thu,  6 Jun 2019 11:47:09 +0000 (UTC)
+Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A4F7C691A0;
+	Thu,  6 Jun 2019 11:47:03 +0000 (UTC)
+Message-ID: <ec83bd8083beaf97053a60425a7730056ce9c272.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-devel@nongnu.org
+Date: Thu, 06 Jun 2019 14:47:02 +0300
+In-Reply-To: <20190603123823.32661-2-mehta.aaru20@gmail.com>
+References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
+	<20190603123823.32661-2-mehta.aaru20@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.31]);
+	Thu, 06 Jun 2019 11:47:19 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v4 1/9] configure: permit use
+ of io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,53 +58,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+	qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+	Max Reitz <mreitz@redhat.com>, saket.sinha89@gmail.com,
+	Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Julia Suvorova <jusual@mail.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgU2ViYXN0aWFuLA0KDQppbiB0cmFuc2xhdGUuYzpnZW5fbXRjcigpIGNvZGUgYWNjZXNzZXMg
-aGZsYWdzIHdpdGhpbiB0aGUgc3RydWN0dXJlOg0KICAgIGlmICgoY3R4LT5oZmxhZ3MgJiBUUklD
-T1JFX0hGTEFHX0tVVSkgPT0gVFJJQ09SRV9IRkxBR19TTSkgew0KICAgICAgICAvKiBzaW5jZSB3
-ZSdyZSBjYWNoaW5nIFBTVyBtYWtlIHRoaXMgYSBzcGVjaWFsIGNhc2UgKi8NCg0KVGhlIGNvZGUg
-ZXhwZWN0cyB0aGUgSEZMQUcgc2V0IGZvciBrZXJuZWwgbW9kZSBpbiAoaSBndWVzcykgcHJlcGFy
-YXRpb24gZm9yIHN1cHBvcnRpbmcgb3BlcmF0aW9uIG1vZGVzLg0KVGhlcmUgaXMgbm8gY29kZSBt
-b2RpZnlpbmcgdGhlc2UgZmxhZ3MuDQpUaGUgZmxhZ3Mgd2VyZSBpbnRyb2R1Y2VkIGluIDBhYWVi
-MTEgYW5kIHRoZXJlIGl0IGxvb2tzIGxpa2UgaXQgd2FzIGV4cGVjdGVkIHRvIGJlIHplcm9lZCAt
-IG1heWJlIHlvdSBrbm93IGEgYml0IG1vcmUuDQoNCkFzIGhhdmluZyBhIHN0YWNrIHZhcmlhYmxl
-IHVuaW5pdGlhbGl6ZWQgaXMgZ2VuZXJhbGx5IGEgYmFkIGlkZWEsIHNvIG15IHByb3Bvc2FsIHdh
-cyB0byB6ZXJvIGl0IGFzIGEgd2hvbGUsIGFzIGl0IHdvdWxkIGJlIGZvciBic3MgdmFyaWFibGVz
-Lg0KQWx0ZXJuYXRpdmVseSB3ZSBjb3VsZCBpbml0aWFsaXplIHRoZW0gZXhwbGljaXRseSB0byB6
-ZXJvIG9yIFRSSUNPUkVfSEZMQUdfU00uDQoNCiAgICBjdHguaGZsYWdzID0gVFJJQ09SRV9IRkxB
-R19TTTsNCg0KTm90IHN1cmUgdGhvdWdoIHdoeSBhIGNwdSBzdGF0ZSBmbGFnIGlzIHdpdGhpbiBE
-aXNhc0NvbnRleHQuDQoNClJlZ2FyZHMsDQpHZW9yZw0KDQoNCi0tLS0tVXJzcHLDvG5nbGljaGUg
-TmFjaHJpY2h0LS0tLS0NClZvbjogQmFzdGlhbiBLb3BwZWxtYW5uIDxrYmFzdGlhbkBtYWlsLnVu
-aS1wYWRlcmJvcm4uZGU+IA0KR2VzZW5kZXQ6IE1pdHR3b2NoLCA1LiBKdW5pIDIwMTkgMTE6MDIN
-CkFuOiBEYXZpZCBCcmVua2VuIDxkYXZpZC5icmVua2VuQGVmcy1hdXRvLm9yZz47IHFlbXUtZGV2
-ZWxAbm9uZ251Lm9yZw0KQ2M6IEJpZXJtYW5za2ksIExhcnMgKEVGUy1HSDMpIDxsYXJzLmJpZXJt
-YW5za2lAZWZzLWF1dG8uZGU+OyBIb2ZzdGV0dGVyLCBHZW9yZyAoRUZTLUdIMikgPEdlb3JnLkhv
-ZnN0ZXR0ZXJAZWZzLWF1dG8uZGU+OyBCcmVua2VuLCBEYXZpZCAoRUZTLUdIMikgPGRhdmlkLmJy
-ZW5rZW5AZWZzLWF1dG8uZGU+OyBSYXNjaGUsIFJvYmVydCAoRUZTLUdIMikgPHJvYmVydC5yYXNj
-aGVAZWZzLWF1dG8uZGU+OyBLb25vcGlrLCBBbmRyZWFzIChFRlMtR0gyKSA8YW5kcmVhcy5rb25v
-cGlrQGVmcy1hdXRvLmRlPg0KQmV0cmVmZjogUmU6IFtRZW11LWRldmVsXSBbUEFUQ0ggNS81XSB0
-cmljb3JlOiByZXNldCBEaXNhc0NvbnRleHQgYmVmb3JlIGdlbmVyYXRpbmcgY29kZQ0KDQpIaSwN
-Cg0KT24gNi81LzE5IDg6MTEgQU0sIERhdmlkIEJyZW5rZW4gd3JvdGU6DQo+IEZyb206IEdlb3Jn
-IEhvZnN0ZXR0ZXIgPGdlb3JnLmhvZnN0ZXR0ZXJAZWZzLWF1dG8uZGU+DQo+DQo+IFNpZ25lZC1v
-ZmYtYnk6IEFuZHJlYXMgS29ub3BpayA8YW5kcmVhcy5rb25vcGlrQGVmcy1hdXRvLmRlPg0KPiBT
-aWduZWQtb2ZmLWJ5OiBEYXZpZCBCcmVua2VuIDxkYXZpZC5icmVua2VuQGVmcy1hdXRvLmRlPg0K
-PiBTaWduZWQtb2ZmLWJ5OiBHZW9yZyBIb2ZzdGV0dGVyIDxnZW9yZy5ob2ZzdGV0dGVyQGVmcy1h
-dXRvLmRlPg0KPiBTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgUmFzY2hlIDxyb2JlcnQucmFzY2hlQGVm
-cy1hdXRvLmRlPg0KPiBTaWduZWQtb2ZmLWJ5OiBMYXJzIEJpZXJtYW5za2kgPGxhcnMuYmllcm1h
-bnNraUBlZnMtYXV0by5kZT4NCj4NCj4gLS0tDQo+ICAgdGFyZ2V0L3RyaWNvcmUvdHJhbnNsYXRl
-LmMgfCAxICsNCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCj4NCj4gZGlmZiAt
-LWdpdCBhL3RhcmdldC90cmljb3JlL3RyYW5zbGF0ZS5jIGIvdGFyZ2V0L3RyaWNvcmUvdHJhbnNs
-YXRlLmMgDQo+IGluZGV4IGRiMDlmODJjMzEuLmNkYmMwMGQ2NTQgMTAwNjQ0DQo+IC0tLSBhL3Rh
-cmdldC90cmljb3JlL3RyYW5zbGF0ZS5jDQo+ICsrKyBiL3RhcmdldC90cmljb3JlL3RyYW5zbGF0
-ZS5jDQo+IEBAIC04ODExLDYgKzg4MTEsNyBAQCB2b2lkIGdlbl9pbnRlcm1lZGlhdGVfY29kZShD
-UFVTdGF0ZSAqY3MsIFRyYW5zbGF0aW9uQmxvY2sgKnRiLCBpbnQgbWF4X2luc25zKQ0KPiAgICAg
-ICB0YXJnZXRfdWxvbmcgcGNfc3RhcnQ7DQo+ICAgICAgIGludCBudW1faW5zbnMgPSAwOw0KPiAg
-IA0KPiArICAgIG1lbXNldCgmY3R4LCAweDAwLCBzaXplb2YoRGlzYXNDb250ZXh0KSk7DQo+ICAg
-ICAgIHBjX3N0YXJ0ID0gdGItPnBjOw0KPiAgICAgICBjdHgucGMgPSBwY19zdGFydDsNCj4gICAg
-ICAgY3R4LnNhdmVkX3BjID0gLTE7DQoNClRvIG1lIHRoaXMgbG9va3MgbGlrZSBmaXhpbmcgYSBz
-eW1wdG9tIGluc3RlYWQgb2YgdGhlIHJvb3QgY2F1c2UuIFdoaWNoIGNvbW1pdCBkaWQgeW91IGJp
-c2VjdCB0bz8gRG8geW91IGhhdmUgYSByZXByb2R1Y2VyPw0KDQpDaGVlcnMsDQoNCkJhc3RpYW4N
-Cg0K
+On Mon, 2019-06-03 at 18:08 +0530, Aarushi Mehta wrote:
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+> ---
+>  configure | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/configure b/configure
+> index 6cdcfb2dc3..cb49ef0fcc 100755
+> --- a/configure
+> +++ b/configure
+> @@ -365,6 +365,7 @@ xen=""
+>  xen_ctrl_version=""
+>  xen_pci_passthrough=""
+>  linux_aio=""
+> +linux_io_uring=""
+>  cap_ng=""
+>  attr=""
+>  libattr=""
+> @@ -1266,6 +1267,10 @@ for opt do
+>    ;;
+>    --enable-linux-aio) linux_aio="yes"
+>    ;;
+> +  --disable-linux-io-uring) linux_io_uring="no"
+> +  ;;
+> +  --enable-linux-io-uring) linux_io_uring="yes"
+> +  ;;
+>    --disable-attr) attr="no"
+>    ;;
+>    --enable-attr) attr="yes"
+> @@ -1784,6 +1789,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+>    vde             support for vde network
+>    netmap          support for netmap network
+>    linux-aio       Linux AIO support
+> +  linux-io-uring  Linux io_uring support
+>    cap-ng          libcap-ng support
+>    attr            attr and xattr support
+>    vhost-net       vhost-net kernel acceleration support
+> @@ -3973,6 +3979,21 @@ EOF
+>      linux_aio=no
+>    fi
+>  fi
+> +##########################################
+> +# linux-io-uring probe
+> +
+> +if test "$linux_io_uring" != "no" ; then
+> +  if $pkg_config liburing; then
+> +    linux_io_uring_cflags=$($pkg_config --cflags liburing)
+> +    linux_io_uring_libs=$($pkg_config --libs liburing)
+> +    linux_io_uring=yes
+> +  else
+> +    if test "$linux_io_uring" = "yes" ; then
+> +      feature_not_found "linux io_uring" "Install liburing devel"
+> +    fi
+> +    linux_io_uring=no
+> +  fi
+> +fi
+>  
+>  ##########################################
+>  # TPM emulation is only on POSIX
+> @@ -6396,6 +6417,7 @@ echo "PIE               $pie"
+>  echo "vde support       $vde"
+>  echo "netmap support    $netmap"
+>  echo "Linux AIO support $linux_aio"
+> +echo "Linux io_uring support $linux_io_uring"
+>  echo "ATTR/XATTR support $attr"
+>  echo "Install blobs     $blobs"
+>  echo "KVM support       $kvm"
+> @@ -6876,6 +6898,11 @@ fi
+>  if test "$linux_aio" = "yes" ; then
+>    echo "CONFIG_LINUX_AIO=y" >> $config_host_mak
+>  fi
+> +if test "$linux_io_uring" = "yes" ; then
+> +  echo "CONFIG_LINUX_IO_URING=y" >> $config_host_mak
+> +  echo "LINUX_IO_URING_CFLAGS=$linux_io_uring_cflags" >> $config_host_mak
+> +  echo "LINUX_IO_URING_LIBS=$linux_io_uring_libs" >> $config_host_mak
+> +fi
+>  if test "$attr" = "yes" ; then
+>    echo "CONFIG_ATTR=y" >> $config_host_mak
+>  fi
+
+
+
+Reviewed-by: Maxim Levitsky <maximlevitsky@gmail.com>
+
+Best regards,
+	Maxim Levitsky
+
 
