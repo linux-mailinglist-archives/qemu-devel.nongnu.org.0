@@ -1,132 +1,109 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D17C37C58
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 20:35:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36656 helo=lists.gnu.org)
-	by lists.gnu.org with esmtp (Exim 4.71)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C42937D26
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 21:20:47 +0200 (CEST)
+Received: from localhost ([::1]:54586 helo=lists.gnu.org)
+	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYxEi-0004mS-4e
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 14:35:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58328)
-	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYxDW-0004L0-4y
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:34:27 -0400
+	id 1hYxwL-0001E2-SA
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 15:20:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53567)
+ by lists.gnu.org with esmtp (Exim 4.86_2)
+ (envelope-from <alistair23@gmail.com>) id 1hYxlE-0004dY-LN
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 15:09:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hYxDV-0003Sp-71
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:34:26 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34577)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hYxDU-0003KL-UB
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:34:25 -0400
-Received: by mail-ot1-x341.google.com with SMTP id z24so2939032oto.1
-	for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 11:34:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=RlCYGH+221kIeiTRbc/5GBCNLC+DFHEoe//7Gf2/98w=;
-	b=VIiEFrKMsviaSBA+PC2ycGHJLG1ksnEf+FYoxzla012OXRAmRWCBlLfpXcHdfpmswp
-	Q3uAXWxsB7vhpKq352jDcO00A1WlLyKaka/cPnlAot4+g0lI+FUEvnIcjqq/ac3kUqm8
-	lskWQP+uu4eOsisInRiSdeJW8/BW3CBI9U/3Cxaq0IMLIhPOkIgaZysfdOu3ZA+2TWVK
-	uJEAINVUfhYVxTGplkHOBBFAWjq5ltD1eyHFBKNWFSIrgir+ydPKqTu780z3D/TCvEBF
-	uPEwCSMAHgNQTnKJatiKRSi2jYGwkA3/Z5lzIh3cRfeW6uPSeMA2O/WhxePLrNyTjKO/
-	ZCwg==
+ (envelope-from <alistair23@gmail.com>) id 1hYxMn-0003nG-Jc
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 14:44:02 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:43708)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hYxMn-0003ee-CP; Thu, 06 Jun 2019 14:44:01 -0400
+Received: by mail-lf1-x143.google.com with SMTP id j29so895703lfk.10;
+ Thu, 06 Jun 2019 11:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l2Dns/96orDoa6iQDHWoGDluZMJkCvzTInd0FDZD4v4=;
+ b=N3tJOmjdmujTIgv1BX17b/yUdg335lChq4QaRWlBf3BTvjZqcSqWJnCq/91gpdcoam
+ AYA8le4T1azz9rXFWSn8wT2G6J/umT0hpc3Os0deilU+4E9PVXTrm+ROLPUWw74F6A1R
+ VFZ0Raeq2Fbaq2oJRicqjWu+ZU8ffkX2Dar06lLDaAdNrnAW6jaSqrGKIBkvNNjyDUal
+ 4EWMCXBpQslzpLCfs1H0YgsyMfwdsn3jhJMzXbiy5wY02olKDDqssjlsXbJaZ1sFcr1w
+ VraN0LDTWQZm+5JzpyXDfMoOCXrj8OtjMHPvyE97cgFI+WbT/12lIYSXFWRNlP0acxn7
+ Rgvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=RlCYGH+221kIeiTRbc/5GBCNLC+DFHEoe//7Gf2/98w=;
-	b=KIiQJPpHMKqvkPSbQGmxqW8QWPKECVcmxKBG65I/odg9QmM/cj3jvrf8UDob1GtNI0
-	a81RSUR1uowKnG659+U3SS50dT36cGUZ3oSrmB/TaRglP2tyF0X0KcrCsK3uTGOS8OG7
-	YjNioe1/gRwtofunG5s2YRBPqW+0Uj14XU/8l6qjtm0Ffuo//qOUpcJ1Jya+UAGOFOzu
-	zhugTlb/o6NPsrR4qAhq7ATjUhKHq+ixX17VG42zRs4T122GoSi0bk302mDKLr/PddlV
-	fwUtFUfLa/opQik05xus/HLYmESpvka8g3EHifuOvdsB0TEI3Sb3cnBB8GHHX7D9VE2/
-	O5wA==
-X-Gm-Message-State: APjAAAXDufUdxDN7VK19wwDvtKUfV+NTYmMLvUe3Uuva469SgWcBAR2S
-	5ZIV7heiVvId/ULAmSpO24ayCQ==
-X-Google-Smtp-Source: APXvYqzR7nykvAaWcyjyaYyQ8Zsrl7DCr6ZKDA4x6dnK7rVoNyQ563J2qyennh8GIzWVoWCnGCnPGQ==
-X-Received: by 2002:a9d:7d16:: with SMTP id v22mr11417123otn.124.1559846061266;
-	Thu, 06 Jun 2019 11:34:21 -0700 (PDT)
-Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
-	[200.56.192.86])
-	by smtp.gmail.com with ESMTPSA id o3sm822774otl.76.2019.06.06.11.34.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Jun 2019 11:34:20 -0700 (PDT)
-To: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
-	<1559816130-17113-7-git-send-email-stefan.brankovic@rt-rk.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <18871125-cb2c-57e7-864d-c5c7a8846093@linaro.org>
-Date: Thu, 6 Jun 2019 13:34:17 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l2Dns/96orDoa6iQDHWoGDluZMJkCvzTInd0FDZD4v4=;
+ b=LkQ5DnYzJ/6tYng/FS6iYDWP4uSoXn7i4I6K3MJo2kQfdItc++WDVwZyUbUmaj3WDX
+ ZlNcyERh1Oxu0nKIcMbIMXVBzfnzskfge9Rs1aMDYHxvq2DiBB5sDsk3wIjzFFT8X/Mj
+ WZveZwZmzbgvdMyup0C+j1pn/GUuYHlOJJJuUHjXs6GUfb431toNUeeIQTfiU9DmlYsu
+ UjqDzdyIytmLaw2IUsGnBE0IGO6ut4N9RcdgveakNCmMAY6UogUJk0wItPO+wbFq+uMK
+ lemITtnYJ/C7BTVFY9JeDQjyqO5JoT24bIpJSwG6w/gWCyDzChK/UgLIyKckGHA7C0b2
+ 6lLg==
+X-Gm-Message-State: APjAAAXyDQu26caIGQEzgrDE4/7TWNlsF2SlzsHltffO3PNqSTJv2GFQ
+ CFeZ5aWOBvbFSshYTth0Ljci+/3XCmCpVbNeChA=
+X-Google-Smtp-Source: APXvYqw9rdCLBYfvGa6++WVI/RsPQt3AzeSylSzfdPz+jgzZ7KK53inWtOq25PY9ido/7de64EPKfGREHfXodHRc+Ow=
+X-Received: by 2002:a19:2b14:: with SMTP id r20mr13706519lfr.86.1559846637767; 
+ Thu, 06 Jun 2019 11:43:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1559816130-17113-7-git-send-email-stefan.brankovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1558131003.git.alistair.francis@wdc.com>
+In-Reply-To: <cover.1558131003.git.alistair.francis@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 6 Jun 2019 11:41:23 -0700
+Message-ID: <CAKmqyKOZgiVXn2j6P7RJW3KKuQHLFHzrH7xkvOa8Mv340GUiUA@mail.gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH 6/8] target/ppc: Optimize emulation of
- vclzw instruction
+ recognized.
+X-Received-From: 2a00:1450:4864:20::143
+Subject: Re: [Qemu-devel] [PATCH v1 0/4] Miscellaneous patches from the
+ RISC-V fork
 X-BeenThere: qemu-devel@nongnu.org
-X-Mailman-Version: 2.1.21
+X-Mailman-Version: 2.1.23
 Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
-	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
-List-Archive: <http://lists.nongnu.org/archive/html/qemu-devel/>
+ <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
+List-Archive: <https://lists.nongnu.org/archive/html/qemu-devel>
 List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
-	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+ <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Palmer Dabbelt <palmer@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/19 5:15 AM, Stefan Brankovic wrote:
-> +    for (i = 0; i < 2; i++) {
-> +        if (i == 0) {
-> +            /* Get high doubleword element of vB in avr. */
-> +            get_avr64(avr, VB, true);
-> +        } else {
-> +            /* Get low doubleword element of vB in avr. */
-> +            get_avr64(avr, VB, false);
-> +        }
+On Fri, May 17, 2019 at 3:12 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> This should be the last series bringing the patches from the RISC-V fork
+> into mainline QEMU.
+>
+> Dayeol Lee (1):
+>   target/riscv: Fix PMP range boundary address bug
+>
+> Michael Clark (3):
+>   disas/riscv: Disassemble reserved compressed encodings as illegal
+>   disas/riscv: Fix `rdinstreth` constraint
+>   target/riscv: Implement riscv_cpu_unassigned_access
 
-Better as simply get_avr64(avr, VB, i);
+Ping!
 
-> +        /*
-> +         * Perform count for every word element using tcg_gen_clzi_i64.
-> +         * Since it counts leading zeros on 64 bit lenght, we have to move
-> +         * ith word element to highest 32 bits of tmp, or it with mask(so we get
-> +         * all ones in lowest 32 bits), then perform tcg_gen_clzi_i64 and move
-> +         * it's result in appropriate word element of result.
-> +         */
-> +        tcg_gen_shli_i64(tmp, avr, 32);
-> +        tcg_gen_or_i64(tmp, tmp, mask);
-> +        tcg_gen_clzi_i64(result, tmp, 64);
-> +
-> +        tcg_gen_or_i64(tmp, avr, mask);
-> +        tcg_gen_clzi_i64(tmp, tmp, 64);
+Alistair
 
-s/64/32.
-
-> +        tcg_gen_deposit_i64(result, result, tmp, 32, 32);
-
-That said, it's probably better to treat this as 4 words, not 2 doublewords.
-
-	for (i = 0; i < 4; i++) {
-	    tcg_gen_ld_i32(tmp, cpu_env, avr_full_offset(VB) + i * 4);
-	    tcg_gen_clzi_i32(tmp, tmp, 32);
-	    tcg_gen_st_i32(tmp, cpu_env, avr_full_offset(VT) + i * 4);
-	}
-
-
-r~
+>
+>  disas/riscv.c             | 53 ++++++++++++++++++++++++++-------------
+>  target/riscv/cpu.c        |  1 +
+>  target/riscv/cpu.h        |  2 ++
+>  target/riscv/cpu_helper.c | 16 ++++++++++++
+>  target/riscv/pmp.c        |  2 +-
+>  5 files changed, 55 insertions(+), 19 deletions(-)
+>
+> --
+> 2.21.0
+>
 
