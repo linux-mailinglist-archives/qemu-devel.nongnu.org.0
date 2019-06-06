@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F2036F0E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 10:48:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56634 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369B036F1F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jun 2019 10:51:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56684 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hYo4Q-000866-NE
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 04:48:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55443)
+	id 1hYo6w-0001az-Bu
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 04:51:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55899)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <like.xu@linux.intel.com>) id 1hYnyd-0003Zd-Cr
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:28 -0400
+	(envelope-from <armbru@redhat.com>) id 1hYnyq-00043u-LM
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <like.xu@linux.intel.com>) id 1hYntk-0005Hu-KS
-	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:37:28 -0400
-Received: from mga09.intel.com ([134.134.136.24]:59112)
+	(envelope-from <armbru@redhat.com>) id 1hYnyp-0003jW-Ow
+	for qemu-devel@nongnu.org; Thu, 06 Jun 2019 04:42:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44918)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
-	id 1hYntd-000506-6t; Thu, 06 Jun 2019 04:37:18 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Jun 2019 01:37:09 -0700
-Received: from likexu-mobl1.ccr.corp.intel.com (HELO [10.239.196.166])
-	([10.239.196.166])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/AES256-SHA;
-	06 Jun 2019 01:37:07 -0700
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <20190518205428.90532-1-like.xu@linux.intel.com>
-	<20190518205428.90532-5-like.xu@linux.intel.com>
-	<20190606025241.GM22416@habkost.net>
-	<20190606025456.GN22416@habkost.net>
-	<20190606030732.GL10319@umbus.fritz.box>
-	<20190606102017.264123c5@bahia.lab.toulouse-stg.fr.ibm.com>
-From: Like Xu <like.xu@linux.intel.com>
-Organization: Intel OTC
-Message-ID: <26cd4c51-2c19-1dab-3287-fec805535c93@linux.intel.com>
-Date: Thu, 6 Jun 2019 16:37:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hYnyR-0003B2-7o; Thu, 06 Jun 2019 04:42:16 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 317263092641;
+	Thu,  6 Jun 2019 08:42:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
+	[10.36.116.148])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0045B18AC1;
+	Thu,  6 Jun 2019 08:42:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 8609D11386A0; Thu,  6 Jun 2019 10:42:12 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <20190605205706.569-1-richard.henderson@linaro.org>
+	<20190605205706.569-5-richard.henderson@linaro.org>
+	<CAL1e-=jYwL9bb_YVp28pf=R4Gb0+1MgxYLsO=2927W=CtUrQ-A@mail.gmail.com>
+Date: Thu, 06 Jun 2019 10:42:12 +0200
+In-Reply-To: <CAL1e-=jYwL9bb_YVp28pf=R4Gb0+1MgxYLsO=2927W=CtUrQ-A@mail.gmail.com>
+	(Aleksandar Markovic's message of "Thu, 6 Jun 2019 07:45:58 +0200")
+Message-ID: <87o93bhzq3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20190606102017.264123c5@bahia.lab.toulouse-stg.fr.ibm.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 134.134.136.24
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v3 04/10] hw/ppc: Replace global
- smp variables with machine smp properties
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Thu, 06 Jun 2019 08:42:14 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6 4/6] include/elf: Add defines related to
+ notes for GNU systems
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,80 +63,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
-	qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-	=?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
-	=?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
-	Igor Mammedov <imammedo@redhat.com>,
-	Alistair Francis <alistair23@gmail.com>, qemu-ppc@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
+	Richard Henderson <richard.henderson@linaro.org>,
+	qemu-devel@nongnu.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019/6/6 16:20, Greg Kurz wrote:
-> On Thu, 6 Jun 2019 13:07:32 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
-> 
->> On Wed, Jun 05, 2019 at 11:54:56PM -0300, Eduardo Habkost wrote:
->>> On Wed, Jun 05, 2019 at 11:52:41PM -0300, Eduardo Habkost wrote:
->>>> On Sun, May 19, 2019 at 04:54:22AM +0800, Like Xu wrote:
->>>>> The global smp variables in ppc are replaced with smp machine properties.
->>>>>
->>>>> A local variable of the same name would be introduced in the declaration
->>>>> phase if it's used widely in the context OR replace it on the spot if it's
->>>>> only used once. No semantic changes.
->>>>>
->>>>> Signed-off-by: Like Xu <like.xu@linux.intel.com>
->>>>
->>>> Any objections from the ppc maintainers to queueing this through
->>>> the Machine Core tree?
->>>
->>> Oops, CCing the ppc maintainers.
->>
->> No objection here.
->>
->> Acked-by: David Gibson <david@gibson.dropbear.id.au>
->>
-> 
-> Just one nit...
-> 
-> [...]
-> 
->>>>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
->>>>> index ee24212765..c9ffe9786c 100644
->>>>> --- a/hw/ppc/spapr_rtas.c
->>>>> +++ b/hw/ppc/spapr_rtas.c
->>>>> @@ -231,6 +231,8 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
->>>>>                                             target_ulong args,
->>>>>                                             uint32_t nret, target_ulong rets)
->>>>>   {
->>>>> +    MachineState *ms = MACHINE(qdev_get_machine());
-> 
-> rtas_ibm_get_system_parameter() has a SpaprMachineState *spapr argument, no
-> need to rely on qdev_get_machine().
+Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
 
-I will fix it in the next (rebased) version. Thank you, Greg.
-
-> 
-> But this can be fixed in a followup patch I guess. Not worth holding the
-> patchset because of that.
-> 
->>>>> +    unsigned int max_cpus = ms->smp.max_cpus;
->>>>>       target_ulong parameter = rtas_ld(args, 0);
->>>>>       target_ulong buffer = rtas_ld(args, 1);
->>>>>       target_ulong length = rtas_ld(args, 2);
->>>>> @@ -244,7 +246,7 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
->>>>>                                             "MaxPlatProcs=%d",
->>>>>                                             max_cpus,
->>>>>                                             current_machine->ram_size / MiB,
->>>>> -                                          smp_cpus,
->>>>> +                                          ms->smp.cpus,
->>>>>                                             max_cpus);
->>>>>           ret = sysparm_st(buffer, length, param_val, strlen(param_val) + 1);
->>>>>           g_free(param_val);
->>>>    
->>>    
+> On Jun 5, 2019 11:03 PM, "Richard Henderson" <richard.henderson@linaro.org>
+> wrote:
 >>
-> 
+>> This is a collection of related
+>
+> Related to what?
+>
+>> defines for notes, copied
+>> from glibc's <elf.h>.  We're not going to use all of these
+>> right away, but it seemed foolish
+>
+> I don't think this an appropriate word for a commit message.
 
+Calling an alternative you considered but rejected "foolish" feels
+perfectly alright to me.
+
+>> to cherry-pick only the
+>> ones we need now.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
