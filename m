@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0113938F3E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:38:30 +0200 (CEST)
-Received: from localhost ([::1]:48872 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197A038F26
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:33:28 +0200 (CEST)
+Received: from localhost ([::1]:48836 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZGwX-0007um-Sw
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:38:19 -0400
+	id 1hZGrv-0002sk-64
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:33:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:36253)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hZG1j-0001VC-U5
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:39:33 -0400
+ (envelope-from <mst@redhat.com>) id 1hZG28-0001VC-JH
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:40:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hZFtw-0006Ki-Ic
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:31:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44916)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1hZFtp-00067K-Ca; Fri, 07 Jun 2019 10:31:24 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C0F09C18B2D1;
- Fri,  7 Jun 2019 14:31:09 +0000 (UTC)
-Received: from redhat.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 649CF5F595;
- Fri,  7 Jun 2019 14:31:05 +0000 (UTC)
-Date: Fri, 7 Jun 2019 15:31:02 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190607143102.GL28838@redhat.com>
-References: <20190607135430.22149-1-kwolf@redhat.com>
- <20190607140357.GK28838@redhat.com>
- <20190607142514.GE5055@dhcp-200-226.str.redhat.com>
+ (envelope-from <mst@redhat.com>) id 1hZFun-0007Y5-7W
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:32:23 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:42835)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hZFul-0007NQ-GV
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:32:19 -0400
+Received: by mail-qt1-f193.google.com with SMTP id s15so2454366qtk.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:32:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kazseaotDIphl7Ue7WtMWDtxJckUp18dSgrCBfw/tyg=;
+ b=tGU6PMLOu0TgcfYfOLYR5rf8WyaHHBuerH/m8f8DNaE8lSjwiBM3fjjeG8rWV+CKCZ
+ 2smhlWtxhHkhk2lSmhxQ4qbMhVxJCmZWrb+PbOFd4in+sWvyinYFCxfjB1w+TlMSCNyB
+ p3NGFipXM6v5KH156x57laamelPMEXVRQRODzOhQCQKob240rhLRPa5tcS/7FeoBAE5Y
+ lgRBcUESDR2WaWebSC/55Zgp6N//MlF2zRwfdy6pemyRly2SBOwC8BAs/74U5vmmD/rt
+ es/+pUIRqtmTWJ66Pc3m2pbySyCLMdr9XK4CL5Vx6bpDftYfDjWA+dWVLzpZTjsEnvxT
+ s0YQ==
+X-Gm-Message-State: APjAAAWUnY6hfzEgdkY8b/WYFTurjftiq0J9HccEMcUMz6HeAlwQd4iL
+ eg4Qt4G3GHAFMU8TAsvI5zxh7g==
+X-Google-Smtp-Source: APXvYqwNuJxzHjfxugYqBj/dGnL1FHkIooq4y4q9+TZI0JNRpJ89qVw9JD6K3RP7izr3AOZaFpxR3g==
+X-Received: by 2002:ac8:7a87:: with SMTP id x7mr37671612qtr.215.1559917934794; 
+ Fri, 07 Jun 2019 07:32:14 -0700 (PDT)
+Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
+ [100.0.197.103])
+ by smtp.gmail.com with ESMTPSA id d123sm1210136qkb.94.2019.06.07.07.32.12
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 07 Jun 2019 07:32:13 -0700 (PDT)
+Date: Fri, 7 Jun 2019 10:32:06 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Message-ID: <20190607103059-mutt-send-email-mst@kernel.org>
+References: <20190517125820.2885-4-jfreimann@redhat.com>
+ <20190521094504.GB2915@work-vm>
+ <20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
+ <20190531214748.GN22103@habkost.net>
+ <20190603082456.vzpy256kj4o5e5wu@jenstp.localdomain>
+ <20190603193648.GQ22103@habkost.net>
+ <20190604134321.txlw7wjwe247g5ug@jenstp.localdomain>
+ <20190604125037-mutt-send-email-mst@kernel.org>
+ <20190604190019.GM3851@work-vm>
+ <20190607141407.73hzf5w6vqjegaja@jenstp.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190607142514.GE5055@dhcp-200-226.str.redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Fri, 07 Jun 2019 14:31:14 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190607141407.73hzf5w6vqjegaja@jenstp.localdomain>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH 00/10] monitor: Split monitor.c in
- core/HMP/QMP/misc
+ [fuzzy]
+X-Received-From: 209.85.160.193
+Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,120 +76,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: dgilbert@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- armbru@redhat.com
+Cc: pkrempa@redhat.com, berrange@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>, aadam@redhat.com, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, laine@redhat.com,
+ ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 07, 2019 at 04:25:14PM +0200, Kevin Wolf wrote:
-> Am 07.06.2019 um 16:03 hat Daniel P. Berrang=C3=A9 geschrieben:
-> > On Fri, Jun 07, 2019 at 03:54:20PM +0200, Kevin Wolf wrote:
-> > > monitor.c mixes a lot of different things in a single file: The cor=
-e
-> > > monitor infrastructure, HMP infrastrcture, QMP infrastructure, and =
-the
-> > > implementation of several HMP and QMP commands. Almost worse, struc=
-t
-> > > Monitor mixes state for HMP, for QMP, and state actually shared bet=
-ween
-> > > all monitors. monitor.c must be linked with a system emulator and e=
-ven
-> > > requires per-target compilation because some of the commands it
-> > > implements access system emulator state.
-> > >=20
-> > > The reason why I care about this is that I'm working on a protoype =
-for a
-> > > storage daemon, which wants to use QMP (but probably not HMP) and
-> > > obviously doesn't have any system emulator state. So I'm interested=
- in
-> > > some core monitor parts that can be linked to non-system-emulator t=
-ools.
-> > >=20
-> > > This series first creates separate structs MonitorQMP and MonitorHM=
-P
-> > > which inherit from Monitor, and then moves the associated infrastru=
-cture
-> > > code into separate source files.
-> > >=20
-> > > While the split is probably not perfect, I think it's an improvemen=
-t of
-> > > the current state even for QEMU proper, and it's good enough so I c=
-an
-> > > link my storage daemon against just monitor/core.o and monitor/qmp.=
-o and
-> > > get a useless QMP monitor that parses the JSON input and rejects
-> > > everything as an unknown command.
-> > >=20
-> > > Next I'll try to teach it a subset of QMP commands that can actuall=
-y be
-> > > supported in a tool, but while there will be a few follow-up patche=
-s to
-> > > achieve this, I don't expect that this work will bring up much that
-> > > needs to be changed in the splitting process done in this series.
-> > >=20
-> > > Kevin Wolf (10):
-> > >   monitor: Remove unused password prompting fields
-> > >   monitor: Split monitor_init in HMP and QMP function
-> > >   monitor: Make MonitorQMP a child class of Monitor
-> > >   monitor: Create MonitorHMP with readline state
-> > >   monitor: Move cmd_table to MonitorHMP
-> > >   Move monitor.c to monitor/misc.c
-> > >   monitor: Create monitor_int.h with common definitions
-> > >   monitor: Split out monitor/qmp.c
-> > >   monitor: Split out monitor/hmp.c
-> > >   monitor: Split out monitor/core.c
-> > >=20
-> > >  include/monitor/monitor.h |    8 +-
-> > >  monitor/monitor_int.h     |  207 ++
-> > >  hmp.c                     |    4 +-
-> > >  monitor.c                 | 4727 ---------------------------------=
-----
-> > >  monitor/core.c            |  604 +++++
-> > >  monitor/hmp.c             | 1351 +++++++++++
-> > >  monitor/misc.c            | 2406 +++++++++++++++++++
-> > >  monitor/qmp.c             |  404 ++++
-> > >  Makefile.objs             |    1 +
-> > >  Makefile.target           |    3 +-
-> > >  monitor/Makefile.objs     |    2 +
-> >=20
-> > It will be nice to have the monitor code split up a bit more.
-> >=20
-> > I'm not a fan, however, of having both $ROOT/qmp.c and $ROOT/monitor/=
-qmp.c
-> > Likwise  $ROOT/hmp.c and $ROOT/monitor/hmp.c.  Can we move those othe=
-r
-> > existing files out of the root dir, into monitor/, so we don't have t=
-wo
-> > files with the same name in different dirs.
->=20
-> $ROOT/hmp.c and $ROOT/qmp.c contain various command implementations,
-> just as $ROOT/monitor/misc.c. This is still a bit of a mess. I'll have
-> to address this at least partially in the next step because I need to
-> separate commands that can be linked with tools from those that require
-> a system emulator.
->=20
-> My plan involves at least creating some monitor/qmp-cmds-*.c, which
-> might already make $ROOT/qmp.c empty. Even though I don't strictly need
-> it, there's no reason not to do the same for HMP, too. In any case, I'd
-> rather address this in a separate follow-up series.
+On Fri, Jun 07, 2019 at 04:14:07PM +0200, Jens Freimann wrote:
+> On Tue, Jun 04, 2019 at 08:00:19PM +0100, Dr. David Alan Gilbert wrote:
+> > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > On Tue, Jun 04, 2019 at 03:43:21PM +0200, Jens Freimann wrote:
+> > > > On Mon, Jun 03, 2019 at 04:36:48PM -0300, Eduardo Habkost wrote:
+> > > > > On Mon, Jun 03, 2019 at 10:24:56AM +0200, Jens Freimann wrote:
+> > > > > > On Fri, May 31, 2019 at 06:47:48PM -0300, Eduardo Habkost wrote:
+> > > > > > > On Thu, May 30, 2019 at 04:56:45PM +0200, Jens Freimann wrote:
+> > > > > > > > On Tue, May 28, 2019 at 11:04:15AM -0400, Michael S. Tsirkin wrote:
+> > > > > > > > > On Tue, May 21, 2019 at 10:45:05AM +0100, Dr. David Alan Gilbert wrote:
+> > > > > > > > > > * Jens Freimann (jfreimann@redhat.com) wrote:
+> > > > > > Why is it bad to fully re-create the device in case of a failed migration?
+> > > > >
+> > > > > Bad or not, I thought the whole point of doing it inside QEMU was
+> > > > > to do something libvirt wouldn't be able to do (namely,
+> > > > > unplugging the device while not freeing resources).  If we are
+> > > > > doing something that management software is already capable of
+> > > > > doing, what's the point?
+> > > >
+> > > > Event though management software seems to be capable of it, a failover
+> > > > implementation has never happened. As Michael says network failover is
+> > > > a mechanism (there's no good reason not to use a PT device if it is
+> > > > available), not a policy. We are now trying to implement it in a
+> > > > simple way, contained within QEMU.
+> > > >
+> > > > > Quoting a previous message from this thread:
+> > > > >
+> > > > > On Thu, May 30, 2019 at 02:09:42PM -0400, Michael S. Tsirkin wrote:
+> > > > > | > On Thu, May 30, 2019 at 07:00:23PM +0100, Dr. David Alan Gilbert wrote:
+> > > > > | > >  This patch series is very
+> > > > > | > > odd precisely because it's trying to do the unplug itself in the
+> > > > > | > > migration phase rather than let the management layer do it - so unless
+> > > > > | > > it's nailed down how to make sure that's really really bullet proof
+> > > > > | > > then we've got to go back and ask the question about whether we should
+> > > > > | > > really fix it so it can be done by the management layer.
+> > > > > | > >
+> > > > > | > > Dave
+> > > > > | >
+> > > > > | > management already said they can't because files get closed and
+> > > > > | > resources freed on unplug and so they might not be able to re-add device
+> > > > > | > on migration failure. We do it in migration because that is
+> > > > > | > where failures can happen and we can recover.
+> > > >
+> > > > This is something that I can work on as well, but it doesn't have to
+> > > > be part of this patch set in my opinion. Let's say migration fails and we can't
+> > > > re-plug the primary device. We can still use the standby (virtio-net)
+> > > > device which would only mean slower networking. How likely is it that
+> > > > the primary device is grabbed by another VM between unplugging and
+> > > > migration failure anyway?
+> > > >
+> > > > regards,
+> > > > Jens
+> > > 
+> > > I think I agree with Eduardo it's very important to handle this corner
+> > > case correctly. Fast networking outside migration is why people use
+> > > failover at all.  Someone who can live with a slower virtio would use
+> > > just that.
+> > > 
+> > > And IIRC this corner case is exactly why libvirt could not
+> > > implement it correctly itself and had to push it up the stack
+> > > until it fell off the cliff :).
+> > 
+> > So I think we need to have the code that shows we can cope with the
+> > corner cases - or provide a way for libvirt to handle it (which is
+> > my strong preference).
+> 
+> Would this work: We add a new migration state MIGRATE_WAIT_UNPLUG (or
+> a better more generic name) which tells libvirt that migration has not
+> started yet because we are waiting for the guest. And extend the qmp
+> events for the migration state. When we know the device was
+> sucessfully unplugged we sent a qmp event DEVICE_DELETED or a new one
+> DEVICE_DELETED_PARTIALLY (not sure about that yet), let migration
+> start and set the migration state to active?
+> 
+> To do a partial unplug I imagine, we have to separate vfio(-pci) code
+> to differ between release of resources (fds, mappings etc) and unplug
+> (I haven't yet found out how it works in vfio). In the failover case
+> we only do the unplug part but not the release part.
+> 
+> regards,
+> Jens
 
-Ok, if you have a plan for this, that's fine with me.
+I think the first is done in vfio_exitfn and the second in
+vfio_instance_finalize.
 
-> But if people prefer, I can move the existing files in the root
-> directory to monitor/{qmp,hmp}-cmds.c temporarily in this series and
-> then work from there with follow-ups until they are empty (or maybe I
-> don't even have to make them completely empty then).
-
-A plain rename like this won't hurt in the meantime.
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+-- 
+MST
 
