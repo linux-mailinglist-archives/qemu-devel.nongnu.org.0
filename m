@@ -2,60 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCEE38EF6
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:26:08 +0200 (CEST)
-Received: from localhost ([::1]:48758 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781F938EB7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:14:41 +0200 (CEST)
+Received: from localhost ([::1]:48640 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZGkp-0006dj-Fo
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36377)
+	id 1hZGZk-0005zV-G2
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:14:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55433)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hZG2B-0001xv-W4
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:40:01 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZFms-0007K4-RY
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:24:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hZFtQ-0005qw-9F
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:30:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47156)
+ (envelope-from <peter.maydell@linaro.org>) id 1hZFmr-0003o4-HJ
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:24:10 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:44099)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hZFtQ-0005pc-47
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:30:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hZFtL-0003dj-NU
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 14:30:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 891D32E80CC
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 14:30:51 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hZFmr-0003mD-Bo
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:24:09 -0400
+Received: by mail-oi1-x229.google.com with SMTP id e189so1538332oib.11
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:24:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uoFq3KrE19cNhjlwK1zdXG2o+2eu/MfrPz1AUAV0dgk=;
+ b=nP/yuxzTVFU0PLmS1I7lXPeTdKpgvDYYo9q+9IvrFDt8z8xRa2+WhNh9LIlfpOXj9O
+ az5PgsviAJyFi2HYDYX6ePSgRFdXIOm4C1aky8qIhiusWf8j3SuTIz+NG7/Hyz4SFGI4
+ I1YfSNBGP7o5dkcwNQQ3ShFCBqfkntlQRVl9Qi9vKqUwGAJezBIkQq/py+B5vAhe3uye
+ mSTVjJtNgPb1I04bx2CWjAiHzbns3ndHWm5WJj/WCfJAqKaaWEJbwJr9CDcUf1WJAYJv
+ vzcJO67e9RSCncycgh1ZdSoUxlXypcZ8504vSP0yq9yDM+19xVm5mxAc/Mt94wgTmjqA
+ nJQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uoFq3KrE19cNhjlwK1zdXG2o+2eu/MfrPz1AUAV0dgk=;
+ b=P/qfcnmM0Wqfo8dYnn35m+ZnTJLnKoRgRdwOLYhp8iXZNeoVJRFbXkuzm/37+ZoO/2
+ 1FcYkilvP4nsQiORrn16TyM6PX/Hz1MIviOvmG+JhWZsYps1zJH87DFP/d4nMhxb91UZ
+ Hr3eZgXV6bBHE10bG+63V4uQ875FlIYNoI1UeYk9JV6i7Mdl6KdCD3L6PHe41T60MgB/
+ iQNfHWS47r0d3iK2cXi8HI8XC+gUS+QhjUZoBcMZH4ZF19sVlk2BV/9hctK7RFFtmL1g
+ zYYqYgCtyAG+U1pHyc+x91ht0GPmdQW8ddpzIUU0yGZZHlZtTonYaBENdqz749vX4OmN
+ lo9A==
+X-Gm-Message-State: APjAAAUVZ36vwR+4tTyatHY4ajPpstGyHkSAbV/rWEW2zfb4ISSZ28V3
+ ciJf0zU+I8iN1Af1zcVawJG1QCNWJDkFCVx5I6D9Nw==
+X-Google-Smtp-Source: APXvYqzYT6wDY6Pwn1bb/tXuC89G71Q4QzdOUBF4bhaXzVVrOdZDltbGSb9BLoxoNn3i2rUI2M4kpITnTr71FsFyd00=
+X-Received: by 2002:a05:6808:8f1:: with SMTP id
+ d17mr3916467oic.170.1559917448192; 
+ Fri, 07 Jun 2019 07:24:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Jun 2019 14:20:57 -0000
-From: Lukas Durfina <1774149@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arnaudalies-py lukasdurfina
-X-Launchpad-Bug-Reporter: mou (arnaudalies-py)
-X-Launchpad-Bug-Modifier: Lukas Durfina (lukasdurfina)
-References: <152766936065.4012.2532535303592891582.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155991725791.18155.4545920522883590142.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18978";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 267184e5d9b69c6101be570127771ceaa64d9c81
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1774149] Re: qemu-user x86_64 x86 gdb call
- function from gdb doesn't work
+References: <20190607131901.20107-1-kraxel@redhat.com>
+In-Reply-To: <20190607131901.20107-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jun 2019 15:23:56 +0100
+Message-ID: <CAFEAcA-_nCUTZFygLF82=V4uUFowaViLU7BbUZKE6c07UyrCqg@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::229
+Subject: Re: [Qemu-devel] [PULL 0/5] Ui 20190607 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,117 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1774149 <1774149@bugs.launchpad.net>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have verified the second issue: the second call of function gives error "=
-Cannot access memory at address".
-I have tried it for various architectures. It is same for mips. But it work=
-s for aarch64.
+On Fri, 7 Jun 2019 at 14:21, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 0d74f3b4277a7ecb0ccb80c865797d11f8e466f5:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-06-06 14:09:14 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/ui-20190607-pull-request
+>
+> for you to fetch changes up to 15ee0d9bc10b3de677ff6cd78b6dc9d5a7d40603:
+>
+>   egl-helpers: add modifier support to egl_dmabuf_import_texture() (2019-06-07 11:52:35 +0200)
+>
+> ----------------------------------------------------------------
+> curses: 32bit build fix.
+> egl: dmabuf modifier support.
+>
+> ----------------------------------------------------------------
+>
+> Gerd Hoffmann (4):
+>   console: add dmabuf modifier field.
+>   vfio/display: set dmabuf modifier field
+>   egl-helpers: add modifier support to egl_get_fd_for_texture().
+>   egl-helpers: add modifier support to egl_dmabuf_import_texture()
+>
+> Max Reitz (1):
+>   ui/curses: Fix build with -m32
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1774149
+Applied, thanks.
 
-Title:
-  qemu-user x86_64 x86 gdb call function from gdb doesn't work
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-Status in QEMU:
-  New
-
-Bug description:
-  While running qemu user x86_64 x86 with gdb server, calling functions
-  are not working.
-
-  Here is how to reproduce it:
-
-  run in a terminal:
-  $ qemu-x86_64 -g 12345 -L / /bin/ls
-
-  In another terminal run gdb:
-  (gdb) file /bin/ls
-  (gdb) target remote :12345
-  (gdb) b _init
-  (gdb) c
-  (gdb) call malloc(1)
-  Could not fetch register "fs_base"; remote failure reply 'E14'
-
-  In other cases we also got the error:
-  Could not fetch register "orig_rax"; remote failure reply 'E14'
-
-  Here is how I patched it (it is only a workaround):
-
-  diff --git a/gdbstub.c b/gdbstub.c
-  index 2a94030..5749efe 100644
-  --- a/gdbstub.c
-  +++ b/gdbstub.c
-  @@ -668,6 +668,11 @@ static int gdb_read_register(CPUState *cpu, uint8_t =
-*mem_buf, int reg)
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0return r->get_reg(env, mem_buf, reg - r->base_reg);
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-  +#ifdef TARGET_X86_64
-  +    return 8;
-  +#elif TARGET_I386
-  +    return 4;
-  +#endif
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-  =C2=A0}
-
-  (Our guess for this issue was, gdb is requesting for 'fake' registers
-  to know register size)
-
-  Once we patched that, we got another problem while calling functions
-  from gdb: We could call functions, but only once.
-
-  Here is how to reproduce it:
-  run in a terminal:
-  $ qemu-x86_64 -g 12345 -L / /bin/ls
-
-  In another terminal run gdb:
-  (gdb) file /bin/ls
-  (gdb) target remote :12345
-  (gdb) b _init
-  (gdb) c
-  (gdb) call malloc(1)
-  $1 =3D (void *) 0x620010
-  (gdb) call malloc(1)
-  Cannot access memory at address 0x40007ffb8f
-
-  Here is how we patched it to make it work:
-
-  diff --git a/exec.c b/exec.c
-  index 03238a3..d303922 100644
-  --- a/exec.c
-  +++ b/exec.c
-  @@ -2833,7 +2833,7 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong=
- addr,
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!(flags & PAGE_=
-VALID))
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0return -1;
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (is_write) {
-  -            if (!(flags & PAGE_WRITE))
-  +            if (!(flags & (PAGE_WRITE | PAGE_WRITE_ORG)))
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return -1;
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0/* XXX: this code should not depend on lock_user */
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0if (!(p =3D lock_user(VERIFY_WRITE, addr, l, 0)))
-
-  From what we saw, there is a page which is passed to read-only after
-  first execution, and gdb need to write on that page to put a
-  breakpoint. (on the stack to get function return)
-
-  We suspect this is linked to this:
-  https://qemu.weilnetz.de/w64/2012/2012-06-28/qemu-tech.html#Self_002dmodi=
-fying-code-and-translated-code-invalidation
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1774149/+subscriptions
+-- PMM
 
