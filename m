@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7997392C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 19:08:22 +0200 (CEST)
-Received: from localhost ([::1]:49658 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D0F39210
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:29:46 +0200 (CEST)
+Received: from localhost ([::1]:49380 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZILm-0003Oy-3t
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 13:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48788)
+	id 1hZHkO-0006bp-UE
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:29:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48883)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1hZGhp-00053g-Sf
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:23:03 -0400
+ (envelope-from <crosa@redhat.com>) id 1hZGi5-0005V2-78
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:23:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hZGho-000693-P3
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:23:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32878)
+ (envelope-from <crosa@redhat.com>) id 1hZGi4-0006ZC-1o
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:23:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52647)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hZGho-00067Z-Jm
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:23:00 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hZGi3-0006Xx-Se
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:23:15 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E3AA73082145;
- Fri,  7 Jun 2019 15:22:59 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2D4F822386B;
+ Fri,  7 Jun 2019 15:23:02 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-122-62.rdu2.redhat.com
  [10.10.122.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB8AD82708;
- Fri,  7 Jun 2019 15:22:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2110E842B8;
+ Fri,  7 Jun 2019 15:23:00 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 11:22:22 -0400
-Message-Id: <20190607152223.9467-8-crosa@redhat.com>
+Date: Fri,  7 Jun 2019 11:22:23 -0400
+Message-Id: <20190607152223.9467-9-crosa@redhat.com>
 In-Reply-To: <20190607152223.9467-1-crosa@redhat.com>
 References: <20190607152223.9467-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 07 Jun 2019 15:22:59 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Fri, 07 Jun 2019 15:23:10 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 7/8] VNC Acceptance test: check protocol version
+Subject: [Qemu-devel] [PATCH 8/8] Migration acceptance test: reduce the
+ possibility of port collisions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,48 +64,40 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This goes a bit further than the other tests, and does a basic (read
-only) interaction with the VNC protocol.
+The avocado.utils.network.find_free_port() will by default attempt
+to return the first port given in the range, if it seems to be
+available.
 
-This is not a enough to perform a handshake, but enough to make sure
-that the socket is somewhat operational and that the expected initial
-step of the handshake is performed by the server and that the version
-matches.
+Let's reduce the probability of collisions by picking a random port
+by default.
 
+As a side note, this behavior has changed in a recent Avocado version,
+and the default use will then be equivalent to this proposed change.
+
+Reference: https://avocado-framework.readthedocs.io/en/68.0/api/utils/avo=
+cado.utils.html#avocado.utils.network.find_free_port
+Reference: https://github.com/avocado-framework/avocado/commit/f232e4505f=
+7cfefc513449e0b97790b517275da7
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/vnc.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ tests/acceptance/migration.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/vnc.py b/tests/acceptance/vnc.py
-index d32ae46685..b000446d7c 100644
---- a/tests/acceptance/vnc.py
-+++ b/tests/acceptance/vnc.py
-@@ -11,6 +11,7 @@
- import os
- import tempfile
- import shutil
-+import socket
+diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.p=
+y
+index a44c1ae58f..b2a5767348 100644
+--- a/tests/acceptance/migration.py
++++ b/tests/acceptance/migration.py
+@@ -25,7 +25,7 @@ class Migration(Test):
+         return vm.command('query-migrate')['status'] in ('completed', 'f=
+ailed')
 =20
- from avocado_qemu import Test
-=20
-@@ -71,5 +72,16 @@ class VncUnixSocket(Test):
-                                             arg=3D'new_password')
-         self.assertEqual(set_password_response['return'], {})
-=20
-+    def test_protocol_version(self):
-+        self.vm.add_args('-nodefaults', '-S',
-+                         '-vnc', 'unix:%s' % self.socket_path)
-+        self.vm.launch()
-+        self.assertTrue(self.vm.qmp('query-vnc')['return']['enabled'])
-+        client =3D socket.socket(socket.AF_UNIX)
-+        client.connect(self.socket_path)
-+        expected =3D b'RFB 003.008'
-+        actual =3D client.recv(len(expected))
-+        self.assertEqual(expected, actual, "Wrong protocol version")
-+
-     def tearDown(self):
-         shutil.rmtree(self.socket_dir)
+     def _get_free_port(self):
+-        port =3D network.find_free_port()
++        port =3D network.find_free_port(sequent=3DFalse)
+         if port is None:
+             self.cancel('Failed to find a free port')
+         return port
 --=20
 2.21.0
 
