@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6EB38BC5
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:37:37 +0200 (CEST)
-Received: from localhost ([::1]:51188 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F6738BB5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:34:53 +0200 (CEST)
+Received: from localhost ([::1]:51166 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZF3o-0003FB-At
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:37:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37881)
+	id 1hZF18-0000JO-Lp
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36686)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hZExF-0007Fj-MC
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:30:52 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hZEsX-0005SI-V7
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:26:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hZExD-0008Cx-FH
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:30:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39350)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hZExB-00081B-8r
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:30:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hZEx6-0006rR-BZ
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 13:30:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 540932E80CC
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 13:30:40 +0000 (UTC)
+ (envelope-from <no-reply@patchew.org>) id 1hZEsW-00021B-D7
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:25:57 -0400
+Resent-Date: Fri, 07 Jun 2019 09:25:57 -0400
+Resent-Message-Id: <E1hZEsW-00021B-D7@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21804)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hZEsW-0001y0-4d
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:25:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1559913902; cv=none; d=zoho.com; s=zohoarc; 
+ b=AZLONDpnsipwVMoiW5g6CASRTPJtRlbPCZzsPO+6kRhD27Kkjb9gh0OOvAVRKffiKI+lAHxaCjH5hy8t7bYyudY6neAYw4J04XKPV6tTyHqiAYeXfk3/6+i9PXzP7vonfMYmf6o5ueTTJjH07e3YTtEX0lbySwIwMCbg28/4Jrc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1559913902;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=ESZ7E5gqLwtolyCgC78GlGm++/1FTQcXz7RpgqMVQD4=; 
+ b=HaDx99wG47c87FkpUoA+Nii/30X6ZVcc1LECD23bxfpf2CUBF2SVwH+TdjLa5+TUFO7rHqgC1hquTCLYgGe0YkLL1fvfLAaRS/4V13YdlUZMhGtxnEjdBt+4tpjWpXRZ+7+GIJVnRFOgHuK+wFi4MvLPgs+MVz/+eCLCRTUdFjQ=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1559913900254155.58570294074025;
+ Fri, 7 Jun 2019 06:25:00 -0700 (PDT)
+In-Reply-To: <20190607091116.49044-1-ysato@users.sourceforge.jp>
+Message-ID: <155991389914.32260.3655957748072431947@ce79690b2cb9>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Jun 2019 13:21:25 -0000
-From: Dion Bosschieter <1831225@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h dionbosschieter jpmenil
-X-Launchpad-Bug-Reporter: Dion Bosschieter (dionbosschieter)
-X-Launchpad-Bug-Modifier: Dion Bosschieter (dionbosschieter)
-References: <155929929657.13088.9555373471112683391.malonedeb@soybean.canonical.com>
-Message-Id: <155991368519.31578.2149587155910829596.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18978";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: afd67d4642fa917183e4034d2065cfc476ec81c3
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ysato@users.sourceforge.jp
+Date: Fri, 7 Jun 2019 06:25:00 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1831225] Re: guest migration 100% cpu freeze bug
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PATCH v17 00/24] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,278 +61,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1831225 <1831225@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, ysato@users.sourceforge.jp, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYwNzA5MTExNi40OTA0
+NC0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1z
+IHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9y
+Cm1vcmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIHYxNyAwMC8y
+NF0gQWRkIFJYIGFyY2h0ZWN0dXJlIHN1cHBvcnQKTWVzc2FnZS1pZDogMjAxOTA2MDcwOTExMTYu
+NDkwNDQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcApUeXBlOiBzZXJpZXMKCj09PSBURVNU
+IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
+dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
+b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
+bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
+ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rl
+c3QnCjBhODZmZjUgdGFyZ2V0L3J4OiBSZW1vdmUgc3VmZml4IGluIGNwdSBjbGFzcy4KN2MzNGI0
+MCB0YXJnZXQvcng6IER1bXAgYnl0ZXMgZm9yIGVhY2ggaW5zbiBkdXJpbmcgZGlzYXNzZW1ibHkK
+OTQ1ZmRlZiB0YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVzIGR1cmluZyBkaXNhc3NlbWJseQo5
+YjcwY2Y2IHRhcmdldC9yeDogRW1pdCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpCjJiOTBj
+MDYgdGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkgZm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkKMmIzMmJm
+YSB0YXJnZXQvcng6IFJlcGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxl
+cgpjMTA0M2Q3IHRhcmdldC9yeDogRGlzYXNzZW1ibGUgcnhfaW5kZXhfYWRkciBpbnRvIGEgc3Ry
+aW5nCmZmZmRkMjkgTUFJTlRBSU5FUlM6IEFkZCBSWAowYmJiNzk2IEFkZCByeC1zb2Z0bW11CmQ5
+M2FjOTIgaHcvcng6IEhvbm9yIC1hY2NlbCBxdGVzdApmZGFlMjQ0IHRlc3RzOiBBZGQgcnggdG8g
+bWFjaGluZS1ub25lLXRlc3QuYwoyOGY1YzY3IHRhcmdldC9yeDogRml4IGNwdSB0eXBlcyBhbmQg
+bmFtZXMKZDZkYzQzNiB0YXJnZXQvcng6IEFkZCBSWCB0byBTeXNFbXVUYXJnZXQKYWZlN2ZiYSB0
+YXJnZXQvcng6IENvbnZlcnQgdG8gQ1BVQ2xhc3M6OnRsYl9maWxsCjBhODI1N2IgaHcvcmVnaXN0
+ZXJmaWVsZHMuaDogQWRkIDhiaXQgYW5kIDE2Yml0IHJlZ2lzdGVyIG1hY3JvcwozMjAyMGY2IHFl
+bXUvYml0b3BzLmg6IEFkZCBleHRyYWN0OCBhbmQgZXh0cmFjdDE2CjhiZGNkMzIgaHcvcng6IFJY
+IFRhcmdldCBoYXJkd2FyZSBkZWZpbml0aW9uCjEyOWQ4MWMgaHcvY2hhcjogUlg2Mk4gc2VyaWFs
+IGNvbW11bmljYXRpb24gaW50ZXJmYWNlIChTQ0kpCmRhYjc0N2UgaHcvdGltZXI6IFJYNjJOIGlu
+dGVybmFsIHRpbWVyIG1vZHVsZXMKYmQwY2QxNyBody9pbnRjOiBSWDYyTiBpbnRlcnJ1cHQgY29u
+dHJvbGxlciAoSUNVYSkKNzdmNDJkNCB0YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcgowNWYyYWY1
+IHRhcmdldC9yeDogQ1BVIGRlZmluaXRpb24KMTZlYWFkMyB0YXJnZXQvcng6IFRDRyBoZWxwZXIK
+NTY2Y2ExZSB0YXJnZXQvcng6IFRDRyB0cmFuc2xhdGlvbgoKPT09IE9VVFBVVCBCRUdJTiA9PT0K
+MS8yNCBDaGVja2luZyBjb21taXQgNTY2Y2ExZTIyZjk4ICh0YXJnZXQvcng6IFRDRyB0cmFuc2xh
+dGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
+VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTk6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6
+IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAzMDY1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMjQgaGFz
+IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
+cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
+Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi8yNCBDaGVja2luZyBjb21taXQgMTZlYWFkMzg2Y2Fh
+ICh0YXJnZXQvcng6IFRDRyBoZWxwZXIpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
+IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE0OiAKbmV3IGZpbGUg
+bW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNjYwIGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDIvMjQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
+IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
+YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy8yNCBDaGVja2luZyBj
+b21taXQgMDVmMmFmNTFkZmE4ICh0YXJnZXQvcng6IENQVSBkZWZpbml0aW9uKQpXQVJOSU5HOiBh
+ZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBk
+YXRpbmc/CiMxNDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fy
+bmluZ3MsIDU5OSBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzI0IGhhcyBzdHlsZSBwcm9ibGVtcywg
+cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
+cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
+SU5FUlMuCjQvMjQgQ2hlY2tpbmcgY29tbWl0IDc3ZjQyZDRjMmViMiAodGFyZ2V0L3J4OiBSWCBk
+aXNhc3NlbWJsZXIpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
+ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzM4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQK
+CnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTQ5NyBsaW5lcyBjaGVja2VkCgpQYXRjaCA0
+LzI0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
+cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
+c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjUvMjQgQ2hlY2tpbmcgY29tbWl0IGJkMGNk
+MTc3YWM5ZCAoaHcvaW50YzogUlg2Mk4gaW50ZXJydXB0IGNvbnRyb2xsZXIgKElDVWEpKQpXQVJO
+SU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5l
+ZWQgdXBkYXRpbmc/CiMzOTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMs
+IDEgd2FybmluZ3MsIDQ0MiBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzI0IGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCjYvMjQgQ2hlY2tpbmcgY29tbWl0IGRhYjc0N2UwNmYwYyAoaHcvdGltZXI6
+IFJYNjJOIGludGVybmFsIHRpbWVyIG1vZHVsZXMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
+ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQ5OiAKbmV3
+IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgODM5IGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDYvMjQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNy8yNCBDaGVj
+a2luZyBjb21taXQgMTI5ZDgxYzUyNDUwIChody9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNh
+dGlvbiBpbnRlcmZhY2UgKFNDSSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
+bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQyOiAKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMzk4IGxpbmVzIGNoZWNrZWQK
+ClBhdGNoIDcvMjQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
+IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
+dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8yNCBDaGVja2luZyBjb21t
+aXQgOGJkY2QzMjUxZmU2IChody9yeDogUlggVGFyZ2V0IGhhcmR3YXJlIGRlZmluaXRpb24pCldB
+Uk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMg
+bmVlZCB1cGRhdGluZz8KIzE4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9y
+cywgMSB3YXJuaW5ncywgNDYwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDgvMjQgaGFzIHN0eWxlIHBy
+b2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2Ug
+cG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBp
+biBNQUlOVEFJTkVSUy4KOS8yNCBDaGVja2luZyBjb21taXQgMzIwMjBmNjI4OWQ3IChxZW11L2Jp
+dG9wcy5oOiBBZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNikKMTAvMjQgQ2hlY2tpbmcgY29tbWl0
+IDBhODI1N2IxODUzYSAoaHcvcmVnaXN0ZXJmaWVsZHMuaDogQWRkIDhiaXQgYW5kIDE2Yml0IHJl
+Z2lzdGVyIG1hY3JvcykKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgaW4gY29uY2F0ZW5hdGlv
+biAoLikgb3Igc3RyaW5nIGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMjQ2Ny4KRVJS
+T1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxkIGJlIGVuY2xvc2VkIGlu
+IGEgZG8gLSB3aGlsZSBsb29wCiMyNTogRklMRTogaW5jbHVkZS9ody9yZWdpc3RlcmZpZWxkcy5o
+OjI1OgorI2RlZmluZSBSRUc4KHJlZywgYWRkcikgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICBlbnVtIHsgQV8gIyMgcmVnID0gKGFkZHIpIH07
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVudW0geyBS
+XyAjIyByZWcgPSAoYWRkcikgfTsKCkVSUk9SOiBNYWNyb3Mgd2l0aCBtdWx0aXBsZSBzdGF0ZW1l
+bnRzIHNob3VsZCBiZSBlbmNsb3NlZCBpbiBhIGRvIC0gd2hpbGUgbG9vcAojMjk6IEZJTEU6IGlu
+Y2x1ZGUvaHcvcmVnaXN0ZXJmaWVsZHMuaDoyOToKKyNkZWZpbmUgUkVHMTYocmVnLCBhZGRyKSAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVu
+dW0geyBBXyAjIyByZWcgPSAoYWRkcikgfTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBcCisgICAgZW51bSB7IFJfICMjIHJlZyA9IChhZGRyKSAvIDIgfTsKCnRvdGFs
+OiAyIGVycm9ycywgMCB3YXJuaW5ncywgNTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTAvMjQgaGFz
+IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
+cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
+Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjExLzI0IENoZWNraW5nIGNvbW1pdCBhZmU3ZmJhNjBk
+ODIgKHRhcmdldC9yeDogQ29udmVydCB0byBDUFVDbGFzczo6dGxiX2ZpbGwpCjEyLzI0IENoZWNr
+aW5nIGNvbW1pdCBkNmRjNDM2YzY3MDEgKHRhcmdldC9yeDogQWRkIFJYIHRvIFN5c0VtdVRhcmdl
+dCkKMTMvMjQgQ2hlY2tpbmcgY29tbWl0IDI4ZjVjNjc3OGEyOCAodGFyZ2V0L3J4OiBGaXggY3B1
+IHR5cGVzIGFuZCBuYW1lcykKMTQvMjQgQ2hlY2tpbmcgY29tbWl0IGZkYWUyNDRlZGVhYyAodGVz
+dHM6IEFkZCByeCB0byBtYWNoaW5lLW5vbmUtdGVzdC5jKQoxNS8yNCBDaGVja2luZyBjb21taXQg
+ZDkzYWM5MjM5OWIxIChody9yeDogSG9ub3IgLWFjY2VsIHF0ZXN0KQoxNi8yNCBDaGVja2luZyBj
+b21taXQgMGJiYjc5NmU5ZGQzIChBZGQgcngtc29mdG1tdSkKV0FSTklORzogYWRkZWQsIG1vdmVk
+IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNTQ6
+IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0NSBs
+aW5lcyBjaGVja2VkCgpQYXRjaCAxNi8yNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
+ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
+ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxNy8y
+NCBDaGVja2luZyBjb21taXQgZmZmZGQyOWIxNWFkIChNQUlOVEFJTkVSUzogQWRkIFJYKQoxOC8y
+NCBDaGVja2luZyBjb21taXQgYzEwNDNkNzdkOTA4ICh0YXJnZXQvcng6IERpc2Fzc2VtYmxlIHJ4
+X2luZGV4X2FkZHIgaW50byBhIHN0cmluZykKMTkvMjQgQ2hlY2tpbmcgY29tbWl0IDJiMzJiZmEy
+MThlMCAodGFyZ2V0L3J4OiBSZXBsYWNlIG9wZXJhbmQgd2l0aCBwcnRfbGRtaSBpbiBkaXNhc3Nl
+bWJsZXIpCjIwLzI0IENoZWNraW5nIGNvbW1pdCAyYjkwYzA2MjRjNTcgKHRhcmdldC9yeDogVXNl
+IHBydF9sZG1pIGZvciBYQ0hHX21yIGRpc2Fzc2VtYmx5KQoyMS8yNCBDaGVja2luZyBjb21taXQg
+OWI3MGNmNjQ1ZDM2ICh0YXJnZXQvcng6IEVtaXQgYWxsIGRpc2Fzc2VtYmx5IGluIG9uZSBwcnQo
+KSkKMjIvMjQgQ2hlY2tpbmcgY29tbWl0IDk0NWZkZWY2ZjhlMCAodGFyZ2V0L3J4OiBDb2xsZWN0
+IGFsbCBieXRlcyBkdXJpbmcgZGlzYXNzZW1ibHkpCjIzLzI0IENoZWNraW5nIGNvbW1pdCA3YzM0
+YjQwZTc2YzYgKHRhcmdldC9yeDogRHVtcCBieXRlcyBmb3IgZWFjaCBpbnNuIGR1cmluZyBkaXNh
+c3NlbWJseSkKMjQvMjQgQ2hlY2tpbmcgY29tbWl0IDBhODZmZjViYjMxNiAodGFyZ2V0L3J4OiBS
+ZW1vdmUgc3VmZml4IGluIGNwdSBjbGFzcy4pCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21t
+YW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNjA3MDkxMTE2LjQ5MDQ0LTEteXNhdG9AdXNlcnMu
+c291cmNlZm9yZ2UuanAvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
+bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
+L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
-I have digged further into our issue and we have seen issues only when
-migrating from servers that have a different tsc frequency.
-
-Example:
-Source (kernel 4.14.63)
-[    2.068227] tsc: Refined TSC clocksource calibration: 2593.906 MHz
-[    2.068373] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x256=
-3bf907c6, max_idle_ns: 440795319401 ns                                     =
-                                       =
-
-[    4.908200] clocksource: Switched to clocksource tsc
-
-Destination (kernel 4.19.43):
-[    0.000000] tsc: Detected 2600.000 MHz processor
-[    3.647553] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles:=
- 0x257a3c3232d, max_idle_ns: 440795236700 ns                               =
-                                       =
-
-[    4.421582] clocksource: Switched to clocksource tsc-early
-[    5.747791] tsc: Refined TSC clocksource calibration: 2593.904 MHz
-[    5.747952] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x256=
-3bd843df, max_idle_ns: 440795257314 ns                                     =
-                                       =
-
-[    5.748261] clocksource: Switched to clocksource tsc
-
-Source (kernel 4.19.43):
-[    0.000000] tsc: Fast TSC calibration using PIT
-[    0.000000] tsc: Detected 2199.852 MHz processor
-[    4.041367] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles:=
- 0x1fb5a71147a, max_idle_ns: 440795225528 ns                               =
-                                       =
-
-[    4.504477] clocksource: Switched to clocksource tsc-early
-[    6.231559] tsc: Refined TSC clocksource calibration: 2200.002 MHz
-[    6.231718] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x1fb=
-634b8814, max_idle_ns: 440795202126 ns                                     =
-                                       =
-
-[    6.801999] clocksource: Switched to clocksource tsc
-
-Destionation (kernel 4.19.43):
-[    0.000000] tsc: Fast TSC calibration using PIT
-[    0.000000] tsc: Detected 2394.538 MHz processor
-[    5.486287] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles:=
- 0x22840fdedc8, max_idle_ns: 440795293830 ns                               =
-                                       =
-
-[    6.182944] clocksource: Switched to clocksource tsc-early
-[    7.596489] tsc: Refined TSC clocksource calibration: 2394.454 MHz
-[    7.596641] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x228=
-3c0783fd, max_idle_ns: 440795301468 ns                                     =
-                                       =
-
-[    9.316929] clocksource: Switched to clocksource tsc
-
-Source (kernel 4.14.63):
-[    2.068227] tsc: Refined TSC clocksource calibration: 2593.906 MHz
-[    2.068373] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x256=
-3bf907c6, max_idle_ns: 440795319401 ns                                     =
-                                       =
-
-[    4.908200] clocksource: Switched to clocksource tsc
-
-Destination (kernel 4.19.43):
-[    0.000000] tsc: Detected 2600.000 MHz processor
-[    3.661033] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles:=
- 0x257a3c3232d, max_idle_ns: 440795236700 ns                               =
-                                       =
-
-[    4.435033] clocksource: Switched to clocksource tsc-early
-[    5.761251] tsc: Refined TSC clocksource calibration: 2593.905 MHz
-[    5.761412] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x256=
-3be32fd6, max_idle_ns: 440795226961 ns                                     =
-                                       =
-
-[    5.761731] clocksource: Switched to clocksource tsc
-
-And what I have seen from reading a bit about time
-keeping(https://www.kernel.org/doc/Documentation/virtual/kvm/timekeeping.tx=
-t)
-and counters and the virtualisation of it, is that it is pretty
-difficult to get right, so it is already amazing that it goes alright
-most of the times.
-
-When diffing I stumbled upon this: https://lore.kernel.org/patchwork/patch/=
-866471/
-And I was thinking about reverting those changes and then try another 10k o=
-f migrations see if that makes any difference as we still are not able to r=
-eproduce the issue.
-
-I could also try to prefer migrations from similiar refined TSC
-clocksource calibration HZes don't, which I would rather not do but I
-think I understand why having the exact same frequency is prefered, what
-is your thought on this matter?
-
-Disabling kvm-clock is not really an option as we don't want to restart
-and login on all of the running vms.
-
-Dion
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1831225
-
-Title:
-  guest migration 100% cpu freeze bug
-
-Status in QEMU:
-  New
-
-Bug description:
-  # Investigate migration cpu hog(100%) bug
-
-  I have some issues when migrating from kernel 4.14.63 running qemu 2.11.2=
- to kernel 4.19.43 running qemu 2.11.2.
-  The hypervisors are running on debian jessie with libvirt v5.3.0.
-  Linux, libvirt and qemu are all custom compiled.
-
-  I migrated around 10.000 vms and every once in a while a vm is stuck
-  at 100% cpu after what we can see right now is that the target
-  hypervisor runs on linux 4.19.53. This happened with 4 vms so far. It
-  is not that easy to debug, we found this out pretty quickly because we
-  are running monitoring on frozen vms after migrations.
-
-  Last year we were having the same "kind of" bug https://bugs.launchpad.ne=
-t/qemu/+bug/1775555 when trying to upgrade qemu 2.6 to 2.11.
-  This bug was fixed after applying the following patch: http://lists.nongn=
-u.org/archive/html/qemu-devel/2018-04/msg00820.html
-
-  This patch is still applied as you can see because of the available pre_l=
-oad var on the kvmclock_vmsd struct:
-  (gdb) ptype kvmclock_vmsd
-  type =3D const struct VMStateDescription {
-      const char *name;
-      int unmigratable;
-      int version_id;
-      int minimum_version_id;
-      int minimum_version_id_old;
-      MigrationPriority priority;
-      LoadStateHandler *load_state_old;
-      int (*pre_load)(void *);                                             =
-   =
-
-      int (*post_load)(void *, int);
-      int (*pre_save)(void *);
-      _Bool (*needed)(void *);
-      VMStateField *fields;
-      const VMStateDescription **subsections;
-  }
-
-  I attached gdb to a vcpu thread of one stuck vm, and a bt showed the foll=
-owing info:
-  Thread 4 (Thread 0x7f3a431a4700 (LWP 37799)):
-  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-84
-  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fca78d=
-0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
-kvm/kvm-all.c:2050
-  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fca78d0)=
- at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
-  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fca78d0) a=
-t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
-  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a431a4700) at pthread_=
-create.c:456
-  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:97
-
-  Thread 3 (Thread 0x7f3a439a5700 (LWP 37798)):
-  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-84
-  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fc5cbb=
-0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
-kvm/kvm-all.c:2050
-  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fc5cbb0)=
- at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
-  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fc5cbb0) a=
-t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
-  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a439a5700) at pthread_=
-create.c:456
-  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:97
-
-  The ioctl call is a ioctl(18, KVM_RUN and it looks like it is looping
-  inside the vm itself.
-
-  I saved the state of the VM (with `virsh save`) after I found it was hang=
-ing on its vcpu threads. Then I restored this vm on a test environment runn=
-ing the same kernel, QEMU and libvirt version). After the restore the VM st=
-ill was haning at 100% cpu usage on all the vcpus.
-  I tried to use the perf kvm guest option to trace the guest vm with a cop=
-y of the kernel, modules and kallsyms files from inside the guest vm and I =
-got to the following perf stat:
-
-   Event                                         Total %Total CurAvg/s
-   kvm_entry                                   5198993   23.1   277007
-   kvm_exit                                    5198976   23.1   277006
-   kvm_apic                                    1732103    7.7    92289
-   kvm_msr                                     1732101    7.7    92289
-   kvm_inj_virq                                1731904    7.7    92278
-   kvm_eoi                                     1731900    7.7    92278
-   kvm_apic_accept_irq                         1731900    7.7    92278
-   kvm_hv_timer_state                          1731780    7.7    92274
-   kvm_pv_eoi                                  1731701    7.7    92267
-   kvm_ple_window                                   36    0.0        2
-   Total                                      22521394         1199967
-
-  We tried to run the crash tool against a dump of guest vm memory and that=
- gave us the following backtrace:
-  crash> bt
-  PID: 0      TASK: ffffffff81610040  CPU: 0   COMMAND: "swapper/0"
-      [exception RIP: native_read_tsc+2]
-      RIP: ffffffff810146a9  RSP: ffff88003fc03df0  RFLAGS: 00000046
-      RAX: 000000008762c0fa  RBX: ffff88003fc13680  RCX: 0000000000000001
-      RDX: 0000000000fe4871  RSI: 0000000000000000  RDI: ffff88003fc13603
-      RBP: 000000000003052c   R8: 0000000000000200   R9: ffffffff8169b180
-      R10: 0000000000000020  R11: 0000000000000005  R12: 006a33290b40455c
-      R13: 00000000df1fd292  R14: 000000002ca284ff  R15: 00fe485f3febe21a
-      CS: 0010  SS: 0018
-   #0 [ffff88003fc03df0] pvclock_clocksource_read at ffffffff8102cbb3
-   #1 [ffff88003fc03e40] kvm_clock_read at ffffffff8102c2c9
-   #2 [ffff88003fc03e50] timekeeping_get_ns at ffffffff810691b0
-   #3 [ffff88003fc03e60] ktime_get at ffffffff810695c8
-   #4 [ffff88003fc03e90] sched_rt_period_timer at ffffffff8103e4f5
-   #5 [ffff88003fc03ee0] __run_hrtimer at ffffffff810652d3
-   #6 [ffff88003fc03f20] hrtimer_interrupt at ffffffff81065abd
-   #7 [ffff88003fc03f90] smp_apic_timer_interrupt at ffffffff81024ba8
-   #8 [ffff88003fc03fb0] apic_timer_interrupt at ffffffff813587e2
-  --- <IRQ stack> ---
-   #9 [ffffffff81601e98] apic_timer_interrupt at ffffffff813587e2
-      [exception RIP: native_safe_halt+2]
-      RIP: ffffffff8102c360  RSP: ffffffff81601f40  RFLAGS: 00010246
-      RAX: 0000000000000000  RBX: ffffffff81601fd8  RCX: 00000000ffffffff
-      RDX: 00000000ffffffff  RSI: 0000000000000000  RDI: 0000000000000001
-      RBP: 0000000000000000   R8: 0000000000000000   R9: 0000000000000000
-      R10: 0000000000000020  R11: 0000000000000005  R12: ffffffff816f5d80
-      R13: ffffffffffffffff  R14: 000000000008c800  R15: 0000000000000000
-      ORIG_RAX: ffffffffffffff10  CS: 0010  SS: 0018
-  #10 [ffffffff81601f40] default_idle at ffffffff81014c35
-  #11 [ffffffff81601f50] cpu_idle at ffffffff8100d258
-
-  So it seems like the vm is reading its clock constantly trying to
-  catch up some time after the migration.
-
-  Last time it was a bug that was only triggered on newer Gold cpu
-  hardware, but this time we also see this coming back on older Intel E5
-  cpus we tried to reproduce with a migrate loop of 3 days times between
-  kernel 4.14.63 and 4.19.43 but this gave us no results.
-
-  The vms were running ubuntu 14.04, centos 7, debian 7, debian 8 these
-  vms are running linux kernel 3.*.
-
-  The thing is that we are out of ideas for reproducing this, it seems
-  like it the same kind of bug we are hitting, just like last time the
-  vm is basically only trying to read the clock. Perhaps we can try to
-  read the clock data and also try to read what the guest is actually
-  waiting for, which value of the counter does it want to reach.
-
-  I am not sure how to pinpoint the cause of this issue, I would like some =
-help and possible some extra tips on debugging.
-  We are able to read the guests kernel which makes it a bit easier to debu=
-g, reproducing and finding the source of the problem is still something we =
-are trying to figure out.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1831225/+subscriptions
 
