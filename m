@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1979838CDC
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:23:31 +0200 (CEST)
-Received: from localhost ([::1]:51656 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D795438CF4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:26:54 +0200 (CEST)
+Received: from localhost ([::1]:51706 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFmD-0005ZJ-99
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47100)
+	id 1hZFpV-00011Y-SE
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48135)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZFPb-0007fA-Vw
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:00:13 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hZFSq-0001VX-Rb
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:03:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZFPa-0006E9-8i
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:00:07 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35751)
+ (envelope-from <richard.henderson@linaro.org>) id 1hZFSp-0005Q5-W9
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:03:28 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:35651)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZFPZ-00068g-Ub
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:00:06 -0400
-Received: by mail-wr1-x444.google.com with SMTP id m3so2308013wrv.2
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:00:04 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hZFSp-0005Nv-Mu
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:03:27 -0400
+Received: by mail-ot1-x342.google.com with SMTP id j19so1948593otq.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=bbHrd+1oT1EGHZHobSPDVK3Bdjmbg6xGN6HNd64cG8s=;
- b=sipoI0NhONQAXhKd5VKsrWw/ZG3cP1vpLacRlO4SFXheuxTBX7JcsrvcOup1RSYzF3
- 0Qhqe09LpAIuivAvIWEEvpkbJvfSkM9eKPz4TgDgaxKqV9XCCtloVay6kNyUArwr8WCL
- jfXIvya2P38eHXvX1/vr6IMUCe3i+bsC6AVgmNgDQyjWIKuS4zeKm+4qwSK6O7Dx3f7o
- DRdL38tMdz5mTE/nMBvLaW+coHXFGrdCynkzUOw+5zyggfQxossXEWgSS8gDxh6kSlHg
- qubXEvlBJcPyh9g8XTQPG5/iFeiFw7KPsNRfI+ue0wNuKLuyZKbZSP+9iRMGne7cimJz
- fycw==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nyXT5Ue0Y94DnC8f9elpeDgFvGtk+3tUE33UOb51E+k=;
+ b=ZMwgmAlrIYYW7rSenDFYBJCLbG98Wj+c7MGbayAA7K11JsejDhz3YEDNWLbPmOnmnT
+ Eo7AIbZz2RZMBS7rARQiq2QIILwH5ux+l1YR5pgZmZqKhFjyCIORFDmuv5NQyuC1PxPg
+ CL97L3NLmIw4wjOmmUh8UW4JLoWJ+NA+eSRNnPU7xDWQl/sI/H9IGDQr6LsNSuXkt9lS
+ zLoy2ulY32emk1ozBCmDsSyw2BKqh9CGbvkdJTOu0Kqd8j2+fJPmsSHAxrSNiFlWEVVi
+ j7XU3cn36NBPpXnfm0sMhCaXukzD35A2oc2jh/5EgZSFeNIoOc1uq+XWrjc/C+lQRGFm
+ EA8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=bbHrd+1oT1EGHZHobSPDVK3Bdjmbg6xGN6HNd64cG8s=;
- b=DOaZVDIzU56jXGEHYhqeSj8+b7pckvJFJ5az4+K9tFS/Go6BaSsMdZcwp0ClxYlX5H
- nR5GexJl8ngW17xkVfkkGKirDzgLfl4Ij86B+x9VqPINb1IRA/qP22M2n8iCfZKGKecx
- Z0ptlXfmJlIZp9i9C4Cu3QMZ/RAYZ97oNqOjdtIjJhD6o+yUT53AxSakku9AgoE/1hh4
- XnHVRUulEJD5FK5z5s3uy8Og03kbFX3KRwXMZyOP+1LzQM0um23O9I04HALAf4mrJJDI
- EX8N+KmePulxW7/2DCt/5gU4ZC0L5Y2o7DUT6rxtMU8pWqBTObRr3K6HrIrsuoCA00xJ
- m1UQ==
-X-Gm-Message-State: APjAAAVEh7ln2kSeDQvkewOsI9QyeUxatnfTWvWlEAZT461tpLdqMSIg
- OwUD91nD8Ji2VaUfBhOaVTjORg==
-X-Google-Smtp-Source: APXvYqyt6tOigKsUSFs48TIcaiz/MMNbaumheSIY/vmD0tnchQbKc2x0nTggy1cOI5g9y+JSlL9Kug==
-X-Received: by 2002:a5d:4044:: with SMTP id w4mr7951876wrp.171.1559916002687; 
- Fri, 07 Jun 2019 07:00:02 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id s7sm4655964wmc.2.2019.06.07.07.00.01
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 07:00:02 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 878211FF87;
- Fri,  7 Jun 2019 15:00:01 +0100 (BST)
-References: <20190607132521.9637-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <20190607132521.9637-1-peter.maydell@linaro.org>
-Date: Fri, 07 Jun 2019 15:00:01 +0100
-Message-ID: <87d0jpsdge.fsf@zen.linaroharston>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nyXT5Ue0Y94DnC8f9elpeDgFvGtk+3tUE33UOb51E+k=;
+ b=rVr43rNF1FlD3VP3860z5E96FCrTTfwHkD7AeTxYC6SFD/T4lxR19MpwuS5bluJO3c
+ kQgi+1GhMl7aosf533nx7izNThzvL2eQR0nX7izjhMlIbcCLJh3FfEovQ8emP77G4XpU
+ cB609QdW2jWZXc9IfdlfbmeO4WNAsMjKBDZVLqrUxRKkAnRI6bYDj1VNROwtZOiHqQ8+
+ UmUFyA3l5M8x1E/OQ3n5UEbyeZYq/q5v/3q2nhCM7M28JaZFlLctZRVsaQDYCs1hO7GD
+ HDMBsdrQWwFSf8/wd5ZNdTTEVzyWuvJiVGNwYceqKI61/j0RYGQlT8YgzobE5V1+HH9q
+ N1bQ==
+X-Gm-Message-State: APjAAAX0ZEXhIn6enX4ZLid2dO+wHK+eYZBNq3XqRDEpntelIgyLxftO
+ QGJ6+6vHMYf5AYx+6j4S4yq2Gw==
+X-Google-Smtp-Source: APXvYqzHAOn39yNWWFF4TJa3G2nWlD/8MmsqJ0N8RhWlUUApqWJZnmZwONwaAaiJ9K7OFnMdn95FGg==
+X-Received: by 2002:a9d:7190:: with SMTP id o16mr18850130otj.78.1559916206009; 
+ Fri, 07 Jun 2019 07:03:26 -0700 (PDT)
+Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
+ [200.56.192.86])
+ by smtp.gmail.com with ESMTPSA id w18sm724788oiw.24.2019.06.07.07.03.24
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jun 2019 07:03:25 -0700 (PDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
+References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
+ <20190607091116.49044-17-ysato@users.sourceforge.jp>
+ <6e4b77b4-f05c-74e8-e128-1555ead951fc@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <04a5b9b8-7b33-5ad9-f8e1-f5752ec97607@linaro.org>
+Date: Fri, 7 Jun 2019 09:03:22 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <6e4b77b4-f05c-74e8-e128-1555ead951fc@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [RISU PATCH] risu: Include <sys/user.h> on ppc64
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v17 16/24] Add rx-softmmu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,58 +86,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sandipan Das <sandipan@linux.vnet.ibm.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/7/19 8:44 AM, Philippe Mathieu-Daudé wrote:
+> Again:
+> 
+> Please squash in:
+> 
+> -- >8 --
+> --- a/include/exec/poison.h
+> +++ b/include/exec/poison.h
+> @@ -26,6 +26,7 @@
+>  #pragma GCC poison TARGET_PPC
+>  #pragma GCC poison TARGET_PPC64
+>  #pragma GCC poison TARGET_ABI32
+> +#pragma GCC poison TARGET_RX
+>  #pragma GCC poison TARGET_S390X
+>  #pragma GCC poison TARGET_SH4
+>  #pragma GCC poison TARGET_SPARC
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> To build the C parts of risu for ppc64le with recent glibc/kernel
-> headers, we need to include sys/user.h to avoid a compile error,
-> because sys/ucontext.h defines a struct which includes a pointer
-> to 'struct pt_regs' but does not provide a definition of that struct.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
-> I need this to be able to do the ppc64le cross-build on my
-> Ubuntu Bionic x86-64 system.
->
->  risu_ppc64.c         | 2 ++
->  risu_reginfo_ppc64.c | 1 +
->  2 files changed, 3 insertions(+)
->
-> diff --git a/risu_ppc64.c b/risu_ppc64.c
-> index 83f8d1f..a3028f7 100644
-> --- a/risu_ppc64.c
-> +++ b/risu_ppc64.c
-> @@ -11,6 +11,8 @@
->   *     based on Peter Maydell's risu_arm.c
->   ***********************************************************************=
-******/
->
-> +#include <sys/user.h>
-> +
->  #include "risu.h"
->
->  void advance_pc(void *vuc)
-> diff --git a/risu_reginfo_ppc64.c b/risu_reginfo_ppc64.c
-> index f9d2f0d..071c951 100644
-> --- a/risu_reginfo_ppc64.c
-> +++ b/risu_reginfo_ppc64.c
-> @@ -16,6 +16,7 @@
->  #include <string.h>
->  #include <math.h>
->  #include <stdlib.h>
-> +#include <sys/user.h>
->
->  #include "risu.h"
->  #include "risu_reginfo_ppc64.h"
+Done.  Any I've picked up all of your r-b tags.
 
 
---
-Alex Benn=C3=A9e
+r~
 
