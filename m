@@ -2,54 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94572395DC
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:36:41 +0200 (CEST)
-Received: from localhost ([::1]:51818 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A175E395E4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:39:27 +0200 (CEST)
+Received: from localhost ([::1]:51976 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKfI-0001Fm-CL
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:36:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35947)
+	id 1hZKhy-0004tj-Rz
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38702)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hZIpv-0002dg-Do
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:39:33 -0400
+ (envelope-from <philmd@redhat.com>) id 1hZJ0p-0007q1-IK
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:50:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hZIpt-0001pf-0j
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:39:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43180)
+ (envelope-from <philmd@redhat.com>) id 1hZJ0m-0005s3-EU
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:50:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54460)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hZIpr-0001bM-A4
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:39:28 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1hZJ0j-0005VG-Tx; Fri, 07 Jun 2019 13:50:42 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1AE6530820EA
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 17:39:21 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
- [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 947018BE2F;
- Fri,  7 Jun 2019 17:39:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 265E411386A0; Fri,  7 Jun 2019 19:39:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-References: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
- <1559205199-233510-2-git-send-email-imammedo@redhat.com>
-Date: Fri, 07 Jun 2019 19:39:17 +0200
-In-Reply-To: <1559205199-233510-2-git-send-email-imammedo@redhat.com> (Igor
- Mammedov's message of "Thu, 30 May 2019 10:33:17 +0200")
-Message-ID: <87h8915m7u.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id E9CE3307D913;
+ Fri,  7 Jun 2019 17:50:31 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.205.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A23C65FCA6;
+ Fri,  7 Jun 2019 17:50:18 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
+Date: Fri,  7 Jun 2019 19:49:53 +0200
+Message-Id: <20190607174953.22342-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 07 Jun 2019 17:39:21 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Fri, 07 Jun 2019 17:50:33 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 1/3] machine: show if CLI option '-numa
- node, mem' is supported in QAPI schema
+Subject: [Qemu-devel] [PATCH] BootLinuxSshTest: Only use 'test' for
+ unittest.TestCase method names
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,147 +55,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Igor Mammedov <imammedo@redhat.com> writes:
+In commit f6e501a28ef9, Eduardo started to use "check_" as a
+prefix for methods of similar purpose. Follow this prior art,
+since it might become the conventions when writting Avocado
+tests.
 
-> Legacy '-numa node,mem' option has a number of issues and mgmt often
-> defaults to it. Unfortunately it's no possible to replace it with
-> an alternative '-numa memdev' without breaking migration compatibility.
-> What's possible though is to deprecate it, keeping option working with
-> old machine types only.
->
-> In order to help users to find out if being deprecated CLI option
-> '-numa node,mem' is still supported by particular machine type, add new
-> "numa-mem-supported" property to MachineInfo description in QAPI schema.
+Suggested-by: Cleber Rosa <crosa@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/acceptance/linux_ssh_mips_malta.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Suggest s/to MachineInfo description in QAPI schema/to output of
-query-machines/, because query-machines is the external interface people
-know.
+diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/=
+linux_ssh_mips_malta.py
+index aafb0c39f6..134f10cac3 100644
+--- a/tests/acceptance/linux_ssh_mips_malta.py
++++ b/tests/acceptance/linux_ssh_mips_malta.py
+@@ -162,7 +162,7 @@ class LinuxSSH(Test):
+         self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in line
+                              for line in stdout])
+=20
+-    def do_test_mips_malta(self, endianess, kernel_path, uname_m):
++    def check_mips_malta(self, endianess, kernel_path, uname_m):
+         self.boot_debian_wheezy_image_and_ssh_login(endianess, kernel_pa=
+th)
+=20
+         stdout, stderr =3D self.ssh_command('uname -a')
+@@ -184,7 +184,7 @@ class LinuxSSH(Test):
+         kernel_hash =3D '592e384a4edc16dade52a6cd5c785c637bcbc9ad'
+         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+=20
+-        self.do_test_mips_malta('be', kernel_path, 'mips')
++        self.check_mips_malta('be', kernel_path, 'mips')
+=20
+     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+     def test_mips_malta32el_kernel3_2_0(self):
+@@ -199,7 +199,7 @@ class LinuxSSH(Test):
+         kernel_hash =3D 'a66bea5a8adaa2cb3d36a1d4e0ccdb01be8f6c2a'
+         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+=20
+-        self.do_test_mips_malta('le', kernel_path, 'mips')
++        self.check_mips_malta('le', kernel_path, 'mips')
+=20
+     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+     def test_mips_malta64eb_kernel3_2_0(self):
+@@ -213,7 +213,7 @@ class LinuxSSH(Test):
+                       'vmlinux-3.2.0-4-5kc-malta')
+         kernel_hash =3D 'db6eea7de35d36c77d8c165b6bcb222e16eb91db'
+         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+-        self.do_test_mips_malta('be', kernel_path, 'mips64')
++        self.check_mips_malta('be', kernel_path, 'mips64')
+=20
+     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+     def test_mips_malta64el_kernel3_2_0(self):
+@@ -227,4 +227,4 @@ class LinuxSSH(Test):
+                       'vmlinux-3.2.0-4-5kc-malta')
+         kernel_hash =3D '6a7f77245acf231415a0e8b725d91ed2f3487794'
+         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+-        self.do_test_mips_malta('le', kernel_path, 'mips64')
++        self.check_mips_malta('le', kernel_path, 'mips64')
+--=20
+2.20.1
 
-> "numa-mem-supported" is set to 'true' for machines that currently support
-> NUMA, but it will be flipped to 'false' later on, once deprecation period
-> expires and kept 'true' only for old machine types that used to support
-> the legacy option so it won't break existing configuration that are using
-> it.
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->
-> Notes:
->     v4:
->       * drop idea to use "qom-list-properties" and use MachineInfo instead
->         which could be inspected with 'query-machines'
->
->  include/hw/boards.h | 3 +++
->  hw/arm/virt.c       | 1 +
->  hw/i386/pc.c        | 1 +
->  hw/ppc/spapr.c      | 1 +
->  qapi/misc.json      | 5 ++++-
->  vl.c                | 1 +
->  6 files changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 6f7916f..86894b6 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -158,6 +158,8 @@ typedef struct {
->   * @kvm_type:
->   *    Return the type of KVM corresponding to the kvm-type string option or
->   *    computed based on other criteria such as the host kernel capabilities.
-> + * @numa_mem_supported:
-> + *    true if '--numa node.mem' option is supported and false otherwise
->   */
->  struct MachineClass {
->      /*< private >*/
-> @@ -210,6 +212,7 @@ struct MachineClass {
->      bool ignore_boot_device_suffixes;
->      bool smbus_no_migration_support;
->      bool nvdimm_supported;
-> +    bool numa_mem_supported;
->  
->      HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
->                                             DeviceState *dev);
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index bf54f10..481a603 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1943,6 +1943,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
->      assert(!mc->get_hotplug_handler);
->      mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
->      hc->plug = virt_machine_device_plug_cb;
-> +    mc->numa_mem_supported = true;
->  }
->  
->  static void virt_instance_init(Object *obj)
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 2632b73..05b8368 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -2747,6 +2747,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->      nc->nmi_monitor_handler = x86_nmi;
->      mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
->      mc->nvdimm_supported = true;
-> +    mc->numa_mem_supported = true;
->  
->      object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
->          pc_machine_get_device_memory_region_size, NULL,
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 2ef3ce4..265ecfb 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4336,6 +4336,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
->       * in which LMBs are represented and hot-added
->       */
->      mc->numa_mem_align_shift = 28;
-> +    mc->numa_mem_supported = true;
->  
->      smc->default_caps.caps[SPAPR_CAP_HTM] = SPAPR_CAP_OFF;
->      smc->default_caps.caps[SPAPR_CAP_VSX] = SPAPR_CAP_ON;
-
-This is correct when the TYPE_VIRT_MACHINE, TYPE_PC_MACHINE and
-TYPE_SPAPR_MACHINE are exactly the machines supporting NUMA.  How could
-I check that?
-
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 8b3ca4f..d0bdccb 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -2018,12 +2018,15 @@
->  #
->  # @hotpluggable-cpus: cpu hotplug via -device is supported (since 2.7.0)
->  #
-> +# @numa-mem-supported: true if '-numa node,mem' option is supported by machine
-> +#                      type and false otherwise (since 4.1)
-
-
-"by the machine type", for consistency with @cpu-max.  Also, rather long
-line.
-
-> +#
->  # Since: 1.2.0
->  ##
->  { 'struct': 'MachineInfo',
->    'data': { 'name': 'str', '*alias': 'str',
->              '*is-default': 'bool', 'cpu-max': 'int',
-> -            'hotpluggable-cpus': 'bool'} }
-> +            'hotpluggable-cpus': 'bool', 'numa-mem-supported': 'bool'} }
->  
->  ##
->  # @query-machines:
-> diff --git a/vl.c b/vl.c
-> index 5550bd7..5bf17f5 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -1520,6 +1520,7 @@ MachineInfoList *qmp_query_machines(Error **errp)
->          info->name = g_strdup(mc->name);
->          info->cpu_max = !mc->max_cpus ? 1 : mc->max_cpus;
->          info->hotpluggable_cpus = mc->has_hotpluggable_cpus;
-> +        info->numa_mem_supported = mc->numa_mem_supported;
->  
->          entry = g_malloc0(sizeof(*entry));
->          entry->value = info;
 
