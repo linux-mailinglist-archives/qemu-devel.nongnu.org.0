@@ -2,65 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781F938EB7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:14:41 +0200 (CEST)
-Received: from localhost ([::1]:48640 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB9338EE8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:24:16 +0200 (CEST)
+Received: from localhost ([::1]:48730 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZGZk-0005zV-G2
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55433)
+	id 1hZGj2-0004nX-0b
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:24:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55888)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hZFms-0007K4-RY
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:24:12 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hZFo5-0000uW-9J
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:25:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hZFmr-0003o4-HJ
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:24:10 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:44099)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hZFmr-0003mD-Bo
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:24:09 -0400
-Received: by mail-oi1-x229.google.com with SMTP id e189so1538332oib.11
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uoFq3KrE19cNhjlwK1zdXG2o+2eu/MfrPz1AUAV0dgk=;
- b=nP/yuxzTVFU0PLmS1I7lXPeTdKpgvDYYo9q+9IvrFDt8z8xRa2+WhNh9LIlfpOXj9O
- az5PgsviAJyFi2HYDYX6ePSgRFdXIOm4C1aky8qIhiusWf8j3SuTIz+NG7/Hyz4SFGI4
- I1YfSNBGP7o5dkcwNQQ3ShFCBqfkntlQRVl9Qi9vKqUwGAJezBIkQq/py+B5vAhe3uye
- mSTVjJtNgPb1I04bx2CWjAiHzbns3ndHWm5WJj/WCfJAqKaaWEJbwJr9CDcUf1WJAYJv
- vzcJO67e9RSCncycgh1ZdSoUxlXypcZ8504vSP0yq9yDM+19xVm5mxAc/Mt94wgTmjqA
- nJQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uoFq3KrE19cNhjlwK1zdXG2o+2eu/MfrPz1AUAV0dgk=;
- b=P/qfcnmM0Wqfo8dYnn35m+ZnTJLnKoRgRdwOLYhp8iXZNeoVJRFbXkuzm/37+ZoO/2
- 1FcYkilvP4nsQiORrn16TyM6PX/Hz1MIviOvmG+JhWZsYps1zJH87DFP/d4nMhxb91UZ
- Hr3eZgXV6bBHE10bG+63V4uQ875FlIYNoI1UeYk9JV6i7Mdl6KdCD3L6PHe41T60MgB/
- iQNfHWS47r0d3iK2cXi8HI8XC+gUS+QhjUZoBcMZH4ZF19sVlk2BV/9hctK7RFFtmL1g
- zYYqYgCtyAG+U1pHyc+x91ht0GPmdQW8ddpzIUU0yGZZHlZtTonYaBENdqz749vX4OmN
- lo9A==
-X-Gm-Message-State: APjAAAUVZ36vwR+4tTyatHY4ajPpstGyHkSAbV/rWEW2zfb4ISSZ28V3
- ciJf0zU+I8iN1Af1zcVawJG1QCNWJDkFCVx5I6D9Nw==
-X-Google-Smtp-Source: APXvYqzYT6wDY6Pwn1bb/tXuC89G71Q4QzdOUBF4bhaXzVVrOdZDltbGSb9BLoxoNn3i2rUI2M4kpITnTr71FsFyd00=
-X-Received: by 2002:a05:6808:8f1:: with SMTP id
- d17mr3916467oic.170.1559917448192; 
- Fri, 07 Jun 2019 07:24:08 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1hZFo3-0006I7-Aa
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:25:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53488)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hZFnx-0006CT-H7; Fri, 07 Jun 2019 10:25:17 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6DDBE3079B81;
+ Fri,  7 Jun 2019 14:25:16 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5974660624;
+ Fri,  7 Jun 2019 14:25:15 +0000 (UTC)
+Date: Fri, 7 Jun 2019 16:25:14 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Message-ID: <20190607142514.GE5055@dhcp-200-226.str.redhat.com>
+References: <20190607135430.22149-1-kwolf@redhat.com>
+ <20190607140357.GK28838@redhat.com>
 MIME-Version: 1.0
-References: <20190607131901.20107-1-kraxel@redhat.com>
-In-Reply-To: <20190607131901.20107-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jun 2019 15:23:56 +0100
-Message-ID: <CAFEAcA-_nCUTZFygLF82=V4uUFowaViLU7BbUZKE6c07UyrCqg@mail.gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::229
-Subject: Re: [Qemu-devel] [PULL 0/5] Ui 20190607 patches
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190607140357.GK28838@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Fri, 07 Jun 2019 14:25:16 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH 00/10] monitor: Split monitor.c in
+ core/HMP/QMP/misc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,45 +60,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: dgilbert@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Jun 2019 at 14:21, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 0d74f3b4277a7ecb0ccb80c865797d11f8e466f5:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-06-06 14:09:14 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/ui-20190607-pull-request
->
-> for you to fetch changes up to 15ee0d9bc10b3de677ff6cd78b6dc9d5a7d40603:
->
->   egl-helpers: add modifier support to egl_dmabuf_import_texture() (2019-06-07 11:52:35 +0200)
->
-> ----------------------------------------------------------------
-> curses: 32bit build fix.
-> egl: dmabuf modifier support.
->
-> ----------------------------------------------------------------
->
-> Gerd Hoffmann (4):
->   console: add dmabuf modifier field.
->   vfio/display: set dmabuf modifier field
->   egl-helpers: add modifier support to egl_get_fd_for_texture().
->   egl-helpers: add modifier support to egl_dmabuf_import_texture()
->
-> Max Reitz (1):
->   ui/curses: Fix build with -m32
+Am 07.06.2019 um 16:03 hat Daniel P. Berrang=E9 geschrieben:
+> On Fri, Jun 07, 2019 at 03:54:20PM +0200, Kevin Wolf wrote:
+> > monitor.c mixes a lot of different things in a single file: The core
+> > monitor infrastructure, HMP infrastrcture, QMP infrastructure, and th=
+e
+> > implementation of several HMP and QMP commands. Almost worse, struct
+> > Monitor mixes state for HMP, for QMP, and state actually shared betwe=
+en
+> > all monitors. monitor.c must be linked with a system emulator and eve=
+n
+> > requires per-target compilation because some of the commands it
+> > implements access system emulator state.
+> >=20
+> > The reason why I care about this is that I'm working on a protoype fo=
+r a
+> > storage daemon, which wants to use QMP (but probably not HMP) and
+> > obviously doesn't have any system emulator state. So I'm interested i=
+n
+> > some core monitor parts that can be linked to non-system-emulator too=
+ls.
+> >=20
+> > This series first creates separate structs MonitorQMP and MonitorHMP
+> > which inherit from Monitor, and then moves the associated infrastruct=
+ure
+> > code into separate source files.
+> >=20
+> > While the split is probably not perfect, I think it's an improvement =
+of
+> > the current state even for QEMU proper, and it's good enough so I can
+> > link my storage daemon against just monitor/core.o and monitor/qmp.o =
+and
+> > get a useless QMP monitor that parses the JSON input and rejects
+> > everything as an unknown command.
+> >=20
+> > Next I'll try to teach it a subset of QMP commands that can actually =
+be
+> > supported in a tool, but while there will be a few follow-up patches =
+to
+> > achieve this, I don't expect that this work will bring up much that
+> > needs to be changed in the splitting process done in this series.
+> >=20
+> > Kevin Wolf (10):
+> >   monitor: Remove unused password prompting fields
+> >   monitor: Split monitor_init in HMP and QMP function
+> >   monitor: Make MonitorQMP a child class of Monitor
+> >   monitor: Create MonitorHMP with readline state
+> >   monitor: Move cmd_table to MonitorHMP
+> >   Move monitor.c to monitor/misc.c
+> >   monitor: Create monitor_int.h with common definitions
+> >   monitor: Split out monitor/qmp.c
+> >   monitor: Split out monitor/hmp.c
+> >   monitor: Split out monitor/core.c
+> >=20
+> >  include/monitor/monitor.h |    8 +-
+> >  monitor/monitor_int.h     |  207 ++
+> >  hmp.c                     |    4 +-
+> >  monitor.c                 | 4727 -----------------------------------=
+--
+> >  monitor/core.c            |  604 +++++
+> >  monitor/hmp.c             | 1351 +++++++++++
+> >  monitor/misc.c            | 2406 +++++++++++++++++++
+> >  monitor/qmp.c             |  404 ++++
+> >  Makefile.objs             |    1 +
+> >  Makefile.target           |    3 +-
+> >  monitor/Makefile.objs     |    2 +
+>=20
+> It will be nice to have the monitor code split up a bit more.
+>=20
+> I'm not a fan, however, of having both $ROOT/qmp.c and $ROOT/monitor/qm=
+p.c
+> Likwise  $ROOT/hmp.c and $ROOT/monitor/hmp.c.  Can we move those other
+> existing files out of the root dir, into monitor/, so we don't have two
+> files with the same name in different dirs.
 
+$ROOT/hmp.c and $ROOT/qmp.c contain various command implementations,
+just as $ROOT/monitor/misc.c. This is still a bit of a mess. I'll have
+to address this at least partially in the next step because I need to
+separate commands that can be linked with tools from those that require
+a system emulator.
 
-Applied, thanks.
+My plan involves at least creating some monitor/qmp-cmds-*.c, which
+might already make $ROOT/qmp.c empty. Even though I don't strictly need
+it, there's no reason not to do the same for HMP, too. In any case, I'd
+rather address this in a separate follow-up series.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+But if people prefer, I can move the existing files in the root
+directory to monitor/{qmp,hmp}-cmds.c temporarily in this series and
+then work from there with follow-ups until they are empty (or maybe I
+don't even have to make them completely empty then).
 
--- PMM
+Kevin
 
