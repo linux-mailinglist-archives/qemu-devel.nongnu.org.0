@@ -2,82 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857F538AC3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 14:58:41 +0200 (CEST)
-Received: from localhost ([::1]:50818 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CDF38AD7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:03:39 +0200 (CEST)
+Received: from localhost ([::1]:50884 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZES8-00042f-25
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 08:58:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55670)
+	id 1hZEWw-00065A-RU
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:03:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56918)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hZER0-0003Tn-3l
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 08:57:32 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hZETq-0005MW-Dd
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:00:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hZEIB-0005gR-Cp
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 08:48:24 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:46071)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hZEI7-0005Ol-T9
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 08:48:21 -0400
-Received: by mail-ot1-x329.google.com with SMTP id n2so1679122otl.12
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 05:48:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xZtP/0b5zjZ3Q3mejZfcvZKvbFgc2zdFrCHy7rHFnII=;
- b=e5NoNI9zWCAP8mLH3yDstHogorBWjIkd6HdlLJg3JqiikexpuczV9gWC5FbRJO8Hqd
- kLeuS85phmApixTByK3M+GJtsffyGVigce15TBd/EcbFRrTvvAbirFGbaNxRFP6bCsYp
- kElNFAuFCdmBQgpmMO/aeOkA8ria66kRemwDcXj9ff3XDMcBWx8n+AVp0cD4oStrORcl
- Xd5uPRJybciZC0bTzK6KGPX7Wzs1MRYIgYc6zdrXRnB3O6xc0AYSP6AcgzEtUAcq2eLC
- tJQDSdMTtfbgya+Jdp7oO/Sx4zPLkpoPxK1PBgTXdb3R7i15tB6AuqcriLwNm6jTTWCF
- VCjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xZtP/0b5zjZ3Q3mejZfcvZKvbFgc2zdFrCHy7rHFnII=;
- b=C/jLfIstvPUdvt4tSgQed/x8v0S3bDDd0/MooWaqyNqb4EeXJ4sLZHfRav0D5ddGRG
- Xzb/AXbt+OLmefIE6yG1ZdRYGeT67o9FOhhiBpl+h4u1ndhbYinL5iZoiglAAW2Nzxnx
- 0nlwLbpEv1XKCsLur/kPxyUYdZ2xAvsQeDztjz3dsE/T2knXdOEyMWzMFrEYcq2TjNVw
- Y+/R/flOpJ5RVnN6KTky0kXO3lk1Gg4g5ccwnrYf8N5EpW6EwgSmiZQ9r57jMOvjMrXv
- 8WX1rg5kQgkwVviZvrcpoXxgNlgiu+Cyksz7/CGNDAtzllUJbR9Bnt/xy9RFlKx2nRLg
- SX7A==
-X-Gm-Message-State: APjAAAXM6omoBOV1cVIEZJQGYnXANXD6mi9IEEm+ThY/ox8VhGG9q2wr
- TaT6bDAmRq9PmCmFQxbF8d+65w==
-X-Google-Smtp-Source: APXvYqzWItFYuvw7vCKnhaszNAXXevMeTJI93iDWXa/iU/aewojW+ocim8p9uGI8zBWUzmk+0s36Pw==
-X-Received: by 2002:a9d:5907:: with SMTP id t7mr3698832oth.163.1559911696071; 
- Fri, 07 Jun 2019 05:48:16 -0700 (PDT)
-Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
- [200.56.192.86])
- by smtp.gmail.com with ESMTPSA id d21sm709488oih.21.2019.06.07.05.48.14
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 05:48:15 -0700 (PDT)
-To: "Brenken, David (EFS-GH2)" <david.brenken@efs-auto.de>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- David Brenken <david.brenken@efs-auto.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20190605061126.10244-1-david.brenken@efs-auto.org>
- <20190605061126.10244-4-david.brenken@efs-auto.org>
- <ffb4ba2c-318e-6b08-c206-a90b000074d2@mail.uni-paderborn.de>
- <34F764F04E859040BBA6C4FF41AB17D93B2DA4@AUDIINSX0410.audi.vwg>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <8e4f29db-fb2d-4053-2483-a2d92466ce35@linaro.org>
-Date: Fri, 7 Jun 2019 07:48:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <cohuck@redhat.com>) id 1hZETp-0007lN-As
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:00:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56612)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hZETp-0007gK-50; Fri, 07 Jun 2019 09:00:25 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 61057356E5;
+ Fri,  7 Jun 2019 13:00:15 +0000 (UTC)
+Received: from gondolin (reserved-198-113.str.redhat.com [10.33.198.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED0D47DE4D;
+ Fri,  7 Jun 2019 13:00:08 +0000 (UTC)
+Date: Fri, 7 Jun 2019 15:00:04 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand
+ <david@redhat.com>
+Message-ID: <20190607150004.5581fd18.cohuck@redhat.com>
+In-Reply-To: <CAFEAcA9hMt4TZC0DEzJ6JTV9OxLbXZbmHKshWv_20sLxLw4M6Q@mail.gmail.com>
+References: <20190607095237.11364-1-cohuck@redhat.com>
+ <CAFEAcA8FXh-jPMwpGN-4ES4v=nE4ZOSNB8+rkdB03E=BBDh-jw@mail.gmail.com>
+ <CAFEAcA9hMt4TZC0DEzJ6JTV9OxLbXZbmHKshWv_20sLxLw4M6Q@mail.gmail.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <34F764F04E859040BBA6C4FF41AB17D93B2DA4@AUDIINSX0410.audi.vwg>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::329
-Subject: Re: [Qemu-devel] [PATCH 3/5] tricore: fix RRPW_INSERT instruction
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Fri, 07 Jun 2019 13:00:16 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 00/35] s390x updates
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,28 +59,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Biermanski, Lars \(EFS-GH3\)" <lars.biermanski@efs-auto.de>, "Rasche,
- Robert \(EFS-GH2\)" <robert.rasche@efs-auto.de>, "Hofstetter,
- Georg \(EFS-GH2\)" <Georg.Hofstetter@efs-auto.de>, "Konopik,
- Andreas \(EFS-GH2\)" <andreas.konopik@efs-auto.de>
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/19 2:26 AM, Brenken, David (EFS-GH2) wrote:
->>>       case OPC2_32_RRPW_INSERT:
->>> -        if (pos + width <= 31) {
->>> -            tcg_gen_deposit_tl(cpu_gpr_d[r3], cpu_gpr_d[r1], cpu_gpr_d[r2],
->>> -                               width, pos);
->> Can you explain the problem causing the bug? Deposit looks fine to me.
->> After reading the specs again, I agree that the check needs to be <= 32.
-> The bug was recognized because of different behavior between actual hardware and QEMU.
-> Just from looking at it I would say that deposit masks and then shifts the arg2 (D[b]) while the 
-> manual states to first shift D[b] and then mask it. I remember that it was a corner case (e.g. 
-> width + pos = 31 or 32). 
+On Fri, 7 Jun 2019 10:58:03 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-The final two arguments to tcg_gen_deposit_tl are swapped.
-It should be pos, width.
+> On Fri, 7 Jun 2019 at 10:57, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Fri, 7 Jun 2019 at 10:52, Cornelia Huck <cohuck@redhat.com> wrote:
+> > >
+> > > The following changes since commit 47fbad45d47af8af784bb12a5719489edcd89b4c:
+> > >
+> > >   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-06-04 17:22:42 +0100)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   https://github.com/cohuck/qemu tags/s390x-20190607-1
+> > >
+> > > for you to fetch changes up to 39f04d18406862bd98d6bef5415dbe7360c652de:
+> > >
+> > >   Merge tag 's390x-tcg-2019-06-05' into s390-next-staging (2019-06-07 11:38:42 +0200)
+> > >
+> > > ----------------------------------------------------------------
+> > > s390x updates:
+> > > - tcg: finalize implementation for the vector facility and
+> > >   add it to the 'qemu' cpu model
+> > > - linux-user: properly generate ELF_HWCAP
+> > > - vfio-ccw: support async command subregion (for halt/clear
+> > >   subchannel handling)
+> > >
+> > > ----------------------------------------------------------------
+> >
+> > Hi -- this fails to link on the windows build for me:
+> >   LINK    s390x-softmmu/qemu-system-s390xw.exe
+> > hw/s390x/css.o: In function `sch_handle_halt_func_passthrough':
+> > /home/petmay01/qemu-for-merges/hw/s390x/css.c:1213: undefined
+> > reference to `vfio_ccw_handle_halt'
+> > hw/s390x/css.o: In function `sch_handle_clear_func_passthrough':
+> > /home/petmay01/qemu-for-merges/hw/s390x/css.c:1223: undefined
+> > reference to `vfio_ccw_handle_clear'
+> > collect2: error: ld returned 1 exit status
+> 
+> ...and same link error on OSX host.
+> 
+> -- PMM
 
-
-r~
+OK, I have dropped the vfio-ccw patch until I have a fixed version.
+Unfortunately, I need a new tcg pull request... David, can you please
+send one? Thanks!
 
