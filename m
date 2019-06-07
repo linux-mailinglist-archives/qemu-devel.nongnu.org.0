@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7B738E1F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:53:56 +0200 (CEST)
-Received: from localhost ([::1]:48438 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5951438E86
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:10:07 +0200 (CEST)
+Received: from localhost ([::1]:48590 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZGFf-0003L8-M7
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52927)
+	id 1hZGVK-00016O-Ho
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52982)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hZFh8-0003Wi-SR
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:18:16 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hZFhA-0003Yf-8s
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:18:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hZFh6-0003Dl-Ju
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:18:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53440)
+ (envelope-from <cohuck@redhat.com>) id 1hZFh9-0003JP-1j
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:18:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36958)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hZFh6-0003Ah-Cm; Fri, 07 Jun 2019 10:18:12 -0400
+ id 1hZFh8-0003GT-Q3; Fri, 07 Jun 2019 10:18:14 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A3500309B146;
- Fri,  7 Jun 2019 14:18:10 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8CD79C05168F;
+ Fri,  7 Jun 2019 14:18:13 +0000 (UTC)
 Received: from localhost (dhcp-192-191.str.redhat.com [10.33.192.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E1036840F;
- Fri,  7 Jun 2019 14:18:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 38C7B8270A;
+ Fri,  7 Jun 2019 14:18:12 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri,  7 Jun 2019 16:17:03 +0200
-Message-Id: <20190607141727.29018-11-cohuck@redhat.com>
+Date: Fri,  7 Jun 2019 16:17:04 +0200
+Message-Id: <20190607141727.29018-12-cohuck@redhat.com>
 In-Reply-To: <20190607141727.29018-1-cohuck@redhat.com>
 References: <20190607141727.29018-1-cohuck@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 07 Jun 2019 14:18:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Fri, 07 Jun 2019 14:18:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 10/34] s390x/tcg: Store only the necessary
- amount of doublewords for STFLE
+Subject: [Qemu-devel] [PULL v2 11/34] s390x/tcg: Introduce
+ tcg_s390_vector_exception()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,80 +55,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Liebler <stli@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Andreas Krebbel <Andreas.Krebbel@de.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-The PoP (z14, 7-382) says:
-    Doublewords to the right of the doubleword in which the
-    highest-numbered facility bit is assigned for a model
-    may or may not be stored.
+Handling is similar to data exceptions, however we can always store the
+VXC into the lowore and the FPC:
 
-However, stack protection in certain binaries can't deal with that.
-"gzip" example code:
+z14 PoP, 6-20, "Vector-Exception Code"
+    When a vector-processing exception causes a pro-
+    gram interruption, a vector-exception code (VXC) is
+    stored at location 147, and zeros are stored at loca-
+    tions 144-146. The VXC is also placed in the DXC
+    field of the floating-point-control (FPC) register if bit
+    45 of control register 0 is one. When bit 45 of control
+    register 0 is zero and bit 46 of control register 0 is
+    one, the DXC field of the FPC register and the con-
+    tents of storage at location 147 are unpredictable.
 
-f1b4:       a7 08 00 03             lhi     %r0,3
-f1b8:       b2 b0 f0 a0             stfle   160(%r15)
-f1bc:       e3 20 f0 b2 00 90       llgc    %r2,178(%r15)
-f1c2:       c0 2b 00 00 00 01       nilf    %r2,1
-f1c8:       b2 4f 00 10             ear     %r1,%a0
-f1cc:       b9 14 00 22             lgfr    %r2,%r2
-f1d0:       eb 11 00 20 00 0d       sllg    %r1,%r1,32
-f1d6:       b2 4f 00 11             ear     %r1,%a1
-f1da:       d5 07 f0 b8 10 28       clc     184(8,%r15),40(%r1)
-f1e0:       a7 74 00 06             jne     f1ec <file_read@@Base+0x1bc>
-f1e4:       eb ef f1 30 00 04       lmg     %r14,%r15,304(%r15)
-f1ea:       07 fe                   br      %r14
-f1ec:       c0 e5 ff ff 9d 6e       brasl   %r14,2cc8 <__stack_chk_fail@p=
-lt>
-
-In QEMU, we currently have:
-    max_bytes =3D 24
-the code asks for (3 + 1) doublewords =3D=3D 32 bytes.
-
-If we write 32 bytes instead of only 24, and return "2 + 1" doublewords
-("one less than the number of doulewords needed to contain all of the
- facility bits"), the example code detects a stack corruption.
-
-In my opinion, the code is wrong. However, it seems to work fine on
-real machines. So let's limit storing to the minimum of the requested
-and the maximum doublewords.
-
-Cc: Stefan Liebler <stli@linux.ibm.com>
-Cc: Andreas Krebbel <Andreas.Krebbel@de.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/misc_helper.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ target/s390x/cpu.h         |  1 +
+ target/s390x/excp_helper.c | 15 +++++++++++++++
+ target/s390x/tcg_s390x.h   |  2 ++
+ 3 files changed, 18 insertions(+)
 
-diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
-index 34476134a407..10aa617cf9c5 100644
---- a/target/s390x/misc_helper.c
-+++ b/target/s390x/misc_helper.c
-@@ -678,7 +678,13 @@ uint32_t HELPER(stfle)(CPUS390XState *env, uint64_t =
-addr)
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 317a1377e6ce..4fc08a2c88f6 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -215,6 +215,7 @@ extern const struct VMStateDescription vmstate_s390_c=
+pu;
+ #define PGM_SPECIAL_OP                  0x0013
+ #define PGM_OPERAND                     0x0015
+ #define PGM_TRACE_TABLE                 0x0016
++#define PGM_VECTOR_PROCESSING           0x001b
+ #define PGM_SPACE_SWITCH                0x001c
+ #define PGM_HFP_SQRT                    0x001d
+ #define PGM_PC_TRANS_SPEC               0x001f
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index 85223d00c01f..f21bcf79ae18 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -62,6 +62,21 @@ void QEMU_NORETURN tcg_s390_data_exception(CPUS390XSta=
+te *env, uint32_t dxc,
+     tcg_s390_program_interrupt(env, PGM_DATA, ILEN_AUTO, ra);
+ }
 =20
-     prepare_stfl();
-     max_bytes =3D ROUND_UP(used_stfl_bytes, 8);
--    for (i =3D 0; i < count_bytes; ++i) {
++void QEMU_NORETURN tcg_s390_vector_exception(CPUS390XState *env, uint32_=
+t vxc,
++                                             uintptr_t ra)
++{
++    g_assert(vxc <=3D 0xff);
++#if !defined(CONFIG_USER_ONLY)
++    /* Always store the VXC into the lowcore, without AFP it is undefine=
+d */
++    stl_phys(CPU(s390_env_get_cpu(env))->as,
++             env->psa + offsetof(LowCore, data_exc_code), vxc);
++#endif
 +
-+    /*
-+     * The PoP says that doublewords beyond the highest-numbered facilit=
-y
-+     * bit may or may not be stored.  However, existing hardware appears=
- to
-+     * not store the words, and existing software depend on that.
-+     */
-+    for (i =3D 0; i < MIN(count_bytes, max_bytes); ++i) {
-         cpu_stb_data_ra(env, addr + i, stfl_bytes[i], ra);
-     }
++    /* Always store the VXC into the FPC, without AFP it is undefined */
++    env->fpc =3D deposit32(env->fpc, 8, 8, vxc);
++    tcg_s390_program_interrupt(env, PGM_VECTOR_PROCESSING, ILEN_AUTO, ra=
+);
++}
++
+ void HELPER(data_exception)(CPUS390XState *env, uint32_t dxc)
+ {
+     tcg_s390_data_exception(env, dxc, GETPC());
+diff --git a/target/s390x/tcg_s390x.h b/target/s390x/tcg_s390x.h
+index ab2c4ba70327..2813f9d48e2e 100644
+--- a/target/s390x/tcg_s390x.h
++++ b/target/s390x/tcg_s390x.h
+@@ -18,5 +18,7 @@ void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XS=
+tate *env, uint32_t code,
+                                               int ilen, uintptr_t ra);
+ void QEMU_NORETURN tcg_s390_data_exception(CPUS390XState *env, uint32_t =
+dxc,
+                                            uintptr_t ra);
++void QEMU_NORETURN tcg_s390_vector_exception(CPUS390XState *env, uint32_=
+t vxc,
++                                             uintptr_t ra);
 =20
+ #endif /* TCG_S390X_H */
 --=20
 2.20.1
 
