@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84A538C37
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:09:27 +0200 (CEST)
-Received: from localhost ([::1]:51492 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8390C38C28
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:03:01 +0200 (CEST)
+Received: from localhost ([::1]:51466 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFYa-0003Mv-Ne
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45395)
+	id 1hZFSO-0008Mg-0p
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45335)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hZFL9-0002DN-V3
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:55:37 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hZFKy-0001xr-Gr
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:55:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hZFL1-0003vj-23
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:55:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42136)
+ (envelope-from <kwolf@redhat.com>) id 1hZFKt-0003ee-T1
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:55:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40136)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hZFKk-0003OH-Ir; Fri, 07 Jun 2019 09:55:07 -0400
+ id 1hZFKf-0003FA-O6; Fri, 07 Jun 2019 09:55:02 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E3AB530832CE;
- Fri,  7 Jun 2019 13:54:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 685D1308FF30;
+ Fri,  7 Jun 2019 13:54:58 +0000 (UTC)
 Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
  [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 603711001B08;
- Fri,  7 Jun 2019 13:54:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 307C01001B0C;
+ Fri,  7 Jun 2019 13:54:56 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 15:54:29 +0200
-Message-Id: <20190607135430.22149-10-kwolf@redhat.com>
+Date: Fri,  7 Jun 2019 15:54:30 +0200
+Message-Id: <20190607135430.22149-11-kwolf@redhat.com>
 In-Reply-To: <20190607135430.22149-1-kwolf@redhat.com>
 References: <20190607135430.22149-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 07 Jun 2019 13:55:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 07 Jun 2019 13:54:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC PATCH 09/10] monitor: Split out monitor/hmp.c
+Subject: [Qemu-devel] [RFC PATCH 10/10] monitor: Split out monitor/core.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,105 +60,59 @@ Cc: kwolf@redhat.com, armbru@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move HMP infrastructure from monitor/misc.c to monitor/hmp.c. This is
-code that can be shared for all targets, so compile it only once.
+Move the monitor core infrastructure from monitor/misc.c to
+monitor/core.c. This is code that can be shared for all targets, so
+compile it only once.
+
+What remains in monitor/misc.c after this patch is mostly monitor
+command implementations and code that requires a system emulator or is
+even target-dependent.
 
 The amount of function and particularly extern variables in
 monitor_int.h is probably a bit larger than it needs to be, but this way
-no non-trivial code modifications are needed. The interfaces between HMP
-and the monitor core can be cleaned up later.
+no non-trivial code modifications are needed. The interfaces between all
+monitor parts can be cleaned up later.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/monitor/monitor.h |    1 +
- monitor/monitor_int.h     |   31 +
- monitor/hmp.c             | 1351 +++++++++++++++++++++++++++++++++++++
- monitor/misc.c            | 1338 +-----------------------------------
- monitor/Makefile.objs     |    2 +-
- 5 files changed, 1390 insertions(+), 1333 deletions(-)
- create mode 100644 monitor/hmp.c
+ include/monitor/monitor.h |   1 +
+ monitor/monitor_int.h     |   1 +
+ monitor/core.c            | 604 ++++++++++++++++++++++++++++++++++++++
+ monitor/misc.c            | 567 +----------------------------------
+ monitor/Makefile.objs     |   2 +-
+ 5 files changed, 608 insertions(+), 567 deletions(-)
+ create mode 100644 monitor/core.c
 
 diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index 7bbab05320..8547529e49 100644
+index 8547529e49..b9f8d175ed 100644
 --- a/include/monitor/monitor.h
 +++ b/include/monitor/monitor.h
-@@ -22,6 +22,7 @@ bool monitor_cur_is_qmp(void);
+@@ -20,6 +20,7 @@ typedef struct MonitorHMP MonitorHMP;
+ bool monitor_cur_is_qmp(void);
+=20
  void monitor_init_globals(void);
++void monitor_init_globals_core(void);
  void monitor_init(Chardev *chr, int flags);
  void monitor_init_qmp(Chardev *chr, int flags);
-+void monitor_init_hmp(Chardev *chr, int flags);
- void monitor_cleanup(void);
-=20
- int monitor_suspend(Monitor *mon);
+ void monitor_init_hmp(Chardev *chr, int flags);
 diff --git a/monitor/monitor_int.h b/monitor/monitor_int.h
-index 487618392f..8c5d95f942 100644
+index 8c5d95f942..1a7af6a223 100644
 --- a/monitor/monitor_int.h
 +++ b/monitor/monitor_int.h
-@@ -27,6 +27,7 @@
-=20
- #include "qemu-common.h"
- #include "monitor/monitor.h"
-+#include "qemu/cutils.h"
-=20
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/json-parser.h"
-@@ -153,6 +154,29 @@ static inline bool monitor_is_qmp(const Monitor *mon=
-)
-     return (mon->flags & MONITOR_USE_CONTROL);
- }
-=20
-+/**
-+ * Is @name in the '|' separated list of names @list?
-+ */
-+static inline int compare_cmd(const char *name, const char *list)
-+{
-+    const char *p, *pstart;
-+    int len;
-+    len =3D strlen(name);
-+    p =3D list;
-+    for(;;) {
-+        pstart =3D p;
-+        p =3D qemu_strchrnul(p, '|');
-+        if ((p - pstart) =3D=3D len && !memcmp(pstart, name, len)) {
-+            return 1;
-+        }
-+        if (*p =3D=3D '\0') {
-+            break;
-+        }
-+        p++;
-+    }
-+    return 0;
-+}
-+
- typedef QTAILQ_HEAD(MonitorList, Monitor) MonitorList;
- extern IOThread *mon_iothread;
- extern QEMUBH *qmp_dispatcher_bh;
-@@ -161,6 +185,8 @@ extern QemuMutex monitor_lock;
- extern MonitorList mon_list;
- extern int mon_refcount;
-=20
-+extern mon_cmd_t mon_cmds[];
-+
+@@ -190,6 +190,7 @@ extern mon_cmd_t mon_cmds[];
  int monitor_puts(Monitor *mon, const char *str);
  void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
                         bool use_io_thread);
-@@ -172,4 +198,9 @@ void qmp_send_response(MonitorQMP *mon, const QDict *=
-rsp);
- void monitor_data_destroy_qmp(MonitorQMP *mon);
- void monitor_qmp_bh_dispatcher(void *data);
-=20
-+void monitor_data_init_hmp(MonitorHMP *mon, int flags, bool skip_flush);
-+int get_monitor_def(int64_t *pval, const char *name);
-+void help_cmd(Monitor *mon, const char *name);
-+void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
-+
- #endif
-diff --git a/monitor/hmp.c b/monitor/hmp.c
++void monitor_data_destroy(Monitor *mon);
+ int monitor_can_read(void *opaque);
+ void monitor_list_append(Monitor *mon);
+ void monitor_fdsets_cleanup(void);
+diff --git a/monitor/core.c b/monitor/core.c
 new file mode 100644
-index 0000000000..2bc464a7fc
+index 0000000000..1cea56054b
 --- /dev/null
-+++ b/monitor/hmp.c
-@@ -0,0 +1,1351 @@
++++ b/monitor/core.c
+@@ -0,0 +1,604 @@
 +/*
 + * QEMU monitor
 + *
@@ -198,2838 +152,1245 @@ S IN
 +#include "monitor_int.h"
 +
 +#include "qapi/error.h"
-+#include "qapi/qmp/qnum.h"
++#include "qapi/qapi-emit-events.h"
++#include "qapi/qmp/qstring.h"
 +
-+#include "qemu/config-file.h"
-+#include "qemu/log.h"
 +#include "qemu/option.h"
-+#include "qemu/units.h"
-+#include "sysemu/block-backend.h"
-+#include "sysemu/sysemu.h"
++#include "sysemu/qtest.h"
 +
 +#include "trace-root.h"
 +
-+static int get_str(char *buf, int buf_size, const char **pp)
-+{
-+    const char *p;
-+    char *q;
-+    int c;
++/*
++ * To prevent flooding clients, events can be throttled. The
++ * throttling is calculated globally, rather than per-Monitor
++ * instance.
++ */
++typedef struct MonitorQAPIEventState {
++    QAPIEvent event;    /* Throttling state for this event type and... *=
+/
++    QDict *data;        /* ... data, see qapi_event_throttle_equal() */
++    QEMUTimer *timer;   /* Timer for handling delayed events */
++    QDict *qdict;       /* Delayed event (if any) */
++} MonitorQAPIEventState;
 +
-+    q =3D buf;
-+    p =3D *pp;
-+    while (qemu_isspace(*p)) {
-+        p++;
++typedef struct {
++    int64_t rate;       /* Minimum time (in ns) between two events */
++} MonitorQAPIEventConf;
++
++/* Shared monitor I/O thread */
++IOThread *mon_iothread;
++
++/* Bottom half to dispatch the requests received from I/O thread */
++QEMUBH *qmp_dispatcher_bh;
++
++/* Protects mon_list, monitor_qapi_event_state, monitor_destroyed.  */
++QemuMutex monitor_lock;
++static GHashTable *monitor_qapi_event_state;
++
++MonitorList mon_list;
++int mon_refcount;
++static bool monitor_destroyed;
++
++/**
++ * Is @mon is using readline?
++ * Note: not all HMP monitors use readline, e.g., gdbserver has a
++ * non-interactive HMP monitor, so readline is not used there.
++ */
++static inline bool monitor_uses_readline(const Monitor *mon)
++{
++    return mon->flags & MONITOR_USE_READLINE;
++}
++
++static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
++{
++    return !monitor_is_qmp(mon) && !monitor_uses_readline(mon);
++}
++
++static void monitor_flush_locked(Monitor *mon);
++
++static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
++                                  void *opaque)
++{
++    Monitor *mon =3D opaque;
++
++    qemu_mutex_lock(&mon->mon_lock);
++    mon->out_watch =3D 0;
++    monitor_flush_locked(mon);
++    qemu_mutex_unlock(&mon->mon_lock);
++    return FALSE;
++}
++
++/* Caller must hold mon->mon_lock */
++static void monitor_flush_locked(Monitor *mon)
++{
++    int rc;
++    size_t len;
++    const char *buf;
++
++    if (mon->skip_flush) {
++        return;
 +    }
-+    if (*p =3D=3D '\0') {
-+    fail:
-+        *q =3D '\0';
-+        *pp =3D p;
++
++    buf =3D qstring_get_str(mon->outbuf);
++    len =3D qstring_get_length(mon->outbuf);
++
++    if (len && !mon->mux_out) {
++        rc =3D qemu_chr_fe_write(&mon->chr, (const uint8_t *) buf, len);
++        if ((rc < 0 && errno !=3D EAGAIN) || (rc =3D=3D len)) {
++            /* all flushed or error */
++            qobject_unref(mon->outbuf);
++            mon->outbuf =3D qstring_new();
++            return;
++        }
++        if (rc > 0) {
++            /* partial write */
++            QString *tmp =3D qstring_from_str(buf + rc);
++            qobject_unref(mon->outbuf);
++            mon->outbuf =3D tmp;
++        }
++        if (mon->out_watch =3D=3D 0) {
++            mon->out_watch =3D
++                qemu_chr_fe_add_watch(&mon->chr, G_IO_OUT | G_IO_HUP,
++                                      monitor_unblocked, mon);
++        }
++    }
++}
++
++void monitor_flush(Monitor *mon)
++{
++    qemu_mutex_lock(&mon->mon_lock);
++    monitor_flush_locked(mon);
++    qemu_mutex_unlock(&mon->mon_lock);
++}
++
++/* flush at every end of line */
++int monitor_puts(Monitor *mon, const char *str)
++{
++    int i;
++    char c;
++
++    qemu_mutex_lock(&mon->mon_lock);
++    for (i =3D 0; str[i]; i++) {
++        c =3D str[i];
++        if (c =3D=3D '\n') {
++            qstring_append_chr(mon->outbuf, '\r');
++        }
++        qstring_append_chr(mon->outbuf, c);
++        if (c =3D=3D '\n') {
++            monitor_flush_locked(mon);
++        }
++    }
++    qemu_mutex_unlock(&mon->mon_lock);
++
++    return i;
++}
++
++int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
++{
++    char *buf;
++    int n;
++
++    if (!mon)
++        return -1;
++
++    if (monitor_is_qmp(mon)) {
 +        return -1;
 +    }
-+    if (*p =3D=3D '\"') {
-+        p++;
-+        while (*p !=3D '\0' && *p !=3D '\"') {
-+            if (*p =3D=3D '\\') {
-+                p++;
-+                c =3D *p++;
-+                switch (c) {
-+                case 'n':
-+                    c =3D '\n';
-+                    break;
-+                case 'r':
-+                    c =3D '\r';
-+                    break;
-+                case '\\':
-+                case '\'':
-+                case '\"':
-+                    break;
-+                default:
-+                    printf("unsupported escape code: '\\%c'\n", c);
-+                    goto fail;
-+                }
-+                if ((q - buf) < buf_size - 1) {
-+                    *q++ =3D c;
-+                }
-+            } else {
-+                if ((q - buf) < buf_size - 1) {
-+                    *q++ =3D *p;
-+                }
-+                p++;
-+            }
-+        }
-+        if (*p !=3D '\"') {
-+            printf("unterminated string\n");
-+            goto fail;
-+        }
-+        p++;
-+    } else {
-+        while (*p !=3D '\0' && !qemu_isspace(*p)) {
-+            if ((q - buf) < buf_size - 1) {
-+                *q++ =3D *p;
-+            }
-+            p++;
-+        }
-+    }
-+    *q =3D '\0';
-+    *pp =3D p;
-+    return 0;
-+}
 +
-+#define MAX_ARGS 16
-+
-+static void free_cmdline_args(char **args, int nb_args)
-+{
-+    int i;
-+
-+    assert(nb_args <=3D MAX_ARGS);
-+
-+    for (i =3D 0; i < nb_args; i++) {
-+        g_free(args[i]);
-+    }
-+
-+}
-+
-+/*
-+ * Parse the command line to get valid args.
-+ * @cmdline: command line to be parsed.
-+ * @pnb_args: location to store the number of args, must NOT be NULL.
-+ * @args: location to store the args, which should be freed by caller, m=
-ust
-+ *        NOT be NULL.
-+ *
-+ * Returns 0 on success, negative on failure.
-+ *
-+ * NOTE: this parser is an approximate form of the real command parser. =
-Number
-+ *       of args have a limit of MAX_ARGS. If cmdline contains more, it =
-will
-+ *       return with failure.
-+ */
-+static int parse_cmdline(const char *cmdline,
-+                         int *pnb_args, char **args)
-+{
-+    const char *p;
-+    int nb_args, ret;
-+    char buf[1024];
-+
-+    p =3D cmdline;
-+    nb_args =3D 0;
-+    for (;;) {
-+        while (qemu_isspace(*p)) {
-+            p++;
-+        }
-+        if (*p =3D=3D '\0') {
-+            break;
-+        }
-+        if (nb_args >=3D MAX_ARGS) {
-+            goto fail;
-+        }
-+        ret =3D get_str(buf, sizeof(buf), &p);
-+        if (ret < 0) {
-+            goto fail;
-+        }
-+        args[nb_args] =3D g_strdup(buf);
-+        nb_args++;
-+    }
-+    *pnb_args =3D nb_args;
-+    return 0;
-+
-+ fail:
-+    free_cmdline_args(args, nb_args);
-+    return -1;
-+}
-+
-+/*
-+ * Can command @cmd be executed in preconfig state?
-+ */
-+static bool cmd_can_preconfig(const mon_cmd_t *cmd)
-+{
-+    if (!cmd->flags) {
-+        return false;
-+    }
-+
-+    return strchr(cmd->flags, 'p');
-+}
-+
-+static void help_cmd_dump_one(Monitor *mon,
-+                              const mon_cmd_t *cmd,
-+                              char **prefix_args,
-+                              int prefix_args_nb)
-+{
-+    int i;
-+
-+    if (runstate_check(RUN_STATE_PRECONFIG) && !cmd_can_preconfig(cmd)) =
-{
-+        return;
-+    }
-+
-+    for (i =3D 0; i < prefix_args_nb; i++) {
-+        monitor_printf(mon, "%s ", prefix_args[i]);
-+    }
-+    monitor_printf(mon, "%s %s -- %s\n", cmd->name, cmd->params, cmd->he=
-lp);
-+}
-+
-+/* @args[@arg_index] is the valid command need to find in @cmds */
-+static void help_cmd_dump(Monitor *mon, const mon_cmd_t *cmds,
-+                          char **args, int nb_args, int arg_index)
-+{
-+    const mon_cmd_t *cmd;
-+    size_t i;
-+
-+    /* No valid arg need to compare with, dump all in *cmds */
-+    if (arg_index >=3D nb_args) {
-+        for (cmd =3D cmds; cmd->name !=3D NULL; cmd++) {
-+            help_cmd_dump_one(mon, cmd, args, arg_index);
-+        }
-+        return;
-+    }
-+
-+    /* Find one entry to dump */
-+    for (cmd =3D cmds; cmd->name !=3D NULL; cmd++) {
-+        if (compare_cmd(args[arg_index], cmd->name) &&
-+            ((!runstate_check(RUN_STATE_PRECONFIG) ||
-+                cmd_can_preconfig(cmd)))) {
-+            if (cmd->sub_table) {
-+                /* continue with next arg */
-+                help_cmd_dump(mon, cmd->sub_table,
-+                              args, nb_args, arg_index + 1);
-+            } else {
-+                help_cmd_dump_one(mon, cmd, args, arg_index);
-+            }
-+            return;
-+        }
-+    }
-+
-+    /* Command not found */
-+    monitor_printf(mon, "unknown command: '");
-+    for (i =3D 0; i <=3D arg_index; i++) {
-+        monitor_printf(mon, "%s%s", args[i], i =3D=3D arg_index ? "'\n" =
-: " ");
-+    }
-+}
-+
-+void help_cmd(Monitor *mon, const char *name)
-+{
-+    MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
-+    char *args[MAX_ARGS];
-+    int nb_args =3D 0;
-+
-+    /* 1. parse user input */
-+    if (name) {
-+        /* special case for log, directly dump and return */
-+        if (!strcmp(name, "log")) {
-+            const QEMULogItem *item;
-+            monitor_printf(mon, "Log items (comma separated):\n");
-+            monitor_printf(mon, "%-10s %s\n", "none", "remove all logs")=
-;
-+            for (item =3D qemu_log_items; item->mask !=3D 0; item++) {
-+                monitor_printf(mon, "%-10s %s\n", item->name, item->help=
-);
-+            }
-+            return;
-+        }
-+
-+        if (parse_cmdline(name, &nb_args, args) < 0) {
-+            return;
-+        }
-+    }
-+
-+    /* 2. dump the contents according to parsed args */
-+    help_cmd_dump(mon, hmp_mon->cmd_table, args, nb_args, 0);
-+
-+    free_cmdline_args(args, nb_args);
-+}
-+
-+/*******************************************************************/
-+
-+static const char *pch;
-+static sigjmp_buf expr_env;
-+
-+static void GCC_FMT_ATTR(2, 3) QEMU_NORETURN
-+expr_error(Monitor *mon, const char *fmt, ...)
-+{
-+    va_list ap;
-+    va_start(ap, fmt);
-+    monitor_vprintf(mon, fmt, ap);
-+    monitor_printf(mon, "\n");
-+    va_end(ap);
-+    siglongjmp(expr_env, 1);
-+}
-+
-+static void next(void)
-+{
-+    if (*pch !=3D '\0') {
-+        pch++;
-+        while (qemu_isspace(*pch))
-+            pch++;
-+    }
-+}
-+
-+static int64_t expr_sum(Monitor *mon);
-+
-+static int64_t expr_unary(Monitor *mon)
-+{
-+    int64_t n;
-+    char *p;
-+    int ret;
-+
-+    switch(*pch) {
-+    case '+':
-+        next();
-+        n =3D expr_unary(mon);
-+        break;
-+    case '-':
-+        next();
-+        n =3D -expr_unary(mon);
-+        break;
-+    case '~':
-+        next();
-+        n =3D ~expr_unary(mon);
-+        break;
-+    case '(':
-+        next();
-+        n =3D expr_sum(mon);
-+        if (*pch !=3D ')') {
-+            expr_error(mon, "')' expected");
-+        }
-+        next();
-+        break;
-+    case '\'':
-+        pch++;
-+        if (*pch =3D=3D '\0')
-+            expr_error(mon, "character constant expected");
-+        n =3D *pch;
-+        pch++;
-+        if (*pch !=3D '\'')
-+            expr_error(mon, "missing terminating \' character");
-+        next();
-+        break;
-+    case '$':
-+        {
-+            char buf[128], *q;
-+            int64_t reg =3D 0;
-+
-+            pch++;
-+            q =3D buf;
-+            while ((*pch >=3D 'a' && *pch <=3D 'z') ||
-+                   (*pch >=3D 'A' && *pch <=3D 'Z') ||
-+                   (*pch >=3D '0' && *pch <=3D '9') ||
-+                   *pch =3D=3D '_' || *pch =3D=3D '.') {
-+                if ((q - buf) < sizeof(buf) - 1)
-+                    *q++ =3D *pch;
-+                pch++;
-+            }
-+            while (qemu_isspace(*pch))
-+                pch++;
-+            *q =3D 0;
-+            ret =3D get_monitor_def(&reg, buf);
-+            if (ret < 0)
-+                expr_error(mon, "unknown register");
-+            n =3D reg;
-+        }
-+        break;
-+    case '\0':
-+        expr_error(mon, "unexpected end of expression");
-+        n =3D 0;
-+        break;
-+    default:
-+        errno =3D 0;
-+        n =3D strtoull(pch, &p, 0);
-+        if (errno =3D=3D ERANGE) {
-+            expr_error(mon, "number too large");
-+        }
-+        if (pch =3D=3D p) {
-+            expr_error(mon, "invalid char '%c' in expression", *p);
-+        }
-+        pch =3D p;
-+        while (qemu_isspace(*pch))
-+            pch++;
-+        break;
-+    }
++    buf =3D g_strdup_vprintf(fmt, ap);
++    n =3D monitor_puts(mon, buf);
++    g_free(buf);
 +    return n;
 +}
 +
-+static int64_t expr_prod(Monitor *mon)
++int monitor_printf(Monitor *mon, const char *fmt, ...)
 +{
-+    int64_t val, val2;
-+    int op;
++    int ret;
 +
-+    val =3D expr_unary(mon);
-+    for(;;) {
-+        op =3D *pch;
-+        if (op !=3D '*' && op !=3D '/' && op !=3D '%')
-+            break;
-+        next();
-+        val2 =3D expr_unary(mon);
-+        switch(op) {
-+        default:
-+        case '*':
-+            val *=3D val2;
-+            break;
-+        case '/':
-+        case '%':
-+            if (val2 =3D=3D 0)
-+                expr_error(mon, "division by zero");
-+            if (op =3D=3D '/')
-+                val /=3D val2;
-+            else
-+                val %=3D val2;
-+            break;
-+        }
-+    }
-+    return val;
++    va_list ap;
++    va_start(ap, fmt);
++    ret =3D monitor_vprintf(mon, fmt, ap);
++    va_end(ap);
++    return ret;
 +}
 +
-+static int64_t expr_logic(Monitor *mon)
++
++static MonitorQAPIEventConf monitor_qapi_event_conf[QAPI_EVENT__MAX] =3D=
+ {
++    /* Limit guest-triggerable events to 1 per second */
++    [QAPI_EVENT_RTC_CHANGE]        =3D { 1000 * SCALE_MS },
++    [QAPI_EVENT_WATCHDOG]          =3D { 1000 * SCALE_MS },
++    [QAPI_EVENT_BALLOON_CHANGE]    =3D { 1000 * SCALE_MS },
++    [QAPI_EVENT_QUORUM_REPORT_BAD] =3D { 1000 * SCALE_MS },
++    [QAPI_EVENT_QUORUM_FAILURE]    =3D { 1000 * SCALE_MS },
++    [QAPI_EVENT_VSERPORT_CHANGE]   =3D { 1000 * SCALE_MS },
++};
++
++/*
++ * Return the clock to use for recording an event's time.
++ * It's QEMU_CLOCK_REALTIME, except for qtests it's
++ * QEMU_CLOCK_VIRTUAL, to support testing rate limits.
++ * Beware: result is invalid before configure_accelerator().
++ */
++static inline QEMUClockType monitor_get_event_clock(void)
 +{
-+    int64_t val, val2;
-+    int op;
-+
-+    val =3D expr_prod(mon);
-+    for(;;) {
-+        op =3D *pch;
-+        if (op !=3D '&' && op !=3D '|' && op !=3D '^')
-+            break;
-+        next();
-+        val2 =3D expr_prod(mon);
-+        switch(op) {
-+        default:
-+        case '&':
-+            val &=3D val2;
-+            break;
-+        case '|':
-+            val |=3D val2;
-+            break;
-+        case '^':
-+            val ^=3D val2;
-+            break;
-+        }
-+    }
-+    return val;
-+}
-+
-+static int64_t expr_sum(Monitor *mon)
-+{
-+    int64_t val, val2;
-+    int op;
-+
-+    val =3D expr_logic(mon);
-+    for(;;) {
-+        op =3D *pch;
-+        if (op !=3D '+' && op !=3D '-')
-+            break;
-+        next();
-+        val2 =3D expr_logic(mon);
-+        if (op =3D=3D '+')
-+            val +=3D val2;
-+        else
-+            val -=3D val2;
-+    }
-+    return val;
-+}
-+
-+static int get_expr(Monitor *mon, int64_t *pval, const char **pp)
-+{
-+    pch =3D *pp;
-+    if (sigsetjmp(expr_env, 0)) {
-+        *pp =3D pch;
-+        return -1;
-+    }
-+    while (qemu_isspace(*pch))
-+        pch++;
-+    *pval =3D expr_sum(mon);
-+    *pp =3D pch;
-+    return 0;
-+}
-+
-+static int get_double(Monitor *mon, double *pval, const char **pp)
-+{
-+    const char *p =3D *pp;
-+    char *tailp;
-+    double d;
-+
-+    d =3D strtod(p, &tailp);
-+    if (tailp =3D=3D p) {
-+        monitor_printf(mon, "Number expected\n");
-+        return -1;
-+    }
-+    if (d !=3D d || d - d !=3D 0) {
-+        /* NaN or infinity */
-+        monitor_printf(mon, "Bad number\n");
-+        return -1;
-+    }
-+    *pval =3D d;
-+    *pp =3D tailp;
-+    return 0;
++    return qtest_enabled() ? QEMU_CLOCK_VIRTUAL : QEMU_CLOCK_REALTIME;
 +}
 +
 +/*
-+ * Store the command-name in cmdname, and return a pointer to
-+ * the remaining of the command string.
++ * Broadcast an event to all monitors.
++ * @qdict is the event object.  Its member "event" must match @event.
++ * Caller must hold monitor_lock.
 + */
-+static const char *get_command_name(const char *cmdline,
-+                                    char *cmdname, size_t nlen)
++static void monitor_qapi_event_emit(QAPIEvent event, QDict *qdict)
 +{
-+    size_t len;
-+    const char *p, *pstart;
++    Monitor *mon;
++    MonitorQMP *qmp_mon;
 +
-+    p =3D cmdline;
-+    while (qemu_isspace(*p))
-+        p++;
-+    if (*p =3D=3D '\0')
-+        return NULL;
-+    pstart =3D p;
-+    while (*p !=3D '\0' && *p !=3D '/' && !qemu_isspace(*p))
-+        p++;
-+    len =3D p - pstart;
-+    if (len > nlen - 1)
-+        len =3D nlen - 1;
-+    memcpy(cmdname, pstart, len);
-+    cmdname[len] =3D '\0';
-+    return p;
-+}
-+
-+/**
-+ * Read key of 'type' into 'key' and return the current
-+ * 'type' pointer.
-+ */
-+static char *key_get_info(const char *type, char **key)
-+{
-+    size_t len;
-+    char *p, *str;
-+
-+    if (*type =3D=3D ',')
-+        type++;
-+
-+    p =3D strchr(type, ':');
-+    if (!p) {
-+        *key =3D NULL;
-+        return NULL;
-+    }
-+    len =3D p - type;
-+
-+    str =3D g_malloc(len + 1);
-+    memcpy(str, type, len);
-+    str[len] =3D '\0';
-+
-+    *key =3D str;
-+    return ++p;
-+}
-+
-+static int default_fmt_format =3D 'x';
-+static int default_fmt_size =3D 4;
-+
-+static int is_valid_option(const char *c, const char *typestr)
-+{
-+    char option[3];
-+
-+    option[0] =3D '-';
-+    option[1] =3D *c;
-+    option[2] =3D '\0';
-+
-+    typestr =3D strstr(typestr, option);
-+    return (typestr !=3D NULL);
-+}
-+
-+static const mon_cmd_t *search_dispatch_table(const mon_cmd_t *disp_tabl=
-e,
-+                                              const char *cmdname)
-+{
-+    const mon_cmd_t *cmd;
-+
-+    for (cmd =3D disp_table; cmd->name !=3D NULL; cmd++) {
-+        if (compare_cmd(cmdname, cmd->name)) {
-+            return cmd;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+/*
-+ * Parse command name from @cmdp according to command table @table.
-+ * If blank, return NULL.
-+ * Else, if no valid command can be found, report to @mon, and return
-+ * NULL.
-+ * Else, change @cmdp to point right behind the name, and return its
-+ * command table entry.
-+ * Do not assume the return value points into @table!  It doesn't when
-+ * the command is found in a sub-command table.
-+ */
-+static const mon_cmd_t *monitor_parse_command(MonitorHMP *hmp_mon,
-+                                              const char *cmdp_start,
-+                                              const char **cmdp,
-+                                              mon_cmd_t *table)
-+{
-+    Monitor *mon =3D &hmp_mon->common;
-+    const char *p;
-+    const mon_cmd_t *cmd;
-+    char cmdname[256];
-+
-+    /* extract the command name */
-+    p =3D get_command_name(*cmdp, cmdname, sizeof(cmdname));
-+    if (!p) {
-+        return NULL;
-+    }
-+
-+    cmd =3D search_dispatch_table(table, cmdname);
-+    if (!cmd) {
-+        monitor_printf(mon, "unknown command: '%.*s'\n",
-+                       (int)(p - cmdp_start), cmdp_start);
-+        return NULL;
-+    }
-+    if (runstate_check(RUN_STATE_PRECONFIG) && !cmd_can_preconfig(cmd)) =
-{
-+        monitor_printf(mon, "Command '%.*s' not available with -preconfi=
-g "
-+                            "until after exit_preconfig.\n",
-+                       (int)(p - cmdp_start), cmdp_start);
-+        return NULL;
-+    }
-+
-+    /* filter out following useless space */
-+    while (qemu_isspace(*p)) {
-+        p++;
-+    }
-+
-+    *cmdp =3D p;
-+    /* search sub command */
-+    if (cmd->sub_table !=3D NULL && *p !=3D '\0') {
-+        return monitor_parse_command(hmp_mon, cmdp_start, cmdp, cmd->sub=
-_table);
-+    }
-+
-+    return cmd;
-+}
-+
-+/*
-+ * Parse arguments for @cmd.
-+ * If it can't be parsed, report to @mon, and return NULL.
-+ * Else, insert command arguments into a QDict, and return it.
-+ * Note: On success, caller has to free the QDict structure.
-+ */
-+static QDict *monitor_parse_arguments(Monitor *mon,
-+                                      const char **endp,
-+                                      const mon_cmd_t *cmd)
-+{
-+    const char *typestr;
-+    char *key;
-+    int c;
-+    const char *p =3D *endp;
-+    char buf[1024];
-+    QDict *qdict =3D qdict_new();
-+
-+    /* parse the parameters */
-+    typestr =3D cmd->args_type;
-+    for(;;) {
-+        typestr =3D key_get_info(typestr, &key);
-+        if (!typestr) {
-+            break;
-+        }
-+        c =3D *typestr;
-+        typestr++;
-+        switch(c) {
-+        case 'F':
-+        case 'B':
-+        case 's':
-+            {
-+                int ret;
-+
-+                while (qemu_isspace(*p))
-+                    p++;
-+                if (*typestr =3D=3D '?') {
-+                    typestr++;
-+                    if (*p =3D=3D '\0') {
-+                        /* no optional string: NULL argument */
-+                        break;
-+                    }
-+                }
-+                ret =3D get_str(buf, sizeof(buf), &p);
-+                if (ret < 0) {
-+                    switch(c) {
-+                    case 'F':
-+                        monitor_printf(mon, "%s: filename expected\n",
-+                                       cmd->name);
-+                        break;
-+                    case 'B':
-+                        monitor_printf(mon, "%s: block device name expec=
-ted\n",
-+                                       cmd->name);
-+                        break;
-+                    default:
-+                        monitor_printf(mon, "%s: string expected\n", cmd=
-->name);
-+                        break;
-+                    }
-+                    goto fail;
-+                }
-+                qdict_put_str(qdict, key, buf);
-+            }
-+            break;
-+        case 'O':
-+            {
-+                QemuOptsList *opts_list;
-+                QemuOpts *opts;
-+
-+                opts_list =3D qemu_find_opts(key);
-+                if (!opts_list || opts_list->desc->name) {
-+                    goto bad_type;
-+                }
-+                while (qemu_isspace(*p)) {
-+                    p++;
-+                }
-+                if (!*p) {
-+                    break;
-+                }
-+                if (get_str(buf, sizeof(buf), &p) < 0) {
-+                    goto fail;
-+                }
-+                opts =3D qemu_opts_parse_noisily(opts_list, buf, true);
-+                if (!opts) {
-+                    goto fail;
-+                }
-+                qemu_opts_to_qdict(opts, qdict);
-+                qemu_opts_del(opts);
-+            }
-+            break;
-+        case '/':
-+            {
-+                int count, format, size;
-+
-+                while (qemu_isspace(*p))
-+                    p++;
-+                if (*p =3D=3D '/') {
-+                    /* format found */
-+                    p++;
-+                    count =3D 1;
-+                    if (qemu_isdigit(*p)) {
-+                        count =3D 0;
-+                        while (qemu_isdigit(*p)) {
-+                            count =3D count * 10 + (*p - '0');
-+                            p++;
-+                        }
-+                    }
-+                    size =3D -1;
-+                    format =3D -1;
-+                    for(;;) {
-+                        switch(*p) {
-+                        case 'o':
-+                        case 'd':
-+                        case 'u':
-+                        case 'x':
-+                        case 'i':
-+                        case 'c':
-+                            format =3D *p++;
-+                            break;
-+                        case 'b':
-+                            size =3D 1;
-+                            p++;
-+                            break;
-+                        case 'h':
-+                            size =3D 2;
-+                            p++;
-+                            break;
-+                        case 'w':
-+                            size =3D 4;
-+                            p++;
-+                            break;
-+                        case 'g':
-+                        case 'L':
-+                            size =3D 8;
-+                            p++;
-+                            break;
-+                        default:
-+                            goto next;
-+                        }
-+                    }
-+                next:
-+                    if (*p !=3D '\0' && !qemu_isspace(*p)) {
-+                        monitor_printf(mon, "invalid char in format: '%c=
-'\n",
-+                                       *p);
-+                        goto fail;
-+                    }
-+                    if (format < 0) {
-+                        format =3D default_fmt_format;
-+                    }
-+                    if (format !=3D 'i') {
-+                        /* for 'i', not specifying a size gives -1 as si=
-ze */
-+                        if (size < 0) {
-+                            size =3D default_fmt_size;
-+                        }
-+                        default_fmt_size =3D size;
-+                    }
-+                    default_fmt_format =3D format;
-+                } else {
-+                    count =3D 1;
-+                    format =3D default_fmt_format;
-+                    if (format !=3D 'i') {
-+                        size =3D default_fmt_size;
-+                    } else {
-+                        size =3D -1;
-+                    }
-+                }
-+                qdict_put_int(qdict, "count", count);
-+                qdict_put_int(qdict, "format", format);
-+                qdict_put_int(qdict, "size", size);
-+            }
-+            break;
-+        case 'i':
-+        case 'l':
-+        case 'M':
-+            {
-+                int64_t val;
-+
-+                while (qemu_isspace(*p))
-+                    p++;
-+                if (*typestr =3D=3D '?' || *typestr =3D=3D '.') {
-+                    if (*typestr =3D=3D '?') {
-+                        if (*p =3D=3D '\0') {
-+                            typestr++;
-+                            break;
-+                        }
-+                    } else {
-+                        if (*p =3D=3D '.') {
-+                            p++;
-+                            while (qemu_isspace(*p)) {
-+                                p++;
-+                            }
-+                        } else {
-+                            typestr++;
-+                            break;
-+                        }
-+                    }
-+                    typestr++;
-+                }
-+                if (get_expr(mon, &val, &p))
-+                    goto fail;
-+                /* Check if 'i' is greater than 32-bit */
-+                if ((c =3D=3D 'i') && ((val >> 32) & 0xffffffff)) {
-+                    monitor_printf(mon, "\'%s\' has failed: ", cmd->name=
-);
-+                    monitor_printf(mon, "integer is for 32-bit values\n"=
-);
-+                    goto fail;
-+                } else if (c =3D=3D 'M') {
-+                    if (val < 0) {
-+                        monitor_printf(mon, "enter a positive value\n");
-+                        goto fail;
-+                    }
-+                    val *=3D MiB;
-+                }
-+                qdict_put_int(qdict, key, val);
-+            }
-+            break;
-+        case 'o':
-+            {
-+                int ret;
-+                uint64_t val;
-+                const char *end;
-+
-+                while (qemu_isspace(*p)) {
-+                    p++;
-+                }
-+                if (*typestr =3D=3D '?') {
-+                    typestr++;
-+                    if (*p =3D=3D '\0') {
-+                        break;
-+                    }
-+                }
-+                ret =3D qemu_strtosz_MiB(p, &end, &val);
-+                if (ret < 0 || val > INT64_MAX) {
-+                    monitor_printf(mon, "invalid size\n");
-+                    goto fail;
-+                }
-+                qdict_put_int(qdict, key, val);
-+                p =3D end;
-+            }
-+            break;
-+        case 'T':
-+            {
-+                double val;
-+
-+                while (qemu_isspace(*p)) {
-+                    p++;
-+                }
-+                if (*typestr =3D=3D '?') {
-+                    typestr++;
-+                    if (*p =3D=3D '\0') {
-+                        break;
-+                    }
-+                }
-+                if (get_double(mon, &val, &p) < 0) {
-+                    goto fail;
-+                }
-+                if (p[0] && p[1] =3D=3D 's') {
-+                    switch (*p) {
-+                    case 'm':
-+                        val /=3D 1e3; p +=3D 2; break;
-+                    case 'u':
-+                        val /=3D 1e6; p +=3D 2; break;
-+                    case 'n':
-+                        val /=3D 1e9; p +=3D 2; break;
-+                    }
-+                }
-+                if (*p && !qemu_isspace(*p)) {
-+                    monitor_printf(mon, "Unknown unit suffix\n");
-+                    goto fail;
-+                }
-+                qdict_put(qdict, key, qnum_from_double(val));
-+            }
-+            break;
-+        case 'b':
-+            {
-+                const char *beg;
-+                bool val;
-+
-+                while (qemu_isspace(*p)) {
-+                    p++;
-+                }
-+                beg =3D p;
-+                while (qemu_isgraph(*p)) {
-+                    p++;
-+                }
-+                if (p - beg =3D=3D 2 && !memcmp(beg, "on", p - beg)) {
-+                    val =3D true;
-+                } else if (p - beg =3D=3D 3 && !memcmp(beg, "off", p - b=
-eg)) {
-+                    val =3D false;
-+                } else {
-+                    monitor_printf(mon, "Expected 'on' or 'off'\n");
-+                    goto fail;
-+                }
-+                qdict_put_bool(qdict, key, val);
-+            }
-+            break;
-+        case '-':
-+            {
-+                const char *tmp =3D p;
-+                int skip_key =3D 0;
-+                /* option */
-+
-+                c =3D *typestr++;
-+                if (c =3D=3D '\0')
-+                    goto bad_type;
-+                while (qemu_isspace(*p))
-+                    p++;
-+                if (*p =3D=3D '-') {
-+                    p++;
-+                    if(c !=3D *p) {
-+                        if(!is_valid_option(p, typestr)) {
-+                            monitor_printf(mon, "%s: unsupported option =
--%c\n",
-+                                           cmd->name, *p);
-+                            goto fail;
-+                        } else {
-+                            skip_key =3D 1;
-+                        }
-+                    }
-+                    if(skip_key) {
-+                        p =3D tmp;
-+                    } else {
-+                        /* has option */
-+                        p++;
-+                        qdict_put_bool(qdict, key, true);
-+                    }
-+                }
-+            }
-+            break;
-+        case 'S':
-+            {
-+                /* package all remaining string */
-+                int len;
-+
-+                while (qemu_isspace(*p)) {
-+                    p++;
-+                }
-+                if (*typestr =3D=3D '?') {
-+                    typestr++;
-+                    if (*p =3D=3D '\0') {
-+                        /* no remaining string: NULL argument */
-+                        break;
-+                    }
-+                }
-+                len =3D strlen(p);
-+                if (len <=3D 0) {
-+                    monitor_printf(mon, "%s: string expected\n",
-+                                   cmd->name);
-+                    goto fail;
-+                }
-+                qdict_put_str(qdict, key, p);
-+                p +=3D len;
-+            }
-+            break;
-+        default:
-+        bad_type:
-+            monitor_printf(mon, "%s: unknown type '%c'\n", cmd->name, c)=
-;
-+            goto fail;
-+        }
-+        g_free(key);
-+        key =3D NULL;
-+    }
-+    /* check that all arguments were parsed */
-+    while (qemu_isspace(*p))
-+        p++;
-+    if (*p !=3D '\0') {
-+        monitor_printf(mon, "%s: extraneous characters at the end of lin=
-e\n",
-+                       cmd->name);
-+        goto fail;
-+    }
-+
-+    return qdict;
-+
-+fail:
-+    qobject_unref(qdict);
-+    g_free(key);
-+    return NULL;
-+}
-+
-+void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
-+{
-+    QDict *qdict;
-+    const mon_cmd_t *cmd;
-+    const char *cmd_start =3D cmdline;
-+
-+    trace_handle_hmp_command(mon, cmdline);
-+
-+    cmd =3D monitor_parse_command(mon, cmdline, &cmdline, mon->cmd_table=
-);
-+    if (!cmd) {
-+        return;
-+    }
-+
-+    qdict =3D monitor_parse_arguments(&mon->common, &cmdline, cmd);
-+    if (!qdict) {
-+        while (cmdline > cmd_start && qemu_isspace(cmdline[-1])) {
-+            cmdline--;
-+        }
-+        monitor_printf(&mon->common, "Try \"help %.*s\" for more informa=
-tion\n",
-+                       (int)(cmdline - cmd_start), cmd_start);
-+        return;
-+    }
-+
-+    cmd->cmd(&mon->common, qdict);
-+    qobject_unref(qdict);
-+}
-+
-+static void cmd_completion(MonitorHMP *mon, const char *name, const char=
- *list)
-+{
-+    const char *p, *pstart;
-+    char cmd[128];
-+    int len;
-+
-+    p =3D list;
-+    for(;;) {
-+        pstart =3D p;
-+        p =3D qemu_strchrnul(p, '|');
-+        len =3D p - pstart;
-+        if (len > sizeof(cmd) - 2)
-+            len =3D sizeof(cmd) - 2;
-+        memcpy(cmd, pstart, len);
-+        cmd[len] =3D '\0';
-+        if (name[0] =3D=3D '\0' || !strncmp(name, cmd, strlen(name))) {
-+            readline_add_completion(mon->rs, cmd);
-+        }
-+        if (*p =3D=3D '\0')
-+            break;
-+        p++;
-+    }
-+}
-+
-+static void file_completion(MonitorHMP *mon, const char *input)
-+{
-+    DIR *ffs;
-+    struct dirent *d;
-+    char path[1024];
-+    char file[1024], file_prefix[1024];
-+    int input_path_len;
-+    const char *p;
-+
-+    p =3D strrchr(input, '/');
-+    if (!p) {
-+        input_path_len =3D 0;
-+        pstrcpy(file_prefix, sizeof(file_prefix), input);
-+        pstrcpy(path, sizeof(path), ".");
-+    } else {
-+        input_path_len =3D p - input + 1;
-+        memcpy(path, input, input_path_len);
-+        if (input_path_len > sizeof(path) - 1)
-+            input_path_len =3D sizeof(path) - 1;
-+        path[input_path_len] =3D '\0';
-+        pstrcpy(file_prefix, sizeof(file_prefix), p + 1);
-+    }
-+
-+    ffs =3D opendir(path);
-+    if (!ffs)
-+        return;
-+    for(;;) {
-+        struct stat sb;
-+        d =3D readdir(ffs);
-+        if (!d)
-+            break;
-+
-+        if (strcmp(d->d_name, ".") =3D=3D 0 || strcmp(d->d_name, "..") =3D=
-=3D 0) {
++    trace_monitor_protocol_event_emit(event, qdict);
++    QTAILQ_FOREACH(mon, &mon_list, entry) {
++        if (!monitor_is_qmp(mon)) {
 +            continue;
 +        }
 +
-+        if (strstart(d->d_name, file_prefix, NULL)) {
-+            memcpy(file, input, input_path_len);
-+            if (input_path_len < sizeof(file))
-+                pstrcpy(file + input_path_len, sizeof(file) - input_path=
-_len,
-+                        d->d_name);
-+            /* stat the file to find out if it's a directory.
-+             * In that case add a slash to speed up typing long paths
-+             */
-+            if (stat(file, &sb) =3D=3D 0 && S_ISDIR(sb.st_mode)) {
-+                pstrcat(file, sizeof(file), "/");
-+            }
-+            readline_add_completion(mon->rs, file);
++        qmp_mon =3D container_of(mon, MonitorQMP, common);
++        if (qmp_mon->commands !=3D &qmp_cap_negotiation_commands) {
++            qmp_send_response(qmp_mon, qdict);
 +        }
 +    }
-+    closedir(ffs);
 +}
 +
-+static const char *next_arg_type(const char *typestr)
-+{
-+    const char *p =3D strchr(typestr, ':');
-+    return (p !=3D NULL ? ++p : typestr);
-+}
++static void monitor_qapi_event_handler(void *opaque);
 +
-+static void monitor_find_completion_by_table(MonitorHMP *mon,
-+                                             const mon_cmd_t *cmd_table,
-+                                             char **args,
-+                                             int nb_args)
++/*
++ * Queue a new event for emission to Monitor instances,
++ * applying any rate limiting if required.
++ */
++static void
++monitor_qapi_event_queue_no_reenter(QAPIEvent event, QDict *qdict)
 +{
-+    const char *cmdname;
-+    int i;
-+    const char *ptype, *old_ptype, *str, *name;
-+    const mon_cmd_t *cmd;
-+    BlockBackend *blk =3D NULL;
++    MonitorQAPIEventConf *evconf;
++    MonitorQAPIEventState *evstate;
 +
-+    if (nb_args <=3D 1) {
-+        /* command completion */
-+        if (nb_args =3D=3D 0)
-+            cmdname =3D "";
-+        else
-+            cmdname =3D args[0];
-+        readline_set_completion_index(mon->rs, strlen(cmdname));
-+        for (cmd =3D cmd_table; cmd->name !=3D NULL; cmd++) {
-+            if (!runstate_check(RUN_STATE_PRECONFIG) ||
-+                 cmd_can_preconfig(cmd)) {
-+                cmd_completion(mon, cmdname, cmd->name);
-+            }
-+        }
++    assert(event < QAPI_EVENT__MAX);
++    evconf =3D &monitor_qapi_event_conf[event];
++    trace_monitor_protocol_event_queue(event, qdict, evconf->rate);
++
++    qemu_mutex_lock(&monitor_lock);
++
++    if (!evconf->rate) {
++        /* Unthrottled event */
++        monitor_qapi_event_emit(event, qdict);
 +    } else {
-+        /* find the command */
-+        for (cmd =3D cmd_table; cmd->name !=3D NULL; cmd++) {
-+            if (compare_cmd(args[0], cmd->name) &&
-+                (!runstate_check(RUN_STATE_PRECONFIG) ||
-+                 cmd_can_preconfig(cmd))) {
-+                break;
-+            }
-+        }
-+        if (!cmd->name) {
-+            return;
-+        }
++        QDict *data =3D qobject_to(QDict, qdict_get(qdict, "data"));
++        MonitorQAPIEventState key =3D { .event =3D event, .data =3D data=
+ };
 +
-+        if (cmd->sub_table) {
-+            /* do the job again */
-+            monitor_find_completion_by_table(mon, cmd->sub_table,
-+                                             &args[1], nb_args - 1);
-+            return;
-+        }
-+        if (cmd->command_completion) {
-+            cmd->command_completion(mon->rs, nb_args, args[nb_args - 1])=
++        evstate =3D g_hash_table_lookup(monitor_qapi_event_state, &key);
++        assert(!evstate || timer_pending(evstate->timer));
++
++        if (evstate) {
++            /*
++             * Timer is pending for (at least) evconf->rate ns after
++             * last send.  Store event for sending when timer fires,
++             * replacing a prior stored event if any.
++             */
++            qobject_unref(evstate->qdict);
++            evstate->qdict =3D qobject_ref(qdict);
++        } else {
++            /*
++             * Last send was (at least) evconf->rate ns ago.
++             * Send immediately, and arm the timer to call
++             * monitor_qapi_event_handler() in evconf->rate ns.  Any
++             * events arriving before then will be delayed until then.
++             */
++            int64_t now =3D qemu_clock_get_ns(monitor_get_event_clock())=
 ;
-+            return;
-+        }
 +
-+        ptype =3D next_arg_type(cmd->args_type);
-+        for(i =3D 0; i < nb_args - 2; i++) {
-+            if (*ptype !=3D '\0') {
-+                ptype =3D next_arg_type(ptype);
-+                while (*ptype =3D=3D '?')
-+                    ptype =3D next_arg_type(ptype);
-+            }
-+        }
-+        str =3D args[nb_args - 1];
-+        old_ptype =3D NULL;
-+        while (*ptype =3D=3D '-' && old_ptype !=3D ptype) {
-+            old_ptype =3D ptype;
-+            ptype =3D next_arg_type(ptype);
-+        }
-+        switch(*ptype) {
-+        case 'F':
-+            /* file completion */
-+            readline_set_completion_index(mon->rs, strlen(str));
-+            file_completion(mon, str);
-+            break;
-+        case 'B':
-+            /* block device name completion */
-+            readline_set_completion_index(mon->rs, strlen(str));
-+            while ((blk =3D blk_next(blk)) !=3D NULL) {
-+                name =3D blk_name(blk);
-+                if (str[0] =3D=3D '\0' ||
-+                    !strncmp(name, str, strlen(str))) {
-+                    readline_add_completion(mon->rs, name);
-+                }
-+            }
-+            break;
-+        case 's':
-+        case 'S':
-+            if (!strcmp(cmd->name, "help|?")) {
-+                monitor_find_completion_by_table(mon, cmd_table,
-+                                                 &args[1], nb_args - 1);
-+            }
-+            break;
-+        default:
-+            break;
++            monitor_qapi_event_emit(event, qdict);
++
++            evstate =3D g_new(MonitorQAPIEventState, 1);
++            evstate->event =3D event;
++            evstate->data =3D qobject_ref(data);
++            evstate->qdict =3D NULL;
++            evstate->timer =3D timer_new_ns(monitor_get_event_clock(),
++                                          monitor_qapi_event_handler,
++                                          evstate);
++            g_hash_table_add(monitor_qapi_event_state, evstate);
++            timer_mod_ns(evstate->timer, now + evconf->rate);
 +        }
 +    }
++
++    qemu_mutex_unlock(&monitor_lock);
 +}
 +
-+static void monitor_find_completion(void *opaque,
-+                                    const char *cmdline)
++void qapi_event_emit(QAPIEvent event, QDict *qdict)
 +{
-+    MonitorHMP *mon =3D opaque;
-+    char *args[MAX_ARGS];
-+    int nb_args, len;
++    /*
++     * monitor_qapi_event_queue_no_reenter() is not reentrant: it
++     * would deadlock on monitor_lock.  Work around by queueing
++     * events in thread-local storage.
++     * TODO: remove this, make it re-enter safe.
++     */
++    typedef struct MonitorQapiEvent {
++        QAPIEvent event;
++        QDict *qdict;
++        QSIMPLEQ_ENTRY(MonitorQapiEvent) entry;
++    } MonitorQapiEvent;
++    static __thread QSIMPLEQ_HEAD(, MonitorQapiEvent) event_queue;
++    static __thread bool reentered;
++    MonitorQapiEvent *ev;
 +
-+    /* 1. parse the cmdline */
-+    if (parse_cmdline(cmdline, &nb_args, args) < 0) {
++    if (!reentered) {
++        QSIMPLEQ_INIT(&event_queue);
++    }
++
++    ev =3D g_new(MonitorQapiEvent, 1);
++    ev->qdict =3D qobject_ref(qdict);
++    ev->event =3D event;
++    QSIMPLEQ_INSERT_TAIL(&event_queue, ev, entry);
++    if (reentered) {
 +        return;
 +    }
 +
-+    /* if the line ends with a space, it means we want to complete the
-+       next arg */
-+    len =3D strlen(cmdline);
-+    if (len > 0 && qemu_isspace(cmdline[len - 1])) {
-+        if (nb_args >=3D MAX_ARGS) {
-+            goto cleanup;
-+        }
-+        args[nb_args++] =3D g_strdup("");
++    reentered =3D true;
++
++    while ((ev =3D QSIMPLEQ_FIRST(&event_queue)) !=3D NULL) {
++        QSIMPLEQ_REMOVE_HEAD(&event_queue, entry);
++        monitor_qapi_event_queue_no_reenter(ev->event, ev->qdict);
++        qobject_unref(ev->qdict);
++        g_free(ev);
 +    }
 +
-+    /* 2. auto complete according to args */
-+    monitor_find_completion_by_table(mon, mon->cmd_table, args, nb_args)=
-;
-+
-+cleanup:
-+    free_cmdline_args(args, nb_args);
++    reentered =3D false;
 +}
 +
-+static void monitor_read(void *opaque, const uint8_t *buf, int size)
++/*
++ * This function runs evconf->rate ns after sending a throttled
++ * event.
++ * If another event has since been stored, send it.
++ */
++static void monitor_qapi_event_handler(void *opaque)
 +{
-+    MonitorHMP *mon;
-+    Monitor *old_mon =3D cur_mon;
-+    int i;
++    MonitorQAPIEventState *evstate =3D opaque;
++    MonitorQAPIEventConf *evconf =3D &monitor_qapi_event_conf[evstate->e=
+vent];
 +
-+    cur_mon =3D opaque;
-+    mon =3D container_of(cur_mon, MonitorHMP, common);
++    trace_monitor_protocol_event_handler(evstate->event, evstate->qdict)=
+;
++    qemu_mutex_lock(&monitor_lock);
 +
-+    if (mon->rs) {
-+        for (i =3D 0; i < size; i++) {
-+            readline_handle_byte(mon->rs, buf[i]);
-+        }
++    if (evstate->qdict) {
++        int64_t now =3D qemu_clock_get_ns(monitor_get_event_clock());
++
++        monitor_qapi_event_emit(evstate->event, evstate->qdict);
++        qobject_unref(evstate->qdict);
++        evstate->qdict =3D NULL;
++        timer_mod_ns(evstate->timer, now + evconf->rate);
 +    } else {
-+        if (size =3D=3D 0 || buf[size - 1] !=3D 0) {
-+            monitor_printf(cur_mon, "corrupted command\n");
-+        } else {
-+            handle_hmp_command(mon, (char *)buf);
-+        }
++        g_hash_table_remove(monitor_qapi_event_state, evstate);
++        qobject_unref(evstate->data);
++        timer_free(evstate->timer);
++        g_free(evstate);
 +    }
 +
-+    cur_mon =3D old_mon;
++    qemu_mutex_unlock(&monitor_lock);
 +}
 +
-+static void monitor_event(void *opaque, int event)
++static unsigned int qapi_event_throttle_hash(const void *key)
++{
++    const MonitorQAPIEventState *evstate =3D key;
++    unsigned int hash =3D evstate->event * 255;
++
++    if (evstate->event =3D=3D QAPI_EVENT_VSERPORT_CHANGE) {
++        hash +=3D g_str_hash(qdict_get_str(evstate->data, "id"));
++    }
++
++    if (evstate->event =3D=3D QAPI_EVENT_QUORUM_REPORT_BAD) {
++        hash +=3D g_str_hash(qdict_get_str(evstate->data, "node-name"));
++    }
++
++    return hash;
++}
++
++static gboolean qapi_event_throttle_equal(const void *a, const void *b)
++{
++    const MonitorQAPIEventState *eva =3D a;
++    const MonitorQAPIEventState *evb =3D b;
++
++    if (eva->event !=3D evb->event) {
++        return FALSE;
++    }
++
++    if (eva->event =3D=3D QAPI_EVENT_VSERPORT_CHANGE) {
++        return !strcmp(qdict_get_str(eva->data, "id"),
++                       qdict_get_str(evb->data, "id"));
++    }
++
++    if (eva->event =3D=3D QAPI_EVENT_QUORUM_REPORT_BAD) {
++        return !strcmp(qdict_get_str(eva->data, "node-name"),
++                       qdict_get_str(evb->data, "node-name"));
++    }
++
++    return TRUE;
++}
++
++int monitor_suspend(Monitor *mon)
++{
++    if (monitor_is_hmp_non_interactive(mon)) {
++        return -ENOTTY;
++    }
++
++    atomic_inc(&mon->suspend_cnt);
++
++    if (mon->use_io_thread) {
++        /*
++         * Kick I/O thread to make sure this takes effect.  It'll be
++         * evaluated again in prepare() of the watch object.
++         */
++        aio_notify(iothread_get_aio_context(mon_iothread));
++    }
++
++    trace_monitor_suspend(mon, 1);
++    return 0;
++}
++
++static void monitor_accept_input(void *opaque)
 +{
 +    Monitor *mon =3D opaque;
-+    MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
 +
-+    switch (event) {
-+    case CHR_EVENT_MUX_IN:
-+        qemu_mutex_lock(&mon->mon_lock);
-+        mon->mux_out =3D 0;
-+        qemu_mutex_unlock(&mon->mon_lock);
-+        if (mon->reset_seen) {
-+            readline_restart(hmp_mon->rs);
-+            monitor_resume(mon);
-+            monitor_flush(mon);
++    qemu_chr_fe_accept_input(&mon->chr);
++}
++
++void monitor_resume(Monitor *mon)
++{
++    if (monitor_is_hmp_non_interactive(mon)) {
++        return;
++    }
++
++    if (atomic_dec_fetch(&mon->suspend_cnt) =3D=3D 0) {
++        AioContext *ctx;
++
++        if (mon->use_io_thread) {
++            ctx =3D iothread_get_aio_context(mon_iothread);
 +        } else {
-+            atomic_mb_set(&mon->suspend_cnt, 0);
++            ctx =3D qemu_get_aio_context();
 +        }
-+        break;
 +
-+    case CHR_EVENT_MUX_OUT:
-+        if (mon->reset_seen) {
-+            if (atomic_mb_read(&mon->suspend_cnt) =3D=3D 0) {
-+                monitor_printf(mon, "\n");
-+            }
-+            monitor_flush(mon);
-+            monitor_suspend(mon);
-+        } else {
-+            atomic_inc(&mon->suspend_cnt);
-+        }
-+        qemu_mutex_lock(&mon->mon_lock);
-+        mon->mux_out =3D 1;
-+        qemu_mutex_unlock(&mon->mon_lock);
-+        break;
-+
-+    case CHR_EVENT_OPENED:
-+        monitor_printf(mon, "QEMU %s monitor - type 'help' for more "
-+                       "information\n", QEMU_VERSION);
-+        if (!mon->mux_out) {
-+            readline_restart(hmp_mon->rs);
++        if (!monitor_is_qmp(mon)) {
++            MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common=
+);
++            assert(hmp_mon->rs);
 +            readline_show_prompt(hmp_mon->rs);
 +        }
-+        mon->reset_seen =3D 1;
-+        mon_refcount++;
-+        break;
 +
-+    case CHR_EVENT_CLOSED:
-+        mon_refcount--;
-+        monitor_fdsets_cleanup();
-+        break;
++        aio_bh_schedule_oneshot(ctx, monitor_accept_input, mon);
++    }
++
++    trace_monitor_suspend(mon, -1);
++}
++
++int monitor_can_read(void *opaque)
++{
++    Monitor *mon =3D opaque;
++
++    return !atomic_mb_read(&mon->suspend_cnt);
++}
++
++void monitor_list_append(Monitor *mon)
++{
++    qemu_mutex_lock(&monitor_lock);
++    /*
++     * This prevents inserting new monitors during monitor_cleanup().
++     * A cleaner solution would involve the main thread telling other
++     * threads to terminate, waiting for their termination.
++     */
++    if (!monitor_destroyed) {
++        QTAILQ_INSERT_HEAD(&mon_list, mon, entry);
++        mon =3D NULL;
++    }
++    qemu_mutex_unlock(&monitor_lock);
++
++    if (mon) {
++        monitor_data_destroy(mon);
++        g_free(mon);
 +    }
 +}
 +
-+
-+/* These functions just adapt the readline interface in a typesafe way. =
- We
-+ * could cast function pointers but that discards compiler checks.
-+ */
-+static void GCC_FMT_ATTR(2, 3) monitor_readline_printf(void *opaque,
-+                                                       const char *fmt, =
-...)
++static void monitor_iothread_init(void)
 +{
-+    MonitorHMP *mon =3D opaque;
-+    va_list ap;
-+    va_start(ap, fmt);
-+    monitor_vprintf(&mon->common, fmt, ap);
-+    va_end(ap);
++    mon_iothread =3D iothread_create("mon_iothread", &error_abort);
 +}
 +
-+static void monitor_readline_flush(void *opaque)
++void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
++                       bool use_io_thread)
 +{
-+    MonitorHMP *mon =3D opaque;
-+    monitor_flush(&mon->common);
++    if (use_io_thread && !mon_iothread) {
++        monitor_iothread_init();
++    }
++    memset(mon, 0, sizeof(Monitor));
++    qemu_mutex_init(&mon->mon_lock);
++    mon->outbuf =3D qstring_new();
++    mon->skip_flush =3D skip_flush;
++    mon->use_io_thread =3D use_io_thread;
++    mon->flags =3D flags;
 +}
 +
-+void monitor_data_init_hmp(MonitorHMP *mon, int flags, bool skip_flush)
++void monitor_data_destroy(Monitor *mon)
 +{
-+    monitor_data_init(&mon->common, flags, skip_flush, false);
-+
-+    /* Use *mon_cmds by default. */
-+    mon->cmd_table =3D mon_cmds;
++    g_free(mon->mon_cpu_path);
++    qemu_chr_fe_deinit(&mon->chr, false);
++    if (monitor_is_qmp(mon)) {
++        MonitorQMP *qmp_mon =3D container_of(mon, MonitorQMP, common);
++        monitor_data_destroy_qmp(qmp_mon);
++    } else {
++        MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
++        readline_free(hmp_mon->rs);
++    }
++    qobject_unref(mon->outbuf);
++    qemu_mutex_destroy(&mon->mon_lock);
 +}
 +
-+void monitor_init_hmp(Chardev *chr, int flags)
++void monitor_init(Chardev *chr, int flags)
 +{
-+    MonitorHMP *mon =3D g_malloc0(sizeof(*mon));
-+    bool use_readline =3D flags & MONITOR_USE_READLINE;
++    if (flags & MONITOR_USE_CONTROL) {
++        monitor_init_qmp(chr, flags);
++    } else {
++        monitor_init_hmp(chr, flags);
++    }
++}
 +
-+    monitor_data_init_hmp(mon, flags, false);
-+    qemu_chr_fe_init(&mon->common.chr, chr, &error_abort);
-+
-+    if (use_readline) {
-+        mon->rs =3D readline_init(monitor_readline_printf,
-+                                monitor_readline_flush,
-+                                mon,
-+                                monitor_find_completion);
-+        monitor_read_command(mon, 0);
++void monitor_cleanup(void)
++{
++    /*
++     * We need to explicitly stop the I/O thread (but not destroy it),
++     * clean up the monitor resources, then destroy the I/O thread since
++     * we need to unregister from chardev below in
++     * monitor_data_destroy(), and chardev is not thread-safe yet
++     */
++    if (mon_iothread) {
++        iothread_stop(mon_iothread);
 +    }
 +
-+    qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read, monitor=
-_read,
-+                             monitor_event, NULL, &mon->common, NULL, tr=
-ue);
-+    monitor_list_append(&mon->common);
++    /* Flush output buffers and destroy monitors */
++    qemu_mutex_lock(&monitor_lock);
++    monitor_destroyed =3D true;
++    while (!QTAILQ_EMPTY(&mon_list)) {
++        Monitor *mon =3D QTAILQ_FIRST(&mon_list);
++        QTAILQ_REMOVE(&mon_list, mon, entry);
++        /* Permit QAPI event emission from character frontend release */
++        qemu_mutex_unlock(&monitor_lock);
++        monitor_flush(mon);
++        monitor_data_destroy(mon);
++        qemu_mutex_lock(&monitor_lock);
++        g_free(mon);
++    }
++    qemu_mutex_unlock(&monitor_lock);
++
++    /* QEMUBHs needs to be deleted before destroying the I/O thread */
++    qemu_bh_delete(qmp_dispatcher_bh);
++    qmp_dispatcher_bh =3D NULL;
++    if (mon_iothread) {
++        iothread_destroy(mon_iothread);
++        mon_iothread =3D NULL;
++    }
 +}
++
++static void monitor_qapi_event_init(void)
++{
++    monitor_qapi_event_state =3D g_hash_table_new(qapi_event_throttle_ha=
+sh,
++                                                qapi_event_throttle_equa=
+l);
++}
++
++void monitor_init_globals_core(void)
++{
++    monitor_qapi_event_init();
++    qemu_mutex_init(&monitor_lock);
++
++    /*
++     * The dispatcher BH must run in the main loop thread, since we
++     * have commands assuming that context.  It would be nice to get
++     * rid of those assumptions.
++     */
++    qmp_dispatcher_bh =3D aio_bh_new(iohandler_get_aio_context(),
++                                   monitor_qmp_bh_dispatcher,
++                                   NULL);
++}
++
++QemuOptsList qemu_mon_opts =3D {
++    .name =3D "mon",
++    .implied_opt_name =3D "chardev",
++    .head =3D QTAILQ_HEAD_INITIALIZER(qemu_mon_opts.head),
++    .desc =3D {
++        {
++            .name =3D "mode",
++            .type =3D QEMU_OPT_STRING,
++        },{
++            .name =3D "chardev",
++            .type =3D QEMU_OPT_STRING,
++        },{
++            .name =3D "pretty",
++            .type =3D QEMU_OPT_BOOL,
++        },
++        { /* end of list */ }
++    },
++};
 diff --git a/monitor/misc.c b/monitor/misc.c
-index 6c67f0978c..408d11e1fe 100644
+index 408d11e1fe..1f60f31c95 100644
 --- a/monitor/misc.c
 +++ b/monitor/misc.c
-@@ -24,7 +24,6 @@
+@@ -117,43 +117,13 @@ struct MonFdset {
+     QLIST_ENTRY(MonFdset) next;
+ };
 =20
- #include "qemu/osdep.h"
- #include "monitor_int.h"
--#include "qemu/units.h"
- #include <dirent.h>
- #include "cpu.h"
- #include "hw/hw.h"
-@@ -155,7 +154,6 @@ static QLIST_HEAD(, MonFdset) mon_fdsets;
+-/*
+- * To prevent flooding clients, events can be throttled. The
+- * throttling is calculated globally, rather than per-Monitor
+- * instance.
+- */
+-typedef struct MonitorQAPIEventState {
+-    QAPIEvent event;    /* Throttling state for this event type and... *=
+/
+-    QDict *data;        /* ... data, see qapi_event_throttle_equal() */
+-    QEMUTimer *timer;   /* Timer for handling delayed events */
+-    QDict *qdict;       /* Delayed event (if any) */
+-} MonitorQAPIEventState;
+-
+-typedef struct {
+-    int64_t rate;       /* Minimum time (in ns) between two events */
+-} MonitorQAPIEventConf;
+-
+-/* Shared monitor I/O thread */
+-IOThread *mon_iothread;
+-
+-/* Bottom half to dispatch the requests received from I/O thread */
+-QEMUBH *qmp_dispatcher_bh;
+-
+ /* QMP checker flags */
+ #define QMP_ACCEPT_UNKNOWNS 1
 =20
- int mon_refcount;
+-/* Protects mon_list, monitor_qapi_event_state, monitor_destroyed.  */
+-QemuMutex monitor_lock;
+-static GHashTable *monitor_qapi_event_state;
+-MonitorList mon_list;
+-static bool monitor_destroyed;
+-
+ /* Protects mon_fdsets */
+ static QemuMutex mon_fdsets_lock;
+ static QLIST_HEAD(, MonFdset) mon_fdsets;
 =20
--static mon_cmd_t mon_cmds[];
+-int mon_refcount;
+-
  static mon_cmd_t info_cmds[];
 =20
  __thread Monitor *cur_mon;
-@@ -540,8 +538,6 @@ static void monitor_qapi_event_init(void)
-                                                 qapi_event_throttle_equa=
-l);
- }
+@@ -161,32 +131,6 @@ __thread Monitor *cur_mon;
+ static void monitor_command_cb(void *opaque, const char *cmdline,
+                                void *readline_opaque);
 =20
--static void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
--
- static void monitor_iothread_init(void);
-=20
- void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
-@@ -558,14 +554,6 @@ void monitor_data_init(Monitor *mon, int flags, bool=
- skip_flush,
-     mon->flags =3D flags;
- }
-=20
--static void monitor_data_init_hmp(MonitorHMP *mon, int flags, bool skip_=
-flush)
+-/**
+- * Is @mon is using readline?
+- * Note: not all HMP monitors use readline, e.g., gdbserver has a
+- * non-interactive HMP monitor, so readline is not used there.
+- */
+-static inline bool monitor_uses_readline(const Monitor *mon)
 -{
--    monitor_data_init(&mon->common, flags, skip_flush, false);
--
--    /* Use *mon_cmds by default. */
--    mon->cmd_table =3D mon_cmds;
+-    return mon->flags & MONITOR_USE_READLINE;
 -}
 -
- static void monitor_data_destroy(Monitor *mon)
- {
-     g_free(mon->mon_cpu_path);
-@@ -619,248 +607,6 @@ out:
-     return output;
- }
-=20
--static int compare_cmd(const char *name, const char *list)
+-static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
 -{
--    const char *p, *pstart;
--    int len;
--    len =3D strlen(name);
--    p =3D list;
--    for(;;) {
--        pstart =3D p;
--        p =3D qemu_strchrnul(p, '|');
--        if ((p - pstart) =3D=3D len && !memcmp(pstart, name, len))
--            return 1;
--        if (*p =3D=3D '\0')
--            break;
--        p++;
--    }
--    return 0;
+-    return !monitor_is_qmp(mon) && !monitor_uses_readline(mon);
 -}
 -
--static int get_str(char *buf, int buf_size, const char **pp)
+-/*
+- * Return the clock to use for recording an event's time.
+- * It's QEMU_CLOCK_REALTIME, except for qtests it's
+- * QEMU_CLOCK_VIRTUAL, to support testing rate limits.
+- * Beware: result is invalid before configure_accelerator().
+- */
+-static inline QEMUClockType monitor_get_event_clock(void)
 -{
--    const char *p;
--    char *q;
--    int c;
+-    return qtest_enabled() ? QEMU_CLOCK_VIRTUAL : QEMU_CLOCK_REALTIME;
+-}
 -
--    q =3D buf;
--    p =3D *pp;
--    while (qemu_isspace(*p)) {
--        p++;
+ /**
+  * Is the current monitor, if any, a QMP monitor?
+  */
+@@ -220,355 +164,6 @@ int monitor_read_password(MonitorHMP *mon, ReadLine=
+Func *readline_func,
+ }
+=20
+=20
+-static void monitor_flush_locked(Monitor *mon);
+-
+-static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
+-                                  void *opaque)
+-{
+-    Monitor *mon =3D opaque;
+-
+-    qemu_mutex_lock(&mon->mon_lock);
+-    mon->out_watch =3D 0;
+-    monitor_flush_locked(mon);
+-    qemu_mutex_unlock(&mon->mon_lock);
+-    return FALSE;
+-}
+-
+-/* Caller must hold mon->mon_lock */
+-static void monitor_flush_locked(Monitor *mon)
+-{
+-    int rc;
+-    size_t len;
+-    const char *buf;
+-
+-    if (mon->skip_flush) {
+-        return;
 -    }
--    if (*p =3D=3D '\0') {
--    fail:
--        *q =3D '\0';
--        *pp =3D p;
+-
+-    buf =3D qstring_get_str(mon->outbuf);
+-    len =3D qstring_get_length(mon->outbuf);
+-
+-    if (len && !mon->mux_out) {
+-        rc =3D qemu_chr_fe_write(&mon->chr, (const uint8_t *) buf, len);
+-        if ((rc < 0 && errno !=3D EAGAIN) || (rc =3D=3D len)) {
+-            /* all flushed or error */
+-            qobject_unref(mon->outbuf);
+-            mon->outbuf =3D qstring_new();
+-            return;
+-        }
+-        if (rc > 0) {
+-            /* partial write */
+-            QString *tmp =3D qstring_from_str(buf + rc);
+-            qobject_unref(mon->outbuf);
+-            mon->outbuf =3D tmp;
+-        }
+-        if (mon->out_watch =3D=3D 0) {
+-            mon->out_watch =3D
+-                qemu_chr_fe_add_watch(&mon->chr, G_IO_OUT | G_IO_HUP,
+-                                      monitor_unblocked, mon);
+-        }
+-    }
+-}
+-
+-void monitor_flush(Monitor *mon)
+-{
+-    qemu_mutex_lock(&mon->mon_lock);
+-    monitor_flush_locked(mon);
+-    qemu_mutex_unlock(&mon->mon_lock);
+-}
+-
+-/* flush at every end of line */
+-int monitor_puts(Monitor *mon, const char *str)
+-{
+-    int i;
+-    char c;
+-
+-    qemu_mutex_lock(&mon->mon_lock);
+-    for (i =3D 0; str[i]; i++) {
+-        c =3D str[i];
+-        if (c =3D=3D '\n') {
+-            qstring_append_chr(mon->outbuf, '\r');
+-        }
+-        qstring_append_chr(mon->outbuf, c);
+-        if (c =3D=3D '\n') {
+-            monitor_flush_locked(mon);
+-        }
+-    }
+-    qemu_mutex_unlock(&mon->mon_lock);
+-
+-    return i;
+-}
+-
+-int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
+-{
+-    char *buf;
+-    int n;
+-
+-    if (!mon)
+-        return -1;
+-
+-    if (monitor_is_qmp(mon)) {
 -        return -1;
 -    }
--    if (*p =3D=3D '\"') {
--        p++;
--        while (*p !=3D '\0' && *p !=3D '\"') {
--            if (*p =3D=3D '\\') {
--                p++;
--                c =3D *p++;
--                switch (c) {
--                case 'n':
--                    c =3D '\n';
--                    break;
--                case 'r':
--                    c =3D '\r';
--                    break;
--                case '\\':
--                case '\'':
--                case '\"':
--                    break;
--                default:
--                    printf("unsupported escape code: '\\%c'\n", c);
--                    goto fail;
--                }
--                if ((q - buf) < buf_size - 1) {
--                    *q++ =3D c;
--                }
--            } else {
--                if ((q - buf) < buf_size - 1) {
--                    *q++ =3D *p;
--                }
--                p++;
--            }
--        }
--        if (*p !=3D '\"') {
--            printf("unterminated string\n");
--            goto fail;
--        }
--        p++;
--    } else {
--        while (*p !=3D '\0' && !qemu_isspace(*p)) {
--            if ((q - buf) < buf_size - 1) {
--                *q++ =3D *p;
--            }
--            p++;
--        }
--    }
--    *q =3D '\0';
--    *pp =3D p;
--    return 0;
--}
 -
--#define MAX_ARGS 16
--
--static void free_cmdline_args(char **args, int nb_args)
--{
--    int i;
--
--    assert(nb_args <=3D MAX_ARGS);
--
--    for (i =3D 0; i < nb_args; i++) {
--        g_free(args[i]);
--    }
--
--}
--
--/*
-- * Parse the command line to get valid args.
-- * @cmdline: command line to be parsed.
-- * @pnb_args: location to store the number of args, must NOT be NULL.
-- * @args: location to store the args, which should be freed by caller, m=
-ust
-- *        NOT be NULL.
-- *
-- * Returns 0 on success, negative on failure.
-- *
-- * NOTE: this parser is an approximate form of the real command parser. =
-Number
-- *       of args have a limit of MAX_ARGS. If cmdline contains more, it =
-will
-- *       return with failure.
-- */
--static int parse_cmdline(const char *cmdline,
--                         int *pnb_args, char **args)
--{
--    const char *p;
--    int nb_args, ret;
--    char buf[1024];
--
--    p =3D cmdline;
--    nb_args =3D 0;
--    for (;;) {
--        while (qemu_isspace(*p)) {
--            p++;
--        }
--        if (*p =3D=3D '\0') {
--            break;
--        }
--        if (nb_args >=3D MAX_ARGS) {
--            goto fail;
--        }
--        ret =3D get_str(buf, sizeof(buf), &p);
--        if (ret < 0) {
--            goto fail;
--        }
--        args[nb_args] =3D g_strdup(buf);
--        nb_args++;
--    }
--    *pnb_args =3D nb_args;
--    return 0;
--
-- fail:
--    free_cmdline_args(args, nb_args);
--    return -1;
--}
--
--/*
-- * Can command @cmd be executed in preconfig state?
-- */
--static bool cmd_can_preconfig(const mon_cmd_t *cmd)
--{
--    if (!cmd->flags) {
--        return false;
--    }
--
--    return strchr(cmd->flags, 'p');
--}
--
--static void help_cmd_dump_one(Monitor *mon,
--                              const mon_cmd_t *cmd,
--                              char **prefix_args,
--                              int prefix_args_nb)
--{
--    int i;
--
--    if (runstate_check(RUN_STATE_PRECONFIG) && !cmd_can_preconfig(cmd)) =
-{
--        return;
--    }
--
--    for (i =3D 0; i < prefix_args_nb; i++) {
--        monitor_printf(mon, "%s ", prefix_args[i]);
--    }
--    monitor_printf(mon, "%s %s -- %s\n", cmd->name, cmd->params, cmd->he=
-lp);
--}
--
--/* @args[@arg_index] is the valid command need to find in @cmds */
--static void help_cmd_dump(Monitor *mon, const mon_cmd_t *cmds,
--                          char **args, int nb_args, int arg_index)
--{
--    const mon_cmd_t *cmd;
--    size_t i;
--
--    /* No valid arg need to compare with, dump all in *cmds */
--    if (arg_index >=3D nb_args) {
--        for (cmd =3D cmds; cmd->name !=3D NULL; cmd++) {
--            help_cmd_dump_one(mon, cmd, args, arg_index);
--        }
--        return;
--    }
--
--    /* Find one entry to dump */
--    for (cmd =3D cmds; cmd->name !=3D NULL; cmd++) {
--        if (compare_cmd(args[arg_index], cmd->name) &&
--            ((!runstate_check(RUN_STATE_PRECONFIG) ||
--                cmd_can_preconfig(cmd)))) {
--            if (cmd->sub_table) {
--                /* continue with next arg */
--                help_cmd_dump(mon, cmd->sub_table,
--                              args, nb_args, arg_index + 1);
--            } else {
--                help_cmd_dump_one(mon, cmd, args, arg_index);
--            }
--            return;
--        }
--    }
--
--    /* Command not found */
--    monitor_printf(mon, "unknown command: '");
--    for (i =3D 0; i <=3D arg_index; i++) {
--        monitor_printf(mon, "%s%s", args[i], i =3D=3D arg_index ? "'\n" =
-: " ");
--    }
--}
--
--static void help_cmd(Monitor *mon, const char *name)
--{
--    MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
--    char *args[MAX_ARGS];
--    int nb_args =3D 0;
--
--    /* 1. parse user input */
--    if (name) {
--        /* special case for log, directly dump and return */
--        if (!strcmp(name, "log")) {
--            const QEMULogItem *item;
--            monitor_printf(mon, "Log items (comma separated):\n");
--            monitor_printf(mon, "%-10s %s\n", "none", "remove all logs")=
-;
--            for (item =3D qemu_log_items; item->mask !=3D 0; item++) {
--                monitor_printf(mon, "%-10s %s\n", item->name, item->help=
-);
--            }
--            return;
--        }
--
--        if (parse_cmdline(name, &nb_args, args) < 0) {
--            return;
--        }
--    }
--
--    /* 2. dump the contents according to parsed args */
--    help_cmd_dump(mon, hmp_mon->cmd_table, args, nb_args, 0);
--
--    free_cmdline_args(args, nb_args);
--}
--
- static void do_help_cmd(Monitor *mon, const QDict *qdict)
- {
-     help_cmd(mon, qdict_get_try_str(qdict, "name"));
-@@ -2510,30 +2256,16 @@ static mon_cmd_t info_cmds[] =3D {
- };
-=20
- /* mon_cmds and info_cmds would be sorted at runtime */
--static mon_cmd_t mon_cmds[] =3D {
-+mon_cmd_t mon_cmds[] =3D {
- #include "hmp-commands.h"
-     { NULL, NULL, },
- };
-=20
--/*******************************************************************/
--
--static const char *pch;
--static sigjmp_buf expr_env;
--
--
--static void GCC_FMT_ATTR(2, 3) QEMU_NORETURN
--expr_error(Monitor *mon, const char *fmt, ...)
--{
--    va_list ap;
--    va_start(ap, fmt);
--    monitor_vprintf(mon, fmt, ap);
--    monitor_printf(mon, "\n");
--    va_end(ap);
--    siglongjmp(expr_env, 1);
--}
--
--/* return 0 if OK, -1 if not found */
--static int get_monitor_def(target_long *pval, const char *name)
-+/*
-+ * Set @pval to the value in the register identified by @name.
-+ * return 0 if OK, -1 if not found
-+ */
-+int get_monitor_def(int64_t *pval, const char *name)
- {
-     const MonitorDef *md =3D target_monitor_defs();
-     CPUState *cs =3D mon_get_cpu();
-@@ -2576,829 +2308,6 @@ static int get_monitor_def(target_long *pval, con=
-st char *name)
-     return ret;
- }
-=20
--static void next(void)
--{
--    if (*pch !=3D '\0') {
--        pch++;
--        while (qemu_isspace(*pch))
--            pch++;
--    }
--}
--
--static int64_t expr_sum(Monitor *mon);
--
--static int64_t expr_unary(Monitor *mon)
--{
--    int64_t n;
--    char *p;
--    int ret;
--
--    switch(*pch) {
--    case '+':
--        next();
--        n =3D expr_unary(mon);
--        break;
--    case '-':
--        next();
--        n =3D -expr_unary(mon);
--        break;
--    case '~':
--        next();
--        n =3D ~expr_unary(mon);
--        break;
--    case '(':
--        next();
--        n =3D expr_sum(mon);
--        if (*pch !=3D ')') {
--            expr_error(mon, "')' expected");
--        }
--        next();
--        break;
--    case '\'':
--        pch++;
--        if (*pch =3D=3D '\0')
--            expr_error(mon, "character constant expected");
--        n =3D *pch;
--        pch++;
--        if (*pch !=3D '\'')
--            expr_error(mon, "missing terminating \' character");
--        next();
--        break;
--    case '$':
--        {
--            char buf[128], *q;
--            target_long reg=3D0;
--
--            pch++;
--            q =3D buf;
--            while ((*pch >=3D 'a' && *pch <=3D 'z') ||
--                   (*pch >=3D 'A' && *pch <=3D 'Z') ||
--                   (*pch >=3D '0' && *pch <=3D '9') ||
--                   *pch =3D=3D '_' || *pch =3D=3D '.') {
--                if ((q - buf) < sizeof(buf) - 1)
--                    *q++ =3D *pch;
--                pch++;
--            }
--            while (qemu_isspace(*pch))
--                pch++;
--            *q =3D 0;
--            ret =3D get_monitor_def(&reg, buf);
--            if (ret < 0)
--                expr_error(mon, "unknown register");
--            n =3D reg;
--        }
--        break;
--    case '\0':
--        expr_error(mon, "unexpected end of expression");
--        n =3D 0;
--        break;
--    default:
--        errno =3D 0;
--        n =3D strtoull(pch, &p, 0);
--        if (errno =3D=3D ERANGE) {
--            expr_error(mon, "number too large");
--        }
--        if (pch =3D=3D p) {
--            expr_error(mon, "invalid char '%c' in expression", *p);
--        }
--        pch =3D p;
--        while (qemu_isspace(*pch))
--            pch++;
--        break;
--    }
+-    buf =3D g_strdup_vprintf(fmt, ap);
+-    n =3D monitor_puts(mon, buf);
+-    g_free(buf);
 -    return n;
 -}
 -
--
--static int64_t expr_prod(Monitor *mon)
+-int monitor_printf(Monitor *mon, const char *fmt, ...)
 -{
--    int64_t val, val2;
--    int op;
+-    int ret;
 -
--    val =3D expr_unary(mon);
--    for(;;) {
--        op =3D *pch;
--        if (op !=3D '*' && op !=3D '/' && op !=3D '%')
--            break;
--        next();
--        val2 =3D expr_unary(mon);
--        switch(op) {
--        default:
--        case '*':
--            val *=3D val2;
--            break;
--        case '/':
--        case '%':
--            if (val2 =3D=3D 0)
--                expr_error(mon, "division by zero");
--            if (op =3D=3D '/')
--                val /=3D val2;
--            else
--                val %=3D val2;
--            break;
--        }
--    }
--    return val;
+-    va_list ap;
+-    va_start(ap, fmt);
+-    ret =3D monitor_vprintf(mon, fmt, ap);
+-    va_end(ap);
+-    return ret;
 -}
 -
--static int64_t expr_logic(Monitor *mon)
--{
--    int64_t val, val2;
--    int op;
--
--    val =3D expr_prod(mon);
--    for(;;) {
--        op =3D *pch;
--        if (op !=3D '&' && op !=3D '|' && op !=3D '^')
--            break;
--        next();
--        val2 =3D expr_prod(mon);
--        switch(op) {
--        default:
--        case '&':
--            val &=3D val2;
--            break;
--        case '|':
--            val |=3D val2;
--            break;
--        case '^':
--            val ^=3D val2;
--            break;
--        }
--    }
--    return val;
--}
--
--static int64_t expr_sum(Monitor *mon)
--{
--    int64_t val, val2;
--    int op;
--
--    val =3D expr_logic(mon);
--    for(;;) {
--        op =3D *pch;
--        if (op !=3D '+' && op !=3D '-')
--            break;
--        next();
--        val2 =3D expr_logic(mon);
--        if (op =3D=3D '+')
--            val +=3D val2;
--        else
--            val -=3D val2;
--    }
--    return val;
--}
--
--static int get_expr(Monitor *mon, int64_t *pval, const char **pp)
--{
--    pch =3D *pp;
--    if (sigsetjmp(expr_env, 0)) {
--        *pp =3D pch;
--        return -1;
--    }
--    while (qemu_isspace(*pch))
--        pch++;
--    *pval =3D expr_sum(mon);
--    *pp =3D pch;
--    return 0;
--}
--
--static int get_double(Monitor *mon, double *pval, const char **pp)
--{
--    const char *p =3D *pp;
--    char *tailp;
--    double d;
--
--    d =3D strtod(p, &tailp);
--    if (tailp =3D=3D p) {
--        monitor_printf(mon, "Number expected\n");
--        return -1;
--    }
--    if (d !=3D d || d - d !=3D 0) {
--        /* NaN or infinity */
--        monitor_printf(mon, "Bad number\n");
--        return -1;
--    }
--    *pval =3D d;
--    *pp =3D tailp;
--    return 0;
--}
+-static MonitorQAPIEventConf monitor_qapi_event_conf[QAPI_EVENT__MAX] =3D=
+ {
+-    /* Limit guest-triggerable events to 1 per second */
+-    [QAPI_EVENT_RTC_CHANGE]        =3D { 1000 * SCALE_MS },
+-    [QAPI_EVENT_WATCHDOG]          =3D { 1000 * SCALE_MS },
+-    [QAPI_EVENT_BALLOON_CHANGE]    =3D { 1000 * SCALE_MS },
+-    [QAPI_EVENT_QUORUM_REPORT_BAD] =3D { 1000 * SCALE_MS },
+-    [QAPI_EVENT_QUORUM_FAILURE]    =3D { 1000 * SCALE_MS },
+-    [QAPI_EVENT_VSERPORT_CHANGE]   =3D { 1000 * SCALE_MS },
+-};
 -
 -/*
-- * Store the command-name in cmdname, and return a pointer to
-- * the remaining of the command string.
+- * Broadcast an event to all monitors.
+- * @qdict is the event object.  Its member "event" must match @event.
+- * Caller must hold monitor_lock.
 - */
--static const char *get_command_name(const char *cmdline,
--                                    char *cmdname, size_t nlen)
+-static void monitor_qapi_event_emit(QAPIEvent event, QDict *qdict)
 -{
--    size_t len;
--    const char *p, *pstart;
+-    Monitor *mon;
+-    MonitorQMP *qmp_mon;
 -
--    p =3D cmdline;
--    while (qemu_isspace(*p))
--        p++;
--    if (*p =3D=3D '\0')
--        return NULL;
--    pstart =3D p;
--    while (*p !=3D '\0' && *p !=3D '/' && !qemu_isspace(*p))
--        p++;
--    len =3D p - pstart;
--    if (len > nlen - 1)
--        len =3D nlen - 1;
--    memcpy(cmdname, pstart, len);
--    cmdname[len] =3D '\0';
--    return p;
--}
--
--/**
-- * Read key of 'type' into 'key' and return the current
-- * 'type' pointer.
-- */
--static char *key_get_info(const char *type, char **key)
--{
--    size_t len;
--    char *p, *str;
--
--    if (*type =3D=3D ',')
--        type++;
--
--    p =3D strchr(type, ':');
--    if (!p) {
--        *key =3D NULL;
--        return NULL;
--    }
--    len =3D p - type;
--
--    str =3D g_malloc(len + 1);
--    memcpy(str, type, len);
--    str[len] =3D '\0';
--
--    *key =3D str;
--    return ++p;
--}
--
--static int default_fmt_format =3D 'x';
--static int default_fmt_size =3D 4;
--
--static int is_valid_option(const char *c, const char *typestr)
--{
--    char option[3];
-- =20
--    option[0] =3D '-';
--    option[1] =3D *c;
--    option[2] =3D '\0';
-- =20
--    typestr =3D strstr(typestr, option);
--    return (typestr !=3D NULL);
--}
--
--static const mon_cmd_t *search_dispatch_table(const mon_cmd_t *disp_tabl=
-e,
--                                              const char *cmdname)
--{
--    const mon_cmd_t *cmd;
--
--    for (cmd =3D disp_table; cmd->name !=3D NULL; cmd++) {
--        if (compare_cmd(cmdname, cmd->name)) {
--            return cmd;
--        }
--    }
--
--    return NULL;
--}
--
--/*
-- * Parse command name from @cmdp according to command table @table.
-- * If blank, return NULL.
-- * Else, if no valid command can be found, report to @mon, and return
-- * NULL.
-- * Else, change @cmdp to point right behind the name, and return its
-- * command table entry.
-- * Do not assume the return value points into @table!  It doesn't when
-- * the command is found in a sub-command table.
-- */
--static const mon_cmd_t *monitor_parse_command(MonitorHMP *hmp_mon,
--                                              const char *cmdp_start,
--                                              const char **cmdp,
--                                              mon_cmd_t *table)
--{
--    Monitor *mon =3D &hmp_mon->common;
--    const char *p;
--    const mon_cmd_t *cmd;
--    char cmdname[256];
--
--    /* extract the command name */
--    p =3D get_command_name(*cmdp, cmdname, sizeof(cmdname));
--    if (!p)
--        return NULL;
--
--    cmd =3D search_dispatch_table(table, cmdname);
--    if (!cmd) {
--        monitor_printf(mon, "unknown command: '%.*s'\n",
--                       (int)(p - cmdp_start), cmdp_start);
--        return NULL;
--    }
--    if (runstate_check(RUN_STATE_PRECONFIG) && !cmd_can_preconfig(cmd)) =
-{
--        monitor_printf(mon, "Command '%.*s' not available with -preconfi=
-g "
--                            "until after exit_preconfig.\n",
--                       (int)(p - cmdp_start), cmdp_start);
--        return NULL;
--    }
--
--    /* filter out following useless space */
--    while (qemu_isspace(*p)) {
--        p++;
--    }
--
--    *cmdp =3D p;
--    /* search sub command */
--    if (cmd->sub_table !=3D NULL && *p !=3D '\0') {
--        return monitor_parse_command(hmp_mon, cmdp_start, cmdp, cmd->sub=
-_table);
--    }
--
--    return cmd;
--}
--
--/*
-- * Parse arguments for @cmd.
-- * If it can't be parsed, report to @mon, and return NULL.
-- * Else, insert command arguments into a QDict, and return it.
-- * Note: On success, caller has to free the QDict structure.
-- */
--
--static QDict *monitor_parse_arguments(Monitor *mon,
--                                      const char **endp,
--                                      const mon_cmd_t *cmd)
--{
--    const char *typestr;
--    char *key;
--    int c;
--    const char *p =3D *endp;
--    char buf[1024];
--    QDict *qdict =3D qdict_new();
--
--    /* parse the parameters */
--    typestr =3D cmd->args_type;
--    for(;;) {
--        typestr =3D key_get_info(typestr, &key);
--        if (!typestr)
--            break;
--        c =3D *typestr;
--        typestr++;
--        switch(c) {
--        case 'F':
--        case 'B':
--        case 's':
--            {
--                int ret;
--
--                while (qemu_isspace(*p))
--                    p++;
--                if (*typestr =3D=3D '?') {
--                    typestr++;
--                    if (*p =3D=3D '\0') {
--                        /* no optional string: NULL argument */
--                        break;
--                    }
--                }
--                ret =3D get_str(buf, sizeof(buf), &p);
--                if (ret < 0) {
--                    switch(c) {
--                    case 'F':
--                        monitor_printf(mon, "%s: filename expected\n",
--                                       cmd->name);
--                        break;
--                    case 'B':
--                        monitor_printf(mon, "%s: block device name expec=
-ted\n",
--                                       cmd->name);
--                        break;
--                    default:
--                        monitor_printf(mon, "%s: string expected\n", cmd=
-->name);
--                        break;
--                    }
--                    goto fail;
--                }
--                qdict_put_str(qdict, key, buf);
--            }
--            break;
--        case 'O':
--            {
--                QemuOptsList *opts_list;
--                QemuOpts *opts;
--
--                opts_list =3D qemu_find_opts(key);
--                if (!opts_list || opts_list->desc->name) {
--                    goto bad_type;
--                }
--                while (qemu_isspace(*p)) {
--                    p++;
--                }
--                if (!*p)
--                    break;
--                if (get_str(buf, sizeof(buf), &p) < 0) {
--                    goto fail;
--                }
--                opts =3D qemu_opts_parse_noisily(opts_list, buf, true);
--                if (!opts) {
--                    goto fail;
--                }
--                qemu_opts_to_qdict(opts, qdict);
--                qemu_opts_del(opts);
--            }
--            break;
--        case '/':
--            {
--                int count, format, size;
--
--                while (qemu_isspace(*p))
--                    p++;
--                if (*p =3D=3D '/') {
--                    /* format found */
--                    p++;
--                    count =3D 1;
--                    if (qemu_isdigit(*p)) {
--                        count =3D 0;
--                        while (qemu_isdigit(*p)) {
--                            count =3D count * 10 + (*p - '0');
--                            p++;
--                        }
--                    }
--                    size =3D -1;
--                    format =3D -1;
--                    for(;;) {
--                        switch(*p) {
--                        case 'o':
--                        case 'd':
--                        case 'u':
--                        case 'x':
--                        case 'i':
--                        case 'c':
--                            format =3D *p++;
--                            break;
--                        case 'b':
--                            size =3D 1;
--                            p++;
--                            break;
--                        case 'h':
--                            size =3D 2;
--                            p++;
--                            break;
--                        case 'w':
--                            size =3D 4;
--                            p++;
--                            break;
--                        case 'g':
--                        case 'L':
--                            size =3D 8;
--                            p++;
--                            break;
--                        default:
--                            goto next;
--                        }
--                    }
--                next:
--                    if (*p !=3D '\0' && !qemu_isspace(*p)) {
--                        monitor_printf(mon, "invalid char in format: '%c=
-'\n",
--                                       *p);
--                        goto fail;
--                    }
--                    if (format < 0)
--                        format =3D default_fmt_format;
--                    if (format !=3D 'i') {
--                        /* for 'i', not specifying a size gives -1 as si=
-ze */
--                        if (size < 0)
--                            size =3D default_fmt_size;
--                        default_fmt_size =3D size;
--                    }
--                    default_fmt_format =3D format;
--                } else {
--                    count =3D 1;
--                    format =3D default_fmt_format;
--                    if (format !=3D 'i') {
--                        size =3D default_fmt_size;
--                    } else {
--                        size =3D -1;
--                    }
--                }
--                qdict_put_int(qdict, "count", count);
--                qdict_put_int(qdict, "format", format);
--                qdict_put_int(qdict, "size", size);
--            }
--            break;
--        case 'i':
--        case 'l':
--        case 'M':
--            {
--                int64_t val;
--
--                while (qemu_isspace(*p))
--                    p++;
--                if (*typestr =3D=3D '?' || *typestr =3D=3D '.') {
--                    if (*typestr =3D=3D '?') {
--                        if (*p =3D=3D '\0') {
--                            typestr++;
--                            break;
--                        }
--                    } else {
--                        if (*p =3D=3D '.') {
--                            p++;
--                            while (qemu_isspace(*p))
--                                p++;
--                        } else {
--                            typestr++;
--                            break;
--                        }
--                    }
--                    typestr++;
--                }
--                if (get_expr(mon, &val, &p))
--                    goto fail;
--                /* Check if 'i' is greater than 32-bit */
--                if ((c =3D=3D 'i') && ((val >> 32) & 0xffffffff)) {
--                    monitor_printf(mon, "\'%s\' has failed: ", cmd->name=
-);
--                    monitor_printf(mon, "integer is for 32-bit values\n"=
-);
--                    goto fail;
--                } else if (c =3D=3D 'M') {
--                    if (val < 0) {
--                        monitor_printf(mon, "enter a positive value\n");
--                        goto fail;
--                    }
--                    val *=3D MiB;
--                }
--                qdict_put_int(qdict, key, val);
--            }
--            break;
--        case 'o':
--            {
--                int ret;
--                uint64_t val;
--                const char *end;
--
--                while (qemu_isspace(*p)) {
--                    p++;
--                }
--                if (*typestr =3D=3D '?') {
--                    typestr++;
--                    if (*p =3D=3D '\0') {
--                        break;
--                    }
--                }
--                ret =3D qemu_strtosz_MiB(p, &end, &val);
--                if (ret < 0 || val > INT64_MAX) {
--                    monitor_printf(mon, "invalid size\n");
--                    goto fail;
--                }
--                qdict_put_int(qdict, key, val);
--                p =3D end;
--            }
--            break;
--        case 'T':
--            {
--                double val;
--
--                while (qemu_isspace(*p))
--                    p++;
--                if (*typestr =3D=3D '?') {
--                    typestr++;
--                    if (*p =3D=3D '\0') {
--                        break;
--                    }
--                }
--                if (get_double(mon, &val, &p) < 0) {
--                    goto fail;
--                }
--                if (p[0] && p[1] =3D=3D 's') {
--                    switch (*p) {
--                    case 'm':
--                        val /=3D 1e3; p +=3D 2; break;
--                    case 'u':
--                        val /=3D 1e6; p +=3D 2; break;
--                    case 'n':
--                        val /=3D 1e9; p +=3D 2; break;
--                    }
--                }
--                if (*p && !qemu_isspace(*p)) {
--                    monitor_printf(mon, "Unknown unit suffix\n");
--                    goto fail;
--                }
--                qdict_put(qdict, key, qnum_from_double(val));
--            }
--            break;
--        case 'b':
--            {
--                const char *beg;
--                bool val;
--
--                while (qemu_isspace(*p)) {
--                    p++;
--                }
--                beg =3D p;
--                while (qemu_isgraph(*p)) {
--                    p++;
--                }
--                if (p - beg =3D=3D 2 && !memcmp(beg, "on", p - beg)) {
--                    val =3D true;
--                } else if (p - beg =3D=3D 3 && !memcmp(beg, "off", p - b=
-eg)) {
--                    val =3D false;
--                } else {
--                    monitor_printf(mon, "Expected 'on' or 'off'\n");
--                    goto fail;
--                }
--                qdict_put_bool(qdict, key, val);
--            }
--            break;
--        case '-':
--            {
--                const char *tmp =3D p;
--                int skip_key =3D 0;
--                /* option */
--
--                c =3D *typestr++;
--                if (c =3D=3D '\0')
--                    goto bad_type;
--                while (qemu_isspace(*p))
--                    p++;
--                if (*p =3D=3D '-') {
--                    p++;
--                    if(c !=3D *p) {
--                        if(!is_valid_option(p, typestr)) {
--                 =20
--                            monitor_printf(mon, "%s: unsupported option =
--%c\n",
--                                           cmd->name, *p);
--                            goto fail;
--                        } else {
--                            skip_key =3D 1;
--                        }
--                    }
--                    if(skip_key) {
--                        p =3D tmp;
--                    } else {
--                        /* has option */
--                        p++;
--                        qdict_put_bool(qdict, key, true);
--                    }
--                }
--            }
--            break;
--        case 'S':
--            {
--                /* package all remaining string */
--                int len;
--
--                while (qemu_isspace(*p)) {
--                    p++;
--                }
--                if (*typestr =3D=3D '?') {
--                    typestr++;
--                    if (*p =3D=3D '\0') {
--                        /* no remaining string: NULL argument */
--                        break;
--                    }
--                }
--                len =3D strlen(p);
--                if (len <=3D 0) {
--                    monitor_printf(mon, "%s: string expected\n",
--                                   cmd->name);
--                    goto fail;
--                }
--                qdict_put_str(qdict, key, p);
--                p +=3D len;
--            }
--            break;
--        default:
--        bad_type:
--            monitor_printf(mon, "%s: unknown type '%c'\n", cmd->name, c)=
-;
--            goto fail;
--        }
--        g_free(key);
--        key =3D NULL;
--    }
--    /* check that all arguments were parsed */
--    while (qemu_isspace(*p))
--        p++;
--    if (*p !=3D '\0') {
--        monitor_printf(mon, "%s: extraneous characters at the end of lin=
-e\n",
--                       cmd->name);
--        goto fail;
--    }
--
--    return qdict;
--
--fail:
--    qobject_unref(qdict);
--    g_free(key);
--    return NULL;
--}
--
--static void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
--{
--    QDict *qdict;
--    const mon_cmd_t *cmd;
--    const char *cmd_start =3D cmdline;
--
--    trace_handle_hmp_command(mon, cmdline);
--
--    cmd =3D monitor_parse_command(mon, cmdline, &cmdline, mon->cmd_table=
-);
--    if (!cmd) {
--        return;
--    }
--
--    qdict =3D monitor_parse_arguments(&mon->common, &cmdline, cmd);
--    if (!qdict) {
--        while (cmdline > cmd_start && qemu_isspace(cmdline[-1])) {
--            cmdline--;
--        }
--        monitor_printf(&mon->common, "Try \"help %.*s\" for more informa=
-tion\n",
--                       (int)(cmdline - cmd_start), cmd_start);
--        return;
--    }
--
--    cmd->cmd(&mon->common, qdict);
--    qobject_unref(qdict);
--}
--
--static void cmd_completion(MonitorHMP *mon, const char *name, const char=
- *list)
--{
--    const char *p, *pstart;
--    char cmd[128];
--    int len;
--
--    p =3D list;
--    for(;;) {
--        pstart =3D p;
--        p =3D qemu_strchrnul(p, '|');
--        len =3D p - pstart;
--        if (len > sizeof(cmd) - 2)
--            len =3D sizeof(cmd) - 2;
--        memcpy(cmd, pstart, len);
--        cmd[len] =3D '\0';
--        if (name[0] =3D=3D '\0' || !strncmp(name, cmd, strlen(name))) {
--            readline_add_completion(mon->rs, cmd);
--        }
--        if (*p =3D=3D '\0')
--            break;
--        p++;
--    }
--}
--
--static void file_completion(MonitorHMP *mon, const char *input)
--{
--    DIR *ffs;
--    struct dirent *d;
--    char path[1024];
--    char file[1024], file_prefix[1024];
--    int input_path_len;
--    const char *p;
--
--    p =3D strrchr(input, '/');
--    if (!p) {
--        input_path_len =3D 0;
--        pstrcpy(file_prefix, sizeof(file_prefix), input);
--        pstrcpy(path, sizeof(path), ".");
--    } else {
--        input_path_len =3D p - input + 1;
--        memcpy(path, input, input_path_len);
--        if (input_path_len > sizeof(path) - 1)
--            input_path_len =3D sizeof(path) - 1;
--        path[input_path_len] =3D '\0';
--        pstrcpy(file_prefix, sizeof(file_prefix), p + 1);
--    }
--
--    ffs =3D opendir(path);
--    if (!ffs)
--        return;
--    for(;;) {
--        struct stat sb;
--        d =3D readdir(ffs);
--        if (!d)
--            break;
--
--        if (strcmp(d->d_name, ".") =3D=3D 0 || strcmp(d->d_name, "..") =3D=
-=3D 0) {
+-    trace_monitor_protocol_event_emit(event, qdict);
+-    QTAILQ_FOREACH(mon, &mon_list, entry) {
+-        if (!monitor_is_qmp(mon)) {
 -            continue;
 -        }
 -
--        if (strstart(d->d_name, file_prefix, NULL)) {
--            memcpy(file, input, input_path_len);
--            if (input_path_len < sizeof(file))
--                pstrcpy(file + input_path_len, sizeof(file) - input_path=
-_len,
--                        d->d_name);
--            /* stat the file to find out if it's a directory.
--             * In that case add a slash to speed up typing long paths
--             */
--            if (stat(file, &sb) =3D=3D 0 && S_ISDIR(sb.st_mode)) {
--                pstrcat(file, sizeof(file), "/");
--            }
--            readline_add_completion(mon->rs, file);
+-        qmp_mon =3D container_of(mon, MonitorQMP, common);
+-        if (qmp_mon->commands !=3D &qmp_cap_negotiation_commands) {
+-            qmp_send_response(qmp_mon, qdict);
 -        }
 -    }
--    closedir(ffs);
 -}
 -
--static const char *next_arg_type(const char *typestr)
--{
--    const char *p =3D strchr(typestr, ':');
--    return (p !=3D NULL ? ++p : typestr);
--}
+-static void monitor_qapi_event_handler(void *opaque);
 -
- static void add_completion_option(ReadLineState *rs, const char *str,
-                                   const char *option)
- {
-@@ -3829,127 +2738,6 @@ void loadvm_completion(ReadLineState *rs, int nb_=
-args, const char *str)
-     }
- }
-=20
--static void monitor_find_completion_by_table(MonitorHMP *mon,
--                                             const mon_cmd_t *cmd_table,
--                                             char **args,
--                                             int nb_args)
+-/*
+- * Queue a new event for emission to Monitor instances,
+- * applying any rate limiting if required.
+- */
+-static void
+-monitor_qapi_event_queue_no_reenter(QAPIEvent event, QDict *qdict)
 -{
--    const char *cmdname;
--    int i;
--    const char *ptype, *old_ptype, *str, *name;
--    const mon_cmd_t *cmd;
--    BlockBackend *blk =3D NULL;
+-    MonitorQAPIEventConf *evconf;
+-    MonitorQAPIEventState *evstate;
 -
--    if (nb_args <=3D 1) {
--        /* command completion */
--        if (nb_args =3D=3D 0)
--            cmdname =3D "";
--        else
--            cmdname =3D args[0];
--        readline_set_completion_index(mon->rs, strlen(cmdname));
--        for (cmd =3D cmd_table; cmd->name !=3D NULL; cmd++) {
--            if (!runstate_check(RUN_STATE_PRECONFIG) ||
--                 cmd_can_preconfig(cmd)) {
--                cmd_completion(mon, cmdname, cmd->name);
--            }
--        }
+-    assert(event < QAPI_EVENT__MAX);
+-    evconf =3D &monitor_qapi_event_conf[event];
+-    trace_monitor_protocol_event_queue(event, qdict, evconf->rate);
+-
+-    qemu_mutex_lock(&monitor_lock);
+-
+-    if (!evconf->rate) {
+-        /* Unthrottled event */
+-        monitor_qapi_event_emit(event, qdict);
 -    } else {
--        /* find the command */
--        for (cmd =3D cmd_table; cmd->name !=3D NULL; cmd++) {
--            if (compare_cmd(args[0], cmd->name) &&
--                (!runstate_check(RUN_STATE_PRECONFIG) ||
--                 cmd_can_preconfig(cmd))) {
--                break;
--            }
--        }
--        if (!cmd->name) {
--            return;
--        }
+-        QDict *data =3D qobject_to(QDict, qdict_get(qdict, "data"));
+-        MonitorQAPIEventState key =3D { .event =3D event, .data =3D data=
+ };
 -
--        if (cmd->sub_table) {
--            /* do the job again */
--            monitor_find_completion_by_table(mon, cmd->sub_table,
--                                             &args[1], nb_args - 1);
--            return;
--        }
--        if (cmd->command_completion) {
--            cmd->command_completion(mon->rs, nb_args, args[nb_args - 1])=
+-        evstate =3D g_hash_table_lookup(monitor_qapi_event_state, &key);
+-        assert(!evstate || timer_pending(evstate->timer));
+-
+-        if (evstate) {
+-            /*
+-             * Timer is pending for (at least) evconf->rate ns after
+-             * last send.  Store event for sending when timer fires,
+-             * replacing a prior stored event if any.
+-             */
+-            qobject_unref(evstate->qdict);
+-            evstate->qdict =3D qobject_ref(qdict);
+-        } else {
+-            /*
+-             * Last send was (at least) evconf->rate ns ago.
+-             * Send immediately, and arm the timer to call
+-             * monitor_qapi_event_handler() in evconf->rate ns.  Any
+-             * events arriving before then will be delayed until then.
+-             */
+-            int64_t now =3D qemu_clock_get_ns(monitor_get_event_clock())=
 ;
--            return;
--        }
 -
--        ptype =3D next_arg_type(cmd->args_type);
--        for(i =3D 0; i < nb_args - 2; i++) {
--            if (*ptype !=3D '\0') {
--                ptype =3D next_arg_type(ptype);
--                while (*ptype =3D=3D '?')
--                    ptype =3D next_arg_type(ptype);
--            }
--        }
--        str =3D args[nb_args - 1];
--        old_ptype =3D NULL;
--        while (*ptype =3D=3D '-' && old_ptype !=3D ptype) {
--            old_ptype =3D ptype;
--            ptype =3D next_arg_type(ptype);
--        }
--        switch(*ptype) {
--        case 'F':
--            /* file completion */
--            readline_set_completion_index(mon->rs, strlen(str));
--            file_completion(mon, str);
--            break;
--        case 'B':
--            /* block device name completion */
--            readline_set_completion_index(mon->rs, strlen(str));
--            while ((blk =3D blk_next(blk)) !=3D NULL) {
--                name =3D blk_name(blk);
--                if (str[0] =3D=3D '\0' ||
--                    !strncmp(name, str, strlen(str))) {
--                    readline_add_completion(mon->rs, name);
--                }
--            }
--            break;
--        case 's':
--        case 'S':
--            if (!strcmp(cmd->name, "help|?")) {
--                monitor_find_completion_by_table(mon, cmd_table,
--                                                 &args[1], nb_args - 1);
--            }
--            break;
--        default:
--            break;
+-            monitor_qapi_event_emit(event, qdict);
+-
+-            evstate =3D g_new(MonitorQAPIEventState, 1);
+-            evstate->event =3D event;
+-            evstate->data =3D qobject_ref(data);
+-            evstate->qdict =3D NULL;
+-            evstate->timer =3D timer_new_ns(monitor_get_event_clock(),
+-                                          monitor_qapi_event_handler,
+-                                          evstate);
+-            g_hash_table_add(monitor_qapi_event_state, evstate);
+-            timer_mod_ns(evstate->timer, now + evconf->rate);
 -        }
 -    }
+-
+-    qemu_mutex_unlock(&monitor_lock);
 -}
 -
--static void monitor_find_completion(void *opaque,
--                                    const char *cmdline)
+-void qapi_event_emit(QAPIEvent event, QDict *qdict)
 -{
--    MonitorHMP *mon =3D opaque;
--    char *args[MAX_ARGS];
--    int nb_args, len;
+-    /*
+-     * monitor_qapi_event_queue_no_reenter() is not reentrant: it
+-     * would deadlock on monitor_lock.  Work around by queueing
+-     * events in thread-local storage.
+-     * TODO: remove this, make it re-enter safe.
+-     */
+-    typedef struct MonitorQapiEvent {
+-        QAPIEvent event;
+-        QDict *qdict;
+-        QSIMPLEQ_ENTRY(MonitorQapiEvent) entry;
+-    } MonitorQapiEvent;
+-    static __thread QSIMPLEQ_HEAD(, MonitorQapiEvent) event_queue;
+-    static __thread bool reentered;
+-    MonitorQapiEvent *ev;
 -
--    /* 1. parse the cmdline */
--    if (parse_cmdline(cmdline, &nb_args, args) < 0) {
+-    if (!reentered) {
+-        QSIMPLEQ_INIT(&event_queue);
+-    }
+-
+-    ev =3D g_new(MonitorQapiEvent, 1);
+-    ev->qdict =3D qobject_ref(qdict);
+-    ev->event =3D event;
+-    QSIMPLEQ_INSERT_TAIL(&event_queue, ev, entry);
+-    if (reentered) {
 -        return;
 -    }
 -
--    /* if the line ends with a space, it means we want to complete the
--       next arg */
--    len =3D strlen(cmdline);
--    if (len > 0 && qemu_isspace(cmdline[len - 1])) {
--        if (nb_args >=3D MAX_ARGS) {
--            goto cleanup;
--        }
--        args[nb_args++] =3D g_strdup("");
+-    reentered =3D true;
+-
+-    while ((ev =3D QSIMPLEQ_FIRST(&event_queue)) !=3D NULL) {
+-        QSIMPLEQ_REMOVE_HEAD(&event_queue, entry);
+-        monitor_qapi_event_queue_no_reenter(ev->event, ev->qdict);
+-        qobject_unref(ev->qdict);
+-        g_free(ev);
 -    }
 -
--    /* 2. auto complete according to args */
--    monitor_find_completion_by_table(mon, mon->cmd_table, args, nb_args)=
-;
--
--cleanup:
--    free_cmdline_args(args, nb_args);
+-    reentered =3D false;
 -}
 -
- int monitor_can_read(void *opaque)
- {
-     Monitor *mon =3D opaque;
-@@ -3957,28 +2745,6 @@ int monitor_can_read(void *opaque)
-     return !atomic_mb_read(&mon->suspend_cnt);
- }
-=20
--static void monitor_read(void *opaque, const uint8_t *buf, int size)
+-/*
+- * This function runs evconf->rate ns after sending a throttled
+- * event.
+- * If another event has since been stored, send it.
+- */
+-static void monitor_qapi_event_handler(void *opaque)
 -{
--    MonitorHMP *mon;
--    Monitor *old_mon =3D cur_mon;
--    int i;
+-    MonitorQAPIEventState *evstate =3D opaque;
+-    MonitorQAPIEventConf *evconf =3D &monitor_qapi_event_conf[evstate->e=
+vent];
 -
--    cur_mon =3D opaque;
--    mon =3D container_of(cur_mon, MonitorHMP, common);
+-    trace_monitor_protocol_event_handler(evstate->event, evstate->qdict)=
+;
+-    qemu_mutex_lock(&monitor_lock);
 -
--    if (mon->rs) {
--        for (i =3D 0; i < size; i++)
--            readline_handle_byte(mon->rs, buf[i]);
+-    if (evstate->qdict) {
+-        int64_t now =3D qemu_clock_get_ns(monitor_get_event_clock());
+-
+-        monitor_qapi_event_emit(evstate->event, evstate->qdict);
+-        qobject_unref(evstate->qdict);
+-        evstate->qdict =3D NULL;
+-        timer_mod_ns(evstate->timer, now + evconf->rate);
 -    } else {
--        if (size =3D=3D 0 || buf[size - 1] !=3D 0)
--            monitor_printf(cur_mon, "corrupted command\n");
--        else
--            handle_hmp_command(mon, (char *)buf);
+-        g_hash_table_remove(monitor_qapi_event_state, evstate);
+-        qobject_unref(evstate->data);
+-        timer_free(evstate->timer);
+-        g_free(evstate);
 -    }
 -
--    cur_mon =3D old_mon;
+-    qemu_mutex_unlock(&monitor_lock);
+-}
+-
+-static unsigned int qapi_event_throttle_hash(const void *key)
+-{
+-    const MonitorQAPIEventState *evstate =3D key;
+-    unsigned int hash =3D evstate->event * 255;
+-
+-    if (evstate->event =3D=3D QAPI_EVENT_VSERPORT_CHANGE) {
+-        hash +=3D g_str_hash(qdict_get_str(evstate->data, "id"));
+-    }
+-
+-    if (evstate->event =3D=3D QAPI_EVENT_QUORUM_REPORT_BAD) {
+-        hash +=3D g_str_hash(qdict_get_str(evstate->data, "node-name"));
+-    }
+-
+-    return hash;
+-}
+-
+-static gboolean qapi_event_throttle_equal(const void *a, const void *b)
+-{
+-    const MonitorQAPIEventState *eva =3D a;
+-    const MonitorQAPIEventState *evb =3D b;
+-
+-    if (eva->event !=3D evb->event) {
+-        return FALSE;
+-    }
+-
+-    if (eva->event =3D=3D QAPI_EVENT_VSERPORT_CHANGE) {
+-        return !strcmp(qdict_get_str(eva->data, "id"),
+-                       qdict_get_str(evb->data, "id"));
+-    }
+-
+-    if (eva->event =3D=3D QAPI_EVENT_QUORUM_REPORT_BAD) {
+-        return !strcmp(qdict_get_str(eva->data, "node-name"),
+-                       qdict_get_str(evb->data, "node-name"));
+-    }
+-
+-    return TRUE;
+-}
+-
+-static void monitor_qapi_event_init(void)
+-{
+-    monitor_qapi_event_state =3D g_hash_table_new(qapi_event_throttle_ha=
+sh,
+-                                                qapi_event_throttle_equa=
+l);
+-}
+-
+-static void monitor_iothread_init(void);
+-
+-void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
+-                       bool use_io_thread)
+-{
+-    if (use_io_thread && !mon_iothread) {
+-        monitor_iothread_init();
+-    }
+-    memset(mon, 0, sizeof(Monitor));
+-    qemu_mutex_init(&mon->mon_lock);
+-    mon->outbuf =3D qstring_new();
+-    mon->skip_flush =3D skip_flush;
+-    mon->use_io_thread =3D use_io_thread;
+-    mon->flags =3D flags;
+-}
+-
+-static void monitor_data_destroy(Monitor *mon)
+-{
+-    g_free(mon->mon_cpu_path);
+-    qemu_chr_fe_deinit(&mon->chr, false);
+-    if (monitor_is_qmp(mon)) {
+-        MonitorQMP *qmp_mon =3D container_of(mon, MonitorQMP, common);
+-        monitor_data_destroy_qmp(qmp_mon);
+-    } else {
+-        MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
+-        readline_free(hmp_mon->rs);
+-    }
+-    qobject_unref(mon->outbuf);
+-    qemu_mutex_destroy(&mon->mon_lock);
+-}
+-
+ char *qmp_human_monitor_command(const char *command_line, bool has_cpu_i=
+ndex,
+                                 int64_t cpu_index, Error **errp)
+ {
+@@ -2738,13 +2333,6 @@ void loadvm_completion(ReadLineState *rs, int nb_a=
+rgs, const char *str)
+     }
+ }
+=20
+-int monitor_can_read(void *opaque)
+-{
+-    Monitor *mon =3D opaque;
+-
+-    return !atomic_mb_read(&mon->suspend_cnt);
 -}
 -
  static void monitor_command_cb(void *opaque, const char *cmdline,
                                 void *readline_opaque)
  {
-@@ -4043,58 +2809,6 @@ void monitor_resume(Monitor *mon)
-     trace_monitor_suspend(mon, -1);
+@@ -2755,60 +2343,6 @@ static void monitor_command_cb(void *opaque, const=
+ char *cmdline,
+     monitor_resume(&mon->common);
  }
 =20
--static void monitor_event(void *opaque, int event)
+-int monitor_suspend(Monitor *mon)
+-{
+-    if (monitor_is_hmp_non_interactive(mon)) {
+-        return -ENOTTY;
+-    }
+-
+-    atomic_inc(&mon->suspend_cnt);
+-
+-    if (mon->use_io_thread) {
+-        /*
+-         * Kick I/O thread to make sure this takes effect.  It'll be
+-         * evaluated again in prepare() of the watch object.
+-         */
+-        aio_notify(iothread_get_aio_context(mon_iothread));
+-    }
+-
+-    trace_monitor_suspend(mon, 1);
+-    return 0;
+-}
+-
+-static void monitor_accept_input(void *opaque)
 -{
 -    Monitor *mon =3D opaque;
--    MonitorHMP *hmp_mon =3D container_of(cur_mon, MonitorHMP, common);
 -
--    switch (event) {
--    case CHR_EVENT_MUX_IN:
--        qemu_mutex_lock(&mon->mon_lock);
--        mon->mux_out =3D 0;
--        qemu_mutex_unlock(&mon->mon_lock);
--        if (mon->reset_seen) {
--            readline_restart(hmp_mon->rs);
--            monitor_resume(mon);
--            monitor_flush(mon);
+-    qemu_chr_fe_accept_input(&mon->chr);
+-}
+-
+-void monitor_resume(Monitor *mon)
+-{
+-    if (monitor_is_hmp_non_interactive(mon)) {
+-        return;
+-    }
+-
+-    if (atomic_dec_fetch(&mon->suspend_cnt) =3D=3D 0) {
+-        AioContext *ctx;
+-
+-        if (mon->use_io_thread) {
+-            ctx =3D iothread_get_aio_context(mon_iothread);
 -        } else {
--            atomic_mb_set(&mon->suspend_cnt, 0);
+-            ctx =3D qemu_get_aio_context();
 -        }
--        break;
 -
--    case CHR_EVENT_MUX_OUT:
--        if (mon->reset_seen) {
--            if (atomic_mb_read(&mon->suspend_cnt) =3D=3D 0) {
--                monitor_printf(mon, "\n");
--            }
--            monitor_flush(mon);
--            monitor_suspend(mon);
--        } else {
--            atomic_inc(&mon->suspend_cnt);
--        }
--        qemu_mutex_lock(&mon->mon_lock);
--        mon->mux_out =3D 1;
--        qemu_mutex_unlock(&mon->mon_lock);
--        break;
--
--    case CHR_EVENT_OPENED:
--        monitor_printf(mon, "QEMU %s monitor - type 'help' for more "
--                       "information\n", QEMU_VERSION);
--        if (!mon->mux_out) {
--            readline_restart(hmp_mon->rs);
+-        if (!monitor_is_qmp(mon)) {
+-            MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common=
+);
+-            assert(hmp_mon->rs);
 -            readline_show_prompt(hmp_mon->rs);
 -        }
--        mon->reset_seen =3D 1;
--        mon_refcount++;
--        break;
 -
--    case CHR_EVENT_CLOSED:
--        mon_refcount--;
--        monitor_fdsets_cleanup();
--        break;
+-        aio_bh_schedule_oneshot(ctx, monitor_accept_input, mon);
 -    }
+-
+-    trace_monitor_suspend(mon, -1);
 -}
 -
  static int
  compare_mon_cmd(const void *a, const void *b)
  {
-@@ -4137,25 +2851,6 @@ void monitor_init_globals(void)
-                                    NULL);
+@@ -2828,27 +2362,12 @@ static void sortcmdlist(void)
+     qsort((void *)info_cmds, array_num, elem_size, compare_mon_cmd);
  }
 =20
--/* These functions just adapt the readline interface in a typesafe way. =
- We
-- * could cast function pointers but that discards compiler checks.
-- */
--static void GCC_FMT_ATTR(2, 3) monitor_readline_printf(void *opaque,
--                                                       const char *fmt, =
-...)
+-static void monitor_iothread_init(void)
 -{
--    MonitorHMP *mon =3D opaque;
--    va_list ap;
--    va_start(ap, fmt);
--    monitor_vprintf(&mon->common, fmt, ap);
--    va_end(ap);
+-    mon_iothread =3D iothread_create("mon_iothread", &error_abort);
 -}
 -
--static void monitor_readline_flush(void *opaque)
--{
--    MonitorHMP *mon =3D opaque;
--    monitor_flush(&mon->common);
--}
+ void monitor_init_globals(void)
+ {
++    monitor_init_globals_core();
+     monitor_init_qmp_commands();
+-    monitor_qapi_event_init();
+     sortcmdlist();
+-    qemu_mutex_init(&monitor_lock);
+     qemu_mutex_init(&mon_fdsets_lock);
 -
+-    /*
+-     * The dispatcher BH must run in the main loop thread, since we
+-     * have commands assuming that context.  It would be nice to get
+-     * rid of those assumptions.
+-     */
+-    qmp_dispatcher_bh =3D aio_bh_new(iohandler_get_aio_context(),
+-                                   monitor_qmp_bh_dispatcher,
+-                                   NULL);
+ }
+=20
  /*
-  * Print to current monitor if we have one, else to stderr.
-  */
-@@ -4198,27 +2893,6 @@ void monitor_list_append(Monitor *mon)
-     }
+@@ -2873,90 +2392,6 @@ int error_vprintf_unless_qmp(const char *fmt, va_l=
+ist ap)
+     return -1;
  }
 =20
--static void monitor_init_hmp(Chardev *chr, int flags)
+-void monitor_list_append(Monitor *mon)
 -{
--    MonitorHMP *mon =3D g_malloc0(sizeof(*mon));
--    bool use_readline =3D flags & MONITOR_USE_READLINE;
+-    qemu_mutex_lock(&monitor_lock);
+-    /*
+-     * This prevents inserting new monitors during monitor_cleanup().
+-     * A cleaner solution would involve the main thread telling other
+-     * threads to terminate, waiting for their termination.
+-     */
+-    if (!monitor_destroyed) {
+-        QTAILQ_INSERT_HEAD(&mon_list, mon, entry);
+-        mon =3D NULL;
+-    }
+-    qemu_mutex_unlock(&monitor_lock);
 -
--    monitor_data_init_hmp(mon, flags, false);
--    qemu_chr_fe_init(&mon->common.chr, chr, &error_abort);
+-    if (mon) {
+-        monitor_data_destroy(mon);
+-        g_free(mon);
+-    }
+-}
 -
--    if (use_readline) {
--        mon->rs =3D readline_init(monitor_readline_printf,
--                                monitor_readline_flush,
--                                mon,
--                                monitor_find_completion);
--        monitor_read_command(mon, 0);
+-void monitor_init(Chardev *chr, int flags)
+-{
+-    if (flags & MONITOR_USE_CONTROL) {
+-        monitor_init_qmp(chr, flags);
+-    } else {
+-        monitor_init_hmp(chr, flags);
+-    }
+-}
+-
+-void monitor_cleanup(void)
+-{
+-    /*
+-     * We need to explicitly stop the I/O thread (but not destroy it),
+-     * clean up the monitor resources, then destroy the I/O thread since
+-     * we need to unregister from chardev below in
+-     * monitor_data_destroy(), and chardev is not thread-safe yet
+-     */
+-    if (mon_iothread) {
+-        iothread_stop(mon_iothread);
 -    }
 -
--    qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read, monitor=
-_read,
--                             monitor_event, NULL, &mon->common, NULL, tr=
-ue);
--    monitor_list_append(&mon->common);
+-    /* Flush output buffers and destroy monitors */
+-    qemu_mutex_lock(&monitor_lock);
+-    monitor_destroyed =3D true;
+-    while (!QTAILQ_EMPTY(&mon_list)) {
+-        Monitor *mon =3D QTAILQ_FIRST(&mon_list);
+-        QTAILQ_REMOVE(&mon_list, mon, entry);
+-        /* Permit QAPI event emission from character frontend release */
+-        qemu_mutex_unlock(&monitor_lock);
+-        monitor_flush(mon);
+-        monitor_data_destroy(mon);
+-        qemu_mutex_lock(&monitor_lock);
+-        g_free(mon);
+-    }
+-    qemu_mutex_unlock(&monitor_lock);
+-
+-    /* QEMUBHs needs to be deleted before destroying the I/O thread */
+-    qemu_bh_delete(qmp_dispatcher_bh);
+-    qmp_dispatcher_bh =3D NULL;
+-    if (mon_iothread) {
+-        iothread_destroy(mon_iothread);
+-        mon_iothread =3D NULL;
+-    }
 -}
 -
- void monitor_init(Chardev *chr, int flags)
+-QemuOptsList qemu_mon_opts =3D {
+-    .name =3D "mon",
+-    .implied_opt_name =3D "chardev",
+-    .head =3D QTAILQ_HEAD_INITIALIZER(qemu_mon_opts.head),
+-    .desc =3D {
+-        {
+-            .name =3D "mode",
+-            .type =3D QEMU_OPT_STRING,
+-        },{
+-            .name =3D "chardev",
+-            .type =3D QEMU_OPT_STRING,
+-        },{
+-            .name =3D "pretty",
+-            .type =3D QEMU_OPT_BOOL,
+-        },
+-        { /* end of list */ }
+-    },
+-};
+-
+ HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
  {
-     if (flags & MONITOR_USE_CONTROL) {
+     MachineState *ms =3D MACHINE(qdev_get_machine());
 diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-index d04d58b583..48c73eed51 100644
+index 48c73eed51..c8dff5e4b5 100644
 --- a/monitor/Makefile.objs
 +++ b/monitor/Makefile.objs
 @@ -1,2 +1,2 @@
  obj-y +=3D misc.o
--common-obj-y +=3D qmp.o
-+common-obj-y +=3D qmp.o hmp.o
+-common-obj-y +=3D qmp.o hmp.o
++common-obj-y +=3D core.o qmp.o hmp.o
 --=20
 2.20.1
 
