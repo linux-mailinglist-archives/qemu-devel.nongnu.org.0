@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45363878C
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:59:45 +0200 (CEST)
-Received: from localhost ([::1]:47704 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BF1387CA
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:19:25 +0200 (CEST)
+Received: from localhost ([::1]:47938 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZBey-0006gA-U9
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42201)
+	id 1hZBxz-0004tp-Nk
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:19:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44959)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAvT-0002FX-AY
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:45 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hZB4z-00085p-Lh
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAvQ-0004yE-He
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:43 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51456)
+ (envelope-from <alex.bennee@linaro.org>) id 1hZB4y-0005ot-8Z
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:33 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39822)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZAvQ-0004kQ-8j
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:40 -0400
-Received: by mail-wm1-x331.google.com with SMTP id f10so1243927wmb.1
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:12:34 -0700 (PDT)
+ id 1hZB4x-0005kB-VX
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:32 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id x4so1399585wrt.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=99Dn3AIAE6bUMupx6Zxv5Z+hFUdE7BsSiaYvbx/TT8U=;
- b=Cet4zqGwxmOsg9wlvbgbB0jSgfw143kcG3Mv7oMA9DzOl4GxtUwDEb6PX6Sg3z5M+z
- JZf0Uwnz9fxzhft81kDZx9UdVtyRB83w1uBvVm8KnaDrwGEKBSndUQxp/f7w1SPnFAYL
- iBe3UjrzbHBwmqh9CKW5/gXpDVPh+EIoGyvi4z7H/uMd2pZWvi5RmGOeDZApH59+4iGG
- 7CnkqWmuehmD4BBuiEHEBnKkpy3bt6tcruNrZLMQtzOE4ISLtIG39GLFX4/GNF18JOel
- pOtFQRlNDAJTH/gvTMceJX1vXnM9EyXIzGWh0YnPLUH1X50mKbMWgdE9h8EOaeIVqRXB
- VlBw==
+ bh=PLY1Kb/j4Fld5ce4nXx3RXm9FLwwfldPCHeqmdO//6E=;
+ b=YNkOmvB/xTWtFw4rkS42jDSIJrlEJbuOKbgNlADuND7RbCtN3IBk2ejtX6F/WFImwF
+ gXQxFh71mFN0d4HoUt4/OTsG4AvGHZSIVTZmneqMQTwUubqeyaH/QuW8IdRE575f9sMN
+ jU3IG0CKaz9U7Zr+sfbon1mz4P+lZY7F1QB7rBc7IG+RJFOXVpXzyHn9tW37yk94tE8f
+ gH1NAqujc1Dp9LvuR+skU3MBbw1HZkdQs601CEciZXQY3l4cZOAANoLxcS3FPv4f33HM
+ Hb6abWdPr8wsM7dEy1T3jgxxm7JdhOPHVqIDVr4tJ8EA1YP9AiEfDFmY5zaYqy/LnGvp
+ nPBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=99Dn3AIAE6bUMupx6Zxv5Z+hFUdE7BsSiaYvbx/TT8U=;
- b=H2Er5Ci16YzhMU02tGQX0S9BJDM4hI/7yuxM75aoBW5q3KPg7XqX6LqXknBpUadlcV
- X3tVgh2Ahj8Puj4zP9Bo80PXhr6/K8OpMIRNstRwApbyTbVx+oL6sxMZjcj09F339ruD
- 1h1hKargy23Ub8uOmiYN1muoW2Lc8MGECDp13I+QstUzBxk+osox/wa24ERCJFWNIPTn
- Tu3c1cYT62iHa7fwWLWyIQNiO/+vnRpkwahzLOUQ1QppSGK75Baea2Jg1SOmRpPLrvF+
- 2SL/Gbrc2YrtDd2za04Y7EHrRb+yWb/sJME/PouCURHUCzFSnU4yv4kLSOvUstGJmwgl
- vv2Q==
-X-Gm-Message-State: APjAAAVWn9uoJnQJSzLTzIGNHONBo19fLqcp7YkQmbs8hwucHvjqyhVW
- VgrH5q/eLElYinsZsiCBQs2/rw==
-X-Google-Smtp-Source: APXvYqwTjIomDmqChv3zwEFdhG5z/ke18HDvwWXCELjQ8XLSLdBAO/ekGKrW3DM9bOTVDcIaen+K9w==
-X-Received: by 2002:a05:600c:20c3:: with SMTP id
- y3mr3008049wmm.3.1559898753112; 
- Fri, 07 Jun 2019 02:12:33 -0700 (PDT)
+ bh=PLY1Kb/j4Fld5ce4nXx3RXm9FLwwfldPCHeqmdO//6E=;
+ b=JUcrPMzxUw9yuODjGanG+QvHuXl3WhNLART23IP8d2v3IZQfcxxqfu+bVlxk+cLAxm
+ SMPulgCm8BELZ0OAqXF7I4sKwX4eJ0Vmp3jMNlCVt1PZpfOl8f7fOyUCh4/WRhW3jCyB
+ Ii0xFw5hHS4pmHdeDgMA5G5b4/FSv5ZWCAPSSTisQRvC3OEb6tjs/XrxErzEuXuo5XY0
+ MLW9vEfLQiiHubJjCqJUjpcZVfAjtMZfHBl+C0HEbAnAptlRBl9bI/TdSyJLP1u9IasW
+ b4N+MG7nx6lyXXftKmfoYlnyd0BNK6IXt1k+XjzrsOgYLwJoxfjsPs0/ebFyw4qmSKOl
+ +OKg==
+X-Gm-Message-State: APjAAAW88jVQYz6roOSWMaI2sdaOU0ZaZ+F94ZrcUog3hfth23Mww+cc
+ hfvvtkuFqn5NxF06ww7Y2DEqNg==
+X-Google-Smtp-Source: APXvYqzZbjNlQVTfO9aUjaP5ED/PqHC/QpV2YFt3xobbvwzsciJ4qr9OhL0iA6PIQUqcLwaSiRegDA==
+X-Received: by 2002:adf:f246:: with SMTP id b6mr8433212wrp.92.1559899349200;
+ Fri, 07 Jun 2019 02:22:29 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id j82sm1303398wmj.40.2019.06.07.02.12.28
+ by smtp.gmail.com with ESMTPSA id x83sm1379571wmb.42.2019.06.07.02.22.26
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 02:12:30 -0700 (PDT)
+ Fri, 07 Jun 2019 02:22:27 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 31EC21FFB1;
+ by zen.linaroharston (Postfix) with ESMTP id 454781FFB3;
  Fri,  7 Jun 2019 10:05:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Fri,  7 Jun 2019 10:05:26 +0100
-Message-Id: <20190607090552.12434-28-alex.bennee@linaro.org>
+Date: Fri,  7 Jun 2019 10:05:27 +0100
+Message-Id: <20190607090552.12434-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
 References: <20190607090552.12434-1-alex.bennee@linaro.org>
@@ -69,9 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
-Subject: [Qemu-devel] [PULL 27/52] cputlb: use uint64_t for interim values
- for unaligned load
+X-Received-From: 2a00:1450:4864:20::42d
+Subject: [Qemu-devel] [PULL 28/52] tests/tcg: better detect truncated reads
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,41 +82,112 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laszlo Ersek <lersek@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running on 32 bit TCG backends a wide unaligned load ends up
-truncating data before returning to the guest. We specifically have
-the return type as uint64_t to avoid any premature truncation so we
-should use the same for the interim types.
-
-Fixes: https://bugs.launchpad.net/qemu/+bug/1830872
-Fixes: eed5664238e
+If we've truncated a wider read we can detect the condition earlier by
+looking at the number of zeros we've read. So we don't trip up on
+cases where we have written zeros to the start of the buffer we also
+ensure we only start each offset read from the right address.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Laszlo Ersek <lersek@redhat.com>
-Tested-by: Igor Mammedov <imammedo@redhat.com>
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index cdcc377102..b796ab1cbe 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1303,7 +1303,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
-         && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
-                     >= TARGET_PAGE_SIZE)) {
-         target_ulong addr1, addr2;
--        tcg_target_ulong r1, r2;
-+        uint64_t r1, r2;
-         unsigned shift;
-     do_unaligned_access:
-         addr1 = addr & ~(size - 1);
+diff --git a/tests/tcg/multiarch/system/memory.c b/tests/tcg/multiarch/system/memory.c
+index dc1d8a98ff..d124502d73 100644
+--- a/tests/tcg/multiarch/system/memory.c
++++ b/tests/tcg/multiarch/system/memory.c
+@@ -208,6 +208,7 @@ static bool read_test_data_u32(int offset)
+ 
+     for (i = 0; i < max; i++) {
+         uint8_t b1, b2, b3, b4;
++        int zeros = 0;
+         word = *ptr++;
+ 
+         b1 = word >> 24 & 0xff;
+@@ -215,6 +216,16 @@ static bool read_test_data_u32(int offset)
+         b3 = word >> 8 & 0xff;
+         b4 = word & 0xff;
+ 
++        zeros += (b1 == 0 ? 1 : 0);
++        zeros += (b2 == 0 ? 1 : 0);
++        zeros += (b3 == 0 ? 1 : 0);
++        zeros += (b4 == 0 ? 1 : 0);
++        if (zeros > 1) {
++            ml_printf("Error @ %p, more zeros than expected: %d, %d, %d, %d",
++                      ptr - 1, b1, b2, b3, b4);
++            return false;
++        }
++
+         if ((b1 < b2 && b1 != 0) ||
+             (b2 < b3 && b2 != 0) ||
+             (b3 < b4 && b3 != 0)) {
+@@ -238,6 +249,7 @@ static bool read_test_data_u64(int offset)
+ 
+     for (i = 0; i < max; i++) {
+         uint8_t b1, b2, b3, b4, b5, b6, b7, b8;
++        int zeros = 0;
+         word = *ptr++;
+ 
+         b1 = ((uint64_t) (word >> 56)) & 0xff;
+@@ -249,6 +261,20 @@ static bool read_test_data_u64(int offset)
+         b7 = (word >> 8)  & 0xff;
+         b8 = (word >> 0)  & 0xff;
+ 
++        zeros += (b1 == 0 ? 1 : 0);
++        zeros += (b2 == 0 ? 1 : 0);
++        zeros += (b3 == 0 ? 1 : 0);
++        zeros += (b4 == 0 ? 1 : 0);
++        zeros += (b5 == 0 ? 1 : 0);
++        zeros += (b6 == 0 ? 1 : 0);
++        zeros += (b7 == 0 ? 1 : 0);
++        zeros += (b8 == 0 ? 1 : 0);
++        if (zeros > 1) {
++            ml_printf("Error @ %p, more zeros than expected: %d, %d, %d, %d, %d, %d, %d, %d",
++                      ptr - 1, b1, b2, b3, b4, b5, b6, b7, b8);
++            return false;
++        }
++
+         if ((b1 < b2 && b1 != 0) ||
+             (b2 < b3 && b2 != 0) ||
+             (b3 < b4 && b3 != 0) ||
+@@ -272,7 +298,7 @@ read_ufn read_ufns[] = { read_test_data_u16,
+                          read_test_data_u32,
+                          read_test_data_u64 };
+ 
+-bool do_unsigned_reads(void)
++bool do_unsigned_reads(int start_off)
+ {
+     int i;
+     bool ok = true;
+@@ -280,11 +306,11 @@ bool do_unsigned_reads(void)
+     for (i = 0; i < ARRAY_SIZE(read_ufns) && ok; i++) {
+ #if CHECK_UNALIGNED
+         int off;
+-        for (off = 0; off < 8 && ok; off++) {
++        for (off = start_off; off < 8 && ok; off++) {
+             ok = read_ufns[i](off);
+         }
+ #else
+-        ok = read_ufns[i](0);
++        ok = read_ufns[i](start_off);
+ #endif
+     }
+ 
+@@ -298,11 +324,11 @@ static bool do_unsigned_test(init_ufn fn)
+     int i;
+     for (i = 0; i < 8 && ok; i++) {
+         fn(i);
+-        ok = do_unsigned_reads();
++        ok = do_unsigned_reads(i);
+     }
+ #else
+     fn(0);
+-    return do_unsigned_reads();
++    return do_unsigned_reads(0);
+ #endif
+ }
+ 
 -- 
 2.20.1
 
