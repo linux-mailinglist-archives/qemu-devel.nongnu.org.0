@@ -2,55 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF8338A0A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 14:19:58 +0200 (CEST)
-Received: from localhost ([::1]:49512 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EEF38A15
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 14:22:15 +0200 (CEST)
+Received: from localhost ([::1]:49550 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZDqe-0001gn-L5
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 08:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38358)
+	id 1hZDss-00040X-Jg
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 08:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39892)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hZC8b-0005kd-Lq
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:30:27 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hZCDx-00016K-JX
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:35:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hZC8Z-00032v-CU
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:30:21 -0400
-Received: from 4.mo2.mail-out.ovh.net ([87.98.172.75]:48564)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hZCDr-0000Od-4h
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:35:50 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:41568 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hZC8X-0002yV-8O
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:30:17 -0400
-Received: from player750.ha.ovh.net (unknown [10.109.146.19])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id 0EA4819E715
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 12:30:13 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player750.ha.ovh.net (Postfix) with ESMTPSA id 1E7F46B3AA63;
- Fri,  7 Jun 2019 10:30:05 +0000 (UTC)
-Date: Fri, 7 Jun 2019 12:30:03 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <20190607123003.65750643@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <20190607002240.GD3760@umbus.fritz.box>
-References: <155910829070.13149.5215948335633966328.stgit@aravinda>
- <155910845769.13149.8097972239187020170.stgit@aravinda>
- <20190606030614.GK10319@umbus.fritz.box>
- <20190606080609.28b4dd15@bahia.lab.toulouse-stg.fr.ibm.com>
- <9a4291d3-2ae6-92f3-6922-e8924398cdb7@linux.vnet.ibm.com>
- <20190606141048.01e7d6be@bahia.lab.toulouse-stg.fr.ibm.com>
- <20190607002240.GD3760@umbus.fritz.box>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/Vw/gxCIECsPoTlcdYtq3s/u"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 4374402614701234662
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudegiedgvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.172.75
-Subject: Re: [Qemu-devel] [PATCH v9 6/6] migration: Include migration
- support for machine check handling
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hZCDk-0007tK-L1
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:35:42 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 180A41A118B;
+ Fri,  7 Jun 2019 12:35:33 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id F37371A0F10;
+ Fri,  7 Jun 2019 12:35:32 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  7 Jun 2019 12:35:16 +0200
+Message-Id: <1559903719-7162-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH v10 0/3] linux-user: A set of miscellaneous
+ patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,133 +49,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
- qemu-ppc@nongnu.org, Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Cc: lvivier@redhat.com, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Vw/gxCIECsPoTlcdYtq3s/u
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-On Fri, 7 Jun 2019 10:22:40 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+This is a collection of misc patches for Linux user that I recently
+accumulated from variuous sources. All of them originate from problems
+observed on mips target. However, these changes actually affect and fix
+problems on multiple targets.
 
-> On Thu, Jun 06, 2019 at 02:10:48PM +0200, Greg Kurz wrote:
-> > On Thu, 6 Jun 2019 16:45:30 +0530
-> > Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
-> >  =20
-> > > On Thursday 06 June 2019 11:36 AM, Greg Kurz wrote: =20
-> > > > On Thu, 6 Jun 2019 13:06:14 +1000
-> > > > David Gibson <david@gibson.dropbear.id.au> wrote:
-> > > >    =20
-> > > >> On Wed, May 29, 2019 at 11:10:57AM +0530, Aravinda Prasad wrote:  =
- =20
-> > > >>> This patch includes migration support for machine check
-> > > >>> handling. Especially this patch blocks VM migration
-> > > >>> requests until the machine check error handling is
-> > > >>> complete as (i) these errors are specific to the source
-> > > >>> hardware and is irrelevant on the target hardware,
-> > > >>> (ii) these errors cause data corruption and should
-> > > >>> be handled before migration.
-> > > >>>
-> > > >>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> > > >>> ---
-> > > >>>  hw/ppc/spapr.c         |   20 ++++++++++++++++++++
-> > > >>>  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
-> > > >>>  hw/ppc/spapr_rtas.c    |    4 ++++
-> > > >>>  include/hw/ppc/spapr.h |    2 ++
-> > > >>>  4 files changed, 43 insertions(+)
-> > > >>>
-> > > >>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > >>> index e8a77636..31c4850 100644
-> > > >>> --- a/hw/ppc/spapr.c
-> > > >>> +++ b/hw/ppc/spapr.c
-> > > >>> @@ -2104,6 +2104,25 @@ static const VMStateDescription vmstate_sp=
-apr_dtb =3D {
-> > > >>>      },
-> > > >>>  };
-> > > >>> =20
-> > > >>> +static bool spapr_fwnmi_needed(void *opaque)
-> > > >>> +{
-> > > >>> +    SpaprMachineState *spapr =3D (SpaprMachineState *)opaque;
-> > > >>> +
-> > > >>> +    return (spapr->guest_machine_check_addr =3D=3D -1) ? 0 : 1; =
-    =20
-> > > >>
-> > > >> Since we're introducing a PAPR capability to enable this, it would
-> > > >> actually be better to check that here, rather than the runtime sta=
-te.
-> > > >> That leads to less cases and easier to understand semantics for the
-> > > >> migration stream.
-> > > >>   =20
-> > > >=20
-> > > > Hmmm... the purpose of needed() VMState callbacks is precisely about
-> > > > runtime state: the subsection should only be migrated if an MCE is
-> > > > pending, ie. spapr->guest_machine_check_addr !=3D -1.   =20
-> > >=20
-> > > spapr->guest_machine_check_addr is set when fwnmi is registered. Hence
-> > > an MCE might not be pending if it is set.
-> > >  =20
-> >=20
-> > Oops sorry, got confused... should have written "if the guest has
-> > registered FWNMI", but the idea is the same. We only need to migrate
-> > the subsection if the state is different from reset. This is the way
-> > needed() callbacks are generally implemented. =20
->=20
-> Yes, but usually that's because we need to omit the section if it's
-> not actively in use in order to maintain backwards compatiblity with
-> old migration streams.  If the cap is enabled we already need
-> something that implements it at both ends to have a sane migration.
->=20
+v9->v10:
 
-I see it the opposite way. A subsection is something that is optional
-for the destination only. In the present case, an older QEMU wont send
-the "spapr_machine_check" subsection, which is interpreted by a newer
-QEMU as "the guest didn't register FWNMI".
+  - improved commit messages for patches 2 and 3
 
-On the source side, if some internal state got used it should always
-be migrated. We maintain backwards compatibility to an older QEMU
-by not using the new state at all, thanks to the versioned machine
-property.
+v8->v9:
 
-> > > I am fine with both the approaches (checking for
-> > > guest_machine_check_addr or for SPAPR_CAP_FWNMI_MCE).
-> > >  =20
-> >=20
-> > I would find ackward to migrate this always for new machine types,
-> > even if the guest doesn't register FWNMI... =20
->=20
-> How so?
->=20
+  - fixed build error on some systems related to SOL_ALG
 
-Well, I just don't see the point in migrating something that
-is not state since its value is the reset default that the
-destination already knows.
+v7->v8:
 
-This being said, I won't make more fuss about it, as long as
-it works :)
+  - added a patch on setsockopt() option SOL_ALG
 
---Sig_/Vw/gxCIECsPoTlcdYtq3s/u
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+v6->v7:
 
------BEGIN PGP SIGNATURE-----
+  - fixed a build error for older kernels related to the patch on
+    setsockopt() options
+  - removed four patches that on the meantime got accepted into the
+    main source tree
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAlz6PKsACgkQcdTV5YIv
-c9ariBAAj4JQO+nll0Af2VOqJZra1nFjcYVYLgNmoOSRxJvrvTCLFFDYeFPaHy4J
-OqpFPJyZrnbomOAc8vxdlcjNK4KQF+WCdXBjcA6Znvy819xzg0RpEsQM+uny84RG
-FlerbH1LW6TpIj+3oh/oiX+XJZgaI9EFjjJ1INGndRLcEwAP9WYgupi3wzMmFCFo
-KtF7Gt08ZOAwpmqt7xglf4tdys3fL0DA/uCevhmjkNe4c3yez68VFg1XbxKyxLsJ
-/RHQRBZP+toCkb5sEcjmvkXx+7LWtcLCSioPCtEsZ3NXj+mwdQ0cZeZVbTCgoZ5E
-zVlZ1v/2GW49QPN38yDW9frNjJSxAVtA4fZ7YsXZ5+TQoxAxWZMJVP0ZZZPkh7by
-3Lo1Y928VbAaDdtEwdH1QeKrz6YvEO49333+MujXVE0gKjEomydfC2CUpiyhK0Y6
-wE+TSc+nz0luJ1zy5rRLl3imK2xfwOYE/BTiIKz8VoVZYCVvHLNVcjtK1efTSeny
-jA1Pn4NofTZL9j0flaAuKI+XkxsNtygkEE8ibK82bYXARNxKu94TSWx6EaaGjuJb
-jskDXA3ZotdCS9kKJzNJR8+fGCWd3aTc5Uej51/AI4yfQ1lXoxl1xby+BsEvSjPR
-3y4x6XJK/Nl4o2qEst1Qls60J0GeVonFQYfYUNocunH5XOzVXN0=
-=vl74
------END PGP SIGNATURE-----
+v5->v6:
 
---Sig_/Vw/gxCIECsPoTlcdYtq3s/u--
+  - fixed a mistake in patch #4
+  - improved commit messages in patches #4 and #6
+
+v4->v5:
+
+  - added the patch on statx() support
+  - improved the patch on IPV6_<ADD|DROP>_MEMBERSHIP to take into
+    account the possibility of different names for a field
+  - minor corrections in commit messages
+
+v3->v4:
+
+  - improved commit messages (fixed some typos, improved relevance)
+
+v2->v3:
+
+  - updated and improved commit messages
+  - added IPV6_DROP_MEMBERSHIP support to the patch on setsockopt()'s
+    option
+
+v1->v2:
+
+  - added the patch on setsockopt()'s option IPV6_ADD_MEMBERSHIP
+  - improved the commit me
+
+Aleksandar Rikalo (1):
+  linux-user: Add support for statx() syscall
+
+Neng Chen (1):
+  linux-user: Add support for setsockopt() options
+    IPV6_<ADD|DROP>_MEMBERSHIP
+
+Yunqiang Su (1):
+  linux-user: Add support for setsockopt() option SOL_ALG
+
+ linux-user/syscall.c      | 193 +++++++++++++++++++++++++++++++++++++++++++++-
+ linux-user/syscall_defs.h |  37 +++++++++
+ 2 files changed, 229 insertions(+), 1 deletion(-)
+
+-- 
+2.7.4
+
 
