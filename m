@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF53390B6
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:54:21 +0200 (CEST)
-Received: from localhost ([::1]:49034 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0847739196
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:06:31 +0200 (CEST)
+Received: from localhost ([::1]:49150 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZHC8-0002nL-Ul
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:54:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41031)
+	id 1hZHNu-00054q-6n
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hZGGq-0005b5-RB
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:55:11 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hZGHf-0006G3-1y
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:56:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hZGGk-0006VM-Av
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:55:04 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:40965)
+ (envelope-from <richard.henderson@linaro.org>) id 1hZGHe-0008QI-5i
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:55:58 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:45545)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hZGGi-0006Md-Am
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:55:02 -0400
-Received: by mail-oi1-x241.google.com with SMTP id b21so1619954oic.8
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:54:58 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hZGHd-0008OU-Vz
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:55:58 -0400
+Received: by mail-ot1-x342.google.com with SMTP id n2so2071865otl.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:55:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JYZ0pb0GFR0fXsu31m6MjaTVk4mYanpm8Dh4Y5L68s4=;
- b=SEEfFzk7e6AUIhpCihTyJxz3Gn2YTQh+oRp8HaFI47VXnD9xFqlS8KGIBtvr/3jTSx
- F5qqcFC6fEDqcbtY3r+Ud/L6qnmTAnC5hZYzEUNWMk8VrLqGDHy/xUCvOnFHKwnD7NWo
- vV8DaAQCct/UrJG95PKH1OMeZUoQvT94GUwwkJ2sF66w7CyweHmHTjPTG69v7bVTtJpV
- 415Pszx4pIK84A0RrQJJJTHHkz13lAMgDWluQnpW+Q05c8dH7JlKGUAvZkcUZh2CZFWD
- OO4J+LUY8kHX4xSbf8PcN+IbYm+Vd2nLvoMar30ZtQhx65tiRHhbbmkW8j/+hxfmJ9DW
- ecqQ==
+ h=subject:to:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WILb82+ZMb6oXiXXQ/1X3V8uKxg2rHMLbJZJlZqK+TY=;
+ b=HMKBUAbp5BE0R1mEYQK0wBOWsUW6zD+gTencUxJm0C+w2Jy4ecsOXflGonuCn9g1qF
+ ERePWQ4d0QPNcFmZ0jZs0p+V0PxmXTI2HOLZgtOuApJdj2sCDv/OCD6UeRq9+3JtVDIm
+ AfsUPwaoKQO7oLTesfyrE9o/Ot4LTAVsk9j2Tp7wmlGLcgbcxrdU36wcC+qd3yOgAxl3
+ xAaAvmS1aoQJlDpKddtxxOnx1c94n/nYUSqb7qnkXIVYB3/W7Ii9zSrZECpAk3r0UaZt
+ 60BpdKUxpyXeC62LS8l4qSVqjjBtXVhGKgcqMm9w17NHaALK/HsBSllaArV6yDf6dMSx
+ tWig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JYZ0pb0GFR0fXsu31m6MjaTVk4mYanpm8Dh4Y5L68s4=;
- b=p8Ygfm2FmfXyhjtkC69zQP6+LLFOPThVCBYkUXA2TmvyDMjLIti7tvB4D6N8BM2QcJ
- BuXFCqS8o24/AgDp9Z7EVhcRIX9gym7XhDOjvpjTxgIeb+aiXuchrtHNjywu5r5YaHCH
- tQoaA5xEdhxDeaGDNHEf2tEWEVOTlMwY+0Pxr+y9CS00mtrTEYx3PXnpWXHAj8diWoYK
- 37T5VNEzmq20uL7tsTyX3rjlqmd03k5p0a3J3bLXzz7iHmiJBiaHjDx0/pZiq2wSvcJK
- /WBTjBdaRbTVnAOwfAjcEigrP7ySoFL2sVwrZjkqLmeYu3HojIASy22hH7Se3V8VETPh
- UCAA==
-X-Gm-Message-State: APjAAAVeei+DBO+D2aeK940F3PvtFpuP3Agj3FtMVYyB0Ni9+Hi2g+dT
- NWIIxZno5arPVogi3Wr6ncMGREnbG/c3sFP+9Rm78li3PjA=
-X-Google-Smtp-Source: APXvYqxvulc5MiC93Xdx1SJUDtoSb38ns5r9du8k2c68VpSexUVpJYtqBdYLHIMGriC7q1W34BbNsG/BWND1MH0YgwE=
-X-Received: by 2002:aca:845:: with SMTP id 66mr1975969oii.163.1559919298028;
- Fri, 07 Jun 2019 07:54:58 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WILb82+ZMb6oXiXXQ/1X3V8uKxg2rHMLbJZJlZqK+TY=;
+ b=G9uGbv9P+PX4tz9jlWOZhQWsYmPXukDcWZvdzySl3eO88prC2ZGvAypjLjGZdt+gEp
+ mU93dK4KzoD3E4PpnvV/jZARB9ojk6QS0sSU99LJ/uQGx5fwdLsv3ECXcJUppnamE0vb
+ zfbWfSYpsBosW5UcjK6iuOUEqRdEQJagLmuQfA9EEc+Ud9LwhY/hX+jVCxbM049p2r8u
+ g6YrWc6WW7I65Jz5u7ubyR4y2ZhMKQQTWfrdqK+LAXTO0gnkzm5KTB4Di8lKKNqQ3LWk
+ IPiEeaq2qjEFyy6U08LJ4e9tZu0xpjmTx/EafhnXAJAoDSocV/XireK0zq3lTkhmxLY+
+ YI3Q==
+X-Gm-Message-State: APjAAAVF+m52EK06K+9VDMmdHdM0DaAVPsK+P2nqswj9d4knHT66akvi
+ 6O7L4YL3KDb6mOBU5wx1aboMIqNx0Y4jCw==
+X-Google-Smtp-Source: APXvYqy1/rg8/pHdyNxN3rC7Gon8E4aQLULUELdsnMGH9Xb/QE3vYdnFa/H0l5q/wbVBZ4914/7R1A==
+X-Received: by 2002:a9d:6b98:: with SMTP id b24mr19207734otq.189.1559919356833; 
+ Fri, 07 Jun 2019 07:55:56 -0700 (PDT)
+Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
+ [200.56.192.86])
+ by smtp.gmail.com with ESMTPSA id l31sm851663otc.30.2019.06.07.07.55.55
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jun 2019 07:55:56 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20190606174609.20487-1-peter.maydell@linaro.org>
+ <20190606174609.20487-8-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <9f3cba01-31fc-3acc-39df-36a38c323931@linaro.org>
+Date: Fri, 7 Jun 2019 09:55:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190603232209.20704-1-richard.henderson@linaro.org>
-In-Reply-To: <20190603232209.20704-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jun 2019 15:54:47 +0100
-Message-ID: <CAFEAcA-KZM8tzD6XLhbtxB=OrnvgmtjcknvxrYoVmooBb7grMw@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190606174609.20487-8-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH v2] target/arm: Vectorize USHL and SSHL
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH 07/42] target/arm: Convert VMINNM,
+ VMAXNM to decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,30 +86,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Jun 2019 at 00:22, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> These instructions shift left or right depending on the sign
-> of the input, and 7 bits are significant to the shift.  This
-> requires several masks and selects in addition to the actual
-> shifts to form the complete answer.
->
-> That said, the operation is still a small improvement even for
-> two 64-bit elements -- 13 vector operations instead of 2 * 7
-> integer operations.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 6/6/19 12:45 PM, Peter Maydell wrote:
+> Convert the VMINNM and VMAXNM instructions to decodetree.
+> As with VSEL, we leave the trans_VMINMAXNM() function
+> in translate.c for the moment.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
+>  target/arm/translate.c       | 41 ++++++++++++++++++++++++------------
+>  target/arm/vfp-uncond.decode |  5 +++++
+>  2 files changed, 33 insertions(+), 13 deletions(-)
 
-Applied to target-arm.next, thanks.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-NB: in v1 this series had a second patch. I'm assuming you
-dropped it deliberately -- if not, let me know.
 
-thanks
--- PMM
+r~
+
 
