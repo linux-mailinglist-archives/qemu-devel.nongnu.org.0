@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708CE387D2
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:21:41 +0200 (CEST)
-Received: from localhost ([::1]:47944 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CAB38762
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:51:44 +0200 (CEST)
+Received: from localhost ([::1]:47650 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZC0C-0006Mv-Jk
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:21:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45107)
+	id 1hZBXD-0007MG-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42065)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZB56-0008PH-33
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:41 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAvK-000292-8p
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZB55-0005z6-4n
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:40 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33019)
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAvI-0004iI-8n
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:34 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46959)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZB54-0005y0-UY
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:39 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id h19so3634800wme.0
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:22:38 -0700 (PDT)
+ id 1hZAvG-0004ag-8v
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:32 -0400
+Received: by mail-wr1-x433.google.com with SMTP id n4so1339528wrw.13
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:12:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JC3AVXNsquFwiFLInZAwShppokQkGXpbpXxA7+1lbo4=;
- b=rclwMiRx1mNavkQcbhavQ1UQSYy55qEHbjX3lW0OxhsU0ZE0jf8IzXxdNfcZB8zc+1
- b+w9fCDt+a5fGw5uFQDyoT3bQAfv3hPwMhlblUbbndxIuOO3Wpo/r0z/FrRVBZint4/P
- 9hHlUWMB6RWhjHZTVzWWF61B0+ozOpSNobksTH7UG79OU0gCxjDaDeA9On0XBiTHIsem
- BmqwNuon8BgeMPQ3pGPb2r5eVwANa40uw8FKkccVrfHIv39LtHKKj90CESM42K5Q5lpg
- 0YXuwh/mxb5juWxcoFWcEYPtWLXztXWyJ1pty1UBJF5VcxfJLhcqXG9mCS7wQzqE37Ho
- 2GXw==
+ bh=s5wS2YCmNrWOpRGICG3GBDDb7iKA90ngEqstlnBtJU0=;
+ b=cxnAAiEmIBVJHy3IBBaqTIJXzpehox8BHAdbLUseNY2SHCywMO9iIrziTu0Dg6AvY3
+ Wo6h1RlO7zmqB2sXZ2+ALwUPUIEJATIIAV+RaO3zhNkCkvTynVVkC+Il2GR+YwloRB3W
+ hPig/QDMKJCH7k94pYk6Tl/3dQJ3Y9ID7ufwxCwHeKFZWq9c2GZLXHoYLRfZY0S7oJ2p
+ /hkkTz4Zv9ir+y/fyKnRv1wrLH6kyxbOLo2k+biq/nIj/i711G+1jHd2nPac8CofQ4kD
+ s3gD/h8klzAOwZtv60oLUWWmb2PS7oWlWWxIZrRfXyPly+yHHywznPvB1yMH8ax9Mqb1
+ CMMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JC3AVXNsquFwiFLInZAwShppokQkGXpbpXxA7+1lbo4=;
- b=G5lRGG9UDiqA2wWDFsI1gfHvs9ah2mOr8dlYTSvHtN0C2ZYppscszfp3WchZVt6rGX
- M1zZZV89sfxiJwGub+bWWdXti3TAgcGdAg/hn/fEDYdlWt/WL7SkZ5PVOt78XAdVj1It
- fUXgG6REYP8RZ9Fl7WLU+eZcgGcnkzz7raRkHGE5Z4AtqlqKmHY6ZMg5okh4NwiL/wgv
- n16CUPYt4sE+8UWDKfroHXdzTjm01H2c7DPCsmDAZXfwnTKkpNy7Da+sOHFJWeJrz649
- bgpjEtHwhZTE6OvLEy+qbQUIg5Vys0f2eU4SHsvcz8WNQ+3UHN8Tm8xL24Lq4c9eXxn1
- jbig==
-X-Gm-Message-State: APjAAAUUSav6NmQ/YCgbHaaScK8mw0L1i/8KD39w0J1EikHPvAtri624
- ppVa+DKkmsH0RWmMfDilzNlfga6CZ3E=
-X-Google-Smtp-Source: APXvYqyNQlUrzrb+WXARXP3Jf6r3bErZHIW9TOeXWSIMKZr/CjkLg5ZH7AINeShhCvNjla/KqJRy+w==
-X-Received: by 2002:a05:600c:291:: with SMTP id
- 17mr2858052wmk.32.1559899357794; 
- Fri, 07 Jun 2019 02:22:37 -0700 (PDT)
+ bh=s5wS2YCmNrWOpRGICG3GBDDb7iKA90ngEqstlnBtJU0=;
+ b=d8ACLAvPMQK4Ms691PrTXEG+jKbiQctFoyXxWAKdbSHfgJepMFymmLaWoOg2rd2/al
+ 9rQPDe37k+M3se8+AZHmS476Z8WvCUu4A5TmcCpdAhsfOBQ6R5BXyT8AJpnug5cQg4+M
+ 9kYjP3wCZcggGD6r1X9cki/ex5pIoAr2T0SLg6d6tON3u2mCcBQG9fqjrQr1aOAk9ldd
+ i7A5G4gX1/hnXsCB7wV6ohnNLX8J+7f1+ovB+XGT32exY6UR2MGm+T56FxeLInedv3Ha
+ gJzeCYhRMsKLLznW+M9fy8LaLBpn4GNewVXgHlPPUivdTQ+KlULLOyG4x2kUC516QPLY
+ kKNQ==
+X-Gm-Message-State: APjAAAW7bEMrLkplgryLcFRq4EBwugktgaV9Qc+hzGGjYKCAp89SF76x
+ 3DZdu4Oh+AfqwNztnPTZBl2JDw==
+X-Google-Smtp-Source: APXvYqzlK9QbuCFj6EmFq4Kp9dGsEAcrBarrPAENGrHDo/iXDT0NZfQ/a+wOiMPBR4TXI9dWngNyXw==
+X-Received: by 2002:a5d:43d0:: with SMTP id v16mr31413845wrr.252.1559898747207; 
+ Fri, 07 Jun 2019 02:12:27 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id 88sm1876360wrl.68.2019.06.07.02.22.30
+ by smtp.gmail.com with ESMTPSA id t6sm1552335wmb.29.2019.06.07.02.12.26
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 02:22:35 -0700 (PDT)
+ Fri, 07 Jun 2019 02:12:26 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 802B31FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 939E21FF8F;
  Fri,  7 Jun 2019 10:05:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Fri,  7 Jun 2019 10:05:30 +0100
-Message-Id: <20190607090552.12434-32-alex.bennee@linaro.org>
+Date: Fri,  7 Jun 2019 10:05:31 +0100
+Message-Id: <20190607090552.12434-33-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
 References: <20190607090552.12434-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
-Subject: [Qemu-devel] [PULL 31/52] MAINTAINERS: put myself forward for
- gdbstub
+X-Received-From: 2a00:1450:4864:20::433
+Subject: [Qemu-devel] [PULL 32/52] cputlb: cast size_t to target_ulong
+ before using for address masks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,36 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Andrew Randrianasulu <randrianasulu@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As I've been reviewing a lot of this recently and I'm going to put
-together a pull request I'd better keep an eye on it. Philippe has
-also volunteered to be a reviewer.
+While size_t is defined to happily access the biggest host object this
+isn't the case when generating masks for 64 bit guests on 32 bit
+hosts. Otherwise we end up truncating the address when we fall back to
+our unaligned helper.
+
+Fixes: https://bugs.launchpad.net/qemu/+bug/1831545
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Tested-by: Andrew Randrianasulu <randrianasulu@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a96829ea83..9fd93d9c6a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1872,7 +1872,9 @@ F: util/error.c
- F: util/qemu-error.c
- 
- GDB stub
--S: Orphan
-+M: Alex Bennée <alex.bennee@linaro.org>
-+R: Philippe Mathieu-Daudé <philmd@redhat.com>
-+S: Maintained
- F: gdbstub*
- F: gdb-xml/
- 
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index b796ab1cbe..8f814a1a2c 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1306,7 +1306,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+         uint64_t r1, r2;
+         unsigned shift;
+     do_unaligned_access:
+-        addr1 = addr & ~(size - 1);
++        addr1 = addr & ~((target_ulong)size - 1);
+         addr2 = addr1 + size;
+         r1 = full_load(env, addr1, oi, retaddr);
+         r2 = full_load(env, addr2, oi, retaddr);
 -- 
 2.20.1
 
