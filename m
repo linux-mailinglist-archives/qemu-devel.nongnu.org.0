@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4016E382D9
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 04:44:13 +0200 (CEST)
-Received: from localhost ([::1]:45612 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F6F382F0
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 04:55:26 +0200 (CEST)
+Received: from localhost ([::1]:45650 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ4rU-0002sK-7D
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 22:44:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49450)
+	id 1hZ52K-0005I8-5I
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 22:55:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50963)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hZ4qs-0002Ph-5o
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 22:43:35 -0400
+ (envelope-from <eblake@redhat.com>) id 1hZ514-0004aJ-FP
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 22:54:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hZ4qr-0002Ya-00
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 22:43:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56640)
+ (envelope-from <eblake@redhat.com>) id 1hZ513-0006Cb-CA
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 22:54:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46068)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hZ4qo-0002G3-5z; Thu, 06 Jun 2019 22:43:30 -0400
+ id 1hZ4w5-0007yF-6V; Thu, 06 Jun 2019 22:48:57 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 855A5883D7;
- Fri,  7 Jun 2019 02:43:12 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 882A33082200;
+ Fri,  7 Jun 2019 02:48:54 +0000 (UTC)
 Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A657C8BE42;
- Fri,  7 Jun 2019 02:43:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B5448BE58;
+ Fri,  7 Jun 2019 02:48:48 +0000 (UTC)
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20190411172709.205032-1-vsementsov@virtuozzo.com>
- <20190411172709.205032-5-vsementsov@virtuozzo.com>
+ <20190411172709.205032-6-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -59,22 +59,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <823c5237-02f9-0c03-2658-6259405f696b@redhat.com>
-Date: Thu, 6 Jun 2019 21:43:05 -0500
+Message-ID: <834d25f9-23c9-287c-0599-905a7669a6c5@redhat.com>
+Date: Thu, 6 Jun 2019 21:48:47 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190411172709.205032-5-vsementsov@virtuozzo.com>
+In-Reply-To: <20190411172709.205032-6-vsementsov@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="ujPSzc5HW29FQJU8z4seQrYDdzrObrmmy"
+ boundary="2U6CC7xS62OVCcNoU9QxIrucDq4bDmSOK"
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 07 Jun 2019 02:43:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Fri, 07 Jun 2019 02:48:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 4/7] block/nbd: add cmdline and qapi
- parameter reconnect-delay
+Subject: Re: [Qemu-devel] [PATCH v6 5/7] qemu-coroutine-sleep: introduce
+ qemu_co_sleep_wake
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,101 +92,111 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ujPSzc5HW29FQJU8z4seQrYDdzrObrmmy
-Content-Type: multipart/mixed; boundary="T4QrU399j2v7ZnDEL2oDooB8e0K0ib2PV";
+--2U6CC7xS62OVCcNoU9QxIrucDq4bDmSOK
+Content-Type: multipart/mixed; boundary="u3DzIyC2y4l9f20KSbx9jdWvT8BfqVwUw";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 Cc: armbru@redhat.com, stefanha@redhat.com, mreitz@redhat.com,
  kwolf@redhat.com, den@openvz.org
-Message-ID: <823c5237-02f9-0c03-2658-6259405f696b@redhat.com>
-Subject: Re: [PATCH v6 4/7] block/nbd: add cmdline and qapi parameter
- reconnect-delay
+Message-ID: <834d25f9-23c9-287c-0599-905a7669a6c5@redhat.com>
+Subject: Re: [PATCH v6 5/7] qemu-coroutine-sleep: introduce qemu_co_sleep_wake
 References: <20190411172709.205032-1-vsementsov@virtuozzo.com>
- <20190411172709.205032-5-vsementsov@virtuozzo.com>
-In-Reply-To: <20190411172709.205032-5-vsementsov@virtuozzo.com>
+ <20190411172709.205032-6-vsementsov@virtuozzo.com>
+In-Reply-To: <20190411172709.205032-6-vsementsov@virtuozzo.com>
 
---T4QrU399j2v7ZnDEL2oDooB8e0K0ib2PV
+--u3DzIyC2y4l9f20KSbx9jdWvT8BfqVwUw
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 4/11/19 12:27 PM, Vladimir Sementsov-Ogievskiy wrote:
-> Reconnect will be implemented in the following commit, so for now,
-> in semantics below, disconnect itself is a "serious error".
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  qapi/block-core.json | 12 +++++++++++-
->  block/nbd-client.h   |  1 +
->  block/nbd-client.c   |  1 +
->  block/nbd.c          | 16 +++++++++++++++-
->  4 files changed, 28 insertions(+), 2 deletions(-)
->=20
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 7ccbfff9d0..815258bd89 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -3798,13 +3798,23 @@
->  #                  traditional "base:allocation" block status (see
->  #                  NBD_OPT_LIST_META_CONTEXT in the NBD protocol) (sin=
-ce 3.0)
->  #
-> +# @reconnect-delay: Reconnect delay. On unexpected disconnect, nbd cli=
-ent tries
-> +#                   to connect again, until success or serious error. =
-During
-> +#                   first @reconnect-delay seconds of reconnecting loo=
-p all
-> +#                   requests are paused and have a chance to rerun, if=
-
-> +#                   successful connect occurs during this time. After
-> +#                   @reconnect-delay seconds all delayed requests are =
-failed
-> +#                   and all following requests will be failed too (unt=
-il
-> +#                   successful reconnect). Default 0 (Since 4.1)
+> Introduce a function to gracefully wake-up a coroutine, sleeping in
+> qemu_co_sleep_ns() sleep.
 
 Maybe:
 
-On an unexpected disconnect, the nbd client tries to connect again until
-succeeding or encountering a serious error.  During the first
-@reconnect-delay seconds, all requests are paused and will be rerun on a
-successful reconnect. After that time, any delayed requests and all
-future requests before a successful reconnect will immediately fail.
+Introduce a function to gracefully short-circuit the remainder of the
+delay for a coroutine sleeping in qemu_co_sleep_ns().
 
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/qemu/coroutine.h    |  6 ++++++
+>  util/qemu-coroutine-sleep.c | 20 ++++++++++++++++----
+>  2 files changed, 22 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+> index 9801e7f5a4..ec765c26f0 100644
+> --- a/include/qemu/coroutine.h
+> +++ b/include/qemu/coroutine.h
+> @@ -278,6 +278,12 @@ void qemu_co_rwlock_unlock(CoRwlock *lock);
+>   */
+>  void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns);
+> =20
+> +/*
+> + * Wake a coroutine if it is sleeping by qemu_co_sleep_ns. Timer will =
+be
+> + * deleted.
 
-> +++ b/block/nbd.c
-> @@ -360,6 +360,18 @@ static QemuOptsList nbd_runtime_opts =3D {
->              .help =3D "experimental: expose named dirty bitmap in plac=
-e of "
->                      "block status",
->          },
-> +        {
-> +            .name =3D "reconnect-delay",
-> +            .type =3D QEMU_OPT_NUMBER,
-> +            .help =3D "Reconnect delay. On unexpected disconnect, nbd =
-client "
-> +                    "tries to connect again, until success or serious =
-error. "
-> +                    "During first @reconnect-delay seconds of reconnec=
-ting "
-> +                    "loop all requests are paused and have a chance to=
- rerun, "
-> +                    "if successful connect occurs during this time. Af=
-ter"
-> +                    "@reconnect-delay seconds all delayed requests are=
- failed"
-> +                    "and all following requests will be failed too (un=
-til"
-> +                    "successful reconnect). Default 0",
+Maybe:
 
-And of course copy any changes to the QMP text to here.
+Wake a coroutine if it is sleeping in qemu_co_sleep_ns, and delete the
+timer.
 
-I can touch up grammar, so if there's no other reason to respin,
+> +++ b/util/qemu-coroutine-sleep.c
+> @@ -17,13 +17,24 @@
+>  #include "qemu/timer.h"
+>  #include "block/aio.h"
+> =20
+> +const char *qemu_co_sleep_ns__scheduled =3D "qemu_co_sleep_ns";
+> +
+> +void qemu_co_sleep_wake(Coroutine *co)
+> +{
+> +    /* Write of schedule protected by barrier write in aio_co_schedule=
+ */
+> +    const char *scheduled =3D atomic_cmpxchg(&co->scheduled,
+> +                                           qemu_co_sleep_ns__scheduled=
+, NULL);
+> +
+> +    if (scheduled =3D=3D qemu_co_sleep_ns__scheduled) {
+> +        aio_co_wake(co);
+> +    }
+> +}
+> +
+>  static void co_sleep_cb(void *opaque)
+>  {
+>      Coroutine *co =3D opaque;
+> =20
+> -    /* Write of schedule protected by barrier write in aio_co_schedule=
+ */
+> -    atomic_set(&co->scheduled, NULL);
+> -    aio_co_wake(co);
+> +    qemu_co_sleep_wake(co);
+>  }
+> =20
+>  void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns)
+> @@ -32,7 +43,8 @@ void coroutine_fn qemu_co_sleep_ns(QEMUClockType type=
+, int64_t ns)
+>      QEMUTimer *ts;
+>      Coroutine *co =3D qemu_coroutine_self();
+> =20
+> -    const char *scheduled =3D atomic_cmpxchg(&co->scheduled, NULL, __f=
+unc__);
+> +    const char *scheduled =3D atomic_cmpxchg(&co->scheduled, NULL,
+> +                                           qemu_co_sleep_ns__scheduled=
+);
+>      if (scheduled) {
+>          fprintf(stderr,
+>                  "%s: Co-routine was already scheduled in '%s'\n",
+>=20
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Here, I'd rather get an additional review from anyone more familiar with
+coroutine sleeps.  I'm guessing that your intent is to request a maximum
+timeout for a given operation to complete in, but to leave the sleep
+loop early if the operation completes earlier.  I don't know if any
+existing coroutine code can be used to express that same idea.
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -194,24 +204,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---T4QrU399j2v7ZnDEL2oDooB8e0K0ib2PV--
+--u3DzIyC2y4l9f20KSbx9jdWvT8BfqVwUw--
 
---ujPSzc5HW29FQJU8z4seQrYDdzrObrmmy
+--2U6CC7xS62OVCcNoU9QxIrucDq4bDmSOK
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz5zzkACgkQp6FrSiUn
-Q2qbUgf9F0R5esX7V3ZlqM4SN7O258tUdyBFrr4k6Uo8iynUhCtZBb90FvTN1eAk
-jXTfAvHYgK9aZE4iZ+LaHuwzrrOfagV0oxqd9LfsNcmza+qTphlsBcq0ck3MZCYw
-VbuYPkBFvDyBTdZT+kmLA0tmoCmGTEcSfGtDkwR71ZMCZ2/B22xrqMMAd9huXluL
-WGqGyO5O83PJrhDRjkqLcHu2W5MNIpU7y0kTkq3EJmwnIElJRTUfyjaMpH/ixWI/
-2kpvDif/jNqhZjX4tg+W/nYVthTtvmLS1/1Wq/LloMG5ReqVPfld62LvH87HaTnm
-cmxfwxGp1BS3J+L8cLmrvddj3ZwpbQ==
-=JB2g
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz50I8ACgkQp6FrSiUn
+Q2pN3Qf9E7uyYyZ7VYk4ilCQe+eZYdw6z0Fuz4960MtrMOJWF35QDH6603l0gU0r
+E9MOyINp1rO4TkP3+amMh73zC6o6SQjWMMfYK0Wzji0yBylfT1tDsD+f/+bNOm0c
+V6z1oY8LLUqwA2mopxX++IHWkV061nCZU2vgxx0Stxq5WLY5nHAsbcyaC/ITR2rz
+3r/qNqNBh6m8yunoa5iVcmHYBN1Z4SsGlMIYTqtVouSPhDN9HLOBwTa/cGlqDn30
+UXKqPaX31YbGI85FsKqFdRLi6G1aOUps5at9AjetowhiRaXRxldACFzxwbgrpmpG
+Q3FRMgveTor0H8Qv9VJbXcIsQxGKHA==
+=R2sV
 -----END PGP SIGNATURE-----
 
---ujPSzc5HW29FQJU8z4seQrYDdzrObrmmy--
+--2U6CC7xS62OVCcNoU9QxIrucDq4bDmSOK--
 
