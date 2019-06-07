@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC13386EE
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:21:49 +0200 (CEST)
-Received: from localhost ([::1]:47402 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A18A38712
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:28:38 +0200 (CEST)
+Received: from localhost ([::1]:47468 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZB4G-0006BY-34
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41335)
+	id 1hZBAp-0004rY-OB
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41383)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuP-0000ha-S9
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:43 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuR-0000no-Mn
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuO-0002q3-04
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:37 -0400
-Received: from mail02.asahi-net.or.jp ([202.224.55.14]:41520)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuO-0002qP-2y
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:39 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:41364)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuN-0002ZQ-KT
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuN-0002Zn-MI
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:35 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail02.asahi-net.or.jp (Postfix) with ESMTPA id E630E41781;
- Fri,  7 Jun 2019 18:11:28 +0900 (JST)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 5057E49ADB;
+ Fri,  7 Jun 2019 18:11:29 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 9BEE5240086;
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id E294E240085;
  Fri,  7 Jun 2019 18:11:28 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 18:11:04 +0900
-Message-Id: <20190607091116.49044-13-ysato@users.sourceforge.jp>
+Date: Fri,  7 Jun 2019 18:11:05 +0900
+Message-Id: <20190607091116.49044-14-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190607091116.49044-1-ysato@users.sourceforge.jp>
 References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 202.224.55.14
-Subject: [Qemu-devel] [PATCH v17 12/24] target/rx: Add RX to SysEmuTarget
+X-Received-From: 202.224.55.15
+Subject: [Qemu-devel] [PATCH v17 13/24] target/rx: Fix cpu types and names
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,34 +57,176 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Fixes check-qtest-rx: tests/qmp-cmd-test
+There was confusion here about abstract classes and naming cpus.
+We had registered a concrete class named "-rxcpu".  This was put
+into the default cpu fields, and matched, so basic tests worked.
+However, no value for -cpu could ever match in rx_cpu_class_by_name.
+
+Rename the base class to "rx-cpu" and make it abstract.  This
+matches what we do for most other targets.  Create a new concrete
+cpu with the name "rx62n-rx-cpu".
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- qapi/common.json | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/rx/cpu.h | 12 ++++++------
+ hw/rx/rx-virt.c |  2 +-
+ hw/rx/rx62n.c   |  2 +-
+ target/rx/cpu.c | 43 ++++++++++++++++++++++++++-----------------
+ 4 files changed, 34 insertions(+), 25 deletions(-)
 
-diff --git a/qapi/common.json b/qapi/common.json
-index 99d313ef3b..d0fc931159 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -183,6 +183,7 @@
- #        is true even for "qemu-system-x86_64".
- #
- # ppcemb: dropped in 3.1
-+# rx: added in 4.1
- #
- # Since: 3.0
- ##
-@@ -190,6 +191,6 @@
-   'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
--             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-+             'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
-              'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
-              'x86_64', 'xtensa', 'xtensaeb' ] }
+diff --git a/target/rx/cpu.h b/target/rx/cpu.h
+index 8c1a4e448d..a0b6975963 100644
+--- a/target/rx/cpu.h
++++ b/target/rx/cpu.h
+@@ -24,14 +24,14 @@
+ #include "hw/registerfields.h"
+ #include "qom/cpu.h"
+ 
+-#define TYPE_RXCPU "rxcpu"
++#define TYPE_RX_CPU "rx-cpu"
+ 
+ #define RXCPU_CLASS(klass)                                     \
+-    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RXCPU)
++    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
+ #define RXCPU(obj) \
+-    OBJECT_CHECK(RXCPU, (obj), TYPE_RXCPU)
++    OBJECT_CHECK(RXCPU, (obj), TYPE_RX_CPU)
+ #define RXCPU_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RXCPU)
++    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RX_CPU)
+ 
+ /*
+  * RXCPUClass:
+@@ -164,9 +164,9 @@ static inline RXCPU *rx_env_get_cpu(CPURXState *env)
+ 
+ #define ENV_OFFSET offsetof(RXCPU, env)
+ 
+-#define RX_CPU_TYPE_SUFFIX "-" TYPE_RXCPU
++#define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
+ #define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
+-#define CPU_RESOLVING_TYPE TYPE_RXCPU
++#define CPU_RESOLVING_TYPE TYPE_RX_CPU
+ 
+ extern const char rx_crname[][6];
+ 
+diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c
+index 3deb7cb335..72a2989fcf 100644
+--- a/hw/rx/rx-virt.c
++++ b/hw/rx/rx-virt.c
+@@ -88,7 +88,7 @@ static void rxvirt_class_init(ObjectClass *oc, void *data)
+     mc->desc = "RX QEMU Virtual Target";
+     mc->init = rxvirt_init;
+     mc->is_default = 1;
+-    mc->default_cpu_type = TYPE_RXCPU;
++    mc->default_cpu_type = RX_CPU_TYPE_NAME("rx62n");
+ }
+ 
+ static const TypeInfo rxvirt_type = {
+diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
+index c6660b75b4..3a8fe7b0bf 100644
+--- a/hw/rx/rx62n.c
++++ b/hw/rx/rx62n.c
+@@ -195,7 +195,7 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     object_initialize_child(OBJECT(s), "cpu", &s->cpu,
+-                            sizeof(RXCPU), TYPE_RXCPU,
++                            sizeof(RXCPU), RX_CPU_TYPE_NAME("rx62n"),
+                             errp, NULL);
+     object_property_set_bool(OBJECT(&s->cpu), true, "realized", errp);
+ 
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index 3268077d08..41fe1de4bb 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -74,13 +74,14 @@ static void rx_cpu_list_entry(gpointer data, gpointer user_data)
+     const char *typename = object_class_get_name(OBJECT_CLASS(data));
+     int len = strlen(typename) - strlen(RX_CPU_TYPE_SUFFIX);
+ 
+-    qemu_printf("%.*s\n", len, typename);
++    qemu_printf("  %.*s\n", len, typename);
+ }
+ 
+ void rx_cpu_list(void)
+ {
+-    GSList *list;
+-    list = object_class_get_list_sorted(TYPE_RXCPU, false);
++    GSList *list = object_class_get_list_sorted(TYPE_RX_CPU, false);
++
++    qemu_printf("Available CPUs:\n");
+     g_slist_foreach(list, rx_cpu_list_entry, NULL);
+     g_slist_free(list);
+ }
+@@ -88,15 +89,17 @@ void rx_cpu_list(void)
+ static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
+ {
+     ObjectClass *oc;
+-    char *typename = NULL;
++    char *typename;
+ 
+-    typename = g_strdup_printf(RX_CPU_TYPE_NAME(""));
++    typename = g_strdup_printf(RX_CPU_TYPE_NAME("%s"), cpu_model);
+     oc = object_class_by_name(typename);
+-    if (oc != NULL && object_class_is_abstract(oc)) {
+-        oc = NULL;
+-    }
+-
+     g_free(typename);
++
++    if (oc == NULL ||
++        object_class_is_abstract(oc) ||
++        !object_class_dynamic_cast(oc, TYPE_RX_CPU)) {
++        return NULL;
++    }
+     return oc;
+ }
+ 
+@@ -166,7 +169,7 @@ static void rx_cpu_init(Object *obj)
+     qdev_init_gpio_in(DEVICE(cpu), rx_cpu_set_irq, 2);
+ }
+ 
+-static void rxcpu_class_init(ObjectClass *klass, void *data)
++static void rx_cpu_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     CPUClass *cc = CPU_CLASS(klass);
+@@ -195,22 +198,28 @@ static void rxcpu_class_init(ObjectClass *klass, void *data)
+     cc->gdb_num_core_regs = 26;
+ }
+ 
+-static const TypeInfo rxcpu_info = {
+-    .name = TYPE_RXCPU,
++static const TypeInfo rx_cpu_info = {
++    .name = TYPE_RX_CPU,
+     .parent = TYPE_CPU,
+     .instance_size = sizeof(RXCPU),
+     .instance_init = rx_cpu_init,
+-    .abstract = false,
++    .abstract = true,
+     .class_size = sizeof(RXCPUClass),
+-    .class_init = rxcpu_class_init,
++    .class_init = rx_cpu_class_init,
++};
++
++static const TypeInfo rx62n_rx_cpu_info = {
++    .name = RX_CPU_TYPE_NAME("rx62n"),
++    .parent = TYPE_RX_CPU,
+ };
+ 
+-static void rxcpu_register_types(void)
++static void rx_cpu_register_types(void)
+ {
+-    type_register_static(&rxcpu_info);
++    type_register_static(&rx_cpu_info);
++    type_register_static(&rx62n_rx_cpu_info);
+ }
+ 
+-type_init(rxcpu_register_types)
++type_init(rx_cpu_register_types)
+ 
+ static uint32_t extable[32];
+ 
 -- 
 2.11.0
 
