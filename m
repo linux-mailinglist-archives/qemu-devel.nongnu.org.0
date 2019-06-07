@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CDF38AD7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:03:39 +0200 (CEST)
-Received: from localhost ([::1]:50884 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E52F38AFE
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:10:12 +0200 (CEST)
+Received: from localhost ([::1]:50942 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZEWw-00065A-RU
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:03:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56918)
+	id 1hZEdH-0002Ua-Bc
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59407)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hZETq-0005MW-Dd
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:00:27 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hZEat-0000nK-OY
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:07:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hZETp-0007lN-As
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:00:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56612)
+ (envelope-from <kwolf@redhat.com>) id 1hZEar-0003yL-Nv
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:07:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38518)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hZETp-0007gK-50; Fri, 07 Jun 2019 09:00:25 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hZEVm-0002vm-J1; Fri, 07 Jun 2019 09:02:28 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 61057356E5;
- Fri,  7 Jun 2019 13:00:15 +0000 (UTC)
-Received: from gondolin (reserved-198-113.str.redhat.com [10.33.198.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED0D47DE4D;
- Fri,  7 Jun 2019 13:00:08 +0000 (UTC)
-Date: Fri, 7 Jun 2019 15:00:04 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand
- <david@redhat.com>
-Message-ID: <20190607150004.5581fd18.cohuck@redhat.com>
-In-Reply-To: <CAFEAcA9hMt4TZC0DEzJ6JTV9OxLbXZbmHKshWv_20sLxLw4M6Q@mail.gmail.com>
-References: <20190607095237.11364-1-cohuck@redhat.com>
- <CAFEAcA8FXh-jPMwpGN-4ES4v=nE4ZOSNB8+rkdB03E=BBDh-jw@mail.gmail.com>
- <CAFEAcA9hMt4TZC0DEzJ6JTV9OxLbXZbmHKshWv_20sLxLw4M6Q@mail.gmail.com>
-Organization: Red Hat GmbH
+ by mx1.redhat.com (Postfix) with ESMTPS id 5ADEF30860C7;
+ Fri,  7 Jun 2019 13:02:15 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA5418CBA0;
+ Fri,  7 Jun 2019 13:02:11 +0000 (UTC)
+Date: Fri, 7 Jun 2019 15:02:10 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20190607130210.GC5055@dhcp-200-226.str.redhat.com>
+References: <20190411172709.205032-1-vsementsov@virtuozzo.com>
+ <20190411172709.205032-6-vsementsov@virtuozzo.com>
+ <20190607075740.GA5055@dhcp-200-226.str.redhat.com>
+ <16b7ad42-611c-fc3e-2029-d491882b0750@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <16b7ad42-611c-fc3e-2029-d491882b0750@virtuozzo.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 07 Jun 2019 13:00:16 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Fri, 07 Jun 2019 13:02:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 00/35] s390x updates
+Subject: Re: [Qemu-devel] [PATCH v6 5/7] qemu-coroutine-sleep: introduce
+ qemu_co_sleep_wake
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,54 +61,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Jun 2019 10:58:03 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> On Fri, 7 Jun 2019 at 10:57, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Fri, 7 Jun 2019 at 10:52, Cornelia Huck <cohuck@redhat.com> wrote:
-> > >
-> > > The following changes since commit 47fbad45d47af8af784bb12a5719489edcd89b4c:
-> > >
-> > >   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-06-04 17:22:42 +0100)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://github.com/cohuck/qemu tags/s390x-20190607-1
-> > >
-> > > for you to fetch changes up to 39f04d18406862bd98d6bef5415dbe7360c652de:
-> > >
-> > >   Merge tag 's390x-tcg-2019-06-05' into s390-next-staging (2019-06-07 11:38:42 +0200)
-> > >
-> > > ----------------------------------------------------------------
-> > > s390x updates:
-> > > - tcg: finalize implementation for the vector facility and
-> > >   add it to the 'qemu' cpu model
-> > > - linux-user: properly generate ELF_HWCAP
-> > > - vfio-ccw: support async command subregion (for halt/clear
-> > >   subchannel handling)
-> > >
-> > > ----------------------------------------------------------------
-> >
-> > Hi -- this fails to link on the windows build for me:
-> >   LINK    s390x-softmmu/qemu-system-s390xw.exe
-> > hw/s390x/css.o: In function `sch_handle_halt_func_passthrough':
-> > /home/petmay01/qemu-for-merges/hw/s390x/css.c:1213: undefined
-> > reference to `vfio_ccw_handle_halt'
-> > hw/s390x/css.o: In function `sch_handle_clear_func_passthrough':
-> > /home/petmay01/qemu-for-merges/hw/s390x/css.c:1223: undefined
-> > reference to `vfio_ccw_handle_clear'
-> > collect2: error: ld returned 1 exit status
+Am 07.06.2019 um 13:18 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 07.06.2019 10:57, Kevin Wolf wrote:
+> > Am 11.04.2019 um 19:27 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> >> Introduce a function to gracefully wake-up a coroutine, sleeping in
+> >> qemu_co_sleep_ns() sleep.
+> >>
+> >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > 
+> > You can simply reenter the coroutine while it has yielded in
+> > qemu_co_sleep_ns(). This is supported.
 > 
-> ...and same link error on OSX host.
-> 
-> -- PMM
+> No it doesn't. qemu_aio_coroutine_enter checks for scheduled field,
+> and aborts if it is set.
 
-OK, I have dropped the vfio-ccw patch until I have a fixed version.
-Unfortunately, I need a new tcg pull request... David, can you please
-send one? Thanks!
+Ah, yes, it has been broken since commit
+
+I actually tried to fix it once, but it turned out more complicated and
+I think we found a different solution for the problem at hand:
+
+    Subject: [PATCH for-2.11 0/4] Fix qemu-iotests failures
+    Message-Id: <20171128154350.21504-1-kwolf@redhat.com>
+
+In this case, I guess your approach with a new function to interrupt
+qemu_co_sleep_ns() is okay.
+
+Do we need to timer_del() when taking the shortcut? We don't necessarily
+reenter the coroutine immediately, but might only be scheduling it. In
+this case, the timer could fire before qemu_co_sleep_ns() has run and
+schedule the coroutine a second time (ignoring co->scheduled again -
+maybe we should actually not do that in the timer callback path, but
+instead let it run into the assertion because it would be a bug for the
+timer callback to end up in this situation).
+
+Kevin
 
