@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4977238822
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:44:31 +0200 (CEST)
-Received: from localhost ([::1]:48184 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEE9387F9
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:31:20 +0200 (CEST)
+Received: from localhost ([::1]:48032 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZCMI-0007So-Fz
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:44:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48598)
+	id 1hZC9W-0005BP-00
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:31:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50559)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZBGG-0000WN-9l
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:34:14 -0400
+ (envelope-from <bounces@canonical.com>) id 1hZBMc-0006qx-BE
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:40:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZBGE-0004I7-FE
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:34:11 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34378)
+ (envelope-from <bounces@canonical.com>) id 1hZBMa-0007Ov-Vb
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:40:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53080)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZBGC-0003iH-8U
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:34:08 -0400
-Received: by mail-wm1-x341.google.com with SMTP id w9so3649100wmd.1
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=1V0A3lLlFR+/W3I7GyrZzT1wbmEG8To+8XsecQQAU4s=;
- b=NJUXJiWYFgmT51A9TGkaBXTbdR3xJ7ohzKIlL7LjBHZYbdc/UnK5rRMQ33AIFCEAws
- l2j/5K/62IIyuJuNejDWpHu0CVpCOpTmywLJmtzU4LOlrSxQf0xZ0FnSfmWpspP2ehIV
- +cAydtGz9uwx19ZBa9lLiYfryJUmK13bvpjJMaypuJLctVCb24FPjJi1qWfDdqcrIvcZ
- xlmVoXme8JGnH5153asJLvLB3Tswyx84iJXcayjsj3LISEi6SmFkAbspKlil5sI2k6i3
- db1dOXWBOYRS0h9bNKWGGFmp+HbXKSi8kBD6sx6PWxwp6DT/blSDXUUyplT88t0R+hcJ
- GxWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=1V0A3lLlFR+/W3I7GyrZzT1wbmEG8To+8XsecQQAU4s=;
- b=HGcvtpRo3ON9DcqCZHPoUKvtv5TM5c3oLDFrQBNkikijGnyZJ3d0lhH01y8kh/JAPY
- jKtacgAaDfbvpN2WWBmwvFk29m4FxBrgFVgf3oDAUrjTZHsHRyvz6xvqRgzc/uYP5UmZ
- VteHs1lmZmql9IyZk/nwRrF/cKu0iWzoeIN0jDiaKsUSYIC6+sSl4td3rDXmkzif4JJV
- mcjSVk5W8Hfzs7XeA+as0XEVi0f4FcUutPa3xLlXHoCN/SNeAs9zuJC/HdwQ+RZJEzwz
- 3NofV0KVq/9ukuRgGbhLe2WQB1aYDuY3zFyqZGMjivXSCwnay5mlfcld41eMmosDT3Pi
- 8NxQ==
-X-Gm-Message-State: APjAAAWkIsZorHxLGfAS2YcqS0GuRdUkCJ/xF6LpTp0QK04HQUkhB3Dn
- JGTrR8mi96/nYKG3M4g2odEOn+V9kPo=
-X-Google-Smtp-Source: APXvYqyvpV36/Xqqn/iIfM40pCHnRNfIN9YRWMVDawEXUAS5uNYDqcEbTmeiioztzmMWWV2ls8Xthw==
-X-Received: by 2002:a1c:cfc3:: with SMTP id f186mr2719646wmg.134.1559900030739; 
- Fri, 07 Jun 2019 02:33:50 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id c7sm1483173wrp.57.2019.06.07.02.33.49
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 02:33:49 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9BEB51FF8C;
- Fri,  7 Jun 2019 10:33:49 +0100 (BST)
-References: <20190530101603.22254-1-alex.bennee@linaro.org>
- <20190530101603.22254-4-alex.bennee@linaro.org>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190530101603.22254-4-alex.bennee@linaro.org>
-Date: Fri, 07 Jun 2019 10:33:49 +0100
-Message-ID: <87imthsps2.fsf@zen.linaroharston>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hZBMa-0007Jn-Pn
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:40:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hZBMX-0006SA-5s
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 09:40:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2A0FF2E80C0
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 09:40:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v1 03/26] tests: Run the iotests during
- "make check" again
+Date: Fri, 07 Jun 2019 09:35:32 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: regression tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-randrianasulu
+X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <155962633298.7880.15982922254182327026.malonedeb@wampee.canonical.com>
+Message-Id: <155990013345.23637.1090495552868552769.launchpad@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 31e95d0a1e062c1e84e82ddbaec5c956ab717ba7
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831545] Re: "accel/tcg: demacro cputlb" break
+ qemu-system-x86_64 on 32-bit x86 host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,35 +66,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Reply-To: Bug 1831545 <1831545@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Changed in: qemu
+       Status: New =3D> In Progress
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Alex Benn=C3=A9e (ajbennee)
 
-> From: Thomas Huth <thuth@redhat.com>
->
-> People often forget to run the iotests before submitting patches or
-> pull requests - this is likely due to the fact that we do not run the
-> tests during our mandatory "make check" tests yet. Now that we've got
-> a proper "auto" group of iotests that should be fine to run in every
-> environment, we can enable the iotests during "make check" again by
-> running the "auto" tests by default from the check-block.sh script.
->
-> Some cases still need to be checked first, though: iotests need bash
-> and GNU sed (otherwise they fail), and if gprof is enabled, it spoils
-> the output of some test cases causing them to fail. So if we detect
-> that one of the required programs is missing or that gprof is enabled,
-> we still have to skip the iotests to avoid failures.
+-- =
 
-Thomas,
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831545
 
-I've dropped this from the latest PR because I'm still seeing problems
-in some places. One of the issues is tests failing when the underlying
-file system doesn't support O_DIRECT. Some tests seem to have explicit
-feature checks for this but others just fail.
+Title:
+  "accel/tcg: demacro cputlb" break qemu-system-x86_64 on 32-bit x86
+  host
 
---
-Alex Benn=C3=A9e
+Status in QEMU:
+  In Progress
+
+Bug description:
+  As described in https://lists.gnu.org/archive/html/qemu-
+  devel//2019-05/msg07362.html I run into TCG regression in qemu-git.
+
+  Unfortunately, fix from bug
+  https://bugs.launchpad.net/qemu/+bug/1830872 seems to be nonn-
+  effective for my case.
+
+  For reproduction (on 32-bit x86 host, in my case Slackware with gcc
+  5.5.0):
+
+  ./configure --target-list=3Dx86_64-softmmu --disable-werror --enable-
+  debug-tcg
+
+  make (-j5 in my case)
+
+  try to boot any 64-bit kernel:
+
+  x86_64-softmmu/qemu-system-x86_64 -kernel /boot/bzImage-4.12.0-x64
+  -accel tcg
+
+  result is - qemu appear to hang right after "Booting the kernel" line.
+  Decompression (xz) was ok.
+
+  Tested with qemu-git commit  e2a58ff493a2e00db3e963c1839c5374500110f2
+
+  32-bit OS can be booted fine, and -enable-kvm also allow 64 bit
+  kernel/os to boot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831545/+subscriptions
 
