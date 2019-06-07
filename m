@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BF1387CA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:19:25 +0200 (CEST)
-Received: from localhost ([::1]:47938 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8910938763
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:51:47 +0200 (CEST)
+Received: from localhost ([::1]:47652 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZBxz-0004tp-Nk
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44959)
+	id 1hZBXG-0007TF-Lw
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42101)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZB4z-00085p-Lh
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:34 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAvQ-0002Bt-7S
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZB4y-0005ot-8Z
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:33 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39822)
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAvK-0004lL-6K
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:37 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43834)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZB4x-0005kB-VX
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:32 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id x4so1399585wrt.6
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:22:30 -0700 (PDT)
+ id 1hZAvI-0004ef-3m
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:32 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r18so1351378wrm.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PLY1Kb/j4Fld5ce4nXx3RXm9FLwwfldPCHeqmdO//6E=;
- b=YNkOmvB/xTWtFw4rkS42jDSIJrlEJbuOKbgNlADuND7RbCtN3IBk2ejtX6F/WFImwF
- gXQxFh71mFN0d4HoUt4/OTsG4AvGHZSIVTZmneqMQTwUubqeyaH/QuW8IdRE575f9sMN
- jU3IG0CKaz9U7Zr+sfbon1mz4P+lZY7F1QB7rBc7IG+RJFOXVpXzyHn9tW37yk94tE8f
- gH1NAqujc1Dp9LvuR+skU3MBbw1HZkdQs601CEciZXQY3l4cZOAANoLxcS3FPv4f33HM
- Hb6abWdPr8wsM7dEy1T3jgxxm7JdhOPHVqIDVr4tJ8EA1YP9AiEfDFmY5zaYqy/LnGvp
- nPBg==
+ bh=2ORtsrdcOtlazSV007+SAu/zrWhHGlOaKswTJZUeVrI=;
+ b=pME6FuNHoGE2J2PTCtiwuV1NhW5fxi1kNlW/LBAi2EuD5xjL1kvNapVP738Cmx1Jqr
+ k90bEBqlKktqp35L7KhxZX/kH+QwgubJK9ZUovIDnzJ4w4PHcPjCGENE3eaNXMC7B6rt
+ jr9aDyjMCXfa7NyLBiQN333Et0uyLjmVtnMOMOju5pBiqHVmfLnR+LKxZIOh6TFnaXSc
+ kY0SJhRTl/FamMUOQuHTNArILU/znaClY4yUqNkpxofoFm4/Bm4jaWuKuzQ9CEVDNGKS
+ +UYQmNxal+J1srgTYlRXprygl23dtosZso8lNcHbIW7iSooLDPwlE/K4WLljACzj7LAT
+ +MYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PLY1Kb/j4Fld5ce4nXx3RXm9FLwwfldPCHeqmdO//6E=;
- b=JUcrPMzxUw9yuODjGanG+QvHuXl3WhNLART23IP8d2v3IZQfcxxqfu+bVlxk+cLAxm
- SMPulgCm8BELZ0OAqXF7I4sKwX4eJ0Vmp3jMNlCVt1PZpfOl8f7fOyUCh4/WRhW3jCyB
- Ii0xFw5hHS4pmHdeDgMA5G5b4/FSv5ZWCAPSSTisQRvC3OEb6tjs/XrxErzEuXuo5XY0
- MLW9vEfLQiiHubJjCqJUjpcZVfAjtMZfHBl+C0HEbAnAptlRBl9bI/TdSyJLP1u9IasW
- b4N+MG7nx6lyXXftKmfoYlnyd0BNK6IXt1k+XjzrsOgYLwJoxfjsPs0/ebFyw4qmSKOl
- +OKg==
-X-Gm-Message-State: APjAAAW88jVQYz6roOSWMaI2sdaOU0ZaZ+F94ZrcUog3hfth23Mww+cc
- hfvvtkuFqn5NxF06ww7Y2DEqNg==
-X-Google-Smtp-Source: APXvYqzZbjNlQVTfO9aUjaP5ED/PqHC/QpV2YFt3xobbvwzsciJ4qr9OhL0iA6PIQUqcLwaSiRegDA==
-X-Received: by 2002:adf:f246:: with SMTP id b6mr8433212wrp.92.1559899349200;
- Fri, 07 Jun 2019 02:22:29 -0700 (PDT)
+ bh=2ORtsrdcOtlazSV007+SAu/zrWhHGlOaKswTJZUeVrI=;
+ b=YLwWqsgoHAAG0shDpPfBwHfDRNsbyXp8/kQFNq8sGkZWRSJ0cZ+EMmpDfcuTymiL5N
+ R63gFO4Jo3V9AI5psMy6oehmDafIWIJuxgh4PeE5wmUIMtNNuR+Z/t/XsWIGtXNLRTJn
+ OJc5I9gkKhkWzC4Ol6vblKqC+VSL9skydrCO0AUlxLPrsBlMNXAjHDtK8grXjuG/QgoZ
+ 4uVKkkA47lizmoH+rpQt4PTnGGI10EgGT9QZYizZtPz84m1PVRUoG3bUJAQkHEID5+0e
+ sEvHngQvEhSPh6WalkREEQBCbgiIZOkWXkzRF48GjFkANNXG58/48rxfmmp5zGybVSMd
+ 9zEw==
+X-Gm-Message-State: APjAAAXNQQFJ/ExbeBobhnZiLJy71VWpr0x6ZKZOIQcIwikcCSxKBmeS
+ o/KmVvj0Evog9L4h+wdmNpoi4g==
+X-Google-Smtp-Source: APXvYqyAwtpVI6dmea+QXjJTkNT6NZlz887PO7VFx1qrP5jhtFwNtL4l8L8B/OIvKTVMuGMJ4m6xDw==
+X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr23256095wrq.251.1559898749728; 
+ Fri, 07 Jun 2019 02:12:29 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id x83sm1379571wmb.42.2019.06.07.02.22.26
+ by smtp.gmail.com with ESMTPSA id g5sm1694727wrp.29.2019.06.07.02.12.26
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 02:22:27 -0700 (PDT)
+ Fri, 07 Jun 2019 02:12:27 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 454781FFB3;
+ by zen.linaroharston (Postfix) with ESMTP id 57ACB1FFB4;
  Fri,  7 Jun 2019 10:05:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Fri,  7 Jun 2019 10:05:27 +0100
-Message-Id: <20190607090552.12434-29-alex.bennee@linaro.org>
+Date: Fri,  7 Jun 2019 10:05:28 +0100
+Message-Id: <20190607090552.12434-30-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
 References: <20190607090552.12434-1-alex.bennee@linaro.org>
@@ -68,8 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
-Subject: [Qemu-devel] [PULL 28/52] tests/tcg: better detect truncated reads
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 29/52] tests/tcg: clean-up VPATH/TESTS for i386
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,112 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we've truncated a wider read we can detect the condition earlier by
-looking at the number of zeros we've read. So we don't trip up on
-cases where we have written zeros to the start of the buffer we also
-ensure we only start each offset read from the right address.
+Since we only run build the multiarch tests and we use a fully
+resolved path for the crt object we don't need the wildcard or VPATH
+messing about.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/multiarch/system/memory.c b/tests/tcg/multiarch/system/memory.c
-index dc1d8a98ff..d124502d73 100644
---- a/tests/tcg/multiarch/system/memory.c
-+++ b/tests/tcg/multiarch/system/memory.c
-@@ -208,6 +208,7 @@ static bool read_test_data_u32(int offset)
+diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
+index e1f98177aa..e1d880f9b5 100644
+--- a/tests/tcg/i386/Makefile.softmmu-target
++++ b/tests/tcg/i386/Makefile.softmmu-target
+@@ -8,15 +8,10 @@
  
-     for (i = 0; i < max; i++) {
-         uint8_t b1, b2, b3, b4;
-+        int zeros = 0;
-         word = *ptr++;
+ I386_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/i386/system
+ X64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/x86_64/system
+-# Set search path for all sources
+-VPATH+=$(I386_SYSTEM_SRC)
  
-         b1 = word >> 24 & 0xff;
-@@ -215,6 +216,16 @@ static bool read_test_data_u32(int offset)
-         b3 = word >> 8 & 0xff;
-         b4 = word & 0xff;
+ # These objects provide the basic boot code and helper functions for all tests
+ CRT_OBJS=boot.o
  
-+        zeros += (b1 == 0 ? 1 : 0);
-+        zeros += (b2 == 0 ? 1 : 0);
-+        zeros += (b3 == 0 ? 1 : 0);
-+        zeros += (b4 == 0 ? 1 : 0);
-+        if (zeros > 1) {
-+            ml_printf("Error @ %p, more zeros than expected: %d, %d, %d, %d",
-+                      ptr - 1, b1, b2, b3, b4);
-+            return false;
-+        }
+-X86_TEST_SRCS=$(wildcard $(I386_SYSTEM_SRC)/*.c)
+-X86_TESTS = $(patsubst $(I386_SYSTEM_SRC)/%.c, %, $(X86_TEST_SRCS))
+-
+ ifeq ($(TARGET_X86_64), y)
+ CRT_PATH=$(X64_SYSTEM_SRC)
+ LINK_SCRIPT=$(X64_SYSTEM_SRC)/kernel.ld
+@@ -26,12 +21,12 @@ CRT_PATH=$(I386_SYSTEM_SRC)
+ CFLAGS+=-m32
+ LINK_SCRIPT=$(I386_SYSTEM_SRC)/kernel.ld
+ LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,-melf_i386
+-# FIXME: move to common once x86_64 is bootstrapped
+-TESTS+=$(X86_TESTS) $(MULTIARCH_TESTS)
+ endif
+ CFLAGS+=-nostdlib -ggdb -O0 $(MINILIB_INC)
+ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
+ 
++TESTS+=$(MULTIARCH_TESTS)
 +
-         if ((b1 < b2 && b1 != 0) ||
-             (b2 < b3 && b2 != 0) ||
-             (b3 < b4 && b3 != 0)) {
-@@ -238,6 +249,7 @@ static bool read_test_data_u64(int offset)
- 
-     for (i = 0; i < max; i++) {
-         uint8_t b1, b2, b3, b4, b5, b6, b7, b8;
-+        int zeros = 0;
-         word = *ptr++;
- 
-         b1 = ((uint64_t) (word >> 56)) & 0xff;
-@@ -249,6 +261,20 @@ static bool read_test_data_u64(int offset)
-         b7 = (word >> 8)  & 0xff;
-         b8 = (word >> 0)  & 0xff;
- 
-+        zeros += (b1 == 0 ? 1 : 0);
-+        zeros += (b2 == 0 ? 1 : 0);
-+        zeros += (b3 == 0 ? 1 : 0);
-+        zeros += (b4 == 0 ? 1 : 0);
-+        zeros += (b5 == 0 ? 1 : 0);
-+        zeros += (b6 == 0 ? 1 : 0);
-+        zeros += (b7 == 0 ? 1 : 0);
-+        zeros += (b8 == 0 ? 1 : 0);
-+        if (zeros > 1) {
-+            ml_printf("Error @ %p, more zeros than expected: %d, %d, %d, %d, %d, %d, %d, %d",
-+                      ptr - 1, b1, b2, b3, b4, b5, b6, b7, b8);
-+            return false;
-+        }
-+
-         if ((b1 < b2 && b1 != 0) ||
-             (b2 < b3 && b2 != 0) ||
-             (b3 < b4 && b3 != 0) ||
-@@ -272,7 +298,7 @@ read_ufn read_ufns[] = { read_test_data_u16,
-                          read_test_data_u32,
-                          read_test_data_u64 };
- 
--bool do_unsigned_reads(void)
-+bool do_unsigned_reads(int start_off)
- {
-     int i;
-     bool ok = true;
-@@ -280,11 +306,11 @@ bool do_unsigned_reads(void)
-     for (i = 0; i < ARRAY_SIZE(read_ufns) && ok; i++) {
- #if CHECK_UNALIGNED
-         int off;
--        for (off = 0; off < 8 && ok; off++) {
-+        for (off = start_off; off < 8 && ok; off++) {
-             ok = read_ufns[i](off);
-         }
- #else
--        ok = read_ufns[i](0);
-+        ok = read_ufns[i](start_off);
- #endif
-     }
- 
-@@ -298,11 +324,11 @@ static bool do_unsigned_test(init_ufn fn)
-     int i;
-     for (i = 0; i < 8 && ok; i++) {
-         fn(i);
--        ok = do_unsigned_reads();
-+        ok = do_unsigned_reads(i);
-     }
- #else
-     fn(0);
--    return do_unsigned_reads();
-+    return do_unsigned_reads(0);
- #endif
- }
+ # building head blobs
+ .PRECIOUS: $(CRT_OBJS)
  
 -- 
 2.20.1
