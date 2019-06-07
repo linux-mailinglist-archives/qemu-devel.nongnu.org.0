@@ -2,48 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A175E395E4
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:39:27 +0200 (CEST)
-Received: from localhost ([::1]:51976 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC02F3955B
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:14:40 +0200 (CEST)
+Received: from localhost ([::1]:51512 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKhy-0004tj-Rz
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:39:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38702)
+	id 1hZKJz-0006RJ-Je
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38842)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZJ0p-0007q1-IK
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:50:48 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hZJ1h-0007zz-0Y
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:51:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZJ0m-0005s3-EU
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:50:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54460)
+ (envelope-from <dgilbert@redhat.com>) id 1hZJ1X-00010V-NV
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:51:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34070)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hZJ0j-0005VG-Tx; Fri, 07 Jun 2019 13:50:42 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hZJ1Q-0000IQ-Ch
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:51:25 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E9CE3307D913;
- Fri,  7 Jun 2019 17:50:31 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.135])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A23C65FCA6;
- Fri,  7 Jun 2019 17:50:18 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
-Date: Fri,  7 Jun 2019 19:49:53 +0200
-Message-Id: <20190607174953.22342-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id DA4F630C0DC2
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 17:51:22 +0000 (UTC)
+Received: from work-vm (ovpn-116-24.ams2.redhat.com [10.36.116.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14E3418950;
+ Fri,  7 Jun 2019 17:51:12 +0000 (UTC)
+Date: Fri, 7 Jun 2019 18:51:10 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Message-ID: <20190607175109.GW2631@work-vm>
+References: <20190517125820.2885-4-jfreimann@redhat.com>
+ <20190521094504.GB2915@work-vm>
+ <20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
+ <20190531214748.GN22103@habkost.net>
+ <20190603082456.vzpy256kj4o5e5wu@jenstp.localdomain>
+ <20190603193648.GQ22103@habkost.net>
+ <20190604134321.txlw7wjwe247g5ug@jenstp.localdomain>
+ <20190604125037-mutt-send-email-mst@kernel.org>
+ <20190604190019.GM3851@work-vm>
+ <20190607141407.73hzf5w6vqjegaja@jenstp.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190607141407.73hzf5w6vqjegaja@jenstp.localdomain>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 07 Jun 2019 17:50:33 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.45]); Fri, 07 Jun 2019 17:51:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] BootLinuxSshTest: Only use 'test' for
- unittest.TestCase method names
+Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,76 +65,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pkrempa@redhat.com, berrange@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ aadam@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit f6e501a28ef9, Eduardo started to use "check_" as a
-prefix for methods of similar purpose. Follow this prior art,
-since it might become the conventions when writting Avocado
-tests.
+* Jens Freimann (jfreimann@redhat.com) wrote:
+> On Tue, Jun 04, 2019 at 08:00:19PM +0100, Dr. David Alan Gilbert wrote:
+> > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > On Tue, Jun 04, 2019 at 03:43:21PM +0200, Jens Freimann wrote:
+> > > > On Mon, Jun 03, 2019 at 04:36:48PM -0300, Eduardo Habkost wrote:
+> > > > > On Mon, Jun 03, 2019 at 10:24:56AM +0200, Jens Freimann wrote:
+> > > > > > On Fri, May 31, 2019 at 06:47:48PM -0300, Eduardo Habkost wrote:
+> > > > > > > On Thu, May 30, 2019 at 04:56:45PM +0200, Jens Freimann wrote:
+> > > > > > > > On Tue, May 28, 2019 at 11:04:15AM -0400, Michael S. Tsirkin wrote:
+> > > > > > > > > On Tue, May 21, 2019 at 10:45:05AM +0100, Dr. David Alan Gilbert wrote:
+> > > > > > > > > > * Jens Freimann (jfreimann@redhat.com) wrote:
+> > > > > > Why is it bad to fully re-create the device in case of a failed migration?
+> > > > >
+> > > > > Bad or not, I thought the whole point of doing it inside QEMU was
+> > > > > to do something libvirt wouldn't be able to do (namely,
+> > > > > unplugging the device while not freeing resources).  If we are
+> > > > > doing something that management software is already capable of
+> > > > > doing, what's the point?
+> > > >
+> > > > Event though management software seems to be capable of it, a failover
+> > > > implementation has never happened. As Michael says network failover is
+> > > > a mechanism (there's no good reason not to use a PT device if it is
+> > > > available), not a policy. We are now trying to implement it in a
+> > > > simple way, contained within QEMU.
+> > > >
+> > > > > Quoting a previous message from this thread:
+> > > > >
+> > > > > On Thu, May 30, 2019 at 02:09:42PM -0400, Michael S. Tsirkin wrote:
+> > > > > | > On Thu, May 30, 2019 at 07:00:23PM +0100, Dr. David Alan Gilbert wrote:
+> > > > > | > >  This patch series is very
+> > > > > | > > odd precisely because it's trying to do the unplug itself in the
+> > > > > | > > migration phase rather than let the management layer do it - so unless
+> > > > > | > > it's nailed down how to make sure that's really really bullet proof
+> > > > > | > > then we've got to go back and ask the question about whether we should
+> > > > > | > > really fix it so it can be done by the management layer.
+> > > > > | > >
+> > > > > | > > Dave
+> > > > > | >
+> > > > > | > management already said they can't because files get closed and
+> > > > > | > resources freed on unplug and so they might not be able to re-add device
+> > > > > | > on migration failure. We do it in migration because that is
+> > > > > | > where failures can happen and we can recover.
+> > > >
+> > > > This is something that I can work on as well, but it doesn't have to
+> > > > be part of this patch set in my opinion. Let's say migration fails and we can't
+> > > > re-plug the primary device. We can still use the standby (virtio-net)
+> > > > device which would only mean slower networking. How likely is it that
+> > > > the primary device is grabbed by another VM between unplugging and
+> > > > migration failure anyway?
+> > > >
+> > > > regards,
+> > > > Jens
+> > > 
+> > > I think I agree with Eduardo it's very important to handle this corner
+> > > case correctly. Fast networking outside migration is why people use
+> > > failover at all.  Someone who can live with a slower virtio would use
+> > > just that.
+> > > 
+> > > And IIRC this corner case is exactly why libvirt could not
+> > > implement it correctly itself and had to push it up the stack
+> > > until it fell off the cliff :).
+> > 
+> > So I think we need to have the code that shows we can cope with the
+> > corner cases - or provide a way for libvirt to handle it (which is
+> > my strong preference).
+> 
+> Would this work: We add a new migration state MIGRATE_WAIT_UNPLUG (or
+> a better more generic name) which tells libvirt that migration has not
+> started yet because we are waiting for the guest. And extend the qmp
+> events for the migration state. When we know the device was
+> sucessfully unplugged we sent a qmp event DEVICE_DELETED or a new one
+> DEVICE_DELETED_PARTIALLY (not sure about that yet), let migration
+> start and set the migration state to active?
 
-Suggested-by: Cleber Rosa <crosa@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/acceptance/linux_ssh_mips_malta.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Potentially; lets see what the libvirt people have to say.
+What happens if you have multiple devices and one of them unplugs OK and
+then the other fails?
 
-diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/=
-linux_ssh_mips_malta.py
-index aafb0c39f6..134f10cac3 100644
---- a/tests/acceptance/linux_ssh_mips_malta.py
-+++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -162,7 +162,7 @@ class LinuxSSH(Test):
-         self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in line
-                              for line in stdout])
-=20
--    def do_test_mips_malta(self, endianess, kernel_path, uname_m):
-+    def check_mips_malta(self, endianess, kernel_path, uname_m):
-         self.boot_debian_wheezy_image_and_ssh_login(endianess, kernel_pa=
-th)
-=20
-         stdout, stderr =3D self.ssh_command('uname -a')
-@@ -184,7 +184,7 @@ class LinuxSSH(Test):
-         kernel_hash =3D '592e384a4edc16dade52a6cd5c785c637bcbc9ad'
-         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-=20
--        self.do_test_mips_malta('be', kernel_path, 'mips')
-+        self.check_mips_malta('be', kernel_path, 'mips')
-=20
-     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
-     def test_mips_malta32el_kernel3_2_0(self):
-@@ -199,7 +199,7 @@ class LinuxSSH(Test):
-         kernel_hash =3D 'a66bea5a8adaa2cb3d36a1d4e0ccdb01be8f6c2a'
-         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-=20
--        self.do_test_mips_malta('le', kernel_path, 'mips')
-+        self.check_mips_malta('le', kernel_path, 'mips')
-=20
-     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
-     def test_mips_malta64eb_kernel3_2_0(self):
-@@ -213,7 +213,7 @@ class LinuxSSH(Test):
-                       'vmlinux-3.2.0-4-5kc-malta')
-         kernel_hash =3D 'db6eea7de35d36c77d8c165b6bcb222e16eb91db'
-         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
--        self.do_test_mips_malta('be', kernel_path, 'mips64')
-+        self.check_mips_malta('be', kernel_path, 'mips64')
-=20
-     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
-     def test_mips_malta64el_kernel3_2_0(self):
-@@ -227,4 +227,4 @@ class LinuxSSH(Test):
-                       'vmlinux-3.2.0-4-5kc-malta')
-         kernel_hash =3D '6a7f77245acf231415a0e8b725d91ed2f3487794'
-         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
--        self.do_test_mips_malta('le', kernel_path, 'mips64')
-+        self.check_mips_malta('le', kernel_path, 'mips64')
---=20
-2.20.1
+> To do a partial unplug I imagine, we have to separate vfio(-pci) code
+> to differ between release of resources (fds, mappings etc) and unplug
+> (I haven't yet found out how it works in vfio). In the failover case
+> we only do the unplug part but not the release part.
 
+Dave
+
+> regards,
+> Jens
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
