@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779D139269
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:44:28 +0200 (CEST)
-Received: from localhost ([::1]:49502 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3449391C1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:19:13 +0200 (CEST)
+Received: from localhost ([::1]:49276 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZHyd-000831-LS
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44889)
+	id 1hZHaC-0006FR-Bv
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:19:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46564)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hZGUf-000288-2F
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:09:26 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZGZv-0007Uu-Fp
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:14:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hZGUd-00055y-6L
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:09:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60788)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hZGUc-0004rH-Pm; Fri, 07 Jun 2019 11:09:23 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F02782E95B1;
- Fri,  7 Jun 2019 15:09:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
- [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BEC227FEAD;
- Fri,  7 Jun 2019 15:09:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2825011386A0; Fri,  7 Jun 2019 17:09:13 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: <tony.nguyen@bt.com>
-References: <430a9a42f7a34b799ee4d2f3d7ab2e23@tpw09926dag18e.domain1.systemhost.net>
-Date: Fri, 07 Jun 2019 17:09:13 +0200
-In-Reply-To: <430a9a42f7a34b799ee4d2f3d7ab2e23@tpw09926dag18e.domain1.systemhost.net>
- (tony nguyen's message of "Fri, 7 Jun 2019 14:07:11 +0000")
-Message-ID: <87h891a0va.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <peter.maydell@linaro.org>) id 1hZGZt-0001yt-Bg
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:14:51 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:37347)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hZGZt-0001vK-6E
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:14:49 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id t76so1689301oih.4
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 08:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E/iJnswotAOpzBU/exKhk4uR4Trfovk/BhsvzXy0/ps=;
+ b=W1n1AOD8thU3RYwk9Psd4x/srZrt6mVf5kvWb7Taehs+e5YHWTVlsA+1jW835ukDTZ
+ Q75TAz/+b4++eZJgfDtwWNBUQAUeRXGqPA271LbTziP6eBnvU3ZbpZzLA0blgUvAzYY/
+ esniB+aJpdV89GNolsu+9s7Lf23T693tDU/abxeXj+PSl6nneG1xAwqo3HDmX7M3ShnO
+ ChmFLQ46ZoalEnQ81C326ZDFi0hMTEdRdanHPuUgoKpD45phmhIrIfvVpNTPzRCs7IoI
+ 6UXafygCrPWwpAGIDp6AQ5UFWKY65BSL+TI3ki2tC1fYKMHL9SIMJ1u2KbsJx5RYZ6m+
+ 7YIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E/iJnswotAOpzBU/exKhk4uR4Trfovk/BhsvzXy0/ps=;
+ b=IyfcE3PA20lcgALQJZf7Tg8T7Ok/yCvHlLvvuL5XByiAYLhMHj9zycbfplrgA9yQ6H
+ Qf6f/VsoBlsXMbSNnto9Gw2LgVWFhxwqWKUaqXUfqB5/o5EYVehJZja9JHIRusTy0vMR
+ MI/kB9D/zHODNNgt3exqDpiyAcZfyGoXtGtnI17/NhJxXG/Pz6FaxewfsCLiB0jC0gAq
+ RFs6FHQTxKvq4WuuPOsnGnDinRVK1SudO1osfttdFF6FAzC7ULsnWz2hgfppmAibM/wy
+ ggQNghFj4r+fox3NlYJOJVjwOWV+x7Ktjp1Mj0sawaqOBN24ByHDheezmLW79hfTKs+l
+ e0zg==
+X-Gm-Message-State: APjAAAVXNkU/79W4Byuk+pZAVEiVQI+apQ0p77YwmhHlZACQrr76NRGa
+ iSo7tOVQlb2Swn9RuSj7b1glNGtF8u9URx5hS0wApQ==
+X-Google-Smtp-Source: APXvYqzWXSVYhuskUvB1LN0dCqYR+p1x8Nc3BA24jvw2rSJ86RUqj7PZEZUrcfWhCY8UUcvw1hi8KpCYpFh80BUjISU=
+X-Received: by 2002:aca:845:: with SMTP id 66mr2037075oii.163.1559920487698;
+ Fri, 07 Jun 2019 08:14:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 07 Jun 2019 15:09:15 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] test: Use g_strndup instead
- of plain strndup
+References: <20190607141727.29018-1-cohuck@redhat.com>
+In-Reply-To: <20190607141727.29018-1-cohuck@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jun 2019 16:14:36 +0100
+Message-ID: <CAFEAcA_-uS4MHCUp-X494dvMb=KsfoBZUYL5LHP-bXwm1do5cQ@mail.gmail.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22e
+Subject: Re: [Qemu-devel] [PULL v2 00/34] s390x updates
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,47 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-<tony.nguyen@bt.com> writes:
-
-> Due to memory management rules. See HACKING.
->     
-> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+On Fri, 7 Jun 2019 at 15:17, Cornelia Huck <cohuck@redhat.com> wrote:
 >
-> diff --git a/tests/check-qjson.c b/tests/check-qjson.c
-> index fa2afcc..07a773e 100644
-> --- a/tests/check-qjson.c
-> +++ b/tests/check-qjson.c
-> @@ -767,7 +767,7 @@ static void utf8_string(void)
->                      if (*end == ' ') {
->                          end++;
->                      }
-> -                    in = strndup(tail, end - tail);
-> +                    in = g_strndup(tail, end - tail);
->                      str = from_json_str(in, j, NULL);
->                      g_assert(!str);
->                      g_free(in);
+> The following changes since commit 33556237f652d8a712d0b6d29ecb442e6b65fe42:
+>
+>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-7-2019' into staging (2019-06-07 11:17:28 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/cohuck/qemu tags/s390x-20190607-2
+>
+> for you to fetch changes up to c984c4e8e31e57c44b3674d9dd8ed6aa5e68306e:
+>
+>   Merge tag 's390x-tcg-2019-06-07' into s390-next-staging (2019-06-07 16:06:27 +0200)
+>
+> ----------------------------------------------------------------
+> s390x updates:
+> - tcg: finalize implementation for the vector facility and
+>   add it to the 'qemu' cpu model
+> - linux-user: properly generate ELF_HWCAP
+>
 
-This one is fine.
 
-> diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-> index 49a03aa..72c4012 100644
-> --- a/tests/migration/stress.c
-> +++ b/tests/migration/stress.c
-> @@ -104,7 +104,7 @@ static int get_command_arg_str(const char *name,
->      }
->  
->      if (end)
-> -        *val = strndup(start, end - start);
-> +        *val = g_strndup(start, end - start);
->      else
->          *val = strdup(start);
->      return 1;
+Applied, thanks.
 
-This one isn't.  The caller passes *val to free().  You have to change
-*both* allocations in get_command_arg_str() *and* the deallocation in
-get_command_arg_ull().
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
