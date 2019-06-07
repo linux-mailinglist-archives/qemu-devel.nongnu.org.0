@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A8238B8E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:22:24 +0200 (CEST)
-Received: from localhost ([::1]:51058 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B09138B90
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:22:28 +0200 (CEST)
+Received: from localhost ([::1]:51066 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZEp5-0000kR-WC
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34402)
+	id 1hZEp9-0000uo-OW
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34445)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hZEm0-0007NC-Q7
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:13 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hZEm3-0007Oj-RQ
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hZElz-00051G-Ro
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50078)
+ (envelope-from <kraxel@redhat.com>) id 1hZEm2-0005GE-LY
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:14168)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZElz-0004uW-Ks
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:11 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZEm2-0005CK-Cw
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:14 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4A2A030832F4
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 13:19:10 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B2F716EB97
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 13:19:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-117-25.ams2.redhat.com
  [10.36.117.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 627196092E;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61A347FE99;
  Fri,  7 Jun 2019 13:19:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EE3F716E1A; Fri,  7 Jun 2019 15:19:01 +0200 (CEST)
+ id 00D3E17532; Fri,  7 Jun 2019 15:19:02 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 15:18:56 +0200
-Message-Id: <20190607131901.20107-1-kraxel@redhat.com>
+Date: Fri,  7 Jun 2019 15:18:57 +0200
+Message-Id: <20190607131901.20107-2-kraxel@redhat.com>
+In-Reply-To: <20190607131901.20107-1-kraxel@redhat.com>
+References: <20190607131901.20107-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 07 Jun 2019 13:19:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Fri, 07 Jun 2019 13:19:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/5] Ui 20190607 patches
+Subject: [Qemu-devel] [PULL 1/5] ui/curses: Fix build with -m32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,48 +59,85 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 0d74f3b4277a7ecb0ccb80c865797d11f8e466=
-f5:
+From: Max Reitz <mreitz@redhat.com>
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-=
-request' into staging (2019-06-06 14:09:14 +0100)
+wchar_t may resolve to be an unsigned long on 32-bit architectures.
+Using the %x conversion specifier will then give a compiler warning:
 
-are available in the Git repository at:
+ui/curses.c: In function =E2=80=98get_ucs=E2=80=99:
+ui/curses.c:492:49: error: format =E2=80=98%x=E2=80=99 expects argument o=
+f type =E2=80=98unsigned int=E2=80=99, but argument 3 has type =E2=80=98w=
+char_t=E2=80=99 {aka =E2=80=98long int=E2=80=99} [-Werror=3Dformat=3D]
+  492 |         fprintf(stderr, "Could not convert 0x%04x "
+      |                                              ~~~^
+      |                                                 |
+      |                                                 unsigned int
+      |                                              %04lx
+  493 |                         "from wchar_t to a multibyte character: %=
+s\n",
+  494 |                         wch, strerror(errno));
+      |                         ~~~
+      |                         |
+      |                         wchar_t {aka long int}
+ui/curses.c:504:49: error: format =E2=80=98%x=E2=80=99 expects argument o=
+f type =E2=80=98unsigned int=E2=80=99, but argument 3 has type =E2=80=98w=
+char_t=E2=80=99 {aka =E2=80=98long int=E2=80=99} [-Werror=3Dformat=3D]
+  504 |         fprintf(stderr, "Could not convert 0x%04x "
+      |                                              ~~~^
+      |                                                 |
+      |                                                 unsigned int
+      |                                              %04lx
+  505 |                         "from a multibyte character to UCS-2 : %s=
+\n",
+  506 |                         wch, strerror(errno));
+      |                         ~~~
+      |                         |
+      |                         wchar_t {aka long int}
 
-  git://git.kraxel.org/qemu tags/ui-20190607-pull-request
+Fix this by casting the wchar_t value to an unsigned long and using %lx
+as the conversion specifier.
 
-for you to fetch changes up to 15ee0d9bc10b3de677ff6cd78b6dc9d5a7d40603:
+Fixes: b7b664a4fe9a955338f2e11a0f7433b29c8cbad0
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Message-id: 20190527142540.23255-1-mreitz@redhat.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ ui/curses.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-  egl-helpers: add modifier support to egl_dmabuf_import_texture() (2019-=
-06-07 11:52:35 +0200)
-
-----------------------------------------------------------------
-curses: 32bit build fix.
-egl: dmabuf modifier support.
-
-----------------------------------------------------------------
-
-Gerd Hoffmann (4):
-  console: add dmabuf modifier field.
-  vfio/display: set dmabuf modifier field
-  egl-helpers: add modifier support to egl_get_fd_for_texture().
-  egl-helpers: add modifier support to egl_dmabuf_import_texture()
-
-Max Reitz (1):
-  ui/curses: Fix build with -m32
-
- include/ui/console.h     |  1 +
- include/ui/egl-helpers.h |  3 ++-
- hw/vfio/display.c        |  1 +
- ui/curses.c              |  8 ++++----
- ui/egl-helpers.c         | 39 ++++++++++++++++++++++++++++-----------
- ui/spice-display.c       |  7 ++++---
- 6 files changed, 40 insertions(+), 19 deletions(-)
-
+diff --git a/ui/curses.c b/ui/curses.c
+index 1f3fcabb004b..e9319eb8ae19 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -489,9 +489,9 @@ static uint16_t get_ucs(wchar_t wch, iconv_t conv)
+     memset(&ps, 0, sizeof(ps));
+     ret =3D wcrtomb(mbch, wch, &ps);
+     if (ret =3D=3D -1) {
+-        fprintf(stderr, "Could not convert 0x%04x "
++        fprintf(stderr, "Could not convert 0x%04lx "
+                         "from wchar_t to a multibyte character: %s\n",
+-                        wch, strerror(errno));
++                        (unsigned long)wch, strerror(errno));
+         return 0xFFFD;
+     }
+=20
+@@ -501,9 +501,9 @@ static uint16_t get_ucs(wchar_t wch, iconv_t conv)
+     such =3D sizeof(uch);
+=20
+     if (iconv(conv, &pmbch, &smbch, &puch, &such) =3D=3D (size_t) -1) {
+-        fprintf(stderr, "Could not convert 0x%04x "
++        fprintf(stderr, "Could not convert 0x%04lx "
+                         "from a multibyte character to UCS-2 : %s\n",
+-                        wch, strerror(errno));
++                        (unsigned long)wch, strerror(errno));
+         return 0xFFFD;
+     }
+=20
 --=20
 2.18.1
 
