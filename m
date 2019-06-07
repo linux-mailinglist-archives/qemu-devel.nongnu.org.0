@@ -2,54 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF8039369
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 19:37:25 +0200 (CEST)
-Received: from localhost ([::1]:49842 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8862D392C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 19:08:24 +0200 (CEST)
+Received: from localhost ([::1]:49660 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZIns-0000DG-AR
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 13:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53686)
+	id 1hZILn-0003Q4-Mh
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 13:08:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53309)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hZH08-0003i0-Tq
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:42:01 -0400
+ (envelope-from <philmd@redhat.com>) id 1hZH00-0003Tv-BE
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:41:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hZGua-0006fO-Ab
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:36:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:23428)
+ (envelope-from <philmd@redhat.com>) id 1hZGwP-0000qb-Lc
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:38:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46064)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
- id 1hZGuY-0006Uf-Et; Fri, 07 Jun 2019 11:36:10 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZGwG-0000bk-71
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:37:57 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BAAC130872CE;
- Fri,  7 Jun 2019 15:35:59 +0000 (UTC)
-Received: from work-vm (ovpn-116-24.ams2.redhat.com [10.36.116.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C3101059585;
- Fri,  7 Jun 2019 15:35:56 +0000 (UTC)
-Date: Fri, 7 Jun 2019 16:35:53 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Message-ID: <20190607153553.GJ2631@work-vm>
-References: <20190607135430.22149-1-kwolf@redhat.com>
- <20190607140357.GK28838@redhat.com>
- <20190607142514.GE5055@dhcp-200-226.str.redhat.com>
- <20190607143102.GL28838@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id EE18C3007403;
+ Fri,  7 Jun 2019 15:37:32 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.205.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 035E17D64C;
+ Fri,  7 Jun 2019 15:37:27 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Date: Fri,  7 Jun 2019 17:36:56 +0200
+Message-Id: <20190607153725.18055-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190607143102.GL28838@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 07 Jun 2019 15:35:59 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Fri, 07 Jun 2019 15:37:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH 00/10] monitor: Split monitor.c in
- core/HMP/QMP/misc
+Subject: [Qemu-devel] [PATCH v18 00/29] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,131 +55,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- armbru@redhat.com
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> On Fri, Jun 07, 2019 at 04:25:14PM +0200, Kevin Wolf wrote:
-> > Am 07.06.2019 um 16:03 hat Daniel P. Berrang=E9 geschrieben:
-> > > On Fri, Jun 07, 2019 at 03:54:20PM +0200, Kevin Wolf wrote:
-> > > > monitor.c mixes a lot of different things in a single file: The c=
-ore
-> > > > monitor infrastructure, HMP infrastrcture, QMP infrastructure, an=
-d the
-> > > > implementation of several HMP and QMP commands. Almost worse, str=
-uct
-> > > > Monitor mixes state for HMP, for QMP, and state actually shared b=
-etween
-> > > > all monitors. monitor.c must be linked with a system emulator and=
- even
-> > > > requires per-target compilation because some of the commands it
-> > > > implements access system emulator state.
-> > > >=20
-> > > > The reason why I care about this is that I'm working on a protoyp=
-e for a
-> > > > storage daemon, which wants to use QMP (but probably not HMP) and
-> > > > obviously doesn't have any system emulator state. So I'm interest=
-ed in
-> > > > some core monitor parts that can be linked to non-system-emulator=
- tools.
-> > > >=20
-> > > > This series first creates separate structs MonitorQMP and Monitor=
-HMP
-> > > > which inherit from Monitor, and then moves the associated infrast=
-ructure
-> > > > code into separate source files.
-> > > >=20
-> > > > While the split is probably not perfect, I think it's an improvem=
-ent of
-> > > > the current state even for QEMU proper, and it's good enough so I=
- can
-> > > > link my storage daemon against just monitor/core.o and monitor/qm=
-p.o and
-> > > > get a useless QMP monitor that parses the JSON input and rejects
-> > > > everything as an unknown command.
-> > > >=20
-> > > > Next I'll try to teach it a subset of QMP commands that can actua=
-lly be
-> > > > supported in a tool, but while there will be a few follow-up patc=
-hes to
-> > > > achieve this, I don't expect that this work will bring up much th=
-at
-> > > > needs to be changed in the splitting process done in this series.
-> > > >=20
-> > > > Kevin Wolf (10):
-> > > >   monitor: Remove unused password prompting fields
-> > > >   monitor: Split monitor_init in HMP and QMP function
-> > > >   monitor: Make MonitorQMP a child class of Monitor
-> > > >   monitor: Create MonitorHMP with readline state
-> > > >   monitor: Move cmd_table to MonitorHMP
-> > > >   Move monitor.c to monitor/misc.c
-> > > >   monitor: Create monitor_int.h with common definitions
-> > > >   monitor: Split out monitor/qmp.c
-> > > >   monitor: Split out monitor/hmp.c
-> > > >   monitor: Split out monitor/core.c
-> > > >=20
-> > > >  include/monitor/monitor.h |    8 +-
-> > > >  monitor/monitor_int.h     |  207 ++
-> > > >  hmp.c                     |    4 +-
-> > > >  monitor.c                 | 4727 -------------------------------=
-------
-> > > >  monitor/core.c            |  604 +++++
-> > > >  monitor/hmp.c             | 1351 +++++++++++
-> > > >  monitor/misc.c            | 2406 +++++++++++++++++++
-> > > >  monitor/qmp.c             |  404 ++++
-> > > >  Makefile.objs             |    1 +
-> > > >  Makefile.target           |    3 +-
-> > > >  monitor/Makefile.objs     |    2 +
-> > >=20
-> > > It will be nice to have the monitor code split up a bit more.
-> > >=20
-> > > I'm not a fan, however, of having both $ROOT/qmp.c and $ROOT/monito=
-r/qmp.c
-> > > Likwise  $ROOT/hmp.c and $ROOT/monitor/hmp.c.  Can we move those ot=
-her
-> > > existing files out of the root dir, into monitor/, so we don't have=
- two
-> > > files with the same name in different dirs.
-> >=20
-> > $ROOT/hmp.c and $ROOT/qmp.c contain various command implementations,
-> > just as $ROOT/monitor/misc.c. This is still a bit of a mess. I'll hav=
-e
-> > to address this at least partially in the next step because I need to
-> > separate commands that can be linked with tools from those that requi=
-re
-> > a system emulator.
-> >=20
-> > My plan involves at least creating some monitor/qmp-cmds-*.c, which
-> > might already make $ROOT/qmp.c empty. Even though I don't strictly ne=
-ed
-> > it, there's no reason not to do the same for HMP, too. In any case, I=
-'d
-> > rather address this in a separate follow-up series.
->=20
-> Ok, if you have a plan for this, that's fine with me.
->=20
-> > But if people prefer, I can move the existing files in the root
-> > directory to monitor/{qmp,hmp}-cmds.c temporarily in this series and
-> > then work from there with follow-ups until they are empty (or maybe I
-> > don't even have to make them completely empty then).
->=20
-> A plain rename like this won't hurt in the meantime.
+Hi Yoshinori, Richard, Igor.
 
-Yeh agreed, my brain hurts too much with files of the same name.
+This series an iteration of the previous v17 from Yoshinori with
+the fixups requested by Igor here:
+https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg07260.html
+and
+https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg01547.html
+plus trivial cleanups.
 
-Dave
+We have:
 
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
-ange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange=
-.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
-ange :|
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+$ qemu-system-rx -cpu help
+rx62n
+
+(qemu) info qom-tree
+/machine (rx-virt-machine)
+  /peripheral (container)
+  /mcu (rx62n)
+    /sci[0] (renesas-sci)
+      /renesas-sci[0] (qemu:memory-region)
+    /icu (rx-icu)
+      ...
+    /cpu (rx62n-rx-cpu)
+      /unnamed-gpio-in[0] (irq)
+      /unnamed-gpio-in[1] (irq)
+    ...
+
+If Igor aggrees with the fixup patches, Richard, can you squash
+them and send a pull request?  (without the last patch, which is
+expected to go via Eduardo's tree, but since it is helpful for
+testing this series, I included it).
+
+Thanks,
+
+Phil.
+
+Philippe Mathieu-Daud=C3=A9 (8):
+  !fixup target/rx: CPU definition
+  !fixup target/rx: CPU definition
+  !fixup hw/rx: RX Target hardware definition
+  hw/registerfields.h: Add 8bit and 16bit register macros
+  target/rx: Restrict access to extable[]
+  hw/rx: Restrict the RX62N microcontroller to the RX62N CPU core
+  hw/rx: Fix comments
+  BootLinuxConsoleTest: Test the RX-Virt machine
+
+Richard Henderson (10):
+  target/rx: Convert to CPUClass::tlb_fill
+  target/rx: Add RX to SysEmuTarget
+  tests: Add rx to machine-none-test.c
+  hw/rx: Honor -accel qtest
+  target/rx: Disassemble rx_index_addr into a string
+  target/rx: Replace operand with prt_ldmi in disassembler
+  target/rx: Use prt_ldmi for XCHG_mr disassembly
+  target/rx: Emit all disassembly in one prt()
+  target/rx: Collect all bytes during disassembly
+  target/rx: Dump bytes for each insn during disassembly
+
+Yoshinori Sato (11):
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  qemu/bitops.h: Add extract8 and extract16
+  Add rx-softmmu
+  MAINTAINERS: Add RX
+
+ MAINTAINERS                            |   19 +
+ arch_init.c                            |    2 +
+ configure                              |    8 +
+ default-configs/rx-softmmu.mak         |    3 +
+ hw/Kconfig                             |    1 +
+ hw/char/Kconfig                        |    3 +
+ hw/char/Makefile.objs                  |    1 +
+ hw/char/renesas_sci.c                  |  340 ++++
+ hw/intc/Kconfig                        |    3 +
+ hw/intc/Makefile.objs                  |    1 +
+ hw/intc/rx_icu.c                       |  376 ++++
+ hw/rx/Kconfig                          |   14 +
+ hw/rx/Makefile.objs                    |    2 +
+ hw/rx/rx-virt.c                        |  113 ++
+ hw/rx/rx62n.c                          |  247 +++
+ hw/timer/Kconfig                       |    6 +
+ hw/timer/Makefile.objs                 |    3 +
+ hw/timer/renesas_cmt.c                 |  275 +++
+ hw/timer/renesas_tmr.c                 |  455 +++++
+ include/disas/dis-asm.h                |    5 +
+ include/exec/poison.h                  |    1 +
+ include/hw/char/renesas_sci.h          |   45 +
+ include/hw/intc/rx_icu.h               |   56 +
+ include/hw/registerfields.h            |   32 +-
+ include/hw/rx/rx.h                     |    7 +
+ include/hw/rx/rx62n.h                  |   94 +
+ include/hw/timer/renesas_cmt.h         |   38 +
+ include/hw/timer/renesas_tmr.h         |   53 +
+ include/qemu/bitops.h                  |   38 +
+ include/sysemu/arch_init.h             |    1 +
+ qapi/common.json                       |    3 +-
+ target/rx/Makefile.objs                |   12 +
+ target/rx/cpu.c                        |  252 +++
+ target/rx/cpu.h                        |  227 +++
+ target/rx/disas.c                      | 1446 ++++++++++++++
+ target/rx/gdbstub.c                    |  112 ++
+ target/rx/helper.c                     |  148 ++
+ target/rx/helper.h                     |   31 +
+ target/rx/insns.decode                 |  621 ++++++
+ target/rx/monitor.c                    |   38 +
+ target/rx/op_helper.c                  |  470 +++++
+ target/rx/translate.c                  | 2432 ++++++++++++++++++++++++
+ tests/acceptance/boot_linux_console.py |   51 +
+ tests/machine-none-test.c              |    1 +
+ 44 files changed, 8084 insertions(+), 2 deletions(-)
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/helper.h
+ create mode 100644 target/rx/insns.decode
+ create mode 100644 target/rx/monitor.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+
+--=20
+2.20.1
+
 
