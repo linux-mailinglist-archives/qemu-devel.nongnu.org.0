@@ -2,62 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEE9387F9
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:31:20 +0200 (CEST)
-Received: from localhost ([::1]:48032 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE083884F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:57:17 +0200 (CEST)
+Received: from localhost ([::1]:48332 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZC9W-0005BP-00
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:31:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50559)
+	id 1hZCYe-0003oO-Kf
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53478)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hZBMc-0006qx-BE
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:40:47 -0400
+ (envelope-from <groug@kaod.org>) id 1hZBVa-0007Er-39
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:50:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hZBMa-0007Ov-Vb
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:40:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53080)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hZBMa-0007Jn-Pn
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:40:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hZBMX-0006SA-5s
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 09:40:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2A0FF2E80C0
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 09:40:41 +0000 (UTC)
+ (envelope-from <groug@kaod.org>) id 1hZBVY-0004aD-0Q
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:50:01 -0400
+Received: from 2.mo173.mail-out.ovh.net ([178.33.251.49]:53243)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hZBVX-0004T1-Qx
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:49:59 -0400
+Received: from player715.ha.ovh.net (unknown [10.109.159.159])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 4D3C810D095
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 11:49:56 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player715.ha.ovh.net (Postfix) with ESMTPSA id 0127F68B750D;
+ Fri,  7 Jun 2019 09:49:51 +0000 (UTC)
+Date: Fri, 7 Jun 2019 11:49:50 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Message-ID: <20190607114950.3247af33@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <2d02c8d1-d9f4-efd0-5059-6ca24e622107@kaod.org>
+References: <155984093894.2803172.8618224129384655510.stgit@bahia.lan>
+ <20190607001901.GC3760@umbus.fritz.box>
+ <2d02c8d1-d9f4-efd0-5059-6ca24e622107@kaod.org>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Jun 2019 09:35:32 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: regression tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrew-randrianasulu
-X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <155962633298.7880.15982922254182327026.malonedeb@wampee.canonical.com>
-Message-Id: <155990013345.23637.1090495552868552769.launchpad@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18978";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 31e95d0a1e062c1e84e82ddbaec5c956ab717ba7
+X-Ovh-Tracer-Id: 3693796122297735563
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudegiedgudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1831545] Re: "accel/tcg: demacro cputlb" break
- qemu-system-x86_64 on 32-bit x86 host
+X-Received-From: 178.33.251.49
+Subject: Re: [Qemu-devel] [PATCH] spapr: Don't use the "dual" interrupt
+ controller mode with an old hypervisor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,58 +58,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1831545 <1831545@bugs.launchpad.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+On Fri, 7 Jun 2019 10:17:58 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Alex Benn=C3=A9e (ajbennee)
+> On 07/06/2019 02:19, David Gibson wrote:
+> > On Thu, Jun 06, 2019 at 07:08:59PM +0200, Greg Kurz wrote: =20
+> >> If KVM is too old to support XIVE native exploitation mode, we might e=
+nd
+> >> up using the emulated XIVE after CAS. This is sub-optimal if KVM in-ke=
+rnel
+> >> XICS is available, which is the case most of the time. =20
+> >=20
+> > This is intentional.  A predictable guest environment trumps performanc=
+e. =20
+>=20
+> I don't agree.=20
+>=20
+> If the user does not specify any specific interrupt mode, we should favor=
+=20
+> the faster one.=20
+>=20
 
--- =
+This all boils down to the semantics of "dual"... "XICS AND XIVE" or "any
+of XICS or XIVE" ?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1831545
+We already have a precedent when using pre-power9 compat mode. If the
+user passes ic-mode=3Ddual,max-compat-cpu=3Dpower8, we internally convert
+"dual" to act as "xics". The rationale is that a guest running in
+power8 architected mode isn't supposed to know about XIVE at all.
 
-Title:
-  "accel/tcg: demacro cputlb" break qemu-system-x86_64 on 32-bit x86
-  host
+Should we forbid this config and exit QEMU instead ?
 
-Status in QEMU:
-  In Progress
+> Here is the current matrix (with this patch) for guests running on an=20
+> old KVM, that is without KVM XIVE support. Let's discuss on what we
+> want.=20
+>=20
+>                         kernel_irqchip
+>=20
+>            (default)=20
+> ic-mode     allowed           off            on=20
+>=20
+> dual        XICS KVM       XICS emul.(3)   XICS KVM         (default mode)
+> xics        XICS KVM       XICS emul.      XICS KVM   =20
+> xive        XIVE emul.(1)  XIVE emul.     QEMU failure (2)
+>=20
+>=20
+> (1) QEMU warns with "warning: kernel_irqchip requested but unavailable:=20
+>     IRQ_XIVE capability must be present for KVM"=20
+> (2) QEMU fails with "kernel_irqchip requested but unavailable:=20
+>     IRQ_XIVE capability must be present for KVM"=20
+> (3) That is wrong I think, we should get XIVE emulated.
+>=20
 
-Bug description:
-  As described in https://lists.gnu.org/archive/html/qemu-
-  devel//2019-05/msg07362.html I run into TCG regression in qemu-git.
+This is the logical consequence of turning "dual" into "xics".
 
-  Unfortunately, fix from bug
-  https://bugs.launchpad.net/qemu/+bug/1830872 seems to be nonn-
-  effective for my case.
+>=20
+> what you would want is XIVE emulation when ic-mode=3Ddual and=20
+> kernel_irqchip=3Dallowed, which is the behavior with this patch (but there
 
-  For reproduction (on 32-bit x86 host, in my case Slackware with gcc
-  5.5.0):
+I guess you mean s/with/without=20
 
-  ./configure --target-list=3Dx86_64-softmmu --disable-werror --enable-
-  debug-tcg
+> are reboot bugs)
+>=20
 
-  make (-j5 in my case)
+Yeah. If the semantics of "dual" is to always advertise XICS AND XIVE, and =
+we
+keep the current fallback behavior, then we need each implementation to have
+proper init/teardown support as well as proper rollback on error paths.
 
-  try to boot any 64-bit kernel:
+This is definitely not the case: rollback is missing in both in-kernel=20
+XICS and XIVE code and the emulated XICS and XIVE don't have teardown.
 
-  x86_64-softmmu/qemu-system-x86_64 -kernel /boot/bzImage-4.12.0-x64
-  -accel tcg
+This can generate a variety of bugs, including QEMU crashes... the old KVM =
+case
+is just one of them, but there might be others.
 
-  result is - qemu appear to hang right after "Booting the kernel" line.
-  Decompression (xz) was ok.
+> =20
+> >> Also, an old KVM may not allow to destroy and re-create the KVM XICS, =
+which
+> >> is precisely what "dual" does during machine reset. This causes QEMU t=
+o try
+> >> to switch to emulated XICS and to crash because RTAS call de-registrat=
+ion
+> >> isn't handled correctly. We could possibly fix that, but again we would
+> >> still end up with an emulated XICS or XIVE. =20
+> >=20
+> > Ugh, that's a problem. =20
+>=20
+> Yes. It's another problem around the way we cleanup the allocated resourc=
+es.
+> It should be another patch.
+>=20
 
-  Tested with qemu-git commit  e2a58ff493a2e00db3e963c1839c5374500110f2
+Yeah, probably many other patches...
 
-  32-bit OS can be booted fine, and -enable-kvm also allow 64 bit
-  kernel/os to boot.
+> >  =20
+> >> "dual" is definitely not a good choice with older KVMs. Internally for=
+ce
+> >> XICS when we detect this. =20
+> >=20
+> > But this is not an acceptable solution.  Silently changing the guest
+> > visible environment based on host capabilities is never ok.  =20
+>=20
+> If the host (KVM) doesn't have a capability, what is the point of trying=
+=20
+> to use it if we can do better. I know you are considering KVM/QEMU as a
+> whole but who would run with kernel_irqchip=3Doff ?
+>=20
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1831545/+subscriptions
+The real problem is when you don't pass kernel_irqchip at all. Combined
+with "dual", this gives a fair number of cases. Do we want to support
+all possible transitions ?
+
+> > We must
+> > either give the guest environment that the user has requested, or fail
+> > outright. =20
+>=20
+> 'dual' mode means both and the user is not requesting XIVE. We are changi=
+ng=20
+> the priority of choices from :
+>=20
+>  1. KVM XIVE
+>  2. QEMU XIVE
+>  3. KVM XICS
+>  4. QEMU XICS
+>=20
+> to:
+>=20
+>  1. KVM XIVE
+>  2. KVM XICS
+>  3. QEMU XIVE
+>  4. QEMU XICS
+>=20
+> which is better I think.
+>=20
+
+Using KVM XICS is indeed better than QEMU XIVE... but IIUC what David
+is saying, kernel-irqchip semantics are:
+
+- on: user favors performance, at the expense of a reduced spectrum
+      of usable hosts
+
+- absent: user favors being able to start the VM on a wider spectrum
+          of hosts, at the possible expense of performance
+
+- off: user wants the VM to start on any host, doesn't care for
+       performance at all
+
+So the only way to have 1. KVM XIVE 2.KVM XICS would be to pass "on".
+
+> C.
+>=20
+>=20
+> >  =20
+> >>
+> >> Signed-off-by: Greg Kurz <groug@kaod.org>
+> >> ---
+> >>  hw/ppc/spapr_irq.c |   10 ++++++++++
+> >>  1 file changed, 10 insertions(+)
+> >>
+> >> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> >> index 3156daf09381..d788bd662a7a 100644
+> >> --- a/hw/ppc/spapr_irq.c
+> >> +++ b/hw/ppc/spapr_irq.c
+> >> @@ -18,6 +18,7 @@
+> >>  #include "hw/ppc/xics_spapr.h"
+> >>  #include "cpu-models.h"
+> >>  #include "sysemu/kvm.h"
+> >> +#include "kvm_ppc.h"
+> >> =20
+> >>  #include "trace.h"
+> >> =20
+> >> @@ -668,6 +669,15 @@ static void spapr_irq_check(SpaprMachineState *sp=
+apr, Error **errp)
+> >>              return;
+> >>          }
+> >>      }
+> >> +
+> >> +    /*
+> >> +     * KVM may be too old to support XIVE, in which case we'd rather =
+try
+> >> +     * to use the in-kernel XICS instead of the emulated XIVE.
+> >> +     */
+> >> +    if (kvm_enabled() && !kvmppc_has_cap_xive() &&
+> >> +        spapr->irq =3D=3D &spapr_irq_dual) {
+> >> +        spapr->irq =3D &spapr_irq_xics;
+> >> +    }
+> >>  }
+> >> =20
+> >>  /*
+> >> =20
+> >  =20
+>=20
+
 
