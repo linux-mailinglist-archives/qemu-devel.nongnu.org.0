@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567D8391B2
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:14:20 +0200 (CEST)
-Received: from localhost ([::1]:49270 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC44391A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:09:41 +0200 (CEST)
+Received: from localhost ([::1]:49192 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZHVS-00046X-Rk
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:14:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43003)
+	id 1hZHQz-00082t-19
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44831)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hZGOo-0003wH-4w
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:03:23 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hZGUT-0001sX-MX
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:09:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hZGOn-0000Xo-6Q
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:03:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46696)
+ (envelope-from <cohuck@redhat.com>) id 1hZGUS-0004n3-Bm
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:09:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48648)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hZGOl-0000Up-B9; Fri, 07 Jun 2019 11:03:19 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hZGUS-0004lZ-2y; Fri, 07 Jun 2019 11:09:12 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3ED63B5C15;
- Fri,  7 Jun 2019 15:02:57 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53C28831BB;
- Fri,  7 Jun 2019 15:02:56 +0000 (UTC)
-Date: Fri, 7 Jun 2019 17:02:55 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190607150255.GG5055@dhcp-200-226.str.redhat.com>
-References: <20190606153803.5278-1-armbru@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 143BC31628F7;
+ Fri,  7 Jun 2019 15:09:11 +0000 (UTC)
+Received: from gondolin (dhcp-192-191.str.redhat.com [10.33.192.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 026CC842B8;
+ Fri,  7 Jun 2019 15:09:09 +0000 (UTC)
+Date: Fri, 7 Jun 2019 17:09:07 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Farhan Ali <alifm@linux.ibm.com>
+Message-ID: <20190607170907.1d682513.cohuck@redhat.com>
+In-Reply-To: <77395432-9619-1fee-4aeb-5685b8aa9be3@linux.ibm.com>
+References: <20190607145353.2052-1-cohuck@redhat.com>
+ <77395432-9619-1fee-4aeb-5685b8aa9be3@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190606153803.5278-1-armbru@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 07 Jun 2019 15:03:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 07 Jun 2019 15:09:11 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/7] file-posix: Add dynamic-auto-read-only
- QAPI feature
+Subject: Re: [Qemu-devel] [PATCH v5] vfio-ccw: support async command
+ subregion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,14 +58,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 06.06.2019 um 17:37 hat Markus Armbruster geschrieben:
-> This series adds optional feature lists to struct definitions in the
-> QAPI schema and makes use of them to advertise the new behaviour of
-> auto-read-only=on in file-posix.
+On Fri, 7 Jun 2019 11:02:36 -0400
+Farhan Ali <alifm@linux.ibm.com> wrote:
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+> On 06/07/2019 10:53 AM, Cornelia Huck wrote:
+> > A vfio-ccw device may provide an async command subregion for
+> > issuing halt/clear subchannel requests. If it is present, use
+> > it for sending halt/clear request to the device; if not, fall
+> > back to emulation (as done today).
+> > 
+> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> > ---
+> > 
+> > v4->v5:
+> > - It seems we need to take the indirection via the class for the
+> >    callbacks after all :(
+> > - Dropped Eric's R-b: for that reason
+> > 
+> > ---
+> >   hw/s390x/css.c              |  27 +++++++--
+> >   hw/s390x/s390-ccw.c         |  20 +++++++
+> >   hw/vfio/ccw.c               | 112 +++++++++++++++++++++++++++++++++++-
+> >   include/hw/s390x/css.h      |   3 +
+> >   include/hw/s390x/s390-ccw.h |   2 +
+> >   5 files changed, 158 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+> > index ad310b9f94bc..b92395f165e6 100644
+> > --- a/hw/s390x/css.c
+> > +++ b/hw/s390x/css.c
+> > @@ -22,6 +22,7 @@
+> >   #include "trace.h"
+> >   #include "hw/s390x/s390_flic.h"
+> >   #include "hw/s390x/s390-virtio-ccw.h"
+> > +#include "hw/s390x/s390-ccw.h"
+> >   
+> >   typedef struct CrwContainer {
+> >       CRW crw;
+> > @@ -1205,6 +1206,26 @@ static void sch_handle_start_func_virtual(SubchDev *sch)
+> >   
+> >   }
+> >   
+> > +static void sch_handle_halt_func_passthrough(SubchDev *sch)
+> > +{
+> > +    int ret;
+> > +
+> > +    ret = s390_ccw_halt(sch);
+> > +    if (ret == -ENOSYS) {
+> > +        sch_handle_halt_func(sch);
+> > +    }
+> > +}
+> > +
+> > +static void sch_handle_clear_func_passthrough(SubchDev *sch)
+> > +{
+> > +    int ret;
+> > +
+> > +    ret = s390_ccw_clear(sch);
+> > +    if (ret == -ENOSYS) {
+> > +        sch_handle_clear_func(sch);
+> > +    }
+> > +}
+> > +  
+> 
+> do we need an extra s390_ccw_clear/halt functions? can't we just call 
+> cdc->clear/halt in the passthrough functions?
+
+I mostly added them for symmetry reasons... we still need to check for
+presence of the callback in any case, though.
+
+(vfio is not always built, e.g. on windows or os x.)
+
+> 
+> >   static IOInstEnding sch_handle_start_func_passthrough(SubchDev *sch)
+> >   {
+> >       SCHIB *schib = &sch->curr_status;
+> > @@ -1244,11 +1265,9 @@ IOInstEnding do_subchannel_work_passthrough(SubchDev *sch)
+> >       SCHIB *schib = &sch->curr_status;
+> >   
+> >       if (schib->scsw.ctrl & SCSW_FCTL_CLEAR_FUNC) {
+> > -        /* TODO: Clear handling */
+> > -        sch_handle_clear_func(sch);
+> > +        sch_handle_clear_func_passthrough(sch);
+> >       } else if (schib->scsw.ctrl & SCSW_FCTL_HALT_FUNC) {
+> > -        /* TODO: Halt handling */
+> > -        sch_handle_halt_func(sch);
+> > +        sch_handle_halt_func_passthrough(sch);
+> >       } else if (schib->scsw.ctrl & SCSW_FCTL_START_FUNC) {
+> >           return sch_handle_start_func_passthrough(sch);
+> >       }
+> > diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
+> > index f5f025d1b6ca..951be5ab0245 100644
+> > --- a/hw/s390x/s390-ccw.c
+> > +++ b/hw/s390x/s390-ccw.c
+> > @@ -29,6 +29,26 @@ IOInstEnding s390_ccw_cmd_request(SubchDev *sch)
+> >       return cdc->handle_request(sch);
+> >   }
+> >   
+> > +int s390_ccw_halt(SubchDev *sch)
+> > +{
+> > +    S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(sch->driver_data);
+> > +
+> > +    if (!cdc->handle_halt) {
+> > +        return -ENOSYS;
+> > +    }
+> > +    return cdc->handle_halt(sch);
+> > +}
+> > +
+> > +int s390_ccw_clear(SubchDev *sch)
+> > +{
+> > +    S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(sch->driver_data);
+> > +
+> > +    if (!cdc->handle_clear) {
+> > +        return -ENOSYS;
+> > +    }
+> > +    return cdc->handle_clear(sch);
+> > +}
+> > +  
+> 
+
 
