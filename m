@@ -2,79 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBCA39582
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:24:51 +0200 (CEST)
-Received: from localhost ([::1]:51718 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD62139517
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:58:36 +0200 (CEST)
+Received: from localhost ([::1]:51090 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKTq-0007uF-RA
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:24:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33165)
+	id 1hZK4J-0002TN-Ly
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:58:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hZIet-0002Tb-CV
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:28:09 -0400
+ (envelope-from <armbru@redhat.com>) id 1hZIgC-0004H0-Pc
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:29:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hZIer-0006Ij-Np
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:28:07 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:46420)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hZIer-00068I-GE
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:28:05 -0400
-Received: by mail-oi1-x241.google.com with SMTP id 203so1948846oid.13
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 10:28:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FcPMB1Arg6zfPt0d37PTD3eMaTlMz5e1OvwO5yTXkwk=;
- b=Hec9sf6J5rc1X5o1gl8UvVRMb+GBUFRNwPdrOMxzukIUi3KRYwPPHJQp+hqXtsjNV3
- JUTJgc+jhdqf5104zdbni2HhOJkU63WxcFPSvdCF8mzzE6iTBbZWYtXE0o23+thEM6wj
- 8v07TEmqBlJ8LQM6cyLRKXrtVlfmJcW2KsXuvTM3jZM9R5SdsecVWHhKebqjMqNjbsXX
- Uey/PKfmsz7ngNOJLW49VSXPPxsFrF7gsI23MrX+SL5hTXSwD3Nd25RTY56EEctF0eRM
- naM8+lIB/rm8gCe0VMSAkr5na1IpPt5AaB8vsWUwaoGE1pfb4r8uzBUWOmbdBqtwja4D
- LWTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FcPMB1Arg6zfPt0d37PTD3eMaTlMz5e1OvwO5yTXkwk=;
- b=mWkTVDj2shpsO8jgxdnhbQo5KWYJ+8wXEZu5/rarsBAm/ZN4umwnlkNWsApfYzfD9D
- sSuKQQtPjwQJSwOINDjvaoWRQZa4TCtgB76dYUAVlv7hGcIw+JydgN3POn7+q7RTAw4l
- uiTKmiiJ4Cu6m6ss5JZbtcPaLRsmo6+2ZnIKwsd9qfkrt36y5LOPRdfO7YJe3mU2OivL
- 8gnVHw3sBvvocFK/GN0TYLg5TdPUzcIFcR7UeeFI9gRb7UpJgno5meZzgBY+V4tH3EYy
- TL8kddohIF7OX8Wv8sXH3x/wiKbs1S3ejTgYdKSMgUDYZHSnDt6QRLppE4Wt2w8dyiGd
- fE9A==
-X-Gm-Message-State: APjAAAW3WTG8CeF1dlfojIXOQLXf2rSfHLIkrjANd3AorstGOBctA2V8
- T0ZX+vPNg3VxZvo31x7s/MtH/twSQtDuUg==
-X-Google-Smtp-Source: APXvYqwsG0hZ5ckdpEAWiA3x39Her/kZU20X/CZxnG6pnpfxbuGiS7NAzAR0vuvCIZuPNZpwu1Qg3w==
-X-Received: by 2002:aca:1817:: with SMTP id h23mr4415858oih.84.1559928483887; 
- Fri, 07 Jun 2019 10:28:03 -0700 (PDT)
-Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
- [200.56.192.86])
- by smtp.gmail.com with ESMTPSA id z16sm922000ote.50.2019.06.07.10.28.02
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 10:28:03 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20190606174609.20487-1-peter.maydell@linaro.org>
- <20190606174609.20487-13-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <47d526bc-7b7f-b2ae-2f6f-1e8fdde7e2e7@linaro.org>
-Date: Fri, 7 Jun 2019 12:27:59 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <armbru@redhat.com>) id 1hZIgB-0001UM-W6
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:29:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39052)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hZIg6-00017P-QP
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:29:23 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E53A930F1BB4
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 17:29:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
+ [10.36.116.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FDB68F6C8;
+ Fri,  7 Jun 2019 17:29:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B084C11386A0; Fri,  7 Jun 2019 19:28:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
+Date: Fri, 07 Jun 2019 19:28:58 +0200
+In-Reply-To: <1559205199-233510-1-git-send-email-imammedo@redhat.com> (Igor
+ Mammedov's message of "Thu, 30 May 2019 10:33:16 +0200")
+Message-ID: <87o9395mp1.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20190606174609.20487-13-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH 12/42] target/arm: Convert
- "double-precision" register moves to decodetree
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Fri, 07 Jun 2019 17:29:07 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] numa: deprecate '-numa node,
+ mem' and default memory distribution
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,30 +60,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: libvir-list@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
+ qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/19 12:45 PM, Peter Maydell wrote:
-> Convert the "double-precision" register moves to decodetree:
-> this covers VMOV scalar-to-gpreg, VMOV gpreg-to-scalar and VDUP.
-> 
-> Note that the conversion process has tightened up a few of the
-> UNDEF encoding checks: we now correctly forbid:
->  * VMOV-to-gpr with U:opc1:opc2 == 10x00 or x0x10
->  * VMOV-from-gpr with opc1:opc2 == 0x10
->  * VDUP with B:E == 11
->  * VDUP with Q == 1 and Vn<0> == 1
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> The accesses of elements < 32 bits could be improved by doing
-> direct ld/st of the right size rather than 32-bit read-and-shift
-> or read-modify-write, but we leave this for later cleanup,
-> since this series is generally trying to stick to fixing
-> the decode.
-> --
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Igor Mammedov <imammedo@redhat.com> writes:
 
+> Changes since v3:
+>   - simplify series by dropping idea of showing property values in "qom-list-properties"
+>     and use MachineInfo in QAPI schema instead
 
-r~
+Where did "[PATCH v3 1/6] pc: fix possible NULL pointer dereference in
+pc_machine_get_device_memory_region_size()" go?  It fixes a crash bug...
 
