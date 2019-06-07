@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446893941D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:18:37 +0200 (CEST)
-Received: from localhost ([::1]:50126 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8AB393B8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 19:56:04 +0200 (CEST)
+Received: from localhost ([::1]:49924 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZJRk-0001hS-Fb
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:18:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56219)
+	id 1hZJ5v-000203-4s
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 13:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56355)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZH38-00068z-Cg
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:45:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZH3M-0006PS-PB
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:45:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZH35-0003Tt-Ey
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:45:01 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44485)
+ (envelope-from <peter.maydell@linaro.org>) id 1hZH3F-0003lE-Fr
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:45:12 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42286)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZH33-0001l7-Sw
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:44:58 -0400
-Received: by mail-wr1-f68.google.com with SMTP id b17so2617626wrq.11
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 08:43:39 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hZH3C-0002km-PS
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:45:08 -0400
+Received: by mail-ot1-x341.google.com with SMTP id l15so2252868otn.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 08:44:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+dqWPXmpKRFmoyF1BYy25lbKYWxiwuoMRvLxXce39rc=;
+ b=Dt/3clZ9jITEUL8YvGMxs39I7G8cWmEz6dDyM/UwTycyu0C383wrYQvAm3kyxtid5S
+ 0dmKMCDqs7GcV3Xn1EgXhRp5ovV9qzCR0lTzE/C4I89dt1f8+gT1Rno3O1eOWtdfIegf
+ T9XX4dG/9Bk9rgiLcxoOWm3YP6oF5QFCgiBTfF4YJIeYzPTH6aowScEqCcipCAlmh38W
+ mJIf5VDBbwNpvtR0OVwiwBuacPTZ7H28quX7gkfLLe1sGvbEDROfhkVm2t3CISy6MrOQ
+ 69468tRixucc4NGps5LHqkEr5va7nKxotY9qAQ3sYd8DSTwHNoHDUz0HA13cXKzZuUj8
+ 5hYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FYRkl8iCUme4qVWAdiVljKg5yHotz5W0hkostJEMbVc=;
- b=YNxgTEWt2p8RkFZzkxC1OLwMJXFYlhyuidkI73J+q+mXpY3yAtyyLLshlMq6HViWkk
- +MDaK+89PeMenSG9WOwNgFsPKT+AHZ/B3IxpPXl/MM8sPRGUyDFRWn/7TRHFLI/xqpWB
- z0F/IOrlkoVQDbiT6yEGhPk6da3NID+wqPUEShIqIa3zaNVaMXZGlCMJOJZdHf1/i7qU
- 5fNM3E9tu2XRUjtk8PMzxOQ0mPIupSuG738jZIjp1krJFmUI5oC+qWSgFg4sX9huRRyC
- ohnQF98nRvaUiszbN6TlFBdHZYy+G8GNzYQE1aPcmXLL4Bb2NB5mWdlSHFaNBklhc6ap
- 01Tw==
-X-Gm-Message-State: APjAAAXeWgiUhYwGHc3L+tBX2j1c0kUh3j7kDtjXZCWpqtlmsgIOJWqa
- F5IkcnK/7Bedn5j6Gg+DmBVLnQ==
-X-Google-Smtp-Source: APXvYqzxvseeuHIU4xEpZFP4LbxpxFvlAmcqkpnyJQBfWIfyioqiKwgtTutVO3p5oz1TR987j0wfVQ==
-X-Received: by 2002:a5d:474a:: with SMTP id o10mr8061764wrs.157.1559922218185; 
- Fri, 07 Jun 2019 08:43:38 -0700 (PDT)
-Received: from [192.168.0.156] ([78.192.181.46])
- by smtp.gmail.com with ESMTPSA id c17sm1830740wrv.82.2019.06.07.08.43.37
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 08:43:37 -0700 (PDT)
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20190607153725.18055-1-philmd@redhat.com>
- <20190607153725.18055-6-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <c18e62f2-0c69-29ab-d447-9ca24315c549@redhat.com>
-Date: Fri, 7 Jun 2019 17:43:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+dqWPXmpKRFmoyF1BYy25lbKYWxiwuoMRvLxXce39rc=;
+ b=Cy7m9MNcp6cX2juYUH89KBaBhQtCdDBHDTvNJoww913CMH0w1BCTyV7wQosLbHAaSk
+ x3qOg0hL96vwksT6q9Tr2Uu3a2105FoNSNs2z22okhzzb7DK0yUZX5FMeX75qxZ8ATJj
+ n1cuoaKae91OvHrI7Iz1k/uMWnEKfUB556BUVhyexIEMHmtUDjiiDvA2XYobofDCc1vi
+ b0H4sMRmPSj3QzU/9ZiVY4XVztgc0weGB1nMfkDxbsYxMyvExur2WQV0LzLNttIlSx9P
+ P2u47gNhbv/xqyAcGA7WaYSu1JwrAEM8ePB5gPupMe7hd8InisVr4erWyERNP/a4ubOn
+ 3qeQ==
+X-Gm-Message-State: APjAAAUB0vrlka8VWbR2NQYw45S/a1P1aG5+6rsCuCfMbGPJJI5NL/7i
+ YyUGLmoqIfLigBQHe7QGmITNWSRl8PHf8H4KWoPWaA==
+X-Google-Smtp-Source: APXvYqyHngtF2zxBXIcLyrHD3XO//gYIzenwhOa+Q8fEAXV6AcY2O+at8CVFzee4s8Rwtthbi+xx55tvX6RtyQcDEQM=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr1978361otj.97.1559922270221; 
+ Fri, 07 Jun 2019 08:44:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190607153725.18055-6-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v18 05/29] !fixup target/rx: CPU definition
+References: <20190603232209.20704-1-richard.henderson@linaro.org>
+ <CAFEAcA-KZM8tzD6XLhbtxB=OrnvgmtjcknvxrYoVmooBb7grMw@mail.gmail.com>
+ <0a55f185-fb9f-335f-2342-9c214706a4d1@linaro.org>
+In-Reply-To: <0a55f185-fb9f-335f-2342-9c214706a4d1@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jun 2019 16:44:18 +0100
+Message-ID: <CAFEAcA_kL1WCtSCHp_h1F4Ch6qU6tYXuvqUQhqxGoeHiqApyNQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v2] target/arm: Vectorize USHL and SSHL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,31 +73,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/19 5:37 PM, Philippe Mathieu-Daudé wrote:
-> New qom-cpu style requested by Igor.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  target/rx/cpu.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-> index 3c43467534..c370f65faa 100644
-> --- a/target/rx/cpu.c
-> +++ b/target/rx/cpu.c
-> @@ -80,7 +80,7 @@ static void rx_cpu_list_entry(gpointer data, gpointer user_data)
->  void rx_cpu_list(void)
->  {
->      GSList *list;
-> -    list = object_class_get_list_sorted(TYPE_RXCPU, false);
-> +    list = object_class_get_list_sorted(TYPE_RX_CPU, false);
+On Fri, 7 Jun 2019 at 16:40, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/7/19 9:54 AM, Peter Maydell wrote:
+> > On Tue, 4 Jun 2019 at 00:22, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> These instructions shift left or right depending on the sign
+> >> of the input, and 7 bits are significant to the shift.  This
+> >> requires several masks and selects in addition to the actual
+> >> shifts to form the complete answer.
+> >>
+> >> That said, the operation is still a small improvement even for
+> >> two 64-bit elements -- 13 vector operations instead of 2 * 7
+> >> integer operations.
+> >>
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >> ---
+> >
+> > Applied to target-arm.next, thanks.
+> >
+> > NB: in v1 this series had a second patch. I'm assuming you
+> > dropped it deliberately -- if not, let me know.
+>
+> Oops, no.  Can you please grab it with your r-b from v1?
 
-This line belongs to the previous !fixup patch, but it is a fixup anyway...
+Sure.
 
->      g_slist_foreach(list, rx_cpu_list_entry, NULL);
->      g_slist_free(list);
->  }
+-- PMM
 
