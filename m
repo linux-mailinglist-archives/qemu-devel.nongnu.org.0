@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F0438967
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:52:16 +0200 (CEST)
-Received: from localhost ([::1]:48852 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136A838916
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:32:49 +0200 (CEST)
+Received: from localhost ([::1]:48664 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZDPr-00089f-QH
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59890)
+	id 1hZD72-000293-2U
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60457)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hZBm8-0004a4-NC
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:07:10 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZBmu-00066t-0H
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:07:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hZBm6-0001mD-9d
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:07:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55522)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hZBly-0001H0-To; Fri, 07 Jun 2019 06:07:00 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9E84F308620E;
- Fri,  7 Jun 2019 10:06:52 +0000 (UTC)
-Received: from gondolin (dhcp-192-191.str.redhat.com [10.33.192.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D69635DEE2;
- Fri,  7 Jun 2019 10:06:51 +0000 (UTC)
-Date: Fri, 7 Jun 2019 12:06:49 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190607120649.1d18297b.cohuck@redhat.com>
-In-Reply-To: <CAFEAcA9hMt4TZC0DEzJ6JTV9OxLbXZbmHKshWv_20sLxLw4M6Q@mail.gmail.com>
-References: <20190607095237.11364-1-cohuck@redhat.com>
- <CAFEAcA8FXh-jPMwpGN-4ES4v=nE4ZOSNB8+rkdB03E=BBDh-jw@mail.gmail.com>
- <CAFEAcA9hMt4TZC0DEzJ6JTV9OxLbXZbmHKshWv_20sLxLw4M6Q@mail.gmail.com>
-Organization: Red Hat GmbH
+ (envelope-from <peter.maydell@linaro.org>) id 1hZBmr-0003VE-Rk
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:07:55 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:39444)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hZBmq-0003Qe-Ea
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:07:53 -0400
+Received: by mail-oi1-x230.google.com with SMTP id m202so1037044oig.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 03:07:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=elBvZ4wTXKAyEGsuylqaCQ1KiohdVTFPu8177gmCtzI=;
+ b=DSR76XfV6aP93byEyCozeeoIyDA9yc2mU9f0/+JiK7c4i20kFybcQweGOOoAxcX5/E
+ I8CUAvyE2W0qyo+YEPdhzOq2L9DlnAPR11s7LmgMH9nLDfSbbUckGDm2Qe8IkOE58Vip
+ szYzypAaGAow/nI3YSZv0fauDW5//tNyC8qjeI2JWvyYFYGPuo2Cu4Rn4RHtF1mf4gW7
+ 9PA9zfLmY2DmrXLUqoz+XR6uvsPKYRd3yEBAsn56WASlvVYM5TPapy5EjNpIcRJSeE5r
+ jyQQMA3UIpv2dFTJyIgE5Sd1p18JHZFI4jDTHQvJcwtMYKQVIDCw3vMIepR7oWUKhurf
+ Sw0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=elBvZ4wTXKAyEGsuylqaCQ1KiohdVTFPu8177gmCtzI=;
+ b=T6k0whcAdgIKHbY1Ile8gGkeapUtOVxsjoqZlk1zAcdUmX9dlJi8k/TTCcuuPEuCVv
+ vDMjyZ2/ofb0kb/Rj4dsN7Ito1l1US+7ptSqUzwu/3TWdVoxWbDvD9sRbXkc3hyda2dl
+ XW9aB3C/+lbQPQ0OO9hQCaVtFWBYTBzEsuWwVbjp4ik8ecEeFQlOVVFNRDdFBKHjpyja
+ kDXTGD226RUa1T8XXeBFIw8I5TmeElPeP1Y3JsNkZsWigtpF1IAbJFZiBVjbtGbvEiak
+ FAkLayVOqc+ogK4hY09kYrury9GqQLF7/uZONpjEYdJNApsa5Rlepc+IatziL4oQMMtt
+ uZ2g==
+X-Gm-Message-State: APjAAAWt+YIyI2eIoDoUoLJZA4+LO9I8ka+eaj1k6YriDb6oKnqEUtA/
+ x+hJnfMml7OPJVhrORN2UDES+WXGS7ivCCL7LxH5dQ==
+X-Google-Smtp-Source: APXvYqwdI79GAmqe885OJdzTWzZL6+oAu8aQd4dJGmICMVabVMOHL94oproPPQU599MqXASYFBIYnuUZg7F6m2R1zR0=
+X-Received: by 2002:aca:ac48:: with SMTP id v69mr3108311oie.48.1559902071231; 
+ Fri, 07 Jun 2019 03:07:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 07 Jun 2019 10:06:52 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 00/35] s390x updates
+References: <20190523204409.21068-1-jan.bobek@gmail.com>
+ <878suw194o.fsf@zen.linaroharston>
+In-Reply-To: <878suw194o.fsf@zen.linaroharston>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jun 2019 11:07:40 +0100
+Message-ID: <CAFEAcA-EN4cS-T3qKeVdGo6124J6e=7z3kjua5oYyomcw7LB4Q@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::230
+Subject: Re: [Qemu-devel] [RISU v3 00/11] Support for i386/x86_64 with
+ vector extensions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,53 +75,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Jan Bobek <jan.bobek@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Jun 2019 10:58:03 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
+On Fri, 24 May 2019 at 10:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Jan Bobek <jan.bobek@gmail.com> writes:
+>
+> > This patch series adds support for i386 and x86_64 architectures to
+> > RISU. Notably, vector registers (SSE, AVX, AVX-512) are supported for
+> > verification of the apprentice. This is V3 of the series posted in [1]
+> > and [2].
+>
+> I've sent a patch to enable x86 in the build-all-arches tests script but
+> otherwise I think this series looks good to merge.
 
-> On Fri, 7 Jun 2019 at 10:57, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Fri, 7 Jun 2019 at 10:52, Cornelia Huck <cohuck@redhat.com> wrote:  
-> > >
-> > > The following changes since commit 47fbad45d47af8af784bb12a5719489edcd89b4c:
-> > >
-> > >   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-06-04 17:22:42 +0100)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://github.com/cohuck/qemu tags/s390x-20190607-1
-> > >
-> > > for you to fetch changes up to 39f04d18406862bd98d6bef5415dbe7360c652de:
-> > >
-> > >   Merge tag 's390x-tcg-2019-06-05' into s390-next-staging (2019-06-07 11:38:42 +0200)
-> > >
-> > > ----------------------------------------------------------------
-> > > s390x updates:
-> > > - tcg: finalize implementation for the vector facility and
-> > >   add it to the 'qemu' cpu model
-> > > - linux-user: properly generate ELF_HWCAP
-> > > - vfio-ccw: support async command subregion (for halt/clear
-> > >   subchannel handling)
-> > >
-> > > ----------------------------------------------------------------  
-> >
-> > Hi -- this fails to link on the windows build for me:
-> >   LINK    s390x-softmmu/qemu-system-s390xw.exe
-> > hw/s390x/css.o: In function `sch_handle_halt_func_passthrough':
-> > /home/petmay01/qemu-for-merges/hw/s390x/css.c:1213: undefined
-> > reference to `vfio_ccw_handle_halt'
-> > hw/s390x/css.o: In function `sch_handle_clear_func_passthrough':
-> > /home/petmay01/qemu-for-merges/hw/s390x/css.c:1223: undefined
-> > reference to `vfio_ccw_handle_clear'
-> > collect2: error: ld returned 1 exit status  
-> 
-> ...and same link error on OSX host.
-> 
-> -- PMM
+Alex: So should I merge this series, or does it need a respin ?
 
-Hmpf, it seems I need to rework the vfio-ccw patch to use a callback in
-the class...  hoped I could keep the code simple :/
+thanks
+-- PMM
 
