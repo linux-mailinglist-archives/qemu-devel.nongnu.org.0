@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC16138689
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 10:52:10 +0200 (CEST)
-Received: from localhost ([::1]:46982 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0DB3868E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 10:54:48 +0200 (CEST)
+Received: from localhost ([::1]:47018 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZAbZ-00006t-U7
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 04:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35044)
+	id 1hZAe7-0001a2-2j
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 04:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35836)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hZAaI-0007in-Bq
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:50:51 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZAdE-00018p-D2
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:53:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hZAaH-0004fB-Ci
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:50:50 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46548)
+ (envelope-from <peter.maydell@linaro.org>) id 1hZAdD-00089d-Fn
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:53:52 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45626)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hZAaH-0004cN-6z
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:50:49 -0400
-Received: by mail-oi1-x242.google.com with SMTP id 203so884027oid.13
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 01:50:48 -0700 (PDT)
+ id 1hZAdD-00088C-9i
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:53:51 -0400
+Received: by mail-ot1-x341.google.com with SMTP id n2so1132593otl.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 01:53:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5bkijeq6wyj0TynwwIr9elawem3VCDBOcu1LqMo6RN0=;
- b=jWoWjAFWGtFe5ZUQksAR9IOyB2Xw6J5OjeyhmscesnjZqcYNoU+vMPIAGin8x6FufR
- UQFG3ZcOYUTax3CCKpcKV54lbjccFWE2kfZ3XSI1OmGWydPB2GZUoRSVSctepS8Y+ZI8
- NYhQHkC7yuFdJuq0D0QIuqIW1TwH8VsJ3j9B4cwPi3bZFhw28WITebDRfHHwILhwxJZ/
- yUN2uwbE0ggQm9NKftYc0c7sicz5qdc4+1cO94oTdCzbn4t/l7KS05xkIcV5lC4S3QBm
- +kkpF1zirhsTxjjxvbCVVxcUc5ujpwEd6fdfNea9bltvtF5ROriwnw2A385HoKnYcXP7
- BQVA==
+ :cc; bh=/VG5TUcHK28EUa7eURC83MWfCIRXMFJIi6mDFPjt1R8=;
+ b=Vwbk4Y3JS2mbXejtOa5P/Hb9L6G+NT+PJ3Ymmie7BvJX3myOQorbzEDhh4jBKQs4DL
+ Uu/qXOnT7gLu+d4nMWOUGYKA+gM3iGxt/bpBqRoTtasJ5+MSUBWep2CCOPzTLx5OMMc9
+ H50g/C6mDJGj4GF/RbTI+r600PKMGcMYjSPK5sXaU/IXhcx9xyUu2yUKTGLT+iIaqRxP
+ W6RfiTyG1d2K1+Yz6IXzsA19fedQanV8/eJ7uGiLLTB6IBqGO3tLqBhqpk16OgDdIkwR
+ 8d70KGUu5ehFyM19VMNJeX239kT3Gq+tR0ft/Yotq4zWPgZZXESxwm3GlqIA8Df1Xq8x
+ QVmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5bkijeq6wyj0TynwwIr9elawem3VCDBOcu1LqMo6RN0=;
- b=BnuV54vQz32smrLzve6FyNeVNe7vwdsadAlkIM5MvC+0m39IkJIXZ7VsNucvquowud
- +3dbilttfac4+BpM1GiVMQIES4o0yEOJ8ick7F7sErQgF7S3l5wr2FlGbhoPk6uU1w7p
- z4KC+w5oFwWjX/PcO1sHAAJrm+Ao0isSfb85O28W3MqKqkTd8WZeL6JQ2T0wdsmsQUCl
- HgcTSH2xW5c0YVKmUFsLZ3knruE+yzZ1+hgS6+tCkxtp4l7aeMy+1GKPIhMoTHbXgdUi
- TS2c5/qMToQnt0MNbxIMkbNY+0pxtM+dIyCoooIH2n5Nvn9e02poI8OHyLM4C4QvZgyb
- hbmQ==
-X-Gm-Message-State: APjAAAVyTQWEBDuOQeROrvA7q0zEgylX4DvnOE9fO0vMRXhsCUpjY93K
- ckGpHljx2gnm9cPDro/pohUN6NzsnUj5EJ0EJO8dEQ==
-X-Google-Smtp-Source: APXvYqwBdy5EE5kJ82HiNACR2QgBy8k4NhDUkkIk7U/ILJLPIh/MVF5CzWlNWSCB+nsCDYPaxC4b21Vz58LO9Nloy5c=
-X-Received: by 2002:a05:6808:8f1:: with SMTP id
- d17mr3031744oic.170.1559897447997; 
- Fri, 07 Jun 2019 01:50:47 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=/VG5TUcHK28EUa7eURC83MWfCIRXMFJIi6mDFPjt1R8=;
+ b=p6OYB070SbUwMg4Gx71hmnrsT30D9XqN82IVHAUL4FPXAfe3yLFYqRKldz7GlfXlIz
+ VHqHIEE494jfx7v3qK7T79MmPB8b8V99wMp4W8X4sCtsXwEabWl/+FpHZCXDioNULOGO
+ g4cgg+FxylcoWUWocYIqXZjrkVjuAI5NtDjomtOtplMBRatqE0pwWAU6ruEt1tBPvwpB
+ GtCi0bALQCCTJ1xnH/4c2avAWuKGCsnhaD1n5wrbPUXN78Au94biAMRELNpDNKrK0wst
+ 7tvpzJge08yI3QDHeFJOGmq1Tj6Pwy+L5pzyus2g/FHjr+YV9vyJPd/cBy1NUhUeX7T9
+ imiQ==
+X-Gm-Message-State: APjAAAU4NBauRoPoDLxxcCxtlsnaZ3cI1QFQshV47ZfBLl2WNlZfqme1
+ IWuCYgcHX3XzbTkd74eC2kOawhQMzOKypAXSxg9eyg==
+X-Google-Smtp-Source: APXvYqzIHSAWAyJfIbRviXW/NBNJNcPgTiTdGysFMPCs5YkIql/uzcevT58LLZUDvKOa5zfmFC2DO9w4O9HRGZzkT/0=
+X-Received: by 2002:a9d:193:: with SMTP id e19mr18003227ote.135.1559897630137; 
+ Fri, 07 Jun 2019 01:53:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190605145829.7674-1-marcandre.lureau@redhat.com>
- <20190605145829.7674-5-marcandre.lureau@redhat.com>
-In-Reply-To: <20190605145829.7674-5-marcandre.lureau@redhat.com>
+References: <20190401211712.19012-1-bsd@redhat.com>
+In-Reply-To: <20190401211712.19012-1-bsd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jun 2019 09:50:36 +0100
-Message-ID: <CAFEAcA-shTf-Ha7+LXinyVu184eWe1hb9r80QfecSMYhz0A7Ag@mail.gmail.com>
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Fri, 7 Jun 2019 09:53:39 +0100
+Message-ID: <CAFEAcA8irfgXaGvUWxVAEa5Cr5yjNMCcwt_9KcBB+sggvhAMzg@mail.gmail.com>
+To: Bandan Das <bsd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH 4/5] vhost-user-input: check
- ioctl(EVIOCGNAME) return value
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] misc usb-mtp fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,40 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 5 Jun 2019 at 16:04, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
+On Mon, 1 Apr 2019 at 22:17, Bandan Das <bsd@redhat.com> wrote:
 >
-> This should fix coverity CID 1401704.
+> v4:
+>   Added 1/3: <jpgva0nuddm.fsf@linux.bootlegged.copy>
+> v3:
+>   2/2: Fix indentation
+>        Add back sending RES_OK for success
+> v2:
+>   1/2: Add Reviewed-by tag
+>   2/2: remove extra vars and directly call usb_mtp_queue_result
 >
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  contrib/vhost-user-input/main.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> The first patch removes a unnecessary function
+> and the second is just a code reorg of usb_mtp_write_data
+> to make it less confusing. Applies on top of
+> [PATCH v3] usb-mtp: fix return status of delete
+> Message-ID:
 >
-> diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/m=
-ain.c
-> index 54f882602a..8b4e7d2536 100644
-> --- a/contrib/vhost-user-input/main.c
-> +++ b/contrib/vhost-user-input/main.c
-> @@ -342,7 +342,11 @@ main(int argc, char *argv[])
->
->      vi.config =3D g_array_new(false, false, sizeof(virtio_input_config))=
-;
->      memset(&id, 0, sizeof(id));
-> -    ioctl(vi.evdevfd, EVIOCGNAME(sizeof(id.u.string) - 1), id.u.string);
-> +    if (ioctl(vi.evdevfd, EVIOCGNAME(sizeof(id.u.string) - 1),
-> +              id.u.string) < 0) {
-> +        g_printerr("Failed to get evdev name: %s\n", g_strerror(errno));
-> +        exit(EXIT_FAILURE);
-> +    }
+> Bandan Das (3):
+>   usb-mtp: fix return status of delete
+>   usb-mtp: remove usb_mtp_object_free_one
+>   usb-mtp: refactor the flow of usb_mtp_write_data
 
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Bandan, Gerd -- what's the status of this patchset?
+I think this is the one that fixes the CID1399415
+Coverity issue about usb_mtp_write_data() return values, right?
 
 thanks
 -- PMM
