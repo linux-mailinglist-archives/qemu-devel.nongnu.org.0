@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186B1398AC
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 00:28:35 +0200 (CEST)
-Received: from localhost ([::1]:53834 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1323398C8
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 00:32:38 +0200 (CEST)
+Received: from localhost ([::1]:53872 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZNLe-0000uN-8g
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 18:28:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56721)
+	id 1hZNPY-0004GS-RF
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 18:32:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57523)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hZNJe-0007t9-QZ
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 18:26:32 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hZNLm-00026Q-SF
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 18:28:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hZNJc-00086X-Vx
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 18:26:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46900)
+ (envelope-from <jsnow@redhat.com>) id 1hZNLl-0003PF-US
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 18:28:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39678)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hZNJZ-0007yo-C7; Fri, 07 Jun 2019 18:26:25 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1hZNLj-0003Ly-Pq; Fri, 07 Jun 2019 18:28:39 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 45214285AE;
- Fri,  7 Jun 2019 22:26:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EF42930832DE;
+ Fri,  7 Jun 2019 22:28:33 +0000 (UTC)
 Received: from [10.10.120.179] (ovpn-120-179.rdu2.redhat.com [10.10.120.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9DA6E5D707;
- Fri,  7 Jun 2019 22:26:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C19FA60BE2;
+ Fri,  7 Jun 2019 22:28:31 +0000 (UTC)
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20190603120005.37394-1-vsementsov@virtuozzo.com>
+ <20190603120005.37394-2-vsementsov@virtuozzo.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -108,22 +109,22 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <54598cf4-a326-5385-2d86-d2dd43f26f47@redhat.com>
-Date: Fri, 7 Jun 2019 18:26:05 -0400
+Message-ID: <2587ead5-85ef-4e25-b3b2-feb5feda60a5@redhat.com>
+Date: Fri, 7 Jun 2019 18:28:27 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190603120005.37394-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20190603120005.37394-2-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 07 Jun 2019 22:26:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Fri, 07 Jun 2019 22:28:34 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/4] qapi: block-dirty-bitmap-remove
- transaction action
+Subject: Re: [Qemu-devel] [PATCH 1/4] blockdev: reduce aio_context locked
+ sections in bitmap add/remove
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -143,42 +144,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 6/3/19 8:00 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
+> Commit 0a6c86d024c52 returned these locks back to add/remove
+> functionality, to protect from intersection of persistent bitmap
+> related IO with other IO. But other bitmap-related functions called
+> here are unrelated to the problem, and there are no needs to keep these
+> calls inside critical sections.
 > 
-> Here is block-dirty-bitmap-remove transaction action.
-> 
-> It is used to do transactional movement of the bitmap (which is
-> possible in conjunction with merge command). Transactional bitmap
-> movement is needed in scenarios with external snapshot, when we don't
-> want to leave copy of the bitmap in the base image.
-> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Oh, interesting. I see why you want this now. OK, let's do it.
+Fine, of course. I'll probably rebase my series on top of this if the
+rest of the patches look good.
 
-> Implementation itself in 03, in short:
-> 
-> .prepare: make bitmap unnamed and non-persistent, delete stored version
->           of the bitmap from the image
-> 
-> .commit: release bitmap
-> 
-> .abort: restore bitmap name and persistence. We don't restore bitmap
->         version in the image. It's not critical, we have in-RAM version,
->         it will be stored on shutdown
-> 
-> Vladimir Sementsov-Ogievskiy (4):
->   blockdev: reduce aio_context locked sections in bitmap add/remove
->   block/dirty-bitmap: add hide/unhide API
->   qapi: implement block-dirty-bitmap-remove transaction action
->   iotests: test bitmap moving inside 254
-> 
->  qapi/transaction.json        |   2 +
->  include/block/dirty-bitmap.h |   2 +
->  block/dirty-bitmap.c         |  26 +++++++++
->  blockdev.c                   | 100 +++++++++++++++++++++++++++--------
->  tests/qemu-iotests/254       |  30 ++++++++++-
->  tests/qemu-iotests/254.out   |  82 ++++++++++++++++++++++++++++
->  6 files changed, 219 insertions(+), 23 deletions(-)
-> 
-
+Reviewed-by: John Snow <jsnow@redhat.com>
 
