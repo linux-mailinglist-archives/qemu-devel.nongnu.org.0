@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7FA3882A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:46:53 +0200 (CEST)
-Received: from localhost ([::1]:48206 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F19E9386F9
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:25:46 +0200 (CEST)
+Received: from localhost ([::1]:47452 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZCOX-0000uz-0Y
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45145)
+	id 1hZB85-0002CD-QV
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:25:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40565)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZB57-0008Sl-HN
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:42 -0400
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1hZArh-0007aj-A1
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:08:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZB56-00060X-Am
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:41 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:50988)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZB56-0005zW-3w
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:40 -0400
-Received: by mail-wm1-x336.google.com with SMTP id c66so1283495wmf.0
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:22:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nOqWwiE90nOP0TqVRDm/szto9/dNBu2y2hfwpJ0rtGA=;
- b=i2LxqWcZ7DwLaQImdxxzvQ28zftWMViFa8EQUTDemYH6FXhhiitHW6BUSTJB/DC80l
- /e6bhOy9L8nSLPXfnZJL9JTUPPTHLXbzyEBLNOArHrhSfHC+lhAf9VVH/g7C/GhAuqum
- zTWTO0kV3mcuub+w0d9b/WUR65oinfwxyUZ+LhQwPxpQJ48bjF87dD1t3p8XkrydxH23
- HpxlXpfwCHuRpROg8lKaoHTiV0VjvHZAkjIp9RPGjhiWs3RxAyIWiwouUYIk8NmNeYxQ
- F5cO5ThlzCHBrD0d+gJOkz7wgV080FaaIqCW2k7FEyCO+I8RAUC22w1d5eCA2wgqx/B8
- Sb3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nOqWwiE90nOP0TqVRDm/szto9/dNBu2y2hfwpJ0rtGA=;
- b=g3+gx7sEKmhg1fGUuOlHnaP17AM4Nuo9ih9EqOvxSpstRc7H+oFi2RNbZWd7KCk7R7
- GcEM6aD/D5T6V6qG3r+SqXIQXGRVKpFZBGlgFhld0LTEyJ0XB5oZiF03tzC9tiCGrIpT
- SdKLRo1PwNW4bG/xn6OfB3YjyWACXz2KlCFoJ1dWkJha1yB4QoL1nxR3QlzrzNAS5RKb
- Cl1IfrIhpB+nH60ETELyQYh9NJ4GbFVwX3FgT79n42exFk3+r90w5d+1Z3qgwHg/yhkv
- crPnTlU0+Wy54CgwPUsJcxQbD23K+ZGkVhduYeaFPl40EPfdfdrTgV1C9+EEK77f365E
- lGFA==
-X-Gm-Message-State: APjAAAXRZ6jtyf3ELtMmMsPIPjA97Mlny6C4elQ4pmCh3MkxhxeyJRNc
- f7vJL6GB5wIxbcnFUvXRhapwEQ==
-X-Google-Smtp-Source: APXvYqy3osjV1AzqBhJFNAl9SCEzXrCOnllGEpCB/ZLGL/9fUWkVthbXYrlq0i7kFTED3NRR9wu8Pw==
-X-Received: by 2002:a1c:b757:: with SMTP id h84mr3064686wmf.127.1559899358974; 
- Fri, 07 Jun 2019 02:22:38 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id a19sm1282324wmm.46.2019.06.07.02.22.30
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 02:22:35 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 280DC1FFCB;
- Fri,  7 Jun 2019 10:05:56 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Fri,  7 Jun 2019 10:05:51 +0100
-Message-Id: <20190607090552.12434-53-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
-References: <20190607090552.12434-1-alex.bennee@linaro.org>
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1hZArf-0003U4-0j
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:08:49 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:52210)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
+ id 1hZArb-0003E9-Mx
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:08:45 -0400
+Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::119])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 4B9FC2E0954;
+ Fri,  7 Jun 2019 12:08:38 +0300 (MSK)
+Received: from smtpcorp1j.mail.yandex.net (smtpcorp1j.mail.yandex.net
+ [2a02:6b8:0:1619::137])
+ by mxbackcorp2j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
+ 4bLm70LFf7-8bd8QAge; Fri, 07 Jun 2019 12:08:38 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1559898518; bh=R8uPoPGRvxFNM8lt1+H9ryaMBzDEuHrWONRcg8/fq0A=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=gO4UxnIij5bzbOG6iOr6cD30fg7Ptyp8FzUiyP/9ACPq8NS8VSCrCCbwORIupF/4s
+ f1v6mk2pM+OU00qr8QVsTUWTwHWqxFxvT4R1hbWRQGMikMg1oquzFv4CfabO1G1MQW
+ IDo+cX2D+jReMVLgJM02sHMvLQ32G7WYr3Xw/O2I=
+Authentication-Results: mxbackcorp2j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
+ [2a02:6b8:0:40c:8805:5eb3:3042:85af])
+ by smtpcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id
+ GZHLba17P1-8beaiqb7; Fri, 07 Jun 2019 12:08:37 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (Client certificate not present)
+From: Yury Kotov <yury-kotov@yandex-team.ru>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ kvm@vger.kernel.org (open list:Overall)
+Date: Fri,  7 Jun 2019 12:08:30 +0300
+Message-Id: <20190607090830.18807-1-yury-kotov@yandex-team.ru>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::336
-Subject: [Qemu-devel] [PULL 52/52] gdbstub: Implement qemu physical memory
- mode
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 95.108.205.193
+Subject: [Qemu-devel] [PATCH] kvm-all: Add/update fprintf's for
+ kvm_*_ioeventfd_del
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,126 +68,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Jon Doron <arilou@gmail.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jon Doron <arilou@gmail.com>
+Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+---
+ accel/kvm/kvm-all.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-Add a new query/set which changes the memory GDB sees to physical memory
-only.
-
-gdb> maint packet qqemu.PhyMemMode
-will reply the current phy_mem_mode state (1 for enabled, 0 for disabled)
-gdb> maint packet Qqemu.PhyMemMode:1
-Will make GDB read/write only to physical memory, set to 0 to disable
-
-Signed-off-by: Jon Doron <arilou@gmail.com>
-Message-Id: <20190529064148.19856-21-arilou@gmail.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
-diff --git a/gdbstub.c b/gdbstub.c
-index 12671e6e11..14a9c22f5a 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -46,11 +46,27 @@
- #define GDB_ATTACHED "1"
- #endif
- 
-+#ifndef CONFIG_USER_ONLY
-+static int phy_memory_mode;
-+#endif
-+
- static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
-                                          uint8_t *buf, int len, bool is_write)
- {
--    CPUClass *cc = CPU_GET_CLASS(cpu);
-+    CPUClass *cc;
- 
-+#ifndef CONFIG_USER_ONLY
-+    if (phy_memory_mode) {
-+        if (is_write) {
-+            cpu_physical_memory_write(addr, buf, len);
-+        } else {
-+            cpu_physical_memory_read(addr, buf, len);
-+        }
-+        return 0;
-+    }
-+#endif
-+
-+    cc = CPU_GET_CLASS(cpu);
-     if (cc->memory_rw_debug) {
-         return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 524c4ddfbd..e4ac3386cb 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -864,8 +864,8 @@ static void kvm_mem_ioeventfd_add(MemoryListener *lis=
+tener,
+                                data, true, int128_get64(section->size),
+                                match_data);
+     if (r < 0) {
+-        fprintf(stderr, "%s: error adding ioeventfd: %s\n",
+-                __func__, strerror(-r));
++        fprintf(stderr, "%s: error adding ioeventfd: %s (%d)\n",
++                __func__, strerror(-r), -r);
+         abort();
      }
-@@ -2132,8 +2148,36 @@ static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ctx)
- 
- static void handle_query_qemu_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
- {
--    put_packet(gdb_ctx->s, "sstepbits;sstep");
-+    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "sstepbits;sstep");
-+#ifndef CONFIG_USER_ONLY
-+    pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), ";PhyMemMode");
-+#endif
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+static void handle_query_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx,
-+                                           void *user_ctx)
-+{
-+    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "%d", phy_memory_mode);
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-+}
-+
-+static void handle_set_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx, void *user_ctx)
-+{
-+    if (!gdb_ctx->num_params) {
-+        put_packet(gdb_ctx->s, "E22");
-+        return;
-+    }
-+
-+    if (!gdb_ctx->params[0].val_ul) {
-+        phy_memory_mode = 0;
-+    } else {
-+        phy_memory_mode = 1;
-+    }
-+    put_packet(gdb_ctx->s, "OK");
  }
-+#endif
- 
- static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
-     /* Order is important if has same prefix */
-@@ -2215,6 +2259,12 @@ static GdbCmdParseEntry gdb_gen_query_table[] = {
-         .handler = handle_query_qemu_supported,
-         .cmd = "qemu.Supported",
-     },
-+#ifndef CONFIG_USER_ONLY
-+    {
-+        .handler = handle_query_qemu_phy_mem_mode,
-+        .cmd = "qemu.PhyMemMode",
-+    },
-+#endif
- };
- 
- static GdbCmdParseEntry gdb_gen_set_table[] = {
-@@ -2225,6 +2275,14 @@ static GdbCmdParseEntry gdb_gen_set_table[] = {
-         .cmd_startswith = 1,
-         .schema = "l0"
-     },
-+#ifndef CONFIG_USER_ONLY
-+    {
-+        .handler = handle_set_qemu_phy_mem_mode,
-+        .cmd = "qemu.PhyMemMode:",
-+        .cmd_startswith = 1,
-+        .schema = "l0"
-+    },
-+#endif
- };
- 
- static void handle_gen_query(GdbCmdContext *gdb_ctx, void *user_ctx)
--- 
-2.20.1
+@@ -882,6 +882,8 @@ static void kvm_mem_ioeventfd_del(MemoryListener *lis=
+tener,
+                                data, false, int128_get64(section->size),
+                                match_data);
+     if (r < 0) {
++        fprintf(stderr, "%s: error deleting ioeventfd: %s (%d)\n",
++                __func__, strerror(-r), -r);
+         abort();
+     }
+ }
+@@ -898,8 +900,8 @@ static void kvm_io_ioeventfd_add(MemoryListener *list=
+ener,
+                               data, true, int128_get64(section->size),
+                               match_data);
+     if (r < 0) {
+-        fprintf(stderr, "%s: error adding ioeventfd: %s\n",
+-                __func__, strerror(-r));
++        fprintf(stderr, "%s: error adding ioeventfd: %s (%d)\n",
++                __func__, strerror(-r), -r);
+         abort();
+     }
+ }
+@@ -917,6 +919,8 @@ static void kvm_io_ioeventfd_del(MemoryListener *list=
+ener,
+                               data, false, int128_get64(section->size),
+                               match_data);
+     if (r < 0) {
++        fprintf(stderr, "%s: error deleting ioeventfd: %s (%d)\n",
++                __func__, strerror(-r), -r);
+         abort();
+     }
+ }
+--=20
+2.21.0
 
 
