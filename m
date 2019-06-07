@@ -2,66 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366CA38B2B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:12:46 +0200 (CEST)
-Received: from localhost ([::1]:50992 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A8238B8E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:22:24 +0200 (CEST)
+Received: from localhost ([::1]:51058 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZEfl-0005Pa-Eo
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59808)
+	id 1hZEp5-0000kR-WC
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:22:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34402)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hZEbl-0001sz-TR
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:08:39 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hZEm0-0007NC-Q7
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hZEbj-0005rH-Ta
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:08:37 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:44677)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hZEbj-0005kf-OS
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:08:35 -0400
-Received: by mail-ot1-x341.google.com with SMTP id b7so1740766otl.11
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 06:08:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2qhxN0j+xO3lc84ZYBjXCiQz9G1pupLf4Ynwz1mbak4=;
- b=UnJWy/4ejfPADeYBhmSV0XpxJNytKBuMhf/gg428v3/wIIq5ge1P3tlJZPue2xy6ky
- 8+Iqp2/gitKB8jAjWTHr9ehU3dMb1xLLdxgYpJlaCIf0KjBvT4D+cYBQzQAJcIenZloj
- 5GVaQUKRBWtF4gkei6haVcZbh+eSn4ztevGBylizfyrfjFlP/xw8xRGbIdHsQzpZj2FU
- y8LbIE0Lisclruvtl3VAjhENwTArKX87eCP3GYzJqP7dhYLmSwTbL432sJL5gkzPpJNd
- OnM2/7/LdaLxA25Fi0zNCDyqvhPnLZchUV0sCt53wCSYCIYm7UqBX3zxseUu/zkecBmI
- eEhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2qhxN0j+xO3lc84ZYBjXCiQz9G1pupLf4Ynwz1mbak4=;
- b=DhGKCgcV7BXWjDd65KVMWnAsViDAjq3SzwR3mU4phf/yuyxxBr0AlzzOfvPeHnLkok
- yevx43+tc8WQhw4K4GkU56yu6Qh2f6xltMYpReGXUnbzRt0mUoFP6uhFnytSc+JoWi0M
- NAcXfUFN+trQAmhZb9BF4IflxZf26Hm2rVFBO038DaicPmn+2ZBx9QmGCm6vTF22Sxln
- SlicAL/kYRjWhCDTdnxMzXxXnNwtXxDHY/IQXYY2VWj619qnutPPysfzpzNStavUxbA+
- 9BfZlbDdERmg/54maRnuqa9PsEQUFndCo+5BxZdLJdMXrFh5FemwEtDdxHVM5wkB/kUE
- NGEg==
-X-Gm-Message-State: APjAAAUxyOYz1rp8HMjbzaKN9N6ZghGtD8h8ZPXOTphCBuAnKTESkvsh
- hhGpyyxr8yn6OUbnRJ/16gq97yTlNHk4+OMuFs4hbg==
-X-Google-Smtp-Source: APXvYqwEhHxVCLzpOU7x9AV6Agz13NJjiql8thz8Op4cw0cdF8F5sakr6hofGup1WgjBwl3pyZTES6cnHvLERz5IgQM=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr19619591otk.232.1559912913469; 
- Fri, 07 Jun 2019 06:08:33 -0700 (PDT)
+ (envelope-from <kraxel@redhat.com>) id 1hZElz-00051G-Ro
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50078)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZElz-0004uW-Ks
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:11 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4A2A030832F4
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 13:19:10 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-25.ams2.redhat.com
+ [10.36.117.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 627196092E;
+ Fri,  7 Jun 2019 13:19:03 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id EE3F716E1A; Fri,  7 Jun 2019 15:19:01 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  7 Jun 2019 15:18:56 +0200
+Message-Id: <20190607131901.20107-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20190524124248.28394-1-peter.maydell@linaro.org>
- <20190524124248.28394-3-peter.maydell@linaro.org>
-In-Reply-To: <20190524124248.28394-3-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jun 2019 14:08:22 +0100
-Message-ID: <CAFEAcA9bBNov=qUEtgkBdhAyj1E=sPALKpJcYyEkSmFO7VgHDg@mail.gmail.com>
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v2 2/2] hw/intc/arm_gicv3:
- GICD_TYPER.SecurityExtn is RAZ if GICD_CTLR.DS == 1
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Fri, 07 Jun 2019 13:19:10 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/5] Ui 20190607 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,50 +56,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping for code review, please?
+The following changes since commit 0d74f3b4277a7ecb0ccb80c865797d11f8e466=
+f5:
 
-thanks
--- PMM
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-=
+request' into staging (2019-06-06 14:09:14 +0100)
 
-On Fri, 24 May 2019 at 13:42, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The GICv3 specification says that the GICD_TYPER.SecurityExtn bit
-> is RAZ if GICD_CTLR.DS is 1. We were incorrectly making it RAZ
-> if the security extension is unsupported. "Security extension
-> unsupported" always implies GICD_CTLR.DS == 1, but the guest can
-> also set DS on a GIC which does support the security extension.
-> Fix the condition to correctly check the GICD_CTLR.DS bit.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/intc/arm_gicv3_dist.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
-> index e6fe4905fd3..b65f56f9035 100644
-> --- a/hw/intc/arm_gicv3_dist.c
-> +++ b/hw/intc/arm_gicv3_dist.c
-> @@ -378,8 +378,14 @@ static MemTxResult gicd_readl(GICv3State *s, hwaddr offset,
->           * ITLinesNumber == (num external irqs / 32) - 1
->           */
->          int itlinesnumber = ((s->num_irq - GIC_INTERNAL) / 32) - 1;
-> +        /*
-> +         * SecurityExtn must be RAZ if GICD_CTLR.DS == 1, and
-> +         * "security extensions not supported" always implies DS == 1,
-> +         * so we only need to check the DS bit.
-> +         */
-> +        bool sec_extn = !(s->gicd_ctlr & GICD_CTLR_DS);
->
-> -        *data = (1 << 25) | (1 << 24) | (s->security_extn << 10) |
-> +        *data = (1 << 25) | (1 << 24) | (sec_extn << 10) |
->              (0xf << 19) | itlinesnumber;
->          return MEMTX_OK;
->      }
-> --
-> 2.20.1
->
+are available in the Git repository at:
+
+  git://git.kraxel.org/qemu tags/ui-20190607-pull-request
+
+for you to fetch changes up to 15ee0d9bc10b3de677ff6cd78b6dc9d5a7d40603:
+
+  egl-helpers: add modifier support to egl_dmabuf_import_texture() (2019-=
+06-07 11:52:35 +0200)
+
+----------------------------------------------------------------
+curses: 32bit build fix.
+egl: dmabuf modifier support.
+
+----------------------------------------------------------------
+
+Gerd Hoffmann (4):
+  console: add dmabuf modifier field.
+  vfio/display: set dmabuf modifier field
+  egl-helpers: add modifier support to egl_get_fd_for_texture().
+  egl-helpers: add modifier support to egl_dmabuf_import_texture()
+
+Max Reitz (1):
+  ui/curses: Fix build with -m32
+
+ include/ui/console.h     |  1 +
+ include/ui/egl-helpers.h |  3 ++-
+ hw/vfio/display.c        |  1 +
+ ui/curses.c              |  8 ++++----
+ ui/egl-helpers.c         | 39 ++++++++++++++++++++++++++++-----------
+ ui/spice-display.c       |  7 ++++---
+ 6 files changed, 40 insertions(+), 19 deletions(-)
+
+--=20
+2.18.1
+
 
