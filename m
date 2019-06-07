@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D43C392BA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 19:03:28 +0200 (CEST)
-Received: from localhost ([::1]:49622 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8A73922C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:33:49 +0200 (CEST)
+Received: from localhost ([::1]:49448 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZIFt-0006wQ-0H
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 13:02:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53525)
+	id 1hZHoK-0001MS-DE
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53427)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hZGzq-0003bM-Gt
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:41:40 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZGza-0003ZC-8h
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:41:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hZGxv-0003Au-Pz
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:39:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43965)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
- id 1hZGxo-0002vx-54; Fri, 07 Jun 2019 11:39:32 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9642F30BC572;
- Fri,  7 Jun 2019 15:39:23 +0000 (UTC)
-Received: from work-vm (ovpn-116-24.ams2.redhat.com [10.36.116.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 68FC95C238;
- Fri,  7 Jun 2019 15:39:22 +0000 (UTC)
-Date: Fri, 7 Jun 2019 16:39:20 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190607153919.GK2631@work-vm>
-References: <20190607135430.22149-1-kwolf@redhat.com>
- <20190607135430.22149-2-kwolf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hZGyN-0003wC-UL
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:40:08 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45497)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hZGyN-0003ux-PR
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:40:07 -0400
+Received: by mail-ot1-x343.google.com with SMTP id n2so2223511otl.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 08:40:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yMyl7uBfzfRWn3wt0QEADOUdYYV2RLsnlF1NTQo4Rjw=;
+ b=b3LCcfYse+pn5+63kwKOKwI1e61j04i8w1sP2o+X6nJXppWTlI83ZAZwXpYkR8VBJz
+ flyEGTfJo2UkFnOWppjysXJo+iKSdPF45Dvue1E3FiBiyJBCsw7w+g40d8G/FvuqJDeG
+ hlaG4qDYtrjs3CSgqH0tK+qPDEbZqckw6cSMSSWHxqp0T8eKhvjliPLIXGYYBPegIB9n
+ uCiFlkEV2N+LqiybcfpkvA3P3mE39WGTd4bPJNX6hiVjljB8oT1ethwjYJjyfMBgfme3
+ 1lVDeGqomV4frRBF9JjXmDEo2uxpioFtFbSPQmPYQEnRG/IykPyvwYrEdvIJ+Pbj+CcB
+ AzHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yMyl7uBfzfRWn3wt0QEADOUdYYV2RLsnlF1NTQo4Rjw=;
+ b=YLuPDtJv4A1hMJyjnfiEYlkW/nQuhOLMGLM2uBSGCm/Xh+xhEv5Z8gkJ0un4ibK904
+ opfGJgMTl7vigQQ1KV7tTEwIRuj63vAw97X+aTWtudxe5DjYj67hTzvJ7PzJaEoDoF2J
+ U3AlSxU0T7UhMP6uONTXFcguyxoUV7q03eNQIzNieSUtHsfbAI5x/yqpZm+gwoo0BY7C
+ DAWpr1gb7YCkvQ+y96tuhSVROL/uenS3g0GD4XBGbmoEqrO6BtHUhs6QvKmAQiANTYkK
+ E1Hrjs/TAzh9j4ftY42zZFmeaWPmBPExkNQ63PwZbR6uxHgO+wjv/l4ErEsWlOXrlJiZ
+ bp3Q==
+X-Gm-Message-State: APjAAAW23mZ5AgM6uNS8buh+eZ+oJbk42wnAJagnQeIuwWmjoyYIXOmO
+ RQmTA9Ot3xQ94iwNNQC0Az14qHIqQhxqzl+VbGARIw==
+X-Google-Smtp-Source: APXvYqzYriHIkdwMlcd3suhLfSsN8dFZk+kXyVBcKMVHwQ3i6VL9O8IOwbus+Fm3p+l3hCPPEMbOdTMEFfB2V3bQvvo=
+X-Received: by 2002:a9d:6b0d:: with SMTP id g13mr20093009otp.91.1559922006983; 
+ Fri, 07 Jun 2019 08:40:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190607135430.22149-2-kwolf@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 07 Jun 2019 15:39:31 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH 01/10] monitor: Remove unused password
- prompting fields
+References: <20190606174609.20487-1-peter.maydell@linaro.org>
+ <20190606174609.20487-10-peter.maydell@linaro.org>
+ <9cf15c60-3cdc-7cac-f9d5-a3fe49b415b6@linaro.org>
+In-Reply-To: <9cf15c60-3cdc-7cac-f9d5-a3fe49b415b6@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jun 2019 16:39:56 +0100
+Message-ID: <CAFEAcA8ua9HRn2cgNhcYxMav+M+vwsHjPi=e92nuGeVk_fRk1A@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 09/42] target/arm: Convert
+ VCVTA/VCVTN/VCVTP/VCVTM to decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,41 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, armbru@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kevin Wolf (kwolf@redhat.com) wrote:
-> Commit 788cf9f8c removed the code for password prompting from the
-> monitor. Since then, the Monitor fields password_completion_cb and
-> password_opaque have been unused. Remove them.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+On Fri, 7 Jun 2019 at 16:38, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/6/19 12:45 PM, Peter Maydell wrote:
+> > @@ -3452,6 +3446,15 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
+> >          }
+> >      }
+> >
+> > +    if (extract32(insn, 28, 4) == 0xf) {
+> > +        /*
+> > +         * Encodings with T=1 (Thumb) or unconditional (ARM): these
+> > +         * were all handled by the decodetree decoder, so any insn
+> > +         * patterns which get here must be UNDEF.
+> > +         */
+> > +        return 1;
+> > +    }
+>
+> This could be merged into the previous IF.  Unless I'm jumping the gun and this
+> too goes away at the end after everything is converted?
 
-A shame, I love the idea of password completion.  123<tab>
+Yes, it goes away in patch 41 when we delete the no-longer-used
+skeleton of the legacy decoder.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  monitor.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/monitor.c b/monitor.c
-> index 6428eb3b7e..70ce9e8a77 100644
-> --- a/monitor.c
-> +++ b/monitor.c
-> @@ -220,8 +220,6 @@ struct Monitor {
->  
->      MonitorQMP qmp;
->      gchar *mon_cpu_path;
-> -    BlockCompletionFunc *password_completion_cb;
-> -    void *password_opaque;
->      mon_cmd_t *cmd_table;
->      QTAILQ_ENTRY(Monitor) entry;
->  
-> -- 
-> 2.20.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+thanks
+-- PMM
 
