@@ -2,58 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC02F3955B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:14:40 +0200 (CEST)
-Received: from localhost ([::1]:51512 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3283956A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:19:44 +0200 (CEST)
+Received: from localhost ([::1]:51610 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKJz-0006RJ-Je
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38842)
+	id 1hZKOs-0002k0-D1
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:19:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41551)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hZJ1h-0007zz-0Y
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:51:43 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hZJCK-0006yl-2o
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:02:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hZJ1X-00010V-NV
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:51:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34070)
+ (envelope-from <ehabkost@redhat.com>) id 1hZJCJ-0007uj-6I
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:02:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37844)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hZJ1Q-0000IQ-Ch
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:51:25 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hZJCI-0007r2-Ua
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:02:39 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DA4F630C0DC2
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 17:51:22 +0000 (UTC)
-Received: from work-vm (ovpn-116-24.ams2.redhat.com [10.36.116.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14E3418950;
- Fri,  7 Jun 2019 17:51:12 +0000 (UTC)
-Date: Fri, 7 Jun 2019 18:51:10 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Message-ID: <20190607175109.GW2631@work-vm>
-References: <20190517125820.2885-4-jfreimann@redhat.com>
- <20190521094504.GB2915@work-vm>
- <20190530145645.tjwkgi4hae5yblsi@jenstp.localdomain>
- <20190531214748.GN22103@habkost.net>
- <20190603082456.vzpy256kj4o5e5wu@jenstp.localdomain>
- <20190603193648.GQ22103@habkost.net>
- <20190604134321.txlw7wjwe247g5ug@jenstp.localdomain>
- <20190604125037-mutt-send-email-mst@kernel.org>
- <20190604190019.GM3851@work-vm>
- <20190607141407.73hzf5w6vqjegaja@jenstp.localdomain>
+ by mx1.redhat.com (Postfix) with ESMTPS id 8C5693082A8F
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 18:02:27 +0000 (UTC)
+Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC8815C896;
+ Fri,  7 Jun 2019 18:02:24 +0000 (UTC)
+Date: Fri, 7 Jun 2019 15:02:23 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190607180223.GC22416@habkost.net>
+References: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
+ <1559205199-233510-2-git-send-email-imammedo@redhat.com>
+ <87h8915m7u.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190607141407.73hzf5w6vqjegaja@jenstp.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <87h8915m7u.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 07 Jun 2019 17:51:22 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Fri, 07 Jun 2019 18:02:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/4] net/virtio: add failover support
+Subject: Re: [Qemu-devel] [PATCH v4 1/3] machine: show if CLI option '-numa
+ node, mem' is supported in QAPI schema
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,99 +58,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- aadam@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, ailan@redhat.com
+Cc: libvir-list@redhat.com, Igor Mammedov <imammedo@redhat.com>,
+ berrange@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Jens Freimann (jfreimann@redhat.com) wrote:
-> On Tue, Jun 04, 2019 at 08:00:19PM +0100, Dr. David Alan Gilbert wrote:
-> > * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > > On Tue, Jun 04, 2019 at 03:43:21PM +0200, Jens Freimann wrote:
-> > > > On Mon, Jun 03, 2019 at 04:36:48PM -0300, Eduardo Habkost wrote:
-> > > > > On Mon, Jun 03, 2019 at 10:24:56AM +0200, Jens Freimann wrote:
-> > > > > > On Fri, May 31, 2019 at 06:47:48PM -0300, Eduardo Habkost wrote:
-> > > > > > > On Thu, May 30, 2019 at 04:56:45PM +0200, Jens Freimann wrote:
-> > > > > > > > On Tue, May 28, 2019 at 11:04:15AM -0400, Michael S. Tsirkin wrote:
-> > > > > > > > > On Tue, May 21, 2019 at 10:45:05AM +0100, Dr. David Alan Gilbert wrote:
-> > > > > > > > > > * Jens Freimann (jfreimann@redhat.com) wrote:
-> > > > > > Why is it bad to fully re-create the device in case of a failed migration?
-> > > > >
-> > > > > Bad or not, I thought the whole point of doing it inside QEMU was
-> > > > > to do something libvirt wouldn't be able to do (namely,
-> > > > > unplugging the device while not freeing resources).  If we are
-> > > > > doing something that management software is already capable of
-> > > > > doing, what's the point?
-> > > >
-> > > > Event though management software seems to be capable of it, a failover
-> > > > implementation has never happened. As Michael says network failover is
-> > > > a mechanism (there's no good reason not to use a PT device if it is
-> > > > available), not a policy. We are now trying to implement it in a
-> > > > simple way, contained within QEMU.
-> > > >
-> > > > > Quoting a previous message from this thread:
-> > > > >
-> > > > > On Thu, May 30, 2019 at 02:09:42PM -0400, Michael S. Tsirkin wrote:
-> > > > > | > On Thu, May 30, 2019 at 07:00:23PM +0100, Dr. David Alan Gilbert wrote:
-> > > > > | > >  This patch series is very
-> > > > > | > > odd precisely because it's trying to do the unplug itself in the
-> > > > > | > > migration phase rather than let the management layer do it - so unless
-> > > > > | > > it's nailed down how to make sure that's really really bullet proof
-> > > > > | > > then we've got to go back and ask the question about whether we should
-> > > > > | > > really fix it so it can be done by the management layer.
-> > > > > | > >
-> > > > > | > > Dave
-> > > > > | >
-> > > > > | > management already said they can't because files get closed and
-> > > > > | > resources freed on unplug and so they might not be able to re-add device
-> > > > > | > on migration failure. We do it in migration because that is
-> > > > > | > where failures can happen and we can recover.
-> > > >
-> > > > This is something that I can work on as well, but it doesn't have to
-> > > > be part of this patch set in my opinion. Let's say migration fails and we can't
-> > > > re-plug the primary device. We can still use the standby (virtio-net)
-> > > > device which would only mean slower networking. How likely is it that
-> > > > the primary device is grabbed by another VM between unplugging and
-> > > > migration failure anyway?
-> > > >
-> > > > regards,
-> > > > Jens
-> > > 
-> > > I think I agree with Eduardo it's very important to handle this corner
-> > > case correctly. Fast networking outside migration is why people use
-> > > failover at all.  Someone who can live with a slower virtio would use
-> > > just that.
-> > > 
-> > > And IIRC this corner case is exactly why libvirt could not
-> > > implement it correctly itself and had to push it up the stack
-> > > until it fell off the cliff :).
-> > 
-> > So I think we need to have the code that shows we can cope with the
-> > corner cases - or provide a way for libvirt to handle it (which is
-> > my strong preference).
-> 
-> Would this work: We add a new migration state MIGRATE_WAIT_UNPLUG (or
-> a better more generic name) which tells libvirt that migration has not
-> started yet because we are waiting for the guest. And extend the qmp
-> events for the migration state. When we know the device was
-> sucessfully unplugged we sent a qmp event DEVICE_DELETED or a new one
-> DEVICE_DELETED_PARTIALLY (not sure about that yet), let migration
-> start and set the migration state to active?
+On Fri, Jun 07, 2019 at 07:39:17PM +0200, Markus Armbruster wrote:
+> This is correct when the TYPE_VIRT_MACHINE, TYPE_PC_MACHINE and
+> TYPE_SPAPR_MACHINE are exactly the machines supporting NUMA.  How could
+> I check that?
 
-Potentially; lets see what the libvirt people have to say.
-What happens if you have multiple devices and one of them unplugs OK and
-then the other fails?
+parse_numa_node() rejects the -numa option if the machine doesn't
+implement MachineClass::get_default_cpu_node_id().
 
-> To do a partial unplug I imagine, we have to separate vfio(-pci) code
-> to differ between release of resources (fds, mappings etc) and unplug
-> (I haven't yet found out how it works in vfio). In the failover case
-> we only do the unplug part but not the release part.
+Grepping for it:
 
-Dave
+$ git grep -pw get_default_cpu_node_id
+hw/arm/virt.c=static void virt_machine_class_init(ObjectClass *oc, void *data)
+hw/arm/virt.c:    mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
+hw/core/machine.c=static void machine_numa_finish_cpu_init(MachineState *machine)
+hw/core/machine.c:            props.node_id = mc->get_default_cpu_node_id(machine, i);
+hw/i386/pc.c=static void pc_machine_class_init(ObjectClass *oc, void *data)
+hw/i386/pc.c:    mc->get_default_cpu_node_id = pc_get_default_cpu_node_id;
+hw/ppc/spapr.c=static void spapr_machine_class_init(ObjectClass *oc, void *data)
+hw/ppc/spapr.c:    mc->get_default_cpu_node_id = spapr_get_default_cpu_node_id;
+include/hw/boards.h=typedef struct {
+include/hw/boards.h: * @get_default_cpu_node_id:
+include/hw/boards.h=struct MachineClass {
+include/hw/boards.h:    int64_t (*get_default_cpu_node_id)(const MachineState *ms, int idx);
+numa.c=static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+numa.c:    if (!mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id) {
 
-> regards,
-> Jens
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+Related:
+  [PATCH v4 01/11] numa: move numa global variable nb_numa_nodes into MachineState
+which adds a MachineClass::numa_supported flag to those machines.
+
+-- 
+Eduardo
 
