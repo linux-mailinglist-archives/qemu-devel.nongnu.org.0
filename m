@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBD53894A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:45:11 +0200 (CEST)
-Received: from localhost ([::1]:48746 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0867938917
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:33:45 +0200 (CEST)
+Received: from localhost ([::1]:48666 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZDJ0-0002OJ-PT
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:45:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37020)
+	id 1hZD7w-0002lG-6o
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:33:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37725)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hZC3k-0002nn-Bc
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:25:22 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZC6U-0003gm-0d
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:28:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hZC3d-0001GM-SQ
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:25:18 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44509)
+ (envelope-from <peter.maydell@linaro.org>) id 1hZC6N-0007uy-3f
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:28:06 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:38099)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hZC3Z-00013L-L9
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:25:11 -0400
-Received: by mail-ot1-x344.google.com with SMTP id b7so1342495otl.11
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 03:25:06 -0700 (PDT)
+ id 1hZC6K-0007ZM-Oh
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:28:02 -0400
+Received: by mail-ot1-x343.google.com with SMTP id d17so1376802oth.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 03:27:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=he4P8/BHNsH7Rjfw5tDQkts46u8Rf8xVcDOZBP1joI8=;
- b=BhK1y/5tMKP+IfkGJeYpZTqYbqsGAnvTuvqGON0hllIWy2B0N916JNyvHtC8WR436U
- +FWDRlrc0GDBabS6amZkoOsCJjZfFOHMtIpqD9TPxJZIEfMXrwOOYpLVof/Lcd4OEmYs
- 0oOsXM15tT/ZwewnaMWM8PpBGhgcMEpUa9RdmxWKDsoq2uFaZTR5FRLlmb+WNC0ovZdO
- SCuvoDpQrMCLsr0CCF8FAfTCR2OJ9mNwCdl3UPbNMvcluKuN08/zny9mI9YajGDc19NZ
- Wgi9kYtfTREJ8BdFzyT7Oo7eTI0Jee7zHc+2B4cxK4VcwCo54mWM1jmWu0dZm5l/WpTb
- s+CQ==
+ :cc; bh=G9tZs+bbHaZ/lmZ1JR/IpholDSHvIsp+2x6edWyF+Eo=;
+ b=kNXz1H8xjL98uHpfpJ6acmnrU75ougVcWUFTPSnaHq0PUGuZHE/oWVOwIYlrHFJ/Py
+ 06QOqscuMqxVklNHd4guo47rz9kVMNvZv9uZjqzkbW0gwmpSCDBS37BCrOBUe2I7PLJI
+ X+pDKXcR6e9tO+x+ERZdQT6DpiVqCXBZhpMSSjkkWPo50PU64yEpWXM+Tl+Q1vVIWAA1
+ hAveAs+sni6N0na81qrWnom7Tk8ef8qJZD1cE31Q7ETTvw+JKgeubAvJkGOLxzWEf+uR
+ iKsWj1unI1rUjGDZKxFOKeaka2h4KDOwebKLWoEXWdvbMTJcntfryE/pWO4bNBBeYEKa
+ cz2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=he4P8/BHNsH7Rjfw5tDQkts46u8Rf8xVcDOZBP1joI8=;
- b=pahJJc9RQTNM2qyAy8/ckMAXm+thAX5gQCvhtc2Auwf0YptiQtuBrihGbD9QIi32I7
- bRr5mqXWpDmgpiKx612W4KZhxVL1zC/i9qk27Mlq8JTEHr31mvFKIh6oTwPD1uUKVd4W
- kSctEH0cKuX4dxREiTmMgMiegRhZcx6z2/2AIfJYMPaXv8s+p7/5IUbCsf/5tZL5BSw4
- +VQfMFlpaGBmcdy8w9QlA0GopfFFTHTB9Lkg28ei9zhy1JGrOCngnx0u19i9oDP7FTYj
- 4lk80+3dVYYZbIvjWiMQ+0fTStD8V6+O2jyyXYYA6Y1KkJenuI+ymYpRliZS9LevfjhJ
- YoHw==
-X-Gm-Message-State: APjAAAVEanSIFMiiuVjsVWtEmtYEZNejkOR8qFIRMZAvwwzRvPO+MzRY
- Gl+VCb0V/n4HVhoBoQn5U7P1ZTTX181KxpT8EMSI7w==
-X-Google-Smtp-Source: APXvYqziaYYlCS8l2D8KmX+mrCiYOuBlhfNlwsb7fEFyz5ZMGi2+hTtFWGz1Kl6lppxM7E/VehOWhc7mfUVHmxG6xOw=
-X-Received: by 2002:a9d:6b0d:: with SMTP id g13mr18976059otp.91.1559903105450; 
- Fri, 07 Jun 2019 03:25:05 -0700 (PDT)
+ bh=G9tZs+bbHaZ/lmZ1JR/IpholDSHvIsp+2x6edWyF+Eo=;
+ b=tJ2EJn5noatZoiUYfZEcSwUTehtm10SqeCNpa3r2x4gApZ9gW/fTNuLSl9DNcyz7eh
+ AzgTgSUvA19OfxN5ylCOVODLY/ZVX87HdeXarSthXxKXD+C9Bvj2cUvVBeH+YMSyw68t
+ tUZOQ6mSIhsAqSf9Gyk6mUcLsiVoQHQsrKajIPr/dGda2L98c4/UtN33lqJPt+6NN0oe
+ GnYmOdzQNO1Pl5hbcHrkidb0DEg0N4/wBTKotCDwayacMZvLyTiSdSqj9ZbcazxZvKD7
+ vxdD4bUqVA9qREKPxj8R/USrLygqQHAMu5EERpRgsU/AoDxfl9xN2dOfGwQRMkST7N6B
+ p24w==
+X-Gm-Message-State: APjAAAV4kq4Or+ylRJGnKHqfKqgXC0a1VADFtQTB7O7nEDcldZWj3lv9
+ wGb9+cxHk8bbjxdxNEnMLFQgtz4kpZcqqBXhS61soQ==
+X-Google-Smtp-Source: APXvYqw1jIOLhNJJKC8gdd46tANXr45evzHRywmklo7jvPxGVcs2NML/lHasiMNzj2vwqni+TzTHy1/qKeGB2oBh8b0=
+X-Received: by 2002:a9d:193:: with SMTP id e19mr18286788ote.135.1559903274367; 
+ Fri, 07 Jun 2019 03:27:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190604203351.27778-1-richard.henderson@linaro.org>
- <20190604203351.27778-39-richard.henderson@linaro.org>
-In-Reply-To: <20190604203351.27778-39-richard.henderson@linaro.org>
+References: <20190603214653.29369-1-jsnow@redhat.com>
+ <20190603214653.29369-3-jsnow@redhat.com>
+In-Reply-To: <20190603214653.29369-3-jsnow@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jun 2019 11:24:54 +0100
-Message-ID: <CAFEAcA-MdduL0NpFb8foTwcNufF-BWNPpRnkJdKhn_vf3=1jzQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Fri, 7 Jun 2019 11:27:43 +0100
+Message-ID: <CAFEAcA_ibRpZW1W6BgNXOJVORKOLwft5qPrBz6ekadOFPAZywg@mail.gmail.com>
+To: John Snow <jsnow@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v4 38/39] tcg/arm: Use LDRD to load tlb
- mask+table
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v3 2/3] sphinx: add qmp_lexer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,34 +72,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Jun 2019 at 22:08, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, 3 Jun 2019 at 22:47, John Snow <jsnow@redhat.com> wrote:
 >
-> This changes the code generation for the tlb from e.g.
+> Sphinx, through Pygments, does not like annotated json examples very
+> much. In some versions of Sphinx (1.7), it will render the non-json
+> portions of code blocks in red, but in newer versions (2.0) it will
+> throw an exception and not highlight the block at all. Though we can
+> suppress this warning, it doesn't bring back highlighting on non-strict
+> json blocks.
 >
->         ldr      ip, [r6, #-0x10]
->         ldr      r2, [r6, #-0xc]
->         and      ip, ip, r4, lsr #8
->         ldrd     r0, r1, [r2, ip]!
->         ldr      r2, [r2, #0x18]
+> We can alleviate this by creating a custom lexer for QMP examples that
+> allows us to properly highlight these examples in a robust way, keeping
+> our directionality and elision notations.
 >
-> to
->
->         ldrd     r0, r1, [r6, #-0x10]
->         and      r0, r0, r4, lsr #8
->         ldrd     r2, r3, [r1, r0]!
->         ldr      r1, [r1, #0x18]
->
-> for armv7 hosts.  Rearranging the register allocation in
-> order to avoid overlap between the two ldrd pairs causes
-> the patch to be larger than it ordinarily would be.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+(mostly reviewing the sphinx config bits -- I trust that
+the actual lexer does what it says on the tin :-))
 
 thanks
 -- PMM
