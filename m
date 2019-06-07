@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6D238533
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 09:43:24 +0200 (CEST)
-Received: from localhost ([::1]:46470 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F28385BB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 09:51:41 +0200 (CEST)
+Received: from localhost ([::1]:46566 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ9X1-0003Pj-Bx
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 03:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
+	id 1hZ9f3-0005gp-6C
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 03:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47293)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lersek@redhat.com>) id 1hZ9Vg-0002wc-AT
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 03:42:01 -0400
+ (envelope-from <bounces@canonical.com>) id 1hZ9e0-0004pn-Sv
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 03:50:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1hZ9Vf-00019Y-2y
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 03:42:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54200)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>)
- id 1hZ9Ve-000180-Rc; Fri, 07 Jun 2019 03:41:59 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A5A093082AC3;
- Fri,  7 Jun 2019 07:41:56 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-111.ams2.redhat.com
- [10.36.117.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1DF5C5B6B3;
- Fri,  7 Jun 2019 07:41:45 +0000 (UTC)
-To: Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
-References: <20190117185628.21862-1-crosa@redhat.com>
- <20190117185628.21862-16-crosa@redhat.com>
- <b235e7a9-57ad-5547-b8ca-693159820a8f@redhat.com>
- <e63a4ea3-e9ff-4920-cdfa-14bf04b5b08c@redhat.com>
- <84aa43ba-df19-51f6-e14d-fb82a7f2dfcc@redhat.com>
- <a638e504-f7ad-fa3a-f198-c3878cfc560e@redhat.com>
- <20190607032648.GA22416@habkost.net>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <22ba99c6-0cd0-4733-2fc9-05e5fd5bee12@redhat.com>
-Date: Fri, 7 Jun 2019 09:41:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <bounces@canonical.com>) id 1hZ9dz-0007ay-Pa
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 03:50:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33620)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hZ9dz-0007Yq-K3
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 03:50:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hZ9dy-0002SO-BJ
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:50:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F84A2E80CB
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 07:50:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190607032648.GA22416@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 07 Jun 2019 07:41:57 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Jun 2019 07:44:56 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: regression tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-randrianasulu
+X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <155962633298.7880.15982922254182327026.malonedeb@wampee.canonical.com>
+Message-Id: <155989349711.23795.15165772194444343978.launchpad@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: ace8df9492824ce9693c0d0262e3f81b9f7d170d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 15/18] Boot Linux Console Test: add a test
- for aarch64 + virt
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831545] Re: "accel/tcg: demacro cputlb" break
+ qemu-system-x86_64 on 32-bit x86 host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,51 +65,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Stefan Markovic <smarkovic@wavecomp.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Claudio Fontana <claudio.fontana@huawei.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-s390x@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Caio Carrara <ccarrara@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1831545 <1831545@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/07/19 05:26, Eduardo Habkost wrote:
+** Tags added: tcg
 
-> Thread 4 (Thread 0x7f2e45fff700 (LWP 6461)):
-> #0  0x00007f2e4ec03500 in nanosleep () at /lib64/libpthread.so.0
-> #1  0x00007f2e4fb229d7 in g_usleep () at /lib64/libglib-2.0.so.0
-> #2  0x0000559a4e7ca4c9 in qemu_chr_write_buffer (s=s@entry=0x559a502d0ac0, buf=buf@entry=0x7f2e45ffdd90 "7", len=1, offset=offset@entry=0x7f2e45ffdd60, write_all=true) at chardev/char.c:115
-> #3  0x0000559a4e7ca78f in qemu_chr_write (s=0x559a502d0ac0, buf=buf@entry=0x7f2e45ffdd90 "7", len=len@entry=1, write_all=write_all@entry=true) at chardev/char.c:148
-> #4  0x0000559a4e7cc7e2 in qemu_chr_fe_write_all (be=be@entry=0x559a504b4c50, buf=buf@entry=0x7f2e45ffdd90 "7", len=len@entry=1) at chardev/char-fe.c:53
-> #5  0x0000559a4e58f320 in pl011_write (opaque=0x559a504b47d0, offset=0, value=55, size=<optimized out>) at hw/char/pl011.c:183
-> #6  0x0000559a4e325121 in memory_region_write_accessor (mr=0x559a504b4ae0, addr=0, value=<optimized out>, size=2, shift=<optimized out>, mask=<optimized out>, attrs=...) at /home/ehabkost/rh/proj/virt/qemu/memory.c:503
-> #7  0x0000559a4e322cd6 in access_with_adjusted_size (addr=addr@entry=0, value=value@entry=0x7f2e45ffded8, size=size@entry=2, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=access_fn@entry=
->     0x559a4e3250a0 <memory_region_write_accessor>, mr=0x559a504b4ae0, attrs=...) at /home/ehabkost/rh/proj/virt/qemu/memory.c:569
-> #8  0x0000559a4e32763f in memory_region_dispatch_write (mr=mr@entry=0x559a504b4ae0, addr=addr@entry=0, data=<optimized out>, data@entry=55, size=size@entry=2, attrs=...) at /home/ehabkost/rh/proj/virt/qemu/memory.c:1497
-> #9  0x0000559a4e338708 in io_writex (env=env@entry=0x559a503d5620, mmu_idx=mmu_idx@entry=1, val=val@entry=55, addr=addr@entry=18446462598867529728, retaddr=139836732143069, size=2, iotlbentry=<optimized out>, iotlbentry=<optimized out>)
->     at /home/ehabkost/rh/proj/virt/qemu/accel/tcg/cputlb.c:945
-> #10 0x0000559a4e33d203 in store_helper (big_endian=false, size=2, retaddr=<optimized out>, oi=<optimized out>, val=55, addr=18446462598867529728, env=0x559a503d5620) at /home/ehabkost/rh/proj/virt/qemu/accel/tcg/cputlb.c:1544
-> #11 0x0000559a4e33d203 in helper_le_stw_mmu (env=0x559a503d5620, addr=18446462598867529728, val=55, oi=<optimized out>, retaddr=139836732143069) at /home/ehabkost/rh/proj/virt/qemu/accel/tcg/cputlb.c:1636
-> #12 0x00007f2e46bef5dd in code_gen_buffer ()
-> #13 0x0000559a4e352381 in cpu_tb_exec (itb=<optimized out>, cpu=0x559a503d5620) at /home/ehabkost/rh/proj/virt/qemu/accel/tcg/cpu-exec.c:171
-> #14 0x0000559a4e352381 in cpu_loop_exec_tb (tb_exit=<synthetic pointer>, last_tb=<synthetic pointer>, tb=<optimized out>, cpu=0x559a503d5620) at /home/ehabkost/rh/proj/virt/qemu/accel/tcg/cpu-exec.c:618
-> #15 0x0000559a4e352381 in cpu_exec (cpu=cpu@entry=0x559a503cd360) at /home/ehabkost/rh/proj/virt/qemu/accel/tcg/cpu-exec.c:729
-> #16 0x0000559a4e30ea0f in tcg_cpu_exec (cpu=0x559a503cd360) at /home/ehabkost/rh/proj/virt/qemu/cpus.c:1434
-> #17 0x0000559a4e310b6b in qemu_tcg_cpu_thread_fn (arg=arg@entry=0x559a503cd360) at /home/ehabkost/rh/proj/virt/qemu/cpus.c:1743
-> #18 0x0000559a4e83669a in qemu_thread_start (args=<optimized out>) at util/qemu-thread-posix.c:502
-> #19 0x00007f2e4ebf958e in start_thread () at /lib64/libpthread.so.0
-> #20 0x00007f2e4eb266f3 in clone () at /lib64/libc.so.6
+-- =
 
-See also <https://bugzilla.redhat.com/show_bug.cgi?id=1661940>.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831545
 
-$ git show 6ab3fc32ea64 -- hw/char/pl011.c
+Title:
+  "accel/tcg: demacro cputlb" break qemu-system-x86_64 on 32-bit x86
+  host
 
-Thanks
-Laszlo
+Status in QEMU:
+  New
+
+Bug description:
+  As described in https://lists.gnu.org/archive/html/qemu-
+  devel//2019-05/msg07362.html I run into TCG regression in qemu-git.
+
+  Unfortunately, fix from bug
+  https://bugs.launchpad.net/qemu/+bug/1830872 seems to be nonn-
+  effective for my case.
+
+  For reproduction (on 32-bit x86 host, in my case Slackware with gcc
+  5.5.0):
+
+  ./configure --target-list=3Dx86_64-softmmu --disable-werror --enable-
+  debug-tcg
+
+  make (-j5 in my case)
+
+  try to boot any 64-bit kernel:
+
+  x86_64-softmmu/qemu-system-x86_64 -kernel /boot/bzImage-4.12.0-x64
+  -accel tcg
+
+  result is - qemu appear to hang right after "Booting the kernel" line.
+  Decompression (xz) was ok.
+
+  Tested with qemu-git commit  e2a58ff493a2e00db3e963c1839c5374500110f2
+
+  32-bit OS can be booted fine, and -enable-kvm also allow 64 bit
+  kernel/os to boot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831545/+subscriptions
 
