@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AB038C1A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:00:47 +0200 (CEST)
-Received: from localhost ([::1]:51438 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D18F38C0E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:57:25 +0200 (CEST)
+Received: from localhost ([::1]:51398 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFQE-0006ol-4S
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:00:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45104)
+	id 1hZFMy-0003i4-Mi
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45176)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hZFKf-0001ae-QW
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:55:03 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hZFKk-0001jl-7m
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:55:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hZFKd-0003Ca-SQ
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:55:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40050)
+ (envelope-from <kwolf@redhat.com>) id 1hZFKi-0003M2-Ty
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:55:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39932)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hZFKZ-0002jl-Vs; Fri, 07 Jun 2019 09:54:56 -0400
+ id 1hZFKf-0003Ed-Ex; Fri, 07 Jun 2019 09:55:01 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1CCA630BC578;
- Fri,  7 Jun 2019 13:54:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9197F3092647;
+ Fri,  7 Jun 2019 13:54:47 +0000 (UTC)
 Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
  [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD2531001B0C;
- Fri,  7 Jun 2019 13:54:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D6FB1001B0C;
+ Fri,  7 Jun 2019 13:54:46 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 15:54:25 +0200
-Message-Id: <20190607135430.22149-6-kwolf@redhat.com>
+Date: Fri,  7 Jun 2019 15:54:26 +0200
+Message-Id: <20190607135430.22149-7-kwolf@redhat.com>
 In-Reply-To: <20190607135430.22149-1-kwolf@redhat.com>
 References: <20190607135430.22149-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 07 Jun 2019 13:54:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Fri, 07 Jun 2019 13:54:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC PATCH 05/10] monitor: Move cmd_table to MonitorHMP
+Subject: [Qemu-devel] [RFC PATCH 06/10] Move monitor.c to monitor/misc.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,120 +60,47 @@ Cc: kwolf@redhat.com, armbru@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Monitor.cmd_table contains the handlers for HMP commands, so there is no
-reason to keep it in the state shared with QMP. Move it to MonitorHMP.
+Create a new monitor/ subdirectory and move monitor.c there. As the plan
+is to move the monitor core into separate files, use the chance to
+rename it to misc.c.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- monitor.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ monitor.c =3D> monitor/misc.c | 0
+ Makefile.target             | 3 ++-
+ monitor/Makefile.objs       | 1 +
+ 3 files changed, 3 insertions(+), 1 deletion(-)
+ rename monitor.c =3D> monitor/misc.c (100%)
+ create mode 100644 monitor/Makefile.objs
 
-diff --git a/monitor.c b/monitor.c
-index 810f3dcf9c..d964dd1969 100644
---- a/monitor.c
-+++ b/monitor.c
-@@ -191,7 +191,6 @@ struct Monitor {
-     bool use_io_thread;
-=20
-     gchar *mon_cpu_path;
--    mon_cmd_t *cmd_table;
-     QTAILQ_ENTRY(Monitor) entry;
-=20
-     /*
-@@ -219,6 +218,7 @@ struct MonitorHMP {
-      * These members can be safely accessed without locks.
-      */
-     ReadLineState *rs;
-+    mon_cmd_t *cmd_table;
- };
-=20
- typedef struct {
-@@ -720,13 +720,19 @@ static void monitor_data_init(Monitor *mon, int fla=
-gs, bool skip_flush,
-     memset(mon, 0, sizeof(Monitor));
-     qemu_mutex_init(&mon->mon_lock);
-     mon->outbuf =3D qstring_new();
--    /* Use *mon_cmds by default. */
--    mon->cmd_table =3D mon_cmds;
-     mon->skip_flush =3D skip_flush;
-     mon->use_io_thread =3D use_io_thread;
-     mon->flags =3D flags;
- }
-=20
-+static void monitor_data_init_hmp(MonitorHMP *mon, int flags, bool skip_=
-flush)
-+{
-+    monitor_data_init(&mon->common, flags, skip_flush, false);
-+
-+    /* Use *mon_cmds by default. */
-+    mon->cmd_table =3D mon_cmds;
-+}
-+
- static void monitor_data_destroy_qmp(MonitorQMP *mon)
- {
-     json_message_parser_destroy(&mon->parser);
-@@ -757,7 +763,7 @@ char *qmp_human_monitor_command(const char *command_l=
-ine, bool has_cpu_index,
-     Monitor *old_mon;
-     MonitorHMP hmp =3D {};
-=20
--    monitor_data_init(&hmp.common, 0, true, false);
-+    monitor_data_init_hmp(&hmp, 0, true);
-=20
-     old_mon =3D cur_mon;
-     cur_mon =3D &hmp.common;
-@@ -1002,6 +1008,7 @@ static void help_cmd_dump(Monitor *mon, const mon_c=
-md_t *cmds,
-=20
- static void help_cmd(Monitor *mon, const char *name)
- {
-+    MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
-     char *args[MAX_ARGS];
-     int nb_args =3D 0;
-=20
-@@ -1024,7 +1031,7 @@ static void help_cmd(Monitor *mon, const char *name=
-)
-     }
-=20
-     /* 2. dump the contents according to parsed args */
--    help_cmd_dump(mon, mon->cmd_table, args, nb_args, 0);
-+    help_cmd_dump(mon, hmp_mon->cmd_table, args, nb_args, 0);
-=20
-     free_cmdline_args(args, nb_args);
- }
-@@ -3477,7 +3484,7 @@ static void handle_hmp_command(MonitorHMP *mon, con=
-st char *cmdline)
-=20
-     trace_handle_hmp_command(mon, cmdline);
-=20
--    cmd =3D monitor_parse_command(mon, cmdline, &cmdline, mon->common.cm=
-d_table);
-+    cmd =3D monitor_parse_command(mon, cmdline, &cmdline, mon->cmd_table=
-);
-     if (!cmd) {
-         return;
-     }
-@@ -4124,7 +4131,7 @@ static void monitor_find_completion(void *opaque,
-     }
-=20
-     /* 2. auto complete according to args */
--    monitor_find_completion_by_table(mon, mon->common.cmd_table, args, n=
-b_args);
-+    monitor_find_completion_by_table(mon, mon->cmd_table, args, nb_args)=
-;
-=20
- cleanup:
-     free_cmdline_args(args, nb_args);
-@@ -4680,7 +4687,7 @@ static void monitor_init_hmp(Chardev *chr, int flag=
-s)
-     MonitorHMP *mon =3D g_malloc0(sizeof(*mon));
-     bool use_readline =3D flags & MONITOR_USE_READLINE;
-=20
--    monitor_data_init(&mon->common, flags, false, false);
-+    monitor_data_init_hmp(mon, flags, false);
-     qemu_chr_fe_init(&mon->common.chr, chr, &error_abort);
-=20
-     if (use_readline) {
+diff --git a/monitor.c b/monitor/misc.c
+similarity index 100%
+rename from monitor.c
+rename to monitor/misc.c
+diff --git a/Makefile.target b/Makefile.target
+index ecd856e3a3..72c267f7dc 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -148,9 +148,10 @@ endif #CONFIG_BSD_USER
+ #########################################################
+ # System emulator target
+ ifdef CONFIG_SOFTMMU
+-obj-y +=3D arch_init.o cpus.o monitor.o gdbstub.o balloon.o ioport.o num=
+a.o
++obj-y +=3D arch_init.o cpus.o gdbstub.o balloon.o ioport.o numa.o
+ obj-y +=3D qtest.o
+ obj-y +=3D hw/
++obj-y +=3D monitor/
+ obj-y +=3D qapi/
+ obj-y +=3D memory.o
+ obj-y +=3D memory_mapping.o
+diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
+new file mode 100644
+index 0000000000..e783b0616b
+--- /dev/null
++++ b/monitor/Makefile.objs
+@@ -0,0 +1 @@
++obj-y +=3D misc.o
 --=20
 2.20.1
 
