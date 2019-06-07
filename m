@@ -2,66 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB06638BF1
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:51:46 +0200 (CEST)
-Received: from localhost ([::1]:51314 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7827238BFB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:54:02 +0200 (CEST)
+Received: from localhost ([::1]:51346 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFHV-0006BX-Uh
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41862)
+	id 1hZFJh-000076-N5
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42378)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZFAo-0002Pv-Nx
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:44:52 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hZFCp-0003bJ-HP
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:46:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZFAn-0006dP-DH
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:44:50 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:51921)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZFAn-0006bR-4K
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:44:49 -0400
-Received: by mail-wm1-f67.google.com with SMTP id f10so2160648wmb.1
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 06:44:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h7pXsDj1TDs862cd965Vv9Lfimkl4ikd0Xk/EqtijUE=;
- b=WxFyKNq995dfTvj08jIooNuce9F2LRcJqlqAcBbb91fEsHKk+63V5ipMhAY0Sa7Nsn
- tMo3qLBsTxCdp8dgNd3dJMAdlooduvchmCj6AdBgg1QKBYkDaGPBCSycJw9GyKWaIUl5
- O4K4X8npKMEvrhZn0r8QQ6YaNj3lw+yg7F4OoksUL+F4qNvNU3zCnkpGtBKB70fS+75f
- abKcWROJO1SgozOe/k/Yb322tNhvH4KeNSFTejhHXaeDiPxGGLtllgmp8iQhV86daht0
- keu45pdj8M26qImjTLuC8sSNJNDiEwJYAFK2y0FdoEEIMKy0Vi+uG4d4FZeoO6UJI1on
- rxaw==
-X-Gm-Message-State: APjAAAUTWfMA7fNcpTfCm1b9Y6PhfvJqwX+zxjwB/JuFnPdBawYqDlE7
- lRKtSkgKUzD/xfWL6hQkM+haeg==
-X-Google-Smtp-Source: APXvYqxGUyVhy2MnW0OqIYGBZcxQvfxPK09vJTrr+Y2xE9QCSe3HPjK62M7t6Cy7Y+NEZqW8AGSvGQ==
-X-Received: by 2002:a1c:7d4e:: with SMTP id y75mr3791344wmc.169.1559915088058; 
- Fri, 07 Jun 2019 06:44:48 -0700 (PDT)
-Received: from [192.168.0.156] ([78.192.181.46])
- by smtp.gmail.com with ESMTPSA id b8sm1863529wrr.88.2019.06.07.06.44.47
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 06:44:47 -0700 (PDT)
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
- <20190607091116.49044-17-ysato@users.sourceforge.jp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <6e4b77b4-f05c-74e8-e128-1555ead951fc@redhat.com>
-Date: Fri, 7 Jun 2019 15:44:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <stefanha@redhat.com>) id 1hZFCn-0000yZ-88
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:46:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39116)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1hZFCM-0008VJ-Q1; Fri, 07 Jun 2019 09:46:26 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AF2BA30C3181;
+ Fri,  7 Jun 2019 13:46:03 +0000 (UTC)
+Received: from localhost (ovpn-117-94.ams2.redhat.com [10.36.117.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B49E382F6C;
+ Fri,  7 Jun 2019 13:45:56 +0000 (UTC)
+Date: Fri, 7 Jun 2019 15:45:55 +0200
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>
+Message-ID: <20190607134555.GB5220@stefanha-x1.localdomain>
+References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
+ <20190603123823.32661-5-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190607091116.49044-17-ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="s2ZSL+KKDSLx8OML"
+Content-Disposition: inline
+In-Reply-To: <20190603123823.32661-5-mehta.aaru20@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Fri, 07 Jun 2019 13:46:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH v17 16/24] Add rx-softmmu
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 4/9] block/io_uring: implements
+ interfaces for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,113 +59,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ saket.sinha89@gmail.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Julia Suvorova <jusual@mail.ru>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/19 11:11 AM, Yoshinori Sato wrote:
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Message-Id: <20190516055244.95559-10-ysato@users.sourceforge.jp>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  configure                      | 8 ++++++++
->  default-configs/rx-softmmu.mak | 3 +++
->  include/sysemu/arch_init.h     | 1 +
->  arch_init.c                    | 2 ++
->  hw/Kconfig                     | 1 +
->  5 files changed, 15 insertions(+)
->  create mode 100644 default-configs/rx-softmmu.mak
-> 
-> diff --git a/configure b/configure
-> index b091b82cb3..d6e16c58c3 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7595,6 +7595,11 @@ case "$target_name" in
->      gdb_xml_files="riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml"
->      target_compiler=$cross_cc_riscv64
->    ;;
-> +  rx)
-> +    TARGET_ARCH=rx
-> +    bflt="yes"
-> +    target_compiler=$cross_cc_rx
-> +  ;;
->    sh4|sh4eb)
->      TARGET_ARCH=sh4
->      bflt="yes"
-> @@ -7815,6 +7820,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
->    riscv*)
->      disas_config "RISCV"
->    ;;
-> +  rx)
-> +    disas_config "RX"
-> +  ;;
->    s390*)
->      disas_config "S390"
->    ;;
-> diff --git a/default-configs/rx-softmmu.mak b/default-configs/rx-softmmu.mak
-> new file mode 100644
-> index 0000000000..a3eecefb11
-> --- /dev/null
-> +++ b/default-configs/rx-softmmu.mak
-> @@ -0,0 +1,3 @@
-> +# Default configuration for rx-softmmu
+
+--s2ZSL+KKDSLx8OML
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Jun 03, 2019 at 06:08:18PM +0530, Aarushi Mehta wrote:
+> +static void qemu_luring_process_completions(LuringState *s)
+> +{
+> +    struct io_uring_cqe *cqes;
+> +    int ret;
 > +
-> +CONFIG_RX_VIRT=y
-> diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-> index 10cbafe970..3f4f844f7b 100644
-> --- a/include/sysemu/arch_init.h
-> +++ b/include/sysemu/arch_init.h
-> @@ -25,6 +25,7 @@ enum {
->      QEMU_ARCH_NIOS2 = (1 << 17),
->      QEMU_ARCH_HPPA = (1 << 18),
->      QEMU_ARCH_RISCV = (1 << 19),
-> +    QEMU_ARCH_RX = (1 << 20),
->  };
->  
->  extern const uint32_t arch_type;
-> diff --git a/arch_init.c b/arch_init.c
-> index f4f3f610c8..cc25ddd7ca 100644
-> --- a/arch_init.c
-> +++ b/arch_init.c
-> @@ -74,6 +74,8 @@ int graphic_depth = 32;
->  #define QEMU_ARCH QEMU_ARCH_PPC
->  #elif defined(TARGET_RISCV)
->  #define QEMU_ARCH QEMU_ARCH_RISCV
-> +#elif defined(TARGET_RX)
-> +#define QEMU_ARCH QEMU_ARCH_RX
->  #elif defined(TARGET_S390X)
->  #define QEMU_ARCH QEMU_ARCH_S390X
->  #elif defined(TARGET_SH4)
-> diff --git a/hw/Kconfig b/hw/Kconfig
-> index 195f541e50..b0c7221240 100644
-> --- a/hw/Kconfig
-> +++ b/hw/Kconfig
-> @@ -54,6 +54,7 @@ source nios2/Kconfig
->  source openrisc/Kconfig
->  source ppc/Kconfig
->  source riscv/Kconfig
-> +source rx/Kconfig
->  source s390x/Kconfig
->  source sh4/Kconfig
->  source sparc/Kconfig
-> 
+> +    /*
+> +     * Request completion callbacks can run the nested event loop.
+> +     * Schedule ourselves so the nested event loop will "see" remaining
+> +     * completed requests and process them.  Without this, completion
+> +     * callbacks that wait for other requests using a nested event loop
+> +     * would hang forever.
+> +     */
+> +    qemu_bh_schedule(s->completion_bh);
+> +
+> +    while (io_uring_peek_cqe(&s->ring, &cqes) == 0) {
+> +        if (!cqes) {
+> +            break;
+> +        }
+> +        LuringAIOCB *luringcb = io_uring_cqe_get_data(cqes);
+> +        read_barrier();
 
-Again:
+What is the purpose of this barrier?
 
-Please squash in:
+> +static void qemu_luring_process_completions_and_submit(LuringState *s)
+> +{
+> +    aio_context_acquire(s->aio_context);
+> +    qemu_luring_process_completions(s);
+> +
+> +    if (!s->io_q.plugged && !s->io_q.in_queue) {
 
--- >8 --
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -26,6 +26,7 @@
- #pragma GCC poison TARGET_PPC
- #pragma GCC poison TARGET_PPC64
- #pragma GCC poison TARGET_ABI32
-+#pragma GCC poison TARGET_RX
- #pragma GCC poison TARGET_S390X
- #pragma GCC poison TARGET_SH4
- #pragma GCC poison TARGET_SPARC
----
+Submit when there are queued requesting waiting for submission:
+
+s/!s->io_q.in_queue/s->io_q.in_queue > 0/
+
+--s2ZSL+KKDSLx8OML
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlz6apMACgkQnKSrs4Gr
+c8hQFAf+JmCkndK1lkTWo8RkodBdlVX97Dv2FbswRNPcxuIkSTABGJXCGRfACE1a
+VWZl4vSMMwi2Kv71QHutYY2joobTMaPNyvFdIqDRXHdnPseTtZ2nPG7hAvbymws8
+Zn5QqY605LaISjTmIIcPcdpIjBaZtZD21XXHh0pvMLdXVpzQZFFRx480dgVgayVF
+t7ZLJJvYfzExOsDagddaSVQ/kICkuRIjhlIwijldN4r0w1WGMDPtHHnUtgFttQAP
+SG32ckjX3j/Cd6pc87J0iLDkykHeld2yQS1KGmGC9a1+g1U6ILtYjerr4MBDMoha
+HFk8JocnrLLrW06mhPnJVhKKejetZg==
+=1QKV
+-----END PGP SIGNATURE-----
+
+--s2ZSL+KKDSLx8OML--
 
