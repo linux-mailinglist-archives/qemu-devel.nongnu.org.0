@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D1239889
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 00:23:08 +0200 (CEST)
-Received: from localhost ([::1]:53778 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641113985B
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 00:14:26 +0200 (CEST)
+Received: from localhost ([::1]:53688 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZNGN-0003FP-AC
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 18:23:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47983)
+	id 1hZN7x-0002CN-KD
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 18:14:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48064)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <prvs=0547f94d1=alistair.francis@wdc.com>)
- id 1hZMsX-0004ny-3l
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:58:37 -0400
+ id 1hZMsb-0004q5-39
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:58:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=0547f94d1=alistair.francis@wdc.com>)
- id 1hZMsU-0002CV-PH
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:58:28 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:2748)
+ id 1hZMsX-0002ER-4X
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:58:31 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:38183)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=0547f94d1=alistair.francis@wdc.com>)
- id 1hZMsP-00026x-GZ; Fri, 07 Jun 2019 17:58:23 -0400
+ id 1hZMsV-000284-2r; Fri, 07 Jun 2019 17:58:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1559944701; x=1591480701;
+ t=1559944718; x=1591480718;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gGFuqft3Gy+jQsmp9J8ov+i4/Ieho2R14R8oFQ3Co8Y=;
- b=ddDjH/KTwiZJfWqtotw33DW7xbb9i5ZEXXzzVagI0tdeqMOpyO83vUpX
- oe+A38xvWN4LZulZ/dU9tVaIjdk9E7BzG3pefZVJuhXxbPDFejbVFBu1z
- adN/414AoEEyo0tr55gr5jlmUaQwuBsp8lr9Ql1dFOOVFf5s3eFyYdE5q
- 3/oVLs3i5eRKJbh9eKhtrpCSDDM9EG4C0fpLFA0S2GKLu76l/Pim3BMHh
- fGszX/VZr97r8h3XkxlYCZDiRGPD9RIUKHx9eD5bepC/VU/xWlbZ7WzYC
- XNQP07cZ0PHHXFTizBYiV4ugN6uWjMfttx7bUjZqRFthLUK6itU99Se8K g==;
-X-IronPort-AV: E=Sophos;i="5.63,564,1557158400"; d="scan'208";a="111342563"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2019 05:58:14 +0800
-IronPort-SDR: 9MeOQndkkDRPWhpT/SKaS95N91QMbRn2T6dibyjN2jmuG4QY6rgI6UwHYIpMXXpzQIeIeAkzcG
- BVO7A1CY5ANUVVEvhCdSUaocElz8BevcSKPiMx1X7MIQNx/cBmJdgWJRjQvrJHscuuTcEd+H7m
- BWhjohZwAOIBQv8XB0IVBtDSf4X+plDNvMeTGACGE8k8Dp8jDt4GHbcMSvb7ZFRi2ghIvuViyb
- MtrFs75acXvHgLjjbAyblcMMZs5hvVeWYzdhs1Xy39alRqHldHWf79+IHCgNiQ+rHuTUcLpzCc
- 2yxdT22Sw7JcNDXvxqMi/jfh
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP; 07 Jun 2019 14:33:06 -0700
-IronPort-SDR: TC2oH1R41BcXu/z6Xv0gyN5CebPw5jbzEnMAT3zAujhtga0FEL40VFawciUiDpxZql3+CYjs/G
- CWrU1K0vfmGV792ShbdCacb5Mmjfrr4akNHl3VLyd+Q8QpVsnyrDO0yzgal9D7RahsqX/R6v+6
- +8o3OSk4GYeOiyYqy83vi00b9RUGIy2TlWQtJQpvB30QYqWb01xhfFp5T+gWLjD0WTTbNv8NyG
- zMJjU+TPKWdPVf4w0sKaRqN6ZkgOCj/UNA/83MmppSFrmcYp8Om45ADzxA0bdtCRSVqvBGD//M
- /p4=
+ bh=jX/RpI7uSP8KPd5AF5ZDxr9NUzaT3LJkLiKb3mUVKRc=;
+ b=jI67h8YGs/sf8z9O3cp+0SghXE8CRl+JCXQdnLNSX8n4qJRF6e8d2OeW
+ bPoLuu/5po3zbDFr94jGjvvgPtB22pf5vabHXsa82MleZRsD5BEPSMYpt
+ oR7VUoFK8HHRam7Sr0QTZ2XZCSlWZSznSOaYdZHq6OWCt52ToPSn/nmn2
+ diIJefPJuYFVHjuCfxLZkTs7cb1D/xK1bZ+tWVn/Bjw+YumsHVChBCHoq
+ taaj/jXh2/kXctgy0AKDgENnFl8Zovw7BSMbFIB+tWGP3BP+e2pC0n4DA
+ eFftJW1G1oDrikz7SIT+aJwPDsop68y8MEp9cFjLogTcS51Oc60t31QxK w==;
+X-IronPort-AV: E=Sophos;i="5.63,564,1557158400"; d="scan'208";a="209711282"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2019 05:58:23 +0800
+IronPort-SDR: oP6G0jV6pkKFs9o7J8kCsp4G/VAV3FucPcTubDUcBQVTI4gRxDNnD8kVK7J6dJ1WU0OCPdZZTS
+ KS4ws7ZTWUbBWMoAQb5LN2ngzH2Dv6B1U0+7b8gDI9GhYdNRDbLKKY8W/OKtr1a700pbgRNOOC
+ lsvF0ds2tk4T2hR4nKvzcGH7OtYLTULOe0Rh14La5DcmBw3KzaC7LetpGHKVStoxkUchgsXWxU
+ 2RZPemGS6x3SXluA7cWLsg5/Ls5pmxYdNVPj2Ji5WEZ/FAcdIoPF1kr6t2tyOY5RI6aN2xb+bp
+ k2iIa75OTMGmoyXe+NGvRNQx
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP; 07 Jun 2019 14:35:34 -0700
+IronPort-SDR: LMbp+I0mC1SKxV2drNikd+PSO0pzqybNtku5SM8KRMBSMAFvkCA9cjXnzOkVp5pEXAdIIeU+ay
+ tSC5H7FQmPnQDuBgAufEECv8vuwtRiA4JZLwRAFXuOfc0GDolEoFr15qnoV2pIgHI7folpbzBM
+ 6NOg3mXz16sl8R3nYw/kuWDXmzgY5cyoOym4GXQH4NJKbzvjnrfhWlYus2UdYtwvyMUZKtP4DH
+ 8T3dRcxXb+EvGlc5Ats6Pa2HaG+gKeWMl1vFGylwTdYbEG1sTGChIgTPkvGRlAiDiDAWa1Ehf9
+ /L8=
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Jun 2019 14:58:13 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2019 14:58:17 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Date: Fri,  7 Jun 2019 14:56:04 -0700
-Message-Id: <d24b49911b8bc15f734111a8a5ce108b92dd14fe.1559944445.git.alistair.francis@wdc.com>
+Date: Fri,  7 Jun 2019 14:56:07 -0700
+Message-Id: <52f4e2607602fcd822a07632c6c56b32f05fdf4f.1559944445.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559944445.git.alistair.francis@wdc.com>
 References: <cover.1559944445.git.alistair.francis@wdc.com>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 216.71.153.144
-Subject: [Qemu-devel] [PATCH v1 14/27] target/riscv: Generate illegal
- instruction on WFI when V=1
+X-Received-From: 68.232.143.124
+Subject: [Qemu-devel] [PATCH v1 15/27] riscv: plic: Remove unused interrupt
+ functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,26 +85,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/op_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/riscv/sifive_plic.c         | 12 ------------
+ include/hw/riscv/sifive_plic.h |  3 ---
+ 2 files changed, 15 deletions(-)
 
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 644d0fb35f..e08bb8dd5a 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -130,9 +130,10 @@ void helper_wfi(CPURISCVState *env)
- {
-     CPUState *cs = CPU(riscv_env_get_cpu(env));
+diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
+index 07a032d93d..1e7e4c8d51 100644
+--- a/hw/riscv/sifive_plic.c
++++ b/hw/riscv/sifive_plic.c
+@@ -159,18 +159,6 @@ static void sifive_plic_update(SiFivePLICState *plic)
+     }
+ }
  
--    if (env->priv == PRV_S &&
-+    if ((env->priv == PRV_S &&
-         env->priv_ver >= PRIV_VERSION_1_10_0 &&
--        get_field(env->mstatus, MSTATUS_TW)) {
-+        get_field(env->mstatus, MSTATUS_TW)) ||
-+        riscv_cpu_virt_enabled(env)) {
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-     } else {
-         cs->halted = 1;
+-void sifive_plic_raise_irq(SiFivePLICState *plic, uint32_t irq)
+-{
+-    sifive_plic_set_pending(plic, irq, true);
+-    sifive_plic_update(plic);
+-}
+-
+-void sifive_plic_lower_irq(SiFivePLICState *plic, uint32_t irq)
+-{
+-    sifive_plic_set_pending(plic, irq, false);
+-    sifive_plic_update(plic);
+-}
+-
+ static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
+ {
+     int i, j;
+diff --git a/include/hw/riscv/sifive_plic.h b/include/hw/riscv/sifive_plic.h
+index ce8907f6aa..3b8a623919 100644
+--- a/include/hw/riscv/sifive_plic.h
++++ b/include/hw/riscv/sifive_plic.h
+@@ -69,9 +69,6 @@ typedef struct SiFivePLICState {
+     uint32_t aperture_size;
+ } SiFivePLICState;
+ 
+-void sifive_plic_raise_irq(SiFivePLICState *plic, uint32_t irq);
+-void sifive_plic_lower_irq(SiFivePLICState *plic, uint32_t irq);
+-
+ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+     uint32_t num_sources, uint32_t num_priorities,
+     uint32_t priority_base, uint32_t pending_base,
 -- 
 2.21.0
 
