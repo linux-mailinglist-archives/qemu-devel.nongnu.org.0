@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD62139517
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:58:36 +0200 (CEST)
-Received: from localhost ([::1]:51090 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08ECB3953F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:04:25 +0200 (CEST)
+Received: from localhost ([::1]:51134 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZK4J-0002TN-Ly
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:58:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
+	id 1hZKA2-00054q-Mh
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:04:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33525)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hZIgC-0004H0-Pc
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:29:29 -0400
+ (envelope-from <berrange@redhat.com>) id 1hZIgN-0004kg-Vc
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:29:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hZIgB-0001UM-W6
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:29:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39052)
+ (envelope-from <berrange@redhat.com>) id 1hZIgM-0001ut-Os
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:29:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37546)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hZIg6-00017P-QP
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:29:23 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hZIgM-0001tp-HA
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:29:38 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E53A930F1BB4
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 17:29:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
- [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FDB68F6C8;
- Fri,  7 Jun 2019 17:29:00 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B084C11386A0; Fri,  7 Jun 2019 19:28:58 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-References: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
-Date: Fri, 07 Jun 2019 19:28:58 +0200
-In-Reply-To: <1559205199-233510-1-git-send-email-imammedo@redhat.com> (Igor
- Mammedov's message of "Thu, 30 May 2019 10:33:16 +0200")
-Message-ID: <87o9395mp1.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4BFEB308FF30;
+ Fri,  7 Jun 2019 17:29:28 +0000 (UTC)
+Received: from redhat.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A03E468D6B;
+ Fri,  7 Jun 2019 17:29:18 +0000 (UTC)
+Date: Fri, 7 Jun 2019 18:29:15 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Message-ID: <20190607172915.GN28838@redhat.com>
+References: <20190607152223.9467-1-crosa@redhat.com>
+ <20190607152223.9467-8-crosa@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190607152223.9467-8-crosa@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 07 Jun 2019 17:29:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 07 Jun 2019 17:29:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 0/3] numa: deprecate '-numa node,
- mem' and default memory distribution
+Subject: Re: [Qemu-devel] [PATCH 7/8] VNC Acceptance test: check protocol
+ version
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,17 +58,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, ehabkost@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Igor Mammedov <imammedo@redhat.com> writes:
+On Fri, Jun 07, 2019 at 11:22:22AM -0400, Cleber Rosa wrote:
+> This goes a bit further than the other tests, and does a basic (read
+> only) interaction with the VNC protocol.
+> 
+> This is not a enough to perform a handshake, but enough to make sure
+> that the socket is somewhat operational and that the expected initial
+> step of the handshake is performed by the server and that the version
+> matches.
 
-> Changes since v3:
->   - simplify series by dropping idea of showing property values in "qom-list-properties"
->     and use MachineInfo in QAPI schema instead
+The GTK-VNC project provides a low level library libgvnc that can
+be used to talk the RFB protocol in a fairly fine grained manner.
+This is built using GObject, so is accessible from Python thanks
+to GObject Introspection.
 
-Where did "[PATCH v3 1/6] pc: fix possible NULL pointer dereference in
-pc_machine_get_device_memory_region_size()" go?  It fixes a crash bug...
+We could use libgvnc for exercising the VNC server instead of writing
+custom RFB code. For your simple test just sending/receiving the
+version it won't save much, but if we ever want to test TLS or
+SASL integration, it would save alot of work dealing wth the auth
+handshake and subsequent encryption needs.
+
+The main limitation it would have is that it would only work well
+for sending "well formed" RFB protocol messages. If we ever want to
+send intentionally evil/bad RFB data to check QEMU's VNC server
+security hardening it would be harder.
+
+As the maintainer of GTK-VNC though, I would be open to adding more
+APIs to the low level gvnc library to facilitate QEMU's testing
+needs if we want.
+
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  tests/acceptance/vnc.py | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/tests/acceptance/vnc.py b/tests/acceptance/vnc.py
+> index d32ae46685..b000446d7c 100644
+> --- a/tests/acceptance/vnc.py
+> +++ b/tests/acceptance/vnc.py
+> @@ -11,6 +11,7 @@
+>  import os
+>  import tempfile
+>  import shutil
+> +import socket
+>  
+>  from avocado_qemu import Test
+>  
+> @@ -71,5 +72,16 @@ class VncUnixSocket(Test):
+>                                              arg='new_password')
+>          self.assertEqual(set_password_response['return'], {})
+>  
+> +    def test_protocol_version(self):
+> +        self.vm.add_args('-nodefaults', '-S',
+> +                         '-vnc', 'unix:%s' % self.socket_path)
+> +        self.vm.launch()
+> +        self.assertTrue(self.vm.qmp('query-vnc')['return']['enabled'])
+> +        client = socket.socket(socket.AF_UNIX)
+> +        client.connect(self.socket_path)
+> +        expected = b'RFB 003.008'
+> +        actual = client.recv(len(expected))
+> +        self.assertEqual(expected, actual, "Wrong protocol version")
+> +
+>      def tearDown(self):
+>          shutil.rmtree(self.socket_dir)
+> -- 
+> 2.21.0
+> 
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
