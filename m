@@ -2,81 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF70439562
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:17:20 +0200 (CEST)
-Received: from localhost ([::1]:51540 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711713956C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:20:55 +0200 (CEST)
+Received: from localhost ([::1]:51656 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKMZ-0007hA-Ty
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46064)
+	id 1hZKQ2-0003hP-LB
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:20:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46200)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hZJLb-0007sy-4q
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:12:16 -0400
+ (envelope-from <crosa@redhat.com>) id 1hZJLs-00084v-UK
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:12:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hZJLZ-00074p-BF
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:12:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50976)
+ (envelope-from <crosa@redhat.com>) id 1hZJLp-0007aq-LE
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:12:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51080)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hZJLV-0006yy-9C; Fri, 07 Jun 2019 14:12:09 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hZJLp-0007XE-CV
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:12:29 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3EDF7307CDD5;
- Fri,  7 Jun 2019 18:11:55 +0000 (UTC)
-Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8EBC5A205;
- Fri,  7 Jun 2019 18:11:54 +0000 (UTC)
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20190607135430.22149-1-kwolf@redhat.com>
- <20190607140357.GK28838@redhat.com>
- <20190607142514.GE5055@dhcp-200-226.str.redhat.com>
- <20190607143102.GL28838@redhat.com> <20190607153553.GJ2631@work-vm>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <db4e9038-ea2a-2182-895e-26a5a5b77b76@redhat.com>
-Date: Fri, 7 Jun 2019 13:11:53 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ by mx1.redhat.com (Postfix) with ESMTPS id 33C3D3081252;
+ Fri,  7 Jun 2019 18:12:22 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-122-62.rdu2.redhat.com
+ [10.10.122.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CA2E10AFE6E;
+ Fri,  7 Jun 2019 18:12:15 +0000 (UTC)
+Date: Fri, 7 Jun 2019 14:12:07 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Message-ID: <20190607181207.GA20051@localhost.localdomain>
+References: <20190607152223.9467-1-crosa@redhat.com>
+ <20190607152223.9467-8-crosa@redhat.com>
+ <20190607172915.GN28838@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190607153553.GJ2631@work-vm>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="13GxYgRpp7dldeJoBcO0a3m7AHSZqavCU"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190607172915.GN28838@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 07 Jun 2019 18:12:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 07 Jun 2019 18:12:22 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [RFC PATCH 00/10] monitor: Split
- monitor.c in core/HMP/QMP/misc
+Subject: Re: [Qemu-devel] [PATCH 7/8] VNC Acceptance test: check protocol
+ version
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,73 +61,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- armbru@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---13GxYgRpp7dldeJoBcO0a3m7AHSZqavCU
-Content-Type: multipart/mixed; boundary="S5EMqHJRKSzqlJjZ8oJ4qYqXkUffE7s1W";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, armbru@redhat.com
-Message-ID: <db4e9038-ea2a-2182-895e-26a5a5b77b76@redhat.com>
-Subject: Re: [Qemu-block] [Qemu-devel] [RFC PATCH 00/10] monitor: Split
- monitor.c in core/HMP/QMP/misc
-References: <20190607135430.22149-1-kwolf@redhat.com>
- <20190607140357.GK28838@redhat.com>
- <20190607142514.GE5055@dhcp-200-226.str.redhat.com>
- <20190607143102.GL28838@redhat.com> <20190607153553.GJ2631@work-vm>
-In-Reply-To: <20190607153553.GJ2631@work-vm>
-
---S5EMqHJRKSzqlJjZ8oJ4qYqXkUffE7s1W
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 6/7/19 10:35 AM, Dr. David Alan Gilbert wrote:
-
->>> But if people prefer, I can move the existing files in the root
->>> directory to monitor/{qmp,hmp}-cmds.c temporarily in this series and
->>> then work from there with follow-ups until they are empty (or maybe I=
-
->>> don't even have to make them completely empty then).
->>
->> A plain rename like this won't hurt in the meantime.
+On Fri, Jun 07, 2019 at 06:29:15PM +0100, Daniel P. Berrang=E9 wrote:
+> On Fri, Jun 07, 2019 at 11:22:22AM -0400, Cleber Rosa wrote:
+> > This goes a bit further than the other tests, and does a basic (read
+> > only) interaction with the VNC protocol.
+> >=20
+> > This is not a enough to perform a handshake, but enough to make sure
+> > that the socket is somewhat operational and that the expected initial
+> > step of the handshake is performed by the server and that the version
+> > matches.
 >=20
-> Yeh agreed, my brain hurts too much with files of the same name.
+> The GTK-VNC project provides a low level library libgvnc that can
+> be used to talk the RFB protocol in a fairly fine grained manner.
+> This is built using GObject, so is accessible from Python thanks
+> to GObject Introspection.
+>
 
-Not just that, but in gdb, it's harder to set breakpoints of the form
-file.c:line if file.c is not unique to the image.
+Interesting.
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> We could use libgvnc for exercising the VNC server instead of writing
+> custom RFB code. For your simple test just sending/receiving the
+> version it won't save much, but if we ever want to test TLS or
+> SASL integration, it would save alot of work dealing wth the auth
+> handshake and subsequent encryption needs.
+>
 
+Absolutely.
 
---S5EMqHJRKSzqlJjZ8oJ4qYqXkUffE7s1W--
+> The main limitation it would have is that it would only work well
+> for sending "well formed" RFB protocol messages. If we ever want to
+> send intentionally evil/bad RFB data to check QEMU's VNC server
+> security hardening it would be harder.
+>
 
---13GxYgRpp7dldeJoBcO0a3m7AHSZqavCU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Right.  Still, there's a lot that can be done until we eventually
+exaust all possibilities and look into sending bad messages.
 
------BEGIN PGP SIGNATURE-----
+> As the maintainer of GTK-VNC though, I would be open to adding more
+> APIs to the low level gvnc library to facilitate QEMU's testing
+> needs if we want.
+>
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz6qOkACgkQp6FrSiUn
-Q2rMagf+J3n4ZyYNFagqBRtmuXAkvK1R7vMAZXkxQeYRhCcnbg4O1s8quJ4iBqzh
-1imZss9dD6mMFYcSJP49SGYBtunHX4vsFHf3WikXxSKhbWmcytGaD4lhuVTMPvtz
-/dk4LWgN47CEyuLlZDFeCiGguVDI3qnKlCpsSqB7fq7XilaP1ubI0AQBBYyFatBg
-DxIk/rjzmqckDirRyqGVi07rimea+gSY6Htucn1glpl7Qig9+1fxXTpWDJZTvQ1M
-xJ1TV3vreApzFZ6bKAs8kWctmXzjP1oPonriGP5XrB3FTVe7egpGrjldoEUMxVMd
-mho1ZSWVtftPvgdK1q2FzJDBdbV9zA==
-=CqW3
------END PGP SIGNATURE-----
+I personally need to get acquainted with the currently available APIs
+first, but it looks like you alread have ideas for extensions that
+would come in handy.
 
---13GxYgRpp7dldeJoBcO0a3m7AHSZqavCU--
+Also, the one concern I have is how to deploy the library and Python
+bindings so that we can host those more advanced tests and still allow
+for a "make check-acceptance"-like experience.  What I mean is, I
+expect the Python bindings to be easily installed by pip, by I'd be
+(positively) surprised if the libgvnc would also have such an easy
+bootstrap.
+
+Any ideas on this?
+
+Thanks!
+- Cleber.
+
+> >=20
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >  tests/acceptance/vnc.py | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >=20
+> > diff --git a/tests/acceptance/vnc.py b/tests/acceptance/vnc.py
+> > index d32ae46685..b000446d7c 100644
+> > --- a/tests/acceptance/vnc.py
+> > +++ b/tests/acceptance/vnc.py
+> > @@ -11,6 +11,7 @@
+> >  import os
+> >  import tempfile
+> >  import shutil
+> > +import socket
+> > =20
+> >  from avocado_qemu import Test
+> > =20
+> > @@ -71,5 +72,16 @@ class VncUnixSocket(Test):
+> >                                              arg=3D'new_password')
+> >          self.assertEqual(set_password_response['return'], {})
+> > =20
+> > +    def test_protocol_version(self):
+> > +        self.vm.add_args('-nodefaults', '-S',
+> > +                         '-vnc', 'unix:%s' % self.socket_path)
+> > +        self.vm.launch()
+> > +        self.assertTrue(self.vm.qmp('query-vnc')['return']['enabled'=
+])
+> > +        client =3D socket.socket(socket.AF_UNIX)
+> > +        client.connect(self.socket_path)
+> > +        expected =3D b'RFB 003.008'
+> > +        actual =3D client.recv(len(expected))
+> > +        self.assertEqual(expected, actual, "Wrong protocol version")
+> > +
+> >      def tearDown(self):
+> >          shutil.rmtree(self.socket_dir)
+> > --=20
+> > 2.21.0
+> >=20
+> >=20
+>=20
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
+ange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange=
+.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
+ange :|
 
