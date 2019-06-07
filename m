@@ -1,66 +1,56 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FB938C59
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:13:55 +0200 (CEST)
-Received: from localhost ([::1]:51556 helo=lists.gnu.org)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D8E38DCA
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:48:20 +0200 (CEST)
+Received: from localhost ([::1]:48410 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFcw-00074H-Bq
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49215)
+	id 1hZGAF-0007UY-EO
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50867)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZFWF-0003Pl-Ns
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:07:01 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hZFbf-0006xV-UE
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZFWE-0004jT-Ef
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:59 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:38229)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZFWD-0004ff-7e
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:57 -0400
-Received: by mail-wr1-f68.google.com with SMTP id d18so2321143wrs.5
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:06:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uIbtuOuzG8f6L26TbK2FqLZnT6LXGJy6H4Ihys3Eo5c=;
- b=ERGO+YtuWeDdWM8tSo4EZfWEzsj1i6oym5zg78+Mxshpxqfp+IXk0sjTrp3CxFHzZO
- 0OSgOijThbqdNE1bVQQeMNcdCiHDhYVA/aPtRXB7xIjHbLqm2dSjDw/DrfpnxFbCdJwE
- 53zwwKDwNsPW9HLYPK+CmLfTzTTEd7eAQxD8uxs+V7jbRMF/RHJ1bjIDSkUBjQ9codRs
- tkmDNYjnv+BDldXdNsi52hjOT/vzOwUNzGozsdvnwUyjJlW6p9oS1RLBnJy87efrW4Gi
- UVQPqhHwQ0CvFu7jwEI9+SakbF0973PSsfN7Zgo+PincA6H98jppWFhCiUtFP26wUKOF
- nFtA==
-X-Gm-Message-State: APjAAAU8WG+FSsvFh8frncp9/3HmkMzlBMjACvFJaINpUy3OsPP9FmKo
- mOloiFG8NZ4TwDUiLJMAFJzVMA==
-X-Google-Smtp-Source: APXvYqxbt/FrcdGgQ5dmr/6KOlr7TLJ+pReZcZtN4JaUWI1JbAkipkGdTh7PaZZR3iUWI76A0wq+mg==
-X-Received: by 2002:a5d:424f:: with SMTP id s15mr5602878wrr.37.1559916414973; 
- Fri, 07 Jun 2019 07:06:54 -0700 (PDT)
-Received: from [192.168.0.156] ([78.192.181.46])
- by smtp.gmail.com with ESMTPSA id y17sm3914776wrg.18.2019.06.07.07.06.54
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 07:06:54 -0700 (PDT)
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <0501e7a3-9a04-3712-18fe-d946acc86bca@redhat.com>
-Date: Fri, 7 Jun 2019 16:06:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <tony.nguyen@bt.com>) id 1hZFbe-0006X7-AR
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:35 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.77]:29445)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
+ id 1hZFbe-0006RB-1O; Fri, 07 Jun 2019 10:12:34 -0400
+Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
+ BWP09926082.bt.com (10.36.82.113) with Microsoft SMTP Server (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 7 Jun
+ 2019 15:06:58 +0100
+Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
+ tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 7 Jun 2019 15:07:11 +0100
+Received: from tpw09926dag18e.domain1.systemhost.net
+ ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
+ ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 7 Jun 2019
+ 15:07:11 +0100
+From: <tony.nguyen@bt.com>
+To: <qemu-devel@nongnu.org>
+Thread-Topic: [Qemu-trivial] [PATCH] test: Use g_strndup instead of plain
+ strndup
+Thread-Index: AQHVHTpMtEQE4swKekybGdM8Y3P6xw==
+Date: Fri, 7 Jun 2019 14:07:11 +0000
+Message-ID: <430a9a42f7a34b799ee4d2f3d7ab2e23@tpw09926dag18e.domain1.systemhost.net>
+Accept-Language: en-AU, en-GB, en-US
+Content-Language: en-AU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.187.101.40]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20190607091116.49044-1-ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v17 00/24] Add RX archtecture support
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 213.121.35.77
+Subject: [Qemu-devel] [Qemu-trivial] [PATCH] test: Use g_strndup instead of
+ plain strndup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,100 +62,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
+Cc: qemu-trivial@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yoshinori,
-
-On 6/7/19 11:10 AM, Yoshinori Sato wrote:
-> Hello.
-> This patch series is added Renesas RX target emulation.
-> 
-> Changes v17.
-> Remove cpu class name suffix.
-
-I was a bit annoyed you did not collect my review effort from the
-previous series. It is time-saving for reviewers because you don't have
-to re-review the same code twice.
-
-> 
-> My git repository is bellow.
-> git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190607
-> 
-> Testing binaries bellow.
-> u-boot
-> Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
-> 
-> starting
-> $ gzip -d u-boot.bin.gz
-> $ qemu-system-rx -bios u-boot.bin
-> 
-> linux and pico-root (only sash)
-> Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
->            https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTree)
-> 
-> starting
-> $ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
-> 
-> 
-> Richard Henderson (11):
->   target/rx: Convert to CPUClass::tlb_fill
->   target/rx: Add RX to SysEmuTarget
->   target/rx: Fix cpu types and names
->   tests: Add rx to machine-none-test.c
->   hw/rx: Honor -accel qtest
->   target/rx: Disassemble rx_index_addr into a string
->   target/rx: Replace operand with prt_ldmi in disassembler
->   target/rx: Use prt_ldmi for XCHG_mr disassembly
->   target/rx: Emit all disassembly in one prt()
->   target/rx: Collect all bytes during disassembly
->   target/rx: Dump bytes for each insn during disassembly
-> 
-> Yoshinori Sato (13):
->   target/rx: TCG translation
->   target/rx: TCG helper
->   target/rx: CPU definition
->   target/rx: RX disassembler
->   hw/intc: RX62N interrupt controller (ICUa)
->   hw/timer: RX62N internal timer modules
->   hw/char: RX62N serial communication interface (SCI)
->   hw/rx: RX Target hardware definition
->   qemu/bitops.h: Add extract8 and extract16
->   hw/registerfields.h: Add 8bit and 16bit register macros
->   Add rx-softmmu
->   MAINTAINERS: Add RX
->   target/rx: Remove suffix in cpu class.
-
-I'd move the last patch directly after "target/rx: Fix cpu types and names".
-
-Actually I rebased it this way:
-
-[PATCH 01/24] target/rx: TCG translation
-[PATCH 02/24] target/rx: TCG helper
-[PATCH 03/24] target/rx: CPU definition
-[PATCH 04/24] target/rx: RX disassembler
-[PATCH 18/24] target/rx: Disassemble rx_index_addr into a string
-[PATCH 19/24] target/rx: Replace operand with prt_ldmi in disassembler
-[PATCH 20/24] target/rx: Use prt_ldmi for XCHG_mr disassembly
-[PATCH 21/24] target/rx: Emit all disassembly in one prt()
-[PATCH 22/24] target/rx: Collect all bytes during disassembly
-[PATCH 23/24] target/rx: Dump bytes for each insn during disassembly
-[PATCH 05/24] hw/intc: RX62N interrupt controller (ICUa)
-[PATCH 06/24] hw/timer: RX62N internal timer modules
-[PATCH 07/24] hw/char: RX62N serial communication interface (SCI)
-[PATCH 08/24] hw/rx: RX Target hardware definition
-[PATCH 09/24] qemu/bitops.h: Add extract8 and extract16
-[PATCH 10/24] hw/registerfields.h: Add 8bit and 16bit register macros
-[PATCH 11/24] target/rx: Convert to CPUClass::tlb_fill
-[PATCH 13/24] target/rx: Fix cpu types and names
-[PATCH 24/24] target/rx: Remove suffix in cpu class.
-[PATCH 12/24] target/rx: Add RX to SysEmuTarget
-[PATCH 14/24] tests: Add rx to machine-none-test.c
-[PATCH 15/24] hw/rx: Honor -accel qtest
-[PATCH 16/24] Add rx-softmmu
-[PATCH 17/24] MAINTAINERS: Add RX
-
-On Linux + win32 running u-boot + Linux as suggested:
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Due to memory management rules. See HACKING.=0A=
+    =0A=
+Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>=0A=
+=0A=
+diff --git a/tests/check-qjson.c b/tests/check-qjson.c=0A=
+index fa2afcc..07a773e 100644=0A=
+--- a/tests/check-qjson.c=0A=
++++ b/tests/check-qjson.c=0A=
+@@ -767,7 +767,7 @@ static void utf8_string(void)=0A=
+                     if (*end =3D=3D ' ') {=0A=
+                         end++;=0A=
+                     }=0A=
+-                    in =3D strndup(tail, end - tail);=0A=
++                    in =3D g_strndup(tail, end - tail);=0A=
+                     str =3D from_json_str(in, j, NULL);=0A=
+                     g_assert(!str);=0A=
+                     g_free(in);=0A=
+diff --git a/tests/migration/stress.c b/tests/migration/stress.c=0A=
+index 49a03aa..72c4012 100644=0A=
+--- a/tests/migration/stress.c=0A=
++++ b/tests/migration/stress.c=0A=
+@@ -104,7 +104,7 @@ static int get_command_arg_str(const char *name,=0A=
+     }=0A=
+ =0A=
+     if (end)=0A=
+-        *val =3D strndup(start, end - start);=0A=
++        *val =3D g_strndup(start, end - start);=0A=
+     else=0A=
+         *val =3D strdup(start);=0A=
+     return 1;=
 
