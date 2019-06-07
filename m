@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCFB386BA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:08:29 +0200 (CEST)
-Received: from localhost ([::1]:47126 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B59386B8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:08:28 +0200 (CEST)
+Received: from localhost ([::1]:47122 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZArN-0005tg-00
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:08:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39328)
+	id 1hZArL-0005qR-Kw
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39280)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAoz-00047I-Qr
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:03 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAox-000460-9e
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAox-0004G8-9Y
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:01 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41279)
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAow-00048s-22
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:05:59 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38580)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZAou-0003yc-1U
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:05:58 -0400
-Received: by mail-wr1-x436.google.com with SMTP id c2so1337965wrm.8
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:05:55 -0700 (PDT)
+ id 1hZAov-00043s-Ql
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:05:57 -0400
+Received: by mail-wr1-x441.google.com with SMTP id d18so1354939wrs.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qCnUPR9lwJDCVN+3iAAkawz91A004gE5+vwI6CE6U4k=;
- b=C1xkaCfPyiVd7QKIq+Jx8gMCa0vNYwcNBA7ZrqE7ZgsLK7JMkxqnA5jF2C3Vniyp8d
- ryqpI9fQrhCYF3H5/6HQnOzLhUotjJKPhHaqZ2oAJHFNtFekKM52EOveiO203X6t7Mdr
- aRrB00uqa2/EjDB3C0BHWTFvxCF9/EPilAmexy1ixJHDd8gFVTuxgvVH+bhxOY648sxR
- wbnxFbEeyTyPwIWCg8kuaaORXl+RJ0VogkU5dySS3x106k9c31GnleOjc+EPXn2OK4m5
- DDUtL30zXHlYkmzLkVfRgHLJbPEfUa+Tn4U6OC1y91Tv1RSRFYNH3kANFw7NOxmUHMkc
- M59g==
+ bh=Iq7Nm46aUE7quvi6VDpmkC4n6wLldVq8o82duiGCIro=;
+ b=q/+e+lioLf77XuvFKi5Ka2COkU5xft+YJvhYyOK6UFRK2pVrQCjd0ehgnnwxsw0yq5
+ R6to5Z4b7a0sdAd2lPB6nLMveQrZNK8nHopVKh7ZNuNzfMVZWvMZOlOuBwUrT7c3+8Ra
+ jtX0jZuA6zmd1X/PDkrW453Pdn9mZ1QwBl2Xsokbp1YAl7AIKjBDtxCv2vBCZO3qTegf
+ vIL/EKWG21cKusOTPeupgftxhjfDzC8GxSynuKm0MCG9ZgHP6lQsquwU8FCjb5dYwRYd
+ nm80QoatvQHD2bBEvEGRxS3Z9dBKbbmD3Y5m/oKnm5+aFYTiuon0PbQulfGabxtzoaaP
+ 22Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qCnUPR9lwJDCVN+3iAAkawz91A004gE5+vwI6CE6U4k=;
- b=n+pA9xHT1JyDQ5JpFfVOglztH856VSAxP1m2t3H7VQ05g6gf0fxGXSVU+GfVqlBX/q
- TeMCNO8Pbv5olJECX6RRhEM/bPkaeq7w0SCULYkJcTr8EoXWy3jNO7CLCmVuqmcJtzl8
- oKWFkWwfRrG7XJPLbLKad4OUWjHtyAOhz5bVvNw+8vFm2rOrx14YrEMPl0mDJJIFsIR3
- ogtKiMN+8oXZMLzjGf0Zc517Bw1ZTqSv0KEL2fVHncLG4kUgP/XchTuDb05MtifLujjw
- PSDloAIgtvlffc/rSpRhnY+jev+qn1QHw/V69eW7dwTiCR+klYH3jABpCNcMo94sOAWz
- /Ndw==
-X-Gm-Message-State: APjAAAXtR61z7G03pS+sQSt+7FpylGc/HPj0w6E7meZ40UQz6H0AAuWx
- KIC+qG51YdWFlecFdhUcZhtoGw==
-X-Google-Smtp-Source: APXvYqwT8H9WJGY0HE4EzUbc/T3fUIupFXV6MXZk+NelMb9H4/98P61gXcmSUEbwB5A4YAjlhuJT+A==
-X-Received: by 2002:adf:de8b:: with SMTP id w11mr8791262wrl.134.1559898355024; 
+ bh=Iq7Nm46aUE7quvi6VDpmkC4n6wLldVq8o82duiGCIro=;
+ b=RQzszi+MaJBBsLCpI9WXXKwPyJJmyEvWrK+vRH/WSjUR0xMasq+zzw6Jlz3B8GcaQ7
+ D7KT/jp67Bye6HEZOdwEefbCDfNK0Q0WED6EoJHCOVzcxxowtlqbIaD6mYe4hraJHtic
+ qAYEN52LkfdetuiV3/bcCLd2UFq3bbgA7lq+KvEgcVrCmGy7O1U66XKFFIPmtz+MpCjl
+ tPuI06MwcOPP0iNbX2B6XqpJ0RcobyyH6n/EdY1lhmoT6/6SAw9P/23MXL1zKGIlo1St
+ SonqyHh3ka3g2EDrRXjRgUhEcimJ4RySy0oW4tjlEyBYliXDb6ySY4bfOT9yKBZjUzgS
+ 2e3Q==
+X-Gm-Message-State: APjAAAXN6dx8p0VGEvZedA07X/U46LpTV501b93LuNQtgdtmlRJ3ITHH
+ lhZjipHxsIiWXcHOl8RU/2SO5A==
+X-Google-Smtp-Source: APXvYqxwoqeoB/TWUxEe2DwhxkUnMF32YqUrgibu7UvFHTD6h3S6XO0UT1qfBQ27MM/dhG8TyJuCGg==
+X-Received: by 2002:adf:f2c8:: with SMTP id d8mr6262931wrp.221.1559898355776; 
  Fri, 07 Jun 2019 02:05:55 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id f10sm1685621wrg.24.2019.06.07.02.05.52
+ by smtp.gmail.com with ESMTPSA id j7sm1819350wru.54.2019.06.07.02.05.52
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Fri, 07 Jun 2019 02:05:53 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4444C1FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 584A01FF91;
  Fri,  7 Jun 2019 10:05:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Fri,  7 Jun 2019 10:05:02 +0100
-Message-Id: <20190607090552.12434-4-alex.bennee@linaro.org>
+Date: Fri,  7 Jun 2019 10:05:03 +0100
+Message-Id: <20190607090552.12434-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
 References: <20190607090552.12434-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
-Subject: [Qemu-devel] [PULL 03/52] tests/docker: Update the Fedora image to
- Fedora 30
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 04/52] tests/docker: Update the Fedora cross
+ compile images to 30
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,37 +83,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+While at it remove the bogus :latest tag for cris cross compiler. It
+tends to break caching and cause confusion.
 
-Fedora 30 got released:
-
-  https://fedoramagazine.org/announcing-fedora-30/
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20190528153304.27157-1-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index afbba29ada..12c460597e 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
+diff --git a/tests/docker/dockerfiles/fedora-cris-cross.docker b/tests/docker/dockerfiles/fedora-cris-cross.docker
+index b168ada615..09e7e449f9 100644
+--- a/tests/docker/dockerfiles/fedora-cris-cross.docker
++++ b/tests/docker/dockerfiles/fedora-cris-cross.docker
+@@ -2,7 +2,7 @@
+ # Cross compiler for cris system tests
+ #
+ 
+-FROM fedora:latest
++FROM fedora:30
+ ENV PACKAGES gcc-cris-linux-gnu
+ RUN dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+index eb8108d118..9106cf9ebe 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
 @@ -1,4 +1,4 @@
 -FROM fedora:29
 +FROM fedora:30
  ENV PACKAGES \
-     bc \
-     bison \
+     gcc \
+     glib2-devel.i686 \
 -- 
 2.20.1
 
