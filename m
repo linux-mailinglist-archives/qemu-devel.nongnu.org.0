@@ -2,72 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F223820C
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 02:17:27 +0200 (CEST)
-Received: from localhost ([::1]:45168 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D87F3820E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 02:21:35 +0200 (CEST)
+Received: from localhost ([::1]:45208 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZ2ZR-00064b-TZ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 20:17:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53137)
+	id 1hZ2dS-0007i7-Q8
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jun 2019 20:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53595)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hZ2Xt-0005eD-Uz
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 20:15:51 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hZ2bK-0006ca-DW
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 20:19:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hZ2Xs-0000hR-03
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 20:15:49 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37525)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hZ2Xq-0000aN-0t
- for qemu-devel@nongnu.org; Thu, 06 Jun 2019 20:15:47 -0400
-Received: by mail-ot1-x344.google.com with SMTP id r10so294647otd.4
- for <qemu-devel@nongnu.org>; Thu, 06 Jun 2019 17:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=Rbpd0sg4hJ+ppFHk3NhFULa6FQqlFxYGP17Pvq6/sBE=;
- b=HsWeisihG9KjEUFnROS0/AtSR/2gQgaNhWy4rw5Ud11nSCQFq+09DwPb2CjJggve1B
- c3yZte8dy+mBJq1wKSuRCJRbvtePodDo5WxuVU3FZre+gpgGLOVvWgPQGzYUYOqA4qVN
- 7PSac68hoIofujefOSaEsidve5nNSwanNRk6xl869gbHY5VvmFlAzjWXWaQXa4wRd+/k
- JB/WZnkhm1vvDQbEySYndLrs6SKbIkN/y6rkxsvFoSmogx9p5btoXNhZT42UiVPpn18L
- s9yBv0Mhos3evf3m+lBSwWyb35JxmTjU2eDSwwpDuR65E56oIriD+OPl1Uh9+BHLJjZS
- kFkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=Rbpd0sg4hJ+ppFHk3NhFULa6FQqlFxYGP17Pvq6/sBE=;
- b=lLqzBIg74tv7usClofbu4laxTGMCNh75C4mcOCdJnwQLx+TjVkaFBgFKXbJulKnrPF
- rQGeHueP75jiwcW/XPZ/zjWe4mhTe0wPIbOGumNNGceDrezmLlYKG/Liv1YcQrujXPV+
- GhZBEXAVWNrqdfzqH8z3QeUS3Hc+di6glEYWbDJTSsS4MBWfniZRdn4BfA/jHvyahXbX
- 0UdXFT27NTiRY5VoEwjIkX2bKsPIq9k40Y90momZOOC2IylvJ18ygW+nCMirNEqJbT9o
- 9AkVMhjnrKVfOomGj13ChdWFHvcOci5rHcyJkE0pxviWU4vckp7OgvcAxtJuAZrUSzZQ
- iLTw==
-X-Gm-Message-State: APjAAAXoH76RgPa8CbczYoqvfDyUnWg99fP5XfbEjSBC8r8X29Fx0FIF
- nW96sL6r8r0tvSKVidw8uwo05hWEfSPzHoYB2wU=
-X-Google-Smtp-Source: APXvYqylpl/J9UH/fKCKQX9CQLhctxndAU9HYoO9LboLOFw4mAWj6yEU4WpcObXWO8j83Mq7k0s+s5geLD87725i6lM=
-X-Received: by 2002:a9d:63c1:: with SMTP id e1mr2651927otl.341.1559866541728; 
- Thu, 06 Jun 2019 17:15:41 -0700 (PDT)
+ (envelope-from <dgibson@ozlabs.org>) id 1hZ2bI-0003NK-Hs
+ for qemu-devel@nongnu.org; Thu, 06 Jun 2019 20:19:22 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:57959)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hZ2bF-0003K1-IZ; Thu, 06 Jun 2019 20:19:18 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45KjnX3xKBz9s00; Fri,  7 Jun 2019 10:19:12 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1559866752;
+ bh=jXAH74gBgIPoSN8cJo7sk21jeoXBpK3BhIL3PaRpk1U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UBMLeL2zNyRGJQGAQ1TDxOwV2/DKllH33t6Et/EzV4RRnL+3wEFv8kOjEsPDLOC5w
+ Juy0XCs0M0YfJIO6ljNQWtmksgGKpjPjD9MhRThtxGlYdIA4zvD1IS2les4Pw+lgyf
+ bodVrbHu9eVQJxLnyQO27yBTE3MRZoyTmylQ/GiQ=
+Date: Fri, 7 Jun 2019 10:16:32 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Message-ID: <20190607001632.GB3760@umbus.fritz.box>
+References: <20190606174409.12502-1-clg@kaod.org>
 MIME-Version: 1.0
-Received: by 2002:a9d:20e4:0:0:0:0:0 with HTTP;
- Thu, 6 Jun 2019 17:15:41 -0700 (PDT)
-Received: by 2002:a9d:20e4:0:0:0:0:0 with HTTP;
- Thu, 6 Jun 2019 17:15:41 -0700 (PDT)
-In-Reply-To: <20190606230232.9888-3-philmd@redhat.com>
-References: <20190606230232.9888-1-philmd@redhat.com>
- <20190606230232.9888-3-philmd@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 7 Jun 2019 02:15:41 +0200
-Message-ID: <CAL1e-=hs7XpwbxYZt+VnmcJpA=bPxekhdYz0w8yTRc81eiMAGQ@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TakKZr9L6Hm6aLOc"
+Content-Disposition: inline
+In-Reply-To: <20190606174409.12502-1-clg@kaod.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v3 2/2] BootLinuxConsoleTest: Run
- kerneltests BusyBox on Malta
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH] ppc/xive: Make XIVE generate the proper
+ interrupt types
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,132 +56,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 7, 2019 1:06 AM, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> w=
-rote:
->
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> This tests boots a Linux kernel on a Malta machine up to a
-> busybox shell on the serial console. Few commands are executed
-> before halting the machine (via reboot).
->
-> We use the initrd cpio image from the kerneltests project:
-> https://kerneltests.org/
->
-> If MIPS is a target being built, "make check-acceptance" will
-> automatically include this test by the use of the "arch:mips" tags.
->
-> Alternatively, this test can be run using:
->
->   $ avocado --show=3Dconsole run -t arch:mips
-tests/acceptance/boot_linux_console.py
->   [...]
->   console: Boot successful.
->   [...]
->   console: / # uname -a
->   console: Linux buildroot 4.5.0-2-4kc-malta #1 Debian 4.5.5-1
-(2016-05-29) mips GNU/Linux
->   console: / # reboot
->   console: / # reboot: Restarting system
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Acked-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> Tested-by: Cleber Rosa <crosa@redhat.com>
+
+--TakKZr9L6Hm6aLOc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jun 06, 2019 at 07:44:09PM +0200, C=E9dric Le Goater wrote:
+> From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+>=20
+> It should be generic Hypervisor Virtualization interrupts for HV
+> directed rings and traditional External Interrupts for the OS directed
+> ring.
+>=20
+> Don't generate anything for the user ring as it isn't actually
+> supported.
+>=20
+> Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+Applied, thanks.
+
 > ---
+>=20
+>  I forgot to resend this patch, an important one for HV machines !
+>=20
+>  include/hw/ppc/xive.h |  3 ++-
+>  hw/intc/xive.c        | 22 +++++++++++++++++++---
+>  2 files changed, 21 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> index d872f96d1a1b..a6ee7e831d8b 100644
+> --- a/include/hw/ppc/xive.h
+> +++ b/include/hw/ppc/xive.h
+> @@ -317,7 +317,8 @@ typedef struct XiveTCTX {
+>      DeviceState parent_obj;
+> =20
+>      CPUState    *cs;
+> -    qemu_irq    output;
+> +    qemu_irq    hv_output;
+> +    qemu_irq    os_output;
+> =20
+>      uint8_t     regs[XIVE_TM_RING_COUNT * XIVE_TM_RING_SIZE];
+>  } XiveTCTX;
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 0c74e47aa49c..b2b92a92c84f 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -61,13 +61,28 @@ static uint8_t exception_mask(uint8_t ring)
+>      }
+>  }
+> =20
+> +static qemu_irq xive_tctx_output(XiveTCTX *tctx, uint8_t ring)
+> +{
+> +        switch (ring) {
+> +        case TM_QW0_USER:
+> +                return 0; /* Not supported */
+> +        case TM_QW1_OS:
+> +                return tctx->os_output;
+> +        case TM_QW2_HV_POOL:
+> +        case TM_QW3_HV_PHYS:
+> +                return tctx->hv_output;
+> +        default:
+> +                return 0;
+> +        }
+> +}
+> +
+>  static uint64_t xive_tctx_accept(XiveTCTX *tctx, uint8_t ring)
+>  {
+>      uint8_t *regs =3D &tctx->regs[ring];
+>      uint8_t nsr =3D regs[TM_NSR];
+>      uint8_t mask =3D exception_mask(ring);
+> =20
+> -    qemu_irq_lower(tctx->output);
+> +    qemu_irq_lower(xive_tctx_output(tctx, ring));
+> =20
+>      if (regs[TM_NSR] & mask) {
+>          uint8_t cppr =3D regs[TM_PIPR];
+> @@ -100,7 +115,7 @@ static void xive_tctx_notify(XiveTCTX *tctx, uint8_t =
+ring)
+>          default:
+>              g_assert_not_reached();
+>          }
+> -        qemu_irq_raise(tctx->output);
+> +        qemu_irq_raise(xive_tctx_output(tctx, ring));
+>      }
+>  }
+> =20
+> @@ -556,7 +571,8 @@ static void xive_tctx_realize(DeviceState *dev, Error=
+ **errp)
+>      env =3D &cpu->env;
+>      switch (PPC_INPUT(env)) {
+>      case PPC_FLAGS_INPUT_POWER9:
+> -        tctx->output =3D env->irq_inputs[POWER9_INPUT_INT];
+> +        tctx->hv_output =3D env->irq_inputs[POWER9_INPUT_HINT];
+> +        tctx->os_output =3D env->irq_inputs[POWER9_INPUT_INT];
+>          break;
+> =20
+>      default:
 
-Excellent test, and commit message content too. May I suggest the test
-group inclusion of the text of this commit message (or similar text) to the
-documentation on QEMU Testing web page, as an example of the acceptance
-test usage?
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Yours, Aleksandar
+--TakKZr9L6Hm6aLOc
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> v3: Use archive.extract() instead of shutil+gzip (Cleber)
-> ---
->  tests/acceptance/boot_linux_console.py | 44 ++++++++++++++++++++++++++
->  1 file changed, 44 insertions(+)
->
-> diff --git a/tests/acceptance/boot_linux_console.py
-b/tests/acceptance/boot_linux_console.py
-> index a7a735c90d..751e3bff86 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -49,6 +49,11 @@ class BootLinuxConsole(Test):
->                  fail =3D 'Failure message found in console: %s' %
-failure_message
->                  self.fail(fail)
->
-> +    def exec_command_and_wait_for_pattern(self, command,
-success_message):
-> +        command +=3D '\n'
-> +        self.vm.console_socket.sendall(command.encode())
-> +        self.wait_for_console_pattern(success_message)
-> +
->      def extract_from_deb(self, deb, path):
->          """
->          Extracts a file from a deb package into the test workdir
-> @@ -140,6 +145,45 @@ class BootLinuxConsole(Test):
->          console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
->          self.wait_for_console_pattern(console_pattern)
->
-> +    def test_mips_malta_cpio(self):
-> +        """
-> +        :avocado: tags=3Darch:mips
-> +        :avocado: tags=3Dmachine:malta
-> +        :avocado: tags=3Dendian:big
-> +        """
-> +        deb_url =3D ('http://snapshot.debian.org/archive/debian/'
-> +                   '20160601T041800Z/pool/main/l/linux/'
-> +                   'linux-image-4.5.0-2-4kc-malta_4.5.5-1_mips.deb')
-> +        deb_hash =3D 'a3c84f3e88b54e06107d65a410d1d1e8e0f340f8'
-> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
-> +        kernel_path =3D self.extract_from_deb(deb_path,
-> +
-'/boot/vmlinux-4.5.0-2-4kc-malta')
-> +        initrd_url =3D ('https://github.com/groeck/linux-build-test/raw/=
-'
-> +                      '8584a59ed9e5eb5ee7ca91f6d74bbb06619205b8/rootfs/'
-> +                      'mips/rootfs.cpio.gz')
-> +        initrd_hash =3D 'bf806e17009360a866bf537f6de66590de349a99'
-> +        initrd_path_gz =3D self.fetch_asset(initrd_url,
-asset_hash=3Dinitrd_hash)
-> +        initrd_path =3D archive.extract(initrd_path_gz,
-> +                                      os.path.join(self.workdir,
-'rootfs.cpio'))
-> +        self.vm.set_machine('malta')
-> +        self.vm.set_console()
-> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE
-> +                               + 'console=3DttyS0 console=3Dtty '
-> +                               + 'rdinit=3D/sbin/init noreboot')
-> +        self.vm.add_args('-kernel', kernel_path,
-> +                         '-initrd', initrd_path,
-> +                         '-append', kernel_command_line,
-> +                         '-no-reboot')
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern('Boot successful.')
-> +
-> +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
-> +                                               'BogoMIPS')
-> +        self.exec_command_and_wait_for_pattern('uname -a',
-> +                                               'Debian')
-> +        self.exec_command_and_wait_for_pattern('reboot',
-> +                                               'reboot: Restarting
-system')
-> +
->      def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
->          kernel_path_xz =3D self.fetch_asset(kernel_url,
-asset_hash=3Dkernel_hash)
->          kernel_path =3D self.workdir + "kernel"
-> --
-> 2.20.1
->
->
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz5rN8ACgkQbDjKyiDZ
+s5KNqBAAuZ06mLT4Yiiszm/LjJ+NtOqFIA76PDVSTwt67yY1fUAoJpOsfWns8NHe
+K2DxiCCfikw6Y7VQ+ERCNtbKeedkJBlNtJsP8wowcjZsc3F2WAS9zIvtycfhEYra
++MLKULGWxPdk5TPp3uf5PHquBGkxUCbY9TKejp3qXfGK8kLnyKhYlSt7FSbR/THJ
+s/VWr5KnI8+vpA0xFrAfKsn6zMkqsm6kb3rRwdSuCBE5rLsVjrjYo3YfC9I82fjv
+9pa5r4bf3amS9Gnhp3qlmXm21qXdtHGxIK4+6nDQjjARKrpxACWZKUXjfhwgpM4h
+Ahmp502pXXl7Mynm9UlWasmUwe7w8vq8FXG5kq5QKWfdb1LWAcojjWkTAgzRp4xs
+TcF76SseiJ8WyVyQzgdoxre59+2zaNUxSEPd+phvsccF5xh3L+WBp4fAukWig4bc
+gOVbkJfgQsLqLmWQvgvBq8FDvk0Fklb6i7YPbrwZtSxHSOMzRLAM2zacyWK/eKaG
+Us2BTjjIl/YOr08JePu86D1oJpEsfW4ROow+2Ly93/oiWBbTOKmIIwsP+eKIWphA
+GuITMBYf4w2ctnMtuNN9AWJ45GJZo+sCsYWxYKL5iSb3O5lAXcbLBxcV1OFGh3zh
+e/vCIQKxUnG/LFTxbqFGlt1XrDsQUbzFtagUw0NMQ9FxEYsuXVE=
+=Bl0W
+-----END PGP SIGNATURE-----
+
+--TakKZr9L6Hm6aLOc--
+
