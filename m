@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C4C38664
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 10:35:31 +0200 (CEST)
-Received: from localhost ([::1]:46862 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E78D3866C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 10:38:18 +0200 (CEST)
+Received: from localhost ([::1]:46880 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZALO-0001WZ-9U
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 04:35:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58206)
+	id 1hZAO9-00045o-8i
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 04:38:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58772)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZAJd-0000fT-53
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:33:38 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hZAKe-0001Nk-4l
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:34:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZAJW-0000LC-Ts
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:33:33 -0400
-Received: from mail-wm1-f54.google.com ([209.85.128.54]:53489)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZAJS-00006y-Em
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:33:26 -0400
-Received: by mail-wm1-f54.google.com with SMTP id x15so1098553wmj.3
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 01:33:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5ZQw4/n0dqYZBceUrFHhAfPiuOk/UGSk1gPjssKrYyY=;
- b=YudChXgEMiEqMG8eXNLSsnyjW6lwyE3SfqG//w/3DInmv4Y4qlhlfFPqw+1FAzZHhS
- ctGIvAPZvNLebHSMudS0mpvCgBJBTbrAjfR+1X4l8Xf7281q2aJTdOP2CX6lW5cg+Gvz
- jlzLCfBBmtH1E5NlcTnr6ZxZ/jV5iHF+dnbNF9GEgisgMLvqho7fqLTGx7FsA9ei44BO
- xa5Vy0PkFgmqDnRbUgz53xxcRhC/vTqeYdRyJR7YOVIt8n793ZK9iJ56DUDwl0f4rd36
- ae349BRTg0Sj9bTRFRALEt0GrVS76ad8UpmqUPygD/2tedaTQK/hC+WTy+Pa8VuKm7y5
- ZJPA==
-X-Gm-Message-State: APjAAAWHKXoG/5MXxizGqiI5sCi0HxN1FxIlPO1q4LDAJo05CXX9MlxI
- jEZH46C1nriNC/dJsxsrFhgHow==
-X-Google-Smtp-Source: APXvYqz+jWxhRP6ttLVcY/6kdVKxI9UQP/ElSescesZkI/wcNFAgg5Vkwr7TnGf3Bhm0Rm/UiI5Eyw==
-X-Received: by 2002:a05:600c:2383:: with SMTP id
- m3mr1552704wma.20.1559896395918; 
- Fri, 07 Jun 2019 01:33:15 -0700 (PDT)
-Received: from [192.168.0.156] ([78.192.181.46])
- by smtp.gmail.com with ESMTPSA id 65sm1356336wro.85.2019.06.07.01.33.15
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 01:33:15 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <87woihi1wl.fsf@dusky.pond.sub.org>
- <20190524185344.GJ10764@habkost.net> <87r28k1g4q.fsf@dusky.pond.sub.org>
- <e5372760-7599-3155-44f7-dc704c9cbaa5@redhat.com>
- <875zphg9t8.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <47942a1d-efa4-c20d-a854-bd0e3b4ec1f2@redhat.com>
-Date: Fri, 7 Jun 2019 10:33:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <875zphg9t8.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+ (envelope-from <kraxel@redhat.com>) id 1hZAKd-0002Lc-72
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:34:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55110)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZAKc-0002JQ-Sp
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:34:38 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 26BD3308FC20
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 08:34:38 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-25.ams2.redhat.com
+ [10.36.117.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC2645D707;
+ Fri,  7 Jun 2019 08:34:33 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DE85D16E1A; Fri,  7 Jun 2019 10:34:32 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  7 Jun 2019 10:34:29 +0200
+Message-Id: <20190607083429.31943-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Fri, 07 Jun 2019 08:34:38 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.54
-Subject: Re: [Qemu-devel] qapi/misc.json is too big,
- let's bite off a few chunks
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] edid: add xmax + ymax properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,60 +53,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
- Richard Henderson <rth@twiddle.net>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/19 8:59 AM, Markus Armbruster wrote:
-[...]
-> QOM is not a particularly active subsystem now: 51 commits in two years.
-> 
-> We obviously need maintainers to review and merge patches.  The nominal
-> maintainer hasn't been doing that since 2015.  Git shows the following
-> top committers taking on / getting sucked into QOM:
-> 
->     Markus Armbruster <armbru@redhat.com>
->     Eduardo Habkost <ehabkost@redhat.com>
->     Paolo Bonzini <pbonzini@redhat.com>
->     Marc-André Lureau <marcandre.lureau@redhat.com>
->     Eric Blake <eblake@redhat.com>
-> 
-> We really need nominal maintainer(s) again.
-> 
-> Of course, *active* maintainers would be even better: I consider QOM
-> stuck in an unhappy place where much of its potential is still
-> potential.
-> 
-> But let's start small.  Volunteers for the reviewer role, please step
-> forward :)
-> 
-> 
-> 
-> The details I promised:
-> 
-> Output of "scripts/get_maintainer.pl --git --git-since='2-years-ago' |
-> grep commit_signer" sorted by file size:
-> 
-[...]
-> = include/qom/object_interfaces.h =
-> Eduardo Habkost <ehabkost@redhat.com> (commit_signer:8/5=100%)
-> Igor Mammedov <imammedo@redhat.com> (commit_signer:3/5=60%)
-> "Marc-André Lureau" <marcandre.lureau@redhat.com> (commit_signer:2/5=40%)
-> "Philippe Mathieu-Daudé" <f4bug@amsat.org> (commit_signer:2/5=40%)
-> Eric Blake <eblake@redhat.com> (commit_signer:1/5=20%)
+Add new properties to allow setting the maximum display resolution.
+Resolutions larger than that will not be included in the mode list.
+In linux guests xrandr can be used to list modes.
 
-get_maintainer's commit_signer is lying...
+Note: The existing xres and yres properties set the preferred display
+resolution, i.e. the mode should be first in the mode list and guests
+should use it by default.
 
-[...]
-> = qom/trace-events =
-> Stefan Hajnoczi <stefanha@redhat.com> (commit_signer:2/2=100%)
-> "Philippe Mathieu-Daudé" <philmd@redhat.com> (commit_signer:2/2=100%)
-> Markus Armbruster <armbru@redhat.com> (commit_signer:1/2=50%)
-> Michael Tokarev <mjt@tls.msk.ru> (commit_signer:1/2=50%)
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/hw/display/edid.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-This 'git log -p' history of this file is very interesting...
+diff --git a/include/hw/display/edid.h b/include/hw/display/edid.h
+index bacf1708894b..7948bd2c40f8 100644
+--- a/include/hw/display/edid.h
++++ b/include/hw/display/edid.h
+@@ -22,6 +22,8 @@ void qemu_edid_region_io(MemoryRegion *region, Object *owner,
+ 
+ #define DEFINE_EDID_PROPERTIES(_state, _edid_info)              \
+     DEFINE_PROP_UINT32("xres", _state, _edid_info.prefx, 0),    \
+-    DEFINE_PROP_UINT32("yres", _state, _edid_info.prefy, 0)
++    DEFINE_PROP_UINT32("yres", _state, _edid_info.prefy, 0),    \
++    DEFINE_PROP_UINT32("xmax", _state, _edid_info.maxx, 0),     \
++    DEFINE_PROP_UINT32("ymax", _state, _edid_info.maxy, 0)
+ 
+ #endif /* EDID_H */
+-- 
+2.18.1
+
 
