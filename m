@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C0A387CC
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:19:51 +0200 (CEST)
-Received: from localhost ([::1]:47940 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C013387BA
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:15:11 +0200 (CEST)
+Received: from localhost ([::1]:47910 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZByQ-0005WA-NP
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42216)
+	id 1hZBtu-0002md-7n
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:15:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45096)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAvT-0002Fo-CG
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:45 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hZB55-0008Ns-J7
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAvQ-0004zE-Rj
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:43 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46952)
+ (envelope-from <alex.bennee@linaro.org>) id 1hZB54-0005ye-LE
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:39 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43671)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZAvQ-0004h3-Ez
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:12:40 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id n4so1339732wrw.13
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:12:32 -0700 (PDT)
+ id 1hZB54-0005xM-Ec
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:22:38 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id r18so1383933wrm.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l3qvsmebNFZ5O5OwW5sp1A169mo8OEERmO3Igp6r4L0=;
- b=lMUN8FsR0cqZW/CU4/NbtsCLcBR8lJnXtHyTldqgblkNKAnHQK2Qty+ilzAsmIvRii
- itp+rMKzSh8P3cq5hQUkj47H6JdSGbG8OCq4V8aBzqNm0TYQuRiHK0WZiE9vfNqLM9is
- Zx7E1hFB5isz0bO1hFi/8Fq6mlR14VurwnJe//aP9z/oWbHWzU5MocnriDBDeMwBZwFz
- W4X9Yi8WLO3In0d8gVQuoP8RjGtOxJJ2y4zuqYRUDi1oQ4+7+fwJNV7mT1w5SK3Eh0GJ
- dB5Gd6eu0khJ4r3zAjCaXmbc1RGRiGeaAwqtbhnGcU6vQUieAvcnawtzB6v4G883ucq4
- Jx7g==
+ bh=+ZfldLb9B7VeRUSVpRgzD28NkUAhkqFAzhazcc+u144=;
+ b=cmDTJKEtkMzcr6psA3LNpNyRnkhVyJKJ0w9cn2DW2WpQ8eGs94sCcn54vZ+YUuzKbN
+ kPvRiV1ZVUB1ajzcWuYMr0ui24lzQPm6aa42LOEYZr+RBtLeE3mHRM07Ivi6cgJDCoda
+ 3Ev4rKWnwolD2drdnnTvQUIkcxMWp3wrFWFyJfxnmmp9laDFGr8Qc9ynIQWaTNR+f4UO
+ AD+QuGWUmyirmwG52cSmLFfI9yrdJzmB50dIEHXM89C3uK0l6Gv7ZUkZzipzvS3lFdZR
+ ikwo99G/qvY4Q6HTdP+C1o6buLZqqBidXMky+kqpZQZpT9J5r5RqSHWDh+akIvKNQsZY
+ uplQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l3qvsmebNFZ5O5OwW5sp1A169mo8OEERmO3Igp6r4L0=;
- b=sn2hNQONdnZGEFK1AoPkKQnFOXZWeN6PDWd8Vxglu+bak0iyob82IRgOtGfIhSjAEn
- R0mo6aEGYZda86pN7DOmWKjCav8Mrgs/tnoFUYZSoYp269bIzcAKYGQREs/ZHMB2ohVU
- 3IKj5wn68LRk5cKL4/oCQttuAZZt/+DpnoBUK8eMe8cyGJDJlhQg21RLqGi0pUKUDO0O
- debEVEhhe6B+MXDzOWm7L00WHWxjPATGDVHuJCkHjvwE40ylhcszXa/Ol9sen66ZTmb1
- mNBOohUKdQgMAJKpvZxWgO/gmlAjo2drP2gki9YS7NSUhWdgtEWqweYeRKu7gBwc2VU3
- dKxA==
-X-Gm-Message-State: APjAAAWNYRm7F9ybf3DkqF4v/vMQZh1bfvUYiPv6jsX7XHrdmKrDgkBn
- 3flAPIwWFR0NqDZ4tsDdNM3F/g==
-X-Google-Smtp-Source: APXvYqwKhnBO6jkYhV8b+fvJ4mHvR5TGh4kJwMZod8JBrtKDYWlWER8YO0sEY7EBi6w1p8Nisus6sw==
-X-Received: by 2002:adf:d847:: with SMTP id k7mr2611647wrl.144.1559898751374; 
- Fri, 07 Jun 2019 02:12:31 -0700 (PDT)
+ bh=+ZfldLb9B7VeRUSVpRgzD28NkUAhkqFAzhazcc+u144=;
+ b=mLZvspwwkZ3Evn5kpToRbRkHJS+ruBzsWH0DVTYIvlcLXzxoCmJYx4qYJG31XvL/Df
+ cfmSSn0b3wRy045BJnSZkvdbVzvUZJtgzKXsGNgFKn0408zV43YgVVIs+ykTIIuQEvgX
+ UQMkq7YY216MCwqO1qgdAUOV32xltbX+RuagHeHwNpm3pjKsZqYIANKGERyXhdUdLw+P
+ hOfjcopZpqJGRXobxVGXfgW2iMlzJ+jufkQVS1agijKgu/ozn+j9NojgERgNO4GHzIpe
+ 9QZO94wIfAwV3rXSiPOUxpFFuP+6jyIb9U81eP7rtvScs44VucHZx/tgmubxWGNev/cq
+ b8KQ==
+X-Gm-Message-State: APjAAAXU2EC4egS53IiyYjdSjB+bmsBJCUbvAJKOe3pU/H7L8CRysv0X
+ PhEme/k1tixUewHdznzwwNyP2w==
+X-Google-Smtp-Source: APXvYqziNaH+upgth6XvX62bEsM1xfaHdBppgpaQ8sLDBBsXnbybR6lvgm/q1zrc7+VSGiKI6sZcow==
+X-Received: by 2002:a5d:4f8b:: with SMTP id d11mr16183565wru.264.1559899357141; 
+ Fri, 07 Jun 2019 02:22:37 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id f2sm1244110wru.31.2019.06.07.02.12.27
+ by smtp.gmail.com with ESMTPSA id b136sm1669984wme.30.2019.06.07.02.22.30
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 02:12:29 -0700 (PDT)
+ Fri, 07 Jun 2019 02:22:35 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6F82F1FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id 834181FF8C;
  Fri,  7 Jun 2019 10:05:53 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Fri,  7 Jun 2019 10:05:17 +0100
-Message-Id: <20190607090552.12434-19-alex.bennee@linaro.org>
+Date: Fri,  7 Jun 2019 10:05:18 +0100
+Message-Id: <20190607090552.12434-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
 References: <20190607090552.12434-1-alex.bennee@linaro.org>
@@ -69,8 +69,7 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::42b
-Subject: [Qemu-devel] [PULL 18/52] tests/vm: add vm-boot-{ssh,
- serial}-<guest> targets
+Subject: [Qemu-devel] [PULL 19/52] tests/vm: add DEBUG=1 to help text
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,55 +90,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-For testing/troubleshooting convinience.
-
-make vm-boot-serial-<guest>
-  Boot guest, with the serial console on stdio.
-
-make vm-boot-ssh-<guest>
-  Boot guest, login via ssh.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190520124716.30472-8-kraxel@redhat.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20190520124716.30472-9-kraxel@redhat.com>
+[AJB: fix minor conflict]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index 276b870216..e329129bd6 100644
+index e329129bd6..628eecade7 100644
 --- a/tests/vm/Makefile.include
 +++ b/tests/vm/Makefile.include
-@@ -20,6 +20,10 @@ vm-test:
- 	@echo "  vm-build-all                    - Build QEMU in all VMs"
- 	@echo "  vm-clean-all                    - Clean up VM images"
+@@ -25,6 +25,8 @@ vm-test:
+ 	@echo "  vm-boot-ssh-<guest>             - Boot guest and login via ssh"
  	@echo
-+	@echo "For trouble-shooting:"
-+	@echo "  vm-boot-serial-<guest>          - Boot guest, serial console on stdio"
-+	@echo "  vm-boot-ssh-<guest>             - Boot guest and login via ssh"
-+	@echo
  	@echo "Special variables:"
++	@echo "    DEBUG=1                       - be verbose, also start interactive"
++	@echo "	                                   shell on build failures"
  	@echo "    BUILD_TARGET=foo		 - Override the build target"
  	@echo "    TARGET_LIST=a,b,c    	 - Override target list in builds"
-@@ -63,3 +67,18 @@ vm-build-%: $(IMAGES_DIR)/%.img
- 		$(if $(EXTRA_CONFIGURE_OPTS),$(EXTRA_CONFIGURE_OPTS)), \
- 		"  VM-BUILD $*")
- 
-+vm-boot-serial-%: $(IMAGES_DIR)/%.img
-+	qemu-system-x86_64 -enable-kvm -m 4G -smp 2 -nographic \
-+		-drive if=none,id=vblk,cache=writeback,file="$<" \
-+		-netdev user,id=vnet \
-+		-device virtio-blk-pci,drive=vblk \
-+		-device virtio-net-pci,netdev=vnet \
-+	|| true
-+
-+vm-boot-ssh-%: $(IMAGES_DIR)/%.img
-+	$(call quiet-command, \
-+		$(SRC_PATH)/tests/vm/$* \
-+		--image "$<" \
-+		--interactive \
-+		false, \
-+		"  VM-BOOT-SSH $*")
+ 	@echo '    EXTRA_CONFIGURE_OPTS="..."'
 -- 
 2.20.1
 
