@@ -2,46 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8508239070
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:52:13 +0200 (CEST)
-Received: from localhost ([::1]:49002 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 006FD3917F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:01:06 +0200 (CEST)
+Received: from localhost ([::1]:49100 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZHA4-0007v3-NO
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:52:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40730)
+	id 1hZHIe-0008OX-LD
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:01:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40875)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hZGFk-00058p-E7
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:54:02 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hZGGL-0005O6-Ga
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:54:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hZGFi-0003rf-Qg
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:54:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59248)
+ (envelope-from <kwolf@redhat.com>) id 1hZGGJ-0005Pp-H0
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:54:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:22298)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hZGFi-0003kA-IW; Fri, 07 Jun 2019 10:53:58 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hZGGF-000559-8U; Fri, 07 Jun 2019 10:54:31 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B657081DE8;
- Fri,  7 Jun 2019 14:53:57 +0000 (UTC)
-Received: from localhost (dhcp-192-191.str.redhat.com [10.33.192.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C8406062A;
- Fri,  7 Jun 2019 14:53:56 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>, Farhan Ali <alifm@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>
-Date: Fri,  7 Jun 2019 16:53:53 +0200
-Message-Id: <20190607145353.2052-1-cohuck@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 75E4E8831C;
+ Fri,  7 Jun 2019 14:54:27 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D43AF608C1;
+ Fri,  7 Jun 2019 14:54:23 +0000 (UTC)
+Date: Fri, 7 Jun 2019 16:54:22 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20190607145422.GF5055@dhcp-200-226.str.redhat.com>
+References: <20190411172709.205032-1-vsementsov@virtuozzo.com>
+ <20190411172709.205032-7-vsementsov@virtuozzo.com>
+ <0b64cff5-33fa-0945-504c-b1bdd004c42a@redhat.com>
+ <20190607080635.GB5055@dhcp-200-226.str.redhat.com>
+ <c1414cfd-99cd-ea31-ab22-f7d76974e6b3@virtuozzo.com>
+ <20190607132652.GD5055@dhcp-200-226.str.redhat.com>
+ <c1c87a1c-9f1a-b7c8-d5a7-bb496556a256@virtuozzo.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c1c87a1c-9f1a-b7c8-d5a7-bb496556a256@virtuozzo.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 07 Jun 2019 14:53:57 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.28]); Fri, 07 Jun 2019 14:54:27 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5] vfio-ccw: support async command subregion
+Subject: Re: [Qemu-devel] [PATCH v6 6/7] block/nbd-client: nbd reconnect
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,327 +63,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A vfio-ccw device may provide an async command subregion for
-issuing halt/clear subchannel requests. If it is present, use
-it for sending halt/clear request to the device; if not, fall
-back to emulation (as done today).
+Am 07.06.2019 um 16:27 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 07.06.2019 16:26, Kevin Wolf wrote:
+> > Am 07.06.2019 um 14:02 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> >> 07.06.2019 11:06, Kevin Wolf wrote:
+> >>> Am 07.06.2019 um 05:17 hat Eric Blake geschrieben:
+> >>>> On 4/11/19 12:27 PM, Vladimir Sementsov-Ogievskiy wrote:
+> >>>>> +static coroutine_fn void nbd_reconnect_loop(NBDConnection *con)
+> >>>>> +{
+> >>>>> +    NBDClientSession *s = nbd_get_client_session(con->bs);
+> >>>>> +    uint64_t start_time_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
+> >>>>> +    uint64_t delay_ns = s->reconnect_delay * 1000000000UL;
+> >>>>
+> >>>> Do we have a #define constant for nanoseconds in a second to make this
+> >>>> more legible than counting '0's?
+> >>>>
+> >>>>> +    uint64_t timeout = 1000000000UL; /* 1 sec */
+> >>>>> +    uint64_t max_timeout = 16000000000UL; /* 16 sec */
+> >>>>
+> >>>> 1 * constant, 16 * constant
+> >>>>
+> >>>>> +
+> >>>>> +    nbd_reconnect_attempt(con);
+> >>>>> +
+> >>>>> +    while (nbd_client_connecting(s)) {
+> >>>>> +        if (s->state == NBD_CLIENT_CONNECTING_WAIT &&
+> >>>>> +            qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - start_time_ns > delay_ns)
+> >>>>> +        {
+> >>>>> +            s->state = NBD_CLIENT_CONNECTING_NOWAIT;
+> >>>>> +            qemu_co_queue_restart_all(&s->free_sema);
+> >>>>> +        }
+> >>>>> +
+> >>>>> +        bdrv_dec_in_flight(con->bs);
+> >>>>> +        qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, timeout);
+> >>>>
+> >>>> Another place where I'd like someone more familiar with coroutines to
+> >>>> also have a look.
+> >>>
+> >>> What's the exact question you'd like me to answer?
+> >>>
+> >>> But anyway, bdrv_dec/inc_in_flight() around the sleep looks wrong to me.
+> >>> Either the operation must be waited for in drain, then you can't
+> >>> decrease the counter even during the sleep. Or drain doesn't have to
+> >>> consider it, then why is the counter even increased in the first place?
+> >>>
+> >>> The way it currently is, drain can return assuming that there are no
+> >>> requests, but after the timeout the request automatically comes back
+> >>> while the drain caller assumes that there is no more activity. This
+> >>> doesn't look right.
+> >>
+> >> Hmm.
+> >>
+> >> This ind/dec around all lifetime of connection coroutine you added in
+> >>
+> >> commit 5ad81b4946baf948c65cf7e1436d9b74803c1280
+> >> Author: Kevin Wolf <kwolf@redhat.com>
+> >> Date:   Fri Feb 15 16:53:51 2019 +0100
+> >>
+> >>       nbd: Restrict connection_co reentrance
+> >>
+> >>
+> >> And now I try to connect in endless loop, with qemu_co_sleep_ns() inside.
+> >> I need to get a change to bdrv_drain to complete, so I have to sometimes
+> >> drop this in_flight request. But I understand your point.
+> > 
+> > Ah, right, I see. I think it's fine to add a second point where we
+> > decrease the counter (though I would add a comment telling why we do
+> > this) as long as the right conditions are met.
+> > 
+> > The right conditions are probably something like: Once drained, we
+> > guarantee that we don't call any callbacks until the drained section
+> > ends. In nbd_read_eof() this is true because we can't get an answer if
+> > we had no request running.
+> > 
+> > Or actually... This assumes a nice compliant server that doesn't just
+> > arbitrarily send unexpected messages. Is the existing code broken if we
+> > connect to a malicious server?
+> > 
+> >> Will the following work better?
+> >>
+> >> bdrv_dec_in_flight(con->bs);
+> >> qemu_co_sleep_ns(...);
+> >> while (s->drained) {
+> >>     s->wait_drained_end = true;
+> >>     qemu_coroutine_yield();
+> >> }
+> >> bdrv_inc_in_flight(con->bs);
+> >>
+> >> ...
+> >> .drained_begin() {
+> >>      s->drained = true;
+> >> }
+> >>
+> >> .drained_end() {
+> >>      if (s->wait_drained_end) {
+> >>         s->wait_drained_end = false;
+> >>         aio_co_wake(s->connection_co);
+> >>      }
+> >> }
+> > 
+> > This should make sure that we don't call any callbacks before the drain
+> > section has ended.
+> > 
+> > We probably still have a problem because nbd_client_attach_aio_context()
+> > reenters the coroutine with qemu_aio_coroutine_enter(), which will cause
+> > an assertion failure if co->scheduled is set. So this needs to use a
+> > version that can cancel a sleep.
+> > 
+> > I see that your patch currently simply ignores attaching a new context,
+> > but then the coroutine stays in the old AioContext. Did I miss some
+> > additional code that moves it to the new context somehow or will it just
+> > stay where it was if the coroutine happens to be reconnecting when the
+> > AioContext was supposed to change?
+> 
+> 
+> Hmm. Do you mean "in latter case we do nothing" in
+> 
+>    void nbd_client_attach_aio_context(BlockDriverState *bs,
+>                                       AioContext *new_context)
+>    {
+>        NBDClientSession *client = nbd_get_client_session(bs);
+> 
+>        /*
+>         * client->connection_co is either yielded from nbd_receive_reply or from
+>         * nbd_reconnect_loop(), in latter case we do nothing
+>         */
+>        if (client->state == NBD_CLIENT_CONNECTED) {
+>            qio_channel_attach_aio_context(QIO_CHANNEL(client->ioc), new_context);
+> 
+>            bdrv_inc_in_flight(bs);
+> 
+>            /*
+>             * Need to wait here for the BH to run because the BH must run while the
+>             * node is still drained.
+>             */
+>            aio_wait_bh_oneshot(new_context, nbd_client_attach_aio_context_bh, bs);
+>        }
+>    }
+> 
+> ?
+> Not sure why I ignored this case. So, I should run if() body unconditionally here and support
+> interrupting timer-sleeping coroutine in nbd_client_attach_aio_context_bh, yes?
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
+Yes, I think so. We have now two places where the coroutine could be
+yielded, the old place that simply yielded in a loop and can be
+reentered without a problem and the new one in a sleep. Both need to be
+supported when we switch to coroutine to a new AioContext.
 
-v4->v5:
-- It seems we need to take the indirection via the class for the
-  callbacks after all :(
-- Dropped Eric's R-b: for that reason
-
----
- hw/s390x/css.c              |  27 +++++++--
- hw/s390x/s390-ccw.c         |  20 +++++++
- hw/vfio/ccw.c               | 112 +++++++++++++++++++++++++++++++++++-
- include/hw/s390x/css.h      |   3 +
- include/hw/s390x/s390-ccw.h |   2 +
- 5 files changed, 158 insertions(+), 6 deletions(-)
-
-diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-index ad310b9f94bc..b92395f165e6 100644
---- a/hw/s390x/css.c
-+++ b/hw/s390x/css.c
-@@ -22,6 +22,7 @@
- #include "trace.h"
- #include "hw/s390x/s390_flic.h"
- #include "hw/s390x/s390-virtio-ccw.h"
-+#include "hw/s390x/s390-ccw.h"
-=20
- typedef struct CrwContainer {
-     CRW crw;
-@@ -1205,6 +1206,26 @@ static void sch_handle_start_func_virtual(SubchDev=
- *sch)
-=20
- }
-=20
-+static void sch_handle_halt_func_passthrough(SubchDev *sch)
-+{
-+    int ret;
-+
-+    ret =3D s390_ccw_halt(sch);
-+    if (ret =3D=3D -ENOSYS) {
-+        sch_handle_halt_func(sch);
-+    }
-+}
-+
-+static void sch_handle_clear_func_passthrough(SubchDev *sch)
-+{
-+    int ret;
-+
-+    ret =3D s390_ccw_clear(sch);
-+    if (ret =3D=3D -ENOSYS) {
-+        sch_handle_clear_func(sch);
-+    }
-+}
-+
- static IOInstEnding sch_handle_start_func_passthrough(SubchDev *sch)
- {
-     SCHIB *schib =3D &sch->curr_status;
-@@ -1244,11 +1265,9 @@ IOInstEnding do_subchannel_work_passthrough(SubchD=
-ev *sch)
-     SCHIB *schib =3D &sch->curr_status;
-=20
-     if (schib->scsw.ctrl & SCSW_FCTL_CLEAR_FUNC) {
--        /* TODO: Clear handling */
--        sch_handle_clear_func(sch);
-+        sch_handle_clear_func_passthrough(sch);
-     } else if (schib->scsw.ctrl & SCSW_FCTL_HALT_FUNC) {
--        /* TODO: Halt handling */
--        sch_handle_halt_func(sch);
-+        sch_handle_halt_func_passthrough(sch);
-     } else if (schib->scsw.ctrl & SCSW_FCTL_START_FUNC) {
-         return sch_handle_start_func_passthrough(sch);
-     }
-diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
-index f5f025d1b6ca..951be5ab0245 100644
---- a/hw/s390x/s390-ccw.c
-+++ b/hw/s390x/s390-ccw.c
-@@ -29,6 +29,26 @@ IOInstEnding s390_ccw_cmd_request(SubchDev *sch)
-     return cdc->handle_request(sch);
- }
-=20
-+int s390_ccw_halt(SubchDev *sch)
-+{
-+    S390CCWDeviceClass *cdc =3D S390_CCW_DEVICE_GET_CLASS(sch->driver_da=
-ta);
-+
-+    if (!cdc->handle_halt) {
-+        return -ENOSYS;
-+    }
-+    return cdc->handle_halt(sch);
-+}
-+
-+int s390_ccw_clear(SubchDev *sch)
-+{
-+    S390CCWDeviceClass *cdc =3D S390_CCW_DEVICE_GET_CLASS(sch->driver_da=
-ta);
-+
-+    if (!cdc->handle_clear) {
-+        return -ENOSYS;
-+    }
-+    return cdc->handle_clear(sch);
-+}
-+
- static void s390_ccw_get_dev_info(S390CCWDevice *cdev,
-                                   char *sysfsdev,
-                                   Error **errp)
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index d9e39552e237..c9d1c76b4d04 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -2,9 +2,12 @@
-  * vfio based subchannel assignment support
-  *
-  * Copyright 2017 IBM Corp.
-+ * Copyright 2019 Red Hat, Inc.
-+ *
-  * Author(s): Dong Jia Shi <bjsdjshi@linux.vnet.ibm.com>
-  *            Xiao Feng Ren <renxiaof@linux.vnet.ibm.com>
-  *            Pierre Morel <pmorel@linux.vnet.ibm.com>
-+ *            Cornelia Huck <cohuck@redhat.com>
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2 or (a=
-t
-  * your option) any later version. See the COPYING file in the top-level
-@@ -32,6 +35,9 @@ struct VFIOCCWDevice {
-     uint64_t io_region_size;
-     uint64_t io_region_offset;
-     struct ccw_io_region *io_region;
-+    uint64_t async_cmd_region_size;
-+    uint64_t async_cmd_region_offset;
-+    struct ccw_cmd_region *async_cmd_region;
-     EventNotifier io_notifier;
-     bool force_orb_pfch;
-     bool warned_orb_pfch;
-@@ -114,6 +120,87 @@ again:
-     }
- }
-=20
-+static int vfio_ccw_handle_clear(SubchDev *sch)
-+{
-+    S390CCWDevice *cdev =3D sch->driver_data;
-+    VFIOCCWDevice *vcdev =3D DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    struct ccw_cmd_region *region =3D vcdev->async_cmd_region;
-+    int ret;
-+
-+    if (!vcdev->async_cmd_region) {
-+        /* Async command region not available, fall back to emulation */
-+        return -ENOSYS;
-+    }
-+
-+    memset(region, 0, sizeof(*region));
-+    region->command =3D VFIO_CCW_ASYNC_CMD_CSCH;
-+
-+again:
-+    ret =3D pwrite(vcdev->vdev.fd, region,
-+                 vcdev->async_cmd_region_size, vcdev->async_cmd_region_o=
-ffset);
-+    if (ret !=3D vcdev->async_cmd_region_size) {
-+        if (errno =3D=3D EAGAIN) {
-+            goto again;
-+        }
-+        error_report("vfio-ccw: write cmd region failed with errno=3D%d"=
-, errno);
-+        ret =3D -errno;
-+    } else {
-+        ret =3D region->ret_code;
-+    }
-+    switch (ret) {
-+    case 0:
-+    case -ENODEV:
-+    case -EACCES:
-+        return 0;
-+    case -EFAULT:
-+    default:
-+        sch_gen_unit_exception(sch);
-+        css_inject_io_interrupt(sch);
-+        return 0;
-+    }
-+}
-+
-+static int vfio_ccw_handle_halt(SubchDev *sch)
-+{
-+    S390CCWDevice *cdev =3D sch->driver_data;
-+    VFIOCCWDevice *vcdev =3D DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    struct ccw_cmd_region *region =3D vcdev->async_cmd_region;
-+    int ret;
-+
-+    if (!vcdev->async_cmd_region) {
-+        /* Async command region not available, fall back to emulation */
-+        return -ENOSYS;
-+    }
-+
-+    memset(region, 0, sizeof(*region));
-+    region->command =3D VFIO_CCW_ASYNC_CMD_HSCH;
-+
-+again:
-+    ret =3D pwrite(vcdev->vdev.fd, region,
-+                 vcdev->async_cmd_region_size, vcdev->async_cmd_region_o=
-ffset);
-+    if (ret !=3D vcdev->async_cmd_region_size) {
-+        if (errno =3D=3D EAGAIN) {
-+            goto again;
-+        }
-+        error_report("vfio-ccw: write cmd region failed with errno=3D%d"=
-, errno);
-+        ret =3D -errno;
-+    } else {
-+        ret =3D region->ret_code;
-+    }
-+    switch (ret) {
-+    case 0:
-+    case -EBUSY:
-+    case -ENODEV:
-+    case -EACCES:
-+        return 0;
-+    case -EFAULT:
-+    default:
-+        sch_gen_unit_exception(sch);
-+        css_inject_io_interrupt(sch);
-+        return 0;
-+    }
-+}
-+
- static void vfio_ccw_reset(DeviceState *dev)
- {
-     CcwDevice *ccw_dev =3D DO_UPCAST(CcwDevice, parent_obj, dev);
-@@ -287,9 +374,13 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev=
-, Error **errp)
-         return;
-     }
-=20
-+    /*
-+     * We always expect at least the I/O region to be present. We also
-+     * may have a variable number of regions governed by capabilities.
-+     */
-     if (vdev->num_regions < VFIO_CCW_CONFIG_REGION_INDEX + 1) {
--        error_setg(errp, "vfio: Unexpected number of the I/O region %u",
--                   vdev->num_regions);
-+        error_setg(errp, "vfio: too few regions (%u), expected at least =
-%u",
-+                   vdev->num_regions, VFIO_CCW_CONFIG_REGION_INDEX + 1);
-         return;
-     }
-=20
-@@ -309,11 +400,26 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcde=
-v, Error **errp)
-     vcdev->io_region_offset =3D info->offset;
-     vcdev->io_region =3D g_malloc0(info->size);
-=20
-+    /* check for the optional async command region */
-+    ret =3D vfio_get_dev_region_info(vdev, VFIO_REGION_TYPE_CCW,
-+                                   VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD, &i=
-nfo);
-+    if (!ret) {
-+        vcdev->async_cmd_region_size =3D info->size;
-+        if (sizeof(*vcdev->async_cmd_region) !=3D vcdev->async_cmd_regio=
-n_size) {
-+            error_setg(errp, "vfio: Unexpected size of the async cmd reg=
-ion");
-+            g_free(info);
-+            return;
-+        }
-+        vcdev->async_cmd_region_offset =3D info->offset;
-+        vcdev->async_cmd_region =3D g_malloc0(info->size);
-+    }
-+
-     g_free(info);
- }
-=20
- static void vfio_ccw_put_region(VFIOCCWDevice *vcdev)
- {
-+    g_free(vcdev->async_cmd_region);
-     g_free(vcdev->io_region);
- }
-=20
-@@ -486,6 +592,8 @@ static void vfio_ccw_class_init(ObjectClass *klass, v=
-oid *data)
-     dc->reset =3D vfio_ccw_reset;
-=20
-     cdc->handle_request =3D vfio_ccw_handle_request;
-+    cdc->handle_halt =3D vfio_ccw_handle_halt;
-+    cdc->handle_clear =3D vfio_ccw_handle_clear;
- }
-=20
- static const TypeInfo vfio_ccw_info =3D {
-diff --git a/include/hw/s390x/css.h b/include/hw/s390x/css.h
-index 7cc183ef4366..d033387fba8a 100644
---- a/include/hw/s390x/css.h
-+++ b/include/hw/s390x/css.h
-@@ -215,6 +215,9 @@ IOInstEnding s390_ccw_cmd_request(SubchDev *sch);
- IOInstEnding do_subchannel_work_virtual(SubchDev *sub);
- IOInstEnding do_subchannel_work_passthrough(SubchDev *sub);
-=20
-+int s390_ccw_halt(SubchDev *sch);
-+int s390_ccw_clear(SubchDev *sch);
-+
- typedef enum {
-     CSS_IO_ADAPTER_VIRTIO =3D 0,
-     CSS_IO_ADAPTER_PCI =3D 1,
-diff --git a/include/hw/s390x/s390-ccw.h b/include/hw/s390x/s390-ccw.h
-index 901d805d79a3..fffb54562f6d 100644
---- a/include/hw/s390x/s390-ccw.h
-+++ b/include/hw/s390x/s390-ccw.h
-@@ -35,6 +35,8 @@ typedef struct S390CCWDeviceClass {
-     void (*realize)(S390CCWDevice *dev, char *sysfsdev, Error **errp);
-     void (*unrealize)(S390CCWDevice *dev, Error **errp);
-     IOInstEnding (*handle_request) (SubchDev *sch);
-+    int (*handle_halt) (SubchDev *sch);
-+    int (*handle_clear) (SubchDev *sch);
- } S390CCWDeviceClass;
-=20
- #endif
---=20
-2.20.1
-
+Kevin
 
