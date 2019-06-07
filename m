@@ -2,65 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0867938917
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:33:45 +0200 (CEST)
-Received: from localhost ([::1]:48666 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF8338A0A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 14:19:58 +0200 (CEST)
+Received: from localhost ([::1]:49512 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZD7w-0002lG-6o
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:33:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37725)
+	id 1hZDqe-0001gn-L5
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 08:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38358)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hZC6U-0003gm-0d
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:28:10 -0400
+ (envelope-from <groug@kaod.org>) id 1hZC8b-0005kd-Lq
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:30:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hZC6N-0007uy-3f
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:28:06 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:38099)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hZC6K-0007ZM-Oh
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:28:02 -0400
-Received: by mail-ot1-x343.google.com with SMTP id d17so1376802oth.5
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 03:27:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=G9tZs+bbHaZ/lmZ1JR/IpholDSHvIsp+2x6edWyF+Eo=;
- b=kNXz1H8xjL98uHpfpJ6acmnrU75ougVcWUFTPSnaHq0PUGuZHE/oWVOwIYlrHFJ/Py
- 06QOqscuMqxVklNHd4guo47rz9kVMNvZv9uZjqzkbW0gwmpSCDBS37BCrOBUe2I7PLJI
- X+pDKXcR6e9tO+x+ERZdQT6DpiVqCXBZhpMSSjkkWPo50PU64yEpWXM+Tl+Q1vVIWAA1
- hAveAs+sni6N0na81qrWnom7Tk8ef8qJZD1cE31Q7ETTvw+JKgeubAvJkGOLxzWEf+uR
- iKsWj1unI1rUjGDZKxFOKeaka2h4KDOwebKLWoEXWdvbMTJcntfryE/pWO4bNBBeYEKa
- cz2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=G9tZs+bbHaZ/lmZ1JR/IpholDSHvIsp+2x6edWyF+Eo=;
- b=tJ2EJn5noatZoiUYfZEcSwUTehtm10SqeCNpa3r2x4gApZ9gW/fTNuLSl9DNcyz7eh
- AzgTgSUvA19OfxN5ylCOVODLY/ZVX87HdeXarSthXxKXD+C9Bvj2cUvVBeH+YMSyw68t
- tUZOQ6mSIhsAqSf9Gyk6mUcLsiVoQHQsrKajIPr/dGda2L98c4/UtN33lqJPt+6NN0oe
- GnYmOdzQNO1Pl5hbcHrkidb0DEg0N4/wBTKotCDwayacMZvLyTiSdSqj9ZbcazxZvKD7
- vxdD4bUqVA9qREKPxj8R/USrLygqQHAMu5EERpRgsU/AoDxfl9xN2dOfGwQRMkST7N6B
- p24w==
-X-Gm-Message-State: APjAAAV4kq4Or+ylRJGnKHqfKqgXC0a1VADFtQTB7O7nEDcldZWj3lv9
- wGb9+cxHk8bbjxdxNEnMLFQgtz4kpZcqqBXhS61soQ==
-X-Google-Smtp-Source: APXvYqw1jIOLhNJJKC8gdd46tANXr45evzHRywmklo7jvPxGVcs2NML/lHasiMNzj2vwqni+TzTHy1/qKeGB2oBh8b0=
-X-Received: by 2002:a9d:193:: with SMTP id e19mr18286788ote.135.1559903274367; 
- Fri, 07 Jun 2019 03:27:54 -0700 (PDT)
+ (envelope-from <groug@kaod.org>) id 1hZC8Z-00032v-CU
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:30:21 -0400
+Received: from 4.mo2.mail-out.ovh.net ([87.98.172.75]:48564)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hZC8X-0002yV-8O
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:30:17 -0400
+Received: from player750.ha.ovh.net (unknown [10.109.146.19])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id 0EA4819E715
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 12:30:13 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player750.ha.ovh.net (Postfix) with ESMTPSA id 1E7F46B3AA63;
+ Fri,  7 Jun 2019 10:30:05 +0000 (UTC)
+Date: Fri, 7 Jun 2019 12:30:03 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Message-ID: <20190607123003.65750643@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <20190607002240.GD3760@umbus.fritz.box>
+References: <155910829070.13149.5215948335633966328.stgit@aravinda>
+ <155910845769.13149.8097972239187020170.stgit@aravinda>
+ <20190606030614.GK10319@umbus.fritz.box>
+ <20190606080609.28b4dd15@bahia.lab.toulouse-stg.fr.ibm.com>
+ <9a4291d3-2ae6-92f3-6922-e8924398cdb7@linux.vnet.ibm.com>
+ <20190606141048.01e7d6be@bahia.lab.toulouse-stg.fr.ibm.com>
+ <20190607002240.GD3760@umbus.fritz.box>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20190603214653.29369-1-jsnow@redhat.com>
- <20190603214653.29369-3-jsnow@redhat.com>
-In-Reply-To: <20190603214653.29369-3-jsnow@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jun 2019 11:27:43 +0100
-Message-ID: <CAFEAcA_ibRpZW1W6BgNXOJVORKOLwft5qPrBz6ekadOFPAZywg@mail.gmail.com>
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v3 2/3] sphinx: add qmp_lexer
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/Vw/gxCIECsPoTlcdYtq3s/u"; protocol="application/pgp-signature"
+X-Ovh-Tracer-Id: 4374402614701234662
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudegiedgvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 87.98.172.75
+Subject: Re: [Qemu-devel] [PATCH v9 6/6] migration: Include migration
+ support for machine check handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,32 +62,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+ qemu-ppc@nongnu.org, Aravinda Prasad <aravinda@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Jun 2019 at 22:47, John Snow <jsnow@redhat.com> wrote:
->
-> Sphinx, through Pygments, does not like annotated json examples very
-> much. In some versions of Sphinx (1.7), it will render the non-json
-> portions of code blocks in red, but in newer versions (2.0) it will
-> throw an exception and not highlight the block at all. Though we can
-> suppress this warning, it doesn't bring back highlighting on non-strict
-> json blocks.
->
-> We can alleviate this by creating a custom lexer for QMP examples that
-> allows us to properly highlight these examples in a robust way, keeping
-> our directionality and elision notations.
->
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: John Snow <jsnow@redhat.com>
+--Sig_/Vw/gxCIECsPoTlcdYtq3s/u
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-(mostly reviewing the sphinx config bits -- I trust that
-the actual lexer does what it says on the tin :-))
+On Fri, 7 Jun 2019 10:22:40 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-thanks
--- PMM
+> On Thu, Jun 06, 2019 at 02:10:48PM +0200, Greg Kurz wrote:
+> > On Thu, 6 Jun 2019 16:45:30 +0530
+> > Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+> >  =20
+> > > On Thursday 06 June 2019 11:36 AM, Greg Kurz wrote: =20
+> > > > On Thu, 6 Jun 2019 13:06:14 +1000
+> > > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > > >    =20
+> > > >> On Wed, May 29, 2019 at 11:10:57AM +0530, Aravinda Prasad wrote:  =
+ =20
+> > > >>> This patch includes migration support for machine check
+> > > >>> handling. Especially this patch blocks VM migration
+> > > >>> requests until the machine check error handling is
+> > > >>> complete as (i) these errors are specific to the source
+> > > >>> hardware and is irrelevant on the target hardware,
+> > > >>> (ii) these errors cause data corruption and should
+> > > >>> be handled before migration.
+> > > >>>
+> > > >>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> > > >>> ---
+> > > >>>  hw/ppc/spapr.c         |   20 ++++++++++++++++++++
+> > > >>>  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
+> > > >>>  hw/ppc/spapr_rtas.c    |    4 ++++
+> > > >>>  include/hw/ppc/spapr.h |    2 ++
+> > > >>>  4 files changed, 43 insertions(+)
+> > > >>>
+> > > >>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > >>> index e8a77636..31c4850 100644
+> > > >>> --- a/hw/ppc/spapr.c
+> > > >>> +++ b/hw/ppc/spapr.c
+> > > >>> @@ -2104,6 +2104,25 @@ static const VMStateDescription vmstate_sp=
+apr_dtb =3D {
+> > > >>>      },
+> > > >>>  };
+> > > >>> =20
+> > > >>> +static bool spapr_fwnmi_needed(void *opaque)
+> > > >>> +{
+> > > >>> +    SpaprMachineState *spapr =3D (SpaprMachineState *)opaque;
+> > > >>> +
+> > > >>> +    return (spapr->guest_machine_check_addr =3D=3D -1) ? 0 : 1; =
+    =20
+> > > >>
+> > > >> Since we're introducing a PAPR capability to enable this, it would
+> > > >> actually be better to check that here, rather than the runtime sta=
+te.
+> > > >> That leads to less cases and easier to understand semantics for the
+> > > >> migration stream.
+> > > >>   =20
+> > > >=20
+> > > > Hmmm... the purpose of needed() VMState callbacks is precisely about
+> > > > runtime state: the subsection should only be migrated if an MCE is
+> > > > pending, ie. spapr->guest_machine_check_addr !=3D -1.   =20
+> > >=20
+> > > spapr->guest_machine_check_addr is set when fwnmi is registered. Hence
+> > > an MCE might not be pending if it is set.
+> > >  =20
+> >=20
+> > Oops sorry, got confused... should have written "if the guest has
+> > registered FWNMI", but the idea is the same. We only need to migrate
+> > the subsection if the state is different from reset. This is the way
+> > needed() callbacks are generally implemented. =20
+>=20
+> Yes, but usually that's because we need to omit the section if it's
+> not actively in use in order to maintain backwards compatiblity with
+> old migration streams.  If the cap is enabled we already need
+> something that implements it at both ends to have a sane migration.
+>=20
+
+I see it the opposite way. A subsection is something that is optional
+for the destination only. In the present case, an older QEMU wont send
+the "spapr_machine_check" subsection, which is interpreted by a newer
+QEMU as "the guest didn't register FWNMI".
+
+On the source side, if some internal state got used it should always
+be migrated. We maintain backwards compatibility to an older QEMU
+by not using the new state at all, thanks to the versioned machine
+property.
+
+> > > I am fine with both the approaches (checking for
+> > > guest_machine_check_addr or for SPAPR_CAP_FWNMI_MCE).
+> > >  =20
+> >=20
+> > I would find ackward to migrate this always for new machine types,
+> > even if the guest doesn't register FWNMI... =20
+>=20
+> How so?
+>=20
+
+Well, I just don't see the point in migrating something that
+is not state since its value is the reset default that the
+destination already knows.
+
+This being said, I won't make more fuss about it, as long as
+it works :)
+
+--Sig_/Vw/gxCIECsPoTlcdYtq3s/u
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAlz6PKsACgkQcdTV5YIv
+c9ariBAAj4JQO+nll0Af2VOqJZra1nFjcYVYLgNmoOSRxJvrvTCLFFDYeFPaHy4J
+OqpFPJyZrnbomOAc8vxdlcjNK4KQF+WCdXBjcA6Znvy819xzg0RpEsQM+uny84RG
+FlerbH1LW6TpIj+3oh/oiX+XJZgaI9EFjjJ1INGndRLcEwAP9WYgupi3wzMmFCFo
+KtF7Gt08ZOAwpmqt7xglf4tdys3fL0DA/uCevhmjkNe4c3yez68VFg1XbxKyxLsJ
+/RHQRBZP+toCkb5sEcjmvkXx+7LWtcLCSioPCtEsZ3NXj+mwdQ0cZeZVbTCgoZ5E
+zVlZ1v/2GW49QPN38yDW9frNjJSxAVtA4fZ7YsXZ5+TQoxAxWZMJVP0ZZZPkh7by
+3Lo1Y928VbAaDdtEwdH1QeKrz6YvEO49333+MujXVE0gKjEomydfC2CUpiyhK0Y6
+wE+TSc+nz0luJ1zy5rRLl3imK2xfwOYE/BTiIKz8VoVZYCVvHLNVcjtK1efTSeny
+jA1Pn4NofTZL9j0flaAuKI+XkxsNtygkEE8ibK82bYXARNxKu94TSWx6EaaGjuJb
+jskDXA3ZotdCS9kKJzNJR8+fGCWd3aTc5Uej51/AI4yfQ1lXoxl1xby+BsEvSjPR
+3y4x6XJK/Nl4o2qEst1Qls60J0GeVonFQYfYUNocunH5XOzVXN0=
+=vl74
+-----END PGP SIGNATURE-----
+
+--Sig_/Vw/gxCIECsPoTlcdYtq3s/u--
 
