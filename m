@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E6B393D4
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:00:20 +0200 (CEST)
-Received: from localhost ([::1]:49948 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D933941C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:18:03 +0200 (CEST)
+Received: from localhost ([::1]:50116 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZJA1-0004cQ-0w
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:00:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54620)
+	id 1hZJRA-0000xa-Fm
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54140)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hZH0Q-0004To-9D
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:42:21 -0400
+ (envelope-from <armbru@redhat.com>) id 1hZH0Q-00043l-KJ
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:42:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hZGlr-0000Ww-NI
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:27:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:11295)
+ (envelope-from <armbru@redhat.com>) id 1hZGlq-0000RQ-4l
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:27:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53442)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hZGlr-0008Dn-Aa
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:27:11 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hZGlp-0008Ho-TP
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:27:10 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 02A7F30A7C55
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 15:26:53 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2114FF9E9C
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 15:26:54 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
  [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B21468C9A;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A5CAB7DE56;
  Fri,  7 Jun 2019 15:26:51 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 20A46113853F; Fri,  7 Jun 2019 17:26:47 +0200 (CEST)
+ id 23D4211384D2; Fri,  7 Jun 2019 17:26:47 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 17:26:45 +0200
-Message-Id: <20190607152646.4822-12-armbru@redhat.com>
+Date: Fri,  7 Jun 2019 17:26:46 +0200
+Message-Id: <20190607152646.4822-13-armbru@redhat.com>
 In-Reply-To: <20190607152646.4822-1-armbru@redhat.com>
 References: <20190607152646.4822-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 07 Jun 2019 15:26:53 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Fri, 07 Jun 2019 15:26:54 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 11/12] MAINTAINERS: Improve section headlines
+Subject: [Qemu-devel] [PULL 12/12] MAINTAINERS: Polish headline decorations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,376 +62,90 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When scripts/get_maintainer.pl reports something like
-
-    John Doe <jdoe@example.org> (maintainer:Overall)
-
-the user is left to wonder *which* of our three "Overall" sections
-applies: the one under "Guest CPU cores (TCG)", or the one under
-"Guest CPU Cores (KVM)", or the one under "Usermode emulation".
-
-Rename sections under
-
-* "Guest CPU cores (TCG)" from "FOO" to "FOO TCG CPUs"
-
-* "Guest CPU Cores (KVM)" from "FOO" to "FOO KVM CPUs"
-
-* "Guest CPU Cores (Xen)" from "FOO" to "FOO Xen CPUs"
-
-* "Architecture support" from "FOO" to "FOO general architecture
-  support"
-
-* "Usermode Emulation" from "Overall" to "Overall usermode emulation"
-
-* "Tiny Code Generator (TCG)" from "FOO target" to "FOO TCG target",
-  and from "Common code" to "Common TCG code"
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190606172408.18399-3-armbru@redhat.com>
+Message-Id: <20190606172408.18399-4-armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- MAINTAINERS | 80 ++++++++++++++++++++++++++---------------------------
- 1 file changed, 40 insertions(+), 40 deletions(-)
+ MAINTAINERS | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 899f9e9d8c..5cef4aa5bd 100644
+index 5cef4aa5bd..3ec8f3b009 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -83,7 +83,7 @@ T: git https://github.com/vivier/qemu.git trivial-patch=
-es
+@@ -65,7 +65,7 @@ F: *
+ F: */
 =20
- Architecture support
- --------------------
--S390
-+S390 general architecture support
- M: Cornelia Huck <cohuck@redhat.com>
- S: Supported
- F: default-configs/s390x-softmmu.mak
-@@ -108,7 +108,7 @@ L: qemu-s390x@nongnu.org
+ Responsible Disclosure, Reporting Security Issues
+-------------------------------
++-------------------------------------------------
+ W: https://wiki.qemu.org/SecurityProcess
+ M: Michael S. Tsirkin <mst@redhat.com>
+ L: secalert@redhat.com
+@@ -106,8 +106,8 @@ K: ^Subject:.*(?i)s390x?
+ T: git https://github.com/cohuck/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
 =20
- Guest CPU cores (TCG):
- ----------------------
--Overall
-+Overall TCG CPUs
+-Guest CPU cores (TCG):
+-----------------------
++Guest CPU cores (TCG)
++---------------------
+ Overall TCG CPUs
  M: Richard Henderson <rth@twiddle.net>
  R: Paolo Bonzini <pbonzini@redhat.com>
+@@ -343,9 +343,8 @@ M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
  S: Maintained
-@@ -134,14 +134,14 @@ F: fpu/
- F: include/fpu/
- F: tests/fp/
+ F: tests/tcg/multiarch/
 =20
--Alpha
-+Alpha TCG CPUs
- M: Richard Henderson <rth@twiddle.net>
- S: Maintained
- F: target/alpha/
- F: tests/tcg/alpha/
- F: disas/alpha.c
-=20
--ARM
-+ARM TCG CPUs
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
- S: Maintained
-@@ -162,7 +162,7 @@ S: Maintained
- F: hw/arm/smmu*
- F: include/hw/arm/smmu*
-=20
--CRIS
-+CRIS TCG CPUs
- M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
- S: Maintained
- F: target/cris/
-@@ -171,14 +171,14 @@ F: include/hw/cris/
- F: tests/tcg/cris/
- F: disas/cris.c
-=20
--HPPA (PA-RISC)
-+HPPA (PA-RISC) TCG CPUs
- M: Richard Henderson <rth@twiddle.net>
- S: Maintained
- F: target/hppa/
- F: hw/hppa/
- F: disas/hppa.c
-=20
--LM32
-+LM32 TCG CPUs
- M: Michael Walle <michael@walle.cc>
- S: Maintained
- F: target/lm32/
-@@ -191,20 +191,20 @@ F: include/hw/char/lm32_juart.h
- F: include/hw/lm32/
- F: tests/tcg/lm32/
-=20
--M68K
-+M68K TCG CPUs
- M: Laurent Vivier <laurent@vivier.eu>
- S: Maintained
- F: target/m68k/
- F: disas/m68k.c
-=20
--MicroBlaze
-+MicroBlaze TCG CPUs
- M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
- S: Maintained
- F: target/microblaze/
- F: hw/microblaze/
- F: disas/microblaze.c
-=20
--MIPS
-+MIPS TCG CPUs
- M: Aurelien Jarno <aurelien@aurel32.net>
- M: Aleksandar Markovic <amarkovic@wavecomp.com>
- R: Aleksandar Rikalo <arikalo@wavecomp.com>
-@@ -225,7 +225,7 @@ F: include/hw/timer/mips_gictimer.h
- F: tests/tcg/mips/
- K: ^Subject:.*(?i)mips
-=20
--Moxie
-+Moxie TCG CPUs
- M: Anthony Green <green@moxielogic.com>
- S: Maintained
- F: target/moxie/
-@@ -233,7 +233,7 @@ F: disas/moxie.c
- F: hw/moxie/
- F: default-configs/moxie-softmmu.mak
-=20
--NiosII
-+NiosII TCG CPUs
- M: Chris Wulff <crwulff@gmail.com>
- M: Marek Vasut <marex@denx.de>
- S: Maintained
-@@ -243,14 +243,14 @@ F: hw/intc/nios2_iic.c
- F: disas/nios2.c
- F: default-configs/nios2-softmmu.mak
-=20
--OpenRISC
-+OpenRISC TCG CPUs
- M: Stafford Horne <shorne@gmail.com>
- S: Odd Fixes
- F: target/openrisc/
- F: hw/openrisc/
- F: tests/tcg/openrisc/
-=20
--PowerPC
-+PowerPC TCG CPUs
- M: David Gibson <david@gibson.dropbear.id.au>
- L: qemu-ppc@nongnu.org
- S: Maintained
-@@ -259,7 +259,7 @@ F: hw/ppc/
- F: include/hw/ppc/
- F: disas/ppc.c
-=20
--RISC-V
-+RISC-V TCG CPUs
- M: Palmer Dabbelt <palmer@sifive.com>
- M: Alistair Francis <Alistair.Francis@wdc.com>
- M: Sagar Karandikar <sagark@eecs.berkeley.edu>
-@@ -272,7 +272,7 @@ F: include/hw/riscv/
- F: linux-user/host/riscv32/
- F: linux-user/host/riscv64/
-=20
--S390
-+S390 TCG CPUs
- M: Richard Henderson <rth@twiddle.net>
- M: David Hildenbrand <david@redhat.com>
- S: Maintained
-@@ -282,7 +282,7 @@ F: disas/s390.c
- F: tests/tcg/s390x/
- L: qemu-s390x@nongnu.org
-=20
--SH4
-+SH4 TCG CPUs
- M: Aurelien Jarno <aurelien@aurel32.net>
- S: Odd Fixes
- F: target/sh4/
-@@ -290,7 +290,7 @@ F: hw/sh4/
- F: disas/sh4.c
- F: include/hw/sh4/
-=20
--SPARC
-+SPARC TCG CPUs
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
- M: Artyom Tarasenko <atar4qemu@gmail.com>
- S: Maintained
-@@ -300,14 +300,14 @@ F: hw/sparc64/
- F: include/hw/sparc/sparc64.h
- F: disas/sparc.c
-=20
--UniCore32
-+UniCore32 TCG CPUs
- M: Guan Xuetao <gxt@mprc.pku.edu.cn>
- S: Maintained
- F: target/unicore32/
- F: hw/unicore32/
- F: include/hw/unicore32/
-=20
--X86
-+X86 TCG CPUs
- M: Paolo Bonzini <pbonzini@redhat.com>
- M: Richard Henderson <rth@twiddle.net>
- M: Eduardo Habkost <ehabkost@redhat.com>
-@@ -320,7 +320,7 @@ F: disas/i386.c
- F: docs/qemu-cpu-models.texi
- T: git https://github.com/ehabkost/qemu.git x86-next
-=20
--Xtensa
-+Xtensa TCG CPUs
- M: Max Filippov <jcmvbkbc@gmail.com>
- W: http://wiki.osll.ru/doku.php?id=3Detc:users:jcmvbkbc:qemu-target-xten=
-sa
- S: Maintained
-@@ -331,7 +331,7 @@ F: disas/xtensa.c
- F: include/hw/xtensa/xtensa-isa.h
- F: default-configs/xtensa*.mak
-=20
--TriCore
-+TriCore TCG CPUs
- M: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
- S: Maintained
- F: target/tricore/
-@@ -346,7 +346,7 @@ F: tests/tcg/multiarch/
- Guest CPU Cores (KVM):
- ----------------------
-=20
--Overall
-+Overall KVM CPUs
+-Guest CPU Cores (KVM):
+-----------------------
+-
++Guest CPU Cores (KVM)
++---------------------
+ Overall KVM CPUs
  M: Paolo Bonzini <pbonzini@redhat.com>
  L: kvm@vger.kernel.org
- S: Supported
-@@ -357,24 +357,24 @@ F: include/hw/kvm/
- F: include/sysemu/kvm*.h
- F: scripts/kvm/kvm_flightrecorder
+@@ -401,9 +400,8 @@ S: Supported
+ F: target/i386/kvm.c
+ F: scripts/kvm/vmxcap
 =20
--ARM
-+ARM KVM CPUs
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
- S: Maintained
- F: target/arm/kvm.c
-=20
--MIPS
-+MIPS KVM CPUs
- M: James Hogan <jhogan@kernel.org>
- R: Aleksandar Rikalo <arikalo@wavecomp.com>
- S: Maintained
- F: target/mips/kvm.c
-=20
--PPC
-+PPC KVM CPUs
- M: David Gibson <david@gibson.dropbear.id.au>
- S: Maintained
- F: target/ppc/kvm.c
-=20
--S390
-+S390 KVM CPUs
- M: Halil Pasic <pasic@linux.ibm.com>
- M: Cornelia Huck <cohuck@redhat.com>
- M: Christian Borntraeger <borntraeger@de.ibm.com>
-@@ -393,7 +393,7 @@ T: git https://github.com/cohuck/qemu.git s390-next
- T: git https://github.com/borntraeger/qemu.git s390-next
- L: qemu-s390x@nongnu.org
-=20
--X86
-+X86 KVM CPUs
- M: Paolo Bonzini <pbonzini@redhat.com>
- M: Marcelo Tosatti <mtosatti@redhat.com>
- L: kvm@vger.kernel.org
-@@ -404,7 +404,7 @@ F: scripts/kvm/vmxcap
- Guest CPU Cores (Xen):
- ----------------------
-=20
--X86
-+X86 Xen CPUs
+-Guest CPU Cores (Xen):
+-----------------------
+-
++Guest CPU Cores (Xen)
++---------------------
+ X86 Xen CPUs
  M: Stefano Stabellini <sstabellini@kernel.org>
  M: Anthony Perard <anthony.perard@citrix.com>
- M: Paul Durrant <paul.durrant@citrix.com>
-@@ -2266,7 +2266,7 @@ F: tests/uefi-test-tools/
+@@ -424,9 +422,8 @@ F: include/hw/block/dataplane/xen*
+ F: include/hw/xen/
+ F: include/sysemu/xen-mapcache.h
 =20
- Usermode Emulation
- ------------------
--Overall
-+Overall usermode emulation
- M: Riku Voipio <riku.voipio@iki.fi>
- S: Maintained
- F: thunk.c
-@@ -2287,12 +2287,12 @@ F: scripts/qemu-binfmt-conf.sh
+-Hosts:
+-------
+-
++Hosts
++-----
+ LINUX
+ M: Michael S. Tsirkin <mst@redhat.com>
+ M: Cornelia Huck <cohuck@redhat.com>
+@@ -463,6 +460,7 @@ X: qga/*win32*
+ F: qemu.nsi
 =20
- Tiny Code Generator (TCG)
- -------------------------
--Common code
-+Common TCG code
+ Alpha Machines
++--------------
  M: Richard Henderson <rth@twiddle.net>
  S: Maintained
- F: tcg/
-=20
--AArch64 target
-+AArch64 TCG target
- M: Claudio Fontana <claudio.fontana@huawei.com>
- M: Claudio Fontana <claudio.fontana@gmail.com>
- S: Maintained
-@@ -2301,33 +2301,33 @@ F: tcg/aarch64/
- F: disas/arm-a64.cc
- F: disas/libvixl/
-=20
--ARM target
-+ARM TCG target
- M: Andrzej Zaborowski <balrogg@gmail.com>
- S: Maintained
- L: qemu-arm@nongnu.org
- F: tcg/arm/
- F: disas/arm.c
-=20
--i386 target
-+i386 TCG target
- M: Richard Henderson <rth@twiddle.net>
- S: Maintained
- F: tcg/i386/
- F: disas/i386.c
-=20
--MIPS target
-+MIPS TCG target
- M: Aurelien Jarno <aurelien@aurel32.net>
- R: Aleksandar Rikalo <arikalo@wavecomp.com>
- S: Maintained
- F: tcg/mips/
- F: disas/mips.c
-=20
--PPC
-+PPC TCG target
- M: Richard Henderson <rth@twiddle.net>
- S: Odd Fixes
- F: tcg/ppc/
- F: disas/ppc.c
-=20
--RISC-V
-+RISC-V TCG target
- M: Palmer Dabbelt <palmer@sifive.com>
- M: Alistair Francis <Alistair.Francis@wdc.com>
- L: qemu-riscv@nongnu.org
-@@ -2335,19 +2335,19 @@ S: Maintained
- F: tcg/riscv/
- F: disas/riscv.c
-=20
--S390 target
-+S390 TCG target
- M: Richard Henderson <rth@twiddle.net>
- S: Maintained
- F: tcg/s390/
- F: disas/s390.c
+ F: hw/alpha/
+@@ -1197,7 +1195,7 @@ F: hw/s390x/s390-pci*
  L: qemu-s390x@nongnu.org
 =20
--SPARC target
-+SPARC TCG target
- S: Odd Fixes
- F: tcg/sparc/
- F: disas/sparc.c
-=20
--TCI target
-+TCI TCG target
- M: Stefan Weil <sw@weilnetz.de>
+ UniCore32 Machines
+--------------
++------------------
+ PKUnity-3 SoC initramfs-with-busybox
+ M: Guan Xuetao <gxt@mprc.pku.edu.cn>
  S: Maintained
- F: tcg/tci/
 --=20
 2.21.0
 
