@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA913954F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:11:32 +0200 (CEST)
-Received: from localhost ([::1]:51452 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4283962A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:51:05 +0200 (CEST)
+Received: from localhost ([::1]:52474 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKGx-0002P7-GF
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:11:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44340)
+	id 1hZKtE-0005iM-4o
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZJG6-0000rb-02
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:06:40 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hZJI4-0002T1-Jq
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:08:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZJG4-0007E0-9d
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:06:33 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34578)
+ (envelope-from <richard.henderson@linaro.org>) id 1hZJI2-0001EA-Lm
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:08:36 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:35866)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZJG4-0006vK-29
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:06:32 -0400
-Received: by mail-wr1-f65.google.com with SMTP id e16so3062907wrn.1
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 11:06:14 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hZJI1-00014D-CR
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:08:34 -0400
+Received: by mail-ot1-x341.google.com with SMTP id c3so2697151otr.3
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 11:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xSxr2khXk/E2wuomvgD1zBa6o7VMFaqnrO/SqCVlTc8=;
+ b=ksyvPKsSN8sSK8T0sDDfSAznRFlErxOKyt+r5n13AL5dFHLTrfRl69LmRTc0mlXbNk
+ 4SD8iOnPFAeq64f0F6LW9jqJgI1S82Df8zP7/S/b43N1HrzqdsLLpgzxkBJwhsGUysrI
+ ybMLsX9ixfzK8i3xEyu2dxQSp/iuex+mJgGtM5/j8+eaG7pTmXOXCSYne1EzsgxSObZj
+ B9I7dcGb5t5XEAKI79HYZc19tZFJaGbYm86idsESG6fUeelDIXgxRyRinvq+Ku6euG7Q
+ E41XscN0FNqEWuldDFkHak8ZT/4JGH6n5fehCIylI0LgUFhH9VnOrbETOAtYlNzvd7bj
+ EUhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EwvgBqgPzOgq2pGoh9pa98wrkcJch83J3p27+D89V/Y=;
- b=iU/U2c+gFeks/zvoHUdaqRuNzZdUeb+ihHbf5WO7+o1r1cuYTx7EW1TLQziq4MrruT
- dh4sIQIU8zqWgkFDIwHKbKb5BSHiiIJfUwV5o64m+wozsqyF8yNxMHf2iqNkLOihSOuo
- LsZWRk1YBvvSUnfXdnDgzqPFwLP1TbJNviBCFFzLtQYLeup/FtA+w6xeTN9d/mJAf+PC
- H1dCo5QYbNHfoCVrWWbLzgujHR32/UgAsqYra2Xj9/eh6/ZGKTIWeJKw6HNvPIebPGkR
- yqqTAIASBblamZHRdANkJ5EZgvVmZVWR+5R0NvfU0eBRO3XILwRFyvirRQ9xjJbSr6HG
- TRrA==
-X-Gm-Message-State: APjAAAXjQEA2RHm4n3M/YV7DshKSFr7eU9nVLy2C9y+fXwSfv224MDkk
- k7OwB651IstlkvcP4ZhiaPQbSw==
-X-Google-Smtp-Source: APXvYqwschzukmDeMJNQ0ei72OSTi+8UVf9KO2mvVKeXidZeAPdw6w2W5dlY10qJ/Q9knrjXV8pbSg==
-X-Received: by 2002:adf:9dcc:: with SMTP id q12mr8579157wre.93.1559930773446; 
- Fri, 07 Jun 2019 11:06:13 -0700 (PDT)
-Received: from [192.168.0.156] ([78.192.181.46])
- by smtp.gmail.com with ESMTPSA id x6sm858091wrr.11.2019.06.07.11.06.12
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 11:06:12 -0700 (PDT)
-To: Eric Blake <eblake@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20190607153725.18055-1-philmd@redhat.com>
- <20190607153725.18055-5-philmd@redhat.com>
- <e6e5f4ef-27c1-ce7c-e404-621c86af43ea@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <b65a3316-005a-02cb-8ea4-b956f9c26941@redhat.com>
-Date: Fri, 7 Jun 2019 20:06:12 +0200
+ bh=xSxr2khXk/E2wuomvgD1zBa6o7VMFaqnrO/SqCVlTc8=;
+ b=RCapJxp590SR4/2qviP3cwLST1fg/BwDrcf8KvDvOFhtqT4lzeVxXN+0vsOWD8wIy2
+ eQ9qTiFPRszt/yIBLm1o5Vk7hrqSvDWEVewt2iwLtU+mOCxSZTKJQowN/tkF0qkfEurt
+ e0TPxuJ8ztOGZAK69IunINVcqp36Ih04cjZYbVWt7aLelRhNijRBZoTRljcVw1Cqea8y
+ FaAJitN6INnJHOy8DUD29urj0D0upZg/8gFDs8DI8j1XDo4wEqPxBhSftbpJS+xurwo6
+ auuFn6MBUYFZTIiNaZlp7NoYFykl8BSIbvrZJMAupxxJSgkKaeb4KHxJli9OPDwN247Y
+ YOHQ==
+X-Gm-Message-State: APjAAAXRyGsnjmYQ/Wr/bwjZqg2wwD0EN4ZxAgYlBQxJIhxsYrpJuMqr
+ xPzsvQFDbiNzz8q14FVZdOZkJILz6uSjlw==
+X-Google-Smtp-Source: APXvYqwob0bj2I88FRURw+21k0zJBZZh3hKZCXShb0Ioo17k87ktVOuj0CBsiq2UFIJYlKgDLJn8MQ==
+X-Received: by 2002:a9d:6453:: with SMTP id m19mr3172037otl.70.1559930905732; 
+ Fri, 07 Jun 2019 11:08:25 -0700 (PDT)
+Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
+ [200.56.192.86])
+ by smtp.gmail.com with ESMTPSA id s110sm1021947otb.34.2019.06.07.11.08.24
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jun 2019 11:08:24 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20190606174609.20487-1-peter.maydell@linaro.org>
+ <20190606174609.20487-14-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <119282bd-4a60-e9a6-99c2-4fa2ddb1ecc0@linaro.org>
+Date: Fri, 7 Jun 2019 13:08:21 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <e6e5f4ef-27c1-ce7c-e404-621c86af43ea@redhat.com>
+In-Reply-To: <20190606174609.20487-14-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH v18 04/29] !fixup target/rx: CPU definition
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH 13/42] target/arm: Convert
+ "single-precision" register moves to decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,33 +89,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/19 8:02 PM, Eric Blake wrote:
-> On 6/7/19 10:37 AM, Philippe Mathieu-Daudé wrote:
->> Rename macros.
+On 6/6/19 12:45 PM, Peter Maydell wrote:
+> Convert the "single-precision" register moves to decodetree:
+>  * VMSR
+>  * VMRS
+>  * VMOV between general purpose register and single precision
 > 
-> Why is this marked '!fixup' in the subject instead of just merging the
-> patches directly?
+> Note that the VMSR/VMRS conversions make our handling of
+> the "should this UNDEF?" checks consistent between the two
+> instructions:
+>  * VMSR to MVFR0, MVFR1, MVFR2 now UNDEF from EL0
+>    (previously was a nop)
+>  * VMSR to FPSID now UNDEFs from EL0 or if VFPv3 or better
+>    (previously was a nop)
+>  * VMSR to FPINST and FPINST2 now UNDEF if VFPv3 or better
+>    (previously would write to the register, which had no
+>    guest-visible effect because we always UNDEF reads)
+> 
+> We also tighten up the decode: we were previously underdecoding
+> some SBZ or SBO bits.
+> 
+> The conversion of VMOV_single includes the expansion out of the
+> gen_mov_F0_vreg()/gen_vfp_mrs() and gen_mov_vreg_F0()/gen_vfp_msr()
+> sequences into the simpler direct load/store of the TCG temp via
+> neon_{load,store}_reg32(): we know in the new function that we're
+> always single-precision, we don't need to use the old-and-deprecated
+> cpu_F0* TCG globals, and we don't happen to have the declaration of
+> gen_vfp_msr() and gen_vfp_mrs() at the point in the file where the
+> new function is.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/translate-vfp.inc.c | 161 +++++++++++++++++++++++++++++++++
+>  target/arm/translate.c         | 148 +-----------------------------
+>  target/arm/vfp.decode          |   4 +
+>  3 files changed, 168 insertions(+), 145 deletions(-)
 
-Since all the series is reviewed/tested and Igor asked to amend a fixup
-but we are having hard time to figure if we understand Igor request
-correctly, I thought it would be easier for him to review this way, then
-for Richard to squash the patches and send the pull request.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Is it confuse/bad practice?
 
-In the cover I wrote:
-
-  If Igor aggrees with the fixup patches, Richard, can you squash
-  them and send a pull request?  (without the last patch, which is
-  expected to go via Eduardo's tree, but since it is helpful for
-  testing this series, I included it).
-
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  target/rx/cpu.c | 22 ++++++++++++++--------
->>  target/rx/cpu.h | 12 ++++++------
->>  2 files changed, 20 insertions(+), 14 deletions(-)
->>
+r~
 
