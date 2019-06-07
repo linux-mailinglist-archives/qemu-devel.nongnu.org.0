@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1899239829
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 00:04:29 +0200 (CEST)
-Received: from localhost ([::1]:53588 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24A33982C
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 00:04:35 +0200 (CEST)
+Received: from localhost ([::1]:53592 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZMyG-0007DR-Hz
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 18:04:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47587)
+	id 1hZMyR-0007Hu-42
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 18:04:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47640)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <prvs=0547f94d1=alistair.francis@wdc.com>)
- id 1hZMrs-00041o-3w
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:57:49 -0400
+ id 1hZMrt-000422-HU
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:57:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=0547f94d1=alistair.francis@wdc.com>)
- id 1hZMrr-0001dZ-0Z
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:57:48 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:8436)
+ id 1hZMrr-0001fO-LR
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:57:49 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:8430)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=0547f94d1=alistair.francis@wdc.com>)
- id 1hZMrp-0001Ty-ES; Fri, 07 Jun 2019 17:57:46 -0400
+ id 1hZMrr-0001Pu-8h; Fri, 07 Jun 2019 17:57:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1559944666; x=1591480666;
+ t=1559944668; x=1591480668;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Ao9gCKvSoFwU8QM28M/2smcm/7HnPQ04kDU0bSYTT4c=;
- b=Y3U9ukP2mCWUjZiHZPafZugfGp63ExirFKwN7XryEiHjQLuOh/snYfAK
- LFwtnOrxDUft4Y8oDQzp3GpfuKfPug6TMNtEsj2HVfrkr+fqsDzySLY1i
- PNMu+/x3i/lweqd0HspKmrs+6Z3ytMAclAcO8toe7/UnffUJMveYoUdIL
- 15Fuz9kJDbD+VxXXyPfjtgmxO9u5jWRps/lb+UYbYRjkxcvLL96LWV5Kp
- oEHhGT3ZWamMsjVbwZBIToj0X9hzeqzMyrWmQn8mpM/Hrsp/z5juYpMq0
- N2DKqYaPGSGJQcb2CU0ktZt2JIhueu8ihhGo3cWNs4imLR9cmGEjfFzGE A==;
-X-IronPort-AV: E=Sophos;i="5.63,564,1557158400"; d="scan'208";a="115014074"
+ bh=Fvl20bL70W6URC8x1oiu+t8B2haDxcStjjs1M9AXrF0=;
+ b=eXRF4pPcBIMG3/H40Z3QrdPk/iGB2lPG8WBW4sWrG0JZJWcUJy8bJI5q
+ WDI3249t0mEf56/oyS1HKAVEjI7VymZIkde4VWgU2zQ8AskPuKcIMGTnh
+ 3jFzBLtrAMLSkTKcVcOq5qKNI5KXeS88FRBzcu4VWDjt2kABGKHKcTw6L
+ VC+UNYRzzHMeEwQr4/BlD4Bowdm1EUEe3w3H8eeAWJipGd8sTTL/KdF6O
+ Ka7NFhLMJQ0PgtKHChSj0qv4iYphUK41hHaJQriL2SrqiQQMuhviUQQZC
+ 856mJCsaGq7NFJ7GV73ARFIFFjN7M6VOyWjreBRN0L5iFAdRIQFaJv154 w==;
+X-IronPort-AV: E=Sophos;i="5.63,564,1557158400"; d="scan'208";a="115014077"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2019 05:57:35 +0800
-IronPort-SDR: wNDbZ17nImoEN6JiXEAFRCEp1mLryFaW5Rcvu1F0u7RraM/g5mUXx1VbT5kEDtYbClukBsZlYM
- HI7HuAlMGfgFIkiZtBpAAN/x6Roon3EeX8TSZ2XwVe8YrfUTEdU5ylTOFLw6q8TpWphzwQiypp
- +FziAFTDc7Gg/1oALn5KCsl9IlhSaMiFf2YWgOqQUo0kX2P5pG+dmPHg/eibPzFmXnWG8SZH+B
- G0qZ130mwgYJHXyQhIq3CuEf8QaC3KDOdpnm6FjioIvsgrJNihDg8dD7/mtdeeWIPfIl+9EW3A
- f5Smuwir3JnXVvEh50NXasoO
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2019 05:57:38 +0800
+IronPort-SDR: wyG/T8MH6DVqIFaop1zfLNxRzNrhBcHW+7ZpaA2pbqywYaMY9NUwFcxJwCgStlpCw8rA9T3iC3
+ g3LH+ARpVn2dkRoFL+PtiZbeFz4QhOcOQ5ePhYmrXXPXNtq+7NLNaxzbxk3XoXWg/JXLi3pNMc
+ ZYN9YrXBF18TPMyR073+dnfgeYO1zArHskObZgALEHAjr8gsVABS0Qd1UvaGDoLUhlpvVaLnKi
+ w2+1FbtpHCHcewvExWpWIDDetKUd4NBbn+X0ev9q/+ZZHzVt6HmAdDPJ51Hi7GkFg7DlaVQR5z
+ uwXtqCfsWJDAmmhuq0cUZDCs
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP; 07 Jun 2019 14:34:50 -0700
-IronPort-SDR: L3+iLm/r5o0XqAWrLkYvg+PLgrcIsCDSYTOmu69AZ03dbRbjwBk4M3Xmg2nKTatU0owbcR4C7p
- Lr8loeVLldljElXEpLz9Az/6GJJ7C2hcHXszxF7WKkIvuI4qCiVoTHQbKn8lacSI+drKMW+PKV
- rg6i6KitewcptUgHu4tCvhRw9TFJ35IfWodcAvK45VMeJVTpTL/Ie+txDaMOOwURu2XA2kUSpb
- JutCMIKlXAl+fnFlJj1K4Bu6jvGp65rb4JqaubjIzvlyMWOZL7VV3KSW2XOIn10JzDo6E6l1v+
- ezA=
+ by uls-op-cesaep02.wdc.com with ESMTP; 07 Jun 2019 14:34:53 -0700
+IronPort-SDR: 9tcQlM9Y2r7jN1rsFOMboBDnQ/pd2MDECyzR0lXILzyG1J+5HkKdoLfjVG7Q+Kfkq09+qSysC0
+ H/hRKfLZ8hQYF7vXJzS4EipsOXWofpk+imvWu40pM+lkSsBHjyN1s5NwL3dPeJImc0cPzhmfqM
+ gXGJU/eoUU73f3YUjRGOne+5ymK58J8QUkuRsQUEDJETMIYELQOl6wvqibYTu0rsR85iO5j4mC
+ s3W5qzkfAkGNeyvHgLFppkt223q//tOuQBEOSUl4jatStOM/OjuRHH1V5h5kQ6vN3f2wclB6HR
+ yPg=
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2019 14:57:34 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2019 14:57:37 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Date: Fri,  7 Jun 2019 14:55:24 -0700
-Message-Id: <76631304f89487485c4b745f601796f1e1f70e41.1559944445.git.alistair.francis@wdc.com>
+Date: Fri,  7 Jun 2019 14:55:27 -0700
+Message-Id: <b371cd84627ab252e938cd7c3a0ab42ce5fdfe89.1559944445.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559944445.git.alistair.francis@wdc.com>
 References: <cover.1559944445.git.alistair.francis@wdc.com>
@@ -66,8 +66,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 216.71.153.141
-Subject: [Qemu-devel] [PATCH v1 02/27] target/riscv: Add the Hypervisor
- extension
+Subject: [Qemu-devel] [PATCH v1 03/27] target/riscv: Add the virtulisation
+ mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,21 +85,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/cpu.h        |  4 ++++
+ target/riscv/cpu_bits.h   |  6 ++++++
+ target/riscv/cpu_helper.c | 23 +++++++++++++++++++++++
+ 3 files changed, 33 insertions(+)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 8937bda918..3337d1aef3 100644
+index 3337d1aef3..de4843b879 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -81,6 +81,7 @@
- #define RVC RV('C')
- #define RVS RV('S')
- #define RVU RV('U')
-+#define RVH RV('H')
+@@ -132,6 +132,8 @@ struct CPURISCVState {
  
- /* S extension denotes that Supervisor mode exists, however it is possible
-    to have a core that support S mode but does not have an MMU and there
+ #ifndef CONFIG_USER_ONLY
+     target_ulong priv;
++    /* This contains QEMU specific information about the virt state. */
++    target_ulong virt;
+     target_ulong resetvec;
+ 
+     target_ulong mhartid;
+@@ -278,6 +280,8 @@ void riscv_cpu_do_interrupt(CPUState *cpu);
+ int riscv_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
+ int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
++bool riscv_cpu_virt_enabled(CPURISCVState *env);
++void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
+ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
+ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index dc9d53d4be..07c95e8d2c 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -417,6 +417,12 @@
+ #define PRV_H 2 /* Reserved */
+ #define PRV_M 3
+ 
++/* Virtulisation modes */
++#define VIRT_OFF            0
++#define VIRT_ON             1
++#define VIRT_MODE_SHIFT     0
++#define VIRT_MODE_MASK      (1 << VIRT_MODE_SHIFT)
++
+ /* RV32 satp CSR field masks */
+ #define SATP32_MODE         0x80000000
+ #define SATP32_ASID         0x7fc00000
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 872835177a..5912ae63b7 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -71,6 +71,29 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ 
+ #if !defined(CONFIG_USER_ONLY)
+ 
++bool riscv_cpu_virt_enabled(CPURISCVState *env)
++{
++    bool tmp;
++
++    if (!riscv_has_ext(env, RVH)) {
++        return false;
++    }
++
++    tmp = (env->virt & VIRT_MODE_MASK) >> VIRT_MODE_SHIFT;
++
++    return tmp == VIRT_ON;
++}
++
++void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
++{
++    if (!riscv_has_ext(env, RVH)) {
++        return;
++    }
++
++    env->virt &= ~VIRT_MODE_MASK;
++    env->virt |= enable << VIRT_MODE_SHIFT;
++}
++
+ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
+ {
+     CPURISCVState *env = &cpu->env;
 -- 
 2.21.0
 
