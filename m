@@ -2,59 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B267B39456
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:29:26 +0200 (CEST)
-Received: from localhost ([::1]:50338 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244F63946D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:36:04 +0200 (CEST)
+Received: from localhost ([::1]:50454 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZJcD-0002Ey-IV
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56564)
+	id 1hZJic-00072F-GV
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57106)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1hZH3V-0006Yr-QN
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:45:28 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hZH5o-0007Ze-0u
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:47:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hZH3R-0004Mr-T2
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:45:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34188)
+ (envelope-from <dgilbert@redhat.com>) id 1hZH5g-0007eR-0e
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:47:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:27222)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>)
- id 1hZH3R-0003ZX-B9; Fri, 07 Jun 2019 11:45:21 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
+ id 1hZH5N-0006zH-KH; Fri, 07 Jun 2019 11:47:21 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2101D20276;
- Fri,  7 Jun 2019 15:44:49 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-122-62.rdu2.redhat.com
- [10.10.122.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CE3260DDF;
- Fri,  7 Jun 2019 15:44:34 +0000 (UTC)
-Date: Fri, 7 Jun 2019 11:44:32 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190607154432.GA10275@localhost.localdomain>
-References: <20190117185628.21862-1-crosa@redhat.com>
- <20190117185628.21862-16-crosa@redhat.com>
- <b235e7a9-57ad-5547-b8ca-693159820a8f@redhat.com>
- <e63a4ea3-e9ff-4920-cdfa-14bf04b5b08c@redhat.com>
- <84aa43ba-df19-51f6-e14d-fb82a7f2dfcc@redhat.com>
- <a638e504-f7ad-fa3a-f198-c3878cfc560e@redhat.com>
- <20190607032648.GA22416@habkost.net>
- <20190607034214.GB22416@habkost.net>
+ by mx1.redhat.com (Postfix) with ESMTPS id 57DFBC04BE09;
+ Fri,  7 Jun 2019 15:47:05 +0000 (UTC)
+Received: from work-vm (ovpn-116-24.ams2.redhat.com [10.36.116.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 141657A4CB;
+ Fri,  7 Jun 2019 15:47:01 +0000 (UTC)
+Date: Fri, 7 Jun 2019 16:46:59 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <20190607154658.GL2631@work-vm>
+References: <20190607135430.22149-1-kwolf@redhat.com>
+ <20190607135430.22149-3-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190607034214.GB22416@habkost.net>
+In-Reply-To: <20190607135430.22149-3-kwolf@redhat.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 07 Jun 2019 15:45:02 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.31]); Fri, 07 Jun 2019 15:47:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 15/18] Boot Linux Console Test: add a test
- for aarch64 + virt
+Subject: Re: [Qemu-devel] [RFC PATCH 02/10] monitor: Split monitor_init in
+ HMP and QMP function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,299 +58,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Stefan Markovic <smarkovic@wavecomp.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Claudio Fontana <claudio.fontana@huawei.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-s390x@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Caio Carrara <ccarrara@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 07, 2019 at 12:42:14AM -0300, Eduardo Habkost wrote:
-> On Fri, Jun 07, 2019 at 12:26:48AM -0300, Eduardo Habkost wrote:
-> > On Fri, Feb 01, 2019 at 11:10:31AM -0500, Cleber Rosa wrote:
-> > >=20
-> > >=20
-> > > On 1/31/19 4:26 PM, Cleber Rosa wrote:
-> > > >=20
-> > > >=20
-> > > > On 1/31/19 3:21 PM, Cleber Rosa wrote:
-> > > >>
-> > > >>
-> > > >> On 1/31/19 3:02 PM, Wainer dos Santos Moschetta wrote:
-> > > >>>
-> > > >>> On 01/17/2019 04:56 PM, Cleber Rosa wrote:
-> > > >>>> Just like the previous tests, boots a Linux kernel on a aarch6=
-4 target
-> > > >>>> using the virt machine.
-> > > >>>>
-> > > >>>> One special option added is the CPU type, given that the kerne=
-l
-> > > >>>> selected fails to boot on the virt machine's default CPU (cort=
-ex-a15).
-> > > >>>>
-> > > >>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > > >>>> ---
-> > > >>>> =A0 .travis.yml=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0 2 +-
-> > > >>>> =A0 tests/acceptance/boot_linux_console.py | 20 ++++++++++++++=
-++++++
-> > > >>>> =A0 2 files changed, 21 insertions(+), 1 deletion(-)
-> > > >>>>
-> > > >>>> diff --git a/.travis.yml b/.travis.yml
-> > > >>>> index 54100eea5a..595e8c0b6c 100644
-> > > >>>> --- a/.travis.yml
-> > > >>>> +++ b/.travis.yml
-> > > >>>> @@ -187,7 +187,7 @@ matrix:
-> > > >>>> =A0 =A0=A0=A0=A0=A0 # Acceptance (Functional) tests
-> > > >>>> =A0=A0=A0=A0=A0 - env:
-> > > >>>> -=A0=A0=A0=A0=A0=A0=A0 - CONFIG=3D"--python=3D/usr/bin/python3
-> > > >>>> --target-list=3Dx86_64-softmmu,mips-softmmu,mips64el-softmmu,p=
-pc64-softmmu"
-> > > >>>> +=A0=A0=A0=A0=A0=A0=A0 - CONFIG=3D"--python=3D/usr/bin/python3
-> > > >>>> --target-list=3Dx86_64-softmmu,mips-softmmu,mips64el-softmmu,p=
-pc64-softmmu,aarch64-softmmu"
-> > > >>>>
-> > > >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 - TEST_CMD=3D"make check-acceptanc=
-e"
-> > > >>>> =A0=A0=A0=A0=A0=A0=A0 addons:
-> > > >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 apt:
-> > > >>>> diff --git a/tests/acceptance/boot_linux_console.py
-> > > >>>> b/tests/acceptance/boot_linux_console.py
-> > > >>>> index f3ccd23a7a..107700b517 100644
-> > > >>>> --- a/tests/acceptance/boot_linux_console.py
-> > > >>>> +++ b/tests/acceptance/boot_linux_console.py
-> > > >>>> @@ -138,3 +138,23 @@ class BootLinuxConsole(Test):
-> > > >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 self.vm.launch()
-> > > >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 console_pattern =3D 'Kernel comman=
-d line: %s' %
-> > > >>>> kernel_command_line
-> > > >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 self.wait_for_console_pattern(cons=
-ole_pattern)
-> > > >>>> +
-> > > >>>> +=A0=A0=A0 def test_aarch64_virt(self):
-> > > >>>
-> > > >>> That test case fails on my system (Fedora 29 x86_64). Avocado s=
-eems
-> > > >>> unable to kill the VM so it=A0 reaches the timeout.
-> > > >>>
-> > > >>> I compiled QEMU with default configuration:
-> > > >>>
-> > > >>> $ configure --python=3D/usr/bin/python3 --target-list=3Dx86_64-=
-softmmu
-> > > >>> --target-list=3Dx86_64-softmmu,mips-softmmu,mips64el-softmmu,pp=
-c64-softmmu,aarch64-softmmu)
-> > > >>>
-> > > >>>
-> > > >>> Follows a snippet of the Avocado's job.log file:
-> > > >>> ----
-> > > >>> 2019-01-31 14:41:34,912 test=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
- L0602 INFO | START
-> > > >>> 07-/root/src/qemu/tests/acceptance/boot_linux_console.py:BootLi=
-nuxConsole.test_aarch64_virt
-> > > >>>
-> > > >>> 2019-01-31 14:41:34,912 test=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
- L0298 DEBUG| DATA
-> > > >>> (filename=3Doutput.expected) =3D> NOT FOUND (data sources: vari=
-ant, test, file)
-> > > >>> 2019-01-31 14:41:34,913 parameters=A0=A0=A0=A0=A0=A0 L0146 DEBU=
-G| PARAMS (key=3Darch,
-> > > >>> path=3D*, default=3Daarch64) =3D> 'aarch64'
-> > > >>> 2019-01-31 14:41:34,913 parameters=A0=A0=A0=A0=A0=A0 L0146 DEBU=
-G| PARAMS
-> > > >>> (key=3Dqemu_bin, path=3D*, default=3Daarch64-softmmu/qemu-syste=
-m-aarch64) =3D>
-> > > >>> 'aarch64-softmmu/qemu-system-aarch64'
-> > > >>> 2019-01-31 14:41:34,915 download=A0=A0=A0=A0=A0=A0=A0=A0 L0070 =
-INFO | Fetching
-> > > >>> https://sjc.edge.kernel.org/fedora-buffet/fedora/linux/releases=
-/29/Server/aarch64/os/images/pxeboot/vmlinuz
-> > > >>> -> /var/lib/avocado/data/cache/by_name/vmlinuz.3upct2pr
-> > > >>> 2019-01-31 14:41:35,490 download=A0=A0=A0=A0=A0=A0=A0=A0 L0054 =
-DEBUG| Retrieved URL
-> > > >>> "https://sjc.edge.kernel.org/fedora-buffet/fedora/linux/release=
-s/29/Server/aarch64/os/images/pxeboot/vmlinuz":
-> > > >>> content-length 8623423, date: "Thu, 31 Jan 2019 19:41:35 GMT",
-> > > >>> last-modified: "Sun, 21 Oct 2018 00:43:09 GMT"
-> > > >>> 2019-01-31 14:41:41,765 qemu=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
- L0317 DEBUG| VM launch command:
-> > > >>> 'aarch64-softmmu/qemu-system-aarch64 -chardev
-> > > >>> socket,id=3Dmon,path=3D/var/tmp/tmpizirkcud/qemu-32609-monitor.=
-sock -mon
-> > > >>> chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine v=
-irt -chardev
-> > > >>> socket,id=3Dconsole,path=3D/var/tmp/tmpizirkcud/qemu-32609-cons=
-ole.sock,server,nowait
-> > > >>> -serial chardev:console -cpu cortex-a53 -kernel
-> > > >>> /var/lib/avocado/data/cache/by_name/vmlinuz -append console=3Dt=
-tyAMA0'
-> > > >>> 2019-01-31 14:41:41,779 qmp=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0 L0167 DEBUG| >>> {'execute':
-> > > >>> 'qmp_capabilities'}
-> > > >>> 2019-01-31 14:41:41,931 qmp=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0 L0175 DEBUG| <<< {'return': {}}
-> > > >>> 2019-01-31 14:41:42,830 boot_linux_conso L0041 DEBUG| [=A0=A0=A0=
- 0.000000]
-> > > >>> Booting Linux on physical CPU 0x0000000000 [0x410fd034]
-> > > >>>
-> > > >>> (...)
-> > > >>>
-> > > >>> 2019-01-31 14:41:42,833 boot_linux_conso L0041 DEBUG| [=A0=A0=A0=
- 0.000000]
-> > > >>> Policy zone: DMA32
-> > > >>> 2019-01-31 14:41:42,833 boot_linux_conso L0041 DEBUG| [=A0=A0=A0=
- 0.000000]
-> > > >>> Kernel command line: console=3DttyAMA0
-> > > >>> 2019-01-31 14:41:42,833 qmp=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0 L0167 DEBUG| >>> {'execute':
-> > > >>> 'quit'}
-> > > >>
-> > > >> Here, a QMP response like "<<< {'return': {}}" would be expected=
-.
-> > > >>
-> > > >> Since I can not reproduce this on my system (or on Travis-CI job=
-s I've
-> > > >> sent), can you tell me on top of which commit you've applied the=
-se patches?
-> > > >>
-> > > >=20
-> > > > I spoke too soon:
-> > > >=20
-> > > > https://travis-ci.org/clebergnu/qemu/jobs/487121425#L3033
-> > > >=20
-> > > > This looks like a recent regression, and I'm guessing it's not on=
- the
-> > > > test's side.  I'll try to bisect it and let you know.
-> > > >=20
-> > >=20
-> > > On a fresh environment, I am able to get this reproduced on every 2=
- of
-> > > runs, more or less.  When I hit it, I attached GDB to it, and the
-> > > backtrace shows:
-> > >=20
-> > > Thread debugging using libthread_db enabled]
-> > > Using host libthread_db library "/lib64/libthread_db.so.1".
-> > > warning: Loadable section ".note.gnu.property" outside of ELF segme=
-nts
-> > > warning: Loadable section ".note.gnu.property" outside of ELF segme=
-nts
-> > > __lll_lock_wait () at ../sysdeps/unix/sysv/linux/x86_64/lowlevelloc=
-k.S:103
-> > > 103     2:      movl    %edx, %eax
-> > > (gdb) bt
-> > > #0  __lll_lock_wait () at
-> > > ../sysdeps/unix/sysv/linux/x86_64/lowlevellock.S:103
-> > > #1  0x00007fc6ba1a2e09 in __GI___pthread_mutex_lock
-> > > (mutex=3Dmutex@entry=3D0x5615a233d020 <qemu_global_mutex>) at
-> > > ../nptl/pthread_mutex_lock.c:80
-> > > #2  0x00005615a1bb7593 in qemu_mutex_lock_impl (mutex=3D0x5615a233d=
-020
-> > > <qemu_global_mutex>, file=3D0x5615a1db2d4c "util/main-loop.c", line=
-=3D236)
-> > > at util/qemu-thread-posix.c:66
-> > > #3  0x00005615a171125e in qemu_mutex_lock_iothread_impl
-> > > (file=3Dfile@entry=3D0x5615a1db2d4c "util/main-loop.c", line=3Dline=
-@entry=3D236)
-> > > at /home/cleber/src/qemu/cpus.c:1849
-> > > #4  0x00005615a1bb415d in os_host_main_loop_wait (timeout=3D<optimi=
-zed
-> > > out>) at util/main-loop.c:236
-> > > #5  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loo=
-p.c:497
-> > > #6  0x00005615a18fdd39 in main_loop () at vl.c:1928
-> > > #7  0x00005615a16c9ee9 in main (argc=3D<optimized out>, argv=3D<opt=
-imized
-> > > out>, envp=3D<optimized out>) at vl.c:4665
-> >=20
-> > Tip: run "thread apply all bt" so you can get a backtrace of all
-> > threads.
-> >=20
-> >=20
-> > >=20
-> > > Running it with `taskset -c 1` prevents this issue from happening, =
-which
-> > > AFAICT, contributes even further towards this being a QEMU race con=
-dition.
-> > >=20
-> > > I'm CC'ing Peter and Claudio (listed maintainers of aarch64), as th=
-is
-> > > seems to limited to that target.  Any tips on what to do here?
-> >=20
-> > I am hitting this on Travis, too, and I finally could reproduce
-> > it locally,
-> >=20
-> > The guest is still writing on the serial console, but nobody is
-> > reading the data on the other side.  A VCPU thread is stuck
-> > inside the EAGAIN/nanosleep loop at qemu_chr_write_buffer(),
-> > holding the QEMU global lock.
->=20
-> Experimental fix below.
->=20
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+* Kevin Wolf (kwolf@redhat.com) wrote:
+> Instead of mixing HMP and QMP monitors in the same function, separate
+> the monitor creation function for both.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->  python/qemu/__init__.py | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->=20
-> diff --git a/python/qemu/__init__.py b/python/qemu/__init__.py
-> index 81d9657ec0..4a691f34da 100644
-> --- a/python/qemu/__init__.py
-> +++ b/python/qemu/__init__.py
-> @@ -274,10 +274,6 @@ class QEMUMachine(object):
-> =20
->          self._qemu_log_path =3D None
-> =20
-> -        if self._console_socket is not None:
-> -            self._console_socket.close()
-> -            self._console_socket =3D None
+>  monitor.c | 86 +++++++++++++++++++++++++++++++------------------------
+>  1 file changed, 49 insertions(+), 37 deletions(-)
+> 
+> diff --git a/monitor.c b/monitor.c
+> index 70ce9e8a77..bb23cc0450 100644
+> --- a/monitor.c
+> +++ b/monitor.c
+> @@ -702,7 +702,7 @@ static void handle_hmp_command(Monitor *mon, const char *cmdline);
+>  
+>  static void monitor_iothread_init(void);
+>  
+> -static void monitor_data_init(Monitor *mon, bool skip_flush,
+> +static void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
+>                                bool use_io_thread)
+>  {
+>      if (use_io_thread && !mon_iothread) {
+> @@ -717,6 +717,7 @@ static void monitor_data_init(Monitor *mon, bool skip_flush,
+>      mon->skip_flush = skip_flush;
+>      mon->use_io_thread = use_io_thread;
+>      mon->qmp.qmp_requests = g_queue_new();
+> +    mon->flags = flags;
+>  }
+>  
+>  static void monitor_data_destroy(Monitor *mon)
+> @@ -740,7 +741,7 @@ char *qmp_human_monitor_command(const char *command_line, bool has_cpu_index,
+>      char *output = NULL;
+>      Monitor *old_mon, hmp;
+>  
+> -    monitor_data_init(&hmp, true, false);
+> +    monitor_data_init(&hmp, 0, true, false);
+>  
+>      old_mon = cur_mon;
+>      cur_mon = &hmp;
+> @@ -4603,19 +4604,48 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
+>      monitor_list_append(mon);
+>  }
+>  
+> -void monitor_init(Chardev *chr, int flags)
+> +static void monitor_init_qmp(Chardev *chr, int flags)
+>  {
+>      Monitor *mon = g_malloc(sizeof(*mon));
+> -    bool use_readline = flags & MONITOR_USE_READLINE;
+>  
+>      /* Note: we run QMP monitor in I/O thread when @chr supports that */
+> -    monitor_data_init(mon, false,
+> -                      (flags & MONITOR_USE_CONTROL)
+> -                      && qemu_chr_has_feature(chr,
+> -                                              QEMU_CHAR_FEATURE_GCONTEXT));
+> +    monitor_data_init(mon, flags, false,
+> +                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
+>  
+>      qemu_chr_fe_init(&mon->chr, chr, &error_abort);
+> -    mon->flags = flags;
+> +    qemu_chr_fe_set_echo(&mon->chr, true);
+> +
+> +    json_message_parser_init(&mon->qmp.parser, handle_qmp_command, mon, NULL);
+> +    if (mon->use_io_thread) {
+> +        /*
+> +         * Make sure the old iowatch is gone.  It's possible when
+> +         * e.g. the chardev is in client mode, with wait=on.
+> +         */
+> +        remove_fd_in_watch(chr);
+> +        /*
+> +         * We can't call qemu_chr_fe_set_handlers() directly here
+> +         * since chardev might be running in the monitor I/O
+> +         * thread.  Schedule a bottom half.
+> +         */
+> +        aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
+> +                                monitor_qmp_setup_handlers_bh, mon);
+> +        /* The bottom half will add @mon to @mon_list */
+> +    } else {
+> +        qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read,
+> +                                 monitor_qmp_read, monitor_qmp_event,
+> +                                 NULL, mon, NULL, true);
+> +        monitor_list_append(mon);
+> +    }
+> +}
+> +
+> +static void monitor_init_hmp(Chardev *chr, int flags)
+> +{
+> +    Monitor *mon = g_malloc(sizeof(*mon));
+> +    bool use_readline = flags & MONITOR_USE_READLINE;
+> +
+> +    monitor_data_init(mon, flags, false, false);
+> +    qemu_chr_fe_init(&mon->chr, chr, &error_abort);
+> +
+>      if (use_readline) {
+>          mon->rs = readline_init(monitor_readline_printf,
+>                                  monitor_readline_flush,
+> @@ -4624,36 +4654,18 @@ void monitor_init(Chardev *chr, int flags)
+>          monitor_read_command(mon, 0);
+>      }
+>  
+> -    if (monitor_is_qmp(mon)) {
+> -        qemu_chr_fe_set_echo(&mon->chr, true);
+> -        json_message_parser_init(&mon->qmp.parser, handle_qmp_command,
+> -                                 mon, NULL);
+> -        if (mon->use_io_thread) {
+> -            /*
+> -             * Make sure the old iowatch is gone.  It's possible when
+> -             * e.g. the chardev is in client mode, with wait=on.
+> -             */
+> -            remove_fd_in_watch(chr);
+> -            /*
+> -             * We can't call qemu_chr_fe_set_handlers() directly here
+> -             * since chardev might be running in the monitor I/O
+> -             * thread.  Schedule a bottom half.
+> -             */
+> -            aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
+> -                                    monitor_qmp_setup_handlers_bh, mon);
+> -            /* The bottom half will add @mon to @mon_list */
+> -            return;
+> -        } else {
+> -            qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read,
+> -                                     monitor_qmp_read, monitor_qmp_event,
+> -                                     NULL, mon, NULL, true);
+> -        }
+> +    qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read, monitor_read,
+> +                             monitor_event, NULL, mon, NULL, true);
+> +    monitor_list_append(mon);
+> +}
+> +
+> +void monitor_init(Chardev *chr, int flags)
+> +{
+> +    if (flags & MONITOR_USE_CONTROL) {
+> +        monitor_init_qmp(chr, flags);
+>      } else {
+> -        qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read, monitor_read,
+> -                                 monitor_event, NULL, mon, NULL, true);
+> +        monitor_init_hmp(chr, flags);
+>      }
 > -
->          if self._temp_dir is not None:
->              shutil.rmtree(self._temp_dir)
->              self._temp_dir =3D None
-> @@ -336,6 +332,14 @@ class QEMUMachine(object):
->          """
->          Terminate the VM and clean up
->          """
-> +
-> +        # If we keep the console socket open, we may deadlock waiting
-> +        # for QEMU to exit, while QEMU is waiting for the socket to
-> +        # become writeable.
-> +        if self._console_socket is not None:
-> +            self._console_socket.close()
-> +            self._console_socket =3D None
-> +
-
-Right, this is somewhat equivalent to the following "workaround":
-
-   https://github.com/clebergnu/qemu/commit/e1713f3b91972ad57c089f276c54d=
-b3f3fa63423
-
-I could not tell at the moment, though, if closing (or shutting down)
-the console socket was the appropriate fix.
-
-What I see is that Rick's commit pointed to by Lazlo is dated from
-2016, and it says that a virtio-console fix is necessary.  I'd imagine
-that, if a fix was ever proposed, it'd have been incorporated in the
-F29 kernel used in this test... and that this workaround/fix would
-not be the best solution.
-
-But, I'm mostly attempting to navigate this using my senses , few hard
-data and even less background :).
-
-Regards,
-- Cleber.
-
->          if self.is_running():
->              try:
->                  self._qmp.cmd('quit')
-> --=20
-> 2.18.0.rc1.1.g3f1ff2140
->=20
-> --=20
-> Eduardo
+> -    monitor_list_append(mon);
+>  }
+>  
+>  void monitor_cleanup(void)
+> -- 
+> 2.20.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
