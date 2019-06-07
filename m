@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8F038A72
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 14:36:14 +0200 (CEST)
-Received: from localhost ([::1]:50076 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E779389D2
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 14:08:54 +0200 (CEST)
+Received: from localhost ([::1]:49188 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZE6N-00066s-Eb
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 08:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60620)
+	id 1hZDfx-0003FM-Mg
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 08:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60680)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hZDK4-0004BO-RR
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:46:23 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hZDKP-0004EJ-Tu
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:46:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hZDJz-0006yB-U9
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:46:15 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:40329)
+ (envelope-from <pbonzini@redhat.com>) id 1hZDKN-0007dY-Lc
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:46:37 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:54677)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hZDJz-0006xG-Md
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:46:11 -0400
-Received: by mail-qt1-f193.google.com with SMTP id a15so1813342qtn.7
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 04:46:11 -0700 (PDT)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hZDKF-00070V-8h
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:46:27 -0400
+Received: by mail-wm1-f65.google.com with SMTP id g135so1745746wme.4
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 04:46:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=85juaT/QTtDXAlpqsx7ncPXjy3Ja4G+zLiVr+S7ruSo=;
- b=Cf78M+o20CfXEfJD+fRDlPMDQVX8/9P7gMw5em8u872naCvoQ5L64JQBRK8gOotGBR
- oU2ZRpnnIM/Xqo//MzbbihfNIZkTbu/LkFrWrKEf+9CvTSTfY0po/qEzxgFX3k5RuHlb
- PK9HWeHM2NPRqTG2B4VdH2oS2sUV3baqw5NR+rCbkdiUUTrURs9Nq6YXT2xP6UZCJlc6
- sHYdVxjneBAgm2hmWgKdbwqgIQPv2QH63hiuxURJpIBVUvnY4fg+bWsRDnpDWiisrtHA
- h20NeHgWHJ29qgUpQ/ijaGNZKpfLVMbsVLjtJbrwGLZ3fq3F0caPGajWr6axIFURvLXD
- GjTw==
-X-Gm-Message-State: APjAAAWErznviDBVO0bkF7rlULs+4xA11ftNlaUnucLbTDhemBuFIpce
- 4zI+gs24pxoC2fWWpWXOTC1zcA==
-X-Google-Smtp-Source: APXvYqxKLznHglUl0Nj03sa9/gQept+KVPePOLqEyODW/zwkB9+VqHxrXxTDhLU2EFVJZ4eSCPPz6Q==
-X-Received: by 2002:ac8:7342:: with SMTP id q2mr4774497qtp.134.1559907971135; 
- Fri, 07 Jun 2019 04:46:11 -0700 (PDT)
-Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
- [100.0.197.103])
- by smtp.gmail.com with ESMTPSA id p1sm934591qti.83.2019.06.07.04.46.09
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 04:46:10 -0700 (PDT)
-Date: Fri, 7 Jun 2019 07:46:08 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Message-ID: <20190607074602-mutt-send-email-mst@kernel.org>
-References: <20190607083444.32175-1-kraxel@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gnWFjc+G+xpkyU5e2RNt1AZsFiuo9mdL+PpgvRI2di8=;
+ b=nqOXs60bMjLxpUTFPYkEp+F71n5Wisv7ur0Xc0KDn6vxS+IRQiskAx6eO7TKZxpkoe
+ o7WpYVVkRgK0jJdjH8zuwa4zhI1nsB7CHRvozYo4urqx2HM8BU2x1BvdEoQKPyF+f0Rb
+ VU6ioC7bAfnNJv+MVr4wIhgzyjl3tOwBt11n4MkAl3BMak3Iybow8653ey1LxEfvRdoq
+ 8+6JNidJpFq+cE1CFiKeB+m1PM6dXxYtuATUnCudLWug11W4wjh8o9sZQvABaF2LFqhC
+ pL/M6K5nvNtELqhVqhikY5zN1uhL6jrjQc1MNdYyAAeMtUy9IfiVZblM9dJyjX0zOuTy
+ ViMQ==
+X-Gm-Message-State: APjAAAXJgvyw2yIFs8tiNu4VIzf3zjvN+fU9yi1U5YjoJhAGvEFCc7UB
+ db//HTK24VdP1LZCJ3/zCt3MOw==
+X-Google-Smtp-Source: APXvYqwyQtQtUyff6zE+6e1icSYEInlI+knM/+5RFsQArL9ncrcBcFrHvK/n2Dg12cbZhvLtL5qXeA==
+X-Received: by 2002:a7b:c251:: with SMTP id b17mr2140022wmj.143.1559907972587; 
+ Fri, 07 Jun 2019 04:46:12 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d43d:6da3:9364:a775?
+ ([2001:b07:6468:f312:d43d:6da3:9364:a775])
+ by smtp.gmail.com with ESMTPSA id z135sm2111872wmc.45.2019.06.07.04.46.11
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jun 2019 04:46:12 -0700 (PDT)
+To: Yury Kotov <yury-kotov@yandex-team.ru>,
+ "open list:Overall" <kvm@vger.kernel.org>
+References: <20190607090830.18807-1-yury-kotov@yandex-team.ru>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <99896404-c7d9-d2d0-ab01-ab67dcb0348f@redhat.com>
+Date: Fri, 7 Jun 2019 13:46:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190607083444.32175-1-kraxel@redhat.com>
+In-Reply-To: <20190607090830.18807-1-yury-kotov@yandex-team.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.160.193
-Subject: Re: [Qemu-devel] [PATCH] edid: flip the default to enabled
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH] kvm-all: Add/update fprintf's for
+ kvm_*_ioeventfd_del
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,89 +73,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 07, 2019 at 10:34:44AM +0200, Gerd Hoffmann wrote:
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
+On 07/06/19 11:08, Yury Kotov wrote:
+> Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
 > ---
->  include/hw/virtio/virtio-gpu.h | 2 +-
->  hw/core/machine.c              | 8 +++++++-
->  hw/display/bochs-display.c     | 2 +-
->  hw/display/vga-pci.c           | 4 ++--
->  4 files changed, 11 insertions(+), 5 deletions(-)
+>  accel/kvm/kvm-all.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 > 
-> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-> index 8ecac1987a7f..6dd57f2025ec 100644
-> --- a/include/hw/virtio/virtio-gpu.h
-> +++ b/include/hw/virtio/virtio-gpu.h
-> @@ -125,7 +125,7 @@ typedef struct VirtIOGPUBaseClass {
->  #define VIRTIO_GPU_BASE_PROPERTIES(_state, _conf)                       \
->      DEFINE_PROP_UINT32("max_outputs", _state, _conf.max_outputs, 1),    \
->      DEFINE_PROP_BIT("edid", _state, _conf.flags, \
-> -                    VIRTIO_GPU_FLAG_EDID_ENABLED, false), \
-> +                    VIRTIO_GPU_FLAG_EDID_ENABLED, true), \
->      DEFINE_PROP_UINT32("xres", _state, _conf.xres, 1024), \
->      DEFINE_PROP_UINT32("yres", _state, _conf.yres, 768)
->  
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index f1a0f45f9c83..84ebb8d24701 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -24,7 +24,13 @@
->  #include "hw/pci/pci.h"
->  #include "hw/mem/nvdimm.h"
->  
-> -GlobalProperty hw_compat_4_0_1[] = {};
-> +GlobalProperty hw_compat_4_0_1[] = {
-> +    { "VGA",            "edid", "false" },
-> +    { "secondary-vga",  "edid", "false" },
-> +    { "bochs-display",  "edid", "false" },
-> +    { "virtio-vga",     "edid", "false" },
-> +    { "virtio-gpu-pci", "edid", "false" },
-> +};
->  const size_t hw_compat_4_0_1_len = G_N_ELEMENTS(hw_compat_4_0_1);
->  
->  GlobalProperty hw_compat_4_0[] = {};
-> diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
-> index 3d439eb2407b..681a047d793c 100644
-> --- a/hw/display/bochs-display.c
-> +++ b/hw/display/bochs-display.c
-> @@ -336,7 +336,7 @@ static void bochs_display_exit(PCIDevice *dev)
->  
->  static Property bochs_display_properties[] = {
->      DEFINE_PROP_SIZE("vgamem", BochsDisplayState, vgamem, 16 * MiB),
-> -    DEFINE_PROP_BOOL("edid", BochsDisplayState, enable_edid, false),
-> +    DEFINE_PROP_BOOL("edid", BochsDisplayState, enable_edid, true),
->      DEFINE_EDID_PROPERTIES(BochsDisplayState, edid_info),
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-> index a17c96e703fe..3b76457ab077 100644
-> --- a/hw/display/vga-pci.c
-> +++ b/hw/display/vga-pci.c
-> @@ -338,7 +338,7 @@ static Property vga_pci_properties[] = {
->      DEFINE_PROP_BIT("qemu-extended-regs",
->                      PCIVGAState, flags, PCI_VGA_FLAG_ENABLE_QEXT, true),
->      DEFINE_PROP_BIT("edid",
-> -                    PCIVGAState, flags, PCI_VGA_FLAG_ENABLE_EDID, false),
-> +                    PCIVGAState, flags, PCI_VGA_FLAG_ENABLE_EDID, true),
->      DEFINE_EDID_PROPERTIES(PCIVGAState, edid_info),
->      DEFINE_PROP_BOOL("global-vmstate", PCIVGAState, vga.global_vmstate, false),
->      DEFINE_PROP_END_OF_LIST(),
-> @@ -349,7 +349,7 @@ static Property secondary_pci_properties[] = {
->      DEFINE_PROP_BIT("qemu-extended-regs",
->                      PCIVGAState, flags, PCI_VGA_FLAG_ENABLE_QEXT, true),
->      DEFINE_PROP_BIT("edid",
-> -                    PCIVGAState, flags, PCI_VGA_FLAG_ENABLE_EDID, false),
-> +                    PCIVGAState, flags, PCI_VGA_FLAG_ENABLE_EDID, true),
->      DEFINE_EDID_PROPERTIES(PCIVGAState, edid_info),
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> -- 
-> 2.18.1
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 524c4ddfbd..e4ac3386cb 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -864,8 +864,8 @@ static void kvm_mem_ioeventfd_add(MemoryListener *listener,
+>                                 data, true, int128_get64(section->size),
+>                                 match_data);
+>      if (r < 0) {
+> -        fprintf(stderr, "%s: error adding ioeventfd: %s\n",
+> -                __func__, strerror(-r));
+> +        fprintf(stderr, "%s: error adding ioeventfd: %s (%d)\n",
+> +                __func__, strerror(-r), -r);
+>          abort();
+>      }
+>  }
+> @@ -882,6 +882,8 @@ static void kvm_mem_ioeventfd_del(MemoryListener *listener,
+>                                 data, false, int128_get64(section->size),
+>                                 match_data);
+>      if (r < 0) {
+> +        fprintf(stderr, "%s: error deleting ioeventfd: %s (%d)\n",
+> +                __func__, strerror(-r), -r);
+>          abort();
+>      }
+>  }
+> @@ -898,8 +900,8 @@ static void kvm_io_ioeventfd_add(MemoryListener *listener,
+>                                data, true, int128_get64(section->size),
+>                                match_data);
+>      if (r < 0) {
+> -        fprintf(stderr, "%s: error adding ioeventfd: %s\n",
+> -                __func__, strerror(-r));
+> +        fprintf(stderr, "%s: error adding ioeventfd: %s (%d)\n",
+> +                __func__, strerror(-r), -r);
+>          abort();
+>      }
+>  }
+> @@ -917,6 +919,8 @@ static void kvm_io_ioeventfd_del(MemoryListener *listener,
+>                                data, false, int128_get64(section->size),
+>                                match_data);
+>      if (r < 0) {
+> +        fprintf(stderr, "%s: error deleting ioeventfd: %s (%d)\n",
+> +                __func__, strerror(-r), -r);
+>          abort();
+>      }
+>  }
+> 
+
+Queued, thanks.
+
+Paolo
 
