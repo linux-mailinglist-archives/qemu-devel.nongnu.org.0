@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EB4389A0
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 14:03:33 +0200 (CEST)
-Received: from localhost ([::1]:49046 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC93389DC
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 14:09:04 +0200 (CEST)
+Received: from localhost ([::1]:49190 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZDam-0007vx-V1
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 08:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36946)
+	id 1hZDg8-0003Ww-57
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 08:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38140)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZDW8-0006GY-Uu
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:58:46 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hZDa1-0000Ok-Cv
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 08:02:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZDW8-0003HE-0w
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:58:44 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39475)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZDW7-0003Dv-8c
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:58:43 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id z23so1639936wma.4
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 04:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=fS3Gd2gHj2AwL5z6/kpqN+7ZdteTF9As4r1HiLW9udE=;
- b=ag+bclxr0Dodq4+XWCaAQpXGuE3W3XhDd3shabhP3iFv6niEXzVKsKaoWzYRtwekBv
- hdNX8fU1VLTJ6q5qksz+rW78iEVQmJ8ZccXJD2jsBc0v4I0cT/opB1V1K2rN3kyTOuLK
- W0qDLctxe1c9ydNCXQ+p4RAtO5Y6/HZ5CdD8TiB7oaYqSGyqB4igo3uKvVJw+HvnLCou
- msaocFlnYDlN7zWdecmKojtqXT3HIe46cG46UzPVP0HbPMJyHF+tMxvChzv40a6unXpA
- WVhAS0Z3z2pvxCrD5qg19KG0Iz2DdVShUIaH3knFRyQX1LX7IqW9qZkowPqZhMxhdo2v
- E9LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=fS3Gd2gHj2AwL5z6/kpqN+7ZdteTF9As4r1HiLW9udE=;
- b=tOwVOTGIoY/kctbgiJS8cxb0b+ahvFmtN79714YnKNyCh4rjWDDoBr48cGrEYJ/ICD
- HwGn0gR2Bf2KxiuDUmtuOFK9Xjhs/5/s5XwzmV4pvvBATdbT8DT23thPUJWHUuGhWlY1
- rW6yUN9qRpCVdfd0am2Tjka9as7vqmj4UohdF7A0askONdx15tjuJ6e7Y1DPAHr34m7x
- hGP332btTO54rl7wWDI0IJgz3ud6fwpdJPE/af1pFby+fUyqRzyFABPJG0S5hbQzYV2N
- efT9nJT6Sg0B6shpMo4/MvcLbtE5yxS4jdk5lnmUm/fIR0OC1bBVp5NnPwgfyV6RLfQr
- ZNmA==
-X-Gm-Message-State: APjAAAUiv87ltbLIWhRwofGCRc6GnAF0swy1HqyjsJqVt7IscWZc/rkZ
- aGe6l9Tn6t2e/o9pHcgdmIzcqg==
-X-Google-Smtp-Source: APXvYqz3BcYSGc9b8aE3UKDiW/Y3mmUSrTfUwUn8cK4G9RCWyI+xavDLxZSsxnot6EYGWGX+FP68/g==
-X-Received: by 2002:a1c:a387:: with SMTP id m129mr3442839wme.15.1559908721064; 
- Fri, 07 Jun 2019 04:58:41 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id x25sm1115704wmc.36.2019.06.07.04.58.40
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 04:58:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0F8DE1FF87;
- Fri,  7 Jun 2019 12:58:40 +0100 (BST)
-References: <20190523204409.21068-1-jan.bobek@gmail.com>
- <878suw194o.fsf@zen.linaroharston>
- <CAFEAcA-EN4cS-T3qKeVdGo6124J6e=7z3kjua5oYyomcw7LB4Q@mail.gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <CAFEAcA-EN4cS-T3qKeVdGo6124J6e=7z3kjua5oYyomcw7LB4Q@mail.gmail.com>
-Date: Fri, 07 Jun 2019 12:58:40 +0100
-Message-ID: <87ftolsj2n.fsf@zen.linaroharston>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hZDa0-0001bb-9d
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 08:02:45 -0400
+Received: from mail-eopbgr20137.outbound.protection.outlook.com
+ ([40.107.2.137]:59011 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hZDZw-0001SC-ON; Fri, 07 Jun 2019 08:02:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8OZN6jg00cw3x9qVJgY5CRsbGVEL0GGRi4pqmFttXd0=;
+ b=BEYoncOn88lS3vLRS5xrQviZxEZtkPfISuyYLGuegHg6Wd9viLcmBQJ4b4ZHK4T8m9N6CeLI6DGHcYD/sBe23WAN4FnDjLibPxTtAeHlWMJjsZ9WJxHMRc/yTZlYNMUtEUwovD7Q8/qX13kZIZlFtTJTjytIV00EmGYMP68hFLo=
+Received: from AM0PR08MB2961.eurprd08.prod.outlook.com (52.134.126.11) by
+ AM0PR08MB3666.eurprd08.prod.outlook.com (20.177.43.148) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.12; Fri, 7 Jun 2019 12:02:37 +0000
+Received: from AM0PR08MB2961.eurprd08.prod.outlook.com
+ ([fe80::8d90:32ae:bdd6:48e8]) by AM0PR08MB2961.eurprd08.prod.outlook.com
+ ([fe80::8d90:32ae:bdd6:48e8%7]) with mapi id 15.20.1965.011; Fri, 7 Jun 2019
+ 12:02:37 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>
+Thread-Topic: [PATCH v6 6/7] block/nbd-client: nbd reconnect
+Thread-Index: AQHU8IvOU96perqu+EiRV82H4T/8KaaP3geAgABQuoCAAEHwgA==
+Date: Fri, 7 Jun 2019 12:02:37 +0000
+Message-ID: <c1414cfd-99cd-ea31-ab22-f7d76974e6b3@virtuozzo.com>
+References: <20190411172709.205032-1-vsementsov@virtuozzo.com>
+ <20190411172709.205032-7-vsementsov@virtuozzo.com>
+ <0b64cff5-33fa-0945-504c-b1bdd004c42a@redhat.com>
+ <20190607080635.GB5055@dhcp-200-226.str.redhat.com>
+In-Reply-To: <20190607080635.GB5055@dhcp-200-226.str.redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0402CA0035.eurprd04.prod.outlook.com
+ (2603:10a6:7:7c::24) To AM0PR08MB2961.eurprd08.prod.outlook.com
+ (2603:10a6:208:66::11)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190607150235336
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 241cf9df-b136-4305-09da-08d6eb4008a3
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM0PR08MB3666; 
+x-ms-traffictypediagnostic: AM0PR08MB3666:
+x-microsoft-antispam-prvs: <AM0PR08MB3666F2432F61A1DFE33CF349C1100@AM0PR08MB3666.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:305;
+x-forefront-prvs: 0061C35778
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(366004)(396003)(346002)(376002)(39850400004)(199004)(189003)(52314003)(8676002)(6512007)(81166006)(4326008)(81156014)(53936002)(25786009)(36756003)(5660300002)(11346002)(8936002)(446003)(76176011)(6436002)(229853002)(31686004)(14454004)(102836004)(186003)(6246003)(6486002)(26005)(107886003)(256004)(86362001)(14444005)(305945005)(7736002)(6506007)(66066001)(386003)(53546011)(64756008)(66556008)(66946007)(31696002)(73956011)(66476007)(66446008)(2906002)(68736007)(3846002)(6116002)(316002)(486006)(110136005)(54906003)(478600001)(476003)(71200400001)(2616005)(71190400001)(52116002)(99286004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3666;
+ H:AM0PR08MB2961.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: A+cP0+mZ/h+EU8mQra/kf2LppGbR1gF63BHvzDRlSFIHADzwIOZAX4s0unuLrQZL87vqSRdyDARsOc72Nre1S0XejL4+hoX6e5kXmFEPez2uTTs8nfvDwnWU2nQJS77AXcK7TUljw8KvlHny5Hd2+hdPd1MUZXJkclLK0YZarr+4to/Ugz4F3+8JxPMOu7XrHp9bLznDYViwlijFD82GUjUc299wxhsanYETfJzUEDFTdDOIa1fcXoLYZNdHagSoX6Yu4uzo78nnqZrmTz8Fyk16s36onXp711dDI4HIv5qFc7Jb/AOdtBWih2jfwYNDSDeOKNdniL2dE/vi7BVjfTMzlVsbYBoTE14h4EAyDJfUnjWtRV2Jpk+n15Fv+c5WXDniIIv8kJpuDz9UCJV+2VJnlBluXgxjYSfOsf1GzaI=
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <05EB099C487A4A498A471BA111331593@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32f
-Subject: Re: [Qemu-devel] [RISU v3 00/11] Support for i386/x86_64 with
- vector extensions
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 241cf9df-b136-4305-09da-08d6eb4008a3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2019 12:02:37.7459 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3666
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.2.137
+Subject: Re: [Qemu-devel] [PATCH v6 6/7] block/nbd-client: nbd reconnect
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,34 +101,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Jan Bobek <jan.bobek@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Fri, 24 May 2019 at 10:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+07.06.2019 11:06, Kevin Wolf wrote:
+> Am 07.06.2019 um 05:17 hat Eric Blake geschrieben:
+>> On 4/11/19 12:27 PM, Vladimir Sementsov-Ogievskiy wrote:
+>>> +static coroutine_fn void nbd_reconnect_loop(NBDConnection *con)
+>>> +{
+>>> +    NBDClientSession *s =3D nbd_get_client_session(con->bs);
+>>> +    uint64_t start_time_ns =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
+>>> +    uint64_t delay_ns =3D s->reconnect_delay * 1000000000UL;
 >>
+>> Do we have a #define constant for nanoseconds in a second to make this
+>> more legible than counting '0's?
 >>
->> Jan Bobek <jan.bobek@gmail.com> writes:
+>>> +    uint64_t timeout =3D 1000000000UL; /* 1 sec */
+>>> +    uint64_t max_timeout =3D 16000000000UL; /* 16 sec */
 >>
->> > This patch series adds support for i386 and x86_64 architectures to
->> > RISU. Notably, vector registers (SSE, AVX, AVX-512) are supported for
->> > verification of the apprentice. This is V3 of the series posted in [1]
->> > and [2].
+>> 1 * constant, 16 * constant
 >>
->> I've sent a patch to enable x86 in the build-all-arches tests script but
->> otherwise I think this series looks good to merge.
->
-> Alex: So should I merge this series, or does it need a respin ?
+>>> +
+>>> +    nbd_reconnect_attempt(con);
+>>> +
+>>> +    while (nbd_client_connecting(s)) {
+>>> +        if (s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT &&
+>>> +            qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - start_time_ns > d=
+elay_ns)
+>>> +        {
+>>> +            s->state =3D NBD_CLIENT_CONNECTING_NOWAIT;
+>>> +            qemu_co_queue_restart_all(&s->free_sema);
+>>> +        }
+>>> +
+>>> +        bdrv_dec_in_flight(con->bs);
+>>> +        qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, timeout);
+>>
+>> Another place where I'd like someone more familiar with coroutines to
+>> also have a look.
+>=20
+> What's the exact question you'd like me to answer?
+>=20
+> But anyway, bdrv_dec/inc_in_flight() around the sleep looks wrong to me.
+> Either the operation must be waited for in drain, then you can't
+> decrease the counter even during the sleep. Or drain doesn't have to
+> consider it, then why is the counter even increased in the first place?
+>=20
+> The way it currently is, drain can return assuming that there are no
+> requests, but after the timeout the request automatically comes back
+> while the drain caller assumes that there is no more activity. This
+> doesn't look right.
+>=20
 
-I think this can be merged. I assume there is more to come to actually
-generate the patterns but it doesn't break any of the existing stuff and
-has at least one test case.
+Hmm.
 
---
-Alex Benn=C3=A9e
+This ind/dec around all lifetime of connection coroutine you added in
+
+commit 5ad81b4946baf948c65cf7e1436d9b74803c1280
+Author: Kevin Wolf <kwolf@redhat.com>
+Date:   Fri Feb 15 16:53:51 2019 +0100
+
+     nbd: Restrict connection_co reentrance
+
+
+And now I try to connect in endless loop, with qemu_co_sleep_ns() inside.
+I need to get a change to bdrv_drain to complete, so I have to sometimes
+drop this in_flight request. But I understand your point.
+
+Will the following work better?
+
+bdrv_dec_in_flight(con->bs);
+qemu_co_sleep_ns(...);
+while (s->drained) {
+   s->wait_drained_end =3D true;
+   qemu_coroutine_yield();
+}
+bdrv_inc_in_flight(con->bs);
+
+...
+.drained_begin() {
+    s->drained =3D true;
+}
+
+.drained_end() {
+    if (s->wait_drained_end) {
+       s->wait_drained_end =3D false;
+       aio_co_wake(s->connection_co);
+    }
+}
+
+
+
+
+--=20
+Best regards,
+Vladimir
 
