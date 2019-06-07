@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2660D39638
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:54:08 +0200 (CEST)
-Received: from localhost ([::1]:52524 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4206D39579
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:23:00 +0200 (CEST)
+Received: from localhost ([::1]:51701 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKwA-00008F-Ua
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46967)
+	id 1hZKS3-0006Yq-F3
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47219)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hZJOf-0001Sh-Ad
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:15:26 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hZJQ1-0001sz-O1
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:16:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hZJOe-00030e-3r
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:15:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33698)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hZJOb-0002tw-EH; Fri, 07 Jun 2019 14:15:21 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3714B307D854;
- Fri,  7 Jun 2019 18:15:14 +0000 (UTC)
-Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 654092B027;
- Fri,  7 Jun 2019 18:15:06 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20190606184159.979-1-jsnow@redhat.com>
- <20190606184159.979-3-jsnow@redhat.com>
- <70a53585-bdc6-1877-01f5-1b2d1aad8de6@virtuozzo.com>
- <e5bb6d0b-567f-2c2d-6415-93d79fece228@redhat.com>
-From: Eric Blake <eblake@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1hZJQ0-0004Tu-AI
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:16:49 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:39507)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hZJQ0-0004Pp-0u
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:16:48 -0400
+Received: by mail-oi1-x241.google.com with SMTP id m202so2072637oig.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 11:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9rL/ygf8vtenwDsVU5n/2ijc6fDEp0HTSLN8mZWuc9w=;
+ b=WM+vVkIELdS4giRWSwAjwwWrb5CZj+1yN+8nx9TDikTlymyVfKceIW77X73T51jdH6
+ iqCBHqk7P2OH72nyJCMdbztT3vlKP4BQsFtlUA6i1kg76A/zlqgcqYUxsKaOjaPlW/YU
+ 1OqGRRS5YIrE6b4UNBgTTcR4RbK9NFOGKhdY+nX9D7e7lizOhhZwJXsA/9spQXZAO0R8
+ ad3PZvKj/5FT01aJ2v3UHNzGTHSk0bg3iEpmyLSpTh03Y3H8eVeU6m6qpEH2NvUl3WFV
+ 3DqpdrXPKJPnWmpHxPIYKbYrWQzqv26El0s7yuNRBFTcNM5zm8bO5+ZPhLR8BFhZ/Rx4
+ noRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9rL/ygf8vtenwDsVU5n/2ijc6fDEp0HTSLN8mZWuc9w=;
+ b=L1t4EjxH0EdATr0OwVfOkJMBEfTyMRm0Plsu1kvNkbiuQDJECkxwvUgcHmf73qtqZX
+ TJsG6yBPsJ3EPpiLuNQlYsJd2gyjQJWi+YezzpT28n49o7myHYN/DejCN7XJW+Wvmg4n
+ iwu1T0Y4xQt+ta/9xkPB2wkhiv2qyrNIuBG/tFOTLuY9HAzcPO0kygGMqbbKMwfcg49g
+ mZJR0eslV/BtalfVVr8o7/LeFCKbUuZQ56Oen/kBJrMXDQ/9fD249rCXynUCeWwks5kp
+ y9/XkMLjxyM7L/7KtVVFvYgOJO/8XMC/PZYjIhUE5Luvo6jJTaw8vc4jsTHcq5HwzCBo
+ eyGw==
+X-Gm-Message-State: APjAAAWq3R4pHbY2e8gaUlXTivBgOOfSA4r5e1gKHQWE5xNMCptl+nA1
+ IJSRlRyZyPKCAa9mObW9H48yEwomQg+fYA==
+X-Google-Smtp-Source: APXvYqxjs2/ZNIxngA9xf5LjeEUVaumdU3C+vRLVHOElFYUC2QfKHmWMsONy48OBfI8b2Q1AC5/BeA==
+X-Received: by 2002:aca:f157:: with SMTP id p84mr4466752oih.80.1559931404206; 
+ Fri, 07 Jun 2019 11:16:44 -0700 (PDT)
+Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
+ [200.56.192.86])
+ by smtp.gmail.com with ESMTPSA id q125sm1016515oih.33.2019.06.07.11.16.42
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jun 2019 11:16:43 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20190607152827.18003-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <252579c4-b425-a7fa-ae14-f0ced12f0830@redhat.com>
-Date: Fri, 7 Jun 2019 13:15:05 -0500
+Message-ID: <62a457b7-dd31-cef5-ebfc-56f6dd93eafd@linaro.org>
+Date: Fri, 7 Jun 2019 13:16:38 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <e5bb6d0b-567f-2c2d-6415-93d79fece228@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="74H5XKN6hlWXBqhGOMpIc5g6vFwvFKwHO"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 07 Jun 2019 18:15:14 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/5] block/dirty-bitmap: Refactor
- bdrv_can_store_new_bitmap
+In-Reply-To: <20190607152827.18003-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH 0/2] qemu-tech: move part to docs/devel,
+ delete part
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,120 +84,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---74H5XKN6hlWXBqhGOMpIc5g6vFwvFKwHO
-Content-Type: multipart/mixed; boundary="8SqgWHEFKmwlf65a1kLx8ZaUMxYaYat5u";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: Fam Zheng <fam@euphon.net>, Max Reitz <mreitz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <252579c4-b425-a7fa-ae14-f0ced12f0830@redhat.com>
-Subject: Re: [PATCH 2/5] block/dirty-bitmap: Refactor
- bdrv_can_store_new_bitmap
-References: <20190606184159.979-1-jsnow@redhat.com>
- <20190606184159.979-3-jsnow@redhat.com>
- <70a53585-bdc6-1877-01f5-1b2d1aad8de6@virtuozzo.com>
- <e5bb6d0b-567f-2c2d-6415-93d79fece228@redhat.com>
-In-Reply-To: <e5bb6d0b-567f-2c2d-6415-93d79fece228@redhat.com>
+On 6/7/19 10:28 AM, Peter Maydell wrote:
+> Peter Maydell (2):
+>   Convert "translator internals" docs to RST, move to devel manual
+>   qemu-tech.texi: Remove "QEMU compared to other emulators" section
 
---8SqgWHEFKmwlf65a1kLx8ZaUMxYaYat5u
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 6/7/19 1:10 PM, John Snow wrote:
->=20
->=20
-> On 6/7/19 10:29 AM, Vladimir Sementsov-Ogievskiy wrote:
->> 06.06.2019 21:41, John Snow wrote:
->>> Instead of bdrv_can_store_new_bitmap, rework this as
->>> bdrv_add_persistent_dirty_bitmap. This makes a more obvious symmetry
->>> with bdrv_remove_persistent_dirty_bitmap. Most importantly, we are fr=
-ee
->>> to modify the driver state because we know we ARE adding a bitmap
->>> instead of simply being asked if we CAN store one.
->>>
->>> As part of this symmetry, move this function next to
->>> bdrv_remove_persistent_bitmap in block/dirty-bitmap.c.
->>>
->>> To cement this semantic distinction, use a bitmap object instead of t=
-he
->>> (name, granularity) pair as this allows us to set persistence as a
->>> condition of the "add" succeeding.
->>>
->>> Notably, the qcow2 implementation still does not actually store the n=
-ew
->>> bitmap at add time, but merely ensures that it will be able to at sto=
-re
->>> time.
->>>
-
->>> +int bdrv_add_persistent_dirty_bitmap(BlockDriverState *bs,
->>> +                                     BdrvDirtyBitmap *bitmap,
->>> +                                     Error **errp)
->>
->> strange thing for me: "bitmap" in function name is _not_ the same
->> thing as @bitmap argument.. as if it the same,
->> function adds "persistent bitmap", but @bitmap is not persistent yet,
->> so may be function, don't add persistent bitmap, but marks bitmap pers=
-istent?
->>
->>
->> Ok, I can think of it like "add persistent dirty bitmap to driver. if =
-succeed, set
->> bitmap.persistent flag"
->>
->=20
-> Yeah, I meant "Add bitmap to file", where the persistence is implied
-> because it's part of the file. The bitmap is indeed not YET persistent,=
-
-> but becomes so as a condition of this call succeeding.
->=20
-> Do you have a suggestion for a better name? I liked the symmetry with
-> 'remove' so that there was an obvious "add bitmap" and "remove bitmap".=
-
->=20
-> Of course, when you remove, it is indeed persistent, so
-> "remove_persistent_dirty_bitmap" makes sense there.
->=20
-
-Or maybe even merely 'bdrv_add_dirty_bitmap' with doc comments stating
-that it associates an existing non-persistent bitmap with the bdrv
-storage and marks it persistent if successful.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 
---8SqgWHEFKmwlf65a1kLx8ZaUMxYaYat5u--
-
---74H5XKN6hlWXBqhGOMpIc5g6vFwvFKwHO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz6qakACgkQp6FrSiUn
-Q2pgmQgAgK413fwm90xHOcKTPMP+7armwhrqEL/EbntjUO2Dx5nXo7tNTZC40ThU
-iGfPHIBCxXYS6x74DOCvyi4ngf1F0LHaAHgixh4P6J8dyZYWaWv3NgKjjmUuttZa
-YIw0RdRlJdfInkDC8JtUwBbmEiXfFtNcLgsYFM/tCZwVzazqBFtN1/j1h/yP7kQH
-YuKrlyJvFeqyW3V7xKCI+aP3p0YOL8Mlz9wGBqoG7RSNcVZW4QJgavxxgP/KSpJI
-/V8e6jkc22Yfye7V60I2brbJBo6IAUYlAucnvi1dbbC5PmLTLZ6jQ+RAKcIScUUk
-pT+P1tXnFpZKleA+dDCHXnE/Anpkxg==
-=4HMu
------END PGP SIGNATURE-----
-
---74H5XKN6hlWXBqhGOMpIc5g6vFwvFKwHO--
+r~
 
