@@ -2,44 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191C53874A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:44:59 +0200 (CEST)
-Received: from localhost ([::1]:47578 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F98387AB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:07:32 +0200 (CEST)
+Received: from localhost ([::1]:47772 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZBQg-0000TO-AL
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41452)
+	id 1hZBmV-0004BF-8H
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:07:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44216)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuU-0000w1-O7
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:46 -0400
+ (envelope-from <lvivier@redhat.com>) id 1hZB1v-0006yL-PO
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:19:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuP-0002xE-H4
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:42 -0400
-Received: from mail01.asahi-net.or.jp ([202.224.55.13]:59748)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuP-0002tb-4V
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:37 -0400
-Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
- [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail01.asahi-net.or.jp (Postfix) with ESMTPA id CC69C123C02;
- Fri,  7 Jun 2019 18:11:32 +0900 (JST)
-Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
- [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 8982C240086;
- Fri,  7 Jun 2019 18:11:32 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 18:11:16 +0900
-Message-Id: <20190607091116.49044-25-ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190607091116.49044-1-ysato@users.sourceforge.jp>
-References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 202.224.55.13
-Subject: [Qemu-devel] [PATCH v17 24/24] target/rx: Remove suffix in cpu
- class.
+ (envelope-from <lvivier@redhat.com>) id 1hZB1u-0007bN-7h
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:19:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35990)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>)
+ id 1hZB1t-0007Y5-Vm; Fri, 07 Jun 2019 05:19:22 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 830DA308A968;
+ Fri,  7 Jun 2019 09:19:20 +0000 (UTC)
+Received: from [10.40.204.44] (ovpn-204-44.brq.redhat.com [10.40.204.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96D788187A;
+ Fri,  7 Jun 2019 09:19:14 +0000 (UTC)
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20190108224600.23125-1-david@gibson.dropbear.id.au>
+ <20190108224600.23125-10-david@gibson.dropbear.id.au>
+ <759cdab3-6cf9-bb83-54f2-12d60063b15c@redhat.com>
+ <6d1c8b12-0e27-b3f3-9e0e-ad68c5572ed7@ilande.co.uk>
+ <09f7a354-b1be-48b4-15ea-4923386b6a77@redhat.com>
+ <cc1a09a4-9045-f71f-7d60-b638f59ac824@redhat.com>
+ <3d67608e-5c14-b54c-a345-e1288a47ca74@ilande.co.uk>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <2e0ea8cd-20be-264b-5160-771c858c2a1b@redhat.com>
+Date: Fri, 7 Jun 2019 11:19:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <3d67608e-5c14-b54c-a345-e1288a47ca74@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Fri, 07 Jun 2019 09:19:20 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PULL 09/29] target/ppc: introduce
+ get_cpu_vsr{l, h}() and set_cpu_vsr{l, h}() helpers for VSR register access
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,76 +66,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, philmd@redhat.com
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ Anton Blanchard <anton@ozlabs.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New CPUs should not be suffixed like other devices.
+On 06/06/2019 22:21, Mark Cave-Ayland wrote:
+> On 06/06/2019 20:24, Laurent Vivier wrote:
+> 
+>> On 05/06/2019 09:43, Laurent Vivier wrote:
+>>> On 05/06/2019 08:32, Mark Cave-Ayland wrote:
+>>>> On 04/06/2019 22:23, Laurent Vivier wrote:
+>>>>
+>>>>> This patch breaks something in the libcrypto.
+>>>>>
+>>>>> I've been able to reproduce the problem with Fedora 29:
+>>>>>
+>>>>> dnf install 'dnf-command(download)'
+>>>>> dnf download --source coreutils-single
+>>>>> rpm --verify coreutils-8.30-7.fc29.src.rpm
+>>>>> error: coreutils-8.30-7.fc29.src.rpm: Header V3 RSA/SHA256 Signature, key ID 429476b4: BAD
+>>>>> error: coreutils-8.30-7.fc29.src.rpm: Header SHA256 digest: BAD (Expected fa042669e74ac435bd5defaa8c2e4efe779a0329c24f2b6377591c53b38aa280 != d6e22527412fafc4aa12882432d0d157e5427097710eeb2d5fce8fbc52a47be6)
+>>>>> error: coreutils-8.30-7.fc29.src.rpm: not an rpm package (or package manifest)
+>>>>>
+>>>>> See https://bugzilla.redhat.com/show_bug.cgi?id=1715017
+>>>>>
+>>>>> I've tested with origin/master (47fbad45d47af8af784bb12a5719489edcd89b4c) and all the 
+>>>>> merged fixes for this patch don't fix this problem.
+>>>>>
+>>>>> We should be able to reproduce it on Debian Sid too: it breaks ssh (this is one of the rare binaries using libcrypto on debian).
+>>>>>
+>>>>> I've been able to reproduce it with qemu linux-user if I enable PPC_FEATURE2_VEC_CRYPTO in linux-user/elfload.c
+>>>>> (git clone -b linux-user-ppc64-hwcap git@github.com:vivier/qemu.git).
+>>>>>
+>>>>> To ease debugging, you can install a Fedora 29 chroot with something like:
+>>>>>
+>>>>> curl -o container.tar.xz http://download-ib01.fedoraproject.org/pub/fedora-secondary/releases/29/Container/ppc64le/images/Fedora-Container-Base-29-1.2.ppc64le.tar.xz
+>>>>> tar Jxvf container.tar.xz '*/layer.tar'
+>>>>> mkdir -p chroot/ppc64le/29
+>>>>> cd chroot/ppc64le/29
+>>>>> tar xf $OLDPWD/*/layer.tar
+>>>>> cd -
+>>>>> cp ~/qemu/ppc64le-linux-user/qemu-ppc64le chroot/ppc64le/29/
+>>>>> [use "configure --target-list=ppc64le-linux-user --static --disable-tools" and don't forget to run scripts/qemu-binfmt-conf.sh]
+>>>>
+>>>> One of Anton's VSX patches hasn't landed in master yet and is still queued in
+>>>> ppc-for-4.1: "target/ppc: Fix lxvw4x, lxvh8x and lxvb16x".
+>>>>
+>>>> Can you try David's ppc-for-4.1 branch first and let me know if that solves the
+>>>> issue? If not, I'll take a look at it later in the week when I have a bit more time.
+>>>
+>>> Thank you Mark.
+>>>
+>>> Anton's patch fixes the problem.
+>>
+>> But there are two problems remaining with Fedora 29:
+>>
+>> - in libssl (openssl-libs-1.1.1-3.fc29.ppc64le):
+>>
+>>   $ curl -o /dev/null https://www.google.com
+>>   ...
+>>   curl: (35) error:1408F119:SSL routines:ssl3_get_record:decryption failed or bad record mac
+>>
+>> - in the kernel (4.18.16-300.fc29.ppc64le):
+>>
+>> [   39.742120] crypto_register_alg 'aes' = 0
+>> [   39.919286] crypto_register_alg 'cbc(aes)' = 0
+>> [   40.053942] crypto_register_alg 'ctr(aes)' = 0
+>> [   40.372764] alg: skcipher: Test 1 failed (invalid result) on encryption for p8_aes_xts
+>> [   40.373458] 00000000: 91 7c f6 9e bd 68 b2 ec 9b 9f e9 a3 ea dd a6 92
+>> [   40.373568] 00000010: 98 10 35 57 5e dc 36 1e 9a f7 bc ba 39 f2 5c eb
+>> [   40.374139] crypto_register_alg 'xts(aes)' = 0
+>> [   40.389241] alg: hash: Test 2 failed for p8_ghash
+>> [   40.389422] 00000000: 5f 89 ab f7 20 57 20 57 20 57 20 57 20 57 20 57
+>>
+>> My qemu is on top of 
+>>
+>> 0d74f3b427 Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging
+>> + "target/ppc: Fix lxvw4x, lxvh8x and lxvb16x"
+> 
+> Hmmm and this is definitely a regression introduced by the same patch as given in the
+> subject?
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- include/hw/rx/rx62n.h | 2 +-
- target/rx/cpu.h       | 3 +--
- target/rx/cpu.c       | 8 ++------
- 3 files changed, 4 insertions(+), 9 deletions(-)
+I bisected and regression comes with:
 
-diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
-index 5f6912fe46..e57c5ec091 100644
---- a/include/hw/rx/rx62n.h
-+++ b/include/hw/rx/rx62n.h
-@@ -30,7 +30,7 @@
- #include "target/rx/cpu.h"
- #include "qemu/units.h"
- 
--#define TYPE_RX62N "rx62n"
-+#define TYPE_RX62N "rx62n-mcu"
- #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME(TYPE_RX62N)
- #define RX62N(obj) OBJECT_CHECK(RX62NState, (obj), TYPE_RX62N)
- 
-diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-index a0b6975963..080ea604a3 100644
---- a/target/rx/cpu.h
-+++ b/target/rx/cpu.h
-@@ -164,8 +164,7 @@ static inline RXCPU *rx_env_get_cpu(CPURXState *env)
- 
- #define ENV_OFFSET offsetof(RXCPU, env)
- 
--#define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
--#define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
-+#define RX_CPU_TYPE_NAME(model) model
- #define CPU_RESOLVING_TYPE TYPE_RX_CPU
- 
- extern const char rx_crname[][6];
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 41fe1de4bb..d8c662b231 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -72,9 +72,8 @@ static void rx_cpu_reset(CPUState *s)
- static void rx_cpu_list_entry(gpointer data, gpointer user_data)
- {
-     const char *typename = object_class_get_name(OBJECT_CLASS(data));
--    int len = strlen(typename) - strlen(RX_CPU_TYPE_SUFFIX);
- 
--    qemu_printf("  %.*s\n", len, typename);
-+    qemu_printf("  %s\n",  typename);
- }
- 
- void rx_cpu_list(void)
-@@ -89,11 +88,8 @@ void rx_cpu_list(void)
- static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
- {
-     ObjectClass *oc;
--    char *typename;
- 
--    typename = g_strdup_printf(RX_CPU_TYPE_NAME("%s"), cpu_model);
--    oc = object_class_by_name(typename);
--    g_free(typename);
-+    oc = object_class_by_name(cpu_model);
- 
-     if (oc == NULL ||
-         object_class_is_abstract(oc) ||
--- 
-2.11.0
+commit 571fbe6ccd7a159789e5d473e2837d45764197ec
+Author: Richard Henderson <richard.henderson@linaro.org>
+Date:   Sat May 18 12:14:29 2019 -0700
 
+    target/ppc: Use vector variable shifts for VSL, VSR, VSRA
+
+    The gvec expanders take care of masking the shift amount
+    against the element width.
+
+    Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+    Message-Id: <20190518191430.21686-2-richard.henderson@linaro.org>
+    Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+Thanks,
+Laurent
 
