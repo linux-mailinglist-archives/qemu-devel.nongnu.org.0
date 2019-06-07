@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF7D3930A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 19:24:12 +0200 (CEST)
-Received: from localhost ([::1]:49746 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972313935C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 19:35:39 +0200 (CEST)
+Received: from localhost ([::1]:49836 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZIb4-0007zu-Db
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 13:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53398)
+	id 1hZImA-0007Fd-Bs
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 13:35:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53686)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZGzz-0003Yu-T7
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:41:50 -0400
+ (envelope-from <philmd@redhat.com>) id 1hZH00-0003i0-43
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:41:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZGwT-0000xS-9L
+ (envelope-from <philmd@redhat.com>) id 1hZGwT-0000xp-C6
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:38:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47472)
+Received: from mx1.redhat.com ([209.132.183.28]:47526)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZGwR-0000lW-4l
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:38:08 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZGwS-0000qQ-Vg
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:38:09 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 21F5E30C34C2;
- Fri,  7 Jun 2019 15:37:53 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6FB83308427E;
+ Fri,  7 Jun 2019 15:37:56 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.135])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0506018417;
- Fri,  7 Jun 2019 15:37:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF3E7383F;
+ Fri,  7 Jun 2019 15:37:53 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
  Igor Mammedov <imammedo@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Date: Fri,  7 Jun 2019 17:37:00 +0200
-Message-Id: <20190607153725.18055-5-philmd@redhat.com>
+Date: Fri,  7 Jun 2019 17:37:01 +0200
+Message-Id: <20190607153725.18055-6-philmd@redhat.com>
 In-Reply-To: <20190607153725.18055-1-philmd@redhat.com>
 References: <20190607153725.18055-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 07 Jun 2019 15:37:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Fri, 07 Jun 2019 15:38:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v18 04/29] !fixup target/rx: CPU definition
+Subject: [Qemu-devel] [PATCH v18 05/29] !fixup target/rx: CPU definition
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,99 +61,57 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename macros.
+New qom-cpu style requested by Igor.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/rx/cpu.c | 22 ++++++++++++++--------
- target/rx/cpu.h | 12 ++++++------
- 2 files changed, 20 insertions(+), 14 deletions(-)
+ target/rx/cpu.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 4b96f2e463..3c43467534 100644
+index 3c43467534..c370f65faa 100644
 --- a/target/rx/cpu.c
 +++ b/target/rx/cpu.c
-@@ -153,7 +153,7 @@ static void rx_cpu_init(Object *obj)
-     qdev_init_gpio_in(DEVICE(cpu), rx_cpu_set_irq, 2);
- }
-=20
--static void rxcpu_class_init(ObjectClass *klass, void *data)
-+static void rx_cpu_class_init(ObjectClass *klass, void *data)
+@@ -80,7 +80,7 @@ static void rx_cpu_list_entry(gpointer data, gpointer u=
+ser_data)
+ void rx_cpu_list(void)
  {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-     CPUClass *cc =3D CPU_CLASS(klass);
-@@ -181,22 +181,28 @@ static void rxcpu_class_init(ObjectClass *klass, vo=
-id *data)
-     cc->gdb_num_core_regs =3D 26;
+     GSList *list;
+-    list =3D object_class_get_list_sorted(TYPE_RXCPU, false);
++    list =3D object_class_get_list_sorted(TYPE_RX_CPU, false);
+     g_slist_foreach(list, rx_cpu_list_entry, NULL);
+     g_slist_free(list);
  }
+@@ -88,15 +88,26 @@ void rx_cpu_list(void)
+ static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
+ {
+     ObjectClass *oc;
+-    char *typename =3D NULL;
++    char *typename;
 =20
--static const TypeInfo rxcpu_info =3D {
--    .name =3D TYPE_RXCPU,
-+static const TypeInfo rx_cpu_info =3D {
-+    .name =3D TYPE_RX_CPU,
-     .parent =3D TYPE_CPU,
-     .instance_size =3D sizeof(RXCPU),
-     .instance_init =3D rx_cpu_init,
--    .abstract =3D false,
-+    .abstract =3D true,
-     .class_size =3D sizeof(RXCPUClass),
--    .class_init =3D rxcpu_class_init,
-+    .class_init =3D rx_cpu_class_init,
- };
-=20
--static void rxcpu_register_types(void)
-+static const TypeInfo rx62n_rx_cpu_info =3D {
-+    .name =3D RX_CPU_TYPE_NAME("rx62n"),
-+    .parent =3D TYPE_RX_CPU,
-+};
+-    typename =3D g_strdup_printf(RX_CPU_TYPE_NAME(""));
++    oc =3D object_class_by_name(cpu_model);
++    if (oc !=3D NULL && object_class_dynamic_cast(oc, TYPE_RX_CPU) !=3D =
+NULL &&
++        !object_class_is_abstract(oc)) {
++        return oc;
++    }
 +
-+static void rx_cpu_register_types(void)
- {
--    type_register_static(&rxcpu_info);
-+    type_register_static(&rx_cpu_info);
-+    type_register_static(&rx62n_rx_cpu_info);
++    typename =3D g_strdup_printf(RX_CPU_TYPE_NAME("%s"), cpu_model);
+     oc =3D object_class_by_name(typename);
+     if (oc !=3D NULL && object_class_is_abstract(oc)) {
+         oc =3D NULL;
+     }
+-
+     g_free(typename);
++
++    if (!oc) {
++        /* default to rx62n */
++        oc =3D object_class_by_name(RX_CPU_TYPE_NAME("rx62n"));
++    }
++
+     return oc;
  }
-=20
--type_init(rxcpu_register_types)
-+type_init(rx_cpu_register_types)
-=20
- static uint32_t extable[32];
-=20
-diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-index 8c1a4e448d..a0b6975963 100644
---- a/target/rx/cpu.h
-+++ b/target/rx/cpu.h
-@@ -24,14 +24,14 @@
- #include "hw/registerfields.h"
- #include "qom/cpu.h"
-=20
--#define TYPE_RXCPU "rxcpu"
-+#define TYPE_RX_CPU "rx-cpu"
-=20
- #define RXCPU_CLASS(klass)                                     \
--    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RXCPU)
-+    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
- #define RXCPU(obj) \
--    OBJECT_CHECK(RXCPU, (obj), TYPE_RXCPU)
-+    OBJECT_CHECK(RXCPU, (obj), TYPE_RX_CPU)
- #define RXCPU_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RXCPU)
-+    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RX_CPU)
-=20
- /*
-  * RXCPUClass:
-@@ -164,9 +164,9 @@ static inline RXCPU *rx_env_get_cpu(CPURXState *env)
-=20
- #define ENV_OFFSET offsetof(RXCPU, env)
-=20
--#define RX_CPU_TYPE_SUFFIX "-" TYPE_RXCPU
-+#define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
- #define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
--#define CPU_RESOLVING_TYPE TYPE_RXCPU
-+#define CPU_RESOLVING_TYPE TYPE_RX_CPU
-=20
- extern const char rx_crname[][6];
 =20
 --=20
 2.20.1
