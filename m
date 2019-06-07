@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14833896A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:53:04 +0200 (CEST)
-Received: from localhost ([::1]:48888 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E335338A1F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 14:24:39 +0200 (CEST)
+Received: from localhost ([::1]:49888 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZDQe-0001JX-1l
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:53:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44465)
+	id 1hZDvC-00063g-Ng
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 08:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47518)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hZCSO-00062M-JH
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:50:52 -0400
+ (envelope-from <slp@redhat.com>) id 1hZCbn-00088V-3f
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:00:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hZCSM-0003p3-NI
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:50:48 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:37174)
+ (envelope-from <slp@redhat.com>) id 1hZCbl-0007h0-1C
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:00:30 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41806)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hZCSM-0003kA-77
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:50:46 -0400
-Received: by mail-ot1-x335.google.com with SMTP id r10so1428385otd.4
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 03:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+x7xkoWQEYIxrbBaLBi9h8htyoNe3EOdGXd6ySFlr8U=;
- b=HvTdEW1DyIi0m5MZLGVgYMqLk6IOBSY2ImX4gSbcvziSMqpOfDA4cz3CAEhaLen7yf
- k7TP1o0eEnoNDy/6Rgy3tY6xhwWgsxZ4lr9cuXW0t5FfeVOKpTyDJLs2QlyAJxGGZeZY
- pdL5Swr6HL5DYdt/i50+mpNq3ICrvxrlDdtCKlHKzQZGVBZNRAEwv6mvrTR6Lj9SVVaq
- Hq6NFg4bR6lJ+2a1UdXoCM1uvC8T1MdV56G2gN3WAxrjaeevn+h6n3DCEwpK8/fuUumT
- utrR0UsuvqHc0gONlhLTBJDfV+of2AYtIKjDCFoinkW+3WDzBQx9dTxgB0Opt557yBde
- 98CQ==
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hZCbk-0006wR-JG
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 07:00:28 -0400
+Received: by mail-wr1-f67.google.com with SMTP id c2so1697219wrm.8
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 04:00:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+x7xkoWQEYIxrbBaLBi9h8htyoNe3EOdGXd6ySFlr8U=;
- b=hoIXXJ0YgbF1RYPFng22a43/KKnor1HXvD8Ap2a77W7MrsngZGmoTVahCO/jSutOtm
- U375ndRpfZGRICDYoxYGmr+WFYA+TrhPuxvQ7nWfLCHvi7IqK/QpR22IQ1MWDkJEX/8e
- jVXPICObKXxd1u4WeNwIHC8C/+umkBUREDfl0Q3z3wzn6pAnslJn/5V3hV3NCV/TwA4/
- ONJ3geAJHQLAlB77k5JSY1POvatjKMutUgDt9pOMxWLZUR/2Kx4Oa80KGXje43IYTdTm
- srNSmYEJ7CFC9U3muXdJ36Z5zOOCLYf486cqMJRevWjTKRdT93bGUf10stkrVOyCuviX
- ZfVw==
-X-Gm-Message-State: APjAAAUaZD2oeO5FcI/5+zRJbpfrRBIP36QektDYyNIy8Suo14B83doO
- gfqeeFSEi3WrlT88ArbVuUER6HrClewyZJayj4q8/g==
-X-Google-Smtp-Source: APXvYqzIWq7geHPPpFrcfbuuJ4ZFsnc0O0Er2nInsHH8LD7c/1LmPrqNJKx5Tx+q3aJY9VRrDXT0L5pYq3CI+Xa/kv8=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr19156839otk.232.1559904644207; 
- Fri, 07 Jun 2019 03:50:44 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version;
+ bh=KwGZfAwrZC3rDiUbX5X5riVLKxirW1SMy7bDId1QOzc=;
+ b=c7Y/yjU0tCx/QoJYiojaOUKGBEfsiXaEIydF38zSuF++KX8U4AvMyqDfu7cuaE6rZi
+ exrszHwQskEl7HfqF3N9R+ZojjYeloSj+zdKgng/jjDz95YQlnlamHaCrP0Eqa6y0v7Y
+ 3Fj2+QQ0VqgXfUFrd8t++j83t7canfdSYrQY3MM/IjF9SlEeA9YlWPzBdwZqtBYtSnW4
+ cOmZ7T6G5rKQ9Mcnk/DrTJSbvhqZxMvl8ZTXGWk6FcKYZ/uqJBASdf6KYul7jwcV2GkA
+ OwMVuqexsJW9hLe3aHJvIRL53acziFlZVziPM2KBhXY6mMx6sfEjt5Re9DcpelHv4T7Z
+ xmow==
+X-Gm-Message-State: APjAAAUaNCx/VTUlmjUQ7zjDH+80p3aqAIc7KmG+lUOIgmeJAZoO+se2
+ xNf4BGAFZ17e4+Nbvwt0z7tpaw==
+X-Google-Smtp-Source: APXvYqxd+mOZhbQxooKv3rv2/zkxVJwLtN2mSOeUzRSdcjD3D8etxIUyd9kAwUTefEFXN3CxmZb9bA==
+X-Received: by 2002:adf:b689:: with SMTP id j9mr11977714wre.76.1559905214454; 
+ Fri, 07 Jun 2019 04:00:14 -0700 (PDT)
+Received: from dritchie.redhat.com (143.red-81-44-182.dynamicip.rima-tde.net.
+ [81.44.182.143])
+ by smtp.gmail.com with ESMTPSA id v11sm1192390wmh.28.2019.06.07.04.00.11
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 07 Jun 2019 04:00:12 -0700 (PDT)
+References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
+User-agent: mu4e 1.2.0; emacs 26.2
+From: Sergio Lopez <slp@redhat.com>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>
+In-reply-to: <20190603123823.32661-1-mehta.aaru20@gmail.com>
+Date: Fri, 07 Jun 2019 12:59:54 +0200
+Message-ID: <878sudu0d1.fsf@redhat.com>
 MIME-Version: 1.0
-References: <1559901944-4578-1-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1559901944-4578-1-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jun 2019 11:50:33 +0100
-Message-ID: <CAFEAcA_T-oNmk0pJbUUzEhFQaEZqffXJ0txjHPtYMt81saJLfw@mail.gmail.com>
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::335
-Subject: Re: [Qemu-devel] [PULL 00/10] MIPS Queue for June 7th, 2019
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH v4 0/9] Add support for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,44 +68,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ saket.sinha89@gmail.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Julia Suvorova <jusual@mail.ru>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Jun 2019 at 11:05, Aleksandar Markovic
-<aleksandar.markovic@rt-rk.com> wrote:
->
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-06-06 14:09:14 +0100)
->
-> are available in the git repository at:
->
->   https://github.com/AMarkovic/qemu tags/mips-queue-jun-7-2019
->
-> for you to fetch changes up to 88e34ac062c995df540a4d0ee80b8f8b62353072:
->
->   tests/tcg: target/mips: Add README for MSA tests (2019-06-07 11:53:07 +0200)
->
-> ----------------------------------------------------------------
->
-> MIPS Queue for June 7th, 2019
->
-> Notes:
->
->   * Four checkpatch warnings on updating MAINTAINERS can be ignored
->
-> Highlights:
->
->   * Various additions to MSA core and test support
->
+--=-=-=
+Content-Type: text/plain
 
 
-Applied, thanks.
+Aarushi Mehta <mehta.aaru20@gmail.com> writes:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+> This patch series adds support for the newly developed io_uring Linux AIO
+> interface. Linux io_uring is faster than Linux's AIO asynchronous I/O code,
+> offers efficient buffered asynchronous I/O support, the ability to do I/O
+> without performing a system call via polled I/O, and other efficiency enhancements.
+>
+> Testing it requires a host kernel (5.1+) and the liburing library.
+> Use the option -drive aio=io_uring to enable it.
+>
+> v4:
+> - Add error handling
+> - Add trace events
+> - Remove aio submission based code
+>
+> v3:
+> - Fix major errors in io_uring (sorry)
+> - Option now enumerates for CONFIG_LINUX_IO_URING
+> - pkg config support added
+>
+> Aarushi Mehta (9):
+>   configure: permit use of io_uring
+>   qapi/block-core: add option for io_uring
+>   block/block: add BDRV flag for io_uring
+>   block/io_uring: implements interfaces for io_uring
+>   stubs: add stubs for io_uring interface
+>   util/async: add aio interfaces for io_uring
+>   blockdev: accept io_uring as option
+>   block/file-posix.c: extend to use io_uring
+>   block: add trace events for io_uring
+>
+>  MAINTAINERS             |   8 +
+>  block/Makefile.objs     |   3 +
+>  block/file-posix.c      |  85 +++++++++--
+>  block/io_uring.c        | 325 ++++++++++++++++++++++++++++++++++++++++
+>  block/trace-events      |   8 +
+>  blockdev.c              |   4 +-
+>  configure               |  27 ++++
+>  include/block/aio.h     |  16 +-
+>  include/block/block.h   |   1 +
+>  include/block/raw-aio.h |  12 ++
+>  qapi/block-core.json    |   4 +-
+>  stubs/Makefile.objs     |   1 +
+>  stubs/io_uring.c        |  32 ++++
+>  util/async.c            |  36 +++++
+>  14 files changed, 543 insertions(+), 19 deletions(-)
+>  create mode 100644 block/io_uring.c
+>  create mode 100644 stubs/io_uring.c
 
--- PMM
+Hi Aarushi,
+
+I gave this version of the patchset a try, and found that IO hangs when
+the device is assigned to an IOThread. Sometimes is able to serve a few
+requests getting through the Guest OS boot process, to hang the moment
+you try generate some IO on the device, while others it hangs when Linux
+tries to read the partitions from the device.
+
+I'm starting QEMU this way:
+
+./x86_64-softmmu/qemu-system-x86_64 -enable-kvm -name rhel80,debug-threads=on -m 2g -smp 4 -object iothread,id=iothread0 -blockdev node-name=rhel80,driver=qcow2,file.driver=file,file.filename=/home/VirtualMachines/rhel80.qcow2 -device virtio-blk,drive=rhel80 -serial tcp::6667,server,nowait -qmp tcp::6668,server,nowait -nographic -net user,hostfwd=tcp::6666-:22 -net nic,model=virtio -device virtio-rng -drive file=/dev/nullb0,format=raw,cache=none,aio=io_uring,if=none,id=test -device virtio-blk,drive=test,iothread=iothread0
+
+Could you please take a look at this issue?
+
+Thanks,
+Sergio.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAlz6Q6oACgkQ9GknjS8M
+AjVc2A/+NFvOVizXNmA/Vh0dPNHR7gAj0r3ft5SMxqvjk3jGasRTQjvsWAvW50x9
+m2hHtYNrdp7YAk9NU+83AIP5+wgWPpJV1jXq3kGAP7LXxKEbCK4o+88TB7jtxZFE
+IfG1WU+2o5ivbrPdwHobUyRLzO4n2+l/7ejzpy3oZuYyuLHYD0cK1tscRIzugb8v
+xgzqawL7OoU96yopINk6IdHnuqw7UQPCyyWJ8t4PHKNirxiGyLfRdJK7f6UMtWZS
+0Ibw9b3OPvvVJnoVFuGINvSZ6W4SfCcgnTWs9ccpLxIc6srRxUp6qTCUINpLWpAj
+/oWwBdR7hh8vdmvn0a9KkWyKIzmUQMjkoKejgF2KEwXYOybiVmbY7KI5amk/qgBf
+2ixrI2ksSEqe2MlbCyfQtKejdROqr48cak24x0Rk5lYpLaIcUtQ5ykZlXY3xVOUs
+f3WJHPDj9vmZFd4hZ42LsH5GtI8PDuedWvwlLK+D7xHB+DLz7pMRjlepV9ZFOObd
+aHBmCAOtjPv+f6i/KzypXOcMeDl1VTe8rtHlhWZ/s84DGVqhzqnqtjhXryCpPBfo
+ilYd2fOpJsvKKHXrlKkMgT5fV7wPVBkiIJ2sFkhMzQ3CDfYQwUu2EKLc8dnV7/rG
+UCGx0/+OgwV4frhIln2STEz7K6PoingPnTvtlVJhSBpShIJfdsA=
+=/peO
+-----END PGP SIGNATURE-----
+--=-=-=--
 
