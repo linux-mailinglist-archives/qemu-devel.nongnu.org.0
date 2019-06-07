@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B1838816
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:41:17 +0200 (CEST)
-Received: from localhost ([::1]:48160 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4977238822
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:44:31 +0200 (CEST)
+Received: from localhost ([::1]:48184 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZCJA-0003xl-HX
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48103)
+	id 1hZCMI-0007So-Fz
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:44:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48598)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hZBEk-0008Tb-1n
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:32:39 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hZBGG-0000WN-9l
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:34:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hZBEi-0001Lp-UE
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:32:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51014)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZBEi-00011A-Bj
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:32:36 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B45BC3082E4D;
- Fri,  7 Jun 2019 09:32:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-25.ams2.redhat.com
- [10.36.117.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 612AF80D91;
- Fri,  7 Jun 2019 09:32:20 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9F1B316E1A; Fri,  7 Jun 2019 11:32:19 +0200 (CEST)
-Date: Fri, 7 Jun 2019 11:32:19 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190607093219.pdifzottq5rxbwmi@sirius.home.kraxel.org>
-References: <20190401211712.19012-1-bsd@redhat.com>
- <CAFEAcA8irfgXaGvUWxVAEa5Cr5yjNMCcwt_9KcBB+sggvhAMzg@mail.gmail.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1hZBGE-0004I7-FE
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:34:11 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34378)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hZBGC-0003iH-8U
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:34:08 -0400
+Received: by mail-wm1-x341.google.com with SMTP id w9so3649100wmd.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=1V0A3lLlFR+/W3I7GyrZzT1wbmEG8To+8XsecQQAU4s=;
+ b=NJUXJiWYFgmT51A9TGkaBXTbdR3xJ7ohzKIlL7LjBHZYbdc/UnK5rRMQ33AIFCEAws
+ l2j/5K/62IIyuJuNejDWpHu0CVpCOpTmywLJmtzU4LOlrSxQf0xZ0FnSfmWpspP2ehIV
+ +cAydtGz9uwx19ZBa9lLiYfryJUmK13bvpjJMaypuJLctVCb24FPjJi1qWfDdqcrIvcZ
+ xlmVoXme8JGnH5153asJLvLB3Tswyx84iJXcayjsj3LISEi6SmFkAbspKlil5sI2k6i3
+ db1dOXWBOYRS0h9bNKWGGFmp+HbXKSi8kBD6sx6PWxwp6DT/blSDXUUyplT88t0R+hcJ
+ GxWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=1V0A3lLlFR+/W3I7GyrZzT1wbmEG8To+8XsecQQAU4s=;
+ b=HGcvtpRo3ON9DcqCZHPoUKvtv5TM5c3oLDFrQBNkikijGnyZJ3d0lhH01y8kh/JAPY
+ jKtacgAaDfbvpN2WWBmwvFk29m4FxBrgFVgf3oDAUrjTZHsHRyvz6xvqRgzc/uYP5UmZ
+ VteHs1lmZmql9IyZk/nwRrF/cKu0iWzoeIN0jDiaKsUSYIC6+sSl4td3rDXmkzif4JJV
+ mcjSVk5W8Hfzs7XeA+as0XEVi0f4FcUutPa3xLlXHoCN/SNeAs9zuJC/HdwQ+RZJEzwz
+ 3NofV0KVq/9ukuRgGbhLe2WQB1aYDuY3zFyqZGMjivXSCwnay5mlfcld41eMmosDT3Pi
+ 8NxQ==
+X-Gm-Message-State: APjAAAWkIsZorHxLGfAS2YcqS0GuRdUkCJ/xF6LpTp0QK04HQUkhB3Dn
+ JGTrR8mi96/nYKG3M4g2odEOn+V9kPo=
+X-Google-Smtp-Source: APXvYqyvpV36/Xqqn/iIfM40pCHnRNfIN9YRWMVDawEXUAS5uNYDqcEbTmeiioztzmMWWV2ls8Xthw==
+X-Received: by 2002:a1c:cfc3:: with SMTP id f186mr2719646wmg.134.1559900030739; 
+ Fri, 07 Jun 2019 02:33:50 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id c7sm1483173wrp.57.2019.06.07.02.33.49
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 07 Jun 2019 02:33:49 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9BEB51FF8C;
+ Fri,  7 Jun 2019 10:33:49 +0100 (BST)
+References: <20190530101603.22254-1-alex.bennee@linaro.org>
+ <20190530101603.22254-4-alex.bennee@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+In-reply-to: <20190530101603.22254-4-alex.bennee@linaro.org>
+Date: Fri, 07 Jun 2019 10:33:49 +0100
+Message-ID: <87imthsps2.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8irfgXaGvUWxVAEa5Cr5yjNMCcwt_9KcBB+sggvhAMzg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 07 Jun 2019 09:32:22 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 0/3] misc usb-mtp fixes
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v1 03/26] tests: Run the iotests during
+ "make check" again
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,23 +83,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bandan Das <bsd@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > Bandan Das (3):
-> >   usb-mtp: fix return status of delete
-> >   usb-mtp: remove usb_mtp_object_free_one
-> >   usb-mtp: refactor the flow of usb_mtp_write_data
-> 
-> Hi Bandan, Gerd -- what's the status of this patchset?
-> I think this is the one that fixes the CID1399415
-> Coverity issue about usb_mtp_write_data() return values, right?
 
-1+2 fixes where merged during 4.0 freeze, 3 left for post-freeze.
-It can follow now, queued up, next usb pull will have it.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-thanks for the reminder,
-  Gerd
+> From: Thomas Huth <thuth@redhat.com>
+>
+> People often forget to run the iotests before submitting patches or
+> pull requests - this is likely due to the fact that we do not run the
+> tests during our mandatory "make check" tests yet. Now that we've got
+> a proper "auto" group of iotests that should be fine to run in every
+> environment, we can enable the iotests during "make check" again by
+> running the "auto" tests by default from the check-block.sh script.
+>
+> Some cases still need to be checked first, though: iotests need bash
+> and GNU sed (otherwise they fail), and if gprof is enabled, it spoils
+> the output of some test cases causing them to fail. So if we detect
+> that one of the required programs is missing or that gprof is enabled,
+> we still have to skip the iotests to avoid failures.
 
+Thomas,
+
+I've dropped this from the latest PR because I'm still seeing problems
+in some places. One of the issues is tests failing when the underlying
+file system doesn't support O_DIRECT. Some tests seem to have explicit
+feature checks for this but others just fail.
+
+--
+Alex Benn=C3=A9e
 
