@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E11C393E4
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:03:42 +0200 (CEST)
-Received: from localhost ([::1]:49984 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F88392F1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 19:20:37 +0200 (CEST)
+Received: from localhost ([::1]:49742 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZJDG-00068D-UF
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:03:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53762)
+	id 1hZIXc-00065Y-Nk
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 13:20:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hZH0O-0003kJ-2W
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:42:19 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZH0N-0003br-JY
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:42:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hZGnD-0002lC-U1
+ (envelope-from <peter.maydell@linaro.org>) id 1hZGnD-0002lL-Um
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:28:38 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36703)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42052)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hZGnC-0002dK-PV
+ id 1hZGnD-0002es-Mj
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:28:35 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id u8so2345584wmm.1
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 08:28:32 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id x17so2577122wrl.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 08:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mSAmdCdaCTmYl7LkCraAz0UM+zk0iYFXclZjcH+jO4o=;
- b=KUOuFMsKMliOljHa1HKE8MZEfGtz5YnIxf5j0CgQ7OzFJ7zlH9tV5EU9r2e458nJAy
- wI5QrDwGk2HdjaUN1d1osmz6CsEJv/XO4/Vz5PFB5ojeLi3RuWrbQNb7SA1rRHnRJxko
- LMxIeRAq6oxYCeEOF4FPDRBaY50n0q3cQzWHTQ/CGYkrpbie9nZdVuQ51oXg2XwnkWPq
- EexZVMvHVzZo+nQRG4YWTCI3DSwNCi0c+1qNqQ+qVsOfjSrQS+Hwkwrs3GghBnliW7pR
- AUXEW7bKfoWx61NrCwhU6/LvlOEE7WdeV9HPZQutQlfbC82/bAYxd71dsyWEMFH3pzPa
- kKIw==
+ bh=qsUNXG+cCOY+wUP8RT0hl/MDxZboRG8ks+plyU9aNGg=;
+ b=sytv4Y2Wb2olOOnZm9Z5JB9OTbeNO+4Pr7Elf9xtqNuvE9PcvK0AmCjp9so25bt0RA
+ sTFLc3jWQBoEeQtBsarIPgiXcEZYLfkqkDAmCLYWRykjFEqo0LDZ/2WrZhof0+ZhjlrE
+ IuRfK1Q1vkk8nCcC4N4djee5mOq6eH/5qt112doONvEVlhXcP/+s/4f2dQ927C5nGRBh
+ m4TT3kZo+66AaXuaqFIvNSzdkq8ypkqjsz6exDkhDhKmHUQgrzPMPxEjiBeisVlYE3Dg
+ RtPCcDbvaKDcSqvw3zP3O92CW9WB28lQ7kEriXx6Axaty+eijU3J2fePm12EC5TyPVaA
+ NW+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mSAmdCdaCTmYl7LkCraAz0UM+zk0iYFXclZjcH+jO4o=;
- b=sN3Na0tDhKKpICZq7rCn9AZtz7osZs8zEj1vH9DnGtxS4d8ZP3cE26cAxm0j9ju2NK
- nr3SYKJHX9Cc1q1FqjivvNxpGGA5NS7yedZ90nEOB2Wts/RJ41NNP62ogkQocCBYpH5o
- M2gN5g8KHu5YlnOoWQ+gl0VrZr/7gv0kl/FJLVg3si8tAP/JiGCC2rgWIAOk/1hspph3
- /jv1SJHAqHvg0rR8769hpwyqq3fcVMyeptplpFZuyTcFZVld8m2NH6quaUEMD9f/Vhfq
- D4lZiKiXVLIPT9TuPemFIaKMqGXeHlSl1cAU5z26M4UdCMfGWjF5e/zvLOBiwGv9fKBW
- BG7Q==
-X-Gm-Message-State: APjAAAXzh/43mG6n7090JTqvJjNiQWIjL6gpxRTRLAvVFKEQb7qAN2LX
- t+DnmvmkW9daZZ8WtYxjoWXkQDvl+Q+DXQ==
-X-Google-Smtp-Source: APXvYqwbYaL8JYAb7+2CWBjFG1i4hG3QbTKMa6pWBfrnZLtIbsdnUN/g5iKtCBXCLIBCr2t5ywdKpg==
-X-Received: by 2002:a7b:cbc6:: with SMTP id n6mr4355683wmi.14.1559921311003;
+ bh=qsUNXG+cCOY+wUP8RT0hl/MDxZboRG8ks+plyU9aNGg=;
+ b=Zm0hAe0zxh/T9SKCc4kc9tiL+DlqH88f1v6jAcVKVBB9Ca9LPLSH7nOa5228zjt9aB
+ iIKgQ8i7/HgCpw/8oA6/P8psH/OTahTc0fnykg9K4zO4WlnyqaBHaUTTZXyp8r16jJf4
+ sujoLI30Of5r72C61JArZ06sClJFHTaENfEfiostzWnup2xTneZK7VB1ucNLC8csUiOx
+ MnypAAt0nLCp4yMdSAKGVNCHNQRoWZGHgbOW3lG2ND/1UHcHbYtmjEkC7Kf5TK9cQJLM
+ Mf2aSK3gqVgLVqU6QLD/WghDpZFUXjFSh4qL9HTd5VfkafrOvLcZlivxynzhvrSfdE6T
+ P2Fg==
+X-Gm-Message-State: APjAAAUuIgmV4wyolXNApKBSydyI7Ezjxm1WJFXzHXwvYR+Fw1+7LmmA
+ 0ZxzY1a1KjmRYwbtP4IJrm37TMvn9IzwbQ==
+X-Google-Smtp-Source: APXvYqw6ADDDsSeuaROpo4quriKrdTnrPW+k6q7XktNGhhajxsdI8Qtx79LjahrvxeqZwvRa8NNzTA==
+X-Received: by 2002:adf:ead0:: with SMTP id o16mr22352491wrn.216.1559921311916; 
  Fri, 07 Jun 2019 08:28:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b7sm580224wrx.83.2019.06.07.08.28.30
+ by smtp.gmail.com with ESMTPSA id b7sm580224wrx.83.2019.06.07.08.28.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 08:28:30 -0700 (PDT)
+ Fri, 07 Jun 2019 08:28:31 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 16:28:26 +0100
-Message-Id: <20190607152827.18003-2-peter.maydell@linaro.org>
+Date: Fri,  7 Jun 2019 16:28:27 +0100
+Message-Id: <20190607152827.18003-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607152827.18003-1-peter.maydell@linaro.org>
 References: <20190607152827.18003-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
-Subject: [Qemu-devel] [PATCH 1/2] Convert "translator internals" docs to RST,
- move to devel manual
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH 2/2] qemu-tech.texi: Remove "QEMU compared to
+ other emulators" section
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,259 +82,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our user-facing manual currently has a section "translator internals"
-which has some high-level information about the design of the
-TCG translator. This should really be in our new devel/ manual.
-Convert it to RST format and move it there.
+The "QEMU compared to other emulators" section of our documentation
+hasn't been updated since 2015 (and parts of the text are even older).
+We're clearly not very well placed to track the evolution of a
+dozen other emulation projects, and an inaccurate or out of date
+comparison doesn't serve anybody, so we're best off just removing
+the whole documentation section.
+
+If anybody cares strongly about maintaining a comparison page,
+it's probably better to do that on the project's wiki where
+we can update it more dynamically.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/devel/index.rst |   1 +
- docs/devel/tcg.rst   | 111 +++++++++++++++++++++++++++++++++++++++++++
- qemu-tech.texi       | 103 ---------------------------------------
- 3 files changed, 112 insertions(+), 103 deletions(-)
- create mode 100644 docs/devel/tcg.rst
+ qemu-tech.texi | 107 -------------------------------------------------
+ 1 file changed, 107 deletions(-)
 
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 2a4ddf40ad3..1ec61fcfed9 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -21,3 +21,4 @@ Contents:
-    testing
-    decodetree
-    secure-coding-practices
-+   tcg
-diff --git a/docs/devel/tcg.rst b/docs/devel/tcg.rst
-new file mode 100644
-index 00000000000..4956a30a4e6
---- /dev/null
-+++ b/docs/devel/tcg.rst
-@@ -0,0 +1,111 @@
-+====================
-+Translator Internals
-+====================
-+
-+QEMU is a dynamic translator. When it first encounters a piece of code,
-+it converts it to the host instruction set. Usually dynamic translators
-+are very complicated and highly CPU dependent. QEMU uses some tricks
-+which make it relatively easily portable and simple while achieving good
-+performances.
-+
-+QEMU's dynamic translation backend is called TCG, for "Tiny Code
-+Generator". For more information, please take a look at ``tcg/README``.
-+
-+Some notable features of QEMU's dynamic translator are:
-+
-+CPU state optimisations
-+-----------------------
-+
-+The target CPUs have many internal states which change the way it
-+evaluates instructions. In order to achieve a good speed, the
-+translation phase considers that some state information of the virtual
-+CPU cannot change in it. The state is recorded in the Translation
-+Block (TB). If the state changes (e.g. privilege level), a new TB will
-+be generated and the previous TB won't be used anymore until the state
-+matches the state recorded in the previous TB. The same idea can be applied
-+to other aspects of the CPU state.  For example, on x86, if the SS,
-+DS and ES segments have a zero base, then the translator does not even
-+generate an addition for the segment base.
-+
-+Direct block chaining
-+---------------------
-+
-+After each translated basic block is executed, QEMU uses the simulated
-+Program Counter (PC) and other cpu state information (such as the CS
-+segment base value) to find the next basic block.
-+
-+In order to accelerate the most common cases where the new simulated PC
-+is known, QEMU can patch a basic block so that it jumps directly to the
-+next one.
-+
-+The most portable code uses an indirect jump. An indirect jump makes
-+it easier to make the jump target modification atomic. On some host
-+architectures (such as x86 or PowerPC), the ``JUMP`` opcode is
-+directly patched so that the block chaining has no overhead.
-+
-+Self-modifying code and translated code invalidation
-+----------------------------------------------------
-+
-+Self-modifying code is a special challenge in x86 emulation because no
-+instruction cache invalidation is signaled by the application when code
-+is modified.
-+
-+User-mode emulation marks a host page as write-protected (if it is
-+not already read-only) every time translated code is generated for a
-+basic block.  Then, if a write access is done to the page, Linux raises
-+a SEGV signal. QEMU then invalidates all the translated code in the page
-+and enables write accesses to the page.  For system emulation, write
-+protection is achieved through the software MMU.
-+
-+Correct translated code invalidation is done efficiently by maintaining
-+a linked list of every translated block contained in a given page. Other
-+linked lists are also maintained to undo direct block chaining.
-+
-+On RISC targets, correctly written software uses memory barriers and
-+cache flushes, so some of the protection above would not be
-+necessary. However, QEMU still requires that the generated code always
-+matches the target instructions in memory in order to handle
-+exceptions correctly.
-+
-+Exception support
-+-----------------
-+
-+longjmp() is used when an exception such as division by zero is
-+encountered.
-+
-+The host SIGSEGV and SIGBUS signal handlers are used to get invalid
-+memory accesses.  QEMU keeps a map from host program counter to
-+target program counter, and looks up where the exception happened
-+based on the host program counter at the exception point.
-+
-+On some targets, some bits of the virtual CPU's state are not flushed to the
-+memory until the end of the translation block.  This is done for internal
-+emulation state that is rarely accessed directly by the program and/or changes
-+very often throughout the execution of a translation block---this includes
-+condition codes on x86, delay slots on SPARC, conditional execution on
-+ARM, and so on.  This state is stored for each target instruction, and
-+looked up on exceptions.
-+
-+MMU emulation
-+-------------
-+
-+For system emulation QEMU uses a software MMU. In that mode, the MMU
-+virtual to physical address translation is done at every memory
-+access.
-+
-+QEMU uses an address translation cache (TLB) to speed up the translation.
-+In order to avoid flushing the translated code each time the MMU
-+mappings change, all caches in QEMU are physically indexed.  This
-+means that each basic block is indexed with its physical address.
-+
-+In order to avoid invalidating the basic block chain when MMU mappings
-+change, chaining is only performed when the destination of the jump
-+shares a page with the basic block that is performing the jump.
-+
-+The MMU can also distinguish RAM and ROM memory areas from MMIO memory
-+areas.  Access is faster for RAM and ROM because the translation cache also
-+hosts the offset between guest address and host memory.  Accessing MMIO
-+memory areas instead calls out to C code for device emulation.
-+Finally, the MMU helps tracking dirty pages and pages pointed to by
-+translation blocks.
-+
 diff --git a/qemu-tech.texi b/qemu-tech.texi
-index 7c3d1f05e13..eb430daacf2 100644
+index eb430daacf2..3451cfaa5be 100644
 --- a/qemu-tech.texi
 +++ b/qemu-tech.texi
-@@ -161,109 +161,6 @@ may be created from overlay with minimal amount of hand-written code.
+@@ -161,57 +161,6 @@ may be created from overlay with minimal amount of hand-written code.
  
  @end itemize
  
--@node Translator Internals
--@section Translator Internals
+-@node QEMU compared to other emulators
+-@section QEMU compared to other emulators
 -
--QEMU is a dynamic translator. When it first encounters a piece of code,
--it converts it to the host instruction set. Usually dynamic translators
--are very complicated and highly CPU dependent. QEMU uses some tricks
--which make it relatively easily portable and simple while achieving good
--performances.
+-Like bochs [1], QEMU emulates an x86 CPU. But QEMU is much faster than
+-bochs as it uses dynamic compilation. Bochs is closely tied to x86 PC
+-emulation while QEMU can emulate several processors.
 -
--QEMU's dynamic translation backend is called TCG, for "Tiny Code
--Generator". For more information, please take a look at @code{tcg/README}.
+-Like Valgrind [2], QEMU does user space emulation and dynamic
+-translation. Valgrind is mainly a memory debugger while QEMU has no
+-support for it (QEMU could be used to detect out of bound memory
+-accesses as Valgrind, but it has no support to track uninitialised data
+-as Valgrind does). The Valgrind dynamic translator generates better code
+-than QEMU (in particular it does register allocation) but it is closely
+-tied to an x86 host and target and has no support for precise exceptions
+-and system emulation.
 -
--Some notable features of QEMU's dynamic translator are:
+-EM86 [3] is the closest project to user space QEMU (and QEMU still uses
+-some of its code, in particular the ELF file loader). EM86 was limited
+-to an alpha host and used a proprietary and slow interpreter (the
+-interpreter part of the FX!32 Digital Win32 code translator [4]).
 -
--@table @strong
+-TWIN from Willows Software was a Windows API emulator like Wine. It is less
+-accurate than Wine but includes a protected mode x86 interpreter to launch
+-x86 Windows executables. Such an approach has greater potential because most
+-of the Windows API is executed natively but it is far more difficult to
+-develop because all the data structures and function parameters exchanged
+-between the API and the x86 code must be converted.
 -
--@item CPU state optimisations:
--The target CPUs have many internal states which change the way it
--evaluates instructions. In order to achieve a good speed, the
--translation phase considers that some state information of the virtual
--CPU cannot change in it. The state is recorded in the Translation
--Block (TB). If the state changes (e.g. privilege level), a new TB will
--be generated and the previous TB won't be used anymore until the state
--matches the state recorded in the previous TB. The same idea can be applied
--to other aspects of the CPU state.  For example, on x86, if the SS,
--DS and ES segments have a zero base, then the translator does not even
--generate an addition for the segment base.
+-User mode Linux [5] was the only solution before QEMU to launch a
+-Linux kernel as a process while not needing any host kernel
+-patches. However, user mode Linux requires heavy kernel patches while
+-QEMU accepts unpatched Linux kernels. The price to pay is that QEMU is
+-slower.
 -
--@item Direct block chaining:
--After each translated basic block is executed, QEMU uses the simulated
--Program Counter (PC) and other cpu state information (such as the CS
--segment base value) to find the next basic block.
+-The Plex86 [6] PC virtualizer is done in the same spirit as the now
+-obsolete qemu-fast system emulator. It requires a patched Linux kernel
+-to work (you cannot launch the same kernel on your PC), but the
+-patches are really small. As it is a PC virtualizer (no emulation is
+-done except for some privileged instructions), it has the potential of
+-being faster than QEMU. The downside is that a complicated (and
+-potentially unsafe) host kernel patch is needed.
 -
--In order to accelerate the most common cases where the new simulated PC
--is known, QEMU can patch a basic block so that it jumps directly to the
--next one.
+-The commercial PC Virtualizers (VMWare [7], VirtualPC [8]) are faster
+-than QEMU (without virtualization), but they all need specific, proprietary
+-and potentially unsafe host drivers. Moreover, they are unable to
+-provide cycle exact simulation as an emulator can.
 -
--The most portable code uses an indirect jump. An indirect jump makes
--it easier to make the jump target modification atomic. On some host
--architectures (such as x86 or PowerPC), the @code{JUMP} opcode is
--directly patched so that the block chaining has no overhead.
+-VirtualBox [9], Xen [10] and KVM [11] are based on QEMU. QEMU-SystemC
+-[12] uses QEMU to simulate a system where some hardware devices are
+-developed in SystemC.
 -
--@item Self-modifying code and translated code invalidation:
--Self-modifying code is a special challenge in x86 emulation because no
--instruction cache invalidation is signaled by the application when code
--is modified.
--
--User-mode emulation marks a host page as write-protected (if it is
--not already read-only) every time translated code is generated for a
--basic block.  Then, if a write access is done to the page, Linux raises
--a SEGV signal. QEMU then invalidates all the translated code in the page
--and enables write accesses to the page.  For system emulation, write
--protection is achieved through the software MMU.
--
--Correct translated code invalidation is done efficiently by maintaining
--a linked list of every translated block contained in a given page. Other
--linked lists are also maintained to undo direct block chaining.
--
--On RISC targets, correctly written software uses memory barriers and
--cache flushes, so some of the protection above would not be
--necessary. However, QEMU still requires that the generated code always
--matches the target instructions in memory in order to handle
--exceptions correctly.
--
--@item Exception support:
--longjmp() is used when an exception such as division by zero is
--encountered.
--
--The host SIGSEGV and SIGBUS signal handlers are used to get invalid
--memory accesses.  QEMU keeps a map from host program counter to
--target program counter, and looks up where the exception happened
--based on the host program counter at the exception point.
--
--On some targets, some bits of the virtual CPU's state are not flushed to the
--memory until the end of the translation block.  This is done for internal
--emulation state that is rarely accessed directly by the program and/or changes
--very often throughout the execution of a translation block---this includes
--condition codes on x86, delay slots on SPARC, conditional execution on
--ARM, and so on.  This state is stored for each target instruction, and
--looked up on exceptions.
--
--@item MMU emulation:
--For system emulation QEMU uses a software MMU. In that mode, the MMU
--virtual to physical address translation is done at every memory
--access.
--
--QEMU uses an address translation cache (TLB) to speed up the translation.
--In order to avoid flushing the translated code each time the MMU
--mappings change, all caches in QEMU are physically indexed.  This
--means that each basic block is indexed with its physical address.
--
--In order to avoid invalidating the basic block chain when MMU mappings
--change, chaining is only performed when the destination of the jump
--shares a page with the basic block that is performing the jump.
--
--The MMU can also distinguish RAM and ROM memory areas from MMIO memory
--areas.  Access is faster for RAM and ROM because the translation cache also
--hosts the offset between guest address and host memory.  Accessing MMIO
--memory areas instead calls out to C code for device emulation.
--Finally, the MMU helps tracking dirty pages and pages pointed to by
--translation blocks.
--@end table
--
- @node QEMU compared to other emulators
- @section QEMU compared to other emulators
+ @node Managed start up options
+ @section Managed start up options
  
+@@ -247,59 +196,3 @@ depend on an initialized machine, including but not limited to:
+ @item query-status
+ @item x-exit-preconfig
+ @end table
+-
+-@node Bibliography
+-@section Bibliography
+-
+-@table @asis
+-
+-@item [1]
+-@url{http://bochs.sourceforge.net/}, the Bochs IA-32 Emulator Project,
+-by Kevin Lawton et al.
+-
+-@item [2]
+-@url{http://www.valgrind.org/}, Valgrind, an open-source memory debugger
+-for GNU/Linux.
+-
+-@item [3]
+-@url{http://ftp.dreamtime.org/pub/linux/Linux-Alpha/em86/v0.2/docs/em86.html},
+-the EM86 x86 emulator on Alpha-Linux.
+-
+-@item [4]
+-@url{http://www.usenix.org/publications/library/proceedings/usenix-nt97/@/full_papers/chernoff/chernoff.pdf},
+-DIGITAL FX!32: Running 32-Bit x86 Applications on Alpha NT, by Anton
+-Chernoff and Ray Hookway.
+-
+-@item [5]
+-@url{http://user-mode-linux.sourceforge.net/},
+-The User-mode Linux Kernel.
+-
+-@item [6]
+-@url{http://www.plex86.org/},
+-The new Plex86 project.
+-
+-@item [7]
+-@url{http://www.vmware.com/},
+-The VMWare PC virtualizer.
+-
+-@item [8]
+-@url{https://www.microsoft.com/download/details.aspx?id=3702},
+-The VirtualPC PC virtualizer.
+-
+-@item [9]
+-@url{http://virtualbox.org/},
+-The VirtualBox PC virtualizer.
+-
+-@item [10]
+-@url{http://www.xen.org/},
+-The Xen hypervisor.
+-
+-@item [11]
+-@url{http://www.linux-kvm.org/},
+-Kernel Based Virtual Machine (KVM).
+-
+-@item [12]
+-@url{http://www.greensocs.com/projects/QEMUSystemC},
+-QEMU-SystemC, a hardware co-simulator.
+-
+-@end table
 -- 
 2.20.1
 
