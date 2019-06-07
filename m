@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F4E38CC5
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:19:25 +0200 (CEST)
-Received: from localhost ([::1]:51606 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCA138CE7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:25:14 +0200 (CEST)
+Received: from localhost ([::1]:51692 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFiG-0003C0-JW
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50258)
+	id 1hZFnt-0007x5-Rz
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50843)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hZFZS-0005tx-Gq
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:10:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1hZFbd-0006rF-3C
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hZFZR-0003B4-Cf
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:10:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49388)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1hZFZO-00030P-3S; Fri, 07 Jun 2019 10:10:14 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 448F730F1BC8;
- Fri,  7 Jun 2019 14:10:13 +0000 (UTC)
-Received: from localhost (ovpn-117-94.ams2.redhat.com [10.36.117.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C16DD7FE9A;
- Fri,  7 Jun 2019 14:10:07 +0000 (UTC)
-Date: Fri, 7 Jun 2019 16:10:06 +0200
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Message-ID: <20190607141006.GA13542@stefanha-x1.localdomain>
-References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
- <878sudu0d1.fsf@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hZFbb-0006O4-MV
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:32 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40471)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZFbb-0006La-Ec
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:31 -0400
+Received: by mail-wr1-f68.google.com with SMTP id p11so2327620wre.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:12:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=o2axUgPQ7U4YVSrPLMIUbTmUDBGbOntWdk1ZUJzN/d4=;
+ b=nJY5v/Vfs1IeQHZYfUT1MI5MX1X0WWdqZuWd/RmFbVBT071QyUkA0dfwSizGCg8fB3
+ mazQotclv5OU8pZ60escCXKW3TeH10gnR8u+e6mNq1uBt5Lg/ejLhO0Ju3zfM+fm1fQG
+ To5m3PgIflB2Tzz48WajnjqsC5XdrD2HER2Rh0o2DUdr2hdgLZX4AfGLaLA4+H2zS/1P
+ 3vx83PfhK6aDr2G+e8DGf1RqRn4szW8Z3GDmYyT5hlcUYHi1IxKVasz2Os/kfTjOV7eR
+ rTc88491KqbV1muTmcVIMYjRARGifh9gTu/FHxeR81RfdgONADf5eqAr/JBzNYhC2XUs
+ wdyQ==
+X-Gm-Message-State: APjAAAW+d/SanaX+fqEOdiyl86TSqQZygGtlijWFfNq8W4HiiiPSX9xj
+ /9u2NEVkF+6gHdBvy9qTUsgcTw==
+X-Google-Smtp-Source: APXvYqxMUEKH4Amg0pT59fGGIwY+Lbenbr25B8ClRHfBeR4LL8Vf9tGMT2s/JjKRAnkYBAB5Cat24w==
+X-Received: by 2002:adf:dd03:: with SMTP id a3mr2165174wrm.87.1559916750341;
+ Fri, 07 Jun 2019 07:12:30 -0700 (PDT)
+Received: from [192.168.0.156] ([78.192.181.46])
+ by smtp.gmail.com with ESMTPSA id v67sm2142139wme.24.2019.06.07.07.12.29
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jun 2019 07:12:29 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <20190516144733.32399-1-peter.maydell@linaro.org>
+ <CAFEAcA-t=9+zuEOf2uoJAMnpnyAJtpCqe2biWzS6a8nZU0uQOA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <3e786246-9d13-36fc-1d1d-e3f9e915d8b4@redhat.com>
+Date: Fri, 7 Jun 2019 16:12:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
-Content-Disposition: inline
-In-Reply-To: <878sudu0d1.fsf@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 07 Jun 2019 14:10:13 +0000 (UTC)
+In-Reply-To: <CAFEAcA-t=9+zuEOf2uoJAMnpnyAJtpCqe2biWzS6a8nZU0uQOA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 0/9] Add support for io_uring
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v2 0/4] hw/arm/boot: handle large Images
+ more gracefully
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,59 +75,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, saket.sinha89@gmail.com,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Julia Suvorova <jusual@mail.ru>, Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Auger Eric <eric.auger@redhat.com>,
+ Andrew Jones <drjones@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc'ing Drew and Eric
 
---UlVJffcvxoiEqYs2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jun 07, 2019 at 12:59:54PM +0200, Sergio Lopez wrote:
-> I gave this version of the patchset a try, and found that IO hangs when
-> the device is assigned to an IOThread. Sometimes is able to serve a few
-> requests getting through the Guest OS boot process, to hang the moment
-> you try generate some IO on the device, while others it hangs when Linux
-> tries to read the partitions from the device.
->=20
-> I'm starting QEMU this way:
->=20
-> ./x86_64-softmmu/qemu-system-x86_64 -enable-kvm -name rhel80,debug-thread=
-s=3Don -m 2g -smp 4 -object iothread,id=3Diothread0 -blockdev node-name=3Dr=
-hel80,driver=3Dqcow2,file.driver=3Dfile,file.filename=3D/home/VirtualMachin=
-es/rhel80.qcow2 -device virtio-blk,drive=3Drhel80 -serial tcp::6667,server,=
-nowait -qmp tcp::6668,server,nowait -nographic -net user,hostfwd=3Dtcp::666=
-6-:22 -net nic,model=3Dvirtio -device virtio-rng -drive file=3D/dev/nullb0,=
-format=3Draw,cache=3Dnone,aio=3Dio_uring,if=3Dnone,id=3Dtest -device virtio=
--blk,drive=3Dtest,iothread=3Diothread0
->=20
-> Could you please take a look at this issue?
-
-BTW I was referring to the inverted logic where qemu_luring_process_complet=
-ions_and_submit() fails to call ioq_submit().
-
-Stefan
-
---UlVJffcvxoiEqYs2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlz6cD4ACgkQnKSrs4Gr
-c8jiQAf/YLgsRUmLpNrh9l5KwcDQkXb3WIcoBUslEVaXSK6Sq2cEDmqleQ0SCGrk
-eSNrSwBw8xYt++vXRAuJCgL+9uS4bimfY33uSk4gKCqPRT+WiqMErhORsymdPkch
-Er0WdvRg3DmR5I2ScYN0Q8gi//Fjfo2j2zffoOcjvz3ri9Dl1qWHd49JWcxzskfr
-TpEWnHevEM+1dh4gwEu6bmSAOuZcSWzRYSx9Dvb5RqK+27yDY4p8pR/jeU0hUHuN
-Anlo3lMisJIJZ1cVFh0Hgo1Dw5NY+1wmC1ORSF2BtYW77qxGzIwxW/g3il0Vd5+T
-Etne8tER4Xw45OoHu7dH0D1caTjIMg==
-=6fhB
------END PGP SIGNATURE-----
-
---UlVJffcvxoiEqYs2--
+On 6/7/19 3:07 PM, Peter Maydell wrote:
+> Ping for code review, please?
+> 
+> thanks
+> -- PMM
+> 
+> On Thu, 16 May 2019 at 15:47, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>>
+>> This patchset attempts to fix https://bugs.launchpad.net/qemu/+bug/1823998
+>> which reports that we don't handle kernels larger than 128MB
+>> correctly, because we allow the initrd to be placed over the
+>> tail end of the kernel. AArch64 kernel Image files (since v3.17)
+>> report the total size they require (including any BSS area that
+>> isn't in the Image itself), so we can use that to be sure we
+>> place the initrd sufficiently far into the RAM.
+>>
+>> Patches 1 and 2 are new since v1; patches 3 and 4 are the old
+>> patches 1 and 2 (and are basically unchanged since v1).
+>>
+>> Patches 1 and 2 in this series are new. Patch 1 fixes bugs
+>> in the existing code where we were assuming that we could
+>> treat info->ram_size as the address of the end of RAM, which
+>> isn't true if the RAM doesn't start at address 0. (This
+>> generally went unnoticed thanks to the magic of unsigned integer
+>> underflow turning end-start calculations into very large max_size
+>> values for load_ramdisk_as() and friends.)
+>> Patch 2 adds some explicit checks that we don't try to put things
+>> entirely off the end of RAM (which avoids those accidental
+>> underflows).
+>> Patch 3 in this series adjusts our "where do we put the initrd"
+>> heuristic so that it always places it at least after whatever
+>> our best guess at the kernel size is. (This might still not
+>> be right for images like self-decompressing 32-bit kernels, where
+>> there's no way to know how big the kernel will be after
+>> decompression.)
+>> Patch 4 makes load_aarch64_image() return the
+>> kernel size as indicated in the Image file header, so that for
+>> the specific case of AArch64 Image files we will definitely not
+>> put the initrd on top of them.
+>>
+>> thanks
+>> -- PMM
+>>
+>> Peter Maydell (4):
+>>   hw/arm/boot: Don't assume RAM starts at address zero
+>>   hw/arm/boot: Diagnose layouts that put initrd or DTB off the end of
+>>     RAM
+>>   hw/arm/boot: Avoid placing the initrd on top of the kernel
+>>   hw/arm/boot: Honour image size field in AArch64 Image format kernels
+>>
+>>  hw/arm/boot.c | 83 ++++++++++++++++++++++++++++++++++++++-------------
+>>  1 file changed, 62 insertions(+), 21 deletions(-)
+>>
+>> --
+>> 2.20.1
+>>
+> 
 
