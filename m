@@ -2,54 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945AE38C5B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:14:15 +0200 (CEST)
-Received: from localhost ([::1]:51564 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F4E38CC5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:19:25 +0200 (CEST)
+Received: from localhost ([::1]:51606 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFdG-0007vp-Op
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50047)
+	id 1hZFiG-0003C0-JW
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50258)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lvivier@redhat.com>) id 1hZFYt-0005W1-6m
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:09:44 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hZFZS-0005tx-Gq
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:10:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1hZFYr-0001ky-Ps
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:09:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50692)
+ (envelope-from <stefanha@redhat.com>) id 1hZFZR-0003B4-Cf
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:10:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49388)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>)
- id 1hZFYr-0001de-Fg; Fri, 07 Jun 2019 10:09:41 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1hZFZO-00030P-3S; Fri, 07 Jun 2019 10:10:14 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D98C58110E;
- Fri,  7 Jun 2019 14:09:35 +0000 (UTC)
-Received: from [10.40.204.44] (ovpn-204-44.brq.redhat.com [10.40.204.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4707C9081;
- Fri,  7 Jun 2019 14:09:32 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
-References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
- <20190529065017.15149-24-david@gibson.dropbear.id.au>
- <31966f5b-d46c-4b86-6852-c949d9f72497@redhat.com>
-Message-ID: <9218989c-c92d-6e7b-71a9-08d511c3a0b3@redhat.com>
-Date: Fri, 7 Jun 2019 16:09:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 448F730F1BC8;
+ Fri,  7 Jun 2019 14:10:13 +0000 (UTC)
+Received: from localhost (ovpn-117-94.ams2.redhat.com [10.36.117.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C16DD7FE9A;
+ Fri,  7 Jun 2019 14:10:07 +0000 (UTC)
+Date: Fri, 7 Jun 2019 16:10:06 +0200
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Message-ID: <20190607141006.GA13542@stefanha-x1.localdomain>
+References: <20190603123823.32661-1-mehta.aaru20@gmail.com>
+ <878sudu0d1.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <31966f5b-d46c-4b86-6852-c949d9f72497@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
+Content-Disposition: inline
+In-Reply-To: <878sudu0d1.fsf@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Fri, 07 Jun 2019 14:09:35 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Fri, 07 Jun 2019 14:10:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 23/44] target/ppc: Use vector variable
- shifts for VSL, VSR, VSRA
+Subject: Re: [Qemu-devel] [PATCH v4 0/9] Add support for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,77 +58,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org, rth@twiddle.net
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, saket.sinha89@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Julia Suvorova <jusual@mail.ru>, Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/06/2019 11:29, Laurent Vivier wrote:
-> On 29/05/2019 08:49, David Gibson wrote:
->> From: Richard Henderson <richard.henderson@linaro.org>
->>
->> The gvec expanders take care of masking the shift amount
->> against the element width.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> Message-Id: <20190518191430.21686-2-richard.henderson@linaro.org>
->> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->> ---
->>  target/ppc/helper.h                 | 12 ----------
->>  target/ppc/int_helper.c             | 37 -----------------------------
->>  target/ppc/translate/vmx-impl.inc.c | 24 +++++++++----------
->>  3 files changed, 12 insertions(+), 61 deletions(-)
-> 
-> This patch introduces a regressions
->  with Fedora 29 guest:
-> 
-> - during kernel boot:
-> 
-> [   40.397876] crypto_register_alg 'aes' = 0
-> [   40.577517] crypto_register_alg 'cbc(aes)' = 0
-> [   40.743576] crypto_register_alg 'ctr(aes)' = 0
-> [   41.061379] alg: skcipher: Test 1 failed (invalid result) on encryption for p8_aes_xts
-> [   41.062054] 00000000: 91 7c f6 9e bd 68 b2 ec 9b 9f e9 a3 ea dd a6 92
-> [   41.062163] 00000010: 98 10 35 57 5e dc 36 1e 9a f7 bc ba 39 f2 5c eb
-> [   41.062834] crypto_register_alg 'xts(aes)' = 0
-> [   41.077358] alg: hash: Test 2 failed for p8_ghash
-> [   41.077553] 00000000: 5f 89 ab f7 20 57 20 57 20 57 20 57 20 57 20 57
-> 
-> - with libssl:
-> 
-> # curl -o /dev/null https://www.google.com
->   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
->                                  Dload  Upload   Total   Spent    Left  Speed
->   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-> curl: (35) error:1408F119:SSL routines:ssl3_get_record:decryption failed or bad record mac
-> 
-> [before, this one fails with:
-> curl: (35) error:04091068:rsa routines:int_rsa_verify:bad signature ]
-> 
-> If I revert this patch on top of 0d74f3b427 + "target/ppc: Fix lxvw4x, lxvh8x and lxvb16x", all works fine.
-> 
-> Thanks,
-> Laurent
-> 
 
-This seems to fix the problem:
+--UlVJffcvxoiEqYs2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
-index 3b6052fe97..6f0709b307 100644
---- a/accel/tcg/tcg-runtime-gvec.c
-+++ b/accel/tcg/tcg-runtime-gvec.c
-@@ -874,7 +874,7 @@ void HELPER(gvec_sar8v)(void *d, void *a, void *b,
-uint32_t desc)
-     intptr_t oprsz = simd_oprsz(desc);
-     intptr_t i;
+On Fri, Jun 07, 2019 at 12:59:54PM +0200, Sergio Lopez wrote:
+> I gave this version of the patchset a try, and found that IO hangs when
+> the device is assigned to an IOThread. Sometimes is able to serve a few
+> requests getting through the Guest OS boot process, to hang the moment
+> you try generate some IO on the device, while others it hangs when Linux
+> tries to read the partitions from the device.
+>=20
+> I'm starting QEMU this way:
+>=20
+> ./x86_64-softmmu/qemu-system-x86_64 -enable-kvm -name rhel80,debug-thread=
+s=3Don -m 2g -smp 4 -object iothread,id=3Diothread0 -blockdev node-name=3Dr=
+hel80,driver=3Dqcow2,file.driver=3Dfile,file.filename=3D/home/VirtualMachin=
+es/rhel80.qcow2 -device virtio-blk,drive=3Drhel80 -serial tcp::6667,server,=
+nowait -qmp tcp::6668,server,nowait -nographic -net user,hostfwd=3Dtcp::666=
+6-:22 -net nic,model=3Dvirtio -device virtio-rng -drive file=3D/dev/nullb0,=
+format=3Draw,cache=3Dnone,aio=3Dio_uring,if=3Dnone,id=3Dtest -device virtio=
+-blk,drive=3Dtest,iothread=3Diothread0
+>=20
+> Could you please take a look at this issue?
 
--    for (i = 0; i < oprsz; i += sizeof(vec8)) {
-+    for (i = 0; i < oprsz; i += sizeof(uint8_t)) {
-         uint8_t sh = *(uint8_t *)(b + i) & 7;
-         *(int8_t *)(d + i) = *(int8_t *)(a + i) >> sh;
-     }
+BTW I was referring to the inverted logic where qemu_luring_process_complet=
+ions_and_submit() fails to call ioq_submit().
 
-Thanks,
-Laurent
+Stefan
 
+--UlVJffcvxoiEqYs2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlz6cD4ACgkQnKSrs4Gr
+c8jiQAf/YLgsRUmLpNrh9l5KwcDQkXb3WIcoBUslEVaXSK6Sq2cEDmqleQ0SCGrk
+eSNrSwBw8xYt++vXRAuJCgL+9uS4bimfY33uSk4gKCqPRT+WiqMErhORsymdPkch
+Er0WdvRg3DmR5I2ScYN0Q8gi//Fjfo2j2zffoOcjvz3ri9Dl1qWHd49JWcxzskfr
+TpEWnHevEM+1dh4gwEu6bmSAOuZcSWzRYSx9Dvb5RqK+27yDY4p8pR/jeU0hUHuN
+Anlo3lMisJIJZ1cVFh0Hgo1Dw5NY+1wmC1ORSF2BtYW77qxGzIwxW/g3il0Vd5+T
+Etne8tER4Xw45OoHu7dH0D1caTjIMg==
+=6fhB
+-----END PGP SIGNATURE-----
+
+--UlVJffcvxoiEqYs2--
 
