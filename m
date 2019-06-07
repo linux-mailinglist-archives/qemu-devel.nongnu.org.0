@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644B2386C3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:12:44 +0200 (CEST)
-Received: from localhost ([::1]:47152 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DACF38705
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:27:08 +0200 (CEST)
+Received: from localhost ([::1]:47458 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZAvT-000118-KZ
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39388)
+	id 1hZB9P-0003Md-B6
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:27:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39402)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAp1-00047Z-Fg
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:04 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAp1-00048R-TL
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAoy-0004Ii-1T
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAp0-0004R1-7Y
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:03 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41276)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40130)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZAox-0004Ct-Ra
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:05:59 -0400
-Received: by mail-wr1-x432.google.com with SMTP id c2so1338120wrm.8
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:05:59 -0700 (PDT)
+ id 1hZAoz-0004ML-W8
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:02 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id p11so1344871wre.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WAruCVUMvVUZGKjuxI8Kw2Q2uX+I+acKmrGoMuG66f8=;
- b=yACQQXAmEShz7T8rno6cKs8EZgrltB2s2aGEYSUgVT01Xx5M4SmxLwEbPMdxLvs7jI
- Wfm4H2sYxkd1XyaeH+JaiN6TaUYmvboJ1ankaxsvTWzmbw1vHHNDpg0mYBVxOAHoIxtI
- 8y7/XK4dj/mEm8hZWaBtSR+oVPT8rzk3KtARNtURrIavMRjRETGFeeUGc0zuUmF3TaGF
- 5iPApuy2SxNBHq+zJFGGCyM0FX/m/tBb3Sj8RYIFRgmi1T32DBIAO34ci40UZ9ifySsF
- 1hnj76vC9TurrDlu5sz9fRkbEWyAZaAndBrpFKTXL7hFnQKVRYNESOPEymKKiIyY+sNV
- jHlg==
+ bh=+SKipxqDiHRib8HzDeti6YzGOBFsaSaAYfMEIKsinVY=;
+ b=lMYxmG3RToTynruFovsfKYuH3FC/2j3/M00lxPrleLwTPEf/zix0ZGiEQEEUQugjFR
+ DCZWpIF0t4z75WrONvGED/EgGZaaR8+E+ASD19Fkoz1JmB25YLCgA/iCXmA9SKLaCHqH
+ nlo2L8D7Vr2Otp/b7rj0xaXRvcx5fLCig4/gNBqiQhhM5kSrJwxQi0xxRjvlwEwMTlZk
+ 7doSWfbu8RoZvY66xMbWqIuHP4AkHQKO7APVIUfiIISDWuTiExGJdR5ubdBLK+y0RagA
+ duMkWQ0OXY4+SAJSN0eRQsUnVzJUqhteWh8/k8WKGOfpIRSQ97biCNPO0c84vXXcdrAQ
+ q+0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WAruCVUMvVUZGKjuxI8Kw2Q2uX+I+acKmrGoMuG66f8=;
- b=jOXT1WIaBGPagKvBqpGXEOBaEo6lFwwqki1HocwgL4/IGFmxo+bvhIHT1DvH7E4wPh
- 0OM1rFFnvwqg0j01Xn/jSgfEv2kXnzpD5z+3wL5Ls+8XZDg54Uuz4D+Ecm35YPXXwnzI
- 8niqtLvD2ges5Rzs79AiPDnc18TN1T/a8e2gZoirqGG33v7RpEX6HGhkDFtVLb0WF8Tq
- 4kwE+oRHoYvRE3tr9WeqKacZ5+5yq+3Se+9iDP9QI0qcvmDaSSju7Ero5/3ODWPvz3Pf
- ztC/8F4+EcHj+RxIPgpqsV/hcAklDfzCug4mdNOm20p4aF9NSIIie7lGtvUkU2v0wWDQ
- Y3DA==
-X-Gm-Message-State: APjAAAXsBusOdqlFjFo+BNIG6DsRAfkkLg3XGMQtW2vY1nv0meD2BWRe
- WtY9PqV+I8FDotpHYOuf8qciDA==
-X-Google-Smtp-Source: APXvYqxRsN+YGq3zxo7EWhz/ww0C1kthWqCL7eeOMKVwoP5l8rYoUL9k/jAqlJLrpOXbOj7R16d2vg==
-X-Received: by 2002:adf:e4d2:: with SMTP id v18mr5887019wrm.189.1559898358300; 
- Fri, 07 Jun 2019 02:05:58 -0700 (PDT)
+ bh=+SKipxqDiHRib8HzDeti6YzGOBFsaSaAYfMEIKsinVY=;
+ b=PweT0xPopbUG1ZnyPVUaW/5Ip2dHiGScki1lTCTlMDnuaOIQ3E9LOMiIZEKPlsTNyT
+ nokwe1Jja29Cj1yR2El/myjXXjQlAbSBqovJKv7lisZ9L4+FNdT4XoxcIfvTUG0W5S7a
+ 5efPRYhZjXe+YdmQi7I7cXWYmIxq742vm75A9C5+smd4StT82Um6lo/Y3HhxUtuM+bTu
+ CnmYeszV65Szo/gzxfoeqQ7Xwe6EKtgxE7AodV13CZd8wgSwrMddMmvxET48tfrdmY+n
+ 3rSh+1+VKYKS6KsQ43rdceSaw+xl8ADAiH4a7NCmE7EdW8agrWjdVAAUVR9vZXDryIg/
+ 16YQ==
+X-Gm-Message-State: APjAAAVYhGd7qQnDUqi4Nuoj+Krd1TTkGEIkR3spDTGX9WPQl6O80hwa
+ cwki1ZKPlmFWjc4cHAkEINh7yw==
+X-Google-Smtp-Source: APXvYqxVwgYs0TG1qlX0mu+HwFknbgr2QWIbk+URE6/vBegD7WbJGmES+6sEBGhc1or12d/Fhzj/Tw==
+X-Received: by 2002:adf:8183:: with SMTP id 3mr19050280wra.181.1559898360433; 
+ Fri, 07 Jun 2019 02:06:00 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id k10sm1645351wmk.14.2019.06.07.02.05.53
+ by smtp.gmail.com with ESMTPSA id z12sm1046080wrl.37.2019.06.07.02.05.53
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 02:05:56 -0700 (PDT)
+ Fri, 07 Jun 2019 02:05:57 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 902DB1FF96;
+ by zen.linaroharston (Postfix) with ESMTP id A2D501FF98;
  Fri,  7 Jun 2019 10:05:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Fri,  7 Jun 2019 10:05:06 +0100
-Message-Id: <20190607090552.12434-8-alex.bennee@linaro.org>
+Date: Fri,  7 Jun 2019 10:05:07 +0100
+Message-Id: <20190607090552.12434-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
 References: <20190607090552.12434-1-alex.bennee@linaro.org>
@@ -68,8 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
-Subject: [Qemu-devel] [PULL 07/52] .travis.yml: add clang ubsan job
+X-Received-From: 2a00:1450:4864:20::42b
+Subject: [Qemu-devel] [PULL 08/52] tests/vm: Use python configured on build
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,37 +83,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We document this on our wiki and we might as well catch it in our CI
-rather than waiting for it to be picked up on merge:
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-  https://wiki.qemu.org/Testing#clang_UBSan
+Changed the vm-test makefile to execute python scripts
+with the interpreter configured on build. This allows to
+run vm-test targets properly in Linux distros with Python 3
+only support.
 
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20190329210804.22121-2-wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/.travis.yml b/.travis.yml
-index f0aa37f2d1..2f1658602e 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -152,6 +152,13 @@ matrix:
-       compiler: clang
- 
- 
-+    - env:
-+        - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS} "
-+      compiler: clang
-+      before_script:
-+        - ./configure ${CONFIG} --extra-cflags="-fsanitize=undefined -Werror" || { cat config.log && exit 1; }
-+
-+
-     - env:
-         - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
-       compiler: clang
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index 992d823f6b..6f82676306 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -35,7 +35,7 @@ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
+ 			$(SRC_PATH)/tests/vm/Makefile.include
+ 	@mkdir -p $(IMAGES_DIR)
+ 	$(call quiet-command, \
+-		$< \
++		$(PYTHON) $< \
+ 		$(if $(V)$(DEBUG), --debug) \
+ 		--image "$@" \
+ 		--force \
+@@ -46,7 +46,7 @@ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
+ # Build in VM $(IMAGE)
+ vm-build-%: $(IMAGES_DIR)/%.img
+ 	$(call quiet-command, \
+-		$(SRC_PATH)/tests/vm/$* \
++		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
+ 		$(if $(V)$(DEBUG), --debug) \
+ 		$(if $(DEBUG), --interactive) \
+ 		$(if $(J),--jobs $(J)) \
 -- 
 2.20.1
 
