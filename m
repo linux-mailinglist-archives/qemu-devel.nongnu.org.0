@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996C53945D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:31:45 +0200 (CEST)
-Received: from localhost ([::1]:50368 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0673946F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:37:32 +0200 (CEST)
+Received: from localhost ([::1]:50478 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZJeS-0004Is-Q1
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51189)
+	id 1hZJk3-0000Jg-ME
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hZIAo-00046m-Sj
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:57:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZIBe-0005Mn-S5
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:57:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hZIAn-00029r-Jw
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:57:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56194)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZIAl-0001r8-LI
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:57:01 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 74F243091D63
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 16:56:57 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-25.ams2.redhat.com
- [10.36.117.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B393BAA1;
- Fri,  7 Jun 2019 16:56:52 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 240F817532; Fri,  7 Jun 2019 18:56:50 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 18:56:50 +0200
-Message-Id: <20190607165650.8801-2-kraxel@redhat.com>
-In-Reply-To: <20190607165650.8801-1-kraxel@redhat.com>
-References: <20190607165650.8801-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 07 Jun 2019 16:56:57 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/1] usb-mtp: refactor the flow of
- usb_mtp_write_data
+ (envelope-from <peter.maydell@linaro.org>) id 1hZIBc-0003uX-6h
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:57:54 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34044)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hZIBb-0003m5-Us
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:57:52 -0400
+Received: by mail-oi1-x241.google.com with SMTP id u64so1927793oib.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 09:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Cc0V5G2vFzypZ6DB/lLF9Bomy2PB9osiiYWSyLpUsfE=;
+ b=sDqC8CKV8PCq4GZv8LpWWulPoXUoxPnJaQy8qtEfaHLV1GGIehAPGZ26bcBWuhtNMq
+ 4MU8nJVmeLDIlRUodySjf61auwr4UTIZdg2fHMdkr8io50Q6Hd7Umj8JFiPJGgN5d+b8
+ 8RGvJOn6Qi0hoto9V2eUxfcRchwp9OV55DAZR4XVNuewtSIZ9jQgg7URfkUIbgsb1cuM
+ 0OVACx9v1h6QmPUbSK10Lky3qwTw9xKH7e8ofgjBC+z2+xxL4y+c7M/0/yHpzFxphmU3
+ bUIAZ6rGwRYGDVChxwyDFxj1KFUjzyPKHmClchcqLemdlodrbPuQXj68g4qG3KItoqZ/
+ oNzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Cc0V5G2vFzypZ6DB/lLF9Bomy2PB9osiiYWSyLpUsfE=;
+ b=qtWvdMSxYLAZRpEVpCn139TqH//CcYPHTk2tL7bZaU12gc+0yhioKHxOFz3S7HOwON
+ 1gDlVga2Gc2Uv4kAQbl9v2EMEopU+TTrzZGtkPADK4bXfkYQnNH5OSbXcEiuQP1iEN9D
+ oK+oJhkGr20sNwcEHCbQ7PTrtfaZzFfsCIo4T2jflaNYQQ2IgDb8NodrvA+3hiZpzXLM
+ ubj6gX3PMS0ByL97q6FLzBmWLtzN4gurMPuwjO0z0VahLGlgwt1W2dRB/9AtE+dgFaWw
+ ML6nYioO7sPE+uneWUx0bPnZjg4/1xy8gC2G6q7To2Wp4IrH/2O7aEpbRO9uU/1WXHed
+ /bPQ==
+X-Gm-Message-State: APjAAAW/n1GAPQLNzN6l1pHyYfVV4+e0Hwe0By1+T90LBoU7oIg0KjJX
+ +uHDpXqNEyDgt/B8esoOo+hfPiPEWIKcRDesY5Rj2A==
+X-Google-Smtp-Source: APXvYqx2yWUy3lvDLBZ/HophXAsp84nCNpG62D+47llQcCepVD0KjqTWQrcEbpM2yaD4iOEk07d9Mv/j0T3h5RHX5tw=
+X-Received: by 2002:aca:c786:: with SMTP id x128mr4250484oif.146.1559926665962; 
+ Fri, 07 Jun 2019 09:57:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190607153725.18055-1-philmd@redhat.com>
+ <20190607153725.18055-29-philmd@redhat.com>
+In-Reply-To: <20190607153725.18055-29-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jun 2019 17:57:34 +0100
+Message-ID: <CAFEAcA-a=E2gD787dn8aW=_fZ47bXjNOBgNE5UH_QvQb=WnSvQ@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH v18 28/29] hw/rx: Fix comments
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,168 +74,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bandan Das <bsd@redhat.com>
+On Fri, 7 Jun 2019 at 17:52, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+> wrote:
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/rx/rx-virt.c | 2 +-
+>  hw/rx/rx62n.c   | 3 ++-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c
+> index 49d04d22ea..53f43f62bd 100644
+> --- a/hw/rx/rx-virt.c
+> +++ b/hw/rx/rx-virt.c
+> @@ -55,7 +55,7 @@ static void rxvirt_init(MachineState *machine)
+>                             &error_fatal);
+>      memory_region_add_subregion(sysmem, SDRAM_BASE, sdram);
+>
+> -    /* Initalize CPU */
+> +    /* Initalize MCU */
 
-There's no functional change but the flow is (hopefully)
-more consistent for both file and folder object types.
+typo: "Initialize" (extra 'i').
 
-Signed-off-by: Bandan Das <bsd@redhat.com>
-Message-Id: <20190401211712.19012-4-bsd@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/usb/dev-mtp.c | 57 +++++++++++++++++++++++++-----------------------
- 1 file changed, 30 insertions(+), 27 deletions(-)
+>
+> +    /* Initalize CPU */
+>      object_initialize_child(OBJECT(s), "cpu", &s->cpu,
+>                              sizeof(RXCPU), RX_CPU_TYPE_NAME("rx62n"),
+>                              errp, NULL);
 
-diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index d90b336d53f4..f31fc76c01ca 100644
---- a/hw/usb/dev-mtp.c
-+++ b/hw/usb/dev-mtp.c
-@@ -1599,7 +1599,7 @@ static int usb_mtp_update_object(MTPObject *parent, char *name)
-     return ret;
- }
- 
--static int usb_mtp_write_data(MTPState *s)
-+static void usb_mtp_write_data(MTPState *s, uint32_t handle)
- {
-     MTPData *d = s->data_out;
-     MTPObject *parent =
-@@ -1616,26 +1616,33 @@ static int usb_mtp_write_data(MTPState *s)
-         if (!parent || !s->write_pending) {
-             usb_mtp_queue_result(s, RES_INVALID_OBJECTINFO, d->trans,
-                 0, 0, 0, 0);
--        return 1;
-+            return;
-         }
- 
-         if (s->dataset.filename) {
-             path = g_strdup_printf("%s/%s", parent->path, s->dataset.filename);
-             if (s->dataset.format == FMT_ASSOCIATION) {
-                 ret = mkdir(path, mask);
--                goto free;
-+                if (!ret) {
-+                    usb_mtp_queue_result(s, RES_OK, d->trans, 3,
-+                                         QEMU_STORAGE_ID,
-+                                         s->dataset.parent_handle,
-+                                         handle);
-+                    goto close;
-+                }
-+                goto done;
-             }
-+
-             d->fd = open(path, O_CREAT | O_WRONLY |
-                          O_CLOEXEC | O_NOFOLLOW, mask);
-             if (d->fd == -1) {
--                usb_mtp_queue_result(s, RES_STORE_FULL, d->trans,
--                                     0, 0, 0, 0);
-+                ret = 1;
-                 goto done;
-             }
- 
-             /* Return success if initiator sent 0 sized data */
-             if (!s->dataset.size) {
--                goto success;
-+                goto done;
-             }
-             if (d->length != MTP_WRITE_BUF_SZ && !d->pending) {
-                 d->write_status = WRITE_END;
-@@ -1647,13 +1654,12 @@ static int usb_mtp_write_data(MTPState *s)
-         rc = write_retry(d->fd, d->data, d->data_offset,
-                          d->offset - d->data_offset);
-         if (rc != d->data_offset) {
--            usb_mtp_queue_result(s, RES_STORE_FULL, d->trans,
--                                 0, 0, 0, 0);
-+            ret = 1;
-             goto done;
-         }
-         if (d->write_status != WRITE_END) {
-             g_free(path);
--            return ret;
-+            return;
-         } else {
-             /*
-              * Return an incomplete transfer if file size doesn't match
-@@ -1665,16 +1671,20 @@ static int usb_mtp_write_data(MTPState *s)
-                 usb_mtp_update_object(parent, s->dataset.filename)) {
-                 usb_mtp_queue_result(s, RES_INCOMPLETE_TRANSFER, d->trans,
-                                      0, 0, 0, 0);
--                goto done;
-+                goto close;
-             }
-         }
-     }
- 
--success:
--    usb_mtp_queue_result(s, RES_OK, d->trans,
--                         0, 0, 0, 0);
--
- done:
-+    if (ret) {
-+        usb_mtp_queue_result(s, RES_STORE_FULL, d->trans,
-+                             0, 0, 0, 0);
-+    } else {
-+        usb_mtp_queue_result(s, RES_OK, d->trans,
-+                             0, 0, 0, 0);
-+    }
-+close:
-     /*
-      * The write dataset is kept around and freed only
-      * on success or if another write request comes in
-@@ -1683,12 +1693,10 @@ done:
-         close(d->fd);
-         d->fd = -1;
-     }
--free:
-     g_free(s->dataset.filename);
-     s->dataset.size = 0;
-     g_free(path);
-     s->write_pending = false;
--    return ret;
- }
- 
- static void usb_mtp_write_metadata(MTPState *s, uint64_t dlen)
-@@ -1732,16 +1740,11 @@ static void usb_mtp_write_metadata(MTPState *s, uint64_t dlen)
-     s->write_pending = true;
- 
-     if (s->dataset.format == FMT_ASSOCIATION) {
--        if (usb_mtp_write_data(s)) {
--            /* next_handle will be allocated to the newly created dir */
--            usb_mtp_queue_result(s, RES_STORE_FULL, d->trans,
--                                 0, 0, 0, 0);
--            return;
--        }
-+        usb_mtp_write_data(s, next_handle);
-+    } else {
-+        usb_mtp_queue_result(s, RES_OK, d->trans, 3, QEMU_STORAGE_ID,
-+                             s->dataset.parent_handle, next_handle);
-     }
--
--    usb_mtp_queue_result(s, RES_OK, d->trans, 3, QEMU_STORAGE_ID,
--                         s->dataset.parent_handle, next_handle);
- }
- 
- static void usb_mtp_get_data(MTPState *s, mtp_container *container,
-@@ -1821,14 +1824,14 @@ static void usb_mtp_get_data(MTPState *s, mtp_container *container,
-             } else {
-                 d->write_status = WRITE_START;
-             }
--            usb_mtp_write_data(s);
-+            usb_mtp_write_data(s, 0);
-             usb_mtp_data_free(s->data_out);
-             s->data_out = NULL;
-             return;
-         }
-         if (d->data_offset == d->length) {
-             d->pending = true;
--            usb_mtp_write_data(s);
-+            usb_mtp_write_data(s, 0);
-         }
-         break;
-     default:
--- 
-2.18.1
+ditto.
 
+thanks
+-- PMM
 
