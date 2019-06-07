@@ -2,66 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B3B3885D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:01:46 +0200 (CEST)
-Received: from localhost ([::1]:48364 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A80B38833
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:49:37 +0200 (CEST)
+Received: from localhost ([::1]:48236 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZCcz-0007Me-FQ
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:01:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53914)
+	id 1hZCRE-0003LR-3V
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:49:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54491)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hZBWf-0007xl-Lo
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:51:11 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hZBYT-0001pp-Eg
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:53:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hZBWd-0005yW-7F
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:51:09 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41002)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hZBWd-0005sv-0N
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:51:07 -0400
-Received: by mail-oi1-x241.google.com with SMTP id b21so999708oic.8
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=iVl0nNU9iE1rz/uSFNgAAVC8JqnxPkkr31vlJ1tB9Nc=;
- b=HO+OpWaZZ64SXa63qRx+UqmWORm68BhtS0+sISRivfYUVhxTjAe/T42cYoZGJIDH2x
- qIuGR1UmhVQXg6Y4q3LcSpEj0k+ySpE8mOtMoVGRAFL9GzJp++v5kR2kLIjwYuU1aZ9Q
- KjtCxDtpMaEWF+9sybMGTtGX9oyxBdgxAPMapvP6Fa1LApScveAdZZ8OI37LxJFdxTAT
- spAsMLIlKi3SZWQVDUE1KjQ6D+OAIDlPiqxT1s/2voRHlgmg0nvnorgS6kQtqLzPJXW+
- pC2a8p3WyHXJLiHWOnAtpzENEf6VIaL1dBbV/4oaBvHsVwcmHlVzoSDzPtIRv5XNgjbn
- S3qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iVl0nNU9iE1rz/uSFNgAAVC8JqnxPkkr31vlJ1tB9Nc=;
- b=mh9f+WCDl5E7d3BZRpJSoJtiUEFvV/2kGhbT1a39oYgF8DOUwbJW23AXWYNGte5hqx
- HpySeeqnFvCsxmDOkWvGFtJ+MTwWKsGP02MxcGSAh04VEV185076uYJnqR3szib4H47W
- YNI0aTveGCVQM4Dsm1e4M7sQ/gDLynXgS7cFiz0kV3UGwAoLIwj195nKEt0NMc8ugzE6
- 3tWday3AAwQF8+8gqxGPzHrl4Wfpx0p+eHxiOD0327ZsHgI8flkeaE5mPbUNbOBbEK7j
- SUPsz8hCy4Ntjr1O+NadG0FxnHoXdQl8lMIhYypYOGGTMC8RQ8+KIW5V+SHwO0dmjo4V
- gsUw==
-X-Gm-Message-State: APjAAAXQXSAPqEcfm1UJucOSVlbaNqRbCZop55YNzJAHHATXtDHZUboh
- x2J1ZMGJDaSKFpkIEYPzDLCcFhxPmUkqcDLOSc4qtA==
-X-Google-Smtp-Source: APXvYqzCa2M+m15+xDA3WGoYdQ+PygdpLOKSk98UFu1D8hleSeCtyC+WCtICXjtDqNMNyy8ZLHlIDQVfYwEBnTa5yBY=
-X-Received: by 2002:aca:b1c1:: with SMTP id a184mr3236214oif.98.1559901061273; 
- Fri, 07 Jun 2019 02:51:01 -0700 (PDT)
+ (envelope-from <cohuck@redhat.com>) id 1hZBYR-0000fv-Qh
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:53:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56410)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hZBYR-0000L2-HC; Fri, 07 Jun 2019 05:52:59 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C5A4181F19;
+ Fri,  7 Jun 2019 09:52:39 +0000 (UTC)
+Received: from localhost (dhcp-192-191.str.redhat.com [10.33.192.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 717AF6A257;
+ Fri,  7 Jun 2019 09:52:39 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri,  7 Jun 2019 11:52:02 +0200
+Message-Id: <20190607095237.11364-1-cohuck@redhat.com>
 MIME-Version: 1.0
-References: <20190607090552.12434-1-alex.bennee@linaro.org>
-In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jun 2019 10:50:50 +0100
-Message-ID: <CAFEAcA8uT68z7dd85JH30v6PDzABtwZs6MjLui5jJFEW3Niybw@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Fri, 07 Jun 2019 09:52:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PULL 00/52] testing, gdbstub and cputlb fixes
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 00/35] s390x updates
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,326 +52,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Jun 2019 at 10:05, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> The following changes since commit 0d74f3b4277a7ecb0ccb80c865797d11f8e466=
-f5:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-=
-request' into staging (2019-06-06 14:09:14 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-gdbstub-cputlb-07=
-0619-1
->
-> for you to fetch changes up to 611a3db380ef9f670c5c82837c4889f7e19ded10:
->
->   gdbstub: Implement qemu physical memory mode (2019-06-07 08:39:03 +0100=
-)
->
-> ----------------------------------------------------------------
-> Various fixes and updates:
->
->   - editor config tweak for shell scripts
->   - iotest updates (still not default for make check)
->   - various docker updates
->   - gcc/ubsan updates for travis
->   - clean-ups for tests/vm including autoinstall
->   - semihosting fix for Coverity
->   - fixes for cputlb in 64-on-32 cases
->   - gdbstub re-factor + maintainership update
->
+The following changes since commit 47fbad45d47af8af784bb12a5719489edcd89b=
+4c:
 
-This seems to break the tests/vm testing I do. Eg openbsd:
+  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into sta=
+ging (2019-06-04 17:22:42 +0100)
 
-hackbox mergebuild: seq openbsd
-make: Entering directory '/home/peter.maydell/qemu-openbsd/build'
-python3 -B /home/peter.maydell/qemu-openbsd/tests/vm/openbsd  --debug
---image "/home/peter.maydell/.cache/qemu-vm/images/openbsd.img"
---force --build-image
-/home/peter.maydell/.cache/qemu-vm/images/openbsd.img
-### Downloading install iso ...
-### Preparing iso and disk image ...
-Formatting '/home/peter.maydell/.cache/qemu-vm/images/openbsd.img.tmp',
-fmt=3Dqcow2 size=3D21474836480 cluster_size=3D65536 lazy_refcounts=3Doff
-refcount_bits=3D16
-### Booting installer ...
-DEBUG:root:QEMU args: -nodefaults -m 4G -cpu max -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
--device VGA -drive
-file=3D/home/peter.maydell/.cache/qemu-vm/images/openbsd.img.tmp,if=3Dnone,=
-id=3Ddrive0,cache=3Dwriteback
--device virtio-blk,drive=3Ddrive0,bootindex=3D0 -machine graphics=3Doff
--cdrom /home/peter.maydell/.cache/qemu-vm/images/openbsd.img.install.iso
-DEBUG:qemu:VM launch command: 'qemu-system-x86_64 -chardev
-socket,id=3Dmon,path=3D/var/tmp/tmpcex0zicz/qemu-6023-monitor.sock -mon
-chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
-socket,id=3Dconsole,path=3D/var/tmp/tmpcex0zicz/qemu-6023-console.sock,serv=
-er,nowait
--serial chardev:console -nodefaults -m 4G -cpu max -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
--device VGA -drive
-file=3D/home/peter.maydell/.cache/qemu-vm/images/openbsd.img.tmp,if=3Dnone,=
-id=3Ddrive0,cache=3Dwriteback
--device virtio-blk,drive=3Ddrive0,bootindex=3D0 -machine graphics=3Doff
--cdrom /home/peter.maydell/.cache/qemu-vm/images/openbsd.img.install.iso'
-DEBUG:QMP:>>> {'execute': 'qmp_capabilities'}
-DEBUG:QMP:<<< {'return': {}}
-DEBUG:QMP:>>> {'execute': 'human-monitor-command', 'arguments':
-{'command-line': 'info usernet'}}
-DEBUG:QMP:<<< {'return': 'VLAN -1 (vnet):\r\n  Protocol[State]    FD
-Source Address  Port   Dest. Address  Port RecvQ SendQ\r\n
-TCP[HOST_FORWARD]  13       127.0.0.1 37043       10.0.2.15    22
-0     0\r\n'}
-console: *** read timeout ***
-console: waiting for: 'boot>'
-console: line buffer:
+are available in the Git repository at:
 
+  https://github.com/cohuck/qemu tags/s390x-20190607-1
 
-Failed to prepare guest environment
-Traceback (most recent call last):
-  File "/home/peter.maydell/qemu-openbsd/tests/vm/basevm.py", line 351, in =
-main
-    return vm.build_image(args.image)
-  File "/home/peter.maydell/qemu-openbsd/tests/vm/openbsd", line 85,
-in build_image
-    self.console_wait_send("boot>", "set tty com0\n")
-  File "/home/peter.maydell/qemu-openbsd/tests/vm/basevm.py", line
-251, in console_wait_send
-    self.console_wait(wait)
-  File "/home/peter.maydell/qemu-openbsd/tests/vm/basevm.py", line
-213, in console_wait
-    chars =3D vm.console_socket.recv(1024)
-socket.timeout: timed out
-DEBUG:QMP:>>> {'execute': 'quit'}
-DEBUG:QMP:<<< {'return': {}}
-/home/peter.maydell/qemu-openbsd/tests/vm/Makefile.include:47: recipe
-for target '/home/peter.maydell/.cache/qemu-vm/images/openbsd.img'
-failed
-make: *** [/home/peter.maydell/.cache/qemu-vm/images/openbsd.img] Error 2
-make: Leaving directory '/home/peter.maydell/qemu-openbsd/build'
+for you to fetch changes up to 39f04d18406862bd98d6bef5415dbe7360c652de:
 
----
-NetBSD:
+  Merge tag 's390x-tcg-2019-06-05' into s390-next-staging (2019-06-07 11:=
+38:42 +0200)
 
-peter.maydell@hackbox2.linaro.org:~$ mergebuild netbsd
-hackbox mergebuild: seq netbsd
-make: Entering directory '/home/peter.maydell/qemu-netbsd/build'
-python3 -B /home/peter.maydell/qemu-netbsd/tests/vm/netbsd  --debug
---image "/home/peter.maydell/.cache/qemu-vm/images/netbsd.img" --force
---build-image /home/peter.maydell/.cache/qemu-vm/images/netbsd.img
-### Preparing iso and disk image ...
-Formatting '/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp',
-fmt=3Dqcow2 size=3D21474836480 cluster_size=3D65536 lazy_refcounts=3Doff
-refcount_bits=3D16
-### Booting installer ...
-DEBUG:root:QEMU args: -nodefaults -m 4G -cpu max -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
--device VGA -drive
-file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
-d=3Ddrive0,cache=3Dwriteback
--device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
-graphics=3Doff -cdrom
-/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso
-DEBUG:qemu:VM launch command: 'qemu-system-x86_64 -chardev
-socket,id=3Dmon,path=3D/var/tmp/tmpp_t16skr/qemu-13312-monitor.sock -mon
-chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
-socket,id=3Dconsole,path=3D/var/tmp/tmpp_t16skr/qemu-13312-console.sock,ser=
-ver,nowait
--serial chardev:console -nodefaults -m 4G -cpu max -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
--device VGA -drive
-file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
-d=3Ddrive0,cache=3Dwriteback
--device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
-graphics=3Doff -cdrom
-/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso'
-DEBUG:QMP:>>> {'execute': 'qmp_capabilities'}
-DEBUG:QMP:>>> {'execute': 'quit'}
-WARNING:qemu:qemu received signal 6: qemu-system-x86_64 -chardev
-socket,id=3Dmon,path=3D/var/tmp/tmpp_t16skr/qemu-13312-monitor.sock -mon
-chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
-socket,id=3Dconsole,path=3D/var/tmp/tmpp_t16skr/qemu-13312-console.sock,ser=
-ver,nowait
--serial chardev:console -nodefaults -m 4G -cpu max -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
--device VGA -drive
-file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
-d=3Ddrive0,cache=3Dwriteback
--device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
-graphics=3Doff -cdrom
-/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso
-DEBUG:qemu:Error launching VM
-DEBUG:qemu:Command: 'qemu-system-x86_64 -chardev
-socket,id=3Dmon,path=3D/var/tmp/tmpp_t16skr/qemu-13312-monitor.sock -mon
-chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
-socket,id=3Dconsole,path=3D/var/tmp/tmpp_t16skr/qemu-13312-console.sock,ser=
-ver,nowait
--serial chardev:console -nodefaults -m 4G -cpu max -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
--device VGA -drive
-file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
-d=3Ddrive0,cache=3Dwriteback
--device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
-graphics=3Doff -cdrom
-/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso'
-DEBUG:qemu:Output: 'RAMBlock "vga.vram" already registered, abort!\n'
-ERROR:root:Failed to launch QEMU, command line:
-ERROR:root:qemu-system-x86_64 -nodefaults -m 4G -cpu max -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
--device VGA -drive
-file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
-d=3Ddrive0,cache=3Dwriteback
--device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
-graphics=3Doff -cdrom
-/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso
-ERROR:root:Log:
-ERROR:root:RAMBlock "vga.vram" already registered, abort!
+----------------------------------------------------------------
+s390x updates:
+- tcg: finalize implementation for the vector facility and
+  add it to the 'qemu' cpu model
+- linux-user: properly generate ELF_HWCAP
+- vfio-ccw: support async command subregion (for halt/clear
+  subchannel handling)
 
-ERROR:root:QEMU version >=3D 2.10 is required
-Failed to prepare guest environment
-Traceback (most recent call last):
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 351, in m=
-ain
-    return vm.build_image(args.image)
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/netbsd", line 79, in
-build_image
-    "-cdrom", iso
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 170, in b=
-oot
-    guest.launch()
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/__init__=
-.py",
-line 297, in launch
-    self._launch()
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/__init__=
-.py",
-line 324, in _launch
-    self._post_launch()
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/__init__=
-.py",
-line 268, in _post_launch
-    self._qmp.accept()
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
-line 157, in accept
-    return self.__negotiate_capabilities()
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
-line 75, in __negotiate_capabilities
-    resp =3D self.cmd('qmp_capabilities')
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
-line 191, in cmd
-    return self.cmd_obj(qmp_cmd)
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
-line 174, in cmd_obj
-    resp =3D self.__json_read()
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
-line 82, in __json_read
-    data =3D self.__sockfile.readline()
-  File "/usr/lib/python3.6/socket.py", line 586, in readinto
-    return self._sock.recv_into(b)
-ConnectionResetError: [Errno 104] Connection reset by peer
-/home/peter.maydell/qemu-netbsd/tests/vm/Makefile.include:47: recipe
-for target '/home/peter.maydell/.cache/qemu-vm/images/netbsd.img'
-failed
-make: *** [/home/peter.maydell/.cache/qemu-vm/images/netbsd.img] Error 2
-make: Leaving directory '/home/peter.maydell/qemu-netbsd/build'
+----------------------------------------------------------------
 
+Cornelia Huck (2):
+  MAINTAINERS: cover tests/migration/s390x/
+  vfio-ccw: support async command subregion
 
-FreeBSD:
+David Hildenbrand (32):
+  s390x/tcg: Implement VECTOR FIND ANY ELEMENT EQUAL
+  s390x/tcg: Implement VECTOR FIND ELEMENT EQUAL
+  s390x/tcg: Implement VECTOR FIND ELEMENT NOT EQUAL
+  s390x/tcg: Implement VECTOR ISOLATE STRING
+  s390x/tcg: Implement VECTOR STRING RANGE COMPARE
+  s390x: Align vector registers to 16 bytes
+  s390x: Use uint64_t for vector registers
+  s390x/tcg: Fix max_byte detection for stfle
+  s390x/tcg: Store only the necessary amount of doublewords for STFLE
+  s390x/tcg: Introduce tcg_s390_vector_exception()
+  s390x/tcg: Export float_comp_to_cc() and float(32|64|128)_dcmask()
+  s390x/tcg: Implement VECTOR FP ADD
+  s390x/tcg: Implement VECTOR FP COMPARE (AND SIGNAL) SCALAR
+  s390x/tcg: Implement VECTOR FP COMPARE (EQUAL|HIGH|HIGH OR EQUAL)
+  s390x/tcg: Implement VECTOR FP CONVERT FROM FIXED 64-BIT
+  s390x/tcg: Implement VECTOR FP CONVERT FROM LOGICAL 64-BIT
+  s390x/tcg: Implement VECTOR FP CONVERT TO FIXED 64-BIT
+  s390x/tcg: Implement VECTOR FP CONVERT TO LOGICAL 64-BIT
+  s390x/tcg: Implement VECTOR FP DIVIDE
+  s390x/tcg: Implement VECTOR LOAD FP INTEGER
+  s390x/tcg: Implement VECTOR LOAD LENGTHENED
+  s390x/tcg: Implement VECTOR LOAD ROUNDED
+  s390x/tcg: Implement VECTOR FP MULTIPLY
+  s390x/tcg: Implement VECTOR FP MULTIPLY AND (ADD|SUBTRACT)
+  s390x/tcg: Implement VECTOR FP PERFORM SIGN OPERATION
+  s390x/tcg: Implement VECTOR FP SQUARE ROOT
+  s390x/tcg: Implement VECTOR FP SUBTRACT
+  s390x/tcg: Implement VECTOR FP TEST DATA CLASS IMMEDIATE
+  s390x/tcg: Allow linux-user to use vector instructions
+  s390x/tcg: We support the Vector Facility
+  s390x: Bump the "qemu" CPU model up to a stripped-down z13
+  linux-user: elf: ELF_HWCAP for s390x
 
-peter.maydell@hackbox2.linaro.org:~$ mergebuild freebsd
-hackbox mergebuild: seq freebsd
-make: Entering directory '/home/peter.maydell/qemu-freebsd/build'
-python3 -B /home/peter.maydell/qemu-freebsd/tests/vm/freebsd  --debug
---image "/home/peter.maydell/.cache/qemu-vm/images/freebsd.img"
---force --build-image
-/home/peter.maydell/.cache/qemu-vm/images/freebsd.img
-### Downloading install iso ...
-### Preparing iso and disk image ...
-/home/peter.maydell/.cache/qemu-vm/images/freebsd.img.install.iso.xz (1/1)
-  100 %       595.0 MiB / 851.1 MiB =3D 0.699   117 MiB/s       0:07
-Formatting '/home/peter.maydell/.cache/qemu-vm/images/freebsd.img.tmp',
-fmt=3Dqcow2 size=3D21474836480 cluster_size=3D65536 lazy_refcounts=3Doff
-refcount_bits=3D16
-### Booting installer ...
-DEBUG:root:QEMU args: -nodefaults -m 4G -cpu max -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
--device VGA -drive
-file=3D/home/peter.maydell/.cache/qemu-vm/images/freebsd.img.tmp,if=3Dnone,=
-id=3Ddrive0,cache=3Dwriteback
--device virtio-blk,drive=3Ddrive0,bootindex=3D0 -machine graphics=3Doff
--cdrom /home/peter.maydell/.cache/qemu-vm/images/freebsd.img.install.iso
-DEBUG:qemu:VM launch command: 'qemu-system-x86_64 -chardev
-socket,id=3Dmon,path=3D/var/tmp/tmpc1sqg5ms/qemu-23074-monitor.sock -mon
-chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
-socket,id=3Dconsole,path=3D/var/tmp/tmpc1sqg5ms/qemu-23074-console.sock,ser=
-ver,nowait
--serial chardev:console -nodefaults -m 4G -cpu max -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
--device VGA -drive
-file=3D/home/peter.maydell/.cache/qemu-vm/images/freebsd.img.tmp,if=3Dnone,=
-id=3Ddrive0,cache=3Dwriteback
--device virtio-blk,drive=3Ddrive0,bootindex=3D0 -machine graphics=3Doff
--cdrom /home/peter.maydell/.cache/qemu-vm/images/freebsd.img.install.iso'
-DEBUG:QMP:>>> {'execute': 'qmp_capabilities'}
-DEBUG:QMP:<<< {'return': {}}
-DEBUG:QMP:>>> {'execute': 'human-monitor-command', 'arguments':
-{'command-line': 'info usernet'}}
-DEBUG:QMP:<<< {'return': 'VLAN -1 (vnet):\r\n  Protocol[State]    FD
-Source Address  Port   Dest. Address  Port RecvQ SendQ\r\n
-TCP[HOST_FORWARD]  13       127.0.0.1 37719       10.0.2.15    22
-0     0\r\n'}
-console: *** read timeout ***
-console: waiting for: 'Autoboot'
-console: line buffer:
+Richard Henderson (1):
+  s390x/tcg: Use tcg_gen_gvec_bitsel for VECTOR SELECT
 
+ MAINTAINERS                      |   1 +
+ hw/s390x/css.c                   |  27 +-
+ hw/s390x/s390-virtio-ccw.c       |   2 +
+ hw/vfio/ccw.c                    | 110 +++++-
+ include/elf.h                    |   1 +
+ include/hw/s390x/s390-ccw.h      |   3 +
+ linux-user/elfload.c             |  28 ++
+ linux-user/s390x/signal.c        |   4 +-
+ target/s390x/Makefile.objs       |   3 +-
+ target/s390x/arch_dump.c         |   8 +-
+ target/s390x/cpu.c               |   3 +
+ target/s390x/cpu.h               |   5 +-
+ target/s390x/cpu_models.c        |   4 +-
+ target/s390x/excp_helper.c       |  21 +-
+ target/s390x/fpu_helper.c        |   4 +-
+ target/s390x/gdbstub.c           |  16 +-
+ target/s390x/gen-features.c      |  10 +-
+ target/s390x/helper.c            |  10 +-
+ target/s390x/helper.h            |  84 +++++
+ target/s390x/insn-data.def       |  58 +++
+ target/s390x/internal.h          |   4 +
+ target/s390x/kvm.c               |  16 +-
+ target/s390x/machine.c           | 128 +++----
+ target/s390x/misc_helper.c       |  11 +-
+ target/s390x/tcg_s390x.h         |   2 +
+ target/s390x/translate.c         |   2 +-
+ target/s390x/translate_vx.inc.c  | 507 +++++++++++++++++++++++--
+ target/s390x/vec.h               |  40 ++
+ target/s390x/vec_fpu_helper.c    | 625 +++++++++++++++++++++++++++++++
+ target/s390x/vec_string_helper.c | 473 +++++++++++++++++++++++
+ 30 files changed, 2065 insertions(+), 145 deletions(-)
+ create mode 100644 target/s390x/vec_fpu_helper.c
+ create mode 100644 target/s390x/vec_string_helper.c
 
-Failed to prepare guest environment
-Traceback (most recent call last):
-  File "/home/peter.maydell/qemu-freebsd/tests/vm/basevm.py", line 351, in =
-main
-    return vm.build_image(args.image)
-  File "/home/peter.maydell/qemu-freebsd/tests/vm/freebsd", line 94,
-in build_image
-    self.console_boot_serial()
-  File "/home/peter.maydell/qemu-freebsd/tests/vm/freebsd", line 71,
-in console_boot_serial
-    self.console_wait_send("Autoboot", "3")
-  File "/home/peter.maydell/qemu-freebsd/tests/vm/basevm.py", line
-251, in console_wait_send
-    self.console_wait(wait)
-  File "/home/peter.maydell/qemu-freebsd/tests/vm/basevm.py", line
-213, in console_wait
-    chars =3D vm.console_socket.recv(1024)
-socket.timeout: timed out
-DEBUG:QMP:>>> {'execute': 'quit'}
-DEBUG:QMP:<<< {'timestamp': {'seconds': 1559900897, 'microseconds':
-206270}, 'event': 'NIC_RX_FILTER_CHANGED', 'data': {'path':
-'/machine/peripheral-anon/device[0]/virtio-backend'}}
-DEBUG:QMP:<<< {'return': {}}
-/home/peter.maydell/qemu-freebsd/tests/vm/Makefile.include:47: recipe
-for target '/home/peter.maydell/.cache/qemu-vm/images/freebsd.img'
-failed
-make: *** [/home/peter.maydell/.cache/qemu-vm/images/freebsd.img] Error 2
-make: Leaving directory '/home/peter.maydell/qemu-freebsd/build'
+--=20
+2.20.1
 
-
-
-thanks
--- PMM
 
