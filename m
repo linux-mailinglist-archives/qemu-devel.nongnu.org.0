@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA7B3902F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:49:55 +0200 (CEST)
-Received: from localhost ([::1]:49000 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78889391F5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:26:30 +0200 (CEST)
+Received: from localhost ([::1]:49352 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZH7q-0007hS-PD
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38821)
+	id 1hZHhF-0002RU-Ls
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:26:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39723)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hZG9N-0008SG-Be
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:47:26 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hZGC2-0002ME-Dq
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:50:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hZG9M-000277-Am
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:47:25 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46177)
+ (envelope-from <richard.henderson@linaro.org>) id 1hZGC1-0000iS-3k
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:50:10 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44733)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hZG9I-0001Xf-Hw
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:47:22 -0400
-Received: by mail-ot1-x344.google.com with SMTP id z23so2045240ote.13
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:47:15 -0700 (PDT)
+ id 1hZGC0-0000Kl-VB
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:50:09 -0400
+Received: by mail-ot1-x343.google.com with SMTP id b7so2056643otl.11
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:49:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mEL5VNuCAJ4QjXnRvkR4/WbGybXGX+dMAv+s89e3Ku8=;
- b=mjXY+GNkd0XYLhroUAl/GvVOc5ccVo1Ptr27hqYv+Iu5LAP5J2ic6T1t3Rs2NGV/jy
- 3F7y5RyopIVABYAScBvRyhnjPRyflPnPZmbFXoYn48snlg8MGUmQawl2VV/Yt2ZdEI9X
- 5rz/7RgBTTx/hucMegifzI6jBtcYcVGosHTzgwkV6oVe3Ub9cCEvma24kiJkr7D1sZWc
- 35Qzuq8PuUfwdv8wyzST0G0sBDAfVMIQSTueOxtZhB73p8N32EfVyKnAfCDdzzH969Qr
- RH/w80hzi4+iwETMNhptrZARy9bgvhMvNDOyEY86CTYC5xZocu2/0+HitqpC+ixWtoR2
- MvXQ==
+ bh=oHzHXPzXYlWN69DqEELeV6l5D1ewq4CPbBpdr086xKQ=;
+ b=pDKEQrcRtCeBpPN2En7vgEXeLf8WNQS6mBmsrD2/yoMT869VF5HXzLcYqypICrDKtP
+ Vnqh//8/ejxh1iZ3ErH6vLHlmjlgaNfcmvmYd+sH/iF7Xog4NrTMeAvXdru5Ggnoi78J
+ 7RFzmLfsOBDX46SzSAZXFmnPvwJPWOnkUIiIfgKWwtBs5rAlrburQ3hJ3DFGO2ou5zNN
+ w4FdBdUr8wSRSGdkNbJYgbJBQUOX2KKidqt6WCrveP1huKmWdcZFXBiJFdFz0b6AiAm7
+ FefJE8671jCQ8IXN69I/o32CYKxgEMC89j4NgAOyDp8Dpu71Hf3zkQ/XCYAgDLj0CpNr
+ DLSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mEL5VNuCAJ4QjXnRvkR4/WbGybXGX+dMAv+s89e3Ku8=;
- b=KOUjkJbdhwPEHmuRMPt8sQAm3/AmJaSmK7xzXyiRrrFA3OcHfsgzSVAg5gxhhevx4X
- PXfwb42oTzMSUF9CeoQw5xIhFztMMwnoqp6xmm+A05ogsx+PD0PEn9fObBztJwEcGhsA
- E4wrB2ApC1+NSrG6FjLvfXV2jPK1CD2YTg/avudwS+xjNz3HPH6iDeFv/WPgVjhkv0Vi
- 7KGWI5BElGDmNRtjmbOH1IaLUPQodQr0VumR1xIf1Cla6DydlrXlcu8LOn4PVz2ydQzL
- xJRGUmLuBrTiO1MDPhhmXA7tB7fFSb10AMis3LeRueSv5l94sy70ZidWov0/21OfwDXg
- EoXg==
-X-Gm-Message-State: APjAAAXe+uTaCISZrHuYycKC0rHVMBNfAjgT5NcvJdF5hUcQ02ZO9ZvR
- G7Do9UubmR1UwtIhPrJD4ZnXfjjtqk9xOQ==
-X-Google-Smtp-Source: APXvYqx9DkFAHWEnhz4yUXI6CzhT8C2Fthez4TYXFRYeDKsJMkDvDmuDKzwGRM6CUjFfQYM9PfcMEg==
-X-Received: by 2002:a9d:27e8:: with SMTP id c95mr19889701otb.101.1559918834202; 
- Fri, 07 Jun 2019 07:47:14 -0700 (PDT)
+ bh=oHzHXPzXYlWN69DqEELeV6l5D1ewq4CPbBpdr086xKQ=;
+ b=ta67rqw8cmb3a7QYnJ3AuzQEtKuLnHwFgwgZfZM3sHfhmlBQpX7JNLgZgvQWGms+VJ
+ zZg22qLl+AyFHBklGBYNEWS2KQ4FSehXudewxEBWPqax9YG0/6eX/ac87W1iFTI62VNN
+ oIC06H8b29af69z1hPA4/dvtL/CXz0rOdreYzT5Z9bm67L3M0n0hjUAIzr+jab2zTQ9o
+ jpuFc4COmXbBuFmCMSdIxerAoYaYH1U1vfQQWW0jp49UGBsK1dN1ePOuh5kZsFhYH6BK
+ TmtxCJgMMqnocS4nHRIHUOl9yEK3Mzq9LSBZLdz4XXzfhWUfJ8tuiEycEEDwW+cRTV8R
+ xdvA==
+X-Gm-Message-State: APjAAAW6F2InLwHpBmy9LhXB/Fco672ra4XZktkSHqdXtkYM4/PmBU2V
+ ke+i7kqos2T73JzJdc5CXINxedN0MBTh5w==
+X-Google-Smtp-Source: APXvYqys3hgg2+nHupNsO4O+j2QLKAGCRT+WAoUFiVQgtvYjeRJehiu5Z2fVQJS6ObG7lrM5QUcCGQ==
+X-Received: by 2002:a9d:a0d:: with SMTP id 13mr20031406otg.238.1559918997692; 
+ Fri, 07 Jun 2019 07:49:57 -0700 (PDT)
 Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
  [200.56.192.86])
- by smtp.gmail.com with ESMTPSA id p64sm744037oif.8.2019.06.07.07.47.12
+ by smtp.gmail.com with ESMTPSA id x21sm805430otk.4.2019.06.07.07.49.56
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 07:47:13 -0700 (PDT)
+ Fri, 07 Jun 2019 07:49:56 -0700 (PDT)
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20190606174609.20487-1-peter.maydell@linaro.org>
- <20190606174609.20487-3-peter.maydell@linaro.org>
+ <20190606174609.20487-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <555096c4-3be8-c0f9-3054-37570f0e6150@linaro.org>
-Date: Fri, 7 Jun 2019 09:47:09 -0500
+Message-ID: <94c6b711-7944-e2cc-a8a7-9a653409a6b0@linaro.org>
+Date: Fri, 7 Jun 2019 09:49:54 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190606174609.20487-3-peter.maydell@linaro.org>
+In-Reply-To: <20190606174609.20487-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH 02/42] target/arm: Add stubs for AArch32
- VFP decodetree
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 03/42] target/arm: Factor out VFP access
+ checking code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,36 +90,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/6/19 12:45 PM, Peter Maydell wrote:
-> Add the infrastructure for building and invoking a decodetree decoder
-> for the AArch32 VFP encodings.  At the moment the new decoder covers
-> nothing, so we always fall back to the existing hand-written decode.
+> Factor out the VFP access checking code so that we can use it in the
+> leaf functions of the decodetree decoder.
 > 
-> We need to have one decoder for the unconditional insns and one for
-> the conditional insns, as otherwise the patterns for conditional
-> insns would incorrectly match against the unconditional ones too.
-> 
-> Since translate.c is over 14,000 lines long and we're going to be
-> touching pretty much every line of the VFP code as part of the
-> decodetree conversion, we create a new translate-vfp.inc.c to hold
-> the code which deals with VFP in the new scheme.  It should be
-> possible to convert this into a standalone translation unit
-> eventually, but the conversion process will be much simpler if we
-> simply #include it midway through translate.c to start with.
+> We call the function full_vfp_access_check() so we can keep
+> the more natural vfp_access_check() for a version which doesn't
+> have the 'ignore_vfp_enabled' flag -- that way almost all VFP
+> insns will be able to use vfp_access_check(s) and only the
+> special-register access function will have to use
+> full_vfp_access_check(s, ignore_vfp_enabled).
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/Makefile.objs       | 13 +++++++++++++
->  target/arm/translate-vfp.inc.c | 31 +++++++++++++++++++++++++++++++
->  target/arm/translate.c         | 19 +++++++++++++++++++
->  target/arm/vfp-uncond.decode   | 28 ++++++++++++++++++++++++++++
->  target/arm/vfp.decode          | 28 ++++++++++++++++++++++++++++
->  5 files changed, 119 insertions(+)
->  create mode 100644 target/arm/translate-vfp.inc.c
->  create mode 100644 target/arm/vfp-uncond.decode
->  create mode 100644 target/arm/vfp.decode
+>  target/arm/translate-vfp.inc.c | 100 ++++++++++++++++++++++++++++++++
+>  target/arm/translate.c         | 101 +++++----------------------------
+>  2 files changed, 113 insertions(+), 88 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
