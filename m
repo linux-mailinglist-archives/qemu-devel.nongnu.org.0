@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD60338CA6
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:18:44 +0200 (CEST)
-Received: from localhost ([::1]:51604 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7DAD38C38
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:09:42 +0200 (CEST)
+Received: from localhost ([::1]:51506 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFhb-0002gv-TZ
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:18:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48741)
+	id 1hZFYr-0004EG-P4
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48651)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZFVM-0002Ol-J3
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:07 -0400
+ (envelope-from <philmd@redhat.com>) id 1hZFVK-0002JY-Cc
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZFVK-0002s1-Am
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:04 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:37475)
+ (envelope-from <philmd@redhat.com>) id 1hZFVI-0002my-9r
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:02 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:34958)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZFVI-0000Hw-Aq
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:00 -0400
-Received: by mail-wm1-f66.google.com with SMTP id 22so2050546wmg.2
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:04:48 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZFVG-0002DP-8Z
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:05:58 -0400
+Received: by mail-wm1-f68.google.com with SMTP id c6so2063689wml.0
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:05:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=QaEXhgGxTkEuUnt5fl83xiXadZpSnT3DsreXx9095N8=;
- b=AuQQ3ZJFkjzwy1oB4mFqRR1vRp2nCqcYycbyQX+oSNkK/vgP0wgQ8u0QdprA5HzV+j
- 7rO2zfbUEZmxCamwMskvtOD/chRu5HH+4d7o4ZxP61nM1vc/ZhjC/sGVMrzBuHafXJqi
- znI8g/+t1mXo1DC+ZbX9r3KSZ0nf4kq49C4y94wfAlNcJLHAxTTO4kSM7A7uTOp9wmZt
- IWfmfqTE7ciCrxtSlsrvwBMGfLwQW/7HigYVTTD49ujiW2HTLTat90PRpVLKp1LbokM3
- 5qAQoXR9rzuSh/cPKslp1oG/HblC0x9+OQgO0ASBnXjvTn2fjMBzuTjhBzqU5nXHoIGz
- Vaug==
-X-Gm-Message-State: APjAAAVLmXqpdT3FYPNB10vKYwzEdHMGGVD2JSHUCAovllPiYeK8w0vA
- Wu6SQpHQw7X3F1uQ4WwDfCrgNQ==
-X-Google-Smtp-Source: APXvYqzgLIkfiMmVJidTtXmlqkVFC+sKUYL7zMH1BSp1p8croif2srmm44Yn7mzTLWKCKw5gm52nDw==
-X-Received: by 2002:a1c:f50f:: with SMTP id t15mr3924402wmh.95.1559916287895; 
- Fri, 07 Jun 2019 07:04:47 -0700 (PDT)
+ bh=twOSqC6YADnSvFE0Z+yFp2sokT6QtyDbM+rnLE2QUpI=;
+ b=dVbYvyDcHv9Zbc+3ir8kVYT2sALJ9Bq38or5MyUsJINXQTwKrnkJ/dkezzXgMK1Is/
+ fxk5/DYDEbcSFhqNbUgAXV7nQHSq2MMvLdI2hp5Mr0mEk3WB/r4hSnCoBXiz3BnX/TZP
+ Hv2z5JRLhrBaZnVGg8O5Rp+1RkyltvWrVzUopOdDw680lHPN1WhEqQZX0JdS3X1iMfaP
+ swmCB/xpR+hvCqe+SoQdy4/VTJZGSrQ12uvYLmi2ZMweBuFocmOz9L16E0iG0ENgLWX/
+ mxWvrhJWz0jLkTI5ztzTYSQ4LB6HiiX/d2rC6+HW8dZBbFULripGM32Hr7M4egD3qbja
+ UOUQ==
+X-Gm-Message-State: APjAAAUtxDB1E113cpL0y3nEcoeqoajLkMtHO3AG8YQZS2hwFAQkFJZY
+ I6jrZPzJGeHQgY5oyohe5Z27wA==
+X-Google-Smtp-Source: APXvYqwqMWx19FsVYWUT6oE+S+BW5nSjPU8L27wuFtUyOe44anQGVuZtHEckBHLk3a9d8M0igSta8A==
+X-Received: by 2002:a1c:4184:: with SMTP id o126mr3860317wma.68.1559916337719; 
+ Fri, 07 Jun 2019 07:05:37 -0700 (PDT)
 Received: from [192.168.0.156] ([78.192.181.46])
- by smtp.gmail.com with ESMTPSA id f21sm2205065wmb.2.2019.06.07.07.04.47
+ by smtp.gmail.com with ESMTPSA id j132sm3679324wmj.21.2019.06.07.07.05.37
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 07:04:47 -0700 (PDT)
+ Fri, 07 Jun 2019 07:05:37 -0700 (PDT)
 To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
 References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
- <20190607091116.49044-25-ysato@users.sourceforge.jp>
+ <20190607091116.49044-15-ysato@users.sourceforge.jp>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <32bb6ea7-2bd3-5c48-095f-f0adf1205a2d@redhat.com>
-Date: Fri, 7 Jun 2019 16:04:46 +0200
+Message-ID: <3eb4a6aa-6e87-3c27-5b6b-16356c4471f9@redhat.com>
+Date: Fri, 7 Jun 2019 16:05:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190607091116.49044-25-ysato@users.sourceforge.jp>
+In-Reply-To: <20190607091116.49044-15-ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH v17 24/24] target/rx: Remove suffix in cpu
- class.
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH v17 14/24] tests: Add rx to
+ machine-none-test.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,76 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/7/19 11:11 AM, Yoshinori Sato wrote:
-> New CPUs should not be suffixed like other devices.
+> From: Richard Henderson <richard.henderson@linaro.org>
 > 
+> Fixes check-qtest-rx: tests/machine-none-test.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Again:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 > ---
->  include/hw/rx/rx62n.h | 2 +-
->  target/rx/cpu.h       | 3 +--
->  target/rx/cpu.c       | 8 ++------
->  3 files changed, 4 insertions(+), 9 deletions(-)
+>  tests/machine-none-test.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
-> index 5f6912fe46..e57c5ec091 100644
-> --- a/include/hw/rx/rx62n.h
-> +++ b/include/hw/rx/rx62n.h
-> @@ -30,7 +30,7 @@
->  #include "target/rx/cpu.h"
->  #include "qemu/units.h"
+> diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
+> index 4c6d470798..80df277357 100644
+> --- a/tests/machine-none-test.c
+> +++ b/tests/machine-none-test.c
+> @@ -56,6 +56,7 @@ static struct arch2cpu cpus_map[] = {
+>      { "hppa", "hppa" },
+>      { "riscv64", "rv64gcsu-v1.10.0" },
+>      { "riscv32", "rv32gcsu-v1.9.1" },
+> +    { "rx", "rx62n" },
+>  };
 >  
-> -#define TYPE_RX62N "rx62n"
-> +#define TYPE_RX62N "rx62n-mcu"
->  #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME(TYPE_RX62N)
->  #define RX62N(obj) OBJECT_CHECK(RX62NState, (obj), TYPE_RX62N)
->  
-> diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-> index a0b6975963..080ea604a3 100644
-> --- a/target/rx/cpu.h
-> +++ b/target/rx/cpu.h
-> @@ -164,8 +164,7 @@ static inline RXCPU *rx_env_get_cpu(CPURXState *env)
->  
->  #define ENV_OFFSET offsetof(RXCPU, env)
->  
-> -#define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
-> -#define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
-> +#define RX_CPU_TYPE_NAME(model) model
->  #define CPU_RESOLVING_TYPE TYPE_RX_CPU
->  
->  extern const char rx_crname[][6];
-> diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-> index 41fe1de4bb..d8c662b231 100644
-> --- a/target/rx/cpu.c
-> +++ b/target/rx/cpu.c
-> @@ -72,9 +72,8 @@ static void rx_cpu_reset(CPUState *s)
->  static void rx_cpu_list_entry(gpointer data, gpointer user_data)
->  {
->      const char *typename = object_class_get_name(OBJECT_CLASS(data));
-> -    int len = strlen(typename) - strlen(RX_CPU_TYPE_SUFFIX);
->  
-> -    qemu_printf("  %.*s\n", len, typename);
-> +    qemu_printf("  %s\n",  typename);
->  }
->  
->  void rx_cpu_list(void)
-> @@ -89,11 +88,8 @@ void rx_cpu_list(void)
->  static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
->  {
->      ObjectClass *oc;
-> -    char *typename;
->  
-> -    typename = g_strdup_printf(RX_CPU_TYPE_NAME("%s"), cpu_model);
-> -    oc = object_class_by_name(typename);
-> -    g_free(typename);
-> +    oc = object_class_by_name(cpu_model);
->  
->      if (oc == NULL ||
->          object_class_is_abstract(oc) ||
+>  static const char *get_cpu_model_by_arch(const char *arch)
 > 
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
