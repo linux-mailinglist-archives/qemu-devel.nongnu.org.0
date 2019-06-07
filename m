@@ -2,52 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A98838B94
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:24:48 +0200 (CEST)
-Received: from localhost ([::1]:51096 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6EB38BC5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:37:37 +0200 (CEST)
+Received: from localhost ([::1]:51188 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZErP-0003vg-80
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34486)
+	id 1hZF3o-0003FB-At
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37881)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hZEm6-0007UL-Et
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:19 -0400
+ (envelope-from <bounces@canonical.com>) id 1hZExF-0007Fj-MC
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:30:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hZEm5-0005WW-FQ
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41296)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZEm5-0005Te-A7
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:17 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9B6BC6EB99
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 13:19:11 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-25.ams2.redhat.com
- [10.36.117.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEE221001B0C;
- Fri,  7 Jun 2019 13:19:08 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2396A17538; Fri,  7 Jun 2019 15:19:02 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hZExD-0008Cx-FH
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:30:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39350)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hZExB-00081B-8r
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:30:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hZEx6-0006rR-BZ
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 13:30:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 540932E80CC
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 13:30:40 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Jun 2019 13:21:25 -0000
+From: Dion Bosschieter <1831225@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 15:19:01 +0200
-Message-Id: <20190607131901.20107-6-kraxel@redhat.com>
-In-Reply-To: <20190607131901.20107-1-kraxel@redhat.com>
-References: <20190607131901.20107-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 07 Jun 2019 13:19:11 +0000 (UTC)
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h dionbosschieter jpmenil
+X-Launchpad-Bug-Reporter: Dion Bosschieter (dionbosschieter)
+X-Launchpad-Bug-Modifier: Dion Bosschieter (dionbosschieter)
+References: <155929929657.13088.9555373471112683391.malonedeb@soybean.canonical.com>
+Message-Id: <155991368519.31578.2149587155910829596.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: afd67d4642fa917183e4034d2065cfc476ec81c3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 5/5] egl-helpers: add modifier support to
- egl_dmabuf_import_texture()
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831225] Re: guest migration 100% cpu freeze bug
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,71 +63,278 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Bug 1831225 <1831225@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check and use QemuDmaBuf->modifier in egl_dmabuf_import_texture()
-for dmabuf imports.
+Hi David,
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20190529072144.26737-5-kraxel@redhat.com
----
- ui/egl-helpers.c | 34 +++++++++++++++++++++++++---------
- 1 file changed, 25 insertions(+), 9 deletions(-)
+I have digged further into our issue and we have seen issues only when
+migrating from servers that have a different tsc frequency.
 
-diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-index 0c9716067cfb..edc53f6d3464 100644
---- a/ui/egl-helpers.c
-+++ b/ui/egl-helpers.c
-@@ -229,20 +229,36 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc,
- void egl_dmabuf_import_texture(QemuDmaBuf *dmabuf)
- {
-     EGLImageKHR image = EGL_NO_IMAGE_KHR;
--    EGLint attrs[] = {
--        EGL_DMA_BUF_PLANE0_FD_EXT,      dmabuf->fd,
--        EGL_DMA_BUF_PLANE0_PITCH_EXT,   dmabuf->stride,
--        EGL_DMA_BUF_PLANE0_OFFSET_EXT,  0,
--        EGL_WIDTH,                      dmabuf->width,
--        EGL_HEIGHT,                     dmabuf->height,
--        EGL_LINUX_DRM_FOURCC_EXT,       dmabuf->fourcc,
--        EGL_NONE, /* end of list */
--    };
-+    EGLint attrs[64];
-+    int i = 0;
- 
-     if (dmabuf->texture != 0) {
-         return;
-     }
- 
-+    attrs[i++] = EGL_WIDTH;
-+    attrs[i++] = dmabuf->width;
-+    attrs[i++] = EGL_HEIGHT;
-+    attrs[i++] = dmabuf->height;
-+    attrs[i++] = EGL_LINUX_DRM_FOURCC_EXT;
-+    attrs[i++] = dmabuf->fourcc;
-+
-+    attrs[i++] = EGL_DMA_BUF_PLANE0_FD_EXT;
-+    attrs[i++] = dmabuf->fd;
-+    attrs[i++] = EGL_DMA_BUF_PLANE0_PITCH_EXT;
-+    attrs[i++] = dmabuf->stride;
-+    attrs[i++] = EGL_DMA_BUF_PLANE0_OFFSET_EXT;
-+    attrs[i++] = 0;
-+#ifdef EGL_DMA_BUF_PLANE0_MODIFIER_LO_EXT
-+    if (dmabuf->modifier) {
-+        attrs[i++] = EGL_DMA_BUF_PLANE0_MODIFIER_LO_EXT;
-+        attrs[i++] = (dmabuf->modifier >>  0) & 0xffffffff;
-+        attrs[i++] = EGL_DMA_BUF_PLANE0_MODIFIER_HI_EXT;
-+        attrs[i++] = (dmabuf->modifier >> 32) & 0xffffffff;
-+    }
-+#endif
-+    attrs[i++] = EGL_NONE;
-+
-     image = eglCreateImageKHR(qemu_egl_display,
-                               EGL_NO_CONTEXT,
-                               EGL_LINUX_DMA_BUF_EXT,
--- 
-2.18.1
+Example:
+Source (kernel 4.14.63)
+[    2.068227] tsc: Refined TSC clocksource calibration: 2593.906 MHz
+[    2.068373] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x256=
+3bf907c6, max_idle_ns: 440795319401 ns                                     =
+                                       =
 
+[    4.908200] clocksource: Switched to clocksource tsc
+
+Destination (kernel 4.19.43):
+[    0.000000] tsc: Detected 2600.000 MHz processor
+[    3.647553] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles:=
+ 0x257a3c3232d, max_idle_ns: 440795236700 ns                               =
+                                       =
+
+[    4.421582] clocksource: Switched to clocksource tsc-early
+[    5.747791] tsc: Refined TSC clocksource calibration: 2593.904 MHz
+[    5.747952] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x256=
+3bd843df, max_idle_ns: 440795257314 ns                                     =
+                                       =
+
+[    5.748261] clocksource: Switched to clocksource tsc
+
+Source (kernel 4.19.43):
+[    0.000000] tsc: Fast TSC calibration using PIT
+[    0.000000] tsc: Detected 2199.852 MHz processor
+[    4.041367] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles:=
+ 0x1fb5a71147a, max_idle_ns: 440795225528 ns                               =
+                                       =
+
+[    4.504477] clocksource: Switched to clocksource tsc-early
+[    6.231559] tsc: Refined TSC clocksource calibration: 2200.002 MHz
+[    6.231718] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x1fb=
+634b8814, max_idle_ns: 440795202126 ns                                     =
+                                       =
+
+[    6.801999] clocksource: Switched to clocksource tsc
+
+Destionation (kernel 4.19.43):
+[    0.000000] tsc: Fast TSC calibration using PIT
+[    0.000000] tsc: Detected 2394.538 MHz processor
+[    5.486287] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles:=
+ 0x22840fdedc8, max_idle_ns: 440795293830 ns                               =
+                                       =
+
+[    6.182944] clocksource: Switched to clocksource tsc-early
+[    7.596489] tsc: Refined TSC clocksource calibration: 2394.454 MHz
+[    7.596641] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x228=
+3c0783fd, max_idle_ns: 440795301468 ns                                     =
+                                       =
+
+[    9.316929] clocksource: Switched to clocksource tsc
+
+Source (kernel 4.14.63):
+[    2.068227] tsc: Refined TSC clocksource calibration: 2593.906 MHz
+[    2.068373] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x256=
+3bf907c6, max_idle_ns: 440795319401 ns                                     =
+                                       =
+
+[    4.908200] clocksource: Switched to clocksource tsc
+
+Destination (kernel 4.19.43):
+[    0.000000] tsc: Detected 2600.000 MHz processor
+[    3.661033] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles:=
+ 0x257a3c3232d, max_idle_ns: 440795236700 ns                               =
+                                       =
+
+[    4.435033] clocksource: Switched to clocksource tsc-early
+[    5.761251] tsc: Refined TSC clocksource calibration: 2593.905 MHz
+[    5.761412] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x256=
+3be32fd6, max_idle_ns: 440795226961 ns                                     =
+                                       =
+
+[    5.761731] clocksource: Switched to clocksource tsc
+
+And what I have seen from reading a bit about time
+keeping(https://www.kernel.org/doc/Documentation/virtual/kvm/timekeeping.tx=
+t)
+and counters and the virtualisation of it, is that it is pretty
+difficult to get right, so it is already amazing that it goes alright
+most of the times.
+
+When diffing I stumbled upon this: https://lore.kernel.org/patchwork/patch/=
+866471/
+And I was thinking about reverting those changes and then try another 10k o=
+f migrations see if that makes any difference as we still are not able to r=
+eproduce the issue.
+
+I could also try to prefer migrations from similiar refined TSC
+clocksource calibration HZes don't, which I would rather not do but I
+think I understand why having the exact same frequency is prefered, what
+is your thought on this matter?
+
+Disabling kvm-clock is not really an option as we don't want to restart
+and login on all of the running vms.
+
+Dion
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831225
+
+Title:
+  guest migration 100% cpu freeze bug
+
+Status in QEMU:
+  New
+
+Bug description:
+  # Investigate migration cpu hog(100%) bug
+
+  I have some issues when migrating from kernel 4.14.63 running qemu 2.11.2=
+ to kernel 4.19.43 running qemu 2.11.2.
+  The hypervisors are running on debian jessie with libvirt v5.3.0.
+  Linux, libvirt and qemu are all custom compiled.
+
+  I migrated around 10.000 vms and every once in a while a vm is stuck
+  at 100% cpu after what we can see right now is that the target
+  hypervisor runs on linux 4.19.53. This happened with 4 vms so far. It
+  is not that easy to debug, we found this out pretty quickly because we
+  are running monitoring on frozen vms after migrations.
+
+  Last year we were having the same "kind of" bug https://bugs.launchpad.ne=
+t/qemu/+bug/1775555 when trying to upgrade qemu 2.6 to 2.11.
+  This bug was fixed after applying the following patch: http://lists.nongn=
+u.org/archive/html/qemu-devel/2018-04/msg00820.html
+
+  This patch is still applied as you can see because of the available pre_l=
+oad var on the kvmclock_vmsd struct:
+  (gdb) ptype kvmclock_vmsd
+  type =3D const struct VMStateDescription {
+      const char *name;
+      int unmigratable;
+      int version_id;
+      int minimum_version_id;
+      int minimum_version_id_old;
+      MigrationPriority priority;
+      LoadStateHandler *load_state_old;
+      int (*pre_load)(void *);                                             =
+   =
+
+      int (*post_load)(void *, int);
+      int (*pre_save)(void *);
+      _Bool (*needed)(void *);
+      VMStateField *fields;
+      const VMStateDescription **subsections;
+  }
+
+  I attached gdb to a vcpu thread of one stuck vm, and a bt showed the foll=
+owing info:
+  Thread 4 (Thread 0x7f3a431a4700 (LWP 37799)):
+  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
+84
+  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fca78d=
+0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
+kvm/kvm-all.c:2050
+  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fca78d0)=
+ at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
+  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fca78d0) a=
+t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
+  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a431a4700) at pthread_=
+create.c:456
+  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:97
+
+  Thread 3 (Thread 0x7f3a439a5700 (LWP 37798)):
+  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
+84
+  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fc5cbb=
+0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
+kvm/kvm-all.c:2050
+  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fc5cbb0)=
+ at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
+  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fc5cbb0) a=
+t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
+  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a439a5700) at pthread_=
+create.c:456
+  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:97
+
+  The ioctl call is a ioctl(18, KVM_RUN and it looks like it is looping
+  inside the vm itself.
+
+  I saved the state of the VM (with `virsh save`) after I found it was hang=
+ing on its vcpu threads. Then I restored this vm on a test environment runn=
+ing the same kernel, QEMU and libvirt version). After the restore the VM st=
+ill was haning at 100% cpu usage on all the vcpus.
+  I tried to use the perf kvm guest option to trace the guest vm with a cop=
+y of the kernel, modules and kallsyms files from inside the guest vm and I =
+got to the following perf stat:
+
+   Event                                         Total %Total CurAvg/s
+   kvm_entry                                   5198993   23.1   277007
+   kvm_exit                                    5198976   23.1   277006
+   kvm_apic                                    1732103    7.7    92289
+   kvm_msr                                     1732101    7.7    92289
+   kvm_inj_virq                                1731904    7.7    92278
+   kvm_eoi                                     1731900    7.7    92278
+   kvm_apic_accept_irq                         1731900    7.7    92278
+   kvm_hv_timer_state                          1731780    7.7    92274
+   kvm_pv_eoi                                  1731701    7.7    92267
+   kvm_ple_window                                   36    0.0        2
+   Total                                      22521394         1199967
+
+  We tried to run the crash tool against a dump of guest vm memory and that=
+ gave us the following backtrace:
+  crash> bt
+  PID: 0      TASK: ffffffff81610040  CPU: 0   COMMAND: "swapper/0"
+      [exception RIP: native_read_tsc+2]
+      RIP: ffffffff810146a9  RSP: ffff88003fc03df0  RFLAGS: 00000046
+      RAX: 000000008762c0fa  RBX: ffff88003fc13680  RCX: 0000000000000001
+      RDX: 0000000000fe4871  RSI: 0000000000000000  RDI: ffff88003fc13603
+      RBP: 000000000003052c   R8: 0000000000000200   R9: ffffffff8169b180
+      R10: 0000000000000020  R11: 0000000000000005  R12: 006a33290b40455c
+      R13: 00000000df1fd292  R14: 000000002ca284ff  R15: 00fe485f3febe21a
+      CS: 0010  SS: 0018
+   #0 [ffff88003fc03df0] pvclock_clocksource_read at ffffffff8102cbb3
+   #1 [ffff88003fc03e40] kvm_clock_read at ffffffff8102c2c9
+   #2 [ffff88003fc03e50] timekeeping_get_ns at ffffffff810691b0
+   #3 [ffff88003fc03e60] ktime_get at ffffffff810695c8
+   #4 [ffff88003fc03e90] sched_rt_period_timer at ffffffff8103e4f5
+   #5 [ffff88003fc03ee0] __run_hrtimer at ffffffff810652d3
+   #6 [ffff88003fc03f20] hrtimer_interrupt at ffffffff81065abd
+   #7 [ffff88003fc03f90] smp_apic_timer_interrupt at ffffffff81024ba8
+   #8 [ffff88003fc03fb0] apic_timer_interrupt at ffffffff813587e2
+  --- <IRQ stack> ---
+   #9 [ffffffff81601e98] apic_timer_interrupt at ffffffff813587e2
+      [exception RIP: native_safe_halt+2]
+      RIP: ffffffff8102c360  RSP: ffffffff81601f40  RFLAGS: 00010246
+      RAX: 0000000000000000  RBX: ffffffff81601fd8  RCX: 00000000ffffffff
+      RDX: 00000000ffffffff  RSI: 0000000000000000  RDI: 0000000000000001
+      RBP: 0000000000000000   R8: 0000000000000000   R9: 0000000000000000
+      R10: 0000000000000020  R11: 0000000000000005  R12: ffffffff816f5d80
+      R13: ffffffffffffffff  R14: 000000000008c800  R15: 0000000000000000
+      ORIG_RAX: ffffffffffffff10  CS: 0010  SS: 0018
+  #10 [ffffffff81601f40] default_idle at ffffffff81014c35
+  #11 [ffffffff81601f50] cpu_idle at ffffffff8100d258
+
+  So it seems like the vm is reading its clock constantly trying to
+  catch up some time after the migration.
+
+  Last time it was a bug that was only triggered on newer Gold cpu
+  hardware, but this time we also see this coming back on older Intel E5
+  cpus we tried to reproduce with a migrate loop of 3 days times between
+  kernel 4.14.63 and 4.19.43 but this gave us no results.
+
+  The vms were running ubuntu 14.04, centos 7, debian 7, debian 8 these
+  vms are running linux kernel 3.*.
+
+  The thing is that we are out of ideas for reproducing this, it seems
+  like it the same kind of bug we are hitting, just like last time the
+  vm is basically only trying to read the clock. Perhaps we can try to
+  read the clock data and also try to read what the guest is actually
+  waiting for, which value of the counter does it want to reach.
+
+  I am not sure how to pinpoint the cause of this issue, I would like some =
+help and possible some extra tips on debugging.
+  We are able to read the guests kernel which makes it a bit easier to debu=
+g, reproducing and finding the source of the problem is still something we =
+are trying to figure out.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831225/+subscriptions
 
