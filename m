@@ -2,50 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E61E38C5A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:14:05 +0200 (CEST)
-Received: from localhost ([::1]:51560 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD60338CA6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:18:44 +0200 (CEST)
+Received: from localhost ([::1]:51604 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFd6-0007WG-OB
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48497)
+	id 1hZFhb-0002gv-TZ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48741)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hZFUc-00026X-FA
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:05:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1hZFVM-0002Ol-J3
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hZFUR-0000xg-N9
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:05:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44320)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1hZFU1-0007id-4A; Fri, 07 Jun 2019 10:04:42 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DE4C3981D3;
- Fri,  7 Jun 2019 14:04:02 +0000 (UTC)
-Received: from redhat.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6ACBF7FD0B;
- Fri,  7 Jun 2019 14:04:00 +0000 (UTC)
-Date: Fri, 7 Jun 2019 15:03:57 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190607140357.GK28838@redhat.com>
-References: <20190607135430.22149-1-kwolf@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hZFVK-0002s1-Am
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:04 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37475)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZFVI-0000Hw-Aq
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:06:00 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 22so2050546wmg.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:04:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QaEXhgGxTkEuUnt5fl83xiXadZpSnT3DsreXx9095N8=;
+ b=AuQQ3ZJFkjzwy1oB4mFqRR1vRp2nCqcYycbyQX+oSNkK/vgP0wgQ8u0QdprA5HzV+j
+ 7rO2zfbUEZmxCamwMskvtOD/chRu5HH+4d7o4ZxP61nM1vc/ZhjC/sGVMrzBuHafXJqi
+ znI8g/+t1mXo1DC+ZbX9r3KSZ0nf4kq49C4y94wfAlNcJLHAxTTO4kSM7A7uTOp9wmZt
+ IWfmfqTE7ciCrxtSlsrvwBMGfLwQW/7HigYVTTD49ujiW2HTLTat90PRpVLKp1LbokM3
+ 5qAQoXR9rzuSh/cPKslp1oG/HblC0x9+OQgO0ASBnXjvTn2fjMBzuTjhBzqU5nXHoIGz
+ Vaug==
+X-Gm-Message-State: APjAAAVLmXqpdT3FYPNB10vKYwzEdHMGGVD2JSHUCAovllPiYeK8w0vA
+ Wu6SQpHQw7X3F1uQ4WwDfCrgNQ==
+X-Google-Smtp-Source: APXvYqzgLIkfiMmVJidTtXmlqkVFC+sKUYL7zMH1BSp1p8croif2srmm44Yn7mzTLWKCKw5gm52nDw==
+X-Received: by 2002:a1c:f50f:: with SMTP id t15mr3924402wmh.95.1559916287895; 
+ Fri, 07 Jun 2019 07:04:47 -0700 (PDT)
+Received: from [192.168.0.156] ([78.192.181.46])
+ by smtp.gmail.com with ESMTPSA id f21sm2205065wmb.2.2019.06.07.07.04.47
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jun 2019 07:04:47 -0700 (PDT)
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
+References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
+ <20190607091116.49044-25-ysato@users.sourceforge.jp>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <32bb6ea7-2bd3-5c48-095f-f0adf1205a2d@redhat.com>
+Date: Fri, 7 Jun 2019 16:04:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190607091116.49044-25-ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190607135430.22149-1-kwolf@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 07 Jun 2019 14:04:12 +0000 (UTC)
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH 00/10] monitor: Split monitor.c in
- core/HMP/QMP/misc
+ [fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH v17 24/24] target/rx: Remove suffix in cpu
+ class.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,76 +74,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: dgilbert@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- armbru@redhat.com
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 07, 2019 at 03:54:20PM +0200, Kevin Wolf wrote:
-> monitor.c mixes a lot of different things in a single file: The core
-> monitor infrastructure, HMP infrastrcture, QMP infrastructure, and the
-> implementation of several HMP and QMP commands. Almost worse, struct
-> Monitor mixes state for HMP, for QMP, and state actually shared between
-> all monitors. monitor.c must be linked with a system emulator and even
-> requires per-target compilation because some of the commands it
-> implements access system emulator state.
+On 6/7/19 11:11 AM, Yoshinori Sato wrote:
+> New CPUs should not be suffixed like other devices.
 > 
-> The reason why I care about this is that I'm working on a protoype for a
-> storage daemon, which wants to use QMP (but probably not HMP) and
-> obviously doesn't have any system emulator state. So I'm interested in
-> some core monitor parts that can be linked to non-system-emulator tools.
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> ---
+>  include/hw/rx/rx62n.h | 2 +-
+>  target/rx/cpu.h       | 3 +--
+>  target/rx/cpu.c       | 8 ++------
+>  3 files changed, 4 insertions(+), 9 deletions(-)
 > 
-> This series first creates separate structs MonitorQMP and MonitorHMP
-> which inherit from Monitor, and then moves the associated infrastructure
-> code into separate source files.
+> diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
+> index 5f6912fe46..e57c5ec091 100644
+> --- a/include/hw/rx/rx62n.h
+> +++ b/include/hw/rx/rx62n.h
+> @@ -30,7 +30,7 @@
+>  #include "target/rx/cpu.h"
+>  #include "qemu/units.h"
+>  
+> -#define TYPE_RX62N "rx62n"
+> +#define TYPE_RX62N "rx62n-mcu"
+>  #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME(TYPE_RX62N)
+>  #define RX62N(obj) OBJECT_CHECK(RX62NState, (obj), TYPE_RX62N)
+>  
+> diff --git a/target/rx/cpu.h b/target/rx/cpu.h
+> index a0b6975963..080ea604a3 100644
+> --- a/target/rx/cpu.h
+> +++ b/target/rx/cpu.h
+> @@ -164,8 +164,7 @@ static inline RXCPU *rx_env_get_cpu(CPURXState *env)
+>  
+>  #define ENV_OFFSET offsetof(RXCPU, env)
+>  
+> -#define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
+> -#define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
+> +#define RX_CPU_TYPE_NAME(model) model
+>  #define CPU_RESOLVING_TYPE TYPE_RX_CPU
+>  
+>  extern const char rx_crname[][6];
+> diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+> index 41fe1de4bb..d8c662b231 100644
+> --- a/target/rx/cpu.c
+> +++ b/target/rx/cpu.c
+> @@ -72,9 +72,8 @@ static void rx_cpu_reset(CPUState *s)
+>  static void rx_cpu_list_entry(gpointer data, gpointer user_data)
+>  {
+>      const char *typename = object_class_get_name(OBJECT_CLASS(data));
+> -    int len = strlen(typename) - strlen(RX_CPU_TYPE_SUFFIX);
+>  
+> -    qemu_printf("  %.*s\n", len, typename);
+> +    qemu_printf("  %s\n",  typename);
+>  }
+>  
+>  void rx_cpu_list(void)
+> @@ -89,11 +88,8 @@ void rx_cpu_list(void)
+>  static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
+>  {
+>      ObjectClass *oc;
+> -    char *typename;
+>  
+> -    typename = g_strdup_printf(RX_CPU_TYPE_NAME("%s"), cpu_model);
+> -    oc = object_class_by_name(typename);
+> -    g_free(typename);
+> +    oc = object_class_by_name(cpu_model);
+>  
+>      if (oc == NULL ||
+>          object_class_is_abstract(oc) ||
 > 
-> While the split is probably not perfect, I think it's an improvement of
-> the current state even for QEMU proper, and it's good enough so I can
-> link my storage daemon against just monitor/core.o and monitor/qmp.o and
-> get a useless QMP monitor that parses the JSON input and rejects
-> everything as an unknown command.
-> 
-> Next I'll try to teach it a subset of QMP commands that can actually be
-> supported in a tool, but while there will be a few follow-up patches to
-> achieve this, I don't expect that this work will bring up much that
-> needs to be changed in the splitting process done in this series.
-> 
-> Kevin Wolf (10):
->   monitor: Remove unused password prompting fields
->   monitor: Split monitor_init in HMP and QMP function
->   monitor: Make MonitorQMP a child class of Monitor
->   monitor: Create MonitorHMP with readline state
->   monitor: Move cmd_table to MonitorHMP
->   Move monitor.c to monitor/misc.c
->   monitor: Create monitor_int.h with common definitions
->   monitor: Split out monitor/qmp.c
->   monitor: Split out monitor/hmp.c
->   monitor: Split out monitor/core.c
-> 
->  include/monitor/monitor.h |    8 +-
->  monitor/monitor_int.h     |  207 ++
->  hmp.c                     |    4 +-
->  monitor.c                 | 4727 -------------------------------------
->  monitor/core.c            |  604 +++++
->  monitor/hmp.c             | 1351 +++++++++++
->  monitor/misc.c            | 2406 +++++++++++++++++++
->  monitor/qmp.c             |  404 ++++
->  Makefile.objs             |    1 +
->  Makefile.target           |    3 +-
->  monitor/Makefile.objs     |    2 +
 
-It will be nice to have the monitor code split up a bit more.
-
-I'm not a fan, however, of having both $ROOT/qmp.c and $ROOT/monitor/qmp.c
-Likwise  $ROOT/hmp.c and $ROOT/monitor/hmp.c.  Can we move those other
-existing files out of the root dir, into monitor/, so we don't have two
-files with the same name in different dirs.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
