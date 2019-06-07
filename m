@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE083884F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:57:17 +0200 (CEST)
-Received: from localhost ([::1]:48332 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B3B3885D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:01:46 +0200 (CEST)
+Received: from localhost ([::1]:48364 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZCYe-0003oO-Kf
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:57:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53478)
+	id 1hZCcz-0007Me-FQ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:01:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53914)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hZBVa-0007Er-39
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:50:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZBWf-0007xl-Lo
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:51:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hZBVY-0004aD-0Q
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:50:01 -0400
-Received: from 2.mo173.mail-out.ovh.net ([178.33.251.49]:53243)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hZBVX-0004T1-Qx
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:49:59 -0400
-Received: from player715.ha.ovh.net (unknown [10.109.159.159])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 4D3C810D095
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 11:49:56 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player715.ha.ovh.net (Postfix) with ESMTPSA id 0127F68B750D;
- Fri,  7 Jun 2019 09:49:51 +0000 (UTC)
-Date: Fri, 7 Jun 2019 11:49:50 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Message-ID: <20190607114950.3247af33@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <2d02c8d1-d9f4-efd0-5059-6ca24e622107@kaod.org>
-References: <155984093894.2803172.8618224129384655510.stgit@bahia.lan>
- <20190607001901.GC3760@umbus.fritz.box>
- <2d02c8d1-d9f4-efd0-5059-6ca24e622107@kaod.org>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <peter.maydell@linaro.org>) id 1hZBWd-0005yW-7F
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:51:09 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41002)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hZBWd-0005sv-0N
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:51:07 -0400
+Received: by mail-oi1-x241.google.com with SMTP id b21so999708oic.8
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:51:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iVl0nNU9iE1rz/uSFNgAAVC8JqnxPkkr31vlJ1tB9Nc=;
+ b=HO+OpWaZZ64SXa63qRx+UqmWORm68BhtS0+sISRivfYUVhxTjAe/T42cYoZGJIDH2x
+ qIuGR1UmhVQXg6Y4q3LcSpEj0k+ySpE8mOtMoVGRAFL9GzJp++v5kR2kLIjwYuU1aZ9Q
+ KjtCxDtpMaEWF+9sybMGTtGX9oyxBdgxAPMapvP6Fa1LApScveAdZZ8OI37LxJFdxTAT
+ spAsMLIlKi3SZWQVDUE1KjQ6D+OAIDlPiqxT1s/2voRHlgmg0nvnorgS6kQtqLzPJXW+
+ pC2a8p3WyHXJLiHWOnAtpzENEf6VIaL1dBbV/4oaBvHsVwcmHlVzoSDzPtIRv5XNgjbn
+ S3qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iVl0nNU9iE1rz/uSFNgAAVC8JqnxPkkr31vlJ1tB9Nc=;
+ b=mh9f+WCDl5E7d3BZRpJSoJtiUEFvV/2kGhbT1a39oYgF8DOUwbJW23AXWYNGte5hqx
+ HpySeeqnFvCsxmDOkWvGFtJ+MTwWKsGP02MxcGSAh04VEV185076uYJnqR3szib4H47W
+ YNI0aTveGCVQM4Dsm1e4M7sQ/gDLynXgS7cFiz0kV3UGwAoLIwj195nKEt0NMc8ugzE6
+ 3tWday3AAwQF8+8gqxGPzHrl4Wfpx0p+eHxiOD0327ZsHgI8flkeaE5mPbUNbOBbEK7j
+ SUPsz8hCy4Ntjr1O+NadG0FxnHoXdQl8lMIhYypYOGGTMC8RQ8+KIW5V+SHwO0dmjo4V
+ gsUw==
+X-Gm-Message-State: APjAAAXQXSAPqEcfm1UJucOSVlbaNqRbCZop55YNzJAHHATXtDHZUboh
+ x2J1ZMGJDaSKFpkIEYPzDLCcFhxPmUkqcDLOSc4qtA==
+X-Google-Smtp-Source: APXvYqzCa2M+m15+xDA3WGoYdQ+PygdpLOKSk98UFu1D8hleSeCtyC+WCtICXjtDqNMNyy8ZLHlIDQVfYwEBnTa5yBY=
+X-Received: by 2002:aca:b1c1:: with SMTP id a184mr3236214oif.98.1559901061273; 
+ Fri, 07 Jun 2019 02:51:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20190607090552.12434-1-alex.bennee@linaro.org>
+In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jun 2019 10:50:50 +0100
+Message-ID: <CAFEAcA8uT68z7dd85JH30v6PDzABtwZs6MjLui5jJFEW3Niybw@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 3693796122297735563
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudegiedgudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.251.49
-Subject: Re: [Qemu-devel] [PATCH] spapr: Don't use the "dual" interrupt
- controller mode with an old hypervisor
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PULL 00/52] testing, gdbstub and cputlb fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,202 +73,326 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Jun 2019 10:17:58 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Fri, 7 Jun 2019 at 10:05, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> The following changes since commit 0d74f3b4277a7ecb0ccb80c865797d11f8e466=
+f5:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-=
+request' into staging (2019-06-06 14:09:14 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-testing-gdbstub-cputlb-07=
+0619-1
+>
+> for you to fetch changes up to 611a3db380ef9f670c5c82837c4889f7e19ded10:
+>
+>   gdbstub: Implement qemu physical memory mode (2019-06-07 08:39:03 +0100=
+)
+>
+> ----------------------------------------------------------------
+> Various fixes and updates:
+>
+>   - editor config tweak for shell scripts
+>   - iotest updates (still not default for make check)
+>   - various docker updates
+>   - gcc/ubsan updates for travis
+>   - clean-ups for tests/vm including autoinstall
+>   - semihosting fix for Coverity
+>   - fixes for cputlb in 64-on-32 cases
+>   - gdbstub re-factor + maintainership update
+>
 
-> On 07/06/2019 02:19, David Gibson wrote:
-> > On Thu, Jun 06, 2019 at 07:08:59PM +0200, Greg Kurz wrote: =20
-> >> If KVM is too old to support XIVE native exploitation mode, we might e=
-nd
-> >> up using the emulated XIVE after CAS. This is sub-optimal if KVM in-ke=
-rnel
-> >> XICS is available, which is the case most of the time. =20
-> >=20
-> > This is intentional.  A predictable guest environment trumps performanc=
-e. =20
->=20
-> I don't agree.=20
->=20
-> If the user does not specify any specific interrupt mode, we should favor=
-=20
-> the faster one.=20
->=20
+This seems to break the tests/vm testing I do. Eg openbsd:
 
-This all boils down to the semantics of "dual"... "XICS AND XIVE" or "any
-of XICS or XIVE" ?
+hackbox mergebuild: seq openbsd
+make: Entering directory '/home/peter.maydell/qemu-openbsd/build'
+python3 -B /home/peter.maydell/qemu-openbsd/tests/vm/openbsd  --debug
+--image "/home/peter.maydell/.cache/qemu-vm/images/openbsd.img"
+--force --build-image
+/home/peter.maydell/.cache/qemu-vm/images/openbsd.img
+### Downloading install iso ...
+### Preparing iso and disk image ...
+Formatting '/home/peter.maydell/.cache/qemu-vm/images/openbsd.img.tmp',
+fmt=3Dqcow2 size=3D21474836480 cluster_size=3D65536 lazy_refcounts=3Doff
+refcount_bits=3D16
+### Booting installer ...
+DEBUG:root:QEMU args: -nodefaults -m 4G -cpu max -netdev
+user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
+virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
+-device VGA -drive
+file=3D/home/peter.maydell/.cache/qemu-vm/images/openbsd.img.tmp,if=3Dnone,=
+id=3Ddrive0,cache=3Dwriteback
+-device virtio-blk,drive=3Ddrive0,bootindex=3D0 -machine graphics=3Doff
+-cdrom /home/peter.maydell/.cache/qemu-vm/images/openbsd.img.install.iso
+DEBUG:qemu:VM launch command: 'qemu-system-x86_64 -chardev
+socket,id=3Dmon,path=3D/var/tmp/tmpcex0zicz/qemu-6023-monitor.sock -mon
+chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
+socket,id=3Dconsole,path=3D/var/tmp/tmpcex0zicz/qemu-6023-console.sock,serv=
+er,nowait
+-serial chardev:console -nodefaults -m 4G -cpu max -netdev
+user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
+virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
+-device VGA -drive
+file=3D/home/peter.maydell/.cache/qemu-vm/images/openbsd.img.tmp,if=3Dnone,=
+id=3Ddrive0,cache=3Dwriteback
+-device virtio-blk,drive=3Ddrive0,bootindex=3D0 -machine graphics=3Doff
+-cdrom /home/peter.maydell/.cache/qemu-vm/images/openbsd.img.install.iso'
+DEBUG:QMP:>>> {'execute': 'qmp_capabilities'}
+DEBUG:QMP:<<< {'return': {}}
+DEBUG:QMP:>>> {'execute': 'human-monitor-command', 'arguments':
+{'command-line': 'info usernet'}}
+DEBUG:QMP:<<< {'return': 'VLAN -1 (vnet):\r\n  Protocol[State]    FD
+Source Address  Port   Dest. Address  Port RecvQ SendQ\r\n
+TCP[HOST_FORWARD]  13       127.0.0.1 37043       10.0.2.15    22
+0     0\r\n'}
+console: *** read timeout ***
+console: waiting for: 'boot>'
+console: line buffer:
 
-We already have a precedent when using pre-power9 compat mode. If the
-user passes ic-mode=3Ddual,max-compat-cpu=3Dpower8, we internally convert
-"dual" to act as "xics". The rationale is that a guest running in
-power8 architected mode isn't supposed to know about XIVE at all.
 
-Should we forbid this config and exit QEMU instead ?
+Failed to prepare guest environment
+Traceback (most recent call last):
+  File "/home/peter.maydell/qemu-openbsd/tests/vm/basevm.py", line 351, in =
+main
+    return vm.build_image(args.image)
+  File "/home/peter.maydell/qemu-openbsd/tests/vm/openbsd", line 85,
+in build_image
+    self.console_wait_send("boot>", "set tty com0\n")
+  File "/home/peter.maydell/qemu-openbsd/tests/vm/basevm.py", line
+251, in console_wait_send
+    self.console_wait(wait)
+  File "/home/peter.maydell/qemu-openbsd/tests/vm/basevm.py", line
+213, in console_wait
+    chars =3D vm.console_socket.recv(1024)
+socket.timeout: timed out
+DEBUG:QMP:>>> {'execute': 'quit'}
+DEBUG:QMP:<<< {'return': {}}
+/home/peter.maydell/qemu-openbsd/tests/vm/Makefile.include:47: recipe
+for target '/home/peter.maydell/.cache/qemu-vm/images/openbsd.img'
+failed
+make: *** [/home/peter.maydell/.cache/qemu-vm/images/openbsd.img] Error 2
+make: Leaving directory '/home/peter.maydell/qemu-openbsd/build'
 
-> Here is the current matrix (with this patch) for guests running on an=20
-> old KVM, that is without KVM XIVE support. Let's discuss on what we
-> want.=20
->=20
->                         kernel_irqchip
->=20
->            (default)=20
-> ic-mode     allowed           off            on=20
->=20
-> dual        XICS KVM       XICS emul.(3)   XICS KVM         (default mode)
-> xics        XICS KVM       XICS emul.      XICS KVM   =20
-> xive        XIVE emul.(1)  XIVE emul.     QEMU failure (2)
->=20
->=20
-> (1) QEMU warns with "warning: kernel_irqchip requested but unavailable:=20
->     IRQ_XIVE capability must be present for KVM"=20
-> (2) QEMU fails with "kernel_irqchip requested but unavailable:=20
->     IRQ_XIVE capability must be present for KVM"=20
-> (3) That is wrong I think, we should get XIVE emulated.
->=20
+---
+NetBSD:
 
-This is the logical consequence of turning "dual" into "xics".
+peter.maydell@hackbox2.linaro.org:~$ mergebuild netbsd
+hackbox mergebuild: seq netbsd
+make: Entering directory '/home/peter.maydell/qemu-netbsd/build'
+python3 -B /home/peter.maydell/qemu-netbsd/tests/vm/netbsd  --debug
+--image "/home/peter.maydell/.cache/qemu-vm/images/netbsd.img" --force
+--build-image /home/peter.maydell/.cache/qemu-vm/images/netbsd.img
+### Preparing iso and disk image ...
+Formatting '/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp',
+fmt=3Dqcow2 size=3D21474836480 cluster_size=3D65536 lazy_refcounts=3Doff
+refcount_bits=3D16
+### Booting installer ...
+DEBUG:root:QEMU args: -nodefaults -m 4G -cpu max -netdev
+user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
+virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
+-device VGA -drive
+file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
+d=3Ddrive0,cache=3Dwriteback
+-device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
+graphics=3Doff -cdrom
+/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso
+DEBUG:qemu:VM launch command: 'qemu-system-x86_64 -chardev
+socket,id=3Dmon,path=3D/var/tmp/tmpp_t16skr/qemu-13312-monitor.sock -mon
+chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
+socket,id=3Dconsole,path=3D/var/tmp/tmpp_t16skr/qemu-13312-console.sock,ser=
+ver,nowait
+-serial chardev:console -nodefaults -m 4G -cpu max -netdev
+user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
+virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
+-device VGA -drive
+file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
+d=3Ddrive0,cache=3Dwriteback
+-device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
+graphics=3Doff -cdrom
+/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso'
+DEBUG:QMP:>>> {'execute': 'qmp_capabilities'}
+DEBUG:QMP:>>> {'execute': 'quit'}
+WARNING:qemu:qemu received signal 6: qemu-system-x86_64 -chardev
+socket,id=3Dmon,path=3D/var/tmp/tmpp_t16skr/qemu-13312-monitor.sock -mon
+chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
+socket,id=3Dconsole,path=3D/var/tmp/tmpp_t16skr/qemu-13312-console.sock,ser=
+ver,nowait
+-serial chardev:console -nodefaults -m 4G -cpu max -netdev
+user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
+virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
+-device VGA -drive
+file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
+d=3Ddrive0,cache=3Dwriteback
+-device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
+graphics=3Doff -cdrom
+/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso
+DEBUG:qemu:Error launching VM
+DEBUG:qemu:Command: 'qemu-system-x86_64 -chardev
+socket,id=3Dmon,path=3D/var/tmp/tmpp_t16skr/qemu-13312-monitor.sock -mon
+chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
+socket,id=3Dconsole,path=3D/var/tmp/tmpp_t16skr/qemu-13312-console.sock,ser=
+ver,nowait
+-serial chardev:console -nodefaults -m 4G -cpu max -netdev
+user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
+virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
+-device VGA -drive
+file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
+d=3Ddrive0,cache=3Dwriteback
+-device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
+graphics=3Doff -cdrom
+/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso'
+DEBUG:qemu:Output: 'RAMBlock "vga.vram" already registered, abort!\n'
+ERROR:root:Failed to launch QEMU, command line:
+ERROR:root:qemu-system-x86_64 -nodefaults -m 4G -cpu max -netdev
+user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
+virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
+-device VGA -drive
+file=3D/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.tmp,if=3Dnone,i=
+d=3Ddrive0,cache=3Dwriteback
+-device virtio-blk,drive=3Ddrive0,bootindex=3D0 -device VGA -machine
+graphics=3Doff -cdrom
+/home/peter.maydell/.cache/qemu-vm/images/netbsd.img.install.iso
+ERROR:root:Log:
+ERROR:root:RAMBlock "vga.vram" already registered, abort!
 
->=20
-> what you would want is XIVE emulation when ic-mode=3Ddual and=20
-> kernel_irqchip=3Dallowed, which is the behavior with this patch (but there
+ERROR:root:QEMU version >=3D 2.10 is required
+Failed to prepare guest environment
+Traceback (most recent call last):
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 351, in m=
+ain
+    return vm.build_image(args.image)
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/netbsd", line 79, in
+build_image
+    "-cdrom", iso
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 170, in b=
+oot
+    guest.launch()
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/__init__=
+.py",
+line 297, in launch
+    self._launch()
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/__init__=
+.py",
+line 324, in _launch
+    self._post_launch()
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/__init__=
+.py",
+line 268, in _post_launch
+    self._qmp.accept()
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
+line 157, in accept
+    return self.__negotiate_capabilities()
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
+line 75, in __negotiate_capabilities
+    resp =3D self.cmd('qmp_capabilities')
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
+line 191, in cmd
+    return self.cmd_obj(qmp_cmd)
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
+line 174, in cmd_obj
+    resp =3D self.__json_read()
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/qmp.py",
+line 82, in __json_read
+    data =3D self.__sockfile.readline()
+  File "/usr/lib/python3.6/socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [Errno 104] Connection reset by peer
+/home/peter.maydell/qemu-netbsd/tests/vm/Makefile.include:47: recipe
+for target '/home/peter.maydell/.cache/qemu-vm/images/netbsd.img'
+failed
+make: *** [/home/peter.maydell/.cache/qemu-vm/images/netbsd.img] Error 2
+make: Leaving directory '/home/peter.maydell/qemu-netbsd/build'
 
-I guess you mean s/with/without=20
 
-> are reboot bugs)
->=20
+FreeBSD:
 
-Yeah. If the semantics of "dual" is to always advertise XICS AND XIVE, and =
-we
-keep the current fallback behavior, then we need each implementation to have
-proper init/teardown support as well as proper rollback on error paths.
+peter.maydell@hackbox2.linaro.org:~$ mergebuild freebsd
+hackbox mergebuild: seq freebsd
+make: Entering directory '/home/peter.maydell/qemu-freebsd/build'
+python3 -B /home/peter.maydell/qemu-freebsd/tests/vm/freebsd  --debug
+--image "/home/peter.maydell/.cache/qemu-vm/images/freebsd.img"
+--force --build-image
+/home/peter.maydell/.cache/qemu-vm/images/freebsd.img
+### Downloading install iso ...
+### Preparing iso and disk image ...
+/home/peter.maydell/.cache/qemu-vm/images/freebsd.img.install.iso.xz (1/1)
+  100 %       595.0 MiB / 851.1 MiB =3D 0.699   117 MiB/s       0:07
+Formatting '/home/peter.maydell/.cache/qemu-vm/images/freebsd.img.tmp',
+fmt=3Dqcow2 size=3D21474836480 cluster_size=3D65536 lazy_refcounts=3Doff
+refcount_bits=3D16
+### Booting installer ...
+DEBUG:root:QEMU args: -nodefaults -m 4G -cpu max -netdev
+user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
+virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
+-device VGA -drive
+file=3D/home/peter.maydell/.cache/qemu-vm/images/freebsd.img.tmp,if=3Dnone,=
+id=3Ddrive0,cache=3Dwriteback
+-device virtio-blk,drive=3Ddrive0,bootindex=3D0 -machine graphics=3Doff
+-cdrom /home/peter.maydell/.cache/qemu-vm/images/freebsd.img.install.iso
+DEBUG:qemu:VM launch command: 'qemu-system-x86_64 -chardev
+socket,id=3Dmon,path=3D/var/tmp/tmpc1sqg5ms/qemu-23074-monitor.sock -mon
+chardev=3Dmon,mode=3Dcontrol -display none -vga none -machine pc -chardev
+socket,id=3Dconsole,path=3D/var/tmp/tmpc1sqg5ms/qemu-23074-console.sock,ser=
+ver,nowait
+-serial chardev:console -nodefaults -m 4G -cpu max -netdev
+user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
+virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 18 -enable-kvm
+-device VGA -drive
+file=3D/home/peter.maydell/.cache/qemu-vm/images/freebsd.img.tmp,if=3Dnone,=
+id=3Ddrive0,cache=3Dwriteback
+-device virtio-blk,drive=3Ddrive0,bootindex=3D0 -machine graphics=3Doff
+-cdrom /home/peter.maydell/.cache/qemu-vm/images/freebsd.img.install.iso'
+DEBUG:QMP:>>> {'execute': 'qmp_capabilities'}
+DEBUG:QMP:<<< {'return': {}}
+DEBUG:QMP:>>> {'execute': 'human-monitor-command', 'arguments':
+{'command-line': 'info usernet'}}
+DEBUG:QMP:<<< {'return': 'VLAN -1 (vnet):\r\n  Protocol[State]    FD
+Source Address  Port   Dest. Address  Port RecvQ SendQ\r\n
+TCP[HOST_FORWARD]  13       127.0.0.1 37719       10.0.2.15    22
+0     0\r\n'}
+console: *** read timeout ***
+console: waiting for: 'Autoboot'
+console: line buffer:
 
-This is definitely not the case: rollback is missing in both in-kernel=20
-XICS and XIVE code and the emulated XICS and XIVE don't have teardown.
 
-This can generate a variety of bugs, including QEMU crashes... the old KVM =
-case
-is just one of them, but there might be others.
+Failed to prepare guest environment
+Traceback (most recent call last):
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/basevm.py", line 351, in =
+main
+    return vm.build_image(args.image)
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/freebsd", line 94,
+in build_image
+    self.console_boot_serial()
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/freebsd", line 71,
+in console_boot_serial
+    self.console_wait_send("Autoboot", "3")
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/basevm.py", line
+251, in console_wait_send
+    self.console_wait(wait)
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/basevm.py", line
+213, in console_wait
+    chars =3D vm.console_socket.recv(1024)
+socket.timeout: timed out
+DEBUG:QMP:>>> {'execute': 'quit'}
+DEBUG:QMP:<<< {'timestamp': {'seconds': 1559900897, 'microseconds':
+206270}, 'event': 'NIC_RX_FILTER_CHANGED', 'data': {'path':
+'/machine/peripheral-anon/device[0]/virtio-backend'}}
+DEBUG:QMP:<<< {'return': {}}
+/home/peter.maydell/qemu-freebsd/tests/vm/Makefile.include:47: recipe
+for target '/home/peter.maydell/.cache/qemu-vm/images/freebsd.img'
+failed
+make: *** [/home/peter.maydell/.cache/qemu-vm/images/freebsd.img] Error 2
+make: Leaving directory '/home/peter.maydell/qemu-freebsd/build'
 
-> =20
-> >> Also, an old KVM may not allow to destroy and re-create the KVM XICS, =
-which
-> >> is precisely what "dual" does during machine reset. This causes QEMU t=
-o try
-> >> to switch to emulated XICS and to crash because RTAS call de-registrat=
-ion
-> >> isn't handled correctly. We could possibly fix that, but again we would
-> >> still end up with an emulated XICS or XIVE. =20
-> >=20
-> > Ugh, that's a problem. =20
->=20
-> Yes. It's another problem around the way we cleanup the allocated resourc=
-es.
-> It should be another patch.
->=20
 
-Yeah, probably many other patches...
 
-> >  =20
-> >> "dual" is definitely not a good choice with older KVMs. Internally for=
-ce
-> >> XICS when we detect this. =20
-> >=20
-> > But this is not an acceptable solution.  Silently changing the guest
-> > visible environment based on host capabilities is never ok.  =20
->=20
-> If the host (KVM) doesn't have a capability, what is the point of trying=
-=20
-> to use it if we can do better. I know you are considering KVM/QEMU as a
-> whole but who would run with kernel_irqchip=3Doff ?
->=20
-
-The real problem is when you don't pass kernel_irqchip at all. Combined
-with "dual", this gives a fair number of cases. Do we want to support
-all possible transitions ?
-
-> > We must
-> > either give the guest environment that the user has requested, or fail
-> > outright. =20
->=20
-> 'dual' mode means both and the user is not requesting XIVE. We are changi=
-ng=20
-> the priority of choices from :
->=20
->  1. KVM XIVE
->  2. QEMU XIVE
->  3. KVM XICS
->  4. QEMU XICS
->=20
-> to:
->=20
->  1. KVM XIVE
->  2. KVM XICS
->  3. QEMU XIVE
->  4. QEMU XICS
->=20
-> which is better I think.
->=20
-
-Using KVM XICS is indeed better than QEMU XIVE... but IIUC what David
-is saying, kernel-irqchip semantics are:
-
-- on: user favors performance, at the expense of a reduced spectrum
-      of usable hosts
-
-- absent: user favors being able to start the VM on a wider spectrum
-          of hosts, at the possible expense of performance
-
-- off: user wants the VM to start on any host, doesn't care for
-       performance at all
-
-So the only way to have 1. KVM XIVE 2.KVM XICS would be to pass "on".
-
-> C.
->=20
->=20
-> >  =20
-> >>
-> >> Signed-off-by: Greg Kurz <groug@kaod.org>
-> >> ---
-> >>  hw/ppc/spapr_irq.c |   10 ++++++++++
-> >>  1 file changed, 10 insertions(+)
-> >>
-> >> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> >> index 3156daf09381..d788bd662a7a 100644
-> >> --- a/hw/ppc/spapr_irq.c
-> >> +++ b/hw/ppc/spapr_irq.c
-> >> @@ -18,6 +18,7 @@
-> >>  #include "hw/ppc/xics_spapr.h"
-> >>  #include "cpu-models.h"
-> >>  #include "sysemu/kvm.h"
-> >> +#include "kvm_ppc.h"
-> >> =20
-> >>  #include "trace.h"
-> >> =20
-> >> @@ -668,6 +669,15 @@ static void spapr_irq_check(SpaprMachineState *sp=
-apr, Error **errp)
-> >>              return;
-> >>          }
-> >>      }
-> >> +
-> >> +    /*
-> >> +     * KVM may be too old to support XIVE, in which case we'd rather =
-try
-> >> +     * to use the in-kernel XICS instead of the emulated XIVE.
-> >> +     */
-> >> +    if (kvm_enabled() && !kvmppc_has_cap_xive() &&
-> >> +        spapr->irq =3D=3D &spapr_irq_dual) {
-> >> +        spapr->irq =3D &spapr_irq_xics;
-> >> +    }
-> >>  }
-> >> =20
-> >>  /*
-> >> =20
-> >  =20
->=20
-
+thanks
+-- PMM
 
