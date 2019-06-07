@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F1638706
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:27:09 +0200 (CEST)
-Received: from localhost ([::1]:47460 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C4D38727
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:40:31 +0200 (CEST)
+Received: from localhost ([::1]:47550 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZB9R-0003Ok-13
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41376)
+	id 1hZBMM-0005SE-Q4
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:40:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41424)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuR-0000nS-IC
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:44 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuT-0000sp-I9
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuO-0002t4-M9
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:39 -0400
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:41368)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuP-0002vz-8U
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:41 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:41383)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuO-0002Zy-4H
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:36 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hZAuO-0002rR-Pb
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:11:37 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 92139495CC;
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id F1DC649B0D;
  Fri,  7 Jun 2019 18:11:29 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 4C094240086;
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 8EECC240085;
  Fri,  7 Jun 2019 18:11:29 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 18:11:06 +0900
-Message-Id: <20190607091116.49044-15-ysato@users.sourceforge.jp>
+Date: Fri,  7 Jun 2019 18:11:07 +0900
+Message-Id: <20190607091116.49044-16-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190607091116.49044-1-ysato@users.sourceforge.jp>
 References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 202.224.55.15
-Subject: [Qemu-devel] [PATCH v17 14/24] tests: Add rx to machine-none-test.c
+Subject: [Qemu-devel] [PATCH v17 15/24] hw/rx: Honor -accel qtest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,26 +57,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Fixes check-qtest-rx: tests/machine-none-test.
+Issue an error if no kernel, no bios, and not qtest'ing.
+Fixes make check-qtest-rx: test/qom-test.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- tests/machine-none-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/rx/rx62n.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
-index 4c6d470798..80df277357 100644
---- a/tests/machine-none-test.c
-+++ b/tests/machine-none-test.c
-@@ -56,6 +56,7 @@ static struct arch2cpu cpus_map[] = {
-     { "hppa", "hppa" },
-     { "riscv64", "rv64gcsu-v1.10.0" },
-     { "riscv32", "rv32gcsu-v1.9.1" },
-+    { "rx", "rx62n" },
- };
+diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
+index 3a8fe7b0bf..e55257c622 100644
+--- a/hw/rx/rx62n.c
++++ b/hw/rx/rx62n.c
+@@ -21,11 +21,13 @@
  
- static const char *get_cpu_model_by_arch(const char *arch)
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
++#include "qemu/error-report.h"
+ #include "hw/hw.h"
+ #include "hw/rx/rx62n.h"
+ #include "hw/loader.h"
+ #include "hw/sysbus.h"
+ #include "sysemu/sysemu.h"
++#include "sysemu/qtest.h"
+ #include "cpu.h"
+ 
+ /*
+@@ -190,8 +192,14 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
+     memory_region_init_rom(&s->c_flash, NULL, "codeflash",
+                            RX62N_CFLASH_SIZE, errp);
+     memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE, &s->c_flash);
++
+     if (!s->kernel) {
+-        rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
++        if (bios_name) {
++            rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
++        }  else if (!qtest_enabled()) {
++            error_report("No bios or kernel specified");
++            exit(1);
++        }
+     }
+ 
+     object_initialize_child(OBJECT(s), "cpu", &s->cpu,
 -- 
 2.11.0
 
