@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098E239612
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:42:58 +0200 (CEST)
-Received: from localhost ([::1]:52096 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA913954F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:11:32 +0200 (CEST)
+Received: from localhost ([::1]:51452 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKlM-0007lS-PP
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:42:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42206)
+	id 1hZKGx-0002P7-GF
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44340)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hZJDy-0007tM-Fx
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:04:24 -0400
+ (envelope-from <philmd@redhat.com>) id 1hZJG6-0000rb-02
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:06:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hZJDw-00039S-In
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:04:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49732)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hZJDw-00035v-46
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:04:20 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 214873082126;
- Fri,  7 Jun 2019 18:04:14 +0000 (UTC)
-Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4318D7D656;
- Fri,  7 Jun 2019 18:04:11 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ (envelope-from <philmd@redhat.com>) id 1hZJG4-0007E0-9d
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:06:33 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34578)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZJG4-0006vK-29
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:06:32 -0400
+Received: by mail-wr1-f65.google.com with SMTP id e16so3062907wrn.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 11:06:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EwvgBqgPzOgq2pGoh9pa98wrkcJch83J3p27+D89V/Y=;
+ b=iU/U2c+gFeks/zvoHUdaqRuNzZdUeb+ihHbf5WO7+o1r1cuYTx7EW1TLQziq4MrruT
+ dh4sIQIU8zqWgkFDIwHKbKb5BSHiiIJfUwV5o64m+wozsqyF8yNxMHf2iqNkLOihSOuo
+ LsZWRk1YBvvSUnfXdnDgzqPFwLP1TbJNviBCFFzLtQYLeup/FtA+w6xeTN9d/mJAf+PC
+ H1dCo5QYbNHfoCVrWWbLzgujHR32/UgAsqYra2Xj9/eh6/ZGKTIWeJKw6HNvPIebPGkR
+ yqqTAIASBblamZHRdANkJ5EZgvVmZVWR+5R0NvfU0eBRO3XILwRFyvirRQ9xjJbSr6HG
+ TRrA==
+X-Gm-Message-State: APjAAAXjQEA2RHm4n3M/YV7DshKSFr7eU9nVLy2C9y+fXwSfv224MDkk
+ k7OwB651IstlkvcP4ZhiaPQbSw==
+X-Google-Smtp-Source: APXvYqwschzukmDeMJNQ0ei72OSTi+8UVf9KO2mvVKeXidZeAPdw6w2W5dlY10qJ/Q9knrjXV8pbSg==
+X-Received: by 2002:adf:9dcc:: with SMTP id q12mr8579157wre.93.1559930773446; 
+ Fri, 07 Jun 2019 11:06:13 -0700 (PDT)
+Received: from [192.168.0.156] ([78.192.181.46])
+ by smtp.gmail.com with ESMTPSA id x6sm858091wrr.11.2019.06.07.11.06.12
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jun 2019 11:06:12 -0700 (PDT)
+To: Eric Blake <eblake@redhat.com>,
  Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
  Igor Mammedov <imammedo@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
 References: <20190607153725.18055-1-philmd@redhat.com>
- <20190607153725.18055-16-philmd@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <de0ec4fd-9041-4926-7920-d66618b78113@redhat.com>
-Date: Fri, 7 Jun 2019 13:04:10 -0500
+ <20190607153725.18055-5-philmd@redhat.com>
+ <e6e5f4ef-27c1-ce7c-e404-621c86af43ea@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <b65a3316-005a-02cb-8ea4-b956f9c26941@redhat.com>
+Date: Fri, 7 Jun 2019 20:06:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190607153725.18055-16-philmd@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="YXbAnx55SnimOjg3UfhNWUvPG0nQazRR8"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 07 Jun 2019 18:04:14 +0000 (UTC)
+In-Reply-To: <e6e5f4ef-27c1-ce7c-e404-621c86af43ea@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v18 15/29] target/rx: Add RX to SysEmuTarget
+ [fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH v18 04/29] !fixup target/rx: CPU definition
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,63 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---YXbAnx55SnimOjg3UfhNWUvPG0nQazRR8
-Content-Type: multipart/mixed; boundary="s4RFRwRxmTEfkoZakyi6N5JuLugTVv08L";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>
-Message-ID: <de0ec4fd-9041-4926-7920-d66618b78113@redhat.com>
-Subject: Re: [PATCH v18 15/29] target/rx: Add RX to SysEmuTarget
-References: <20190607153725.18055-1-philmd@redhat.com>
- <20190607153725.18055-16-philmd@redhat.com>
-In-Reply-To: <20190607153725.18055-16-philmd@redhat.com>
+On 6/7/19 8:02 PM, Eric Blake wrote:
+> On 6/7/19 10:37 AM, Philippe Mathieu-Daudé wrote:
+>> Rename macros.
+> 
+> Why is this marked '!fixup' in the subject instead of just merging the
+> patches directly?
 
---s4RFRwRxmTEfkoZakyi6N5JuLugTVv08L
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Since all the series is reviewed/tested and Igor asked to amend a fixup
+but we are having hard time to figure if we understand Igor request
+correctly, I thought it would be easier for him to review this way, then
+for Richard to squash the patches and send the pull request.
 
-On 6/7/19 10:37 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
->=20
-> Fixes check-qtest-rx: tests/qmp-cmd-test
+Is it confuse/bad practice?
 
-Is that in master? If so, what commit id; if not, why not just squash
-this into that patch before merging it?
+In the cover I wrote:
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+  If Igor aggrees with the fixup patches, Richard, can you squash
+  them and send a pull request?  (without the last patch, which is
+  expected to go via Eduardo's tree, but since it is helpful for
+  testing this series, I included it).
 
-
---s4RFRwRxmTEfkoZakyi6N5JuLugTVv08L--
-
---YXbAnx55SnimOjg3UfhNWUvPG0nQazRR8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz6pxoACgkQp6FrSiUn
-Q2qjzAgAi1QIcbADGrE30tQ+ZQsYHcjB4BuY/rDQ33uEPsq/iMNdg4Zq5PGDEhev
-Nwg1J/OEPcc86rbOnkFk9+vgFfjm5HkLa6GclU912io16XG3MoNtoBHqnRqNb6Tk
-DddCZ3lKulAMtnhTvqbwnpirWRx+OQ0xYvOEQ5HNBRsEhYsnIMSen1Op5XuKOJiI
-BUbyzRkx13h8YIzZqFEuODG/Yd3bO+ZEzLeIIy0t7MFFXFU81NRa3e8UE4MDDdh6
-OqF9PoNsYH8ug+wc/rg1L5Rrhf5/JYp+ErZW0z9qQq8PscbMaGNyB8WT8cgUk4Wn
-uBUsovMobFUdZ/uPZpY8SSlhvLNxUQ==
-=VYaz
------END PGP SIGNATURE-----
-
---YXbAnx55SnimOjg3UfhNWUvPG0nQazRR8--
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  target/rx/cpu.c | 22 ++++++++++++++--------
+>>  target/rx/cpu.h | 12 ++++++------
+>>  2 files changed, 20 insertions(+), 14 deletions(-)
+>>
 
