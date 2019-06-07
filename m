@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E762386F1
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:23:27 +0200 (CEST)
-Received: from localhost ([::1]:47430 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644B2386C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:12:44 +0200 (CEST)
+Received: from localhost ([::1]:47152 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZB5q-0008Bt-Bs
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:23:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39333)
+	id 1hZAvT-000118-KZ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39388)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAoz-00047N-RE
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:03 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAp1-00047Z-Fg
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAox-0004IL-S6
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:01 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51071)
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAoy-0004Ii-1T
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:03 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41276)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZAox-00045z-77
+ id 1hZAox-0004Ct-Ra
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:05:59 -0400
-Received: by mail-wm1-x342.google.com with SMTP id c66so1224020wmf.0
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:05:58 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id c2so1338120wrm.8
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HdpVihLUIZVvKpgG2IEu5C8IS7kClin1bLgeQxnhXsA=;
- b=cusWhEk/JWErEovXuSD115Z7CQzBd2TT8ChezGFYSnZTBpAUKPAIHYO8GR5ReYBc4B
- rAck8troJ7G3+PM8mENsgH16jXhHMdeFQDP0blm/mfUcbKMpbUcZn8U0qzXXC6vKQvyb
- biN0yoGNj/0KIZXlGMxSHlLmFgOa6orbv075sVmYY5iZejWe2ODuUDnVEngKCBUUxLb/
- /wDeseLRvvsKSK0i/1Wwf7D1hrlurY78SsW0FdSPOHQKMn3otCJW+WGpzO18wy3kTGjw
- R6gAdCFZbA+enBBGLH2Evj2eFbEY/ALNg7pINgcg9Tw2nA5SZm0/SUzZbTtA13ug+pdo
- YVcg==
+ bh=WAruCVUMvVUZGKjuxI8Kw2Q2uX+I+acKmrGoMuG66f8=;
+ b=yACQQXAmEShz7T8rno6cKs8EZgrltB2s2aGEYSUgVT01Xx5M4SmxLwEbPMdxLvs7jI
+ Wfm4H2sYxkd1XyaeH+JaiN6TaUYmvboJ1ankaxsvTWzmbw1vHHNDpg0mYBVxOAHoIxtI
+ 8y7/XK4dj/mEm8hZWaBtSR+oVPT8rzk3KtARNtURrIavMRjRETGFeeUGc0zuUmF3TaGF
+ 5iPApuy2SxNBHq+zJFGGCyM0FX/m/tBb3Sj8RYIFRgmi1T32DBIAO34ci40UZ9ifySsF
+ 1hnj76vC9TurrDlu5sz9fRkbEWyAZaAndBrpFKTXL7hFnQKVRYNESOPEymKKiIyY+sNV
+ jHlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HdpVihLUIZVvKpgG2IEu5C8IS7kClin1bLgeQxnhXsA=;
- b=hXfB3K/t5VadABYZytvE2FyjoxPr9Mbxf1YaHOG4VIzlfoie9ck/cz4xqkqjA+dzVW
- sS0FkUs7TwpbI37ool6JSfr0y9WRMUoJJkqSuhn+YcZCMAcFv2jOQ7HFO6YVmDzZhWz0
- Q/0bGV9xLDPsZAHPV4q7qIGwTuT2hmfQQV7oLvKLCMhWltOfaSh5luR03qPTFI9hhtZf
- /pyVQh0XK9po4FBN1+XkLI39i5azXA7m1WQWUcpjVorysFSdNELj91yuy5vTJ7lYRQDv
- FIsoEPSLZgxrIYCTXqcIqRw4fZdTwciZ0iI4EoYfnPg7lCG/ZuXFBpS3UcIP+/oLbSKW
- yoDw==
-X-Gm-Message-State: APjAAAXRdwlz3xH8r0phlsff/jmTR5ZbL8thSuEmTNESVdibWjT6DTxJ
- Og6AmNrczT6y3eTKsJfwoZhacA==
-X-Google-Smtp-Source: APXvYqwrIxzQN9tEErYgAPs3VKnrzUNFjRxRUv0fuhGaErKQSDg/x2da/UL3aQX7z0mAj3oXg6lwzA==
-X-Received: by 2002:a1c:2bc7:: with SMTP id r190mr2776726wmr.174.1559898357213; 
- Fri, 07 Jun 2019 02:05:57 -0700 (PDT)
+ bh=WAruCVUMvVUZGKjuxI8Kw2Q2uX+I+acKmrGoMuG66f8=;
+ b=jOXT1WIaBGPagKvBqpGXEOBaEo6lFwwqki1HocwgL4/IGFmxo+bvhIHT1DvH7E4wPh
+ 0OM1rFFnvwqg0j01Xn/jSgfEv2kXnzpD5z+3wL5Ls+8XZDg54Uuz4D+Ecm35YPXXwnzI
+ 8niqtLvD2ges5Rzs79AiPDnc18TN1T/a8e2gZoirqGG33v7RpEX6HGhkDFtVLb0WF8Tq
+ 4kwE+oRHoYvRE3tr9WeqKacZ5+5yq+3Se+9iDP9QI0qcvmDaSSju7Ero5/3ODWPvz3Pf
+ ztC/8F4+EcHj+RxIPgpqsV/hcAklDfzCug4mdNOm20p4aF9NSIIie7lGtvUkU2v0wWDQ
+ Y3DA==
+X-Gm-Message-State: APjAAAXsBusOdqlFjFo+BNIG6DsRAfkkLg3XGMQtW2vY1nv0meD2BWRe
+ WtY9PqV+I8FDotpHYOuf8qciDA==
+X-Google-Smtp-Source: APXvYqxRsN+YGq3zxo7EWhz/ww0C1kthWqCL7eeOMKVwoP5l8rYoUL9k/jAqlJLrpOXbOj7R16d2vg==
+X-Received: by 2002:adf:e4d2:: with SMTP id v18mr5887019wrm.189.1559898358300; 
+ Fri, 07 Jun 2019 02:05:58 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id p16sm2135625wrg.49.2019.06.07.02.05.53
+ by smtp.gmail.com with ESMTPSA id k10sm1645351wmk.14.2019.06.07.02.05.53
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 07 Jun 2019 02:05:53 -0700 (PDT)
+ Fri, 07 Jun 2019 02:05:56 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7DA8D1FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 902DB1FF96;
  Fri,  7 Jun 2019 10:05:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Fri,  7 Jun 2019 10:05:05 +0100
-Message-Id: <20190607090552.12434-7-alex.bennee@linaro.org>
+Date: Fri,  7 Jun 2019 10:05:06 +0100
+Message-Id: <20190607090552.12434-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
 References: <20190607090552.12434-1-alex.bennee@linaro.org>
@@ -68,9 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PULL 06/52] .travis.yml: bump gcc sanitiser job to
- gcc-9
+X-Received-From: 2a00:1450:4864:20::432
+Subject: [Qemu-devel] [PULL 07/52] .travis.yml: add clang ubsan job
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,46 +87,33 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The toolchain PPA has it so we might as well use it. We currently have
-to add:
+We document this on our wiki and we might as well catch it in our CI
+rather than waiting for it to be picked up on merge:
 
-  -Wno-error=stringop-truncation
-
-as there are still strncpy operations in the tree operating on things
-that haven't been annotated with QEMU_NONSTRING.
+  https://wiki.qemu.org/Testing#clang_UBSan
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 diff --git a/.travis.yml b/.travis.yml
-index b053a836a3..f0aa37f2d1 100644
+index f0aa37f2d1..2f1658602e 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -240,8 +240,8 @@ matrix:
-             - ubuntu-toolchain-r-test
-           packages:
-             # Extra toolchains
--            - gcc-7
--            - g++-7
-+            - gcc-9
-+            - g++-9
-             # Build dependencies
-             - libaio-dev
-             - libattr1-dev
-@@ -270,11 +270,11 @@ matrix:
-       language: generic
-       compiler: none
-       env:
--        - COMPILER_NAME=gcc CXX=g++-7 CC=gcc-7
--        - CONFIG="--cc=gcc-7 --cxx=g++-7 --disable-pie --disable-linux-user"
-+        - COMPILER_NAME=gcc CXX=g++-9 CC=gcc-9
-+        - CONFIG="--cc=gcc-9 --cxx=g++-9 --disable-pie --disable-linux-user"
-         - TEST_CMD=""
-       before_script:
--        - ./configure ${CONFIG} --extra-cflags="-g3 -O0 -fsanitize=thread -fuse-ld=gold" || { cat config.log && exit 1; }
-+        - ./configure ${CONFIG} --extra-cflags="-g3 -O0 -Wno-error=stringop-truncation -fsanitize=thread -fuse-ld=gold" || { cat config.log && exit 1; }
+@@ -152,6 +152,13 @@ matrix:
+       compiler: clang
  
  
-     # Run check-tcg against linux-user
++    - env:
++        - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS} "
++      compiler: clang
++      before_script:
++        - ./configure ${CONFIG} --extra-cflags="-fsanitize=undefined -Werror" || { cat config.log && exit 1; }
++
++
+     - env:
+         - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
+       compiler: clang
 -- 
 2.20.1
 
