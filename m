@@ -2,55 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A413889C
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:11:04 +0200 (CEST)
-Received: from localhost ([::1]:48446 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB9438953
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:47:12 +0200 (CEST)
+Received: from localhost ([::1]:48750 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZCm0-0007ZW-0P
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:11:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57390)
+	id 1hZDKx-00036G-OA
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58583)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hZBf6-0007zE-2R
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:59:53 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hZBi6-0001oU-7i
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:02:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hZBf4-0005kg-0W
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:59:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58826)
+ (envelope-from <cohuck@redhat.com>) id 1hZBi5-00037h-2O
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 06:02:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33668)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hZBf3-0005Yd-PO
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:59:49 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hZBi4-00035j-TB; Fri, 07 Jun 2019 06:02:57 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3336D6EB9A;
- Fri,  7 Jun 2019 09:59:38 +0000 (UTC)
-Received: from redhat.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 58F8D7FCE2;
- Fri,  7 Jun 2019 09:59:33 +0000 (UTC)
-Date: Fri, 7 Jun 2019 10:59:30 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190607095930.GA28838@redhat.com>
-References: <87woihi1wl.fsf@dusky.pond.sub.org>
- <20190524185344.GJ10764@habkost.net>
- <87r28k1g4q.fsf@dusky.pond.sub.org>
- <e5372760-7599-3155-44f7-dc704c9cbaa5@redhat.com>
- <875zphg9t8.fsf@dusky.pond.sub.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id 24C1218DF7C;
+ Fri,  7 Jun 2019 10:02:48 +0000 (UTC)
+Received: from gondolin (dhcp-192-191.str.redhat.com [10.33.192.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 557F85B802;
+ Fri,  7 Jun 2019 10:02:46 +0000 (UTC)
+Date: Fri, 7 Jun 2019 12:02:44 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190607120244.536fc095.cohuck@redhat.com>
+In-Reply-To: <CAFEAcA9hMt4TZC0DEzJ6JTV9OxLbXZbmHKshWv_20sLxLw4M6Q@mail.gmail.com>
+References: <20190607095237.11364-1-cohuck@redhat.com>
+ <CAFEAcA8FXh-jPMwpGN-4ES4v=nE4ZOSNB8+rkdB03E=BBDh-jw@mail.gmail.com>
+ <CAFEAcA9hMt4TZC0DEzJ6JTV9OxLbXZbmHKshWv_20sLxLw4M6Q@mail.gmail.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <875zphg9t8.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 07 Jun 2019 09:59:44 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.29]); Fri, 07 Jun 2019 10:02:48 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] qapi/misc.json is too big,
- let's bite off a few chunks
+Subject: Re: [Qemu-devel] [PULL 00/35] s390x updates
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,79 +58,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 07, 2019 at 08:59:31AM +0200, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
->=20
-> > On 27/05/19 10:00, Markus Armbruster wrote:
-> >> As long as we don't have an active QOM maintainer[*], the benefit is
-> >> low.
-> >>=20
-> >>=20
-> >> [*] We need one.  I'm not volunteering.
+On Fri, 7 Jun 2019 10:58:03 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
+
+> On Fri, 7 Jun 2019 at 10:57, Peter Maydell <peter.maydell@linaro.org> wrote:
 > >
-> > I think Daniel, Eduardo and I could count as de facto maintainer.  I
-> > guess I could maintain it if I get two partners in crime as reviewers=
-.
->=20
-> Alright, we need two volunteers for the reviewer role, and one patch to
-> MAINTAINERS.
->=20
-> A mention in MAINTAINERS is the traditional punishment for good work, s=
-o
-> let's see who's been doing the work.  Aha:
->=20
->     Eduardo Habkost
->     Marc-Andr=C3=A9 Lureau
->     Markus Armbruster
->     Eric Blake
->     Philippe Mathieu-Daud=C3=A9
->=20
-> Details appended.
->=20
-> QOM is not a particularly active subsystem now: 51 commits in two years=
-.
->=20
-> We obviously need maintainers to review and merge patches.  The nominal
-> maintainer hasn't been doing that since 2015.  Git shows the following
-> top committers taking on / getting sucked into QOM:
->=20
->     Markus Armbruster <armbru@redhat.com>
->     Eduardo Habkost <ehabkost@redhat.com>
->     Paolo Bonzini <pbonzini@redhat.com>
->     Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->     Eric Blake <eblake@redhat.com>
->=20
-> We really need nominal maintainer(s) again.
->=20
-> Of course, *active* maintainers would be even better: I consider QOM
-> stuck in an unhappy place where much of its potential is still
-> potential.
->=20
-> But let's start small.  Volunteers for the reviewer role, please step
-> forward :)
+> > On Fri, 7 Jun 2019 at 10:52, Cornelia Huck <cohuck@redhat.com> wrote:  
+> > >
+> > > The following changes since commit 47fbad45d47af8af784bb12a5719489edcd89b4c:
+> > >
+> > >   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-06-04 17:22:42 +0100)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   https://github.com/cohuck/qemu tags/s390x-20190607-1
+> > >
+> > > for you to fetch changes up to 39f04d18406862bd98d6bef5415dbe7360c652de:
+> > >
+> > >   Merge tag 's390x-tcg-2019-06-05' into s390-next-staging (2019-06-07 11:38:42 +0200)
+> > >
+> > > ----------------------------------------------------------------
+> > > s390x updates:
+> > > - tcg: finalize implementation for the vector facility and
+> > >   add it to the 'qemu' cpu model
+> > > - linux-user: properly generate ELF_HWCAP
+> > > - vfio-ccw: support async command subregion (for halt/clear
+> > >   subchannel handling)
+> > >
+> > > ----------------------------------------------------------------  
+> >
+> > Hi -- this fails to link on the windows build for me:
+> >   LINK    s390x-softmmu/qemu-system-s390xw.exe
+> > hw/s390x/css.o: In function `sch_handle_halt_func_passthrough':
+> > /home/petmay01/qemu-for-merges/hw/s390x/css.c:1213: undefined
+> > reference to `vfio_ccw_handle_halt'
+> > hw/s390x/css.o: In function `sch_handle_clear_func_passthrough':
+> > /home/petmay01/qemu-for-merges/hw/s390x/css.c:1223: undefined
+> > reference to `vfio_ccw_handle_clear'
+> > collect2: error: ld returned 1 exit status  
+> 
+> ...and same link error on OSX host.
+> 
+> -- PMM
 
-I'm happy to be a reviewer since I understand the code fairly well.
-I don't want to volunteer to be maintainer as I can't promise to
-be timely at dealing with yet another patch queue.
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+Ugh, I'll take a look.
 
