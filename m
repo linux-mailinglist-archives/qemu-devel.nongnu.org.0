@@ -2,53 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E76938EE7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:24:13 +0200 (CEST)
-Received: from localhost ([::1]:48728 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCEE38EF6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 17:26:08 +0200 (CEST)
+Received: from localhost ([::1]:48758 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZGiy-0004ff-Pp
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:24:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
+	id 1hZGkp-0006dj-Fo
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 11:26:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36377)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hZFj3-00059S-Ai
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:20:15 -0400
+ (envelope-from <bounces@canonical.com>) id 1hZG2B-0001xv-W4
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:40:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hZFiz-00065s-8O
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:20:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57702)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hZFix-0005kR-42
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:20:07 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E294230C318C;
- Fri,  7 Jun 2019 14:19:56 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DFB47DE56;
- Fri,  7 Jun 2019 14:19:53 +0000 (UTC)
-Date: Fri, 7 Jun 2019 16:19:49 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Message-ID: <20190607161949.7d5b56d4@redhat.com>
-In-Reply-To: <20190607091116.49044-14-ysato@users.sourceforge.jp>
-References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
- <20190607091116.49044-14-ysato@users.sourceforge.jp>
+ (envelope-from <bounces@canonical.com>) id 1hZFtQ-0005qw-9F
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:30:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47156)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hZFtQ-0005pc-47
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:30:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hZFtL-0003dj-NU
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 14:30:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 891D32E80CC
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 14:30:51 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 07 Jun 2019 14:19:56 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Jun 2019 14:20:57 -0000
+From: Lukas Durfina <1774149@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: arnaudalies-py lukasdurfina
+X-Launchpad-Bug-Reporter: mou (arnaudalies-py)
+X-Launchpad-Bug-Modifier: Lukas Durfina (lukasdurfina)
+References: <152766936065.4012.2532535303592891582.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155991725791.18155.4545920522883590142.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 267184e5d9b69c6101be570127771ceaa64d9c81
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v17 13/24] target/rx: Fix cpu types and
- names
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1774149] Re: qemu-user x86_64 x86 gdb call
+ function from gdb doesn't work
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,196 +64,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, philmd@redhat.com
+Reply-To: Bug 1774149 <1774149@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  7 Jun 2019 18:11:05 +0900
-Yoshinori Sato <ysato@users.sourceforge.jp> wrote:
+I have verified the second issue: the second call of function gives error "=
+Cannot access memory at address".
+I have tried it for various architectures. It is same for mips. But it work=
+s for aarch64.
 
-> From: Richard Henderson <richard.henderson@linaro.org>
-> 
-> There was confusion here about abstract classes and naming cpus.
-> We had registered a concrete class named "-rxcpu".  This was put
-> into the default cpu fields, and matched, so basic tests worked.
-> However, no value for -cpu could ever match in rx_cpu_class_by_name.
-> 
-> Rename the base class to "rx-cpu" and make it abstract.  This
-> matches what we do for most other targets.  Create a new concrete
-> cpu with the name "rx62n-rx-cpu".
-My comments on v16 weren't addressed at all.
+-- =
 
-I don't see any valid reason for this patch to exist.
-It should be split and merged with patches that introduce 'confusion'
-so that broken code won't exist in the first place.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1774149
 
-more below ...
+Title:
+  qemu-user x86_64 x86 gdb call function from gdb doesn't work
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->  target/rx/cpu.h | 12 ++++++------
->  hw/rx/rx-virt.c |  2 +-
->  hw/rx/rx62n.c   |  2 +-
->  target/rx/cpu.c | 43 ++++++++++++++++++++++++++-----------------
->  4 files changed, 34 insertions(+), 25 deletions(-)
-> 
-> diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-> index 8c1a4e448d..a0b6975963 100644
-> --- a/target/rx/cpu.h
-> +++ b/target/rx/cpu.h
-> @@ -24,14 +24,14 @@
->  #include "hw/registerfields.h"
->  #include "qom/cpu.h"
->  
-> -#define TYPE_RXCPU "rxcpu"
-> +#define TYPE_RX_CPU "rx-cpu"
->  
->  #define RXCPU_CLASS(klass)                                     \
-> -    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RXCPU)
-> +    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
->  #define RXCPU(obj) \
-> -    OBJECT_CHECK(RXCPU, (obj), TYPE_RXCPU)
-> +    OBJECT_CHECK(RXCPU, (obj), TYPE_RX_CPU)
->  #define RXCPU_GET_CLASS(obj) \
-> -    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RXCPU)
-> +    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RX_CPU)
->  
->  /*
->   * RXCPUClass:
-> @@ -164,9 +164,9 @@ static inline RXCPU *rx_env_get_cpu(CPURXState *env)
->  
->  #define ENV_OFFSET offsetof(RXCPU, env)
->  
-> -#define RX_CPU_TYPE_SUFFIX "-" TYPE_RXCPU
-> +#define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
->  #define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
-> -#define CPU_RESOLVING_TYPE TYPE_RXCPU
-> +#define CPU_RESOLVING_TYPE TYPE_RX_CPU
->  
->  extern const char rx_crname[][6];
->  
-> diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c
-> index 3deb7cb335..72a2989fcf 100644
-> --- a/hw/rx/rx-virt.c
-> +++ b/hw/rx/rx-virt.c
-> @@ -88,7 +88,7 @@ static void rxvirt_class_init(ObjectClass *oc, void *data)
->      mc->desc = "RX QEMU Virtual Target";
->      mc->init = rxvirt_init;
->      mc->is_default = 1;
-> -    mc->default_cpu_type = TYPE_RXCPU;
-> +    mc->default_cpu_type = RX_CPU_TYPE_NAME("rx62n");
->  }
->  
->  static const TypeInfo rxvirt_type = {
-> diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
-> index c6660b75b4..3a8fe7b0bf 100644
-> --- a/hw/rx/rx62n.c
-> +++ b/hw/rx/rx62n.c
-> @@ -195,7 +195,7 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
->      }
->  
->      object_initialize_child(OBJECT(s), "cpu", &s->cpu,
-> -                            sizeof(RXCPU), TYPE_RXCPU,
-> +                            sizeof(RXCPU), RX_CPU_TYPE_NAME("rx62n"),
->                              errp, NULL);
->      object_property_set_bool(OBJECT(&s->cpu), true, "realized", errp);
->  
-> diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-> index 3268077d08..41fe1de4bb 100644
-> --- a/target/rx/cpu.c
-> +++ b/target/rx/cpu.c
-> @@ -74,13 +74,14 @@ static void rx_cpu_list_entry(gpointer data, gpointer user_data)
->      const char *typename = object_class_get_name(OBJECT_CLASS(data));
->      int len = strlen(typename) - strlen(RX_CPU_TYPE_SUFFIX);
->  
-> -    qemu_printf("%.*s\n", len, typename);
-> +    qemu_printf("  %.*s\n", len, typename);
->  }
->  
->  void rx_cpu_list(void)
->  {
-> -    GSList *list;
-> -    list = object_class_get_list_sorted(TYPE_RXCPU, false);
-> +    GSList *list = object_class_get_list_sorted(TYPE_RX_CPU, false);
-> +
-> +    qemu_printf("Available CPUs:\n");
->      g_slist_foreach(list, rx_cpu_list_entry, NULL);
->      g_slist_free(list);
->  }
-> @@ -88,15 +89,17 @@ void rx_cpu_list(void)
->  static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
->  {
->      ObjectClass *oc;
-> -    char *typename = NULL;
-> +    char *typename;
->  
-> -    typename = g_strdup_printf(RX_CPU_TYPE_NAME(""));
-> +    typename = g_strdup_printf(RX_CPU_TYPE_NAME("%s"), cpu_model);
->      oc = object_class_by_name(typename);
+Status in QEMU:
+  New
 
-again repeating v16: see alpha_cpu_class_by_name() as preferred
-way to use this method.
+Bug description:
+  While running qemu user x86_64 x86 with gdb server, calling functions
+  are not working.
 
-> -    if (oc != NULL && object_class_is_abstract(oc)) {
-> -        oc = NULL;
-> -    }
-> -
->      g_free(typename);
-> +
-> +    if (oc == NULL ||
-> +        object_class_is_abstract(oc) ||
-> +        !object_class_dynamic_cast(oc, TYPE_RX_CPU)) {
-> +        return NULL;
-> +    }
->      return oc;
->  }
->  
-> @@ -166,7 +169,7 @@ static void rx_cpu_init(Object *obj)
->      qdev_init_gpio_in(DEVICE(cpu), rx_cpu_set_irq, 2);
->  }
->  
-> -static void rxcpu_class_init(ObjectClass *klass, void *data)
-> +static void rx_cpu_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      CPUClass *cc = CPU_CLASS(klass);
-> @@ -195,22 +198,28 @@ static void rxcpu_class_init(ObjectClass *klass, void *data)
->      cc->gdb_num_core_regs = 26;
->  }
->  
-> -static const TypeInfo rxcpu_info = {
-> -    .name = TYPE_RXCPU,
-> +static const TypeInfo rx_cpu_info = {
-> +    .name = TYPE_RX_CPU,
->      .parent = TYPE_CPU,
->      .instance_size = sizeof(RXCPU),
->      .instance_init = rx_cpu_init,
-> -    .abstract = false,
-> +    .abstract = true,
->      .class_size = sizeof(RXCPUClass),
-> -    .class_init = rxcpu_class_init,
-> +    .class_init = rx_cpu_class_init,
-> +};
-> +
-> +static const TypeInfo rx62n_rx_cpu_info = {
-> +    .name = RX_CPU_TYPE_NAME("rx62n"),
-> +    .parent = TYPE_RX_CPU,
->  };
->  
-> -static void rxcpu_register_types(void)
-> +static void rx_cpu_register_types(void)
->  {
-> -    type_register_static(&rxcpu_info);
-> +    type_register_static(&rx_cpu_info);
-> +    type_register_static(&rx62n_rx_cpu_info);
->  }
->  
-> -type_init(rxcpu_register_types)
-> +type_init(rx_cpu_register_types)
->  
->  static uint32_t extable[32];
->  
+  Here is how to reproduce it:
 
+  run in a terminal:
+  $ qemu-x86_64 -g 12345 -L / /bin/ls
+
+  In another terminal run gdb:
+  (gdb) file /bin/ls
+  (gdb) target remote :12345
+  (gdb) b _init
+  (gdb) c
+  (gdb) call malloc(1)
+  Could not fetch register "fs_base"; remote failure reply 'E14'
+
+  In other cases we also got the error:
+  Could not fetch register "orig_rax"; remote failure reply 'E14'
+
+  Here is how I patched it (it is only a workaround):
+
+  diff --git a/gdbstub.c b/gdbstub.c
+  index 2a94030..5749efe 100644
+  --- a/gdbstub.c
+  +++ b/gdbstub.c
+  @@ -668,6 +668,11 @@ static int gdb_read_register(CPUState *cpu, uint8_t =
+*mem_buf, int reg)
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0return r->get_reg(env, mem_buf, reg - r->base_reg);
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+  +#ifdef TARGET_X86_64
+  +    return 8;
+  +#elif TARGET_I386
+  +    return 4;
+  +#endif
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
+  =C2=A0}
+
+  (Our guess for this issue was, gdb is requesting for 'fake' registers
+  to know register size)
+
+  Once we patched that, we got another problem while calling functions
+  from gdb: We could call functions, but only once.
+
+  Here is how to reproduce it:
+  run in a terminal:
+  $ qemu-x86_64 -g 12345 -L / /bin/ls
+
+  In another terminal run gdb:
+  (gdb) file /bin/ls
+  (gdb) target remote :12345
+  (gdb) b _init
+  (gdb) c
+  (gdb) call malloc(1)
+  $1 =3D (void *) 0x620010
+  (gdb) call malloc(1)
+  Cannot access memory at address 0x40007ffb8f
+
+  Here is how we patched it to make it work:
+
+  diff --git a/exec.c b/exec.c
+  index 03238a3..d303922 100644
+  --- a/exec.c
+  +++ b/exec.c
+  @@ -2833,7 +2833,7 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong=
+ addr,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!(flags & PAGE_=
+VALID))
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0return -1;
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (is_write) {
+  -            if (!(flags & PAGE_WRITE))
+  +            if (!(flags & (PAGE_WRITE | PAGE_WRITE_ORG)))
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return -1;
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0/* XXX: this code should not depend on lock_user */
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0if (!(p =3D lock_user(VERIFY_WRITE, addr, l, 0)))
+
+  From what we saw, there is a page which is passed to read-only after
+  first execution, and gdb need to write on that page to put a
+  breakpoint. (on the stack to get function return)
+
+  We suspect this is linked to this:
+  https://qemu.weilnetz.de/w64/2012/2012-06-28/qemu-tech.html#Self_002dmodi=
+fying-code-and-translated-code-invalidation
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1774149/+subscriptions
 
