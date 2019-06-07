@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6034638B8F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:22:26 +0200 (CEST)
-Received: from localhost ([::1]:51064 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0BF38B8D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:22:23 +0200 (CEST)
+Received: from localhost ([::1]:51052 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZEp7-0000o7-Gz
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34428)
+	id 1hZEp4-0000eG-2t
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:22:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34407)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hZEm3-0007Nt-1o
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:15 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hZEm1-0007ND-0F
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hZEm2-0005Dk-3f
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49698)
+ (envelope-from <kraxel@redhat.com>) id 1hZElz-00051W-Sr
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51102)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZEm1-00057h-Te
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:14 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZElz-0004uZ-Kw
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:19:11 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1EF0D3082145
- for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 13:19:08 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 64E3A3084213
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 13:19:10 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-117-25.ams2.redhat.com
  [10.36.117.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 61B0A68C71;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6634D7DE35;
  Fri,  7 Jun 2019 13:19:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 10D7117535; Fri,  7 Jun 2019 15:19:02 +0200 (CEST)
+ id 1B78917536; Fri,  7 Jun 2019 15:19:02 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 15:18:59 +0200
-Message-Id: <20190607131901.20107-4-kraxel@redhat.com>
+Date: Fri,  7 Jun 2019 15:19:00 +0200
+Message-Id: <20190607131901.20107-5-kraxel@redhat.com>
 In-Reply-To: <20190607131901.20107-1-kraxel@redhat.com>
 References: <20190607131901.20107-1-kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 07 Jun 2019 13:19:08 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.40]); Fri, 07 Jun 2019 13:19:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/5] vfio/display: set dmabuf modifier field
+Subject: [Qemu-devel] [PULL 4/5] egl-helpers: add modifier support to
+ egl_get_fd_for_texture().
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,30 +61,87 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fill the new QemuDmaBuf->modifier field properly from plane info.
+Add modifier parameter to egl_get_fd_for_texture(), to return the used
+modifier on dmabuf exports.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Message-id: 20190529072144.26737-3-kraxel@redhat.com
+Message-id: 20190529072144.26737-4-kraxel@redhat.com
 ---
- hw/vfio/display.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/ui/egl-helpers.h | 3 ++-
+ ui/egl-helpers.c         | 5 +++--
+ ui/spice-display.c       | 7 ++++---
+ 3 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/hw/vfio/display.c b/hw/vfio/display.c
-index 2c2d3e5b71d6..a5a608c5b226 100644
---- a/hw/vfio/display.c
-+++ b/hw/vfio/display.c
-@@ -248,6 +248,7 @@ static VFIODMABuf *vfio_display_get_dmabuf(VFIOPCIDev=
-ice *vdev,
-     dmabuf->buf.height =3D plane.height;
-     dmabuf->buf.stride =3D plane.stride;
-     dmabuf->buf.fourcc =3D plane.drm_format;
-+    dmabuf->buf.modifier =3D plane.drm_format_mod;
-     dmabuf->buf.fd     =3D fd;
-     if (plane_type =3D=3D DRM_PLANE_TYPE_CURSOR) {
-         vfio_display_update_cursor(dmabuf, &plane);
---=20
+diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
+index b976cb872821..d71412779913 100644
+--- a/include/ui/egl-helpers.h
++++ b/include/ui/egl-helpers.h
+@@ -36,7 +36,8 @@ extern struct gbm_device *qemu_egl_rn_gbm_dev;
+ extern EGLContext qemu_egl_rn_ctx;
+ 
+ int egl_rendernode_init(const char *rendernode, DisplayGLMode mode);
+-int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc);
++int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc,
++                           EGLuint64KHR *modifier);
+ 
+ void egl_dmabuf_import_texture(QemuDmaBuf *dmabuf);
+ void egl_dmabuf_release_texture(QemuDmaBuf *dmabuf);
+diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+index e90eef8c9c3a..0c9716067cfb 100644
+--- a/ui/egl-helpers.c
++++ b/ui/egl-helpers.c
+@@ -200,7 +200,8 @@ err:
+     return -1;
+ }
+ 
+-int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc)
++int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc,
++                           EGLuint64KHR *modifier)
+ {
+     EGLImageKHR image;
+     EGLint num_planes, fd;
+@@ -214,7 +215,7 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc)
+     }
+ 
+     eglExportDMABUFImageQueryMESA(qemu_egl_display, image, fourcc,
+-                                  &num_planes, NULL);
++                                  &num_planes, modifier);
+     if (num_planes != 1) {
+         eglDestroyImageKHR(qemu_egl_display, image);
+         return -1;
+diff --git a/ui/spice-display.c b/ui/spice-display.c
+index a5e26479a866..104df2302575 100644
+--- a/ui/spice-display.c
++++ b/ui/spice-display.c
+@@ -888,7 +888,8 @@ static void spice_gl_switch(DisplayChangeListener *dcl,
+     if (ssd->ds) {
+         surface_gl_create_texture(ssd->gls, ssd->ds);
+         fd = egl_get_fd_for_texture(ssd->ds->texture,
+-                                    &stride, &fourcc);
++                                    &stride, &fourcc,
++                                    NULL);
+         if (fd < 0) {
+             surface_gl_destroy_texture(ssd->gls, ssd->ds);
+             return;
+@@ -945,7 +946,7 @@ static void qemu_spice_gl_scanout_texture(DisplayChangeListener *dcl,
+     int fd = -1;
+ 
+     assert(tex_id);
+-    fd = egl_get_fd_for_texture(tex_id, &stride, &fourcc);
++    fd = egl_get_fd_for_texture(tex_id, &stride, &fourcc, NULL);
+     if (fd < 0) {
+         fprintf(stderr, "%s: failed to get fd for texture\n", __func__);
+         return;
+@@ -1063,7 +1064,7 @@ static void qemu_spice_gl_update(DisplayChangeListener *dcl,
+                 egl_fb_setup_new_tex(&ssd->blit_fb,
+                                      dmabuf->width, dmabuf->height);
+                 fd = egl_get_fd_for_texture(ssd->blit_fb.texture,
+-                                            &stride, &fourcc);
++                                            &stride, &fourcc, NULL);
+                 spice_qxl_gl_scanout(&ssd->qxl, fd,
+                                      dmabuf->width, dmabuf->height,
+                                      stride, fourcc, false);
+-- 
 2.18.1
 
 
