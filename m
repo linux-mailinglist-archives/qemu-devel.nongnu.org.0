@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DF6386B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:08:29 +0200 (CEST)
-Received: from localhost ([::1]:47124 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E762386F1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 11:23:27 +0200 (CEST)
+Received: from localhost ([::1]:47430 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZArM-0005se-Ay
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:08:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39334)
+	id 1hZB5q-0008Bt-Bs
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 05:23:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39333)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAoz-00047O-RI
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAoz-00047N-RE
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hZAox-0004Fk-6q
+ (envelope-from <alex.bennee@linaro.org>) id 1hZAox-0004IL-S6
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:06:01 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41270)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51071)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hZAov-00045a-R7
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:05:58 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id c2so1338018wrm.8
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:05:57 -0700 (PDT)
+ id 1hZAox-00045z-77
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:05:59 -0400
+Received: by mail-wm1-x342.google.com with SMTP id c66so1224020wmf.0
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Rd5+Go34lR5r032gcxkrHBNwDzwFUaH0wsbx46lnxds=;
- b=KtzQfhuHaLrRhn0hNES7YtosF42tXuzszpjKOXitI2MRSzfro0ec2jJunY0V0Io+2x
- rBOB+eyYQboGLbfn5Gl6O1EtaOupLR2n5GgEj/5gQcJW/XCTOVUJkgz860SOgA8rOTn2
- YVV2viExmPNU4An4LZlx7MI3M2mFGIPloUpylBuH2tVTKPBxXO2VCQVBd44y8sSnro+9
- uMMYmsWZ3mqVYP46Hog0rnIpfVxET5C2GHlpr08msI5zPz02pTYaWW+6aDXMnbDq0CLo
- Eh3af5khAIJVujIAchnB7xnOoSmOS78VEJoonI9S01zc6IAyYCbR0RVE6Y1xy9+iIwrz
- B4Mw==
+ bh=HdpVihLUIZVvKpgG2IEu5C8IS7kClin1bLgeQxnhXsA=;
+ b=cusWhEk/JWErEovXuSD115Z7CQzBd2TT8ChezGFYSnZTBpAUKPAIHYO8GR5ReYBc4B
+ rAck8troJ7G3+PM8mENsgH16jXhHMdeFQDP0blm/mfUcbKMpbUcZn8U0qzXXC6vKQvyb
+ biN0yoGNj/0KIZXlGMxSHlLmFgOa6orbv075sVmYY5iZejWe2ODuUDnVEngKCBUUxLb/
+ /wDeseLRvvsKSK0i/1Wwf7D1hrlurY78SsW0FdSPOHQKMn3otCJW+WGpzO18wy3kTGjw
+ R6gAdCFZbA+enBBGLH2Evj2eFbEY/ALNg7pINgcg9Tw2nA5SZm0/SUzZbTtA13ug+pdo
+ YVcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Rd5+Go34lR5r032gcxkrHBNwDzwFUaH0wsbx46lnxds=;
- b=gP+l3Zmn9Bppr1h8JgBntSC4HEjZEhecknrjhiBfiQrCvwKFZa9p5MyWaArtz82e3I
- L6cKln7dcgjNFhur+b8BvchKANWF4+3RR5AEZ/WPjrBBAlh96W2fVw+vqpQJZLELTx8/
- lO+TyzTPoy3AY7IZ37lGv6DmXpcwvf4ldN0ysrvcVxv8q6KueaEvsyfU3cEB1eiio4f4
- 5jvIqccSbHwrqZYhFwgjfDLgsDPvbxkOEkAkr8B0/DLv5e6pxzD0xj4/sE6e9INk1ANw
- 9cJfu8vXCREDAHQklkVbXleFhXyR9iBPlbQorHp51cFjtoHC8jin4CVMEBshaLzk2z4a
- H+YA==
-X-Gm-Message-State: APjAAAVQez0e3w092QHyi4ID/CbIjU4tAvImcE6BaGGpmje8LN7iYg/8
- JpMw9ff02Q+a2EKCuaH2DqdOyg==
-X-Google-Smtp-Source: APXvYqw8bE4o9W+RCod07b72FTGh2ENf3I0AsxGJTeZ6hnOI+Lb6mqoI3hhiMuimRxywUIluzgTnUA==
-X-Received: by 2002:adf:f8cf:: with SMTP id f15mr18792478wrq.333.1559898356437; 
- Fri, 07 Jun 2019 02:05:56 -0700 (PDT)
+ bh=HdpVihLUIZVvKpgG2IEu5C8IS7kClin1bLgeQxnhXsA=;
+ b=hXfB3K/t5VadABYZytvE2FyjoxPr9Mbxf1YaHOG4VIzlfoie9ck/cz4xqkqjA+dzVW
+ sS0FkUs7TwpbI37ool6JSfr0y9WRMUoJJkqSuhn+YcZCMAcFv2jOQ7HFO6YVmDzZhWz0
+ Q/0bGV9xLDPsZAHPV4q7qIGwTuT2hmfQQV7oLvKLCMhWltOfaSh5luR03qPTFI9hhtZf
+ /pyVQh0XK9po4FBN1+XkLI39i5azXA7m1WQWUcpjVorysFSdNELj91yuy5vTJ7lYRQDv
+ FIsoEPSLZgxrIYCTXqcIqRw4fZdTwciZ0iI4EoYfnPg7lCG/ZuXFBpS3UcIP+/oLbSKW
+ yoDw==
+X-Gm-Message-State: APjAAAXRdwlz3xH8r0phlsff/jmTR5ZbL8thSuEmTNESVdibWjT6DTxJ
+ Og6AmNrczT6y3eTKsJfwoZhacA==
+X-Google-Smtp-Source: APXvYqwrIxzQN9tEErYgAPs3VKnrzUNFjRxRUv0fuhGaErKQSDg/x2da/UL3aQX7z0mAj3oXg6lwzA==
+X-Received: by 2002:a1c:2bc7:: with SMTP id r190mr2776726wmr.174.1559898357213; 
+ Fri, 07 Jun 2019 02:05:57 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id y2sm1331087wra.58.2019.06.07.02.05.53
+ by smtp.gmail.com with ESMTPSA id p16sm2135625wrg.49.2019.06.07.02.05.53
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Fri, 07 Jun 2019 02:05:53 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6B5811FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 7DA8D1FF93;
  Fri,  7 Jun 2019 10:05:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Fri,  7 Jun 2019 10:05:04 +0100
-Message-Id: <20190607090552.12434-6-alex.bennee@linaro.org>
+Date: Fri,  7 Jun 2019 10:05:05 +0100
+Message-Id: <20190607090552.12434-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607090552.12434-1-alex.bennee@linaro.org>
 References: <20190607090552.12434-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
-Subject: [Qemu-devel] [PULL 05/52] tests/docker: Update the Ubuntu image to
- 19.04
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PULL 06/52] .travis.yml: bump gcc sanitiser job to
+ gcc-9
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,63 +83,51 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has aged a little and we have a separate LTS image for testing on
-the older distros. Update it to a more recent release like its Fedora
-cousin.
+The toolchain PPA has it so we might as well use it. We currently have
+to add:
 
-Besides it is useful to have something with gcc-9 on it for squashing
-those stringop truncation errors.
+  -Wno-error=stringop-truncation
+
+as there are still strncpy operations in the tree operating on things
+that haven't been annotated with QEMU_NONSTRING.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-index 36e2b17de5..8d256961f0 100644
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ b/tests/docker/dockerfiles/ubuntu.docker
-@@ -1,6 +1,15 @@
--FROM ubuntu:16.04
--RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty universe multiverse" >> \
--    /etc/apt/sources.list
-+#
-+# Latest Ubuntu Release
-+#
-+# Useful for testing against relatively bleeding edge libraries and
-+# compilers. We also have seperate recipe for the most recent LTS
-+# release.
-+#
-+# When updating use the full tag not :latest otherwise the build
-+# system won't pick up that it has changed.
-+#
-+
-+FROM ubuntu:19.04
- ENV PACKAGES flex bison \
-     ccache \
-     clang \
-@@ -21,7 +30,7 @@ ENV PACKAGES flex bison \
-     libepoxy-dev \
-     libfdt-dev \
-     libgbm-dev \
--    libgnutls-dev \
-+    libgnutls28-dev \
-     libgtk-3-dev \
-     libibverbs-dev \
-     libiscsi-dev \
-@@ -34,7 +43,7 @@ ENV PACKAGES flex bison \
-     libnss3-dev \
-     libnuma-dev \
-     libpixman-1-dev \
--    libpng12-dev \
-+    libpng-dev \
-     librados-dev \
-     librbd-dev \
-     librdmacm-dev \
+diff --git a/.travis.yml b/.travis.yml
+index b053a836a3..f0aa37f2d1 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -240,8 +240,8 @@ matrix:
+             - ubuntu-toolchain-r-test
+           packages:
+             # Extra toolchains
+-            - gcc-7
+-            - g++-7
++            - gcc-9
++            - g++-9
+             # Build dependencies
+             - libaio-dev
+             - libattr1-dev
+@@ -270,11 +270,11 @@ matrix:
+       language: generic
+       compiler: none
+       env:
+-        - COMPILER_NAME=gcc CXX=g++-7 CC=gcc-7
+-        - CONFIG="--cc=gcc-7 --cxx=g++-7 --disable-pie --disable-linux-user"
++        - COMPILER_NAME=gcc CXX=g++-9 CC=gcc-9
++        - CONFIG="--cc=gcc-9 --cxx=g++-9 --disable-pie --disable-linux-user"
+         - TEST_CMD=""
+       before_script:
+-        - ./configure ${CONFIG} --extra-cflags="-g3 -O0 -fsanitize=thread -fuse-ld=gold" || { cat config.log && exit 1; }
++        - ./configure ${CONFIG} --extra-cflags="-g3 -O0 -Wno-error=stringop-truncation -fsanitize=thread -fuse-ld=gold" || { cat config.log && exit 1; }
+ 
+ 
+     # Run check-tcg against linux-user
 -- 
 2.20.1
 
