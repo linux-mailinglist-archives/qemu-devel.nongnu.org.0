@@ -2,65 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13CE395C0
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:33:01 +0200 (CEST)
-Received: from localhost ([::1]:51792 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AF33966F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 22:06:34 +0200 (CEST)
+Received: from localhost ([::1]:52610 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKbl-00077a-3A
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51324)
+	id 1hZL8D-0006jw-4P
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 16:06:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51913)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hZJdG-0004wn-5o
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:30:32 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hZJfT-0006Ex-Fc
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:32:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hZJdD-00078G-CT
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:30:30 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:41157)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hZJdA-0006yF-9I
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:30:26 -0400
-Received: by mail-oi1-x244.google.com with SMTP id b21so2090958oic.8
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 11:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=Gaowb1UdRjBy2Ja/xxobvWr0UDUJEDRhjYpKLZza8bQ=;
- b=EpffRNTJmjm1nFQ+NbkhcECJkPaytAKweaSVl+Ng5mF0SnvePnHNfHpr//dT3d/IVJ
- s0TFjMVn/Mfr9P6OPR6zTYQr/T6uy2qBv4X9oYD41Uv/bCLu74Lc5F+NekBJxM4nPILN
- jLvowT7QiYvIU4a87zLh/MXClhpBk3tyVVvcCljzr6WyZj+06th8BLBkR+VSwgIH6MDZ
- taukUefd2qz+FoYNK4EYYJuD3/8Mh2R9dW3ShxDlsQko93RN/LxHpYNNEjKIklxOT9dU
- 5JqB3I5YgD1xVtGdkVO5Zev+L9yIckuK1/dtZCQX0URSEvS3WeB7WgXOZwmeQjROXt1o
- mPCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Gaowb1UdRjBy2Ja/xxobvWr0UDUJEDRhjYpKLZza8bQ=;
- b=ssdq1ZBFgRCCNbKVQlPCKjtV/vRbAXtKrhm2/ciFr0Kg6JyWIZRnvWfgDPoApQY8ZA
- ltBreN4HMrXZ3IigaVrGQ5iHmi1lQ7qAQ98KsmDw+bWJtPu6FCnWIHrKpeE/Tdj27G/G
- Lp7V9nMCDwUNwAGwLPW7oNuLSUuA8ABtRfMV868Fy/o/gIQcGl/RLedppZo1rnw9BS6a
- 9AdX6PUuh9wMP6Oq4GbdDTguwi8AvA/fivjb5lwrVgGHjVXLHRCi7NppQB0tyFJ7bsFC
- kx/HRvUKLx8qgh6vuDz+A3QXhadgIk3ps0OVN58ypZdgL/BW22rITijE0BEWLDMzgnwN
- ee2w==
-X-Gm-Message-State: APjAAAWlqDSPacHKmuYfWA8nEb7wQ1FCmSFtDvU+7XVuLWNrijbmSsj/
- LzyDSJMAEwxVo0hfA2YFyYh70hDonveDPg==
-X-Google-Smtp-Source: APXvYqy/Iwc/kb+mvzSkPjA7wxD5VKy2Dgv1uv7nZtg1nficDab73Zm8fIk1oncTL08C3/7tWCzEKw==
-X-Received: by 2002:aca:4b96:: with SMTP id y144mr4722893oia.34.1559932220484; 
- Fri, 07 Jun 2019 11:30:20 -0700 (PDT)
-Received: from localhost.localdomain (200-56-192-86-cable.cybercable.net.mx.
- [200.56.192.86])
- by smtp.gmail.com with ESMTPSA id s4sm995043otp.3.2019.06.07.11.30.19
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 11:30:19 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri,  7 Jun 2019 13:30:16 -0500
-Message-Id: <20190607183016.8285-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: [Qemu-devel] [PATCH] tcg: Fix typos in helper_gvec_sar{8,32,64}v
+ (envelope-from <ehabkost@redhat.com>) id 1hZJfR-0000Zq-FG
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:32:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:9053)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hZJfQ-0000T2-GB
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 14:32:45 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E68CD2E97DE;
+ Fri,  7 Jun 2019 18:32:32 +0000 (UTC)
+Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1D7F8CFBA;
+ Fri,  7 Jun 2019 18:32:29 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Date: Fri,  7 Jun 2019 15:32:26 -0300
+Message-Id: <20190607183228.22454-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Fri, 07 Jun 2019 18:32:32 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/2] Machine Core queue, 2019-06-07
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,52 +51,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The loop is written with scalars, not vectors.
-Use the correct type when incrementing.
+The following changes since commit 185b7ccc11354cbd69b6d53bf8d831dd964f6c88:
 
-Fixes: 5ee5c14cacd
-Reported-by: Laurent Vivier <lvivier@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/tcg-runtime-gvec.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190607-2' into staging (2019-06-07 15:24:13 +0100)
 
-diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
-index 3b6052fe97..51cb29ca79 100644
---- a/accel/tcg/tcg-runtime-gvec.c
-+++ b/accel/tcg/tcg-runtime-gvec.c
-@@ -874,7 +874,7 @@ void HELPER(gvec_sar8v)(void *d, void *a, void *b, uint32_t desc)
-     intptr_t oprsz = simd_oprsz(desc);
-     intptr_t i;
- 
--    for (i = 0; i < oprsz; i += sizeof(vec8)) {
-+    for (i = 0; i < oprsz; i += sizeof(int8_t)) {
-         uint8_t sh = *(uint8_t *)(b + i) & 7;
-         *(int8_t *)(d + i) = *(int8_t *)(a + i) >> sh;
-     }
-@@ -898,7 +898,7 @@ void HELPER(gvec_sar32v)(void *d, void *a, void *b, uint32_t desc)
-     intptr_t oprsz = simd_oprsz(desc);
-     intptr_t i;
- 
--    for (i = 0; i < oprsz; i += sizeof(vec32)) {
-+    for (i = 0; i < oprsz; i += sizeof(int32_t)) {
-         uint8_t sh = *(uint32_t *)(b + i) & 31;
-         *(int32_t *)(d + i) = *(int32_t *)(a + i) >> sh;
-     }
-@@ -910,7 +910,7 @@ void HELPER(gvec_sar64v)(void *d, void *a, void *b, uint32_t desc)
-     intptr_t oprsz = simd_oprsz(desc);
-     intptr_t i;
- 
--    for (i = 0; i < oprsz; i += sizeof(vec64)) {
-+    for (i = 0; i < oprsz; i += sizeof(int64_t)) {
-         uint8_t sh = *(uint64_t *)(b + i) & 63;
-         *(int64_t *)(d + i) = *(int64_t *)(a + i) >> sh;
-     }
+are available in the Git repository at:
+
+  git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+
+for you to fetch changes up to 754f1dbcf1d4d543167e3212366055761c30bcf4:
+
+  accel: Remove unused AccelClass::opt_name attribute (2019-06-07 15:28:46 -0300)
+
+----------------------------------------------------------------
+Machine Core queue, 2019-06-07
+
+* Improve CPU hotplug error message
+  (Laurent Vivier)
+* Remove unused AccelClass::opt_name field
+  (Wainer dos Santos Moschetta)
+
+----------------------------------------------------------------
+
+Queue for Machine Core patches
+
+
+Laurent Vivier (1):
+  numa: improve cpu hotplug error message with a wrong node-id
+
+Wainer dos Santos Moschetta (1):
+  accel: Remove unused AccelClass::opt_name attribute
+
+ include/sysemu/accel.h | 1 -
+ numa.c                 | 4 ++--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
 -- 
-2.17.1
+2.18.0.rc1.1.g3f1ff2140
 
 
