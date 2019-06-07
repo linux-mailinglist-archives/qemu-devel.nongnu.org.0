@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACCA138CE7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:25:14 +0200 (CEST)
-Received: from localhost ([::1]:51692 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3830038CA5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:18:43 +0200 (CEST)
+Received: from localhost ([::1]:51603 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFnt-0007x5-Rz
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:25:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50843)
+	id 1hZFha-0002dR-6Y
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:18:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51288)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZFbd-0006rF-3C
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:34 -0400
+ (envelope-from <armbru@redhat.com>) id 1hZFci-0007kI-0C
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:13:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZFbb-0006O4-MV
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:32 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:40471)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZFbb-0006La-Ec
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:31 -0400
-Received: by mail-wr1-f68.google.com with SMTP id p11so2327620wre.7
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 07:12:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=o2axUgPQ7U4YVSrPLMIUbTmUDBGbOntWdk1ZUJzN/d4=;
- b=nJY5v/Vfs1IeQHZYfUT1MI5MX1X0WWdqZuWd/RmFbVBT071QyUkA0dfwSizGCg8fB3
- mazQotclv5OU8pZ60escCXKW3TeH10gnR8u+e6mNq1uBt5Lg/ejLhO0Ju3zfM+fm1fQG
- To5m3PgIflB2Tzz48WajnjqsC5XdrD2HER2Rh0o2DUdr2hdgLZX4AfGLaLA4+H2zS/1P
- 3vx83PfhK6aDr2G+e8DGf1RqRn4szW8Z3GDmYyT5hlcUYHi1IxKVasz2Os/kfTjOV7eR
- rTc88491KqbV1muTmcVIMYjRARGifh9gTu/FHxeR81RfdgONADf5eqAr/JBzNYhC2XUs
- wdyQ==
-X-Gm-Message-State: APjAAAW+d/SanaX+fqEOdiyl86TSqQZygGtlijWFfNq8W4HiiiPSX9xj
- /9u2NEVkF+6gHdBvy9qTUsgcTw==
-X-Google-Smtp-Source: APXvYqxMUEKH4Amg0pT59fGGIwY+Lbenbr25B8ClRHfBeR4LL8Vf9tGMT2s/JjKRAnkYBAB5Cat24w==
-X-Received: by 2002:adf:dd03:: with SMTP id a3mr2165174wrm.87.1559916750341;
- Fri, 07 Jun 2019 07:12:30 -0700 (PDT)
-Received: from [192.168.0.156] ([78.192.181.46])
- by smtp.gmail.com with ESMTPSA id v67sm2142139wme.24.2019.06.07.07.12.29
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 07:12:29 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
- QEMU Developers <qemu-devel@nongnu.org>
-References: <20190516144733.32399-1-peter.maydell@linaro.org>
- <CAFEAcA-t=9+zuEOf2uoJAMnpnyAJtpCqe2biWzS6a8nZU0uQOA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <3e786246-9d13-36fc-1d1d-e3f9e915d8b4@redhat.com>
-Date: Fri, 7 Jun 2019 16:12:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <armbru@redhat.com>) id 1hZFcg-000110-27
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:13:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53982)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hZFcd-0000Vv-UP
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:13:37 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F140830C31A4
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 14:13:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
+ [10.36.116.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C24247FE95
+ for <qemu-devel@nongnu.org>; Fri,  7 Jun 2019 14:13:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 533A211386A0; Fri,  7 Jun 2019 16:13:21 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  7 Jun 2019 16:13:21 +0200
+Message-Id: <20190607141321.9726-1-armbru@redhat.com>
+In-Reply-To: <20190604181618.19980-1-armbru@redhat.com>
+References: <20190604181618.19980-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-t=9+zuEOf2uoJAMnpnyAJtpCqe2biWzS6a8nZU0uQOA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Fri, 07 Jun 2019 14:13:25 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v2 0/4] hw/arm/boot: handle large Images
- more gracefully
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 5/4] Clean up a header guard symbols (again)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,70 +57,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Auger Eric <eric.auger@redhat.com>,
- Andrew Jones <drjones@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Drew and Eric
+Commit d52c454aad "contrib: add vhost-user-gpu" and "c68082c43a
+virtio-gpu: split virtio-gpu-pci & virtio-vga" created headers with
+unusual header guard symbols.  Clean them up
 
-On 6/7/19 3:07 PM, Peter Maydell wrote:
-> Ping for code review, please?
-> 
-> thanks
-> -- PMM
-> 
-> On Thu, 16 May 2019 at 15:47, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->>
->> This patchset attempts to fix https://bugs.launchpad.net/qemu/+bug/1823998
->> which reports that we don't handle kernels larger than 128MB
->> correctly, because we allow the initrd to be placed over the
->> tail end of the kernel. AArch64 kernel Image files (since v3.17)
->> report the total size they require (including any BSS area that
->> isn't in the Image itself), so we can use that to be sure we
->> place the initrd sufficiently far into the RAM.
->>
->> Patches 1 and 2 are new since v1; patches 3 and 4 are the old
->> patches 1 and 2 (and are basically unchanged since v1).
->>
->> Patches 1 and 2 in this series are new. Patch 1 fixes bugs
->> in the existing code where we were assuming that we could
->> treat info->ram_size as the address of the end of RAM, which
->> isn't true if the RAM doesn't start at address 0. (This
->> generally went unnoticed thanks to the magic of unsigned integer
->> underflow turning end-start calculations into very large max_size
->> values for load_ramdisk_as() and friends.)
->> Patch 2 adds some explicit checks that we don't try to put things
->> entirely off the end of RAM (which avoids those accidental
->> underflows).
->> Patch 3 in this series adjusts our "where do we put the initrd"
->> heuristic so that it always places it at least after whatever
->> our best guess at the kernel size is. (This might still not
->> be right for images like self-decompressing 32-bit kernels, where
->> there's no way to know how big the kernel will be after
->> decompression.)
->> Patch 4 makes load_aarch64_image() return the
->> kernel size as indicated in the Image file header, so that for
->> the specific case of AArch64 Image files we will definitely not
->> put the initrd on top of them.
->>
->> thanks
->> -- PMM
->>
->> Peter Maydell (4):
->>   hw/arm/boot: Don't assume RAM starts at address zero
->>   hw/arm/boot: Diagnose layouts that put initrd or DTB off the end of
->>     RAM
->>   hw/arm/boot: Avoid placing the initrd on top of the kernel
->>   hw/arm/boot: Honour image size field in AArch64 Image format kernels
->>
->>  hw/arm/boot.c | 83 ++++++++++++++++++++++++++++++++++++++-------------
->>  1 file changed, 62 insertions(+), 21 deletions(-)
->>
->> --
->> 2.20.1
->>
-> 
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ contrib/vhost-user-gpu/virgl.h | 5 +++--
+ contrib/vhost-user-gpu/vugbm.h | 5 +++--
+ contrib/vhost-user-gpu/vugpu.h | 5 +++--
+ hw/display/virtio-vga.h        | 6 +++---
+ 4 files changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/contrib/vhost-user-gpu/virgl.h b/contrib/vhost-user-gpu/virg=
+l.h
+index f952bc9d4f..17078783a5 100644
+--- a/contrib/vhost-user-gpu/virgl.h
++++ b/contrib/vhost-user-gpu/virgl.h
+@@ -11,8 +11,9 @@
+  * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+  * See the COPYING file in the top-level directory.
+  */
+-#ifndef VUGPU_VIRGL_H_
+-#define VUGPU_VIRGL_H_
++
++#ifndef VUGPU_VIRGL_H
++#define VUGPU_VIRGL_H
+=20
+ #include "vugpu.h"
+=20
+diff --git a/contrib/vhost-user-gpu/vugbm.h b/contrib/vhost-user-gpu/vugb=
+m.h
+index c0bf27af9b..07e698fcd7 100644
+--- a/contrib/vhost-user-gpu/vugbm.h
++++ b/contrib/vhost-user-gpu/vugbm.h
+@@ -6,8 +6,9 @@
+  * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+  * See the COPYING file in the top-level directory.
+  */
+-#ifndef VHOST_USER_GPU_GBM_H
+-#define VHOST_USER_GPU_GBM_H
++
++#ifndef VHOST_USER_GPU_VUGBM_H
++#define VHOST_USER_GPU_VUGBM_H
+=20
+ #include "qemu/osdep.h"
+=20
+diff --git a/contrib/vhost-user-gpu/vugpu.h b/contrib/vhost-user-gpu/vugp=
+u.h
+index 458e92a1b3..3153c9a6de 100644
+--- a/contrib/vhost-user-gpu/vugpu.h
++++ b/contrib/vhost-user-gpu/vugpu.h
+@@ -11,8 +11,9 @@
+  * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+  * See the COPYING file in the top-level directory.
+  */
+-#ifndef VUGPU_H_
+-#define VUGPU_H_
++
++#ifndef VUGPU_H
++#define VUGPU_H
+=20
+ #include "qemu/osdep.h"
+=20
+diff --git a/hw/display/virtio-vga.h b/hw/display/virtio-vga.h
+index c10bf390aa..c41281a010 100644
+--- a/hw/display/virtio-vga.h
++++ b/hw/display/virtio-vga.h
+@@ -1,5 +1,5 @@
+-#ifndef VIRTIO_VGA_H_
+-#define VIRTIO_VGA_H_
++#ifndef VIRTIO_VGA_H
++#define VIRTIO_VGA_H
+=20
+ #include "hw/virtio/virtio-gpu-pci.h"
+ #include "vga_int.h"
+@@ -29,4 +29,4 @@ typedef struct VirtIOVGABaseClass {
+     DeviceReset parent_reset;
+ } VirtIOVGABaseClass;
+=20
+-#endif /* VIRTIO_VGA_H_ */
++#endif /* VIRTIO_VGA_H */
+--=20
+2.21.0
+
 
