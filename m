@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3294738BE0
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:44:23 +0200 (CEST)
-Received: from localhost ([::1]:51241 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6514238BEB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 15:49:08 +0200 (CEST)
+Received: from localhost ([::1]:51280 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZFAM-0000ZD-Db
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41041)
+	id 1hZFEx-0004OI-Ju
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 09:49:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41157)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hZF8K-0007tj-Jf
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:42:18 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hZF8a-0008J0-Nh
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:42:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hZF8I-00088a-Sp
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:42:16 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:37189)
+ (envelope-from <richard.henderson@linaro.org>) id 1hZF8Z-0000Ps-MV
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:42:32 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42705)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hZF8I-00081D-MN
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:42:14 -0400
-Received: by mail-wr1-f68.google.com with SMTP id v14so2224090wrr.4
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 06:42:11 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hZF8Z-0000Ky-Hj
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 09:42:31 -0400
+Received: by mail-ot1-x344.google.com with SMTP id l15so1849878otn.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 06:42:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7fUxwkI7/lFmhCPdMN5//RfvbGbZNeItnZOVIDhGNXg=;
+ b=mlJQst+NbwGxkjxW7ZiSbDx7dpLL1r4NHvaNVZwE93zCskV3YFHDC0HJAeWg3Lmr3b
+ gTVIPhzwX4PyGGckB9eF6bIR+qvaliEkNkoKXxnJmzQ/oAL7o2yiEvic768tAdvW8TuR
+ c2srPChliQJtGj2eX5hyhhpDh8KHoMf65bPrwbR/ISTKOHuyqBROlQiId2owo8HNNANv
+ xb0QrycUh1+/LZ/Cp8eGgQrGzomI3S30NGlbyeUi92dmCMsNppgtV7Ak5BlHuZ/c42xI
+ 9KeXP/r7T0ukw0XPg3ZdUd30ea9fw3aKWHtnQ3b+n0SeJeXotiTQnjyuagDgGDYPKV0J
+ +C9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Y1UgQePrZd4MkCNM6uaxtsR3eqH1fhysdjC9nkbB+5I=;
- b=HbHwIJcfYQjROMnlki/T/kQ8osW4vhQSiwk3H9bW85+wPXMuSYiDA7O+hAUg3y1H+q
- SDNLnXtcNJBAGqYy43WXMmXHk/mSwNORO2Dg9MA6fnPq9LcTkFUvbsQz2lpV+crQ9QnW
- FgL0FvHi0ZJSUpDw6OPmj/VfM1O/ycPWi8U4xfACwuNw9RB91+t0jUG/BbzNgvxLAkNt
- nWtbwgSpWx49YyO+Xax0zRaOq4fz7kN1sBtO5Wfttk2AKvoj7MYEvsjn4FrROY9nAadW
- +RRwcmyqlJdt7LudQoiYDdI9bGgTktc7GAM+uw2RdBB3HAOklDKJKeKItEGvBSxMWijY
- YXHw==
-X-Gm-Message-State: APjAAAUZ6hHly/bGPGrS9RT4ovVEbCiB959CAM/NfPObsWUTiIY1M9gc
- efcKQTyKekIR/AltiHZUsp3l4Q==
-X-Google-Smtp-Source: APXvYqyXupdha2fWALUtc3tSfB372FJ0I05pCigpOYwDpC3j3wpBUFBaNKdJV/wLDSmp8R+pRlrbyw==
-X-Received: by 2002:adf:ecca:: with SMTP id s10mr17196911wro.168.1559914930924; 
- Fri, 07 Jun 2019 06:42:10 -0700 (PDT)
-Received: from [192.168.0.156] ([78.192.181.46])
- by smtp.gmail.com with ESMTPSA id l4sm1706983wmh.18.2019.06.07.06.42.10
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 06:42:10 -0700 (PDT)
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-References: <20190607091116.49044-1-ysato@users.sourceforge.jp>
- <20190607091116.49044-24-ysato@users.sourceforge.jp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <48581c4c-f3e1-9647-6701-ae79c2a50221@redhat.com>
-Date: Fri, 7 Jun 2019 15:42:10 +0200
+ bh=7fUxwkI7/lFmhCPdMN5//RfvbGbZNeItnZOVIDhGNXg=;
+ b=shpQGT2TNJ6IqmQZUTO2conH+Yp0kiHBMPqVTf9zqds11dQopYScyVR6NGHXqa8glS
+ 7ol1v3hROl3tGYQZtI/OLmcFqvZfgugLyDaAZaWlNoQapmJ82KepovJh203+JnSvjbq4
+ 6gOpL9RZsvGM4zFoTi24KlH14NqDi3b7WudDE2pWkmDULXIyQv1uPdFOD+PHQjVYnLaI
+ xJThc/z5ONxiELRkZ3Gg0HSATyVD7GjBCB7rMDLfMVElT2nuXOEToFUU/ei17AFZttvA
+ P4Pd6bc3hol8AuR83UHpE5tcKnexcRF77mtwFnhcfuc9QrT8qJrgLfmHkwTRA1Ld1Qja
+ Qo9Q==
+X-Gm-Message-State: APjAAAUHqJXotTcSuUtvkVsXszGDDo5BgtSs4qHyUqWOvX1LYTsvEGs7
+ 6koLyLQ4DkvPcy6aY5pTO5VQ3UVdU1cCkg==
+X-Google-Smtp-Source: APXvYqymzYwXO/L8jzwLB05u4jZX40eQwUdpZz0jbJU3fmpXD8R7VlnqO/6kINcw0rIxnKfmiiRqaQ==
+X-Received: by 2002:a9d:12a9:: with SMTP id g38mr19630823otg.125.1559914950025; 
+ Fri, 07 Jun 2019 06:42:30 -0700 (PDT)
+Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
+ [200.56.192.86])
+ by smtp.gmail.com with ESMTPSA id s63sm716753oia.34.2019.06.07.06.42.28
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jun 2019 06:42:29 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <20190510110357.18825-1-peter.maydell@linaro.org>
+ <CAFEAcA_FnpYF_AegaYUqfPhr_k9ZXUS=JCamtD3+nSvonHC1vg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <0173bcfb-436e-65ce-fff7-58cbb82bf9c1@linaro.org>
+Date: Fri, 7 Jun 2019 08:42:25 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190607091116.49044-24-ysato@users.sourceforge.jp>
+In-Reply-To: <CAFEAcA_FnpYF_AegaYUqfPhr_k9ZXUS=JCamtD3+nSvonHC1vg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v17 23/24] target/rx: Dump bytes for each
- insn during disassembly
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v2] target/arm: Implement NSACR gating of
+ floating point
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,54 +86,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/19 11:11 AM, Yoshinori Sato wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
+On 6/7/19 8:06 AM, Peter Maydell wrote:
+> The NSACR register allows secure code to configure the FPU
+> to be inaccessible to non-secure code. If the NSACR.CP10
+> bit is set then:
+>  * NS accesses to the FPU trap as UNDEF (ie to NS EL1 or EL2)
+>  * CPACR.{CP10,CP11} behave as if RAZ/WI
+>  * HCPTR.{TCP11,TCP10} behave as if RAO/WI
 > 
-> There are so many different forms of each RX instruction
-> that it will be very useful to be able to look at the bytes
-> to see on which path a bug may lie.
+> Note that we do not implement the NSACR.NSASEDIS bit which
+> gates only access to Advanced SIMD, in the same way that
+> we don't implement the equivalent CPACR.ASEDIS and HCPTR.TASE.
 > 
-> Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Again:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/rx/disas.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/rx/disas.c b/target/rx/disas.c
-> index 5a32a87534..d73b53db44 100644
-> --- a/target/rx/disas.c
-> +++ b/target/rx/disas.c
-> @@ -102,7 +102,21 @@ static int bdsp_s(DisasContext *ctx, int d)
->  /* Include the auto-generated decoder.  */
->  #include "decode.inc.c"
->  
-> -#define prt(...) (ctx->dis->fprintf_func)((ctx->dis->stream), __VA_ARGS__)
-> +static void dump_bytes(DisasContext *ctx)
-> +{
-> +    int i, len = ctx->len;
-> +
-> +    for (i = 0; i < len; ++i) {
-> +        ctx->dis->fprintf_func(ctx->dis->stream, "%02x ", ctx->bytes[i]);
-> +    }
-> +    ctx->dis->fprintf_func(ctx->dis->stream, "%*c", (8 - i) * 3, '\t');
-> +}
-> +
-> +#define prt(...) \
-> +    do {                                                        \
-> +        dump_bytes(ctx);                                        \
-> +        ctx->dis->fprintf_func(ctx->dis->stream, __VA_ARGS__);  \
-> +    } while (0)
->  
->  #define RX_MEMORY_BYTE 0
->  #define RX_MEMORY_WORD 1
-> 
+> Changes v1->v2:
+>  * fixed bug in cptr_el2_read() that meant we were forcing
+>    HCPTR.{TCP11,TCP10} to 0 when they should be 1
+> ---
+>  target/arm/helper.c | 75 +++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 73 insertions(+), 2 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
