@@ -1,56 +1,46 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D8E38DCA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:48:20 +0200 (CEST)
-Received: from localhost ([::1]:48410 helo=lists.gnu.org)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8263F38CF7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 16:27:55 +0200 (CEST)
+Received: from localhost ([::1]:51720 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZGAF-0007UY-EO
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:48:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50867)
+	id 1hZFqU-0002KV-Nm
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 10:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49464)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tony.nguyen@bt.com>) id 1hZFbf-0006xV-UE
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:38 -0400
+ (envelope-from <mark.rutland@arm.com>) id 1hZFXF-0004Ea-GU
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:08:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hZFbe-0006X7-AR
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:12:35 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.77]:29445)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hZFbe-0006RB-1O; Fri, 07 Jun 2019 10:12:34 -0400
-Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
- BWP09926082.bt.com (10.36.82.113) with Microsoft SMTP Server (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 7 Jun
- 2019 15:06:58 +0100
-Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 7 Jun 2019 15:07:11 +0100
-Received: from tpw09926dag18e.domain1.systemhost.net
- ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
- ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 7 Jun 2019
- 15:07:11 +0100
-From: <tony.nguyen@bt.com>
-To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-trivial] [PATCH] test: Use g_strndup instead of plain
- strndup
-Thread-Index: AQHVHTpMtEQE4swKekybGdM8Y3P6xw==
-Date: Fri, 7 Jun 2019 14:07:11 +0000
-Message-ID: <430a9a42f7a34b799ee4d2f3d7ab2e23@tpw09926dag18e.domain1.systemhost.net>
-Accept-Language: en-AU, en-GB, en-US
-Content-Language: en-AU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.187.101.40]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <mark.rutland@arm.com>) id 1hZFX9-00067r-8E
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 10:07:58 -0400
+Received: from foss.arm.com ([217.140.110.172]:39408)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <mark.rutland@arm.com>)
+ id 1hZFWm-0005Qp-Km; Fri, 07 Jun 2019 10:07:32 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0300337;
+ Fri,  7 Jun 2019 07:07:28 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A0583F71A;
+ Fri,  7 Jun 2019 07:07:27 -0700 (PDT)
+Date: Fri, 7 Jun 2019 15:07:21 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190607140720.GA18706@lakrids.cambridge.arm.com>
+References: <20190516144733.32399-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.77
-Subject: [Qemu-devel] [Qemu-trivial] [PATCH] test: Use g_strndup instead of
- plain strndup
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190516144733.32399-1-peter.maydell@linaro.org>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.140.110.172
+Subject: Re: [Qemu-devel] [PATCH v2 0/4] hw/arm/boot: handle large Images
+ more gracefully
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,38 +52,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, armbru@redhat.com
+Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Due to memory management rules. See HACKING.=0A=
-    =0A=
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>=0A=
-=0A=
-diff --git a/tests/check-qjson.c b/tests/check-qjson.c=0A=
-index fa2afcc..07a773e 100644=0A=
---- a/tests/check-qjson.c=0A=
-+++ b/tests/check-qjson.c=0A=
-@@ -767,7 +767,7 @@ static void utf8_string(void)=0A=
-                     if (*end =3D=3D ' ') {=0A=
-                         end++;=0A=
-                     }=0A=
--                    in =3D strndup(tail, end - tail);=0A=
-+                    in =3D g_strndup(tail, end - tail);=0A=
-                     str =3D from_json_str(in, j, NULL);=0A=
-                     g_assert(!str);=0A=
-                     g_free(in);=0A=
-diff --git a/tests/migration/stress.c b/tests/migration/stress.c=0A=
-index 49a03aa..72c4012 100644=0A=
---- a/tests/migration/stress.c=0A=
-+++ b/tests/migration/stress.c=0A=
-@@ -104,7 +104,7 @@ static int get_command_arg_str(const char *name,=0A=
-     }=0A=
- =0A=
-     if (end)=0A=
--        *val =3D strndup(start, end - start);=0A=
-+        *val =3D g_strndup(start, end - start);=0A=
-     else=0A=
-         *val =3D strdup(start);=0A=
-     return 1;=
+Hi Peter,
+
+Sorry for the delay in replying to this...
+
+On Thu, May 16, 2019 at 03:47:29PM +0100, Peter Maydell wrote:
+> 
+> This patchset attempts to fix https://bugs.launchpad.net/qemu/+bug/1823998
+> which reports that we don't handle kernels larger than 128MB
+> correctly, because we allow the initrd to be placed over the
+> tail end of the kernel. AArch64 kernel Image files (since v3.17)
+> report the total size they require (including any BSS area that
+> isn't in the Image itself), so we can use that to be sure we
+> place the initrd sufficiently far into the RAM.
+> 
+> Patches 1 and 2 are new since v1; patches 3 and 4 are the old
+> patches 1 and 2 (and are basically unchanged since v1).
+> 
+> Patches 1 and 2 in this series are new. Patch 1 fixes bugs
+> in the existing code where we were assuming that we could
+> treat info->ram_size as the address of the end of RAM, which
+> isn't true if the RAM doesn't start at address 0. (This
+> generally went unnoticed thanks to the magic of unsigned integer
+> underflow turning end-start calculations into very large max_size
+> values for load_ramdisk_as() and friends.)
+> Patch 2 adds some explicit checks that we don't try to put things
+> entirely off the end of RAM (which avoids those accidental
+> underflows).
+> Patch 3 in this series adjusts our "where do we put the initrd"
+> heuristic so that it always places it at least after whatever
+> our best guess at the kernel size is. (This might still not
+> be right for images like self-decompressing 32-bit kernels, where
+> there's no way to know how big the kernel will be after
+> decompression.)
+> Patch 4 makes load_aarch64_image() return the
+> kernel size as indicated in the Image file header, so that for
+> the specific case of AArch64 Image files we will definitely not
+> put the initrd on top of them.
+
+With all 4 patches applied, I'm able to boot kernels with large BSS
+segments (~128M, ~512M, and ~1G), and I get sensible warnings when they
+are impossible to boot, e.g.
+
+# 124M of RAM
+[mark@gravadlaks:~/repro]% ./vmboot.sh ~/Image.test-128M
+qemu-system-aarch64: kernel '/home/mark/Image.test-128M' is too large to fit in RAM (kernel size 155500544, RAM size 130023424)
+
+# 150M of RAM
+[mark@gravadlaks:~/repro]% ./vmboot.sh ~/Image.test-128M
+qemu-system-aarch64: Not enough space for DTB after kernel/initrd
+
+So feel free to add:
+
+Tested-by: Mark Rutland <mark.rutland@arm.com>
+
+Thanks for putting this together; this is _really_ useful for my testing
+setup, and the warnings above are likely to save people a lot of
+head-scratching in future. It would be great to see this merged. :)
+
+Thanks,
+Mark.
 
