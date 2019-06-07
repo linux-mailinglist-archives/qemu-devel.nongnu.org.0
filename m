@@ -2,79 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E99B3945E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:31:49 +0200 (CEST)
-Received: from localhost ([::1]:50376 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6E2394A9
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:51:37 +0200 (CEST)
+Received: from localhost ([::1]:50874 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZJeW-0004Tw-OK
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58511)
+	id 1hZJxg-0003UM-Qw
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:51:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hZHBK-000291-FZ
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:53:31 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hZHBJ-0007iX-JF
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:53:30 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:41792)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hZHBJ-0007hD-DY
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 11:53:29 -0400
-Received: by mail-oi1-x242.google.com with SMTP id b21so1754579oic.8
- for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 08:53:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jUGCXopUqagwavwf6nXHRMMQXU0j12H1RCQMa4QmlHM=;
- b=ceqOtyqlf+sEIKxkR3Dd7LYDTwX+eVf5igHVNxHt8c6Q11CQMkQ5fdXj4WKxiNsr7g
- ESuZO/zAsE9FVMa+c/TuVKu0DnL3nth7NAYSChvYv66tgeAaNcz7mO1wZrBvxpkcAEAW
- TJ57XTEsmQOmWO/W/iAq7Jepz0LaQZO8kkGSPy4Tl/dzGd2lndwLEAtfgJ4QfcbFJ4Ue
- 7Bp3Epeip+l7Z+WXlcKdMFft+zIdgYcWHz7sg65Udt6vB8Di1PBu6oC4ALR5n96tv2OC
- 0Lk0Q4onJPwJVnQ3Th782/+TUb+Sq0LdguoLPw+hPuOEwnDvQUPt+3jX+GNBd6a4GaM9
- /hDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jUGCXopUqagwavwf6nXHRMMQXU0j12H1RCQMa4QmlHM=;
- b=aiUD9n4WW22HCvnjYbWAbiWC6BmqyciNgM9/wgbvCia68EK9TDUljo6Zd+wHLCMalN
- o4CF9hBv1LQT/CSbN51uWQAaIaT5GGjp6DuJ1v+6WCWsBgGq3se78wqtN9ZYpZY1ikDb
- pRUpojofmDyiVmj9smzP/2TI3fh7iFQzaPZ7a/uLimj+9+oq90AsOHogfxBs33TQPDAF
- JVGPJm2axkH9QFQ0xBG9FH/JxYbyFuiin+jSIyfNEpSfxBuAXOxbMHIfB8kWS0GwqQJa
- Lr71Qksc/5a6zp5d4nqWW4UT3pXXpf1DEDRNX8y5wjS3geGND3DSxnrdvT3J8Cv9yeCs
- 6xow==
-X-Gm-Message-State: APjAAAVtSF5Gv2eQxYucB7z6lpwIoKf+dXI0F3AY+vftucSPc7NAo2ms
- f3c673gKZg1q1n+ysNT3dPIxiZGYGjqfmA==
-X-Google-Smtp-Source: APXvYqyuQLAnpnumH1BjX5HxJM4uCh46JvDco93Cr5dtuVy/00a5MZ1hEhZIEP4siE5Zn3zbxH0Ldg==
-X-Received: by 2002:a54:4686:: with SMTP id k6mr4301232oic.112.1559922808328; 
- Fri, 07 Jun 2019 08:53:28 -0700 (PDT)
-Received: from [192.168.3.43] (200-56-192-86-cable.cybercable.net.mx.
- [200.56.192.86])
- by smtp.gmail.com with ESMTPSA id e4sm860962oti.64.2019.06.07.08.53.27
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jun 2019 08:53:27 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20190606174609.20487-1-peter.maydell@linaro.org>
- <20190606174609.20487-11-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <d18a03bb-e1c7-dacc-df52-45db40044eb6@linaro.org>
-Date: Fri, 7 Jun 2019 10:53:24 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <iank@fsf.org>) id 1hZHSE-0002Yp-3Q
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:10:59 -0400
+Received: from mail.fsf.org ([209.51.188.13]:34092)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <iank@fsf.org>) id 1hZHSE-0002NR-0K
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:10:58 -0400
+Received: from li.iankelling.org ([72.14.176.105]:58020
+ helo=mail.iankelling.org)
+ by mail.fsf.org with esmtpsa (TLS-1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.69) (envelope-from <iank@fsf.org>) id 1hZHSD-0000Zo-Ls
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:10:57 -0400
+Received: from iank by mail.iankelling.org with local (Exim 4.86_2)
+ (envelope-from <iank@fsf.org>) id 1hZHSC-0000uB-4E
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 12:10:56 -0400
+References: <87v9xiuryy.fsf@fsf.org>
+User-agent: mu4e 1.1.0; emacs 27.0.50
+From: Ian Kelling <iank@fsf.org>
+To: qemu devel list <qemu-devel@nongnu.org>
+In-reply-to: <87v9xiuryy.fsf@fsf.org>
+Date: Fri, 07 Jun 2019 12:10:56 -0400
+Message-ID: <8736kl4bqn.fsf@fsf.org>
 MIME-Version: 1.0
-In-Reply-To: <20190606174609.20487-11-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH 10/42] target/arm: Move the VFP trans_*
- functions to translate-vfp.inc.c
+Content-Type: text/plain
+X-detected-operating-system: by mail.fsf.org: GNU/Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+Subject: Re: [Qemu-devel] lists.nongnu.org was upgraded today,
+ one issue is still being worked out
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,21 +52,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/19 12:45 PM, Peter Maydell wrote:
-> Move the trans_*() functions we've just created from translate.c
-> to translate-vfp.inc.c. This is pure code motion with no textual
-> changes (this can be checked with 'git show --color-moved').
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/translate-vfp.inc.c | 337 +++++++++++++++++++++++++++++++++
->  target/arm/translate.c         | 337 ---------------------------------
->  2 files changed, 337 insertions(+), 337 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Ian Kelling <iank@fsf.org> writes:
 
+> The server is sending mail using a new ip which is causing a higher than
+> average number of mail servers telling us to retry and send later as
+> they hopefully decide we are legitimate. The only big provider doing
+> this is yahoo, others are small enough that if messages aren't coming as
+> normal, you should probably be able to get your email server sysadmin to
+> open the pipe. Yahoo has a long history of being unfriendly to mailing
+> list messages in various ways, so its not totally unusual. My plan is to
+> monitor the situation and if it doesn't improve in the next day or so, I
+> will give the new server its old ip and see if that fixes it.
 
-r~
+Update: More servers decided they didn't like our new ip, so I switched
+it back which seems to have fixed things. The mail queue is slowly going
+down as messages are retried based on exim's prescribed waiting periods,
+it should take a few hours.
 
+Messages are accessible in the archive of course:
+https://lists.nongnu.org/archive/html/qemu-devel/2019-06/threads.html
+https://lists.gnu.org/archive/mbox/qemu-devel/
 
+-- 
+Ian Kelling | Senior Systems Administrator, Free Software Foundation
+GPG Key: B125 F60B 7B28 7FF6 A2B7  DF8F 170A F0E2 9542 95DF
+https://fsf.org | https://gnu.org
 
