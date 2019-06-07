@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF4839851
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 00:11:32 +0200 (CEST)
-Received: from localhost ([::1]:53662 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1114339835
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 00:07:34 +0200 (CEST)
+Received: from localhost ([::1]:53630 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZN57-0006GX-PO
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 18:11:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47629)
+	id 1hZN1J-0002uF-71
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 18:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47639)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <prvs=0547f94d1=alistair.francis@wdc.com>)
- id 1hZMrt-00041v-AB
+ id 1hZMrt-000421-HH
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:57:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=0547f94d1=alistair.francis@wdc.com>)
- id 1hZMrr-0001fx-SN
+ id 1hZMrr-0001g2-UK
  for qemu-devel@nongnu.org; Fri, 07 Jun 2019 17:57:49 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:8433)
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:8436)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=0547f94d1=alistair.francis@wdc.com>)
- id 1hZMrr-0001SY-Fu; Fri, 07 Jun 2019 17:57:47 -0400
+ id 1hZMrr-0001Ty-GS; Fri, 07 Jun 2019 17:57:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1559944668; x=1591480668;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Xw65e62SJqBKkrt6W+qEPmpcUgZUUv62LCp3vTlHgCc=;
- b=EEyQZ8Or0gqnH0C+NTLsRcsPei3K7CYM5pXxE9ZrzRXTGLSIxYXtBqKs
- SHdWh5wb9KE5YdZVG85A4i65cRXRJdOJi6BOcUlMXka8OPJap8bIwREfo
- u7N7s6iZcWuwqqeF5JWVfaoZbFYx3YxODDoKcGj8HfsA8mt59Yd5e7qE2
- 8V72FUXxk+jCW05bMqAFuUpvPJYTiBdE/hAaF6Behz+VRhpL45Kr6Qr8E
- mLwuCDdiSwCWz5X4+cD8V9PnG5LwwfV/Ejwg8XrLiErXfPwZO8ejI2kWl
- VO7I4d6S7CAcCyuAON86XVax4zNlhEPmTvb+ildm9QwUdvELZdX8t4BXO A==;
-X-IronPort-AV: E=Sophos;i="5.63,564,1557158400"; d="scan'208";a="115014080"
+ bh=BXuqW+Vie67kKzLkoEIoBCOJ2a3oHbLhsnez7FroSYM=;
+ b=X7BlLYUfjWW2xFq72GHAexdy7/YqL62ovrZTdgtVOJyCVnQA7Ol2cOLu
+ O0WA2Shn5pH3owUJ1of36O9qgSG8jCU/kJ6Tu9FHMIpMvxUbwBbjWJarU
+ 8YzLqVs4rnSV2MVaS/4HrbZn7csQCT7FhVrt281nWZdGFeq5HovWFlcWs
+ gbST+3VhtAfPMwfYSlmv6tFjctIdV55zvJ3Aw2zjZKyIOgiUwYvXBDiHX
+ 3zFqIcpZda5459A1uSMLs+zrFhHjPdjKkCk1JhyyzEsj4FwVKcD4yvBSd
+ g7qer/GtgRe0JTVoZWD9btHNuljyfTdy3Fdu8Jh5j1HGZ0Di8mblqfLg4 A==;
+X-IronPort-AV: E=Sophos;i="5.63,564,1557158400"; d="scan'208";a="115014082"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2019 05:57:41 +0800
-IronPort-SDR: vbC/Bmr+JfbzIw7eASB7EZZZXPIUwXNo4mlim1vCpCeX0A5OGU1bU0Rqa9MrquMYaKHRsjb3Tw
- 4HK2NyDKkLVqjSjbvs+hEeh/3GHg/0SmJjpG0/vdixZvgDoUi/dMB8o7tHyIqjZjuEE3tkq3Db
- 32utE1kEj1x/xsVnv49aaRVHAJ5s2z4ZRBni4rdD6A+7tW7fFXvdw1IVVMVLoOnrlsQnx1aqWc
- fuBpe8G0QTvw5okIKA3rH24ZqZrDClMB1bzdcr/3296fGcABxLPxR9u/oOFglF1eWU2/34k12w
- LnaAv01PzQgOdTOiAcj6cfqV
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2019 05:57:43 +0800
+IronPort-SDR: y2eHVMNQ45bNeKp6JIyZrsqxEGPSsxEXwbpfyt3Z0lbq59g/L8Lk+0XzxpqKrDiDiYR235gww7
+ xk2WXnq4vumvn8LiQuK6HiCJkHqZ5I9P4CRqxLb1Tn6O8M/o1bGiUeEF7RowM8sMYgXzhfoJ0c
+ dNadsdYnrzulCXD6fQhKv/ipgtyGFHPcpkaLpksB3YJl7zF5S7ly332yrVjGmNXu3l0/OykA18
+ 6ZfQZDScpY/yEoDM0dysWDtlyooXeW02VrBj1nBiQvKsIjQK51W0T9bZ73sfZafyGluXBFJmzy
+ dCyBauB9RTnAXhVMoSLhmr2K
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP; 07 Jun 2019 14:34:56 -0700
-IronPort-SDR: Rt9VUjhzogtRFg22S2MiM/vY0dePbOsWuCnRDEEenWX9gBzBwgxSchXyrOKfQUOaY5wrSy1zDd
- c7bGSQ0RCiyD+RjxET7DZZOq7feZX+mySroLeruwfa00toAUIMyPtdDn/7pNqkv1ivLjvcahrz
- SQ3h7+8ytRuPKa6cZhs28SGwCteZPVN/EPbVQf8vuUK48m+OMG3/+YGO6b9lRAA+nwReIoTNMp
- Qz77xYqf6aTpmu2FKDJNkdJrBRrPStZA+LysVNvRIXcVrtHBvWh0gmBJSHSJK+S001LAhsAkmN
- 0EE=
+ by uls-op-cesaep02.wdc.com with ESMTP; 07 Jun 2019 14:34:59 -0700
+IronPort-SDR: xXRww24/bqrtdvN6V4iq5RMtoGQ4qLy3YnDkoQIvDp5uoC+JG6o7tYlk7YqgvUCdArK3DDckxe
+ gMuW1L2MznRnEqZxoFfLaQWVKESYYTObFGqt3fnkyhtAPtd8oYnx1SVVhBcE1xcfyqU2l1CBTH
+ O11ZNLwMyNT30XhwDI/bRZOJVdBaakm2sUViC/BaQslRiVsvTzL1SV8b/himIzCffup6YpXQoK
+ x5QaIhuzm/ZuRrZ+xG2Pm0LT/cqG0QK5lf/xM11YAHVcWRY9p19zb4U+mzAHtggc2t2TWa0TX+
+ XG4=
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2019 14:57:40 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2019 14:57:42 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Date: Fri,  7 Jun 2019 14:55:30 -0700
-Message-Id: <c1b55ffb0659f835254e71ec28165d86ed69a91d.1559944445.git.alistair.francis@wdc.com>
+Date: Fri,  7 Jun 2019 14:55:33 -0700
+Message-Id: <609116061bb03388a782b79fc345f02dc69e0d34.1559944445.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559944445.git.alistair.francis@wdc.com>
 References: <cover.1559944445.git.alistair.francis@wdc.com>
@@ -66,8 +66,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 216.71.153.141
-Subject: [Qemu-devel] [PATCH v1 04/27] target/riscv: Add the force HS
- exception mode
+Subject: [Qemu-devel] [PATCH v1 05/27] target/riscv: Add the Hypervisor CSRs
+ to CPUState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,75 +85,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h        |  2 ++
- target/riscv/cpu_bits.h   |  6 ++++++
- target/riscv/cpu_helper.c | 23 +++++++++++++++++++++++
- 3 files changed, 31 insertions(+)
+ target/riscv/cpu.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index de4843b879..eeb3756c91 100644
+index eeb3756c91..b99d2b7af2 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -282,6 +282,8 @@ int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
- bool riscv_cpu_virt_enabled(CPURISCVState *env);
- void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
-+bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env);
-+void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable);
- int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
- hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 07c95e8d2c..c898bb1102 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -423,6 +423,12 @@
- #define VIRT_MODE_SHIFT     0
- #define VIRT_MODE_MASK      (1 << VIRT_MODE_SHIFT)
+@@ -169,12 +169,29 @@ struct CPURISCVState {
+     target_ulong mcause;
+     target_ulong mtval;  /* since: priv-1.10.0 */
  
-+/* HS-level exceptions modes */
-+#define CLEAR_HS_EXCEP        0
-+#define FORCE_HS_EXCEP        1
-+#define FORCE_HS_EXCEP_SHIFT  1
-+#define FORCE_HS_EXCEP_MASK   (1 << FORCE_HS_EXCEP_SHIFT)
++    /* Hypervisor CSRs */
++    target_ulong hstatus;
++    target_ulong hedeleg;
++    target_ulong hideleg;
++    target_ulong hgatp;
 +
- /* RV32 satp CSR field masks */
- #define SATP32_MODE         0x80000000
- #define SATP32_ASID         0x7fc00000
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 5912ae63b7..0fdc81f71f 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -94,6 +94,29 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
-     env->virt |= enable << VIRT_MODE_SHIFT;
- }
+     target_ulong scounteren;
+     target_ulong mcounteren;
  
-+bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env)
-+{
-+    bool tmp;
+     target_ulong sscratch;
+     target_ulong mscratch;
+ 
++    /* Background CSRs */
++    target_ulong bsstatus;
++    target_ulong bsip;
++    target_ulong bsie;
++    target_ulong bstvec;
++    target_ulong bsscratch;
++    target_ulong bsepc;
++    target_ulong bscause;
++    target_ulong bstval;
++    target_ulong bsatp;
 +
-+    if (!riscv_has_ext(env, RVH)) {
-+        return false;
-+    }
-+
-+    tmp = (env->virt & FORCE_HS_EXCEP_MASK) >> FORCE_HS_EXCEP_SHIFT;
-+
-+    return tmp == FORCE_HS_EXCEP;
-+}
-+
-+void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable)
-+{
-+    if (!riscv_has_ext(env, RVH)) {
-+        return;
-+    }
-+
-+    env->virt &= ~FORCE_HS_EXCEP_MASK;
-+    env->virt |= enable << FORCE_HS_EXCEP_SHIFT;
-+}
-+
- int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
- {
-     CPURISCVState *env = &cpu->env;
+     /* temporary htif regs */
+     uint64_t mfromhost;
+     uint64_t mtohost;
 -- 
 2.21.0
 
