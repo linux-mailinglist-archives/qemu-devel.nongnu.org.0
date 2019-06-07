@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29E5395BE
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 21:32:13 +0200 (CEST)
-Received: from localhost ([::1]:51784 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BE43950C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 20:57:53 +0200 (CEST)
+Received: from localhost ([::1]:51088 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZKay-0006PU-FD
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 15:32:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34087)
+	id 1hZK3j-0001yK-Up
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 14:57:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hZIhn-0006K3-Fb
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:31:09 -0400
+ (envelope-from <berrange@redhat.com>) id 1hZIkA-000792-SO
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:33:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hZIhm-0004xI-CN
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:31:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55014)
+ (envelope-from <berrange@redhat.com>) id 1hZIk9-0005hK-ME
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:33:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41916)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hZIhm-0004wX-6g
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:31:06 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hZIk9-0005b2-Ct
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 13:33:33 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 61491C1EB1F8;
- Fri,  7 Jun 2019 17:31:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CC7EE883BA;
+ Fri,  7 Jun 2019 17:32:54 +0000 (UTC)
 Received: from redhat.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AF9F8088D;
- Fri,  7 Jun 2019 17:30:58 +0000 (UTC)
-Date: Fri, 7 Jun 2019 18:30:56 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E54F611AB;
+ Fri,  7 Jun 2019 17:32:14 +0000 (UTC)
+Date: Fri, 7 Jun 2019 18:32:11 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190607173056.GO28838@redhat.com>
-References: <20190607152827.18003-1-peter.maydell@linaro.org>
- <20190607152827.18003-3-peter.maydell@linaro.org>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190607173211.GP28838@redhat.com>
+References: <87lfyqla7r.fsf@dusky.pond.sub.org>
+ <20190605142300.GB8956@redhat.com>
+ <8736knnclp.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190607152827.18003-3-peter.maydell@linaro.org>
+In-Reply-To: <8736knnclp.fsf@dusky.pond.sub.org>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Fri, 07 Jun 2019 17:31:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Fri, 07 Jun 2019 17:33:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/2] qemu-tech.texi: Remove "QEMU compared
- to other emulators" section
+Subject: Re: [Qemu-devel] Headers without multiple inclusion guards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,29 +60,83 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Hogan <jhogan@kernel.org>,
+ Anthony Green <green@moxielogic.com>, Palmer Dabbelt <palmer@sifive.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Laszlo Ersek <lersek@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Eduardo Habkost <ehabkost@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Greg Kurz <groug@kaod.org>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
+ Paul Durrant <paul.durrant@citrix.com>, Stafford Horne <shorne@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Claudio Fontana <claudio.fontana@huawei.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Michael Walle <michael@walle.cc>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 07, 2019 at 04:28:27PM +0100, Peter Maydell wrote:
-> The "QEMU compared to other emulators" section of our documentation
-> hasn't been updated since 2015 (and parts of the text are even older).
-> We're clearly not very well placed to track the evolution of a
-> dozen other emulation projects, and an inaccurate or out of date
-> comparison doesn't serve anybody, so we're best off just removing
-> the whole documentation section.
+On Wed, Jun 05, 2019 at 07:52:50PM +0200, Markus Armbruster wrote:
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 >=20
-> If anybody cares strongly about maintaining a comparison page,
-> it's probably better to do that on the project's wiki where
-> we can update it more dynamically.
+> > On Tue, May 28, 2019 at 08:12:24PM +0200, Markus Armbruster wrote:
+> >> We have a bunch of headers without multiple inclusion guards.  Some =
+are
+> >> clearly intentional, some look accidental.  Too many for me to find =
+out
+> >> by examining each of them, so I'm asking their maintainers.
+> >>=20
+> >> Why do I ask?  I'd like to mark the intentional ones and fix the
+> >> accidental ones, so they don't flunk "make check-headers" from "[RFC=
+ v4
+> >> 0/7] Baby steps towards saner headers" just because they lack multip=
+le
+> >> inclusion guards.
+> >>=20
+> >> Just in case: what's a multiple inclusion guard?  It's
+> >>=20
+> >>     #ifndef UNIQUE_GUARD_SYMBOL_H
+> >>     #define UNIQUE_GUARD_SYMBOL_H
+> >>     ...
+> >>     #endif
+> >>=20
+> >> with nothing but comments outside the conditional, so that the heade=
+r
+> >> can safely be included more than once.
+> >
+> > Any opinions on using the less verbose syntax instead:
+> >
+> >   #pragma once
+> >
+> > It is not portable C, but we explicitly only care about GCC or CLang,
+> > so portability isn't an issue for us.
 >=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  qemu-tech.texi | 107 -------------------------------------------------
->  1 file changed, 107 deletions(-)
+> I doubt its worth the churn.  But I'm content to go with the flow here.
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
+Since the collective response was effectively "Meh", lets just
+pretend i didn't raise this suggestion :-)
 
 
 Regards,
