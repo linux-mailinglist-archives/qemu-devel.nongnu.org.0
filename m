@@ -2,47 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2070D38876
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:04:52 +0200 (CEST)
-Received: from localhost ([::1]:48392 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1C03889E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 13:11:13 +0200 (CEST)
+Received: from localhost ([::1]:48452 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZCfz-0000xz-AO
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55822)
+	id 1hZCm8-0007wf-V5
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 07:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56667)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hZBaG-0003cO-2b
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:54:53 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZBd2-0005sP-D2
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:57:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hZBa9-0003zE-Lp
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:54:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57906)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hZBa3-0003nh-W8; Fri, 07 Jun 2019 05:54:41 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AC1A73082DDD;
- Fri,  7 Jun 2019 09:54:36 +0000 (UTC)
-Received: from localhost (dhcp-192-191.str.redhat.com [10.33.192.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 524C77D4FD;
- Fri,  7 Jun 2019 09:54:36 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri,  7 Jun 2019 11:52:37 +0200
-Message-Id: <20190607095237.11364-36-cohuck@redhat.com>
-In-Reply-To: <20190607095237.11364-1-cohuck@redhat.com>
-References: <20190607095237.11364-1-cohuck@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hZBd1-0001Gl-2S
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:57:44 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:39746)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hZBd0-0001Dk-Qk
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:57:42 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id r21so1305357otq.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 02:57:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oAtbI+rPI68kFubeDAVhuMcAqpzefisJEhDu9zkuloo=;
+ b=XdkRpaleqAPwt57RJU6Q5E+QtmOj59520qoE1Anp2ofEJXu4D0N4HYGpPpbquudnmU
+ z+GCUmj1a5XIuDv56p8jXyw9hnjK+YtcMPtyY996sBLC5DAYYtmLlzxfAxD1mzVJB7ve
+ 7jAamcEJORamTgKEfqGU/Q+1geHcNtPtfmcow9gTQwMbAiQVddFaDqGodN4YT/DOzJEN
+ RRkmq2Z3Av75Cei8eLxQTYyeMm/wRRcyMwd9jSy7EvTNfGOchjhYFEK7Z9BdrkdpjqSR
+ aSU1NA6YevJO4925FSHEITeNCaVTaq62+Y9WE0HfkoS5UdPoD7NXnDDIWyXKIFu1O9Sn
+ EYLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oAtbI+rPI68kFubeDAVhuMcAqpzefisJEhDu9zkuloo=;
+ b=TCYHoEQIU1Ny7fbUZYRxJkWQRRlpHnGaqdXqfjHBy5XhyoHFCdSHMQZNNRiuGE5Wfh
+ TpWXepzCVh4Q9L9g6VMIiIO0YmSqBkIFkj1bs5u34eGzrFxbakmRQgwKRhCzuO8U0UYt
+ RmmCTtn6buMbnEbrS87ejphDGPNXdaU1wm7qwjbqmH8c0BP6VEfrTiHHY+9i3OkWdh9F
+ 0WPXboV6MVKScyzLXs46PAqHrHYRERSTONbfbQ/GigsUlc8emr3VUrs3Fthg5dS400Cg
+ pxJxMrPuBuT+3Tx4oRBon6PuppMjqrZxpdasSKy1p+e3vAMguOWX6eHi++QXSWqfCLcz
+ Ryjg==
+X-Gm-Message-State: APjAAAWDgAuBeFQVLQiVE6W0+LiQH0iN6zAxMdO2szaW0bU/wWHc7H1m
+ 3Spe+d5ZckR9fIguDF8m/yZqT4+SWC33nuJ2I7Z/Wg==
+X-Google-Smtp-Source: APXvYqz+ahkOR0wNpufo08CdLSOek4KUnhVRSR0Fbdv10C7i1Cn5/G8INDADABC/1sHJHaYxSKxP0H6khWJQO0Yy0TQ=
+X-Received: by 2002:a9d:d17:: with SMTP id 23mr18277899oti.221.1559901461607; 
+ Fri, 07 Jun 2019 02:57:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 07 Jun 2019 09:54:36 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 35/35] linux-user: elf: ELF_HWCAP for s390x
+References: <20190607095237.11364-1-cohuck@redhat.com>
+In-Reply-To: <20190607095237.11364-1-cohuck@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jun 2019 10:57:30 +0100
+Message-ID: <CAFEAcA8FXh-jPMwpGN-4ES4v=nE4ZOSNB8+rkdB03E=BBDh-jw@mail.gmail.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32e
+Subject: Re: [Qemu-devel] [PULL 00/35] s390x updates
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,87 +71,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+On Fri, 7 Jun 2019 at 10:52, Cornelia Huck <cohuck@redhat.com> wrote:
+>
+> The following changes since commit 47fbad45d47af8af784bb12a5719489edcd89b4c:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-06-04 17:22:42 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/cohuck/qemu tags/s390x-20190607-1
+>
+> for you to fetch changes up to 39f04d18406862bd98d6bef5415dbe7360c652de:
+>
+>   Merge tag 's390x-tcg-2019-06-05' into s390-next-staging (2019-06-07 11:38:42 +0200)
+>
+> ----------------------------------------------------------------
+> s390x updates:
+> - tcg: finalize implementation for the vector facility and
+>   add it to the 'qemu' cpu model
+> - linux-user: properly generate ELF_HWCAP
+> - vfio-ccw: support async command subregion (for halt/clear
+>   subchannel handling)
+>
+> ----------------------------------------------------------------
 
-Let's add all HWCAPs that we can support under TCG right now, when the
-respective CPU facilities are enabled.
+Hi -- this fails to link on the windows build for me:
+  LINK    s390x-softmmu/qemu-system-s390xw.exe
+hw/s390x/css.o: In function `sch_handle_halt_func_passthrough':
+/home/petmay01/qemu-for-merges/hw/s390x/css.c:1213: undefined
+reference to `vfio_ccw_handle_halt'
+hw/s390x/css.o: In function `sch_handle_clear_func_passthrough':
+/home/petmay01/qemu-for-merges/hw/s390x/css.c:1223: undefined
+reference to `vfio_ccw_handle_clear'
+collect2: error: ld returned 1 exit status
 
-Cc: Riku Voipio <riku.voipio@iki.fi>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- include/elf.h        |  1 +
- linux-user/elfload.c | 28 ++++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
-
-diff --git a/include/elf.h b/include/elf.h
-index ea7708a4ea9a..3501e0c8d03a 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -598,6 +598,7 @@ typedef struct {
- #define HWCAP_S390_ETF3EH       256
- #define HWCAP_S390_HIGH_GPRS    512
- #define HWCAP_S390_TE           1024
-+#define HWCAP_S390_VXRS         2048
-=20
- /* M68K specific definitions. */
- /* We use the top 24 bits to encode information about the
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index a57b7049dd62..5451d262ec8e 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1308,6 +1308,34 @@ static inline void init_thread(struct target_pt_re=
-gs *regs,
- #define ELF_DATA	ELFDATA2MSB
- #define ELF_ARCH	EM_S390
-=20
-+#include "elf.h"
-+
-+#define ELF_HWCAP get_elf_hwcap()
-+
-+#define GET_FEATURE(_feat, _hwcap) \
-+    do { if (s390_has_feat(_feat)) { hwcap |=3D _hwcap; } } while (0)
-+
-+static uint32_t get_elf_hwcap(void)
-+{
-+    /*
-+     * Let's assume we always have esan3 and zarch.
-+     * 31-bit processes can use 64-bit registers (high gprs).
-+     */
-+    uint32_t hwcap =3D HWCAP_S390_ESAN3 | HWCAP_S390_ZARCH | HWCAP_S390_=
-HIGH_GPRS;
-+
-+    GET_FEATURE(S390_FEAT_STFLE, HWCAP_S390_STFLE);
-+    GET_FEATURE(S390_FEAT_MSA, HWCAP_S390_MSA);
-+    GET_FEATURE(S390_FEAT_LONG_DISPLACEMENT, HWCAP_S390_LDISP);
-+    GET_FEATURE(S390_FEAT_EXTENDED_IMMEDIATE, HWCAP_S390_EIMM);
-+    if (s390_has_feat(S390_FEAT_EXTENDED_TRANSLATION_3) &&
-+        s390_has_feat(S390_FEAT_ETF3_ENH)) {
-+        hwcap |=3D HWCAP_S390_ETF3EH;
-+    }
-+    GET_FEATURE(S390_FEAT_VECTOR, HWCAP_S390_VXRS);
-+
-+    return hwcap;
-+}
-+
- static inline void init_thread(struct target_pt_regs *regs, struct image=
-_info *infop)
- {
-     regs->psw.addr =3D infop->entry;
---=20
-2.20.1
-
+thanks
+-- PMM
 
