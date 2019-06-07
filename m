@@ -1,50 +1,69 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DA839195
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 18:06:10 +0200 (CEST)
-Received: from localhost ([::1]:49148 helo=lists.gnu.org)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AFB38682
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 10:50:48 +0200 (CEST)
+Received: from localhost ([::1]:46972 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZHNZ-0004Bb-Sh
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 12:06:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60847)
+	id 1hZAaF-0007La-0T
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 04:50:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34203)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andreas.konopik@efs-auto.de>) id 1hZAQd-00066I-1P
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:40:52 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hZAXO-0006q7-Np
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:47:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andreas.konopik@efs-auto.de>) id 1hZAQb-0006vK-Fm
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:40:50 -0400
-Received: from mailin4.audi.de ([143.164.102.18]:44610)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andreas.konopik@efs-auto.de>)
- id 1hZAQb-0006VJ-3T
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:40:49 -0400
-From: "Konopik, Andreas (EFS-GH2)" <andreas.konopik@efs-auto.de>
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH 4/5] tricore: add QSEED instruction
-Thread-Index: AQHVG2WPXjGEeP6bXEumMYkWdbcFpKaNB4kAgALS7FA=
-Date: Fri, 7 Jun 2019 08:40:28 +0000
-Message-ID: <F5B10EA5F04CF44F81B685A0E28157872022B0@AUDIINSX0385.audi.vwg>
-References: <20190605061126.10244-1-david.brenken@efs-auto.org>
- <20190605061126.10244-5-david.brenken@efs-auto.org>
- <9baa6207-17a2-7218-9ad2-9627de232304@mail.uni-paderborn.de>
-In-Reply-To: <9baa6207-17a2-7218-9ad2-9627de232304@mail.uni-paderborn.de>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.246.77.120]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <peter.maydell@linaro.org>) id 1hZAXL-0007QZ-Vb
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:47:49 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43856)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hZAXK-00076g-H0
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 04:47:47 -0400
+Received: by mail-oi1-x243.google.com with SMTP id w79so885661oif.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Jun 2019 01:47:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ROmuIlKZOyrc7ZxNO3UhM5JdY/y4BYY1WCaJZ2RVmjY=;
+ b=L2CrLIUYkZmFBunjbIbpAMWoIAwJCpOoTMXf2r+b5oKPjBqR5skV+E/oHe4M4RZRQs
+ qcQnZKKe3Jn8sCF6P+k+bRJBEJsuhRdma/ZLUsoSUsDxmhdMYKFWwVk5jKzPW6bn9D2y
+ p/FsMZaucjw1B1g0p7sw1xduG1iJnXzdwn/HAvshfgQ+6xBlgRhqLM6QeLb+D5FYMNRu
+ oo07h04bOgI5w4OGuJudVBoI74mG/fHxAezpFF+yZGCNyTtlA9ANIeiqW/U4cz5B4SU3
+ yrL+ZgCJoQsdMiNulDnPPB6ptvVCFBarGHkjD1z1jVEomvwlLHFhInzXIwaFA4f8AQQ1
+ BUeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ROmuIlKZOyrc7ZxNO3UhM5JdY/y4BYY1WCaJZ2RVmjY=;
+ b=U5tb8M5dlOnVXXNZPTAxM4UcflY4Gdo/QPIAD7bU5IOA0iBc7gVCU6r0sOmDGnLb2v
+ vVjUPhQRwYPQujFbAon2OiahfLy9yNAxZDQe1XsQq6/nm5Su1aFjE3n8TJWL2d5go1Y1
+ 4InzOqdbzpG29woITv97AaPLSA2L7icgr8Hj0ZSKEe3WcnBOh9IuNHXMH0DoZiUnUOLt
+ URPRZi4mN2jcGCOjBLjcy2XT13OVuFDXci5ixz56Vai0T9TKnoorQ1R4KJrThLemEqrS
+ oLtVO71cCNhFRzfwAdfA3z83QpnXT1xGZRwy5o1yNByvGnMyOUW2wJZig+QP44z2ux89
+ ROjw==
+X-Gm-Message-State: APjAAAVBB2hEHU2CIna500m6VXlvzX3ijOGIry0zWhN+bzFPH+0HOaNt
+ 1hr2k6SlAfKhVAlRTm61xtvlvfWaRiYcF9Jg37ddJw==
+X-Google-Smtp-Source: APXvYqwLmBYktMQ+rGPdDAAmIMcoqnnfqsfPYX7tW2z7eiA0SA0eSDXlRM2+rfO+n2ui2rN1jLRY8xpOo1AdZEvYbKk=
+X-Received: by 2002:aca:b1c1:: with SMTP id a184mr3099091oif.98.1559897260144; 
+ Fri, 07 Jun 2019 01:47:40 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 143.164.102.18
-X-Mailman-Approved-At: Fri, 07 Jun 2019 11:13:35 -0400
-Subject: Re: [Qemu-devel] [PATCH 4/5] tricore: add QSEED instruction
+References: <20190605145829.7674-1-marcandre.lureau@redhat.com>
+ <20190605145829.7674-6-marcandre.lureau@redhat.com>
+In-Reply-To: <20190605145829.7674-6-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jun 2019 09:47:29 +0100
+Message-ID: <CAFEAcA8871Ze7-=vA9Z1C4J_85nE=qWgi-R+wuzc1yejkuKvsA@mail.gmail.com>
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH 5/5] vhost-user-gpu: initialize msghdr &
+ iov at declaration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,58 +75,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Brenken, David \(EFS-GH2\)" <david.brenken@efs-auto.de>, "Rasche,
- Robert \(EFS-GH2\)" <robert.rasche@efs-auto.de>, "Hofstetter, 
- Georg \(EFS-GH2\)" <Georg.Hofstetter@efs-auto.de>, "Biermanski,
- Lars \(EFS-GH3\)" <lars.biermanski@efs-auto.de>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgQmFzdGlhbiwNCg0KPiBIaSwNCj4gDQo+IE9uIDYvNS8xOSA4OjExIEFNLCBEYXZpZCBCcmVu
-a2VuIHdyb3RlOg0KPiA+ICsvKg0KPiA+ICsgKiBUYXJnZXQgVHJpQ29yZSBRU0VFRC5GIHNpZ25p
-ZmljYW5kIExvb2t1cCBUYWJsZQ0KPiA+ICsgKg0KPiA+ICsgKiBUaGUgUVNFRUQuRiBvdXRwdXQg
-c2lnbmlmaWNhbmQgZGVwZW5kcyBvbiB0aGUgbGVhc3Qtc2lnbmlmaWNhbnQNCj4gPiArICogZXhw
-b25lbnQgYml0IGFuZCB0aGUgNiBtb3N0LXNpZ25pZmljYW50IHNpZ25pZmljYW5kIGJpdHMuDQo+
-ID4gKyAqDQo+ID4gKyAqIElFRUUgNzU0IGZsb2F0IGRhdGF0eXBlDQo+ID4gKyAqIHBhcnRpdGlv
-bmVkIGludG8gU2lnbiAoUyksIEV4cG9uZW50IChFKSBhbmQgU2lnbmlmaWNhbmQgKE0pOg0KPiA+
-ICsgKg0KPiA+ICsgKiBTICAgRSBFIEUgRSBFIEUgRSBFICAgTSBNIE0gTSBNIE0gLi4uDQo+ID4g
-KyAqICAgIHwgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIHwNCj4gPiArICogICAgKy0tLS0t
-LSstLS0tLS0rLS0tLS0tLSstLS0tLS0tKw0KPiA+ICsgKiAgICAgICAgICAgfCAgICAgICAgICAg
-ICAgfA0KPiA+ICsgKiAgICAgICAgICBmb3IgICAgICAgIGxvb2t1cCB0YWJsZQ0KPiA+ICsgKiAg
-ICAgIGNhbGN1bGF0aW5nICAgICBpbmRleCBmb3INCj4gPiArICogICAgICAgIG91dHB1dCBFICAg
-ICAgIG91dHB1dCBNDQo+ID4gKyAqLw0KPiA+ICtzdGF0aWMgY29uc3QgdWludDhfdCB0YXJnZXRf
-cXNlZWRfc2lnbmlmaWNhbmRfdGFibGVbMTI4XSA9IHsNCj4gPiArICAgIDI1MywgMjUyLCAyNDUs
-IDI0NCwgMjM5LCAyMzgsIDIzMSwgMjMwLCAyMjUsIDIyNCwgMjE3LCAyMTYsDQo+ID4gKyAgICAy
-MTEsIDIxMCwgMjA1LCAyMDQsIDIwMSwgMjAwLCAxOTUsIDE5NCwgMTg5LCAxODgsIDE4NSwgMTg0
-LA0KPiA+ICsgICAgMTc5LCAxNzgsIDE3NSwgMTc0LCAxNjksIDE2OCwgMTY1LCAxNjQsIDE2MSwg
-MTYwLCAxNTcsIDE1NiwNCj4gPiArICAgIDE1MywgMTUyLCAxNDksIDE0OCwgMTQ1LCAxNDQsIDE0
-MSwgMTQwLCAxMzcsIDEzNiwgMTMzLCAxMzIsDQo+ID4gKyAgICAxMzEsIDEzMCwgMTI3LCAxMjYs
-IDEyMywgMTIyLCAxMjEsIDEyMCwgMTE3LCAxMTYsIDExNSwgMTE0LA0KPiA+ICsgICAgMTExLCAx
-MTAsIDEwOSwgMTA4LCAxMDMsIDEwMiwgOTksIDk4LCA5MywgOTIsIDg5LCA4OCwgODMsDQo+ID4g
-KyAgICA4MiwgNzksIDc4LCA3NSwgNzQsIDcxLCA3MCwgNjcsIDY2LCA2MywgNjIsIDU5LCA1OCwg
-NTUsDQo+ID4gKyAgICA1NCwgNTMsIDUyLCA0OSwgNDgsIDQ1LCA0NCwgNDMsIDQyLCAzOSwgMzgs
-IDM3LCAzNiwgMzMsDQo+ID4gKyAgICAzMiwgMzEsIDMwLCAyNywgMjYsIDI1LCAyNCwgMjMsIDIy
-LCAxOSwgMTgsIDE3LCAxNiwgMTUsDQo+ID4gKyAgICAxNCwgMTMsIDEyLCAxMSwgMTAsIDksIDgs
-IDcsIDYsIDUsIDQsIDMsIDIgfTsNCj4gDQo+IA0KPiBDYW4geW91IGV4cGxhaW4gaW4gYSBjb21t
-ZW50IGhvdyB5b3UgYXJyaXZlZCBhdCB0aGlzIGxvb2t1cCB0YWJsZT8NCg0KV2UgZXh0cmFjdGVk
-IHRoaXMgbG9va3VwIHRhYmxlIGZyb20gcmVhbCBoYXJkd2FyZSByZXN1bHRzLg0KV2UgYWxzbyB2
-YWxpZGF0ZWQgUUVNVSBvdXRwdXQgdmFsdWVzIGJ5IGNvbXBhcmluZyBhZ2FpbiB3aXRoIHRoZSBy
-ZWFsDQpoYXJkd2FyZSBxc2VlZCBvdXRwdXQuDQpUZXN0aW5nIHdhcyBub3QgbWFkZSBmb3IgYWxs
-IDJeMzIgcG9zc2libGUgaW5wdXQgdmFsdWVzLGJ1dCBmb3IgYWxsDQpwb3NpdGl2ZSBmbG9hdHMg
-dGhhdCB5aWVsZCBkaWZmZXJlbnQgb3V0cHV0cyAod2l0aCBhIGJpZyBzdHJpZGUpLg0KDQpXZSB3
-aWxsIGFkZCBhIHNob3J0ZXIgY29tbWVudCB0byB0aGUgc2Vjb25kIHZlcnNpb24gb2YgdGhlIHBh
-dGNoc2V0DQoNCj4gPiArICAgIH0gZWxzZSBpZiAoZmxvYXQzMl9pc19uZWcoYXJnMSkpIHsNCj4g
-PiArICAgICAgICByZXN1bHQgPSBmbG9hdDMyX3NxcnRfbmFuOw0KPiA+ICsgICAgICAgIGVudi0+
-RlBVX0ZJID0gMTsNCj4gWy4uLl0NCj4gPiArDQo+ID4gKyAgICBmbGFncyA9IGZfZ2V0X2V4Y3Bf
-ZmxhZ3MoZW52KTsNCj4gPiArICAgIGlmIChmbGFncykgew0KPiA+ICsgICAgICAgIGlmIChmbGFn
-cyAmIGZsb2F0X2ZsYWdfaW52YWxpZCkgew0KPiA+ICsgICAgICAgICAgICBmX3VwZGF0ZV9wc3df
-ZmxhZ3MoZW52LCBmbGFncyk7DQo+ID4gKyAgICAgICAgfSBlbHNlIHsNCj4gPiArICAgICAgICAg
-ICAgZW52LT5GUFVfRlMgPSAwOw0KPiA+ICsgICAgICAgIH0NCj4gPiArICAgIH0gZWxzZSB7DQo+
-ID4gKyAgICAgICAgZW52LT5GUFVfRlMgPSAwOw0KPiANCj4gWW91IGFyZSBzZXR0aW5nIEZQVV9G
-UyB0byAwLCBldmVuIHRob3VnaCBGUFVfRkkgbWlnaHQgaGF2ZSBiZWVuIHNldCBpbiBjYXNlIG9m
-DQo+IGEgTmFOLiBJIHRoaW5rIGl0J3MgYmVzdCB0byByZW1vdmUgdGhlIHdob2xlIHNvZnRmbG9h
-dCBjaGVjaywgYXMgbm9uZSBvZiB0aGUNCj4gc29mdGZsb2F0IGZ1bmN0aW9ucyB5b3UgY2FsbCwg
-Y2FuIHJhaXNlIGFueSBmbGFncy4NCg0KSSB3aWxsIG1ha2UgdGhlIFBTVyB1cGRhdGUgb25seSBk
-ZXBlbmRlbnQgb24gaXNfTmFOKGlucHV0KSBhbmQgaXNfU1FSVF9OYU4ob3V0cHV0KS4NCg0KQmVz
-dCByZWdhcmRzLA0KDQpBbmRyZWFzDQo=
+On Wed, 5 Jun 2019 at 16:01, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> This should fix uninitialized fields found by coverity CID 1401762.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  contrib/vhost-user-gpu/main.c | 21 ++++++++-------------
+>  1 file changed, 8 insertions(+), 13 deletions(-)
+>
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
