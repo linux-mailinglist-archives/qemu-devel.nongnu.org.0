@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.47])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9241638840
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:50:30 +0200 (CEST)
-Received: from localhost ([::1]:48244 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B1838816
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jun 2019 12:41:17 +0200 (CEST)
+Received: from localhost ([::1]:48160 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZCS5-0004TC-Oi
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47320)
+	id 1hZCJA-0003xl-HX
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jun 2019 06:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48103)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lvivier@redhat.com>) id 1hZBBY-0006kF-M8
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:29:21 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hZBEk-0008Tb-1n
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:32:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1hZBBX-0003Ox-Gz
- for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:29:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47466)
+ (envelope-from <kraxel@redhat.com>) id 1hZBEi-0001Lp-UE
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:32:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51014)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>)
- id 1hZBBX-0003N2-BJ; Fri, 07 Jun 2019 05:29:19 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hZBEi-00011A-Bj
+ for qemu-devel@nongnu.org; Fri, 07 Jun 2019 05:32:36 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DACE130832CE;
- Fri,  7 Jun 2019 09:29:17 +0000 (UTC)
-Received: from [10.40.204.44] (ovpn-204-44.brq.redhat.com [10.40.204.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6FBF7DFD0;
- Fri,  7 Jun 2019 09:29:14 +0000 (UTC)
-To: David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
-References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
- <20190529065017.15149-24-david@gibson.dropbear.id.au>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <31966f5b-d46c-4b86-6852-c949d9f72497@redhat.com>
-Date: Fri, 7 Jun 2019 11:29:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id B45BC3082E4D;
+ Fri,  7 Jun 2019 09:32:22 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-25.ams2.redhat.com
+ [10.36.117.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 612AF80D91;
+ Fri,  7 Jun 2019 09:32:20 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9F1B316E1A; Fri,  7 Jun 2019 11:32:19 +0200 (CEST)
+Date: Fri, 7 Jun 2019 11:32:19 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190607093219.pdifzottq5rxbwmi@sirius.home.kraxel.org>
+References: <20190401211712.19012-1-bsd@redhat.com>
+ <CAFEAcA8irfgXaGvUWxVAEa5Cr5yjNMCcwt_9KcBB+sggvhAMzg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190529065017.15149-24-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8irfgXaGvUWxVAEa5Cr5yjNMCcwt_9KcBB+sggvhAMzg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 07 Jun 2019 09:29:18 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Fri, 07 Jun 2019 09:32:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 23/44] target/ppc: Use vector variable
- shifts for VSL, VSR, VSRA
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] misc usb-mtp fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,54 +60,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org, rth@twiddle.net
+Cc: Bandan Das <bsd@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/05/2019 08:49, David Gibson wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
+> > Bandan Das (3):
+> >   usb-mtp: fix return status of delete
+> >   usb-mtp: remove usb_mtp_object_free_one
+> >   usb-mtp: refactor the flow of usb_mtp_write_data
 > 
-> The gvec expanders take care of masking the shift amount
-> against the element width.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20190518191430.21686-2-richard.henderson@linaro.org>
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  target/ppc/helper.h                 | 12 ----------
->  target/ppc/int_helper.c             | 37 -----------------------------
->  target/ppc/translate/vmx-impl.inc.c | 24 +++++++++----------
->  3 files changed, 12 insertions(+), 61 deletions(-)
+> Hi Bandan, Gerd -- what's the status of this patchset?
+> I think this is the one that fixes the CID1399415
+> Coverity issue about usb_mtp_write_data() return values, right?
 
-This patch introduces a regressions
- with Fedora 29 guest:
+1+2 fixes where merged during 4.0 freeze, 3 left for post-freeze.
+It can follow now, queued up, next usb pull will have it.
 
-- during kernel boot:
+thanks for the reminder,
+  Gerd
 
-[   40.397876] crypto_register_alg 'aes' = 0
-[   40.577517] crypto_register_alg 'cbc(aes)' = 0
-[   40.743576] crypto_register_alg 'ctr(aes)' = 0
-[   41.061379] alg: skcipher: Test 1 failed (invalid result) on encryption for p8_aes_xts
-[   41.062054] 00000000: 91 7c f6 9e bd 68 b2 ec 9b 9f e9 a3 ea dd a6 92
-[   41.062163] 00000010: 98 10 35 57 5e dc 36 1e 9a f7 bc ba 39 f2 5c eb
-[   41.062834] crypto_register_alg 'xts(aes)' = 0
-[   41.077358] alg: hash: Test 2 failed for p8_ghash
-[   41.077553] 00000000: 5f 89 ab f7 20 57 20 57 20 57 20 57 20 57 20 57
-
-- with libssl:
-
-# curl -o /dev/null https://www.google.com
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-curl: (35) error:1408F119:SSL routines:ssl3_get_record:decryption failed or bad record mac
-
-[before, this one fails with:
-curl: (35) error:04091068:rsa routines:int_rsa_verify:bad signature ]
-
-If I revert this patch on top of 0d74f3b427 + "target/ppc: Fix lxvw4x, lxvh8x and lxvb16x", all works fine.
-
-Thanks,
-Laurent
 
