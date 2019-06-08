@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1703A190
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 21:41:35 +0200 (CEST)
-Received: from localhost ([::1]:60122 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0983A1C9
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jun 2019 21:56:04 +0200 (CEST)
+Received: from localhost ([::1]:60246 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZhDb-0000XQ-4f
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jun 2019 15:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37943)
+	id 1hZhRb-00046k-DO
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jun 2019 15:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38079)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hZh2H-0007kh-5p
- for qemu-devel@nongnu.org; Sat, 08 Jun 2019 15:29:54 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hZh2S-0008Fx-U1
+ for qemu-devel@nongnu.org; Sat, 08 Jun 2019 15:30:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hZh2G-0007xm-7m
- for qemu-devel@nongnu.org; Sat, 08 Jun 2019 15:29:53 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46809)
+ (envelope-from <richard.henderson@linaro.org>) id 1hZh2Q-00087g-Uq
+ for qemu-devel@nongnu.org; Sat, 08 Jun 2019 15:30:04 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39118)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hZh2G-0007xQ-3K
- for qemu-devel@nongnu.org; Sat, 08 Jun 2019 15:29:52 -0400
-Received: by mail-oi1-x243.google.com with SMTP id 203so3686803oid.13
- for <qemu-devel@nongnu.org>; Sat, 08 Jun 2019 12:29:52 -0700 (PDT)
+ id 1hZh2Q-00085r-PI
+ for qemu-devel@nongnu.org; Sat, 08 Jun 2019 15:30:02 -0400
+Received: by mail-oi1-x243.google.com with SMTP id m202so3708462oig.6
+ for <qemu-devel@nongnu.org>; Sat, 08 Jun 2019 12:30:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YZ4oxGbsUfYDMglYHvCwSjOkhVYTctKCxCwRbC/jYQM=;
- b=r1VbWNinMYx5Ook6KKSE602bJo4Euiccf5VHCuq0t3cpfPUGg3YzcqlIij/blsywoz
- uboEtyU2sZ42E5w9c/7UIVYgGx/EGKMQUGxM+Mo3d/6Zd66Hi5gopXDz+QK4VvzDLeYk
- GBfutXkNXgLPyqbqM57n6uPoOOe5FtARXqdKVNdtZi/WK2hWmvS0IyGqkq074DOOOXwq
- 9bvkb9DwfcIK7ktqu8o2uC5OxVJTuVInWSq00RSiEPOw5QsCIvs/gcoJbf2Pad2Ryhs8
- yasuFmDLVZPjWQCUb+cV3bY1yL0WsC6Cc6okre75KkwWy7iRdoC6qf7TIecrX1gnCsJG
- iJDw==
+ bh=rj2E36ngY6AnNq+UCpUAKpS4p6Z0dG7frbklF6/2p9o=;
+ b=qyvGs13Rht1Pttbmv2WlNqmWxc7d3o4b9WedsavwXoNuIoExzxTAR9HxNNkfhG19Ub
+ xBbz/xWC2Twl4fIq7UcrCZyDzo/ULvPcLptQo81Qmutwn0Lp5DcIkoDXsLudhcEX+YmU
+ PNQuyMEm2pbIbP6IchkFWblUvDNzLEcm6WRV1+22t24/9U0CgaZMYL4ikYkKq5+xz4b4
+ dHP0fj3b1wO9Wli74Hzk7Kbg1IK9BTWpVIOsrcxZal5KwU+rxk8A55vATAIluY0toK+X
+ RVjzjnc9YeqscidDQqAfvLYEH/T4Q+m4iGyI6mojmr1C6Fnuzytcuy5xDVb0G504ZB90
+ Q25Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YZ4oxGbsUfYDMglYHvCwSjOkhVYTctKCxCwRbC/jYQM=;
- b=CvFoxSmGGqbDkYnWInyMuewnBoWmSHHKqw049uqtFOhIt5BZEkDxP5dMFiJ6yd5aVw
- Jboc06uW9LoSIv2yntVGua0Zs68KRtsx01C3Chnp1D4+Y9bnCjmIm4gBJXJjg2oIlxQN
- ZkUbDnH21GkFnsbvp+WyB/pSQCDIDCcAjZzUinz1YUbKyOrg8ALk/+Vdd3AseDmgs3J6
- nu640nQaZ0kuQHFRARf0iRBE20yoA8fcn/PGKxmysxVlEW02ENMq4oSKrnp2GcaTERCb
- JtwUZqs2GGqVIXWUkVblrCCDFk+mpuqLzZv6sXeNR3irF6cvXTvDbdU2rgryqfTQqmzl
- Ep4w==
-X-Gm-Message-State: APjAAAUxESKpo8e7Jzb6zRVsDshi5sd7o1mO9ywPOs3GEH1/J+zaGO+K
- tfL7GX63fpgGsp/8VTt3Bs5BdffFPT0mXQ==
-X-Google-Smtp-Source: APXvYqw/HrWS03+bi6BAVSzpwduq1H7DEVWP7Glo/YpjosSQaOmRCyBvA3Rm21HJ6KIbZf0saC/9Hw==
-X-Received: by 2002:aca:3011:: with SMTP id w17mr200599oiw.150.1560022191161; 
- Sat, 08 Jun 2019 12:29:51 -0700 (PDT)
+ bh=rj2E36ngY6AnNq+UCpUAKpS4p6Z0dG7frbklF6/2p9o=;
+ b=t+x0yTRjtFFX8fqKKCc37NJmBAemkY6pGy+NoYGliPaQu4i7QQ4uWfENg3Yt9oN+3l
+ NEEVWSaqQ/bFh0snKksQYiD4FkSoN6msh1gNAwi1dNEiW8B3nIMu8H4ZiDpDtCH6nu/S
+ hw7yBP45NFS5YdaT3eFzxvjg9wFGI+tVWzQ1yb2aenbEKMFrVWnayUeUcRgS237y8mxw
+ PqJjPE1f/kBlQXLnyV9FqjJTd2BUImayVKwl5z9dy+o9wZESCRKwZehDX0I+1hasbScz
+ hAaLEeDAiLSJm1dmOiCa6ENzSfRxuA3JqJVuh0FGx49yXx3CtfdwxDonf9kksqrCQyPN
+ 3rRA==
+X-Gm-Message-State: APjAAAWAulUQmXmuG4PnfbWimUwDIsBOz9pesP63p5CgjRE0qTYqupwJ
+ 4sjEsKEajgAF1/Le2oRinVZOhybzOIS8iQ==
+X-Google-Smtp-Source: APXvYqy9fk6TuDWT1al8GwGgNU4m5+xlzE8oBe7UVBB2NkcoReht/5BQJltLEd8H319DUaLFV5c/2w==
+X-Received: by 2002:aca:efd5:: with SMTP id n204mr7834806oih.60.1560022201514; 
+ Sat, 08 Jun 2019 12:30:01 -0700 (PDT)
 Received: from [10.219.49.199] ([187.217.230.84])
- by smtp.gmail.com with ESMTPSA id m17sm2070530otl.38.2019.06.08.12.29.48
+ by smtp.gmail.com with ESMTPSA id g16sm2016260otl.40.2019.06.08.12.29.57
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 08 Jun 2019 12:29:50 -0700 (PDT)
+ Sat, 08 Jun 2019 12:30:00 -0700 (PDT)
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20190606174609.20487-1-peter.maydell@linaro.org>
- <20190606174609.20487-34-peter.maydell@linaro.org>
+ <20190606174609.20487-35-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <49bc9d4a-4d59-f8d1-ab6c-5873123330d1@linaro.org>
-Date: Sat, 8 Jun 2019 14:02:54 -0500
+Message-ID: <f80c49ec-6075-d27a-56ba-a0ddb501d7f0@linaro.org>
+Date: Sat, 8 Jun 2019 14:08:11 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190606174609.20487-34-peter.maydell@linaro.org>
+In-Reply-To: <20190606174609.20487-35-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH 33/42] target/arm: Convert VFP comparison
- insns to decodetree
+Subject: Re: [Qemu-devel] [PATCH 34/42] target/arm: Convert the
+ VCVT-from-f16 insns to decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,24 +89,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/6/19 12:46 PM, Peter Maydell wrote:
-> +    vd = tcg_temp_new_i32();
-> +    vm = tcg_temp_new_i32();
-> +
-> +    neon_load_reg32(vd, a->vd);
-> +    if (a->z) {
-> +        tcg_gen_movi_i32(vm, 0);
-> +    } else {
-> +        neon_load_reg32(vm, a->vm);
-> +    }
-> +
-> +    if (a->e) {
-> +        gen_helper_vfp_cmpes(vd, vm, cpu_env);
-> +    } else {
-> +        gen_helper_vfp_cmps(vd, vm, cpu_env);
-> +    }
-> +    return true;
+> Convert the VCVTT, VCVTB instructions that deal with conversion
+> from half-precision floats to f32 or 64 to decodetree.
+> 
+> Since we're no longer constrained to the old decoder's style
+> using cpu_F0s and cpu_F0d we can perform a direct 16 bit
+> load of the right half of the input single-precision register
+> rather than loading the full 32 bits and then doing a
+> separate shift or sign-extension.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/translate-vfp.inc.c | 82 ++++++++++++++++++++++++++++++++++
+>  target/arm/translate.c         | 56 +----------------------
+>  target/arm/vfp.decode          |  6 +++
+>  3 files changed, 89 insertions(+), 55 deletions(-)
 
-Missing the temp frees, again in the dp version.  Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
