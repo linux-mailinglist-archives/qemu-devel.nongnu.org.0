@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7DE13A466
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 11:08:21 +0200 (CEST)
-Received: from localhost ([::1]:34568 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992AC3A5E4
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 15:20:05 +0200 (CEST)
+Received: from localhost ([::1]:35808 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZtoJ-0005R6-Vm
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 05:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33361)
+	id 1hZxjw-0004rB-2A
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 09:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43660)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lucienmp.qemu@gmail.com>) id 1hZtnL-000519-K9
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 05:07:20 -0400
+ (envelope-from <rfried.dev@gmail.com>) id 1hZukp-0002Ep-J4
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 06:08:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lucienmp.qemu@gmail.com>) id 1hZtnK-0007PK-NE
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 05:07:19 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41543)
+ (envelope-from <rfried.dev@gmail.com>) id 1hZuko-00021W-Iu
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 06:08:47 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43256)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lucienmp.qemu@gmail.com>)
- id 1hZtnK-0007Ou-HY
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 05:07:18 -0400
-Received: by mail-pg1-x544.google.com with SMTP id 83so3409980pgg.8
- for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 02:07:18 -0700 (PDT)
+ (Exim 4.71) (envelope-from <rfried.dev@gmail.com>)
+ id 1hZuko-0001zV-8f; Sun, 09 Jun 2019 06:08:46 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r18so6218344wrm.10;
+ Sun, 09 Jun 2019 03:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:mime-version:content-disposition
- :user-agent; bh=PjdNmZrR6OjtG5qlkwnMVYBO99frhv4oSNKd5NeeYIo=;
- b=SB34dUVB4nj0+sJ/l9MP3cgWePaRSNcmQsU0q5YVA6ZBw/j4Vp+DqDc9Zu17UmyXjn
- 7ZsPo2EUSpDjpvEwnfQvbIQRogmddOXFZ8XfTgB9pRUA30PUe3vVPfI4heo4T+ul9cvw
- Amd4hKKNdoQ0GzjwOtGFHuwMx+AOgtoenmCAnFbp+fFj/LnRq7Tsb0TbaERytMYAadoR
- poIo5UTkFyA3hqjAhQpcDuwvy6aJcH2QC2stVAcCMwcngDSHq+3kZqnlbQb9LnaFV4/M
- 0TI0Ds69cWy/LZGMi/PUhVozAQfTholl5q5pL4epbAYvN4gLBpEZ7ztA8QdSI/x80SSN
- PLZA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kaWWm0ENYxNgcYgQBzQeXcaAs8MtTpRpm/vY6XfUhz4=;
+ b=qaimbRc96cSGFiPbM8dpCk8yeYaLpBBNbLXjz5ZWLeUcy10hajOPZcLYt8uLu/l6Ds
+ cCgEH8JIsg5z1MrIjPyd0oVCxPMcbalC2C0md+tGYnwio1Oxw8XvKtRj7psIO/5DHk54
+ czc2oDWwhuTOI/O16DxwPWRZMgSbId9VPKPHqa/lQRoUJHuOC4AVY8fdv2Zj1Cjk3igY
+ GKC0JPEeW/nT/2L2dG7GZ7kv8d8BpZBWfup53TDO76c6aQIapZmQnmX24JkvMdqIe6Po
+ vMbYID9Xv4B7YLCMLvP2oyoIXaRZO4Jmy7FCsexWOyHDDfOzXpFufJQucghet9TV1viF
+ h0aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=PjdNmZrR6OjtG5qlkwnMVYBO99frhv4oSNKd5NeeYIo=;
- b=Q7EGMY2Nw9wApxBinGCCpQjYMfq65ymz9Q4PQjxaHx7kFanfozDhOxlqXsFpAJYekb
- HgYstarxYcIBn7IQRzSiCx1klu8zdjQ0ao5v3nDY6l7SDZjc7/KEQCl8wnpBOU57l5mt
- DwUF8QjjnPOEtOC1Eg42n6bc0sEUt+FplAEWPi2ht3ovs/LOc1wgeS3MO9mj8tI3RS/u
- Z0EgrH7jjBwm7ubaHG2UVhu22onFky52uR2Ds1bKNk6NtX0kL0Iox1TgFN0hXl7p6f7C
- ZVdB6IRT+YdFZGi+dFsJdkaESofQPgAT6AU39/lWchCQkzq0vDGEKy6HXQ4lMlvsdcSQ
- tdFA==
-X-Gm-Message-State: APjAAAUfB+lblLnaZW3OLRHNjXIOvK0/RKCpe03HQaPNKLcnUlG6dnwD
- Nv0Y+J7GFvDUFIAG1lqNpGC9E9vL
-X-Google-Smtp-Source: APXvYqxnf7hMnxAtTcpm01y7bO5mE8w5UQUcfXAScO98YsNI2PDgFHd6uSE2kpe7lgJu4h2SlEwYtA==
-X-Received: by 2002:a65:56cc:: with SMTP id w12mr10659632pgs.415.1560071236935; 
- Sun, 09 Jun 2019 02:07:16 -0700 (PDT)
-Received: from localhost.localdomain (i60-43-49-30.s30.a048.ap.plala.or.jp.
- [60.43.49.30])
- by smtp.gmail.com with ESMTPSA id f17sm6256328pgv.16.2019.06.09.02.07.15
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kaWWm0ENYxNgcYgQBzQeXcaAs8MtTpRpm/vY6XfUhz4=;
+ b=oGVyHyCOxHLdGikHvUx+Ru3MbAhRYGkRrCGHr9RWTbatVe5Dfbn5LzLbGDJVZB0nDh
+ Vj+tPnWeC2Iw4SAyvVjkFQ/jfCURJS1Xa7v/bLP0KqROk18nb/YW349fu2jq1K6fTsa+
+ whjZdSsttGZx9o6Hu8SmjxQJolupp44bOjc6eicbkfSuo0++k6A9v1IZb+D/JHqbRgXb
+ gmeUrkqq8aXTP+es9aldLDJeAH6jj3XtgtjtYOueuPPoqW55ARgqAwSybwsBQrav8CC9
+ rlsDOG+5A3BedL6rU0R/nySZzUT3C1mE9qWI+YAVIxKEpZR/TzokQ3rgbX96Ngq8EvwF
+ XQEA==
+X-Gm-Message-State: APjAAAWSS3HtT06FXt2CfQWyv1zPWICpsm6SObfxC25b0uBWh4SSp7J9
+ 27owrnopB4FYijWqy3FU3Fay/p7Wo+k=
+X-Google-Smtp-Source: APXvYqyowD5mpDzcMmtM27X20fFjf6txXt/FICG3Nkj1+yCdOZP1i6slxBg32mmjDxUJ7n+PPJHNMA==
+X-Received: by 2002:adf:f50c:: with SMTP id q12mr13423140wro.300.1560074924479; 
+ Sun, 09 Jun 2019 03:08:44 -0700 (PDT)
+Received: from localhost.localdomain ([141.226.31.91])
+ by smtp.gmail.com with ESMTPSA id u12sm6667304wrt.13.2019.06.09.03.08.42
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sun, 09 Jun 2019 02:07:16 -0700 (PDT)
-Date: Sun, 9 Jun 2019 18:07:13 +0900
-From: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
-To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
-Message-ID: <20190609090713.GA14864@localhost.localdomain>
+ Sun, 09 Jun 2019 03:08:43 -0700 (PDT)
+From: Ramon Fried <rfried.dev@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Sun,  9 Jun 2019 13:08:37 +0300
+Message-Id: <20190609100837.17586-1-rfried.dev@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH v2] The m68k gdbstub SR reg request doesnt
- include Condition-Codes
+X-Received-From: 2a00:1450:4864:20::441
+X-Mailman-Approved-At: Sun, 09 Jun 2019 09:19:11 -0400
+Subject: [Qemu-devel] [PATCH] net: cadence_gem: fix compilation error when
+ debug is on
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,46 +76,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "open list:Xilinx Zynq" <qemu-arm@nongnu.org>,
+ Ramon Fried <rfried.dev@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The register request via gdbstub would return the SR part
-which contains the Trace/Master/IRQ state flags, but
-would be missing the CR (Condition Register) state bits.
+defining CADENCE_GEM_ERR_DEBUG causes compilation
+errors, fix that.
 
-This fix adds this support by merging them in the m68k
-specific gdbstub handler m68k_cpu_gdb_read_register for SR register.
-
-Signed-off-by: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
+Signed-off-by: Ramon Fried <rfried.dev@gmail.com>
 ---
+ hw/net/cadence_gem.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Notes:
-    v1->v2
-      - remove superfluous braces from my additional code
-      - slightly amended the commit message
-
- target/m68k/gdbstub.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/target/m68k/gdbstub.c b/target/m68k/gdbstub.c
-index fd2bb46c42..5e5aef5c0f 100644
---- a/target/m68k/gdbstub.c
-+++ b/target/m68k/gdbstub.c
-@@ -35,8 +35,10 @@ int m68k_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
-         return gdb_get_reg32(mem_buf, env->aregs[n - 8]);
-     } else {
-         switch (n) {
--        case 16:
--            return gdb_get_reg32(mem_buf, env->sr);
-+        case 16: {
-+            /* SR is made of SR+CCR, CCR is many 1bit flags so uses helper */
-+            return gdb_get_reg32(mem_buf, env->sr | cpu_m68k_get_ccr(env));
-+        }
-         case 17:
-             return gdb_get_reg32(mem_buf, env->pc);
+diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+index 7f63411430..5cc5a71524 100644
+--- a/hw/net/cadence_gem.c
++++ b/hw/net/cadence_gem.c
+@@ -982,8 +982,8 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+             return -1;
          }
+ 
+-        DB_PRINT("copy %d bytes to 0x%x\n", MIN(bytes_to_copy, rxbufsize),
+-                rx_desc_get_buffer(s->rx_desc[q]));
++        DB_PRINT("copy %d bytes to 0x%lx\n", MIN(bytes_to_copy, rxbufsize),
++                rx_desc_get_buffer(s, s->rx_desc[q]));
+ 
+         /* Copy packet data to emulated DMA buffer */
+         address_space_write(&s->dma_as, rx_desc_get_buffer(s, s->rx_desc[q]) +
+@@ -1156,7 +1156,7 @@ static void gem_transmit(CadenceGEMState *s)
+             if (tx_desc_get_length(desc) > sizeof(tx_packet) -
+                                                (p - tx_packet)) {
+                 DB_PRINT("TX descriptor @ 0x%x too large: size 0x%x space " \
+-                         "0x%x\n", (unsigned)packet_desc_addr,
++                         "0x%lx\n", (unsigned)packet_desc_addr,
+                          (unsigned)tx_desc_get_length(desc),
+                          sizeof(tx_packet) - (p - tx_packet));
+                 break;
 -- 
 2.21.0
-
 
 
