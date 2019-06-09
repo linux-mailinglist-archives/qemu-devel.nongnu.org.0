@@ -2,40 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3423AB27
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 20:38:48 +0200 (CEST)
-Received: from localhost ([::1]:37420 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9F73ABAE
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 21:47:42 +0200 (CEST)
+Received: from localhost ([::1]:37914 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ha2iM-0005oy-MT
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 14:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49258)
+	id 1ha3n3-00005H-4K
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 15:47:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35575)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fb-0004Rl-Vu
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 14:35:57 -0400
+ (envelope-from <richard.weiyang@gmail.com>) id 1ha3m9-00084z-6y
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 15:46:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fa-000649-LL
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 14:35:55 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47598)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ha2fa-00062t-DV; Sun, 09 Jun 2019 14:35:54 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.91)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ha2fY-00087U-3W; Sun, 09 Jun 2019 21:35:52 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Sun,  9 Jun 2019 21:35:48 +0300
-Message-Id: <1560105348-459129-8-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 7/7] iotests: amend QEMU NBD process
- synchronization
+ (envelope-from <richard.weiyang@gmail.com>) id 1ha3m7-0001mK-TY
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 15:46:45 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:40590)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.weiyang@gmail.com>)
+ id 1ha3m7-0001lL-Gi
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 15:46:43 -0400
+Received: by mail-ed1-x544.google.com with SMTP id k8so9935332eds.7
+ for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 12:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=C3N6OgnvfWn1kKiu3RV2wgW34LrK59aETmt8VcOs49k=;
+ b=F3X8LFHGSY7bmto/EUzEaHOyL9QGQZkoFsi8Xrv9C/0AlRjoHSoOdvcQ6/3bA6uqqe
+ GNhTYQptJ/jdSk3ONW8dRUMO+2evKnKJgfX8Nv/x5fIgJy/NqZb0cPQDT7IB6UCfG1b3
+ YvbMvqi3gvva2XAbSmoTHZG33U9CMRS0kRZhRJC+YvD4ye5i46hk/vXoJ6V3vx2IAZf9
+ MIgUncGeuD+Rx3Boga7SzZPksAZwO+RtazBoHaqIBkcH1+vU4LurdGxdQHWTP3FiVqYV
+ 0/XoqbHg/t00q/ll/++wwYlVZaszKOukOGZ5S86r895kwaAYJjMkzaSvZDngFkgjSGnr
+ Qqtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=C3N6OgnvfWn1kKiu3RV2wgW34LrK59aETmt8VcOs49k=;
+ b=GJ7KQFewKgAzIV6VSLgpkN82tyLvCkSM/mt3tfcET4lZMNfaNx5Uejdd7RKBRuikSU
+ I94o8I1AfV6+Nu9DSiMnbSveL6c1XpUKMmdOLlSj4YIE8q0uxEcoaWRXh0ggcbfg3BFc
+ XR3BM6ppR7piHNkHnX21EyLYcmlV8fdymFRrzkWALlNjJtRjfraYSuSpLU9ogDUQZi2j
+ NUJ8UTjhbSWomLzfom0260bWhPAL5pwqRiaOHedkvg6LISb50wur4JFoSpqBCOcpzgOS
+ qk9rRTDp51c/JZ6lFbDaS/pQhYR0AhbcBIO6oAdKpFC9teWVVq4Hubz+91ji8WQxEYKd
+ SWWw==
+X-Gm-Message-State: APjAAAXYkejeX5TMVpezI+GduANFZDjSjp5U0ZKM3K6PCM4rK+oXJmYB
+ YZeqDv6ptvBgkb7W8O2S/Rk=
+X-Google-Smtp-Source: APXvYqywPUUEZx2XVpsyj+lRi1kMAThcOYqLjOWycwYSb0eYn5bWA1O2NERMZ5gprnMhPfDhkYZDfA==
+X-Received: by 2002:a50:f286:: with SMTP id f6mr31071028edm.44.1560109601795; 
+ Sun, 09 Jun 2019 12:46:41 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+ by smtp.gmail.com with ESMTPSA id i6sm200168eda.79.2019.06.09.12.46.40
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Sun, 09 Jun 2019 12:46:40 -0700 (PDT)
+Date: Sun, 9 Jun 2019 19:46:39 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190609194639.h6elitk3sbvd3irh@master>
+References: <20190606013138.13312-1-richardw.yang@linux.intel.com>
+ <20190606013138.13312-2-richardw.yang@linux.intel.com>
+ <20190607185734.GZ2631@work-vm>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190607185734.GZ2631@work-vm>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::544
+Subject: Re: [Qemu-devel] [PATCH 1/2] migration/xbzrle: update cache and
+ current_data in one place
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,59 +81,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
- rkagan@virtuozzo.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+Cc: quintela@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Processes are dying harder under the Valgring. It results in counting
-the dying process as a newborn one. Make it sure that old NBD job get
-finished before starting a new one.
+On Fri, Jun 07, 2019 at 07:57:34PM +0100, Dr. David Alan Gilbert wrote:
+>* Wei Yang (richardw.yang@linux.intel.com) wrote:
+>> When we are not in the last_stage, we need to update the cache if page
+>> is not the same.
+>> 
+>> Currently this procedure is scattered in two places and mixed with
+>> encoding status check.
+>> 
+>> This patch extract this general step out to make the code a little bit
+>> easy to read.
+>> 
+>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>
+>This function is actually quite subtle, and I think your change will
+>work, but it has changed the behaviour slightly.
+>
+>When we enter the function the *current_data is pointing at actual guest
+>RAM and is changing as we're running.
+>It's critical that the contents of the cache match what was actually
+>sent, so that in the next cycle the correct delta is generated;
+>thus the reason for the two memcpy's is actually different.
+>
+>> ---
+>>  migration/ram.c | 19 +++++++++----------
+>>  1 file changed, 9 insertions(+), 10 deletions(-)
+>> 
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index e9b40d636d..878cd8de7a 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -1594,25 +1594,24 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
+>>      encoded_len = xbzrle_encode_buffer(prev_cached_page, XBZRLE.current_buf,
+>>                                         TARGET_PAGE_SIZE, XBZRLE.encoded_buf,
+>>                                         TARGET_PAGE_SIZE);
+>> +
+>> +    /*
+>> +     * we need to update the data in the cache, in order to get the same data
+>> +     */
+>> +    if (!last_stage && encoded_len != 0) {
+>> +        memcpy(prev_cached_page, XBZRLE.current_buf, TARGET_PAGE_SIZE);
+>> +        *current_data = prev_cached_page;
+>> +    }
+>> +
+>>      if (encoded_len == 0) {
+>>          trace_save_xbzrle_page_skipping();
+>>          return 0;
+>>      } else if (encoded_len == -1) {
+>>          trace_save_xbzrle_page_overflow();
+>>          xbzrle_counters.overflow++;
+>> -        /* update data in the cache */
+>> -        if (!last_stage) {
+>> -            memcpy(prev_cached_page, *current_data, TARGET_PAGE_SIZE);
+>> -            *current_data = prev_cached_page;
+>> -        }
+>>          return -1;
+>
+>In this case, we've not managed to compress, so we're going to have to
+>transmit the whole page; but remember the guest is still writing. So we
+>update the cache, and then update *current_data to point to the cache
+>so that the caller sends from the cache directly rather than the guest
+>RAM, this ensures that the thing that's sent matches the cache contents.
+>
+>However, note the memcpy is from *current_data, not XBZRLE.current_buf,
+>so it might be slightly newer  - this is the first change you have made;
+>you might be sending data that's slightly older; but it's safe because
+>the data sent does match the cache contents.
+>
+>>      }
+>>  
+>> -    /* we need to update the data in the cache, in order to get the same data */
+>> -    if (!last_stage) {
+>> -        memcpy(prev_cached_page, XBZRLE.current_buf, TARGET_PAGE_SIZE);
+>> -    }
+>> -
+>
+>This memcpy is slightly different.
+>Here we've managed to do the compress; so now we update the cache based
+>on what was compressed (current_buf).  *current_data isn't used by the
+>caller in this case because it's actually sending the compressed data.
+>So it's safe for you to update it.
 
-Suggested-by: Roman Kagan <rkagan@virtuozzo.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- tests/qemu-iotests/common.nbd | 6 ++++++
- 1 file changed, 6 insertions(+)
+Yes, you are right. My change will alter the behavior a little. To be
+specific, when we didn't manage to compress content, the content we sent will
+be a little *old*.
 
-diff --git a/tests/qemu-iotests/common.nbd b/tests/qemu-iotests/common.nbd
-index 25fc9ff..e3dcc60 100644
---- a/tests/qemu-iotests/common.nbd
-+++ b/tests/qemu-iotests/common.nbd
-@@ -22,6 +22,7 @@
- nbd_unix_socket="${TEST_DIR}/qemu-nbd.sock"
- nbd_tcp_addr="127.0.0.1"
- nbd_pid_file="${TEST_DIR}/qemu-nbd.pid"
-+nbd_job_pid=""
- 
- nbd_server_stop()
- {
-@@ -33,6 +34,9 @@ nbd_server_stop()
-             kill "$NBD_PID"
-         fi
-     fi
-+    if [ -n "$nbd_job_pid" ] && kill -s 0 "$nbd_job_pid" 2>/dev/null; then
-+        wait "$nbd_job_pid"
-+    fi
-     rm -f "$nbd_unix_socket"
- }
- 
-@@ -61,6 +65,7 @@ nbd_server_start_unix_socket()
- {
-     nbd_server_stop
-     $QEMU_NBD -v -t -k "$nbd_unix_socket" "$@" &
-+    nbd_job_pid=$!
-     nbd_server_wait_for_unix_socket $!
- }
- 
-@@ -105,5 +110,6 @@ nbd_server_start_tcp_socket()
- {
-     nbd_server_stop
-     $QEMU_NBD -v -t -b $nbd_tcp_addr -p $nbd_tcp_port "$@" &
-+    nbd_job_pid=$!
-     nbd_server_wait_for_tcp_socket $!
- }
+>
+>So I think we need to add comments like that, how about:
+>
+>       /*
+>        * Update the cache contents, so that it corresponds to the data
+>        * sent, in allc ases except where we skip the page.
+>        */
+>> +    if (!last_stage && encoded_len != 0) {
+>> +        memcpy(prev_cached_page, XBZRLE.current_buf, TARGET_PAGE_SIZE);
+>       /*
+>        * In the case where we couldn't compress, ensure that the caller
+>        * sends the data from the cache, since the guest might have
+>        * changed the RAM since we copied it.
+>        */
+>
+>> +        *current_data = prev_cached_page;
+>> +    }
+>>      /* Send XBZRLE based compressed page */
+>>      bytes_xbzrle = save_page_header(rs, rs->f, block,
+>>                                      offset | RAM_SAVE_FLAG_XBZRLE);
+
+Yep, I agree with this comment.
+
+Let me add this in v2.
+
+Thanks :-)
+
+>
+>Dave
+>
+>> -- 
+>> 2.19.1
+>> 
+>--
+>Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 -- 
-1.8.3.1
-
+Wei Yang
+Help you, Help me
 
