@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9554C3A563
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 14:19:46 +0200 (CEST)
-Received: from localhost ([::1]:35598 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE68D3A608
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 15:41:22 +0200 (CEST)
+Received: from localhost ([::1]:35924 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hZwnZ-0007QL-4v
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 08:19:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38675)
+	id 1hZy4X-0003mO-Hn
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 09:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50549)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hZwm1-0006zr-1i
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 08:18:10 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hZy2g-00032S-V0
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 09:39:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hZwlz-00009B-S9
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 08:18:08 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:45127)
+ (envelope-from <laurent@vivier.eu>) id 1hZy2e-0008GB-HL
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 09:39:26 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:54009)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hZwlz-00005W-Il
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 08:18:07 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1hZy2c-0008Ey-AH; Sun, 09 Jun 2019 09:39:22 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mn1mb-1grUfY266h-00k9Hi; Sun, 09 Jun 2019 14:12:55 +0200
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MDQqe-1hQeNk0vHa-00AZoY; Sun, 09 Jun 2019 15:39:18 +0200
 To: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>, qemu-devel@nongnu.org
-References: <20190609105154.GA16755@localhost.localdomain>
+References: <20190606234125.GA4830@localhost.localdomain>
 From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
@@ -69,35 +69,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <7856b300-b58c-e8f7-ebbd-f378db19a9d6@vivier.eu>
-Date: Sun, 9 Jun 2019 14:12:53 +0200
+Message-ID: <7272c10f-3959-ed77-4f26-90e818278e8a@vivier.eu>
+Date: Sun, 9 Jun 2019 15:39:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190609105154.GA16755@localhost.localdomain>
+In-Reply-To: <20190606234125.GA4830@localhost.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TKDfvJXUhg8qKEcDq8gM/I5efwFt9m7bEJTOaOZaKx8beorgC+U
- qC0vKc75JNfrLHdAiBb5YCbu89i3myAH9eZhvKvQGzPy89u2EznINqT6mjMXbn619LPy8jw
- t1oOTFLOw644kcI5roHXTtI/2gA+oZ/ujwWg/FT7G6KXNupjP3l6ESPKrITDHFiXXLtZNpZ
- 7EruI+i4rt5Tw2IkZM/OA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PYMaAqHoJIw=:o0tPEe52JXDiKwQFVnHbjw
- xL31cubES60AgV+4zqKieoloEW6FO+BdVSFIbpRNVXsN40/bXU5k6rREoDSGTNPZfZPpIrBtT
- kxOD880C8XJFFdG8xvvl1Y+sc7iGaIt3/htItvhyNxvClqRfxEsZN7C2xlHrQbsx96QaAorwy
- tibDBFO1B900MibxY/uNEuxCS+JGQFJOD+RXGvSeDwn8fX/4ZAvAdrPWk6l8yKO38SzEkddMT
- JhfVcvRrQksMAEyenej20ijABb+g9Wfopbp3yZMjkBsRzyumSYpkQOIYCmmPfxtko4NtbY+AA
- 3Tx7xRJF+UtGK1/ypT8cCU3lIkiA2n1NHlRfyxGqg+IZy5VnUwL4Z3Mi7RXMMW4OHJ6BGsSOz
- Mc9q8GCa7C8jB/0PSFolRbIlOPj+RoYBCEFsKR8s/NK+tjDxk+BUEQfxl4Gtc+HYrEvxyUU/l
- MGpEPI5qvDRIgycbn7GXE1DZStrqpzYmsgGrcIMxNS/lrUtuh2Upa5i1iyEsNzrCERXSynrPp
- 6lc6C1c9mlJBGuTgiKM7GL3WNg+Pdlb6GoObHH2C0a8v54JxZjGaRPU0cI45O2HTPLMZ/6eIQ
- hO0pcZOQTDN/KTUnTxYVB2sc7nKiPmyoMbRj5d9T+RNGzl3rmMcgMfTWcPqy7aaevZ/Y+Bc0v
- D7kTGYwYFxg8f6f5FpzUcyKVhEA5FN50NtaawJdKaG00lUFOLJj5MY5JFkjkQTsV+WiUFtKG0
- seQUseghFV6K0iax+70DPKXz+rz8Rkn/UPeyqzYX1X/qDQ4GJzv3iSDfTeE=
+X-Provags-ID: V03:K1:ixn9FAziCxuy3P4CINRCKDDbgFE2TbHnGrTwVWzj4szIW4BJAKP
+ C68D1PbwvkR+Y3H/xZoO8/AJB4ppz6mdiR+f/tpgEctSgPdGYErZA9GDd4/rlvD9dXJUvzZ
+ X7Mvq+0H6skfucVAWBVo66nQFyQXwIIepERYTuAMOJkBMzu6D07j9UMpmG0zdfGMcG1tJ4g
+ aesspg3Q1qqk0cvnHgAFQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8xGVlntOEdc=:9f6oG+ZPzlEZDhtRx2GO+V
+ WSGc3l7LxtN5kosGqyQAqizun9W8U4XqKctG27LZ2568mke4N8nFjrUT1fDN3sIbnW0e5rsih
+ MaGtJ6hmqr6fQDTWE6bhsF1fHDt8YWpE0TjRQgw1ZuJBxkOlGUbwOROlo9dYrRiUT5ridaKKv
+ mfAeUvufgWlWpFsjIwFMW/WZ5L3M/vkJ/1ZliXpg56aA73d1oPtBrR8vDcogymiUZW3WBbs94
+ zHssi4wn08OX4GNAE9EZ/ffQA7Xe/IKuW9feMTP43OFHoCgeooYpC3AHgKQnTGy15CPlo7z6y
+ CT2bb/tyTMKTZnwLvy0SpqwtG4An3njalI9KFVArIgxhuK0ehGSohFGCfDlPQeREcJj2Asz/L
+ MBg9rimgBmd0vzK0pqrEjwIRizWsjlL+6tKvwafl2epIxFYe9LL1Lfy1NkF1P6vNItRiA9R0v
+ M5XkIFO3fln9mlV3OIEUgs2uArXTRUtotP3Ghgq/TGpWCsgcNivBfwDgS9G7Cctta3qWK0+Ar
+ /ol+w+2BhvExYdLFimnmirrz0AgCAh8LnjK0fUFJ8v4BrIY+2ms+EWjGwxz3qNvBA3tEHVw20
+ Mplb9pjG/ZR+EV+0mgu45EowHe/otyLj7O/h763IAN1HURsPPE4sLiqK0C8tEfErXL+ACgmno
+ W4QvTchWiFmzgFoGy8w/iQfa7yl+RgPQ2WRIkGLT0RYVIB8QdNiaQxIpcfkfUVDQvfRQk34xe
+ ZmVpFjl3puHHnujcGxlH18UOYUUPfjUecnvhMJAm1BVEbpSFihwdwUEtyts=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: Re: [Qemu-devel] [PATCH v3] The m68k gdbstub SR reg request doesnt
- include Condition-Codes
+X-Received-From: 217.72.192.75
+Subject: Re: [Qemu-devel] [PATCH v2] m68k comments break patch submission
+ due to being incorrectly formatted
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,46 +109,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/06/2019 à 12:51, Lucien Murray-Pitts a écrit :
-> The register request via gdbstub would return the SR part
-> which contains the Trace/Master/IRQ state flags, but
-> would be missing the CR (Condition Register) state bits.
-> 
-> This fix adds this support by merging them in the m68k
-> specific gdbstub handler m68k_cpu_gdb_read_register for SR register.
+Le 07/06/2019 à 01:41, Lucien Murray-Pitts a écrit :
+> Altering all comments in target/m68k to match Qemu coding styles so that future
+> patches wont fail due to style breaches.
 > 
 > Signed-off-by: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 > ---
 > 
 > Notes:
 >     v1->v2
->        - removed my superfluous braces
->        - slightly amended the commit message
->     
->     v2->v3
->        - removed my incorrect use of code block in a switch
+>      - incorrectly made split-single line comments multiple single lines
+>      - added corrections for /** comments as well as /*----...
+>      - caught some other malformed comments that had been missed out
 > 
->  target/m68k/gdbstub.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/m68k/gdbstub.c b/target/m68k/gdbstub.c
-> index fd2bb46c42..6e7f3b8980 100644
-> --- a/target/m68k/gdbstub.c
-> +++ b/target/m68k/gdbstub.c
-> @@ -36,7 +36,8 @@ int m68k_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
->      } else {
->          switch (n) {
->          case 16:
-> -            return gdb_get_reg32(mem_buf, env->sr);
-> +            /* SR is made of SR+CCR, CCR is many 1bit flags so uses helper */
-> +            return gdb_get_reg32(mem_buf, env->sr | cpu_m68k_get_ccr(env));
->          case 17:
->              return gdb_get_reg32(mem_buf, env->pc);
->          }
+>  target/m68k/cpu-qom.h               |   2 +-
+>  target/m68k/cpu.c                   |   6 +-
+>  target/m68k/cpu.h                   |  32 ++--
+>  target/m68k/fpu_helper.c            |   6 +-
+>  target/m68k/gdbstub.c               |   6 +-
+>  target/m68k/helper.c                |  16 +-
+>  target/m68k/m68k-semi.c             |  24 ++-
+>  target/m68k/op_helper.c             |  58 ++++---
+>  target/m68k/softfloat.c             | 181 ++++++++++----------
+>  target/m68k/softfloat.h             |   3 +-
+>  target/m68k/softfloat_fpsp_tables.h |   3 +-
+>  target/m68k/translate.c             | 246 ++++++++++++++++++----------
+>  12 files changed, 355 insertions(+), 228 deletions(-)
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+
 
