@@ -2,37 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588C73AB26
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 20:38:48 +0200 (CEST)
-Received: from localhost ([::1]:37422 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49EA3AB30
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 20:44:03 +0200 (CEST)
+Received: from localhost ([::1]:37464 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ha2iN-0005r9-F2
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 14:38:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49273)
+	id 1ha2nS-0002Uv-S8
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 14:44:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49282)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fc-0004Ro-Bo
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 14:35:57 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fc-0004Rq-My
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 14:35:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fa-00064g-Rg
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fb-00065O-3j
  for qemu-devel@nongnu.org; Sun, 09 Jun 2019 14:35:56 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47582)
+Received: from relay.sw.ru ([185.231.240.75]:47580)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ha2fa-00062Z-Hl; Sun, 09 Jun 2019 14:35:54 -0400
+ id 1ha2fa-00062X-QP; Sun, 09 Jun 2019 14:35:54 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.91)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ha2fV-00087U-2m; Sun, 09 Jun 2019 21:35:49 +0300
+ id 1ha2fV-00087U-Mn; Sun, 09 Jun 2019 21:35:49 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Sun,  9 Jun 2019 21:35:41 +0300
-Message-Id: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Date: Sun,  9 Jun 2019 21:35:42 +0300
+Message-Id: <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 0/7] Allow Valgrind checking all QEMU processes
+Subject: [Qemu-devel] [PATCH 1/7] iotests: allow Valgrind checking all QEMU
+ processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,36 +52,127 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the current implementation of the QEMU bash iotests, only qemu-io
-processes may be run under the Valgrind, which is a useful tool for
-finding memory usage issues. Let's allow the common.rc bash script
-runing all the QEMU processes, such as qemu-kvm, qemu-img, qemu-ndb
-and qemu-vxhs, under the Valgrind tool.
+With the '-valgrind' option, let all the QEMU processes be run under
+the Valgrind tool. The Valgrind own parameters may be set with its
+environment variable VALGRIND_OPTS, e.g.
+VALGRIND_OPTS="--leak-check=yes" ./check -qcow2 -valgrind <test#>
 
-Andrey Shinkevich (7):
-  iotests: allow Valgrind checking all QEMU processes
-  iotests: amendment for benchmark output of 039 061 137
-  iotests: exclude killed processes from running under Valgrind
-  iotests: Valgrind fails to work with nonexistent directory
-  iotests: extended timeout under Valgrind
-  iotests: extend sleeping time under Valgrind
-  iotests: amend QEMU NBD process synchronization
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+---
+ tests/qemu-iotests/common.rc | 65 ++++++++++++++++++++++++++++++++------------
+ 1 file changed, 48 insertions(+), 17 deletions(-)
 
- tests/qemu-iotests/028        |  6 +++-
- tests/qemu-iotests/039        |  5 ++++
- tests/qemu-iotests/039.out    | 30 ++++----------------
- tests/qemu-iotests/051        |  1 +
- tests/qemu-iotests/061        |  2 ++
- tests/qemu-iotests/061.out    | 12 ++------
- tests/qemu-iotests/137        |  1 +
- tests/qemu-iotests/137.out    |  6 +---
- tests/qemu-iotests/183        |  9 +++++-
- tests/qemu-iotests/192        |  6 +++-
- tests/qemu-iotests/247        |  6 +++-
- tests/qemu-iotests/common.nbd |  6 ++++
- tests/qemu-iotests/common.rc  | 65 ++++++++++++++++++++++++++++++++-----------
- 13 files changed, 94 insertions(+), 61 deletions(-)
-
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 93f8738..3caaca4 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -60,19 +60,52 @@ if ! . ./common.config
+     exit 1
+ fi
+ 
++_qemu_proc_wrapper()
++{
++    local VALGRIND_LOGFILE="$1"
++    shift
++    if [ "${VALGRIND_QEMU}" == "y" ]; then
++        exec valgrind --log-file="${VALGRIND_LOGFILE}" --error-exitcode=99 "$@"
++    else
++        exec "$@"
++    fi
++}
++
++_qemu_proc_valgrind_log()
++{
++    local VALGRIND_LOGFILE="$1"
++    local RETVAL="$2"
++    if [ "${VALGRIND_QEMU}" == "y" ]; then
++        if [ $RETVAL == 99 ]; then
++            cat "${VALGRIND_LOGFILE}"
++        fi
++        rm -f "${VALGRIND_LOGFILE}"
++    fi
++}
++
+ _qemu_wrapper()
+ {
++    local VALGRIND_LOGFILE="${TEST_DIR}"/$$.valgrind
+     (
+         if [ -n "${QEMU_NEED_PID}" ]; then
+             echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid"
+         fi
+-        exec "$QEMU_PROG" $QEMU_OPTIONS "$@"
++        _qemu_proc_wrapper "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@"
+     )
++    RETVAL=$?
++    _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
++    return $RETVAL
+ }
+ 
+ _qemu_img_wrapper()
+ {
+-    (exec "$QEMU_IMG_PROG" $QEMU_IMG_OPTIONS "$@")
++    local VALGRIND_LOGFILE="${TEST_DIR}"/$$.valgrind
++    (
++        _qemu_proc_wrapper "${VALGRIND_LOGFILE}" "$QEMU_IMG_PROG" $QEMU_IMG_OPTIONS "$@"
++    )
++    RETVAL=$?
++    _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
++    return $RETVAL
+ }
+ 
+ _qemu_io_wrapper()
+@@ -85,38 +118,36 @@ _qemu_io_wrapper()
+             QEMU_IO_ARGS="--object secret,id=keysec0,data=$IMGKEYSECRET $QEMU_IO_ARGS"
+         fi
+     fi
+-    local RETVAL
+     (
+-        if [ "${VALGRIND_QEMU}" == "y" ]; then
+-            exec valgrind --log-file="${VALGRIND_LOGFILE}" --error-exitcode=99 "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"
+-        else
+-            exec "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"
+-        fi
++        _qemu_proc_wrapper "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"
+     )
+     RETVAL=$?
+-    if [ "${VALGRIND_QEMU}" == "y" ]; then
+-        if [ $RETVAL == 99 ]; then
+-            cat "${VALGRIND_LOGFILE}"
+-        fi
+-        rm -f "${VALGRIND_LOGFILE}"
+-    fi
+-    (exit $RETVAL)
++    _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
++    return $RETVAL
+ }
+ 
+ _qemu_nbd_wrapper()
+ {
++    local VALGRIND_LOGFILE="${TEST_DIR}"/$$.valgrind
+     (
+         echo $BASHPID > "${QEMU_TEST_DIR}/qemu-nbd.pid"
+-        exec "$QEMU_NBD_PROG" $QEMU_NBD_OPTIONS "$@"
++        _qemu_proc_wrapper "${VALGRIND_LOGFILE}" "$QEMU_NBD_PROG" $QEMU_NBD_OPTIONS "$@"
+     )
++    RETVAL=$?
++    _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
++    return $RETVAL
+ }
+ 
+ _qemu_vxhs_wrapper()
+ {
++    local VALGRIND_LOGFILE="${TEST_DIR}"/$$.valgrind
+     (
+         echo $BASHPID > "${TEST_DIR}/qemu-vxhs.pid"
+-        exec "$QEMU_VXHS_PROG" $QEMU_VXHS_OPTIONS "$@"
++        _qemu_proc_wrapper "${VALGRIND_LOGFILE}" "$QEMU_VXHS_PROG" $QEMU_VXHS_OPTIONS "$@"
+     )
++    RETVAL=$?
++    _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
++    return $RETVAL
+ }
+ 
+ export QEMU=_qemu_wrapper
 -- 
 1.8.3.1
 
