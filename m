@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9523AB2F
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 20:42:12 +0200 (CEST)
-Received: from localhost ([::1]:37448 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3423AB27
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 20:38:48 +0200 (CEST)
+Received: from localhost ([::1]:37420 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ha2lf-0000el-Jq
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 14:42:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49268)
+	id 1ha2iM-0005oy-MT
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 14:38:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49258)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fc-0004Rn-9L
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fb-0004Rl-Vu
  for qemu-devel@nongnu.org; Sun, 09 Jun 2019 14:35:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fa-00064m-TT
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 14:35:56 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47592)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ha2fa-000649-LL
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 14:35:55 -0400
+Received: from relay.sw.ru ([185.231.240.75]:47598)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ha2fa-00062r-J6; Sun, 09 Jun 2019 14:35:54 -0400
+ id 1ha2fa-00062t-DV; Sun, 09 Jun 2019 14:35:54 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.91)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ha2fX-00087U-Qr; Sun, 09 Jun 2019 21:35:52 +0300
+ id 1ha2fY-00087U-3W; Sun, 09 Jun 2019 21:35:52 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Sun,  9 Jun 2019 21:35:47 +0300
-Message-Id: <1560105348-459129-7-git-send-email-andrey.shinkevich@virtuozzo.com>
+Date: Sun,  9 Jun 2019 21:35:48 +0300
+Message-Id: <1560105348-459129-8-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 6/7] iotests: extend sleeping time under
- Valgrind
+Subject: [Qemu-devel] [PATCH 7/7] iotests: amend QEMU NBD process
+ synchronization
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,31 +52,53 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To synchronize the time when QEMU is running longer under the Valgrind,
-increase the sleeping time int the test 247.
+Processes are dying harder under the Valgring. It results in counting
+the dying process as a newborn one. Make it sure that old NBD job get
+finished before starting a new one.
 
+Suggested-by: Roman Kagan <rkagan@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- tests/qemu-iotests/247 | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/common.nbd | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tests/qemu-iotests/247 b/tests/qemu-iotests/247
-index 546a794..1036a17 100755
---- a/tests/qemu-iotests/247
-+++ b/tests/qemu-iotests/247
-@@ -57,7 +57,11 @@ TEST_IMG="$TEST_IMG.4" _make_test_img $size
- {"execute":"block-commit",
-  "arguments":{"device":"format-4", "top-node": "format-2", "base-node":"format-0", "job-id":"job0"}}
- EOF
--sleep 1
-+if [ "${VALGRIND_QEMU}" == "y" ]; then
-+    sleep 5
-+else
-+    sleep 1
-+fi
- echo '{"execute":"quit"}'
- ) | $QEMU -qmp stdio -nographic -nodefaults \
-     -blockdev file,node-name=file-0,filename=$TEST_IMG.0,auto-read-only=on \
+diff --git a/tests/qemu-iotests/common.nbd b/tests/qemu-iotests/common.nbd
+index 25fc9ff..e3dcc60 100644
+--- a/tests/qemu-iotests/common.nbd
++++ b/tests/qemu-iotests/common.nbd
+@@ -22,6 +22,7 @@
+ nbd_unix_socket="${TEST_DIR}/qemu-nbd.sock"
+ nbd_tcp_addr="127.0.0.1"
+ nbd_pid_file="${TEST_DIR}/qemu-nbd.pid"
++nbd_job_pid=""
+ 
+ nbd_server_stop()
+ {
+@@ -33,6 +34,9 @@ nbd_server_stop()
+             kill "$NBD_PID"
+         fi
+     fi
++    if [ -n "$nbd_job_pid" ] && kill -s 0 "$nbd_job_pid" 2>/dev/null; then
++        wait "$nbd_job_pid"
++    fi
+     rm -f "$nbd_unix_socket"
+ }
+ 
+@@ -61,6 +65,7 @@ nbd_server_start_unix_socket()
+ {
+     nbd_server_stop
+     $QEMU_NBD -v -t -k "$nbd_unix_socket" "$@" &
++    nbd_job_pid=$!
+     nbd_server_wait_for_unix_socket $!
+ }
+ 
+@@ -105,5 +110,6 @@ nbd_server_start_tcp_socket()
+ {
+     nbd_server_stop
+     $QEMU_NBD -v -t -b $nbd_tcp_addr -p $nbd_tcp_port "$@" &
++    nbd_job_pid=$!
+     nbd_server_wait_for_tcp_socket $!
+ }
 -- 
 1.8.3.1
 
