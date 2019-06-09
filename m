@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723F83A823
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 18:57:17 +0200 (CEST)
-Received: from localhost ([::1]:37082 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E99B3A81C
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jun 2019 18:57:13 +0200 (CEST)
+Received: from localhost ([::1]:37080 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ha186-0005xa-RG
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 12:57:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56524)
+	id 1ha184-0005vd-Kd
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 12:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56556)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <chen.zhang@intel.com>) id 1ha10S-0000QM-LF
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 12:49:21 -0400
+ (envelope-from <chen.zhang@intel.com>) id 1ha10U-0000Qh-Ot
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 12:49:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1ha10R-0007GT-8I
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 12:49:20 -0400
-Received: from mga14.intel.com ([192.55.52.115]:62032)
+ (envelope-from <chen.zhang@intel.com>) id 1ha10T-0007I0-RQ
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 12:49:22 -0400
+Received: from mga14.intel.com ([192.55.52.115]:62034)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1ha10Q-0007CA-W0
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 12:49:19 -0400
+ id 1ha10T-0007DM-8N
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 12:49:21 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2019 09:49:18 -0700
+ 09 Jun 2019 09:49:20 -0700
 X-ExtLoop1: 1
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga005.jf.intel.com with ESMTP; 09 Jun 2019 09:49:16 -0700
+ by orsmga005.jf.intel.com with ESMTP; 09 Jun 2019 09:49:18 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Li Zhijian <lizhijian@cn.fujitsu.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
@@ -37,16 +37,16 @@ To: Li Zhijian <lizhijian@cn.fujitsu.com>,
  Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Stefano Stabellini <sstabellini@kernel.org>,
  Paul Durrant <paul.durrant@citrix.com>
-Date: Mon, 10 Jun 2019 00:44:32 +0800
-Message-Id: <20190609164433.5866-5-chen.zhang@intel.com>
+Date: Mon, 10 Jun 2019 00:44:33 +0800
+Message-Id: <20190609164433.5866-6-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.GIT
 In-Reply-To: <20190609164433.5866-1-chen.zhang@intel.com>
 References: <20190609164433.5866-1-chen.zhang@intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 192.55.52.115
-Subject: [Qemu-devel] [PATCH V2 4/5] COLO-compare: Add colo-compare remote
- notify support
+Subject: [Qemu-devel] [PATCH V2 5/5] migration/colo.c: Add missed filter
+ notify for Xen COLO.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,128 +64,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-This patch make colo-compare can send message to remote COLO frame(Xen) when occur checkpoint.
+We need to notify net filter to do checkpoint for Xen COLO, like KVM side.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo-compare.c | 54 +++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 44 insertions(+), 10 deletions(-)
+ migration/colo.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 16285f4a96..516b651ecd 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -120,11 +120,6 @@ enum {
-     SECONDARY_IN,
- };
- 
--static void colo_compare_inconsistency_notify(void)
--{
--    notifier_list_notify(&colo_compare_notifiers,
--                migrate_get_current());
--}
- 
- static int compare_chr_send(CompareState *s,
-                             const uint8_t *buf,
-@@ -132,6 +127,27 @@ static int compare_chr_send(CompareState *s,
-                             uint32_t vnet_hdr_len,
-                             bool notify_remote_frame);
- 
-+static void notify_remote_frame(CompareState *s)
-+{
-+    char msg[] = "DO_CHECKPOINT";
-+    int ret = 0;
-+
-+    ret = compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true);
-+    if (ret < 0) {
-+        error_report("Notify Xen COLO-frame failed");
-+    }
-+}
-+
-+static void colo_compare_inconsistency_notify(CompareState *s)
-+{
-+    if (s->notify_dev) {
-+        notify_remote_frame(s);
-+    } else {
-+        notifier_list_notify(&colo_compare_notifiers,
-+                             migrate_get_current());
-+    }
-+}
-+
- static gint seq_sorter(Packet *a, Packet *b, gpointer data)
+diff --git a/migration/colo.c b/migration/colo.c
+index 8c1644091f..9f84b1fa3c 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -259,6 +259,8 @@ ReplicationStatus *qmp_query_xen_replication_status(Error **errp)
+ void qmp_xen_colo_do_checkpoint(Error **errp)
  {
-     struct tcp_hdr *atcp, *btcp;
-@@ -435,7 +451,7 @@ sec:
-         qemu_hexdump((char *)spkt->data, stderr,
-                      "colo-compare spkt", spkt->size);
- 
--        colo_compare_inconsistency_notify();
-+        colo_compare_inconsistency_notify(s);
-     }
+     replication_do_checkpoint_all(errp);
++    /* Notify all filters of all NIC to do checkpoint */
++    colo_notify_filters_event(COLO_EVENT_CHECKPOINT, errp);
  }
+ #endif
  
-@@ -577,7 +593,7 @@ void colo_compare_unregister_notifier(Notifier *notify)
- }
- 
- static int colo_old_packet_check_one_conn(Connection *conn,
--                                           void *user_data)
-+                                          CompareState *s)
- {
-     GList *result = NULL;
-     int64_t check_time = REGULAR_PACKET_CHECK_MS;
-@@ -588,7 +604,7 @@ static int colo_old_packet_check_one_conn(Connection *conn,
- 
-     if (result) {
-         /* Do checkpoint will flush old packet */
--        colo_compare_inconsistency_notify();
-+        colo_compare_inconsistency_notify(s);
-         return 0;
-     }
- 
-@@ -608,7 +624,7 @@ static void colo_old_packet_check(void *opaque)
-      * If we find one old packet, stop finding job and notify
-      * COLO frame do checkpoint.
-      */
--    g_queue_find_custom(&s->conn_list, NULL,
-+    g_queue_find_custom(&s->conn_list, s,
-                         (GCompareFunc)colo_old_packet_check_one_conn);
- }
- 
-@@ -637,7 +653,8 @@ static void colo_compare_packet(CompareState *s, Connection *conn,
-              */
-             trace_colo_compare_main("packet different");
-             g_queue_push_head(&conn->primary_list, pkt);
--            colo_compare_inconsistency_notify();
-+
-+            colo_compare_inconsistency_notify(s);
-             break;
-         }
-     }
-@@ -989,7 +1006,24 @@ static void compare_sec_rs_finalize(SocketReadState *sec_rs)
- 
- static void compare_notify_rs_finalize(SocketReadState *notify_rs)
- {
-+    CompareState *s = container_of(notify_rs, CompareState, notify_rs);
-+
-     /* Get Xen colo-frame's notify and handle the message */
-+    char *data = g_memdup(notify_rs->buf, notify_rs->packet_len);
-+    char msg[] = "COLO_COMPARE_GET_XEN_INIT";
-+    int ret;
-+
-+    if (!strcmp(data, "COLO_USERSPACE_PROXY_INIT")) {
-+        ret = compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true);
-+        if (ret < 0) {
-+            error_report("Notify Xen COLO-frame INIT failed");
-+        }
-+    }
-+
-+    if (!strcmp(data, "COLO_CHECKPOINT")) {
-+        /* colo-compare do checkpoint, flush pri packet and remove sec packet */
-+        g_queue_foreach(&s->conn_list, colo_flush_packets, s);
-+    }
- }
- 
- /*
 -- 
 2.17.GIT
 
