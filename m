@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E66A3BEC6
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 23:37:48 +0200 (CEST)
-Received: from localhost ([::1]:49852 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E13D63BED1
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 23:42:23 +0200 (CEST)
+Received: from localhost ([::1]:49902 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haRz8-0008EB-Cd
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 17:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59935)
+	id 1haS3Z-0002zP-6E
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 17:42:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34502)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <gary@extremeground.com>) id 1haRrq-000401-JL
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 17:30:18 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1haS0m-0001vs-3Z
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 17:39:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gary@extremeground.com>) id 1haRpN-0007w9-AH
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 17:27:43 -0400
-Received: from ahs5.r4l.com ([158.69.52.156]:53543)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gary@extremeground.com>)
- id 1haRpN-0007ve-3a
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 17:27:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=extremeground.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=RZLN8hvskw7GjJRITfE7JT0hQDXiRFi6ecst0r9g1Pg=; b=qMrHHnCsAOJCJ5jzLm6VozMt0J
- Ds4VkiUsXEajYbHugYRtM+x1+i7m9zulBNO74TFw5RPN7FwQ9Q16QiRBCkquy4iKxL5Zj567Caayk
- KK2EGlvppYUs4GdiRM8bBQXbMtQdD4ztgoKZctQPD36wIsWl82GaGyvXI53Pifgl2tBVb8aJ+u/fH
- 367n14lru1MPXYhgBJYCvpXiOiyAsJCJLZ9yKopZxXTE3Ca3+iIj74yy+Ap5MVwFhdm4zMlD/xOCh
- uRxCHmJOgKOwHns1uxC5Td6noN4k9mhocxC7m1CSQQbPdQHrvuxZ7RVl9X+0RFkW+FZQ+Fq6+Kqlz
- cAS8MAoQ==;
-Received: from cpeac202ed5e073-cmac202ed5e070.cpe.net.cable.rogers.com
- ([99.237.87.227]:59718 helo=[192.168.1.20])
- by ahs5.r4l.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- (Exim 4.92) (envelope-from <gary@extremeground.com>)
- id 1haRpM-0003iz-FY; Mon, 10 Jun 2019 17:27:40 -0400
-From: Gary Dale <gary@extremeground.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <abb7990e-0331-67a4-af92-05276366478c@extremeground.com>
- <20190610121941.GI14257@stefanha-x1.localdomain>
- <dc7a70ea-c94f-e975-df44-b0199da698e2@extremeground.com>
-Message-ID: <ab3e81c2-f0ce-2ef5-bbe7-948a87463b59@extremeground.com>
-Date: Mon, 10 Jun 2019 17:27:39 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1haS0g-00089l-Fr
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 17:39:24 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33983)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1haS0d-00085K-Bi
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 17:39:20 -0400
+Received: by mail-ot1-x344.google.com with SMTP id z24so9812261oto.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 14:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=2JhvtJfdlMNccF3+h73l+RqwbFY/nDLzA3VeauC2u04=;
+ b=ISsVHcJjSHYgHE0ntEKGPCM5xowmdjEMSoBEXtr4gf+FI+vXrwZ1aZROxU47WmjM0j
+ S1FGgkNGFOyhj/KMCHl7BjW69YzZCMePcpPWGYK2MAbLmql4uWRVX842p1ps2F+06p1s
+ ghc6bgb5SnRV6kOhBhWLH0b+Pc5KoxGrwE0SRhyNMF8quu36eH131akj1cWAYJ8bWgPr
+ PPB+0Yi41zjus9KXRkpLshbvNpGSU09ckpXu5HTGzH5MrndZRhXFcg6Qv2pII82tM4fe
+ xrsLpJS7oONoBIM1TtomTmG6Zbym42atRRUF1qZbesFd2hRToVUkTyK8xgV8smavSmvq
+ ZobQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=2JhvtJfdlMNccF3+h73l+RqwbFY/nDLzA3VeauC2u04=;
+ b=VRMy6Wh7Uci30vGJD3G3GA2mMj2WdyKWpgUIZIrCUYlw+HkwIBuEmxm24ybQAoWhBW
+ ODVm2bN/EEkzkW6Od6E1dAXHg6/45sdA8eN57AcSGweDPNxVowFRG+2jerQxSbx+8ELI
+ HNUpka+Ru69q66LWZ6qo5PzWZrtPd/rHgAIT3WX3piid5TXaa1LDkdTlSezEISAOyQVt
+ N7tnY3acXR7JE9JNHBrUEbAg1L+xUUzvXbj7NKEKOk+B5Ufcp0ELCJWEziBri2/yU+o1
+ 8EzGLMVJ9Lby6tCfLQ7RZagu/TfYP1Xpkl8NSSE8zDwo39mLqMQ3GiBGt3ZjwV1n1+aR
+ oajA==
+X-Gm-Message-State: APjAAAV8Pz7rpBI+BD9EBOszXq80bMbO4Bg6jiLhq039QBFolcwo5JuQ
+ SB9gnnrVlV8cIoPZIt4IQodka+n4A87vzMYt5vA=
+X-Google-Smtp-Source: APXvYqzWM2VcCOEANgOrelaVbSkp9ZvogRi0PBeL028E0plGaidJgHKhT92y70iwtshO6YLWICv6TD5zomrMnjPr8lI=
+X-Received: by 2002:a9d:5cc1:: with SMTP id r1mr174968oti.341.1560202756367;
+ Mon, 10 Jun 2019 14:39:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <dc7a70ea-c94f-e975-df44-b0199da698e2@extremeground.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-CA
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - ahs5.r4l.com
-X-AntiAbuse: Original Domain - nongnu.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - extremeground.com
-X-Get-Message-Sender-Via: ahs5.r4l.com: authenticated_id:
- gary@extremeground.com
-X-Authenticated-Sender: ahs5.r4l.com: gary@extremeground.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 158.69.52.156
-Subject: Re: [Qemu-devel] kvm / virsh snapshot management
+Received: by 2002:a9d:20e4:0:0:0:0:0 with HTTP; Mon, 10 Jun 2019 14:39:15
+ -0700 (PDT)
+Received: by 2002:a9d:20e4:0:0:0:0:0 with HTTP; Mon, 10 Jun 2019 14:39:15
+ -0700 (PDT)
+In-Reply-To: <20190610152444.20859-3-peter.maydell@linaro.org>
+References: <20190610152444.20859-1-peter.maydell@linaro.org>
+ <20190610152444.20859-3-peter.maydell@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 10 Jun 2019 23:39:15 +0200
+Message-ID: <CAL1e-=jpEP5zfzEMPR6NtvToTV79OH1J5=re=LU7n=Lyo-usOA@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH 2/2] docs: Build and install specs manual
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,199 +77,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019-06-10 11:54 a.m., Gary Dale wrote:
-> On 2019-06-10 8:19 a.m., Stefan Hajnoczi wrote:
->> On Sat, Jun 01, 2019 at 08:12:01PM -0400, Gary Dale wrote:
->>> A while back I converted a raw disk image to qcow2 to be able to use
->>> snapshots. However I realize that I may not really understand 
->>> exactly how
->>> snapshots work. In this particular case, I'm only talking about 
->>> internal
->>> snapshots currently as there seems to be some differences of opinion 
->>> as to
->>> whether internal or external are safer/more reliable. I'm also only 
->>> talking
->>> about shutdown state snapshots, so it should just be the disk that is
->>> snapshotted.
->>>
->>> As I understand it, the first snapshot freezes the base image and 
->>> subsequent
->>> changes in the virtual machine's disk are stored elsewhere in the 
->>> qcow2 file
->>> (remember, only internal snapshots). If I take a second snapshot, that
->>> freezes the first one, and subsequent changes are now in third 
->>> location.
->>> Each new snapshot is incremental to the one that preceded it rather 
->>> than
->>> differential to the base image. Each new snapshot is a child of the 
->>> previous
->>> one.
->> Internal snapshots are not incremental or differential at the qcow2
->> level, they are simply a separate L1/L2 table pointing to data clusters.
->> In other words, they are an independent set of metadata showing the full
->> state of the image at the point of the snapshot.  qcow2 does not track
->> relationships between snapshots and parents/children.
-> Which sounds to me like they are incremental. Each snapshot starts a 
-> new L1/L2 table so that the state of the previous one is preserved.
->>
->>> One explanation I've seen of the process is if I delete a snapshot, the
->>> changes it contains are merged with its immediate child.
->> Nope.  Deleting a snapshot decrements the reference count on all its
->> data clusters.  If a data cluster's reference count reaches zero it will
->> be freed.  That's all, there is no additional data movement or
->> reorganization aside from this.
-> Perhaps not physically but logically it would appear that the data 
-> clusters were merged.
->>
->>> So if I deleted the
->>> first snapshot, the base image stays the same but any data that has 
->>> changed
->>> since the base image is now in the second snapshot's location. The 
->>> merge
->>> with children explanation also implies that the base image is never 
->>> touched
->>> even if the first snapshot is deleted.
->>>
->>> But if I delete a snapshot that has no children, is that essentially 
->>> the
->>> same as reverting to the point that snapshot was created and all 
->>> subsequent
->>> disk changes are lost? Or does it merge down to the parent snapshot? 
->>> If I
->>> delete all snapshots, would that revert to the base image?
->> No.  qcow2 has the concept of the current disk state of the running VM -
->> what you get when you boot the guest - and the snapshots - they are
->> read-only.
->>
->> When you delete snapshots the current disk state (running VM) is
->> unaffected.
->>
->> When you apply a snapshot this throws away the current disk state and
->> uses the snapshot as the new current disk state.  The read-only snapshot
->> itself is not modified in any way and you can apply the same snapshot
->> again as many times as you wish later.
-> So in essence the current state is a pointer to the latest data 
-> cluster, which is the only data cluster that can be modified.
->>
->>> I've seen it explained that a snapshot is very much like a timestamp so
->>> deleting a timestamp removes the dividing line between writes that 
->>> occurred
->>> before and after that time, so that data is really only removed if I 
->>> revert
->>> to some time stamp - all writes after that point are discarded. In this
->>> explanation, deleting the oldest timestamp is essentially updating 
->>> the base
->>> image. Deleting all snapshots would leave me with the base image fully
->>> updated.
->>>
->>> Frankly, the second explanation sounds more reasonable to me, 
->>> without having
->>> to figure out how copy-on-write works,  But I'm dealing with 
->>> important data
->>> here and I don't want to mess it up by mishandling the snapshots.
->>>
->>> Can some provide a little clarity on this? Thanks!
->> If you want an analogy then git(1) is a pretty good one.  qcow2 internal
->> snapshots are like git tags.  Unlike branches, tags are immutable.  In
->> qcow2 you only have a master branch (the current disk state) from which
->> you can create a new tag or you can use git-checkout(1) to apply a
->> snapshot (discarding whatever your current disk state is).
->>
->> Stefan
+On Jun 10, 2019 5:25 PM, "Peter Maydell" <peter.maydell@linaro.org> wrote:
 >
-> That's just making things less clear - I've never tried to understand 
-> git either. Thanks for the attempt though.
+> Now we have some rST format docs in the docs/specs/ manual, we should
+> actually build and install it.
 >
-> If I've gotten things correct, once the base image is established, 
-> there is a current disk state that points to a table containing all 
-> the writes since the base image. Creating a snapshot essentially takes 
-> that pointer and gives it the snapshot name, while creating a new 
-> current disk state pointer and data table where subsequent writes are 
-> recorded.
->
-> Deleting snapshots removes your ability to refer to a data table by 
-> name, but the table itself still exists anonymously as part of a chain 
-> of data tables between the base image and the current state.
->
-> This leaves a problem. The chain will very quickly get quite long 
-> which will impact performance. To combat this, you can use blockcommit 
-> to merge a child with its parent or blockpull to merge a parent with 
-> its child.
->
-> In my situation, I want to keep a week of daily snapshots in case 
-> something goes horribly wrong with the VM (I recently had a database 
-> file become corrupt, and reverting to the previous working day's image 
-> would have been a quick and easy solution, faster than recovering all 
-> the data tables from the prefious day). I've been shutting down the 
-> VM, deleting the oldest snapshot and creating a new one before 
-> restarting the VM.
->
-> While your explanation confirms that this is safe, it also implies 
-> that I need to manage the data table chains. My first instinct is to 
-> use blockcommit before deleting the oldest snapshot, such as:
->
->     virsh blockcommit <vm name> <qcow2 file path> --top <oldest 
-> snapshot> --delete --wait
->     virsh snapshot-delete  --domain <vm name> --snapshotname <oldest 
-> snapshot>
->
-> so that the base image contains the state as of one week earlier and 
-> the snapshot chains are limited to 7 links.
->
-> 1) does this sound reasonable?
->
-> 2) I note that the syntax in virsh man page is different from the 
-> syntax at 
-> https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-backing-chain 
-> (RedHat uses --top and --base while the man page just has optional 
-> base and top names). I believe the RedHat guide is correct because the 
-> man page doesn't allow distinguishing between the base and the top for 
-> a commit.
->
-> However the need for specifying the path isn't obvious to me. Isn't 
-> the path contained in the VM definition?
->
-> Since blockcommit would make it impossible for me to revert to an 
-> earlier state (because I'm committing the oldest snapshot, if it 
-> screws up, I can't undo within virsh), I need to make sure this 
-> command is correct.
->
-Trying this against a test VM, I ran into a roadblock. My command line 
-and the results are:
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
 
-# virsh blockcommit stretch "/home/secure/virtual/stretch.qcow2" --top 
-stretchS3 --delete --wait
-error: unsupported flags (0x2) in function qemuDomainBlockCommit
+Acked-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-I get the same thing when the path to the qcow2 file isn't quoted.
-
-I noted in 
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/virtualization_administration_guide/sub-sect-domain_commands-using_blockcommit_to_shorten_a_backing_chain 
-that the options use a single "-". However the results for that were:
-# virsh blockcommit stretch /home/secure/virtual/stretch.qcow2 -top 
-stretchS3 -delete -wait
-error: Scaled numeric value '-top' for <--bandwidth> option is malformed 
-or out of range
-
-which looks like virsh doesn't like the single dashes and is trying to 
-interpret them as positional options.
-
-I also did a
-
-# virsh domblklist stretch
-Target     Source
-------------------------------------------------
-vda        /home/secure/virtual/stretch.qcow2
-hda        -
-
-and tried using vda instead of the full path in the blockcommit but got 
-the same error.
-
-Any ideas on what I'm doing wrong?
-
-
+>  Makefile           |  7 ++++++-
+>  docs/specs/conf.py | 16 ++++++++++++++++
+>  2 files changed, 22 insertions(+), 1 deletion(-)
+>  create mode 100644 docs/specs/conf.py
+>
+> diff --git a/Makefile b/Makefile
+> index 8e2fc6624c3..cfb18f15254 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -731,6 +731,7 @@ distclean: clean
+>         rm -rf .doctrees
+>         $(call clean-manual,devel)
+>         $(call clean-manual,interop)
+> +       $(call clean-manual,specs)
+>         for d in $(TARGET_DIRS); do \
+>         rm -rf $$d || exit 1 ; \
+>          done
+> @@ -781,6 +782,7 @@ endef
+>  .PHONY: install-sphinxdocs
+>  install-sphinxdocs: sphinxdocs
+>         $(call install-manual,interop)
+> +       $(call install-manual,specs)
+>
+>  install-doc: $(DOCS) install-sphinxdocs
+>         $(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
+> @@ -962,7 +964,7 @@ docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
+>  # and handles "don't rebuild things unless necessary" itself.
+>  # The '.doctrees' files are cached information to speed this up.
+>  .PHONY: sphinxdocs
+> -sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html
+$(MANUAL_BUILDDIR)/interop/index.html
+> +sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html
+$(MANUAL_BUILDDIR)/interop/index.html $(MANUAL_BUILDDIR)/specs/index.html
+>
+>  # Canned command to build a single manual
+>  build-manual = $(call quiet-command,sphinx-build $(if $(V),,-q) -W -n -b
+html -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1
+$(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+> @@ -975,6 +977,9 @@ $(MANUAL_BUILDDIR)/devel/index.html: $(call
+manual-deps,devel)
+>  $(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
+>         $(call build-manual,interop)
+>
+> +$(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+> +       $(call build-manual,specs)
+> +
+>  qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+>         $(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< >
+$@,"GEN","$@")
+>
+> diff --git a/docs/specs/conf.py b/docs/specs/conf.py
+> new file mode 100644
+> index 00000000000..4d56f3ae13c
+> --- /dev/null
+> +++ b/docs/specs/conf.py
+> @@ -0,0 +1,16 @@
+> +# -*- coding: utf-8 -*-
+> +#
+> +# QEMU documentation build configuration file for the 'specs' manual.
+> +#
+> +# This includes the top level conf file and then makes any necessary
+tweaks.
+> +import sys
+> +import os
+> +
+> +qemu_docdir = os.path.abspath("..")
+> +parent_config = os.path.join(qemu_docdir, "conf.py")
+> +exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
+> +
+> +# This slightly misuses the 'description', but is the best way to get
+> +# the manual title to appear in the sidebar.
+> +html_theme_options['description'] = \
+> +    u'System Emulation Guest Hardware Specifications'
+> --
+> 2.20.1
+>
+>
