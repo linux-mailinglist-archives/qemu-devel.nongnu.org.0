@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523163B5EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 15:24:28 +0200 (CEST)
-Received: from localhost ([::1]:46400 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519773B610
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 15:32:17 +0200 (CEST)
+Received: from localhost ([::1]:46430 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haKHi-0001Xe-PN
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 09:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44024)
+	id 1haKPI-0004cv-CX
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 09:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45527)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1haKFY-0000IG-57
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:22:13 -0400
+ (envelope-from <afaerber@suse.de>) id 1haKM4-0004A3-KG
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:28:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1haKFW-0000ii-VX
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:22:12 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:37565)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1haKFV-0000hT-Vx
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:22:10 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id t76so6202401oih.4
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 06:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7A1Twrk3AcfR9aQT2yMxTJy/U7TUyjgKs19ktPmdL+I=;
- b=ZwEciOJFqvGEi4FuQStWVUJ12eVqps6NgsNEq/Hf3RmT4WSriJLybvCeGAas0qy+Ru
- lMMMva82ZU1HcSYQW2RkSCC1UDYlWAFzmruYvsDw2ePSkJfJEbwyL1PpS6yGnv1DrjuV
- DnhXL7zmI/xVKFjyPfBRo/8o4ayes8BVMC+fZ4qC3eJt1q9IbRAc2/qReJQISfUjBRfg
- mASMXuaAB6PMSTKtkXYevPOzoxVTZYrmyWNB2ewm46zyE0xaHVc7H3xiKi5oc55z44gZ
- Z/fpsyrYDH+qqoKLcRr+amPMAV92g8dYDcDc0ym+bLQdGPcm4BVAudwPLmlaAOkie7W8
- weAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7A1Twrk3AcfR9aQT2yMxTJy/U7TUyjgKs19ktPmdL+I=;
- b=Dr2zucBXw7I73SUdQ+6+TFeCoCdxk93Ty4LFGiDXqihyLTtTtHOdEeVkK+qSytn1iB
- OaZ4VKI1Yz8gjRwYG6yoSzlDl/vgxRAQhdXx6/VoSl8g7gGG2VgWlqlZM6jYTmJWkFmL
- fkSoa/DOAJhTWQc7tT/MN5t6fUyzH5+Knv5PKZ2SUkMRrht6VPLAJVbQiIn1T0QMCpLG
- il4Lz6ZxPVV5CwfXxoB2yKAgPHQ/WOJnrAv9Lo5XcauQInzfzAbl6lmQ57LW3osV0PXW
- KJE3EoyrbOH5bMhIX860Hn8O9MY5VUltbyeGZcZsvn0zWq0PKRkh+UZAf65B2mn6h0C9
- uwag==
-X-Gm-Message-State: APjAAAVVbWKK6hXy1XtPEQt8eZkCRHcL3wrFk36rijDfsW2axG4oH4LU
- LAnHHyk+AKCWNkHiifbsmMb0z3bNCy+ZIVLDX5jdaQ==
-X-Google-Smtp-Source: APXvYqy5OacfM/DM/BXuJ6RBgMx8svIwdMTpF2WMCkuBFbiEqX56kwglwPto3HVjb29R8iAbFMPfqfA9IBl2QU/nbho=
-X-Received: by 2002:aca:c786:: with SMTP id
- x128mr11628632oif.146.1560172928617; 
- Mon, 10 Jun 2019 06:22:08 -0700 (PDT)
+ (envelope-from <afaerber@suse.de>) id 1haKM3-0004g1-Kc
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:28:56 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40268 helo=mx1.suse.de)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <afaerber@suse.de>) id 1haKM3-0004fb-CH
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:28:55 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 66DB9AFF5;
+ Mon, 10 Jun 2019 13:28:53 +0000 (UTC)
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
+ <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
+ <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
+ <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
+ <003b01d51f72$5e6f4160$1b4dc420$@Fursova@ispras.ru>
+ <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
+ <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
+From: =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+Openpgp: preference=signencrypt
+Organization: SUSE Linux GmbH
+Message-ID: <98826c5f-4a74-5364-2aef-28a10db12c20@suse.de>
+Date: Mon, 10 Jun 2019 15:28:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190607211544.7964-1-ehabkost@redhat.com>
- <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
- <20190610131105.GJ22416@habkost.net>
-In-Reply-To: <20190610131105.GJ22416@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Jun 2019 14:21:57 +0100
-Message-ID: <CAFEAcA_fBBN_854PznqJUniks0uemEite8Hxcw6cwTbUSr+aVg@mail.gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::22e
-Subject: Re: [Qemu-devel] [PULL 0/8] Python queue, 2019-06-07
+In-Reply-To: <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic]
+X-Received-From: 195.135.220.15
+Subject: Re: [Qemu-devel] qgraph
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,36 +59,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: =?UTF-8?B?J9Cf0LDRiNCwJw==?= <Pavel.Dovgaluk@ispras.ru>,
+ qemu-devel@nongnu.org, Natalia Fursova <Natalia.Fursova@ispras.ru>,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Jun 2019 at 14:11, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> On Mon, Jun 10, 2019 at 01:58:50PM +0100, Peter Maydell wrote:
-> > Hi. This fails to build on one of my buildtest machines:
-> >
-> > ERROR: Cannot use 'python3', Python 2 >= 2.7 or Python 3 >= 3.5 is required.
-> >        Use --python=/path/to/python to specify a supported Python.
-> >
-> > The machine has python 2.7.6 and 3.4.3. (It's an Ubuntu trusty
-> > box; it's one of the gcc compile farm machines so upgrades to its
-> > OS are not really under my control.)
->
-> Ubuntu 16.04 LTS (Xenial) was released in April 2016.  Doesn't
-> that mean Trusty is not a supported build platform since April
-> 2018?
+Am 10.06.19 um 14:03 schrieb Paolo Bonzini:
+> On 10/06/19 13:57, Andreas F=C3=A4rber wrote:
+>> Your question doesn't make sense grammatically or conceptually. As Pao=
+lo
+>> explained below, QOM is a pure object model, with object types/classes
+>> and properties. Buses are just object instances attached as properties
+>> and don't necessarily even need their own type of bus object (e.g, CPU=
+).
+>> An answer you don't like doesn't change by asking it to other people..=
+.
+>> The information is all there, you just need to interpret it correctly.
+>>
+>> There is no technical discussion (no concrete proposal of yours) to
+>> comment on here, and kindly refer to last week's change of maintainers=
+.
+>>
+>> You would be better off just explaining what you really want to achiev=
+e.
+>=20
+> Well, that was explained upthread---finding out what device can be
+> plugged where.
+>=20
+> Let's see what is in QOM right now:
+>=20
+> $ qemu-kvm -qmp unix:foo.sock,server,nowait -device virtio-scsi-pci,id=3D=
+vs
+> $ ./qmp/qom-list -s ~/foo.sock /machine/peripheral/vs|less
+>=20
+> There is a "virtio-bus" here, and iside it there is a scsi-bus.
+>=20
+> $ ./qmp/qom-list -s ~/foo.sock /machine/peripheral/vs/virtio-bus/child[=
+0]/
+> vs.0/
+>=20
+> I guess you could add to virtio-scsi-pci a class property for the bus,
+> and then make "vs.0" an alias to that class property.  This would allow
+> you find buses by enumerating the class properties.
 
-Possibly, but as I say the gcc compile farm is what it is.
-Regardless of the strict letter of the deprecation policy,
-when we start running into issues with the set of build test
-machines I tend to feel we may be being a bit over-hasty in
-deprecating things.
+That kind of goes against the spirit of QOM though and ignores simpler
+mechanisms of hot-plugging, as mentioned.
 
-PS: re the BSD VMs, you probably want to start with Alex's
-recent update which did a fairly major overhaul there (he
-sent a pullreq but it didn't pass build tests so isn't merged yet).
+The theoretical generic way would be to discover that any random object
+beneath /machine has a null property of a link<> type that inherits from
+device and is compatible with the device type to be plugged.
 
-thanks
--- PMM
+In practice we decided against Anthony's idea of adding tons of empty
+slot properties for e.g. PCI buses (the number space is too large). We
+did add QOM support for wildcard "foo[*]" array properties though. A
+null slot[42] property of a certain link<> type then means a device can
+be plugged there, and the property's setter then needs to take care of
+hot-plugging and un-plugging.
+This was unfortunately obscured by the legacy qdev model where we
+magically add new child[0] properties (pointing to
+/machine/peripheral(-anon) sub-nodes) to its bus parent during device
+instantiation IIRC.
+
+So if we want a new QMP operation, the most sense would probably make
+where-can-I-attach-type(foo) returning a list of QOM paths, showing only
+the first free slot per bus. That would allow a more efficient lookup
+implementation inside QEMU than needing to check each slot[n] property
+via qom-get after discovering it with qom-list.
+
+Regards,
+Andreas
+
+--=20
+SUSE Linux GmbH, Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
 
