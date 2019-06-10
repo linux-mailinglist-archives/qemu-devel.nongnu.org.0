@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441513B6F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:09:25 +0200 (CEST)
-Received: from localhost ([::1]:46892 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927403B6B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:07:04 +0200 (CEST)
+Received: from localhost ([::1]:46884 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haKzE-0000eR-EH
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53648)
+	id 1haKwx-0007Ql-NK
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:07:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53735)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1haKnB-00083R-IT
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:57:00 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1haKnk-0008CZ-Nt
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:57:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1haKnA-0007Wr-Mq
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:56:57 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43124)
+ (envelope-from <pbonzini@redhat.com>) id 1haKni-0007qr-RJ
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:57:32 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37721)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1haKn9-0007Up-JO
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:56:55 -0400
-Received: by mail-wr1-f68.google.com with SMTP id r18so9284137wrm.10
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 06:56:55 -0700 (PDT)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1haKng-0007ox-U6
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:57:29 -0400
+Received: by mail-wr1-f66.google.com with SMTP id v14so9296599wrr.4
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 06:57:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=XH6Qbb6IBQeZarRhW3F78s2t+V31cXfFANsWOHjK9Sg=;
- b=Bmu3igeXH07V7/5MoMpC7ZQ7yVd50s+Og6ReH+g0hmWGCsj2kcNWuUS0gNy1QW2qKH
- K0jbrgONgDkAbxsSkWqyT01iJoc0mVfn3Lu/mSPYLRgWyGh+Wb/9gGPk+k9X+QXyPqXB
- GHYbohtH2tVrpjiqTfxskPuc/dfvv15a1AGl+KgwpSXn04maLVeq2JoZbS4nGZDB4T5N
- qagO3RvmIC1l56+0u0s/y7v4WwlG2BQJwkncwuWkdtjKYhFG0FMdlSmJV0dL+FXMs0dI
- CoxARslHsNKvdw6zCiwUW7vALNHfu+MmcT7EHgdwt6DN6mW2wRM5nAJSe/4zveD699bL
- WqRw==
-X-Gm-Message-State: APjAAAUar/K5eFZRVf/Lnih9+RYbug9ayM9S5do01B09W/Rb9gB24tbD
- C8DTW/D3k22DDFHXqvDFJ36z6w==
-X-Google-Smtp-Source: APXvYqxMsCw/5H6IqehD2c+B5uNSOdYvjwcK7iPmF3in5tdHL59eltU7kb4i12Lp6ci7X5i1iyUV1Q==
-X-Received: by 2002:adf:f246:: with SMTP id b6mr21348396wrp.92.1560175014475; 
- Mon, 10 Jun 2019 06:56:54 -0700 (PDT)
+ bh=bnDKenNNos40mZIIz0MdLFy86MsODSnBgW+fQyKY6Qc=;
+ b=dg7a8CBtiUe22fmO1UynU0eKO2snc3gaD/e8SNJx4Qr7dcEqkP6JXa3ScwZkSOzWeG
+ 0rklsCML4lOxIJIFb8DgXla1AFDtmYoKfPHiHhPHfRr4Y8aYgKfp3jiik+k0YhRuRToD
+ JGhJwC8y5Zcz3UpMkNO5fdqcebbjy4HVhextCXL6g11zlugTXiJH9CPFGqDxypUskszy
+ RQifTBwOkLcQTB68K8AKO5rv9ZVQj2K2Zcr0FIenuBWpK7MV1u8rutqYHYA8HR5hoD6n
+ yqgbzIjuKeOj4Owd3WEKtS5PbljHudbjFnREO6VatEu8N+GN+ZzK5m4PXQZFDLFwifau
+ wahA==
+X-Gm-Message-State: APjAAAU1BH/2VNrT6G1SdzLgLxyihoV8fsntIjBp7Zy1bbuBG/RoZREn
+ R9RgGYvEUkKPeVQmwAOV8IWL3w==
+X-Google-Smtp-Source: APXvYqwI8k37F4fme5Tio2cJRK+kcHAUOdr1GAWuWeSXeVxvPx2VsekhXnPrGzMwK2oTThUQMYRhhg==
+X-Received: by 2002:a5d:5582:: with SMTP id i2mr9954820wrv.209.1560175047080; 
+ Mon, 10 Jun 2019 06:57:27 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:49d3:a711:c5a3:8ebf?
  ([2001:b07:6468:f312:49d3:a711:c5a3:8ebf])
- by smtp.gmail.com with ESMTPSA id a125sm11169083wmf.42.2019.06.10.06.56.53
+ by smtp.gmail.com with ESMTPSA id 74sm9412877wma.7.2019.06.10.06.57.26
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 Jun 2019 06:56:53 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20190610134545.3743-1-peter.maydell@linaro.org>
+ Mon, 10 Jun 2019 06:57:26 -0700 (PDT)
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <1560174635-22602-1-git-send-email-imammedo@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f638478d-8149-0dbb-1d76-0c45c29cbaf1@redhat.com>
-Date: Mon, 10 Jun 2019 15:56:52 +0200
+Message-ID: <5b8571b6-2347-ff62-2b0f-484fe47b476a@redhat.com>
+Date: Mon, 10 Jun 2019 15:57:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190610134545.3743-1-peter.maydell@linaro.org>
+In-Reply-To: <1560174635-22602-1-git-send-email-imammedo@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH] qemu-ga: Convert invocation documentation
- to rST
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH] pc: fix possible NULL pointer dereference
+ in pc_machine_get_device_memory_region_size()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,34 +72,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: armbru@redhat.com, mst@redhat.com, ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/06/19 15:45, Peter Maydell wrote:
-> +# Canned command to build manpages from a single manual
-> +build-manpages = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -n -b man -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+On 10/06/19 15:50, Igor Mammedov wrote:
+> QEMU will crash when device-memory-region-size property is read if ms->device_memory
+> wasn't initialized yet.
+> 
+> Crash can be reproduced with:
+>  $QEMU -preconfig -qmp unix:qmp_socket,server,nowait &
+>  ./scripts/qmp/qom-get -s qmp_socket /machine.device-memory-region-size
+> 
+> Instead of crashing return 0 if ms->device_memory hasn't been initialized.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> v2:
+>   add reproducer to commit message
+>    (Markus Armbruster <armbru@redhat.com>)
+> 
+>  hw/i386/pc.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index edc240b..1b7ead9 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -2459,7 +2459,11 @@ pc_machine_get_device_memory_region_size(Object *obj, Visitor *v,
+>                                           Error **errp)
+>  {
+>      MachineState *ms = MACHINE(obj);
+> -    int64_t value = memory_region_size(&ms->device_memory->mr);
+> +    int64_t value = 0;
+> +
+> +    if (ms->device_memory) {
+> +        memory_region_size(&ms->device_memory->mr);
+> +    }
+>  
+>      visit_type_int(v, name, &value, errp);
+>  }
+> 
 
-
-...
-
-> +# The rst_epilog fragment is effectively included in every rST file.
-> +# We use it to define substitutions based on build config that
-> +# can then be used in the documentation. The fallback if the
-> +# environment variable is not set is for the benefit of readthedocs
-> +# style document building; our Makefile always sets the variable.
-> +confdir = os.getenv('CONFDIR', "/usr/local/etc")
-
-This should be /usr/local/etc/qemu is you want $(qemu_confdir) above and
-not $(sysconfdir).
-
-But since we always set the variable when building from the QEMU build
-system, perhaps "/etc" or "/etc/qemu" is a more useful default when
-building the manual outside QEMU?
+Queued, thanks.
 
 Paolo
-
-> +rst_epilog = ".. |CONFDIR| replace:: ``" + confdir + "``\n"
-> +
-
 
