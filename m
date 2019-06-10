@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8521C3BD2B
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 21:53:44 +0200 (CEST)
-Received: from localhost ([::1]:49334 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B5E3BD35
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 21:55:10 +0200 (CEST)
+Received: from localhost ([::1]:49378 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haQMR-00038z-P3
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 15:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59726)
+	id 1haQNq-0004UZ-0U
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 15:55:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60160)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <wainersm@redhat.com>) id 1haQHB-0007II-Vb
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:48:23 -0400
+ (envelope-from <wainersm@redhat.com>) id 1haQI9-0007bp-Qe
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:49:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1haQH4-0002Ks-Dk
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:48:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34958)
+ (envelope-from <wainersm@redhat.com>) id 1haQI7-000309-Nc
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:49:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42852)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1haQGz-0002BB-6p
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:48:05 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1haQI5-0002vi-Kg
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:49:13 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 25E33307D91F;
- Mon, 10 Jun 2019 19:48:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E84D48110E;
+ Mon, 10 Jun 2019 19:49:02 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-123-147.rdu2.redhat.com
  [10.10.123.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C1DF71001B14;
- Mon, 10 Jun 2019 19:47:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E56B19C59;
+ Mon, 10 Jun 2019 19:48:57 +0000 (UTC)
 To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
 References: <20190607152223.9467-1-crosa@redhat.com>
- <20190607152223.9467-3-crosa@redhat.com>
+ <20190607152223.9467-4-crosa@redhat.com>
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <67974de6-81e6-d9af-410a-1d29d37de8fa@redhat.com>
-Date: Mon, 10 Jun 2019 16:47:55 -0300
+Message-ID: <87df3206-f061-ad25-3fe9-2b185888f98d@redhat.com>
+Date: Mon, 10 Jun 2019 16:48:54 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.5.2
 MIME-Version: 1.0
-In-Reply-To: <20190607152223.9467-3-crosa@redhat.com>
+In-Reply-To: <20190607152223.9467-4-crosa@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Mon, 10 Jun 2019 19:48:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Mon, 10 Jun 2019 19:49:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/8] tests/requirements.txt: pin paramiko
- version requirement
+Subject: Re: [Qemu-devel] [PATCH 3/8] Acceptance tests: drop left over usage
+ of ":avocado: enable"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,31 +70,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 06/07/2019 12:22 PM, Cleber Rosa wrote:
-> It's a good practice (I'd really say a must) to pin as much as
-> possible of the software versions used during test, so let's apply
-> that to paramiko.
+> Commit 9531d26c10 removed all of ":avocado: enable" tags, but then
+> a new entry was added with the introduction of migration.py.
 >
-> According to https://pypi.org/project/paramiko/, 2.4.2 is the latest
-> released version.  It's also easily obtainable on systems such as
-> Fedora 30.
+> Let's remove it for consistency.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->   tests/requirements.txt | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   tests/acceptance/migration.py | 3 ---
+>   1 file changed, 3 deletions(-)
+
+I was about to send a patch to remove it as well. :)
 
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
 >
-> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> index 3ae0e29ad7..bd1f7590ed 100644
-> --- a/tests/requirements.txt
-> +++ b/tests/requirements.txt
-> @@ -2,4 +2,4 @@
->   # in the tests/venv Python virtual environment. For more info,
->   # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
->   avocado-framework==68.0
-> -paramiko
-> +paramiko==2.4.2
+> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
+> index 6115cf6c24..a44c1ae58f 100644
+> --- a/tests/acceptance/migration.py
+> +++ b/tests/acceptance/migration.py
+> @@ -17,9 +17,6 @@ from avocado.utils import wait
+>   
+>   
+>   class Migration(Test):
+> -    """
+> -    :avocado: enable
+> -    """
+>   
+>       timeout = 10
+>   
 
 
