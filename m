@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294333BB97
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 20:05:31 +0200 (CEST)
-Received: from localhost ([::1]:48766 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B277A3B8C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 17:58:10 +0200 (CEST)
+Received: from localhost ([::1]:47864 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haOfh-00044P-GM
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 14:05:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52056)
+	id 1haMgT-0002C7-ES
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 11:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55633)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <gary@extremeground.com>) id 1haNt1-0000t7-T5
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:15:14 -0400
+ (envelope-from <mst@redhat.com>) id 1haMeW-0001aw-IB
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:56:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gary@extremeground.com>) id 1haNsy-0001wU-FL
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:15:11 -0400
-Received: from ahs5.r4l.com ([158.69.52.156]:47433)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gary@extremeground.com>)
- id 1haNsx-0001LW-QZ
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:15:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=extremeground.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hoYK19Vb/MIi2yfcMQlFWxqhkOCxSlzpAYdmJKeyjyY=; b=LVeNUpF5gW/rE4GfdeLAd66EgN
- OZqWhfjLnQqPxsJEGr4WP4qDiLC7GZhuJlEu8oAcyuFACjliqcmVMx6PklM3dGJoglC4H3fD7NN0V
- qyJSFMd3Qy2dhbPU5jt0B1ibZBhPGmQz2e/vA4AeZIr2vpTPGK8DFKONCJy+mlU6Zp7LQe7zViEac
- kTrDJOEa0t5APCHj6r20Up52GTihUqxuqmSfDi1K7hNPbx0H6OTXi7dqN2yG0IoNxB3imWbLrypmV
- 682yth/u29XJlqS/EsTl7B/UPOieSOZ0Cu4kO3vDs+7wSU5Jv0yYX8vK/IPpRbo7vjmHzhRD7B/oP
- PX+YWrlg==;
-Received: from cpeac202ed5e073-cmac202ed5e070.cpe.net.cable.rogers.com
- ([99.237.87.227]:44326 helo=[192.168.1.20])
- by ahs5.r4l.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- (Exim 4.92) (envelope-from <gary@extremeground.com>)
- id 1haMdL-0007fx-SQ; Mon, 10 Jun 2019 11:54:55 -0400
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <abb7990e-0331-67a4-af92-05276366478c@extremeground.com>
- <20190610121941.GI14257@stefanha-x1.localdomain>
-From: Gary Dale <gary@extremeground.com>
-Message-ID: <dc7a70ea-c94f-e975-df44-b0199da698e2@extremeground.com>
-Date: Mon, 10 Jun 2019 11:54:55 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <mst@redhat.com>) id 1haMeV-00045O-En
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:56:08 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:46203)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1haMeU-0003tw-A9
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:56:06 -0400
+Received: by mail-ua1-f68.google.com with SMTP id o19so3213194uap.13
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 08:55:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=7ZhX/TqkI2jBRtdjnfLMzlM6SsE9c/EC2fTs4Tvc2t4=;
+ b=BP2z02uLFmo9/LNEYNqCJBI/Op5qTl2fJyMhGsTXl8ECAMsycoTo4JgUvbpH1MLWYV
+ d9OLJfiPa8L3zl6X743M7dVDDD4V1ku77OF5nwRBALtfYqzQrwzxW2nkedachxMLmnhU
+ vfJCdoy7bhR1CfbSGyLJDTZzVm9yLEo/8+ISXi9pWXZaIa71ndjLIiEeiSRbHWTpv1NW
+ hZ9PAa+MJzOIFoSzKSptXzXMPLIPLwCtFoAKrAqzAta8/j9GPT4wi+083xml0m8JtUz6
+ NU58vxlhSqWzlOpPQtCcs2HSDeNOkFiuxpICJGH2m8WIr618AFLMcT4ERunxk0Jtigyx
+ 28vA==
+X-Gm-Message-State: APjAAAV/urtFOOy4Mco7nRoDIx4ers3vQi0N4yIN7Egj3jVXe7AhS+gP
+ FhphMgPEbDkVvgzoxeJY0MtrbQ==
+X-Google-Smtp-Source: APXvYqzFrtyMcE3mpcGV+FCZarQzhjG/aJZVf2IMC4VUlvqnxy2p444VAVwJ2RNJJcU+7fIiVgVnFQ==
+X-Received: by 2002:ab0:2a4e:: with SMTP id p14mr27618006uar.138.1560182146062; 
+ Mon, 10 Jun 2019 08:55:46 -0700 (PDT)
+Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
+ [100.0.197.103])
+ by smtp.gmail.com with ESMTPSA id e7sm2660076vsc.28.2019.06.10.08.55.44
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 10 Jun 2019 08:55:44 -0700 (PDT)
+Date: Mon, 10 Jun 2019 11:55:42 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Like Xu <like.xu@linux.intel.com>
+Message-ID: <20190610114708-mutt-send-email-mst@kernel.org>
+References: <449c062f-373c-b310-ccc6-f14c702c8f19@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190610121941.GI14257@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-CA
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - ahs5.r4l.com
-X-AntiAbuse: Original Domain - nongnu.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - extremeground.com
-X-Get-Message-Sender-Via: ahs5.r4l.com: authenticated_id:
- gary@extremeground.com
-X-Authenticated-Sender: ahs5.r4l.com: gary@extremeground.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+In-Reply-To: <449c062f-373c-b310-ccc6-f14c702c8f19@linux.intel.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 158.69.52.156
-X-Mailman-Approved-At: Mon, 10 Jun 2019 14:03:01 -0400
-Subject: Re: [Qemu-devel] kvm / virsh snapshot management
+ [fuzzy]
+X-Received-From: 209.85.222.68
+Subject: Re: [Qemu-devel] [QUESTION] How to reduce network latency to
+ improve netperf TCP_RR drastically?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,141 +70,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: Jason Wang <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019-06-10 8:19 a.m., Stefan Hajnoczi wrote:
-> On Sat, Jun 01, 2019 at 08:12:01PM -0400, Gary Dale wrote:
->> A while back I converted a raw disk image to qcow2 to be able to use
->> snapshots. However I realize that I may not really understand exactly how
->> snapshots work. In this particular case, I'm only talking about internal
->> snapshots currently as there seems to be some differences of opinion as to
->> whether internal or external are safer/more reliable. I'm also only talking
->> about shutdown state snapshots, so it should just be the disk that is
->> snapshotted.
->>
->> As I understand it, the first snapshot freezes the base image and subsequent
->> changes in the virtual machine's disk are stored elsewhere in the qcow2 file
->> (remember, only internal snapshots). If I take a second snapshot, that
->> freezes the first one, and subsequent changes are now in third location.
->> Each new snapshot is incremental to the one that preceded it rather than
->> differential to the base image. Each new snapshot is a child of the previous
->> one.
-> Internal snapshots are not incremental or differential at the qcow2
-> level, they are simply a separate L1/L2 table pointing to data clusters.
-> In other words, they are an independent set of metadata showing the full
-> state of the image at the point of the snapshot.  qcow2 does not track
-> relationships between snapshots and parents/children.
-Which sounds to me like they are incremental. Each snapshot starts a new 
-L1/L2 table so that the state of the previous one is preserved.
->
->> One explanation I've seen of the process is if I delete a snapshot, the
->> changes it contains are merged with its immediate child.
-> Nope.  Deleting a snapshot decrements the reference count on all its
-> data clusters.  If a data cluster's reference count reaches zero it will
-> be freed.  That's all, there is no additional data movement or
-> reorganization aside from this.
-Perhaps not physically but logically it would appear that the data 
-clusters were merged.
->
->> So if I deleted the
->> first snapshot, the base image stays the same but any data that has changed
->> since the base image is now in the second snapshot's location. The merge
->> with children explanation also implies that the base image is never touched
->> even if the first snapshot is deleted.
->>
->> But if I delete a snapshot that has no children, is that essentially the
->> same as reverting to the point that snapshot was created and all subsequent
->> disk changes are lost? Or does it merge down to the parent snapshot? If I
->> delete all snapshots, would that revert to the base image?
-> No.  qcow2 has the concept of the current disk state of the running VM -
-> what you get when you boot the guest - and the snapshots - they are
-> read-only.
->
-> When you delete snapshots the current disk state (running VM) is
-> unaffected.
->
-> When you apply a snapshot this throws away the current disk state and
-> uses the snapshot as the new current disk state.  The read-only snapshot
-> itself is not modified in any way and you can apply the same snapshot
-> again as many times as you wish later.
-So in essence the current state is a pointer to the latest data cluster, 
-which is the only data cluster that can be modified.
->
->> I've seen it explained that a snapshot is very much like a timestamp so
->> deleting a timestamp removes the dividing line between writes that occurred
->> before and after that time, so that data is really only removed if I revert
->> to some time stamp - all writes after that point are discarded. In this
->> explanation, deleting the oldest timestamp is essentially updating the base
->> image. Deleting all snapshots would leave me with the base image fully
->> updated.
->>
->> Frankly, the second explanation sounds more reasonable to me, without having
->> to figure out how copy-on-write works,  But I'm dealing with important data
->> here and I don't want to mess it up by mishandling the snapshots.
->>
->> Can some provide a little clarity on this? Thanks!
-> If you want an analogy then git(1) is a pretty good one.  qcow2 internal
-> snapshots are like git tags.  Unlike branches, tags are immutable.  In
-> qcow2 you only have a master branch (the current disk state) from which
-> you can create a new tag or you can use git-checkout(1) to apply a
-> snapshot (discarding whatever your current disk state is).
->
-> Stefan
+On Tue, Jun 04, 2019 at 03:10:43PM +0800, Like Xu wrote:
+> Hi Michaelï¼Œ
+> 
+> At https://www.linux-kvm.org/page/NetworkingTodo, there is an entry for
+> network latency saying:
+> 
+> ---
+> reduce networking latency:
+>  allow handling short packets from softirq or VCPU context
+>  Plan:
+>    We are going through the scheduler 3 times
+>    (could be up to 5 if softirqd is involved)
+>    Consider RX: host irq -> io thread -> VCPU thread ->
+>    guest irq -> guest thread.
+>    This adds a lot of latency.
+>    We can cut it by some 1.5x if we do a bit of work
+>    either in the VCPU or softirq context.
+>  Testing: netperf TCP RR - should be improved drastically
+>           netperf TCP STREAM guest to host - no regression
+>  Contact: MST
+> ---
+> 
+> I am trying to make some contributions to improving netperf TCP_RR.
+> Could you please share more ideas or plans or implemental details to make it
+> happen?
+> 
+> Thanks,
+> Like Xu
 
-That's just making things less clear - I've never tried to understand 
-git either. Thanks for the attempt though.
 
-If I've gotten things correct, once the base image is established, there 
-is a current disk state that points to a table containing all the writes 
-since the base image. Creating a snapshot essentially takes that pointer 
-and gives it the snapshot name, while creating a new current disk state 
-pointer and data table where subsequent writes are recorded.
+So some of this did happen. netif_receive_skb is now called
+directly from tun_get_user.
 
-Deleting snapshots removes your ability to refer to a data table by 
-name, but the table itself still exists anonymously as part of a chain 
-of data tables between the base image and the current state.
+Question is about the rx/tun_put_user path now.
 
-This leaves a problem. The chain will very quickly get quite long which 
-will impact performance. To combat this, you can use blockcommit to 
-merge a child with its parent or blockpull to merge a parent with its child.
+If the vhost thread is idle, there's a single packet
+outstanding then maybe we can forward the packet to userspace
+directly from BH without waking up the thread.
 
-In my situation, I want to keep a week of daily snapshots in case 
-something goes horribly wrong with the VM (I recently had a database 
-file become corrupt, and reverting to the previous working day's image 
-would have been a quick and easy solution, faster than recovering all 
-the data tables from the prefious day). I've been shutting down the VM, 
-deleting the oldest snapshot and creating a new one before restarting 
-the VM.
+For this to work we need to map some userspace memory into kernel
+ahead of the time. For example, maybe it can happen when
+guest adds RX buffers? Copying Jason who's looking into
+memory mapping matters.
 
-While your explanation confirms that this is safe, it also implies that 
-I need to manage the data table chains. My first instinct is to use 
-blockcommit before deleting the oldest snapshot, such as:
-
-     virsh blockcommit <vm name> <qcow2 file path> --top <oldest 
-snapshot> --delete --wait
-     virsh snapshot-delete  --domain <vm name> --snapshotname <oldest 
-snapshot>
-
-so that the base image contains the state as of one week earlier and the 
-snapshot chains are limited to 7 links.
-
-1) does this sound reasonable?
-
-2) I note that the syntax in virsh man page is different from the syntax 
-at 
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-backing-chain 
-(RedHat uses --top and --base while the man page just has optional base 
-and top names). I believe the RedHat guide is correct because the man 
-page doesn't allow distinguishing between the base and the top for a commit.
-
-However the need for specifying the path isn't obvious to me. Isn't the 
-path contained in the VM definition?
-
-Since blockcommit would make it impossible for me to revert to an 
-earlier state (because I'm committing the oldest snapshot, if it screws 
-up, I can't undo within virsh), I need to make sure this command is correct.
-
+-- 
+MST
 
