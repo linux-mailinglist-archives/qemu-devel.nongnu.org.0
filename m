@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BB83B4B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 14:22:15 +0200 (CEST)
-Received: from localhost ([::1]:45924 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3793B518
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 14:33:04 +0200 (CEST)
+Received: from localhost ([::1]:45980 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haJJV-0001P6-WE
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 08:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57824)
+	id 1haJTy-000553-M0
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 08:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60748)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@gmail.com>) id 1haJH9-0000Cd-65
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:19:48 -0400
+ (envelope-from <imammedo@redhat.com>) id 1haJSR-0004Wg-Ux
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:31:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1haJH8-0006eu-1t
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:19:47 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35572)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1haJH7-0006da-Qs
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:19:46 -0400
-Received: by mail-wr1-x434.google.com with SMTP id m3so8978802wrv.2
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 05:19:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=JYGZkYAD5n3RO12D0esSv14MauJq3BjWwsP8BdIX/Z4=;
- b=uD8mOrgo2XyXG3U7b2cCUIaz+vfdMITxUmHsIJcq8v8R+XlsA7H1rs3xGTO2bFtCbB
- B1bHC9k3+n9yfCmfhrSQvkLYod5CCPkH9U0Y6XFUNynPHKdz6otydp97fkkDfsyrh7/x
- 4ekSjetOcsTNdtvohKI7k2t6NV7ech28ytkkNxoQSwilJ0xL1ObXJFHP+JiYF6nH7b8o
- Tye571me1awLkM/2BUIBf3JcSYMTz5Wc7DPXAFIijGgr/rfbcesWx/O9LS7s/s/jquQl
- 88Tz8THc96tjON28T92tC4IRCcZ0XdXT6zDgSLEbydwPYna0TzN+KjNWtlpl/yL+aVvS
- XIhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=JYGZkYAD5n3RO12D0esSv14MauJq3BjWwsP8BdIX/Z4=;
- b=eH9UhXthjOdCOOZpIDGg9Wq8KuJglLtqE8Ev0RBMouA7F8hsCygx+bcc4RxpCZSdrD
- wZXk/iN56IX3U58oXBwndPvutA2ajIXfYzrWbloBhcHI4f0GryJGGHgoP9hTa9eyzTMU
- 12ctntAQDdf6WgkvTSGPMEp4vL6TqcqnbNn7BO0rTA5bpyDlgl3msMIyMW2QaxmUIAto
- PyKd2osZn/QV7yCKwn0nJWbggVc69tU9emIoIkTMpKhFbLd7p/EXLZ3GYuIb7vHacr4i
- 7kAtdchmTDFjxeXGWhgCYW/++vd+TeClBZRyt/kY0muKcKBnEHcEcU+BI5FUZzjQAY+0
- ZdlQ==
-X-Gm-Message-State: APjAAAXcK07vPdGaUML2Tm6dZzA75bQKjIS3OH90+RvrXWun5hgKqRe9
- Rk9l4lES6Hg5tTjQKF8eXYU=
-X-Google-Smtp-Source: APXvYqxs50R6D1XDTR8BN2WQC49+42ud9XgEr3bP4A7iMC6z/GjWOTI3JN2Qn7j+CVAAGJAKssbsjw==
-X-Received: by 2002:a5d:51cb:: with SMTP id n11mr5406170wrv.143.1560169183597; 
- Mon, 10 Jun 2019 05:19:43 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id u5sm13445392wmc.32.2019.06.10.05.19.42
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 10 Jun 2019 05:19:42 -0700 (PDT)
-Date: Mon, 10 Jun 2019 13:19:41 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Gary Dale <gary@extremeground.com>
-Message-ID: <20190610121941.GI14257@stefanha-x1.localdomain>
-References: <abb7990e-0331-67a4-af92-05276366478c@extremeground.com>
+ (envelope-from <imammedo@redhat.com>) id 1haJSQ-0006Hu-MU
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:31:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49646)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1haJSO-0006GI-Ld
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:31:25 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9F224128B5
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 12:31:22 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 919792F299;
+ Mon, 10 Jun 2019 12:31:13 +0000 (UTC)
+Date: Mon, 10 Jun 2019 14:31:08 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190610143109.10c4979b@redhat.com>
+In-Reply-To: <87h8915m7u.fsf@dusky.pond.sub.org>
+References: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
+ <1559205199-233510-2-git-send-email-imammedo@redhat.com>
+ <87h8915m7u.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8/UBlNHSEJa6utmr"
-Content-Disposition: inline
-In-Reply-To: <abb7990e-0331-67a4-af92-05276366478c@extremeground.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::434
-Subject: Re: [Qemu-devel] kvm / virsh snapshot management
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Mon, 10 Jun 2019 12:31:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 1/3] machine: show if CLI option '-numa
+ node, mem' is supported in QAPI schema
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,121 +58,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: libvir-list@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
+ qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 07 Jun 2019 19:39:17 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
 
---8/UBlNHSEJa6utmr
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Igor Mammedov <imammedo@redhat.com> writes:
+> 
+> > Legacy '-numa node,mem' option has a number of issues and mgmt often
+> > defaults to it. Unfortunately it's no possible to replace it with
+> > an alternative '-numa memdev' without breaking migration compatibility.
+> > What's possible though is to deprecate it, keeping option working with
+> > old machine types only.
+> >
+> > In order to help users to find out if being deprecated CLI option
+> > '-numa node,mem' is still supported by particular machine type, add new
+> > "numa-mem-supported" property to MachineInfo description in QAPI schema.  
+> 
+> Suggest s/to MachineInfo description in QAPI schema/to output of
+> query-machines/, because query-machines is the external interface people
+> know.
 
-On Sat, Jun 01, 2019 at 08:12:01PM -0400, Gary Dale wrote:
-> A while back I converted a raw disk image to qcow2 to be able to use
-> snapshots. However I realize that I may not really understand exactly how
-> snapshots work. In this particular case, I'm only talking about internal
-> snapshots currently as there seems to be some differences of opinion as to
-> whether internal or external are safer/more reliable. I'm also only talki=
-ng
-> about shutdown state snapshots, so it should just be the disk that is
-> snapshotted.
->=20
-> As I understand it, the first snapshot freezes the base image and subsequ=
-ent
-> changes in the virtual machine's disk are stored elsewhere in the qcow2 f=
-ile
-> (remember, only internal snapshots). If I take a second snapshot, that
-> freezes the first one, and subsequent changes are now in third location.
-> Each new snapshot is incremental to the one that preceded it rather than
-> differential to the base image. Each new snapshot is a child of the previ=
-ous
-> one.
+fixed
 
-Internal snapshots are not incremental or differential at the qcow2
-level, they are simply a separate L1/L2 table pointing to data clusters.
-In other words, they are an independent set of metadata showing the full
-state of the image at the point of the snapshot.  qcow2 does not track
-relationships between snapshots and parents/children.
+> 
+> > "numa-mem-supported" is set to 'true' for machines that currently support
+> > NUMA, but it will be flipped to 'false' later on, once deprecation period
+> > expires and kept 'true' only for old machine types that used to support
+> > the legacy option so it won't break existing configuration that are using
+> > it.
+> >
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >
+> > Notes:
+> >     v4:
+> >       * drop idea to use "qom-list-properties" and use MachineInfo instead
+> >         which could be inspected with 'query-machines'
+> >
+> >  include/hw/boards.h | 3 +++
+> >  hw/arm/virt.c       | 1 +
+> >  hw/i386/pc.c        | 1 +
+> >  hw/ppc/spapr.c      | 1 +
+> >  qapi/misc.json      | 5 ++++-
+> >  vl.c                | 1 +
+> >  6 files changed, 11 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/include/hw/boards.h b/include/hw/boards.h
+> > index 6f7916f..86894b6 100644
+> > --- a/include/hw/boards.h
+> > +++ b/include/hw/boards.h
+> > @@ -158,6 +158,8 @@ typedef struct {
+> >   * @kvm_type:
+> >   *    Return the type of KVM corresponding to the kvm-type string option or
+> >   *    computed based on other criteria such as the host kernel capabilities.
+> > + * @numa_mem_supported:
+> > + *    true if '--numa node.mem' option is supported and false otherwise
+> >   */
+> >  struct MachineClass {
+> >      /*< private >*/
+> > @@ -210,6 +212,7 @@ struct MachineClass {
+> >      bool ignore_boot_device_suffixes;
+> >      bool smbus_no_migration_support;
+> >      bool nvdimm_supported;
+> > +    bool numa_mem_supported;
+> >  
+> >      HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
+> >                                             DeviceState *dev);
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index bf54f10..481a603 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -1943,6 +1943,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+> >      assert(!mc->get_hotplug_handler);
+> >      mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
+> >      hc->plug = virt_machine_device_plug_cb;
+> > +    mc->numa_mem_supported = true;
+> >  }
+> >  
+> >  static void virt_instance_init(Object *obj)
+> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> > index 2632b73..05b8368 100644
+> > --- a/hw/i386/pc.c
+> > +++ b/hw/i386/pc.c
+> > @@ -2747,6 +2747,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+> >      nc->nmi_monitor_handler = x86_nmi;
+> >      mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+> >      mc->nvdimm_supported = true;
+> > +    mc->numa_mem_supported = true;
+> >  
+> >      object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
+> >          pc_machine_get_device_memory_region_size, NULL,
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 2ef3ce4..265ecfb 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -4336,6 +4336,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+> >       * in which LMBs are represented and hot-added
+> >       */
+> >      mc->numa_mem_align_shift = 28;
+> > +    mc->numa_mem_supported = true;
+> >  
+> >      smc->default_caps.caps[SPAPR_CAP_HTM] = SPAPR_CAP_OFF;
+> >      smc->default_caps.caps[SPAPR_CAP_VSX] = SPAPR_CAP_ON;  
+> 
+> This is correct when the TYPE_VIRT_MACHINE, TYPE_PC_MACHINE and
+> TYPE_SPAPR_MACHINE are exactly the machines supporting NUMA.  How could
+> I check that?
 
->=20
-> One explanation I've seen of the process is if I delete a snapshot, the
-> changes it contains are merged with its immediate child.
+We don't have an interface to communicate that to users as far as I know.
 
-Nope.  Deleting a snapshot decrements the reference count on all its
-data clusters.  If a data cluster's reference count reaches zero it will
-be freed.  That's all, there is no additional data movement or
-reorganization aside from this.
+Eduardo pointed out to the patch that might serve as starting point for it though.
 
-> So if I deleted the
-> first snapshot, the base image stays the same but any data that has chang=
-ed
-> since the base image is now in the second snapshot's location. The merge
-> with children explanation also implies that the base image is never touch=
-ed
-> even if the first snapshot is deleted.
->=20
-> But if I delete a snapshot that has no children, is that essentially the
-> same as reverting to the point that snapshot was created and all subseque=
-nt
-> disk changes are lost? Or does it merge down to the parent snapshot? If I
-> delete all snapshots, would that revert to the base image?
+> 
+> > diff --git a/qapi/misc.json b/qapi/misc.json
+> > index 8b3ca4f..d0bdccb 100644
+> > --- a/qapi/misc.json
+> > +++ b/qapi/misc.json
+> > @@ -2018,12 +2018,15 @@
+> >  #
+> >  # @hotpluggable-cpus: cpu hotplug via -device is supported (since 2.7.0)
+> >  #
+> > +# @numa-mem-supported: true if '-numa node,mem' option is supported by machine
+> > +#                      type and false otherwise (since 4.1)  
+> 
+> 
+> "by the machine type", for consistency with @cpu-max.  Also, rather long
+> line.
 
-No.  qcow2 has the concept of the current disk state of the running VM -
-what you get when you boot the guest - and the snapshots - they are
-read-only.
+fixed
 
-When you delete snapshots the current disk state (running VM) is
-unaffected.
+> 
+> > +#
+> >  # Since: 1.2.0
+> >  ##
+> >  { 'struct': 'MachineInfo',
+> >    'data': { 'name': 'str', '*alias': 'str',
+> >              '*is-default': 'bool', 'cpu-max': 'int',
+> > -            'hotpluggable-cpus': 'bool'} }
+> > +            'hotpluggable-cpus': 'bool', 'numa-mem-supported': 'bool'} }
+> >  
+> >  ##
+> >  # @query-machines:
+> > diff --git a/vl.c b/vl.c
+> > index 5550bd7..5bf17f5 100644
+> > --- a/vl.c
+> > +++ b/vl.c
+> > @@ -1520,6 +1520,7 @@ MachineInfoList *qmp_query_machines(Error **errp)
+> >          info->name = g_strdup(mc->name);
+> >          info->cpu_max = !mc->max_cpus ? 1 : mc->max_cpus;
+> >          info->hotpluggable_cpus = mc->has_hotpluggable_cpus;
+> > +        info->numa_mem_supported = mc->numa_mem_supported;
+> >  
+> >          entry = g_malloc0(sizeof(*entry));
+> >          entry->value = info;  
 
-When you apply a snapshot this throws away the current disk state and
-uses the snapshot as the new current disk state.  The read-only snapshot
-itself is not modified in any way and you can apply the same snapshot
-again as many times as you wish later.
-
->=20
-> I've seen it explained that a snapshot is very much like a timestamp so
-> deleting a timestamp removes the dividing line between writes that occurr=
-ed
-> before and after that time, so that data is really only removed if I reve=
-rt
-> to some time stamp - all writes after that point are discarded. In this
-> explanation, deleting the oldest timestamp is essentially updating the ba=
-se
-> image. Deleting all snapshots would leave me with the base image fully
-> updated.
->=20
-> Frankly, the second explanation sounds more reasonable to me, without hav=
-ing
-> to figure out how copy-on-write works,=A0 But I'm dealing with important =
-data
-> here and I don't want to mess it up by mishandling the snapshots.
->=20
-> Can some provide a little clarity on this? Thanks!
-
-If you want an analogy then git(1) is a pretty good one.  qcow2 internal
-snapshots are like git tags.  Unlike branches, tags are immutable.  In
-qcow2 you only have a master branch (the current disk state) from which
-you can create a new tag or you can use git-checkout(1) to apply a
-snapshot (discarding whatever your current disk state is).
-
-Stefan
-
---8/UBlNHSEJa6utmr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlz+St0ACgkQnKSrs4Gr
-c8jLBwf9EADjPYBGSLRi0QAOiT6zoiTfGJS1yHW0HIphH6L3Fcy9DVm3Qrv3yhG6
-r/w4g8HAigy9m1GIwVSy5sLADysfNSK4kxtZ8Hna8a0rjv1fq7ZSdOBSFc0wwK7Y
-s047y4UIlH+wdmQktAtV2F3KFjE6zmS0MWZbHK+rFfg11AjFDGvHiiOYl8wGY10V
-vz+OyIJILYjtsUn4RYYAJUB/3XlJZ6CScqoRPBBa9bkfkzUMG3SUPjOyWWPFsRgm
-TS7kjiNP3AEvFDNVtuhfLFvAbWnjinW1Wg9NP9zFuzg8tihLK3az7Rer4IpL1Goe
-glLXb1p7ROzTvcW/k6JZ02CrZHbGzQ==
-=X0dh
------END PGP SIGNATURE-----
-
---8/UBlNHSEJa6utmr--
 
