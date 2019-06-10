@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AF43B7B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:45:48 +0200 (CEST)
-Received: from localhost ([::1]:47332 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD3D3B7A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:44:11 +0200 (CEST)
+Received: from localhost ([::1]:47292 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haLYR-00046h-Mg
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:45:47 -0400
+	id 1haLWs-0002nh-F4
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:44:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:34864)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1haLRZ-0005ow-Lv
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:38:44 -0400
+ (envelope-from <eblake@redhat.com>) id 1haLRO-0005ow-Ch
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:38:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1haLDX-0003ag-5P
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:24:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50780)
+ (envelope-from <eblake@redhat.com>) id 1haLGt-0005d4-98
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:27:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59572)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1haLDV-0003Z8-Rk; Mon, 10 Jun 2019 10:24:10 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1haLGt-0005cQ-0Q
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:27:39 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7782430C1AE7;
- Mon, 10 Jun 2019 14:24:08 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DB2D2C05681F;
+ Mon, 10 Jun 2019 14:27:24 +0000 (UTC)
 Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE2C35DA99;
- Mon, 10 Jun 2019 14:24:05 +0000 (UTC)
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B28E60BF3;
+ Mon, 10 Jun 2019 14:27:23 +0000 (UTC)
+To: Wei Yang <richardw.yang@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20190515121544.4597-1-quintela@redhat.com>
+ <20190520063525.GA6718@richard>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -59,22 +59,21 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <96a6fd48-9e84-1285-1932-3ce1736cd08c@redhat.com>
-Date: Mon, 10 Jun 2019 09:24:03 -0500
+Message-ID: <8591b552-6dc5-d466-54b7-881acd75db8d@redhat.com>
+Date: Mon, 10 Jun 2019 09:27:22 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <20190520063525.GA6718@richard>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="HZZSEw2KXfz9MWLuEfASSy0jK7YNVdzUa"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ boundary="qArHv2XjQ7HHo77QrJ5kjZrP7MYdhgL0G"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 10 Jun 2019 14:24:08 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Mon, 10 Jun 2019 14:27:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/7] iotests: allow Valgrind checking all
- QEMU processes
+Subject: Re: [Qemu-devel] [PATCH v3 0/8] WIP: Multifd compression support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,54 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
- rkagan@virtuozzo.com, mreitz@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---HZZSEw2KXfz9MWLuEfASSy0jK7YNVdzUa
-Content-Type: multipart/mixed; boundary="6DLXkSZpoEfnSRAHoijyaLNT8iqK7L7d2";
+--qArHv2XjQ7HHo77QrJ5kjZrP7MYdhgL0G
+Content-Type: multipart/mixed; boundary="bsYhw0D0crVqycXsDvAaOoyB4DPA8DyWn";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
- rkagan@virtuozzo.com, den@openvz.org
-Message-ID: <96a6fd48-9e84-1285-1932-3ce1736cd08c@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH 1/7] iotests: allow Valgrind checking all
- QEMU processes
-References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
-In-Reply-To: <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+To: Wei Yang <richardw.yang@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <8591b552-6dc5-d466-54b7-881acd75db8d@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v3 0/8] WIP: Multifd compression support
+References: <20190515121544.4597-1-quintela@redhat.com>
+ <20190520063525.GA6718@richard>
+In-Reply-To: <20190520063525.GA6718@richard>
 
---6DLXkSZpoEfnSRAHoijyaLNT8iqK7L7d2
+--bsYhw0D0crVqycXsDvAaOoyB4DPA8DyWn
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 6/9/19 1:35 PM, Andrey Shinkevich wrote:
-> With the '-valgrind' option, let all the QEMU processes be run under
-> the Valgrind tool. The Valgrind own parameters may be set with its
-> environment variable VALGRIND_OPTS, e.g.
-> VALGRIND_OPTS=3D"--leak-check=3Dyes" ./check -qcow2 -valgrind <test#>
-
-Let's spell this --valgrind; long options should prefer the use of --
-(as in getopt_long), whether or not we also have a reason to support
--valgrind (as in getopt_long_only). Yes, qemu is an oddball in this
-regards, but no need to make it worse.
-
+On 5/20/19 1:35 AM, Wei Yang wrote:
+> On Wed, May 15, 2019 at 02:15:36PM +0200, Juan Quintela wrote:
+>> v3:
+>> - improve the code
+>> - address David and Markus comments
+>> - make compression code into methods
+>>  so we can add any other method ading just three functions
+>>
+>> Please review, as far as I know everything is ok now.
+>>
+>> Todo: Add zstd support
 >=20
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->  tests/qemu-iotests/common.rc | 65 ++++++++++++++++++++++++++++++++----=
---------
->  1 file changed, 48 insertions(+), 17 deletions(-)
+> Confusion here. It is zstd or sztd?
 >=20
-> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.r=
-c
-> index 93f8738..3caaca4 100644
+> BTW, I am not sure what it is :-)
+>=20
+>>
+>> v2:
+>> - improve the code left and right
+>> - Split better the zlib code
+>> - rename everything to v4.1
+>> - Add tests for multifd-compress zlib
+>> - Parameter is now an enum (soon will see sztd)
+>                                            ^^^
 
+zstd is the name of the new compression algorithm.
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -141,24 +147,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---6DLXkSZpoEfnSRAHoijyaLNT8iqK7L7d2--
+--bsYhw0D0crVqycXsDvAaOoyB4DPA8DyWn--
 
---HZZSEw2KXfz9MWLuEfASSy0jK7YNVdzUa
+--qArHv2XjQ7HHo77QrJ5kjZrP7MYdhgL0G
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz+aAMACgkQp6FrSiUn
-Q2rDqAf/cYkHenw0lk+FiJzuvJGR1zW0iwJq0wql2W6mbEUFvhrgujKUQwjTJz89
-FV7FSoa13KTU/IfaaUz8UiDII2Usjw6x9wlsoo2gEphTZYZVoHM08JZcVTSb0+52
-/g6V++qLDnYOxqBHhdlSh4F3duTlry+hCC9TH9GE+lDwjfZXXx3YzVTf9kG5bv5m
-JUF+1Vr+1Nnq9J5ABScEwXkQ0KsXfiZqsptATJ6CKylCam1tEbA0nwbzkXYeYla0
-evUom13CHLTlwJiLx77D4jVMBhmlr0852IW9+6EHrp9I8p5QL45HMlFdYjeR+J/c
-BhcpgmcegufKFfdqprHLhQgcuc7kng==
-=q72G
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz+aMoACgkQp6FrSiUn
+Q2oPgwf8DlFmMh8bCmPPIEMV2cNBMCCTAmCN3sWlz9UzLIOhmLxeNfdoTgnhGdQf
+oIYvX5k5oNguqC4ewISmFDipdYrXS7ZGFAXiDJ1IbaxSWOuyGsIQkl+KXXCboxEo
+i2GlyulC3y5S7mZzjYVFoUkWC7sRicogpoeOXTNpK1Km381I6zWPuLgvynEi/9db
+Y5AfINWA1PfvoWsGK5T2OYXzOI5XyWlBwGO1hMBSeCnPGz/ZEInijubQGGA/84GE
+Cc344RShsD1xzYZZUDakR46lh+PeGEe0qkLQvBoynhFnOigR+eQD9O0HEC4R+vq4
+chdk+PLy+2ovv/zSTtx4pc9073JjMg==
+=aQDi
 -----END PGP SIGNATURE-----
 
---HZZSEw2KXfz9MWLuEfASSy0jK7YNVdzUa--
+--qArHv2XjQ7HHo77QrJ5kjZrP7MYdhgL0G--
 
