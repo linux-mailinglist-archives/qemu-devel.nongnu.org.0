@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70FF3B845
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 17:26:56 +0200 (CEST)
-Received: from localhost ([::1]:47676 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21D33B864
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 17:38:14 +0200 (CEST)
+Received: from localhost ([::1]:47760 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haMCF-0005Uz-Uv
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 11:26:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47179)
+	id 1haMNB-0004cl-8b
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 11:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51094)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1haMAR-00047n-AD
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:25:05 -0400
+ (envelope-from <eblake@redhat.com>) id 1haMLi-0003qt-QU
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:36:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1haMAL-0004lW-MM
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:25:01 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40960)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1haMAJ-0004gE-SS
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:24:57 -0400
-Received: by mail-wr1-x429.google.com with SMTP id c2so9612240wrm.8
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 08:24:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wf1rBZIYOLaVLqVG55fM2V+yvtysYWVZ87PUdH2633g=;
- b=wjaPkB9VNtyhPdtjVqaEI/wNv+iFQkJg9SjNkTiKRwkJlEcW80U6JRPHoCroFGvWmH
- VmAeZYm6Vxl0tQdin/Q4M3tFOTj7Krq7HoZOfNjLlRadhvwRCJj8JFYXlaClohyO272L
- fAbWGjG8RIR44NOPD8sg1zWWMN236M5HhqbjZO1LkjOnBgPgg38DPISVSMwcyyeYmiHA
- y2RAhjlp4DJXiMYbjzidujZRYVRQnUT+OrAR0yIwlgaMeI6pU0I49mPRyNc+8bzdUZ0t
- jYaaKTyYozWMcAJ3RO575DRsPn2DaA5L5QfBgqLmKgRUrvTqvrfFQx+8AbrBQY2oGF0B
- mTVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wf1rBZIYOLaVLqVG55fM2V+yvtysYWVZ87PUdH2633g=;
- b=pxQDY73YwgOrc5fP6/xD/BNqm8ZokdyHU9Y+P594FiIktlTOKDMoZKNAGGOeZqxxL9
- 1W8EeRZc+E1/3gMB5jx/5uIZcR6EN8sftgqRFUNePmRkQCppGuWyZYjftiPj8UBSOS9m
- jtBxu2XvEnmkwtCrgELJAAS00NUx0xY9S/7sMApO3PLnfLMeVOTVS/MtimF0io525Y2V
- xuT+DkInUltXBpK/ubVIwRIPmfAYETI5avS+4JWZn07DOZ75DbtSe1kg6hpOcPV0oktd
- X0Gl8hk2hSp18oIBOoR5kOy9mK09SShEVSX1TTT5J48WtHKlnihs+b3FP3qWAMCuZoj/
- 39zw==
-X-Gm-Message-State: APjAAAUUfZENrcjEmNx10ds60ALQxS7ueFI5HdhXFonrxGhE56fPzZ2X
- 4XvEU1E5b6TDKZGgQX6XH4d9rcU3bEgIpA==
-X-Google-Smtp-Source: APXvYqz+jAS8gcqDQjN6QcHK6jaaUn0mLBXMfnUX7jRK7qu4vqDtahkM9rOQLkARyOpRi+9PhbACcw==
-X-Received: by 2002:a05:6000:104e:: with SMTP id
- c14mr33946197wrx.71.1560180288663; 
- Mon, 10 Jun 2019 08:24:48 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b203sm11945920wmd.41.2019.06.10.08.24.47
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 Jun 2019 08:24:48 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Mon, 10 Jun 2019 16:24:44 +0100
-Message-Id: <20190610152444.20859-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190610152444.20859-1-peter.maydell@linaro.org>
-References: <20190610152444.20859-1-peter.maydell@linaro.org>
+ (envelope-from <eblake@redhat.com>) id 1haMLh-00056p-T4
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:36:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47016)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1haMLf-00054R-LT; Mon, 10 Jun 2019 11:36:39 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2AA0F20264;
+ Mon, 10 Jun 2019 15:36:33 +0000 (UTC)
+Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D650196AA;
+ Mon, 10 Jun 2019 15:36:31 +0000 (UTC)
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <96a6fd48-9e84-1285-1932-3ce1736cd08c@redhat.com>
+ <786c3499-9bb4-0fa6-a4f1-f7537be73712@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <023d5b7f-23c2-59e3-113e-684c9da6457a@redhat.com>
+Date: Mon, 10 Jun 2019 10:36:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::429
-Subject: [Qemu-devel] [PATCH 2/2] docs: Build and install specs manual
+In-Reply-To: <786c3499-9bb4-0fa6-a4f1-f7537be73712@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="3e7xvH66woZdbAV4JI4OzUfwaRzCYRtjG"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Mon, 10 Jun 2019 15:36:33 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/7] iotests: allow Valgrind checking all
+ QEMU processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,84 +89,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we have some rST format docs in the docs/specs/ manual, we should
-actually build and install it.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--3e7xvH66woZdbAV4JI4OzUfwaRzCYRtjG
+Content-Type: multipart/mixed; boundary="Yry8N8jIwZSsKTExlU1mb0L5n2ldB8Ut5";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>, Roman Kagan <rkagan@virtuozzo.com>,
+ Denis Lunev <den@virtuozzo.com>
+Message-ID: <023d5b7f-23c2-59e3-113e-684c9da6457a@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH 1/7] iotests: allow Valgrind checking all
+ QEMU processes
+References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <96a6fd48-9e84-1285-1932-3ce1736cd08c@redhat.com>
+ <786c3499-9bb4-0fa6-a4f1-f7537be73712@virtuozzo.com>
+In-Reply-To: <786c3499-9bb4-0fa6-a4f1-f7537be73712@virtuozzo.com>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- Makefile           |  7 ++++++-
- docs/specs/conf.py | 16 ++++++++++++++++
- 2 files changed, 22 insertions(+), 1 deletion(-)
- create mode 100644 docs/specs/conf.py
+--Yry8N8jIwZSsKTExlU1mb0L5n2ldB8Ut5
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Makefile b/Makefile
-index 8e2fc6624c3..cfb18f15254 100644
---- a/Makefile
-+++ b/Makefile
-@@ -731,6 +731,7 @@ distclean: clean
- 	rm -rf .doctrees
- 	$(call clean-manual,devel)
- 	$(call clean-manual,interop)
-+	$(call clean-manual,specs)
- 	for d in $(TARGET_DIRS); do \
- 	rm -rf $$d || exit 1 ; \
-         done
-@@ -781,6 +782,7 @@ endef
- .PHONY: install-sphinxdocs
- install-sphinxdocs: sphinxdocs
- 	$(call install-manual,interop)
-+	$(call install-manual,specs)
- 
- install-doc: $(DOCS) install-sphinxdocs
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
-@@ -962,7 +964,7 @@ docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
- # and handles "don't rebuild things unless necessary" itself.
- # The '.doctrees' files are cached information to speed this up.
- .PHONY: sphinxdocs
--sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index.html
-+sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index.html $(MANUAL_BUILDDIR)/specs/index.html
- 
- # Canned command to build a single manual
- build-manual = $(call quiet-command,sphinx-build $(if $(V),,-q) -W -n -b html -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
-@@ -975,6 +977,9 @@ $(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
- $(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
- 	$(call build-manual,interop)
- 
-+$(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
-+	$(call build-manual,specs)
-+
- qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
- 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
- 
-diff --git a/docs/specs/conf.py b/docs/specs/conf.py
-new file mode 100644
-index 00000000000..4d56f3ae13c
---- /dev/null
-+++ b/docs/specs/conf.py
-@@ -0,0 +1,16 @@
-+# -*- coding: utf-8 -*-
-+#
-+# QEMU documentation build configuration file for the 'specs' manual.
-+#
-+# This includes the top level conf file and then makes any necessary tweaks.
-+import sys
-+import os
-+
-+qemu_docdir = os.path.abspath("..")
-+parent_config = os.path.join(qemu_docdir, "conf.py")
-+exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
-+
-+# This slightly misuses the 'description', but is the best way to get
-+# the manual title to appear in the sidebar.
-+html_theme_options['description'] = \
-+    u'System Emulation Guest Hardware Specifications'
--- 
-2.20.1
+On 6/10/19 10:02 AM, Andrey Shinkevich wrote:
+>=20
+>=20
+> On 10/06/2019 17:24, Eric Blake wrote:
+>> On 6/9/19 1:35 PM, Andrey Shinkevich wrote:
+>>> With the '-valgrind' option, let all the QEMU processes be run under
+>>> the Valgrind tool. The Valgrind own parameters may be set with its
+>>> environment variable VALGRIND_OPTS, e.g.
+>>> VALGRIND_OPTS=3D"--leak-check=3Dyes" ./check -qcow2 -valgrind <test#>=
 
+>>
+>> Let's spell this --valgrind; long options should prefer the use of --
+>> (as in getopt_long), whether or not we also have a reason to support
+>> -valgrind (as in getopt_long_only). Yes, qemu is an oddball in this
+>> regards, but no need to make it worse.
+>>
+>=20
+> Thank you, Eric. That sounds good but the short option'-valgrind' is
+> preexisting in QEMU. Should I create a new patch for the long option?
+> If so, will we have both options supported by QEMU?
+
+Oh, you're talking about qemu-iotests/check already supporting merely
+'-valgrind', not 'qemu-kvm' or '*/qemu-system-*'.  ./check is already an
+oddball for not permitting double dash, but at this point, normalizing
+it is a lot of churn. So it becomes a tradeoff on how much grunt work do
+you really want to do.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--Yry8N8jIwZSsKTExlU1mb0L5n2ldB8Ut5--
+
+--3e7xvH66woZdbAV4JI4OzUfwaRzCYRtjG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz+ePoACgkQp6FrSiUn
+Q2rJQQf/RCTu5RYwOJ+r73rexIaWYLVdVjmoi2lHulGTWObUbt1Nr0GNHUgnPKON
+ODwuAo/Fses3bE+s3oX+NTjqjrrZ4gAR2PwU3MoXfHkWrME+4YU/IbOQuuvookKt
+Mi5Jc7g6H9bfyL+GrbkyFj49u5nZBbwYo0sHIG3EKjCvt+3NfeRocVU//nVIj9CW
+cCOWt+pCSGJQkj/CdA7hn9OVxHd+nROXwmeEMFWL5AolM5NmEYEOltdkb3ZI/k9O
+PmViham2yPkelFoHhhGxEfe4mgguE1/wkoci2sUf77ddB6m1XnhGntjQ2hJGppd6
+nj+8b+lCwROl7mSpE9mKUcqMwRbgqw==
+=sqAY
+-----END PGP SIGNATURE-----
+
+--3e7xvH66woZdbAV4JI4OzUfwaRzCYRtjG--
 
