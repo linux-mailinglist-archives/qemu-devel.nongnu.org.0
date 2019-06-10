@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2653AD26
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 04:44:28 +0200 (CEST)
-Received: from localhost ([::1]:39904 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2C03AD1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 04:40:48 +0200 (CEST)
+Received: from localhost ([::1]:39882 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haAIN-00065B-Ih
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 22:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53395)
+	id 1haAEp-0002bl-Ia
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 22:40:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53398)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1ha9eP-0006x7-Cg
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:11 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1ha9eP-0006xM-Eu
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ha9eJ-00023Z-MD
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:07 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:33940)
+ (envelope-from <richard.henderson@linaro.org>) id 1ha9eL-00024A-Le
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:09 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:42258)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ha9eJ-00022f-D8
+ id 1ha9eJ-00022t-Me
  for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:03 -0400
-Received: by mail-pf1-x429.google.com with SMTP id c85so4334717pfc.1
- for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 19:03:02 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id l19so1549231pgh.9
+ for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 19:03:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=PYpVsDECn50S2iyRZN0fZ1fEzaZW8+7DmxjFRcVQ65o=;
- b=tndK2vVSqUBih0y6U7hwin3As7YfWtcMRpnruJgF5ZvP0fUaAIhxI9BWUrkRqPRMWS
- 9B4d1YDl/Sre3r1ZldoJp6Rll82Mkt4pLa6OlrAvovU860VPy2OpP6q5uPigEvHiUdKw
- e6qoQFunaQymMLZUwM36uyXoBL2G654a+UNrXzpPQDE59ppypZok/3nwWCqKUcTL9N0M
- /VQy6VI3KjFHRtjP3sT+sibUqkW4E2+9uYRmPtRRx9N49s/+JkLa/fZ6H6IVM2HUjLbV
- NFEOe+wOAgWgs8TumxbTlYb3vleYQSFktnhwc4IHeXpT8hgGLJU9PFSfUsENo9JgD/+Y
- L+Pg==
+ bh=Ow1MEMVWXf9Je+K7dZgTbk7vuYFz6QMr1rua4/vPS8Y=;
+ b=PpobV34ybgXIlghY9Cm6uOvHKFJn4Rjva2TTVpSgo7DFluH2xDU6lHZlDTjt4W55hV
+ U7mNWqaOxsymKkets5KR0XJ6dFw53QkplAUjAGfpqBZlqXhIJHpjpLIFnSyelkLzVw3u
+ Fvk0UdWKNPhQ5maDvReLeZyhUMLhHtly3PoxCNDOusOMd0/UHoERtVdCC75siST8V89Z
+ V5LAFhNFo0y4JZsNnwgg4tHECIJZxXigMB8Q1QwS8n8hIjRZL+1lBIcIeZN1Xhg7rBS9
+ v8HegWHqoSJ7mN+6iRNZgzMJPKNvJB+xvLL/3teJtiQ6jqThS86IpsuLiXhGHNDmOh6K
+ 3DXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=PYpVsDECn50S2iyRZN0fZ1fEzaZW8+7DmxjFRcVQ65o=;
- b=pMQH0QlX8eXPhD/DvCUDrB/LWFb/qput3yaE0Ukns7vEXmWEPzJDVoSc0sWeLvQBB3
- +86S45QkPTzmkDc1a2NvivAj94q/MhRFwZAZ0DHff32QIyMR9nln49iG9Axvw8bUhyKI
- t+AcNDpLlO2n2BGoVeAQ1HQyZxB7MotJItu8gNaKCLxZNO45kCUQu+zBRKzuccNeKbCQ
- y4oFSnCDao17mvH+CQXyUrIU73wW0fMzRMhp5ZDB1wMIrcydYkcKJXIBds4IcPB8WJZm
- KnSmr1RC8qOoix3GPnumLokSwQ78hPNtcqnrxdzrieWVVOmWesIKEF22Y+YgmNEMSBPI
- kacg==
-X-Gm-Message-State: APjAAAW3WtS/0CK+yv2kGTcJYiALOouWNuFgPeC5upV/jbuIOwyG49/C
- RBkUDaWWEpzmFVBRLRhRkPtLtwr0Qy8=
-X-Google-Smtp-Source: APXvYqzJHaKvhX4B5w/ezNPi3YDF3k5hNMdr/HbbKTe+PbbGdScM0qgebjrbxApUlmKWOuzkC91amQ==
-X-Received: by 2002:a17:90a:9514:: with SMTP id
- t20mr18450729pjo.124.1560132181145; 
- Sun, 09 Jun 2019 19:03:01 -0700 (PDT)
+ bh=Ow1MEMVWXf9Je+K7dZgTbk7vuYFz6QMr1rua4/vPS8Y=;
+ b=XuVXQgOzaNtvtgJ8COJKW7iSKy5dTn5x98FZiuCXZx7DFOwAGo8vBP/oYp19UnZ3wx
+ qxuZ8vyDoNmiksOeQOidEcW9VsCgNr+SWsnWrW/UQX8S4ncZoLiFsl8oSq+tpHTT7aTF
+ G7VfOQ4+wh9rkK+TyaC4nOkJt/bT8YgIQvjhEnbdMLenAUvQUeBcN9NEDG3WZsr2xQTh
+ HB9chOY1uqkWr0UhpjZxvGgt/X3TS2aaWLM+R3KUH6DEQ7PbLMgMSEfsfXUjbgjUZl3y
+ Z9jPpcFUaNHugG7THC49WV1BUcYOLSBewj3onuLbU+kQFPpGs2Z/KEJ1Jtair435La6b
+ b+DQ==
+X-Gm-Message-State: APjAAAUEtjh1zVrwYS/hu7NEgOBHKsHd7Ty/ES5N/E7WHbxEh1Xe1UfT
+ bLrTx2hIE3k9LxJzjw36pTcbXbSu6nY=
+X-Google-Smtp-Source: APXvYqwzYXhu+Oz+mbbpdYlLMH9CuxqAeLcTQbnRtPtq28BZlofhyq8Rjt3B3vRGuM8v3JT41CdxMw==
+X-Received: by 2002:a63:6685:: with SMTP id a127mr13493613pgc.22.1560132182028; 
+ Sun, 09 Jun 2019 19:03:02 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
  [97.113.13.231])
- by smtp.gmail.com with ESMTPSA id l63sm9749013pfl.181.2019.06.09.19.03.00
+ by smtp.gmail.com with ESMTPSA id l63sm9749013pfl.181.2019.06.09.19.03.01
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 09 Jun 2019 19:03:00 -0700 (PDT)
+ Sun, 09 Jun 2019 19:03:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun,  9 Jun 2019 19:02:13 -0700
-Message-Id: <20190610020218.9228-35-richard.henderson@linaro.org>
+Date: Sun,  9 Jun 2019 19:02:14 -0700
+Message-Id: <20190610020218.9228-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190610020218.9228-1-richard.henderson@linaro.org>
 References: <20190610020218.9228-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::429
-Subject: [Qemu-devel] [PULL 34/39] cpu: Move icount_decr to
+X-Received-From: 2607:f8b0:4864:20::529
+Subject: [Qemu-devel] [PULL 35/39] cpu: Move the softmmu tlb to
  CPUNegativeOffsetState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,422 +80,495 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Amusingly, we had already ignored the comment to keep this value
-at the end of CPUState.  This restores the minimum negative offset
-from TCG_AREG0 for code generation.
-
-For the couple of uses within qom/cpu.c, without NEED_CPU_H, add
-a pointer from the CPUState object to the IcountDecr object within
-CPUNegativeOffsetState.
+We have for some time had code within the tcg backends to
+handle large positive offsets from env.  This move makes
+sure that need not happen.  Indeed, we are able to assert
+at build time that simple offsets suffice for all hosts.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h    |  1 +
- include/exec/cpu-defs.h   |  3 ++-
- include/exec/gen-icount.h | 16 ++++++++++------
- include/qom/cpu.h         | 40 ++++++++++++++++++---------------------
- accel/tcg/cpu-exec.c      | 23 +++++++++++-----------
- accel/tcg/tcg-all.c       |  6 ++----
- accel/tcg/translate-all.c |  8 ++++----
- cpus.c                    |  9 +++++----
- qom/cpu.c                 |  4 ++--
- 9 files changed, 56 insertions(+), 54 deletions(-)
+ include/exec/cpu-all.h       | 11 ++++++++++
+ include/exec/cpu-defs.h      | 20 +++++++++++-------
+ tcg/aarch64/tcg-target.inc.c | 29 ++++++--------------------
+ tcg/arm/tcg-target.inc.c     | 40 ++++++++----------------------------
+ tcg/i386/tcg-target.inc.c    |  6 ++++--
+ tcg/mips/tcg-target.inc.c    | 39 ++++++++---------------------------
+ tcg/ppc/tcg-target.inc.c     | 30 ++++++++-------------------
+ tcg/riscv/tcg-target.inc.c   | 31 +++++++---------------------
+ tcg/s390/tcg-target.inc.c    | 11 +++++-----
+ tcg/sparc/tcg-target.inc.c   | 32 +++++++++--------------------
+ 10 files changed, 83 insertions(+), 166 deletions(-)
 
 diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 5ae83405c8..253dd1d9a5 100644
+index 253dd1d9a5..f4fed7d82e 100644
 --- a/include/exec/cpu-all.h
 +++ b/include/exec/cpu-all.h
-@@ -380,6 +380,7 @@ int cpu_exec(CPUState *cpu);
- static inline void cpu_set_cpustate_pointers(ArchCPU *cpu)
- {
-     cpu->parent_obj.env_ptr = &cpu->env;
-+    cpu->parent_obj.icount_decr_ptr = &cpu->neg.icount_decr;
+@@ -429,4 +429,15 @@ static inline CPUNegativeOffsetState *cpu_neg(CPUState *cpu)
+     return &arch_cpu->neg;
  }
  
- /**
++/**
++ * env_tlb(env)
++ * @env: The architecture environment
++ *
++ * Return the CPUTLB state associated with the environment.
++ */
++static inline CPUTLB *env_tlb(CPUArchState *env)
++{
++    return &env_neg(env)->tlb;
++}
++
+ #endif /* CPU_ALL_H */
 diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-index 921fbb4c36..c067994e5c 100644
+index c067994e5c..006f8db9cf 100644
 --- a/include/exec/cpu-defs.h
 +++ b/include/exec/cpu-defs.h
-@@ -33,6 +33,7 @@
- #include "exec/hwaddr.h"
- #endif
- #include "exec/memattrs.h"
-+#include "qom/cpu.h"
+@@ -178,13 +178,14 @@ typedef struct CPUTLBDesc {
  
- #include "cpu-param.h"
+ /*
+  * Data elements that are per MMU mode, accessed by the fast path.
++ * The structure is aligned to aid loading the pair with one insn.
+  */
+ typedef struct CPUTLBDescFast {
+     /* Contains (n_entries - 1) << CPU_TLB_ENTRY_BITS */
+     uintptr_t mask;
+     /* The array of tlb entries itself. */
+     CPUTLBEntry *table;
+-} CPUTLBDescFast;
++} CPUTLBDescFast QEMU_ALIGNED(2 * sizeof(void *));
  
-@@ -232,7 +233,7 @@ typedef struct CPUTLB {
+ /*
+  * Data elements that are shared between all MMU modes.
+@@ -211,28 +212,33 @@ typedef struct CPUTLBCommon {
+ /*
+  * The entire softmmu tlb, for all MMU modes.
+  * The meaning of each of the MMU modes is defined in the target code.
++ * Since this is placed within CPUNegativeOffsetState, the smallest
++ * negative offsets are at the end of the struct.
+  */
+ typedef struct CPUTLB {
+-    CPUTLBDescFast f[NB_MMU_MODES];
+-    CPUTLBDesc d[NB_MMU_MODES];
+     CPUTLBCommon c;
++    CPUTLBDesc d[NB_MMU_MODES];
++    CPUTLBDescFast f[NB_MMU_MODES];
+ } CPUTLB;
+ 
+-/* There are target-specific members named "tlb".  This is temporary.  */
+-#define CPU_COMMON    CPUTLB tlb_;
+-#define env_tlb(ENV)  (&(ENV)->tlb_)
++/* This will be used by TCG backends to compute offsets.  */
++#define TLB_MASK_TABLE_OFS(IDX) \
++    ((int)offsetof(ArchCPU, neg.tlb.f[IDX]) - (int)offsetof(ArchCPU, env))
+ 
+ #else
+ 
+-#define CPU_COMMON  /* Nothing */
++typedef struct CPUTLB { } CPUTLB;
+ 
+ #endif  /* !CONFIG_USER_ONLY && CONFIG_TCG */
+ 
++#define CPU_COMMON  /* Nothing */
++
+ /*
+  * This structure must be placed in ArchCPU immedately
   * before CPUArchState, as a field named "neg".
   */
  typedef struct CPUNegativeOffsetState {
--    /* Empty */
-+    IcountDecr icount_decr;
++    CPUTLB tlb;
+     IcountDecr icount_decr;
  } CPUNegativeOffsetState;
  
- #endif
-diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
-index 9cfa6ccce5..f7669b6841 100644
---- a/include/exec/gen-icount.h
-+++ b/include/exec/gen-icount.h
-@@ -5,8 +5,6 @@
+diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
+index 90957593a3..57c297f9d7 100644
+--- a/tcg/aarch64/tcg-target.inc.c
++++ b/tcg/aarch64/tcg-target.inc.c
+@@ -1637,9 +1637,9 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
+     label->label_ptr[0] = label_ptr;
+ }
  
- /* Helpers for instruction counting code generation.  */
+-/* We expect to use a 24-bit unsigned offset from ENV.  */
+-QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_.f[NB_MMU_MODES - 1].table)
+-                  > 0xffffff);
++/* We expect to use a 7-bit scaled negative offset from ENV.  */
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -512);
  
--#define ENV_OFFSET   offsetof(ArchCPU, env)
+ /* Load and compare a TLB entry, emitting the conditional jump to the
+    slow path for the failure case, which will be patched later when finalizing
+@@ -1649,8 +1649,9 @@ static void tcg_out_tlb_read(TCGContext *s, TCGReg addr_reg, TCGMemOp opc,
+                              tcg_insn_unit **label_ptr, int mem_index,
+                              bool is_read)
+ {
+-    int mask_ofs = offsetof(CPUArchState, tlb_.f[mem_index].mask);
+-    int table_ofs = offsetof(CPUArchState, tlb_.f[mem_index].table);
++    int fast_ofs = TLB_MASK_TABLE_OFS(mem_index);
++    int mask_ofs = fast_ofs + offsetof(CPUTLBDescFast, mask);
++    int table_ofs = fast_ofs + offsetof(CPUTLBDescFast, table);
+     unsigned a_bits = get_alignment_bits(opc);
+     unsigned s_bits = opc & MO_SIZE;
+     unsigned a_mask = (1u << a_bits) - 1;
+@@ -1659,24 +1660,6 @@ static void tcg_out_tlb_read(TCGContext *s, TCGReg addr_reg, TCGMemOp opc,
+     TCGType mask_type;
+     uint64_t compare_mask;
+ 
+-    if (table_ofs > 0xfff) {
+-        int table_hi = table_ofs & ~0xfff;
+-        int mask_hi = mask_ofs & ~0xfff;
 -
- static TCGOp *icount_start_insn;
- 
- static inline void gen_tb_start(TranslationBlock *tb)
-@@ -21,7 +19,8 @@ static inline void gen_tb_start(TranslationBlock *tb)
-     }
- 
-     tcg_gen_ld_i32(count, cpu_env,
--                   -ENV_OFFSET + offsetof(CPUState, icount_decr.u32));
-+                   offsetof(ArchCPU, neg.icount_decr.u32) -
-+                   offsetof(ArchCPU, env));
- 
-     if (tb_cflags(tb) & CF_USE_ICOUNT) {
-         imm = tcg_temp_new_i32();
-@@ -39,7 +38,8 @@ static inline void gen_tb_start(TranslationBlock *tb)
- 
-     if (tb_cflags(tb) & CF_USE_ICOUNT) {
-         tcg_gen_st16_i32(count, cpu_env,
--                         -ENV_OFFSET + offsetof(CPUState, icount_decr.u16.low));
-+                         offsetof(ArchCPU, neg.icount_decr.u16.low) -
-+                         offsetof(ArchCPU, env));
-     }
- 
-     tcg_temp_free_i32(count);
-@@ -60,14 +60,18 @@ static inline void gen_tb_end(TranslationBlock *tb, int num_insns)
- static inline void gen_io_start(void)
- {
-     TCGv_i32 tmp = tcg_const_i32(1);
--    tcg_gen_st_i32(tmp, cpu_env, -ENV_OFFSET + offsetof(CPUState, can_do_io));
-+    tcg_gen_st_i32(tmp, cpu_env,
-+                   offsetof(ArchCPU, parent_obj.can_do_io) -
-+                   offsetof(ArchCPU, env));
-     tcg_temp_free_i32(tmp);
- }
- 
- static inline void gen_io_end(void)
- {
-     TCGv_i32 tmp = tcg_const_i32(0);
--    tcg_gen_st_i32(tmp, cpu_env, -ENV_OFFSET + offsetof(CPUState, can_do_io));
-+    tcg_gen_st_i32(tmp, cpu_env,
-+                   offsetof(ArchCPU, parent_obj.can_do_io) -
-+                   offsetof(ArchCPU, env));
-     tcg_temp_free_i32(tmp);
- }
- 
-diff --git a/include/qom/cpu.h b/include/qom/cpu.h
-index 98e12d914c..5ee0046b62 100644
---- a/include/qom/cpu.h
-+++ b/include/qom/cpu.h
-@@ -232,17 +232,25 @@ typedef struct CPUClass {
-     bool gdb_stop_before_watchpoint;
- } CPUClass;
- 
-+/*
-+ * Low 16 bits: number of cycles left, used only in icount mode.
-+ * High 16 bits: Set to -1 to force TCG to stop executing linked TBs
-+ * for this CPU and return to its top level loop (even in non-icount mode).
-+ * This allows a single read-compare-cbranch-write sequence to test
-+ * for both decrementer underflow and exceptions.
-+ */
-+typedef union IcountDecr {
-+    uint32_t u32;
-+    struct {
- #ifdef HOST_WORDS_BIGENDIAN
--typedef struct icount_decr_u16 {
--    uint16_t high;
--    uint16_t low;
--} icount_decr_u16;
-+        uint16_t high;
-+        uint16_t low;
- #else
--typedef struct icount_decr_u16 {
--    uint16_t low;
--    uint16_t high;
--} icount_decr_u16;
-+        uint16_t low;
-+        uint16_t high;
- #endif
-+    } u16;
-+} IcountDecr;
- 
- typedef struct CPUBreakpoint {
-     vaddr pc;
-@@ -314,11 +322,6 @@ struct qemu_work_item;
-  * @crash_occurred: Indicates the OS reported a crash (panic) for this CPU
-  * @singlestep_enabled: Flags for single-stepping.
-  * @icount_extra: Instructions until next timer event.
-- * @icount_decr: Low 16 bits: number of cycles left, only used in icount mode.
-- * High 16 bits: Set to -1 to force TCG to stop executing linked TBs for this
-- * CPU and return to its top level loop (even in non-icount mode).
-- * This allows a single read-compare-cbranch-write sequence to test
-- * for both decrementer underflow and exceptions.
-  * @can_do_io: Nonzero if memory-mapped IO is safe. Deterministic execution
-  * requires that IO only be performed on the last instruction of a TB
-  * so that interrupts take effect immediately.
-@@ -328,6 +331,7 @@ struct qemu_work_item;
-  * @as: Pointer to the first AddressSpace, for the convenience of targets which
-  *      only have a single AddressSpace
-  * @env_ptr: Pointer to subclass-specific CPUArchState field.
-+ * @icount_decr_ptr: Pointer to IcountDecr field within subclass.
-  * @gdb_regs: Additional GDB registers.
-  * @gdb_num_regs: Number of total registers accessible to GDB.
-  * @gdb_num_g_regs: Number of registers in GDB 'g' packets.
-@@ -387,6 +391,7 @@ struct CPUState {
-     MemoryRegion *memory;
- 
-     void *env_ptr; /* CPUArchState */
-+    IcountDecr *icount_decr_ptr;
- 
-     /* Accessed in parallel; all accesses must be atomic */
-     struct TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
-@@ -441,15 +446,6 @@ struct CPUState {
- 
-     bool ignore_memory_transaction_failures;
- 
--    /* Note that this is accessed at the start of every TB via a negative
--       offset from AREG0.  Leave this field at the end so as to make the
--       (absolute value) offset as small as possible.  This reduces code
--       size, especially for hosts without large memory offsets.  */
--    union {
--        uint32_t u32;
--        icount_decr_u16 u16;
--    } icount_decr;
+-        table_base = TCG_REG_X1;
+-        if (mask_hi == table_hi) {
+-            mask_base = table_base;
+-        } else if (mask_hi) {
+-            mask_base = TCG_REG_X0;
+-            tcg_out_insn(s, 3401, ADDI, TCG_TYPE_I64,
+-                         mask_base, TCG_AREG0, mask_hi);
+-        }
+-        tcg_out_insn(s, 3401, ADDI, TCG_TYPE_I64,
+-                     table_base, TCG_AREG0, table_hi);
+-        mask_ofs -= mask_hi;
+-        table_ofs -= table_hi;
+-    }
 -
-     struct hax_vcpu_state *hax_vcpu;
+     mask_type = (TARGET_PAGE_BITS + CPU_TLB_DYN_MAX_BITS > 32
+                  ? TCG_TYPE_I64 : TCG_TYPE_I32);
  
-     int hvf_fd;
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 45ef41ebb2..032a62672e 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -54,7 +54,7 @@ typedef struct SyncClocks {
- #define MAX_DELAY_PRINT_RATE 2000000000LL
- #define MAX_NB_PRINTS 100
+diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
+index 38de6d59c7..b066e30f0e 100644
+--- a/tcg/arm/tcg-target.inc.c
++++ b/tcg/arm/tcg-target.inc.c
+@@ -1220,9 +1220,9 @@ static TCGReg tcg_out_arg_reg64(TCGContext *s, TCGReg argreg,
  
--static void align_clocks(SyncClocks *sc, const CPUState *cpu)
-+static void align_clocks(SyncClocks *sc, CPUState *cpu)
+ #define TLB_SHIFT	(CPU_TLB_ENTRY_BITS + CPU_TLB_BITS)
+ 
+-/* We expect to use a 20-bit unsigned offset from ENV.  */
+-QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_.f[NB_MMU_MODES - 1].table)
+-                  > 0xfffff);
++/* We expect to use an 9-bit sign-magnitude negative offset from ENV.  */
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -256);
+ 
+ /* Load and compare a TLB entry, leaving the flags set.  Returns the register
+    containing the addend of the tlb entry.  Clobbers R0, R1, R2, TMP.  */
+@@ -1232,39 +1232,15 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
  {
-     int64_t cpu_icount;
+     int cmp_off = (is_load ? offsetof(CPUTLBEntry, addr_read)
+                    : offsetof(CPUTLBEntry, addr_write));
+-    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
+-    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
+-    TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
++    int fast_off = TLB_MASK_TABLE_OFS(mem_index);
++    int mask_off = fast_off + offsetof(CPUTLBDescFast, mask);
++    int table_off = fast_off + offsetof(CPUTLBDescFast, table);
+     unsigned s_bits = opc & MO_SIZE;
+     unsigned a_bits = get_alignment_bits(opc);
  
-@@ -62,7 +62,7 @@ static void align_clocks(SyncClocks *sc, const CPUState *cpu)
-         return;
-     }
+-    if (table_off > 0xfff) {
+-        int mask_hi = mask_off & ~0xfff;
+-        int table_hi = table_off & ~0xfff;
+-        int rot;
+-
+-        table_base = TCG_REG_R2;
+-        if (mask_hi == table_hi) {
+-            mask_base = table_base;
+-        } else if (mask_hi) {
+-            mask_base = TCG_REG_TMP;
+-            rot = encode_imm(mask_hi);
+-            assert(rot >= 0);
+-            tcg_out_dat_imm(s, COND_AL, ARITH_ADD, mask_base, TCG_AREG0,
+-                            rotl(mask_hi, rot) | (rot << 7));
+-        }
+-        rot = encode_imm(table_hi);
+-        assert(rot >= 0);
+-        tcg_out_dat_imm(s, COND_AL, ARITH_ADD, table_base, TCG_AREG0,
+-                        rotl(table_hi, rot) | (rot << 7));
+-
+-        mask_off -= mask_hi;
+-        table_off -= table_hi;
+-    }
+-
+     /* Load tlb_mask[mmu_idx] and tlb_table[mmu_idx].  */
+-    tcg_out_ld(s, TCG_TYPE_I32, TCG_REG_TMP, mask_base, mask_off);
+-    tcg_out_ld(s, TCG_TYPE_I32, TCG_REG_R2, table_base, table_off);
++    tcg_out_ld(s, TCG_TYPE_I32, TCG_REG_TMP, TCG_AREG0, mask_off);
++    tcg_out_ld(s, TCG_TYPE_I32, TCG_REG_R2, TCG_AREG0, table_off);
  
--    cpu_icount = cpu->icount_extra + cpu->icount_decr.u16.low;
-+    cpu_icount = cpu->icount_extra + cpu_neg(cpu)->icount_decr.u16.low;
-     sc->diff_clk += cpu_icount_to_ns(sc->last_cpu_icount - cpu_icount);
-     sc->last_cpu_icount = cpu_icount;
+     /* Extract the tlb index from the address into TMP.  */
+     tcg_out_dat_reg(s, COND_AL, ARITH_AND, TCG_REG_TMP, TCG_REG_TMP, addrlo,
+diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
+index 5f5b886c04..6ddeebf4bc 100644
+--- a/tcg/i386/tcg-target.inc.c
++++ b/tcg/i386/tcg-target.inc.c
+@@ -1730,10 +1730,12 @@ static inline void tcg_out_tlb_load(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
+                    TARGET_PAGE_BITS - CPU_TLB_ENTRY_BITS);
  
-@@ -105,15 +105,15 @@ static void print_delay(const SyncClocks *sc)
-     }
+     tcg_out_modrm_offset(s, OPC_AND_GvEv + trexw, r0, TCG_AREG0,
+-                         offsetof(CPUArchState, tlb_.f[mem_index].mask));
++                         TLB_MASK_TABLE_OFS(mem_index) +
++                         offsetof(CPUTLBDescFast, mask));
+ 
+     tcg_out_modrm_offset(s, OPC_ADD_GvEv + hrexw, r0, TCG_AREG0,
+-                         offsetof(CPUArchState, tlb_.f[mem_index].table));
++                         TLB_MASK_TABLE_OFS(mem_index) +
++                         offsetof(CPUTLBDescFast, table));
+ 
+     /* If the required alignment is at least as large as the access, simply
+        copy the address and mask.  For lesser alignments, check that we don't
+diff --git a/tcg/mips/tcg-target.inc.c b/tcg/mips/tcg-target.inc.c
+index ef6633587e..41bff32fb4 100644
+--- a/tcg/mips/tcg-target.inc.c
++++ b/tcg/mips/tcg-target.inc.c
+@@ -1202,6 +1202,10 @@ static int tcg_out_call_iarg_reg2(TCGContext *s, int i, TCGReg al, TCGReg ah)
+     return i;
  }
  
--static void init_delay_params(SyncClocks *sc,
--                              const CPUState *cpu)
-+static void init_delay_params(SyncClocks *sc, CPUState *cpu)
- {
-     if (!icount_align_option) {
-         return;
-     }
-     sc->realtime_clock = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL_RT);
-     sc->diff_clk = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - sc->realtime_clock;
--    sc->last_cpu_icount = cpu->icount_extra + cpu->icount_decr.u16.low;
-+    sc->last_cpu_icount
-+        = cpu->icount_extra + cpu_neg(cpu)->icount_decr.u16.low;
-     if (sc->diff_clk < max_delay) {
-         max_delay = sc->diff_clk;
-     }
-@@ -467,7 +467,7 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-     if (cpu->exception_index < 0) {
- #ifndef CONFIG_USER_ONLY
-         if (replay_has_exception()
--               && cpu->icount_decr.u16.low + cpu->icount_extra == 0) {
-+            && cpu_neg(cpu)->icount_decr.u16.low + cpu->icount_extra == 0) {
-             /* try to cause an exception pending in the log */
-             cpu_exec_nocache(cpu, 1, tb_find(cpu, NULL, 0, curr_cflags()), true);
-         }
-@@ -525,7 +525,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-      * Ensure zeroing happens before reading cpu->exit_request or
-      * cpu->interrupt_request (see also smp_wmb in cpu_exit())
-      */
--    atomic_mb_set(&cpu->icount_decr.u16.high, 0);
-+    atomic_mb_set(&cpu_neg(cpu)->icount_decr.u16.high, 0);
- 
-     if (unlikely(atomic_read(&cpu->interrupt_request))) {
-         int interrupt_request;
-@@ -596,8 +596,9 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-     }
- 
-     /* Finally, check if we need to exit to the main loop.  */
--    if (unlikely(atomic_read(&cpu->exit_request)
--        || (use_icount && cpu->icount_decr.u16.low + cpu->icount_extra == 0))) {
-+    if (unlikely(atomic_read(&cpu->exit_request))
-+        || (use_icount
-+            && cpu_neg(cpu)->icount_decr.u16.low + cpu->icount_extra == 0)) {
-         atomic_set(&cpu->exit_request, 0);
-         if (cpu->exception_index == -1) {
-             cpu->exception_index = EXCP_INTERRUPT;
-@@ -624,7 +625,7 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
-     }
- 
-     *last_tb = NULL;
--    insns_left = atomic_read(&cpu->icount_decr.u32);
-+    insns_left = atomic_read(&cpu_neg(cpu)->icount_decr.u32);
-     if (insns_left < 0) {
-         /* Something asked us to stop executing chained TBs; just
-          * continue round the main loop. Whatever requested the exit
-@@ -643,7 +644,7 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
-     cpu_update_icount(cpu);
-     /* Refill decrementer and continue execution.  */
-     insns_left = MIN(0xffff, cpu->icount_budget);
--    cpu->icount_decr.u16.low = insns_left;
-+    cpu_neg(cpu)->icount_decr.u16.low = insns_left;
-     cpu->icount_extra = cpu->icount_budget - insns_left;
-     if (!cpu->icount_extra) {
-         /* Execute any remaining instructions, then let the main loop
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 3d25bdcc17..9b215dcc5a 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -28,13 +28,12 @@
- #include "sysemu/sysemu.h"
- #include "qom/object.h"
- #include "qemu-common.h"
--#include "qom/cpu.h"
-+#include "cpu.h"
- #include "sysemu/cpus.h"
- #include "qemu/main-loop.h"
- 
- unsigned long tcg_tb_size;
- 
--#ifndef CONFIG_USER_ONLY
- /* mask must never be zero, except for A20 change call */
- static void tcg_handle_interrupt(CPUState *cpu, int mask)
- {
-@@ -51,7 +50,7 @@ static void tcg_handle_interrupt(CPUState *cpu, int mask)
-     if (!qemu_cpu_is_self(cpu)) {
-         qemu_cpu_kick(cpu);
-     } else {
--        atomic_set(&cpu->icount_decr.u16.high, -1);
-+        atomic_set(&cpu_neg(cpu)->icount_decr.u16.high, -1);
-         if (use_icount &&
-             !cpu->can_do_io
-             && (mask & ~old_mask) != 0) {
-@@ -59,7 +58,6 @@ static void tcg_handle_interrupt(CPUState *cpu, int mask)
-         }
-     }
- }
--#endif
- 
- static int tcg_init(MachineState *ms)
- {
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 52d94facf0..e24ee3a172 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -364,7 +364,7 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
-         assert(use_icount);
-         /* Reset the cycle counter to the start of the block
-            and shift if to the number of actually executed instructions */
--        cpu->icount_decr.u16.low += num_insns - i;
-+        cpu_neg(cpu)->icount_decr.u16.low += num_insns - i;
-     }
-     restore_state_to_opc(env, tb, data);
- 
-@@ -2200,7 +2200,7 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-     if ((env->hflags & MIPS_HFLAG_BMASK) != 0
-         && env->active_tc.PC != tb->pc) {
-         env->active_tc.PC -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
--        cpu->icount_decr.u16.low++;
-+        cpu_neg(cpu)->icount_decr.u16.low++;
-         env->hflags &= ~MIPS_HFLAG_BMASK;
-         n = 2;
-     }
-@@ -2208,7 +2208,7 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-     if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
-         && env->pc != tb->pc) {
-         env->pc -= 2;
--        cpu->icount_decr.u16.low++;
-+        cpu_neg(cpu)->icount_decr.u16.low++;
-         env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
-         n = 2;
-     }
-@@ -2382,7 +2382,7 @@ void cpu_interrupt(CPUState *cpu, int mask)
- {
-     g_assert(qemu_mutex_iothread_locked());
-     cpu->interrupt_request |= mask;
--    atomic_set(&cpu->icount_decr.u16.high, -1);
-+    atomic_set(&cpu_neg(cpu)->icount_decr.u16.high, -1);
- }
- 
++/* We expect to use a 16-bit negative offset from ENV.  */
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -32768);
++
  /*
-diff --git a/cpus.c b/cpus.c
-index ffc57119ca..111ca4ed1c 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -239,7 +239,8 @@ void qemu_tcg_configure(QemuOpts *opts, Error **errp)
-  */
- static int64_t cpu_get_icount_executed(CPUState *cpu)
+  * Perform the tlb comparison operation.
+  * The complete host address is placed in BASE.
+@@ -1215,42 +1219,17 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg base, TCGReg addrl,
+     unsigned s_bits = opc & MO_SIZE;
+     unsigned a_bits = get_alignment_bits(opc);
+     int mem_index = get_mmuidx(oi);
+-    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
+-    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
++    int fast_off = TLB_MASK_TABLE_OFS(mem_index);
++    int mask_off = fast_off + offsetof(CPUTLBDescFast, mask);
++    int table_off = fast_off + offsetof(CPUTLBDescFast, table);
+     int add_off = offsetof(CPUTLBEntry, addend);
+     int cmp_off = (is_load ? offsetof(CPUTLBEntry, addr_read)
+                    : offsetof(CPUTLBEntry, addr_write));
+-    TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
+     target_ulong mask;
+ 
+-    if (table_off > 0x7fff) {
+-        int mask_hi = mask_off - (int16_t)mask_off;
+-        int table_hi = table_off - (int16_t)table_off;
+-
+-        table_base = TCG_TMP1;
+-        if (likely(mask_hi == table_hi)) {
+-            mask_base = table_base;
+-            tcg_out_opc_imm(s, OPC_LUI, mask_base, TCG_REG_ZERO, mask_hi >> 16);
+-            tcg_out_opc_reg(s, ALIAS_PADD, mask_base, mask_base, TCG_AREG0);
+-            mask_off -= mask_hi;
+-            table_off -= mask_hi;
+-        } else {
+-            if (mask_hi != 0) {
+-                mask_base = TCG_TMP0;
+-                tcg_out_opc_imm(s, OPC_LUI,
+-                                mask_base, TCG_REG_ZERO, mask_hi >> 16);
+-                tcg_out_opc_reg(s, ALIAS_PADD,
+-                                mask_base, mask_base, TCG_AREG0);
+-            }
+-            table_off -= mask_off;
+-            mask_off -= mask_hi;
+-            tcg_out_opc_imm(s, ALIAS_PADDI, table_base, mask_base, mask_off);
+-        }
+-    }
+-
+     /* Load tlb_mask[mmu_idx] and tlb_table[mmu_idx].  */
+-    tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP0, mask_base, mask_off);
+-    tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP1, table_base, table_off);
++    tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP0, TCG_AREG0, mask_off);
++    tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP1, TCG_AREG0, table_off);
+ 
+     /* Extract the TLB index from the address into TMP3.  */
+     tcg_out_opc_sa(s, ALIAS_TSRL, TCG_TMP3, addrl,
+diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
+index d69c18ac1e..852b8940fb 100644
+--- a/tcg/ppc/tcg-target.inc.c
++++ b/tcg/ppc/tcg-target.inc.c
+@@ -1498,6 +1498,10 @@ static void * const qemu_st_helpers[16] = {
+     [MO_BEQ]  = helper_be_stq_mmu,
+ };
+ 
++/* We expect to use a 16-bit negative offset from ENV.  */
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -32768);
++
+ /* Perform the TLB load and compare.  Places the result of the comparison
+    in CR7, loads the addend of the TLB into R3, and returns the register
+    containing the guest address (zero-extended into R4).  Clobbers R0 and R2. */
+@@ -1510,31 +1514,15 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGMemOp opc,
+         = (is_read
+            ? offsetof(CPUTLBEntry, addr_read)
+            : offsetof(CPUTLBEntry, addr_write));
+-    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
+-    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
+-    TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
++    int fast_off = TLB_MASK_TABLE_OFS(mem_index);
++    int mask_off = fast_off + offsetof(CPUTLBDescFast, mask);
++    int table_off = fast_off + offsetof(CPUTLBDescFast, table);
+     unsigned s_bits = opc & MO_SIZE;
+     unsigned a_bits = get_alignment_bits(opc);
+ 
+-    if (table_off > 0x7fff) {
+-        int mask_hi = mask_off - (int16_t)mask_off;
+-        int table_hi = table_off - (int16_t)table_off;
+-
+-        table_base = TCG_REG_R4;
+-        if (mask_hi == table_hi) {
+-            mask_base = table_base;
+-        } else if (mask_hi) {
+-            mask_base = TCG_REG_R3;
+-            tcg_out32(s, ADDIS | TAI(mask_base, TCG_AREG0, mask_hi >> 16));
+-        }
+-        tcg_out32(s, ADDIS | TAI(table_base, TCG_AREG0, table_hi >> 16));
+-        mask_off -= mask_hi;
+-        table_off -= table_hi;
+-    }
+-
+     /* Load tlb_mask[mmu_idx] and tlb_table[mmu_idx].  */
+-    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_R3, mask_base, mask_off);
+-    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_R4, table_base, table_off);
++    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_R3, TCG_AREG0, mask_off);
++    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_R4, TCG_AREG0, table_off);
+ 
+     /* Extract the page index, shifted into place for tlb index.  */
+     if (TCG_TARGET_REG_BITS == 32) {
+diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
+index 96c33bf621..1f0ae64aae 100644
+--- a/tcg/riscv/tcg-target.inc.c
++++ b/tcg/riscv/tcg-target.inc.c
+@@ -962,6 +962,10 @@ static void * const qemu_st_helpers[16] = {
+ /* We don't support oversize guests */
+ QEMU_BUILD_BUG_ON(TCG_TARGET_REG_BITS < TARGET_LONG_BITS);
+ 
++/* We expect to use a 12-bit negative offset from ENV.  */
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -(1 << 11));
++
+ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
+                              TCGReg addrh, TCGMemOpIdx oi,
+                              tcg_insn_unit **label_ptr, bool is_load)
+@@ -971,32 +975,11 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
+     unsigned a_bits = get_alignment_bits(opc);
+     tcg_target_long compare_mask;
+     int mem_index = get_mmuidx(oi);
+-    int mask_off, table_off;
++    int fast_ofs = TLB_MASK_TABLE_OFS(mem_index);
++    int mask_ofs = fast_ofs + offsetof(CPUTLBDescFast, mask);
++    int table_ofs = fast_ofs + offsetof(CPUTLBDescFast, table);
+     TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
+ 
+-    mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
+-    table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
+-    if (table_off > 0x7ff) {
+-        int mask_hi = mask_off - sextreg(mask_off, 0, 12);
+-        int table_hi = table_off - sextreg(table_off, 0, 12);
+-
+-        if (likely(mask_hi == table_hi)) {
+-            mask_base = table_base = TCG_REG_TMP1;
+-            tcg_out_opc_upper(s, OPC_LUI, mask_base, mask_hi);
+-            tcg_out_opc_reg(s, OPC_ADD, mask_base, mask_base, TCG_AREG0);
+-            mask_off -= mask_hi;
+-            table_off -= mask_hi;
+-        } else {
+-            mask_base = TCG_REG_TMP0;
+-            table_base = TCG_REG_TMP1;
+-            tcg_out_opc_upper(s, OPC_LUI, mask_base, mask_hi);
+-            tcg_out_opc_reg(s, OPC_ADD, mask_base, mask_base, TCG_AREG0);
+-            table_off -= mask_off;
+-            mask_off -= mask_hi;
+-            tcg_out_opc_imm(s, OPC_ADDI, table_base, mask_base, mask_off);
+-        }
+-    }
+-
+     tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, mask_base, mask_off);
+     tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP1, table_base, table_off);
+ 
+diff --git a/tcg/s390/tcg-target.inc.c b/tcg/s390/tcg-target.inc.c
+index 4d896d0b58..fe42939d98 100644
+--- a/tcg/s390/tcg-target.inc.c
++++ b/tcg/s390/tcg-target.inc.c
+@@ -1538,9 +1538,9 @@ static void tcg_out_qemu_st_direct(TCGContext *s, TCGMemOp opc, TCGReg data,
+ #if defined(CONFIG_SOFTMMU)
+ #include "tcg-ldst.inc.c"
+ 
+-/* We're expecting to use a 20-bit signed offset on the tlb memory ops.  */
+-QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_.f[NB_MMU_MODES - 1].table)
+-                  > 0x7ffff);
++/* We're expecting to use a 20-bit negative offset on the tlb memory ops.  */
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -(1 << 19));
+ 
+ /* Load and compare a TLB entry, leaving the flags set.  Loads the TLB
+    addend into R2.  Returns a register with the santitized guest address.  */
+@@ -1551,8 +1551,9 @@ static TCGReg tcg_out_tlb_read(TCGContext* s, TCGReg addr_reg, TCGMemOp opc,
+     unsigned a_bits = get_alignment_bits(opc);
+     unsigned s_mask = (1 << s_bits) - 1;
+     unsigned a_mask = (1 << a_bits) - 1;
+-    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
+-    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
++    int fast_off = TLB_MASK_TABLE_OFS(mem_index);
++    int mask_off = fast_off + offsetof(CPUTLBDescFast, mask);
++    int table_off = fast_off + offsetof(CPUTLBDescFast, table);
+     int ofs, a_off;
+     uint64_t tlb_mask;
+ 
+diff --git a/tcg/sparc/tcg-target.inc.c b/tcg/sparc/tcg-target.inc.c
+index 066cb0e892..10b1cea63b 100644
+--- a/tcg/sparc/tcg-target.inc.c
++++ b/tcg/sparc/tcg-target.inc.c
+@@ -1062,6 +1062,11 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+ }
+ 
+ #if defined(CONFIG_SOFTMMU)
++
++/* We expect to use a 13-bit negative offset from ENV.  */
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
++QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -(1 << 12));
++
+ /* Perform the TLB load and compare.
+ 
+    Inputs:
+@@ -1078,9 +1083,9 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+ static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addr, int mem_index,
+                                TCGMemOp opc, int which)
  {
--    return cpu->icount_budget - (cpu->icount_decr.u16.low + cpu->icount_extra);
-+    return (cpu->icount_budget -
-+            (cpu_neg(cpu)->icount_decr.u16.low + cpu->icount_extra));
- }
+-    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
+-    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
+-    TCGReg base = TCG_AREG0;
++    int fast_off = TLB_MASK_TABLE_OFS(mem_index);
++    int mask_off = fast_off + offsetof(CPUTLBDescFast, mask);
++    int table_off = fast_off + offsetof(CPUTLBDescFast, table);
+     const TCGReg r0 = TCG_REG_O0;
+     const TCGReg r1 = TCG_REG_O1;
+     const TCGReg r2 = TCG_REG_O2;
+@@ -1088,26 +1093,9 @@ static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addr, int mem_index,
+     unsigned a_bits = get_alignment_bits(opc);
+     tcg_target_long compare_mask;
  
- /*
-@@ -1389,12 +1390,12 @@ static void prepare_icount_for_run(CPUState *cpu)
-          * each vCPU execution. However u16.high can be raised
-          * asynchronously by cpu_exit/cpu_interrupt/tcg_handle_interrupt
-          */
--        g_assert(cpu->icount_decr.u16.low == 0);
-+        g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
-         g_assert(cpu->icount_extra == 0);
+-    if (!check_fit_i32(table_off, 13)) {
+-        int table_hi;
+-
+-        base = r1;
+-        if (table_off <= 2 * 0xfff) {
+-            table_hi = 0xfff;
+-            tcg_out_arithi(s, base, TCG_AREG0, table_hi, ARITH_ADD);
+-        } else {
+-            table_hi = table_off & ~0x3ff;
+-            tcg_out_sethi(s, base, table_hi);
+-            tcg_out_arith(s, base, TCG_AREG0, base, ARITH_ADD);
+-        }
+-        mask_off -= table_hi;
+-        table_off -= table_hi;
+-        tcg_debug_assert(check_fit_i32(mask_off, 13));
+-    }
+-
+     /* Load tlb_mask[mmu_idx] and tlb_table[mmu_idx].  */
+-    tcg_out_ld(s, TCG_TYPE_PTR, r0, base, mask_off);
+-    tcg_out_ld(s, TCG_TYPE_PTR, r1, base, table_off);
++    tcg_out_ld(s, TCG_TYPE_PTR, r0, TCG_AREG0, mask_off);
++    tcg_out_ld(s, TCG_TYPE_PTR, r1, TCG_AREG0, table_off);
  
-         cpu->icount_budget = tcg_get_icount_limit();
-         insns_left = MIN(0xffff, cpu->icount_budget);
--        cpu->icount_decr.u16.low = insns_left;
-+        cpu_neg(cpu)->icount_decr.u16.low = insns_left;
-         cpu->icount_extra = cpu->icount_budget - insns_left;
- 
-         replay_mutex_lock();
-@@ -1408,7 +1409,7 @@ static void process_icount_data(CPUState *cpu)
-         cpu_update_icount(cpu);
- 
-         /* Reset the counters */
--        cpu->icount_decr.u16.low = 0;
-+        cpu_neg(cpu)->icount_decr.u16.low = 0;
-         cpu->icount_extra = 0;
-         cpu->icount_budget = 0;
- 
-diff --git a/qom/cpu.c b/qom/cpu.c
-index 3c5493c96c..6b4632abda 100644
---- a/qom/cpu.c
-+++ b/qom/cpu.c
-@@ -115,7 +115,7 @@ void cpu_exit(CPUState *cpu)
-     atomic_set(&cpu->exit_request, 1);
-     /* Ensure cpu_exec will see the exit request after TCG has exited.  */
-     smp_wmb();
--    atomic_set(&cpu->icount_decr.u16.high, -1);
-+    atomic_set(&cpu->icount_decr_ptr->u16.high, -1);
- }
- 
- int cpu_write_elf32_qemunote(WriteCoreDumpFunction f, CPUState *cpu,
-@@ -264,7 +264,7 @@ static void cpu_common_reset(CPUState *cpu)
-     cpu->mem_io_pc = 0;
-     cpu->mem_io_vaddr = 0;
-     cpu->icount_extra = 0;
--    atomic_set(&cpu->icount_decr.u32, 0);
-+    atomic_set(&cpu->icount_decr_ptr->u32, 0);
-     cpu->can_do_io = 1;
-     cpu->exception_index = -1;
-     cpu->crash_occurred = false;
+     /* Extract the page index, shifted into place for tlb index.  */
+     tcg_out_arithi(s, r2, addr, TARGET_PAGE_BITS - CPU_TLB_ENTRY_BITS,
 -- 
 2.17.1
 
