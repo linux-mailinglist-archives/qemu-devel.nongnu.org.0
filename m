@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21D33B864
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 17:38:14 +0200 (CEST)
-Received: from localhost ([::1]:47760 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294333BB97
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 20:05:31 +0200 (CEST)
+Received: from localhost ([::1]:48766 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haMNB-0004cl-8b
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 11:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51094)
+	id 1haOfh-00044P-GM
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 14:05:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52056)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1haMLi-0003qt-QU
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:36:43 -0400
+ (envelope-from <gary@extremeground.com>) id 1haNt1-0000t7-T5
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:15:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1haMLh-00056p-T4
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 11:36:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47016)
+ (envelope-from <gary@extremeground.com>) id 1haNsy-0001wU-FL
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:15:11 -0400
+Received: from ahs5.r4l.com ([158.69.52.156]:47433)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1haMLf-00054R-LT; Mon, 10 Jun 2019 11:36:39 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2AA0F20264;
- Mon, 10 Jun 2019 15:36:33 +0000 (UTC)
-Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D650196AA;
- Mon, 10 Jun 2019 15:36:31 +0000 (UTC)
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
- <96a6fd48-9e84-1285-1932-3ce1736cd08c@redhat.com>
- <786c3499-9bb4-0fa6-a4f1-f7537be73712@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <023d5b7f-23c2-59e3-113e-684c9da6457a@redhat.com>
-Date: Mon, 10 Jun 2019 10:36:26 -0500
+ (Exim 4.71) (envelope-from <gary@extremeground.com>)
+ id 1haNsx-0001LW-QZ
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:15:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=extremeground.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=hoYK19Vb/MIi2yfcMQlFWxqhkOCxSlzpAYdmJKeyjyY=; b=LVeNUpF5gW/rE4GfdeLAd66EgN
+ OZqWhfjLnQqPxsJEGr4WP4qDiLC7GZhuJlEu8oAcyuFACjliqcmVMx6PklM3dGJoglC4H3fD7NN0V
+ qyJSFMd3Qy2dhbPU5jt0B1ibZBhPGmQz2e/vA4AeZIr2vpTPGK8DFKONCJy+mlU6Zp7LQe7zViEac
+ kTrDJOEa0t5APCHj6r20Up52GTihUqxuqmSfDi1K7hNPbx0H6OTXi7dqN2yG0IoNxB3imWbLrypmV
+ 682yth/u29XJlqS/EsTl7B/UPOieSOZ0Cu4kO3vDs+7wSU5Jv0yYX8vK/IPpRbo7vjmHzhRD7B/oP
+ PX+YWrlg==;
+Received: from cpeac202ed5e073-cmac202ed5e070.cpe.net.cable.rogers.com
+ ([99.237.87.227]:44326 helo=[192.168.1.20])
+ by ahs5.r4l.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (Exim 4.92) (envelope-from <gary@extremeground.com>)
+ id 1haMdL-0007fx-SQ; Mon, 10 Jun 2019 11:54:55 -0400
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <abb7990e-0331-67a4-af92-05276366478c@extremeground.com>
+ <20190610121941.GI14257@stefanha-x1.localdomain>
+From: Gary Dale <gary@extremeground.com>
+Message-ID: <dc7a70ea-c94f-e975-df44-b0199da698e2@extremeground.com>
+Date: Mon, 10 Jun 2019 11:54:55 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <786c3499-9bb4-0fa6-a4f1-f7537be73712@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="3e7xvH66woZdbAV4JI4OzUfwaRzCYRtjG"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Mon, 10 Jun 2019 15:36:33 +0000 (UTC)
+In-Reply-To: <20190610121941.GI14257@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-CA
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ahs5.r4l.com
+X-AntiAbuse: Original Domain - nongnu.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - extremeground.com
+X-Get-Message-Sender-Via: ahs5.r4l.com: authenticated_id:
+ gary@extremeground.com
+X-Authenticated-Sender: ahs5.r4l.com: gary@extremeground.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/7] iotests: allow Valgrind checking all
- QEMU processes
+X-Received-From: 158.69.52.156
+X-Mailman-Approved-At: Mon, 10 Jun 2019 14:03:01 -0400
+Subject: Re: [Qemu-devel] kvm / virsh snapshot management
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,89 +78,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Roman Kagan <rkagan@virtuozzo.com>, "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---3e7xvH66woZdbAV4JI4OzUfwaRzCYRtjG
-Content-Type: multipart/mixed; boundary="Yry8N8jIwZSsKTExlU1mb0L5n2ldB8Ut5";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>, Roman Kagan <rkagan@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>
-Message-ID: <023d5b7f-23c2-59e3-113e-684c9da6457a@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH 1/7] iotests: allow Valgrind checking all
- QEMU processes
-References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
- <96a6fd48-9e84-1285-1932-3ce1736cd08c@redhat.com>
- <786c3499-9bb4-0fa6-a4f1-f7537be73712@virtuozzo.com>
-In-Reply-To: <786c3499-9bb4-0fa6-a4f1-f7537be73712@virtuozzo.com>
-
---Yry8N8jIwZSsKTExlU1mb0L5n2ldB8Ut5
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 6/10/19 10:02 AM, Andrey Shinkevich wrote:
->=20
->=20
-> On 10/06/2019 17:24, Eric Blake wrote:
->> On 6/9/19 1:35 PM, Andrey Shinkevich wrote:
->>> With the '-valgrind' option, let all the QEMU processes be run under
->>> the Valgrind tool. The Valgrind own parameters may be set with its
->>> environment variable VALGRIND_OPTS, e.g.
->>> VALGRIND_OPTS=3D"--leak-check=3Dyes" ./check -qcow2 -valgrind <test#>=
-
+On 2019-06-10 8:19 a.m., Stefan Hajnoczi wrote:
+> On Sat, Jun 01, 2019 at 08:12:01PM -0400, Gary Dale wrote:
+>> A while back I converted a raw disk image to qcow2 to be able to use
+>> snapshots. However I realize that I may not really understand exactly how
+>> snapshots work. In this particular case, I'm only talking about internal
+>> snapshots currently as there seems to be some differences of opinion as to
+>> whether internal or external are safer/more reliable. I'm also only talking
+>> about shutdown state snapshots, so it should just be the disk that is
+>> snapshotted.
 >>
->> Let's spell this --valgrind; long options should prefer the use of --
->> (as in getopt_long), whether or not we also have a reason to support
->> -valgrind (as in getopt_long_only). Yes, qemu is an oddball in this
->> regards, but no need to make it worse.
+>> As I understand it, the first snapshot freezes the base image and subsequent
+>> changes in the virtual machine's disk are stored elsewhere in the qcow2 file
+>> (remember, only internal snapshots). If I take a second snapshot, that
+>> freezes the first one, and subsequent changes are now in third location.
+>> Each new snapshot is incremental to the one that preceded it rather than
+>> differential to the base image. Each new snapshot is a child of the previous
+>> one.
+> Internal snapshots are not incremental or differential at the qcow2
+> level, they are simply a separate L1/L2 table pointing to data clusters.
+> In other words, they are an independent set of metadata showing the full
+> state of the image at the point of the snapshot.  qcow2 does not track
+> relationships between snapshots and parents/children.
+Which sounds to me like they are incremental. Each snapshot starts a new 
+L1/L2 table so that the state of the previous one is preserved.
+>
+>> One explanation I've seen of the process is if I delete a snapshot, the
+>> changes it contains are merged with its immediate child.
+> Nope.  Deleting a snapshot decrements the reference count on all its
+> data clusters.  If a data cluster's reference count reaches zero it will
+> be freed.  That's all, there is no additional data movement or
+> reorganization aside from this.
+Perhaps not physically but logically it would appear that the data 
+clusters were merged.
+>
+>> So if I deleted the
+>> first snapshot, the base image stays the same but any data that has changed
+>> since the base image is now in the second snapshot's location. The merge
+>> with children explanation also implies that the base image is never touched
+>> even if the first snapshot is deleted.
 >>
->=20
-> Thank you, Eric. That sounds good but the short option'-valgrind' is
-> preexisting in QEMU. Should I create a new patch for the long option?
-> If so, will we have both options supported by QEMU?
+>> But if I delete a snapshot that has no children, is that essentially the
+>> same as reverting to the point that snapshot was created and all subsequent
+>> disk changes are lost? Or does it merge down to the parent snapshot? If I
+>> delete all snapshots, would that revert to the base image?
+> No.  qcow2 has the concept of the current disk state of the running VM -
+> what you get when you boot the guest - and the snapshots - they are
+> read-only.
+>
+> When you delete snapshots the current disk state (running VM) is
+> unaffected.
+>
+> When you apply a snapshot this throws away the current disk state and
+> uses the snapshot as the new current disk state.  The read-only snapshot
+> itself is not modified in any way and you can apply the same snapshot
+> again as many times as you wish later.
+So in essence the current state is a pointer to the latest data cluster, 
+which is the only data cluster that can be modified.
+>
+>> I've seen it explained that a snapshot is very much like a timestamp so
+>> deleting a timestamp removes the dividing line between writes that occurred
+>> before and after that time, so that data is really only removed if I revert
+>> to some time stamp - all writes after that point are discarded. In this
+>> explanation, deleting the oldest timestamp is essentially updating the base
+>> image. Deleting all snapshots would leave me with the base image fully
+>> updated.
+>>
+>> Frankly, the second explanation sounds more reasonable to me, without having
+>> to figure out how copy-on-write works,  But I'm dealing with important data
+>> here and I don't want to mess it up by mishandling the snapshots.
+>>
+>> Can some provide a little clarity on this? Thanks!
+> If you want an analogy then git(1) is a pretty good one.  qcow2 internal
+> snapshots are like git tags.  Unlike branches, tags are immutable.  In
+> qcow2 you only have a master branch (the current disk state) from which
+> you can create a new tag or you can use git-checkout(1) to apply a
+> snapshot (discarding whatever your current disk state is).
+>
+> Stefan
 
-Oh, you're talking about qemu-iotests/check already supporting merely
-'-valgrind', not 'qemu-kvm' or '*/qemu-system-*'.  ./check is already an
-oddball for not permitting double dash, but at this point, normalizing
-it is a lot of churn. So it becomes a tradeoff on how much grunt work do
-you really want to do.
+That's just making things less clear - I've never tried to understand 
+git either. Thanks for the attempt though.
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+If I've gotten things correct, once the base image is established, there 
+is a current disk state that points to a table containing all the writes 
+since the base image. Creating a snapshot essentially takes that pointer 
+and gives it the snapshot name, while creating a new current disk state 
+pointer and data table where subsequent writes are recorded.
 
+Deleting snapshots removes your ability to refer to a data table by 
+name, but the table itself still exists anonymously as part of a chain 
+of data tables between the base image and the current state.
 
---Yry8N8jIwZSsKTExlU1mb0L5n2ldB8Ut5--
+This leaves a problem. The chain will very quickly get quite long which 
+will impact performance. To combat this, you can use blockcommit to 
+merge a child with its parent or blockpull to merge a parent with its child.
 
---3e7xvH66woZdbAV4JI4OzUfwaRzCYRtjG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+In my situation, I want to keep a week of daily snapshots in case 
+something goes horribly wrong with the VM (I recently had a database 
+file become corrupt, and reverting to the previous working day's image 
+would have been a quick and easy solution, faster than recovering all 
+the data tables from the prefious day). I've been shutting down the VM, 
+deleting the oldest snapshot and creating a new one before restarting 
+the VM.
 
------BEGIN PGP SIGNATURE-----
+While your explanation confirms that this is safe, it also implies that 
+I need to manage the data table chains. My first instinct is to use 
+blockcommit before deleting the oldest snapshot, such as:
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz+ePoACgkQp6FrSiUn
-Q2rJQQf/RCTu5RYwOJ+r73rexIaWYLVdVjmoi2lHulGTWObUbt1Nr0GNHUgnPKON
-ODwuAo/Fses3bE+s3oX+NTjqjrrZ4gAR2PwU3MoXfHkWrME+4YU/IbOQuuvookKt
-Mi5Jc7g6H9bfyL+GrbkyFj49u5nZBbwYo0sHIG3EKjCvt+3NfeRocVU//nVIj9CW
-cCOWt+pCSGJQkj/CdA7hn9OVxHd+nROXwmeEMFWL5AolM5NmEYEOltdkb3ZI/k9O
-PmViham2yPkelFoHhhGxEfe4mgguE1/wkoci2sUf77ddB6m1XnhGntjQ2hJGppd6
-nj+8b+lCwROl7mSpE9mKUcqMwRbgqw==
-=sqAY
------END PGP SIGNATURE-----
+     virsh blockcommit <vm name> <qcow2 file path> --top <oldest 
+snapshot> --delete --wait
+     virsh snapshot-delete  --domain <vm name> --snapshotname <oldest 
+snapshot>
 
---3e7xvH66woZdbAV4JI4OzUfwaRzCYRtjG--
+so that the base image contains the state as of one week earlier and the 
+snapshot chains are limited to 7 links.
+
+1) does this sound reasonable?
+
+2) I note that the syntax in virsh man page is different from the syntax 
+at 
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-backing-chain 
+(RedHat uses --top and --base while the man page just has optional base 
+and top names). I believe the RedHat guide is correct because the man 
+page doesn't allow distinguishing between the base and the top for a commit.
+
+However the need for specifying the path isn't obvious to me. Isn't the 
+path contained in the VM definition?
+
+Since blockcommit would make it impossible for me to revert to an 
+earlier state (because I'm committing the oldest snapshot, if it screws 
+up, I can't undo within virsh), I need to make sure this command is correct.
+
 
