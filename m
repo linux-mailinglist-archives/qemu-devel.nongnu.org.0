@@ -2,54 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B5E3BD35
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 21:55:10 +0200 (CEST)
-Received: from localhost ([::1]:49378 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE1D3BD24
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 21:52:50 +0200 (CEST)
+Received: from localhost ([::1]:49330 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haQNq-0004UZ-0U
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 15:55:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60160)
+	id 1haQLZ-0002L7-8V
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 15:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60640)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <wainersm@redhat.com>) id 1haQI9-0007bp-Qe
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:49:19 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1haQJU-0000qL-Ei
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:50:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1haQI7-000309-Nc
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:49:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42852)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1haQJT-0003rC-3r
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:50:40 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:42368 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1haQI5-0002vi-Kg
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:49:13 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E84D48110E;
- Mon, 10 Jun 2019 19:49:02 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-123-147.rdu2.redhat.com
- [10.10.123.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E56B19C59;
- Mon, 10 Jun 2019 19:48:57 +0000 (UTC)
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20190607152223.9467-1-crosa@redhat.com>
- <20190607152223.9467-4-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <87df3206-f061-ad25-3fe9-2b185888f98d@redhat.com>
-Date: Mon, 10 Jun 2019 16:48:54 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.5.2
-MIME-Version: 1.0
-In-Reply-To: <20190607152223.9467-4-crosa@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Mon, 10 Jun 2019 19:49:08 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/8] Acceptance tests: drop left over usage
- of ":avocado: enable"
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1haQJJ-00032k-8p
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:50:33 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 1DD7E1A2092;
+ Mon, 10 Jun 2019 21:49:17 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id CCC5A1A2045;
+ Mon, 10 Jun 2019 21:49:16 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 10 Jun 2019 21:49:10 +0200
+Message-Id: <1560196150-30436-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH] tests/acceptance: Improve failure reporting in
+ linux_ssh_mips_malta.py
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,43 +49,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: ccarrara@redhat.com, f4bug@amsat.org, ehabkost@redhat.com,
+ amarkovic@wavecomp.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-On 06/07/2019 12:22 PM, Cleber Rosa wrote:
-> Commit 9531d26c10 removed all of ":avocado: enable" tags, but then
-> a new entry was added with the introduction of migration.py.
->
-> Let's remove it for consistency.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->   tests/acceptance/migration.py | 3 ---
->   1 file changed, 3 deletions(-)
+Rather than optputing a cryptic message:
 
-I was about to send a patch to remove it as well. :)
+FAIL: True not found in [False],
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+the following will be reported too, if the command output does not meet
+specified expectations:
 
->
-> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-> index 6115cf6c24..a44c1ae58f 100644
-> --- a/tests/acceptance/migration.py
-> +++ b/tests/acceptance/migration.py
-> @@ -17,9 +17,6 @@ from avocado.utils import wait
->   
->   
->   class Migration(Test):
-> -    """
-> -    :avocado: enable
-> -    """
->   
->       timeout = 10
->   
+'lspci -d 11ab:4620' output doesn't contain the word 'GT-64120'
+
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+---
+ tests/acceptance/linux_ssh_mips_malta.py | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
+index aafb0c3..cbf1b34 100644
+--- a/tests/acceptance/linux_ssh_mips_malta.py
++++ b/tests/acceptance/linux_ssh_mips_malta.py
+@@ -147,20 +147,27 @@ class LinuxSSH(Test):
+ 
+     def run_common_commands(self):
+         stdout, stderr = self.ssh_command('lspci -d 11ab:4620')
+-        self.assertIn(True, ["GT-64120" in line for line in stdout])
++        self.assertIn(True, ["GT-64120a" in line for line in stdout],
++                      "'lspci -d 11ab:4620' output doesn't contain "
++                      "the word 'GT-64120'")
+ 
+         stdout, stderr = self.ssh_command('cat /sys/bus/i2c/devices/i2c-0/name')
+-        self.assertIn(True, ["SMBus PIIX4 adapter" in line
+-                             for line in stdout])
++        self.assertIn(True, ["SMBus PIIX4 adaptera" in line
++                             for line in stdout],
++                      "cat /sys/bus/i2c/devices/i2c-0/name' doesn't contain "
++                      "the words 'SMBus PIIX4 adapter'")
+ 
+         stdout, stderr = self.ssh_command('cat /proc/mtd')
+-        self.assertIn(True, ["YAMON" in line
+-                             for line in stdout])
++        self.assertIn(True, ["YAMONa" in line
++                             for line in stdout],
++                      "'cat /proc/mtd' doesn't contain the word 'YAMON'")
+ 
+         # Empty 'Board Config'
+         stdout, stderr = self.ssh_command('md5sum /dev/mtd2ro')
+-        self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in line
+-                             for line in stdout])
++        self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193a" in line
++                             for line in stdout],
++                      "'md5sum /dev/mtd2ro' doesn't contain "
++                      "the word '0dfbe8aa4c20b52e1b8bf3cb6cbdf193'")
+ 
+     def do_test_mips_malta(self, endianess, kernel_path, uname_m):
+         self.boot_debian_wheezy_image_and_ssh_login(endianess, kernel_path)
+-- 
+2.7.4
 
 
