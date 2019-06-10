@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CDAA3ACD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 04:13:40 +0200 (CEST)
-Received: from localhost ([::1]:39652 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF993ACD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 04:10:40 +0200 (CEST)
+Received: from localhost ([::1]:39648 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ha9oW-0005sZ-IQ
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 22:13:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52874)
+	id 1ha9lf-0003ot-2w
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 22:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52865)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1ha9dn-0005gp-25
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:34 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1ha9dm-0005fk-Cr
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ha9dj-0001ap-AY
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:31 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:46289)
+ (envelope-from <richard.henderson@linaro.org>) id 1ha9dk-0001bN-3D
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:30 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:39497)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ha9di-0001aF-VU
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:27 -0400
-Received: by mail-pg1-x536.google.com with SMTP id v9so2436028pgr.13
- for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 19:02:26 -0700 (PDT)
+ id 1ha9dj-0001aj-QI
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:28 -0400
+Received: by mail-pg1-x534.google.com with SMTP id 196so4152461pgc.6
+ for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 19:02:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=KTh7WI74HZX7qvAK8Mq5agv3MsbOOD4l7/fjyl8NNaw=;
- b=xYFy4hhUEx7QaABpx8+LkHr/szk8GuZXu+at68+t8rpe+n3WVd53fRjQ+wx6Rcpt5Y
- MVxLGhtdVNs/QkwPchcEfSitq4Gakayee1TlnIBvADtKGRMp/0pZ+lyp2W8WmBrpSGjy
- g5sZnZTeIkKla1cEH1NryrF/tNDka4XykV7fmjVjQ+OkUKpiTff3BbfBzk2noTXHZeq9
- VaYFSg8SIxsFTfb4WdMSIoDalYluDQE7aUUwPc2pYmrrKWOEJsL6xYsvtuvl4Eq5FTDi
- 1Vhm6fdSYM9LoN/A2SDmDob2s+3zt5TMyNdcaO4LHtV1J3uHFBhUSitWknvTJunGXZGd
- fKiQ==
+ bh=SkfEM1rlgofV/rKi8FjxAcImGr2dPq9lLxz8WVOxvoY=;
+ b=hDmkd5DdsyOl0AeSXEBr09RPA187j+4Z69ifl6jVD7i8ViHeUKqnJ2J+O/Gr3HfvkH
+ GSvnU0WN/38aBBwiKYT+vSeh/CqiPIOEOeMTIQ5wHKxaUVNPTDxJcAt+gsbarhiUrEEO
+ lanx0KwMy+he2D1is7GdgJh1mE8TtYmNSJaig0dy3+bf3M/wk1vRayWKKjSQyP3kNE0b
+ jOi89VcX2truRlzamgNn7A2GFJ/KWQiSGObvGYuRtffeuOKhMwYDTfMu9bvAV26pIiHB
+ AgKkv6dNQGlfF2O53WtvdxmGZdJLyPPvyNHkG/NfnGYSsE0/exrKuUJ1CxWyU3Uja4lG
+ F8+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=KTh7WI74HZX7qvAK8Mq5agv3MsbOOD4l7/fjyl8NNaw=;
- b=sFY9JkQ3M0nwInUnyVMFuydWgFUvBd2tRZI6b29BWda15S54LTFbNl0B61o9jCHbEf
- wa0v8BxolValufv2GFBXtBsbLfjasUu7OO/jMX6mnEPuYiW+/aBjXw/7JPLt7L9wY7Q2
- J8kf16bc108CpW6c8AmrzvCDTqLSM0/hbOCGFo2Wt6uIR6tiyG8K5MtspZrcyX9t/WU1
- PQ+/6sBMywNKOja2poDMz6bEinLs3xjOCxY1/6Cjn7wrgF7U0bGFJz1sqQYnzZO+wdoC
- PCg5dj16YqJdjnMkSiPgYzoQ4yEW8FmmRtHyAlykO+f0ryFXAcgQR8RwzltQ1E8f+Ta/
- sR0A==
-X-Gm-Message-State: APjAAAWPq7DfjMxCp9Ci86pRxNZynhe2FdW90q9BdHicJ/U84+aqPVaO
- Lg1S5QK1/iMV5zgK1LcikSfq1MOAtN0=
-X-Google-Smtp-Source: APXvYqzua/WNgOGJ/u6lRnGOPBFcOgAzuY6aCeliNbLdZ+WDcU4SPlfjvMndMH2wHhSdZXMAUJo2ng==
-X-Received: by 2002:a62:5306:: with SMTP id h6mr72739716pfb.29.1560132144999; 
- Sun, 09 Jun 2019 19:02:24 -0700 (PDT)
+ bh=SkfEM1rlgofV/rKi8FjxAcImGr2dPq9lLxz8WVOxvoY=;
+ b=NFFReA4/FhBJYDas2ZxpiRlMZkUUCVs/BvpWlMb+0493sWpFEBi4ONB5ic5qoNncPL
+ l98mhyHM/QMN6q6d2UbzUM6eMX/sNtcT6Pdxry3hqtlEIZhtt5kNF4/vSRvasYqdt8Le
+ KBHFPdz7bfV6F7yM0nvWwt02oiWdUM5IgMFr3KwkqT2X7QChqa3FU4Cv5TWXzvgueNo1
+ lXhFX+bttvVHLle4NI44gsGgT/VGKkEMmyUxA0BV0X5kUjH4tVWItWGpm2JAFmWiQm4L
+ iGP4AP3yOc9cah5kCV2jhPcl7bDHZWfI2GvBF120Ran/Yj0BZ8L08SYNurUSUhqm7OKt
+ IJ5A==
+X-Gm-Message-State: APjAAAUU+cvLYIdGn3VkqwSzzjQ+1zxYZV+UaZ26XGB2E9xU+vQ8Q/o4
+ eToi6n74eiP0nSADyL2SV/PLA6e7xks=
+X-Google-Smtp-Source: APXvYqw81sSKEdJ8lB+50+vPTQw2Biq8Ch/l7VHVf3LkkYNaATudYBkGN24WSHNVoLpKoZwDrUe+kg==
+X-Received: by 2002:a65:4306:: with SMTP id j6mr13639367pgq.418.1560132146114; 
+ Sun, 09 Jun 2019 19:02:26 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
  [97.113.13.231])
- by smtp.gmail.com with ESMTPSA id l63sm9749013pfl.181.2019.06.09.19.02.23
+ by smtp.gmail.com with ESMTPSA id l63sm9749013pfl.181.2019.06.09.19.02.25
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 09 Jun 2019 19:02:24 -0700 (PDT)
+ Sun, 09 Jun 2019 19:02:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun,  9 Jun 2019 19:01:42 -0700
-Message-Id: <20190610020218.9228-4-richard.henderson@linaro.org>
+Date: Sun,  9 Jun 2019 19:01:43 -0700
+Message-Id: <20190610020218.9228-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190610020218.9228-1-richard.henderson@linaro.org>
 References: <20190610020218.9228-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::536
-Subject: [Qemu-devel] [PULL 03/39] tcg: Create struct CPUTLB
+X-Received-From: 2607:f8b0:4864:20::534
+Subject: [Qemu-devel] [PULL 04/39] cpu: Define CPUArchState with typedef
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,813 +79,521 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move all softmmu tlb data into this structure.  Arrange the
-members so that we are able to place mask+table together and
-at a smaller absolute offset from ENV.
+For all targets, do this just before including exec/cpu-all.h.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-defs.h      |  61 +++++++------
- include/exec/cpu_ldst.h      |   6 +-
- accel/tcg/cputlb.c           | 164 +++++++++++++++++++----------------
- target/arm/translate-a64.c   |   2 +-
- tcg/aarch64/tcg-target.inc.c |  10 +--
- tcg/arm/tcg-target.inc.c     |  10 +--
- tcg/i386/tcg-target.inc.c    |   4 +-
- tcg/mips/tcg-target.inc.c    |  12 +--
- tcg/ppc/tcg-target.inc.c     |   8 +-
- tcg/riscv/tcg-target.inc.c   |  12 +--
- tcg/s390/tcg-target.inc.c    |   8 +-
- tcg/sparc/tcg-target.inc.c   |  12 +--
- 12 files changed, 146 insertions(+), 163 deletions(-)
+ target/alpha/cpu.h      | 4 ++--
+ target/arm/cpu.h        | 4 ++--
+ target/cris/cpu.h       | 4 ++--
+ target/hppa/cpu.h       | 4 ++--
+ target/i386/cpu.h       | 5 ++---
+ target/lm32/cpu.h       | 5 ++---
+ target/m68k/cpu.h       | 4 ++--
+ target/microblaze/cpu.h | 5 ++---
+ target/mips/cpu.h       | 6 ++----
+ target/moxie/cpu.h      | 4 ++--
+ target/nios2/cpu.h      | 5 ++---
+ target/openrisc/cpu.h   | 4 ++--
+ target/ppc/cpu.h        | 4 ++--
+ target/riscv/cpu.h      | 4 ++--
+ target/s390x/cpu.h      | 8 ++++----
+ target/sh4/cpu.h        | 4 ++--
+ target/sparc/cpu.h      | 4 ++--
+ target/tilegx/cpu.h     | 4 ++--
+ target/tricore/cpu.h    | 6 +-----
+ target/unicore32/cpu.h  | 4 ++--
+ target/xtensa/cpu.h     | 4 ++--
+ 21 files changed, 43 insertions(+), 53 deletions(-)
 
-diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-index 2694481769..b9ec261b01 100644
---- a/include/exec/cpu-defs.h
-+++ b/include/exec/cpu-defs.h
-@@ -78,6 +78,7 @@ typedef uint64_t target_ulong;
- #endif
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index dc1883f0f1..9ec92bf09d 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -26,8 +26,6 @@
  
- #if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+ #define ALIGNED_ONLY
+ 
+-#define CPUArchState struct CPUAlphaState
+-
+ /* Alpha processors have a weak memory model */
+ #define TCG_GUEST_DEFAULT_MO      (0)
+ 
+@@ -306,6 +304,8 @@ void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+ #define cpu_list alpha_cpu_list
+ #define cpu_signal_handler cpu_alpha_signal_handler
+ 
++typedef CPUAlphaState CPUArchState;
 +
- /* use a fully associative victim tlb of 8 entries */
- #define CPU_VTLB_SIZE 8
+ #include "exec/cpu-all.h"
  
-@@ -147,6 +148,10 @@ typedef struct CPUIOTLBEntry {
-     MemTxAttrs attrs;
- } CPUIOTLBEntry;
+ enum {
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index f8020b4823..ccf581a84c 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -29,8 +29,6 @@
+ /* ARM processors have a weak memory model */
+ #define TCG_GUEST_DEFAULT_MO      (0)
  
-+/*
-+ * Data elements that are per MMU mode, minus the bits accessed by
-+ * the TCG fast path.
-+ */
- typedef struct CPUTLBDesc {
-     /*
-      * Describe a region covering all of the large pages allocated
-@@ -160,16 +165,31 @@ typedef struct CPUTLBDesc {
-     int64_t window_begin_ns;
-     /* maximum number of entries observed in the window */
-     size_t window_max_entries;
-+    size_t n_used_entries;
-     /* The next index to use in the tlb victim table.  */
-     size_t vindex;
--    size_t n_used_entries;
-+    /* The tlb victim table, in two parts.  */
-+    CPUTLBEntry vtable[CPU_VTLB_SIZE];
-+    CPUIOTLBEntry viotlb[CPU_VTLB_SIZE];
-+    /* The iotlb.  */
-+    CPUIOTLBEntry *iotlb;
- } CPUTLBDesc;
+-#define CPUArchState struct CPUARMState
+-
+ #define EXCP_UDEF            1   /* undefined instruction */
+ #define EXCP_SWI             2   /* software interrupt */
+ #define EXCP_PREFETCH_ABORT  3
+@@ -3127,6 +3125,8 @@ static inline bool arm_cpu_data_is_big_endian(CPUARMState *env)
+     }
+ }
  
-+/*
-+ * Data elements that are per MMU mode, accessed by the fast path.
-+ */
-+typedef struct CPUTLBDescFast {
-+    /* Contains (n_entries - 1) << CPU_TLB_ENTRY_BITS */
-+    uintptr_t mask;
-+    /* The array of tlb entries itself. */
-+    CPUTLBEntry *table;
-+} CPUTLBDescFast;
++typedef CPUARMState CPUArchState;
 +
- /*
-  * Data elements that are shared between all MMU modes.
-  */
- typedef struct CPUTLBCommon {
--    /* Serialize updates to tlb_table and tlb_v_table, and others as noted. */
-+    /* Serialize updates to f.table and d.vtable, and others as noted. */
-     QemuSpin lock;
-     /*
-      * Within dirty, for each bit N, modifications have been made to
-@@ -187,35 +207,24 @@ typedef struct CPUTLBCommon {
-     size_t elide_flush_count;
- } CPUTLBCommon;
+ #include "exec/cpu-all.h"
  
--# define CPU_TLB                                                        \
--    /* tlb_mask[i] contains (n_entries - 1) << CPU_TLB_ENTRY_BITS */    \
--    uintptr_t tlb_mask[NB_MMU_MODES];                                   \
--    CPUTLBEntry *tlb_table[NB_MMU_MODES];
--# define CPU_IOTLB                              \
--    CPUIOTLBEntry *iotlb[NB_MMU_MODES];
+ /* Bit usage in the TB flags field: bit 31 indicates whether we are
+diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+index 25408c2bf7..2ee5417ead 100644
+--- a/target/cris/cpu.h
++++ b/target/cris/cpu.h
+@@ -25,8 +25,6 @@
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+ 
+-#define CPUArchState struct CPUCRISState
+-
+ #define EXCP_NMI        1
+ #define EXCP_GURU       2
+ #define EXCP_BUSFAULT   3
+@@ -286,6 +284,8 @@ bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ #define SFR_RW_MM_TLB_LO   env->pregs[PR_SRS]][5
+ #define SFR_RW_MM_TLB_HI   env->pregs[PR_SRS]][6
+ 
++typedef CPUCRISState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ static inline void cpu_get_tb_cpu_state(CPUCRISState *env, target_ulong *pc,
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index fb527eba88..7fd755a753 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
+@@ -31,8 +31,6 @@
+    basis.  It's probably easier to fall back to a strong memory model.  */
+ #define TCG_GUEST_DEFAULT_MO        TCG_MO_ALL
+ 
+-#define CPUArchState struct CPUHPPAState
+-
+ #define ALIGNED_ONLY
+ #define MMU_KERNEL_IDX   0
+ #define MMU_USER_IDX     3
+@@ -232,6 +230,8 @@ static inline HPPACPU *hppa_env_get_cpu(CPUHPPAState *env)
+ #define ENV_GET_CPU(e)  CPU(hppa_env_get_cpu(e))
+ #define ENV_OFFSET      offsetof(HPPACPU, env)
+ 
++typedef CPUHPPAState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ static inline int cpu_mmu_index(CPUHPPAState *env, bool ifetch)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 36f5095768..81931fc510 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1,4 +1,3 @@
 -
  /*
-+ * The entire softmmu tlb, for all MMU modes.
-  * The meaning of each of the MMU modes is defined in the target code.
-- * Note that NB_MMU_MODES is not yet defined; we can only reference it
-- * within preprocessor defines that will be expanded later.
-  */
--#define CPU_COMMON_TLB \
--    CPUTLBCommon tlb_c;                                                 \
--    CPUTLBDesc tlb_d[NB_MMU_MODES];                                     \
--    CPU_TLB                                                             \
--    CPUTLBEntry tlb_v_table[NB_MMU_MODES][CPU_VTLB_SIZE];               \
--    CPU_IOTLB                                                           \
--    CPUIOTLBEntry iotlb_v[NB_MMU_MODES][CPU_VTLB_SIZE];
-+typedef struct CPUTLB {
-+    CPUTLBDescFast f[NB_MMU_MODES];
-+    CPUTLBDesc d[NB_MMU_MODES];
-+    CPUTLBCommon c;
-+} CPUTLB;
-+
-+/* There are target-specific members named "tlb".  This is temporary.  */
-+#define CPU_COMMON    CPUTLB tlb_;
-+#define env_tlb(ENV)  (&(ENV)->tlb_)
+  * i386 virtual CPU header
+  *
+@@ -44,8 +43,6 @@
+ #define ELF_MACHINE_UNAME "i686"
+ #endif
  
+-#define CPUArchState struct CPUX86State
+-
+ enum {
+     R_EAX = 0,
+     R_ECX = 1,
+@@ -1755,6 +1752,8 @@ static inline target_long lshift(target_long x, int n)
+ /* translate.c */
+ void tcg_x86_init(void);
+ 
++typedef CPUX86State CPUArchState;
++
+ #include "exec/cpu-all.h"
+ #include "svm.h"
+ 
+diff --git a/target/lm32/cpu.h b/target/lm32/cpu.h
+index e75110c4e0..86f6c7b0af 100644
+--- a/target/lm32/cpu.h
++++ b/target/lm32/cpu.h
+@@ -24,9 +24,6 @@
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+ 
+-#define CPUArchState struct CPULM32State
+-
+-struct CPULM32State;
+ typedef struct CPULM32State CPULM32State;
+ 
+ static inline int cpu_mmu_index(CPULM32State *env, bool ifetch)
+@@ -259,6 +256,8 @@ bool lm32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr);
+ 
++typedef CPULM32State CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ static inline void cpu_get_tb_cpu_state(CPULM32State *env, target_ulong *pc,
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index e99c102302..4465a66145 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -25,8 +25,6 @@
+ #include "exec/cpu-defs.h"
+ #include "cpu-qom.h"
+ 
+-#define CPUArchState struct CPUM68KState
+-
+ #define OS_BYTE     0
+ #define OS_WORD     1
+ #define OS_LONG     2
+@@ -538,6 +536,8 @@ void m68k_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+                                  int mmu_idx, MemTxAttrs attrs,
+                                  MemTxResult response, uintptr_t retaddr);
+ 
++typedef CPUM68KState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ /* TB flags */
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index b8db8ca9a3..6170fd452f 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -25,9 +25,6 @@
+ #include "exec/cpu-defs.h"
+ #include "fpu/softfloat-types.h"
+ 
+-#define CPUArchState struct CPUMBState
+-
+-struct CPUMBState;
+ typedef struct CPUMBState CPUMBState;
+ #if !defined(CONFIG_USER_ONLY)
+ #include "mmu.h"
+@@ -368,6 +365,8 @@ bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                      MMUAccessType access_type, int mmu_idx,
+                      bool probe, uintptr_t retaddr);
+ 
++typedef CPUMBState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ static inline void cpu_get_tb_cpu_state(CPUMBState *env, target_ulong *pc,
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 34e7aec4d0..6f65822bb1 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -3,8 +3,6 @@
+ 
+ #define ALIGNED_ONLY
+ 
+-#define CPUArchState struct CPUMIPSState
+-
+ #include "qemu-common.h"
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+@@ -13,8 +11,6 @@
+ 
+ #define TCG_GUEST_DEFAULT_MO (0)
+ 
+-struct CPUMIPSState;
+-
+ typedef struct CPUMIPSTLBContext CPUMIPSTLBContext;
+ 
+ /* MSA Context */
+@@ -1116,6 +1112,8 @@ static inline int cpu_mmu_index(CPUMIPSState *env, bool ifetch)
+     return hflags_mmu_index(env->hflags);
+ }
+ 
++typedef CPUMIPSState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ /*
+diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
+index 7164dd7f5f..1de0515848 100644
+--- a/target/moxie/cpu.h
++++ b/target/moxie/cpu.h
+@@ -23,8 +23,6 @@
+ #include "qemu-common.h"
+ #include "exec/cpu-defs.h"
+ 
+-#define CPUArchState struct CPUMoxieState
+-
+ #define MOXIE_EX_DIV0        0
+ #define MOXIE_EX_BAD         1
+ #define MOXIE_EX_IRQ         2
+@@ -119,6 +117,8 @@ static inline int cpu_mmu_index(CPUMoxieState *env, bool ifetch)
+     return 0;
+ }
+ 
++typedef CPUMoxieState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ static inline void cpu_get_tb_cpu_state(CPUMoxieState *env, target_ulong *pc,
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index c4ccea9cf0..cc8e0ab771 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -25,9 +25,6 @@
+ #include "exec/cpu-defs.h"
+ #include "qom/cpu.h"
+ 
+-#define CPUArchState struct CPUNios2State
+-
+-struct CPUNios2State;
+ typedef struct CPUNios2State CPUNios2State;
+ #if !defined(CONFIG_USER_ONLY)
+ #include "mmu.h"
+@@ -249,6 +246,8 @@ static inline int cpu_interrupts_enabled(CPUNios2State *env)
+     return env->regs[CR_STATUS] & CR_STATUS_PIE;
+ }
+ 
++typedef CPUNios2State CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ static inline void cpu_get_tb_cpu_state(CPUNios2State *env, target_ulong *pc,
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index 3727efabf3..98361cb041 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -24,8 +24,6 @@
+ #include "exec/cpu-defs.h"
+ #include "qom/cpu.h"
+ 
+-#define CPUArchState struct CPUOpenRISCState
+-
+ /* cpu_openrisc_map_address_* in CPUOpenRISCTLBContext need this decl.  */
+ struct OpenRISCCPU;
+ 
+@@ -365,6 +363,8 @@ void cpu_openrisc_count_stop(OpenRISCCPU *cpu);
+ #define OPENRISC_CPU_TYPE_NAME(model) model OPENRISC_CPU_TYPE_SUFFIX
+ #define CPU_RESOLVING_TYPE TYPE_OPENRISC_CPU
+ 
++typedef CPUOpenRISCState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ #define TB_FLAGS_SM    SR_SM
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 02ca453df3..6478fe7c91 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -34,8 +34,6 @@
+ #define TARGET_PAGE_BITS_64K 16
+ #define TARGET_PAGE_BITS_16M 24
+ 
+-#define CPUArchState struct CPUPPCState
+-
+ #if defined(TARGET_PPC64)
+ #define PPC_ELF_MACHINE     EM_PPC64
  #else
+@@ -1377,6 +1375,8 @@ void ppc_compat_add_property(Object *obj, const char *name,
+                              Error **errp);
+ #endif /* defined(TARGET_PPC64) */
  
--#define CPU_COMMON_TLB
--
--#endif
--
--
--#define CPU_COMMON                                                      \
--    /* soft mmu support */                                              \
--    CPU_COMMON_TLB                                                      \
-+#define CPU_COMMON  /* Nothing */
++typedef CPUPPCState CPUArchState;
 +
-+#endif  /* !CONFIG_USER_ONLY && CONFIG_TCG */
+ #include "exec/cpu-all.h"
  
+ /*****************************************************************************/
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index bc517dbad8..509aae0613 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -27,8 +27,6 @@
+ 
+ #define TCG_GUEST_DEFAULT_MO 0
+ 
+-#define CPUArchState struct CPURISCVState
+-
+ #define TYPE_RISCV_CPU "riscv-cpu"
+ 
+ #define RISCV_CPU_TYPE_SUFFIX "-" TYPE_RISCV_CPU
+@@ -336,6 +334,8 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
+ 
+ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs);
+ 
++typedef CPURISCVState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ #endif /* RISCV_CPU_H */
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 1577252e72..6614c05f30 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -28,13 +28,9 @@
+ 
+ #define ELF_MACHINE_UNAME "S390X"
+ 
+-#define CPUArchState struct CPUS390XState
+-
+ /* The z/Architecture has a strong memory model with some store-after-load re-ordering */
+ #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
+ 
+-#include "exec/cpu-all.h"
+-
+ #define TARGET_INSN_START_EXTRA_WORDS 1
+ 
+ #define MMU_MODE0_SUFFIX _primary
+@@ -798,4 +794,8 @@ void s390_init_sigp(void);
+ /* outside of target/s390x/ */
+ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
+ 
++typedef CPUS390XState CPUArchState;
++
++#include "exec/cpu-all.h"
++
  #endif
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index 7b28a839d2..a08b11bd2c 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -139,21 +139,21 @@ static inline target_ulong tlb_addr_write(const CPUTLBEntry *entry)
- static inline uintptr_t tlb_index(CPUArchState *env, uintptr_t mmu_idx,
-                                   target_ulong addr)
- {
--    uintptr_t size_mask = env->tlb_mask[mmu_idx] >> CPU_TLB_ENTRY_BITS;
-+    uintptr_t size_mask = env_tlb(env)->f[mmu_idx].mask >> CPU_TLB_ENTRY_BITS;
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index 7af6ff5d57..d7a8723d39 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -36,8 +36,6 @@
+ #define SH_CPU_SH7750_ALL (SH_CPU_SH7750 | SH_CPU_SH7750S | SH_CPU_SH7750R)
+ #define SH_CPU_SH7751_ALL (SH_CPU_SH7751 | SH_CPU_SH7751R)
  
-     return (addr >> TARGET_PAGE_BITS) & size_mask;
- }
- 
- static inline size_t tlb_n_entries(CPUArchState *env, uintptr_t mmu_idx)
- {
--    return (env->tlb_mask[mmu_idx] >> CPU_TLB_ENTRY_BITS) + 1;
-+    return (env_tlb(env)->f[mmu_idx].mask >> CPU_TLB_ENTRY_BITS) + 1;
- }
- 
- /* Find the TLB entry corresponding to the mmu_idx + address pair.  */
- static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
-                                      target_ulong addr)
- {
--    return &env->tlb_table[mmu_idx][tlb_index(env, mmu_idx, addr)];
-+    return &env_tlb(env)->f[mmu_idx].table[tlb_index(env, mmu_idx, addr)];
- }
- 
- #ifdef MMU_MODE0_SUFFIX
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 41f2296f93..a3a39e9a77 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -76,7 +76,7 @@ QEMU_BUILD_BUG_ON(NB_MMU_MODES > 16);
- 
- static inline size_t sizeof_tlb(CPUArchState *env, uintptr_t mmu_idx)
- {
--    return env->tlb_mask[mmu_idx] + (1 << CPU_TLB_ENTRY_BITS);
-+    return env_tlb(env)->f[mmu_idx].mask + (1 << CPU_TLB_ENTRY_BITS);
- }
- 
- static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
-@@ -91,14 +91,14 @@ static void tlb_dyn_init(CPUArchState *env)
-     int i;
- 
-     for (i = 0; i < NB_MMU_MODES; i++) {
--        CPUTLBDesc *desc = &env->tlb_d[i];
-+        CPUTLBDesc *desc = &env_tlb(env)->d[i];
-         size_t n_entries = 1 << CPU_TLB_DYN_DEFAULT_BITS;
- 
-         tlb_window_reset(desc, get_clock_realtime(), 0);
-         desc->n_used_entries = 0;
--        env->tlb_mask[i] = (n_entries - 1) << CPU_TLB_ENTRY_BITS;
--        env->tlb_table[i] = g_new(CPUTLBEntry, n_entries);
--        env->iotlb[i] = g_new(CPUIOTLBEntry, n_entries);
-+        env_tlb(env)->f[i].mask = (n_entries - 1) << CPU_TLB_ENTRY_BITS;
-+        env_tlb(env)->f[i].table = g_new(CPUTLBEntry, n_entries);
-+        env_tlb(env)->d[i].iotlb = g_new(CPUIOTLBEntry, n_entries);
+-#define CPUArchState struct CPUSH4State
+-
+ #define SR_MD 30
+ #define SR_RB 29
+ #define SR_BL 28
+@@ -282,6 +280,8 @@ static inline int cpu_mmu_index (CPUSH4State *env, bool ifetch)
      }
  }
  
-@@ -144,7 +144,7 @@ static void tlb_dyn_init(CPUArchState *env)
-  */
- static void tlb_mmu_resize_locked(CPUArchState *env, int mmu_idx)
- {
--    CPUTLBDesc *desc = &env->tlb_d[mmu_idx];
-+    CPUTLBDesc *desc = &env_tlb(env)->d[mmu_idx];
-     size_t old_size = tlb_n_entries(env, mmu_idx);
-     size_t rate;
-     size_t new_size = old_size;
-@@ -187,14 +187,14 @@ static void tlb_mmu_resize_locked(CPUArchState *env, int mmu_idx)
-         return;
-     }
- 
--    g_free(env->tlb_table[mmu_idx]);
--    g_free(env->iotlb[mmu_idx]);
-+    g_free(env_tlb(env)->f[mmu_idx].table);
-+    g_free(env_tlb(env)->d[mmu_idx].iotlb);
- 
-     tlb_window_reset(desc, now, 0);
-     /* desc->n_used_entries is cleared by the caller */
--    env->tlb_mask[mmu_idx] = (new_size - 1) << CPU_TLB_ENTRY_BITS;
--    env->tlb_table[mmu_idx] = g_try_new(CPUTLBEntry, new_size);
--    env->iotlb[mmu_idx] = g_try_new(CPUIOTLBEntry, new_size);
-+    env_tlb(env)->f[mmu_idx].mask = (new_size - 1) << CPU_TLB_ENTRY_BITS;
-+    env_tlb(env)->f[mmu_idx].table = g_try_new(CPUTLBEntry, new_size);
-+    env_tlb(env)->d[mmu_idx].iotlb = g_try_new(CPUIOTLBEntry, new_size);
-     /*
-      * If the allocations fail, try smaller sizes. We just freed some
-      * memory, so going back to half of new_size has a good chance of working.
-@@ -202,46 +202,47 @@ static void tlb_mmu_resize_locked(CPUArchState *env, int mmu_idx)
-      * allocations to fail though, so we progressively reduce the allocation
-      * size, aborting if we cannot even allocate the smallest TLB we support.
-      */
--    while (env->tlb_table[mmu_idx] == NULL || env->iotlb[mmu_idx] == NULL) {
-+    while (env_tlb(env)->f[mmu_idx].table == NULL ||
-+           env_tlb(env)->d[mmu_idx].iotlb == NULL) {
-         if (new_size == (1 << CPU_TLB_DYN_MIN_BITS)) {
-             error_report("%s: %s", __func__, strerror(errno));
-             abort();
-         }
-         new_size = MAX(new_size >> 1, 1 << CPU_TLB_DYN_MIN_BITS);
--        env->tlb_mask[mmu_idx] = (new_size - 1) << CPU_TLB_ENTRY_BITS;
-+        env_tlb(env)->f[mmu_idx].mask = (new_size - 1) << CPU_TLB_ENTRY_BITS;
- 
--        g_free(env->tlb_table[mmu_idx]);
--        g_free(env->iotlb[mmu_idx]);
--        env->tlb_table[mmu_idx] = g_try_new(CPUTLBEntry, new_size);
--        env->iotlb[mmu_idx] = g_try_new(CPUIOTLBEntry, new_size);
-+        g_free(env_tlb(env)->f[mmu_idx].table);
-+        g_free(env_tlb(env)->d[mmu_idx].iotlb);
-+        env_tlb(env)->f[mmu_idx].table = g_try_new(CPUTLBEntry, new_size);
-+        env_tlb(env)->d[mmu_idx].iotlb = g_try_new(CPUIOTLBEntry, new_size);
-     }
- }
- 
- static inline void tlb_table_flush_by_mmuidx(CPUArchState *env, int mmu_idx)
- {
-     tlb_mmu_resize_locked(env, mmu_idx);
--    memset(env->tlb_table[mmu_idx], -1, sizeof_tlb(env, mmu_idx));
--    env->tlb_d[mmu_idx].n_used_entries = 0;
-+    memset(env_tlb(env)->f[mmu_idx].table, -1, sizeof_tlb(env, mmu_idx));
-+    env_tlb(env)->d[mmu_idx].n_used_entries = 0;
- }
- 
- static inline void tlb_n_used_entries_inc(CPUArchState *env, uintptr_t mmu_idx)
- {
--    env->tlb_d[mmu_idx].n_used_entries++;
-+    env_tlb(env)->d[mmu_idx].n_used_entries++;
- }
- 
- static inline void tlb_n_used_entries_dec(CPUArchState *env, uintptr_t mmu_idx)
- {
--    env->tlb_d[mmu_idx].n_used_entries--;
-+    env_tlb(env)->d[mmu_idx].n_used_entries--;
- }
- 
- void tlb_init(CPUState *cpu)
- {
-     CPUArchState *env = cpu->env_ptr;
- 
--    qemu_spin_init(&env->tlb_c.lock);
-+    qemu_spin_init(&env_tlb(env)->c.lock);
- 
-     /* Ensure that cpu_reset performs a full flush.  */
--    env->tlb_c.dirty = ALL_MMUIDX_BITS;
-+    env_tlb(env)->c.dirty = ALL_MMUIDX_BITS;
- 
-     tlb_dyn_init(env);
- }
-@@ -273,9 +274,9 @@ void tlb_flush_counts(size_t *pfull, size_t *ppart, size_t *pelide)
-     CPU_FOREACH(cpu) {
-         CPUArchState *env = cpu->env_ptr;
- 
--        full += atomic_read(&env->tlb_c.full_flush_count);
--        part += atomic_read(&env->tlb_c.part_flush_count);
--        elide += atomic_read(&env->tlb_c.elide_flush_count);
-+        full += atomic_read(&env_tlb(env)->c.full_flush_count);
-+        part += atomic_read(&env_tlb(env)->c.part_flush_count);
-+        elide += atomic_read(&env_tlb(env)->c.elide_flush_count);
-     }
-     *pfull = full;
-     *ppart = part;
-@@ -285,10 +286,11 @@ void tlb_flush_counts(size_t *pfull, size_t *ppart, size_t *pelide)
- static void tlb_flush_one_mmuidx_locked(CPUArchState *env, int mmu_idx)
- {
-     tlb_table_flush_by_mmuidx(env, mmu_idx);
--    memset(env->tlb_v_table[mmu_idx], -1, sizeof(env->tlb_v_table[0]));
--    env->tlb_d[mmu_idx].large_page_addr = -1;
--    env->tlb_d[mmu_idx].large_page_mask = -1;
--    env->tlb_d[mmu_idx].vindex = 0;
-+    env_tlb(env)->d[mmu_idx].large_page_addr = -1;
-+    env_tlb(env)->d[mmu_idx].large_page_mask = -1;
-+    env_tlb(env)->d[mmu_idx].vindex = 0;
-+    memset(env_tlb(env)->d[mmu_idx].vtable, -1,
-+           sizeof(env_tlb(env)->d[0].vtable));
- }
- 
- static void tlb_flush_by_mmuidx_async_work(CPUState *cpu, run_on_cpu_data data)
-@@ -301,31 +303,31 @@ static void tlb_flush_by_mmuidx_async_work(CPUState *cpu, run_on_cpu_data data)
- 
-     tlb_debug("mmu_idx:0x%04" PRIx16 "\n", asked);
- 
--    qemu_spin_lock(&env->tlb_c.lock);
-+    qemu_spin_lock(&env_tlb(env)->c.lock);
- 
--    all_dirty = env->tlb_c.dirty;
-+    all_dirty = env_tlb(env)->c.dirty;
-     to_clean = asked & all_dirty;
-     all_dirty &= ~to_clean;
--    env->tlb_c.dirty = all_dirty;
-+    env_tlb(env)->c.dirty = all_dirty;
- 
-     for (work = to_clean; work != 0; work &= work - 1) {
-         int mmu_idx = ctz32(work);
-         tlb_flush_one_mmuidx_locked(env, mmu_idx);
-     }
- 
--    qemu_spin_unlock(&env->tlb_c.lock);
-+    qemu_spin_unlock(&env_tlb(env)->c.lock);
- 
-     cpu_tb_jmp_cache_clear(cpu);
- 
-     if (to_clean == ALL_MMUIDX_BITS) {
--        atomic_set(&env->tlb_c.full_flush_count,
--                   env->tlb_c.full_flush_count + 1);
-+        atomic_set(&env_tlb(env)->c.full_flush_count,
-+                   env_tlb(env)->c.full_flush_count + 1);
-     } else {
--        atomic_set(&env->tlb_c.part_flush_count,
--                   env->tlb_c.part_flush_count + ctpop16(to_clean));
-+        atomic_set(&env_tlb(env)->c.part_flush_count,
-+                   env_tlb(env)->c.part_flush_count + ctpop16(to_clean));
-         if (to_clean != asked) {
--            atomic_set(&env->tlb_c.elide_flush_count,
--                       env->tlb_c.elide_flush_count +
-+            atomic_set(&env_tlb(env)->c.elide_flush_count,
-+                       env_tlb(env)->c.elide_flush_count +
-                        ctpop16(asked & ~to_clean));
-         }
-     }
-@@ -410,11 +412,12 @@ static inline bool tlb_flush_entry_locked(CPUTLBEntry *tlb_entry,
- static inline void tlb_flush_vtlb_page_locked(CPUArchState *env, int mmu_idx,
-                                               target_ulong page)
- {
-+    CPUTLBDesc *d = &env_tlb(env)->d[mmu_idx];
-     int k;
- 
-     assert_cpu_is_self(ENV_GET_CPU(env));
-     for (k = 0; k < CPU_VTLB_SIZE; k++) {
--        if (tlb_flush_entry_locked(&env->tlb_v_table[mmu_idx][k], page)) {
-+        if (tlb_flush_entry_locked(&d->vtable[k], page)) {
-             tlb_n_used_entries_dec(env, mmu_idx);
-         }
-     }
-@@ -423,8 +426,8 @@ static inline void tlb_flush_vtlb_page_locked(CPUArchState *env, int mmu_idx,
- static void tlb_flush_page_locked(CPUArchState *env, int midx,
-                                   target_ulong page)
- {
--    target_ulong lp_addr = env->tlb_d[midx].large_page_addr;
--    target_ulong lp_mask = env->tlb_d[midx].large_page_mask;
-+    target_ulong lp_addr = env_tlb(env)->d[midx].large_page_addr;
-+    target_ulong lp_mask = env_tlb(env)->d[midx].large_page_mask;
- 
-     /* Check if we need to flush due to large pages.  */
-     if ((page & lp_mask) == lp_addr) {
-@@ -459,13 +462,13 @@ static void tlb_flush_page_by_mmuidx_async_work(CPUState *cpu,
-     tlb_debug("page addr:" TARGET_FMT_lx " mmu_map:0x%lx\n",
-               addr, mmu_idx_bitmap);
- 
--    qemu_spin_lock(&env->tlb_c.lock);
-+    qemu_spin_lock(&env_tlb(env)->c.lock);
-     for (mmu_idx = 0; mmu_idx < NB_MMU_MODES; mmu_idx++) {
-         if (test_bit(mmu_idx, &mmu_idx_bitmap)) {
-             tlb_flush_page_locked(env, mmu_idx, addr);
-         }
-     }
--    qemu_spin_unlock(&env->tlb_c.lock);
-+    qemu_spin_unlock(&env_tlb(env)->c.lock);
- 
-     tb_flush_jmp_cache(cpu, addr);
- }
-@@ -609,22 +612,22 @@ void tlb_reset_dirty(CPUState *cpu, ram_addr_t start1, ram_addr_t length)
-     int mmu_idx;
- 
-     env = cpu->env_ptr;
--    qemu_spin_lock(&env->tlb_c.lock);
-+    qemu_spin_lock(&env_tlb(env)->c.lock);
-     for (mmu_idx = 0; mmu_idx < NB_MMU_MODES; mmu_idx++) {
-         unsigned int i;
-         unsigned int n = tlb_n_entries(env, mmu_idx);
- 
-         for (i = 0; i < n; i++) {
--            tlb_reset_dirty_range_locked(&env->tlb_table[mmu_idx][i], start1,
--                                         length);
-+            tlb_reset_dirty_range_locked(&env_tlb(env)->f[mmu_idx].table[i],
-+                                         start1, length);
-         }
- 
-         for (i = 0; i < CPU_VTLB_SIZE; i++) {
--            tlb_reset_dirty_range_locked(&env->tlb_v_table[mmu_idx][i], start1,
--                                         length);
-+            tlb_reset_dirty_range_locked(&env_tlb(env)->d[mmu_idx].vtable[i],
-+                                         start1, length);
-         }
-     }
--    qemu_spin_unlock(&env->tlb_c.lock);
-+    qemu_spin_unlock(&env_tlb(env)->c.lock);
- }
- 
- /* Called with tlb_c.lock held */
-@@ -646,7 +649,7 @@ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr)
-     assert_cpu_is_self(cpu);
- 
-     vaddr &= TARGET_PAGE_MASK;
--    qemu_spin_lock(&env->tlb_c.lock);
-+    qemu_spin_lock(&env_tlb(env)->c.lock);
-     for (mmu_idx = 0; mmu_idx < NB_MMU_MODES; mmu_idx++) {
-         tlb_set_dirty1_locked(tlb_entry(env, mmu_idx, vaddr), vaddr);
-     }
-@@ -654,10 +657,10 @@ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr)
-     for (mmu_idx = 0; mmu_idx < NB_MMU_MODES; mmu_idx++) {
-         int k;
-         for (k = 0; k < CPU_VTLB_SIZE; k++) {
--            tlb_set_dirty1_locked(&env->tlb_v_table[mmu_idx][k], vaddr);
-+            tlb_set_dirty1_locked(&env_tlb(env)->d[mmu_idx].vtable[k], vaddr);
-         }
-     }
--    qemu_spin_unlock(&env->tlb_c.lock);
-+    qemu_spin_unlock(&env_tlb(env)->c.lock);
- }
- 
- /* Our TLB does not support large pages, so remember the area covered by
-@@ -665,7 +668,7 @@ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr)
- static void tlb_add_large_page(CPUArchState *env, int mmu_idx,
-                                target_ulong vaddr, target_ulong size)
- {
--    target_ulong lp_addr = env->tlb_d[mmu_idx].large_page_addr;
-+    target_ulong lp_addr = env_tlb(env)->d[mmu_idx].large_page_addr;
-     target_ulong lp_mask = ~(size - 1);
- 
-     if (lp_addr == (target_ulong)-1) {
-@@ -675,13 +678,13 @@ static void tlb_add_large_page(CPUArchState *env, int mmu_idx,
-         /* Extend the existing region to include the new page.
-            This is a compromise between unnecessary flushes and
-            the cost of maintaining a full variable size TLB.  */
--        lp_mask &= env->tlb_d[mmu_idx].large_page_mask;
-+        lp_mask &= env_tlb(env)->d[mmu_idx].large_page_mask;
-         while (((lp_addr ^ vaddr) & lp_mask) != 0) {
-             lp_mask <<= 1;
-         }
-     }
--    env->tlb_d[mmu_idx].large_page_addr = lp_addr & lp_mask;
--    env->tlb_d[mmu_idx].large_page_mask = lp_mask;
-+    env_tlb(env)->d[mmu_idx].large_page_addr = lp_addr & lp_mask;
-+    env_tlb(env)->d[mmu_idx].large_page_mask = lp_mask;
- }
- 
- /* Add a new TLB entry. At most one entry for a given virtual address
-@@ -696,6 +699,8 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
-                              int mmu_idx, target_ulong size)
- {
-     CPUArchState *env = cpu->env_ptr;
-+    CPUTLB *tlb = env_tlb(env);
-+    CPUTLBDesc *desc = &tlb->d[mmu_idx];
-     MemoryRegionSection *section;
-     unsigned int index;
-     target_ulong address;
-@@ -757,10 +762,10 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
-      * a longer critical section, but this is not a concern since the TLB lock
-      * is unlikely to be contended.
-      */
--    qemu_spin_lock(&env->tlb_c.lock);
-+    qemu_spin_lock(&tlb->c.lock);
- 
-     /* Note that the tlb is no longer clean.  */
--    env->tlb_c.dirty |= 1 << mmu_idx;
-+    tlb->c.dirty |= 1 << mmu_idx;
- 
-     /* Make sure there's no cached translation for the new page.  */
-     tlb_flush_vtlb_page_locked(env, mmu_idx, vaddr_page);
-@@ -770,12 +775,12 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
-      * different page; otherwise just overwrite the stale data.
-      */
-     if (!tlb_hit_page_anyprot(te, vaddr_page) && !tlb_entry_is_empty(te)) {
--        unsigned vidx = env->tlb_d[mmu_idx].vindex++ % CPU_VTLB_SIZE;
--        CPUTLBEntry *tv = &env->tlb_v_table[mmu_idx][vidx];
-+        unsigned vidx = desc->vindex++ % CPU_VTLB_SIZE;
-+        CPUTLBEntry *tv = &desc->vtable[vidx];
- 
-         /* Evict the old entry into the victim tlb.  */
-         copy_tlb_helper_locked(tv, te);
--        env->iotlb_v[mmu_idx][vidx] = env->iotlb[mmu_idx][index];
-+        desc->viotlb[vidx] = desc->iotlb[index];
-         tlb_n_used_entries_dec(env, mmu_idx);
-     }
- 
-@@ -792,8 +797,8 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
-      * subtract here is that of the page base, and not the same as the
-      * vaddr we add back in io_readx()/io_writex()/get_page_addr_code().
-      */
--    env->iotlb[mmu_idx][index].addr = iotlb - vaddr_page;
--    env->iotlb[mmu_idx][index].attrs = attrs;
-+    desc->iotlb[index].addr = iotlb - vaddr_page;
-+    desc->iotlb[index].attrs = attrs;
- 
-     /* Now calculate the new entry */
-     tn.addend = addend - vaddr_page;
-@@ -829,7 +834,7 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
- 
-     copy_tlb_helper_locked(te, &tn);
-     tlb_n_used_entries_inc(env, mmu_idx);
--    qemu_spin_unlock(&env->tlb_c.lock);
-+    qemu_spin_unlock(&tlb->c.lock);
- }
- 
- /* Add a new TLB entry, but without specifying the memory
-@@ -976,21 +981,28 @@ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
- 
-     assert_cpu_is_self(ENV_GET_CPU(env));
-     for (vidx = 0; vidx < CPU_VTLB_SIZE; ++vidx) {
--        CPUTLBEntry *vtlb = &env->tlb_v_table[mmu_idx][vidx];
--        target_ulong cmp = tlb_read_ofs(vtlb, elt_ofs);
-+        CPUTLBEntry *vtlb = &env_tlb(env)->d[mmu_idx].vtable[vidx];
-+        target_ulong cmp;
++typedef CPUSH4State CPUArchState;
 +
-+        /* elt_ofs might correspond to .addr_write, so use atomic_read */
-+#if TCG_OVERSIZED_GUEST
-+        cmp = *(target_ulong *)((uintptr_t)vtlb + elt_ofs);
-+#else
-+        cmp = atomic_read((target_ulong *)((uintptr_t)vtlb + elt_ofs));
-+#endif
+ #include "exec/cpu-all.h"
  
-         if (cmp == page) {
-             /* Found entry in victim tlb, swap tlb and iotlb.  */
--            CPUTLBEntry tmptlb, *tlb = &env->tlb_table[mmu_idx][index];
-+            CPUTLBEntry tmptlb, *tlb = &env_tlb(env)->f[mmu_idx].table[index];
+ /* Memory access type */
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index bcfdf513cf..fc392c6e87 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -14,8 +14,6 @@
+ #define TARGET_DPREGS 32
+ #endif
  
--            qemu_spin_lock(&env->tlb_c.lock);
-+            qemu_spin_lock(&env_tlb(env)->c.lock);
-             copy_tlb_helper_locked(&tmptlb, tlb);
-             copy_tlb_helper_locked(tlb, vtlb);
-             copy_tlb_helper_locked(vtlb, &tmptlb);
--            qemu_spin_unlock(&env->tlb_c.lock);
-+            qemu_spin_unlock(&env_tlb(env)->c.lock);
+-#define CPUArchState struct CPUSPARCState
+-
+ /*#define EXCP_INTERRUPT 0x100*/
  
--            CPUIOTLBEntry tmpio, *io = &env->iotlb[mmu_idx][index];
--            CPUIOTLBEntry *vio = &env->iotlb_v[mmu_idx][vidx];
-+            CPUIOTLBEntry tmpio, *io = &env_tlb(env)->d[mmu_idx].iotlb[index];
-+            CPUIOTLBEntry *vio = &env_tlb(env)->d[mmu_idx].viotlb[vidx];
-             tmpio = *io; *io = *vio; *vio = tmpio;
-             return true;
-         }
-@@ -1293,8 +1305,8 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
-             }
-         }
- 
--        res = io_readx(env, &env->iotlb[mmu_idx][index], mmu_idx, addr,
--                       retaddr, access_type, size);
-+        res = io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
-+                       mmu_idx, addr, retaddr, access_type, size);
-         return handle_bswap(res, size, big_endian);
-     }
- 
-@@ -1541,7 +1553,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-             }
-         }
- 
--        io_writex(env, &env->iotlb[mmu_idx][index], mmu_idx,
-+        io_writex(env, &env_tlb(env)->d[mmu_idx].iotlb[index], mmu_idx,
-                   handle_bswap(val, size, big_endian),
-                   addr, retaddr, size);
-         return;
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 092f0df3c4..f5440e57dd 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -14134,7 +14134,7 @@ static bool is_guarded_page(CPUARMState *env, DisasContext *s)
-      * table entry even for that case.
-      */
-     return (tlb_hit(entry->addr_code, addr) &&
--            env->iotlb[mmu_idx][index].attrs.target_tlb_bit0);
-+            env_tlb(env)->d[mmu_idx].iotlb[index].attrs.target_tlb_bit0);
+ /* trap definitions */
+@@ -731,6 +729,8 @@ static inline int cpu_pil_allowed(CPUSPARCState *env1, int pil)
  #endif
  }
  
-diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-index 9e1dad9696..90957593a3 100644
---- a/tcg/aarch64/tcg-target.inc.c
-+++ b/tcg/aarch64/tcg-target.inc.c
-@@ -1637,12 +1637,8 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
-     label->label_ptr[0] = label_ptr;
++typedef CPUSPARCState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ #ifdef TARGET_SPARC64
+diff --git a/target/tilegx/cpu.h b/target/tilegx/cpu.h
+index 429a6c6b43..2fbf14d508 100644
+--- a/target/tilegx/cpu.h
++++ b/target/tilegx/cpu.h
+@@ -23,8 +23,6 @@
+ #include "qemu-common.h"
+ #include "exec/cpu-defs.h"
+ 
+-#define CPUArchState struct CPUTLGState
+-
+ /* TILE-Gx common register alias */
+ #define TILEGX_R_RE    0   /*  0 register, for function/syscall return value */
+ #define TILEGX_R_ERR   1   /*  1 register, for syscall errno flag */
+@@ -152,6 +150,8 @@ static inline TileGXCPU *tilegx_env_get_cpu(CPUTLGState *env)
+ /* TILE-Gx memory attributes */
+ #define MMU_USER_IDX    0  /* Current memory operation is in user mode */
+ 
++typedef CPUTLGState CPUArchState;
++
+ #include "exec/cpu-all.h"
+ 
+ void tilegx_tcg_init(void);
+diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
+index bccde45a07..5d3072f2db 100644
+--- a/target/tricore/cpu.h
++++ b/target/tricore/cpu.h
+@@ -25,10 +25,6 @@
+ #include "exec/cpu-defs.h"
+ #include "tricore-defs.h"
+ 
+-#define CPUArchState struct CPUTriCoreState
+-
+-struct CPUTriCoreState;
+-
+ struct tricore_boot_info;
+ 
+ typedef struct tricore_def_t tricore_def_t;
+@@ -382,7 +378,7 @@ static inline int cpu_mmu_index(CPUTriCoreState *env, bool ifetch)
+     return 0;
  }
  
--/* We expect tlb_mask to be before tlb_table.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table) <
--                  offsetof(CPUArchState, tlb_mask));
 -
- /* We expect to use a 24-bit unsigned offset from ENV.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table[NB_MMU_MODES - 1])
-+QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_.f[NB_MMU_MODES - 1].table)
-                   > 0xffffff);
++typedef CPUTriCoreState CPUArchState;
  
- /* Load and compare a TLB entry, emitting the conditional jump to the
-@@ -1653,8 +1649,8 @@ static void tcg_out_tlb_read(TCGContext *s, TCGReg addr_reg, TCGMemOp opc,
-                              tcg_insn_unit **label_ptr, int mem_index,
-                              bool is_read)
- {
--    int mask_ofs = offsetof(CPUArchState, tlb_mask[mem_index]);
--    int table_ofs = offsetof(CPUArchState, tlb_table[mem_index]);
-+    int mask_ofs = offsetof(CPUArchState, tlb_.f[mem_index].mask);
-+    int table_ofs = offsetof(CPUArchState, tlb_.f[mem_index].table);
-     unsigned a_bits = get_alignment_bits(opc);
-     unsigned s_bits = opc & MO_SIZE;
-     unsigned a_mask = (1u << a_bits) - 1;
-diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
-index 7316504c9d..38de6d59c7 100644
---- a/tcg/arm/tcg-target.inc.c
-+++ b/tcg/arm/tcg-target.inc.c
-@@ -1220,12 +1220,8 @@ static TCGReg tcg_out_arg_reg64(TCGContext *s, TCGReg argreg,
+ #include "exec/cpu-all.h"
  
- #define TLB_SHIFT	(CPU_TLB_ENTRY_BITS + CPU_TLB_BITS)
+diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
+index a4c4ea328e..48562949b1 100644
+--- a/target/unicore32/cpu.h
++++ b/target/unicore32/cpu.h
+@@ -16,8 +16,6 @@
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
  
--/* We expect tlb_mask to be before tlb_table.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table) <
--                  offsetof(CPUArchState, tlb_mask));
+-#define CPUArchState                struct CPUUniCore32State
 -
- /* We expect to use a 20-bit unsigned offset from ENV.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table[NB_MMU_MODES - 1])
-+QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_.f[NB_MMU_MODES - 1].table)
-                   > 0xfffff);
- 
- /* Load and compare a TLB entry, leaving the flags set.  Returns the register
-@@ -1236,8 +1232,8 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
- {
-     int cmp_off = (is_load ? offsetof(CPUTLBEntry, addr_read)
-                    : offsetof(CPUTLBEntry, addr_write));
--    int mask_off = offsetof(CPUArchState, tlb_mask[mem_index]);
--    int table_off = offsetof(CPUArchState, tlb_table[mem_index]);
-+    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
-+    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
-     TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
-     unsigned s_bits = opc & MO_SIZE;
-     unsigned a_bits = get_alignment_bits(opc);
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index c0443da4af..5f5b886c04 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -1730,10 +1730,10 @@ static inline void tcg_out_tlb_load(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
-                    TARGET_PAGE_BITS - CPU_TLB_ENTRY_BITS);
- 
-     tcg_out_modrm_offset(s, OPC_AND_GvEv + trexw, r0, TCG_AREG0,
--                         offsetof(CPUArchState, tlb_mask[mem_index]));
-+                         offsetof(CPUArchState, tlb_.f[mem_index].mask));
- 
-     tcg_out_modrm_offset(s, OPC_ADD_GvEv + hrexw, r0, TCG_AREG0,
--                         offsetof(CPUArchState, tlb_table[mem_index]));
-+                         offsetof(CPUArchState, tlb_.f[mem_index].table));
- 
-     /* If the required alignment is at least as large as the access, simply
-        copy the address and mask.  For lesser alignments, check that we don't
-diff --git a/tcg/mips/tcg-target.inc.c b/tcg/mips/tcg-target.inc.c
-index 7cafd4a790..ef6633587e 100644
---- a/tcg/mips/tcg-target.inc.c
-+++ b/tcg/mips/tcg-target.inc.c
-@@ -1202,14 +1202,6 @@ static int tcg_out_call_iarg_reg2(TCGContext *s, int i, TCGReg al, TCGReg ah)
-     return i;
+ typedef struct CPUUniCore32State {
+     /* Regs for current mode.  */
+     uint32_t regs[32];
+@@ -153,6 +151,8 @@ static inline int cpu_mmu_index(CPUUniCore32State *env, bool ifetch)
+     return (env->uncached_asr & ASR_M) == ASR_MODE_USER ? 1 : 0;
  }
  
--/* We expect tlb_mask to be before tlb_table.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table) <
--                  offsetof(CPUArchState, tlb_mask));
--
--/* We expect tlb_mask to be "near" tlb_table.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table) -
--                  offsetof(CPUArchState, tlb_mask) >= 0x8000);
--
- /*
-  * Perform the tlb comparison operation.
-  * The complete host address is placed in BASE.
-@@ -1223,8 +1215,8 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg base, TCGReg addrl,
-     unsigned s_bits = opc & MO_SIZE;
-     unsigned a_bits = get_alignment_bits(opc);
-     int mem_index = get_mmuidx(oi);
--    int mask_off = offsetof(CPUArchState, tlb_mask[mem_index]);
--    int table_off = offsetof(CPUArchState, tlb_table[mem_index]);
-+    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
-+    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
-     int add_off = offsetof(CPUTLBEntry, addend);
-     int cmp_off = (is_load ? offsetof(CPUTLBEntry, addr_read)
-                    : offsetof(CPUTLBEntry, addr_write));
-diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index 30c095d3d5..d69c18ac1e 100644
---- a/tcg/ppc/tcg-target.inc.c
-+++ b/tcg/ppc/tcg-target.inc.c
-@@ -1498,10 +1498,6 @@ static void * const qemu_st_helpers[16] = {
-     [MO_BEQ]  = helper_be_stq_mmu,
- };
++typedef CPUUniCore32State CPUArchState;
++
+ #include "exec/cpu-all.h"
  
--/* We expect tlb_mask to be before tlb_table.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table) <
--                  offsetof(CPUArchState, tlb_mask));
+ #define UNICORE32_CPU_TYPE_SUFFIX "-" TYPE_UNICORE32_CPU
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index 0c6afd43a4..e164e18f18 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -38,8 +38,6 @@
+ /* Xtensa processors have a weak memory model */
+ #define TCG_GUEST_DEFAULT_MO      (0)
+ 
+-#define CPUArchState struct CPUXtensaState
 -
- /* Perform the TLB load and compare.  Places the result of the comparison
-    in CR7, loads the addend of the TLB into R3, and returns the register
-    containing the guest address (zero-extended into R4).  Clobbers R0 and R2. */
-@@ -1514,8 +1510,8 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGMemOp opc,
-         = (is_read
-            ? offsetof(CPUTLBEntry, addr_read)
-            : offsetof(CPUTLBEntry, addr_write));
--    int mask_off = offsetof(CPUArchState, tlb_mask[mem_index]);
--    int table_off = offsetof(CPUArchState, tlb_table[mem_index]);
-+    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
-+    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
-     TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
-     unsigned s_bits = opc & MO_SIZE;
-     unsigned a_bits = get_alignment_bits(opc);
-diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
-index 6497a4dab2..96c33bf621 100644
---- a/tcg/riscv/tcg-target.inc.c
-+++ b/tcg/riscv/tcg-target.inc.c
-@@ -962,14 +962,6 @@ static void * const qemu_st_helpers[16] = {
- /* We don't support oversize guests */
- QEMU_BUILD_BUG_ON(TCG_TARGET_REG_BITS < TARGET_LONG_BITS);
+ enum {
+     /* Additional instructions */
+     XTENSA_OPTION_CODE_DENSITY,
+@@ -801,6 +799,8 @@ static inline void cpu_get_tb_cpu_state(CPUXtensaState *env, target_ulong *pc,
+     }
+ }
  
--/* We expect tlb_mask to be before tlb_table.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table) <
--                  offsetof(CPUArchState, tlb_mask));
--
--/* We expect tlb_mask to be "near" tlb_table.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table) -
--                  offsetof(CPUArchState, tlb_mask) >= 0x800);
--
- static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-                              TCGReg addrh, TCGMemOpIdx oi,
-                              tcg_insn_unit **label_ptr, bool is_load)
-@@ -982,8 +974,8 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-     int mask_off, table_off;
-     TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
++typedef CPUXtensaState CPUArchState;
++
+ #include "exec/cpu-all.h"
  
--    mask_off = offsetof(CPUArchState, tlb_mask[mem_index]);
--    table_off = offsetof(CPUArchState, tlb_table[mem_index]);
-+    mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
-+    table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
-     if (table_off > 0x7ff) {
-         int mask_hi = mask_off - sextreg(mask_off, 0, 12);
-         int table_hi = table_off - sextreg(table_off, 0, 12);
-diff --git a/tcg/s390/tcg-target.inc.c b/tcg/s390/tcg-target.inc.c
-index 331d51852c..4d896d0b58 100644
---- a/tcg/s390/tcg-target.inc.c
-+++ b/tcg/s390/tcg-target.inc.c
-@@ -1539,9 +1539,7 @@ static void tcg_out_qemu_st_direct(TCGContext *s, TCGMemOp opc, TCGReg data,
- #include "tcg-ldst.inc.c"
- 
- /* We're expecting to use a 20-bit signed offset on the tlb memory ops.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_mask[NB_MMU_MODES - 1])
--                  > 0x7ffff);
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table[NB_MMU_MODES - 1])
-+QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_.f[NB_MMU_MODES - 1].table)
-                   > 0x7ffff);
- 
- /* Load and compare a TLB entry, leaving the flags set.  Loads the TLB
-@@ -1553,8 +1551,8 @@ static TCGReg tcg_out_tlb_read(TCGContext* s, TCGReg addr_reg, TCGMemOp opc,
-     unsigned a_bits = get_alignment_bits(opc);
-     unsigned s_mask = (1 << s_bits) - 1;
-     unsigned a_mask = (1 << a_bits) - 1;
--    int mask_off = offsetof(CPUArchState, tlb_mask[mem_index]);
--    int table_off = offsetof(CPUArchState, tlb_table[mem_index]);
-+    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
-+    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
-     int ofs, a_off;
-     uint64_t tlb_mask;
- 
-diff --git a/tcg/sparc/tcg-target.inc.c b/tcg/sparc/tcg-target.inc.c
-index 83295955a7..066cb0e892 100644
---- a/tcg/sparc/tcg-target.inc.c
-+++ b/tcg/sparc/tcg-target.inc.c
-@@ -1075,19 +1075,11 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
-    The result of the TLB comparison is in %[ix]cc.  The sanitized address
-    is in the returned register, maybe %o0.  The TLB addend is in %o1.  */
- 
--/* We expect tlb_mask to be before tlb_table.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table) <
--                  offsetof(CPUArchState, tlb_mask));
--
--/* We expect tlb_mask to be "near" tlb_table.  */
--QEMU_BUILD_BUG_ON(offsetof(CPUArchState, tlb_table) -
--                  offsetof(CPUArchState, tlb_mask) >= (1 << 13));
--
- static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addr, int mem_index,
-                                TCGMemOp opc, int which)
- {
--    int mask_off = offsetof(CPUArchState, tlb_mask[mem_index]);
--    int table_off = offsetof(CPUArchState, tlb_table[mem_index]);
-+    int mask_off = offsetof(CPUArchState, tlb_.f[mem_index].mask);
-+    int table_off = offsetof(CPUArchState, tlb_.f[mem_index].table);
-     TCGReg base = TCG_AREG0;
-     const TCGReg r0 = TCG_REG_O0;
-     const TCGReg r1 = TCG_REG_O1;
+ #endif
 -- 
 2.17.1
 
