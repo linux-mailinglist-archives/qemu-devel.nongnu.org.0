@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441913B69E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 15:59:35 +0200 (CEST)
-Received: from localhost ([::1]:46786 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0463B6A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:01:24 +0200 (CEST)
+Received: from localhost ([::1]:46792 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haKpi-0001Pv-E9
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 09:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51267)
+	id 1haKrT-0002WO-7v
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:01:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51331)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1haKgh-0000Dm-3F
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:50:16 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1haKgu-0000KR-2W
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:50:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1haKgg-0001rd-2R
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:50:15 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39797)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1haKgn-00025M-3F
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:50:24 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35564)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1haKgf-0001pY-Sf; Mon, 10 Jun 2019 09:50:14 -0400
-Received: by mail-pl1-x644.google.com with SMTP id g9so3693286plm.6;
- Mon, 10 Jun 2019 06:50:13 -0700 (PDT)
+ id 1haKgm-00024h-TB; Mon, 10 Jun 2019 09:50:21 -0400
+Received: by mail-pl1-x641.google.com with SMTP id p1so3700710plo.2;
+ Mon, 10 Jun 2019 06:50:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=2n2TNPYPU066kE92JQNbBm7Ypw4YV4ofgNfP3dVPw+E=;
- b=OXRog9PsOSiWar8mHFlYwMqgg4OWgzV29N1Ng2Tf4KPhGk7W005Bq0+hao+Jl3AWTe
- SNfKyRhHFpcLlMLG8WHKrWAJlNhcC0k3H0Ba4nERvtpznsCQkNyyyv8gNtKrZMCt1hne
- w24XN9Hp/ii7KBSXlpJzQdwhf/xx6ShvQf0MCjsmMflOxYgigBKDS+LWCV+cVbkbpjmV
- G2aEV4jVgbl04z01IUpj7QuUGu9FcbSWlfjnHxe3qEPtJQRgGXxpcibTVNtHWVv3rnOo
- VhEuhMSWhwQMG61GsR6T6sLADxf++MMqHz9AV9nSKinoTKAVaUB+lxaJW6DE33OHkLGk
- kzQA==
+ bh=92hTvf/vcv0m1TMyr6r0QhwXroAf5xu/zM543QmX6EI=;
+ b=UOK69WlqP/6YjDPO7cp+NSaHQJqzXSNKmx+0wZxMGBgPiJ+VtV+j5GUNx907tvn03f
+ IgvHbGx1bBmEBqq87ziWYKIPn3OuZXdKia3uz+eDDxRa6JwuOf588IVBSEZSQ5ImSDnl
+ +fDfSMHmLTHw5mXUmejA5TfHr9SE87YcTGFSA7mx0nsZjVcQAY0tddgDZE/E2wW7qNyU
+ fmS3tEL+rlD98fnBZP3KAs6JwfWJXHww2v1kap2c1zFhkIZ+2bVmir4LtxjCAf1IDtQH
+ CUcW/TNJm8pSQepkg28D+aYUM8gYvF3IHzK5ihXq/pG+t0qvgUIpXqbL1nwqQRn9iACZ
+ yC/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=2n2TNPYPU066kE92JQNbBm7Ypw4YV4ofgNfP3dVPw+E=;
- b=epnehyGwnDXyj0sws2UfNPX5SToNdRRo6HtWsHKgIrZv9rQrGOItLL+MGjv1u/ZPVT
- aDNg0HOyu8/jcdLojJIL/gPI0WX+84P9ViOv8hv3lWyax6GAfQfuULlowu9/moDqsQ5w
- OAi0RzUuowaQTS0kUlaOvWN1Ykvb6bz0VIWQ+TkiJOg0c4D3qyL61oHlRd++1WIJO0dF
- SvqjhyeYknQXiqw1soMCOc9EkXL7a5zFubjg//j2JVWrBCUohzT/K4qeCHH5NJe/NKVc
- DFOvaRYNvZAliBsasA6/XRRyrVCNgoNHBGjk5YzEEED+FaXxaBwzTFOs9Phn1PfrCmeL
- WD1A==
-X-Gm-Message-State: APjAAAWIZXJtr3HMKERdEp981ZUh+9yZzuS4OmhytWF1QfXuA+r0grJM
- r6bv0J0A/1yzm6uPwOLMjFHE9tuyE2bW6g==
-X-Google-Smtp-Source: APXvYqzXL9yyBh5rQ/W7v841l8yeIi+4F8SMNKkf65OSRrIHS04MWNEYde3LBkPQuIV4+DR5j3c1wA==
-X-Received: by 2002:a17:902:2889:: with SMTP id
- f9mr23825514plb.230.1560174612354; 
- Mon, 10 Jun 2019 06:50:12 -0700 (PDT)
+ bh=92hTvf/vcv0m1TMyr6r0QhwXroAf5xu/zM543QmX6EI=;
+ b=gBFakiTCfrUzTzSwMEWRWdgkfR2rYM3g5Cto3y8WcWu+RB4VRK2eVLKb7AAGbtZfyZ
+ U9NCRmq5UM/xzpYcgdxk+ePvJvnTeAD7kF8uJSeE81TX+O8eztrqXcTNkUpmxWpsf7OH
+ xKJ2hNCtqnIWE5LD+tfQ/PluCCPBUPvq4txE4IldrUt12aalLydUSf28omhIQ3cobzyo
+ lLlwoxkAdsMiMxWOjP8nqIFxKcPO7Zu1uSiHY3OIxuJCXkG49WJuNLlbNl3tWVt91qFu
+ imeSAl/Yc/zGBG0l/pHE1tW8OLmLqK0RNxaNwV4xhGY1l1rDdK4OxKEb1Nfc9yLLU7iu
+ F5Pw==
+X-Gm-Message-State: APjAAAWlxtmsiCwmTk2KSZX/lnqmsP7RHgHIPYphZai3z7KojXmJg4ZL
+ vYKS+mbLxt1AJn1Cy9XQZQaRy5KeeKiGyQ==
+X-Google-Smtp-Source: APXvYqx2ci4VwkOfQ5iyAukA//5QDPtgyf8PLYyIRBxiRIGDG7GRn1r/xY/Jy9l8hqb7l9hQPg880A==
+X-Received: by 2002:a17:902:848c:: with SMTP id
+ c12mr69560703plo.17.1560174618934; 
+ Mon, 10 Jun 2019 06:50:18 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.100])
- by smtp.gmail.com with ESMTPSA id d4sm13969837pfc.149.2019.06.10.06.50.05
+ by smtp.gmail.com with ESMTPSA id d4sm13969837pfc.149.2019.06.10.06.50.12
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 Jun 2019 06:50:11 -0700 (PDT)
+ Mon, 10 Jun 2019 06:50:18 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 10 Jun 2019 19:18:59 +0530
-Message-Id: <20190610134905.22294-7-mehta.aaru20@gmail.com>
+Date: Mon, 10 Jun 2019 19:19:00 +0530
+Message-Id: <20190610134905.22294-8-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190610134905.22294-1-mehta.aaru20@gmail.com>
 References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH v5 06/12] util/async: add aio interfaces for
- io_uring
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH v5 07/12] blockdev: accept io_uring as option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,70 +86,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- util/async.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ blockdev.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/util/async.c b/util/async.c
-index c10642a385..2709f0edc3 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -277,6 +277,14 @@ aio_ctx_finalize(GSource     *source)
-     }
- #endif
- 
-+#ifdef CONFIG_LINUX_IO_URING
-+    if (ctx->linux_io_uring) {
-+        luring_detach_aio_context(ctx->linux_io_uring, ctx);
-+        luring_cleanup(ctx->linux_io_uring);
-+        ctx->linux_io_uring = NULL;
-+    }
-+#endif
-+
-     assert(QSLIST_EMPTY(&ctx->scheduled_coroutines));
-     qemu_bh_delete(ctx->co_schedule_bh);
- 
-@@ -341,6 +349,29 @@ LinuxAioState *aio_get_linux_aio(AioContext *ctx)
- }
- #endif
- 
-+#ifdef CONFIG_LINUX_IO_URING
-+LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp)
-+{
-+    if (ctx->linux_io_uring) {
-+        return ctx->linux_io_uring;
-+    }
-+
-+    ctx->linux_io_uring = luring_init(errp);
-+    if (!ctx->linux_io_uring) {
-+        return NULL;
-+    }
-+
-+    luring_attach_aio_context(ctx->linux_io_uring, ctx);
-+    return ctx->linux_io_uring;
-+}
-+
-+LuringState *aio_get_linux_io_uring(AioContext *ctx)
-+{
-+    assert(ctx->linux_io_uring);
-+    return ctx->linux_io_uring;
-+}
-+#endif
-+
- void aio_notify(AioContext *ctx)
- {
-     /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
-@@ -432,6 +463,11 @@ AioContext *aio_context_new(Error **errp)
- #ifdef CONFIG_LINUX_AIO
-     ctx->linux_aio = NULL;
- #endif
-+
-+#ifdef CONFIG_LINUX_IO_URING
-+    ctx->linux_io_uring = NULL;
-+#endif
-+
-     ctx->thread_pool = NULL;
-     qemu_rec_mutex_init(&ctx->lock);
-     timerlistgroup_init(&ctx->tlg, aio_timerlist_notify, ctx);
+diff --git a/blockdev.c b/blockdev.c
+index 3f44b891eb..a2a5b32604 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -386,6 +386,8 @@ static void extract_common_blockdev_options(QemuOpts *opts, int *bdrv_flags,
+         if ((aio = qemu_opt_get(opts, "aio")) != NULL) {
+             if (!strcmp(aio, "native")) {
+                 *bdrv_flags |= BDRV_O_NATIVE_AIO;
++            } else if (!strcmp(aio, "io_uring")) {
++                *bdrv_flags |= BDRV_O_IO_URING;
+             } else if (!strcmp(aio, "threads")) {
+                 /* this is the default */
+             } else {
+@@ -4579,7 +4581,7 @@ QemuOptsList qemu_common_drive_opts = {
+         },{
+             .name = "aio",
+             .type = QEMU_OPT_STRING,
+-            .help = "host AIO implementation (threads, native)",
++            .help = "host AIO implementation (threads, native, io_uring)",
+         },{
+             .name = BDRV_OPT_CACHE_WB,
+             .type = QEMU_OPT_BOOL,
 -- 
 2.17.1
 
