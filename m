@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681833B562
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 14:57:06 +0200 (CEST)
-Received: from localhost ([::1]:46096 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D5A3B5AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 15:03:21 +0200 (CEST)
+Received: from localhost ([::1]:46138 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haJrF-0005Wo-2N
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 08:57:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36991)
+	id 1haJxF-0007cf-FX
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 09:03:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38596)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1haJpr-00040l-3Z
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:55:40 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1haJt9-00079Q-UN
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:59:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1haJbZ-0004SZ-Ev
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:40:54 -0400
-Resent-Date: Mon, 10 Jun 2019 08:40:54 -0400
-Resent-Message-Id: <E1haJbZ-0004SZ-Ev@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21552)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1haJbZ-0004Pw-7C
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:40:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560170434; cv=none; d=zoho.com; s=zohoarc; 
- b=QpUa9+26fEedpOOaYOcjFbYubqkKfH24DZGhVq2ix6Nc5aKJ8oucq2eZ0lcMa76iUJO7ApFR3V8uDF3/4pLlpGIOfit1/+jvLnWAdtTklFhfc1eQVFVOx5LxeUcth+q9MpXso3iL5P8iovxmWKlNXq/PIPOTbDE0QmeVBWVRqfY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1560170434;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=P6i4mJtIxknMB7Din8R9VZGhJkmx05XlF2OuVvVqwnk=; 
- b=XZJY87Be/Qs1DouygV0jCwdziqmwdwlHvCi63nyKquvL0GNqBukeHPiVRQ5r0HSoHsU4Hpcw8DrQ2EgOe2MAEp++CsLyipB/rLrJHuV+qQehUE7rkt5GCTEDXoBvHevNSsg0wPOEPuYH8LCaVawTL8Rk1oYMM1kyu39bUkoAw2I=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 15601704322973.918671950455064;
- Mon, 10 Jun 2019 05:40:32 -0700 (PDT)
-In-Reply-To: <1560165301-39026-1-git-send-email-pbonzini@redhat.com>
-Message-ID: <156017043152.32260.17385653823787715066@ce79690b2cb9>
+ (envelope-from <peter.maydell@linaro.org>) id 1haJt8-0001ab-W8
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:59:03 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:35211)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1haJt8-0001Zn-Pt
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:59:02 -0400
+Received: by mail-oi1-x235.google.com with SMTP id y6so6147549oix.2
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 05:59:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=mIF4tCWxTOXZcdBOa7biJqY33xVCSgmvQ17bRlLI3QM=;
+ b=DQHgVP2uotPw++77R17nn6B4IBzkvbakjLx6ogig1/wL8xtwXlfba0y+8F+Ta+6inJ
+ RlTNR5oY6xYyJn6zXy/lUdUrH423dVMYVnvPOBMg8FysZfJBh9vQt3mPfySA2NwpRpbq
+ CG148Tes/MJVLUB9skqb8A/xMbdP5DzyCr1SoSR99nKdE3tKQyMjYrllX7RpyUeKKLTn
+ pLuCaH2lVh//9qblDHT+M1fd24oCuxuenTcRUwjMeJQkb45Cxxb5zJbbbA3upqo/ZOO6
+ pgw/7TPcklQHpb79/BJvaZ4U+IxHcZp6ZvvffTMSFduFg2mhwDgh98Y1RQmcA4azbjaR
+ rNxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mIF4tCWxTOXZcdBOa7biJqY33xVCSgmvQ17bRlLI3QM=;
+ b=AaxOXGJY+U6pT84iFLVx983OBuu/vo80+vuLl29LD2dRn4yQGC9resaU3c3t1dOqPo
+ sUKhdz8Ed16IoZG9FQMIpkdrfV3OwR5iuz2FPXSYkF/sRQE10FDWD/MZgsFj0uiv4rSq
+ x8Ij/sAgS2R5Lx06/RaKlrtIMqHEU7/2C4S4BqrUQ8/bgEUrlEwb5gqE+Y5yxuq9j5mL
+ vmbt270+T2HMfakaH83n8MNRxjyxQwgEv5t+OkTbilnp++lVJhA3wozXlwxPf9vHwcOD
+ 3e9IZH3EFj6uwkP6yiZONBclQPExtaBsBjn1wk05K98GPchCQ6DTgUPGVBoGCs8iY1yf
+ WDNw==
+X-Gm-Message-State: APjAAAVOzQFLQLBQJi7ipYGbtS7aLswUi/EsXsxxHzC+Z03wzbUyyihP
+ xejvi8GAVsXzS1fhK/pUNZ1jmW7XQ3P+Ft4SbI/ftg==
+X-Google-Smtp-Source: APXvYqxuuIx2bLxg/D2weOQeR4zsckU7MbWrkVCguFXkhx8XV/ur8TeXm4zyQ3ZwEtcX3DvyRnUaWr3ilO46Czk4q8c=
+X-Received: by 2002:a05:6808:8f1:: with SMTP id
+ d17mr12094150oic.170.1560171541431; 
+ Mon, 10 Jun 2019 05:59:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Mon, 10 Jun 2019 05:40:32 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [RFC PATCH 0/7] Proof of concept for Meson
- integration
+References: <20190607211544.7964-1-ehabkost@redhat.com>
+In-Reply-To: <20190607211544.7964-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Jun 2019 13:58:50 +0100
+Message-ID: <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::235
+Subject: Re: [Qemu-devel] [PULL 0/8] Python queue, 2019-06-07
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,48 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYwMTY1MzAxLTM5MDI2LTEt
-Z2l0LXNlbmQtZW1haWwtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBm
-YWlsZWQgdGhlIGFzYW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
-ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
-eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEvYmluL2Jhc2gKdGltZSBtYWtlIGRvY2tlci10ZXN0LWRlYnVnQGZlZG9yYSBU
-QVJHRVRfTElTVD14ODZfNjQtc29mdG1tdSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQg
-RU5EID09PQoKQ29uZmlndXJlIG9wdGlvbnM6Ci0tZW5hYmxlLXdlcnJvciAtLXRhcmdldC1saXN0
-PXg4Nl82NC1zb2Z0bW11IC0tcHJlZml4PS90bXAvcWVtdS10ZXN0L2luc3RhbGwgLS1weXRob249
-L3Vzci9iaW4vcHl0aG9uMyAtLWVuYWJsZS1kZWJ1ZyAtLWVuYWJsZS1zYW5pdGl6ZXJzIC0tY3h4
-PWNsYW5nKysgLS1jYz1jbGFuZyAtLWhvc3QtY2M9Y2xhbmcKCkVSUk9SOiBNZXNvbiBub3QgZm91
-bmQuIFVzZSAtLW1lc29uPS9wYXRoL3RvL21lc29uCgojIFFFTVUgY29uZmlndXJlIGxvZyBNb24g
-SnVuIDEwIDEyOjQwOjI2IFVUQyAyMDE5CiMgQ29uZmlndXJlZCB3aXRoOiAnL3RtcC9xZW11LXRl
-c3Qvc3JjL2NvbmZpZ3VyZScgJy0tZW5hYmxlLXdlcnJvcicgJy0tdGFyZ2V0LWxpc3Q9eDg2XzY0
-LXNvZnRtbXUnICctLXByZWZpeD0vdG1wL3FlbXUtdGVzdC9pbnN0YWxsJyAnLS1weXRob249L3Vz
-ci9iaW4vcHl0aG9uMycgJy0tZW5hYmxlLWRlYnVnJyAnLS1lbmFibGUtc2FuaXRpemVycycgJy0t
-Y3h4PWNsYW5nKysnICctLWNjPWNsYW5nJyAnLS1ob3N0LWNjPWNsYW5nJwotLS0KZnVuY3M6IGRv
-X2NvbXBpbGVyIGRvX2NjIGNvbXBpbGVfb2JqZWN0IGNoZWNrX2RlZmluZSBtYWluCmxpbmVzOiA5
-MiAxMjIgNjIyIDY5MSAwCmNsYW5nIC1EX0dOVV9TT1VSQ0UgLURfRklMRV9PRkZTRVRfQklUUz02
-NCAtRF9MQVJHRUZJTEVfU09VUkNFIC1Xc3RyaWN0LXByb3RvdHlwZXMgLVdyZWR1bmRhbnQtZGVj
-bHMgLVdhbGwgLVd1bmRlZiAtV3dyaXRlLXN0cmluZ3MgLVdtaXNzaW5nLXByb3RvdHlwZXMgLWZu
-by1zdHJpY3QtYWxpYXNpbmcgLWZuby1jb21tb24gLWZ3cmFwdiAtc3RkPWdudTk5IC1jIC1vIGNv
-bmZpZy10ZW1wL3FlbXUtY29uZi5vIGNvbmZpZy10ZW1wL3FlbXUtY29uZi5jCmNvbmZpZy10ZW1w
-L3FlbXUtY29uZi5jOjI6MjogZXJyb3I6IF9faTM4Nl9fIG5vdCBkZWZpbmVkCiNlcnJvciBfX2kz
-ODZfXyBub3QgZGVmaW5lZAogXgoxIGVycm9yIGdlbmVyYXRlZC4KLS0tCmZ1bmNzOiBkb19jb21w
-aWxlciBkb19jYyBjb21waWxlX29iamVjdCBjaGVja19kZWZpbmUgbWFpbgpsaW5lczogOTIgMTIy
-IDYyMiA2OTQgMApjbGFuZyAtRF9HTlVfU09VUkNFIC1EX0ZJTEVfT0ZGU0VUX0JJVFM9NjQgLURf
-TEFSR0VGSUxFX1NPVVJDRSAtV3N0cmljdC1wcm90b3R5cGVzIC1XcmVkdW5kYW50LWRlY2xzIC1X
-YWxsIC1XdW5kZWYgLVd3cml0ZS1zdHJpbmdzIC1XbWlzc2luZy1wcm90b3R5cGVzIC1mbm8tc3Ry
-aWN0LWFsaWFzaW5nIC1mbm8tY29tbW9uIC1md3JhcHYgLXN0ZD1nbnU5OSAtYyAtbyBjb25maWct
-dGVtcC9xZW11LWNvbmYubyBjb25maWctdGVtcC9xZW11LWNvbmYuYwpjb25maWctdGVtcC9xZW11
-LWNvbmYuYzoyOjI6IGVycm9yOiBfX0lMUDMyX18gbm90IGRlZmluZWQKI2Vycm9yIF9fSUxQMzJf
-XyBub3QgZGVmaW5lZAogXgoxIGVycm9yIGdlbmVyYXRlZC4KCgpUaGUgZnVsbCBsb2cgaXMgYXZh
-aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzE1NjAxNjUzMDEtMzkwMjYtMS1naXQt
-c2VuZC1lbWFpbC1wYm9uemluaUByZWRoYXQuY29tL3Rlc3RpbmcuYXNhbi8/dHlwZT1tZXNzYWdl
-LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
-YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
-cmVkaGF0LmNvbQ==
+On Fri, 7 Jun 2019 at 22:16, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit 185b7ccc11354cbd69b6d53bf8d831dd964f6c=
+88:
+>
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190607-2' int=
+o staging (2019-06-07 15:24:13 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/python-next-pull-request
+>
+> for you to fetch changes up to 8297719709f1339506d6da93ec69e6118ace8676:
+>
+>   travis: Make check-acceptance job more verbose (2019-06-07 18:11:02 -03=
+00)
+>
+> ----------------------------------------------------------------
+> Python queue, 2019-06-07
+>
+> * New boot_linux_console test cases (Philippe Mathieu-Daud=C3=A9)
+> * Deprecate Python 2 support (Eduardo Habkost)
+> * Require python3 >=3D 3.5 (Eduardo Habkost)
+> * Make check-acceptance Travis job more verbose (Eduardo Habkost)
+>
+> ----------------------------------------------------------------
 
+Hi. This fails to build on one of my buildtest machines:
+
+ERROR: Cannot use 'python3', Python 2 >=3D 2.7 or Python 3 >=3D 3.5 is requ=
+ired.
+       Use --python=3D/path/to/python to specify a supported Python.
+
+The machine has python 2.7.6 and 3.4.3. (It's an Ubuntu trusty
+box; it's one of the gcc compile farm machines so upgrades to its
+OS are not really under my control.)
+
+The configure check also spits out deprecation warnings for
+the NetBSD/FreeBSD/OpenBSD tests/vm configurations. It would be nice
+to get those updated.
+
+thanks
+-- PMM
 
