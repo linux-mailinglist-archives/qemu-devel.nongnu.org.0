@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906903B73E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:24:37 +0200 (CEST)
-Received: from localhost ([::1]:47102 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45463B38B
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 12:56:56 +0200 (CEST)
+Received: from localhost ([::1]:44274 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haLDw-0003Mi-QE
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:24:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60940)
+	id 1haHyx-0000JM-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 06:56:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37085)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <nisarg.ujjainkar@iitgn.ac.in>) id 1haHk4-0002i4-Gx
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 06:41:33 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1haHvV-0006LZ-7Z
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 06:53:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nisarg.ujjainkar@iitgn.ac.in>) id 1haHk3-0005sZ-E0
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 06:41:32 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:42194)
+ (envelope-from <peter.maydell@linaro.org>) id 1haHvU-0007pd-1m
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 06:53:21 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:35590)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nisarg.ujjainkar@iitgn.ac.in>)
- id 1haHk2-0005p2-Qd
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 06:41:31 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id y13so6240440lfh.9
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 03:41:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=iitgn-ac-in.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:date:message-id:subject:to;
- bh=Zm6ePcnzwkL9llB0BHCFKwSrWsmTTTt+qOFP2MdRW3c=;
- b=kKfNQvx0s/akOViGSAb/r1GnP27BwMOPqVCW+WLT3rkXpfQtYCsb/5zBWJZM9pjTMq
- Z9ETi+GUXwqfNKwPriBKd/JMdG3EIPDxZibMV6Hg6X2qwSrYHjyJDJ1KlP7dtc2VBlHT
- ReIu7xWiZ/Ltb0wmOPh6wc5x82k/0gsxQNwpaMrkiCdmgM4Qf7xLxsG3hV9eHcNb45jY
- j2+YA1/A6lOSfd1Xq7Xh6bpvU2oNke7SufnFcIz0FyHeZ8wmGepTMwUSD7F920P15eF4
- gS60jooFkxJa7LgIpi0AYrfMaXCFKL48011yAtZvnpGF3V4dBVLOT5Z2xoVsA7suvM9f
- Em2Q==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1haHvT-0007mU-PK
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 06:53:19 -0400
+Received: by mail-oi1-x233.google.com with SMTP id y6so5903463oix.2
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 03:53:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=C28I/h3Ux2Z1jb/k2a67OQHmiH1emte0mgTCdVs4or8=;
+ b=jyqBsTUAOU4f4KuYHREwV7CeXaVWKi2iNnwfu/31KP1r/mjMZtk3/HxNgIJo2kUczF
+ VrWbBfxcA0L7YfwU4mNzXLq6g/gZF4lqivl4ACTLhHIAzyeRd5BOrmkxu1+EjcQ4ECId
+ koJfd4vmQYhcO812DJnN7L/rhqVsvfv/3yfAiecglNBfh8qJLEHWt8uq66wXoIOOyDKh
+ +Qua1WUjzUuAYWXyNKc+Vc//1W2JQeVvyV4x5EML0p4mZs9FKCgG4E5RTwoLKo4VhJTp
+ kWcD4dWnJ/rQKJhbBgwLWyatUqk/DS5JXkrBSzaYd8vFWxNMCEkKhAZHpL/jRlwHD894
+ VBNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=Zm6ePcnzwkL9llB0BHCFKwSrWsmTTTt+qOFP2MdRW3c=;
- b=jSylXfKI4vVmXK4CYvvXgygjjgeIcR8gbhaWYIQXmDFq0Rv0RUi4G3sUoohSQSCivu
- nlXYIs2K8wER+JyFPJUr5XbNvFbvTcHgKHaxB3aNekX8m9y3Urh9HYbvkgnTK2U9zO2E
- yvrJYdL5C2MXfU32bzk5ecmpIxT8XI4TQRYnEjn5IDHs2Ubwba+yjNTq6WSYpYjKDytR
- srI7XrUYIKf9xNalGT3xTk+IBZXamy3IZKCvsGveWgR1d+CWlOIE+TsqRj/dOK4tdgM2
- 93/mz8Z22+tppoLX+Kki3jSYbJ/zrWRQcAHAPwnBkQYO7QfnDjZUu3sggyXfYCY/uM7v
- ZPBg==
-X-Gm-Message-State: APjAAAXgp5IGzNW7YBNfQ3R6r+t7swU3gnbh4fD9hF+1I1Q5Mpka9TCP
- xR9cOGB80sUwqile//qnIHgKqq52p1yplM+ZIgs14rn2YdM=
-X-Google-Smtp-Source: APXvYqxLZxqQjUiywgwz915cyt6rRQ6UFmuE6IByUJwvMpRLCGuEZUEKksQYXvakK+6InFTrmRg/kKdyy33QV112uXM=
-X-Received: by 2002:a19:6519:: with SMTP id z25mr33777240lfb.73.1560163288427; 
- Mon, 10 Jun 2019 03:41:28 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C28I/h3Ux2Z1jb/k2a67OQHmiH1emte0mgTCdVs4or8=;
+ b=Pj3Nj55WiRjfKrVJoz+hc4bE+MKdntdV6+wJwgU8wGCqrb7dF1h3r0EF2GN21G7Ylu
+ uc1hamHc8zMG14KnpOmHn6myHjkCUFXS/8jpUkDsJ9GRUJSaq5MMl2XRgo1RH9Zuv13Q
+ fJ5NekJQpAwpMpuJxRa0dx74AQStjXfJYstpx52nK8S1z9PC98X6RF8VwrXby9031Yba
+ AGzB3MmzX7W02qoIkbC9yWBjb1VS+QXX3yOjvWwMhxhqnD02VFoHSCeIf4i5poMFRnzm
+ AbcOvzpNkVkI7gPeNaGmX9eGkvFZwGlju5eyzY/+S2WkDg7fP3RbHMpLQiRWQbVnpmf2
+ Xs0Q==
+X-Gm-Message-State: APjAAAU7lKBZcWv7zIJro57qwpYV9hQaU2WUt5GzAWCyMHxyK+Cv4Eor
+ CHBn7fB4mFZXuGteeP/ddku5/rYX7iCoD4q2F99MrQ==
+X-Google-Smtp-Source: APXvYqy8hAnASETyfrHO66IaUwlzD1C4GKnxOVd2GvhVKt92byP7f/KFwXGkn7EZ6sI6DMNb446qxwLsAUBhxINxn3U=
+X-Received: by 2002:aca:ac48:: with SMTP id v69mr11228098oie.48.1560163998160; 
+ Mon, 10 Jun 2019 03:53:18 -0700 (PDT)
 MIME-Version: 1.0
-From: Nisarg Ujjainkar <nisarg.ujjainkar@iitgn.ac.in>
-Date: Mon, 10 Jun 2019 16:10:51 +0530
-Message-ID: <CAA2c-Xp3dAfrNV41UL=Jg--MuE3Nmsc=ZNE7JkMpJL8m6FVRJQ@mail.gmail.com>
-To: qemu-devel@nongnu.org
+References: <20190607183228.22454-1-ehabkost@redhat.com>
+In-Reply-To: <20190607183228.22454-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Jun 2019 11:53:07 +0100
+Message-ID: <CAFEAcA8WjX3oGqx-oBhkXewNyPw6o-c5_W+MfYb+EpvQB+AVbQ@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::12f
-X-Mailman-Approved-At: Mon, 10 Jun 2019 10:07:59 -0400
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] Need help generating instruction traces from the
- emulator.
+X-Received-From: 2607:f8b0:4864:20::233
+Subject: Re: [Qemu-devel] [PULL 0/2] Machine Core queue, 2019-06-07
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,31 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Fri, 7 Jun 2019 at 19:32, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit 185b7ccc11354cbd69b6d53bf8d831dd964f6c88:
+>
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190607-2' into staging (2019-06-07 15:24:13 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+>
+> for you to fetch changes up to 754f1dbcf1d4d543167e3212366055761c30bcf4:
+>
+>   accel: Remove unused AccelClass::opt_name attribute (2019-06-07 15:28:46 -0300)
+>
+> ----------------------------------------------------------------
+> Machine Core queue, 2019-06-07
+>
+> * Improve CPU hotplug error message
+>   (Laurent Vivier)
+> * Remove unused AccelClass::opt_name field
+>   (Wainer dos Santos Moschetta)
+>
+> ----------------------------------------------------------------
 
-I am using qemu based aosp (emu-master-dev branch of the aosp) to generate
-the instruction traces for android os running on the ARM architecture.
 
-I am able to generate the CPU instruction using the qemu invocation
-<https://en.m.wikibooks.org/wiki/QEMU/Invocation#Debugging> flags. For the
-purpose of my study, I need all the memory requests from all the IPs and so
-far I only have the memory requests from the CPU.
+Applied, thanks.
 
-Can tell me about how to generate the traces from all other IPs (GPU, GSM
-chip etc.). Since memory requests from other IPs account for more than 30%
-of all the memory requests from the SoC (Source unconfirmed). Getting
-memory requests from these IPs is very crucial for my research.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-Thanks and regards
-Nisarg Ujjainkar
+-- PMM
 
---=20
-Nisarg Ujjainkar
-Junior Undergraduate Student
-Department of Computer Science and Engineering
-IIT Gandhinagar
-+91 9265555488 \ 9425665211
-=E1=90=A7
