@@ -2,37 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD3D3B7A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:44:11 +0200 (CEST)
-Received: from localhost ([::1]:47292 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445A43B797
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:41:12 +0200 (CEST)
+Received: from localhost ([::1]:47238 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haLWs-0002nh-F4
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:44:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34864)
+	id 1haLTy-0007Mn-RL
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:41:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34583)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1haLRO-0005ow-Ch
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:38:31 -0400
+ (envelope-from <eblake@redhat.com>) id 1haLR3-0005fK-1Y
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:38:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1haLGt-0005d4-98
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:27:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59572)
+ (envelope-from <eblake@redhat.com>) id 1haLMt-0001mw-UF
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:33:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54946)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1haLGt-0005cQ-0Q
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:27:39 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1haLMs-0001kr-Ig; Mon, 10 Jun 2019 10:33:50 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DB2D2C05681F;
- Mon, 10 Jun 2019 14:27:24 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CAFA581E00;
+ Mon, 10 Jun 2019 14:33:39 +0000 (UTC)
 Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B28E60BF3;
- Mon, 10 Jun 2019 14:27:23 +0000 (UTC)
-To: Wei Yang <richardw.yang@linux.intel.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20190515121544.4597-1-quintela@redhat.com>
- <20190520063525.GA6718@richard>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 262331001B36;
+ Mon, 10 Jun 2019 14:33:36 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20190411172709.205032-1-vsementsov@virtuozzo.com>
+ <20190411172709.205032-7-vsementsov@virtuozzo.com>
+ <0b64cff5-33fa-0945-504c-b1bdd004c42a@redhat.com>
+ <76780fdb-4c00-a8bd-4323-15bdd403fbaf@virtuozzo.com>
+ <46bd12f6-8df7-ed2d-b85a-cd621c146e27@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -59,21 +63,21 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <8591b552-6dc5-d466-54b7-881acd75db8d@redhat.com>
-Date: Mon, 10 Jun 2019 09:27:22 -0500
+Message-ID: <a0e798ec-9463-90c4-e4c5-fc8e2e61e9f3@redhat.com>
+Date: Mon, 10 Jun 2019 09:33:34 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190520063525.GA6718@richard>
+In-Reply-To: <46bd12f6-8df7-ed2d-b85a-cd621c146e27@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="qArHv2XjQ7HHo77QrJ5kjZrP7MYdhgL0G"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+ boundary="M3V9pZgpXymkxw1KDKsYFLi2Wgv2RfFNI"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Mon, 10 Jun 2019 14:27:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Mon, 10 Jun 2019 14:33:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 0/8] WIP: Multifd compression support
+Subject: Re: [Qemu-devel] [PATCH v6 6/7] block/nbd-client: nbd reconnect
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,61 +89,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---qArHv2XjQ7HHo77QrJ5kjZrP7MYdhgL0G
-Content-Type: multipart/mixed; boundary="bsYhw0D0crVqycXsDvAaOoyB4DPA8DyWn";
+--M3V9pZgpXymkxw1KDKsYFLi2Wgv2RfFNI
+Content-Type: multipart/mixed; boundary="7fHykIZHw6DTxfQW9cNmy6UI0Lpsp2IpG";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>,
- Juan Quintela <quintela@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Message-ID: <8591b552-6dc5-d466-54b7-881acd75db8d@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v3 0/8] WIP: Multifd compression support
-References: <20190515121544.4597-1-quintela@redhat.com>
- <20190520063525.GA6718@richard>
-In-Reply-To: <20190520063525.GA6718@richard>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "armbru@redhat.com" <armbru@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>, "kwolf@redhat.com"
+ <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>
+Message-ID: <a0e798ec-9463-90c4-e4c5-fc8e2e61e9f3@redhat.com>
+Subject: Re: [PATCH v6 6/7] block/nbd-client: nbd reconnect
+References: <20190411172709.205032-1-vsementsov@virtuozzo.com>
+ <20190411172709.205032-7-vsementsov@virtuozzo.com>
+ <0b64cff5-33fa-0945-504c-b1bdd004c42a@redhat.com>
+ <76780fdb-4c00-a8bd-4323-15bdd403fbaf@virtuozzo.com>
+ <46bd12f6-8df7-ed2d-b85a-cd621c146e27@virtuozzo.com>
+In-Reply-To: <46bd12f6-8df7-ed2d-b85a-cd621c146e27@virtuozzo.com>
 
---bsYhw0D0crVqycXsDvAaOoyB4DPA8DyWn
+--7fHykIZHw6DTxfQW9cNmy6UI0Lpsp2IpG
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 5/20/19 1:35 AM, Wei Yang wrote:
-> On Wed, May 15, 2019 at 02:15:36PM +0200, Juan Quintela wrote:
->> v3:
->> - improve the code
->> - address David and Markus comments
->> - make compression code into methods
->>  so we can add any other method ading just three functions
->>
->> Please review, as far as I know everything is ok now.
->>
->> Todo: Add zstd support
->=20
-> Confusion here. It is zstd or sztd?
->=20
-> BTW, I am not sure what it is :-)
->=20
->>
->> v2:
->> - improve the code left and right
->> - Split better the zlib code
->> - rename everything to v4.1
->> - Add tests for multifd-compress zlib
->> - Parameter is now an enum (soon will see sztd)
->                                            ^^^
+On 6/10/19 8:29 AM, Vladimir Sementsov-Ogievskiy wrote:
 
-zstd is the name of the new compression algorithm.
+>> Hmm, and then, include it into BDRVNBDState? I don't remember why didn=
+'t do
+>> it, and now I don't see any reason for it. We store this information a=
+nyway
+>> for the whole life of the driver..
+>>
+>> So, if I'm going to refactor it, I have a question: is there a reason =
+for
+>> layered BDRVNBDState:
+>>
+>> typedef struct BDRVNBDState {
+>>  =C2=A0=C2=A0=C2=A0 NBDClientSession client;
+>>
+>>  =C2=A0=C2=A0=C2=A0 /* For nbd_refresh_filename() */
+>>  =C2=A0=C2=A0=C2=A0 SocketAddress *saddr;
+>>  =C2=A0=C2=A0=C2=A0 char *export, *tlscredsid;
+>> } BDRVNBDState;
+>>
+>> and use nbd_get_client_session everywhere instead of simple converting=
+ void *opaque
+>> to State pointer like in qcow2 for example?
+>>
+>> The only reason I can imagine is not to share the whole BDRVNBDState, =
+and keep
+>> things we are using only in nbd.c to be available only in nbd.c.. But =
+I've put
+>> saddr and export to NBDConnection to be used in nbd-client.c anyway. S=
+o, I think
+>> it's a good moment to flatten and share BDRVNBDState and drop nbd_get_=
+client_session.
+>>
+>=20
+> And if we are here, what is exact purpose of splitting  nbd-client.c fr=
+om nbd.c?
+
+I see no strong reasons to keep the separation. If a single large file
+is easier to maintain than an arbitrary split between two files, I'm
+open to the idea of a patch that undoes the split.
+
+
+> or need of defining driver callbacks in header file, instead of keeping=
+ them together
+> with driver struct definition and static (like other block drivers)...
+>=20
+>=20
+> And names of these two files always confused me.. nbd.c is nbd client b=
+lock driver, and
+> driver is defined here.. But we have nbd-client.c which defines nbd cli=
+ent driver too.
+> And we also have nbd/client.c (OK, this split I understand of course, b=
+ut it increases
+> confusion anyway).
+
+I'm also toying with the idea of writing block/nbd.c to utilize the
+relatively-new libnbd library, to see if there are any differences in
+behavior by offloading NBD access to a 3rd-party library.  But that's
+further down the road.
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -147,24 +188,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---bsYhw0D0crVqycXsDvAaOoyB4DPA8DyWn--
+--7fHykIZHw6DTxfQW9cNmy6UI0Lpsp2IpG--
 
---qArHv2XjQ7HHo77QrJ5kjZrP7MYdhgL0G
+--M3V9pZgpXymkxw1KDKsYFLi2Wgv2RfFNI
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz+aMoACgkQp6FrSiUn
-Q2oPgwf8DlFmMh8bCmPPIEMV2cNBMCCTAmCN3sWlz9UzLIOhmLxeNfdoTgnhGdQf
-oIYvX5k5oNguqC4ewISmFDipdYrXS7ZGFAXiDJ1IbaxSWOuyGsIQkl+KXXCboxEo
-i2GlyulC3y5S7mZzjYVFoUkWC7sRicogpoeOXTNpK1Km381I6zWPuLgvynEi/9db
-Y5AfINWA1PfvoWsGK5T2OYXzOI5XyWlBwGO1hMBSeCnPGz/ZEInijubQGGA/84GE
-Cc344RShsD1xzYZZUDakR46lh+PeGEe0qkLQvBoynhFnOigR+eQD9O0HEC4R+vq4
-chdk+PLy+2ovv/zSTtx4pc9073JjMg==
-=aQDi
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz+aj4ACgkQp6FrSiUn
+Q2rRSwf/WKHDc3M6I1uD7iAqTIc4aPqp3STYEIWEggcqUOilhLJ4Y1ToGQIIh9cM
+3c8MEr+AHu2LWo90Gw5inCBRE76q/IweWzDjboAxfgMZR10pHHWyqEnzE0RuJV1l
+REs0zRW4ZjVSMO4lKtVpGcqVThKh9hcGXXq3OGr29rxG0CPOdac92RU1Wfw3E2UJ
+9hnYL0+fWa8PX5TMWz7VhlAbUZA1e4hsTNp6vVazLYqb2nN9QbTBFSPyr5OiEyQV
+DqBYyyYZ3IYxofXGauJClptgxjeXn09Bj0CD3wAFlmBq6vaVw3citurGDCxojS+S
+l97DWf1i/ndNvWt+gmZNg69C31nGmQ==
+=BdHz
 -----END PGP SIGNATURE-----
 
---qArHv2XjQ7HHo77QrJ5kjZrP7MYdhgL0G--
+--M3V9pZgpXymkxw1KDKsYFLi2Wgv2RfFNI--
 
