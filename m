@@ -2,54 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF69E3BB22
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 19:40:04 +0200 (CEST)
-Received: from localhost ([::1]:48606 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42293BB29
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 19:41:33 +0200 (CEST)
+Received: from localhost ([::1]:48614 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haOH5-0002X3-R5
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 13:40:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57317)
+	id 1haOIW-0003oj-TG
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 13:41:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57726)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1haOFP-000244-S2
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:38:22 -0400
+ (envelope-from <berrange@redhat.com>) id 1haOHg-0003Fq-3v
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:40:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1haOFO-0000K9-Pk
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:38:19 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:38421)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1haOFO-0000Hl-K6
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:38:18 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id d17so9108682oth.5
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 10:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/m1tlCfW0oLJeUKahc4RitnMKgo8T10ODFg3BRHMkWc=;
- b=fvKqdGvmDyuILYrdt4lOzixOOu/mMf5gTqGxrTwv7P09Q051zXvZVqRmXJH0zl63a1
- 6GZ7vhty+uX0SPUfM2qOM9mQuuee89kE3BP/LcaVBw2/j+VxupVlMX/P7q32SIveLQid
- e6Ch+7ZUcVyKGAg2PVpXtmhYUIogu20jq+mVc+fy8TvntzYugYQnAwlhB9LXsyS9Cn5g
- ON3ml7d9xvUpKezyQs2ZOU8n3DbG8WBhn9L+SqwrSFXqazrHvSOv+6+hLN1AMqxCjXSh
- 8zvEFe9hJWotOuo7WJ/mba6fPZT9fd1XAioUwKLqcsk3YtACKDO3Mwt8JzNtdSDCz3ay
- vq2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/m1tlCfW0oLJeUKahc4RitnMKgo8T10ODFg3BRHMkWc=;
- b=ugMsK34z9sHyTdBEmO4ONoHcrLEkCfoGhK1mG2pUXO+6AkzBYes1lj6jItzR8nEK5i
- oODZnI2h4xqtZDekx2bZ/HGmUOrWvBHXvW9+TYMvYhy0tr1d4HYr42/OimoEYbyZTTSv
- P5AEXI82XI5xbIeNqdgfF2xmqQCnkeG+UpMbh6KDtHzJbR0lCtUZ0seWl9CS5R8HK30x
- jyOJO0Nx1OEsQIkRGk7gucjTHStJnRr5jrq4DP94G80RQ9+C0W4UO2MHb/HqEpfLQ0wp
- NDv2o8p52wW71eefczwXabUaKA8orE5N7hy6d5+AW4Wf8thKu8pXei1uhHZOVxCWpkWV
- EMnA==
-X-Gm-Message-State: APjAAAWinev7KNIptNTBVwl6i1E3TR1rVuYIBb8vEPME/4Tizl8mXQzh
- lFReGDRy1uasSve9w8srsZEhTu/+6MzSJSdfQPvUZw==
-X-Google-Smtp-Source: APXvYqwDarnAH9d2DVsQ8YJ1CcEspbVJHhH+Z353uVDd4Ixl7BKjm9BRWd1TB8+Nky86GJzC4yyNsp8Smwbmw6iyWMI=
-X-Received: by 2002:a9d:711e:: with SMTP id n30mr12626864otj.97.1560188296656; 
- Mon, 10 Jun 2019 10:38:16 -0700 (PDT)
-MIME-Version: 1.0
+ (envelope-from <berrange@redhat.com>) id 1haOHe-000297-Sc
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:40:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39216)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1haOHe-00026s-Lf
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:40:38 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CDDBA75726;
+ Mon, 10 Jun 2019 17:40:22 +0000 (UTC)
+Received: from redhat.com (ovpn-112-50.ams2.redhat.com [10.36.112.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 632CA1001B30;
+ Mon, 10 Jun 2019 17:40:21 +0000 (UTC)
+Date: Mon, 10 Jun 2019 18:40:18 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190610174018.GM7809@redhat.com>
 References: <20190607211544.7964-1-ehabkost@redhat.com>
  <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
  <20190610131105.GJ22416@habkost.net>
@@ -57,16 +40,18 @@ References: <20190607211544.7964-1-ehabkost@redhat.com>
  <20190610171213.GK7809@redhat.com>
  <CAFEAcA8L7dFfwi84_wLwEV1xYyyAbf31WxiqCf_z_m8p0SAhhg@mail.gmail.com>
  <20190610173000.GL7809@redhat.com>
-In-Reply-To: <20190610173000.GL7809@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Jun 2019 18:38:05 +0100
-Message-ID: <CAFEAcA-L_OfUyP9NMOZbpaKst+3Q2PBCc8=+3ErMRVLNaTASfg@mail.gmail.com>
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CAFEAcA-L_OfUyP9NMOZbpaKst+3Q2PBCc8=+3ErMRVLNaTASfg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-L_OfUyP9NMOZbpaKst+3Q2PBCc8=+3ErMRVLNaTASfg@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Mon, 10 Jun 2019 17:40:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32f
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PULL 0/8] Python queue, 2019-06-07
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,31 +64,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Cleber Rosa <crosa@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Jun 2019 at 18:30, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
-> Do you have access to any machine in the compile farm or is access
-> granted on a per-machine basis ?   If i'm reading this page right:
->
->   https://cfarm.tetaneutral.net/machines/list/
->
-> there is now one aarch64 machine (gcc117) that is running
-> Debian 9 / Stretch and another (gcc118) with OpenSUSE Leap 15.
-> In terms of OS version at least, either of those could be viable
-> for QEMU, if it is possible for you to access them.
+On Mon, Jun 10, 2019 at 06:38:05PM +0100, Peter Maydell wrote:
+> On Mon, 10 Jun 2019 at 18:30, Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+> > Do you have access to any machine in the compile farm or is access
+> > granted on a per-machine basis ?   If i'm reading this page right:
+> >
+> >   https://cfarm.tetaneutral.net/machines/list/
+> >
+> > there is now one aarch64 machine (gcc117) that is running
+> > Debian 9 / Stretch and another (gcc118) with OpenSUSE Leap 15.
+> > In terms of OS version at least, either of those could be viable
+> > for QEMU, if it is possible for you to access them.
+>=20
+> They're all available, but those machines have less RAM and
+> fewer CPUs; I think the A1100 is also not as powerful as the X-Gene.
+> I'm pretty sure Linaro has access to something better than that,
+> but it will take me a bit to find out and set up to use it.
+> (I do actually have a Mustang board myself but it's running
+> the aarch32 builds and I'd prefer not to make it also do the
+> aarch64 builds at the same time.)
 
-They're all available, but those machines have less RAM and
-fewer CPUs; I think the A1100 is also not as powerful as the X-Gene.
-I'm pretty sure Linaro has access to something better than that,
-but it will take me a bit to find out and set up to use it.
-(I do actually have a Mustang board myself but it's running
-the aarch32 builds and I'd prefer not to make it also do the
-aarch64 builds at the same time.)
+Ok, thanks for the explanation.
 
-thanks
--- PMM
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
