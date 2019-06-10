@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABE63BE87
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 23:24:53 +0200 (CEST)
-Received: from localhost ([::1]:49740 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3963BCD6
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 21:29:47 +0200 (CEST)
+Received: from localhost ([::1]:49212 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haRme-0001e6-5T
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 17:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54913)
+	id 1haPzF-00015M-JC
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 15:29:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55336)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ali.mezgani@gmail.com>) id 1haPwr-00080v-EA
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:27:20 -0400
+ (envelope-from <msnitzer@redhat.com>) id 1haPyd-0000fa-EV
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:29:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ali.mezgani@gmail.com>) id 1haPwq-0005J4-Bv
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:27:17 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37970)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ali.mezgani@gmail.com>)
- id 1haPwl-0005Dx-8j; Mon, 10 Jun 2019 15:27:12 -0400
-Received: by mail-wm1-x344.google.com with SMTP id s15so456953wmj.3;
- Mon, 10 Jun 2019 12:27:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:subject:message-id:references:from:to:cc:mime-version
- :content-transfer-encoding;
- bh=OfbsNFVwuZJcrP6HY83smkRTXaZ90KkPSNbUmAkVhYU=;
- b=o02vdxRLqV0x2TL0X9wjPfitgiU+GqQIAirNhHRAP0CpcCNvL0RpV/7ol1JVYOS+KI
- 6mKzjSzVgxPDAWuM6OmKfsKCt8/rdt1FaTFZwq7iSfeWkk1riI6wp2/4uoa1XcGqbfPj
- pBX9A3XH1coDj06At5RTQBqCGS1hoh+JyRzrlsz2SNjE/J75dW2kGtSPJTAoXZGyIkB/
- F9Z4I7XUWw5Gh8FD0/YB5T2P1I5E4JVWvDTYCoKJoXlCZFvuMOWmFi8DfFuXH+2bpuTt
- 0r4qZOpja0WXmhIXMrNRXDZ4P3yobvLI5o70y2MNoOS/8rF3UNoluVnN+lU0oslsoKp0
- sREA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:message-id:references:from:to:cc
- :mime-version:content-transfer-encoding;
- bh=OfbsNFVwuZJcrP6HY83smkRTXaZ90KkPSNbUmAkVhYU=;
- b=VAUB2kUUppwIw4SYlVQDcVxt9UD/WzaTE6F8fLESMDMJ5ZtvbtRc6QEXjhPN579s5Q
- l96ZdJO95bMZkLMAOGkBq5oM7281Uce2EL3rpIipEbCdFrOwy5IELwbOUI+7y5aLVYVL
- FqS8LWFoVTVlcwov8cIyMB09VZlE5v9N0Os7KirRUAU6U8z42ChFZOF/6FHTSdF5ZlMz
- KjETrdTnYT+nb/Yrs/21Ac6KzAyHHOKQjoZa2kHWYkj13FKIrL8Xj4aw/MIyS67pz9iY
- OUCeLHA7ejVKD2rgeNtZOQp7nKddQiZYGScnj2SuTLDfNhdVhUkJlGfjdkcCOXNcTmfM
- DW+g==
-X-Gm-Message-State: APjAAAXSmbH6Y7M1FctkqS3lU5IEM681+ANxLJJHvrztkXxHQmTz2oFd
- 2VF00ntm7QsiorMWXWbQfmU=
-X-Google-Smtp-Source: APXvYqx7T22ARwou+/g2DEP9+q6Qz0p5SkDXHqyEvLGWpW6k0m88TXN6E6YHnGlowTnYsU6EpJJdCQ==
-X-Received: by 2002:a1c:c915:: with SMTP id f21mr13625368wmb.123.1560194828485; 
- Mon, 10 Jun 2019 12:27:08 -0700 (PDT)
-Received: from [192.168.1.220] ([41.250.232.80])
- by smtp.gmail.com with ESMTPSA id 88sm19573484wrl.68.2019.06.10.12.27.03
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 Jun 2019 12:27:07 -0700 (PDT)
-Date: Mon, 10 Jun 2019 20:27:01 +0100
-X-Priority: 3
-Message-ID: <-2xywm9-ifb5yxlyz8y68ukj0nxy24qv-dgwbua-uu49fa-7xmm95-lpocej7h67y1tkkit4-31nus5-2bayju4z2jwk-kie60g-zanq099a87cdol5jfg-f5bb5a-yxekc0-x2g2ruj2xqm3-y3jyo2-un0xhw.1560194821347@email.android.com>
-References: <20190606174609.20487-1-peter.maydell@linaro.org>
- <20190606174609.20487-29-peter.maydell@linaro.org>
- <da80c3ea-5a33-e7e0-209e-89a8413c8f06@linaro.org>
- <CAFEAcA8etr7_rmQsQcUY+cPHZEZna-An+r5TPJtMb4OQO-6Dsg@mail.gmail.com>
- <b9ac8354-6bb2-0080-f597-706b4b94009d@linaro.org>
-From: Ali Mezgani <ali.mezgani@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
- <peter.maydell@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-X-Mailman-Approved-At: Mon, 10 Jun 2019 17:22:15 -0400
+ (envelope-from <msnitzer@redhat.com>) id 1haPyb-0006Xa-B1
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:29:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48026)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <msnitzer@redhat.com>) id 1haPyZ-0006QR-7X
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:29:03 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D9FFB120D7;
+ Mon, 10 Jun 2019 19:28:23 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A734160C47;
+ Mon, 10 Jun 2019 19:28:04 +0000 (UTC)
+Date: Mon, 10 Jun 2019 15:28:03 -0400
+From: Mike Snitzer <snitzer@redhat.com>
+To: Pankaj Gupta <pagupta@redhat.com>
+Message-ID: <20190610192803.GA29002@redhat.com>
+References: <20190610090730.8589-1-pagupta@redhat.com>
+ <20190610090730.8589-5-pagupta@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH 28/42] target/arm: Convert VMOV
- (imm) to decodetree
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190610090730.8589-5-pagupta@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Mon, 10 Jun 2019 19:28:48 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v11 4/7] dm: enable synchronous dax
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,7 +57,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: cohuck@redhat.com, jack@suse.cz, kvm@vger.kernel.org, mst@redhat.com,
+ jasowang@redhat.com, david@fromorbit.com, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org, dm-devel@redhat.com,
+ adilger.kernel@dilger.ca, zwisler@kernel.org, aarcange@redhat.com,
+ dave.jiang@intel.com, jstaron@google.com, linux-nvdimm@lists.01.org,
+ vishal.l.verma@intel.com, david@redhat.com, willy@infradead.org,
+ hch@infradead.org, linux-acpi@vger.kernel.org, jmoyer@redhat.com,
+ linux-ext4@vger.kernel.org, lenb@kernel.org, kilobyte@angband.pl,
+ rdunlap@infradead.org, riel@surriel.com, yuval.shaia@oracle.com,
+ stefanha@redhat.com, pbonzini@redhat.com, dan.j.williams@intel.com,
+ lcapitulino@redhat.com, kwolf@redhat.com, nilal@redhat.com, tytso@mit.edu,
+ xiaoguangrong.eric@gmail.com, darrick.wong@oracle.com, rjw@rjwysocki.net,
+ linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+On Mon, Jun 10 2019 at  5:07am -0400,
+Pankaj Gupta <pagupta@redhat.com> wrote:
+
+>  This patch sets dax device 'DAXDEV_SYNC' flag if all the target
+>  devices of device mapper support synchrononous DAX. If device
+>  mapper consists of both synchronous and asynchronous dax devices,
+>  we don't set 'DAXDEV_SYNC' flag.
+> 
+> Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> ---
+>  drivers/md/dm-table.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
+> index 350cf0451456..c5160d846fe6 100644
+> --- a/drivers/md/dm-table.c
+> +++ b/drivers/md/dm-table.c
+> @@ -890,10 +890,17 @@ static int device_supports_dax(struct dm_target *ti, struct dm_dev *dev,
+>  			start, len);
+>  }
+>  
+> +static int device_synchronous(struct dm_target *ti, struct dm_dev *dev,
+> +				       sector_t start, sector_t len, void *data)
+> +{
+> +	return dax_synchronous(dev->dax_dev);
+> +}
+> +
+>  bool dm_table_supports_dax(struct dm_table *t, int blocksize)
+>  {
+>  	struct dm_target *ti;
+>  	unsigned i;
+> +	bool dax_sync = true;
+>  
+>  	/* Ensure that all targets support DAX. */
+>  	for (i = 0; i < dm_table_get_num_targets(t); i++) {
+> @@ -906,7 +913,14 @@ bool dm_table_supports_dax(struct dm_table *t, int blocksize)
+>  		    !ti->type->iterate_devices(ti, device_supports_dax,
+>  			    &blocksize))
+>  			return false;
+> +
+> +		/* Check devices support synchronous DAX */
+> +		if (dax_sync &&
+> +		    !ti->type->iterate_devices(ti, device_synchronous, NULL))
+> +			dax_sync = false;
+>  	}
+> +	if (dax_sync)
+> +		set_dax_synchronous(t->md->dax_dev);
+>  
+>  	return true;
+>  }
+> -- 
+> 2.20.1
+> 
+
+dm_table_supports_dax() is called multiple times (from
+dm_table_set_restrictions and dm_table_determine_type).  It is strange
+to have a getter have a side-effect of being a setter too.  Overloading
+like this could get you in trouble in the future.
+
+Are you certain this is what you want?
+
+Or would it be better to refactor dm_table_supports_dax() to take an
+iterate_devices_fn arg and have callers pass the appropriate function?
+Then have dm_table_set_restrictions() caller do:
+
+     if (dm_table_supports_dax(t, device_synchronous, NULL))
+     	  set_dax_synchronous(t->md->dax_dev);
+
+(NULL arg implies dm_table_supports_dax() refactoring would take a int
+*data pointer rather than int type).
+
+Mike
 
