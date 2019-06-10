@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049413BA0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 18:53:17 +0200 (CEST)
-Received: from localhost ([::1]:48396 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5893BA3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 18:58:59 +0200 (CEST)
+Received: from localhost ([::1]:48428 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haNXo-0002yp-7Q
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 12:53:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
+	id 1haNdK-0005cd-IR
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 12:58:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47824)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1haNVk-0001lu-65
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 12:51:09 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1haNcU-0004yG-5X
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 12:58:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1haNVi-0000bt-9s
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 12:51:08 -0400
-Received: from 3.mo68.mail-out.ovh.net ([46.105.58.60]:54459)
+ (envelope-from <ehabkost@redhat.com>) id 1haNcT-00065g-6C
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 12:58:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51920)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1haNVg-0000O4-7D
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 12:51:06 -0400
-Received: from player778.ha.ovh.net (unknown [10.109.146.132])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id 9A00A131375
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 18:50:51 +0200 (CEST)
-Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
- (Authenticated sender: clg@kaod.org)
- by player778.ha.ovh.net (Postfix) with ESMTPSA id 3F9C269BC401;
- Mon, 10 Jun 2019 16:50:45 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20190610152444.20859-1-peter.maydell@linaro.org>
- <20190610152444.20859-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <a2fda64a-5e9a-4346-422d-c4f17de71cc3@kaod.org>
-Date: Mon, 10 Jun 2019 18:50:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1haNcT-00065I-0v
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 12:58:05 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E4F52368A5;
+ Mon, 10 Jun 2019 16:57:55 +0000 (UTC)
+Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DF4F1001B30;
+ Mon, 10 Jun 2019 16:57:55 +0000 (UTC)
+Date: Mon, 10 Jun 2019 13:57:53 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190610165753.GA5927@habkost.net>
+References: <20190607211544.7964-1-ehabkost@redhat.com>
+ <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
+ <20190610131105.GJ22416@habkost.net>
+ <CAFEAcA_fBBN_854PznqJUniks0uemEite8Hxcw6cwTbUSr+aVg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190610152444.20859-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 9973784327190252518
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudehvddguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_fBBN_854PznqJUniks0uemEite8Hxcw6cwTbUSr+aVg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Mon, 10 Jun 2019 16:58:04 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.58.60
-Subject: Re: [Qemu-devel] [PATCH 1/2] docs/specs/index.rst: Fix minor syntax
- issues
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] Ubuntu Trusty as supported build platform (was Re:
+ [PULL 0/8] Python queue, 2019-06-07)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,66 +59,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/06/2019 17:24, Peter Maydell wrote:
-> The docs/specs/index.rst has a couple of minor issues which
-> we didn't notice because we weren't building the manual:
->  * the ToC entry for the new PPC XIVE docs points to
->    a nonexistent file
->  * the initial comment needs to be marked by '..', not '.',
->    or it will appear in the output
->  * the title doesn't match the capitialization used by
->    the existing interop or devel manuals, and uses
->    'full-system emulation' rather than the 'system emulation'
->    that the interop manual title uses
->=20
-> Fix these minor issues before we start trying to build the manual.
+On Mon, Jun 10, 2019 at 02:21:57PM +0100, Peter Maydell wrote:
+> On Mon, 10 Jun 2019 at 14:11, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> >
+> > On Mon, Jun 10, 2019 at 01:58:50PM +0100, Peter Maydell wrote:
+> > > Hi. This fails to build on one of my buildtest machines:
+> > >
+> > > ERROR: Cannot use 'python3', Python 2 >= 2.7 or Python 3 >= 3.5 is required.
+> > >        Use --python=/path/to/python to specify a supported Python.
+> > >
+> > > The machine has python 2.7.6 and 3.4.3. (It's an Ubuntu trusty
+> > > box; it's one of the gcc compile farm machines so upgrades to its
+> > > OS are not really under my control.)
+> >
+> > Ubuntu 16.04 LTS (Xenial) was released in April 2016.  Doesn't
+> > that mean Trusty is not a supported build platform since April
+> > 2018?
+> 
+> Possibly, but as I say the gcc compile farm is what it is.
+> Regardless of the strict letter of the deprecation policy,
+> when we start running into issues with the set of build test
+> machines I tend to feel we may be being a bit over-hasty in
+> deprecating things.
 
-I only tested the pdf generation of each file with rst2pdf :/
-=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+I understand this as a request to make Trusty a supported build
+platform.  Can we please update the documentation to reflect
+that, then?
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-> ---
->  docs/specs/index.rst | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->=20
-> diff --git a/docs/specs/index.rst b/docs/specs/index.rst
-> index 2e927519c2e..40adb97c5eb 100644
-> --- a/docs/specs/index.rst
-> +++ b/docs/specs/index.rst
-> @@ -1,8 +1,8 @@
-> -. This is the top level page for the 'specs' manual
-> +.. This is the top level page for the 'specs' manual
-> =20
-> =20
-> -QEMU full-system emulation guest hardware specifications
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> +QEMU System Emulation Guest Hardware Specifications
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> =20
-> =20
->  Contents:
-> @@ -10,4 +10,5 @@ Contents:
->  .. toctree::
->     :maxdepth: 2
-> =20
-> -   xive
-> +   ppc-xive
-> +   ppc-spapr-xive
->=20
-
+-- 
+Eduardo
 
