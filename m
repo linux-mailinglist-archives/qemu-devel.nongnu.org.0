@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447873B798
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:41:28 +0200 (CEST)
-Received: from localhost ([::1]:47242 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D4C3B7AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:44:42 +0200 (CEST)
+Received: from localhost ([::1]:47324 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haLUF-0007X2-GE
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:41:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34583)
+	id 1haLXN-0003BR-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:44:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35550)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1haLR0-0005fK-Ns
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:38:07 -0400
+ (envelope-from <eblake@redhat.com>) id 1haLTB-0007R5-QK
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:40:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1haLMy-0001rd-Er
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:33:57 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:38806)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1haLMy-0001pM-3R
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:33:56 -0400
-Received: by mail-oi1-x234.google.com with SMTP id v186so6376550oie.5
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 07:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WyV7SvPdBu/PCWsfREdWW2CW3uuQ8vRJ6N3VfKz7wgs=;
- b=KmA9yJ53vV7DK8Gi6oMNwmqJljXOeYzNjaNh//TENB4IsbtV1rbvIoa1FBu4HdtWzI
- FqNUUetIFDqRzTLns9K47In3jegDtawtG/OfA4+npyX86/8yaJbrDPzq0WNKf6cNYIlc
- OWLhRPxvYB8yceQUoaBxqOgrRVb1ZDcxC1jLvUnLaY90j80Ec+SUu/nUzHcjuHXkVwn7
- P9dkIaQL2yOVIhsoep/8XlKDG/wnYJKCHy8Ouax4WycD0NGhgZlfgeHJGAtiErvlmD4i
- m2IHjJ/97qFeBDyDyFUpVnZNpF7zmvIzMgkv/B/8wHn2ONSiEfWDprzaqHh4ETEw/32B
- PxlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WyV7SvPdBu/PCWsfREdWW2CW3uuQ8vRJ6N3VfKz7wgs=;
- b=WbFOVAiQnUI2nlkICuVopx15OBmLuDDDM601IIqYkRY8PoG19VgJqUUN3xvy03pcOf
- FCpwHiV42CPsGaB9bKRpR+0o0eXVVqW7K3SLTVvPvgBsM/tHbVwUqXdrXyAgALmZhp1i
- SU8MyYWIEA12aGZmK8TWlj+WLh9/YEBrUfUtnh+dcjQmOPruhMVbpn88nttSyp0lwhqI
- Hg9mO8Sz5fUgZLOI2IRx/wxKehOt/Mqgt38phMk9BuUZTJKrCWI1uAVdKB6dEir7KqhK
- 1gEQbMguRNxvfRXJJCUWEL8DZfFuvg7QZwqRQmHvotnKn8e2bXg3uqzNY0EjZz0ECnW5
- WQyQ==
-X-Gm-Message-State: APjAAAXBYWWj+hzgzTbVAXgHuNkwtICEfykDi3EFJWz12uJ/DHHY3D2h
- yUl9qznxu0gzaA6V5m3l1H0gJ5QPG2i2UQ/YkyfniA==
-X-Google-Smtp-Source: APXvYqyfRL482HQKyeD9rBqHIhNuQYaX9N7oyFft62JcIspppqYmuaBgeN5wnKt34nMLs5flh9hjumxMfd8CIrUzNKg=
-X-Received: by 2002:aca:c786:: with SMTP id
- x128mr11828886oif.146.1560177235151; 
- Mon, 10 Jun 2019 07:33:55 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1haLTA-0006Yb-O4
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:40:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59778)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1haLTA-0006Xf-FT
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:40:20 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 303BC30C1AE8
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 14:40:17 +0000 (UTC)
+Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A8F3E5F9B7;
+ Mon, 10 Jun 2019 14:40:15 +0000 (UTC)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20190607221414.15962-1-eblake@redhat.com>
+ <20190610090811.GC7809@redhat.com>
+ <fd11c04f-c02a-8565-9f3b-e7ff83262725@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <08d5564a-0b6d-f9c6-dd30-5c2465c0f74b@redhat.com>
+Date: Mon, 10 Jun 2019 09:40:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <CAA2c-Xp3dAfrNV41UL=Jg--MuE3Nmsc=ZNE7JkMpJL8m6FVRJQ@mail.gmail.com>
-In-Reply-To: <CAA2c-Xp3dAfrNV41UL=Jg--MuE3Nmsc=ZNE7JkMpJL8m6FVRJQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Jun 2019 15:33:44 +0100
-Message-ID: <CAFEAcA9RjO_7uJAJAuSahBr2YcW1bsXHKf6Lpv=wTAndEDcVag@mail.gmail.com>
-To: Nisarg Ujjainkar <nisarg.ujjainkar@iitgn.ac.in>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::234
-Subject: Re: [Qemu-devel] Need help generating instruction traces from the
- emulator.
+In-Reply-To: <fd11c04f-c02a-8565-9f3b-e7ff83262725@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="mnfzfzWAe6aWJn67bVY1PNg0wBH8gUQDf"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Mon, 10 Jun 2019 14:40:17 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] RFC: qio: Improve corking of TLS sessions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,28 +85,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Jun 2019 at 15:24, Nisarg Ujjainkar
-<nisarg.ujjainkar@iitgn.ac.in> wrote:
->
-> Hello,
->
-> I am using qemu based aosp (emu-master-dev branch of the aosp) to generate
-> the instruction traces for android os running on the ARM architecture.
->
-> I am able to generate the CPU instruction using the qemu invocation
-> <https://en.m.wikibooks.org/wiki/QEMU/Invocation#Debugging> flags. For the
-> purpose of my study, I need all the memory requests from all the IPs and so
-> far I only have the memory requests from the CPU.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--mnfzfzWAe6aWJn67bVY1PNg0wBH8gUQDf
+Content-Type: multipart/mixed; boundary="94fmw07k9yrchn5GFO4dDRCvKY5IWRWHH";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+Message-ID: <08d5564a-0b6d-f9c6-dd30-5c2465c0f74b@redhat.com>
+Subject: Re: [PATCH] RFC: qio: Improve corking of TLS sessions
+References: <20190607221414.15962-1-eblake@redhat.com>
+ <20190610090811.GC7809@redhat.com>
+ <fd11c04f-c02a-8565-9f3b-e7ff83262725@redhat.com>
+In-Reply-To: <fd11c04f-c02a-8565-9f3b-e7ff83262725@redhat.com>
 
-This isn't supported by QEMU's logging infrastructure.
-You might be able to find places to add suitable logging,
-but you'd be looking at modifying the source code of the
-relevant devices to do that.
+--94fmw07k9yrchn5GFO4dDRCvKY5IWRWHH
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-thanks
--- PMM
+On 6/10/19 9:02 AM, Eric Blake wrote:
+
+>=20
+> send(MSG_MORE)
+> send()
+>=20
+> is ideal; under the hood, we can translate it to:
+>=20
+> send(MSG_MORE)
+>   gnutls_record_cork()
+>   gnutls_record_send()
+> send()
+>   if (size > threshold) {
+>     gnutls_record_uncork()
+>     gnutls_record_send()
+>   } else {
+>     gnutls_record_send()
+>     gnutls_record_uncork()
+>   }
+>=20
+> So we really need a way to plumb a MSG_MORE flag for senders to use,
+> when they KNOW they will be sending back-to-back pieces and where the
+> first piece is short, but it is not yet obvious whether the second piec=
+e
+> is short or long.
+
+This is what I meant to say,
+
+>=20
+> MSG_MORE was lon the next message to go through the stack, if the
+> previous message next paccork for
+
+this was an editing accident on incomplete thoughts.  But I wanted to add=
+:
+
+Setting up the ability to pass MGS_MORE through the qio stack will
+require either an update to ALL callers of qio_write to pass a flags
+argument (usually 0), or to add a set of new entry points to qio for the
+few callers that want to pass a non-zero flags argument (for now, nbd
+and sheepdog).
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--94fmw07k9yrchn5GFO4dDRCvKY5IWRWHH--
+
+--mnfzfzWAe6aWJn67bVY1PNg0wBH8gUQDf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz+a84ACgkQp6FrSiUn
+Q2pynggAmclXkI+fm/7B56qvfYNJoljtkgNgatUfc9vwaauFaU5CPNM6KNdfRDc6
+V7f/gTlSxOcytLQwoXYnIIOANJYvD47vcEaP2Cej4/C267epzaEIBv/oxuiSdHzS
+5MbDR0rhlG16Wk2xVUw8eCTbWRugVyeQUTSNxShalPhYcBKfyw0W7uaeVmAOHdgn
+kRyWTglgT7JatLM9R4FytnIjvh8nii14ODdzhJHPPLebwfNSQd73/asJMwT04XJE
+LA1otLpg579t8BQAPw5wOozPGAyrV8lb1WsPMMwZB23iErF36CzwiFLgL/RZxh5r
+Ef3Akw23mOvm8xMq/+goYJ/qk1hN1g==
+=CHUA
+-----END PGP SIGNATURE-----
+
+--mnfzfzWAe6aWJn67bVY1PNg0wBH8gUQDf--
 
