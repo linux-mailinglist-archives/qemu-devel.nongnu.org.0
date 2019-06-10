@@ -2,52 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F5893BA3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 18:58:59 +0200 (CEST)
-Received: from localhost ([::1]:48428 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41ACD3BAD4
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 19:19:22 +0200 (CEST)
+Received: from localhost ([::1]:48490 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haNdK-0005cd-IR
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 12:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47824)
+	id 1haNx3-0001eh-Fk
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 13:19:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51418)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1haNcU-0004yG-5X
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 12:58:07 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1haNs1-0008Q4-22
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:14:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1haNcT-00065g-6C
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 12:58:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51920)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1haNcT-00065I-0v
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 12:58:05 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E4F52368A5;
- Mon, 10 Jun 2019 16:57:55 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DF4F1001B30;
- Mon, 10 Jun 2019 16:57:55 +0000 (UTC)
-Date: Mon, 10 Jun 2019 13:57:53 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190610165753.GA5927@habkost.net>
-References: <20190607211544.7964-1-ehabkost@redhat.com>
- <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
- <20190610131105.GJ22416@habkost.net>
- <CAFEAcA_fBBN_854PznqJUniks0uemEite8Hxcw6cwTbUSr+aVg@mail.gmail.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1haNqH-0008Pf-IA
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:12:22 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39891)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1haNqH-0008Oz-Bp
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 13:12:21 -0400
+Received: by mail-ot1-x343.google.com with SMTP id r21so9030785otq.6
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 10:12:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p/z1W1Ia8JivqEoVP3WBX7u7oTn3bQRsvUkNdqY2whE=;
+ b=U7ux2NxttjgIEBAcHisLb4IDhyBtNgfcyec6WzEjb+XtbOV3TnEm8ApIKEBFaS8QF5
+ TOafRa7YCElp+moTlszhSX1NFNiyKeYZ3x85+8RSkaz4u+pdHwoBSYJsbrqD7fMGF+Ub
+ AK8UuiE7sXdel8xA87e0BRPg8d8UktiTbPwhh8C9jt4dEqiyHXYnO3NRdnDlKROOyrh0
+ mP5WuSitZ4sIBJvL6vaoe4CkkMmeL5icbB9jXKq/Y8FsN/Y7h1VJ5t+8aPSAbbAf4Hjg
+ yU1N/+J7ndfXGqzIsTBAe3ueGwU8bOfUil7opG3rYR54OxISZhrHg9LhGSHuZtGh/Cxf
+ SXjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p/z1W1Ia8JivqEoVP3WBX7u7oTn3bQRsvUkNdqY2whE=;
+ b=AB7Esdpa0wHSJREBJ8ulJ1Ms9nQT5GVORkG4EHEP4vOiDOlLfPv0w2aHRSwowGGoI0
+ tvNrNvcqm098GLXbFi+OKkHHTmtOxGvTh6a/xtFJlsUBt1yNpSUfXQwQ6vAX+QVjErZv
+ LD1hlAwJLjvGTdf6P3255+KHvXhGJ/wF4irpYCbvluYyKJ1ZdZeAdV47CVmayLGem/7r
+ 5JaxzIxU9iJAVYWWz3btDB4ZoJ7m1Q8BfYp36EoOr7MLXwOYur+5GwWuedUPuni2NM3c
+ XnAJ4cDLbMGVDpUc3X1uT2VsEig/yRmz8JkOM6c3dls8HNlvkTVJ7VW21/mYQgj59m0J
+ XsBA==
+X-Gm-Message-State: APjAAAWXTbs8eQgsPRmbrDTHoeNH+zufpXWcFhRcYkvJaygWK6K+Q/hK
+ LlRV8g0t7EvSTeSNZ3KHqD/5tx9Rc+THSCzuedQl/A==
+X-Google-Smtp-Source: APXvYqxV0fRRzYaXYMRv7s4G4BINQXGvpAwT49z346wra7t/YHyjixQmTnnmKJVIB3AZRvNCjaw6LLUzsSxGI40tyt4=
+X-Received: by 2002:a9d:7245:: with SMTP id a5mr31498596otk.232.1560186740245; 
+ Mon, 10 Jun 2019 10:12:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_fBBN_854PznqJUniks0uemEite8Hxcw6cwTbUSr+aVg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Mon, 10 Jun 2019 16:58:04 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] Ubuntu Trusty as supported build platform (was Re:
- [PULL 0/8] Python queue, 2019-06-07)
+References: <20190606174609.20487-1-peter.maydell@linaro.org>
+ <20190606174609.20487-29-peter.maydell@linaro.org>
+ <da80c3ea-5a33-e7e0-209e-89a8413c8f06@linaro.org>
+In-Reply-To: <da80c3ea-5a33-e7e0-209e-89a8413c8f06@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Jun 2019 18:12:09 +0100
+Message-ID: <CAFEAcA8etr7_rmQsQcUY+cPHZEZna-An+r5TPJtMb4OQO-6Dsg@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 28/42] target/arm: Convert VMOV (imm) to
+ decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,37 +74,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 10, 2019 at 02:21:57PM +0100, Peter Maydell wrote:
-> On Mon, 10 Jun 2019 at 14:11, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >
-> > On Mon, Jun 10, 2019 at 01:58:50PM +0100, Peter Maydell wrote:
-> > > Hi. This fails to build on one of my buildtest machines:
-> > >
-> > > ERROR: Cannot use 'python3', Python 2 >= 2.7 or Python 3 >= 3.5 is required.
-> > >        Use --python=/path/to/python to specify a supported Python.
-> > >
-> > > The machine has python 2.7.6 and 3.4.3. (It's an Ubuntu trusty
-> > > box; it's one of the gcc compile farm machines so upgrades to its
-> > > OS are not really under my control.)
-> >
-> > Ubuntu 16.04 LTS (Xenial) was released in April 2016.  Doesn't
-> > that mean Trusty is not a supported build platform since April
-> > 2018?
-> 
-> Possibly, but as I say the gcc compile farm is what it is.
-> Regardless of the strict letter of the deprecation policy,
-> when we start running into issues with the set of build test
-> machines I tend to feel we may be being a bit over-hasty in
-> deprecating things.
+On Sat, 8 Jun 2019 at 20:29, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/6/19 12:45 PM, Peter Maydell wrote:
+> > +    n = (a->imm4h << 28) & 0x80000000;
+> > +    i = ((a->imm4h << 4) & 0x70) | a->imm4l;
+> > +    if (i & 0x40) {
+> > +        i |= 0x780;
+> > +    } else {
+> > +        i |= 0x800;
+> > +    }
+> > +    n |= i << 19;
+>
+> Can we reuse vfp_expand_imm here?  Given that you don't have pure code motion
+> from the old code (due to field extraction) it doesn't feel wrong to go ahead
+> and fix this wart now.
 
-I understand this as a request to make Trusty a supported build
-platform.  Can we please update the documentation to reflect
-that, then?
+I dunno, I'd kind of prefer to do it later. We're already
+drifting away from the old code as you say, and going
+straight to vfp_expand_imm() makes it even less clear that
+we're doing the same thing the old code was...
 
--- 
-Eduardo
+thanks
+-- PMM
 
