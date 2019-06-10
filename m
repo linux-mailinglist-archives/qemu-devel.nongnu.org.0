@@ -2,54 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765133B738
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:24:01 +0200 (CEST)
-Received: from localhost ([::1]:47046 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82AF43B7B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:45:48 +0200 (CEST)
+Received: from localhost ([::1]:47332 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haLDL-0001pz-Qy
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:23:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57996)
+	id 1haLYR-00046h-Mg
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34864)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1haL3r-0005uP-Fa
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:14:14 -0400
+ (envelope-from <eblake@redhat.com>) id 1haLRZ-0005ow-Lv
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:38:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1haL3m-0004LG-7O
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:14:08 -0400
-Resent-Date: Mon, 10 Jun 2019 10:14:07 -0400
-Resent-Message-Id: <E1haL3m-0004LG-7O@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21542)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1haL3J-0003wu-6I; Mon, 10 Jun 2019 10:13:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560175948; cv=none; d=zoho.com; s=zohoarc; 
- b=oTUdb6aNblaIAmEFO2r2RFmgBW92jm7q8tD59bKzwjqy51F03X5XsAeZ++t5enWkCK0pzk7beHgWRkaRrX/ECQjIVGRzGqgQW5yeba6k8cv19gsYhqESLoz7E0NPlYeICpMQ3EQLF9EUZzP8m73O+fCs5qto1yv/M+fxdU01r4c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1560175948;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=a+kqpzXuZcjxPTP2c/ZR5DQPt3ngdHDMg6kl21VqaRs=; 
- b=ZhJSEcWLqoSlT7g5jPiGzVHxLt3/ssGcnmQEpS3jVuIerq0kmqAU1oTlYgM+gBIST7w+PKdrLcpb5azESD1VzPLxxssRniPyVg4klJspYV65Knx63gHJgVbAYGGMAMgaPFrzBm1aPLLnR54l0d8cxp5lpBHxrBZ1FP3/YfJNAGk=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1560175945452536.9042011722687;
- Mon, 10 Jun 2019 07:12:25 -0700 (PDT)
-In-Reply-To: <1560173684-6264-1-git-send-email-lizhengui@huawei.com>
-Message-ID: <156017594400.32260.17113600352824722663@ce79690b2cb9>
+ (envelope-from <eblake@redhat.com>) id 1haLDX-0003ag-5P
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 10:24:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50780)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1haLDV-0003Z8-Rk; Mon, 10 Jun 2019 10:24:10 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7782430C1AE7;
+ Mon, 10 Jun 2019 14:24:08 +0000 (UTC)
+Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE2C35DA99;
+ Mon, 10 Jun 2019 14:24:05 +0000 (UTC)
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <96a6fd48-9e84-1285-1932-3ce1736cd08c@redhat.com>
+Date: Mon, 10 Jun 2019 09:24:03 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: lizhengui@huawei.com
-Date: Mon, 10 Jun 2019 07:12:25 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="HZZSEw2KXfz9MWLuEfASSy0jK7YNVdzUa"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Mon, 10 Jun 2019 14:24:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH] file-posix: unlock qemu_global_mutex
- before pread when attach disk
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/7] iotests: allow Valgrind checking all
+ QEMU processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,42 +86,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, lizhengui@huawei.com, qemu-block@nongnu.org,
- eric.fangyi@huawei.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- jiangyiwen@huawei.com, stefanha@redhat.com, wangjie88@huawei.com,
- pbonzini@redhat.com
+Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
+ rkagan@virtuozzo.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYwMTczNjg0LTYyNjQtMS1n
-aXQtc2VuZC1lbWFpbC1saXpoZW5ndWlAaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSF0gZmls
-ZS1wb3NpeDogdW5sb2NrIHFlbXVfZ2xvYmFsX211dGV4IGJlZm9yZSBwcmVhZCB3aGVuIGF0dGFj
-aCBkaXNrClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAxNTYwMTczNjg0LTYyNjQtMS1naXQtc2Vu
-ZC1lbWFpbC1saXpoZW5ndWlAaHVhd2VpLmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQoj
-IS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0K
-Li9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBU
-IEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAq
-IFtuZXcgdGFnXSAgICAgICAgICAgICAgIHBhdGNoZXcvMTU2MDE3MzY4NC02MjY0LTEtZ2l0LXNl
-bmQtZW1haWwtbGl6aGVuZ3VpQGh1YXdlaS5jb20gLT4gcGF0Y2hldy8xNTYwMTczNjg0LTYyNjQt
-MS1naXQtc2VuZC1lbWFpbC1saXpoZW5ndWlAaHVhd2VpLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBi
-cmFuY2ggJ3Rlc3QnCmE1NTQ5MDU1YTMgZmlsZS1wb3NpeDogdW5sb2NrIHFlbXVfZ2xvYmFsX211
-dGV4IGJlZm9yZSBwcmVhZCB3aGVuIGF0dGFjaCBkaXNrCgo9PT0gT1VUUFVUIEJFR0lOID09PQpF
-UlJPUjogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0b3RhbDogMSBlcnJvcnMsIDAg
-d2FybmluZ3MsIDkgbGluZXMgY2hlY2tlZAoKQ29tbWl0IGE1NTQ5MDU1YTMwZCAoZmlsZS1wb3Np
-eDogdW5sb2NrIHFlbXVfZ2xvYmFsX211dGV4IGJlZm9yZSBwcmVhZCB3aGVuIGF0dGFjaCBkaXNr
-KSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
-bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
-dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8xNTYwMTczNjg0LTYyNjQtMS1naXQtc2VuZC1lbWFpbC1s
-aXpoZW5ndWlAaHVhd2VpLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
-CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
-dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
-dC5jb20=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--HZZSEw2KXfz9MWLuEfASSy0jK7YNVdzUa
+Content-Type: multipart/mixed; boundary="6DLXkSZpoEfnSRAHoijyaLNT8iqK7L7d2";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
+ rkagan@virtuozzo.com, den@openvz.org
+Message-ID: <96a6fd48-9e84-1285-1932-3ce1736cd08c@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH 1/7] iotests: allow Valgrind checking all
+ QEMU processes
+References: <1560105348-459129-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <1560105348-459129-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 
+--6DLXkSZpoEfnSRAHoijyaLNT8iqK7L7d2
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 6/9/19 1:35 PM, Andrey Shinkevich wrote:
+> With the '-valgrind' option, let all the QEMU processes be run under
+> the Valgrind tool. The Valgrind own parameters may be set with its
+> environment variable VALGRIND_OPTS, e.g.
+> VALGRIND_OPTS=3D"--leak-check=3Dyes" ./check -qcow2 -valgrind <test#>
+
+Let's spell this --valgrind; long options should prefer the use of --
+(as in getopt_long), whether or not we also have a reason to support
+-valgrind (as in getopt_long_only). Yes, qemu is an oddball in this
+regards, but no need to make it worse.
+
+>=20
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> ---
+>  tests/qemu-iotests/common.rc | 65 ++++++++++++++++++++++++++++++++----=
+--------
+>  1 file changed, 48 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.r=
+c
+> index 93f8738..3caaca4 100644
+
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--6DLXkSZpoEfnSRAHoijyaLNT8iqK7L7d2--
+
+--HZZSEw2KXfz9MWLuEfASSy0jK7YNVdzUa
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlz+aAMACgkQp6FrSiUn
+Q2rDqAf/cYkHenw0lk+FiJzuvJGR1zW0iwJq0wql2W6mbEUFvhrgujKUQwjTJz89
+FV7FSoa13KTU/IfaaUz8UiDII2Usjw6x9wlsoo2gEphTZYZVoHM08JZcVTSb0+52
+/g6V++qLDnYOxqBHhdlSh4F3duTlry+hCC9TH9GE+lDwjfZXXx3YzVTf9kG5bv5m
+JUF+1Vr+1Nnq9J5ABScEwXkQ0KsXfiZqsptATJ6CKylCam1tEbA0nwbzkXYeYla0
+evUom13CHLTlwJiLx77D4jVMBhmlr0852IW9+6EHrp9I8p5QL45HMlFdYjeR+J/c
+BhcpgmcegufKFfdqprHLhQgcuc7kng==
+=q72G
+-----END PGP SIGNATURE-----
+
+--HZZSEw2KXfz9MWLuEfASSy0jK7YNVdzUa--
 
