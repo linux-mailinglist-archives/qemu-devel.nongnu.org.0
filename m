@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6833ACE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 04:20:49 +0200 (CEST)
-Received: from localhost ([::1]:39714 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFBC3ACFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 04:29:11 +0200 (CEST)
+Received: from localhost ([::1]:39782 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ha9vU-0004qg-Uu
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 22:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53124)
+	id 1haA3Y-0006S2-GN
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 22:29:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53142)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1ha9e2-0006Ei-2e
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1ha9e3-0006Ik-BN
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ha9e1-0001l2-3A
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:46 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:44311)
+ (envelope-from <richard.henderson@linaro.org>) id 1ha9e2-0001lg-AR
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:47 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43569)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ha9e0-0001kZ-Tq
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:45 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id t7so372418plr.11
- for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 19:02:44 -0700 (PDT)
+ id 1ha9e2-0001lL-4e
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:46 -0400
+Received: by mail-pg1-x542.google.com with SMTP id f25so4142497pgv.10
+ for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 19:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QgB0Nu+t0mnNwyHYnQWVmh0yxCdODZBJfwH8/zBCUgo=;
- b=BwlYGcqRvTqqTTj86O4PyI6MUqVgFjfAK7QGWBsrVIDFe94kq4sBN1MdoYsTlSXjHd
- drHZoCOplE1r6SoJKTb9j2172Ljh5/ee6lVSry4FUAbOShTT0WMUQkG5gen51AT7F18B
- bi2z+1P/KzRg98NqVJWTZk3tq4WmpWpYlfiHaRAieCzRKdoN7x7EscsV5Ot71CqPscSZ
- ZEILsQeEPpumQ2Z/XKOiWrpKop+WjSRJ8v5OvnSRPu8O8NuWYBod7+1J12jb5sDjxuqQ
- 4YW1A+H6jeOjjSkn3swWvQbyTz0Lfwsna6uNSo/wtATccf6MXE1r6LR6kJWACWzNvWZw
- YuRw==
+ bh=pnOBaWOuZI6RQh/0O1nDjt3Ap0L8f++M/zWc9l2w1jE=;
+ b=DT1XalxplIcXfF9J5/z+2DSwkPoGtEx64Qvik79+ASBJjsEwdbH2DpqrOzlCu7spR2
+ uWVJcVML9UxjwG301o0xk1AG1I9HGTHO04ASgPYj4piQyl+9N7bMFwi0exbBHFWgR48Y
+ uVGYwavI+NRgJjNEVO4HpXHaWs4ihl4FXF2wAq/Lv1AwwKUSQPSo6vEtI89Vj2fzLtCe
+ cpSfVCk9GFj+yGAYTLHpIQbgNW0PALsQ+ATGs5u6B0acnc7VNlCw+TUldhja2XTW1eWk
+ XPLoM7VK0sXzPzWIN4EpJ4fzgAmOMNk65sNOSdgQ50gkI2CkNwILQ4SGEEMVJsIb/93Y
+ QTsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=QgB0Nu+t0mnNwyHYnQWVmh0yxCdODZBJfwH8/zBCUgo=;
- b=MlWLEK6XMqEAxvZBAkd/V5GMumiqQlh2ZMSrV/5Fd9taCJjSaHCToHqUl5tMRaAsGB
- 9QtiP/6+XPglK2tU/Pg5Wc5Am6oqQLrnku9ZRQ3Ytp2zhxKMo+eGInAvT49pFe3FaHyq
- 21b7en2/sjyElAvWJPif6iZWhDFIz05sRNkKo9cGP+1ARbhopsf7X71SHE1Ne3ZWurIy
- RAJVay+/N7Ja22mmyaxJCYrwvQNm8BhvXEKN9UHnb7pDrK42ADF6h8qr6e94X3luS2ik
- jHmDPsBww0HSuq4TJomYLUZ0MmR8ALa8haZkwYDZbpujuieOI2xEG8t6NAq86PUN8lde
- FvwQ==
-X-Gm-Message-State: APjAAAUUfI7OF94D1xi1G8zq6OENBDc9m+qrWv5slxM3ChmTVLMJw+3O
- h1UMvz3FblrYpiqDKBKsWXJC/SpXits=
-X-Google-Smtp-Source: APXvYqwGOZfGmfoqrb+E78oIhc3FNKCEnEYB3s0dBzxFQY+RxzzCOXv8Ri3W1/elfzCNY5nTyExxqQ==
-X-Received: by 2002:a17:902:7793:: with SMTP id
- o19mr7838314pll.110.1560132163631; 
- Sun, 09 Jun 2019 19:02:43 -0700 (PDT)
+ bh=pnOBaWOuZI6RQh/0O1nDjt3Ap0L8f++M/zWc9l2w1jE=;
+ b=NAtOGTGKJaxJQuz5oBjdSPSuYW21d8po2cXNnCxqbR3fATKPn2893jTXJQNe+cY5Fw
+ 5D/2F58BSkzI5+uwnmeBZZi6g3+pAg3+G+jMasKOWrCBw1ZX3VcyYcBppswt3Anhp/9X
+ fIkh2QmKHRkPvYXfKAF1OCmYmFiI4z83eONjBFnxaKtHJohMhmFtyuYcf6Eb4qFNL4DL
+ Vode5WJ3yyHbHR/Wc5DE/GNMATVRhe133vn+V5HvmCnfNbNApRDEGPuAVctiR3Kkon0n
+ 57NxKzmQfQ9OA7nl0LvdjizlgVaMB2uFr38xs3eNuMEqrCSKpRumNVhtS+dpe3/zYUJZ
+ tNMQ==
+X-Gm-Message-State: APjAAAUV80C96/G87DKFrNisRJ8qF4jZfVBPkuNM/q7TZdj6TZvpzzho
+ 6bl1zYJ7/naav5q8rg1LNhexShTuK9Y=
+X-Google-Smtp-Source: APXvYqzj3nRVPH7UYG52oBTVzzS7kcJpRBXam3yBoUTjlo8k+AYAx5wxm0wGwilGllzBMkOps1BzkQ==
+X-Received: by 2002:a17:90a:3688:: with SMTP id
+ t8mr2752155pjb.35.1560132164686; 
+ Sun, 09 Jun 2019 19:02:44 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
  [97.113.13.231])
- by smtp.gmail.com with ESMTPSA id l63sm9749013pfl.181.2019.06.09.19.02.42
+ by smtp.gmail.com with ESMTPSA id l63sm9749013pfl.181.2019.06.09.19.02.43
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 09 Jun 2019 19:02:42 -0700 (PDT)
+ Sun, 09 Jun 2019 19:02:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun,  9 Jun 2019 19:01:58 -0700
-Message-Id: <20190610020218.9228-20-richard.henderson@linaro.org>
+Date: Sun,  9 Jun 2019 19:01:59 -0700
+Message-Id: <20190610020218.9228-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190610020218.9228-1-richard.henderson@linaro.org>
 References: <20190610020218.9228-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62a
-Subject: [Qemu-devel] [PULL 19/39] target/moxie: Use env_cpu, env_archcpu
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PULL 20/39] target/nios2: Use env_cpu, env_archcpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,70 +81,102 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Cleanup in the boilerplate that each target must define.
-Replace moxie_env_get_cpu with env_archcpu.  The combination
-CPU(moxie_env_get_cpu) should have used ENV_GET_CPU to begin;
+Replace nios2_env_get_cpu with env_archcpu.  The combination
+CPU(nios2_env_get_cpu) should have used ENV_GET_CPU to begin;
 use env_cpu now.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/moxie/cpu.h       | 5 -----
- target/moxie/helper.c    | 4 ++--
- target/moxie/translate.c | 2 +-
- 3 files changed, 3 insertions(+), 8 deletions(-)
+ target/nios2/cpu.h |  5 -----
+ hw/nios2/cpu_pic.c |  5 +----
+ target/nios2/mmu.c | 10 +++++-----
+ 3 files changed, 6 insertions(+), 14 deletions(-)
 
-diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
-index 275fb9bfbb..b9f5635e50 100644
---- a/target/moxie/cpu.h
-+++ b/target/moxie/cpu.h
-@@ -90,11 +90,6 @@ typedef struct MoxieCPU {
-     CPUMoxieState env;
- } MoxieCPU;
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index ae6cf1b4d1..9490ba83e4 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -194,11 +194,6 @@ typedef struct Nios2CPU {
+     uint32_t fast_tlb_miss_addr;
+ } Nios2CPU;
  
--static inline MoxieCPU *moxie_env_get_cpu(CPUMoxieState *env)
+-static inline Nios2CPU *nios2_env_get_cpu(CPUNios2State *env)
 -{
--    return container_of(env, MoxieCPU, env);
+-    return NIOS2_CPU(container_of(env, Nios2CPU, env));
 -}
 -
- #define ENV_OFFSET offsetof(MoxieCPU, env)
+ #define ENV_OFFSET offsetof(Nios2CPU, env)
  
- void moxie_cpu_do_interrupt(CPUState *cs);
-diff --git a/target/moxie/helper.c b/target/moxie/helper.c
-index f5c1d4181c..b1919f62b3 100644
---- a/target/moxie/helper.c
-+++ b/target/moxie/helper.c
-@@ -28,7 +28,7 @@
+ void nios2_tcg_init(void);
+diff --git a/hw/nios2/cpu_pic.c b/hw/nios2/cpu_pic.c
+index 6bccce2f32..9e39955bd1 100644
+--- a/hw/nios2/cpu_pic.c
++++ b/hw/nios2/cpu_pic.c
+@@ -54,12 +54,9 @@ static void nios2_pic_cpu_handler(void *opaque, int irq, int level)
  
- void helper_raise_exception(CPUMoxieState *env, int ex)
+ void nios2_check_interrupts(CPUNios2State *env)
  {
--    CPUState *cs = CPU(moxie_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
+-    Nios2CPU *cpu = nios2_env_get_cpu(env);
+-    CPUState *cs = CPU(cpu);
+-
+     if (env->irq_pending) {
+         env->irq_pending = 0;
+-        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++        cpu_interrupt(env_cpu(env), CPU_INTERRUPT_HARD);
+     }
+ }
  
-     cs->exception_index = ex;
-     /* Stash the exception type.  */
-@@ -65,7 +65,7 @@ uint32_t helper_udiv(CPUMoxieState *env, uint32_t a, uint32_t b)
- 
- void helper_debug(CPUMoxieState *env)
+diff --git a/target/nios2/mmu.c b/target/nios2/mmu.c
+index 53ed6413b4..9a0bafe786 100644
+--- a/target/nios2/mmu.c
++++ b/target/nios2/mmu.c
+@@ -61,7 +61,7 @@ unsigned int mmu_translate(CPUNios2State *env,
+                            Nios2MMULookup *lu,
+                            target_ulong vaddr, int rw, int mmu_idx)
  {
--    CPUState *cs = CPU(moxie_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
+-    Nios2CPU *cpu = nios2_env_get_cpu(env);
++    Nios2CPU *cpu = env_archcpu(env);
+     int pid = (env->mmu.tlbmisc_wr & CR_TLBMISC_PID_MASK) >> 4;
+     int vpn = vaddr >> 12;
  
-     cs->exception_index = EXCP_DEBUG;
-     cpu_loop_exit(cs);
-diff --git a/target/moxie/translate.c b/target/moxie/translate.c
-index c668178f2c..c87e9ec2b1 100644
---- a/target/moxie/translate.c
-+++ b/target/moxie/translate.c
-@@ -816,7 +816,7 @@ static int decode_opc(MoxieCPU *cpu, DisasContext *ctx)
- void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+@@ -103,7 +103,7 @@ unsigned int mmu_translate(CPUNios2State *env,
+ static void mmu_flush_pid(CPUNios2State *env, uint32_t pid)
  {
-     CPUMoxieState *env = cs->env_ptr;
--    MoxieCPU *cpu = moxie_env_get_cpu(env);
-+    MoxieCPU *cpu = env_archcpu(env);
-     DisasContext ctx;
-     target_ulong pc_start;
-     int num_insns;
+     CPUState *cs = env_cpu(env);
+-    Nios2CPU *cpu = nios2_env_get_cpu(env);
++    Nios2CPU *cpu = env_archcpu(env);
+     int idx;
+     MMU_LOG(qemu_log("TLB Flush PID %d\n", pid));
+ 
+@@ -127,7 +127,7 @@ static void mmu_flush_pid(CPUNios2State *env, uint32_t pid)
+ void mmu_write(CPUNios2State *env, uint32_t rn, uint32_t v)
+ {
+     CPUState *cs = env_cpu(env);
+-    Nios2CPU *cpu = nios2_env_get_cpu(env);
++    Nios2CPU *cpu = env_archcpu(env);
+ 
+     MMU_LOG(qemu_log("mmu_write %08X = %08X\n", rn, v));
+ 
+@@ -244,7 +244,7 @@ void mmu_write(CPUNios2State *env, uint32_t rn, uint32_t v)
+ 
+ void mmu_init(CPUNios2State *env)
+ {
+-    Nios2CPU *cpu = nios2_env_get_cpu(env);
++    Nios2CPU *cpu = env_archcpu(env);
+     Nios2MMU *mmu = &env->mmu;
+ 
+     MMU_LOG(qemu_log("mmu_init\n"));
+@@ -255,7 +255,7 @@ void mmu_init(CPUNios2State *env)
+ 
+ void dump_mmu(CPUNios2State *env)
+ {
+-    Nios2CPU *cpu = nios2_env_get_cpu(env);
++    Nios2CPU *cpu = env_archcpu(env);
+     int i;
+ 
+     qemu_printf("MMU: ways %d, entries %d, pid bits %d\n",
 -- 
 2.17.1
 
