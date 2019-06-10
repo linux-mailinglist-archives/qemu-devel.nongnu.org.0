@@ -2,97 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE11A3BB98
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 20:05:34 +0200 (CEST)
-Received: from localhost ([::1]:48768 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFB93BBB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 20:18:37 +0200 (CEST)
+Received: from localhost ([::1]:48828 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haOfk-00044p-8v
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 14:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34198)
+	id 1haOsO-0000nX-A6
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 14:18:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37636)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eajames@linux.vnet.ibm.com>) id 1haObe-0002BB-Ci
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 14:01:20 -0400
+ (envelope-from <bounces@canonical.com>) id 1haOpc-0000Ii-Li
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 14:15:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eajames@linux.vnet.ibm.com>) id 1haObb-0007Bw-Fw
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 14:01:18 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45224)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eajames@linux.vnet.ibm.com>)
- id 1haObb-0006vp-3c
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 14:01:15 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5AHvO43018167
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 14:00:56 -0400
-Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2t1rynrsn1-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 14:00:56 -0400
-Received: from localhost
- by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <eajames@linux.vnet.ibm.com>;
- Mon, 10 Jun 2019 19:00:55 +0100
-Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
- by e35.co.us.ibm.com (192.168.1.135) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 10 Jun 2019 19:00:53 +0100
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x5AI0qr421037482
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Jun 2019 18:00:52 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 855266E05B;
- Mon, 10 Jun 2019 18:00:52 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0AAE56E056;
- Mon, 10 Jun 2019 18:00:51 +0000 (GMT)
-Received: from [9.41.179.222] (unknown [9.41.179.222])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 10 Jun 2019 18:00:51 +0000 (GMT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eddie James <eajames@linux.ibm.com>, qemu-arm@nongnu.org
-References: <1559599768-9176-1-git-send-email-eajames@linux.ibm.com>
- <29f493c1-ac0c-684f-a33e-8226be8db48b@redhat.com>
-From: Eddie James <eajames@linux.vnet.ibm.com>
-Date: Mon, 10 Jun 2019 13:00:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <bounces@canonical.com>) id 1haOpa-00081G-M5
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 14:15:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37340)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1haOpa-0007ye-GN
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 14:15:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1haOpU-0001xP-D1
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 18:15:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5D47A2E802E
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 18:15:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <29f493c1-ac0c-684f-a33e-8226be8db48b@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 19061018-0012-0000-0000-00001742B535
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011243; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01216054; UDB=6.00639360; IPR=6.00997154; 
- MB=3.00027254; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-10 18:00:55
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19061018-0013-0000-0000-000057A3E9EB
-Message-Id: <e2ff35ed-8fb2-983c-1793-3a901ae2c6ec@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-10_08:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906100122
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x5AHvO43018167
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-X-Mailman-Approved-At: Mon, 10 Jun 2019 14:03:02 -0400
-Subject: Re: [Qemu-devel] [PATCH] hw: misc: Add Aspeed XDMA device
+Date: Mon, 10 Jun 2019 18:03:53 -0000
+From: Troy Fine <1832250@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: tfine
+X-Launchpad-Bug-Reporter: Troy Fine (tfine)
+X-Launchpad-Bug-Modifier: Troy Fine (tfine)
+Message-Id: <156018983401.31409.602642212914113436.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 1b2949edd124c35b7564a2eedce555a9dd54e8fd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1832250] [NEW] arm32v6/golang:1.10-alpine is
+ broken for qemu 2.8 on MacOS cross-compilation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -101,379 +63,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andrew@aj.id.au, peter.maydell@linaro.org, joel@jms.id.au,
- qemu-devel@nongnu.org, clg@kaod.org
+Reply-To: Bug 1832250 <1832250@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
-On 6/6/19 6:34 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi Eddie,
->
-> On 6/4/19 12:09 AM, Eddie James wrote:
->> The XDMA engine embedded in the Aspeed SOCs performs PCI DMA operation=
-s
->> between the SOC (acting as a BMC) and a host processor in a server.
-> If I got your model correctly, it does no DMA operation but simply
-> answer correctly to the BMC, and set 'operation done' IRQ with no delay.
-> So this is a dummy device. Then it would be more useful having ignored
-> DMA ops traced with trace-events.
+FROM arm32v6/golang:1.10-alpine
 
+docker build -t openhorizon/ibm.gps_arm:2.0.7 -f ./Dockerfile.arm .
+Sending build context to Docker daemon  110.6kB
+Step 1/12 : FROM arm32v6/golang:1.10-alpine
+1.10-alpine: Pulling from arm32v6/golang
+05276f4299f2: Pull complete =
 
-Thats correct. Good idea, I will add some tracing.
+5657e63df536: Pull complete =
 
+febca98d0249: Pull complete =
 
->
->> The XDMA engine exists on the AST2400, AST2500, and AST2600 SOCs, so
->> enable it for all of those.
->>
->> Signed-off-by: Eddie James <eajames@linux.ibm.com>
->> ---
->>   hw/arm/aspeed_soc.c           |  14 ++++
->>   hw/misc/Makefile.objs         |   2 +-
->>   hw/misc/aspeed_xdma.c         | 156 ++++++++++++++++++++++++++++++++=
-++++++++++
->>   include/hw/arm/aspeed_soc.h   |   2 +
->>   include/hw/misc/aspeed_xdma.h |  31 +++++++++
->>   5 files changed, 204 insertions(+), 1 deletion(-)
->>   create mode 100644 hw/misc/aspeed_xdma.c
->>   create mode 100644 include/hw/misc/aspeed_xdma.h
->>
->> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
->> index faff42b..b25bb18 100644
->> --- a/hw/arm/aspeed_soc.c
->> +++ b/hw/arm/aspeed_soc.c
->> @@ -31,6 +31,7 @@
->>   #define ASPEED_SOC_VIC_BASE         0x1E6C0000
->>   #define ASPEED_SOC_SDMC_BASE        0x1E6E0000
->>   #define ASPEED_SOC_SCU_BASE         0x1E6E2000
->> +#define ASPEED_SOC_XDMA_BASE        0x1E6E7000
->>   #define ASPEED_SOC_SRAM_BASE        0x1E720000
->>   #define ASPEED_SOC_TIMER_BASE       0x1E782000
->>   #define ASPEED_SOC_WDT_BASE         0x1E785000
->> @@ -159,6 +160,9 @@ static void aspeed_soc_init(Object *obj)
->>  =20
->>       sysbus_init_child_obj(obj, "ftgmac100", OBJECT(&s->ftgmac100),
->>                             sizeof(s->ftgmac100), TYPE_FTGMAC100);
->> +
->> +    sysbus_init_child_obj(obj, "xdma", OBJECT(&s->xdma), sizeof(s->xd=
-ma),
->> +                          TYPE_ASPEED_XDMA);
->>   }
->>  =20
->>   static void aspeed_soc_realize(DeviceState *dev, Error **errp)
->> @@ -298,6 +302,16 @@ static void aspeed_soc_realize(DeviceState *dev, =
-Error **errp)
->>       sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100), 0, ASPEED_SOC_ETH=
-1_BASE);
->>       sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100), 0,
->>                          qdev_get_gpio_in(DEVICE(&s->vic), 2));
->> +
->> +    /* XDMA */
->> +    object_property_set_bool(OBJECT(&s->xdma), true, "realized", &err=
-);
->> +    if (err) {
->> +        error_propagate(errp, err);
->> +        return;
->> +    }
->> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->xdma), 0, ASPEED_SOC_XDMA_BASE=
-);
->> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->xdma), 0,
->> +                       qdev_get_gpio_in(DEVICE(&s->vic), 6));
->>   }
->>  =20
->>   static void aspeed_soc_class_init(ObjectClass *oc, void *data)
->> diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
->> index 77b9df9..a4483af 100644
->> --- a/hw/misc/Makefile.objs
->> +++ b/hw/misc/Makefile.objs
->> @@ -74,7 +74,7 @@ obj-$(CONFIG_ARMSSE_MHU) +=3D armsse-mhu.o
->>  =20
->>   obj-$(CONFIG_PVPANIC) +=3D pvpanic.o
->>   obj-$(CONFIG_AUX) +=3D auxbus.o
->> -obj-$(CONFIG_ASPEED_SOC) +=3D aspeed_scu.o aspeed_sdmc.o
->> +obj-$(CONFIG_ASPEED_SOC) +=3D aspeed_scu.o aspeed_sdmc.o aspeed_xdma.=
-o
->>   obj-$(CONFIG_MSF2) +=3D msf2-sysreg.o
->>   obj-$(CONFIG_NRF51_SOC) +=3D nrf51_rng.o
->>  =20
->> diff --git a/hw/misc/aspeed_xdma.c b/hw/misc/aspeed_xdma.c
->> new file mode 100644
->> index 0000000..fe3a32e
->> --- /dev/null
->> +++ b/hw/misc/aspeed_xdma.c
->> @@ -0,0 +1,156 @@
->> +/*
->> + * ASPEED XDMA Controller
->> + * Eddie James <eajames@linux.ibm.com>
->> + *
->> + * Copyright (C) 2019 IBM Corp
->> + * SPDX-License-Identifer: GPL-2.0-or-later
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qemu/log.h"
->> +#include "qemu/error-report.h"
->> +#include "hw/misc/aspeed_xdma.h"
->> +#include "qapi/error.h"
->> +
->> +#define XDMA_BMC_CMDQ_ADDR         0x10
->> +#define XDMA_BMC_CMDQ_ENDP         0x14
->> +#define XDMA_BMC_CMDQ_WRP          0x18
->> +#define  XDMA_BMC_CMDQ_W_MASK      0x0003FFFF
->> +#define XDMA_BMC_CMDQ_RDP          0x1C
->> +#define  XDMA_BMC_CMDQ_RDP_MAGIC   0xEE882266
->> +#define XDMA_IRQ_ENG_CTRL          0x20
->> +#define  XDMA_IRQ_ENG_CTRL_US_COMP BIT(4)
->> +#define  XDMA_IRQ_ENG_CTRL_DS_COMP BIT(5)
->> +#define  XDMA_IRQ_ENG_CTRL_W_MASK  0xBFEFF07F
->> +#define XDMA_IRQ_ENG_STAT          0x24
->> +#define  XDMA_IRQ_ENG_STAT_US_COMP BIT(4)
->> +#define  XDMA_IRQ_ENG_STAT_DS_COMP BIT(5)
->> +#define  XDMA_IRQ_ENG_STAT_RESET   0xF8000000
->> +
->> +#define TO_REG(addr) ((addr) / sizeof(uint32_t))
->> +
->> +static uint64_t aspeed_xdma_read(void *opaque, hwaddr addr, unsigned =
-int size)
->> +{
->> +    uint32_t val =3D 0;
->> +    AspeedXDMAState *xdma =3D opaque;
->> +
->> +    if (addr < ASPEED_XDMA_REG_SIZE) {
->> +        val =3D xdma->regs[TO_REG(addr)];
->> +    }
->> +
->> +    return (uint64_t)val;
->> +}
->> +
->> +static void aspeed_xdma_write(void *opaque, hwaddr addr, uint64_t val=
-,
->> +                              unsigned int size)
->> +{
->> +    unsigned int idx;
->> +    uint32_t val32 =3D (uint32_t)val;
->> +    AspeedXDMAState *xdma =3D opaque;
->> +
->> +    if (addr >=3D ASPEED_XDMA_REG_SIZE) {
->> +        return;
->> +    }
->> +
->> +    switch (addr) {
->> +    case XDMA_BMC_CMDQ_ENDP:
->> +        xdma->regs[TO_REG(addr)] =3D val32 & XDMA_BMC_CMDQ_W_MASK;
->> +        break;
->> +    case XDMA_BMC_CMDQ_WRP:
->> +        idx =3D TO_REG(addr);
->> +        xdma->regs[idx] =3D val32 & XDMA_BMC_CMDQ_W_MASK;
->> +        xdma->regs[TO_REG(XDMA_BMC_CMDQ_RDP)] =3D xdma->regs[idx];
-> The two previous lines are odd. Are they inverted?
+5053a7aa5dea: Pull complete =
 
+d048463a3701: Pull complete =
 
-No, this should be correct. Since the command completes instantly, the=20
-engine "read pointer" is updated to the new "write pointer," with the=20
-expected result that no more commands need to be completed, since write=20
-=3D=3D read.
+b628c679d668: Pull complete =
 
+Digest: sha256:94c5fd97b17d0e9fe89e011446bedda4784cb0af7a60494989e2a21c0dcb=
+a92f
+Status: Downloaded newer image for arm32v6/golang:1.10-alpine
+ ---> 3110964e8c9a
+Step 2/12 : RUN apk --no-cache update && apk add git
+ ---> Running in 14ffb11506bb
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/armhf/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/armhf/APKINDEX.ta=
+r.gz
+v3.9.4-24-g4e2ff29bbe [http://dl-cdn.alpinelinux.org/alpine/v3.9/main]
+v3.9.4-25-g65097c9cdc [http://dl-cdn.alpinelinux.org/alpine/v3.9/community]
+OK: 9547 distinct packages available
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/armhf/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/armhf/APKINDEX.ta=
+r.gz
+(1/7) Installing nghttp2-libs (1.35.1-r0)
+(2/7) Installing libssh2 (1.8.2-r0)
+(3/7) Installing libcurl (7.64.0-r2)
+(4/7) Installing libgcc (8.3.0-r0)
+(5/7) Installing expat (2.2.6-r0)
+(6/7) Installing pcre2 (10.32-r1)
+(7/7) Installing git (2.20.1-r0)
+Executing busybox-1.29.3-r10.trigger
+OK: 18 MiB in 22 packages
+Removing intermediate container 14ffb11506bb
+ ---> 6890ea7ed09b
+Step 3/12 : RUN mkdir -p /build/bin
+ ---> Running in 44e52d78d7b4
+Removing intermediate container 44e52d78d7b4
+ ---> 0763afda41d1
+Step 4/12 : COPY src /build/src
+ ---> 05bab9a72a34
+Step 5/12 : WORKDIR /build
+ ---> Running in 5a663caff249
+Removing intermediate container 5a663caff249
+ ---> 5a6ca53c00de
+Step 6/12 : RUN env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=3D0 GOOS=
+=3Dlinux GOARCH=3Darm GOARM=3D6' go get github.com/kellydunn/golang-geo
+ ---> Running in 05b09ee0c206
+Removing intermediate container 05b09ee0c206
+ ---> e68c6e222e51
+Step 7/12 : RUN env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=3D0 GOOS=
+=3Dlinux GOARCH=3Darm GOARM=3D6' go build -o /build/bin/armv6_gps /build/sr=
+c/main.go
+ ---> Running in ea6d2707e35f
+qemu-arm: /build/qemu-rwi8RH/qemu-2.8+dfsg/translate-all.c:175: tb_lock: As=
+sertion `!have_tb_lock' failed.
+qemu-arm: /build/qemu-rwi8RH/qemu-2.8+dfsg/translate-all.c:175: tb_lock: As=
+sertion `!have_tb_lock' failed.
+The command '/bin/sh -c env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=3D=
+0 GOOS=3Dlinux GOARCH=3Darm GOARM=3D6' go build -o /build/bin/armv6_gps /bu=
+ild/src/main.go' returned a non-zero code: 139
+make: *** [build] Error 139
 
->
-> I guess I'd trace here:
->
->             trace_aspeed_xdma_...(val, ...);
->
->> +
->> +        if (xdma->bmc_cmdq_readp_set) {
->> +            xdma->bmc_cmdq_readp_set =3D 0;
->> +        } else {
->> +            xdma->regs[TO_REG(XDMA_IRQ_ENG_STAT)] |=3D
->> +                XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT_DS_COMP=
-;
->> +
->> +            if (xdma->regs[TO_REG(XDMA_IRQ_ENG_CTRL)] &
->> +                (XDMA_IRQ_ENG_CTRL_US_COMP | XDMA_IRQ_ENG_CTRL_DS_COM=
-P))
->> +                qemu_irq_raise(xdma->irq);
->> +        }
->> +        break;
->> +    case XDMA_BMC_CMDQ_RDP:
-> Trace here too.
->
->> +        if (val32 =3D=3D XDMA_BMC_CMDQ_RDP_MAGIC) {
->> +            xdma->bmc_cmdq_readp_set =3D 1;
->> +        }
->> +        break;
->> +    case XDMA_IRQ_ENG_CTRL:
->> +        xdma->regs[TO_REG(addr)] =3D val32 & XDMA_IRQ_ENG_CTRL_W_MASK=
-;
->> +        break;
->> +    case XDMA_IRQ_ENG_STAT:
->> +        idx =3D TO_REG(addr);
->> +        if (val32 & (XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT_DS=
-_COMP)) {
->> +            xdma->regs[TO_REG(addr)] &=3D
->                            ^ idx
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
+-- =
 
-Thanks, will update.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1832250
 
+Title:
+  arm32v6/golang:1.10-alpine is broken for qemu 2.8 on MacOS cross-
+  compilation
 
->
->> +                ~(XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT_DS_CO=
-MP);
->> +            qemu_irq_lower(xdma->irq);
->> +        }
->> +        break;
->> +    default:
->> +        xdma->regs[TO_REG(addr)] =3D val32;
->> +        break;
->> +    }
->> +}
->> +
->> +static const MemoryRegionOps aspeed_xdma_ops =3D {
->> +    .read =3D aspeed_xdma_read,
->> +    .write =3D aspeed_xdma_write,
->> +    .endianness =3D DEVICE_NATIVE_ENDIAN,
->> +    .valid.min_access_size =3D 4,
->> +    .valid.max_access_size =3D 4,
->> +};
->> +
->> +static void aspeed_xdma_realize(DeviceState *dev, Error **errp)
->> +{
->> +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
->> +    AspeedXDMAState *xdma =3D ASPEED_XDMA(dev);
->> +
->> +    sysbus_init_irq(sbd, &xdma->irq);
->> +    memory_region_init_io(&xdma->iomem, OBJECT(xdma), &aspeed_xdma_op=
-s, xdma,
->> +                          TYPE_ASPEED_XDMA, ASPEED_XDMA_MEM_SIZE);
->> +    sysbus_init_mmio(sbd, &xdma->iomem);
->> +}
->> +
->> +static void aspeed_xdma_reset(DeviceState *dev)
->> +{
->> +    AspeedXDMAState *xdma =3D ASPEED_XDMA(dev);
->> +
->> +    xdma->bmc_cmdq_readp_set =3D 0;
->> +    memset(xdma->regs, 0, ASPEED_XDMA_REG_SIZE);
->> +    xdma->regs[TO_REG(XDMA_IRQ_ENG_STAT)] =3D XDMA_IRQ_ENG_STAT_RESET=
-;
->> +
->> +    qemu_irq_lower(xdma->irq);
->> +}
->> +
->> +static const VMStateDescription aspeed_xdma_vmstate =3D {
->> +    .name =3D TYPE_ASPEED_XDMA,
->> +    .version_id =3D 1,
->> +    .fields =3D (VMStateField[]) {
->> +        VMSTATE_UINT32_ARRAY(regs, AspeedXDMAState, ASPEED_XDMA_NUM_R=
-EGS),
->> +        VMSTATE_END_OF_LIST(),
->> +    },
->> +};
->> +
->> +static void aspeed_xdma_class_init(ObjectClass *classp, void *data)
->> +{
->> +    DeviceClass *dc =3D DEVICE_CLASS(classp);
->> +
->> +    dc->realize =3D aspeed_xdma_realize;
->> +    dc->reset =3D aspeed_xdma_reset;
->> +    dc->vmsd =3D &aspeed_xdma_vmstate;
->> +}
->> +
->> +static const TypeInfo aspeed_xdma_info =3D {
->> +    .name          =3D TYPE_ASPEED_XDMA,
->> +    .parent        =3D TYPE_SYS_BUS_DEVICE,
->> +    .instance_size =3D sizeof(AspeedXDMAState),
->> +    .class_init    =3D aspeed_xdma_class_init,
->> +};
->> +
->> +static void aspeed_xdma_register_type(void)
->> +{
->> +    type_register_static(&aspeed_xdma_info);
->> +}
->> +type_init(aspeed_xdma_register_type);
->> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
->> index 836b2ba..0329247 100644
->> --- a/include/hw/arm/aspeed_soc.h
->> +++ b/include/hw/arm/aspeed_soc.h
->> @@ -20,6 +20,7 @@
->>   #include "hw/ssi/aspeed_smc.h"
->>   #include "hw/watchdog/wdt_aspeed.h"
->>   #include "hw/net/ftgmac100.h"
->> +#include "hw/misc/aspeed_xdma.h"
->>  =20
->>   #define ASPEED_SPIS_NUM  2
->>   #define ASPEED_WDTS_NUM  3
->> @@ -40,6 +41,7 @@ typedef struct AspeedSoCState {
->>       AspeedSDMCState sdmc;
->>       AspeedWDTState wdt[ASPEED_WDTS_NUM];
->>       FTGMAC100State ftgmac100;
->> +    AspeedXDMAState xdma;
->>   } AspeedSoCState;
->>  =20
->>   #define TYPE_ASPEED_SOC "aspeed-soc"
->> diff --git a/include/hw/misc/aspeed_xdma.h b/include/hw/misc/aspeed_xd=
-ma.h
->> new file mode 100644
->> index 0000000..d19e9a7
->> --- /dev/null
->> +++ b/include/hw/misc/aspeed_xdma.h
->> @@ -0,0 +1,31 @@
->> +/*
->> + * ASPEED XDMA Controller
->> + * Eddie James <eajames@linux.ibm.com>
->> + *
->> + * Copyright (C) 2019 IBM Corp.
->> + * SPDX-License-Identifer: GPL-2.0-or-later
->> + */
->> +
->> +#ifndef ASPEED_XDMA_H
->> +#define ASPEED_XDMA_H
->> +
->> +#include "hw/sysbus.h"
->> +
->> +#define TYPE_ASPEED_XDMA "aspeed.xdma"
->> +#define ASPEED_XDMA(obj) OBJECT_CHECK(AspeedXDMAState, (obj), TYPE_AS=
-PEED_XDMA)
->> +
->> +#define ASPEED_XDMA_MEM_SIZE 0x1000
-> Maybe you can keep ASPEED_XDMA_MEM_SIZE private in the source file.
+Status in QEMU:
+  New
 
+Bug description:
+  FROM arm32v6/golang:1.10-alpine
 
-Sure.
+  docker build -t openhorizon/ibm.gps_arm:2.0.7 -f ./Dockerfile.arm .
+  Sending build context to Docker daemon  110.6kB
+  Step 1/12 : FROM arm32v6/golang:1.10-alpine
+  1.10-alpine: Pulling from arm32v6/golang
+  05276f4299f2: Pull complete =
 
+  5657e63df536: Pull complete =
 
->
->> +#define ASPEED_XDMA_NUM_REGS (ASPEED_XDMA_REG_SIZE / sizeof(uint32_t)=
-)
->> +#define ASPEED_XDMA_REG_SIZE 0x7C
-> 0x80?
+  febca98d0249: Pull complete =
 
+  5053a7aa5dea: Pull complete =
 
-Well 0x78 is the offset of the last register, so 0x7c would be the total=20
-register space. Of course the engine actually owns 4K bytes of register=20
-space but there's no reason to store all that.
+  d048463a3701: Pull complete =
 
+  b628c679d668: Pull complete =
 
->
->> +
->> +typedef struct AspeedXDMAState {
->> +    SysBusDevice parent;
->> +
->> +    MemoryRegion iomem;
->> +    qemu_irq irq;
->> +
->> +    char bmc_cmdq_readp_set;
->> +    uint32_t regs[ASPEED_XDMA_NUM_REGS];
->> +} AspeedXDMAState;
->> +
->> +#endif /* ASPEED_XDMA_H */
->>
-> Few questions, but otherwise LGTM.
->
-> Regards,
->
-> Phil.
->
+  Digest: sha256:94c5fd97b17d0e9fe89e011446bedda4784cb0af7a60494989e2a21c0d=
+cba92f
+  Status: Downloaded newer image for arm32v6/golang:1.10-alpine
+   ---> 3110964e8c9a
+  Step 2/12 : RUN apk --no-cache update && apk add git
+   ---> Running in 14ffb11506bb
+  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/armhf/APKINDEX.tar.gz
+  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/armhf/APKINDEX.=
+tar.gz
+  v3.9.4-24-g4e2ff29bbe [http://dl-cdn.alpinelinux.org/alpine/v3.9/main]
+  v3.9.4-25-g65097c9cdc [http://dl-cdn.alpinelinux.org/alpine/v3.9/communit=
+y]
+  OK: 9547 distinct packages available
+  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/armhf/APKINDEX.tar.gz
+  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/armhf/APKINDEX.=
+tar.gz
+  (1/7) Installing nghttp2-libs (1.35.1-r0)
+  (2/7) Installing libssh2 (1.8.2-r0)
+  (3/7) Installing libcurl (7.64.0-r2)
+  (4/7) Installing libgcc (8.3.0-r0)
+  (5/7) Installing expat (2.2.6-r0)
+  (6/7) Installing pcre2 (10.32-r1)
+  (7/7) Installing git (2.20.1-r0)
+  Executing busybox-1.29.3-r10.trigger
+  OK: 18 MiB in 22 packages
+  Removing intermediate container 14ffb11506bb
+   ---> 6890ea7ed09b
+  Step 3/12 : RUN mkdir -p /build/bin
+   ---> Running in 44e52d78d7b4
+  Removing intermediate container 44e52d78d7b4
+   ---> 0763afda41d1
+  Step 4/12 : COPY src /build/src
+   ---> 05bab9a72a34
+  Step 5/12 : WORKDIR /build
+   ---> Running in 5a663caff249
+  Removing intermediate container 5a663caff249
+   ---> 5a6ca53c00de
+  Step 6/12 : RUN env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=3D0 GOOS=
+=3Dlinux GOARCH=3Darm GOARM=3D6' go get github.com/kellydunn/golang-geo
+   ---> Running in 05b09ee0c206
+  Removing intermediate container 05b09ee0c206
+   ---> e68c6e222e51
+  Step 7/12 : RUN env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=3D0 GOOS=
+=3Dlinux GOARCH=3Darm GOARM=3D6' go build -o /build/bin/armv6_gps /build/sr=
+c/main.go
+   ---> Running in ea6d2707e35f
+  qemu-arm: /build/qemu-rwi8RH/qemu-2.8+dfsg/translate-all.c:175: tb_lock: =
+Assertion `!have_tb_lock' failed.
+  qemu-arm: /build/qemu-rwi8RH/qemu-2.8+dfsg/translate-all.c:175: tb_lock: =
+Assertion `!have_tb_lock' failed.
+  The command '/bin/sh -c env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=
+=3D0 GOOS=3Dlinux GOARCH=3Darm GOARM=3D6' go build -o /build/bin/armv6_gps =
+/build/src/main.go' returned a non-zero code: 139
+  make: *** [build] Error 139
 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1832250/+subscriptions
 
