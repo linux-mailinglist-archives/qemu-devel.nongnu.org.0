@@ -2,45 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BE43B688
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 15:55:29 +0200 (CEST)
-Received: from localhost ([::1]:46744 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79F23B6F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 16:09:22 +0200 (CEST)
+Received: from localhost ([::1]:46888 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haKll-0005xi-3e
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 09:55:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51164)
+	id 1haKzB-0000Wc-RI
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 10:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51884)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1haKgc-0008Qy-77
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:50:11 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1haKiD-0001uJ-Il
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:51:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1haKgb-0001jA-3H
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:50:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54550)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1haKga-0001gv-Tk
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:50:09 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 27D1181106;
- Mon, 10 Jun 2019 13:50:01 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D08E608C6;
- Mon, 10 Jun 2019 13:49:53 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 10 Jun 2019 15:50:35 +0200
-Message-Id: <1560174635-22602-1-git-send-email-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Mon, 10 Jun 2019 13:50:04 +0000 (UTC)
+ (envelope-from <pbonzini@redhat.com>) id 1haKiB-00033L-I4
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:51:49 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52046)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1haKi9-00030O-Pq
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 09:51:47 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 207so3687005wma.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 06:51:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WTUsB+4NaNNOz+8uDVCds+jQLaMxKJkibKsqnyiAkpI=;
+ b=KCFuF/Nar0ZVgV+UO+2RDDYM8ZmZVycgEeoVdaD4bIAL/z1G702zU4ACedGWCyTyiA
+ yTQfN3hwsA3XJzR4rSZQSHqw2PP1ajQAGqR2oDh2FIyov2d/60C/jXIB8eSPzj2H3gXZ
+ 7rKrr4UpB68YVE08gzzuG7oeFI/N5gHnXwqvwi58HKMlzcm2vV9pS5yjjD0qohNC0JdU
+ D+jzQbMaFmIsxH8TB1Y1f9GNbDdOrW6NoS371GOVOnQyR1WN+jae0E5NBguGe11Zyu7r
+ dynGSIonLO+YT+VnW7gIRSx0RvqSBp+CELieaxfKleO57o+4ti4tnjL8xT4Q2aJWwTMy
+ DsRA==
+X-Gm-Message-State: APjAAAUO2a7fa9cM2xrmcpd0hA6hjua6PbNbhXHCRMZGiQhImUMuT9t7
+ 1LDZuYkpxPl6GIMAuPVOJpe9eg==
+X-Google-Smtp-Source: APXvYqwOjPSyNaX+TyZG4qdMbItf/28CmDsx85poMYQeAQVQHYtzFMW9Y7tJvnEjUqfz5SsEPm705Q==
+X-Received: by 2002:a1c:411:: with SMTP id 17mr12359882wme.74.1560174701579;
+ Mon, 10 Jun 2019 06:51:41 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:49d3:a711:c5a3:8ebf?
+ ([2001:b07:6468:f312:49d3:a711:c5a3:8ebf])
+ by smtp.gmail.com with ESMTPSA id j7sm14793499wru.54.2019.06.10.06.51.40
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 10 Jun 2019 06:51:41 -0700 (PDT)
+To: Zhengui li <lizhengui@huawei.com>, stefanha@redhat.com,
+ mreitz@redhat.com, kwolf@redhat.com
+References: <1560173684-6264-1-git-send-email-lizhengui@huawei.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1a218c83-7167-68c4-798f-2870f2f98475@redhat.com>
+Date: Mon, 10 Jun 2019 15:51:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <1560173684-6264-1-git-send-email-lizhengui@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] pc: fix possible NULL pointer dereference in
- pc_machine_get_device_memory_region_size()
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] file-posix: unlock
+ qemu_global_mutex before pread when attach disk
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,47 +73,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, mst@redhat.com, ehabkost@redhat.com, armbru@redhat.com,
- rth@twiddle.net
+Cc: jiangyiwen@huawei.com, wangjie88@huawei.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, eric.fangyi@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU will crash when device-memory-region-size property is read if ms->device_memory
-wasn't initialized yet.
+On 10/06/19 15:34, Zhengui li wrote:
+> 
+> when do qmp sush as drive_add,  qemu main thread locks the
+> qemu_global_mutex  and do pread in raw_probe_alignmen. Pread is a
+> synchronous operation. If backend storage network has a large delay
+> or IO pressure is too large,  the pread operation will not return for
+> a long time, which make vcpu thread can't acquire qemu_global_mutex
+> for a long time and make the vcpu thread unable to be scheduled for a
+> long time.  So virtual machine cpu soft lockup happened.
+> 
+> qemu main thread should not hold qemu_global_mutex for a long time
+> when do qmp that involving IO synchronous operation sush pread ,
+> ioctl, etc. So this patch unlock qemu_global_mutex before IO
+> synchronous operation sush pread.
 
-Crash can be reproduced with:
- $QEMU -preconfig -qmp unix:qmp_socket,server,nowait &
- ./scripts/qmp/qom-get -s qmp_socket /machine.device-memory-region-size
+These preads are for 512-4096 bytes, can they really last much longer
+than the "open" that precedes them?  If pread of 4K can trigger a soft
+lockup, things are really screwed up---and it's hard to be sure that all
+callers of raw_probe_alignment are okay with releasing the global mutex.
 
-Instead of crashing return 0 if ms->device_memory hasn't been initialized.
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v2:
-  add reproducer to commit message
-   (Markus Armbruster <armbru@redhat.com>)
-
- hw/i386/pc.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index edc240b..1b7ead9 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -2459,7 +2459,11 @@ pc_machine_get_device_memory_region_size(Object *obj, Visitor *v,
-                                          Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
--    int64_t value = memory_region_size(&ms->device_memory->mr);
-+    int64_t value = 0;
-+
-+    if (ms->device_memory) {
-+        memory_region_size(&ms->device_memory->mr);
-+    }
- 
-     visit_type_int(v, name, &value, errp);
- }
--- 
-2.7.4
-
+Paolo
 
