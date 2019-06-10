@@ -2,49 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB6C3BC2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 20:53:35 +0200 (CEST)
-Received: from localhost ([::1]:49010 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ABE63BE87
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 23:24:53 +0200 (CEST)
+Received: from localhost ([::1]:49740 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haPQC-0005FN-Jd
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 14:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44696)
+	id 1haRme-0001e6-5T
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 17:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54913)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1haPHM-0007Nd-7t
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 14:44:26 -0400
+ (envelope-from <ali.mezgani@gmail.com>) id 1haPwr-00080v-EA
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:27:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1haPHI-00028R-Fs
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 14:44:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52028)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1haPHE-00025I-QT
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 14:44:18 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2ECE73087BA9
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 18:44:14 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-117-16.ams2.redhat.com
- [10.36.117.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0513460BF1;
- Mon, 10 Jun 2019 18:44:12 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, jasowang@redhat.com, eblake@redhat.com,
- armbru@redhat.com, laine@redhat.com
-Date: Mon, 10 Jun 2019 19:44:02 +0100
-Message-Id: <20190610184402.7090-5-dgilbert@redhat.com>
-In-Reply-To: <20190610184402.7090-1-dgilbert@redhat.com>
-References: <20190610184402.7090-1-dgilbert@redhat.com>
+ (envelope-from <ali.mezgani@gmail.com>) id 1haPwq-0005J4-Bv
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 15:27:17 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37970)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <ali.mezgani@gmail.com>)
+ id 1haPwl-0005Dx-8j; Mon, 10 Jun 2019 15:27:12 -0400
+Received: by mail-wm1-x344.google.com with SMTP id s15so456953wmj.3;
+ Mon, 10 Jun 2019 12:27:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:subject:message-id:references:from:to:cc:mime-version
+ :content-transfer-encoding;
+ bh=OfbsNFVwuZJcrP6HY83smkRTXaZ90KkPSNbUmAkVhYU=;
+ b=o02vdxRLqV0x2TL0X9wjPfitgiU+GqQIAirNhHRAP0CpcCNvL0RpV/7ol1JVYOS+KI
+ 6mKzjSzVgxPDAWuM6OmKfsKCt8/rdt1FaTFZwq7iSfeWkk1riI6wp2/4uoa1XcGqbfPj
+ pBX9A3XH1coDj06At5RTQBqCGS1hoh+JyRzrlsz2SNjE/J75dW2kGtSPJTAoXZGyIkB/
+ F9Z4I7XUWw5Gh8FD0/YB5T2P1I5E4JVWvDTYCoKJoXlCZFvuMOWmFi8DfFuXH+2bpuTt
+ 0r4qZOpja0WXmhIXMrNRXDZ4P3yobvLI5o70y2MNoOS/8rF3UNoluVnN+lU0oslsoKp0
+ sREA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:message-id:references:from:to:cc
+ :mime-version:content-transfer-encoding;
+ bh=OfbsNFVwuZJcrP6HY83smkRTXaZ90KkPSNbUmAkVhYU=;
+ b=VAUB2kUUppwIw4SYlVQDcVxt9UD/WzaTE6F8fLESMDMJ5ZtvbtRc6QEXjhPN579s5Q
+ l96ZdJO95bMZkLMAOGkBq5oM7281Uce2EL3rpIipEbCdFrOwy5IELwbOUI+7y5aLVYVL
+ FqS8LWFoVTVlcwov8cIyMB09VZlE5v9N0Os7KirRUAU6U8z42ChFZOF/6FHTSdF5ZlMz
+ KjETrdTnYT+nb/Yrs/21Ac6KzAyHHOKQjoZa2kHWYkj13FKIrL8Xj4aw/MIyS67pz9iY
+ OUCeLHA7ejVKD2rgeNtZOQp7nKddQiZYGScnj2SuTLDfNhdVhUkJlGfjdkcCOXNcTmfM
+ DW+g==
+X-Gm-Message-State: APjAAAXSmbH6Y7M1FctkqS3lU5IEM681+ANxLJJHvrztkXxHQmTz2oFd
+ 2VF00ntm7QsiorMWXWbQfmU=
+X-Google-Smtp-Source: APXvYqx7T22ARwou+/g2DEP9+q6Qz0p5SkDXHqyEvLGWpW6k0m88TXN6E6YHnGlowTnYsU6EpJJdCQ==
+X-Received: by 2002:a1c:c915:: with SMTP id f21mr13625368wmb.123.1560194828485; 
+ Mon, 10 Jun 2019 12:27:08 -0700 (PDT)
+Received: from [192.168.1.220] ([41.250.232.80])
+ by smtp.gmail.com with ESMTPSA id 88sm19573484wrl.68.2019.06.10.12.27.03
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 10 Jun 2019 12:27:07 -0700 (PDT)
+Date: Mon, 10 Jun 2019 20:27:01 +0100
+X-Priority: 3
+Message-ID: <-2xywm9-ifb5yxlyz8y68ukj0nxy24qv-dgwbua-uu49fa-7xmm95-lpocej7h67y1tkkit4-31nus5-2bayju4z2jwk-kie60g-zanq099a87cdol5jfg-f5bb5a-yxekc0-x2g2ruj2xqm3-y3jyo2-un0xhw.1560194821347@email.android.com>
+References: <20190606174609.20487-1-peter.maydell@linaro.org>
+ <20190606174609.20487-29-peter.maydell@linaro.org>
+ <da80c3ea-5a33-e7e0-209e-89a8413c8f06@linaro.org>
+ <CAFEAcA8etr7_rmQsQcUY+cPHZEZna-An+r5TPJtMb4OQO-6Dsg@mail.gmail.com>
+ <b9ac8354-6bb2-0080-f597-706b4b94009d@linaro.org>
+From: Ali Mezgani <ali.mezgani@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
+ <peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+X-Mailman-Approved-At: Mon, 10 Jun 2019 17:22:15 -0400
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Mon, 10 Jun 2019 18:44:14 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 4/4] net/announce: Add HMP optional ID
+Content-Type: text/plain; charset="utf-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH 28/42] target/arm: Convert VMOV
+ (imm) to decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,86 +83,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-
-Add the optional ID to the HMP command.
-
-e.g.
-   # start an announce for a long time on eth1
-   migrate_set_parameter announce-rounds 1000
-   announce_self "eth1" e1
-
-   # start an announce on eth2
-   announce_self "eth2" e2
-
-   # Change e1 to be announcing on eth1 and eth3
-   announce_self "eth1,eth3" e1
-
-   # Cancel e1
-   migrate_set_parameter announce-rounds 0
-   announce_self "" e1
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hmp-commands.hx | 7 ++++---
- hmp.c           | 3 +++
- 2 files changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 1b63372713..7ba8543cc3 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -955,8 +955,8 @@ ETEXI
-=20
-     {
-         .name       =3D "announce_self",
--        .args_type  =3D "interfaces:s?",
--        .params     =3D "[interfaces]",
-+        .args_type  =3D "interfaces:s?,id:s?",
-+        .params     =3D "[interfaces] [id]",
-         .help       =3D "Trigger GARP/RARP announcements",
-         .cmd        =3D hmp_announce_self,
-     },
-@@ -968,7 +968,8 @@ Trigger a round of GARP/RARP broadcasts; this is usef=
-ul for explicitly updating
- network infrastructure after a reconfiguration or some forms of migratio=
-n.
- The timings of the round are set by the migration announce parameters.
- An optional comma separated @var{interfaces} list restricts the announce=
- to the
--named set of interfaces.
-+named set of interfaces. An optional @var{id} can be used to start a sep=
-arate announce
-+timer and to change the parameters of it later.
- ETEXI
-=20
-     {
-diff --git a/hmp.c b/hmp.c
-index 52efb4a4fa..fd498ca0a8 100644
---- a/hmp.c
-+++ b/hmp.c
-@@ -1669,12 +1669,15 @@ void hmp_info_snapshots(Monitor *mon, const QDict=
- *qdict)
- void hmp_announce_self(Monitor *mon, const QDict *qdict)
- {
-     const char *interfaces_str =3D qdict_get_try_str(qdict, "interfaces"=
-);
-+    const char *id =3D qdict_get_try_str(qdict, "id");
-     AnnounceParameters *params =3D QAPI_CLONE(AnnounceParameters,
-                                             migrate_announce_params());
-=20
-     qapi_free_strList(params->interfaces);
-     params->interfaces =3D strList_from_comma_list(interfaces_str);
-     params->has_interfaces =3D params->interfaces !=3D NULL;
-+    params->id =3D g_strdup(id);
-+    params->has_id =3D !!params->id;
-     qmp_announce_self(params, NULL);
-     qapi_free_AnnounceParameters(params);
- }
---=20
-2.21.0
-
 
