@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B733C3AD12
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 04:36:45 +0200 (CEST)
-Received: from localhost ([::1]:39838 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15BA63AD14
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 04:36:49 +0200 (CEST)
+Received: from localhost ([::1]:39842 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haAAu-0006e9-TA
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 22:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53308)
+	id 1haAAy-0006mI-9E
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jun 2019 22:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53371)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1ha9eH-0006tV-Ge
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:03 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1ha9eM-0006wf-PG
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ha9eF-0001zY-J6
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:01 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36882)
+ (envelope-from <richard.henderson@linaro.org>) id 1ha9eJ-00022z-CW
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:05 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39497)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ha9eD-0001v3-LE
- for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:02:57 -0400
-Received: by mail-pl1-x644.google.com with SMTP id bh12so2987924plb.4
- for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 19:02:57 -0700 (PDT)
+ id 1ha9eH-0001yX-EF
+ for qemu-devel@nongnu.org; Sun, 09 Jun 2019 22:03:02 -0400
+Received: by mail-pg1-x533.google.com with SMTP id 196so4153017pgc.6
+ for <qemu-devel@nongnu.org>; Sun, 09 Jun 2019 19:02:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=nwSqled/nvSwrZxfnns2Ie8Xa1WPbLk6Osef1/ENK6I=;
- b=sbqrbA+X7C1HnFF0eEAzDpnLYEnAUJgqAUo0dP8fm0OHllqaAHIFpWtQippRcS0FsK
- P/VxusZDv7MvOYwb5zMQTFNihOJkdRdsitS2KFl2jhKcLa0qizSTCJ0oL+Va1Ajagxg+
- z2JNmOtLW4wuIgTszMGWjsYCGXvVjwNpXm+DQZtwGaBsqteN3AxSkDup91IbKc2ahFd+
- 6Qn4T7BtF5CNe0yjbeoOkNMXeEzztmddDyyEHhb5/bnSHlHLFg0mQBfCCfjZAjAw5uHB
- io8b6IxoJTu9rY++xEcb8ZvjRrhIrGAu/NOCCmVZw5JY5KuqcFR/FpYk2uuKafOpG0Kp
- XgYQ==
+ bh=qPjUQH6Gnjw3woo8tVennI13rz+FQ3RM//Ufnw5/vLw=;
+ b=empLdOANKSZ0wOqjuutmzftQ7MIjP7Ix42+iSNW8lPtIUlrg9xHJ3MV/axcInylY6J
+ Gcu0Z0M59cH8bRyAabC1Pq80ofHnGn9vgRyPkhOdIjBXjrYHRGGrhdwIRah8mjnpELYI
+ /iYXhxc3zn7j49RH4//Qa3HpJMXD4Dkucf+D/dhCxhW+doFxRiRRv3wJbmHJcB9DJxeV
+ UoclO/PhCiwhdYyR6PwNQgzrddSgz/G3cdCde10Lob4+PuIFKnCNDZUeCeXZnGE+BWzC
+ vAC/QtRt9tlPM94TJc0/8zBkQ+ITmO7hzje4Gx6+yyKQ+1soQu+/uzaJhcqUiswjLTZc
+ oxDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=nwSqled/nvSwrZxfnns2Ie8Xa1WPbLk6Osef1/ENK6I=;
- b=R02q6mDLzFrAjLS+EhYigJdv/wig8ICCcmIEvtrqGP8CcuzcP2siAr9xc8O24XIkCF
- Mb8TRYPU2DTgaNxRLDRvL2WfFOaJol8DParB1zl6hdSG6cTrBbgEHdc0wSZ/t8t/fuYB
- SaPHJRrlE/Gqlzld2/InFnyWwhQv3B70p1k6SV03H4BL8jW4bojCbSMKeYzzLbHO7hO9
- cqKuJkJZ8vD6UoIaXGCYBsIPRVi1XdO6v1AKehURj9s8LgoZNdAM03T1G3TIuUTvGBve
- 4/JbwpaEFTz7tGRlEmSy4DFhdSPxzw4/ZLjcQDlMkaXA0ck6fHXwyEFkkk9fU2n3iY6q
- 3GKA==
-X-Gm-Message-State: APjAAAUPZKPjAXZShSOBvZNmqMPQZRqwTVZ/UNNcGBYx23UDl8hQI4LK
- T6ru6si7zaL2xyqabiUEdxqhLSLZN5k=
-X-Google-Smtp-Source: APXvYqynSZGm5VwxUlS6ukOhaQChFAmEv4V3w+CEGPoaZI+tf2uqhbJlxd0pRjFq3UxfV1JNxHkroA==
-X-Received: by 2002:a17:902:7c03:: with SMTP id
- x3mr43380280pll.242.1560132176444; 
- Sun, 09 Jun 2019 19:02:56 -0700 (PDT)
+ bh=qPjUQH6Gnjw3woo8tVennI13rz+FQ3RM//Ufnw5/vLw=;
+ b=HTgM291C9nXA8l9VMo5L+XKZmiadkKM95wcSywayjWXj4SVnrLOCKdb+CAuJCqpvrk
+ EysxR5W2+QNg4s03T+0oePh6xxKYQ09/F3RVf70MsmRxhMr8i3z+zk6epjAiHcazgJBr
+ L7yXpABAdRQxamjqQKGB/blp1W6F3MQX0rhP6/zEq8CM+5XHRtMYVWjU33804ffa25Ew
+ 7pVY/bBLaPJ0CQVNppUfYFkIP2cugwrg1gDSVnc5nu83fc11NciXjHB1z7z3P7UeZpPc
+ RcgwCOp61kR5Bv2Hehm5e2f/Bp6qC/K6+UMxc6nP1mBrrDS4TE0xWXWq7M9NB1MwRySR
+ 0e0Q==
+X-Gm-Message-State: APjAAAUYsAX9FVBh/qgWH3/kWcae9yuIbJa+e+Q8cNUsJniDbvF48fBu
+ tSpj9+hh67ii5ZO0KKsa39AkCmL2mZo=
+X-Google-Smtp-Source: APXvYqzLu9/0t70jwrKaD1T6aFCw5pSG1WH9H4R2prKK4ux1cKx8od/3ORWi355uxbTHHHov4x+PAw==
+X-Received: by 2002:a63:6647:: with SMTP id a68mr13532109pgc.414.1560132177614; 
+ Sun, 09 Jun 2019 19:02:57 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
  [97.113.13.231])
- by smtp.gmail.com with ESMTPSA id l63sm9749013pfl.181.2019.06.09.19.02.55
+ by smtp.gmail.com with ESMTPSA id l63sm9749013pfl.181.2019.06.09.19.02.56
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 09 Jun 2019 19:02:55 -0700 (PDT)
+ Sun, 09 Jun 2019 19:02:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun,  9 Jun 2019 19:02:09 -0700
-Message-Id: <20190610020218.9228-31-richard.henderson@linaro.org>
+Date: Sun,  9 Jun 2019 19:02:10 -0700
+Message-Id: <20190610020218.9228-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190610020218.9228-1-richard.henderson@linaro.org>
 References: <20190610020218.9228-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PULL 30/39] target/xtensa: Use env_cpu, env_archcpu
+X-Received-From: 2607:f8b0:4864:20::533
+Subject: [Qemu-devel] [PULL 31/39] cpu: Move ENV_OFFSET to exec/gen-icount.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,259 +79,305 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cleanup in the boilerplate that each target must define.
-Replace xtensa_env_get_cpu with env_archcpu.  The combination
-CPU(xtensa_env_get_cpu) should have used ENV_GET_CPU to begin;
-use env_cpu now.
-
-Move cpu_get_tb_cpu_state below the include of "exec/cpu-all.h"
-so that the definition of env_cpu is available.
+Now that we have ArchCPU, we can define this generically,
+in the one place that needs it.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/xtensa/cpu.h          | 17 ++++++-----------
- hw/xtensa/pic_cpu.c          |  2 +-
- linux-user/xtensa/cpu_loop.c |  2 +-
- target/xtensa/dbg_helper.c   |  4 ++--
- target/xtensa/exc_helper.c   |  9 ++++-----
- target/xtensa/helper.c       |  2 +-
- target/xtensa/mmu_helper.c   | 17 ++++++-----------
- target/xtensa/xtensa-semi.c  |  2 +-
- 8 files changed, 22 insertions(+), 33 deletions(-)
+ include/exec/gen-icount.h | 2 ++
+ target/alpha/cpu.h        | 1 -
+ target/arm/cpu.h          | 2 --
+ target/cris/cpu.h         | 1 -
+ target/hppa/cpu.h         | 1 -
+ target/i386/cpu.h         | 1 -
+ target/lm32/cpu.h         | 1 -
+ target/m68k/cpu.h         | 1 -
+ target/microblaze/cpu.h   | 1 -
+ target/mips/cpu.h         | 1 -
+ target/moxie/cpu.h        | 1 -
+ target/nios2/cpu.h        | 1 -
+ target/openrisc/cpu.h     | 1 -
+ target/ppc/cpu.h          | 1 -
+ target/riscv/cpu.h        | 2 --
+ target/s390x/cpu.h        | 1 -
+ target/sh4/cpu.h          | 1 -
+ target/sparc/cpu.h        | 1 -
+ target/tilegx/cpu.h       | 1 -
+ target/tricore/cpu.h      | 1 -
+ target/unicore32/cpu.h    | 1 -
+ target/xtensa/cpu.h       | 2 --
+ 22 files changed, 2 insertions(+), 24 deletions(-)
 
+diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
+index 24f7991781..9cfa6ccce5 100644
+--- a/include/exec/gen-icount.h
++++ b/include/exec/gen-icount.h
+@@ -5,6 +5,8 @@
+ 
+ /* Helpers for instruction counting code generation.  */
+ 
++#define ENV_OFFSET   offsetof(ArchCPU, env)
++
+ static TCGOp *icount_start_insn;
+ 
+ static inline void gen_tb_start(TranslationBlock *tb)
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index 86d3e953b9..361f85c976 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -278,7 +278,6 @@ struct AlphaCPU {
+     QEMUTimer *alarm_timer;
+ };
+ 
+-#define ENV_OFFSET offsetof(AlphaCPU, env)
+ 
+ #ifndef CONFIG_USER_ONLY
+ extern const struct VMStateDescription vmstate_alpha_cpu;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index c7df3816b5..abe6fce7ab 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -917,8 +917,6 @@ void arm_cpu_post_init(Object *obj);
+ 
+ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz);
+ 
+-#define ENV_OFFSET offsetof(ARMCPU, env)
+-
+ #ifndef CONFIG_USER_ONLY
+ extern const struct VMStateDescription vmstate_arm_cpu;
+ #endif
+diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+index e9e4e39a40..83c350377a 100644
+--- a/target/cris/cpu.h
++++ b/target/cris/cpu.h
+@@ -183,7 +183,6 @@ struct CRISCPU {
+     CPUCRISState env;
+ };
+ 
+-#define ENV_OFFSET offsetof(CRISCPU, env)
+ 
+ #ifndef CONFIG_USER_ONLY
+ extern const struct VMStateDescription vmstate_cris_cpu;
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index 75e6a91a5e..7f9f54731b 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
+@@ -222,7 +222,6 @@ struct HPPACPU {
+     QEMUTimer *alarm_timer;
+ };
+ 
+-#define ENV_OFFSET      offsetof(HPPACPU, env)
+ 
+ typedef CPUHPPAState CPUArchState;
+ typedef HPPACPU ArchCPU;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 709d88cfcf..3a155c12d3 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1480,7 +1480,6 @@ struct X86CPU {
+     int32_t hv_max_vps;
+ };
+ 
+-#define ENV_OFFSET offsetof(X86CPU, env)
+ 
+ #ifndef CONFIG_USER_ONLY
+ extern struct VMStateDescription vmstate_x86_cpu;
+diff --git a/target/lm32/cpu.h b/target/lm32/cpu.h
+index 7fb65fb4b6..2c934472d6 100644
+--- a/target/lm32/cpu.h
++++ b/target/lm32/cpu.h
+@@ -195,7 +195,6 @@ struct LM32CPU {
+     uint32_t features;
+ };
+ 
+-#define ENV_OFFSET offsetof(LM32CPU, env)
+ 
+ #ifndef CONFIG_USER_ONLY
+ extern const struct VMStateDescription vmstate_lm32_cpu;
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 7f3fa8d141..4006663494 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -163,7 +163,6 @@ struct M68kCPU {
+     CPUM68KState env;
+ };
+ 
+-#define ENV_OFFSET offsetof(M68kCPU, env)
+ 
+ void m68k_cpu_do_interrupt(CPUState *cpu);
+ bool m68k_cpu_exec_interrupt(CPUState *cpu, int int_req);
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index 8402cc81f6..a17c12ca2f 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -310,7 +310,6 @@ struct MicroBlazeCPU {
+     CPUMBState env;
+ };
+ 
+-#define ENV_OFFSET offsetof(MicroBlazeCPU, env)
+ 
+ void mb_cpu_do_interrupt(CPUState *cs);
+ bool mb_cpu_exec_interrupt(CPUState *cs, int int_req);
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index cb09425476..24fe25f61c 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1071,7 +1071,6 @@ struct MIPSCPU {
+     CPUMIPSState env;
+ };
+ 
+-#define ENV_OFFSET offsetof(MIPSCPU, env)
+ 
+ void mips_cpu_list(void);
+ 
+diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
+index b9f5635e50..3d418c8f1d 100644
+--- a/target/moxie/cpu.h
++++ b/target/moxie/cpu.h
+@@ -90,7 +90,6 @@ typedef struct MoxieCPU {
+     CPUMoxieState env;
+ } MoxieCPU;
+ 
+-#define ENV_OFFSET offsetof(MoxieCPU, env)
+ 
+ void moxie_cpu_do_interrupt(CPUState *cs);
+ void moxie_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 9490ba83e4..c96d797dda 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -194,7 +194,6 @@ typedef struct Nios2CPU {
+     uint32_t fast_tlb_miss_addr;
+ } Nios2CPU;
+ 
+-#define ENV_OFFSET offsetof(Nios2CPU, env)
+ 
+ void nios2_tcg_init(void);
+ void nios2_cpu_do_interrupt(CPUState *cs);
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index 9e46ac5266..39e2765aa2 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -317,7 +317,6 @@ typedef struct OpenRISCCPU {
+ 
+ } OpenRISCCPU;
+ 
+-#define ENV_OFFSET offsetof(OpenRISCCPU, env)
+ 
+ void cpu_openrisc_list(void);
+ void openrisc_cpu_do_interrupt(CPUState *cpu);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 73ef868a7b..73b92c189c 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1203,7 +1203,6 @@ struct PowerPCCPU {
+     int32_t mig_slb_nr;
+ };
+ 
+-#define ENV_OFFSET offsetof(PowerPCCPU, env)
+ 
+ PowerPCCPUClass *ppc_cpu_class_by_pvr(uint32_t pvr);
+ PowerPCCPUClass *ppc_cpu_class_by_pvr_mask(uint32_t pvr);
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 29a1e08f03..d9611eaced 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -239,8 +239,6 @@ extern const char * const riscv_fpr_regnames[];
+ extern const char * const riscv_excp_names[];
+ extern const char * const riscv_intr_names[];
+ 
+-#define ENV_OFFSET offsetof(RISCVCPU, env)
+-
+ void riscv_cpu_do_interrupt(CPUState *cpu);
+ int riscv_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
+ int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index d18b279d87..dbf13c9221 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -163,7 +163,6 @@ struct S390CPU {
+     uint32_t irqstate_saved_size;
+ };
+ 
+-#define ENV_OFFSET offsetof(S390CPU, env)
+ 
+ #ifndef CONFIG_USER_ONLY
+ extern const struct VMStateDescription vmstate_s390_cpu;
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index 089eea261c..610a8db6de 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -207,7 +207,6 @@ struct SuperHCPU {
+     CPUSH4State env;
+ };
+ 
+-#define ENV_OFFSET offsetof(SuperHCPU, env)
+ 
+ void superh_cpu_do_interrupt(CPUState *cpu);
+ bool superh_cpu_exec_interrupt(CPUState *cpu, int int_req);
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index adcd9e3000..0cc36873ce 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -532,7 +532,6 @@ struct SPARCCPU {
+     CPUSPARCState env;
+ };
+ 
+-#define ENV_OFFSET offsetof(SPARCCPU, env)
+ 
+ #ifndef CONFIG_USER_ONLY
+ extern const struct VMStateDescription vmstate_sparc_cpu;
+diff --git a/target/tilegx/cpu.h b/target/tilegx/cpu.h
+index 7f8fe7c513..643b7dbd17 100644
+--- a/target/tilegx/cpu.h
++++ b/target/tilegx/cpu.h
+@@ -138,7 +138,6 @@ typedef struct TileGXCPU {
+     CPUTLGState env;
+ } TileGXCPU;
+ 
+-#define ENV_OFFSET offsetof(TileGXCPU, env)
+ 
+ /* TILE-Gx memory attributes */
+ #define MMU_USER_IDX    0  /* Current memory operation is in user mode */
+diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
+index 6a40d37362..9f45bb5c24 100644
+--- a/target/tricore/cpu.h
++++ b/target/tricore/cpu.h
+@@ -208,7 +208,6 @@ struct TriCoreCPU {
+     CPUTriCoreState env;
+ };
+ 
+-#define ENV_OFFSET offsetof(TriCoreCPU, env)
+ 
+ hwaddr tricore_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ void tricore_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
+index 595dc43c99..c1130e9548 100644
+--- a/target/unicore32/cpu.h
++++ b/target/unicore32/cpu.h
+@@ -76,7 +76,6 @@ struct UniCore32CPU {
+     CPUUniCore32State env;
+ };
+ 
+-#define ENV_OFFSET offsetof(UniCore32CPU, env)
+ 
+ void uc32_cpu_do_interrupt(CPUState *cpu);
+ bool uc32_cpu_exec_interrupt(CPUState *cpu, int int_req);
 diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 3de53cb5d0..97b7bae0fe 100644
+index 97b7bae0fe..e89605747a 100644
 --- a/target/xtensa/cpu.h
 +++ b/target/xtensa/cpu.h
-@@ -559,11 +559,6 @@ struct XtensaCPU {
+@@ -559,8 +559,6 @@ struct XtensaCPU {
      CPUXtensaState env;
  };
  
--static inline XtensaCPU *xtensa_env_get_cpu(const CPUXtensaState *env)
--{
--    return container_of(env, XtensaCPU, env);
--}
+-#define ENV_OFFSET offsetof(XtensaCPU, env)
 -
- #define ENV_OFFSET offsetof(XtensaCPU, env)
  
- 
-@@ -724,10 +719,15 @@ static inline int cpu_mmu_index(CPUXtensaState *env, bool ifetch)
- #define XTENSA_CSBASE_LBEG_OFF_MASK 0x00ff0000
- #define XTENSA_CSBASE_LBEG_OFF_SHIFT 16
- 
-+typedef CPUXtensaState CPUArchState;
-+typedef XtensaCPU ArchCPU;
-+
-+#include "exec/cpu-all.h"
-+
- static inline void cpu_get_tb_cpu_state(CPUXtensaState *env, target_ulong *pc,
-         target_ulong *cs_base, uint32_t *flags)
- {
--    CPUState *cs = CPU(xtensa_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     *pc = env->pc;
-     *cs_base = 0;
-@@ -797,9 +797,4 @@ static inline void cpu_get_tb_cpu_state(CPUXtensaState *env, target_ulong *pc,
-     }
- }
- 
--typedef CPUXtensaState CPUArchState;
--typedef XtensaCPU ArchCPU;
--
--#include "exec/cpu-all.h"
--
- #endif
-diff --git a/hw/xtensa/pic_cpu.c b/hw/xtensa/pic_cpu.c
-index a8939f5e58..df3acbb541 100644
---- a/hw/xtensa/pic_cpu.c
-+++ b/hw/xtensa/pic_cpu.c
-@@ -33,7 +33,7 @@
- 
- void check_interrupts(CPUXtensaState *env)
- {
--    CPUState *cs = CPU(xtensa_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     int minlevel = xtensa_get_cintlevel(env);
-     uint32_t int_set_enabled = env->sregs[INTSET] & env->sregs[INTENABLE];
-     int level;
-diff --git a/linux-user/xtensa/cpu_loop.c b/linux-user/xtensa/cpu_loop.c
-index bee78edb8a..64831c9199 100644
---- a/linux-user/xtensa/cpu_loop.c
-+++ b/linux-user/xtensa/cpu_loop.c
-@@ -123,7 +123,7 @@ static void xtensa_underflow12(CPUXtensaState *env)
- 
- void cpu_loop(CPUXtensaState *env)
- {
--    CPUState *cs = CPU(xtensa_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     target_siginfo_t info;
-     abi_ulong ret;
-     int trapnr;
-diff --git a/target/xtensa/dbg_helper.c b/target/xtensa/dbg_helper.c
-index cd8fbd653a..be1f81107b 100644
---- a/target/xtensa/dbg_helper.c
-+++ b/target/xtensa/dbg_helper.c
-@@ -71,7 +71,7 @@ void HELPER(wsr_ibreaka)(CPUXtensaState *env, uint32_t i, uint32_t v)
- static void set_dbreak(CPUXtensaState *env, unsigned i, uint32_t dbreaka,
-         uint32_t dbreakc)
- {
--    CPUState *cs = CPU(xtensa_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     int flags = BP_CPU | BP_STOP_BEFORE_ACCESS;
-     uint32_t mask = dbreakc | ~DBREAKC_MASK;
- 
-@@ -118,7 +118,7 @@ void HELPER(wsr_dbreakc)(CPUXtensaState *env, uint32_t i, uint32_t v)
-             set_dbreak(env, i, env->sregs[DBREAKA + i], v);
-         } else {
-             if (env->cpu_watchpoint[i]) {
--                CPUState *cs = CPU(xtensa_env_get_cpu(env));
-+                CPUState *cs = env_cpu(env);
- 
-                 cpu_watchpoint_remove_by_ref(cs, env->cpu_watchpoint[i]);
-                 env->cpu_watchpoint[i] = NULL;
-diff --git a/target/xtensa/exc_helper.c b/target/xtensa/exc_helper.c
-index 4a1f7aef5d..601341d13a 100644
---- a/target/xtensa/exc_helper.c
-+++ b/target/xtensa/exc_helper.c
-@@ -34,7 +34,7 @@
- 
- void HELPER(exception)(CPUXtensaState *env, uint32_t excp)
- {
--    CPUState *cs = CPU(xtensa_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
- 
-     cs->exception_index = excp;
-     if (excp == EXCP_YIELD) {
-@@ -100,7 +100,7 @@ void HELPER(debug_exception)(CPUXtensaState *env, uint32_t pc, uint32_t cause)
- 
- void HELPER(waiti)(CPUXtensaState *env, uint32_t pc, uint32_t intlevel)
- {
--    CPUState *cpu;
-+    CPUState *cpu = env_cpu(env);
- 
-     env->pc = pc;
-     env->sregs[PS] = (env->sregs[PS] & ~PS_INTLEVEL) |
-@@ -111,11 +111,10 @@ void HELPER(waiti)(CPUXtensaState *env, uint32_t pc, uint32_t intlevel)
-     qemu_mutex_unlock_iothread();
- 
-     if (env->pending_irq_level) {
--        cpu_loop_exit(CPU(xtensa_env_get_cpu(env)));
-+        cpu_loop_exit(cpu);
-         return;
-     }
- 
--    cpu = CPU(xtensa_env_get_cpu(env));
-     cpu->halted = 1;
-     HELPER(exception)(env, EXCP_HLT);
- }
-@@ -165,7 +164,7 @@ static void handle_interrupt(CPUXtensaState *env)
-         (env->config->level_mask[level] &
-          env->sregs[INTSET] &
-          env->sregs[INTENABLE])) {
--        CPUState *cs = CPU(xtensa_env_get_cpu(env));
-+        CPUState *cs = env_cpu(env);
- 
-         if (level > 1) {
-             env->sregs[EPC1 + level - 1] = env->pc;
-diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
-index f2d07e4a2f..376a61f339 100644
---- a/target/xtensa/helper.c
-+++ b/target/xtensa/helper.c
-@@ -324,7 +324,7 @@ void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
- 
- void xtensa_runstall(CPUXtensaState *env, bool runstall)
- {
--    CPUState *cpu = CPU(xtensa_env_get_cpu(env));
-+    CPUState *cpu = env_cpu(env);
- 
-     env->runstall = runstall;
-     cpu->halted = runstall;
-diff --git a/target/xtensa/mmu_helper.c b/target/xtensa/mmu_helper.c
-index cab39f687a..f15bff306f 100644
---- a/target/xtensa/mmu_helper.c
-+++ b/target/xtensa/mmu_helper.c
-@@ -71,12 +71,10 @@ void HELPER(itlb_hit_test)(CPUXtensaState *env, uint32_t vaddr)
- 
- void HELPER(wsr_rasid)(CPUXtensaState *env, uint32_t v)
- {
--    XtensaCPU *cpu = xtensa_env_get_cpu(env);
--
-     v = (v & 0xffffff00) | 0x1;
-     if (v != env->sregs[RASID]) {
-         env->sregs[RASID] = v;
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
-     }
- }
- 
-@@ -276,8 +274,7 @@ static void xtensa_tlb_set_entry(CPUXtensaState *env, bool dtlb,
-                                  unsigned wi, unsigned ei,
-                                  uint32_t vpn, uint32_t pte)
- {
--    XtensaCPU *cpu = xtensa_env_get_cpu(env);
--    CPUState *cs = CPU(cpu);
-+    CPUState *cs = env_cpu(env);
-     xtensa_tlb_entry *entry = xtensa_tlb_get_entry(env, dtlb, wi, ei);
- 
-     if (xtensa_option_enabled(env->config, XTENSA_OPTION_MMU)) {
-@@ -503,7 +500,7 @@ void HELPER(itlb)(CPUXtensaState *env, uint32_t v, uint32_t dtlb)
-         uint32_t wi;
-         xtensa_tlb_entry *entry = get_tlb_entry(env, v, dtlb, &wi);
-         if (entry->variable && entry->asid) {
--            tlb_flush_page(CPU(xtensa_env_get_cpu(env)), entry->vaddr);
-+            tlb_flush_page(env_cpu(env), entry->vaddr);
-             entry->asid = 0;
-         }
-     }
-@@ -844,7 +841,7 @@ static int get_physical_addr_mmu(CPUXtensaState *env, bool update_tlb,
- 
- static bool get_pte(CPUXtensaState *env, uint32_t vaddr, uint32_t *pte)
- {
--    CPUState *cs = CPU(xtensa_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     uint32_t paddr;
-     uint32_t page_size;
-     unsigned access;
-@@ -924,13 +921,11 @@ static int xtensa_mpu_lookup(const xtensa_mpu_entry *entry, unsigned n,
- 
- void HELPER(wsr_mpuenb)(CPUXtensaState *env, uint32_t v)
- {
--    XtensaCPU *cpu = xtensa_env_get_cpu(env);
--
-     v &= (2u << (env->config->n_mpu_fg_segments - 1)) - 1;
- 
-     if (v != env->sregs[MPUENB]) {
-         env->sregs[MPUENB] = v;
--        tlb_flush(CPU(cpu));
-+        tlb_flush(env_cpu(env));
-     }
- }
- 
-@@ -942,7 +937,7 @@ void HELPER(wptlb)(CPUXtensaState *env, uint32_t p, uint32_t v)
-         env->mpu_fg[segment].vaddr = v & -env->config->mpu_align;
-         env->mpu_fg[segment].attr = p & XTENSA_MPU_ATTR_MASK;
-         env->sregs[MPUENB] = deposit32(env->sregs[MPUENB], segment, 1, v);
--        tlb_flush(CPU(xtensa_env_get_cpu(env)));
-+        tlb_flush(env_cpu(env));
-     }
- }
- 
-diff --git a/target/xtensa/xtensa-semi.c b/target/xtensa/xtensa-semi.c
-index 38efa3485a..8862985e56 100644
---- a/target/xtensa/xtensa-semi.c
-+++ b/target/xtensa/xtensa-semi.c
-@@ -197,7 +197,7 @@ void xtensa_sim_open_console(Chardev *chr)
- 
- void HELPER(simcall)(CPUXtensaState *env)
- {
--    CPUState *cs = CPU(xtensa_env_get_cpu(env));
-+    CPUState *cs = env_cpu(env);
-     uint32_t *regs = env->regs;
- 
-     switch (regs[2]) {
+ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                          MMUAccessType access_type, int mmu_idx,
 -- 
 2.17.1
 
