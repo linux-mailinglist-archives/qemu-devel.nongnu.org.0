@@ -2,71 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9413A3B458
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 14:06:26 +0200 (CEST)
-Received: from localhost ([::1]:45816 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C721D3B4C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 14:22:48 +0200 (CEST)
+Received: from localhost ([::1]:45926 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haJ4D-0003WU-Qz
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 08:06:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
+	id 1haJK4-0001np-1H
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 08:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57938)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1haJ25-0002Z5-Pt
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:04:17 -0400
+ (envelope-from <imammedo@redhat.com>) id 1haJHg-0000eM-EV
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:20:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1haJ22-0002Lx-6n
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:04:12 -0400
-Received: from mail-wm1-f44.google.com ([209.85.128.44]:37970)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1haJ20-00025X-CJ
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:04:09 -0400
-Received: by mail-wm1-f44.google.com with SMTP id s15so5459262wmj.3
- for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 05:03:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Z5A6X8AkRuuHAvmEEszQeDZC0lEJa3VbK5TkPlorm/c=;
- b=YDQzD+QlnvrX/9UrDcOC9e8uA7SvATV2Pep27zn27I40C1dBJzQT3gYFh9VLtGxq7W
- HDW45X7WMfQbmjH43o5FWnUNP1t9LexyJGArkzoQhGRlZUOcnRJveb/i5n1jFNrINyrT
- KDu8WefZRgxlD5OtS+HRryTa+6CKX5nfkTgqF5w0VbI/adHrW/J4HubdHEbMJP/UIQXQ
- r65jkISuW/EKFHUlxaJTLHjC0KRHYlIGIoGyMrs8J/nVENOxRZs3vPuGEGjCHsmAYwql
- iFKOH2M6/Ulz5vxBGygU3Y5o/Doap0TuFDaT4TviJmKaqVc6go0B45Y6Y57xi/NY8jDD
- wJMw==
-X-Gm-Message-State: APjAAAUabmQOjQ/ZPyOPe96vp4Rdp1328ReCKNLFpmtxZai7Z0ufn4ii
- M2rshTTK0C1evAX/CaIMSbEy1g==
-X-Google-Smtp-Source: APXvYqxbuMBVXZTIZCLzIpTgttVCnWSYcC8dwMq4urKF0yRptz776XZnRQ2hTUgWXW4Tt2qrjhqADw==
-X-Received: by 2002:a1c:acc8:: with SMTP id
- v191mr13791303wme.177.1560168224821; 
- Mon, 10 Jun 2019 05:03:44 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:49d3:a711:c5a3:8ebf?
- ([2001:b07:6468:f312:49d3:a711:c5a3:8ebf])
- by smtp.gmail.com with ESMTPSA id r6sm3932821wrp.85.2019.06.10.05.03.43
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 Jun 2019 05:03:44 -0700 (PDT)
-To: =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
- Natalia Fursova <Natalia.Fursova@ispras.ru>
-References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
- <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
- <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
- <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
- <003b01d51f72$5e6f4160$1b4dc420$@Fursova@ispras.ru>
- <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
-Date: Mon, 10 Jun 2019 14:03:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <imammedo@redhat.com>) id 1haJHY-0006wf-5Q
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:20:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52732)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1haJHX-0006dT-WD
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 08:20:12 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8EDB93082E20
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 12:19:43 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EDF60196FF;
+ Mon, 10 Jun 2019 12:19:38 +0000 (UTC)
+Date: Mon, 10 Jun 2019 14:19:34 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190610141934.5ea6836d@redhat.com>
+In-Reply-To: <87o9395mp1.fsf@dusky.pond.sub.org>
+References: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
+ <87o9395mp1.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Mon, 10 Jun 2019 12:19:43 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.44
-Subject: Re: [Qemu-devel] qgraph
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] numa: deprecate '-numa node,
+ mem' and default memory distribution
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,40 +57,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?J9Cf0LDRiNCwJw==?= <Pavel.Dovgaluk@ispras.ru>, armbru@redhat.com
+Cc: libvir-list@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
+ qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/06/19 13:57, Andreas Färber wrote:
-> Your question doesn't make sense grammatically or conceptually. As Paolo
-> explained below, QOM is a pure object model, with object types/classes
-> and properties. Buses are just object instances attached as properties
-> and don't necessarily even need their own type of bus object (e.g, CPU).
-> An answer you don't like doesn't change by asking it to other people...
-> The information is all there, you just need to interpret it correctly.
+On Fri, 07 Jun 2019 19:28:58 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
+
+> Igor Mammedov <imammedo@redhat.com> writes:
 > 
-> There is no technical discussion (no concrete proposal of yours) to
-> comment on here, and kindly refer to last week's change of maintainers.
+> > Changes since v3:
+> >   - simplify series by dropping idea of showing property values in "qom-list-properties"
+> >     and use MachineInfo in QAPI schema instead  
 > 
-> You would be better off just explaining what you really want to achieve.
+> Where did "[PATCH v3 1/6] pc: fix possible NULL pointer dereference in
+> pc_machine_get_device_memory_region_size()" go?  It fixes a crash bug...
 
-Well, that was explained upthread---finding out what device can be
-plugged where.
-
-Let's see what is in QOM right now:
-
-$ qemu-kvm -qmp unix:foo.sock,server,nowait -device virtio-scsi-pci,id=vs
-$ ./qmp/qom-list -s ~/foo.sock /machine/peripheral/vs|less
-
-There is a "virtio-bus" here, and iside it there is a scsi-bus.
-
-$ ./qmp/qom-list -s ~/foo.sock /machine/peripheral/vs/virtio-bus/child[0]/
-vs.0/
-
-I guess you could add to virtio-scsi-pci a class property for the bus,
-and then make "vs.0" an alias to that class property.  This would allow
-you find buses by enumerating the class properties.
-
-Paolo
+I'll post it as separate patch as it's not more related to this series
 
