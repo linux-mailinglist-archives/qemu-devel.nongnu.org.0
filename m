@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC22F3B3FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 13:25:03 +0200 (CEST)
-Received: from localhost ([::1]:44580 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 576DF3B405
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jun 2019 13:28:14 +0200 (CEST)
+Received: from localhost ([::1]:44590 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haIQA-0006HM-W3
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 07:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43061)
+	id 1haITF-0008Na-IQ
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 07:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43071)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1haIGd-00074O-Ij
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 07:15:12 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1haIGe-00076n-Dv
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 07:15:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1haIGc-0000Wi-Bf
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 07:15:11 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36557)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1haIGd-0000YB-7m
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 07:15:12 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33345)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1haIGc-0000UF-4Q
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 07:15:10 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n4so8771568wrs.3
+ id 1haIGd-0000Wd-0w
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 07:15:11 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n9so8781901wru.0
  for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 04:15:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=ElZKCGuiZjv0T7oDmrIXGv2pOxAvcOLWWjOt4Xe9G90=;
- b=d3lQy6AW9hzOkwduoPZmT5mDb5MwZv7XIGUnTP7I43BJ5iOm77/Zxw9xS8N9lBgBJM
- /AHVxlxnTvCixGnYa+hxZ99vhiPeRXwDKvhs2tu23IHWPNrrjjszhiGO1yzdSAOcVz0N
- ubttsNLukYlT4HFjBgNk7Y1t2Am0kualo/Yu9Vt0hWWEXhd9JR6YX4mRn2BBxho+ptup
- 7Da+lLNPuUUnwOfWhkJlYgYtJw1yocteXRnEZFvtCDgZKPhFZvAPQDogpeZMYKAzybWr
- ZcIEN1sVJIjd8uSgxG9fchiPaGjOX9/Egu3GgsWQa/DsHk4NqP9tK/XpBupHMYk4HLZl
- qT2w==
+ bh=1zrIFAijuNVbF8dO1b1lYHUT6C8Kbe7c2Cym046QUnE=;
+ b=KRBKkGjJpU4QOt/jNdsDx/1OpdSgbquLUk5NWRAjZbcYRx5JDiU/9xLxCkYsaYoS5F
+ 1Y+gUcsCbx8Qzmio89GH9Mm8axSHrcpRYrcV968hP+Y4O8yx0si+Oz5oKDnyLLhtzjTr
+ ql4HlOtj23wPBfpFfGEDfe6ZKxZNQ2+ueaHjhtnEwFCgzVMEXaIpms+uYXSdSxWX/qSP
+ JPj7V99p0hV/IzfpAzHftcgP16zEUj3tOmy9r/SwIJw1bkfEGN+qZa+UdoAFrEHOrUDF
+ zKenmemSXXgRBTbqiAhqEdjqbB6a2qEYQOpno1CIcu4IkXQ4S0H0bWMNzxczE1YT/Pfq
+ Tzpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=ElZKCGuiZjv0T7oDmrIXGv2pOxAvcOLWWjOt4Xe9G90=;
- b=QHldLZ2eiXDSkD7uCzX3hhospRWylNJbgBDeiJX3w/yf64j14faqg55ADqDUFw5lSi
- 7gJCV3xBWpcQofGVJCKQ2lXmUYZNfGPg7LhXNXN58m4h74ZHqAUIKoB60QzQRqLRHUbP
- l6lYYkxdm+NN7B73Et5lOrMBi9FcGkQutZPeNQ0qktwnel7pySZs0E38BOx8+XHwXtlr
- TZapf3twbdti+sCIqehCusRauAemw0bdcgyrGZFHXHUmYAsfO528akrx1aiSyWktPEV/
- 4IbGA+uvDci3YNPTL+MTpQQz71nXxvgXHVY7aD7AHflj1Qo//EFjwihGPBKIzz5QVFjF
- qbwg==
-X-Gm-Message-State: APjAAAV/r3UJy8qDzFOgKugpB3JunzNhmM8h2B7Hd609S1sSQo68oyrU
- y2gVWGkmALZp6tvXp4Mv2CY98hUX
-X-Google-Smtp-Source: APXvYqzl7MyzzUVZz2eH0I6jiJmkgbFV9oZYmQ1uOoDbZaP1H5ARpP7+Or75Jp8rWA0uzGob32rU2Q==
-X-Received: by 2002:a5d:4e83:: with SMTP id e3mr11137394wru.263.1560165308741; 
- Mon, 10 Jun 2019 04:15:08 -0700 (PDT)
+ bh=1zrIFAijuNVbF8dO1b1lYHUT6C8Kbe7c2Cym046QUnE=;
+ b=i5QkCthBOL0xvANdU2/SrKI3yGyHSVosMyE8U7IZW2Ol+mBjL7FCcNzo4OPc1eGhii
+ 7hNHpTODsCWVXScVkMjhVvGNTY9FgVKj1ULn1g+5iwoyx7m6oICciXVJQdqJwhuUFhCW
+ 5T0A5eMoUPO4kziR0EddFf7pR8dgAmgN1ipPMPB2/cYTRwEF1LXTupSM6yDLJV0vEP4i
+ O3sM1unQsinFmHytqdcDdTh7Ccx8SAi7BBDDSx4sbdv/2IhvTGOYxXdKTy/YG51Q17SG
+ ohYzB22AisEGK8chAci/lT2I+yj+PAydbglaxqvlBzGmOmuE94eooP31pkbLEuYvRi3+
+ 8/hA==
+X-Gm-Message-State: APjAAAU3WJOgCFUBzNXAUT06Yyh0yWPh4AIpKvXVVUwx3hdD4UOx2yoU
+ /e+mezttE9OcdOrDF4qWBZOYLLSG
+X-Google-Smtp-Source: APXvYqy+YQrRf+Wis1OURi99yd2MqRz3ytwchKCxkxs7yS6q0rOe7mzAwKy4JOgRK0Ix5zgBCK2cdg==
+X-Received: by 2002:adf:dd82:: with SMTP id x2mr7391025wrl.27.1560165309690;
+ Mon, 10 Jun 2019 04:15:09 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id u13sm11934414wrq.62.2019.06.10.04.15.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 Jun 2019 04:15:08 -0700 (PDT)
+ Mon, 10 Jun 2019 04:15:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 10 Jun 2019 13:14:58 +0200
-Message-Id: <1560165301-39026-5-git-send-email-pbonzini@redhat.com>
+Date: Mon, 10 Jun 2019 13:14:59 +0200
+Message-Id: <1560165301-39026-6-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1560165301-39026-1-git-send-email-pbonzini@redhat.com>
 References: <1560165301-39026-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH 4/7] libvhost-user: convert to Meson
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH 5/7] vhost-user-blk: convert to Meson
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,109 +78,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because libqemuutil.a is not converted yet, selected files have to be
-compiled twice, once with Meson and once with Makefile.objs.  Apart
-from this the conversion is straightforward.
+The GLib pkg-config information is extracted from config-host.mak and
+used to link vhost-user-blk.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                            | 10 ++++------
- Makefile.objs                       |  1 -
- contrib/libvhost-user/Makefile.objs |  1 -
- contrib/libvhost-user/meson.build   |  7 +++++++
- meson.build                         |  2 ++
- 5 files changed, 13 insertions(+), 8 deletions(-)
- delete mode 100644 contrib/libvhost-user/Makefile.objs
- create mode 100644 contrib/libvhost-user/meson.build
+ .gitignore                           | 2 +-
+ Makefile                             | 3 ---
+ Makefile.objs                        | 1 -
+ configure                            | 2 ++
+ contrib/vhost-user-blk/Makefile.objs | 1 -
+ contrib/vhost-user-blk/meson.build   | 3 +++
+ meson.build                          | 4 ++++
+ 7 files changed, 10 insertions(+), 6 deletions(-)
+ delete mode 100644 contrib/vhost-user-blk/Makefile.objs
+ create mode 100644 contrib/vhost-user-blk/meson.build
 
+diff --git a/.gitignore b/.gitignore
+index fd6e6c3..20637a1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -64,7 +64,7 @@
+ /module_block.h
+ /scsi/qemu-pr-helper
+ /vhost-user-scsi
+-/vhost-user-blk
++/contrib/vhost-user-blk/vhost-user-blk
+ /fsdev/virtfs-proxy-helper
+ *.tmp
+ *.[1-9]
 diff --git a/Makefile b/Makefile
-index b8f802c..6a3461e 100644
+index 6a3461e..da290fa 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -426,7 +426,6 @@ dummy := $(call unnest-vars,, \
-                 ivshmem-client-obj-y \
+@@ -427,7 +427,6 @@ dummy := $(call unnest-vars,, \
                  ivshmem-server-obj-y \
                  rdmacm-mux-obj-y \
--                libvhost-user-obj-y \
                  vhost-user-scsi-obj-y \
-                 vhost-user-blk-obj-y \
+-                vhost-user-blk-obj-y \
                  vhost-user-input-obj-y \
-@@ -529,7 +528,6 @@ Makefile: $(version-obj-y)
- # Build libraries
- 
- libqemuutil.a: $(util-obj-y) $(trace-obj-y) $(stub-obj-y)
--libvhost-user.a: $(libvhost-user-obj-y) $(util-obj-y) $(stub-obj-y)
- 
- ######################################################################
- 
-@@ -632,21 +630,21 @@ ivshmem-client$(EXESUF): $(ivshmem-client-obj-y) $(COMMON_LDADDS)
- ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
- 	$(call LINK, $^)
+                 vhost-user-gpu-obj-y \
+                 qga-vss-dll-obj-y \
+@@ -632,8 +631,6 @@ ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
  endif
--vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) libvhost-user.a
-+vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) contrib/libvhost-user/libvhost-user.a
+ vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) contrib/libvhost-user/libvhost-user.a
  	$(call LINK, $^)
--vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) libvhost-user.a
-+vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) contrib/libvhost-user/libvhost-user.a
- 	$(call LINK, $^)
+-vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) contrib/libvhost-user/libvhost-user.a
+-	$(call LINK, $^)
  
  rdmacm-mux$(EXESUF): LIBS += "-libumad"
  rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
- 	$(call LINK, $^)
- 
--vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) libqemuutil.a libqemustub.a
-+vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a
- 	$(call LINK, $^)
- 
- ifdef CONFIG_VHOST_USER_INPUT
- ifdef CONFIG_LINUX
--vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) libvhost-user.a libqemuutil.a
-+vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
- 	$(call LINK, $^)
- 
- # build by default, do not install
 diff --git a/Makefile.objs b/Makefile.objs
-index c8337fa..4f2fa6a 100644
+index 4f2fa6a..644e2bd 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -116,7 +116,6 @@ qga-vss-dll-obj-y = qga/
- elf2dmp-obj-y = contrib/elf2dmp/
- ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
- ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
--libvhost-user-obj-y = contrib/libvhost-user/
+@@ -119,7 +119,6 @@ ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
  vhost-user-scsi.o-cflags := $(LIBISCSI_CFLAGS)
  vhost-user-scsi.o-libs := $(LIBISCSI_LIBS)
  vhost-user-scsi-obj-y = contrib/vhost-user-scsi/
-diff --git a/contrib/libvhost-user/Makefile.objs b/contrib/libvhost-user/Makefile.objs
+-vhost-user-blk-obj-y = contrib/vhost-user-blk/
+ rdmacm-mux-obj-y = contrib/rdmacm-mux/
+ vhost-user-input-obj-y = contrib/vhost-user-input/
+ vhost-user-gpu-obj-y = contrib/vhost-user-gpu/
+diff --git a/configure b/configure
+index b8c3c58..f00a9e4 100755
+--- a/configure
++++ b/configure
+@@ -7364,6 +7364,8 @@ echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
+ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
+ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
+ echo "QEMU_INCLUDES=$QEMU_INCLUDES" >> $config_host_mak
++echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
++echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
+ if test "$sparse" = "yes" ; then
+   echo "CC           := REAL_CC=\"\$(CC)\" cgcc"       >> $config_host_mak
+   echo "CPP          := REAL_CC=\"\$(CPP)\" cgcc"      >> $config_host_mak
+diff --git a/contrib/vhost-user-blk/Makefile.objs b/contrib/vhost-user-blk/Makefile.objs
 deleted file mode 100644
-index ef3778e..0000000
---- a/contrib/libvhost-user/Makefile.objs
+index 72e2cdc..0000000
+--- a/contrib/vhost-user-blk/Makefile.objs
 +++ /dev/null
 @@ -1 +0,0 @@
--libvhost-user-obj-y += libvhost-user.o libvhost-user-glib.o
-diff --git a/contrib/libvhost-user/meson.build b/contrib/libvhost-user/meson.build
+-vhost-user-blk-obj-y = vhost-user-blk.o
+diff --git a/contrib/vhost-user-blk/meson.build b/contrib/vhost-user-blk/meson.build
 new file mode 100644
-index 0000000..7ef610a
+index 0000000..6c00b3b
 --- /dev/null
-+++ b/contrib/libvhost-user/meson.build
-@@ -0,0 +1,7 @@
-+libvhost_user = static_library('vhost-user',
-+               [files('libvhost-user.c', 'libvhost-user-glib.c'),
-+                meson.source_root() / 'stubs/error-printf.c',
-+                meson.source_root() / 'stubs/monitor.c',
-+                meson.source_root() / 'util/error.c',
-+                meson.source_root() / 'util/qemu-error.c',
-+                meson.source_root() / 'util/memfd.c'])
++++ b/contrib/vhost-user-blk/meson.build
+@@ -0,0 +1,3 @@
++executable('vhost-user-blk', files('vhost-user-blk.c'),
++           link_with: libvhost_user,
++           dependencies: glib)
 diff --git a/meson.build b/meson.build
-index b683d70..a6748f9 100644
+index a6748f9..c4cad8f 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -7,3 +7,5 @@ add_project_arguments(config_host['QEMU_CFLAGS'].split(),
-                       language: 'c')
+@@ -8,4 +8,8 @@ add_project_arguments(config_host['QEMU_CFLAGS'].split(),
  add_project_arguments(config_host['QEMU_INCLUDES'].split(),
                        language: 'c')
+ 
++glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
++                          link_args: config_host['GLIB_LIBS'].split())
 +
-+subdir('contrib/libvhost-user')
+ subdir('contrib/libvhost-user')
++subdir('contrib/vhost-user-blk')
 -- 
 1.8.3.1
 
