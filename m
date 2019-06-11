@@ -2,54 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB133C4FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 09:23:33 +0200 (CEST)
-Received: from localhost ([::1]:52350 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E253C505
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 09:26:21 +0200 (CEST)
+Received: from localhost ([::1]:52369 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hab7z-0007FQ-3v
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 03:23:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34885)
+	id 1habAh-0001cw-QS
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 03:26:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35265)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kchamart@redhat.com>) id 1hab61-0006Rv-5t
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 03:21:30 -0400
+ (envelope-from <jasowang@redhat.com>) id 1hab7i-0007sM-OM
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 03:23:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kchamart@redhat.com>) id 1hab60-0000C0-6y
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 03:21:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54062)
+ (envelope-from <jasowang@redhat.com>) id 1hab7g-000318-NZ
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 03:23:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42354)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1hab5z-0007zY-RQ
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 03:21:28 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>)
+ id 1hab7f-0002V4-Le; Tue, 11 Jun 2019 03:23:11 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AA2E6308218D;
- Tue, 11 Jun 2019 07:21:05 +0000 (UTC)
-Received: from paraplu.localdomain (ovpn-117-144.ams2.redhat.com
- [10.36.117.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D28585C541;
- Tue, 11 Jun 2019 07:21:02 +0000 (UTC)
-Received: by paraplu.localdomain (Postfix, from userid 1001)
- id E1CA73E0029; Tue, 11 Jun 2019 09:21:00 +0200 (CEST)
-Date: Tue, 11 Jun 2019 09:21:00 +0200
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Message-ID: <20190611072100.GM2725@paraplu>
-References: <20190606161943.GA9657@paraplu>
- <20190606141904-mutt-send-email-mst@kernel.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id DF2612F8BDB;
+ Tue, 11 Jun 2019 07:22:52 +0000 (UTC)
+Received: from [10.72.12.214] (ovpn-12-214.pek2.redhat.com [10.72.12.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 162BB5C22E;
+ Tue, 11 Jun 2019 07:22:48 +0000 (UTC)
+To: Tiwei Bie <tiwei.bie@intel.com>, mst@redhat.com
+References: <20190611065137.16329-1-tiwei.bie@intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <15f37c7d-5246-e093-e92c-1bd6ff77786a@redhat.com>
+Date: Tue, 11 Jun 2019 15:22:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190606141904-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+In-Reply-To: <20190611065137.16329-1-tiwei.bie@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 11 Jun 2019 07:21:05 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Tue, 11 Jun 2019 07:22:52 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] PCI(e): Documentation "io-reserve" and related
- properties?
+Subject: Re: [Qemu-devel] [RFC] vhost-user: don't ignore CTRL_VLAN feature
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,44 +58,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 06, 2019 at 02:20:18PM -0400, Michael S. Tsirkin wrote:
-> On Thu, Jun 06, 2019 at 06:19:43PM +0200, Kashyap Chamarthy wrote:
-> > Hi folks,
-> > 
-> > Today I learnt about some obscure PCIe-related properties, in context of
-> > the adding PCIe root ports to a guest, namely:
-> > 
-> >     io-reserve
-> >     mem-reserve
-> >     bus-reserve
-> >     pref32-reserve
-> >     pref64-reserve
-> > 
-> > Unfortunately, the commit[*] that added them provided no documentation
-> > whatsover.
-> > 
-> > In my scenario, I was specifically wondering about what does
-> > "io-reserve" mean, in what context to use it, etc.  (But documentation
-> > about other properties is also welcome.)
-> > 
-> > Anyone more well-versed in this area care to shed some light?
-> > 
-> > 
-> > [*] 6755e618d0 (hw/pci: add PCI resource reserve capability to legacy
-> >     PCI bridge, 2018-08-21)
-> 
-> So normally bios would reserve just enough io space to satisfy all
-> devices behind a bridge. What if you intend to hotplug more devices?
-> These properties allow you to ask bios to reserve extra space.
 
-Thanks.  Would be useful to have them documented in the official QEMU
-command-line documentation.  Otherwise, they will remain as arcane
-properties that barely anyone knows about.
+On 2019/6/11 =E4=B8=8B=E5=8D=882:51, Tiwei Bie wrote:
+> The VIRTIO_NET_F_CTRL_VLAN feature requires the support of
+> vhost-user backend. But it will be advertised to guest driver
+> as long as it's enabled by users in QEMU, while it's not
+> supported by vhost-user backend. This patch fixes this issue.
+>
+> Fixes: 72018d1e1917 ("vhost-user: ignore qemu-only features")
 
--- 
-/kashyap
+
+My understanding is if may want to revert this patch.
+
+
+> Cc: qemu-stable@nongnu.org
+>
+> Signed-off-by: Tiwei Bie <tiwei.bie@intel.com>
+> ---
+> It's not clear in the spec that, whether vlan filtering is
+> also best-effort:
+> https://github.com/oasis-tcs/virtio-spec/blob/37057052e7/content.tex#L3=
+372
+
+
+It should be a bug of the code, we should consider to implement ctrl=20
+command for vhost-user.
+
+Thanks
+
+
+>
+>   hw/net/vhost_net.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index a6b719035c..1444fc9230 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -75,6 +75,8 @@ static const int user_feature_bits[] =3D {
+>       VIRTIO_NET_F_MTU,
+>       VIRTIO_F_IOMMU_PLATFORM,
+>  =20
+> +    VIRTIO_NET_F_CTRL_VLAN,
+> +
+>       /* This bit implies RARP isn't sent by QEMU out of band */
+>       VIRTIO_NET_F_GUEST_ANNOUNCE,
+>  =20
 
