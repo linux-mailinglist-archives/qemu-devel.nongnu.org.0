@@ -2,74 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FFC3CED2
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:34:11 +0200 (CEST)
-Received: from localhost ([::1]:59572 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8BF3CEE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:38:10 +0200 (CEST)
+Received: from localhost ([::1]:59588 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hahqk-0003Jy-Kz
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38301)
+	id 1hahub-0004I3-Pp
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:38:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40552)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hahff-0003xi-Qo
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:22:45 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hahmD-0001Ud-5X
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:29:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hahbz-0006Wn-KC
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:18:56 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40490)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hahbz-0006S8-CN
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:18:55 -0400
-Received: by mail-oi1-x243.google.com with SMTP id w196so9067147oie.7
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 07:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=ROx3rIg+A7AiZ012ArdEhajj/bigiTMMqDBWharZ6+k=;
- b=ZetTy6HghfpIychrUFA/yfrQPqZMWb865jJDznd1IyjRyABG2uCgzl/07qf6V3H7V2
- cgneYUDvan0469FHSOGsfCI2O8jK+uHxZWOD6amPNOJ3e9M2vgw0zBnpI8Yf+KJvtTmE
- g+LmBduQ+Is7c9s/j9Zfmtxkwn2RhbqgABP0nv/Vtfg5FcABr8HSTAbt0qxVKAm14+K7
- k7FQCPV+BjPjOJlYeHg4ERretcrVmOs4dVjQKxC+PIc19fWnuzYksRKI8mBghkAJE/3H
- rsaM3ahfPZNPucZ0DpQ0D9fb4WS4OgUzoMElX/XyI1Zr81iBAQ2w4MYDNdbfDKQ5Azr7
- i9Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=ROx3rIg+A7AiZ012ArdEhajj/bigiTMMqDBWharZ6+k=;
- b=cujgL6BSO3/4kIQ5N5wY7MwOhVafZeQm3y7WMZKI3Io2W39Chg1a0OgfunuwEKpgsh
- veCrhJKWvpuRmnFhnzHruXaE98qSSz3EcqDB2xRPfIke1rLwMckbHlCq4HcoACEo9+0s
- JG+Iv1HNwiEOHMqh95uQpq0JP0tqtgLXWBU8xzX3x5jNOQ1bSiBTchg7Gr3EgGzu4HAQ
- IvtsCB1sY9R2Tx0WhnIFvtySyeCvU5Lkk0UcQQhBoGGC+zzNRrn2yCwazIRixnK44Cl6
- dGMfAZQ3vweP1zmSrSHVjcjSnFoU/mPyl/gR4C/bBPmrG1IsNZVTqUwhoscwOCvvZ9tV
- 8G0A==
-X-Gm-Message-State: APjAAAVoRhta6Qx/MESZ38Bb62lJtoNSdXaJauCU0gb+QV5qWyqN+tKu
- b3qdLS7zQhQNnN0W0vXvkUqCVXxHJcQWoVY+ZtY=
-X-Google-Smtp-Source: APXvYqz0zeiNkTrjqxFe0a1FSrMHjVKR4ODauwLjPUyO96nIkpdxzKVWFblITFiXOUxboSNc4uDjm5U1YE1auwPG/Zo=
-X-Received: by 2002:aca:c2c3:: with SMTP id s186mr14768841oif.79.1560262733025; 
- Tue, 11 Jun 2019 07:18:53 -0700 (PDT)
+ (envelope-from <eric.auger@redhat.com>) id 1hahmC-0002hY-5F
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:29:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36406)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hahm9-0002Nq-Q0; Tue, 11 Jun 2019 10:29:25 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A904B30C1AF9;
+ Tue, 11 Jun 2019 14:28:41 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCFF760BE1;
+ Tue, 11 Jun 2019 14:28:35 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org
+Date: Tue, 11 Jun 2019 16:28:19 +0200
+Message-Id: <20190611142821.3874-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a9d:20e4:0:0:0:0:0 with HTTP; Tue, 11 Jun 2019 07:18:52
- -0700 (PDT)
-Received: by 2002:a9d:20e4:0:0:0:0:0 with HTTP; Tue, 11 Jun 2019 07:18:52
- -0700 (PDT)
-In-Reply-To: <CAFEAcA_TAQvXbjP1h9SS6TiCxwwDf5oAUDAWDn0FRX3G0PBzaA@mail.gmail.com>
-References: <20190610152444.20859-1-peter.maydell@linaro.org>
- <20190610152444.20859-2-peter.maydell@linaro.org>
- <CAL1e-=hSY4uWQ9QmebdzkkV4WTZ82JFSW2fRafHBtvdJv1tm5A@mail.gmail.com>
- <CAFEAcA_TAQvXbjP1h9SS6TiCxwwDf5oAUDAWDn0FRX3G0PBzaA@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Tue, 11 Jun 2019 16:18:52 +0200
-Message-ID: <CAL1e-=jKcPK1ig3eHtRfTA0PDV0Z2Y1gXP6YhJ7jdbSA06B=fw@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Tue, 11 Jun 2019 14:28:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH 1/2] docs/specs/index.rst: Fix minor syntax
- issues
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/2] ARM SMMUv3: Fix spurious notification
+ errors and stall with vfio-pci
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,75 +54,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 11, 2019 11:51 AM, "Peter Maydell" <peter.maydell@linaro.org> wrote:
->
-> On Mon, 10 Jun 2019 at 22:41, Aleksandar Markovic
-> <aleksandar.m.mail@gmail.com> wrote:
-> >
-> >
-> > On Jun 10, 2019 5:25 PM, "Peter Maydell" <peter.maydell@linaro.org>
-wrote:
-> > >
-> > > The docs/specs/index.rst has a couple of minor issues which
-> > > we didn't notice because we weren't building the manual:
-> > >  * the ToC entry for the new PPC XIVE docs points to
-> > >    a nonexistent file
-> > >  * the initial comment needs to be marked by '..', not '.',
-> > >    or it will appear in the output
-> > >  * the title doesn't match the capitialization used by
-> > >    the existing interop or devel manuals, and uses
-> > >    'full-system emulation' rather than the 'system emulation'
-> > >    that the interop manual title uses
-> > >
-> > > Fix these minor issues before we start trying to build the manual.
-> > >
-> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > > ---
-> >
-> > Acked-by: Aleksandar Markovic <amarkovic@wavecomp.com>
->
-> Hi Aleksandar; I'm just wondering what you were meaning
-> with this acked-by tag. Generally acked-by means  (to me,
-> and I think usually with qemu) "this patch touches an
-> area that I maintain, I haven't reviewed it but I'm OK with
-> it". But this series isn't mips-related, so maybe you
-> meant reviewed-by instead ?
->
-> (Acked-by is a bit of an odd tag because it's less
-> clear what it means than reviewed-by or signed-off-by,
-> so it's not very surprising if you've picked up a
-> different opinion on what it's for.)
->
+The first patch fixes spurious translation configuration decoding errors
+rarely happening on guest IOVA invalidation notifications.
 
-Hello, Peter.
+The second patch fixes the guest stall observed when attempting to run
+a guest exposed with a SMMUv3 and a VFIO-PCI device. As a reminder
+SMMUv3 is not integrated with VFIO (the device will not work properly)
+but this shouldn't prevent the guest from booting.
 
-My intented meaning (of my Acked-by) is:
+Best Regards
 
-=E2=80=9CI agree that this patch is valuable in general, I took a look at t=
-he code
-changes and they look good to me implementation-wise, but I am not a
-reviewer nor an expert in rst and related areas, so I am not comfortable
-=E2=80=9Creviewing-it-by=E2=80=9D - however as a potential user/writer of r=
-st files, I want
-to acknowledge the significance and the rightness of the patch by
-=E2=80=9Cacking-it-by=E2=80=9D.=E2=80=9D
+Eric
 
-I am not sure how it fits in other definitions, but I am comfortable with
-your changing my =E2=80=9CAcked-by=E2=80=9D to =E2=80=9CReviewed-by=E2=80=
-=9D, leaving it as is, or changing
-it to nothing- whatever you deem being suitable.
+Eric Auger (2):
+  hw/arm/smmuv3: Remove spurious error messages on IOVA invalidations
+  hw/arm/smmuv3: Implement dummy replay
 
-The same applies to the other patch of this series, of course.
+ hw/arm/smmuv3-internal.h |  1 +
+ hw/arm/smmuv3.c          | 17 +++++++++++------
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-Yours,
-Aleksandar
+--=20
+2.20.1
 
-> thanks
-> -- PMM
+
