@@ -2,98 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444CA3D25A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:37:37 +0200 (CEST)
-Received: from localhost ([::1]:60878 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A48A3D228
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:25:11 +0200 (CEST)
+Received: from localhost ([::1]:60718 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hajmC-0002t0-Dk
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:37:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39143)
+	id 1hajaA-0001hj-CP
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:25:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40148)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jag.raman@oracle.com>) id 1hajBS-0001qA-9A
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:59:39 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hajFb-0003SQ-Lc
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:03:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1hajBP-00007D-RF
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:59:37 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:44368)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1hajBO-00005a-OC
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:59:35 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5BFs8m5163239;
- Tue, 11 Jun 2019 15:59:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=YoogmoUyaoB/UsJ0FEvsHUW2wCpbM4vtCoDMagyVq94=;
- b=loNNSPg7ZevxsvmlV2Ej0OwJxr8rH25Egz2i+bmiTuHUIqm47seJrqfRKgKRnGJl4AUi
- Q7RZMGn8nmjIsjPbS6wMN1g3tkQLKRddkNgBccqckrFLp53m6y1fMNjGchYqT8J7xgVH
- 15RDuB+qkzZQH9iUx77QRkaVU6zVtxnr0rdtDWOBm1vPHIKiAIrj4vcMp6CxLXBztqAL
- YEg1d8qRdQNvg8IAmEQ35fCWQmKX8HRB5c+wwb1ZPW+map8C8X0k8UJxk2Q/N3UTLlFg
- 9GfYcr0VxfKikgBl07CpmNhIy+7vdqctCbH+9UcWSv2vNBDj4mCNTUr6CwRfv5HeqlWV jA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 2t02hepanu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Jun 2019 15:59:26 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5BFw9mq179125;
- Tue, 11 Jun 2019 15:59:26 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 2t0p9rcg2h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Jun 2019 15:59:25 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5BFxPdb010460;
- Tue, 11 Jun 2019 15:59:25 GMT
-Received: from [10.11.108.55] (/10.11.108.55)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 11 Jun 2019 08:59:24 -0700
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, quintela@redhat.com
-References: <BDEBF2EE-DE0F-46CF-B60E-536B3DA9BF77@oracle.com>
- <20190308095036.GC12318@stefanha-x1.localdomain>
- <20190326080822.GC21018@stefanha-x1.localdomain>
- <e5395abf-6b41-46c8-f5af-3210077dfdd5@oracle.com>
- <CAAdtpL4ztcpf-CTx0fc5T_+VQ+8upHa2pEMoiZPcmBXOO6L3Og@mail.gmail.com>
- <c945c950-f6f1-7e2a-a6c4-399c9b728288@oracle.com>
- <20190425154421.GG17806@stefanha-x1.localdomain>
- <fe4b0b42-523d-5877-173c-3e878abd4e32@oracle.com>
- <20190523111130.GF26632@stefanha-x1.localdomain>
- <20190528151820.GA4545@heatpipe>
- <20190530205434.GB2694@flaka.hsd1.ca.comcast.net>
-From: Jag Raman <jag.raman@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <371e9f92-0441-9a11-c568-6536c2c2b467@oracle.com>
-Date: Tue, 11 Jun 2019 11:59:23 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <ehabkost@redhat.com>) id 1hajFV-0002iU-PF
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:03:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40628)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hajFS-0002aO-2t
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:03:49 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A12FB8552E;
+ Tue, 11 Jun 2019 16:03:31 +0000 (UTC)
+Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18EEF5B681;
+ Tue, 11 Jun 2019 16:03:30 +0000 (UTC)
+Date: Tue, 11 Jun 2019 13:03:29 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190611160329.GH5927@habkost.net>
+References: <20190607211544.7964-1-ehabkost@redhat.com>
+ <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
+ <CAFEAcA9ZeB1knLYYQLJG0d5McG2vo6w8P9+vOBWgtSVgPEG0jA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190530205434.GB2694@flaka.hsd1.ca.comcast.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9284
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906110103
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9284
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906110103
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.79
-Subject: Re: [Qemu-devel] [multiprocess RFC PATCH 36/37] multi-process: add
- the concept description to docs/devel/qemu-multiprocess
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9ZeB1knLYYQLJG0d5McG2vo6w8P9+vOBWgtSVgPEG0jA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Tue, 11 Jun 2019 16:03:31 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 0/8] Python queue, 2019-06-07
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,68 +57,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, sstabellini@kernel.org,
- konrad.wilk@oracle.com, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- ross.lagerwall@citrix.com, liran.alon@oracle.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- kanth.ghatraju@oracle.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 5/30/2019 4:54 PM, Elena Ufimtseva wrote:
-> On Tue, May 28, 2019 at 08:18:20AM -0700, Elena Ufimtseva wrote:
->> On Thu, May 23, 2019 at 12:11:30PM +0100, Stefan Hajnoczi wrote:
->>> Hi Jag and Elena,
->>> Do you think a call would help to move discussion along more quickly?
->>>
->>
->> Hi Stefan,
->>
->> We would like to join this call.
->> And thank you inviting us!
->>
->> Elena
->>> We could use the next KVM Community Call on June 4th to discuss
->>> remaining concerns and the next steps:
->>> https://calendar.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
->>>
->>> I also hope to include other core QEMU developers.  As you know, I'm
->>> skeptical, but it could be just me and I don't want to block you
->>> unnecessarily if others are more enthusiastic about this approach.
->>>
+On Tue, Jun 11, 2019 at 04:50:34PM +0100, Peter Maydell wrote:
+> On Mon, 10 Jun 2019 at 13:58, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > Hi. This fails to build on one of my buildtest machines:
+> >
+> > ERROR: Cannot use 'python3', Python 2 >= 2.7 or Python 3 >= 3.5 is required.
+> >        Use --python=/path/to/python to specify a supported Python.
+> >
+> > The machine has python 2.7.6 and 3.4.3. (It's an Ubuntu trusty
+> > box; it's one of the gcc compile farm machines so upgrades to its
+> > OS are not really under my control.)
 > 
-> Hi Stefan
-> 
-> A few questions we have are about the call.
-> What is the format of the call usually? Should we provide some kind of the project outline for 5 minutes?
-> We are planning to address some of the concerns you have voiced in regards to amount of changes, usability,
-> security and performance. I assume there will be other questions as well. Is there any time limit per topic?
-> 
-> And would you mind sharing the call details with us?
-> 
-> Thanks!
-> Elena
->>
->>
->>> Stefan
+> Rereading this, I realise that either the check or the error
+> message is wrong here. The machine has 2.7.6, which satisfies
+> "python 2 >= 2.7", so we should be OK to build. The bug
+> seems to be that we say "prefer python3 over plain python
+> on python2" early, but don't revisit that decision if the
+> python3 we found isn't actually good enough for us.
 
-Hi Stefan,
+Right.  The error message is technically correct, but misleading.
+python3 is too old, but python2 would work.
 
-We would like to add multi-process QEMU to the agenda for any of the
-upcoming KVM community calls. Do you know how we could go about doing
-this?
+We can make configure not use python3 by default if it's too old,
+and fall back to python2 in this case.
 
-Could you kindly share the contact details of the organizer for this
-meeting?
-
-Thank you very much!
---
-Jag
-
->>
->>
+-- 
+Eduardo
 
