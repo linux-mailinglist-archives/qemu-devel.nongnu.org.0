@@ -2,48 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0703C5EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 10:28:53 +0200 (CEST)
-Received: from localhost ([::1]:52818 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDA93C68F
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 10:52:38 +0200 (CEST)
+Received: from localhost ([::1]:52920 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hac9E-0001Fz-LE
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 04:28:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50491)
+	id 1hacWD-0001uz-2B
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 04:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53905)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hac6i-0007fY-Oy
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:26:17 -0400
+ (envelope-from <armbru@redhat.com>) id 1hacNm-0004G8-7r
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:43:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hac6h-0004xa-GN
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:26:16 -0400
-Received: from mga18.intel.com ([134.134.136.126]:57800)
+ (envelope-from <armbru@redhat.com>) id 1hac9h-00083G-W2
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:29:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51250)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1hac6h-0004ws-34
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:26:15 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2019 01:26:14 -0700
-X-ExtLoop1: 1
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga005.fm.intel.com with ESMTP; 11 Jun 2019 01:26:12 -0700
-Date: Tue, 11 Jun 2019 16:25:48 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190611082548.GB11125@richard>
-References: <20190401061457.9393-1-richardw.yang@linux.intel.com>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hac9e-0007pF-D2
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:29:20 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E325D3082291
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 08:29:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
+ [10.36.116.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7180D60C18;
+ Tue, 11 Jun 2019 08:29:12 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 21C7C11386A0; Tue, 11 Jun 2019 10:29:06 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <1559205199-233510-1-git-send-email-imammedo@redhat.com>
+ <1559205199-233510-2-git-send-email-imammedo@redhat.com>
+ <87h8915m7u.fsf@dusky.pond.sub.org>
+ <20190607180223.GC22416@habkost.net>
+Date: Tue, 11 Jun 2019 10:29:06 +0200
+In-Reply-To: <20190607180223.GC22416@habkost.net> (Eduardo Habkost's message
+ of "Fri, 7 Jun 2019 15:02:23 -0300")
+Message-ID: <871s00ttil.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190401061457.9393-1-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.126
-Subject: Re: [Qemu-devel] [PATCH] migration: cleanup check on ops in
- savevm.handlers iteration
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Tue, 11 Jun 2019 08:29:15 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 1/3] machine: show if CLI option '-numa
+ node, mem' is supported in QAPI schema
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,128 +63,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: libvir-list@redhat.com, Igor Mammedov <imammedo@redhat.com>,
+ berrange@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 01, 2019 at 02:14:57PM +0800, Wei Yang wrote:
->During migration, there are several places to iterate on
->savevm.handlers. And on each iteration, we need to check its ops and
->related callbacks before invoke it.
->
->Generally, ops is the first element to check, and it is only necessary
->to check it once.
->
->This patch clean all the related part in savevm.c to check ops only once
->in those iterations.
->
->Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Hi, David
-
-Are you willing to pick up this one?
-
->---
-> migration/savevm.c | 35 ++++++++++++++---------------------
-> 1 file changed, 14 insertions(+), 21 deletions(-)
+> On Fri, Jun 07, 2019 at 07:39:17PM +0200, Markus Armbruster wrote:
+>> This is correct when the TYPE_VIRT_MACHINE, TYPE_PC_MACHINE and
+>> TYPE_SPAPR_MACHINE are exactly the machines supporting NUMA.  How could
+>> I check that?
 >
->diff --git a/migration/savevm.c b/migration/savevm.c
->index 5f0ca7fac2..92af2471cd 100644
->--- a/migration/savevm.c
->+++ b/migration/savevm.c
->@@ -1096,10 +1096,9 @@ void qemu_savevm_state_setup(QEMUFile *f)
->         if (!se->ops || !se->ops->save_setup) {
->             continue;
->         }
->-        if (se->ops && se->ops->is_active) {
->-            if (!se->ops->is_active(se->opaque)) {
->+        if (se->ops->is_active &&
->+            !se->ops->is_active(se->opaque)) {
->                 continue;
->-            }
->         }
->         save_section_header(f, se, QEMU_VM_SECTION_START);
-> 
->@@ -1127,10 +1126,9 @@ int qemu_savevm_state_resume_prepare(MigrationState *s)
->         if (!se->ops || !se->ops->resume_prepare) {
->             continue;
->         }
->-        if (se->ops && se->ops->is_active) {
->-            if (!se->ops->is_active(se->opaque)) {
->+        if (se->ops->is_active &&
->+            !se->ops->is_active(se->opaque)) {
->                 continue;
->-            }
->         }
->         ret = se->ops->resume_prepare(s, se->opaque);
->         if (ret < 0) {
->@@ -1223,10 +1221,9 @@ void qemu_savevm_state_complete_postcopy(QEMUFile *f)
->         if (!se->ops || !se->ops->save_live_complete_postcopy) {
->             continue;
->         }
->-        if (se->ops && se->ops->is_active) {
->-            if (!se->ops->is_active(se->opaque)) {
->+        if (se->ops->is_active &&
->+            !se->ops->is_active(se->opaque)) {
->                 continue;
->-            }
->         }
->         trace_savevm_section_start(se->idstr, se->section_id);
->         /* Section type */
->@@ -1265,18 +1262,16 @@ int qemu_savevm_state_complete_precopy(QEMUFile *f, bool iterable_only,
->     cpu_synchronize_all_states();
-> 
->     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->-        if (!se->ops ||
->+        if (!se->ops || !se->ops->save_live_complete_precopy ||
->             (in_postcopy && se->ops->has_postcopy &&
->              se->ops->has_postcopy(se->opaque)) ||
->-            (in_postcopy && !iterable_only) ||
->-            !se->ops->save_live_complete_precopy) {
->+            (in_postcopy && !iterable_only)) {
->             continue;
->         }
-> 
->-        if (se->ops && se->ops->is_active) {
->-            if (!se->ops->is_active(se->opaque)) {
->+        if (se->ops->is_active &&
->+            !se->ops->is_active(se->opaque)) {
->                 continue;
->-            }
->         }
->         trace_savevm_section_start(se->idstr, se->section_id);
-> 
->@@ -1377,10 +1372,9 @@ void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
->         if (!se->ops || !se->ops->save_live_pending) {
->             continue;
->         }
->-        if (se->ops && se->ops->is_active) {
->-            if (!se->ops->is_active(se->opaque)) {
->+        if (se->ops->is_active &&
->+            !se->ops->is_active(se->opaque)) {
->                 continue;
->-            }
->         }
->         se->ops->save_live_pending(f, se->opaque, threshold_size,
->                                    res_precopy_only, res_compatible,
->@@ -2276,10 +2270,9 @@ static int qemu_loadvm_state_setup(QEMUFile *f)
->         if (!se->ops || !se->ops->load_setup) {
->             continue;
->         }
->-        if (se->ops && se->ops->is_active) {
->-            if (!se->ops->is_active(se->opaque)) {
->+        if (se->ops->is_active &&
->+            !se->ops->is_active(se->opaque)) {
->                 continue;
->-            }
->         }
-> 
->         ret = se->ops->load_setup(f, se->opaque);
->-- 
->2.19.1
+> parse_numa_node() rejects the -numa option if the machine doesn't
+> implement MachineClass::get_default_cpu_node_id().
+>
+> Grepping for it:
+>
+> $ git grep -pw get_default_cpu_node_id
+> hw/arm/virt.c=static void virt_machine_class_init(ObjectClass *oc, void *data)
+> hw/arm/virt.c:    mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
+> hw/core/machine.c=static void machine_numa_finish_cpu_init(MachineState *machine)
+> hw/core/machine.c:            props.node_id = mc->get_default_cpu_node_id(machine, i);
+> hw/i386/pc.c=static void pc_machine_class_init(ObjectClass *oc, void *data)
+> hw/i386/pc.c:    mc->get_default_cpu_node_id = pc_get_default_cpu_node_id;
+> hw/ppc/spapr.c=static void spapr_machine_class_init(ObjectClass *oc, void *data)
+> hw/ppc/spapr.c:    mc->get_default_cpu_node_id = spapr_get_default_cpu_node_id;
+> include/hw/boards.h=typedef struct {
+> include/hw/boards.h: * @get_default_cpu_node_id:
+> include/hw/boards.h=struct MachineClass {
+> include/hw/boards.h:    int64_t (*get_default_cpu_node_id)(const MachineState *ms, int idx);
+> numa.c=static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+> numa.c:    if (!mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id) {
+>
+>
+> Related:
+>   [PATCH v4 01/11] numa: move numa global variable nb_numa_nodes into MachineState
+> which adds a MachineClass::numa_supported flag to those machines.
 
--- 
-Wei Yang
-Help you, Help me
+Thanks, Eduardo!
+
+Preferably with commit message and doc comment tweaked:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
