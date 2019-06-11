@@ -2,50 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A113CA64
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 13:51:26 +0200 (CEST)
-Received: from localhost ([::1]:56660 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DDC3CBD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 14:36:49 +0200 (CEST)
+Received: from localhost ([::1]:57676 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hafJF-0005Zx-F1
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 07:51:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52421)
+	id 1hag1B-0000cx-3e
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 08:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52743)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hafA2-00071Q-2m
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:41:56 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hafAo-0007Ph-RD
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:42:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1haf7J-0001TC-LC
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:39:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56514)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1haf7H-00014t-Ll
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:39:05 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C34E83082B6B;
- Tue, 11 Jun 2019 11:38:48 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.167])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ECAC860BF1;
- Tue, 11 Jun 2019 11:38:46 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	Igor Mammedov <imammedo@redhat.com>
-Date: Tue, 11 Jun 2019 13:37:31 +0200
-Message-Id: <20190611113731.16940-22-philmd@redhat.com>
-In-Reply-To: <20190611113731.16940-1-philmd@redhat.com>
-References: <20190611113731.16940-1-philmd@redhat.com>
+ (envelope-from <pbonzini@redhat.com>) id 1haf5u-00085L-7l
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:37:39 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50323)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1haf5u-00084T-1W
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:37:38 -0400
+Received: by mail-wm1-f65.google.com with SMTP id c66so2578719wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 04:37:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=t4hQ37YoEXlmC6jGUgEKBihosiktPvjtKJFuqH1c+c8=;
+ b=oABEt7UElfGFdxdr95+NTtsOc6QgSaK1kOqsyhjRGPzomPemJytEC/hqanmqBoD3Fp
+ 9x9N9dF6NONxC10H744BDDpqwTrI5FB0HgsINEkQF+LpGyvbQpUxjT86c3YPfQS/SavV
+ wHah4kJRtjqOneCOiAUsgwymenRMNKQ1KLsJxzqZ/ud5rIKjDxR97myDg/bwGT+4w3Y9
+ OrP/ZUscJ0VFWO4Bwe2xfuqo5DkBTP+wLKXJjl/8snP2evaq1Q/IAppqVTJZSTLUO61A
+ pIkWydmG6Ty/DixZyi24FqLWrc1W3D9VKfAWtHue4qWcT0kBYfkOnzsbIogoQMRsmzBK
+ er5g==
+X-Gm-Message-State: APjAAAX28rzl+O/zO7xVLUhj5gPZnnoQS0WV+ioFT2kDFhBUlAuvaTPA
+ l4QI4eT9khqdiYk234Ih4rkFrVDLXrhuyw==
+X-Google-Smtp-Source: APXvYqzUGr2t/z/h3XjeMv75Q6OvjjPaM/9SyPRAvYroMLgCsERlMfMpfjRWqngcuZdmJKMituY8Rw==
+X-Received: by 2002:a7b:c751:: with SMTP id w17mr18418539wmk.127.1560253056551; 
+ Tue, 11 Jun 2019 04:37:36 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:8cc3:8abd:4519:2cd6?
+ ([2001:b07:6468:f312:8cc3:8abd:4519:2cd6])
+ by smtp.gmail.com with ESMTPSA id t140sm167523wmt.0.2019.06.11.04.37.35
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Jun 2019 04:37:35 -0700 (PDT)
+To: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20190607073429.3436-1-kraxel@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f69e038a-86e0-a01e-da31-8b608a733eb5@redhat.com>
+Date: Tue, 11 Jun 2019 13:37:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Tue, 11 Jun 2019 11:38:48 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190607073429.3436-1-kraxel@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v19 21/21] BootLinuxConsoleTest: Test the
- RX-Virt machine
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH v2] q35: fix mmconfig and PCI0._CRS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,135 +71,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?B?TMOhc3psw7Mgw4lyc2Vr?= <lersek@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add two tests for the rx-virt machine, based on the recommended test
-setup from Yoshinori Sato:
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03586.html
+On 07/06/19 09:34, Gerd Hoffmann wrote:
+> This patch changes the handling of the mmconfig area.  Thanks to the
+> pci(e) expander devices we already have the logic to exclude address
+> ranges from PCI0._CRS.  We can simply add the mmconfig address range
+> to the list get it excluded as well.
+> 
+> With that in place we can go with a fixed pci hole which covers the
+> whole area from the end of (low) ram to the ioapic.
+> 
+> This will make the whole logic alot less fragile.  No matter where the
+> firmware places the mmconfig xbar, things should work correctly.  The
+> guest also gets a bit more PCI address space (seabios boot):
+> 
+>     # cat /proc/iomem
+>     [ ... ]
+>     7ffdd000-7fffffff : reserved
+>     80000000-afffffff : PCI Bus 0000:00            <<-- this is new
+>     b0000000-bfffffff : PCI MMCONFIG 0000 [bus 00-ff]
+>       b0000000-bfffffff : reserved
+>     c0000000-febfffff : PCI Bus 0000:00
+>       f8000000-fbffffff : 0000:00:01.0
+>     [ ... ]
+> 
+> So this is a guest visible change.
+> 
+> Cc: László Érsek <lersek@redhat.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+>  tests/bios-tables-test-allowed-diff.h |  8 +++++++
+>  hw/i386/acpi-build.c                  | 14 ++++++++++++
+>  hw/pci-host/q35.c                     | 31 +++++++--------------------
+>  3 files changed, 30 insertions(+), 23 deletions(-)
+> 
+> diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
+> index dfb8523c8bf4..3bbd22c62a3b 100644
+> --- a/tests/bios-tables-test-allowed-diff.h
+> +++ b/tests/bios-tables-test-allowed-diff.h
+> @@ -1 +1,9 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/q35/DSDT",
+> +"tests/data/acpi/q35/DSDT.bridge",
+> +"tests/data/acpi/q35/DSDT.mmio64",
+> +"tests/data/acpi/q35/DSDT.ipmibt",
+> +"tests/data/acpi/q35/DSDT.cphp",
+> +"tests/data/acpi/q35/DSDT.memhp",
+> +"tests/data/acpi/q35/DSDT.numamem",
+> +"tests/data/acpi/q35/DSDT.dimmpxm",
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 85dc1640bc67..8e4f26977619 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -122,6 +122,8 @@ typedef struct FwCfgTPMConfig {
+>      uint8_t tpmppi_version;
+>  } QEMU_PACKED FwCfgTPMConfig;
+>  
+> +static bool acpi_get_mcfg(AcpiMcfgInfo *mcfg);
+> +
+>  static void init_common_fadt_data(Object *o, AcpiFadtData *data)
+>  {
+>      uint32_t io = object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, NULL);
+> @@ -1807,6 +1809,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>      CrsRangeSet crs_range_set;
+>      PCMachineState *pcms = PC_MACHINE(machine);
+>      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(machine);
+> +    AcpiMcfgInfo mcfg;
+>      uint32_t nr_mem = machine->ram_slots;
+>      int root_bus_limit = 0xFF;
+>      PCIBus *bus = NULL;
+> @@ -1921,6 +1924,17 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          }
+>      }
+>  
+> +    /*
+> +     * At this point crs_range_set has all the ranges used by pci
+> +     * busses *other* than PCI0.  These ranges will be excluded from
+> +     * the PCI0._CRS.  Add mmconfig to the set so it will be excluded
+> +     * too.
+> +     */
+> +    if (acpi_get_mcfg(&mcfg)) {
+> +        crs_range_insert(crs_range_set.mem_ranges,
+> +                         mcfg.base, mcfg.base + mcfg.size - 1);
+> +    }
+> +
+>      scope = aml_scope("\\_SB.PCI0");
+>      /* build PCI0._CRS */
+>      crs = aml_resource_template();
+> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+> index 960939f5ed3e..72093320befe 100644
+> --- a/hw/pci-host/q35.c
+> +++ b/hw/pci-host/q35.c
+> @@ -258,15 +258,6 @@ static void q35_host_initfn(Object *obj)
+>      object_property_add_link(obj, MCH_HOST_PROP_IO_MEM, TYPE_MEMORY_REGION,
+>                               (Object **) &s->mch.address_space_io,
+>                               qdev_prop_allow_set_link_before_realize, 0, NULL);
+> -
+> -    /* Leave enough space for the biggest MCFG BAR */
+> -    /* TODO: this matches current bios behaviour, but
+> -     * it's not a power of two, which means an MTRR
+> -     * can't cover it exactly.
+> -     */
+> -    range_set_bounds(&s->mch.pci_hole,
+> -            MCH_HOST_BRIDGE_PCIEXBAR_DEFAULT + MCH_HOST_BRIDGE_PCIEXBAR_MAX,
+> -            IO_APIC_DEFAULT_ADDRESS - 1);
+>  }
+>  
+>  static const TypeInfo q35_host_info = {
+> @@ -338,20 +329,6 @@ static void mch_update_pciexbar(MCHPCIState *mch)
+>      }
+>      addr = pciexbar & addr_mask;
+>      pcie_host_mmcfg_update(pehb, enable, addr, length);
+> -    /* Leave enough space for the MCFG BAR */
+> -    /*
+> -     * TODO: this matches current bios behaviour, but it's not a power of two,
+> -     * which means an MTRR can't cover it exactly.
+> -     */
+> -    if (enable) {
+> -        range_set_bounds(&mch->pci_hole,
+> -                         addr + length,
+> -                         IO_APIC_DEFAULT_ADDRESS - 1);
+> -    } else {
+> -        range_set_bounds(&mch->pci_hole,
+> -                         MCH_HOST_BRIDGE_PCIEXBAR_DEFAULT,
+> -                         IO_APIC_DEFAULT_ADDRESS - 1);
+> -    }
+>  }
+>  
+>  /* PAM */
+> @@ -484,6 +461,14 @@ static void mch_update(MCHPCIState *mch)
+>      mch_update_pam(mch);
+>      mch_update_smram(mch);
+>      mch_update_ext_tseg_mbytes(mch);
+> +
+> +    /*
+> +     * pci hole goes from end-of-low-ram to io-apic.
+> +     * mmconfig will be excluded by the dsdt builder.
+> +     */
+> +    range_set_bounds(&mch->pci_hole,
+> +                     mch->below_4g_mem_size,
+> +                     IO_APIC_DEFAULT_ADDRESS - 1);
+>  }
+>  
+>  static int mch_post_load(void *opaque, int version_id)
+> 
 
-- U-Boot prompt
-- Linux kernel with Sash shell
+Queued, thanks.
 
-These are very quick tests:
-
-  $ avocado run -t arch:rx tests/acceptance/boot_linux_console.py
-  JOB ID     : 84a6ef01c0b87975ecbfcb31a920afd735753ace
-  JOB LOG    : /home/phil/avocado/job-results/job-2019-05-24T05.02-84a6ef=
-0/job.log
-   (1/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
-uboot: PASS (0.11 s)
-   (2/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
-linux: PASS (0.45 s)
-  RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
-| CANCEL 0
-
-Tests can also be run with:
-
-  $ avocado --show=3Dconsole run -t arch:rx tests/acceptance/boot_linux_c=
-onsole.py
-  console: U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty (Feb 05 2019 - 21:5=
-6:06 +0900)
-  console: Linux version 4.19.0+ (yo-satoh@yo-satoh-debian) (gcc version =
-9.0.0 20181105 (experimental) (GCC)) #137 Wed Feb 20 23:20:02 JST 2019
-  console: Built 1 zonelists, mobility grouping on.  Total pages: 8128
-  ...
-  console: SuperH (H)SCI(F) driver initialized
-  console: 88240.serial: ttySC0 at MMIO 0x88240 (irq =3D 215, base_baud =3D=
- 0) is a sci
-  console: console [ttySC0] enabled
-  console: 88248.serial: ttySC1 at MMIO 0x88248 (irq =3D 219, base_baud =3D=
- 0) is a sci
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Based-on: 20190517045136.3509-1-richard.henderson@linaro.org
-"RX architecture support"
----
- tests/acceptance/boot_linux_console.py | 51 ++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
-
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-index d5c500ea30..f68aab1df8 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -45,6 +45,11 @@ class BootLinuxConsole(Test):
-                 fail =3D 'Failure message found in console: %s' % failur=
-e_message
-                 self.fail(fail)
-=20
-+    def exec_command_and_wait_for_pattern(self, command, success_message=
-):
-+        command +=3D '\n'
-+        self.vm.console_socket.sendall(command.encode())
-+        self.wait_for_console_pattern(success_message)
-+
-     def extract_from_deb(self, deb, path):
-         """
-         Extracts a file from a deb package into the test workdir
-@@ -217,3 +222,49 @@ class BootLinuxConsole(Test):
-         self.vm.launch()
-         console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
-         self.wait_for_console_pattern(console_pattern)
-+
-+    def test_rx_uboot(self):
-+        """
-+        :avocado: tags=3Darch:rx
-+        :avocado: tags=3Dmachine:rx-virt
-+        :avocado: tags=3Dendian:little
-+        """
-+        uboot_url =3D ('https://acc.dl.osdn.jp/users/23/23888/u-boot.bin=
-.gz')
-+        uboot_hash =3D '9b78dbd43b40b2526848c0b1ce9de02c24f4dcdb'
-+        uboot_path =3D self.fetch_asset(uboot_url, asset_hash=3Duboot_ha=
-sh)
-+        uboot_path =3D archive.uncompress(uboot_path, self.workdir)
-+
-+        self.vm.set_machine('rx-virt')
-+        self.vm.set_console()
-+        self.vm.add_args('-bios', uboot_path,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        uboot_version =3D 'U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty'
-+        self.wait_for_console_pattern(uboot_version)
-+        gcc_version =3D 'rx-unknown-linux-gcc (GCC) 9.0.0 20181105 (expe=
-rimental)'
-+        # FIXME limit baudrate on chardev, else we type too fast
-+        #self.exec_command_and_wait_for_pattern('version', gcc_version)
-+
-+    def test_rx_linux(self):
-+        """
-+        :avocado: tags=3Darch:rx
-+        :avocado: tags=3Dmachine:rx-virt
-+        :avocado: tags=3Dendian:little
-+        """
-+        dtb_url =3D ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb'=
-)
-+        dtb_hash =3D '7b4e4e2c71905da44e86ce47adee2210b026ac18'
-+        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash)
-+        kernel_url =3D ('http://acc.dl.osdn.jp/users/23/23845/zImage')
-+        kernel_hash =3D '39a81067f8d72faad90866ddfefa19165d68fc99'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+
-+        self.vm.set_machine('rx-virt')
-+        self.vm.set_console()
-+        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'early=
-con'
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-dtb', dtb_path,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        self.wait_for_console_pattern('Sash command shell (version 1.1.1=
-)')
-+        self.exec_command_and_wait_for_pattern('printenv',
-+                                               'TERM=3Dlinux')
---=20
-2.20.1
-
+Paolo
 
