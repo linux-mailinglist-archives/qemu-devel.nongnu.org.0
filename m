@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E48D4166F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 22:50:47 +0200 (CEST)
-Received: from localhost ([::1]:55386 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC814416B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 23:09:52 +0200 (CEST)
+Received: from localhost ([::1]:55422 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hanjA-0000aQ-IA
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 16:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
+	id 1hao1f-0006qw-Rv
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 17:09:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58111)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hanfo-0007Z5-5g
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 16:47:17 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hanwg-0004Qd-0F
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:04:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hanfn-0003Hl-7Z
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 16:47:16 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40719)
+ (envelope-from <richard.henderson@linaro.org>) id 1hanlp-0008OU-VT
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 16:53:31 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44713)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hanfm-0003Fd-UL
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 16:47:15 -0400
-Received: by mail-pf1-x441.google.com with SMTP id p184so4876608pfp.7
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 13:47:14 -0700 (PDT)
+ id 1hanlp-0008Kl-MR
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 16:53:29 -0400
+Received: by mail-pg1-x541.google.com with SMTP id n2so7607555pgp.11
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 13:53:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ h=subject:from:to:cc:references:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=R9lmnVStkdhvdSGPq/Fxtap0/Y82nacehX0TKh1C0uU=;
- b=sGiu9fE4UbSEYLouPOeF4SpM49AIbbMP0jAP+oppQSXK+WsM9sqU2k12mNGwT/AKa4
- PqkIktxZFX0SAPW+KPK8a9AOUeLezgS36e2/eWaH27+aNa+EnmrPheJs00dIzbS44S5A
- xtgBH8V7KnGxpxPs+gNib+0g6CrhGWRXRux1j+vzPejfivlByTGrDZjlSQXte0ANopp7
- Cl88/xuHXChF/ULA0nb/h52d1I9KGuGSchESsvp9G6+YuztiTmFOwdyo5YdPxi+huWmx
- i55lsqDXJjigvkZR0h+Ba67lpHkdTW8EhqetRdSF+lbLocthexErukDnKttRzLkCBpH1
- 1Z8Q==
+ bh=DPbgMEUYSLDK0m9QMSpDQuYqdtkL9x82h5Hs/N4s2XE=;
+ b=ef9wFrfzgnR0bhMQcK/QgNkRuaA5AEZwMEN5IrLKMbsuf2G1stIwXgmaBpqp6RK9DA
+ Rm/ySZ7nabkuaF7m7iuySRFhLX2KeKM1zsi56h2IjRlY/Pv1d5COwx7Asw2Nta+ocCAG
+ RUm6aJxfGJyWRJsyGD17WIH7HTnK7hKk4CevhbRV/ny8GwyWQOUz4te59tjYp/7+lhvt
+ A1z2a3LA49RKCFRgLGXOHITjQjVXr6DU9VT74rql6SlvBHiFruqU+jozejT/WrTr8J+X
+ SwveQp2va+XAGlxkQWIxCSWhlMKNdTcZXSTYna4RD6vSFM+UCqdQ9kzGAKRFrmBDa1kl
+ zUdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=R9lmnVStkdhvdSGPq/Fxtap0/Y82nacehX0TKh1C0uU=;
- b=ioOCa1ARGdWX3A8TnWkFrp40hda3F1vQYqP5Wqt5yCGkE0tcxyjLBDx1+S/aklI+42
- /CaNC1Wcgui18Iy4qM1lqGhMZVa/9fc3st7t6RWllQU6ReZnAL97FmTcy7Ah/a1Knao5
- yTetPuYLam4Dgg2inO4j0XW1yZMtUr3yT4o1tBt5YyuM5+jY88E7iIZLi2oeoV/xq9CA
- TR6yl3i9O0oKIzr2SBOkzQfkFKehHSqr8oitjj9LjsvZ8VMBmSCb7rnCMCaCEmK0Hc/r
- 6ejFgNgITUr727w6f/XegSZR/VU0SHPrtQh/UtKQKjy9DEGVDxkPve2hnL6rhLx+od0X
- pn9w==
-X-Gm-Message-State: APjAAAXfDr62samlzuYKFKsxWS5iT9YnV/cGDmTo7DCM2xEgrIpZHvDY
- RKMj6yo8PllosoL0karLgDcwXw==
-X-Google-Smtp-Source: APXvYqzWb/XCBV2ROMjzTRIj00PWWNfKirB/WfM08gn7ULXH7wTIugp9pGqUWL7NlPR0ZyNRo4VAHA==
-X-Received: by 2002:a62:fb10:: with SMTP id x16mr83059111pfm.112.1560286033450; 
- Tue, 11 Jun 2019 13:47:13 -0700 (PDT)
+ bh=DPbgMEUYSLDK0m9QMSpDQuYqdtkL9x82h5Hs/N4s2XE=;
+ b=uIeBatEe50VKkHSlLGERVSmipG+wKEJH2+MI11C+wuF97s9P6tt8AZsEVZ1oSHXjIP
+ st1xY+Pv20dzxvyz9cDD+GyDjehevZoGfPnBH6g2tnQ3ZFJOH/3gBNGgju9AiTeWh4gy
+ pBh8uneqySaJks3UmnHFgxRePoTJVZWL3JksK5+orueD2276OIE8ZlK1TBRpZhsB6GNp
+ 2GxsQvXG5npoZaXbOSj1JvDK/OVIipJuNC2Ar8EIUCmXtDefcaqARH1NUHsvT560TL8a
+ YUMXUeHqIfv+pHV0zT8KfNT17DhquxZq/KmMr3ZO5aoXD8JKJ468sLCFjdwQwR92CTGj
+ H7iA==
+X-Gm-Message-State: APjAAAVeuVdSujfEeV5nflJCVdMjbAnBoY0aDq9khv8gtgDhYLftxiJF
+ Ubr4IUkUQYF2FYwm/6dNbHwZkitksX0=
+X-Google-Smtp-Source: APXvYqzD2cYdYLtLza3lqvK/vYnYs06rVTXHEtz+A7K2G7UIPtaLBMpNNPunOYQTdu8rA0izK1PtWg==
+X-Received: by 2002:aa7:8a95:: with SMTP id a21mr82833325pfc.215.1560286407737; 
+ Tue, 11 Jun 2019 13:53:27 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
  by smtp.gmail.com with ESMTPSA id
- q7sm14486487pfb.32.2019.06.11.13.47.11
+ l21sm15314046pff.40.2019.06.11.13.53.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Jun 2019 13:47:12 -0700 (PDT)
-To: Michael Rolnik <mrolnik@gmail.com>
-References: <20190606193012.37715-1-mrolnik@gmail.com>
- <20190606193012.37715-5-mrolnik@gmail.com>
- <9c74618e-eb1e-0225-11dc-fe51e634d265@linaro.org>
- <CAK4993gLwXopG=EFNePsHJYmTZ5uU7EgbGe3Ad4ofOdCxQX-Mg@mail.gmail.com>
+ Tue, 11 Jun 2019 13:53:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20190519201953.20161-1-richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <8429d379-c7e5-72b2-31cf-c4fa80f70695@linaro.org>
-Date: Tue, 11 Jun 2019 13:47:10 -0700
+Message-ID: <3188141b-4f56-5784-6e47-fe24fe20d5aa@linaro.org>
+Date: Tue, 11 Jun 2019 13:53:24 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAK4993gLwXopG=EFNePsHJYmTZ5uU7EgbGe3Ad4ofOdCxQX-Mg@mail.gmail.com>
+In-Reply-To: <20190519201953.20161-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v21 4/7] target/avr: Add instruction
- translation
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: Re: [Qemu-devel] [PATCH 00/13] linux-user: path, clone, sparc,
+ shmat fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,38 +84,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/11/19 1:21 PM, Michael Rolnik wrote:
-> I merged all you fixes and I get an assert(use_icount) in cpu_loop_exec_tb
-> function, it happens on an instruction following SBRC.
-> what might cause it?
+Laurent has merged the final two patches, but ping for the first 11.
 
-No idea.  What is your test case?  And your tree, just in case there was an
-error in the merging.
-
-Looking through output from
-
-  qemu-avr-tests/instruction-tests/bin/SBR.elf
-
-     14a:       00 fc           sbrc    r0, 0
-     14c:       0f ef           ldi     r16, 0xFF       ; 255
-
-it works for me:
-
- ---- 000000a5
- movi_i32 tmp2,$0x1
- and_i32 tmp1,r0,tmp2
-
- ---- 000000a6
- movi_i32 tmp2,$0x0
- brcond_i32 tmp1,tmp2,eq,$L1
- movi_i32 r16,$0xff
- set_label $L1
+I see there are trivial patch conflicts with master, but I'd rather
+respin with substantive review if possible.
 
 
 r~
+
+
+On 5/19/19 1:19 PM, Richard Henderson wrote:
+> This is an omnibus patchset of:
+> 
+>   v2: util/path: Do not cache all filenames at startup
+>   https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg04149.html
+> 
+>   v1: linux-user: Fix shmat emulation by honoring host SHMLBA
+>   https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg03430.html
+> 
+> And a v3 update of
+> 
+>   v2: linux-user sparc fixes
+>   https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg02273.html
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (13):
+>   util/path: Do not cache all filenames at startup
+>   linux-user: Rename cpu_clone_regs to cpu_clone_regs_child
+>   linux-user: Introduce cpu_clone_regs_parent
+>   linux-user/alpha: Set r20 secondary return value
+>   target/sparc: Define an enumeration for accessing env->regwptr
+>   linux-user/sparc: Use WREG constants in sparc/target_cpu.h
+>   linux-user/sparc: Use WREG constants in sparc/signal.c
+>   linux-user/sparc: Fix cpu_clone_regs
+>   linux-user/sparc: Flush register windows before clone/fork/vfork
+>   scripts/qemu-binfmt-conf: Update for sparc64
+>   tests/tcg/multiarch/linux-test: Fix error check for shmat
+>   linux-user: Fix shmat emulation by honoring host SHMLBA
+>   linux-user: Align mmap_find_vma to host page size
+> 
+>  linux-user/aarch64/target_cpu.h    |   6 +-
+>  linux-user/alpha/target_cpu.h      |   8 +-
+>  linux-user/arm/target_cpu.h        |   6 +-
+>  linux-user/cris/target_cpu.h       |   6 +-
+>  linux-user/hppa/target_cpu.h       |   6 +-
+>  linux-user/i386/target_cpu.h       |   6 +-
+>  linux-user/m68k/target_cpu.h       |   6 +-
+>  linux-user/microblaze/target_cpu.h |   6 +-
+>  linux-user/mips/target_cpu.h       |   6 +-
+>  linux-user/nios2/target_cpu.h      |   6 +-
+>  linux-user/openrisc/target_cpu.h   |   7 +-
+>  linux-user/ppc/target_cpu.h        |   6 +-
+>  linux-user/qemu.h                  |   2 +-
+>  linux-user/riscv/target_cpu.h      |   6 +-
+>  linux-user/s390x/target_cpu.h      |   6 +-
+>  linux-user/sh4/target_cpu.h        |   6 +-
+>  linux-user/sparc/target_cpu.h      |  45 ++++---
+>  linux-user/tilegx/target_cpu.h     |   6 +-
+>  linux-user/xtensa/target_cpu.h     |   7 +-
+>  target/sparc/cpu.h                 |  33 +++++
+>  linux-user/elfload.c               |  17 ++-
+>  linux-user/mmap.c                  |  76 ++++++-----
+>  linux-user/sparc/cpu_loop.c        |  12 ++
+>  linux-user/sparc/signal.c          |  96 +++++---------
+>  linux-user/syscall.c               |   9 +-
+>  tests/tcg/multiarch/linux-test.c   |   3 +-
+>  util/path.c                        | 201 +++++++----------------------
+>  scripts/qemu-binfmt-conf.sh        |   8 +-
+>  28 files changed, 309 insertions(+), 299 deletions(-)
+> 
+
 
