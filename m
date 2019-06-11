@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BB23C912
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 12:36:49 +0200 (CEST)
-Received: from localhost ([::1]:56032 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6353C91A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 12:39:17 +0200 (CEST)
+Received: from localhost ([::1]:56106 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hae92-00017F-9b
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 06:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33985)
+	id 1haeBR-0003SI-2a
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 06:39:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34921)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hae6a-0007rR-8M
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 06:34:18 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hae9a-0002Sj-8W
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 06:37:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hae6X-00072o-M4
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 06:34:16 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45035)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hae6U-0006xE-Jb
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 06:34:12 -0400
-Received: by mail-wr1-f65.google.com with SMTP id b17so12398898wrq.11
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 03:34:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=033VrfIfgURmCuPp+vku5SDBMLjYq0PeyvqkT1yLY3U=;
- b=NdYiFcwjwJm76U80DxjiE+kIUnNE9rP5WLXuG0GVlpHgh2qwa1fYV1IV1ypD1xSrZl
- Ivh1c3mT7OIP2KEI/6ylCLflzAPG07t3iLVSf+ru0UHvD5ReYGZ0bUKdIyk+qqJSQ1RS
- F02U3VGdAaAZiBYwr+7rnf8P1hBi/a5g3ubHnewqh0qJDw53ygyy31fWvso1IejpBhMq
- uYiOkC3L21fi3+K3jj8mXWjBH8excwJ1mWl/QFgeBy1cXXzm4wD/BOa2c3D0/3h8MFs9
- OuQCqKleB2BSQQGDRwN7JJ+mYA1tXvNNyb+hYwgWrv/stY2DP+r5tft7YpXVYZ3MkKbb
- fifg==
-X-Gm-Message-State: APjAAAVEkKc2IknqaXOjDLa1O0RgL6w5/e0DKMqvcXSXdBjUsbTliBSv
- LobZS/fnh0MNL0NzEtZr5EPz3Q==
-X-Google-Smtp-Source: APXvYqxBu2seSBnT07harLPtQd8TEsxkYf67ZUCeCCwbD93tJpK2+A5Uv43c9+3nlv0M4u97LAPJJA==
-X-Received: by 2002:adf:b60f:: with SMTP id f15mr4502361wre.283.1560249242981; 
- Tue, 11 Jun 2019 03:34:02 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:8cc3:8abd:4519:2cd6?
- ([2001:b07:6468:f312:8cc3:8abd:4519:2cd6])
- by smtp.gmail.com with ESMTPSA id k5sm1395654wmj.30.2019.06.11.03.34.02
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Jun 2019 03:34:02 -0700 (PDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Colin.Xu@intel.com, qemu-devel@nongnu.org
-References: <20190610021939.13669-1-colin.xu@intel.com>
- <d2859fe1-df24-e5fa-a5dd-54d5f8640c1b@intel.com>
- <e02689d9-ce19-027b-bb6a-ae7471e18d78@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <728ebfce-9a96-aaeb-3147-ab897b3ad7a1@redhat.com>
-Date: Tue, 11 Jun 2019 12:34:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <dgilbert@redhat.com>) id 1hae9Z-0001cz-6V
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 06:37:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59816)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hae9Z-0001MU-0b
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 06:37:21 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8B1703082A98
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 10:36:57 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4562460BEE;
+ Tue, 11 Jun 2019 10:36:53 +0000 (UTC)
+Date: Tue, 11 Jun 2019 11:36:50 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Message-ID: <20190611103650.GE2777@work-vm>
+References: <20190610184402.7090-1-dgilbert@redhat.com>
+ <20190610184402.7090-2-dgilbert@redhat.com>
+ <272867fd-1a3a-3cc2-9774-0feb694cd773@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <e02689d9-ce19-027b-bb6a-ae7471e18d78@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <272867fd-1a3a-3cc2-9774-0feb694cd773@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 11 Jun 2019 10:36:57 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH] hax: Honor CPUState::halted
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 1/4] net/announce: Allow optional list
+ of interfaces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,146 +59,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, liq3ea@gmail.com,
- armbru@redhat.com, yu.ning@intel.com, chuanxiao.dong@intel.com
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org, laine@redhat.com,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/06/19 10:38, Philippe Mathieu-Daudé wrote:
-> Cc'ing Paolo & Richard.
+* Eric Blake (eblake@redhat.com) wrote:
+> On 6/10/19 1:43 PM, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > Allow the caller to restrict the set of interfaces that announces are
+> > sent on.  The default is still to send on all interfaces.
+> > 
+> > e.g.
+> > 
+> >   { "execute": "announce-self", "arguments": { "initial": 50, "max": 550, "rounds": 5, "step": 50, "interfaces": ["vn2","vn1"] } }
+> > 
+> > This doesn't affect the behaviour of migraiton announcments.
+> > 
+> > Note: There's still only one timer for the qmp command, so that
+> > performing an 'announce-self' on one list of interfaces followed
+> > by another 'announce-self' on another list will stop the announces
+> > on the existing set.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
 > 
-> On 6/10/19 4:27 AM, Colin Xu wrote:
->> cc more.
->>
->> On 2019-06-10 10:19, Colin Xu wrote:
->>> QEMU tracks whether a vcpu is halted using CPUState::halted. E.g.,
->>> after initialization or reset, halted is 0 for the BSP (vcpu 0)
->>> and 1 for the APs (vcpu 1, 2, ...). A halted vcpu should not be
->>> handed to the hypervisor to run (e.g. hax_vcpu_run()).
->>>
->>> Under HAXM, Android Emulator sometimes boots into a "vcpu shutdown
->>> request" error while executing in SeaBIOS, with the HAXM driver
->>> logging a guest triple fault in vcpu 1, 2, ... at RIP 0x3. That is
->>> ultimately because the HAX accelerator asks HAXM to run those APs
->>> when they are still in the halted state.
->>>
->>> Normally, the vcpu thread for an AP will start by looping in
->>> qemu_wait_io_event(), until the BSP kicks it via a pair of IPIs
->>> (INIT followed by SIPI). But because the HAX accelerator does not
->>> honor cpu->halted, it allows the AP vcpu thread to proceed to
->>> hax_vcpu_run() as soon as it receives any kick, even if the kick
->>> does not come from the BSP. It turns out that emulator has a
->>> worker thread which periodically kicks every vcpu thread (possibly
->>> to collect CPU usage data), and if one of these kicks comes before
->>> those by the BSP, the AP will start execution from the wrong RIP,
->>> resulting in the aforementioned SMP boot failure.
->>>
->>> The solution is inspired by the KVM accelerator (credit to
->>> Chuanxiao Dong <chuanxiao.dong@intel.com> for the pointer):
->>>
->>> 1. Get rid of questionable logic that unconditionally resets
->>>     cpu->halted before hax_vcpu_run(). Instead, only reset it at the
->>>     right moments (there are only a few "unhalt" events).
->>> 2. Add a check for cpu->halted before hax_vcpu_run().
->>>
->>> Note that although the non-Unrestricted Guest (!ug_platform) code
->>> path also forcibly resets cpu->halted, it is left untouched,
->>> because only the UG code path supports SMP guests.
->>>
->>> The patch is first merged to android emulator with Change-Id:
->>> I9c5752cc737fd305d7eace1768ea12a07309d716
->>>
->>> Cc: Yu Ning <yu.ning@intel.com>
->>> Cc: Chuanxiao Dong <chuanxiao.dong@intel.com>
->>> Signed-off-by: Colin Xu <colin.xu@intel.com>
->>> ---
->>>   cpus.c                |  1 -
->>>   target/i386/hax-all.c | 36 ++++++++++++++++++++++++++++++++++--
->>>   2 files changed, 34 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/cpus.c b/cpus.c
->>> index ffc57119ca5e..c1a56cd9ab01 100644
->>> --- a/cpus.c
->>> +++ b/cpus.c
->>> @@ -1591,7 +1591,6 @@ static void *qemu_hax_cpu_thread_fn(void *arg)
->>>         cpu->thread_id = qemu_get_thread_id();
->>>       cpu->created = true;
->>> -    cpu->halted = 0;
->>>       current_cpu = cpu;
->>>         hax_init_vcpu(cpu);
->>> diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
->>> index 44b89c1d74ae..58a27b475ec8 100644
->>> --- a/target/i386/hax-all.c
->>> +++ b/target/i386/hax-all.c
->>> @@ -471,13 +471,35 @@ static int hax_vcpu_hax_exec(CPUArchState *env)
->>>           return 0;
->>>       }
->>>   -    cpu->halted = 0;
->>> -
->>>       if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
->>>           cpu->interrupt_request &= ~CPU_INTERRUPT_POLL;
->>>           apic_poll_irq(x86_cpu->apic_state);
->>>       }
->>>   +    /* After a vcpu is halted (either because it is an AP and has
->>> just been
->>> +     * reset, or because it has executed the HLT instruction), it
->>> will not be
->>> +     * run (hax_vcpu_run()) until it is unhalted. The next few if
->>> blocks check
->>> +     * for events that may change the halted state of this vcpu:
->>> +     *  a) Maskable interrupt, when RFLAGS.IF is 1;
->>> +     *     Note: env->eflags may not reflect the current RFLAGS
->>> state, because
->>> +     *           it is not updated after each hax_vcpu_run(). We
->>> cannot afford
->>> +     *           to fail to recognize any
->>> unhalt-by-maskable-interrupt event
->>> +     *           (in which case the vcpu will halt forever), and yet
->>> we cannot
->>> +     *           afford the overhead of hax_vcpu_sync_state(). The
->>> current
->>> +     *           solution is to err on the side of caution and have
->>> the HLT
->>> +     *           handler (see case HAX_EXIT_HLT below)
->>> unconditionally set the
->>> +     *           IF_MASK bit in env->eflags, which, in effect,
->>> disables the
->>> +     *           RFLAGS.IF check.
->>> +     *  b) NMI;
->>> +     *  c) INIT signal;
->>> +     *  d) SIPI signal.
->>> +     */
->>> +    if (((cpu->interrupt_request & CPU_INTERRUPT_HARD) &&
->>> +         (env->eflags & IF_MASK)) ||
->>> +        (cpu->interrupt_request & CPU_INTERRUPT_NMI)) {
->>> +        cpu->halted = 0;
->>> +    }
->>> +
->>>       if (cpu->interrupt_request & CPU_INTERRUPT_INIT) {
->>>           DPRINTF("\nhax_vcpu_hax_exec: handling INIT for %d\n",
->>>                   cpu->cpu_index);
->>> @@ -493,6 +515,16 @@ static int hax_vcpu_hax_exec(CPUArchState *env)
->>>           hax_vcpu_sync_state(env, 1);
->>>       }
->>>   +    if (cpu->halted) {
->>> +        /* If this vcpu is halted, we must not ask HAXM to run it.
->>> Instead, we
->>> +         * break out of hax_smp_cpu_exec() as if this vcpu had
->>> executed HLT.
->>> +         * That way, this vcpu thread will be trapped in
->>> qemu_wait_io_event(),
->>> +         * until the vcpu is unhalted.
->>> +         */
->>> +        cpu->exception_index = EXCP_HLT;
->>> +        return 0;
->>> +    }
->>> +
->>>       do {
->>>           int hax_ret;
->>>   
->>
+> > +++ b/qapi/net.json
+> > @@ -699,6 +699,9 @@
+> >  #
+> >  # @step: Delay increase (in ms) after each self-announcement attempt
+> >  #
+> > +# @interfaces: An optional list of interface names, which restrict the
+> 
+> restricts
 
-Queued, thanks.
+Done
 
-Paolo
+> > +#        announcment to the listed interfaces. (Since 4.1)
+> 
+> announcement
+
+Done
+
+> > +#
+> >  # Since: 4.0
+> >  ##
+> >  
+> > @@ -706,7 +709,8 @@
+> >    'data': { 'initial': 'int',
+> >              'max': 'int',
+> >              'rounds': 'int',
+> > -            'step': 'int' } }
+> > +            'step': 'int',
+> > +            '*interfaces': ['str'] } }
+> >  
+> >  ##
+> >  # @announce-self:
+> > @@ -718,9 +722,10 @@
+> >  #
+> >  # Example:
+> >  #
+> > -# -> { "execute": "announce-self"
+> > +# -> { "execute": "announce-self",
+> 
+> Embarrassing that we didn't notice that one earlier.
+
+The way to avoid it I guess would be to parse the example code.
+
+> >  #      "arguments": {
+> > -#          "initial": 50, "max": 550, "rounds": 10, "step": 50 } }
+> > +#          "initial": 50, "max": 550, "rounds": 10, "step": 50,
+> > +#          "interfaces": ["vn2","vn3"] } }
+> 
+> Worth a space after the comma? Not required, but I think it looks nicer.
+
+Added
+
+> As I only focused on doc issues, I'll leave the full review to others.
+
+Thanks,
+
+Dave
+
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
+> 
+
+
+
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
