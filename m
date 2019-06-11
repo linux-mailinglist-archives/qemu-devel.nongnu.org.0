@@ -2,59 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31DC3CCF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 15:29:25 +0200 (CEST)
-Received: from localhost ([::1]:58974 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 383E43CCCD
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 15:20:56 +0200 (CEST)
+Received: from localhost ([::1]:58768 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hagq4-0006mK-L5
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 09:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52384)
+	id 1haghr-0008Gu-DS
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 09:20:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50177)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hagmc-0003fR-Up
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:25:53 -0400
+ (envelope-from <jasowang@redhat.com>) id 1haget-0007Ct-T4
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:17:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hagmb-00017j-A4
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:25:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39944)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hagmb-0000tU-1O
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:25:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hagmM-0004pw-8v
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 13:25:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 35E3F2E80C9
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 13:25:34 +0000 (UTC)
+ (envelope-from <jasowang@redhat.com>) id 1hages-0003Ga-E6
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:17:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34432)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hages-0003Cv-5b
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:17:50 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3D94A59474;
+ Tue, 11 Jun 2019 13:17:39 +0000 (UTC)
+Received: from [10.72.12.214] (ovpn-12-214.pek2.redhat.com [10.72.12.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B23460DCA;
+ Tue, 11 Jun 2019 13:17:34 +0000 (UTC)
+To: "Michael S. Tsirkin" <mst@redhat.com>, Like Xu <like.xu@linux.intel.com>
+References: <449c062f-373c-b310-ccc6-f14c702c8f19@linux.intel.com>
+ <20190610114708-mutt-send-email-mst@kernel.org>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <4c5a0454-865f-102e-94e5-6a38d011f33c@redhat.com>
+Date: Tue, 11 Jun 2019 21:17:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190610114708-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Tue, 11 Jun 2019 13:17:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Jun 2019 13:14:07 -0000
-From: Christophe Lyon <christophe.lyon+launchpad@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: christophe-lyon
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Christophe Lyon (christophe-lyon)
-Message-Id: <156025884763.18155.9614824235777300144.malonedeb@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18978";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 28a1ad9eb7be5957b314d15c05e3321c204f0621
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1832353] [NEW] cpu_exec: Assertion
- !have_mmap_lock() failed
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [QUESTION] How to reduce network latency to
+ improve netperf TCP_RR drastically?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,81 +60,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1832353 <1832353@bugs.launchpad.net>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-Hi,
+On 2019/6/10 =E4=B8=8B=E5=8D=8811:55, Michael S. Tsirkin wrote:
+> On Tue, Jun 04, 2019 at 03:10:43PM +0800, Like Xu wrote:
+>> Hi Michael=EF=BC=8C
+>>
+>> At https://www.linux-kvm.org/page/NetworkingTodo, there is an entry fo=
+r
+>> network latency saying:
+>>
+>> ---
+>> reduce networking latency:
+>>   allow handling short packets from softirq or VCPU context
+>>   Plan:
+>>     We are going through the scheduler 3 times
+>>     (could be up to 5 if softirqd is involved)
+>>     Consider RX: host irq -> io thread -> VCPU thread ->
+>>     guest irq -> guest thread.
+>>     This adds a lot of latency.
+>>     We can cut it by some 1.5x if we do a bit of work
+>>     either in the VCPU or softirq context.
+>>   Testing: netperf TCP RR - should be improved drastically
+>>            netperf TCP STREAM guest to host - no regression
+>>   Contact: MST
+>> ---
+>>
+>> I am trying to make some contributions to improving netperf TCP_RR.
+>> Could you please share more ideas or plans or implemental details to m=
+ake it
+>> happen?
+>>
+>> Thanks,
+>> Like Xu
+>
+> So some of this did happen. netif_receive_skb is now called
+> directly from tun_get_user.
+>
+> Question is about the rx/tun_put_user path now.
+>
+> If the vhost thread is idle, there's a single packet
+> outstanding then maybe we can forward the packet to userspace
+> directly from BH without waking up the thread.
+>
+> For this to work we need to map some userspace memory into kernel
+> ahead of the time. For example, maybe it can happen when
+> guest adds RX buffers? Copying Jason who's looking into
+> memory mapping matters.
 
-I have isolated a testcase from the GCC testsuite (actually gfortran,
-test proc_ptr_51.f90) which produces tons of:
 
-qemu-arm: /home/christophe.lyon/src/qemu/accel/tcg/cpu-exec.c:701:
-cpu_exec: Assertion `!have_mmap_lock()' failed.
+Btw, I wonder maybe it's time to make TODO wiki up to date.
 
-including with master qemu as of today.
+Thanks
 
-I'm attaching a tarball containing:
-qemu-assert:
-cmd  lib  proc_ptr_51.exe
-
-qemu-assert/lib:
-ld-linux-armhf.so.3  libc.so.6  libgcc_s.so.1  libgfortran.so.5  libm.so.6
-
-where cmd is the basic command used to launch the test & reproduce the
-failure.
-
-Note that the test or the generated may actually be buggy: I have
-reported failures on native aarch64 and arm machines. Yet, qemu should
-not fail with a loop of asserts.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "qemu-assert.tar.xz"
-   https://bugs.launchpad.net/bugs/1832353/+attachment/5270140/+files/qemu-=
-assert.tar.xz
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1832353
-
-Title:
-  cpu_exec: Assertion !have_mmap_lock() failed
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  I have isolated a testcase from the GCC testsuite (actually gfortran,
-  test proc_ptr_51.f90) which produces tons of:
-
-  qemu-arm: /home/christophe.lyon/src/qemu/accel/tcg/cpu-exec.c:701:
-  cpu_exec: Assertion `!have_mmap_lock()' failed.
-
-  including with master qemu as of today.
-
-  I'm attaching a tarball containing:
-  qemu-assert:
-  cmd  lib  proc_ptr_51.exe
-
-  qemu-assert/lib:
-  ld-linux-armhf.so.3  libc.so.6  libgcc_s.so.1  libgfortran.so.5  libm.so.6
-
-  where cmd is the basic command used to launch the test & reproduce the
-  failure.
-
-  Note that the test or the generated may actually be buggy: I have
-  reported failures on native aarch64 and arm machines. Yet, qemu should
-  not fail with a loop of asserts.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1832353/+subscriptions
 
