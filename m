@@ -2,67 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FD93C660
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 10:48:09 +0200 (CEST)
-Received: from localhost ([::1]:52886 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C343C63B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 10:47:20 +0200 (CEST)
+Received: from localhost ([::1]:52874 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hacRr-0007Ih-HK
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 04:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54046)
+	id 1hacR4-0005aC-T7
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 04:47:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53857)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hacNa-0004II-9J
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:43:43 -0400
+ (envelope-from <lvivier@redhat.com>) id 1hacNU-0004G4-2a
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:43:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hacIH-0006CF-7k
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:38:14 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:32954)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hacIH-0006Bf-1g
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:38:13 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n9so12021944wru.0
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 01:38:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cOro0KysdX3QwbpINHnu3I5LEUCneGO+Y3Kh/3Gfvno=;
- b=eYSZneScUVFxIRV9g1ZjiRWBLRxGkFP8eL+VPUaChe35tSbQiHUQp3amiHaYc4vcQW
- rTvjBO6nc5TyQYsAS0XW2OO4DRMMPwst6RKxkOQ+7EGaQCiXMVNinsZVIOuNNtwu2fG8
- HEUk4bT83L9qWmsg5NMItbdwNii3UdXzpzhzS1sBWKCZTPvebsVTUgNervAEYyYedq1r
- T24B4/TlJ5dmcHtu6rCjXyBaTXtMQo6AOKKCZot+CaY7rsljnACU7MjbICNJKyERpKZu
- aAdIKt4J+UHLUo9vVt22/ehZkMcIeDXqD/GUnNuiBj4YSeEohetBc/SMla+d57kVe0lo
- 27Bw==
-X-Gm-Message-State: APjAAAWbLd9UC+RI3WmQKFqARfrgQ4fjaSqq6oTUVZlazMm5+fLK32zd
- nXNAFS6I0ey/qnjFfzVCxux+ew==
-X-Google-Smtp-Source: APXvYqzVZoTnW1b8g0PRPXudbmNDB7srtvoBiSmn96onKc8wwY9IAtcbZ2/OyqKppfgiNkC+d6eBhw==
-X-Received: by 2002:a5d:5448:: with SMTP id w8mr15718169wrv.180.1560242292055; 
- Tue, 11 Jun 2019 01:38:12 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2eec:b420:d26b:a0d4:f86e:1389?
- ([2a01:e35:2eec:b420:d26b:a0d4:f86e:1389])
- by smtp.gmail.com with ESMTPSA id a2sm2922753wmj.9.2019.06.11.01.38.11
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Jun 2019 01:38:11 -0700 (PDT)
-To: Colin.Xu@intel.com, qemu-devel@nongnu.org
-References: <20190610021939.13669-1-colin.xu@intel.com>
- <d2859fe1-df24-e5fa-a5dd-54d5f8640c1b@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <e02689d9-ce19-027b-bb6a-ae7471e18d78@redhat.com>
-Date: Tue, 11 Jun 2019 10:38:10 +0200
+ (envelope-from <lvivier@redhat.com>) id 1hacN2-0000iX-H4
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:43:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56684)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hacMe-0000Oq-Ta
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:43:08 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9617830833B4;
+ Tue, 11 Jun 2019 08:42:36 +0000 (UTC)
+Received: from [10.36.117.111] (ovpn-117-111.ams2.redhat.com [10.36.117.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6622E19C70;
+ Tue, 11 Jun 2019 08:42:31 +0000 (UTC)
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20190529143106.11789-1-lvivier@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <c0e7e3e5-2670-da5d-8b8a-128568f401e6@redhat.com>
+Date: Tue, 11 Jun 2019 10:42:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <d2859fe1-df24-e5fa-a5dd-54d5f8640c1b@intel.com>
+In-Reply-To: <20190529143106.11789-1-lvivier@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Tue, 11 Jun 2019 08:42:41 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH] hax: Honor CPUState::halted
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v7 0/4] rng-builtin: add an RNG backend
+ that uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,142 +102,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liq3ea@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- armbru@redhat.com, yu.ning@intel.com, chuanxiao.dong@intel.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Amit Shah <amit@kernel.org>, Markus Armbruster <armbru@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Richard W . M . Jones" <rjones@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Paolo & Richard.
+Michael,
 
-On 6/10/19 4:27 AM, Colin Xu wrote:
-> cc more.
+Could you pick this series in the next virtio pull request?
+
+If you disagree with some of my patches, could you take at least the
+first one (from Kashyap)?
+
+Thanks,
+Laurent
+
+On 29/05/2019 16:31, Laurent Vivier wrote:
+> Add a new RNG backend using QEMU builtin getrandom function.
 > 
-> On 2019-06-10 10:19, Colin Xu wrote:
->> QEMU tracks whether a vcpu is halted using CPUState::halted. E.g.,
->> after initialization or reset, halted is 0 for the BSP (vcpu 0)
->> and 1 for the APs (vcpu 1, 2, ...). A halted vcpu should not be
->> handed to the hypervisor to run (e.g. hax_vcpu_run()).
->>
->> Under HAXM, Android Emulator sometimes boots into a "vcpu shutdown
->> request" error while executing in SeaBIOS, with the HAXM driver
->> logging a guest triple fault in vcpu 1, 2, ... at RIP 0x3. That is
->> ultimately because the HAX accelerator asks HAXM to run those APs
->> when they are still in the halted state.
->>
->> Normally, the vcpu thread for an AP will start by looping in
->> qemu_wait_io_event(), until the BSP kicks it via a pair of IPIs
->> (INIT followed by SIPI). But because the HAX accelerator does not
->> honor cpu->halted, it allows the AP vcpu thread to proceed to
->> hax_vcpu_run() as soon as it receives any kick, even if the kick
->> does not come from the BSP. It turns out that emulator has a
->> worker thread which periodically kicks every vcpu thread (possibly
->> to collect CPU usage data), and if one of these kicks comes before
->> those by the BSP, the AP will start execution from the wrong RIP,
->> resulting in the aforementioned SMP boot failure.
->>
->> The solution is inspired by the KVM accelerator (credit to
->> Chuanxiao Dong <chuanxiao.dong@intel.com> for the pointer):
->>
->> 1. Get rid of questionable logic that unconditionally resets
->>     cpu->halted before hax_vcpu_run(). Instead, only reset it at the
->>     right moments (there are only a few "unhalt" events).
->> 2. Add a check for cpu->halted before hax_vcpu_run().
->>
->> Note that although the non-Unrestricted Guest (!ug_platform) code
->> path also forcibly resets cpu->halted, it is left untouched,
->> because only the UG code path supports SMP guests.
->>
->> The patch is first merged to android emulator with Change-Id:
->> I9c5752cc737fd305d7eace1768ea12a07309d716
->>
->> Cc: Yu Ning <yu.ning@intel.com>
->> Cc: Chuanxiao Dong <chuanxiao.dong@intel.com>
->> Signed-off-by: Colin Xu <colin.xu@intel.com>
->> ---
->>   cpus.c                |  1 -
->>   target/i386/hax-all.c | 36 ++++++++++++++++++++++++++++++++++--
->>   2 files changed, 34 insertions(+), 3 deletions(-)
->>
->> diff --git a/cpus.c b/cpus.c
->> index ffc57119ca5e..c1a56cd9ab01 100644
->> --- a/cpus.c
->> +++ b/cpus.c
->> @@ -1591,7 +1591,6 @@ static void *qemu_hax_cpu_thread_fn(void *arg)
->>         cpu->thread_id = qemu_get_thread_id();
->>       cpu->created = true;
->> -    cpu->halted = 0;
->>       current_cpu = cpu;
->>         hax_init_vcpu(cpu);
->> diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
->> index 44b89c1d74ae..58a27b475ec8 100644
->> --- a/target/i386/hax-all.c
->> +++ b/target/i386/hax-all.c
->> @@ -471,13 +471,35 @@ static int hax_vcpu_hax_exec(CPUArchState *env)
->>           return 0;
->>       }
->>   -    cpu->halted = 0;
->> -
->>       if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
->>           cpu->interrupt_request &= ~CPU_INTERRUPT_POLL;
->>           apic_poll_irq(x86_cpu->apic_state);
->>       }
->>   +    /* After a vcpu is halted (either because it is an AP and has
->> just been
->> +     * reset, or because it has executed the HLT instruction), it
->> will not be
->> +     * run (hax_vcpu_run()) until it is unhalted. The next few if
->> blocks check
->> +     * for events that may change the halted state of this vcpu:
->> +     *  a) Maskable interrupt, when RFLAGS.IF is 1;
->> +     *     Note: env->eflags may not reflect the current RFLAGS
->> state, because
->> +     *           it is not updated after each hax_vcpu_run(). We
->> cannot afford
->> +     *           to fail to recognize any
->> unhalt-by-maskable-interrupt event
->> +     *           (in which case the vcpu will halt forever), and yet
->> we cannot
->> +     *           afford the overhead of hax_vcpu_sync_state(). The
->> current
->> +     *           solution is to err on the side of caution and have
->> the HLT
->> +     *           handler (see case HAX_EXIT_HLT below)
->> unconditionally set the
->> +     *           IF_MASK bit in env->eflags, which, in effect,
->> disables the
->> +     *           RFLAGS.IF check.
->> +     *  b) NMI;
->> +     *  c) INIT signal;
->> +     *  d) SIPI signal.
->> +     */
->> +    if (((cpu->interrupt_request & CPU_INTERRUPT_HARD) &&
->> +         (env->eflags & IF_MASK)) ||
->> +        (cpu->interrupt_request & CPU_INTERRUPT_NMI)) {
->> +        cpu->halted = 0;
->> +    }
->> +
->>       if (cpu->interrupt_request & CPU_INTERRUPT_INIT) {
->>           DPRINTF("\nhax_vcpu_hax_exec: handling INIT for %d\n",
->>                   cpu->cpu_index);
->> @@ -493,6 +515,16 @@ static int hax_vcpu_hax_exec(CPUArchState *env)
->>           hax_vcpu_sync_state(env, 1);
->>       }
->>   +    if (cpu->halted) {
->> +        /* If this vcpu is halted, we must not ask HAXM to run it.
->> Instead, we
->> +         * break out of hax_smp_cpu_exec() as if this vcpu had
->> executed HLT.
->> +         * That way, this vcpu thread will be trapped in
->> qemu_wait_io_event(),
->> +         * until the vcpu is unhalted.
->> +         */
->> +        cpu->exception_index = EXCP_HLT;
->> +        return 0;
->> +    }
->> +
->>       do {
->>           int hax_ret;
->>   
+> v7: rebase on master
+>     Make rng-builtin asynchronous with QEMUBH (removed existing R-b)
 > 
+> v6: remove "sysemu/rng-random.h" from virtio-rng.c
+>     rebase on qemu_getrandom v8
+> 
+> v5: PATCH 1 s/linux/Linux/
+>     remove superfluous includes from rng-builtin.c
+>     don't update rng-random documentation
+>     add a patch from Markus to keep the default backend out of VirtIORNGConf
+>     move TYPE_RNG_BUILTIN to sysemu/rng.h and remove sysemu/rng-builtin.h
+> 
+> v4: update PATCH 1 commit message
+> 
+> v3: Include Kashyap's patch in the series
+>     Add a patch to change virtio-rng default backend to rng-builtin
+> 
+> v2: Update qemu-options.hx
+>     describe the new backend and specify virtio-rng uses the
+>     rng-random by default
+> 
+> Kashyap Chamarthy (1):
+>   VirtIO-RNG: Update default entropy source to `/dev/urandom`
+> 
+> Laurent Vivier (2):
+>   rng-builtin: add an RNG backend that uses qemu_guest_getrandom()
+>   virtio-rng: change default backend to rng-builtin
+> 
+> Markus Armbruster (1):
+>   virtio-rng: Keep the default backend out of VirtIORNGConf
+> 
+>  backends/Makefile.objs         |  2 +-
+>  backends/rng-builtin.c         | 77 ++++++++++++++++++++++++++++++++++
+>  backends/rng-random.c          |  2 +-
+>  hw/virtio/virtio-rng.c         | 19 ++++-----
+>  include/hw/virtio/virtio-rng.h |  2 -
+>  include/sysemu/rng.h           |  2 +
+>  qemu-options.hx                |  9 +++-
+>  7 files changed, 97 insertions(+), 16 deletions(-)
+>  create mode 100644 backends/rng-builtin.c
+> 
+
 
