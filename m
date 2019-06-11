@@ -2,54 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654E93C68D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 10:52:19 +0200 (CEST)
-Received: from localhost ([::1]:52918 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7656B3C65E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 10:47:57 +0200 (CEST)
+Received: from localhost ([::1]:52882 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hacVu-0001Yc-J5
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 04:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53857)
+	id 1hacRg-0006UR-Ii
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 04:47:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53964)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hacNk-0004G4-D9
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:43:53 -0400
+ (envelope-from <quintela@redhat.com>) id 1hacNi-0004GP-3z
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:43:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hacAu-0000XU-F6
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:30:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59588)
+ (envelope-from <quintela@redhat.com>) id 1hacDx-00038G-EP
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:33:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:10854)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hacAu-0000Un-6d
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:30:36 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hacDv-00036c-J0
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:33:43 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 02919356F6
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 08:30:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
- [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64A2060A9F;
- Tue, 11 Jun 2019 08:30:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 185D811386A0; Tue, 11 Jun 2019 10:30:25 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-References: <1559205199-233510-2-git-send-email-imammedo@redhat.com>
- <1560172207-378962-1-git-send-email-imammedo@redhat.com>
-Date: Tue, 11 Jun 2019 10:30:25 +0200
-In-Reply-To: <1560172207-378962-1-git-send-email-imammedo@redhat.com> (Igor
- Mammedov's message of "Mon, 10 Jun 2019 15:10:07 +0200")
-Message-ID: <87wohssevy.fsf@dusky.pond.sub.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id EB3B53092645;
+ Tue, 11 Jun 2019 08:33:32 +0000 (UTC)
+Received: from redhat.com (ovpn-117-129.ams2.redhat.com [10.36.117.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60C9E600CD;
+ Tue, 11 Jun 2019 08:33:32 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+In-Reply-To: <20190611082520.GA11125@richard> (Wei Yang's message of "Tue, 11
+ Jun 2019 16:25:20 +0800")
+References: <20190402003106.17614-1-richardw.yang@linux.intel.com>
+ <20190611082520.GA11125@richard>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Tue, 11 Jun 2019 10:33:29 +0200
+Message-ID: <87zhmottba.fsf@trasno.org>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 11 Jun 2019 08:30:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 11 Jun 2019 08:33:38 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 1/3] machine: show if CLI option '-numa
- node, mem' is supported in QAPI schema
+Subject: Re: [Qemu-devel] [PATCH] migration: remove unused field bytes_xfer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,30 +57,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, ehabkost@redhat.com
+Reply-To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Igor Mammedov <imammedo@redhat.com> writes:
+Wei Yang <richardw.yang@linux.intel.com> wrote:
+> On Tue, Apr 02, 2019 at 08:31:06AM +0800, Wei Yang wrote:
+>>MigrationState->bytes_xfer is only set to 0 in migrate_init().
+>>
+>>Remove this unnecessary field.
+>>
+>>Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>
+> Hi, David
 
-> Legacy '-numa node,mem' option has a number of issues and mgmt often
-> defaults to it. Unfortunately it's no possible to replace it with
-> an alternative '-numa memdev' without breaking migration compatibility.
-> What's possible though is to deprecate it, keeping option working with
-> old machine types only.
->
-> In order to help users to find out if being deprecated CLI option
-> '-numa node,mem' is still supported by particular machine type, add new
-> "numa-mem-supported" property to output of query-machines.
->
-> "numa-mem-supported" is set to 'true' for machines that currently support
-> NUMA, but it will be flipped to 'false' later on, once deprecation period
-> expires and kept 'true' only for old machine types that used to support
-> the legacy option so it won't break existing configuration that are using
-> it.
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Hi
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+I am on duty this week, will get it.
+
+>
+> Are you willing to pick up this one?
+>
+>>---
+>> migration/migration.c | 1 -
+>> migration/migration.h | 1 -
+>> 2 files changed, 2 deletions(-)
+>>
+>>diff --git a/migration/migration.c b/migration/migration.c
+>>index dea7078bf4..c929cf8d0f 100644
+>>--- a/migration/migration.c
+>>+++ b/migration/migration.c
+>>@@ -1681,7 +1681,6 @@ void migrate_init(MigrationState *s)
+>>      * parameters/capabilities that the user set, and
+>>      * locks.
+>>      */
+>>-    s->bytes_xfer = 0;
+>>     s->cleanup_bh = 0;
+>>     s->to_dst_file = NULL;
+>>     s->rp_state.from_dst_file = NULL;
+>>diff --git a/migration/migration.h b/migration/migration.h
+>>index 852eb3c4e9..b9efbe9168 100644
+>>--- a/migration/migration.h
+>>+++ b/migration/migration.h
+>>@@ -116,7 +116,6 @@ struct MigrationState
+>>     DeviceState parent_obj;
+>> 
+>>     /*< public >*/
+>>-    size_t bytes_xfer;
+>>     QemuThread thread;
+>>     QEMUBH *cleanup_bh;
+>>     QEMUFile *to_dst_file;
+>>-- 
+>>2.19.1
 
