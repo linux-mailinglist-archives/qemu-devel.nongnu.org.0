@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D2F3CBC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 14:34:55 +0200 (CEST)
-Received: from localhost ([::1]:57516 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8543CC59
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 14:58:29 +0200 (CEST)
+Received: from localhost ([::1]:58470 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hafzK-0007lg-Dq
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 08:34:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38233)
+	id 1hagM8-0003Iy-Gv
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 08:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44358)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <fam@euphon.net>) id 1haft5-0004vs-81
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:28:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hagJ3-0000uV-DB
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:55:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fam@euphon.net>) id 1haft0-0007o0-Gc
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:28:24 -0400
-Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17741
- helo=sender1.zoho.com.cn)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fam@euphon.net>)
- id 1hafsu-0007cR-6d; Tue, 11 Jun 2019 08:28:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560256008; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=FgD0qvrILtgqF0B5x8VI6KS9eCVLKC0YxTmOIV+G8WtEmZZNZvQbwEWucOERtRSzrXSi85QU6CZDyRpW4RpGZUfkmfj9Y5x2MAWVLgpTIk1qKgrOjjV3UuvaxPbMI/uREcr9TSP7mRHpZIENmav5s0e08rpC0Loelvjhgy7k2X8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1560256008;
- h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To:ARC-Authentication-Results;
- bh=8VhaJwhOiMcjOQljdRVfqwZxlkdg5keKqXWXCmW9TsQ=; 
- b=MB1zbl81rOah5p6owb5wKUulDC+iFpYgDZ/U+XQy8/wrnh6bOTGWSj87v2s6Ad66O79x38Y4fZJzhiXfkSTi7c7DnugSwl/aPRNit/IXlDR8D7dhEnBrvifC+m5SZMz0s1wo3kgE148/ikymEFe13eufJy/H7z1o14Iy6/Hvhcc=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1560256008; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
- l=2458; bh=8VhaJwhOiMcjOQljdRVfqwZxlkdg5keKqXWXCmW9TsQ=;
- b=g8goBfLn4G92u/fd22CC/nOB2mmHDYD6l+zOb6Eb+fPYnwcQqexgnRflKMHsfMBJ
- yGqN1RDHCmLNtaqSeNRMfKQgd8vmo/s5Knb7MJccwDmmdSgtPIA9m9VMX8qPXTb5W7C
- wRli6yD02EyqaMe3WBCO73OIgoG87uoUT+j6WpAQ=
-Received: from localhost (120.52.147.48 [120.52.147.48]) by mx.zoho.com.cn
- with SMTPS id 1560256004256957.2655690367757;
- Tue, 11 Jun 2019 20:26:44 +0800 (CST)
-Date: Tue, 11 Jun 2019 20:26:40 +0800
-From: Fam Zheng <fam@euphon.net>
-To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190611122640.kiwwq3jyadcakqdy@debian>
-References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
- <20190610134905.22294-12-mehta.aaru20@gmail.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hagFQ-0004gO-K7
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:51:33 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:34787)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hagFQ-0004fC-8Z
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:51:32 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id z24so11744318oto.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 05:51:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=GCQlJ2M8c6maQ7vm+59ZkK7GHwN+0KycSdz8wN8Te8M=;
+ b=tdx1q7CRSbSgGVkIj4B+ELCXZv6aJSKoG+a+eYucRq2E+xjbG337qnnqOnxyp+WzE8
+ nW/1GVjgefkd1buAWa0NQ6HdizwI1rnc8GVmugK1A4u048tT1Wq/nOZw5N2nlBc9qWGq
+ 5tjtZUyA+NEtEOLPBZwC55qUrrUxInaaToLSgdUcAcjL0CFsXiYh+1uavCrGIbOgr5en
+ /cn54nfatBwQ3xmytRF9Zw/gsdrgG6wlEFmEr0PGpIeJREi6PbIamDOWqFywfERtrBbQ
+ uSqVdW2nFhSsxUUSfuzkyFMsJILUmeH0r7IHuy60Qssjl1oXuZYLju7Kp9WLIeBU7yGe
+ xT2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GCQlJ2M8c6maQ7vm+59ZkK7GHwN+0KycSdz8wN8Te8M=;
+ b=kJw+yyxR2DZ7/2gOVKkpQWeFJpO5gtQtF2amFipDi6VGBy/OX/WxyUyfzmyt8OW9dp
+ FcK2lM7/bousHzDhrJo2/LHPkgLbVcNtj6mmnZtfmZB8Bcgug+2MZxZNRM/UouaLSz76
+ AQoxMAb2oHqsZevpR/7cf/r4UdT/K/Ud6WGcNFxcfkBJ20E6rCUU7z4brW6k+0wEPLCf
+ 8c4tlraNRzt/QMiLGPdpB0YJqTa4njI2El5BwpK3cpwsfpM1fRL+vVlf/eYNZJpBpXzL
+ WFQ+AyFGqI2X0cMYcpSjtfVXfdUrPRAUXblbEXqJRDmsKkySpC7KfGDDNO1V3kuYFo43
+ K4bg==
+X-Gm-Message-State: APjAAAVf3mCFs1SyO1DYqazEh6/GRcBkDRIzjYun5Vpyv5ag8Mb8l61Y
+ fEhrfakPGM2XXuoBfuwHAsNabCMs53jUeQIDQXIfTw==
+X-Google-Smtp-Source: APXvYqyGj9b4F/2QUMRp0wU4AleYkAmx0IQhWwa4GLBpHkQvlTT9GqeU7tUhPjtwqbwX01346KV7ybPW7jr158mQQ/Y=
+X-Received: by 2002:a9d:d17:: with SMTP id 23mr33557770oti.221.1560257488959; 
+ Tue, 11 Jun 2019 05:51:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190610134905.22294-12-mehta.aaru20@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-ZohoCNMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 163.53.93.243
-Subject: Re: [Qemu-devel] [PATCH v5 11/12] qemu-io: adds support for io_uring
+References: <20190312170931.25013-1-alex.bennee@linaro.org>
+ <20190312170931.25013-15-alex.bennee@linaro.org>
+In-Reply-To: <20190312170931.25013-15-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 Jun 2019 13:51:17 +0100
+Message-ID: <CAFEAcA_bSC4xmFPqe9LP1yh_5y3CrK5mq+-+zLzHQwHBWgVgMw@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32e
+Subject: Re: [Qemu-devel] [PULL 14/26] tests/tcg/arm: add ARMv6-M UNDEFINED
+ 32-bit instruction test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,80 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- saket.sinha89@gmail.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- Julia Suvorova <jusual@mail.ru>, Markus Armbruster <armbru@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 06/10 19:19, Aarushi Mehta wrote:
-> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> ---
->  qemu-io.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/qemu-io.c b/qemu-io.c
-> index 8d5d5911cb..54b82151c4 100644
-> --- a/qemu-io.c
-> +++ b/qemu-io.c
-> @@ -129,6 +129,7 @@ static void open_help(void)
->  " -n, -- disable host cache, short for -t none\n"
->  " -U, -- force shared permissions\n"
->  " -k, -- use kernel AIO implementation (on Linux only)\n"
-> +" -i  -- use kernel io_uring (Linux 5.1+)\n"
->  " -t, -- use the given cache mode for the image\n"
->  " -d, -- use the given discard mode for the image\n"
->  " -o, -- options to be given to the block driver"
-> @@ -188,6 +189,11 @@ static int open_f(BlockBackend *blk, int argc, char **argv)
->          case 'k':
->              flags |= BDRV_O_NATIVE_AIO;
->              break;
-> +#ifdef CONFIG_LINUX_IO_URING
-> +        case 'i':
+On Tue, 12 Mar 2019 at 17:09, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+>
+> Test that 32-bit instructions declared UNDEFINED in the ARMv6-M
+> Reference Manual really do raise an exception.  Also test that the 6
+> 32-bit instructions defined in the ARMv6-M Reference Manual do not raise
+> an exception.
+>
+> Based-on: <20181029194519.15628-1-stefanha@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Message-Id: <20181129185113.30353-1-stefanha@redhat.com>
+> [AJB: integrated into system tests]
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Maybe printing an error message saying the feature is not compiled in is
-slightly better than just saying the argument is unknown?
+So I just tried running this test with a QEMU built with
+clang's undefined-behaviour sanitizer, and it reveals a bug
+in our elf loader code:
 
-Fam
+e104462:bionic:qemu$ make -C build/arm-clang/ check-tcg
+make: Entering directory
+'/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang'
+make[1]: Entering directory '/home/petmay01/linaro/qemu-from-laptop/qemu/sl=
+irp'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/petmay01/linaro/qemu-from-laptop/qemu/sli=
+rp'
+  BUILD   debian9
+  BUILD   debian-armhf-cross
+  BUILD   TCG tests for arm-softmmu
+  BUILD   arm guest-tests with arm-linux-gnueabihf-gcc
+  RUN     TCG tests for arm-softmmu
+  BUILD   arm guest-tests with arm-linux-gnueabihf-gcc
+  RUN     tests for arm
+  TEST    test-armv6m-undef on arm
+/home/petmay01/linaro/qemu-from-laptop/qemu/include/hw/elf_ops.h:175:11:
+runtime error: null pointer passed as argument 1, which is declared to
+never be null
+/usr/include/stdlib.h:828:30: note: nonnull attribute specified here
+[...]
 
-> +            flags |= BDRV_O_IO_URING;
-> +            break;
-> +#endif
->          case 't':
->              if (bdrv_parse_cache_mode(optarg, &flags, &writethrough) < 0) {
->                  error_report("Invalid cache option: %s", optarg);
-> @@ -290,6 +296,7 @@ static void usage(const char *name)
->  "  -C, --copy-on-read   enable copy-on-read\n"
->  "  -m, --misalign       misalign allocations for O_DIRECT\n"
->  "  -k, --native-aio     use kernel AIO implementation (on Linux only)\n"
-> +"  -i  --io_uring       use kernel io_uring (Linux 5.1+)\n"
->  "  -t, --cache=MODE     use the given cache mode for the image\n"
->  "  -d, --discard=MODE   use the given discard mode for the image\n"
->  "  -T, --trace [[enable=]<pattern>][,events=<file>][,file=<file>]\n"
-> @@ -499,6 +506,7 @@ int main(int argc, char **argv)
->          { "copy-on-read", no_argument, NULL, 'C' },
->          { "misalign", no_argument, NULL, 'm' },
->          { "native-aio", no_argument, NULL, 'k' },
-> +        { "io_uring", no_argument, NULL, 'i' },
->          { "discard", required_argument, NULL, 'd' },
->          { "cache", required_argument, NULL, 't' },
->          { "trace", required_argument, NULL, 'T' },
-> @@ -566,6 +574,11 @@ int main(int argc, char **argv)
->          case 'k':
->              flags |= BDRV_O_NATIVE_AIO;
->              break;
-> +#ifdef CONFIG_LINUX_IO_URING
-> +        case 'i':
-> +            flags |= BDRV_O_IO_URING;
-> +            break;
-> +#endif
->          case 't':
->              if (bdrv_parse_cache_mode(optarg, &flags, &writethrough) < 0) {
->                  error_report("Invalid cache option: %s", optarg);
-> -- 
-> 2.17.1
-> 
+I think what's happening here is that the ELF file being
+loaded has no function symbols, so in the load_symbols
+function nsyms is 0, and g_realloc(syms, nsyms * sizeof(*syms))
+returns NULL. We then pass that to qsort(), which is bad
+because qsort() mandates a non-NULL pointer.
 
+thanks
+-- PMM
 
