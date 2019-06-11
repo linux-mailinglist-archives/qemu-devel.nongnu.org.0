@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949333CB89
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 14:31:02 +0200 (CEST)
-Received: from localhost ([::1]:57498 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D2F3CBC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 14:34:55 +0200 (CEST)
+Received: from localhost ([::1]:57516 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hafvZ-0005nm-NG
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 08:31:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60414)
+	id 1hafzK-0007lg-Dq
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 08:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38233)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hafY2-0006Qw-37
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:06:43 -0400
+ (envelope-from <fam@euphon.net>) id 1haft5-0004vs-81
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:28:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hafY0-00033O-M9
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:06:42 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:46216)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hafY0-00033C-Gy
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:06:40 -0400
-Received: by mail-qk1-f196.google.com with SMTP id a132so7407269qkb.13
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 05:06:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=QfDronbcLC4WoXIfaFy+9l26dCDW+cc5nCJ4BkyO8GQ=;
- b=quFklgDhmYRDyXv6wKm9P97+M6meTcf24OyWMcIEnrZhE5G2frLnXIEk+ffNFq1Yog
- CC8lF13pBv/ocG4YmIDAhG4sCYXHhSUmYMZ2DNuGVYNVeFHcCUsCOV0kBPfIKNkInRI2
- wOK/5E22v3b7jOfQtliQc1224xT4Ra7LIIvWKi3WItehoRmVGqcQj2qxZvbtVL+ZhXx5
- a0xmYaXKOa0Tv0mZ6UsCqaWaZYyYPPTYo7lWlXpvHr5HE/jcqUnxWtpgI5me1jqaHb+p
- yFUyaZHN6H1RVdJmX1OngWJ4ppI2PC4mmoWYTnFrxJfFg1zk5VjnVInZnEjZbJ1e6Ojk
- EfSQ==
-X-Gm-Message-State: APjAAAUGsWdM+PDiJEnSNTwJhVFVHfepDU7+76YZAREsY4uSyxsCKnAs
- Zgu08ftcAEeOfOc65PX4PMVIvQ==
-X-Google-Smtp-Source: APXvYqzPzzEo08qCW8QxnX0DxaWm69SJO3GCQZgcs4X5Ag8tz0vWtZgLA/4luRtXB+/15Spp2A+9Nw==
-X-Received: by 2002:a05:620a:102d:: with SMTP id
- a13mr39827076qkk.268.1560254799890; 
- Tue, 11 Jun 2019 05:06:39 -0700 (PDT)
-Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
- [100.0.197.103])
- by smtp.gmail.com with ESMTPSA id j26sm7705325qtj.70.2019.06.11.05.06.37
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 11 Jun 2019 05:06:38 -0700 (PDT)
-Date: Tue, 11 Jun 2019 08:06:36 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190611080542-mutt-send-email-mst@kernel.org>
-References: <20190607073429.3436-1-kraxel@redhat.com>
- <f69e038a-86e0-a01e-da31-8b608a733eb5@redhat.com>
+ (envelope-from <fam@euphon.net>) id 1haft0-0007o0-Gc
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:28:24 -0400
+Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17741
+ helo=sender1.zoho.com.cn)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <fam@euphon.net>)
+ id 1hafsu-0007cR-6d; Tue, 11 Jun 2019 08:28:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560256008; cv=none; d=zoho.com.cn; s=zohoarc; 
+ b=FgD0qvrILtgqF0B5x8VI6KS9eCVLKC0YxTmOIV+G8WtEmZZNZvQbwEWucOERtRSzrXSi85QU6CZDyRpW4RpGZUfkmfj9Y5x2MAWVLgpTIk1qKgrOjjV3UuvaxPbMI/uREcr9TSP7mRHpZIENmav5s0e08rpC0Loelvjhgy7k2X8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
+ s=zohoarc; t=1560256008;
+ h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To:ARC-Authentication-Results;
+ bh=8VhaJwhOiMcjOQljdRVfqwZxlkdg5keKqXWXCmW9TsQ=; 
+ b=MB1zbl81rOah5p6owb5wKUulDC+iFpYgDZ/U+XQy8/wrnh6bOTGWSj87v2s6Ad66O79x38Y4fZJzhiXfkSTi7c7DnugSwl/aPRNit/IXlDR8D7dhEnBrvifC+m5SZMz0s1wo3kgE148/ikymEFe13eufJy/H7z1o14Iy6/Hvhcc=
+ARC-Authentication-Results: i=1; mx.zoho.com.cn;
+ dkim=pass  header.i=euphon.net;
+ spf=pass  smtp.mailfrom=fam@euphon.net;
+ dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1560256008; 
+ s=zoho; d=euphon.net; i=fam@euphon.net;
+ h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
+ l=2458; bh=8VhaJwhOiMcjOQljdRVfqwZxlkdg5keKqXWXCmW9TsQ=;
+ b=g8goBfLn4G92u/fd22CC/nOB2mmHDYD6l+zOb6Eb+fPYnwcQqexgnRflKMHsfMBJ
+ yGqN1RDHCmLNtaqSeNRMfKQgd8vmo/s5Knb7MJccwDmmdSgtPIA9m9VMX8qPXTb5W7C
+ wRli6yD02EyqaMe3WBCO73OIgoG87uoUT+j6WpAQ=
+Received: from localhost (120.52.147.48 [120.52.147.48]) by mx.zoho.com.cn
+ with SMTPS id 1560256004256957.2655690367757;
+ Tue, 11 Jun 2019 20:26:44 +0800 (CST)
+Date: Tue, 11 Jun 2019 20:26:40 +0800
+From: Fam Zheng <fam@euphon.net>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>
+Message-ID: <20190611122640.kiwwq3jyadcakqdy@debian>
+References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
+ <20190610134905.22294-12-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f69e038a-86e0-a01e-da31-8b608a733eb5@redhat.com>
+In-Reply-To: <20190610134905.22294-12-mehta.aaru20@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-ZohoCNMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.222.196
-Subject: Re: [Qemu-devel] [PATCH v2] q35: fix mmconfig and PCI0._CRS
+X-Received-From: 163.53.93.243
+Subject: Re: [Qemu-devel] [PATCH v5 11/12] qemu-io: adds support for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,168 +68,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?iso-8859-1?B?TOFzemzzIMlyc2Vr?= <lersek@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ saket.sinha89@gmail.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Julia Suvorova <jusual@mail.ru>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 11, 2019 at 01:37:35PM +0200, Paolo Bonzini wrote:
-> On 07/06/19 09:34, Gerd Hoffmann wrote:
-> > This patch changes the handling of the mmconfig area.  Thanks to the
-> > pci(e) expander devices we already have the logic to exclude address
-> > ranges from PCI0._CRS.  We can simply add the mmconfig address range
-> > to the list get it excluded as well.
-> > 
-> > With that in place we can go with a fixed pci hole which covers the
-> > whole area from the end of (low) ram to the ioapic.
-> > 
-> > This will make the whole logic alot less fragile.  No matter where the
-> > firmware places the mmconfig xbar, things should work correctly.  The
-> > guest also gets a bit more PCI address space (seabios boot):
-> > 
-> >     # cat /proc/iomem
-> >     [ ... ]
-> >     7ffdd000-7fffffff : reserved
-> >     80000000-afffffff : PCI Bus 0000:00            <<-- this is new
-> >     b0000000-bfffffff : PCI MMCONFIG 0000 [bus 00-ff]
-> >       b0000000-bfffffff : reserved
-> >     c0000000-febfffff : PCI Bus 0000:00
-> >       f8000000-fbffffff : 0000:00:01.0
-> >     [ ... ]
-> > 
-> > So this is a guest visible change.
-> > 
-> > Cc: László Érsek <lersek@redhat.com>
-> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> >  tests/bios-tables-test-allowed-diff.h |  8 +++++++
-> >  hw/i386/acpi-build.c                  | 14 ++++++++++++
-> >  hw/pci-host/q35.c                     | 31 +++++++--------------------
-> >  3 files changed, 30 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
-> > index dfb8523c8bf4..3bbd22c62a3b 100644
-> > --- a/tests/bios-tables-test-allowed-diff.h
-> > +++ b/tests/bios-tables-test-allowed-diff.h
-> > @@ -1 +1,9 @@
-> >  /* List of comma-separated changed AML files to ignore */
-> > +"tests/data/acpi/q35/DSDT",
-> > +"tests/data/acpi/q35/DSDT.bridge",
-> > +"tests/data/acpi/q35/DSDT.mmio64",
-> > +"tests/data/acpi/q35/DSDT.ipmibt",
-> > +"tests/data/acpi/q35/DSDT.cphp",
-> > +"tests/data/acpi/q35/DSDT.memhp",
-> > +"tests/data/acpi/q35/DSDT.numamem",
-> > +"tests/data/acpi/q35/DSDT.dimmpxm",
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 85dc1640bc67..8e4f26977619 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -122,6 +122,8 @@ typedef struct FwCfgTPMConfig {
-> >      uint8_t tpmppi_version;
-> >  } QEMU_PACKED FwCfgTPMConfig;
-> >  
-> > +static bool acpi_get_mcfg(AcpiMcfgInfo *mcfg);
-> > +
-> >  static void init_common_fadt_data(Object *o, AcpiFadtData *data)
-> >  {
-> >      uint32_t io = object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, NULL);
-> > @@ -1807,6 +1809,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >      CrsRangeSet crs_range_set;
-> >      PCMachineState *pcms = PC_MACHINE(machine);
-> >      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(machine);
-> > +    AcpiMcfgInfo mcfg;
-> >      uint32_t nr_mem = machine->ram_slots;
-> >      int root_bus_limit = 0xFF;
-> >      PCIBus *bus = NULL;
-> > @@ -1921,6 +1924,17 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >          }
-> >      }
-> >  
-> > +    /*
-> > +     * At this point crs_range_set has all the ranges used by pci
-> > +     * busses *other* than PCI0.  These ranges will be excluded from
-> > +     * the PCI0._CRS.  Add mmconfig to the set so it will be excluded
-> > +     * too.
-> > +     */
-> > +    if (acpi_get_mcfg(&mcfg)) {
-> > +        crs_range_insert(crs_range_set.mem_ranges,
-> > +                         mcfg.base, mcfg.base + mcfg.size - 1);
-> > +    }
-> > +
-> >      scope = aml_scope("\\_SB.PCI0");
-> >      /* build PCI0._CRS */
-> >      crs = aml_resource_template();
-> > diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-> > index 960939f5ed3e..72093320befe 100644
-> > --- a/hw/pci-host/q35.c
-> > +++ b/hw/pci-host/q35.c
-> > @@ -258,15 +258,6 @@ static void q35_host_initfn(Object *obj)
-> >      object_property_add_link(obj, MCH_HOST_PROP_IO_MEM, TYPE_MEMORY_REGION,
-> >                               (Object **) &s->mch.address_space_io,
-> >                               qdev_prop_allow_set_link_before_realize, 0, NULL);
-> > -
-> > -    /* Leave enough space for the biggest MCFG BAR */
-> > -    /* TODO: this matches current bios behaviour, but
-> > -     * it's not a power of two, which means an MTRR
-> > -     * can't cover it exactly.
-> > -     */
-> > -    range_set_bounds(&s->mch.pci_hole,
-> > -            MCH_HOST_BRIDGE_PCIEXBAR_DEFAULT + MCH_HOST_BRIDGE_PCIEXBAR_MAX,
-> > -            IO_APIC_DEFAULT_ADDRESS - 1);
-> >  }
-> >  
-> >  static const TypeInfo q35_host_info = {
-> > @@ -338,20 +329,6 @@ static void mch_update_pciexbar(MCHPCIState *mch)
-> >      }
-> >      addr = pciexbar & addr_mask;
-> >      pcie_host_mmcfg_update(pehb, enable, addr, length);
-> > -    /* Leave enough space for the MCFG BAR */
-> > -    /*
-> > -     * TODO: this matches current bios behaviour, but it's not a power of two,
-> > -     * which means an MTRR can't cover it exactly.
-> > -     */
-> > -    if (enable) {
-> > -        range_set_bounds(&mch->pci_hole,
-> > -                         addr + length,
-> > -                         IO_APIC_DEFAULT_ADDRESS - 1);
-> > -    } else {
-> > -        range_set_bounds(&mch->pci_hole,
-> > -                         MCH_HOST_BRIDGE_PCIEXBAR_DEFAULT,
-> > -                         IO_APIC_DEFAULT_ADDRESS - 1);
-> > -    }
-> >  }
-> >  
-> >  /* PAM */
-> > @@ -484,6 +461,14 @@ static void mch_update(MCHPCIState *mch)
-> >      mch_update_pam(mch);
-> >      mch_update_smram(mch);
-> >      mch_update_ext_tseg_mbytes(mch);
-> > +
-> > +    /*
-> > +     * pci hole goes from end-of-low-ram to io-apic.
-> > +     * mmconfig will be excluded by the dsdt builder.
-> > +     */
-> > +    range_set_bounds(&mch->pci_hole,
-> > +                     mch->below_4g_mem_size,
-> > +                     IO_APIC_DEFAULT_ADDRESS - 1);
-> >  }
-> >  
-> >  static int mch_post_load(void *opaque, int version_id)
-> > 
+On Mon, 06/10 19:19, Aarushi Mehta wrote:
+> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+> ---
+>  qemu-io.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> Queued, thanks.
+> diff --git a/qemu-io.c b/qemu-io.c
+> index 8d5d5911cb..54b82151c4 100644
+> --- a/qemu-io.c
+> +++ b/qemu-io.c
+> @@ -129,6 +129,7 @@ static void open_help(void)
+>  " -n, -- disable host cache, short for -t none\n"
+>  " -U, -- force shared permissions\n"
+>  " -k, -- use kernel AIO implementation (on Linux only)\n"
+> +" -i  -- use kernel io_uring (Linux 5.1+)\n"
+>  " -t, -- use the given cache mode for the image\n"
+>  " -d, -- use the given discard mode for the image\n"
+>  " -o, -- options to be given to the block driver"
+> @@ -188,6 +189,11 @@ static int open_f(BlockBackend *blk, int argc, char **argv)
+>          case 'k':
+>              flags |= BDRV_O_NATIVE_AIO;
+>              break;
+> +#ifdef CONFIG_LINUX_IO_URING
+> +        case 'i':
+
+Maybe printing an error message saying the feature is not compiled in is
+slightly better than just saying the argument is unknown?
+
+Fam
+
+> +            flags |= BDRV_O_IO_URING;
+> +            break;
+> +#endif
+>          case 't':
+>              if (bdrv_parse_cache_mode(optarg, &flags, &writethrough) < 0) {
+>                  error_report("Invalid cache option: %s", optarg);
+> @@ -290,6 +296,7 @@ static void usage(const char *name)
+>  "  -C, --copy-on-read   enable copy-on-read\n"
+>  "  -m, --misalign       misalign allocations for O_DIRECT\n"
+>  "  -k, --native-aio     use kernel AIO implementation (on Linux only)\n"
+> +"  -i  --io_uring       use kernel io_uring (Linux 5.1+)\n"
+>  "  -t, --cache=MODE     use the given cache mode for the image\n"
+>  "  -d, --discard=MODE   use the given discard mode for the image\n"
+>  "  -T, --trace [[enable=]<pattern>][,events=<file>][,file=<file>]\n"
+> @@ -499,6 +506,7 @@ int main(int argc, char **argv)
+>          { "copy-on-read", no_argument, NULL, 'C' },
+>          { "misalign", no_argument, NULL, 'm' },
+>          { "native-aio", no_argument, NULL, 'k' },
+> +        { "io_uring", no_argument, NULL, 'i' },
+>          { "discard", required_argument, NULL, 'd' },
+>          { "cache", required_argument, NULL, 't' },
+>          { "trace", required_argument, NULL, 'T' },
+> @@ -566,6 +574,11 @@ int main(int argc, char **argv)
+>          case 'k':
+>              flags |= BDRV_O_NATIVE_AIO;
+>              break;
+> +#ifdef CONFIG_LINUX_IO_URING
+> +        case 'i':
+> +            flags |= BDRV_O_IO_URING;
+> +            break;
+> +#endif
+>          case 't':
+>              if (bdrv_parse_cache_mode(optarg, &flags, &writethrough) < 0) {
+>                  error_report("Invalid cache option: %s", optarg);
+> -- 
+> 2.17.1
 > 
-> Paolo
 
-Paolo I would prefer to queue ACPI changes through my tree.
-In particular there's a dance with expected tables I am
-still working out.
-
--- 
-MST
 
