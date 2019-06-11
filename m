@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4CC3416AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 23:09:41 +0200 (CEST)
-Received: from localhost ([::1]:55418 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42A9416D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 23:26:41 +0200 (CEST)
+Received: from localhost ([::1]:55496 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hao1U-0006Py-5E
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 17:09:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
+	id 1haoHw-0005bG-AG
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 17:26:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mrolnik@gmail.com>) id 1hanw0-0004De-1k
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:04:02 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1haoC2-0004fU-Sw
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:20:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1hanvW-00008h-TF
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:03:32 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:43597)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hanvT-0008KR-1d
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:03:29 -0400
-Received: by mail-qk1-x741.google.com with SMTP id m14so8599804qka.10
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 14:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Zsyr6Dy7WAtnrCuI44Erz3vUL5g/77vc95SbMfjGwpg=;
- b=KsXZ888sQQwtrVpV4P+eg78DaAgT/xZ6ERk9ahURi1F313JYGPoQVCRes4P+qiowTC
- 0chb8vGt2fgKpscWgjAw8K89GwbX0e/cou+euaaLZ/Xi/ru1wHtZtQ85K68jSRKS/+P5
- 16qSIzFmpEhV8vjm4rUBNExdqUwtbyr28HFxLn5eBSlw6PcEA+AU5cng0gaOvSv0lYjA
- sBGoVP6QXXrQe5itbnAfoiGdRenD6DU7j2H8mDOa1z1JN3T2fmvp8Hjk5JjlDFvr2isY
- iwGkwSMr0T/6GlKFM5WQBOt5TxLE/QN9rMbgd0AF53GNqnm2SxDg+D7aA3OYj4DnVvOR
- 4VRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Zsyr6Dy7WAtnrCuI44Erz3vUL5g/77vc95SbMfjGwpg=;
- b=A/d2qFYvc/S9PJzsY+9lHqeiXb61MWqCN3pkvwSbahh+7Euz2vMn3cNviOatEiq/vF
- val989VzQZ62x0i8opxhgvd8CAVcGs+wCikljBUEvjBPOAlAmeXRAvC1lcIC5XFXYFbQ
- JDT1QKgk+y1ZBbGlcnXGK9xYd5L9zWHeVw+KtDrgqEuVcMzTCcKS1ybXkHEvyjmqiKbf
- n3VKH9mqxaymTVXabH9UW1NyQJSJWm9TCTokPRNsMZMjdbrQleWn6ooExZsWDpAcT37c
- bGQQ7Kv/tj4xMVmn8Uu2ZjJ2DoEMb9ERmEXlBnxP3DGhAg7yMZgJkDcYEtipCf4el1Om
- bc4g==
-X-Gm-Message-State: APjAAAVU6/BT4zljZt4m3e3xy2dH7ZyLT7QyFgRLlNb+TsYRTCa7fpxU
- Hq5yWLfeffDAnrkK4lMCmhs3Mzx75snzwYyh1AM=
-X-Google-Smtp-Source: APXvYqy1fNWXqiGDQYA2VkpeiRLyoIXGqNCsEBGjNSI5wontsBmXgRTbNvWGfqemWtZx3sj0qemTA/V+FjG4keuu4Dw=
-X-Received: by 2002:a05:620a:5b1:: with SMTP id
- q17mr60446294qkq.174.1560286998280; 
- Tue, 11 Jun 2019 14:03:18 -0700 (PDT)
+ (envelope-from <ehabkost@redhat.com>) id 1haoC1-0004qE-41
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:20:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43432)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1haoC0-0004nr-Qr
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:20:33 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 20D908552E;
+ Tue, 11 Jun 2019 21:20:17 +0000 (UTC)
+Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 832CC1972B;
+ Tue, 11 Jun 2019 21:20:12 +0000 (UTC)
+Date: Tue, 11 Jun 2019 18:20:09 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190611212009.GM5927@habkost.net>
+References: <87woihi1wl.fsf@dusky.pond.sub.org>
+ <564efcce-64ac-0a39-8899-f6b6d6d7984e@redhat.com>
+ <871s05g5ub.fsf@dusky.pond.sub.org>
+ <3a4ce577-0744-6ff7-9f7e-9239fe5d4333@redhat.com>
+ <875zphd0oi.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-References: <20190606193012.37715-1-mrolnik@gmail.com>
- <20190606193012.37715-5-mrolnik@gmail.com>
- <9c74618e-eb1e-0225-11dc-fe51e634d265@linaro.org>
- <CAK4993gLwXopG=EFNePsHJYmTZ5uU7EgbGe3Ad4ofOdCxQX-Mg@mail.gmail.com>
- <8429d379-c7e5-72b2-31cf-c4fa80f70695@linaro.org>
-In-Reply-To: <8429d379-c7e5-72b2-31cf-c4fa80f70695@linaro.org>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Wed, 12 Jun 2019 00:02:41 +0300
-Message-ID: <CAK4993hk62Tg4F9Gq+zFr6wbZ==fP7UPB42zc+sBJrKSztwHyQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::741
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v21 4/7] target/avr: Add instruction
- translation
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875zphd0oi.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Tue, 11 Jun 2019 21:20:17 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] qapi/misc.json is too big,
+ let's bite off a few chunks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,54 +60,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am using this one
-https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo
-/AVR_ATMega2560_GCC/demo.elf
-it fails within __divmodsi4 function, there is rcall right after sbrc.
+On Fri, Jun 07, 2019 at 02:45:01PM +0200, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+> 
+> > On 07/06/19 10:25, Markus Armbruster wrote:
+> >> Paolo Bonzini <pbonzini@redhat.com> writes:
+> >> 
+> >>> On 23/05/19 18:14, Markus Armbruster wrote:
+> >>>> * Machine core (Eduardo, Marcel)
+> >>>>
+> >>>>   query-machines, query-current-machine, 
+> >>>>
+> >>>>   ~60 lines.  Hardly worthwhile from a "let's shrink misc.json" point of
+> >>>>   view.  Might be worthwhile from a "let's make get_maintainers.pl
+> >>>>   work".
+> >>>>
+> >>>> * CPUs (Paolo, Richard)
+> >>>>
+> >>>>   query-cpus, query-cpus-fast
+> >>>>
+> >>>>   ~300 lines.  The commands are implemented in cpus.c, which MAINTAINERS
+> >>>>   covers both under "Main loop" and under "Guest CPU cores (TCG) /
+> >>>>   Overall".  Neither feels right to me for these QMP commands.
+> >>>>
+> >>>> * NUMA (Eduardo)
+> >>>>
+> >>>>   query-memdev, set-numa-node
+> >>>>
+> >>>>   ~200 lines.
+> >>>
+> >>> I would move all three of these and add a new entry to MAINTAINERS.
+> >> 
+> >> Double-checking: do you propose to move all three to a single new QAPI
+> >> module, with a new MAINTAINERS entry covering just the new QAPI module?
+> >> If yes, care to propose a QAPI module file name, a MAINTAINERS head
+> >> line, and maintainers?
+> >
+> > Just one, qapi/machine.json, with a MAINTAINERS patch based on this one.
+> 
+> Okay, I'd like to take care of that.
+> 
+> >  We could probably create a new directory hw/machine too.
+> 
+> I'd prefer to leave that to you, because making you explain to me what
+> exactly you want moved is likely more work for both of us :)
+> 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index a96829ea83..9bf3e6b670 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -1274,8 +1274,12 @@ S: Supported
+> >  F: hw/core/machine.c
+> >  F: hw/core/null-machine.c
+> >  F: hw/cpu/cluster.c
+> > +F: numa.c
+> > +F: qom/cpu.c
+> >  F: include/hw/boards.h
+> >  F: include/hw/cpu/cluster.h
+> > +F: include/qom/cpu.h
+> > +F: include/sysemu/numa.h
+> >  T: git https://github.com/ehabkost/qemu.git machine-next
+> >
+> >  Xtensa Machines
+> > @@ -1839,12 +1843,6 @@ M: Markus Armbruster <armbru@redhat.com>
+> >  S: Supported
+> >  F: scripts/coverity-model.c
+> >
+> > -CPU
+> > -L: qemu-devel@nongnu.org
+> > -S: Supported
+> > -F: qom/cpu.c
+> > -F: include/qom/cpu.h
+> > -
+> >  Device Tree
+> >  M: Alistair Francis <alistair.francis@wdc.com>
+> >  R: David Gibson <david@gibson.dropbear.id.au>
+> > @@ -1947,13 +1945,6 @@ W: http://info.iet.unipi.it/~luigi/netmap/
+> >  S: Maintained
+> >  F: net/netmap.c
+> >
+> > -NUMA
+> > -M: Eduardo Habkost <ehabkost@redhat.com>
+> > -S: Maintained
+> > -F: numa.c
+> > -F: include/sysemu/numa.h
+> > -T: git https://github.com/ehabkost/qemu.git machine-next
+> > -
+> >  Host Memory Backends
+> >  M: Eduardo Habkost <ehabkost@redhat.com>
+> >  M: Igor Mammedov <imammedo@redhat.com>
+> 
+> This merges MAINTAINERS section "NUMA" into "Machine core" (with section
+> "CPU" thrown in for good measure).  Moving their QAPI schema bits from
+> misc.json to new machine.json then makes sense.  Good.
+> 
+> The part I'm unsure about is item "CPUs" from my list, i.e. query-cpus
+> and query-cpus-fast.  If I move these QAPI schema bits to machine.json
+> as well, then the QAPI schema for query-cpus, query-cpus-fast is covered
+> by section "Machine core", while the C code (in cpus.c) is covered by
+> "Main loop" and "Guest CPU cores (TCG) / Overall".  I hate that.  Would
+> you like me to try moving the C code out of cpus.c so it can be covered
+> by "Machine core"?
 
-Thanks for helping.
+Some portions of cpus.c seem to belong to qom/cpu.c, other
+portions seem to belong to hw/core/machine.c, others to accel/*.
+To be honest, I don't really know what kind of code would really
+belong to cpus.c (the comment block at the top just says "QEMU
+System Emulator").  Cleaning this up would be very welcome.
 
-On Tue, Jun 11, 2019 at 11:47 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 6/11/19 1:21 PM, Michael Rolnik wrote:
-> > I merged all you fixes and I get an assert(use_icount)
-> in cpu_loop_exec_tb
-> > function, it happens on an instruction following SBRC.
-> > what might cause it?
->
-> No idea.  What is your test case?  And your tree, just in case there was an
-> error in the merging.
->
-> Looking through output from
->
->   qemu-avr-tests/instruction-tests/bin/SBR.elf
->
->      14a:       00 fc           sbrc    r0, 0
->      14c:       0f ef           ldi     r16, 0xFF       ; 255
->
-> it works for me:
->
->  ---- 000000a5
->  movi_i32 tmp2,$0x1
->  and_i32 tmp1,r0,tmp2
->
->  ---- 000000a6
->  movi_i32 tmp2,$0x0
->  brcond_i32 tmp1,tmp2,eq,$L1
->  movi_i32 r16,$0xff
->  set_label $L1
->
->
-> r~
->
-
+In other words: yes, if you try to move the QMP query-cpu* code
+outside cpus.c to Machine Core, I wouldn't mind at all.
 
 -- 
-Best Regards,
-Michael Rolnik
+Eduardo
+
