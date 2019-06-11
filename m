@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C8B416AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 23:09:46 +0200 (CEST)
-Received: from localhost ([::1]:55420 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4CC3416AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 23:09:41 +0200 (CEST)
+Received: from localhost ([::1]:55418 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hao1Z-0006ar-B1
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 17:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57890)
+	id 1hao1U-0006Py-5E
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 17:09:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hanw5-0004Dr-On
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:04:06 -0400
+ (envelope-from <mrolnik@gmail.com>) id 1hanw0-0004De-1k
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:04:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hant3-0005lC-I1
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:00:58 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:36206)
+ (envelope-from <mrolnik@gmail.com>) id 1hanvW-00008h-TF
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:03:32 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:43597)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hant3-0005kE-7M
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:00:57 -0400
-Received: by mail-pg1-x543.google.com with SMTP id f21so1614782pgi.3
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 14:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3ol6qNxle7QepLG4kb8iG1QEL4SZZBXJEPBIqBTEFnc=;
- b=xGPpZrN0FlL6fq5nVpqngFAp2EihGmRAfjqosYs/ztz3xwSIgc8fiE7W8nm8QTVOwH
- VIY8VwaF/Jg4amq+ahsqIPVWDlNCSt3zCeqBfuLQJkGQBUjJ6rCREgBIEC8KrWTiSFV1
- fu9nK1tiE0SYRUI/ZZ4Gu0ryHDoM3wrPvMOq/HpTCkFOsO+XkIzTe55BCTXXqJ5gDzvH
- x02DXJybmY8d8dYmffXfgwJjj1V6e5eInawJrD08hw2tMSf80Qibz5H/XrNAY5FzuAEk
- mahOv7pyaolFoJ3Kx5MoQvnJxI4goN/0o6+jPMaUU01KGmLqqsV/upVgyVRLJOVsupsh
- zXnA==
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hanvT-0008KR-1d
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 17:03:29 -0400
+Received: by mail-qk1-x741.google.com with SMTP id m14so8599804qka.10
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 14:03:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Zsyr6Dy7WAtnrCuI44Erz3vUL5g/77vc95SbMfjGwpg=;
+ b=KsXZ888sQQwtrVpV4P+eg78DaAgT/xZ6ERk9ahURi1F313JYGPoQVCRes4P+qiowTC
+ 0chb8vGt2fgKpscWgjAw8K89GwbX0e/cou+euaaLZ/Xi/ru1wHtZtQ85K68jSRKS/+P5
+ 16qSIzFmpEhV8vjm4rUBNExdqUwtbyr28HFxLn5eBSlw6PcEA+AU5cng0gaOvSv0lYjA
+ sBGoVP6QXXrQe5itbnAfoiGdRenD6DU7j2H8mDOa1z1JN3T2fmvp8Hjk5JjlDFvr2isY
+ iwGkwSMr0T/6GlKFM5WQBOt5TxLE/QN9rMbgd0AF53GNqnm2SxDg+D7aA3OYj4DnVvOR
+ 4VRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3ol6qNxle7QepLG4kb8iG1QEL4SZZBXJEPBIqBTEFnc=;
- b=Q0QrGVGOgy+E8KW8U9VgLj6rVeY/XRvao7HoRTXiG1/QMIMZRaLkNyGWQ9O7PwHg9V
- xuiUl9mVsy8RQ1Exj1dw4gVGnHQS1R2Fh5vpm4sllJFM1V9k5PNuU0tW9kg6+axe4kED
- a7I4ZWZJoxiEs5ThYuK+KUgEw6JRUGjbF2q7OJZONdfRPByGQ5+7fFv/Tfkak23C17gu
- R8phtLN12DF/bQP9LlqFpWs8rfl4WUototpLb2kKulw57OJbswhViL5cFp+hBnqN1YdJ
- HDkU9SOnbDYFuLoVwcOxxzgIjHjySK/6yZoiBH4vlxbUuOw+sFOEmoHOOZH2NtLkZlbA
- BYtA==
-X-Gm-Message-State: APjAAAW4RH0XyEWiuIqs1k3VNpclUVdu67mrO/iUJfeSd2utyFq2Bimt
- ETWgucHpxKC4IAiXZZcKTHqifg==
-X-Google-Smtp-Source: APXvYqwIz5CtdGhs9ij2tVM/Igx1aCzvAhXDg657UOpuSr+eS79nazdaNMQ1CW8yZsG4HUW+492GaA==
-X-Received: by 2002:a65:6541:: with SMTP id a1mr13192674pgw.409.1560286855572; 
- Tue, 11 Jun 2019 14:00:55 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
- by smtp.gmail.com with ESMTPSA id
- f16sm6623543pja.18.2019.06.11.14.00.54
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Jun 2019 14:00:54 -0700 (PDT)
-To: John Arbuckle <programmingkidx@gmail.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.orgd, david@gibson.dropbear.id.au,
- mark.cave-ayland@ilande.co.uk
-References: <20190525022008.24788-1-programmingkidx@gmail.com>
- <20190525022008.24788-2-programmingkidx@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <808906c8-fa73-26f5-cead-3fa35ddb4497@linaro.org>
-Date: Tue, 11 Jun 2019 14:00:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Zsyr6Dy7WAtnrCuI44Erz3vUL5g/77vc95SbMfjGwpg=;
+ b=A/d2qFYvc/S9PJzsY+9lHqeiXb61MWqCN3pkvwSbahh+7Euz2vMn3cNviOatEiq/vF
+ val989VzQZ62x0i8opxhgvd8CAVcGs+wCikljBUEvjBPOAlAmeXRAvC1lcIC5XFXYFbQ
+ JDT1QKgk+y1ZBbGlcnXGK9xYd5L9zWHeVw+KtDrgqEuVcMzTCcKS1ybXkHEvyjmqiKbf
+ n3VKH9mqxaymTVXabH9UW1NyQJSJWm9TCTokPRNsMZMjdbrQleWn6ooExZsWDpAcT37c
+ bGQQ7Kv/tj4xMVmn8Uu2ZjJ2DoEMb9ERmEXlBnxP3DGhAg7yMZgJkDcYEtipCf4el1Om
+ bc4g==
+X-Gm-Message-State: APjAAAVU6/BT4zljZt4m3e3xy2dH7ZyLT7QyFgRLlNb+TsYRTCa7fpxU
+ Hq5yWLfeffDAnrkK4lMCmhs3Mzx75snzwYyh1AM=
+X-Google-Smtp-Source: APXvYqy1fNWXqiGDQYA2VkpeiRLyoIXGqNCsEBGjNSI5wontsBmXgRTbNvWGfqemWtZx3sj0qemTA/V+FjG4keuu4Dw=
+X-Received: by 2002:a05:620a:5b1:: with SMTP id
+ q17mr60446294qkq.174.1560286998280; 
+ Tue, 11 Jun 2019 14:03:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190525022008.24788-2-programmingkidx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190606193012.37715-1-mrolnik@gmail.com>
+ <20190606193012.37715-5-mrolnik@gmail.com>
+ <9c74618e-eb1e-0225-11dc-fe51e634d265@linaro.org>
+ <CAK4993gLwXopG=EFNePsHJYmTZ5uU7EgbGe3Ad4ofOdCxQX-Mg@mail.gmail.com>
+ <8429d379-c7e5-72b2-31cf-c4fa80f70695@linaro.org>
+In-Reply-To: <8429d379-c7e5-72b2-31cf-c4fa80f70695@linaro.org>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Wed, 12 Jun 2019 00:02:41 +0300
+Message-ID: <CAK4993hk62Tg4F9Gq+zFr6wbZ==fP7UPB42zc+sBJrKSztwHyQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: Re: [Qemu-devel] [PATCH 1/2] Implement Floating Point flag Fraction
- Rounded
+X-Received-From: 2607:f8b0:4864:20::741
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v21 4/7] target/avr: Add instruction
+ translation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,33 +77,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/19 7:20 PM, John Arbuckle wrote:
-> Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
-> ---
->  fpu/softfloat.c               | 15 ++++++++++++---
->  include/fpu/softfloat-types.h |  1 +
->  2 files changed, 13 insertions(+), 3 deletions(-)
+I am using this one
+https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo
+/AVR_ATMega2560_GCC/demo.elf
+it fails within __divmodsi4 function, there is rcall right after sbrc.
 
-There are additional places that need changing within this file, even if we
-consider only float32 and float64 and ignore floatx80 and float128.
+Thanks for helping.
 
-That said, merely renaming this patch to
+On Tue, Jun 11, 2019 at 11:47 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-  "softfloat: Implement float_flag_rounded in round_canonical
+> On 6/11/19 1:21 PM, Michael Rolnik wrote:
+> > I merged all you fixes and I get an assert(use_icount)
+> in cpu_loop_exec_tb
+> > function, it happens on an instruction following SBRC.
+> > what might cause it?
+>
+> No idea.  What is your test case?  And your tree, just in case there was an
+> error in the merging.
+>
+> Looking through output from
+>
+>   qemu-avr-tests/instruction-tests/bin/SBR.elf
+>
+>      14a:       00 fc           sbrc    r0, 0
+>      14c:       0f ef           ldi     r16, 0xFF       ; 255
+>
+> it works for me:
+>
+>  ---- 000000a5
+>  movi_i32 tmp2,$0x1
+>  and_i32 tmp1,r0,tmp2
+>
+>  ---- 000000a6
+>  movi_i32 tmp2,$0x0
+>  brcond_i32 tmp1,tmp2,eq,$L1
+>  movi_i32 r16,$0xff
+>  set_label $L1
+>
+>
+> r~
+>
 
-  Add a new flag to indicate that, when inexact, the result has
-  been rounded.  That is, when the LSB of the rounded result
-  differs from the same bit of the infinite precision result."
 
-is enough to get
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-For your usage within PowerPC, you will additionally need to modify round_to_int.
-
-
-r~
-
+-- 
+Best Regards,
+Michael Rolnik
