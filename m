@@ -2,97 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF053CC96
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 15:08:37 +0200 (CEST)
-Received: from localhost ([::1]:58624 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F8B3CCBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 15:14:32 +0200 (CEST)
+Received: from localhost ([::1]:58678 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hagVv-0000f7-Ui
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 09:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47664)
+	id 1hagbg-0004Es-2Z
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 09:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48781)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david@redhat.com>) id 1hagUT-0008DH-PK
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:07:07 -0400
+ (envelope-from <pagupta@redhat.com>) id 1hagZD-0002zL-2X
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:12:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1hagUR-0005Rq-JG
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:07:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42120)
+ (envelope-from <pagupta@redhat.com>) id 1hagZB-0000al-HW
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:11:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49630)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1hagUR-0005Im-9E
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:07:03 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hagZB-0000Vp-8r
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:11:57 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E2E99B2DFC;
- Tue, 11 Jun 2019 13:06:38 +0000 (UTC)
-Received: from [10.36.117.196] (ovpn-117-196.ams2.redhat.com [10.36.117.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 120B461B88;
- Tue, 11 Jun 2019 13:06:36 +0000 (UTC)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190610014249.7346-1-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <dc37189b-d810-25c3-b19a-486f1a3d5abd@redhat.com>
-Date: Tue, 11 Jun 2019 15:06:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 875513082E6A;
+ Tue, 11 Jun 2019 13:11:19 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 374A45D704;
+ Tue, 11 Jun 2019 13:11:08 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com
+ (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4A3B74EBC9;
+ Tue, 11 Jun 2019 13:10:59 +0000 (UTC)
+Date: Tue, 11 Jun 2019 09:10:58 -0400 (EDT)
+From: Pankaj Gupta <pagupta@redhat.com>
+To: Mike Snitzer <snitzer@redhat.com>
+Message-ID: <1206355816.34396746.1560258658768.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20190610192803.GA29002@redhat.com>
+References: <20190610090730.8589-1-pagupta@redhat.com>
+ <20190610090730.8589-5-pagupta@redhat.com>
+ <20190610192803.GA29002@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190610014249.7346-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.116.33, 10.4.195.27]
+Thread-Topic: enable synchronous dax
+Thread-Index: 9TyGIIOSkuHn9exFInDwoSOU8/oLjA==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 11 Jun 2019 13:06:41 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.46]); Tue, 11 Jun 2019 13:11:34 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] tests/tcg/s390x: Fix alignment of csst
- parameter list
+Subject: Re: [Qemu-devel] [PATCH v11 4/7] dm: enable synchronous dax
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,48 +65,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com
+Cc: rdunlap@infradead.org, jack@suse.cz, kvm@vger.kernel.org, mst@redhat.com,
+ jasowang@redhat.com, david@fromorbit.com, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org, dm-devel@redhat.com,
+ adilger kernel <adilger.kernel@dilger.ca>, zwisler@kernel.org,
+ aarcange@redhat.com, dave jiang <dave.jiang@intel.com>, jstaron@google.com,
+ linux-nvdimm@lists.01.org, vishal l verma <vishal.l.verma@intel.com>,
+ david@redhat.com, willy@infradead.org, hch@infradead.org,
+ linux-acpi@vger.kernel.org, jmoyer@redhat.com, linux-ext4@vger.kernel.org,
+ lenb@kernel.org, kilobyte@angband.pl, riel@surriel.com,
+ yuval shaia <yuval.shaia@oracle.com>, stefanha@redhat.com, imammedo@redhat.com,
+ dan j williams <dan.j.williams@intel.com>, lcapitulino@redhat.com,
+ kwolf@redhat.com, nilal@redhat.com, tytso@mit.edu,
+ xiaoguangrong eric <xiaoguangrong.eric@gmail.com>, cohuck@redhat.com,
+ rjw@rjwysocki.net, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, pbonzini@redhat.com,
+ darrick wong <darrick.wong@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.06.19 03:42, Richard Henderson wrote:
-> The parameter list given in general register 1 shall be aligned
-> on a quadword boundary.  This test currently succeeds or fails
-> depending on the compiler version used and the accidential layout
-> of the function's stack frame.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tests/tcg/s390x/csst.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/tests/tcg/s390x/csst.c b/tests/tcg/s390x/csst.c
-> index 1dae9071fb..084d80af49 100644
-> --- a/tests/tcg/s390x/csst.c
-> +++ b/tests/tcg/s390x/csst.c
-> @@ -3,7 +3,7 @@
-> =20
->  int main(void)
->  {
-> -    uint64_t parmlist[] =3D {
-> +    uint64_t parmlist[] __attribute__((aligned(16))) =3D {
->          0xfedcba9876543210ull,
->          0,
->          0x7777777777777777ull,
->=20
+Hi Mike,
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Thanks for the review Please find my reply inline.
 
-Queuing it to
+> 
+> dm_table_supports_dax() is called multiple times (from
+> dm_table_set_restrictions and dm_table_determine_type).  It is strange
+> to have a getter have a side-effect of being a setter too.  Overloading
+> like this could get you in trouble in the future.
+> 
+> Are you certain this is what you want?
 
-https://github.com/davidhildenbrand/qemu.git s390-tcg-next
+I agree with you.
 
-for now. Let me know if you want to send this via a different PULL
-request yourself.
+> 
+> Or would it be better to refactor dm_table_supports_dax() to take an
+> iterate_devices_fn arg and have callers pass the appropriate function?
+> Then have dm_table_set_restrictions() caller do:
+> 
+>      if (dm_table_supports_dax(t, device_synchronous, NULL))
+>                set_dax_synchronous(t->md->dax_dev);
+> 
+> (NULL arg implies dm_table_supports_dax() refactoring would take a int
+> *data pointer rather than int type).
+> 
+> Mike
+> 
 
---=20
+I am sending below patch as per your suggestion. Does it look
+near to what you have in mind?
 
-Thanks,
+Thank you,
+Pankaj
 
-David / dhildenb
+===============
+
+diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
+index 350cf0451456..8d89acc8b8c2 100644
+--- a/drivers/md/dm-table.c
++++ b/drivers/md/dm-table.c
+@@ -881,7 +881,7 @@ void dm_table_set_type(struct dm_table *t, enum dm_queue_mode type)
+ EXPORT_SYMBOL_GPL(dm_table_set_type);
+
+ /* validate the dax capability of the target device span */
+-static int device_supports_dax(struct dm_target *ti, struct dm_dev *dev,
++int device_supports_dax(struct dm_target *ti, struct dm_dev *dev,
+                                       sector_t start, sector_t len, void *data)
+ {
+        int blocksize = *(int *) data;
+@@ -890,7 +890,15 @@ static int device_supports_dax(struct dm_target *ti, struct dm_dev *dev,
+                        start, len);
+ }
+
+-bool dm_table_supports_dax(struct dm_table *t, int blocksize)
++/* Check devices support synchronous DAX */
++static int device_synchronous(struct dm_target *ti, struct dm_dev *dev,
++                                      sector_t start, sector_t len, void *data)
++{
++       return dax_synchronous(dev->dax_dev);
++}
++
++bool dm_table_supports_dax(struct dm_table *t,
++                         iterate_devices_callout_fn iterate_fn, int *blocksize)
+ {
+        struct dm_target *ti;
+        unsigned i;
+@@ -903,8 +911,7 @@ bool dm_table_supports_dax(struct dm_table *t, int blocksize)
+                        return false;
+
+                if (!ti->type->iterate_devices ||
+-                   !ti->type->iterate_devices(ti, device_supports_dax,
+-                           &blocksize))
++                       !ti->type->iterate_devices(ti, iterate_fn, blocksize))
+                        return false;
+        }
+
+@@ -940,6 +947,7 @@ static int dm_table_determine_type(struct dm_table *t)
+        struct dm_target *tgt;
+        struct list_head *devices = dm_table_get_devices(t);
+        enum dm_queue_mode live_md_type = dm_get_md_type(t->md);
++       int page_size = PAGE_SIZE;
+
+        if (t->type != DM_TYPE_NONE) {
+                /* target already set the table's type */
+@@ -984,7 +992,7 @@ static int dm_table_determine_type(struct dm_table *t)
+ verify_bio_based:
+                /* We must use this table as bio-based */
+                t->type = DM_TYPE_BIO_BASED;
+-               if (dm_table_supports_dax(t, PAGE_SIZE) ||
++               if (dm_table_supports_dax(t, device_supports_dax, &page_size) ||
+                    (list_empty(devices) && live_md_type == DM_TYPE_DAX_BIO_BASED)) {
+                        t->type = DM_TYPE_DAX_BIO_BASED;
+                } else {
+@@ -1883,6 +1891,7 @@ void dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
+                               struct queue_limits *limits)
+ {
+        bool wc = false, fua = false;
++       int page_size = PAGE_SIZE;
+
+        /*
+         * Copy table's limits to the DM device's request_queue
+@@ -1910,8 +1919,13 @@ void dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
+        }
+        blk_queue_write_cache(q, wc, fua);
+
+-       if (dm_table_supports_dax(t, PAGE_SIZE))
++       if (dm_table_supports_dax(t, device_supports_dax, &page_size)) {
++
+                blk_queue_flag_set(QUEUE_FLAG_DAX, q);
++               if (dm_table_supports_dax(t, device_synchronous, NULL))
++                       set_dax_synchronous(t->md->dax_dev);
++       }
+        else
+                blk_queue_flag_clear(QUEUE_FLAG_DAX, q);
+
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index b1caa7188209..b92c42a72ad4 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -1119,7 +1119,7 @@ static bool dm_dax_supported(struct dax_device *dax_dev, struct block_device *bd
+        if (!map)
+                return false;
+
+-       ret = dm_table_supports_dax(map, blocksize);
++       ret = dm_table_supports_dax(map, device_supports_dax, &blocksize);
+
+        dm_put_live_table(md, srcu_idx);
+
+diff --git a/drivers/md/dm.h b/drivers/md/dm.h
+index 17e3db54404c..0475673337f3 100644
+--- a/drivers/md/dm.h
++++ b/drivers/md/dm.h
+@@ -72,7 +72,10 @@ bool dm_table_bio_based(struct dm_table *t);
+ bool dm_table_request_based(struct dm_table *t);
+ void dm_table_free_md_mempools(struct dm_table *t);
+ struct dm_md_mempools *dm_table_get_md_mempools(struct dm_table *t);
+-bool dm_table_supports_dax(struct dm_table *t, int blocksize);
++bool dm_table_supports_dax(struct dm_table *t, iterate_devices_callout_fn fn,
++                          int *blocksize);
++int device_supports_dax(struct dm_target *ti, struct dm_dev *dev,
++                          sector_t start, sector_t len, void *data);
+
+ void dm_lock_md_type(struct mapped_device *md);
+ void dm_unlock_md_type(struct mapped_device *md);
+--
+2.20.1
 
