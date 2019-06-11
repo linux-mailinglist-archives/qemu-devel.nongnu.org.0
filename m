@@ -2,59 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D063C078
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 02:27:04 +0200 (CEST)
-Received: from localhost ([::1]:51226 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196C43C162
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 04:58:53 +0200 (CEST)
+Received: from localhost ([::1]:51542 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haUcx-0002LZ-E5
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 20:27:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42197)
+	id 1haWzs-00079O-B3
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 22:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38728)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1haUbf-0001Zm-EN
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 20:25:45 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1haWxE-0004VW-6T
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 22:56:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1haUbe-0000Bb-26
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 20:25:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54786)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1haUbd-000057-Ri
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 20:25:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1haUbX-0000Tu-VC
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 00:25:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E90862E8058
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 00:25:35 +0000 (UTC)
+ (envelope-from <dgibson@ozlabs.org>) id 1haWlZ-00076a-Ml
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 22:44:07 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50649 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1haWlW-0006sb-TP; Mon, 10 Jun 2019 22:44:05 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45NDpK6n4lz9sNT; Tue, 11 Jun 2019 12:43:37 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1560221017;
+ bh=5MWNcbdX4c47c3P89F8k+Le5Llb1WY17pgZ6bWfs/qI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jeo4JzMGzGR/kfnG4hEAeRLMeDz7Ndl9WDA/hbNuNwKrDOloO79zORthmWs6ZPNHk
+ 5gR1UyDFD8DVzjzFh1wn3zQVnYlMdsxBCxUMTj7jE1gWB6uVV+BYskpfeIJXOf7JfR
+ F3S0TQZCDTGtC/KIhln2VpOsQTrgTFAtl7qwhngI=
+Date: Tue, 11 Jun 2019 12:43:24 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190611024324.GB3998@umbus.fritz.box>
+References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
+ <20190529065017.15149-24-david@gibson.dropbear.id.au>
+ <31966f5b-d46c-4b86-6852-c949d9f72497@redhat.com>
+ <9218989c-c92d-6e7b-71a9-08d511c3a0b3@redhat.com>
+ <32a8e668-80f5-1429-58f4-8935c973dd2b@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Jun 2019 00:16:54 -0000
-From: manuel baesler <1832281@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: manuelbaesler
-X-Launchpad-Bug-Reporter: manuel baesler (manuelbaesler)
-X-Launchpad-Bug-Modifier: manuel baesler (manuelbaesler)
-Message-Id: <156021221413.18114.3680605096232908394.malonedeb@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18978";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: a4c603f01f76e98ff84d59bb5fe895b79b9808eb
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1832281] [NEW] tcg bug master / 4.0.0 v8
- operation >>> and |=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
+Content-Disposition: inline
+In-Reply-To: <32a8e668-80f5-1429-58f4-8935c973dd2b@linaro.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PULL 23/44] target/ppc: Use vector variable
+ shifts for VSL, VSR, VSRA
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,206 +60,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1832281 <1832281@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, peter.maydell@linaro.org,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-vm guest is linux, executed with tcg
-running this Node.js snippet leads to
+--wzJLGUyc3ArbnUjN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-$ node
-> a =3D undefined
-undefined
-> a >>> 0
-4294967295
+On Fri, Jun 07, 2019 at 09:28:49AM -0500, Richard Henderson wrote:
+> On 6/7/19 9:09 AM, Laurent Vivier wrote:
+> > On 07/06/2019 11:29, Laurent Vivier wrote:
+> >> On 29/05/2019 08:49, David Gibson wrote:
+> >>> From: Richard Henderson <richard.henderson@linaro.org>
+> >>>
+> >>> The gvec expanders take care of masking the shift amount
+> >>> against the element width.
+> >>>
+> >>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >>> Message-Id: <20190518191430.21686-2-richard.henderson@linaro.org>
+> >>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> >>> ---
+> >>>  target/ppc/helper.h                 | 12 ----------
+> >>>  target/ppc/int_helper.c             | 37 ---------------------------=
+--
+> >>>  target/ppc/translate/vmx-impl.inc.c | 24 +++++++++----------
+> >>>  3 files changed, 12 insertions(+), 61 deletions(-)
+> >>
+> >> This patch introduces a regressions
+> >>  with Fedora 29 guest:
+> >>
+> >> - during kernel boot:
+> >>
+> >> [   40.397876] crypto_register_alg 'aes' =3D 0
+> >> [   40.577517] crypto_register_alg 'cbc(aes)' =3D 0
+> >> [   40.743576] crypto_register_alg 'ctr(aes)' =3D 0
+> >> [   41.061379] alg: skcipher: Test 1 failed (invalid result) on encryp=
+tion for p8_aes_xts
+> >> [   41.062054] 00000000: 91 7c f6 9e bd 68 b2 ec 9b 9f e9 a3 ea dd a6 =
+92
+> >> [   41.062163] 00000010: 98 10 35 57 5e dc 36 1e 9a f7 bc ba 39 f2 5c =
+eb
+> >> [   41.062834] crypto_register_alg 'xts(aes)' =3D 0
+> >> [   41.077358] alg: hash: Test 2 failed for p8_ghash
+> >> [   41.077553] 00000000: 5f 89 ab f7 20 57 20 57 20 57 20 57 20 57 20 =
+57
+> >>
+> >> - with libssl:
+> >>
+> >> # curl -o /dev/null https://www.google.com
+> >>   % Total    % Received % Xferd  Average Speed   Time    Time     Time=
+  Current
+> >>                                  Dload  Upload   Total   Spent    Left=
+  Speed
+> >>   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:=
+--     0
+> >> curl: (35) error:1408F119:SSL routines:ssl3_get_record:decryption fail=
+ed or bad record mac
+> >>
+> >> [before, this one fails with:
+> >> curl: (35) error:04091068:rsa routines:int_rsa_verify:bad signature ]
+> >>
+> >> If I revert this patch on top of 0d74f3b427 + "target/ppc: Fix lxvw4x,=
+ lxvh8x and lxvb16x", all works fine.
+> >>
+> >> Thanks,
+> >> Laurent
+> >>
+> >=20
+> > This seems to fix the problem:
+> >=20
+> > diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
+> > index 3b6052fe97..6f0709b307 100644
+> > --- a/accel/tcg/tcg-runtime-gvec.c
+> > +++ b/accel/tcg/tcg-runtime-gvec.c
+> > @@ -874,7 +874,7 @@ void HELPER(gvec_sar8v)(void *d, void *a, void *b,
+> > uint32_t desc)
+> >      intptr_t oprsz =3D simd_oprsz(desc);
+> >      intptr_t i;
+> >=20
+> > -    for (i =3D 0; i < oprsz; i +=3D sizeof(vec8)) {
+> > +    for (i =3D 0; i < oprsz; i +=3D sizeof(uint8_t)) {
+> >          uint8_t sh =3D *(uint8_t *)(b + i) & 7;
+> >          *(int8_t *)(d + i) =3D *(int8_t *)(a + i) >> sh;
+> >      }
+>=20
+> Grr.  I really really need to come up with a solution for testing that al=
+lows
+> me to test paths that the host cpu would not ordinarily take.  This bug is
+> hidden on a host with AVX2.
+>=20
+> Thanks for the digging.
 
-host node
-$ node
-> a =3D undefined
-undefined
-> a >>> 0
-0
+Can one of you send this fix formally with a S-o-b and so forth?
 
-same with |=3D
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-node
-Welcome to Node.js v12.4.0.
-Type ".help" for more information.
-> let buffer
-undefined
-> buffer |=3D 0
-0
+--wzJLGUyc3ArbnUjN
+Content-Type: application/pgp-signature; name="signature.asc"
 
-vm with tcg:
+-----BEGIN PGP SIGNATURE-----
 
-$ ./out/Release/node --version
-v12.4.0
-./out/Release/node -e "let buffer; buffer |=3D 0; console.log(buffer);"
--1
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz/FUwACgkQbDjKyiDZ
+s5JW9A/+PKC5rlZY8E5E/xIUry6mRvH0JxAKnmIgS5isjR+YqBSrZmeN6UcAJOyK
+cZQUHyTECxshnzrnk4wj5Qeu4ovF+bqUsuO1cBxjFBesJeA5Qj3zIP79LYCRi+Nk
+6z68S9cudKofyvyIl4EV+C5u8i3upSea7d3/A8XjkVansPv1htpcJLD1IKISacjv
+gIGeg0cGCG0/6KbyyCdA2if+jgBdxB+C1q454g57cO84Zhq2/UQapOwDh0+RO7nL
+9TT9I3B/Cu8aG426YW2MGCu0MPqR0metgfBiC8kPKysRsN8xeZu5syfFa0Uge5no
+G2vheBZgmDNZ4neS3lKzchdDLTqP1JFXqHK6tx0p+h5xNX6GhIpPW0ks9HSdGg3c
+3P3lcHKy9c1E6MSaCYRvjPOTzO5uAVhRve8WAC2TkxiGBYhmkwLzTJQix+m5uoLU
+mht5eYw1+2Uvl34xZ6VFGPC5t/BrxJumpRtqUT5YM6i2KSLMV8CwTsw+6jJvoe5w
+UX2k1LPDN+AnvW/UYDa4pQocyCBibtks+U7XcVUCWe6V05XaoVDvllB1zLqdSH1i
+scMamqRp0g/NDS+Jv8ejB5o3AuKSMcJXPJCCacwnA/RwmvZ3ylHFuD7Knr6doT/K
+YDQiEMdG8lgqibJJ5r6bP2eVmll+aZC2ypm7KOmpoaP04fEB/Q0=
+=Hlvw
+-----END PGP SIGNATURE-----
 
-vm guest is debian x86_64 latest release
-vm guest is started with ./x86_64-softmmu/qemu-system-x86_64 -vnc :0 -cdrom=
- debian-9.9.0-amd64-netinst.iso -m 4G -smp cores=3D6,threads=3D1,sockets=3D=
-1 -nic user,hostfwd=3Dtcp:ipv4addr:2233-:22 -cpu qemu64 debian.img
-
-git tag v4.0.0 and master, commit
-a578cdfbdd8f9beff5ced52b7826ddb1669abbbf, for building qemu-system-
-x86_64 was used.
-
-Node.js is compiled on the vm guest (v12.4.0 / master)
-
-see also
-https://github.com/nodejs/node/issues/19348#issuecomment-500465502
-
-I need further assistance to track down the cause of the bug.
-
-Kind regards
-Manuel
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Description changed:
-
-  vm guest is linux, executed with tcg
-  running this Node.js snippet leads to
-  =
-
-  $ node
-- > a =3D undefined =
-
-+ > a =3D undefined
-  undefined
-  > a >>> 0
-  4294967295
-  =
-
-  host node
-  $ node
-  > a =3D undefined
-  undefined
-  > a >>> 0
-  0
-  =
-
-  same with |=3D
-  =
-
-  node
-  Welcome to Node.js v12.4.0.
-  Type ".help" for more information.
-  > let buffer
-  undefined
-  > buffer |=3D 0
-  0
-  =
-
-  vm with tcg:
-  =
-
-  $ ./out/Release/node --version
-  v12.4.0
-  ./out/Release/node -e "let buffer; buffer |=3D 0; console.log(buffer);"
-  -1
-  =
-
-- =
-
-  vm guest is debian x86_64 latest release
-  vm guest is started with ./x86_64-softmmu/qemu-system-x86_64 -vnc :0 -cdr=
-om debian-9.9.0-amd64-netinst.iso -m 4G -smp cores=3D6,threads=3D1,sockets=
-=3D1 -nic user,hostfwd=3Dtcp:ipv4addr:2233-:22 -cpu qemu64 debian.img
-  =
-
-  git tag v4.0.0 and master, commit
-  a578cdfbdd8f9beff5ced52b7826ddb1669abbbf, for building qemu-system-
-  x86_64 was used.
-  =
-
-- Node.js as compiled on the vm guest (v12.4.0 / master)
-- =
-
-+ Node.js is compiled on the vm guest (v12.4.0 / master)
-  =
-
-  see also
-  https://github.com/nodejs/node/issues/19348#issuecomment-500465502
-  =
-
-  I need further assistance to track down the cause of the bug.
-  =
-
-  Kind regards
-  Manuel
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1832281
-
-Title:
-  tcg bug master / 4.0.0 v8 operation >>> and |=3D
-
-Status in QEMU:
-  New
-
-Bug description:
-  vm guest is linux, executed with tcg
-  running this Node.js snippet leads to
-
-  $ node
-  > a =3D undefined
-  undefined
-  > a >>> 0
-  4294967295
-
-  host node
-  $ node
-  > a =3D undefined
-  undefined
-  > a >>> 0
-  0
-
-  same with |=3D
-
-  node
-  Welcome to Node.js v12.4.0.
-  Type ".help" for more information.
-  > let buffer
-  undefined
-  > buffer |=3D 0
-  0
-
-  vm with tcg:
-
-  $ ./out/Release/node --version
-  v12.4.0
-  ./out/Release/node -e "let buffer; buffer |=3D 0; console.log(buffer);"
-  -1
-
-  vm guest is debian x86_64 latest release
-  vm guest is started with ./x86_64-softmmu/qemu-system-x86_64 -vnc :0 -cdr=
-om debian-9.9.0-amd64-netinst.iso -m 4G -smp cores=3D6,threads=3D1,sockets=
-=3D1 -nic user,hostfwd=3Dtcp:ipv4addr:2233-:22 -cpu qemu64 debian.img
-
-  git tag v4.0.0 and master, commit
-  a578cdfbdd8f9beff5ced52b7826ddb1669abbbf, for building qemu-system-
-  x86_64 was used.
-
-  Node.js is compiled on the vm guest (v12.4.0 / master)
-
-  see also
-  https://github.com/nodejs/node/issues/19348#issuecomment-500465502
-
-  I need further assistance to track down the cause of the bug.
-
-  Kind regards
-  Manuel
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1832281/+subscriptions
+--wzJLGUyc3ArbnUjN--
 
