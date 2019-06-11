@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFFE23D160
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 17:53:20 +0200 (CEST)
-Received: from localhost ([::1]:60452 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7E03D12C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 17:43:32 +0200 (CEST)
+Received: from localhost ([::1]:60406 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haj5L-0005Dt-9S
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 11:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
+	id 1haivr-0007bV-5M
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 11:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58326)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1haidv-0004g3-Du
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:25:03 -0400
+ (envelope-from <armbru@redhat.com>) id 1haigG-0005y9-8L
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:27:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1haidr-0006NE-QH
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:24:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57738)
+ (envelope-from <armbru@redhat.com>) id 1haigC-0008HD-5b
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:27:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54024)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1haidr-0006Mb-HP
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:24:55 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1haigB-00087v-VW
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:27:20 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C280B3092669
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 15:24:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3B7883086226;
+ Tue, 11 Jun 2019 15:27:01 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
  [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B02ED1001B0A;
- Tue, 11 Jun 2019 15:24:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CA625D704;
+ Tue, 11 Jun 2019 15:27:01 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E18861136424; Tue, 11 Jun 2019 17:24:48 +0200 (CEST)
+ id 9398E1138648; Tue, 11 Jun 2019 17:26:59 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 11 Jun 2019 17:24:48 +0200
-Message-Id: <20190611152448.29436-13-armbru@redhat.com>
-In-Reply-To: <20190611152448.29436-1-armbru@redhat.com>
-References: <20190611152448.29436-1-armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190607152646.4822-1-armbru@redhat.com>
+ <CAFEAcA-2X2a_rNeg3Q4zmWgLDa=nfESMYR=rTE=+=1Mdsmw0kQ@mail.gmail.com>
+Date: Tue, 11 Jun 2019 17:26:59 +0200
+In-Reply-To: <CAFEAcA-2X2a_rNeg3Q4zmWgLDa=nfESMYR=rTE=+=1Mdsmw0kQ@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 10 Jun 2019 11:02:47 +0100")
+Message-ID: <87a7eo16t8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 11 Jun 2019 15:24:54 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Tue, 11 Jun 2019 15:27:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 12/12] MAINTAINERS: Polish headline decorations
+Subject: Re: [Qemu-devel] [PULL 00/12] Miscellaneous patches for 2019-06-07
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,95 +61,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190606172408.18399-4-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- MAINTAINERS | 24 +++++++++++-------------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 550d6c5959..588c8d947a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -65,7 +65,7 @@ F: *
- F: */
-=20
- Responsible Disclosure, Reporting Security Issues
--------------------------------
-+-------------------------------------------------
- W: https://wiki.qemu.org/SecurityProcess
- M: Michael S. Tsirkin <mst@redhat.com>
- L: secalert@redhat.com
-@@ -107,8 +107,8 @@ K: ^Subject:.*(?i)s390x?
- T: git https://github.com/cohuck/qemu.git s390-next
- L: qemu-s390x@nongnu.org
-=20
--Guest CPU cores (TCG):
------------------------
-+Guest CPU cores (TCG)
-+---------------------
- Overall TCG CPUs
- M: Richard Henderson <rth@twiddle.net>
- R: Paolo Bonzini <pbonzini@redhat.com>
-@@ -344,9 +344,8 @@ M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
- S: Maintained
- F: tests/tcg/multiarch/
-=20
--Guest CPU Cores (KVM):
------------------------
--
-+Guest CPU Cores (KVM)
-+---------------------
- Overall KVM CPUs
- M: Paolo Bonzini <pbonzini@redhat.com>
- L: kvm@vger.kernel.org
-@@ -402,9 +401,8 @@ S: Supported
- F: target/i386/kvm.c
- F: scripts/kvm/vmxcap
-=20
--Guest CPU Cores (Xen):
------------------------
--
-+Guest CPU Cores (Xen)
-+---------------------
- X86 Xen CPUs
- M: Stefano Stabellini <sstabellini@kernel.org>
- M: Anthony Perard <anthony.perard@citrix.com>
-@@ -425,9 +423,8 @@ F: include/hw/block/dataplane/xen*
- F: include/hw/xen/
- F: include/sysemu/xen-mapcache.h
-=20
--Hosts:
--------
--
-+Hosts
-+-----
- LINUX
- M: Michael S. Tsirkin <mst@redhat.com>
- M: Cornelia Huck <cohuck@redhat.com>
-@@ -464,6 +461,7 @@ X: qga/*win32*
- F: qemu.nsi
-=20
- Alpha Machines
-+--------------
- M: Richard Henderson <rth@twiddle.net>
- S: Maintained
- F: hw/alpha/
-@@ -1198,7 +1196,7 @@ F: hw/s390x/s390-pci*
- L: qemu-s390x@nongnu.org
-=20
- UniCore32 Machines
---------------
-+------------------
- PKUnity-3 SoC initramfs-with-busybox
- M: Guan Xuetao <gxt@mprc.pku.edu.cn>
- S: Maintained
---=20
-2.21.0
+> On Fri, 7 Jun 2019 at 19:21, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> The following changes since commit 0d74f3b4277a7ecb0ccb80c865797d11f8e46=
+6f5:
+>>
+>>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull=
+-request' into staging (2019-06-06 14:09:14 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2019-06-07
+>>
+>> for you to fetch changes up to 516741ebae8e2baef456c10897569725663157dd:
+>>
+>>   MAINTAINERS: Polish headline decorations (2019-06-07 16:30:59 +0200)
+>>
+>> ----------------------------------------------------------------
+>> Miscellaneous patches for 2019-06-07
+>>
+>> ----------------------------------------------------------------
+>> Markus Armbruster (11):
+>>       qemu-common: Move tcg_enabled() etc. to sysemu/tcg.h
+>>       qemu-common: Move qemu_isalnum() etc. to qemu/ctype.h
+>>       Include qemu/module.h where needed, drop it from qemu-common.h
+>>       Include qemu-common.h exactly where needed
+>>       Normalize position of header guard
+>>       scripts/clean-header-guards: Fix handling of trailing comments
+>>       Clean up a few header guard symbols
+>>       Supply missing header guards
+>>       Clean up a header guard symbols (again)
+>>       MAINTAINERS: Improve section headlines
+>>       MAINTAINERS: Polish headline decorations
+>>
+>> Philippe Mathieu-Daud=C3=A9 (1):
+>>       MAINTAINERS: Remove duplicate entries of qemu-devel@nongnu.org
+>>
+>
+> Compile failure, I'm afraid, on OSX, NetBSD, FreeBSD and OpenBSD:
+>
+> /Users/pm215/src/qemu-for-merges/net/tap-bsd.c:68:9: error: implicit
+> declaration of function 'TFR' is invalid in C99
+> [-Werror,-Wimplicit-function-declaration]
+>         TFR(fd =3D open(dname, O_RDWR));
+>         ^
+> /Users/pm215/src/qemu-for-merges/net/tap-bsd.c:68:9: error: this
+> function declaration is not a prototype [-Werror,-Wstrict-prototypes]
 
+Fortunately, this was the only one (I rustled up a cfarm machine to
+check).  Unfortunately, I had to rebase to make it again mergable into
+master.  Fresh pull request sent.  Thanks!
 
