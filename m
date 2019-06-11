@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 196C43C162
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 04:58:53 +0200 (CEST)
-Received: from localhost ([::1]:51542 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3263C161
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 04:57:43 +0200 (CEST)
+Received: from localhost ([::1]:51528 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haWzs-00079O-B3
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 22:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38728)
+	id 1haWyk-0005NR-2B
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 22:57:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38413)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1haWxE-0004VW-6T
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 22:56:09 -0400
+ (envelope-from <lizhengui@huawei.com>) id 1haWx4-0004GO-D7
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 22:55:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1haWlZ-00076a-Ml
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 22:44:07 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50649 helo=ozlabs.org)
+ (envelope-from <lizhengui@huawei.com>) id 1haWus-0004Ki-Gv
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 22:53:43 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:35946 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1haWlW-0006sb-TP; Mon, 10 Jun 2019 22:44:05 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45NDpK6n4lz9sNT; Tue, 11 Jun 2019 12:43:37 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1560221017;
- bh=5MWNcbdX4c47c3P89F8k+Le5Llb1WY17pgZ6bWfs/qI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jeo4JzMGzGR/kfnG4hEAeRLMeDz7Ndl9WDA/hbNuNwKrDOloO79zORthmWs6ZPNHk
- 5gR1UyDFD8DVzjzFh1wn3zQVnYlMdsxBCxUMTj7jE1gWB6uVV+BYskpfeIJXOf7JfR
- F3S0TQZCDTGtC/KIhln2VpOsQTrgTFAtl7qwhngI=
-Date: Tue, 11 Jun 2019 12:43:24 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190611024324.GB3998@umbus.fritz.box>
-References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
- <20190529065017.15149-24-david@gibson.dropbear.id.au>
- <31966f5b-d46c-4b86-6852-c949d9f72497@redhat.com>
- <9218989c-c92d-6e7b-71a9-08d511c3a0b3@redhat.com>
- <32a8e668-80f5-1429-58f4-8935c973dd2b@linaro.org>
+ (Exim 4.71) (envelope-from <lizhengui@huawei.com>)
+ id 1haWuq-0004EW-UY; Mon, 10 Jun 2019 22:53:41 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id D462E1EB61AD12626001;
+ Tue, 11 Jun 2019 10:53:35 +0800 (CST)
+Received: from [127.0.0.1] (10.177.251.193) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0;
+ Tue, 11 Jun 2019 10:53:29 +0800
+To: Paolo Bonzini <pbonzini@redhat.com>, <stefanha@redhat.com>,
+ <mreitz@redhat.com>, <kwolf@redhat.com>
+References: <1560173684-6264-1-git-send-email-lizhengui@huawei.com>
+ <1a218c83-7167-68c4-798f-2870f2f98475@redhat.com>
+ <49e6310d-1c1c-2379-47e6-7239e0058e78@huawei.com>
+ <487a3a9d-92b3-bed4-4082-5701cd4bd08d@redhat.com>
+From: l00284672 <lizhengui@huawei.com>
+Message-ID: <98826c00-3dae-3972-c68a-f86f544c2093@huawei.com>
+Date: Tue, 11 Jun 2019 10:53:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.4.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
-Content-Disposition: inline
-In-Reply-To: <32a8e668-80f5-1429-58f4-8935c973dd2b@linaro.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PULL 23/44] target/ppc: Use vector variable
- shifts for VSL, VSR, VSRA
+In-Reply-To: <487a3a9d-92b3-bed4-4082-5701cd4bd08d@redhat.com>
+Content-Type: multipart/mixed; boundary="------------F5D85B9FB6F33D4340270AEA"
+Content-Language: en-US
+X-Originating-IP: [10.177.251.193]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 45.249.212.35
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] file-posix: unlock
+ qemu_global_mutex before pread when attach disk
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,129 +58,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, peter.maydell@linaro.org,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- rth@twiddle.net
+Cc: jiangyiwen@huawei.com, eric.fangyi@huawei.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, wangjie88@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---wzJLGUyc3ArbnUjN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--------------F5D85B9FB6F33D4340270AEA
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 07, 2019 at 09:28:49AM -0500, Richard Henderson wrote:
-> On 6/7/19 9:09 AM, Laurent Vivier wrote:
-> > On 07/06/2019 11:29, Laurent Vivier wrote:
-> >> On 29/05/2019 08:49, David Gibson wrote:
-> >>> From: Richard Henderson <richard.henderson@linaro.org>
-> >>>
-> >>> The gvec expanders take care of masking the shift amount
-> >>> against the element width.
-> >>>
-> >>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >>> Message-Id: <20190518191430.21686-2-richard.henderson@linaro.org>
-> >>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> >>> ---
-> >>>  target/ppc/helper.h                 | 12 ----------
-> >>>  target/ppc/int_helper.c             | 37 ---------------------------=
---
-> >>>  target/ppc/translate/vmx-impl.inc.c | 24 +++++++++----------
-> >>>  3 files changed, 12 insertions(+), 61 deletions(-)
-> >>
-> >> This patch introduces a regressions
-> >>  with Fedora 29 guest:
-> >>
-> >> - during kernel boot:
-> >>
-> >> [   40.397876] crypto_register_alg 'aes' =3D 0
-> >> [   40.577517] crypto_register_alg 'cbc(aes)' =3D 0
-> >> [   40.743576] crypto_register_alg 'ctr(aes)' =3D 0
-> >> [   41.061379] alg: skcipher: Test 1 failed (invalid result) on encryp=
-tion for p8_aes_xts
-> >> [   41.062054] 00000000: 91 7c f6 9e bd 68 b2 ec 9b 9f e9 a3 ea dd a6 =
-92
-> >> [   41.062163] 00000010: 98 10 35 57 5e dc 36 1e 9a f7 bc ba 39 f2 5c =
-eb
-> >> [   41.062834] crypto_register_alg 'xts(aes)' =3D 0
-> >> [   41.077358] alg: hash: Test 2 failed for p8_ghash
-> >> [   41.077553] 00000000: 5f 89 ab f7 20 57 20 57 20 57 20 57 20 57 20 =
-57
-> >>
-> >> - with libssl:
-> >>
-> >> # curl -o /dev/null https://www.google.com
-> >>   % Total    % Received % Xferd  Average Speed   Time    Time     Time=
-  Current
-> >>                                  Dload  Upload   Total   Spent    Left=
-  Speed
-> >>   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:=
---     0
-> >> curl: (35) error:1408F119:SSL routines:ssl3_get_record:decryption fail=
-ed or bad record mac
-> >>
-> >> [before, this one fails with:
-> >> curl: (35) error:04091068:rsa routines:int_rsa_verify:bad signature ]
-> >>
-> >> If I revert this patch on top of 0d74f3b427 + "target/ppc: Fix lxvw4x,=
- lxvh8x and lxvb16x", all works fine.
-> >>
-> >> Thanks,
-> >> Laurent
-> >>
-> >=20
-> > This seems to fix the problem:
-> >=20
-> > diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
-> > index 3b6052fe97..6f0709b307 100644
-> > --- a/accel/tcg/tcg-runtime-gvec.c
-> > +++ b/accel/tcg/tcg-runtime-gvec.c
-> > @@ -874,7 +874,7 @@ void HELPER(gvec_sar8v)(void *d, void *a, void *b,
-> > uint32_t desc)
-> >      intptr_t oprsz =3D simd_oprsz(desc);
-> >      intptr_t i;
-> >=20
-> > -    for (i =3D 0; i < oprsz; i +=3D sizeof(vec8)) {
-> > +    for (i =3D 0; i < oprsz; i +=3D sizeof(uint8_t)) {
-> >          uint8_t sh =3D *(uint8_t *)(b + i) & 7;
-> >          *(int8_t *)(d + i) =3D *(int8_t *)(a + i) >> sh;
-> >      }
->=20
-> Grr.  I really really need to come up with a solution for testing that al=
-lows
-> me to test paths that the host cpu would not ordinarily take.  This bug is
-> hidden on a host with AVX2.
->=20
-> Thanks for the digging.
+-- Would the "open" hang as well in that case?
+    The "open" doesn't hang in that case.
 
-Can one of you send this fix formally with a S-o-b and so forth?
+Do you have any better solutions to solve this problem in the case?
+  =20
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---wzJLGUyc3ArbnUjN
-Content-Type: application/pgp-signature; name="signature.asc"
+On 2019/6/11 0:03, Paolo Bonzini wrote:
+> On 10/06/19 16:51, l00284672 wrote:
+>> The pread will hang in attaching disk just when backend storage networ=
+k
+>> disconnection .
+> Would the "open" hang as well in that case?
+>> I think the locking range of qemu_global_mutex is too large when do qm=
+p
+>> operation. what
+>> does the qemu_global_mutex=C2=A0 really protect?
+> Basically everything.
+>
+>> what is the risk of unlocking qemu_global_mutex in qmp?
+> It's not QMP; it's specifically the code that calls raw_probe_alignment=
+.
+>
+> Paolo
+>
+> .
+>
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz/FUwACgkQbDjKyiDZ
-s5JW9A/+PKC5rlZY8E5E/xIUry6mRvH0JxAKnmIgS5isjR+YqBSrZmeN6UcAJOyK
-cZQUHyTECxshnzrnk4wj5Qeu4ovF+bqUsuO1cBxjFBesJeA5Qj3zIP79LYCRi+Nk
-6z68S9cudKofyvyIl4EV+C5u8i3upSea7d3/A8XjkVansPv1htpcJLD1IKISacjv
-gIGeg0cGCG0/6KbyyCdA2if+jgBdxB+C1q454g57cO84Zhq2/UQapOwDh0+RO7nL
-9TT9I3B/Cu8aG426YW2MGCu0MPqR0metgfBiC8kPKysRsN8xeZu5syfFa0Uge5no
-G2vheBZgmDNZ4neS3lKzchdDLTqP1JFXqHK6tx0p+h5xNX6GhIpPW0ks9HSdGg3c
-3P3lcHKy9c1E6MSaCYRvjPOTzO5uAVhRve8WAC2TkxiGBYhmkwLzTJQix+m5uoLU
-mht5eYw1+2Uvl34xZ6VFGPC5t/BrxJumpRtqUT5YM6i2KSLMV8CwTsw+6jJvoe5w
-UX2k1LPDN+AnvW/UYDa4pQocyCBibtks+U7XcVUCWe6V05XaoVDvllB1zLqdSH1i
-scMamqRp0g/NDS+Jv8ejB5o3AuKSMcJXPJCCacwnA/RwmvZ3ylHFuD7Knr6doT/K
-YDQiEMdG8lgqibJJ5r6bP2eVmll+aZC2ypm7KOmpoaP04fEB/Q0=
-=Hlvw
------END PGP SIGNATURE-----
+--------------F5D85B9FB6F33D4340270AEA
+Content-Type: text/x-vcard; name="lizhengui.vcf"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="lizhengui.vcf"
 
---wzJLGUyc3ArbnUjN--
+bnVsbA==
+--------------F5D85B9FB6F33D4340270AEA--
 
