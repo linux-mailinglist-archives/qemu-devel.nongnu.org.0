@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110233D23B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:29:10 +0200 (CEST)
-Received: from localhost ([::1]:60798 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040253D30C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:55:12 +0200 (CEST)
+Received: from localhost ([::1]:32928 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haje1-0005Xc-7I
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40356)
+	id 1hak3B-0006kL-LE
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:55:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41175)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pagupta@redhat.com>) id 1hajGR-0003jH-HX
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:04:48 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hajJn-0006tP-Hu
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:08:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pagupta@redhat.com>) id 1hajGQ-0003Gn-Ei
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:04:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44468)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hajGQ-0003DW-2B
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:04:46 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5E7847FDFE;
- Tue, 11 Jun 2019 16:04:32 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10197611DA;
- Tue, 11 Jun 2019 16:04:25 +0000 (UTC)
-Received: from zmail21.collab.prod.int.phx2.redhat.com
- (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id D31A018363C0;
- Tue, 11 Jun 2019 16:04:21 +0000 (UTC)
-Date: Tue, 11 Jun 2019 12:04:21 -0400 (EDT)
-From: Pankaj Gupta <pagupta@redhat.com>
-To: Mike Snitzer <snitzer@redhat.com>
-Message-ID: <1006124881.34430329.1560269061491.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20190611150427.GA29288@redhat.com>
-References: <20190610090730.8589-1-pagupta@redhat.com>
- <20190610090730.8589-5-pagupta@redhat.com>
- <20190610192803.GA29002@redhat.com>
- <1206355816.34396746.1560258658768.JavaMail.zimbra@redhat.com>
- <20190611150427.GA29288@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hajJj-0005l3-DK
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:08:13 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46318)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hajJh-0005hL-El
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:08:10 -0400
+Received: by mail-ot1-x343.google.com with SMTP id z23so12400324ote.13
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 09:08:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JR9ZUNk9cSB5ZOSnmOXD6oGGd/boRFK2MnJ/XPOY0Hc=;
+ b=alkn+XGaLBAL3V0l2ldlZsrnjhZ+iscwqfKm4Vh9zdKl1RbPqMLM5WsUd1QxGnURQn
+ lGVydvjOL/dmSbGtDd5XLxMuOUODCETCWDx0zMBcAF7Vz+RG8cKGBUyA1JKdfRd8cHkm
+ Fuf3it+3bcdCVWrDxo9+xYIgvgvkqXftUiy0PUrgiDp+VmvmxUNwvd+tymDmb/il/fF+
+ aQ+VDIualH5pMIi9pPg7ItZcJ5xiZyhr6ZkjSZ345C+kNQ/oTZUwNkSx3IdcVB76/kow
+ jUCYuf8BglJuLJ4RmKJLrLq4XjslbVQysvV4vQi8G4l7jL8Qzpm4Yli5Tzdft6YBRgNe
+ hMcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JR9ZUNk9cSB5ZOSnmOXD6oGGd/boRFK2MnJ/XPOY0Hc=;
+ b=h7P7r6ZhLBnQyLRb4gFFyi+NZYgukzKHVsvBwVMEPIVb0L1FT8ybBUdTaLcHy++C53
+ iCDGTfuExr9NhZBi3N5tiFzuB+prCgCThiMHM5sG5dFruCmYpuBhA4HwNuf65XdK9YPv
+ y/U4uBoIxCYkBrj/zU6tW0xBzdd5lY/+3/fKmzelfdUWwyO6NusbBGHq7lzXwn9N6nUR
+ dVu+6dOt8DCgYk4EUCHlZNclGADlRYHTRIlU3jN3c7xcFI0u1gL2OU4Qa7IZzGMHDafj
+ Kd5CiXWYNUoCr6wBQczjjOJctzfvZttUaUujyu4ava+WrzuyWL431jwH/xlYjUwDSqCi
+ QPpQ==
+X-Gm-Message-State: APjAAAUndBw4iZedP8ix81qNI6QZklFx6qgqNfpVDdsDHhJVMUdKh98o
+ owBdSfmNzFbKCdUqJG7B6dCyq+y0Q0YpGFlnqGT8qg==
+X-Google-Smtp-Source: APXvYqzqXncvZCbkyMz9ft8F0KiMwreIBcKkNltlUjRrobyo39Meaa/kmjNea6VwNoWR33gMWl/k/uWngm2qGqXls1M=
+X-Received: by 2002:a9d:630a:: with SMTP id q10mr98913otk.91.1560269286219;
+ Tue, 11 Jun 2019 09:08:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.116.60, 10.4.195.3]
-Thread-Topic: enable synchronous dax
-Thread-Index: H4DObhswv6RiIzHdNTVFv9g9Hzvnew==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 11 Jun 2019 16:04:40 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v11 4/7] dm: enable synchronous dax
+References: <20190607211544.7964-1-ehabkost@redhat.com>
+ <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
+ <CAFEAcA9ZeB1knLYYQLJG0d5McG2vo6w8P9+vOBWgtSVgPEG0jA@mail.gmail.com>
+ <20190611160329.GH5927@habkost.net>
+In-Reply-To: <20190611160329.GH5927@habkost.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 Jun 2019 17:07:55 +0100
+Message-ID: <CAFEAcA-cv8vPT=7YraioJvW7-WnvGy9YoJXOc_E+UEWUehE+Bg@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PULL 0/8] Python queue, 2019-06-07
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,95 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, jack@suse.cz, kvm@vger.kernel.org, mst@redhat.com,
- jasowang@redhat.com, david@fromorbit.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org, dm-devel@redhat.com,
- adilger kernel <adilger.kernel@dilger.ca>, zwisler@kernel.org,
- aarcange@redhat.com, dave jiang <dave.jiang@intel.com>, jstaron@google.com,
- linux-nvdimm@lists.01.org, vishal l verma <vishal.l.verma@intel.com>,
- david@redhat.com, willy@infradead.org, hch@infradead.org,
- linux-acpi@vger.kernel.org, jmoyer@redhat.com, linux-ext4@vger.kernel.org,
- lenb@kernel.org, kilobyte@angband.pl, riel@surriel.com,
- yuval shaia <yuval.shaia@oracle.com>, stefanha@redhat.com, pbonzini@redhat.com,
- dan j williams <dan.j.williams@intel.com>, lcapitulino@redhat.com,
- kwolf@redhat.com, nilal@redhat.com, tytso@mit.edu,
- xiaoguangrong eric <xiaoguangrong.eric@gmail.com>, rdunlap@infradead.org,
- rjw@rjwysocki.net, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, imammedo@redhat.com,
- darrick wong <darrick.wong@oracle.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 11 Jun 2019 at 17:03, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> On Tue, Jun 11, 2019 at 04:50:34PM +0100, Peter Maydell wrote:
+> > On Mon, 10 Jun 2019 at 13:58, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > > Hi. This fails to build on one of my buildtest machines:
+> > >
+> > > ERROR: Cannot use 'python3', Python 2 >= 2.7 or Python 3 >= 3.5 is required.
+> > >        Use --python=/path/to/python to specify a supported Python.
+> > >
+> > > The machine has python 2.7.6 and 3.4.3. (It's an Ubuntu trusty
+> > > box; it's one of the gcc compile farm machines so upgrades to its
+> > > OS are not really under my control.)
+> >
+> > Rereading this, I realise that either the check or the error
+> > message is wrong here. The machine has 2.7.6, which satisfies
+> > "python 2 >= 2.7", so we should be OK to build. The bug
+> > seems to be that we say "prefer python3 over plain python
+> > on python2" early, but don't revisit that decision if the
+> > python3 we found isn't actually good enough for us.
+>
+> Right.  The error message is technically correct, but misleading.
+> python3 is too old, but python2 would work.
+>
+> We can make configure not use python3 by default if it's too old,
+> and fall back to python2 in this case.
 
+Sounds good. Since I have now managed to get my alternate
+aarch64 box set up, how about I apply this pullreq and you
+send a followup patch which does the fallback to python/python2 ?
 
-> 
-> > Hi Mike,
-> > 
-> > Thanks for the review Please find my reply inline.
-> > 
-> > > 
-> > > dm_table_supports_dax() is called multiple times (from
-> > > dm_table_set_restrictions and dm_table_determine_type).  It is strange
-> > > to have a getter have a side-effect of being a setter too.  Overloading
-> > > like this could get you in trouble in the future.
-> > > 
-> > > Are you certain this is what you want?
-> > 
-> > I agree with you.
-> > 
-> > > 
-> > > Or would it be better to refactor dm_table_supports_dax() to take an
-> > > iterate_devices_fn arg and have callers pass the appropriate function?
-> > > Then have dm_table_set_restrictions() caller do:
-> > > 
-> > >      if (dm_table_supports_dax(t, device_synchronous, NULL))
-> > >                set_dax_synchronous(t->md->dax_dev);
-> > > 
-> > > (NULL arg implies dm_table_supports_dax() refactoring would take a int
-> > > *data pointer rather than int type).
-> > > 
-> > > Mike
-> > > 
-> > 
-> > I am sending below patch as per your suggestion. Does it look
-> > near to what you have in mind?
-> 
-> Yes, it does.. just one nit I noticed inlined below.
-> 
-> > diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-> > index 350cf0451456..8d89acc8b8c2 100644
-> > --- a/drivers/md/dm-table.c
-> > +++ b/drivers/md/dm-table.c
-> 
-> ...
-> 
-> > @@ -1910,8 +1919,13 @@ void dm_table_set_restrictions(struct dm_table *t,
-> > struct request_queue *q,
-> >         }
-> >         blk_queue_write_cache(q, wc, fua);
-> > 
-> > -       if (dm_table_supports_dax(t, PAGE_SIZE))
-> > +       if (dm_table_supports_dax(t, device_supports_dax, &page_size)) {
-> > +
-> 
-> No need for an empty newline here ^
-
-Sure. Will remove this and send official v12 patchset with the updated patch 4.
-
-Thanks,
-Pankaj
-
-> 
-> >                 blk_queue_flag_set(QUEUE_FLAG_DAX, q);
-> > +               if (dm_table_supports_dax(t, device_synchronous, NULL))
-> > +                       set_dax_synchronous(t->md->dax_dev);
-> > +       }
-> >         else
-> >                 blk_queue_flag_clear(QUEUE_FLAG_DAX, q);
-> > 
-> 
-> Thanks,
-> Mike
-> 
-> 
+thanks
+-- PMM
 
