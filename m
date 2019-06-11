@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B133D1BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:08:41 +0200 (CEST)
-Received: from localhost ([::1]:60534 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F7333D204
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:17:37 +0200 (CEST)
+Received: from localhost ([::1]:60594 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hajKC-0005qL-8n
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35035)
+	id 1hajSq-00043c-88
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:17:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34302)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1haivs-0000JZ-4h
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:43:33 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1haiti-0006iR-7O
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:41:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1haivq-0004bJ-JP
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:43:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54232)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
- id 1haiqn-0008Ih-TZ; Tue, 11 Jun 2019 11:38:19 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BB9F48110C;
- Tue, 11 Jun 2019 15:38:10 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6682960925;
- Tue, 11 Jun 2019 15:38:09 +0000 (UTC)
-Date: Tue, 11 Jun 2019 16:38:06 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190611153806.GF2777@work-vm>
-References: <20190611134043.9524-1-kwolf@redhat.com>
- <20190611134043.9524-7-kwolf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1haitf-0002hW-EK
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:41:17 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:40999)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1haitd-0002Vh-MN
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:41:14 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id g7so6109950oia.8
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 08:41:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mVrdwewFvzaDIDqY9ytK3IQVz2xWVvID8ZIpN3z1MB4=;
+ b=SZgg3NPRs6KyE0X0bHWCmGwX5uwnR8OfVejizaw1qv+WeJGoK5sMTTgeDtG0FhCEpA
+ CjXu3gy6zsDXKUBk/v9crq1VEhBep+U6kna3q+sg4TpW4lXdY6FJDS7BKR6FNf/5zx3o
+ pCnVnvbJlrrwYB7R7l+rQAF6eC+CtPJEm9rCAPrM+dmAtCeA20qjVRz/wDnACZpAPxzu
+ nHllHl3HKyt08BQYVi+zOuriD9v7DzI7VK6FD1TZ91m487e3077JoaWWwP5j+76mHJ3h
+ FfBnWikHz/M/We+eV9OGO6dPPJpjN0TJZIxicCnjVcTmsxndDUEHpzOLFfpPNJ07uIgE
+ Caog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mVrdwewFvzaDIDqY9ytK3IQVz2xWVvID8ZIpN3z1MB4=;
+ b=rsvf0DItBaNIsIsnePnPuONxyw7z3OuFWROzEmljW9QnzE2lxQACqGpbjyepZGV8wE
+ GVAdI/gQ5gTXqUa0x2/S+hbbANjyaBu8lUnOsLEpP3WlFzyrQ210TIGvl9NpdR2kNiKw
+ /IQtr0gY/JwiPCfyH1YPTDKB5sITYdOLs/2xmZEJwRR42Qxx02Ek6yOq7JQq5HCT3ZhK
+ cg9y35WW4po8bIXdFbPggecNWhO84DRAxAkIGXwEk/ZYbJoDG2SE9MFWBn8KpKg87Bfw
+ DKrpy9U6FUk1BbXDU56xLhJZNa8WiWx6qxfgt8SvMY5Xp/6ltuQmfo9z4KaNNQ77NVTj
+ H5bA==
+X-Gm-Message-State: APjAAAWqxsnaK8hcpfv73JdZwik0WN328svm20u/MHz3Ha0wDYnALdF1
+ vicw/eVNoqwoa0+xmBmy/SuV/QxIjrOKfqigskn0pQ==
+X-Google-Smtp-Source: APXvYqzpf1CZhIyQyzEH13GbibBXPksUA/i2R5m9aa8xbT4DCDydjYEabLrHPnoM2ILSranLpjRfnmmSV7mTvgquZC4=
+X-Received: by 2002:aca:c786:: with SMTP id
+ x128mr15348157oif.146.1560267660452; 
+ Tue, 11 Jun 2019 08:41:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190611134043.9524-7-kwolf@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 11 Jun 2019 15:38:10 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 06/11] Move monitor.c to monitor/misc.c
+References: <20190611134224.6683-1-ehabkost@redhat.com>
+In-Reply-To: <20190611134224.6683-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 Jun 2019 16:40:49 +0100
+Message-ID: <CAFEAcA8eQAG7dKKMFk7jnGHN_4X11mrwO1+32sHNm+hbGTzSjQ@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22c
+Subject: Re: [Qemu-devel] [PULL 0/3] x86 queue, 2019-06-11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,161 +72,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- armbru@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kevin Wolf (kwolf@redhat.com) wrote:
-> Create a new monitor/ subdirectory and move monitor.c there. As the plan
-> is to move the monitor core into separate files, use the chance to
-> rename it to misc.c.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+On Tue, 11 Jun 2019 at 14:42, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit a578cdfbdd8f9beff5ced52b7826ddb1669abbbf:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190610' into staging (2019-06-10 16:09:19 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/x86-next-pull-request
+>
+> for you to fetch changes up to 89a44a103315267122119b4311218d00d2561ebe:
+>
+>   i386: Save EFER for 32-bit targets (2019-06-11 10:17:47 -0300)
+>
+> ----------------------------------------------------------------
+> x86 queue, 2019-06-11
+>
+> * "unavailable-features" QOM property (Eduardo Habkost)
+> * Save EFER for 32-bit targets (Pavel Dovgalyuk)
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> ---
->  docs/devel/writing-qmp-commands.txt |  2 +-
->  monitor.c => monitor/misc.c         |  2 +-
->  MAINTAINERS                         |  4 ++--
->  Makefile.objs                       |  1 +
->  Makefile.target                     |  3 ++-
->  monitor/Makefile.objs               |  1 +
->  monitor/trace-events                | 11 +++++++++++
->  trace-events                        | 10 ----------
->  8 files changed, 19 insertions(+), 15 deletions(-)
->  rename monitor.c => monitor/misc.c (99%)
->  create mode 100644 monitor/Makefile.objs
->  create mode 100644 monitor/trace-events
-> 
-> diff --git a/docs/devel/writing-qmp-commands.txt b/docs/devel/writing-qmp-commands.txt
-> index 9dfc62bf5a..cc6ecd6d5d 100644
-> --- a/docs/devel/writing-qmp-commands.txt
-> +++ b/docs/devel/writing-qmp-commands.txt
-> @@ -470,7 +470,7 @@ it's good practice to always check for errors.
->  
->  Another important detail is that HMP's "info" commands don't go into the
->  hmp-commands.hx. Instead, they go into the info_cmds[] table, which is defined
-> -in the monitor.c file. The entry for the "info alarmclock" follows:
-> +in the monitor/misc.c file. The entry for the "info alarmclock" follows:
->  
->      {
->          .name       = "alarmclock",
-> diff --git a/monitor.c b/monitor/misc.c
-> similarity index 99%
-> rename from monitor.c
-> rename to monitor/misc.c
-> index 56af8ed448..ea3de5cac1 100644
-> --- a/monitor.c
-> +++ b/monitor/misc.c
-> @@ -62,7 +62,7 @@
->  #include "qapi/qmp/json-parser.h"
->  #include "qapi/qmp/qlist.h"
->  #include "qom/object_interfaces.h"
-> -#include "trace-root.h"
-> +#include "trace.h"
->  #include "trace/control.h"
->  #include "monitor/hmp-target.h"
->  #ifdef CONFIG_TRACE_SIMPLE
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7be1225415..10c082314c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1924,7 +1924,7 @@ F: qapi/run-state.json
->  Human Monitor (HMP)
->  M: Dr. David Alan Gilbert <dgilbert@redhat.com>
->  S: Maintained
-> -F: monitor.c
-> +F: monitor/misc.c
->  F: hmp.[ch]
->  F: hmp-commands*.hx
->  F: include/monitor/hmp-target.h
-> @@ -2046,7 +2046,7 @@ QMP
->  M: Markus Armbruster <armbru@redhat.com>
->  S: Supported
->  F: qmp.c
-> -F: monitor.c
-> +F: monitor/misc.c
->  F: docs/devel/*qmp-*
->  F: docs/interop/*qmp-*
->  F: scripts/qmp/
-> diff --git a/Makefile.objs b/Makefile.objs
-> index c8337fa34b..dd39a70b48 100644
-> --- a/Makefile.objs
-> +++ b/Makefile.objs
-> @@ -130,6 +130,7 @@ trace-events-subdirs =
->  trace-events-subdirs += accel/kvm
->  trace-events-subdirs += accel/tcg
->  trace-events-subdirs += crypto
-> +trace-events-subdirs += monitor
->  ifeq ($(CONFIG_USER_ONLY),y)
->  trace-events-subdirs += linux-user
->  endif
-> diff --git a/Makefile.target b/Makefile.target
-> index ecd856e3a3..72c267f7dc 100644
-> --- a/Makefile.target
-> +++ b/Makefile.target
-> @@ -148,9 +148,10 @@ endif #CONFIG_BSD_USER
->  #########################################################
->  # System emulator target
->  ifdef CONFIG_SOFTMMU
-> -obj-y += arch_init.o cpus.o monitor.o gdbstub.o balloon.o ioport.o numa.o
-> +obj-y += arch_init.o cpus.o gdbstub.o balloon.o ioport.o numa.o
->  obj-y += qtest.o
->  obj-y += hw/
-> +obj-y += monitor/
->  obj-y += qapi/
->  obj-y += memory.o
->  obj-y += memory_mapping.o
-> diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-> new file mode 100644
-> index 0000000000..e783b0616b
-> --- /dev/null
-> +++ b/monitor/Makefile.objs
-> @@ -0,0 +1 @@
-> +obj-y += misc.o
-> diff --git a/monitor/trace-events b/monitor/trace-events
-> new file mode 100644
-> index 0000000000..abfdf20b14
-> --- /dev/null
-> +++ b/monitor/trace-events
-> @@ -0,0 +1,11 @@
-> +# See docs/devel/tracing.txt for syntax documentation.
-> +
-> +# misc.c
-> +monitor_protocol_event_handler(uint32_t event, void *qdict) "event=%d data=%p"
-> +monitor_protocol_event_emit(uint32_t event, void *data) "event=%d data=%p"
-> +monitor_protocol_event_queue(uint32_t event, void *qdict, uint64_t rate) "event=%d data=%p rate=%" PRId64
-> +handle_hmp_command(void *mon, const char *cmdline) "mon %p cmdline: %s"
-> +handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
-> +monitor_suspend(void *ptr, int cnt) "mon %p: %d"
-> +monitor_qmp_cmd_in_band(const char *id) "%s"
-> +monitor_qmp_cmd_out_of_band(const char *id) "%s"
-> diff --git a/trace-events b/trace-events
-> index 844ee58dd9..aeea3c2bdb 100644
-> --- a/trace-events
-> +++ b/trace-events
-> @@ -41,16 +41,6 @@ system_wakeup_request(int reason) "reason=%d"
->  qemu_system_shutdown_request(int reason) "reason=%d"
->  qemu_system_powerdown_request(void) ""
->  
-> -# monitor.c
-> -monitor_protocol_event_handler(uint32_t event, void *qdict) "event=%d data=%p"
-> -monitor_protocol_event_emit(uint32_t event, void *data) "event=%d data=%p"
-> -monitor_protocol_event_queue(uint32_t event, void *qdict, uint64_t rate) "event=%d data=%p rate=%" PRId64
-> -handle_hmp_command(void *mon, const char *cmdline) "mon %p cmdline: %s"
-> -handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
-> -monitor_suspend(void *ptr, int cnt) "mon %p: %d"
-> -monitor_qmp_cmd_in_band(const char *id) "%s"
-> -monitor_qmp_cmd_out_of_band(const char *id) "%s"
-> -
->  # dma-helpers.c
->  dma_blk_io(void *dbs, void *bs, int64_t offset, bool to_dev) "dbs=%p bs=%p offset=%" PRId64 " to_dev=%d"
->  dma_aio_cancel(void *dbs) "dbs=%p"
-> -- 
-> 2.20.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
