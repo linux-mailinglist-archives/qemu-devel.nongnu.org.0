@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7EE3CBBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 14:33:48 +0200 (CEST)
-Received: from localhost ([::1]:57512 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 636CB3C3BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 08:02:26 +0200 (CEST)
+Received: from localhost ([::1]:51982 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hafyF-0007Dv-Ge
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 08:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38309)
+	id 1haZrU-0001FB-Nj
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 02:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46289)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1haftH-00051p-K5
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:28:41 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1haZpt-0000fy-Jh
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 02:00:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1haftC-0007sK-6F
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 08:28:35 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:36227 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1haft7-0007g7-Tg; Tue, 11 Jun 2019 08:28:33 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45NTmn5W8nz9sDX; Tue, 11 Jun 2019 22:28:09 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1560256089;
- bh=jBy4RI7VaJtYMRPV41sR+BW+U87+Kq0WIDre0lUpkaw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LZ3cENS4Q7NaQMeasuIRhidcnSzwIvrRkVOhhKjw3tj4stp8NQJE/aRRvuBSJ0xfn
- S8Rht613ojXHs67AEPgpBpuNHXaKIXQ+sVNIHzgOGwQ6M+70FskdPCcJLC4AWH/7fv
- 1gimpIZgF687qA8i9kqJtsxZ9duXQSOJgPrBpCaM=
-Date: Tue, 11 Jun 2019 15:26:07 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190611052607.GC3998@umbus.fritz.box>
-References: <155984093894.2803172.8618224129384655510.stgit@bahia.lan>
- <20190607001901.GC3760@umbus.fritz.box>
- <2d02c8d1-d9f4-efd0-5059-6ca24e622107@kaod.org>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1haZpr-0000zG-Qz
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 02:00:45 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46822)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1haZpq-0000xq-1N
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 02:00:43 -0400
+Received: by mail-ot1-x342.google.com with SMTP id z23so10680074ote.13
+ for <qemu-devel@nongnu.org>; Mon, 10 Jun 2019 23:00:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=7n5/pm5NiHx4lZCC/Bp5PBB6WHBwDaF4uy/GdH+nUNo=;
+ b=YDlk75J6pWr5aqGReGWs9Fv1CrtwT9pR9BzI1bzJT8xqi7iu71NDQIRdoia0b1hQqk
+ R9gy3vA8ltaibz03nnDq1bszDwPAxFbcVwFcyTPnxPJ4X9MonCQl0LyFwYoarXaWJFCK
+ BuGmBVllJM0q3WDTzxqHactXs7XCzjlYYKxz2+mKgbUOt0mZ/PsY7qpFlsWfVoQseiGK
+ ErzlDoeQwiqcVk05E8B/exVn+i/Z5CdIJzSOYL+XNsQpEfuHC8nKOwDmPkkG4vZ2rcLG
+ 46mE+f9LSH85m+sxi5yMVBs3g1SniPbGiTBhhwXDnw6r9AuroIj4YSPhoGvT3j3bHdfM
+ VMAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=7n5/pm5NiHx4lZCC/Bp5PBB6WHBwDaF4uy/GdH+nUNo=;
+ b=sdSNBFRXyK9TFYPpALbWKZHIIY/ZqiXKd2Hx45ytBd7T9TTdsoV3uwmPugtnVph9dP
+ 1gJi+1fMGft6Pis1zDZirNQSjouEALu5LJ/2cTWFwFJ0zX/m+Yn1V06568RSLgdQUXsn
+ k2YnE/MCrEfJvYvcvjboeqP/xQU1jHap84GTETZJHdygbclx7VZhvLUFeq0/CrkFBBP5
+ 5i4W10Nk/2UbFZAUsHapCRTLMNZvHHP6oIyf1LtbFm+Z0lEwHuDHZ8xBB/BICNLk2BOm
+ QHEOyTcz5wIk0RDiWCpAhCXYfctRrpm+weJQUjQeVlVYNBPZHXunA+Sn6FGJ8Eyg3XZc
+ +qMA==
+X-Gm-Message-State: APjAAAVbUxCmV6WpOi6JHUfQ+3ymR5Pqbo6JCP9JUh9GPN6e+6kB62Ba
+ cG0n0OTdZf03d5aYc1VfCpW/DIfYCh4qiTUDrAw=
+X-Google-Smtp-Source: APXvYqwtWTEUsuOqTnutz83TdvwsGWtTbf9BZCR/siGDdyASWUO3+ACceHva2AbXkAHAtcMvscgv9lgKYjRQ6yf7HO8=
+X-Received: by 2002:a9d:5cc1:: with SMTP id r1mr1479121oti.341.1560232840477; 
+ Mon, 10 Jun 2019 23:00:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Izn7cH1Com+I3R9J"
-Content-Disposition: inline
-In-Reply-To: <2d02c8d1-d9f4-efd0-5059-6ca24e622107@kaod.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH] spapr: Don't use the "dual" interrupt
- controller mode with an old hypervisor
+Received: by 2002:a9d:20e4:0:0:0:0:0 with HTTP; Mon, 10 Jun 2019 23:00:39
+ -0700 (PDT)
+Received: by 2002:a9d:20e4:0:0:0:0:0 with HTTP; Mon, 10 Jun 2019 23:00:39
+ -0700 (PDT)
+In-Reply-To: <20190610232059.GA30549@localhost.localdomain>
+References: <1560196150-30436-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <20190610232059.GA30549@localhost.localdomain>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Tue, 11 Jun 2019 08:00:39 +0200
+Message-ID: <CAL1e-=ixiJhZBix-trQNJAG-X=ujp+35aOa9fYmhzXRwLwYYLA@mail.gmail.com>
+To: Cleber Rosa <crosa@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH] tests/acceptance: Improve failure
+ reporting in linux_ssh_mips_malta.py
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,165 +79,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, f4bug@amsat.org,
+ qemu-devel@nongnu.org, amarkovic@wavecomp.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Jun 11, 2019 1:24 AM, "Cleber Rosa" <crosa@redhat.com> wrote:
+>
+> On Mon, Jun 10, 2019 at 09:49:10PM +0200, Aleksandar Markovic wrote:
+> > From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> >
+> > Rather than optputing a cryptic message:
+> >
+> > FAIL: True not found in [False],
+> >
+> > the following will be reported too, if the command output does not meet
+> > specified expectations:
+> >
+> > 'lspci -d 11ab:4620' output doesn't contain the word 'GT-64120'
+> >
+> > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> > ---
+> >  tests/acceptance/linux_ssh_mips_malta.py | 21 ++++++++++++++-------
+> >  1 file changed, 14 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/tests/acceptance/linux_ssh_mips_malta.py
+b/tests/acceptance/linux_ssh_mips_malta.py
+> > index aafb0c3..cbf1b34 100644
+> > --- a/tests/acceptance/linux_ssh_mips_malta.py
+> > +++ b/tests/acceptance/linux_ssh_mips_malta.py
+> > @@ -147,20 +147,27 @@ class LinuxSSH(Test):
+> >
+> >      def run_common_commands(self):
+> >          stdout, stderr =3D self.ssh_command('lspci -d 11ab:4620')
+> > -        self.assertIn(True, ["GT-64120" in line for line in stdout])
+> > +        self.assertIn(True, ["GT-64120a" in line for line in stdout],
+>
+> Looks like there's an extra, unintended, "a" in the expected output, that
+is,
+> s/GT-64120a/GT-64120/.
+>
+> > +                      "'lspci -d 11ab:4620' output doesn't contain "
+> > +                      "the word 'GT-64120'")
+> >
+> >          stdout, stderr =3D self.ssh_command('cat
+/sys/bus/i2c/devices/i2c-0/name')
+> > -        self.assertIn(True, ["SMBus PIIX4 adapter" in line
+> > -                             for line in stdout])
+> > +        self.assertIn(True, ["SMBus PIIX4 adaptera" in line
+>
+> Here too (s/adaptera/adapter/).
+>
+> > +                             for line in stdout],
+> > +                      "cat /sys/bus/i2c/devices/i2c-0/name' doesn't
+contain "
+> > +                      "the words 'SMBus PIIX4 adapter'")
+> >
+> >          stdout, stderr =3D self.ssh_command('cat /proc/mtd')
+> > -        self.assertIn(True, ["YAMON" in line
+> > -                             for line in stdout])
+> > +        self.assertIn(True, ["YAMONa" in line
+>
+> Also here (s/YAMONa/YAMONa/).
+>
+> > +                             for line in stdout],
+> > +                      "'cat /proc/mtd' doesn't contain the word
+'YAMON'")
+> >
+> >          # Empty 'Board Config'
+> >          stdout, stderr =3D self.ssh_command('md5sum /dev/mtd2ro')
+> > -        self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in lin=
+e
+> > -                             for line in stdout])
+> > +        self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193a" in
+line
+> > +                             for line in stdout],
+>
+> And finnaly in the hash
+(s/0dfbe8aa4c20b52e1b8bf3cb6cbdf193a/0dfbe8aa4c20b52e1b8bf3cb6cbdf193/).
+>
+> > +                      "'md5sum /dev/mtd2ro' doesn't contain "
+> > +                      "the word '0dfbe8aa4c20b52e1b8bf3cb6cbdf193'")
+> >
+> >      def do_test_mips_malta(self, endianess, kernel_path, uname_m):
+> >          self.boot_debian_wheezy_image_and_ssh_login(endianess,
+kernel_path)
+> > --
+> > 2.7.4
+> >
+> >
+>
+> With those changes, the tests pass for me.  I'd recommend though:
+>
+> 1) Not related to your patch, but it's good practice to name unused
+>    variables "_", that is:
+>
+>    stdout, _ =3D self.ssh_command('lspci -d 11ab:4620')
+>
+> 2) Avoid repeating the expected content (which lead to the trailing
+>    "a"s in this patch).  Something like:
+>
+>    cmd =3D 'lspci -d 11ab:4620'
+>    stdout, _ =3D self.ssh_command(cmd)
+>    exp =3D "GT-64120"
+>    self.assertIn(True, [exp in line for line in stdout],
+>                  '"%s" output does not contain "%s"' % (cmd, exp))
+>
+> 3) Optionally, create an utility function that would make the check
+>    more obvious and avoid looping through all lines of the output
+>    (and creating a list, which a list comprehension will do).  Example:
+>
+>    def ssh_command_output_contains(self, cmd, exp):
+>        stdout, _ =3D self.ssh_command(cmd)
+>        for line in stdout:
+>            if exp in line:
+>                break
+>        else:
+>            self.fail('"%s" output does not contain "%s"' % (cmd, exp))
+>
+>     def run_common_commands(self):
+>         self.ssh_command_output_contains('lspci -d 11ab:4620', 'GT-64120'=
+)
+>         self.ssh_command_output_contains('cat
+/sys/bus/i2c/devices/i2c-0/name',
+>                                          'SMBus PIIX4 adapter')
+>         self.ssh_command_output_contains('cat /proc/mtd', 'YAMON')
+>         # Empty 'Board Config'
+>         self.ssh_command_output_contains('md5sum /dev/mtd2ro',
+>
+ '0dfbe8aa4c20b52e1b8bf3cb6cbdf193')
+>
 
---Izn7cH1Com+I3R9J
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for your review, Cleber! I am almost certain that in v2 (that I
+am going to send soon), I will adopt the approach from point =E2=80=9C3=E2=
+=80=9D of your
+mail.
 
-On Fri, Jun 07, 2019 at 10:17:58AM +0200, C=E9dric Le Goater wrote:
-> On 07/06/2019 02:19, David Gibson wrote:
-> > On Thu, Jun 06, 2019 at 07:08:59PM +0200, Greg Kurz wrote:
-> >> If KVM is too old to support XIVE native exploitation mode, we might e=
-nd
-> >> up using the emulated XIVE after CAS. This is sub-optimal if KVM in-ke=
-rnel
-> >> XICS is available, which is the case most of the time.
-> >=20
-> > This is intentional.  A predictable guest environment trumps performanc=
-e.
->=20
-> I don't agree.=20
->=20
-> If the user does not specify any specific interrupt mode, we should favor=
-=20
-> the faster one.
+Yours,
+Aleksandar
 
-In principle that sounds good, but it doesn't work that way, and can't
-with anything resembling the current model.  The user can't specify a
-specific interrupt mode to be used, they can only specify what modes
-will be available to the guest, and "dual" means *both* are available.
-
-Otherwise we will get inconsistent behaviour - potentially triggering
-different guest bugs - on what's allegedly the same qemu
-configuration. It gets worse if you consider edge cases like migrating
-between the initial machine setup and CAS
-
-> Here is the current matrix (with this patch) for guests running on an=20
-> old KVM, that is without KVM XIVE support. Let's discuss on what we
-> want.=20
->=20
->                         kernel_irqchip
->=20
->            (default)=20
-> ic-mode     allowed           off            on=20
->=20
-> dual        XICS KVM       XICS emul.(3)   XICS KVM         (default mode)
-
-This should be as per "xive" - emul, emul, error (assuming POWER9 and
-a a xive capable guest).  Otherwise we're presenting different guest
-environments to the guest based on something that's not visible in the
-qemu parameters.
-
-We've done that a bunch of times in the past, and many of them have
-bitten us in the arse later on.
-
-> xics        XICS KVM       XICS emul.      XICS KVM   =20
-> xive        XIVE emul.(1)  XIVE emul.     QEMU failure (2)
->=20
->=20
-> (1) QEMU warns with "warning: kernel_irqchip requested but unavailable:=
-=20
->     IRQ_XIVE capability must be present for KVM"=20
-> (2) QEMU fails with "kernel_irqchip requested but unavailable:=20
->     IRQ_XIVE capability must be present for KVM"=20
-> (3) That is wrong I think, we should get XIVE emulated.
->=20
->=20
-> what you would want is XIVE emulation when ic-mode=3Ddual and=20
-> kernel_irqchip=3Dallowed, which is the behavior with this patch (but there
-> are reboot bugs)
->=20
-> =20
-> >> Also, an old KVM may not allow to destroy and re-create the KVM XICS, =
-which
-> >> is precisely what "dual" does during machine reset. This causes QEMU t=
-o try
-> >> to switch to emulated XICS and to crash because RTAS call de-registrat=
-ion
-> >> isn't handled correctly. We could possibly fix that, but again we would
-> >> still end up with an emulated XICS or XIVE.
-> >=20
-> > Ugh, that's a problem.
->=20
-> Yes. It's another problem around the way we cleanup the allocated resourc=
-es.
-> It should be another patch.
-
-Agreed.
-
-> >> "dual" is definitely not a good choice with older KVMs. Internally for=
-ce
-> >> XICS when we detect this.
-> >=20
-> > But this is not an acceptable solution.  Silently changing the guest
-> > visible environment based on host capabilities is never ok.=20
->=20
-> If the host (KVM) doesn't have a capability, what is the point of trying=
-=20
-> to use it if we can do better. I know you are considering KVM/QEMU as a
-> whole but who would run with kernel_irqchip=3Doff ?
-
-PAPR option negotiation via CAS is already confusing, with just the
-guest and qemu as participants.  If the host kernel is also a
-participant it's just asking for hard to reproduce bugs.
-
-> > We must
-> > either give the guest environment that the user has requested, or fail
-> > outright.
->=20
-> 'dual' mode means both and the user is not requesting XIVE. We are changi=
-ng=20
-> the priority of choices from :
->=20
->  1. KVM XIVE
->  2. QEMU XIVE
->  3. KVM XICS
->  4. QEMU XICS
->=20
-> to:
->=20
->  1. KVM XIVE
->  2. KVM XICS
->  3. QEMU XIVE
->  4. QEMU XICS
->=20
-> which is better I think.
-
-If we were designing the whole environment from scratch, maybe.  But
-the way things work at the moment, negotiation between qemu and the
-host kernel and qemu and the guest kernel must be separate phases.
-That makes the priority you describe impossible.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Izn7cH1Com+I3R9J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlz/O2wACgkQbDjKyiDZ
-s5KVMA/8DPYPiNFk2oMU2GM7c/05Cih3J1XkuDFCLc+KyXxP6LJj8T7N1CuUEaoT
-GACClUznCkUvgBpevxN0Wz0Gu9REQMzYc9haVmROSyD+GLarj7Wobl+KzRqrXz8U
-jpEY4TYxAzCicRfVbp2iYy/9WNGDtLdZAjjDSNlg6elOeGO0cqV6BBeybRq98W6k
-aEq/vdTv1V89T4Au0pWWu0PdN0KT2aOZb1e30yRUeNy+apSzgS2sRR5XGf1d/Iwu
-7roA6vTYUT+eVotr/uzLtzj/+Rfkq2Pq6canV2pJM4luJ/ovFtWhyc/4WIai5jtQ
-pNitMdVtw47vv7SPDwh0qSU2hZQpS0uAIUzw8auHEspayI0MtY2yFn4M7uFR90qu
-/sHVLRoK/ytWeWNWqB8yQ19Y8ybKb+6q9mCrzbMUCsLuK1H42GuYPW3U+uCUXDcK
-7a9oO7U3vIUyYfndSzpfeRMVK8BTWVDMhOMYHfjsq9/3WMOdVwY5RyxtWbiqyTCP
-2sxwgpuKOTFWJ6hwMUZWqB0qXTl9uDz2E23Akd8wPHYzzkBvpLB40KI7yNGtiPrB
-lTrpNQHN4AdJkEBQ8GCwoy+Z3dkEZVYUx4K1DI2gpvNUpLjR5p50GtC/S3LWYrYY
-/nvTBmI0zL3Z+UbBUJpqnFwO3Fb/ENwl70XmBwp7JLV2zu16TWw=
-=pDNl
------END PGP SIGNATURE-----
-
---Izn7cH1Com+I3R9J--
-
+> Cheers,
+> - Cleber.
+>
