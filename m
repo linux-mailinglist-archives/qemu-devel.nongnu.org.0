@@ -2,46 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5D03CDD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:02:00 +0200 (CEST)
-Received: from localhost ([::1]:59268 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5123CE59
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:18:01 +0200 (CEST)
+Received: from localhost ([::1]:59404 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hahLb-000635-KN
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:01:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56707)
+	id 1hahb6-0001ZL-Da
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57584)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hah3H-0007No-3z
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:43:04 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hah5G-0001BK-OV
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:45:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hah3G-00020k-1S
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:43:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46396)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hah3F-0001eh-S7
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:43:01 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A33DD75725;
- Tue, 11 Jun 2019 13:42:35 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33431600CD;
- Tue, 11 Jun 2019 13:42:35 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Date: Tue, 11 Jun 2019 10:42:24 -0300
-Message-Id: <20190611134224.6683-4-ehabkost@redhat.com>
-In-Reply-To: <20190611134224.6683-1-ehabkost@redhat.com>
-References: <20190611134224.6683-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 11 Jun 2019 13:42:35 +0000 (UTC)
+ (envelope-from <pbonzini@redhat.com>) id 1hah5F-0002yN-UQ
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:45:06 -0400
+Received: from mail-wr1-f48.google.com ([209.85.221.48]:34427)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hah5F-0002uT-Nx
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:45:05 -0400
+Received: by mail-wr1-f48.google.com with SMTP id e16so13145775wrn.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 06:44:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DBISPJOkBJwtMSNoFXYJdT/BAHxJqldrNty1sfmtXTo=;
+ b=htQ+lcWpjoEyphahvOP4CRND/7T3qIJ/uHzThp44Kphp7ZMmj83n+bjLgDyKTmST7J
+ 5o3RKIqvjXd3l4gNHmBsARwIZhH44SBHk9pG8DLllCVDlROxXFffym2jrG4BRmltAbvt
+ ++1jOBF5F+MuVJveut5wFVfXXC3w8VHtM7YqkXhctURAs+CjEZyRUliGqtYgsV7xhjs9
+ 3BVbfrsAeGNMp2Mj5hs3b3eRORJncQ2esj8pL0+GM2TXzYwFRauM+eYA1BTauyJUTlcM
+ vPDDmmuqHdbvu2ZnROUDoaAVB7SaOGu72QsedWlWExRKhIw/YCO/cxZJMow4qbf+QBFJ
+ CyhA==
+X-Gm-Message-State: APjAAAVA5zlES0Z2A/f8hq+ZhwG0ONUC8snyVzIl0okJlqVYBFu6a8r8
+ 4yCiIx9TvXzM+Lhqs/BwO/KBwC7bdhf5cg==
+X-Google-Smtp-Source: APXvYqz5W5EP0BAnpkQC8DWnwTj6q/xFbRJt7JgLsUcOUA0obUD048rahRQgoG3rgYzeypPXfRNizQ==
+X-Received: by 2002:adf:9b8e:: with SMTP id d14mr1169778wrc.233.1560260692582; 
+ Tue, 11 Jun 2019 06:44:52 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:49d3:a711:c5a3:8ebf?
+ ([2001:b07:6468:f312:49d3:a711:c5a3:8ebf])
+ by smtp.gmail.com with ESMTPSA id r2sm2902995wme.30.2019.06.11.06.44.51
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Jun 2019 06:44:52 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>
+References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
+ <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
+ <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
+ <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
+ <003b01d51f72$5e6f4160$1b4dc420$@Fursova@ispras.ru>
+ <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
+ <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
+ <98826c5f-4a74-5364-2aef-28a10db12c20@suse.de>
+ <39250506-f38f-c440-5728-7b970d32ab41@redhat.com>
+ <79b821a4-7cc0-2461-7ca4-d71c3e5ee4ef@suse.de>
+ <c49abf01-c209-b206-edee-507c31269011@redhat.com>
+ <87o934sdot.fsf@dusky.pond.sub.org>
+ <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com>
+ <87ftogp7f5.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4ed45e59-6d7d-a9ea-9af3-7ec336c7ec3d@redhat.com>
+Date: Tue, 11 Jun 2019 15:44:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <87ftogp7f5.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/3] i386: Save EFER for 32-bit targets
+ [fuzzy]
+X-Received-From: 209.85.221.48
+Subject: Re: [Qemu-devel] qgraph
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,73 +84,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?B?J9Cf0LDRiNCwJw==?= <Pavel.Dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+ Natalia Fursova <Natalia.Fursova@ispras.ru>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
+On 11/06/19 15:39, Markus Armbruster wrote:
+>> Right, and we should move more towards class-based properties so that
+>> the dynamic nature of QOM is only used for the bare minimum needed (e.g.
+>> memory regions).
+> What are we doing to make new code conform to that?
+> 
+> What are we doing to update existing code?
 
-i386 (32 bit) emulation uses EFER in wrmsr and in MMU fault
-processing.
-But it does not included in VMState, because "efer" field is disabled with
+Almost nothing and completely nothing. :(
 
-This patch adds a section for 32-bit targets which saves EFER when
-it's value is non-zero.
-
-Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Message-Id: <155913371654.8429.1659082639780315242.stgit@pasha-Precision-3630-Tower>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-[ehabkost: indentation fix]
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- target/i386/machine.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 225b5d433b..2c96cfc9a2 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -964,6 +964,27 @@ static const VMStateDescription vmstate_svm_npt = {
-     }
- };
- 
-+#ifndef TARGET_X86_64
-+static bool intel_efer32_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->efer != 0;
-+}
-+
-+static const VMStateDescription vmstate_efer32 = {
-+    .name = "cpu/efer32",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = intel_efer32_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.efer, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+#endif
-+
- VMStateDescription vmstate_x86_cpu = {
-     .name = "cpu",
-     .version_id = 12,
-@@ -1089,6 +1110,9 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_intel_pt,
-         &vmstate_msr_virt_ssbd,
-         &vmstate_svm_npt,
-+#ifndef TARGET_X86_64
-+        &vmstate_efer32,
-+#endif
-         NULL
-     }
- };
--- 
-2.18.0.rc1.1.g3f1ff2140
-
+Paolo
 
