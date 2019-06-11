@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932163CE5C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:19:27 +0200 (CEST)
-Received: from localhost ([::1]:59440 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615B63CDAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 15:55:17 +0200 (CEST)
+Received: from localhost ([::1]:59234 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hahcU-0003Ee-Po
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59427)
+	id 1hahF6-0000WX-Fc
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 09:55:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59395)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <wangjie88@huawei.com>) id 1hahC1-0006Rn-MU
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:52:06 -0400
+ (envelope-from <afaerber@suse.de>) id 1hahBz-0006Ny-HZ
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:52:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wangjie88@huawei.com>) id 1hahC0-0005ei-FB
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:52:05 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2243 helo=huawei.com)
+ (envelope-from <afaerber@suse.de>) id 1hahBy-0005de-DE
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:52:03 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50838 helo=mx1.suse.de)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wangjie88@huawei.com>)
- id 1hahBx-0005aJ-EB; Tue, 11 Jun 2019 09:52:01 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id E7170A5923EF54C2F7A6;
- Tue, 11 Jun 2019 21:51:52 +0800 (CST)
-Received: from [10.133.211.192] (10.133.211.192) by smtp.huawei.com
- (10.3.19.213) with Microsoft SMTP Server (TLS) id 14.3.439.0; Tue, 11 Jun
- 2019 21:51:43 +0800
-To: Paolo Bonzini <pbonzini@redhat.com>, Michal Privoznik
- <mprivozn@redhat.com>, <qemu-devel@nongnu.org>, <qemu-block@nongnu.org>
-References: <1559048796-57016-1-git-send-email-wangjie88@huawei.com>
- <cac8ed16-7846-ca22-2463-c3c738066d61@redhat.com>
- <f165741a-2ffd-62fd-b121-49bf1a3597f1@redhat.com>
- <ca74a7bf-dd68-d4c3-2c25-8e43db52678c@redhat.com>
- <f9b6dd9e-3e58-add9-c5ab-da1a883a0a4b@redhat.com>
- <b8a358ee-eb1f-14ca-b406-295ef668bb55@redhat.com>
-From: "wangjie (P)" <wangjie88@huawei.com>
-Message-ID: <4955ec04-1884-3a68-975f-8d72487c253c@huawei.com>
-Date: Tue, 11 Jun 2019 21:51:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
+ (Exim 4.71) (envelope-from <afaerber@suse.de>) id 1hahBy-0005cw-6B
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:52:02 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id C4655AE24;
+ Tue, 11 Jun 2019 13:51:59 +0000 (UTC)
+To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
+ <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
+ <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
+ <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
+ <003b01d51f72$5e6f4160$1b4dc420$@Fursova@ispras.ru>
+ <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
+ <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
+ <98826c5f-4a74-5364-2aef-28a10db12c20@suse.de>
+ <39250506-f38f-c440-5728-7b970d32ab41@redhat.com>
+ <79b821a4-7cc0-2461-7ca4-d71c3e5ee4ef@suse.de>
+ <c49abf01-c209-b206-edee-507c31269011@redhat.com>
+ <87o934sdot.fsf@dusky.pond.sub.org>
+ <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com>
+From: =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+Openpgp: preference=signencrypt
+Organization: SUSE Linux GmbH
+Message-ID: <8484a155-0721-a09a-df67-5d85cb22b14c@suse.de>
+Date: Tue, 11 Jun 2019 15:51:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <b8a358ee-eb1f-14ca-b406-295ef668bb55@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Originating-IP: [10.133.211.192]
-X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.191
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] pr-manager-helper: fix pr
- process been killed when reconectting
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic]
+X-Received-From: 195.135.220.15
+Subject: Re: [Qemu-devel] qgraph
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,80 +65,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eric.fangyi@huawei.com
+Cc: Natalia Fursova <Natalia.Fursova@ispras.ru>, qemu-devel@nongnu.org,
+ =?UTF-8?B?J9Cf0LDRiNCwJw==?= <Pavel.Dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi=EF=BC=8C Paolo and Michal=EF=BC=9A
+Am 11.06.19 um 12:31 schrieb Paolo Bonzini:
+> On 11/06/19 10:56, Markus Armbruster wrote:
+>> Yes, this is how introspection (both QMP and QOM) is commonly used.
+>> Just keep in mind one difference: QMP is static, QOM is dynamic.
+>>
+>> QMP being static means it's defined at compile time.  So is the value =
+of
+>> query-qmp-schema.  Same QEMU build, same value.  This permits caching.
+>>
+>> QOM being dynamic means to introspect an object's properties, you have
+>> to create it.  Worse, an object's properties may (in theory) change at
+>> any time.  *Properties*, not just property *values*.  In practice, I'd
+>> expect properties to change only at realize time.
+>=20
+> Right, and we should move more towards class-based properties so that
+> the dynamic nature of QOM is only used for the bare minimum needed (e.g=
+.
+> memory regions).
 
-Base on my patch, I found another problem is that=EF=BC=9A
+I believe it was Paolo who once reminded me that all child<> properties
+are dynamic. And link<> properties for bus devices are also dynamic. I
+don't see a good way around that.
 
- =C2=A0=C2=A0=C2=A0 qemu: report DISCONNECTED
+Regards,
+Andreas
 
- =C2=A0=C2=A0=C2=A0 libvirt: start pr-helper #1, but it will takes a whil=
-e to complete=20
-this action
-
- =C2=A0=C2=A0=C2=A0 qemu: reconnect to start pr-helper #1 immediately and=
- failed, so=20
-report DISCONNECTED
-
- =C2=A0=C2=A0=C2=A0 libvirt: begin to call qemuProcessStartManagedPRDaemo=
-n to start=20
-pr-helper #2, but virPidFileAcquirePath failed, so close fd and unlink=20
-pidfile by mistake
-
-
-based on the above problem, I thought out two ways to fix this problem:
-
-1. qemu: when call pr_manager_helper_write failed, sleep one second to=20
-make sure libvirt had started pr-helper before call=20
-pr_manager_helper_initialize.
-
-2. libvirt: if virFileLock failed in virPidFileAcquirePath, not to close=20
-fd and unlink pidfile, because pr-helper #1 is using the pidfile.
-
-what kind of the two above solutions is better? please give me some=20
-advice, thanks.
-
-
-On 2019/5/30 18:59, Paolo Bonzini wrote:
-> On 30/05/19 12:08, Michal Privoznik wrote:
->>>> 1) Try to acquire (lock) pidfile
->>>> 2) unlink(socket)
->>>> 3) spawn pr-helper process (this yields child's PID)
->>>> 4) wait some time until socket is created
->>>> 5) some follow up work (move child's PID into same cgroup as qemu's =
-main
->>>> thread, relabel the socket so that qemu can access it)
->>> Note that qemu-pr-helper supports the systemd socket activation
->>> protocol.=C2=A0 Would it help if libvirt used it?
->> Thing is, libvirt creates a mount namespace for domains (one namespace
->> for one domain). In this namespace a dummy /dev is mounted and only
->> nodes that qemu is configured to have are created. For instance, you
->> won't see /dev/sda there unless your domain has it as a disk. Then,
->> libvirt moves pr-helper process into the same cgroups as the qemu's ma=
-in
->> thread. This is all done so that pr-helper has the same view of the
->> system as qemu. I don't think that he same result can be achieved usin=
-g
->> socket activation.
-> Why?  The only difference with "normal" behavior and socket activation
-> is who creates the socket and calls listen() on it.  Everything else is
-> entirely the same.
->
->> Also, libvirt spawns one pr-helper per domain (so that the socket can =
-be
->> private and share seclabel with qemu process it's attached to).
-> Yes, that is why I thought the socket could be moved in advance to the
-> right security label, prior to exec.  Also, perhaps could the child mov=
-e
-> itself to the right cgroup before dropping privileges.  This would
-> remove the window between 3 and 5, by moving all the work *before*
-> qemu-pr-helper is exec-ed.
->
-> Paolo
->
-> .
->
+--=20
+SUSE Linux GmbH, Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
 
