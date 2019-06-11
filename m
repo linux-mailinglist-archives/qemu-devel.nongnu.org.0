@@ -2,65 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656FA3D31E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:59:33 +0200 (CEST)
-Received: from localhost ([::1]:33010 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A1B3D341
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 19:03:33 +0200 (CEST)
+Received: from localhost ([::1]:33072 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hak7Q-00028w-Iu
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52288)
+	id 1hakBH-0005bv-Q0
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 13:03:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51790)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hak2z-0007xJ-7Z
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:54:58 -0400
+ (envelope-from <quintela@redhat.com>) id 1hak2n-0007Kl-1U
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:54:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hajsj-0003rV-Rd
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:44:22 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:34590)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hajsj-0003qq-JJ
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:44:21 -0400
-Received: by mail-ot1-x331.google.com with SMTP id z24so12553635oto.1
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 09:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fLbYiqFwHu+buFPHvKj85AcNauP+XlNz1rmAFQF6A1E=;
- b=LPgOW4CaCd6v1NIuNmFfbXPJgPRthHs+iTgrZoTXQLK6OR4I9yUpfNofDK1s73WaMm
- 94Y5gOz4b2CCFeGS1qJPgVDwzze0m+mlMJ4ElZxVI7BE5UNld5cAjm4Ka8Dw6ekJScpp
- +lPa65yI9HoVrBZU+Yr5ncCVVEIuVNsEWgJfBwdmM8Z54ECUrh6L5bDGaWDfe72nxf0n
- oSZLM5z3v30r/i+ZpK4hZZ0kxIDgIrMXD3jn8e+m/7l5q7h5yVhQ0/o+58AOAUgC3Cw0
- 3mEPrNxXZMLDEuUBLkzGw0PyQs89CWNs+vfUn893c+5D7DydX659/YbIFMxKMQQqfnxk
- OvJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fLbYiqFwHu+buFPHvKj85AcNauP+XlNz1rmAFQF6A1E=;
- b=EHhEnq3gEFKiR3QNwxEk3OfpC0kz61vlRskypLUV8M+zAne0Zl9rEwc2PFvtS5BFi/
- r1IXYyPNdMqS79ZUsrd1aRbJKxyT0bcEE/+OAGV0+jFZ5x8qU/02hyoifJiwz2aRyeEB
- E3oIlbXKIxTRPW/I/BhtY6rVChclVYa3ykzNPcUxPgHnl6HA61WTFpfwUum0JFcgoSlX
- St4oYoZ++ihVO6Y4RvlkNcy49yCCxxJO+iheKAcI71WxBJ8mbGCbkzaDEkiy5ihgBVPO
- fAMKcKb++rVllKA5QndgF8l36sTAZvcn915uAZPeVKOmb3XcMBz5y1oe2tW/vO89ZmHg
- Ii7g==
-X-Gm-Message-State: APjAAAXV1WkNHM8syto0lzf9ZvoY6CHLp7DriL8NaMae204idIUHaHYE
- /qoZmnzdK8HyrKZkv0o+epkDmBIfvmwrajQnMSR5Uw==
-X-Google-Smtp-Source: APXvYqygZCLdT5PxyH6Ic6BuV74NSNYPy3j6bCz+pxAyExgsUo+t/nIeameQGihF79pyxPHUPRVTa2oHhTAMv5BZzmk=
-X-Received: by 2002:a9d:193:: with SMTP id e19mr1074833ote.135.1560271460174; 
- Tue, 11 Jun 2019 09:44:20 -0700 (PDT)
+ (envelope-from <quintela@redhat.com>) id 1hajvc-00065v-Dp
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:47:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47792)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hajvc-0005vB-6e
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:47:20 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2D5CD6378
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 16:46:56 +0000 (UTC)
+Received: from redhat.com (ovpn-117-129.ams2.redhat.com [10.36.117.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A09A05DA99;
+ Tue, 11 Jun 2019 16:46:53 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+In-Reply-To: <20190529164819.GL2882@work-vm> (David Alan Gilbert's message of
+ "Wed, 29 May 2019 17:48:20 +0100")
+References: <20190515121544.4597-1-quintela@redhat.com>
+ <20190515121544.4597-8-quintela@redhat.com>
+ <20190529164819.GL2882@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Tue, 11 Jun 2019 18:46:51 +0200
+Message-ID: <87y328nk78.fsf@trasno.org>
 MIME-Version: 1.0
-References: <20190611152448.29436-1-armbru@redhat.com>
- <CAFEAcA-i5kyUp_iGkWMGQvbj7xXqmHkfiKvkBmcubBW_VuadGw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-i5kyUp_iGkWMGQvbj7xXqmHkfiKvkBmcubBW_VuadGw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Jun 2019 17:44:09 +0100
-Message-ID: <CAFEAcA8b73ACXPHkYMWFdY5aZ5w-F+UXadW16Z+nZm09f=LdvQ@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::331
-Subject: Re: [Qemu-devel] [PULL 00/12] Miscellaneous patches for 2019-06-11
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Tue, 11 Jun 2019 16:46:56 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 7/8] multifd: Add zlib compression
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,40 +59,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jun 2019 at 17:37, Peter Maydell <peter.maydell@linaro.org> wrote:
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Juan Quintela (quintela@redhat.com) wrote:
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>  hw/core/qdev-properties.c |  2 +-
+>>  migration/migration.c     |  9 ++++++++
+>>  migration/migration.h     |  1 +
+>>  migration/ram.c           | 47 +++++++++++++++++++++++++++++++++++++++
+>>  qapi/migration.json       |  2 +-
+>>  tests/migration-test.c    |  6 +++++
+>>  6 files changed, 65 insertions(+), 2 deletions(-)
+>> 
+
+>>  /* This value needs to be a multiple of qemu_target_page_size() */
+>>  #define MULTIFD_PACKET_SIZE (512 * 1024)
+>> @@ -663,6 +664,12 @@ typedef struct {
+>>      uint64_t num_pages;
+>>      /* syncs main thread and channels */
+>>      QemuSemaphore sem_sync;
+>> +    /* stream for compression */
+>> +    z_stream zs;
+>> +    /* compressed buffer */
+>> +    uint8_t *zbuff;
+>> +    /* size of compressed buffer */
+>> +    uint32_t zbuff_len;
 >
-> On Tue, 11 Jun 2019 at 16:44, Markus Armbruster <armbru@redhat.com> wrote:
-> >
-> > The following changes since commit a578cdfbdd8f9beff5ced52b7826ddb1669abbbf:
-> >
-> >   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190610' into staging (2019-06-10 16:09:19 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2019-06-11
-> >
-> > for you to fetch changes up to 143a44a4695049223df38335eac72ca30d933a5c:
-> >
-> >   MAINTAINERS: Polish headline decorations (2019-06-11 16:46:35 +0200)
-> >
-> > ----------------------------------------------------------------
-> > Miscellaneous patches for 2019-06-11
+> Does this set need to be in a union or something so that you select
+> them for different compression types?
+
+Yeap.  Done.
+
 >
-> Compile failure, OSX:
+>>  }  MultiFDSendParams;
+>>  
+>>  typedef struct {
+>> @@ -698,6 +705,12 @@ typedef struct {
+>>      uint64_t num_pages;
+>>      /* syncs main thread and channels */
+>>      QemuSemaphore sem_sync;
+>> +    /* stream for compression */
+>
+> de-compression?
 
-...and OpenBSD:
+Changed.  I think that "compression methods" mean both, but who I am to
+discuss with a native speaker O:-)
 
-/tmp/qemu-test.rdndjK/bsd-user/main.c: In function 'usage':
-/tmp/qemu-test.rdndjK/bsd-user/main.c:657:17: error: expected ')'
-before 'QEMU_COPYRIGHT'
-            "\n" QEMU_COPYRIGHT "\n"
-                 ^
-gmake[1]: *** [/tmp/qemu-test.rdndjK/rules.mak:69: bsd-user/main.o] Error 1
+>>          socket_send_channel_create(multifd_new_send_channel_async, p);
+>> +        zs->zalloc = Z_NULL;
+>> +        zs->zfree = Z_NULL;
+>> +        zs->opaque = Z_NULL;
+>> +        if (deflateInit(zs, migrate_compress_level()) != Z_OK) {
+>> +            printf("deflate init failed\n");
+>> +            return -1;
+>> +        }
+>> +        /* We will never have more than page_count pages */
+>> +        p->zbuff_len = page_count * qemu_target_page_size();
+>> +        p->zbuff_len *= 2;
+>
+> Should the ops gain a 'save_init' and 'load_init' so that you can
+> only do this lot if the compression is enabled?
 
-thanks
--- PMM
+send_setup()/send_cleanup()
+recv_setup()/recv_cleanup()
+
+I have tried to be consistent ....
+
+>
+>> +        p->zbuff = g_malloc0(p->zbuff_len);
+>
+> I'd prefer g_try_malloc and do failure given it's not a tiny buffer.
+
+I can change, no problem there.
+Changing prototypes to get an Error *.
+
+
+Thanks, Juan.
 
