@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8D13D133
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 17:45:06 +0200 (CEST)
-Received: from localhost ([::1]:60408 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC0C3D0D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 17:33:12 +0200 (CEST)
+Received: from localhost ([::1]:60278 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haixN-00005L-Oo
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 11:45:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57312)
+	id 1hails-00076h-2j
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 11:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57309)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1haidq-0004bg-Re
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:24:58 -0400
+ (envelope-from <armbru@redhat.com>) id 1haidq-0004bK-I6
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:24:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1haido-0006KI-1l
+ (envelope-from <armbru@redhat.com>) id 1haido-0006KO-2L
  for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:24:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41400)
+Received: from mx1.redhat.com ([209.132.183.28]:50184)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1haidn-0006If-PG
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1haidn-0006Ig-PL
  for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:24:51 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B1B6533025F;
+ by mx1.redhat.com (Postfix) with ESMTPS id 8F20C5D619;
  Tue, 11 Jun 2019 15:24:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
  [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 328765D705;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37D1760A35;
  Tue, 11 Jun 2019 15:24:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B614C1138660; Tue, 11 Jun 2019 17:24:48 +0200 (CEST)
+ id B9A3F1138661; Tue, 11 Jun 2019 17:24:48 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 11 Jun 2019 17:24:37 +0200
-Message-Id: <20190611152448.29436-2-armbru@redhat.com>
+Date: Tue, 11 Jun 2019 17:24:38 +0200
+Message-Id: <20190611152448.29436-3-armbru@redhat.com>
 In-Reply-To: <20190611152448.29436-1-armbru@redhat.com>
 References: <20190611152448.29436-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 11 Jun 2019 15:24:50 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Tue, 11 Jun 2019 15:24:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 01/12] qemu-common: Move tcg_enabled() etc. to
- sysemu/tcg.h
+Subject: [Qemu-devel] [PULL 02/12] qemu-common: Move qemu_isalnum() etc. to
+ qemu/ctype.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,159 +58,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Other accelerators have their own headers: sysemu/hax.h, sysemu/hvf.h,
-sysemu/kvm.h, sysemu/whpx.h.  Only tcg_enabled() & friends sit in
-qemu-common.h.  This necessitates inclusion of qemu-common.h into
-headers, which is against the rules spelled out in qemu-common.h's
-file comment.
-
-Move tcg_enabled() & friends into their own header sysemu/tcg.h, and
-adjust #include directives.
-
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190523143508.25387-2-armbru@redhat.com>
+Message-Id: <20190523143508.25387-3-armbru@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-[Rebased with conflicts resolved automatically, except for
-accel/tcg/tcg-all.c]
 ---
- MAINTAINERS                     |  1 +
- accel/tcg/cpu-exec-common.c     |  1 +
- accel/tcg/tcg-all.c             |  2 +-
- accel/tcg/translate-all.c       |  3 ++-
- bsd-user/main.c                 |  2 ++
- cpus.c                          |  1 +
- exec.c                          |  2 ++
- hw/i386/pc.c                    |  1 +
- hw/ppc/spapr_caps.c             |  2 ++
- hw/s390x/ipl.c                  |  1 +
- include/exec/ram_addr.h         |  1 +
- include/qemu-common.h           |  8 --------
- include/sysemu/tcg.h            | 19 +++++++++++++++++++
- linux-user/main.c               |  2 ++
- memory.c                        |  2 +-
- monitor.c                       |  1 +
- qemu-nbd.c                      |  1 +
- qom/cpu.c                       |  2 +-
- target/arm/cpu.c                |  2 +-
- target/i386/cpu.c               |  1 +
- target/i386/cpu.h               |  2 +-
- target/i386/helper.c            |  1 +
- target/i386/machine.c           |  2 +-
- target/ppc/translate_init.inc.c |  1 +
- target/s390x/cpu.c              |  2 +-
- target/s390x/cpu_models.c       |  1 +
- target/s390x/gdbstub.c          |  3 ++-
- target/s390x/helper.c           |  1 +
- target/s390x/interrupt.c        |  1 +
- target/s390x/machine.c          |  1 +
- target/s390x/mmu_helper.c       |  1 +
- target/s390x/sigp.c             |  2 +-
- vl.c                            |  1 +
- 33 files changed, 56 insertions(+), 18 deletions(-)
- create mode 100644 include/sysemu/tcg.h
+ block/ssh.c                |  1 +
+ block/vvfat.c              |  1 +
+ gdbstub.c                  |  2 ++
+ hw/core/bus.c              |  2 +-
+ hw/core/qdev-properties.c  |  1 +
+ hw/s390x/s390-virtio-ccw.c |  1 +
+ hw/scsi/scsi-generic.c     |  2 +-
+ include/qemu-common.h      | 16 ----------------
+ include/qemu/ctype.h       | 27 +++++++++++++++++++++++++++
+ monitor.c                  |  1 +
+ net/net.c                  |  1 +
+ net/tap-solaris.c          |  1 +
+ qapi/qapi-util.c           |  2 +-
+ qobject/json-parser.c      |  2 +-
+ target/ppc/monitor.c       |  2 ++
+ target/riscv/cpu.c         |  1 +
+ tests/libqtest.c           |  1 +
+ tests/vhost-user-bridge.c  |  2 +-
+ ui/keymaps.c               |  1 +
+ util/cutils.c              |  3 ++-
+ util/id.c                  |  2 +-
+ util/readline.c            |  2 +-
+ 22 files changed, 50 insertions(+), 24 deletions(-)
+ create mode 100644 include/qemu/ctype.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7be1225415..ef00e8a70d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -125,6 +125,7 @@ F: include/exec/exec-all.h
- F: include/exec/helper*.h
- F: include/exec/tb-hash.h
- F: include/sysemu/cpus.h
-+F: include/sysemu/tcg.h
-=20
- FPU emulation
- M: Aurelien Jarno <aurelien@aurel32.net>
-diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
-index 462a1f1865..12c1e3e974 100644
---- a/accel/tcg/cpu-exec-common.c
-+++ b/accel/tcg/cpu-exec-common.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "sysemu/cpus.h"
-+#include "sysemu/tcg.h"
- #include "exec/exec-all.h"
-=20
- bool tcg_allowed;
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 9b215dcc5a..c92d4c82ed 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -26,8 +26,8 @@
- #include "qemu/osdep.h"
- #include "sysemu/accel.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "qom/object.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "sysemu/cpus.h"
- #include "qemu/main-loop.h"
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index e24ee3a172..5d97a2a651 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -16,9 +16,9 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
-+
- #include "qemu/osdep.h"
-=20
--#include "qemu-common.h"
- #define NO_CPU_IO_DEFS
- #include "cpu.h"
- #include "trace.h"
-@@ -55,6 +55,7 @@
- #include "qemu/main-loop.h"
- #include "exec/log.h"
- #include "sysemu/cpus.h"
-+#include "sysemu/tcg.h"
-=20
- /* #define DEBUG_TB_INVALIDATE */
- /* #define DEBUG_TB_FLUSH */
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index c473a99153..7d4abd20ed 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -16,8 +16,10 @@
-  *  You should have received a copy of the GNU General Public License
-  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "sysemu/tcg.h"
- #include "qemu-version.h"
- #include <machine/trap.h>
-=20
-diff --git a/cpus.c b/cpus.c
-index 111ca4ed1c..5d7be0c5a2 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -33,6 +33,7 @@
+diff --git a/block/ssh.c b/block/ssh.c
+index 12fd4f39e8..584c302fe6 100644
+--- a/block/ssh.c
++++ b/block/ssh.c
+@@ -32,6 +32,7 @@
+ #include "qapi/error.h"
  #include "qemu/error-report.h"
- #include "qemu/qemu-print.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "sysemu/block-backend.h"
- #include "exec/gdbstub.h"
- #include "sysemu/dma.h"
-diff --git a/exec.c b/exec.c
-index 4e734770c2..0bc59e9a30 100644
---- a/exec.c
-+++ b/exec.c
-@@ -16,6 +16,7 @@
+ #include "qemu/option.h"
++#include "qemu/ctype.h"
+ #include "qemu/cutils.h"
+ #include "qemu/sockets.h"
+ #include "qemu/uri.h"
+diff --git a/block/vvfat.c b/block/vvfat.c
+index 253cc716dd..f6c28805dd 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -34,6 +34,7 @@
+ #include "migration/blocker.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qstring.h"
++#include "qemu/ctype.h"
+ #include "qemu/cutils.h"
+ #include "qemu/error-report.h"
+=20
+diff --git a/gdbstub.c b/gdbstub.c
+index 462f89edfe..9159d7d153 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -16,9 +16,11 @@
   * You should have received a copy of the GNU Lesser General Public
   * License along with this library; if not, see <http://www.gnu.org/lice=
 nses/>.
@@ -218,97 +127,94 @@ nses/>.
 +
  #include "qemu/osdep.h"
  #include "qapi/error.h"
+ #include "qemu/error-report.h"
++#include "qemu/ctype.h"
+ #include "qemu/cutils.h"
+ #include "trace-root.h"
+ #ifdef CONFIG_USER_ONLY
+diff --git a/hw/core/bus.c b/hw/core/bus.c
+index e09843f6ab..60c4720379 100644
+--- a/hw/core/bus.c
++++ b/hw/core/bus.c
+@@ -18,7 +18,7 @@
+  */
 =20
-@@ -32,6 +33,7 @@
- #endif
- #include "sysemu/kvm.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "qemu/timer.h"
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
++#include "qemu/ctype.h"
+ #include "hw/qdev.h"
+ #include "qapi/error.h"
+=20
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 5da1439a8b..81c97f48a7 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -4,6 +4,7 @@
+ #include "qapi/error.h"
+ #include "hw/pci/pci.h"
+ #include "qapi/qmp/qerror.h"
++#include "qemu/ctype.h"
+ #include "qemu/error-report.h"
+ #include "hw/block/block.h"
+ #include "net/hub.h"
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 4d643686cb..87b2039f1b 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -23,6 +23,7 @@
+ #include "hw/s390x/css.h"
+ #include "virtio-ccw.h"
  #include "qemu/config-file.h"
++#include "qemu/ctype.h"
  #include "qemu/error-report.h"
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 1b08b56362..2c5446b095 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -50,6 +50,7 @@
- #include "hw/pci/msi.h"
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "sysemu/numa.h"
- #include "sysemu/kvm.h"
- #include "sysemu/qtest.h"
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 31b4661399..bbb001f84a 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -21,6 +21,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-  * THE SOFTWARE.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-@@ -32,6 +33,7 @@
- #include "cpu-models.h"
- #include "kvm_ppc.h"
- #include "sysemu/qtest.h"
-+#include "sysemu/tcg.h"
+ #include "qemu/option.h"
+ #include "s390-pci-bus.h"
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index d82b462be4..e8a8706a4f 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -13,7 +13,7 @@
 =20
- #include "hw/ppc/spapr.h"
-=20
-diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
-index b93750c14e..1f3aef051b 100644
---- a/hw/s390x/ipl.c
-+++ b/hw/s390x/ipl.c
-@@ -14,6 +14,7 @@
  #include "qemu/osdep.h"
  #include "qapi/error.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "cpu.h"
- #include "elf.h"
- #include "hw/loader.h"
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 139ad79390..f96777bb99 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -21,6 +21,7 @@
-=20
- #ifndef CONFIG_USER_ONLY
- #include "hw/xen/xen.h"
-+#include "sysemu/tcg.h"
- #include "exec/ramlist.h"
-=20
- struct RAMBlock {
+-#include "qemu-common.h"
++#include "qemu/ctype.h"
+ #include "qemu/error-report.h"
+ #include "hw/scsi/scsi.h"
+ #include "hw/scsi/emulation.h"
 diff --git a/include/qemu-common.h b/include/qemu-common.h
-index f891e05e7e..d7f4a4e7eb 100644
+index d7f4a4e7eb..9b01f6e7cb 100644
 --- a/include/qemu-common.h
 +++ b/include/qemu-common.h
-@@ -77,14 +77,6 @@ int qemu_openpty_raw(int *aslave, char *pty_name);
-     sendto(sockfd, buf, len, flags, destaddr, addrlen)
- #endif
+@@ -31,22 +31,6 @@ int qemu_main(int argc, char **argv, char **envp);
+ void qemu_get_timedate(struct tm *tm, int offset);
+ int qemu_timedate_diff(struct tm *tm);
 =20
--extern bool tcg_allowed;
--void tcg_exec_init(unsigned long tb_size);
--#ifdef CONFIG_TCG
--#define tcg_enabled() (tcg_allowed)
--#else
--#define tcg_enabled() 0
--#endif
+-#define qemu_isalnum(c)		isalnum((unsigned char)(c))
+-#define qemu_isalpha(c)		isalpha((unsigned char)(c))
+-#define qemu_iscntrl(c)		iscntrl((unsigned char)(c))
+-#define qemu_isdigit(c)		isdigit((unsigned char)(c))
+-#define qemu_isgraph(c)		isgraph((unsigned char)(c))
+-#define qemu_islower(c)		islower((unsigned char)(c))
+-#define qemu_isprint(c)		isprint((unsigned char)(c))
+-#define qemu_ispunct(c)		ispunct((unsigned char)(c))
+-#define qemu_isspace(c)		isspace((unsigned char)(c))
+-#define qemu_isupper(c)		isupper((unsigned char)(c))
+-#define qemu_isxdigit(c)	isxdigit((unsigned char)(c))
+-#define qemu_tolower(c)		tolower((unsigned char)(c))
+-#define qemu_toupper(c)		toupper((unsigned char)(c))
+-#define qemu_isascii(c)		isascii((unsigned char)(c))
+-#define qemu_toascii(c)		toascii((unsigned char)(c))
 -
- void cpu_exec_init_all(void);
- void cpu_exec_step_atomic(CPUState *cpu);
+ void *qemu_oom_check(void *ptr);
 =20
-diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
+ ssize_t qemu_write_full(int fd, const void *buf, size_t count)
+diff --git a/include/qemu/ctype.h b/include/qemu/ctype.h
 new file mode 100644
-index 0000000000..7d116d2e80
+index 0000000000..3691f0984d
 --- /dev/null
-+++ b/include/sysemu/tcg.h
-@@ -0,0 +1,19 @@
++++ b/include/qemu/ctype.h
+@@ -0,0 +1,27 @@
 +/*
 + * QEMU TCG support
 + *
@@ -317,317 +223,207 @@ ter.
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#ifndef SYSEMU_TCG_H
-+#define SYSEMU_TCG_H
++#ifndef QEMU_CTYPE_H
++#define QEMU_CTYPE_H
 +
-+extern bool tcg_allowed;
-+void tcg_exec_init(unsigned long tb_size);
-+#ifdef CONFIG_TCG
-+#define tcg_enabled() (tcg_allowed)
-+#else
-+#define tcg_enabled() 0
++#define qemu_isalnum(c)         isalnum((unsigned char)(c))
++#define qemu_isalpha(c)         isalpha((unsigned char)(c))
++#define qemu_iscntrl(c)         iscntrl((unsigned char)(c))
++#define qemu_isdigit(c)         isdigit((unsigned char)(c))
++#define qemu_isgraph(c)         isgraph((unsigned char)(c))
++#define qemu_islower(c)         islower((unsigned char)(c))
++#define qemu_isprint(c)         isprint((unsigned char)(c))
++#define qemu_ispunct(c)         ispunct((unsigned char)(c))
++#define qemu_isspace(c)         isspace((unsigned char)(c))
++#define qemu_isupper(c)         isupper((unsigned char)(c))
++#define qemu_isxdigit(c)        isxdigit((unsigned char)(c))
++#define qemu_tolower(c)         tolower((unsigned char)(c))
++#define qemu_toupper(c)         toupper((unsigned char)(c))
++#define qemu_isascii(c)         isascii((unsigned char)(c))
++#define qemu_toascii(c)         toascii((unsigned char)(c))
++
 +#endif
-+
-+#endif
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 97ca22bb04..a2b4a9f3e2 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -16,8 +16,10 @@
-  *  You should have received a copy of the GNU General Public License
-  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
-+
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "sysemu/tcg.h"
- #include "qemu-version.h"
- #include <sys/syscall.h>
- #include <sys/resource.h>
-diff --git a/memory.c b/memory.c
-index 0920c105aa..0a089a73ae 100644
---- a/memory.c
-+++ b/memory.c
-@@ -15,7 +15,6 @@
-=20
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "exec/memory.h"
- #include "exec/address-spaces.h"
-@@ -30,6 +29,7 @@
- #include "exec/ram_addr.h"
- #include "sysemu/kvm.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-=20
 diff --git a/monitor.c b/monitor.c
-index 6428eb3b7e..3650ceb574 100644
+index 3650ceb574..5c5cbe254a 100644
 --- a/monitor.c
 +++ b/monitor.c
-@@ -53,6 +53,7 @@
- #include "sysemu/hw_accel.h"
- #include "authz/list.h"
- #include "qapi/util.h"
-+#include "sysemu/tcg.h"
- #include "sysemu/tpm.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 081fcf74d5..25ce71e160 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -21,6 +21,7 @@
- #include <libgen.h>
- #include <pthread.h>
-=20
-+#include "qemu-common.h"
- #include "qapi/error.h"
- #include "qemu/cutils.h"
- #include "sysemu/block-backend.h"
-diff --git a/qom/cpu.c b/qom/cpu.c
-index 6b4632abda..f376f782d8 100644
---- a/qom/cpu.c
-+++ b/qom/cpu.c
-@@ -20,7 +20,6 @@
-=20
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qemu-common.h"
- #include "qom/cpu.h"
- #include "sysemu/hw_accel.h"
- #include "qemu/notify.h"
-@@ -30,6 +29,7 @@
- #include "qemu/error-report.h"
- #include "qemu/qemu-print.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "hw/boards.h"
- #include "hw/qdev-properties.h"
- #include "trace-root.h"
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index f70e07fd11..c2dff10f82 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -24,13 +24,13 @@
- #include "qapi/visitor.h"
- #include "cpu.h"
- #include "internals.h"
--#include "qemu-common.h"
- #include "exec/exec-all.h"
- #include "hw/qdev-properties.h"
- #if !defined(CONFIG_USER_ONLY)
- #include "hw/loader.h"
- #endif
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "sysemu/hw_accel.h"
- #include "kvm_arm.h"
- #include "disas/capstone.h"
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b21ecaac17..a4bc04ed1d 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -47,6 +47,7 @@
- #include "standard-headers/asm-x86/kvm_para.h"
-=20
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "hw/qdev-properties.h"
- #include "hw/i386/topology.h"
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index edad6e1efb..0732e059ec 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -20,7 +20,7 @@
- #ifndef I386_CPU_H
- #define I386_CPU_H
-=20
--#include "qemu-common.h"
-+#include "sysemu/tcg.h"
- #include "cpu-qom.h"
- #include "hyperv-proto.h"
- #include "exec/cpu-defs.h"
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index ff3a60c7cf..23024926ac 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -25,6 +25,7 @@
- #include "kvm_i386.h"
- #ifndef CONFIG_USER_ONLY
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "sysemu/hw_accel.h"
+@@ -42,6 +42,7 @@
+ #include "sysemu/numa.h"
  #include "monitor/monitor.h"
- #include "hw/i386/apic_internal.h"
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 225b5d433b..1150967b97 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1,5 +1,4 @@
+ #include "qemu/config-file.h"
++#include "qemu/ctype.h"
+ #include "qemu/readline.h"
+ #include "ui/console.h"
+ #include "ui/input.h"
+diff --git a/net/net.c b/net/net.c
+index 2cf5e76469..3e65c93920 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -41,6 +41,7 @@
+ #include "qemu/sockets.h"
+ #include "qemu/cutils.h"
+ #include "qemu/config-file.h"
++#include "qemu/ctype.h"
+ #include "hw/qdev.h"
+ #include "qemu/iov.h"
+ #include "qemu/main-loop.h"
+diff --git a/net/tap-solaris.c b/net/tap-solaris.c
+index a2a92356c1..0e3f3e0a9b 100644
+--- a/net/tap-solaris.c
++++ b/net/tap-solaris.c
+@@ -26,6 +26,7 @@
+ #include "qapi/error.h"
+ #include "tap_int.h"
+ #include "sysemu/sysemu.h"
++#include "qemu/ctype.h"
+ #include "qemu/cutils.h"
+=20
+ #include <sys/ethernet.h>
+diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
+index e9b266bb70..29a6c98b53 100644
+--- a/qapi/qapi-util.c
++++ b/qapi/qapi-util.c
+@@ -12,7 +12,7 @@
+=20
  #include "qemu/osdep.h"
+ #include "qapi/error.h"
 -#include "qemu-common.h"
++#include "qemu/ctype.h"
+=20
+ const char *qapi_enum_lookup(const QEnumLookup *lookup, int val)
+ {
+diff --git a/qobject/json-parser.c b/qobject/json-parser.c
+index d8eb210c0c..7d23e12e33 100644
+--- a/qobject/json-parser.c
++++ b/qobject/json-parser.c
+@@ -12,10 +12,10 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "qemu/ctype.h"
+ #include "qemu/cutils.h"
+ #include "qemu/unicode.h"
+ #include "qapi/error.h"
+-#include "qemu-common.h"
+ #include "qapi/qmp/qbool.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qlist.h"
+diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
+index ee9d6e81d2..7f8360d903 100644
+--- a/target/ppc/monitor.c
++++ b/target/ppc/monitor.c
+@@ -21,9 +21,11 @@
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
+  * THE SOFTWARE.
+  */
++
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "monitor/monitor.h"
++#include "qemu/ctype.h"
+ #include "monitor/hmp-target.h"
+ #include "hmp.h"
+=20
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 86fd8693a8..6f2b644220 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -19,6 +19,7 @@
+=20
+ #include "qemu/osdep.h"
+ #include "qemu/qemu-print.h"
++#include "qemu/ctype.h"
+ #include "qemu/log.h"
  #include "cpu.h"
  #include "exec/exec-all.h"
- #include "hw/hw.h"
-@@ -10,6 +9,7 @@
- #include "hyperv.h"
+diff --git a/tests/libqtest.c b/tests/libqtest.c
+index 9b9b5f37fc..3c5c3f49d8 100644
+--- a/tests/libqtest.c
++++ b/tests/libqtest.c
+@@ -22,6 +22,7 @@
 =20
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
-=20
- #include "qemu/error-report.h"
-=20
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-index b71b7bac20..970171b116 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -24,6 +24,7 @@
- #include "sysemu/arch_init.h"
- #include "sysemu/cpus.h"
- #include "sysemu/hw_accel.h"
-+#include "sysemu/tcg.h"
- #include "cpu-models.h"
- #include "mmu-hash32.h"
- #include "mmu-hash64.h"
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 4ca66fed1a..c80743a923 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -26,7 +26,6 @@
- #include "internal.h"
- #include "kvm_s390x.h"
- #include "sysemu/kvm.h"
--#include "qemu-common.h"
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
- #include "trace.h"
-@@ -39,6 +38,7 @@
- #include "hw/hw.h"
- #include "sysemu/arch_init.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #endif
- #include "fpu/softfloat.h"
-=20
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index b5d16e4c89..3fce8114de 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -15,6 +15,7 @@
- #include "internal.h"
- #include "kvm_s390x.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
+ #include "libqtest.h"
+ #include "qemu-common.h"
++#include "qemu/ctype.h"
+ #include "qemu/cutils.h"
  #include "qapi/error.h"
- #include "qapi/visitor.h"
+ #include "qapi/qmp/json-parser.h"
+diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c
+index 5b771de7a3..0bb03af0e5 100644
+--- a/tests/vhost-user-bridge.c
++++ b/tests/vhost-user-bridge.c
+@@ -30,8 +30,8 @@
+ #define _FILE_OFFSET_BITS 64
+=20
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/atomic.h"
++#include "qemu/ctype.h"
+ #include "qemu/iov.h"
+ #include "standard-headers/linux/virtio_net.h"
+ #include "contrib/libvhost-user/libvhost-user.h"
+diff --git a/ui/keymaps.c b/ui/keymaps.c
+index 544b55c27b..38fd22ed2b 100644
+--- a/ui/keymaps.c
++++ b/ui/keymaps.c
+@@ -26,6 +26,7 @@
+ #include "keymaps.h"
+ #include "sysemu/sysemu.h"
+ #include "trace.h"
++#include "qemu/ctype.h"
  #include "qemu/error-report.h"
-diff --git a/target/s390x/gdbstub.c b/target/s390x/gdbstub.c
-index a45d805a21..e24a49f4a9 100644
---- a/target/s390x/gdbstub.c
-+++ b/target/s390x/gdbstub.c
-@@ -17,14 +17,15 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
+ #include "qapi/error.h"
+ #include "ui/input.h"
+diff --git a/util/cutils.c b/util/cutils.c
+index 9aacc422ca..53e4af59f8 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -21,14 +21,15 @@
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
+  * THE SOFTWARE.
   */
 +
  #include "qemu/osdep.h"
 -#include "qemu-common.h"
- #include "cpu.h"
- #include "internal.h"
- #include "exec/exec-all.h"
- #include "exec/gdbstub.h"
- #include "qemu/bitops.h"
- #include "sysemu/hw_accel.h"
-+#include "sysemu/tcg.h"
+ #include "qemu/host-utils.h"
+ #include <math.h>
 =20
- int s390_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
- {
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index 52a11daeae..13ae9909ad 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -28,6 +28,7 @@
- #include "sysemu/hw_accel.h"
- #ifndef CONFIG_USER_ONLY
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #endif
+ #include "qemu/sockets.h"
+ #include "qemu/iov.h"
+ #include "net/net.h"
++#include "qemu/ctype.h"
+ #include "qemu/cutils.h"
+ #include "qemu/error-report.h"
 =20
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/s390x/interrupt.c b/target/s390x/interrupt.c
-index a8f9b38795..a841f7187d 100644
---- a/target/s390x/interrupt.c
-+++ b/target/s390x/interrupt.c
-@@ -14,6 +14,7 @@
- #include "internal.h"
- #include "exec/exec-all.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
- #include "hw/s390x/ioinst.h"
- #include "tcg_s390x.h"
- #if !defined(CONFIG_USER_ONLY)
-diff --git a/target/s390x/machine.c b/target/s390x/machine.c
-index e6851a57bc..1e9526e937 100644
---- a/target/s390x/machine.c
-+++ b/target/s390x/machine.c
-@@ -21,6 +21,7 @@
- #include "kvm_s390x.h"
- #include "tcg_s390x.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
-=20
- static int cpu_post_load(void *opaque, int version_id)
- {
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 9669bae393..6e9c4d6151 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -22,6 +22,7 @@
- #include "internal.h"
- #include "kvm_s390x.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
- #include "exec/exec-all.h"
- #include "trace.h"
- #include "hw/s390x/storage-keys.h"
-diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
-index ea5f69d5d8..ce49a792fc 100644
---- a/target/s390x/sigp.c
-+++ b/target/s390x/sigp.c
-@@ -9,13 +9,13 @@
+diff --git a/util/id.c b/util/id.c
+index 6141352955..af1c5f1b81 100644
+--- a/util/id.c
++++ b/util/id.c
+@@ -11,7 +11,7 @@
   */
 =20
  #include "qemu/osdep.h"
 -#include "qemu-common.h"
- #include "cpu.h"
- #include "internal.h"
- #include "sysemu/hw_accel.h"
- #include "exec/address-spaces.h"
- #include "exec/exec-all.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tcg.h"
- #include "trace.h"
- #include "qapi/qapi-types-misc.h"
++#include "qemu/ctype.h"
+ #include "qemu/id.h"
 =20
-diff --git a/vl.c b/vl.c
-index cd1fbc4cdc..efdfea26ee 100644
---- a/vl.c
-+++ b/vl.c
-@@ -30,6 +30,7 @@
- #include "qemu/help_option.h"
- #include "qemu/uuid.h"
- #include "sysemu/seccomp.h"
-+#include "sysemu/tcg.h"
+ bool id_wellformed(const char *id)
+diff --git a/util/readline.c b/util/readline.c
+index a7672b51c1..e534460da6 100644
+--- a/util/readline.c
++++ b/util/readline.c
+@@ -23,8 +23,8 @@
+  */
 =20
- #ifdef CONFIG_SDL
- #if defined(__APPLE__) || defined(main)
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
+ #include "qemu/readline.h"
++#include "qemu/ctype.h"
+ #include "qemu/cutils.h"
+=20
+ #define IS_NORM 0
 --=20
 2.21.0
 
