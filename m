@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1DD3CA73
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 13:54:07 +0200 (CEST)
-Received: from localhost ([::1]:56694 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171373CCBE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 15:14:25 +0200 (CEST)
+Received: from localhost ([::1]:58676 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hafLp-0000v8-15
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 07:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52343)
+	id 1hagbY-0003ub-93
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 09:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hafA8-0006ts-8V
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:42:02 -0400
+ (envelope-from <bounces@canonical.com>) id 1hafIZ-0006LX-TT
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:50:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1haf6x-0000y1-68
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:38:44 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:41731)
+ (envelope-from <bounces@canonical.com>) id 1hafIY-0001WD-1O
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:50:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46804)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1haf6w-0000sW-SS
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:38:43 -0400
-Received: by mail-wr1-f68.google.com with SMTP id c2so12628760wrm.8
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 04:38:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UW7KqeFIZo20/Ics+NGbprY8f4g/Ej93BpVBKmIp37Q=;
- b=f9LM+ZzKlvvAhXhkc+pqI5pzCrwIYmDhHlENPECCL7wQqVkGcjmZci3g1ymI++2Zre
- Icrg/7puX7/Nbx0QcE2+QPyhfJbXMHKsHfxwyqqFBEdQK1roPZgVus+ZEYVZ2aZhxpcr
- s9rV36TwTdz6rfIy8yHcdSw5DO4aeUiiWbgFDWf2aJNu+kcd8+qrWxG+yin1qWvTESFE
- bi/Qk4C55jflasQvl/PM7OSFite7T45zKPRQw4E3JOa+OB0QWQb43lMUnk2wfguPxqFO
- aG+aqNcEunZB+cVZRMQc6kGHSZZbkXfNqr61eCCKhU/HMdjATY/hu9xlF/d4CfXxpfLd
- nGmg==
-X-Gm-Message-State: APjAAAU2W8YlXwcUlhR/S3Ax9H6Mkfc1fymEcdC5kxWU+9jj5CuxtKKu
- ji+bIrHTDcMX/HbCN4WBmsei7w==
-X-Google-Smtp-Source: APXvYqwpksOOzWvV/gd2pzGSNGGjqvYozv+OKqDUt8jIMMWpRfUfNs/ep+m0+w1GbIxe8x7nzQY3hg==
-X-Received: by 2002:adf:9dcc:: with SMTP id q12mr24409524wre.93.1560253117141; 
- Tue, 11 Jun 2019 04:38:37 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2eec:b420:d26b:a0d4:f86e:1389?
- ([2a01:e35:2eec:b420:d26b:a0d4:f86e:1389])
- by smtp.gmail.com with ESMTPSA id x6sm14546867wrr.11.2019.06.11.04.38.36
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Jun 2019 04:38:36 -0700 (PDT)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190604154225.26992-1-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <5d8ab3e9-5a55-fa0c-c4a8-883498f95a32@redhat.com>
-Date: Tue, 11 Jun 2019 13:38:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hafIX-0001UJ-RF
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:50:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hafIV-0002AV-JF
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 11:50:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 603BA2E80CF
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 11:50:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190604154225.26992-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 11 Jun 2019 11:41:18 -0000
+From: Rafael David Tinoco <rafaeldtinoco@kernelpath.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=intel; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Wishlist; assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=cosmic; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug-Tags: intel-virt-19.10 qemu-19.10
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paelzer quanxian-wang rafaeldtinoco sbeattie
+X-Launchpad-Bug-Reporter: quanxian (quanxian-wang)
+X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
+References: <155909595152.12810.1489513977238974514.malonedeb@soybean.canonical.com>
+Message-Id: <156025328006.23831.8398367393569661057.launchpad@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 63f448257b529d379fee1983aaf541ad2f7205d0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH] decodetree: Fix comparison of Field
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Tue, 11 Jun 2019 09:09:52 -0400
+Subject: [Qemu-devel] [Bug 1830821] Re: Expose ARCH_CAP_MDS_NO in guest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,37 +78,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Reply-To: Bug 1830821 <1830821@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/19 5:42 PM, Richard Henderson wrote:
-> Typo comparing the sign of the field, twice, instead of also comparing
-> the mask of the field (which itself encodes both position and length).
-> 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  scripts/decodetree.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-> index 81874e22cc..d7a59d63ac 100755
-> --- a/scripts/decodetree.py
-> +++ b/scripts/decodetree.py
-> @@ -184,7 +184,7 @@ class Field:
->          return '{0}(insn, {1}, {2})'.format(extr, self.pos, self.len)
->  
->      def __eq__(self, other):
-> -        return self.sign == other.sign and self.sign == other.sign
-> +        return self.sign == other.sign and self.mask == other.mask
+** Changed in: qemu (Ubuntu Disco)
+       Status: Fix Released =3D> Confirmed
 
-Argh
+** Changed in: qemu (Ubuntu Disco)
+   Importance: Undecided =3D> Wishlist
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+** Changed in: qemu (Ubuntu)
+       Status: Fix Released =3D> Confirmed
 
->  
->      def __ne__(self, other):
->          return not self.__eq__(other)
-> 
+** Changed in: qemu (Ubuntu)
+   Importance: Undecided =3D> Wishlist
+
+** Changed in: qemu (Ubuntu)
+     Assignee: (unassigned) =3D> Rafael David Tinoco (rafaeldtinoco)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830821
+
+Title:
+  Expose ARCH_CAP_MDS_NO in guest
+
+Status in intel:
+  New
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Confirmed
+Status in qemu source package in Bionic:
+  Confirmed
+Status in qemu source package in Cosmic:
+  Confirmed
+Status in qemu source package in Disco:
+  Confirmed
+
+Bug description:
+  Description:
+
+  MDS_NO is bit 5 of ARCH_CAPABILITIES. Expose this bit to guest.
+
+  Target Qemu: 4.1
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/intel/+bug/1830821/+subscriptions
 
