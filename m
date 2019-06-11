@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE5C3C745
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 11:35:26 +0200 (CEST)
-Received: from localhost ([::1]:54097 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10ED43C7EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 12:00:15 +0200 (CEST)
+Received: from localhost ([::1]:54992 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hadBT-0006xx-1x
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 05:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43012)
+	id 1hadZe-0001DC-8g
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 06:00:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hadA0-0006IJ-Gr
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:33:45 -0400
+ (envelope-from <bounces@canonical.com>) id 1hadVc-0006iG-L9
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:56:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1had9z-0008HE-Em
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:33:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60600)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1had9r-0007rl-T2; Tue, 11 Jun 2019 05:33:37 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2972B552FC;
- Tue, 11 Jun 2019 09:32:59 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBE3668D2F;
- Tue, 11 Jun 2019 09:32:51 +0000 (UTC)
-Date: Tue, 11 Jun 2019 10:32:50 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Fam Zheng <fam@euphon.net>
-Message-ID: <20190611093250.GO14257@stefanha-x1.localdomain>
-References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
- <20190610134905.22294-3-mehta.aaru20@gmail.com>
- <20190611073653.bfp22e6s4jed2qdx@debian>
+ (envelope-from <bounces@canonical.com>) id 1hadVU-0007Gz-6f
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:55:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59212)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hadVS-00075F-Kg
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:55:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hadVC-0000ae-89
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 09:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3210F2E80CB
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 09:55:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BuBclajtnfx5hylj"
-Content-Disposition: inline
-In-Reply-To: <20190611073653.bfp22e6s4jed2qdx@debian>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 11 Jun 2019 09:33:04 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 11 Jun 2019 09:47:05 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell tfine
+X-Launchpad-Bug-Reporter: Troy Fine (tfine)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156018983401.31409.602642212914113436.malonedeb@gac.canonical.com>
+Message-Id: <156024642526.17784.10338897378290513526.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 35b69e92c45db7ce9751e736191d9de1a0472f1e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 02/12] qapi/block-core: add option for
- io_uring
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1832250] Re: arm32v6/golang:1.10-alpine is broken
+ for qemu 2.8 on MacOS cross-compilation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,73 +64,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- saket.sinha89@gmail.com, Paolo Bonzini <pbonzini@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Julia Suvorova <jusual@mail.ru>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1832250 <1832250@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Please can you try with a more recent version of QEMU? 2.8 is pretty
+old, and there are definitely some bugs involving Alpine Linux glibc and
+also go that we've fixed in later versions.
 
---BuBclajtnfx5hylj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+-- =
 
-On Tue, Jun 11, 2019 at 03:36:53PM +0800, Fam Zheng wrote:
-> On Mon, 06/10 19:18, Aarushi Mehta wrote:
-> > Option only enumerates for hosts that support it.
-> >=20
-> > Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  qapi/block-core.json | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> > index 1defcde048..db7eedd058 100644
-> > --- a/qapi/block-core.json
-> > +++ b/qapi/block-core.json
-> > @@ -2792,11 +2792,13 @@
-> >  #
-> >  # @threads:     Use qemu's thread pool
-> >  # @native:      Use native AIO backend (only Linux and Windows)
-> > +# @io_uring:    Use linux io_uring (since 4.1)
-> >  #
-> >  # Since: 2.9
-> >  ##
-> >  { 'enum': 'BlockdevAioOptions',
-> > -  'data': [ 'threads', 'native' ] }
-> > +  'data': [ 'threads', 'native',
-> > +            { 'name': 'io_uring', 'if': 'defined(CONFIG_LINUX_IO_URING=
-)' } ] }
->=20
-> Question: 'native' has a dependency on libaio but it doesn't have the
-> condition.  Is the inconsistency intended?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1832250
 
-'native' could be conditional too but I guess it's a historical thing.
-Either QAPI 'if' didn't exit when BlockdevAioOptions was defined or we
-simply forgot to use it :).
+Title:
+  arm32v6/golang:1.10-alpine is broken for qemu 2.8 on MacOS cross-
+  compilation
 
-It doesn't need to be changed in this patch series.
+Status in QEMU:
+  New
 
-Stefan
+Bug description:
+  FROM arm32v6/golang:1.10-alpine
 
---BuBclajtnfx5hylj
-Content-Type: application/pgp-signature; name="signature.asc"
+  docker build -t openhorizon/ibm.gps_arm:2.0.7 -f ./Dockerfile.arm .
+  Sending build context to Docker daemon  110.6kB
+  Step 1/12 : FROM arm32v6/golang:1.10-alpine
+  1.10-alpine: Pulling from arm32v6/golang
+  05276f4299f2: Pull complete =
 
------BEGIN PGP SIGNATURE-----
+  5657e63df536: Pull complete =
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlz/dUIACgkQnKSrs4Gr
-c8jwXQf/dFKFhVqVXRQf4oIZaOdf9AJjxyIo7YKvLbhMovbKJrh/7zeTFHx+3rht
-rBIXyH27NetPv3E4wBi5MYkIyKD1uFEJm7yUYuNaGwdHYQTz3fP+PUigb8Xg8hEQ
-Vk16DQr+aqfc/uYI5RgFm4+5Bcl6IGU8LpAnk5SW2Khlhz8/mVb0KrBLv0xTiouV
-wZHcfYsGb/sreAQL6ruIrb3FNUYfACCqBFSrnDBAiyr7GP5PY8m19M4M6Ysgd/Qb
-Q6ZqK7UDhe0vI1ztuPhb/QtTUEYiHCegkC9Cwg+LPIuK0+OxWhuJ14u+yTflo1h6
-yiNZiFIIfKCleXeE2zfZZjEQYH3KWg==
-=9AjT
------END PGP SIGNATURE-----
+  febca98d0249: Pull complete =
 
---BuBclajtnfx5hylj--
+  5053a7aa5dea: Pull complete =
+
+  d048463a3701: Pull complete =
+
+  b628c679d668: Pull complete =
+
+  Digest: sha256:94c5fd97b17d0e9fe89e011446bedda4784cb0af7a60494989e2a21c0d=
+cba92f
+  Status: Downloaded newer image for arm32v6/golang:1.10-alpine
+   ---> 3110964e8c9a
+  Step 2/12 : RUN apk --no-cache update && apk add git
+   ---> Running in 14ffb11506bb
+  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/armhf/APKINDEX.tar.gz
+  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/armhf/APKINDEX.=
+tar.gz
+  v3.9.4-24-g4e2ff29bbe [http://dl-cdn.alpinelinux.org/alpine/v3.9/main]
+  v3.9.4-25-g65097c9cdc [http://dl-cdn.alpinelinux.org/alpine/v3.9/communit=
+y]
+  OK: 9547 distinct packages available
+  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/armhf/APKINDEX.tar.gz
+  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/armhf/APKINDEX.=
+tar.gz
+  (1/7) Installing nghttp2-libs (1.35.1-r0)
+  (2/7) Installing libssh2 (1.8.2-r0)
+  (3/7) Installing libcurl (7.64.0-r2)
+  (4/7) Installing libgcc (8.3.0-r0)
+  (5/7) Installing expat (2.2.6-r0)
+  (6/7) Installing pcre2 (10.32-r1)
+  (7/7) Installing git (2.20.1-r0)
+  Executing busybox-1.29.3-r10.trigger
+  OK: 18 MiB in 22 packages
+  Removing intermediate container 14ffb11506bb
+   ---> 6890ea7ed09b
+  Step 3/12 : RUN mkdir -p /build/bin
+   ---> Running in 44e52d78d7b4
+  Removing intermediate container 44e52d78d7b4
+   ---> 0763afda41d1
+  Step 4/12 : COPY src /build/src
+   ---> 05bab9a72a34
+  Step 5/12 : WORKDIR /build
+   ---> Running in 5a663caff249
+  Removing intermediate container 5a663caff249
+   ---> 5a6ca53c00de
+  Step 6/12 : RUN env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=3D0 GOOS=
+=3Dlinux GOARCH=3Darm GOARM=3D6' go get github.com/kellydunn/golang-geo
+   ---> Running in 05b09ee0c206
+  Removing intermediate container 05b09ee0c206
+   ---> e68c6e222e51
+  Step 7/12 : RUN env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=3D0 GOOS=
+=3Dlinux GOARCH=3Darm GOARM=3D6' go build -o /build/bin/armv6_gps /build/sr=
+c/main.go
+   ---> Running in ea6d2707e35f
+  qemu-arm: /build/qemu-rwi8RH/qemu-2.8+dfsg/translate-all.c:175: tb_lock: =
+Assertion `!have_tb_lock' failed.
+  qemu-arm: /build/qemu-rwi8RH/qemu-2.8+dfsg/translate-all.c:175: tb_lock: =
+Assertion `!have_tb_lock' failed.
+  The command '/bin/sh -c env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=
+=3D0 GOOS=3Dlinux GOARCH=3Darm GOARM=3D6' go build -o /build/bin/armv6_gps =
+/build/src/main.go' returned a non-zero code: 139
+  make: *** [build] Error 139
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1832250/+subscriptions
 
