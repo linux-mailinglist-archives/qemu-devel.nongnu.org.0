@@ -2,60 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10ED43C7EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 12:00:15 +0200 (CEST)
-Received: from localhost ([::1]:54992 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516CF3C793
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 11:49:35 +0200 (CEST)
+Received: from localhost ([::1]:54484 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hadZe-0001DC-8g
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 06:00:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
+	id 1hadPJ-00035y-Uj
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 05:49:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47826)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hadVc-0006iG-L9
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:56:06 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hadOA-0002bk-K7
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:48:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hadVU-0007Gz-6f
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:55:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59212)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hadVS-00075F-Kg
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:55:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hadVC-0000ae-89
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 09:55:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3210F2E80CB
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 09:55:38 +0000 (UTC)
+ (envelope-from <stefanha@redhat.com>) id 1hadO9-0001xP-Hm
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 05:48:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44350)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1hadO7-0001oz-6N; Tue, 11 Jun 2019 05:48:19 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 59B803086272;
+ Tue, 11 Jun 2019 09:48:02 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2CF571001B00;
+ Tue, 11 Jun 2019 09:47:55 +0000 (UTC)
+Date: Tue, 11 Jun 2019 10:47:55 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>
+Message-ID: <20190611094755.GP14257@stefanha-x1.localdomain>
+References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
+ <20190610134905.22294-10-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Jun 2019 09:47:05 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell tfine
-X-Launchpad-Bug-Reporter: Troy Fine (tfine)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156018983401.31409.602642212914113436.malonedeb@gac.canonical.com>
-Message-Id: <156024642526.17784.10338897378290513526.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18978";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 35b69e92c45db7ce9751e736191d9de1a0472f1e
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="A6Z7MKnLVMfR85kG"
+Content-Disposition: inline
+In-Reply-To: <20190610134905.22294-10-mehta.aaru20@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Tue, 11 Jun 2019 09:48:06 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1832250] Re: arm32v6/golang:1.10-alpine is broken
- for qemu 2.8 on MacOS cross-compilation
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 09/12] block: add trace events for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,101 +59,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1832250 <1832250@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, saket.sinha89@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Julia Suvorova <jusual@mail.ru>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please can you try with a more recent version of QEMU? 2.8 is pretty
-old, and there are definitely some bugs involving Alpine Linux glibc and
-also go that we've fixed in later versions.
 
--- =
+--A6Z7MKnLVMfR85kG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1832250
+On Mon, Jun 10, 2019 at 07:19:02PM +0530, Aarushi Mehta wrote:
+> @@ -294,6 +302,7 @@ LuringState *luring_init(Error **errp)
+>      int rc;
+>      LuringState *s;
+>      s =3D g_malloc0(sizeof(*s));
+> +    trace_luring_init_state((void *)s, sizeof(*s));
 
-Title:
-  arm32v6/golang:1.10-alpine is broken for qemu 2.8 on MacOS cross-
-  compilation
+In C conversion to void * is automatic and doesn't need to be done
+manually.
 
-Status in QEMU:
-  New
+> diff --git a/block/trace-events b/block/trace-events
+> index eab51497fc..c4564dcd96 100644
+> --- a/block/trace-events
+> +++ b/block/trace-events
+> @@ -60,6 +60,14 @@ qmp_block_stream(void *bs, void *job) "bs %p job %p"
+>  file_paio_submit(void *acb, void *opaque, int64_t offset, int count, int=
+ type) "acb %p opaque %p offset %"PRId64" count %d type %d"
+>  file_copy_file_range(void *bs, int src, int64_t src_off, int dst, int64_=
+t dst_off, int64_t bytes, int flags, int64_t ret) "bs %p src_fd %d offset %=
+"PRIu64" dst_fd %d offset %"PRIu64" bytes %"PRIu64" flags %d ret %"PRId64
+> =20
+> +#io_uring.c
+> +luring_init_state(void *s, size_t size) "s %p size %zu"
+> +luring_cleanup_state(void) "s freed"
+> +disable luring_io_plug(void) "plug"
+> +disable luring_io_unplug(int blocked, int plugged, int queued, int infli=
+ght) "blocked %d plugged %d queued %d inflight %d"
+> +disable luring_do_submit(int blocked, int plugged, int queued, int infli=
+ght) "blocked %d plugged %d queued %d inflight %d"
+> +disable luring_do_submit_done(int ret) "submitted to kernel %d"
 
-Bug description:
-  FROM arm32v6/golang:1.10-alpine
+Why are these disabled?  "disable" compiles them out and they won't be
+available at runtime.  "disable" should probably be dropped here.
 
-  docker build -t openhorizon/ibm.gps_arm:2.0.7 -f ./Dockerfile.arm .
-  Sending build context to Docker daemon  110.6kB
-  Step 1/12 : FROM arm32v6/golang:1.10-alpine
-  1.10-alpine: Pulling from arm32v6/golang
-  05276f4299f2: Pull complete =
+Please include the LuringState *s pointer in trace events since there
+can be multiple LuringStates at any given time and it should be possible
+to correlate trace events.
 
-  5657e63df536: Pull complete =
+--A6Z7MKnLVMfR85kG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  febca98d0249: Pull complete =
+-----BEGIN PGP SIGNATURE-----
 
-  5053a7aa5dea: Pull complete =
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlz/eMoACgkQnKSrs4Gr
+c8hr4AgAhIr2e58H0Fc9GaMNsZRoQnniB3+mgX+djve8Owujv9QrKyfVLgbf5LTM
+deCmNJolTlJJTkY1LMER+kvzigfNeXw0YpQFZIkx/GyfYflYUOzCiLR+dTaNtSQf
+kdBylyWfAjBrjKlled9fZSGNbzqmaInRJMYE9AQ0JwbH3bHRKCrmw3e6MtNV0WU0
+EIbtEUbRxUz8iHzOgXou/0nX8QwP1AOD57V1SgAu6O/AjCeo26f5zVAil+e6oOYb
+skIfqVaxfoVYMgcAFCAZkFaeOaw1Z1f5QBvzcVRrjKqMhbifyA6x/mSkESIq1/0+
+1Ie1hiBcrMizcqacouFA4D0ZiysMCg==
+=DIbQ
+-----END PGP SIGNATURE-----
 
-  d048463a3701: Pull complete =
-
-  b628c679d668: Pull complete =
-
-  Digest: sha256:94c5fd97b17d0e9fe89e011446bedda4784cb0af7a60494989e2a21c0d=
-cba92f
-  Status: Downloaded newer image for arm32v6/golang:1.10-alpine
-   ---> 3110964e8c9a
-  Step 2/12 : RUN apk --no-cache update && apk add git
-   ---> Running in 14ffb11506bb
-  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/armhf/APKINDEX.tar.gz
-  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/armhf/APKINDEX.=
-tar.gz
-  v3.9.4-24-g4e2ff29bbe [http://dl-cdn.alpinelinux.org/alpine/v3.9/main]
-  v3.9.4-25-g65097c9cdc [http://dl-cdn.alpinelinux.org/alpine/v3.9/communit=
-y]
-  OK: 9547 distinct packages available
-  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/armhf/APKINDEX.tar.gz
-  fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/armhf/APKINDEX.=
-tar.gz
-  (1/7) Installing nghttp2-libs (1.35.1-r0)
-  (2/7) Installing libssh2 (1.8.2-r0)
-  (3/7) Installing libcurl (7.64.0-r2)
-  (4/7) Installing libgcc (8.3.0-r0)
-  (5/7) Installing expat (2.2.6-r0)
-  (6/7) Installing pcre2 (10.32-r1)
-  (7/7) Installing git (2.20.1-r0)
-  Executing busybox-1.29.3-r10.trigger
-  OK: 18 MiB in 22 packages
-  Removing intermediate container 14ffb11506bb
-   ---> 6890ea7ed09b
-  Step 3/12 : RUN mkdir -p /build/bin
-   ---> Running in 44e52d78d7b4
-  Removing intermediate container 44e52d78d7b4
-   ---> 0763afda41d1
-  Step 4/12 : COPY src /build/src
-   ---> 05bab9a72a34
-  Step 5/12 : WORKDIR /build
-   ---> Running in 5a663caff249
-  Removing intermediate container 5a663caff249
-   ---> 5a6ca53c00de
-  Step 6/12 : RUN env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=3D0 GOOS=
-=3Dlinux GOARCH=3Darm GOARM=3D6' go get github.com/kellydunn/golang-geo
-   ---> Running in 05b09ee0c206
-  Removing intermediate container 05b09ee0c206
-   ---> e68c6e222e51
-  Step 7/12 : RUN env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=3D0 GOOS=
-=3Dlinux GOARCH=3Darm GOARM=3D6' go build -o /build/bin/armv6_gps /build/sr=
-c/main.go
-   ---> Running in ea6d2707e35f
-  qemu-arm: /build/qemu-rwi8RH/qemu-2.8+dfsg/translate-all.c:175: tb_lock: =
-Assertion `!have_tb_lock' failed.
-  qemu-arm: /build/qemu-rwi8RH/qemu-2.8+dfsg/translate-all.c:175: tb_lock: =
-Assertion `!have_tb_lock' failed.
-  The command '/bin/sh -c env GOPATH=3D/build GOOPTIONS_ARM=3D'CGO_ENABLED=
-=3D0 GOOS=3Dlinux GOARCH=3Darm GOARM=3D6' go build -o /build/bin/armv6_gps =
-/build/src/main.go' returned a non-zero code: 139
-  make: *** [build] Error 139
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1832250/+subscriptions
+--A6Z7MKnLVMfR85kG--
 
