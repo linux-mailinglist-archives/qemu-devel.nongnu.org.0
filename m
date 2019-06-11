@@ -2,64 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9BC23CD2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 15:42:54 +0200 (CEST)
-Received: from localhost ([::1]:59100 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 219FD3CDA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 15:53:16 +0200 (CEST)
+Received: from localhost ([::1]:59188 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hah37-0005l4-L8
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 09:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55820)
+	id 1hahD8-000630-NO
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 09:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56071)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hah0R-00050D-9U
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:40:08 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hah1M-0005qw-HL
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:41:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hah0Q-0000TZ-Ci
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:40:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33494)
+ (envelope-from <kwolf@redhat.com>) id 1hah1L-0000vP-AL
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:41:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45346)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hah0Q-0000Sg-7C
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:40:06 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hah1I-0000tV-6Z; Tue, 11 Jun 2019 09:41:00 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CEC282F8BCE;
- Tue, 11 Jun 2019 13:39:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
- [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AA2317DC2;
- Tue, 11 Jun 2019 13:39:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2BCDC11386A0; Tue, 11 Jun 2019 15:39:58 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
- <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
- <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
- <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
- <003b01d51f72$5e6f4160$1b4dc420$@Fursova@ispras.ru>
- <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
- <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
- <98826c5f-4a74-5364-2aef-28a10db12c20@suse.de>
- <39250506-f38f-c440-5728-7b970d32ab41@redhat.com>
- <79b821a4-7cc0-2461-7ca4-d71c3e5ee4ef@suse.de>
- <c49abf01-c209-b206-edee-507c31269011@redhat.com>
- <87o934sdot.fsf@dusky.pond.sub.org>
- <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com>
-Date: Tue, 11 Jun 2019 15:39:58 +0200
-In-Reply-To: <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com> (Paolo
- Bonzini's message of "Tue, 11 Jun 2019 12:31:24 +0200")
-Message-ID: <87ftogp7f5.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 86C3D30F1BA4;
+ Tue, 11 Jun 2019 13:40:54 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-117-58.ams2.redhat.com [10.36.117.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03BD819C59;
+ Tue, 11 Jun 2019 13:40:52 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 11 Jun 2019 15:40:32 +0200
+Message-Id: <20190611134043.9524-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 11 Jun 2019 13:39:59 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 11 Jun 2019 13:40:54 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] qgraph
+Subject: [Qemu-devel] [PATCH v2 00/11] monitor: Split monitor.c in
+ core/HMP/QMP/misc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,31 +53,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?J9Cf0LDRiNCwJw==?= <Pavel.Dovgaluk@ispras.ru>,
- Andreas =?utf-8?Q?F?= =?utf-8?Q?=C3=A4rber?= <afaerber@suse.de>,
- Natalia Fursova <Natalia.Fursova@ispras.ru>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ armbru@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+monitor.c mixes a lot of different things in a single file: The core
+monitor infrastructure, HMP infrastrcture, QMP infrastructure, and the
+implementation of several HMP and QMP commands. Almost worse, struct
+Monitor mixes state for HMP, for QMP, and state actually shared between
+all monitors. monitor.c must be linked with a system emulator and even
+requires per-target compilation because some of the commands it
+implements access system emulator state.
 
-> On 11/06/19 10:56, Markus Armbruster wrote:
->> Yes, this is how introspection (both QMP and QOM) is commonly used.
->> Just keep in mind one difference: QMP is static, QOM is dynamic.
->> 
->> QMP being static means it's defined at compile time.  So is the value of
->> query-qmp-schema.  Same QEMU build, same value.  This permits caching.
->> 
->> QOM being dynamic means to introspect an object's properties, you have
->> to create it.  Worse, an object's properties may (in theory) change at
->> any time.  *Properties*, not just property *values*.  In practice, I'd
->> expect properties to change only at realize time.
->
-> Right, and we should move more towards class-based properties so that
-> the dynamic nature of QOM is only used for the bare minimum needed (e.g.
-> memory regions).
+The reason why I care about this is that I'm working on a protoype for a
+storage daemon, which wants to use QMP (but probably not HMP) and
+obviously doesn't have any system emulator state. So I'm interested in
+some core monitor parts that can be linked to non-system-emulator tools.
 
-What are we doing to make new code conform to that?
+This series first creates separate structs MonitorQMP and MonitorHMP
+which inherit from Monitor, and then moves the associated infrastructure
+code into separate source files.
 
-What are we doing to update existing code?
+While the split is probably not perfect, I think it's an improvement of
+the current state even for QEMU proper, and it's good enough so I can
+link my storage daemon against just monitor/core.o and monitor/qmp.o and
+get a useless QMP monitor that parses the JSON input and rejects
+everything as an unknown command.
+
+Next I'll try to teach it a subset of QMP commands that can actually be
+supported in a tool, but while there will be a few follow-up patches to
+achieve this, I don't expect that this work will bring up much that
+needs to be changed in the splitting process done in this series.
+
+v2:
+- Fix coding style while moving files to make checkpatch happier
+- Updated file name references in docs/devel/writing-qmp-commands.txt
+- Updated MAINTAINERS for moved and newly created files
+- Created monitor/trace-events instead of using the root directory one
+- Move {hmp,qmp}.c to monitor/{hmp,qmp}-cmds.c
+
+Kevin Wolf (11):
+  monitor: Remove unused password prompting fields
+  monitor: Split monitor_init in HMP and QMP function
+  monitor: Make MonitorQMP a child class of Monitor
+  monitor: Create MonitorHMP with readline state
+  monitor: Move cmd_table to MonitorHMP
+  Move monitor.c to monitor/misc.c
+  monitor: Move {hmp,qmp}.c to monitor/{hmp,qmp}-cmds.c
+  monitor: Create monitor_int.h with common definitions
+  monitor: Split out monitor/qmp.c
+  monitor: Split out monitor/hmp.c
+  monitor: Split out monitor/monitor.c
+
+ docs/devel/writing-qmp-commands.txt |   11 +-
+ include/monitor/monitor.h           |    8 +-
+ monitor/monitor_int.h               |  208 ++
+ monitor.c                           | 4727 ---------------------------
+ hmp.c =3D> monitor/hmp-cmds.c         |    6 +-
+ monitor/hmp.c                       | 1387 ++++++++
+ monitor/misc.c                      | 2407 ++++++++++++++
+ monitor/monitor.c                   |  605 ++++
+ qmp.c =3D> monitor/qmp-cmds.c         |    2 +-
+ monitor/qmp.c                       |  404 +++
+ MAINTAINERS                         |   13 +-
+ Makefile.objs                       |    4 +-
+ Makefile.target                     |    3 +-
+ monitor/Makefile.objs               |    3 +
+ monitor/trace-events                |   15 +
+ trace-events                        |   10 -
+ 16 files changed, 5060 insertions(+), 4753 deletions(-)
+ create mode 100644 monitor/monitor_int.h
+ delete mode 100644 monitor.c
+ rename hmp.c =3D> monitor/hmp-cmds.c (99%)
+ create mode 100644 monitor/hmp.c
+ create mode 100644 monitor/misc.c
+ create mode 100644 monitor/monitor.c
+ rename qmp.c =3D> monitor/qmp-cmds.c (99%)
+ create mode 100644 monitor/qmp.c
+ create mode 100644 monitor/Makefile.objs
+ create mode 100644 monitor/trace-events
+
+--=20
+2.20.1
+
 
