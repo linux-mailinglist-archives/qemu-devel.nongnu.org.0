@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040253D30C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:55:12 +0200 (CEST)
-Received: from localhost ([::1]:32928 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B3A3D258
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:36:23 +0200 (CEST)
+Received: from localhost ([::1]:60872 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hak3B-0006kL-LE
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41175)
+	id 1hajl0-0000O1-0i
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:36:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41687)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hajJn-0006tP-Hu
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:08:17 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hajLn-0008Vb-VB
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:10:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hajJj-0005l3-DK
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:08:13 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46318)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hajJh-0005hL-El
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:08:10 -0400
-Received: by mail-ot1-x343.google.com with SMTP id z23so12400324ote.13
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 09:08:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JR9ZUNk9cSB5ZOSnmOXD6oGGd/boRFK2MnJ/XPOY0Hc=;
- b=alkn+XGaLBAL3V0l2ldlZsrnjhZ+iscwqfKm4Vh9zdKl1RbPqMLM5WsUd1QxGnURQn
- lGVydvjOL/dmSbGtDd5XLxMuOUODCETCWDx0zMBcAF7Vz+RG8cKGBUyA1JKdfRd8cHkm
- Fuf3it+3bcdCVWrDxo9+xYIgvgvkqXftUiy0PUrgiDp+VmvmxUNwvd+tymDmb/il/fF+
- aQ+VDIualH5pMIi9pPg7ItZcJ5xiZyhr6ZkjSZ345C+kNQ/oTZUwNkSx3IdcVB76/kow
- jUCYuf8BglJuLJ4RmKJLrLq4XjslbVQysvV4vQi8G4l7jL8Qzpm4Yli5Tzdft6YBRgNe
- hMcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JR9ZUNk9cSB5ZOSnmOXD6oGGd/boRFK2MnJ/XPOY0Hc=;
- b=h7P7r6ZhLBnQyLRb4gFFyi+NZYgukzKHVsvBwVMEPIVb0L1FT8ybBUdTaLcHy++C53
- iCDGTfuExr9NhZBi3N5tiFzuB+prCgCThiMHM5sG5dFruCmYpuBhA4HwNuf65XdK9YPv
- y/U4uBoIxCYkBrj/zU6tW0xBzdd5lY/+3/fKmzelfdUWwyO6NusbBGHq7lzXwn9N6nUR
- dVu+6dOt8DCgYk4EUCHlZNclGADlRYHTRIlU3jN3c7xcFI0u1gL2OU4Qa7IZzGMHDafj
- Kd5CiXWYNUoCr6wBQczjjOJctzfvZttUaUujyu4ava+WrzuyWL431jwH/xlYjUwDSqCi
- QPpQ==
-X-Gm-Message-State: APjAAAUndBw4iZedP8ix81qNI6QZklFx6qgqNfpVDdsDHhJVMUdKh98o
- owBdSfmNzFbKCdUqJG7B6dCyq+y0Q0YpGFlnqGT8qg==
-X-Google-Smtp-Source: APXvYqzqXncvZCbkyMz9ft8F0KiMwreIBcKkNltlUjRrobyo39Meaa/kmjNea6VwNoWR33gMWl/k/uWngm2qGqXls1M=
-X-Received: by 2002:a9d:630a:: with SMTP id q10mr98913otk.91.1560269286219;
- Tue, 11 Jun 2019 09:08:06 -0700 (PDT)
+ (envelope-from <dgilbert@redhat.com>) id 1hajLm-0007NA-0M
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:10:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58248)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
+ id 1hajLh-0007FI-RK; Tue, 11 Jun 2019 12:10:14 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0C7153092675;
+ Tue, 11 Jun 2019 16:10:08 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A8EF860BF1;
+ Tue, 11 Jun 2019 16:10:00 +0000 (UTC)
+Date: Tue, 11 Jun 2019 17:09:58 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <20190611160957.GG2777@work-vm>
+References: <20190611134043.9524-1-kwolf@redhat.com>
+ <20190611134043.9524-8-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20190607211544.7964-1-ehabkost@redhat.com>
- <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
- <CAFEAcA9ZeB1knLYYQLJG0d5McG2vo6w8P9+vOBWgtSVgPEG0jA@mail.gmail.com>
- <20190611160329.GH5927@habkost.net>
-In-Reply-To: <20190611160329.GH5927@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Jun 2019 17:07:55 +0100
-Message-ID: <CAFEAcA-cv8vPT=7YraioJvW7-WnvGy9YoJXOc_E+UEWUehE+Bg@mail.gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PULL 0/8] Python queue, 2019-06-07
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190611134043.9524-8-kwolf@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Tue, 11 Jun 2019 16:10:10 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 07/11] monitor: Move {hmp,
+ qmp}.c to monitor/{hmp, qmp}-cmds.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,40 +58,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jun 2019 at 17:03, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> On Tue, Jun 11, 2019 at 04:50:34PM +0100, Peter Maydell wrote:
-> > On Mon, 10 Jun 2019 at 13:58, Peter Maydell <peter.maydell@linaro.org> wrote:
-> > > Hi. This fails to build on one of my buildtest machines:
-> > >
-> > > ERROR: Cannot use 'python3', Python 2 >= 2.7 or Python 3 >= 3.5 is required.
-> > >        Use --python=/path/to/python to specify a supported Python.
-> > >
-> > > The machine has python 2.7.6 and 3.4.3. (It's an Ubuntu trusty
-> > > box; it's one of the gcc compile farm machines so upgrades to its
-> > > OS are not really under my control.)
-> >
-> > Rereading this, I realise that either the check or the error
-> > message is wrong here. The machine has 2.7.6, which satisfies
-> > "python 2 >= 2.7", so we should be OK to build. The bug
-> > seems to be that we say "prefer python3 over plain python
-> > on python2" early, but don't revisit that decision if the
-> > python3 we found isn't actually good enough for us.
->
-> Right.  The error message is technically correct, but misleading.
-> python3 is too old, but python2 would work.
->
-> We can make configure not use python3 by default if it's too old,
-> and fall back to python2 in this case.
+* Kevin Wolf (kwolf@redhat.com) wrote:
+> Now that we have a monitor/ subdirectory, let's move hmp.c and qmp.c
+> from the root directory there. As they contain implementations of
+> monitor commands, rename them to {hmp,qmp}-cmds.c, so that {hmp,qmp}.c
+> are free for the HMP and QMP infrastructure.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
-Sounds good. Since I have now managed to get my alternate
-aarch64 box set up, how about I apply this pullreq and you
-send a followup patch which does the fallback to python/python2 ?
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-thanks
--- PMM
+> ---
+>  docs/devel/writing-qmp-commands.txt | 9 +++++----
+>  hmp.c => monitor/hmp-cmds.c         | 2 +-
+>  qmp.c => monitor/qmp-cmds.c         | 2 +-
+>  MAINTAINERS                         | 5 +++--
+>  Makefile.objs                       | 2 +-
+>  monitor/Makefile.objs               | 1 +
+>  6 files changed, 12 insertions(+), 9 deletions(-)
+>  rename hmp.c => monitor/hmp-cmds.c (99%)
+>  rename qmp.c => monitor/qmp-cmds.c (99%)
+> 
+> diff --git a/docs/devel/writing-qmp-commands.txt b/docs/devel/writing-qmp-commands.txt
+> index cc6ecd6d5d..46a6c48683 100644
+> --- a/docs/devel/writing-qmp-commands.txt
+> +++ b/docs/devel/writing-qmp-commands.txt
+> @@ -20,7 +20,7 @@ new QMP command.
+>  
+>  2. Write the QMP command itself, which is a regular C function. Preferably,
+>     the command should be exported by some QEMU subsystem. But it can also be
+> -   added to the qmp.c file
+> +   added to the monitor/qmp-cmds.c file
+>  
+>  3. At this point the command can be tested under the QMP protocol
+>  
+> @@ -101,7 +101,8 @@ protocol data.
+>  
+>  The next step is to write the "hello-world" implementation. As explained
+>  earlier, it's preferable for commands to live in QEMU subsystems. But
+> -"hello-world" doesn't pertain to any, so we put its implementation in qmp.c:
+> +"hello-world" doesn't pertain to any, so we put its implementation in
+> +monitor/qmp-cmds.c:
+>  
+>  void qmp_hello_world(Error **errp)
+>  {
+> @@ -146,7 +147,7 @@ for mandatory arguments). Finally, 'str' is the argument's type, which
+>  stands for "string". The QAPI also supports integers, booleans, enumerations
+>  and user defined types.
+>  
+> -Now, let's update our C implementation in qmp.c:
+> +Now, let's update our C implementation in monitor/qmp-cmds.c:
+>  
+>  void qmp_hello_world(bool has_message, const char *message, Error **errp)
+>  {
+> @@ -267,7 +268,7 @@ monitor (HMP).
+>  
+>  With the introduction of the QAPI, HMP commands make QMP calls. Most of the
+>  time HMP commands are simple wrappers. All HMP commands implementation exist in
+> -the hmp.c file.
+> +the monitor/hmp-cmds.c file.
+>  
+>  Here's the implementation of the "hello-world" HMP command:
+>  
+> diff --git a/hmp.c b/monitor/hmp-cmds.c
+> similarity index 99%
+> rename from hmp.c
+> rename to monitor/hmp-cmds.c
+> index 99414cd39c..712737cd18 100644
+> --- a/hmp.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1,5 +1,5 @@
+>  /*
+> - * Human Monitor Interface
+> + * Human Monitor Interface commands
+>   *
+>   * Copyright IBM, Corp. 2011
+>   *
+> diff --git a/qmp.c b/monitor/qmp-cmds.c
+> similarity index 99%
+> rename from qmp.c
+> rename to monitor/qmp-cmds.c
+> index fa1b3c1577..65520222ca 100644
+> --- a/qmp.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -1,5 +1,5 @@
+>  /*
+> - * QEMU Management Protocol
+> + * QEMU Management Protocol commands
+>   *
+>   * Copyright IBM, Corp. 2011
+>   *
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 10c082314c..8789c82e5c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1925,7 +1925,8 @@ Human Monitor (HMP)
+>  M: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>  S: Maintained
+>  F: monitor/misc.c
+> -F: hmp.[ch]
+> +F: monitor/hmp*
+> +F: hmp.h
+>  F: hmp-commands*.hx
+>  F: include/monitor/hmp-target.h
+>  F: tests/test-hmp.c
+> @@ -2045,7 +2046,7 @@ F: tests/check-qom-proplist.c
+>  QMP
+>  M: Markus Armbruster <armbru@redhat.com>
+>  S: Supported
+> -F: qmp.c
+> +F: monitor/qmp*
+>  F: monitor/misc.c
+>  F: docs/devel/*qmp-*
+>  F: docs/interop/*qmp-*
+> diff --git a/Makefile.objs b/Makefile.objs
+> index dd39a70b48..9495fcbc7e 100644
+> --- a/Makefile.objs
+> +++ b/Makefile.objs
+> @@ -83,8 +83,8 @@ common-obj-$(CONFIG_FDT) += device_tree.o
+>  ######################################################################
+>  # qapi
+>  
+> -common-obj-y += qmp.o hmp.o
+>  common-obj-y += qapi/
+> +common-obj-y += monitor/
+>  endif
+>  
+>  #######################################################################
+> diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
+> index e783b0616b..a7170af6e1 100644
+> --- a/monitor/Makefile.objs
+> +++ b/monitor/Makefile.objs
+> @@ -1 +1,2 @@
+>  obj-y += misc.o
+> +common-obj-y += qmp-cmds.o hmp-cmds.o
+> -- 
+> 2.20.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
