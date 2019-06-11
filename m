@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959623CA69
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 13:52:06 +0200 (CEST)
-Received: from localhost ([::1]:56674 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C82C3CA1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 13:35:34 +0200 (CEST)
+Received: from localhost ([::1]:56498 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hafJt-0007Bo-Ol
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 07:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39644)
+	id 1haf3t-00084e-JN
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 07:35:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1haeQQ-0007de-Al
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 06:54:55 -0400
+ (envelope-from <fam@euphon.net>) id 1haeni-0003WK-O3
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:18:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1haeQK-0007qU-L3
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 06:54:46 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43071)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1haeQK-0007ot-2l
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 06:54:40 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p13so2389334wru.10
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 03:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gPYLikUR5ZuBlGRaNvlfd3hHYV0xbs6/Y2luBsY5Vwk=;
- b=cY2uIjwJlfKnxKC5LvBX2R1HHBm6XmPD5C5JRZiBG7PpDMpQ+ID1a3JR2qC9OezKYb
- xdL65tJIR84ZILz7hKKYNUVTM7g5g7ex+diwwX5wEYSnNze5WP1eGowKOX2u5NC7zf/O
- PFRKzrX8Rg/BqaAclpyrAetH8wsNT0wWo7FiYV/T40SKeDkOjA1JSRYhu6cPVdVQm5P5
- IagG0rJX7+UG1FGCMDnpkixlHJ2AWAm9YoFFR2z6oDyT0BUF30ycTsu60bdeMGOmxS5W
- UKdlNIYM+JzvOPyOyRUoI3AGcENMyhUuID25v7U0eUzzao6YsObZaWN3/RUHEO0A09q9
- 4asA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gPYLikUR5ZuBlGRaNvlfd3hHYV0xbs6/Y2luBsY5Vwk=;
- b=JYbHYxwA8G876965l9Pi2S4O969DZ10gYlGZvY3dwtlHHMw+dx+zBKHSL4GP0QO1vI
- i3hb3gbCACnApMx2b249ycQXaTAaqz8fbN4z2yp8M/bbclueZzdpMt3ky88s689TK2/N
- 5huKV1AvsEFPKg+E4lqkbKyaiB+Hz5lenwS+UeF6OmdsU6UJDtt0jWbaMH4PcBA6NJ+N
- 96mtrBA+oEvaYcqpzVkxMt3UPTLyE86h2FSe6lYSR7D1rKq7rQyK8yx40foyi0tQ6vIl
- d2UcZbHyW+NPit60iKlKsYjgKbhmUEXxENxT+sG3IqLVplAEl5PqcZrESLie89BQUZUL
- gTaQ==
-X-Gm-Message-State: APjAAAXaKvyJqlrEfE8UOKCgOgbAwiUrDyHV0kNUobCyFKkFU5gsI1XR
- +XI92jQmOxwHrwehVLHz95BnRQ==
-X-Google-Smtp-Source: APXvYqwPNxkMr+rH/6upO97V6/B0VRUGTcRxfdRx3evHQ1BHC/zQpSRJCOW7ot7Z5KTmN9TdJIx0+w==
-X-Received: by 2002:adf:9dcc:: with SMTP id q12mr24220861wre.93.1560250478626; 
- Tue, 11 Jun 2019 03:54:38 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e17sm10785945wrt.95.2019.06.11.03.54.37
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Jun 2019 03:54:38 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Tue, 11 Jun 2019 11:53:51 +0100
-Message-Id: <20190611105351.9871-43-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190611105351.9871-1-peter.maydell@linaro.org>
-References: <20190611105351.9871-1-peter.maydell@linaro.org>
+ (envelope-from <fam@euphon.net>) id 1haenW-0002zS-Ev
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:18:44 -0400
+Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17976
+ helo=sender1.zoho.com.cn)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <fam@euphon.net>)
+ id 1haenP-0002rY-7j; Tue, 11 Jun 2019 07:18:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560251839; cv=none; d=zoho.com.cn; s=zohoarc; 
+ b=M7DyTI0wnhBnr4/F5e56m3YLtuqaBMzmjGBTwx2d7fAVw1NE12Jo3s36ESJW4OnvwBgjQh11lI8lQSUs2hNu/JMASDj12SqYn2udbK/C8mYrABOecgzg51VDWvABi4pRH5lLX6DJKH/vXsYdrFuH+1ODJ2Jm3V0QEsy4bLjwWkU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
+ s=zohoarc; t=1560251839;
+ h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To:ARC-Authentication-Results;
+ bh=fvFziQv307w1cPzZ1ySZopJYIELMOoQzuGSpGbjC4rw=; 
+ b=VQRtALNLiOxrIQpW4KUDZ8IhaD3SyZ+lsdsrz6cS/A0qQgE3TP9HONQLek0xCjfs6nkutpnVvTYQrznSucPJqEhr9iNNolfSYZgCZhxweZue98XskqNfhM6Vduz+NSzZbfH33ZitlopipIg9IQ1ZJYe4pcvpLN3KaYI7dHhU9pI=
+ARC-Authentication-Results: i=1; mx.zoho.com.cn;
+ dkim=pass  header.i=euphon.net;
+ spf=pass  smtp.mailfrom=fam@euphon.net;
+ dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1560251839; 
+ s=zoho; d=euphon.net; i=fam@euphon.net;
+ h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
+ l=13433; bh=fvFziQv307w1cPzZ1ySZopJYIELMOoQzuGSpGbjC4rw=;
+ b=MapfuRNSFO1V9S2h96bFKC24GFUYZ/5POp0BYZ8Kz2PAwJbNdDB3rLGglI7QVWLB
+ GVvgH9+BDPzcx1GISAoSRht1YToVYTLiRgaDKrTh8ZZ5XzJWcw/NsbmiNB0W47zuD1s
+ ifQS5N1y7Z+7XpTxBQmn5CiaOVtMNUUzv+o5m5qo=
+Received: from localhost (120.52.147.48 [120.52.147.48]) by mx.zoho.com.cn
+ with SMTPS id 15602518367371005.4267481207212;
+ Tue, 11 Jun 2019 19:17:16 +0800 (CST)
+Date: Tue, 11 Jun 2019 19:17:14 +0800
+From: Fam Zheng <fam@euphon.net>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>
+Message-ID: <20190611111714.wshlk6fddh34atfp@debian>
+References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
+ <20190610134905.22294-5-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v2 42/42] target/arm: Fix short-vector
- increment behaviour
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190610134905.22294-5-mehta.aaru20@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-ZohoCNMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 163.53.93.243
+Subject: Re: [Qemu-devel] [PATCH v5 04/12] block/io_uring: implements
+ interfaces for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,328 +69,483 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ saket.sinha89@gmail.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Julia Suvorova <jusual@mail.ru>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For VFP short vectors, the VFP registers are divided into a
-series of banks: for single-precision these are s0-s7, s8-s15,
-s16-s23 and s24-s31; for double-precision they are d0-d3,
-d4-d7, ... d28-d31. Some banks are "scalar" meaning that
-use of a register within them triggers a pure-scalar or
-mixed vector-scalar operation rather than a full vector
-operation. The scalar banks are s0-s7, d0-d3 and d16-d19.
-When using a bank as part of a vector operation, we
-iterate through it, increasing the register number by
-the specified stride each time, and wrapping around to
-the beginning of the bank.
+On Mon, 06/10 19:18, Aarushi Mehta wrote:
+> Aborts when sqe fails to be set as sqes cannot be returned to the ring.
+> 
+> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+> ---
+>  MAINTAINERS             |   7 +
+>  block/Makefile.objs     |   3 +
+>  block/io_uring.c        | 314 ++++++++++++++++++++++++++++++++++++++++
+>  include/block/aio.h     |  16 +-
+>  include/block/raw-aio.h |  12 ++
+>  5 files changed, 351 insertions(+), 1 deletion(-)
+>  create mode 100644 block/io_uring.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7be1225415..49f896796e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2516,6 +2516,13 @@ F: block/file-posix.c
+>  F: block/file-win32.c
+>  F: block/win32-aio.c
+>  
+> +Linux io_uring
+> +M: Aarushi Mehta <mehta.aaru20@gmail.com>
+> +R: Stefan Hajnoczi <stefan@redhat.com>
+> +L: qemu-block@nongnu.org
+> +S: Maintained
+> +F: block/io_uring.c
+> +
+>  qcow2
+>  M: Kevin Wolf <kwolf@redhat.com>
+>  M: Max Reitz <mreitz@redhat.com>
+> diff --git a/block/Makefile.objs b/block/Makefile.objs
+> index ae11605c9f..8fde7a23a5 100644
+> --- a/block/Makefile.objs
+> +++ b/block/Makefile.objs
+> @@ -18,6 +18,7 @@ block-obj-y += block-backend.o snapshot.o qapi.o
+>  block-obj-$(CONFIG_WIN32) += file-win32.o win32-aio.o
+>  block-obj-$(CONFIG_POSIX) += file-posix.o
+>  block-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
+> +block-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
+>  block-obj-y += null.o mirror.o commit.o io.o create.o
+>  block-obj-y += throttle-groups.o
+>  block-obj-$(CONFIG_LINUX) += nvme.o
+> @@ -61,5 +62,7 @@ block-obj-$(if $(CONFIG_LZFSE),m,n) += dmg-lzfse.o
+>  dmg-lzfse.o-libs   := $(LZFSE_LIBS)
+>  qcow.o-libs        := -lz
+>  linux-aio.o-libs   := -laio
+> +io_uring.o-cflags  := $(LINUX_IO_URING_CFLAGS)
+> +io_uring.o-libs    := $(LINUX_IO_URING_LIBS)
+>  parallels.o-cflags := $(LIBXML2_CFLAGS)
+>  parallels.o-libs   := $(LIBXML2_LIBS)
+> diff --git a/block/io_uring.c b/block/io_uring.c
+> new file mode 100644
+> index 0000000000..f327c7ef96
+> --- /dev/null
+> +++ b/block/io_uring.c
+> @@ -0,0 +1,314 @@
+> +/*
+> + * Linux io_uring support.
+> + *
+> + * Copyright (C) 2009 IBM, Corp.
+> + * Copyright (C) 2009 Red Hat, Inc.
+> + * Copyright (C) 2019 Aarushi Mehta
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +#include "qemu/osdep.h"
+> +#include <liburing.h>
+> +#include "qemu-common.h"
+> +#include "block/aio.h"
+> +#include "qemu/queue.h"
+> +#include "block/block.h"
+> +#include "block/raw-aio.h"
+> +#include "qemu/coroutine.h"
+> +#include "qapi/error.h"
+> +
+> +#define MAX_EVENTS 128
+> +
+> +typedef struct LuringAIOCB {
 
-Unfortunately our calculation of the "increment" part of this
-was incorrect:
- vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask)
-will only do the intended thing if bank_mask has exactly
-one set high bit. For instance for doubles (bank_mask = 0xc),
-if we start with vd = 6 and delta_d = 2 then vd is updated
-to 12 rather than the intended 4.
+I have to say it is a good name.
 
-This only causes problems in the unlikely case that the
-starting register is not the first in its bank: if the
-register number doesn't have to wrap around then the
-expression happens to give the right answer.
+> +    Coroutine *co;
+> +    struct io_uring_sqe sqeq;
+> +    ssize_t ret;
+> +    QEMUIOVector *qiov;
+> +    bool is_read;
+> +    QSIMPLEQ_ENTRY(LuringAIOCB) next;
+> +} LuringAIOCB;
+> +
+> +typedef struct LuringQueue {
+> +    int plugged;
+> +    unsigned int in_queue;
+> +    unsigned int in_flight;
+> +    bool blocked;
+> +    QSIMPLEQ_HEAD(, LuringAIOCB) sq_overflow;
+> +} LuringQueue;
+> +
+> +typedef struct LuringState {
+> +    AioContext *aio_context;
+> +
+> +    struct io_uring ring;
+> +
+> +    /* io queue for submit at batch.  Protected by AioContext lock. */
+> +    LuringQueue io_q;
+> +
+> +    /* I/O completion processing.  Only runs in I/O thread.  */
+> +    QEMUBH *completion_bh;
+> +} LuringState;
+> +
+> +/**
+> + * ioq_submit:
+> + * @s: AIO state
+> + *
+> + * Queues pending sqes and submits them
+> + *
+> + */
+> +static int ioq_submit(LuringState *s);
+> +
+> +/**
+> + * qemu_luring_process_completions:
+> + * @s: AIO state
+> + *
+> + * Fetches completed I/O requests, consumes cqes and invokes their callbacks.
+> + *
+> + */
+> +static void qemu_luring_process_completions(LuringState *s)
+> +{
+> +    struct io_uring_cqe *cqes;
+> +    int ret;
+> +
+> +    /*
+> +     * Request completion callbacks can run the nested event loop.
+> +     * Schedule ourselves so the nested event loop will "see" remaining
+> +     * completed requests and process them.  Without this, completion
+> +     * callbacks that wait for other requests using a nested event loop
+> +     * would hang forever.
+> +     */
+> +    qemu_bh_schedule(s->completion_bh);
+> +
+> +    while (io_uring_peek_cqe(&s->ring, &cqes) == 0) {
+> +        if (!cqes) {
+> +            break;
+> +        }
+> +        LuringAIOCB *luringcb = io_uring_cqe_get_data(cqes);
+> +        ret = cqes->res;
 
-Fix this bug by abstracting out the "check whether register
-is in a scalar bank" and "advance register within bank"
-operations to utility functions which use the right
-bit masking operations.
+Declarations should be in the beginning of the code block.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate-vfp.inc.c | 100 ++++++++++++++++++++-------------
- 1 file changed, 60 insertions(+), 40 deletions(-)
+> +
+> +        if (ret == luringcb->qiov->size) {
+> +            ret = 0;
+> +        } else if (ret >= 0) {
+> +            /* Short Read/Write */
+> +            if (luringcb->is_read) {
+> +                /* Read, pad with zeroes */
+> +                qemu_iovec_memset(luringcb->qiov, ret, 0,
+> +                luringcb->qiov->size - ret);
 
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 8216dba796e..709fc65374d 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -1139,6 +1139,42 @@ typedef void VFPGen3OpDPFn(TCGv_i64 vd,
- typedef void VFPGen2OpSPFn(TCGv_i32 vd, TCGv_i32 vm);
- typedef void VFPGen2OpDPFn(TCGv_i64 vd, TCGv_i64 vm);
- 
-+/*
-+ * Return true if the specified S reg is in a scalar bank
-+ * (ie if it is s0..s7)
-+ */
-+static inline bool vfp_sreg_is_scalar(int reg)
-+{
-+    return (reg & 0x18) == 0;
-+}
-+
-+/*
-+ * Return true if the specified D reg is in a scalar bank
-+ * (ie if it is d0..d3 or d16..d19)
-+ */
-+static inline bool vfp_dreg_is_scalar(int reg)
-+{
-+    return (reg & 0xc) == 0;
-+}
-+
-+/*
-+ * Advance the S reg number forwards by delta within its bank
-+ * (ie increment the low 3 bits but leave the rest the same)
-+ */
-+static inline int vfp_advance_sreg(int reg, int delta)
-+{
-+    return ((reg + delta) & 0x7) | (reg & ~0x7);
-+}
-+
-+/*
-+ * Advance the D reg number forwards by delta within its bank
-+ * (ie increment the low 2 bits but leave the rest the same)
-+ */
-+static inline int vfp_advance_dreg(int reg, int delta)
-+{
-+    return ((reg + delta) & 0x3) | (reg & ~0x3);
-+}
-+
- /*
-  * Perform a 3-operand VFP data processing instruction. fn is the
-  * callback to do the actual operation; this function deals with the
-@@ -1149,7 +1185,6 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
- {
-     uint32_t delta_m = 0;
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i32 f0, f1, fd;
-     TCGv_ptr fpst;
-@@ -1164,16 +1199,14 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0x18;
--
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_sreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-             delta_d = s->vec_stride + 1;
- 
--            if ((vm & bank_mask) == 0) {
-+            if (vfp_sreg_is_scalar(vm)) {
-                 /* mixed scalar/vector */
-                 delta_m = 0;
-             } else {
-@@ -1204,11 +1237,11 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
--        vn = ((vn + delta_d) & (bank_mask - 1)) | (vn & bank_mask);
-+        vd = vfp_advance_sreg(vd, delta_d);
-+        vn = vfp_advance_sreg(vn, delta_d);
-         neon_load_reg32(f0, vn);
-         if (delta_m) {
--            vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
-+            vm = vfp_advance_sreg(vm, delta_m);
-             neon_load_reg32(f1, vm);
-         }
-     }
-@@ -1226,7 +1259,6 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
- {
-     uint32_t delta_m = 0;
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i64 f0, f1, fd;
-     TCGv_ptr fpst;
-@@ -1246,16 +1278,14 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0xc;
--
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_dreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-             delta_d = (s->vec_stride >> 1) + 1;
- 
--            if ((vm & bank_mask) == 0) {
-+            if (vfp_dreg_is_scalar(vm)) {
-                 /* mixed scalar/vector */
-                 delta_m = 0;
-             } else {
-@@ -1285,11 +1315,11 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
-         }
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
--        vn = ((vn + delta_d) & (bank_mask - 1)) | (vn & bank_mask);
-+        vd = vfp_advance_dreg(vd, delta_d);
-+        vn = vfp_advance_dreg(vn, delta_d);
-         neon_load_reg64(f0, vn);
-         if (delta_m) {
--            vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
-+            vm = vfp_advance_dreg(vm, delta_m);
-             neon_load_reg64(f1, vm);
-         }
-     }
-@@ -1306,7 +1336,6 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
- {
-     uint32_t delta_m = 0;
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i32 f0, fd;
- 
-@@ -1320,16 +1349,14 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0x18;
--
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_sreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-             delta_d = s->vec_stride + 1;
- 
--            if ((vm & bank_mask) == 0) {
-+            if (vfp_sreg_is_scalar(vm)) {
-                 /* mixed scalar/vector */
-                 delta_m = 0;
-             } else {
-@@ -1355,7 +1382,7 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
-         if (delta_m == 0) {
-             /* single source one-many */
-             while (veclen--) {
--                vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
-+                vd = vfp_advance_sreg(vd, delta_d);
-                 neon_store_reg32(fd, vd);
-             }
-             break;
-@@ -1363,8 +1390,8 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
--        vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
-+        vd = vfp_advance_sreg(vd, delta_d);
-+        vm = vfp_advance_sreg(vm, delta_m);
-         neon_load_reg32(f0, vm);
-     }
- 
-@@ -1378,7 +1405,6 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
- {
-     uint32_t delta_m = 0;
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i64 f0, fd;
- 
-@@ -1397,16 +1423,14 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0xc;
--
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_dreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-             delta_d = (s->vec_stride >> 1) + 1;
- 
--            if ((vm & bank_mask) == 0) {
-+            if (vfp_dreg_is_scalar(vm)) {
-                 /* mixed scalar/vector */
-                 delta_m = 0;
-             } else {
-@@ -1432,7 +1456,7 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
-         if (delta_m == 0) {
-             /* single source one-many */
-             while (veclen--) {
--                vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
-+                vd = vfp_advance_dreg(vd, delta_d);
-                 neon_store_reg64(fd, vd);
-             }
-             break;
-@@ -1440,8 +1464,8 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
--        vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
-+        vd = vfp_advance_dreg(vd, delta_d);
-+        vd = vfp_advance_dreg(vm, delta_m);
-         neon_load_reg64(f0, vm);
-     }
- 
-@@ -1783,7 +1807,6 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_sp *a)
- static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
- {
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i32 fd;
-     uint32_t n, i, vd;
-@@ -1804,9 +1827,8 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0x18;
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_sreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-@@ -1835,7 +1857,7 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
-+        vd = vfp_advance_sreg(vd, delta_d);
-     }
- 
-     tcg_temp_free_i32(fd);
-@@ -1845,7 +1867,6 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
- static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
- {
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i64 fd;
-     uint32_t n, i, vd;
-@@ -1871,9 +1892,8 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0xc;
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_dreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-@@ -1902,7 +1922,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
-+        vfp_advance_dreg(vd, delta_d);
-     }
- 
-     tcg_temp_free_i64(fd);
--- 
-2.20.1
+Should you check that (ret < luringcb->qiov->size) since ret is from external?
+
+Either way, ret should be assigned 0, I think.
+
+> +            } else {
+> +                ret = -ENOSPC;;
+
+s/;;/;/
+
+> +            }
+> +        }
+> +        luringcb->ret = ret;
+> +
+> +        io_uring_cqe_seen(&s->ring, cqes);
+> +        cqes = NULL;
+> +        /* Change counters one-by-one because we can be nested. */
+> +        s->io_q.in_flight--;
+> +
+> +        /*
+> +         * If the coroutine is already entered it must be in ioq_submit()
+> +         * and will notice luringcb->ret has been filled in when it
+> +         * eventually runs later. Coroutines cannot be entered recursively
+> +         * so avoid doing that!
+> +         */
+> +        if (!qemu_coroutine_entered(luringcb->co)) {
+> +            aio_co_wake(luringcb->co);
+> +        }
+> +    }
+> +    qemu_bh_cancel(s->completion_bh);
+> +}
+> +
+> +static void qemu_luring_process_completions_and_submit(LuringState *s)
+> +{
+> +    aio_context_acquire(s->aio_context);
+> +    qemu_luring_process_completions(s);
+> +
+> +    if (!s->io_q.plugged && s->io_q.in_queue > 0) {
+> +        ioq_submit(s);
+> +    }
+> +    aio_context_release(s->aio_context);
+> +}
+> +
+> +static void qemu_luring_completion_bh(void *opaque)
+> +{
+> +    LuringState *s = opaque;
+> +    qemu_luring_process_completions_and_submit(s);
+> +}
+> +
+> +static void qemu_luring_completion_cb(void *opaque)
+> +{
+> +    LuringState *s = opaque;
+> +    qemu_luring_process_completions_and_submit(s);
+> +}
+> +
+> +static void ioq_init(LuringQueue *io_q)
+> +{
+> +    QSIMPLEQ_INIT(&io_q->sq_overflow);
+> +    io_q->plugged = 0;
+> +    io_q->in_queue = 0;
+> +    io_q->in_flight = 0;
+> +    io_q->blocked = false;
+> +}
+> +
+> +static int ioq_submit(LuringState *s)
+> +{
+> +    int ret = 0;
+> +    LuringAIOCB *luringcb, *luringcb_next;
+> +
+> +    while (s->io_q.in_queue > 0) {
+> +        QSIMPLEQ_FOREACH_SAFE(luringcb, &s->io_q.sq_overflow, next,
+> +                              luringcb_next) {
+> +            struct io_uring_sqe *sqes = io_uring_get_sqe(&s->ring);
+> +            if (!sqes) {
+> +                break;
+> +            }
+> +            /* Prep sqe for submission */
+> +            *sqes = luringcb->sqeq;
+> +            QSIMPLEQ_REMOVE_HEAD(&s->io_q.sq_overflow, next);
+> +        }
+> +        ret =  io_uring_submit(&s->ring);
+
+s/  / /
+
+> +        /* Prevent infinite loop if submission is refused */
+> +        if (ret <= 0) {
+> +            if (ret == -EAGAIN) {
+> +                continue;
+> +            }
+> +            break;
+> +        }
+> +        s->io_q.in_flight += ret;
+> +        s->io_q.in_queue  -= ret;
+> +    }
+> +    s->io_q.blocked = (s->io_q.in_queue > 0);
+
+I'm confused about s->io_q.blocked. ioq_submit is where it gets updated, but
+if it becomes true, calling ioq_submit will be fenced. So how does it get
+cleared?
+
+> +
+> +    if (s->io_q.in_flight) {
+> +        /*
+> +         * We can try to complete something just right away if there are
+> +         * still requests in-flight.
+> +         */
+> +        qemu_luring_process_completions(s);
+> +    }
+> +    return ret;
+> +}
+> +
+> +void luring_io_plug(BlockDriverState *bs, LuringState *s)
+> +{
+> +    s->io_q.plugged++;
+> +}
+> +
+> +void luring_io_unplug(BlockDriverState *bs, LuringState *s)
+> +{
+> +    assert(s->io_q.plugged);
+> +    if (--s->io_q.plugged == 0 &&
+> +        !s->io_q.blocked && s->io_q.in_queue > 0) {
+> +        ioq_submit(s);
+> +    }
+> +}
+> +
+> +/**
+> + * luring_do_submit:
+> + * @fd: file descriptor for I/O
+> + * @luringcb: AIO control block
+> + * @s: AIO state
+> + * @offset: offset for request
+> + * @type: type of request
+> + *
+> + * Fetches sqes from ring, adds to pending queue and preps them
+> + *
+> + */
+> +static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
+> +                            uint64_t offset, int type)
+> +{
+> +    struct io_uring_sqe *sqes = io_uring_get_sqe(&s->ring);
+> +    if (!sqes) {
+> +        sqes = &luringcb->sqeq;
+> +        QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
+> +    }
+> +
+> +    switch (type) {
+> +    case QEMU_AIO_WRITE:
+> +        io_uring_prep_writev(sqes, fd, luringcb->qiov->iov,
+> +                             luringcb->qiov->niov, offset);
+> +        break;
+> +    case QEMU_AIO_READ:
+> +        io_uring_prep_readv(sqes, fd, luringcb->qiov->iov,
+> +                            luringcb->qiov->niov, offset);
+> +        break;
+> +    case QEMU_AIO_FLUSH:
+> +        io_uring_prep_fsync(sqes, fd, 0);
+> +        break;
+> +    default:
+> +        fprintf(stderr, "%s: invalid AIO request type, aborting 0x%x.\n",
+> +                        __func__, type);
+> +        abort();
+> +    }
+> +    io_uring_sqe_set_data(sqes, luringcb);
+> +    s->io_q.in_queue++;
+> +
+> +    if (!s->io_q.blocked &&
+> +        (!s->io_q.plugged ||
+> +         s->io_q.in_flight + s->io_q.in_queue >= MAX_EVENTS)) {
+> +        return ioq_submit(s);
+> +    }
+> +    return 0;
+> +}
+> +
+> +int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
+> +                                uint64_t offset, QEMUIOVector *qiov, int type)
+> +{
+> +    int ret;
+> +    LuringAIOCB luringcb = {
+> +        .co         = qemu_coroutine_self(),
+> +        .ret        = -EINPROGRESS,
+> +        .qiov       = qiov,
+> +        .is_read    = (type == QEMU_AIO_READ),
+> +    };
+> +
+> +    ret = luring_do_submit(fd, &luringcb, s, offset, type);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    if (luringcb.ret == -EINPROGRESS) {
+> +        qemu_coroutine_yield();
+> +    }
+> +    return luringcb.ret;
+> +}
+> +
+> +void luring_detach_aio_context(LuringState *s, AioContext *old_context)
+> +{
+> +    aio_set_fd_handler(old_context, s->ring.ring_fd, false, NULL, NULL, NULL,
+> +                       s);
+> +    qemu_bh_delete(s->completion_bh);
+> +    s->aio_context = NULL;
+> +}
+> +
+> +void luring_attach_aio_context(LuringState *s, AioContext *new_context)
+> +{
+> +    s->aio_context = new_context;
+> +    s->completion_bh = aio_bh_new(new_context, qemu_luring_completion_bh, s);
+> +    aio_set_fd_handler(s->aio_context, s->ring.ring_fd, false,
+> +                       qemu_luring_completion_cb, NULL, NULL, s);
+> +}
+> +
+> +LuringState *luring_init(Error **errp)
+> +{
+> +    int rc;
+> +    LuringState *s;
+> +    s = g_malloc0(sizeof(*s));
+
+You can use g_new0() to be more concise.
+
+> +    struct io_uring *ring = &s->ring;
+> +    rc =  io_uring_queue_init(MAX_EVENTS, ring, 0);
+
+s/  / /
+
+> +    if (rc < 0) {
+> +        error_setg_errno(errp, errno, "failed to init linux io_uring ring");
+> +        g_free(s);
+> +        return NULL;
+> +    }
+> +
+> +    ioq_init(&s->io_q);
+> +    return s;
+> +
+> +}
+> +
+> +void luring_cleanup(LuringState *s)
+> +{
+> +    io_uring_queue_exit(&s->ring);
+> +    g_free(s);
+> +}
+> diff --git a/include/block/aio.h b/include/block/aio.h
+> index 0ca25dfec6..9da3fd9793 100644
+> --- a/include/block/aio.h
+> +++ b/include/block/aio.h
+> @@ -50,6 +50,7 @@ typedef void IOHandler(void *opaque);
+>  struct Coroutine;
+>  struct ThreadPool;
+>  struct LinuxAioState;
+> +struct LuringState;
+>  
+>  struct AioContext {
+>      GSource source;
+> @@ -118,11 +119,19 @@ struct AioContext {
+>      struct ThreadPool *thread_pool;
+>  
+>  #ifdef CONFIG_LINUX_AIO
+> -    /* State for native Linux AIO.  Uses aio_context_acquire/release for
+> +    /*
+> +     * State for native Linux AIO.  Uses aio_context_acquire/release for
+>       * locking.
+>       */
+>      struct LinuxAioState *linux_aio;
+>  #endif
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    /*
+> +     * State for Linux io_uring.  Uses aio_context_acquire/release for
+> +     * locking.
+> +     */
+> +    struct LuringState *linux_io_uring;
+> +#endif
+>  
+>      /* TimerLists for calling timers - one per clock type.  Has its own
+>       * locking.
+> @@ -387,6 +396,11 @@ struct LinuxAioState *aio_setup_linux_aio(AioContext *ctx, Error **errp);
+>  /* Return the LinuxAioState bound to this AioContext */
+>  struct LinuxAioState *aio_get_linux_aio(AioContext *ctx);
+>  
+> +/* Setup the LuringState bound to this AioContext */
+> +struct LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp);
+> +
+> +/* Return the LuringState bound to this AioContext */
+> +struct LuringState *aio_get_linux_io_uring(AioContext *ctx);
+>  /**
+>   * aio_timer_new_with_attrs:
+>   * @ctx: the aio context
+> diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
+> index 0cb7cc74a2..71d7d1395f 100644
+> --- a/include/block/raw-aio.h
+> +++ b/include/block/raw-aio.h
+> @@ -55,6 +55,18 @@ void laio_attach_aio_context(LinuxAioState *s, AioContext *new_context);
+>  void laio_io_plug(BlockDriverState *bs, LinuxAioState *s);
+>  void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s);
+>  #endif
+> +/* io_uring.c - Linux io_uring implementation */
+> +#ifdef CONFIG_LINUX_IO_URING
+> +typedef struct LuringState LuringState;
+> +LuringState *luring_init(Error **errp);
+> +void luring_cleanup(LuringState *s);
+> +int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
+> +                                uint64_t offset, QEMUIOVector *qiov, int type);
+> +void luring_detach_aio_context(LuringState *s, AioContext *old_context);
+> +void luring_attach_aio_context(LuringState *s, AioContext *new_context);
+> +void luring_io_plug(BlockDriverState *bs, LuringState *s);
+> +void luring_io_unplug(BlockDriverState *bs, LuringState *s);
+> +#endif
+>  
+>  #ifdef _WIN32
+>  typedef struct QEMUWin32AIOState QEMUWin32AIOState;
+> -- 
+> 2.17.1
+> 
 
 
