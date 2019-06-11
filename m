@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2CB3CACF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 14:13:20 +0200 (CEST)
-Received: from localhost ([::1]:56998 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A113CA64
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 13:51:26 +0200 (CEST)
+Received: from localhost ([::1]:56660 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hafeR-0002wT-Fe
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 08:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52386)
+	id 1hafJF-0005Zx-F1
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 07:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52421)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hafA2-0006yr-Ku
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:41:55 -0400
+ (envelope-from <philmd@redhat.com>) id 1hafA2-00071Q-2m
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:41:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1haf7H-0001OF-Ij
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:39:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53222)
+ (envelope-from <philmd@redhat.com>) id 1haf7J-0001TC-LC
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:39:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56514)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1haf7E-000132-B3
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:39:03 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1haf7H-00014t-Ll
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 07:39:05 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8391A3086224;
- Tue, 11 Jun 2019 11:38:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C34E83082B6B;
+ Tue, 11 Jun 2019 11:38:48 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.167])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A176760BF1;
- Tue, 11 Jun 2019 11:38:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ECAC860BF1;
+ Tue, 11 Jun 2019 11:38:46 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Igor Mammedov <imammedo@redhat.com>
-Date: Tue, 11 Jun 2019 13:37:30 +0200
-Message-Id: <20190611113731.16940-21-philmd@redhat.com>
+Date: Tue, 11 Jun 2019 13:37:31 +0200
+Message-Id: <20190611113731.16940-22-philmd@redhat.com>
 In-Reply-To: <20190611113731.16940-1-philmd@redhat.com>
 References: <20190611113731.16940-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 11 Jun 2019 11:38:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Tue, 11 Jun 2019 11:38:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v19 20/21] MAINTAINERS: Add RX
+Subject: [Qemu-devel] [PATCH v19 21/21] BootLinuxConsoleTest: Test the
+ RX-Virt machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,54 +63,128 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
+Add two tests for the rx-virt machine, based on the recommended test
+setup from Yoshinori Sato:
+https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03586.html
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190607091116.49044-18-ysato@users.sourceforge.jp>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+- U-Boot prompt
+- Linux kernel with Sash shell
+
+These are very quick tests:
+
+  $ avocado run -t arch:rx tests/acceptance/boot_linux_console.py
+  JOB ID     : 84a6ef01c0b87975ecbfcb31a920afd735753ace
+  JOB LOG    : /home/phil/avocado/job-results/job-2019-05-24T05.02-84a6ef=
+0/job.log
+   (1/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
+uboot: PASS (0.11 s)
+   (2/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
+linux: PASS (0.45 s)
+  RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
+| CANCEL 0
+
+Tests can also be run with:
+
+  $ avocado --show=3Dconsole run -t arch:rx tests/acceptance/boot_linux_c=
+onsole.py
+  console: U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty (Feb 05 2019 - 21:5=
+6:06 +0900)
+  console: Linux version 4.19.0+ (yo-satoh@yo-satoh-debian) (gcc version =
+9.0.0 20181105 (experimental) (GCC)) #137 Wed Feb 20 23:20:02 JST 2019
+  console: Built 1 zonelists, mobility grouping on.  Total pages: 8128
+  ...
+  console: SuperH (H)SCI(F) driver initialized
+  console: 88240.serial: ttySC0 at MMIO 0x88240 (irq =3D 215, base_baud =3D=
+ 0) is a sci
+  console: console [ttySC0] enabled
+  console: 88248.serial: ttySC1 at MMIO 0x88248 (irq =3D 219, base_baud =3D=
+ 0) is a sci
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- MAINTAINERS | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Based-on: 20190517045136.3509-1-richard.henderson@linaro.org
+"RX architecture support"
+---
+ tests/acceptance/boot_linux_console.py | 51 ++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7be1225415..439790ba93 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -273,6 +273,13 @@ F: include/hw/riscv/
- F: linux-user/host/riscv32/
- F: linux-user/host/riscv64/
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+index d5c500ea30..f68aab1df8 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -45,6 +45,11 @@ class BootLinuxConsole(Test):
+                 fail =3D 'Failure message found in console: %s' % failur=
+e_message
+                 self.fail(fail)
 =20
-+RENESAS RX
-+M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+S: Maintained
-+F: target/rx/
-+F: hw/rx/
-+F: include/hw/rx/
++    def exec_command_and_wait_for_pattern(self, command, success_message=
+):
++        command +=3D '\n'
++        self.vm.console_socket.sendall(command.encode())
++        self.wait_for_console_pattern(success_message)
 +
- S390
- M: Richard Henderson <rth@twiddle.net>
- M: David Hildenbrand <david@redhat.com>
-@@ -1109,6 +1116,18 @@ F: pc-bios/canyonlands.dt[sb]
- F: pc-bios/u-boot-sam460ex-20100605.bin
- F: roms/u-boot-sam460ex
-=20
-+RX Machines
-+-----------
-+RX-QEMU
-+M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+S: Maintained
-+F: hw/rx/rxqemu.c
-+F: hw/intc/rx_icu.c
-+F: hw/timer/renesas_*.c
-+F: hw/char/renesas_sci.c
-+F: include/hw/timer/renesas_*.h
-+F: include/hw/char/renesas_sci.h
+     def extract_from_deb(self, deb, path):
+         """
+         Extracts a file from a deb package into the test workdir
+@@ -217,3 +222,49 @@ class BootLinuxConsole(Test):
+         self.vm.launch()
+         console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
+ine
+         self.wait_for_console_pattern(console_pattern)
 +
- SH4 Machines
- ------------
- R2D
++    def test_rx_uboot(self):
++        """
++        :avocado: tags=3Darch:rx
++        :avocado: tags=3Dmachine:rx-virt
++        :avocado: tags=3Dendian:little
++        """
++        uboot_url =3D ('https://acc.dl.osdn.jp/users/23/23888/u-boot.bin=
+.gz')
++        uboot_hash =3D '9b78dbd43b40b2526848c0b1ce9de02c24f4dcdb'
++        uboot_path =3D self.fetch_asset(uboot_url, asset_hash=3Duboot_ha=
+sh)
++        uboot_path =3D archive.uncompress(uboot_path, self.workdir)
++
++        self.vm.set_machine('rx-virt')
++        self.vm.set_console()
++        self.vm.add_args('-bios', uboot_path,
++                         '-no-reboot')
++        self.vm.launch()
++        uboot_version =3D 'U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty'
++        self.wait_for_console_pattern(uboot_version)
++        gcc_version =3D 'rx-unknown-linux-gcc (GCC) 9.0.0 20181105 (expe=
+rimental)'
++        # FIXME limit baudrate on chardev, else we type too fast
++        #self.exec_command_and_wait_for_pattern('version', gcc_version)
++
++    def test_rx_linux(self):
++        """
++        :avocado: tags=3Darch:rx
++        :avocado: tags=3Dmachine:rx-virt
++        :avocado: tags=3Dendian:little
++        """
++        dtb_url =3D ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb'=
+)
++        dtb_hash =3D '7b4e4e2c71905da44e86ce47adee2210b026ac18'
++        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash)
++        kernel_url =3D ('http://acc.dl.osdn.jp/users/23/23845/zImage')
++        kernel_hash =3D '39a81067f8d72faad90866ddfefa19165d68fc99'
++        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
++
++        self.vm.set_machine('rx-virt')
++        self.vm.set_console()
++        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'early=
+con'
++        self.vm.add_args('-kernel', kernel_path,
++                         '-dtb', dtb_path,
++                         '-no-reboot')
++        self.vm.launch()
++        self.wait_for_console_pattern('Sash command shell (version 1.1.1=
+)')
++        self.exec_command_and_wait_for_pattern('printenv',
++                                               'TERM=3Dlinux')
 --=20
 2.20.1
 
