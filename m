@@ -2,61 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB823D227
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:24:57 +0200 (CEST)
-Received: from localhost ([::1]:60698 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8943D1F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:14:41 +0200 (CEST)
+Received: from localhost ([::1]:60574 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hajZv-0001Jg-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37162)
+	id 1hajQ0-0001vJ-Mh
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:14:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37622)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1haj3h-0004yd-Ht
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:51:41 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1haj5N-0006Nd-Gf
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:53:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1haj3f-0001we-GN
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:51:37 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:40033)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1haj3d-0001uv-1w
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:51:33 -0400
-Received: by mail-qk1-f193.google.com with SMTP id c70so7948788qkg.7
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 08:51:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=lvIy1k9eXyf8mxbSREsbnvsCP+G0xAZID5k8sr2+Ov8=;
- b=kxvEqhUSQFK4Oi42xYSdhotqrQ3BfbbO3d/HfvryQxk2MEgS3wN8gI4A2excdw1AZZ
- 0udiZFem6MpK49V7cOr79BNIf4YvdsnJRE8ZtNuD3vJkDLUBaylHfoDzh1MvEZ4peRER
- CgnTiDW65oGPNjvvvdt+GfZUZL3zC2gp2Wx4HoBIV/SzsKVcDudGbMZ3Xbo0fGgzBO0d
- 3snSJjujMXOUOqM6c/Og6dWJ2KaapVpIGSpdt9myKzPS3NHtgLXCkoMWWWUSyw8I6xJX
- hN/Tr5GHzAKdJ9Y/UvrM1joyYKXsCeidJ2G6i4Wf3/2pSR0i/R++K+2mcKAm4//Y2rGb
- uLQQ==
-X-Gm-Message-State: APjAAAUm2fS6NM/1RMY1Kq2BPWDbHCk+GBtczOsawp/a8hTHWQJBFH0Z
- 1A+J+b8vl+aifl+rzorYWTNaaw==
-X-Google-Smtp-Source: APXvYqy7mp0Njd0cttEWSglgrL1kNS1eAnfAYH+1S3kcm5EDyin3w0cJuRmJsNSJ9O32friYJyUMWQ==
-X-Received: by 2002:a37:482:: with SMTP id 124mr2572311qke.1.1560268291512;
- Tue, 11 Jun 2019 08:51:31 -0700 (PDT)
-Received: from redhat.com ([66.187.232.66])
- by smtp.gmail.com with ESMTPSA id c18sm3030594qkk.73.2019.06.11.08.51.29
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 11 Jun 2019 08:51:29 -0700 (PDT)
-Date: Tue, 11 Jun 2019 11:51:27 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laine Stump <laine@redhat.com>
-Message-ID: <20190611115009-mutt-send-email-mst@kernel.org>
-References: <20190517125820.2885-1-jfreimann@redhat.com>
- <646d0bf1-2fbb-1adb-d5d3-3ef3944376b5@redhat.com>
+ (envelope-from <jag.raman@oracle.com>) id 1haj5L-0003RU-2E
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:53:21 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42334)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
+ id 1haj5K-0003NE-N3
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 11:53:18 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5BFhj5t142827;
+ Tue, 11 Jun 2019 15:53:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2018-07-02;
+ bh=6EZdx72v1N85iGk5u5igwXPSmVBpji5AOekryKRsXaY=;
+ b=eLK11nVbgbaW0/Nv+RHOJ2NxUAh+rOIyGC7FRoWVUB6zRQeeQw+yeXZ+TqhvmHJvvCvE
+ ZDk7ZfKwyJpcaU3wq9A0I079sf6NxUX82mAhEA4dbeRJfpxuhnUcGYfJQJ2Vgzb0eAhA
+ S2gZgEf/YFPNQizqFj8cgGBdpbCad6SZIfMfD62DWbXpO0Egi+BPmvzJxl+XLUHh68Ru
+ W6m2BRt5OFtuZbAHGWslOBj82pe5KAfAi6B9/i57Rra9QD9fUucWSU0tUMJGfofzp6go
+ y/ybju46Lx1kMMhhKa4MlNPjGx1yJe85kCClJtNr63fKOoLI2w2SO8d73nFT1KGAcAx1 9Q== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2t05nqp28e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 11 Jun 2019 15:53:09 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5BFpHaR161528;
+ Tue, 11 Jun 2019 15:53:09 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 2t024ufvcj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 11 Jun 2019 15:53:08 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5BFr6PX006340;
+ Tue, 11 Jun 2019 15:53:06 GMT
+Received: from [10.11.108.55] (/10.11.108.55)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 11 Jun 2019 08:53:06 -0700
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <20190307145120.GF32268@redhat.com>
+ <20190307192727.GG2915@stefanha-x1.localdomain>
+ <BDEBF2EE-DE0F-46CF-B60E-536B3DA9BF77@oracle.com>
+ <20190308095036.GC12318@stefanha-x1.localdomain>
+ <20190326080822.GC21018@stefanha-x1.localdomain>
+ <e5395abf-6b41-46c8-f5af-3210077dfdd5@oracle.com>
+ <CAAdtpL4ztcpf-CTx0fc5T_+VQ+8upHa2pEMoiZPcmBXOO6L3Og@mail.gmail.com>
+ <c945c950-f6f1-7e2a-a6c4-399c9b728288@oracle.com>
+ <20190425154421.GG17806@stefanha-x1.localdomain>
+ <fe4b0b42-523d-5877-173c-3e878abd4e32@oracle.com>
+ <20190523104018.GE26632@stefanha-x1.localdomain>
+From: Jag Raman <jag.raman@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <735c942b-9ab9-86df-d112-d6b1fc7e90f9@oracle.com>
+Date: Tue, 11 Jun 2019 11:53:05 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <646d0bf1-2fbb-1adb-d5d3-3ef3944376b5@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.222.193
-Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
- network devices
+In-Reply-To: <20190523104018.GE26632@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9284
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906110102
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9284
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906110102
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by userp2120.oracle.com id
+ x5BFhj5t142827
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: Re: [Qemu-devel] [multiprocess RFC PATCH 36/37] multi-process: add
+ the concept description to docs/devel/qemu-multiprocess
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,173 +106,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- aadam@redhat.com, qemu-devel@nongnu.org, Jens Freimann <jfreimann@redhat.com>,
- ailan@redhat.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, sstabellini@kernel.org,
+ konrad.wilk@oracle.com, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ ross.lagerwall@citrix.com, liran.alon@oracle.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 11, 2019 at 11:42:54AM -0400, Laine Stump wrote:
-> On 5/17/19 8:58 AM, Jens Freimann wrote:
-> > This is another attempt at implementing the host side of the
-> > net_failover concept
-> > (https://www.kernel.org/doc/html/latest/networking/net_failover.html)
-> > 
-> > Changes since last RFC:
-> > - work around circular dependency of commandline options. Just add
-> >    failover=on to the virtio-net standby options and reference it from
-> >    primary (vfio-pci) device with standby=<id>
-> > - add patch 3/4 to allow migration of vfio-pci device when it is part of a
-> >    failover pair, still disallow for all other devices
-> > - add patch 4/4 to allow unplug of device during migrationm, make an
-> >    exception for failover primary devices. I'd like feedback on how to
-> >    solve this more elegant. I added a boolean to DeviceState, have it
-> >    default to false for all devices except for primary devices.
-> > - not tested yet with surprise removal
-> > - I don't expect this to go in as it is, still needs more testing but
-> >    I'd like to get feedback on above mentioned changes.
-> > 
-> > The general idea is that we have a pair of devices, a vfio-pci and a
-> > emulated device. Before migration the vfio device is unplugged and data
-> > flows to the emulated device, on the target side another vfio-pci device
-> > is plugged in to take over the data-path. In the guest the net_failover
-> > module will pair net devices with the same MAC address.
-> > 
-> > * In the first patch the infrastructure for hiding the device is added
-> >    for the qbus and qdev APIs.
-> > 
-> > * In the second patch the virtio-net uses the API to defer adding the vfio
-> >    device until the VIRTIO_NET_F_STANDBY feature is acked.
-> > 
-> > Previous discussion:
-> >    RFC v1 https://patchwork.ozlabs.org/cover/989098/
-> >    RFC v2 https://www.mail-archive.com/qemu-devel@nongnu.org/msg606906.html
-> > 
-> > To summarize concerns/feedback from previous discussion:
-> > 1.- guest OS can reject or worse _delay_ unplug by any amount of time.
-> >    Migration might get stuck for unpredictable time with unclear reason.
-> >    This approach combines two tricky things, hot/unplug and migration.
-> >    -> We can surprise-remove the PCI device and in QEMU we can do all
-> >       necessary rollbacks transparent to management software. Will it be
-> >       easy, probably not.
-> > 2. PCI devices are a precious ressource. The primary device should never
-> >    be added to QEMU if it won't be used by guest instead of hiding it in
-> >    QEMU.
-> >    -> We only hotplug the device when the standby feature bit was
-> >       negotiated. We save the device cmdline options until we need it for
-> >       qdev_device_add()
-> >       Hiding a device can be a useful concept to model. For example a
-> >       pci device in a powered-off slot could be marked as hidden until the slot is
-> >       powered on (mst).
-> > 3. Management layer software should handle this. Open Stack already has
-> >    components/code to handle unplug/replug VFIO devices and metadata to
-> >    provide to the guest for detecting which devices should be paired.
-> >    -> An approach that includes all software from firmware to
-> >       higher-level management software wasn't tried in the last years. This is
-> >       an attempt to keep it simple and contained in QEMU as much as possible.
-> > 4. Hotplugging a device and then making it part of a failover setup is
-> >     not possible
-> >    -> addressed by extending qdev hotplug functions to check for hidden
-> >       attribute, so e.g. device_add can be used to plug a device.
-> > 
-> > 
-> > I have tested this with a mlx5 NIC and was able to migrate the VM with
-> > above mentioned workarounds for open problems.
-> > 
-> > Command line example:
-> > 
-> > qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
-> >          -machine q35,kernel-irqchip=split -cpu host   \
-> >          -k fr   \
-> >          -serial stdio   \
-> >          -net none \
-> >          -qmp unix:/tmp/qmp.socket,server,nowait \
-> >          -monitor telnet:127.0.0.1:5555,server,nowait \
-> >          -device pcie-root-port,id=root0,multifunction=on,chassis=0,addr=0xa \
-> >          -device pcie-root-port,id=root1,bus=pcie.0,chassis=1 \
-> >          -device pcie-root-port,id=root2,bus=pcie.0,chassis=2 \
-> >          -netdev tap,script=/root/bin/bridge.sh,downscript=no,id=hostnet1,vhost=on \
-> >          -device virtio-net-pci,netdev=hostnet1,id=net1,mac=52:54:00:6f:55:cc,bus=root2,failover=on \
-> >          /root/rhel-guest-image-8.0-1781.x86_64.qcow2
-> > 
-> > Then the primary device can be hotplugged via
-> >   (qemu) device_add vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,standby=net1
-> 
-> 
-> I guess this is the commandline on the migration destination, and as far as
-> I understand from this example, on the destination we (meaning libvirt or
-> higher level management application) must *not* include the assigned device
-> on the qemu commandline, but must instead hotplug the device later after the
-> guest CPUs have been restarted on the destination.
-> 
-> So if I'm understanding correctly, the idea is that on the migration source,
-> the device may have been hotplugged, or may have been included when qemu was
-> originally started. Then qemu automatically handles the unplug of the device
-> on the source, but it seems qemu does nothing on the destination, leaving
-> that up to libvirt or a higher layer to implement.
 
-Good point. I don't see why it would not work just as well
-with device present straight away.
 
-Did I miss something?
+On 5/23/2019 6:40 AM, Stefan Hajnoczi wrote:
+> On Tue, May 07, 2019 at 03:00:52PM -0400, Jag Raman wrote:
+>> Hi Stefan,
+>>
+>> Thank you very much for your feedback. Following is a summary of the
+>> discussions our team had regarding your feedback.
+>>
+>> On 4/25/2019 11:44 AM, Stefan Hajnoczi wrote:
+>>>
+>>> Can multiple LSI SCSI controllers be launched such that each process
+>>> only has access to a subset of disk images?  Or is the disk image lab=
+el
+>>> per-VM so that there is no isolation between LSI SCSI controller
+>>> processes for that VM?
+>>
+>> Yes, it is possible to provide each process with access to a subset of
+>> disk images. The Orchestrator (libvirt, etc.) assigns a set of MCS
+>> Categories to each VM, then device instances can be isolated by being
+>> assigned a subset of the VM=E2=80=99s Categories.
+>>
+>>>
+>>> My concern with this overall approach is the practicality vs its
+>>> benefits.  Regarding practicality, each emulated device needs to be
+>>> proxied separately.  The QEMU subsystem used by the device also needs=
+ to
+>>> be proxied.  Global state, monitor commands, and live migration all
+>>> require code changes to support proxied operation.  This is very
+>>> invasive.
+>>>
+>>> Then each emulated device needs an SELinux policy to achieve the
+>>> benefits of confinement.  I have no idea how to correctly write a pol=
+icy
+>>> like this and it's likely that developers who contribute a single new
+>>> device will not be proficient in it either.  Writing these policies i=
+s a
+>>> rare thing and few people will be good at this.  It also makes me wor=
+ry
+>>> about how we test and review them.
+>>
+>> We also think that having an SELinux policy per device would become
+>> complicated. Our proposal, therefore, is to define SELinux policies fo=
+r
+>> each device class - viz. disk, network, console, graphics, etc.
+>> "fedora-selinux" upstream repo. [1] will contain these policies, so th=
+e
+>> device developer doesn't have to worry about defining new policies for
+>> each device. This proposal would diminish the complexity of SELinux
+>> policies.
+>=20
+> Have you considered using Linux namespaces?  I'm beginning to think tha=
+t
+> SELinux becomes less relevant with pid and mount namespaces to isolate
+> processes.  The advantage of namespaces is that they are easy to
+> understand and can be expressed in code instead of a policy file in a
+> separate package.  This is the approach we're taking with virtiofsd
+> (vhost-user device backend for virtio-fs).
+>=20
+>>>
+>>> Despite the efforts required in making this work, all processes still
+>>> effectively have full access to the guest since they can access guest
+>>> RAM.  What I mean is that the device is actually not confined to its
+>>> host process (e.g. LSI SCSI controller process) because it can write
+>>> code to executable guest RAM pages.  The guest will then execute that
+>>> code and therefore all guest I/O (networking, disk, etc) is still
+>>> available indirectly to the "confined" processes.  They are not reall=
+y
+>>> sandboxed from the outside world, regardless of how strict the SELinu=
+x
+>>> policy is :(.
+>>>
+>>> There are performance issues due to proxying as well, but let's ignor=
+e
+>>> them for now and focus on security.
+>>
+>> We are also focusing on performance. Please take a look at the followi=
+ng
+>> blog for an initial report on performance. The results are for an iSCS=
+I
+>> backend in Oracle Cloud. We are working on collecting data on a much
+>> heavier IOPS workload like an NVMe backend.
+>>
+>> https://blogs.oracle.com/linux/towards-a-more-secure-qemu-hypervisor%2=
+c-part-3-of-3-v2
+>=20
+> Hard to reach a conclusion without also looking at CPU utilization.
+> IOPS alone don't tell the story.
+>=20
+> If the system had spare CPU cycles then the performance results between
+> built-in LSI and separate LSI will be similar but the efficiency
+> (IOPS/CPU%) has actually decreased due to the extra CPU cycles required
+> to forward the hardware register access to the device emulation process.
+>=20
+> If you rerun on a system without spare CPU cycles then IOPS degradation
+> would become apparent.  I'm not saying this is necessarily the case,
+> maybe the overhead is really doesn't have a significant effect, but the
+> graph shown in the blog post isn't enough to draw a conclusion either
+> way.
 
-I think Jens was just testing local machine migration
-and of course you can only assign a device to 1 VM at a time.
+Hi Stefan,
 
-> Then in order for this to work, libvirt (or OpenStack or oVirt or whoever)
-> needs to understand that the device in the libvirt config (it will still be
-> in the libvirt config, since from libvirt's POV it hasn't been unplugged):
-> 
-> 1) shouldn't be included in the qemu commandline on the destination,
-> 
-> 2) will almost surely need to be replaced with a different device on the
-> destination (since it's almost certain that the destination won't have an
-> available device at the same PCI address)
-> 
-> 3) will probably need to be unbinded from the VF net driver (does this need
-> to happen before migration is finished? If we want to lower the probability
-> of a failure after we're already committed to the migration, then I think we
-> must, but libvirt isn't set up for that in any way).
-> 
-> 4) will need to be hotplugged after the migration has finished *and* after
-> the guest CPUs have been restarted on the destination.
-> 
-> 
-> While it will be possible to assure that there is a destination device, and
-> to replace the old device with new in the config (and maybe, either with
-> some major reworking of device assignment code, or offloading the
-> responsibility to the management application(s), possible to re-bind the
-> device to the vfio-pci driver), prior to marking the migration as
-> "successful" (thus committing to running it on the destination), we can't
-> say as much for actually assigning the device. So if the assignment fails,
-> then what happens?
-> 
-> 
-> So a few issues I see that will need to be solved by [someone] (apparently
-> either libvirt or management):
-> 
-> a) there isn't anything in libvirt's XML grammar that allows us to signify a
-> device that is "present in the config but shouldn't be included in the
-> commandline"
-> 
-> b) someone will need to replace the device from the source with an
-> equivalent device on the destination in the libvirt XML. There are other
-> cases of management modifying the XML during migration (I think), but this
-> does point out that putting the "auto-unplug code into qemu isn't turning
-> this into a trivial
-> 
-> c) there is nothing in libvirt's migration logic that can cause a device to
-> be re-binded to vfio-pci prior to completion of a migration. Unless this is
-> added to libvirt (or the re-bind operation is passed off to the management
-> application), we will need to live with the possibility that hotplugging the
-> device will fail due to failed re-bind *after* we've committed to the
-> migration.
-> 
-> d) once the guest CPUs are restarted on the destination, [someone] (libvirt
-> or management) needs to hotplug the new device on the destination. (I'm
-> guessing that a hotplug can only be done while the guest CPUs are running;
-> correct me if this is wrong!)
-> 
-> This sounds like a lot of complexity for something that was supposed to be
-> handled completely/transparently by qemu :-P.
+We are working on getting a better idea about the CPU utilization while=20
+the performance test is running. We're looking forward to discussing=20
+this during the forthcoming KVM meeting.
+
+Thank you!
+--
+Jag
+
+>=20
+> Regarding the proposed QEMU bypass, these already exist in some form vi=
+a
+> kvm.ko's ioeventfd and coalesced MMIO features.
+>=20
+> Today ioeventfd is only used for performance-critical hardware
+> registers, so kvm.ko doesn't use a sophisticated dispatch mechanism.  I=
+f
+> you want to use it for all hardware register accesses handled by a
+> separate process then ioeventfd probably needs to be tweaked somewhat t=
+o
+> make it more scalable for that case.
+>=20
+> Coalesced MMIO is also cool.  kvm.ko can accumulate guest MMIO writes i=
+n
+> a buffer that is only collected at a later point in time.  This improve=
+s
+> performance for devices that require multiple hardware register writes
+> to kick off an I/O operation (only the last one really needs to be
+> trapped by the device emulation code!).  This sounds similar to an MMIO
+> access shared ring buffer.
+>=20
+>>>
+>>> How do the benefits compare against today's monolithic approach?  If =
+the
+>>> guest exploits monolithic QEMU it has full access to all host files a=
+nd
+>>> APIs available to QEMU.  However, these are largely just the resource=
+s
+>>> that belong to the guest anyway - not resources we are trying to keep
+>>> away from the guest.  With multi-process QEMU each process still has
+>>> access to all guest interfaces via the code injection I mentioned abo=
+ve,
+>>> but the SELinux policy could restrict access to some resources.  But
+>>> this benefit is really small in my opinion, given that the resources
+>>> belong to the guest anyway and the guest can already access them.
+>>
+>> The primary focus of our project is to defend the host from malicious
+>> guest. The code injection problem you outlined above involves part of
+>> the guest attacking itself, but not the host. Therefore, this wouldn't
+>> compromise our objective.
+>>
+>> Like you know, there are some parts of QEMU which are not directly
+>> accessible from the guest (via drivers, etc.), which we prefer to call
+>> the control plane. It executes ioctls to the host kernel and has acces=
+s
+>> to a broader set of syscalls, which the device emulation code doesn=E2=
+=80=99t
+>> need. We want to protect the control plane from emulated devices. In t=
+he
+>> case where a device injects code into the RAM to attack another device
+>> on the same VM, the control plane would still be protected.
+>=20
+> Are you aware of any cases where the syscall attack surface led to an
+> exploitable bug in QEMU?  Any proof-of-concept exploit code or a CVE?
+>=20
+>> Another benefit with the project would be regarding detecting and
+>> reporting failures in the emulated devices. For instance, in cases lik=
+e
+>> CVE-2018-18849, where an emulated device hangs/crashes, it wouldn't
+>> directly crash the QEMU process as well. QEMU could detect the failure=
+,
+>> log the problem and exit, instead of generating coredump/hang.
+>=20
+> Debugging is a lot easier with a coredump though :).  I would rather
+> have a coredump than a nice message that says "LSI died".
+>=20
+>>>
+>>> I think you can implement this for a handful of devices as a one-time
+>>> thing, but the invasiveness and the impracticality of getting wide co=
+ver
+>>> of QEMU make this approach questionable.
+>>>
+>>> Am I mistaken about the invasiveness or impracticality?
+>>
+>> We are not planning to implement this for all devices since it would b=
+e
+>> impractical. But the project adds a framework for implementing more
+>> devices in the future.
+>>
+>> One other thing we would like to bring your attention to is that the
+>> project doesn't affect the current usage. The same devices could still
+>> be used as part of monolithic QEMU if the user chooses to do so.
+>=20
+> I don't follow, to me this proposal seems extremely invasive and
+> requires awareness from all developers.
+>=20
+> QEMU contains global state (like net/net.c:net_clients or
+> block.c:all_bdrv_states) and QMP commands that access global state.  Al=
+l
+> of this needs to be carefully proxied to avoid losing functionality as
+> fundamental as the QMP monitor.
+>=20
+> This is what worries me about this project.  There are amazing niche
+> features like record/replay that have been integrated into QEMU without
+> requiring all developers to be aware of how they work.  If you can
+> achieve this then I would have no reservations.
+>=20
+> Right now I don't see that this will be possible and that's why I'm
+> challenging you to justify that the reduction in system call attack
+> surface is actually worth the invasive changes required.
+>=20
+> Do you see a way to solve the issues I've mentioned?
+>=20
+> Stefan
+>=20
 
