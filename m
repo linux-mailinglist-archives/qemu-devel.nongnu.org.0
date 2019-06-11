@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091C73D389
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 19:09:23 +0200 (CEST)
-Received: from localhost ([::1]:33100 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4123D35F
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 19:04:51 +0200 (CEST)
+Received: from localhost ([::1]:33076 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hakGw-0002PM-6X
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 13:09:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51655)
+	id 1hakCX-00065O-1q
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 13:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51790)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pagupta@redhat.com>) id 1hak35-0007K7-Gq
+ (envelope-from <pagupta@redhat.com>) id 1hak33-0007Kl-Vv
  for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:55:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pagupta@redhat.com>) id 1hajpq-0001YM-1c
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:41:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48420)
+ (envelope-from <pagupta@redhat.com>) id 1hajqI-0001z7-1B
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:41:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59010)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hajpp-0001Vv-OF
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:41:21 -0400
+ (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hajqG-0001vA-2i
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:41:49 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8AB37223891;
- Tue, 11 Jun 2019 16:41:03 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 63CD23083392;
+ Tue, 11 Jun 2019 16:41:40 +0000 (UTC)
 Received: from dhcp201-121.englab.pnq.redhat.com (ovpn-116-60.sin2.redhat.com
  [10.67.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E365A5B686;
- Tue, 11 Jun 2019 16:40:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA13F627DF;
+ Tue, 11 Jun 2019 16:41:03 +0000 (UTC)
 From: Pankaj Gupta <pagupta@redhat.com>
 To: dm-devel@redhat.com, linux-nvdimm@lists.01.org,
  linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
  kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-acpi@vger.kernel.org, qemu-devel@nongnu.org,
  linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
-Date: Tue, 11 Jun 2019 22:07:58 +0530
-Message-Id: <20190611163802.25352-4-pagupta@redhat.com>
+Date: Tue, 11 Jun 2019 22:07:59 +0530
+Message-Id: <20190611163802.25352-5-pagupta@redhat.com>
 In-Reply-To: <20190611163802.25352-1-pagupta@redhat.com>
 References: <20190611163802.25352-1-pagupta@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Tue, 11 Jun 2019 16:41:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Tue, 11 Jun 2019 16:41:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v12 3/7] libnvdimm: add dax_dev sync flag
+Subject: [Qemu-devel] [PATCH v12 4/7] dm: enable synchronous dax
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,191 +70,129 @@ Cc: pagupta@redhat.com, rdunlap@infradead.org, jack@suse.cz, snitzer@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds 'DAXDEV_SYNC' flag which is set
-for nd_region doing synchronous flush. This later
-is used to disable MAP_SYNC functionality for
-ext4 & xfs filesystem for devices don't support
-synchronous flush.
+This patch sets dax device 'DAXDEV_SYNC' flag if all the target
+devices of device mapper support synchrononous DAX. If device
+mapper consists of both synchronous and asynchronous dax devices,
+we don't set 'DAXDEV_SYNC' flag.
 
+'dm_table_supports_dax' is refactored to pass 'iterate_devices_fn'
+as argument so that the callers can pass the appropriate functions.
+
+Suggested-by: Mike Snitzer <snitzer@redhat.com>
 Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
 ---
- drivers/dax/bus.c            |  2 +-
- drivers/dax/super.c          | 19 ++++++++++++++++++-
- drivers/md/dm.c              |  3 ++-
- drivers/nvdimm/pmem.c        |  5 ++++-
- drivers/nvdimm/region_devs.c |  7 +++++++
- include/linux/dax.h          |  9 +++++++--
- include/linux/libnvdimm.h    |  1 +
- 7 files changed, 40 insertions(+), 6 deletions(-)
+ drivers/md/dm-table.c | 24 ++++++++++++++++++------
+ drivers/md/dm.c       |  2 +-
+ drivers/md/dm.h       |  5 ++++-
+ 3 files changed, 23 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-index 2109cfe80219..5f184e751c82 100644
---- a/drivers/dax/bus.c
-+++ b/drivers/dax/bus.c
-@@ -388,7 +388,7 @@ struct dev_dax *__devm_create_dev_dax(struct dax_region *dax_region, int id,
- 	 * No 'host' or dax_operations since there is no access to this
- 	 * device outside of mmap of the resulting character device.
- 	 */
--	dax_dev = alloc_dax(dev_dax, NULL, NULL);
-+	dax_dev = alloc_dax(dev_dax, NULL, NULL, DAXDEV_F_SYNC);
- 	if (!dax_dev)
- 		goto err;
+diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
+index 350cf0451456..81c55304c4fa 100644
+--- a/drivers/md/dm-table.c
++++ b/drivers/md/dm-table.c
+@@ -881,7 +881,7 @@ void dm_table_set_type(struct dm_table *t, enum dm_queue_mode type)
+ EXPORT_SYMBOL_GPL(dm_table_set_type);
  
-diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-index bbd57ca0634a..93b3718b5cfa 100644
---- a/drivers/dax/super.c
-+++ b/drivers/dax/super.c
-@@ -186,6 +186,8 @@ enum dax_device_flags {
- 	DAXDEV_ALIVE,
- 	/* gate whether dax_flush() calls the low level flush routine */
- 	DAXDEV_WRITE_CACHE,
-+	/* flag to check if device supports synchronous flush */
-+	DAXDEV_SYNC,
- };
- 
- /**
-@@ -354,6 +356,18 @@ bool dax_write_cache_enabled(struct dax_device *dax_dev)
- }
- EXPORT_SYMBOL_GPL(dax_write_cache_enabled);
- 
-+bool dax_synchronous(struct dax_device *dax_dev)
-+{
-+	return test_bit(DAXDEV_SYNC, &dax_dev->flags);
-+}
-+EXPORT_SYMBOL_GPL(dax_synchronous);
-+
-+void set_dax_synchronous(struct dax_device *dax_dev)
-+{
-+	set_bit(DAXDEV_SYNC, &dax_dev->flags);
-+}
-+EXPORT_SYMBOL_GPL(set_dax_synchronous);
-+
- bool dax_alive(struct dax_device *dax_dev)
+ /* validate the dax capability of the target device span */
+-static int device_supports_dax(struct dm_target *ti, struct dm_dev *dev,
++int device_supports_dax(struct dm_target *ti, struct dm_dev *dev,
+ 				       sector_t start, sector_t len, void *data)
  {
- 	lockdep_assert_held(&dax_srcu);
-@@ -508,7 +522,7 @@ static void dax_add_host(struct dax_device *dax_dev, const char *host)
+ 	int blocksize = *(int *) data;
+@@ -890,7 +890,15 @@ static int device_supports_dax(struct dm_target *ti, struct dm_dev *dev,
+ 			start, len);
  }
  
- struct dax_device *alloc_dax(void *private, const char *__host,
--		const struct dax_operations *ops)
-+		const struct dax_operations *ops, unsigned long flags)
- {
- 	struct dax_device *dax_dev;
- 	const char *host;
-@@ -531,6 +545,9 @@ struct dax_device *alloc_dax(void *private, const char *__host,
- 	dax_add_host(dax_dev, host);
- 	dax_dev->ops = ops;
- 	dax_dev->private = private;
-+	if (flags & DAXDEV_F_SYNC)
-+		set_dax_synchronous(dax_dev);
+-bool dm_table_supports_dax(struct dm_table *t, int blocksize)
++/* Check devices support synchronous DAX */
++static int device_synchronous(struct dm_target *ti, struct dm_dev *dev,
++				       sector_t start, sector_t len, void *data)
++{
++	return dax_synchronous(dev->dax_dev);
++}
 +
- 	return dax_dev;
++bool dm_table_supports_dax(struct dm_table *t,
++			  iterate_devices_callout_fn iterate_fn, int *blocksize)
+ {
+ 	struct dm_target *ti;
+ 	unsigned i;
+@@ -903,8 +911,7 @@ bool dm_table_supports_dax(struct dm_table *t, int blocksize)
+ 			return false;
  
-  err_dev:
+ 		if (!ti->type->iterate_devices ||
+-		    !ti->type->iterate_devices(ti, device_supports_dax,
+-			    &blocksize))
++			!ti->type->iterate_devices(ti, iterate_fn, blocksize))
+ 			return false;
+ 	}
+ 
+@@ -940,6 +947,7 @@ static int dm_table_determine_type(struct dm_table *t)
+ 	struct dm_target *tgt;
+ 	struct list_head *devices = dm_table_get_devices(t);
+ 	enum dm_queue_mode live_md_type = dm_get_md_type(t->md);
++	int page_size = PAGE_SIZE;
+ 
+ 	if (t->type != DM_TYPE_NONE) {
+ 		/* target already set the table's type */
+@@ -984,7 +992,7 @@ static int dm_table_determine_type(struct dm_table *t)
+ verify_bio_based:
+ 		/* We must use this table as bio-based */
+ 		t->type = DM_TYPE_BIO_BASED;
+-		if (dm_table_supports_dax(t, PAGE_SIZE) ||
++		if (dm_table_supports_dax(t, device_supports_dax, &page_size) ||
+ 		    (list_empty(devices) && live_md_type == DM_TYPE_DAX_BIO_BASED)) {
+ 			t->type = DM_TYPE_DAX_BIO_BASED;
+ 		} else {
+@@ -1883,6 +1891,7 @@ void dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
+ 			       struct queue_limits *limits)
+ {
+ 	bool wc = false, fua = false;
++	int page_size = PAGE_SIZE;
+ 
+ 	/*
+ 	 * Copy table's limits to the DM device's request_queue
+@@ -1910,8 +1919,11 @@ void dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
+ 	}
+ 	blk_queue_write_cache(q, wc, fua);
+ 
+-	if (dm_table_supports_dax(t, PAGE_SIZE))
++	if (dm_table_supports_dax(t, device_supports_dax, &page_size)) {
+ 		blk_queue_flag_set(QUEUE_FLAG_DAX, q);
++		if (dm_table_supports_dax(t, device_synchronous, NULL))
++			set_dax_synchronous(t->md->dax_dev);
++	}
+ 	else
+ 		blk_queue_flag_clear(QUEUE_FLAG_DAX, q);
+ 
 diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index 1fb1333fefec..7eee7ddc73a8 100644
+index b1caa7188209..b92c42a72ad4 100644
 --- a/drivers/md/dm.c
 +++ b/drivers/md/dm.c
-@@ -1970,7 +1970,8 @@ static struct mapped_device *alloc_dev(int minor)
- 	sprintf(md->disk->disk_name, "dm-%d", minor);
+@@ -1119,7 +1119,7 @@ static bool dm_dax_supported(struct dax_device *dax_dev, struct block_device *bd
+ 	if (!map)
+ 		return false;
  
- 	if (IS_ENABLED(CONFIG_DAX_DRIVER)) {
--		md->dax_dev = alloc_dax(md, md->disk->disk_name, &dm_dax_ops);
-+		md->dax_dev = alloc_dax(md, md->disk->disk_name,
-+					&dm_dax_ops, 0);
- 		if (!md->dax_dev)
- 			goto bad;
- 	}
-diff --git a/drivers/nvdimm/pmem.c b/drivers/nvdimm/pmem.c
-index 0279eb1da3ef..bdbd2b414d3d 100644
---- a/drivers/nvdimm/pmem.c
-+++ b/drivers/nvdimm/pmem.c
-@@ -365,6 +365,7 @@ static int pmem_attach_disk(struct device *dev,
- 	struct gendisk *disk;
- 	void *addr;
- 	int rc;
-+	unsigned long flags = 0UL;
+-	ret = dm_table_supports_dax(map, blocksize);
++	ret = dm_table_supports_dax(map, device_supports_dax, &blocksize);
  
- 	pmem = devm_kzalloc(dev, sizeof(*pmem), GFP_KERNEL);
- 	if (!pmem)
-@@ -462,7 +463,9 @@ static int pmem_attach_disk(struct device *dev,
- 	nvdimm_badblocks_populate(nd_region, &pmem->bb, &bb_res);
- 	disk->bb = &pmem->bb;
+ 	dm_put_live_table(md, srcu_idx);
  
--	dax_dev = alloc_dax(pmem, disk->disk_name, &pmem_dax_ops);
-+	if (is_nvdimm_sync(nd_region))
-+		flags = DAXDEV_F_SYNC;
-+	dax_dev = alloc_dax(pmem, disk->disk_name, &pmem_dax_ops, flags);
- 	if (!dax_dev) {
- 		put_disk(disk);
- 		return -ENOMEM;
-diff --git a/drivers/nvdimm/region_devs.c b/drivers/nvdimm/region_devs.c
-index b4ef7d9ff22e..f3ea5369d20a 100644
---- a/drivers/nvdimm/region_devs.c
-+++ b/drivers/nvdimm/region_devs.c
-@@ -1197,6 +1197,13 @@ int nvdimm_has_cache(struct nd_region *nd_region)
- }
- EXPORT_SYMBOL_GPL(nvdimm_has_cache);
+diff --git a/drivers/md/dm.h b/drivers/md/dm.h
+index 17e3db54404c..0475673337f3 100644
+--- a/drivers/md/dm.h
++++ b/drivers/md/dm.h
+@@ -72,7 +72,10 @@ bool dm_table_bio_based(struct dm_table *t);
+ bool dm_table_request_based(struct dm_table *t);
+ void dm_table_free_md_mempools(struct dm_table *t);
+ struct dm_md_mempools *dm_table_get_md_mempools(struct dm_table *t);
+-bool dm_table_supports_dax(struct dm_table *t, int blocksize);
++bool dm_table_supports_dax(struct dm_table *t, iterate_devices_callout_fn fn,
++			   int *blocksize);
++int device_supports_dax(struct dm_target *ti, struct dm_dev *dev,
++			   sector_t start, sector_t len, void *data);
  
-+bool is_nvdimm_sync(struct nd_region *nd_region)
-+{
-+	return is_nd_pmem(&nd_region->dev) &&
-+		!test_bit(ND_REGION_ASYNC, &nd_region->flags);
-+}
-+EXPORT_SYMBOL_GPL(is_nvdimm_sync);
-+
- struct conflict_context {
- 	struct nd_region *nd_region;
- 	resource_size_t start, size;
-diff --git a/include/linux/dax.h b/include/linux/dax.h
-index 0dd316a74a29..2b106752b1b8 100644
---- a/include/linux/dax.h
-+++ b/include/linux/dax.h
-@@ -7,6 +7,9 @@
- #include <linux/radix-tree.h>
- #include <asm/pgtable.h>
- 
-+/* Flag for synchronous flush */
-+#define DAXDEV_F_SYNC (1UL << 0)
-+
- typedef unsigned long dax_entry_t;
- 
- struct iomap_ops;
-@@ -32,18 +35,20 @@ extern struct attribute_group dax_attribute_group;
- #if IS_ENABLED(CONFIG_DAX)
- struct dax_device *dax_get_by_host(const char *host);
- struct dax_device *alloc_dax(void *private, const char *host,
--		const struct dax_operations *ops);
-+		const struct dax_operations *ops, unsigned long flags);
- void put_dax(struct dax_device *dax_dev);
- void kill_dax(struct dax_device *dax_dev);
- void dax_write_cache(struct dax_device *dax_dev, bool wc);
- bool dax_write_cache_enabled(struct dax_device *dax_dev);
-+bool dax_synchronous(struct dax_device *dax_dev);
-+void set_dax_synchronous(struct dax_device *dax_dev);
- #else
- static inline struct dax_device *dax_get_by_host(const char *host)
- {
- 	return NULL;
- }
- static inline struct dax_device *alloc_dax(void *private, const char *host,
--		const struct dax_operations *ops)
-+		const struct dax_operations *ops, unsigned long flags)
- {
- 	/*
- 	 * Callers should check IS_ENABLED(CONFIG_DAX) to know if this
-diff --git a/include/linux/libnvdimm.h b/include/linux/libnvdimm.h
-index feb342d026f2..3238a206e563 100644
---- a/include/linux/libnvdimm.h
-+++ b/include/linux/libnvdimm.h
-@@ -264,6 +264,7 @@ void nvdimm_flush(struct nd_region *nd_region);
- int nvdimm_has_flush(struct nd_region *nd_region);
- int nvdimm_has_cache(struct nd_region *nd_region);
- int nvdimm_in_overwrite(struct nvdimm *nvdimm);
-+bool is_nvdimm_sync(struct nd_region *nd_region);
- 
- static inline int nvdimm_ctl(struct nvdimm *nvdimm, unsigned int cmd, void *buf,
- 		unsigned int buf_len, int *cmd_rc)
+ void dm_lock_md_type(struct mapped_device *md);
+ void dm_unlock_md_type(struct mapped_device *md);
 -- 
 2.20.1
 
