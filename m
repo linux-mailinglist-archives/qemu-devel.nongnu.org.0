@@ -2,51 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3263C161
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 04:57:43 +0200 (CEST)
-Received: from localhost ([::1]:51528 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30DE3C1FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 06:06:05 +0200 (CEST)
+Received: from localhost ([::1]:51700 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haWyk-0005NR-2B
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jun 2019 22:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38413)
+	id 1haY2u-0002v5-63
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 00:06:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50185)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lizhengui@huawei.com>) id 1haWx4-0004GO-D7
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 22:55:59 -0400
+ (envelope-from <gary@extremeground.com>) id 1haY0P-0002Gs-5p
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 00:03:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lizhengui@huawei.com>) id 1haWus-0004Ki-Gv
- for qemu-devel@nongnu.org; Mon, 10 Jun 2019 22:53:43 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:35946 helo=huawei.com)
+ (envelope-from <gary@extremeground.com>) id 1haXlQ-0002Z3-MO
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 23:48:01 -0400
+Received: from ahs5.r4l.com ([158.69.52.156]:52455)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lizhengui@huawei.com>)
- id 1haWuq-0004EW-UY; Mon, 10 Jun 2019 22:53:41 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id D462E1EB61AD12626001;
- Tue, 11 Jun 2019 10:53:35 +0800 (CST)
-Received: from [127.0.0.1] (10.177.251.193) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0;
- Tue, 11 Jun 2019 10:53:29 +0800
-To: Paolo Bonzini <pbonzini@redhat.com>, <stefanha@redhat.com>,
- <mreitz@redhat.com>, <kwolf@redhat.com>
-References: <1560173684-6264-1-git-send-email-lizhengui@huawei.com>
- <1a218c83-7167-68c4-798f-2870f2f98475@redhat.com>
- <49e6310d-1c1c-2379-47e6-7239e0058e78@huawei.com>
- <487a3a9d-92b3-bed4-4082-5701cd4bd08d@redhat.com>
-From: l00284672 <lizhengui@huawei.com>
-Message-ID: <98826c00-3dae-3972-c68a-f86f544c2093@huawei.com>
-Date: Tue, 11 Jun 2019 10:53:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.4.0
+ (Exim 4.71) (envelope-from <gary@extremeground.com>)
+ id 1haXlQ-0002Vc-G0
+ for qemu-devel@nongnu.org; Mon, 10 Jun 2019 23:48:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=extremeground.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+JFdWZBnN5PWuryjHsJDVe7jHlQzglUpTXz1gm5bBPU=; b=3N+YWKFmdFvgjkFAgDZ+B13paK
+ 0Pb399XjS1jRU+ZMRQPQ5NTM618JteFKv+c1vfR31uwgR1kAO4cTblmJZBjNsMHB0jwnWpIRc+80M
+ YrVr68Zl/RPFQRrYFB0vrH+ewLztX0zfnUxW9DfLTg/Glhzq5mWw96YRmUrgFTzVD4yeNzo3bJt+3
+ +p4/v2r6M7kJ/9sWSoeDGn8ol5xWNtNm/j11Z+JYD8DgCXMkifArCU/YjaVloSYY/a9NUAMDZTIwi
+ m/XF3v5z3GtAoHquyBYNn41bBMa6wEcqPSV3nWTLSTawF5aJnwvJ23F1twdPSpAjHpvaPt+l1H4Ka
+ 0GVMAfSQ==;
+Received: from cpeac202ed5e073-cmac202ed5e070.cpe.net.cable.rogers.com
+ ([99.237.87.227]:38962 helo=[192.168.1.20])
+ by ahs5.r4l.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (Exim 4.92) (envelope-from <gary@extremeground.com>)
+ id 1haXlJ-0002BO-EU; Mon, 10 Jun 2019 23:47:53 -0400
+To: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
+References: <abb7990e-0331-67a4-af92-05276366478c@extremeground.com>
+ <20190610121941.GI14257@stefanha-x1.localdomain>
+ <dc7a70ea-c94f-e975-df44-b0199da698e2@extremeground.com>
+ <ab3e81c2-f0ce-2ef5-bbe7-948a87463b59@extremeground.com>
+ <edf57b3a-660c-0964-2455-9461b9aa2711@redhat.com>
+ <33b31422-1198-783a-cb15-8687a3f30199@extremeground.com>
+ <0cd5c326-4d69-92fd-406d-d9fb8b08ccfc@redhat.com>
+From: Gary Dale <gary@extremeground.com>
+Message-ID: <04663a04-8009-f2c5-bad0-a2a42d6f0549@extremeground.com>
+Date: Mon, 10 Jun 2019 23:47:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <487a3a9d-92b3-bed4-4082-5701cd4bd08d@redhat.com>
-Content-Type: multipart/mixed; boundary="------------F5D85B9FB6F33D4340270AEA"
-Content-Language: en-US
-X-Originating-IP: [10.177.251.193]
-X-CFilter-Loop: Reflected
+In-Reply-To: <0cd5c326-4d69-92fd-406d-d9fb8b08ccfc@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-CA
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ahs5.r4l.com
+X-AntiAbuse: Original Domain - nongnu.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - extremeground.com
+X-Get-Message-Sender-Via: ahs5.r4l.com: authenticated_id:
+ gary@extremeground.com
+X-Authenticated-Sender: ahs5.r4l.com: gary@extremeground.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.35
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] file-posix: unlock
- qemu_global_mutex before pread when attach disk
+X-Received-From: 158.69.52.156
+Subject: Re: [Qemu-devel] kvm / virsh snapshot management
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,49 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jiangyiwen@huawei.com, eric.fangyi@huawei.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, wangjie88@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------F5D85B9FB6F33D4340270AEA
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-
--- Would the "open" hang as well in that case?
-    The "open" doesn't hang in that case.
-
-Do you have any better solutions to solve this problem in the case?
-  =20
-
-
-On 2019/6/11 0:03, Paolo Bonzini wrote:
-> On 10/06/19 16:51, l00284672 wrote:
->> The pread will hang in attaching disk just when backend storage networ=
-k
->> disconnection .
-> Would the "open" hang as well in that case?
->> I think the locking range of qemu_global_mutex is too large when do qm=
-p
->> operation. what
->> does the qemu_global_mutex=C2=A0 really protect?
-> Basically everything.
+On 2019-06-10 8:10 p.m., Eric Blake wrote:
+> On 6/10/19 6:00 PM, Gary Dale wrote:
 >
->> what is the risk of unlocking qemu_global_mutex in qmp?
-> It's not QMP; it's specifically the code that calls raw_probe_alignment=
-.
+>>>> Any ideas on what I'm doing wrong?
+>>> Do you know for sure whether you have internal or external snapshots?
+>>> And at this point, your questions are starting to wander more into
+>>> libvirt territory.
+>>>
+>> Yes. I'm using internal snapshots. From your other e-mail, I gather that
+>> the (only) benefit to blockcommit with internal snapshots would be to
+>> reduce the size of the various tables recording changed blocks. Without
+>> a blockcommit, the L1 tables get progressively larger over time since
+>> they record all changes to the base file. Eventually the snapshots could
+>> become larger than the base image if I don't do a blockcommit.
+> Not quite. Blockcommit requires external images. It says to take this
+> image chain:
 >
-> Paolo
+> base <- active
 >
-> .
+> and change it into this shorter chain:
 >
+> base
+>
+> by moving the cluster from active into base.  There is no such thing as
+> blockcommit on internal snapshots, because you don't have any backing
+> file to push into.
+>
+> With internal snapshots, the longer an L1 table is active, the more
+> clusters you have to change compared to what was the case before the
+> snapshot was created - every time you change an existing cluster, the
+> refcount on the old cluster decreases and the change gets written into a
+> new cluster with refcount 1.  Yes, you can reach the point where there
+> are more clusters with refcount 1 associated with your current L1 table
+> than there are clusters with refcount > 1 that are shared with one or
+> more previous internal snapshots. But they are not recording a change to
+> the base file, rather, they are recording the current state of the file
+> where an internal snapshot says to not forget the old state of the file.
+>   And yes, a qcow2 file with internal snapshots can require more disk
+> space than the amount of space exposed to the guest.  But that's true
+> too with external snapshots (the sum of the space required by all images
+> in the chain may be larger than the space visible to the guest).
 
 
---------------F5D85B9FB6F33D4340270AEA
-Content-Type: text/x-vcard; name="lizhengui.vcf"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="lizhengui.vcf"
+OK. I think I'm getting it now. Thanks for your help. I just wish there 
+was some consistent documentation that explained all this. The Red Hat 
+stuff seems to assume that you understand it only applies to external 
+snapshots and the virsh man page seems to do the same.
 
-bnVsbA==
---------------F5D85B9FB6F33D4340270AEA--
 
