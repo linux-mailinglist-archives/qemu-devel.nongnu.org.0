@@ -2,51 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1EE3D4E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 20:03:39 +0200 (CEST)
-Received: from localhost ([::1]:33526 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4E93D502
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 20:06:38 +0200 (CEST)
+Received: from localhost ([::1]:33554 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hal7S-0005gy-78
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 14:03:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41362)
+	id 1halAL-0008Hb-Ac
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 14:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42280)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hal3f-0004tm-C8
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 13:59:44 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hal6K-00067n-LW
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 14:02:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hal3b-0003RU-Un
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 13:59:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41390)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hal6G-0005QM-J5
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 14:02:26 -0400
+Received: from relay.sw.ru ([185.231.240.75]:34296)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hal3b-0003QE-LF
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 13:59:39 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1F9CDC04BD4A;
- Tue, 11 Jun 2019 17:59:31 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0820E19C70;
- Tue, 11 Jun 2019 17:59:28 +0000 (UTC)
-Date: Tue, 11 Jun 2019 18:59:26 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190611175926.GJ2777@work-vm>
-References: <20190610030852.16039-1-richardw.yang@linux.intel.com>
- <20190610030852.16039-3-richardw.yang@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190610030852.16039-3-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 11 Jun 2019 17:59:36 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/2] migration/xbzrle: make
- xbzrle_encode_buffer little easier to read
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hal6C-0005Iw-BX; Tue, 11 Jun 2019 14:02:20 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hal64-0002AB-Jp; Tue, 11 Jun 2019 21:02:13 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Tue, 11 Jun 2019 21:02:04 +0300
+Message-Id: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v2 0/7] Allow Valgrind checking all QEMU
+ processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,225 +45,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
+ mreitz@redhat.com, rkagan@virtuozzo.com, andrey.shinkevich@virtuozzo.com,
+ den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> The encoding process could be described below:
-> 
->     for [content]
->         get length of a run
->         encode this run
-> 
-> By refactoring the code with this logic, it maybe a little easier to
-> understand.
-> 
-> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> ---
->  migration/xbzrle.c | 153 +++++++++++++++++++++------------------------
->  1 file changed, 73 insertions(+), 80 deletions(-)
-> 
-> diff --git a/migration/xbzrle.c b/migration/xbzrle.c
-> index 1ba482ded9..25c69708ec 100644
-> --- a/migration/xbzrle.c
-> +++ b/migration/xbzrle.c
-> @@ -14,6 +14,59 @@
->  #include "qemu/cutils.h"
->  #include "xbzrle.h"
->  
-> +static int next_run(uint8_t *old_buf, uint8_t *new_buf, int off, int slen,
-> +                    bool zrun)
-> +{
-> +    uint32_t len = 0;
-> +    long res;
-> +
-> +    res = (slen - off) % sizeof(long);
-> +
-> +    /* first unaligned bytes */
-> +    while (res) {
-> +        uint8_t xor = old_buf[off + len] ^ new_buf[off + len];
-> +
-> +        if (!(zrun ^ !!xor)) {
-> +            break;
-> +        }
-> +        len++;
-> +        res--;
-> +    }
-> +
-> +    if (res) {
-> +        return len;
-> +    }
-> +
-> +    /* word at a time for speed, use of 32-bit long okay */
-> +    while (off + len < slen) {
-> +        /* truncation to 32-bit long okay */
-> +        unsigned long mask = (unsigned long)0x0101010101010101ULL;
-> +        long xor = (*(long *)(old_buf + off + len)) ^
-> +                   (*(long *)(new_buf + off + len));
-> +
-> +        if (zrun && !(zrun ^ !!xor)) {
+In the current implementation of the QEMU bash iotests, only qemu-io
+processes may be run under the Valgrind, which is a useful tool for
+finding memory usage issues. Let's allow the common.rc bash script
+runing all the QEMU processes, such as qemu-kvm, qemu-img, qemu-ndb
+and qemu-vxhs, under the Valgrind tool.
 
-Are lines like this really making it easier to read?
+v2:
+  01: The patch 2/7 of v1 was merged into the patch 1/7, suggested by Daniel.
+  02: Another patch 7/7 was added to introduce the Valgrind error suppression
+      file into the QEMU project.
 
-Juan: Opinion?
+Andrey Shinkevich (7):
+  iotests: allow Valgrind checking all QEMU processes
+  iotests: exclude killed processes from running under Valgrind
+  iotests: Valgrind fails to work with nonexistent directory
+  iotests: extended timeout under Valgrind
+  iotests: extend sleeping time under Valgrind
+  iotests: amend QEMU NBD process synchronization
+  iotests: new file to suppress Valgrind errors
 
-Dave
+ tests/qemu-iotests/028           |  6 +++-
+ tests/qemu-iotests/039           |  5 +++
+ tests/qemu-iotests/039.out       | 30 +++---------------
+ tests/qemu-iotests/051           |  1 +
+ tests/qemu-iotests/061           |  2 ++
+ tests/qemu-iotests/061.out       | 12 ++-----
+ tests/qemu-iotests/137           |  1 +
+ tests/qemu-iotests/137.out       |  6 +---
+ tests/qemu-iotests/183           |  9 +++++-
+ tests/qemu-iotests/192           |  6 +++-
+ tests/qemu-iotests/247           |  6 +++-
+ tests/qemu-iotests/common.nbd    |  6 ++++
+ tests/qemu-iotests/common.rc     | 68 ++++++++++++++++++++++++++++++----------
+ tests/qemu-iotests/valgrind.supp | 31 ++++++++++++++++++
+ 14 files changed, 128 insertions(+), 61 deletions(-)
+ create mode 100644 tests/qemu-iotests/valgrind.supp
 
-> +            break;
-> +        } else if (!zrun && ((xor - mask) & ~xor & (mask << 7))) {
+-- 
+1.8.3.1
 
-
-> +            break;
-> +        }
-> +
-> +        len += sizeof(long);
-> +    }
-> +
-> +    /* go over the rest */
-> +    while (off + len < slen) {
-> +        uint8_t xor = old_buf[off + len] ^ new_buf[off + len];
-> +
-> +        if (!(zrun ^ !!xor)) {
-> +            break;
-> +        }
-> +
-> +        len++;
-> +    }
-> +
-> +    return len;
-> +}
-> +
->  /*
->    page = zrun nzrun
->         | zrun nzrun page
-> @@ -27,103 +80,43 @@
->  int xbzrle_encode_buffer(uint8_t *old_buf, uint8_t *new_buf, int slen,
->                           uint8_t *dst, int dlen)
->  {
-> -    uint32_t zrun_len = 0, nzrun_len = 0;
-> -    int d = 0, i = 0;
-> -    long res;
-> -    uint8_t *nzrun_start = NULL;
-> +    bool zrun = true;
-> +    int len, src_off = 0, dst_off = 0;
->  
->      g_assert(!(((uintptr_t)old_buf | (uintptr_t)new_buf | slen) %
->                 sizeof(long)));
->  
-> -    while (i < slen) {
-> +    for (; src_off < slen; src_off += len, zrun = !zrun) {
->          /* overflow */
-> -        if (d + 2 > dlen) {
-> +        if (dst_off + 2 > dlen) {
->              return -1;
->          }
->  
-> -        /* not aligned to sizeof(long) */
-> -        res = (slen - i) % sizeof(long);
-> -        while (res && old_buf[i] == new_buf[i]) {
-> -            zrun_len++;
-> -            i++;
-> -            res--;
-> -        }
-> +        len = next_run(old_buf, new_buf, src_off, slen, zrun);
->  
-> -        /* word at a time for speed */
-> -        if (!res) {
-> -            while (i < slen &&
-> -                   (*(long *)(old_buf + i)) == (*(long *)(new_buf + i))) {
-> -                i += sizeof(long);
-> -                zrun_len += sizeof(long);
-> +        if (zrun) {
-> +            /* buffer unchanged */
-> +            if (len == slen) {
-> +                return 0;
->              }
-> -
-> -            /* go over the rest */
-> -            while (i < slen && old_buf[i] == new_buf[i]) {
-> -                zrun_len++;
-> -                i++;
-> +            /* skip last zero run */
-> +            if (src_off + len == slen) {
-> +                return dst_off;
->              }
->          }
->  
-> -        /* buffer unchanged */
-> -        if (zrun_len == slen) {
-> -            return 0;
-> -        }
-> -
-> -        /* skip last zero run */
-> -        if (i == slen) {
-> -            return d;
-> -        }
-> -
-> -        d += uleb128_encode_small(dst + d, zrun_len);
-> -
-> -        zrun_len = 0;
-> -        nzrun_start = new_buf + i;
-> -
-> -        /* overflow */
-> -        if (d + 2 > dlen) {
-> -            return -1;
-> -        }
-> -        /* not aligned to sizeof(long) */
-> -        res = (slen - i) % sizeof(long);
-> -        while (res && old_buf[i] != new_buf[i]) {
-> -            i++;
-> -            nzrun_len++;
-> -            res--;
-> -        }
-> -
-> -        /* word at a time for speed, use of 32-bit long okay */
-> -        if (!res) {
-> -            /* truncation to 32-bit long okay */
-> -            unsigned long mask = (unsigned long)0x0101010101010101ULL;
-> -            while (i < slen) {
-> -                unsigned long xor;
-> -                xor = *(unsigned long *)(old_buf + i)
-> -                    ^ *(unsigned long *)(new_buf + i);
-> -                if ((xor - mask) & ~xor & (mask << 7)) {
-> -                    /* found the end of an nzrun within the current long */
-> -                    while (old_buf[i] != new_buf[i]) {
-> -                        nzrun_len++;
-> -                        i++;
-> -                    }
-> -                    break;
-> -                } else {
-> -                    i += sizeof(long);
-> -                    nzrun_len += sizeof(long);
-> -                }
-> +        dst_off += uleb128_encode_small(dst + dst_off, len);
-> +        if (!zrun) {
-> +            /* overflow */
-> +            if (dst_off + len > dlen) {
-> +                return -1;
->              }
-> +            memcpy(dst + dst_off, new_buf + src_off, len);
-> +            dst_off += len;
->          }
-> -
-> -        d += uleb128_encode_small(dst + d, nzrun_len);
-> -        /* overflow */
-> -        if (d + nzrun_len > dlen) {
-> -            return -1;
-> -        }
-> -        memcpy(dst + d, nzrun_start, nzrun_len);
-> -        d += nzrun_len;
-> -        nzrun_len = 0;
->      }
->  
-> -    return d;
-> +    return dst_off;
->  }
->  
->  int xbzrle_decode_buffer(uint8_t *src, int slen, uint8_t *dst, int dlen)
-> -- 
-> 2.19.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
