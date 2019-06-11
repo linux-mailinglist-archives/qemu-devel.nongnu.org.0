@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1463CE32
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:14:31 +0200 (CEST)
-Received: from localhost ([::1]:59370 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5D03CDD8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:02:00 +0200 (CEST)
+Received: from localhost ([::1]:59268 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hahXh-0007O8-4w
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56751)
+	id 1hahLb-000635-KN
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:01:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56707)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hah3L-0007Vk-Lp
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:43:09 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hah3H-0007No-3z
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:43:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hah3K-00022m-FB
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:43:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:30932)
+ (envelope-from <ehabkost@redhat.com>) id 1hah3G-00020k-1S
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:43:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46396)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hah3K-0001rv-9B
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:43:06 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hah3F-0001eh-S7
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 09:43:01 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A0B7C36887;
- Tue, 11 Jun 2019 13:42:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A33DD75725;
+ Tue, 11 Jun 2019 13:42:35 +0000 (UTC)
 Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39D325C5BB;
- Tue, 11 Jun 2019 13:42:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33431600CD;
+ Tue, 11 Jun 2019 13:42:35 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Tue, 11 Jun 2019 10:42:23 -0300
-Message-Id: <20190611134224.6683-3-ehabkost@redhat.com>
+Date: Tue, 11 Jun 2019 10:42:24 -0300
+Message-Id: <20190611134224.6683-4-ehabkost@redhat.com>
 In-Reply-To: <20190611134224.6683-1-ehabkost@redhat.com>
 References: <20190611134224.6683-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 11 Jun 2019 13:42:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Tue, 11 Jun 2019 13:42:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 2/3] i386: "unavailable-features" QOM property
+Subject: [Qemu-devel] [PULL 3/3] i386: Save EFER for 32-bit targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,62 +53,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a "unavailable-features" QOM property to X86CPU objects that
-have the same semantics of "unavailable-features" on
-query-cpu-definitions.  The new property has the same goal of
-"filtered-features", but is generic enough to let any kind of CPU
-feature to be listed there without relying on low level details
-like CPUID leaves or MSR numbers.
+From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
 
-Message-Id: <20190422234742.15780-3-ehabkost@redhat.com>
+i386 (32 bit) emulation uses EFER in wrmsr and in MMU fault
+processing.
+But it does not included in VMState, because "efer" field is disabled with
+
+This patch adds a section for 32-bit targets which saves EFER when
+it's value is non-zero.
+
+Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Message-Id: <155913371654.8429.1659082639780315242.stgit@pasha-Precision-3630-Tower>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+[ehabkost: indentation fix]
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ target/i386/machine.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 36589adb1f..7e5b545005 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3692,6 +3692,17 @@ static void x86_cpu_list_feature_names(FeatureWordArray features,
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 225b5d433b..2c96cfc9a2 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -964,6 +964,27 @@ static const VMStateDescription vmstate_svm_npt = {
      }
- }
+ };
  
-+static void x86_cpu_get_unavailable_features(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
++#ifndef TARGET_X86_64
++static bool intel_efer32_needed(void *opaque)
 +{
-+    X86CPU *xc = X86_CPU(obj);
-+    strList *result = NULL;
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
 +
-+    x86_cpu_list_feature_names(xc->filtered_features, &result);
-+    visit_type_strList(v, "unavailable-features", &result, errp);
++    return env->efer != 0;
 +}
 +
- /* Check for missing features that may prevent the CPU class from
-  * running using the current machine and accelerator.
-  */
-@@ -5632,6 +5643,15 @@ static void x86_cpu_initfn(Object *obj)
-     object_property_add(obj, "filtered-features", "X86CPUFeatureWordInfo",
-                         x86_cpu_get_feature_words,
-                         NULL, NULL, (void *)cpu->filtered_features, NULL);
-+    /*
-+     * The "unavailable-features" property has the same semantics as
-+     * CpuDefinitionInfo.unavailable-features on the "query-cpu-definitions"
-+     * QMP command: they list the features that would have prevented the
-+     * CPU from running if the "enforce" flag was set.
-+     */
-+    object_property_add(obj, "unavailable-features", "strList",
-+                        x86_cpu_get_unavailable_features,
-+                        NULL, NULL, NULL, &error_abort);
- 
-     object_property_add(obj, "crash-information", "GuestPanicInformation",
-                         x86_cpu_get_crash_info_qom, NULL, NULL, NULL, NULL);
++static const VMStateDescription vmstate_efer32 = {
++    .name = "cpu/efer32",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = intel_efer32_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.efer, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++#endif
++
+ VMStateDescription vmstate_x86_cpu = {
+     .name = "cpu",
+     .version_id = 12,
+@@ -1089,6 +1110,9 @@ VMStateDescription vmstate_x86_cpu = {
+         &vmstate_msr_intel_pt,
+         &vmstate_msr_virt_ssbd,
+         &vmstate_svm_npt,
++#ifndef TARGET_X86_64
++        &vmstate_efer32,
++#endif
+         NULL
+     }
+ };
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
