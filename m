@@ -2,59 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6CD3CF03
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:40:04 +0200 (CEST)
-Received: from localhost ([::1]:59732 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E4B3CEBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:32:46 +0200 (CEST)
+Received: from localhost ([::1]:59558 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hahwR-0007Nq-7q
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:40:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38525)
+	id 1hahpM-0001l6-Ub
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38301)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hahgY-000482-EA
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:23:39 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hahfs-0003xi-K8
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:22:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hahTv-0001HJ-Ol
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:10:38 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:46704)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hahTl-00017E-Ms
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:10:27 -0400
-Received: by mail-qt1-f195.google.com with SMTP id h21so14623791qtn.13
- for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 07:10:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VE5kG7fSt4KpOcR+d0r6QKUqTv3yNwoIXRdkhjIE/3A=;
- b=Z8GAiu8hdrCKAt+sGnEdfdi7M25ojYKCOULMdiKmh7v8QZv6sWnTbxCq9tUJBHzzYf
- OrzRyExnYsgK/5+4vSWb7N6pIy3DS0gaXIQvT8OhfX5fELwah6/6eaSr+zf1g95142An
- 78ltnZYFVck1U6VivSrmpLvjVGWLFwNT27j1Mfj2TIOM2CUjtJLiE7+hXVUOoTWKDOh4
- 7FhbOZtX7/kniGovOY/p7StdbHG70P4GbbHkGwHBd8kj6VyQUFNbjqpZfh0ownFd3Nom
- aPHA5TyQYWHlImp/BWh2S2RWY2Ld20INVlNy4RUJOM4AmlDZSxwSZAhMBzoUSpwOMwKV
- 06qg==
-X-Gm-Message-State: APjAAAXvr1ARNpHOjuG2k1kHNK4AG7G5Q9pyx+XCgzioaBnPchyDGp48
- VbcIl/I5GAZFTpTMaHDNUUliog==
-X-Google-Smtp-Source: APXvYqyK7J1VrIys/GIZiEcIZZDU8t/acNDX5Wo8eWYidf8aagz85b7yAtRetmcuW6PnMrDQdl8LmA==
-X-Received: by 2002:aed:3987:: with SMTP id m7mr66008345qte.148.1560262218633; 
- Tue, 11 Jun 2019 07:10:18 -0700 (PDT)
-Received: from redhat.com ([66.187.232.66])
- by smtp.gmail.com with ESMTPSA id c40sm2257574qtd.14.2019.06.11.07.10.16
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 11 Jun 2019 07:10:17 -0700 (PDT)
-Date: Tue, 11 Jun 2019 10:10:14 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Tiwei Bie <tiwei.bie@intel.com>
-Message-ID: <20190611085441-mutt-send-email-mst@kernel.org>
-References: <20190611065137.16329-1-tiwei.bie@intel.com>
+ (envelope-from <no-reply@patchew.org>) id 1hahax-0005pj-EN
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:17:53 -0400
+Resent-Date: Tue, 11 Jun 2019 10:17:52 -0400
+Resent-Message-Id: <E1hahax-0005pj-EN@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21945)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hahax-0005on-04
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:17:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560262619; cv=none; d=zoho.com; s=zohoarc; 
+ b=UGfpPKF/IWExOqwZJDGlGV8zdv+L1F6C37jlwZJJkJgqbujAiNpLIknCJzfrGr1l0YDagasw5cVTsB1sDSns6bMzTKzQR90N7ZVisP+0FlNFkV935XrWVjNd5HhdTBsFn7LPw2cZMMrT48dNlUB2rEPFaLd2LdeXKqlH721OnV0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1560262619;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=9Ld9cMK23pGZjVjCnUCKAs8rA8BdH5T8URkn6+phbqM=; 
+ b=TAMY+3JVI0FlFmMmYJxjIVNiR2BeiIRGjsPhguiU/fSKfxC7y9jA2vAFpLXqLogaBit+pCuYKhexrp2vrOvlSFY2wYAWe/OyP6CJ4iBfWMnDitMKXAHMzSxRqCw7kYNqjGkSsjM7Uddpd+hUaDpqhG9u0Ayy/WDHEhHFXfL4mEs=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1560262617996605.0092699930582;
+ Tue, 11 Jun 2019 07:16:57 -0700 (PDT)
+In-Reply-To: <20190611113731.16940-1-philmd@redhat.com>
+Message-ID: <156026261691.32260.5523393371246325860@ce79690b2cb9>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190611065137.16329-1-tiwei.bie@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: philmd@redhat.com
+Date: Tue, 11 Jun 2019 07:16:57 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.160.195
-Subject: Re: [Qemu-devel] [RFC] vhost-user: don't ignore CTRL_VLAN feature
+X-Received-From: 136.143.188.59
+Subject: Re: [Qemu-devel] [PATCH v19 00/21] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,56 +61,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ ysato@users.sourceforge.jp, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 11, 2019 at 02:51:37PM +0800, Tiwei Bie wrote:
-> The VIRTIO_NET_F_CTRL_VLAN feature requires the support of
-> vhost-user backend. But it will be advertised to guest driver
-> as long as it's enabled by users in QEMU, while it's not
-> supported by vhost-user backend. This patch fixes this issue.
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxMTExMzczMS4xNjk0
+MC0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCBidWlsZCB0
+ZXN0IG9uIHMzOTB4IGhvc3QuIFBsZWFzZSBmaW5kIHRoZSBkZXRhaWxzIGJlbG93LgoKPT09IFRF
+U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAojIFRlc3Rpbmcgc2NyaXB0IHdpbGwgYmUg
+aW52b2tlZCB1bmRlciB0aGUgZ2l0IGNoZWNrb3V0IHdpdGgKIyBIRUFEIHBvaW50aW5nIHRvIGEg
+Y29tbWl0IHRoYXQgaGFzIHRoZSBwYXRjaGVzIGFwcGxpZWQgb24gdG9wIG9mICJiYXNlIgojIGJy
+YW5jaApzZXQgLWUKQ0M9JEhPTUUvYmluL2NjCklOU1RBTEw9JFBXRC9pbnN0YWxsCkJVSUxEPSRQ
+V0QvYnVpbGQKbWtkaXIgLXAgJEJVSUxEICRJTlNUQUxMClNSQz0kUFdECmNkICRCVUlMRAokU1JD
+L2NvbmZpZ3VyZSAtLWNjPSRDQyAtLXByZWZpeD0kSU5TVEFMTAptYWtlIC1qNAojIFhYWDogd2Ug
+bmVlZCByZWxpYWJsZSBjbGVhbiB1cAojIG1ha2UgY2hlY2sgLWo0IFY9MQptYWtlIGluc3RhbGwK
+CmVjaG8KZWNobyAiPT09IEVOViA9PT0iCmVudgoKZWNobwplY2hvICI9PT0gUEFDS0FHRVMgPT09
+IgpycG0gLXFhCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgcHBjNjQtc29mdG1t
+dS9hY2NlbC90Y2cvdGNnLXJ1bnRpbWUtZ3ZlYy5vCkluIGZpbGUgaW5jbHVkZWQgZnJvbSAvdmFy
+L3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtbDR2OWJvd2Yvc3JjL3RhcmdldC9yeC9jcHUuaDozMSwK
+ICAgICAgICAgICAgICAgICBmcm9tIC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1sNHY5Ym93
+Zi9zcmMvZXhlYy5jOjIzOgovdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtbDR2OWJvd2Yvc3Jj
+L2luY2x1ZGUvZXhlYy9jcHUtZGVmcy5oOjM4OjEwOiBmYXRhbCBlcnJvcjogY3B1LXBhcmFtLmg6
+IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkKICAgMzggfCAjaW5jbHVkZSAiY3B1LXBhcmFtLmgi
+CiAgICAgIHwgICAgICAgICAgXn5+fn5+fn5+fn5+fgpjb21waWxhdGlvbiB0ZXJtaW5hdGVkLgoK
+ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAx
+OTA2MTExMTM3MzEuMTY5NDAtMS1waGlsbWRAcmVkaGF0LmNvbS90ZXN0aW5nLnMzOTB4Lz90eXBl
+PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
+dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
+dy1kZXZlbEByZWRoYXQuY29t
 
-Fixes by making guest refuse to send vlan tags?
-I agree it seems cleaner, but which guests does this actually help?
-
-> Fixes: 72018d1e1917 ("vhost-user: ignore qemu-only features")
-> Cc: qemu-stable@nongnu.org
-> 
-> Signed-off-by: Tiwei Bie <tiwei.bie@intel.com>
-
-A change like that will break migration compatibility, will it not?
-Maybe we need to tie it to a machine version somehow...
-
-
-
-> ---
-> It's not clear in the spec that, whether vlan filtering is
-> also best-effort:
-> https://github.com/oasis-tcs/virtio-spec/blob/37057052e7/content.tex#L3372
-
-So what breaks if we declare it best effort for now?
-And does it really help if we report that vlan filtering
-is not supported to guests?
-
-
-
->  hw/net/vhost_net.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index a6b719035c..1444fc9230 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -75,6 +75,8 @@ static const int user_feature_bits[] = {
->      VIRTIO_NET_F_MTU,
->      VIRTIO_F_IOMMU_PLATFORM,
->  
-> +    VIRTIO_NET_F_CTRL_VLAN,
-> +
->      /* This bit implies RARP isn't sent by QEMU out of band */
->      VIRTIO_NET_F_GUEST_ANNOUNCE,
->  
-> -- 
-> 2.17.1
 
