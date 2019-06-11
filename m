@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2A43CF37
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:43:07 +0200 (CEST)
-Received: from localhost ([::1]:59776 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D863CF10
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 16:41:54 +0200 (CEST)
+Received: from localhost ([::1]:59738 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hahzO-0001bl-OT
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40585)
+	id 1hahyD-0008RJ-On
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 10:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40549)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hahmH-0001WF-Cg
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:29:35 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hahmC-0001UE-PJ
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:29:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hahmF-0002jt-JU
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:29:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33204)
+ (envelope-from <eric.auger@redhat.com>) id 1hahmB-0002hO-Op
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 10:29:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37604)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hahmB-0002Np-8q; Tue, 11 Jun 2019 10:29:27 -0400
+ id 1hahm9-0002Rq-7f; Tue, 11 Jun 2019 10:29:25 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3D6B78553D;
- Tue, 11 Jun 2019 14:28:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A920FC05E76E;
+ Tue, 11 Jun 2019 14:28:50 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-67.ams2.redhat.com [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36CCD17F41;
- Tue, 11 Jun 2019 14:28:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8707608CD;
+ Tue, 11 Jun 2019 14:28:47 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org
-Date: Tue, 11 Jun 2019 16:28:20 +0200
-Message-Id: <20190611142821.3874-2-eric.auger@redhat.com>
+Date: Tue, 11 Jun 2019 16:28:21 +0200
+Message-Id: <20190611142821.3874-3-eric.auger@redhat.com>
 In-Reply-To: <20190611142821.3874-1-eric.auger@redhat.com>
 References: <20190611142821.3874-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 11 Jun 2019 14:28:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Tue, 11 Jun 2019 14:28:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/2] hw/arm/smmuv3: Remove spurious error
- messages on IOVA invalidations
+Subject: [Qemu-devel] [PATCH 2/2] hw/arm/smmuv3: Implement dummy replay
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,98 +59,67 @@ Cc: peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An IOVA/ASID invalidation is notified to all IOMMU Memory Regions
-through smmuv3_inv_notifiers_iova/smmuv3_notify_iova.
+On ARM we currently do not support VFIO-PCI devices protected
+by the IOMMU. Any attempt to run such use case results in this
+kind of warning:
 
-When the notification occurs it is possible that some of the
-PCIe devices associated to the notified regions do not have a
-valid stream table entry. In that case we output a LOG_GUEST_ERROR
-message.
+"-device vfio-pci,host=3D0004:01:00.0,id=3Dhostdev0,bus=3Dpci.1,addr=3D0x=
+0:
+warning: SMMUv3 does not support notification on MAP: device vfio-pci
+will not function properly".
 
-invalid sid=3D<SID> (L1STD span=3D0)
-"smmuv3_notify_iova error decoding the configuration for iommu mr=3D<MR>
+However this is just a warning and this should not prevent the
+guest from booting in a reasonable amount of time. This does not
+happen currently.
 
-This is unfortunate as the user gets the impression that there
-are some translation decoding errors whereas there are not.
+This is due to the fact the VFIO vfio_listener_region_add() calls
+memory_region_iommu_replay(). As the SMMUv3 IOMMUMemoryRegionClass
+currently does not implement the replay() callback, the default
+memory_region_iommu_replay() implementation is used. This latter
+loops on the whole notifier's range (48b address space), translates
+each page and call the notifier on the resulting entry. This totally
+freezes the guest.
 
-This patch adds a new field in SMMUEventInfo that tells whether
-the detction of an invalid STE msut lead to an error report.
-invalid_ste_allowed is set before doing the invalidations and
-kept unset on actual translation.
+The Intel IOMMU implements the replay() function which only
+notifies valid page table entries.
+
+In the looming SMMUv3 nested stage VFIO integration, there will be
+no need to replay() anything as there will not be any shadow page
+tables: the stage 1 page tables are owned by the guest.
+
+So let's implement a void replay() which satisfies both cases.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
 ---
+ hw/arm/smmuv3.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I also experimented to pass Error handles to all the subfunctions
-and handle the Error at top level but that's intricate to sort
-out the various kinds of errors, whether they need to be logged,
-and if so if they match LOG_GUEST_ERRoR mask or unimplemented
-mask. So I think just passing this boolean has a lesser impact on
-the code base.
----
- hw/arm/smmuv3-internal.h |  1 +
- hw/arm/smmuv3.c          | 11 +++++------
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index b160289cd1..d190181ef1 100644
---- a/hw/arm/smmuv3-internal.h
-+++ b/hw/arm/smmuv3-internal.h
-@@ -381,6 +381,7 @@ typedef struct SMMUEventInfo {
-     uint32_t sid;
-     bool recorded;
-     bool record_trans_faults;
-+    bool inval_ste_allowed;
-     union {
-         struct {
-             uint32_t ssid;
 diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index fd8ec7860e..e2f07d2864 100644
+index e2f07d2864..1f578365ef 100644
 --- a/hw/arm/smmuv3.c
 +++ b/hw/arm/smmuv3.c
-@@ -404,7 +404,7 @@ static int smmu_find_ste(SMMUv3State *s, uint32_t sid=
-, STE *ste,
-=20
-         span =3D L1STD_SPAN(&l1std);
-=20
--        if (!span) {
-+        if (!span && !event->inval_ste_allowed) {
-             /* l2ptr is not valid */
-             qemu_log_mask(LOG_GUEST_ERROR,
-                           "invalid sid=3D%d (L1STD span=3D0)\n", sid);
-@@ -602,7 +602,9 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegi=
-on *mr, hwaddr addr,
-     SMMUDevice *sdev =3D container_of(mr, SMMUDevice, iommu);
-     SMMUv3State *s =3D sdev->smmu;
-     uint32_t sid =3D smmu_get_sid(sdev);
--    SMMUEventInfo event =3D {.type =3D SMMU_EVT_NONE, .sid =3D sid};
-+    SMMUEventInfo event =3D {.type =3D SMMU_EVT_NONE,
-+                           .sid =3D sid,
-+                           .inval_ste_allowed =3D false};
-     SMMUPTWEventInfo ptw_info =3D {};
-     SMMUTranslationStatus status;
-     SMMUState *bs =3D ARM_SMMU(s);
-@@ -795,16 +797,13 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *m=
-r,
-                                dma_addr_t iova)
- {
-     SMMUDevice *sdev =3D container_of(mr, SMMUDevice, iommu);
--    SMMUEventInfo event =3D {};
-+    SMMUEventInfo event =3D {.inval_ste_allowed =3D true};
-     SMMUTransTableInfo *tt;
-     SMMUTransCfg *cfg;
-     IOMMUTLBEntry entry;
-=20
-     cfg =3D smmuv3_get_config(sdev, &event);
-     if (!cfg) {
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s error decoding the configuration for iommu mr=3D=
-%s\n",
--                      __func__, mr->parent_obj.name);
-         return;
+@@ -1489,6 +1489,11 @@ static void smmuv3_notify_flag_changed(IOMMUMemory=
+Region *iommu,
      }
+ }
 =20
++static inline void
++smmuv3_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
++{
++}
++
+ static void smmuv3_iommu_memory_region_class_init(ObjectClass *klass,
+                                                   void *data)
+ {
+@@ -1496,6 +1501,7 @@ static void smmuv3_iommu_memory_region_class_init(O=
+bjectClass *klass,
+=20
+     imrc->translate =3D smmuv3_translate;
+     imrc->notify_flag_changed =3D smmuv3_notify_flag_changed;
++    imrc->replay =3D smmuv3_replay;
+ }
+=20
+ static const TypeInfo smmuv3_type_info =3D {
 --=20
 2.20.1
 
