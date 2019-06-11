@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48683C65F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 10:47:57 +0200 (CEST)
-Received: from localhost ([::1]:52884 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F7B3C671
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 10:49:52 +0200 (CEST)
+Received: from localhost ([::1]:52916 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hacRg-0006WG-Oo
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 04:47:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53905)
+	id 1hacTX-00011q-Lx
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 04:49:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54046)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hacNh-0004G8-Gd
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:43:50 -0400
+ (envelope-from <philmd@redhat.com>) id 1hacNg-0004II-5F
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:43:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hacEf-00045K-Th
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:34:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48392)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hacEf-00044v-Ob
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:34:29 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 05552307D91F;
- Tue, 11 Jun 2019 08:34:28 +0000 (UTC)
-Received: from redhat.com (ovpn-117-129.ams2.redhat.com [10.36.117.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9179719C70;
- Tue, 11 Jun 2019 08:34:27 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-In-Reply-To: <20190611082548.GB11125@richard> (Wei Yang's message of "Tue, 11
- Jun 2019 16:25:48 +0800")
-References: <20190401061457.9393-1-richardw.yang@linux.intel.com>
- <20190611082548.GB11125@richard>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Tue, 11 Jun 2019 10:34:25 +0200
-Message-ID: <87v9xctt9q.fsf@trasno.org>
+ (envelope-from <philmd@redhat.com>) id 1hacFJ-0004WA-LM
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:35:10 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:36246)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hacFJ-0004K5-EP
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 04:35:09 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n4so11998569wrs.3
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 01:34:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IbYKK7JIHi3arHPNORfmRc7ZgDoLoIRhbg7TMUX9TXI=;
+ b=sM2i5pOigv0UJG4YAcAElbv0pHNk8vmjSGtdrU3o8TH0cj36ykcSpy/jpxiWqR3I++
+ /iTqR47usWtnX7F8Yx32+UuOASjO9DJyIBHs11sa2ITWQ59fn6swY7rwzcqiCLUvGvVq
+ nouI1n0yiMhzg3UGKISf07Wx/SP7rOgNUB+2Ui2jlewxGNCjvAcn0ld5swRFzv/1tPmc
+ kDHFgzMDVwnFGltF1oVQ7sdVcxqCeYTZL8liq4p4JHHJgKKlz4PBoLUIzZsCaZVUqYaR
+ /o9Q7aCYqIoxGcYHsZZO6suFc94MC6rNwuylMDAfujt0ExqQi8iCCfEZtbQaRXkZshA1
+ BD6w==
+X-Gm-Message-State: APjAAAWEQrl3/hIOAKsjle15ZdVW/Nju1GHdWI7KKmQUOUmAkUZOIkv4
+ sheHSfZayhBfUgKKm5z8Z6KyOA==
+X-Google-Smtp-Source: APXvYqx2zRHlaCH+OQTdi/0lTqSsfDkTLorwDmxveZnlAG59nTwtWTdyWZF8l69gcq/JZKuC4ChrUw==
+X-Received: by 2002:adf:9267:: with SMTP id 94mr26729215wrj.338.1560242096110; 
+ Tue, 11 Jun 2019 01:34:56 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2eec:b420:d26b:a0d4:f86e:1389?
+ ([2a01:e35:2eec:b420:d26b:a0d4:f86e:1389])
+ by smtp.gmail.com with ESMTPSA id o6sm1901175wmc.15.2019.06.11.01.34.55
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Jun 2019 01:34:55 -0700 (PDT)
+To: Ramon Fried <rfried.dev@gmail.com>, qemu-devel@nongnu.org
+References: <20190609100837.17586-1-rfried.dev@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <04cd3c78-9d8e-8958-1cdf-f65ab7d91dc7@redhat.com>
+Date: Tue, 11 Jun 2019 10:34:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 11 Jun 2019 08:34:28 +0000 (UTC)
+In-Reply-To: <20190609100837.17586-1-rfried.dev@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] migration: cleanup check on ops in
- savevm.handlers iteration
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH] net: cadence_gem: fix compilation error
+ when debug is on
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,30 +74,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "open list:Xilinx Zynq" <qemu-arm@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wei Yang <richardw.yang@linux.intel.com> wrote:
-> On Mon, Apr 01, 2019 at 02:14:57PM +0800, Wei Yang wrote:
->>During migration, there are several places to iterate on
->>savevm.handlers. And on each iteration, we need to check its ops and
->>related callbacks before invoke it.
->>
->>Generally, ops is the first element to check, and it is only necessary
->>to check it once.
->>
->>This patch clean all the related part in savevm.c to check ops only once
->>in those iterations.
->>
->>Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->
-> Hi, David
->
-> Are you willing to pick up this one?
+Hi Ramon,
 
-also will pick up this one.
+On 6/9/19 12:08 PM, Ramon Fried wrote:
+> defining CADENCE_GEM_ERR_DEBUG causes compilation
+> errors, fix that.
+> 
+> Signed-off-by: Ramon Fried <rfried.dev@gmail.com>
+> ---
+>  hw/net/cadence_gem.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+> index 7f63411430..5cc5a71524 100644
+> --- a/hw/net/cadence_gem.c
+> +++ b/hw/net/cadence_gem.c
+> @@ -982,8 +982,8 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+>              return -1;
+>          }
+>  
+> -        DB_PRINT("copy %d bytes to 0x%x\n", MIN(bytes_to_copy, rxbufsize),
+> -                rx_desc_get_buffer(s->rx_desc[q]));
+> +        DB_PRINT("copy %d bytes to 0x%lx\n", MIN(bytes_to_copy, rxbufsize),
+> +                rx_desc_get_buffer(s, s->rx_desc[q]));
 
-Later, Juan.
+Your patch fails on 32-bit hosts:
+
+./hw/net/cadence_gem.c:987:18: error: format '%lx' expects argument of
+type 'long unsigned int', but argument 4 has type 'uint64_t {aka long
+long unsigned int}' [-Werror=format=]
+         DB_PRINT("copy %d bytes to 0x%lx\n", MIN(bytes_to_copy, rxbufsize),
+                  ^
+./hw/net/cadence_gem.c:39:24: note: in definition of macro 'DB_PRINT'
+     fprintf(stderr, ## __VA_ARGS__); \
+                        ^
+./hw/net/cadence_gem.c: In function 'gem_transmit':
+./hw/net/cadence_gem.c:1160:26: error: format '%lx' expects argument of
+type 'long unsigned int', but argument 5 has type 'unsigned int'
+[-Werror=format=]
+                 DB_PRINT("TX descriptor @ 0x%x too large: size 0x%x
+space " \
+                          ^
+./hw/net/cadence_gem.c:39:24: note: in definition of macro 'DB_PRINT'
+     fprintf(stderr, ## __VA_ARGS__); \
+                        ^
+cc1: all warnings being treated as errors
+
+QEMU provides "HWADDR_PRIx" format for addresses, see for example few
+lines earlier:
+
+    DB_PRINT("read descriptor 0x%" HWADDR_PRIx "\n", packet_desc_addr);
+
+
+>  
+>          /* Copy packet data to emulated DMA buffer */
+>          address_space_write(&s->dma_as, rx_desc_get_buffer(s, s->rx_desc[q]) +
+> @@ -1156,7 +1156,7 @@ static void gem_transmit(CadenceGEMState *s)
+>              if (tx_desc_get_length(desc) > sizeof(tx_packet) -
+>                                                 (p - tx_packet)) {
+>                  DB_PRINT("TX descriptor @ 0x%x too large: size 0x%x space " \
+> -                         "0x%x\n", (unsigned)packet_desc_addr,
+> +                         "0x%lx\n", (unsigned)packet_desc_addr,
+
+Here the correct format seems to be "%zd" (difference of sizeof).
+
+>                           (unsigned)tx_desc_get_length(desc),
+>                           sizeof(tx_packet) - (p - tx_packet));
+>                  break;
+> 
+
+Nowadays QEMU prefers to move from the old DB_PRINT() macros to the
+trace events API, see for example this commit:
+
+https://git.qemu.org/?p=qemu.git;a=commitdiff;h=da1804d17a9ed7f060c072fbc4889db5fbc9c7d2;hp=a4f667b6714916683408b983cfe0a615a725775f
+
+The first line you changed would be replaced by a trace event, while the
+second could be replaced by a qemu_log_mask() call (it is an error
+condition).
+
+Also I suggest to include "QEMU Trivial <qemu-trivial@nongnu.org>" in
+the list of recipients, so your patch might get reviewed/merged quicker.
+
+Regards,
+
+Phil.
 
