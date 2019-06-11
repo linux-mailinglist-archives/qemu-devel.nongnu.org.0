@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B3A3D258
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:36:23 +0200 (CEST)
-Received: from localhost ([::1]:60872 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B30C3D27C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jun 2019 18:39:06 +0200 (CEST)
+Received: from localhost ([::1]:60908 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hajl0-0000O1-0i
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:36:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41687)
+	id 1hajnd-0004xT-K9
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 12:39:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42218)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hajLn-0008Vb-VB
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:10:21 -0400
+ (envelope-from <laine@redhat.com>) id 1hajNm-0001bf-MJ
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:12:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hajLm-0007NA-0M
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:10:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58248)
+ (envelope-from <laine@redhat.com>) id 1hajNj-0000Io-HO
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:12:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53684)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
- id 1hajLh-0007FI-RK; Tue, 11 Jun 2019 12:10:14 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <laine@redhat.com>) id 1hajNj-0000Hm-75
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 12:12:19 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0C7153092675;
- Tue, 11 Jun 2019 16:10:08 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A8EF860BF1;
- Tue, 11 Jun 2019 16:10:00 +0000 (UTC)
-Date: Tue, 11 Jun 2019 17:09:58 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190611160957.GG2777@work-vm>
-References: <20190611134043.9524-1-kwolf@redhat.com>
- <20190611134043.9524-8-kwolf@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 7474A307CDE7
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 16:12:13 +0000 (UTC)
+Received: from vhost2.laine.org (ovpn-116-157.phx2.redhat.com [10.3.116.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5ACE600CD;
+ Tue, 11 Jun 2019 16:12:05 +0000 (UTC)
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20190517125820.2885-1-jfreimann@redhat.com>
+ <646d0bf1-2fbb-1adb-d5d3-3ef3944376b5@redhat.com>
+ <20190611115009-mutt-send-email-mst@kernel.org>
+From: Laine Stump <laine@redhat.com>
+Message-ID: <2f287667-405d-deac-b0af-1048ec33db1f@redhat.com>
+Date: Tue, 11 Jun 2019 12:12:04 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190611134043.9524-8-kwolf@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20190611115009-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 11 Jun 2019 16:10:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Tue, 11 Jun 2019 16:12:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 07/11] monitor: Move {hmp,
- qmp}.c to monitor/{hmp, qmp}-cmds.c
+Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
+ network devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,148 +61,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- armbru@redhat.com
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ aadam@redhat.com, qemu-devel@nongnu.org, Jens Freimann <jfreimann@redhat.com>,
+ ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kevin Wolf (kwolf@redhat.com) wrote:
-> Now that we have a monitor/ subdirectory, let's move hmp.c and qmp.c
-> from the root directory there. As they contain implementations of
-> monitor commands, rename them to {hmp,qmp}-cmds.c, so that {hmp,qmp}.c
-> are free for the HMP and QMP infrastructure.
+On 6/11/19 11:51 AM, Michael S. Tsirkin wrote:
+> On Tue, Jun 11, 2019 at 11:42:54AM -0400, Laine Stump wrote:
+>> On 5/17/19 8:58 AM, Jens Freimann wrote:
+>>> This is another attempt at implementing the host side of the
+>>> net_failover concept
+>>> (https://www.kernel.org/doc/html/latest/networking/net_failover.html)
+>>>
+>>> Changes since last RFC:
+>>> - work around circular dependency of commandline options. Just add
+>>>     failover=on to the virtio-net standby options and reference it from
+>>>     primary (vfio-pci) device with standby=<id>
+>>> - add patch 3/4 to allow migration of vfio-pci device when it is part of a
+>>>     failover pair, still disallow for all other devices
+>>> - add patch 4/4 to allow unplug of device during migrationm, make an
+>>>     exception for failover primary devices. I'd like feedback on how to
+>>>     solve this more elegant. I added a boolean to DeviceState, have it
+>>>     default to false for all devices except for primary devices.
+>>> - not tested yet with surprise removal
+>>> - I don't expect this to go in as it is, still needs more testing but
+>>>     I'd like to get feedback on above mentioned changes.
+>>>
+>>> The general idea is that we have a pair of devices, a vfio-pci and a
+>>> emulated device. Before migration the vfio device is unplugged and data
+>>> flows to the emulated device, on the target side another vfio-pci device
+>>> is plugged in to take over the data-path. In the guest the net_failover
+>>> module will pair net devices with the same MAC address.
+>>>
+>>> * In the first patch the infrastructure for hiding the device is added
+>>>     for the qbus and qdev APIs.
+>>>
+>>> * In the second patch the virtio-net uses the API to defer adding the vfio
+>>>     device until the VIRTIO_NET_F_STANDBY feature is acked.
+>>>
+>>> Previous discussion:
+>>>     RFC v1 https://patchwork.ozlabs.org/cover/989098/
+>>>     RFC v2 https://www.mail-archive.com/qemu-devel@nongnu.org/msg606906.html
+>>>
+>>> To summarize concerns/feedback from previous discussion:
+>>> 1.- guest OS can reject or worse _delay_ unplug by any amount of time.
+>>>     Migration might get stuck for unpredictable time with unclear reason.
+>>>     This approach combines two tricky things, hot/unplug and migration.
+>>>     -> We can surprise-remove the PCI device and in QEMU we can do all
+>>>        necessary rollbacks transparent to management software. Will it be
+>>>        easy, probably not.
+>>> 2. PCI devices are a precious ressource. The primary device should never
+>>>     be added to QEMU if it won't be used by guest instead of hiding it in
+>>>     QEMU.
+>>>     -> We only hotplug the device when the standby feature bit was
+>>>        negotiated. We save the device cmdline options until we need it for
+>>>        qdev_device_add()
+>>>        Hiding a device can be a useful concept to model. For example a
+>>>        pci device in a powered-off slot could be marked as hidden until the slot is
+>>>        powered on (mst).
+>>> 3. Management layer software should handle this. Open Stack already has
+>>>     components/code to handle unplug/replug VFIO devices and metadata to
+>>>     provide to the guest for detecting which devices should be paired.
+>>>     -> An approach that includes all software from firmware to
+>>>        higher-level management software wasn't tried in the last years. This is
+>>>        an attempt to keep it simple and contained in QEMU as much as possible.
+>>> 4. Hotplugging a device and then making it part of a failover setup is
+>>>      not possible
+>>>     -> addressed by extending qdev hotplug functions to check for hidden
+>>>        attribute, so e.g. device_add can be used to plug a device.
+>>>
+>>>
+>>> I have tested this with a mlx5 NIC and was able to migrate the VM with
+>>> above mentioned workarounds for open problems.
+>>>
+>>> Command line example:
+>>>
+>>> qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
+>>>           -machine q35,kernel-irqchip=split -cpu host   \
+>>>           -k fr   \
+>>>           -serial stdio   \
+>>>           -net none \
+>>>           -qmp unix:/tmp/qmp.socket,server,nowait \
+>>>           -monitor telnet:127.0.0.1:5555,server,nowait \
+>>>           -device pcie-root-port,id=root0,multifunction=on,chassis=0,addr=0xa \
+>>>           -device pcie-root-port,id=root1,bus=pcie.0,chassis=1 \
+>>>           -device pcie-root-port,id=root2,bus=pcie.0,chassis=2 \
+>>>           -netdev tap,script=/root/bin/bridge.sh,downscript=no,id=hostnet1,vhost=on \
+>>>           -device virtio-net-pci,netdev=hostnet1,id=net1,mac=52:54:00:6f:55:cc,bus=root2,failover=on \
+>>>           /root/rhel-guest-image-8.0-1781.x86_64.qcow2
+>>>
+>>> Then the primary device can be hotplugged via
+>>>    (qemu) device_add vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,standby=net1
+>>
+>>
+>> I guess this is the commandline on the migration destination, and as far as
+>> I understand from this example, on the destination we (meaning libvirt or
+>> higher level management application) must *not* include the assigned device
+>> on the qemu commandline, but must instead hotplug the device later after the
+>> guest CPUs have been restarted on the destination.
+>>
+>> So if I'm understanding correctly, the idea is that on the migration source,
+>> the device may have been hotplugged, or may have been included when qemu was
+>> originally started. Then qemu automatically handles the unplug of the device
+>> on the source, but it seems qemu does nothing on the destination, leaving
+>> that up to libvirt or a higher layer to implement.
 > 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Good point. I don't see why it would not work just as well
+> with device present straight away.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Will the guest get properly notified about the device if it had been 
+unplugged (from the guest POV) prior to the migration (so the last thing 
+the guest knows is that there is no device), but is suddenly/magically 
+back in place from the instant the CPUs start on the destination? 
+Doesn't there need to be some sort of notification sent from qemu to the 
+guest OS to let it know that a "new" device has been plugged in? (I've 
+always assumed this was the case, but it's really just guessing on my 
+part :-)
 
-> ---
->  docs/devel/writing-qmp-commands.txt | 9 +++++----
->  hmp.c => monitor/hmp-cmds.c         | 2 +-
->  qmp.c => monitor/qmp-cmds.c         | 2 +-
->  MAINTAINERS                         | 5 +++--
->  Makefile.objs                       | 2 +-
->  monitor/Makefile.objs               | 1 +
->  6 files changed, 12 insertions(+), 9 deletions(-)
->  rename hmp.c => monitor/hmp-cmds.c (99%)
->  rename qmp.c => monitor/qmp-cmds.c (99%)
+It will certainly make things simpler if the device can be present in 
+the qemu commandline. If that's the case, then I *think* only item (2) 
+below will need solving.
+
 > 
-> diff --git a/docs/devel/writing-qmp-commands.txt b/docs/devel/writing-qmp-commands.txt
-> index cc6ecd6d5d..46a6c48683 100644
-> --- a/docs/devel/writing-qmp-commands.txt
-> +++ b/docs/devel/writing-qmp-commands.txt
-> @@ -20,7 +20,7 @@ new QMP command.
->  
->  2. Write the QMP command itself, which is a regular C function. Preferably,
->     the command should be exported by some QEMU subsystem. But it can also be
-> -   added to the qmp.c file
-> +   added to the monitor/qmp-cmds.c file
->  
->  3. At this point the command can be tested under the QMP protocol
->  
-> @@ -101,7 +101,8 @@ protocol data.
->  
->  The next step is to write the "hello-world" implementation. As explained
->  earlier, it's preferable for commands to live in QEMU subsystems. But
-> -"hello-world" doesn't pertain to any, so we put its implementation in qmp.c:
-> +"hello-world" doesn't pertain to any, so we put its implementation in
-> +monitor/qmp-cmds.c:
->  
->  void qmp_hello_world(Error **errp)
->  {
-> @@ -146,7 +147,7 @@ for mandatory arguments). Finally, 'str' is the argument's type, which
->  stands for "string". The QAPI also supports integers, booleans, enumerations
->  and user defined types.
->  
-> -Now, let's update our C implementation in qmp.c:
-> +Now, let's update our C implementation in monitor/qmp-cmds.c:
->  
->  void qmp_hello_world(bool has_message, const char *message, Error **errp)
->  {
-> @@ -267,7 +268,7 @@ monitor (HMP).
->  
->  With the introduction of the QAPI, HMP commands make QMP calls. Most of the
->  time HMP commands are simple wrappers. All HMP commands implementation exist in
-> -the hmp.c file.
-> +the monitor/hmp-cmds.c file.
->  
->  Here's the implementation of the "hello-world" HMP command:
->  
-> diff --git a/hmp.c b/monitor/hmp-cmds.c
-> similarity index 99%
-> rename from hmp.c
-> rename to monitor/hmp-cmds.c
-> index 99414cd39c..712737cd18 100644
-> --- a/hmp.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1,5 +1,5 @@
->  /*
-> - * Human Monitor Interface
-> + * Human Monitor Interface commands
->   *
->   * Copyright IBM, Corp. 2011
->   *
-> diff --git a/qmp.c b/monitor/qmp-cmds.c
-> similarity index 99%
-> rename from qmp.c
-> rename to monitor/qmp-cmds.c
-> index fa1b3c1577..65520222ca 100644
-> --- a/qmp.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -1,5 +1,5 @@
->  /*
-> - * QEMU Management Protocol
-> + * QEMU Management Protocol commands
->   *
->   * Copyright IBM, Corp. 2011
->   *
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 10c082314c..8789c82e5c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1925,7 +1925,8 @@ Human Monitor (HMP)
->  M: Dr. David Alan Gilbert <dgilbert@redhat.com>
->  S: Maintained
->  F: monitor/misc.c
-> -F: hmp.[ch]
-> +F: monitor/hmp*
-> +F: hmp.h
->  F: hmp-commands*.hx
->  F: include/monitor/hmp-target.h
->  F: tests/test-hmp.c
-> @@ -2045,7 +2046,7 @@ F: tests/check-qom-proplist.c
->  QMP
->  M: Markus Armbruster <armbru@redhat.com>
->  S: Supported
-> -F: qmp.c
-> +F: monitor/qmp*
->  F: monitor/misc.c
->  F: docs/devel/*qmp-*
->  F: docs/interop/*qmp-*
-> diff --git a/Makefile.objs b/Makefile.objs
-> index dd39a70b48..9495fcbc7e 100644
-> --- a/Makefile.objs
-> +++ b/Makefile.objs
-> @@ -83,8 +83,8 @@ common-obj-$(CONFIG_FDT) += device_tree.o
->  ######################################################################
->  # qapi
->  
-> -common-obj-y += qmp.o hmp.o
->  common-obj-y += qapi/
-> +common-obj-y += monitor/
->  endif
->  
->  #######################################################################
-> diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-> index e783b0616b..a7170af6e1 100644
-> --- a/monitor/Makefile.objs
-> +++ b/monitor/Makefile.objs
-> @@ -1 +1,2 @@
->  obj-y += misc.o
-> +common-obj-y += qmp-cmds.o hmp-cmds.o
-> -- 
-> 2.20.1
+> Did I miss something?
 > 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> I think Jens was just testing local machine migration
+> and of course you can only assign a device to 1 VM at a time.
+
+
+That's useful and convenient for a smoke test, but doesn't account for 
+the (almost 100%) possibility of having a different device address 
+(maybe even a different model of device) on source and destination, or 
+for the need to unbind/rebind vfio-pci and the host net driver.
+
+
+> 
+>> Then in order for this to work, libvirt (or OpenStack or oVirt or whoever)
+>> needs to understand that the device in the libvirt config (it will still be
+>> in the libvirt config, since from libvirt's POV it hasn't been unplugged):
+>>
+>> 1) shouldn't be included in the qemu commandline on the destination,
+>>
+>> 2) will almost surely need to be replaced with a different device on the
+>> destination (since it's almost certain that the destination won't have an
+>> available device at the same PCI address)
+>>
+>> 3) will probably need to be unbinded from the VF net driver (does this need
+>> to happen before migration is finished? If we want to lower the probability
+>> of a failure after we're already committed to the migration, then I think we
+>> must, but libvirt isn't set up for that in any way).
+>>
+>> 4) will need to be hotplugged after the migration has finished *and* after
+>> the guest CPUs have been restarted on the destination.
+>>
+>>
+>> While it will be possible to assure that there is a destination device, and
+>> to replace the old device with new in the config (and maybe, either with
+>> some major reworking of device assignment code, or offloading the
+>> responsibility to the management application(s), possible to re-bind the
+>> device to the vfio-pci driver), prior to marking the migration as
+>> "successful" (thus committing to running it on the destination), we can't
+>> say as much for actually assigning the device. So if the assignment fails,
+>> then what happens?
+>>
+>>
+>> So a few issues I see that will need to be solved by [someone] (apparently
+>> either libvirt or management):
+>>
+>> a) there isn't anything in libvirt's XML grammar that allows us to signify a
+>> device that is "present in the config but shouldn't be included in the
+>> commandline"
+>>
+>> b) someone will need to replace the device from the source with an
+>> equivalent device on the destination in the libvirt XML. There are other
+>> cases of management modifying the XML during migration (I think), but this
+>> does point out that putting the "auto-unplug code into qemu isn't turning
+>> this into a trivial
+>>
+>> c) there is nothing in libvirt's migration logic that can cause a device to
+>> be re-binded to vfio-pci prior to completion of a migration. Unless this is
+>> added to libvirt (or the re-bind operation is passed off to the management
+>> application), we will need to live with the possibility that hotplugging the
+>> device will fail due to failed re-bind *after* we've committed to the
+>> migration.
+>>
+>> d) once the guest CPUs are restarted on the destination, [someone] (libvirt
+>> or management) needs to hotplug the new device on the destination. (I'm
+>> guessing that a hotplug can only be done while the guest CPUs are running;
+>> correct me if this is wrong!)
+>>
+>> This sounds like a lot of complexity for something that was supposed to be
+>> handled completely/transparently by qemu :-P.
+
 
