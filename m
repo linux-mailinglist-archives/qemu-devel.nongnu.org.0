@@ -2,62 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC63E424CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 13:54:03 +0200 (CEST)
-Received: from localhost ([::1]:59268 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B919042618
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:40:31 +0200 (CEST)
+Received: from localhost ([::1]:59944 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb1pL-0006PF-6f
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 07:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43891)
+	id 1hb2YI-0004mr-U8
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:40:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46745)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hb1o2-00060L-S8
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 07:52:43 -0400
+ (envelope-from <quintela@redhat.com>) id 1hb24y-0001RY-IA
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:10:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hb1o1-0005Vp-SH
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 07:52:42 -0400
-Received: from nylar.uni-paderborn.de ([131.234.189.18]:56882)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1hb1o1-0005Uj-5v
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 07:52:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Fvyks6l203BtIWer/hofmPjurNQEhJPQ6YPPjQ5sMls=; b=RkojnDNsBpDQdMF7g59xXHTmqK
- cgXMeUKwjajYDKMy92uIOL69m/LOjpNpoPCDiK3k7H1zfhsBhNYQ3coknqJl4F7DQ5SOvv34wNICz
- ucvKuTWdVLK6n22Jjlj0liLvjO5ZUyXOxEApTksrabskG2oqMkqKh/OzqdwMGaZG1WyQ=;
-To: "Brenken, David (EFS-GH2)" <david.brenken@efs-auto.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Brenken <david.brenken@efs-auto.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20190605061126.10244-1-david.brenken@efs-auto.org>
- <20190605061126.10244-4-david.brenken@efs-auto.org>
- <ffb4ba2c-318e-6b08-c206-a90b000074d2@mail.uni-paderborn.de>
- <34F764F04E859040BBA6C4FF41AB17D93B2DA4@AUDIINSX0410.audi.vwg>
- <8e4f29db-fb2d-4053-2483-a2d92466ce35@linaro.org>
- <34F764F04E859040BBA6C4FF41AB17D93B4A3D@AUDIINSX0410.audi.vwg>
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-ID: <1dc1af82-88cf-5840-dfad-ff0a75e3dcec@mail.uni-paderborn.de>
-Date: Wed, 12 Jun 2019 13:52:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <quintela@redhat.com>) id 1hb1pY-0006XQ-G9
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 07:54:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34092)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hb1pW-0006VR-Ha
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 07:54:16 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8A25E30984D1
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 11:54:13 +0000 (UTC)
+Received: from redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 01818605CF;
+ Wed, 12 Jun 2019 11:54:12 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+In-Reply-To: <20190529163447.GK2882@work-vm> (David Alan Gilbert's message of
+ "Wed, 29 May 2019 17:34:48 +0100")
+References: <20190515121544.4597-1-quintela@redhat.com>
+ <20190515121544.4597-7-quintela@redhat.com>
+ <20190529163447.GK2882@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Wed, 12 Jun 2019 13:54:10 +0200
+Message-ID: <874l4vm331.fsf@trasno.org>
 MIME-Version: 1.0
-In-Reply-To: <34F764F04E859040BBA6C4FF41AB17D93B4A3D@AUDIINSX0410.audi.vwg>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US-large
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.6.2792898, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2019.6.12.114216, AntiVirus-Engine: 5.63.0,
- AntiVirus-Data: 2019.6.4.5630002
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Wed, 12 Jun 2019 11:54:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 131.234.189.18
-Subject: Re: [Qemu-devel] [PATCH 3/5] tricore: fix RRPW_INSERT instruction
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 6/8] migration: Make none operations
+ into its own structure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,30 +59,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Biermanski, Lars \(EFS-GH3\)" <lars.biermanski@efs-auto.de>, "Rasche,
- Robert \(EFS-GH2\)" <robert.rasche@efs-auto.de>, "Hofstetter,
- Georg \(EFS-GH2\)" <Georg.Hofstetter@efs-auto.de>, "Konopik,
- Andreas \(EFS-GH2\)" <andreas.konopik@efs-auto.de>
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Juan Quintela (quintela@redhat.com) wrote:
+>> It will be used later.
+>
+> 'none' is confusing - I think this is no-compression specifically -
+> right?
+> I'd be happy with something abbreviated like 'nocomp'
 
-On 6/12/19 7:48 AM, Brenken, David (EFS-GH2) wrote:
-> Thank you for your hint.
-> Would anyone mind, if keep my insert implementation anyway?
-> If I compare the pseudo code of the instruction manual to the insert implementation it looks nearly the same whereas it seems kind of difficult to directly map the pseudo code of the instruction manual to the general deposit instruction.
+I don't care too much, I can change, but when you are setting the value
+it gets:
 
-I think deposit is better, as tcg can emit the native deposit 
-instruction of the host processor (which it does for x86). gen_insert() 
-on the other hand needs 8 tcg ops.
+micgration set-parameter compression none
 
-Regarding the pseudo code, take a look at tcg/README. You'll see that 
-the semantics of insert and deposit are the same. Thus, I think Richards 
-fix is better.
+That looks ok.
 
-Cheers,
+On the other hand, I can agree that I can call the functions nocomp.
 
-Bastian
+Thanks, Juan.
 
+>
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>  migration/ram.c | 54 ++++++++++++++++++++++++++++++++++++++++++++-----
+>>  1 file changed, 49 insertions(+), 5 deletions(-)
+>> 
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index 1ca9ba77b6..6679e4f213 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -700,6 +700,40 @@ typedef struct {
+>>      QemuSemaphore sem_sync;
+>>  } MultiFDRecvParams;
+>>  
+>> +typedef struct {
+>> +    /* Prepare the send packet */
+>> +    int (*send_prepare)(MultiFDSendParams *p, uint32_t used);
+>> +    /* Write the send packet */
+>> +    int (*send_write)(MultiFDSendParams *p, uint32_t used, Error **perr);
+>> +    /* Read all pages */
+>> +    int (*recv_pages)(MultiFDRecvParams *p, uint32_t used, Error **perr);
+>> +} MultifdMethods;
+>> +
+>> +/* Multifd without compression */
+>> +
+>> +static int none_send_prepare(MultiFDSendParams *p, uint32_t used)
+>> +{
+>> +    p->next_packet_size = used * qemu_target_page_size();
+>> +    return 0;
+>> +}
+>> +
+>> +static int none_send_write(MultiFDSendParams *p, uint32_t used, Error **perr)
+>> +{
+>> +    return qio_channel_writev_all(p->c, p->pages->iov, used, perr);
+>> +}
+>> +
+>> +static int none_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **perr)
+>> +{
+>> +    return qio_channel_readv_all(p->c, p->pages->iov, used, perr);
+>> +
+>> +}
+>> +
+>> +MultifdMethods multifd_none_ops = {
+>> +    .send_prepare = none_send_prepare,
+>> +    .send_write = none_send_write,
+>> +    .recv_pages = none_recv_pages
+>> +};
+>> +
+>>  static int multifd_send_initial_packet(MultiFDSendParams *p, Error **errp)
+>>  {
+>>      MultiFDInit_t msg;
+>> @@ -904,6 +938,8 @@ struct {
+>>      uint64_t packet_num;
+>>      /* send channels ready */
+>>      QemuSemaphore channels_ready;
+>> +    /* multifd ops */
+>> +    MultifdMethods *ops;
+>>  } *multifd_send_state;
+>>  
+>>  /*
+>> @@ -1093,6 +1129,8 @@ static void *multifd_send_thread(void *opaque)
+>>      /* initial packet */
+>>      p->num_packets = 1;
+>>  
+>> +    multifd_send_state->ops = &multifd_none_ops;
+>> +
+>
+> I agree with Wei Yang that is a bad idea; that should be done once
+> before the first thread is started.
+>
+> Dave
+>
+>>      while (true) {
+>>          qemu_sem_wait(&p->sem);
+>>          qemu_mutex_lock(&p->mutex);
+>> @@ -1102,7 +1140,12 @@ static void *multifd_send_thread(void *opaque)
+>>              uint64_t packet_num = p->packet_num;
+>>              uint32_t flags = p->flags;
+>>  
+>> -            p->next_packet_size = used * qemu_target_page_size();
+>> +            if (used) {
+>> +                ret = multifd_send_state->ops->send_prepare(p, used);
+>> +                if (ret != 0) {
+>> +                    break;
+>> +                }
+>> +            }
+>>              multifd_send_fill_packet(p);
+>>              p->flags = 0;
+>>              p->num_packets++;
+>> @@ -1120,8 +1163,7 @@ static void *multifd_send_thread(void *opaque)
+>>              }
+>>  
+>>              if (used) {
+>> -                ret = qio_channel_writev_all(p->c, p->pages->iov,
+>> -                                             used, &local_err);
+>> +                ret = multifd_send_state->ops->send_write(p, used, &local_err);
+>>                  if (ret != 0) {
+>>                      break;
+>>                  }
+>> @@ -1223,6 +1265,8 @@ struct {
+>>      QemuSemaphore sem_sync;
+>>      /* global number of generated multifd packets */
+>>      uint64_t packet_num;
+>> +    /* multifd ops */
+>> +    MultifdMethods *ops;
+>>  } *multifd_recv_state;
+>>  
+>>  static void multifd_recv_terminate_threads(Error *err)
+>> @@ -1324,6 +1368,7 @@ static void *multifd_recv_thread(void *opaque)
+>>      trace_multifd_recv_thread_start(p->id);
+>>      rcu_register_thread();
+>>  
+>> +    multifd_recv_state->ops = &multifd_none_ops;
+>>      while (true) {
+>>          uint32_t used;
+>>          uint32_t flags;
+>> @@ -1353,8 +1398,7 @@ static void *multifd_recv_thread(void *opaque)
+>>          qemu_mutex_unlock(&p->mutex);
+>>  
+>>          if (used) {
+>> -            ret = qio_channel_readv_all(p->c, p->pages->iov,
+>> -                                        used, &local_err);
+>> +            ret = multifd_recv_state->ops->recv_pages(p, used, &local_err);
+>>              if (ret != 0) {
+>>                  break;
+>>              }
+>> -- 
+>> 2.21.0
+>> 
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
