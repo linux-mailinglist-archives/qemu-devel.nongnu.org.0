@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F2A42D1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 19:11:11 +0200 (CEST)
-Received: from localhost ([::1]:33958 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C4942DB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 19:52:07 +0200 (CEST)
+Received: from localhost ([::1]:34166 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb6mE-0004XZ-Rx
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 13:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60167)
+	id 1hb7Pq-0006YL-Bm
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 13:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41222)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hb6e7-0006c1-Hz
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 13:02:49 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hb7Gc-0008H3-Ch
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 13:42:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hb6e3-0006nd-57
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 13:02:47 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:34878)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1hb6dr-0005qL-VB
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 13:02:36 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CGmtDQ194153;
- Wed, 12 Jun 2019 17:01:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=lKE1hfZgnt2Ll31k5y4lDARwK7kgVKvTEtjrO1X159s=;
- b=l7JAzhlMJI1dm6MWfEozFAUXPNWjyZSWRg+BRlGn99K7XE0Qylj2Mp41VuImzDB1b7Ka
- 7UKsEuD5Y54F6pl3i4d2QNR3Q4QPN48TF9iNmfgp1Pne38idZ3MaChAht64pYFLpeBhI
- VgPlkHXqdPE8hXNnvsjTQtn5/8p1caboeil5ULyw/erfGcbRSzY6UbgL1y2/R+SJCcHm
- GRTGjD1SpV7Vu8q9HA5ragQ07iLOyFr9II7FAzyMBfW26DR9F8druakxuanH0FseHskW
- 0Jsh9UgFCINDCzN1JUEY/hYCbhNI6qUeBuL79+GoFH+cBTP4Ed9PAxKfUwpZBSA4nZNM uA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 2t05nqvsxf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jun 2019 17:01:19 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CH0qvP059877;
- Wed, 12 Jun 2019 17:01:19 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 2t1jpj4jt5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jun 2019 17:01:18 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5CH1GoB005128;
- Wed, 12 Jun 2019 17:01:16 GMT
-Received: from heatpipe (/73.170.27.202)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 12 Jun 2019 10:01:16 -0700
-Date: Wed, 12 Jun 2019 10:01:12 -0700
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Message-ID: <20190612170112.GA16843@heatpipe>
-References: <20190326080822.GC21018@stefanha-x1.localdomain>
- <e5395abf-6b41-46c8-f5af-3210077dfdd5@oracle.com>
- <CAAdtpL4ztcpf-CTx0fc5T_+VQ+8upHa2pEMoiZPcmBXOO6L3Og@mail.gmail.com>
- <c945c950-f6f1-7e2a-a6c4-399c9b728288@oracle.com>
- <20190425154421.GG17806@stefanha-x1.localdomain>
- <fe4b0b42-523d-5877-173c-3e878abd4e32@oracle.com>
- <20190523111130.GF26632@stefanha-x1.localdomain>
- <20190528151820.GA4545@heatpipe>
- <20190530205434.GB2694@flaka.hsd1.ca.comcast.net>
- <20190612162413.GB1620@stefanha-x1.localdomain>
+ (envelope-from <alex.bennee@linaro.org>) id 1hb75p-0006BZ-V0
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 13:31:27 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38637)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hb75p-00069l-MR
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 13:31:25 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d18so17806381wrs.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 10:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yyFpVFOtvboViTv5bDBHWCNIaSZDAA/CScmkWq5+EUI=;
+ b=gGpA0EwP5GithX4Auwf1w+9AGtx3EhOe5UPzyU8ifT777p63GXW8Il+IUOyQbDiATT
+ qHZNOo4O1x2aa1ExG8U4GOWSGbVRK17CvTIAldeIDDHS5mBGu4kLhm9x5gF5AmFCFniL
+ enoc5TTCpezrPxHoLXDw2KXkwDpus7bnurbCwPapCCimppkSL4Fid9cVMZ/h0oXdzqta
+ QZlOJj/2avPQkOH7Cmjnzdlu5qnzUVFPUMHTVWqah8TXa0YPo5kKCyjLI2qxTzCszPai
+ xJJNKOGGCWxDrQhQg+5Nq2FBlXXHLr9/mBHKdyLmJ/8Hl+gU3H9YcGKHNo3ke7msNaot
+ 6+bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yyFpVFOtvboViTv5bDBHWCNIaSZDAA/CScmkWq5+EUI=;
+ b=tWDVJq/LDubr5UvPQ2bRHHdEDZGUm/YgiIVhQiicezsliPWF4H57MQ/gsmRn4ae+Aw
+ 9FVft4xljoMGFJ4n7XDiV9oP0PJA+dxjo7vTyQ8AdDE/OveVZCw+v6MXUCYNhetmBjkd
+ SKyr7eeuziPhlzEMFVGWOBUEj9Jk2OlWfVwQSqDBS1f3iqhwmawq9epKH2SYvD/on8gb
+ 08nt11CjFsO7t+LKjSAQGDYVq9YeY7zbn/TWK04liJxRFFmYtdFmlHxUDNlt6GkO/gTe
+ g7r7kM2SzBu8BO3SqSnm0EsfQgZ6EvJre1zcj3hft0lGzWj77vSpulZmGhjYfq18MzOj
+ k2+A==
+X-Gm-Message-State: APjAAAX9YVNYKQclshkoEaBIIx7e8PyMoNYr4rwZ2xAOOrOpzwY1b/pI
+ Je8mIcMSk4Wcw7IVkIFfMiUyBQ==
+X-Google-Smtp-Source: APXvYqyue7LRziHDFfgjuN6IhNqrT5Ac0Wjsp992msH9iSTyt2b8mg3fQEMk6AGhm+d+gZXVmyZGMw==
+X-Received: by 2002:adf:ce8f:: with SMTP id r15mr44139575wrn.122.1560360682695; 
+ Wed, 12 Jun 2019 10:31:22 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id r6sm105980wrp.85.2019.06.12.10.31.21
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 12 Jun 2019 10:31:22 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 985CA1FF87;
+ Wed, 12 Jun 2019 18:31:21 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Date: Wed, 12 Jun 2019 18:31:21 +0100
+Message-Id: <20190612173121.21057-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190612162413.GB1620@stefanha-x1.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9286
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906120114
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9286
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906120114
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: Re: [Qemu-devel] [multiprocess RFC PATCH 36/37] multi-process: add
- the concept description to docs/devel/qemu-multiprocess
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42a
+Subject: [Qemu-devel] [PULL v3 00/40] testing, gdbstub and cputlb fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,86 +79,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, sstabellini@kernel.org,
- Jag Raman <jag.raman@oracle.com>, konrad.wilk@oracle.com,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, ross.lagerwall@citrix.com, liran.alon@oracle.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- kanth.ghatraju@oracle.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 12, 2019 at 05:24:13PM +0100, Stefan Hajnoczi wrote:
-> On Thu, May 30, 2019 at 01:54:35PM -0700, Elena Ufimtseva wrote:
-> > On Tue, May 28, 2019 at 08:18:20AM -0700, Elena Ufimtseva wrote:
-> > > On Thu, May 23, 2019 at 12:11:30PM +0100, Stefan Hajnoczi wrote:
-> > > > Hi Jag and Elena,
-> > > > Do you think a call would help to move discussion along more quickly?
-> > > >
-> > > 
-> > > Hi Stefan,
-> > > 
-> > > We would like to join this call.
-> > > And thank you inviting us!
-> > > 
-> > > Elena
-> > > > We could use the next KVM Community Call on June 4th to discuss
-> > > > remaining concerns and the next steps:
-> > > > https://calendar.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-> > > >
-> > > > I also hope to include other core QEMU developers.  As you know, I'm
-> > > > skeptical, but it could be just me and I don't want to block you
-> > > > unnecessarily if others are more enthusiastic about this approach.
-> > > >
-> > 
-> > Hi Stefan
-> > 
-> > A few questions we have are about the call.
-> > What is the format of the call usually? Should we provide some kind of the project outline for 5 minutes?
-> > We are planning to address some of the concerns you have voiced in regards to amount of changes, usability,
-> > security and performance. I assume there will be other questions as well. Is there any time limit per topic?
-> > 
-> > And would you mind sharing the call details with us?
-> 
-> Hi Elena and Jag,
+The following changes since commit a050901d4b40092dc356b59912c6df39e389c7b9:
 
-Hi Stefan,
+  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190612' into staging (2019-06-12 14:43:47 +0100)
 
-> Sorry, I was away on sick leave. 
+are available in the Git repository at:
 
-Ah, sorry about that - we have guessed that you were away, but thought
-people were mostly on vacation.
+  https://github.com/stsquad/qemu.git tags/pull-testing-gdbstub-cputlb-120619-3
 
-> The KVM Community Call is informal.
-> The goal is to get people together in a teleconference where we can
-> discuss topics much more quickly than on the mailing list.  This can
-> help make progress in areas where the mailing list discussion seems to
-> be making slow progress.
-> 
-> I would suggest starting with a status update the describes your
-> current approach (without assuming the audience has familiarity).  Then
-> you could touch on any issues where you'd like input from the community
-> and you could take questions.
-> 
-> Our goal should be to get a consensus on whether disaggregated QEMU can
-> be merged or not.
->
+for you to fetch changes up to ab4752ec8d9b0b19ab80915016b739350418a078:
 
-Thanks!
-> Here are the calendar details (Tuesday, June 18th at 8:00 UTC):
-> https://calendar.google.com/calendar/ical/tob1tjqp37v8evp74h0q8kpjqs%40group.calendar.google.com/public/basic.ics
-> 
-> Is this time okay for you?
+  gdbstub: Implement qemu physical memory mode (2019-06-12 17:53:23 +0100)
 
-Yes, this time is fine.
-Do you have dial-in info for us?
+----------------------------------------------------------------
+Various fixes and updates:
 
-Thank you!
+  - editor config tweak for shell scripts
+  - iotest updates (still not default for make check)
+  - various docker updates
+  - gcc/ubsan updates for travis
+  - some clean-ups for tests/vm (no serial autoinstall)
+  - semihosting fix for Coverity
+  - fixes for cputlb in 64-on-32 cases
+  - gdbstub re-factor + maintainership update
 
-Elena, Jag and JJ
-> 
-> Stefan
+----------------------------------------------------------------
+Alex Bennée (13):
+      editorconfig: add setting for shell scripts
+      qemu-io-cmds: use clock_gettime for benchmarking
+      tests/docker: Update the Fedora cross compile images to 30
+      tests/docker: Update the Ubuntu image to 19.04
+      .travis.yml: bump gcc sanitiser job to gcc-9
+      .travis.yml: add clang ubsan job
+      semihosting: split console_out into string and char versions
+      cputlb: use uint64_t for interim values for unaligned load
+      tests/tcg: better detect truncated reads
+      tests/tcg: clean-up VPATH/TESTS for i386
+      tests/tcg/x86_64: add a PVH crt.o for x86_64 system tests
+      MAINTAINERS: put myself forward for gdbstub
+      cputlb: cast size_t to target_ulong before using for address masks
 
+Gerd Hoffmann (2):
+      scripts: use git archive in archive-source
+      tests/vm: python3 fixes
+
+Jon Doron (20):
+      gdbstub: Add infrastructure to parse cmd packets
+      gdbstub: Implement deatch (D pkt) with new infra
+      gdbstub: Implement thread_alive (T pkt) with new infra
+      gdbstub: Implement continue (c pkt) with new infra
+      gdbstub: Implement continue with signal (C pkt) with new infra
+      gdbstub: Implement set_thread (H pkt) with new infra
+      gdbstub: Implement breakpoint commands (Z/z pkt) with new infra
+      gdbstub: Implement set register (P pkt) with new infra
+      gdbstub: Implement get register (p pkt) with new infra
+      gdbstub: Implement write memory (M pkt) with new infra
+      gdbstub: Implement read memory (m pkt) with new infra
+      gdbstub: Implement write all registers (G pkt) with new infra
+      gdbstub: Implement read all registers (g pkt) with new infra
+      gdbstub: Implement file io (F pkt) with new infra
+      gdbstub: Implement step (s pkt) with new infra
+      gdbstub: Implement v commands with new infra
+      gdbstub: Implement generic set/query (Q/q pkt) with new infra
+      gdbstub: Implement target halted (? pkt) with new infra
+      gdbstub: Clear unused variables in gdb_handle_packet
+      gdbstub: Implement qemu physical memory mode
+
+Philippe Mathieu-Daudé (1):
+      tests/docker: Update the Fedora image to Fedora 30
+
+Wainer dos Santos Moschetta (4):
+      tests/vm: Use python configured on build
+      tests/vm: Port basevm to Python 3
+      tests/vm: Fix build-centos docker-based tests run
+      tests/vm: Add missing variables on help
+
+ .editorconfig                                     |    4 +
+ .travis.yml                                       |   17 +-
+ MAINTAINERS                                       |    4 +-
+ accel/tcg/cputlb.c                                |    4 +-
+ gdbstub.c                                         | 1761 +++++++++++++++------
+ hw/semihosting/console.c                          |   34 +-
+ include/hw/semihosting/console.h                  |   25 +-
+ linux-user/arm/semihost.c                         |   31 +-
+ qemu-io-cmds.c                                    |   77 +-
+ scripts/archive-source.sh                         |   72 +-
+ target/arm/arm-semi.c                             |    4 +-
+ tests/docker/dockerfiles/fedora-cris-cross.docker |    2 +-
+ tests/docker/dockerfiles/fedora-i386-cross.docker |    2 +-
+ tests/docker/dockerfiles/fedora.docker            |    2 +-
+ tests/docker/dockerfiles/ubuntu.docker            |   19 +-
+ tests/tcg/i386/Makefile.softmmu-target            |   10 +-
+ tests/tcg/multiarch/system/memory.c               |   36 +-
+ tests/tcg/x86_64/system/boot.S                    |  277 ++++
+ tests/tcg/x86_64/system/kernel.ld                 |   33 +
+ tests/vm/Makefile.include                         |   12 +-
+ tests/vm/basevm.py                                |   13 +-
+ tests/vm/centos                                   |    6 +-
+ 22 files changed, 1813 insertions(+), 632 deletions(-)
+ create mode 100644 tests/tcg/x86_64/system/boot.S
+ create mode 100644 tests/tcg/x86_64/system/kernel.ld
+
+--
+2.20.1
 
 
