@@ -2,70 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFA6431CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 00:58:40 +0200 (CEST)
-Received: from localhost ([::1]:35798 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7DC431DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 01:14:05 +0200 (CEST)
+Received: from localhost ([::1]:35962 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbCCV-0004SN-Kp
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 18:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51830)
+	id 1hbCRQ-0000Gj-AV
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 19:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52513)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbBod-0003py-3r
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:34:01 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbBrv-0005pI-4W
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:37:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbBob-0002FE-U4
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:33:59 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:35577)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbBob-0001zK-N0
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:33:57 -0400
-Received: by mail-wm1-f67.google.com with SMTP id c6so8116652wml.0
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 15:33:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QfJC6QDlrpiTTjJGcCfP6jz904i+9FIkxt5558dM2uI=;
- b=s+44FzSRTs3dj5OCicuruqZNzE95ufHNAnVW0TCNy9sJRxno0R8/SppAZwEHpHnBwg
- kW+FvIgfobJh+BmTvBKEwqUUk1eKkMQEn4TFgtcxP4AoqGu1un6LJv3sPK0NglmOZuGV
- ug93bSyM+iFad1Ixhp3XWZSLAqSlEg0vgpa3Pb0ClpQWg64tEQkVrG1wksex08zMyhWC
- CFzRs5++8EY78mUaSp7lsuowi8NuDA5xL6TPNAWfgRROkTM42p9OYbqpV2Q0/otQ6Evb
- x8umbRrB4AyqbkqIgzLKfkd4ZfyCkCopc2lh6vzvYKysg5fbsbXUBuRyAI8vz91zR/jb
- 53Mw==
-X-Gm-Message-State: APjAAAWpuLUsNaOHJgfDxgJ1X9x66X0mv8rtoFriA3Xuk0NB0jd3ZYdI
- zediGx82XMWqC55A1ztZzQoAcg==
-X-Google-Smtp-Source: APXvYqwXvxXmS94aOYr4tXrCLHwcp1M7EbOaVorNmeZBez5M7HVcDZL5+XDz7hdj03Fbd89gZSLoyg==
-X-Received: by 2002:a1c:968c:: with SMTP id y134mr896883wmd.122.1560378829704; 
- Wed, 12 Jun 2019 15:33:49 -0700 (PDT)
-Received: from [192.168.1.103] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id u23sm851194wmj.33.2019.06.12.15.33.48
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 12 Jun 2019 15:33:49 -0700 (PDT)
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20190611171456.23444-1-ehabkost@redhat.com>
- <20190611171456.23444-7-ehabkost@redhat.com>
- <d107483c-eba8-f6fc-8e3a-ad0a86472d07@redhat.com>
- <20190612205242.GQ5927@habkost.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <1d745328-0fbf-2e05-d066-f721d65be4c4@redhat.com>
-Date: Thu, 13 Jun 2019 00:33:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <mreitz@redhat.com>) id 1hbBrt-0005xF-IV
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:37:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52366)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hbBrq-0005n5-JO; Wed, 12 Jun 2019 18:37:18 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 000F1307D869;
+ Wed, 12 Jun 2019 22:37:03 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 861645ED2B;
+ Wed, 12 Jun 2019 22:37:03 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Thu, 13 Jun 2019 00:37:01 +0200
+Message-Id: <20190612223701.31456-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190612205242.GQ5927@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Wed, 12 Jun 2019 22:37:04 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PULL 6/6] travis: Make check-acceptance job more
- verbose
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] iotests: Fix 129
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,50 +52,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/12/19 10:52 PM, Eduardo Habkost wrote:
-> On Wed, Jun 12, 2019 at 10:49:18PM +0200, Philippe Mathieu-Daudé wrote:
->> On 6/11/19 7:14 PM, Eduardo Habkost wrote:
->>> It will help us debug issues when tests fail.
->>>
->>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>> ---
->>>  .travis.yml | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/.travis.yml b/.travis.yml
->>> index b053a836a3..a08a7b7278 100644
->>> --- a/.travis.yml
->>> +++ b/.travis.yml
->>> @@ -225,7 +225,7 @@ matrix:
->>>      # Acceptance (Functional) tests
->>>      - env:
->>>          - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu"
->>> -        - TEST_CMD="make check-acceptance"
->>> +        - TEST_CMD="make AVOCADO_SHOW=test check-acceptance"
->>>        addons:
->>>          apt:
->>>            packages:
->>>
->>
->> Cleber, can you help figuring what's wrong here?
->>
->> https://travis-ci.org/qemu/qemu/jobs/544805900
->>
->> The tests seems successfull, is it possible the verbose logging returns
->> error to the shell even if the test succeed?
-> 
-> That's exactly what this patch does.  On my next pull request I
-> will replace this with Cleber's patch that dumps the error log
-> only if tests failed.
+Throttling on the BB have not affected block jobs in a while, so 129
+is prone to break (at least on tmpfs with high system load).  We can
+fix the problem by running the job from a throttle node.
 
-Ah OK, this is annoying because now all Travis builds are marked as
-failed. Maybe Peter can apply your patch directly to master as a build fix?
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+Depends on "[PATCH v5 00/42] block: Deal with filters".
+
+Based-on: <20190612221004.2317-1-mreitz@redhat.com>
+
+Yes, I know, that is a long dependency chain.  For now, I just want to
+show that this patch exists.
+---
+ tests/qemu-iotests/129 | 33 +++++++++------------------------
+ 1 file changed, 9 insertions(+), 24 deletions(-)
+
+diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
+index 9e87e1c8d9..c729e2bde5 100755
+--- a/tests/qemu-iotests/129
++++ b/tests/qemu-iotests/129
+@@ -31,52 +31,37 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+         iotests.qemu_img('create', '-f', iotests.imgfmt, self.base_img, =
+"1G")
+         iotests.qemu_img('create', '-f', iotests.imgfmt, self.test_img, =
+"-b", self.base_img)
+         iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128=
+M', self.test_img)
+-        self.vm =3D iotests.VM().add_drive(self.test_img)
++        self.vm =3D iotests.VM()
++        self.vm.add_object('throttle-group,id=3Dtg0,x-bps-total=3D1024')
++        self.vm.add_drive(None, 'driver=3Dthrottle,throttle-group=3Dtg0,=
+file.driver=3D%s,file.file.filename=3D%s' % (iotests.imgfmt, self.test_im=
+g))
+         self.vm.launch()
+=20
+     def tearDown(self):
+-        params =3D {"device": "drive0",
+-                  "bps": 0,
+-                  "bps_rd": 0,
+-                  "bps_wr": 0,
+-                  "iops": 0,
+-                  "iops_rd": 0,
+-                  "iops_wr": 0,
+-                 }
+-        result =3D self.vm.qmp("block_set_io_throttle", conv_keys=3DFals=
+e,
+-                             **params)
+         self.vm.shutdown()
+=20
+     def do_test_stop(self, cmd, **args):
+         """Test 'stop' while block job is running on a throttled drive.
+         The 'stop' command shouldn't drain the job"""
+-        params =3D {"device": "drive0",
+-                  "bps": 1024,
+-                  "bps_rd": 0,
+-                  "bps_wr": 0,
+-                  "iops": 0,
+-                  "iops_rd": 0,
+-                  "iops_wr": 0,
+-                 }
+-        result =3D self.vm.qmp("block_set_io_throttle", conv_keys=3DFals=
+e,
+-                             **params)
+-        self.assert_qmp(result, 'return', {})
+         result =3D self.vm.qmp(cmd, **args)
+         self.assert_qmp(result, 'return', {})
++
+         result =3D self.vm.qmp("stop")
+         self.assert_qmp(result, 'return', {})
+         result =3D self.vm.qmp("query-block-jobs")
++
+         self.assert_qmp(result, 'return[0]/busy', True)
+         self.assert_qmp(result, 'return[0]/ready', False)
+=20
++        self.vm.qmp("block-job-cancel", device=3D"drive0", force=3DTrue)
++
+     def test_drive_mirror(self):
+         self.do_test_stop("drive-mirror", device=3D"drive0",
+-                          target=3Dself.target_img,
++                          target=3Dself.target_img, format=3Diotests.img=
+fmt,
+                           sync=3D"full")
+=20
+     def test_drive_backup(self):
+         self.do_test_stop("drive-backup", device=3D"drive0",
+-                          target=3Dself.target_img,
++                          target=3Dself.target_img, format=3Diotests.img=
+fmt,
+                           sync=3D"full")
+=20
+     def test_block_commit(self):
+--=20
+2.21.0
+
 
