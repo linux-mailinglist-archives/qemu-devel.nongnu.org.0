@@ -2,64 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECAF41A12
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 03:52:25 +0200 (CEST)
-Received: from localhost ([::1]:56166 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E31941A0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 03:51:58 +0200 (CEST)
+Received: from localhost ([::1]:56160 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hasR6-0006Nu-EI
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 21:52:24 -0400
+	id 1hasQf-0005sm-7f
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 21:51:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:53985)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <joel.stan@gmail.com>) id 1hasO9-0004M9-Ip
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:49:22 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hasO1-0004M9-Dk
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:49:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1hasHM-0003ER-C6
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:42:21 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:38617)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1hasHL-0003E7-Dj; Tue, 11 Jun 2019 21:42:19 -0400
-Received: by mail-qk1-x741.google.com with SMTP id a27so8984319qkk.5;
- Tue, 11 Jun 2019 18:42:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=k3JgUsX15SkJ630nXUVbg1RHuzGleq7PmIfGXOQzOIo=;
- b=lHnRFsDLDU90zodG0YPba/0O+2rnIOAwXZsNy485E5Xkqr0Ngg9CbbPag8XD02qpJY
- kiYeFpGF4faMpljuAmUw7Rt+ASlukJsFyqJsiA5cia1hobu+yS3UEiJGaMr8DxntCyOn
- uqrZ+D2n7VQaWeSZaSHoUGEsZGFlIaml8iN7Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=k3JgUsX15SkJ630nXUVbg1RHuzGleq7PmIfGXOQzOIo=;
- b=DkfUPY55IF1bwqiCSJjzMPdNp5iH2p2f/vZXH/dQ31iF/+pOKCfgDEpKwblSGdu0dg
- 6x4WMZSam/ObBpibIfRKola5lfO3PDNjfyzl37+kPv2pg208t1DhPb5NGpuJrk9tqjaK
- Ki0iBghlq6FZ/0emja717kE4MxI0UwtXrw74hoF+pTbvSpMIGokOaJGrOUC9ovX6e+Bt
- mzvFV+EISZdYSIGqSiNa8J4fdjRLlIfYXf8wuyEzvS+e5gxyz7xZJVNGl+dNdbB9F9F7
- 2PSm2d4O+/L/aTIQMtuiODIGKP1nnh04EFD0A18BeC33TIqSapAMC1Upzp8FPgVmshty
- 7Yrg==
-X-Gm-Message-State: APjAAAWiQBiml1IucjJY8OIRRmSy+QsN0GP1nNrDwAZBNCZoNPQfpWyH
- opqE5hcZTmOWWJAy9jbx06wWV6zXeBWNU3e7+oc=
-X-Google-Smtp-Source: APXvYqydlTAhP1PKm5IyM/o/cgMYxjRe3UoCU6KTymbqANx3QyxPLyMsaLCOdOFkz/ebHy6qnWgFFE9krII0pYnCM5I=
-X-Received: by 2002:a37:a10b:: with SMTP id k11mr65043557qke.76.1560303738544; 
- Tue, 11 Jun 2019 18:42:18 -0700 (PDT)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hasJ6-0003tr-Gy
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:44:09 -0400
+Received: from mga06.intel.com ([134.134.136.31]:41681)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1hasJ6-0003tF-9F
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:44:08 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Jun 2019 18:44:04 -0700
+X-ExtLoop1: 1
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by fmsmga008.fm.intel.com with ESMTP; 11 Jun 2019 18:44:02 -0700
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 12 Jun 2019 09:43:37 +0800
+Message-Id: <20190612014337.11255-1-richardw.yang@linux.intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20190525151241.5017-1-clg@kaod.org>
- <20190525151241.5017-20-clg@kaod.org>
-In-Reply-To: <20190525151241.5017-20-clg@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 12 Jun 2019 01:42:07 +0000
-Message-ID: <CACPK8XdQR3J_mEES11_JT=FBSSzSOPUmrJ0m_jjXfj=YRLtKcA@mail.gmail.com>
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::741
-Subject: Re: [Qemu-devel] [PATCH 19/19] aspeed/smc: Calculate checksum on
- normal DMA
+X-Received-From: 134.134.136.31
+Subject: [Qemu-devel] [PATCH] migration/multifd: call multifd_send_sync_main
+ when sending RAM_SAVE_FLAG_EOS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,23 +52,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Christian Svensson <bluecmd@google.com>
+Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 25 May 2019 at 15:15, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> From: Christian Svensson <bluecmd@google.com>
->
-> This patch adds the missing checksum calculation on normal DMA transfer.
-> According to the datasheet this is how the SMC should behave.
->
-> Verified on AST1250 that the hardware matches the behaviour.
->
-> Signed-off-by: Christian Svensson <bluecmd@google.com>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+On receiving RAM_SAVE_FLAG_EOS, multifd_recv_sync_main() is called to
+synchronize receive threads. Current synchronization mechanism is to wait
+for each channel's sem_sync semaphore. This semaphore is triggered by a
+packet with MULTIFD_FLAG_SYNC flag. While in current implementation, we
+don't do multifd_send_sync_main() to send such packet when
+blk_mig_bulk_active() is true.
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+This will leads to the receive threads won't notify
+multifd_recv_sync_main() by sem_sync. And multifd_recv_sync_main() will
+always wait there.
+
+[Note]: normal migration test works, while didn't test the
+blk_mig_bulk_active() case. Since not sure how to produce this
+situation.
+
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+---
+ migration/ram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/migration/ram.c b/migration/ram.c
+index 3354944f39..bd356764ff 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3458,8 +3458,8 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
+      */
+     ram_control_after_iterate(f, RAM_CONTROL_ROUND);
+ 
+-    multifd_send_sync_main();
+ out:
++    multifd_send_sync_main();
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
+     ram_counters.transferred += 8;
+-- 
+2.19.1
+
 
