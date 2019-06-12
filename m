@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BB1431C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 00:49:26 +0200 (CEST)
-Received: from localhost ([::1]:35704 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBD9431C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 00:52:17 +0200 (CEST)
+Received: from localhost ([::1]:35736 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbC3Z-0002Vk-Hp
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 18:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46323)
+	id 1hbC6L-0005r8-03
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 18:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46388)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbBT6-0000DU-PY
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:46 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbBTC-0000Kp-9y
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbBT4-0008Jh-Oi
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37460)
+ (envelope-from <mreitz@redhat.com>) id 1hbBTA-0008Nh-KU
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59012)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbBSx-0008Ex-Qt; Wed, 12 Jun 2019 18:11:36 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hbBT1-0008H7-1I; Wed, 12 Jun 2019 18:11:40 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D8D0880B2C;
- Wed, 12 Jun 2019 22:11:34 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9137064A72;
+ Wed, 12 Jun 2019 22:11:37 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 306205ED35;
- Wed, 12 Jun 2019 22:11:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7ADB5C236;
+ Wed, 12 Jun 2019 22:11:36 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 13 Jun 2019 00:09:56 +0200
-Message-Id: <20190612221004.2317-35-mreitz@redhat.com>
+Date: Thu, 13 Jun 2019 00:09:57 +0200
+Message-Id: <20190612221004.2317-36-mreitz@redhat.com>
 In-Reply-To: <20190612221004.2317-1-mreitz@redhat.com>
 References: <20190612221004.2317-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 12 Jun 2019 22:11:34 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Wed, 12 Jun 2019 22:11:37 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 34/42] block: Inline
- bdrv_co_block_status_from_*()
+Subject: [Qemu-devel] [PATCH v5 35/42] block: Fix check_to_replace_node()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,238 +60,250 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With bdrv_filtered_rw_bs(), we can easily handle this default filter
-behavior in bdrv_co_block_status().
+Currently, check_to_replace_node() only allows mirror to replace a node
+in the chain of the source node, and only if it is the first non-filter
+node below the source.  Well, technically, the idea is that you can
+exactly replace a quorum child by mirroring from quorum.
 
-blkdebug wants to have an additional assertion, so it keeps its own
-implementation, except bdrv_co_block_status_from_file() needs to be
-inlined there.
+This has (probably) two reasons:
+(1) We do not want to create loops.
+(2) @replaces and @device should have exactly the same content so
+    replacing them does not cause visible data to change.
 
-Suggested-by: Eric Blake <eblake@redhat.com>
+This has two issues:
+(1) It is overly restrictive.  It is completely fine for @replaces to be
+    a filter.
+(2) It is not restrictive enough.  You can create loops with this as
+    follows:
+
+$ qemu-img create -f qcow2 /tmp/source.qcow2 64M
+$ qemu-system-x86_64 -qmp stdio
+{"execute": "qmp_capabilities"}
+{"execute": "object-add",
+ "arguments": {"qom-type": "throttle-group", "id": "tg0"}}
+{"execute": "blockdev-add",
+ "arguments": {
+     "node-name": "source",
+     "driver": "throttle",
+     "throttle-group": "tg0",
+     "file": {
+         "node-name": "filtered",
+         "driver": "qcow2",
+         "file": {
+             "driver": "file",
+             "filename": "/tmp/source.qcow2"
+         } } } }
+{"execute": "drive-mirror",
+ "arguments": {
+     "job-id": "mirror",
+     "device": "source",
+     "target": "/tmp/target.qcow2",
+     "format": "qcow2",
+     "node-name": "target",
+     "sync" :"none",
+     "replaces": "filtered"
+ } }
+{"execute": "block-job-complete", "arguments": {"device": "mirror"}}
+
+And qemu crashes because of a stack overflow due to the loop being
+created (target's backing file is source, so when it replaces filtered,
+it points to itself through source).
+
+(blockdev-mirror can be broken similarly.)
+
+So let us make the checks for the two conditions above explicit, which
+makes the whole function exactly as restrictive as it needs to be.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block_int.h | 22 -----------------
- block/blkdebug.c          |  7 ++++--
- block/blklogwrites.c      |  1 -
- block/commit.c            |  1 -
- block/copy-on-read.c      |  2 --
- block/io.c                | 51 +++++++++++++--------------------------
- block/mirror.c            |  1 -
- block/throttle.c          |  1 -
- 8 files changed, 22 insertions(+), 64 deletions(-)
+ include/block/block.h |  1 +
+ block.c               | 83 +++++++++++++++++++++++++++++++++++++++----
+ blockdev.c            | 34 ++++++++++++++++--
+ 3 files changed, 110 insertions(+), 8 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index cfefb00104..431fa38ea0 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1203,28 +1203,6 @@ void bdrv_format_default_perms(BlockDriverState *b=
-s, BdrvChild *c,
-                                uint64_t perm, uint64_t shared,
-                                uint64_t *nperm, uint64_t *nshared);
+diff --git a/include/block/block.h b/include/block/block.h
+index 7835c5b370..484c0af766 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -404,6 +404,7 @@ bool bdrv_is_first_non_filter(BlockDriverState *candi=
+date);
 =20
--/*
-- * Default implementation for drivers to pass bdrv_co_block_status() to
-- * their file.
-- */
--int coroutine_fn bdrv_co_block_status_from_file(BlockDriverState *bs,
--                                                bool want_zero,
--                                                int64_t offset,
--                                                int64_t bytes,
--                                                int64_t *pnum,
--                                                int64_t *map,
--                                                BlockDriverState **file)=
-;
--/*
-- * Default implementation for drivers to pass bdrv_co_block_status() to
-- * their backing file.
-- */
--int coroutine_fn bdrv_co_block_status_from_backing(BlockDriverState *bs,
--                                                   bool want_zero,
--                                                   int64_t offset,
--                                                   int64_t bytes,
--                                                   int64_t *pnum,
--                                                   int64_t *map,
--                                                   BlockDriverState **fi=
-le);
- const char *bdrv_get_parent_name(const BlockDriverState *bs);
- void blk_dev_change_media_cb(BlockBackend *blk, bool load, Error **errp)=
-;
- bool blk_dev_has_removable_media(BlockBackend *blk);
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index efd9441625..7950ae729c 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -637,8 +637,11 @@ static int coroutine_fn blkdebug_co_block_status(Blo=
-ckDriverState *bs,
-                                                  BlockDriverState **file=
-)
- {
-     assert(QEMU_IS_ALIGNED(offset | bytes, bs->bl.request_alignment));
--    return bdrv_co_block_status_from_file(bs, want_zero, offset, bytes,
--                                          pnum, map, file);
-+    assert(bs->file && bs->file->bs);
-+    *pnum =3D bytes;
-+    *map =3D offset;
-+    *file =3D bs->file->bs;
-+    return BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
+ /* check if a named node can be replaced when doing drive-mirror */
+ BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
++                                        BlockDriverState *backing_bs,
+                                         const char *node_name, Error **e=
+rrp);
+=20
+ /* async block I/O */
+diff --git a/block.c b/block.c
+index 59d1d4b2b1..e129869a7e 100644
+--- a/block.c
++++ b/block.c
+@@ -6142,7 +6142,59 @@ bool bdrv_is_first_non_filter(BlockDriverState *ca=
+ndidate)
+     return false;
  }
 =20
- static void blkdebug_close(BlockDriverState *bs)
-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
-index eb2b4901a5..1eb4a5c613 100644
---- a/block/blklogwrites.c
-+++ b/block/blklogwrites.c
-@@ -518,7 +518,6 @@ static BlockDriver bdrv_blk_log_writes =3D {
-     .bdrv_co_pwrite_zeroes  =3D blk_log_writes_co_pwrite_zeroes,
-     .bdrv_co_flush_to_disk  =3D blk_log_writes_co_flush_to_disk,
-     .bdrv_co_pdiscard       =3D blk_log_writes_co_pdiscard,
--    .bdrv_co_block_status   =3D bdrv_co_block_status_from_file,
-=20
-     .is_filter              =3D true,
-     .strong_runtime_opts    =3D blk_log_writes_strong_runtime_opts,
-diff --git a/block/commit.c b/block/commit.c
-index ec5a8c8edf..a5b58eadeb 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -257,7 +257,6 @@ static void bdrv_commit_top_child_perm(BlockDriverSta=
-te *bs, BdrvChild *c,
- static BlockDriver bdrv_commit_top =3D {
-     .format_name                =3D "commit_top",
-     .bdrv_co_preadv             =3D bdrv_commit_top_preadv,
--    .bdrv_co_block_status       =3D bdrv_co_block_status_from_backing,
-     .bdrv_refresh_filename      =3D bdrv_commit_top_refresh_filename,
-     .bdrv_child_perm            =3D bdrv_commit_top_child_perm,
-=20
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 88e1c1f538..5a292de000 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -161,8 +161,6 @@ static BlockDriver bdrv_copy_on_read =3D {
-     .bdrv_eject                         =3D cor_eject,
-     .bdrv_lock_medium                   =3D cor_lock_medium,
-=20
--    .bdrv_co_block_status               =3D bdrv_co_block_status_from_fi=
-le,
--
-     .bdrv_recurse_is_first_non_filter   =3D cor_recurse_is_first_non_fil=
-ter,
-=20
-     .has_variable_length                =3D true,
-diff --git a/block/io.c b/block/io.c
-index 14f99e1c00..0a832e30a3 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1998,36 +1998,6 @@ typedef struct BdrvCoBlockStatusData {
-     bool done;
- } BdrvCoBlockStatusData;
-=20
--int coroutine_fn bdrv_co_block_status_from_file(BlockDriverState *bs,
--                                                bool want_zero,
--                                                int64_t offset,
--                                                int64_t bytes,
--                                                int64_t *pnum,
--                                                int64_t *map,
--                                                BlockDriverState **file)
--{
--    assert(bs->file && bs->file->bs);
--    *pnum =3D bytes;
--    *map =3D offset;
--    *file =3D bs->file->bs;
--    return BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
--}
--
--int coroutine_fn bdrv_co_block_status_from_backing(BlockDriverState *bs,
--                                                   bool want_zero,
--                                                   int64_t offset,
--                                                   int64_t bytes,
--                                                   int64_t *pnum,
--                                                   int64_t *map,
--                                                   BlockDriverState **fi=
-le)
--{
--    assert(bs->backing && bs->backing->bs);
--    *pnum =3D bytes;
--    *map =3D offset;
--    *file =3D bs->backing->bs;
--    return BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
--}
--
- /*
-  * Returns the allocation status of the specified sectors.
-  * Drivers not implementing the functionality are assumed to not support
-@@ -2068,6 +2038,7 @@ static int coroutine_fn bdrv_co_block_status(BlockD=
-riverState *bs,
-     BlockDriverState *local_file =3D NULL;
-     int64_t aligned_offset, aligned_bytes;
-     uint32_t align;
-+    bool has_filtered_child;
-=20
-     assert(pnum);
-     *pnum =3D 0;
-@@ -2093,7 +2064,8 @@ static int coroutine_fn bdrv_co_block_status(BlockD=
-riverState *bs,
-=20
-     /* Must be non-NULL or bdrv_getlength() would have failed */
-     assert(bs->drv);
--    if (!bs->drv->bdrv_co_block_status) {
-+    has_filtered_child =3D bs->drv->is_filter && bdrv_filtered_rw_child(=
-bs);
-+    if (!bs->drv->bdrv_co_block_status && !has_filtered_child) {
-         *pnum =3D bytes;
-         ret =3D BDRV_BLOCK_DATA | BDRV_BLOCK_ALLOCATED;
-         if (offset + bytes =3D=3D total_size) {
-@@ -2114,9 +2086,20 @@ static int coroutine_fn bdrv_co_block_status(Block=
-DriverState *bs,
-     aligned_offset =3D QEMU_ALIGN_DOWN(offset, align);
-     aligned_bytes =3D ROUND_UP(offset + bytes, align) - aligned_offset;
-=20
--    ret =3D bs->drv->bdrv_co_block_status(bs, want_zero, aligned_offset,
--                                        aligned_bytes, pnum, &local_map,
--                                        &local_file);
-+    if (bs->drv->bdrv_co_block_status) {
-+        ret =3D bs->drv->bdrv_co_block_status(bs, want_zero, aligned_off=
-set,
-+                                            aligned_bytes, pnum, &local_=
-map,
-+                                            &local_file);
-+    } else {
-+        /* Default code for filters */
++static bool is_child_of(BlockDriverState *child, BlockDriverState *paren=
+t)
++{
++    BdrvChild *c;
 +
-+        local_file =3D bdrv_filtered_rw_bs(bs);
-+        assert(local_file);
-+
-+        *pnum =3D aligned_bytes;
-+        local_map =3D aligned_offset;
-+        ret =3D BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
++    if (!parent) {
++        return false;
 +    }
-     if (ret < 0) {
-         *pnum =3D 0;
++
++    QLIST_FOREACH(c, &parent->children, next) {
++        if (c->bs =3D=3D child || is_child_of(child, c->bs)) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
++/*
++ * Return true if there are only filters in [@top, @base).  Note that
++ * this may include quorum (which bdrv_chain_contains() cannot
++ * handle).
++ */
++static bool is_filtered_child(BlockDriverState *top, BlockDriverState *b=
+ase)
++{
++    BdrvChild *c;
++
++    if (!top) {
++        return false;
++    }
++
++    if (top =3D=3D base) {
++        return true;
++    }
++
++    if (!top->drv->is_filter) {
++        return false;
++    }
++
++    QLIST_FOREACH(c, &top->children, next) {
++        if (is_filtered_child(c->bs, base)) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
++/*
++ * @parent_bs is mirror's source BDS, @backing_bs is the BDS which
++ * will be attached to the target when mirror completes.
++ */
+ BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
++                                        BlockDriverState *backing_bs,
+                                         const char *node_name, Error **e=
+rrp)
+ {
+     BlockDriverState *to_replace_bs =3D bdrv_find_node(node_name);
+@@ -6161,13 +6213,32 @@ BlockDriverState *check_to_replace_node(BlockDriv=
+erState *parent_bs,
          goto out;
-diff --git a/block/mirror.c b/block/mirror.c
-index 3d767e3030..71bd7f7625 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1484,7 +1484,6 @@ static BlockDriver bdrv_mirror_top =3D {
-     .bdrv_co_pwrite_zeroes      =3D bdrv_mirror_top_pwrite_zeroes,
-     .bdrv_co_pdiscard           =3D bdrv_mirror_top_pdiscard,
-     .bdrv_co_flush              =3D bdrv_mirror_top_flush,
--    .bdrv_co_block_status       =3D bdrv_co_block_status_from_backing,
-     .bdrv_refresh_filename      =3D bdrv_mirror_top_refresh_filename,
-     .bdrv_child_perm            =3D bdrv_mirror_top_child_perm,
+     }
 =20
-diff --git a/block/throttle.c b/block/throttle.c
-index de1b6bd7e8..32ec56db0f 100644
---- a/block/throttle.c
-+++ b/block/throttle.c
-@@ -269,7 +269,6 @@ static BlockDriver bdrv_throttle =3D {
-     .bdrv_reopen_prepare                =3D   throttle_reopen_prepare,
-     .bdrv_reopen_commit                 =3D   throttle_reopen_commit,
-     .bdrv_reopen_abort                  =3D   throttle_reopen_abort,
--    .bdrv_co_block_status               =3D   bdrv_co_block_status_from_=
-file,
+-    /* We don't want arbitrary node of the BDS chain to be replaced only=
+ the top
+-     * most non filter in order to prevent data corruption.
+-     * Another benefit is that this tests exclude backing files which ar=
+e
+-     * blocked by the backing blockers.
++    /*
++     * If to_replace_bs is (recursively) a child of backing_bs,
++     * replacing it may create a loop.  We cannot allow that.
+      */
+-    if (!bdrv_recurse_is_first_non_filter(parent_bs, to_replace_bs)) {
+-        error_setg(errp, "Only top most non filter can be replaced");
++    if (to_replace_bs =3D=3D backing_bs || is_child_of(to_replace_bs, ba=
+cking_bs)) {
++        error_setg(errp, "Replacing this node would result in a loop");
++        to_replace_bs =3D NULL;
++        goto out;
++    }
++
++    /*
++     * Mirror is designed in such a way that when it completes, the
++     * source BDS is seamlessly replaced.  It is therefore not allowed
++     * to replace a BDS where this condition would be violated, as that
++     * would defeat the purpose of mirror and could lead to data
++     * corruption.
++     * Therefore, between parent_bs and to_replace_bs there may be
++     * only filters (and the one on top must be a filter, too), so
++     * their data always stays in sync and mirror can complete and
++     * replace to_replace_bs without any possible corruptions.
++     */
++    if (!is_filtered_child(parent_bs, to_replace_bs) &&
++        !is_filtered_child(to_replace_bs, parent_bs))
++    {
++        error_setg(errp, "The node to be replaced must be connected to t=
+he "
++                   "source through filter nodes only");
+         to_replace_bs =3D NULL;
+         goto out;
+     }
+diff --git a/blockdev.c b/blockdev.c
+index 5370f3b738..6f9f75327e 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3813,7 +3813,7 @@ static void blockdev_mirror_common(const char *job_=
+id, BlockDriverState *bs,
+     }
 =20
-     .bdrv_co_drain_begin                =3D   throttle_co_drain_begin,
-     .bdrv_co_drain_end                  =3D   throttle_co_drain_end,
+     if (has_replaces) {
+-        BlockDriverState *to_replace_bs;
++        BlockDriverState *to_replace_bs, *backing_bs;
+         AioContext *replace_aio_context;
+         int64_t bs_size, replace_size;
+=20
+@@ -3823,7 +3823,37 @@ static void blockdev_mirror_common(const char *job=
+_id, BlockDriverState *bs,
+             return;
+         }
+=20
+-        to_replace_bs =3D check_to_replace_node(bs, replaces, errp);
++        if (backing_mode =3D=3D MIRROR_SOURCE_BACKING_CHAIN ||
++            backing_mode =3D=3D MIRROR_OPEN_BACKING_CHAIN)
++        {
++            /*
++             * While we do not quite know what OPEN_BACKING_CHAIN
++             * (used for mode=3Dexisting) will yield, it is probably
++             * best to restrict it exactly like SOURCE_BACKING_CHAIN,
++             * because that is our best guess.
++             */
++            switch (sync) {
++            case MIRROR_SYNC_MODE_FULL:
++                backing_bs =3D NULL;
++                break;
++
++            case MIRROR_SYNC_MODE_TOP:
++                backing_bs =3D bdrv_filtered_cow_bs(bdrv_skip_rw_filters=
+(bs));
++                break;
++
++            case MIRROR_SYNC_MODE_NONE:
++                backing_bs =3D bs;
++                break;
++
++            default:
++                abort();
++            }
++        } else {
++            assert(backing_mode =3D=3D MIRROR_LEAVE_BACKING_CHAIN);
++            backing_bs =3D bdrv_filtered_cow_bs(bdrv_skip_rw_filters(tar=
+get));
++        }
++
++        to_replace_bs =3D check_to_replace_node(bs, backing_bs, replaces=
+, errp);
+         if (!to_replace_bs) {
+             return;
+         }
 --=20
 2.21.0
 
