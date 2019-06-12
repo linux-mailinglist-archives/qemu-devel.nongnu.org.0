@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1154442870
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 16:10:09 +0200 (CEST)
-Received: from localhost ([::1]:60742 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFF242895
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 16:16:59 +0200 (CEST)
+Received: from localhost ([::1]:60826 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb3x2-0005iX-94
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 10:10:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
+	id 1hb43e-0002kS-6R
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 10:16:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44205)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hb3iS-0006YT-35
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:55:08 -0400
+ (envelope-from <bounces@canonical.com>) id 1hb3pE-0002fx-Dc
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:02:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hb3XQ-00011j-5u
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:43:41 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:40062)
+ (envelope-from <bounces@canonical.com>) id 1hb3pA-0005FK-1g
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:02:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40294)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hb3XP-00010x-PG
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:43:40 -0400
-Received: by mail-oi1-x235.google.com with SMTP id w196so11702577oie.7
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 06:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4o0L3z2wH+Ou8v+gUGiBLKcFXNl6G+vFe+39clMs+oU=;
- b=LlCEHlDEF370/Q02E/N+Lh5O1q3UlY4StEItY2UZkKuYMS2fAXXbw7GvJbB1OdGqIT
- juTbNu8xSid3CgJvi9/Gl0nI5lTCzhnAvjllGP4W8eWj0gAF7829K1N2b0wtCepgqUwV
- SCEJjAzF4eV7Js/bD0cdghAFiKR4aq79iXbnuobhw5dyqz8LZmciPZg9hRH7jy29UZRX
- qSGFJwu+y+LwZzzwWHfpas2JjEdbTpC7kTJ+cImoVut8iqPdzk/SNlwGUGpbos4A7Swc
- mE7LGDvZi4ZAnGVHiypYBb8dy02PeAsjSr6NGvD5of3hTY4ZkfLOb2bi3Ow0GgH+Cd+e
- bLEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4o0L3z2wH+Ou8v+gUGiBLKcFXNl6G+vFe+39clMs+oU=;
- b=cfgXZ9i9fJbXmzGkWF8V2OVs7zNeH2x6h/Uk857wkERNFG5WAyej0oBxjXAQnP14+G
- /T0zzuLtub36GKWuyHz/B9jVTUOZrZcLrZQbzU7xQchT/wFKVsyanax6JIVsVFBq8roh
- mFyPTtywGwi2iOKp1/OHM+i6ui3j/cOkzT2juRl0hFCPdkaG3+lb1uEVKTAx8qad4VLJ
- u+GK/hTemNMp+IgRa5mkItA1W12bYPwkL8Vj5XvywaxuvyVMHZtwGcb6ZTYiGt2xdiJ8
- rkVE6fnnNEYkhSNdtr13m7rVc+7WJKICkUPakP2e8XOudUX+iemmxOE+fOuR4r61DtOL
- fqXQ==
-X-Gm-Message-State: APjAAAXFR2ECHZmJckW0cWvxTdZVIuaEpeXvUKEMcgKP7zkaW2g1Qv3O
- kkuMUWbjKB27LCEGFWch2w39nA1RQ6MzxobHHIDK/A==
-X-Google-Smtp-Source: APXvYqwtGvs7ZwR9U2oy4YTzF8tmwj9cSxTYvtoE01u846XBIE5vfmq3pd0qn7cOBdp955hDbb11H30TdZlfWmerq3g=
-X-Received: by 2002:a05:6808:8f1:: with SMTP id
- d17mr19412112oic.170.1560347018688; 
- Wed, 12 Jun 2019 06:43:38 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hb3p6-0005CV-Kd
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:01:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hb3ox-0003FR-JY
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 14:01:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3119E2E80D1
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 14:01:47 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190612112747.16374-1-armbru@redhat.com>
-In-Reply-To: <20190612112747.16374-1-armbru@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 12 Jun 2019 13:46:13 -0000
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 Jun 2019 14:43:27 +0100
-Message-ID: <CAFEAcA-kZzAkthuQZjRV0eajXRpQTsu33yw4adWt4Zp8tQ=wwg@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::235
-Subject: Re: [Qemu-devel] [PULL v3 00/12] Miscellaneous patches for
- 2019-06-11
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ddosolitary pmaydell
+X-Launchpad-Bug-Reporter: DDoSolitary (ddosolitary)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <155137392124.31316.11495671074765014993.malonedeb@wampee.canonical.com>
+Message-Id: <156034717312.30867.1168495929007980486.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 99c769ccb55deb2f40db994c7f47ea7c87fc2b9b
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1818122] Re: QEMU 3.1 makes libxslt to crash on
+ ppc64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,32 +65,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1818122 <1818122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 Jun 2019 at 12:36, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit a578cdfbdd8f9beff5ced52b7826ddb1669abbbf:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190610' into staging (2019-06-10 16:09:19 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2019-06-11-v3
->
-> for you to fetch changes up to 84995ea21935403cc9d57b6cb7dddcac5fa02c1c:
->
->   MAINTAINERS: Polish headline decorations (2019-06-12 13:20:21 +0200)
->
-> ----------------------------------------------------------------
-> Miscellaneous patches for 2019-06-11
->
+Could you try with QEMU 4.0, please? There was a bug/incompatibility
+between earlier QEMU and the Alpine Linux libc which we fixed in 4.0,
+and so this might be that bug (or some other bug we've already fixed).
 
-Applied, thanks.
+-- =
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1818122
 
--- PMM
+Title:
+  QEMU 3.1 makes libxslt to crash on ppc64
+
+Status in QEMU:
+  New
+
+Bug description:
+  Host: clean Ubuntu Disco with QEMU 3.1
+
+  Guest: Alpine Linux edge with xmlto
+
+  Steps to set up guest:
+  curl -O http://dl-cdn.alpinelinux.org/alpine/edge/releases/ppc64le/netboo=
+t/vmlinuz-vanilla
+  curl -O http://dl-cdn.alpinelinux.org/alpine/edge/releases/ppc64le/netboo=
+t/initramfs-vanilla
+  qemu-system-ppc64 -m 1G -kernel vmlinuz-vanilla -initrd initramfs-vanilla=
+ -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinelinux.=
+org/alpine/edge/main/ modloop=3Dhttp://dl-cdn.alpinelinux.org/alpine/edge/r=
+eleases/ppc64le/netboot/modloop-vanilla" -device virtio-rng-pci -nographic
+  This brings up an VM with an in-memory Alpine Linux.
+
+  Steps to reproduce:
+  Login as root and execute the following commands.
+  apk add xmlto
+  ntpd -nqp time.google.com // For TLS OCSP
+  wget https://ddosolitary.org/manpage-base.xsl
+  wget https://ddosolitary.org/shadowsocks-libev.xml
+  xmlto -m manpage-base.xsl man shadowsocks-libev.xml
+  The downloaded files are from this project: https://github.com/shadowsock=
+s/shadowsocks-libev The former is directly taken from the "doc" directory a=
+nd the latter is an intermediate build output generated by asciidoc from do=
+c/shadowsocks-libev.asciidoc
+
+  Expected behavior: The command silently succeeds producing
+  shadowsocks-libev.8
+
+  Actual behavior: =
+
+  runtime error: file file:///usr/share/xml/docbook/xsl-stylesheets-1.79.1/=
+manpages/tbl.xsl line 450 element text
+  xsltApplySequenceConstructor: A potential infinite template recursion was=
+ detected.
+  You can adjust xsltMaxDepth (--maxdepth) in order to raise the maximum nu=
+mber of nested template calls and variables/params (currently set to 3000).
+  Templates:
+  #0 name process.colspan
+  #1 name process.colspan
+  #2 name process.colspan
+  #3 name process.colspan
+  #4 name process.colspan
+  #5 name process.colspan
+  #6 name process.colspan
+  #7 name process.colspan
+  #8 name process.colspan
+  #9 name process.colspan
+  #10 name process.colspan
+  #11 name process.colspan
+  #12 name process.colspan
+  #13 name process.colspan
+  #14 name process.colspan
+  Variables:
+  #0
+  type
+  colspan
+  #1
+  colspan
+  #2
+  type
+  colspan
+  #3
+  colspan
+  #4
+  type
+  colspan
+  #5
+  colspan
+  #6
+  type
+  colspan
+  #7
+  colspan
+  #8
+  type
+  colspan
+  #9
+  colspan
+  #10
+  type
+  colspan
+  #11
+  colspan
+  #12
+  type
+  colspan
+  #13
+  colspan
+  #14
+  type
+  colspan
+  error: file /root/shadowsocks-libev.xml
+  xsltRunStylesheet : run failed
+
+  Note:
+  I tried increasing --maxdepth as suggested in the error output but that w=
+ill result in a segfault.
+  This error doesn't occur with an older QEMU (I tested QEMU 2.12 on Ubuntu=
+ Cosmic) or different architectures on QEMU 3.1 (I tested x86, x86_64, arm,=
+ aarch64, s390x). Also it didn't help to use an older Alpine Linux (I teste=
+d v3.8). So I think it is caused by a bug in QEMU rather than the distro/pa=
+ckage.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1818122/+subscriptions
 
