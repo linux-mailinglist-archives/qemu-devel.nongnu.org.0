@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884AA41F5F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 10:38:19 +0200 (CEST)
-Received: from localhost ([::1]:57576 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B9E41FCD
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 10:53:43 +0200 (CEST)
+Received: from localhost ([::1]:57660 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haylu-0001KO-P3
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 04:38:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56026)
+	id 1haz0o-0000yZ-C3
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 04:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57771)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hayk5-00005h-5o
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:36:30 -0400
+ (envelope-from <like.xu@linux.intel.com>) id 1hayro-00038W-Sv
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:44:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hayju-00036m-IO
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:36:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52992)
+ (envelope-from <like.xu@linux.intel.com>) id 1hayri-0006Da-If
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:44:24 -0400
+Received: from mga11.intel.com ([192.55.52.93]:10698)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hayjp-0002FQ-Ip
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:36:10 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E42E0309266A;
- Wed, 12 Jun 2019 08:34:13 +0000 (UTC)
-Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 367DE78375;
- Wed, 12 Jun 2019 08:34:12 +0000 (UTC)
-To: Li Qiang <liq3ea@gmail.com>
-References: <20190612080004.24275-1-eric.auger@redhat.com>
- <CAKXe6SJWV6CT-2W=w-NMsBDQwDHXNtiHwUo_n_2NoSfa+dG1vw@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <b5464e92-f02d-b023-26ad-098c463761b3@redhat.com>
-Date: Wed, 12 Jun 2019 10:34:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
+ id 1hayqz-0005un-Mg
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:44:18 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2019 01:43:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,363,1557212400"; d="scan'208";a="184175068"
+Received: from likexu-e5-2699-v4.sh.intel.com ([10.239.48.178])
+ by fmsmga002.fm.intel.com with ESMTP; 12 Jun 2019 01:43:26 -0700
+From: Like Xu <like.xu@linux.intel.com>
+To: qemu-devel@nongnu.org,
+	Eduardo Habkost <ehabkost@redhat.com>
+Date: Wed, 12 Jun 2019 16:40:55 +0800
+Message-Id: <20190612084104.34984-1-like.xu@linux.intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <CAKXe6SJWV6CT-2W=w-NMsBDQwDHXNtiHwUo_n_2NoSfa+dG1vw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Wed, 12 Jun 2019 08:34:18 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4] vfio/common: Introduce
- vfio_set_irq_signaling helper
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.93
+Subject: [Qemu-devel] [PATCH v3 0/9] Introduce cpu die topology and enable
+ CPUID.1F for i386
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,688 +54,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>, cohuck@redhat.com,
- Qemu Developers <qemu-devel@nongnu.org>, eric.auger.pro@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, like.xu@linux.intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Li,
+Multi-chip packaging technology allows integration of multi-cores in one die
+and multi-dies in one single package, for example Intel CLX-AP or AMD EPYC.
 
-On 6/12/19 10:24 AM, Li Qiang wrote:
-> Eric Auger <eric.auger@redhat.com> =E4=BA=8E2019=E5=B9=B46=E6=9C=8812=E6=
-=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=884:14=E5=86=99=E9=81=93=EF=BC=9A
->=20
->> The code used to assign an interrupt index/subindex to an
->> eventfd is duplicated many times. Let's introduce an helper that
->> allows to set/unset the signaling for an ACTION_TRIGGER,
->> ACTION_MASK or ACTION_UNMASK action.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>
->> ---
->>
->> v3 -> v4:
->> - renamed irq_to_str into index_to_str
->> - avoid usage of g_strdup_printf
->> - print both the index and subindex in generic case
->>
->> v2 -> v3:
->> - irq_to_str() simply outputs the IRQ index if the VFIO device is
->>   not of PCI type
->> - removed "vfio: failed to start eventfd signaling ../.." in vfio_plat=
-form
->>
->> v1 -> v2:
->> - don't call GET_IRQ_INFO in vfio_set_irq_signaling()
->>   and restore quiet check in vfio_register_req_notifier.
->>   Nicer display of the IRQ name.
->>
->> This is a follow-up to
->> [PATCH v2 0/2] vfio-pci: Introduce vfio_set_event_handler().
->> It looks to me that introducing vfio_set_irq_signaling() has more
->> benefits in term of code reduction and the helper abstraction
->> looks cleaner.
->> ---
->>  hw/vfio/common.c              |  76 ++++++++++++
->>  hw/vfio/pci.c                 | 217 ++++++++-------------------------=
--
->>  hw/vfio/platform.c            |  62 ++++------
->>  include/hw/vfio/vfio-common.h |   2 +
->>  4 files changed, 149 insertions(+), 208 deletions(-)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 4374cc6176..4b18eefe99 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -95,6 +95,82 @@ void vfio_mask_single_irqindex(VFIODevice *vbasedev=
-,
->> int index)
->>      ioctl(vbasedev->fd, VFIO_DEVICE_SET_IRQS, &irq_set);
->>  }
->>
->> +static inline const char *action_to_str(int action)
->> +{
->> +    switch (action) {
->> +    case VFIO_IRQ_SET_ACTION_MASK:
->> +        return "MASK";
->> +    case VFIO_IRQ_SET_ACTION_UNMASK:
->> +        return "UNMASK";
->> +    case VFIO_IRQ_SET_ACTION_TRIGGER:
->> +        return "TRIGGER";
->> +    default:
->> +        return "UNKNOWN ACTION";
->> +    }
->> +}
->> +
->> +static const char *index_to_str(VFIODevice *vbasedev, int index)
->> +{
->> +    if (vbasedev->type !=3D VFIO_DEVICE_TYPE_PCI) {
->> +        return NULL;
->> +    }
->> +
->> +    switch (index) {
->> +    case VFIO_PCI_INTX_IRQ_INDEX:
->> +        return "INTX";
->> +    case VFIO_PCI_MSI_IRQ_INDEX:
->> +        return "MSI";
->> +    case VFIO_PCI_MSIX_IRQ_INDEX:
->> +        return "MSIX";
->> +    case VFIO_PCI_ERR_IRQ_INDEX:
->> +        return "ERR";
->> +    case VFIO_PCI_REQ_IRQ_INDEX:
->> +        return "REQ";
->> +    default:
->> +        return NULL;
->> +    }
->> +}
->> +
->> +int vfio_set_irq_signaling(VFIODevice *vbasedev, int index, int subin=
-dex,
->> +                           int action, int fd, Error **errp)
->> +{
->> +    struct vfio_irq_set *irq_set;
->> +    int argsz, ret =3D 0;
->> +    const char *name;
->> +    int32_t *pfd;
->> +
->> +    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> +
->> +    irq_set =3D g_malloc0(argsz);
->> +    irq_set->argsz =3D argsz;
->> +    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD | action;
->> +    irq_set->index =3D index;
->> +    irq_set->start =3D subindex;
->> +    irq_set->count =3D 1;
->> +    pfd =3D (int32_t *)&irq_set->data;
->> +    *pfd =3D fd;
->> +
->> +    ret =3D ioctl(vbasedev->fd, VFIO_DEVICE_SET_IRQS, irq_set);
->> +
->> +    g_free(irq_set);
->> +
->> +    if (!ret) {
->> +        return 0;
->> +    }
->> +
->> +    error_setg_errno(errp, -ret, "VFIO_DEVICE_SET_IRQS failure");
->>
->=20
-> Hello Eric,
->=20
-> I noticed an issue several days ago not related with this patch(maybe s=
-plit
-> in another patch).
-> IIUC, here the 'ret' is -1 if the ioctl fails.
-> It seems we should use 'errno', however, can we make sure the 'g_free'
-> will not touch 'errno'? If it doesn't touch, we can just use errno here=
-, if
-> it touch,
-> we may save errno right after ioctl call.
+This patch series extend the CPU topology to the socket/dies/core/thread model,
+allowing the setting of dies number per one socket on -smp qemu command. For
+i386, it upgrades APIC_IDs generation and reversion functions with a new exposed
+leaf called CPUID.1F, which is a preferred superset to leaf 0BH. The CPUID.1F
+spec is on https://software.intel.com/en-us/articles/intel-sdm, 3-190 Vol 2A.
 
-Hum you're right. I will fix that.
+E.g. we use -smp 4,dies=2,cores=2,threads=1 to run a multi-dies guest and
+check raw cpuid data and the expected output from guest is following:
+0x0000001f 0x00: eax=0x00000000 ebx=0x00000001 ecx=0x00000100 edx=0x00000002
+0x0000001f 0x01: eax=0x00000001 ebx=0x00000002 ecx=0x00000201 edx=0x00000001
+0x0000001f 0x02: eax=0x00000002 ebx=0x00000004 ecx=0x00000502 edx=0x00000003
+0x0000001f 0x03: eax=0x00000000 ebx=0x00000000 ecx=0x00000003 edx=0x00000001
 
-Thanks!
+Guest system could discover multi-die/package topology through CPUID.1F.
+and its benefit is primarily for _reporting_ of the (virtual) CPU topology.
+The guest kernel with multi-die/package support have no impact on its 
+cache topology, NUMA topology, Linux scheduler, or system performance. 
 
-Eric
->=20
-> Thanks,
-> Li Qiang
->=20
->=20
->=20
->=20
->> +    name =3D index_to_str(vbasedev, index);
->> +    if (name) {
->> +        error_prepend(errp, "%s-%d: ", name, subindex);
->> +    } else {
->> +        error_prepend(errp, "index %d-%d: ", index, subindex);
->> +    }
->> +    error_prepend(errp,
->> +                  "Failed to %s %s eventfd signaling for interrupt ",
->> +                  fd < 0 ? "tear down" : "set up", action_to_str(acti=
-on));
->> +    return ret;
->> +}
->> +
->>  /*
->>   * IO Port/MMIO - Beware of the endians, VFIO is always little endian
->>   */
->> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->> index 2a4091d216..65c2e17028 100644
->> --- a/hw/vfio/pci.c
->> +++ b/hw/vfio/pci.c
->> @@ -113,9 +113,7 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vd=
-ev,
->> Error **errp)
->>          .gsi =3D vdev->intx.route.irq,
->>          .flags =3D KVM_IRQFD_FLAG_RESAMPLE,
->>      };
->> -    struct vfio_irq_set *irq_set;
->> -    int ret, argsz;
->> -    int32_t *pfd;
->> +    Error *err =3D NULL;
->>
->>      if (vdev->no_kvm_intx || !kvm_irqfds_enabled() ||
->>          vdev->intx.route.mode !=3D PCI_INTX_ENABLED ||
->> @@ -143,22 +141,10 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice
->> *vdev, Error **errp)
->>          goto fail_irqfd;
->>      }
->>
->> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> -
->> -    irq_set =3D g_malloc0(argsz);
->> -    irq_set->argsz =3D argsz;
->> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> VFIO_IRQ_SET_ACTION_UNMASK;
->> -    irq_set->index =3D VFIO_PCI_INTX_IRQ_INDEX;
->> -    irq_set->start =3D 0;
->> -    irq_set->count =3D 1;
->> -    pfd =3D (int32_t *)&irq_set->data;
->> -
->> -    *pfd =3D irqfd.resamplefd;
->> -
->> -    ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
->> -    g_free(irq_set);
->> -    if (ret) {
->> -        error_setg_errno(errp, -ret, "failed to setup INTx unmask fd"=
-);
->> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_IND=
-EX,
->> 0,
->> +                               VFIO_IRQ_SET_ACTION_UNMASK,
->> +                               irqfd.resamplefd, &err)) {
->> +        error_propagate(errp, err);
->>          goto fail_vfio;
->>      }
->>
->> @@ -262,10 +248,10 @@ static void vfio_intx_update(PCIDevice *pdev)
->>  static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
->>  {
->>      uint8_t pin =3D vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_P=
-IN, 1);
->> -    int ret, argsz, retval =3D 0;
->> -    struct vfio_irq_set *irq_set;
->> -    int32_t *pfd;
->>      Error *err =3D NULL;
->> +    int32_t fd;
->> +    int ret;
->> +
->>
->>      if (!pin) {
->>          return 0;
->> @@ -292,27 +278,15 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev,
->> Error **errp)
->>          error_setg_errno(errp, -ret, "event_notifier_init failed");
->>          return ret;
->>      }
->> +    fd =3D event_notifier_get_fd(&vdev->intx.interrupt);
->> +    qemu_set_fd_handler(fd, vfio_intx_interrupt, NULL, vdev);
->>
->> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> -
->> -    irq_set =3D g_malloc0(argsz);
->> -    irq_set->argsz =3D argsz;
->> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> VFIO_IRQ_SET_ACTION_TRIGGER;
->> -    irq_set->index =3D VFIO_PCI_INTX_IRQ_INDEX;
->> -    irq_set->start =3D 0;
->> -    irq_set->count =3D 1;
->> -    pfd =3D (int32_t *)&irq_set->data;
->> -
->> -    *pfd =3D event_notifier_get_fd(&vdev->intx.interrupt);
->> -    qemu_set_fd_handler(*pfd, vfio_intx_interrupt, NULL, vdev);
->> -
->> -    ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
->> -    if (ret) {
->> -        error_setg_errno(errp, -ret, "failed to setup INTx fd");
->> -        qemu_set_fd_handler(*pfd, NULL, NULL, vdev);
->> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_IND=
-EX,
->> 0,
->> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)=
-) {
->> +        error_propagate(errp, err);
->> +        qemu_set_fd_handler(fd, NULL, NULL, vdev);
->>          event_notifier_cleanup(&vdev->intx.interrupt);
->> -        retval =3D -errno;
->> -        goto cleanup;
->> +        return -errno;
->>      }
->>
->>      vfio_intx_enable_kvm(vdev, &err);
->> @@ -323,11 +297,7 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev,
->> Error **errp)
->>      vdev->interrupt =3D VFIO_INT_INTx;
->>
->>      trace_vfio_intx_enable(vdev->vbasedev.name);
->> -
->> -cleanup:
->> -    g_free(irq_set);
->> -
->> -    return retval;
->> +    return 0;
->>  }
->>
->>  static void vfio_intx_disable(VFIOPCIDevice *vdev)
->> @@ -530,31 +500,19 @@ static int vfio_msix_vector_do_use(PCIDevice *pd=
-ev,
->> unsigned int nr,
->>              error_report("vfio: failed to enable vectors, %d", ret);
->>          }
->>      } else {
->> -        int argsz;
->> -        struct vfio_irq_set *irq_set;
->> -        int32_t *pfd;
->> -
->> -        argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> -
->> -        irq_set =3D g_malloc0(argsz);
->> -        irq_set->argsz =3D argsz;
->> -        irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> -                         VFIO_IRQ_SET_ACTION_TRIGGER;
->> -        irq_set->index =3D VFIO_PCI_MSIX_IRQ_INDEX;
->> -        irq_set->start =3D nr;
->> -        irq_set->count =3D 1;
->> -        pfd =3D (int32_t *)&irq_set->data;
->> +        Error *err =3D NULL;
->> +        int32_t fd;
->>
->>          if (vector->virq >=3D 0) {
->> -            *pfd =3D event_notifier_get_fd(&vector->kvm_interrupt);
->> +            fd =3D event_notifier_get_fd(&vector->kvm_interrupt);
->>          } else {
->> -            *pfd =3D event_notifier_get_fd(&vector->interrupt);
->> +            fd =3D event_notifier_get_fd(&vector->interrupt);
->>          }
->>
->> -        ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_se=
-t);
->> -        g_free(irq_set);
->> -        if (ret) {
->> -            error_report("vfio: failed to modify vector, %d", ret);
->> +        if (vfio_set_irq_signaling(&vdev->vbasedev,
->> +                                     VFIO_PCI_MSIX_IRQ_INDEX, nr,
->> +                                     VFIO_IRQ_SET_ACTION_TRIGGER, fd,
->> &err)) {
->> +            error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.na=
-me);
->>          }
->>      }
->>
->> @@ -591,26 +549,10 @@ static void vfio_msix_vector_release(PCIDevice
->> *pdev, unsigned int nr)
->>       * be re-asserted on unmask.  Nothing to do if already using QEMU
->> mode.
->>       */
->>      if (vector->virq >=3D 0) {
->> -        int argsz;
->> -        struct vfio_irq_set *irq_set;
->> -        int32_t *pfd;
->> +        int32_t fd =3D event_notifier_get_fd(&vector->interrupt);
->>
->> -        argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> -
->> -        irq_set =3D g_malloc0(argsz);
->> -        irq_set->argsz =3D argsz;
->> -        irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> -                         VFIO_IRQ_SET_ACTION_TRIGGER;
->> -        irq_set->index =3D VFIO_PCI_MSIX_IRQ_INDEX;
->> -        irq_set->start =3D nr;
->> -        irq_set->count =3D 1;
->> -        pfd =3D (int32_t *)&irq_set->data;
->> -
->> -        *pfd =3D event_notifier_get_fd(&vector->interrupt);
->> -
->> -        ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
->> -
->> -        g_free(irq_set);
->> +        vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_IND=
-EX,
->> nr,
->> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, NULL)=
-;
->>      }
->>  }
->>
->> @@ -2636,10 +2578,8 @@ static void vfio_err_notifier_handler(void *opa=
-que)
->>   */
->>  static void vfio_register_err_notifier(VFIOPCIDevice *vdev)
->>  {
->> -    int ret;
->> -    int argsz;
->> -    struct vfio_irq_set *irq_set;
->> -    int32_t *pfd;
->> +    Error *err =3D NULL;
->> +    int32_t fd;
->>
->>      if (!vdev->pci_aer) {
->>          return;
->> @@ -2651,58 +2591,30 @@ static void
->> vfio_register_err_notifier(VFIOPCIDevice *vdev)
->>          return;
->>      }
->>
->> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> +    fd =3D event_notifier_get_fd(&vdev->err_notifier);
->> +    qemu_set_fd_handler(fd, vfio_err_notifier_handler, NULL, vdev);
->>
->> -    irq_set =3D g_malloc0(argsz);
->> -    irq_set->argsz =3D argsz;
->> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
->> -    irq_set->index =3D VFIO_PCI_ERR_IRQ_INDEX;
->> -    irq_set->start =3D 0;
->> -    irq_set->count =3D 1;
->> -    pfd =3D (int32_t *)&irq_set->data;
->> -
->> -    *pfd =3D event_notifier_get_fd(&vdev->err_notifier);
->> -    qemu_set_fd_handler(*pfd, vfio_err_notifier_handler, NULL, vdev);
->> -
->> -    ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
->> -    if (ret) {
->> -        error_report("vfio: Failed to set up error notification");
->> -        qemu_set_fd_handler(*pfd, NULL, NULL, vdev);
->> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_ERR_IRQ_INDE=
-X, 0,
->> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)=
-) {
->> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
->> +        qemu_set_fd_handler(fd, NULL, NULL, vdev);
->>          event_notifier_cleanup(&vdev->err_notifier);
->>          vdev->pci_aer =3D false;
->>      }
->> -    g_free(irq_set);
->>  }
->>
->>  static void vfio_unregister_err_notifier(VFIOPCIDevice *vdev)
->>  {
->> -    int argsz;
->> -    struct vfio_irq_set *irq_set;
->> -    int32_t *pfd;
->> -    int ret;
->> +    Error *err =3D NULL;
->>
->>      if (!vdev->pci_aer) {
->>          return;
->>      }
->>
->> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> -
->> -    irq_set =3D g_malloc0(argsz);
->> -    irq_set->argsz =3D argsz;
->> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
->> -    irq_set->index =3D VFIO_PCI_ERR_IRQ_INDEX;
->> -    irq_set->start =3D 0;
->> -    irq_set->count =3D 1;
->> -    pfd =3D (int32_t *)&irq_set->data;
->> -    *pfd =3D -1;
->> -
->> -    ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
->> -    if (ret) {
->> -        error_report("vfio: Failed to de-assign error fd: %m");
->> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_ERR_IRQ_INDE=
-X, 0,
->> +                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)=
-) {
->> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
->>      }
->> -    g_free(irq_set);
->>      qemu_set_fd_handler(event_notifier_get_fd(&vdev->err_notifier),
->>                          NULL, NULL, vdev);
->>      event_notifier_cleanup(&vdev->err_notifier);
->> @@ -2727,9 +2639,8 @@ static void vfio_register_req_notifier(VFIOPCIDe=
-vice
->> *vdev)
->>  {
->>      struct vfio_irq_info irq_info =3D { .argsz =3D sizeof(irq_info),
->>                                        .index =3D VFIO_PCI_REQ_IRQ_IND=
-EX };
->> -    int argsz;
->> -    struct vfio_irq_set *irq_set;
->> -    int32_t *pfd;
->> +    Error *err =3D NULL;
->> +    int32_t fd;
->>
->>      if (!(vdev->features & VFIO_FEATURE_ENABLE_REQ)) {
->>          return;
->> @@ -2745,57 +2656,31 @@ static void
->> vfio_register_req_notifier(VFIOPCIDevice *vdev)
->>          return;
->>      }
->>
->> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> +    fd =3D event_notifier_get_fd(&vdev->req_notifier);
->> +    qemu_set_fd_handler(fd, vfio_req_notifier_handler, NULL, vdev);
->>
->> -    irq_set =3D g_malloc0(argsz);
->> -    irq_set->argsz =3D argsz;
->> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
->> -    irq_set->index =3D VFIO_PCI_REQ_IRQ_INDEX;
->> -    irq_set->start =3D 0;
->> -    irq_set->count =3D 1;
->> -    pfd =3D (int32_t *)&irq_set->data;
->> -
->> -    *pfd =3D event_notifier_get_fd(&vdev->req_notifier);
->> -    qemu_set_fd_handler(*pfd, vfio_req_notifier_handler, NULL, vdev);
->> -
->> -    if (ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
->> -        error_report("vfio: Failed to set up device request
->> notification");
->> -        qemu_set_fd_handler(*pfd, NULL, NULL, vdev);
->> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_REQ_IRQ_INDE=
-X, 0,
->> +                           VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
->> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
->> +        qemu_set_fd_handler(fd, NULL, NULL, vdev);
->>          event_notifier_cleanup(&vdev->req_notifier);
->>      } else {
->>          vdev->req_enabled =3D true;
->>      }
->> -
->> -    g_free(irq_set);
->>  }
->>
->>  static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
->>  {
->> -    int argsz;
->> -    struct vfio_irq_set *irq_set;
->> -    int32_t *pfd;
->> +    Error *err =3D NULL;
->>
->>      if (!vdev->req_enabled) {
->>          return;
->>      }
->>
->> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> -
->> -    irq_set =3D g_malloc0(argsz);
->> -    irq_set->argsz =3D argsz;
->> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
->> -    irq_set->index =3D VFIO_PCI_REQ_IRQ_INDEX;
->> -    irq_set->start =3D 0;
->> -    irq_set->count =3D 1;
->> -    pfd =3D (int32_t *)&irq_set->data;
->> -    *pfd =3D -1;
->> -
->> -    if (ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
->> -        error_report("vfio: Failed to de-assign device request fd: %m=
-");
->> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_REQ_IRQ_INDE=
-X, 0,
->> +                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)=
-) {
->> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
->>      }
->> -    g_free(irq_set);
->>      qemu_set_fd_handler(event_notifier_get_fd(&vdev->req_notifier),
->>                          NULL, NULL, vdev);
->>      event_notifier_cleanup(&vdev->req_notifier);
->> diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
->> index d52d6552e0..8d6012857e 100644
->> --- a/hw/vfio/platform.c
->> +++ b/hw/vfio/platform.c
->> @@ -106,26 +106,19 @@ static int vfio_set_trigger_eventfd(VFIOINTp *in=
-tp,
->>                                      eventfd_user_side_handler_t handl=
-er)
->>  {
->>      VFIODevice *vbasedev =3D &intp->vdev->vbasedev;
->> -    struct vfio_irq_set *irq_set;
->> -    int argsz, ret;
->> -    int32_t *pfd;
->> +    int32_t fd =3D event_notifier_get_fd(intp->interrupt);
->> +    Error *err =3D NULL;
->> +    int ret;
->>
->> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> -    irq_set =3D g_malloc0(argsz);
->> -    irq_set->argsz =3D argsz;
->> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> VFIO_IRQ_SET_ACTION_TRIGGER;
->> -    irq_set->index =3D intp->pin;
->> -    irq_set->start =3D 0;
->> -    irq_set->count =3D 1;
->> -    pfd =3D (int32_t *)&irq_set->data;
->> -    *pfd =3D event_notifier_get_fd(intp->interrupt);
->> -    qemu_set_fd_handler(*pfd, (IOHandler *)handler, NULL, intp);
->> -    ret =3D ioctl(vbasedev->fd, VFIO_DEVICE_SET_IRQS, irq_set);
->> -    if (ret < 0) {
->> -        error_report("vfio: Failed to set trigger eventfd: %m");
->> -        qemu_set_fd_handler(*pfd, NULL, NULL, NULL);
->> +    qemu_set_fd_handler(fd, (IOHandler *)handler, NULL, intp);
->> +
->> +    ret =3D vfio_set_irq_signaling(vbasedev, intp->pin, 0,
->> +                                 VFIO_IRQ_SET_ACTION_TRIGGER, fd, &er=
-r);
->> +    if (ret) {
->> +        error_reportf_err(err, VFIO_MSG_PREFIX, vbasedev->name);
->> +        qemu_set_fd_handler(fd, NULL, NULL, NULL);
->>      }
->> -    g_free(irq_set);
->> +
->>      return ret;
->>  }
->>
->> @@ -330,7 +323,6 @@ static void vfio_platform_eoi(VFIODevice *vbasedev=
-)
->>
->>  static void vfio_start_eventfd_injection(SysBusDevice *sbdev, qemu_ir=
-q
->> irq)
->>  {
->> -    int ret;
->>      VFIOPlatformDevice *vdev =3D VFIO_PLATFORM_DEVICE(sbdev);
->>      VFIOINTp *intp;
->>
->> @@ -341,10 +333,7 @@ static void vfio_start_eventfd_injection(SysBusDe=
-vice
->> *sbdev, qemu_irq irq)
->>      }
->>      assert(intp);
->>
->> -    ret =3D vfio_set_trigger_eventfd(intp, vfio_intp_interrupt);
->> -    if (ret) {
->> -        error_report("vfio: failed to start eventfd signaling for IRQ=
- %d:
->> %m",
->> -                     intp->pin);
->> +    if (vfio_set_trigger_eventfd(intp, vfio_intp_interrupt)) {
->>          abort();
->>      }
->>  }
->> @@ -361,25 +350,16 @@ static void
->> vfio_start_eventfd_injection(SysBusDevice *sbdev, qemu_irq irq)
->>   */
->>  static int vfio_set_resample_eventfd(VFIOINTp *intp)
->>  {
->> +    int32_t fd =3D event_notifier_get_fd(intp->unmask);
->>      VFIODevice *vbasedev =3D &intp->vdev->vbasedev;
->> -    struct vfio_irq_set *irq_set;
->> -    int argsz, ret;
->> -    int32_t *pfd;
->> +    Error *err =3D NULL;
->> +    int ret;
->>
->> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
->> -    irq_set =3D g_malloc0(argsz);
->> -    irq_set->argsz =3D argsz;
->> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
->> VFIO_IRQ_SET_ACTION_UNMASK;
->> -    irq_set->index =3D intp->pin;
->> -    irq_set->start =3D 0;
->> -    irq_set->count =3D 1;
->> -    pfd =3D (int32_t *)&irq_set->data;
->> -    *pfd =3D event_notifier_get_fd(intp->unmask);
->> -    qemu_set_fd_handler(*pfd, NULL, NULL, NULL);
->> -    ret =3D ioctl(vbasedev->fd, VFIO_DEVICE_SET_IRQS, irq_set);
->> -    g_free(irq_set);
->> -    if (ret < 0) {
->> -        error_report("vfio: Failed to set resample eventfd: %m");
->> +    qemu_set_fd_handler(fd, NULL, NULL, NULL);
->> +    ret =3D vfio_set_irq_signaling(vbasedev, intp->pin, 0,
->> +                                 VFIO_IRQ_SET_ACTION_UNMASK, fd, &err=
-);
->> +    if (ret) {
->> +        error_reportf_err(err, VFIO_MSG_PREFIX, vbasedev->name);
->>      }
->>      return ret;
->>  }
->> @@ -435,8 +415,6 @@ static void vfio_start_irqfd_injection(SysBusDevic=
-e
->> *sbdev, qemu_irq irq)
->>      return;
->>  fail_vfio:
->>      kvm_irqchip_remove_irqfd_notifier(kvm_state, intp->interrupt, irq=
-);
->> -    error_report("vfio: failed to start eventfd signaling for IRQ %d:=
- %m",
->> -                 intp->pin);
->>      abort();
->>  fail_irqfd:
->>      vfio_start_eventfd_injection(sbdev, irq);
->> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-comm=
-on.h
->> index 1155b79678..686d99ff8c 100644
->> --- a/include/hw/vfio/vfio-common.h
->> +++ b/include/hw/vfio/vfio-common.h
->> @@ -167,6 +167,8 @@ void vfio_put_base_device(VFIODevice *vbasedev);
->>  void vfio_disable_irqindex(VFIODevice *vbasedev, int index);
->>  void vfio_unmask_single_irqindex(VFIODevice *vbasedev, int index);
->>  void vfio_mask_single_irqindex(VFIODevice *vbasedev, int index);
->> +int vfio_set_irq_signaling(VFIODevice *vbasedev, int index, int subin=
-dex,
->> +                           int action, int fd, Error **errp);
->>  void vfio_region_write(void *opaque, hwaddr addr,
->>                             uint64_t data, unsigned size);
->>  uint64_t vfio_region_read(void *opaque,
->> --
->> 2.20.1
->>
->>
->>
+==changelog==
+
+v3:
+
+- add a MachineClass::smp_parse function pointer
+- place the PC-specific function inside hw/i386/pc.c
+- introduce die_id in a separate patch with default value 0
+- set env->nr_dies in pc_new_cpu() and pc_cpu_pre_plug()
+- fix a circular dependency between target/i386/cpu.c and hw/i386/pc.c
+- fix cpu->die_id check in pc_cpu_pre_plug()
+- Based on "[PATCH v3 00/10] Refactor cpu topo into machine properties"
+- Rebase to commit 219dca61ebf41625831d4f96a720852baf44b762
+
+v2: https://patchwork.kernel.org/cover/10953191/
+
+- Enable cpu die-level topolgy only for PCMachine and X86CPU
+- Minimize cpuid.0.eax to the setting value actually used by guest
+- Update cmd line -smps docs for die-level configurations
+- Refactoring topo-bit tests for x86_apicid_from_cpu_idx() with nr_dies
+- Based on "[PATCH v3 00/10] Refactor cpu topo into machine properties"
+- Rebase to commit 2259637b95bef3116cc262459271de08e038cc66
+
+v1: https://patchwork.kernel.org/cover/10876667/
+
+Like Xu (9):
+  i386: Add die-level cpu topology to x86CPU on PCMachine
+  hw/i386: Adjust nr_dies with configured smp_dies for PCMachine
+  i386/cpu: Consolidate die-id validity in smp context
+  i386: Update new x86_apicid parsing rules with die_offset support
+  tests/x86-cpuid: Update testcases in test_topo_bits() with multiple dies
+  i386/cpu: Add CPUID.1F generation support for multi-dies PCMachine
+  target/i386: Support multi-dies when host doesn't support CPUID.1F
+  machine: Refactor smp_parse() in vl.c as MachineClass::smp_parse()
+  vl.c: Add -smp, dies=* command line support and update doc
+
+ hmp.c                      |   3 +
+ hw/core/machine.c          |  89 ++++++++++++++++++++++
+ hw/i386/pc.c               | 148 ++++++++++++++++++++++++++++++++-----
+ include/hw/boards.h        |   5 ++
+ include/hw/i386/pc.h       |   3 +
+ include/hw/i386/topology.h |  76 +++++++++++++------
+ qapi/misc.json             |   6 +-
+ qemu-options.hx            |  17 +++--
+ target/i386/cpu.c          |  53 +++++++++++--
+ target/i386/cpu.h          |   7 ++
+ target/i386/kvm.c          |  36 ++++++++-
+ tests/test-x86-cpuid.c     |  84 +++++++++++----------
+ vl.c                       |  78 ++-----------------
+ 13 files changed, 438 insertions(+), 167 deletions(-)
+
+-- 
+2.21.0
+
 
