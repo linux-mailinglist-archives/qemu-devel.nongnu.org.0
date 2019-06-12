@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF960431DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 01:11:43 +0200 (CEST)
-Received: from localhost ([::1]:35948 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4694D431D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 01:06:58 +0200 (CEST)
+Received: from localhost ([::1]:35884 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbCP8-0006qx-Un
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 19:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50509)
+	id 1hbCKX-0002dF-Fv
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 19:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51473)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbBkk-00009T-TI
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:30:00 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbBmp-0002RJ-8G
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:32:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbBYa-0003Ol-8Q
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:17:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41790)
+ (envelope-from <mreitz@redhat.com>) id 1hbBmo-0006cD-6D
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:32:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49860)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbBYW-0003Ib-8n; Wed, 12 Jun 2019 18:17:20 -0400
+ id 1hbBmj-0006QI-K3; Wed, 12 Jun 2019 18:32:01 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 751133162913;
- Wed, 12 Jun 2019 22:17:17 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A631F30C31AD;
+ Wed, 12 Jun 2019 22:32:00 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 314DB7E692;
- Wed, 12 Jun 2019 22:17:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6514D5D6A6;
+ Wed, 12 Jun 2019 22:31:59 +0000 (UTC)
 To: qemu-block@nongnu.org
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-23-mreitz@redhat.com>
+References: <20190612220839.1374-1-mreitz@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -58,22 +57,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1ff98c9b-b5aa-686c-a130-cd4783a36130@redhat.com>
-Date: Thu, 13 Jun 2019 00:17:13 +0200
+Message-ID: <5f8b48f2-7671-cc9f-9701-a25800753146@redhat.com>
+Date: Thu, 13 Jun 2019 00:31:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190612221004.2317-23-mreitz@redhat.com>
+In-Reply-To: <20190612220839.1374-1-mreitz@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="yvpUURpflA6uCcKzSJGlV49UA8YIeyNN9"
+ boundary="KlJNKz1TBMVvVRg2UgP6OGaHArpmbKJ8z"
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 12 Jun 2019 22:17:17 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Wed, 12 Jun 2019 22:32:00 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 22/42] block: Use CAFs in
- bdrv_get_allocated_file_size()
+Subject: Re: [Qemu-devel] [PATCH 0/2] vl: Drain before (block) job cancel
+ when quitting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,118 +84,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---yvpUURpflA6uCcKzSJGlV49UA8YIeyNN9
-Content-Type: multipart/mixed; boundary="vvbFvFNSiHXc6iw2r10WRdmKvAmOb00CH";
+--KlJNKz1TBMVvVRg2UgP6OGaHArpmbKJ8z
+Content-Type: multipart/mixed; boundary="14NzCVemONeWwe3Qhub2rVfO7DOFBv7OY";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <1ff98c9b-b5aa-686c-a130-cd4783a36130@redhat.com>
-Subject: Re: [PATCH v5 22/42] block: Use CAFs in
- bdrv_get_allocated_file_size()
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-23-mreitz@redhat.com>
-In-Reply-To: <20190612221004.2317-23-mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <5f8b48f2-7671-cc9f-9701-a25800753146@redhat.com>
+Subject: Re: [PATCH 0/2] vl: Drain before (block) job cancel when quitting
+References: <20190612220839.1374-1-mreitz@redhat.com>
+In-Reply-To: <20190612220839.1374-1-mreitz@redhat.com>
 
---vvbFvFNSiHXc6iw2r10WRdmKvAmOb00CH
+--14NzCVemONeWwe3Qhub2rVfO7DOFBv7OY
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 13.06.19 00:09, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  block.c | 26 ++++++++++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
+On 13.06.19 00:08, Max Reitz wrote:
+> Quitting qemu should lead to qemu exiting pretty much immediately.  Tha=
+t
+> means if you have a block job running on a throttled block node, the
+> node should ignore its throttling and the job should be cancelled
+> immediately.
 >=20
-> diff --git a/block.c b/block.c
-> index 11b7ba8cf6..856d9b58be 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -4511,15 +4511,37 @@ exit:
->  int64_t bdrv_get_allocated_file_size(BlockDriverState *bs)
->  {
->      BlockDriver *drv =3D bs->drv;
-> +    BlockDriverState *storage_bs, *metadata_bs;
-> +
->      if (!drv) {
->          return -ENOMEDIUM;
->      }
-> +
->      if (drv->bdrv_get_allocated_file_size) {
->          return drv->bdrv_get_allocated_file_size(bs);
->      }
-> -    if (bs->file) {
-> -        return bdrv_get_allocated_file_size(bs->file->bs);
-> +
-> +    storage_bs =3D bdrv_storage_bs(bs);
-> +    metadata_bs =3D bdrv_metadata_bs(bs);
-> +
-> +    if (storage_bs) {
-> +        int64_t data_size, metadata_size =3D 0;
-> +
-> +        data_size =3D bdrv_get_allocated_file_size(storage_bs);
-> +        if (data_size < 0) {
-> +            return data_size;
-> +        }
-> +
-> +        if (storage_bs !=3D metadata_bs) {
+> Unfortunately, that is not what happens.  Currently, the node will be
+> drained (with a bdrv_drain_all()), and then again unquiesced (because
+> bdrv_drain_all() ends).  Then, the block job is cancelled; but at this
+> point, the node is no longer drained, so it will block, as it befits a
+> throttling node.
+>=20
+> To fix this issue, we have to keep all nodes drained while we cancel al=
+l
+> block jobs when quitting qemu.  This will make the throttle node ignore=
 
-Let this be a lesson to you: If you run all tests, then prepare to send
-the series and just change =E2=80=9Ca minor thing=E2=80=9D, you really sh=
-ould rerun the
-tests.  Well, I should have, at least.
+> its throttling and thus let the block job cancel immediately.
 
-That should read =E2=80=9Cif (metadata_bs && storage_bs !=3D metadata_bs)=
- {=E2=80=9D.
+I forgot to mention: This series depends on =E2=80=9Cblock: Keep track of=
+ parent
+quiescing=E2=80=9D, specifically patch 3 (=E2=80=9Ciotests: Add @has_quit=
+ to
+vm.shutdown()=E2=80=9D).
 
-(Damn.  Why did I only remember to do so literally five minutes after
-sending the series?)
+Based-on: <20190605161118.14544-1-mreitz@redhat.com>
 
 Max
 
-> +            metadata_size =3D bdrv_get_allocated_file_size(metadata_bs=
-);
-> +            if (metadata_size < 0) {
-> +                return metadata_size;
-> +            }
-> +        }
-> +
-> +        return data_size + metadata_size;
->      }
-> +
->      return -ENOTSUP;
->  }
-> =20
+> Max Reitz (2):
+>   vl: Drain before (block) job cancel when quitting
+>   iotests: Test quitting with job on throttled node
+>=20
+>  vl.c                       | 11 ++++++++
+>  tests/qemu-iotests/218     | 55 ++++++++++++++++++++++++++++++++++++--=
+
+>  tests/qemu-iotests/218.out |  4 +++
+>  3 files changed, 68 insertions(+), 2 deletions(-)
 >=20
 
 
 
---vvbFvFNSiHXc6iw2r10WRdmKvAmOb00CH--
+--14NzCVemONeWwe3Qhub2rVfO7DOFBv7OY--
 
---yvpUURpflA6uCcKzSJGlV49UA8YIeyNN9
+--KlJNKz1TBMVvVRg2UgP6OGaHArpmbKJ8z
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0BeeoACgkQ9AfbAGHV
-z0APaAf/RyMb9f1z8VM1ErwqPmzNV3EXE1Sqj4hlWph8mH5yJ7g6yqgYSgxVXAAa
-IXtSU/xhIkchuI/fdScBJgyPgyKHneKQceeKNDgXI9N1KJcXxYxIjozPSNa931BT
-aHIsGq0hVxjqAYV55ruUZNPlkqVb2h9sdJyOpFnvixfWs0bR+hk9p4qKAgGEWbne
-ZzYVfTBKvTFIud5puG6QChRYYqfUEzOam+rnSLgZWAgDPYQbU2H36d9keZWnLc+f
-ibt0tmxC0EayZQRdO8+LO9NL4xyzqV8FFLOp1QxsYd5lcXZRgsZAGG065T+vknyj
-SHQ2EyUUqp0gh+f+gWo6q5jW/A2qQw==
-=nyUx
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0BfV0ACgkQ9AfbAGHV
+z0A9Mgf/RJOZX/AxyBBSWv1AnuZP4LCZIu7MmQz0me1oEtxU0LC36m7W6Zs8gBmK
+bEf9t230yoWUFibMgQjYshZurFlhtdezfwGS2wUDSU8cYv4TyJCAzNKJY+Wv3rup
+zPi11LbB83384r+yE8JrUZTawd9oUz2Ltl1xeyBLwu79kbMUE5EYrj4jzGFt84U6
+MCDOlfw72F0ovFelLXBJLGNPyb8xsTuKyN8dmBlgFxQE5NXWiaAwbw1QvnRBcr9c
+3Uod/LuWAUsQjbOAtei7EegKSNz6t0Ds5nQldIoqltPL8PJoRaJ5Pq8j2Zs0Fj3/
+a9m2udzLh0yjBy3nY5yG9STG99ZqaA==
+=ZB7e
 -----END PGP SIGNATURE-----
 
---yvpUURpflA6uCcKzSJGlV49UA8YIeyNN9--
+--KlJNKz1TBMVvVRg2UgP6OGaHArpmbKJ8z--
 
