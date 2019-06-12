@@ -2,54 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D3A42538
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:14:29 +0200 (CEST)
-Received: from localhost ([::1]:59756 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71FA242536
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:14:08 +0200 (CEST)
+Received: from localhost ([::1]:59752 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb297-0004Qo-46
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46888)
+	id 1hb28k-0003rY-Fr
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:14:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46745)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hb24b-0001X9-H3
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:09:50 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hb24U-0001RY-66
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:09:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hb1x8-0005dj-00
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:02:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55072)
+ (envelope-from <stefanha@redhat.com>) id 1hb202-0007Ff-EU
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:05:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54598)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hb1x5-0005b8-IJ; Wed, 12 Jun 2019 08:02:03 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hb200-00070u-El
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:05:06 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2A6245D5E6;
- Wed, 12 Jun 2019 12:02:01 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
- [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CD3E5D968;
- Wed, 12 Jun 2019 12:01:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CB54E1138648; Wed, 12 Jun 2019 14:01:55 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190611134043.9524-1-kwolf@redhat.com>
- <20190611134043.9524-8-kwolf@redhat.com>
-Date: Wed, 12 Jun 2019 14:01:55 +0200
-In-Reply-To: <20190611134043.9524-8-kwolf@redhat.com> (Kevin Wolf's message of
- "Tue, 11 Jun 2019 15:40:39 +0200")
-Message-ID: <87wohr107g.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 31DBA3162919;
+ Wed, 12 Jun 2019 12:04:28 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 35401614C4;
+ Wed, 12 Jun 2019 12:04:21 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 12 Jun 2019 13:04:21 +0100
+Message-Id: <20190612120421.20336-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Wed, 12 Jun 2019 12:02:01 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Wed, 12 Jun 2019 12:04:32 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 07/11] monitor: Move {hmp,
- qmp}.c to monitor/{hmp, qmp}-cmds.c
+Subject: [Qemu-devel] [PATCH v4] virtio-scsi: restart DMA after iothread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,150 +52,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dgilbert@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+When the 'cont' command resumes guest execution the vm change state
+handlers are invoked.  Unfortunately there is no explicit ordering
+between vm change state handlers.  When two layers of code both use vm
+change state handlers, we don't control which handler runs first.
 
-> Now that we have a monitor/ subdirectory, let's move hmp.c and qmp.c
-> from the root directory there. As they contain implementations of
-> monitor commands, rename them to {hmp,qmp}-cmds.c, so that {hmp,qmp}.c
-> are free for the HMP and QMP infrastructure.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  docs/devel/writing-qmp-commands.txt | 9 +++++----
->  hmp.c => monitor/hmp-cmds.c         | 2 +-
->  qmp.c => monitor/qmp-cmds.c         | 2 +-
->  MAINTAINERS                         | 5 +++--
->  Makefile.objs                       | 2 +-
->  monitor/Makefile.objs               | 1 +
->  6 files changed, 12 insertions(+), 9 deletions(-)
->  rename hmp.c => monitor/hmp-cmds.c (99%)
->  rename qmp.c => monitor/qmp-cmds.c (99%)
->
-> diff --git a/docs/devel/writing-qmp-commands.txt b/docs/devel/writing-qmp-commands.txt
-> index cc6ecd6d5d..46a6c48683 100644
-> --- a/docs/devel/writing-qmp-commands.txt
-> +++ b/docs/devel/writing-qmp-commands.txt
-> @@ -20,7 +20,7 @@ new QMP command.
->  
->  2. Write the QMP command itself, which is a regular C function. Preferably,
->     the command should be exported by some QEMU subsystem. But it can also be
-> -   added to the qmp.c file
-> +   added to the monitor/qmp-cmds.c file
->  
->  3. At this point the command can be tested under the QMP protocol
->  
-> @@ -101,7 +101,8 @@ protocol data.
->  
->  The next step is to write the "hello-world" implementation. As explained
->  earlier, it's preferable for commands to live in QEMU subsystems. But
-> -"hello-world" doesn't pertain to any, so we put its implementation in qmp.c:
-> +"hello-world" doesn't pertain to any, so we put its implementation in
-> +monitor/qmp-cmds.c:
->  
->  void qmp_hello_world(Error **errp)
->  {
-> @@ -146,7 +147,7 @@ for mandatory arguments). Finally, 'str' is the argument's type, which
->  stands for "string". The QAPI also supports integers, booleans, enumerations
->  and user defined types.
->  
-> -Now, let's update our C implementation in qmp.c:
-> +Now, let's update our C implementation in monitor/qmp-cmds.c:
->  
->  void qmp_hello_world(bool has_message, const char *message, Error **errp)
->  {
-> @@ -267,7 +268,7 @@ monitor (HMP).
->  
->  With the introduction of the QAPI, HMP commands make QMP calls. Most of the
->  time HMP commands are simple wrappers. All HMP commands implementation exist in
+virtio-scsi with iothreads hits a deadlock when a failed SCSI command is
+restarted and completes before the iothread is re-initialized.
 
-Not this patch's fault: the "All" is wrong, and the entire sentence is
-bad English.
+This patch introduces priorities for VM change state handlers so the
+IOThread is guaranteed to be initialized before DMA requests are
+restarted.
 
-> -the hmp.c file.
-> +the monitor/hmp-cmds.c file.
->  
->  Here's the implementation of the "hello-world" HMP command:
->  
-> diff --git a/hmp.c b/monitor/hmp-cmds.c
-> similarity index 99%
-> rename from hmp.c
-> rename to monitor/hmp-cmds.c
-> index 99414cd39c..712737cd18 100644
-> --- a/hmp.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1,5 +1,5 @@
->  /*
-> - * Human Monitor Interface
-> + * Human Monitor Interface commands
->   *
->   * Copyright IBM, Corp. 2011
->   *
-> diff --git a/qmp.c b/monitor/qmp-cmds.c
-> similarity index 99%
-> rename from qmp.c
-> rename to monitor/qmp-cmds.c
-> index fa1b3c1577..65520222ca 100644
-> --- a/qmp.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -1,5 +1,5 @@
->  /*
-> - * QEMU Management Protocol
-> + * QEMU Management Protocol commands
->   *
->   * Copyright IBM, Corp. 2011
->   *
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 10c082314c..8789c82e5c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1925,7 +1925,8 @@ Human Monitor (HMP)
->  M: Dr. David Alan Gilbert <dgilbert@redhat.com>
->  S: Maintained
->  F: monitor/misc.c
-> -F: hmp.[ch]
-> +F: monitor/hmp*
-> +F: hmp.h
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+v4:
+Paolo and Michael were interested in a priorities system.  Kevin wasn't
+convinced.  Here is a patch implementing the priorities approach so you
+can decide whether you prefer this or not.
 
-Move hmp.h to include/monitor/ ?
+The customer has now confirmed that the deadlock is fixed.  I have
+changed the Subject line from RFC to PATCH.
 
->  F: hmp-commands*.hx
->  F: include/monitor/hmp-target.h
->  F: tests/test-hmp.c
-> @@ -2045,7 +2046,7 @@ F: tests/check-qom-proplist.c
->  QMP
->  M: Markus Armbruster <armbru@redhat.com>
->  S: Supported
-> -F: qmp.c
-> +F: monitor/qmp*
->  F: monitor/misc.c
->  F: docs/devel/*qmp-*
->  F: docs/interop/*qmp-*
-> diff --git a/Makefile.objs b/Makefile.objs
-> index dd39a70b48..9495fcbc7e 100644
-> --- a/Makefile.objs
-> +++ b/Makefile.objs
-> @@ -83,8 +83,8 @@ common-obj-$(CONFIG_FDT) += device_tree.o
->  ######################################################################
->  # qapi
->  
-> -common-obj-y += qmp.o hmp.o
->  common-obj-y += qapi/
-> +common-obj-y += monitor/
->  endif
->  
->  #######################################################################
-> diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-> index e783b0616b..a7170af6e1 100644
-> --- a/monitor/Makefile.objs
-> +++ b/monitor/Makefile.objs
-> @@ -1 +1,2 @@
->  obj-y += misc.o
-> +common-obj-y += qmp-cmds.o hmp-cmds.o
+ include/sysemu/sysemu.h | 10 ++++++++++
+ hw/scsi/scsi-bus.c      |  6 ++++--
+ hw/virtio/virtio.c      |  6 ++++--
+ vl.c                    | 44 +++++++++++++++++++++++++++++++----------
+ 4 files changed, 52 insertions(+), 14 deletions(-)
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 61579ae71e..1a4db092c7 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -27,8 +27,18 @@ bool runstate_store(char *str, size_t size);
+ typedef struct vm_change_state_entry VMChangeStateEntry;
+ typedef void VMChangeStateHandler(void *opaque, int running, RunState st=
+ate);
+=20
++enum {
++    /* Low priorities run first when the VM starts */
++    VM_CHANGE_STATE_HANDLER_PRIO_UNDEFINED =3D 0,
++    VM_CHANGE_STATE_HANDLER_PRIO_IOTHREAD =3D 100,
++    VM_CHANGE_STATE_HANDLER_PRIO_DEVICE =3D 200,
++    /* High priorities run first when the VM stops */
++};
++
+ VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandle=
+r *cb,
+                                                      void *opaque);
++VMChangeStateEntry *qemu_add_vm_change_state_handler_prio(
++        VMChangeStateHandler *cb, void *opaque, int priority);
+ void qemu_del_vm_change_state_handler(VMChangeStateEntry *e);
+ void vm_state_notify(int running, RunState state);
+=20
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index c480553083..eda5b9a19e 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -206,8 +206,10 @@ static void scsi_qdev_realize(DeviceState *qdev, Err=
+or **errp)
+         error_propagate(errp, local_err);
+         return;
+     }
+-    dev->vmsentry =3D qemu_add_vm_change_state_handler(scsi_dma_restart_=
+cb,
+-                                                     dev);
++    dev->vmsentry =3D qemu_add_vm_change_state_handler_prio(
++            scsi_dma_restart_cb,
++            dev,
++            VM_CHANGE_STATE_HANDLER_PRIO_DEVICE);
+ }
+=20
+ static void scsi_qdev_unrealize(DeviceState *qdev, Error **errp)
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 07f4a64b48..9256af587a 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2354,8 +2354,10 @@ void virtio_init(VirtIODevice *vdev, const char *n=
+ame,
+     } else {
+         vdev->config =3D NULL;
+     }
+-    vdev->vmstate =3D qemu_add_vm_change_state_handler(virtio_vmstate_ch=
+ange,
+-                                                     vdev);
++    vdev->vmstate =3D qemu_add_vm_change_state_handler_prio(
++            virtio_vmstate_change,
++            vdev,
++            VM_CHANGE_STATE_HANDLER_PRIO_IOTHREAD);
+     vdev->device_endian =3D virtio_default_endian();
+     vdev->use_guest_notifier_mask =3D true;
+ }
+diff --git a/vl.c b/vl.c
+index cd1fbc4cdc..26c82063d2 100644
+--- a/vl.c
++++ b/vl.c
+@@ -1469,27 +1469,45 @@ static int machine_help_func(QemuOpts *opts, Mach=
+ineState *machine)
+ struct vm_change_state_entry {
+     VMChangeStateHandler *cb;
+     void *opaque;
+-    QLIST_ENTRY (vm_change_state_entry) entries;
++    QTAILQ_ENTRY (vm_change_state_entry) entries;
++    int priority;
+ };
+=20
+-static QLIST_HEAD(, vm_change_state_entry) vm_change_state_head;
++static QTAILQ_HEAD(, vm_change_state_entry) vm_change_state_head;
+=20
+-VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandle=
+r *cb,
+-                                                     void *opaque)
++VMChangeStateEntry *qemu_add_vm_change_state_handler_prio(
++        VMChangeStateHandler *cb, void *opaque, int priority)
+ {
+     VMChangeStateEntry *e;
++    VMChangeStateEntry *other;
+=20
+     e =3D g_malloc0(sizeof (*e));
+-
+     e->cb =3D cb;
+     e->opaque =3D opaque;
+-    QLIST_INSERT_HEAD(&vm_change_state_head, e, entries);
++    e->priority =3D priority;
++
++    /* Keep list sorted in ascending priority order */
++    QTAILQ_FOREACH(other, &vm_change_state_head, entries) {
++        if (priority < other->priority) {
++            QTAILQ_INSERT_BEFORE(other, e, entries);
++            return e;
++        }
++    }
++
++    QTAILQ_INSERT_TAIL(&vm_change_state_head, e, entries);
+     return e;
+ }
+=20
++VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandle=
+r *cb,
++                                                     void *opaque)
++{
++    return qemu_add_vm_change_state_handler_prio(cb, opaque,
++            VM_CHANGE_STATE_HANDLER_PRIO_UNDEFINED);
++}
++
+ void qemu_del_vm_change_state_handler(VMChangeStateEntry *e)
+ {
+-    QLIST_REMOVE (e, entries);
++    QTAILQ_REMOVE (&vm_change_state_head, e, entries);
+     g_free (e);
+ }
+=20
+@@ -1499,8 +1517,14 @@ void vm_state_notify(int running, RunState state)
+=20
+     trace_vm_state_notify(running, state, RunState_str(state));
+=20
+-    QLIST_FOREACH_SAFE(e, &vm_change_state_head, entries, next) {
+-        e->cb(e->opaque, running, state);
++    if (running) {
++        QTAILQ_FOREACH_SAFE(e, &vm_change_state_head, entries, next) {
++            e->cb(e->opaque, running, state);
++        }
++    } else {
++        QTAILQ_FOREACH_REVERSE_SAFE(e, &vm_change_state_head, entries, n=
+ext) {
++            e->cb(e->opaque, running, state);
++        }
+     }
+ }
+=20
+@@ -3009,7 +3033,7 @@ int main(int argc, char **argv, char **envp)
+         exit(1);
+     }
+=20
+-    QLIST_INIT (&vm_change_state_head);
++    QTAILQ_INIT (&vm_change_state_head);
+     os_setup_early_signal_handling();
+=20
+     cpu_option =3D NULL;
+--=20
+2.21.0
+
 
