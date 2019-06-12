@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D3B42CAC
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 18:50:11 +0200 (CEST)
-Received: from localhost ([::1]:33800 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B1B42CAF
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 18:51:11 +0200 (CEST)
+Received: from localhost ([::1]:33804 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb6Ru-0002xO-LJ
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 12:50:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55948)
+	id 1hb6Ss-0003ku-RV
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 12:51:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56335)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hb6Nm-0001ip-Ki
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:45:58 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hb6PL-0002Od-CQ
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:47:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hb6Nk-00007R-9S
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:45:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52310)
+ (envelope-from <cohuck@redhat.com>) id 1hb6PJ-0001VZ-DO
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:47:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46932)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hb6Ng-0008TR-JI; Wed, 12 Jun 2019 12:45:48 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hb6PJ-0001HK-3n
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:47:29 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id ADC6A3D95D;
- Wed, 12 Jun 2019 16:45:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
- [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B55451C78;
- Wed, 12 Jun 2019 16:45:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 052AE1138648; Wed, 12 Jun 2019 18:45:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-References: <20190606153803.5278-1-armbru@redhat.com>
-Date: Wed, 12 Jun 2019 18:45:45 +0200
-In-Reply-To: <20190606153803.5278-1-armbru@redhat.com> (Markus Armbruster's
- message of "Thu, 6 Jun 2019 17:37:56 +0200")
-Message-ID: <8736kewy4m.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3A0F8619FB;
+ Wed, 12 Jun 2019 16:47:11 +0000 (UTC)
+Received: from gondolin (ovpn-116-169.ams2.redhat.com [10.36.116.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F149E5D9D5;
+ Wed, 12 Jun 2019 16:47:02 +0000 (UTC)
+Date: Wed, 12 Jun 2019 18:46:59 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Message-ID: <20190612184659.4b4efcef.cohuck@redhat.com>
+In-Reply-To: <20190612124004.27336-1-eric.auger@redhat.com>
+References: <20190612124004.27336-1-eric.auger@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 12 Jun 2019 16:45:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Wed, 12 Jun 2019 16:47:11 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/7] file-posix: Add dynamic-auto-read-only
- QAPI feature
+Subject: Re: [Qemu-devel] [PATCH v5] vfio/common: Introduce
+ vfio_set_irq_signaling helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,15 +57,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org
+Cc: alex.williamson@redhat.com, liq3ea@gmail.com, qemu-devel@nongnu.org,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+On Wed, 12 Jun 2019 14:40:04 +0200
+Eric Auger <eric.auger@redhat.com> wrote:
 
-> This series adds optional feature lists to struct definitions in the
-> QAPI schema and makes use of them to advertise the new behaviour of
-> auto-read-only=on in file-posix.
+> The code used to assign an interrupt index/subindex to an
+> eventfd is duplicated many times. Let's introduce an helper that
+> allows to set/unset the signaling for an ACTION_TRIGGER,
+> ACTION_MASK or ACTION_UNMASK action.
+>=20
+> In the error message, we now use errno in case of any
+> VFIO_DEVICE_SET_IRQS ioctl failure.
+>=20
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-Queued, thanks!
+Looks good to me.
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+I currently have the following, still untested patch on top (vfio-ap
+doesn't use this ioctl):
+
+=46rom 9c2efe73d6139e8c7b2109ac2df79fe073d942fb Mon Sep 17 00:00:00 2001
+From: Cornelia Huck <cohuck@redhat.com>
+Date: Wed, 12 Jun 2019 18:42:29 +0200
+Subject: [PATCH] vfio-ccw: use vfio_set_irq_signaling()
+
+Make use of the new helper.
+
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/vfio/ccw.c | 50 +++++++++++++-------------------------------------
+ 1 file changed, 13 insertions(+), 37 deletions(-)
+
+diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+index 03a2becb3ec9..3643be0ee254 100644
+--- a/hw/vfio/ccw.c
++++ b/hw/vfio/ccw.c
+@@ -198,9 +198,9 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevice=
+ *vcdev, Error **errp)
+ {
+     VFIODevice *vdev =3D &vcdev->vdev;
+     struct vfio_irq_info *irq_info;
+-    struct vfio_irq_set *irq_set;
+     size_t argsz;
+-    int32_t *pfd;
++    int fd;
++    Error *local_err =3D NULL;
+=20
+     if (vdev->num_irqs < VFIO_CCW_IO_IRQ_INDEX + 1) {
+         error_setg(errp, "vfio: unexpected number of io irqs %u",
+@@ -224,56 +224,32 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevi=
+ce *vcdev, Error **errp)
+         goto out_free_info;
+     }
+=20
+-    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+-    irq_set =3D g_malloc0(argsz);
+-    irq_set->argsz =3D argsz;
+-    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+-                     VFIO_IRQ_SET_ACTION_TRIGGER;
+-    irq_set->index =3D VFIO_CCW_IO_IRQ_INDEX;
+-    irq_set->start =3D 0;
+-    irq_set->count =3D 1;
+-    pfd =3D (int32_t *) &irq_set->data;
+-
+-    *pfd =3D event_notifier_get_fd(&vcdev->io_notifier);
+-    qemu_set_fd_handler(*pfd, vfio_ccw_io_notifier_handler, NULL, vcdev);
+-    if (ioctl(vdev->fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+-        error_setg(errp, "vfio: Failed to set up io notification");
+-        qemu_set_fd_handler(*pfd, NULL, NULL, vcdev);
++    fd =3D event_notifier_get_fd(&vcdev->io_notifier);
++    qemu_set_fd_handler(fd, vfio_ccw_io_notifier_handler, NULL, vcdev);
++    if (vfio_set_irq_signaling(vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
++                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &local_err=
+)) {
++        error_propagate(errp, local_err);
++        qemu_set_fd_handler(fd, NULL, NULL, vcdev);
+         event_notifier_cleanup(&vcdev->io_notifier);
+     }
+=20
+-    g_free(irq_set);
+-
+ out_free_info:
+     g_free(irq_info);
+ }
+=20
+ static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
+ {
+-    struct vfio_irq_set *irq_set;
+-    size_t argsz;
+-    int32_t *pfd;
+-
+-    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+-    irq_set =3D g_malloc0(argsz);
+-    irq_set->argsz =3D argsz;
+-    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+-                     VFIO_IRQ_SET_ACTION_TRIGGER;
+-    irq_set->index =3D VFIO_CCW_IO_IRQ_INDEX;
+-    irq_set->start =3D 0;
+-    irq_set->count =3D 1;
+-    pfd =3D (int32_t *) &irq_set->data;
+-    *pfd =3D -1;
+-
+-    if (ioctl(vcdev->vdev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+-        error_report("vfio: Failed to de-assign device io fd: %m");
++    Error *local_err =3D NULL;
++
++    if (vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
++                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, &local_err=
+)) {
++        error_report_err(local_err);
+     }
+=20
+     qemu_set_fd_handler(event_notifier_get_fd(&vcdev->io_notifier),
+                         NULL, NULL, vcdev);
+     event_notifier_cleanup(&vcdev->io_notifier);
+=20
+-    g_free(irq_set);
+ }
+=20
+ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+--=20
+2.20.1
+
 
