@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5172423AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 13:14:30 +0200 (CEST)
-Received: from localhost ([::1]:58868 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC3242391
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 13:11:44 +0200 (CEST)
+Received: from localhost ([::1]:58826 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb1D4-0004CG-1s
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 07:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58877)
+	id 1hb1AN-0001Rk-AC
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 07:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59441)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hb0oR-0003ZI-Jt
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:49:04 -0400
+ (envelope-from <pagupta@redhat.com>) id 1hb0q7-00053o-N9
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:50:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hb0oP-0002vt-R5
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:49:03 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:38741)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hb0oP-0002uh-Fl
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:49:01 -0400
-Received: by mail-ot1-x331.google.com with SMTP id d17so14947849oth.5
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 03:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jxX2YZtpvu36ZO7ZkTbylKEVyTGVuHsEBnOyHSagC6U=;
- b=s2EZ7kryOg+j8jLtr0/fWnUgaJF8faOsJxoBXPP41geku3a2cdRH+FZpxXN7DNgGd0
- GrB/YabnGXuyS/T4qQJGDD8qsdGnJKy67T9FfHbov7QcWpe0GefceX6Lm75qqmQi3jtE
- PT2OF8f3oB6lNtG39vD9KR9y1DvijT4AfZl1Ro9Uy6apf91bcmWZVHKbLTHkAYnYh/3h
- qTDN4wyx2olM5BPn5kv4+8RXdr7ds4tUy6w6QMJI5s576I1fZtA91tyrldtOf+vUcAuw
- CLDZdOb3HWVgnNcYqEKzqoNVNeAXuoZBpoRdgWKoTZBwKkKIJEwzOoUCQIFEIvXDVej+
- CIWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jxX2YZtpvu36ZO7ZkTbylKEVyTGVuHsEBnOyHSagC6U=;
- b=rVTqNwB9AcMPH2QfD7xKUt75VvWe+5wxAEb8HweNSlacP38gspmE6sWg+UNtpyJIEo
- vVTlLRFz+DNliRMILMnrtp1VRdb4kzNQSyQmzUAz5xuQaPmjV1cuxiyhuS+lB5/tpEMG
- UN+jg0hJ69zsABFkPI6thYXO+3AQuMHnB6mUOBX1a2h74lerTA+cXbrIu8Ho8nPyKj+x
- CFUt40eQLawna/aj8/ia5JtdpO8ebSATCDnUhesxY2XBcH0lQcSM7RlSaS0x+MkXnnLk
- iV+aL+mwY+827bbG7m4lMB9SQ5VDflrAf4LVxzmHuMIoqP/TaYi40TQ4iFFmK6E3o/Lp
- xgJg==
-X-Gm-Message-State: APjAAAWU+qC9FnH1g6VRFZTBxE+yUguuC6kRXINbIJ4oVNyXNaqaa3EO
- br1pIqU0cMM+SGNOCF+p1pRhNv6m39ZD37KhuKanoA==
-X-Google-Smtp-Source: APXvYqwgMidC9I73aoiQNHtKgSiFzKXb1dPl0XIovxDs3G4ncJDA0SYsT3ZuA4WaESzyhfrkZ+YrQfWE5Kv8Ma9wVEA=
-X-Received: by 2002:a9d:193:: with SMTP id e19mr4321621ote.135.1560336532913; 
- Wed, 12 Jun 2019 03:48:52 -0700 (PDT)
+ (envelope-from <pagupta@redhat.com>) id 1hb0q6-0003Yb-3l
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:50:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46036)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hb0q5-0003Y0-Q4
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:50:46 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6E5BBC057F2C;
+ Wed, 12 Jun 2019 10:50:39 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C07D795AD;
+ Wed, 12 Jun 2019 10:50:37 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com
+ (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id BDF7E1806B16;
+ Wed, 12 Jun 2019 10:50:34 +0000 (UTC)
+Date: Wed, 12 Jun 2019 06:50:34 -0400 (EDT)
+From: Pankaj Gupta <pagupta@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Message-ID: <977172256.34591602.1560336634257.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20190612083711.2c0cfd7e.cohuck@redhat.com>
+References: <20190611163802.25352-1-pagupta@redhat.com>
+ <20190611163802.25352-3-pagupta@redhat.com>
+ <20190611190209.0b25033e.cohuck@redhat.com>
+ <1003601865.34513553.1560310490030.JavaMail.zimbra@redhat.com>
+ <20190612083711.2c0cfd7e.cohuck@redhat.com>
 MIME-Version: 1.0
-References: <20190611182703.27505-1-armbru@redhat.com>
-In-Reply-To: <20190611182703.27505-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 Jun 2019 11:48:41 +0100
-Message-ID: <CAFEAcA8nHGb+nRXdWovSUgKzcOUiGGiTJqKNwAXw+n+KozbMHQ@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::331
-Subject: Re: [Qemu-devel] [PULL v2 00/12] Miscellaneous patches for
- 2019-06-11
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.116.228, 10.4.195.25]
+Thread-Topic: virtio-pmem: Add virtio pmem driver
+Thread-Index: JA2T0z0G1tIHKmlJmlUYn7dmJ8rB0Q==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Wed, 12 Jun 2019 10:50:44 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v12 2/7] virtio-pmem: Add virtio pmem driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,53 +67,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: jack@suse.cz, kvm@vger.kernel.org, mst@redhat.com, jasowang@redhat.com,
+ david@fromorbit.com, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org, dm-devel@redhat.com,
+ adilger kernel <adilger.kernel@dilger.ca>, zwisler@kernel.org,
+ aarcange@redhat.com, dave jiang <dave.jiang@intel.com>, jstaron@google.com,
+ linux-nvdimm@lists.01.org, vishal l verma <vishal.l.verma@intel.com>,
+ david@redhat.com, willy@infradead.org, hch@infradead.org,
+ linux-acpi@vger.kernel.org, jmoyer@redhat.com, linux-ext4@vger.kernel.org,
+ lenb@kernel.org, kilobyte@angband.pl, riel@surriel.com,
+ yuval shaia <yuval.shaia@oracle.com>, stefanha@redhat.com, imammedo@redhat.com,
+ dan j williams <dan.j.williams@intel.com>, lcapitulino@redhat.com,
+ kwolf@redhat.com, nilal@redhat.com, tytso@mit.edu,
+ xiaoguangrong eric <xiaoguangrong.eric@gmail.com>, snitzer@redhat.com,
+ rdunlap@infradead.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, pbonzini@redhat.com,
+ darrick wong <darrick.wong@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jun 2019 at 19:31, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit a578cdfbdd8f9beff5ced52b7826ddb1669abbbf:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190610' into staging (2019-06-10 16:09:19 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2019-06-11-v2
->
-> for you to fetch changes up to f1566b78533010be839d24297bb8ebf382552668:
->
->   MAINTAINERS: Polish headline decorations (2019-06-11 20:22:10 +0200)
->
-> ----------------------------------------------------------------
-> Miscellaneous patches for 2019-06-11
 
-Still fails on OSX:
-error: format specifies type 'char *' but the argument has type
-'<dependent type>' [-Werror,-Wformat]
-/Users/pm215/src/qemu-for-merges/ui/cocoa.m:1448:38: error: use of
-undeclared identifier 'QEMU_COPYRIGHT'
-                                     QEMU_COPYRIGHT]];
-                                     ^
-  CC      accel/tcg/trace.o
-  CC      crypto/trace.o
-/Users/pm215/src/qemu-for-merges/ui/cocoa.m:1708:14: error: implicit
-declaration of function 'qemu_main' is invalid in C99
-[-Werror,-Wimplicit-function-declaration]
-    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
-             ^
-/Users/pm215/src/qemu-for-merges/ui/cocoa.m:1708:14: note: did you
-mean 'qemu_open'?
-/Users/pm215/src/qemu-for-merges/include/qemu/osdep.h:463:5: note:
-'qemu_open' declared here
-int qemu_open(const char *name, int flags, ...);
-    ^
-/Users/pm215/src/qemu-for-merges/ui/cocoa.m:1708:14: error: this
-function declaration is not a prototype [-Werror,-Wstrict-prototypes]
-    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
-             ^
-4 errors generated.
+> 
+> Hi Pankaj,
+> 
+> On Tue, 11 Jun 2019 23:34:50 -0400 (EDT)
+> Pankaj Gupta <pagupta@redhat.com> wrote:
+> 
+> > Hi Cornelia,
+> > 
+> > > On Tue, 11 Jun 2019 22:07:57 +0530
+> > > Pankaj Gupta <pagupta@redhat.com> wrote:
+> 
+> 
+> > > > +	err1 = virtqueue_kick(vpmem->req_vq);
+> > > > +	spin_unlock_irqrestore(&vpmem->pmem_lock, flags);
+> > > > +	/*
+> > > > +	 * virtqueue_add_sgs failed with error different than -ENOSPC, we
+> > > > can't
+> > > > +	 * do anything about that.
+> > > > +	 */
+> > > 
+> > > Does it make sense to kick if you couldn't add at all?
+> > 
+> > When we could not add because of -ENOSPC we are waiting and when buffer is
+> > added
+> > then only we do a kick. For any other error which might be a rare
+> > occurrence, I think
+> > kick is harmless here and keeps the code clean?
+> 
+> Yes, I agree it does not hurt. Let's keep it as-is.
 
-thanks
--- PMM
+Sure.
+
+> 
+> 
+> > Sure, Thank you. Attaching below on top changes on current patch2 based on
+> > your suggestions. Let me know if these are okay and then will send official
+> > v13 to for upstream merging.
+> 
+> Looks good to me, except for one change.
+
+Sure. Will send v13 shortly.
+
+> 
+> [Again sorry for the late review, did not want to get the version
+> numbers up :)]
+
+Thank you :)
+
+> 
+> > 
+> > Thanks,
+> > Pankaj
+> > 
+> > ===============
+> > 
+> > diff --git a/drivers/nvdimm/nd_virtio.c b/drivers/nvdimm/nd_virtio.c
+> > index efc535723517..5b8d2367da0b 100644
+> > --- a/drivers/nvdimm/nd_virtio.c
+> > +++ b/drivers/nvdimm/nd_virtio.c
+> > @@ -10,7 +10,7 @@
+> >  #include "nd.h"
+> >  
+> >   /* The interrupt handler */
+> > -void host_ack(struct virtqueue *vq)
+> > +void virtio_pmem_host_ack(struct virtqueue *vq)
+> >  {
+> >         struct virtio_pmem *vpmem = vq->vdev->priv;
+> >         struct virtio_pmem_request *req_data, *req_buf;
+> > @@ -32,10 +32,10 @@ void host_ack(struct virtqueue *vq)
+> >         }
+> >         spin_unlock_irqrestore(&vpmem->pmem_lock, flags);
+> >  }
+> > -EXPORT_SYMBOL_GPL(host_ack);
+> > +EXPORT_SYMBOL_GPL(virtio_pmem_host_ack);
+> >  
+> >   /* The request submission function */
+> > -int virtio_pmem_flush(struct nd_region *nd_region)
+> > +static int virtio_pmem_flush(struct nd_region *nd_region)
+> >  {
+> >         struct virtio_device *vdev = nd_region->provider_data;
+> >         struct virtio_pmem *vpmem  = vdev->priv;
+> > @@ -69,7 +69,7 @@ int virtio_pmem_flush(struct nd_region *nd_region)
+> >         while ((err = virtqueue_add_sgs(vpmem->req_vq, sgs, 1, 1, req_data,
+> >                                         GFP_ATOMIC)) == -ENOSPC) {
+> >  
+> > -               dev_err(&vdev->dev, "failed to send command to virtio pmem
+> > device, no free slots in the virtqueue\n");
+> > +               dev_info(&vdev->dev, "failed to send command to virtio pmem
+> > device, no free slots in the virtqueue\n");
+> >                 req_data->wq_buf_avail = false;
+> >                 list_add_tail(&req_data->list, &vpmem->req_list);
+> >                 spin_unlock_irqrestore(&vpmem->pmem_lock, flags);
+> > @@ -90,7 +90,8 @@ int virtio_pmem_flush(struct nd_region *nd_region)
+> >         } else {
+> >                 /* A host repsonse results in "host_ack" getting called */
+> >                 wait_event(req_data->host_acked, req_data->done);
+> > -               err = virtio32_to_cpu(vdev, req_data->resp.ret);
+> > +               if ((err = virtio32_to_cpu(vdev, req_data->resp.ret)))
+> > +                       err = -EIO;
+> 
+> Hm, why are you making this change? I think the previous code was fine.
+
+Yes, Something came to my mind while making the change but I agree will keep
+this as it was before.
+
+> 
+> >         }
+> >  
+> >         kfree(req_data);
+> > @@ -100,7 +101,8 @@ int virtio_pmem_flush(struct nd_region *nd_region)
+> >  /* The asynchronous flush callback function */
+> >  int async_pmem_flush(struct nd_region *nd_region, struct bio *bio)
+> >  {
+> > -       /* Create child bio for asynchronous flush and chain with
+> > +       /*
+> > +        * Create child bio for asynchronous flush and chain with
+> >          * parent bio. Otherwise directly call nd_region flush.
+> >          */
+> >         if (bio && bio->bi_iter.bi_sector != -1) {
+> > diff --git a/drivers/nvdimm/virtio_pmem.c b/drivers/nvdimm/virtio_pmem.c
+> > index b60ebd8cd2fd..5e3d07b47e0c 100644
+> > --- a/drivers/nvdimm/virtio_pmem.c
+> > +++ b/drivers/nvdimm/virtio_pmem.c
+> > @@ -19,7 +19,7 @@ static int init_vq(struct virtio_pmem *vpmem)
+> >  {
+> >         /* single vq */
+> >         vpmem->req_vq = virtio_find_single_vq(vpmem->vdev,
+> > -                                               host_ack, "flush_queue");
+> > +                                       virtio_pmem_host_ack,
+> > "flush_queue");
+> >         if (IS_ERR(vpmem->req_vq))
+> >                 return PTR_ERR(vpmem->req_vq);
+> >  
+> > diff --git a/drivers/nvdimm/virtio_pmem.h b/drivers/nvdimm/virtio_pmem.h
+> > index 6e47521be158..998efbc7660c 100644
+> > --- a/drivers/nvdimm/virtio_pmem.h
+> > +++ b/drivers/nvdimm/virtio_pmem.h
+> > @@ -50,6 +50,6 @@ struct virtio_pmem {
+> >         uint64_t size;
+> >  };
+> >  
+> > -void host_ack(struct virtqueue *vq);
+> > +void virtio_pmem_host_ack(struct virtqueue *vq);
+> >  int async_pmem_flush(struct nd_region *nd_region, struct bio *bio);
+> >  #endif
+> 
+> 
+> 
 
