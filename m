@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F75F41BAA
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 07:53:44 +0200 (CEST)
-Received: from localhost ([::1]:56816 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F7241BCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 07:56:44 +0200 (CEST)
+Received: from localhost ([::1]:56842 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hawCd-000859-Gm
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 01:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58392)
+	id 1hawFX-0003aL-7A
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 01:56:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58396)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1haw8j-0004Of-3f
+ (envelope-from <dgibson@ozlabs.org>) id 1haw8j-0004Ow-By
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 01:49:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1haw8h-00070m-Pi
+ (envelope-from <dgibson@ozlabs.org>) id 1haw8i-000710-48
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 01:49:41 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:46941)
+Received: from ozlabs.org ([203.11.71.1]:60519)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1haw8g-0006zb-Jr; Wed, 12 Jun 2019 01:49:39 -0400
+ id 1haw8g-0006ze-Rs; Wed, 12 Jun 2019 01:49:40 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45NwtQ3PFXz9s9y; Wed, 12 Jun 2019 15:49:34 +1000 (AEST)
+ id 45NwtQ41vPz9s6w; Wed, 12 Jun 2019 15:49:34 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1560318574;
- bh=afZGPOcXXj2+YdmyHT27j2KUWyG32JKL2p+Rx7eidK8=;
- h=From:To:Cc:Subject:Date:From;
- b=PGJjatN6eXBO2HKVQXFeTNmmrgIisNceCm8irNNwiu1f1AqbZp1em1xk9l3ed0Phe
- Vhukxs7G2z2SvHGh2mw3TvYrdwYPqswwg6DA57B6qSyHjZ6cqGImjBWPIKf2iGFavB
- k2J3rcYy6O3oWj25moDv7USqWFUjCIvYWuKYNl94=
+ bh=Ouz+QarirwIM17ifHbWbbOGb+G6yD8tl0/FYe436hdU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=oG3N/8tRf+GT5p3oBxK8qXkna7P0Z8TMCev1QFr5J1Tu+QrCenYPQT/OWMDpQ6bhx
+ 8f4XFNA/fsqEnP3vt0CSmtydbf7SRmjJ+KkHY95jLrCL4/u2Xt7yCgdFA8fkUk4UhF
+ vDvKhLC4FV72D0r6T7O7VXMCtXfC0oIM6DQHpOXE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 12 Jun 2019 15:49:16 +1000
-Message-Id: <20190612054929.21136-1-david@gibson.dropbear.id.au>
+Date: Wed, 12 Jun 2019 15:49:17 +1000
+Message-Id: <20190612054929.21136-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190612054929.21136-1-david@gibson.dropbear.id.au>
+References: <20190612054929.21136-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 00/13] ppc-for-4.1 queue 20190612
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PULL 01/13] spapr_pci: Improve error message
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,66 +57,47 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 219dca61ebf41625831d4f96a720852baf44b7=
-62:
+From: Greg Kurz <groug@kaod.org>
 
-  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-reque=
-st' into staging (2019-06-11 16:02:07 +0100)
+Every PHB must have a unique index. This is checked at realize but when
+a duplicate index is detected, an error message mentioning BUIDs is
+printed. This doesn't help much, especially since BUID is an internal
+concept that is no longer exposed to the user.
 
-are available in the Git repository at:
+Fix the message to mention the index property instead of BUID. As a bonus
+print a list of indexes already in use.
 
-  git://github.com/dgibson/qemu.git tags/ppc-for-4.1-20190612
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <155915010892.2061314.10485622810149098411.stgit@bahia.lan>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/spapr_pci.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to 4aca9786542e427d4337503566efdf09f2cb87cd:
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 9cf2c41b8c..483639b107 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1677,7 +1677,14 @@ static void spapr_phb_realize(DeviceState *dev, Er=
+ror **errp)
+     }
+=20
+     if (spapr_pci_find_phb(spapr, sphb->buid)) {
+-        error_setg(errp, "PCI host bridges must have unique BUIDs");
++        SpaprPhbState *s;
++
++        error_setg(errp, "PCI host bridges must have unique indexes");
++        error_append_hint(errp, "The following indexes are already in us=
+e:");
++        QLIST_FOREACH(s, &spapr->phbs, list) {
++            error_append_hint(errp, " %d", s->index);
++        }
++        error_append_hint(errp, "\nTry another value for the index prope=
+rty\n");
+         return;
+     }
+=20
+--=20
+2.21.0
 
-  ppc/xive: Make XIVE generate the proper interrupt types (2019-06-12 10:=
-41:50 +1000)
-
-----------------------------------------------------------------
-ppc patch queue 2019-06-12
-
-Next pull request against qemu-4.1.  The big thing here is adding
-support for hot plug of P2P bridges, and PCI devices under P2P bridges
-on the "pseries" machine (which doesn't use SHPC).  Other than that
-there's just a handful of fixes and small enhancements.
-
-----------------------------------------------------------------
-Anton Blanchard (1):
-      target/ppc: Fix lxvw4x, lxvh8x and lxvb16x
-
-Benjamin Herrenschmidt (1):
-      ppc/xive: Make XIVE generate the proper interrupt types
-
-C=C3=A9dric Le Goater (1):
-      ppc/pnv: activate the "dumpdtb" option on the powernv machine
-
-David Gibson (8):
-      spapr: Clean up device node name generation for PCI devices
-      spapr: Clean up device tree construction for PCI devices
-      spapr: Clean up dt creation for PCI buses
-      spapr: Clean up spapr_drc_populate_dt()
-      spapr: Clean up DRC index construction
-      spapr: Don't use bus number for building DRC ids
-      spapr: Direct all PCI hotplug to host bridge, rather than P2P bridg=
-e
-      spapr: Allow hot plug/unplug of PCI bridges and devices under PCI b=
-ridges
-
-Greg Kurz (1):
-      spapr_pci: Improve error message
-
-Richard Henderson (1):
-      target/ppc: Use tcg_gen_gvec_bitsel
-
- hw/intc/xive.c                      |  22 +-
- hw/ppc/pnv.c                        |   2 +
- hw/ppc/spapr.c                      |  25 +-
- hw/ppc/spapr_drc.c                  |  13 +-
- hw/ppc/spapr_pci.c                  | 497 ++++++++++++++++++++++--------=
-------
- include/hw/pci-host/spapr.h         |   4 +-
- include/hw/ppc/spapr_drc.h          |   3 +-
- include/hw/ppc/xive.h               |   3 +-
- target/ppc/translate/vsx-impl.inc.c |  37 +--
- 9 files changed, 368 insertions(+), 238 deletions(-)
 
