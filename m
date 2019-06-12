@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EE841A28
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 03:59:20 +0200 (CEST)
-Received: from localhost ([::1]:56218 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAFE41A13
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 03:52:36 +0200 (CEST)
+Received: from localhost ([::1]:56168 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hasXn-0004TA-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 21:59:19 -0400
+	id 1hasRH-0006nI-RO
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 21:52:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:53985)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <joel.stan@gmail.com>) id 1hasOJ-0004M9-2T
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:49:31 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1hasOE-0004M9-Mx
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:49:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1hasDT-0001mu-Cs
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:38:20 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:38560)
+ (envelope-from <joel.stan@gmail.com>) id 1hasGD-0002pj-LG
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:41:10 -0400
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:33598)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1hasDS-0001mA-Bj; Tue, 11 Jun 2019 21:38:18 -0400
-Received: by mail-qk1-x744.google.com with SMTP id a27so8979221qkk.5;
- Tue, 11 Jun 2019 18:38:18 -0700 (PDT)
+ id 1hasGC-0002pE-JT; Tue, 11 Jun 2019 21:41:08 -0400
+Received: by mail-qt1-x841.google.com with SMTP id x2so16083781qtr.0;
+ Tue, 11 Jun 2019 18:41:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Vxmca2q3EKXZcvXmBIzcFl5QyFAwVpQHZGukW1tpFX0=;
- b=Th8DICMUwoqU8QReefe19VdCJnzBWJcubCki0JkbERigeJWcdZ7WJm2JH/2hiSbA5Y
- C+aqLHVy/8ojwX9vmkKAgTcB9PGomEpCHTmg7a2HfE+J2UeUkp0IbVzfZgCaYsQHadq7
- dMja2MZNmb1CkqqDOjyv4tsc6ccM1FHNGyIcU=
+ bh=v1sFUKnJLpm0mlnXzMS7JlbJmo2Zq+U/0Md+ZJc49vo=;
+ b=ma8774XlhK+h9lru9bDbyekR9GY+qfp2VHinn58C2GxSp0DFxkXdtGCjx0Z0O1p48/
+ TIb718HSaSY4Y3DXI6KfkFVvlWpd102boCpNBP61k/j8EVd26xvXC7rEteRSre58WRf7
+ GDNoDgHfJy0Xsptb/Kd/dmp54VJ5yPgfr/wXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Vxmca2q3EKXZcvXmBIzcFl5QyFAwVpQHZGukW1tpFX0=;
- b=pnOm/KWzin6H/3lfRuui3Pt6NWbRrb3agNzDyTUoSTZYrJHoS7MPK6+hLi/c4KImRs
- oj1QKd6K+ZjBcuZXzk2ewejeWvC6HfVa3cZ9kkUFzSNcLhGFP7gogsV/5uQ+24PToVMO
- fDRuw0MSntZqX+bJtv17WluaU0VNBhEjklA3458ZPieUihDFKkHTVLmEZI+V8eyCPM3Q
- ve67zFCtPzgQ4DQkeZDii06LTzNYhi5BngS3sm09tGn3N0fjhIrp+WvxfW5YmA4fiYmJ
- 2zlmoxG9pMFNGgwqSNklrgEvrG6nw1zaWppCiUdn/orRebrlBCXyHtdpUFdaWkJsm5wc
- 7B+w==
-X-Gm-Message-State: APjAAAWHhJU/tdrzshHkG/2Cy3CGCyzvgILC0cpZ3ZNDqEwMBKS6ChHv
- i8Q7W/5Ts/kcf/IaQNQdk5vAkQ2xb61N3jExBs8=
-X-Google-Smtp-Source: APXvYqz3EfgvNEXjNrqD5GHhQMwCe+VQr+aXUYHvvGRwXa7+YNIsHz4YOL19BPpcRpkpgrdlARZcWpW1dF6RoztoqUs=
-X-Received: by 2002:a37:a743:: with SMTP id q64mr62295320qke.236.1560303497735; 
- Tue, 11 Jun 2019 18:38:17 -0700 (PDT)
+ bh=v1sFUKnJLpm0mlnXzMS7JlbJmo2Zq+U/0Md+ZJc49vo=;
+ b=JOdqrj9X6W4I3Xh7M60mEy8XsQ3KC8Fq/B1LRQP+f2kU4oaf20PvH7BTyaTOesLIwI
+ q7cfhbqA53B39sEawf9wD+kfMeLLCgKtcGTPHMPliKlt6SnDUjecanr7eh+VgCdlVXg6
+ qnvD9yhI3wkPPL8qocq6teGl6pclS+behh2nYQUIpGphTXE4UBfRk+UYF+JcaG7vlFFs
+ STFewhRz5k1k2/DD7tOk+jjbelKfNyzhSK9O8ykkSiVezUMxG14U+/OzmJL8ckzy2enW
+ QX3RT9UrjjmcLTnTCziYZvcW9Ed3/Ah1KWvQnIbEkO9/CDxABSNYx18iVGyHUM9f6eC6
+ vgDw==
+X-Gm-Message-State: APjAAAWSUnAh8Fmcwd4iLZH4S6xEV2gQUCdp+7mIfm3g2KAKcCukjuBX
+ wAlZLjXEgg1u8b55sWxxO1+7s0nef4PM3GjKKb4=
+X-Google-Smtp-Source: APXvYqyuF43HT69oGyjBDMWK5gzS0/OAFzXBKitxAzG97hxe+n4SBaDDpHxtD2uXi+DT36rKzi3LbBdbhCwc98Wr8M8=
+X-Received: by 2002:ac8:264a:: with SMTP id v10mr35710141qtv.255.1560303668022; 
+ Tue, 11 Jun 2019 18:41:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190525151241.5017-1-clg@kaod.org>
- <20190525151241.5017-17-clg@kaod.org>
-In-Reply-To: <20190525151241.5017-17-clg@kaod.org>
+ <20190525151241.5017-18-clg@kaod.org>
+In-Reply-To: <20190525151241.5017-18-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 12 Jun 2019 01:38:06 +0000
-Message-ID: <CACPK8XfB7x1tamZa+epxBzwkrfovW6qBrNqokk3jYtLa3dxwFw@mail.gmail.com>
+Date: Wed, 12 Jun 2019 01:40:56 +0000
+Message-ID: <CACPK8XcobLx8qsLjxBdL+xe0c4-C0J4gEMFoVOeGGcUL+O98zQ@mail.gmail.com>
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::744
-Subject: Re: [Qemu-devel] [PATCH 16/19] aspeed/smc: add support for DMAs
+X-Received-From: 2607:f8b0:4864:20::841
+Subject: Re: [Qemu-devel] [PATCH 17/19] aspeed/smc: add DMA calibration
+ settings
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,20 +78,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sat, 25 May 2019 at 15:14, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The FMC controller on the Aspeed SoCs support DMA to access the flash
-> modules. It can operate in a normal mode, to copy to or from the flash
-> module mapping window, or in a checksum calculation mode, to evaluate
-> the best clock settings for reads.
->
-> The model introduces two custom address spaces for DMAs: one for the
-> AHB window of the FMC flash devices and one for the DRAM. The latter
-> is populated using a "dram" link set from the machine with the RAM
-> container region.
+> When doing calibration, the SPI clock rate in the CE0 Control Register
+> and the read delay cycles in the Read Timing Compensation Register are
+> set using bit[11:4] of the DMA Control Register.
 >
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-C=C3=A9dric is our flash controller expert. This looks good as far as I can=
- tell.
 
 Acked-by: Joel Stanley <joel@jms.id.au>
 
