@@ -2,51 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA8C42E14
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 19:56:33 +0200 (CEST)
-Received: from localhost ([::1]:34212 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3764F42E51
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 20:07:09 +0200 (CEST)
+Received: from localhost ([::1]:34270 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb7U9-0002HE-5P
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 13:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42939)
+	id 1hb7eN-0005RQ-No
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 14:07:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47291)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hb7LW-00045S-3n
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 13:47:39 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hb7aX-0003ty-IZ
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 14:03:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hb7LS-00084W-BT
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 13:47:35 -0400
-Received: from 9.mo1.mail-out.ovh.net ([178.32.108.172]:36689)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hb7LQ-0007yZ-4U
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 13:47:33 -0400
-Received: from player693.ha.ovh.net (unknown [10.109.159.62])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id 74D9217DE7B
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 19:47:23 +0200 (CEST)
-Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
- (Authenticated sender: clg@kaod.org)
- by player693.ha.ovh.net (Postfix) with ESMTPSA id 1A6B66BE2A55;
- Wed, 12 Jun 2019 17:47:20 +0000 (UTC)
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20190612174345.9799-1-clg@kaod.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <5749e4b4-cca7-e6a0-4951-431a9493581f@kaod.org>
-Date: Wed, 12 Jun 2019 19:47:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <alex.bennee@linaro.org>) id 1hb7aV-0002RD-5N
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 14:03:09 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38794)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hb7aT-0002OK-FD
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 14:03:05 -0400
+Received: by mail-wr1-x442.google.com with SMTP id d18so17897960wrs.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 11:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Q9EvNrXFTEmV9zWhum3wXdynxpxJCkAB0NkLv7AlOhQ=;
+ b=hZMRd/IIdp7z2jhqh0YxEBnMjgUcDQy3O8BduTbMrf71WJrmKZdjzXRrmfjViJKERt
+ L7Ka/p5wG9l8dYHieRBDhG/74zA8Zt98MchZ9WNgVuEqAkrTSugRWwj70QsbZchgjx0q
+ P9mQdK6BRiMmC3wJmeutcYyFGCeKIfj9Z91W1tVi6m4azm+pC/ES0l8+k9Y9uwATo4ls
+ UQbS56sr8CNUPhZqbng+wR3N7TDLQpsVHppSyGMaPvGx8eB54rHUS2D2AX1wyXPXssvA
+ MsRvMtmn2z+uYsDU45lkiBAOH9ZCXtzKXiilBS2pVnlS3mjMwuCzbE+rMhkpa3Yn8gy/
+ exMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Q9EvNrXFTEmV9zWhum3wXdynxpxJCkAB0NkLv7AlOhQ=;
+ b=XJALTZVG7RMHaC+fC9aB6izE4mwF7orwUoAIPDQCXR2BQ8yk9PeCMwcZvSaH9vwUMD
+ xoNZCr0AT8iClONWmdBcO3rSLHpKdBKJq5e2UF20jIHQD47+ytsmuW4jJet/zirQ4ezd
+ JGD+QZTP7/NJayMP9sk1Uh2k/l3EyGIDCIqDjAh0k/4mH24JYn1WVNKh58tSApheEzR/
+ LqTL1MaX56UqZHL0a1f6zKNxdtlfZDVjHCSHSZDUElGP7RFVrvi/ANLcRKOIPv+LUU3d
+ Rs8ZonpcSiAR/LMiyl4+qF9Ppe8wVou1Ph7xApx58URDnttZVWYr8sbdKz/AD3yimBkX
+ uk7g==
+X-Gm-Message-State: APjAAAV1XrpnEWYpJQGGHPZc6Wuhp7yVq+Rsy2sUG1d9btHfxxE8hqF7
+ jg43441qGNiF/elQwrF8WjWdhw==
+X-Google-Smtp-Source: APXvYqweBIYRwTkKT6LN2Ur48ZGIAIJV+0dAP5JDbE4ZJycV4/pDHP/PmYfJiIX9af+NDDZd9p6yew==
+X-Received: by 2002:a5d:494d:: with SMTP id r13mr2364918wrs.152.1560362583190; 
+ Wed, 12 Jun 2019 11:03:03 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id y9sm2905381wma.1.2019.06.12.11.03.02
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 12 Jun 2019 11:03:02 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1A6641FF87;
+ Wed, 12 Jun 2019 19:03:02 +0100 (BST)
+References: <20190611145556.12940-1-rfried.dev@gmail.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-arm@nongnu.org
+In-reply-to: <20190611145556.12940-1-rfried.dev@gmail.com>
+Date: Wed, 12 Jun 2019 19:03:02 +0100
+Message-ID: <87o932el61.fsf@zen.linaroharston>
 MIME-Version: 1.0
-In-Reply-To: <20190612174345.9799-1-clg@kaod.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 4227472675956362048
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudehjedguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.108.172
-Subject: Re: [Qemu-devel] [PATCH 0/2] ppc/pnc: fix XSCOM MMIO base address
- for P9 machines with multiple chips
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2] net: cadence_gem: fix
+ compilation error when debug is on
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,24 +82,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ qemu-devel@nongnu.org, Ramon Fried <rfried.dev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/06/2019 19:43, C=C3=A9dric Le Goater wrote:
-> Hello,
->=20
-> The base address of the MMIO window of the XSCOM bus is incorrect on
-> P9 machines with multiple chips. Provide a fix for that to prepare
-> ground for future PowerNV chips.
 
-David,
+Ramon Fried <rfried.dev@gmail.com> writes:
 
-I just noticed the 'pnc' in the title. If you were to merge, can you=20
-fix it ?=20
+> defining CADENCE_GEM_ERR_DEBUG causes compilation
+> errors, fix that.
 
-Thanks,
+It would be worth doing something like:
 
-C.=20
+#ifdef CADENCE_GEM_ERR_DEBUG
+#define CADENCE_GEM_GATE 1
+#else
+#define CADENCE_GEM_GATE 0
+#endif
 
+#define DB_PRINT(...) do { \
+    if (CADENCE_GEM_GATE) { \
+        fprintf(stderr,  ": %s: ", __func__); \
+        fprintf(stderr, ## __VA_ARGS__); \
+    } \
+} while (0)
+
+So these format strings don't go stale in and only get detected on
+--debug builds.
+
+While your at it I suspect the fprintf debug would be better of as:
+
+  qemu_log("%s: " fmt, __func__, ## args);
+
+
+>
+> Signed-off-by: Ramon Fried <rfried.dev@gmail.com>
+> ---
+> v2: change %lx to HWADDR_PRIx and %lx to %zdx
+>
+>  hw/net/cadence_gem.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+> index 7f63411430..e9b1b1e2eb 100644
+> --- a/hw/net/cadence_gem.c
+> +++ b/hw/net/cadence_gem.c
+> @@ -982,8 +982,8 @@ static ssize_t gem_receive(NetClientState *nc, const =
+uint8_t *buf, size_t size)
+>              return -1;
+>          }
+>
+> -        DB_PRINT("copy %d bytes to 0x%x\n", MIN(bytes_to_copy, rxbufsize=
+),
+> -                rx_desc_get_buffer(s->rx_desc[q]));
+> +        DB_PRINT("copy %d bytes to 0x%" HWADDR_PRIx "\n", MIN(bytes_to_c=
+opy, rxbufsize),
+> +                rx_desc_get_buffer(s, s->rx_desc[q]));
+>
+>          /* Copy packet data to emulated DMA buffer */
+>          address_space_write(&s->dma_as, rx_desc_get_buffer(s, s->rx_desc=
+[q]) +
+> @@ -1156,7 +1156,7 @@ static void gem_transmit(CadenceGEMState *s)
+>              if (tx_desc_get_length(desc) > sizeof(tx_packet) -
+>                                                 (p - tx_packet)) {
+>                  DB_PRINT("TX descriptor @ 0x%x too large: size 0x%x spac=
+e " \
+> -                         "0x%x\n", (unsigned)packet_desc_addr,
+> +                         "0x%zdx\n", (unsigned)packet_desc_addr,
+>                           (unsigned)tx_desc_get_length(desc),
+>                           sizeof(tx_packet) - (p - tx_packet));
+>                  break;
+
+
+--
+Alex Benn=C3=A9e
 
