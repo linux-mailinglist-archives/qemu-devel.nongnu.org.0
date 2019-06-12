@@ -2,53 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C8F42755
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 15:19:25 +0200 (CEST)
-Received: from localhost ([::1]:60318 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692C94275E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 15:23:38 +0200 (CEST)
+Received: from localhost ([::1]:60422 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb39w-0006Om-8H
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 09:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33177)
+	id 1hb3E1-0001Mn-L8
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 09:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35799)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hb33F-0002yh-Ot
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:12:36 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hb3CT-0000ul-DM
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:22:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hb337-0003sS-8B
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:12:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36214)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hb32x-0003Yq-C3; Wed, 12 Jun 2019 09:12:11 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4DCE183F51;
- Wed, 12 Jun 2019 13:11:50 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
- [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 73B371ACDB;
- Wed, 12 Jun 2019 13:11:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 05E681138648; Wed, 12 Jun 2019 15:11:48 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190611134043.9524-1-kwolf@redhat.com>
- <20190611134043.9524-10-kwolf@redhat.com>
-Date: Wed, 12 Jun 2019 15:11:47 +0200
-In-Reply-To: <20190611134043.9524-10-kwolf@redhat.com> (Kevin Wolf's message
- of "Tue, 11 Jun 2019 15:40:41 +0200")
-Message-ID: <874l4vymlo.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Wed, 12 Jun 2019 13:11:50 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 09/11] monitor: Split out monitor/qmp.c
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hb3CR-0001P1-9P
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:22:01 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:36660)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
+ id 1hb37N-0006Yq-2b; Wed, 12 Jun 2019 09:16:45 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CD94XC160527;
+ Wed, 12 Jun 2019 13:16:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : message-id :
+ content-type : mime-version : subject : date : in-reply-to : cc : to :
+ references; s=corp-2018-07-02;
+ bh=iFhQJUuRihZtyuMSzNQOvKuA/OVG9lyCE/ld8Ndms4s=;
+ b=kyS2TRPUE5mtDdrtWoLjX3ArSn1CofrTlMLDZx3WRf66Y+eEy69xNG0x74vbWKFRDBF2
+ uMxPbs5Dqa2s3FoGtv52JCQGr+8lNz/xSZ64LA0rvZPPcZ96XsjTDLqoUNaidwY+T9zP
+ 7fGjRMawmkTbKhHxXd8O2RVyftTeI2MJM8cPBIhpdVvuPiTj7Ol6CB8UhZLOMzDxCvN5
+ G6eiSwme5SHXHyj/Pd0xa9e+abT5tGWkzZn7P1vRwDuT6PIe7Rt7ngJHkMl4q3aNKzSx
+ UH25E8AFyylYPwoHWLshZpBN1C5odQJM2GRIcAoS+CIqa1D6zGFGl8tmsf3qq8A48L60 AQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 2t04etubsp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Jun 2019 13:16:42 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CDEoXD054207;
+ Wed, 12 Jun 2019 13:16:41 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 2t1jpj0vcf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Jun 2019 13:16:41 +0000
+Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5CDGe38004826;
+ Wed, 12 Jun 2019 13:16:40 GMT
+Received: from [10.0.5.157] (/213.57.127.10)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 12 Jun 2019 06:16:39 -0700
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
+Message-Id: <15FA5898-482E-4730-8EC0-66044C236808@oracle.com>
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Date: Wed, 12 Jun 2019 16:16:33 +0300
+In-Reply-To: <dc9c9c32-2fcb-a501-525b-a9bba8f22340@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+References: <20190612094237.47462-1-shmuel.eiderman@oracle.com>
+ <20190612094237.47462-8-shmuel.eiderman@oracle.com>
+ <dc9c9c32-2fcb-a501-525b-a9bba8f22340@redhat.com>
+X-Mailer: Apple Mail (2.3445.104.11)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9285
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906120091
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9285
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906120091
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.86
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [QEMU] [PATCH 7/8] bootdevice: FW_CFG interface
+ for LCHS values
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,1090 +94,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
+ seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ kevin@koconnor.net, liran.alon@oracle.com, kraxel@redhat.com,
+ karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
 
-> Move QMP infrastructure from monitor/misc.c to monitor/qmp.c. This is
-> code that can be shared for all targets, so compile it only once.
 
-Less code compiled per target, yay!
+> On 12 Jun 2019, at 15:27, Laszlo Ersek <lersek@redhat.com> wrote:
+>=20
+> On 06/12/19 11:42, Sam Eiderman wrote:
+>> Using fw_cfg, supply logical CHS values directly from QEMU to the =
+BIOS.
+>>=20
+>> Non-standard logical geometries break under QEMU.
+>>=20
+>> A virtual disk which contains an operating system which depends on
+>> logical geometries (consistent values being reported from BIOS INT13
+>> AH=3D08) will most likely break under QEMU/SeaBIOS if it has =
+non-standard
+>> logical geometries - for example 56 SPT (sectors per track).
+>> No matter what QEMU will report - SeaBIOS, for large enough disks - =
+will
+>> use LBA translation, which will report 63 SPT instead.
+>>=20
+>> In addition we cannot force SeaBIOS to rely on physical geometries at
+>> all. A virtio-blk-pci virtual disk with 255 phyiscal heads cannot
+>> report more than 16 physical heads when moved to an IDE controller,
+>> since the ATA spec allows a maximum of 16 heads - this is an artifact =
+of
+>> virtualization.
+>>=20
+>> By supplying the logical geometries directly we are able to support =
+such
+>> "exotic" disks.
+>>=20
+>> We serialize this information in a similar way to the "bootorder"
+>> interface.
+>> The fw_cfg entry is "bootdevices" and it serializes a struct.
+>> At the moment the struct holds the values of logical CHS values but =
+it
+>> can be expanded easily due to the extendable ABI implemented.
+>>=20
+>> (In the future, we can pass the bootindex through "bootdevices" =
+instead
+>> "bootorder" - unifying all bootdevice information in one fw_cfg =
+value)
+>=20
+> I would disagree with that. UEFI guest firmware doesn't seem to have =
+any
+> use for this new type of information ("logical CHS values"), so the
+> current interface (the "bootorder" fw_cfg file) should continue to =
+work.
+> The ArmVirtQemu and OVMF platform firmwares (built from the edk2
+> project, and bundled with QEMU 4.1+) implement some serious parsing =
+and
+> processing for "bootorder=E2=80=9D.
 
-> The amount of function and particularly extern variables in
-> monitor_int.h is probably a bit larger than it needs to be, but this way
-> no non-trivial code modifications are needed. The interfaces between QMP
-> and the monitor core can be cleaned up later.
+I agree, I didn=E2=80=99t mean to say that =E2=80=9Cbootdevices" will =
+replace =E2=80=9Cbootorder=E2=80=9D,
+they will have to reside side by side.
+I just meant to emphasis that bootorder is not extendible - adding more =
+disk
+specific fields other than bootorder (that for some platforms will be =
+unused)
+is not possible. =E2=80=9Cbootdevices=E2=80=9D will work for LCHS, if =
+another entry has to be
+passed - it can be added to =E2=80=9Cbootdevice=E2=80=9D.
+Migrating =E2=80=9Cbootorder=E2=80=9D into a different fw_cfg value is a =
+tedious, probably not
+worth it, effort.
 
-That's okay.
+>=20
+> Independently, another comment:
+>=20
+>> The PV interface through fw_cfg could have also been implemented =
+using
+>> device specific keys, e.g.: "/etc/bootdevice/%s/logical_geometry" =
+where
+>> %s is the device name QEMU produces - but this implementation would
+>> require much more code refactoring, both in QEMU and SeaBIOS, so the
+>> current implementation was chosen.
+>>=20
+>> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+>> Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+>> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+>> ---
+>> bootdevice.c            | 42 =
+++++++++++++++++++++++++++++++++++++++++++
+>> hw/nvram/fw_cfg.c       | 14 +++++++++++---
+>> include/sysemu/sysemu.h |  1 +
+>> 3 files changed, 54 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/bootdevice.c b/bootdevice.c
+>> index 2b12fb85a4..84c2a83f25 100644
+>> --- a/bootdevice.c
+>> +++ b/bootdevice.c
+>> @@ -405,3 +405,45 @@ void del_boot_device_lchs(DeviceState *dev, =
+const char *suffix)
+>>         }
+>>     }
+>> }
+>> +
+>> +typedef struct QEMU_PACKED BootDeviceEntrySerialized {
+>> +    /* Do not change field order - add new fields below */
+>> +    uint32_t lcyls;
+>> +    uint32_t lheads;
+>> +    uint32_t lsecs;
+>> +} BootDeviceEntrySerialized;
+>> +
+>> +/* Serialized as: struct size (4) + (device name\0 + device struct) =
+x devices */
+>> +char *get_boot_devices_info(size_t *size)
+>> +{
+>> +    FWLCHSEntry *i;
+>> +    BootDeviceEntrySerialized s;
+>> +    size_t total =3D 0;
+>> +    char *list =3D NULL;
+>> +
+>> +    list =3D g_malloc0(sizeof(uint32_t));
+>> +    *((uint32_t *)list) =3D (uint32_t)sizeof(s);
+>> +    total =3D sizeof(uint32_t);
+>> +
+>> +    QTAILQ_FOREACH(i, &fw_lchs, link) {
+>> +        char *bootpath;
+>> +        size_t len;
+>> +
+>> +        bootpath =3D get_boot_device_path(i->dev, false, i->suffix);
+>> +        s.lcyls =3D i->lcyls;
+>> +        s.lheads =3D i->lheads;
+>> +        s.lsecs =3D i->lsecs;
+>=20
+> You should document the endianness of the fields in
+> BootDeviceEntrySerialized, and then call byte order conversion =
+functions
+> here accordingly (most probably cpu_to_le32()).
+>=20
+> As written, this code would break if you ran qemu-system-x86_64 /
+> qemu-system-i386 (with TCG acceleration) on a big endian host.
 
-I have to admit I naively expected the previous patch moved everything
-to the new header we need in a header for splitting up monitor/misc.c.
-How did you decide what to move to the header in which patch?
+Nice catch, thanks!
 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  include/monitor/monitor.h |   1 +
->  monitor/monitor_int.h     |  30 ++-
->  monitor/misc.c            | 394 +------------------------------------
->  monitor/qmp.c             | 404 ++++++++++++++++++++++++++++++++++++++
->  Makefile.objs             |   1 +
->  monitor/Makefile.objs     |   1 +
->  monitor/trace-events      |   4 +-
->  7 files changed, 448 insertions(+), 387 deletions(-)
->  create mode 100644 monitor/qmp.c
->
-> diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-> index 1ba354f811..7bbab05320 100644
-> --- a/include/monitor/monitor.h
-> +++ b/include/monitor/monitor.h
-> @@ -21,6 +21,7 @@ bool monitor_cur_is_qmp(void);
->  
->  void monitor_init_globals(void);
->  void monitor_init(Chardev *chr, int flags);
-> +void monitor_init_qmp(Chardev *chr, int flags);
-
-Why does this one go to the non-internal header?
-
->  void monitor_cleanup(void);
->  
->  int monitor_suspend(Monitor *mon);
-> diff --git a/monitor/monitor_int.h b/monitor/monitor_int.h
-> index 7122418955..4aabee54e1 100644
-> --- a/monitor/monitor_int.h
-> +++ b/monitor/monitor_int.h
-> @@ -30,10 +30,11 @@
->  
->  #include "qapi/qmp/qdict.h"
->  #include "qapi/qmp/json-parser.h"
-> -#include "qapi/qapi-commands.h"
-> +#include "qapi/qmp/dispatch.h"
-
-This part should be squashed into the previous patch.  You'll
-additionally need qapi/qapi-types-misc.h for QMP_CAPABILITY__MAX there,
-or keep monitor/monitor.h, even though you need it only here for
-MONITOR_USE_CONTROL.
-
->  
->  #include "qemu/readline.h"
->  #include "chardev/char-fe.h"
-> +#include "sysemu/iothread.h"
-
-Perhaps IOThread should be typedef'ed in qemu/typedefs.h.  I'm not
-asking you to do that.
-
->  
->  /*
->   * Supported types:
-> @@ -145,4 +146,31 @@ typedef struct {
->      GQueue *qmp_requests;
->  } MonitorQMP;
->  
-> +/**
-> + * Is @mon a QMP monitor?
-> + */
-> +static inline bool monitor_is_qmp(const Monitor *mon)
-> +{
-> +    return (mon->flags & MONITOR_USE_CONTROL);
-> +}
-> +
-> +typedef QTAILQ_HEAD(MonitorList, Monitor) MonitorList;
-> +extern IOThread *mon_iothread;
-> +extern QEMUBH *qmp_dispatcher_bh;
-> +extern QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
-> +extern QemuMutex monitor_lock;
-> +extern MonitorList mon_list;
-> +extern int mon_refcount;
-> +
-> +int monitor_puts(Monitor *mon, const char *str);
-> +void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
-> +                       bool use_io_thread);
-> +int monitor_can_read(void *opaque);
-> +void monitor_list_append(Monitor *mon);
-> +void monitor_fdsets_cleanup(void);
-> +
-> +void qmp_send_response(MonitorQMP *mon, const QDict *rsp);
-> +void monitor_data_destroy_qmp(MonitorQMP *mon);
-> +void monitor_qmp_bh_dispatcher(void *data);
-> +
->  #endif
-
-I trust you these are indeed all needed.
-
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index aa3342c1e5..7e6f09106c 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -140,51 +140,29 @@ IOThread *mon_iothread;
->  /* Bottom half to dispatch the requests received from I/O thread */
->  QEMUBH *qmp_dispatcher_bh;
->  
-> -struct QMPRequest {
-> -    /* Owner of the request */
-> -    MonitorQMP *mon;
-> -    /*
-> -     * Request object to be handled or Error to be reported
-> -     * (exactly one of them is non-null)
-> -     */
-> -    QObject *req;
-> -    Error *err;
-> -};
-> -typedef struct QMPRequest QMPRequest;
-> -
->  /* QMP checker flags */
->  #define QMP_ACCEPT_UNKNOWNS 1
->  
->  /* Protects mon_list, monitor_qapi_event_state, monitor_destroyed.  */
-> -static QemuMutex monitor_lock;
-> +QemuMutex monitor_lock;
->  static GHashTable *monitor_qapi_event_state;
-> -static QTAILQ_HEAD(, Monitor) mon_list;
-> +MonitorList mon_list;
->  static bool monitor_destroyed;
->  
->  /* Protects mon_fdsets */
->  static QemuMutex mon_fdsets_lock;
->  static QLIST_HEAD(, MonFdset) mon_fdsets;
->  
-> -static int mon_refcount;
-> +int mon_refcount;
->  
->  static mon_cmd_t mon_cmds[];
->  static mon_cmd_t info_cmds[];
->  
-> -QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
-> -
->  __thread Monitor *cur_mon;
->  
->  static void monitor_command_cb(void *opaque, const char *cmdline,
->                                 void *readline_opaque);
->  
-> -/**
-> - * Is @mon a QMP monitor?
-> - */
-> -static inline bool monitor_is_qmp(const Monitor *mon)
-> -{
-> -    return (mon->flags & MONITOR_USE_CONTROL);
-> -}
-> -
->  /**
->   * Is @mon is using readline?
->   * Note: not all HMP monitors use readline, e.g., gdbserver has a
-> @@ -243,28 +221,6 @@ int monitor_read_password(MonitorHMP *mon, ReadLineFunc *readline_func,
->      }
->  }
->  
-> -static void qmp_request_free(QMPRequest *req)
-> -{
-> -    qobject_unref(req->req);
-> -    error_free(req->err);
-> -    g_free(req);
-> -}
-> -
-> -/* Caller must hold mon->qmp.qmp_queue_lock */
-> -static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
-> -{
-> -    while (!g_queue_is_empty(mon->qmp_requests)) {
-> -        qmp_request_free(g_queue_pop_head(mon->qmp_requests));
-> -    }
-> -}
-> -
-> -static void monitor_qmp_cleanup_queues(MonitorQMP *mon)
-> -{
-> -    qemu_mutex_lock(&mon->qmp_queue_lock);
-> -    monitor_qmp_cleanup_req_queue_locked(mon);
-> -    qemu_mutex_unlock(&mon->qmp_queue_lock);
-> -}
-> -
->  
->  static void monitor_flush_locked(Monitor *mon);
->  
-> @@ -324,7 +280,7 @@ void monitor_flush(Monitor *mon)
->  }
->  
->  /* flush at every end of line */
-> -static int monitor_puts(Monitor *mon, const char *str)
-> +int monitor_puts(Monitor *mon, const char *str)
->  {
->      int i;
->      char c;
-> @@ -374,21 +330,6 @@ int monitor_printf(Monitor *mon, const char *fmt, ...)
->      return ret;
->  }
->  
-> -static void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
-> -{
-> -    const QObject *data = QOBJECT(rsp);
-> -    QString *json;
-> -
-> -    json = mon->common.flags & MONITOR_USE_PRETTY ?
-> -           qobject_to_json_pretty(data) : qobject_to_json(data);
-> -    assert(json != NULL);
-> -
-> -    qstring_append_chr(json, '\n');
-> -    monitor_puts(&mon->common, qstring_get_str(json));
-> -
-> -    qobject_unref(json);
-> -}
-> -
->  static MonitorQAPIEventConf monitor_qapi_event_conf[QAPI_EVENT__MAX] = {
->      /* Limit guest-triggerable events to 1 per second */
->      [QAPI_EVENT_RTC_CHANGE]        = { 1000 * SCALE_MS },
-> @@ -603,8 +544,8 @@ static void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
->  
->  static void monitor_iothread_init(void);
->  
-> -static void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
-> -                              bool use_io_thread)
-> +void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
-> +                       bool use_io_thread)
->  {
->      if (use_io_thread && !mon_iothread) {
->          monitor_iothread_init();
-> @@ -625,14 +566,6 @@ static void monitor_data_init_hmp(MonitorHMP *mon, int flags, bool skip_flush)
->      mon->cmd_table = mon_cmds;
->  }
->  
-> -static void monitor_data_destroy_qmp(MonitorQMP *mon)
-> -{
-> -    json_message_parser_destroy(&mon->parser);
-> -    qemu_mutex_destroy(&mon->qmp_queue_lock);
-> -    monitor_qmp_cleanup_req_queue_locked(mon);
-> -    g_queue_free(mon->qmp_requests);
-> -}
-> -
->  static void monitor_data_destroy(Monitor *mon)
->  {
->      g_free(mon->mon_cpu_path);
-> @@ -1069,18 +1002,6 @@ static void monitor_init_qmp_commands(void)
->                           qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
->  }
->  
-> -static bool qmp_oob_enabled(MonitorQMP *mon)
-> -{
-> -    return mon->capab[QMP_CAPABILITY_OOB];
-> -}
-> -
-> -static void monitor_qmp_caps_reset(MonitorQMP *mon)
-> -{
-> -    memset(mon->capab_offered, 0, sizeof(mon->capab_offered));
-> -    memset(mon->capab, 0, sizeof(mon->capab));
-> -    mon->capab_offered[QMP_CAPABILITY_OOB] = mon->common.use_io_thread;
-> -}
-> -
->  /*
->   * Accept QMP capabilities in @list for @mon.
->   * On success, set mon->qmp.capab[], and return true.
-> @@ -2253,7 +2174,7 @@ static void monitor_fdset_cleanup(MonFdset *mon_fdset)
->      }
->  }
->  
-> -static void monitor_fdsets_cleanup(void)
-> +void monitor_fdsets_cleanup(void)
->  {
->      MonFdset *mon_fdset;
->      MonFdset *mon_fdset_next;
-> @@ -4031,209 +3952,13 @@ cleanup:
->      free_cmdline_args(args, nb_args);
->  }
->  
-> -static int monitor_can_read(void *opaque)
-> +int monitor_can_read(void *opaque)
->  {
->      Monitor *mon = opaque;
->  
->      return !atomic_mb_read(&mon->suspend_cnt);
->  }
->  
-> -/*
-> - * Emit QMP response @rsp with ID @id to @mon.
-> - * Null @rsp can only happen for commands with QCO_NO_SUCCESS_RESP.
-> - * Nothing is emitted then.
-> - */
-> -static void monitor_qmp_respond(MonitorQMP *mon, QDict *rsp)
-> -{
-> -    if (rsp) {
-> -        qmp_send_response(mon, rsp);
-> -    }
-> -}
-> -
-> -static void monitor_qmp_dispatch(MonitorQMP *mon, QObject *req)
-> -{
-> -    Monitor *old_mon;
-> -    QDict *rsp;
-> -    QDict *error;
-> -
-> -    old_mon = cur_mon;
-> -    cur_mon = &mon->common;
-> -
-> -    rsp = qmp_dispatch(mon->commands, req, qmp_oob_enabled(mon));
-> -
-> -    cur_mon = old_mon;
-> -
-> -    if (mon->commands == &qmp_cap_negotiation_commands) {
-> -        error = qdict_get_qdict(rsp, "error");
-> -        if (error
-> -            && !g_strcmp0(qdict_get_try_str(error, "class"),
-> -                    QapiErrorClass_str(ERROR_CLASS_COMMAND_NOT_FOUND))) {
-> -            /* Provide a more useful error message */
-> -            qdict_del(error, "desc");
-> -            qdict_put_str(error, "desc", "Expecting capabilities negotiation"
-> -                          " with 'qmp_capabilities'");
-> -        }
-> -    }
-> -
-> -    monitor_qmp_respond(mon, rsp);
-> -    qobject_unref(rsp);
-> -}
-> -
-> -/*
-> - * Pop a QMP request from a monitor request queue.
-> - * Return the request, or NULL all request queues are empty.
-> - * We are using round-robin fashion to pop the request, to avoid
-> - * processing commands only on a very busy monitor.  To achieve that,
-> - * when we process one request on a specific monitor, we put that
-> - * monitor to the end of mon_list queue.
-> - *
-> - * Note: if the function returned with non-NULL, then the caller will
-> - * be with qmp_mon->qmp_queue_lock held, and the caller is responsible
-> - * to release it.
-> - */
-> -static QMPRequest *monitor_qmp_requests_pop_any_with_lock(void)
-> -{
-> -    QMPRequest *req_obj = NULL;
-> -    Monitor *mon;
-> -    MonitorQMP *qmp_mon;
-> -
-> -    qemu_mutex_lock(&monitor_lock);
-> -
-> -    QTAILQ_FOREACH(mon, &mon_list, entry) {
-> -        if (!monitor_is_qmp(mon)) {
-> -            continue;
-> -        }
-> -
-> -        qmp_mon = container_of(mon, MonitorQMP, common);
-> -        qemu_mutex_lock(&qmp_mon->qmp_queue_lock);
-> -        req_obj = g_queue_pop_head(qmp_mon->qmp_requests);
-> -        if (req_obj) {
-> -            /* With the lock of corresponding queue held */
-> -            break;
-> -        }
-> -        qemu_mutex_unlock(&qmp_mon->qmp_queue_lock);
-> -    }
-> -
-> -    if (req_obj) {
-> -        /*
-> -         * We found one request on the monitor. Degrade this monitor's
-> -         * priority to lowest by re-inserting it to end of queue.
-> -         */
-> -        QTAILQ_REMOVE(&mon_list, mon, entry);
-> -        QTAILQ_INSERT_TAIL(&mon_list, mon, entry);
-> -    }
-> -
-> -    qemu_mutex_unlock(&monitor_lock);
-> -
-> -    return req_obj;
-> -}
-> -
-> -static void monitor_qmp_bh_dispatcher(void *data)
-> -{
-> -    QMPRequest *req_obj = monitor_qmp_requests_pop_any_with_lock();
-> -    QDict *rsp;
-> -    bool need_resume;
-> -    MonitorQMP *mon;
-> -
-> -    if (!req_obj) {
-> -        return;
-> -    }
-> -
-> -    mon = req_obj->mon;
-> -    /*  qmp_oob_enabled() might change after "qmp_capabilities" */
-> -    need_resume = !qmp_oob_enabled(mon) ||
-> -        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1;
-> -    qemu_mutex_unlock(&mon->qmp_queue_lock);
-> -    if (req_obj->req) {
-> -        QDict *qdict = qobject_to(QDict, req_obj->req);
-> -        QObject *id = qdict ? qdict_get(qdict, "id") : NULL;
-> -        trace_monitor_qmp_cmd_in_band(qobject_get_try_str(id) ?: "");
-> -        monitor_qmp_dispatch(mon, req_obj->req);
-> -    } else {
-> -        assert(req_obj->err);
-> -        rsp = qmp_error_response(req_obj->err);
-> -        req_obj->err = NULL;
-> -        monitor_qmp_respond(mon, rsp);
-> -        qobject_unref(rsp);
-> -    }
-> -
-> -    if (need_resume) {
-> -        /* Pairs with the monitor_suspend() in handle_qmp_command() */
-> -        monitor_resume(&mon->common);
-> -    }
-> -    qmp_request_free(req_obj);
-> -
-> -    /* Reschedule instead of looping so the main loop stays responsive */
-> -    qemu_bh_schedule(qmp_dispatcher_bh);
-> -}
-> -
-> -static void handle_qmp_command(void *opaque, QObject *req, Error *err)
-> -{
-> -    MonitorQMP *mon = opaque;
-> -    QObject *id = NULL;
-> -    QDict *qdict;
-> -    QMPRequest *req_obj;
-> -
-> -    assert(!req != !err);
-> -
-> -    qdict = qobject_to(QDict, req);
-> -    if (qdict) {
-> -        id = qdict_get(qdict, "id");
-> -    } /* else will fail qmp_dispatch() */
-> -
-> -    if (req && trace_event_get_state_backends(TRACE_HANDLE_QMP_COMMAND)) {
-> -        QString *req_json = qobject_to_json(req);
-> -        trace_handle_qmp_command(mon, qstring_get_str(req_json));
-> -        qobject_unref(req_json);
-> -    }
-> -
-> -    if (qdict && qmp_is_oob(qdict)) {
-> -        /* OOB commands are executed immediately */
-> -        trace_monitor_qmp_cmd_out_of_band(qobject_get_try_str(id) ?: "");
-> -        monitor_qmp_dispatch(mon, req);
-> -        qobject_unref(req);
-> -        return;
-> -    }
-> -
-> -    req_obj = g_new0(QMPRequest, 1);
-> -    req_obj->mon = mon;
-> -    req_obj->req = req;
-> -    req_obj->err = err;
-> -
-> -    /* Protect qmp_requests and fetching its length. */
-> -    qemu_mutex_lock(&mon->qmp_queue_lock);
-> -
-> -    /*
-> -     * Suspend the monitor when we can't queue more requests after
-> -     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() will resume
-> -     * it.  Note that when OOB is disabled, we queue at most one
-> -     * command, for backward compatibility.
-> -     */
-> -    if (!qmp_oob_enabled(mon) ||
-> -        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1) {
-> -        monitor_suspend(&mon->common);
-> -    }
-> -
-> -    /*
-> -     * Put the request to the end of queue so that requests will be
-> -     * handled in time order.  Ownership for req_obj, req,
-> -     * etc. will be delivered to the handler side.
-> -     */
-> -    assert(mon->qmp_requests->length < QMP_REQ_QUEUE_LEN_MAX);
-> -    g_queue_push_tail(mon->qmp_requests, req_obj);
-> -    qemu_mutex_unlock(&mon->qmp_queue_lock);
-> -
-> -    /* Kick the dispatcher routine */
-> -    qemu_bh_schedule(qmp_dispatcher_bh);
-> -}
-> -
-> -static void monitor_qmp_read(void *opaque, const uint8_t *buf, int size)
-> -{
-> -    MonitorQMP *mon = opaque;
-> -
-> -    json_message_parser_feed(&mon->parser, (const char *) buf, size);
-> -}
-> -
->  static void monitor_read(void *opaque, const uint8_t *buf, int size)
->  {
->      MonitorHMP *mon;
-> @@ -4320,56 +4045,6 @@ void monitor_resume(Monitor *mon)
->      trace_monitor_suspend(mon, -1);
->  }
->  
-> -static QDict *qmp_greeting(MonitorQMP *mon)
-> -{
-> -    QList *cap_list = qlist_new();
-> -    QObject *ver = NULL;
-> -    QMPCapability cap;
-> -
-> -    qmp_marshal_query_version(NULL, &ver, NULL);
-> -
-> -    for (cap = 0; cap < QMP_CAPABILITY__MAX; cap++) {
-> -        if (mon->capab_offered[cap]) {
-> -            qlist_append_str(cap_list, QMPCapability_str(cap));
-> -        }
-> -    }
-> -
-> -    return qdict_from_jsonf_nofail(
-> -        "{'QMP': {'version': %p, 'capabilities': %p}}",
-> -        ver, cap_list);
-> -}
-> -
-> -static void monitor_qmp_event(void *opaque, int event)
-> -{
-> -    QDict *data;
-> -    MonitorQMP *mon = opaque;
-> -
-> -    switch (event) {
-> -    case CHR_EVENT_OPENED:
-> -        mon->commands = &qmp_cap_negotiation_commands;
-> -        monitor_qmp_caps_reset(mon);
-> -        data = qmp_greeting(mon);
-> -        qmp_send_response(mon, data);
-> -        qobject_unref(data);
-> -        mon_refcount++;
-> -        break;
-> -    case CHR_EVENT_CLOSED:
-> -        /*
-> -         * Note: this is only useful when the output of the chardev
-> -         * backend is still open.  For example, when the backend is
-> -         * stdio, it's possible that stdout is still open when stdin
-> -         * is closed.
-> -         */
-> -        monitor_qmp_cleanup_queues(mon);
-> -        json_message_parser_destroy(&mon->parser);
-> -        json_message_parser_init(&mon->parser, handle_qmp_command,
-> -                                 mon, NULL);
-> -        mon_refcount--;
-> -        monitor_fdsets_cleanup();
-> -        break;
-> -    }
-> -}
-> -
->  static void monitor_event(void *opaque, int event)
->  {
->      Monitor *mon = opaque;
-> @@ -4505,7 +4180,7 @@ int error_vprintf_unless_qmp(const char *fmt, va_list ap)
->      return -1;
->  }
->  
-> -static void monitor_list_append(Monitor *mon)
-> +void monitor_list_append(Monitor *mon)
->  {
->      qemu_mutex_lock(&monitor_lock);
->      /*
-> @@ -4525,57 +4200,6 @@ static void monitor_list_append(Monitor *mon)
->      }
->  }
->  
-> -static void monitor_qmp_setup_handlers_bh(void *opaque)
-> -{
-> -    MonitorQMP *mon = opaque;
-> -    GMainContext *context;
-> -
-> -    assert(mon->common.use_io_thread);
-> -    context = iothread_get_g_main_context(mon_iothread);
-> -    assert(context);
-> -    qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-> -                             monitor_qmp_read, monitor_qmp_event,
-> -                             NULL, &mon->common, context, true);
-> -    monitor_list_append(&mon->common);
-> -}
-> -
-> -static void monitor_init_qmp(Chardev *chr, int flags)
-> -{
-> -    MonitorQMP *mon = g_malloc0(sizeof(*mon));
-> -
-> -    /* Note: we run QMP monitor in I/O thread when @chr supports that */
-> -    monitor_data_init(&mon->common, flags, false,
-> -                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
-> -
-> -    qemu_mutex_init(&mon->qmp_queue_lock);
-> -    mon->qmp_requests = g_queue_new();
-> -
-> -    qemu_chr_fe_init(&mon->common.chr, chr, &error_abort);
-> -    qemu_chr_fe_set_echo(&mon->common.chr, true);
-> -
-> -    json_message_parser_init(&mon->parser, handle_qmp_command, mon, NULL);
-> -    if (mon->common.use_io_thread) {
-> -        /*
-> -         * Make sure the old iowatch is gone.  It's possible when
-> -         * e.g. the chardev is in client mode, with wait=on.
-> -         */
-> -        remove_fd_in_watch(chr);
-> -        /*
-> -         * We can't call qemu_chr_fe_set_handlers() directly here
-> -         * since chardev might be running in the monitor I/O
-> -         * thread.  Schedule a bottom half.
-> -         */
-> -        aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
-> -                                monitor_qmp_setup_handlers_bh, mon);
-> -        /* The bottom half will add @mon to @mon_list */
-> -    } else {
-> -        qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-> -                                 monitor_qmp_read, monitor_qmp_event,
-> -                                 NULL, &mon->common, NULL, true);
-> -        monitor_list_append(&mon->common);
-> -    }
-> -}
-> -
->  static void monitor_init_hmp(Chardev *chr, int flags)
->  {
->      MonitorHMP *mon = g_malloc0(sizeof(*mon));
-> diff --git a/monitor/qmp.c b/monitor/qmp.c
-> new file mode 100644
-> index 0000000000..d425b0f2ba
-> --- /dev/null
-> +++ b/monitor/qmp.c
-> @@ -0,0 +1,404 @@
-> +/*
-> + * QEMU monitor
-> + *
-> + * Copyright (c) 2003-2004 Fabrice Bellard
-
-I'm pretty confident nothing in this file is actually due to Fabrice.
-
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
-
-We inherit the non-standard license regardless.  Lesson learned: do not
-add substantial code to source files with a non-standard license.
-
-> +
-> +#include "qemu/osdep.h"
-> +#include "monitor_int.h"
-> +
-> +#include "chardev/char-io.h"
-> +
-> +#include "qapi/error.h"
-> +#include "qapi/qmp/qjson.h"
-> +#include "qapi/qmp/qstring.h"
-> +#include "qapi/qmp/qlist.h"
-> +#include "qapi/qapi-commands-misc.h"
-> +
-> +#include "trace.h"
-
-Please sort the includes alphabetically (except qemu/osdep.h, of
-course).
-
-> +
-> +struct QMPRequest {
-> +    /* Owner of the request */
-> +    MonitorQMP *mon;
-> +    /*
-> +     * Request object to be handled or Error to be reported
-> +     * (exactly one of them is non-null)
-> +     */
-> +    QObject *req;
-> +    Error *err;
-> +};
-> +typedef struct QMPRequest QMPRequest;
-
-Please fuse these two.
-
-> +
-> +QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
-> +
-> +static bool qmp_oob_enabled(MonitorQMP *mon)
-> +{
-> +    return mon->capab[QMP_CAPABILITY_OOB];
-> +}
-> +
-> +static void monitor_qmp_caps_reset(MonitorQMP *mon)
-> +{
-> +    memset(mon->capab_offered, 0, sizeof(mon->capab_offered));
-> +    memset(mon->capab, 0, sizeof(mon->capab));
-> +    mon->capab_offered[QMP_CAPABILITY_OOB] = mon->common.use_io_thread;
-> +}
-> +
-> +static void qmp_request_free(QMPRequest *req)
-> +{
-> +    qobject_unref(req->req);
-> +    error_free(req->err);
-> +    g_free(req);
-> +}
-> +
-> +/* Caller must hold mon->qmp.qmp_queue_lock */
-> +static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
-> +{
-> +    while (!g_queue_is_empty(mon->qmp_requests)) {
-> +        qmp_request_free(g_queue_pop_head(mon->qmp_requests));
-> +    }
-> +}
-> +
-> +static void monitor_qmp_cleanup_queues(MonitorQMP *mon)
-> +{
-> +    qemu_mutex_lock(&mon->qmp_queue_lock);
-> +    monitor_qmp_cleanup_req_queue_locked(mon);
-> +    qemu_mutex_unlock(&mon->qmp_queue_lock);
-> +}
-> +
-> +void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
-> +{
-> +    const QObject *data = QOBJECT(rsp);
-> +    QString *json;
-> +
-> +    json = mon->common.flags & MONITOR_USE_PRETTY ?
-> +           qobject_to_json_pretty(data) : qobject_to_json(data);
-> +    assert(json != NULL);
-> +
-> +    qstring_append_chr(json, '\n');
-> +    monitor_puts(&mon->common, qstring_get_str(json));
-> +
-> +    qobject_unref(json);
-> +}
-> +
-> +/*
-> + * Emit QMP response @rsp with ID @id to @mon.
-> + * Null @rsp can only happen for commands with QCO_NO_SUCCESS_RESP.
-> + * Nothing is emitted then.
-> + */
-> +static void monitor_qmp_respond(MonitorQMP *mon, QDict *rsp)
-> +{
-> +    if (rsp) {
-> +        qmp_send_response(mon, rsp);
-> +    }
-> +}
-
-Note to self: of the two callers, only one can pass null @rsp.
-Eliminate this function.
-
-> +
-> +static void monitor_qmp_dispatch(MonitorQMP *mon, QObject *req)
-> +{
-> +    Monitor *old_mon;
-> +    QDict *rsp;
-> +    QDict *error;
-> +
-> +    old_mon = cur_mon;
-> +    cur_mon = &mon->common;
-> +
-> +    rsp = qmp_dispatch(mon->commands, req, qmp_oob_enabled(mon));
-> +
-> +    cur_mon = old_mon;
-> +
-> +    if (mon->commands == &qmp_cap_negotiation_commands) {
-> +        error = qdict_get_qdict(rsp, "error");
-> +        if (error
-> +            && !g_strcmp0(qdict_get_try_str(error, "class"),
-> +                    QapiErrorClass_str(ERROR_CLASS_COMMAND_NOT_FOUND))) {
-> +            /* Provide a more useful error message */
-> +            qdict_del(error, "desc");
-> +            qdict_put_str(error, "desc", "Expecting capabilities negotiation"
-> +                          " with 'qmp_capabilities'");
-> +        }
-> +    }
-> +
-> +    monitor_qmp_respond(mon, rsp);
-> +    qobject_unref(rsp);
-> +}
-> +
-> +/*
-> + * Pop a QMP request from a monitor request queue.
-> + * Return the request, or NULL all request queues are empty.
-> + * We are using round-robin fashion to pop the request, to avoid
-> + * processing commands only on a very busy monitor.  To achieve that,
-> + * when we process one request on a specific monitor, we put that
-> + * monitor to the end of mon_list queue.
-> + *
-> + * Note: if the function returned with non-NULL, then the caller will
-> + * be with qmp_mon->qmp_queue_lock held, and the caller is responsible
-> + * to release it.
-> + */
-> +static QMPRequest *monitor_qmp_requests_pop_any_with_lock(void)
-> +{
-> +    QMPRequest *req_obj = NULL;
-> +    Monitor *mon;
-> +    MonitorQMP *qmp_mon;
-> +
-> +    qemu_mutex_lock(&monitor_lock);
-> +
-> +    QTAILQ_FOREACH(mon, &mon_list, entry) {
-> +        if (!monitor_is_qmp(mon)) {
-> +            continue;
-> +        }
-> +
-> +        qmp_mon = container_of(mon, MonitorQMP, common);
-> +        qemu_mutex_lock(&qmp_mon->qmp_queue_lock);
-> +        req_obj = g_queue_pop_head(qmp_mon->qmp_requests);
-> +        if (req_obj) {
-> +            /* With the lock of corresponding queue held */
-> +            break;
-> +        }
-> +        qemu_mutex_unlock(&qmp_mon->qmp_queue_lock);
-> +    }
-> +
-> +    if (req_obj) {
-> +        /*
-> +         * We found one request on the monitor. Degrade this monitor's
-> +         * priority to lowest by re-inserting it to end of queue.
-> +         */
-> +        QTAILQ_REMOVE(&mon_list, mon, entry);
-> +        QTAILQ_INSERT_TAIL(&mon_list, mon, entry);
-> +    }
-> +
-> +    qemu_mutex_unlock(&monitor_lock);
-> +
-> +    return req_obj;
-> +}
-> +
-> +void monitor_qmp_bh_dispatcher(void *data)
-> +{
-> +    QMPRequest *req_obj = monitor_qmp_requests_pop_any_with_lock();
-> +    QDict *rsp;
-> +    bool need_resume;
-> +    MonitorQMP *mon;
-> +
-> +    if (!req_obj) {
-> +        return;
-> +    }
-> +
-> +    mon = req_obj->mon;
-> +    /*  qmp_oob_enabled() might change after "qmp_capabilities" */
-> +    need_resume = !qmp_oob_enabled(mon) ||
-> +        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1;
-> +    qemu_mutex_unlock(&mon->qmp_queue_lock);
-> +    if (req_obj->req) {
-> +        QDict *qdict = qobject_to(QDict, req_obj->req);
-> +        QObject *id = qdict ? qdict_get(qdict, "id") : NULL;
-> +        trace_monitor_qmp_cmd_in_band(qobject_get_try_str(id) ?: "");
-> +        monitor_qmp_dispatch(mon, req_obj->req);
-> +    } else {
-> +        assert(req_obj->err);
-> +        rsp = qmp_error_response(req_obj->err);
-> +        req_obj->err = NULL;
-> +        monitor_qmp_respond(mon, rsp);
-> +        qobject_unref(rsp);
-> +    }
-> +
-> +    if (need_resume) {
-> +        /* Pairs with the monitor_suspend() in handle_qmp_command() */
-> +        monitor_resume(&mon->common);
-> +    }
-> +    qmp_request_free(req_obj);
-> +
-> +    /* Reschedule instead of looping so the main loop stays responsive */
-> +    qemu_bh_schedule(qmp_dispatcher_bh);
-> +}
-> +
-> +static void handle_qmp_command(void *opaque, QObject *req, Error *err)
-> +{
-> +    MonitorQMP *mon = opaque;
-> +    QObject *id = NULL;
-> +    QDict *qdict;
-> +    QMPRequest *req_obj;
-> +
-> +    assert(!req != !err);
-> +
-> +    qdict = qobject_to(QDict, req);
-> +    if (qdict) {
-> +        id = qdict_get(qdict, "id");
-> +    } /* else will fail qmp_dispatch() */
-> +
-> +    if (req && trace_event_get_state_backends(TRACE_HANDLE_QMP_COMMAND)) {
-> +        QString *req_json = qobject_to_json(req);
-> +        trace_handle_qmp_command(mon, qstring_get_str(req_json));
-> +        qobject_unref(req_json);
-> +    }
-> +
-> +    if (qdict && qmp_is_oob(qdict)) {
-> +        /* OOB commands are executed immediately */
-> +        trace_monitor_qmp_cmd_out_of_band(qobject_get_try_str(id) ?: "");
-> +        monitor_qmp_dispatch(mon, req);
-> +        qobject_unref(req);
-> +        return;
-> +    }
-> +
-> +    req_obj = g_new0(QMPRequest, 1);
-> +    req_obj->mon = mon;
-> +    req_obj->req = req;
-> +    req_obj->err = err;
-> +
-> +    /* Protect qmp_requests and fetching its length. */
-> +    qemu_mutex_lock(&mon->qmp_queue_lock);
-> +
-> +    /*
-> +     * Suspend the monitor when we can't queue more requests after
-> +     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() will resume
-> +     * it.  Note that when OOB is disabled, we queue at most one
-> +     * command, for backward compatibility.
-> +     */
-> +    if (!qmp_oob_enabled(mon) ||
-> +        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1) {
-> +        monitor_suspend(&mon->common);
-> +    }
-> +
-> +    /*
-> +     * Put the request to the end of queue so that requests will be
-> +     * handled in time order.  Ownership for req_obj, req,
-> +     * etc. will be delivered to the handler side.
-> +     */
-> +    assert(mon->qmp_requests->length < QMP_REQ_QUEUE_LEN_MAX);
-> +    g_queue_push_tail(mon->qmp_requests, req_obj);
-> +    qemu_mutex_unlock(&mon->qmp_queue_lock);
-> +
-> +    /* Kick the dispatcher routine */
-> +    qemu_bh_schedule(qmp_dispatcher_bh);
-> +}
-> +
-> +static void monitor_qmp_read(void *opaque, const uint8_t *buf, int size)
-> +{
-> +    MonitorQMP *mon = opaque;
-> +
-> +    json_message_parser_feed(&mon->parser, (const char *) buf, size);
-> +}
-> +
-> +static QDict *qmp_greeting(MonitorQMP *mon)
-> +{
-> +    QList *cap_list = qlist_new();
-> +    QObject *ver = NULL;
-> +    QMPCapability cap;
-> +
-> +    qmp_marshal_query_version(NULL, &ver, NULL);
-> +
-> +    for (cap = 0; cap < QMP_CAPABILITY__MAX; cap++) {
-> +        if (mon->capab_offered[cap]) {
-> +            qlist_append_str(cap_list, QMPCapability_str(cap));
-> +        }
-> +    }
-> +
-> +    return qdict_from_jsonf_nofail(
-> +        "{'QMP': {'version': %p, 'capabilities': %p}}",
-> +        ver, cap_list);
-> +}
-> +
-> +static void monitor_qmp_event(void *opaque, int event)
-> +{
-> +    QDict *data;
-> +    MonitorQMP *mon = opaque;
-> +
-> +    switch (event) {
-> +    case CHR_EVENT_OPENED:
-> +        mon->commands = &qmp_cap_negotiation_commands;
-> +        monitor_qmp_caps_reset(mon);
-> +        data = qmp_greeting(mon);
-> +        qmp_send_response(mon, data);
-> +        qobject_unref(data);
-> +        mon_refcount++;
-> +        break;
-> +    case CHR_EVENT_CLOSED:
-> +        /*
-> +         * Note: this is only useful when the output of the chardev
-> +         * backend is still open.  For example, when the backend is
-> +         * stdio, it's possible that stdout is still open when stdin
-> +         * is closed.
-> +         */
-> +        monitor_qmp_cleanup_queues(mon);
-> +        json_message_parser_destroy(&mon->parser);
-> +        json_message_parser_init(&mon->parser, handle_qmp_command,
-> +                                 mon, NULL);
-> +        mon_refcount--;
-> +        monitor_fdsets_cleanup();
-> +        break;
-> +    }
-> +}
-> +
-> +void monitor_data_destroy_qmp(MonitorQMP *mon)
-> +{
-> +    json_message_parser_destroy(&mon->parser);
-> +    qemu_mutex_destroy(&mon->qmp_queue_lock);
-> +    monitor_qmp_cleanup_req_queue_locked(mon);
-> +    g_queue_free(mon->qmp_requests);
-> +}
-> +
-> +static void monitor_qmp_setup_handlers_bh(void *opaque)
-> +{
-> +    MonitorQMP *mon = opaque;
-> +    GMainContext *context;
-> +
-> +    assert(mon->common.use_io_thread);
-> +    context = iothread_get_g_main_context(mon_iothread);
-> +    assert(context);
-> +    qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-> +                             monitor_qmp_read, monitor_qmp_event,
-> +                             NULL, &mon->common, context, true);
-> +    monitor_list_append(&mon->common);
-> +}
-> +
-> +void monitor_init_qmp(Chardev *chr, int flags)
-> +{
-> +    MonitorQMP *mon = g_malloc0(sizeof(*mon));
-> +
-> +    /* Note: we run QMP monitor in I/O thread when @chr supports that */
-> +    monitor_data_init(&mon->common, flags, false,
-> +                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
-> +
-> +    qemu_mutex_init(&mon->qmp_queue_lock);
-> +    mon->qmp_requests = g_queue_new();
-> +
-> +    qemu_chr_fe_init(&mon->common.chr, chr, &error_abort);
-> +    qemu_chr_fe_set_echo(&mon->common.chr, true);
-> +
-> +    json_message_parser_init(&mon->parser, handle_qmp_command, mon, NULL);
-> +    if (mon->common.use_io_thread) {
-> +        /*
-> +         * Make sure the old iowatch is gone.  It's possible when
-> +         * e.g. the chardev is in client mode, with wait=on.
-> +         */
-> +        remove_fd_in_watch(chr);
-> +        /*
-> +         * We can't call qemu_chr_fe_set_handlers() directly here
-> +         * since chardev might be running in the monitor I/O
-> +         * thread.  Schedule a bottom half.
-> +         */
-> +        aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
-> +                                monitor_qmp_setup_handlers_bh, mon);
-> +        /* The bottom half will add @mon to @mon_list */
-> +    } else {
-> +        qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-> +                                 monitor_qmp_read, monitor_qmp_event,
-> +                                 NULL, &mon->common, NULL, true);
-> +        monitor_list_append(&mon->common);
-> +    }
-> +}
-
-I trust you this is pure code motion.
-
-> diff --git a/Makefile.objs b/Makefile.objs
-> index 9495fcbc7e..658cfc9d9f 100644
-> --- a/Makefile.objs
-> +++ b/Makefile.objs
-> @@ -46,6 +46,7 @@ ifeq ($(CONFIG_SOFTMMU),y)
->  common-obj-y = blockdev.o blockdev-nbd.o block/
->  common-obj-y += bootdevice.o iothread.o
->  common-obj-y += job-qmp.o
-> +common-obj-y += monitor/
->  common-obj-y += net/
->  common-obj-y += qdev-monitor.o device-hotplug.o
->  common-obj-$(CONFIG_WIN32) += os-win32.o
-> diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-> index a7170af6e1..1037c09ff8 100644
-> --- a/monitor/Makefile.objs
-> +++ b/monitor/Makefile.objs
-> @@ -1,2 +1,3 @@
->  obj-y += misc.o
-> +common-obj-y += qmp.o
->  common-obj-y += qmp-cmds.o hmp-cmds.o
-> diff --git a/monitor/trace-events b/monitor/trace-events
-> index abfdf20b14..a06dde3fd3 100644
-> --- a/monitor/trace-events
-> +++ b/monitor/trace-events
-> @@ -5,7 +5,9 @@ monitor_protocol_event_handler(uint32_t event, void *qdict) "event=%d data=%p"
->  monitor_protocol_event_emit(uint32_t event, void *data) "event=%d data=%p"
->  monitor_protocol_event_queue(uint32_t event, void *qdict, uint64_t rate) "event=%d data=%p rate=%" PRId64
->  handle_hmp_command(void *mon, const char *cmdline) "mon %p cmdline: %s"
-> -handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
->  monitor_suspend(void *ptr, int cnt) "mon %p: %d"
-> +
-> +# qmp.c
->  monitor_qmp_cmd_in_band(const char *id) "%s"
->  monitor_qmp_cmd_out_of_band(const char *id) "%s"
-> +handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
+>=20
+> Thanks
+> Laszlo
+>=20
+>> +
+>> +        len =3D strlen(bootpath) + 1;
+>> +        list =3D g_realloc(list, total + len + sizeof(s));
+>> +        memcpy(&list[total], bootpath, len);
+>> +        memcpy(&list[total + len], &s, sizeof(s));
+>> +        total +=3D len + sizeof(s);
+>> +
+>> +        g_free(bootpath);
+>> +    }
+>> +
+>> +    *size =3D total;
+>> +
+>> +    return list;
+>> +}
+>> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+>> index 9f7b7789bc..008b21542f 100644
+>> --- a/hw/nvram/fw_cfg.c
+>> +++ b/hw/nvram/fw_cfg.c
+>> @@ -916,13 +916,21 @@ void *fw_cfg_modify_file(FWCfgState *s, const =
+char *filename,
+>>=20
+>> static void fw_cfg_machine_reset(void *opaque)
+>> {
+>> +    MachineClass *mc =3D MACHINE_GET_CLASS(qdev_get_machine());
+>> +    FWCfgState *s =3D opaque;
+>>     void *ptr;
+>>     size_t len;
+>> -    FWCfgState *s =3D opaque;
+>> -    char *bootindex =3D get_boot_devices_list(&len);
+>> +    char *buf;
+>>=20
+>> -    ptr =3D fw_cfg_modify_file(s, "bootorder", (uint8_t *)bootindex, =
+len);
+>> +    buf =3D get_boot_devices_list(&len);
+>> +    ptr =3D fw_cfg_modify_file(s, "bootorder", (uint8_t *)buf, len);
+>>     g_free(ptr);
+>> +
+>> +    if (!mc->legacy_fw_cfg_order) {
+>> +        buf =3D get_boot_devices_info(&len);
+>> +        ptr =3D fw_cfg_modify_file(s, "bootdevices", (uint8_t *)buf, =
+len);
+>> +        g_free(ptr);
+>> +    }
+>> }
+>>=20
+>> static void fw_cfg_machine_ready(struct Notifier *n, void *data)
+>> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+>> index 173dfbb539..f0552006f4 100644
+>> --- a/include/sysemu/sysemu.h
+>> +++ b/include/sysemu/sysemu.h
+>> @@ -174,6 +174,7 @@ void validate_bootdevices(const char *devices, =
+Error **errp);
+>> void add_boot_device_lchs(DeviceState *dev, const char *suffix,
+>>                           uint32_t lcyls, uint32_t lheads, uint32_t =
+lsecs);
+>> void del_boot_device_lchs(DeviceState *dev, const char *suffix);
+>> +char *get_boot_devices_info(size_t *size);
+>>=20
+>> /* handler to set the boot_device order for a specific type of =
+MachineClass */
+>> typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
 
