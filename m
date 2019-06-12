@@ -2,54 +2,155 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE9C41C0D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 08:13:44 +0200 (CEST)
-Received: from localhost ([::1]:56950 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A2341C49
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 08:34:19 +0200 (CEST)
+Received: from localhost ([::1]:57036 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hawVz-0007M9-B1
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 02:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34502)
+	id 1hawpu-0005Q3-Bf
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 02:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hawUZ-00068p-FT
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 02:12:17 -0400
+ (envelope-from <aik@ozlabs.ru>) id 1hawnD-0004rS-S9
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 02:31:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hawUX-0007mj-FL
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 02:12:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54744)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hawUR-0007is-4n; Wed, 12 Jun 2019 02:12:09 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 146F13082E69;
- Wed, 12 Jun 2019 06:12:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
- [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 86AF739B9;
- Wed, 12 Jun 2019 06:12:01 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 18FB21138648; Wed, 12 Jun 2019 08:12:00 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190611134043.9524-1-kwolf@redhat.com>
- <20190611134043.9524-3-kwolf@redhat.com>
-Date: Wed, 12 Jun 2019 08:12:00 +0200
-In-Reply-To: <20190611134043.9524-3-kwolf@redhat.com> (Kevin Wolf's message of
- "Tue, 11 Jun 2019 15:40:34 +0200")
-Message-ID: <87imtbuybz.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <aik@ozlabs.ru>) id 1hawnC-0001Us-Rk
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 02:31:31 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40694)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1hawnC-0001Tn-Ce
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 02:31:30 -0400
+Received: by mail-pf1-x444.google.com with SMTP id p184so5724356pfp.7
+ for <qemu-devel@nongnu.org>; Tue, 11 Jun 2019 23:31:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
+ h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AhOeJvPFDQU3cA6/mqKx7LAepgAFIur19isEKBMlFA0=;
+ b=w9Oxh7pouzYeRlJIO5NmApCiea/5v4M6kPjuGd17JR3158whXW7SQrCoYQNvoSaSna
+ dw5BUsT3gkpX4Bxcb/brKxmkKejNkg1Afjh+vgWMKNDiqN8Rm980Ky1LsZFtjm8kYGtM
+ H0ogXIr//nrEaXdMWW4q6HHksNOq8+nBsSFNsb6sN6u5MB/hqH5iVVWXPI22rMbBJWuk
+ R332Dr2/2icd5Y1KjS2sJZfm4yWwXMqAJYfiS3RPk0KSbeA0G661PJIbQCIyoV+RKnjQ
+ 9RwZUtsnww/lCNrWKCLyKFAzV2zUY/OzwkDOsNqxknqRlXqWtx7U5rA5k1+xG1iGkJS8
+ 25tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=AhOeJvPFDQU3cA6/mqKx7LAepgAFIur19isEKBMlFA0=;
+ b=QuWj+HsawRAlxCv4W02goD8diHQ5E9UW3lMwJoVr+rZ+mW/ojYn9CoRLBlJ+ukIPLZ
+ 2judTQJyyDbdR95lKxSisl1rwoI02XvxeeVzG1COb/htUT9BgCK4/36PWoVxmwGx3WjD
+ iyPlk2gLOt941iUxxe6rrX/3L9ju40VVmsWHWELqGx1rE23QYIzO3GfgSTnoCMNdpFUN
+ 9GDn45x77e/FfVQ8p3qpvoByy8f0BG+3X1RHPbjZjlAG0UISvkxAL9SVXhV5B2BTJ2Ce
+ pQmy6V3vuB/VJbctJoSHhXaSN4JpbWmSBVQcioldtJmqgCxoSPyP4g3JT8tJTkvewPAK
+ a59A==
+X-Gm-Message-State: APjAAAWBzGCFhQCvsdGCOtYrIGghRPAnWyXU1W5T6eQhx1L1yUH4J3Jh
+ YJmF/FFRfDC8mxWl7rARoYMF6Q==
+X-Google-Smtp-Source: APXvYqxS6ODLTEM5WecmRuYNHcMozpfWjNptf12puW1X+JBB3wuJ6kt/NTUA5nb6VW21spqyML7C0A==
+X-Received: by 2002:a17:90a:ba94:: with SMTP id
+ t20mr17493950pjr.116.1560321088067; 
+ Tue, 11 Jun 2019 23:31:28 -0700 (PDT)
+Received: from [10.61.2.175] ([122.99.82.10])
+ by smtp.gmail.com with ESMTPSA id j14sm5532952pfn.120.2019.06.11.23.31.21
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Jun 2019 23:31:26 -0700 (PDT)
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20190228225759.21328-1-farosas@linux.ibm.com>
+ <20190228225759.21328-6-farosas@linux.ibm.com>
+ <b8a30b89-8c19-821e-e3a3-f1b71a088d9d@ozlabs.ru>
+ <87ef73rl39.fsf@linux.ibm.com>
+ <eadc5e30-5094-9b76-7268-cfb633ac40bd@ozlabs.ru>
+Openpgp: preference=signencrypt
+Autocrypt: addr=aik@ozlabs.ru; keydata=
+ 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
+Message-ID: <c5e92072-eb8d-7af5-3eef-fac256f29c98@ozlabs.ru>
+Date: Wed, 12 Jun 2019 16:31:16 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Wed, 12 Jun 2019 06:12:02 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 02/11] monitor: Split monitor_init in
- HMP and QMP function
+In-Reply-To: <eadc5e30-5094-9b76-7268-cfb633ac40bd@ozlabs.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: Re: [Qemu-devel] [RFC PATCH v4 5/5] target/ppc: support single
+ stepping with KVM HV
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,357 +162,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- dgilbert@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Are you reposting this any time soon?
 
-> Instead of mixing HMP and QMP monitors in the same function, separate
-> the monitor creation function for both.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  monitor.c | 86 +++++++++++++++++++++++++++++++------------------------
->  1 file changed, 49 insertions(+), 37 deletions(-)
->
-> diff --git a/monitor.c b/monitor.c
-> index 70ce9e8a77..bb23cc0450 100644
-> --- a/monitor.c
-> +++ b/monitor.c
-> @@ -702,7 +702,7 @@ static void handle_hmp_command(Monitor *mon, const char *cmdline);
->  
->  static void monitor_iothread_init(void);
->  
-> -static void monitor_data_init(Monitor *mon, bool skip_flush,
-> +static void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
->                                bool use_io_thread)
->  {
->      if (use_io_thread && !mon_iothread) {
-> @@ -717,6 +717,7 @@ static void monitor_data_init(Monitor *mon, bool skip_flush,
->      mon->skip_flush = skip_flush;
->      mon->use_io_thread = use_io_thread;
->      mon->qmp.qmp_requests = g_queue_new();
-> +    mon->flags = flags;
->  }
->  
->  static void monitor_data_destroy(Monitor *mon)
-> @@ -740,7 +741,7 @@ char *qmp_human_monitor_command(const char *command_line, bool has_cpu_index,
->      char *output = NULL;
->      Monitor *old_mon, hmp;
->  
-> -    monitor_data_init(&hmp, true, false);
-> +    monitor_data_init(&hmp, 0, true, false);
->  
->      old_mon = cur_mon;
->      cur_mon = &hmp;
+In meanwhile I hit a problem when I cannot step over the "stdu" instruction.
 
-Explicit initialization replaced implicit zero-initialization.  Okay.
+I basically put this:
+stdu    r1,-368(r1)
 
-> @@ -4603,19 +4604,48 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
->      monitor_list_append(mon);
->  }
->  
-> -void monitor_init(Chardev *chr, int flags)
-> +static void monitor_init_qmp(Chardev *chr, int flags)
->  {
->      Monitor *mon = g_malloc(sizeof(*mon));
-> -    bool use_readline = flags & MONITOR_USE_READLINE;
->  
->      /* Note: we run QMP monitor in I/O thread when @chr supports that */
-> -    monitor_data_init(mon, false,
-> -                      (flags & MONITOR_USE_CONTROL)
-> -                      && qemu_chr_has_feature(chr,
-> -                                              QEMU_CHAR_FEATURE_GCONTEXT));
-> +    monitor_data_init(mon, flags, false,
-> +                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
->  
->      qemu_chr_fe_init(&mon->chr, chr, &error_abort);
-> -    mon->flags = flags;
-> +    qemu_chr_fe_set_echo(&mon->chr, true);
-> +
-> +    json_message_parser_init(&mon->qmp.parser, handle_qmp_command, mon, NULL);
-> +    if (mon->use_io_thread) {
-> +        /*
-> +         * Make sure the old iowatch is gone.  It's possible when
-> +         * e.g. the chardev is in client mode, with wait=on.
-> +         */
-> +        remove_fd_in_watch(chr);
-> +        /*
-> +         * We can't call qemu_chr_fe_set_handlers() directly here
-> +         * since chardev might be running in the monitor I/O
-> +         * thread.  Schedule a bottom half.
-> +         */
-> +        aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
-> +                                monitor_qmp_setup_handlers_bh, mon);
-> +        /* The bottom half will add @mon to @mon_list */
-> +    } else {
-> +        qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read,
-> +                                 monitor_qmp_read, monitor_qmp_event,
-> +                                 NULL, mon, NULL, true);
-> +        monitor_list_append(mon);
-> +    }
-> +}
-> +
-> +static void monitor_init_hmp(Chardev *chr, int flags)
-> +{
-> +    Monitor *mon = g_malloc(sizeof(*mon));
-> +    bool use_readline = flags & MONITOR_USE_READLINE;
-> +
-> +    monitor_data_init(mon, flags, false, false);
-> +    qemu_chr_fe_init(&mon->chr, chr, &error_abort);
-> +
->      if (use_readline) {
->          mon->rs = readline_init(monitor_readline_printf,
->                                  monitor_readline_flush,
-> @@ -4624,36 +4654,18 @@ void monitor_init(Chardev *chr, int flags)
->          monitor_read_command(mon, 0);
->      }
->  
-> -    if (monitor_is_qmp(mon)) {
-> -        qemu_chr_fe_set_echo(&mon->chr, true);
-> -        json_message_parser_init(&mon->qmp.parser, handle_qmp_command,
-> -                                 mon, NULL);
-> -        if (mon->use_io_thread) {
-> -            /*
-> -             * Make sure the old iowatch is gone.  It's possible when
-> -             * e.g. the chardev is in client mode, with wait=on.
-> -             */
-> -            remove_fd_in_watch(chr);
-> -            /*
-> -             * We can't call qemu_chr_fe_set_handlers() directly here
-> -             * since chardev might be running in the monitor I/O
-> -             * thread.  Schedule a bottom half.
-> -             */
-> -            aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
-> -                                    monitor_qmp_setup_handlers_bh, mon);
-> -            /* The bottom half will add @mon to @mon_list */
-> -            return;
-> -        } else {
-> -            qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read,
-> -                                     monitor_qmp_read, monitor_qmp_event,
-> -                                     NULL, mon, NULL, true);
-> -        }
-> +    qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read, monitor_read,
-> +                             monitor_event, NULL, mon, NULL, true);
-> +    monitor_list_append(mon);
-> +}
-> +
-> +void monitor_init(Chardev *chr, int flags)
-> +{
-> +    if (flags & MONITOR_USE_CONTROL) {
-> +        monitor_init_qmp(chr, flags);
->      } else {
-> -        qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read, monitor_read,
-> -                                 monitor_event, NULL, mon, NULL, true);
-> +        monitor_init_hmp(chr, flags);
->      }
-> -
-> -    monitor_list_append(mon);
->  }
->  
->  void monitor_cleanup(void)
+and "ni" in gdb does not stop on the next instruction which is quite
+confusing. Ideas?
 
-This part of the diff is hard to read.  I'm inserting a no-op patch just
-for review: make two identical copies of monitor_init() called
-monitor_init_qmp() and monitor_init_hmp(), have monitor_init() call them
-depending on MONITOR_USE_CONTROL.  Rebasing this patch on top of that
-yields a more readable git-diff -w (readable for me, YMMV):
 
-| @@ -4606,28 +4607,15 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
-|  static void monitor_init_qmp(Chardev *chr, int flags)
-|  {
-|      Monitor *mon = g_malloc(sizeof(*mon));
-| -    bool use_readline = flags & MONITOR_USE_READLINE;
+On 20/03/2019 12:42, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 20/03/2019 01:32, Fabiano Rosas wrote:
+>> Alexey Kardashevskiy <aik@ozlabs.ru> writes:
+>>
+>>> Looks good to me, does not break what already works. However I cannot
+>>> debug SLOF real mode and I am not sure why.
+>>>
+>>> (gdb) set endian big
+>>>
+>>> The target is assumed to be big endian
+>>> (gdb) b *0x3f00
+>>>
+>>> Breakpoint 2 at 0x3f00
+>>
+>> I think I'm missing the point here. Why 0x3f00?
+> 
+> Because I am stupid and did not realize that 0x3f00 is a relative offset
+> and 0x4000 is the correct address which works.
+> 
+> 
+> Reviewed-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> 
+> 
+>>
+>> (qemu) info roms
+>> addr=0000000000000000 size=0x0e22b8 mem=ram name="...qemu/slof.bin"                               
+>> addr=0000000000400000 size=0x17976d0 mem=ram name="...vmlinux"
+>>
+>>
+>> $ objdump -d board-qemu/llfw/stage1.elf | grep "_start>"
+>> 0000000000000100 <__start>:
+>>      100:       48 00 3f 00     b       4000 <_start>
+>> 0000000000004000 <_start>:
+>>
+>>
+>> Thread 1 hit Breakpoint 3, _start () at startup.S:82
+>> (gdb) p/x $pc
+>> $1 = 0x4000
+>> (gdb) si
+>> (gdb) p/x $pc
+>> $3 = 0x4004
+>> (gdb) c
+>> Thread 1 hit Breakpoint 4, early_c_entry (start_addr=49056, fdt_addr=49024) at stage2.c:202
+>> (gdb) p/x $pc
+>> $4 = 0x4d18
+>>
+> 
 
-See below.
-
-|  
-|      /* Note: we run QMP monitor in I/O thread when @chr supports that */
-| -    monitor_data_init(mon, false,
-| -                      (flags & MONITOR_USE_CONTROL)
-| -                      && qemu_chr_has_feature(chr,
-| -                                              QEMU_CHAR_FEATURE_GCONTEXT));
-| +    monitor_data_init(mon, flags, false,
-| +                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
-
-Partially evaluated: flags & MONITOR_USE_CONTROL is true.  Good.
-
-|  
-|      qemu_chr_fe_init(&mon->chr, chr, &error_abort);
-| -    mon->flags = flags;
-
-Moved into monitor_data_init().  Good.
-
-| -    if (use_readline) {
-| -        mon->rs = readline_init(monitor_readline_printf,
-| -                                monitor_readline_flush,
-| -                                mon,
-| -                                monitor_find_completion);
-| -        monitor_read_command(mon, 0);
-| -    }
-
-Deleting readline support here is not a regression, because nothing ever
-passes MONITOR_USE_READLINE along with MONITOR_USE_CONTROL.  We use only
-three of the four cases:
-
-* Neither flag: gdbstub.c (I have no idea why and how this uses the
-  monitor code, and why it doesn't use readline)
-
-* Just MONITOR_USE_READLINE:
-
-  - vl.c on behalf of -mon mode=readline,... and its various sugared
-    forms
-
-  - chardev/char.c for implicit mux monitor (you don't want to know)
-
-* Just MONITOR_USE_CONTROL:
-
-  - vl.c on behalf of -mon mode=control,... and its various sugared
-    forms
-
-QMP with readline could perhaps be convenient for testing.  I use
-socat's READLINE address type myself.
-
-Speaking of odd flag combinations: MONITOR_USE_PRETTY is silently
-ignored unless MONITOR_USE_CONTROL.
-
-Deleting the unused (and untried) code to use QMP with readline is fine
-with me, but please document MONITOR_USE_READLINE is silently ignored
-with MONITOR_USE_CONTROL, or replace all the flags by an enumeration of
-the actual cases: HMP without readline, HMP with readline, QMP, pretty
-QMP.
-
-| -
-| -    if (monitor_is_qmp(mon)) {
-|      qemu_chr_fe_set_echo(&mon->chr, true);
-| -        json_message_parser_init(&mon->qmp.parser, handle_qmp_command,
-| -                                 mon, NULL);
-| +
-| +    json_message_parser_init(&mon->qmp.parser, handle_qmp_command, mon, NULL);
-
-Partially evaluated: monitor_is_qmp(mon) is true.  Good.
-
-Keep the line break, please.
-
-|      if (mon->use_io_thread) {
-|          /*
-|           * Make sure the old iowatch is gone.  It's possible when
-| @@ -4642,33 +4630,22 @@ static void monitor_init_qmp(Chardev *chr, int flags)
-|          aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
-|                                  monitor_qmp_setup_handlers_bh, mon);
-|          /* The bottom half will add @mon to @mon_list */
-| -            return;
-|      } else {
-|          qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read,
-|                                   monitor_qmp_read, monitor_qmp_event,
-|                                   NULL, mon, NULL, true);
-| -        }
-| -    } else {
-
-This else belongs to if (!monitor_is_qmp(mon)).  Good.
-
-| -        qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read, monitor_read,
-| -                                 monitor_event, NULL, mon, NULL, true);
-| -    }
-| -
-|          monitor_list_append(mon);
-|      }
-| +}
-
-You simplified
-
-       if (mon->use_io_thread) {
-           ...
-           /* The bottom half will add @mon to @mon_list */
-           return;
-       } else {
-           ...
-       }
-
-       monitor_list_append(mon);
-
-to
-           
-       if (mon->use_io_thread) {
-           ...
-           /* The bottom half will add @mon to @mon_list */
-       } else {
-           ...
-           monitor_list_append(mon);
-       }
-
-Good.
-
-|  
-|  static void monitor_init_hmp(Chardev *chr, int flags)
-|  {
-|      Monitor *mon = g_malloc(sizeof(*mon));
-|      bool use_readline = flags & MONITOR_USE_READLINE;
-|  
-| -    /* Note: we run QMP monitor in I/O thread when @chr supports that */
-| -    monitor_data_init(mon, false,
-| -                      (flags & MONITOR_USE_CONTROL)
-| -                      && qemu_chr_has_feature(chr,
-| -                                              QEMU_CHAR_FEATURE_GCONTEXT));
-| -
-| +    monitor_data_init(mon, flags, false, false);
-
-Partially evaluated: flags & MONITOR_USE_CONTROL is false.  Good.
-
-|      qemu_chr_fe_init(&mon->chr, chr, &error_abort);
-| -    mon->flags = flags;
-| +
-
-Moved into monitor_data_init().  Good.
-
-|      if (use_readline) {
-|          mon->rs = readline_init(monitor_readline_printf,
-|                                  monitor_readline_flush,
-| @@ -4677,35 +4654,8 @@ static void monitor_init_hmp(Chardev *chr, int flags)
-|          monitor_read_command(mon, 0);
-|      }
-|  
-| -    if (monitor_is_qmp(mon)) {
-| -        qemu_chr_fe_set_echo(&mon->chr, true);
-| -        json_message_parser_init(&mon->qmp.parser, handle_qmp_command,
-| -                                 mon, NULL);
-| -        if (mon->use_io_thread) {
-| -            /*
-| -             * Make sure the old iowatch is gone.  It's possible when
-| -             * e.g. the chardev is in client mode, with wait=on.
-| -             */
-| -            remove_fd_in_watch(chr);
-| -            /*
-| -             * We can't call qemu_chr_fe_set_handlers() directly here
-| -             * since chardev might be running in the monitor I/O
-| -             * thread.  Schedule a bottom half.
-| -             */
-| -            aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
-| -                                    monitor_qmp_setup_handlers_bh, mon);
-| -            /* The bottom half will add @mon to @mon_list */
-| -            return;
-| -        } else {
-| -            qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read,
-| -                                     monitor_qmp_read, monitor_qmp_event,
-| -                                     NULL, mon, NULL, true);
-| -        }
-| -    } else {
-|      qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read, monitor_read,
-|                               monitor_event, NULL, mon, NULL, true);
-| -    }
-| -
-
-Partially evaluated: monitor_is_qmp(mon) is false.  Good.
-
-|      monitor_list_append(mon);
-|  }
-|  
-
-Duplicates qemu_chr_fe_init(&mon->chr, chr, &error_abort).  Quite
-tolerable.
-
-Much clearer overall.
+-- 
+Alexey
 
