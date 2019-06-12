@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F13B426A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:51:15 +0200 (CEST)
-Received: from localhost ([::1]:60002 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA9B426C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:57:49 +0200 (CEST)
+Received: from localhost ([::1]:60050 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb2ig-0001gB-Gp
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50744)
+	id 1hb2p3-0007ir-42
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51889)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lersek@redhat.com>) id 1hb2Ly-00073n-2O
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:27:47 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hb2Qp-0001gK-Eu
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:32:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1hb2Lw-0001Nk-8k
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:27:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39394)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>)
- id 1hb2Lq-0000yT-HF; Wed, 12 Jun 2019 08:27:38 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5C2933003185;
- Wed, 12 Jun 2019 12:27:31 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-191.ams2.redhat.com
- [10.36.117.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 900FD1001B0A;
- Wed, 12 Jun 2019 12:27:22 +0000 (UTC)
-To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- seabios@seabios.org, kraxel@redhat.com, kevin@koconnor.net
-References: <20190612094237.47462-1-shmuel.eiderman@oracle.com>
- <20190612094237.47462-8-shmuel.eiderman@oracle.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <dc9c9c32-2fcb-a501-525b-a9bba8f22340@redhat.com>
-Date: Wed, 12 Jun 2019 14:27:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <pbonzini@redhat.com>) id 1hb2Ql-000227-4m
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:32:45 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39702)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hb2Qh-0001vo-Hy
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:32:43 -0400
+Received: by mail-wm1-f68.google.com with SMTP id z23so6339577wma.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 05:32:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Mqp3msBOCufH0pE24Yxy/kWNBy0vvGDj87ptUcKLmC4=;
+ b=KNY2K3eiOT4LPmAr3et2QiduRV8sjaGAPVCSdUbi1o94AlKDGYb6AQxJni0VtFm7UO
+ 4cA1fLFswXKSBV100CBVeuqX2SOYT8Jli68s8qDy14Hjx4NCxJ6WM7ILv0P8GTdQsPUo
+ fy8G/YNYZQEWLG50m6LAbR1Bo2uYPIVlqWblCR3e4WbupqKbVTildQU9DF5lBdX+N+Jr
+ b3Rr86b8Bs7I8nDeUNZPMC8N74y5WpqP4KKmUUINw+eJ0eL6p+y2dBOMNAQA0TynGKKN
+ EDsDQcVB9nN3aVNZZw9evQBaOd9AnWS2H/IAmIITS7HxarkwcjrbXjE4bXR8dDhVFh6m
+ bVsg==
+X-Gm-Message-State: APjAAAVdTPy7w2ATb+T4ZOP15GtNasGxClgdnsZ+8RmhXiiDRwWF6mEU
+ OvRgRzXZ2flXQw4QIdyj9ODexg==
+X-Google-Smtp-Source: APXvYqyjXO02hhBnKwb9cfaC6jXDITSB7HfLoerYZhm3n49ukOi52afqJa1wlUCtOgxRO++y8X8QKQ==
+X-Received: by 2002:a1c:e341:: with SMTP id a62mr21818469wmh.165.1560342757948; 
+ Wed, 12 Jun 2019 05:32:37 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d43d:6da3:9364:a775?
+ ([2001:b07:6468:f312:d43d:6da3:9364:a775])
+ by smtp.gmail.com with ESMTPSA id l190sm5935869wml.16.2019.06.12.05.32.36
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 12 Jun 2019 05:32:37 -0700 (PDT)
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20190612120421.20336-1-stefanha@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <298bea90-7b26-6a07-3f3f-65dacaba9fe5@redhat.com>
+Date: Wed, 12 Jun 2019 14:32:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190612094237.47462-8-shmuel.eiderman@oracle.com>
+In-Reply-To: <20190612120421.20336-1-stefanha@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Wed, 12 Jun 2019 12:27:33 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [QEMU] [PATCH 7/8] bootdevice: FW_CFG interface
- for LCHS values
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH v4] virtio-scsi: restart DMA after iothread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,166 +71,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liran.alon@oracle.com, karl.heubaum@oracle.com, arbel.moshe@oracle.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/12/19 11:42, Sam Eiderman wrote:
-> Using fw_cfg, supply logical CHS values directly from QEMU to the BIOS.
+On 12/06/19 14:04, Stefan Hajnoczi wrote:
+> When the 'cont' command resumes guest execution the vm change state
+> handlers are invoked.  Unfortunately there is no explicit ordering
+> between vm change state handlers.  When two layers of code both use vm
+> change state handlers, we don't control which handler runs first.
 > 
-> Non-standard logical geometries break under QEMU.
+> virtio-scsi with iothreads hits a deadlock when a failed SCSI command is
+> restarted and completes before the iothread is re-initialized.
 > 
-> A virtual disk which contains an operating system which depends on
-> logical geometries (consistent values being reported from BIOS INT13
-> AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
-> logical geometries - for example 56 SPT (sectors per track).
-> No matter what QEMU will report - SeaBIOS, for large enough disks - will
-> use LBA translation, which will report 63 SPT instead.
+> This patch introduces priorities for VM change state handlers so the
+> IOThread is guaranteed to be initialized before DMA requests are
+> restarted.
 > 
-> In addition we cannot force SeaBIOS to rely on physical geometries at
-> all. A virtio-blk-pci virtual disk with 255 phyiscal heads cannot
-> report more than 16 physical heads when moved to an IDE controller,
-> since the ATA spec allows a maximum of 16 heads - this is an artifact of
-> virtualization.
-> 
-> By supplying the logical geometries directly we are able to support such
-> "exotic" disks.
-> 
-> We serialize this information in a similar way to the "bootorder"
-> interface.
-> The fw_cfg entry is "bootdevices" and it serializes a struct.
-> At the moment the struct holds the values of logical CHS values but it
-> can be expanded easily due to the extendable ABI implemented.
-> 
-> (In the future, we can pass the bootindex through "bootdevices" instead
-> "bootorder" - unifying all bootdevice information in one fw_cfg value)
-
-I would disagree with that. UEFI guest firmware doesn't seem to have any
-use for this new type of information ("logical CHS values"), so the
-current interface (the "bootorder" fw_cfg file) should continue to work.
-The ArmVirtQemu and OVMF platform firmwares (built from the edk2
-project, and bundled with QEMU 4.1+) implement some serious parsing and
-processing for "bootorder".
-
-Independently, another comment:
-
-> The PV interface through fw_cfg could have also been implemented using
-> device specific keys, e.g.: "/etc/bootdevice/%s/logical_geometry" where
-> %s is the device name QEMU produces - but this implementation would
-> require much more code refactoring, both in QEMU and SeaBIOS, so the
-> current implementation was chosen.
-> 
-> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-> Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
-> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  bootdevice.c            | 42 ++++++++++++++++++++++++++++++++++++++++++
->  hw/nvram/fw_cfg.c       | 14 +++++++++++---
->  include/sysemu/sysemu.h |  1 +
->  3 files changed, 54 insertions(+), 3 deletions(-)
+> v4:
+> Paolo and Michael were interested in a priorities system.  Kevin wasn't
+> convinced.  Here is a patch implementing the priorities approach so you
+> can decide whether you prefer this or not.
+
+I like this better than the others, but I do agree with Kevin that the
+names aren't great and PRIO_IOTHREAD has nothing to do with iothreads
+really.
+
+Maybe the priority should be simply the "depth" of the device's bus, so
+2 for scsi because we know it always has a controller between the device
+and the machine and 1 for everything else.  Maybe who knows, in the
+future the vmstate_change handler could be moved in DeviceClass and
+propagated across buses[1]
+
+So I vote for this patch but with VM_CHANGE_STATE_HANDLER_PRIO_IOTHREAD
+renamed to VM_CHANGE_STATE_HANDLER_PRIO_DEVICE and
+VM_CHANGE_STATE_HANDLER_PRIO_DEVICE renamed to
+VM_CHANGE_STATE_HANDLER_PRIO_DISK (which is consistent with the naming
+of scsi-disk, though not with ide-drive...).
+
+Paolo
+
+[1] With care, because currently the initialization order for stop is
+virtio-device -> virtio-pci -> scsi-bus (and the opposite for start).  I
+am not sure that the order for virtio-pci and virtio-device could be
+exchanged, as would be the case if you followed the bus order
+pci->virtio->scsi.
+
+> The customer has now confirmed that the deadlock is fixed.  I have
+> changed the Subject line from RFC to PATCH.
 > 
-> diff --git a/bootdevice.c b/bootdevice.c
-> index 2b12fb85a4..84c2a83f25 100644
-> --- a/bootdevice.c
-> +++ b/bootdevice.c
-> @@ -405,3 +405,45 @@ void del_boot_device_lchs(DeviceState *dev, const char *suffix)
->          }
->      }
->  }
-> +
-> +typedef struct QEMU_PACKED BootDeviceEntrySerialized {
-> +    /* Do not change field order - add new fields below */
-> +    uint32_t lcyls;
-> +    uint32_t lheads;
-> +    uint32_t lsecs;
-> +} BootDeviceEntrySerialized;
-> +
-> +/* Serialized as: struct size (4) + (device name\0 + device struct) x devices */
-> +char *get_boot_devices_info(size_t *size)
-> +{
-> +    FWLCHSEntry *i;
-> +    BootDeviceEntrySerialized s;
-> +    size_t total = 0;
-> +    char *list = NULL;
-> +
-> +    list = g_malloc0(sizeof(uint32_t));
-> +    *((uint32_t *)list) = (uint32_t)sizeof(s);
-> +    total = sizeof(uint32_t);
-> +
-> +    QTAILQ_FOREACH(i, &fw_lchs, link) {
-> +        char *bootpath;
-> +        size_t len;
-> +
-> +        bootpath = get_boot_device_path(i->dev, false, i->suffix);
-> +        s.lcyls = i->lcyls;
-> +        s.lheads = i->lheads;
-> +        s.lsecs = i->lsecs;
-
-You should document the endianness of the fields in
-BootDeviceEntrySerialized, and then call byte order conversion functions
-here accordingly (most probably cpu_to_le32()).
-
-As written, this code would break if you ran qemu-system-x86_64 /
-qemu-system-i386 (with TCG acceleration) on a big endian host.
-
-Thanks
-Laszlo
-
-> +
-> +        len = strlen(bootpath) + 1;
-> +        list = g_realloc(list, total + len + sizeof(s));
-> +        memcpy(&list[total], bootpath, len);
-> +        memcpy(&list[total + len], &s, sizeof(s));
-> +        total += len + sizeof(s);
-> +
-> +        g_free(bootpath);
-> +    }
-> +
-> +    *size = total;
-> +
-> +    return list;
-> +}
-> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-> index 9f7b7789bc..008b21542f 100644
-> --- a/hw/nvram/fw_cfg.c
-> +++ b/hw/nvram/fw_cfg.c
-> @@ -916,13 +916,21 @@ void *fw_cfg_modify_file(FWCfgState *s, const char *filename,
->  
->  static void fw_cfg_machine_reset(void *opaque)
->  {
-> +    MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
-> +    FWCfgState *s = opaque;
->      void *ptr;
->      size_t len;
-> -    FWCfgState *s = opaque;
-> -    char *bootindex = get_boot_devices_list(&len);
-> +    char *buf;
->  
-> -    ptr = fw_cfg_modify_file(s, "bootorder", (uint8_t *)bootindex, len);
-> +    buf = get_boot_devices_list(&len);
-> +    ptr = fw_cfg_modify_file(s, "bootorder", (uint8_t *)buf, len);
->      g_free(ptr);
-> +
-> +    if (!mc->legacy_fw_cfg_order) {
-> +        buf = get_boot_devices_info(&len);
-> +        ptr = fw_cfg_modify_file(s, "bootdevices", (uint8_t *)buf, len);
-> +        g_free(ptr);
-> +    }
->  }
->  
->  static void fw_cfg_machine_ready(struct Notifier *n, void *data)
+>  include/sysemu/sysemu.h | 10 ++++++++++
+>  hw/scsi/scsi-bus.c      |  6 ++++--
+>  hw/virtio/virtio.c      |  6 ++++--
+>  vl.c                    | 44 +++++++++++++++++++++++++++++++----------
+>  4 files changed, 52 insertions(+), 14 deletions(-)
+> 
 > diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-> index 173dfbb539..f0552006f4 100644
+> index 61579ae71e..1a4db092c7 100644
 > --- a/include/sysemu/sysemu.h
 > +++ b/include/sysemu/sysemu.h
-> @@ -174,6 +174,7 @@ void validate_bootdevices(const char *devices, Error **errp);
->  void add_boot_device_lchs(DeviceState *dev, const char *suffix,
->                            uint32_t lcyls, uint32_t lheads, uint32_t lsecs);
->  void del_boot_device_lchs(DeviceState *dev, const char *suffix);
-> +char *get_boot_devices_info(size_t *size);
+> @@ -27,8 +27,18 @@ bool runstate_store(char *str, size_t size);
+>  typedef struct vm_change_state_entry VMChangeStateEntry;
+>  typedef void VMChangeStateHandler(void *opaque, int running, RunState state);
 >  
->  /* handler to set the boot_device order for a specific type of MachineClass */
->  typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
+> +enum {
+> +    /* Low priorities run first when the VM starts */
+> +    VM_CHANGE_STATE_HANDLER_PRIO_UNDEFINED = 0,
+> +    VM_CHANGE_STATE_HANDLER_PRIO_IOTHREAD = 100,
+> +    VM_CHANGE_STATE_HANDLER_PRIO_DEVICE = 200,
+> +    /* High priorities run first when the VM stops */
+> +};
+> +
+>  VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandler *cb,
+>                                                       void *opaque);
+> +VMChangeStateEntry *qemu_add_vm_change_state_handler_prio(
+> +        VMChangeStateHandler *cb, void *opaque, int priority);
+>  void qemu_del_vm_change_state_handler(VMChangeStateEntry *e);
+>  void vm_state_notify(int running, RunState state);
+>  
+> diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+> index c480553083..eda5b9a19e 100644
+> --- a/hw/scsi/scsi-bus.c
+> +++ b/hw/scsi/scsi-bus.c
+> @@ -206,8 +206,10 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+>          error_propagate(errp, local_err);
+>          return;
+>      }
+> -    dev->vmsentry = qemu_add_vm_change_state_handler(scsi_dma_restart_cb,
+> -                                                     dev);
+> +    dev->vmsentry = qemu_add_vm_change_state_handler_prio(
+> +            scsi_dma_restart_cb,
+> +            dev,
+> +            VM_CHANGE_STATE_HANDLER_PRIO_DEVICE);
+>  }
+>  
+>  static void scsi_qdev_unrealize(DeviceState *qdev, Error **errp)
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index 07f4a64b48..9256af587a 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -2354,8 +2354,10 @@ void virtio_init(VirtIODevice *vdev, const char *name,
+>      } else {
+>          vdev->config = NULL;
+>      }
+> -    vdev->vmstate = qemu_add_vm_change_state_handler(virtio_vmstate_change,
+> -                                                     vdev);
+> +    vdev->vmstate = qemu_add_vm_change_state_handler_prio(
+> +            virtio_vmstate_change,
+> +            vdev,
+> +            VM_CHANGE_STATE_HANDLER_PRIO_IOTHREAD);
+>      vdev->device_endian = virtio_default_endian();
+>      vdev->use_guest_notifier_mask = true;
+>  }
+> diff --git a/vl.c b/vl.c
+> index cd1fbc4cdc..26c82063d2 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -1469,27 +1469,45 @@ static int machine_help_func(QemuOpts *opts, MachineState *machine)
+>  struct vm_change_state_entry {
+>      VMChangeStateHandler *cb;
+>      void *opaque;
+> -    QLIST_ENTRY (vm_change_state_entry) entries;
+> +    QTAILQ_ENTRY (vm_change_state_entry) entries;
+> +    int priority;
+>  };
+>  
+> -static QLIST_HEAD(, vm_change_state_entry) vm_change_state_head;
+> +static QTAILQ_HEAD(, vm_change_state_entry) vm_change_state_head;
+>  
+> -VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandler *cb,
+> -                                                     void *opaque)
+> +VMChangeStateEntry *qemu_add_vm_change_state_handler_prio(
+> +        VMChangeStateHandler *cb, void *opaque, int priority)
+>  {
+>      VMChangeStateEntry *e;
+> +    VMChangeStateEntry *other;
+>  
+>      e = g_malloc0(sizeof (*e));
+> -
+>      e->cb = cb;
+>      e->opaque = opaque;
+> -    QLIST_INSERT_HEAD(&vm_change_state_head, e, entries);
+> +    e->priority = priority;
+> +
+> +    /* Keep list sorted in ascending priority order */
+> +    QTAILQ_FOREACH(other, &vm_change_state_head, entries) {
+> +        if (priority < other->priority) {
+> +            QTAILQ_INSERT_BEFORE(other, e, entries);
+> +            return e;
+> +        }
+> +    }
+> +
+> +    QTAILQ_INSERT_TAIL(&vm_change_state_head, e, entries);
+>      return e;
+>  }
+>  
+> +VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandler *cb,
+> +                                                     void *opaque)
+> +{
+> +    return qemu_add_vm_change_state_handler_prio(cb, opaque,
+> +            VM_CHANGE_STATE_HANDLER_PRIO_UNDEFINED);
+> +}
+> +
+>  void qemu_del_vm_change_state_handler(VMChangeStateEntry *e)
+>  {
+> -    QLIST_REMOVE (e, entries);
+> +    QTAILQ_REMOVE (&vm_change_state_head, e, entries);
+>      g_free (e);
+>  }
+>  
+> @@ -1499,8 +1517,14 @@ void vm_state_notify(int running, RunState state)
+>  
+>      trace_vm_state_notify(running, state, RunState_str(state));
+>  
+> -    QLIST_FOREACH_SAFE(e, &vm_change_state_head, entries, next) {
+> -        e->cb(e->opaque, running, state);
+> +    if (running) {
+> +        QTAILQ_FOREACH_SAFE(e, &vm_change_state_head, entries, next) {
+> +            e->cb(e->opaque, running, state);
+> +        }
+> +    } else {
+> +        QTAILQ_FOREACH_REVERSE_SAFE(e, &vm_change_state_head, entries, next) {
+> +            e->cb(e->opaque, running, state);
+> +        }
+>      }
+>  }
+>  
+> @@ -3009,7 +3033,7 @@ int main(int argc, char **argv, char **envp)
+>          exit(1);
+>      }
+>  
+> -    QLIST_INIT (&vm_change_state_head);
+> +    QTAILQ_INIT (&vm_change_state_head);
+>      os_setup_early_signal_handling();
+>  
+>      cpu_option = NULL;
 > 
 
 
