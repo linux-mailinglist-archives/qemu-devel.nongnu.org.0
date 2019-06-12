@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428CB42565
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:20:16 +0200 (CEST)
-Received: from localhost ([::1]:59794 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB31E42563
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:19:09 +0200 (CEST)
+Received: from localhost ([::1]:59790 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb2Eh-0000TG-ER
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:20:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46888)
+	id 1hb2Dc-0007wC-R6
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46827)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hb24l-0001X9-BJ
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:10:01 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hb24n-0001SZ-Oa
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:10:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hb1w4-000567-EP
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:01:04 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:43560)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hb1vp-0004uR-IM
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:00:50 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:43594)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hb1vo-0004Ij-Ut; Wed, 12 Jun 2019 08:00:45 -0400
+ id 1hb1vc-0004M1-4P; Wed, 12 Jun 2019 08:00:35 -0400
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CBsId1105911;
- Wed, 12 Jun 2019 12:00:14 GMT
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CBsmO3106351;
+ Wed, 12 Jun 2019 12:00:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
- bh=7xrUoYOu+9ElvUB5L88vzyRFGdPo+spBEQlM3TkzjbI=;
- b=chspXC2Auwz4DvqpWreK4EQYgvh3GAYgBCHa1Qb3LJbkSNv3gmfPRkKSXbJNWnsOEOsP
- SbEnQ5MA9S8OLQ8p6Mvm6Dj7xUT1nTtIpT2k1OH++kYFMN5CHWrmx6YKsM2kqVovJhAR
- l/qSXlIABBvBD/6caEhx4YplzM9lZwGE153BNJT5HC5A+JbpY1NWIt706IZJ9kWJTEfU
- MEAzetMHW2meTvbSGyBXphTgtuD+3NdMFdLIMknrRdVDyed5Z/p1tY+LgNOcuRV1qd/7
- CNsMPGdDnP10jdOKx63qRt1SbQZorsPYHN4x1HSgXLFF1QziUH8aqKV2zfyHIC8+KSED wQ== 
+ bh=LGrComxyqN1TLgk8Bo9iKZ5zTEqxz7KVof3cokKzZBY=;
+ b=WMudt7jgcn3b0qcd2KCaM0geGoby9sfs/IMFAcD8JIJgD8aMp5Mjm/3ZurUYw0egbRn4
+ aPGF6+aJKcHmli1c7/vdtpSLozJmymQqe2WUyIzSlfpFMiVaKE2amjZhuIjJeNBDUtUb
+ AJMvQLGE8BXdhHvH0BXXWQxSowG0skb5k01In8SoiqfLiHLZkqDi36ovtqp5kjo8IviD
+ g2rRbso1IOCi+644zH0BpYGAThELJyDZTuVyXsJKHCQh+GSjK6tZKETdEpykYjNxA7Mj
+ jNCoYH621xWAlehvP6baNkqUu8Ge7NBzwN8SYXMqfV0Si+Lfn7AXTZD5fjihDHAwX/32 rQ== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 2t05nqttp2-1
+ by userp2120.oracle.com with ESMTP id 2t05nqttpc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jun 2019 12:00:14 +0000
+ Wed, 12 Jun 2019 12:00:16 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CC0Ck4003117;
- Wed, 12 Jun 2019 12:00:13 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 2t0p9ru1vt-1
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CC0CjJ003077;
+ Wed, 12 Jun 2019 12:00:15 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 2t0p9ru1ye-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jun 2019 12:00:13 +0000
+ Wed, 12 Jun 2019 12:00:15 +0000
 Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5CC09r9015790;
- Wed, 12 Jun 2019 12:00:10 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5CC0CHY024450;
+ Wed, 12 Jun 2019 12:00:13 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 12 Jun 2019 05:00:09 -0700
+ with ESMTP ; Wed, 12 Jun 2019 05:00:12 -0700
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
  mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
  kevin@koconnor.net
-Date: Wed, 12 Jun 2019 14:59:35 +0300
-Message-Id: <20190612115939.23825-5-shmuel.eiderman@oracle.com>
+Date: Wed, 12 Jun 2019 14:59:36 +0300
+Message-Id: <20190612115939.23825-6-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
 In-Reply-To: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
 References: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
@@ -62,7 +62,7 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9285
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=969
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=886
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1906120083
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9285
@@ -70,13 +70,13 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9285
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
  suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=930 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906120083
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 156.151.31.85
-Subject: [Qemu-devel] [QEMU] [PATCH v2 4/8] scsi: Propagate unrealize()
- callback to scsi-hd
+Subject: [Qemu-devel] [QEMU] [PATCH v2 5/8] bootdevice: Gather LCHS from all
+ relevant devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,67 +93,116 @@ Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will need to add LCHS removal logic to scsi-hd's unrealize() in the
-next commit.
+Relevant devices are:
+    * ide-hd (and ide-cd, ide-drive)
+    * scsi-hd (and scsi-cd, scsi-disk, scsi-block)
+    * virtio-blk-pci
+
+We do not call del_boot_device_lchs() for ide-* since we don't need to -
+IDE block devices do not support unplugging.
 
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 ---
- hw/scsi/scsi-bus.c     | 15 +++++++++++++++
- include/hw/scsi/scsi.h |  1 +
- 2 files changed, 16 insertions(+)
+ hw/block/virtio-blk.c |  6 ++++++
+ hw/ide/qdev.c         |  5 +++++
+ hw/scsi/scsi-disk.c   | 14 ++++++++++++++
+ 3 files changed, 25 insertions(+)
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index c480553083..f6fe497a1a 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -55,6 +55,14 @@ static void scsi_device_realize(SCSIDevice *s, Error **errp)
-     }
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index 06e57a4d39..787bbd768a 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1182,6 +1182,11 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+     blk_set_guest_block_size(s->blk, s->conf.conf.logical_block_size);
+ 
+     blk_iostatus_enable(s->blk);
++
++    add_boot_device_lchs(dev, "/disk@0,0",
++                         (&conf->conf)->lcyls,
++                         (&conf->conf)->lheads,
++                         (&conf->conf)->lsecs);
  }
  
-+static void scsi_device_unrealize(SCSIDevice *s, Error **errp)
-+{
-+    SCSIDeviceClass *sc = SCSI_DEVICE_GET_CLASS(s);
-+    if (sc->unrealize) {
-+        sc->unrealize(s, errp);
-+    }
+ static void virtio_blk_device_unrealize(DeviceState *dev, Error **errp)
+@@ -1189,6 +1194,7 @@ static void virtio_blk_device_unrealize(DeviceState *dev, Error **errp)
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtIOBlock *s = VIRTIO_BLK(dev);
+ 
++    del_boot_device_lchs(dev, "/disk@0,0");
+     virtio_blk_data_plane_destroy(s->dataplane);
+     s->dataplane = NULL;
+     qemu_del_vm_change_state_handler(s->change);
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 9cae3205df..07f429d5e3 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -215,6 +215,11 @@ static void ide_dev_initfn(IDEDevice *dev, IDEDriveKind kind, Error **errp)
+ 
+     add_boot_device_path(dev->conf.bootindex, &dev->qdev,
+                          dev->unit ? "/disk@1" : "/disk@0");
++
++    add_boot_device_lchs(&dev->qdev, dev->unit ? "/disk@1" : "/disk@0",
++                         (&dev->conf)->lcyls,
++                         (&dev->conf)->lheads,
++                         (&dev->conf)->lsecs);
+ }
+ 
+ static void ide_dev_get_bootindex(Object *obj, Visitor *v, const char *name,
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 7b89ac798b..3451aefdea 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2390,6 +2390,16 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
+     blk_set_guest_block_size(s->qdev.conf.blk, s->qdev.blocksize);
+ 
+     blk_iostatus_enable(s->qdev.conf.blk);
++
++    add_boot_device_lchs(&dev->qdev, NULL,
++                         (&dev->conf)->lcyls,
++                         (&dev->conf)->lheads,
++                         (&dev->conf)->lsecs);
 +}
 +
- int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-                        void *hba_private)
- {
-@@ -213,11 +221,18 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
- static void scsi_qdev_unrealize(DeviceState *qdev, Error **errp)
- {
-     SCSIDevice *dev = SCSI_DEVICE(qdev);
-+    Error *local_err = NULL;
- 
-     if (dev->vmsentry) {
-         qemu_del_vm_change_state_handler(dev->vmsentry);
-     }
- 
-+    scsi_device_unrealize(dev, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-     scsi_device_purge_requests(dev, SENSE_CODE(NO_SENSE));
-     blockdev_mark_auto_del(dev->conf.blk);
++static void scsi_unrealize(SCSIDevice *dev, Error **errp)
++{
++    del_boot_device_lchs(&dev->qdev, NULL);
  }
-diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-index 426566a5c6..8cf71f910d 100644
---- a/include/hw/scsi/scsi.h
-+++ b/include/hw/scsi/scsi.h
-@@ -59,6 +59,7 @@ struct SCSIRequest {
- typedef struct SCSIDeviceClass {
-     DeviceClass parent_class;
-     void (*realize)(SCSIDevice *dev, Error **errp);
-+    void (*unrealize)(SCSIDevice *dev, Error **errp);
-     int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-                      void *hba_private);
-     SCSIRequest *(*alloc_req)(SCSIDevice *s, uint32_t tag, uint32_t lun,
+ 
+ static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
+@@ -2988,6 +2998,7 @@ static void scsi_hd_class_initfn(ObjectClass *klass, void *data)
+     SCSIDeviceClass *sc = SCSI_DEVICE_CLASS(klass);
+ 
+     sc->realize      = scsi_hd_realize;
++    sc->unrealize    = scsi_unrealize;
+     sc->alloc_req    = scsi_new_request;
+     sc->unit_attention_reported = scsi_disk_unit_attention_reported;
+     dc->desc = "virtual SCSI disk";
+@@ -3019,6 +3030,7 @@ static void scsi_cd_class_initfn(ObjectClass *klass, void *data)
+     SCSIDeviceClass *sc = SCSI_DEVICE_CLASS(klass);
+ 
+     sc->realize      = scsi_cd_realize;
++    sc->unrealize    = scsi_unrealize;
+     sc->alloc_req    = scsi_new_request;
+     sc->unit_attention_reported = scsi_disk_unit_attention_reported;
+     dc->desc = "virtual SCSI CD-ROM";
+@@ -3054,6 +3066,7 @@ static void scsi_block_class_initfn(ObjectClass *klass, void *data)
+     SCSIDiskClass *sdc = SCSI_DISK_BASE_CLASS(klass);
+ 
+     sc->realize      = scsi_block_realize;
++    sc->unrealize    = scsi_unrealize;
+     sc->alloc_req    = scsi_block_new_request;
+     sc->parse_cdb    = scsi_block_parse_cdb;
+     sdc->dma_readv   = scsi_block_dma_readv;
+@@ -3095,6 +3108,7 @@ static void scsi_disk_class_initfn(ObjectClass *klass, void *data)
+     SCSIDeviceClass *sc = SCSI_DEVICE_CLASS(klass);
+ 
+     sc->realize      = scsi_disk_realize;
++    sc->unrealize    = scsi_unrealize;
+     sc->alloc_req    = scsi_new_request;
+     sc->unit_attention_reported = scsi_disk_unit_attention_reported;
+     dc->fw_name = "disk";
 -- 
 2.13.3
 
