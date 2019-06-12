@@ -2,58 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6BB422FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 12:51:18 +0200 (CEST)
-Received: from localhost ([::1]:58702 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0807342316
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 12:54:58 +0200 (CEST)
+Received: from localhost ([::1]:58738 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb0qb-0004Hm-H4
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 06:51:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58454)
+	id 1hb0u9-00005J-5j
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 06:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58640)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tgfbeta@me.com>) id 1hb0nO-0002to-ON
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:47:59 -0400
+ (envelope-from <quintela@redhat.com>) id 1hb0nx-0003Eh-OZ
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:48:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tgfbeta@me.com>) id 1hb0nN-0002SW-M1
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:47:58 -0400
-Received: from pv50p00im-ztdg10011301.me.com ([17.58.6.40]:36315)
+ (envelope-from <quintela@redhat.com>) id 1hb0nu-0002ny-JA
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:48:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46154)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tgfbeta@me.com>) id 1hb0nN-0002Qb-Fz
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:47:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=04042017;
- t=1560336473; bh=GCeCm8uQLWsGH/B+sA1wnoOgD7Gg/RvGEeF7f+1x67g=;
- h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=ihcluXrjjb1ApP5zHjE9pUclyXFNENzUY3ldEwF8bsekuuKTw2v0Hr+BqBrPQcbY4
- I4fHRinioj8kck7Ia8leKAlv3ZTqDzjmzPkLRUL361+vztU8ZT9EqqPsMbHpa7JMAv
- h0IcX4TnWBymKSnJFfUtdF/818H7reoIUcnfTKj05LHDTZXaljSU7k7WuScQ9UEtJD
- XaGOXNRdW6lp53zABdYHOITj5XkqW4y2JRaQAUjL6eQ824oNIy77CiVv0lNnAIWsUp
- 4JM2p5vq7lCMCKae5AWntQBK+VsXNI0YxQ+FWQC3W6vSNmkVZnXi1iaa119waqtJUd
- fdmuPuiNehMMQ==
-Received: from [172.18.2.102] (unknown [36.106.167.139])
- by pv50p00im-ztdg10011301.me.com (Postfix) with ESMTPSA id 3ECC1640336;
- Wed, 12 Jun 2019 10:47:52 +0000 (UTC)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-In-Reply-To: <CAFEAcA_=A3w490ey9_EyO7gJ1PRjs4L+aRtNPGzx-L7XyGVmZg@mail.gmail.com>
-Date: Wed, 12 Jun 2019 18:47:49 +0800
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hb0np-0002jT-6g
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:48:27 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 003C0308330B;
+ Wed, 12 Jun 2019 10:48:14 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-241.ams2.redhat.com
+ [10.36.116.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B84202719D;
+ Wed, 12 Jun 2019 10:48:11 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 12 Jun 2019 12:48:00 +0200
+Message-Id: <20190612104808.6398-1-quintela@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Wed, 12 Jun 2019 10:48:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <A97EF5AC-945D-4698-B328-BDE53097934B@me.com>
-References: <B3540B0C-9A71-4733-8109-11B0DC7A17D2@me.com>
- <CAFEAcA_=A3w490ey9_EyO7gJ1PRjs4L+aRtNPGzx-L7XyGVmZg@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-12_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1812120000 definitions=main-1906120075
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 17.58.6.40
-Subject: Re: [Qemu-devel] [PATCH 0/2] ui/cocoa: Fix input device issues on
- Mojave
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/8] Migration patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,35 +53,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Chen Zhang via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Chen Zhang <tgfbeta@me.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you and best regards.
+The following changes since commit 219dca61ebf41625831d4f96a720852baf44b7=
+62:
 
-> On Jun 12, 2019, at 6:39 PM, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->=20
-> On Tue, 4 Jun 2019 at 10:34, Chen Zhang <tgfbeta@me.com> wrote:
->>=20
->> The following patches fixed issues of absolute and relative input =
-devices
->> on macOS Mojave.
->>=20
->> Chen Zhang (2):
->>  ui/cocoa: Fix absolute input device grabbing issue on Mojave
->>  ui/cocoa: Fix mouse grabbing in fullscreen mode for relative input
->>    device
->>=20
->> ui/cocoa.m | 50 +++++++++++++++++++++++++++++++++++++++++++++++---
->> 1 file changed, 47 insertions(+), 3 deletions(-)
->=20
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> I'll apply these to master some time this week.
->=20
-> thanks
-> -- PMM
+  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-reque=
+st' into staging (2019-06-11 16:02:07 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/juanquintela/qemu.git tags/migration-pull-request
+
+for you to fetch changes up to 87fa344f0684d7c62b0859632de4b6c28e32f2c7:
+
+  migratioin/ram.c: reset complete_round when we gets a queued page (2019=
+-06-12 12:38:12 +0200)
+
+----------------------------------------------------------------
+Migration pull request
+
+* misc fixes from wei
+* Fixes for the multifd compression tree (juan)
+
+Please apply
+
+----------------------------------------------------------------
+
+Juan Quintela (3):
+  migration: fix multifd_recv event typo
+  migration-test: rename parameter to parameter_int
+  migration-test: Add migration multifd test
+
+Wei Yang (5):
+  migration/multifd: call multifd_send_sync_main when sending
+    RAM_SAVE_FLAG_EOS
+  migration/xbzrle: update cache and current_data in one place
+  cutils: remove one unnecessary pointer operation
+  migration/multifd: sync packet_num after all thread are done
+  migratioin/ram.c: reset complete_round when we gets a queued page
+
+ migration/ram.c        |  41 ++++++++++------
+ migration/trace-events |   2 +-
+ tests/migration-test.c | 103 ++++++++++++++++++++++++++++++-----------
+ util/cutils.c          |   8 ++--
+ 4 files changed, 107 insertions(+), 47 deletions(-)
+
+--=20
+2.21.0
 
 
