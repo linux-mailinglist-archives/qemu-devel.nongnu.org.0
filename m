@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFF242895
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 16:16:59 +0200 (CEST)
-Received: from localhost ([::1]:60826 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E8142851
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 16:02:45 +0200 (CEST)
+Received: from localhost ([::1]:60660 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb43e-0002kS-6R
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 10:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44205)
+	id 1hb3pr-0001Zo-Df
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 10:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hb3pE-0002fx-Dc
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:02:06 -0400
+ (envelope-from <armbru@redhat.com>) id 1hb3ht-0006YT-IR
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:54:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hb3pA-0005FK-1g
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:02:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40294)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hb3p6-0005CV-Kd
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:01:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hb3ox-0003FR-JY
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 14:01:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3119E2E80D1
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 14:01:47 +0000 (UTC)
+ (envelope-from <armbru@redhat.com>) id 1hb3cl-0005mk-0z
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:49:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57326)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1hb3cf-0005gA-AA; Wed, 12 Jun 2019 09:49:05 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C86102F8BF8;
+ Wed, 12 Jun 2019 13:49:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
+ [10.36.116.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FA9F1001B03;
+ Wed, 12 Jun 2019 13:49:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A14321138648; Wed, 12 Jun 2019 15:49:01 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190611134043.9524-1-kwolf@redhat.com>
+ <20190611134043.9524-12-kwolf@redhat.com>
+Date: Wed, 12 Jun 2019 15:49:01 +0200
+In-Reply-To: <20190611134043.9524-12-kwolf@redhat.com> (Kevin Wolf's message
+ of "Tue, 11 Jun 2019 15:40:43 +0200")
+Message-ID: <87pnniykvm.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Jun 2019 13:46:13 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ddosolitary pmaydell
-X-Launchpad-Bug-Reporter: DDoSolitary (ddosolitary)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <155137392124.31316.11495671074765014993.malonedeb@wampee.canonical.com>
-Message-Id: <156034717312.30867.1168495929007980486.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18978";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 99c769ccb55deb2f40db994c7f47ea7c87fc2b9b
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Wed, 12 Jun 2019 13:49:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1818122] Re: QEMU 3.1 makes libxslt to crash on
- ppc64
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 11/11] monitor: Split out
+ monitor/monitor.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,132 +61,819 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1818122 <1818122@bugs.launchpad.net>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Could you try with QEMU 4.0, please? There was a bug/incompatibility
-between earlier QEMU and the Alpine Linux libc which we fixed in 4.0,
-and so this might be that bug (or some other bug we've already fixed).
+Kevin Wolf <kwolf@redhat.com> writes:
 
--- =
+> Move the monitor core infrastructure from monitor/misc.c to
+> monitor/monitor.c. This is code that can be shared for all targets, so
+> compile it only once.
+>
+> What remains in monitor/misc.c after this patch is mostly monitor
+> command implementations and code that requires a system emulator or is
+> even target-dependent.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1818122
+I think target-independent command handlers should move to qmp-cmds.c
+and hmp-cmds.c.  Okay to leave for later.  Mentioning it the commit
+message wouldn't hurt, though.
 
-Title:
-  QEMU 3.1 makes libxslt to crash on ppc64
+Also left in misc.c, and bulky enough for mention: completion callbacks.
+They should perhaps move next to their command handlers.  Okay to leave
+for later.
 
-Status in QEMU:
-  New
+> The amount of function and particularly extern variables in
+> monitor_int.h is probably a bit larger than it needs to be, but this way
+> no non-trivial code modifications are needed. The interfaces between all
+> monitor parts can be cleaned up later.
+>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  include/monitor/monitor.h |   1 +
+>  monitor/monitor_int.h     |   1 +
+>  monitor/misc.c            | 568 +----------------------------------
+>  monitor/monitor.c         | 605 ++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS               |   2 +
+>  monitor/Makefile.objs     |   2 +-
+>  monitor/trace-events      |   2 +-
+>  7 files changed, 612 insertions(+), 569 deletions(-)
+>  create mode 100644 monitor/monitor.c
+>
+> diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+> index 8547529e49..b9f8d175ed 100644
+> --- a/include/monitor/monitor.h
+> +++ b/include/monitor/monitor.h
+> @@ -20,6 +20,7 @@ typedef struct MonitorHMP MonitorHMP;
+>  bool monitor_cur_is_qmp(void);
+>  
+>  void monitor_init_globals(void);
+> +void monitor_init_globals_core(void);
+>  void monitor_init(Chardev *chr, int flags);
+>  void monitor_init_qmp(Chardev *chr, int flags);
+>  void monitor_init_hmp(Chardev *chr, int flags);
+> diff --git a/monitor/monitor_int.h b/monitor/monitor_int.h
+> index 88eaed9c5c..d5fb5162f3 100644
+> --- a/monitor/monitor_int.h
+> +++ b/monitor/monitor_int.h
+> @@ -191,6 +191,7 @@ extern mon_cmd_t mon_cmds[];
+>  int monitor_puts(Monitor *mon, const char *str);
+>  void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
+>                         bool use_io_thread);
+> +void monitor_data_destroy(Monitor *mon);
+>  int monitor_can_read(void *opaque);
+>  void monitor_list_append(Monitor *mon);
+>  void monitor_fdsets_cleanup(void);
+> diff --git a/monitor/misc.c b/monitor/misc.c
+> index 4f1168b7c3..a4ec850493 100644
+> --- a/monitor/misc.c
+> +++ b/monitor/misc.c
+> @@ -62,7 +62,6 @@
+>  #include "qapi/qmp/json-parser.h"
+>  #include "qapi/qmp/qlist.h"
+>  #include "qom/object_interfaces.h"
+> -#include "trace.h"
+>  #include "trace/control.h"
+>  #include "monitor/hmp-target.h"
+>  #ifdef CONFIG_TRACE_SIMPLE
+> @@ -117,43 +116,13 @@ struct MonFdset {
+>      QLIST_ENTRY(MonFdset) next;
+>  };
+>  
+> -/*
+> - * To prevent flooding clients, events can be throttled. The
+> - * throttling is calculated globally, rather than per-Monitor
+> - * instance.
+> - */
+> -typedef struct MonitorQAPIEventState {
+> -    QAPIEvent event;    /* Throttling state for this event type and... */
+> -    QDict *data;        /* ... data, see qapi_event_throttle_equal() */
+> -    QEMUTimer *timer;   /* Timer for handling delayed events */
+> -    QDict *qdict;       /* Delayed event (if any) */
+> -} MonitorQAPIEventState;
+> -
+> -typedef struct {
+> -    int64_t rate;       /* Minimum time (in ns) between two events */
+> -} MonitorQAPIEventConf;
+> -
+> -/* Shared monitor I/O thread */
+> -IOThread *mon_iothread;
+> -
+> -/* Bottom half to dispatch the requests received from I/O thread */
+> -QEMUBH *qmp_dispatcher_bh;
+> -
+>  /* QMP checker flags */
+>  #define QMP_ACCEPT_UNKNOWNS 1
+>  
+> -/* Protects mon_list, monitor_qapi_event_state, monitor_destroyed.  */
+> -QemuMutex monitor_lock;
+> -static GHashTable *monitor_qapi_event_state;
+> -MonitorList mon_list;
+> -static bool monitor_destroyed;
+> -
+>  /* Protects mon_fdsets */
+>  static QemuMutex mon_fdsets_lock;
+>  static QLIST_HEAD(, MonFdset) mon_fdsets;
+>  
+> -int mon_refcount;
+> -
+>  static mon_cmd_t info_cmds[];
+>  
+>  __thread Monitor *cur_mon;
+> @@ -161,32 +130,6 @@ __thread Monitor *cur_mon;
+>  static void monitor_command_cb(void *opaque, const char *cmdline,
+>                                 void *readline_opaque);
+>  
+> -/**
+> - * Is @mon is using readline?
+> - * Note: not all HMP monitors use readline, e.g., gdbserver has a
+> - * non-interactive HMP monitor, so readline is not used there.
+> - */
+> -static inline bool monitor_uses_readline(const Monitor *mon)
+> -{
+> -    return mon->flags & MONITOR_USE_READLINE;
+> -}
+> -
+> -static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
+> -{
+> -    return !monitor_is_qmp(mon) && !monitor_uses_readline(mon);
+> -}
+> -
+> -/*
+> - * Return the clock to use for recording an event's time.
+> - * It's QEMU_CLOCK_REALTIME, except for qtests it's
+> - * QEMU_CLOCK_VIRTUAL, to support testing rate limits.
+> - * Beware: result is invalid before configure_accelerator().
+> - */
+> -static inline QEMUClockType monitor_get_event_clock(void)
+> -{
+> -    return qtest_enabled() ? QEMU_CLOCK_VIRTUAL : QEMU_CLOCK_REALTIME;
+> -}
+> -
+>  /**
+>   * Is the current monitor, if any, a QMP monitor?
+>   */
+   bool monitor_cur_is_qmp(void)
+   {
+       return cur_mon && monitor_is_qmp(cur_mon);
+   }
 
-Bug description:
-  Host: clean Ubuntu Disco with QEMU 3.1
+I can see why monitor_cur_is_qmp() stays here.  But why do the next two
+stay?
 
-  Guest: Alpine Linux edge with xmlto
+   void monitor_read_command(MonitorHMP *mon, int show_prompt)
+   {
+       if (!mon->rs)
+           return;
 
-  Steps to set up guest:
-  curl -O http://dl-cdn.alpinelinux.org/alpine/edge/releases/ppc64le/netboo=
-t/vmlinuz-vanilla
-  curl -O http://dl-cdn.alpinelinux.org/alpine/edge/releases/ppc64le/netboo=
-t/initramfs-vanilla
-  qemu-system-ppc64 -m 1G -kernel vmlinuz-vanilla -initrd initramfs-vanilla=
- -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinelinux.=
-org/alpine/edge/main/ modloop=3Dhttp://dl-cdn.alpinelinux.org/alpine/edge/r=
-eleases/ppc64le/netboot/modloop-vanilla" -device virtio-rng-pci -nographic
-  This brings up an VM with an in-memory Alpine Linux.
+       readline_start(mon->rs, "(qemu) ", 0, monitor_command_cb, NULL);
+       if (show_prompt)
+           readline_show_prompt(mon->rs);
+   }
 
-  Steps to reproduce:
-  Login as root and execute the following commands.
-  apk add xmlto
-  ntpd -nqp time.google.com // For TLS OCSP
-  wget https://ddosolitary.org/manpage-base.xsl
-  wget https://ddosolitary.org/shadowsocks-libev.xml
-  xmlto -m manpage-base.xsl man shadowsocks-libev.xml
-  The downloaded files are from this project: https://github.com/shadowsock=
-s/shadowsocks-libev The former is directly taken from the "doc" directory a=
-nd the latter is an intermediate build output generated by asciidoc from do=
-c/shadowsocks-libev.asciidoc
+   int monitor_read_password(MonitorHMP *mon, ReadLineFunc *readline_func,
+                             void *opaque)
+   {
+       if (mon->rs) {
+           readline_start(mon->rs, "Password: ", 1, readline_func, opaque);
+           /* prompt is printed on return from the command handler */
+           return 0;
+       } else {
+           monitor_printf(&mon->common,
+                          "terminal does not support password prompting\n");
+           return -ENOTTY;
+       }
+   }
+> @@ -220,355 +163,6 @@ int monitor_read_password(MonitorHMP *mon, ReadLineFunc *readline_func,
+>  }
+>  
+>  
+> -static void monitor_flush_locked(Monitor *mon);
+> -
+> -static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
+> -                                  void *opaque)
+> -{
+> -    Monitor *mon = opaque;
+> -
+> -    qemu_mutex_lock(&mon->mon_lock);
+> -    mon->out_watch = 0;
+> -    monitor_flush_locked(mon);
+> -    qemu_mutex_unlock(&mon->mon_lock);
+> -    return FALSE;
+> -}
+> -
+> -/* Caller must hold mon->mon_lock */
+> -static void monitor_flush_locked(Monitor *mon)
+> -{
+> -    int rc;
+> -    size_t len;
+> -    const char *buf;
+> -
+> -    if (mon->skip_flush) {
+> -        return;
+> -    }
+> -
+> -    buf = qstring_get_str(mon->outbuf);
+> -    len = qstring_get_length(mon->outbuf);
+> -
+> -    if (len && !mon->mux_out) {
+> -        rc = qemu_chr_fe_write(&mon->chr, (const uint8_t *) buf, len);
+> -        if ((rc < 0 && errno != EAGAIN) || (rc == len)) {
+> -            /* all flushed or error */
+> -            qobject_unref(mon->outbuf);
+> -            mon->outbuf = qstring_new();
+> -            return;
+> -        }
+> -        if (rc > 0) {
+> -            /* partial write */
+> -            QString *tmp = qstring_from_str(buf + rc);
+> -            qobject_unref(mon->outbuf);
+> -            mon->outbuf = tmp;
+> -        }
+> -        if (mon->out_watch == 0) {
+> -            mon->out_watch =
+> -                qemu_chr_fe_add_watch(&mon->chr, G_IO_OUT | G_IO_HUP,
+> -                                      monitor_unblocked, mon);
+> -        }
+> -    }
+> -}
+> -
+> -void monitor_flush(Monitor *mon)
+> -{
+> -    qemu_mutex_lock(&mon->mon_lock);
+> -    monitor_flush_locked(mon);
+> -    qemu_mutex_unlock(&mon->mon_lock);
+> -}
+> -
+> -/* flush at every end of line */
+> -int monitor_puts(Monitor *mon, const char *str)
+> -{
+> -    int i;
+> -    char c;
+> -
+> -    qemu_mutex_lock(&mon->mon_lock);
+> -    for (i = 0; str[i]; i++) {
+> -        c = str[i];
+> -        if (c == '\n') {
+> -            qstring_append_chr(mon->outbuf, '\r');
+> -        }
+> -        qstring_append_chr(mon->outbuf, c);
+> -        if (c == '\n') {
+> -            monitor_flush_locked(mon);
+> -        }
+> -    }
+> -    qemu_mutex_unlock(&mon->mon_lock);
+> -
+> -    return i;
+> -}
+> -
+> -int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
+> -{
+> -    char *buf;
+> -    int n;
+> -
+> -    if (!mon)
+> -        return -1;
+> -
+> -    if (monitor_is_qmp(mon)) {
+> -        return -1;
+> -    }
+> -
+> -    buf = g_strdup_vprintf(fmt, ap);
+> -    n = monitor_puts(mon, buf);
+> -    g_free(buf);
+> -    return n;
+> -}
+> -
+> -int monitor_printf(Monitor *mon, const char *fmt, ...)
+> -{
+> -    int ret;
+> -
+> -    va_list ap;
+> -    va_start(ap, fmt);
+> -    ret = monitor_vprintf(mon, fmt, ap);
+> -    va_end(ap);
+> -    return ret;
+> -}
+> -
+> -static MonitorQAPIEventConf monitor_qapi_event_conf[QAPI_EVENT__MAX] = {
+> -    /* Limit guest-triggerable events to 1 per second */
+> -    [QAPI_EVENT_RTC_CHANGE]        = { 1000 * SCALE_MS },
+> -    [QAPI_EVENT_WATCHDOG]          = { 1000 * SCALE_MS },
+> -    [QAPI_EVENT_BALLOON_CHANGE]    = { 1000 * SCALE_MS },
+> -    [QAPI_EVENT_QUORUM_REPORT_BAD] = { 1000 * SCALE_MS },
+> -    [QAPI_EVENT_QUORUM_FAILURE]    = { 1000 * SCALE_MS },
+> -    [QAPI_EVENT_VSERPORT_CHANGE]   = { 1000 * SCALE_MS },
+> -};
+> -
+> -/*
+> - * Broadcast an event to all monitors.
+> - * @qdict is the event object.  Its member "event" must match @event.
+> - * Caller must hold monitor_lock.
+> - */
+> -static void monitor_qapi_event_emit(QAPIEvent event, QDict *qdict)
+> -{
+> -    Monitor *mon;
+> -    MonitorQMP *qmp_mon;
+> -
+> -    trace_monitor_protocol_event_emit(event, qdict);
+> -    QTAILQ_FOREACH(mon, &mon_list, entry) {
+> -        if (!monitor_is_qmp(mon)) {
+> -            continue;
+> -        }
+> -
+> -        qmp_mon = container_of(mon, MonitorQMP, common);
+> -        if (qmp_mon->commands != &qmp_cap_negotiation_commands) {
+> -            qmp_send_response(qmp_mon, qdict);
+> -        }
+> -    }
+> -}
+> -
+> -static void monitor_qapi_event_handler(void *opaque);
+> -
+> -/*
+> - * Queue a new event for emission to Monitor instances,
+> - * applying any rate limiting if required.
+> - */
+> -static void
+> -monitor_qapi_event_queue_no_reenter(QAPIEvent event, QDict *qdict)
+> -{
+> -    MonitorQAPIEventConf *evconf;
+> -    MonitorQAPIEventState *evstate;
+> -
+> -    assert(event < QAPI_EVENT__MAX);
+> -    evconf = &monitor_qapi_event_conf[event];
+> -    trace_monitor_protocol_event_queue(event, qdict, evconf->rate);
+> -
+> -    qemu_mutex_lock(&monitor_lock);
+> -
+> -    if (!evconf->rate) {
+> -        /* Unthrottled event */
+> -        monitor_qapi_event_emit(event, qdict);
+> -    } else {
+> -        QDict *data = qobject_to(QDict, qdict_get(qdict, "data"));
+> -        MonitorQAPIEventState key = { .event = event, .data = data };
+> -
+> -        evstate = g_hash_table_lookup(monitor_qapi_event_state, &key);
+> -        assert(!evstate || timer_pending(evstate->timer));
+> -
+> -        if (evstate) {
+> -            /*
+> -             * Timer is pending for (at least) evconf->rate ns after
+> -             * last send.  Store event for sending when timer fires,
+> -             * replacing a prior stored event if any.
+> -             */
+> -            qobject_unref(evstate->qdict);
+> -            evstate->qdict = qobject_ref(qdict);
+> -        } else {
+> -            /*
+> -             * Last send was (at least) evconf->rate ns ago.
+> -             * Send immediately, and arm the timer to call
+> -             * monitor_qapi_event_handler() in evconf->rate ns.  Any
+> -             * events arriving before then will be delayed until then.
+> -             */
+> -            int64_t now = qemu_clock_get_ns(monitor_get_event_clock());
+> -
+> -            monitor_qapi_event_emit(event, qdict);
+> -
+> -            evstate = g_new(MonitorQAPIEventState, 1);
+> -            evstate->event = event;
+> -            evstate->data = qobject_ref(data);
+> -            evstate->qdict = NULL;
+> -            evstate->timer = timer_new_ns(monitor_get_event_clock(),
+> -                                          monitor_qapi_event_handler,
+> -                                          evstate);
+> -            g_hash_table_add(monitor_qapi_event_state, evstate);
+> -            timer_mod_ns(evstate->timer, now + evconf->rate);
+> -        }
+> -    }
+> -
+> -    qemu_mutex_unlock(&monitor_lock);
+> -}
+> -
+> -void qapi_event_emit(QAPIEvent event, QDict *qdict)
+> -{
+> -    /*
+> -     * monitor_qapi_event_queue_no_reenter() is not reentrant: it
+> -     * would deadlock on monitor_lock.  Work around by queueing
+> -     * events in thread-local storage.
+> -     * TODO: remove this, make it re-enter safe.
+> -     */
+> -    typedef struct MonitorQapiEvent {
+> -        QAPIEvent event;
+> -        QDict *qdict;
+> -        QSIMPLEQ_ENTRY(MonitorQapiEvent) entry;
+> -    } MonitorQapiEvent;
+> -    static __thread QSIMPLEQ_HEAD(, MonitorQapiEvent) event_queue;
+> -    static __thread bool reentered;
+> -    MonitorQapiEvent *ev;
+> -
+> -    if (!reentered) {
+> -        QSIMPLEQ_INIT(&event_queue);
+> -    }
+> -
+> -    ev = g_new(MonitorQapiEvent, 1);
+> -    ev->qdict = qobject_ref(qdict);
+> -    ev->event = event;
+> -    QSIMPLEQ_INSERT_TAIL(&event_queue, ev, entry);
+> -    if (reentered) {
+> -        return;
+> -    }
+> -
+> -    reentered = true;
+> -
+> -    while ((ev = QSIMPLEQ_FIRST(&event_queue)) != NULL) {
+> -        QSIMPLEQ_REMOVE_HEAD(&event_queue, entry);
+> -        monitor_qapi_event_queue_no_reenter(ev->event, ev->qdict);
+> -        qobject_unref(ev->qdict);
+> -        g_free(ev);
+> -    }
+> -
+> -    reentered = false;
+> -}
+> -
+> -/*
+> - * This function runs evconf->rate ns after sending a throttled
+> - * event.
+> - * If another event has since been stored, send it.
+> - */
+> -static void monitor_qapi_event_handler(void *opaque)
+> -{
+> -    MonitorQAPIEventState *evstate = opaque;
+> -    MonitorQAPIEventConf *evconf = &monitor_qapi_event_conf[evstate->event];
+> -
+> -    trace_monitor_protocol_event_handler(evstate->event, evstate->qdict);
+> -    qemu_mutex_lock(&monitor_lock);
+> -
+> -    if (evstate->qdict) {
+> -        int64_t now = qemu_clock_get_ns(monitor_get_event_clock());
+> -
+> -        monitor_qapi_event_emit(evstate->event, evstate->qdict);
+> -        qobject_unref(evstate->qdict);
+> -        evstate->qdict = NULL;
+> -        timer_mod_ns(evstate->timer, now + evconf->rate);
+> -    } else {
+> -        g_hash_table_remove(monitor_qapi_event_state, evstate);
+> -        qobject_unref(evstate->data);
+> -        timer_free(evstate->timer);
+> -        g_free(evstate);
+> -    }
+> -
+> -    qemu_mutex_unlock(&monitor_lock);
+> -}
+> -
+> -static unsigned int qapi_event_throttle_hash(const void *key)
+> -{
+> -    const MonitorQAPIEventState *evstate = key;
+> -    unsigned int hash = evstate->event * 255;
+> -
+> -    if (evstate->event == QAPI_EVENT_VSERPORT_CHANGE) {
+> -        hash += g_str_hash(qdict_get_str(evstate->data, "id"));
+> -    }
+> -
+> -    if (evstate->event == QAPI_EVENT_QUORUM_REPORT_BAD) {
+> -        hash += g_str_hash(qdict_get_str(evstate->data, "node-name"));
+> -    }
+> -
+> -    return hash;
+> -}
+> -
+> -static gboolean qapi_event_throttle_equal(const void *a, const void *b)
+> -{
+> -    const MonitorQAPIEventState *eva = a;
+> -    const MonitorQAPIEventState *evb = b;
+> -
+> -    if (eva->event != evb->event) {
+> -        return FALSE;
+> -    }
+> -
+> -    if (eva->event == QAPI_EVENT_VSERPORT_CHANGE) {
+> -        return !strcmp(qdict_get_str(eva->data, "id"),
+> -                       qdict_get_str(evb->data, "id"));
+> -    }
+> -
+> -    if (eva->event == QAPI_EVENT_QUORUM_REPORT_BAD) {
+> -        return !strcmp(qdict_get_str(eva->data, "node-name"),
+> -                       qdict_get_str(evb->data, "node-name"));
+> -    }
+> -
+> -    return TRUE;
+> -}
+> -
+> -static void monitor_qapi_event_init(void)
+> -{
+> -    monitor_qapi_event_state = g_hash_table_new(qapi_event_throttle_hash,
+> -                                                qapi_event_throttle_equal);
+> -}
+> -
+> -static void monitor_iothread_init(void);
+> -
+> -void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
+> -                       bool use_io_thread)
+> -{
+> -    if (use_io_thread && !mon_iothread) {
+> -        monitor_iothread_init();
+> -    }
+> -    memset(mon, 0, sizeof(Monitor));
+> -    qemu_mutex_init(&mon->mon_lock);
+> -    mon->outbuf = qstring_new();
+> -    mon->skip_flush = skip_flush;
+> -    mon->use_io_thread = use_io_thread;
+> -    mon->flags = flags;
+> -}
+> -
+> -static void monitor_data_destroy(Monitor *mon)
+> -{
+> -    g_free(mon->mon_cpu_path);
+> -    qemu_chr_fe_deinit(&mon->chr, false);
+> -    if (monitor_is_qmp(mon)) {
+> -        MonitorQMP *qmp_mon = container_of(mon, MonitorQMP, common);
+> -        monitor_data_destroy_qmp(qmp_mon);
+> -    } else {
+> -        MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
+> -        readline_free(hmp_mon->rs);
+> -    }
+> -    qobject_unref(mon->outbuf);
+> -    qemu_mutex_destroy(&mon->mon_lock);
+> -}
+> -
+>  char *qmp_human_monitor_command(const char *command_line, bool has_cpu_index,
+>                                  int64_t cpu_index, Error **errp)
+>  {
+[...]
 
-  Expected behavior: The command silently succeeds producing
-  shadowsocks-libev.8
+   static void monitor_init_qmp_commands(void)
+   {
+       /*
+        * Two command lists:
+        * - qmp_commands contains all QMP commands
+        * - qmp_cap_negotiation_commands contains just
+        *   "qmp_capabilities", to enforce capability negotiation
+        */
 
-  Actual behavior: =
+       qmp_init_marshal(&qmp_commands);
 
-  runtime error: file file:///usr/share/xml/docbook/xsl-stylesheets-1.79.1/=
-manpages/tbl.xsl line 450 element text
-  xsltApplySequenceConstructor: A potential infinite template recursion was=
- detected.
-  You can adjust xsltMaxDepth (--maxdepth) in order to raise the maximum nu=
-mber of nested template calls and variables/params (currently set to 3000).
-  Templates:
-  #0 name process.colspan
-  #1 name process.colspan
-  #2 name process.colspan
-  #3 name process.colspan
-  #4 name process.colspan
-  #5 name process.colspan
-  #6 name process.colspan
-  #7 name process.colspan
-  #8 name process.colspan
-  #9 name process.colspan
-  #10 name process.colspan
-  #11 name process.colspan
-  #12 name process.colspan
-  #13 name process.colspan
-  #14 name process.colspan
-  Variables:
-  #0
-  type
-  colspan
-  #1
-  colspan
-  #2
-  type
-  colspan
-  #3
-  colspan
-  #4
-  type
-  colspan
-  #5
-  colspan
-  #6
-  type
-  colspan
-  #7
-  colspan
-  #8
-  type
-  colspan
-  #9
-  colspan
-  #10
-  type
-  colspan
-  #11
-  colspan
-  #12
-  type
-  colspan
-  #13
-  colspan
-  #14
-  type
-  colspan
-  error: file /root/shadowsocks-libev.xml
-  xsltRunStylesheet : run failed
+       qmp_register_command(&qmp_commands, "query-qmp-schema",
+                            qmp_query_qmp_schema, QCO_ALLOW_PRECONFIG);
+       qmp_register_command(&qmp_commands, "device_add", qmp_device_add,
+                            QCO_NO_OPTIONS);
+       qmp_register_command(&qmp_commands, "netdev_add", qmp_netdev_add,
+                            QCO_NO_OPTIONS);
 
-  Note:
-  I tried increasing --maxdepth as suggested in the error output but that w=
-ill result in a segfault.
-  This error doesn't occur with an older QEMU (I tested QEMU 2.12 on Ubuntu=
- Cosmic) or different architectures on QEMU 3.1 (I tested x86, x86_64, arm,=
- aarch64, s390x). Also it didn't help to use an older Alpine Linux (I teste=
-d v3.8). So I think it is caused by a bug in QEMU rather than the distro/pa=
-ckage.
+       QTAILQ_INIT(&qmp_cap_negotiation_commands);
+       qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
+                            qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
+   }
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1818122/+subscriptions
+Should have been moved to qmp.c in PATCH 09.
+
+[...]
+
+   static void monitor_printc(Monitor *mon, int c)
+   {
+       monitor_printf(mon, "'");
+       switch(c) {
+       case '\'':
+           monitor_printf(mon, "\\'");
+           break;
+       case '\\':
+           monitor_printf(mon, "\\\\");
+           break;
+       case '\n':
+           monitor_printf(mon, "\\n");
+           break;
+       case '\r':
+           monitor_printf(mon, "\\r");
+           break;
+       default:
+           if (c >= 32 && c <= 126) {
+               monitor_printf(mon, "%c", c);
+           } else {
+               monitor_printf(mon, "\\x%02x", c);
+           }
+           break;
+       }
+       monitor_printf(mon, "'");
+   }
+
+> @@ -2740,13 +2334,6 @@ void loadvm_completion(ReadLineState *rs, int nb_args, const char *str)
+>      }
+>  }
+>  
+> -int monitor_can_read(void *opaque)
+> -{
+> -    Monitor *mon = opaque;
+> -
+> -    return !atomic_mb_read(&mon->suspend_cnt);
+> -}
+> -
+>  static void monitor_command_cb(void *opaque, const char *cmdline,
+>                                 void *readline_opaque)
+>  {
+> @@ -2757,60 +2344,6 @@ static void monitor_command_cb(void *opaque, const char *cmdline,
+>      monitor_resume(&mon->common);
+>  }
+>  
+> -int monitor_suspend(Monitor *mon)
+> -{
+> -    if (monitor_is_hmp_non_interactive(mon)) {
+> -        return -ENOTTY;
+> -    }
+> -
+> -    atomic_inc(&mon->suspend_cnt);
+> -
+> -    if (mon->use_io_thread) {
+> -        /*
+> -         * Kick I/O thread to make sure this takes effect.  It'll be
+> -         * evaluated again in prepare() of the watch object.
+> -         */
+> -        aio_notify(iothread_get_aio_context(mon_iothread));
+> -    }
+> -
+> -    trace_monitor_suspend(mon, 1);
+> -    return 0;
+> -}
+> -
+> -static void monitor_accept_input(void *opaque)
+> -{
+> -    Monitor *mon = opaque;
+> -
+> -    qemu_chr_fe_accept_input(&mon->chr);
+> -}
+> -
+> -void monitor_resume(Monitor *mon)
+> -{
+> -    if (monitor_is_hmp_non_interactive(mon)) {
+> -        return;
+> -    }
+> -
+> -    if (atomic_dec_fetch(&mon->suspend_cnt) == 0) {
+> -        AioContext *ctx;
+> -
+> -        if (mon->use_io_thread) {
+> -            ctx = iothread_get_aio_context(mon_iothread);
+> -        } else {
+> -            ctx = qemu_get_aio_context();
+> -        }
+> -
+> -        if (!monitor_is_qmp(mon)) {
+> -            MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
+> -            assert(hmp_mon->rs);
+> -            readline_show_prompt(hmp_mon->rs);
+> -        }
+> -
+> -        aio_bh_schedule_oneshot(ctx, monitor_accept_input, mon);
+> -    }
+> -
+> -    trace_monitor_suspend(mon, -1);
+> -}
+> -
+>  static int
+>  compare_mon_cmd(const void *a, const void *b)
+>  {
+> @@ -2830,27 +2363,12 @@ static void sortcmdlist(void)
+>      qsort((void *)info_cmds, array_num, elem_size, compare_mon_cmd);
+>  }
+>  
+> -static void monitor_iothread_init(void)
+> -{
+> -    mon_iothread = iothread_create("mon_iothread", &error_abort);
+> -}
+> -
+>  void monitor_init_globals(void)
+>  {
+> +    monitor_init_globals_core();
+>      monitor_init_qmp_commands();
+> -    monitor_qapi_event_init();
+>      sortcmdlist();
+> -    qemu_mutex_init(&monitor_lock);
+>      qemu_mutex_init(&mon_fdsets_lock);
+> -
+> -    /*
+> -     * The dispatcher BH must run in the main loop thread, since we
+> -     * have commands assuming that context.  It would be nice to get
+> -     * rid of those assumptions.
+> -     */
+> -    qmp_dispatcher_bh = aio_bh_new(iohandler_get_aio_context(),
+> -                                   monitor_qmp_bh_dispatcher,
+> -                                   NULL);
+>  }
+>  
+>  /*
+> @@ -2875,90 +2393,6 @@ int error_vprintf_unless_qmp(const char *fmt, va_list ap)
+
+Why do these two stay?
+
+   /*
+    * Print to current monitor if we have one, else to stderr.
+    */
+   int error_vprintf(const char *fmt, va_list ap)
+   {
+       if (cur_mon && !monitor_cur_is_qmp()) {
+           return monitor_vprintf(cur_mon, fmt, ap);
+       }
+       return vfprintf(stderr, fmt, ap);
+   }
+
+   int error_vprintf_unless_qmp(const char *fmt, va_list ap)
+   {
+       if (!cur_mon) {
+           return vfprintf(stderr, fmt, ap);
+       }
+       if (!monitor_cur_is_qmp()) {
+           return monitor_vprintf(cur_mon, fmt, ap);
+       }
+>      return -1;
+>  }
+>  
+> -void monitor_list_append(Monitor *mon)
+> -{
+> -    qemu_mutex_lock(&monitor_lock);
+> -    /*
+> -     * This prevents inserting new monitors during monitor_cleanup().
+> -     * A cleaner solution would involve the main thread telling other
+> -     * threads to terminate, waiting for their termination.
+> -     */
+> -    if (!monitor_destroyed) {
+> -        QTAILQ_INSERT_HEAD(&mon_list, mon, entry);
+> -        mon = NULL;
+> -    }
+> -    qemu_mutex_unlock(&monitor_lock);
+> -
+> -    if (mon) {
+> -        monitor_data_destroy(mon);
+> -        g_free(mon);
+> -    }
+> -}
+> -
+> -void monitor_init(Chardev *chr, int flags)
+> -{
+> -    if (flags & MONITOR_USE_CONTROL) {
+> -        monitor_init_qmp(chr, flags);
+> -    } else {
+> -        monitor_init_hmp(chr, flags);
+> -    }
+> -}
+> -
+> -void monitor_cleanup(void)
+> -{
+> -    /*
+> -     * We need to explicitly stop the I/O thread (but not destroy it),
+> -     * clean up the monitor resources, then destroy the I/O thread since
+> -     * we need to unregister from chardev below in
+> -     * monitor_data_destroy(), and chardev is not thread-safe yet
+> -     */
+> -    if (mon_iothread) {
+> -        iothread_stop(mon_iothread);
+> -    }
+> -
+> -    /* Flush output buffers and destroy monitors */
+> -    qemu_mutex_lock(&monitor_lock);
+> -    monitor_destroyed = true;
+> -    while (!QTAILQ_EMPTY(&mon_list)) {
+> -        Monitor *mon = QTAILQ_FIRST(&mon_list);
+> -        QTAILQ_REMOVE(&mon_list, mon, entry);
+> -        /* Permit QAPI event emission from character frontend release */
+> -        qemu_mutex_unlock(&monitor_lock);
+> -        monitor_flush(mon);
+> -        monitor_data_destroy(mon);
+> -        qemu_mutex_lock(&monitor_lock);
+> -        g_free(mon);
+> -    }
+> -    qemu_mutex_unlock(&monitor_lock);
+> -
+> -    /* QEMUBHs needs to be deleted before destroying the I/O thread */
+> -    qemu_bh_delete(qmp_dispatcher_bh);
+> -    qmp_dispatcher_bh = NULL;
+> -    if (mon_iothread) {
+> -        iothread_destroy(mon_iothread);
+> -        mon_iothread = NULL;
+> -    }
+> -}
+> -
+> -QemuOptsList qemu_mon_opts = {
+> -    .name = "mon",
+> -    .implied_opt_name = "chardev",
+> -    .head = QTAILQ_HEAD_INITIALIZER(qemu_mon_opts.head),
+> -    .desc = {
+> -        {
+> -            .name = "mode",
+> -            .type = QEMU_OPT_STRING,
+> -        },{
+> -            .name = "chardev",
+> -            .type = QEMU_OPT_STRING,
+> -        },{
+> -            .name = "pretty",
+> -            .type = QEMU_OPT_BOOL,
+> -        },
+> -        { /* end of list */ }
+> -    },
+> -};
+> -
+>  HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
+>  {
+>      MachineState *ms = MACHINE(qdev_get_machine());
+[...]
 
