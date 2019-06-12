@@ -2,157 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA23431E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 01:29:22 +0200 (CEST)
-Received: from localhost ([::1]:36062 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DCC431E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 01:42:09 +0200 (CEST)
+Received: from localhost ([::1]:36160 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbCgD-0003z7-ID
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 19:29:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35404)
+	id 1hbCsa-0002U8-4y
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 19:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38786)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aik@ozlabs.ru>) id 1hbCeZ-0002xh-Ci
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 19:27:40 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1hbCrM-0001w1-H0
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 19:40:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1hbCe6-0000Ln-6K
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 19:27:11 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:34000)
+ (envelope-from <liq3ea@gmail.com>) id 1hbCrH-00013C-OM
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 19:40:52 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45764)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1hbCe5-0000Kr-Kq
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 19:27:10 -0400
-Received: by mail-pl1-x644.google.com with SMTP id i2so7256724plt.1
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 16:27:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=J0KYGZXZ26NqXhxLesmwOll1ZMGGZoHYrYFQLJ4y0jY=;
- b=le/sX0KzpWxak0k7EAAFo71/taONcDZkEd3YpKWJZ4/GqkRgSMx4OHz5fOQ+5BmVOF
- sG4TMC0H5W2t+5An4ldKgCZtxwwHvwOEzEncgRc2HgsGL6oViWDscQXIS1Z/rMi8GXkA
- 1d08nrG0umUKGArI4IOh6s1trbJ75cEsTajnZOJ3G1vvon4mhWK1BfV+Bhl3ymWRvxq7
- 85NeN58QNO43ERtEL2TAPEY+seBSvKEo9PmQ1HQ2vGkP069sGfke7J5B9NFpGISTwtzM
- 1uSKxB5EVJJa/xUsDqyYKSRDCiwvRWupAbmHtlTRNRFZ5ngIrLaEMTW9gXcd+lOS0YJR
- k4Eg==
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hbCrF-00011z-NF
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 19:40:46 -0400
+Received: by mail-ot1-x344.google.com with SMTP id x21so6271910otq.12
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 16:40:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ng23KiNsQCR/NYmRDgR/2eAepNRevSs1OdYZayUTHRA=;
+ b=sTf5xvEdSOm9Tugr2B3a5IgVnH8xEcigAQ6mJdtmAeKBk1BNbecDwAeVcrWKlgUEE8
+ bEzUb6qqe82cjbz6s4/CaxEvHx9KSxv4Lp0BebiQHTgAHE9f7wvOyzeyMSCaRAd/Ds91
+ MuV61OYeweLKlVmZdS+xUfU1WD9a8ubF7bL1jWgkG8QFbULzUHNabB5PFdKnPSCisrRS
+ VY1lTW7a0Qd2SUsDWwEcNTb+tiUn8DEq0SmgMzmFmtgLmd7FKDVj9ctTTEyqL8Z8vSWK
+ NFChGo5LTuAK5W2hdgMnU28ynsanRBSDmRFqxvIQ1euF3/UNaOXw59rMuBioyc53CxhG
+ lHuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=J0KYGZXZ26NqXhxLesmwOll1ZMGGZoHYrYFQLJ4y0jY=;
- b=r3YAtba2jglxDMF9d3eV30Xv3FAQLhRj5kDlvXdbJGFb+GN8bKrkguyE5n1uYx1pPN
- E2722UP7nqgQmJf7Qf8BPZD9n8dG+g3yBba8HTbBLZmFdGr92BJj/yJe8vpoI5WTOKhy
- xNqW5X+BBR1+4a6zE4O4GVnLTpfiIDQ8sBVwKbRyOUwhFkxWWWUKKZPnsz9JfKGn5nWi
- Q6g73OjTRDbWOAbxVDo3vkpM383gIOjMWnWfxWepjNhkjRT1EwJ0tyqX2c25VR0JzWZ+
- JWIY7QY6PKBo2928W4aSxfuUH5Wf6Pjx8wOym59JQRXTGjZ8VvwW7r84+irbIWB+NlWZ
- gYKg==
-X-Gm-Message-State: APjAAAU68D0Xy4Ma+sNaXclGo5Clf6KTnj5/Ju7n8yWAB4S66ErUuXCG
- HTvKGd97INsFq7786ltfElgVlQ==
-X-Google-Smtp-Source: APXvYqwZhnFk0R3I9EUi2w2oOGrIrNbu+9tUW63YxLbNnkDB8P29c2B9mQa1aotHsb3rc5QqQPP4mA==
-X-Received: by 2002:a17:902:a405:: with SMTP id
- p5mr13566748plq.51.1560382028314; 
- Wed, 12 Jun 2019 16:27:08 -0700 (PDT)
-Received: from [10.61.2.175] ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id h2sm500011pgs.17.2019.06.12.16.27.05
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 12 Jun 2019 16:27:07 -0700 (PDT)
-To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20190228225759.21328-1-farosas@linux.ibm.com>
- <20190228225759.21328-6-farosas@linux.ibm.com>
- <b8a30b89-8c19-821e-e3a3-f1b71a088d9d@ozlabs.ru>
- <87ef73rl39.fsf@linux.ibm.com>
- <eadc5e30-5094-9b76-7268-cfb633ac40bd@ozlabs.ru>
- <c5e92072-eb8d-7af5-3eef-fac256f29c98@ozlabs.ru>
- <877e9r3p2e.fsf@linux.ibm.com>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-Openpgp: preference=signencrypt
-Autocrypt: addr=aik@ozlabs.ru; keydata=
- mQINBE+rT0sBEADFEI2UtPRsLLvnRf+tI9nA8T91+jDK3NLkqV+2DKHkTGPP5qzDZpRSH6mD
- EePO1JqpVuIow/wGud9xaPA5uvuVgRS1q7RU8otD+7VLDFzPRiRE4Jfr2CW89Ox6BF+q5ZPV
- /pS4v4G9eOrw1v09lEKHB9WtiBVhhxKK1LnUjPEH3ifkOkgW7jFfoYgTdtB3XaXVgYnNPDFo
- PTBYsJy+wr89XfyHr2Ev7BB3Xaf7qICXdBF8MEVY8t/UFsesg4wFWOuzCfqxFmKEaPDZlTuR
- tfLAeVpslNfWCi5ybPlowLx6KJqOsI9R2a9o4qRXWGP7IwiMRAC3iiPyk9cknt8ee6EUIxI6
- t847eFaVKI/6WcxhszI0R6Cj+N4y+1rHfkGWYWupCiHwj9DjILW9iEAncVgQmkNPpUsZECLT
- WQzMuVSxjuXW4nJ6f4OFHqL2dU//qR+BM/eJ0TT3OnfLcPqfucGxubhT7n/CXUxEy+mvWwnm
- s9p4uqVpTfEuzQ0/bE6t7dZdPBua7eYox1AQnk8JQDwC3Rn9kZq2O7u5KuJP5MfludMmQevm
- pHYEMF4vZuIpWcOrrSctJfIIEyhDoDmR34bCXAZfNJ4p4H6TPqPh671uMQV82CfTxTrMhGFq
- 8WYU2AH86FrVQfWoH09z1WqhlOm/KZhAV5FndwVjQJs1MRXD8QARAQABtCRBbGV4ZXkgS2Fy
- ZGFzaGV2c2tpeSA8YWlrQG96bGFicy5ydT6JAjgEEwECACIFAk+rT0sCGwMGCwkIBwMCBhUI
- AgkKCwQWAgMBAh4BAheAAAoJEIYTPdgrwSC5fAIP/0wf/oSYaCq9PhO0UP9zLSEz66SSZUf7
- AM9O1rau1lJpT8RoNa0hXFXIVbqPPKPZgorQV8SVmYRLr0oSmPnTiZC82x2dJGOR8x4E01gK
- TanY53J/Z6+CpYykqcIpOlGsytUTBA+AFOpdaFxnJ9a8p2wA586fhCZHVpV7W6EtUPH1SFTQ
- q5xvBmr3KkWGjz1FSLH4FeB70zP6uyuf/B2KPmdlPkyuoafl2UrU8LBADi/efc53PZUAREih
- sm3ch4AxaL4QIWOmlE93S+9nHZSRo9jgGXB1LzAiMRII3/2Leg7O4hBHZ9Nki8/fbDo5///+
- kD4L7UNbSUM/ACWHhd4m1zkzTbyRzvL8NAVQ3rckLOmju7Eu9whiPueGMi5sihy9VQKHmEOx
- OMEhxLRQbzj4ypRLS9a+oxk1BMMu9cd/TccNy0uwx2UUjDQw/cXw2rRWTRCxoKmUsQ+eNWEd
- iYLW6TCfl9CfHlT6A7Zmeqx2DCeFafqEd69DqR9A8W5rx6LQcl0iOlkNqJxxbbW3ddDsLU/Y
- r4cY20++WwOhSNghhtrroP+gouTOIrNE/tvG16jHs8nrYBZuc02nfX1/gd8eguNfVX/ZTHiR
- gHBWe40xBKwBEK2UeqSpeVTohYWGBkcd64naGtK9qHdo1zY1P55lHEc5Uhlk743PgAnOi27Q
- ns5zuQINBE+rT0sBEACnV6GBSm+25ACT+XAE0t6HHAwDy+UKfPNaQBNTTt31GIk5aXb2Kl/p
- AgwZhQFEjZwDbl9D/f2GtmUHWKcCmWsYd5M/6Ljnbp0Ti5/xi6FyfqnO+G/wD2VhGcKBId1X
- Em/B5y1kZVbzcGVjgD3HiRTqE63UPld45bgK2XVbi2+x8lFvzuFq56E3ZsJZ+WrXpArQXib2
- hzNFwQleq/KLBDOqTT7H+NpjPFR09Qzfa7wIU6pMNF2uFg5ihb+KatxgRDHg70+BzQfa6PPA
- o1xioKXW1eHeRGMmULM0Eweuvpc7/STD3K7EJ5bBq8svoXKuRxoWRkAp9Ll65KTUXgfS+c0x
- gkzJAn8aTG0z/oEJCKPJ08CtYQ5j7AgWJBIqG+PpYrEkhjzSn+DZ5Yl8r+JnZ2cJlYsUHAB9
- jwBnWmLCR3gfop65q84zLXRQKWkASRhBp4JK3IS2Zz7Nd/Sqsowwh8x+3/IUxVEIMaVoUaxk
- Wt8kx40h3VrnLTFRQwQChm/TBtXqVFIuv7/Mhvvcq11xnzKjm2FCnTvCh6T2wJw3de6kYjCO
- 7wsaQ2y3i1Gkad45S0hzag/AuhQJbieowKecuI7WSeV8AOFVHmgfhKti8t4Ff758Z0tw5Fpc
- BFDngh6Lty9yR/fKrbkkp6ux1gJ2QncwK1v5kFks82Cgj+DSXK6GUQARAQABiQIfBBgBAgAJ
- BQJPq09LAhsMAAoJEIYTPdgrwSC5NYEP/2DmcEa7K9A+BT2+G5GXaaiFa098DeDrnjmRvumJ
- BhA1UdZRdfqICBADmKHlJjj2xYo387sZpS6ABbhrFxM6s37g/pGPvFUFn49C47SqkoGcbeDz
- Ha7JHyYUC+Tz1dpB8EQDh5xHMXj7t59mRDgsZ2uVBKtXj2ZkbizSHlyoeCfs1gZKQgQE8Ffc
- F8eWKoqAQtn3j4nE3RXbxzTJJfExjFB53vy2wV48fUBdyoXKwE85fiPglQ8bU++0XdOr9oyy
- j1llZlB9t3tKVv401JAdX8EN0++ETiOovQdzE1m+6ioDCtKEx84ObZJM0yGSEGEanrWjiwsa
- nzeK0pJQM9EwoEYi8TBGhHC9ksaAAQipSH7F2OHSYIlYtd91QoiemgclZcSgrxKSJhyFhmLr
- QEiEILTKn/pqJfhHU/7R7UtlDAmFMUp7ByywB4JLcyD10lTmrEJ0iyRRTVfDrfVP82aMBXgF
- tKQaCxcmLCaEtrSrYGzd1sSPwJne9ssfq0SE/LM1J7VdCjm6OWV33SwKrfd6rOtvOzgadrG6
- 3bgUVBw+bsXhWDd8tvuCXmdY4bnUblxF2B6GOwSY43v6suugBttIyW5Bl2tXSTwP+zQisOJo
- +dpVG2pRr39h+buHB3NY83NEPXm1kUOhduJUA17XUY6QQCAaN4sdwPqHq938S3EmtVhsuQIN
- BFq54uIBEACtPWrRdrvqfwQF+KMieDAMGdWKGSYSfoEGGJ+iNR8v255IyCMkty+yaHafvzpl
- PFtBQ/D7Fjv+PoHdFq1BnNTk8u2ngfbre9wd9MvTDsyP/TmpF0wyyTXhhtYvE267Av4X/BQT
- lT9IXKyAf1fP4BGYdTNgQZmAjrRsVUW0j6gFDrN0rq2J9emkGIPvt9rQt6xGzrd6aXonbg5V
- j6Uac1F42ESOZkIh5cN6cgnGdqAQb8CgLK92Yc8eiCVCH3cGowtzQ2m6U32qf30cBWmzfSH0
- HeYmTP9+5L8qSTA9s3z0228vlaY0cFGcXjdodBeVbhqQYseMF9FXiEyRs28uHAJEyvVZwI49
- CnAgVV/n1eZa5qOBpBL+ZSURm8Ii0vgfvGSijPGbvc32UAeAmBWISm7QOmc6sWa1tobCiVmY
- SNzj5MCNk8z4cddoKIc7Wt197+X/X5JPUF5nQRvg3SEHvfjkS4uEst9GwQBpsbQYH9MYWq2P
- PdxZ+xQE6v7cNB/pGGyXqKjYCm6v70JOzJFmheuUq0Ljnfhfs15DmZaLCGSMC0Amr+rtefpA
- y9FO5KaARgdhVjP2svc1F9KmTUGinSfuFm3quadGcQbJw+lJNYIfM7PMS9fftq6vCUBoGu3L
- j4xlgA/uQl/LPneu9mcvit8JqcWGS3fO+YeagUOon1TRqQARAQABiQRsBBgBCAAgFiEEZSrP
- ibrORRTHQ99dhhM92CvBILkFAlq54uICGwICQAkQhhM92CvBILnBdCAEGQEIAB0WIQQIhvWx
- rCU+BGX+nH3N7sq0YorTbQUCWrni4gAKCRDN7sq0YorTbVVSD/9V1xkVFyUCZfWlRuryBRZm
- S4GVaNtiV2nfUfcThQBfF0sSW/aFkLP6y+35wlOGJE65Riw1C2Ca9WQYk0xKvcZrmuYkK3DZ
- 0M9/Ikkj5/2v0vxz5Z5w/9+IaCrnk7pTnHZuZqOh23NeVZGBls/IDIvvLEjpD5UYicH0wxv+
- X6cl1RoP2Kiyvenf0cS73O22qSEw0Qb9SId8wh0+ClWet2E7hkjWFkQfgJ3hujR/JtwDT/8h
- 3oCZFR0KuMPHRDsCepaqb/k7VSGTLBjVDOmr6/C9FHSjq0WrVB9LGOkdnr/xcISDZcMIpbRm
- EkIQ91LkT/HYIImL33ynPB0SmA+1TyMgOMZ4bakFCEn1vxB8Ir8qx5O0lHMOiWMJAp/PAZB2
- r4XSSHNlXUaWUg1w3SG2CQKMFX7vzA31ZeEiWO8tj/c2ZjQmYjTLlfDK04WpOy1vTeP45LG2
- wwtMA1pKvQ9UdbYbovz92oyZXHq81+k5Fj/YA1y2PI4MdHO4QobzgREoPGDkn6QlbJUBf4To
- pEbIGgW5LRPLuFlOPWHmIS/sdXDrllPc29aX2P7zdD/ivHABslHmt7vN3QY+hG0xgsCO1JG5
- pLORF2N5XpM95zxkZqvYfC5tS/qhKyMcn1kC0fcRySVVeR3tUkU8/caCqxOqeMe2B6yTiU1P
- aNDq25qYFLeYxg67D/4w/P6BvNxNxk8hx6oQ10TOlnmeWp1q0cuutccblU3ryRFLDJSngTEu
- ZgnOt5dUFuOZxmMkqXGPHP1iOb+YDznHmC0FYZFG2KAc9pO0WuO7uT70lL6larTQrEneTDxQ
- CMQLP3qAJ/2aBH6SzHIQ7sfbsxy/63jAiHiT3cOaxAKsWkoV2HQpnmPOJ9u02TPjYmdpeIfa
- X2tXyeBixa3i/6dWJ4nIp3vGQicQkut1YBwR7dJq67/FCV3Mlj94jI0myHT5PIrCS2S8LtWX
- ikTJSxWUKmh7OP5mrqhwNe0ezgGiWxxvyNwThOHc5JvpzJLd32VDFilbxgu4Hhnf6LcgZJ2c
- Zd44XWqUu7FzVOYaSgIvTP0hNrBYm/E6M7yrLbs3JY74fGzPWGRbBUHTZXQEqQnZglXaVB5V
- ZhSFtHopZnBSCUSNDbB+QGy4B/E++Bb02IBTGl/JxmOwG+kZUnymsPvTtnNIeTLHxN/H/ae0
- c7E5M+/NpslPCmYnDjs5qg0/3ihh6XuOGggZQOqrYPC3PnsNs3NxirwOkVPQgO6mXxpuifvJ
- DG9EMkK8IBXnLulqVk54kf7fE0jT/d8RTtJIA92GzsgdK2rpT1MBKKVffjRFGwN7nQVOzi4T
- XrB5p+6ML7Bd84xOEGsj/vdaXmz1esuH7BOZAGEZfLRCHJ0GVCSssg==
-Message-ID: <31dba2e5-7e8b-d006-d403-8c58c3c8a464@ozlabs.ru>
-Date: Thu, 13 Jun 2019 09:27:02 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ng23KiNsQCR/NYmRDgR/2eAepNRevSs1OdYZayUTHRA=;
+ b=AqfOUxkiHBZ7wUdX5+5QAP/EEfCZQQJkWScdD7IVZhZ5UiAJsBzjJeqsErsu9hjJls
+ p0h5Y0hswt6yWz7cZvwo1EyEly2MndwcL+lCW+9j4da6PVdPIqpQ6gE8XPh13H5SjpNx
+ 7rx4yPEERlVxCXIDfkgsopIwlGBGpvblnQ+4sMy/euIkg/d7eD0YtnAY7fi6HuFjY90P
+ vy8wxzhniUY3fd9pQF7rgHg7HJmlTj2KsZsc2dwuH7CXi3r4mSw0hQEASxeDJTQplQ9b
+ 8mldVBduipuNGZtDCTL1RF4TtCV9cCFoxBqkvVG8XDGz+W97g9mPKuPX28c1s/U7srFK
+ zsCw==
+X-Gm-Message-State: APjAAAX3M3a3Pz/c2yYK5RHGkG88PE2ZD3xW1cppOkKj1LYAChRbV1Ga
+ xewZZq7HVXuDlOmTAtq2Du/kCIt3KUczaCbAg64=
+X-Google-Smtp-Source: APXvYqwJQBhyYkr+CD5r2CLSzV43QHYHas5cAfBQ3PSEKIisNdT2Eda5d+nMt48RD2MrP6VsV4CExRzEB3FKm6Qksmc=
+X-Received: by 2002:a05:6830:1141:: with SMTP id
+ x1mr15400873otq.333.1560382844267; 
+ Wed, 12 Jun 2019 16:40:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <877e9r3p2e.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190612124004.27336-1-eric.auger@redhat.com>
+In-Reply-To: <20190612124004.27336-1-eric.auger@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 13 Jun 2019 07:40:07 +0800
+Message-ID: <CAKXe6SLO5G1kuurxYVQNnYDnqZJC1=nDfWTrK4LNMjMZO=_mdA@mail.gmail.com>
+To: Eric Auger <eric.auger@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: Re: [Qemu-devel] [RFC PATCH v4 5/5] target/ppc: support single
- stepping with KVM HV
+X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v5] vfio/common: Introduce
+ vfio_set_irq_signaling helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -164,123 +74,652 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Alex Williamson <alex.williamson@redhat.com>, cohuck@redhat.com,
+ Qemu Developers <qemu-devel@nongnu.org>, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Eric Auger <eric.auger@redhat.com> =E4=BA=8E2019=E5=B9=B46=E6=9C=8812=E6=97=
+=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=888:40=E5=86=99=E9=81=93=EF=BC=9A
+
+> The code used to assign an interrupt index/subindex to an
+> eventfd is duplicated many times. Let's introduce an helper that
+> allows to set/unset the signaling for an ACTION_TRIGGER,
+> ACTION_MASK or ACTION_UNMASK action.
+>
+> In the error message, we now use errno in case of any
+> VFIO_DEVICE_SET_IRQS ioctl failure.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>
+>
+
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 
-On 12/06/2019 23:34, Fabiano Rosas wrote:
-> Alexey Kardashevskiy <aik@ozlabs.ru> writes:
-> 
->> Are you reposting this any time soon?
-> 
-> I have sent a v2 to the kernel side of it:
-> 
-> https://lore.kernel.org/kvm/20190529222219.27994-1-farosas@linux.ibm.com/
-> 
-> I'm depending on what we decide to do there. The core of this patchset
-> will not change, just the mechanism by which the feature is selected
-> (patch 2, kvm-all: Introduce kvm_set_singlestep).
-> 
->> In meanwhile I hit a problem when I cannot step over the "stdu" instruction.
->>
->> I basically put this:
->> stdu    r1,-368(r1)
->>
->> and "ni" in gdb does not stop on the next instruction which is quite
->> confusing. Ideas?
-> 
-> Perhaps the next instruction is one that is not traced? See the programming
-> note at the end of section 6.5.15 in Book III.
 
-No, it is not it, it is more subtle. The problem piece was originally this:
-
-c0000000010f16b4:       f0 ff c1 fb     std     r30,-16(r1)
-c0000000010f16b8:       f8 ff e1 fb     std     r31,-8(r1)
-c0000000010f16bc:       91 fe 21 f8     stdu    r1,-368(r1)
-c0000000010f16c0:       39 00 22 3d     addis   r9,r2,57
-c0000000010f16c4:       18 97 49 39     addi    r10,r9,-26856
-c0000000010f16c8:       08 00 22 3d     addis   r9,r2,8
-c0000000010f16cc:       00 78 29 39     addi    r9,r9,30720
-
-It is Linux'es prom_init().
-
-
-> Or maybe the step got preempted? You should see GDB messages indicating
-> changing threads right before or after the stdu. However that would only
-> happen with more than one VCPU and if 'show scheduler-locking' in GDB is
-> 'off'. And even then, that should not cause any issues, but it is a more
-> complex scenario so there could be a bug in the code.
-
-It is TCG, a single CPU with a single thread and no matter where I put
-this "stdu    r1,-368(r1)" - GDB does not stop on the next one and just
-runs.
-
-In the example above:
-1. "b *0x10f16bc" makes GDB stop there, "ni" continues without stopping
-on at 0x10f16c0.
-2. "b *0x10f16bc" and "b *0x10f16c0" make GDB stop at 0x10f16bc and "ni"
-steps to 0x10f16c0 but it is rather because it is a breakpoint and not
-the next instruction.
-3. "b *0x10f16bc" and "b *0x10f16c4" make GDB stop at 0x10f16bc and "ni"
-stops GDB at 0x10f16bc but again it is a breakpoint.
-
-In 2 and 3 it is possible to continue step debugging till the next "stdu".
-
-
-> 
->> On 20/03/2019 12:42, Alexey Kardashevskiy wrote:
->>>
->>>
->>> On 20/03/2019 01:32, Fabiano Rosas wrote:
->>>> Alexey Kardashevskiy <aik@ozlabs.ru> writes:
->>>>
->>>>> Looks good to me, does not break what already works. However I cannot
->>>>> debug SLOF real mode and I am not sure why.
->>>>>
->>>>> (gdb) set endian big
->>>>>
->>>>> The target is assumed to be big endian
->>>>> (gdb) b *0x3f00
->>>>>
->>>>> Breakpoint 2 at 0x3f00
->>>>
->>>> I think I'm missing the point here. Why 0x3f00?
->>>
->>> Because I am stupid and did not realize that 0x3f00 is a relative offset
->>> and 0x4000 is the correct address which works.
->>>
->>>
->>> Reviewed-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>>
->>>
->>>>
->>>> (qemu) info roms
->>>> addr=0000000000000000 size=0x0e22b8 mem=ram name="...qemu/slof.bin"                               
->>>> addr=0000000000400000 size=0x17976d0 mem=ram name="...vmlinux"
->>>>
->>>>
->>>> $ objdump -d board-qemu/llfw/stage1.elf | grep "_start>"
->>>> 0000000000000100 <__start>:
->>>>      100:       48 00 3f 00     b       4000 <_start>
->>>> 0000000000004000 <_start>:
->>>>
->>>>
->>>> Thread 1 hit Breakpoint 3, _start () at startup.S:82
->>>> (gdb) p/x $pc
->>>> $1 = 0x4000
->>>> (gdb) si
->>>> (gdb) p/x $pc
->>>> $3 = 0x4004
->>>> (gdb) c
->>>> Thread 1 hit Breakpoint 4, early_c_entry (start_addr=49056, fdt_addr=49024) at stage2.c:202
->>>> (gdb) p/x $pc
->>>> $4 = 0x4d18
->>>>
->>>
-
--- 
-Alexey
-
+> ---
+>
+> v4 -> v5:
+> - output errno instead of ioctl returned value. Issue
+>   reported by Li
+> - vfio_set_irq_signaling now returns -errno in case
+>   of failure
+> - update the commit message
+>
+> v3 -> v4:
+> - renamed irq_to_str into index_to_str
+> - avoid usage of g_strdup_printf
+> - print both the index and subindex in generic case
+>
+> v2 -> v3:
+> - irq_to_str() simply outputs the IRQ index if the VFIO device is
+>   not of PCI type
+> - removed "vfio: failed to start eventfd signaling ../.." in vfio_platfor=
+m
+>
+> v1 -> v2:
+> - don't call GET_IRQ_INFO in vfio_set_irq_signaling()
+>   and restore quiet check in vfio_register_req_notifier.
+>   Nicer display of the IRQ name.
+>
+> This is a follow-up to
+> [PATCH v2 0/2] vfio-pci: Introduce vfio_set_event_handler().
+> It looks to me that introducing vfio_set_irq_signaling() has more
+> benefits in term of code reduction and the helper abstraction
+> looks cleaner.
+> ---
+>  hw/vfio/common.c              |  78 ++++++++++++
+>  hw/vfio/pci.c                 | 217 ++++++++--------------------------
+>  hw/vfio/platform.c            |  62 ++++------
+>  include/hw/vfio/vfio-common.h |   2 +
+>  4 files changed, 151 insertions(+), 208 deletions(-)
+>
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 4374cc6176..a859298fda 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -95,6 +95,84 @@ void vfio_mask_single_irqindex(VFIODevice *vbasedev,
+> int index)
+>      ioctl(vbasedev->fd, VFIO_DEVICE_SET_IRQS, &irq_set);
+>  }
+>
+> +static inline const char *action_to_str(int action)
+> +{
+> +    switch (action) {
+> +    case VFIO_IRQ_SET_ACTION_MASK:
+> +        return "MASK";
+> +    case VFIO_IRQ_SET_ACTION_UNMASK:
+> +        return "UNMASK";
+> +    case VFIO_IRQ_SET_ACTION_TRIGGER:
+> +        return "TRIGGER";
+> +    default:
+> +        return "UNKNOWN ACTION";
+> +    }
+> +}
+> +
+> +static const char *index_to_str(VFIODevice *vbasedev, int index)
+> +{
+> +    if (vbasedev->type !=3D VFIO_DEVICE_TYPE_PCI) {
+> +        return NULL;
+> +    }
+> +
+> +    switch (index) {
+> +    case VFIO_PCI_INTX_IRQ_INDEX:
+> +        return "INTX";
+> +    case VFIO_PCI_MSI_IRQ_INDEX:
+> +        return "MSI";
+> +    case VFIO_PCI_MSIX_IRQ_INDEX:
+> +        return "MSIX";
+> +    case VFIO_PCI_ERR_IRQ_INDEX:
+> +        return "ERR";
+> +    case VFIO_PCI_REQ_IRQ_INDEX:
+> +        return "REQ";
+> +    default:
+> +        return NULL;
+> +    }
+> +}
+> +
+> +int vfio_set_irq_signaling(VFIODevice *vbasedev, int index, int subindex=
+,
+> +                           int action, int fd, Error **errp)
+> +{
+> +    struct vfio_irq_set *irq_set;
+> +    int argsz, ret =3D 0;
+> +    const char *name;
+> +    int32_t *pfd;
+> +
+> +    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> +
+> +    irq_set =3D g_malloc0(argsz);
+> +    irq_set->argsz =3D argsz;
+> +    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD | action;
+> +    irq_set->index =3D index;
+> +    irq_set->start =3D subindex;
+> +    irq_set->count =3D 1;
+> +    pfd =3D (int32_t *)&irq_set->data;
+> +    *pfd =3D fd;
+> +
+> +    if (ioctl(vbasedev->fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+> +        ret =3D -errno;
+> +    }
+> +    g_free(irq_set);
+> +
+> +    if (!ret) {
+> +        return 0;
+> +    }
+> +
+> +    error_setg_errno(errp, -ret, "VFIO_DEVICE_SET_IRQS failure");
+> +
+> +    name =3D index_to_str(vbasedev, index);
+> +    if (name) {
+> +        error_prepend(errp, "%s-%d: ", name, subindex);
+> +    } else {
+> +        error_prepend(errp, "index %d-%d: ", index, subindex);
+> +    }
+> +    error_prepend(errp,
+> +                  "Failed to %s %s eventfd signaling for interrupt ",
+> +                  fd < 0 ? "tear down" : "set up", action_to_str(action)=
+);
+> +    return ret;
+> +}
+> +
+>  /*
+>   * IO Port/MMIO - Beware of the endians, VFIO is always little endian
+>   */
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 2a4091d216..65c2e17028 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -113,9 +113,7 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev,
+> Error **errp)
+>          .gsi =3D vdev->intx.route.irq,
+>          .flags =3D KVM_IRQFD_FLAG_RESAMPLE,
+>      };
+> -    struct vfio_irq_set *irq_set;
+> -    int ret, argsz;
+> -    int32_t *pfd;
+> +    Error *err =3D NULL;
+>
+>      if (vdev->no_kvm_intx || !kvm_irqfds_enabled() ||
+>          vdev->intx.route.mode !=3D PCI_INTX_ENABLED ||
+> @@ -143,22 +141,10 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice
+> *vdev, Error **errp)
+>          goto fail_irqfd;
+>      }
+>
+> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> -
+> -    irq_set =3D g_malloc0(argsz);
+> -    irq_set->argsz =3D argsz;
+> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> VFIO_IRQ_SET_ACTION_UNMASK;
+> -    irq_set->index =3D VFIO_PCI_INTX_IRQ_INDEX;
+> -    irq_set->start =3D 0;
+> -    irq_set->count =3D 1;
+> -    pfd =3D (int32_t *)&irq_set->data;
+> -
+> -    *pfd =3D irqfd.resamplefd;
+> -
+> -    ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
+> -    g_free(irq_set);
+> -    if (ret) {
+> -        error_setg_errno(errp, -ret, "failed to setup INTx unmask fd");
+> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX,
+> 0,
+> +                               VFIO_IRQ_SET_ACTION_UNMASK,
+> +                               irqfd.resamplefd, &err)) {
+> +        error_propagate(errp, err);
+>          goto fail_vfio;
+>      }
+>
+> @@ -262,10 +248,10 @@ static void vfio_intx_update(PCIDevice *pdev)
+>  static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
+>  {
+>      uint8_t pin =3D vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PIN,=
+ 1);
+> -    int ret, argsz, retval =3D 0;
+> -    struct vfio_irq_set *irq_set;
+> -    int32_t *pfd;
+>      Error *err =3D NULL;
+> +    int32_t fd;
+> +    int ret;
+> +
+>
+>      if (!pin) {
+>          return 0;
+> @@ -292,27 +278,15 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev,
+> Error **errp)
+>          error_setg_errno(errp, -ret, "event_notifier_init failed");
+>          return ret;
+>      }
+> +    fd =3D event_notifier_get_fd(&vdev->intx.interrupt);
+> +    qemu_set_fd_handler(fd, vfio_intx_interrupt, NULL, vdev);
+>
+> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> -
+> -    irq_set =3D g_malloc0(argsz);
+> -    irq_set->argsz =3D argsz;
+> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index =3D VFIO_PCI_INTX_IRQ_INDEX;
+> -    irq_set->start =3D 0;
+> -    irq_set->count =3D 1;
+> -    pfd =3D (int32_t *)&irq_set->data;
+> -
+> -    *pfd =3D event_notifier_get_fd(&vdev->intx.interrupt);
+> -    qemu_set_fd_handler(*pfd, vfio_intx_interrupt, NULL, vdev);
+> -
+> -    ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
+> -    if (ret) {
+> -        error_setg_errno(errp, -ret, "failed to setup INTx fd");
+> -        qemu_set_fd_handler(*pfd, NULL, NULL, vdev);
+> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX,
+> 0,
+> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
+> +        error_propagate(errp, err);
+> +        qemu_set_fd_handler(fd, NULL, NULL, vdev);
+>          event_notifier_cleanup(&vdev->intx.interrupt);
+> -        retval =3D -errno;
+> -        goto cleanup;
+> +        return -errno;
+>      }
+>
+>      vfio_intx_enable_kvm(vdev, &err);
+> @@ -323,11 +297,7 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev,
+> Error **errp)
+>      vdev->interrupt =3D VFIO_INT_INTx;
+>
+>      trace_vfio_intx_enable(vdev->vbasedev.name);
+> -
+> -cleanup:
+> -    g_free(irq_set);
+> -
+> -    return retval;
+> +    return 0;
+>  }
+>
+>  static void vfio_intx_disable(VFIOPCIDevice *vdev)
+> @@ -530,31 +500,19 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev,
+> unsigned int nr,
+>              error_report("vfio: failed to enable vectors, %d", ret);
+>          }
+>      } else {
+> -        int argsz;
+> -        struct vfio_irq_set *irq_set;
+> -        int32_t *pfd;
+> -
+> -        argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> -
+> -        irq_set =3D g_malloc0(argsz);
+> -        irq_set->argsz =3D argsz;
+> -        irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> -                         VFIO_IRQ_SET_ACTION_TRIGGER;
+> -        irq_set->index =3D VFIO_PCI_MSIX_IRQ_INDEX;
+> -        irq_set->start =3D nr;
+> -        irq_set->count =3D 1;
+> -        pfd =3D (int32_t *)&irq_set->data;
+> +        Error *err =3D NULL;
+> +        int32_t fd;
+>
+>          if (vector->virq >=3D 0) {
+> -            *pfd =3D event_notifier_get_fd(&vector->kvm_interrupt);
+> +            fd =3D event_notifier_get_fd(&vector->kvm_interrupt);
+>          } else {
+> -            *pfd =3D event_notifier_get_fd(&vector->interrupt);
+> +            fd =3D event_notifier_get_fd(&vector->interrupt);
+>          }
+>
+> -        ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
+> -        g_free(irq_set);
+> -        if (ret) {
+> -            error_report("vfio: failed to modify vector, %d", ret);
+> +        if (vfio_set_irq_signaling(&vdev->vbasedev,
+> +                                     VFIO_PCI_MSIX_IRQ_INDEX, nr,
+> +                                     VFIO_IRQ_SET_ACTION_TRIGGER, fd,
+> &err)) {
+> +            error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name)=
+;
+>          }
+>      }
+>
+> @@ -591,26 +549,10 @@ static void vfio_msix_vector_release(PCIDevice
+> *pdev, unsigned int nr)
+>       * be re-asserted on unmask.  Nothing to do if already using QEMU
+> mode.
+>       */
+>      if (vector->virq >=3D 0) {
+> -        int argsz;
+> -        struct vfio_irq_set *irq_set;
+> -        int32_t *pfd;
+> +        int32_t fd =3D event_notifier_get_fd(&vector->interrupt);
+>
+> -        argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> -
+> -        irq_set =3D g_malloc0(argsz);
+> -        irq_set->argsz =3D argsz;
+> -        irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> -                         VFIO_IRQ_SET_ACTION_TRIGGER;
+> -        irq_set->index =3D VFIO_PCI_MSIX_IRQ_INDEX;
+> -        irq_set->start =3D nr;
+> -        irq_set->count =3D 1;
+> -        pfd =3D (int32_t *)&irq_set->data;
+> -
+> -        *pfd =3D event_notifier_get_fd(&vector->interrupt);
+> -
+> -        ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
+> -
+> -        g_free(irq_set);
+> +        vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX,
+> nr,
+> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, NULL);
+>      }
+>  }
+>
+> @@ -2636,10 +2578,8 @@ static void vfio_err_notifier_handler(void *opaque=
+)
+>   */
+>  static void vfio_register_err_notifier(VFIOPCIDevice *vdev)
+>  {
+> -    int ret;
+> -    int argsz;
+> -    struct vfio_irq_set *irq_set;
+> -    int32_t *pfd;
+> +    Error *err =3D NULL;
+> +    int32_t fd;
+>
+>      if (!vdev->pci_aer) {
+>          return;
+> @@ -2651,58 +2591,30 @@ static void
+> vfio_register_err_notifier(VFIOPCIDevice *vdev)
+>          return;
+>      }
+>
+> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> +    fd =3D event_notifier_get_fd(&vdev->err_notifier);
+> +    qemu_set_fd_handler(fd, vfio_err_notifier_handler, NULL, vdev);
+>
+> -    irq_set =3D g_malloc0(argsz);
+> -    irq_set->argsz =3D argsz;
+> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index =3D VFIO_PCI_ERR_IRQ_INDEX;
+> -    irq_set->start =3D 0;
+> -    irq_set->count =3D 1;
+> -    pfd =3D (int32_t *)&irq_set->data;
+> -
+> -    *pfd =3D event_notifier_get_fd(&vdev->err_notifier);
+> -    qemu_set_fd_handler(*pfd, vfio_err_notifier_handler, NULL, vdev);
+> -
+> -    ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
+> -    if (ret) {
+> -        error_report("vfio: Failed to set up error notification");
+> -        qemu_set_fd_handler(*pfd, NULL, NULL, vdev);
+> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_ERR_IRQ_INDEX, =
+0,
+> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
+> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+> +        qemu_set_fd_handler(fd, NULL, NULL, vdev);
+>          event_notifier_cleanup(&vdev->err_notifier);
+>          vdev->pci_aer =3D false;
+>      }
+> -    g_free(irq_set);
+>  }
+>
+>  static void vfio_unregister_err_notifier(VFIOPCIDevice *vdev)
+>  {
+> -    int argsz;
+> -    struct vfio_irq_set *irq_set;
+> -    int32_t *pfd;
+> -    int ret;
+> +    Error *err =3D NULL;
+>
+>      if (!vdev->pci_aer) {
+>          return;
+>      }
+>
+> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> -
+> -    irq_set =3D g_malloc0(argsz);
+> -    irq_set->argsz =3D argsz;
+> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index =3D VFIO_PCI_ERR_IRQ_INDEX;
+> -    irq_set->start =3D 0;
+> -    irq_set->count =3D 1;
+> -    pfd =3D (int32_t *)&irq_set->data;
+> -    *pfd =3D -1;
+> -
+> -    ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
+> -    if (ret) {
+> -        error_report("vfio: Failed to de-assign error fd: %m");
+> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_ERR_IRQ_INDEX, =
+0,
+> +                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)) {
+> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+>      }
+> -    g_free(irq_set);
+>      qemu_set_fd_handler(event_notifier_get_fd(&vdev->err_notifier),
+>                          NULL, NULL, vdev);
+>      event_notifier_cleanup(&vdev->err_notifier);
+> @@ -2727,9 +2639,8 @@ static void vfio_register_req_notifier(VFIOPCIDevic=
+e
+> *vdev)
+>  {
+>      struct vfio_irq_info irq_info =3D { .argsz =3D sizeof(irq_info),
+>                                        .index =3D VFIO_PCI_REQ_IRQ_INDEX =
+};
+> -    int argsz;
+> -    struct vfio_irq_set *irq_set;
+> -    int32_t *pfd;
+> +    Error *err =3D NULL;
+> +    int32_t fd;
+>
+>      if (!(vdev->features & VFIO_FEATURE_ENABLE_REQ)) {
+>          return;
+> @@ -2745,57 +2656,31 @@ static void
+> vfio_register_req_notifier(VFIOPCIDevice *vdev)
+>          return;
+>      }
+>
+> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> +    fd =3D event_notifier_get_fd(&vdev->req_notifier);
+> +    qemu_set_fd_handler(fd, vfio_req_notifier_handler, NULL, vdev);
+>
+> -    irq_set =3D g_malloc0(argsz);
+> -    irq_set->argsz =3D argsz;
+> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index =3D VFIO_PCI_REQ_IRQ_INDEX;
+> -    irq_set->start =3D 0;
+> -    irq_set->count =3D 1;
+> -    pfd =3D (int32_t *)&irq_set->data;
+> -
+> -    *pfd =3D event_notifier_get_fd(&vdev->req_notifier);
+> -    qemu_set_fd_handler(*pfd, vfio_req_notifier_handler, NULL, vdev);
+> -
+> -    if (ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+> -        error_report("vfio: Failed to set up device request
+> notification");
+> -        qemu_set_fd_handler(*pfd, NULL, NULL, vdev);
+> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_REQ_IRQ_INDEX, =
+0,
+> +                           VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
+> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+> +        qemu_set_fd_handler(fd, NULL, NULL, vdev);
+>          event_notifier_cleanup(&vdev->req_notifier);
+>      } else {
+>          vdev->req_enabled =3D true;
+>      }
+> -
+> -    g_free(irq_set);
+>  }
+>
+>  static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+>  {
+> -    int argsz;
+> -    struct vfio_irq_set *irq_set;
+> -    int32_t *pfd;
+> +    Error *err =3D NULL;
+>
+>      if (!vdev->req_enabled) {
+>          return;
+>      }
+>
+> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> -
+> -    irq_set =3D g_malloc0(argsz);
+> -    irq_set->argsz =3D argsz;
+> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index =3D VFIO_PCI_REQ_IRQ_INDEX;
+> -    irq_set->start =3D 0;
+> -    irq_set->count =3D 1;
+> -    pfd =3D (int32_t *)&irq_set->data;
+> -    *pfd =3D -1;
+> -
+> -    if (ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+> -        error_report("vfio: Failed to de-assign device request fd: %m");
+> +    if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_REQ_IRQ_INDEX, =
+0,
+> +                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)) {
+> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+>      }
+> -    g_free(irq_set);
+>      qemu_set_fd_handler(event_notifier_get_fd(&vdev->req_notifier),
+>                          NULL, NULL, vdev);
+>      event_notifier_cleanup(&vdev->req_notifier);
+> diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
+> index d52d6552e0..8d6012857e 100644
+> --- a/hw/vfio/platform.c
+> +++ b/hw/vfio/platform.c
+> @@ -106,26 +106,19 @@ static int vfio_set_trigger_eventfd(VFIOINTp *intp,
+>                                      eventfd_user_side_handler_t handler)
+>  {
+>      VFIODevice *vbasedev =3D &intp->vdev->vbasedev;
+> -    struct vfio_irq_set *irq_set;
+> -    int argsz, ret;
+> -    int32_t *pfd;
+> +    int32_t fd =3D event_notifier_get_fd(intp->interrupt);
+> +    Error *err =3D NULL;
+> +    int ret;
+>
+> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> -    irq_set =3D g_malloc0(argsz);
+> -    irq_set->argsz =3D argsz;
+> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index =3D intp->pin;
+> -    irq_set->start =3D 0;
+> -    irq_set->count =3D 1;
+> -    pfd =3D (int32_t *)&irq_set->data;
+> -    *pfd =3D event_notifier_get_fd(intp->interrupt);
+> -    qemu_set_fd_handler(*pfd, (IOHandler *)handler, NULL, intp);
+> -    ret =3D ioctl(vbasedev->fd, VFIO_DEVICE_SET_IRQS, irq_set);
+> -    if (ret < 0) {
+> -        error_report("vfio: Failed to set trigger eventfd: %m");
+> -        qemu_set_fd_handler(*pfd, NULL, NULL, NULL);
+> +    qemu_set_fd_handler(fd, (IOHandler *)handler, NULL, intp);
+> +
+> +    ret =3D vfio_set_irq_signaling(vbasedev, intp->pin, 0,
+> +                                 VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err);
+> +    if (ret) {
+> +        error_reportf_err(err, VFIO_MSG_PREFIX, vbasedev->name);
+> +        qemu_set_fd_handler(fd, NULL, NULL, NULL);
+>      }
+> -    g_free(irq_set);
+> +
+>      return ret;
+>  }
+>
+> @@ -330,7 +323,6 @@ static void vfio_platform_eoi(VFIODevice *vbasedev)
+>
+>  static void vfio_start_eventfd_injection(SysBusDevice *sbdev, qemu_irq
+> irq)
+>  {
+> -    int ret;
+>      VFIOPlatformDevice *vdev =3D VFIO_PLATFORM_DEVICE(sbdev);
+>      VFIOINTp *intp;
+>
+> @@ -341,10 +333,7 @@ static void vfio_start_eventfd_injection(SysBusDevic=
+e
+> *sbdev, qemu_irq irq)
+>      }
+>      assert(intp);
+>
+> -    ret =3D vfio_set_trigger_eventfd(intp, vfio_intp_interrupt);
+> -    if (ret) {
+> -        error_report("vfio: failed to start eventfd signaling for IRQ %d=
+:
+> %m",
+> -                     intp->pin);
+> +    if (vfio_set_trigger_eventfd(intp, vfio_intp_interrupt)) {
+>          abort();
+>      }
+>  }
+> @@ -361,25 +350,16 @@ static void
+> vfio_start_eventfd_injection(SysBusDevice *sbdev, qemu_irq irq)
+>   */
+>  static int vfio_set_resample_eventfd(VFIOINTp *intp)
+>  {
+> +    int32_t fd =3D event_notifier_get_fd(intp->unmask);
+>      VFIODevice *vbasedev =3D &intp->vdev->vbasedev;
+> -    struct vfio_irq_set *irq_set;
+> -    int argsz, ret;
+> -    int32_t *pfd;
+> +    Error *err =3D NULL;
+> +    int ret;
+>
+> -    argsz =3D sizeof(*irq_set) + sizeof(*pfd);
+> -    irq_set =3D g_malloc0(argsz);
+> -    irq_set->argsz =3D argsz;
+> -    irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
+> VFIO_IRQ_SET_ACTION_UNMASK;
+> -    irq_set->index =3D intp->pin;
+> -    irq_set->start =3D 0;
+> -    irq_set->count =3D 1;
+> -    pfd =3D (int32_t *)&irq_set->data;
+> -    *pfd =3D event_notifier_get_fd(intp->unmask);
+> -    qemu_set_fd_handler(*pfd, NULL, NULL, NULL);
+> -    ret =3D ioctl(vbasedev->fd, VFIO_DEVICE_SET_IRQS, irq_set);
+> -    g_free(irq_set);
+> -    if (ret < 0) {
+> -        error_report("vfio: Failed to set resample eventfd: %m");
+> +    qemu_set_fd_handler(fd, NULL, NULL, NULL);
+> +    ret =3D vfio_set_irq_signaling(vbasedev, intp->pin, 0,
+> +                                 VFIO_IRQ_SET_ACTION_UNMASK, fd, &err);
+> +    if (ret) {
+> +        error_reportf_err(err, VFIO_MSG_PREFIX, vbasedev->name);
+>      }
+>      return ret;
+>  }
+> @@ -435,8 +415,6 @@ static void vfio_start_irqfd_injection(SysBusDevice
+> *sbdev, qemu_irq irq)
+>      return;
+>  fail_vfio:
+>      kvm_irqchip_remove_irqfd_notifier(kvm_state, intp->interrupt, irq);
+> -    error_report("vfio: failed to start eventfd signaling for IRQ %d: %m=
+",
+> -                 intp->pin);
+>      abort();
+>  fail_irqfd:
+>      vfio_start_eventfd_injection(sbdev, irq);
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.=
+h
+> index 1155b79678..686d99ff8c 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -167,6 +167,8 @@ void vfio_put_base_device(VFIODevice *vbasedev);
+>  void vfio_disable_irqindex(VFIODevice *vbasedev, int index);
+>  void vfio_unmask_single_irqindex(VFIODevice *vbasedev, int index);
+>  void vfio_mask_single_irqindex(VFIODevice *vbasedev, int index);
+> +int vfio_set_irq_signaling(VFIODevice *vbasedev, int index, int subindex=
+,
+> +                           int action, int fd, Error **errp);
+>  void vfio_region_write(void *opaque, hwaddr addr,
+>                             uint64_t data, unsigned size);
+>  uint64_t vfio_region_read(void *opaque,
+> --
+> 2.20.1
+>
+>
