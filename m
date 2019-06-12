@@ -2,51 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A7B42118
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 11:39:41 +0200 (CEST)
-Received: from localhost ([::1]:58114 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1970E421B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 11:56:05 +0200 (CEST)
+Received: from localhost ([::1]:58242 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hazjI-0003fv-VQ
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 05:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43159)
+	id 1hazzA-0007L6-B8
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 05:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45468)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hazi5-00038A-BV
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 05:38:26 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hazrf-0001co-BH
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 05:48:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hazi4-00078m-9l
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 05:38:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46506)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hazi4-000789-1a; Wed, 12 Jun 2019 05:38:24 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 18777883D7;
- Wed, 12 Jun 2019 09:38:19 +0000 (UTC)
-Received: from gondolin (ovpn-116-169.ams2.redhat.com [10.36.116.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 940695D9C9;
- Wed, 12 Jun 2019 09:38:13 +0000 (UTC)
-Date: Wed, 12 Jun 2019 11:38:08 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Farhan Ali <alifm@linux.ibm.com>
-Message-ID: <20190612113808.06fec7d7.cohuck@redhat.com>
-In-Reply-To: <e07bf42d-2b8a-382c-85c8-520985ddfe8a@linux.ibm.com>
-References: <20190607145353.2052-1-cohuck@redhat.com>
- <e07bf42d-2b8a-382c-85c8-520985ddfe8a@linux.ibm.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 12 Jun 2019 09:38:23 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5] vfio-ccw: support async command
- subregion
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hazrd-0002r4-2p
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 05:48:19 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:39203)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
+ id 1hazmh-0000iE-SP; Wed, 12 Jun 2019 05:43:12 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5C9XjHZ007455;
+ Wed, 12 Jun 2019 09:43:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2018-07-02;
+ bh=B95NFMN89TpkRhbo2thttGiMmUdmAK0h/7Qmqt0zUJw=;
+ b=Rea+ie0q9xL57Lk0qrrVqe/+5wWWi/+9EIZS2RzYh41BczNWMeG2gLm7fCKbeg1pcfVK
+ qcCi/6RNGPfIMjCrLZMUpGqflqlIzDUiYBbocvCZIF4t9QvFTptpzvdtW2rePrN7G4c2
+ K3vagyznqImgrfRAT+SlxIcEAajoRwtXst8S7ozs+hHbKBXOshBmj+W0YMyenTTP7SWQ
+ zFC3Ds53Q/yvow5+bUuKk2jHrdNF0VQ70VWCxaVL5c3ic0t51kkuObJbf7TjZ5oBy2CD
+ 6jCE+1nXIXYUR9mWzBVonPkIlq1hJ9ahFnqOU1j2JP0I7y/pxUNsJLfBQUxuEA9maTT+ cA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2130.oracle.com with ESMTP id 2t02hetf4y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Jun 2019 09:43:08 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5C9gufT064402;
+ Wed, 12 Jun 2019 09:43:07 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 2t04hyuas8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Jun 2019 09:43:07 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5C9h5GP028670;
+ Wed, 12 Jun 2019 09:43:06 GMT
+Received: from nexus.ravello.local (/213.57.127.2)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 12 Jun 2019 02:43:04 -0700
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
+To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
+ kevin@koconnor.net
+Date: Wed, 12 Jun 2019 12:42:29 +0300
+Message-Id: <20190612094237.47462-1-shmuel.eiderman@oracle.com>
+X-Mailer: git-send-email 2.13.3
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9285
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=702
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906120067
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9285
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=742 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906120066
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.79
+Subject: [Qemu-devel] [QEMU] [PATCH 0/8] Add Qemu to SeaBIOS LCHS interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,91 +85,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
+ arbel.moshe@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jun 2019 15:33:59 -0400
-Farhan Ali <alifm@linux.ibm.com> wrote:
+Non-standard logical geometries break under QEMU.
 
-> On 06/07/2019 10:53 AM, Cornelia Huck wrote:
-> > A vfio-ccw device may provide an async command subregion for
-> > issuing halt/clear subchannel requests. If it is present, use
-> > it for sending halt/clear request to the device; if not, fall
-> > back to emulation (as done today).
-> > 
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > ---
-> > 
-> > v4->v5:
-> > - It seems we need to take the indirection via the class for the
-> >    callbacks after all :(
-> > - Dropped Eric's R-b: for that reason
-> > 
-> > ---
-> >   hw/s390x/css.c              |  27 +++++++--
-> >   hw/s390x/s390-ccw.c         |  20 +++++++
-> >   hw/vfio/ccw.c               | 112 +++++++++++++++++++++++++++++++++++-
-> >   include/hw/s390x/css.h      |   3 +
-> >   include/hw/s390x/s390-ccw.h |   2 +
-> >   5 files changed, 158 insertions(+), 6 deletions(-)
-> > 
+A virtual disk which contains an operating system which depends on
+logical geometries (consistent values being reported from BIOS INT13
+AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
+logical geometries - for example 56 SPT (sectors per track).
+No matter what QEMU will guess - SeaBIOS, for large enough disks - will
+use LBA translation, which will report 63 SPT instead.
 
-> > @@ -309,11 +400,26 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
-> >       vcdev->io_region_offset = info->offset;
-> >       vcdev->io_region = g_malloc0(info->size);
-> >   
-> > +    /* check for the optional async command region */
-> > +    ret = vfio_get_dev_region_info(vdev, VFIO_REGION_TYPE_CCW,
-> > +                                   VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD, &info);
-> > +    if (!ret) {
-> > +        vcdev->async_cmd_region_size = info->size;
-> > +        if (sizeof(*vcdev->async_cmd_region) != vcdev->async_cmd_region_size) {
-> > +            error_setg(errp, "vfio: Unexpected size of the async cmd region");
-> > +            g_free(info);
-> > +            return;
-> > +        }
-> > +        vcdev->async_cmd_region_offset = info->offset;
-> > +        vcdev->async_cmd_region = g_malloc0(info->size);
-> > +    }
-> > +
-> >       g_free(info);
-> >   }
-> >   
-> >   static void vfio_ccw_put_region(VFIOCCWDevice *vcdev)
-> >   {
-> > +    g_free(vcdev->async_cmd_region);
-> >       g_free(vcdev->io_region);
-> >   }  
-> 
-> I think we can have a memory leak given how the code is currently 
-> structured and how we call vfio_ccw_get_region.
-> 
-> vfio_ccw_get_region is called in vfio_ccw_realize. So if we return an 
-> error from vfio_ccw_get_region, we would jump to out_region_err in 
-> vfio_ccw_realize which would call vfio_ccw_put_device.
-> 
-> Now we can also return an error from vfio_ccw_get_region for the async 
-> region, and so we might never end up freeing the io_region for which we 
-> allocated memory successfully.
-> 
-> I think we would also need to change vfio_ccw_realize, no?
+In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
+all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
+report more than 16 physical heads when moved to an IDE controller, the
+ATA spec allows a maximum of 16 heads - this is an artifact of
+virtualization.
 
-Indeed, you're right. I have the following change on top:
+By supplying the logical geometies directly we are able to support such
+"exotic" disks.
 
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index c9d1c76b4d04..d21ac24f743c 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -407,6 +407,7 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
-         vcdev->async_cmd_region_size = info->size;
-         if (sizeof(*vcdev->async_cmd_region) != vcdev->async_cmd_region_size) {
-             error_setg(errp, "vfio: Unexpected size of the async cmd region");
-+            g_free(vcdev->io_region);
-             g_free(info);
-             return;
-         }
+We will use fw_cfg to do just that.
 
-Anything else before I respin?
+Sam Eiderman (8):
+  block: Refactor macros - fix tabbing
+  block: Support providing LCHS from user
+  bootdevice: Add interface to gather LCHS
+  scsi: Propagate unrealize() callback to scsi-hd
+  bootdevice: Gather LCHS from all relevant devices
+  bootdevice: Refactor get_boot_devices_list
+  bootdevice: FW_CFG interface for LCHS values
+  hd-geo-test: Add tests for lchs override
+
+ bootdevice.c             | 158 ++++++++++---
+ hw/block/virtio-blk.c    |   6 +
+ hw/ide/qdev.c            |   7 +-
+ hw/nvram/fw_cfg.c        |  14 +-
+ hw/scsi/scsi-bus.c       |  15 ++
+ hw/scsi/scsi-disk.c      |  14 ++
+ include/hw/block/block.h |  22 +-
+ include/hw/scsi/scsi.h   |   1 +
+ include/sysemu/sysemu.h  |   4 +
+ tests/Makefile.include   |   2 +-
+ tests/hd-geo-test.c      | 565 +++++++++++++++++++++++++++++++++++++++++++++++
+ 11 files changed, 767 insertions(+), 41 deletions(-)
+
+-- 
+2.13.3
+
 
