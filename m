@@ -2,70 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53C842AED
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 17:28:44 +0200 (CEST)
-Received: from localhost ([::1]:33098 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACF2742B19
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 17:38:34 +0200 (CEST)
+Received: from localhost ([::1]:33184 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb5B6-0008Qu-3f
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 11:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35320)
+	id 1hb5KY-0006Ji-8l
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 11:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36320)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hb59V-0007qu-Kl
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:27:06 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hb5Dy-0001zy-8Q
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:31:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hb59U-0005KT-Rq
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:27:05 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35397)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hb59U-0004n7-LL
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:27:04 -0400
-Received: by mail-wm1-f66.google.com with SMTP id c6so7015439wml.0
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 08:26:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=a6iJZbRvVPKsc8G+vf1IBbLJCfVcQnuQ3UN2huQcDqU=;
- b=VuKso8yJ7Et5tZbHhX+m0uKPLYm5urZdtyZPAcjQcmYs3hpl5zlE0cijGTU+uNuI1G
- vrlu73mss6HsE7nae2I9GCD0DyBvJaxVZ4m+yRlXM8DtXn4TAmvJs2E4CN+aJet7kdL8
- 67yJGn2K1/FUbkZl4qO/vvrEh7DJJ6CBhYQr0Nil8UKldjxg6D58wjEzXS2v+pzL8jV6
- ZpZekRJg+HVXohPiKhsVwc1121+qFAqoIw33nYqWKA8xA3SkUKtObWmScsixs+50WmK3
- RbITZSRx8Iw1y0itQ33zm4i7ZCSmHF0vGAdahFvTE4hrbDLnz/39GxmO9AvUuBijO4fz
- dKGQ==
-X-Gm-Message-State: APjAAAXKDeM1kLHnR2RQiwEonBnWkYeFlmPNWzFMtPv3FVso05J7VcGb
- dkcfg9RPIO49YDoyXyCpJE4Uhg==
-X-Google-Smtp-Source: APXvYqwQcQz8C2lYxo8/qkTq9ZYDExa+dToXKWndd9NOIJ0L2Ky1/Wx3VqDDM5R48hOFZbLR4hYI6A==
-X-Received: by 2002:a1c:1fc2:: with SMTP id
- f185mr23644268wmf.154.1560353197499; 
- Wed, 12 Jun 2019 08:26:37 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:49d3:a711:c5a3:8ebf?
- ([2001:b07:6468:f312:49d3:a711:c5a3:8ebf])
- by smtp.gmail.com with ESMTPSA id m21sm59934wmc.1.2019.06.12.08.26.36
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 12 Jun 2019 08:26:36 -0700 (PDT)
-To: Liran Alon <liran.alon@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20190416125912.44001-1-liran.alon@oracle.com>
- <20190418094101.GA23876@stefanha-x1.localdomain>
- <17635C1F-A477-4C0F-B052-2948D853E6CD@oracle.com>
- <20190425083819.GE30231@stefanha-x1.localdomain>
- <20190425135319-mutt-send-email-mst@kernel.org>
- <4E3C459B-630A-4636-A660-11756467A011@oracle.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5a6bd5f7-6345-efa6-1a29-5fde5d24e5de@redhat.com>
-Date: Wed, 12 Jun 2019 17:26:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <kwolf@redhat.com>) id 1hb5Dx-000168-0P
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:31:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43244)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hb5Dj-0000ob-PJ; Wed, 12 Jun 2019 11:31:29 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E72B581DFB;
+ Wed, 12 Jun 2019 15:31:15 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-60.ams2.redhat.com
+ [10.36.117.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC3595DD7E;
+ Wed, 12 Jun 2019 15:31:09 +0000 (UTC)
+Date: Wed, 12 Jun 2019 17:31:08 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190612153108.GF9699@localhost.localdomain>
+References: <20190611134043.9524-1-kwolf@redhat.com>
+ <20190611134043.9524-11-kwolf@redhat.com>
+ <87wohrx7r7.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <4E3C459B-630A-4636-A660-11756467A011@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87wohrx7r7.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Wed, 12 Jun 2019 15:31:16 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH v2 0/3] vhost-scsi: Support migration
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 10/11] monitor: Split out monitor/hmp.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,17 +59,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bijan.mottahedeh@oracle.com, Stefan Hajnoczi <stefanha@gmail.com>,
- rth@twiddle.net, mtosatti@redhat.com, qemu-devel@nongnu.org,
- nir.weiner@oracle.com, ehabkost@redhat.com
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/06/19 01:40, Liran Alon wrote:
-> Any news on when this patch-series is expected to be merged to upstream QEMU?
-> It was accepted 2 months ago.
+Am 12.06.2019 um 15:17 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Move HMP infrastructure from monitor/misc.c to monitor/hmp.c. This is
+> > code that can be shared for all targets, so compile it only once.
+> >
+> > The amount of function and particularly extern variables in
+> > monitor_int.h is probably a bit larger than it needs to be, but this way
+> > no non-trivial code modifications are needed. The interfaces between HMP
+> > and the monitor core can be cleaned up later.
+> >
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  include/monitor/monitor.h |    1 +
+> >  monitor/monitor_int.h     |   31 +
+> >  monitor/hmp.c             | 1387 +++++++++++++++++++++++++++++++++++++
+> >  monitor/misc.c            | 1338 +----------------------------------
+> >  monitor/Makefile.objs     |    2 +-
+> >  monitor/trace-events      |    4 +-
+> >  6 files changed, 1429 insertions(+), 1334 deletions(-)
+> >  create mode 100644 monitor/hmp.c
+> >
+> > diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+> > index 7bbab05320..8547529e49 100644
+> > --- a/include/monitor/monitor.h
+> > +++ b/include/monitor/monitor.h
+> > @@ -22,6 +22,7 @@ bool monitor_cur_is_qmp(void);
+> >  void monitor_init_globals(void);
+> >  void monitor_init(Chardev *chr, int flags);
+> >  void monitor_init_qmp(Chardev *chr, int flags);
+> > +void monitor_init_hmp(Chardev *chr, int flags);
+> >  void monitor_cleanup(void);
+> >  
+> >  int monitor_suspend(Monitor *mon);
+> > diff --git a/monitor/monitor_int.h b/monitor/monitor_int.h
+> > index 4aabee54e1..88eaed9c5c 100644
+> > --- a/monitor/monitor_int.h
+> > +++ b/monitor/monitor_int.h
+> > @@ -27,6 +27,7 @@
+> >  
+> >  #include "qemu-common.h"
+> >  #include "monitor/monitor.h"
+> > +#include "qemu/cutils.h"
+> >  
+> >  #include "qapi/qmp/qdict.h"
+> >  #include "qapi/qmp/json-parser.h"
+> > @@ -154,6 +155,29 @@ static inline bool monitor_is_qmp(const Monitor *mon)
+> >      return (mon->flags & MONITOR_USE_CONTROL);
+> >  }
+> >  
+> > +/**
+> > + * Is @name in the '|' separated list of names @list?
+> > + */
+> > +static inline int compare_cmd(const char *name, const char *list)
+> > +{
+> > +    const char *p, *pstart;
+> > +    int len;
+> > +    len = strlen(name);
+> > +    p = list;
+> > +    for (;;) {
+> > +        pstart = p;
+> > +        p = qemu_strchrnul(p, '|');
+> > +        if ((p - pstart) == len && !memcmp(pstart, name, len)) {
+> > +            return 1;
+> > +        }
+> > +        if (*p == '\0') {
+> > +            break;
+> > +        }
+> > +        p++;
+> > +    }
+> > +    return 0;
+> > +}
+> > +
+> 
+> What's the justification for inline?
 
-It was merged on June 6th.
+It seemed small enough, but maybe it isn't (it has also grown by two
+lines after fixing the coding style). I can leave it in misc.c and just
+make it public.
 
-Paolo
+I'd just need a more specific name than compare_cmd() to make it public.
+
+> >  typedef QTAILQ_HEAD(MonitorList, Monitor) MonitorList;
+> >  extern IOThread *mon_iothread;
+> >  extern QEMUBH *qmp_dispatcher_bh;
+> > @@ -162,6 +186,8 @@ extern QemuMutex monitor_lock;
+> >  extern MonitorList mon_list;
+> >  extern int mon_refcount;
+> >  
+> > +extern mon_cmd_t mon_cmds[];
+> > +
+> 
+> Any particular reason for not moving this one to hmp.c, along with
+> info_cmds?  Question, not demand :)
+
+Yes, it's not part of the core infrastructure, but contains commands
+specific to the system emulator. If a tool were to use HMP, it would
+have to provide its own command tables.
+
+If we ever create a monitor/hmp-sysemu.c or something like it, this
+would be a good place for the tables.
+
+Kevin
 
