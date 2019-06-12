@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEE3423B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 13:14:48 +0200 (CEST)
-Received: from localhost ([::1]:58872 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC4542390
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 13:11:42 +0200 (CEST)
+Received: from localhost ([::1]:58828 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb1DM-00051a-5B
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 07:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60045)
+	id 1hb1AL-0001S0-O1
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 07:11:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60090)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hb0sn-0007uH-H0
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:35 -0400
+ (envelope-from <quintela@redhat.com>) id 1hb0sr-0007xL-FD
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hb0sl-0004gu-Ax
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53573)
+ (envelope-from <quintela@redhat.com>) id 1hb0sp-0004iJ-3G
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46356)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hb0sl-0004gZ-36
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:31 -0400
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hb0sn-0004hM-GE
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:34 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1126287638
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 10:53:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4964C81F18
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 10:53:32 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-116-241.ams2.redhat.com
  [10.36.116.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0383A17C46;
- Wed, 12 Jun 2019 10:53:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 622FB53786;
+ Wed, 12 Jun 2019 10:53:30 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 12 Jun 2019 12:53:17 +0200
-Message-Id: <20190612105323.7051-1-quintela@redhat.com>
+Date: Wed, 12 Jun 2019 12:53:18 +0200
+Message-Id: <20190612105323.7051-2-quintela@redhat.com>
+In-Reply-To: <20190612105323.7051-1-quintela@redhat.com>
+References: <20190612105323.7051-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 12 Jun 2019 10:53:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Wed, 12 Jun 2019 10:53:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 0/6] Multifd compression support
+Subject: [Qemu-devel] [PATCH v4 1/6] migration-test: introduce functions to
+ handle string parameters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,86 +63,63 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v4:
-- improve the code left and right
-- use the MIGRATION_FLAG_SYNC
-- use qerrors properly
-- pass errors everywhere (no more printfs)
-- create cleanup/save operations
-- merged zlib patches into one
-- general patches alreody on the migration pull request.
-- commented all the methods.
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ tests/migration-test.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-ToDo: Didn't add the sztd compression because I changed the zlib
-      code/methods quite a bit.
-      My understanding is that all the issues are gone.
-
-v3:
-- improve the code
-- address David and Markus comments
-- make compression code into methods
-  so we can add any other method ading just three functions
-
-Please review, as far as I know everything is ok now.
-
-Todo: Add zstd support
-
-v2:
-- improve the code left and right
-- Split better the zlib code
-- rename everything to v4.1
-- Add tests for multifd-compress zlib
-- Parameter is now an enum (soon will see sztd)
-
-ToDo:
-- Make operations for diferent methods:
-  * multifd_prepare_send_none/zlib
-  * multifd_send_none/zlib
-  * multifd_recv_none/zlib
-- Use the MULTIFD_FLAG_ZLIB (it is unused so far).
-
-Please review and comment.
-
-v1:
-
-This series create compression code on top of multifd.  It is still
-WIP, but it is already:
-- faster that current compression code
-- it does the minimum amount of copies possible
-- we allow support for other compression codes
-- it pass the multifd test sent in my previous series
-
-Test for existing code didn't work because code is too slow, I need to
-make downtime 10 times bigger to make it to converge on my test
-machine.  This code works with same limits that multifd no-
-
-ToDo:
-- move printf's  to traces
-- move code to a struct instead of if (zlib) inside the main threads.
-- improve error handling.
-
-Please, review and coment.
-
-Juan Quintela (6):
-  migration-test: introduce functions to handle string parameters
-  migration: Make multifd_save_setup() get an Error parameter
-  migration: Make multifd_load_setup() get an Error parameter
-  migration: Add multifd-compress parameter
-  migration: Make no compression operations into its own structure
-  migration: Add zlib compression multifd support
-
- hmp.c                        |  13 +
- hw/core/qdev-properties.c    |  13 +
- include/hw/qdev-properties.h |   3 +
- migration/migration.c        |  34 ++-
- migration/migration.h        |   3 +-
- migration/ram.c              | 454 ++++++++++++++++++++++++++++++++++-
- migration/ram.h              |   4 +-
- migration/rdma.c             |   2 +-
- qapi/migration.json          |  30 ++-
- tests/migration-test.c       |  54 ++++-
- 10 files changed, 585 insertions(+), 25 deletions(-)
-
+diff --git a/tests/migration-test.c b/tests/migration-test.c
+index 36d4910192..c7c311e02c 100644
+--- a/tests/migration-test.c
++++ b/tests/migration-test.c
+@@ -442,6 +442,43 @@ static void migrate_set_parameter_int(QTestState *wh=
+o, const char *parameter,
+     migrate_check_parameter_int(who, parameter, value);
+ }
+=20
++static char *migrate_get_parameter_str(QTestState *who,
++                                       const char *parameter)
++{
++    QDict *rsp;
++    char *result;
++
++    rsp =3D wait_command(who, "{ 'execute': 'query-migrate-parameters' }=
+");
++    result =3D g_strdup(qdict_get_str(rsp, parameter));
++    qobject_unref(rsp);
++    return result;
++}
++
++static void migrate_check_parameter_str(QTestState *who, const char *par=
+ameter,
++                                        const char *value)
++{
++    char *result;
++
++    result =3D migrate_get_parameter_str(who, parameter);
++    g_assert_cmpstr(result, =3D=3D, value);
++    g_free(result);
++}
++
++__attribute__((unused))
++static void migrate_set_parameter_str(QTestState *who, const char *param=
+eter,
++                                      const char *value)
++{
++    QDict *rsp;
++
++    rsp =3D qtest_qmp(who,
++                    "{ 'execute': 'migrate-set-parameters',"
++                    "'arguments': { %s: %s } }",
++                    parameter, value);
++    g_assert(qdict_haskey(rsp, "return"));
++    qobject_unref(rsp);
++    migrate_check_parameter_str(who, parameter, value);
++}
++
+ static void migrate_pause(QTestState *who)
+ {
+     QDict *rsp;
 --=20
 2.21.0
 
