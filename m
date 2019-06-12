@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F4182431A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 00:27:41 +0200 (CEST)
-Received: from localhost ([::1]:35500 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0033D4319F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 00:23:47 +0200 (CEST)
+Received: from localhost ([::1]:35466 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbBiV-0004XR-CX
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 18:27:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45549)
+	id 1hbBel-000075-5L
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 18:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45570)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbBS7-0007Yk-3g
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:10:44 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbBS8-0007dc-O7
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:10:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbBS5-0007gd-Ue
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:10:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48868)
+ (envelope-from <mreitz@redhat.com>) id 1hbBS7-0007hh-Kc
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:10:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43314)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbBS2-0007dD-GQ; Wed, 12 Jun 2019 18:10:38 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1hbBS5-0007fY-2p; Wed, 12 Jun 2019 18:10:41 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AD17EC18B2F3;
- Wed, 12 Jun 2019 22:10:37 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 398762EF170;
+ Wed, 12 Jun 2019 22:10:40 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DF8A5C236;
- Wed, 12 Jun 2019 22:10:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC0CD6014E;
+ Wed, 12 Jun 2019 22:10:39 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 13 Jun 2019 00:09:34 +0200
-Message-Id: <20190612221004.2317-13-mreitz@redhat.com>
+Date: Thu, 13 Jun 2019 00:09:35 +0200
+Message-Id: <20190612221004.2317-14-mreitz@redhat.com>
 In-Reply-To: <20190612221004.2317-1-mreitz@redhat.com>
 References: <20190612221004.2317-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Wed, 12 Jun 2019 22:10:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Wed, 12 Jun 2019 22:10:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 12/42] block: Use bdrv_filtered_rw* where
- obvious
+Subject: [Qemu-devel] [PATCH v5 13/42] block: Use CAFs in block status
+ functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,115 +61,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Places that use patterns like
-
-    if (bs->drv->is_filter && bs->file) {
-        ... something about bs->file->bs ...
-    }
-
-should be
-
-    BlockDriverState *filtered =3D bdrv_filtered_rw_bs(bs);
-    if (filtered) {
-        ... something about @filtered ...
-    }
-
-instead.
+Use the child access functions in the block status inquiry functions as
+appropriate.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c    | 23 +++++++++++++++--------
- block/io.c |  5 +++--
- 2 files changed, 18 insertions(+), 10 deletions(-)
+ block/io.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/block.c b/block.c
-index 97774b7b06..11f37983d9 100644
---- a/block.c
-+++ b/block.c
-@@ -556,11 +556,12 @@ int bdrv_create_file(const char *filename, QemuOpts=
- *opts, Error **errp)
- int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
- {
-     BlockDriver *drv =3D bs->drv;
-+    BlockDriverState *filtered =3D bdrv_filtered_rw_bs(bs);
-=20
-     if (drv && drv->bdrv_probe_blocksizes) {
-         return drv->bdrv_probe_blocksizes(bs, bsz);
--    } else if (drv && drv->is_filter && bs->file) {
--        return bdrv_probe_blocksizes(bs->file->bs, bsz);
-+    } else if (filtered) {
-+        return bdrv_probe_blocksizes(filtered, bsz);
-     }
-=20
-     return -ENOTSUP;
-@@ -575,11 +576,12 @@ int bdrv_probe_blocksizes(BlockDriverState *bs, Blo=
-ckSizes *bsz)
- int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
- {
-     BlockDriver *drv =3D bs->drv;
-+    BlockDriverState *filtered =3D bdrv_filtered_rw_bs(bs);
-=20
-     if (drv && drv->bdrv_probe_geometry) {
-         return drv->bdrv_probe_geometry(bs, geo);
--    } else if (drv && drv->is_filter && bs->file) {
--        return bdrv_probe_geometry(bs->file->bs, geo);
-+    } else if (filtered) {
-+        return bdrv_probe_geometry(filtered, geo);
-     }
-=20
-     return -ENOTSUP;
-@@ -4972,6 +4974,8 @@ int bdrv_has_zero_init_1(BlockDriverState *bs)
-=20
- int bdrv_has_zero_init(BlockDriverState *bs)
- {
-+    BlockDriverState *filtered;
-+
-     if (!bs->drv) {
-         return 0;
-     }
-@@ -4984,8 +4988,10 @@ int bdrv_has_zero_init(BlockDriverState *bs)
-     if (bs->drv->bdrv_has_zero_init) {
-         return bs->drv->bdrv_has_zero_init(bs);
-     }
--    if (bs->file && bs->drv->is_filter) {
--        return bdrv_has_zero_init(bs->file->bs);
-+
-+    filtered =3D bdrv_filtered_rw_bs(bs);
-+    if (filtered) {
-+        return bdrv_has_zero_init(filtered);
-     }
-=20
-     /* safe default */
-@@ -5030,8 +5036,9 @@ int bdrv_get_info(BlockDriverState *bs, BlockDriver=
-Info *bdi)
-         return -ENOMEDIUM;
-     }
-     if (!drv->bdrv_get_info) {
--        if (bs->file && drv->is_filter) {
--            return bdrv_get_info(bs->file->bs, bdi);
-+        BlockDriverState *filtered =3D bdrv_filtered_rw_bs(bs);
-+        if (filtered) {
-+            return bdrv_get_info(filtered, bdi);
-         }
-         return -ENOTSUP;
-     }
 diff --git a/block/io.c b/block/io.c
-index 2408abffd9..73ade04834 100644
+index 73ade04834..53aabf86b5 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -3147,8 +3147,9 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child,=
- int64_t offset,
+@@ -2150,11 +2150,12 @@ static int coroutine_fn bdrv_co_block_status(Bloc=
+kDriverState *bs,
+     if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
+         ret |=3D BDRV_BLOCK_ALLOCATED;
+     } else if (want_zero) {
++        BlockDriverState *cow_bs =3D bdrv_filtered_cow_bs(bs);
++
+         if (bdrv_unallocated_blocks_are_zero(bs)) {
+             ret |=3D BDRV_BLOCK_ZERO;
+-        } else if (bs->backing) {
+-            BlockDriverState *bs2 =3D bs->backing->bs;
+-            int64_t size2 =3D bdrv_getlength(bs2);
++        } else if (cow_bs) {
++            int64_t size2 =3D bdrv_getlength(cow_bs);
+=20
+             if (size2 >=3D 0 && offset >=3D size2) {
+                 ret |=3D BDRV_BLOCK_ZERO;
+@@ -2220,7 +2221,7 @@ static int coroutine_fn bdrv_co_block_status_above(=
+BlockDriverState *bs,
+     bool first =3D true;
+=20
+     assert(bs !=3D base);
+-    for (p =3D bs; p !=3D base; p =3D backing_bs(p)) {
++    for (p =3D bs; p !=3D base; p =3D bdrv_filtered_bs(p)) {
+         ret =3D bdrv_co_block_status(p, want_zero, offset, bytes, pnum, =
+map,
+                                    file);
+         if (ret < 0) {
+@@ -2306,7 +2307,7 @@ int bdrv_block_status_above(BlockDriverState *bs, B=
+lockDriverState *base,
+ int bdrv_block_status(BlockDriverState *bs, int64_t offset, int64_t byte=
+s,
+                       int64_t *pnum, int64_t *map, BlockDriverState **fi=
+le)
+ {
+-    return bdrv_block_status_above(bs, backing_bs(bs),
++    return bdrv_block_status_above(bs, bdrv_filtered_bs(bs),
+                                    offset, bytes, pnum, map, file);
+ }
+=20
+@@ -2316,9 +2317,9 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState=
+ *bs, int64_t offset,
+     int ret;
+     int64_t dummy;
+=20
+-    ret =3D bdrv_common_block_status_above(bs, backing_bs(bs), false, of=
+fset,
+-                                         bytes, pnum ? pnum : &dummy, NU=
+LL,
+-                                         NULL);
++    ret =3D bdrv_common_block_status_above(bs, bdrv_filtered_bs(bs), fal=
+se,
++                                         offset, bytes, pnum ? pnum : &d=
+ummy,
++                                         NULL, NULL);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -2372,7 +2373,7 @@ int bdrv_is_allocated_above(BlockDriverState *top,
+             n =3D pnum_inter;
+         }
+=20
+-        intermediate =3D backing_bs(intermediate);
++        intermediate =3D bdrv_filtered_bs(intermediate);
      }
 =20
-     if (!drv->bdrv_co_truncate) {
--        if (bs->file && drv->is_filter) {
--            ret =3D bdrv_co_truncate(bs->file, offset, prealloc, errp);
-+        BdrvChild *filtered =3D bdrv_filtered_rw_child(bs);
-+        if (filtered) {
-+            ret =3D bdrv_co_truncate(filtered, offset, prealloc, errp);
-             goto out;
-         }
-         error_setg(errp, "Image format driver does not support resize");
+     *pnum =3D n;
 --=20
 2.21.0
 
