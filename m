@@ -2,52 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A7A43125
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 22:54:26 +0200 (CEST)
-Received: from localhost ([::1]:34844 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EDFE43192
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 00:12:44 +0200 (CEST)
+Received: from localhost ([::1]:35384 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbAGI-0001k1-5M
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 16:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55755)
+	id 1hbBU3-00086V-Js
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 18:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44725)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hbAEw-00010n-2Y
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 16:53:03 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbBQT-0005nP-PH
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:09:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hbAEv-0006DX-0h
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 16:53:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43390)
+ (envelope-from <mreitz@redhat.com>) id 1hbBQR-0006Xx-Ln
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:09:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44928)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hbAEu-0006CI-RJ
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 16:53:00 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hbBQL-0006R3-PD; Wed, 12 Jun 2019 18:08:53 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B195E330265;
- Wed, 12 Jun 2019 20:52:52 +0000 (UTC)
-Received: from localhost (ovpn-116-100.phx2.redhat.com [10.3.116.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 35A3B1001947;
- Wed, 12 Jun 2019 20:52:43 +0000 (UTC)
-Date: Wed, 12 Jun 2019 17:52:42 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190612205242.GQ5927@habkost.net>
-References: <20190611171456.23444-1-ehabkost@redhat.com>
- <20190611171456.23444-7-ehabkost@redhat.com>
- <d107483c-eba8-f6fc-8e3a-ad0a86472d07@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 7BC4E6EB81;
+ Wed, 12 Jun 2019 22:08:41 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CD41608A6;
+ Wed, 12 Jun 2019 22:08:40 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Thu, 13 Jun 2019 00:08:37 +0200
+Message-Id: <20190612220839.1374-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <d107483c-eba8-f6fc-8e3a-ad0a86472d07@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Wed, 12 Jun 2019 20:52:58 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Wed, 12 Jun 2019 22:08:41 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 6/6] travis: Make check-acceptance job more
- verbose
+Subject: [Qemu-devel] [PATCH 0/2] vl: Drain before (block) job cancel when
+ quitting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,51 +53,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 12, 2019 at 10:49:18PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 6/11/19 7:14 PM, Eduardo Habkost wrote:
-> > It will help us debug issues when tests fail.
-> >=20
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> >  .travis.yml | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/.travis.yml b/.travis.yml
-> > index b053a836a3..a08a7b7278 100644
-> > --- a/.travis.yml
-> > +++ b/.travis.yml
-> > @@ -225,7 +225,7 @@ matrix:
-> >      # Acceptance (Functional) tests
-> >      - env:
-> >          - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_=
-64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390=
-x-softmmu,alpha-softmmu"
-> > -        - TEST_CMD=3D"make check-acceptance"
-> > +        - TEST_CMD=3D"make AVOCADO_SHOW=3Dtest check-acceptance"
-> >        addons:
-> >          apt:
-> >            packages:
-> >=20
->=20
-> Cleber, can you help figuring what's wrong here?
->=20
-> https://travis-ci.org/qemu/qemu/jobs/544805900
->=20
-> The tests seems successfull, is it possible the verbose logging returns
-> error to the shell even if the test succeed?
+Quitting qemu should lead to qemu exiting pretty much immediately.  That
+means if you have a block job running on a throttled block node, the
+node should ignore its throttling and the job should be cancelled
+immediately.
 
-That's exactly what this patch does.  On my next pull request I
-will replace this with Cleber's patch that dumps the error log
-only if tests failed.
+Unfortunately, that is not what happens.  Currently, the node will be
+drained (with a bdrv_drain_all()), and then again unquiesced (because
+bdrv_drain_all() ends).  Then, the block job is cancelled; but at this
+point, the node is no longer drained, so it will block, as it befits a
+throttling node.
+
+To fix this issue, we have to keep all nodes drained while we cancel all
+block jobs when quitting qemu.  This will make the throttle node ignore
+its throttling and thus let the block job cancel immediately.
+
+
+Max Reitz (2):
+  vl: Drain before (block) job cancel when quitting
+  iotests: Test quitting with job on throttled node
+
+ vl.c                       | 11 ++++++++
+ tests/qemu-iotests/218     | 55 ++++++++++++++++++++++++++++++++++++--
+ tests/qemu-iotests/218.out |  4 +++
+ 3 files changed, 68 insertions(+), 2 deletions(-)
 
 --=20
-Eduardo
+2.21.0
+
 
