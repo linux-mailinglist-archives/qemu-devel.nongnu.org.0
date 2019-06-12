@@ -2,105 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F7B42C75
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 18:37:46 +0200 (CEST)
-Received: from localhost ([::1]:33738 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2A942BD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 18:10:29 +0200 (CEST)
+Received: from localhost ([::1]:33604 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb6Ft-00042N-9I
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 12:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53938)
+	id 1hb5pT-0000Cn-Oe
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 12:10:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47104)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <rth7680@gmail.com>) id 1hb6EQ-00035S-UJ
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:36:15 -0400
+ (envelope-from <clg@kaod.org>) id 1hb5k6-0004JX-Ok
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:05:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rth7680@gmail.com>) id 1hb6EP-0000gT-R6
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:36:14 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:34221)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <rth7680@gmail.com>)
- id 1hb6EN-0000dX-DJ; Wed, 12 Jun 2019 12:36:11 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id c85so9993982pfc.1;
- Wed, 12 Jun 2019 09:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:openpgp:autocrypt:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4YAKgmm3uxfG6qjAg/EB3AViBdlelytDdopfZVhqhug=;
- b=t4v8BtN+R/KXjMmatS7BuuM2K1xqP+K/LhKOUlpvW1y8Wt89yVH28tDdC0ieAjW7mg
- idQH6IHlLgt0BknBPJpyV0nTJx6LvHbJlW5oGqm7I/PqSAPcfqOpUTZVH6+kmD/LKWiE
- bcIZL6BsAfB3uZ7yRKvbAWjBwqyLs89a3i0MJiunQKubxJWq40Inu6DrjfVR82ZPDktv
- GLpsFsPPmDLvTt2LdDnwmZIfLGhYZbXIKmczaMYmsNBmZFXK0VP4qoNS6WgHZg9nNCfy
- hOhkiPi+pqQmbODN/OLNp9I+aC6ZO6cVL5itYxK4Q6SJ9BuHrhmzxSBTsb6w6RUK9tOT
- K0QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
- :autocrypt:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=4YAKgmm3uxfG6qjAg/EB3AViBdlelytDdopfZVhqhug=;
- b=N+2fy4FBgH/qdpNC2x6E7Mo85+p0johOEViE82BjDkU+mJpkGcZ8O60t0jw5aDRwyw
- lcudNV+sbz2DcZbybgj+O/5MhMiI0Io80COYOinbxAXpES46cS7zcuHdIl/0aNemer7c
- bd3cn4DNSnnDufb3YAYNw34ieygzZuBHeepgckTs5d9/1BoiHRenr+WBkhx9ljDQVkF5
- lTHdCQUUJJDX5CxRi5/7V4J8gQZbY3BZ868F2M7ccYk+NG2fojNzSqfxdDE66MqVy/X1
- plQQvem5NP3hPfZn3Iq/Qi74x9ohw/ticOmAajsyRGRidZ72Ch1plR8H2MaAqPkoKdgH
- fgFA==
-X-Gm-Message-State: APjAAAXa4aPZV1joaOATR5RvQzBWqFcy/Al36O+/10Mgns9+feQBzMl3
- pHvR2qE5P3GYBZ+84atrsvx9Z/5U
-X-Google-Smtp-Source: APXvYqzN7XKqJZOKGcwnD7e/SipsO4XciwqbymYUNazoBbKHwenkTeHZOLsdfmT8sGIQhn77WrvVQw==
-X-Received: by 2002:a63:c508:: with SMTP id f8mr26328076pgd.48.1560357369773; 
- Wed, 12 Jun 2019 09:36:09 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
- by smtp.googlemail.com with ESMTPSA id
- n184sm90591pfn.21.2019.06.12.09.36.08
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 12 Jun 2019 09:36:09 -0700 (PDT)
+ (envelope-from <clg@kaod.org>) id 1hb5k3-0001EF-HK
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:04:54 -0400
+Received: from 4.mo1.mail-out.ovh.net ([46.105.76.26]:58149)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hb5k1-00018l-Ki
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:04:51 -0400
+Received: from player799.ha.ovh.net (unknown [10.109.143.3])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 9B1C417E6BF
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 18:04:43 +0200 (CEST)
+Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
+ (Authenticated sender: clg@kaod.org)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id 6CCE96BF3B42;
+ Wed, 12 Jun 2019 16:04:35 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-References: <20190602110903.3431-1-mark.cave-ayland@ilande.co.uk>
- <20190602110903.3431-5-mark.cave-ayland@ilande.co.uk>
- <20190612015224.GG3998@umbus.fritz.box>
- <53c86ca8-332c-e073-0e78-2a684cd05161@twiddle.net>
- <20190612051604.GI3998@umbus.fritz.box>
-From: Richard Henderson <rth@twiddle.net>
-Openpgp: preference=signencrypt
-Autocrypt: addr=rth@twiddle.net; prefer-encrypt=mutual; keydata=
- mQENBFGuLC8BCADcAoWcnW9lTsDMzbO3MBU+KbiGaj5JPatEUscRDkQYM2fyNjJp2tIWDK5a
- n4yngeXB3eX61WbYR3QraRK8mlYLGxyAdHMEQfPipbqf3TmN043fssT2bc82ApJcs1zvLYgI
- rhMht7Dck7A0wNC1jo+ZjVVFig5gDTN7gOzaAdBtV8tVNUddwkLzzaGpfihhSD6U46NdqKOG
- Wlnn6TrkMy0QGdQ5NaXHkRlUjnnUTSW/nKfoxD+EI+A9V4sYOd8mc/TL4aJh/i/AiU57eLbo
- n17uQI6/VTWDUWl8USiz4x9c8vmqlywLx00tAFxxoRWqk4KVJlj+Sh0up/D/sJ+vPpgBABEB
- AAG0I1JpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5uZXQ+iQFBBBMBAgArAhsDBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUJC7UHogUCWaDNVgIZAQAKCRCtEnDMTdAnm9N5CADO
- cB8F/SudJ72IupxQf40hbJdBK176+gb3sHMsixyLtrU59lee+lIM1OZmlNjsnCYmiSnbA5ks
- Q7p0HfO7DgdmfLzcK6xsHZukqSZy5LByw348Y913ZyjOrJZFdPP7kDg1MnqRqH4+3ZdzxV4y
- eYBWFU9GYMIF06JbUubossOOO4ArNVZbnIPu8Vn2tDZVVqsCBqkoCSBMj519xrvyOu5z4mHS
- LkCglXmVDOXMbqLuNAC3rfNXSnyM4hYkLUyfALJlAAy1Ro+jUqYhu7XUFV/MiwRuFMh5GbtY
- Urkx7tqsWQXLT3GeDk/LqvpWJQwk4cHHckYjRih+70CHIenm81PVuQENBFGuLC8BCACyEx3x
- 94HIkTX0CHu2sA0w75+h9wuoA8ggJ7+S4ri0y2YsijWad5TTt6z6MMiqxk9kSA5bppaj4HXh
- 86hBF/dWCtMpNr3Rb8FNOKyeA/qkYHVD6HiAiw9c6D8Dr9hWmOk3/HSmGrNURxeUFOckDXsv
- I+yGGKBNshj59j7QZr7ZiuIi2rWlBL8dFN/OWa/o3x7HKsE4k6K8ngwvCKP/QbDLwLLBOWH+
- VEUtpyeyxTr3OJ47ECTxdYvXoAV2iJaKr+6doVQiiR5eVFiMYrUPUECJeolOCwqc/JlWE18L
- +PCAFaW1H+/mpPVfSpN4wnkJ5cQiQVB41IaCM4p20iRzx7ZJABEBAAGJASUEGAECAA8CGwwF
- AlmgzYEFCQu1CEoACgkQrRJwzE3QJ5s7rggAwABzDAGrZ6uWsMxg5PeiiAYPy6LBnCBJSpB5
- Tfy5jH8QTmLfXW+u4Ib4sWXG7PYNR7sIrtqUHjRqXLVXrSnBX9ASGcYw/Xil45khW6LsRpO1
- prHv9gkwQfa6fTiWXVfSfm2Nant6u02q+MaYtQpCVTiz/9ki4FfftUwUHFLU0MhIQogjd11y
- /E08RJsqBwaHQdt14PwU1HphDOzSkhOXRXQLSd3ysyeGUXvL+gqQoXl5XYdvk8IId4PoJRo4
- jcyJ4VbnldvXh5gdGhFA/f9JgkLk9tPW+C3wNtNWyRUq8azR9hF2fg2HJUf4IXQlIu8OOgh1
- VcROBqvtH3ecaIL9iw==
-Message-ID: <380e5888-ad0d-c8aa-3ed5-ac542467fc09@twiddle.net>
-Date: Wed, 12 Jun 2019 08:58:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Date: Wed, 12 Jun 2019 18:04:25 +0200
+Message-Id: <20190612160425.27670-1-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190612051604.GI3998@umbus.fritz.box>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::42a
-Subject: Re: [Qemu-devel] [PATCH v2 04/15] target/ppc: introduce separate
- VSX_CMP macro for xvcmp* instructions
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 2493586819962735590
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudehjedguddttdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.76.26
+Subject: [Qemu-devel] [PATCH] docs: updates on the POWER9 XIVE interrupt
+ controller documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,17 +54,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, gkurz@kaod.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/11/19 10:16 PM, David Gibson wrote:
-> Fair enough.  Richard, I was kind of hoping for an A-b or R-b on the
-> series from you, but didn't see one..?
+This includes various small updates and a better description of the
+chosen interrupt mode resulting from the combination of the 'ic-mode'
+machine option, the 'kernel_irqchip' option, guest support and KVM
+support.
 
-It's still on my queue.  I hope to get to it soon.
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
 
+ David, please check the tables below. Thanks
 
-r~
+ docs/specs/ppc-spapr-xive.rst | 112 ++++++++++++++++++++++++++++++++--
+ docs/specs/ppc-xive.rst       |   9 +--
+ 2 files changed, 111 insertions(+), 10 deletions(-)
+
+diff --git a/docs/specs/ppc-spapr-xive.rst b/docs/specs/ppc-spapr-xive.rs=
+t
+index 539ce7ca4e90..7a64c9d04951 100644
+--- a/docs/specs/ppc-spapr-xive.rst
++++ b/docs/specs/ppc-spapr-xive.rst
+@@ -34,19 +34,118 @@ CAS Negotiation
+ ---------------
+=20
+ QEMU advertises the supported interrupt modes in the device tree
+-property "ibm,arch-vec-5-platform-support" in byte 23 and the OS
+-Selection for XIVE is indicated in the "ibm,architecture-vec-5"
++property ``ibm,arch-vec-5-platform-support`` in byte 23 and the OS
++Selection for XIVE is indicated in the ``ibm,architecture-vec-5``
+ property byte 23.
+=20
+ The interrupt modes supported by the machine depend on the CPU type
+ (POWER9 is required for XIVE) but also on the machine property
+ ``ic-mode`` which can be set on the command line. It can take the
+-following values: ``xics``, ``xive``, ``dual`` and currently ``xics``
+-is the default but it may change in the future.
++following values: ``xics``, ``xive``, and ``dual`` which is the
++default mode. ``dual`` means that both modes XICS **and** XIVE are
++supported and if the guest OS supports XIVE, this mode will be
++selected.
+=20
+ The choosen interrupt mode is activated after a reconfiguration done
+ in a machine reset.
+=20
++KVM negotiation
++---------------
++
++When the guest starts under KVM, the capabilities of the host kernel
++and QEMU are also negotiated. Depending on the version of the host
++kernel, KVM will advertise the XIVE capability to QEMU or not.
++
++Nevertheless, the available interrupt modes in the machine should not
++depend on the XIVE KVM capability of the host. On older kernels
++without XIVE KVM support, QEMU will use the emulated XIVE device as a
++fallback and on newer kernels (>=3D5.2), the KVM XIVE device.
++
++As a final refinement, the user can also switch the use of the KVM
++device with the machine option ``kernel_irqchip``.
++
++
++XIVE support in KVM
++~~~~~~~~~~~~~~~~~~~
++
++For guest OSes supporting XIVE, the resulting interrupt modes on host
++kernels with XIVE KVM support are the following:
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++ic-mode                            kernel_irqchip
++--------------  ----------------------------------------------
++/               allowed        off            on
++                (default)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++dual (default)  XIVE KVM       XIVE emul.     XIVE KVM
++xive            XIVE KVM       XIVE emul.     XIVE KVM
++xics            XICS KVM       XICS emul.     XICS KVM
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++For legacy guest OSes without XIVE support, the resulting interrupt
++modes are the following:
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++ic-mode                            kernel_irqchip
++--------------  ----------------------------------------------
++/               allowed        off            on
++                (default)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++dual (default)  XICS KVM       XICS emul.     XICS KVM
++xive            QEMU error(3)  QEMU error(3)  QEMU error(3)
++xics            XICS KVM       XICS emul.     XICS KVM
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++(3) QEMU fails at CAS with ``Guest requested unavailable interrupt
++    mode (XICS), either don't set the ic-mode machine property or try
++    ic-mode=3Dxics or ic-mode=3Ddual``
++
++
++No XIVE support in KVM
++~~~~~~~~~~~~~~~~~~~~~~
++
++For guest OSes supporting XIVE, the resulting interrupt modes on host
++kernels without XIVE KVM support are the following:
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++ic-mode                            kernel_irqchip
++--------------  ----------------------------------------------
++/               allowed        off            on
++                (default)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++dual (default)  XIVE emul.(1)  XIVE emul.     QEMU error (2)
++xive            XIVE emul.(1)  XIVE emul.     QEMU error (2)
++xics            XICS KVM       XICS emul.     XICS KVM
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++
++(1) QEMU warns with ``warning: kernel_irqchip requested but unavailable:
++    IRQ_XIVE capability must be present for KVM``
++(2) QEMU fails with ``kernel_irqchip requested but unavailable:
++    IRQ_XIVE capability must be present for KVM``
++
++
++For legacy guest OSes without XIVE support, the resulting interrupt
++modes are the following:
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++ic-mode                            kernel_irqchip
++--------------  ----------------------------------------------
++/               allowed        off            on
++                (default)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++dual (default)  QEMU error(4)  XICS emul.     QEMU error(4)
++xive            QEMU error(3)  QEMU error(3)  QEMU error(3)
++xics            XICS KVM       XICS emul.     XICS KVM
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++(3) QEMU fails at CAS with ``Guest requested unavailable interrupt
++    mode (XICS), either don't set the ic-mode machine property or try
++    ic-mode=3Dxics or ic-mode=3Ddual``
++(4) QEMU/KVM incompatibility due to device destruction in reset. This
++    needs to be addressed more cleanly with an error.
++
++
+ XIVE Device tree properties
+ ---------------------------
+=20
+@@ -92,10 +191,11 @@ for both interrupt mode. The different ranges are de=
+fined as follow :
+ - ``0x0000 .. 0x0FFF`` 4K CPU IPIs (only used under XIVE)
+ - ``0x1000 .. 0x1000`` 1 EPOW
+ - ``0x1001 .. 0x1001`` 1 HOTPLUG
++- ``0x1002 .. 0x10FF`` unused
+ - ``0x1100 .. 0x11FF`` 256 VIO devices
+-- ``0x1200 .. 0x127F`` 32 PHBs devices
++- ``0x1200 .. 0x127F`` 32x4 LSIs for PHB devices
+ - ``0x1280 .. 0x12FF`` unused
+-- ``0x1300 .. 0x1FFF`` PHB MSIs
++- ``0x1300 .. 0x1FFF`` PHB MSIs (dynamically allocated)
+=20
+ Monitoring XIVE
+ ---------------
+diff --git a/docs/specs/ppc-xive.rst b/docs/specs/ppc-xive.rst
+index b997dc062910..148d57eb6ab2 100644
+--- a/docs/specs/ppc-xive.rst
++++ b/docs/specs/ppc-xive.rst
+@@ -20,10 +20,11 @@ The XIVE IC is composed of three sub-engines, each ta=
+king care of a
+ processing layer of external interrupts:
+=20
+ - Interrupt Virtualization Source Engine (IVSE), or Source Controller
+-  (SC). These are found in PCI PHBs, in the PSI host bridge
+-  controller, but also inside the main controller for the core IPIs
+-  and other sub-chips (NX, CAP, NPU) of the chip/processor. They are
+-  configured to feed the IVRE with events.
++  (SC). These are found in PCI PHBs, in the Processor Service
++  Interface (PSI) host bridge Controller, but also inside the main
++  controller for the core IPIs and other sub-chips (NX, CAP, NPU) of
++  the chip/processor. They are configured to feed the IVRE with
++  events.
+ - Interrupt Virtualization Routing Engine (IVRE) or Virtualization
+   Controller (VC). It handles event coalescing and perform interrupt
+   routing by matching an event source number with an Event
+--=20
+2.21.0
+
 
