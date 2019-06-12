@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAE6431B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 00:37:56 +0200 (CEST)
-Received: from localhost ([::1]:35564 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E2D431AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 00:31:08 +0200 (CEST)
+Received: from localhost ([::1]:35520 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbBsR-0005K5-BF
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 18:37:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45908)
+	id 1hbBlr-0008Bu-DK
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 18:31:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45893)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbBSY-00083z-0G
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:12 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbBSX-00083b-7U
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbBSV-0007w8-Lm
+ (envelope-from <mreitz@redhat.com>) id 1hbBSV-0007wY-SH
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43790)
+Received: from mx1.redhat.com ([209.132.183.28]:47212)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbBSN-0007rJ-6p; Wed, 12 Jun 2019 18:11:01 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1hbBSR-0007sv-Co; Wed, 12 Jun 2019 18:11:03 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 157FD30F1BA5;
- Wed, 12 Jun 2019 22:10:58 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 258DC307D93E;
+ Wed, 12 Jun 2019 22:11:01 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C2825F9A7;
- Wed, 12 Jun 2019 22:10:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27F1F60476;
+ Wed, 12 Jun 2019 22:10:59 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 13 Jun 2019 00:09:42 +0200
-Message-Id: <20190612221004.2317-21-mreitz@redhat.com>
+Date: Thu, 13 Jun 2019 00:09:43 +0200
+Message-Id: <20190612221004.2317-22-mreitz@redhat.com>
 In-Reply-To: <20190612221004.2317-1-mreitz@redhat.com>
 References: <20190612221004.2317-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Wed, 12 Jun 2019 22:10:58 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Wed, 12 Jun 2019 22:11:01 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 20/42] block/snapshot: Fall back to storage
- child
+Subject: [Qemu-devel] [PATCH v5 21/42] block: Use CAFs for debug breakpoints
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,181 +60,59 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the top node's driver does not provide snapshot functionality and we
-want to go down the chain, we should go towards the child which stores
-the data, i.e. the storage child.
-
-bdrv_snapshot_goto() becomes a bit weird because we may have to redirect
-the actual child pointer, so it only works if the storage child is
-bs->file or bs->backing (and then we have to find out which it is).
+When looking for a blkdebug node (which implements debug breakpoints),
+use bdrv_primary_bs() to iterate through the graph, because that is
+where a blkdebug node would be.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/snapshot.c | 74 ++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 53 insertions(+), 21 deletions(-)
+ block.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/block/snapshot.c b/block/snapshot.c
-index f2f48f926a..58cd667f3a 100644
---- a/block/snapshot.c
-+++ b/block/snapshot.c
-@@ -154,8 +154,9 @@ int bdrv_can_snapshot(BlockDriverState *bs)
-     }
-=20
-     if (!drv->bdrv_snapshot_create) {
--        if (bs->file !=3D NULL) {
--            return bdrv_can_snapshot(bs->file->bs);
-+        BlockDriverState *storage_bs =3D bdrv_storage_bs(bs);
-+        if (storage_bs) {
-+            return bdrv_can_snapshot(storage_bs);
-         }
-         return 0;
-     }
-@@ -167,14 +168,15 @@ int bdrv_snapshot_create(BlockDriverState *bs,
-                          QEMUSnapshotInfo *sn_info)
+diff --git a/block.c b/block.c
+index 797bec0326..11b7ba8cf6 100644
+--- a/block.c
++++ b/block.c
+@@ -5097,7 +5097,7 @@ int bdrv_debug_breakpoint(BlockDriverState *bs, con=
+st char *event,
+                           const char *tag)
  {
-     BlockDriver *drv =3D bs->drv;
-+    BlockDriverState *storage_bs =3D bdrv_storage_bs(bs);
-     if (!drv) {
-         return -ENOMEDIUM;
+     while (bs && bs->drv && !bs->drv->bdrv_debug_breakpoint) {
+-        bs =3D bs->file ? bs->file->bs : NULL;
++        bs =3D bdrv_primary_bs(bs);
      }
-     if (drv->bdrv_snapshot_create) {
-         return drv->bdrv_snapshot_create(bs, sn_info);
-     }
--    if (bs->file) {
--        return bdrv_snapshot_create(bs->file->bs, sn_info);
-+    if (storage_bs) {
-+        return bdrv_snapshot_create(storage_bs, sn_info);
-     }
-     return -ENOTSUP;
- }
-@@ -184,6 +186,7 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-                        Error **errp)
+=20
+     if (bs && bs->drv && bs->drv->bdrv_debug_breakpoint) {
+@@ -5110,7 +5110,7 @@ int bdrv_debug_breakpoint(BlockDriverState *bs, con=
+st char *event,
+ int bdrv_debug_remove_breakpoint(BlockDriverState *bs, const char *tag)
  {
-     BlockDriver *drv =3D bs->drv;
-+    BlockDriverState *storage_bs;
-     int ret, open_ret;
-=20
-     if (!drv) {
-@@ -204,39 +207,66 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-         return ret;
+     while (bs && bs->drv && !bs->drv->bdrv_debug_remove_breakpoint) {
+-        bs =3D bs->file ? bs->file->bs : NULL;
++        bs =3D bdrv_primary_bs(bs);
      }
 =20
--    if (bs->file) {
--        BlockDriverState *file;
--        QDict *options =3D qdict_clone_shallow(bs->options);
-+    storage_bs =3D bdrv_storage_bs(bs);
-+    if (storage_bs) {
-+        QDict *options;
-         QDict *file_options;
-         Error *local_err =3D NULL;
-+        bool is_backing_child;
-+        BdrvChild **child_pointer;
-+
-+        /*
-+         * Filters may reference the storage child through
-+         * bs->backing.  We need to know whether we are dealing with
-+         * bs->backing or bs->file, so we check it here.
-+         */
-+        if (storage_bs =3D=3D bs->file->bs) {
-+            is_backing_child =3D false;
-+            child_pointer =3D &bs->file;
-+        } else if (storage_bs =3D=3D bs->backing->bs) {
-+            is_backing_child =3D true;
-+            child_pointer =3D &bs->backing;
-+        } else {
-+            /*
-+             * The storage child is not referenced by a field in the
-+             * BDS object.  We cannot go on then.
-+             */
-+            error_setg(errp, "Block driver does not support snapshots");
-+            return -ENOTSUP;
-+        }
-+
-+        options =3D qdict_clone_shallow(bs->options);
-=20
--        file =3D bs->file->bs;
-         /* Prevent it from getting deleted when detached from bs */
--        bdrv_ref(file);
-+        bdrv_ref(storage_bs);
-=20
--        qdict_extract_subqdict(options, &file_options, "file.");
-+        qdict_extract_subqdict(options, &file_options,
-+                               is_backing_child ? "backing." : "file.");
-         qobject_unref(file_options);
--        qdict_put_str(options, "file", bdrv_get_node_name(file));
-+        qdict_put_str(options, is_backing_child ? "backing" : "file",
-+                      bdrv_get_node_name(storage_bs));
-=20
-         if (drv->bdrv_close) {
-             drv->bdrv_close(bs);
-         }
--        bdrv_unref_child(bs, bs->file);
--        bs->file =3D NULL;
-=20
--        ret =3D bdrv_snapshot_goto(file, snapshot_id, errp);
-+        assert(storage_bs =3D=3D (*child_pointer)->bs);
-+        bdrv_unref_child(bs, *child_pointer);
-+        *child_pointer =3D NULL;
-+
-+        ret =3D bdrv_snapshot_goto(storage_bs, snapshot_id, errp);
-         open_ret =3D drv->bdrv_open(bs, options, bs->open_flags, &local_=
-err);
-         qobject_unref(options);
-         if (open_ret < 0) {
--            bdrv_unref(file);
-+            bdrv_unref(storage_bs);
-             bs->drv =3D NULL;
-             /* A bdrv_snapshot_goto() error takes precedence */
-             error_propagate(errp, local_err);
-             return ret < 0 ? ret : open_ret;
-         }
-=20
--        assert(bs->file->bs =3D=3D file);
--        bdrv_unref(file);
-+        assert(storage_bs =3D=3D (*child_pointer)->bs);
-+        bdrv_unref(storage_bs);
-         return ret;
-     }
-=20
-@@ -272,6 +302,7 @@ int bdrv_snapshot_delete(BlockDriverState *bs,
-                          Error **errp)
+     if (bs && bs->drv && bs->drv->bdrv_debug_remove_breakpoint) {
+@@ -5123,7 +5123,7 @@ int bdrv_debug_remove_breakpoint(BlockDriverState *=
+bs, const char *tag)
+ int bdrv_debug_resume(BlockDriverState *bs, const char *tag)
  {
-     BlockDriver *drv =3D bs->drv;
-+    BlockDriverState *storage_bs =3D bdrv_storage_bs(bs);
-     int ret;
+     while (bs && (!bs->drv || !bs->drv->bdrv_debug_resume)) {
+-        bs =3D bs->file ? bs->file->bs : NULL;
++        bs =3D bdrv_primary_bs(bs);
+     }
 =20
-     if (!drv) {
-@@ -288,8 +319,8 @@ int bdrv_snapshot_delete(BlockDriverState *bs,
-=20
-     if (drv->bdrv_snapshot_delete) {
-         ret =3D drv->bdrv_snapshot_delete(bs, snapshot_id, name, errp);
--    } else if (bs->file) {
--        ret =3D bdrv_snapshot_delete(bs->file->bs, snapshot_id, name, er=
-rp);
-+    } else if (storage_bs) {
-+        ret =3D bdrv_snapshot_delete(storage_bs, snapshot_id, name, errp=
-);
-     } else {
-         error_setg(errp, "Block format '%s' used by device '%s' "
-                    "does not support internal snapshot deletion",
-@@ -305,14 +336,15 @@ int bdrv_snapshot_list(BlockDriverState *bs,
-                        QEMUSnapshotInfo **psn_info)
+     if (bs && bs->drv && bs->drv->bdrv_debug_resume) {
+@@ -5136,7 +5136,7 @@ int bdrv_debug_resume(BlockDriverState *bs, const c=
+har *tag)
+ bool bdrv_debug_is_suspended(BlockDriverState *bs, const char *tag)
  {
-     BlockDriver *drv =3D bs->drv;
-+    BlockDriverState *storage_bs =3D bdrv_storage_bs(bs);
-     if (!drv) {
-         return -ENOMEDIUM;
+     while (bs && bs->drv && !bs->drv->bdrv_debug_is_suspended) {
+-        bs =3D bs->file ? bs->file->bs : NULL;
++        bs =3D bdrv_primary_bs(bs);
      }
-     if (drv->bdrv_snapshot_list) {
-         return drv->bdrv_snapshot_list(bs, psn_info);
-     }
--    if (bs->file) {
--        return bdrv_snapshot_list(bs->file->bs, psn_info);
-+    if (storage_bs) {
-+        return bdrv_snapshot_list(storage_bs, psn_info);
-     }
-     return -ENOTSUP;
- }
+=20
+     if (bs && bs->drv && bs->drv->bdrv_debug_is_suspended) {
 --=20
 2.21.0
 
