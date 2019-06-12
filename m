@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A1342CB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 18:52:10 +0200 (CEST)
-Received: from localhost ([::1]:33812 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C81D42CF0
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 19:03:43 +0200 (CEST)
+Received: from localhost ([::1]:33878 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb6Tp-0005UN-Lr
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 12:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56957)
+	id 1hb6f0-0005N0-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 13:03:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57238)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hb6RS-0003Yq-4U
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:49:44 -0400
+ (envelope-from <ryanpboyce12@gmail.com>) id 1hb6S3-0004S5-1n
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:50:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hb6RQ-0003iT-SQ
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:49:42 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:39484)
+ (envelope-from <ryanpboyce12@gmail.com>) id 1hb6S1-0004de-ND
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:50:18 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:34589)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hb6RQ-0003Wb-Jt
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:49:40 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id m202so12196583oig.6
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 09:49:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <ryanpboyce12@gmail.com>)
+ id 1hb6S1-0004c5-Hy
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:50:17 -0400
+Received: by mail-qk1-x729.google.com with SMTP id t8so7101218qkt.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 09:50:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ODkLG0WAiDu171EFyK5YD/iZHw4diKu/NNbGZoUDDek=;
- b=ps7j/Jicr56F567y4Htl7QnPoDv1anl75K4t9QTGYHZoP1EOl/u9OgpjNxKdSkq8Eu
- +QgkXCKWPun6n3nuCab3YfcOTqXImXJPMEn1gdRqANOZzxDPP3zSyNKrEL0xT2LAHeqh
- znwn3c6EI6GTyiE6dO7UGc0ha5JXxjwBQX5yfPdw9tGnxssyd6uVfQfNvKwDjdzryuOl
- Im07D079DNzWnJvt2qCNccL6tQ9cNh2fOoH9MtckoZ/a31fn2y832jgEceSWWauq33Wh
- UMjSYILsiac6w7dITIF//pTdAJ2r5up5NALDmNvgqbBEV5hRE5nYAnRqmWhjc7x6D6af
- l1og==
+ :cc; bh=xqIVbIzYsqovppDRqXJiYVwSyt0hLDqAMfuJFn9u9nE=;
+ b=K12kRcUwVjilN49bER95HfBMYKfS3MpzNZqB+F8ZjwUJdsC3RJT+XKD0Xecpfk4LTR
+ /q+fEgIW8cRp568PZqFJvq0gITrTIXAKsgNIEmQSOQ6HL11PzeuKhxwZEOUmy2ByVxiP
+ oMoAzEAtMI07gF+7Y/yHWpzgtBa0QbvTnNcxWwjaG53lfVCSpKWCNdQXr1JnP7D/Ms3x
+ AuJnFSUSdXx3ss54LVTCR0tmGO8ri+beb27Q07vDhLIsy39pHN4mlNiBjOD+9FtI2nWw
+ Rw0tRFN8hxL7zrCeSiVRdxUTM/NsDXmuP0PCGLGf4SUVeUuorhpGH3jmKlIqPJMye/1V
+ W6JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ODkLG0WAiDu171EFyK5YD/iZHw4diKu/NNbGZoUDDek=;
- b=GVLn2sRy5/UAeOuPNviV7C1s9v8LkEl5Bgwnip3cLCWkQsz+Bcpp7XtPzJ8bK5pKsJ
- SBoyWQHWcNwTKkphWjWqyH49SKbqYRS/8cQf5ML6I6OuzIZJvpwYHUWI9A0PSagOppqH
- 3kKCM1XiGS/Z4YzdcVw7WcSADKraihvQRE/5d+rSIVEPn2fk643qTTmbwUIac476C/g5
- cS/65uj8fzGdYHNb+NHNb6bztOKbbM1wkFuR0dmasE49zss7l6L5UDIGjOC0RU1JlHk5
- F7fC5uIM3AECqDK29L+nJf1Qka19BTYbQdp2uL1Mvh08QLhxUE+tEA78x5mU69dk3DN7
- 7oQQ==
-X-Gm-Message-State: APjAAAVfDP6e1kTOOvpdehiGrlIt9CNlAEy/If+4dJt2mcY4nuLCMTxd
- Vk6ore7xiUN6hOqv1LmHQx2h1cPPmr2paUgmzShpIg==
-X-Google-Smtp-Source: APXvYqxCo8fNqy+H1sxKQxETSwEX+YER3J0MN3jRtqwc1xS+m7Cyb3A9wUvzU2UUCnY1Z+ysUz1WKDSaFDs+fae8zGY=
-X-Received: by 2002:a05:6808:8f1:: with SMTP id
- d17mr99353oic.170.1560358174380; 
- Wed, 12 Jun 2019 09:49:34 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=xqIVbIzYsqovppDRqXJiYVwSyt0hLDqAMfuJFn9u9nE=;
+ b=W9FJyTvn4L+NFHwa3ghffEEeokP+Z4rjDmz/gY8Hc9deUrTNzjK5tJpE086mWNlPBO
+ e8wbFk1aRIY+ejFX1YiTlsysuk+j1qYX9UbPvlx4qWP99rQ3ljV1c5Ld8WIr3ncDbrL6
+ MxuzC1xeZANeaP9WKvprbz6CAwJorRBLlOPQvWSVvvmH/LfSmJxrx0RiB516sNMFxfuz
+ aIY+9ktTyt7DrpbBV52V0WyZZDOU4iQ2Ht8E44dQNKrhQ0+tGyObe8eD4kenb9B0z16k
+ cc2ogsH//dJUh0CKel+5wSlGTI+XcrrUwxrwMBNJtGvMUj/AdQNed2gq57zUsEI7zfSv
+ c4+Q==
+X-Gm-Message-State: APjAAAVTyZVkCerOPv8EFG5M5NbyVvuJtvJSuQ5Pt872u3pF+U+444tk
+ nq/xUdtHe/KaYAboMVfS3RQ2h44pKGtmohL466s=
+X-Google-Smtp-Source: APXvYqwgTcN/+ZX3xizAR6HE5kkm9l1mcgwq6YvQM4Wwzfb2C34zXwh0W8A59okjwXPSTLaegyez00QcTdAc4J4wFPk=
+X-Received: by 2002:ae9:e30d:: with SMTP id v13mr47399925qkf.148.1560358216856; 
+ Wed, 12 Jun 2019 09:50:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190612111949.25117-1-alex.bennee@linaro.org>
- <CAFEAcA9cKcTpyU_SpzVH91JnQfU2g14bNuk_oWkObbbYYxdXQw@mail.gmail.com>
- <CAHDbmO0+DV0EP=xrHfXa8SUFC5TWWZvwPOE_D0ZpT8c0SPnoNw@mail.gmail.com>
-In-Reply-To: <CAHDbmO0+DV0EP=xrHfXa8SUFC5TWWZvwPOE_D0ZpT8c0SPnoNw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 Jun 2019 17:49:23 +0100
-Message-ID: <CAFEAcA_KjH9hnO4FaXU=iX1FAbNGumxi-=5hwNKbe99SK73ptA@mail.gmail.com>
+References: <CAOJt3afDmLtb1328ZWRvbO=SYgqtGZYX-aApTMoDPffiErygGg@mail.gmail.com>
+ <CAHDbmO2cxxAv2Fqotfw8S8DBh7J+9oa67N8K_Ps_25vRbtpe3Q@mail.gmail.com>
+In-Reply-To: <CAHDbmO2cxxAv2Fqotfw8S8DBh7J+9oa67N8K_Ps_25vRbtpe3Q@mail.gmail.com>
+From: Ryan Boyce <ryanpboyce12@gmail.com>
+Date: Wed, 12 Jun 2019 12:50:05 -0400
+Message-ID: <CAOJt3ad2HbohoBRv8Ey9fknBRGeiN1SJ7wAk9gX+Vpf4pig_KA@mail.gmail.com>
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22a
-Subject: Re: [Qemu-devel] [PULL v2 00/52] testing, gdbstub and cputlb fixes
+X-Received-From: 2607:f8b0:4864:20::729
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] qemu processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,20 +78,49 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 Jun 2019 at 17:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+Thank you my friend!
+
+On Wed, Jun 12, 2019 at 12:48 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+
+> You've actually contacted the development list but I can answer the
+> question.
 >
-> It looks like it's still trying to use the system QEMU (which is
-> broken for this in hackbox) to launch. Is there a built
-> qemu-system-x86_64 in your build directory?
-
-No -- the build process here is just make -C build vm-build-openbsd
-(etc) on a configured tree. I can add the 'do a local built in
-this tree' step to my scripts, but I wonder if maybe the test
-target should depend on something so it gets built before it's used?
-
-PS: NetBSD worked fine.
-
-thanks
--- PMM
-
+> QEMU is multi-threaded so there will be a thread per KVM based vCPU
+> (and also for TCG based vCPUs where MTTCG is enabled). There will also
+> be a number of additional threads created including at least one for
+> the main monitor thread and potentially additional threads for
+> servicing IO requests. So expect to see $SMP + 1 + n threads for each
+> QEMU instance.
+>
+> On Wed, 12 Jun 2019 at 16:32, Ryan Boyce <ryanpboyce12@gmail.com> wrote:
+> >
+> > Hi Stefan,
+> >
+> > I am a big fan of your blog! In relation to your blog post,
+> >
+> http://blog.vmsplice.net/2011/03/qemu-internals-big-picture-overview.html=
+,
+> > I have a question I am really hoping you can answer:
+> >
+> > When I start a VM, I see that the qemu-kvm processes start and run as
+> > "qemu-kvm..... -name "something1"...."
+> > My issue, though, is I see multiple processes running as "qemu-kvm.....
+> > -name "something1"...." and each of these processes has memory/cpu/disk
+> > mapped to it.
+> > Does qemu-kvm run VMs on a one-to-one VM-to-host process basis? Or does
+> > each virtual cpu on the guest get its own process on the host?
+> > For example, If I have a VM that has 4 virtual cpus, will I see 4
+> processes
+> > (PIDs) on the host or should I see just see one for the VM itself.
+> >
+> > Any help you can give would be GREATLY appreciated. Thank you!
+> >
+> > Ryan
+>
+>
+>
+> --
+> Alex Benn=C3=A9e
+> KVM/QEMU Hacker for Linaro
+>
