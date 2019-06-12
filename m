@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4108D431C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 00:48:51 +0200 (CEST)
-Received: from localhost ([::1]:35696 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85319431D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 01:08:03 +0200 (CEST)
+Received: from localhost ([::1]:35888 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbC30-000193-Ed
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 18:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46426)
+	id 1hbCLa-0003gg-NM
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 19:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46453)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbBTE-0000QH-7O
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:53 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbBTF-0000V8-Tn
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbBTD-0008Pt-4W
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49278)
+ (envelope-from <mreitz@redhat.com>) id 1hbBTE-0008Qh-9x
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 18:11:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41140)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbBTA-0008MA-NA; Wed, 12 Jun 2019 18:11:48 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hbBTA-0008NZ-Pg; Wed, 12 Jun 2019 18:11:48 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 592B4C024920;
- Wed, 12 Jun 2019 22:11:45 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 12B8D7FDF8;
+ Wed, 12 Jun 2019 22:11:48 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DEA52614C8;
- Wed, 12 Jun 2019 22:11:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 666006046B;
+ Wed, 12 Jun 2019 22:11:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 13 Jun 2019 00:10:00 +0200
-Message-Id: <20190612221004.2317-39-mreitz@redhat.com>
+Date: Thu, 13 Jun 2019 00:10:01 +0200
+Message-Id: <20190612221004.2317-40-mreitz@redhat.com>
 In-Reply-To: <20190612221004.2317-1-mreitz@redhat.com>
 References: <20190612221004.2317-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Wed, 12 Jun 2019 22:11:45 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Wed, 12 Jun 2019 22:11:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 38/42] iotests: Let complete_and_wait() work
- with commit
+Subject: [Qemu-devel] [PATCH v5 39/42] iotests: Add filter commit test cases
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,44 +60,222 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-complete_and_wait() and wait_ready() currently only work for mirror
-jobs.  Let them work for active commit jobs, too.
+This patch adds some tests on how commit copes with filter nodes.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/040     | 177 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/040.out |   4 +-
+ 2 files changed, 179 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index dc77d3fba0..55066d62bb 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -697,8 +697,12 @@ class QMPTestCase(unittest.TestCase):
+diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
+index aa0b1847e3..31c2a8da3b 100755
+--- a/tests/qemu-iotests/040
++++ b/tests/qemu-iotests/040
+@@ -432,5 +432,182 @@ class TestReopenOverlay(ImageCommitTestCase):
+     def test_reopen_overlay(self):
+         self.run_commit_test(self.img1, self.img0)
 =20
-     def wait_ready(self, drive=3D'drive0'):
-         '''Wait until a block job BLOCK_JOB_READY event'''
--        f =3D {'data': {'type': 'mirror', 'device': drive } }
--        event =3D self.vm.event_wait(name=3D'BLOCK_JOB_READY', match=3Df=
-)
-+        event =3D self.vm.events_wait([
-+                ('BLOCK_JOB_READY',
-+                 {'data': {'type': 'mirror', 'device': drive } }),
-+                ('BLOCK_JOB_READY',
-+                 {'data': {'type': 'commit', 'device': drive } })
-+            ])
++class TestCommitWithFilters(iotests.QMPTestCase):
++    img0 =3D os.path.join(iotests.test_dir, '0.img')
++    img1 =3D os.path.join(iotests.test_dir, '1.img')
++    img2 =3D os.path.join(iotests.test_dir, '2.img')
++    img3 =3D os.path.join(iotests.test_dir, '3.img')
++
++    def setUp(self):
++        qemu_img('create', '-f', iotests.imgfmt, self.img0, '64M')
++        qemu_img('create', '-f', iotests.imgfmt, self.img1, '64M')
++        qemu_img('create', '-f', iotests.imgfmt, self.img2, '64M')
++        qemu_img('create', '-f', iotests.imgfmt, self.img3, '64M')
++
++        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 1 0M 1M', self.img=
+0)
++        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 2 1M 1M', self.img=
+1)
++        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 3 2M 1M', self.img=
+2)
++        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 4 3M 1M', self.img=
+3)
++
++        # Distributions of the patterns in the files; this is checked
++        # by tearDown() and should be changed by the test cases as is
++        # necessary
++        self.pattern_files =3D [self.img0, self.img1, self.img2, self.im=
+g3]
++
++        self.vm =3D iotests.VM()
++        self.vm.launch()
++        self.has_quit =3D False
++
++        result =3D self.vm.qmp('object-add', qom_type=3D'throttle-group'=
+, id=3D'tg')
++        self.assert_qmp(result, 'return', {})
++
++        result =3D self.vm.qmp('blockdev-add', **{
++                'node-name': 'top-filter',
++                'driver': 'throttle',
++                'throttle-group': 'tg',
++                'file': {
++                    'node-name': 'cow-3',
++                    'driver': iotests.imgfmt,
++                    'file': {
++                        'driver': 'file',
++                        'filename': self.img3
++                    },
++                    'backing': {
++                        'node-name': 'cow-2',
++                        'driver': iotests.imgfmt,
++                        'file': {
++                            'driver': 'file',
++                            'filename': self.img2
++                        },
++                        'backing': {
++                            'node-name': 'cow-1',
++                            'driver': iotests.imgfmt,
++                            'file': {
++                                'driver': 'file',
++                                'filename': self.img1
++                            },
++                            'backing': {
++                                'node-name': 'bottom-filter',
++                                'driver': 'throttle',
++                                'throttle-group': 'tg',
++                                'file': {
++                                    'node-name': 'cow-0',
++                                    'driver': iotests.imgfmt,
++                                    'file': {
++                                        'driver': 'file',
++                                        'filename': self.img0
++                                    }
++                                }
++                            }
++                        }
++                    }
++                }
++            })
++        self.assert_qmp(result, 'return', {})
++
++    def tearDown(self):
++        self.vm.shutdown(has_quit=3Dself.has_quit)
++
++        for index in range(len(self.pattern_files)):
++            result =3D qemu_io('-f', iotests.imgfmt,
++                             '-c', 'read -P %i %iM 1M' % (index + 1, ind=
+ex),
++                             self.pattern_files[index])
++            self.assertFalse('Pattern verification failed' in result)
++
++        os.remove(self.img3)
++        os.remove(self.img2)
++        os.remove(self.img1)
++        os.remove(self.img0)
++
++    # Filters make for funny filenames, so we cannot just use
++    # self.imgX to get them
++    def get_filename(self, node):
++        return self.vm.node_info(node)['image']['filename']
++
++    def test_filterless_commit(self):
++        self.assert_no_active_block_jobs()
++        result =3D self.vm.qmp('block-commit',
++                             job_id=3D'commit',
++                             device=3D'top-filter',
++                             top_node=3D'cow-2',
++                             base_node=3D'cow-1')
++        self.assert_qmp(result, 'return', {})
++        self.wait_until_completed(drive=3D'commit')
++
++        self.assertIsNotNone(self.vm.node_info('cow-3'))
++        self.assertIsNone(self.vm.node_info('cow-2'))
++        self.assertIsNotNone(self.vm.node_info('cow-1'))
++
++        # 2 has been comitted into 1
++        self.pattern_files[2] =3D self.img1
++
++    def test_commit_through_filter(self):
++        self.assert_no_active_block_jobs()
++        result =3D self.vm.qmp('block-commit',
++                             job_id=3D'commit',
++                             device=3D'top-filter',
++                             top_node=3D'cow-1',
++                             base_node=3D'cow-0')
++        self.assert_qmp(result, 'return', {})
++        self.wait_until_completed(drive=3D'commit')
++
++        self.assertIsNotNone(self.vm.node_info('cow-2'))
++        self.assertIsNone(self.vm.node_info('cow-1'))
++        self.assertIsNone(self.vm.node_info('bottom-filter'))
++        self.assertIsNotNone(self.vm.node_info('cow-0'))
++
++        # 1 has been comitted into 0
++        self.pattern_files[1] =3D self.img0
++
++    def test_filtered_active_commit_with_filter(self):
++        # Add a device, so the commit job finds a parent it can change
++        # to point to the base node (so we can test that top-filter is
++        # dropped from the graph)
++        result =3D self.vm.qmp('device_add', id=3D'drv0', driver=3D'virt=
+io-blk',
++                             drive=3D'top-filter')
++        self.assert_qmp(result, 'return', {})
++
++        # Try to release our reference to top-filter; that should not
++        # work because drv0 uses it
++        result =3D self.vm.qmp('blockdev-del', node_name=3D'top-filter')
++        self.assert_qmp(result, 'error/class', 'GenericError')
++        self.assert_qmp(result, 'error/desc', 'Node top-filter is in use=
+')
++
++        self.assert_no_active_block_jobs()
++        result =3D self.vm.qmp('block-commit',
++                             job_id=3D'commit',
++                             device=3D'top-filter',
++                             base_node=3D'cow-2')
++        self.assert_qmp(result, 'return', {})
++        self.complete_and_wait(drive=3D'commit')
++
++        # Try to release our reference to top-filter again
++        result =3D self.vm.qmp('blockdev-del', node_name=3D'top-filter')
++        self.assert_qmp(result, 'return', {})
++
++        self.assertIsNone(self.vm.node_info('top-filter'))
++        self.assertIsNone(self.vm.node_info('cow-3'))
++        self.assertIsNotNone(self.vm.node_info('cow-2'))
++
++        # 3 has been comitted into 2
++        self.pattern_files[3] =3D self.img2
++
++    def test_filtered_active_commit_without_filter(self):
++        self.assert_no_active_block_jobs()
++        result =3D self.vm.qmp('block-commit',
++                             job_id=3D'commit',
++                             device=3D'top-filter',
++                             top_node=3D'cow-3',
++                             base_node=3D'cow-2')
++        self.assert_qmp(result, 'return', {})
++        self.complete_and_wait(drive=3D'commit')
++
++        self.assertIsNotNone(self.vm.node_info('top-filter'))
++        self.assertIsNone(self.vm.node_info('cow-3'))
++        self.assertIsNotNone(self.vm.node_info('cow-2'))
++
++        # 3 has been comitted into 2
++        self.pattern_files[3] =3D self.img2
++
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['qcow2', 'qed'])
+diff --git a/tests/qemu-iotests/040.out b/tests/qemu-iotests/040.out
+index 220a5fa82c..fe58934d7a 100644
+--- a/tests/qemu-iotests/040.out
++++ b/tests/qemu-iotests/040.out
+@@ -1,5 +1,5 @@
+-...............................................
++...................................................
+ ----------------------------------------------------------------------
+-Ran 47 tests
++Ran 51 tests
 =20
-     def wait_ready_and_cancel(self, drive=3D'drive0'):
-         self.wait_ready(drive=3Ddrive)
-@@ -716,7 +720,7 @@ class QMPTestCase(unittest.TestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-         event =3D self.wait_until_completed(drive=3Ddrive)
--        self.assert_qmp(event, 'data/type', 'mirror')
-+        self.assertTrue(event['data']['type'] in ['mirror', 'commit'])
-=20
-     def pause_wait(self, job_id=3D'job0'):
-         with Timeout(1, "Timeout waiting for job to pause"):
+ OK
 --=20
 2.21.0
 
