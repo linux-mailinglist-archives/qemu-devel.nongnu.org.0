@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5084142593
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:25:56 +0200 (CEST)
-Received: from localhost ([::1]:59834 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2C942537
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:14:26 +0200 (CEST)
+Received: from localhost ([::1]:59754 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb2K9-0004LS-PS
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46983)
+	id 1hb293-0004BB-VV
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:14:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47013)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hb24l-0001gg-CD
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hb24l-0001ig-Bj
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:10:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hb1w4-00055q-Di
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hb1w4-00056F-Fh
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:01:03 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:43634)
+Received: from aserp2130.oracle.com ([141.146.126.79]:40604)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hb1vm-0004NY-40; Wed, 12 Jun 2019 08:00:44 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CBsYaj105998;
- Wed, 12 Jun 2019 12:00:17 GMT
+ id 1hb1vm-0004S4-4N; Wed, 12 Jun 2019 08:00:44 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CBsGRX115391;
+ Wed, 12 Jun 2019 12:00:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
- bh=iHOxrB7sQtoFEk7ueVdptFxfU4bhLQrvkAX6+XMXujI=;
- b=IBdIrmuN7Clx3AH1BLn/sHlGoxg3SS4ag03nOaTGF9nQ2NHhb8s2kEIjJ7LiMhGUzuYC
- pXCPoKh0i7STgcCZjhSepveefdgPK/JQJ4bQCQKaajvoe4bZT6Tt8jeDbGB43uYKNvMs
- WWhrelLW5jm7nsS45ZuK4HZllms1Ojsaby4jhuCCT6m0FqVe89hypJ6NCxWkQkPlus72
- p8Rb5Qhu2cnXBBhG0GD9TvdSA6SH+EB+KBpDLD+7ABolGN49Fc2L8zUu0OgYWeFqR0yA
- bezGqxYR5m2DytPsZZMsnKyubZlOn5S4C6K1ooGtAe+quc3MNdNWE1OLzsbj+u1xWFSZ Ew== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 2t05nqttpj-1
+ bh=hQZ3WEyRXWZ6Vma864cBiiSbs9o8TGD6e7LS+aGjIko=;
+ b=r8Q4MrAcugxiQvrIk0ls6MilOzcArq0I5RmrvQKufDOWZZoutu0klW3cYtDTRzoFFas0
+ YwuTvB/YqkWWCXfcgbogFoiH3Gv8h3PaxaybCGaQYzeDbrPj7rmUfbsTYSsFkfQO2d7k
+ CEMepVr+jAnjNU9hV0NKumhVg0PWTV6654zR2hraEPmdhzIEVuHv5j2vKZAhMrtFLpSS
+ h5dxLrs/X8D8wBd7lmWjHp4/kt7qhYiMbycDy8hr8Fq4yeWjITWO0P+2RfrYTIjIH5I5
+ IIzQyThjtDzqHZ7+ymrGkWNqIXNgQFdBTdCY2UNMatbawmABmF6PTw4fAc9bUrdxtAqj 3Q== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 2t02heu1h6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jun 2019 12:00:17 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CBxPgk196364;
- Wed, 12 Jun 2019 12:00:17 GMT
+ Wed, 12 Jun 2019 12:00:21 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CBwo6v075256;
+ Wed, 12 Jun 2019 12:00:20 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 2t024uxgm8-1
+ by userp3020.oracle.com with ESMTP id 2t1jphytx4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jun 2019 12:00:16 +0000
+ Wed, 12 Jun 2019 12:00:20 +0000
 Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5CC0GOQ020759;
- Wed, 12 Jun 2019 12:00:16 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5CC0JYj020843;
+ Wed, 12 Jun 2019 12:00:19 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 12 Jun 2019 05:00:15 -0700
+ with ESMTP ; Wed, 12 Jun 2019 05:00:18 -0700
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
  mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
  kevin@koconnor.net
-Date: Wed, 12 Jun 2019 14:59:37 +0300
-Message-Id: <20190612115939.23825-7-shmuel.eiderman@oracle.com>
+Date: Wed, 12 Jun 2019 14:59:38 +0300
+Message-Id: <20190612115939.23825-8-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
 In-Reply-To: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
 References: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
@@ -74,9 +74,9 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906120083
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: [Qemu-devel] [QEMU] [PATCH v2 6/8] bootdevice: Refactor
- get_boot_devices_list
+X-Received-From: 141.146.126.79
+Subject: [Qemu-devel] [QEMU] [PATCH v2 7/8] bootdevice: FW_CFG interface for
+ LCHS values
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,100 +93,141 @@ Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move device name construction to a separate function.
+Using fw_cfg, supply logical CHS values directly from QEMU to the BIOS.
 
-We will reuse this function in the following commit to pass logical CHS
-parameters through fw_cfg much like we currently pass bootindex.
+Non-standard logical geometries break under QEMU.
+
+A virtual disk which contains an operating system which depends on
+logical geometries (consistent values being reported from BIOS INT13
+AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
+logical geometries - for example 56 SPT (sectors per track).
+No matter what QEMU will report - SeaBIOS, for large enough disks - will
+use LBA translation, which will report 63 SPT instead.
+
+In addition we cannot force SeaBIOS to rely on physical geometries at
+all. A virtio-blk-pci virtual disk with 255 phyiscal heads cannot
+report more than 16 physical heads when moved to an IDE controller,
+since the ATA spec allows a maximum of 16 heads - this is an artifact of
+virtualization.
+
+By supplying the logical geometries directly we are able to support such
+"exotic" disks.
+
+We serialize this information in a similar way to the "bootorder"
+interface.
+The fw_cfg entry is "bootdevices" and it serializes a struct.
+At the moment the struct holds the values of logical CHS values but it
+can be expanded easily due to the extendable ABI implemented.
+
+(In the future, we can pass the bootindex through "bootdevices" instead
+"bootorder" - unifying all bootdevice information in one fw_cfg value)
+
+The PV interface through fw_cfg could have also been implemented using
+device specific keys, e.g.: "/etc/bootdevice/%s/logical_geometry" where
+%s is the device name QEMU produces - but this implementation would
+require much more code refactoring, both in QEMU and SeaBIOS, so the
+current implementation was chosen.
 
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 ---
- bootdevice.c | 61 +++++++++++++++++++++++++++++++++---------------------------
- 1 file changed, 34 insertions(+), 27 deletions(-)
+ bootdevice.c            | 42 ++++++++++++++++++++++++++++++++++++++++++
+ hw/nvram/fw_cfg.c       | 14 +++++++++++---
+ include/sysemu/sysemu.h |  1 +
+ 3 files changed, 54 insertions(+), 3 deletions(-)
 
 diff --git a/bootdevice.c b/bootdevice.c
-index bc5e1c2de4..2b12fb85a4 100644
+index 2b12fb85a4..84c2a83f25 100644
 --- a/bootdevice.c
 +++ b/bootdevice.c
-@@ -202,6 +202,39 @@ DeviceState *get_boot_device(uint32_t position)
-     return res;
+@@ -405,3 +405,45 @@ void del_boot_device_lchs(DeviceState *dev, const char *suffix)
+         }
+     }
+ }
++
++typedef struct QEMU_PACKED BootDeviceEntrySerialized {
++    /* Do not change field order - add new fields below */
++    uint32_t lcyls;
++    uint32_t lheads;
++    uint32_t lsecs;
++} BootDeviceEntrySerialized;
++
++/* Serialized as: struct size (4) + (device name\0 + device struct) x devices */
++char *get_boot_devices_info(size_t *size)
++{
++    FWLCHSEntry *i;
++    BootDeviceEntrySerialized s;
++    size_t total = 0;
++    char *list = NULL;
++
++    list = g_malloc0(sizeof(uint32_t));
++    *((uint32_t *)list) = (uint32_t)sizeof(s);
++    total = sizeof(uint32_t);
++
++    QTAILQ_FOREACH(i, &fw_lchs, link) {
++        char *bootpath;
++        size_t len;
++
++        bootpath = get_boot_device_path(i->dev, false, i->suffix);
++        s.lcyls = i->lcyls;
++        s.lheads = i->lheads;
++        s.lsecs = i->lsecs;
++
++        len = strlen(bootpath) + 1;
++        list = g_realloc(list, total + len + sizeof(s));
++        memcpy(&list[total], bootpath, len);
++        memcpy(&list[total + len], &s, sizeof(s));
++        total += len + sizeof(s);
++
++        g_free(bootpath);
++    }
++
++    *size = total;
++
++    return list;
++}
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 9f7b7789bc..008b21542f 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -916,13 +916,21 @@ void *fw_cfg_modify_file(FWCfgState *s, const char *filename,
+ 
+ static void fw_cfg_machine_reset(void *opaque)
+ {
++    MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
++    FWCfgState *s = opaque;
+     void *ptr;
+     size_t len;
+-    FWCfgState *s = opaque;
+-    char *bootindex = get_boot_devices_list(&len);
++    char *buf;
+ 
+-    ptr = fw_cfg_modify_file(s, "bootorder", (uint8_t *)bootindex, len);
++    buf = get_boot_devices_list(&len);
++    ptr = fw_cfg_modify_file(s, "bootorder", (uint8_t *)buf, len);
+     g_free(ptr);
++
++    if (!mc->legacy_fw_cfg_order) {
++        buf = get_boot_devices_info(&len);
++        ptr = fw_cfg_modify_file(s, "bootdevices", (uint8_t *)buf, len);
++        g_free(ptr);
++    }
  }
  
-+static char *get_boot_device_path(DeviceState *dev, bool ignore_suffixes,
-+                                  char *suffix)
-+{
-+    char *devpath = NULL, *s = NULL, *d, *bootpath;
-+
-+    if (dev) {
-+        devpath = qdev_get_fw_dev_path(dev);
-+        assert(devpath);
-+    }
-+
-+    if (!ignore_suffixes) {
-+        if (dev) {
-+            d = qdev_get_own_fw_dev_path_from_handler(dev->parent_bus, dev);
-+            if (d) {
-+                assert(!suffix);
-+                s = d;
-+            } else {
-+                s = g_strdup(suffix);
-+            }
-+        } else {
-+            s = g_strdup(suffix);
-+        }
-+    }
-+
-+    bootpath = g_strdup_printf("%s%s",
-+                               devpath ? devpath : "",
-+                               s ? s : "");
-+    g_free(devpath);
-+    g_free(s);
-+
-+    return bootpath;
-+}
-+
- /*
-  * This function returns null terminated string that consist of new line
-  * separated device paths.
-@@ -218,36 +251,10 @@ char *get_boot_devices_list(size_t *size)
-     bool ignore_suffixes = mc->ignore_boot_device_suffixes;
+ static void fw_cfg_machine_ready(struct Notifier *n, void *data)
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 173dfbb539..f0552006f4 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -174,6 +174,7 @@ void validate_bootdevices(const char *devices, Error **errp);
+ void add_boot_device_lchs(DeviceState *dev, const char *suffix,
+                           uint32_t lcyls, uint32_t lheads, uint32_t lsecs);
+ void del_boot_device_lchs(DeviceState *dev, const char *suffix);
++char *get_boot_devices_info(size_t *size);
  
-     QTAILQ_FOREACH(i, &fw_boot_order, link) {
--        char *devpath = NULL,  *suffix = NULL;
-         char *bootpath;
--        char *d;
-         size_t len;
- 
--        if (i->dev) {
--            devpath = qdev_get_fw_dev_path(i->dev);
--            assert(devpath);
--        }
--
--        if (!ignore_suffixes) {
--            if (i->dev) {
--                d = qdev_get_own_fw_dev_path_from_handler(i->dev->parent_bus,
--                                                          i->dev);
--                if (d) {
--                    assert(!i->suffix);
--                    suffix = d;
--                } else {
--                    suffix = g_strdup(i->suffix);
--                }
--            } else {
--                suffix = g_strdup(i->suffix);
--            }
--        }
--
--        bootpath = g_strdup_printf("%s%s",
--                                   devpath ? devpath : "",
--                                   suffix ? suffix : "");
--        g_free(devpath);
--        g_free(suffix);
-+        bootpath = get_boot_device_path(i->dev, ignore_suffixes, i->suffix);
- 
-         if (total) {
-             list[total-1] = '\n';
+ /* handler to set the boot_device order for a specific type of MachineClass */
+ typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
 -- 
 2.13.3
 
