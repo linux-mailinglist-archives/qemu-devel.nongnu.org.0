@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B919042618
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:40:31 +0200 (CEST)
-Received: from localhost ([::1]:59944 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DC9425C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:29:39 +0200 (CEST)
+Received: from localhost ([::1]:59884 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb2YI-0004mr-U8
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:40:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46745)
+	id 1hb2Nn-0007vW-0I
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:29:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47100)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hb24y-0001RY-IA
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:10:13 -0400
+ (envelope-from <armbru@redhat.com>) id 1hb24u-0001pv-3D
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:10:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hb1pY-0006XQ-G9
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 07:54:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34092)
+ (envelope-from <armbru@redhat.com>) id 1hb1t4-0000v1-11
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 07:57:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36234)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hb1pW-0006VR-Ha
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 07:54:16 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1hb1t2-0000ri-Lg; Wed, 12 Jun 2019 07:57:52 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8A25E30984D1
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 11:54:13 +0000 (UTC)
-Received: from redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 01818605CF;
- Wed, 12 Jun 2019 11:54:12 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-In-Reply-To: <20190529163447.GK2882@work-vm> (David Alan Gilbert's message of
- "Wed, 29 May 2019 17:34:48 +0100")
-References: <20190515121544.4597-1-quintela@redhat.com>
- <20190515121544.4597-7-quintela@redhat.com>
- <20190529163447.GK2882@work-vm>
+ by mx1.redhat.com (Postfix) with ESMTPS id 5DB0E3004425;
+ Wed, 12 Jun 2019 11:57:46 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
+ [10.36.116.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BBF6614C4;
+ Wed, 12 Jun 2019 11:57:45 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 90E571138648; Wed, 12 Jun 2019 13:57:43 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190611134043.9524-1-kwolf@redhat.com>
+ <20190611134043.9524-7-kwolf@redhat.com>
+Date: Wed, 12 Jun 2019 13:57:43 +0200
+In-Reply-To: <20190611134043.9524-7-kwolf@redhat.com> (Kevin Wolf's message of
+ "Tue, 11 Jun 2019 15:40:38 +0200")
+Message-ID: <874l4v2eyw.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Wed, 12 Jun 2019 13:54:10 +0200
-Message-ID: <874l4vm331.fsf@trasno.org>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Wed, 12 Jun 2019 11:54:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Wed, 12 Jun 2019 11:57:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 6/8] migration: Make none operations
- into its own structure
+Subject: Re: [Qemu-devel] [PATCH v2 06/11] Move monitor.c to monitor/misc.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,161 +60,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
->> It will be used later.
+Kevin Wolf <kwolf@redhat.com> writes:
+
+> Create a new monitor/ subdirectory and move monitor.c there. As the plan
+> is to move the monitor core into separate files, use the chance to
+> rename it to misc.c.
+
+I figure we'll want to move most of (all of?) monitor/misc.c out.  Not a
+job this series must finish, of course.
+
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  docs/devel/writing-qmp-commands.txt |  2 +-
+>  monitor.c => monitor/misc.c         |  2 +-
+>  MAINTAINERS                         |  4 ++--
+>  Makefile.objs                       |  1 +
+>  Makefile.target                     |  3 ++-
+>  monitor/Makefile.objs               |  1 +
+>  monitor/trace-events                | 11 +++++++++++
+>  trace-events                        | 10 ----------
+>  8 files changed, 19 insertions(+), 15 deletions(-)
+>  rename monitor.c => monitor/misc.c (99%)
+>  create mode 100644 monitor/Makefile.objs
+>  create mode 100644 monitor/trace-events
 >
-> 'none' is confusing - I think this is no-compression specifically -
-> right?
-> I'd be happy with something abbreviated like 'nocomp'
+> diff --git a/docs/devel/writing-qmp-commands.txt b/docs/devel/writing-qmp-commands.txt
+> index 9dfc62bf5a..cc6ecd6d5d 100644
+> --- a/docs/devel/writing-qmp-commands.txt
+> +++ b/docs/devel/writing-qmp-commands.txt
+> @@ -470,7 +470,7 @@ it's good practice to always check for errors.
+>  
+>  Another important detail is that HMP's "info" commands don't go into the
+>  hmp-commands.hx. Instead, they go into the info_cmds[] table, which is defined
+> -in the monitor.c file. The entry for the "info alarmclock" follows:
+> +in the monitor/misc.c file. The entry for the "info alarmclock" follows:
 
-I don't care too much, I can change, but when you are setting the value
-it gets:
+Not this patch's fault, but this is wrong since commit da76ee76f78 (Sep
+2015).
 
-micgration set-parameter compression none
+Funny, the one place that provides advice on writing HMP commands is
+called writing-qmp-commands.txt %-}
 
-That looks ok.
+>  
+>      {
+>          .name       = "alarmclock",
 
-On the other hand, I can agree that I can call the functions nocomp.
+[...]
 
-Thanks, Juan.
-
->
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  migration/ram.c | 54 ++++++++++++++++++++++++++++++++++++++++++++-----
->>  1 file changed, 49 insertions(+), 5 deletions(-)
->> 
->> diff --git a/migration/ram.c b/migration/ram.c
->> index 1ca9ba77b6..6679e4f213 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -700,6 +700,40 @@ typedef struct {
->>      QemuSemaphore sem_sync;
->>  } MultiFDRecvParams;
->>  
->> +typedef struct {
->> +    /* Prepare the send packet */
->> +    int (*send_prepare)(MultiFDSendParams *p, uint32_t used);
->> +    /* Write the send packet */
->> +    int (*send_write)(MultiFDSendParams *p, uint32_t used, Error **perr);
->> +    /* Read all pages */
->> +    int (*recv_pages)(MultiFDRecvParams *p, uint32_t used, Error **perr);
->> +} MultifdMethods;
->> +
->> +/* Multifd without compression */
->> +
->> +static int none_send_prepare(MultiFDSendParams *p, uint32_t used)
->> +{
->> +    p->next_packet_size = used * qemu_target_page_size();
->> +    return 0;
->> +}
->> +
->> +static int none_send_write(MultiFDSendParams *p, uint32_t used, Error **perr)
->> +{
->> +    return qio_channel_writev_all(p->c, p->pages->iov, used, perr);
->> +}
->> +
->> +static int none_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **perr)
->> +{
->> +    return qio_channel_readv_all(p->c, p->pages->iov, used, perr);
->> +
->> +}
->> +
->> +MultifdMethods multifd_none_ops = {
->> +    .send_prepare = none_send_prepare,
->> +    .send_write = none_send_write,
->> +    .recv_pages = none_recv_pages
->> +};
->> +
->>  static int multifd_send_initial_packet(MultiFDSendParams *p, Error **errp)
->>  {
->>      MultiFDInit_t msg;
->> @@ -904,6 +938,8 @@ struct {
->>      uint64_t packet_num;
->>      /* send channels ready */
->>      QemuSemaphore channels_ready;
->> +    /* multifd ops */
->> +    MultifdMethods *ops;
->>  } *multifd_send_state;
->>  
->>  /*
->> @@ -1093,6 +1129,8 @@ static void *multifd_send_thread(void *opaque)
->>      /* initial packet */
->>      p->num_packets = 1;
->>  
->> +    multifd_send_state->ops = &multifd_none_ops;
->> +
->
-> I agree with Wei Yang that is a bad idea; that should be done once
-> before the first thread is started.
->
-> Dave
->
->>      while (true) {
->>          qemu_sem_wait(&p->sem);
->>          qemu_mutex_lock(&p->mutex);
->> @@ -1102,7 +1140,12 @@ static void *multifd_send_thread(void *opaque)
->>              uint64_t packet_num = p->packet_num;
->>              uint32_t flags = p->flags;
->>  
->> -            p->next_packet_size = used * qemu_target_page_size();
->> +            if (used) {
->> +                ret = multifd_send_state->ops->send_prepare(p, used);
->> +                if (ret != 0) {
->> +                    break;
->> +                }
->> +            }
->>              multifd_send_fill_packet(p);
->>              p->flags = 0;
->>              p->num_packets++;
->> @@ -1120,8 +1163,7 @@ static void *multifd_send_thread(void *opaque)
->>              }
->>  
->>              if (used) {
->> -                ret = qio_channel_writev_all(p->c, p->pages->iov,
->> -                                             used, &local_err);
->> +                ret = multifd_send_state->ops->send_write(p, used, &local_err);
->>                  if (ret != 0) {
->>                      break;
->>                  }
->> @@ -1223,6 +1265,8 @@ struct {
->>      QemuSemaphore sem_sync;
->>      /* global number of generated multifd packets */
->>      uint64_t packet_num;
->> +    /* multifd ops */
->> +    MultifdMethods *ops;
->>  } *multifd_recv_state;
->>  
->>  static void multifd_recv_terminate_threads(Error *err)
->> @@ -1324,6 +1368,7 @@ static void *multifd_recv_thread(void *opaque)
->>      trace_multifd_recv_thread_start(p->id);
->>      rcu_register_thread();
->>  
->> +    multifd_recv_state->ops = &multifd_none_ops;
->>      while (true) {
->>          uint32_t used;
->>          uint32_t flags;
->> @@ -1353,8 +1398,7 @@ static void *multifd_recv_thread(void *opaque)
->>          qemu_mutex_unlock(&p->mutex);
->>  
->>          if (used) {
->> -            ret = qio_channel_readv_all(p->c, p->pages->iov,
->> -                                        used, &local_err);
->> +            ret = multifd_recv_state->ops->recv_pages(p, used, &local_err);
->>              if (ret != 0) {
->>                  break;
->>              }
->> -- 
->> 2.21.0
->> 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
