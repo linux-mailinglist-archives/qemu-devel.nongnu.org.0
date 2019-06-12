@@ -2,54 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE99419EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 03:19:43 +0200 (CEST)
-Received: from localhost ([::1]:56100 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC5541A1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 03:54:57 +0200 (CEST)
+Received: from localhost ([::1]:56192 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1harvR-0005n8-Mq
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 21:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50260)
+	id 1hasTX-00016y-8P
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 21:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54098)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hartZ-0004rH-8w
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:17:47 -0400
+ (envelope-from <bounces@canonical.com>) id 1hasOQ-0004YM-IC
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:49:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hartW-0002m0-L4
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:17:45 -0400
-Received: from ozlabs.org ([203.11.71.1]:34311)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hartT-0002l7-SU; Tue, 11 Jun 2019 21:17:41 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45NprY6gLWz9s3l; Wed, 12 Jun 2019 11:17:33 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1560302253;
- bh=ovMKE6pHSdxzZ9VKw/v+VvSHJVOXMBw/AaGAio9eCg8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IKEQub94heYR2ZD1w370Dj/zPOd+VTr/Ok4VsORQaCfa6nK/NFmdMBiDkeA7LISjM
- FD8C7piUjDtuinBj2gG7T4jvuBbYVEtZzCmi1Ckydd+JeWSu70btQYcbCsjHLk2fmv
- e1HYIepUu+NgGrK1L+i9c0KAU2GXiQdVbVly5IRo=
-Date: Wed, 12 Jun 2019 11:06:13 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <20190612010613.GE3998@umbus.fritz.box>
-References: <20190201004012.13237-1-aik@ozlabs.ru>
- <b799d329-3336-715f-bf03-776856ecb1bf@ozlabs.ru>
- <20190214033040.GZ1884@umbus.fritz.box>
- <6f6b6388-f9bb-6cf9-6495-b43952bf1b4e@ozlabs.ru>
+ (envelope-from <bounces@canonical.com>) id 1hasBC-00012s-Lj
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:36:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59954)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hasBA-0000xs-3v
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:35:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hasAl-0006hz-Ef
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 01:35:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 69CD32E806F
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 01:35:31 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WBsA/oQW3eTA3LlM"
-Content-Disposition: inline
-In-Reply-To: <6f6b6388-f9bb-6cf9-6495-b43952bf1b4e@ozlabs.ru>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 12 Jun 2019 01:22:33 -0000
+From: "Sonicadvance1@gmail.com" <Sonicadvance1@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: sonicadvance1
+X-Launchpad-Bug-Reporter: Sonicadvance1@gmail.com (sonicadvance1)
+X-Launchpad-Bug-Modifier: Sonicadvance1@gmail.com (sonicadvance1)
+Message-Id: <156030255368.16736.8122800429162874738.malonedeb@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: dc09e5ce6f04e5738d885028a740702c4b04edfd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH qemu] spapr/rtas: Force big endian compile
- for rtas
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1832422] [NEW] SSE CMP ops with 8bit immediate
+ throw sigill with oversized byte
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,71 +63,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org
+Reply-To: Bug 1832422 <1832422@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
---WBsA/oQW3eTA3LlM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The SSE comparison ops that use an 8bit immediate as a comparison type
+selector throws a sigill when the immediate is oversized.
 
-On Wed, Jun 12, 2019 at 10:29:55AM +1000, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 14/02/2019 14:30, David Gibson wrote:
-> > On Wed, Feb 13, 2019 at 05:00:50PM +1100, Alexey Kardashevskiy wrote:
-> >>
-> >>
-> >> On 01/02/2019 11:40, Alexey Kardashevskiy wrote:
-> >>> At the moment the rtas's Makefile uses generic QEMU rules which means
-> >>> that when QEMU is compiled on a little endian system, the spapr-rtas.=
-bin
-> >>> is compiled as little endian too which is incorrect as it is always
-> >>> executed in big endian mode.
-> >>>
-> >>> This enforces -mbig by defining %.o:%.S rule as spapr-rtas.bin is
-> >>> a standalone guest binary which should not depend on QEMU flags anywa=
-y.
-> >>
-> >> Bag? Good? Useless? :)
-> >=20
-> > I missed the original send of this, I'm afraid.  Looks like a good
-> > idea.
->=20
-> Totally forgot this one. It is still in pw:
-> https://patchwork.ozlabs.org/patch/1034543/
->=20
-> Or you want a repost?
+Test op that I found this on is here `66 0f c2 c0 d1          cmppd  xmm0,x=
+mm0,0xd1`
+According to the x86-64 documentation only bits [2:0] are used for these op=
+s (and [4:0] for the AVX variant)
+Currently qemu just checks if the value is >=3D8 and will throw a sigill in=
+ that case. It instead needs to mask.
 
-Repost, please.
+I have a small patch that fixes the issue for the SSE variant.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
---WBsA/oQW3eTA3LlM
-Content-Type: application/pgp-signature; name="signature.asc"
+** Patch added: "Fixes the bug"
+   https://bugs.launchpad.net/bugs/1832422/+attachment/5270247/+files/compa=
+re_ops.diff
 
------BEGIN PGP SIGNATURE-----
+-- =
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0AUAUACgkQbDjKyiDZ
-s5K+sRAAnh6EHoBX8Lq1EDp13Uukdvf9X9hMO/D+yoWZORxJeainaD1a/GwWBbAB
-JqerjqJtgP7KeR2JM/tFrwxdWFXdUu/JSnnIkmvfWT/LhMNlvWn2fQIIGsrQ1orf
-KeBlTEfiaM/L5+Bz+wpLOpfy0RVr1Wd37VNVYpv1wZiPt/PCrGElWtQ+dwAmavYT
-Hcl7y0AUTY5nk3LeYd3Aia+gKMfIlpSHsjxSdPFvmyqHZSAKHKAKNOCFctNFk15F
-Inu43/i4MPRcGLcyoPqsqU3sSIa50C/ULbZIdD8fFG+EwsMmxW3N5xo1vBuF0liW
-ERAG0Yhw1tdnOFkOkVOrf9VD668OVcC89m1RPzyEZvIZNsfzGJcFKS1ftpWVkXOQ
-m3knO4aJdHeSEF26AZoo437IiZT41PEnTkruUNXqU4uNQWaO6u8mwXsfd3BH9F8Y
-oWtboLHNiaEoiIYXlKQE8o9lBJxAXijaq2eYnH1Te9Ku2+6YjwT719xlLQH+kJSy
-iR4SfghLw85Y6wMPG9rVuIb66U/qGmNxIA0gxYkz/pZab/01m+FPOELur16wSpLE
-txCm8GvYxIX3pThabOweLCehH8kgZ8dnPu+SQ4gMmuPYx8jh3ecpgFZUViGXQBoW
-s6HuoDep/rmT/TYhgVwHj+4on+hTiQJEq+cbPlzXREKhWmgp2bE=
-=P/Sh
------END PGP SIGNATURE-----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1832422
 
---WBsA/oQW3eTA3LlM--
+Title:
+  SSE CMP ops with 8bit immediate throw sigill with oversized byte
+
+Status in QEMU:
+  New
+
+Bug description:
+  The SSE comparison ops that use an 8bit immediate as a comparison type
+  selector throws a sigill when the immediate is oversized.
+
+  Test op that I found this on is here `66 0f c2 c0 d1          cmppd  xmm0=
+,xmm0,0xd1`
+  According to the x86-64 documentation only bits [2:0] are used for these =
+ops (and [4:0] for the AVX variant)
+  Currently qemu just checks if the value is >=3D8 and will throw a sigill =
+in that case. It instead needs to mask.
+
+  I have a small patch that fixes the issue for the SSE variant.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1832422/+subscriptions
 
