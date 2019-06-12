@@ -2,64 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F9E42AFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 17:35:46 +0200 (CEST)
-Received: from localhost ([::1]:33130 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E736429D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 16:48:45 +0200 (CEST)
+Received: from localhost ([::1]:32894 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb5Ht-0002vw-2D
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 11:35:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50437)
+	id 1hb4YN-0007hU-So
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 10:48:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53660)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ryanpboyce12@gmail.com>) id 1hb4Gr-0007rU-Qw
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:30:44 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hb4Tu-0006e2-Vz
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:44:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ryanpboyce12@gmail.com>) id 1hb4Gq-0001Yu-FB
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:30:37 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:42029)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ryanpboyce12@gmail.com>)
- id 1hb4Gq-0001WO-9A
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:30:36 -0400
-Received: by mail-qk1-x736.google.com with SMTP id b18so10353731qkc.9
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 07:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=ImOfGg/A1brqrjpD2IyZgEanWzUHKgjeNrIiJg7JVi0=;
- b=Yr8u4yyBC0k7TJl1kLeR39AS6xKN7bmncTdq6ZSsx6GWai9MQGujd5DtVJWe9DCKaw
- UZQSES3MqsOoPloKR4HIqClF04srMYRKHzpjxIkMgmpoLJeHeucx+cFHlQeSOfB6jNTv
- pV6gBDi/sllYtYAUAVHi3JyDtMyRn4PjWGymtKnxYv5vTA5RJ2hj1ExOj50haXk1c6jq
- lFVqioryM8nFMMzfhDRF/llKEA1ffD9+qpKwPJrv1Fl7ED7gXUfBsRZY0aQHGbrKfbz9
- ROtXpKGfNsSwujnYKWoiQh/7QXj11PNniiRmHpjTUF4/UhS7QH+cDx39A0xeendwP0M3
- 4CDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=ImOfGg/A1brqrjpD2IyZgEanWzUHKgjeNrIiJg7JVi0=;
- b=CwLXwVjD+/8K876GuUI2IIHaYFxqVdI/nggonMqNH7tngJcASVH/stWyR/kK6OfuJl
- DfSk8AfZ3ZqHAyPQHJNahbeUxj9F+A2c8WL/T7RpvTGcim87qM2Wv1AukkyI+T3ypFaa
- RFYeyJ2v2u52i8EH4p8KgrzxYyy1GPandD9cRSbw8lIf6fGtAjVfVtVTCWs2soVJxQ/u
- c0P4JkwKemNeK1OPW+zZMlu6wm8yP8A4p3h7eoPujiaYxxIFGGriBHozr6okYpTAm+bK
- aoUKGpWLrIi0V3WQoa7e2J0iI70XWwFw2fgGVEzx07SWopwQSgGyme/b7vG0sZywZh5R
- 9YQA==
-X-Gm-Message-State: APjAAAVZdOnSKALlmeYY1G6Ywag+e7knvaecYehP1eQviWSbV847wTrg
- zvqeFFjqh+8TwjyuXRMz58CjpOMt3PwVRzMgiSNQOKt4
-X-Google-Smtp-Source: APXvYqwtFcJUM4cRWq9WLbWPvvZ7JR3yDIcMEbu7s/w3RbLCXEK7nsUzYuBEHI3LvdJTaItJHBwyvOCpUSATAPQhToY=
-X-Received: by 2002:a05:620a:12db:: with SMTP id
- e27mr55237581qkl.352.1560349834828; 
- Wed, 12 Jun 2019 07:30:34 -0700 (PDT)
+ (envelope-from <stefanha@redhat.com>) id 1hb4Tt-0004JB-F3
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 10:44:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49286)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1hb4Tn-00046d-Ap; Wed, 12 Jun 2019 10:43:59 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5EAAB30860A6;
+ Wed, 12 Jun 2019 14:43:51 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E2DA60BF1;
+ Wed, 12 Jun 2019 14:43:46 +0000 (UTC)
+Date: Wed, 12 Jun 2019 15:43:40 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Fam Zheng <fam@euphon.net>
+Message-ID: <20190612144340.GF19156@stefanha-x1.localdomain>
+References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
+ <20190610134905.22294-5-mehta.aaru20@gmail.com>
+ <20190611111714.wshlk6fddh34atfp@debian>
 MIME-Version: 1.0
-From: Ryan Boyce <ryanpboyce12@gmail.com>
-Date: Wed, 12 Jun 2019 10:30:24 -0400
-Message-ID: <CAOJt3afDmLtb1328ZWRvbO=SYgqtGZYX-aApTMoDPffiErygGg@mail.gmail.com>
-To: qemu-devel@nongnu.org
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::736
-X-Mailman-Approved-At: Wed, 12 Jun 2019 11:31:19 -0400
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] qemu processes
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9ADF8FXzFeE7X4jE"
+Content-Disposition: inline
+In-Reply-To: <20190611111714.wshlk6fddh34atfp@debian>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Wed, 12 Jun 2019 14:43:51 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 04/12] block/io_uring: implements
+ interfaces for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,25 +60,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ saket.sinha89@gmail.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, Julia Suvorova <jusual@mail.ru>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
 
-I am a big fan of your blog! In relation to your blog post,
-http://blog.vmsplice.net/2011/03/qemu-internals-big-picture-overview.html,
-I have a question I am really hoping you can answer:
+--9ADF8FXzFeE7X4jE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-When I start a VM, I see that the qemu-kvm processes start and run as
-"qemu-kvm..... -name "something1"...."
-My issue, though, is I see multiple processes running as "qemu-kvm.....
--name "something1"...." and each of these processes has memory/cpu/disk
-mapped to it.
-Does qemu-kvm run VMs on a one-to-one VM-to-host process basis? Or does
-each virtual cpu on the guest get its own process on the host?
-For example, If I have a VM that has 4 virtual cpus, will I see 4 processes
-(PIDs) on the host or should I see just see one for the VM itself.
+On Tue, Jun 11, 2019 at 07:17:14PM +0800, Fam Zheng wrote:
+> On Mon, 06/10 19:18, Aarushi Mehta wrote:
+> > +        /* Prevent infinite loop if submission is refused */
+> > +        if (ret <=3D 0) {
+> > +            if (ret =3D=3D -EAGAIN) {
+> > +                continue;
+> > +            }
+> > +            break;
+> > +        }
+> > +        s->io_q.in_flight +=3D ret;
+> > +        s->io_q.in_queue  -=3D ret;
+> > +    }
+> > +    s->io_q.blocked =3D (s->io_q.in_queue > 0);
+>=20
+> I'm confused about s->io_q.blocked. ioq_submit is where it gets updated, =
+but
+> if it becomes true, calling ioq_submit will be fenced. So how does it get
+> cleared?
 
-Any help you can give would be GREATLY appreciated. Thank you!
+When blocked, additional I/O requests are not submitted until the next
+completion.  See qemu_luring_process_completions_and_submit() for the
+code path where ioq_submit() gets called again.
 
-Ryan
+Stefan
+
+--9ADF8FXzFeE7X4jE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0BD5wACgkQnKSrs4Gr
+c8gGfgf/buzOhb/HLEA21dK4NmmRkG7Zg6MZpCQ0AbzBfSnJNJdjo+it/mdr/1zK
+soJcpua7YweXG2/Fzm0WLj0cTfX8GmTeVg7a0MR2TmtE5fm8g+2DyD0yrqfvbj6v
+YPxtO3K1NCzEeujMbx6H3slqamCnSo1z2pztvaI+/TU5mkp1VSL9rsnlvsX6Q+lP
+w314fTD78sEDrxurKqhWJ/5esFs+5AyP0qVUK8CThxNrsIaKnnZSzcX1xYbia3LS
+LmvOnOOIktJ2SQvjjfzE0z5w8TdXPETqJeICmqJcpJa1u3FuYYbXbY8/Gw23HWm/
+5Vj9eqaQYbjA6tqiJ3vh57f+eZJ57w==
+=lXPW
+-----END PGP SIGNATURE-----
+
+--9ADF8FXzFeE7X4jE--
+
