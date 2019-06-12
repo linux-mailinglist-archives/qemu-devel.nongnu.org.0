@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC4542390
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 13:11:42 +0200 (CEST)
-Received: from localhost ([::1]:58828 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E709742368
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 13:04:29 +0200 (CEST)
+Received: from localhost ([::1]:58796 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb1AL-0001S0-O1
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 07:11:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60090)
+	id 1hb13N-00051x-1p
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 07:04:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60094)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hb0sr-0007xL-FD
+ (envelope-from <quintela@redhat.com>) id 1hb0sr-0007yD-KI
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hb0sp-0004iJ-3G
+ (envelope-from <quintela@redhat.com>) id 1hb0sp-0004ie-Gx
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46356)
+Received: from mx1.redhat.com ([209.132.183.28]:48064)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hb0sn-0004hM-GE
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:34 -0400
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hb0sp-0004i7-AT
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 06:53:35 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4964C81F18
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 10:53:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 82E663083392
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 10:53:34 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-116-241.ams2.redhat.com
  [10.36.116.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 622FB53786;
- Wed, 12 Jun 2019 10:53:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D8D453786;
+ Wed, 12 Jun 2019 10:53:32 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 12 Jun 2019 12:53:18 +0200
-Message-Id: <20190612105323.7051-2-quintela@redhat.com>
+Date: Wed, 12 Jun 2019 12:53:19 +0200
+Message-Id: <20190612105323.7051-3-quintela@redhat.com>
 In-Reply-To: <20190612105323.7051-1-quintela@redhat.com>
 References: <20190612105323.7051-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 12 Jun 2019 10:53:32 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Wed, 12 Jun 2019 10:53:34 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 1/6] migration-test: introduce functions to
- handle string parameters
+Subject: [Qemu-devel] [PATCH v4 2/6] migration: Make multifd_save_setup()
+ get an Error parameter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,61 +65,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- tests/migration-test.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ migration/migration.c | 2 +-
+ migration/ram.c       | 2 +-
+ migration/ram.h       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 36d4910192..c7c311e02c 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -442,6 +442,43 @@ static void migrate_set_parameter_int(QTestState *wh=
-o, const char *parameter,
-     migrate_check_parameter_int(who, parameter, value);
+diff --git a/migration/migration.c b/migration/migration.c
+index 2865ae3fa9..0ac504be3c 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3336,7 +3336,7 @@ void migrate_fd_connect(MigrationState *s, Error *e=
+rror_in)
+         return;
+     }
+=20
+-    if (multifd_save_setup() !=3D 0) {
++    if (multifd_save_setup(&error_in) !=3D 0) {
+         migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+                           MIGRATION_STATUS_FAILED);
+         migrate_fd_cleanup(s);
+diff --git a/migration/ram.c b/migration/ram.c
+index 89eec7ee9d..4b65d22cb1 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1172,7 +1172,7 @@ static void multifd_new_send_channel_async(QIOTask =
+*task, gpointer opaque)
+     }
  }
 =20
-+static char *migrate_get_parameter_str(QTestState *who,
-+                                       const char *parameter)
-+{
-+    QDict *rsp;
-+    char *result;
-+
-+    rsp =3D wait_command(who, "{ 'execute': 'query-migrate-parameters' }=
-");
-+    result =3D g_strdup(qdict_get_str(rsp, parameter));
-+    qobject_unref(rsp);
-+    return result;
-+}
-+
-+static void migrate_check_parameter_str(QTestState *who, const char *par=
-ameter,
-+                                        const char *value)
-+{
-+    char *result;
-+
-+    result =3D migrate_get_parameter_str(who, parameter);
-+    g_assert_cmpstr(result, =3D=3D, value);
-+    g_free(result);
-+}
-+
-+__attribute__((unused))
-+static void migrate_set_parameter_str(QTestState *who, const char *param=
-eter,
-+                                      const char *value)
-+{
-+    QDict *rsp;
-+
-+    rsp =3D qtest_qmp(who,
-+                    "{ 'execute': 'migrate-set-parameters',"
-+                    "'arguments': { %s: %s } }",
-+                    parameter, value);
-+    g_assert(qdict_haskey(rsp, "return"));
-+    qobject_unref(rsp);
-+    migrate_check_parameter_str(who, parameter, value);
-+}
-+
- static void migrate_pause(QTestState *who)
+-int multifd_save_setup(void)
++int multifd_save_setup(Error **errp)
  {
-     QDict *rsp;
+     int thread_count;
+     uint32_t page_count =3D MULTIFD_PACKET_SIZE / qemu_target_page_size(=
+);
+diff --git a/migration/ram.h b/migration/ram.h
+index 936177b3e9..09feaad55b 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -42,7 +42,7 @@ int xbzrle_cache_resize(int64_t new_size, Error **errp)=
+;
+ uint64_t ram_bytes_remaining(void);
+ uint64_t ram_bytes_total(void);
+=20
+-int multifd_save_setup(void);
++int multifd_save_setup(Error **errp);
+ void multifd_save_cleanup(void);
+ int multifd_load_setup(void);
+ int multifd_load_cleanup(Error **errp);
 --=20
 2.21.0
 
