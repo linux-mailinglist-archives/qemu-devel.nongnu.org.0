@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B9E41FCD
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0BB41FCE
 	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 10:53:43 +0200 (CEST)
-Received: from localhost ([::1]:57660 helo=lists.gnu.org)
+Received: from localhost ([::1]:57658 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1haz0o-0000yZ-C3
+	id 1haz0o-0000xu-HW
 	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 04:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57771)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <like.xu@linux.intel.com>) id 1hayro-00038W-Sv
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:44:27 -0400
+ (envelope-from <like.xu@linux.intel.com>) id 1hayrw-0003Ht-7C
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:44:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <like.xu@linux.intel.com>) id 1hayri-0006Da-If
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:44:24 -0400
-Received: from mga11.intel.com ([192.55.52.93]:10698)
+ (envelope-from <like.xu@linux.intel.com>) id 1hayru-0006Lr-Sd
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:44:32 -0400
+Received: from mga11.intel.com ([192.55.52.93]:10702)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
- id 1hayqz-0005un-Mg
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:44:18 -0400
+ id 1hayru-0005vD-JD
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 04:44:30 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2019 01:43:27 -0700
+ 12 Jun 2019 01:43:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,363,1557212400"; d="scan'208";a="184175068"
+X-IronPort-AV: E=Sophos;i="5.63,363,1557212400"; d="scan'208";a="184175072"
 Received: from likexu-e5-2699-v4.sh.intel.com ([10.239.48.178])
- by fmsmga002.fm.intel.com with ESMTP; 12 Jun 2019 01:43:26 -0700
+ by fmsmga002.fm.intel.com with ESMTP; 12 Jun 2019 01:43:27 -0700
 From: Like Xu <like.xu@linux.intel.com>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <ehabkost@redhat.com>
-Date: Wed, 12 Jun 2019 16:40:55 +0800
-Message-Id: <20190612084104.34984-1-like.xu@linux.intel.com>
+Date: Wed, 12 Jun 2019 16:40:56 +0800
+Message-Id: <20190612084104.34984-2-like.xu@linux.intel.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190612084104.34984-1-like.xu@linux.intel.com>
+References: <20190612084104.34984-1-like.xu@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 192.55.52.93
-Subject: [Qemu-devel] [PATCH v3 0/9] Introduce cpu die topology and enable
- CPUID.1F for i386
+Subject: [Qemu-devel] [PATCH v3 1/9] i386: Add die-level cpu topology to
+ x86CPU on PCMachine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,77 +61,99 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Multi-chip packaging technology allows integration of multi-cores in one die
-and multi-dies in one single package, for example Intel CLX-AP or AMD EPYC.
+The die-level as the first PC-specific cpu topology is added to the leagcy
+cpu topology model, which has one die per package implicitly and only the
+numbers of sockets/cores/threads are configurable.
 
-This patch series extend the CPU topology to the socket/dies/core/thread model,
-allowing the setting of dies number per one socket on -smp qemu command. For
-i386, it upgrades APIC_IDs generation and reversion functions with a new exposed
-leaf called CPUID.1F, which is a preferred superset to leaf 0BH. The CPUID.1F
-spec is on https://software.intel.com/en-us/articles/intel-sdm, 3-190 Vol 2A.
+In the new model with die-level support, the total number of logical
+processors (including offline) on board will be calculated as:
 
-E.g. we use -smp 4,dies=2,cores=2,threads=1 to run a multi-dies guest and
-check raw cpuid data and the expected output from guest is following:
-0x0000001f 0x00: eax=0x00000000 ebx=0x00000001 ecx=0x00000100 edx=0x00000002
-0x0000001f 0x01: eax=0x00000001 ebx=0x00000002 ecx=0x00000201 edx=0x00000001
-0x0000001f 0x02: eax=0x00000002 ebx=0x00000004 ecx=0x00000502 edx=0x00000003
-0x0000001f 0x03: eax=0x00000000 ebx=0x00000000 ecx=0x00000003 edx=0x00000001
+     #cpus = #sockets * #dies * #cores * #threads
 
-Guest system could discover multi-die/package topology through CPUID.1F.
-and its benefit is primarily for _reporting_ of the (virtual) CPU topology.
-The guest kernel with multi-die/package support have no impact on its 
-cache topology, NUMA topology, Linux scheduler, or system performance. 
+and considering compatibility, the default value for #dies would be
+initialized to one in x86_cpu_initfn() and pc_machine_initfn().
 
-==changelog==
+Signed-off-by: Like Xu <like.xu@linux.intel.com>
+---
+ hw/i386/pc.c         | 9 +++++++--
+ include/hw/i386/pc.h | 2 ++
+ target/i386/cpu.c    | 1 +
+ target/i386/cpu.h    | 2 ++
+ 4 files changed, 12 insertions(+), 2 deletions(-)
 
-v3:
-
-- add a MachineClass::smp_parse function pointer
-- place the PC-specific function inside hw/i386/pc.c
-- introduce die_id in a separate patch with default value 0
-- set env->nr_dies in pc_new_cpu() and pc_cpu_pre_plug()
-- fix a circular dependency between target/i386/cpu.c and hw/i386/pc.c
-- fix cpu->die_id check in pc_cpu_pre_plug()
-- Based on "[PATCH v3 00/10] Refactor cpu topo into machine properties"
-- Rebase to commit 219dca61ebf41625831d4f96a720852baf44b762
-
-v2: https://patchwork.kernel.org/cover/10953191/
-
-- Enable cpu die-level topolgy only for PCMachine and X86CPU
-- Minimize cpuid.0.eax to the setting value actually used by guest
-- Update cmd line -smps docs for die-level configurations
-- Refactoring topo-bit tests for x86_apicid_from_cpu_idx() with nr_dies
-- Based on "[PATCH v3 00/10] Refactor cpu topo into machine properties"
-- Rebase to commit 2259637b95bef3116cc262459271de08e038cc66
-
-v1: https://patchwork.kernel.org/cover/10876667/
-
-Like Xu (9):
-  i386: Add die-level cpu topology to x86CPU on PCMachine
-  hw/i386: Adjust nr_dies with configured smp_dies for PCMachine
-  i386/cpu: Consolidate die-id validity in smp context
-  i386: Update new x86_apicid parsing rules with die_offset support
-  tests/x86-cpuid: Update testcases in test_topo_bits() with multiple dies
-  i386/cpu: Add CPUID.1F generation support for multi-dies PCMachine
-  target/i386: Support multi-dies when host doesn't support CPUID.1F
-  machine: Refactor smp_parse() in vl.c as MachineClass::smp_parse()
-  vl.c: Add -smp, dies=* command line support and update doc
-
- hmp.c                      |   3 +
- hw/core/machine.c          |  89 ++++++++++++++++++++++
- hw/i386/pc.c               | 148 ++++++++++++++++++++++++++++++++-----
- include/hw/boards.h        |   5 ++
- include/hw/i386/pc.h       |   3 +
- include/hw/i386/topology.h |  76 +++++++++++++------
- qapi/misc.json             |   6 +-
- qemu-options.hx            |  17 +++--
- target/i386/cpu.c          |  53 +++++++++++--
- target/i386/cpu.h          |   7 ++
- target/i386/kvm.c          |  36 ++++++++-
- tests/test-x86-cpuid.c     |  84 +++++++++++----------
- vl.c                       |  78 ++-----------------
- 13 files changed, 438 insertions(+), 167 deletions(-)
-
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 12c1e08b85..9e9a42f007 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -2308,9 +2308,13 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+         return;
+     }
+ 
+-    /* if APIC ID is not set, set it based on socket/core/thread properties */
++    /*
++     * If APIC ID is not set,
++     * set it based on socket/die/core/thread properties.
++     */
+     if (cpu->apic_id == UNASSIGNED_APIC_ID) {
+-        int max_socket = (ms->smp.max_cpus - 1) / smp_threads / smp_cores;
++        int max_socket = (ms->smp.max_cpus - 1) /
++                                smp_threads / smp_cores / pcms->smp_dies;
+ 
+         if (cpu->socket_id < 0) {
+             error_setg(errp, "CPU socket-id is not set");
+@@ -2620,6 +2624,7 @@ static void pc_machine_initfn(Object *obj)
+     pcms->smbus_enabled = true;
+     pcms->sata_enabled = true;
+     pcms->pit_enabled = true;
++    pcms->smp_dies = 1;
+ 
+     pc_system_flash_create(pcms);
+ }
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index b260262640..fae9217e34 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -24,6 +24,7 @@
+  * PCMachineState:
+  * @acpi_dev: link to ACPI PM device that performs ACPI hotplug handling
+  * @boot_cpus: number of present VCPUs
++ * @smp_dies: number of dies per one package
+  */
+ struct PCMachineState {
+     /*< private >*/
+@@ -59,6 +60,7 @@ struct PCMachineState {
+     bool apic_xrupt_override;
+     unsigned apic_id_limit;
+     uint16_t boot_cpus;
++    unsigned smp_dies;
+ 
+     /* NUMA information: */
+     uint64_t numa_nodes;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 23119699de..a16be205fe 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5619,6 +5619,7 @@ static void x86_cpu_initfn(Object *obj)
+     CPUX86State *env = &cpu->env;
+     FeatureWord w;
+ 
++    env->nr_dies = 1;
+     cpu_set_cpustate_pointers(cpu);
+ 
+     object_property_add(obj, "family", "int",
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index edad6e1efb..5daa2eeafa 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1349,6 +1349,8 @@ typedef struct CPUX86State {
+     uint64_t xss;
+ 
+     TPRAccess tpr_access_type;
++
++    unsigned nr_dies;
+ } CPUX86State;
+ 
+ struct kvm_msrs;
 -- 
 2.21.0
 
