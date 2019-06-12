@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C23E4257F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:21:59 +0200 (CEST)
-Received: from localhost ([::1]:59796 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C377D42551
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 14:15:37 +0200 (CEST)
+Received: from localhost ([::1]:59760 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb2GM-0001DW-Bo
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46888)
+	id 1hb2AC-0005O7-Ux
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 08:15:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46827)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hb24r-0001X9-QW
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:10:06 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hb24p-0001SZ-SN
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:10:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hb1vH-0004EE-RG
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:00:20 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:48676)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hb1vj-0004oT-W1
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:00:41 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:48844)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hb1vD-00043j-Q2; Wed, 12 Jun 2019 08:00:07 -0400
+ id 1hb1vW-0004I7-Dx; Wed, 12 Jun 2019 08:00:30 -0400
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CBsG9x096660;
- Wed, 12 Jun 2019 12:00:06 GMT
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CBsGAK096672;
+ Wed, 12 Jun 2019 12:00:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
- bh=wNJVY/MJnZ0hr3JnQpWCYzEqCzxEtI5MUZ+RiQowC2s=;
- b=Ze/tLxnY9VqhDJBNEYPSAA3jVqblQfmTmQ/EDtNWAes7WhwUKZUXHVou7WlJGu0EnYOH
- Y0qNLX5rb+5GOQdd6HN0qp0xeae4/AOmTfgBOCtw8p1IFeQ42gva1Z/cLkqVb/L5nVvU
- KGoAbtARfbpK4CJUERp+ZLw5g7ZUAYxQGKXfJ+OnbdqxfUAK3wuHaEPvXf0rr5HuqjNu
- rTyMrUHmVvi6JQ9pXXnoqouEj/ejqUS8PCSAXEECYDvcaNpAf9EhhnY32y5oxvk78gjb
- agJplJCnZ9FbuVhb9HGqz/orv5W9YTdu3R8R4VKqq+JVUHVwse5jq/WwWGpsTVfBMjAB ag== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2t04ettx0j-1
+ bh=VuvUHYBiIoed7M4Qt45n2olUqtuKHAeuaxDDCAKVfqc=;
+ b=bWSpXaVphnfWwA/XE7/zf4tSGt4Ws7QSfu2UZbtAH5xjIkY0YOd1P6krIfCeVHfGFWtN
+ 3DIogyZ/LnyqLN4tb1/LhRIGnWMiI6dyEpbEFkxCABSd3EjUGdEkmZWxgplL1uCsvUIT
+ Ueh/13kUTqI4CgtnwdwhzHU+zc28WKhEqd87+hSat1eMWsiT9D5gTp90SlEAv/ECct8h
+ hPy3XY+KZmaX2gswiZuM/70RKpXMmJLtnDhzumBpavc2BtX/KciHmCQFUAPdH28AlIjc
+ gV+30QWGKGLGTB08vJvY0udOv+yYZ4Hx27771OOuN+mhekzO/QokvF/ywMXtIkrB6bsk Pw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 2t04ettx24-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jun 2019 12:00:05 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CBx1bd140836;
- Wed, 12 Jun 2019 12:00:05 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 2t04hyvu79-1
+ Wed, 12 Jun 2019 12:00:13 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5CC0CHe003086;
+ Wed, 12 Jun 2019 12:00:12 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 2t0p9ru1tx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jun 2019 12:00:04 +0000
+ Wed, 12 Jun 2019 12:00:12 +0000
 Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5CC03r3015692;
- Wed, 12 Jun 2019 12:00:03 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5CC06hW020639;
+ Wed, 12 Jun 2019 12:00:06 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 12 Jun 2019 05:00:03 -0700
+ with ESMTP ; Wed, 12 Jun 2019 05:00:06 -0700
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
  mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
  kevin@koconnor.net
-Date: Wed, 12 Jun 2019 14:59:33 +0300
-Message-Id: <20190612115939.23825-3-shmuel.eiderman@oracle.com>
+Date: Wed, 12 Jun 2019 14:59:34 +0300
+Message-Id: <20190612115939.23825-4-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
 In-Reply-To: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
 References: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9285
  signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -69,14 +69,14 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9285
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906120083
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [QEMU] [PATCH v2 2/8] block: Support providing LCHS
- from user
+Subject: [Qemu-devel] [QEMU] [PATCH v2 3/8] bootdevice: Add interface to
+ gather LCHS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,50 +93,94 @@ Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add logical geometry variables to BlockConf.
-
-A user can now supply "lcyls", "lheads" & "lsecs" for any HD device
-that supports CHS ("cyls", "heads", "secs").
-
-These devices include:
-    * ide-hd
-    * scsi-hd
-    * virtio-blk-pci
-
-In future commits we will use the provided LCHS and pass it to the BIOS
-through fw_cfg to be supplied using INT13 routines.
+Add an interface to provide direct logical CHS values for boot devices.
+We will use this interface in the next commits.
 
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 ---
- include/hw/block/block.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ bootdevice.c            | 55 +++++++++++++++++++++++++++++++++++++++++++++++++
+ include/sysemu/sysemu.h |  3 +++
+ 2 files changed, 58 insertions(+)
 
-diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-index fd55a30bca..d7246f3862 100644
---- a/include/hw/block/block.h
-+++ b/include/hw/block/block.h
-@@ -26,6 +26,7 @@ typedef struct BlockConf {
-     uint32_t discard_granularity;
-     /* geometry, not all devices use this */
-     uint32_t cyls, heads, secs;
-+    uint32_t lcyls, lheads, lsecs;
-     OnOffAuto wce;
-     bool share_rw;
-     BlockdevOnError rerror;
-@@ -65,7 +66,10 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
- #define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                      \
-     DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),                  \
-     DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),                \
--    DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
-+    DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0),                  \
-+    DEFINE_PROP_UINT32("lcyls", _state, _conf.lcyls, 0),                \
-+    DEFINE_PROP_UINT32("lheads", _state, _conf.lheads, 0),              \
-+    DEFINE_PROP_UINT32("lsecs", _state, _conf.lsecs, 0)
+diff --git a/bootdevice.c b/bootdevice.c
+index 1d225202f9..bc5e1c2de4 100644
+--- a/bootdevice.c
++++ b/bootdevice.c
+@@ -343,3 +343,58 @@ void device_add_bootindex_property(Object *obj, int32_t *bootindex,
+     /* initialize devices' bootindex property to -1 */
+     object_property_set_int(obj, -1, name, NULL);
+ }
++
++typedef struct FWLCHSEntry FWLCHSEntry;
++
++struct FWLCHSEntry {
++    QTAILQ_ENTRY(FWLCHSEntry) link;
++    DeviceState *dev;
++    char *suffix;
++    uint32_t lcyls;
++    uint32_t lheads;
++    uint32_t lsecs;
++};
++
++static QTAILQ_HEAD(, FWLCHSEntry) fw_lchs =
++    QTAILQ_HEAD_INITIALIZER(fw_lchs);
++
++void add_boot_device_lchs(DeviceState *dev, const char *suffix,
++                          uint32_t lcyls, uint32_t lheads, uint32_t lsecs)
++{
++    FWLCHSEntry *node;
++
++    if (!lcyls && !lheads && !lsecs) {
++        return;
++    }
++
++    assert(dev != NULL || suffix != NULL);
++
++    node = g_malloc0(sizeof(FWLCHSEntry));
++    node->suffix = g_strdup(suffix);
++    node->dev = dev;
++    node->lcyls = lcyls;
++    node->lheads = lheads;
++    node->lsecs = lsecs;
++
++    QTAILQ_INSERT_TAIL(&fw_lchs, node, link);
++}
++
++void del_boot_device_lchs(DeviceState *dev, const char *suffix)
++{
++    FWLCHSEntry *i;
++
++    if (dev == NULL) {
++        return;
++    }
++
++    QTAILQ_FOREACH(i, &fw_lchs, link) {
++        if ((!suffix || !g_strcmp0(i->suffix, suffix)) &&
++             i->dev == dev) {
++            QTAILQ_REMOVE(&fw_lchs, i, link);
++            g_free(i->suffix);
++            g_free(i);
++
++            break;
++        }
++    }
++}
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 61579ae71e..173dfbb539 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -171,6 +171,9 @@ void device_add_bootindex_property(Object *obj, int32_t *bootindex,
+                                    DeviceState *dev, Error **errp);
+ void restore_boot_order(void *opaque);
+ void validate_bootdevices(const char *devices, Error **errp);
++void add_boot_device_lchs(DeviceState *dev, const char *suffix,
++                          uint32_t lcyls, uint32_t lheads, uint32_t lsecs);
++void del_boot_device_lchs(DeviceState *dev, const char *suffix);
  
- #define DEFINE_BLOCK_ERROR_PROPERTIES(_state, _conf)                    \
-     DEFINE_PROP_BLOCKDEV_ON_ERROR("rerror", _state, _conf.rerror,       \
+ /* handler to set the boot_device order for a specific type of MachineClass */
+ typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
 -- 
 2.13.3
 
