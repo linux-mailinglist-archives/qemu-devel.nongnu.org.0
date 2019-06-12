@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F25B42B0F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 17:37:16 +0200 (CEST)
-Received: from localhost ([::1]:33162 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF0242B3C
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 17:48:17 +0200 (CEST)
+Received: from localhost ([::1]:33276 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb5JL-0005E0-J3
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 11:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36968)
+	id 1hb5U0-0003ft-Sk
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 11:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42227)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hb5FF-0002zY-Gf
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:33:05 -0400
+ (envelope-from <bounces@canonical.com>) id 1hb5Rb-0002oI-Sv
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:45:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hb5FC-0002Hb-QR
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:33:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46954)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hb5FB-0002FU-JP
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:32:58 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 214C630872E6
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 15:32:49 +0000 (UTC)
-Received: from work-vm (ovpn-117-119.ams2.redhat.com [10.36.117.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CF094647C;
- Wed, 12 Jun 2019 15:32:42 +0000 (UTC)
-Date: Wed, 12 Jun 2019 16:32:40 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Message-ID: <20190612153239.GE2691@work-vm>
-References: <20190610184402.7090-1-dgilbert@redhat.com>
- <20190610184402.7090-4-dgilbert@redhat.com>
- <e602e259-f5db-c73a-7a4e-f63a2d48e85c@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hb5Ra-0001MQ-3K
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:45:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49786)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hb5RZ-0001J5-QQ
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 11:45:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hb5RW-0002n9-LP
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 15:45:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2A83A2E80CC
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 15:45:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e602e259-f5db-c73a-7a4e-f63a2d48e85c@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 12 Jun 2019 15:32:51 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 12 Jun 2019 15:35:19 -0000
+From: DDoSolitary <DDoSolitary@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ddosolitary pmaydell
+X-Launchpad-Bug-Reporter: DDoSolitary (ddosolitary)
+X-Launchpad-Bug-Modifier: DDoSolitary (ddosolitary)
+References: <155137392124.31316.11495671074765014993.malonedeb@wampee.canonical.com>
+Message-Id: <156035371999.16454.7681216624954837947.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 5a678f8d1d8815a6351b310d286246811aa6dc0f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 3/4] net/announce: Add optional ID
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1818122] Re: QEMU 3.1 makes libxslt to crash on
+ ppc64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,126 +65,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org, laine@redhat.com,
- armbru@redhat.com
+Reply-To: Bug 1818122 <1818122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Eric Blake (eblake@redhat.com) wrote:
-> On 6/10/19 1:44 PM, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > Previously there was a single instance of the timer used by
-> > monitor triggered announces, that's OK, but when combined with the
-> > previous change that lets you have announces for subsets of interfaces
-> > it's a bit restrictive if you want to do different things to different
-> > interfaces.
-> > 
-> > Add an 'id' field to the announce, and maintain a list of the
-> > timers based on id.
-> > 
-> > This allows you to for example:
-> >     a) Start an announce going on interface eth0 for a long time
-> >     b) Start an announce going on interface eth1 for a long time
-> >     c) Kill the announce on eth0 while leaving eth1 going.
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> 
-> > +++ b/include/net/announce.h
-> > @@ -23,8 +23,12 @@ struct AnnounceTimer {
-> >  /* Returns: update the timer to the next time point */
-> >  int64_t qemu_announce_timer_step(AnnounceTimer *timer);
-> >  
-> > -/* Delete the underlying timer and other data */
-> > -void qemu_announce_timer_del(AnnounceTimer *timer);
-> > +/*
-> > + * Delete the underlying timer and other datas
-> 
-> 'data' is already plural, 'datas' is not a word.
+@pmaydell
+I'm willing to test. However, I encountered another bug introduced in 4.0 w=
+hich even prevents me from installing xmlto. I'll preparing a bug report an=
+d will post it soon.
 
-oops yes, fixed.
+-- =
 
-> > + * If 'free_named' true and the timer is a named timer, then remove
-> > + * it from the list of named timers and free the AnnounceTimer itself.
-> > + */
-> > +void qemu_announce_timer_del(AnnounceTimer *timer, bool free_named);
-> >  
-> 
-> > +++ b/qapi/net.json
-> > @@ -702,6 +702,10 @@
-> >  # @interfaces: An optional list of interface names, which restrict the
-> >  #        announcment to the listed interfaces. (Since 4.1)
-> >  #
-> > +# @id: A name to be used to identify an instance of announce-timers
-> > +#        and to allow it to modified later.  Not for use as
-> > +#        part of the migration paramters. (Since 4.1)
-> 
-> parameters
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1818122
 
-Fixed.
+Title:
+  QEMU 3.1 makes libxslt to crash on ppc64
 
-> > +#
-> >  # Since: 4.0
-> >  ##
-> >  
-> > @@ -710,7 +714,8 @@
-> >              'max': 'int',
-> >              'rounds': 'int',
-> >              'step': 'int',
-> > -            '*interfaces': ['str'] } }
-> > +            '*interfaces': ['str'],
-> > +            '*id' : 'str' } }
-> >  
-> >  ##
-> >  # @announce-self:
-> > @@ -725,7 +730,7 @@
-> >  # -> { "execute": "announce-self",
-> >  #      "arguments": {
-> >  #          "initial": 50, "max": 550, "rounds": 10, "step": 50,
-> > -#          "interfaces": ["vn2","vn3"] } }
-> > +#          "interfaces": ["vn2","vn3"], "id": "bob" } }
-> >  # <- { "return": {} }
-> >  #
-> 
-> Worth an example of deleting a timer by id?
-> 
+Status in QEMU:
+  New
 
-The syntax is actually the same - the only thing you need to do
-to cancel is set 'rounds' to 0 for the named id.
+Bug description:
+  Host: clean Ubuntu Disco with QEMU 3.1
 
-> >  # Since: 4.0
-> > diff --git a/tests/virtio-net-test.c b/tests/virtio-net-test.c
-> > index 163126cf07..7184e2bff4 100644
-> > --- a/tests/virtio-net-test.c
-> > +++ b/tests/virtio-net-test.c
-> > @@ -186,7 +186,7 @@ static void announce_self(void *obj, void *data, QGuestAllocator *t_alloc)
-> >      rsp = qmp("{ 'execute' : 'announce-self', "
-> >                    " 'arguments': {"
-> >                        " 'initial': 50, 'max': 550,"
-> > -                      " 'rounds': 10, 'step': 50 } }");
-> > +                      " 'rounds': 10, 'step': 50, 'id': 'bob' } }");
-> 
-> And here, is it worth testing that you can delete by id, rather than
-> just create with an id?
+  Guest: Alpine Linux edge with xmlto
 
-OK, I'll have a look at how painful that is.
+  Steps to set up guest:
+  curl -O http://dl-cdn.alpinelinux.org/alpine/edge/releases/ppc64le/netboo=
+t/vmlinuz-vanilla
+  curl -O http://dl-cdn.alpinelinux.org/alpine/edge/releases/ppc64le/netboo=
+t/initramfs-vanilla
+  qemu-system-ppc64 -m 1G -kernel vmlinuz-vanilla -initrd initramfs-vanilla=
+ -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinelinux.=
+org/alpine/edge/main/ modloop=3Dhttp://dl-cdn.alpinelinux.org/alpine/edge/r=
+eleases/ppc64le/netboot/modloop-vanilla" -device virtio-rng-pci -nographic
+  This brings up an VM with an in-memory Alpine Linux.
 
-Dave
+  Steps to reproduce:
+  Login as root and execute the following commands.
+  apk add xmlto
+  ntpd -nqp time.google.com // For TLS OCSP
+  wget https://ddosolitary.org/manpage-base.xsl
+  wget https://ddosolitary.org/shadowsocks-libev.xml
+  xmlto -m manpage-base.xsl man shadowsocks-libev.xml
+  The downloaded files are from this project: https://github.com/shadowsock=
+s/shadowsocks-libev The former is directly taken from the "doc" directory a=
+nd the latter is an intermediate build output generated by asciidoc from do=
+c/shadowsocks-libev.asciidoc
 
-> >      assert(!qdict_haskey(rsp, "error"));
-> >      qobject_unref(rsp);
-> >  
-> > 
-> 
-> -- 
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
-> 
+  Expected behavior: The command silently succeeds producing
+  shadowsocks-libev.8
 
+  Actual behavior: =
 
+  runtime error: file file:///usr/share/xml/docbook/xsl-stylesheets-1.79.1/=
+manpages/tbl.xsl line 450 element text
+  xsltApplySequenceConstructor: A potential infinite template recursion was=
+ detected.
+  You can adjust xsltMaxDepth (--maxdepth) in order to raise the maximum nu=
+mber of nested template calls and variables/params (currently set to 3000).
+  Templates:
+  #0 name process.colspan
+  #1 name process.colspan
+  #2 name process.colspan
+  #3 name process.colspan
+  #4 name process.colspan
+  #5 name process.colspan
+  #6 name process.colspan
+  #7 name process.colspan
+  #8 name process.colspan
+  #9 name process.colspan
+  #10 name process.colspan
+  #11 name process.colspan
+  #12 name process.colspan
+  #13 name process.colspan
+  #14 name process.colspan
+  Variables:
+  #0
+  type
+  colspan
+  #1
+  colspan
+  #2
+  type
+  colspan
+  #3
+  colspan
+  #4
+  type
+  colspan
+  #5
+  colspan
+  #6
+  type
+  colspan
+  #7
+  colspan
+  #8
+  type
+  colspan
+  #9
+  colspan
+  #10
+  type
+  colspan
+  #11
+  colspan
+  #12
+  type
+  colspan
+  #13
+  colspan
+  #14
+  type
+  colspan
+  error: file /root/shadowsocks-libev.xml
+  xsltRunStylesheet : run failed
 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+  Note:
+  I tried increasing --maxdepth as suggested in the error output but that w=
+ill result in a segfault.
+  This error doesn't occur with an older QEMU (I tested QEMU 2.12 on Ubuntu=
+ Cosmic) or different architectures on QEMU 3.1 (I tested x86, x86_64, arm,=
+ aarch64, s390x). Also it didn't help to use an older Alpine Linux (I teste=
+d v3.8). So I think it is caused by a bug in QEMU rather than the distro/pa=
+ckage.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1818122/+subscriptions
 
