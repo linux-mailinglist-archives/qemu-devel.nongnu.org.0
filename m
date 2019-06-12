@@ -2,50 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B314274B
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 15:16:05 +0200 (CEST)
-Received: from localhost ([::1]:60276 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16ECA42705
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 15:09:01 +0200 (CEST)
+Received: from localhost ([::1]:60174 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb36i-0004yy-8Y
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 09:16:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55801)
+	id 1hb2zs-0007mW-8D
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 09:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55497)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pagupta@redhat.com>) id 1hb2iD-0002pw-Rk
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:50:47 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hb2hZ-0002FM-HE
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:50:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pagupta@redhat.com>) id 1hb2iB-0007Ea-TP
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:50:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48648)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hb2iB-0007D0-Nn
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:50:43 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7DFA08553D;
- Wed, 12 Jun 2019 12:50:41 +0000 (UTC)
-Received: from dhcp201-121.englab.pnq.redhat.com (ovpn-116-228.sin2.redhat.com
- [10.67.116.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F8FD7B000;
- Wed, 12 Jun 2019 12:49:45 +0000 (UTC)
-From: Pankaj Gupta <pagupta@redhat.com>
-To: dm-devel@redhat.com, linux-nvdimm@lists.01.org,
- linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
- kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-acpi@vger.kernel.org, qemu-devel@nongnu.org,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
-Date: Wed, 12 Jun 2019 18:15:27 +0530
-Message-Id: <20190612124527.3763-8-pagupta@redhat.com>
-In-Reply-To: <20190612124527.3763-1-pagupta@redhat.com>
-References: <20190612124527.3763-1-pagupta@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 12 Jun 2019 12:50:41 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v13 7/7] xfs: disable map_sync for async flush
+ (envelope-from <peter.maydell@linaro.org>) id 1hb2hX-0006hT-ES
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:50:05 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:41905)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hb2hO-0006V9-9c
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 08:49:55 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id 107so15272175otj.8
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 05:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xtIhJKG3cfE4NSRU4oVGE5ByzIO9DXVAp4XadUnPXTo=;
+ b=hGv2QS7iTylSVrK2LJtf0s5uC9Z8+w27eqOPZRjgFveUIYG7Ixo97HcT/j0ioQj+90
+ dEALI7iYJy6mv4VXenT+m5GtlwMphw65SgEie4iYnQtmo70WBC/ow5zgym5dN1lNf+Tu
+ NIZ3xk7g5yJKBbqg+sNVnP1zSe3GJsF3Q2aKnCMFlfbvcdfgFCKqO8pQmzXNNB2AQfWI
+ v04nSQ6w8K24CJNDiMssjsyWgiRwt0z4gFS5dC1zUreNdNXFJjvVRm4vEFFDrkUpVEsh
+ JxQ06DI1iKkjQ7xW0QmrKs8MTP0/wCJEPYsWUyOxoH1S6d7tllXryQngdyctfW6KTv+h
+ nCzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xtIhJKG3cfE4NSRU4oVGE5ByzIO9DXVAp4XadUnPXTo=;
+ b=TQdVR5FEzzt8QbRVNgCaKSk6lVRBpdfXtbNnbG0EYmHCemeHKF6bCRbRKvF9MLzGPU
+ BXtwiPMFN8HAPPNo5oywGdpSm4EsMRp7LNvYSEh4uVkE3tN/2864rZH/EG5S3jLJRhtg
+ i8a2m79itStvRWcrdOjnSPtmG+jCFCh4OIA/Y8k0XavHeMEoTARoxk2GMAhxNZRmZzIp
+ JByqNFTPENqRFXa7f0R3Y1dRBQSB0Md+XdADhyLUco05vDdeY1/ak3EFJo0LEyeDfc3X
+ hQ4oEoLiZN0qdYkH94RvkMfwg8PVpzp6Zsysw3keFX0jyd3vTQeEB05wtlG49QSVBNXm
+ wUuw==
+X-Gm-Message-State: APjAAAWgqFIQNuDEbadgTIIN7BzcZrht05lZNa+c1pzPe4OiEHeyqFJL
+ MwYvUiZJc+gduTrOKkVq6xQjVGyKULBM9dolseTHvg==
+X-Google-Smtp-Source: APXvYqwOzlTXOsQxqOGLaklgBnKDsmMWN5EqSdyh66DD0yQ7t4s2m+wURuMd+BqLsobJVBoDT7ovaiRxnXZ26JdPMQA=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr4311834otj.97.1560343778867; 
+ Wed, 12 Jun 2019 05:49:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190611171456.23444-1-ehabkost@redhat.com>
+In-Reply-To: <20190611171456.23444-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 12 Jun 2019 13:49:27 +0100
+Message-ID: <CAFEAcA-HK=1EyCT7w+it1Gq9WTOpq=4m2kHbM2upPvWcOAoGew@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32d
+Subject: Re: [Qemu-devel] [PULL 0/6] Python queue, 2019-06-11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,53 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pagupta@redhat.com, rdunlap@infradead.org, jack@suse.cz, snitzer@redhat.com,
- mst@redhat.com, jasowang@redhat.com, david@fromorbit.com,
- lcapitulino@redhat.com, adilger.kernel@dilger.ca, zwisler@kernel.org,
- aarcange@redhat.com, dave.jiang@intel.com, jstaron@google.com,
- darrick.wong@oracle.com, vishal.l.verma@intel.com, david@redhat.com,
- willy@infradead.org, hch@infradead.org, jmoyer@redhat.com, nilal@redhat.com,
- lenb@kernel.org, kilobyte@angband.pl, riel@surriel.com, yuval.shaia@oracle.com,
- stefanha@redhat.com, pbonzini@redhat.com, dan.j.williams@intel.com,
- kwolf@redhat.com, tytso@mit.edu, xiaoguangrong.eric@gmail.com,
- cohuck@redhat.com, rjw@rjwysocki.net, imammedo@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dont support 'MAP_SYNC' with non-DAX files and DAX files
-with asynchronous dax_device. Virtio pmem provides
-asynchronous host page cache flush mechanism. We don't
-support 'MAP_SYNC' with virtio pmem and xfs.
+On Tue, 11 Jun 2019 at 18:15, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> Changes from 2019-06-07: Python 2 deprecation and Python 3 check
+> for 3.5+ were removed.
+>
+> The following changes since commit 219dca61ebf41625831d4f96a720852baf44b7=
+62:
+>
+>   Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-reque=
+st' into staging (2019-06-11 16:02:07 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/python-next-pull-request
+>
+> for you to fetch changes up to 6d7a134da4afebe8551a69329478415cfb4cbe91:
+>
+>   travis: Make check-acceptance job more verbose (2019-06-11 14:13:09 -03=
+00)
+>
+> ----------------------------------------------------------------
+> Python queue, 2019-06-11
+>
+> * New boot_linux_console test cases (Philippe Mathieu-Daud=C3=A9)
+> * Make check-acceptance Travis job more verbose (Eduardo Habkost)
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
----
- fs/xfs/xfs_file.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index a7ceae90110e..f17652cca5ff 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -1203,11 +1203,14 @@ xfs_file_mmap(
- 	struct file	*filp,
- 	struct vm_area_struct *vma)
- {
-+	struct dax_device 	*dax_dev;
-+
-+	dax_dev = xfs_find_daxdev_for_inode(file_inode(filp));
- 	/*
--	 * We don't support synchronous mappings for non-DAX files. At least
--	 * until someone comes with a sensible use case.
-+	 * We don't support synchronous mappings for non-DAX files and
-+	 * for DAX files if underneath dax_device is not synchronous.
- 	 */
--	if (!IS_DAX(file_inode(filp)) && (vma->vm_flags & VM_SYNC))
-+	if (!daxdev_mapping_supported(vma, dax_dev))
- 		return -EOPNOTSUPP;
- 
- 	file_accessed(filp);
--- 
-2.20.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
