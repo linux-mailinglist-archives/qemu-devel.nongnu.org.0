@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC15427BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 15:36:53 +0200 (CEST)
-Received: from localhost ([::1]:60532 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1154442870
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 16:10:09 +0200 (CEST)
+Received: from localhost ([::1]:60742 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb3Qq-0001bB-8M
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 09:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38733)
+	id 1hb3x2-0005iX-94
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 10:10:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <farosas@linux.ibm.com>) id 1hb3Op-0008Vn-3o
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:34:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hb3iS-0006YT-35
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:55:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farosas@linux.ibm.com>) id 1hb3On-0002Jx-FZ
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:34:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60870)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <farosas@linux.ibm.com>)
- id 1hb3On-0002Ij-4o; Wed, 12 Jun 2019 09:34:45 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5CDIMC5072725; Wed, 12 Jun 2019 09:34:32 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2t2yr47p40-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jun 2019 09:34:31 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x5C9LJ0r032295;
- Wed, 12 Jun 2019 09:39:15 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma01dal.us.ibm.com with ESMTP id 2t1x6sq7y9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jun 2019 09:39:15 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x5CDYJiv24773094
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jun 2019 13:34:19 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8B332AE064;
- Wed, 12 Jun 2019 13:34:19 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 42E04AE063;
- Wed, 12 Jun 2019 13:34:19 +0000 (GMT)
-Received: from localhost (unknown [9.86.26.88])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Wed, 12 Jun 2019 13:34:19 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
-In-Reply-To: <c5e92072-eb8d-7af5-3eef-fac256f29c98@ozlabs.ru>
-References: <20190228225759.21328-1-farosas@linux.ibm.com>
- <20190228225759.21328-6-farosas@linux.ibm.com>
- <b8a30b89-8c19-821e-e3a3-f1b71a088d9d@ozlabs.ru>
- <87ef73rl39.fsf@linux.ibm.com>
- <eadc5e30-5094-9b76-7268-cfb633ac40bd@ozlabs.ru>
- <c5e92072-eb8d-7af5-3eef-fac256f29c98@ozlabs.ru>
-Date: Wed, 12 Jun 2019 10:34:17 -0300
-Message-ID: <877e9r3p2e.fsf@linux.ibm.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hb3XQ-00011j-5u
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:43:41 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:40062)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hb3XP-00010x-PG
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 09:43:40 -0400
+Received: by mail-oi1-x235.google.com with SMTP id w196so11702577oie.7
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 06:43:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4o0L3z2wH+Ou8v+gUGiBLKcFXNl6G+vFe+39clMs+oU=;
+ b=LlCEHlDEF370/Q02E/N+Lh5O1q3UlY4StEItY2UZkKuYMS2fAXXbw7GvJbB1OdGqIT
+ juTbNu8xSid3CgJvi9/Gl0nI5lTCzhnAvjllGP4W8eWj0gAF7829K1N2b0wtCepgqUwV
+ SCEJjAzF4eV7Js/bD0cdghAFiKR4aq79iXbnuobhw5dyqz8LZmciPZg9hRH7jy29UZRX
+ qSGFJwu+y+LwZzzwWHfpas2JjEdbTpC7kTJ+cImoVut8iqPdzk/SNlwGUGpbos4A7Swc
+ mE7LGDvZi4ZAnGVHiypYBb8dy02PeAsjSr6NGvD5of3hTY4ZkfLOb2bi3Ow0GgH+Cd+e
+ bLEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4o0L3z2wH+Ou8v+gUGiBLKcFXNl6G+vFe+39clMs+oU=;
+ b=cfgXZ9i9fJbXmzGkWF8V2OVs7zNeH2x6h/Uk857wkERNFG5WAyej0oBxjXAQnP14+G
+ /T0zzuLtub36GKWuyHz/B9jVTUOZrZcLrZQbzU7xQchT/wFKVsyanax6JIVsVFBq8roh
+ mFyPTtywGwi2iOKp1/OHM+i6ui3j/cOkzT2juRl0hFCPdkaG3+lb1uEVKTAx8qad4VLJ
+ u+GK/hTemNMp+IgRa5mkItA1W12bYPwkL8Vj5XvywaxuvyVMHZtwGcb6ZTYiGt2xdiJ8
+ rkVE6fnnNEYkhSNdtr13m7rVc+7WJKICkUPakP2e8XOudUX+iemmxOE+fOuR4r61DtOL
+ fqXQ==
+X-Gm-Message-State: APjAAAXFR2ECHZmJckW0cWvxTdZVIuaEpeXvUKEMcgKP7zkaW2g1Qv3O
+ kkuMUWbjKB27LCEGFWch2w39nA1RQ6MzxobHHIDK/A==
+X-Google-Smtp-Source: APXvYqwtGvs7ZwR9U2oy4YTzF8tmwj9cSxTYvtoE01u846XBIE5vfmq3pd0qn7cOBdp955hDbb11H30TdZlfWmerq3g=
+X-Received: by 2002:a05:6808:8f1:: with SMTP id
+ d17mr19412112oic.170.1560347018688; 
+ Wed, 12 Jun 2019 06:43:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-12_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=4 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906120092
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [RFC PATCH v4 5/5] target/ppc: support single
- stepping with KVM HV
+References: <20190612112747.16374-1-armbru@redhat.com>
+In-Reply-To: <20190612112747.16374-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 12 Jun 2019 14:43:27 +0100
+Message-ID: <CAFEAcA-kZzAkthuQZjRV0eajXRpQTsu33yw4adWt4Zp8tQ=wwg@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::235
+Subject: Re: [Qemu-devel] [PULL v3 00/12] Miscellaneous patches for
+ 2019-06-11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,87 +73,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alexey Kardashevskiy <aik@ozlabs.ru> writes:
-
-> Are you reposting this any time soon?
-
-I have sent a v2 to the kernel side of it:
-
-https://lore.kernel.org/kvm/20190529222219.27994-1-farosas@linux.ibm.com/
-
-I'm depending on what we decide to do there. The core of this patchset
-will not change, just the mechanism by which the feature is selected
-(patch 2, kvm-all: Introduce kvm_set_singlestep).
-
-> In meanwhile I hit a problem when I cannot step over the "stdu" instruction.
+On Wed, 12 Jun 2019 at 12:36, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> I basically put this:
-> stdu    r1,-368(r1)
+> The following changes since commit a578cdfbdd8f9beff5ced52b7826ddb1669abbbf:
 >
-> and "ni" in gdb does not stop on the next instruction which is quite
-> confusing. Ideas?
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190610' into staging (2019-06-10 16:09:19 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2019-06-11-v3
+>
+> for you to fetch changes up to 84995ea21935403cc9d57b6cb7dddcac5fa02c1c:
+>
+>   MAINTAINERS: Polish headline decorations (2019-06-12 13:20:21 +0200)
+>
+> ----------------------------------------------------------------
+> Miscellaneous patches for 2019-06-11
+>
 
-Perhaps the next instruction is one that is not traced? See the programming
-note at the end of section 6.5.15 in Book III.
+Applied, thanks.
 
-Or maybe the step got preempted? You should see GDB messages indicating
-changing threads right before or after the stdu. However that would only
-happen with more than one VCPU and if 'show scheduler-locking' in GDB is
-'off'. And even then, that should not cause any issues, but it is a more
-complex scenario so there could be a bug in the code.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-> On 20/03/2019 12:42, Alexey Kardashevskiy wrote:
->> 
->> 
->> On 20/03/2019 01:32, Fabiano Rosas wrote:
->>> Alexey Kardashevskiy <aik@ozlabs.ru> writes:
->>>
->>>> Looks good to me, does not break what already works. However I cannot
->>>> debug SLOF real mode and I am not sure why.
->>>>
->>>> (gdb) set endian big
->>>>
->>>> The target is assumed to be big endian
->>>> (gdb) b *0x3f00
->>>>
->>>> Breakpoint 2 at 0x3f00
->>>
->>> I think I'm missing the point here. Why 0x3f00?
->> 
->> Because I am stupid and did not realize that 0x3f00 is a relative offset
->> and 0x4000 is the correct address which works.
->> 
->> 
->> Reviewed-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->> 
->> 
->>>
->>> (qemu) info roms
->>> addr=0000000000000000 size=0x0e22b8 mem=ram name="...qemu/slof.bin"                               
->>> addr=0000000000400000 size=0x17976d0 mem=ram name="...vmlinux"
->>>
->>>
->>> $ objdump -d board-qemu/llfw/stage1.elf | grep "_start>"
->>> 0000000000000100 <__start>:
->>>      100:       48 00 3f 00     b       4000 <_start>
->>> 0000000000004000 <_start>:
->>>
->>>
->>> Thread 1 hit Breakpoint 3, _start () at startup.S:82
->>> (gdb) p/x $pc
->>> $1 = 0x4000
->>> (gdb) si
->>> (gdb) p/x $pc
->>> $3 = 0x4004
->>> (gdb) c
->>> Thread 1 hit Breakpoint 4, early_c_entry (start_addr=49056, fdt_addr=49024) at stage2.c:202
->>> (gdb) p/x $pc
->>> $4 = 0x4d18
->>>
->> 
+-- PMM
 
