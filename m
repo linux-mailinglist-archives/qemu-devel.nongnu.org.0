@@ -2,67 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C81D42CF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 19:03:43 +0200 (CEST)
-Received: from localhost ([::1]:33878 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4167742CD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 18:59:41 +0200 (CEST)
+Received: from localhost ([::1]:33858 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hb6f0-0005N0-Ig
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 13:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57238)
+	id 1hb6b6-0003LB-20
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 12:59:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57845)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ryanpboyce12@gmail.com>) id 1hb6S3-0004S5-1n
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:50:20 -0400
+ (envelope-from <armbru@redhat.com>) id 1hb6UK-0007Qq-9d
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:52:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ryanpboyce12@gmail.com>) id 1hb6S1-0004de-ND
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:50:18 -0400
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:34589)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ryanpboyce12@gmail.com>)
- id 1hb6S1-0004c5-Hy
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:50:17 -0400
-Received: by mail-qk1-x729.google.com with SMTP id t8so7101218qkt.1
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 09:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xqIVbIzYsqovppDRqXJiYVwSyt0hLDqAMfuJFn9u9nE=;
- b=K12kRcUwVjilN49bER95HfBMYKfS3MpzNZqB+F8ZjwUJdsC3RJT+XKD0Xecpfk4LTR
- /q+fEgIW8cRp568PZqFJvq0gITrTIXAKsgNIEmQSOQ6HL11PzeuKhxwZEOUmy2ByVxiP
- oMoAzEAtMI07gF+7Y/yHWpzgtBa0QbvTnNcxWwjaG53lfVCSpKWCNdQXr1JnP7D/Ms3x
- AuJnFSUSdXx3ss54LVTCR0tmGO8ri+beb27Q07vDhLIsy39pHN4mlNiBjOD+9FtI2nWw
- Rw0tRFN8hxL7zrCeSiVRdxUTM/NsDXmuP0PCGLGf4SUVeUuorhpGH3jmKlIqPJMye/1V
- W6JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xqIVbIzYsqovppDRqXJiYVwSyt0hLDqAMfuJFn9u9nE=;
- b=W9FJyTvn4L+NFHwa3ghffEEeokP+Z4rjDmz/gY8Hc9deUrTNzjK5tJpE086mWNlPBO
- e8wbFk1aRIY+ejFX1YiTlsysuk+j1qYX9UbPvlx4qWP99rQ3ljV1c5Ld8WIr3ncDbrL6
- MxuzC1xeZANeaP9WKvprbz6CAwJorRBLlOPQvWSVvvmH/LfSmJxrx0RiB516sNMFxfuz
- aIY+9ktTyt7DrpbBV52V0WyZZDOU4iQ2Ht8E44dQNKrhQ0+tGyObe8eD4kenb9B0z16k
- cc2ogsH//dJUh0CKel+5wSlGTI+XcrrUwxrwMBNJtGvMUj/AdQNed2gq57zUsEI7zfSv
- c4+Q==
-X-Gm-Message-State: APjAAAVTyZVkCerOPv8EFG5M5NbyVvuJtvJSuQ5Pt872u3pF+U+444tk
- nq/xUdtHe/KaYAboMVfS3RQ2h44pKGtmohL466s=
-X-Google-Smtp-Source: APXvYqwgTcN/+ZX3xizAR6HE5kkm9l1mcgwq6YvQM4Wwzfb2C34zXwh0W8A59okjwXPSTLaegyez00QcTdAc4J4wFPk=
-X-Received: by 2002:ae9:e30d:: with SMTP id v13mr47399925qkf.148.1560358216856; 
- Wed, 12 Jun 2019 09:50:16 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1hb6UG-0006CV-7C
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:52:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51760)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hb6UC-00069b-OO
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 12:52:32 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5BA29308795D
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 16:52:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
+ [10.36.116.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0744160BF1
+ for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 16:52:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8677D1138648; Wed, 12 Jun 2019 18:52:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 12 Jun 2019 18:52:18 +0200
+Message-Id: <20190612165229.26976-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <CAOJt3afDmLtb1328ZWRvbO=SYgqtGZYX-aApTMoDPffiErygGg@mail.gmail.com>
- <CAHDbmO2cxxAv2Fqotfw8S8DBh7J+9oa67N8K_Ps_25vRbtpe3Q@mail.gmail.com>
-In-Reply-To: <CAHDbmO2cxxAv2Fqotfw8S8DBh7J+9oa67N8K_Ps_25vRbtpe3Q@mail.gmail.com>
-From: Ryan Boyce <ryanpboyce12@gmail.com>
-Date: Wed, 12 Jun 2019 12:50:05 -0400
-Message-ID: <CAOJt3ad2HbohoBRv8Ey9fknBRGeiN1SJ7wAk9gX+Vpf4pig_KA@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::729
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Wed, 12 Jun 2019 16:52:31 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] qemu processes
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 00/11] QAPI patches for 2019-06-12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,53 +55,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you my friend!
+The following changes since commit a050901d4b40092dc356b59912c6df39e389c7=
+b9:
 
-On Wed, Jun 12, 2019 at 12:48 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
+  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190612=
+' into staging (2019-06-12 14:43:47 +0100)
 
-> You've actually contacted the development list but I can answer the
-> question.
->
-> QEMU is multi-threaded so there will be a thread per KVM based vCPU
-> (and also for TCG based vCPUs where MTTCG is enabled). There will also
-> be a number of additional threads created including at least one for
-> the main monitor thread and potentially additional threads for
-> servicing IO requests. So expect to see $SMP + 1 + n threads for each
-> QEMU instance.
->
-> On Wed, 12 Jun 2019 at 16:32, Ryan Boyce <ryanpboyce12@gmail.com> wrote:
-> >
-> > Hi Stefan,
-> >
-> > I am a big fan of your blog! In relation to your blog post,
-> >
-> http://blog.vmsplice.net/2011/03/qemu-internals-big-picture-overview.html=
-,
-> > I have a question I am really hoping you can answer:
-> >
-> > When I start a VM, I see that the qemu-kvm processes start and run as
-> > "qemu-kvm..... -name "something1"...."
-> > My issue, though, is I see multiple processes running as "qemu-kvm.....
-> > -name "something1"...." and each of these processes has memory/cpu/disk
-> > mapped to it.
-> > Does qemu-kvm run VMs on a one-to-one VM-to-host process basis? Or does
-> > each virtual cpu on the guest get its own process on the host?
-> > For example, If I have a VM that has 4 virtual cpus, will I see 4
-> processes
-> > (PIDs) on the host or should I see just see one for the VM itself.
-> >
-> > Any help you can give would be GREATLY appreciated. Thank you!
-> >
-> > Ryan
->
->
->
-> --
-> Alex Benn=C3=A9e
-> KVM/QEMU Hacker for Linaro
->
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2019-06-12
+
+for you to fetch changes up to 157dd363955b961ef378eb1f7817c31a7fa94d10:
+
+  qapi: Simplify how QAPIDoc implements its state machine (2019-06-12 18:=
+37:17 +0200)
+
+----------------------------------------------------------------
+QAPI patches for 2019-06-12
+
+----------------------------------------------------------------
+Kevin Wolf (6):
+      qapi: Add feature flags to struct types
+      tests/qapi-schema: Test for good feature lists in structs
+      tests/qapi-schema: Error case tests for features in structs
+      qapi: Disentangle QAPIDoc code
+      qapi: Allow documentation for features
+      file-posix: Add dynamic-auto-read-only QAPI feature
+
+Markus Armbruster (2):
+      qdev: Delete unused LostTickPolicy "merge"
+      qapi: Simplify how QAPIDoc implements its state machine
+
+Stefano Garzarella (3):
+      qapi/block-core: update documentation of preallocation parameter
+      block/file-posix: update .help of BLOCK_OPT_PREALLOC option
+      block/gluster: update .help of BLOCK_OPT_PREALLOC option
+
+ block/file-posix.c                             |   6 +-
+ block/gluster.c                                |   9 +-
+ docs/devel/qapi-code-gen.txt                   |  38 ++++
+ qapi/block-core.json                           |  33 +++-
+ qapi/introspect.json                           |   6 +-
+ qapi/misc.json                                 |   6 +-
+ scripts/qapi/common.py                         | 243 +++++++++++++++++++=
+++----
+ scripts/qapi/doc.py                            |  15 +-
+ scripts/qapi/introspect.py                     |   6 +-
+ scripts/qapi/types.py                          |   3 +-
+ scripts/qapi/visit.py                          |   3 +-
+ tests/Makefile.include                         |   6 +
+ tests/qapi-schema/double-type.err              |   2 +-
+ tests/qapi-schema/features-bad-type.err        |   1 +
+ tests/qapi-schema/features-bad-type.exit       |   1 +
+ tests/qapi-schema/features-bad-type.json       |   3 +
+ tests/qapi-schema/features-bad-type.out        |   0
+ tests/qapi-schema/features-duplicate-name.err  |   1 +
+ tests/qapi-schema/features-duplicate-name.exit |   1 +
+ tests/qapi-schema/features-duplicate-name.json |   3 +
+ tests/qapi-schema/features-duplicate-name.out  |   0
+ tests/qapi-schema/features-missing-name.err    |   1 +
+ tests/qapi-schema/features-missing-name.exit   |   1 +
+ tests/qapi-schema/features-missing-name.json   |   3 +
+ tests/qapi-schema/features-missing-name.out    |   0
+ tests/qapi-schema/features-name-bad-type.err   |   1 +
+ tests/qapi-schema/features-name-bad-type.exit  |   1 +
+ tests/qapi-schema/features-name-bad-type.json  |   3 +
+ tests/qapi-schema/features-name-bad-type.out   |   0
+ tests/qapi-schema/features-no-list.err         |   1 +
+ tests/qapi-schema/features-no-list.exit        |   1 +
+ tests/qapi-schema/features-no-list.json        |   3 +
+ tests/qapi-schema/features-no-list.out         |   0
+ tests/qapi-schema/features-unknown-key.err     |   2 +
+ tests/qapi-schema/features-unknown-key.exit    |   1 +
+ tests/qapi-schema/features-unknown-key.json    |   3 +
+ tests/qapi-schema/features-unknown-key.out     |   0
+ tests/qapi-schema/qapi-schema-test.json        |  39 ++++
+ tests/qapi-schema/qapi-schema-test.out         |  43 +++++
+ tests/qapi-schema/test-qapi.py                 |   7 +-
+ tests/qapi-schema/unknown-expr-key.err         |   2 +-
+ tests/test-qmp-cmds.c                          |   8 +
+ 42 files changed, 447 insertions(+), 59 deletions(-)
+ create mode 100644 tests/qapi-schema/features-bad-type.err
+ create mode 100644 tests/qapi-schema/features-bad-type.exit
+ create mode 100644 tests/qapi-schema/features-bad-type.json
+ create mode 100644 tests/qapi-schema/features-bad-type.out
+ create mode 100644 tests/qapi-schema/features-duplicate-name.err
+ create mode 100644 tests/qapi-schema/features-duplicate-name.exit
+ create mode 100644 tests/qapi-schema/features-duplicate-name.json
+ create mode 100644 tests/qapi-schema/features-duplicate-name.out
+ create mode 100644 tests/qapi-schema/features-missing-name.err
+ create mode 100644 tests/qapi-schema/features-missing-name.exit
+ create mode 100644 tests/qapi-schema/features-missing-name.json
+ create mode 100644 tests/qapi-schema/features-missing-name.out
+ create mode 100644 tests/qapi-schema/features-name-bad-type.err
+ create mode 100644 tests/qapi-schema/features-name-bad-type.exit
+ create mode 100644 tests/qapi-schema/features-name-bad-type.json
+ create mode 100644 tests/qapi-schema/features-name-bad-type.out
+ create mode 100644 tests/qapi-schema/features-no-list.err
+ create mode 100644 tests/qapi-schema/features-no-list.exit
+ create mode 100644 tests/qapi-schema/features-no-list.json
+ create mode 100644 tests/qapi-schema/features-no-list.out
+ create mode 100644 tests/qapi-schema/features-unknown-key.err
+ create mode 100644 tests/qapi-schema/features-unknown-key.exit
+ create mode 100644 tests/qapi-schema/features-unknown-key.json
+ create mode 100644 tests/qapi-schema/features-unknown-key.out
+
+--=20
+2.21.0
+
+
