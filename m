@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153A041A2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 04:00:01 +0200 (CEST)
-Received: from localhost ([::1]:56222 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58D441A1B
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jun 2019 03:55:19 +0200 (CEST)
+Received: from localhost ([::1]:56194 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hasYS-0005Kk-3t
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 22:00:00 -0400
+	id 1hasTv-0001Cl-1Q
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jun 2019 21:55:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:54098)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <joel.stan@gmail.com>) id 1hasOP-0004YM-Ms
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:49:38 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1hasOM-0004YM-El
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:49:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1hasBK-00013v-I0
- for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:36:11 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:38515)
+ (envelope-from <joel.stan@gmail.com>) id 1hasBx-0001CF-RJ
+ for qemu-devel@nongnu.org; Tue, 11 Jun 2019 21:36:46 -0400
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:38129)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1hasB5-0000xU-U5; Tue, 11 Jun 2019 21:35:53 -0400
-Received: by mail-qk1-x742.google.com with SMTP id a27so8975341qkk.5;
- Tue, 11 Jun 2019 18:35:30 -0700 (PDT)
+ id 1hasBw-0001Bu-EH; Tue, 11 Jun 2019 21:36:44 -0400
+Received: by mail-qt1-x841.google.com with SMTP id n11so14836941qtl.5;
+ Tue, 11 Jun 2019 18:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Z46ahEf2KFh0E7NdPCsUTsYjCGCnwUzyNJYVUBUbfh8=;
- b=bntcZQl0QVCamEO1fqUyM7dBp3gDOa0fiFbxabqthMzonHYGGbsnzaOIeH9wPRRvJK
- QhWDHQHwFmt4mJZgzuWK0pHYO9ME/tCGSoFAB3S/0QWeXFMUd//xKdXB67626Ffpga5M
- fcsmGcERyLdGI0uL134qEO+aKYIxT/qKV5KL0=
+ bh=eTIfW7HynanhXXC8daMSeYJoRYU/p94Cc8htj9sUXcA=;
+ b=CajKx7Wp13Uf0qBRefqjXXXF7SD3N6CcZqyNG57OhGqVopDyyOZWMjX3EjL/pygwwH
+ uETkG/us7RDjKNHvyEZB8xGLdP5rSOahpvORugacDJDdRH6YfRqoIiNwitfM1ylBs/cc
+ M3vtNGVCGZk+6v1v08/UCz0HLAsSScqu8S95M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Z46ahEf2KFh0E7NdPCsUTsYjCGCnwUzyNJYVUBUbfh8=;
- b=nUiFxL2nzhZWKEZGjns6msdut/wiyUZdrHuFJ/7SZFutBTWpO76lfZJewj3pOKVKs/
- q5LGz6M/VF8m9aPrOJ1XDTRKNcCU+VyO1IGAZmqTDC/YhciCjWD1WgderkE8S2TeauJA
- 8w/lSw0n9upFgUQs3x7XiFqbMirT9CV9gNw1cN2vmC/9xH88/sEJkWGQOGD5LssaCPC3
- bvlxZW745VzQ+jZC/rMkcdojPIHquVs5kA/mWdyc//aje4sD2W+mkjIXWZDL5+B9xxeS
- xkuicrVqkcKsnTaVUlfr7N4Xvlx85YlAbiGZl6IQOTUi58RAR3vtF93QqRzIE59GvDtE
- 0YzQ==
-X-Gm-Message-State: APjAAAVpSinbamOrT2hW342vqIN2D3BkiQfR8xdnZoQFFERGa8dFmm52
- RHZsKh7OYX0fcTiHiFImMIuSC9TV09EXYUQpjU8=
-X-Google-Smtp-Source: APXvYqwOoVmcz+SstaowdAhO4AL1rQxbXTKweAzYYfQ+eqfMaS+AzA51KQITJCcjhs/JnPjnAMI8Lb57ey50P1TqeKs=
-X-Received: by 2002:a37:4793:: with SMTP id
- u141mr37706987qka.355.1560303329828; 
- Tue, 11 Jun 2019 18:35:29 -0700 (PDT)
+ bh=eTIfW7HynanhXXC8daMSeYJoRYU/p94Cc8htj9sUXcA=;
+ b=GKnOFPmdrkrgedxKj5t9mIQInfj1Kv+qfqzAZ1GGOnMYMi8igYpoPDbLUf5xuwIMZZ
+ pUK5rXxVBrBI6GW4F/uz2sB8O9HDw6UqsX9ARe5teFCOtFLYLxI87MHkROBoQU/7saup
+ RsNpjYuqZPRCySdDn33E6oc3yc46nww/3OXUkclH/5ZDsyDK2S9s3PVoRBxroJqsXUAP
+ 8N+HXUku9DWe6RYteLCupks2qG29QSdiU2Reg9I9FO/VsQe6lp34JIAhRRmd12ocMk3t
+ aRROI1kFWQQNiCMdQ5dUVtqyK/uq4dBx11UGyWWj2wMsvybsnAcOhyIk3YxxEu64w8QN
+ w2aA==
+X-Gm-Message-State: APjAAAV/AYRIRQIr1beO8HLdGYKczNCYQpCslmEvlCJfi/vRQ0Gya8mT
+ swGXAUMRDZd7uxsDtKx6f5LARuyDCEaoFemeh84P5/Pk
+X-Google-Smtp-Source: APXvYqwwC27FMONOVlz9488myVgoRdWMJf38g4xfnR4X51Ra/wxqJ5qGYePa7IUcsIqabckLHnksB6XGaFwkkSIXT7A=
+X-Received: by 2002:ac8:264a:: with SMTP id v10mr35694473qtv.255.1560303403519; 
+ Tue, 11 Jun 2019 18:36:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190525151241.5017-1-clg@kaod.org>
- <20190525151241.5017-15-clg@kaod.org>
-In-Reply-To: <20190525151241.5017-15-clg@kaod.org>
+ <20190525151241.5017-16-clg@kaod.org>
+In-Reply-To: <20190525151241.5017-16-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 12 Jun 2019 01:35:18 +0000
-Message-ID: <CACPK8Xf5Uo6U_95fSQqKANcA3ffjF5Ui-r+tj5T2mgwLdpsArg@mail.gmail.com>
+Date: Wed, 12 Jun 2019 01:36:32 +0000
+Message-ID: <CACPK8Xfgk6+3vEy=_81X1GUep_8w-uFyE8AnzdpgUTKNVFyxnw@mail.gmail.com>
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::742
-Subject: Re: [Qemu-devel] [PATCH 14/19] aspeed: remove the "ram" link
+X-Received-From: 2607:f8b0:4864:20::841
+Subject: Re: [Qemu-devel] [PATCH 15/19] aspeed: add a RAM memory region
+ container
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,7 +78,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sat, 25 May 2019 at 15:14, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> It has never been used as far as I can tell from the git history.
+> The RAM memory region is defined after the SoC is realized when the
+> SDMC controller has cheched that the defined RAM size for the machine
+
+checked
+
+> is correct. This is problematic for controller models requiring a link
+> on the RAM region, for DMA support in the SMC controller for instance.
+>
+> Introduce a container memory region for the RAM that we can link into
+> the controllers early, before the SoC is realized. It will be
+> populated with the RAM region after the checks have be done.
 >
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
