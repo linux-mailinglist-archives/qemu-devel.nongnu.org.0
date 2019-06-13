@@ -2,62 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BBB449F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:54:29 +0200 (CEST)
-Received: from localhost ([::1]:43020 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE3A449DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:45:11 +0200 (CEST)
+Received: from localhost ([::1]:42752 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbTvg-0001rf-MM
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46997)
+	id 1hbTmc-0008RD-PI
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:45:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45608)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hbSOD-0007xi-Kf
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:15:51 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hbSI7-00039H-60
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:09:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hbSOB-0004SW-LE
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:15:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34738)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hbSO9-0003xU-MI
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:15:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hbSO6-0002fk-8w
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 16:15:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3BF822E80CC
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 16:15:42 +0000 (UTC)
+ (envelope-from <no-reply@patchew.org>) id 1hbSI5-0004TK-WD
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:09:31 -0400
+Resent-Date: Thu, 13 Jun 2019 12:09:31 -0400
+Resent-Message-Id: <E1hbSI5-0004TK-WD@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21817)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hbSI5-0004JA-Np; Thu, 13 Jun 2019 12:09:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560442111; cv=none; d=zoho.com; s=zohoarc; 
+ b=GYHiruSDctb78WLDdhIKS/xGGub8ly6peyD1xa/GLqow36jNQWMdyOVNWhmnZfMHcTXCAP17uBNfbLJnQvHcpISIWjDAAvX/kL45yflpyNril50JxUyznR3g5WcGubV/iFD+PQBSR+cVarX/Ybni0ZxPGgNS/C4HFhvFWjel8vU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1560442111;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=9+B6DrpGogsTPZN07YfD6xd3GJySSQ6xyoCMAGlb63I=; 
+ b=mk2otVyozEFPhnzuLCAdnbljk8gYsW6k2odQuPh0FidGxeOhrU4xeqlBcolTYgXAR121q+muF4cnDE3vxSq74dk76hcbHXVZOnPV0CxKNnPT2/0jeB41ElCEvGgF1xxjYp5/Ed2P9DfNxwdFycWeA8J/3o09BJcv7+mPyMncutU=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1560442107137649.7058792055913;
+ Thu, 13 Jun 2019 09:08:27 -0700 (PDT)
+In-Reply-To: <20190529154654.95870-1-vsementsov@virtuozzo.com>
+Message-ID: <156044210518.5426.10152353151796303692@ce79690b2cb9>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 Jun 2019 16:07:51 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: arm tcg testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee christophe-lyon rth
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <156025884763.18155.9614824235777300144.malonedeb@wampee.canonical.com>
-Message-Id: <156044207116.22719.643533279280354408.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18981";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 7f6171c3b72da16d68e52ee480a8317cdd9170b8
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Thu, 13 Jun 2019 09:08:27 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1832353] Re: cpu_exec: Assertion
- !have_mmap_lock() failed
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PATCH v8 0/7] backup-top filter driver for backup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,62 +60,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1832353 <1832353@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Confirmed.  The exact failure mode depends on debugging enabled or not.
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyOTE1NDY1NC45NTg3
+MC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
+dGhlIGFzYW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5k
+CnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNh
+biBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
+PT0KIyEvYmluL2Jhc2gKdGltZSBtYWtlIGRvY2tlci10ZXN0LWRlYnVnQGZlZG9yYSBUQVJHRVRf
+TElTVD14ODZfNjQtc29mdG1tdSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
+PQoKICBDQyAgICAgIGNyeXB0by9jaXBoZXIubwogIENDICAgICAgY3J5cHRvL3Rsc2NyZWRzLm8K
+ICBDQyAgICAgIGNyeXB0by90bHNjcmVkc2Fub24ubwovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2sv
+YmFja3VwLXRvcC5jOjI2ODo1OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rp
+b24gJ2JkcnZfc2V0X2Fpb19jb250ZXh0JyBpcyBpbnZhbGlkIGluIEM5OSBbLVdlcnJvciwtV2lt
+cGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogICAgYmRydl9zZXRfYWlvX2NvbnRleHQodG9w
+LCBiZHJ2X2dldF9haW9fY29udGV4dChzb3VyY2UpKTsKICAgIF4KL3RtcC9xZW11LXRlc3Qvc3Jj
+L2Jsb2NrL2JhY2t1cC10b3AuYzoyNjg6NTogbm90ZTogZGlkIHlvdSBtZWFuICdiZHJ2X2dldF9h
+aW9fY29udGV4dCc/Ci90bXAvcWVtdS10ZXN0L3NyYy9pbmNsdWRlL2Jsb2NrL2Jsb2NrLmg6NTc5
+OjEzOiBub3RlOiAnYmRydl9nZXRfYWlvX2NvbnRleHQnIGRlY2xhcmVkIGhlcmUKQWlvQ29udGV4
+dCAqYmRydl9nZXRfYWlvX2NvbnRleHQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMpOwogICAgICAgICAg
+ICBeCi90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9iYWNrdXAtdG9wLmM6MjY4OjU6IGVycm9yOiB0
+aGlzIGZ1bmN0aW9uIGRlY2xhcmF0aW9uIGlzIG5vdCBhIHByb3RvdHlwZSBbLVdlcnJvciwtV3N0
+cmljdC1wcm90b3R5cGVzXQogICAgYmRydl9zZXRfYWlvX2NvbnRleHQodG9wLCBiZHJ2X2dldF9h
+aW9fY29udGV4dChzb3VyY2UpKTsKICAgIF4KMiBlcnJvcnMgZ2VuZXJhdGVkLgoKClRoZSBmdWxs
+IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA1MjkxNTQ2
+NTQuOTU4NzAtMS12c2VtZW50c292QHZpcnR1b3p6by5jb20vdGVzdGluZy5hc2FuLz90eXBlPW1l
+c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
+czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
+ZXZlbEByZWRoYXQuY29t
 
-The test case is "buggy" in the sense that it makes a call to a NULL
-function pointer, and the failure happens while trying to translate
-the instructions at address 0.
-
-That said, the correct behaviour for QEMU is a SIGSEGV delivered to
-the guest, not an assertion failure.
-
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Richard Henderson (rth)
-
-** Changed in: qemu
-       Status: New =3D> In Progress
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1832353
-
-Title:
-  cpu_exec: Assertion !have_mmap_lock() failed
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  Hi,
-
-  I have isolated a testcase from the GCC testsuite (actually gfortran,
-  test proc_ptr_51.f90) which produces tons of:
-
-  qemu-arm: /home/christophe.lyon/src/qemu/accel/tcg/cpu-exec.c:701:
-  cpu_exec: Assertion `!have_mmap_lock()' failed.
-
-  including with master qemu as of today.
-
-  I'm attaching a tarball containing:
-  qemu-assert:
-  cmd  lib  proc_ptr_51.exe
-
-  qemu-assert/lib:
-  ld-linux-armhf.so.3  libc.so.6  libgcc_s.so.1  libgfortran.so.5  libm.so.6
-
-  where cmd is the basic command used to launch the test & reproduce the
-  failure.
-
-  Note that the test or the generated may actually be buggy: I have
-  reported failures on native aarch64 and arm machines. Yet, qemu should
-  not fail with a loop of asserts.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1832353/+subscriptions
 
