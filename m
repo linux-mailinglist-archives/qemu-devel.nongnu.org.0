@@ -2,78 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E8944E99
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 23:37:48 +0200 (CEST)
-Received: from localhost ([::1]:45798 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A8D44EA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 23:42:12 +0200 (CEST)
+Received: from localhost ([::1]:45852 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbXPn-00024N-Oe
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 17:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51324)
+	id 1hbXU3-0006Ia-Ll
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 17:42:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51510)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hbXLc-0007xi-Kr
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:33:29 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1hbXMK-0000Gn-Od
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:34:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hbXLa-0002m4-7G
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:33:28 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:39547)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hbXLV-0002k4-FA
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:33:24 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 196so237513pgc.6
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 14:33:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FWB6SwU2i6bW4tCAqzGhbgtePqP4OCVj2sI0qrB8MNk=;
- b=KOyZ2pUDanB0NS6RRTmeG17bhCEzftjYQ6FIIrOg6wGpJmZKwP18pNX3pa/3/aNS7j
- i13iWg7WhWCKI52yxOnGhLbjXzPnqAOsgAUn9+/lbYMb7SrkwBYR4RXbkjs85l7Fuzxr
- Kio8Gtthy7YkW6QyfRkf0xuitucdXcxrrPOqY8HEoFUyYZdiRziii8a4BWWJvo26lHSO
- 788+mBeEs9+GrtVfNGJumpPoZYQSgpq1MQe7qn3l970mMLxbxPMkvkhYnW7mXBabB4xr
- 2IvFyNDDVVyhvVU4x52CHmVbKhJc1PTJRM8Oevpl+ERk9m18EOiVWqU7OX2btLPZjCen
- 7bNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FWB6SwU2i6bW4tCAqzGhbgtePqP4OCVj2sI0qrB8MNk=;
- b=BGvrgygY9zfP9OdG4Dkmge5UGz7Ns6XiEEy7G3UPaWm8ifugZc/FHAtBzAX0Cvl+Mz
- DKwS6mgrDzwB47iUJoaZY+7I/stf1/D9aWh42Kaz/c6c6/Rwd3RDpWO3KYcbwQlK+zFp
- +W37MFwVfwh+m94Qo2pFl9QGQjkMkcFX0zBOtK31y63b/Vja7X6rdxZO11WJNuWXUj02
- ihNSLgD51dYmaPpM71Qw57dikBYZWIbKCv/PpkWpkkdxYqcBD0nnTeyk0ystTPZmrQ+K
- xBU2FD8zxmWjye0K26wa4Aj60GPkh2AxHxBq/0TLEsx+4ro+FflRVEHsOgTAA2S12pXn
- Cezg==
-X-Gm-Message-State: APjAAAX9n5sNc+4KtWAH2MequOntYIzno662VrHOEuNkK/rLXnYs6YDX
- 4EepR7T7mMZorgJfgDFhA9/mIYlxexo=
-X-Google-Smtp-Source: APXvYqzV1wYbPkhTzhPOaCWAIC5XEW13tPh/Lobae71F914QlvqSUr4zPvQdSpJDw3Ra0HU+uZpN1Q==
-X-Received: by 2002:a63:26c6:: with SMTP id m189mr8932336pgm.2.1560461597866; 
- Thu, 13 Jun 2019 14:33:17 -0700 (PDT)
-Received: from [10.10.150.239] ([149.199.65.200])
- by smtp.gmail.com with ESMTPSA id g13sm623629pfi.93.2019.06.13.14.33.16
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 14:33:17 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20190613163917.28589-1-peter.maydell@linaro.org>
- <20190613163917.28589-11-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <5e3ecd68-23b5-574f-79b0-53081866843c@linaro.org>
-Date: Thu, 13 Jun 2019 14:33:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <alex.williamson@redhat.com>) id 1hbXMH-000323-OS
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:34:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46110)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1hbXMG-0002s9-Up
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:34:09 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5207013AAE
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 21:33:40 +0000 (UTC)
+Received: from gimli.home (ovpn-116-190.phx2.redhat.com [10.3.116.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 211D15C257;
+ Thu, 13 Jun 2019 21:33:37 +0000 (UTC)
+From: Alex Williamson <alex.williamson@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 13 Jun 2019 15:33:37 -0600
+Message-ID: <156046151566.26543.17274661862206856605.stgit@gimli.home>
+User-Agent: StGit/0.19-dirty
 MIME-Version: 1.0
-In-Reply-To: <20190613163917.28589-11-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: Re: [Qemu-devel] [PATCH 10/12] target/arm: stop using deprecated
- functions in NEON_2RM_VCVT_F16_F32
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Thu, 13 Jun 2019 21:33:45 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/3] vfio updates 2019-06-13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,19 +58,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/13/19 9:39 AM, Peter Maydell wrote:
-> Remove some old constructs from NEON_2RM_VCVT_F16_F32 code:
->  * don't use cpu_F0s
->  * don't use tcg_gen_ld_f32
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/translate.c | 27 ++++++++++++---------------
->  1 file changed, 12 insertions(+), 15 deletions(-)
+The following changes since commit 650a379d505bf558bcb41124bc6c951a76cbc113:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20190613-1' into staging (2019-06-13 15:16:39 +0100)
 
+are available in the Git repository at:
 
-r~
+  git://github.com/awilliam/qemu-vfio.git tags/vfio-updates-20190613.0
 
+for you to fetch changes up to 201a733145751aa691e7e3b9c0f263f0c92db0c5:
+
+  vfio/common: Introduce vfio_set_irq_signaling helper (2019-06-13 09:57:37 -0600)
+
+----------------------------------------------------------------
+VFIO updates 2019-06-13
+
+ - Hide resizable BAR capability to prevent false guest resizing
+   (Alex Williamson)
+
+ - Allow relocation to fix bogus MSI-X hardware (Alex Williamson)
+
+ - Condense IRQ setup into a common helper (Eric Auger)
+
+----------------------------------------------------------------
+Alex Williamson (2):
+      vfio/pci: Hide Resizable BAR capability
+      vfio/pci: Allow MSI-X relocation to fixup bogus PBA
+
+Eric Auger (1):
+      vfio/common: Introduce vfio_set_irq_signaling helper
+
+ hw/vfio/common.c              |  78 +++++++++++++++
+ hw/vfio/pci.c                 | 220 ++++++++++--------------------------------
+ hw/vfio/platform.c            |  68 +++++--------
+ include/hw/vfio/vfio-common.h |   2 +
+ 4 files changed, 156 insertions(+), 212 deletions(-)
 
