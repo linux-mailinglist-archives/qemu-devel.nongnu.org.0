@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6A144C20
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 21:29:51 +0200 (CEST)
-Received: from localhost ([::1]:44860 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F85C44A8E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:25:03 +0200 (CEST)
+Received: from localhost ([::1]:43454 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbVPz-00021O-0l
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 15:29:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49639)
+	id 1hbUPF-0007um-Ly
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55311)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbU3r-00027M-0A
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 14:02:57 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hbUJ3-0005lW-R5
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 14:18:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbU3n-0005MX-UE
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 14:02:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52982)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbU3f-0004ap-EO; Thu, 13 Jun 2019 14:02:43 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6C76B307CDD1;
- Thu, 13 Jun 2019 18:02:10 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F2072B59B;
- Thu, 13 Jun 2019 18:02:02 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-8-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <92bc9deb-f364-683a-e6ae-046e4ff8561c@redhat.com>
-Date: Thu, 13 Jun 2019 20:02:00 +0200
+ (envelope-from <pbonzini@redhat.com>) id 1hbUJ2-0006dc-Gw
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 14:18:37 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44117)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hbUJ2-0006LW-Ab
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 14:18:36 -0400
+Received: by mail-wr1-f66.google.com with SMTP id r16so2661891wrl.11
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 11:18:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YDFCxWuIYxNmY+Puw1BZ72LJIxYtre6TZRodphQ/A1M=;
+ b=X1er/t+phRHXeHpyCbvAjkr2WfUd8WIeZNwsxLvutsDkzNRKOwXocCz34iMKAbPxf9
+ 93rl+qpAU121DHzDhbzHMHLvl9wLEz9wL6q3Qut2r6sgDdcC3N2So6VUSo6RV2WTe8V1
+ gDklFK9VHkkiQVxLyx8hlZzArQ7cm/DPt1T56PP3pJ74226+kS4+mnbhWvqxkqKaXJs5
+ Kwnv1Is9VQw0+LIejnzitWuo765oA09GJHeKKfvRYXfrODCmweNG/Fii6PTQFTIPQ7+D
+ pJx9pd3Jldz9+pDSGfrBM+Bk3ip8yc/lmLmRm1q2pV1eESCLwrmPPe/i5xc4a5mGilW2
+ 39Jw==
+X-Gm-Message-State: APjAAAXmvrzp9PMYlBroEWu4wQAyzyXRuX94s5DC7yF900b5/W36ZkWN
+ l1RDYu1Rx4widLYc4TEdgBG4IQ==
+X-Google-Smtp-Source: APXvYqwRE8V1omwn8K0T/WTwWG3nKehKanUejALeMuFWEHIOV6iZiPxWj1dn4sihOmKtOGcBOqbSnw==
+X-Received: by 2002:a5d:4001:: with SMTP id n1mr44738518wrp.293.1560449896810; 
+ Thu, 13 Jun 2019 11:18:16 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:56e1:adff:fed9:caf0?
+ ([2001:b07:6468:f312:56e1:adff:fed9:caf0])
+ by smtp.gmail.com with ESMTPSA id o13sm212190wra.92.2019.06.13.11.18.15
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 13 Jun 2019 11:18:16 -0700 (PDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, ptoscano@redhat.com
+References: <156044303828.5426.699619794825925129@ce79690b2cb9>
+ <2376306b-9812-f4e2-883c-55bc818c16be@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <aee10f02-3ff8-222c-bfd4-833d595aa7e2@redhat.com>
+Date: Thu, 13 Jun 2019 20:18:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190529154654.95870-8-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ylYCgS5jRhWzOBasyJkNhPXFR9d3ZAJtj"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 13 Jun 2019 18:02:19 +0000 (UTC)
+In-Reply-To: <2376306b-9812-f4e2-883c-55bc818c16be@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v8 7/7] block/backup: use backup-top
- instead of write notifiers
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v9] ssh: switch from libssh2 to libssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,312 +73,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, sw@weilnetz.de,
+ rjones@redhat.com, mreitz@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ylYCgS5jRhWzOBasyJkNhPXFR9d3ZAJtj
-Content-Type: multipart/mixed; boundary="kErIDWrsS7ZyBQSQsgaIALmCne60esVbU";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: fam@euphon.net, stefanha@redhat.com, jsnow@redhat.com, kwolf@redhat.com,
- den@openvz.org, eblake@redhat.com
-Message-ID: <92bc9deb-f364-683a-e6ae-046e4ff8561c@redhat.com>
-Subject: Re: [PATCH v8 7/7] block/backup: use backup-top instead of write
- notifiers
-References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-8-vsementsov@virtuozzo.com>
-In-Reply-To: <20190529154654.95870-8-vsementsov@virtuozzo.com>
+On 13/06/19 19:15, Philippe Mathieu-Daudé wrote:
+> 
+> On 6/13/19 6:24 PM, no-reply@patchew.org wrote:
+>> === TEST SCRIPT BEGIN ===
+>> #!/bin/bash
+>> time make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu J=14 NETWORK=1
+>> === TEST SCRIPT END ===
+> 
+>> The full log is available at
+>> http://patchew.org/logs/20190613132000.2146-1-ptoscano@redhat.com/testing.asan/?type=message.
+> 
+> 
+> === OUTPUT BEGIN ===
+>   BUILD   fedora
+> The command '/bin/sh -c dnf install -y $PACKAGES' returned a non-zero
+> code: 1
+> Traceback (most recent call last):
+>   File "./tests/docker/docker.py", line 615, in <module>
+>     sys.exit(main())
+>   File "./tests/docker/docker.py", line 611, in main
+>     return args.cmdobj.run(args, argv)
+>   File "./tests/docker/docker.py", line 413, in run
+>     extra_files_cksum=cksum)
+>   File "./tests/docker/docker.py", line 280, in build_image
+>     quiet=quiet)
+>   File "./tests/docker/docker.py", line 207, in _do_check
+>     return subprocess.check_call(self._command + cmd, **kwargs)
+>   File "/usr/lib64/python2.7/subprocess.py", line 542, in check_call
+>     raise CalledProcessError(retcode, cmd)
+> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker',
+> 'build', '-t', 'qemu:fedora', '-f',
+> '/tmp/docker_buildN2FMKc/tmpz_9Up_.docker', '/tmp/docker_buildN2FMKc']'
+> returned non-zero exit status 1
+> make: *** [docker-image-fedora] Error 1
+> 
+> real	3m54.376s
+> 
+> Not sure this is a network issue or something else, should we rebuild
+> docker images with V=1 on patchew?
+> 
 
---kErIDWrsS7ZyBQSQsgaIALmCne60esVbU
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I restarted the job with V=1.
 
-On 29.05.19 17:46, Vladimir Sementsov-Ogievskiy wrote:
-> Drop write notifiers and use filter node instead. Changes:
->=20
-> 1. copy-before-writes now handled by filter node, so, drop all
->    is_write_notifier arguments.
->=20
-> 2. we don't have intersecting requests, so their handling is dropped.
-> Instead, synchronization works as follows:
-> when backup or backup-top starts copying of some area it firstly
-> clears copy-bitmap bits, and nobody touches areas, not marked with
-> dirty bits in copy-bitmap, so there is no intersection. Also, backup
-> job copy operations are surrounded by bdrv region lock, which is
-> actually serializing request, to not interfere with guest writes and
-> not read changed data from source (before reading we clear
-> corresponding bit in copy-bitmap, so, this area is not more handled by
-> backup-top).
->=20
-> 3. To sync with in-flight requests at job finish we now have drained
-> removing of the filter, we don't need rw-lock.
->=20
-> =3D=3D RFC part =3D=3D
->=20
-> iotests changed:
-> 56: op-blocker doesn't shot now, as we set it on source, but then check=
-
-> on filter, when trying to start second backup... Should I workaround it=
-
-> somehow?
-
-Hm.  Where does that error message even come from?  The fact that the
-target image is in use already (Due to file locks)?
-
-It appears that way indeed.
-
-It seems reasonable to me that you can now run a backup on top of
-another backup.  Well, I mean, it is a stupid thing to do, but I don=E2=80=
-=99t
-see why the block layer would forbid doing so.
-
-So the test seems superfluous to me.  If we want to keep it (why not),
-it should test the opposite, namely that a backup to a different image
-(with a different job ID) works.  (It seems simple enough to modify the
-job that way, so why not.)
-
-> 129: Hmm, now it is not busy at this moment.. But it's illegal to check=
-
-> busy, as job has pause-points and set busy to false in these points.
-> Why we assert it in this test?
-
-Nobody knows, it=E2=80=99s probably wrong.  All I know is that 129 is jus=
-t
-broken anyway.
-
-> 141: Obvious, as drv0 is not root node now, but backing of the filter,
-> when we try to remove it.
-
-I get a failed assertion in 256.  That is probably because the
-bdrv_set_aio_context() calls weren=E2=80=99t as unnecessary as I deemed t=
-hem to be.
-
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/backup.c             | 171 ++++++++++++++-----------------------=
-
->  tests/qemu-iotests/056     |   2 +-
->  tests/qemu-iotests/129     |   1 -
->  tests/qemu-iotests/141.out |   2 +-
->  4 files changed, 68 insertions(+), 108 deletions(-)
-
-For some reason, my gcc starts to complain that backup_loop() may not
-initialize error_is_read after this patch.  I don=E2=80=99t know why that=
- is.
-Perhaps it inlines backup_do_cow() now?  (So before it just saw that a
-pointer to error_is_read was passed to backup_do_cow() and took it as an
-opaque function, so it surely would set this value somewhere.  Now it
-inlines it and it can=E2=80=99t find whether that will definitely happen,=
- so it
-complains.)
-
-I don=E2=80=99t think it is strictly necessary to initialize error_is_rea=
-d, but,
-well, it won=E2=80=99t hurt.
-
-> diff --git a/block/backup.c b/block/backup.c
-> index 00f4f8af53..a5b8e04c9c 100644
-> --- a/block/backup.c
-> +++ b/block/backup.c
-
-[...]
-
-> @@ -60,56 +53,17 @@ typedef struct BackupBlockJob {
-> =20
->  static const BlockJobDriver backup_job_driver;
-> =20
-> -/* See if in-flight requests overlap and wait for them to complete */
-> -static void coroutine_fn wait_for_overlapping_requests(BackupBlockJob =
-*job,
-> -                                                       int64_t start,
-> -                                                       int64_t end)
-> -{
-> -    CowRequest *req;
-> -    bool retry;
-> -
-> -    do {
-> -        retry =3D false;
-> -        QLIST_FOREACH(req, &job->inflight_reqs, list) {
-> -            if (end > req->start_byte && start < req->end_byte) {
-> -                qemu_co_queue_wait(&req->wait_queue, NULL);
-> -                retry =3D true;
-> -                break;
-> -            }
-> -        }
-> -    } while (retry);
-> -}
-> -
-> -/* Keep track of an in-flight request */
-> -static void cow_request_begin(CowRequest *req, BackupBlockJob *job,
-> -                              int64_t start, int64_t end)
-> -{
-> -    req->start_byte =3D start;
-> -    req->end_byte =3D end;
-> -    qemu_co_queue_init(&req->wait_queue);
-> -    QLIST_INSERT_HEAD(&job->inflight_reqs, req, list);
-> -}
-> -
-> -/* Forget about a completed request */
-> -static void cow_request_end(CowRequest *req)
-> -{
-> -    QLIST_REMOVE(req, list);
-> -    qemu_co_queue_restart_all(&req->wait_queue);
-> -}
-> -
->  /* Copy range to target with a bounce buffer and return the bytes copi=
-ed. If
->   * error occurred, return a negative error number */
->  static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *=
-job,
->                                                        int64_t start,
->                                                        int64_t end,
-> -                                                      bool is_write_no=
-tifier,
->                                                        bool *error_is_r=
-ead,
->                                                        void **bounce_bu=
-ffer)
-
-Future feature: Somehow get this functionality done with backup-top, I
-suppose.  (This is effectively just backup_top_cbw() with some bells and
-whistles, isn=E2=80=99t it?)
-
->  {
->      int ret;
->      BlockBackend *blk =3D job->common.blk;
->      int nbytes;
-> -    int read_flags =3D is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0=
-;
->      int write_flags =3D job->serialize_target_writes ? BDRV_REQ_SERIAL=
-ISING : 0;
-> =20
->      assert(QEMU_IS_ALIGNED(start, job->cluster_size));
-
-[...]
-
-> @@ -154,15 +108,12 @@ fail:
->  /* Copy range to target and return the bytes copied. If error occurred=
-, return a
->   * negative error number. */
->  static int coroutine_fn backup_cow_with_offload(BackupBlockJob *job,
-> -                                                int64_t start,
-> -                                                int64_t end,
-> -                                                bool is_write_notifier=
-)
-> +                                                int64_t start, int64_t=
- end)
-
-And I suppose this is something backup-top maybe should support, too.
-
->  {
->      int ret;
->      int nr_clusters;
->      BlockBackend *blk =3D job->common.blk;
->      int nbytes;
-> -    int read_flags =3D is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0=
-;
->      int write_flags =3D job->serialize_target_writes ? BDRV_REQ_SERIAL=
-ISING : 0;
-> =20
->      assert(QEMU_IS_ALIGNED(job->copy_range_size, job->cluster_size));
-
-[...]
-
-> @@ -391,28 +333,41 @@ static int coroutine_fn backup_loop(BackupBlockJo=
-b *job)
->      int64_t offset;
->      HBitmapIter hbi;
->      BlockDriverState *bs =3D blk_bs(job->common.blk);
-> +    void *lock;
-> =20
->      hbitmap_iter_init(&hbi, job->copy_bitmap, 0);
->      while ((offset =3D hbitmap_iter_next(&hbi)) !=3D -1) {
-> +        lock =3D bdrv_co_try_lock(backing_bs(blk_bs(job->common.blk)),=
- offset,
-> +                                job->cluster_size);
-> +        /*
-> +         * Dirty bit is set, which means that there are no in-flight
-> +         * write requests on this area. We must succeed.
-> +         */
-> +        assert(lock);
-> +
-
-Hm.  It makes me uneasy but I suppose you=E2=80=99re right.
-
->          if (job->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP &&
->              bdrv_is_unallocated_range(bs, offset, job->cluster_size))
-
-This can yield, right?  If it does, the bitmap is still set.  backup-top
-will see this, unset the bitmap and try to start its CBW operation.
-That is halted by the lock just taken, but the progress will still be
-published after completion, so the job can go beyond 100 %, I think.
-
-Even if it doesn=E2=80=99t, copying the data twice is weird.  It may even=
- get
-weirder if one of both requests fails.
-
-Can we lock the backup-top node instead?  I don=E2=80=99t know whether lo=
-cking
-would always succeed there, though...
-
-Max
-
->          {
->              hbitmap_reset(job->copy_bitmap, offset, job->cluster_size)=
-;
-> +            bdrv_co_unlock(lock);
->              continue;
->          }
-> =20
->          do {
->              if (yield_and_check(job)) {
-> +                bdrv_co_unlock(lock);
->                  return 0;
->              }
-> -            ret =3D backup_do_cow(job, offset,
-> -                                job->cluster_size, &error_is_read, fal=
-se);
-> +            ret =3D backup_do_cow(job, offset, job->cluster_size, &err=
-or_is_read);
->              if (ret < 0 && backup_error_action(job, error_is_read, -re=
-t) =3D=3D
->                             BLOCK_ERROR_ACTION_REPORT)
->              {
-> +                bdrv_co_unlock(lock);
->                  return ret;
->              }
->          } while (ret < 0);
-> +
-> +        bdrv_co_unlock(lock);
->      }
-> =20
->      return 0;
-
-
---kErIDWrsS7ZyBQSQsgaIALmCne60esVbU--
-
---ylYCgS5jRhWzOBasyJkNhPXFR9d3ZAJtj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0Cj5gACgkQ9AfbAGHV
-z0DlVgf7B7x8lyf1q0GsFQVRz6XCwd0BGVamQlY/UPX4xfBU6e+IOpw2Tn4IZ8TR
-P2737+tSMfaqKrn8U7nLkdeW9pZFx3JVjUlUPQzIJZYh0IS3lvFTMDOsk5KcArrO
-UAuSxPGEJgDWY8KDCYitiMh8dydFXvLQMP1m78TDNO0qZEzUAPi7F9mRNgDxXehK
-7Pa4Aon3Xu7Oa9BM55IYlYiFQ461ar2kL7CywwVsCFkXzAFSsagXiSGOneFNfw4x
-9/aUvPY3C6N6HkzHriHYqjAXz/psUAbWae5+s+wjsQZVspIR8ZBtxb+S16MA6q/2
-yLiob9RETrWXc0nlri9zKbYgbWCPCg==
-=bFkG
------END PGP SIGNATURE-----
-
---ylYCgS5jRhWzOBasyJkNhPXFR9d3ZAJtj--
+Paolo
 
