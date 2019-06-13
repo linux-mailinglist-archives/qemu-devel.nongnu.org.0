@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1C644AEA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:42:42 +0200 (CEST)
-Received: from localhost ([::1]:43592 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4438844A39
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:04:02 +0200 (CEST)
+Received: from localhost ([::1]:43212 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbUgL-0004vD-Rj
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53089)
+	id 1hbU4u-0001Jy-Dh
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53631)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbSjF-0001oT-N4
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:37:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbSl9-0003tK-8X
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:39:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbSjE-0001W7-OU
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:37:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60546)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbSe8-0002Ym-ED; Thu, 13 Jun 2019 12:32:16 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3A2DD300740D;
- Thu, 13 Jun 2019 16:32:10 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A34160148;
- Thu, 13 Jun 2019 16:31:55 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-7-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <0c1ca385-6753-f58b-d980-8784ead23404@redhat.com>
-Date: Thu, 13 Jun 2019 18:31:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <peter.maydell@linaro.org>) id 1hbSl6-0002h2-B9
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:39:29 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34346)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hbSl1-0001fI-Mt
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:39:25 -0400
+Received: by mail-wr1-x433.google.com with SMTP id k11so3327682wrl.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 09:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Jkv2tV7T5KFrjVdetifVI23wGPLfGThH9CbytKhyysc=;
+ b=aJUikcpn74iZg1Nl03coA+mYssTVs4eDaX56OzJ8VXXiYG+ufcQlGrRkBQ/7e7I28J
+ rWUDiNC1N48aM8u5YTdOJ4bUUhsRJSAS9UThbgmvZzsLAaHkKRBkH/agCowrkqDfLVYT
+ I0u1FgJ8EjPyzd/dmk9DmfTqFQY9hgV5Hw8nP6a0sQEcsynN+DBteC1EJBZqoLIb9csV
+ c8kIPSxOOfe0evdfKng1SSJPdL58rZqj19oLH51ujgIH4cStt6kfeS0KAlVGppZaOEMP
+ wf6hWVFLQGhUpRmWKmRBqOaQyB53HmTXpqP03YR4rDSpc8TMR2Dk0oJewEwuFtPRngBT
+ +gOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Jkv2tV7T5KFrjVdetifVI23wGPLfGThH9CbytKhyysc=;
+ b=KIqUyCM01nsvsEd7j+hOjzPkW4tT8qxBfdCHwGsmeJ+DIj1b2GdvAtgVAhtqkTTKS5
+ FScUHjZiD2FQjsGiJnnLzQsyZWfWjWwRiS6RdrCY4UjekJyfYhx2doIT9we0wEB5Rq6/
+ hn3U9/29jegKF2wNgWt6xuDO6yY0diIAFiQ1SOZffvjWodEfDismSInEH7WEqnuXJbNt
+ LDa/KpenkrTKDH8BLoWF9GneoA/Rezr/OJs00cSC2tIDtDKWmw5kRAEn2I7Is2F8Gj50
+ pVbXjAszD+dxMjTyBhWluaNVyjZaoxw9sw0I8TQkojQH1+E/mvL248QV+gvhjV4P47jx
+ Ttwg==
+X-Gm-Message-State: APjAAAVlbwnpHhSQcUtjCCCtrgD0XSuKw9NBv4r04C3rI+mj4XHE/X3z
+ eo/ues0XIAevVim5Iqf+cEKWvQ==
+X-Google-Smtp-Source: APXvYqwB3RDyqUNg7puU72kdv9gyfYwN3Yaxp0HGZiJtNVgrz3PRabM5NT7lAp+JjYFmDPQF+QEg5g==
+X-Received: by 2002:adf:ebc8:: with SMTP id v8mr5747880wrn.46.1560443959155;
+ Thu, 13 Jun 2019 09:39:19 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id f197sm358747wme.39.2019.06.13.09.39.18
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 13 Jun 2019 09:39:18 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Thu, 13 Jun 2019 17:39:05 +0100
+Message-Id: <20190613163917.28589-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190529154654.95870-7-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="kbtChaXOvk1z3kohIYD2XnOT30ppFeYyV"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 13 Jun 2019 16:32:15 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v8 6/7] block: add lock/unlock range
- functions
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::433
+Subject: [Qemu-devel] [PATCH 00/12] target/arm: VFP decodetree conversion
+ followups
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,66 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---kbtChaXOvk1z3kohIYD2XnOT30ppFeYyV
-Content-Type: multipart/mixed; boundary="arzLG8ThI8xcmBcSJzOrtXkDK93HbOnJD";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: fam@euphon.net, stefanha@redhat.com, jsnow@redhat.com, kwolf@redhat.com,
- den@openvz.org, eblake@redhat.com
-Message-ID: <0c1ca385-6753-f58b-d980-8784ead23404@redhat.com>
-Subject: Re: [PATCH v8 6/7] block: add lock/unlock range functions
-References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-7-vsementsov@virtuozzo.com>
-In-Reply-To: <20190529154654.95870-7-vsementsov@virtuozzo.com>
+This patchset does a couple of the cleanup/leftover things noted
+in the coverletter of the vfp decodetree conversion or discussed
+in code review:
+ * use vfp_expand_imm() for doing the VFP const-immediate
+   decode, rather than hand-coding it
+ * get rid of the final uses of cpu_F[01][sd]
 
---arzLG8ThI8xcmBcSJzOrtXkDK93HbOnJD
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+cpu_V0, cpu_V1 and cpu_M0 will have to wait until somebody
+cares to tackle the Neon decode logic and the iwmmxt decode...
 
-On 29.05.19 17:46, Vladimir Sementsov-Ogievskiy wrote:
-> From: Vladimir Sementsov-Ogievskiy <etendren@gmail.com>
->=20
-> Introduce lock/unlock range functionality, based on serialized
-> requests. This is needed to refactor backup, dropping local
-> tracked-request-like synchronization.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <etendren@gmail.com>
-> ---
->  include/block/block_int.h |  4 ++++
->  block/io.c                | 44 ++++++++++++++++++++++++++++++++++++++-=
+thanks
+-- PMM
 
->  2 files changed, 47 insertions(+), 1 deletion(-)
+Peter Maydell (12):
+  target/arm: Move vfp_expand_imm() to translate.[ch]
+  target/arm: Use vfp_expand_imm() for AArch32 VFP VMOV_imm
+  target/arm: Stop using cpu_F0s for NEON_2RM_VABS_F
+  target/arm: Stop using cpu_F0s for NEON_2RM_VNEG_F
+  target/arm: Stop using cpu_F0s for NEON_2RM_VRINT*
+  target/arm: Stop using cpu_F0s for NEON_2RM_VCVT[ANPM][US]
+  target/arm: Stop using cpu_F0s for NEON_2RM_VRECPE_F and
+    NEON_2RM_VRSQRTE_F
+  target/arm: Stop using cpu_F0s for Neon f32/s32 VCVT
+  target/arm: Stop using cpu_F0s in Neon VCVT fixed-point ops
+  target/arm: stop using deprecated functions in NEON_2RM_VCVT_F16_F32
+  target/arm: Stop using deprecated functions in NEON_2RM_VCVT_F32_F16
+  target/arm: Remove unused cpu_F0s, cpu_F0d, cpu_F1s, cpu_F1d
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+ target/arm/translate-a64.h     |   1 -
+ target/arm/translate.h         |   7 +
+ target/arm/translate-a64.c     |  32 -----
+ target/arm/translate-vfp.inc.c |  61 +++++----
+ target/arm/translate.c         | 240 ++++++++++++---------------------
+ target/arm/vfp.decode          |  10 +-
+ 6 files changed, 133 insertions(+), 218 deletions(-)
 
+-- 
+2.20.1
 
---arzLG8ThI8xcmBcSJzOrtXkDK93HbOnJD--
-
---kbtChaXOvk1z3kohIYD2XnOT30ppFeYyV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CenoACgkQ9AfbAGHV
-z0BEWQgAmHyVOmBld8hy2WTPbyvaNAdJ55kEe9ban+2dIY242jOVh1hI3n+7nx55
-NatSpUNAQGHlEqXadRrAPV113dhhueLNHXTfrhM6ruka9KCRPPdMLMflkwWoma15
-AzFoeH638pHmcHbvLeS64ZrdgpmKNIG9dgryysEPBoBXPZA1k+uATVZ0RnYeeJGR
-1iedV6t/knJ5MdpKF9s5gKs7+lp6gvHX84zS5RITUvONxNULdb3cEVmh+HTwQtAn
-++HvTukAlV2uBhgIpAf8ZHAqDbxv746b7PQ+/E5zFQfkAopA71MkyfTQ/X/0SmyV
-T/i8exlLey+1aIAC1uiWyS9PPo2k+A==
-=Mtfl
------END PGP SIGNATURE-----
-
---kbtChaXOvk1z3kohIYD2XnOT30ppFeYyV--
 
