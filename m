@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A954368A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 15:28:50 +0200 (CEST)
-Received: from localhost ([::1]:39698 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B39643722
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:14:23 +0200 (CEST)
+Received: from localhost ([::1]:40228 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbPmb-0002jg-Lo
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 09:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39136)
+	id 1hbQUf-0008So-9d
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39963)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbP3Q-00083d-N2
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:42:12 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbP5f-0001uG-2q
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:44:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbP3P-0000NH-DT
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:42:08 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39939)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbP5d-0002yT-C2
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:44:26 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:56189)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbP3O-0000I8-7n
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:42:07 -0400
-Received: by mail-ot1-x341.google.com with SMTP id x24so18773348otp.7
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:42:01 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hbP5d-0002w6-2G
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:44:25 -0400
+Received: by mail-wm1-x344.google.com with SMTP id a15so10035859wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=QowaRIAuGY3+PR3B8GIL90ovhdHy+qXs/DJNY7PkzVQ=;
- b=zS2fOGT2z1rWN9yi7UFd5s8rqHfb5hw1/kcfNUeOGBVDIeP5nWN/g+EulDt0VuYUFn
- FIMZ0hhkiqZT8g6TFndlFdN2oXl5K/hJN7eIAmQQ1LpQJsg6prp/mqmuHl8cXxTVx2Wx
- dSZFTYhChy4oj8A9JhI2V2LGoNxEawJN16LVnsF4dXXTqYZVMkLwm7ptCWVbXkfjb+9O
- wQfLGtY8JexY7AerrZ4XbMxlGe2E/macDS9qqFQuzhf6sOqfwsfFM3Ypzg5LE/OVihy5
- ET0+/JgEfxEJw46Fj/RixkxJfEJdfRTzUuzKMTBRi+7n+efiFRuVXn6Es929iFpCiUVC
- hGyw==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=bWf86UNpovPCoQpQgWuroPjwHFnqm9AKrsXtUD2nR1U=;
+ b=A2KzPewbKXFlYS2zQEIFMrtnqWqQVn7IVvfxJ01XkiIJ/v68mGdkQSHHoTuOM9qVvP
+ 2r9JjWHYBYgGduuhkpevXsZKcHxoH2z/Pdhtxg5zqyGApTtuvmQDeE9BVE1EIvM70939
+ kZB/9NhGDr88a9dEZTNQY+jdTu9Thr2hID0DiewXEvycawmi+RH8WQra8LdELMdwWcrm
+ kJ6AvQ9DZI+D5C9QoPRM66BcKTV4KJkKZZze823rad94UJyxqoQJELpK3w3XgkMjOanP
+ 8n1w5WHb/OgoRlndXRes2izKj4hycvYjOWTS7ziKy70ZXLWqZR9AzkpbKd24VVe/OnfS
+ RsPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=QowaRIAuGY3+PR3B8GIL90ovhdHy+qXs/DJNY7PkzVQ=;
- b=ddOpukV0+LOQw97t1T8KRuCKpIrmR9sUBuvSpfCpvcyxJ+9YpKVpGMDiZhGr1b0ZDy
- p0mNFP6Ma6FXgxqmU80XK7dV/lm3aldaJwi0rTfEgohq2J/g+Mg9ifKj9JLG8Pak6+jX
- uolivgvjnFuittBPM2FwRhcvjcrPr3+WMzrKfVgjh9soE8Lj0M3uefoiylUxcpu2dTf8
- w4+2pcupqTcHZV7qKk7FPHBJO1xK3w+YK+/wA34LgNZvn74DYToagD+uvVI7l+czvjOe
- pTOfrHj/T4muXSbKwtC8xk/I0zH1enMi5VRmYZViMZZSUNT3dwkxP0gRKzmKe8a5kxu6
- Qrnw==
-X-Gm-Message-State: APjAAAWhnifUMCzYYf1a+b1CLOEDKf5cIsU5W86QV5w+zvSlhOZXw5Lx
- PWSc5ABdadSaJpEbg7wJNKskoXtfPnqqh3Zw2entgg==
-X-Google-Smtp-Source: APXvYqxikZBLHXButGKr5HlZehtJYQdU4tB9u2loJYlQExIpyhdTJhfn4Rpn2CPSQ24LQkugW/tL9EZ+BB9T1kauwLo=
-X-Received: by 2002:a9d:711e:: with SMTP id n30mr8382329otj.97.1560429721121; 
- Thu, 13 Jun 2019 05:42:01 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=bWf86UNpovPCoQpQgWuroPjwHFnqm9AKrsXtUD2nR1U=;
+ b=OETieOHadoKQ4fPpKO8k+0e8oJPl8l2h9xrmFBlbkU9YduLCV5xthLCFadVKpYsTW+
+ AxWC9wvRJB/HXKLEspqSBq0u6OjwD1dvoM0aYp3LVUWoFuaL+lfk3GsCr4BPcnnSkt4l
+ fMMriBSBjFXoX8kfO8L07Km8pR9dYgeniZNmx62Lr8EUnwPeGfqiFcy8K5MIAnrpiIVZ
+ SOqL4kIQVJM1HhTDkWDi3wITExDs/8NJ4lmLV0G2r9lM/zWnTB47kBr5RjNosiXyQk0i
+ GmEmIBmqdGOcpguEwctFuTFG0XABytqO2YeyHO1y8YjRcDfL4IvtblWzVPWeFcG862Qf
+ KYUg==
+X-Gm-Message-State: APjAAAW5uERBeLpp3hq1fWDE556mSnhv8bHs+Z5mUyKB8p04YeBRzEfs
+ qIZR1M8OF+JqjgsGrKgmasGsvg==
+X-Google-Smtp-Source: APXvYqzwV8WSgo3pZKrOI8moVaxBLpOJ+lL9DOXdQIHVk9QiCwIfFrmkdEnks3ReFwdjEEZAbl6Pjw==
+X-Received: by 2002:a1c:ddd6:: with SMTP id u205mr3542351wmg.54.1560429862551; 
+ Thu, 13 Jun 2019 05:44:22 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id s12sm2618649wmh.34.2019.06.13.05.44.21
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 13 Jun 2019 05:44:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7E1EC1FF87;
+ Thu, 13 Jun 2019 13:44:21 +0100 (BST)
+References: <20190516144733.32399-1-peter.maydell@linaro.org>
+ <20190516144733.32399-2-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+In-reply-to: <20190516144733.32399-2-peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 13:44:21 +0100
+Message-ID: <87k1dpejtm.fsf@zen.linaroharston>
 MIME-Version: 1.0
-References: <20190606171046.2732-1-peter.maydell@linaro.org>
-In-Reply-To: <20190606171046.2732-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jun 2019 13:41:49 +0100
-Message-ID: <CAFEAcA-pYzZpg40E2xrKR0yXC0iJV7Fh+ONb9JedqXXJZka_0g@mail.gmail.com>
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH RISU] arm.risu: Add patterns for
- VFP<->gpreg transfers
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v2 1/4] hw/arm/boot: Don't assume RAM
+ starts at address zero
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,23 +83,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Jun 2019 at 18:10, Peter Maydell <peter.maydell@linaro.org> wrote:
+
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> In the Arm kernel/initrd loading code, in some places we make the
+> incorrect assumption that info->ram_size can be treated as the
+> address of the end of RAM, as for instance when we calculate the
+> available space for the initrd using "info->ram_size - info->initrd_start=
+".
+> This is wrong, because many Arm boards (including "virt") specify
+> a non-zero info->loader_start to indicate that their RAM area
+> starts at a non-zero physical address.
 >
-> Add instruction patterns to cover the "transfer between
-> Arm core and extension register" spaces (A7.8 and A7.9
-> in DDI0406C.c). We omit VMSR/VMRS because they might
-> have side effects (for stores to special regs) or give
-> results dependent on previous execution (for loads).
+> Correct the places which make this incorrect assumption.
 >
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
-> I think these are the only VFP insns we were missing.
+>  hw/arm/boot.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 >
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index a830655e1af..0bb9a7d5b5c 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -976,6 +976,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+>      int elf_machine;
+>      hwaddr entry;
+>      static const ARMInsnFixup *primary_loader;
+> +    uint64_t ram_end =3D info->loader_start + info->ram_size;
+>
+>      if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+>          primary_loader =3D bootloader_aarch64;
+> @@ -1047,8 +1048,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cp=
+u,
+>          /* 32-bit ARM */
+>          entry =3D info->loader_start + KERNEL_LOAD_ADDR;
+>          kernel_size =3D load_image_targphys_as(info->kernel_filename, en=
+try,
+> -                                             info->ram_size - KERNEL_LOA=
+D_ADDR,
+> -                                             as);
+> +                                             ram_end - KERNEL_LOAD_ADDR,=
+ as);
+>          is_linux =3D 1;
+>      }
+>      if (kernel_size < 0) {
+> @@ -1062,12 +1062,11 @@ static void arm_setup_direct_kernel_boot(ARMCPU *=
+cpu,
+>          if (info->initrd_filename) {
+>              initrd_size =3D load_ramdisk_as(info->initrd_filename,
+>                                            info->initrd_start,
+> -                                          info->ram_size - info->initrd_=
+start,
+> -                                          as);
+> +                                          ram_end - info->initrd_start, =
+as);
+>              if (initrd_size < 0) {
+>                  initrd_size =3D load_image_targphys_as(info->initrd_file=
+name,
+>                                                       info->initrd_start,
+> -                                                     info->ram_size -
+> +                                                     ram_end -
+>                                                       info->initrd_start,
+>                                                       as);
+>              }
 
-Now pushed to risu master.
 
--- PMM
+--
+Alex Benn=C3=A9e
 
