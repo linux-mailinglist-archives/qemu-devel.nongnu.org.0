@@ -2,97 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8738C4409E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:08:48 +0200 (CEST)
-Received: from localhost ([::1]:41254 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D634423D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:21:58 +0200 (CEST)
+Received: from localhost ([::1]:41386 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbSHP-000161-L8
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:08:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55637)
+	id 1hbSU9-00038P-EJ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57661)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbRXJ-0004mD-Tj
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:21:10 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hbRdu-0003v3-6n
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:27:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbRXI-0005lP-TL
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:21:09 -0400
-Received: from mail-am5eur03on071d.outbound.protection.outlook.com
- ([2a01:111:f400:fe08::71d]:15499
- helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hbRXB-0005fH-51; Thu, 13 Jun 2019 11:21:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HP6wFMhv4fXPyDyiXNQb2rab42BIxdJjmbpeZhNRFs4=;
- b=InZOxQ6b0Azfnx2UYZAvaiWv47LcpDCfM2sCGOPRrLJG40XCsibdhRr0tKXGUFDmoHG//061luCnW+BvfS8D981IVeHux3C3etm34RZX8+8/p7YKR03ffonbPkSZCYWfZlfX/fUUfUQ0LT8rxOQpXt87OCCVblDadTHDhiOrWes=
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
- AM0PR08MB3075.eurprd08.prod.outlook.com (52.134.92.29) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.14; Thu, 13 Jun 2019 15:20:56 +0000
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Thu, 13 Jun 2019
- 15:20:56 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [PATCH 3/3] block/nbd: merge NBDClientSession struct back to
- BDRVNBDState
-Thread-Index: AQHVIEBH0xMITr3E4EW/fglja6E9zKaZtZIAgAABHAA=
-Date: Thu, 13 Jun 2019 15:20:56 +0000
-Message-ID: <35dcdb7a-8a3d-81eb-76e9-e8dff544f726@virtuozzo.com>
-References: <20190611102720.86114-1-vsementsov@virtuozzo.com>
- <20190611102720.86114-4-vsementsov@virtuozzo.com>
- <c03ff39b-5e8f-ed0a-d33c-2d2d4919cd33@redhat.com>
-In-Reply-To: <c03ff39b-5e8f-ed0a-d33c-2d2d4919cd33@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0301CA0001.eurprd03.prod.outlook.com
- (2603:10a6:3:76::11) To AM0PR08MB3572.eurprd08.prod.outlook.com
- (2603:10a6:208:e1::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190613182054105
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c681d645-66cc-43ac-2061-08d6f012bb3d
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:AM0PR08MB3075; 
-x-ms-traffictypediagnostic: AM0PR08MB3075:
-x-microsoft-antispam-prvs: <AM0PR08MB3075BA80662D1D5C5754DC9EC1EF0@AM0PR08MB3075.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3513;
-x-forefront-prvs: 0067A8BA2A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(396003)(346002)(366004)(39850400004)(136003)(199004)(189003)(66066001)(6512007)(73956011)(11346002)(36756003)(3846002)(4744005)(2501003)(8676002)(6436002)(2201001)(66556008)(86362001)(5660300002)(71200400001)(6116002)(53936002)(66476007)(2616005)(66946007)(486006)(64756008)(446003)(229853002)(66446008)(186003)(31696002)(102836004)(31686004)(81166006)(8936002)(316002)(6246003)(71190400001)(76176011)(52116002)(256004)(6486002)(110136005)(26005)(2906002)(68736007)(14454004)(305945005)(7736002)(53546011)(476003)(81156014)(25786009)(4326008)(6506007)(54906003)(99286004)(478600001)(386003)(156123004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3075;
- H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: AoVR654+iSikrI0JgT5Qe4bN2Yte/5ePmpNiVFtSyPtarkRqJIOafKjx59jinaLsEZQCSUHOYUkN3bKfR5LkrLdORaXhltctoDWxydKf5pyjMSwHOG4muQz/WsIbsZ5C1g9qnH6+c1geRvSWjojez99vLBW3PdwBWSyB5INWqsEY+Zw4+Y//MoClNfWpbCc8c7jEt6sQSnOWfCysFfD6wbcbYQP6CbrdUGdzuCnE/2me/68W8HgjvPpR/HJc0oK9niKe4Cy2k/wLS5C17IGfGIWJuVnuRFsbF/7eQC8PNKcBxt4ScrSm8dT7KiDMGKYUNjgxZUzpZpCeoCtFTWBTdORz6DJYCReQmD8z+mbQPThfjo73F7Y28uqiWU6a3REgkogPlrBKqcFhqhlc9p5j0PFOiv9mAzIp7xOylIDa+9Y=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <79370876C7780446A249BCABD9B1C3D1@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <laurent@vivier.eu>) id 1hbRdr-0005Oz-UQ
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:27:57 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:37289)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hbRdo-0005JW-LF
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:27:54 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MYvTy-1i69hp3DQ8-00UpoQ; Thu, 13 Jun 2019 17:22:41 +0200
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190519201953.20161-1-richard.henderson@linaro.org>
+ <20190519201953.20161-11-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Openpgp: preference=signencrypt
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <7ba0aa43-5050-9d4b-5067-e51282d7ed82@vivier.eu>
+Date: Thu, 13 Jun 2019 17:22:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c681d645-66cc-43ac-2061-08d6f012bb3d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 15:20:56.3405 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3075
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe08::71d
-Subject: Re: [Qemu-devel] [PATCH 3/3] block/nbd: merge NBDClientSession
- struct back to BDRVNBDState
+In-Reply-To: <20190519201953.20161-11-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:qVzPkOxWwEr/1AOV6ihyD2ewpDTuvowQTmTFVIm8qmNVmxgL3lH
+ kIOX3NOgRKnI+H3BRUaa+aeLXu1dh9a+/gVs2FjFYuO3BEza/cIivie3bZE4THXA2QYvOMz
+ jpLzM39nkjBzG3OPW/14s457hP7C1MOREs0zzEnqdGSduInP3oMCLiA4Zx8wh4l1sOrl/3q
+ v3bjDtyzt2fkFmNXKvxog==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zuh2O1fTF2Y=:eAj3tprLEdo8VanFu5HYDt
+ /Yjo1dyyHnn4ZkgYgmiys4pVTx9MpJrDZjhFPzX3T6YuOoCYBiMxdIScCKi5urMSL2/EaL/VH
+ cYq6ORZbcicBGx8JOpy56x9d/w+LPsqFAeZfAucedVsHEQJwkI6oRhqItYGn0J4yHN+pHNFbV
+ 2Y8X2xcRX0wheEDxK1A6qqkNy10lEU9rEmRuYOGdRPBVafNGP1VJ2Tk0BM5RrxCsBxu4L1AjB
+ vDZvsmoAXpkZTxxyjp6bWVHueNHA8zQwyBOcKRz8qU/48yetyutwcT/3NuHBmclrRxMZ5QUz4
+ eBMWb3CbkcOsIBWNo5RtAV8Oxxfdts8E9BG/dxNz4XDKEuOiLZ/bdx8SwVK80RNuOGnKokdcb
+ +XkdG87UqCgQ9J10Yykw4zSQxYP+yUPe/SBZPkjG1EvMP44czwrKGkCAz9Lr3bq/m56lZxzKQ
+ k63royCSF6TSd/9LQElmhGIEiloIVupU6ZUT22KQ3mst9fA1lzgHIcIqNS4t/cOOpBjcfrN7W
+ 7lJzFXdQxInc/+MUN3nCWu+98NWF6taH45xPrLJolTHefeO/qxijcTQtPkToYp7IIrdyEpUtp
+ cQCWDR1uh1eMZm4oOstxTqQazzKMS9lv3p44eKplBR9m/NaMkKllv6P4GFFlwt9fNyp0NVg2z
+ wgRmyflT8md7nG9VgFuNCwTzLyeZxhdo7R0XYFFlZBm6aDQAsCoYtpikHwGtjU7KJbICceJBN
+ KtFVE2b6DHQElttsLW4bgzGWuG9CxOEnpRYSMt7b6IkSzmeEug/+7KgK9cdmM8ZSriAkLMBmK
+ n+6k28BeuiLNkQC9qCgCl+gkFkztA==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.72.192.73
+Subject: Re: [Qemu-devel] [PATCH 10/13] scripts/qemu-binfmt-conf: Update for
+ sparc64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,24 +111,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTMuMDYuMjAxOSAxODoxNiwgRXJpYyBCbGFrZSB3cm90ZToNCj4gT24gNi8xMS8xOSA1OjI3IEFN
-LCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPj4gTm8gcmVhc29uIHRvIGtl
-ZXAgaXQgc2VwYXJhdGUsIGl0IGRpZmZlcnMgZnJvbSBvdGhlcnMgYmxvY2sgZHJpdmVyDQo+PiBi
-ZWhhdmlvciBhbmQgdGhlcmVmb3IgY29uZnVzZXMuIEluc3RlYWQgb2YgZ2VuZXJpYw0KPiANCj4g
-cy90aGVyZWZvci90aGVyZWZvcmUvIChib3RoIHNwZWxsaW5ncyBhcmUgdmFsaWQsIGJ1dCB0aGUg
-Zm9ybWVyIGxvb2tzDQo+IGFyY2hhaWMpDQoNCkludGVyZXN0aW5nLCBmb3IgbWUgaXQgd2FzIGp1
-c3QgYSBtaXN0YWtlLg0KDQo+IA0KPj4gICAgJ3N0YXRlID0gKFN0YXRlKilicy0+b3BhcXVlJyB3
-ZSBoYXZlIHRvIHVzZSBzcGVjaWFsIGhlbHBlci4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBWbGFk
-aW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5jb20+DQo+PiAt
-LS0NCj4+ICAgYmxvY2svbmJkLmMgfCAxOTcgKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPj4gICAxIGZpbGUgY2hhbmdlZCwgOTQgaW5zZXJ0aW9u
-cygrKSwgMTAzIGRlbGV0aW9ucygtKQ0KPj4NCj4gDQo+IFJldmlld2VkLWJ5OiBFcmljIEJsYWtl
-IDxlYmxha2VAcmVkaGF0LmNvbT4NCj4gDQo+IEknbSBxdWV1aW5nIHRoaXMgc2VyaWVzIHRocm91
-Z2ggbXkgTkJEIHRyZWUuDQo+IA0KDQpUaGFua3MhISBJJ2xsIHJlYmFzZSByZWNvbm5lY3Qgc2Vy
-aWVzIG9uIHRoaXMuDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+Le 19/05/2019 à 22:19, Richard Henderson a écrit :
+> Also note that we were missing the qemu_target_list entry
+> for plain sparc; fix that at the same time.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  scripts/qemu-binfmt-conf.sh | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+> index b5a16742a1..9f1580a91c 100755
+> --- a/scripts/qemu-binfmt-conf.sh
+> +++ b/scripts/qemu-binfmt-conf.sh
+> @@ -1,8 +1,8 @@
+>  #!/bin/sh
+>  # Enable automatic program execution by the kernel.
+>  
+> -qemu_target_list="i386 i486 alpha arm armeb sparc32plus ppc ppc64 ppc64le m68k \
+> -mips mipsel mipsn32 mipsn32el mips64 mips64el \
+> +qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
+> +ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
+>  sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
+>  microblaze microblazeel or1k x86_64"
+>  
+> @@ -38,6 +38,10 @@ sparc32plus_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x
+>  sparc32plus_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+>  sparc32plus_family=sparc
+>  
+> +sparc64_magic='\x7fELF\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x2b'
+> +sparc64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+> +sparc64_family=sparc
+> +
+>  ppc_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x14'
+>  ppc_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+>  ppc_family=ppc
+> 
+
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Tested-by: Laurent Vivier <laurent@vivier.eu>
 
