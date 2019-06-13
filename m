@@ -2,49 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EFE440CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:10:49 +0200 (CEST)
-Received: from localhost ([::1]:41264 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE40C442FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:28:19 +0200 (CEST)
+Received: from localhost ([::1]:41500 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbSJM-0002nP-Bp
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:10:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49188)
+	id 1hbSaI-0001HQ-Vc
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52753)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hbRAU-0002ZP-G1
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:57:35 -0400
+ (envelope-from <bounces@canonical.com>) id 1hbRNa-0004Lv-RN
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:11:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hbRAS-0002Um-Hc
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:57:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59462)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hbRAS-0001oE-3R
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:57:32 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 43B2966995;
- Thu, 13 Jun 2019 14:56:21 +0000 (UTC)
-Received: from redhat.com (ovpn-117-225.ams2.redhat.com [10.36.117.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBC791001B0F;
- Thu, 13 Jun 2019 14:56:20 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Thu, 13 Jun 2019 16:56:18 +0200
-Message-ID: <877e9ph6ul.fsf@trasno.org>
+ (envelope-from <bounces@canonical.com>) id 1hbRNZ-0005KT-DU
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:11:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45020)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hbRNY-0005HF-0t
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:11:04 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hbRNV-000277-BE
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 15:11:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3FF4D2E80C8
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 15:11:01 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 13 Jun 2019 14:56:21 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 Jun 2019 14:57:50 -0000
+From: Christophe Lyon <christophe.lyon+launchpad@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm tcg testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee christophe-lyon
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: Christophe Lyon (christophe-lyon)
+References: <156025884763.18155.9614824235777300144.malonedeb@wampee.canonical.com>
+Message-Id: <156043787007.24644.10211587159854825990.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18981";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 16f5283b7de3b474967c907925eb5cd0d7ec68ab
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] KVM call for 2019-06-18
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1832353] Re: cpu_exec: Assertion
+ !have_mmap_lock() failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -53,35 +65,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: Bug 1832353 <1832353@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It's fairly recent:
+qemu-arm version 4.0.50 (v4.0.0-1215-ga578cdf-dirty)
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
 
-Hi
+commit a578cdfbdd8f9beff5ced52b7826ddb1669abbbf
+Merge: 19735c8 43b3952
+Author: Peter Maydell <peter.maydell@linaro.org>
+Date:   Mon Jun 10 16:09:19 2019 +0100
 
-Please, send any topic that you are interested in covering.
+     Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190610'
+into staging
 
-At the end of Monday I will send an email with the agenda or the
-cancellation of the call, so hurry up.
+     Move softmmu tlb into CPUNegativeOffsetState
 
-Topics:
-- KVM multiprocess
+configured with:
+--target-list=3Darm-softmmu,arm-linux-user,aarch64-softmmu,aarch64-linux-us=
+er --enable-debug
 
-So, this week is going to happen.
+-- =
 
-KVM call where you can add topics.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1832353
 
- Call details:
+Title:
+  cpu_exec: Assertion !have_mmap_lock() failed
 
-By popular demand, a google calendar public entry with it
+Status in QEMU:
+  New
 
-  https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+Bug description:
+  Hi,
 
-(Let me know if you have any problems with the calendar entry.  I just
-gave up about getting right at the same time CEST, CET, EDT and DST).
+  I have isolated a testcase from the GCC testsuite (actually gfortran,
+  test proc_ptr_51.f90) which produces tons of:
 
-If you need phone number details,  contact me privately
+  qemu-arm: /home/christophe.lyon/src/qemu/accel/tcg/cpu-exec.c:701:
+  cpu_exec: Assertion `!have_mmap_lock()' failed.
 
-Thanks, Juan.
+  including with master qemu as of today.
+
+  I'm attaching a tarball containing:
+  qemu-assert:
+  cmd  lib  proc_ptr_51.exe
+
+  qemu-assert/lib:
+  ld-linux-armhf.so.3  libc.so.6  libgcc_s.so.1  libgfortran.so.5  libm.so.6
+
+  where cmd is the basic command used to launch the test & reproduce the
+  failure.
+
+  Note that the test or the generated may actually be buggy: I have
+  reported failures on native aarch64 and arm machines. Yet, qemu should
+  not fail with a loop of asserts.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1832353/+subscriptions
 
