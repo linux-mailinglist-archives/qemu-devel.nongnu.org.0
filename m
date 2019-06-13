@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A82A431FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 02:22:14 +0200 (CEST)
-Received: from localhost ([::1]:36294 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7379A431F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 02:21:58 +0200 (CEST)
+Received: from localhost ([::1]:36292 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbDVN-0007x6-Es
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 20:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48453)
+	id 1hbDV7-0007t6-CI
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 20:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48457)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hbDTw-0006v4-In
+ (envelope-from <bounces@canonical.com>) id 1hbDTw-0006vK-Rx
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 20:20:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hbDTv-000606-BV
+ (envelope-from <bounces@canonical.com>) id 1hbDTv-00060G-Hj
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 20:20:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35552)
+Received: from indium.canonical.com ([91.189.90.7]:35578)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hbDTv-0005yo-2u
+ id 1hbDTv-0005zj-8V
  for qemu-devel@nongnu.org; Wed, 12 Jun 2019 20:20:43 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hbDTt-0004lT-J7
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 00:20:41 +0000
+ id 1hbDTu-0004lT-CS
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 00:20:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8F5CE2E80C9
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 00:20:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5C4F52E800F
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 00:20:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 Jun 2019 00:14:19 -0000
-From: Alexandro Sanchez Bach <1774853@bugs.launchpad.net>
+Date: Thu, 13 Jun 2019 00:14:38 -0000
+From: Mason Back <1774853@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,15 +41,15 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: alexaltea masonleeback tsiros
 X-Launchpad-Bug-Reporter: tsiros (tsiros)
-X-Launchpad-Bug-Modifier: Alexandro Sanchez Bach (alexaltea)
+X-Launchpad-Bug-Modifier: Mason Back (masonleeback)
 References: <152802310962.26200.2575137842813128178.malonedeb@wampee.canonical.com>
-Message-Id: <156038485941.16569.13243320428077514633.malone@soybean.canonical.com>
+Message-Id: <156038487853.30940.15696613907398554463.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18978";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 4235d4bf3708b2aa4fcaa297288c489e38f238c6
+X-Launchpad-Hash: 14eb40d2b2f5bc3e6c00a915faa4204aed5c5ed3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1774853] Re: claims temp file is used by another
@@ -68,11 +68,20 @@ Reply-To: Bug 1774853 <1774853@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@tsiros, can you explain why this isn't an issue for you anymore? This
-is precisely what happens to me, specifically when I create drives as
-`file=3Dfat:rw:path/to/dir`. When I type `fat:path/to/dir`, everything
-works fine, though I get some warnings. Was this fixed in newer versions
-or did you simply realized some issue on your side? Thanks.
+Hi there! Our fork of QEMU still happens to have this issue. Did you
+happen to find a solution?
+
+$ ../orbital-qemu/ps4-softmmu/qemu-system-ps4 -bios ./ubios.bin -kernel ./b=
+oot.img -drive file=3Dhdd.qcow2 -drive file=3Dfat:rw:sflash/,media=3Ddisk -=
+monitor stdio -smp 8 -display orbital
+vvfat sflash/ chs 1024,16,63
+C:\tools\msys64\home\Alex\orbital\orbital-qemu\ps4-softmmu\qemu-system-ps4.=
+exe: -drive file=3Dfat:rw:sflash/,media=3Ddisk: Could not open 'C:\tools\ms=
+ys64\tmp\qem1DF0.tmp': The process cannot access the file because it is bei=
+ng used by another process.
+
+** Changed in: qemu
+       Status: Invalid =3D> New
 
 -- =
 
