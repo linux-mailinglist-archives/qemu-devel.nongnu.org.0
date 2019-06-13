@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391A3435C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:14:37 +0200 (CEST)
-Received: from localhost ([::1]:39348 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFD0435DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:26:23 +0200 (CEST)
+Received: from localhost ([::1]:39376 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbOcl-0007UY-Md
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:14:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58153)
+	id 1hbOoA-0003ab-H2
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:26:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58704)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbOat-0006GW-0W
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:12:40 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOcp-0007sd-Ha
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbOar-0002NZ-0u
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:12:38 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:54992)
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOcn-0003rr-OV
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:39 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39133)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbOap-0002KS-1c
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:12:35 -0400
-Received: by mail-wm1-f66.google.com with SMTP id g135so9944053wme.4
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:12:34 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hbOcn-0003qe-BA
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:37 -0400
+Received: by mail-wr1-x429.google.com with SMTP id x4so17872037wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:14:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OpNGifX3j6ckf1FbrBvHqt2Qxj/aFsbPmv10L0Shg4k=;
+ b=ihwILJw6miM7AMiTH2wnwM0K+u3o2uB5qZY4c3FBk5f8XiCSAN2TRURb1jD8ip/xbY
+ 0NhiCvSxU3DSEBgQqn2V3Plq//TT+rCLRHi1bBg6Ox2o/UqzRVm6fUjPp1SWERvTLbe0
+ xrfFuJ3/zzNlYYyuQETtv0vyqELyZ5rilQn0TeMqyI6uijp+t7x/Ol21ZLQMYoziiOBa
+ A2ZVVzfOjcxGLzL59/t3207A1Flx1Nfl0tNqyD+1ArH3yU7Mu/0qQ0XtiJbvqpeY743L
+ NshezMsICamSxTCjC3SzdjLIUGNni3MAPDu4ntpctZzwW4I3L034YP2ZFgFoi5MYUbTK
+ DzNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=GSZI4IS8sHWWVqZNM5E0sBZLHejo8F94zdAhW1H45Ys=;
- b=Ow51vkVcEbi5IWiKr8iXMU9VIaySDr5I1oDmTftqe7alCAjPZmIaUGT/nKF4qY2uZo
- AkDh+VlMv+AEyvRtTrlUQRzXzAeqEn7uj0HidSGd/19KvbQoNqV1CMk+dkTTa1cNn9lI
- zKzgcMW2EC4y8LXUtoND/UWocQ5uLZweG8yi7y7z7gXsNA8HROkTH6mW65mwMkoYgR5y
- vWCPSDWOPiBlZmv9tqtCARSSrSvM+770oDvUt7YS+yUcvt/qb9Bri9wn7HqvR1V2ehzB
- YJsrcblQfJ06Xmm2GXBUw+L14IE7gpKru9lF1jFp7ED9+ew7/oeYHHukDP7gOQ1rOhqJ
- 2/yQ==
-X-Gm-Message-State: APjAAAUdLHyw/8XVwkQv+GG/D8Eag6HfT0J/d02gCbHPvirnDQD4kPbu
- rro2I5YvSA6Shmu8DlwCskuvcQ==
-X-Google-Smtp-Source: APXvYqzbSbAoPCtZYkWBUAd425MQL61XQmBK4rNKH5LJXQMqu7BUSMC7d1M06YYAaok0jntx3FyYbQ==
-X-Received: by 2002:a1c:f70f:: with SMTP id v15mr3501029wmh.102.1560427953426; 
- Thu, 13 Jun 2019 05:12:33 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id 32sm6072010wra.35.2019.06.13.05.12.32
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 05:12:32 -0700 (PDT)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- atar4qemu@gmail.com, pbonzini@redhat.com
-References: <20190612203916.16875-1-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <6b07961c-1372-5b66-919b-a39b8fa150a5@redhat.com>
-Date: Thu, 13 Jun 2019 14:12:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ bh=OpNGifX3j6ckf1FbrBvHqt2Qxj/aFsbPmv10L0Shg4k=;
+ b=ZgG+kDPFy30DWjqBqzlk3fjl5m7nLZaf4hdCOjQWwGpKvcGWHh/iWyQRNkhnYcFYff
+ BvCISUUKbBBLUtY1ixO583P4e4EZjpFFED4PLMTsYjMyZSfCfewe5BbttFMCEOTHapKE
+ 3iGJ6Cybjq6h9AG39O58pfOT32ZnnpY9LhHwglN94xI4PDozKRme+rlEfKop0hr986aV
+ pHh790KdpjtVLdId/fU7xHkhUthv8JRxCI/bfvJgncbKx3eud3VaOw4/gF/VMdV6OJ4Q
+ CQqx4Nijq0jOF7FpRfDYLT5h5E63/wirjtxqxp0hErUI9os1l9uQJLJ4PeV7fK/johZd
+ ZR1w==
+X-Gm-Message-State: APjAAAXySnErLG317qpUGOu/SDY/EreONKoBOVy7S7rlajh9aB+UpI3n
+ oHoKkilTmdRuoKzjEW+YRrmJVTf6tMMxwQ==
+X-Google-Smtp-Source: APXvYqzVueNiVT4D+eVsA6f2664jiXINKYjR/L9FfDY/BYfFVVPUEObMxGeaOY7wZhwqQDk+knxL4g==
+X-Received: by 2002:a5d:4949:: with SMTP id r9mr750088wrs.289.1560428075149;
+ Thu, 13 Jun 2019 05:14:35 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.34
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 13 Jun 2019 05:14:34 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Thu, 13 Jun 2019 13:13:45 +0100
+Message-Id: <20190613121433.5246-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190612203916.16875-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH] sun4m: set default display type to TCX
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::429
+Subject: [Qemu-devel] [PULL 00/48] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,102 +80,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/12/19 10:39 PM, Mark Cave-Ayland wrote:
-> Commit 6807874d55 "sun4m: obey -vga none" changed the sun4m machines so that
-> they could be started without a framebuffer installed, but as no default
-> display type was configured the machines would start in headless mode without
-> an explict -vga option.
-> 
-> Set the default display type for all sun4m machines to TCX so that they will
-> start with a framebuffer if one is not specifically requested.
+Arm queue; the bulk of this is the VFP decodetree conversion...
 
-Sorry, I missed that because only test headless (and I don't plan to do
-UI testing without a decent Avocado UI API).
+thanks
+-- PMM
 
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+The following changes since commit 4747524f9f243ca5ff1f146d37e423c00e923ee1:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2019-06-12' into staging (2019-06-13 11:58:00 +0100)
 
-> ---
->  hw/sparc/sun4m.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index 7e4f61fc3e..99f53e87f7 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -1406,6 +1406,7 @@ static void ss5_class_init(ObjectClass *oc, void *data)
->      mc->is_default = 1;
->      mc->default_boot_order = "c";
->      mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
-> +    mc->default_display = "tcx";
->  }
->  
->  static const TypeInfo ss5_type = {
-> @@ -1424,6 +1425,7 @@ static void ss10_class_init(ObjectClass *oc, void *data)
->      mc->max_cpus = 4;
->      mc->default_boot_order = "c";
->      mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
-> +    mc->default_display = "tcx";
->  }
->  
->  static const TypeInfo ss10_type = {
-> @@ -1442,6 +1444,7 @@ static void ss600mp_class_init(ObjectClass *oc, void *data)
->      mc->max_cpus = 4;
->      mc->default_boot_order = "c";
->      mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
-> +    mc->default_display = "tcx";
->  }
->  
->  static const TypeInfo ss600mp_type = {
-> @@ -1460,6 +1463,7 @@ static void ss20_class_init(ObjectClass *oc, void *data)
->      mc->max_cpus = 4;
->      mc->default_boot_order = "c";
->      mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
-> +    mc->default_display = "tcx";
->  }
->  
->  static const TypeInfo ss20_type = {
-> @@ -1477,6 +1481,7 @@ static void voyager_class_init(ObjectClass *oc, void *data)
->      mc->block_default_type = IF_SCSI;
->      mc->default_boot_order = "c";
->      mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
-> +    mc->default_display = "tcx";
->  }
->  
->  static const TypeInfo voyager_type = {
-> @@ -1494,6 +1499,7 @@ static void ss_lx_class_init(ObjectClass *oc, void *data)
->      mc->block_default_type = IF_SCSI;
->      mc->default_boot_order = "c";
->      mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
-> +    mc->default_display = "tcx";
->  }
->  
->  static const TypeInfo ss_lx_type = {
-> @@ -1511,6 +1517,7 @@ static void ss4_class_init(ObjectClass *oc, void *data)
->      mc->block_default_type = IF_SCSI;
->      mc->default_boot_order = "c";
->      mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
-> +    mc->default_display = "tcx";
->  }
->  
->  static const TypeInfo ss4_type = {
-> @@ -1528,6 +1535,7 @@ static void scls_class_init(ObjectClass *oc, void *data)
->      mc->block_default_type = IF_SCSI;
->      mc->default_boot_order = "c";
->      mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
-> +    mc->default_display = "tcx";
->  }
->  
->  static const TypeInfo scls_type = {
-> @@ -1545,6 +1553,7 @@ static void sbook_class_init(ObjectClass *oc, void *data)
->      mc->block_default_type = IF_SCSI;
->      mc->default_boot_order = "c";
->      mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
-> +    mc->default_display = "tcx";
->  }
->  
->  static const TypeInfo sbook_type = {
-> 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190613
+
+for you to fetch changes up to 07e4c7f769120c9a5bd6a26c2dc1421f2f838d80:
+
+  target/arm: Fix short-vector increment behaviour (2019-06-13 12:57:37 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * convert aarch32 VFP decoder to decodetree
+   (includes tightening up decode in a few places)
+ * fix minor bugs in VFP short-vector handling
+ * hw/core/bus.c: Only the main system bus can have no parent
+ * smmuv3: Fix decoding of ID register range
+ * Implement NSACR gating of floating point
+ * Use tcg_gen_gvec_bitsel
+ * Vectorize USHL and SSHL
+
+----------------------------------------------------------------
+Peter Maydell (44):
+      target/arm: Implement NSACR gating of floating point
+      hw/arm/smmuv3: Fix decoding of ID register range
+      hw/core/bus.c: Only the main system bus can have no parent
+      target/arm: Add stubs for AArch32 VFP decodetree
+      target/arm: Factor out VFP access checking code
+      target/arm: Fix Cortex-R5F MVFR values
+      target/arm: Explicitly enable VFP short-vectors for aarch32 -cpu max
+      target/arm: Convert the VSEL instructions to decodetree
+      target/arm: Convert VMINNM, VMAXNM to decodetree
+      target/arm: Convert VRINTA/VRINTN/VRINTP/VRINTM to decodetree
+      target/arm: Convert VCVTA/VCVTN/VCVTP/VCVTM to decodetree
+      target/arm: Move the VFP trans_* functions to translate-vfp.inc.c
+      target/arm: Add helpers for VFP register loads and stores
+      target/arm: Convert "double-precision" register moves to decodetree
+      target/arm: Convert "single-precision" register moves to decodetree
+      target/arm: Convert VFP two-register transfer insns to decodetree
+      target/arm: Convert VFP VLDR and VSTR to decodetree
+      target/arm: Convert the VFP load/store multiple insns to decodetree
+      target/arm: Remove VLDR/VSTR/VLDM/VSTM use of cpu_F0s and cpu_F0d
+      target/arm: Convert VFP VMLA to decodetree
+      target/arm: Convert VFP VMLS to decodetree
+      target/arm: Convert VFP VNMLS to decodetree
+      target/arm: Convert VFP VNMLA to decodetree
+      target/arm: Convert VMUL to decodetree
+      target/arm: Convert VNMUL to decodetree
+      target/arm: Convert VADD to decodetree
+      target/arm: Convert VSUB to decodetree
+      target/arm: Convert VDIV to decodetree
+      target/arm: Convert VFP fused multiply-add insns to decodetree
+      target/arm: Convert VMOV (imm) to decodetree
+      target/arm: Convert VABS to decodetree
+      target/arm: Convert VNEG to decodetree
+      target/arm: Convert VSQRT to decodetree
+      target/arm: Convert VMOV (register) to decodetree
+      target/arm: Convert VFP comparison insns to decodetree
+      target/arm: Convert the VCVT-from-f16 insns to decodetree
+      target/arm: Convert the VCVT-to-f16 insns to decodetree
+      target/arm: Convert VFP round insns to decodetree
+      target/arm: Convert double-single precision conversion insns to decodetree
+      target/arm: Convert integer-to-float insns to decodetree
+      target/arm: Convert VJCVT to decodetree
+      target/arm: Convert VCVT fp/fixed-point conversion insns to decodetree
+      target/arm: Convert float-to-integer VCVT insns to decodetree
+      target/arm: Fix short-vector increment behaviour
+
+Richard Henderson (4):
+      target/arm: Vectorize USHL and SSHL
+      target/arm: Use tcg_gen_gvec_bitsel
+      target/arm: Fix output of PAuth Auth
+      decodetree: Fix comparison of Field
+
+ target/arm/Makefile.objs          |   13 +
+ tests/tcg/aarch64/Makefile.target |    2 +-
+ target/arm/cpu.h                  |   11 +
+ target/arm/helper.h               |   11 +-
+ target/arm/translate-a64.h        |    2 +
+ target/arm/translate.h            |    9 +-
+ hw/arm/smmuv3.c                   |    2 +-
+ hw/core/bus.c                     |   21 +-
+ target/arm/cpu.c                  |    6 +
+ target/arm/helper.c               |   75 +-
+ target/arm/neon_helper.c          |   33 -
+ target/arm/pauth_helper.c         |    4 +-
+ target/arm/translate-a64.c        |   33 +-
+ target/arm/translate-vfp.inc.c    | 2672 +++++++++++++++++++++++++++++++++++++
+ target/arm/translate.c            | 1881 +++++---------------------
+ target/arm/vec_helper.c           |   88 ++
+ tests/tcg/aarch64/pauth-2.c       |   61 +
+ scripts/decodetree.py             |    2 +-
+ target/arm/vfp-uncond.decode      |   63 +
+ target/arm/vfp.decode             |  242 ++++
+ 20 files changed, 3593 insertions(+), 1638 deletions(-)
+ create mode 100644 target/arm/translate-vfp.inc.c
+ create mode 100644 tests/tcg/aarch64/pauth-2.c
+ create mode 100644 target/arm/vfp-uncond.decode
+ create mode 100644 target/arm/vfp.decode
 
