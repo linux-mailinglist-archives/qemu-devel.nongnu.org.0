@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5AC43AE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:24:46 +0200 (CEST)
-Received: from localhost ([::1]:40856 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA88743ADE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:24:27 +0200 (CEST)
+Received: from localhost ([::1]:40850 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbRao-00074n-1v
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55389)
+	id 1hbRaU-0006f1-SL
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:24:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56042)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbQ0i-00062Y-DH
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:43:25 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbQ3K-00083s-63
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:46:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbQ0h-0007Iz-FH
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:43:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50868)
+ (envelope-from <mreitz@redhat.com>) id 1hbQ3H-0000co-QF
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:46:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59487)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbQ0b-0007BW-5o; Thu, 13 Jun 2019 09:43:17 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hbQ34-0000Rr-DN; Thu, 13 Jun 2019 09:45:53 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9ECAD2F8BC0;
- Thu, 13 Jun 2019 13:43:12 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C310430860D1;
+ Thu, 13 Jun 2019 13:45:40 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E1966085B;
- Thu, 13 Jun 2019 13:43:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CCF4541F0;
+ Thu, 13 Jun 2019 13:45:30 +0000 (UTC)
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-2-vsementsov@virtuozzo.com>
+ <20190529154654.95870-3-vsementsov@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -59,22 +59,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <fdd3626f-7554-1b96-8ca8-4b38c2a2821b@redhat.com>
-Date: Thu, 13 Jun 2019 15:43:03 +0200
+Message-ID: <dd3c1d3f-a92a-bbd7-a916-ba7b066ee5dc@redhat.com>
+Date: Thu, 13 Jun 2019 15:45:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190529154654.95870-2-vsementsov@virtuozzo.com>
+In-Reply-To: <20190529154654.95870-3-vsementsov@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="uQgIwOlNhEp4j0nj1kTDu4GhCz4wgEHgE"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+ boundary="VBikqgUIMp5eS9iZMySBLyDSJ9uABLP83"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 13 Jun 2019 13:43:12 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Thu, 13 Jun 2019 13:45:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v8 1/7] block: teach bdrv_debug_breakpoint
- skip filters with backing
+Subject: Re: [Qemu-devel] [PATCH v8 2/7] block: swap operation order in
+ bdrv_append
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,63 +92,127 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---uQgIwOlNhEp4j0nj1kTDu4GhCz4wgEHgE
-Content-Type: multipart/mixed; boundary="Zea7aVRcgT0qw5UrFDzolxSMoyNAJ4LTa";
+--VBikqgUIMp5eS9iZMySBLyDSJ9uABLP83
+Content-Type: multipart/mixed; boundary="B9JQ2dXiD0TDdJGgtq2mpVBPIemm3Z9DM";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 Cc: fam@euphon.net, stefanha@redhat.com, jsnow@redhat.com, kwolf@redhat.com,
  den@openvz.org, eblake@redhat.com
-Message-ID: <fdd3626f-7554-1b96-8ca8-4b38c2a2821b@redhat.com>
-Subject: Re: [PATCH v8 1/7] block: teach bdrv_debug_breakpoint skip filters
- with backing
+Message-ID: <dd3c1d3f-a92a-bbd7-a916-ba7b066ee5dc@redhat.com>
+Subject: Re: [PATCH v8 2/7] block: swap operation order in bdrv_append
 References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-2-vsementsov@virtuozzo.com>
-In-Reply-To: <20190529154654.95870-2-vsementsov@virtuozzo.com>
+ <20190529154654.95870-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20190529154654.95870-3-vsementsov@virtuozzo.com>
 
---Zea7aVRcgT0qw5UrFDzolxSMoyNAJ4LTa
+--B9JQ2dXiD0TDdJGgtq2mpVBPIemm3Z9DM
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 29.05.19 17:46, Vladimir Sementsov-Ogievskiy wrote:
-> Teach bdrv_debug_breakpoint and bdrv_debug_remove_breakpoint skip
-> filters with backing. This is needed to implement and use in backup job=
-
-> it's own backup_top filter driver (like mirror already has one), and
-> without this improvement, breakpoint removal will fail at least in 55
-> iotest.
+> bs_top parents may conflict with bs_new backing child permissions, so
+> let's do bdrv_replace_node first, it covers more possible cases.
+>=20
+> It is needed for further implementation of backup-top filter, which
+> don't want to share write permission on its backing child.
+>=20
+> Side effect is that we may set backing hd when device name is already
+> available, so 085 iotest output is changed.
 >=20
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  block.c | 34 ++++++++++++++++++++++++++--------
->  1 file changed, 26 insertions(+), 8 deletions(-)
+>  block.c                    | 11 ++++++++---
+>  tests/qemu-iotests/085.out |  2 +-
+>  2 files changed, 9 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/block.c b/block.c
+> index e6e9770704..57216f4115 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -4088,22 +4088,27 @@ void bdrv_append(BlockDriverState *bs_new, Bloc=
+kDriverState *bs_top,
+>  {
+>      Error *local_err =3D NULL;
+> =20
+> -    bdrv_set_backing_hd(bs_new, bs_top, &local_err);
+> +    bdrv_ref(bs_top);
+> +
+> +    bdrv_replace_node(bs_top, bs_new, &local_err);
+>      if (local_err) {
+>          error_propagate(errp, local_err);
+> +        error_prepend(errp, "Failed to replace node: ");
+>          goto out;
+>      }
+> =20
+> -    bdrv_replace_node(bs_top, bs_new, &local_err);
+> +    bdrv_set_backing_hd(bs_new, bs_top, &local_err);
+>      if (local_err) {
+> +        bdrv_replace_node(bs_new, bs_top, &error_abort);
 
-Well, it would work in the meantime, but the real fix of course is to
-use bdrv_primary_bs().
+Hm.  I see the need for switching this stuff around, but this
+&error_abort is much more difficult to verify than the previous one for
+bdrv_set_backing_hd(..., NULL, ...).  I think it at least warrants a
+comment why the order has to be this way (using git blame has the
+disadvantage of fading over time as other people modify a piece of
+code), and why this &error_abort is safe.
 
 Max
 
+>          error_propagate(errp, local_err);
+> -        bdrv_set_backing_hd(bs_new, NULL, &error_abort);
+> +        error_prepend(errp, "Failed to set backing: ");
+>          goto out;
+>      }
+> =20
+>      /* bs_new is now referenced by its new parents, we don't need the
+>       * additional reference any more. */
+>  out:
+> +    bdrv_unref(bs_top);
+>      bdrv_unref(bs_new);
+>  }
+> =20
+> diff --git a/tests/qemu-iotests/085.out b/tests/qemu-iotests/085.out
+> index 6edf107f55..e5a2645bf5 100644
+> --- a/tests/qemu-iotests/085.out
+> +++ b/tests/qemu-iotests/085.out
+> @@ -74,7 +74,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1=
+34217728 backing_file=3DTEST_DIR/
+> =20
+>  =3D=3D=3D Invalid command - snapshot node used as backing hd =3D=3D=3D=
 
---Zea7aVRcgT0qw5UrFDzolxSMoyNAJ4LTa--
+> =20
+> -{"error": {"class": "GenericError", "desc": "Node 'snap_11' is busy: n=
+ode is used as backing hd of 'snap_12'"}}
+> +{"error": {"class": "GenericError", "desc": "Node 'snap_11' is busy: n=
+ode is used as backing hd of 'virtio0'"}}
+> =20
+>  =3D=3D=3D Invalid command - snapshot node has a backing image =3D=3D=3D=
 
---uQgIwOlNhEp4j0nj1kTDu4GhCz4wgEHgE
+> =20
+>=20
+
+
+
+--B9JQ2dXiD0TDdJGgtq2mpVBPIemm3Z9DM--
+
+--VBikqgUIMp5eS9iZMySBLyDSJ9uABLP83
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CUucACgkQ9AfbAGHV
-z0B5eggAl0IsR6TGAQkZw54JmsND70p8Hah0dHaAp2ibhnUAacoNj7R/k6jkqmPu
-zz5e1F49g5s0S37yLPsd0/EvnkjEYHaLjc6Fn18jakP4NEZoJK4i41+DLqcPIHOA
-HpQqDmAIoVtDM0dfS3h8jiBXdNO4dAjAx6fNHdW9hq9Asrca4K6ijBe8JFyXFA0t
-KDuVUwS9pzlQtySHm2zhV1W3rmfaGxkV4f3Jh+eZ/k6M+iXxsJ0VUyGMTdID7Tzf
-X907AnrmMgfGS+fSf+6kqk7YlWTuY5WUsJ0ZHSYqSznq3UhykyOAgdyznXsoQ4GF
-2+plTDIGVMCxvgECGsPh6Qt5vZrI7Q==
-=iv5N
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CU3gACgkQ9AfbAGHV
+z0AzAgf/QX4kOVLV81+sA+F3llCweKYZHciFDmKGQMXsemeD3gZO0kpI1eN9FZzy
+vrzCTvXDbggumkK20wTpETW63rO/MAAk51is6PMFFvOpbP6xoQSSqUo2bwv073kK
+NZWtYiNxS+/mUWG4AUSIiKgzaZMlA/qe6WwGSJijmlUA3H760F4Oqvjhpa4Y6b0E
+2pf8wMCzV21EYg0iYS4LFbcfpZlXfhLai1B4x/bV6yfYBI1bw/8lX9rmmBR6AdtS
+eaddYkW7MRGRj3PSaJZ9dCR5bAc9hPqOxZnWzp0kasP5xrLW7dHfKVu3jYbgFcW3
+Fo8bxssKVsfPf6gh3CYwPo+h1NozXg==
+=n/2+
 -----END PGP SIGNATURE-----
 
---uQgIwOlNhEp4j0nj1kTDu4GhCz4wgEHgE--
+--VBikqgUIMp5eS9iZMySBLyDSJ9uABLP83--
 
