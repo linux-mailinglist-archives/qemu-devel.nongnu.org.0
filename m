@@ -2,103 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9D543543
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 12:25:32 +0200 (CEST)
-Received: from localhost ([::1]:38302 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F734353D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 12:21:36 +0200 (CEST)
+Received: from localhost ([::1]:38262 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbMvD-0005LD-SI
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 06:25:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59360)
+	id 1hbMrP-0002rO-AN
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 06:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58100)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hbMhU-0005p9-8R
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:11:21 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbMcX-0002dy-Nr
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:06:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hbMhS-0008NP-7m
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:11:20 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:37581)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hbMhN-0008Cf-Oy
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:11:15 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MtwQk-1iVeWr24mi-00uEjS; Thu, 13 Jun 2019 12:05:37 +0200
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1559903719-7162-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1559903719-7162-3-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <c6c60547-3b18-8466-592a-63aee9dd3cf9@vivier.eu>
-Date: Thu, 13 Jun 2019 12:05:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <1559903719-7162-3-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbMcW-00045b-C8
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:06:13 -0400
+Received: from mail-eopbgr70123.outbound.protection.outlook.com
+ ([40.107.7.123]:53983 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hbMcT-00042C-A2; Thu, 13 Jun 2019 06:06:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CTLotgG9kYP6PTfpi5AVJ5TM8jcBmOggdgZwC5ITsWk=;
+ b=CWR9bdNrmtALH/Ja7n1AMe0rNwQ0azq7ZoTaVVrv0W2L6XRqdUJXSbSiYr1/HyEpfd297FwMkPRK4AYTMe+1mpCf7dqaF0DBzKIK4ls2XJRzFNyaqdvG6ZOMdy7Q0h389iOJZi7YLH07fEFX0ZNffe1P3PLiq0NgcBvZerQNiGc=
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
+ AM0PR08MB4563.eurprd08.prod.outlook.com (20.178.202.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.12; Thu, 13 Jun 2019 10:06:05 +0000
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Thu, 13 Jun 2019
+ 10:06:05 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v2 7/7] iotests: new file to suppress Valgrind errors
+Thread-Index: AQHVIH/XyPCLZiW8PEGiqni4o746saaZXjeA
+Date: Thu, 13 Jun 2019 10:06:05 +0000
+Message-ID: <dc4ae7d2-64bf-ab12-4712-5752f848b5dd@virtuozzo.com>
+References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560276131-683243-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <1560276131-683243-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fJvNpc21LiWMKz8F2yhf1BqFfdSsNV6wIz86z1gYG4ddwsTMumN
- N1IeY0/VqYL8ElQurGrIo+Ckh/zqqEl0DcW3eyOmEFUSFMn40+xKYez7QLWxxpvBM9ZQq2b
- FaTTy9wD+QgvJDiIXg2bHTMwEM605vsbra1HuVE8ic9UZXMm5D+sG4YjYf5Vgmxm0E40C85
- FJrxdIpEquSRXkv0HXsoA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5FoIU6IUeZ4=:xqIlGh1xf1mK2tSO5HoGCL
- o5T1liNqoBWMzzPhWDtOJnU40Lb8HBTnFCcvJgyLbM4fOaXdHZffz9rrtlse0f7+yWwl5XbOK
- vQg945HcKEH7DxUd3pHLXzLqwK8F/VlYCS37picbqoOIH73MgXyWW9ROhlBjwVnH4BSXIvM33
- CRUZYYfNvAWNiNLw1q9gSMjfRN51P71canIjxyUsBGIiSiz1/Ch3ccVzcR6lN737Uk6ToL2d+
- fhR4lvBGl33BZfzjKQZADw7K2qM0BwYTHCmNmw1Xw93/HnjEO3p98axgwFxxRWhv/REP2mfAI
- 1JuvGEuBUiJS4ZSLROIyCJQUc66g8w9FfV11fCP2nvVVstPPaeyQytljzA+ezbWdwfhUhDYmS
- VHgk1Z8v25K6f7wm0pzBvmHaZmQRdjmsaDNglxgpey5fd6lagaPqIj5A6Y4gse2zic/CMs+0y
- EnRB+gGLAFhRkasLdQ7uwhdLDt3FoivrTE1PHXhif0WSmhnEP4mrr6DcMpc0BXMTFRenkor+G
- pz+oG7gAYgUDxR/c02IMoKZEl8DxXReFtctxrdrhbnEEwqDYWELS2qvdiszxTGO/upaPMwQoO
- QyKmo0fGLsQRLRcu8kzwSeM7RjjVVh6JbSZlY59Xqo0facbR+lZSdCDLwVQsXZbUdkIX/y8dC
- UKtuhbtiNwnWEj8xkYa0lV7mY6ymPYKOg1foE9Mk0e2ZeJMaIToB0yHpTUG2USPo/3uNesxP/
- pfBpMZRrHgCAtxT4acqJ1MHnpQIpPX2kyfZP08tLd8ugPVRmUPc/T7vIfNI=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: Re: [Qemu-devel] [PATCH v10 2/3] linux-user: Add support for
- setsockopt() option SOL_ALG
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P191CA0023.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::33)
+ To AM0PR08MB3572.eurprd08.prod.outlook.com
+ (2603:10a6:208:e1::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190613130603615
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 49d842f9-96c0-444e-49b0-08d6efe6bfa0
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM0PR08MB4563; 
+x-ms-traffictypediagnostic: AM0PR08MB4563:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <AM0PR08MB4563383F4AA5293E38267024C1EF0@AM0PR08MB4563.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0067A8BA2A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(376002)(39850400004)(366004)(396003)(136003)(189003)(199004)(66476007)(64756008)(66556008)(73956011)(66446008)(66946007)(86362001)(2501003)(31696002)(2201001)(99286004)(6116002)(3846002)(2906002)(186003)(7736002)(305945005)(52116002)(76176011)(81156014)(8676002)(81166006)(26005)(8936002)(102836004)(6506007)(386003)(66066001)(229853002)(316002)(2616005)(11346002)(476003)(446003)(486006)(4326008)(6246003)(71200400001)(71190400001)(478600001)(6436002)(6486002)(68736007)(14454004)(110136005)(54906003)(6512007)(31686004)(25786009)(5660300002)(36756003)(6306002)(53936002)(14444005)(256004)(107886003)(2004002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4563;
+ H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: HvpndVMZhw9Fzgi4X03xtS1UI2MYdS5njl2yfLid6H+/tDh5GJXiYPhGCbexo5w4R5Wr/Sq4xPiBHnt3D5F2Kd6UpATiLcBKMqLA0jTalPSmaJRiJ+AvkBA17jw6hUJ3/8j5KRtCRnIvAG/BTnC29wBYEwNhe5Inhwa1yzgwbYKxkugRXo/5dMqeRGF6Q17+x9mSgy8iziSlcjhj8xmEcEbGVN7QSNTiZfgDt9zRcGoMfmiGQV2/1B2tsGObfya0O7ywWa1szl6LpJUVfFnS6wnjI6KD7LqN0cc/hg6N95wGTlzJcG2wfLAuRsXMnGc1IY1SoxWikZUvSmsRWMurSLdhMM30qPjRceL0X2UC6OhK1BayYaSbycLqUWHF/4LnXITIos6re84hvU6mA4SqQfoQaChCQ3fcKcdsrXon/2A=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AE8D139E8260F144B35625099E906048@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49d842f9-96c0-444e-49b0-08d6efe6bfa0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 10:06:05.8561 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4563
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.7.123
+Subject: Re: [Qemu-devel] [PATCH v2 7/7] iotests: new file to suppress
+ Valgrind errors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,84 +103,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yunqiang Su <ysu@wavecomp.com>, amarkovic@wavecomp.com
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Roman Kagan <rkagan@virtuozzo.com>,
+ "berrange@redhat.com" <berrange@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 07/06/2019 à 12:35, Aleksandar Markovic a écrit :
-> From: Yunqiang Su <ysu@wavecomp.com>
-> 
-> Add support for options SOL_ALG of the syscall setsockopt(). This
-> option is used in relation to Linux kernel Crypto API, and allows
-> a user to set additional information for the cipher operation via
-> syscall setsockopt(). The field "optname" must be one of the
-> following:
-> 
->   - ALG_SET_KEY – seting the key
->   - ALG_SET_AEAD_AUTHSIZE – set the authentication tag size
-> 
-> SOL_ALG is relatively newer setsockopt() option. Therefore, the
-> code that handles SOL_ALG is enclosed in "ifdef" so that the build
-> does not fail for older kernels that do not contain support for
-> SOL_ALG. "ifdef" also contains check if ALG_SET_KEY and
-> ALG_SET_AEAD_AUTHSIZE are defined.
-> 
-> Signed-off-by: Yunqiang Su <ysu@wavecomp.com>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->  linux-user/syscall.c | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index dde6889..82c08b6 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -103,6 +103,7 @@
->  #include <linux/blkpg.h>
->  #include <netpacket/packet.h>
->  #include <linux/netlink.h>
-> +#include <linux/if_alg.h>
->  #include "linux_loop.h"
->  #include "uname.h"
->  
-> @@ -1998,6 +1999,36 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
->              goto unimplemented;
->          }
->          break;
-> +#if defined(SOL_ALG) && defined(ALG_SET_KEY) && defined(ALG_SET_AEAD_AUTHSIZE)
-> +    case SOL_ALG:
-> +        switch (optname) {
-> +        case ALG_SET_KEY:
-> +        {
-> +            char *alg_key = g_malloc(optlen);
-> +
-> +            if (!alg_key) {
-> +                return -TARGET_ENOMEM;
-> +            }
-> +            if (copy_from_user(alg_key, optval_addr, optlen)) {
-> +                g_free(alg_key);
-> +                return -TARGET_EFAULT;
-> +            }
-> +            ret = get_errno(setsockopt(sockfd, level, optname,
-> +                                       alg_key, optlen));
-> +            g_free(alg_key);
-> +            break;
-> +        }
-> +        case ALG_SET_AEAD_AUTHSIZE:
-> +        {
-> +            ret = get_errno(setsockopt(sockfd, level, optname,
-> +                                       NULL, optlen));
-> +            break;
-> +        }
-> +        default:
-> +            goto unimplemented;
-> +        }
-> +        break;
-> +#endif
->      case TARGET_SOL_SOCKET:
->          switch (optname) {
->          case TARGET_SO_RCVTIMEO:
-> 
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+MTEuMDYuMjAxOSAyMTowMiwgQW5kcmV5IFNoaW5rZXZpY2ggd3JvdGU6DQo+IFRoZSBWYWxncmlu
+ZCB0b29sIHJlcG9ydHMgYWJvdXQgYW4gdW5pbml0aWFsaXNlZCBtZW1vcnkgdXNhZ2Ugd2hlbiB0
+aGUNCj4gaW5pdGlhbGl6YXRpb24gaXMgYWN0dWFsbHkgbm90IG5lZWRlZC4gRm9yIGV4YW1wbGUs
+IHRoZSBidWZmZXIgJ2J1ZicNCj4gaW5zdGFudGlhdGVkIG9uIGEgc3RhY2sgb2YgdGhlIGZ1bmN0
+aW9uIGd1ZXNzX2Rpc2tfbGNocygpLg0KDQpmb3IgY29udmluaWVuY2UsIHlvdSBtYXkgYWRkOiAi
+b2YgdGhlIGZ1bmN0aW9uIGd1ZXNzX2Rpc2tfbGNocygpLCB3aGljaA0KaXMgdGhlbiBhY3R1YWxs
+eSBpbml0aWFsaXplZCBieSBibGtfcHJlYWRfdW50aHJvdHRsZWQoKSINCg0KPiBMZXQncyB1c2Ug
+dGhlIFZhbGdyaW5kIHRlY2hub2xvZ3kgdG8gc3VwcHJlc3MgdGhlIHVud2FudGVkIHJlcG9ydHMg
+YnkNCj4gYWRkaW5nIHRoZSBWYWxncmluZCBzcGVjaWZpYyBmb3JtYXQgZmlsZSB2YWxncmluZC5z
+dXBwIHRvIHRoZSBRRU1VDQo+IHByb2plY3QuIFRoZSBmaWxlIGNvbnRlbnQgaXMgZXh0ZW5kYWJs
+ZSBmb3IgZnV0dXJlIG5lZWRzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQW5kcmV5IFNoaW5rZXZp
+Y2ggPGFuZHJleS5zaGlua2V2aWNoQHZpcnR1b3p6by5jb20+DQo+IC0tLQ0KPiAgIHRlc3RzL3Fl
+bXUtaW90ZXN0cy9jb21tb24ucmMgICAgIHwgIDUgKysrKy0NCj4gICB0ZXN0cy9xZW11LWlvdGVz
+dHMvdmFsZ3JpbmQuc3VwcCB8IDMxICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4g
+ICAyIGZpbGVzIGNoYW5nZWQsIDM1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gICBj
+cmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvcWVtdS1pb3Rlc3RzL3ZhbGdyaW5kLnN1cHANCj4gDQo+
+IGRpZmYgLS1naXQgYS90ZXN0cy9xZW11LWlvdGVzdHMvY29tbW9uLnJjIGIvdGVzdHMvcWVtdS1p
+b3Rlc3RzL2NvbW1vbi5yYw0KPiBpbmRleCAzY2FhY2E0Li45Yjc0ODkwIDEwMDY0NA0KPiAtLS0g
+YS90ZXN0cy9xZW11LWlvdGVzdHMvY29tbW9uLnJjDQo+ICsrKyBiL3Rlc3RzL3FlbXUtaW90ZXN0
+cy9jb21tb24ucmMNCj4gQEAgLTE3LDYgKzE3LDggQEANCj4gICAjIGFsb25nIHdpdGggdGhpcyBw
+cm9ncmFtLiAgSWYgbm90LCBzZWUgPGh0dHA6Ly93d3cuZ251Lm9yZy9saWNlbnNlcy8+Lg0KPiAg
+ICMNCj4gICANCj4gK3JlYWRvbmx5IFZBTEdSSU5EX1NVUFBSRVNTX0VSUk9SUz0uL3ZhbGdyaW5k
+LnN1cHANCg0KV2h5IHJlYWRvbmx5Pw0KDQpJIHRoaW5rIGl0IHNob3VsZCBiZSBkZWZpbmVkIG5l
+YXIgYW5kIGluIHNhbWUgbWFubmVyIGFzIFZBTEdSSU5EX0xPR0ZJTEUsDQp3aXRoIHVzZSBvZiBU
+RVNUX0RJUg0KDQo+ICsNCj4gICBTRUQ9DQo+ICAgZm9yIHNlZCBpbiBzZWQgZ3NlZDsgZG8NCj4g
+ICAgICAgKCRzZWQgLS12ZXJzaW9uIHwgZ3JlcCAnR05VIHNlZCcpID4gL2Rldi9udWxsIDI+JjEN
+Cj4gQEAgLTY1LDcgKzY3LDggQEAgX3FlbXVfcHJvY193cmFwcGVyKCkNCj4gICAgICAgbG9jYWwg
+VkFMR1JJTkRfTE9HRklMRT0iJDEiDQo+ICAgICAgIHNoaWZ0DQo+ICAgICAgIGlmIFsgIiR7VkFM
+R1JJTkRfUUVNVX0iID09ICJ5IiBdOyB0aGVuDQo+IC0gICAgICAgIGV4ZWMgdmFsZ3JpbmQgLS1s
+b2ctZmlsZT0iJHtWQUxHUklORF9MT0dGSUxFfSIgLS1lcnJvci1leGl0Y29kZT05OSAiJEAiDQo+
+ICsgICAgICAgIGV4ZWMgdmFsZ3JpbmQgLS1sb2ctZmlsZT0iJHtWQUxHUklORF9MT0dGSUxFfSIg
+LS1lcnJvci1leGl0Y29kZT05OSBcDQo+ICsgICAgICAgICAgICAtLXN1cHByZXNzaW9ucz0iJHtW
+QUxHUklORF9TVVBQUkVTU19FUlJPUlN9IiAiJEAiDQo+ICAgICAgIGVsc2UNCj4gICAgICAgICAg
+IGV4ZWMgIiRAIg0KPiAgICAgICBmaQ0KPiBkaWZmIC0tZ2l0IGEvdGVzdHMvcWVtdS1pb3Rlc3Rz
+L3ZhbGdyaW5kLnN1cHAgYi90ZXN0cy9xZW11LWlvdGVzdHMvdmFsZ3JpbmQuc3VwcA0KPiBuZXcg
+ZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwLi43ODIxNWI2DQo+IC0tLSAvZGV2L251
+bGwNCj4gKysrIGIvdGVzdHMvcWVtdS1pb3Rlc3RzL3ZhbGdyaW5kLnN1cHANCj4gQEAgLTAsMCAr
+MSwzMSBAQA0KPiArIw0KPiArIyBWYWxncmluZCBlcnJvcnMgc3VwcHJlc3Npb24gZmlsZSBmb3Ig
+UUVNVSBpb3Rlc3RzDQo+ICsjDQo+ICsjIENvcHlyaWdodCAoYykgMjAxOSBWaXJ0dW96em8gSW50
+ZXJuYXRpb25hbCBHbWJIDQo+ICsjDQo+ICsjIFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNvZnR3YXJl
+OyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3IgbW9kaWZ5DQo+ICsjIGl0IHVuZGVyIHRo
+ZSB0ZXJtcyBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgYXMgcHVibGlzaGVkIGJ5
+DQo+ICsjIHRoZSBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb247IGVpdGhlciB2ZXJzaW9uIDIgb2Yg
+dGhlIExpY2Vuc2UsIG9yDQo+ICsjIChhdCB5b3VyIG9wdGlvbikgYW55IGxhdGVyIHZlcnNpb24u
+DQo+ICsjDQo+ICsjIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0
+IGl0IHdpbGwgYmUgdXNlZnVsLA0KPiArIyBidXQgV0lUSE9VVCBBTlkgV0FSUkFOVFk7IHdpdGhv
+dXQgZXZlbiB0aGUgaW1wbGllZCB3YXJyYW50eSBvZg0KPiArIyBNRVJDSEFOVEFCSUxJVFkgb3Ig
+RklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuICBTZWUgdGhlDQo+ICsjIEdOVSBHZW5l
+cmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFpbHMuDQo+ICsjDQo+ICsjIFlvdSBzaG91
+bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNl
+DQo+ICsjIGFsb25nIHdpdGggdGhpcyBwcm9ncmFtLiAgSWYgbm90LCBzZWUgPGh0dHA6Ly93d3cu
+Z251Lm9yZy9saWNlbnNlcy8+Lg0KPiArIw0KPiArew0KPiArICAgaHcvYmxvY2svaGQtZ2VvbWV0
+cnkuYw0KPiArICAgTWVtY2hlY2s6Q29uZA0KPiArICAgZnVuOmd1ZXNzX2Rpc2tfbGNocw0KPiAr
+ICAgZnVuOmhkX2dlb21ldHJ5X2d1ZXNzDQo+ICsgICBmdW46YmxrY29uZl9nZW9tZXRyeQ0KPiAr
+ICAgLi4uDQo+ICsgICBmdW46ZGV2aWNlX3NldF9yZWFsaXplZA0KPiArICAgZnVuOnByb3BlcnR5
+X3NldF9ib29sDQo+ICsgICBmdW46b2JqZWN0X3Byb3BlcnR5X3NldA0KPiArICAgZnVuOm9iamVj
+dF9wcm9wZXJ0eV9zZXRfcW9iamVjdA0KPiArICAgZnVuOm9iamVjdF9wcm9wZXJ0eV9zZXRfYm9v
+bA0KPiArfQ0KPiANCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
 
