@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183E943DC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:45:24 +0200 (CEST)
-Received: from localhost ([::1]:41072 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC0143ED6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:53:29 +0200 (CEST)
+Received: from localhost ([::1]:41130 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbRul-0008Ob-A0
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:45:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43067)
+	id 1hbS2Y-0005NO-M1
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43136)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbQqI-0001qq-Ka
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:36:46 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbQqO-0001s9-T7
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:36:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbQqG-00022D-M8
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:36:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50612)
+ (envelope-from <philmd@redhat.com>) id 1hbQqM-00026V-LG
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:36:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54382)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbQqG-0001z7-Ew
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:36:40 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbQqM-00024w-Es
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:36:46 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1649DB2DC8;
- Thu, 13 Jun 2019 14:36:36 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4864230BDE59;
+ Thu, 13 Jun 2019 14:36:44 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BF711001B0F;
- Thu, 13 Jun 2019 14:36:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82D651001B0F;
+ Thu, 13 Jun 2019 14:36:36 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 16:34:40 +0200
-Message-Id: <20190613143446.23937-15-philmd@redhat.com>
+Date: Thu, 13 Jun 2019 16:34:41 +0200
+Message-Id: <20190613143446.23937-16-philmd@redhat.com>
 In-Reply-To: <20190613143446.23937-1-philmd@redhat.com>
 References: <20190613143446.23937-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 13 Jun 2019 14:36:36 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Thu, 13 Jun 2019 14:36:44 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 14/20] hw/i386/pc: Let pc_build_smbios()
- take a FWCfgState argument
+Subject: [Qemu-devel] [PATCH v2 15/20] hw/i386/pc: Let pc_build_smbios()
+ take a generic MachineState argument
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,57 +66,42 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pass the FWCfgState object by argument, this will
-allow us to remove the PCMachineState argument later.
+Let the pc_build_smbios() function take a generic MachineState
+argument.
 
 Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/i386/pc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/i386/pc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 08df4f9895..c08869b52c 100644
+index c08869b52c..d3de03e5e3 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -890,7 +890,7 @@ static uint32_t x86_cpu_apic_id_from_index(unsigned i=
-nt cpu_index)
+@@ -890,13 +890,12 @@ static uint32_t x86_cpu_apic_id_from_index(unsigned=
+ int cpu_index)
      }
  }
 =20
--static void pc_build_smbios(PCMachineState *pcms)
-+static void pc_build_smbios(PCMachineState *pcms, FWCfgState *fw_cfg)
+-static void pc_build_smbios(PCMachineState *pcms, FWCfgState *fw_cfg)
++static void pc_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
  {
      uint8_t *smbios_tables, *smbios_anchor;
      size_t smbios_tables_len, smbios_anchor_len;
-@@ -904,7 +904,7 @@ static void pc_build_smbios(PCMachineState *pcms)
+     struct smbios_phys_mem_area *mem_array;
+     unsigned i, array_count;
+-    MachineState *ms =3D MACHINE(pcms);
+     X86CPU *cpu =3D X86_CPU(ms->possible_cpus->cpus[0].cpu);
 =20
-     smbios_tables =3D smbios_get_table_legacy(&smbios_tables_len);
-     if (smbios_tables) {
--        fw_cfg_add_bytes(pcms->fw_cfg, FW_CFG_SMBIOS_ENTRIES,
-+        fw_cfg_add_bytes(fw_cfg, FW_CFG_SMBIOS_ENTRIES,
-                          smbios_tables, smbios_tables_len);
-     }
-=20
-@@ -925,9 +925,9 @@ static void pc_build_smbios(PCMachineState *pcms)
-     g_free(mem_array);
-=20
-     if (smbios_anchor) {
--        fw_cfg_add_file(pcms->fw_cfg, "etc/smbios/smbios-tables",
-+        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-tables",
-                         smbios_tables, smbios_tables_len);
--        fw_cfg_add_file(pcms->fw_cfg, "etc/smbios/smbios-anchor",
-+        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
-                         smbios_anchor, smbios_anchor_len);
-     }
- }
-@@ -1593,7 +1593,7 @@ void pc_machine_done(Notifier *notifier, void *data=
+     /* tell smbios about cpuid version and features */
+@@ -1593,7 +1592,7 @@ void pc_machine_done(Notifier *notifier, void *data=
 )
 =20
      acpi_setup();
      if (pcms->fw_cfg) {
--        pc_build_smbios(pcms);
-+        pc_build_smbios(pcms, pcms->fw_cfg);
+-        pc_build_smbios(pcms, pcms->fw_cfg);
++        pc_build_smbios(MACHINE(pcms), pcms->fw_cfg);
          pc_build_feature_control_file(pcms);
          /* update FW_CFG_NB_CPUS to account for -device added CPUs */
          fw_cfg_modify_i16(pcms->fw_cfg, FW_CFG_NB_CPUS, pcms->boot_cpus)=
