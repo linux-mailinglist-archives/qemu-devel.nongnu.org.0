@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8125E44B27
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:53:29 +0200 (CEST)
-Received: from localhost ([::1]:43864 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C6A44B79
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 21:00:09 +0200 (CEST)
+Received: from localhost ([::1]:44024 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbUqm-0006JJ-LV
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53815)
+	id 1hbUxD-0004Iy-Sz
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 15:00:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54713)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbSlK-00048u-6N
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:39:46 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hbSoG-00070O-LP
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:42:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbSlG-0003Od-Ld
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:39:41 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37699)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbSlF-00031l-U9
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:39:38 -0400
-Received: by mail-wr1-x442.google.com with SMTP id v14so21495718wrr.4
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 09:39:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=aWvmCLU0tYg1jkOyEItQlK/WmLZzoOV611s9Hk2h2Ds=;
- b=ldLozEVS5RPki2P5jzmSLxEoh2wYQ/TwkL2qq6FdwlzjiRBBxTRDfR9BnO8nTjD5PW
- S/5WaRq/Tf+wZfTgf5MWTqyI4Vx8pkXNZdibyZe2PRtXgYJSqp5+ZHilgC3x5RIk7I5d
- vVzTluaEqnNoS5b2d12rQF0627bcVCbpcBM6u9skzvOAjemRBpLnvyAO02zF7Rv9RsDw
- WWuD0tvLilz0KgRRN9/gswUaXGbFg96TzUzo9/NXU37WHVV8RDmcqVafOSdhr14SUTY+
- s4vF2Z08eG0SUmxb71/rc0JZXDtZeFUkr/PAqpKXfJQsMns/oqf44dvvZcFi1NTcyrtC
- yMyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aWvmCLU0tYg1jkOyEItQlK/WmLZzoOV611s9Hk2h2Ds=;
- b=T/fegTrQ6zAo5WjEUNMEWAkHc41QWGEZbA7IdMuwjD1/jlTFfdszMZvSWrJwSIC491
- 7xsS5XjbOOBWYmCQzG8e2xeMW6pmerPJ1KujpBDBRqdYYS3ZEMYIwbhQjQjX2232KvYu
- kQ5+xo+z0FE5ZxDAiuilNGNVuwUIJK+4HENHLZbXokw9Aqa9RvYAVjFFE11j1VrvuhEn
- zkAqTeqbvoGM/WosQVP+BtaD3IWPO1bL+VsRYpMR7i9GwZcC/bGNqb1rkS9VKL1NepKJ
- TnvTfj4jPjXbX97TpQ4K2wJHZPGOI/NFxlFsnI62qeIjGaCOxPbtOUiQP1uiktdd0K6e
- 2DyQ==
-X-Gm-Message-State: APjAAAVAiptS2C7lMvnM/t4cTuC1unk0hw/fLLP+2EVpvDHxuaWlTnpf
- bY8l+bz6FoPXxe7oyezaZv8p5Q==
-X-Google-Smtp-Source: APXvYqze4Dv5bhuqYJA0zHEi8Th9YavrGxcIBLII9gt3+bh+1JBugjEWwszGRMZJSBRn2T4dd2uMKQ==
-X-Received: by 2002:a5d:63c9:: with SMTP id c9mr13593451wrw.81.1560443972149; 
- Thu, 13 Jun 2019 09:39:32 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f197sm358747wme.39.2019.06.13.09.39.31
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 09:39:31 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 17:39:17 +0100
-Message-Id: <20190613163917.28589-13-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190613163917.28589-1-peter.maydell@linaro.org>
-References: <20190613163917.28589-1-peter.maydell@linaro.org>
+ (envelope-from <no-reply@patchew.org>) id 1hbSoC-0002ag-SN
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:42:42 -0400
+Resent-Date: Thu, 13 Jun 2019 12:42:42 -0400
+Resent-Message-Id: <E1hbSoC-0002ag-SN@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21855)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hbSo9-0002N4-0X; Thu, 13 Jun 2019 12:42:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560444096; cv=none; d=zoho.com; s=zohoarc; 
+ b=ZF6mP/+tNti6BqxTLlz6zP5LrzrYWOkAMwEqmA5i2Y/CYFpo2wUUWGLH3227L9UhLdotkRmFcLimMBGEEzdy0GU07urI5Z6wucu3470ZqfDfRsoBkRniMRGG7mi1HHNG2s0tfGIjhXI5R/7DPpma4JqiafhxbcnwQ5JPf4UaYwY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1560444096;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=BipR7r2foRQ1huq0fS49EWRe0E+AY5KY4V7DVP78Z/E=; 
+ b=OgkORCwcCKb0rCncu/IwsUSK7S2hsWIa/gHm9niChaqWrMTL7qJTWsuBUjeng6/9JHV7JkDK0z6moA96qmQEqDyMXhUmnbUdS1V4viUejdRW1JZAf+48RrueflBUpukGJR/dPYdWBfbNjNK5NdK32IC3pog3HW8XkwevTk0LEHA=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1560444095825619.7468617326971;
+ Thu, 13 Jun 2019 09:41:35 -0700 (PDT)
+In-Reply-To: <20190529154654.95870-1-vsementsov@virtuozzo.com>
+Message-ID: <156044409441.5426.11371380430772467807@ce79690b2cb9>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH 12/12] target/arm: Remove unused cpu_F0s,
- cpu_F0d, cpu_F1s, cpu_F1d
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Thu, 13 Jun 2019 09:41:35 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PATCH v8 0/7] backup-top filter driver for backup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,51 +60,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the now unused TCG globals cpu_F0s, cpu_F0d, cpu_F1s, cpu_F1d.
-
-cpu_M0 is still used by the iwmmxt code, and cpu_V0 and
-cpu_V1 are used by both iwmmxt and Neon.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/translate.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
-
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 8f124a953b6..4750b9fa1bb 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -67,10 +67,6 @@ TCGv_i32 cpu_CF, cpu_NF, cpu_VF, cpu_ZF;
- TCGv_i64 cpu_exclusive_addr;
- TCGv_i64 cpu_exclusive_val;
- 
--/* FIXME:  These should be removed.  */
--static TCGv_i32 cpu_F0s, cpu_F1s;
--static TCGv_i64 cpu_F0d, cpu_F1d;
--
- #include "exec/gen-icount.h"
- 
- static const char * const regnames[] =
-@@ -11911,12 +11907,8 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-         dc->base.max_insns = MIN(dc->base.max_insns, bound);
-     }
- 
--    cpu_F0s = tcg_temp_new_i32();
--    cpu_F1s = tcg_temp_new_i32();
--    cpu_F0d = tcg_temp_new_i64();
--    cpu_F1d = tcg_temp_new_i64();
--    cpu_V0 = cpu_F0d;
--    cpu_V1 = cpu_F1d;
-+    cpu_V0 = tcg_temp_new_i64();
-+    cpu_V1 = tcg_temp_new_i64();
-     /* FIXME: cpu_M0 can probably be the same as cpu_V0.  */
-     cpu_M0 = tcg_temp_new_i64();
- }
--- 
-2.20.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyOTE1NDY1NC45NTg3
+MC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
+YnVpbGQgdGVzdCBvbiBzMzkweCBob3N0LiBQbGVhc2UgZmluZCB0aGUgZGV0YWlscyBiZWxvdy4K
+Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKIyBUZXN0aW5nIHNjcmlwdCB3
+aWxsIGJlIGludm9rZWQgdW5kZXIgdGhlIGdpdCBjaGVja291dCB3aXRoCiMgSEVBRCBwb2ludGlu
+ZyB0byBhIGNvbW1pdCB0aGF0IGhhcyB0aGUgcGF0Y2hlcyBhcHBsaWVkIG9uIHRvcCBvZiAiYmFz
+ZSIKIyBicmFuY2gKc2V0IC1lCkNDPSRIT01FL2Jpbi9jYwpJTlNUQUxMPSRQV0QvaW5zdGFsbApC
+VUlMRD0kUFdEL2J1aWxkCm1rZGlyIC1wICRCVUlMRCAkSU5TVEFMTApTUkM9JFBXRApjZCAkQlVJ
+TEQKJFNSQy9jb25maWd1cmUgLS1jYz0kQ0MgLS1wcmVmaXg9JElOU1RBTEwKbWFrZSAtajQKIyBY
+WFg6IHdlIG5lZWQgcmVsaWFibGUgY2xlYW4gdXAKIyBtYWtlIGNoZWNrIC1qNCBWPTEKbWFrZSBp
+bnN0YWxsCgplY2hvCmVjaG8gIj09PSBFTlYgPT09IgplbnYKCmVjaG8KZWNobyAiPT09IFBBQ0tB
+R0VTID09PSIKcnBtIC1xYQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAgICAgIGJsb2Nr
+L3JlcGxpY2F0aW9uLm8KICBDQyAgICAgIGJsb2NrL3Rocm90dGxlLm8KL3Zhci90bXAvcGF0Y2hl
+dy10ZXN0ZXItdG1wLWVnM2R3N3c1L3NyYy9ibG9jay9iYWNrdXAuYzogSW4gZnVuY3Rpb24g4oCY
+YmFja3VwX3J1buKAmToKL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWVnM2R3N3c1L3NyYy9i
+bG9jay9iYWNrdXAuYzoyODM6ODogZXJyb3I6IOKAmGVycm9yX2lzX3JlYWTigJkgbWF5IGJlIHVz
+ZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0aW9uIFstV2Vycm9yPW1heWJlLXVuaW5pdGlh
+bGl6ZWRdCiAgMjgzIHwgICAgIGlmIChyZWFkKSB7CiAgICAgIHwgICAgICAgIF4KL3Zhci90bXAv
+cGF0Y2hldy10ZXN0ZXItdG1wLWVnM2R3N3c1L3NyYy9ibG9jay9iYWNrdXAuYzozMzI6MTA6IG5v
+dGU6IOKAmGVycm9yX2lzX3JlYWTigJkgd2FzIGRlY2xhcmVkIGhlcmUKCgpUaGUgZnVsbCBsb2cg
+aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNTI5MTU0NjU0Ljk1
+ODcwLTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tL3Rlc3RpbmcuczM5MHgvP3R5cGU9bWVzc2Fn
+ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
+cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
+QHJlZGhhdC5jb20=
 
 
