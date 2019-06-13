@@ -2,54 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5432744BC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 21:09:55 +0200 (CEST)
-Received: from localhost ([::1]:44398 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D1044A7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:15:53 +0200 (CEST)
+Received: from localhost ([::1]:43342 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbV6g-00042q-HY
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 15:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56884)
+	id 1hbUGO-0002Q9-Vw
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:15:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56983)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hbSwl-0005gW-4O
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:51:33 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hbSxG-00068j-Fj
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:52:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hbSwj-0007N7-10
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:51:30 -0400
-Resent-Date: Thu, 13 Jun 2019 12:51:30 -0400
-Resent-Message-Id: <E1hbSwj-0007N7-10@eggs.gnu.org>
-Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21922)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hbSxE-0001iJ-Jh
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:52:02 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35868)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hbSwi-0007HA-Lv
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:51:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560444669; cv=none; d=zoho.com; s=zohoarc; 
- b=dA4O+16YllfVMIuvxHNB4mHoQFQl+Xu6mXdM0MzMDJZQjIiw8LaFymDmp3ykvQVrHJ+cwX4V6tLoGUm6ZQdaW0MvJAfmssgWNzC8Ngd2ZVihO9tOVItVQDGrzIWl7S0MseCJ+aV0ClFxlGJKGii1jY4WeAgXzJBweb+bnWMMOWY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1560444669;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=b3YLgs92b6dwJfjYu/G4jkAFUOzQhB4OYKwnHkOKkFc=; 
- b=ShOz07AEoOmosEKuD7OA/FZfMigbWmpQzWcDkt7Qu4eeODFaLFmoPfDTaaCcXXXBvXda+Y9hDbhsa40M3pybTdXFk75eByzz5ENnMghEKseskmCCclIcW9zmlOs/BV85fXbbu3SJaXz8BhyLHLUyybNgcdPj6SDG3/Pw1QsgMOI=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1560444668058478.90860374740316;
- Thu, 13 Jun 2019 09:51:08 -0700 (PDT)
-In-Reply-To: <20190613121433.5246-1-peter.maydell@linaro.org>
-Message-ID: <156044466722.5426.17023834607929355654@ce79690b2cb9>
-MIME-Version: 1.0
+ (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
+ id 1hbSxC-0001Rw-KW
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:52:00 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5DGgTq2081384
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:51:53 -0400
+Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2t3rn6wa63-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:51:52 -0400
+Received: from localhost
+ by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
+ Thu, 13 Jun 2019 17:51:52 +0100
+Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
+ by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 13 Jun 2019 17:51:48 +0100
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x5DGplXd30671326
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 13 Jun 2019 16:51:47 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6CF67BE053;
+ Thu, 13 Jun 2019 16:51:47 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2872EBE051;
+ Thu, 13 Jun 2019 16:51:47 +0000 (GMT)
+Received: from localhost (unknown [9.80.81.20])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 13 Jun 2019 16:51:46 +0000 (GMT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: peter.maydell@linaro.org
-Date: Thu, 13 Jun 2019 09:51:08 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.59
-Subject: Re: [Qemu-devel] [PULL 00/48] target-arm queue
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+To: Peter Maydell <peter.maydell@linaro.org>
+From: Michael Roth <mdroth@linux.vnet.ibm.com>
+In-Reply-To: <CAFEAcA97MUveG=si03B7_2WzDugtz7hR9x+YNQmU2xDiCF81eA@mail.gmail.com>
+References: <20190610134545.3743-1-peter.maydell@linaro.org>
+ <156043918624.3418.2275764093147880770@sif>
+ <CAFEAcA97MUveG=si03B7_2WzDugtz7hR9x+YNQmU2xDiCF81eA@mail.gmail.com>
+User-Agent: alot/0.7
+Date: Thu, 13 Jun 2019 11:51:41 -0500
+X-TM-AS-GCONF: 00
+x-cbid: 19061316-0036-0000-0000-00000ACB79BA
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011255; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01217453; UDB=6.00640208; IPR=6.00998565; 
+ MB=3.00027296; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-13 16:51:50
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19061316-0037-0000-0000-00004C36EF5B
+Message-Id: <156044470155.3418.5487761086434554857@sif>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-13_11:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906130122
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: Re: [Qemu-devel] [PATCH] qemu-ga: Convert invocation documentation
+ to rST
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,172 +97,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxMzEyMTQzMy41MjQ2
-LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BVTEwgMDAvNDhdIHRhcmdl
-dC1hcm0gcXVldWUKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwNjEzMTIxNDMzLjUyNDYt
-MS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
-YmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29u
-ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
-bmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4v
-c2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBF
-TkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0
-ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNGE0ZjQ3NiB0YXJnZXQvYXJtOiBGaXgg
-c2hvcnQtdmVjdG9yIGluY3JlbWVudCBiZWhhdmlvdXIKZjk3OTY5ZiB0YXJnZXQvYXJtOiBDb252
-ZXJ0IGZsb2F0LXRvLWludGVnZXIgVkNWVCBpbnNucyB0byBkZWNvZGV0cmVlCjA2NjkxYmQgdGFy
-Z2V0L2FybTogQ29udmVydCBWQ1ZUIGZwL2ZpeGVkLXBvaW50IGNvbnZlcnNpb24gaW5zbnMgdG8g
-ZGVjb2RldHJlZQo4ZWNjYmI3IHRhcmdldC9hcm06IENvbnZlcnQgVkpDVlQgdG8gZGVjb2RldHJl
-ZQpiMGRkNWVmIHRhcmdldC9hcm06IENvbnZlcnQgaW50ZWdlci10by1mbG9hdCBpbnNucyB0byBk
-ZWNvZGV0cmVlCmMwYjQzZDcgdGFyZ2V0L2FybTogQ29udmVydCBkb3VibGUtc2luZ2xlIHByZWNp
-c2lvbiBjb252ZXJzaW9uIGluc25zIHRvIGRlY29kZXRyZWUKYmRhZjlhNyB0YXJnZXQvYXJtOiBD
-b252ZXJ0IFZGUCByb3VuZCBpbnNucyB0byBkZWNvZGV0cmVlCjQ2MDZjYWMgdGFyZ2V0L2FybTog
-Q29udmVydCB0aGUgVkNWVC10by1mMTYgaW5zbnMgdG8gZGVjb2RldHJlZQpkYjQzNTkwIHRhcmdl
-dC9hcm06IENvbnZlcnQgdGhlIFZDVlQtZnJvbS1mMTYgaW5zbnMgdG8gZGVjb2RldHJlZQoxNTAx
-NGZhIHRhcmdldC9hcm06IENvbnZlcnQgVkZQIGNvbXBhcmlzb24gaW5zbnMgdG8gZGVjb2RldHJl
-ZQo3MmI4OTczIHRhcmdldC9hcm06IENvbnZlcnQgVk1PViAocmVnaXN0ZXIpIHRvIGRlY29kZXRy
-ZWUKNzM5ZjFhYiB0YXJnZXQvYXJtOiBDb252ZXJ0IFZTUVJUIHRvIGRlY29kZXRyZWUKNmE1NjAx
-OSB0YXJnZXQvYXJtOiBDb252ZXJ0IFZORUcgdG8gZGVjb2RldHJlZQozNzllMzkzIHRhcmdldC9h
-cm06IENvbnZlcnQgVkFCUyB0byBkZWNvZGV0cmVlCjc0ZmMzMDEgdGFyZ2V0L2FybTogQ29udmVy
-dCBWTU9WIChpbW0pIHRvIGRlY29kZXRyZWUKMWYxNzkzNyB0YXJnZXQvYXJtOiBDb252ZXJ0IFZG
-UCBmdXNlZCBtdWx0aXBseS1hZGQgaW5zbnMgdG8gZGVjb2RldHJlZQo3MDgyM2I3IHRhcmdldC9h
-cm06IENvbnZlcnQgVkRJViB0byBkZWNvZGV0cmVlCjY1MjA0MjIgdGFyZ2V0L2FybTogQ29udmVy
-dCBWU1VCIHRvIGRlY29kZXRyZWUKOTI2OWI1MWEgdGFyZ2V0L2FybTogQ29udmVydCBWQUREIHRv
-IGRlY29kZXRyZWUKYWNlZGVmNCB0YXJnZXQvYXJtOiBDb252ZXJ0IFZOTVVMIHRvIGRlY29kZXRy
-ZWUKY2Y4YjU2YSB0YXJnZXQvYXJtOiBDb252ZXJ0IFZNVUwgdG8gZGVjb2RldHJlZQpiN2E5ZTJi
-IHRhcmdldC9hcm06IENvbnZlcnQgVkZQIFZOTUxBIHRvIGRlY29kZXRyZWUKZjBmYzdmZCB0YXJn
-ZXQvYXJtOiBDb252ZXJ0IFZGUCBWTk1MUyB0byBkZWNvZGV0cmVlCmU0YTYyM2QgdGFyZ2V0L2Fy
-bTogQ29udmVydCBWRlAgVk1MUyB0byBkZWNvZGV0cmVlCmM1YjViYTggdGFyZ2V0L2FybTogQ29u
-dmVydCBWRlAgVk1MQSB0byBkZWNvZGV0cmVlCjBkYTU4ZmMgdGFyZ2V0L2FybTogUmVtb3ZlIFZM
-RFIvVlNUUi9WTERNL1ZTVE0gdXNlIG9mIGNwdV9GMHMgYW5kIGNwdV9GMGQKNGYxZDE0MSB0YXJn
-ZXQvYXJtOiBDb252ZXJ0IHRoZSBWRlAgbG9hZC9zdG9yZSBtdWx0aXBsZSBpbnNucyB0byBkZWNv
-ZGV0cmVlCmY0YjZiOTMgdGFyZ2V0L2FybTogQ29udmVydCBWRlAgVkxEUiBhbmQgVlNUUiB0byBk
-ZWNvZGV0cmVlCjc4ZTI4ZmQgdGFyZ2V0L2FybTogQ29udmVydCBWRlAgdHdvLXJlZ2lzdGVyIHRy
-YW5zZmVyIGluc25zIHRvIGRlY29kZXRyZWUKYmE0YTM3YSB0YXJnZXQvYXJtOiBDb252ZXJ0ICJz
-aW5nbGUtcHJlY2lzaW9uIiByZWdpc3RlciBtb3ZlcyB0byBkZWNvZGV0cmVlCmFlYWIyY2YgdGFy
-Z2V0L2FybTogQ29udmVydCAiZG91YmxlLXByZWNpc2lvbiIgcmVnaXN0ZXIgbW92ZXMgdG8gZGVj
-b2RldHJlZQo1M2I1MDkwIHRhcmdldC9hcm06IEFkZCBoZWxwZXJzIGZvciBWRlAgcmVnaXN0ZXIg
-bG9hZHMgYW5kIHN0b3JlcwphYjkyODdjIHRhcmdldC9hcm06IE1vdmUgdGhlIFZGUCB0cmFuc18q
-IGZ1bmN0aW9ucyB0byB0cmFuc2xhdGUtdmZwLmluYy5jCmUwNmQxNDYgdGFyZ2V0L2FybTogQ29u
-dmVydCBWQ1ZUQS9WQ1ZUTi9WQ1ZUUC9WQ1ZUTSB0byBkZWNvZGV0cmVlCmJkZWMyOWQgdGFyZ2V0
-L2FybTogQ29udmVydCBWUklOVEEvVlJJTlROL1ZSSU5UUC9WUklOVE0gdG8gZGVjb2RldHJlZQo3
-OTYyODIzIHRhcmdldC9hcm06IENvbnZlcnQgVk1JTk5NLCBWTUFYTk0gdG8gZGVjb2RldHJlZQoy
-ZTk3MDNhIHRhcmdldC9hcm06IENvbnZlcnQgdGhlIFZTRUwgaW5zdHJ1Y3Rpb25zIHRvIGRlY29k
-ZXRyZWUKZjcwMTk3NCB0YXJnZXQvYXJtOiBFeHBsaWNpdGx5IGVuYWJsZSBWRlAgc2hvcnQtdmVj
-dG9ycyBmb3IgYWFyY2gzMiAtY3B1IG1heAo0NWVhYWY3IHRhcmdldC9hcm06IEZpeCBDb3J0ZXgt
-UjVGIE1WRlIgdmFsdWVzCmVjNDJiN2UgdGFyZ2V0L2FybTogRmFjdG9yIG91dCBWRlAgYWNjZXNz
-IGNoZWNraW5nIGNvZGUKNzMzYWNkOCB0YXJnZXQvYXJtOiBBZGQgc3R1YnMgZm9yIEFBcmNoMzIg
-VkZQIGRlY29kZXRyZWUKYzIxMjZhNSBkZWNvZGV0cmVlOiBGaXggY29tcGFyaXNvbiBvZiBGaWVs
-ZAo2N2ZhZGEwIHRhcmdldC9hcm06IEZpeCBvdXRwdXQgb2YgUEF1dGggQXV0aAo4YTUyM2M3IGh3
-L2NvcmUvYnVzLmM6IE9ubHkgdGhlIG1haW4gc3lzdGVtIGJ1cyBjYW4gaGF2ZSBubyBwYXJlbnQK
-YzZmZWMyMSBody9hcm0vc21tdXYzOiBGaXggZGVjb2Rpbmcgb2YgSUQgcmVnaXN0ZXIgcmFuZ2UK
-ODIyYzQ2ZSB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTlNBQ1IgZ2F0aW5nIG9mIGZsb2F0aW5nIHBv
-aW50CmVlMzUwZDQgdGFyZ2V0L2FybTogVXNlIHRjZ19nZW5fZ3ZlY19iaXRzZWwKZThiMWEyNiB0
-YXJnZXQvYXJtOiBWZWN0b3JpemUgVVNITCBhbmQgU1NITAoKPT09IE9VVFBVVCBCRUdJTiA9PT0K
-MS80OCBDaGVja2luZyBjb21taXQgZThiMWEyNjcyYzE4ICh0YXJnZXQvYXJtOiBWZWN0b3JpemUg
-VVNITCBhbmQgU1NITCkKRVJST1I6IHRyYWlsaW5nIHN0YXRlbWVudHMgc2hvdWxkIGJlIG9uIG5l
-eHQgbGluZQojMTYzOiBGSUxFOiB0YXJnZXQvYXJtL3RyYW5zbGF0ZS5jOjUzNzc6CisgICAgICAg
-ICAgICBjYXNlIDI6IGdlbl91c2hsX2kzMih2YXIsIHZhciwgc2hpZnQpOyBicmVhazsKCkVSUk9S
-OiB0cmFpbGluZyBzdGF0ZW1lbnRzIHNob3VsZCBiZSBvbiBuZXh0IGxpbmUKIzE3MDogRklMRTog
-dGFyZ2V0L2FybS90cmFuc2xhdGUuYzo1MzgzOgorICAgICAgICAgICAgY2FzZSAyOiBnZW5fc3No
-bF9pMzIodmFyLCB2YXIsIHNoaWZ0KTsgYnJlYWs7Cgp0b3RhbDogMiBlcnJvcnMsIDAgd2Fybmlu
-Z3MsIDU3MCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzQ4IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCgoyLzQ4IENoZWNraW5nIGNvbW1pdCBlZTM1MGQ0ZmFmODQgKHRhcmdldC9hcm06IFVzZSB0
-Y2dfZ2VuX2d2ZWNfYml0c2VsKQozLzQ4IENoZWNraW5nIGNvbW1pdCA4MjJjNDZlZDQ4ZmEgKHRh
-cmdldC9hcm06IEltcGxlbWVudCBOU0FDUiBnYXRpbmcgb2YgZmxvYXRpbmcgcG9pbnQpCjQvNDgg
-Q2hlY2tpbmcgY29tbWl0IGM2ZmVjMjE3Yzk2OCAoaHcvYXJtL3NtbXV2MzogRml4IGRlY29kaW5n
-IG9mIElEIHJlZ2lzdGVyIHJhbmdlKQo1LzQ4IENoZWNraW5nIGNvbW1pdCA4YTUyM2M3ZWE5ZjEg
-KGh3L2NvcmUvYnVzLmM6IE9ubHkgdGhlIG1haW4gc3lzdGVtIGJ1cyBjYW4gaGF2ZSBubyBwYXJl
-bnQpCjYvNDggQ2hlY2tpbmcgY29tbWl0IDY3ZmFkYTA1MTNkYSAodGFyZ2V0L2FybTogRml4IG91
-dHB1dCBvZiBQQXV0aCBBdXRoKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxl
-KHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM0OTogCm5ldyBmaWxlIG1vZGUg
-MTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDgwIGxpbmVzIGNoZWNrZWQKClBh
-dGNoIDYvNDggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
-ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
-bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNy80OCBDaGVja2luZyBjb21taXQg
-YzIxMjZhNTQxNTMyIChkZWNvZGV0cmVlOiBGaXggY29tcGFyaXNvbiBvZiBGaWVsZCkKOC80OCBD
-aGVja2luZyBjb21taXQgNzMzYWNkODMwMjg5ICh0YXJnZXQvYXJtOiBBZGQgc3R1YnMgZm9yIEFB
-cmNoMzIgVkZQIGRlY29kZXRyZWUpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
-bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzUxOiAKbmV3IGZpbGUgbW9k
-ZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTM2IGxpbmVzIGNoZWNrZWQK
-ClBhdGNoIDgvNDggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
-IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
-dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOS80OCBDaGVja2luZyBjb21t
-aXQgZWM0MmI3ZTczNmE5ICh0YXJnZXQvYXJtOiBGYWN0b3Igb3V0IFZGUCBhY2Nlc3MgY2hlY2tp
-bmcgY29kZSkKMTAvNDggQ2hlY2tpbmcgY29tbWl0IDQ1ZWFhZjcyZGVmOCAodGFyZ2V0L2FybTog
-Rml4IENvcnRleC1SNUYgTVZGUiB2YWx1ZXMpCjExLzQ4IENoZWNraW5nIGNvbW1pdCBmNzAxOTc0
-ZTE2YTggKHRhcmdldC9hcm06IEV4cGxpY2l0bHkgZW5hYmxlIFZGUCBzaG9ydC12ZWN0b3JzIGZv
-ciBhYXJjaDMyIC1jcHUgbWF4KQoxMi80OCBDaGVja2luZyBjb21taXQgMmU5NzAzYTE3YzZkICh0
-YXJnZXQvYXJtOiBDb252ZXJ0IHRoZSBWU0VMIGluc3RydWN0aW9ucyB0byBkZWNvZGV0cmVlKQox
-My80OCBDaGVja2luZyBjb21taXQgNzk2MjgyM2E5ODM2ICh0YXJnZXQvYXJtOiBDb252ZXJ0IFZN
-SU5OTSwgVk1BWE5NIHRvIGRlY29kZXRyZWUpCjE0LzQ4IENoZWNraW5nIGNvbW1pdCBiZGVjMjlk
-MjJmZmYgKHRhcmdldC9hcm06IENvbnZlcnQgVlJJTlRBL1ZSSU5UTi9WUklOVFAvVlJJTlRNIHRv
-IGRlY29kZXRyZWUpCjE1LzQ4IENoZWNraW5nIGNvbW1pdCBlMDZkMTQ2ZGNlODkgKHRhcmdldC9h
-cm06IENvbnZlcnQgVkNWVEEvVkNWVE4vVkNWVFAvVkNWVE0gdG8gZGVjb2RldHJlZSkKMTYvNDgg
-Q2hlY2tpbmcgY29tbWl0IGFiOTI4N2NkNGNjNCAodGFyZ2V0L2FybTogTW92ZSB0aGUgVkZQIHRy
-YW5zXyogZnVuY3Rpb25zIHRvIHRyYW5zbGF0ZS12ZnAuaW5jLmMpCjE3LzQ4IENoZWNraW5nIGNv
-bW1pdCA1M2I1MDkwNTE4MzMgKHRhcmdldC9hcm06IEFkZCBoZWxwZXJzIGZvciBWRlAgcmVnaXN0
-ZXIgbG9hZHMgYW5kIHN0b3JlcykKMTgvNDggQ2hlY2tpbmcgY29tbWl0IGFlYWIyY2ZlMTMxNCAo
-dGFyZ2V0L2FybTogQ29udmVydCAiZG91YmxlLXByZWNpc2lvbiIgcmVnaXN0ZXIgbW92ZXMgdG8g
-ZGVjb2RldHJlZSkKMTkvNDggQ2hlY2tpbmcgY29tbWl0IGJhNGEzN2FmOTMyNyAodGFyZ2V0L2Fy
-bTogQ29udmVydCAic2luZ2xlLXByZWNpc2lvbiIgcmVnaXN0ZXIgbW92ZXMgdG8gZGVjb2RldHJl
-ZSkKMjAvNDggQ2hlY2tpbmcgY29tbWl0IDc4ZTI4ZmRhZTEwOCAodGFyZ2V0L2FybTogQ29udmVy
-dCBWRlAgdHdvLXJlZ2lzdGVyIHRyYW5zZmVyIGluc25zIHRvIGRlY29kZXRyZWUpCjIxLzQ4IENo
-ZWNraW5nIGNvbW1pdCBmNGI2YjkzM2E3ZDIgKHRhcmdldC9hcm06IENvbnZlcnQgVkZQIFZMRFIg
-YW5kIFZTVFIgdG8gZGVjb2RldHJlZSkKMjIvNDggQ2hlY2tpbmcgY29tbWl0IDRmMWQxNDE0Nzcz
-MCAodGFyZ2V0L2FybTogQ29udmVydCB0aGUgVkZQIGxvYWQvc3RvcmUgbXVsdGlwbGUgaW5zbnMg
-dG8gZGVjb2RldHJlZSkKMjMvNDggQ2hlY2tpbmcgY29tbWl0IDBkYTU4ZmNmOGJlZSAodGFyZ2V0
-L2FybTogUmVtb3ZlIFZMRFIvVlNUUi9WTERNL1ZTVE0gdXNlIG9mIGNwdV9GMHMgYW5kIGNwdV9G
-MGQpCjI0LzQ4IENoZWNraW5nIGNvbW1pdCBjNWI1YmE4YmQ5ZGYgKHRhcmdldC9hcm06IENvbnZl
-cnQgVkZQIFZNTEEgdG8gZGVjb2RldHJlZSkKMjUvNDggQ2hlY2tpbmcgY29tbWl0IGU0YTYyM2Rk
-N2FjOSAodGFyZ2V0L2FybTogQ29udmVydCBWRlAgVk1MUyB0byBkZWNvZGV0cmVlKQoyNi80OCBD
-aGVja2luZyBjb21taXQgZjBmYzdmZDhlZTAwICh0YXJnZXQvYXJtOiBDb252ZXJ0IFZGUCBWTk1M
-UyB0byBkZWNvZGV0cmVlKQoyNy80OCBDaGVja2luZyBjb21taXQgYjdhOWUyYmVhZDk1ICh0YXJn
-ZXQvYXJtOiBDb252ZXJ0IFZGUCBWTk1MQSB0byBkZWNvZGV0cmVlKQoyOC80OCBDaGVja2luZyBj
-b21taXQgY2Y4YjU2YTZkMTUwICh0YXJnZXQvYXJtOiBDb252ZXJ0IFZNVUwgdG8gZGVjb2RldHJl
-ZSkKMjkvNDggQ2hlY2tpbmcgY29tbWl0IGFjZWRlZjQ4YWQ4NSAodGFyZ2V0L2FybTogQ29udmVy
-dCBWTk1VTCB0byBkZWNvZGV0cmVlKQozMC80OCBDaGVja2luZyBjb21taXQgOTI2OWI1MWE0NDg2
-ICh0YXJnZXQvYXJtOiBDb252ZXJ0IFZBREQgdG8gZGVjb2RldHJlZSkKMzEvNDggQ2hlY2tpbmcg
-Y29tbWl0IDY1MjA0MjIyZWEwYiAodGFyZ2V0L2FybTogQ29udmVydCBWU1VCIHRvIGRlY29kZXRy
-ZWUpCjMyLzQ4IENoZWNraW5nIGNvbW1pdCA3MDgyM2I3OTY2YjYgKHRhcmdldC9hcm06IENvbnZl
-cnQgVkRJViB0byBkZWNvZGV0cmVlKQozMy80OCBDaGVja2luZyBjb21taXQgMWYxNzkzNzJjYjcz
-ICh0YXJnZXQvYXJtOiBDb252ZXJ0IFZGUCBmdXNlZCBtdWx0aXBseS1hZGQgaW5zbnMgdG8gZGVj
-b2RldHJlZSkKMzQvNDggQ2hlY2tpbmcgY29tbWl0IDc0ZmMzMDFiMDZhMiAodGFyZ2V0L2FybTog
-Q29udmVydCBWTU9WIChpbW0pIHRvIGRlY29kZXRyZWUpCjM1LzQ4IENoZWNraW5nIGNvbW1pdCAz
-NzllMzkzYWI0NjcgKHRhcmdldC9hcm06IENvbnZlcnQgVkFCUyB0byBkZWNvZGV0cmVlKQozNi80
-OCBDaGVja2luZyBjb21taXQgNmE1NjAxOTA5NTA1ICh0YXJnZXQvYXJtOiBDb252ZXJ0IFZORUcg
-dG8gZGVjb2RldHJlZSkKMzcvNDggQ2hlY2tpbmcgY29tbWl0IDczOWYxYWJlOTY4MiAodGFyZ2V0
-L2FybTogQ29udmVydCBWU1FSVCB0byBkZWNvZGV0cmVlKQozOC80OCBDaGVja2luZyBjb21taXQg
-NzJiODk3M2UyOTIyICh0YXJnZXQvYXJtOiBDb252ZXJ0IFZNT1YgKHJlZ2lzdGVyKSB0byBkZWNv
-ZGV0cmVlKQozOS80OCBDaGVja2luZyBjb21taXQgMTUwMTRmYTMwYzFkICh0YXJnZXQvYXJtOiBD
-b252ZXJ0IFZGUCBjb21wYXJpc29uIGluc25zIHRvIGRlY29kZXRyZWUpCjQwLzQ4IENoZWNraW5n
-IGNvbW1pdCBkYjQzNTkwYjcwMGMgKHRhcmdldC9hcm06IENvbnZlcnQgdGhlIFZDVlQtZnJvbS1m
-MTYgaW5zbnMgdG8gZGVjb2RldHJlZSkKNDEvNDggQ2hlY2tpbmcgY29tbWl0IDQ2MDZjYWNkZTNk
-NyAodGFyZ2V0L2FybTogQ29udmVydCB0aGUgVkNWVC10by1mMTYgaW5zbnMgdG8gZGVjb2RldHJl
-ZSkKNDIvNDggQ2hlY2tpbmcgY29tbWl0IGJkYWY5YTc1NDU1YSAodGFyZ2V0L2FybTogQ29udmVy
-dCBWRlAgcm91bmQgaW5zbnMgdG8gZGVjb2RldHJlZSkKNDMvNDggQ2hlY2tpbmcgY29tbWl0IGMw
-YjQzZDc2YmRkZCAodGFyZ2V0L2FybTogQ29udmVydCBkb3VibGUtc2luZ2xlIHByZWNpc2lvbiBj
-b252ZXJzaW9uIGluc25zIHRvIGRlY29kZXRyZWUpCjQ0LzQ4IENoZWNraW5nIGNvbW1pdCBiMGRk
-NWVmMGVmMDggKHRhcmdldC9hcm06IENvbnZlcnQgaW50ZWdlci10by1mbG9hdCBpbnNucyB0byBk
-ZWNvZGV0cmVlKQo0NS80OCBDaGVja2luZyBjb21taXQgOGVjY2JiNzljOGJmICh0YXJnZXQvYXJt
-OiBDb252ZXJ0IFZKQ1ZUIHRvIGRlY29kZXRyZWUpCjQ2LzQ4IENoZWNraW5nIGNvbW1pdCAwNjY5
-MWJkZjgzZTkgKHRhcmdldC9hcm06IENvbnZlcnQgVkNWVCBmcC9maXhlZC1wb2ludCBjb252ZXJz
-aW9uIGluc25zIHRvIGRlY29kZXRyZWUpCjQ3LzQ4IENoZWNraW5nIGNvbW1pdCBmOTc5NjlmYTVj
-OGMgKHRhcmdldC9hcm06IENvbnZlcnQgZmxvYXQtdG8taW50ZWdlciBWQ1ZUIGluc25zIHRvIGRl
-Y29kZXRyZWUpCjQ4LzQ4IENoZWNraW5nIGNvbW1pdCA0YTRmNDc2OTk2MjQgKHRhcmdldC9hcm06
-IEZpeCBzaG9ydC12ZWN0b3IgaW5jcmVtZW50IGJlaGF2aW91cikKPT09IE9VVFBVVCBFTkQgPT09
-CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
-bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA2MTMxMjE0MzMuNTI0Ni0xLXBl
-dGVyLm1heWRlbGxAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4K
-LS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0
-Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJl
-ZGhhdC5jb20=
+Quoting Peter Maydell (2019-06-13 10:29:33)
+> On Thu, 13 Jun 2019 at 16:20, Michael Roth <mdroth@linux.vnet.ibm.com> wr=
+ote:
+> >
+> > Quoting Peter Maydell (2019-06-10 08:45:45)
+> > > The qemu-ga documentation is currently in qemu-ga.texi in
+> > > Texinfo format, which we present to the user as:
+> > >  * a qemu-ga manpage
+> > >  * a section of the main qemu-doc HTML documentation
+> > >
+> > > Convert the documentation to rST format, and present it to
+> > > the user as:
+> > >  * a qemu-ga manpage
+> > >  * part of the interop/ Sphinx manual
+> > >
+> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> =
+
+> > > +# Canned command to build manpages from a single manual
+> > > +build-manpages =3D $(call quiet-command,CONFDIR=3D"$(qemu_confdir)" =
+sphinx-build $(if $(V),,-q) -W -n -b man -D version=3D$(VERSION) -D release=
+=3D"$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1
+> $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+> =
+
+> > > --- a/docs/conf.py
+> > > +++ b/docs/conf.py
+> > > @@ -115,6 +115,14 @@ todo_include_todos =3D False
+> > >  # with "option::" in the document being processed. Turn that off.
+> > >  suppress_warnings =3D ["ref.option"]
+> > >
+> > > +# The rst_epilog fragment is effectively included in every rST file.
+> > > +# We use it to define substitutions based on build config that
+> > > +# can then be used in the documentation. The fallback if the
+> > > +# environment variable is not set is for the benefit of readthedocs
+> > > +# style document building; our Makefile always sets the variable.
+> > > +confdir =3D os.getenv('CONFDIR', "/usr/local/etc")
+> > > +rst_epilog =3D ".. |CONFDIR| replace:: ``" + confdir + "``\n"
+> > > +
+> >
+> > When testing this I have the following in my qemu build directory (via
+> > ./configure --prefix=3D/home/mdroth/w/qemu-install2):
+> >
+> >   $ grep -r CONFDIR
+> >   config-host.h-timestamp:#define CONFIG_QEMU_CONFDIR "/home/mdroth/w/q=
+emu-install2/etc/qemu"
+> >   qemu-doc.txt:     user-provided config files on SYSCONFDIR.
+> >   config-host.h:#define CONFIG_QEMU_CONFDIR "/home/mdroth/w/qemu-instal=
+l2/etc/qemu"
+> >   docs/version.texi:@set CONFDIR /home/mdroth/w/qemu-install2/etc/qemu
+> >
+> > but the following input for the qemu-ga man page:
+> >
+> >   qemu-ga will read a system configuration file on startup (located at
+> >   |CONFDIR|\ ``/qemu-ga.conf`` by default),
+> >
+> > ends up as this in the generated man page:
+> >
+> >   qemu-ga will read a system configuration file on startup (located at =
+/usr/local/etc/qemu-ga.conf
+> >   by  default),
+> >
+> > is this expected, or are we unexpectedly falling back to the default
+> > value here?
+> =
+
+> No, if you're invoking Sphinx via the makefile then we should
+> be passing CONFDIR=3D"$(qemu_confdir)" to set the environment
+> variable when we invoke it. Can you try doing a build with V=3D1
+> to check the sphinx command line ?
+
+Here's the relevant output from make. The environment variable seems to
+be defined as expected but I guess sphinx-build isn't picking it up for
+some reason?
+
+( echo "@set VERSION 4.0.50" && echo "@set CONFDIR /home/mdroth/w/qemu-inst=
+all2/etc/qemu" )> docs/version.texi
+sh /home/mdroth/w/qemu4.git/scripts/hxtool -t < /home/mdroth/w/qemu4.git/qe=
+mu-options.hx > qemu-options.texi
+sh /home/mdroth/w/qemu4.git/scripts/hxtool -t < /home/mdroth/w/qemu4.git/hm=
+p-commands.hx > qemu-monitor.texi
+sh /home/mdroth/w/qemu4.git/scripts/hxtool -t < /home/mdroth/w/qemu4.git/qe=
+mu-img-cmds.hx > qemu-img-cmds.texi
+sh /home/mdroth/w/qemu4.git/scripts/hxtool -t < /home/mdroth/w/qemu4.git/hm=
+p-commands-info.hx > qemu-monitor-info.texi
+LC_ALL=3DC makeinfo --no-split --number-sections -I docs -I /home/mdroth/w/=
+qemu4.git -I . --no-headers --html /home/mdroth/w/qemu4.git/qemu-doc.texi -=
+o qemu-doc.html
+LC_ALL=3DC makeinfo --no-split --number-sections -I docs -I /home/mdroth/w/=
+qemu4.git -I . --no-headers --plaintext /home/mdroth/w/qemu4.git/qemu-doc.t=
+exi -o qemu-doc.txt
+perl -Ww -- /home/mdroth/w/qemu4.git/scripts/texi2pod.pl -I docs -I /home/m=
+droth/w/qemu4.git -I . -DVERSION=3D"4.0.50" -DCONFDIR=3D"/home/mdroth/w/qem=
+u-install2/etc/qemu" /home/mdroth/w/qemu4.git/qemu-doc.texi qemu.1.pod && p=
+od2man --utf8 --section=3D1 --center=3D" " --release=3D" " qemu.1.pod > qem=
+u.1
+perl -Ww -- /home/mdroth/w/qemu4.git/scripts/texi2pod.pl -I docs -I /home/m=
+droth/w/qemu4.git -I . -DVERSION=3D"4.0.50" -DCONFDIR=3D"/home/mdroth/w/qem=
+u-install2/etc/qemu" /home/mdroth/w/qemu4.git/qemu-img.texi qemu-img.1.pod =
+&& pod2man --utf8 --section=3D1 --center=3D" " --release=3D" " qemu-img.1.p=
+od > qemu-img.1
+perl -Ww -- /home/mdroth/w/qemu4.git/scripts/texi2pod.pl -I docs -I /home/m=
+droth/w/qemu4.git -I . -DVERSION=3D"4.0.50" -DCONFDIR=3D"/home/mdroth/w/qem=
+u-install2/etc/qemu" /home/mdroth/w/qemu4.git/qemu-nbd.texi qemu-nbd.8.pod =
+&& pod2man --utf8 --section=3D8 --center=3D" " --release=3D" " qemu-nbd.8.p=
+od > qemu-nbd.8
+CONFDIR=3D"/home/mdroth/w/qemu-install2/etc/qemu" sphinx-build  -W -n -b ma=
+n -D version=3D4.0.50 -D release=3D"4.0.50 (v4.0.0-1240-g90b8a170d2-dirty)"=
+ -d .doctrees/interop /home/mdroth/w/qemu4.git/docs/interop docs/interop
+Running Sphinx v1.6.7
+loading pickled environment... done
+building [mo]: targets for 0 po files that are out of date
+building [man]: all manpages
+updating environment: [config changed] 7 added, 0 changed, 0 removed
+reading sources... [ 14%] bitmaps
+reading sources... [ 28%] index
+reading sources... [ 42%] live-block-operations
+reading sources... [ 57%] pr-helper
+reading sources... [ 71%] qemu-ga
+reading sources... [ 85%] vhost-user
+reading sources... [100%] vhost-user-gpu
+
+looking for now-outdated files... none found
+pickling environment... done
+checking consistency... done
+writing... qemu-ga.8 { }
+build succeeded.
+
+> =
+
+> I've just realized that I didn't also update the 'build-manual'
+> macro to add the CONFDIR setting. Perhaps Sphinx ran first with
+> the build-manual macro and has cached document contents created
+> with that incorrect invocation and then reused them in the manpage
+> creation? If so, this should be fixable by adding the CONFDIR=3D"$(qemu_c=
+onfdir)"
+> to the build-manual macro in the Makefile, and then deleting the .doctree=
+s/
+> directory from your build tree and rerunning make.
+
+Sorry looks like it was an issue on my end actually...I guess I had a left-=
+over
+.doctrees from an earlier build (with no --prefix). I generally rm -rf * wi=
+thin
+build directory instead of 'make clean', but that was still leaving around a
+stale .doctrees. Once I deleted that I could no longer reproduce (neither
+with/without the additional CONFDIR setting).
+
+> =
+
+> > Sphinx seems to do a better job of formatting "Key" and "Key type" into
+> > actual table columns in the generated man/html pages (rather than just
+> > separating them with whitespace), so I think we can drop the trailing '=
+=3D's
+> =
+
+> Sure; I'll change this in v2.
+> =
+
+> thanks
+> -- PMM
+>=20
 
 
