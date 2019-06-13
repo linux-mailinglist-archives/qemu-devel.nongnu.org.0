@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3A2449B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:28:50 +0200 (CEST)
-Received: from localhost ([::1]:42386 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73ABB449C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:36:35 +0200 (CEST)
+Received: from localhost ([::1]:42538 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbTWr-0005e3-Mn
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43790)
+	id 1hbTeM-0001cJ-Lg
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:36:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44637)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbSCe-0008JS-52
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:03:54 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbSF7-0000rV-Bf
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:06:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbSCX-0004Fr-9j
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:03:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:18893)
+ (envelope-from <mreitz@redhat.com>) id 1hbSF5-0002vw-92
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:06:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55446)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbSC9-0002n0-LW; Thu, 13 Jun 2019 12:03:23 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hbSEx-0002Ir-3z; Thu, 13 Jun 2019 12:06:15 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9FFD13079B87;
- Thu, 13 Jun 2019 16:03:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5CF8B307D988;
+ Thu, 13 Jun 2019 16:06:13 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A6C360A9A;
- Thu, 13 Jun 2019 16:03:05 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20190612220839.1374-1-mreitz@redhat.com>
- <20190612220839.1374-2-mreitz@redhat.com>
- <b110b753-8546-0d34-f6ef-06c5726766ce@virtuozzo.com>
- <c1fbf12a-77af-d939-4266-67b822e5a923@redhat.com>
- <57ae7f82-ae02-a382-74f6-cb96672b2058@virtuozzo.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 25A555DD7F;
+ Thu, 13 Jun 2019 16:06:11 +0000 (UTC)
+To: Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190611102720.86114-1-vsementsov@virtuozzo.com>
+ <20190611102720.86114-4-vsementsov@virtuozzo.com>
+ <c03ff39b-5e8f-ed0a-d33c-2d2d4919cd33@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -61,22 +61,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <00cce102-a1f1-9205-6eb7-1e48d8991b00@redhat.com>
-Date: Thu, 13 Jun 2019 18:03:04 +0200
+Message-ID: <8ce11b07-91b3-df46-53f1-7de34e9bb26e@redhat.com>
+Date: Thu, 13 Jun 2019 18:06:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <57ae7f82-ae02-a382-74f6-cb96672b2058@virtuozzo.com>
+In-Reply-To: <c03ff39b-5e8f-ed0a-d33c-2d2d4919cd33@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="M3wl1NTteJ8gK53oiyYBvZsIyRQjRRD9b"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+ boundary="pl7hSGchpcG2rLGy7a0ObtostemTPGtBp"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 13 Jun 2019 16:03:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Thu, 13 Jun 2019 16:06:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/2] vl: Drain before (block) job cancel
- when quitting
+Subject: Re: [Qemu-devel] [PATCH 3/3] block/nbd: merge NBDClientSession
+ struct back to BDRVNBDState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,140 +88,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---M3wl1NTteJ8gK53oiyYBvZsIyRQjRRD9b
-Content-Type: multipart/mixed; boundary="017Fbqrn0PEJzCqCYB50BGb6u5dJ1R9nv";
+--pl7hSGchpcG2rLGy7a0ObtostemTPGtBp
+Content-Type: multipart/mixed; boundary="fVErcUlQLI5c5KInrgBZWMgeHR9EXkML5";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Cc: Qemu-block <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <00cce102-a1f1-9205-6eb7-1e48d8991b00@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH 1/2] vl: Drain before (block) job cancel when
- quitting
-References: <20190612220839.1374-1-mreitz@redhat.com>
- <20190612220839.1374-2-mreitz@redhat.com>
- <b110b753-8546-0d34-f6ef-06c5726766ce@virtuozzo.com>
- <c1fbf12a-77af-d939-4266-67b822e5a923@redhat.com>
- <57ae7f82-ae02-a382-74f6-cb96672b2058@virtuozzo.com>
-In-Reply-To: <57ae7f82-ae02-a382-74f6-cb96672b2058@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: kwolf@redhat.com
+Message-ID: <8ce11b07-91b3-df46-53f1-7de34e9bb26e@redhat.com>
+Subject: Re: [PATCH 3/3] block/nbd: merge NBDClientSession struct back to
+ BDRVNBDState
+References: <20190611102720.86114-1-vsementsov@virtuozzo.com>
+ <20190611102720.86114-4-vsementsov@virtuozzo.com>
+ <c03ff39b-5e8f-ed0a-d33c-2d2d4919cd33@redhat.com>
+In-Reply-To: <c03ff39b-5e8f-ed0a-d33c-2d2d4919cd33@redhat.com>
 
---017Fbqrn0PEJzCqCYB50BGb6u5dJ1R9nv
+--fVErcUlQLI5c5KInrgBZWMgeHR9EXkML5
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-[re-adding the original CCs, why not]
-
-On 13.06.19 16:30, Vladimir Sementsov-Ogievskiy wrote:
-> 13.06.2019 17:21, Max Reitz wrote:
->> On 13.06.19 16:19, Vladimir Sementsov-Ogievskiy wrote:
->>> 13.06.2019 1:08, Max Reitz wrote:
->>>> If the main loop cancels all block jobs while the block layer is not=
-
->>>> drained, this cancelling may not happen instantaneously.  We can sta=
-rt a
->>>> drained section before vm_shutdown(), which entails another
->>>> bdrv_drain_all(); this nested bdrv_drain_all() will thus be a no-op,=
-
->>>> basically.
->>>>
->>>> We do not have to end the drained section, because we actually do no=
-t
->>>> want any requests to happen from this point on.
->>>>
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>> ---
->>>> I don't know whether it actually makes sense to never end this drain=
-ed
->>>> section.  It makes sense to me.  Please correct me if I'm wrong.
->>>> ---
->>>>    vl.c | 11 +++++++++++
->>>>    1 file changed, 11 insertions(+)
->>>>
->>>> diff --git a/vl.c b/vl.c
->>>> index cd1fbc4cdc..3f8b3f74f5 100644
->>>> --- a/vl.c
->>>> +++ b/vl.c
->>>> @@ -4538,6 +4538,17 @@ int main(int argc, char **argv, char **envp)
->>>>         */
->>>>        migration_shutdown();
->>>>   =20
->>>> +    /*
->>>> +     * We must cancel all block jobs while the block layer is drain=
-ed,
->>>> +     * or cancelling will be affected by throttling and thus may bl=
-ock
->>>> +     * for an extended period of time.
->>>> +     * vm_shutdown() will bdrv_drain_all(), so we may as well inclu=
-de
->>>> +     * it in the drained section.
->>>> +     * We do not need to end this section, because we do not want a=
-ny
->>>> +     * requests happening from here on anyway.
->>>> +     */
->>>> +    bdrv_drain_all_begin();
->>>> +
->>>>        /* No more vcpu or device emulation activity beyond this poin=
-t */
->>>>        vm_shutdown();
->>>>   =20
->>>>
->>>
->>> So, actually, the problem is that we may wait for job requests twice:=
-
->>> on drain and then on cancel.
->>
->> We don=E2=80=99t wait on drain.  When the throttle node is drained, it=
- will
->> ignore throttling (as noted in the cover letter).
->>
->> We do wait when cancelling a job while the throttle node isn=E2=80=99t=
- drained,
->> though.  That=E2=80=99s the problem.
+On 13.06.19 17:16, Eric Blake wrote:
+> On 6/11/19 5:27 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> No reason to keep it separate, it differs from others block driver
+>> behavior and therefor confuses. Instead of generic
 >=20
-> Ah, understand now.
->=20
-> Is it safe to drain_begin before stopping cpus? We may finish up then w=
-ith some queued
-> somewhere IO requests..
+> s/therefor/therefore/ (both spellings are valid, but the former looks
+> archaic)
+The things you teach me.
 
-Hm...  Aren=E2=80=99t guest devices prohibited from issuing requests to t=
-he
-block layer while their respective block device is drained?
+I will happily use =E2=80=9Ctherefor=E2=80=9D from now on whenever not to=
+o inappropriate.
 
-Otherwise, I suppose I=E2=80=99ll have to move the bdrv_drain_all_begin()=
- below
-the vm_shutdown().  That wouldn=E2=80=99t be too big of a problem.
+(I like how Wiktionary notes that =E2=80=9Ctherefor=E2=80=9D is an anagra=
+m of
+=E2=80=9Ctherfore=E2=80=9D.  That one looks nice, too.  I suppose I will =
+just switch
+between both at random.)
 
 Max
 
 
---017Fbqrn0PEJzCqCYB50BGb6u5dJ1R9nv--
+--fVErcUlQLI5c5KInrgBZWMgeHR9EXkML5--
 
---M3wl1NTteJ8gK53oiyYBvZsIyRQjRRD9b
+--pl7hSGchpcG2rLGy7a0ObtostemTPGtBp
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0Cc7gACgkQ9AfbAGHV
-z0A5uQf8DX6F12p8sJQ7GftT8/WVVqz0u8csoUw+O7Ralgetd7rFAMMscHGSvWLC
-VHV6jxXAApnOpKsNMY2IVdwQjrXuVe5k/873Dm/a4aW8wxft29AjgKshdc0ro5dT
-QfMyLTd8dGTj9+lWuu4GjfctsEZudpl+rxyhl7ig/5IPq3KbEOtFSWdnoEFr+XCX
-y6RzarcIFckZNjypY6/6S9aUDwKMRQxqI8yyG9V34P4B/BU8z/RCviAgn2FybcHt
-PeFuu2GUOJd0X8l+5VAlLSd913CYaIjPRcJR7bD04Gj6D2P2E49uEqf/YnhIGrxR
-280B6JX9OcOBZF+DQJN2bCBqnIuRlA==
-=0IQZ
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CdHIACgkQ9AfbAGHV
+z0BUhAf+IRAhur7uqTtG6NmhubNfm6SZIwznZC/QevxdUSZ0Y+seWXbdAn8mvx2U
+J+v/cujNcPBRxG3Pfhum5d9pQruJ/bXMHsXWyLINzebGTVbQd+EfuvNg7gXo7BP9
+5btxEUwt64HJir2lxDelVwW081KtajE1MuyFjC3aRp1WRO1J2XjuK5QM95iKO6Ee
+TkL4hPnyhJlOmpfGoFomOGh4dv0h9BHihsIyFWmBbWcnPRizqEKMP3FZhM7evY3Y
+XXzVdoNH8pWfwlo9rK0H1JIh+kFyabvEFz/LthxBmg7tVKXSAnlmyBhsOOa9lLJE
+S+NtrCAIxN9N/i7U0m1rzTYRlOxPFA==
+=REEC
 -----END PGP SIGNATURE-----
 
---M3wl1NTteJ8gK53oiyYBvZsIyRQjRRD9b--
+--pl7hSGchpcG2rLGy7a0ObtostemTPGtBp--
 
