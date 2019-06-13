@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB2F43254
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 05:30:16 +0200 (CEST)
-Received: from localhost ([::1]:36712 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0504143261
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 05:36:57 +0200 (CEST)
+Received: from localhost ([::1]:36748 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbGRL-0007iu-Vr
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 23:30:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54939)
+	id 1hbGXo-0003q3-8U
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 23:36:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56325)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hbGQE-0007Bb-2W
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:29:06 -0400
+ (envelope-from <bounces@canonical.com>) id 1hbGWR-0002mV-Hc
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:35:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hbGQA-0005Pv-6C
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:29:04 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45064)
+ (envelope-from <bounces@canonical.com>) id 1hbGWQ-0002jV-7S
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:35:31 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57002)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hbGQ9-0005O7-F2
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:29:02 -0400
-Received: by mail-pg1-x542.google.com with SMTP id w34so10052575pga.12
- for <qemu-devel@nongnu.org>; Wed, 12 Jun 2019 20:29:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kPAjRA0VL56wavu8e0yujncvRDtEO/XuSjnj30YQgA4=;
- b=YM++op6SAZLXYY1NvBtxbGxJ/sZvlCyPm8BiLsOiszqUOtywdDdAnpR4bN1WnbNo24
- w7ZH04FwaIgl00WVYkd8wUNheoYFMsbnZoXYeECu1b1e2kHZqVNNBcNjYizpU9YUVqqq
- iJ0UbajvztQkxjdZ1VwWG4Ti3f5eP80kyBcvsZevHVvNCavTfPmHynYP6H9urE/+iH2s
- gz6fq22M18IRv8ln3n5TrmBnxkniLZVerEsq4aOoO3MMcQ7M5WsGoxed1X1WNQXY8PRp
- BqkjwOgpry8c+0HX49AI6u97VKwdMvgJp5cDGxoYsFpcd3Gk/1r08yImgRMxyotQTLRp
- b6BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kPAjRA0VL56wavu8e0yujncvRDtEO/XuSjnj30YQgA4=;
- b=RxaUNDgV+doIAtWK9y88puATCOeleo10Zgdq/Qvb8CmkQWS/+ZXKQ6WW7XyQQ87o3k
- crKKLOGXFpgSaVDj2rECna3hdmbajLZlQYgiCofY61s8Z1+WduB8BW+ZMI9h82MkIDH+
- 1DfJMyBXu4BCIlc4HwywJpVnJpUSZ4Z7SloSlBjrLCg+rwhX+2kZh2FOvGGy79om6B8E
- s2XUDyp7IirhzKCrpnWcgaTwMtHPdT1XQeBxPBMS22STBuKEhL26If6rARr5QfNHSADC
- JuDYjkmpQzOlqQK90JpqX0CCeowFV2ySRIGcuJEFw5u/9wveP2dkv95Lzgll9cORvBtc
- RggA==
-X-Gm-Message-State: APjAAAV3/eRmbjb0IFmXliK88gw6N5i0m7jHbdD5ZfBMm/0TR4TuH0NW
- wzOA8rTOa/zHYsmEA0VLV5kb2RE95Xw=
-X-Google-Smtp-Source: APXvYqy4Auec2SmT+ooUoBqVe4XovrwDdppRh80x9YYVqMjB4E5tmRpiiKJC3aC6Q25hZrrAXMcepw==
-X-Received: by 2002:a62:4e48:: with SMTP id c69mr67627113pfb.176.1560396539548; 
- Wed, 12 Jun 2019 20:28:59 -0700 (PDT)
-Received: from [10.1.2.220] (50-247-96-158-static.hfc.comcastbusiness.net.
- [50.247.96.158])
- by smtp.gmail.com with ESMTPSA id a13sm870802pgh.6.2019.06.12.20.28.58
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 12 Jun 2019 20:28:58 -0700 (PDT)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
- gkurz@kaod.org
-References: <20190602110903.3431-1-mark.cave-ayland@ilande.co.uk>
- <20190602110903.3431-10-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <f6654196-256e-ed4c-d180-d24d03a91c9a@linaro.org>
-Date: Wed, 12 Jun 2019 20:28:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hbGWQ-0002iC-28
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:35:30 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hbGWN-0006J1-Cr
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 03:35:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4AE632E80CB
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 03:35:27 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190602110903.3431-10-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: Re: [Qemu-devel] [PATCH v2 09/15] target/ppc: introduce
- GEN_VSX_HELPER_X1 macro to fpu_helper.c
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 Jun 2019 03:29:50 -0000
+From: tsiros <1774853@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alexaltea masonleeback tsiros
+X-Launchpad-Bug-Reporter: tsiros (tsiros)
+X-Launchpad-Bug-Modifier: tsiros (tsiros)
+References: <152802310962.26200.2575137842813128178.malonedeb@wampee.canonical.com>
+ <156038485941.16569.13243320428077514633.malone@soybean.canonical.com>
+Message-Id: <CAMm8ofSLYu35ZpLHV2P6FuPCdP0KgjBQwK2mYSvvd2vcDWzD9A@mail.gmail.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 2fa0ecf4fa7f6ebfe7740436d5b76efea2a9af40
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: Re: [Qemu-devel] [Bug 1774853] Re: claims temp file is used by
+ another process
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,23 +65,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1774853 <1774853@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/19 4:08 AM, Mark Cave-Ayland wrote:
-> Rather than perform the VSR register decoding within the helper itself,
-> introduce a new GEN_VSX_HELPER_X1 macro which performs the decode based
-> upon xB at translation time.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  target/ppc/fpu_helper.c             |  6 ++----
->  target/ppc/helper.h                 |  8 ++++----
->  target/ppc/translate/vsx-impl.inc.c | 24 ++++++++++++++++++++----
->  3 files changed, 26 insertions(+), 12 deletions(-)
+I can't remember at all!
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+i am sorry i know how frustrating this is
 
+i don't remember even if i fixed it or if i gave up
 
-r~
+On Thu, Jun 13, 2019, 03:20 Alexandro Sanchez Bach <
+1774853@bugs.launchpad.net> wrote:
+
+> @tsiros, can you explain why this isn't an issue for you anymore? This
+> is precisely what happens to me, specifically when I create drives as
+> `file=3Dfat:rw:path/to/dir`. When I type `fat:path/to/dir`, everything
+> works fine, though I get some warnings. Was this fixed in newer versions
+> or did you simply realized some issue on your side? Thanks.
+>
+> --
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1774853
+>
+> Title:
+>   claims temp file is used by another process
+>
+> Status in QEMU:
+>   New
+>
+> Bug description:
+>   QEMU emulator version 2.12.50 (v2.12.0-12378-g99a34dc4d2-dirty)
+>
+>   "c:\Program Files\qemu\qemu-system-x86_64.exe" -net none -parallel none
+> -bios OVMF.fd -L . -hda fat:rw:image
+>   vvfat image chs 1024,16,63
+>   c:\Program Files\qemu\qemu-system-x86_64.exe: -hda fat:rw:image: Could
+> not open 'C:\Users\tsiros\AppData\Local\Temp\qem5B92.tmp': The process
+> cannot access the file because it is being used by another process.
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1774853/+subscriptions
+>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1774853
+
+Title:
+  claims temp file is used by another process
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU emulator version 2.12.50 (v2.12.0-12378-g99a34dc4d2-dirty)
+
+  "c:\Program Files\qemu\qemu-system-x86_64.exe" -net none -parallel none -=
+bios OVMF.fd -L . -hda fat:rw:image
+  vvfat image chs 1024,16,63
+  c:\Program Files\qemu\qemu-system-x86_64.exe: -hda fat:rw:image: Could no=
+t open 'C:\Users\tsiros\AppData\Local\Temp\qem5B92.tmp': The process cannot=
+ access the file because it is being used by another process.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1774853/+subscriptions
 
