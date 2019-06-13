@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB7B434FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 11:52:34 +0200 (CEST)
-Received: from localhost ([::1]:38066 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C517434F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 11:49:20 +0200 (CEST)
+Received: from localhost ([::1]:38022 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbMPI-0007ct-OX
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 05:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52085)
+	id 1hbMMB-0004Qt-8o
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 05:49:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52282)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbMJJ-00026D-3E
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:46:23 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbMIl-0002Y4-K7
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:45:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbM5M-000575-4m
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:31:57 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:32853)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbMAG-0008DN-3Q
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:37:01 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39526)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbM5L-00050w-St
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:31:56 -0400
-Received: by mail-ot1-x335.google.com with SMTP id p4so15087386oti.0
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 02:31:44 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hbMAF-0008C7-Sy
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:37:00 -0400
+Received: by mail-wr1-x442.google.com with SMTP id x4so17330498wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 02:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lMwlrDlAqDz/fy6DIPcDYB9RHfW88ItwY6g3u1uXDAk=;
- b=TIW5CD0Fvy07P89y8Vg2+NH5Wta5/uK4umBH9WG3HmKD09aWhlO5GyXclvZGiiDRoX
- ISkCIXEgRCmCgz9qttBI2AaDOYuLFcrmMN/s5MxzXYtAPUPQ5M/UB8LLYKUzO1o4pqGQ
- XCkF6ECgf+Jj6cbe7mX/b2uUCulxziCvdad9BBRcB7k9vRjfesnOWKO74TV4lpw+yQvY
- vWj9sNIjz3YxA8CaogsuuB2OQLmO2fSjTh5YjASGzMNrKVkWqbC30/xkzPE6CnftdmtR
- h6tKHMi9qvPnrs7YjDGxXTYfNMu2gFmHmco2JXJd3212DkYGjDIPI9YpGhOAuKbTWrRa
- y9AA==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YtoMxTKdt0kE7R+dbBlp2u4Lrwir2c/VRcNrc3ga4lY=;
+ b=P/cACQ81zP0ZsoRg/b+6bp85JSlA3EO3gXGjHwmnAfRz9BiOGpSgINYfr8PRHhV8Wr
+ dv8KLulXT4tjjZh13VZ3SjKR6CKIP1vAFDymJ7iET02wNV2XfMtf1OlTPCLEAlbSS6hU
+ cnnfBAzAFaxEYw6Luzhovh/ewzESd9llysr1o062GU0E2sXwZv+COHyH2AVmGbmnj/1H
+ 45Oy8pEIZRT7TYNeUL5/6trCCE0IE68hWb7cLnSTajuzDkwq5fP+j4StDjwTCOThglBi
+ fmwU+KcOK8gGtdBdTq5tYrlO7glALdZsVORwSW+946ikbLcCQE0GVJjsByfRGilnoOnk
+ a88g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lMwlrDlAqDz/fy6DIPcDYB9RHfW88ItwY6g3u1uXDAk=;
- b=b4V8XUeqn2JYQduCxeEk5k+JmK/F1JQ9S6Tzt+ZVcjqOksAdd4RZRI9yLNKbcqne6K
- TX9/53FtQNKxviNuKprxshDqseWTJeXwkWfBw/Krhu7pne2RbaRhrivsWMOGP44ouMNq
- +UoojSkHO4rZYrHOBWH2s8pRdqcYRVeLCAGw9yAMxwFsY8eLupL6VaDkLqqERztDecih
- OFUe91cKGFNZo7HFjcGiTeNnK0j1GJikfs+iKmB2uNPSDQgICf747VPsJcEMQe9XK+t1
- Ac95y0dVm/H4c2iCc3tjsqHE3qnz7z50wqhJzviCdQgb0Fc5NuPFkJtxqXrvUOJVS2xo
- BsRg==
-X-Gm-Message-State: APjAAAUPHkJIGNFYDb+g9WtN8ZkCizH2ygTgnclmH7KT+4gtO9dFffT/
- /U06F0ScCUMRMHkW4z6+Fn29teCVd/m/7JUIi1KPTwDvGYM=
-X-Google-Smtp-Source: APXvYqzvaZPTFikx4n2OSI2eufR//+Bj472uxyVsjdxYPImrmiQolLg5UZlF27dc/ezpY5hxwhrtaD8ZW0vf/6d/RKw=
-X-Received: by 2002:a9d:630a:: with SMTP id q10mr7526179otk.91.1560418303350; 
- Thu, 13 Jun 2019 02:31:43 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=YtoMxTKdt0kE7R+dbBlp2u4Lrwir2c/VRcNrc3ga4lY=;
+ b=Gj65ezQgME0PTRwXsHcvR+ycgM0BEPvXba2B9JnK4vMuK9zPDmG7scKa8kVXHYIqRV
+ VpRMPGlWe2O3kr3ImYjOmNtSyozV5vgBB8WN9++9crO16heq+PFIwtxnmwXlH8ymDtaO
+ G9w6HcMico3i5K+60ckW8QE5BpWafDxflsYkATP04s8kCWEZA6uONGPoHwiQpUAR8/35
+ RVMk2/IDNZoRlrUQVAIaEdQNAWuSoBH5qmvIwz7UfAulHNx2yiBqnMtTfsC48JCqQrQu
+ P9cjRVWHyVPN08AI7iOr3LVnYcPea7LWT2lweHEDgj58HNO8K8Z9vIqnxMLabr8sLavg
+ JoEg==
+X-Gm-Message-State: APjAAAWQKZE2t1PeVbhmGBlpiniF+/BJwGcd+i0hRl+4UcprzaJlaYOF
+ YCFBDPcXXXpODjJfQ+sHkuCIcQ==
+X-Google-Smtp-Source: APXvYqyd/my59v41E0k4MljblPFQeC62D3lSXhu10FVA3bFMp+53MxYGrk4yzh7vLDQAFvbrXCPCeg==
+X-Received: by 2002:adf:9dcc:: with SMTP id q12mr8870981wre.93.1560418617626; 
+ Thu, 13 Jun 2019 02:36:57 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id m21sm2296471wmc.1.2019.06.13.02.36.56
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 13 Jun 2019 02:36:56 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8608E1FF87;
+ Thu, 13 Jun 2019 10:36:56 +0100 (BST)
+References: <20190520124716.30472-1-kraxel@redhat.com>
+ <878suo5ls0.fsf@zen.linaroharston> <87pnniemgo.fsf@zen.linaroharston>
+ <d32b4c47-4f46-474c-3c4d-54250a29960a@gmx.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Kamil Rytarowski <n54@gmx.com>
+In-reply-to: <d32b4c47-4f46-474c-3c4d-54250a29960a@gmx.com>
+Date: Thu, 13 Jun 2019 10:36:56 +0100
+Message-ID: <87muileshz.fsf@zen.linaroharston>
 MIME-Version: 1.0
-References: <20190612173121.21057-1-alex.bennee@linaro.org>
-In-Reply-To: <20190612173121.21057-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jun 2019 10:31:32 +0100
-Message-ID: <CAFEAcA-MMKxX3kR_Od3J53D4ueE8PZHOgu1R3hzGX9Ruu+8NNw@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::335
-Subject: Re: [Qemu-devel] [PULL v3 00/40] testing, gdbstub and cputlb fixes
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH v3 00/14] tests/vm: serial console
+ autoinstall, misc fixes.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,46 +84,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
+ qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 Jun 2019 at 18:31, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit a050901d4b40092dc356b59912c6df39e389c7=
-b9:
->
->   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190612=
-' into staging (2019-06-12 14:43:47 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-gdbstub-cputlb-12=
-0619-3
->
-> for you to fetch changes up to ab4752ec8d9b0b19ab80915016b739350418a078:
->
->   gdbstub: Implement qemu physical memory mode (2019-06-12 17:53:23 +0100=
-)
->
-> ----------------------------------------------------------------
-> Various fixes and updates:
->
->   - editor config tweak for shell scripts
->   - iotest updates (still not default for make check)
->   - various docker updates
->   - gcc/ubsan updates for travis
->   - some clean-ups for tests/vm (no serial autoinstall)
->   - semihosting fix for Coverity
->   - fixes for cputlb in 64-on-32 cases
->   - gdbstub re-factor + maintainership update
 
+Kamil Rytarowski <n54@gmx.com> writes:
 
-Applied, thanks.
+> On 12.06.2019 19:35, Alex Benn=C3=A9e wrote:
+>>
+>> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>>
+>>> Gerd Hoffmann <kraxel@redhat.com> writes:
+>>>
+>>>> This patch series changes the way virtual machines for test builds are
+>>>> managed.  They are created locally on the developer machine now.  The
+>>>> installer is booted on the serial console and the scripts walks through
+>>>> the dialogs to install and configure the guest.
+>>>>
+>>>> That takes the download.patchew.org server out of the loop and makes it
+>>>> alot easier to tweak the guest images (adding build dependencies for
+>>>> example).
+>>>>
+>>>> The install scripts take care to apply host proxy settings (from *_pro=
+xy
+>>>> environment variables) to the guest, so any package downloads will be
+>>>> routed through the proxy and can be cached that way.  This also makes
+>>>> them work behind strict firewalls.
+>>>>
+>>>> There are also a bunch of smaller tweaks for tests/vm to fix issues I
+>>>> was struggling with.  See commit messages of individual patches for
+>>>> details.
+>>>
+>>> Queued to testing/next, thanks.
+>>>
+>>> One of the machines I'm testing on seems to have problems with getting
+>>> the installer working over the serial link but it works on my main dev
+>>> box and others have it working as well so I suspect it might be a local
+>>> problem.
+>> <snip>
+>>
+>> OK I had to drop this series due to persistent problems with the serial
+>> link on one of the boxes Peter uses to do his merge testing. Some of it
+>> seems to be QEMU specific (Ubuntu 18.04 system qemu just hangs) but I
+>> suspect there is also an issue with BSDs and our serial emulation
+>> generally.
+>>
+>> --
+>> Alex Benn=C3=A9e
+>>
+>
+> What version of NetBSD did you test? There was recently a short lived
+> regression in curses(3) that affected sysinst(8) (installer) in HEAD,
+> but it was fixed.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+The error for NetBSD was navigating the installer which was dumping a
+lot of q's in the stream (unicode bar characters?). We were starting
+with:
 
--- PMM
+  link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.0/images/NetBSD-8.0-=
+amd64.iso"
+
+--
+Alex Benn=C3=A9e
 
