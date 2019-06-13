@@ -2,103 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D31441C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:19:38 +0200 (CEST)
-Received: from localhost ([::1]:41358 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E247C442F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:27:43 +0200 (CEST)
+Received: from localhost ([::1]:41498 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbSRt-00017Y-4y
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52094)
+	id 1hbSZi-0000Y5-Pj
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:27:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53079)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hbRL3-0001s6-Td
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:08:33 -0400
+ (envelope-from <lersek@redhat.com>) id 1hbROn-0005YE-SQ
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:12:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hbRL2-0002iY-1t
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:08:29 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:56743)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hbRL1-0002bh-7p
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:08:27 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MPXMa-1hwpnZ2cqo-00MaSw; Thu, 13 Jun 2019 17:08:15 +0200
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190519201953.20161-1-richard.henderson@linaro.org>
- <20190519201953.20161-12-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <df02a513-4da6-0ca2-646f-ec5f38e298fe@vivier.eu>
-Date: Thu, 13 Jun 2019 17:08:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <lersek@redhat.com>) id 1hbROm-0006Ws-JP
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:12:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35314)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hbROm-0006Qj-Cv
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:12:20 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1C12330820C9
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 15:12:14 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-127.ams2.redhat.com
+ [10.36.117.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E76E2537B3;
+ Thu, 13 Jun 2019 15:12:10 +0000 (UTC)
+From: Laszlo Ersek <lersek@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20190606133110.13754-1-lersek@redhat.com>
+Message-ID: <611d1efd-3052-c98d-e88a-294d07c822ab@redhat.com>
+Date: Thu, 13 Jun 2019 17:12:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20190519201953.20161-12-richard.henderson@linaro.org>
+In-Reply-To: <20190606133110.13754-1-lersek@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0JSgw2YpeMOR7gG25fMfjjzDl++Cjlcz/R7s99xrILMhOXOmi7D
- gzI5pLWcqDCLraCD3e6rguJvduSwf56+ktp4pzapgg0y7zvv+UhvThCWrq48cRZDI6pqqJK
- H2T/VxskIcPuB7xkyKhnGP7LFkvUhjuaIqtTwVJ3nt7Mfxwa8RFloKRbZ8Eo3mjMmnsELxO
- Dym+yBam4MAqTG0BJ2VVw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xseAlfv5owc=:KN0NdSk/fCGpK2hHk596TT
- TGkFw+kmNw0lTmzqTRh0IZ93d3zFV/dNwsq4FlPhSeJJFnkIJpIeOZWCkJeh3SIKCSuzBlSui
- 9wcG1fGwPpXn0va+ZNQp0pYZ42r7pg1Rx9/rxo99Me+yBsKtu/41ClG1wNdHAKTEs0olHo51a
- eVhDn76/+FTtN4NkYBLljhv7l0jmhk9r8S3Mi7VsbToDdeg5wYU/Ur9RuOgy3CIcSoMzUgRwq
- o+q0WKV618VO4/IlUvagrOftrlPq4D3ycp/lDEU2K410b3Pp2pCHo5NUUvhxRqwBhTyUuDdwx
- QqFTdj+xX5wRoYUnWJtfioV2IoKbgDDh0by4x0o1MoSXgjQg8CSg8D8Kc3/hnOFKxxbmxj5Oe
- pEh/qWe89kTm6DtRJgp7oj6aA/Hx2eqiJ1wvd4SzuXMSHaxj9ExAbR6ZvYAftlN273JmmDUWe
- WGK3rkpDvUasrIgvEg4P07BliFgBup3HuYLK59eUFF5pmW23Nbjb6AtB9XjFMDYnkEmMppDel
- R7yEIVohH+k4wpsVroWtiODf5nQ1NbKJ9pHZEb+YE0e6QVrOdMxTIUSpViqoF8E/HTJJYGb6I
- BwnZPZVuF2AQ21hTYki8+3A183+q6U9A5sSBlHRWwTNDrmcBDMBgUBlHPj3GfuSJ4Uat4WI2j
- /VnA4r/cudPDLY3BO1ZJ1GuREDzAst1k/BRLSA3Uzn9J4VxC2LeXJ8TuhjojcNggHydeN6M82
- 7Q0TwVk5G94tZxt5XS7gSdLgZmHznUd/UyEYrzbw2uRJSGYHWmWLIEViP1Y=
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Thu, 13 Jun 2019 15:12:14 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
-Subject: Re: [Qemu-devel] [PATCH 11/13] tests/tcg/multiarch/linux-test: Fix
- error check for shmat
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/6] update edk2 submodule & binaries to
+ edk2-stable201905
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,33 +60,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/05/2019 à 22:19, Richard Henderson a écrit :
-> The error indicator for this syscall is -1, not 0.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tests/tcg/multiarch/linux-test.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
-> index fa4243fc04..673d7c8a1c 100644
-> --- a/tests/tcg/multiarch/linux-test.c
-> +++ b/tests/tcg/multiarch/linux-test.c
-> @@ -503,8 +503,9 @@ static void test_shm(void)
->  
->      shmid = chk_error(shmget(IPC_PRIVATE, SHM_SIZE, IPC_CREAT | 0777));
->      ptr = shmat(shmid, NULL, 0);
-> -    if (!ptr)
-> +    if (ptr == (void *)-1) {
->          error("shmat");
-> +    }
->  
->      memset(ptr, 0, SHM_SIZE);
->  
-> 
+On 06/06/19 15:31, Laszlo Ersek wrote:
+> Launchpad: https://bugs.launchpad.net/qemu/+bug/1831477
+> Repo:      https://github.com/lersek/qemu.git
+> Branch:    edk2-stable201905-lp-1831477
+>=20
+> edk2-stable201905 has been released today; let's update QEMU's
+> submodule, and the binaries built thereof. This should be the edk2
+> release that goes into QEMU 4.1.
+>=20
+> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+> Thanks
+> Laszlo
+>=20
+> Laszlo Ersek (6):
+>   roms/Makefile.edk2: define edk2-stable201905 network feature test
+>     macros
+>   roms/edk2: update submodule from edk2-stable201903 to
+>     edk2-stable201905
+>   roms/Makefile.edk2: remove edk2-stable201903 network feature test
+>     macros
+>   roms/Makefile.edk2: update input file list for
+>     "pc-bios/edk2-licenses.txt"
+>   pc-bios: refresh edk2 build artifacts for edk2-stable201905
+>   pc-bios: update the README file with edk2-stable201905 information
+>=20
+>  pc-bios/README                         |  14 +-
+>  pc-bios/edk2-aarch64-code.fd.bz2       | Bin 1177603 -> 1178070 bytes
+>  pc-bios/edk2-arm-code.fd.bz2           | Bin 1173662 -> 1172752 bytes
+>  pc-bios/edk2-i386-code.fd.bz2          | Bin 1688659 -> 1736199 bytes
+>  pc-bios/edk2-i386-secure-code.fd.bz2   | Bin 1881979 -> 1943949 bytes
+>  pc-bios/edk2-licenses.txt              | 752 ++++++++++++++++++--
+>  pc-bios/edk2-x86_64-code.fd.bz2        | Bin 1669280 -> 1717094 bytes
+>  pc-bios/edk2-x86_64-secure-code.fd.bz2 | Bin 1901210 -> 1958037 bytes
+>  roms/Makefile.edk2                     |  22 +-
+>  roms/edk2                              |   2 +-
+>  10 files changed, 714 insertions(+), 76 deletions(-)
+>=20
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Ping :)
 
