@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D401434F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 11:49:14 +0200 (CEST)
-Received: from localhost ([::1]:38020 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB14F4350C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 11:59:31 +0200 (CEST)
+Received: from localhost ([::1]:38116 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbMM4-0004Ps-Vc
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 05:49:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52184)
+	id 1hbMW3-0005sy-5c
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 05:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53881)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hbMIi-0002QL-3z
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:45:46 -0400
+ (envelope-from <bounces@canonical.com>) id 1hbMNU-0006Pk-DB
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:50:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hbMC7-00011u-DM
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:38:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41118)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>)
- id 1hbMC6-00010m-3P; Thu, 13 Jun 2019 05:38:54 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 007B7308124D;
- Thu, 13 Jun 2019 09:38:53 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-33.ams2.redhat.com
- [10.36.116.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E680537B3;
- Thu, 13 Jun 2019 09:38:51 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8596611AA3; Thu, 13 Jun 2019 11:38:50 +0200 (CEST)
-Date: Thu, 13 Jun 2019 11:38:50 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-ID: <20190613093850.5k7prawn6x4qt3fi@sirius.home.kraxel.org>
-References: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
- <20190612130650.xftda65kgnsefyvs@sirius.home.kraxel.org>
- <A3F8BD49-3C35-4A07-8DE2-85F7CC293DC9@oracle.com>
- <20190612191817.5bilt2abif2xvcbv@sirius.home.kraxel.org>
- <02844D7D-ED79-4744-A203-8E713DE7A717@oracle.com>
+ (envelope-from <bounces@canonical.com>) id 1hbMNS-0001Kx-2E
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:50:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47996)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hbMNR-0001K4-Sx
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:50:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hbMNO-0001Kf-QP
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 09:50:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A5D852E80CC
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 09:50:34 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <02844D7D-ED79-4744-A203-8E713DE7A717@oracle.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 13 Jun 2019 09:38:53 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 Jun 2019 09:40:09 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm tcg testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee christophe-lyon
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156025884763.18155.9614824235777300144.malonedeb@wampee.canonical.com>
+Message-Id: <156041881042.30831.1054125140118999507.launchpad@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18978";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: d25a478cb25e402b49070d11df1822e13d46b21d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [QEMU] [PATCH v2 0/8] Add Qemu to SeaBIOS LCHS
- interface
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1832353] Re: cpu_exec: Assertion
+ !have_mmap_lock() failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,64 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, QEMU <qemu-devel@nongnu.org>, mreitz@redhat.com,
- kevin@koconnor.net, liran.alon@oracle.com, karl.heubaum@oracle.com
+Reply-To: Bug 1832353 <1832353@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Tags added: arm tcg testcase
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1832353
+
+Title:
+  cpu_exec: Assertion !have_mmap_lock() failed
+
+Status in QEMU:
+  New
+
+Bug description:
   Hi,
 
-> Yes they are pretty rare.
-> Windows 2000 and Windows XP guests migrated from VMware to Qemu/KVM
-> would not boot due to incorrect disk geometries (some had 32/56 spt ins=
-tead of
-> 56. Also number of heads was not entirely correct)
+  I have isolated a testcase from the GCC testsuite (actually gfortran,
+  test proc_ptr_51.f90) which produces tons of:
 
-Ok.
+  qemu-arm: /home/christophe.lyon/src/qemu/accel/tcg/cpu-exec.c:701:
+  cpu_exec: Assertion `!have_mmap_lock()' failed.
 
-> > Why?  Asking the user to deal with the mess is pretty lame if there a=
-re
-> > better options.  And IMO doing this fully automatic in seabios is
-> > better.
->=20
-> I=E2=80=99m not against an automatic approach, however I do think that =
-doing this
-> in SeaBIOS might break compatibility for already existing guests that w=
-ill
-> suddenly see different LCHS values. (Explanation below)
+  including with master qemu as of today.
 
-> > I can't see how this can break guests.  It should either have no effe=
-ct
-> > (guests using LBA) or unbreak guests due to LCHS changing from "wrong=
-"
-> > to "correct=E2=80=9D.
->=20
-> I=E2=80=99m not sure what do you mean by "unbreak guests=E2=80=9D if yo=
-u change an existing
-> guest that uses LCHS from 56 spt to LBA (63 spt) it will stop booting.
+  I'm attaching a tarball containing:
+  qemu-assert:
+  cmd  lib  proc_ptr_51.exe
 
-Well, that LCHS change happens because you move the guest from vmware to
-qemu and seabios uses 63 spt no matter what if the disk is too big for
-chs addressing.
+  qemu-assert/lib:
+  ld-linux-armhf.so.3  libc.so.6  libgcc_s.so.1  libgfortran.so.5  libm.so.6
 
-When seabios is changed to look at the MBR to figure what the lchs of
-the disk is that will make your guest boot.
+  where cmd is the basic command used to launch the test & reproduce the
+  failure.
 
-> Your guessing algorithm will have to guess 56, if it will fail guessing=
- 56 correctly,
-> the user can not perform any action beside downgrading SeaBIOS in order=
- to run
-> the guest.
+  Note that the test or the generated may actually be buggy: I have
+  reported failures on native aarch64 and arm machines. Yet, qemu should
+  not fail with a loop of asserts.
 
-Sure, if the guess is wrong then the guest will not boot.  That isn't
-worse than the situation we have today where seabios will not even try
-to figure what the lchs of the disk is.
-
-And, no, downgrading seabios will not make your vmware guest with 56 spt
-boot.
-
-cheers,
-  Gerd
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1832353/+subscriptions
 
