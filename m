@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA9B43268
+	by mail.lfdr.de (Postfix) with ESMTPS id 2196243267
 	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 05:44:17 +0200 (CEST)
-Received: from localhost ([::1]:36768 helo=lists.gnu.org)
+Received: from localhost ([::1]:36766 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbGeu-0006dd-IY
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 23:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57572)
+	id 1hbGet-0006cj-Uz
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jun 2019 23:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57553)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hbGc6-00055C-6X
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:41:23 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hbGc4-000551-Ud
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:41:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hbGc3-0006mw-Rb
- for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:41:21 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:33661 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hbGc2-0006mA-3M
+ for qemu-devel@nongnu.org; Wed, 12 Jun 2019 23:41:20 -0400
+Received: from ozlabs.org ([203.11.71.1]:37391)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hbGc2-0006hX-8o; Wed, 12 Jun 2019 23:41:18 -0400
+ id 1hbGbz-0006hZ-66; Wed, 12 Jun 2019 23:41:17 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45PTzp3rfmz9sN4; Thu, 13 Jun 2019 13:41:10 +1000 (AEST)
+ id 45PTzp4RbTz9sNR; Thu, 13 Jun 2019 13:41:10 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1560397270;
- bh=e2x1u5hIFyuqrCFcE7rizlPFlzY5I35FnCLFRgYGkFQ=;
+ bh=oLAaE9ujw9vK0P8Z+0lVNW+gxyP5umaXW0Pms6g9Bl0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e43CfWd9gxKf9dGbeSlUo2cbRlqahMqVpGt4za4pIBP/gceJjhZ2L4XJitUvXh0xT
- rhxnAjXlm9kBeaMvSf4IEJq2OK4ujKGkeb0TYyn+ix//3tc1opGoqRlEMG3UhBFKDR
- FbkxIbCoeXp0Yy+MDmO8N5GkbLnSm0ipNp7SkuXI=
-Date: Thu, 13 Jun 2019 10:00:14 +1000
+ b=iWrv9F/gYxUhG9K/tMgUMOTmdGl9lVL0Wr1i0E3AItrhvOEOuYDNd5IcigKx4Hggq
+ dQxa3YH3/vgxigF1TuEkVUCtPu5LGQ8x+kCX49k6M0y7x6eQf1DKDh3W8YxWN9YT0z
+ 3HuIN3Z4jfDGH2Td3WKmQbKhTSUKqalCSZICWkNs=
+Date: Thu, 13 Jun 2019 10:04:34 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190613000013.GA18900@umbus.fritz.box>
-References: <20190612162357.29566-1-clg@kaod.org>
+Message-ID: <20190613000434.GB18900@umbus.fritz.box>
+References: <20190612174345.9799-1-clg@kaod.org>
+ <5749e4b4-cca7-e6a0-4951-431a9493581f@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="n8g4imXOkfNTN/H1"
+ protocol="application/pgp-signature"; boundary="dc+cDN39EJAMEtIO"
 Content-Disposition: inline
-In-Reply-To: <20190612162357.29566-1-clg@kaod.org>
+In-Reply-To: <5749e4b4-cca7-e6a0-4951-431a9493581f@kaod.org>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH] ppc/pnv: fix StoreEOI activation
+Subject: Re: [Qemu-devel] [PATCH 0/2] ppc/pnc: fix XSCOM MMIO base address
+ for P9 machines with multiple chips
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,48 +61,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---n8g4imXOkfNTN/H1
+--dc+cDN39EJAMEtIO
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 12, 2019 at 06:23:57PM +0200, C=E9dric Le Goater wrote:
-> The firmware (skiboot) of the PowerNV machines can configure the XIVE
-> interrupt controller to activate StoreEOI on the ESB pages of the
-> interrupts. This feature lets software do an EOI with a store instead
-> of a load. It is not activated today on P9 for rare race condition
-> issues but it should be on future processors.
+On Wed, Jun 12, 2019 at 07:47:20PM +0200, C=E9dric Le Goater wrote:
+> On 12/06/2019 19:43, C=E9dric Le Goater wrote:
+> > Hello,
+> >=20
+> > The base address of the MMIO window of the XSCOM bus is incorrect on
+> > P9 machines with multiple chips. Provide a fix for that to prepare
+> > ground for future PowerNV chips.
 >=20
-> Nevertheless, QEMU has a model for StoreEOI which can be used today by
-> experimental firmwares. But, the use of object_property_set_int() in
-> the PnvXive model is incorrect and crashes QEMU. Replace it with a
-> direct access to the ESB flags of the XiveSource object modeling the
-> internal sources of the interrupt controller.
+> David,
 >=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> I just noticed the 'pnc' in the title. If you were to merge, can you=20
+> fix it ?
 
-Applied, thanks.
-
-> ---
->  hw/intc/pnv_xive.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-> index bb0877cbdf3b..12c91adcd27e 100644
-> --- a/hw/intc/pnv_xive.c
-> +++ b/hw/intc/pnv_xive.c
-> @@ -780,8 +780,7 @@ static void pnv_xive_ic_reg_write(void *opaque, hwadd=
-r offset,
->           * support recently though)
->           */
->          if (val & (VC_SBC_CONF_CPLX_CIST | VC_SBC_CONF_CIST_BOTH)) {
-> -            object_property_set_int(OBJECT(&xive->ipi_source),
-> -                                    XIVE_SRC_STORE_EOI, "flags", &error_=
-fatal);
-> +            xive->ipi_source.esb_flags |=3D XIVE_SRC_STORE_EOI;
->          }
->          break;
-> =20
+Done.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -108,25 +87,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---n8g4imXOkfNTN/H1
+--dc+cDN39EJAMEtIO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0Bkg0ACgkQbDjKyiDZ
-s5LfmxAAjewPM2CLcYL7SReOkFGUhfX4GpmFhycxyiwF8YkNdycjxSqMi5lkcz93
-oEx3LaCKzeZlNxonE9NIJ9evVNFwbKyYDVbllNBQ8SZEwkAmoEs2WzO2biTK4U0o
-8s7u8/sxRsdZdkvnG3TMRLA7LapPfOZwhvEMuyv01nR+sQTFne38BnyqXGLajnmF
-Rsga+ONArK0W5bOAJX9obnTI4jgFqaZ5kNyGGj3fhFMkPpAhEV/sGAi5zu6+veL8
-nGIyUkAsvsB8WMEqsF9aqvflWMz9a1bdKJP25zSttq8mVVwLtUSpw0VBt0AXGViQ
-28nIV7RZ2y4JfOhsDJr6DjPB7RzEGxy7P/wykeKMKwcWGW7RDCOre3kOik5Fjs/Z
-uNQyZ488130RLyKS9r54wYOvWSlljtB1LsNZLR0NpZUHrruK4Q5XgFxNBA1jdlBZ
-2mLLbw3WOOvzlXJoWKp/ipREoQYHptmHTRkfT1WzFyztCQSF2stPkqjE+cAJe3Nn
-SotUo+baX2I4V57R3a9JexmaDorbo+tEkP+wrz6G09zJrPbSU0T0dXlgYuINLSco
-6w2Tyu/TH9KpS+zX9np09fZgRV5YBA8qksK9HUGTUfMWyfGtKmjIMfMMUO9mOYif
-bTRRNRJ5le0KnIhaYfKZaGyYPb/KDzOYW6pyxIbe6uXP+DrF7ZE=
-=9JGy
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0BkxIACgkQbDjKyiDZ
+s5J/sw/9Hws+fw0y0147VpaA/N+GZ7bsr4wAZSH427CebAZQWx0cCCT7O9+noIxf
+bCUZkIvXi8opQ/F4Pe0viDKSOKcPulXwFJ6QPpX07jGB/xbhYILyOZc3NVyYhKv2
+mbvZpOgu4tTirF+mKlc0agmGwY7odNziusqMgUB8EQJgizALbLXVuLG9lNNj3B5t
+SE8XgxnZdSa6lbqqk6SfSwKTcjN4zyr3twC7av6dCd8xV9YQWnl1PvWUfRmz+mn5
+iyQOMMPi5ItiLLdScjJWdd5JxPGci5BO3TzisPGfuJo49AYrzDTB+AUMD2tS0/d+
++zjYo4a+Lzvw1fmhpLmuYiruv4lysYl3NJh3xngqNF0+Nqiq2hx490r0eMAbUAuj
+o9F5RfPHRIBax6GeU/L2yD0Qbq2+xWYHXbKhqw+c5szrax3ZpfAUp141IBt6bJvh
+d0OUi0QhFDJdjg1IHJ5xBcAmGdXtu5tJMu4N0KNRB98J5g/j9c/ebAsmF+8yFUPU
+OE4s+Cpo5cVXcgHxss4FXIWfpvRmtcEQL/TTt9P2OgTrh24VlKOwjTC2BxLmecn2
+te5vhPNiTHr2A7WJMm9gxwte1GqiUJ5RZ+OFJaAD4yVo3pRIElD5a+ZVidrJE91o
+/WFhCpV0N/gbIipUkbWLfFkw8c8m7mobDv16nd8jJO7g5P5Qi8c=
+=EZeL
 -----END PGP SIGNATURE-----
 
---n8g4imXOkfNTN/H1--
+--dc+cDN39EJAMEtIO--
 
