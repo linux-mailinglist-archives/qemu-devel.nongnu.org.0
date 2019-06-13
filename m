@@ -2,53 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE3A449DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:45:11 +0200 (CEST)
-Received: from localhost ([::1]:42752 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B41444A04
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:58:07 +0200 (CEST)
+Received: from localhost ([::1]:43146 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbTmc-0008RD-PI
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:45:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45608)
+	id 1hbTz7-0006Jj-Cb
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:58:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46245)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hbSI7-00039H-60
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:09:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbSLG-00067T-VW
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:12:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hbSI5-0004TK-WD
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:09:31 -0400
-Resent-Date: Thu, 13 Jun 2019 12:09:31 -0400
-Resent-Message-Id: <E1hbSI5-0004TK-WD@eggs.gnu.org>
-Received: from sender-of-o53.zoho.com ([135.84.80.218]:21817)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hbSI5-0004JA-Np; Thu, 13 Jun 2019 12:09:29 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560442111; cv=none; d=zoho.com; s=zohoarc; 
- b=GYHiruSDctb78WLDdhIKS/xGGub8ly6peyD1xa/GLqow36jNQWMdyOVNWhmnZfMHcTXCAP17uBNfbLJnQvHcpISIWjDAAvX/kL45yflpyNril50JxUyznR3g5WcGubV/iFD+PQBSR+cVarX/Ybni0ZxPGgNS/C4HFhvFWjel8vU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1560442111;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=9+B6DrpGogsTPZN07YfD6xd3GJySSQ6xyoCMAGlb63I=; 
- b=mk2otVyozEFPhnzuLCAdnbljk8gYsW6k2odQuPh0FidGxeOhrU4xeqlBcolTYgXAR121q+muF4cnDE3vxSq74dk76hcbHXVZOnPV0CxKNnPT2/0jeB41ElCEvGgF1xxjYp5/Ed2P9DfNxwdFycWeA8J/3o09BJcv7+mPyMncutU=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1560442107137649.7058792055913;
- Thu, 13 Jun 2019 09:08:27 -0700 (PDT)
-In-Reply-To: <20190529154654.95870-1-vsementsov@virtuozzo.com>
-Message-ID: <156044210518.5426.10152353151796303692@ce79690b2cb9>
+ (envelope-from <mreitz@redhat.com>) id 1hbSLE-0008Lp-Bp
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:12:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47356)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hbSL4-0006cw-4C; Thu, 13 Jun 2019 12:12:35 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 65C1A3091D73;
+ Thu, 13 Jun 2019 16:12:09 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 292335C29A;
+ Thu, 13 Jun 2019 16:12:07 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <4c6524b7-2feb-2b92-6929-54629ece1e29@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <25f94c28-0f03-f2dc-9a26-314af8d0937f@redhat.com>
+Date: Thu, 13 Jun 2019 18:12:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vsementsov@virtuozzo.com
-Date: Thu, 13 Jun 2019 09:08:27 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <4c6524b7-2feb-2b92-6929-54629ece1e29@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="F0sGjpUmDV4JYDZEXBJCt1l6gZmvpwWAi"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Thu, 13 Jun 2019 16:12:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.218
-Subject: Re: [Qemu-devel] [PATCH v8 0/7] backup-top filter driver for backup
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 00/42] block: Deal with filters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,38 +85,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyOTE1NDY1NC45NTg3
-MC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
-dGhlIGFzYW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5k
-CnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNh
-biBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
-PT0KIyEvYmluL2Jhc2gKdGltZSBtYWtlIGRvY2tlci10ZXN0LWRlYnVnQGZlZG9yYSBUQVJHRVRf
-TElTVD14ODZfNjQtc29mdG1tdSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
-PQoKICBDQyAgICAgIGNyeXB0by9jaXBoZXIubwogIENDICAgICAgY3J5cHRvL3Rsc2NyZWRzLm8K
-ICBDQyAgICAgIGNyeXB0by90bHNjcmVkc2Fub24ubwovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2sv
-YmFja3VwLXRvcC5jOjI2ODo1OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rp
-b24gJ2JkcnZfc2V0X2Fpb19jb250ZXh0JyBpcyBpbnZhbGlkIGluIEM5OSBbLVdlcnJvciwtV2lt
-cGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogICAgYmRydl9zZXRfYWlvX2NvbnRleHQodG9w
-LCBiZHJ2X2dldF9haW9fY29udGV4dChzb3VyY2UpKTsKICAgIF4KL3RtcC9xZW11LXRlc3Qvc3Jj
-L2Jsb2NrL2JhY2t1cC10b3AuYzoyNjg6NTogbm90ZTogZGlkIHlvdSBtZWFuICdiZHJ2X2dldF9h
-aW9fY29udGV4dCc/Ci90bXAvcWVtdS10ZXN0L3NyYy9pbmNsdWRlL2Jsb2NrL2Jsb2NrLmg6NTc5
-OjEzOiBub3RlOiAnYmRydl9nZXRfYWlvX2NvbnRleHQnIGRlY2xhcmVkIGhlcmUKQWlvQ29udGV4
-dCAqYmRydl9nZXRfYWlvX2NvbnRleHQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMpOwogICAgICAgICAg
-ICBeCi90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9iYWNrdXAtdG9wLmM6MjY4OjU6IGVycm9yOiB0
-aGlzIGZ1bmN0aW9uIGRlY2xhcmF0aW9uIGlzIG5vdCBhIHByb3RvdHlwZSBbLVdlcnJvciwtV3N0
-cmljdC1wcm90b3R5cGVzXQogICAgYmRydl9zZXRfYWlvX2NvbnRleHQodG9wLCBiZHJ2X2dldF9h
-aW9fY29udGV4dChzb3VyY2UpKTsKICAgIF4KMiBlcnJvcnMgZ2VuZXJhdGVkLgoKClRoZSBmdWxs
-IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA1MjkxNTQ2
-NTQuOTU4NzAtMS12c2VtZW50c292QHZpcnR1b3p6by5jb20vdGVzdGluZy5hc2FuLz90eXBlPW1l
-c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
-czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
-ZXZlbEByZWRoYXQuY29t
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--F0sGjpUmDV4JYDZEXBJCt1l6gZmvpwWAi
+Content-Type: multipart/mixed; boundary="akisZMwe7H8xHkd8U3UKV2NwnzOfMQWi5";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <25f94c28-0f03-f2dc-9a26-314af8d0937f@redhat.com>
+Subject: Re: [PATCH v5 00/42] block: Deal with filters
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <4c6524b7-2feb-2b92-6929-54629ece1e29@virtuozzo.com>
+In-Reply-To: <4c6524b7-2feb-2b92-6929-54629ece1e29@virtuozzo.com>
 
+--akisZMwe7H8xHkd8U3UKV2NwnzOfMQWi5
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 13.06.19 17:28, Vladimir Sementsov-Ogievskiy wrote:
+> 13.06.2019 1:09, Max Reitz wrote:
+>> Hi,
+>>
+>> When we introduced filters, we did it a bit casually.  Sure, we talked=
+ a
+>> lot about them before, but that was mostly discussion about where
+>> implicit filters should be added to the graph (note that we currently
+>> only have two implicit filters, those being mirror and commit).  But i=
+n
+>> the end, we really just designated some drivers filters (Quorum,
+>> blkdebug, etc.) and added some specifically (throttle, COR), without
+>> really looking through the block layer to see where issues might occur=
+=2E
+>>
+>> It turns out vast areas of the block layer just don=E2=80=99t know abo=
+ut filters
+>> and cannot really handle them.  Many cases will work in practice, in
+>> others, well, too bad, you cannot use some feature because some part
+>> deep inside the block layer looks at your filters and thinks they are
+>> format nodes.
+>>
+>> This is one reason why this series is needed.  Over time (since v1), a=
+
+>> second reason has made its way in:
+>>
+>> bs->file is not necessarily the place where a node=E2=80=99s data is s=
+tored.
+>> qcow2 now has external data files, and currently there is no way for t=
+he
+>> general block layer to know that the data is not stored in bs->file.
+>> Right now, I do not think that has any real consequences (all function=
+s
+>> that need access to the actual data storage file should only do so as =
+a
+>> fallback if the driver does not provide some functionality, but qcow2
+>> should provide it all), but it still shows that we need some way to le=
+t
+>> the general block layer know about such data files.  (Also, I will nee=
+d
+>> this for v1 of my =E2=80=9CInquire images=E2=80=99 rotational info=E2=80=
+=9D series.)
+>>
+>> I won=E2=80=99t go on and on about this series now, I think the patche=
+s pretty
+>> much speak for themselves now.  If the cover letter gets too long,
+>> nobody reads it anyway (see previous versions).
+>>
+>>
+>> *** This series depends on some others. ***
+>>
+>> Dependencies:
+>> - [PATCH 0/4] block: Keep track of parent quiescing
+>> - [PATCH 0/2] vl: Drain before (block) job cancel when quitting
+>> - [PATCH v2 0/2] blockdev: Overlays are not snapshots
+>>
+>> Based-on: <20190605161118.14544-1-mreitz@redhat.com>
+>> Based-on: <20190612220839.1374-1-mreitz@redhat.com>
+>> Based-on: <20190603202236.1342-1-mreitz@redhat.com>
+>=20
+> Could you please export a branch?
+
+Sure:
+
+https://git.xanclic.moe/XanClic/qemu child-access-functions-v5
+Or:
+https://github.com/XanClic/qemu child-access-functions-v5
+
+
+(And the base branch is:
+
+https://git.xanclic.moe/XanClic/qemu child-access-functions-base
+https://github.com/XanClic/qemu child-access-functions-base
+)
+
+>> v5:
+>> - Split the huge patches 2 and 3 from the previous version into many
+>>    smaller patches to maintain the potential reviewers=E2=80=99 sanity=
+ [Vladimir]
+>=20
+> Thank you! In spite of frightening amount of patches, reviewing became =
+a lot
+> simpler.
+
+I had hoped making it exactly 42 patches would make it a bit more welcomi=
+ng.
+
+Again, thanks a lot for reviewing!
+
+Max
+
+
+--akisZMwe7H8xHkd8U3UKV2NwnzOfMQWi5--
+
+--F0sGjpUmDV4JYDZEXBJCt1l6gZmvpwWAi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CddYACgkQ9AfbAGHV
+z0BZ0gf+KIjoyUTV01nLvD5wquA6Jh4OVIuwSkN/XUFghDRt18BwbBCciXKDgTiX
+j4W8B6lL3kPvyouUFoTNRpT7ion96zfARuVWWBN4yBNNIXlTM3/DI1oERJY4zVxF
+Ypl6HJfKxuAFbsxEFueXI82hVUHQTyNk+ftRhDKvUC7fH8rSvjrANOM0FvjJO/jH
+OpNreil7QD48Kp7IxFcJbVfqfe/DBQwmow6jl+BHxyFgRnlVjf7xGqWAHGWf5CNr
+jqx3d3dsx8xGtKCsGKACtY1uGysXqaHbLTULmRbSzb41q4xh1LIn7Z5onXX+aDGT
+N3M2Y2R8ADY4np5ZBd13zELihlFcNQ==
+=2SSg
+-----END PGP SIGNATURE-----
+
+--F0sGjpUmDV4JYDZEXBJCt1l6gZmvpwWAi--
 
