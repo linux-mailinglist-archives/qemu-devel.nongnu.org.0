@@ -2,95 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D594351A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 12:05:30 +0200 (CEST)
-Received: from localhost ([::1]:38154 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA244352E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 12:17:19 +0200 (CEST)
+Received: from localhost ([::1]:38248 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbMbp-00010r-Rs
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 06:05:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56421)
+	id 1hbMnG-0000Gp-Er
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 06:17:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58015)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbMWa-0007Vn-Lu
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:00:05 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hbMcQ-0002Q7-Lm
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:06:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbMWZ-0006Bs-8p
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:00:04 -0400
-Received: from mail-eopbgr70130.outbound.protection.outlook.com
- ([40.107.7.130]:55879 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hbMWV-00065U-CP; Thu, 13 Jun 2019 06:00:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ufenk5qxlq5vHxYWyzICacPAnyqTikGfq/EQ4sn3MxY=;
- b=VuuH1bVlwAzxMR6RFpQWPDZjB/FV8/ucx7H/PSFOrc6NkA1lNn6WE9rqtSHF5QjV9ZjlSffIkqvbanHMRVz8wYFbs9DEJqOJYAdWSGY5YMTkzJSIUdZYQAE8ea45Nk4Cwt4J6iBAcbj/L2Eh7VD1Onf0CwRIs1P4aF6ucVJ8Zq0=
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
- AM0PR08MB4563.eurprd08.prod.outlook.com (20.178.202.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.12; Thu, 13 Jun 2019 09:59:54 +0000
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Thu, 13 Jun 2019
- 09:59:54 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v2 6/7] iotests: amend QEMU NBD process synchronization
-Thread-Index: AQHVIH/WmxX093B3xkSl5DPCw9WcJaaZXHyA
-Date: Thu, 13 Jun 2019 09:59:53 +0000
-Message-ID: <98074e5c-028f-8cd0-f2ae-5b869ec18f70@virtuozzo.com>
-References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1560276131-683243-7-git-send-email-andrey.shinkevich@virtuozzo.com>
-In-Reply-To: <1560276131-683243-7-git-send-email-andrey.shinkevich@virtuozzo.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0502CA0010.eurprd05.prod.outlook.com
- (2603:10a6:3:e3::20) To AM0PR08MB3572.eurprd08.prod.outlook.com
- (2603:10a6:208:e1::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190613125951650
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6fef4055-512b-405d-cba8-08d6efe5e1e6
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:AM0PR08MB4563; 
-x-ms-traffictypediagnostic: AM0PR08MB4563:
-x-microsoft-antispam-prvs: <AM0PR08MB45639610CD9960F70E41FD04C1EF0@AM0PR08MB4563.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2000;
-x-forefront-prvs: 0067A8BA2A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(366004)(136003)(39850400004)(376002)(346002)(189003)(199004)(6436002)(68736007)(6486002)(478600001)(54906003)(14454004)(110136005)(2616005)(476003)(11346002)(229853002)(316002)(71190400001)(71200400001)(486006)(4326008)(446003)(6246003)(36756003)(256004)(107886003)(53936002)(5660300002)(25786009)(31686004)(6512007)(31696002)(2201001)(3846002)(6116002)(99286004)(66946007)(66446008)(73956011)(66476007)(66556008)(64756008)(2501003)(86362001)(76176011)(52116002)(81166006)(8676002)(81156014)(7736002)(305945005)(26005)(386003)(6506007)(102836004)(8936002)(66066001)(2906002)(186003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4563;
- H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 2/VsREi0hu2Ah881bYZBpxtgNecIYtolLb78KTvXQwneoIKJt81VoQD1tiUDgMNSGlrZwLoXYXnw1LqKR0NCeM5rZ0ENR2GWsuKFgM34LfIFNqMZNvawx3gbcjkSCF1ws49jOHqZSSkT8LUa8QEKk3sDRNu5HDJFMJh/4mVbvcFyYyqPMqlX0/PG1rfhyNeu9BSVr1BL2pA5uLok6ZGxS1b/X6xAbVn3xWpxKTwMEkNyqmi0cQJvAUUm9Ycdi4uNtnMfOPuLgZqIk3tL2SbYtLrN7b9kD/e/zZSlP9R3k4ObvMuIMH0wWqdIbIazkcyH3SU8jSnIFhVU9sU+0ClESidHFfVAh+cOKqlTooPl+96zxM0f/6m1SBTZzqRGQ+iVgD4/mLXZ/sZQrN4kyc8HO11CIV1LwSg9zXpip6rcqrE=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DFA32ED1D5757149AD41D0C267BBE310@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <eric.auger@redhat.com>) id 1hbMcL-0003vj-Bf
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:06:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42298)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hbMc9-0003EG-Uz
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 06:05:55 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7DA15C01F28C;
+ Thu, 13 Jun 2019 10:05:13 +0000 (UTC)
+Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A18C728561;
+ Thu, 13 Jun 2019 10:05:09 +0000 (UTC)
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20190612124004.27336-1-eric.auger@redhat.com>
+ <20190612184659.4b4efcef.cohuck@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <44f4ca42-b64d-4085-13b7-639a8fa3c282@redhat.com>
+Date: Thu, 13 Jun 2019 12:05:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6fef4055-512b-405d-cba8-08d6efe5e1e6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 09:59:53.8650 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4563
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.7.130
-Subject: Re: [Qemu-devel] [PATCH v2 6/7] iotests: amend QEMU NBD process
- synchronization
+In-Reply-To: <20190612184659.4b4efcef.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Thu, 13 Jun 2019 10:05:13 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5] vfio/common: Introduce
+ vfio_set_irq_signaling helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,42 +61,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Roman Kagan <rkagan@virtuozzo.com>,
- "berrange@redhat.com" <berrange@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: alex.williamson@redhat.com, liq3ea@gmail.com, qemu-devel@nongnu.org,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTEuMDYuMjAxOSAyMTowMiwgQW5kcmV5IFNoaW5rZXZpY2ggd3JvdGU6DQo+IFByb2Nlc3NlcyBh
-cmUgZHlpbmcgaGFyZGVyIHVuZGVyIHRoZSBWYWxncmluZy4gSXQgcmVzdWx0cyBpbiBjb3VudGlu
-Zw0KPiB0aGUgZHlpbmcgcHJvY2VzcyBhcyBhIG5ld2Jvcm4gb25lLiBNYWtlIGl0IHN1cmUgdGhh
-dCBvbGQgTkJEIGpvYiBnZXQNCj4gZmluaXNoZWQgYmVmb3JlIHN0YXJ0aW5nIGEgbmV3IG9uZS4N
-Cj4gDQo+IFN1Z2dlc3RlZC1ieTogUm9tYW4gS2FnYW4gPHJrYWdhbkB2aXJ0dW96em8uY29tPg0K
-PiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgU2hpbmtldmljaCA8YW5kcmV5LnNoaW5rZXZpY2hAdmly
-dHVvenpvLmNvbT4NCj4gLS0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzL2NvbW1vbi5uYmQgfCA2
-ICsrKysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYg
-LS1naXQgYS90ZXN0cy9xZW11LWlvdGVzdHMvY29tbW9uLm5iZCBiL3Rlc3RzL3FlbXUtaW90ZXN0
-cy9jb21tb24ubmJkDQo+IGluZGV4IDI1ZmM5ZmYuLmUzZGNjNjAgMTAwNjQ0DQo+IC0tLSBhL3Rl
-c3RzL3FlbXUtaW90ZXN0cy9jb21tb24ubmJkDQo+ICsrKyBiL3Rlc3RzL3FlbXUtaW90ZXN0cy9j
-b21tb24ubmJkDQo+IEBAIC0yMiw2ICsyMiw3IEBADQo+ICAgbmJkX3VuaXhfc29ja2V0PSIke1RF
-U1RfRElSfS9xZW11LW5iZC5zb2NrIg0KPiAgIG5iZF90Y3BfYWRkcj0iMTI3LjAuMC4xIg0KPiAg
-IG5iZF9waWRfZmlsZT0iJHtURVNUX0RJUn0vcWVtdS1uYmQucGlkIg0KPiArbmJkX2pvYl9waWQ9
-IiINCj4gICANCj4gICBuYmRfc2VydmVyX3N0b3AoKQ0KPiAgIHsNCj4gQEAgLTMzLDYgKzM0LDkg
-QEAgbmJkX3NlcnZlcl9zdG9wKCkNCj4gICAgICAgICAgICAgICBraWxsICIkTkJEX1BJRCINCj4g
-ICAgICAgICAgIGZpDQo+ICAgICAgIGZpDQoNCkhvbmVzdGx5LCBJIGRvbid0IHVuZGVyc3RhbmQg
-dGhlIHByb2JsZW0gZnJvbSBjb21taXQgbWVzc2FnZSwgYnV0IGFueXdheSBjb21tZW50DQpzaG91
-bGQgYmUgYWRkZWQgaGVyZSwgdG8gbWFyayB0aGF0IHRoaXMgaXMgZm9yIHZhbGdyaW5kLi4uIEJ1
-dCB5b3UgZG9uJ3QgY2hlY2sgZm9yDQpWQUxHUklORCBlbmFibGVkLi4gSSBpdCBpbnRlbnRpb25h
-bD8NCg0KPiArICAgIGlmIFsgLW4gIiRuYmRfam9iX3BpZCIgXSAmJiBraWxsIC1zIDAgIiRuYmRf
-am9iX3BpZCIgMj4vZGV2L251bGw7IHRoZW4NCj4gKyAgICAgICAgd2FpdCAiJG5iZF9qb2JfcGlk
-Ig0KPiArICAgIGZpDQo+ICAgICAgIHJtIC1mICIkbmJkX3VuaXhfc29ja2V0Ig0KPiAgIH0NCj4g
-ICANCj4gQEAgLTYxLDYgKzY1LDcgQEAgbmJkX3NlcnZlcl9zdGFydF91bml4X3NvY2tldCgpDQo+
-ICAgew0KPiAgICAgICBuYmRfc2VydmVyX3N0b3ANCj4gICAgICAgJFFFTVVfTkJEIC12IC10IC1r
-ICIkbmJkX3VuaXhfc29ja2V0IiAiJEAiICYNCj4gKyAgICBuYmRfam9iX3BpZD0kIQ0KPiAgICAg
-ICBuYmRfc2VydmVyX3dhaXRfZm9yX3VuaXhfc29ja2V0ICQhDQo+ICAgfQ0KPiAgIA0KPiBAQCAt
-MTA1LDUgKzExMCw2IEBAIG5iZF9zZXJ2ZXJfc3RhcnRfdGNwX3NvY2tldCgpDQo+ICAgew0KPiAg
-ICAgICBuYmRfc2VydmVyX3N0b3ANCj4gICAgICAgJFFFTVVfTkJEIC12IC10IC1iICRuYmRfdGNw
-X2FkZHIgLXAgJG5iZF90Y3BfcG9ydCAiJEAiICYNCj4gKyAgICBuYmRfam9iX3BpZD0kIQ0KPiAg
-ICAgICBuYmRfc2VydmVyX3dhaXRfZm9yX3RjcF9zb2NrZXQgJCENCj4gICB9DQo+IA0KDQoNCi0t
-IA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+Hi Connie,
+
+On 6/12/19 6:46 PM, Cornelia Huck wrote:
+> On Wed, 12 Jun 2019 14:40:04 +0200
+> Eric Auger <eric.auger@redhat.com> wrote:
+> 
+>> The code used to assign an interrupt index/subindex to an
+>> eventfd is duplicated many times. Let's introduce an helper that
+>> allows to set/unset the signaling for an ACTION_TRIGGER,
+>> ACTION_MASK or ACTION_UNMASK action.
+>>
+>> In the error message, we now use errno in case of any
+>> VFIO_DEVICE_SET_IRQS ioctl failure.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> 
+> Looks good to me.
+> 
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+thank you!
+> 
+> I currently have the following, still untested patch on top (vfio-ap
+> doesn't use this ioctl):
+> 
+> From 9c2efe73d6139e8c7b2109ac2df79fe073d942fb Mon Sep 17 00:00:00 2001
+> From: Cornelia Huck <cohuck@redhat.com>
+> Date: Wed, 12 Jun 2019 18:42:29 +0200
+> Subject: [PATCH] vfio-ccw: use vfio_set_irq_signaling()
+> 
+> Make use of the new helper.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>  hw/vfio/ccw.c | 50 +++++++++++++-------------------------------------
+>  1 file changed, 13 insertions(+), 37 deletions(-)
+> 
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index 03a2becb3ec9..3643be0ee254 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -198,9 +198,9 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
+>  {
+>      VFIODevice *vdev = &vcdev->vdev;
+>      struct vfio_irq_info *irq_info;
+> -    struct vfio_irq_set *irq_set;
+>      size_t argsz;
+> -    int32_t *pfd;
+> +    int fd;
+> +    Error *local_err = NULL;
+>  
+>      if (vdev->num_irqs < VFIO_CCW_IO_IRQ_INDEX + 1) {
+>          error_setg(errp, "vfio: unexpected number of io irqs %u",
+> @@ -224,56 +224,32 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
+>          goto out_free_info;
+>      }
+>  
+> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
+> -    irq_set = g_malloc0(argsz);
+> -    irq_set->argsz = argsz;
+> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
+> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
+> -    irq_set->start = 0;
+> -    irq_set->count = 1;
+> -    pfd = (int32_t *) &irq_set->data;
+> -
+> -    *pfd = event_notifier_get_fd(&vcdev->io_notifier);
+> -    qemu_set_fd_handler(*pfd, vfio_ccw_io_notifier_handler, NULL, vcdev);
+> -    if (ioctl(vdev->fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+> -        error_setg(errp, "vfio: Failed to set up io notification");
+> -        qemu_set_fd_handler(*pfd, NULL, NULL, vcdev);
+> +    fd = event_notifier_get_fd(&vcdev->io_notifier);
+> +    qemu_set_fd_handler(fd, vfio_ccw_io_notifier_handler, NULL, vcdev);
+> +    if (vfio_set_irq_signaling(vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
+> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &local_err)) {
+> +        error_propagate(errp, local_err);
+> +        qemu_set_fd_handler(fd, NULL, NULL, vcdev);
+>          event_notifier_cleanup(&vcdev->io_notifier);
+>      }
+>  
+> -    g_free(irq_set);
+> -
+>  out_free_info:
+>      g_free(irq_info);
+>  }
+>  
+>  static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
+>  {
+> -    struct vfio_irq_set *irq_set;
+> -    size_t argsz;
+> -    int32_t *pfd;
+> -
+> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
+> -    irq_set = g_malloc0(argsz);
+> -    irq_set->argsz = argsz;
+> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
+> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
+> -    irq_set->start = 0;
+> -    irq_set->count = 1;
+> -    pfd = (int32_t *) &irq_set->data;
+> -    *pfd = -1;
+> -
+> -    if (ioctl(vcdev->vdev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+> -        error_report("vfio: Failed to de-assign device io fd: %m");
+> +    Error *local_err = NULL;
+> +
+> +    if (vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
+> +                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, &local_err)) {
+> +        error_report_err(local_err);
+>      }
+>  
+>      qemu_set_fd_handler(event_notifier_get_fd(&vcdev->io_notifier),
+>                          NULL, NULL, vcdev);
+>      event_notifier_cleanup(&vcdev->io_notifier);
+>  
+> -    g_free(irq_set);
+>  }
+>  
+>  static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+> 
+Looks good. Looking forward to reviewing it formally.
+
+Best Regards
+
+Eric
 
