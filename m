@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E877435FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:43:16 +0200 (CEST)
-Received: from localhost ([::1]:39454 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748BA435F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:36:52 +0200 (CEST)
+Received: from localhost ([::1]:39428 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbP4V-0007Ss-Cj
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58875)
+	id 1hbOyJ-0003Uj-J8
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58880)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOd9-0007ut-TA
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOd9-0007uu-Va
  for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOd4-00046q-Vq
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:58 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:47016)
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOd6-00048x-1m
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:59 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40295)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbOcz-0003yc-Pm
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:50 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n4so20482716wrw.13
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:14:47 -0700 (PDT)
+ id 1hbOcz-0003zq-RL
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:51 -0400
+Received: by mail-wm1-x341.google.com with SMTP id v19so9867924wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:14:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ZhjXNJSJoB8D/a7FDJ2SYoWWjcFDVf6Du9Vt4AtT2SM=;
- b=pBBy6Nq4jA6qSsB0H+Z5oLcxsqrI+1BxbnePD41XiExzkxOFtplE9kTOigpI2FRTk8
- dN8m2Qn9LKY2RQ1Q6CVkxTCJbjPtb3Xm2rDrbyhEVj5fUQu8yLtJN2FNfYl0kxROskyS
- omwEBV7bTVU6ZcvI/0I93yqEDULMAaRPwsDhNtz/beFS/CYPALjLx44hUXWnPYrRipLF
- wpFeBDJBSMO1MSBBQ1lHKqMRB78hE+k/DnP1RMJKWmSgnm423AVx2fI+ne372iXR7oav
- 7L63uWbx1h1Acube7Q324lb0lTTiZCJFORcv9sThE1F18CbR2qaUzfbVPhz8MUidjNtL
- UGVw==
+ bh=xzAVSfrVvqiX6ekYDb41MECWbYD3g8yVOK49nEoLOVo=;
+ b=mnyNbH/ScqCopaOa5U/yB7M2FwK5+19T2DjqQMZv+EUVTo404O72KPHrAWlRooiTuq
+ ugQsyUjg8QpJn/OuJTC+G0DlwLzJh+ejJpBHPF2M0x7bgf4lwUAbV+3dlAQu6857wbyf
+ 0sXTGVQ9qLur7vf8f1YxSzE9FvI8pTtwcs4cJ4KiSDSVAB559FoH9/zh6/XJplq6Xbfl
+ Lx78YLn/hcDp9R1zNQbJdVTvgMRQZxHFeKuD84iqk8V2idVlvL9HQFw5mL3ezR3LKOOG
+ GXDTnoMZxfYBAeXzcr5a3aZTkHochqark9YE9Wf81DkWCSZXkT02B3RzFdCB1+1g9Acc
+ S9ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZhjXNJSJoB8D/a7FDJ2SYoWWjcFDVf6Du9Vt4AtT2SM=;
- b=rB36LrbhRkqHcadjHTZ0lnxub5OfMbvBM9SPNRJwDOGDVcMX6w6DCqT0Yu6W+1hljt
- YUn2yNF1PV5Jry9JRrGldiJeOtpwRKu941Ee7MCPdenx9bOyGn6Ykk6IW4An42LAzM1q
- 6/xT64rXmssaqudPv0Bq49w0cxk/sJ6Qa3zO1BhoV9ig7BveLRX91IOWe7WMaXG/cFEp
- ZkC/SKWEsrwh0dn38uh/tiCCihzi5ExC4hRV41PRkSe67gbAKSdWpiXJVP8eOgLThbey
- jz+PC3VzZRKrx58ECO1fUZvwYq1vce6HKhfOsLPR1Xm5E9LOed2DtsnWm1OxdhfEk9Ub
- ueIw==
-X-Gm-Message-State: APjAAAVw3hH0XXHp7DTvkzFHx5Lrue1HGwyCXJ6ReAYkG3LzJQpwP83D
- T8iVEJvL0yD1a116JfVNdDbC+UxlunC8/A==
-X-Google-Smtp-Source: APXvYqz4poARwnJqeA/7kTyVwPuxJDb149TbTtcD4RPRMI7wg2WFSEwascxZOciGN8m/a89YydUyFQ==
-X-Received: by 2002:a5d:6b12:: with SMTP id v18mr60392889wrw.306.1560428086167; 
- Thu, 13 Jun 2019 05:14:46 -0700 (PDT)
+ bh=xzAVSfrVvqiX6ekYDb41MECWbYD3g8yVOK49nEoLOVo=;
+ b=SpG3IoMVrTPDwlXtaYYg/mnpurpCOp82fUoEVkwX4CeDB1e8QSRMX1P0TRYX6yzBbZ
+ SfWbzkhWGDUNHrQieVq2ipW3OVuLLGGy+8tmu35bVfz5ixqEWjiWwRXTbMfSEIhTEY8N
+ 2Z/EUfYMs5NMnqJIBml2W0mQUBeKhpKfHQQW8TrOfRzGdbe8iUdPAnlyw7Y7DCbqIW6U
+ pfnQrT7udSLG7xfFZJ87tRCYM7qTIaH/SUPVnU7fsgyXnHT35pvUtXd6FYlbL/JXJM4i
+ NYhjTKgRqCxdGCIJXKN4Avb6hikNzqN6Z/e9nmZ44l3WFhZzh+jM260Laky8ven8FSNv
+ wEwA==
+X-Gm-Message-State: APjAAAWOnIERp9CakqypXi2RF/uG+m3nsQvCMSMizSLGL8zT9GvM7RtZ
+ Rv0J1Hj08UYh6Uqz8wj+gCxLnV/wmRhXZw==
+X-Google-Smtp-Source: APXvYqy7HWL1osN3iyi6Em33WVfvir2VVhdkNwSVGK19dimvxc+QLfz2qX03ZwVppQ3ndRzJGHSJkA==
+X-Received: by 2002:a1c:3:: with SMTP id 3mr3727207wma.44.1560428087314;
+ Thu, 13 Jun 2019 05:14:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.45
+ by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 05:14:45 -0700 (PDT)
+ Thu, 13 Jun 2019 05:14:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 13:13:55 +0100
-Message-Id: <20190613121433.5246-11-peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 13:13:56 +0100
+Message-Id: <20190613121433.5246-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190613121433.5246-1-peter.maydell@linaro.org>
 References: <20190613121433.5246-1-peter.maydell@linaro.org>
@@ -65,8 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PULL 10/48] target/arm: Fix Cortex-R5F MVFR values
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 11/48] target/arm: Explicitly enable VFP
+ short-vectors for aarch32 -cpu max
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,29 +82,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Cortex-R5F initfn was not correctly setting up the MVFR
-ID register values. Fill these in, since some subsequent patches
-will use ID register checks rather than CPU feature bit checks.
+At the moment our -cpu max for AArch32 supports VFP short-vectors
+because we always implement them, even for CPUs which should
+not have them. The following commits are going to switch to
+using the correct ID-register-check to enable or disable short
+vector support, so we need to turn it on explicitly for -cpu max,
+because Cortex-A15 doesn't implement it.
+
+We don't enable this for the AArch64 -cpu max, because the v8A
+architecture never supports short-vectors.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/arm/cpu.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 4d5d46db7f0..c8441fc07b7 100644
+index c8441fc07b7..2335659a852 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -1609,6 +1609,8 @@ static void cortex_r5f_initfn(Object *obj)
- 
-     cortex_r5_initfn(obj);
-     set_feature(&cpu->env, ARM_FEATURE_VFP3);
-+    cpu->isar.mvfr0 = 0x10110221;
-+    cpu->isar.mvfr1 = 0x00000011;
- }
- 
- static const ARMCPRegInfo cortexa8_cp_reginfo[] = {
+@@ -2023,6 +2023,10 @@ static void arm_max_initfn(Object *obj)
+         kvm_arm_set_cpu_features_from_host(cpu);
+     } else {
+         cortex_a15_initfn(obj);
++
++        /* old-style VFP short-vector support */
++        cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
++
+ #ifdef CONFIG_USER_ONLY
+         /* We don't set these in system emulation mode for the moment,
+          * since we don't correctly set (all of) the ID registers to
 -- 
 2.20.1
 
