@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F68643956
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:13:26 +0200 (CEST)
-Received: from localhost ([::1]:40768 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEF8438E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:09:56 +0200 (CEST)
+Received: from localhost ([::1]:40740 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbRPp-0004qc-Pc
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39833)
+	id 1hbRMS-0001Rj-4r
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40890)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hbQiP-0003py-KN
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:28:34 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbQlC-00074X-QE
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:31:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hbQiO-0004Ok-La
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:28:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42506)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hbQiM-0004MJ-D9; Thu, 13 Jun 2019 10:28:30 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 606DC2EF195;
- Thu, 13 Jun 2019 14:28:13 +0000 (UTC)
-Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23E8E2B443;
- Thu, 13 Jun 2019 14:28:08 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190611102720.86114-1-vsementsov@virtuozzo.com>
- <20190611102720.86114-2-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <ab8a1232-d609-d019-1aff-888eab403ce1@redhat.com>
-Date: Thu, 13 Jun 2019 09:28:07 -0500
+ (envelope-from <philmd@redhat.com>) id 1hbQl9-0006XJ-JE
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:31:25 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:41300)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbQl9-0006W9-54
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:31:23 -0400
+Received: by mail-wr1-f68.google.com with SMTP id c2so21034924wrm.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 07:31:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uPCG31NtCjQrMhfMzWaej0+MxaSfA9nDhfT/lK6L+dI=;
+ b=Jok8BRqiWv2X4coer/x2uhHDffZzCkeofxOx3rh26G9kwVurCBNdn6Rqpq7FRttkjT
+ rhW4YqBMccB/ryUF3YPLz8mJCcOHc7dEY2ZnbxLxVc83lgI0RHSLQSbfPTu/Nj0j5tFR
+ WBWHOFlSXEbSUGI3LjmB8kBJgsFXM0B1TuwGTRL+OG1E4tRDFFTEFSVXT5jNx4ZPFR3A
+ p/5zxSqw7Z9eB4hTWaIzLYkqBw053cpfTWyA2d8wwD57F5HwivxJMidi9Bh44rddcw3j
+ d4AjLEE63D915eEy792yXCxzLZqK7uBQZ7NdPWEbpZNFDiUePtSs/OLl57bA9TPINR0i
+ EN1A==
+X-Gm-Message-State: APjAAAV2SBqjQLz9FlkTo/DYC5sNEbWEfpt4tWCZfwJylGh0hzciKzXp
+ 7BUQmI7r0HZ2QKJY069igmFYfA==
+X-Google-Smtp-Source: APXvYqxLBpwl/foxG7kqoic92DU825MdQN6BTtxZbFqLQRSin80/J2NLSAOcot+ka13dkzRhDQOs/A==
+X-Received: by 2002:adf:e311:: with SMTP id b17mr60379164wrj.11.1560436281778; 
+ Thu, 13 Jun 2019 07:31:21 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id x16sm61458wmj.4.2019.06.13.07.31.20
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 13 Jun 2019 07:31:20 -0700 (PDT)
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20190525151241.5017-1-clg@kaod.org>
+ <20190525151241.5017-19-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <f3b3948f-8d24-fb8c-0b65-8fe08019a077@redhat.com>
+Date: Thu, 13 Jun 2019 16:31:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190611102720.86114-2-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="HQCstxFOiC4kRkakF7PSC6sqLfejyVqsY"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Thu, 13 Jun 2019 14:28:21 +0000 (UTC)
+In-Reply-To: <20190525151241.5017-19-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/3] block/nbd-client: drop stale logout
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH 18/19] aspeed/smc: inject errors in DMA
+ checksum
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,67 +76,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, mreitz@redhat.com
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---HQCstxFOiC4kRkakF7PSC6sqLfejyVqsY
-Content-Type: multipart/mixed; boundary="vJ2avaBwYwCZKOyAPCuiAxuRnY2uMSooq";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: mreitz@redhat.com, kwolf@redhat.com
-Message-ID: <ab8a1232-d609-d019-1aff-888eab403ce1@redhat.com>
-Subject: Re: [PATCH 1/3] block/nbd-client: drop stale logout
-References: <20190611102720.86114-1-vsementsov@virtuozzo.com>
- <20190611102720.86114-2-vsementsov@virtuozzo.com>
-In-Reply-To: <20190611102720.86114-2-vsementsov@virtuozzo.com>
+Hi Cédric,
 
---vJ2avaBwYwCZKOyAPCuiAxuRnY2uMSooq
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 6/11/19 5:27 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Drop one on failure path (we have errp) and turn two others into trace
-> points.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On 5/25/19 5:12 PM, Cédric Le Goater wrote:
+> Emulate read errors in the DMA Checksum Register for high frequencies
+> and optimistic settings of the Read Timing Compensation Register. This
+> will help in tuning the SPI timing calibration algorithm.
+> 
+> The values below are those to expect from the first flash device of
+> the FMC controller of a palmetto-bmc machine.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  block/nbd-client.h | 9 ---------
->  block/nbd-client.c | 6 +++---
->  block/trace-events | 2 ++
->  3 files changed, 5 insertions(+), 12 deletions(-)
->=20
+>  hw/ssi/aspeed_smc.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+> index 406c30c60b3f..4c162912cf62 100644
+> --- a/hw/ssi/aspeed_smc.c
+> +++ b/hw/ssi/aspeed_smc.c
+> @@ -866,6 +866,30 @@ static void aspeed_smc_dma_calibration(AspeedSMCState *s)
+>      s->regs[s->r_ctrl0 + cs] |= CE_CTRL_CLOCK_FREQ(hclk_div);
+>  }
+>  
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Can you add a comment (like the patch description) here?
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> +static bool aspeed_smc_inject_read_failure(AspeedSMCState *s)
+> +{
+> +    uint8_t delay =
+> +        (s->regs[R_DMA_CTRL] >> DMA_CTRL_DELAY_SHIFT) & DMA_CTRL_DELAY_MASK;
+> +    uint8_t hclk_mask =
+> +        (s->regs[R_DMA_CTRL] >> DMA_CTRL_FREQ_SHIFT) & DMA_CTRL_FREQ_MASK;
+> +
+> +    /*
+> +     * Typical values of a palmetto-bmc machine.
+> +     */
+> +    switch (aspeed_smc_hclk_divisor(hclk_mask)) {
+> +    case 4 ... 16:
+> +        return false;
+> +    case 3: /* at least one HCLK cycle delay */
+> +        return (delay & 0x7) < 1;
+> +    case 2: /* at least two HCLK cycle delay */
+> +        return (delay & 0x7) < 2;
+> +    case 1: /* (> 100MHz) is above the max freq of the controller */
+> +        return true;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +}
+> +
+>  /*
+>   * Accumulate the result of the reads to provide a checksum that will
+>   * be used to validate the read timing settings.
+> @@ -903,6 +927,11 @@ static void aspeed_smc_dma_checksum(AspeedSMCState *s)
+>          s->regs[R_DMA_FLASH_ADDR] += 4;
+>          s->regs[R_DMA_LEN] -= 4;
+>      }
+> +
+> +    if (aspeed_smc_inject_read_failure(s)) {
 
+So this model real world where noise eventually triggers errors. Don't
+we want this to be enable by the user (or a QMP command)?
 
---vJ2avaBwYwCZKOyAPCuiAxuRnY2uMSooq--
-
---HQCstxFOiC4kRkakF7PSC6sqLfejyVqsY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0CXXcACgkQp6FrSiUn
-Q2oY6Qf9EHevRyLU89ezGuZu0ouFzhdmYY44U60z4VRzR6uj2RD1ycBwFYXCZNqE
-FJ2BFxU+eexYkb2jOnH0UD4Zj2J1xiIIEbNWe1r/eRG+11168uJ1UWizNp/5gs5P
-v7pF5+ovc/ZdvxiGLZfGiIY8V8xa997RMu/Q+k7SqSe3iqVvcP+QQjPejPgQuQzf
-pItk4Fy3rJxHRfCSRyJeaaVPobi/tbvzfUk5EHCc3S/hc973/Z9+ueAiuVC4frwA
-xO0tkT3jzqMh5kPDzi122CfKEKz3z/E+d8tGBUjA+D/dTKx0my1sIkR++B7zWW0I
-sYFeEPQntUsLYKqCW2dMKYeIN/I0kw==
-=2PDh
------END PGP SIGNATURE-----
-
---HQCstxFOiC4kRkakF7PSC6sqLfejyVqsY--
+> +        s->regs[R_DMA_CHECKSUM] = 0xbadc0de;
+> +    }
+> +
+>  }
+>  
+>  static void aspeed_smc_dma_rw(AspeedSMCState *s)
+> 
 
