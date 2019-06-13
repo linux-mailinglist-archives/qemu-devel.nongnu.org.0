@@ -2,47 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E164444A02
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:57:56 +0200 (CEST)
-Received: from localhost ([::1]:43144 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D510544BAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 21:07:14 +0200 (CEST)
+Received: from localhost ([::1]:44254 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbTz1-00067j-NW
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46241)
+	id 1hbV46-0001HP-3A
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 15:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46965)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbTvz-0003Xx-Tp
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:54:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbTy3-00066o-Bs
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:56:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbTvw-0000PK-IX
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:54:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54340)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbTvw-0000N1-8f
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:54:44 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C4CBD3082E10
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 17:54:42 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 679D7176BA;
- Thu, 13 Jun 2019 17:54:37 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 19:54:35 +0200
-Message-Id: <20190613175435.6575-1-philmd@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hbTy1-00045N-Uc
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:56:55 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:36185)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hbTxz-0003z4-Lv
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:56:53 -0400
+Received: by mail-ot1-x331.google.com with SMTP id r6so36085oti.3
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 10:56:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kXRzzvf/Kr8HgFa4YX5oTVBBGu3qPyGIdY6iNYAU5Ls=;
+ b=UiZQWZdrEnDPVU17NJu7OV3F7WQvv83wNrSMfha7+FluaK2jeL7Fm0HXaWdbkXajdH
+ UheqyVcBohjiV085tl9hqPBGaCVEVxSEs9hJILm6n2dAExhKD42nvQZrBPuTdOO689io
+ B6HeCHIaAlevZ5a24miTFYlDsXjxzOFv+bP9cSL8Da4w9omlM2d+YSXYSJXzabbVlvV6
+ y3/WcM3lvijrdR2j3t9bhkShavMhCpX0C4XGobNtcOfMo6s517rQbGPo5ByCFrdtYB/9
+ LcLKn8OYEudHELGE+vGddQelxpMBxbEN8Fkd7YVFcHvV+0T8NMlZz1GBXFBYmXKlIXs0
+ 8ivQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kXRzzvf/Kr8HgFa4YX5oTVBBGu3qPyGIdY6iNYAU5Ls=;
+ b=LapBt66ohqvaybNrAnrteoGJMdFrvAyXjJhtMrgUE0Bw5wPiiBdxkUts0mF4tqaZRS
+ b7amziWMLB+FbW364f//ln1a5z1OBFd4IjamX77do46j2RDdIUWqFUiOcBfqonaUk4kN
+ UbPwuRvxxzyOZuHuc23W8Hhdd55Fuzy8ybqmXYZokP09XT78Y6SYmADXF0jwnkSeE5mJ
+ kix/Z2CuewJXj2c96AEhH202uk8TQerbuIw0j9XDQ/IFsvCvGGWCfHescP58SHQNVwnD
+ iBK/7k/QRcf6qgZwzvaUEfC4eafPekVFEhxMHMHBCRjYyienkL9MKpKrFw6FaLjbA8pb
+ E1WA==
+X-Gm-Message-State: APjAAAWAYkTn2TCXoOomKU7XCmkPlrWl8hNykFQxYv8Yet3BX6SGv5mI
+ x9UA3fXvOqc5zITuY8n/YG+c/gbuOA39BD2GVFYSqA==
+X-Google-Smtp-Source: APXvYqwlXsJNDBr8BkCBjz2xoDrEtJ3qwqO8ru9uDXkDdyZJGn66+p50/AXDNPSBRcN7/dElV3QvFqOGDusQlNYnhcM=
+X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr2618612otn.135.1560448609719; 
+ Thu, 13 Jun 2019 10:56:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Thu, 13 Jun 2019 17:54:42 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] roms/edk2-build.sh: Allow to run edk2-build.sh
- from command line
+References: <20190613154837.21734-1-eblake@redhat.com>
+In-Reply-To: <20190613154837.21734-1-eblake@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 18:56:38 +0100
+Message-ID: <CAFEAcA-OLU+k=hFnz1enXZWK4m3Vy7T7iQ3QNJbrCwecmHHqpg@mail.gmail.com>
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::331
+Subject: Re: [Qemu-devel] [PULL 0/9] NBD patches through 2019-06-13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,61 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The edk2-build.sh script set the 'nounset' option:
+On Thu, 13 Jun 2019 at 18:13, Eric Blake <eblake@redhat.com> wrote:
+>
+> The following changes since commit 785a602eae7ad97076b9794ebaba072ad4a9f74f:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/vga-20190613-pull-request' into staging (2019-06-13 13:25:25 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2019-06-13
+>
+> for you to fetch changes up to 611ae1d71647c58b23dc2c116a946884ce30abf8:
+>
+>   block/nbd: merge NBDClientSession struct back to BDRVNBDState (2019-06-13 10:00:42 -0500)
+>
+> ----------------------------------------------------------------
+> nbd patches for 2019-06-13
+>
+> - add 'qemu-nbd --pid-file'
+> - NBD-related iotest improvements
+> - NBD code refactoring in preparation for reconnect
+>
+> ----------------------------------------------------------------
 
-  BASH(1)
 
-  set [arg ...]
 
-      -u   Treat unset variables and parameters other than the
-           special parameters "@" and "*" as an error when
-           performing parameter expansion.  If expansion is
-           attempted on an unset variable or parameter, the shell
-           prints an error message, and, if not interactive,
-           exits with a non-zero status.
+Applied, thanks.
 
-When running this script out of 'make', we get:
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-  $ cd roms
-  $ ./edk2-build.sh aarch64 --arch=3DAARCH64 --platform=3DArmVirtPkg/ArmV=
-irtQemu.dsc > /dev/null
-  ./edk2-build.sh: line 46: MAKEFLAGS: unbound variable
-
-Fix this by checking the variable is defined before using it,
-else use a default value.
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- roms/edk2-build.sh | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
-index 4f46f8a6a2..5390228b4e 100755
---- a/roms/edk2-build.sh
-+++ b/roms/edk2-build.sh
-@@ -43,7 +43,13 @@ fi
- # any), for the edk2 "build" utility.
- source ../edk2-funcs.sh
- edk2_toolchain=3D$(qemu_edk2_get_toolchain "$emulation_target")
--edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
-+if [ -v MAKEFLAGS ]; then
-+  edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
-+else
-+  # We are not running within 'make', let the edk2 "build" utility to fe=
-tch
-+  # the logical CPU count with Python's multiprocessing.cpu_count() meth=
-od.
-+  edk2_thread_count=3D0
-+fi
- qemu_edk2_set_cross_env "$emulation_target"
-=20
- # Build the platform firmware.
---=20
-2.20.1
-
+-- PMM
 
