@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85E74374E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:42:09 +0200 (CEST)
-Received: from localhost ([::1]:40498 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC3843743
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:38:08 +0200 (CEST)
+Received: from localhost ([::1]:40456 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbQvY-0006QZ-UN
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46277)
+	id 1hbQre-0001bb-Vg
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:38:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46189)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1hbPSH-0003XT-EI
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:50 -0400
+ (envelope-from <crosa@redhat.com>) id 1hbPSA-0003QM-SZ
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hbPSF-0006Go-UF
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:31127)
+ (envelope-from <crosa@redhat.com>) id 1hbPS9-0006AY-2y
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48288)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hbPSF-0006G0-J0
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:47 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hbPS8-00069a-MD
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:40 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CCEA580B3F;
- Thu, 13 Jun 2019 13:07:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CA9BE2EED37;
+ Thu, 13 Jun 2019 13:07:33 +0000 (UTC)
 Received: from dhcp-17-47.bos.redhat.com (dhcp-17-47.bos.redhat.com
  [10.18.17.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09C9F4128;
- Thu, 13 Jun 2019 13:07:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EECA8452B;
+ Thu, 13 Jun 2019 13:07:31 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 09:07:15 -0400
-Message-Id: <20190613130718.3763-2-crosa@redhat.com>
+Date: Thu, 13 Jun 2019 09:07:16 -0400
+Message-Id: <20190613130718.3763-3-crosa@redhat.com>
 In-Reply-To: <20190613130718.3763-1-crosa@redhat.com>
 References: <20190613130718.3763-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 13 Jun 2019 13:07:36 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 13 Jun 2019 13:07:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/4] tests/vm: avoid extra compressed image copy
+Subject: [Qemu-devel] [PATCH 2/4] tests/vm: avoid image presence check and
+ removal
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,81 +64,84 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The image copy is only really needed because xz doesn't know to
-properly decompress a file not named properly.  Instead of
-decompressing to stdout, and having to rely on a shell, let's just
-create a link instead of copying the file.
+Python's os.rename() will silently replace an existing file,
+so there's no need for the extra check and removal.
 
+Reference: https://docs.python.org/3/library/os.html#os.rename
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/vm/centos  | 4 ++--
- tests/vm/freebsd | 4 ++--
- tests/vm/netbsd  | 4 ++--
- tests/vm/openbsd | 4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ tests/vm/centos      | 2 --
+ tests/vm/freebsd     | 2 --
+ tests/vm/netbsd      | 2 --
+ tests/vm/openbsd     | 2 --
+ tests/vm/ubuntu.i386 | 2 --
+ 5 files changed, 10 deletions(-)
 
 diff --git a/tests/vm/centos b/tests/vm/centos
-index ba133ea429..466fa59fec 100755
+index 466fa59fec..3ee7ca780e 100755
 --- a/tests/vm/centos
 +++ b/tests/vm/centos
-@@ -66,8 +66,8 @@ class CentosVM(basevm.BaseVM):
-         cimg =3D self._download_with_cache("https://cloud.centos.org/cen=
-tos/7/images/CentOS-7-x86_64-GenericCloud-1802.qcow2.xz")
-         img_tmp =3D img + ".tmp"
-         sys.stderr.write("Extracting the image...\n")
--        subprocess.check_call(["cp", "-f", cimg, img_tmp + ".xz"])
--        subprocess.check_call(["xz", "-dvf", img_tmp + ".xz"])
-+        subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
-+        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp + ".xz"])
-         subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
-         self.boot(img_tmp, extra_args =3D ["-cdrom", self._gen_cloud_ini=
-t_iso()])
-         self.wait_ssh()
+@@ -77,8 +77,6 @@ class CentosVM(basevm.BaseVM):
+         self.ssh_root_check("systemctl enable docker")
+         self.ssh_root("poweroff")
+         self.wait()
+-        if os.path.exists(img):
+-            os.remove(img)
+         os.rename(img_tmp, img)
+         return 0
+=20
 diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index b0066017a6..5575c23a6f 100755
+index 5575c23a6f..091be1a065 100755
 --- a/tests/vm/freebsd
 +++ b/tests/vm/freebsd
-@@ -34,8 +34,8 @@ class FreeBSDVM(basevm.BaseVM):
-         img_tmp_xz =3D img + ".tmp.xz"
-         img_tmp =3D img + ".tmp"
+@@ -36,8 +36,6 @@ class FreeBSDVM(basevm.BaseVM):
          sys.stderr.write("Extracting the image...\n")
--        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
--        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
-+        subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
-+        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
-         if os.path.exists(img):
-             os.remove(img)
+         subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
+         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
+-        if os.path.exists(img):
+-            os.remove(img)
          os.rename(img_tmp, img)
+=20
+ if __name__ =3D=3D "__main__":
 diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 4c6624ea5e..d0508f4465 100755
+index d0508f4465..ee9eaeab50 100755
 --- a/tests/vm/netbsd
 +++ b/tests/vm/netbsd
-@@ -34,8 +34,8 @@ class NetBSDVM(basevm.BaseVM):
-         img_tmp_xz =3D img + ".tmp.xz"
-         img_tmp =3D img + ".tmp"
+@@ -36,8 +36,6 @@ class NetBSDVM(basevm.BaseVM):
          sys.stderr.write("Extracting the image...\n")
--        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
--        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
-+        subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
-+        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
-         if os.path.exists(img):
-             os.remove(img)
+         subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
+         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
+-        if os.path.exists(img):
+-            os.remove(img)
          os.rename(img_tmp, img)
+=20
+ if __name__ =3D=3D "__main__":
 diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 2105c01a26..87ec982489 100755
+index 87ec982489..28c7d25e29 100755
 --- a/tests/vm/openbsd
 +++ b/tests/vm/openbsd
-@@ -36,8 +36,8 @@ class OpenBSDVM(basevm.BaseVM):
-         img_tmp_xz =3D img + ".tmp.xz"
-         img_tmp =3D img + ".tmp"
+@@ -38,8 +38,6 @@ class OpenBSDVM(basevm.BaseVM):
          sys.stderr.write("Extracting the image...\n")
--        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
--        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
-+        subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
-+        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
-         if os.path.exists(img):
-             os.remove(img)
+         subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
+         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
+-        if os.path.exists(img):
+-            os.remove(img)
          os.rename(img_tmp, img)
+=20
+ if __name__ =3D=3D "__main__":
+diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+index a22d137e76..12867b193f 100755
+--- a/tests/vm/ubuntu.i386
++++ b/tests/vm/ubuntu.i386
+@@ -80,8 +80,6 @@ class UbuntuX86VM(basevm.BaseVM):
+         self.ssh_root_check("apt-get install -y libfdt-dev flex bison")
+         self.ssh_root("poweroff")
+         self.wait()
+-        if os.path.exists(img):
+-            os.remove(img)
+         os.rename(img_tmp, img)
+         return 0
+=20
 --=20
 2.21.0
 
