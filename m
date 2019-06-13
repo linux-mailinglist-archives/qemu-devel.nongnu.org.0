@@ -2,61 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E7B43D52
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:41:25 +0200 (CEST)
-Received: from localhost ([::1]:41020 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D65F4375E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:52:24 +0200 (CEST)
+Received: from localhost ([::1]:40614 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbRqu-0004G4-6Z
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:41:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35004)
+	id 1hbR5S-0006Xx-Up
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:52:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35490)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@gmail.com>) id 1hbQQc-000728-UX
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:10:12 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hbQSa-0008DL-8P
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:12:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hbQQc-0007t5-0E
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:10:10 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50777)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hbQQb-0007nJ-Kn
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:10:09 -0400
-Received: by mail-wm1-x335.google.com with SMTP id c66so10379893wmf.0
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 07:10:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=ffC1aG7hZ4XkHaHiyYiX05WLpWX7zSqtIwI7hotj3ro=;
- b=rH4X3Weo0ENzv/8LuSVOju3YfrHlMyDGwDndbWgUzC2ZkdQIMZY+1aaviB5WsZrs6K
- flWROxmqiBdKS2o+ltsTBozYtQy2l6Ngh5AuaVUmIeBTAnUZYhDFPEA6qXRd96c2dzjK
- WKlvAeFUSL6uVYv1tEpC4KxgdXu3xSHGM3Z3N2+YvHDwtTparw8cYBNmbRzWgDTbyE/z
- BNwWzybelT68ujD6xQ7lBObWmzMRIJrFqew3bOptEOXK2wKQf6uNBAhQPBIT8xrNvcq0
- WxIuG3Pt9DYyxA6Jg+QC+a9hLZr8GO18mVjoebF2sQk59LS4KOLQSJcDI96MvNQRI45z
- 5BrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=ffC1aG7hZ4XkHaHiyYiX05WLpWX7zSqtIwI7hotj3ro=;
- b=mWsBTTpeIcTL9Ran04hz5JIA4/bfvIF1rfppBhqXt3iQ6nhn6zO8F79MgF1N5i43lr
- yJo55/vNNqIWtXOW93yhMTXKa/dmW+YVy4VQNWMVU0KaPVFhNIg099AvJo45zHRPprMG
- wcr2J+TD1rEdNZiVcyZs0usFDidLbUdgC4+aebDBxY8UacKy8Ewqpd44tIFOSd+PNdmB
- N+AV/HaK8hEj3ySijvpAMi0JqWFZEn1XEbocP8k3edlAdUFxJB8IhyWCCEuGQljxIoNz
- Em+nY+Q75EzPp4+8U//vbXayEBfoPLxtNW3w69VMLiv+SfBOfqGzSSDzcl2sBI1QsRtR
- VLzA==
-X-Gm-Message-State: APjAAAWUA8ps0PArsPWDDFZsLAIF9HzYqQhX12YxeC4c/u7MSDGepgfA
- vkDN5CzK/ZzdZLbJoDGNajQJ9ABtdgD+beoYDyo=
-X-Google-Smtp-Source: APXvYqyb1Qi0Yo8z/20CyRdFh907rRVc9JIiyPbq3ZZWZ81RjwQkr1y9k2pHBXs3R6aBWRRMouGlZ7reAx/g7dR/sn8=
-X-Received: by 2002:a05:600c:2149:: with SMTP id
- v9mr3911197wml.141.1560435002671; 
- Thu, 13 Jun 2019 07:10:02 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1hbQSY-0000Q1-VO
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:12:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49722)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hbQS8-000084-F2; Thu, 13 Jun 2019 10:11:47 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B63FFCAA74;
+ Thu, 13 Jun 2019 14:11:21 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-246.ams2.redhat.com [10.36.116.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA0EE5D9C5;
+ Thu, 13 Jun 2019 14:11:20 +0000 (UTC)
+Date: Thu, 13 Jun 2019 16:11:19 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190613141119.GA7338@linux.fritz.box>
+References: <20190611134043.9524-1-kwolf@redhat.com>
+ <20190611134043.9524-10-kwolf@redhat.com>
+ <874l4vymlo.fsf@dusky.pond.sub.org>
+ <20190612152536.GE9699@localhost.localdomain>
+ <87zhmmqc34.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 13 Jun 2019 15:09:51 +0100
-Message-ID: <CAJSP0QUqcEOMtme7Vhq_mh_TaW4msPnwqXy9DKz0ULK0ychiZA@mail.gmail.com>
-To: Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::335
-Subject: [Qemu-devel] KVM Community Call: Discussing multiprocess QEMU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87zhmmqc34.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Thu, 13 Jun 2019 14:11:21 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 09/11] monitor: Split out monitor/qmp.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,19 +60,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Juan,
-Please add multiprocess QEMU to the agenda for the KVM Community Call
-on June 18th.
+Am 13.06.2019 um 07:38 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Am 12.06.2019 um 15:11 hat Markus Armbruster geschrieben:
+> >> Kevin Wolf <kwolf@redhat.com> writes:
+> >> > --- a/include/monitor/monitor.h
+> >> > +++ b/include/monitor/monitor.h
+> >> > @@ -21,6 +21,7 @@ bool monitor_cur_is_qmp(void);
+> >> >  
+> >> >  void monitor_init_globals(void);
+> >> >  void monitor_init(Chardev *chr, int flags);
+> >> > +void monitor_init_qmp(Chardev *chr, int flags);
+> >> 
+> >> Why does this one go to the non-internal header?
+> >
+> > Most callers already know whether they want QMP or HMP, so they can just
+> > directly create the right thing instead of going through the
+> > monitor_init() wrapper.
+> >
+> > If you prefer, I can move it to the internal header, though. It's not
+> > called externally yet.
+> 
+> As is, monitor_init_qmp() and monitor_init_hmp() are awkward interfaces:
+> what if you pass MONITOR_USE_CONTROL to monitor_init_hmp()?
+> 
+> I can see just one call passing flags that aren't compile-time
+> constant.  I think a better interface would be
+> 
+>     monitor_init_hmp(Chardev *chr);
+>     monitor_init_qmp(Chardev *chr, bool pretty);
+> 
+> replacing monitor_init() entirely.  This is my first preference.
+> 
+> My (somewhat distant) second is hiding the awkward interfaces in the
+> internal header for now, and clean them up later.
+> 
+> Your choice.
 
-Can you share the dial-in details again?
+I'm doing both, as in move it to the internal header in the code motion
+patches, but add some patches at the end of the series to clean it up.
 
-Thanks,
-Stefan
+Kevin
 
