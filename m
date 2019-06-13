@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9DD74367E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 15:27:01 +0200 (CEST)
-Received: from localhost ([::1]:39684 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C12A43617
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:54:40 +0200 (CEST)
+Received: from localhost ([::1]:39516 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbPkq-0000XU-US
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 09:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59692)
+	id 1hbPFX-0008TY-7e
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59016)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOdr-0008R0-SO
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOdL-00080T-AB
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOdW-0004fO-8Y
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:36 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37510)
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOdI-0004Li-63
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:11 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38648)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbOdV-0004DD-I8
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:21 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 22so9882387wmg.2
+ id 1hbOdF-0004DU-FS
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:07 -0400
+Received: by mail-wr1-x441.google.com with SMTP id d18so20521857wrs.5
  for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:15:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9pWSJmsiYxVaBT4ZhuUEOssPCHT4ENw/4ruzvNmgVzc=;
- b=ALMXSS7siIl0gHl2/VshaCisXwC0DAT0vjZEashtRRo/A9ZYVIRabYZ2NYyW+VQkzm
- dyGthGcY0kR/lh/tFCY0MkxczlYMpu5amH562hAG9f765o6JvC34qdYZBBnBReF5sY/5
- zYawAN4PPjLZF4FDO7CveXaJfS7pQGdDr+Qk9kXZCSz+Ot7AU3bvoy+kR7rp7GCUqpVC
- W3kxV2+PgDYAQz51Ks2vFqUf9ydrWrq9cQKwRV7x19EXCEvgba9dgTG/aX/zCREpkIAr
- MIj5RhEJqV903mBuz9P6uobkhQlx0WY0cc6hfVQLF4zkK7LqNV33HscY6SwZyyO0zd0R
- nx7Q==
+ bh=ZrHyvKvOWaE4Pp/kVtSvphKsec2oq7Qnq1JNeO01iSY=;
+ b=DBOFN0Yq9c90uggDHRoPGNbmriMw0X6gV3Q3BI++NUUsLF0weDM3cUa/Cf2DzWxpOV
+ jY7Gvga9BsdG78sQMOB72Tclccn/du57tS868vqm+yewl5hO7X0+nYtEgM0da4ceArMP
+ RXVbPmH1w276FlJKXZof1CBBUC70V2ePTv5DwXX7Q+yRo/4P0skZYr+VgYGuHcfVMS2n
+ AcRFwGog5Wvo9Bx9XLYojRTxIw2q589SCZdXCYYE0f3/IqJViBc0qMAYZukaC1LvuNay
+ z5h6hYLBu/73PAV15AlV3X4EfsU5txGk/kE0qt2ejVYOXDrM5PB0feJRG2nXmLmERSC7
+ o9zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9pWSJmsiYxVaBT4ZhuUEOssPCHT4ENw/4ruzvNmgVzc=;
- b=GUg3+bdWXIh1KCI8fsab+XkMacSD2teUwiYYMByUzILqwdLxMyM7ugwC5Raf1VO6Yl
- Rqh3/7k7SjfqF2UY99dN/1nhIDlQOx2442t4w8N6uMQe29PJTFwUDx7yo2Fw59vA+eSt
- fB3Oe0k7Eb3nS3S33qUBjbGex90qhOB/inkLB9RSosc6Bk26RU/+bYI5Ri/J3C9yD693
- kyN4a7wkiictaZ+MVnu6kct8svdDDHgueyUDVqqVEUcnJ0dBKLsuaEbgitpe4Fm4CLGv
- YtyofIObPXyCIZzXEr7KpU3Ht7z0MCQCVadm2Ewx8UATTgDf3ixswYChWTfSxpAJqOpa
- J/8A==
-X-Gm-Message-State: APjAAAX3u4gEOPArdRkJ0AssB/FL7OC8Su6BZBx7hlyQJBJnD+NwkdnY
- sGcvjuzq1j6ztoUxQo7DKhCMjbQ+dIezPw==
-X-Google-Smtp-Source: APXvYqwWZc2GLOfUMTRkaBKVMbNFnTcPUUV878MLNdXli11/rhfcgiZIzQGwkqZ4JIAMjzlp4y+MFA==
-X-Received: by 2002:a05:600c:20ca:: with SMTP id
- y10mr3445878wmm.72.1560428100032; 
+ bh=ZrHyvKvOWaE4Pp/kVtSvphKsec2oq7Qnq1JNeO01iSY=;
+ b=W+9OrOhI/JfRmRDJ+6KxQU74/XHhx4qvqGJeseXWKWZDnaEtz4VLKXRTMM4JpS3Q7g
+ mE1aaFIa1MYjl6gylcdayFECC8kgsNLAvAo60/uQ2TX6MUFLzwItEg94/DQlax8wo0pt
+ SU98STpkWU/xEywuTUIAefVsBcN1o33zwom/RqhmWwrNZ2x21GP9nGy4mEVa92b68VzP
+ DRloGEO18gO5hkqBtMfZM3bKSf/2WsVNF7Igrq8++CcwesnPZb2bChAocwoSKyzNE+AO
+ tmac0EM+/tTpfwbKLE65lXk1XwvloV49BLBIlHeSgNnsO1ccJ4jYMsXrd7EekMmRdnb4
+ zTIA==
+X-Gm-Message-State: APjAAAVn/hEbuBEd/2QFECIGanWuGu+Bz/QBK8v6a4BYkdBqlc/y2adZ
+ AdGlwy5o6eumpUe1EvkpkwdtxqHwKaB8gA==
+X-Google-Smtp-Source: APXvYqw26ErsPLlw+wexDBM+/w3wwbhk+yXHyo4B0Ra3HATs+R3i8j6bowRV3C3jRWGwuoNMpNl3xw==
+X-Received: by 2002:adf:f181:: with SMTP id h1mr1582290wro.86.1560428100925;
  Thu, 13 Jun 2019 05:15:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.58
+ by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.15.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 05:14:59 -0700 (PDT)
+ Thu, 13 Jun 2019 05:15:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 13:14:07 +0100
-Message-Id: <20190613121433.5246-23-peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 13:14:08 +0100
+Message-Id: <20190613121433.5246-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190613121433.5246-1-peter.maydell@linaro.org>
 References: <20190613121433.5246-1-peter.maydell@linaro.org>
@@ -66,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PULL 22/48] target/arm: Convert the VFP load/store
- multiple insns to decodetree
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 23/48] target/arm: Remove VLDR/VSTR/VLDM/VSTM
+ use of cpu_F0s and cpu_F0d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,340 +82,174 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the VFP load/store multiple insns to decodetree.
-This includes tightening up the UNDEF checking for pre-VFPv3
-CPUs which only have D0-D15 : they now UNDEF for any access
-to D16-D31, not merely when the smallest register in the
-transfer list is in D16-D31.
-
-This conversion does not try to share code between the single
-precision and the double precision versions; this looks a bit
-duplicative of code, but it leaves the door open for a future
-refactoring which gets rid of the use of the "F0" registers
-by inlining the various functions like gen_vfp_ld() and
-gen_mov_F0_reg() which are hiding "if (dp) { ... } else { ... }"
-conditionalisation.
+Expand out the sequences in the new decoder VLDR/VSTR/VLDM/VSTM trans
+functions which perform the memory accesses by going via the TCG
+globals cpu_F0s and cpu_F0d, to use local TCG temps instead.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-vfp.inc.c | 162 +++++++++++++++++++++++++++++++++
- target/arm/translate.c         |  97 +-------------------
- target/arm/vfp.decode          |  18 ++++
- 3 files changed, 183 insertions(+), 94 deletions(-)
+ target/arm/translate-vfp.inc.c | 46 +++++++++++++++++++++-------------
+ target/arm/translate.c         | 18 -------------
+ 2 files changed, 28 insertions(+), 36 deletions(-)
 
 diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 40f2cac3e2e..32a1805e582 100644
+index 32a1805e582..9729946d734 100644
 --- a/target/arm/translate-vfp.inc.c
 +++ b/target/arm/translate-vfp.inc.c
-@@ -926,3 +926,165 @@ static bool trans_VLDR_VSTR_dp(DisasContext *s, arg_VLDR_VSTR_sp *a)
+@@ -857,7 +857,7 @@ static bool trans_VMOV_64_dp(DisasContext *s, arg_VMOV_64_sp *a)
+ static bool trans_VLDR_VSTR_sp(DisasContext *s, arg_VLDR_VSTR_sp *a)
+ {
+     uint32_t offset;
+-    TCGv_i32 addr;
++    TCGv_i32 addr, tmp;
+ 
+     if (!vfp_access_check(s)) {
+         return true;
+@@ -876,13 +876,15 @@ static bool trans_VLDR_VSTR_sp(DisasContext *s, arg_VLDR_VSTR_sp *a)
+         addr = load_reg(s, a->rn);
+     }
+     tcg_gen_addi_i32(addr, addr, offset);
++    tmp = tcg_temp_new_i32();
+     if (a->l) {
+-        gen_vfp_ld(s, false, addr);
+-        gen_mov_vreg_F0(false, a->vd);
++        gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
++        neon_store_reg32(tmp, a->vd);
+     } else {
+-        gen_mov_F0_vreg(false, a->vd);
+-        gen_vfp_st(s, false, addr);
++        neon_load_reg32(tmp, a->vd);
++        gen_aa32_st32(s, tmp, addr, get_mem_index(s));
+     }
++    tcg_temp_free_i32(tmp);
+     tcg_temp_free_i32(addr);
  
      return true;
- }
-+
-+static bool trans_VLDM_VSTM_sp(DisasContext *s, arg_VLDM_VSTM_sp *a)
-+{
-+    uint32_t offset;
-+    TCGv_i32 addr;
-+    int i, n;
-+
-+    n = a->imm;
-+
-+    if (n == 0 || (a->vd + n) > 32) {
-+        /*
-+         * UNPREDICTABLE cases for bad immediates: we choose to
-+         * UNDEF to avoid generating huge numbers of TCG ops
-+         */
-+        return false;
-+    }
-+    if (a->rn == 15 && a->w) {
-+        /* writeback to PC is UNPREDICTABLE, we choose to UNDEF */
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    if (s->thumb && a->rn == 15) {
-+        /* This is actually UNPREDICTABLE */
-+        addr = tcg_temp_new_i32();
-+        tcg_gen_movi_i32(addr, s->pc & ~2);
-+    } else {
-+        addr = load_reg(s, a->rn);
-+    }
-+    if (a->p) {
-+        /* pre-decrement */
-+        tcg_gen_addi_i32(addr, addr, -(a->imm << 2));
-+    }
-+
-+    if (s->v8m_stackcheck && a->rn == 13 && a->w) {
-+        /*
-+         * Here 'addr' is the lowest address we will store to,
-+         * and is either the old SP (if post-increment) or
-+         * the new SP (if pre-decrement). For post-increment
-+         * where the old value is below the limit and the new
-+         * value is above, it is UNKNOWN whether the limit check
-+         * triggers; we choose to trigger.
-+         */
-+        gen_helper_v8m_stackcheck(cpu_env, addr);
-+    }
-+
-+    offset = 4;
-+    for (i = 0; i < n; i++) {
-+        if (a->l) {
-+            /* load */
-+            gen_vfp_ld(s, false, addr);
-+            gen_mov_vreg_F0(false, a->vd + i);
-+        } else {
-+            /* store */
-+            gen_mov_F0_vreg(false, a->vd + i);
-+            gen_vfp_st(s, false, addr);
-+        }
-+        tcg_gen_addi_i32(addr, addr, offset);
-+    }
-+    if (a->w) {
-+        /* writeback */
-+        if (a->p) {
-+            offset = -offset * n;
-+            tcg_gen_addi_i32(addr, addr, offset);
-+        }
-+        store_reg(s, a->rn, addr);
-+    } else {
-+        tcg_temp_free_i32(addr);
-+    }
-+
-+    return true;
-+}
-+
-+static bool trans_VLDM_VSTM_dp(DisasContext *s, arg_VLDM_VSTM_dp *a)
-+{
-+    uint32_t offset;
-+    TCGv_i32 addr;
-+    int i, n;
-+
-+    n = a->imm >> 1;
-+
-+    if (n == 0 || (a->vd + n) > 32 || n > 16) {
-+        /*
-+         * UNPREDICTABLE cases for bad immediates: we choose to
-+         * UNDEF to avoid generating huge numbers of TCG ops
-+         */
-+        return false;
-+    }
-+    if (a->rn == 15 && a->w) {
-+        /* writeback to PC is UNPREDICTABLE, we choose to UNDEF */
-+        return false;
-+    }
-+
-+    /* UNDEF accesses to D16-D31 if they don't exist */
-+    if (!dc_isar_feature(aa32_fp_d32, s) && (a->vd + n) > 16) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    if (s->thumb && a->rn == 15) {
-+        /* This is actually UNPREDICTABLE */
-+        addr = tcg_temp_new_i32();
-+        tcg_gen_movi_i32(addr, s->pc & ~2);
-+    } else {
-+        addr = load_reg(s, a->rn);
-+    }
-+    if (a->p) {
-+        /* pre-decrement */
-+        tcg_gen_addi_i32(addr, addr, -(a->imm << 2));
-+    }
-+
-+    if (s->v8m_stackcheck && a->rn == 13 && a->w) {
-+        /*
-+         * Here 'addr' is the lowest address we will store to,
-+         * and is either the old SP (if post-increment) or
-+         * the new SP (if pre-decrement). For post-increment
-+         * where the old value is below the limit and the new
-+         * value is above, it is UNKNOWN whether the limit check
-+         * triggers; we choose to trigger.
-+         */
-+        gen_helper_v8m_stackcheck(cpu_env, addr);
-+    }
-+
-+    offset = 8;
-+    for (i = 0; i < n; i++) {
-+        if (a->l) {
-+            /* load */
-+            gen_vfp_ld(s, true, addr);
-+            gen_mov_vreg_F0(true, a->vd + i);
-+        } else {
-+            /* store */
-+            gen_mov_F0_vreg(true, a->vd + i);
-+            gen_vfp_st(s, true, addr);
-+        }
-+        tcg_gen_addi_i32(addr, addr, offset);
-+    }
-+    if (a->w) {
-+        /* writeback */
-+        if (a->p) {
-+            offset = -offset * n;
-+        } else if (a->imm & 1) {
-+            offset = 4;
-+        } else {
-+            offset = 0;
-+        }
-+
-+        if (offset != 0) {
-+            tcg_gen_addi_i32(addr, addr, offset);
-+        }
-+        store_reg(s, a->rn, addr);
-+    } else {
-+        tcg_temp_free_i32(addr);
-+    }
-+
-+    return true;
-+}
+@@ -892,6 +894,7 @@ static bool trans_VLDR_VSTR_dp(DisasContext *s, arg_VLDR_VSTR_sp *a)
+ {
+     uint32_t offset;
+     TCGv_i32 addr;
++    TCGv_i64 tmp;
+ 
+     /* UNDEF accesses to D16-D31 if they don't exist */
+     if (!dc_isar_feature(aa32_fp_d32, s) && (a->vd & 0x10)) {
+@@ -915,13 +918,15 @@ static bool trans_VLDR_VSTR_dp(DisasContext *s, arg_VLDR_VSTR_sp *a)
+         addr = load_reg(s, a->rn);
+     }
+     tcg_gen_addi_i32(addr, addr, offset);
++    tmp = tcg_temp_new_i64();
+     if (a->l) {
+-        gen_vfp_ld(s, true, addr);
+-        gen_mov_vreg_F0(true, a->vd);
++        gen_aa32_ld64(s, tmp, addr, get_mem_index(s));
++        neon_store_reg64(tmp, a->vd);
+     } else {
+-        gen_mov_F0_vreg(true, a->vd);
+-        gen_vfp_st(s, true, addr);
++        neon_load_reg64(tmp, a->vd);
++        gen_aa32_st64(s, tmp, addr, get_mem_index(s));
+     }
++    tcg_temp_free_i64(tmp);
+     tcg_temp_free_i32(addr);
+ 
+     return true;
+@@ -930,7 +935,7 @@ static bool trans_VLDR_VSTR_dp(DisasContext *s, arg_VLDR_VSTR_sp *a)
+ static bool trans_VLDM_VSTM_sp(DisasContext *s, arg_VLDM_VSTM_sp *a)
+ {
+     uint32_t offset;
+-    TCGv_i32 addr;
++    TCGv_i32 addr, tmp;
+     int i, n;
+ 
+     n = a->imm;
+@@ -976,18 +981,20 @@ static bool trans_VLDM_VSTM_sp(DisasContext *s, arg_VLDM_VSTM_sp *a)
+     }
+ 
+     offset = 4;
++    tmp = tcg_temp_new_i32();
+     for (i = 0; i < n; i++) {
+         if (a->l) {
+             /* load */
+-            gen_vfp_ld(s, false, addr);
+-            gen_mov_vreg_F0(false, a->vd + i);
++            gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
++            neon_store_reg32(tmp, a->vd + i);
+         } else {
+             /* store */
+-            gen_mov_F0_vreg(false, a->vd + i);
+-            gen_vfp_st(s, false, addr);
++            neon_load_reg32(tmp, a->vd + i);
++            gen_aa32_st32(s, tmp, addr, get_mem_index(s));
+         }
+         tcg_gen_addi_i32(addr, addr, offset);
+     }
++    tcg_temp_free_i32(tmp);
+     if (a->w) {
+         /* writeback */
+         if (a->p) {
+@@ -1006,6 +1013,7 @@ static bool trans_VLDM_VSTM_dp(DisasContext *s, arg_VLDM_VSTM_dp *a)
+ {
+     uint32_t offset;
+     TCGv_i32 addr;
++    TCGv_i64 tmp;
+     int i, n;
+ 
+     n = a->imm >> 1;
+@@ -1056,18 +1064,20 @@ static bool trans_VLDM_VSTM_dp(DisasContext *s, arg_VLDM_VSTM_dp *a)
+     }
+ 
+     offset = 8;
++    tmp = tcg_temp_new_i64();
+     for (i = 0; i < n; i++) {
+         if (a->l) {
+             /* load */
+-            gen_vfp_ld(s, true, addr);
+-            gen_mov_vreg_F0(true, a->vd + i);
++            gen_aa32_ld64(s, tmp, addr, get_mem_index(s));
++            neon_store_reg64(tmp, a->vd + i);
+         } else {
+             /* store */
+-            gen_mov_F0_vreg(true, a->vd + i);
+-            gen_vfp_st(s, true, addr);
++            neon_load_reg64(tmp, a->vd + i);
++            gen_aa32_st64(s, tmp, addr, get_mem_index(s));
+         }
+         tcg_gen_addi_i32(addr, addr, offset);
+     }
++    tcg_temp_free_i64(tmp);
+     if (a->w) {
+         /* writeback */
+         if (a->p) {
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 0c92f3ed4ec..f9b07247b4c 100644
+index f9b07247b4c..1c5c87d7d01 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -3092,9 +3092,8 @@ static void gen_neon_dup_high16(TCGv_i32 var)
-  */
- static int disas_vfp_insn(DisasContext *s, uint32_t insn)
- {
--    uint32_t rd, rn, rm, op, i, n, offset, delta_d, delta_m, bank_mask;
-+    uint32_t rd, rn, rm, op, i, n, delta_d, delta_m, bank_mask;
-     int dp, veclen;
--    TCGv_i32 addr;
-     TCGv_i32 tmp;
-     TCGv_i32 tmp2;
+@@ -1522,24 +1522,6 @@ VFP_GEN_FIX(uhto, )
+ VFP_GEN_FIX(ulto, )
+ #undef VFP_GEN_FIX
  
-@@ -3702,98 +3701,8 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
-         break;
-     case 0xc:
-     case 0xd:
--        if ((insn & 0x03e00000) == 0x00400000) {
--            /* Already handled by decodetree */
--            return 1;
--        } else {
--            /* Load/store */
--            rn = (insn >> 16) & 0xf;
--            if (dp)
--                VFP_DREG_D(rd, insn);
--            else
--                rd = VFP_SREG_D(insn);
--            if ((insn & 0x01200000) == 0x01000000) {
--                /* Already handled by decodetree */
--                return 1;
--            } else {
--                /* load/store multiple */
--                int w = insn & (1 << 21);
--                if (dp)
--                    n = (insn >> 1) & 0x7f;
--                else
--                    n = insn & 0xff;
+-static inline void gen_vfp_ld(DisasContext *s, int dp, TCGv_i32 addr)
+-{
+-    if (dp) {
+-        gen_aa32_ld64(s, cpu_F0d, addr, get_mem_index(s));
+-    } else {
+-        gen_aa32_ld32u(s, cpu_F0s, addr, get_mem_index(s));
+-    }
+-}
 -
--                if (w && !(((insn >> 23) ^ (insn >> 24)) & 1)) {
--                    /* P == U , W == 1  => UNDEF */
--                    return 1;
--                }
--                if (n == 0 || (rd + n) > 32 || (dp && n > 16)) {
--                    /* UNPREDICTABLE cases for bad immediates: we choose to
--                     * UNDEF to avoid generating huge numbers of TCG ops
--                     */
--                    return 1;
--                }
--                if (rn == 15 && w) {
--                    /* writeback to PC is UNPREDICTABLE, we choose to UNDEF */
--                    return 1;
--                }
+-static inline void gen_vfp_st(DisasContext *s, int dp, TCGv_i32 addr)
+-{
+-    if (dp) {
+-        gen_aa32_st64(s, cpu_F0d, addr, get_mem_index(s));
+-    } else {
+-        gen_aa32_st32(s, cpu_F0s, addr, get_mem_index(s));
+-    }
+-}
 -
--                if (s->thumb && rn == 15) {
--                    /* This is actually UNPREDICTABLE */
--                    addr = tcg_temp_new_i32();
--                    tcg_gen_movi_i32(addr, s->pc & ~2);
--                } else {
--                    addr = load_reg(s, rn);
--                }
--                if (insn & (1 << 24)) /* pre-decrement */
--                    tcg_gen_addi_i32(addr, addr, -((insn & 0xff) << 2));
--
--                if (s->v8m_stackcheck && rn == 13 && w) {
--                    /*
--                     * Here 'addr' is the lowest address we will store to,
--                     * and is either the old SP (if post-increment) or
--                     * the new SP (if pre-decrement). For post-increment
--                     * where the old value is below the limit and the new
--                     * value is above, it is UNKNOWN whether the limit check
--                     * triggers; we choose to trigger.
--                     */
--                    gen_helper_v8m_stackcheck(cpu_env, addr);
--                }
--
--                if (dp)
--                    offset = 8;
--                else
--                    offset = 4;
--                for (i = 0; i < n; i++) {
--                    if (insn & ARM_CP_RW_BIT) {
--                        /* load */
--                        gen_vfp_ld(s, dp, addr);
--                        gen_mov_vreg_F0(dp, rd + i);
--                    } else {
--                        /* store */
--                        gen_mov_F0_vreg(dp, rd + i);
--                        gen_vfp_st(s, dp, addr);
--                    }
--                    tcg_gen_addi_i32(addr, addr, offset);
--                }
--                if (w) {
--                    /* writeback */
--                    if (insn & (1 << 24))
--                        offset = -offset * n;
--                    else if (dp && (insn & 1))
--                        offset = 4;
--                    else
--                        offset = 0;
--
--                    if (offset != 0)
--                        tcg_gen_addi_i32(addr, addr, offset);
--                    store_reg(s, rn, addr);
--                } else {
--                    tcg_temp_free_i32(addr);
--                }
--            }
--        }
--        break;
-+        /* Already handled by decodetree */
-+        return 1;
-     default:
-         /* Should never happen.  */
-         return 1;
-diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index 8fa7fa0bead..68c9ffcfd3c 100644
---- a/target/arm/vfp.decode
-+++ b/target/arm/vfp.decode
-@@ -78,3 +78,21 @@ VLDR_VSTR_sp ---- 1101 u:1 .0 l:1 rn:4 .... 1010 imm:8 \
-              vd=%vd_sp
- VLDR_VSTR_dp ---- 1101 u:1 .0 l:1 rn:4 .... 1011 imm:8 \
-              vd=%vd_dp
-+
-+# We split the load/store multiple up into two patterns to avoid
-+# overlap with other insns in the "Advanced SIMD load/store and 64-bit move"
-+# grouping:
-+#   P=0 U=0 W=0 is 64-bit VMOV
-+#   P=1 W=0 is VLDR/VSTR
-+#   P=U W=1 is UNDEF
-+# leaving P=0 U=1 W=x and P=1 U=0 W=1 for load/store multiple.
-+# These include FSTM/FLDM.
-+VLDM_VSTM_sp ---- 1100 1 . w:1 l:1 rn:4 .... 1010 imm:8 \
-+             vd=%vd_sp p=0 u=1
-+VLDM_VSTM_dp ---- 1100 1 . w:1 l:1 rn:4 .... 1011 imm:8 \
-+             vd=%vd_dp p=0 u=1
-+
-+VLDM_VSTM_sp ---- 1101 0.1 l:1 rn:4 .... 1010 imm:8 \
-+             vd=%vd_sp p=1 u=0 w=1
-+VLDM_VSTM_dp ---- 1101 0.1 l:1 rn:4 .... 1011 imm:8 \
-+             vd=%vd_dp p=1 u=0 w=1
+ static inline long vfp_reg_offset(bool dp, unsigned reg)
+ {
+     if (dp) {
 -- 
 2.20.1
 
