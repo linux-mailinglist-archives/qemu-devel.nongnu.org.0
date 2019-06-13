@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78644435EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:32:30 +0200 (CEST)
-Received: from localhost ([::1]:39400 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F5F435E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:32:24 +0200 (CEST)
+Received: from localhost ([::1]:39394 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbOu5-0007Do-La
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:32:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58769)
+	id 1hbOtz-00079P-77
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58813)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOcx-0007tj-BD
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:48 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOcz-0007uG-Rg
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOcu-0003wx-B0
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:45 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42885)
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOcx-0003zA-Dc
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:49 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52231)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbOcr-0003tu-ED
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:41 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id x17so5233198wrl.9
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:14:41 -0700 (PDT)
+ id 1hbOcv-0003ub-5m
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:45 -0400
+Received: by mail-wm1-x343.google.com with SMTP id s3so9965488wms.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ZUooYRNQgmkNG0e2yEBeTuMYF1MRR7xam1XkALvG320=;
- b=oYdT9UivNs+OPvJezs7OUA8WLYiud+InyFfN2ZNe525ESXhsF6vWC8/S/qATRDZBMK
- bmdvZASWVSiNvD44mWNvFtZ8lt4CctQ5cA67KYQvP7m/xHAOVNytBXnk/9bk4t+6dcEg
- X9Vd1x1Eoz2+mg7MfoCtZfPdqbie+gYZkd3ddvsgZx3HJlCp7S07uVNkXPIWXXNX7+dg
- fc8PmajTVs9u0E3iKKo4DA6vnbeP1w9x0KNqYwhihK/Hm6hZGu1VmhGTQskko/dgpoXy
- 4htWSOJ0xArlcuMup7097n5MpUA9Hs2MSpyuQbGDpTEN6YuwfOPVktGMX0XHao0MI++C
- RnxA==
+ bh=bX4hRH4lVhTWXUt9Xxv5/AT7FDCVaSNWnYXS84dsZh8=;
+ b=WvAXgAMkHfkAb0RVlgzGELM/5iiBMiC4eT16/axY8wTQ+6tmguvh7HbrWvUL0i5CQl
+ qlmYHWLcvOr76KlMxLZ1wcp3INz3C6i7dZanzkyxK6rh7neJ+rFMjeKLXXiayElItj7P
+ MvsKe8sXqgdpqkK/oHjTwsDXmB/yYTBtkgey5P5b4Vecyk/fml2UF7ZIS0qWy5zjj118
+ MP7XnamQ2bYVeTqPfge2/tMtYmwJdXtE3K0xqt6oO0pnnVyNrgp16+7qVlZVmfIVjxDz
+ G85poM9KHZjsW//0VYJRBqhLU3zxBOfE1I9TtwbNbu6VBT/Rhu8736TiB7DQcUZQnXil
+ haqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZUooYRNQgmkNG0e2yEBeTuMYF1MRR7xam1XkALvG320=;
- b=JTXTq8UpSEk2z7INEAyZw0JnstnoS1pW5UJNyCLNdq8ju8xPNQqyK9C3DjIPDJb8ru
- gJNaXPYNLShcs6vmzOKXEAFeIKaEYlh9Xr1GA7Dw1VJ3YrI/BD3mLvf3isgNUQWXiWtb
- 0kq7lpNuilCl+Ah7zqHoCO0tvzAOmwz4sEoEQO46jhM8vj9E0acX7jFE8qgutJCDsz3Y
- 3ULWrs4cZ5BQwPsHlxP1Jx3j3hdVNplXWaZkMxN26tOB3Gbgk4HJ3yoXLOAIGFlARtpm
- mt2icdAf5nr2UYMv89afcB+NLxrA2WAJam6wc40dOv1D/MAu6hepMHWHCpX4JqRoNj6s
- FdSg==
-X-Gm-Message-State: APjAAAV42yAuh0w9HvMKBV3JHEv3IaXMjLARfWIxRmGXGnXZr9e3/kGE
- GqgA2/HeIbttLRrs/frSmKS4LuBsMaDOIg==
-X-Google-Smtp-Source: APXvYqzZjqmA9maAN/u+MG/EpB6yaTKpdoChcU5mxKN6vc9kD25id12ilfrfF35IXl3H1nMAZgiDfw==
-X-Received: by 2002:adf:e8c8:: with SMTP id k8mr31275776wrn.285.1560428080053; 
- Thu, 13 Jun 2019 05:14:40 -0700 (PDT)
+ bh=bX4hRH4lVhTWXUt9Xxv5/AT7FDCVaSNWnYXS84dsZh8=;
+ b=SSxxPFM7mw9zkcbmgzpJHCBvn4LWRF6XFiVK+gPmEqWk80tDUYQKdTP/xNHYRdT/nt
+ jdjmhnjwUFvspzn6i62JmpyUq5Nfpi18Fqo71Qrg2FK7cYBsKa4GPIZR5R2DU6QTgOeK
+ ERWnd/Y81XQj1IkCZHUF2JZMY9Rtsz902hIk7OKhoMfleO7fbV8tjALS+d9NmoLBDbBR
+ h37K5Wgm7haniVsiuuQxgm4pT2G4CrdOCpKKn3VEGN4tr6bpB7da4md4FcotOr6zIwM4
+ OUratHoIF+cI8jXN4LBibECnsfEgwm6lmN2cYUqDNeVIWvFDBfV89Qs08wky+SxSPaQ8
+ 1ODA==
+X-Gm-Message-State: APjAAAXwgLaCAnqcfuRrorCMPu8qoE/0DOKJKrgNPQIA70sLJaNzW+Gq
+ Z0IBLimAseUMxMK6cPKbd2evl1sPFSQh/g==
+X-Google-Smtp-Source: APXvYqzlIhbVQFhZkRHvMg+GCPRGCn//2PNeQujRqbTUNYW2C07Dl8qurdQahcamh5agaEtpCI+HhA==
+X-Received: by 2002:a1c:c907:: with SMTP id f7mr3639072wmb.142.1560428081281; 
+ Thu, 13 Jun 2019 05:14:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.39
+ by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 05:14:39 -0700 (PDT)
+ Thu, 13 Jun 2019 05:14:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 13:13:49 +0100
-Message-Id: <20190613121433.5246-5-peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 13:13:50 +0100
+Message-Id: <20190613121433.5246-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190613121433.5246-1-peter.maydell@linaro.org>
 References: <20190613121433.5246-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
-Subject: [Qemu-devel] [PULL 04/48] hw/arm/smmuv3: Fix decoding of ID
- register range
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PULL 05/48] hw/core/bus.c: Only the main system bus
+ can have no parent
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,30 +83,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SMMUv3 ID registers cover an area 0x30 bytes in size
-(12 registers, 4 bytes each). We were incorrectly decoding
-only the first 0x20 bytes.
+In commit 80376c3fc2c38fdd453 in 2010 we added a workaround for
+some qbus buses not being connected to qdev devices -- if the
+bus has no parent object then we register a reset function which
+resets the bus on system reset (and unregister it when the
+bus is unparented).
+
+Nearly a decade later, we have now no buses in the tree which
+are created with non-NULL parents, so we can remove the
+workaround and instead just assert that if the bus has a NULL
+parent then it is the main system bus.
+
+(The absence of other parentless buses was confirmed by
+code inspection of all the callsites of qbus_create() and
+qbus_create_inplace() and cross-checked by 'make check'.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20190524124829.2589-1-peter.maydell@linaro.org
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190523150543.22676-1-peter.maydell@linaro.org
 ---
- hw/arm/smmuv3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/core/bus.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index fd8ec7860ee..e96d5beb9a8 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -1232,7 +1232,7 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
-                               uint64_t *data, MemTxAttrs attrs)
- {
-     switch (offset) {
--    case A_IDREGS ... A_IDREGS + 0x1f:
-+    case A_IDREGS ... A_IDREGS + 0x2f:
-         *data = smmuv3_idreg(offset - A_IDREGS);
-         return MEMTX_OK;
-     case A_IDR0 ... A_IDR5:
+diff --git a/hw/core/bus.c b/hw/core/bus.c
+index e6baa04e52b..17bc1edcde6 100644
+--- a/hw/core/bus.c
++++ b/hw/core/bus.c
+@@ -97,10 +97,9 @@ static void qbus_realize(BusState *bus, DeviceState *parent, const char *name)
+         bus->parent->num_child_bus++;
+         object_property_add_child(OBJECT(bus->parent), bus->name, OBJECT(bus), NULL);
+         object_unref(OBJECT(bus));
+-    } else if (bus != sysbus_get_default()) {
+-        /* TODO: once all bus devices are qdevified,
+-           only reset handler for main_system_bus should be registered here. */
+-        qemu_register_reset(qbus_reset_all_fn, bus);
++    } else {
++        /* The only bus without a parent is the main system bus */
++        assert(bus == sysbus_get_default());
+     }
+ }
+ 
+@@ -109,18 +108,16 @@ static void bus_unparent(Object *obj)
+     BusState *bus = BUS(obj);
+     BusChild *kid;
+ 
++    /* Only the main system bus has no parent, and that bus is never freed */
++    assert(bus->parent);
++
+     while ((kid = QTAILQ_FIRST(&bus->children)) != NULL) {
+         DeviceState *dev = kid->child;
+         object_unparent(OBJECT(dev));
+     }
+-    if (bus->parent) {
+-        QLIST_REMOVE(bus, sibling);
+-        bus->parent->num_child_bus--;
+-        bus->parent = NULL;
+-    } else {
+-        assert(bus != sysbus_get_default()); /* main_system_bus is never freed */
+-        qemu_unregister_reset(qbus_reset_all_fn, bus);
+-    }
++    QLIST_REMOVE(bus, sibling);
++    bus->parent->num_child_bus--;
++    bus->parent = NULL;
+ }
+ 
+ void qbus_create_inplace(void *bus, size_t size, const char *typename,
 -- 
 2.20.1
 
